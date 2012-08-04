@@ -1,4 +1,6 @@
-﻿namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
+﻿using System.Collections.Generic;
+
+namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
 {
     using System;
     using LinearAlgebra.Generic;
@@ -91,18 +93,6 @@
         }
 
         [Theory, Timeout(200)]
-        public void CanCreateSameType(Matrix<T> matrix)
-        {
-            var empty = matrix.CreateMatrix(5, 6);
-            Assert.That(empty, Is.EqualTo(CreateDense(5, 6)));
-            Assert.That(empty.GetType(), Is.EqualTo(matrix.GetType()));
-
-            Assert.That(() => matrix.CreateMatrix(0, 2), Throws.InstanceOf<ArgumentOutOfRangeException>());
-            Assert.That(() => matrix.CreateMatrix(2, 0), Throws.InstanceOf<ArgumentOutOfRangeException>());
-            Assert.That(() => matrix.CreateMatrix(-1, -1), Throws.InstanceOf<ArgumentOutOfRangeException>());
-        }
-
-        [Theory, Timeout(200)]
         public void CanGetHashCode(Matrix<T> matrix)
         {
             Assert.That(matrix.GetHashCode(), Is.Not.EqualTo(matrix.CreateMatrix(matrix.RowCount, matrix.ColumnCount).GetHashCode()));
@@ -114,6 +104,136 @@
             var cleared = matrix.Clone();
             cleared.Clear();
             Assert.That(cleared, Is.EqualTo(matrix.CreateMatrix(matrix.RowCount, matrix.ColumnCount)));
+        }
+
+        [Theory, Timeout(200)]
+        public void CanToArray(Matrix<T> matrix)
+        {
+            var array = matrix.ToArray();
+            Assert.That(array.GetLength(0), Is.EqualTo(matrix.RowCount));
+            Assert.That(array.GetLength(1), Is.EqualTo(matrix.ColumnCount));
+            for (var i = 0; i < matrix.RowCount; i++)
+            {
+                for (var j = 0; j < matrix.ColumnCount; j++)
+                {
+                    Assert.That(array[i, j], Is.EqualTo(matrix[i, j]));
+                }
+            }
+        }
+
+        [Theory, Timeout(200)]
+        public void CanToColumnWiseArray(Matrix<T> matrix)
+        {
+            var array = matrix.ToColumnWiseArray();
+            Assert.That(array.Length, Is.EqualTo(matrix.RowCount * matrix.ColumnCount));
+            for (int i = 0; i < array.Length; i++)
+            {
+                Assert.That(array[i], Is.EqualTo(matrix[i % matrix.RowCount, i / matrix.RowCount]));
+            }
+        }
+
+        [Theory, Timeout(200)]
+        public void CanToRowWiseArray(Matrix<T> matrix)
+        {
+            var array = matrix.ToRowWiseArray();
+            Assert.That(array.Length, Is.EqualTo(matrix.RowCount * matrix.ColumnCount));
+            for (int i = 0; i < array.Length; i++)
+            {
+                Assert.That(array[i], Is.EqualTo(matrix[i / matrix.ColumnCount, i % matrix.ColumnCount]));
+            }
+        }
+
+        [Theory, Timeout(200)]
+        public void CanCreateSameType(Matrix<T> matrix)
+        {
+            var empty = matrix.CreateMatrix(5, 6);
+            Assert.That(empty, Is.EqualTo(CreateDense(5, 6)));
+            Assert.That(empty.GetType(), Is.EqualTo(matrix.GetType()));
+
+            Assert.That(() => matrix.CreateMatrix(0, 2), Throws.InstanceOf<ArgumentOutOfRangeException>());
+            Assert.That(() => matrix.CreateMatrix(2, 0), Throws.InstanceOf<ArgumentOutOfRangeException>());
+            Assert.That(() => matrix.CreateMatrix(-1, -1), Throws.InstanceOf<ArgumentOutOfRangeException>());
+        }
+
+        [Test, Timeout(200)]
+        public void CanCreateFromColumns()
+        {
+            var column1 = CreateVector(1, 0);
+            var column2 = CreateVector(4, 1);
+            var column3 = CreateVector(2, 3);
+
+            var matrix = Matrix<T>.CreateFromColumns(new List<Vector<T>>
+                {
+                    column1,
+                    column2,
+                    column3
+                });
+
+            Assert.That(matrix.RowCount, Is.EqualTo(4));
+            Assert.That(matrix.ColumnCount, Is.EqualTo(3));
+
+            Assert.That(matrix[0, 0], Is.EqualTo(column1[0]));
+            Assert.That(matrix[0, 1], Is.EqualTo(column2[0]));
+            Assert.That(matrix[1, 1], Is.EqualTo(column2[1]));
+            Assert.That(matrix[2, 1], Is.EqualTo(column2[2]));
+            Assert.That(matrix[3, 1], Is.EqualTo(column2[3]));
+            Assert.That(matrix[0, 2], Is.EqualTo(column3[0]));
+            Assert.That(matrix[1, 2], Is.EqualTo(column3[1]));
+
+            Assert.That(matrix[1, 0], Is.EqualTo(Zero));
+            Assert.That(matrix[2, 0], Is.EqualTo(Zero));
+            Assert.That(matrix[3, 0], Is.EqualTo(Zero));
+            Assert.That(matrix[2, 2], Is.EqualTo(Zero));
+            Assert.That(matrix[3, 2], Is.EqualTo(Zero));
+        }
+
+        [Test, Timeout(200)]
+        public void CanCreateFromRows()
+        {
+            var row1 = CreateVector(1, 0);
+            var row2 = CreateVector(4, 1);
+            var row3 = CreateVector(2, 3);
+
+            var matrix = Matrix<T>.CreateFromRows(new List<Vector<T>>
+                {
+                    row1,
+                    row2,
+                    row3
+                });
+
+            Assert.That(matrix.RowCount, Is.EqualTo(3));
+            Assert.That(matrix.ColumnCount, Is.EqualTo(4));
+
+            Assert.That(matrix[0, 0], Is.EqualTo(row1[0]));
+            Assert.That(matrix[1, 0], Is.EqualTo(row2[0]));
+            Assert.That(matrix[1, 1], Is.EqualTo(row2[1]));
+            Assert.That(matrix[1, 2], Is.EqualTo(row2[2]));
+            Assert.That(matrix[1, 3], Is.EqualTo(row2[3]));
+            Assert.That(matrix[2, 0], Is.EqualTo(row3[0]));
+            Assert.That(matrix[2, 1], Is.EqualTo(row3[1]));
+
+            Assert.That(matrix[0, 1], Is.EqualTo(Zero));
+            Assert.That(matrix[0, 2], Is.EqualTo(Zero));
+            Assert.That(matrix[0, 3], Is.EqualTo(Zero));
+            Assert.That(matrix[2, 2], Is.EqualTo(Zero));
+            Assert.That(matrix[2, 3], Is.EqualTo(Zero));
+        }
+
+        [Test, Timeout(200)]
+        public void CanEnumerateWithIndex()
+        {
+            var dense = CreateDense(2, 3, 0);
+            using(var enumerator = dense.IndexedEnumerator().GetEnumerator())
+            for (int i = 0; i < 2; i++)
+            {
+                for (int j = 0; j < 3; j++)
+                {
+                    enumerator.MoveNext();
+                    Assert.AreEqual(i, enumerator.Current.Item1);
+                    Assert.AreEqual(j, enumerator.Current.Item2);
+                    Assert.AreEqual(dense[i, j], enumerator.Current.Item3);
+                }
+            }
         }
     }
 }
