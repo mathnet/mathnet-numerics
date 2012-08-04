@@ -203,38 +203,6 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
         }
 
         /// <summary>
-        /// Can diagonally stack matrices into a result matrix.
-        /// </summary>
-        public override void CanDiagonallyStackMatricesIntoResult()
-        {
-            var top = TestMatrices["Tall3x2"];
-            var bottom = TestMatrices["Wide2x3"];
-            var result = new SparseMatrix(top.RowCount + bottom.RowCount, top.ColumnCount + bottom.ColumnCount);
-            top.DiagonalStack(bottom, result);
-            Assert.AreEqual(top.RowCount + bottom.RowCount, result.RowCount);
-            Assert.AreEqual(top.ColumnCount + bottom.ColumnCount, result.ColumnCount);
-
-            for (var i = 0; i < result.RowCount; i++)
-            {
-                for (var j = 0; j < result.ColumnCount; j++)
-                {
-                    if (i < top.RowCount && j < top.ColumnCount)
-                    {
-                        Assert.AreEqual(top[i, j], result[i, j]);
-                    }
-                    else if (i >= top.RowCount && j >= top.ColumnCount)
-                    {
-                        Assert.AreEqual(bottom[i - top.RowCount, j - top.ColumnCount], result[i, j]);
-                    }
-                    else
-                    {
-                        Assert.AreEqual(Complex.Zero, result[i, j]);
-                    }
-                }
-            }
-        }
-
-        /// <summary>
         /// Can multiply a matrix with matrix.
         /// </summary>
         /// <param name="nameA">Matrix A name.</param>

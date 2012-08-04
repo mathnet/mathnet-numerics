@@ -18,7 +18,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
             {
                 m.PermuteRows(permutation);
             }
-            catch(InvalidOperationException)
+            catch (InvalidOperationException)
             {
                 Assert.Ignore("Matrix type {0} does not support permutations", matrix.GetType().FullName);
             }
@@ -135,6 +135,161 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
             Assert.That(() => matrix.InsertColumn(matrix.ColumnCount + 1, CreateVector(matrix.RowCount)), Throws.InstanceOf<ArgumentOutOfRangeException>());
             Assert.That(() => matrix.InsertColumn(0, CreateVector(matrix.RowCount - 1)), Throws.ArgumentException);
             Assert.That(() => matrix.InsertColumn(0, CreateVector(matrix.RowCount + 1)), Throws.ArgumentException);
+        }
+
+        [Theory, Timeout(200)]
+        public void CanAppend(Matrix<T> left, Matrix<T> right)
+        {
+            // IF
+            Assume.That(left.RowCount, Is.EqualTo(right.RowCount));
+
+            // THEN
+            var result = left.Append(right);
+
+            Assert.That(result.ColumnCount, Is.EqualTo(left.ColumnCount + right.ColumnCount));
+            for (var i = 0; i < result.RowCount; i++)
+            {
+                for (var j = 0; j < result.ColumnCount; j++)
+                {
+                    Assert.That(result[i, j], Is.EqualTo(j < left.ColumnCount ? left[i, j] : right[i, j - left.ColumnCount]));
+                }
+            }
+
+            // Invalid
+            Assert.That(() => left.Append(default(Matrix<T>)), Throws.InstanceOf<ArgumentNullException>());
+        }
+
+        [Theory, Timeout(200)]
+        public void CanAppendIntoResult(Matrix<T> left, Matrix<T> right)
+        {
+            // IF
+            Assume.That(left.RowCount, Is.EqualTo(right.RowCount));
+
+            // THEN
+            var result = CreateDense(left.RowCount, left.ColumnCount + right.ColumnCount);
+            left.Append(right, result);
+
+            Assert.That(result.ColumnCount, Is.EqualTo(left.ColumnCount + right.ColumnCount));
+            for (var i = 0; i < result.RowCount; i++)
+            {
+                for (var j = 0; j < result.ColumnCount; j++)
+                {
+                    Assert.That(result[i, j], Is.EqualTo(j < left.ColumnCount ? left[i, j] : right[i, j - left.ColumnCount]));
+                }
+            }
+
+            // Invalid
+            Assert.That(() => left.Append(right, default(Matrix<T>)), Throws.InstanceOf<ArgumentNullException>());
+            Assert.That(() => left.Append(right, CreateDense(left.RowCount + 1, left.ColumnCount + right.ColumnCount)), Throws.ArgumentException);
+            Assert.That(() => left.Append(right, CreateDense(left.RowCount - 1, left.ColumnCount + right.ColumnCount)), Throws.ArgumentException);
+            Assert.That(() => left.Append(right, CreateDense(left.RowCount, left.ColumnCount + right.ColumnCount + 1)), Throws.ArgumentException);
+            Assert.That(() => left.Append(right, CreateDense(left.RowCount, left.ColumnCount + right.ColumnCount - 1)), Throws.ArgumentException);
+        }
+
+        [Theory, Timeout(200)]
+        public void CanStack(Matrix<T> top, Matrix<T> bottom)
+        {
+            // IF
+            Assume.That(top.ColumnCount, Is.EqualTo(bottom.ColumnCount));
+
+            // THEN
+            var result = top.Stack(bottom);
+
+            Assert.That(result.RowCount, Is.EqualTo(top.RowCount + bottom.RowCount));
+            for (var i = 0; i < result.RowCount; i++)
+            {
+                for (var j = 0; j < result.ColumnCount; j++)
+                {
+                    Assert.That(result[i, j], Is.EqualTo(i < top.RowCount ? top[i, j] : bottom[i - top.RowCount, j]));
+                }
+            }
+
+            // Invalid
+            Assert.That(() => top.Stack(default(Matrix<T>)), Throws.InstanceOf<ArgumentNullException>());
+        }
+
+        [Theory, Timeout(200)]
+        public void CanStackIntoResult(Matrix<T> top, Matrix<T> bottom)
+        {
+            // IF
+            Assume.That(top.ColumnCount, Is.EqualTo(bottom.ColumnCount));
+
+            // THEN
+            var result = CreateDense(top.RowCount + bottom.RowCount, top.ColumnCount);
+            top.Stack(bottom, result);
+
+            Assert.That(result.RowCount, Is.EqualTo(top.RowCount + bottom.RowCount));
+            for (var i = 0; i < result.RowCount; i++)
+            {
+                for (var j = 0; j < result.ColumnCount; j++)
+                {
+                    Assert.That(result[i, j], Is.EqualTo(i < top.RowCount ? top[i, j] : bottom[i - top.RowCount, j]));
+                }
+            }
+
+            // Invalid
+            Assert.That(() => top.Stack(bottom, default(Matrix<T>)), Throws.InstanceOf<ArgumentNullException>());
+            Assert.That(() => top.Stack(bottom, CreateDense(top.RowCount + bottom.RowCount + 1, top.ColumnCount)), Throws.ArgumentException);
+            Assert.That(() => top.Stack(bottom, CreateDense(top.RowCount + bottom.RowCount - 1, top.ColumnCount)), Throws.ArgumentException);
+            Assert.That(() => top.Stack(bottom, CreateDense(top.RowCount + bottom.RowCount, top.ColumnCount + 1)), Throws.ArgumentException);
+            Assert.That(() => top.Stack(bottom, CreateDense(top.RowCount + bottom.RowCount, top.ColumnCount - 1)), Throws.ArgumentException);
+        }
+
+        [Theory, Timeout(200)]
+        public void CanDiagonalStack(Matrix<T> left, Matrix<T> right)
+        {
+            var result = left.DiagonalStack(right);
+
+            Assert.That(result.RowCount, Is.EqualTo(left.RowCount + right.RowCount));
+            Assert.That(result.ColumnCount, Is.EqualTo(left.ColumnCount + right.ColumnCount));
+            for (var i = 0; i < left.RowCount; i++)
+            {
+                for (var j = 0; j < left.ColumnCount; j++)
+                {
+                    Assert.That(result[i, j], Is.EqualTo(left[i, j]), "{0}+{1}->{2}", left.GetType(), right.GetType(), result.GetType());
+                }
+            }
+            for (var i = 0; i < right.RowCount; i++)
+            {
+                for (var j = 0; j < right.ColumnCount; j++)
+                {
+                    Assert.That(result[left.RowCount + i, left.ColumnCount + j], Is.EqualTo(right[i, j]), "{0}+{1}->{2}", left.GetType(), right.GetType(), result.GetType());
+                }
+            }
+
+            // Invalid
+            Assert.That(() => left.DiagonalStack(default(Matrix<T>)), Throws.InstanceOf<ArgumentNullException>(), "{0}+{1}->{2}", left.GetType(), right.GetType(), result.GetType());
+        }
+
+        [Theory, Timeout(200)]
+        public void CanDiagonalStackIntoResult(Matrix<T> left, Matrix<T> right)
+        {
+            var result = CreateDense(left.RowCount + right.RowCount, left.ColumnCount + right.ColumnCount);
+            left.DiagonalStack(right, result);
+
+            Assert.That(result.RowCount, Is.EqualTo(left.RowCount + right.RowCount));
+            Assert.That(result.ColumnCount, Is.EqualTo(left.ColumnCount + right.ColumnCount));
+            for (var i = 0; i < left.RowCount; i++)
+            {
+                for (var j = 0; j < left.ColumnCount; j++)
+                {
+                    Assert.That(result[i, j], Is.EqualTo(left[i, j]));
+                }
+            }
+            for (var i = 0; i < right.RowCount; i++)
+            {
+                for (var j = 0; j < right.ColumnCount; j++)
+                {
+                    Assert.That(result[left.RowCount + i, left.ColumnCount + j], Is.EqualTo(right[i, j]));
+                }
+            }
+
+            // Invalid
+            Assert.That(() => left.DiagonalStack(right, default(Matrix<T>)), Throws.InstanceOf<ArgumentNullException>());
+            Assert.That(() => left.DiagonalStack(right, CreateDense(left.RowCount + right.RowCount + 1, left.ColumnCount + right.ColumnCount)), Throws.ArgumentException);
+            Assert.That(() => left.DiagonalStack(right, CreateDense(left.RowCount + right.RowCount - 1, left.ColumnCount + right.ColumnCount)), Throws.ArgumentException);
+            Assert.That(() => left.DiagonalStack(right, CreateDense(left.RowCount + right.RowCount, left.ColumnCount + right.ColumnCount + 1)), Throws.ArgumentException);
+            Assert.That(() => left.DiagonalStack(right, CreateDense(left.RowCount + right.RowCount, left.ColumnCount + right.ColumnCount - 1)), Throws.ArgumentException);
         }
     }
 }
