@@ -3,7 +3,7 @@ using MathNet.Numerics.Properties;
 
 namespace MathNet.Numerics.LinearAlgebra.Storage
 {
-    internal class SparseDiagonalMatrixStorage<T> : MatrixStorage<T>
+    internal class DiagonalMatrixStorage<T> : MatrixStorage<T>
         where T : struct, IEquatable<T>, IFormattable
     {
         // [ruegg] public fields are OK here
@@ -11,14 +11,14 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         readonly T _zero;
         public readonly T[] Data;
 
-        internal SparseDiagonalMatrixStorage(int rows, int columns, T zero)
+        internal DiagonalMatrixStorage(int rows, int columns, T zero)
             : base(rows, columns)
         {
             _zero = zero;
             Data = new T[Math.Min(rows, columns)];
         }
 
-        internal SparseDiagonalMatrixStorage(int rows, int columns, T zero, T[] data)
+        internal DiagonalMatrixStorage(int rows, int columns, T zero, T[] data)
             : base(rows, columns)
         {
             _zero = zero;
@@ -48,6 +48,16 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             }
         }
 
+        public override bool IsFullyMutable
+        {
+            get { return false; }
+        }
+
+        public override bool IsMutable(int row, int column)
+        {
+            return row == column;
+        }
+
         public override void Clear()
         {
             Array.Clear(Data, 0, Data.Length);
@@ -56,7 +66,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         /// <remarks>Parameters assumed to be validated already.</remarks>
         public override void CopyTo(MatrixStorage<T> target, bool skipClearing = false)
         {
-            var diagonalTarget = target as SparseDiagonalMatrixStorage<T>;
+            var diagonalTarget = target as DiagonalMatrixStorage<T>;
             if (diagonalTarget != null)
             {
                 CopyTo(diagonalTarget);
@@ -90,7 +100,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             }
         }
 
-        public void CopyTo(SparseDiagonalMatrixStorage<T> target)
+        public void CopyTo(DiagonalMatrixStorage<T> target)
         {
             if (ReferenceEquals(this, target))
             {

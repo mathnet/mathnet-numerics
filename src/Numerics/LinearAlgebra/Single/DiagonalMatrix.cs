@@ -45,7 +45,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
     [Serializable]
     public class DiagonalMatrix : Matrix
     {
-        readonly SparseDiagonalMatrixStorage<float> _storage;
+        readonly DiagonalMatrixStorage<float> _storage;
 
         /// <summary>
         /// Gets the matrix's data.
@@ -53,12 +53,12 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// <value>The matrix's data.</value>
         readonly float[] _data;
 
-        internal SparseDiagonalMatrixStorage<float> Raw
+        internal DiagonalMatrixStorage<float> Raw
         {
             get { return _storage; }
         }
 
-        internal DiagonalMatrix(SparseDiagonalMatrixStorage<float> storage)
+        internal DiagonalMatrix(DiagonalMatrixStorage<float> storage)
             : base(storage)
         {
             _storage = storage;
@@ -73,7 +73,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// If <paramref name="order"/> is less than one.
         /// </exception>
         public DiagonalMatrix(int order)
-            : this(new SparseDiagonalMatrixStorage<float>(order, order, 0f))
+            : this(new DiagonalMatrixStorage<float>(order, order, 0f))
         {
         }
 
@@ -87,7 +87,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// The number of columns.
         /// </param>
         public DiagonalMatrix(int rows, int columns)
-            : this(new SparseDiagonalMatrixStorage<float>(rows, columns, 0f))
+            : this(new DiagonalMatrixStorage<float>(rows, columns, 0f))
         {
         }
 
@@ -118,7 +118,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// <param name="columns">The number of columns.</param>
         /// <param name="diagonalArray">The one dimensional array which contain diagonal elements.</param>
         public DiagonalMatrix(int rows, int columns, float[] diagonalArray)
-            : this(new SparseDiagonalMatrixStorage<float>(rows, columns, 0f, diagonalArray))
+            : this(new DiagonalMatrixStorage<float>(rows, columns, 0f, diagonalArray))
         {
         }
 

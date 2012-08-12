@@ -45,7 +45,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
     [Serializable]
     public class DiagonalMatrix : Matrix
     {
-        readonly SparseDiagonalMatrixStorage<double> _storage;
+        readonly DiagonalMatrixStorage<double> _storage;
 
         /// <summary>
         /// Gets the matrix's data.
@@ -53,12 +53,12 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <value>The matrix's data.</value>
         readonly double[] _data;
 
-        internal SparseDiagonalMatrixStorage<double> Raw
+        internal DiagonalMatrixStorage<double> Raw
         {
             get { return _storage; }
         }
 
-        internal DiagonalMatrix(SparseDiagonalMatrixStorage<double> storage)
+        internal DiagonalMatrix(DiagonalMatrixStorage<double> storage)
             : base(storage)
         {
             _storage = storage;
@@ -73,7 +73,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// If <paramref name="order"/> is less than one.
         /// </exception>
         public DiagonalMatrix(int order)
-            : this(new SparseDiagonalMatrixStorage<double>(order, order, 0d))
+            : this(new DiagonalMatrixStorage<double>(order, order, 0d))
          {
          }
 
@@ -87,7 +87,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// The number of columns.
         /// </param>
         public DiagonalMatrix(int rows, int columns)
-            : this(new SparseDiagonalMatrixStorage<double>(rows, columns, 0d))
+            : this(new DiagonalMatrixStorage<double>(rows, columns, 0d))
         {
         }
 
@@ -118,7 +118,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="columns">The number of columns.</param>
         /// <param name="diagonalArray">The one dimensional array which contain diagonal elements.</param>
         public DiagonalMatrix(int rows, int columns, double[] diagonalArray)
-            : this(new SparseDiagonalMatrixStorage<double>(rows, columns, 0d, diagonalArray))
+            : this(new DiagonalMatrixStorage<double>(rows, columns, 0d, diagonalArray))
         {
         }
 

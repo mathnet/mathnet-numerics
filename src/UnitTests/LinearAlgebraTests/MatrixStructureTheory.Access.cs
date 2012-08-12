@@ -59,7 +59,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         }
 
         [Theory, Timeout(200)]
-        public virtual void CanGetRowWithRange(Matrix<T> matrix)
+        public void CanGetRowWithRange(Matrix<T> matrix)
         {
             // First Row, Columns 0..1
             var firstrow = matrix.Row(0, 0, 2);
@@ -151,7 +151,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         }
 
         [Theory, Timeout(200)]
-        public virtual void CanGetColumnWithRange(Matrix<T> matrix)
+        public void CanGetColumnWithRange(Matrix<T> matrix)
         {
             // First Column, Rows 0..1
             var firstcol = matrix.Column(0, 0, 2);
