@@ -46,7 +46,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
     [Serializable]
     public class DiagonalMatrix : Matrix
     {
-        readonly SparseDiagonalMatrixStorage<Complex32> _storage;
+        readonly DiagonalMatrixStorage<Complex32> _storage;
 
         /// <summary>
         /// Gets the matrix's data.
@@ -54,12 +54,12 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// <value>The matrix's data.</value>
         readonly Complex32[] _data;
 
-        internal SparseDiagonalMatrixStorage<Complex32> Raw
+        internal DiagonalMatrixStorage<Complex32> Raw
         {
             get { return _storage; }
         }
 
-        internal DiagonalMatrix(SparseDiagonalMatrixStorage<Complex32> storage)
+        internal DiagonalMatrix(DiagonalMatrixStorage<Complex32> storage)
             : base(storage)
         {
             _storage = storage;
@@ -74,7 +74,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// If <paramref name="order"/> is less than one.
         /// </exception>
         public DiagonalMatrix(int order)
-            : this(new SparseDiagonalMatrixStorage<Complex32>(order, order, Complex32.Zero))
+            : this(new DiagonalMatrixStorage<Complex32>(order, order, Complex32.Zero))
         {
         }
 
@@ -88,7 +88,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// The number of columns.
         /// </param>
         public DiagonalMatrix(int rows, int columns)
-            : this(new SparseDiagonalMatrixStorage<Complex32>(rows, columns, Complex32.Zero))
+            : this(new DiagonalMatrixStorage<Complex32>(rows, columns, Complex32.Zero))
         {
         }
 
@@ -119,7 +119,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// <param name="columns">The number of columns.</param>
         /// <param name="diagonalArray">The one dimensional array which contain diagonal elements.</param>
         public DiagonalMatrix(int rows, int columns, Complex32[] diagonalArray)
-            : this(new SparseDiagonalMatrixStorage<Complex32>(rows, columns, Complex32.Zero, diagonalArray))
+            : this(new DiagonalMatrixStorage<Complex32>(rows, columns, Complex32.Zero, diagonalArray))
         {
         }
 

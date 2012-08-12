@@ -77,6 +77,16 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         /// <remarks>WARNING: This method is not thread safe. Use "lock" with it and be sure to avoid deadlocks.</remarks>
         public abstract void At(int row, int column, T value);
 
+        public virtual bool IsFullyMutable
+        {
+            get { return true; }
+        }
+
+        public virtual bool IsMutable(int row, int column)
+        {
+            return true;
+        }
+
         public virtual void Clear()
         {
             for (var i = 0; i < RowCount; i++)

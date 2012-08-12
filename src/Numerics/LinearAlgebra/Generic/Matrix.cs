@@ -205,6 +205,24 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         }
 
         /// <summary>
+        /// True if all fields of this matrix can be set to any value.
+        /// False if some fields are fixed, like on a diagonal matrix.
+        /// </summary>
+        public bool IsFullyMutable
+        {
+            get { return Storage.IsFullyMutable; }
+        }
+
+        /// <summary>
+        /// True if the specified field can be set to any value.
+        /// Fall if the field is fixed, like an off-diagonal field on a diagonal matrix.
+        /// </summary>
+        public bool IsMutable(int row, int column)
+        {
+            return Storage.IsMutable(row, column);
+        }
+
+        /// <summary>
         /// Sets all values to zero.
         /// </summary>
         public void Clear()
