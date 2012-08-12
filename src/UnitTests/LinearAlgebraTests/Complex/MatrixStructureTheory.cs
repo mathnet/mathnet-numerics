@@ -36,28 +36,28 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
         [Datapoints]
         Complex[] scalars = new[] {new Complex(2d, 0d), new Complex(-1.5d, 3.5d), Complex.Zero};
 
-        protected override Matrix<Complex> CreateDense(int rows, int columns)
+        protected override Matrix<Complex> CreateDenseZero(int rows, int columns)
         {
             return new DenseMatrix(rows, columns);
         }
 
-        protected override Matrix<Complex> CreateDense(int rows, int columns, int seed)
+        protected override Matrix<Complex> CreateDenseRandom(int rows, int columns, int seed)
         {
             var dist = new Normal {RandomSource = new MersenneTwister(seed)};
             return new DenseMatrix(rows, columns, Enumerable.Range(0, rows*columns).Select(k => new Complex(dist.Sample(), dist.Sample())).ToArray());
         }
 
-        protected override Matrix<Complex> CreateSparse(int rows, int columns)
+        protected override Matrix<Complex> CreateSparseZero(int rows, int columns)
         {
             return new SparseMatrix(rows, columns);
         }
 
-        protected override Vector<Complex> CreateVector(int size)
+        protected override Vector<Complex> CreateVectorZero(int size)
         {
             return new DenseVector(size);
         }
 
-        protected override Vector<Complex> CreateVector(int size, int seed)
+        protected override Vector<Complex> CreateVectorRandom(int size, int seed)
         {
             var dist = new Normal {RandomSource = new MersenneTwister(seed)};
             return new DenseVector(Enumerable.Range(0, size).Select(k => new Complex(dist.Sample(), dist.Sample())).ToArray());

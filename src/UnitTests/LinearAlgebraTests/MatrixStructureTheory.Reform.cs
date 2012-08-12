@@ -68,7 +68,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         [Theory, Timeout(200)]
         public void CanInsertRow(Matrix<T> matrix)
         {
-            var row = CreateVector(matrix.ColumnCount, 0);
+            var row = CreateVectorRandom(matrix.ColumnCount, 0);
             for (var position = 0; position < matrix.RowCount + 1; position++)
             {
                 var result = matrix.InsertRow(position, row);
@@ -95,16 +95,16 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
 
             // Invalid
             Assert.That(() => matrix.InsertRow(0, default(Vector<T>)), Throws.InstanceOf<ArgumentNullException>());
-            Assert.That(() => matrix.InsertRow(-1, CreateVector(matrix.ColumnCount)), Throws.InstanceOf<ArgumentOutOfRangeException>());
-            Assert.That(() => matrix.InsertRow(matrix.RowCount + 1, CreateVector(matrix.ColumnCount)), Throws.InstanceOf<ArgumentOutOfRangeException>());
-            Assert.That(() => matrix.InsertRow(0, CreateVector(matrix.ColumnCount - 1)), Throws.ArgumentException);
-            Assert.That(() => matrix.InsertRow(0, CreateVector(matrix.ColumnCount + 1)), Throws.ArgumentException);
+            Assert.That(() => matrix.InsertRow(-1, CreateVectorZero(matrix.ColumnCount)), Throws.InstanceOf<ArgumentOutOfRangeException>());
+            Assert.That(() => matrix.InsertRow(matrix.RowCount + 1, CreateVectorZero(matrix.ColumnCount)), Throws.InstanceOf<ArgumentOutOfRangeException>());
+            Assert.That(() => matrix.InsertRow(0, CreateVectorZero(matrix.ColumnCount - 1)), Throws.ArgumentException);
+            Assert.That(() => matrix.InsertRow(0, CreateVectorZero(matrix.ColumnCount + 1)), Throws.ArgumentException);
         }
 
         [Theory, Timeout(200)]
         public void CanInsertColumn(Matrix<T> matrix)
         {
-            var column = CreateVector(matrix.RowCount, 0);
+            var column = CreateVectorRandom(matrix.RowCount, 0);
             for (var position = 0; position < matrix.ColumnCount + 1; position++)
             {
                 var result = matrix.InsertColumn(position, column);
@@ -131,10 +131,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
 
             // Invalid
             Assert.That(() => matrix.InsertColumn(0, default(Vector<T>)), Throws.InstanceOf<ArgumentNullException>());
-            Assert.That(() => matrix.InsertColumn(-1, CreateVector(matrix.RowCount)), Throws.InstanceOf<ArgumentOutOfRangeException>());
-            Assert.That(() => matrix.InsertColumn(matrix.ColumnCount + 1, CreateVector(matrix.RowCount)), Throws.InstanceOf<ArgumentOutOfRangeException>());
-            Assert.That(() => matrix.InsertColumn(0, CreateVector(matrix.RowCount - 1)), Throws.ArgumentException);
-            Assert.That(() => matrix.InsertColumn(0, CreateVector(matrix.RowCount + 1)), Throws.ArgumentException);
+            Assert.That(() => matrix.InsertColumn(-1, CreateVectorZero(matrix.RowCount)), Throws.InstanceOf<ArgumentOutOfRangeException>());
+            Assert.That(() => matrix.InsertColumn(matrix.ColumnCount + 1, CreateVectorZero(matrix.RowCount)), Throws.InstanceOf<ArgumentOutOfRangeException>());
+            Assert.That(() => matrix.InsertColumn(0, CreateVectorZero(matrix.RowCount - 1)), Throws.ArgumentException);
+            Assert.That(() => matrix.InsertColumn(0, CreateVectorZero(matrix.RowCount + 1)), Throws.ArgumentException);
         }
 
         [Theory, Timeout(200)]
@@ -166,7 +166,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
             Assume.That(left.RowCount, Is.EqualTo(right.RowCount));
 
             // THEN
-            var result = CreateDense(left.RowCount, left.ColumnCount + right.ColumnCount);
+            var result = CreateDenseZero(left.RowCount, left.ColumnCount + right.ColumnCount);
             left.Append(right, result);
 
             Assert.That(result.ColumnCount, Is.EqualTo(left.ColumnCount + right.ColumnCount));
@@ -180,10 +180,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
 
             // Invalid
             Assert.That(() => left.Append(right, default(Matrix<T>)), Throws.InstanceOf<ArgumentNullException>());
-            Assert.That(() => left.Append(right, CreateDense(left.RowCount + 1, left.ColumnCount + right.ColumnCount)), Throws.ArgumentException);
-            Assert.That(() => left.Append(right, CreateDense(left.RowCount - 1, left.ColumnCount + right.ColumnCount)), Throws.ArgumentException);
-            Assert.That(() => left.Append(right, CreateDense(left.RowCount, left.ColumnCount + right.ColumnCount + 1)), Throws.ArgumentException);
-            Assert.That(() => left.Append(right, CreateDense(left.RowCount, left.ColumnCount + right.ColumnCount - 1)), Throws.ArgumentException);
+            Assert.That(() => left.Append(right, CreateDenseZero(left.RowCount + 1, left.ColumnCount + right.ColumnCount)), Throws.ArgumentException);
+            Assert.That(() => left.Append(right, CreateDenseZero(left.RowCount - 1, left.ColumnCount + right.ColumnCount)), Throws.ArgumentException);
+            Assert.That(() => left.Append(right, CreateDenseZero(left.RowCount, left.ColumnCount + right.ColumnCount + 1)), Throws.ArgumentException);
+            Assert.That(() => left.Append(right, CreateDenseZero(left.RowCount, left.ColumnCount + right.ColumnCount - 1)), Throws.ArgumentException);
         }
 
         [Theory, Timeout(200)]
@@ -215,7 +215,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
             Assume.That(top.ColumnCount, Is.EqualTo(bottom.ColumnCount));
 
             // THEN
-            var result = CreateDense(top.RowCount + bottom.RowCount, top.ColumnCount);
+            var result = CreateDenseZero(top.RowCount + bottom.RowCount, top.ColumnCount);
             top.Stack(bottom, result);
 
             Assert.That(result.RowCount, Is.EqualTo(top.RowCount + bottom.RowCount));
@@ -229,10 +229,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
 
             // Invalid
             Assert.That(() => top.Stack(bottom, default(Matrix<T>)), Throws.InstanceOf<ArgumentNullException>());
-            Assert.That(() => top.Stack(bottom, CreateDense(top.RowCount + bottom.RowCount + 1, top.ColumnCount)), Throws.ArgumentException);
-            Assert.That(() => top.Stack(bottom, CreateDense(top.RowCount + bottom.RowCount - 1, top.ColumnCount)), Throws.ArgumentException);
-            Assert.That(() => top.Stack(bottom, CreateDense(top.RowCount + bottom.RowCount, top.ColumnCount + 1)), Throws.ArgumentException);
-            Assert.That(() => top.Stack(bottom, CreateDense(top.RowCount + bottom.RowCount, top.ColumnCount - 1)), Throws.ArgumentException);
+            Assert.That(() => top.Stack(bottom, CreateDenseZero(top.RowCount + bottom.RowCount + 1, top.ColumnCount)), Throws.ArgumentException);
+            Assert.That(() => top.Stack(bottom, CreateDenseZero(top.RowCount + bottom.RowCount - 1, top.ColumnCount)), Throws.ArgumentException);
+            Assert.That(() => top.Stack(bottom, CreateDenseZero(top.RowCount + bottom.RowCount, top.ColumnCount + 1)), Throws.ArgumentException);
+            Assert.That(() => top.Stack(bottom, CreateDenseZero(top.RowCount + bottom.RowCount, top.ColumnCount - 1)), Throws.ArgumentException);
         }
 
         [Theory, Timeout(200)]
@@ -264,7 +264,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         [Theory, Timeout(200)]
         public void CanDiagonalStackIntoResult(Matrix<T> left, Matrix<T> right)
         {
-            var result = CreateDense(left.RowCount + right.RowCount, left.ColumnCount + right.ColumnCount);
+            var result = CreateDenseZero(left.RowCount + right.RowCount, left.ColumnCount + right.ColumnCount);
             left.DiagonalStack(right, result);
 
             Assert.That(result.RowCount, Is.EqualTo(left.RowCount + right.RowCount));
@@ -286,10 +286,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
 
             // Invalid
             Assert.That(() => left.DiagonalStack(right, default(Matrix<T>)), Throws.InstanceOf<ArgumentNullException>());
-            Assert.That(() => left.DiagonalStack(right, CreateDense(left.RowCount + right.RowCount + 1, left.ColumnCount + right.ColumnCount)), Throws.ArgumentException);
-            Assert.That(() => left.DiagonalStack(right, CreateDense(left.RowCount + right.RowCount - 1, left.ColumnCount + right.ColumnCount)), Throws.ArgumentException);
-            Assert.That(() => left.DiagonalStack(right, CreateDense(left.RowCount + right.RowCount, left.ColumnCount + right.ColumnCount + 1)), Throws.ArgumentException);
-            Assert.That(() => left.DiagonalStack(right, CreateDense(left.RowCount + right.RowCount, left.ColumnCount + right.ColumnCount - 1)), Throws.ArgumentException);
+            Assert.That(() => left.DiagonalStack(right, CreateDenseZero(left.RowCount + right.RowCount + 1, left.ColumnCount + right.ColumnCount)), Throws.ArgumentException);
+            Assert.That(() => left.DiagonalStack(right, CreateDenseZero(left.RowCount + right.RowCount - 1, left.ColumnCount + right.ColumnCount)), Throws.ArgumentException);
+            Assert.That(() => left.DiagonalStack(right, CreateDenseZero(left.RowCount + right.RowCount, left.ColumnCount + right.ColumnCount + 1)), Throws.ArgumentException);
+            Assert.That(() => left.DiagonalStack(right, CreateDenseZero(left.RowCount + right.RowCount, left.ColumnCount + right.ColumnCount - 1)), Throws.ArgumentException);
         }
     }
 }

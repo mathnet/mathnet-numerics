@@ -36,28 +36,28 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
         [Datapoints]
         Complex32[] scalars = new[] {new Complex32(2f, 0f), new Complex32(-1.5f, 3.5f), Complex32.Zero};
 
-        protected override Matrix<Complex32> CreateDense(int rows, int columns)
+        protected override Matrix<Complex32> CreateDenseZero(int rows, int columns)
         {
             return new DenseMatrix(rows, columns);
         }
 
-        protected override Matrix<Complex32> CreateDense(int rows, int columns, int seed)
+        protected override Matrix<Complex32> CreateDenseRandom(int rows, int columns, int seed)
         {
             var dist = new Normal {RandomSource = new MersenneTwister(seed)};
             return new DenseMatrix(rows, columns, Enumerable.Range(0, rows*columns).Select(k => new Complex32((float) dist.Sample(), (float) dist.Sample())).ToArray());
         }
 
-        protected override Matrix<Complex32> CreateSparse(int rows, int columns)
+        protected override Matrix<Complex32> CreateSparseZero(int rows, int columns)
         {
             return new SparseMatrix(rows, columns);
         }
 
-        protected override Vector<Complex32> CreateVector(int size)
+        protected override Vector<Complex32> CreateVectorZero(int size)
         {
             return new DenseVector(size);
         }
 
-        protected override Vector<Complex32> CreateVector(int size, int seed)
+        protected override Vector<Complex32> CreateVectorRandom(int size, int seed)
         {
             var dist = new Normal {RandomSource = new MersenneTwister(seed)};
             return new DenseVector(Enumerable.Range(0, size).Select(k => new Complex32((float) dist.Sample(), (float) dist.Sample())).ToArray());
