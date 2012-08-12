@@ -10,12 +10,26 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
     public abstract partial class MatrixStructureTheory<T>
         where T : struct, IEquatable<T>, IFormattable
     {
-        protected abstract Matrix<T> CreateDense(int rows, int columns);
-        protected abstract Matrix<T> CreateDense(int rows, int columns, int seed);
-        protected abstract Matrix<T> CreateSparse(int rows, int columns);
-        protected abstract Vector<T> CreateVector(int size);
-        protected abstract Vector<T> CreateVector(int size, int seed);
+        protected abstract Matrix<T> CreateDenseZero(int rows, int columns);
+        protected abstract Matrix<T> CreateDenseRandom(int rows, int columns, int seed);
+        protected abstract Matrix<T> CreateSparseZero(int rows, int columns);
+        protected abstract Vector<T> CreateVectorZero(int size);
+        protected abstract Vector<T> CreateVectorRandom(int size, int seed);
         protected abstract T Zero { get; }
+
+        protected Matrix<T> CreateDenseFor(Matrix<T> m, int rows = -1, int columns = -1, int seed = 1)
+        {
+            return m.IsFullyMutable
+                ? CreateDenseRandom(rows >= 0 ? rows : m.RowCount, columns >= 0 ? columns : m.ColumnCount, seed)
+                : CreateDenseZero(rows >= 0 ? rows : m.RowCount, columns >= 0 ? columns : m.ColumnCount);
+        }
+
+        protected Vector<T> CreateVectorFor(Matrix<T> m, int size, int seed = 1)
+        {
+            return m.IsFullyMutable
+                ? CreateVectorRandom(size, seed)
+                : CreateVectorZero(size);
+        }
 
         [Theory, Timeout(200)]
         public void IsEqualToItself(Matrix<T> matrix)
@@ -76,11 +90,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         [Theory, Timeout(200)]
         public void CanCopyTo(Matrix<T> matrix)
         {
-            var dense = CreateDense(matrix.RowCount, matrix.ColumnCount);
+            var dense = CreateDenseZero(matrix.RowCount, matrix.ColumnCount);
             matrix.CopyTo(dense);
             Assert.That(dense, Is.EqualTo(matrix));
 
-            var sparse = CreateSparse(matrix.RowCount, matrix.ColumnCount);
+            var sparse = CreateSparseZero(matrix.RowCount, matrix.ColumnCount);
             matrix.CopyTo(sparse);
             Assert.That(sparse, Is.EqualTo(matrix));
 
@@ -88,8 +102,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
             Assert.That(() => matrix.CopyTo(null), Throws.InstanceOf<ArgumentNullException>());
 
             // bad arg
-            Assert.That(() => matrix.CopyTo(CreateDense(matrix.RowCount + 1, matrix.ColumnCount)), Throws.ArgumentException);
-            Assert.That(() => matrix.CopyTo(CreateDense(matrix.RowCount, matrix.ColumnCount + 1)), Throws.ArgumentException);
+            Assert.That(() => matrix.CopyTo(CreateDenseZero(matrix.RowCount + 1, matrix.ColumnCount)), Throws.ArgumentException);
+            Assert.That(() => matrix.CopyTo(CreateDenseZero(matrix.RowCount, matrix.ColumnCount + 1)), Throws.ArgumentException);
         }
 
         [Theory, Timeout(200)]
@@ -147,7 +161,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         public void CanCreateSameType(Matrix<T> matrix)
         {
             var empty = matrix.CreateMatrix(5, 6);
-            Assert.That(empty, Is.EqualTo(CreateDense(5, 6)));
+            Assert.That(empty, Is.EqualTo(CreateDenseZero(5, 6)));
             Assert.That(empty.GetType(), Is.EqualTo(matrix.GetType()));
 
             Assert.That(() => matrix.CreateMatrix(0, 2), Throws.InstanceOf<ArgumentOutOfRangeException>());
@@ -158,9 +172,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         [Test, Timeout(200)]
         public void CanCreateFromColumns()
         {
-            var column1 = CreateVector(1, 0);
-            var column2 = CreateVector(4, 1);
-            var column3 = CreateVector(2, 3);
+            var column1 = CreateVectorRandom(1, 0);
+            var column2 = CreateVectorRandom(4, 1);
+            var column3 = CreateVectorRandom(2, 3);
 
             var matrix = Matrix<T>.CreateFromColumns(new List<Vector<T>>
                 {
@@ -190,9 +204,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         [Test, Timeout(200)]
         public void CanCreateFromRows()
         {
-            var row1 = CreateVector(1, 0);
-            var row2 = CreateVector(4, 1);
-            var row3 = CreateVector(2, 3);
+            var row1 = CreateVectorRandom(1, 0);
+            var row2 = CreateVectorRandom(4, 1);
+            var row3 = CreateVectorRandom(2, 3);
 
             var matrix = Matrix<T>.CreateFromRows(new List<Vector<T>>
                 {
@@ -222,7 +236,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         [Test, Timeout(200)]
         public void CanEnumerateWithIndex()
         {
-            var dense = CreateDense(2, 3, 0);
+            var dense = CreateDenseRandom(2, 3, 0);
             using(var enumerator = dense.IndexedEnumerator().GetEnumerator())
             for (int i = 0; i < 2; i++)
             {

@@ -45,7 +45,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         [Theory, Timeout(200)]
         public void CanGetRowIntoResult(Matrix<T> matrix)
         {
-            var row = CreateVector(matrix.ColumnCount);
+            var row = CreateVectorZero(matrix.ColumnCount);
             matrix.Row(0, row);
 
             for (var j = 0; j < matrix.ColumnCount; j++)
@@ -96,7 +96,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         [Theory, Timeout(200)]
         public void CanGetRowWithRangeIntoResult(Matrix<T> matrix)
         {
-            var row = CreateVector(matrix.ColumnCount - 1);
+            var row = CreateVectorZero(matrix.ColumnCount - 1);
             matrix.Row(0, 1, matrix.ColumnCount - 1, row);
 
             for (var j = 0; j < matrix.ColumnCount - 1; j++)
@@ -137,7 +137,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         [Theory, Timeout(200)]
         public void CanGetColumnIntoResult(Matrix<T> matrix)
         {
-            var col = CreateVector(matrix.RowCount);
+            var col = CreateVectorZero(matrix.RowCount);
             matrix.Column(0, col);
 
             for (var i = 0; i < matrix.RowCount; i++)
@@ -188,7 +188,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         [Theory, Timeout(200)]
         public void CanGetColumnWithRangeIntoResult(Matrix<T> matrix)
         {
-            var col = CreateVector(matrix.RowCount - 1);
+            var col = CreateVectorZero(matrix.RowCount - 1);
             matrix.Column(0, 1, matrix.RowCount - 1, col);
 
             for (var i = 0; i < matrix.RowCount - 1; i++)
@@ -207,32 +207,34 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         {
             // First Row
             var m = matrix.Clone();
-            m.SetRow(0, CreateVector(matrix.ColumnCount));
+            var v = CreateVectorFor(m, matrix.ColumnCount);
+            m.SetRow(0, v);
             for (var i = 0; i < matrix.RowCount; i++)
             {
                 for (var j = 0; j < matrix.ColumnCount; j++)
                 {
-                    Assert.That(m[i, j], Is.EqualTo(i == 0 ? Zero : matrix[i, j]));
+                    Assert.That(m[i, j], Is.EqualTo(i == 0 ? v[j] : matrix[i, j]));
                 }
             }
 
             // Last Row
             m = matrix.Clone();
-            m.SetRow(matrix.RowCount - 1, CreateVector(matrix.ColumnCount));
+            v = CreateVectorFor(m, matrix.ColumnCount);
+            m.SetRow(matrix.RowCount - 1, v);
             for (var i = 0; i < matrix.RowCount; i++)
             {
                 for (var j = 0; j < matrix.ColumnCount; j++)
                 {
-                    Assert.That(m[i, j], Is.EqualTo(i == matrix.RowCount - 1 ? Zero : matrix[i, j]));
+                    Assert.That(m[i, j], Is.EqualTo(i == matrix.RowCount - 1 ? v[j] : matrix[i, j]));
                 }
             }
 
             // Invalid Rows
             Assert.That(() => matrix.SetRow(0, default(Vector<T>)), Throws.InstanceOf<ArgumentNullException>());
-            Assert.That(() => matrix.SetRow(-1, CreateVector(matrix.ColumnCount)), Throws.InstanceOf<ArgumentOutOfRangeException>());
-            Assert.That(() => matrix.SetRow(matrix.RowCount, CreateVector(matrix.ColumnCount)), Throws.InstanceOf<ArgumentOutOfRangeException>());
-            Assert.That(() => matrix.SetRow(0, CreateVector(matrix.ColumnCount - 1)), Throws.ArgumentException);
-            Assert.That(() => matrix.SetRow(0, CreateVector(matrix.ColumnCount + 1)), Throws.ArgumentException);
+            Assert.That(() => matrix.SetRow(-1, CreateVectorZero(matrix.ColumnCount)), Throws.InstanceOf<ArgumentOutOfRangeException>());
+            Assert.That(() => matrix.SetRow(matrix.RowCount, CreateVectorZero(matrix.ColumnCount)), Throws.InstanceOf<ArgumentOutOfRangeException>());
+            Assert.That(() => matrix.SetRow(0, CreateVectorZero(matrix.ColumnCount - 1)), Throws.ArgumentException);
+            Assert.That(() => matrix.SetRow(0, CreateVectorZero(matrix.ColumnCount + 1)), Throws.ArgumentException);
         }
 
         [Theory, Timeout(200)]
@@ -240,7 +242,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         {
             // First Row
             var m = matrix.Clone();
-            m.SetRow(0, CreateVector(matrix.ColumnCount).ToArray());
+            m.SetRow(0, CreateVectorZero(matrix.ColumnCount).ToArray());
             for (var i = 0; i < matrix.RowCount; i++)
             {
                 for (var j = 0; j < matrix.ColumnCount; j++)
@@ -273,32 +275,34 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         {
             // First Column
             var m = matrix.Clone();
-            m.SetColumn(0, CreateVector(matrix.RowCount));
+            var v = CreateVectorFor(m, matrix.RowCount);
+            m.SetColumn(0, v);
             for (var i = 0; i < matrix.RowCount; i++)
             {
                 for (var j = 0; j < matrix.ColumnCount; j++)
                 {
-                    Assert.That(m[i, j], Is.EqualTo(j == 0 ? Zero : matrix[i, j]));
+                    Assert.That(m[i, j], Is.EqualTo(j == 0 ? v[i] : matrix[i, j]));
                 }
             }
 
             // Last Column
             m = matrix.Clone();
-            m.SetColumn(matrix.ColumnCount - 1, CreateVector(matrix.RowCount));
+            v = CreateVectorFor(m, matrix.RowCount);
+            m.SetColumn(matrix.ColumnCount - 1, v);
             for (var i = 0; i < matrix.RowCount; i++)
             {
                 for (var j = 0; j < matrix.ColumnCount; j++)
                 {
-                    Assert.That(m[i, j], Is.EqualTo(j == matrix.ColumnCount - 1 ? Zero : matrix[i, j]));
+                    Assert.That(m[i, j], Is.EqualTo(j == matrix.ColumnCount - 1 ? v[i] : matrix[i, j]));
                 }
             }
 
             // Invalid Rows
             Assert.That(() => matrix.SetColumn(0, default(Vector<T>)), Throws.InstanceOf<ArgumentNullException>());
-            Assert.That(() => matrix.SetColumn(-1, CreateVector(matrix.RowCount)), Throws.InstanceOf<ArgumentOutOfRangeException>());
-            Assert.That(() => matrix.SetColumn(matrix.ColumnCount, CreateVector(matrix.RowCount)), Throws.InstanceOf<ArgumentOutOfRangeException>());
-            Assert.That(() => matrix.SetColumn(0, CreateVector(matrix.RowCount - 1)), Throws.ArgumentException);
-            Assert.That(() => matrix.SetColumn(0, CreateVector(matrix.RowCount + 1)), Throws.ArgumentException);
+            Assert.That(() => matrix.SetColumn(-1, CreateVectorZero(matrix.RowCount)), Throws.InstanceOf<ArgumentOutOfRangeException>());
+            Assert.That(() => matrix.SetColumn(matrix.ColumnCount, CreateVectorZero(matrix.RowCount)), Throws.InstanceOf<ArgumentOutOfRangeException>());
+            Assert.That(() => matrix.SetColumn(0, CreateVectorZero(matrix.RowCount - 1)), Throws.ArgumentException);
+            Assert.That(() => matrix.SetColumn(0, CreateVectorZero(matrix.RowCount + 1)), Throws.ArgumentException);
         }
 
         [Theory, Timeout(200)]
@@ -306,7 +310,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         {
             // First Column
             var m = matrix.Clone();
-            m.SetColumn(0, CreateVector(matrix.RowCount).ToArray());
+            m.SetColumn(0, CreateVectorZero(matrix.RowCount).ToArray());
             for (var i = 0; i < matrix.RowCount; i++)
             {
                 for (var j = 0; j < matrix.ColumnCount; j++)
@@ -350,7 +354,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         [Theory, Timeout(200)]
         public void CanGetUpperTriangleIntoResult(Matrix<T> matrix)
         {
-            var dense = CreateDense(matrix.RowCount, matrix.ColumnCount);
+            var dense = CreateDenseZero(matrix.RowCount, matrix.ColumnCount);
             matrix.UpperTriangle(dense);
             for (var i = 0; i < matrix.RowCount; i++)
             {
@@ -360,7 +364,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
                 }
             }
 
-            var sparse = CreateSparse(matrix.RowCount, matrix.ColumnCount);
+            var sparse = CreateSparseZero(matrix.RowCount, matrix.ColumnCount);
             matrix.UpperTriangle(sparse);
             for (var i = 0; i < matrix.RowCount; i++)
             {
@@ -371,8 +375,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
             }
 
             Assert.That(() => matrix.UpperTriangle(null), Throws.InstanceOf<ArgumentNullException>());
-            Assert.That(() => matrix.UpperTriangle(CreateSparse(matrix.RowCount + 1, matrix.ColumnCount)), Throws.ArgumentException);
-            Assert.That(() => matrix.UpperTriangle(CreateDense(matrix.RowCount, matrix.ColumnCount + 1)), Throws.ArgumentException);
+            Assert.That(() => matrix.UpperTriangle(CreateSparseZero(matrix.RowCount + 1, matrix.ColumnCount)), Throws.ArgumentException);
+            Assert.That(() => matrix.UpperTriangle(CreateDenseZero(matrix.RowCount, matrix.ColumnCount + 1)), Throws.ArgumentException);
         }
 
         [Theory, Timeout(200)]
@@ -391,7 +395,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         [Theory, Timeout(200)]
         public void CanGetLowerTriangleIntoResult(Matrix<T> matrix)
         {
-            var dense = CreateDense(matrix.RowCount, matrix.ColumnCount);
+            var dense = CreateDenseZero(matrix.RowCount, matrix.ColumnCount);
             matrix.LowerTriangle(dense);
             for (var i = 0; i < matrix.RowCount; i++)
             {
@@ -401,7 +405,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
                 }
             }
 
-            var sparse = CreateSparse(matrix.RowCount, matrix.ColumnCount);
+            var sparse = CreateSparseZero(matrix.RowCount, matrix.ColumnCount);
             matrix.LowerTriangle(sparse);
             for (var i = 0; i < matrix.RowCount; i++)
             {
@@ -412,8 +416,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
             }
 
             Assert.That(() => matrix.LowerTriangle(null), Throws.InstanceOf<ArgumentNullException>());
-            Assert.That(() => matrix.LowerTriangle(CreateSparse(matrix.RowCount + 1, matrix.ColumnCount)), Throws.ArgumentException);
-            Assert.That(() => matrix.LowerTriangle(CreateDense(matrix.RowCount, matrix.ColumnCount + 1)), Throws.ArgumentException);
+            Assert.That(() => matrix.LowerTriangle(CreateSparseZero(matrix.RowCount + 1, matrix.ColumnCount)), Throws.ArgumentException);
+            Assert.That(() => matrix.LowerTriangle(CreateDenseZero(matrix.RowCount, matrix.ColumnCount + 1)), Throws.ArgumentException);
         }
 
         [Theory, Timeout(200)]
@@ -432,7 +436,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         [Theory, Timeout(200)]
         public void CanGetStrictlyUpperTriangleIntoResult(Matrix<T> matrix)
         {
-            var dense = CreateDense(matrix.RowCount, matrix.ColumnCount);
+            var dense = CreateDenseZero(matrix.RowCount, matrix.ColumnCount);
             matrix.StrictlyUpperTriangle(dense);
             for (var i = 0; i < matrix.RowCount; i++)
             {
@@ -442,7 +446,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
                 }
             }
 
-            var sparse = CreateSparse(matrix.RowCount, matrix.ColumnCount);
+            var sparse = CreateSparseZero(matrix.RowCount, matrix.ColumnCount);
             matrix.StrictlyUpperTriangle(sparse);
             for (var i = 0; i < matrix.RowCount; i++)
             {
@@ -453,8 +457,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
             }
 
             Assert.That(() => matrix.StrictlyUpperTriangle(null), Throws.InstanceOf<ArgumentNullException>());
-            Assert.That(() => matrix.StrictlyUpperTriangle(CreateSparse(matrix.RowCount + 1, matrix.ColumnCount)), Throws.ArgumentException);
-            Assert.That(() => matrix.StrictlyUpperTriangle(CreateDense(matrix.RowCount, matrix.ColumnCount + 1)), Throws.ArgumentException);
+            Assert.That(() => matrix.StrictlyUpperTriangle(CreateSparseZero(matrix.RowCount + 1, matrix.ColumnCount)), Throws.ArgumentException);
+            Assert.That(() => matrix.StrictlyUpperTriangle(CreateDenseZero(matrix.RowCount, matrix.ColumnCount + 1)), Throws.ArgumentException);
         }
 
         [Theory, Timeout(200)]
@@ -473,7 +477,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         [Theory, Timeout(200)]
         public void CanGetStrictlyLowerTriangleIntoResult(Matrix<T> matrix)
         {
-            var dense = CreateDense(matrix.RowCount, matrix.ColumnCount);
+            var dense = CreateDenseZero(matrix.RowCount, matrix.ColumnCount);
             matrix.StrictlyLowerTriangle(dense);
             for (var i = 0; i < matrix.RowCount; i++)
             {
@@ -483,7 +487,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
                 }
             }
 
-            var sparse = CreateSparse(matrix.RowCount, matrix.ColumnCount);
+            var sparse = CreateSparseZero(matrix.RowCount, matrix.ColumnCount);
             matrix.StrictlyLowerTriangle(sparse);
             for (var i = 0; i < matrix.RowCount; i++)
             {
@@ -494,8 +498,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
             }
 
             Assert.That(() => matrix.StrictlyLowerTriangle(null), Throws.InstanceOf<ArgumentNullException>());
-            Assert.That(() => matrix.StrictlyLowerTriangle(CreateSparse(matrix.RowCount + 1, matrix.ColumnCount)), Throws.ArgumentException);
-            Assert.That(() => matrix.StrictlyLowerTriangle(CreateDense(matrix.RowCount, matrix.ColumnCount + 1)), Throws.ArgumentException);
+            Assert.That(() => matrix.StrictlyLowerTriangle(CreateSparseZero(matrix.RowCount + 1, matrix.ColumnCount)), Throws.ArgumentException);
+            Assert.That(() => matrix.StrictlyLowerTriangle(CreateDenseZero(matrix.RowCount, matrix.ColumnCount + 1)), Throws.ArgumentException);
         }
 
         [Theory, Timeout(200)]
@@ -513,19 +517,20 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         public void CanSetDiagonal(Matrix<T> matrix)
         {
             var m = matrix.Clone();
-            m.SetDiagonal(CreateVector(Math.Min(matrix.RowCount, matrix.ColumnCount)));
+            var v = CreateVectorFor(m, Math.Min(matrix.RowCount, matrix.ColumnCount));
+            m.SetDiagonal(v);
             for (var i = 0; i < matrix.RowCount; i++)
             {
                 for (var j = 0; j < matrix.ColumnCount; j++)
                 {
-                    Assert.That(m[i, j], Is.EqualTo(i == j ? Zero : matrix[i, j]));
+                    Assert.That(m[i, j], Is.EqualTo(i == j ? v[i] : matrix[i, j]));
                 }
             }
 
             // Invalid
             Assert.That(() => matrix.SetDiagonal(default(Vector<T>)), Throws.InstanceOf<ArgumentNullException>());
-            Assert.That(() => matrix.SetDiagonal(CreateVector(Math.Min(matrix.RowCount, matrix.ColumnCount) - 1)), Throws.ArgumentException);
-            Assert.That(() => matrix.SetDiagonal(CreateVector(Math.Min(matrix.RowCount, matrix.ColumnCount) + 1)), Throws.ArgumentException);
+            Assert.That(() => matrix.SetDiagonal(CreateVectorZero(Math.Min(matrix.RowCount, matrix.ColumnCount) - 1)), Throws.ArgumentException);
+            Assert.That(() => matrix.SetDiagonal(CreateVectorZero(Math.Min(matrix.RowCount, matrix.ColumnCount) + 1)), Throws.ArgumentException);
         }
 
         [Theory, Timeout(200)]
@@ -593,7 +598,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         public void CanSetSubmatrix(Matrix<T> matrix)
         {
             // Top Left Corner 2x2
-            var topleft = CreateDense(2, 2);
+            var topleft = CreateDenseFor(matrix, 2, 2);
             var m = matrix.Clone();
             m.SetSubMatrix(0, 2, 0, 2, topleft);
             for (var i = 0; i < m.RowCount; i++)
@@ -605,7 +610,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
             }
 
             // Bottom Right Cornet 1x2
-            var bottomright = CreateDense(1, 2);
+            var bottomright = CreateDenseFor(matrix, 1, 2);
             m = matrix.Clone();
             m.SetSubMatrix(matrix.RowCount - 1, 1, matrix.ColumnCount - 2, 2, bottomright);
             for (var i = 0; i < m.RowCount; i++)
@@ -619,16 +624,16 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
             // Invalid
             m = matrix.Clone();
             Assert.That(() => m.SetSubMatrix(0, 1, 0, 1, default(Matrix<T>)), Throws.InstanceOf<ArgumentNullException>());
-            Assert.That(() => m.SetSubMatrix(-1, 1, 0, 1, CreateDense(1,1)), Throws.InstanceOf<ArgumentOutOfRangeException>());
-            Assert.That(() => m.SetSubMatrix(matrix.RowCount, 1, 0, 1, CreateDense(1, 1)), Throws.InstanceOf<ArgumentOutOfRangeException>());
-            Assert.That(() => m.SetSubMatrix(0, 0, 0, 1, CreateDense(1, 1)), Throws.InstanceOf<ArgumentOutOfRangeException>());
-            Assert.That(() => m.SetSubMatrix(0, 1, -1, 1, CreateDense(1, 1)), Throws.InstanceOf<ArgumentOutOfRangeException>());
-            Assert.That(() => m.SetSubMatrix(0, 1, matrix.ColumnCount, 1, CreateDense(1, 1)), Throws.InstanceOf<ArgumentOutOfRangeException>());
-            Assert.That(() => m.SetSubMatrix(0, 1, 0, 0, CreateDense(1, 1)), Throws.InstanceOf<ArgumentOutOfRangeException>());
+            Assert.That(() => m.SetSubMatrix(-1, 1, 0, 1, CreateDenseZero(1,1)), Throws.InstanceOf<ArgumentOutOfRangeException>());
+            Assert.That(() => m.SetSubMatrix(matrix.RowCount, 1, 0, 1, CreateDenseZero(1, 1)), Throws.InstanceOf<ArgumentOutOfRangeException>());
+            Assert.That(() => m.SetSubMatrix(0, 0, 0, 1, CreateDenseZero(1, 1)), Throws.InstanceOf<ArgumentOutOfRangeException>());
+            Assert.That(() => m.SetSubMatrix(0, 1, -1, 1, CreateDenseZero(1, 1)), Throws.InstanceOf<ArgumentOutOfRangeException>());
+            Assert.That(() => m.SetSubMatrix(0, 1, matrix.ColumnCount, 1, CreateDenseZero(1, 1)), Throws.InstanceOf<ArgumentOutOfRangeException>());
+            Assert.That(() => m.SetSubMatrix(0, 1, 0, 0, CreateDenseZero(1, 1)), Throws.InstanceOf<ArgumentOutOfRangeException>());
             
             // Usually invalid, but not for SetSubMatrix (since size is explicitly provided)
-            Assert.That(() => m.SetSubMatrix(0, 1, 0, 1, CreateDense(1, 2)), Throws.Nothing);
-            Assert.That(() => m.SetSubMatrix(0, 1, 0, 1, CreateDense(2, 1)), Throws.Nothing);
+            Assert.That(() => m.SetSubMatrix(0, 1, 0, 1, CreateDenseZero(1, 2)), Throws.Nothing);
+            Assert.That(() => m.SetSubMatrix(0, 1, 0, 1, CreateDenseZero(2, 1)), Throws.Nothing);
         }
     }
 }

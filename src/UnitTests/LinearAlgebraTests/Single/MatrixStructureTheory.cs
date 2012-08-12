@@ -35,28 +35,28 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
         [Datapoints]
         float[] _scalars = new[] {2f, -1.5f, 0f};
 
-        protected override Matrix<float> CreateDense(int rows, int columns)
+        protected override Matrix<float> CreateDenseZero(int rows, int columns)
         {
             return new DenseMatrix(rows, columns);
         }
 
-        protected override Matrix<float> CreateDense(int rows, int columns, int seed)
+        protected override Matrix<float> CreateDenseRandom(int rows, int columns, int seed)
         {
             var dist = new Normal {RandomSource = new MersenneTwister(seed)};
             return new DenseMatrix(rows, columns, dist.Samples().Select(d => (float) d).Take(rows*columns).ToArray());
         }
 
-        protected override Matrix<float> CreateSparse(int rows, int columns)
+        protected override Matrix<float> CreateSparseZero(int rows, int columns)
         {
             return new SparseMatrix(rows, columns);
         }
 
-        protected override Vector<float> CreateVector(int size)
+        protected override Vector<float> CreateVectorZero(int size)
         {
             return new DenseVector(size);
         }
 
-        protected override Vector<float> CreateVector(int size, int seed)
+        protected override Vector<float> CreateVectorRandom(int size, int seed)
         {
             var dist = new Normal {RandomSource = new MersenneTwister(seed)};
             return new DenseVector(dist.Samples().Select(d => (float) d).Take(size).ToArray());
