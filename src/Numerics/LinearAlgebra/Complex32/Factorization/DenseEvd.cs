@@ -84,7 +84,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
             {
                 for (var j = 0; j < order & IsSymmetric; j++)
                 {
-                    IsSymmetric &= matrix[i, j] == matrix[j, i].Conjugate();
+                    IsSymmetric &= matrix.At(i, j) == matrix.At(j, i).Conjugate();
                 }
             }
 
@@ -874,7 +874,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
                             value += ((DenseMatrix)MatrixEv).Data[(i * order) + j] * tmp[i];
                         }
 
-                        result[j, k] = value;
+                        result.At(j, k, value);
                     }
                 }
             }

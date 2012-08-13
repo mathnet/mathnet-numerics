@@ -1303,7 +1303,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
             var matrix = CreateMatrix(Count, 1);
             for (var i = 0; i < Count; i++)
             {
-                matrix[i, 0] = this[i];
+                matrix.At(i, 0, this[i]);
             }
 
             return matrix;
@@ -1320,7 +1320,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
             var matrix = CreateMatrix(1, Count);
             for (var i = 0; i < Count; i++)
             {
-                matrix[0, i] = this[i];
+                matrix.At(0, i, this[i]);
             }
 
             return matrix;

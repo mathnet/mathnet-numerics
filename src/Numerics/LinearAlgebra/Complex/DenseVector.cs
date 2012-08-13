@@ -172,7 +172,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
             var matrix = new DenseMatrix(Count, 1);
             for (var i = 0; i < Data.Length; i++)
             {
-                matrix[i, 0] = Data[i];
+                matrix.At(i, 0, Data[i]);
             }
 
             return matrix;
@@ -187,7 +187,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
             var matrix = new DenseMatrix(1, Count);
             for (var i = 0; i < Data.Length; i++)
             {
-                matrix[0, i] = Data[i];
+                matrix.At(0, i, Data[i]);
             }
 
             return matrix;

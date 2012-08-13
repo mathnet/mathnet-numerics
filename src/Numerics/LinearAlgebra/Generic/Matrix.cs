@@ -1165,7 +1165,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
             {
                 for (int i = rowIndex, ii = 0; i < rowMax; i++, ii++)
                 {
-                    At(i, j, subMatrix[ii, j - columnIndex]);
+                    At(i, j, subMatrix.At(ii, j - columnIndex));
                 }
             }
         }
@@ -1438,7 +1438,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
                 {
                     var col = i%ColumnCount;
                     var row = (i - col)/RowCount;
-                    hash = hash*31 + this[row, col].GetHashCode();
+                    hash = hash*31 + At(row, col).GetHashCode();
                 }
             }
             return hash;

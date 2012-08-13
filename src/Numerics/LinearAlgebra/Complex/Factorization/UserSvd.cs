@@ -866,7 +866,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
                         value += MatrixVT.At(i, j).Conjugate() * tmp[i];
                     }
 
-                    result[j, k] = value;
+                    result.At(j, k, value);
                 }
             }
         }
