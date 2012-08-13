@@ -77,11 +77,19 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         /// <remarks>WARNING: This method is not thread safe. Use "lock" with it and be sure to avoid deadlocks.</remarks>
         public abstract void At(int row, int column, T value);
 
+        /// <summary>
+        /// True if all fields of this matrix can be set to any value.
+        /// False if some fields are fixed, like on a diagonal matrix.
+        /// </summary>
         public virtual bool IsFullyMutable
         {
             get { return true; }
         }
 
+        /// <summary>
+        /// True if the specified field can be set to any value.
+        /// Fall if the field is fixed, like an off-diagonal field on a diagonal matrix.
+        /// </summary>
         public virtual bool IsMutable(int row, int column)
         {
             return true;
