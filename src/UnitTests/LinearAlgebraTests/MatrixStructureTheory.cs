@@ -19,14 +19,14 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
 
         protected Matrix<T> CreateDenseFor(Matrix<T> m, int rows = -1, int columns = -1, int seed = 1)
         {
-            return m.IsFullyMutable
+            return m.Storage.IsFullyMutable
                 ? CreateDenseRandom(rows >= 0 ? rows : m.RowCount, columns >= 0 ? columns : m.ColumnCount, seed)
                 : CreateDenseZero(rows >= 0 ? rows : m.RowCount, columns >= 0 ? columns : m.ColumnCount);
         }
 
         protected Vector<T> CreateVectorFor(Matrix<T> m, int size, int seed = 1)
         {
-            return m.IsFullyMutable
+            return m.Storage.IsFullyMutable
                 ? CreateVectorRandom(size, seed)
                 : CreateVectorZero(size);
         }
