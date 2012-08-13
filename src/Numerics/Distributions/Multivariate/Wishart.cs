@@ -114,7 +114,7 @@ namespace MathNet.Numerics.Distributions
 
             for (var i = 0; i < s.RowCount; i++)
             {
-                if (s[i, i] <= 0.0)
+                if (s.At(i, i) <= 0.0)
                 {
                     return false;
                 }
@@ -316,14 +316,14 @@ namespace MathNet.Numerics.Distributions
             var a = new DenseMatrix(count, count, 0.0);
             for (var d = 0; d < count; d++)
             {
-                a[d, d] = Math.Sqrt(Gamma.Sample(rnd, (nu - d) / 2.0, 0.5));
+                a.At(d, d, Math.Sqrt(Gamma.Sample(rnd, (nu - d)/2.0, 0.5)));
             }
 
             for (var i = 1; i < count; i++)
             {
                 for (var j = 0; j < i; j++)
                 {
-                    a[i, j] = Normal.Sample(rnd, 0.0, 1.0);
+                    a.At(i, j, Normal.Sample(rnd, 0.0, 1.0));
                 }
             }
 

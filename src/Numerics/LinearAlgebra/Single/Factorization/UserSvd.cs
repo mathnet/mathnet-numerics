@@ -850,7 +850,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
                         value += MatrixVT.At(i, j) * tmp[i];
                     }
 
-                    result[j, k] = value;
+                    result.At(j, k, value);
                 }
             }
         }

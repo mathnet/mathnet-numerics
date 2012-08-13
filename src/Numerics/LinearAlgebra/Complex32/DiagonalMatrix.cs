@@ -951,7 +951,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
             result.Clear();
             for (var i = 0; i < _data.Length; i++)
             {
-                result[i, i] = _data[i];
+                result.At(i, i, _data[i]);
             }
         }
 
@@ -1016,7 +1016,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
             result.Clear();
             for (var i = 0; i < _data.Length; i++)
             {
-                result[i, i] = _data[i];
+                result.At(i, i, _data[i]);
             }
         }
 
@@ -1236,7 +1236,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
             // Copy the diagonal part into the result matrix.
             for (var i = 0; i < _data.Length; i++)
             {
-                result[i, i] = _data[i];
+                result.At(i, i, _data[i]);
             }
 
             // Copy the lower matrix into the result matrix.
@@ -1244,7 +1244,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
             {
                 for (var j = 0; j < lower.ColumnCount; j++)
                 {
-                    result[i + RowCount, j] = lower[i, j];
+                    result.At(i + RowCount, j, lower.At(i, j));
                 }
             }
         }
@@ -1304,7 +1304,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
             // Copy the diagonal part into the result matrix.
             for (var i = 0; i < _data.Length; i++)
             {
-                result[i, i] = _data[i];
+                result.At(i, i, _data[i]);
             }
 
             // Copy the lower matrix into the result matrix.
@@ -1312,7 +1312,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
             {
                 for (var j = 0; j < right.ColumnCount; j++)
                 {
-                    result[i, j + RowCount] = right[i, j];
+                    result.At(i, j + RowCount, right.At(i, j));
                 }
             }
         }
@@ -1368,7 +1368,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
             // Copy the diagonal part into the result matrix.
             for (var i = 0; i < _data.Length; i++)
             {
-                result[i, i] = _data[i];
+                result.At(i, i, _data[i]);
             }
 
             // Copy the lower matrix into the result matrix.

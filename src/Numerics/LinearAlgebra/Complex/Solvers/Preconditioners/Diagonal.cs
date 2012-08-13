@@ -54,7 +54,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Preconditioners
             var result = new DiagonalMatrix(_inverseDiagonals.Length);
             for (var i = 0; i < _inverseDiagonals.Length; i++)
             {
-                result[i, i] = 1 / _inverseDiagonals[i];
+                result.At(i, i, 1 / _inverseDiagonals[i]);
             }
 
             return result;
@@ -82,7 +82,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Preconditioners
             _inverseDiagonals = new Complex[matrix.RowCount];
             for (var i = 0; i < matrix.RowCount; i++)
             {
-                _inverseDiagonals[i] = 1 / matrix[i, i];
+                _inverseDiagonals[i] = 1 / matrix.At(i, i);
             }
         }
 

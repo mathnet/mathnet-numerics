@@ -83,7 +83,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
             {
                 for (var j = 0; j < order & IsSymmetric; j++)
                 {
-                    IsSymmetric &= matrix[i, j] == matrix[j, i];
+                    IsSymmetric &= matrix.At(i, j) == matrix.At(j, i);
                 }
             }
 
@@ -108,7 +108,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
 
             for (var i = 0; i < order; i++)
             {
-                MatrixD[i, i] = d[i];
+                MatrixD.At(i, i, d[i]);
 
                 if (e[i] > 0)
                 {
@@ -1138,7 +1138,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
                             value += MatrixEv.At(j, i) * tmp[i];
                         }
 
-                        result[j, k] = value;
+                        result.At(j, k, value);
                     }
                 }
             }

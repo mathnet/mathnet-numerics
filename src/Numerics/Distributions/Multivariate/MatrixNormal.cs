@@ -190,7 +190,7 @@ namespace MathNet.Numerics.Distributions
 
             for (var i = 0; i < v.RowCount; i++)
             {
-                if (v[i, i] <= 0)
+                if (v.At(i, i) <= 0)
                 {
                     return false;
                 }
@@ -198,7 +198,7 @@ namespace MathNet.Numerics.Distributions
 
             for (var i = 0; i < k.RowCount; i++)
             {
-                if (k[i, i] <= 0)
+                if (k.At(i, i) <= 0)
                 {
                     return false;
                 }
@@ -291,7 +291,7 @@ namespace MathNet.Numerics.Distributions
             {
                 for (var j = 0; j < p; j++)
                 {
-                    r[i, j] += vector[(j * n) + i];
+                    r.At(i, j, r.At(i, j) + vector[(j * n) + i]);
                 }
             }
 

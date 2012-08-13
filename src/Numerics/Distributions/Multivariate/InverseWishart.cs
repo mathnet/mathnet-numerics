@@ -121,7 +121,7 @@ namespace MathNet.Numerics.Distributions
 
             for (var i = 0; i < s.RowCount; i++)
             {
-                if (s[i, i] <= 0.0)
+                if (s.At(i, i) <= 0.0)
                 {
                     return false;
                 }

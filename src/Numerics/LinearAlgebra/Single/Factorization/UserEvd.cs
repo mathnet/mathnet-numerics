@@ -84,7 +84,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
             {
                 for (var j = 0; j < order & IsSymmetric; j++)
                 {
-                    IsSymmetric &= matrix[i, j] == matrix[j, i];
+                    IsSymmetric &= matrix.At(i, j) == matrix.At(j, i);
                 }
             }
 
@@ -1139,7 +1139,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
                             value += MatrixEv.At(j, i) * tmp[i];
                         }
 
-                        result[j, k] = value;
+                        result.At(j, k, value);
                     }
                 }
             }

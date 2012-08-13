@@ -83,7 +83,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
             {
                 for (var j = 0; j < order & IsSymmetric; j++)
                 {
-                    IsSymmetric &= matrix[i, j] == matrix[j, i].Conjugate();
+                    IsSymmetric &= matrix.At(i, j) == matrix.At(j, i).Conjugate();
                 }
             }
 
@@ -865,7 +865,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
                             value += MatrixEv.At(j, i) * tmp[i];
                         }
 
-                        result[j, k] = value;
+                        result.At(j, k, value);
                     }
                 }
             }
