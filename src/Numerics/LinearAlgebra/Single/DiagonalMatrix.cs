@@ -149,6 +149,17 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="DiagonalMatrix"/> class, copying
+        /// the values from the given matrix.
+        /// </summary>
+        /// <param name="matrix">The matrix to copy.</param>
+        public DiagonalMatrix(Matrix<float> matrix)
+            : this(matrix.RowCount, matrix.ColumnCount)
+        {
+            matrix.Storage.CopyTo(Storage, skipClearing: true);
+        }
+
+        /// <summary>
         /// Creates a <c>DiagonalMatrix</c> for the given number of rows and columns.
         /// </summary>
         /// <param name="numberOfRows">

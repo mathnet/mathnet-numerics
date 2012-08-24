@@ -184,32 +184,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         public SparseMatrix(Matrix<Complex32> matrix)
             : this(matrix.RowCount, matrix.ColumnCount)
         {
-            var sparseMatrix = matrix as SparseMatrix;
-
-            var rows = matrix.RowCount;
-            var columns = matrix.ColumnCount;
-
-            if (sparseMatrix == null)
-            {
-                for (var i = 0; i < rows; i++)
-                {
-                    for (var j = 0; j < columns; j++)
-                    {
-                        _storage.At(i, j, matrix.At(i, j));
-                    }
-                }
-            }
-            else
-            {
-                var matrixStorage = sparseMatrix.Raw;
-                var valueCount = _storage.ValueCount = matrixStorage.ValueCount;
-                _storage.ColumnIndices = new int[valueCount];
-                _storage.Values = new Complex32[valueCount];
-
-                Array.Copy(matrixStorage.Values, _storage.Values, valueCount);
-                Array.Copy(matrixStorage.ColumnIndices, _storage.ColumnIndices, valueCount);
-                Array.Copy(matrixStorage.RowPointers, _storage.RowPointers, rows);
-            }
+            matrix.Storage.CopyTo(Storage, skipClearing: true);
         }
 
         /// <summary>
@@ -645,10 +620,11 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
             var values = _storage.Values;
             var valueCount = _storage.ValueCount;
 
-            var ret = new SparseMatrix(ColumnCount, RowCount);
-            var retStorage = ret.Raw;
-            retStorage.ColumnIndices = new int[valueCount];
-            retStorage.Values = new Complex32[valueCount];
+            var ret = new SparseCompressedRowMatrixStorage<Complex32>(ColumnCount, RowCount, Complex32.Zero)
+                {
+                    ColumnIndices = new int[valueCount],
+                    Values = new Complex32[valueCount]
+                };
 
             // Do an 'inverse' CopyTo iterate over the rows
             for (var i = 0; i < rowPointers.Length; i++)
@@ -666,20 +642,18 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
 
                 for (var j = startIndex; j < endIndex; j++)
                 {
-                    retStorage.At(columnIndices[j], i, values[j]);
+                    ret.At(columnIndices[j], i, values[j]);
                 }
             }
 
-            return ret;
+            return new SparseMatrix(ret);
         }
 
         /// <summary>Calculates the Frobenius norm of this matrix.</summary>
         /// <returns>The Frobenius norm of this matrix.</returns>
         public override Complex32 FrobeniusNorm()
         {
-            var transpose = (SparseMatrix)Transpose();
-            var aat = (this * transpose).Raw;
-
+            var aat = (SparseCompressedRowMatrixStorage<Complex32>) (this*Transpose()).Storage;
             var norm = 0f;
 
             for (var i = 0; i < aat.RowPointers.Length; i++)
@@ -875,21 +849,21 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// </exception>
         public static SparseMatrix Identity(int order)
         {
-            var m = new SparseMatrix(order);
-            var mStorage = m.Raw;
-
-            mStorage.ValueCount = order;
-            mStorage.Values = new Complex32[order];
-            mStorage.ColumnIndices = new int[order];
+            var m = new SparseCompressedRowMatrixStorage<Complex32>(order, order, Complex32.Zero)
+                {
+                    ValueCount = order,
+                    Values = new Complex32[order],
+                    ColumnIndices = new int[order]
+                };
 
             for (var i = 0; i < order; i++)
             {
-                mStorage.Values[i] = 1f;
-                mStorage.ColumnIndices[i] = i;
-                mStorage.RowPointers[i] = i;
+                m.Values[i] = 1f;
+                m.ColumnIndices[i] = i;
+                m.RowPointers[i] = i;
             }
 
-            return m;
+            return new SparseMatrix(m);
         }
         #endregion
 
