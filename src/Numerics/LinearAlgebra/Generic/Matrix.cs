@@ -221,7 +221,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         public virtual Matrix<T> Clone()
         {
             var result = CreateMatrix(RowCount, ColumnCount);
-            CopyTo(result);
+            Storage.CopyTo(result.Storage);
             return result;
         }
 
@@ -1331,38 +1331,14 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <returns>
         /// <c>true</c> if the current object is equal to the <paramref name="other"/> parameter; otherwise, <c>false</c>.
         /// </returns>
-        public virtual bool Equals(Matrix<T> other)
+        public bool Equals(Matrix<T> other)
         {
-            // Reject equality when the argument is null or has a different shape.
             if (other == null)
             {
                 return false;
             }
 
-            if (ColumnCount != other.ColumnCount || RowCount != other.RowCount)
-            {
-                return false;
-            }
-
-            // Accept if the argument is the same object as this.
-            if (ReferenceEquals(this, other))
-            {
-                return true;
-            }
-
-            // If all else fails, perform element wise comparison.
-            for (var row = 0; row < RowCount; row++)
-            {
-                for (var column = 0; column < ColumnCount; column++)
-                {
-                    if (!At(row, column).Equals(other.At(row, column)))
-                    {
-                        return false;
-                    }
-                }
-            }
-
-            return true;
+            return Storage.Equals(other.Storage);
         }
 
         #endregion
@@ -1419,7 +1395,8 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// </returns>
         public override bool Equals(object obj)
         {
-            return Equals(obj as Matrix<T>);
+            var other = obj as Matrix<T>;
+            return other != null && Storage.Equals(other.Storage);
         }
 
         /// <summary>
@@ -1430,18 +1407,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// </returns>
         public override int GetHashCode()
         {
-            var hashNum = Math.Min(RowCount*ColumnCount, 25);
-            int hash = 17;
-            unchecked
-            {
-                for (var i = 0; i < hashNum; i++)
-                {
-                    var col = i%ColumnCount;
-                    var row = (i - col)/RowCount;
-                    hash = hash*31 + At(row, col).GetHashCode();
-                }
-            }
-            return hash;
+            return Storage.GetHashCode();
         }
 
         #endregion

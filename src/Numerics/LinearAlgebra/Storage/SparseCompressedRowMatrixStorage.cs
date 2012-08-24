@@ -217,6 +217,79 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             return delta;
         }
 
+        /// <summary>
+        /// Indicates whether the current object is equal to another object of the same type.
+        /// </summary>
+        /// <param name="other">
+        /// An object to compare with this object.
+        /// </param>
+        /// <returns>
+        /// <c>true</c> if the current object is equal to the <paramref name="other"/> parameter; otherwise, <c>false</c>.
+        /// </returns>
+        public override bool Equals(MatrixStorage<T> other)
+        {
+            // Reject equality when the argument is null or has a different shape.
+            if (other == null)
+            {
+                return false;
+            }
+            if (ColumnCount != other.ColumnCount || RowCount != other.RowCount)
+            {
+                return false;
+            }
+
+            // Accept if the argument is the same object as this.
+            if (ReferenceEquals(this, other))
+            {
+                return true;
+            }
+
+            var sparse = other as SparseCompressedRowMatrixStorage<T>;
+            if (sparse == null)
+            {
+                return base.Equals(other);
+            }
+
+            if (ValueCount != sparse.ValueCount)
+            {
+                // TODO: this is not always correct
+                return false;
+            }
+
+            // If all else fails, perform element wise comparison.
+            for (var index = 0; index < ValueCount; index++)
+            {
+                // TODO: AlmostEquals
+                if (!Values[index].Equals(sparse.Values[index]) || ColumnIndices[index] != sparse.ColumnIndices[index])
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// Returns a hash code for this instance.
+        /// </summary>
+        /// <returns>
+        /// A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table. 
+        /// </returns>
+        public override int GetHashCode()
+        {
+            var values = Values;
+            var hashNum = Math.Min(ValueCount, 25);
+            int hash = 17;
+            unchecked
+            {
+                for (var i = 0; i < hashNum; i++)
+                {
+                    hash = hash * 31 + values[i].GetHashCode();
+                }
+            }
+            return hash;
+        }
+
         /// <remarks>Parameters assumed to be validated already.</remarks>
         public override void CopyTo(MatrixStorage<T> target, bool skipClearing = false)
         {

@@ -189,59 +189,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
             return new SparseVector(size);
         }
 
-        /// <summary>
-        /// Indicates whether the current object is equal to another object of the same type.
-        /// </summary>
-        /// <param name="obj">
-        /// An object to compare with this object.
-        /// </param>
-        /// <returns>
-        /// <c>true</c> if the current object is equal to the <paramref name="obj"/> parameter; otherwise, <c>false</c>.
-        /// </returns>
-        public override bool Equals(object obj)
-        {
-            var diagonalMatrix = obj as DiagonalMatrix;
-
-            if (diagonalMatrix == null)
-            {
-                return base.Equals(obj);
-            }
-
-            // Accept if the argument is the same object as this
-            if (ReferenceEquals(this, diagonalMatrix))
-            {
-                return true;
-            }
-
-            if (diagonalMatrix._data.Length != _data.Length)
-            {
-                return false;
-            }
-
-            // If all else fails, perform element wise comparison.
-            return !_data.Where((t, i) => t != diagonalMatrix._data[i]).Any();
-        }
-
-        /// <summary>
-        /// Returns a hash code for this instance.
-        /// </summary>
-        /// <returns>
-        /// A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table. 
-        /// </returns>
-        public override int GetHashCode()
-        {
-            var hashNum = Math.Min(_data.Length, 25);
-            int hash = 17;
-            unchecked
-            {
-                for (var i = 0; i < hashNum; i++)
-                {
-                    hash = hash*31 + _data[i].GetHashCode();
-                }
-            }
-            return hash;
-        }
-
         #region Elementary operations
 
         /// <summary>

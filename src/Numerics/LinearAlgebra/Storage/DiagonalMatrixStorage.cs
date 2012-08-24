@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using MathNet.Numerics.Properties;
 
 namespace MathNet.Numerics.LinearAlgebra.Storage
@@ -61,6 +62,64 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         public override void Clear()
         {
             Array.Clear(Data, 0, Data.Length);
+        }
+
+        /// <summary>
+        /// Indicates whether the current object is equal to another object of the same type.
+        /// </summary>
+        /// <param name="other">
+        /// An object to compare with this object.
+        /// </param>
+        /// <returns>
+        /// <c>true</c> if the current object is equal to the <paramref name="other"/> parameter; otherwise, <c>false</c>.
+        /// </returns>
+        public override bool Equals(MatrixStorage<T> other)
+        {
+            var diagonal = other as DiagonalMatrixStorage<T>;
+            if (diagonal == null)
+            {
+                return base.Equals(other);
+            }
+
+            // Reject equality when the argument is null or has a different shape.
+            if (ColumnCount != other.ColumnCount || RowCount != other.RowCount)
+            {
+                return false;
+            }
+
+            // Accept if the argument is the same object as this.
+            if (ReferenceEquals(this, other))
+            {
+                return true;
+            }
+
+            if (diagonal.Data.Length != Data.Length)
+            {
+                return false;
+            }
+
+            // If all else fails, perform element wise comparison.
+            return !Data.Where((t, i) => !t.Equals(diagonal.Data[i])).Any();
+        }
+
+        /// <summary>
+        /// Returns a hash code for this instance.
+        /// </summary>
+        /// <returns>
+        /// A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table. 
+        /// </returns>
+        public override int GetHashCode()
+        {
+            var hashNum = Math.Min(Data.Length, 25);
+            int hash = 17;
+            unchecked
+            {
+                for (var i = 0; i < hashNum; i++)
+                {
+                    hash = hash * 31 + Data[i].GetHashCode();
+                }
+            }
+            return hash;
         }
 
         /// <remarks>Parameters assumed to be validated already.</remarks>
