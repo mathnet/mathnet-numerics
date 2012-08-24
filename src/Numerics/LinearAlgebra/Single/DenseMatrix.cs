@@ -150,6 +150,17 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="DenseMatrix"/> class, copying
+        /// the values from the given matrix.
+        /// </summary>
+        /// <param name="matrix">The matrix to copy.</param>
+        public DenseMatrix(Matrix<float> matrix)
+            : this(matrix.RowCount, matrix.ColumnCount)
+        {
+            matrix.Storage.CopyTo(Storage, skipClearing: true);
+        }
+
+        /// <summary>
         /// Gets the matrix's data.
         /// </summary>
         /// <value>The matrix's data.</value>

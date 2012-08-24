@@ -183,32 +183,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         public SparseMatrix(Matrix<float> matrix)
             : this(matrix.RowCount, matrix.ColumnCount)
         {
-            var sparseMatrix = matrix as SparseMatrix;
-
-            var rows = matrix.RowCount;
-            var columns = matrix.ColumnCount;
-
-            if (sparseMatrix == null)
-            {
-                for (var i = 0; i < rows; i++)
-                {
-                    for (var j = 0; j < columns; j++)
-                    {
-                        _storage.At(i, j, matrix.At(i, j));
-                    }
-                }
-            }
-            else
-            {
-                var matrixStorage = sparseMatrix.Raw;
-                var valueCount = _storage.ValueCount = matrixStorage.ValueCount;
-                _storage.ColumnIndices = new int[valueCount];
-                _storage.Values = new float[valueCount];
-
-                Buffer.BlockCopy(matrixStorage.Values, 0, _storage.Values, 0, valueCount * Constants.SizeOfFloat);
-                Buffer.BlockCopy(matrixStorage.ColumnIndices, 0, _storage.ColumnIndices, 0, valueCount * Constants.SizeOfInt);
-                Buffer.BlockCopy(matrixStorage.RowPointers, 0, _storage.RowPointers, 0, rows * Constants.SizeOfInt);
-            }
+            matrix.Storage.CopyTo(Storage, skipClearing: true);
         }
 
         /// <summary>
@@ -644,10 +619,11 @@ namespace MathNet.Numerics.LinearAlgebra.Single
             var values = _storage.Values;
             var valueCount = _storage.ValueCount;
 
-            var ret = new SparseMatrix(ColumnCount, RowCount);
-            var retStorage = ret.Raw;
-            retStorage.ColumnIndices = new int[valueCount];
-            retStorage.Values = new float[valueCount];
+            var ret = new SparseCompressedRowMatrixStorage<float>(ColumnCount, RowCount, 0f)
+                {
+                    ColumnIndices = new int[valueCount],
+                    Values = new float[valueCount]
+                };
 
             // Do an 'inverse' CopyTo iterate over the rows
             for (var i = 0; i < rowPointers.Length; i++)
@@ -665,20 +641,18 @@ namespace MathNet.Numerics.LinearAlgebra.Single
 
                 for (var j = startIndex; j < endIndex; j++)
                 {
-                    retStorage.At(columnIndices[j], i, values[j]);
+                    ret.At(columnIndices[j], i, values[j]);
                 }
             }
 
-            return ret;
+            return new SparseMatrix(ret);
         }
 
         /// <summary>Calculates the Frobenius norm of this matrix.</summary>
         /// <returns>The Frobenius norm of this matrix.</returns>
         public override float FrobeniusNorm()
         {
-            var transpose = (SparseMatrix)Transpose();
-            var aat = (this * transpose).Raw;
-
+            var aat = (SparseCompressedRowMatrixStorage<float>) (this*Transpose()).Storage;
             var norm = 0f;
 
             for (var i = 0; i < aat.RowPointers.Length; i++)
@@ -873,12 +847,12 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// </exception>
         public static SparseMatrix Identity(int order)
         {
-            var m = new SparseMatrix(order);
-            var mStorage = m.Raw;
-
-            mStorage.ValueCount = order;
-            mStorage.Values = new float[order];
-            mStorage.ColumnIndices = new int[order];
+            var mStorage = new SparseCompressedRowMatrixStorage<float>(order, order, 0f)
+                {
+                    ValueCount = order,
+                    Values = new float[order],
+                    ColumnIndices = new int[order]
+                };
 
             for (var i = 0; i < order; i++)
             {
@@ -887,7 +861,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
                 mStorage.RowPointers[i] = i;
             }
 
-            return m;
+            return new SparseMatrix(mStorage);
         }
         #endregion
 
