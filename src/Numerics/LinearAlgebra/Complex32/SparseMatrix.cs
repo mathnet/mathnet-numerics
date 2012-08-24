@@ -589,27 +589,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         }
 
         /// <summary>
-        /// Returns a hash code for this instance.
-        /// </summary>
-        /// <returns>
-        /// A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table. 
-        /// </returns>
-        public override int GetHashCode()
-        {
-            var values = _storage.Values;
-            var hashNum = Math.Min(_storage.ValueCount, 25);
-            int hash = 17;
-            unchecked
-            {
-                for (var i = 0; i < hashNum; i++)
-                {
-                    hash = hash*31 + values[i].GetHashCode();
-                }
-            }
-            return hash;
-        }
-
-        /// <summary>
         /// Returns the transpose of this matrix.
         /// </summary>        
         /// <returns>The transpose of this matrix.</returns>
@@ -866,57 +845,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
             return new SparseMatrix(m);
         }
         #endregion
-
-        /// <summary>
-        /// Indicates whether the current object is equal to another object of the same type.
-        /// </summary>
-        /// <param name="other">
-        /// An object to compare with this object.
-        /// </param>
-        /// <returns>
-        /// <c>true</c> if the current object is equal to the <paramref name="other"/> parameter; otherwise, <c>false</c>.
-        /// </returns>
-        public override bool Equals(Matrix<Complex32> other)
-        {
-            if (other == null)
-            {
-                return false;
-            }
-
-            if (ColumnCount != other.ColumnCount || RowCount != other.RowCount)
-            {
-                return false;
-            }
-
-            // Accept if the argument is the same object as this.
-            if (ReferenceEquals(this, other))
-            {
-                return true;
-            }
-
-            var sparseMatrix = other as SparseMatrix;
-            if (sparseMatrix == null)
-            {
-                return base.Equals(other);
-            }
-
-            var otherStorage = sparseMatrix.Raw;
-            if (_storage.ValueCount != otherStorage.ValueCount)
-            {
-                return false;
-            }
-
-            // If all else fails, perform element wise comparison.
-            for (var index = 0; index < _storage.ValueCount; index++)
-            {
-                if (!_storage.Values[index].AlmostEqual(otherStorage.Values[index]) || _storage.ColumnIndices[index] != otherStorage.ColumnIndices[index])
-                {
-                    return false;
-                }
-            }
-
-            return true;
-        }
 
         /// <summary>
         /// Adds another matrix to this matrix.

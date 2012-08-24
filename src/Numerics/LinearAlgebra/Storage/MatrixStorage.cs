@@ -3,7 +3,8 @@ using MathNet.Numerics.Properties;
 
 namespace MathNet.Numerics.LinearAlgebra.Storage
 {
-    public abstract partial class MatrixStorage<T> where T : struct, IEquatable<T>, IFormattable
+    public abstract partial class MatrixStorage<T> : IEquatable<MatrixStorage<T>>
+        where T : struct, IEquatable<T>, IFormattable
     {
         // [ruegg] public fields are OK here
 
@@ -104,6 +105,82 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                     At(i, j, default(T));
                 }
             }
+        }
+
+        /// <summary>
+        /// Indicates whether the current object is equal to another object of the same type.
+        /// </summary>
+        /// <param name="other">
+        /// An object to compare with this object.
+        /// </param>
+        /// <returns>
+        /// <c>true</c> if the current object is equal to the <paramref name="other"/> parameter; otherwise, <c>false</c>.
+        /// </returns>
+        public virtual bool Equals(MatrixStorage<T> other)
+        {
+            // Reject equality when the argument is null or has a different shape.
+            if (other == null)
+            {
+                return false;
+            }
+            if (ColumnCount != other.ColumnCount || RowCount != other.RowCount)
+            {
+                return false;
+            }
+
+            // Accept if the argument is the same object as this.
+            if (ReferenceEquals(this, other))
+            {
+                return true;
+            }
+
+            // If all else fails, perform element wise comparison.
+            for (var row = 0; row < RowCount; row++)
+            {
+                for (var column = 0; column < ColumnCount; column++)
+                {
+                    if (!At(row, column).Equals(other.At(row, column)))
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// Determines whether the specified <see cref="T:System.Object"/> is equal to the current <see cref="T:System.Object"/>.
+        /// </summary>
+        /// <returns>
+        /// true if the specified <see cref="T:System.Object"/> is equal to the current <see cref="T:System.Object"/>; otherwise, false.
+        /// </returns>
+        /// <param name="obj">The <see cref="T:System.Object"/> to compare with the current <see cref="T:System.Object"/>. </param><filterpriority>2</filterpriority>
+        public override sealed bool Equals(object obj)
+        {
+            return Equals(obj as MatrixStorage<T>);
+        }
+
+        /// <summary>
+        /// Serves as a hash function for a particular type.
+        /// </summary>
+        /// <returns>
+        /// A hash code for the current <see cref="T:System.Object"/>.
+        /// </returns>
+        public override int GetHashCode()
+        {
+            var hashNum = Math.Min(RowCount*ColumnCount, 25);
+            int hash = 17;
+            unchecked
+            {
+                for (var i = 0; i < hashNum; i++)
+                {
+                    var col = i%ColumnCount;
+                    var row = (i - col)/RowCount;
+                    hash = hash*31 + At(row, col).GetHashCode();
+                }
+            }
+            return hash;
         }
 
         /// <remarks>Parameters assumed to be validated already.</remarks>
