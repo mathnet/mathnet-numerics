@@ -116,7 +116,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             var testData = new Dictionary<string, Matrix<double>>
                            {
                                { "Singular3x3", new DiagonalMatrix(3, 3, new[] { 1.0, 0.0, 3.0 }) },
-                               { "Square3x3", new DiagonalMatrix(4, 4, new[] { -1.1, 1.1, 6.6 }) },
+                               { "Square3x3", new DiagonalMatrix(3, 3, new[] { -1.1, 1.1, 6.6 }) },
                                { "Square4x4", new DiagonalMatrix(4, 4, new[] { -1.1, 1.1, 6.2, -7.7 }) },
                                { "Tall3x2", new DiagonalMatrix(3, 2, new[] { -1.1, 1.1 }) },
                                { "Wide2x3", new DiagonalMatrix(2, 3, new[] { -1.1, 1.1 }) },
@@ -124,7 +124,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
 
             foreach (var name in testData.Keys)
             {
-                Assert.AreEqual(TestMatrices[name], testData[name]);
+                Assert.That(testData[name], Is.EqualTo(TestMatrices[name]));
             }
         }
 
