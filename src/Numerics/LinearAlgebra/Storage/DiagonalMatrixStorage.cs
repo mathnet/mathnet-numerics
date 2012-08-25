@@ -22,6 +22,16 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         internal DiagonalMatrixStorage(int rows, int columns, T zero, T[] data)
             : base(rows, columns)
         {
+            if (data == null)
+            {
+                throw new ArgumentNullException("data");
+            }
+
+            if (data.Length != Math.Min(rows, columns))
+            {
+                throw new ArgumentOutOfRangeException("data", string.Format(Resources.ArgumentArrayWrongLength, Math.Min(rows, columns)));
+            }
+
             _zero = zero;
             Data = data;
         }

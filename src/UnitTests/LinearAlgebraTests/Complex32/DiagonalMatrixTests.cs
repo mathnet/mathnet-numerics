@@ -116,7 +116,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
             var testData = new Dictionary<string, Matrix>
                            {
                                { "Singular3x3", new DiagonalMatrix(3, 3, new[] { new Complex32(1.0f, 1), Complex32.Zero, new Complex32(3.0f, 1) }) },
-                               { "Square3x3", new DiagonalMatrix(4, 4, new[] { new Complex32(-1.1f, 1), new Complex32(1.1f, 1), new Complex32(6.6f, 1) }) },
+                               { "Square3x3", new DiagonalMatrix(3, 3, new[] { new Complex32(-1.1f, 1), new Complex32(1.1f, 1), new Complex32(6.6f, 1) }) },
                                { "Square4x4", new DiagonalMatrix(4, 4, new[] { new Complex32(-1.1f, 1), new Complex32(1.1f, 1), new Complex32(6.2f, 1), new Complex32(-7.7f, 1) }) },
                                { "Tall3x2", new DiagonalMatrix(3, 2, new[] { new Complex32(-1.1f, 1), new Complex32(1.1f, 1) }) },
                                { "Wide2x3", new DiagonalMatrix(2, 3, new[] { new Complex32(-1.1f, 1), new Complex32(1.1f, 1) }) },
@@ -124,7 +124,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
 
             foreach (var name in testData.Keys)
             {
-                Assert.AreEqual(TestMatrices[name], testData[name]);
+                Assert.That(testData[name], Is.EqualTo(TestMatrices[name]));
             }
         }
 

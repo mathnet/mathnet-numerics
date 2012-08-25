@@ -19,6 +19,16 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         internal DenseColumnMajorMatrixStorage(int rows, int columns, T[] data)
             : base(rows, columns)
         {
+            if (data == null)
+            {
+                throw new ArgumentNullException("data");
+            }
+
+            if (data.Length != rows * columns)
+            {
+                throw new ArgumentOutOfRangeException("data", string.Format(Resources.ArgumentArrayWrongLength, rows * columns));
+            }
+
             Data = data;
         }
 
