@@ -142,6 +142,33 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             Array.Clear(RowPointers, 0, RowPointers.Length);
         }
 
+        public override void Clear(int rowIndex, int rowCount, int columnIndex, int columnCount)
+        {
+            if (rowIndex == 0 && columnIndex == 0 && rowCount == RowCount && columnCount == ColumnCount)
+            {
+                Clear();
+                return;
+            }
+
+            for (int i = rowIndex, row = 0; i < rowIndex + rowCount; i++, row++)
+            {
+                var startIndex = RowPointers[i];
+                var endIndex = i < RowPointers.Length - 1 ? RowPointers[i + 1] : ValueCount;
+
+                for (int j = startIndex; j < endIndex; j++)
+                {
+                    // check if the column index is in the range
+                    if ((ColumnIndices[j] >= columnIndex) && (ColumnIndices[j] < columnIndex + columnCount))
+                    {
+                        var column = ColumnIndices[j] - columnIndex;
+
+                        // NOTE: potential for more efficient implementation
+                        At(row, column, _zero);
+                    }
+                }
+            }
+        }
+
         /// <summary>
         /// Delete value from internal storage
         /// </summary>
@@ -328,7 +355,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             }
         }
 
-        public void CopyTo(SparseCompressedRowMatrixStorage<T> target)
+        void CopyTo(SparseCompressedRowMatrixStorage<T> target)
         {
             if (ReferenceEquals(this, target))
             {
@@ -358,7 +385,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             }
         }
 
-        public void CopyTo(DenseColumnMajorMatrixStorage<T> target, bool skipClearing = false)
+        void CopyTo(DenseColumnMajorMatrixStorage<T> target, bool skipClearing = false)
         {
             if (target == null)
             {
@@ -385,6 +412,50 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                     for (var j = startIndex; j < endIndex; j++)
                     {
                         target.At(row, ColumnIndices[j], Values[j]);
+                    }
+                }
+            }
+        }
+
+        public override void CopySubMatrixTo(MatrixStorage<T> target,
+            int sourceRowIndex, int targetRowIndex, int rowCount,
+            int sourceColumnIndex, int targetColumnIndex, int columnCount,
+            bool skipClearing = false)
+        {
+            if (target == null)
+            {
+                throw new ArgumentNullException("target");
+            }
+
+            if (ReferenceEquals(this, target))
+            {
+                throw new NotSupportedException();
+            }
+
+            ValidateSubMatrixRange(target,
+                sourceRowIndex, targetRowIndex, rowCount,
+                sourceColumnIndex, targetColumnIndex, columnCount);
+
+            // NOTE: potential for more efficient implementation (specialized on target storage schema)
+            // (this would then essentially be the fallback implementation)
+
+            if (!skipClearing)
+            {
+                target.Clear(targetRowIndex, rowCount, targetColumnIndex, columnCount);
+            }
+
+            for (int i = sourceRowIndex, row = 0; i < sourceRowIndex + rowCount; i++, row++)
+            {
+                var startIndex = RowPointers[i];
+                var endIndex = i < RowPointers.Length - 1 ? RowPointers[i + 1] : ValueCount;
+
+                for (int j = startIndex; j < endIndex; j++)
+                {
+                    // check if the column index is in the range
+                    if ((ColumnIndices[j] >= sourceColumnIndex) && (ColumnIndices[j] < sourceColumnIndex + columnCount))
+                    {
+                        var column = ColumnIndices[j] - sourceColumnIndex;
+                        target.At(targetRowIndex + row, targetColumnIndex + column, Values[j]);
                     }
                 }
             }

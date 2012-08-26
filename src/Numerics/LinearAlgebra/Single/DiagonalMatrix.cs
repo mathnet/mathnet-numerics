@@ -1021,11 +1021,12 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// is not positive.</exception>
         public override Matrix<float> SubMatrix(int rowIndex, int rowCount, int columnIndex, int columnCount)
         {
-            // TODO: if rowIndex == columnIndex, use a diagonal matrix instead of a sparse one
+            var target = rowIndex == columnIndex
+                ? (Matrix<float>)new DiagonalMatrix(rowCount, columnCount)
+                : new SparseMatrix(rowCount, columnCount);
 
-            var storage = new SparseCompressedRowMatrixStorage<float>(rowCount, columnCount, 0f);
-            _storage.CopySubMatrixTo(storage, rowIndex, 0, rowCount, columnIndex, 0, columnCount, true);
-            return new SparseMatrix(storage);
+            Storage.CopySubMatrixTo(target.Storage, rowIndex, 0, rowCount, columnIndex, 0, columnCount, skipClearing: true);
+            return target;
         }
 
         /// <summary>

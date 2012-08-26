@@ -221,7 +221,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         public virtual Matrix<T> Clone()
         {
             var result = CreateMatrix(RowCount, ColumnCount);
-            Storage.CopyTo(result.Storage);
+            Storage.CopyTo(result.Storage, skipClearing: true);
             return result;
         }
 
@@ -615,50 +615,9 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// is not positive.</exception>
         public virtual Matrix<T> SubMatrix(int rowIndex, int rowCount, int columnIndex, int columnCount)
         {
-            if (rowIndex >= RowCount || rowIndex < 0)
-            {
-                throw new ArgumentOutOfRangeException("rowIndex");
-            }
-
-            if (columnIndex >= ColumnCount || columnIndex < 0)
-            {
-                throw new ArgumentOutOfRangeException("columnIndex");
-            }
-
-            if (rowCount < 1)
-            {
-                throw new ArgumentOutOfRangeException("rowCount", Resources.ArgumentMustBePositive);
-            }
-
-            if (columnCount < 1)
-            {
-                throw new ArgumentOutOfRangeException("columnCount", Resources.ArgumentMustBePositive);
-            }
-
-            var colMax = columnIndex + columnCount;
-            var rowMax = rowIndex + rowCount;
-
-            if (rowMax > RowCount)
-            {
-                throw new ArgumentOutOfRangeException("rowCount");
-            }
-
-            if (colMax > ColumnCount)
-            {
-                throw new ArgumentOutOfRangeException("columnCount");
-            }
-
-            var result = CreateMatrix(rowCount, columnCount);
-
-            for (var j = columnIndex; j < colMax; j++)
-            {
-                for (int i = rowIndex, ii = 0; i < rowMax; i++, ii++)
-                {
-                    result.At(ii, j - columnIndex, At(i, j));
-                }
-            }
-
-            return result;
+            var target = CreateMatrix(rowCount, columnCount);
+            Storage.CopySubMatrixTo(target.Storage, rowIndex, 0, rowCount, columnIndex, 0, columnCount);
+            return target;
         }
 
         /// <summary>
@@ -1113,61 +1072,12 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// is not positive.</exception>
         public virtual void SetSubMatrix(int rowIndex, int rowCount, int columnIndex, int columnCount, Matrix<T> subMatrix)
         {
-            if (rowIndex >= RowCount || rowIndex < 0)
-            {
-                throw new ArgumentOutOfRangeException("rowIndex");
-            }
-
-            if (columnIndex >= ColumnCount || columnIndex < 0)
-            {
-                throw new ArgumentOutOfRangeException("columnIndex");
-            }
-
-            if (rowCount < 1)
-            {
-                throw new ArgumentOutOfRangeException("rowCount", Resources.ArgumentMustBePositive);
-            }
-
-            if (columnCount < 1)
-            {
-                throw new ArgumentOutOfRangeException("columnCount", Resources.ArgumentMustBePositive);
-            }
-
             if (subMatrix == null)
             {
                 throw new ArgumentNullException("subMatrix");
             }
 
-            if (columnCount > subMatrix.ColumnCount)
-            {
-                throw new ArgumentOutOfRangeException("columnCount", @"columnLength can be at most the number of columns in subMatrix.");
-            }
-
-            if (rowCount > subMatrix.RowCount)
-            {
-                throw new ArgumentOutOfRangeException("rowCount", @"rowLength can be at most the number of rows in subMatrix.");
-            }
-
-            var colMax = columnIndex + columnCount;
-            var rowMax = rowIndex + rowCount;
-
-            if (rowMax > RowCount)
-            {
-                throw new ArgumentOutOfRangeException("rowCount");
-            }
-
-            if (colMax > ColumnCount)
-            {
-                throw new ArgumentOutOfRangeException("columnCount");
-            }
-
-            for (var j = columnIndex; j < colMax; j++)
-            {
-                for (int i = rowIndex, ii = 0; i < rowMax; i++, ii++)
-                {
-                    At(i, j, subMatrix.At(ii, j - columnIndex));
-                }
-            }
+            subMatrix.Storage.CopySubMatrixTo(Storage, 0, rowIndex, rowCount, 0, columnIndex, columnCount);
         }
 
         /// <summary>
