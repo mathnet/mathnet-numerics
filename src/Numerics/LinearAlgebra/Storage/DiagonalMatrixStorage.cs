@@ -74,6 +74,16 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             Array.Clear(Data, 0, Data.Length);
         }
 
+        public override void Clear(int rowIndex, int rowCount, int columnIndex, int columnCount)
+        {
+            var beginInclusive = Math.Max(rowIndex, columnIndex);
+            var endExclusive = Math.Min(rowIndex + rowCount, columnIndex + columnCount);
+            if (endExclusive > beginInclusive)
+            {
+                Array.Clear(Data, beginInclusive, endExclusive - beginInclusive);
+            }
+        }
+
         /// <summary>
         /// Indicates whether the current object is equal to another object of the same type.
         /// </summary>
@@ -169,7 +179,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             }
         }
 
-        public void CopyTo(DiagonalMatrixStorage<T> target)
+        void CopyTo(DiagonalMatrixStorage<T> target)
         {
             if (ReferenceEquals(this, target))
             {
@@ -191,7 +201,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             Array.Copy(Data, 0, target.Data, 0, Data.Length);
         }
 
-        public void CopyTo(SparseCompressedRowMatrixStorage<T> target, bool skipClearing = false)
+        void CopyTo(SparseCompressedRowMatrixStorage<T> target, bool skipClearing = false)
         {
             if (target == null)
             {
@@ -215,7 +225,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             }
         }
 
-        public void CopyTo(DenseColumnMajorMatrixStorage<T> target, bool skipClearing = false)
+        void CopyTo(DenseColumnMajorMatrixStorage<T> target, bool skipClearing = false)
         {
             if (target == null)
             {
@@ -239,7 +249,76 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             }
         }
 
-        public void CopySubMatrixTo(DenseColumnMajorMatrixStorage<T> target,
+        public override void CopySubMatrixTo(MatrixStorage<T> target,
+            int sourceRowIndex, int targetRowIndex, int rowCount,
+            int sourceColumnIndex, int targetColumnIndex, int columnCount,
+            bool skipClearing = false)
+        {
+            var denseTarget = target as DenseColumnMajorMatrixStorage<T>;
+            if (denseTarget != null)
+            {
+                CopySubMatrixTo(denseTarget, sourceRowIndex, targetRowIndex, rowCount, sourceColumnIndex, targetColumnIndex, columnCount, skipClearing);
+                return;
+            }
+
+            var diagonalTarget = target as DiagonalMatrixStorage<T>;
+            if (diagonalTarget != null)
+            {
+                CopySubMatrixTo(diagonalTarget, sourceRowIndex, targetRowIndex, rowCount, sourceColumnIndex, targetColumnIndex, columnCount);
+                return;
+            }
+
+            var sparseTarget = target as SparseCompressedRowMatrixStorage<T>;
+            if (sparseTarget != null)
+            {
+                CopySubMatrixTo(sparseTarget, sourceRowIndex, targetRowIndex, rowCount, sourceColumnIndex, targetColumnIndex, columnCount, skipClearing);
+                return;
+            }
+
+            // FALL BACK
+
+            base.CopySubMatrixTo(target, sourceRowIndex, targetRowIndex, rowCount, sourceColumnIndex, targetColumnIndex, columnCount, skipClearing);
+        }
+
+        void CopySubMatrixTo(DiagonalMatrixStorage<T> target,
+            int sourceRowIndex, int targetRowIndex, int rowCount,
+            int sourceColumnIndex, int targetColumnIndex, int columnCount)
+        {
+            if (target == null)
+            {
+                throw new ArgumentNullException("target");
+            }
+
+            if (ReferenceEquals(this, target))
+            {
+                throw new NotSupportedException();
+            }
+
+            if (sourceRowIndex - sourceColumnIndex != targetRowIndex - targetColumnIndex)
+            {
+                if (Data.Any(x => !_zero.Equals(x)))
+                {
+                    throw new NotSupportedException();
+                }
+
+                target.Clear(targetRowIndex, rowCount, targetColumnIndex, columnCount);
+                return;
+            }
+
+            ValidateSubMatrixRange(target,
+                sourceRowIndex, targetRowIndex, rowCount,
+                sourceColumnIndex, targetColumnIndex, columnCount);
+
+            var beginInclusive = Math.Max(sourceRowIndex, sourceColumnIndex);
+            var endExclusive = Math.Min(sourceRowIndex + rowCount, sourceColumnIndex + columnCount);
+            if (endExclusive > beginInclusive)
+            {
+                var beginTarget = Math.Max(targetRowIndex, targetColumnIndex);
+                Array.Copy(Data, beginInclusive, target.Data, beginTarget, endExclusive - beginInclusive);
+            }
+        }
+
+        void CopySubMatrixTo(DenseColumnMajorMatrixStorage<T> target,
             int sourceRowIndex, int targetRowIndex, int rowCount,
             int sourceColumnIndex, int targetColumnIndex, int columnCount,
             bool skipClearing = false)
@@ -255,7 +334,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
             if (!skipClearing)
             {
-                target.Clear();
+                target.Clear(targetRowIndex, rowCount, targetColumnIndex, columnCount);
             }
 
             if (sourceRowIndex > sourceColumnIndex && sourceColumnIndex + columnCount > sourceRowIndex)
@@ -299,7 +378,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             }
         }
 
-        public void CopySubMatrixTo(SparseCompressedRowMatrixStorage<T> target,
+        void CopySubMatrixTo(SparseCompressedRowMatrixStorage<T> target,
             int sourceRowIndex, int targetRowIndex, int rowCount,
             int sourceColumnIndex, int targetColumnIndex, int columnCount,
             bool skipClearing = false)
@@ -315,7 +394,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
             if (!skipClearing)
             {
-                target.Clear();
+                target.Clear(targetRowIndex, rowCount, targetColumnIndex, columnCount);
             }
 
             if (sourceRowIndex == sourceColumnIndex)

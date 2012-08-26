@@ -199,59 +199,6 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         }
 
         /// <summary>
-        /// Creates a matrix that contains the values from the requested sub-matrix.
-        /// </summary>
-        /// <param name="rowIndex">The row to start copying from.</param>
-        /// <param name="rowCount">The number of rows to copy. Must be positive.</param>
-        /// <param name="columnIndex">The column to start copying from.</param>
-        /// <param name="columnCount">The number of columns to copy. Must be positive.</param>
-        /// <returns>The requested sub-matrix.</returns>
-        /// <exception cref="ArgumentOutOfRangeException">If: <list><item><paramref name="rowIndex"/> is
-        /// negative, or greater than or equal to the number of rows.</item>
-        /// <item><paramref name="columnIndex"/> is negative, or greater than or equal to the number 
-        /// of columns.</item>
-        /// <item><c>(columnIndex + columnLength) &gt;= Columns</c></item>
-        /// <item><c>(rowIndex + rowLength) &gt;= Rows</c></item></list></exception>        
-        /// <exception cref="ArgumentOutOfRangeException">If <paramref name="rowCount"/> or <paramref name="columnCount"/>
-        /// is not positive.</exception>
-        public override Matrix<double> SubMatrix(int rowIndex, int rowCount, int columnIndex, int columnCount)
-        {
-            var storage = new DenseColumnMajorMatrixStorage<double>(rowCount, columnCount);
-            _storage.CopySubMatrixTo(storage, rowIndex, 0, rowCount, columnIndex, 0, columnCount);
-            return new DenseMatrix(storage.RowCount, storage.ColumnCount, storage.Data);
-        }
-
-        /// <summary>
-        /// Copies the values of a given matrix into a region in this matrix.
-        /// </summary>
-        /// <param name="rowIndex">The row to start copying to.</param>
-        /// <param name="rowCount">The number of rows to copy. Must be positive.</param>
-        /// <param name="columnIndex">The column to start copying to.</param>
-        /// <param name="columnCount">The number of columns to copy. Must be positive.</param>
-        /// <param name="subMatrix">The sub-matrix to copy from.</param>
-        /// <exception cref="ArgumentOutOfRangeException">If: <list><item><paramref name="rowIndex"/> is
-        /// negative, or greater than or equal to the number of rows.</item>
-        /// <item><paramref name="columnIndex"/> is negative, or greater than or equal to the number 
-        /// of columns.</item>
-        /// <item><c>(columnIndex + columnLength) &gt;= Columns</c></item>
-        /// <item><c>(rowIndex + rowLength) &gt;= Rows</c></item></list></exception> 
-        /// <exception cref="ArgumentNullException">If <paramref name="subMatrix"/> is <see langword="null" /></exception>
-        /// <item>the size of <paramref name="subMatrix"/> is not at least <paramref name="rowCount"/> x <paramref name="columnCount"/>.</item>
-        /// <exception cref="ArgumentException">If <paramref name="rowCount"/> or <paramref name="columnCount"/>
-        /// is not positive.</exception>
-        public override void SetSubMatrix(int rowIndex, int rowCount, int columnIndex, int columnCount, Matrix<double> subMatrix)
-        {
-            var denseSubMatrix = subMatrix as DenseMatrix;
-            if (denseSubMatrix != null)
-            {
-                denseSubMatrix._storage.CopySubMatrixTo(_storage, 0, rowIndex, rowCount, 0, columnIndex, columnCount);
-                return;
-            }
-
-            base.SetSubMatrix(rowIndex, rowCount, columnIndex, columnCount, subMatrix);
-        }
-
-        /// <summary>
         /// Returns the transpose of this matrix.
         /// </summary>        
         /// <returns>The transpose of this matrix.</returns>

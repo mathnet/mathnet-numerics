@@ -107,6 +107,17 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             }
         }
 
+        public virtual void Clear(int rowIndex, int rowCount, int columnIndex, int columnCount)
+        {
+            for (var i = rowIndex; i < rowIndex + rowCount; i++)
+            {
+                for (var j = columnIndex; j < columnIndex + columnCount; j++)
+                {
+                    At(i, j, default(T));
+                }
+            }
+        }
+
         /// <summary>
         /// Indicates whether the current object is equal to another object of the same type.
         /// </summary>
@@ -191,6 +202,34 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                 for (int i = 0; i < RowCount; i++)
                 {
                     target.At(i, j, At(i, j));
+                }
+            }
+        }
+
+        public virtual void CopySubMatrixTo(MatrixStorage<T> target,
+            int sourceRowIndex, int targetRowIndex, int rowCount,
+            int sourceColumnIndex, int targetColumnIndex, int columnCount,
+            bool skipClearing = false)
+        {
+            if (target == null)
+            {
+                throw new ArgumentNullException("target");
+            }
+
+            if (ReferenceEquals(this, target))
+            {
+                throw new NotSupportedException();
+            }
+
+            ValidateSubMatrixRange(target,
+                sourceRowIndex, targetRowIndex, rowCount,
+                sourceColumnIndex, targetColumnIndex, columnCount);
+
+            for (int j = sourceColumnIndex, jj = targetColumnIndex; j < sourceColumnIndex + columnCount; j++, jj++)
+            {
+                for (int i = sourceRowIndex, ii = targetRowIndex; i < sourceRowIndex + rowCount; i++, ii++)
+                {
+                    target.At(ii, jj, At(i, j));
                 }
             }
         }

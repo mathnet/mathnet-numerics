@@ -53,6 +53,20 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             Array.Clear(Data, 0, Data.Length);
         }
 
+        public override void Clear(int rowIndex, int rowCount, int columnIndex, int columnCount)
+        {
+            if (rowIndex == 0 && columnIndex == 0 && rowCount == RowCount && columnCount == ColumnCount)
+            {
+                Clear();
+                return;
+            }
+
+            for (int j = columnIndex; j < columnIndex + columnCount; j++)
+            {
+                Array.Clear(Data, j*RowCount + rowIndex, rowCount);
+            }
+        }
+
         /// <remarks>Parameters assumed to be validated already.</remarks>
         public override void CopyTo(MatrixStorage<T> target, bool skipClearing = false)
         {
@@ -74,8 +88,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             }
         }
 
-
-        public void CopyTo(DenseColumnMajorMatrixStorage<T> target)
+        void CopyTo(DenseColumnMajorMatrixStorage<T> target)
         {
             if (ReferenceEquals(this, target))
             {
@@ -97,7 +110,24 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             Array.Copy(Data, 0, target.Data, 0, Data.Length);
         }
 
-        public void CopySubMatrixTo(DenseColumnMajorMatrixStorage<T> target,
+        public override void CopySubMatrixTo(MatrixStorage<T> target,
+            int sourceRowIndex, int targetRowIndex, int rowCount,
+            int sourceColumnIndex, int targetColumnIndex, int columnCount,
+            bool skipClearing = false)
+        {
+            var denseTarget = target as DenseColumnMajorMatrixStorage<T>;
+            if (denseTarget != null)
+            {
+                CopySubMatrixTo(denseTarget, sourceRowIndex, targetRowIndex, rowCount, sourceColumnIndex, targetColumnIndex, columnCount);
+                return;
+            }
+
+            // FALL BACK
+
+            base.CopySubMatrixTo(target, sourceRowIndex, targetRowIndex, rowCount, sourceColumnIndex, targetColumnIndex, columnCount, skipClearing);
+        }
+
+        void CopySubMatrixTo(DenseColumnMajorMatrixStorage<T> target,
             int sourceRowIndex, int targetRowIndex, int rowCount,
             int sourceColumnIndex, int targetColumnIndex, int columnCount)
         {
