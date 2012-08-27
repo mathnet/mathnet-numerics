@@ -37,7 +37,7 @@ namespace MathNet.Numerics.Random
     /// <summary>
     /// A random number generator based on the <see cref="System.Security.Cryptography.RandomNumberGenerator"/> class in the .NET library.
     /// </summary>
-    public class SystemCryptoRandomNumberGenerator : AbstractRandomNumberGenerator
+    public class SystemCryptoRandomNumberGenerator : AbstractRandomNumberGenerator, IDisposable
     {
         private const double mReciprocal = 1.0 / uint.MaxValue;
         private readonly RandomNumberGenerator mRandom;
@@ -96,6 +96,11 @@ namespace MathNet.Numerics.Random
             byte[] bytes = new byte[4];
             mRandom.GetBytes(bytes);
             return BitConverter.ToUInt32(bytes, 0) * mReciprocal;
+        }
+
+        public void Dispose()
+        {
+            mRandom.Dispose();
         }
     }
 }
