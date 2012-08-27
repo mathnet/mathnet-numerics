@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using MathNet.Numerics.Properties;
 
 namespace MathNet.Numerics.LinearAlgebra.Storage
@@ -362,11 +363,6 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                 return;
             }
 
-            if (target == null)
-            {
-                throw new ArgumentNullException("target");
-            }
-
             if (RowCount != target.RowCount || ColumnCount != target.ColumnCount)
             {
                 var message = string.Format(Resources.ArgumentMatrixDimensions2, RowCount + "x" + ColumnCount, target.RowCount + "x" + target.ColumnCount);
@@ -385,13 +381,8 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             }
         }
 
-        void CopyTo(DenseColumnMajorMatrixStorage<T> target, bool skipClearing = false)
+        void CopyTo(DenseColumnMajorMatrixStorage<T> target, bool skipClearing)
         {
-            if (target == null)
-            {
-                throw new ArgumentNullException("target");
-            }
-
             if (RowCount != target.RowCount || ColumnCount != target.ColumnCount)
             {
                 var message = string.Format(Resources.ArgumentMatrixDimensions2, RowCount + "x" + ColumnCount, target.RowCount + "x" + target.ColumnCount);
@@ -427,6 +418,18 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                 throw new ArgumentNullException("target");
             }
 
+            var sparseTarget = target as SparseCompressedRowMatrixStorage<T>;
+            if (sparseTarget != null)
+            {
+                CopySubMatrixTo(sparseTarget, 
+                    sourceRowIndex, targetRowIndex, rowCount,
+                    sourceColumnIndex, targetColumnIndex, columnCount,
+                    skipClearing);
+                return;
+            }
+
+            // FALL BACK
+
             if (ReferenceEquals(this, target))
             {
                 throw new NotSupportedException();
@@ -436,8 +439,86 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                 sourceRowIndex, targetRowIndex, rowCount,
                 sourceColumnIndex, targetColumnIndex, columnCount);
 
-            // NOTE: potential for more efficient implementation (specialized on target storage schema)
-            // (this would then essentially be the fallback implementation)
+            if (!skipClearing)
+            {
+                target.Clear(targetRowIndex, rowCount, targetColumnIndex, columnCount);
+            }
+
+            for (int i = sourceRowIndex, row = 0; i < sourceRowIndex + rowCount; i++, row++)
+            {
+                var startIndex = RowPointers[i];
+                var endIndex = i < RowPointers.Length - 1 ? RowPointers[i + 1] : ValueCount;
+
+                for (int j = startIndex; j < endIndex; j++)
+                {
+                    // check if the column index is in the range
+                    if ((ColumnIndices[j] >= sourceColumnIndex) && (ColumnIndices[j] < sourceColumnIndex + columnCount))
+                    {
+                        var column = ColumnIndices[j] - sourceColumnIndex;
+                        target.At(targetRowIndex + row, targetColumnIndex + column, Values[j]);
+                    }
+                }
+            }
+        }
+
+        void CopySubMatrixTo(SparseCompressedRowMatrixStorage<T> target,
+            int sourceRowIndex, int targetRowIndex, int rowCount,
+            int sourceColumnIndex, int targetColumnIndex, int columnCount,
+            bool skipClearing)
+        {
+            if (ReferenceEquals(this, target))
+            {
+                throw new NotSupportedException();
+            }
+
+            ValidateSubMatrixRange(target,
+                sourceRowIndex, targetRowIndex, rowCount,
+                sourceColumnIndex, targetColumnIndex, columnCount);
+
+            var rowOffset = targetRowIndex - sourceRowIndex;
+            var columnOffset = targetColumnIndex - sourceColumnIndex;
+
+            // special case for empty target - much faster
+            if (target.ValueCount == 0)
+            {
+                // note: ValueCount is maximum resulting ValueCount (just using max to avoid internal copying)
+                // resulting arrays will likely be smaller - unless all values fit in the chosen range.
+                var values = new List<T>(ValueCount);
+                var columnIndices = new List<int>(ValueCount);
+                var rowPointers = target.RowPointers;
+
+                for (int i = sourceRowIndex, row = 0; i < sourceRowIndex + rowCount; i++, row++)
+                {
+                    rowPointers[i + rowOffset] = values.Count;
+
+                    var startIndex = RowPointers[i];
+                    var endIndex = i < RowPointers.Length - 1 ? RowPointers[i + 1] : ValueCount;
+
+                    // note: we might be able to replace this loop with Array.Copy (perf)
+                    for (int j = startIndex; j < endIndex; j++)
+                    {
+                        // check if the column index is in the range
+                        if ((ColumnIndices[j] >= sourceColumnIndex) && (ColumnIndices[j] < sourceColumnIndex + columnCount))
+                        {
+                            values.Add(Values[j]);
+                            columnIndices.Add(ColumnIndices[j] + columnOffset);
+                        }
+                    }
+                }
+
+                for(int i=targetRowIndex + rowCount; i<rowPointers.Length; i++)
+                {
+                    rowPointers[i] = values.Count;
+                }
+
+                target.ValueCount = values.Count;
+                target.Values = values.ToArray();
+                target.ColumnIndices = columnIndices.ToArray();
+
+                return;
+            }
+
+            // NOTE: potential for more efficient implementation
 
             if (!skipClearing)
             {

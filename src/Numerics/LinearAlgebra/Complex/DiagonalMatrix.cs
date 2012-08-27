@@ -163,18 +163,17 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// <summary>
         /// Creates a <c>DiagonalMatrix</c> for the given number of rows and columns.
         /// </summary>
-        /// <param name="numberOfRows">
-        /// The number of rows.
-        /// </param>
-        /// <param name="numberOfColumns">
-        /// The number of columns.
-        /// </param>
+        /// <param name="numberOfRows">The number of rows.</param>
+        /// <param name="numberOfColumns">The number of columns.</param>
+        /// <param name="fullyMutable">True if all fields must be mutable (e.g. not a diagonal matrix).</param>
         /// <returns>
         /// A <c>DiagonalMatrix</c> with the given dimensions.
         /// </returns>
-        public override Matrix<Complex> CreateMatrix(int numberOfRows, int numberOfColumns)
+        public override Matrix<Complex> CreateMatrix(int numberOfRows, int numberOfColumns, bool fullyMutable = false)
         {
-            return new DiagonalMatrix(numberOfRows, numberOfColumns);
+            return fullyMutable
+                ? (Matrix<Complex>) new SparseMatrix(numberOfRows, numberOfColumns)
+                : new DiagonalMatrix(numberOfRows, numberOfColumns);
         }
 
         /// <summary>
@@ -184,7 +183,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// <returns>
         /// A <see cref="Vector{T}"/> with the given dimension.
         /// </returns>
-        public override Vector<Complex> CreateVector(int size)
+        public override Vector<Complex> CreateVector(int size, bool fullyMutable = false)
         {
             return new SparseVector(size);
         }
@@ -1134,204 +1133,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
             }
 
             return result;
-        }
-
-        /// <summary>
-        /// Stacks this matrix on top of the given matrix and places the result into the result <see cref="SparseMatrix"/>.
-        /// </summary>
-        /// <param name="lower">The matrix to stack this matrix upon.</param>
-        /// <returns>The combined <see cref="SparseMatrix"/>.</returns>
-        /// <exception cref="ArgumentNullException">If lower is <see langword="null" />.</exception>
-        /// <exception cref="ArgumentException">If <strong>upper.Columns != lower.Columns</strong>.</exception>
-        public override Matrix<Complex> Stack(Matrix<Complex> lower)
-        {
-            if (lower == null)
-            {
-                throw new ArgumentNullException("lower");
-            }
-
-            if (lower.ColumnCount != ColumnCount)
-            {
-                throw new ArgumentException(Resources.ArgumentMatrixSameColumnDimension, "lower");
-            }
-
-            var result = new SparseMatrix(RowCount + lower.RowCount, ColumnCount);
-            Stack(lower, result);
-            return result;
-        }
-
-        /// <summary>
-        /// Stacks this matrix on top of the given matrix and places the result into the result <see cref="SparseMatrix"/>.
-        /// </summary>
-        /// <param name="lower">The matrix to stack this matrix upon.</param>
-        /// <param name="result">The combined <see cref="SparseMatrix"/>.</param>
-        /// <exception cref="ArgumentNullException">If lower is <see langword="null" />.</exception>
-        /// <exception cref="ArgumentException">If <strong>upper.Columns != lower.Columns</strong>.</exception>
-        public override void Stack(Matrix<Complex> lower, Matrix<Complex> result)
-        {
-            if (lower == null)
-            {
-                throw new ArgumentNullException("lower");
-            }
-
-            if (lower.ColumnCount != ColumnCount)
-            {
-                throw new ArgumentException(Resources.ArgumentMatrixSameColumnDimension, "lower");
-            }
-
-            if (result == null)
-            {
-                throw new ArgumentNullException("result");
-            }
-
-            if (result.RowCount != (RowCount + lower.RowCount) || result.ColumnCount != ColumnCount)
-            {
-                throw DimensionsDontMatch<ArgumentException>(this, result, "result");
-            }
-
-            // Clear the result matrix
-            result.Clear();
-
-            // Copy the diagonal part into the result matrix.
-            for (var i = 0; i < _data.Length; i++)
-            {
-                result.At(i, i, _data[i]);
-            }
-
-            // Copy the lower matrix into the result matrix.
-            for (var i = 0; i < lower.RowCount; i++)
-            {
-                for (var j = 0; j < lower.ColumnCount; j++)
-                {
-                    result.At(i + RowCount, j, lower.At(i, j));
-                }
-            }
-        }
-
-        /// <summary>
-        ///  Concatenates this matrix with the given matrix.
-        /// </summary>
-        /// <param name="right">The matrix to concatenate.</param>
-        /// <returns>The combined <see cref="SparseMatrix"/>.</returns>
-        public override Matrix<Complex> Append(Matrix<Complex> right)
-        {
-            if (right == null)
-            {
-                throw new ArgumentNullException("right");
-            }
-
-            if (right.RowCount != RowCount)
-            {
-                throw new ArgumentException(Resources.ArgumentMatrixSameRowDimension);
-            }
-
-            var result = new SparseMatrix(RowCount, ColumnCount + right.ColumnCount);
-            Append(right, result);
-            return result;
-        }
-
-        /// <summary>
-        /// Concatenates this matrix with the given matrix and places the result into the result <see cref="SparseMatrix"/>.
-        /// </summary>
-        /// <param name="right">The matrix to concatenate.</param>
-        /// <param name="result">The combined <see cref="SparseMatrix"/>.</param>
-        public override void Append(Matrix<Complex> right, Matrix<Complex> result)
-        {
-            if (right == null)
-            {
-                throw new ArgumentNullException("right");
-            }
-
-            if (right.RowCount != RowCount)
-            {
-                throw new ArgumentException(Resources.ArgumentMatrixSameRowDimension);
-            }
-
-            if (result == null)
-            {
-                throw new ArgumentNullException("result");
-            }
-
-            if (result.ColumnCount != (ColumnCount + right.ColumnCount) || result.RowCount != RowCount)
-            {
-                throw new ArgumentException(Resources.ArgumentMatrixSameColumnDimension);
-            }
-
-            // Clear the result matrix
-            result.Clear();
-
-            // Copy the diagonal part into the result matrix.
-            for (var i = 0; i < _data.Length; i++)
-            {
-                result.At(i, i, _data[i]);
-            }
-
-            // Copy the lower matrix into the result matrix.
-            for (var i = 0; i < right.RowCount; i++)
-            {
-                for (var j = 0; j < right.ColumnCount; j++)
-                {
-                    result.At(i, j + RowCount, right.At(i, j));
-                }
-            }
-        }
-
-        /// <summary>
-        /// Diagonally stacks his matrix on top of the given matrix. The new matrix is a M-by-N matrix, 
-        /// where M = this.Rows + lower.Rows and N = this.Columns + lower.Columns.
-        /// The values of off the off diagonal matrices/blocks are set to zero.
-        /// </summary>
-        /// <param name="lower">The lower, right matrix.</param>
-        /// <exception cref="ArgumentNullException">If lower is <see langword="null" />.</exception>
-        /// <returns>the combined matrix</returns>
-        public override Matrix<Complex> DiagonalStack(Matrix<Complex> lower)
-        {
-            if (lower == null)
-            {
-                throw new ArgumentNullException("lower");
-            }
-
-            var result = new SparseMatrix(RowCount + lower.RowCount, ColumnCount + lower.ColumnCount);
-            DiagonalStack(lower, result);
-            return result;
-        }
-
-        /// <summary>
-        /// Diagonally stacks his matrix on top of the given matrix and places the combined matrix into the result matrix.
-        /// </summary>
-        /// <param name="lower">The lower, right matrix.</param>
-        /// <param name="result">The combined matrix</param>
-        /// <exception cref="ArgumentNullException">If lower is <see langword="null" />.</exception>
-        /// <exception cref="ArgumentNullException">If the result matrix is <see langword="null" />.</exception>
-        /// <exception cref="ArgumentException">If the result matrix's dimensions are not (this.Rows + lower.rows) x (this.Columns + lower.Columns).</exception>
-        public override void DiagonalStack(Matrix<Complex> lower, Matrix<Complex> result)
-        {
-            if (lower == null)
-            {
-                throw new ArgumentNullException("lower");
-            }
-
-            if (result == null)
-            {
-                throw new ArgumentNullException("result");
-            }
-
-            if (result.RowCount != RowCount + lower.RowCount || result.ColumnCount != ColumnCount + lower.ColumnCount)
-            {
-                throw DimensionsDontMatch<ArgumentException>(this, result, "result");
-            }
-
-            // Clear the result matrix
-            result.Clear();
-
-            // Copy the diagonal part into the result matrix.
-            for (var i = 0; i < _data.Length; i++)
-            {
-                result.At(i, i, _data[i]);
-            }
-
-            // Copy the lower matrix into the result matrix.
-            result.SetSubMatrix(RowCount, lower.RowCount, ColumnCount, lower.ColumnCount, lower);
         }
 
         /// <summary>

@@ -201,7 +201,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             Array.Copy(Data, 0, target.Data, 0, Data.Length);
         }
 
-        void CopyTo(SparseCompressedRowMatrixStorage<T> target, bool skipClearing = false)
+        void CopyTo(SparseCompressedRowMatrixStorage<T> target, bool skipClearing)
         {
             if (target == null)
             {
@@ -225,7 +225,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             }
         }
 
-        void CopyTo(DenseColumnMajorMatrixStorage<T> target, bool skipClearing = false)
+        void CopyTo(DenseColumnMajorMatrixStorage<T> target, bool skipClearing)
         {
             if (target == null)
             {
@@ -321,7 +321,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         void CopySubMatrixTo(DenseColumnMajorMatrixStorage<T> target,
             int sourceRowIndex, int targetRowIndex, int rowCount,
             int sourceColumnIndex, int targetColumnIndex, int columnCount,
-            bool skipClearing = false)
+            bool skipClearing)
         {
             if (target == null)
             {
@@ -381,7 +381,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         void CopySubMatrixTo(SparseCompressedRowMatrixStorage<T> target,
             int sourceRowIndex, int targetRowIndex, int rowCount,
             int sourceColumnIndex, int targetColumnIndex, int columnCount,
-            bool skipClearing = false)
+            bool skipClearing)
         {
             if (target == null)
             {
