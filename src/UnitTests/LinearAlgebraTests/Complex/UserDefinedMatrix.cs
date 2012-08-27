@@ -99,7 +99,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
         /// <param name="numberOfRows">The number of rows.</param>
         /// <param name="numberOfColumns">The number of columns.</param>
         /// <returns>A matrix with the given dimensions.</returns>
-        public override Matrix<Complex> CreateMatrix(int numberOfRows, int numberOfColumns)
+        public override Matrix<Complex> CreateMatrix(int numberOfRows, int numberOfColumns, bool fullyMutable = false)
         {
             return new UserDefinedMatrix(numberOfRows, numberOfColumns);
         }
@@ -109,7 +109,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
         /// </summary>
         /// <param name="size">The size of the vector.</param>
         /// <returns>A vector with the given dimension.</returns>
-        public override Vector<Complex> CreateVector(int size)
+        public override Vector<Complex> CreateVector(int size, bool fullyMutable = false)
         {
             return new UserDefinedVector(size);
         }

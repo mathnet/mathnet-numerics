@@ -261,31 +261,29 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <summary>
         /// Creates a <strong>Matrix</strong> for the given number of rows and columns.
         /// </summary>
-        /// <param name="numberOfRows">
-        /// The number of rows.
-        /// </param>
-        /// <param name="numberOfColumns">
-        /// The number of columns.
-        /// </param>
+        /// <param name="numberOfRows">The number of rows.</param>
+        /// <param name="numberOfColumns">The number of columns.</param>
+        /// <param name="fullyMutable">True if all fields must be mutable (e.g. not a diagonal matrix).</param>
         /// <returns>
         /// A <strong>Matrix</strong> with the given dimensions.
         /// </returns>
         /// <remarks>
         /// Creates a matrix of the same matrix type as the current matrix.
         /// </remarks>
-        public abstract Matrix<T> CreateMatrix(int numberOfRows, int numberOfColumns);
+        public abstract Matrix<T> CreateMatrix(int numberOfRows, int numberOfColumns, bool fullyMutable = false);
 
         /// <summary>
         /// Creates a Vector with a the given dimension.
         /// </summary>
         /// <param name="size">The size of the vector.</param>
+        /// <param name="fullyMutable">True if all fields must be mutable.</param>
         /// <returns>
         /// A Vector with the given dimension.
         /// </returns>
         /// <remarks>
         /// Creates a vector of the same type as the current matrix.
         /// </remarks>
-        public abstract Vector<T> CreateVector(int size);
+        public abstract Vector<T> CreateVector(int size, bool fullyMutable = false);
 
         /// <summary>
         /// Returns a <see cref="System.String"/> that represents this instance.
@@ -1070,7 +1068,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <item>the size of <paramref name="subMatrix"/> is not at least <paramref name="rowCount"/> x <paramref name="columnCount"/>.</item>
         /// <exception cref="ArgumentOutOfRangeException">If <paramref name="rowCount"/> or <paramref name="columnCount"/>
         /// is not positive.</exception>
-        public virtual void SetSubMatrix(int rowIndex, int rowCount, int columnIndex, int columnCount, Matrix<T> subMatrix)
+        public void SetSubMatrix(int rowIndex, int rowCount, int columnIndex, int columnCount, Matrix<T> subMatrix)
         {
             if (subMatrix == null)
             {
@@ -1409,7 +1407,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// </summary>
         /// <param name="right">The matrix to concatenate.</param>
         /// <returns>The combined matrix.</returns>
-        public virtual Matrix<T> Append(Matrix<T> right)
+        public Matrix<T> Append(Matrix<T> right)
         {
             if (right == null)
             {
@@ -1421,8 +1419,9 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
                 throw new ArgumentException(Resources.ArgumentMatrixSameRowDimension);
             }
 
-            var result = CreateMatrix(RowCount, ColumnCount + right.ColumnCount);
-            Append(right, result);
+            var result = CreateMatrix(RowCount, ColumnCount + right.ColumnCount, fullyMutable: true);
+            Storage.CopySubMatrixTo(result.Storage, 0, 0, RowCount, 0, 0, ColumnCount, skipClearing: true);
+            right.Storage.CopySubMatrixTo(result.Storage, 0, 0, right.RowCount, 0, ColumnCount, right.ColumnCount, skipClearing: true);
             return result;
         }
 
@@ -1431,7 +1430,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// </summary>
         /// <param name="right">The matrix to concatenate.</param>
         /// <param name="result">The combined matrix.</param>
-        public virtual void Append(Matrix<T> right, Matrix<T> result)
+        public void Append(Matrix<T> right, Matrix<T> result)
         {
             if (right == null)
             {
@@ -1453,8 +1452,8 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
                 throw new ArgumentException(Resources.ArgumentMatrixSameColumnDimension);
             }
 
-            result.SetSubMatrix(0, RowCount, 0, ColumnCount, this);
-            result.SetSubMatrix(0, right.RowCount, ColumnCount, right.ColumnCount, right);
+            Storage.CopySubMatrixTo(result.Storage, 0, 0, RowCount, 0, 0, ColumnCount);
+            right.Storage.CopySubMatrixTo(result.Storage, 0, 0, right.RowCount, 0, ColumnCount, right.ColumnCount);
         }
 
         /// <summary>
@@ -1464,7 +1463,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <returns>The combined matrix.</returns>
         /// <exception cref="ArgumentNullException">If lower is <see langword="null" />.</exception>
         /// <exception cref="ArgumentException">If <strong>upper.Columns != lower.Columns</strong>.</exception>
-        public virtual Matrix<T> Stack(Matrix<T> lower)
+        public Matrix<T> Stack(Matrix<T> lower)
         {
             if (lower == null)
             {
@@ -1476,8 +1475,9 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
                 throw new ArgumentException(Resources.ArgumentMatrixSameColumnDimension, "lower");
             }
 
-            var result = CreateMatrix(RowCount + lower.RowCount, ColumnCount);
-            Stack(lower, result);
+            var result = CreateMatrix(RowCount + lower.RowCount, ColumnCount, fullyMutable: true);
+            Storage.CopySubMatrixTo(result.Storage, 0, 0, RowCount, 0, 0, ColumnCount, skipClearing: true);
+            lower.Storage.CopySubMatrixTo(result.Storage, 0, RowCount, lower.RowCount, 0, 0, lower.ColumnCount, skipClearing: true);
             return result;
         }
 
@@ -1488,7 +1488,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <param name="result">The combined matrix.</param>
         /// <exception cref="ArgumentNullException">If lower is <see langword="null" />.</exception>
         /// <exception cref="ArgumentException">If <strong>upper.Columns != lower.Columns</strong>.</exception>
-        public virtual void Stack(Matrix<T> lower, Matrix<T> result)
+        public void Stack(Matrix<T> lower, Matrix<T> result)
         {
             if (lower == null)
             {
@@ -1510,8 +1510,8 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
                 throw DimensionsDontMatch<ArgumentException>(this, result, "result");
             }
 
-            result.SetSubMatrix(0, RowCount, 0, ColumnCount, this);
-            result.SetSubMatrix(RowCount, lower.RowCount, 0, lower.ColumnCount, lower);
+            Storage.CopySubMatrixTo(result.Storage, 0, 0, RowCount, 0, 0, ColumnCount);
+            lower.Storage.CopySubMatrixTo(result.Storage, 0, RowCount, lower.RowCount, 0, 0, lower.ColumnCount);
         }
 
         /// <summary>
@@ -1522,15 +1522,16 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <param name="lower">The lower, right matrix.</param>
         /// <exception cref="ArgumentNullException">If lower is <see langword="null" />.</exception>
         /// <returns>the combined matrix</returns>
-        public virtual Matrix<T> DiagonalStack(Matrix<T> lower)
+        public Matrix<T> DiagonalStack(Matrix<T> lower)
         {
             if (lower == null)
             {
                 throw new ArgumentNullException("lower");
             }
 
-            var result = CreateMatrix(RowCount + lower.RowCount, ColumnCount + lower.ColumnCount);
-            DiagonalStack(lower, result);
+            var result = CreateMatrix(RowCount + lower.RowCount, ColumnCount + lower.ColumnCount, fullyMutable: true);
+            Storage.CopySubMatrixTo(result.Storage, 0, 0, RowCount, 0, 0, ColumnCount);
+            lower.Storage.CopySubMatrixTo(result.Storage, 0, RowCount, lower.RowCount, 0, ColumnCount, lower.ColumnCount);
             return result;
         }
 
@@ -1542,7 +1543,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <exception cref="ArgumentNullException">If lower is <see langword="null" />.</exception>
         /// <exception cref="ArgumentNullException">If the result matrix is <see langword="null" />.</exception>
         /// <exception cref="ArgumentException">If the result matrix's dimensions are not (this.Rows + lower.rows) x (this.Columns + lower.Columns).</exception>
-        public virtual void DiagonalStack(Matrix<T> lower, Matrix<T> result)
+        public void DiagonalStack(Matrix<T> lower, Matrix<T> result)
         {
             if (lower == null)
             {
@@ -1559,8 +1560,8 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
                 throw DimensionsDontMatch<ArgumentException>(this, result, "result");
             }
 
-            result.SetSubMatrix(0, RowCount, 0, ColumnCount, this);
-            result.SetSubMatrix(RowCount, lower.RowCount, ColumnCount, lower.ColumnCount, lower);
+            Storage.CopySubMatrixTo(result.Storage, 0, 0, RowCount, 0, 0, ColumnCount);
+            lower.Storage.CopySubMatrixTo(result.Storage, 0, RowCount, lower.RowCount, 0, ColumnCount, lower.ColumnCount);
         }
 
         /// <summary>Calculates the L1 norm.</summary>

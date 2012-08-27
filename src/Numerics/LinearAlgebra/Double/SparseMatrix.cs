@@ -189,16 +189,13 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <summary>
         /// Creates a <c>SparseMatrix</c> for the given number of rows and columns.
         /// </summary>
-        /// <param name="numberOfRows">
-        /// The number of rows.
-        /// </param>
-        /// <param name="numberOfColumns">
-        /// The number of columns.
-        /// </param>
+        /// <param name="numberOfRows">The number of rows.</param>
+        /// <param name="numberOfColumns">The number of columns.</param>
+        /// <param name="fullyMutable">True if all fields must be mutable (e.g. not a diagonal matrix).</param>
         /// <returns>
         /// A <c>SparseMatrix</c> with the given dimensions.
         /// </returns>
-        public override Matrix<double> CreateMatrix(int numberOfRows, int numberOfColumns)
+        public override Matrix<double> CreateMatrix(int numberOfRows, int numberOfColumns, bool fullyMutable = false)
         {
             return new SparseMatrix(numberOfRows, numberOfColumns);
         }
@@ -207,10 +204,11 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// Creates a <see cref="SparseVector"/> with a the given dimension.
         /// </summary>
         /// <param name="size">The size of the vector.</param>
+        /// <param name="fullyMutable">True if all fields must be mutable.</param>
         /// <returns>
         /// A <see cref="SparseVector"/> with the given dimension.
         /// </returns>
-        public override Vector<double> CreateVector(int size)
+        public override Vector<double> CreateVector(int size, bool fullyMutable = false)
         {
             return new SparseVector(size);
         }
@@ -684,56 +682,6 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                     // Copy code from At(row, column) to avoid unnecessary lock
                     var index = _storage.FindItem(rowIndex, i);
                     result[j] = index >= 0 ? values[index] : 0d;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Diagonally stacks this matrix on top of the given matrix and places the combined matrix into the result matrix.
-        /// </summary>
-        /// <param name="lower">The lower, right matrix.</param>
-        /// <param name="result">The combined matrix</param>
-        /// <exception cref="ArgumentNullException">If lower is <see langword="null" />.</exception>
-        /// <exception cref="ArgumentNullException">If the result matrix is <see langword="null" />.</exception>
-        /// <exception cref="ArgumentException">If the result matrix's dimensions are not (Rows + lower.rows) x (Columns + lower.Columns).</exception>
-        public override void DiagonalStack(Matrix<double> lower, Matrix<double> result)
-        {
-            var lowerSparseMatrix = lower as SparseMatrix;
-            var resultSparseMatrix = result as SparseMatrix;
-
-            if ((lowerSparseMatrix == null) || (resultSparseMatrix == null))
-            {
-                base.DiagonalStack(lower, result);
-            }
-            else
-            {
-                var resultStorage = resultSparseMatrix.Raw;
-                var lowerStorage = lowerSparseMatrix.Raw;
-
-                if (resultStorage.RowCount != RowCount + lowerStorage.RowCount || resultStorage.ColumnCount != ColumnCount + lowerSparseMatrix.ColumnCount)
-                {
-                    throw DimensionsDontMatch<ArgumentException>(this, lowerSparseMatrix, resultSparseMatrix);
-                }
-
-                resultStorage.ValueCount = _storage.ValueCount + lowerStorage.ValueCount;
-                resultStorage.Values = new double[resultStorage.ValueCount];
-                resultStorage.ColumnIndices = new int[resultStorage.ValueCount];
-
-                Array.Copy(_storage.Values, 0, resultStorage.Values, 0, _storage.ValueCount);
-                Array.Copy(lowerStorage.Values, 0, resultStorage.Values, _storage.ValueCount, lowerStorage.ValueCount);
-
-                Array.Copy(_storage.ColumnIndices, 0, resultStorage.ColumnIndices, 0, _storage.ValueCount);
-                Array.Copy(_storage.RowPointers, 0, resultStorage.RowPointers, 0, RowCount);
-
-                // Copy and adjust lower column indices and rowIndex
-                for (int i = _storage.ValueCount, j = 0; i < resultStorage.ValueCount; i++, j++)
-                {
-                    resultStorage.ColumnIndices[i] = lowerStorage.ColumnIndices[j] + ColumnCount;
-                }
-
-                for (int i = RowCount, j = 0; i < resultStorage.RowCount; i++, j++)
-                {
-                    resultStorage.RowPointers[i] = lowerStorage.RowPointers[j] + _storage.ValueCount;
                 }
             }
         }
