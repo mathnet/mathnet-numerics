@@ -31,7 +31,6 @@ namespace MathNet.Numerics.LinearAlgebra.Double
     using Generic;
     using Properties;
     using Storage;
-    using Threading;
 
     /// <summary>
     /// A matrix type for diagonal matrices. 
@@ -52,11 +51,6 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// </summary>
         /// <value>The matrix's data.</value>
         readonly double[] _data;
-
-        internal DiagonalMatrixStorage<double> Raw
-        {
-            get { return _storage; }
-        }
 
         internal DiagonalMatrix(DiagonalMatrixStorage<double> storage)
             : base(storage)

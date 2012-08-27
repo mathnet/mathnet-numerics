@@ -32,7 +32,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
     using Numerics;
     using Properties;
     using Storage;
-    using Threading;
 
     /// <summary>
     /// A matrix type for diagonal matrices. 
@@ -53,11 +52,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// </summary>
         /// <value>The matrix's data.</value>
         readonly Complex32[] _data;
-
-        internal DiagonalMatrixStorage<Complex32> Raw
-        {
-            get { return _storage; }
-        }
 
         internal DiagonalMatrix(DiagonalMatrixStorage<Complex32> storage)
             : base(storage)

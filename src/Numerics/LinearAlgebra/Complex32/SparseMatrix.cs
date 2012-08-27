@@ -56,11 +56,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
             get { return _storage.ValueCount; }
         }
 
-        internal SparseCompressedRowMatrixStorage<Complex32> Raw
-        {
-            get { return _storage; }
-        }
-
         internal SparseMatrix(SparseCompressedRowMatrixStorage<Complex32> storage)
             : base(storage)
         {
@@ -761,7 +756,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
                 left = sparseOther;
             }
 
-            var leftStorage = left.Raw;
+            var leftStorage = left._storage;
             for (var i = 0; i < leftStorage.RowCount; i++)
             {
                 // Get the begin / end index for the current row
@@ -800,7 +795,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
                 return;
             }
 
-            var otherStorage = sparseOther.Raw;
+            var otherStorage = sparseOther._storage;
 
             if (ReferenceEquals(this, sparseResult))
             {
@@ -900,7 +895,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
                     CopyTo(sparseResult);
                 }
 
-                CommonParallel.For(0, NonZerosCount, index => sparseResult.Raw.Values[index] *= scalar);
+                CommonParallel.For(0, NonZerosCount, index => sparseResult._storage.Values[index] *= scalar);
             }
         }
 
@@ -999,7 +994,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
             var values = _storage.Values;
             var valueCount = _storage.ValueCount;
 
-            var otherStorage = otherSparse.Raw;
+            var otherStorage = otherSparse._storage;
 
             for (var j = 0; j < RowCount; j++)
             {
@@ -1032,7 +1027,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
                         }
                     }
 
-                    resultSparse.Raw.At(i, j, sum + result.At(i, j));
+                    resultSparse._storage.At(i, j, sum + result.At(i, j));
                 }
             }
         }
