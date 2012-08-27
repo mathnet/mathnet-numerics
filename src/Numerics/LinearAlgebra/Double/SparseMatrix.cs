@@ -55,11 +55,6 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             get { return _storage.ValueCount; }
         }
 
-        internal SparseCompressedRowMatrixStorage<double> Raw
-        {
-            get { return _storage; }
-        }
-
         internal SparseMatrix(SparseCompressedRowMatrixStorage<double> storage)
             : base(storage)
         {
@@ -759,7 +754,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 left = sparseOther;
             }
 
-            var leftStorage = left.Raw;
+            var leftStorage = left._storage;
             for (var i = 0; i < leftStorage.RowCount; i++)
             {
                 // Get the begin / end index for the current row
@@ -799,7 +794,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 return;
             }
 
-            var otherStorage = sparseOther.Raw;
+            var otherStorage = sparseOther._storage;
 
             if (ReferenceEquals(this, sparseResult))
             {
@@ -899,7 +894,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                     CopyTo(sparseResult);
                 }
 
-                CommonParallel.For(0, _storage.ValueCount, index => sparseResult.Raw.Values[index] *= scalar);
+                CommonParallel.For(0, _storage.ValueCount, index => sparseResult._storage.Values[index] *= scalar);
             }
         }
 
@@ -998,7 +993,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             var values = _storage.Values;
             var valueCount = _storage.ValueCount;
 
-            var otherStorage = otherSparse.Raw;
+            var otherStorage = otherSparse._storage;
 
             for (var j = 0; j < RowCount; j++)
             {
@@ -1031,7 +1026,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                         }
                     }
 
-                    resultSparse.Raw.At(i, j, sum + result.At(i, j));
+                    resultSparse._storage.At(i, j, sum + result.At(i, j));
                 }
             }
         }
@@ -1127,7 +1122,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 CopyTo(result);
             }
 
-            var resultStorage = sparseResult.Raw;
+            var resultStorage = sparseResult._storage;
             for (var index = 0; index < resultStorage.Values.Length; index++)
             {
                 resultStorage.Values[index] %= divisor;

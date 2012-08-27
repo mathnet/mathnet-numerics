@@ -61,11 +61,6 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// <value>The matrix's data.</value>
         readonly float[] _data;
 
-        internal DenseColumnMajorMatrixStorage<float> Raw
-        {
-            get { return _storage; }
-        }
-
         internal DenseMatrix(DenseColumnMajorMatrixStorage<float> storage)
             : base(storage)
         {

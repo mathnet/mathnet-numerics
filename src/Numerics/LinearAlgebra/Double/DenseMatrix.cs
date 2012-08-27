@@ -61,11 +61,6 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <value>The matrix's data.</value>
         readonly double[] _data;
 
-        internal DenseColumnMajorMatrixStorage<double> Raw
-        {
-            get { return _storage; }
-        }
-
         internal DenseMatrix(DenseColumnMajorMatrixStorage<double> storage)
             : base(storage)
         {

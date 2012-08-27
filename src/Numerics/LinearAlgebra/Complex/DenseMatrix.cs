@@ -61,11 +61,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// <value>The matrix's data.</value>
         readonly Complex[] _data;
 
-        internal DenseColumnMajorMatrixStorage<Complex> Raw
-        {
-            get { return _storage; }
-        }
-
         internal DenseMatrix(DenseColumnMajorMatrixStorage<Complex> storage)
             : base(storage)
         {

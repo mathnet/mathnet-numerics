@@ -56,11 +56,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
             get { return _storage.ValueCount; }
         }
 
-        internal SparseCompressedRowMatrixStorage<Complex> Raw
-        {
-            get { return _storage; }
-        }
-
         internal SparseMatrix(SparseCompressedRowMatrixStorage<Complex> storage)
             : base(storage)
         {
@@ -761,7 +756,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
                 left = sparseOther;
             }
 
-            var leftStorage = left.Raw;
+            var leftStorage = left._storage;
             for (var i = 0; i < leftStorage.RowCount; i++)
             {
                 // Get the begin / end index for the current row
@@ -801,7 +796,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
                 return;
             }
 
-            var otherStorage = sparseOther.Raw;
+            var otherStorage = sparseOther._storage;
 
             if (ReferenceEquals(this, sparseResult))
             {
@@ -901,7 +896,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
                     CopyTo(sparseResult);
                 }
 
-                CommonParallel.For(0, NonZerosCount, index => sparseResult.Raw.Values[index] *= scalar);
+                CommonParallel.For(0, NonZerosCount, index => sparseResult._storage.Values[index] *= scalar);
             }
         }
 
@@ -1000,7 +995,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
             var values = _storage.Values;
             var valueCount = _storage.ValueCount;
 
-            var otherStorage = otherSparse.Raw;
+            var otherStorage = otherSparse._storage;
 
             for (var j = 0; j < RowCount; j++)
             {
@@ -1033,7 +1028,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
                         }
                     }
 
-                    resultSparse.Raw.At(i, j, sum + result.At(i, j));
+                    resultSparse._storage.At(i, j, sum + result.At(i, j));
                 }
             }
         }
