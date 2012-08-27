@@ -135,13 +135,13 @@ namespace MathNet.Numerics.Statistics
         public double Mean { get; private set; }
 
         /// <summary>
-        /// Gets the sample variance.
+        /// Gets the unbiased population variance estimator (on a dataset of size N will use an N-1 normalizer).
         /// </summary>
         /// <value>The sample variance.</value>
         public double Variance { get; private set; }
 
         /// <summary>
-        /// Gets the sample standard deviation.
+        /// Gets the unbiased population standard deviation (on a dataset of size N will use an N-1 normalizer).
         /// </summary>
         /// <value>The sample standard deviation.</value>
         public double StandardDeviation { get; private set; }
