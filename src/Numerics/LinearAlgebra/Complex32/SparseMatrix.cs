@@ -1056,7 +1056,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
             var values = _storage.Values;
             var valueCount = _storage.ValueCount;
 
-            for (var i = 0; i < other.RowCount; i++)
+            for (var i = 0; i < RowCount; i++)
             {
                 // Get the begin / end index for the current row
                 var startIndex = rowPointers[i];
@@ -1064,7 +1064,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
 
                 for (var j = startIndex; j < endIndex; j++)
                 {
-                    var resVal = values[j] * other.At(i, columnIndices[j]);
+                    var resVal = values[j]*other.At(i, columnIndices[j]);
                     if (!resVal.IsZero())
                     {
                         result.At(i, columnIndices[j], resVal);
@@ -1087,7 +1087,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
             var values = _storage.Values;
             var valueCount = _storage.ValueCount;
 
-            for (var i = 0; i < other.RowCount; i++)
+            for (var i = 0; i < RowCount; i++)
             {
                 // Get the begin / end index for the current row
                 var startIndex = rowPointers[i];
@@ -1095,10 +1095,47 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
 
                 for (var j = startIndex; j < endIndex; j++)
                 {
-                    var resVal = values[j] / other.At(i, columnIndices[j]);
-                    if (!resVal.IsZero())
+                    if (!values[j].IsZero())
                     {
-                        result.At(i, columnIndices[j], resVal);
+                        result.At(i, columnIndices[j], values[j]/other.At(i, columnIndices[j]));
+                    }
+                }
+            }
+        }
+
+        public override void KroneckerProduct(Matrix<Complex32> other, Matrix<Complex32> result)
+        {
+            if (other == null)
+            {
+                throw new ArgumentNullException("other");
+            }
+
+            if (result == null)
+            {
+                throw new ArgumentNullException("result");
+            }
+
+            if (result.RowCount != (RowCount*other.RowCount) || result.ColumnCount != (ColumnCount*other.ColumnCount))
+            {
+                throw DimensionsDontMatch<ArgumentOutOfRangeException>(this, other, result);
+            }
+
+            var rowPointers = _storage.RowPointers;
+            var columnIndices = _storage.ColumnIndices;
+            var values = _storage.Values;
+            var valueCount = _storage.ValueCount;
+
+            for (var i = 0; i < RowCount; i++)
+            {
+                // Get the begin / end index for the current row
+                var startIndex = rowPointers[i];
+                var endIndex = i < rowPointers.Length - 1 ? rowPointers[i + 1] : valueCount;
+
+                for (var j = startIndex; j < endIndex; j++)
+                {
+                    if (!values[j].IsZero())
+                    {
+                        result.SetSubMatrix(i*other.RowCount, other.RowCount, columnIndices[j]*other.ColumnCount, other.ColumnCount, values[j]*other);
                     }
                 }
             }
