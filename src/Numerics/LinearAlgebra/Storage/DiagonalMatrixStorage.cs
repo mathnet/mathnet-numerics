@@ -4,7 +4,7 @@ using MathNet.Numerics.Properties;
 
 namespace MathNet.Numerics.LinearAlgebra.Storage
 {
-    internal class DiagonalMatrixStorage<T> : MatrixStorage<T>
+    public class DiagonalMatrixStorage<T> : MatrixStorage<T>
         where T : struct, IEquatable<T>, IFormattable
     {
         // [ruegg] public fields are OK here
