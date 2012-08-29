@@ -48,7 +48,7 @@
 			Value="$(NumericsPackVersion)"/>
 	</Target>
 
-	<Target Name="BuildPackages" DependsOnTargets="UpdateNuspec;PatchContentFiles">
+	<Target Name="BuildPackages" DependsOnTargets="UpdateNuspec">
 		<MakeDir Directories="$(OutNuGetPackages)" />
 		<Exec Command="$(NuGetExe) pack $(NumericsPack)/MathNet.Numerics.Signed.nuspec /Verbose /OutputDirectory $(OutNuGetPackages)" />
 	</Target>
