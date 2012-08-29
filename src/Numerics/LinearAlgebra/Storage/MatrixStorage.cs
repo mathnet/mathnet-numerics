@@ -89,7 +89,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
         /// <summary>
         /// True if the specified field can be set to any value.
-        /// Fall if the field is fixed, like an off-diagonal field on a diagonal matrix.
+        /// False if the field is fixed, like an off-diagonal field on a diagonal matrix.
         /// </summary>
         public virtual bool IsMutable(int row, int column)
         {
@@ -166,7 +166,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         /// <returns>
         /// true if the specified <see cref="T:System.Object"/> is equal to the current <see cref="T:System.Object"/>; otherwise, false.
         /// </returns>
-        /// <param name="obj">The <see cref="T:System.Object"/> to compare with the current <see cref="T:System.Object"/>. </param><filterpriority>2</filterpriority>
+        /// <param name="obj">The <see cref="T:System.Object"/> to compare with the current <see cref="T:System.Object"/>. </param>
         public override sealed bool Equals(object obj)
         {
             return Equals(obj as MatrixStorage<T>);
