@@ -34,6 +34,15 @@
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <DocumentationFile>MathNet.Numerics.FSharp.XML</DocumentationFile>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release-Signed|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <Tailcalls>true</Tailcalls>
+    <DefineConstants>TRACE</DefineConstants>
+    <WarningLevel>3</WarningLevel>
+    <DocumentationFile>..\..\out\lib\Net40\MathNet.Numerics.FSharp.xml</DocumentationFile>
+    <OutputPath>bin\Release-Signed\</OutputPath>
+  </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath32)\FSharp\1.0\Microsoft.FSharp.Targets" Condition="!Exists('$(MSBuildToolsPath)\Microsoft.Build.Tasks.v4.0.dll')" />
   <Import Project="$(MSBuildExtensionsPath32)\..\Microsoft F#\v4.0\Microsoft.FSharp.Targets" Condition="Exists('$(MSBuildToolsPath)\Microsoft.Build.Tasks.v4.0.dll')" />
   <ItemGroup>

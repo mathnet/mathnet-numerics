@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <metadata xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+    <id>MathNet.Numerics.Signed</id>
+    <version>1.0.0</version>
+    <title>Math.NET Numerics (Strong Name)</title>
+    <summary>Math.NET Numerics, signed and thus with a strong name. We strongly discourage using this package and recommend using MathNet.Numerics instead, which is unsigned and weakly named.</summary>
+    <description>Math.NET Numerics, signed and thus with a strong name. We strongly discourage using this package and recommend using MathNet.Numerics instead, which is unsigned and weakly named.</description>
+    <authors>Marcus Cuda, Christoph Ruegg, Jurgen Van Gael</authors>
+    <owners>Christoph Ruegg</owners>
+    <projectUrl>http://numerics.mathdotnet.com/</projectUrl>
+    <iconUrl>http://www.mathdotnet.com/images/MathNet128.png</iconUrl>
+    <licenseUrl>http://mathnetnumerics.codeplex.com/license</licenseUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <tags>math numeric statistics probability integration interpolation linear algebra matrix fft signed strongname</tags>
+    <dependencies>
+      <dependency id="zlib.net" version="1.0" />
+    </dependencies>
+    <frameworkAssemblies>
+      <frameworkAssembly assemblyName="System.Numerics" />
+    </frameworkAssemblies>
+  </metadata>
+</package>
