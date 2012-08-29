@@ -903,6 +903,12 @@
     <Compile Include="..\Numerics\LinearAlgebra\Storage\SparseCompressedRowMatrixStorage.cs">
       <Link>LinearAlgebra\Storage\SparseCompressedRowMatrixStorage.cs</Link>
     </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Storage\VectorStorage.cs">
+      <Link>LinearAlgebra\Storage\VectorStorage.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Storage\VectorStorage.Validation.cs">
+      <Link>LinearAlgebra\Storage\VectorStorage.Validation.cs</Link>
+    </Compile>
     <Compile Include="..\Numerics\NumberTheory\IntegerTheory.cs">
       <Link>NumberTheory\IntegerTheory.cs</Link>
     </Compile>
