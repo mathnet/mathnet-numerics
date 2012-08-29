@@ -1,0 +1,56 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="BuildPackages" ToolsVersion="4.0">
+	<UsingTask AssemblyFile="$(MSBuildProjectDirectory)/../MSBuild.Community.Tasks.v1.2.0.306/MSBuild.Community.Tasks.dll" TaskName="MSBuild.Community.Tasks.XmlUpdate" />
+	<UsingTask AssemblyFile="$(MSBuildProjectDirectory)/../MSBuild.Community.Tasks.v1.2.0.306/MSBuild.Community.Tasks.dll" TaskName="MSBuild.Community.Tasks.FileUpdate" />
+
+	<PropertyGroup>
+		<Root>$(MSBuildProjectDirectory)/../..</Root>
+		<OutLib>$(MSBuildProjectDirectory)/../../out/lib</OutLib>
+		<OutNuGetPackages>$(MSBuildProjectDirectory)/../../out/packages/NuGet</OutNuGetPackages>
+		<NumericsPack>$(MSBuildProjectDirectory)/Numerics.Signed</NumericsPack>
+		<NuGetExe>$(MSBuildProjectDirectory)/../../tools/NuGet/nuget.exe</NuGetExe>
+	</PropertyGroup>
+	
+	<ItemGroup>
+		<NumericsNet40 Include="$(OutLib)/Net40/MathNet.Numerics.dll;$(OutLib)/Net40/MathNet.Numerics.IO.dll;$(OutLib)/Net40/MathNet.Numerics.pdb;$(OutLib)/Net40/MathNet.Numerics.IO.pdb;$(OutLib)/Net40/MathNet.Numerics.xml;$(OutLib)/Net40/MathNet.Numerics.IO.xml" />
+	</ItemGroup>
+	
+	<Target Name="CopyContentFiles">
+		<RemoveDir Directories="$(NumericsPack)/content" />
+		<Copy SourceFiles="$(Root)/README.markdown" DestinationFiles="$(NumericsPack)/content/App_Readme/MathNet.Numerics.readme.txt" />
+		<Copy SourceFiles="$(Root)/COPYRIGHT.markdown" DestinationFiles="$(NumericsPack)/content/App_Readme/MathNet.Numerics.copyright.txt" />
+		<Copy SourceFiles="$(Root)/AUTHORS.markdown" DestinationFiles="$(NumericsPack)/content/App_Readme/MathNet.Numerics.authors.txt" />
+		
+		<RemoveDir Directories="$(NumericsPack)/lib" />
+		<Copy SourceFiles="@(NumericsNet40)" DestinationFolder="$(NumericsPack)/lib/Net40" />
+	</Target>
+
+	<Target Name="UpdateNuspec" DependsOnTargets="CopyContentFiles">
+	
+		<!-- Evaluate Assembly Identity -->
+		<GetAssemblyIdentity AssemblyFiles="$(NumericsPack)/lib/Net40/MathNet.Numerics.dll">
+			<Output TaskParameter="Assemblies" ItemName="NumericsAssemblyInfo"/>
+		</GetAssemblyIdentity>
+		
+		<!-- Extract Assembly Versions -->
+		<PropertyGroup>
+			<NumericsAssemblyVersion>%(NumericsAssemblyInfo.Version)</NumericsAssemblyVersion>
+		</PropertyGroup>
+		
+		<!-- Package Versions (skip 4th part/build number, for semvar compliance) -->
+		<PropertyGroup>
+			<NumericsPackVersion>$(NumericsAssemblyVersion.Substring(0, $(NumericsAssemblyVersion.LastIndexOf('.'))))</NumericsPackVersion>
+		</PropertyGroup>
+		
+		<XmlUpdate
+			Prefix="n" Namespace="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd"
+			XmlFileName="$(NumericsPack)/MathNet.Numerics.Signed.nuspec"
+			XPath="//package/n:metadata/n:version"
+			Value="$(NumericsPackVersion)"/>
+	</Target>
+
+	<Target Name="BuildPackages" DependsOnTargets="UpdateNuspec;PatchContentFiles">
+		<MakeDir Directories="$(OutNuGetPackages)" />
+		<Exec Command="$(NuGetExe) pack $(NumericsPack)/MathNet.Numerics.Signed.nuspec /Verbose /OutputDirectory $(OutNuGetPackages)" />
+	</Target>
+
+</Project>
