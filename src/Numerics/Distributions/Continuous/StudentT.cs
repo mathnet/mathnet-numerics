@@ -352,15 +352,14 @@ namespace MathNet.Numerics.Distributions
         public double Density(double x)
         {
             // TODO JVG we can probably do a better job for Cauchy special case
-            if (Double.IsPositiveInfinity(_dof))
+            if (_dof >= 1e+8d)
             {
                 return Normal.Density(_location, _scale, x);
             }
 
             var d = (x - _location) / _scale;
-            return SpecialFunctions.Gamma((_dof + 1.0) / 2.0)
+            return Math.Exp(SpecialFunctions.GammaLn((_dof + 1.0) / 2.0) - SpecialFunctions.GammaLn(_dof / 2.0))
                    * Math.Pow(1.0 + (d * d / _dof), -0.5 * (_dof + 1.0))
-                   / SpecialFunctions.Gamma(_dof / 2.0)
                    / Math.Sqrt(_dof * Math.PI)
                    / _scale;
         }
@@ -373,7 +372,7 @@ namespace MathNet.Numerics.Distributions
         public double DensityLn(double x)
         {
             // TODO JVG we can probably do a better job for Cauchy special case
-            if (Double.IsPositiveInfinity(_dof))
+            if (_dof >= 1e+8d)
             {
                 return Normal.DensityLn(_location, _scale, x);
             }
