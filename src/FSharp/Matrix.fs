@@ -52,7 +52,7 @@ module Matrix =
         let m = A.ColumnCount
         let mutable acc = acc0
         for i in n-1 .. -1 .. 0 do
-            for j in n-1 .. -1 .. 0 do
+            for j in m-1 .. -1 .. 0 do
                 acc <- f (A.Item(i,j)) acc
         acc
 
