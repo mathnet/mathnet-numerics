@@ -106,6 +106,8 @@ let MatrixTests =
 
     /// A small uniform vector.
     let smallM = new DenseMatrix( Array2D.create 2 2 0.3 )
+    let failingFoldBackM = DenseMatrix.init 2 3 (fun i j -> 1.0)
+
 
     /// A large vector with increasingly large entries
     let largeM = new DenseMatrix( Array2D.init 100 100 (fun i j -> float i * 100.0 + float j) )
@@ -115,6 +117,8 @@ let MatrixTests =
             (Matrix.fold (fun a b -> a - b) 0.0 smallM |> should equal -1.2)
         spec "Matrix.foldBack"
             (Matrix.foldBack (fun a b -> a - b) 0.0 smallM |> should equal 0.0)
+        spec "Matrix.foldBackSummation"
+            (Matrix.foldBack( fun a b -> a + b) 0.0 failingFoldBackM |> should equal 6.0)
         spec "Matrix.foldi"
             (Matrix.foldi (fun i j acc x -> acc + x + float (i+j)) 0.0 smallM |> should equal 5.2)
         spec "Matrix.toArray2"
