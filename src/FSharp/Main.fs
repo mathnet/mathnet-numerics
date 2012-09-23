@@ -32,6 +32,7 @@ namespace MathNet.Numerics
 
 open MathNet.Numerics.LinearAlgebra.Double
 open MathNet.Numerics.LinearAlgebra.Generic
+
 /// A module which implements some F# utility functions.
 module FSharp =
 
