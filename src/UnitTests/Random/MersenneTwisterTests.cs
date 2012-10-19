@@ -49,10 +49,10 @@ namespace MathNet.Numerics.UnitTests.Random
         public void SampleKnownValues()
         {
             var mt = new MersenneTwister(0);
-            Assert.AreEqual(mt.NextDouble(), 0.5488135024320365);
-            Assert.AreEqual(mt.NextDouble(), 0.5928446165269344);
-            Assert.AreEqual(mt.NextDouble(), 0.7151893651381110);
-            Assert.AreEqual(mt.NextDouble(), 0.8442657442866512);
+            Assert.AreEqual(mt.NextDouble(), 0.5488135023042560);
+            Assert.AreEqual(mt.NextDouble(), 0.5928446163889021);
+            Assert.AreEqual(mt.NextDouble(), 0.7151893649715930);
+            Assert.AreEqual(mt.NextDouble(), 0.8442657440900803);
         }
     }
 }
