@@ -722,7 +722,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 {
                     sparseResult.NonZerosCount = NonZerosCount;
                     sparseResult._nonZeroIndices = new int[NonZerosCount];
-                    Buffer.BlockCopy(_nonZeroIndices, 0, sparseResult._nonZeroIndices, 0, _nonZeroIndices.Length * Constants.SizeOfInt);
+                    Buffer.BlockCopy(_nonZeroIndices, 0, sparseResult._nonZeroIndices, 0, NonZerosCount * Constants.SizeOfInt);
                     sparseResult._nonZeroValues = new double[_nonZeroValues.Length];
                 }
 
