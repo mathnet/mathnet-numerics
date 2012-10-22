@@ -749,10 +749,11 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
                     sparseResult.NonZerosCount = NonZerosCount;
                     sparseResult._nonZeroIndices = new int[NonZerosCount];
                     Buffer.BlockCopy(_nonZeroIndices, 0, sparseResult._nonZeroIndices, 0, NonZerosCount * Constants.SizeOfInt);
-                    sparseResult._nonZeroValues = new Complex[_nonZeroValues.Length];
+                    sparseResult._nonZeroValues = new Complex[NonZerosCount];
+                    Array.Copy(_nonZeroValues, sparseResult._nonZeroValues, NonZerosCount);
                 }
-                
-                Control.LinearAlgebraProvider.ScaleArray(scalar, _nonZeroValues, sparseResult._nonZeroValues);
+
+                Control.LinearAlgebraProvider.ScaleArray(scalar, sparseResult._nonZeroValues, sparseResult._nonZeroValues);
             }
         }
 

@@ -731,10 +731,11 @@ namespace MathNet.Numerics.LinearAlgebra.Single
                     sparseResult.NonZerosCount = NonZerosCount;
                     sparseResult._nonZeroIndices = new int[NonZerosCount];
                     Buffer.BlockCopy(_nonZeroIndices, 0, sparseResult._nonZeroIndices, 0, NonZerosCount * Constants.SizeOfInt);
-                    sparseResult._nonZeroValues = new float[_nonZeroValues.Length];
+                    sparseResult._nonZeroValues = new float[NonZerosCount];
+                    Buffer.BlockCopy(_nonZeroValues, 0, sparseResult._nonZeroValues, 0, NonZerosCount * Constants.SizeOfFloat);
                 }
 
-                Control.LinearAlgebraProvider.ScaleArray(scalar, _nonZeroValues, sparseResult._nonZeroValues);
+                Control.LinearAlgebraProvider.ScaleArray(scalar, sparseResult._nonZeroValues, sparseResult._nonZeroValues);
             }
         }
 
