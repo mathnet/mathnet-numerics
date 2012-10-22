@@ -373,5 +373,25 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
 
             Assert.AreEqual(2, result.NonZerosCount);
         }
+
+        /// <summary>
+        /// Test for issues #52. When setting previous non-zero values to zero,
+        /// DoMultiply would copy non-zero values to the result, but use the
+        /// length of nonzerovalues instead of NonZerosCount.
+        /// </summary>
+        [Test]
+        public void CanScaleAVectorWhenSettingPreviousNonzeroElementsToZero()
+        {
+            var vector = new SparseVector(20);
+            vector[10] = 1.0;
+            vector[11] = 2.0;
+            vector[11] = 0.0;
+
+            var scaled = new SparseVector(20);
+            vector.Multiply(3.0, scaled);
+
+            Assert.AreEqual(3.0, scaled[10].Real);
+            Assert.AreEqual(0.0, scaled[11].Real);
+        }
     }
 }
