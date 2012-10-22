@@ -737,6 +737,28 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         }
 
         /// <summary>
+        /// Multiplies a scalar to each element of the vector.
+        /// </summary>
+        /// <param name="scalar">The scalar to multiply.</param>
+        /// <returns>A new vector that is the multiplication of the vector and the scalar.</returns>
+        public override Vector<Complex32> Multiply(Complex32 scalar)
+        {
+            if (scalar == Complex32.One)
+            {
+                return Clone();
+            }
+
+            if (scalar == Complex32.Zero)
+            {
+                return new SparseVector(Count);
+            }
+
+            var copy = new SparseVector(this);
+            Control.LinearAlgebraProvider.ScaleArray(scalar, copy._nonZeroValues, copy._nonZeroValues);
+            return copy;
+        }
+
+        /// <summary>
         /// Multiplies a scalar to each element of the vector and stores the result in the result vector.
         /// </summary>
         /// <param name="scalar">
