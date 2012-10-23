@@ -140,6 +140,8 @@
     <Compile Include="Distributions\Multivariate\InverseWishart.cs" />
     <Compile Include="Distributions\Multivariate\MatrixNormal.cs" />
     <Compile Include="Distributions\Multivariate\Wishart.cs" />
+    <Compile Include="LinearAlgebra\Double\KnuthNode.cs" />
+    <Compile Include="LinearAlgebra\Double\KnuthSparseMatrix.cs" />
     <Compile Include="LinearAlgebra\Storage\DenseVectorStorage.cs" />
     <Compile Include="LinearAlgebra\Storage\MatrixStorage.Validation.cs" />
     <Compile Include="LinearAlgebra\Complex32\ExtensionMethods.cs" />
