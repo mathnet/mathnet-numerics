@@ -399,6 +399,7 @@ extern "C"{
 		}
 
 		spotrs(uplo, n, nrhs, clone, n, b, n, &info);
+		delete[] clone;
 		return info;
 	}
 
@@ -416,6 +417,7 @@ extern "C"{
 		}
 
 		dpotrs(uplo, n, nrhs, clone, n, b, n, &info);
+		delete[] clone;
 		return info;
 	}
 
@@ -433,6 +435,7 @@ extern "C"{
 		}
 
 		cpotrs(uplo, n, nrhs, clone, n, b, n, &info);
+		delete[] clone;
 		return info;
 	}
 
@@ -450,6 +453,7 @@ extern "C"{
 		}
 
 		zpotrs(uplo, n, nrhs, clone, n, b, n, &info);
+		delete[] clone;
 		return info;
 	}
 
