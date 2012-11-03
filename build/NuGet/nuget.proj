@@ -32,11 +32,11 @@
 
 		<RemoveDir Directories="$(NumericsPack)/lib" />
 		<Copy SourceFiles="@(NumericsNet40)" DestinationFolder="$(NumericsPack)/lib/net40" />
-		<Copy SourceFiles="@(NumericsPortable)" DestinationFolder="$(NumericsPack)/lib/portable-windows8+net40+sl5" />
+		<Copy SourceFiles="@(NumericsPortable)" DestinationFolder="$(NumericsPack)/lib/portable-net40+windows8+wp8+sl5" />
 
 		<RemoveDir Directories="$(FSharpPack)/lib" />
 		<Copy SourceFiles="@(FSharpNet40)" DestinationFolder="$(FSharpPack)/lib/net40" />
-		<Copy SourceFiles="@(FSharpPortable)" DestinationFolder="$(FSharpPack)/lib/portable-windows8+net45+sl5" />
+		<Copy SourceFiles="@(FSharpPortable)" DestinationFolder="$(FSharpPack)/lib/portable-net45+windows8+sl5" />
 
 		<RemoveDir Directories="$(NumericsSamplePack)/Samples" />
 		<Copy SourceFiles="@(NumericsSample)" DestinationFiles="$(NumericsSamplePack)/content/Samples/MathNet.Numerics/%(RecursiveDir)%(Filename).cs.pp" />
