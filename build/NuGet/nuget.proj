@@ -9,7 +9,6 @@
 		<OutLib>$(MSBuildProjectDirectory)/../../out/lib</OutLib>
 		<OutNuGetPackages>$(MSBuildProjectDirectory)/../../out/packages/NuGet</OutNuGetPackages>
 		<NumericsPack>$(MSBuildProjectDirectory)/Numerics</NumericsPack>
-		<PortablePack>$(MSBuildProjectDirectory)/Numerics.Portable</PortablePack>
 		<FSharpPack>$(MSBuildProjectDirectory)/FSharp</FSharpPack>
 		<NumericsSamplePack>$(MSBuildProjectDirectory)/Numerics.Sample</NumericsSamplePack>
 		<FSharpSamplePack>$(MSBuildProjectDirectory)/FSharp.Sample</FSharpSamplePack>
@@ -20,6 +19,7 @@
 		<NumericsNet40 Include="$(OutLib)/Net40/MathNet.Numerics.dll;$(OutLib)/Net40/MathNet.Numerics.IO.dll;$(OutLib)/Net40/MathNet.Numerics.pdb;$(OutLib)/Net40/MathNet.Numerics.IO.pdb;$(OutLib)/Net40/MathNet.Numerics.xml;$(OutLib)/Net40/MathNet.Numerics.IO.xml" />
 		<NumericsPortable Include="$(OutLib)/Portable/MathNet.Numerics.dll;$(OutLib)/Portable/MathNet.Numerics.pdb;$(OutLib)/Portable/MathNet.Numerics.xml;" />
 		<FSharpNet40 Include="$(OutLib)/Net40/MathNet.Numerics.FSharp.dll;$(OutLib)/Net40/MathNet.Numerics.FSharp.pdb;$(OutLib)/Net40/MathNet.Numerics.FSharp.xml" />
+		<FSharpPortable Include="$(OutLib)/Portable/MathNet.Numerics.FSharp.dll;$(OutLib)/Portable/MathNet.Numerics.FSharp.pdb;$(OutLib)/Portable/MathNet.Numerics.FSharp.xml;" />
 		<NumericsSample Include="$(Examples)/**/*.cs" Exclude="$(Examples)/**/bin/**;$(Examples)/**/obj/**" />
 		<FSharpSample Include="$(FSharpExamples)/**/*.fs" Exclude="$(FSharpExamples)/**/bin/**;$(FSharpExamples)/**/obj/**" />
 	</ItemGroup>
@@ -29,21 +29,18 @@
 		<Copy SourceFiles="$(Root)/README.markdown" DestinationFiles="$(NumericsPack)/content/App_Readme/MathNet.Numerics.readme.txt" />
 		<Copy SourceFiles="$(Root)/COPYRIGHT.markdown" DestinationFiles="$(NumericsPack)/content/App_Readme/MathNet.Numerics.copyright.txt" />
 		<Copy SourceFiles="$(Root)/AUTHORS.markdown" DestinationFiles="$(NumericsPack)/content/App_Readme/MathNet.Numerics.authors.txt" />
-		
+
 		<RemoveDir Directories="$(NumericsPack)/lib" />
-		<Copy SourceFiles="@(NumericsNet40)" DestinationFolder="$(NumericsPack)/lib/Net40" />
-		
-		<RemoveDir Directories="$(PortablePack)/lib" />
-		<Copy SourceFiles="@(NumericsPortable)" DestinationFolder="$(PortablePack)/lib/net40" />
-		<Copy SourceFiles="@(NumericsPortable)" DestinationFolder="$(PortablePack)/lib/sl5" />
-		<Copy SourceFiles="@(NumericsPortable)" DestinationFolder="$(PortablePack)/lib/winrt45" />
-		
+		<Copy SourceFiles="@(NumericsNet40)" DestinationFolder="$(NumericsPack)/lib/net40" />
+		<Copy SourceFiles="@(NumericsPortable)" DestinationFolder="$(NumericsPack)/lib/portable-windows8+net40+sl5" />
+
 		<RemoveDir Directories="$(FSharpPack)/lib" />
-		<Copy SourceFiles="@(FSharpNet40)" DestinationFolder="$(FSharpPack)/lib/Net40" />
-		
+		<Copy SourceFiles="@(FSharpNet40)" DestinationFolder="$(FSharpPack)/lib/net40" />
+		<Copy SourceFiles="@(FSharpPortable)" DestinationFolder="$(FSharpPack)/lib/portable-windows8+net45+sl5" />
+
 		<RemoveDir Directories="$(NumericsSamplePack)/Samples" />
 		<Copy SourceFiles="@(NumericsSample)" DestinationFiles="$(NumericsSamplePack)/content/Samples/MathNet.Numerics/%(RecursiveDir)%(Filename).cs.pp" />
-		
+
 		<RemoveDir Directories="$(FSharpSamplePack)/Samples" />
 		<Copy SourceFiles="@(FSharpSample)" DestinationFiles="$(FSharpSamplePack)/content/Samples/MathNet.Numerics.FSharp/%(RecursiveDir)%(Filename).fs.pp" />
 	</Target>
@@ -54,9 +51,6 @@
 		<GetAssemblyIdentity AssemblyFiles="$(NumericsPack)/lib/Net40/MathNet.Numerics.dll">
 			<Output TaskParameter="Assemblies" ItemName="NumericsAssemblyInfo"/>
 		</GetAssemblyIdentity>
-		<GetAssemblyIdentity AssemblyFiles="$(PortablePack)/lib/net40/MathNet.Numerics.dll">
-			<Output TaskParameter="Assemblies" ItemName="PortableAssemblyInfo"/>
-		</GetAssemblyIdentity>
 		<GetAssemblyIdentity AssemblyFiles="$(FSharpPack)/lib/Net40/MathNet.Numerics.FSharp.dll">
 			<Output TaskParameter="Assemblies" ItemName="FSharpAssemblyInfo"/>
 		</GetAssemblyIdentity>
@@ -64,28 +58,20 @@
 		<!-- Extract Assembly Versions -->
 		<PropertyGroup>
 			<NumericsAssemblyVersion>%(NumericsAssemblyInfo.Version)</NumericsAssemblyVersion>
-			<PortableAssemblyVersion>%(PortableAssemblyInfo.Version)</PortableAssemblyVersion>
 			<FSharpAssemblyVersion>%(FSharpAssemblyInfo.Version)</FSharpAssemblyVersion>
 		</PropertyGroup>
 		
 		<!-- Package Versions (skip 4th part/build number, for semvar compliance) -->
 		<PropertyGroup>
 			<NumericsPackVersion>$(NumericsAssemblyVersion.Substring(0, $(NumericsAssemblyVersion.LastIndexOf('.'))))</NumericsPackVersion>
-			<PortablePackVersion>$(PortableAssemblyVersion.Substring(0, $(PortableAssemblyVersion.LastIndexOf('.'))))</PortablePackVersion>
 			<FSharpPackVersion>$(FSharpAssemblyVersion.Substring(0, $(FSharpAssemblyVersion.LastIndexOf('.'))))</FSharpPackVersion>
 		</PropertyGroup>
-		
+
 		<XmlUpdate
 			Prefix="n" Namespace="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd"
 			XmlFileName="$(NumericsPack)/MathNet.Numerics.nuspec"
 			XPath="//package/n:metadata/n:version"
 			Value="$(NumericsPackVersion)"/>
-			
-		<XmlUpdate
-			Prefix="n" Namespace="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd"
-			XmlFileName="$(PortablePack)/MathNet.Numerics.Portable.nuspec"
-			XPath="//package/n:metadata/n:version"
-			Value="$(PortablePackVersion)"/>
 
 		<XmlUpdate
 			Prefix="n" Namespace="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd"
@@ -139,7 +125,6 @@
 	<Target Name="BuildPackages" DependsOnTargets="UpdateNuspec;PatchContentFiles">
 		<MakeDir Directories="$(OutNuGetPackages)" />
 		<Exec Command="$(NuGetExe) pack $(NumericsPack)/MathNet.Numerics.nuspec /Verbose /OutputDirectory $(OutNuGetPackages)" />
-		<Exec Command="$(NuGetExe) pack $(PortablePack)/MathNet.Numerics.Portable.nuspec /Verbose /OutputDirectory $(OutNuGetPackages)" />
 		<Exec Command="$(NuGetExe) pack $(FSharpPack)/MathNet.Numerics.FSharp.nuspec /Verbose /OutputDirectory $(OutNuGetPackages)" />
 		<Exec Command="$(NuGetExe) pack $(NumericsSamplePack)/MathNet.Numerics.Sample.nuspec /Verbose /OutputDirectory $(OutNuGetPackages)" />
 		<Exec Command="$(NuGetExe) pack $(FSharpSamplePack)/MathNet.Numerics.FSharp.Sample.nuspec /Verbose /OutputDirectory $(OutNuGetPackages)" />
