@@ -1,6 +1,17 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{4D50FB34-10BC-495A-8B2F-482E34B4D771}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{49EE74BD-301F-4C3B-B76A-07F90CC88CE7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Readme", "Readme", "{C2F37492-38AE-4186-8A7F-17B0B080942C}"
+	ProjectSection(SolutionItems) = preProject
+		AUTHORS.markdown = AUTHORS.markdown
+		COPYRIGHT.markdown = COPYRIGHT.markdown
+		README.markdown = README.markdown
+	EndProjectSection
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Examples", "src\Examples\Examples.csproj", "{8239A6FF-1EF3-4DA4-A860-95C392DD6899}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Numerics", "src\Numerics\Numerics.csproj", "{B7CAE5F4-A23F-4438-B5BE-41226618B695}"
@@ -11,18 +22,7 @@ Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "FSharpExamples", "src\FShar
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "FSharpUnitTests", "src\FSharpUnitTests\FSharpUnitTests.fsproj", "{F2F8032B-A31D-4E33-A05E-F2CDCBFAA75D}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{4D50FB34-10BC-495A-8B2F-482E34B4D771}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{49EE74BD-301F-4C3B-B76A-07F90CC88CE7}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "src\UnitTests\UnitTests.csproj", "{DAF07AA8-C5C9-4963-98F7-2C3285064DAD}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Readme", "Readme", "{C2F37492-38AE-4186-8A7F-17B0B080942C}"
-	ProjectSection(SolutionItems) = preProject
-		AUTHORS.markdown = AUTHORS.markdown
-		COPYRIGHT.markdown = COPYRIGHT.markdown
-		README.markdown = README.markdown
-	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Numerics.IO", "src\Numerics.IO\Numerics.IO.csproj", "{EB1A5D32-F264-4BCE-BEB7-0B97085075BE}"
 EndProject
@@ -80,9 +80,9 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{BC81EA37-8EE6-4BF9-B8A9-B30497AEF8B1} = {49EE74BD-301F-4C3B-B76A-07F90CC88CE7}
-		{8239A6FF-1EF3-4DA4-A860-95C392DD6899} = {49EE74BD-301F-4C3B-B76A-07F90CC88CE7}
 		{F2F8032B-A31D-4E33-A05E-F2CDCBFAA75D} = {4D50FB34-10BC-495A-8B2F-482E34B4D771}
 		{DAF07AA8-C5C9-4963-98F7-2C3285064DAD} = {4D50FB34-10BC-495A-8B2F-482E34B4D771}
+		{8239A6FF-1EF3-4DA4-A860-95C392DD6899} = {49EE74BD-301F-4C3B-B76A-07F90CC88CE7}
+		{BC81EA37-8EE6-4BF9-B8A9-B30497AEF8B1} = {49EE74BD-301F-4C3B-B76A-07F90CC88CE7}
 	EndGlobalSection
 EndGlobal
