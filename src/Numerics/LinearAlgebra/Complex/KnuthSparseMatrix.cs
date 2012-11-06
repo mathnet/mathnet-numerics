@@ -1,5 +1,9 @@
-﻿
-namespace MathNet.Numerics.LinearAlgebra.Double
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace MathNet.Numerics.LinearAlgebra.Complex
 {
     using System;
     using System.Collections.Generic;
@@ -9,6 +13,8 @@ namespace MathNet.Numerics.LinearAlgebra.Double
     using Generic;
     using Properties;
     using Threading;
+    using System.Numerics;
+    using Storage;
 
     /// <summary>
     /// A Matrix class with sparse storage. The underlying storage scheme is pointers to lefter and upper elements Format.
@@ -19,7 +25,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <summary>
         /// Storage element
         /// </summary>
-        private KnuthSparseMatrixStorage<double> storage;
+        private KnuthSparseMatrixStorage<Complex> storage;
 
         /// <summary>
         /// Creates a <c>KnuthSparseMatrix</c> for the given number of rows and columns.
@@ -30,7 +36,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <returns>
         /// A <c>SparseMatrix</c> with the given dimensions.
         /// </returns>
-        public override Matrix<double> CreateMatrix(int numberOfRows, int numberOfColumns, bool fullyMutable = false)
+        public override Matrix<Complex> CreateMatrix(int numberOfRows, int numberOfColumns, bool fullyMutable = false)
         {
             return new KnuthSparseMatrix(numberOfRows, numberOfColumns);
         }
@@ -43,7 +49,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <returns>
         /// A <see cref="SparseVector"/> with the given dimension.
         /// </returns>
-        public override Vector<double> CreateVector(int size, bool fullyMutable = false)
+        public override Vector<Complex> CreateVector(int size, bool fullyMutable = false)
         {
             return new SparseVector(size);
         }
@@ -57,7 +63,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             int result = 0;
             for (int i = 0; i < storage.Rows.Count; ++i)
             {
-                KnuthNode<double> iter = storage.Rows[i];
+                KnuthNode<Complex> iter = storage.Rows[i];
                 while (iter.Left != storage.Rows[i])
                 {
                     ++result;
@@ -73,7 +79,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="row">number of row</param>
         /// <param name="col">number of column</param>
         /// <param name="val">value to insert</param>
-        public void At(int row, int col, double val)
+        public void At(int row, int col, Complex val)
         {
             storage.At(row, col, val);
         }
@@ -83,7 +89,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// </summary>
         /// <param name="row">number of row</param>
         /// <param name="col">number of column</param>
-        public double At(int row, int col)
+        public Complex At(int row, int col)
         {
             return storage.At(row, col);
         }
@@ -113,7 +119,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="_storage">
         /// Saved at KnuthSparseMatrixStorage matrix.
         /// </param>
-        internal KnuthSparseMatrix(KnuthSparseMatrixStorage<double> _storage)
+        internal KnuthSparseMatrix(KnuthSparseMatrixStorage<Complex> _storage)
             : base(_storage)
         {
             storage = _storage;
@@ -140,7 +146,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// The number of columns.
         /// </param>
         public KnuthSparseMatrix(int rows, int columns)
-            : this(new KnuthSparseMatrixStorage<double>(rows, columns, 0d))
+            : this(new KnuthSparseMatrixStorage<Complex>(rows, columns, 0))
         {
         }
 
@@ -160,7 +166,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// Initializes a new instance of the <see cref="SparseMatrix"/> class from a 2D array. 
         /// </summary>
         /// <param name="array">The 2D array to create this matrix from.</param>
-        public KnuthSparseMatrix(double[,] array)
+        public KnuthSparseMatrix(Complex[,] array)
             : this(array.GetLength(0), array.GetLength(1))
         {
             for (var i = 0; i < storage.RowCount; i++)
@@ -176,7 +182,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// Create new instanse of sparse matrix 
         /// </summary>
         /// <param name="mtx">matrix in list<list> presentation to set as sparse</param>
-        public KnuthSparseMatrix(List<List<double>> array)
+        public KnuthSparseMatrix(List<List<Complex>> array)
             : this(array.Count, array[0].Count)
         {
             for (var i = 0; i < storage.RowCount; i++)
@@ -192,7 +198,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// </summary>
         public void Negate()
         {
-            KnuthNode<double> rw;
+            KnuthNode<Complex> rw;
             for (int i = 0; i < storage.Rows.Count; ++i)
             {
                 rw = storage.Rows[i];
@@ -215,8 +221,8 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             if (mtx1.storage.Cols.Count != mtx2.storage.Rows.Count)
                 throw new Exception("Wrong size of matrix to multiple");
             KnuthSparseMatrix Res = new KnuthSparseMatrix(mtx1.storage.Rows.Count, mtx2.storage.Cols.Count);
-            double tmp;
-            KnuthNode<double> Iter1, Iter2;
+            Complex tmp;
+            KnuthNode<Complex> Iter1, Iter2;
             for (int i = 0; i < mtx1.storage.Rows.Count; ++i)
             {
                 for (int j = 0; j < mtx2.storage.Cols.Count; ++j)
@@ -241,7 +247,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                             Iter1 = Iter1.Left;
                         }
                     }
-                    if (tmp != 0) // paste not 0 element
+                    if (tmp != Complex.Zero) // paste not 0 element
                     {
                         Res.At(i, j, tmp);
                     }
@@ -262,7 +268,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             if (mtx1.storage.Rows.Count != mtx2.storage.Rows.Count || mtx1.storage.Cols.Count != mtx2.storage.Cols.Count)
                 throw new Exception("Wrong size of matrix to summ");
             KnuthSparseMatrix Res = new KnuthSparseMatrix(mtx1.storage.Rows.Count, mtx1.storage.Cols.Count);
-            KnuthNode<double> Iter1, Iter2;
+            KnuthNode<Complex> Iter1, Iter2;
             for (int i = 0; i < mtx1.storage.Rows.Count; ++i)
             {
                 Iter1 = mtx1.storage.Rows[i].Left;
@@ -341,7 +347,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// Get current matrix in full standart form
         /// </summary>
         /// <returns>matrix in full form</returns>
-        public double[][] getFullMatrix()
+        public Complex[][] getFullMatrix()
         {
             return storage.getFullMatrix();
         }
