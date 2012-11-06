@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>zlib.net</id>
+    <version>1.0.4.0</version>
+    <authors>Jean-loup Gailly, Mark Adler, ComponentAce</authors>
+    <owners>Jean-loup Gailly, Mark Adler, ComponentAce</owners>
+    <licenseUrl>http://www.componentace.com/data/ZLIB_.NET/license.txt</licenseUrl>
+    <projectUrl>http://www.componentace.com/zlib_.NET.htm</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>ZLIB.NET is a 100% managed version of ZLIB compression library which implements deflate and inflate compression algorithms (zlib format).</description>
+    <summary>Managed zlib-compatible library providing deflate and inflate compression algorithms.</summary>
+    <copyright>Copyright (c) 2006, ComponentAce</copyright>
+    <tags>zip zlib deflate</tags>
+  </metadata>
+</package>
