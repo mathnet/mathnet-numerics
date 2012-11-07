@@ -1,9 +1,11 @@
-// <copyright file="Setup.cs" company="Math.NET">
+﻿// <copyright file="UseLinearAlgebraProvider.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
-// Copyright (c) 2009-2010 Math.NET
+//
+// Copyright (c) 2009-2012 Math.NET
+//
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -12,8 +14,10 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
+//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
+//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -26,24 +30,23 @@
 
 using NUnit.Framework;
 
-/// <summary>
-/// Setup properties for the unit tests.
-/// </summary>
-/// <remarks></remarks>
-[SetUpFixture]
-public class Setup
+namespace MathNet.Numerics.UnitTests
 {
-    /// <summary>
-    /// Sets up the linear algebra provider based on the App.config setting.
-    /// </summary>
-    [SetUp]
-    public void SetupProvider()
+    public class UseLinearAlgebraProvider : TestActionAttribute
     {
-        var provider = MathNet.Numerics.UnitTests.Properties.Settings.Default.LinearAlgebraProvider.ToLowerInvariant();
-
-        if (provider.Contains("mkl"))
+        public override void BeforeTest(TestDetails testDetails)
         {
-            MathNet.Numerics.Control.LinearAlgebraProvider = new MathNet.Numerics.Algorithms.LinearAlgebra.Mkl.MklLinearAlgebraProvider();
+            var provider = Properties.Settings.Default.LinearAlgebraProvider.ToLowerInvariant();
+
+            if (provider.Contains("mkl"))
+            {
+                Control.LinearAlgebraProvider = new Algorithms.LinearAlgebra.Mkl.MklLinearAlgebraProvider();
+            }
+        }
+
+        public override ActionTargets Targets
+        {
+            get { return ActionTargets.Suite; }
         }
     }
 }

@@ -78,14 +78,17 @@ namespace MathNet.Numerics.UnitTests.ComplexTests
         /// <param name="nan">Not a number name.</param>
         /// <param name="infinity">Infinity name.</param>
         /// <param name="number">Complex Number.</param>
-        [TestCase("en-US", "NaN", "Infinity", "1.1")]
-        [TestCase("tr-TR", "NaN", "Infinity", "1,1")]
-        [TestCase("de-DE", "n. def.", "+unendlich", "1,1")]
-        [TestCase("de-CH", "n. def.", "+unendlich", "1.1")]
-        [TestCase("he-IL", "לא מספר", "אינסוף חיובי", "1.1")]
-        public void CanFormatComplexToStringWithCulture(string cultureName, string nan, string infinity, string number)
+        [TestCase("en-US", "1.1")]
+        [TestCase("tr-TR", "1,1")]
+        [TestCase("de-DE", "1,1")]
+        [TestCase("de-CH", "1.1")]
+        [TestCase("he-IL", "1.1")]
+        public void CanFormatComplexToStringWithCulture(string cultureName, string number)
         {
             var provider = new CultureInfo(cultureName);
+            var nan = double.NaN.ToString(provider);
+            var infinity = double.PositiveInfinity.ToString(provider);
+
             Assert.AreEqual("(" + nan + ", " + nan + ")", Complex32.NaN.ToString(provider));
             Assert.AreEqual("(" + infinity + ", " + infinity + ")", Complex32.Infinity.ToString(provider));
             Assert.AreEqual("(0, 0)", Complex32.Zero.ToString(provider));

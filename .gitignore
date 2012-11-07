@@ -3,6 +3,7 @@ bin
 out
 Thumbs.db
 TestResult.xml
+TestResults
 coverage.*
 _ReSharper*
 *.ReSharper

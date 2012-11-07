@@ -75,7 +75,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.IO
 
             Assert.AreEqual(100, a.RowCount);
             Assert.AreEqual(100, a.ColumnCount);
-            AssertHelpers.AlmostEqual(13.223654390985379, a.L2Norm().Real, 7);
+            AssertHelpers.AlmostEqual(13.223654390985379, a.L2Norm().Real, 5);
         }
 
         /// <summary>

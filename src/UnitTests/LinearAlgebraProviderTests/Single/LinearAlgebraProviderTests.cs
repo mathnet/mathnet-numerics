@@ -38,7 +38,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Single
     /// <summary>
     /// Base class for linear algebra provider tests.
     /// </summary>
-    [TestFixture]
+    [TestFixture, UseLinearAlgebraProvider]
     public class LinearAlgebraProviderTests
     {
         /// <summary>
@@ -54,15 +54,15 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Single
         /// <summary>
         /// Test matrix to use.
         /// </summary>
-        private readonly IDictionary<string, DenseMatrix> _matrices = new Dictionary<string, DenseMatrix>
-                                                                      {
-                                                                          { "Singular3x3", new DenseMatrix(new[,] { { 1.0f, 1.0f, 2.0f }, { 1.0f, 1.0f, 2.0f }, { 1.0f, 1.0f, 2.0f } }) },
-                                                                          { "Square3x3", new DenseMatrix(new[,] { { -1.1f, -2.2f, -3.3f }, { 0.0f, 1.1f, 2.2f }, { -4.4f, 5.5f, 6.6f } }) },
-                                                                          { "Square4x4", new DenseMatrix(new[,] { { -1.1f, -2.2f, -3.3f, -4.4f }, { 0.0f, 1.1f, 2.2f, 3.3f }, { 1.0f, 2.1f, 6.2f, 4.3f }, { -4.4f, 5.5f, 6.6f, -7.7f } }) },
-                                                                          { "Singular4x4", new DenseMatrix(new[,] { { -1.1f, -2.2f, -3.3f, -4.4f }, { -1.1f, -2.2f, -3.3f, -4.4f }, { -1.1f, -2.2f, -3.3f, -4.4f }, { -1.1f, -2.2f, -3.3f, -4.4f } }) },
-                                                                          { "Tall3x2", new DenseMatrix(new[,] { { -1.1f, -2.2f }, { 0.0f, 1.1f }, { -4.4f, 5.5f } }) },
-                                                                          { "Wide2x3", new DenseMatrix(new[,] { { -1.1f, -2.2f, -3.3f }, { 0.0f, 1.1f, 2.2f } }) }
-                                                                      };
+        readonly IDictionary<string, DenseMatrix> _matrices = new Dictionary<string, DenseMatrix>
+        {
+            { "Singular3x3", new DenseMatrix(new[,] { { 1.0f, 1.0f, 2.0f }, { 1.0f, 1.0f, 2.0f }, { 1.0f, 1.0f, 2.0f } }) },
+            { "Square3x3", new DenseMatrix(new[,] { { -1.1f, -2.2f, -3.3f }, { 0.0f, 1.1f, 2.2f }, { -4.4f, 5.5f, 6.6f } }) },
+            { "Square4x4", new DenseMatrix(new[,] { { -1.1f, -2.2f, -3.3f, -4.4f }, { 0.0f, 1.1f, 2.2f, 3.3f }, { 1.0f, 2.1f, 6.2f, 4.3f }, { -4.4f, 5.5f, 6.6f, -7.7f } }) },
+            { "Singular4x4", new DenseMatrix(new[,] { { -1.1f, -2.2f, -3.3f, -4.4f }, { -1.1f, -2.2f, -3.3f, -4.4f }, { -1.1f, -2.2f, -3.3f, -4.4f }, { -1.1f, -2.2f, -3.3f, -4.4f } }) },
+            { "Tall3x2", new DenseMatrix(new[,] { { -1.1f, -2.2f }, { 0.0f, 1.1f }, { -4.4f, 5.5f } }) },
+            { "Wide2x3", new DenseMatrix(new[,] { { -1.1f, -2.2f, -3.3f }, { 0.0f, 1.1f, 2.2f } }) }
+        };
 
         /// <summary>
         /// Can add a vector to scaled vector
