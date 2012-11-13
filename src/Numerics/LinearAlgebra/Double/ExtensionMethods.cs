@@ -59,10 +59,11 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// Computes the QR decomposition for a matrix.
         /// </summary>
         /// <param name="matrix">The matrix to factor.</param>
+        /// <param name="method">The type of QR factorization to perform.</param>
         /// <returns>The QR decomposition object.</returns>
-        public static QR QR(this Matrix<double> matrix)
+        public static QR QR(this Matrix<double> matrix, QRMethod method = QRMethod.Full)
         {
-            return (QR)QR<double>.Create(matrix);
+            return (QR)QR<double>.Create(matrix, method);
         }
 
         /// <summary>

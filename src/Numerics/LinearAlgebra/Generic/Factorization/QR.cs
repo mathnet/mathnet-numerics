@@ -32,13 +32,32 @@ namespace MathNet.Numerics.LinearAlgebra.Generic.Factorization
     using Numerics;
 
     /// <summary>
+    /// The type of QR factorization go perform.
+    /// </summary>
+    public enum QRMethod
+    {
+        /// <summary>
+        /// Compute the full QR factorization of a matrix.
+        /// </summary>
+        Full = 0,
+
+        /// <summary>
+        /// Compute the thin QR factorixation of a matrix.
+        /// </summary>
+        Thin = 1
+    }
+
+    /// <summary>
     /// <para>A class which encapsulates the functionality of the QR decomposition.</para>
-    /// <para>Any real square matrix A (m x n) may be decomposed as A = QR where Q is an orthogonal matrix (m x m)
-    /// (its columns are orthogonal unit vectors meaning QTQ = I) and R (m x n) is an upper triangular matrix 
+    /// <para>Any real square matrix A (m x n) may be decomposed as A = QR where Q is an orthogonal matrix
+    /// (its columns are orthogonal unit vectors meaning QTQ = I) and R is an upper triangular matrix 
     /// (also called right triangular matrix).</para>
     /// </summary>
     /// <remarks>
     /// The computation of the QR decomposition is done at construction time by Householder transformation.
+    /// If a <seealso cref="QRMethod.Full"/> factorization is performed, the resulting Q matrix is an m x m matrix 
+    /// and the R matrix is an m x n matrix. If a <seealso cref="QRMethod.Thin"/> factorization is performed, the 
+    /// resulting Q matrix is an m x n matrix and the R matrix is an n x n matrix.     
     /// </remarks>
     /// <typeparam name="T">Supported data types are double, single, <see cref="Complex"/>, and <see cref="Complex32"/>.</typeparam>
     public abstract class QR<T> : ISolver<T>
@@ -66,18 +85,19 @@ namespace MathNet.Numerics.LinearAlgebra.Generic.Factorization
         /// Internal method which routes the call to perform the QR factorization to the appropriate class.
         /// </summary>
         /// <param name="matrix">The matrix to factor.</param>
+        /// <param name="method">The type of QR factorization to perform.</param>
         /// <returns>A QR factorization object.</returns>
-        internal static QR<T> Create(Matrix<T> matrix)
+        internal static QR<T> Create(Matrix<T> matrix, QRMethod method = QRMethod.Full)
         {
             if (typeof(T) == typeof(double))
             {
                 var dense = matrix as LinearAlgebra.Double.DenseMatrix;
                 if (dense != null)
                 {
-                    return new LinearAlgebra.Double.Factorization.DenseQR(dense) as QR<T>;
+                    return new LinearAlgebra.Double.Factorization.DenseQR(dense, method) as QR<T>;
                 }
 
-                return new LinearAlgebra.Double.Factorization.UserQR(matrix as Matrix<double>) as QR<T>;
+                return new LinearAlgebra.Double.Factorization.UserQR(matrix as Matrix<double>, method) as QR<T>;
             }
 
             if (typeof(T) == typeof(float))
@@ -85,10 +105,10 @@ namespace MathNet.Numerics.LinearAlgebra.Generic.Factorization
                 var dense = matrix as LinearAlgebra.Single.DenseMatrix;
                 if (dense != null)
                 {
-                    return new LinearAlgebra.Single.Factorization.DenseQR(dense) as QR<T>;
+                    return new LinearAlgebra.Single.Factorization.DenseQR(dense, method) as QR<T>;
                 }
 
-                return new LinearAlgebra.Single.Factorization.UserQR(matrix as Matrix<float>) as QR<T>;
+                return new LinearAlgebra.Single.Factorization.UserQR(matrix as Matrix<float>, method) as QR<T>;
             }
 
             if (typeof(T) == typeof(Complex))
@@ -96,10 +116,10 @@ namespace MathNet.Numerics.LinearAlgebra.Generic.Factorization
                 var dense = matrix as LinearAlgebra.Complex.DenseMatrix;
                 if (dense != null)
                 {
-                    return new LinearAlgebra.Complex.Factorization.DenseQR(dense) as QR<T>;
+                    return new LinearAlgebra.Complex.Factorization.DenseQR(dense, method) as QR<T>;
                 }
 
-                return new LinearAlgebra.Complex.Factorization.UserQR(matrix as Matrix<Complex>) as QR<T>;
+                return new LinearAlgebra.Complex.Factorization.UserQR(matrix as Matrix<Complex>, method) as QR<T>;
             }
 
             if (typeof(T) == typeof(Complex32))
@@ -107,10 +127,10 @@ namespace MathNet.Numerics.LinearAlgebra.Generic.Factorization
                 var dense = matrix as LinearAlgebra.Complex32.DenseMatrix;
                 if (dense != null)
                 {
-                    return new LinearAlgebra.Complex32.Factorization.DenseQR(dense) as QR<T>;
+                    return new LinearAlgebra.Complex32.Factorization.DenseQR(dense, method) as QR<T>;
                 }
 
-                return new LinearAlgebra.Complex32.Factorization.UserQR(matrix as Matrix<Complex32>) as QR<T>;
+                return new LinearAlgebra.Complex32.Factorization.UserQR(matrix as Matrix<Complex32>, method) as QR<T>;
             }
 
             throw new NotSupportedException();

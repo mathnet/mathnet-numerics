@@ -24,6 +24,8 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using MathNet.Numerics.LinearAlgebra.Generic.Factorization;
+
 namespace MathNet.Numerics.Algorithms.LinearAlgebra.Acml
 {
     using System;

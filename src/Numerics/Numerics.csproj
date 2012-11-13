@@ -85,22 +85,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Algorithms\LinearAlgebra\Acml\AcmlLinearAlgebraProvider.Complex.cs">
-    </Compile>
-    <Compile Include="Algorithms\LinearAlgebra\Acml\AcmlLinearAlgebraProvider.Complex32.cs">
-    </Compile>
-    <Compile Include="Algorithms\LinearAlgebra\Acml\AcmlLinearAlgebraProvider.double.cs">
-    </Compile>
-    <Compile Include="Algorithms\LinearAlgebra\Acml\AcmlLinearAlgebraProvider.float.cs">
-    </Compile>
-    <Compile Include="Algorithms\LinearAlgebra\Acml\SafeNativeMethods.cs">
-    </Compile>
-    <Compile Include="Algorithms\LinearAlgebra\GotoBlas\GotoBlasLinearAlgebraProvider.Common.cs" />
-    <Compile Include="Algorithms\LinearAlgebra\GotoBlas\GotoBlasLinearAlgebraProvider.Complex.cs" />
-    <Compile Include="Algorithms\LinearAlgebra\GotoBlas\GotoBlasLinearAlgebraProvider.Complex32.cs" />
-    <Compile Include="Algorithms\LinearAlgebra\GotoBlas\GotoBlasLinearAlgebraProvider.double.cs" />
-    <Compile Include="Algorithms\LinearAlgebra\GotoBlas\GotoBlasLinearAlgebraProvider.float.cs" />
-    <Compile Include="Algorithms\LinearAlgebra\GotoBlas\SafeNativeMethods.cs" />
     <Compile Include="Algorithms\LinearAlgebra\ManagedLinearAlgebraProvider.Complex32.cs" />
     <Compile Include="Algorithms\LinearAlgebra\ManagedLinearAlgebraProvider.Complex.cs" />
     <Compile Include="Algorithms\LinearAlgebra\ManagedLinearAlgebraProvider.Single.cs" />

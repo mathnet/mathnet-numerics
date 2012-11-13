@@ -28,6 +28,8 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using MathNet.Numerics.LinearAlgebra.Generic.Factorization;
+
 namespace MathNet.Numerics.Algorithms.LinearAlgebra.GotoBlas
 {
     using System;
@@ -540,7 +542,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.GotoBlas
         /// to be used by the QR solve routine.</param>
         /// <remarks>This is similar to the GEQRF and ORGQR LAPACK routines.</remarks>
         [SecuritySafeCritical]
-        public override void QRFactor(float[] r, int rowsR, int columnsR, float[] q, float[] tau)
+        public override void QRFactor(float[] r, int rowsR, int columnsR, float[] q, float[] tau, QRMethod method = QRMethod.Full)
         {
             if (r == null)
             {
@@ -746,8 +748,8 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.GotoBlas
         /// <summary>
         /// Solves A*X=B for X using a previously QR factored matrix.
         /// </summary>
-        /// <param name="q">The Q matrix obtained by calling <see cref="QRFactor(float[],int,int,float[],float[])"/>.</param>
-        /// <param name="r">The R matrix obtained by calling <see cref="QRFactor(float[],int,int,float[],float[])"/>. </param>
+        /// <param name="q">The Q matrix obtained by calling <see cref="QRFactor(float[],int,int,float[],float[],QRMethod)"/>.</param>
+        /// <param name="r">The R matrix obtained by calling <see cref="QRFactor(float[],int,int,float[],float[],QRMethod)"/>. </param>
         /// <param name="rowsR">The number of rows in the A matrix.</param>
         /// <param name="columnsR">The number of columns in the A matrix.</param>
         /// <param name="tau">Contains additional information on Q. Only used for the native solver
@@ -813,7 +815,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.GotoBlas
         /// </summary>
         /// <param name="q">The Q matrix obtained by QR factor. This is only used for the managed provider and can be
         /// <c>null</c> for the native provider. The native provider uses the Q portion stored in the R matrix.</param>
-        /// <param name="r">The R matrix obtained by calling <see cref="QRFactor(float[],int,int,float[],float[])"/>. </param>
+        /// <param name="r">The R matrix obtained by calling <see cref="QRFactor(float[],int,int,float[],float[],QRMethod)"/>. </param>
         /// <param name="rowsR">The number of rows in the A matrix.</param>
         /// <param name="columnsR">The number of columns in the A matrix.</param>
         /// <param name="tau">Contains additional information on Q. Only used for the native solver

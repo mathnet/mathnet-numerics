@@ -24,6 +24,8 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using MathNet.Numerics.LinearAlgebra.Generic.Factorization;
+
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
 {
     using System;
@@ -66,6 +68,38 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
         {
             var matrixI = UserDefinedMatrix.Identity(order);
             var factorQR = matrixI.QR();
+            var r = factorQR.R;
+
+            Assert.AreEqual(matrixI.RowCount, r.RowCount);
+            Assert.AreEqual(matrixI.ColumnCount, r.ColumnCount);
+
+            for (var i = 0; i < r.RowCount; i++)
+            {
+                for (var j = 0; j < r.ColumnCount; j++)
+                {
+                    if (i == j)
+                    {
+                        Assert.AreEqual(-Complex32.One, r[i, j]);
+                    }
+                    else
+                    {
+                        Assert.AreEqual(Complex32.Zero, r[i, j]);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Can factorize identity matrix using thin QR.
+        /// </summary>
+        /// <param name="order">Matrix order.</param>
+        [TestCase(1)]
+        [TestCase(10)]
+        [TestCase(100)]
+        public void CanFactorizeIdentityUsingThinQR(int order)
+        {
+            var matrixI = UserDefinedMatrix.Identity(order);
+            var factorQR = matrixI.QR(QRMethod.Thin);
             var r = factorQR.R;
 
             Assert.AreEqual(matrixI.RowCount, r.RowCount);
@@ -166,6 +200,56 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
                         Assert.AreEqual(matrixQсtQ[i, j].Real, 0.0f, 1e-3f);
                         Assert.AreEqual(matrixQсtQ[i, j].Imaginary, 0.0f, 1e-3f);
                     }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Can factorize a random matrix using thin QR.
+        /// </summary>
+        /// <param name="row">Matrix row number.</param>
+        /// <param name="column">Matrix column number.</param>
+        [TestCase(1, 1)]
+        [TestCase(2, 2)]
+        [TestCase(5, 5)]
+        [TestCase(10, 6)]
+        [TestCase(50, 48)]
+        [TestCase(100, 98)]
+        public void CanFactorizeRandomMatrixUsingThinQR(int row, int column)
+        {
+            var matrixA = MatrixLoader.GenerateRandomUserDefinedMatrix(row, column);
+            var factorQR = matrixA.QR(QRMethod.Thin);
+            var q = factorQR.Q;
+            var r = factorQR.R;
+
+            // Make sure the R has the right dimensions.
+            Assert.AreEqual(column, r.RowCount);
+            Assert.AreEqual(column, r.ColumnCount);
+
+            // Make sure the Q has the right dimensions.
+            Assert.AreEqual(row, q.RowCount);
+            Assert.AreEqual(column, q.ColumnCount);
+
+            // Make sure the R factor is upper triangular.
+            for (var i = 0; i < r.RowCount; i++)
+            {
+                for (var j = 0; j < r.ColumnCount; j++)
+                {
+                    if (i > j)
+                    {
+                        Assert.AreEqual(Complex32.Zero, r[i, j]);
+                    }
+                }
+            }
+
+            // Make sure the Q*R is the original matrix.
+            var matrixQfromR = q * r;
+            for (var i = 0; i < matrixQfromR.RowCount; i++)
+            {
+                for (var j = 0; j < matrixQfromR.ColumnCount; j++)
+                {
+                    Assert.AreEqual(matrixA[i, j].Real, matrixQfromR[i, j].Real, 1e-3f);
+                    Assert.AreEqual(matrixA[i, j].Imaginary, matrixQfromR[i, j].Imaginary, 1e-3f);
                 }
             }
         }
@@ -319,6 +403,199 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
             var matrixA = MatrixLoader.GenerateRandomUserDefinedMatrix(order, order);
             var matrixACopy = matrixA.Clone();
             var factorQR = matrixA.QR();
+
+            var matrixB = MatrixLoader.GenerateRandomUserDefinedMatrix(order, order);
+            var matrixBCopy = matrixB.Clone();
+
+            var matrixX = new UserDefinedMatrix(order, order);
+            factorQR.Solve(matrixB, matrixX);
+
+            // The solution X row dimension is equal to the column dimension of A
+            Assert.AreEqual(matrixA.ColumnCount, matrixX.RowCount);
+
+            // The solution X has the same number of columns as B
+            Assert.AreEqual(matrixB.ColumnCount, matrixX.ColumnCount);
+
+            var matrixBReconstruct = matrixA * matrixX;
+
+            // Check the reconstruction.
+            for (var i = 0; i < matrixB.RowCount; i++)
+            {
+                for (var j = 0; j < matrixB.ColumnCount; j++)
+                {
+                    Assert.AreEqual(matrixB[i, j].Real, matrixBReconstruct[i, j].Real, 1e-3f);
+                    Assert.AreEqual(matrixB[i, j].Imaginary, matrixBReconstruct[i, j].Imaginary, 1e-3f);
+                }
+            }
+
+            // Make sure A didn't change.
+            for (var i = 0; i < matrixA.RowCount; i++)
+            {
+                for (var j = 0; j < matrixA.ColumnCount; j++)
+                {
+                    Assert.AreEqual(matrixACopy[i, j], matrixA[i, j]);
+                }
+            }
+
+            // Make sure B didn't change.
+            for (var i = 0; i < matrixB.RowCount; i++)
+            {
+                for (var j = 0; j < matrixB.ColumnCount; j++)
+                {
+                    Assert.AreEqual(matrixBCopy[i, j], matrixB[i, j]);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Can solve a system of linear equations for a random vector (Ax=b).
+        /// </summary>
+        /// <param name="order">Matrix order.</param>
+        [TestCase(1)]
+        [TestCase(2)]
+        [TestCase(5)]
+        [TestCase(10)]
+        [TestCase(50)]
+        [TestCase(100)]
+        public void CanSolveForRandomVectorUsingThinQR(int order)
+        {
+            var matrixA = MatrixLoader.GenerateRandomUserDefinedMatrix(order, order);
+            var matrixACopy = matrixA.Clone();
+            var factorQR = matrixA.QR(QRMethod.Thin);
+
+            var vectorb = MatrixLoader.GenerateRandomUserDefinedVector(order);
+            var resultx = factorQR.Solve(vectorb);
+
+            Assert.AreEqual(matrixA.ColumnCount, resultx.Count);
+
+            var matrixBReconstruct = matrixA * resultx;
+
+            // Check the reconstruction.
+            for (var i = 0; i < order; i++)
+            {
+                Assert.AreEqual(vectorb[i].Real, matrixBReconstruct[i].Real, 1e-3f);
+                Assert.AreEqual(vectorb[i].Imaginary, matrixBReconstruct[i].Imaginary, 1e-3f);
+            }
+
+            // Make sure A didn't change.
+            for (var i = 0; i < matrixA.RowCount; i++)
+            {
+                for (var j = 0; j < matrixA.ColumnCount; j++)
+                {
+                    Assert.AreEqual(matrixACopy[i, j], matrixA[i, j]);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Can solve a system of linear equations for a random matrix (AX=B).
+        /// </summary>
+        /// <param name="order">Matrix order.</param>
+        [TestCase(1)]
+        [TestCase(2)]
+        [TestCase(5)]
+        [TestCase(10)]
+        [TestCase(50)]
+        [TestCase(100)]
+        public void CanSolveForRandomMatrixUsingThinQR(int order)
+        {
+            var matrixA = MatrixLoader.GenerateRandomUserDefinedMatrix(order, order);
+            var matrixACopy = matrixA.Clone();
+            var factorQR = matrixA.QR(QRMethod.Thin);
+
+            var matrixB = MatrixLoader.GenerateRandomUserDefinedMatrix(order, order);
+            var matrixX = factorQR.Solve(matrixB);
+
+            // The solution X row dimension is equal to the column dimension of A
+            Assert.AreEqual(matrixA.ColumnCount, matrixX.RowCount);
+
+            // The solution X has the same number of columns as B
+            Assert.AreEqual(matrixB.ColumnCount, matrixX.ColumnCount);
+
+            var matrixBReconstruct = matrixA * matrixX;
+
+            // Check the reconstruction.
+            for (var i = 0; i < matrixB.RowCount; i++)
+            {
+                for (var j = 0; j < matrixB.ColumnCount; j++)
+                {
+                    Assert.AreEqual(matrixB[i, j].Real, matrixBReconstruct[i, j].Real, 1e-3f);
+                    Assert.AreEqual(matrixB[i, j].Imaginary, matrixBReconstruct[i, j].Imaginary, 1e-3f);
+                }
+            }
+
+            // Make sure A didn't change.
+            for (var i = 0; i < matrixA.RowCount; i++)
+            {
+                for (var j = 0; j < matrixA.ColumnCount; j++)
+                {
+                    Assert.AreEqual(matrixACopy[i, j], matrixA[i, j]);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Can solve for a random vector into a result vector.
+        /// </summary>
+        /// <param name="order">Matrix order.</param>
+        [TestCase(1)]
+        [TestCase(2)]
+        [TestCase(5)]
+        [TestCase(10)]
+        [TestCase(50)]
+        [TestCase(100)]
+        public void CanSolveForRandomVectorWhenResultVectorGivenUsingThinQR(int order)
+        {
+            var matrixA = MatrixLoader.GenerateRandomUserDefinedMatrix(order, order);
+            var matrixACopy = matrixA.Clone();
+            var factorQR = matrixA.QR(QRMethod.Thin);
+            var vectorb = MatrixLoader.GenerateRandomUserDefinedVector(order);
+            var vectorbCopy = vectorb.Clone();
+            var resultx = new UserDefinedVector(order);
+            factorQR.Solve(vectorb, resultx);
+
+            Assert.AreEqual(vectorb.Count, resultx.Count);
+
+            var matrixBReconstruct = matrixA * resultx;
+
+            // Check the reconstruction.
+            for (var i = 0; i < vectorb.Count; i++)
+            {
+                Assert.AreEqual(vectorb[i].Real, matrixBReconstruct[i].Real, 1e-3f);
+                Assert.AreEqual(vectorb[i].Imaginary, matrixBReconstruct[i].Imaginary, 1e-3f);
+            }
+
+            // Make sure A didn't change.
+            for (var i = 0; i < matrixA.RowCount; i++)
+            {
+                for (var j = 0; j < matrixA.ColumnCount; j++)
+                {
+                    Assert.AreEqual(matrixACopy[i, j], matrixA[i, j]);
+                }
+            }
+
+            // Make sure b didn't change.
+            for (var i = 0; i < vectorb.Count; i++)
+            {
+                Assert.AreEqual(vectorbCopy[i], vectorb[i]);
+            }
+        }
+
+        /// <summary>
+        /// Can solve a system of linear equations for a random matrix (AX=B) into a result matrix.
+        /// </summary>
+        /// <param name="order">Matrix order.</param>
+        [TestCase(1)]
+        [TestCase(2)]
+        [TestCase(5)]
+        [TestCase(10)]
+        [TestCase(50)]
+        [TestCase(100)]
+        public void CanSolveForRandomMatrixWhenResultMatrixGivenUsingThinQR(int order)
+        {
+            var matrixA = MatrixLoader.GenerateRandomUserDefinedMatrix(order, order);
+            var matrixACopy = matrixA.Clone();
+            var factorQR = matrixA.QR(QRMethod.Thin);
 
             var matrixB = MatrixLoader.GenerateRandomUserDefinedMatrix(order, order);
             var matrixBCopy = matrixB.Clone();

@@ -60,10 +60,11 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// Computes the QR decomposition for a matrix.
         /// </summary>
         /// <param name="matrix">The matrix to factor.</param>
+        /// <param name="method">The type of QR factorization to perform.</param>
         /// <returns>The QR decomposition object.</returns>
-        public static QR QR(this Matrix<Complex32> matrix)
+        public static QR QR(this Matrix<Complex32> matrix, QRMethod method = QRMethod.Full)
         {
-            return (QR)QR<Complex32>.Create(matrix);
+            return (QR)QR<Complex32>.Create(matrix, method);
         }
 
         /// <summary>

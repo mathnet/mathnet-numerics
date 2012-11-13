@@ -88,6 +88,39 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Factorization
         }
 
         /// <summary>
+        /// Can factorize identity matrix using thin QR.
+        /// </summary>
+        /// <param name="order">Matrix order.</param>
+        [TestCase(1)]
+        [TestCase(10)]
+        [TestCase(100)]
+        public void CanFactorizeIdentityUsingThinQR(int order)
+        {
+            var matrixI = DenseMatrix.Identity(order);
+            var factorQR = matrixI.QR(QRMethod.Thin);
+            var r = factorQR.R;
+
+            Assert.AreEqual(matrixI.ColumnCount, r.RowCount);
+            Assert.AreEqual(matrixI.ColumnCount, r.ColumnCount);
+
+            for (var i = 0; i < r.RowCount; i++)
+            {
+                for (var j = 0; j < r.ColumnCount; j++)
+                {
+                    if (i == j)
+                    {
+                        Assert.AreEqual(1.0, Math.Abs(r[i, j]));
+                    }
+                    else
+                    {
+                        Assert.AreEqual(0.0, r[i, j]);
+                    }
+                }
+            }
+        }
+
+
+        /// <summary>
         /// Identity determinant is one.
         /// </summary>
         /// <param name="order">Matrix order.</param>
@@ -146,6 +179,55 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Factorization
                 for (var j = 0; j < matrixQfromR.ColumnCount; j++)
                 {
                     Assert.AreEqual(matrixA[i, j], matrixQfromR[i, j], 1e-4);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Can factorize a random matrix using thin QR.
+        /// </summary>
+        /// <param name="row">Matrix row number.</param>
+        /// <param name="column">Matrix column number.</param>
+        [TestCase(1, 1)]
+        [TestCase(2, 2)]
+        [TestCase(5, 5)]
+        [TestCase(10, 6)]
+        [TestCase(50, 48)]
+        [TestCase(100, 98)]
+        public void CanFactorizeRandomMatrixUsingThinQR(int row, int column)
+        {
+            var matrixA = MatrixLoader.GenerateRandomDenseMatrix(row, column);
+            var factorQR = matrixA.QR(QRMethod.Thin);
+            var q = factorQR.Q;
+            var r = factorQR.R;
+
+            // Make sure the R has the right dimensions.
+            Assert.AreEqual(column, r.RowCount);
+            Assert.AreEqual(column, r.ColumnCount);
+
+            // Make sure the Q has the right dimensions.
+            Assert.AreEqual(row, q.RowCount);
+            Assert.AreEqual(column, q.ColumnCount);
+
+            // Make sure the R factor is upper triangular.
+            for (var i = 0; i < r.RowCount; i++)
+            {
+                for (var j = 0; j < r.ColumnCount; j++)
+                {
+                    if (i > j)
+                    {
+                        Assert.AreEqual(0.0, r[i, j]);
+                    }
+                }
+            }
+
+            // Make sure the Q*R is the original matrix.
+            var matrixQfromR = q * r;
+            for (var i = 0; i < matrixQfromR.RowCount; i++)
+            {
+                for (var j = 0; j < matrixQfromR.ColumnCount; j++)
+                {
+                    Assert.AreEqual(matrixA[i, j], matrixQfromR[i, j], 1.0e-4);
                 }
             }
         }

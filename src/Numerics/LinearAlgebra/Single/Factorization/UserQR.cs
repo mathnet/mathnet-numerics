@@ -28,6 +28,8 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using MathNet.Numerics.LinearAlgebra.Generic.Factorization;
+
 namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
 {
     using System;
@@ -52,8 +54,9 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
         /// QR factorization when the constructor is called and cache it's factorization.
         /// </summary>
         /// <param name="matrix">The matrix to factor.</param>
+        /// <param name="method">The QR factorization method to use.</param>
         /// <exception cref="ArgumentNullException">If <paramref name="matrix"/> is <c>null</c>.</exception>
-        public UserQR(Matrix<float> matrix)
+        public UserQR(Matrix<float> matrix, QRMethod method = QRMethod.Full)
         {
             if (matrix == null)
             {
@@ -65,25 +68,57 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
                 throw Matrix.DimensionsDontMatch<ArgumentException>(matrix);
             }
 
-            MatrixR = matrix.Clone();
-            MatrixQ = matrix.CreateMatrix(matrix.RowCount, matrix.RowCount);
-
-            for (var i = 0; i < matrix.RowCount; i++)
-            {
-                MatrixQ.At(i, i, 1.0f);
-            }
-
             var minmn = Math.Min(matrix.RowCount, matrix.ColumnCount);
             var u = new float[minmn][];
-            for (var i = 0; i < minmn; i++)
-            {
-                u[i] = GenerateColumn(MatrixR, i, i);
-                ComputeQR(u[i], MatrixR, i, matrix.RowCount, i + 1, matrix.ColumnCount, Control.NumberOfParallelWorkerThreads);
-            }
 
-            for (var i = minmn - 1; i >= 0; i--)
+            if (method == QRMethod.Full)
             {
-                ComputeQR(u[i], MatrixQ, i, matrix.RowCount, i, matrix.RowCount, Control.NumberOfParallelWorkerThreads);
+                MatrixR = matrix.Clone();
+                MatrixQ = matrix.CreateMatrix(matrix.RowCount, matrix.RowCount);
+
+                for (var i = 0; i < matrix.RowCount; i++)
+                {
+                    MatrixQ.At(i, i, 1.0f);
+                }
+
+                for (var i = 0; i < minmn; i++)
+                {
+                    u[i] = GenerateColumn(MatrixR, i, i);
+                    ComputeQR(u[i], MatrixR, i, matrix.RowCount, i + 1, matrix.ColumnCount,
+                              Control.NumberOfParallelWorkerThreads);
+                }
+
+                for (var i = minmn - 1; i >= 0; i--)
+                {
+                    ComputeQR(u[i], MatrixQ, i, matrix.RowCount, i, matrix.RowCount,
+                              Control.NumberOfParallelWorkerThreads);
+                }
+            }
+            else
+            {
+                MatrixR = matrix.CreateMatrix(matrix.ColumnCount, matrix.ColumnCount);
+                MatrixQ = matrix.Clone();
+
+                for (var i = 0; i < minmn; i++)
+                {
+                    u[i] = GenerateColumn(MatrixQ, i, i);
+                    ComputeQR(u[i], MatrixQ, i, matrix.RowCount, i + 1, matrix.ColumnCount,
+                              Control.NumberOfParallelWorkerThreads);
+                }
+
+                MatrixR = MatrixQ.SubMatrix(0, matrix.ColumnCount, 0, matrix.ColumnCount);
+                MatrixQ.Clear();
+
+                for (var i = 0; i < matrix.ColumnCount; i++)
+                {
+                    MatrixQ.At(i, i, 1.0f);
+                }
+
+                for (var i = minmn - 1; i >= 0; i--)
+                {
+                    ComputeQR(u[i], MatrixQ, i, matrix.RowCount, i, matrix.ColumnCount,
+                              Control.NumberOfParallelWorkerThreads);
+                }
             }
         }
 

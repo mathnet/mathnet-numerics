@@ -47,7 +47,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic.Factorization
         /// </summary>
         /// <param name="matrix">The matrix to factor.</param>
         /// <returns>A QR factorization object.</returns>
-        new internal static GramSchmidt<T> Create(Matrix<T> matrix)
+        internal static GramSchmidt<T> Create(Matrix<T> matrix)
         {
             if (typeof(T) == typeof(double))
             {

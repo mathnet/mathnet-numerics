@@ -24,6 +24,8 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using MathNet.Numerics.LinearAlgebra.Generic.Factorization;
+
 namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Double
 {
     using System;
@@ -788,10 +790,120 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Double
         }
 
         /// <summary>
+        /// Can compute thin QR factorization of a square matrix.
+        /// </summary>
+        [Test]
+        public void CanComputeThinQRFactorSquareMatrix()
+        {
+            var matrix = _matrices["Square3x3"];
+            var r = new double[matrix.ColumnCount * matrix.ColumnCount];
+            var tau = new double[3];
+            var q = new double[matrix.RowCount * matrix.ColumnCount];
+            Array.Copy(matrix.Data, q, q.Length);
+
+            Control.LinearAlgebraProvider.ThinQRFactor(q, matrix.RowCount, matrix.ColumnCount, r, tau);
+
+            var mq = new DenseMatrix(matrix.RowCount, matrix.ColumnCount, q);
+            var mr = new DenseMatrix(matrix.ColumnCount, matrix.ColumnCount, r);
+            var a = mq * mr;
+
+            for (var row = 0; row < matrix.RowCount; row++)
+            {
+                for (var col = 0; col < matrix.ColumnCount; col++)
+                {
+                    AssertHelpers.AlmostEqual(matrix[row, col], a[row, col], 14);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Can compute thin QR factorization of a tall matrix.
+        /// </summary>
+        [Test]
+        public void CanComputeThinQRFactorTallMatrix()
+        {
+            var matrix = _matrices["Tall3x2"];
+            var r = new double[matrix.ColumnCount * matrix.ColumnCount];
+            var tau = new double[3];
+            var q = new double[matrix.RowCount * matrix.ColumnCount];
+            Array.Copy(matrix.Data, q, q.Length);
+
+            Control.LinearAlgebraProvider.ThinQRFactor(q, matrix.RowCount, matrix.ColumnCount, r, tau);
+
+            var mq = new DenseMatrix(matrix.RowCount, matrix.ColumnCount, q);
+            var mr = new DenseMatrix(matrix.ColumnCount, matrix.ColumnCount, r);
+            var a = mq * mr;
+
+            for (var row = 0; row < matrix.RowCount; row++)
+            {
+                for (var col = 0; col < matrix.ColumnCount; col++)
+                {
+                    AssertHelpers.AlmostEqual(matrix[row, col], a[row, col], 14);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Can compute thin QR factorization of a square matrix using a work array.
+        /// </summary>
+        [Test]
+        public void CanComputeThinQRFactorSquareMatrixWithWorkArray()
+        {
+            var matrix = _matrices["Square3x3"];
+            var r = new double[matrix.ColumnCount * matrix.ColumnCount];
+            var tau = new double[3];
+            var q = new double[matrix.RowCount * matrix.ColumnCount];
+            Array.Copy(matrix.Data, q, q.Length);
+
+            var work = new double[matrix.ColumnCount * Control.BlockSize];
+            Control.LinearAlgebraProvider.ThinQRFactor(q, matrix.RowCount, matrix.ColumnCount, r, tau, work);
+
+            var mq = new DenseMatrix(matrix.RowCount, matrix.ColumnCount, q);
+            var mr = new DenseMatrix(matrix.ColumnCount, matrix.ColumnCount, r);
+
+            var a = mq * mr;
+
+            for (var row = 0; row < matrix.RowCount; row++)
+            {
+                for (var col = 0; col < matrix.ColumnCount; col++)
+                {
+                    AssertHelpers.AlmostEqual(matrix[row, col], a[row, col], 14);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Can compute thin QR factorization of a tall matrix using a work matrix.
+        /// </summary>
+        [Test]
+        public void CanComputeThinQRFactorTallMatrixWithWorkArray()
+        {
+            var matrix = _matrices["Tall3x2"];
+            var r = new double[matrix.ColumnCount * matrix.ColumnCount];
+            var tau = new double[3];
+            var q = new double[matrix.RowCount * matrix.ColumnCount];
+            Array.Copy(matrix.Data, q, q.Length);
+
+            var work = new double[matrix.ColumnCount * Control.BlockSize];
+            Control.LinearAlgebraProvider.ThinQRFactor(q, matrix.RowCount, matrix.ColumnCount, r, tau, work);
+
+            var mq = new DenseMatrix(matrix.RowCount, matrix.ColumnCount, q);
+            var mr = new DenseMatrix(matrix.ColumnCount, matrix.ColumnCount, r);
+            var a = mq * mr;
+            for (var row = 0; row < matrix.RowCount; row++)
+            {
+                for (var col = 0; col < matrix.ColumnCount; col++)
+                {
+                    AssertHelpers.AlmostEqual(matrix[row, col], a[row, col], 14);
+                }
+            }
+        }
+
+        /// <summary>
         /// Can solve Ax=b using QR factorization with a square A matrix.
         /// </summary>
         [Test]
-        public void CanSolveUsingQRSquareMatrix()
+        public void  CanSolveUsingQRSquareMatrix()
         {
             var matrix = _matrices["Square3x3"];
             var a = new double[matrix.RowCount * matrix.ColumnCount];
@@ -852,7 +964,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Double
 
             var b = new[] { 1.0, 2.0, 3.0, 4.0, 5.0, 6.0 };
             var x = new double[matrix.ColumnCount * 2];
-            var work = new double[matrix.RowCount * matrix.RowCount];
+            var work = new double[matrix.RowCount * Control.BlockSize];
             Control.LinearAlgebraProvider.QRSolve(a, matrix.RowCount, matrix.ColumnCount, b, 2, x, work);
 
             NotModified(3, 3, a, matrix);
@@ -1013,6 +1125,232 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Double
             AssertHelpers.AlmostEqual(test[1, 1], x[3], 14);
         }
 
+        /// <summary>
+        /// Can solve Ax=b using thin QR factorization with a square A matrix.
+        /// </summary>
+        [Test]
+        public void CanSolveUsingThinQRSquareMatrix()
+        {
+            var matrix = _matrices["Square3x3"];
+            var a = new double[matrix.RowCount * matrix.ColumnCount];
+            Array.Copy(matrix.Data, a, a.Length);
+
+            var b = new[] { 1.0, 2.0, 3.0, 4.0, 5.0, 6.0 };
+            var x = new double[matrix.ColumnCount * 2];
+            Control.LinearAlgebraProvider.QRSolve(a, matrix.RowCount, matrix.ColumnCount, b, 2, x, QRMethod.Thin);
+
+            NotModified(3, 3, a, matrix);
+
+            var mx = new DenseMatrix(matrix.ColumnCount, 2, x);
+            var mb = matrix * mx;
+
+            AssertHelpers.AlmostEqual(mb[0, 0], b[0], 14);
+            AssertHelpers.AlmostEqual(mb[1, 0], b[1], 14);
+            AssertHelpers.AlmostEqual(mb[2, 0], b[2], 14);
+            AssertHelpers.AlmostEqual(mb[0, 1], b[3], 14);
+            AssertHelpers.AlmostEqual(mb[1, 1], b[4], 14);
+            AssertHelpers.AlmostEqual(mb[2, 1], b[5], 14);
+        }
+
+        /// <summary>
+        /// Can solve Ax=b using thin QR factorization with a tall A matrix.
+        /// </summary>
+        [Test]
+        public void CanSolveUsingThinQRTallMatrix()
+        {
+            var matrix = _matrices["Tall3x2"];
+            var a = new double[matrix.RowCount * matrix.ColumnCount];
+            Array.Copy(matrix.Data, a, a.Length);
+
+            var b = new[] { 1.0, 2.0, 3.0, 4.0, 5.0, 6.0 };
+            var x = new double[matrix.ColumnCount * 2];
+            Control.LinearAlgebraProvider.QRSolve(a, matrix.RowCount, matrix.ColumnCount, b, 2, x, QRMethod.Thin);
+
+            NotModified(3, 2, a, matrix);
+
+            var mb = new DenseMatrix(matrix.RowCount, 2, b);
+            var test = (matrix.Transpose() * matrix).Inverse() * matrix.Transpose() * mb;
+
+            AssertHelpers.AlmostEqual(test[0, 0], x[0], 14);
+            AssertHelpers.AlmostEqual(test[1, 0], x[1], 14);
+            AssertHelpers.AlmostEqual(test[0, 1], x[2], 14);
+            AssertHelpers.AlmostEqual(test[1, 1], x[3], 14);
+        }
+
+        /// <summary>
+        /// Can solve Ax=b using thin QR factorization with a square A matrix
+        /// using a work array.
+        /// </summary>
+        [Test]
+        public void CanSolveUsingThinQRSquareMatrixUsingWorkArray()
+        {
+            var matrix = _matrices["Square3x3"];
+            var a = new double[matrix.RowCount * matrix.ColumnCount];
+            Array.Copy(matrix.Data, a, a.Length);
+
+            var b = new[] { 1.0, 2.0, 3.0, 4.0, 5.0, 6.0 };
+            var x = new double[matrix.ColumnCount * 2];
+            var work = new double[matrix.RowCount * matrix.ColumnCount];
+            Control.LinearAlgebraProvider.QRSolve(a, matrix.RowCount, matrix.ColumnCount, b, 2, x, work, QRMethod.Thin);
+
+            NotModified(3, 3, a, matrix);
+
+            var mx = new DenseMatrix(matrix.ColumnCount, 2, x);
+            var mb = matrix * mx;
+
+            AssertHelpers.AlmostEqual(mb[0, 0], b[0], 14);
+            AssertHelpers.AlmostEqual(mb[1, 0], b[1], 14);
+            AssertHelpers.AlmostEqual(mb[2, 0], b[2], 14);
+            AssertHelpers.AlmostEqual(mb[0, 1], b[3], 14);
+            AssertHelpers.AlmostEqual(mb[1, 1], b[4], 14);
+            AssertHelpers.AlmostEqual(mb[2, 1], b[5], 14);
+        }
+
+        /// <summary>
+        /// Can solve Ax=b using thin QR factorization with a tall A matrix
+        /// using a work array.
+        /// </summary>
+        [Test]
+        public void CanSolveUsingThinQRTallMatrixUsingWorkArray()
+        {
+            var matrix = _matrices["Tall3x2"];
+            var a = new double[matrix.RowCount * matrix.ColumnCount];
+            Array.Copy(matrix.Data, a, a.Length);
+
+            var b = new[] { 1.0, 2.0, 3.0, 4.0, 5.0, 6.0 };
+            var x = new double[matrix.ColumnCount * 2];
+            var work = new double[matrix.RowCount * matrix.ColumnCount];
+            Control.LinearAlgebraProvider.QRSolve(a, matrix.RowCount, matrix.ColumnCount, b, 2, x, work, QRMethod.Thin);
+
+            NotModified(3, 2, a, matrix);
+
+            var mb = new DenseMatrix(matrix.RowCount, 2, b);
+            var test = (matrix.Transpose() * matrix).Inverse() * matrix.Transpose() * mb;
+
+            AssertHelpers.AlmostEqual(test[0, 0], x[0], 14);
+            AssertHelpers.AlmostEqual(test[1, 0], x[1], 14);
+            AssertHelpers.AlmostEqual(test[0, 1], x[2], 14);
+            AssertHelpers.AlmostEqual(test[1, 1], x[3], 14);
+        }
+
+        /// <summary>
+        /// Can solve Ax=b using thin QR factorization with a square A matrix
+        /// using a factored A matrix.
+        /// </summary>
+        [Test]
+        public void CanSolveUsingThinQRSquareMatrixOnFactoredMatrix()
+        {
+            var matrix = _matrices["Square3x3"];
+            var a = new double[matrix.RowCount * matrix.ColumnCount];
+            Array.Copy(matrix.Data, a, a.Length);
+
+            var tau = new double[matrix.ColumnCount];
+            var r = new double[matrix.ColumnCount * matrix.ColumnCount];
+            Control.LinearAlgebraProvider.ThinQRFactor(a, matrix.RowCount, matrix.ColumnCount, r, tau);
+
+            var b = new[] { 1.0, 2.0, 3.0, 4.0, 5.0, 6.0 };
+            var x = new double[matrix.ColumnCount * 2];
+            Control.LinearAlgebraProvider.QRSolveFactored(a, r, matrix.RowCount, matrix.ColumnCount, tau, b, 2, x, QRMethod.Thin);
+
+            var mx = new DenseMatrix(matrix.ColumnCount, 2, x);
+            var mb = matrix * mx;
+
+            AssertHelpers.AlmostEqual(mb[0, 0], b[0], 14);
+            AssertHelpers.AlmostEqual(mb[1, 0], b[1], 14);
+            AssertHelpers.AlmostEqual(mb[2, 0], b[2], 14);
+            AssertHelpers.AlmostEqual(mb[0, 1], b[3], 14);
+            AssertHelpers.AlmostEqual(mb[1, 1], b[4], 14);
+            AssertHelpers.AlmostEqual(mb[2, 1], b[5], 14);
+        }
+
+        /// <summary>
+        /// Can solve Ax=b using thin QR factorization with a tall A matrix
+        /// using a factored A matrix.
+        /// </summary>
+        [Test]
+        public void CanSolveUsingThinQRTallMatrixOnFactoredMatrix()
+        {
+            var matrix = _matrices["Tall3x2"];
+            var a = new double[matrix.RowCount * matrix.ColumnCount];
+            Array.Copy(matrix.Data, a, a.Length);
+
+            var tau = new double[matrix.ColumnCount];
+            var r = new double[matrix.ColumnCount * matrix.ColumnCount];
+            Control.LinearAlgebraProvider.ThinQRFactor(a, matrix.RowCount, matrix.ColumnCount, r, tau);
+
+            var b = new[] { 1.0, 2.0, 3.0, 4.0, 5.0, 6.0 };
+            var x = new double[matrix.ColumnCount * 2];
+            Control.LinearAlgebraProvider.QRSolveFactored(a, r, matrix.RowCount, matrix.ColumnCount, tau, b, 2, x, QRMethod.Thin);
+
+            var mb = new DenseMatrix(matrix.RowCount, 2, b);
+            var test = (matrix.Transpose() * matrix).Inverse() * matrix.Transpose() * mb;
+
+            AssertHelpers.AlmostEqual(test[0, 0], x[0], 14);
+            AssertHelpers.AlmostEqual(test[1, 0], x[1], 14);
+            AssertHelpers.AlmostEqual(test[0, 1], x[2], 14);
+            AssertHelpers.AlmostEqual(test[1, 1], x[3], 14);
+        }
+
+        /// <summary>
+        /// Can solve Ax=b using thin QR factorization with a square A matrix
+        /// using a factored A matrix with a work array.
+        /// </summary>
+        [Test]
+        public void CanSolveUsingThinQRSquareMatrixOnFactoredMatrixWithWorkArray()
+        {
+            var matrix = _matrices["Square3x3"];
+            var a = new double[matrix.RowCount * matrix.ColumnCount];
+            Array.Copy(matrix.Data, a, a.Length);
+
+            var tau = new double[matrix.ColumnCount];
+            var r = new double[matrix.ColumnCount * matrix.ColumnCount];
+            var work = new double[2048];
+            Control.LinearAlgebraProvider.ThinQRFactor(a, matrix.RowCount, matrix.ColumnCount, r, tau, work);
+
+            var b = new[] { 1.0, 2.0, 3.0, 4.0, 5.0, 6.0 };
+            var x = new double[matrix.ColumnCount * 2];
+            Control.LinearAlgebraProvider.QRSolveFactored(a, r, matrix.RowCount, matrix.ColumnCount, tau, b, 2, x, work, QRMethod.Thin);
+
+            var mx = new DenseMatrix(matrix.ColumnCount, 2, x);
+            var mb = matrix * mx;
+
+            AssertHelpers.AlmostEqual(mb[0, 0], b[0], 14);
+            AssertHelpers.AlmostEqual(mb[1, 0], b[1], 14);
+            AssertHelpers.AlmostEqual(mb[2, 0], b[2], 14);
+            AssertHelpers.AlmostEqual(mb[0, 1], b[3], 14);
+            AssertHelpers.AlmostEqual(mb[1, 1], b[4], 14);
+            AssertHelpers.AlmostEqual(mb[2, 1], b[5], 14);
+        }
+
+        /// <summary>
+        /// Can solve Ax=b using thin QR factorization with a tall A matrix
+        /// using a factored A matrix with a work array.
+        /// </summary>
+        [Test]
+        public void CanSolveUsingThinQRTallMatrixOnFactoredMatrixWithWorkArray()
+        {
+            var matrix = _matrices["Tall3x2"];
+            var a = new double[matrix.RowCount * matrix.ColumnCount];
+            Array.Copy(matrix.Data, a, a.Length);
+
+            var tau = new double[matrix.ColumnCount];
+            var r = new double[matrix.ColumnCount * matrix.ColumnCount];
+            var work = new double[2048];
+            Control.LinearAlgebraProvider.ThinQRFactor(a, matrix.RowCount, matrix.ColumnCount, r, tau, work);
+
+            var b = new[] { 1.0, 2.0, 3.0, 4.0, 5.0, 6.0 };
+            var x = new double[matrix.ColumnCount * 2];
+            Control.LinearAlgebraProvider.QRSolveFactored(a, r, matrix.RowCount, matrix.ColumnCount, tau, b, 2, x, work, QRMethod.Thin );
+
+            var mb = new DenseMatrix(matrix.RowCount, 2, b);
+            var test = (matrix.Transpose() * matrix).Inverse() * matrix.Transpose() * mb;
+
+            AssertHelpers.AlmostEqual(test[0, 0], x[0], 14);
+            AssertHelpers.AlmostEqual(test[1, 0], x[1], 14);
+            AssertHelpers.AlmostEqual(test[0, 1], x[2], 14);
+            AssertHelpers.AlmostEqual(test[1, 1], x[3], 14);
+        }
+        
         /// <summary>
         /// Can compute the SVD factorization of a square matrix.
         /// </summary>

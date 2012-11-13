@@ -32,6 +32,8 @@
    Last generated on UTC 2011-04-17 06:45:26Z
 */
 
+using MathNet.Numerics.LinearAlgebra.Generic.Factorization;
+
 namespace MathNet.Numerics.Algorithms.LinearAlgebra.Acml
 {
     using System;

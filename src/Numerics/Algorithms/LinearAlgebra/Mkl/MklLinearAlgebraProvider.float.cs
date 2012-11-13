@@ -32,6 +32,8 @@
    Last generated on UTC 2011-04-17 06:45:23Z
 */
 
+using MathNet.Numerics.LinearAlgebra.Generic.Factorization;
+
 namespace MathNet.Numerics.Algorithms.LinearAlgebra.Mkl
 {
     using System;
@@ -669,46 +671,13 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.Mkl
         /// <param name="b">The B matrix.</param>
         /// <param name="columnsB">The number of columns of B.</param>
         /// <param name="x">On exit, the solution matrix.</param>
+        /// <param name="method">The type of QR factorization to perform. <seealso cref="QRMethod"/></param>
         /// <remarks>Rows must be greater or equal to columns.</remarks>
-        public override void QRSolve(float[] a, int rows, int columns,  float[] b, int columnsB,  float[] x)
+        [SecuritySafeCritical]
+        public override void QRSolve(float[] a, int rows, int columns, float[] b, int columnsB, float[] x, QRMethod method = QRMethod.Full)
         {
-            if (a == null)
-            {
-                throw new ArgumentNullException("a");
-            }
-
-            if (b == null)
-            {
-                throw new ArgumentNullException("b");
-            }
-
-            if (x == null)
-            {
-                throw new ArgumentNullException("x");
-            }
-
-            if (a.Length != rows * columns)
-            {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, "a");
-            }
-
-            if (b.Length != rows * columnsB)
-            {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, "b");
-            }
-
-            if (x.Length != columns * columnsB)
-            {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, "x");
-            }
-
-            if (rows < columns)
-            {
-                throw new ArgumentException(Resources.RowsLessThanColumns);
-            }
-
             var work = new float[columns * Control.BlockSize];
-            QRSolve(a, rows, columns, b, columnsB, x, work);
+            QRSolve(a, rows, columns, b, columnsB, x, work, method);
         }
 
         /// <summary>
@@ -723,8 +692,10 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.Mkl
         /// <param name="work">The work array. The array must have a length of at least N,
         /// but should be N*blocksize. The blocksize is machine dependent. On exit, work[0] contains the optimal
         /// work size value.</param>
+        /// <param name="method">The type of QR factorization to perform. <seealso cref="QRMethod"/></param>
         /// <remarks>Rows must be greater or equal to columns.</remarks>
-        public override void QRSolve(float[] a, int rows, int columns, float[] b, int columnsB, float[] x, float[] work)
+        [SecuritySafeCritical]
+        public override void QRSolve(float[] a, int rows, int columns, float[] b, int columnsB, float[] x, float[] work, QRMethod method = QRMethod.Full)
         {
             if (a == null)
             {
@@ -772,7 +743,14 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.Mkl
                 throw new ArgumentException(Resources.WorkArrayTooSmall, "work");
             }
 
-            SafeNativeMethods.s_qr_solve(rows, columns, columnsB, a, b, x, work, work.Length);
+            if (method == QRMethod.Full)
+            {
+                SafeNativeMethods.s_qr_solve(rows, columns, columnsB, a, b, x, work, work.Length);
+            }
+            else
+            {
+                SafeNativeMethods.s_thin_qr_solve(rows, columns, columnsB, a, b, x, work, work.Length);
+            }
         }
 
         /// <summary>
@@ -787,57 +765,13 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.Mkl
         /// <param name="b">The B matrix.</param>
         /// <param name="columnsB">The number of columns of B.</param>
         /// <param name="x">On exit, the solution matrix.</param>
+        /// <param name="method">The type of QR factorization to perform. <seealso cref="QRMethod"/></param>
         /// <remarks>Rows must be greater or equal to columns.</remarks>
         [SecuritySafeCritical]
-        public override void QRSolveFactored(float[] q, float[] r, int rowsR, int columnsR, float[] tau, float[] b, int columnsB, float[] x)
+        public override void QRSolveFactored(float[] q, float[] r, int rowsR, int columnsR, float[] tau, float[] b, int columnsB, float[] x, QRMethod method = QRMethod.Full)
         {
-            if (r == null)
-            {
-                throw new ArgumentNullException("r");
-            }
-
-            if (q == null)
-            {
-                throw new ArgumentNullException("q");
-            }
-
-            if (b == null)
-            {
-                throw new ArgumentNullException("q");
-            }
-
-            if (x == null)
-            {
-                throw new ArgumentNullException("q");
-            }
-
-            if (r.Length != rowsR * columnsR)
-            {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, "r");
-            }
-
-            if (q.Length != rowsR * rowsR)
-            {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, "q");
-            }
-
-            if (b.Length != rowsR * columnsB)
-            {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, "b");
-            }
-
-            if (x.Length != columnsR * columnsB)
-            {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, "x");
-            }
-
-            if (rowsR < columnsR)
-            {
-                throw new ArgumentException(Resources.RowsLessThanColumns);
-            }
-            
             var work = new float[columnsR * Control.BlockSize];
-            QRSolveFactored(q, r, rowsR, columnsR, tau, b, columnsB, x, work);
+            QRSolveFactored(q, r, rowsR, columnsR, tau, b, columnsB, x, work, method);
         }
 
         /// <summary>
@@ -846,8 +780,8 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.Mkl
         /// <param name="q">The Q matrix obtained by QR factor. This is only used for the managed provider and can be
         /// <c>null</c> for the native provider. The native provider uses the Q portion stored in the R matrix.</param>
         /// <param name="r">The R matrix obtained by calling <see cref="QRFactor(float[],int,int,float[],float[])"/>. </param>
-        /// <param name="rowsR">The number of rows in the A matrix.</param>
-        /// <param name="columnsR">The number of columns in the A matrix.</param>
+        /// <param name="rowsA">The number of rows in the A matrix.</param>
+        /// <param name="columnsA">The number of columns in the A matrix.</param>
         /// <param name="tau">Contains additional information on Q. Only used for the native solver
         /// and can be <c>null</c> for the managed provider.</param>
         /// <param name="b">On entry the B matrix; on exit the X matrix.</param>
@@ -856,8 +790,10 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.Mkl
         /// <param name="work">The work array - only used in the native provider. The array must have a length of at least N,
         /// but should be N*blocksize. The blocksize is machine dependent. On exit, work[0] contains the optimal
         /// work size value.</param>
+        /// <param name="method">The type of QR factorization to perform. <seealso cref="QRMethod"/></param>
         /// <remarks>Rows must be greater or equal to columns.</remarks>
-        public override void QRSolveFactored(float[] q, float[] r, int rowsR, int columnsR, float[] tau, float[] b, int columnsB, float[] x, float[] work)
+        [SecuritySafeCritical]
+        public override void QRSolveFactored(float[] q, float[] r, int rowsA, int columnsA, float[] tau, float[] b, int columnsB, float[] x, float[] work, QRMethod method = QRMethod.Full)
         {
             if (r == null)
             {
@@ -884,38 +820,54 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.Mkl
                 throw new ArgumentNullException("work");
             }
 
+            int rowsQ, columnsQ, rowsR, columnsR;
+            if (method == QRMethod.Full)
+            {
+                rowsQ = columnsQ = rowsR = rowsA;
+                columnsR = columnsA;
+            }
+            else
+            {
+                rowsQ = rowsA;
+                columnsQ = rowsR = columnsR = columnsA;
+            }
+
             if (r.Length != rowsR * columnsR)
             {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, "r");
+                throw new ArgumentException(string.Format(Resources.ArgumentArrayWrongLength, rowsR * columnsR), "r");
             }
 
-            if (q.Length != rowsR * rowsR)
+            if (q.Length != rowsQ * columnsQ)
             {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, "q");
+                throw new ArgumentException(string.Format(Resources.ArgumentArrayWrongLength, rowsQ * columnsQ), "q");
             }
 
-            if (b.Length != rowsR * columnsB)
+            if (b.Length != rowsA * columnsB)
             {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, "b");
+                throw new ArgumentException(string.Format(Resources.ArgumentArrayWrongLength, rowsA * columnsB), "b");
             }
 
-            if (x.Length != columnsR * columnsB)
+            if (x.Length != columnsA * columnsB)
             {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, "x");
-            }
-
-            if (rowsR < columnsR)
-            {
-                throw new ArgumentException(Resources.RowsLessThanColumns);
+                throw new ArgumentException(string.Format(Resources.ArgumentArrayWrongLength, columnsA * columnsB), "x");
             }
 
             if (work.Length < 1)
             {
-                work[0] = rowsR * Control.BlockSize;
+                work[0] = rowsA * Control.BlockSize;
                 throw new ArgumentException(Resources.WorkArrayTooSmall, "work");
             }
 
-            SafeNativeMethods.s_qr_solve_factored(rowsR, columnsR, columnsB, r, b, tau, x, work, work.Length);
+            if (method == QRMethod.Full)
+            {
+                SafeNativeMethods.s_qr_solve_factored(rowsA, columnsA, columnsB, r, b, tau, x, work, work.Length);
+            }
+            else
+            {
+                // we don't have access to the raw Q matrix any more(it is stored in R in the full QR), need to think about this.
+                // let just call the managed version in the meantime. The heavy lifting has already been done. -marcus
+                base.QRSolveFactored(q, r, rowsA, columnsA, tau, b, columnsB, x, QRMethod.Thin);
+            }
         }
 
         /// <summary>

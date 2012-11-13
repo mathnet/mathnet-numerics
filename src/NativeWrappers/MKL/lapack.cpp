@@ -538,6 +538,27 @@ extern "C"{
 		return info;
 	}
 
+	DLLEXPORT MKL_INT s_qr_thin_factor(MKL_INT m, MKL_INT n, float q[], float tau[], float r[], float work[], MKL_INT len)
+	{
+		MKL_INT info = 0;
+		sgeqrf_(&m, &n, q, &m, tau, work, &len, &info);
+
+		for (MKL_INT i = 0; i < n; ++i)
+		{
+			for (MKL_INT j = 0; j < n; ++j)
+			{
+				if( i <= j) {
+					r[j * n + i] = q[j * m + i];
+				}
+			}
+		}
+
+		sorgqr_(&m, &n, &n, q, &m, tau, work, &len, &info);
+
+		return info;
+	}
+
+
 	DLLEXPORT MKL_INT d_qr_factor(MKL_INT m, MKL_INT n, double r[], double tau[], double q[], double work[], MKL_INT len)
 	{
 		MKL_INT info = 0;
@@ -563,6 +584,26 @@ extern "C"{
 		{
 			dorgqr_(&m, &n, &n, q, &m, tau, work, &len, &info);
 		}
+
+		return info;
+	}
+
+	DLLEXPORT MKL_INT d_qr_thin_factor(MKL_INT m, MKL_INT n, double q[], double tau[], double r[], double work[], MKL_INT len)
+	{
+		MKL_INT info = 0;
+		dgeqrf_(&m, &n, q, &m, tau, work, &len, &info);
+
+		for (MKL_INT i = 0; i < n; ++i)
+		{
+			for (MKL_INT j = 0; j < n; ++j)
+			{
+				if( i <= j) {
+					r[j * n + i] = q[j * m + i];
+				}
+			}
+		}
+
+		dorgqr_(&m, &n, &n, q, &m, tau, work, &len, &info);
 
 		return info;
 	}
@@ -596,6 +637,26 @@ extern "C"{
 		return info;
 	}
 
+	DLLEXPORT MKL_INT c_qr_thin_factor(MKL_INT m, MKL_INT n, MKL_Complex8 q[], MKL_Complex8 tau[], MKL_Complex8 r[], MKL_Complex8 work[], MKL_INT len)
+	{
+		MKL_INT info = 0;
+		cgeqrf_(&m, &n, q, &m, tau, work, &len, &info);
+
+		for (MKL_INT i = 0; i < n; ++i)
+		{
+			for (MKL_INT j = 0; j < n; ++j)
+			{
+				if( i <= j) {
+					r[j * n + i] = q[j * m + i];
+				}
+			}
+		}
+
+		cungqr_(&m, &n, &n, q, &m, tau, work, &len, &info);
+
+		return info;
+	}
+
 	DLLEXPORT MKL_INT z_qr_factor(MKL_INT m, MKL_INT n, MKL_Complex16 r[], MKL_Complex16 tau[], MKL_Complex16 q[], MKL_Complex16 work[], MKL_INT len)
 	{
 		MKL_INT info = 0;
@@ -625,29 +686,41 @@ extern "C"{
 		return info;
 	}
 
-	DLLEXPORT MKL_INT s_qr_solve(MKL_INT m, MKL_INT n, MKL_INT bn, float r[], float b[], float x[], float work[], MKL_INT len)
+	DLLEXPORT MKL_INT z_qr_thin_factor(MKL_INT m, MKL_INT n, MKL_Complex16 q[], MKL_Complex16 tau[], MKL_Complex16 r[], MKL_Complex16 work[], MKL_INT len)
 	{
 		MKL_INT info = 0;
-		float* clone_r = new float[m*n];
-		std::memcpy(clone_r, r, m*n*sizeof(float));
+		zgeqrf_(&m, &n, q, &m, tau, work, &len, &info);
 
-		float* tau = new float[std::max(1, std::min(m,n))];
-		sgeqrf_(&m, &n, clone_r, &m, tau, work, &len, &info);
-
-		if (info != 0)
+		for (MKL_INT i = 0; i < n; ++i)
 		{
-			delete[] clone_r;
-			delete[] tau;
-			return info;
+			for (MKL_INT j = 0; j < n; ++j)
+			{
+				if( i <= j) {
+					r[j * n + i] = q[j * m + i];
+				}
+			}
 		}
+
+		zungqr_(&m, &n, &n, q, &m, tau, work, &len, &info);
+
+		return info;
+	}
+
+	DLLEXPORT MKL_INT s_qr_solve(MKL_INT m, MKL_INT n, MKL_INT bn, float a[], float b[], float x[], float work[], MKL_INT len)
+	{
+		MKL_INT info = 0;
+	    MKL_INT* jpvt = new MKL_INT[n];
+		MKL_INT rank = 0;
+		float cond = -1.0;
+
+		float* clone_a = new float[m*n];
+		std::memcpy(clone_a, a, m*n*sizeof(float));
 
 		float* clone_b = new float[m*bn];
 		std::memcpy(clone_b, b, m*bn*sizeof(float));
 
-		char side ='L';
-		char tran = 'T';
-		sormqr_(&side, &tran, &m, &bn, &n, clone_r, &m, tau, clone_b, &m, work, &len, &info);
-		cblas_strsm(CblasColMajor, CblasLeft, CblasUpper, CblasNoTrans, CblasNonUnit, n, bn, 1.0, clone_r, m, clone_b, m);
+	    sgelsy_(&m, &n, &bn, clone_a, &m, clone_b, &m, jpvt, &cond, &rank, work, &len, &info);
+
 		for (MKL_INT i = 0; i < n; ++i)
 		{
 			for (MKL_INT j = 0; j < bn; ++j)
@@ -656,36 +729,27 @@ extern "C"{
 			}
 		}
 
-		delete[] clone_r;
-		delete[] tau;
+		delete[] jpvt;
+		delete[] clone_a;
 		delete[] clone_b;
 		return info;
 	}
 
-	DLLEXPORT MKL_INT d_qr_solve(MKL_INT m, MKL_INT n, MKL_INT bn, double r[], double b[], double x[], double work[], MKL_INT len)
+	DLLEXPORT MKL_INT d_qr_solve(MKL_INT m, MKL_INT n, MKL_INT bn, double a[], double b[], double x[], double work[], MKL_INT len)
 	{
 		MKL_INT info = 0;
-		double* clone_r = new double[m*n];
-		std::memcpy(clone_r, r, m*n*sizeof(double));
+	    MKL_INT* jpvt = new MKL_INT[n];
+		MKL_INT rank = 0;
+		double cond = -1.0;
 
-		double* tau = new double[std::max(1, std::min(m,n))];
-		dgeqrf_(&m, &n, clone_r, &m, tau, work, &len, &info);
-
-		if (info != 0)
-		{
-			delete[] clone_r;
-			delete[] tau;
-			return info;
-		}
+		double* clone_a = new double[m*n];
+		std::memcpy(clone_a, a, m*n*sizeof(double));
 
 		double* clone_b = new double[m*bn];
 		std::memcpy(clone_b, b, m*bn*sizeof(double));
 
-		char side ='L';
-		char tran = 'T';
+	    dgelsy_(&m, &n, &bn, clone_a, &m, clone_b, &m, jpvt, &cond, &rank, work, &len, &info);
 
-		dormqr_(&side, &tran, &m, &bn, &n, clone_r, &m, tau, clone_b, &m, work, &len, &info);
-		cblas_dtrsm(CblasColMajor, CblasLeft, CblasUpper, CblasNoTrans, CblasNonUnit, n, bn, 1.0, clone_r, m, clone_b, m);
 		for (MKL_INT i = 0; i < n; ++i)
 		{
 			for (MKL_INT j = 0; j < bn; ++j)
@@ -694,37 +758,27 @@ extern "C"{
 			}
 		}
 
+		delete[] jpvt;
+		delete[] clone_a;
 		delete[] clone_b;
-		delete[] tau;
-		delete[] clone_r;
 		return info;
 	}
 
-	DLLEXPORT MKL_INT c_qr_solve(MKL_INT m, MKL_INT n, MKL_INT bn, MKL_Complex8 r[], MKL_Complex8 b[], MKL_Complex8 x[], MKL_Complex8 work[], MKL_INT len)
+	DLLEXPORT MKL_INT c_qr_solve(MKL_INT m, MKL_INT n, MKL_INT bn, MKL_Complex8 a[], MKL_Complex8 b[], MKL_Complex8 x[], MKL_Complex8 work[], MKL_INT len)
 	{
 		MKL_INT info = 0;
-		MKL_Complex8* clone_r = new MKL_Complex8[m*n];
-		std::memcpy(clone_r, r, m*n*sizeof(MKL_Complex8));
+	    MKL_INT* jpvt = new MKL_INT[n];
+		float* rwork = new float[2*n];
+		MKL_INT rank = 0;
+		float cond = -1.0;
 
-		MKL_Complex8* tau = new MKL_Complex8[std::min(m,n)];
-		cgeqrf_(&m, &n, clone_r, &m, tau, work, &len, &info);
-
-		if (info != 0)
-		{
-			delete[] clone_r;
-			delete[] tau;
-			return info;
-		}
-
-		char side ='L';
-		char tran = 'C';
+		MKL_Complex8* clone_a = new MKL_Complex8[m*n];
+		std::memcpy(clone_a, a, m*n*sizeof(MKL_Complex8));
 
 		MKL_Complex8* clone_b = new MKL_Complex8[m*bn];
 		std::memcpy(clone_b, b, m*bn*sizeof(MKL_Complex8));
 
-		cunmqr_(&side, &tran, &m, &bn, &n, clone_r, &m, tau, clone_b, &m, work, &len, &info);
-		MKL_Complex8 one = {1.0, 0.0};
-		cblas_ctrsm(CblasColMajor, CblasLeft, CblasUpper, CblasNoTrans, CblasNonUnit, n, bn, &one, clone_r, m, clone_b, m);
+	    cgelsy_(&m, &n, &bn, clone_a, &m, clone_b, &m, jpvt, &cond, &rank, work, &len, rwork, &info);
 
 		for (MKL_INT i = 0; i < n; ++i)
 		{
@@ -734,37 +788,28 @@ extern "C"{
 			}
 		}
 
-		delete[] clone_r;
-		delete[] tau;
+		delete[] jpvt;
+		delete[] rwork;
+		delete[] clone_a;
 		delete[] clone_b;
 		return info;
 	}
 
-	DLLEXPORT MKL_INT z_qr_solve(MKL_INT m, MKL_INT n, MKL_INT bn, MKL_Complex16 r[], MKL_Complex16 b[], MKL_Complex16 x[], MKL_Complex16 work[], MKL_INT len)
+	DLLEXPORT MKL_INT z_qr_solve(MKL_INT m, MKL_INT n, MKL_INT bn, MKL_Complex16 a[], MKL_Complex16 b[], MKL_Complex16 x[], MKL_Complex16 work[], MKL_INT len)
 	{
 		MKL_INT info = 0;
-		MKL_Complex16* clone_r = new MKL_Complex16[m*n];
-		std::memcpy(clone_r, r, m*n*sizeof(MKL_Complex16));
+	    MKL_INT* jpvt = new MKL_INT[n];
+		double* rwork = new double[2*n];
+		MKL_INT rank = 0;
+		double cond = -1.0;
 
-		MKL_Complex16* tau = new MKL_Complex16[std::min(m,n)];
-		zgeqrf_(&m, &n, clone_r, &m, tau, work, &len, &info);
-
-		if (info != 0)
-		{
-			delete[] clone_r;
-			delete[] tau;
-			return info;
-		}
-
-		char side ='L';
-		char tran = 'C';
+		MKL_Complex16* clone_a = new MKL_Complex16[m*n];
+		std::memcpy(clone_a, a, m*n*sizeof(MKL_Complex16));
 
 		MKL_Complex16* clone_b = new MKL_Complex16[m*bn];
 		std::memcpy(clone_b, b, m*bn*sizeof(MKL_Complex16));
 
-		zunmqr_(&side, &tran, &m, &bn, &n, clone_r, &m, tau, clone_b, &m, work, &len, &info);
-		MKL_Complex16 one = {1.0, 0.0};
-		cblas_ztrsm(CblasColMajor, CblasLeft, CblasUpper, CblasNoTrans, CblasNonUnit, n, bn, &one, clone_r, m, clone_b, m);
+	    zgelsy_(&m, &n, &bn, clone_a, &m, clone_b, &m, jpvt, &cond, &rank, work, &len, rwork, &info);
 
 		for (MKL_INT i = 0; i < n; ++i)
 		{
@@ -774,8 +819,111 @@ extern "C"{
 			}
 		}
 
-		delete[] clone_r;
-		delete[] tau;
+		delete[] jpvt;
+		delete[] rwork;
+		delete[] clone_a;
+		delete[] clone_b;
+		return info;
+	}
+
+	DLLEXPORT MKL_INT s_thin_qr_solve(MKL_INT m, MKL_INT n, MKL_INT bn, float a[], float b[], float x[], float work[], MKL_INT len)
+	{
+		MKL_INT info = 0;
+
+		float* clone_a = new float[m*n];
+		std::memcpy(clone_a, a, m*n*sizeof(float));
+
+		float* clone_b = new float[m*bn];
+		std::memcpy(clone_b, b, m*bn*sizeof(float));
+		char N = 'N';
+	    sgels_(&N, &m, &n, &bn, clone_a, &m, clone_b, &m, work, &len, &info);
+
+		for (MKL_INT i = 0; i < n; ++i)
+		{
+			for (MKL_INT j = 0; j < bn; ++j)
+			{
+				x[j * n + i] = clone_b[j * m + i];
+			}
+		}
+
+		delete[] clone_a;
+		delete[] clone_b;
+		return info;
+	}
+
+	DLLEXPORT MKL_INT d_thin_qr_solve(MKL_INT m, MKL_INT n, MKL_INT bn, double a[], double b[], double x[], double work[], MKL_INT len)
+	{
+		MKL_INT info = 0;
+
+		double* clone_a = new double[m*n];
+		std::memcpy(clone_a, a, m*n*sizeof(double));
+
+		double* clone_b = new double[m*bn];
+		std::memcpy(clone_b, b, m*bn*sizeof(double));
+
+		char N = 'N';
+	    dgels_(&N, &m, &n, &bn, clone_a, &m, clone_b, &m, work, &len, &info);
+
+		for (MKL_INT i = 0; i < n; ++i)
+		{
+			for (MKL_INT j = 0; j < bn; ++j)
+			{
+				x[j * n + i] = clone_b[j * m + i];
+			}
+		}
+
+		delete[] clone_a;
+		delete[] clone_b;
+		return info;
+	}
+
+	DLLEXPORT MKL_INT c_thin_qr_solve(MKL_INT m, MKL_INT n, MKL_INT bn, MKL_Complex8 a[], MKL_Complex8 b[], MKL_Complex8 x[], MKL_Complex8 work[], MKL_INT len)
+	{
+		MKL_INT info = 0;
+		MKL_Complex8* clone_a = new MKL_Complex8[m*n];
+		std::memcpy(clone_a, a, m*n*sizeof(MKL_Complex8));
+
+		MKL_Complex8* clone_b = new MKL_Complex8[m*bn];
+		std::memcpy(clone_b, b, m*bn*sizeof(MKL_Complex8));
+
+		char N = 'N';
+	    cgels_(&N, &m, &n, &bn, clone_a, &m, clone_b, &m, work, &len, &info);
+
+		for (MKL_INT i = 0; i < n; ++i)
+		{
+			for (MKL_INT j = 0; j < bn; ++j)
+			{
+				x[j * n + i] = clone_b[j * m + i];
+			}
+		}
+
+		delete[] clone_a;
+		delete[] clone_b;
+		return info;
+	}
+
+	DLLEXPORT MKL_INT z_thin_qr_solve(MKL_INT m, MKL_INT n, MKL_INT bn, MKL_Complex16 a[], MKL_Complex16 b[], MKL_Complex16 x[], MKL_Complex16 work[], MKL_INT len)
+	{
+		MKL_INT info = 0;
+
+		MKL_Complex16* clone_a = new MKL_Complex16[m*n];
+		std::memcpy(clone_a, a, m*n*sizeof(MKL_Complex16));
+
+		MKL_Complex16* clone_b = new MKL_Complex16[m*bn];
+		std::memcpy(clone_b, b, m*bn*sizeof(MKL_Complex16));
+
+		char N = 'N';
+	    zgels_(&N, &m, &n, &bn, clone_a, &m, clone_b, &m, work, &len, &info);
+
+		for (MKL_INT i = 0; i < n; ++i)
+		{
+			for (MKL_INT j = 0; j < bn; ++j)
+			{
+				x[j * n + i] = clone_b[j * m + i];
+			}
+		}
+
+		delete[] clone_a;
 		delete[] clone_b;
 		return info;
 	}

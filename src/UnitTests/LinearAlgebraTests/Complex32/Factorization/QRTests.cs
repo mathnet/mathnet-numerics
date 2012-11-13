@@ -89,6 +89,39 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
         }
 
         /// <summary>
+        /// Can factorize identity matrix using thin QR.
+        /// </summary>
+        /// <param name="order">Matrix order.</param>
+        [TestCase(1)]
+        [TestCase(10)]
+        [TestCase(100)]
+        public void CanFactorizeIdentityUsingThinQR(int order)
+        {
+            var matrixI = DenseMatrix.Identity(order);
+            var factorQR = matrixI.QR(QRMethod.Thin);
+            var r = factorQR.R;
+
+            Assert.AreEqual(matrixI.ColumnCount, r.RowCount);
+            Assert.AreEqual(matrixI.ColumnCount, r.ColumnCount);
+
+            for (var i = 0; i < r.RowCount; i++)
+            {
+                for (var j = 0; j < r.ColumnCount; j++)
+                {
+                    if (i == j)
+                    {
+                        Assert.AreEqual(1.0, r[i, j].Magnitude);
+                    }
+                    else
+                    {
+                        Assert.AreEqual(Complex32.Zero, r[i, j]);
+                    }
+                }
+            }
+        }
+
+
+        /// <summary>
         /// Identity determinant is one.
         /// </summary>
         /// <param name="order">Matrix order.</param>
@@ -148,6 +181,64 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
                 {
                     Assert.AreEqual(matrixA[i, j].Real, matrixQfromR[i, j].Real, 1e-3f);
                     Assert.AreEqual(matrixA[i, j].Imaginary, matrixQfromR[i, j].Imaginary, 1e-3f);
+                }
+            }
+
+            // Make sure the Q is unitary --> (Q*)x(Q) = I
+            var matrixQсtQ = q.ConjugateTranspose() * q;
+            for (var i = 0; i < matrixQсtQ.RowCount; i++)
+            {
+                for (var j = 0; j < matrixQсtQ.ColumnCount; j++)
+                {
+                    if (i == j)
+                    {
+                        Assert.AreEqual(matrixQсtQ[i, j].Real, 1.0f, 1e-3f);
+                        Assert.AreEqual(matrixQсtQ[i, j].Imaginary, 0.0f, 1e-3f);
+                    }
+                    else
+                    {
+                        Assert.AreEqual(matrixQсtQ[i, j].Real, 0.0f, 1e-3f);
+                        Assert.AreEqual(matrixQсtQ[i, j].Imaginary, 0.0f, 1e-3f);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Can factorize a random matrix using thin QR.
+        /// </summary>
+        /// <param name="row">Matrix row number.</param>
+        /// <param name="column">Matrix column number.</param>
+        [TestCase(1, 1)]
+        [TestCase(2, 2)]
+        [TestCase(5, 5)]
+        [TestCase(10, 6)]
+        [TestCase(50, 48)]
+        [TestCase(100, 98)]
+        public void CanFactorizeRandomMatrixUsingThinQR(int row, int column)
+        {
+            var matrixA = MatrixLoader.GenerateRandomDenseMatrix(row, column);
+            var factorQR = matrixA.QR(QRMethod.Thin);
+            var q = factorQR.Q;
+            var r = factorQR.R;
+
+            // Make sure the R has the right dimensions.
+            Assert.AreEqual(column, r.RowCount);
+            Assert.AreEqual(column, r.ColumnCount);
+
+            // Make sure the Q has the right dimensions.
+            Assert.AreEqual(row, q.RowCount);
+            Assert.AreEqual(column, q.ColumnCount);
+
+            // Make sure the R factor is upper triangular.
+            for (var i = 0; i < r.RowCount; i++)
+            {
+                for (var j = 0; j < r.ColumnCount; j++)
+                {
+                    if (i > j)
+                    {
+                        Assert.AreEqual(Complex32.Zero, r[i, j]);
+                    }
                 }
             }
 

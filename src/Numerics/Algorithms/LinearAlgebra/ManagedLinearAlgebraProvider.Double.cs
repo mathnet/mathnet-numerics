@@ -23,6 +23,9 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
+
+using MathNet.Numerics.LinearAlgebra.Generic.Factorization;
+
 namespace MathNet.Numerics.Algorithms.LinearAlgebra
 {
     using System;
@@ -1339,6 +1342,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// QR factorization.</param>
         /// <param name="tau">A min(m,n) vector. On exit, contains additional information
         /// to be used by the QR solve routine.</param>
+        /// <param name="method">The type of QR factorization to perform.</param>
         /// <remarks>This is similar to the GEQRF and ORGQR LAPACK routines.</remarks>
         public virtual void QRFactor(double[] r, int rowsR, int columnsR, double[] q, double[] tau)
         {
@@ -1367,7 +1371,8 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
                 throw new ArgumentException(string.Format(Resources.ArgumentArrayWrongLength, "rowsR * rowsR"), "q");
             }
 
-            var work = new double[rowsR * rowsR];
+
+            var work = columnsR > rowsR ? new double[rowsR * rowsR] : new double[rowsR * columnsR];
             QRFactor(r, rowsR, columnsR, q, tau, work);
         }
 
@@ -1418,10 +1423,21 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
                 throw new ArgumentException(string.Format(Resources.ArgumentArrayWrongLength, "rowsR * rowsR"), "q");
             }
 
-            if (work.Length < rowsR * rowsR)
+            if (columnsR > rowsR)
             {
-                work[0] = rowsR * rowsR;
-                throw new ArgumentException(Resources.WorkArrayTooSmall, "work");
+                if (work.Length < rowsR * rowsR)
+                {
+                    work[0] = rowsR * rowsR;
+                    throw new ArgumentException(Resources.WorkArrayTooSmall, "work");
+                }
+            }
+            else
+            {
+                if (work.Length < rowsR * columnsR)
+                {
+                    work[0] = rowsR * columnsR;
+                    throw new ArgumentException(Resources.WorkArrayTooSmall, "work");
+                }
             }
 
             CommonParallel.For(0, rowsR, i => q[(i * rowsR) + i] = 1.0);
@@ -1438,7 +1454,136 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
                 ComputeQR(work, i, q, i, rowsR, i, rowsR, Control.NumberOfParallelWorkerThreads);
             }
 
-            work[0] = rowsR * rowsR;
+            work[0] = columnsR > rowsR ? rowsR * rowsR : rowsR * columnsR;
+        }
+
+        /// <summary>
+        /// Computes the QR factorization of A.
+        /// </summary>
+        /// <param name="a">On entry, it is the M by N A matrix to factor. On exit,
+        /// it is overwritten with the Q matrix of the QR factorization.</param>
+        /// <param name="rowsA">The number of rows in the A matrix.</param>
+        /// <param name="columnsA">The number of columns in the A matrix.</param>
+        /// <param name="r">On exit, A N by N matrix that holds the R matrix of the
+        /// QR factorization.</param>
+        /// <param name="tau">A min(m,n) vector. On exit, contains additional information
+        /// to be used by the QR solve routine.</param>
+        /// <remarks>This is similar to the GEQRF and ORGQR LAPACK routines.</remarks>
+        public virtual void ThinQRFactor(double[] a, int rowsA, int columnsA, double[] r, double[] tau)
+        {
+            if (r == null)
+            {
+                throw new ArgumentNullException("r");
+            }
+
+            if (a == null)
+            {
+                throw new ArgumentNullException("a");
+            }
+
+            if (a.Length != rowsA * columnsA)
+            {
+                throw new ArgumentException(string.Format(Resources.ArgumentArrayWrongLength, "rowsR * columnsR"), "a");
+            }
+
+            if (tau.Length < Math.Min(rowsA, columnsA))
+            {
+                throw new ArgumentException(string.Format(Resources.ArrayTooSmall, "min(m,n)"), "tau");
+            }
+
+            if (r.Length != columnsA * columnsA)
+            {
+                throw new ArgumentException(string.Format(Resources.ArgumentArrayWrongLength, "columnsA * columnsA"), "r");
+            }
+
+            var work = new double[rowsA * columnsA];
+            ThinQRFactor(a, rowsA, columnsA, r, tau, work);
+        }
+
+        /// <summary>
+        /// Computes the thin QR factorization of A where M &gt; N.
+        /// </summary>
+        /// <param name="a">On entry, it is the M by N A matrix to factor. On exit,
+        /// it is overwritten with the Q matrix of the QR factorization.</param>
+        /// <param name="rowsA">The number of rows in the A matrix.</param>
+        /// <param name="columnsA">The number of columns in the A matrix.</param>
+        /// <param name="r">On exit, A N by N matrix that holds the R matrix of the
+        /// QR factorization.</param>
+        /// <param name="tau">A min(m,n) vector. On exit, contains additional information
+        /// to be used by the QR solve routine.</param>
+        /// <param name="work">The work array. The array must have a length of at least N,
+        /// but should be N*blocksize. The blocksize is machine dependent. On exit, work[0] contains the optimal
+        /// work size value.</param>
+        /// <remarks>This is similar to the GEQRF and ORGQR LAPACK routines.</remarks>
+        public virtual void ThinQRFactor(double[] a, int rowsA, int columnsA, double[] r, double[] tau, double[] work)
+        {
+            if (r == null)
+            {
+                throw new ArgumentNullException("r");
+            }
+
+            if (a == null)
+            {
+                throw new ArgumentNullException("q");
+            }
+
+            if (work == null)
+            {
+                throw new ArgumentNullException("q");
+            }
+
+            if (a.Length != rowsA * columnsA)
+            {
+                throw new ArgumentException(string.Format(Resources.ArgumentArrayWrongLength, "rowsR * columnsR"), "a");
+            }
+
+            if (tau.Length < Math.Min(rowsA, columnsA))
+            {
+                throw new ArgumentException(string.Format(Resources.ArrayTooSmall, "min(m,n)"), "tau");
+            }
+
+            if (r.Length != columnsA * columnsA)
+            {
+                throw new ArgumentException(string.Format(Resources.ArgumentArrayWrongLength, "columnsA * columnsA"), "r");
+            }
+
+            if (work.Length < rowsA * columnsA)
+            {
+                work[0] = rowsA*columnsA;
+                throw new ArgumentException(Resources.WorkArrayTooSmall, "work");
+            }
+
+            var minmn = Math.Min(rowsA, columnsA);
+            for (var i = 0; i < minmn; i++)
+            {
+                GenerateColumn(work, a, rowsA, i, i);
+                ComputeQR(work, i, a, i, rowsA, i + 1, columnsA, Control.NumberOfParallelWorkerThreads);
+            }
+
+            //copy R 
+            for (var j = 0; j < columnsA; j++ )
+            {
+                var rIndex = j * columnsA;
+                var aIndex = j * rowsA;
+                for (var i = 0; i < columnsA; i++)
+                {
+                    r[rIndex + i] = a[aIndex+i];
+                }
+            }
+
+            //clear A and set diagonals to 1
+            Array.Clear(a, 0, a.Length);
+            for (var i = 0; i < columnsA; i++ )
+            {
+                a[i * rowsA + i] = 1.0;
+            }
+
+            for (var i = minmn - 1; i >= 0; i--)
+            {
+                ComputeQR(work, i, a, i, rowsA, i, columnsA, Control.NumberOfParallelWorkerThreads);
+            }
+
+            work[0] = rowsA * columnsA;
         }
 
         #region QR Factor Helper functions
@@ -1553,46 +1698,12 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <param name="b">The B matrix.</param>
         /// <param name="columnsB">The number of columns of B.</param>
         /// <param name="x">On exit, the solution matrix.</param>
+        /// <param name="method">The type of QR factorization to perform. <seealso cref="QRMethod"/></param>
         /// <remarks>Rows must be greater or equal to columns.</remarks>
-        public virtual void QRSolve(double[] a, int rows, int columns, double[] b, int columnsB, double[] x)
+        public virtual void QRSolve(double[] a, int rows, int columns, double[] b, int columnsB, double[] x, QRMethod method = QRMethod.Full)
         {
-            if (a == null)
-            {
-                throw new ArgumentNullException("a");
-            }
-
-            if (b == null)
-            {
-                throw new ArgumentNullException("b");
-            }
-
-            if (x == null)
-            {
-                throw new ArgumentNullException("x");
-            }
-
-            if (a.Length != rows * columns)
-            {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, "a");
-            }
-
-            if (b.Length != rows * columnsB)
-            {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, "b");
-            }
-
-            if (x.Length != columns * columnsB)
-            {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, "x");
-            }
-
-            if (rows < columns)
-            {
-                throw new ArgumentException(Resources.RowsLessThanColumns);
-            }
-
-            var work = new double[rows * rows];
-            QRSolve(a, rows, columns, b, columnsB, x, work);
+            var work = new double[rows * columns];
+            QRSolve(a, rows, columns, b, columnsB, x, work, method);
         }
 
         /// <summary>
@@ -1607,8 +1718,9 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <param name="work">The work array. The array must have a length of at least N,
         /// but should be N*blocksize. The blocksize is machine dependent. On exit, work[0] contains the optimal
         /// work size value.</param>
+        /// <param name="method">The type of QR factorization to perform. <seealso cref="QRMethod"/></param>
         /// <remarks>Rows must be greater or equal to columns.</remarks>
-        public virtual void QRSolve(double[] a, int rows, int columns, double[] b, int columnsB, double[] x, double[] work)
+        public virtual void QRSolve(double[] a, int rows, int columns, double[] b, int columnsB, double[] x, double[] work, QRMethod method = QRMethod.Full)
         {
             if (a == null)
             {
@@ -1650,19 +1762,28 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
                 throw new ArgumentException(Resources.RowsLessThanColumns);
             }
 
-            if (work.Length < rows * rows)
+            if (work.Length < rows * columns)
             {
-                work[0] = rows * rows;
+                work[0] = rows * columns;
                 throw new ArgumentException(Resources.WorkArrayTooSmall, "work");
             }
 
             var clone = new double[a.Length];
-            a.Copy(clone); 
-            var q = new double[rows * rows];
-            QRFactor(clone, rows, columns, q, work);
-            QRSolveFactored(q, clone, rows, columns, null, b, columnsB, x);
+            a.Copy(clone);
 
-            work[0] = rows * rows;
+           if (method == QRMethod.Full)
+            {
+                var q = new double[rows * rows];
+                QRFactor(clone, rows, columns, q, work);
+                QRSolveFactored(q, clone, rows, columns, null, b, columnsB, x, method);
+            } else
+            {
+                var r = new double[columns * columns];
+                ThinQRFactor(clone, rows, columns, r, work);
+                QRSolveFactored(clone, r, rows, columns, null, b, columnsB, x, method);
+            }
+
+            work[0] = rows * columns;
         }
 
         /// <summary>
@@ -1671,8 +1792,8 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <param name="q">The Q matrix obtained by QR factor. This is only used for the managed provider and can be
         /// <c>null</c> for the native provider. The native provider uses the Q portion stored in the R matrix.</param>
         /// <param name="r">The R matrix obtained by calling <see cref="QRFactor(double[],int,int,double[],double[])"/>. </param>
-        /// <param name="rowsR">The number of rows in the A matrix.</param>
-        /// <param name="columnsR">The number of columns in the A matrix.</param>
+        /// <param name="rowsA">The number of rows in the A matrix.</param>
+        /// <param name="columnsA">The number of columns in the A matrix.</param>
         /// <param name="tau">Contains additional information on Q. Only used for the native solver
         /// and can be <c>null</c> for the managed provider.</param>
         /// <param name="b">On entry the B matrix; on exit the X matrix.</param>
@@ -1681,10 +1802,11 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <param name="work">The work array - only used in the native provider. The array must have a length of at least N,
         /// but should be N*blocksize. The blocksize is machine dependent. On exit, work[0] contains the optimal
         /// work size value.</param>
+        /// <param name="method">The type of QR factorization to perform. <seealso cref="QRMethod"/></param>
         /// <remarks>Rows must be greater or equal to columns.</remarks>
-        public virtual void QRSolveFactored(double[] q, double[] r, int rowsR, int columnsR, double[] tau, double[] b, int columnsB, double[] x, double[] work)
+        public virtual void QRSolveFactored(double[] q, double[] r, int rowsA, int columnsA, double[] tau, double[] b, int columnsB, double[] x, double[] work, QRMethod method = QRMethod.Full)
         {
-            QRSolveFactored(q, r, rowsR, columnsR, tau, b, columnsB, x);
+            QRSolveFactored(q, r, rowsA, columnsA, tau, b, columnsB, x, method);
         }
 
         /// <summary>
@@ -1692,15 +1814,16 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// </summary>
         /// <param name="q">The Q matrix obtained by calling <see cref="QRFactor(double[],int,int,double[],double[])"/>.</param>
         /// <param name="r">The R matrix obtained by calling <see cref="QRFactor(double[],int,int,double[],double[])"/>. </param>
-        /// <param name="rowsR">The number of rows in the A matrix.</param>
-        /// <param name="columnsR">The number of columns in the A matrix.</param>
+        /// <param name="rowsA">The number of rows in the A matrix.</param>
+        /// <param name="columnsA">The number of columns in the A matrix.</param>
         /// <param name="tau">Contains additional information on Q. Only used for the native solver
         /// and can be <c>null</c> for the managed provider.</param>
         /// <param name="b">The B matrix.</param>
         /// <param name="columnsB">The number of columns of B.</param>
         /// <param name="x">On exit, the solution matrix.</param>
+        /// <param name="method">The type of QR factorization to perform. <seealso cref="QRMethod"/></param>
         /// <remarks>Rows must be greater or equal to columns.</remarks>
-        public virtual void QRSolveFactored(double[] q, double[] r, int rowsR, int columnsR, double[] tau, double[] b, int columnsB, double[] x)
+        public virtual void QRSolveFactored(double[] q, double[] r, int rowsA, int columnsA, double[] tau, double[] b, int columnsB, double[] x, QRMethod method = QRMethod.Full)
         {
             if (r == null)
             {
@@ -1722,29 +1845,41 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
                 throw new ArgumentNullException("q");
             }
 
-            if (r.Length != rowsR * columnsR)
-            {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, "r");
-            }
-
-            if (q.Length != rowsR * rowsR)
-            {
-                throw new ArgumentException(string.Format(Resources.ArgumentArrayWrongLength, "rowsR * rowsR"), "q");
-            }
-
-            if (b.Length != rowsR * columnsB)
-            {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, "b");
-            }
-
-            if (x.Length != columnsR * columnsB)
-            {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, "x");
-            }
-
-            if (rowsR < columnsR)
+            if (rowsA < columnsA)
             {
                 throw new ArgumentException(Resources.RowsLessThanColumns);
+            }
+
+            int rowsQ, columnsQ, rowsR, columnsR;
+            if( method == QRMethod.Full)
+            {
+                rowsQ = columnsQ = rowsR = rowsA;
+                columnsR = columnsA;
+            }
+            else
+            {
+                rowsQ = rowsA;
+                columnsQ = rowsR = columnsR = columnsA;
+            }
+
+            if (r.Length != rowsR * columnsR)
+            {
+                throw new ArgumentException(string.Format(Resources.ArgumentArrayWrongLength, rowsR * columnsR), "r");
+            }
+
+            if (q.Length != rowsQ * columnsQ)
+            {
+                throw new ArgumentException(string.Format(Resources.ArgumentArrayWrongLength, rowsQ * columnsQ), "q");
+            }
+
+            if (b.Length != rowsA * columnsB)
+            {
+                throw new ArgumentException(string.Format(Resources.ArgumentArrayWrongLength, rowsA * columnsB), "b");
+            }
+
+            if (x.Length != columnsA * columnsB)
+            {
+                throw new ArgumentException(string.Format(Resources.ArgumentArrayWrongLength, columnsA * columnsB), "x");
             }
 
             var sol = new double[b.Length];
@@ -1753,20 +1888,20 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
             Buffer.BlockCopy(b, 0, sol, 0, b.Length * Constants.SizeOfDouble);
 
             // Compute Y = transpose(Q)*B
-            var column = new double[rowsR];
+            var column = new double[rowsA];
             for (var j = 0; j < columnsB; j++)
             {
-                var jm = j * rowsR;
-                CommonParallel.For(0, rowsR, k => column[k] = sol[jm + k]);
+                var jm = j * rowsA;
+                CommonParallel.For(0, rowsA, k => column[k] = sol[jm + k]);
                 CommonParallel.For(
                     0, 
-                    rowsR, 
+                    columnsA, 
                     i =>
                     {
-                        var im = i * rowsR;
+                        var im = i * rowsA;
 
                         var sum = 0.0;
-                        for (var k = 0; k < rowsR; k++)
+                        for (var k = 0; k < rowsA; k++)
                         {
                             sum += q[im + k] * column[k];
                         }
@@ -1776,19 +1911,19 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
             }
 
             // Solve R*X = Y;
-            for (var k = columnsR - 1; k >= 0; k--)
+            for (var k = columnsA - 1; k >= 0; k--)
             {
                 var km = k * rowsR;
                 for (var j = 0; j < columnsB; j++)
                 {
-                    sol[(j * rowsR) + k] /= r[km + k];
+                    sol[(j * rowsA) + k] /= r[km + k];
                 }
 
                 for (var i = 0; i < k; i++)
                 {
                     for (var j = 0; j < columnsB; j++)
                     {
-                        var jm = j * rowsR;
+                        var jm = j * rowsA;
                         sol[jm + i] -= sol[jm + k] * r[km + i];
                     }
                 }
@@ -1802,7 +1937,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
                 {
                     for (var col = 0; col < columnsB; col++)
                     {
-                        x[(col * columnsR) + row] = sol[row + (col * rowsR)];
+                        x[(col * columnsA) + row] = sol[row + (col * rowsA)];
                     }
                 });
         }

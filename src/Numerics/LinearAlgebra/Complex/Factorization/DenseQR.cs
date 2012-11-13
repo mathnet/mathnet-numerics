@@ -28,6 +28,8 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using MathNet.Numerics.LinearAlgebra.Generic.Factorization;
+
 namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
 {
     using System;
@@ -60,9 +62,10 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
         /// QR factorization when the constructor is called and cache it's factorization.
         /// </summary>
         /// <param name="matrix">The matrix to factor.</param>
+        /// <param name="method">The type of QR factorization to perform.</param>
         /// <exception cref="ArgumentNullException">If <paramref name="matrix"/> is <c>null</c>.</exception>
         /// <exception cref="ArgumentException">If <paramref name="matrix"/> row count is less then column count</exception>
-        public DenseQR(DenseMatrix matrix)
+        public DenseQR(DenseMatrix matrix, QRMethod method = QRMethod.Full)
         {
             if (matrix == null)
             {
@@ -74,10 +77,22 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
                 throw Matrix.DimensionsDontMatch<ArgumentException>(matrix);
             }
 
-            MatrixR = matrix.Clone();
-            MatrixQ = new DenseMatrix(matrix.RowCount);
             Tau = new Complex[Math.Min(matrix.RowCount, matrix.ColumnCount)];
-            Control.LinearAlgebraProvider.QRFactor(((DenseMatrix)MatrixR).Data, matrix.RowCount, matrix.ColumnCount, ((DenseMatrix)MatrixQ).Data, Tau);
+
+            if (method == QRMethod.Full)
+            {
+                MatrixR = matrix.Clone();
+                MatrixQ = new DenseMatrix(matrix.RowCount);
+                Control.LinearAlgebraProvider.QRFactor(((DenseMatrix)MatrixR).Data, matrix.RowCount, matrix.ColumnCount,
+                                                       ((DenseMatrix)MatrixQ).Data, Tau);
+            }
+            else
+            {
+                MatrixQ = matrix.Clone();
+                MatrixR = new DenseMatrix(matrix.ColumnCount);
+                Control.LinearAlgebraProvider.ThinQRFactor(((DenseMatrix)MatrixQ).Data, matrix.RowCount, matrix.ColumnCount,
+                                                       ((DenseMatrix)MatrixR).Data, Tau);
+            }
         }
 
         /// <summary>

@@ -45,13 +45,5 @@ public class Setup
         {
             MathNet.Numerics.Control.LinearAlgebraProvider = new MathNet.Numerics.Algorithms.LinearAlgebra.Mkl.MklLinearAlgebraProvider();
         }
-        else if (provider.Contains("gotoblas"))
-        {
-            MathNet.Numerics.Control.LinearAlgebraProvider = new MathNet.Numerics.Algorithms.LinearAlgebra.GotoBlas.GotoBlasLinearAlgebraProvider();
-        }
-        else if (provider.Contains("acml"))
-        {
-            MathNet.Numerics.Control.LinearAlgebraProvider = new MathNet.Numerics.Algorithms.LinearAlgebra.Acml.AcmlLinearAlgebraProvider();
-        }
     }
 }
