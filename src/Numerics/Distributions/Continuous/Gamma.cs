@@ -439,6 +439,11 @@ namespace MathNet.Numerics.Distributions
         /// <returns>the cumulative density at <paramref name="x"/>.</returns>
         public double CumulativeDistribution(double x)
         {
+            if (x < 0.0)
+            {
+                return 0.0;
+            }
+
             if (Double.IsPositiveInfinity(_invScale))
             {
                 return x >= _shape ? 1.0 : 0.0;
