@@ -4,6 +4,7 @@ using MathNet.Numerics.Properties;
 
 namespace MathNet.Numerics.LinearAlgebra.Storage
 {
+    [Serializable]
     public class DiagonalMatrixStorage<T> : MatrixStorage<T>
         where T : struct, IEquatable<T>, IFormattable
     {

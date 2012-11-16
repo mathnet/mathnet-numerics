@@ -3,6 +3,7 @@ using MathNet.Numerics.Properties;
 
 namespace MathNet.Numerics.LinearAlgebra.Storage
 {
+    [Serializable]
     public class DenseVectorStorage<T> : VectorStorage<T>
         where T : struct, IEquatable<T>, IFormattable
     {

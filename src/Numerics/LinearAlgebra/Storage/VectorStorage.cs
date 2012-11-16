@@ -3,6 +3,7 @@ using MathNet.Numerics.Properties;
 
 namespace MathNet.Numerics.LinearAlgebra.Storage
 {
+    [Serializable]
     public abstract partial class VectorStorage<T> : IEquatable<VectorStorage<T>>
         where T : struct, IEquatable<T>, IFormattable
     {
