@@ -140,7 +140,8 @@
     <Compile Include="Distributions\Multivariate\InverseWishart.cs" />
     <Compile Include="Distributions\Multivariate\MatrixNormal.cs" />
     <Compile Include="Distributions\Multivariate\Wishart.cs" />
-    <Compile Include="LinearAlgebra\Generic\SquareMatrix.cs" />
+    <Compile Include="LinearAlgebra\Double\SquareMatrix.cs" />
+    <Compile Include="LinearAlgebra\Double\SymmetricMatrix.cs" />
     <Compile Include="LinearAlgebra\Storage\DenseColumnMajorSymmetricMatrixStorage.cs" />
     <Compile Include="LinearAlgebra\Storage\DenseVectorStorage.cs" />
     <Compile Include="LinearAlgebra\Storage\Indexers\IStorageIndexer.cs" />

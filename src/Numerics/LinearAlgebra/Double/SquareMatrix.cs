@@ -1,18 +1,15 @@
-﻿namespace MathNet.Numerics.LinearAlgebra.Generic
+﻿namespace MathNet.Numerics.LinearAlgebra.Double
 {
     using System;
 
     using MathNet.Numerics.LinearAlgebra.Storage;
-
-    using Properties;
+    using MathNet.Numerics.Properties;
 
     /// <summary>
     /// Abstract class for square matrices. 
     /// </summary>
-    /// <typeparam name="T">Supported data types are <c>double</c>, <c>single</c>, <see cref="Complex"/>, and <see cref="Complex32"/>.</typeparam>
     [Serializable]
-    public abstract class SquareMatrix<T> : Matrix<T>
-         where T : struct, IEquatable<T>, IFormattable
+    public abstract class SquareMatrix : Matrix
     {
         /// <summary>
         ///   Number of rows or columns.
@@ -20,12 +17,12 @@
         protected readonly int Order;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SquareMatrix{T}"/> class. 
+        /// Initializes a new instance of the <see cref="SquareMatrix"/> class. 
         /// </summary>
         /// <exception cref="ArgumentException">
         /// If the matrix is not square.
         /// </exception>
-        protected SquareMatrix(MatrixStorage<T> storage)
+        protected SquareMatrix(MatrixStorage<double> storage)
             : base(storage)
         {
             if (storage.RowCount != storage.ColumnCount)
