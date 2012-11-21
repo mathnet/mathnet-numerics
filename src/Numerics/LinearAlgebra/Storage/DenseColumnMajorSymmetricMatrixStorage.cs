@@ -5,7 +5,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
     using MathNet.Numerics.LinearAlgebra.Storage.Indexers.Static;
     using MathNet.Numerics.Properties;
 
-    public class DenseColumnMajorSymmetricMatrixStorage<T> : MatrixStorage<T>
+    public class DenseColumnMajorSymmetricMatrixStorage<T> : SymmetricMatrixStorage<T>
         where T : struct, IEquatable<T>, IFormattable
     {
         // [ruegg] public fields are OK here
@@ -15,14 +15,14 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         public readonly PackedStorageIndexerUpper Indexer;
 
         internal DenseColumnMajorSymmetricMatrixStorage(int order)
-            : base(order, order)
+            : base(order)
         {
             Indexer = new PackedStorageIndexerUpper(order);
             Data = new T[Indexer.DataLength];
         }
 
         internal DenseColumnMajorSymmetricMatrixStorage(int order, T[] data)
-            : base(order, order)
+            : base(order)
         {
             if (data == null)
             {
