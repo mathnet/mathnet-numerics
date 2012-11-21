@@ -18,7 +18,7 @@
         ///   The column of the element.
         /// </param>
         /// <remarks>
-        ///   This method is parameter checked. <see cref = "IStorageIndexer.IndexOf(int,int)" /> and <see cref = "IStorageIndexer.IndexOfDiagonal(int)" /> to get values without parameter checking.
+        ///   This method is parameter checked. <see cref = "IStorageIndexer.Of" /> and <see cref = "IStorageIndexer.OfDiagonal" /> to get values without parameter checking.
         /// </remarks>
         public abstract int this[int row, int column]
         {
@@ -42,7 +42,7 @@
         ///  </param><returns>
         ///  The requested index. 
         /// </returns>
-        public abstract int IndexOf(int row, int column);
+        public abstract int Of(int row, int column);
 
         /// <summary>
         ///  Retrieves the index of the requested diagonal element without parameter checking.
@@ -51,6 +51,6 @@
         ///  </param><returns>
         ///  The requested index. 
         /// </returns>
-        public abstract int IndexOfDiagonal(int row);
+        public abstract int OfDiagonal(int row);
     }
 }

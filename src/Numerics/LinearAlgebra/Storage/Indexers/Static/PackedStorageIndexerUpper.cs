@@ -29,7 +29,7 @@
         ///   The column of the element.
         /// </param>
         /// <remarks>
-        ///   This method is parameter checked. <see cref = "IndexOf(int,int)" /> and <see cref = "IndexOfDiagonal(int)" /> to get values without parameter checking.
+        ///   This method is parameter checked. <see cref = "Of" /> and <see cref = "OfDiagonal" /> to get values without parameter checking.
         /// </remarks>
         public override int this[int row, int column]
         {
@@ -50,7 +50,7 @@
                     throw new ArgumentException("Row must be less than or equal to column");
                 }
 
-                return IndexOf(row, column);
+                return this.Of(row, column);
             }
         }
 
@@ -66,7 +66,7 @@
         /// <returns>
         /// The requested index. 
         /// </returns>
-        public override int IndexOf(int row, int column)
+        public override int Of(int row, int column)
         {
             return row + ((column * (column + 1)) / 2);
         }
@@ -80,7 +80,7 @@
         /// <returns>
         /// The requested index. 
         /// </returns>
-        public override int IndexOfDiagonal(int row)
+        public override int OfDiagonal(int row)
         {
             return (row * (row + 3)) / 2;
         }

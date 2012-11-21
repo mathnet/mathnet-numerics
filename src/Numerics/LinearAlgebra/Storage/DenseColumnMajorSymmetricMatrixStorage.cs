@@ -54,7 +54,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         /// <remarks>Not range-checked.</remarks>
         public override T At(int row, int column)
         {
-            return Data[Indexer.IndexOf(row, column)];
+            return Data[Indexer.Of(row, column)];
         }
 
         /// <summary>
@@ -66,7 +66,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         /// <remarks>WARNING: This method is not thread safe. Use "lock" with it and be sure to avoid deadlocks.</remarks>
         public override void At(int row, int column, T value)
         {
-            Data[Indexer.IndexOf(row, column)] = value;
+            Data[Indexer.Of(row, column)] = value;
         }
 
         public override void Clear()

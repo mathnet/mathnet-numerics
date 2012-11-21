@@ -14,7 +14,7 @@
         ///  </param><returns>
         ///  The requested index. 
         /// </returns>
-        int IndexOf(int row, int column);
+        int Of(int row, int column);
 
         /// <summary>
         ///  Retrieves the index of the requested diagonal element without parameter checking.
@@ -23,6 +23,6 @@
         ///  </param><returns>
         ///  The requested index. 
         /// </returns>
-        int IndexOfDiagonal(int row);
+        int OfDiagonal(int row);
     }
 }
