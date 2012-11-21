@@ -141,6 +141,7 @@
     <Compile Include="Distributions\Multivariate\MatrixNormal.cs" />
     <Compile Include="Distributions\Multivariate\Wishart.cs" />
     <Compile Include="LinearAlgebra\Storage\DenseVectorStorage.cs" />
+    <Compile Include="LinearAlgebra\Storage\Indexers\IStorageIndexer.cs" />
     <Compile Include="LinearAlgebra\Storage\MatrixStorage.Validation.cs" />
     <Compile Include="LinearAlgebra\Complex32\ExtensionMethods.cs" />
     <Compile Include="LinearAlgebra\Complex32\Factorization\Cholesky.cs" />
@@ -479,6 +480,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="MathNet.Numerics.snk" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="LinearAlgebra\Storage\Indexers\Static\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
