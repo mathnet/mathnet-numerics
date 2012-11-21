@@ -3,7 +3,7 @@
     using System;
 
     /// <summary>
-    ///  A class for managing indexing when using Packed Storage scheme, which is a column-Wise packing scheme for Symmetric, Hermitian or Triangular square matrices. 
+    ///  A class for managing indexes when using Packed Storage, which is a column-major packing scheme for Symmetric, Hermitian or Triangular square matrices. 
     ///  This variation provides indexes for storing the upper triangle of a matrix (row less than or equal to column).
     /// </summary>
     public class PackedStorageIndexerUpper : PackedStorageIndexer

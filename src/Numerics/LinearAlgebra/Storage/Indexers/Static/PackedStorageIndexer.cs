@@ -4,7 +4,7 @@
     using Properties;
 
     /// <summary>
-    /// A class for managing indexing when using Packed Storage indexer, which is a column-major packing scheme for dense Symmetric, Hermitian or Triangular square matrices.
+    /// A class for managing indexing when using Packed Storage, which is a column-major packing scheme for dense Symmetric, Hermitian or Triangular square matrices.
     /// </summary>
     public abstract class PackedStorageIndexer : StaticStorageIndexer
     {
