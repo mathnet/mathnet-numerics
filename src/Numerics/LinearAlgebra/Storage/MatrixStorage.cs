@@ -3,6 +3,7 @@ using MathNet.Numerics.Properties;
 
 namespace MathNet.Numerics.LinearAlgebra.Storage
 {
+	[Serializable]
     public abstract partial class MatrixStorage<T> : IEquatable<MatrixStorage<T>>
         where T : struct, IEquatable<T>, IFormattable
     {
