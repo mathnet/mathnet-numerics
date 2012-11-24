@@ -324,19 +324,29 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             var matrix = dmr.ReadMatrix("S");
             var matrix2 = matrix.Clone();
 
-            // Zero the 4th column
-            for (int i = 0; i < matrix.RowCount; i++)
+            // Zero the 40th row
+            for (int column = 0; column < matrix.ColumnCount; column++)
             {
-                matrix.At(i, 3, 0.0);
+                matrix.At(39, column, 0.0);
+            }
+            matrix2.ClearRow(39);
+
+            // Zero the 4th column
+            for (int row = 0; row < matrix.RowCount; row++)
+            {
+                matrix.At(row, 3, 0.0);
             }
             matrix2.ClearColumn(3);
 
-            // Zero the 40th row
-            for (int i = 0; i < matrix.ColumnCount; i++)
+            // Zero submatrix rows 20..30 columns 8..10
+            for (int row = 19; row <= 29; row++)
             {
-                matrix.At(39, i, 0.0);
+                for (int column = 7; column <= 9; column++)
+                {
+                    matrix.At(row, column, 0.0);
+                }
             }
-            matrix2.ClearRow(39);
+            matrix2.ClearSubMatrix(19, 11, 7, 3);
 
             Assert.That(matrix2.Equals(matrix), Is.True);
         }
