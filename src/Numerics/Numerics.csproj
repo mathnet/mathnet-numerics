@@ -141,6 +141,7 @@
     <Compile Include="Distributions\Multivariate\MatrixNormal.cs" />
     <Compile Include="Distributions\Multivariate\Wishart.cs" />
     <Compile Include="LinearAlgebra\Double\SquareMatrix.cs" />
+    <Compile Include="LinearAlgebra\Double\SymmetricDenseMatrix.cs" />
     <Compile Include="LinearAlgebra\Double\SymmetricMatrix.cs" />
     <Compile Include="LinearAlgebra\Storage\DenseColumnMajorSymmetricMatrixStorage.cs" />
     <Compile Include="LinearAlgebra\Storage\DenseVectorStorage.cs" />

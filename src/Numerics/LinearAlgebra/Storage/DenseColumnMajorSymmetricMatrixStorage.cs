@@ -54,7 +54,9 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         /// <remarks>Not range-checked.</remarks>
         public override T At(int row, int column)
         {
-            return Data[Indexer.Of(row, column)];
+            var r = Math.Min(row, column);
+            var c = Math.Max(row, column);
+            return Data[Indexer.Of(r, c)];
         }
 
         /// <summary>
@@ -66,6 +68,11 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         /// <remarks>WARNING: This method is not thread safe. Use "lock" with it and be sure to avoid deadlocks.</remarks>
         public override void At(int row, int column, T value)
         {
+            if (row > column)
+            {
+                throw new IndexOutOfRangeException("Setting an element in the strictly lower triangle of a symmetric matrix is disabled to avoid errors");
+            }
+
             Data[Indexer.Of(row, column)] = value;
         }
 
