@@ -152,17 +152,17 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                 return;
             }
 
-            for (int i = rowIndex, row = 0; i < rowIndex + rowCount; i++, row++)
+            for (int i = rowIndex + rowCount - 1, row = rowCount - 1; i >= rowIndex; i--, row--)
             {
                 var startIndex = RowPointers[i];
                 var endIndex = i < RowPointers.Length - 1 ? RowPointers[i + 1] : ValueCount;
 
-                for (int j = startIndex; j < endIndex; j++)
+                for (int j = endIndex - 1; j >= startIndex; j--)
                 {
                     // check if the column index is in the range
                     if ((ColumnIndices[j] >= columnIndex) && (ColumnIndices[j] < columnIndex + columnCount))
                     {
-                        var column = ColumnIndices[j] - columnIndex;
+                        var column = ColumnIndices[j];
 
                         // NOTE: potential for more efficient implementation
                         At(row, column, _zero);

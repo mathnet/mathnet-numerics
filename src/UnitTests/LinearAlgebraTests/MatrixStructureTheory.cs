@@ -121,6 +121,20 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         }
 
         [Theory, Timeout(200)]
+        public void CanClearSubMatrix(Matrix<T> matrix)
+        {
+            var cleared = matrix.Clone();
+            Assume.That(cleared.RowCount, Is.GreaterThanOrEqualTo(2));
+            Assume.That(cleared.ColumnCount, Is.GreaterThanOrEqualTo(2));
+
+            cleared.Storage.Clear(0,2,1,1);
+            Assert.That(cleared.At(0, 0), Is.EqualTo(matrix.At(0, 0)));
+            Assert.That(cleared.At(1, 0), Is.EqualTo(matrix.At(1, 0)));
+            Assert.That(cleared.At(0, 1), Is.EqualTo(Zero));
+            Assert.That(cleared.At(1, 1), Is.EqualTo(Zero));
+        }
+
+        [Theory, Timeout(200)]
         public void CanToArray(Matrix<T> matrix)
         {
             var array = matrix.ToArray();
