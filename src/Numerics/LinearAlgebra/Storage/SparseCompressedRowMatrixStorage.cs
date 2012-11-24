@@ -116,11 +116,8 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
                 // Move all values (with an position larger than index) in the value array to the next position
                 // move all values (with an position larger than index) in the columIndices array to the next position
-                for (var i = ValueCount - 1; i > index - 1; i--)
-                {
-                    Values[i + 1] = Values[i];
-                    ColumnIndices[i + 1] = ColumnIndices[i];
-                }
+                Array.Copy(Values, index, Values, index + 1, ValueCount - index);
+                Array.Copy(ColumnIndices, index, ColumnIndices, index + 1, ValueCount - index);
 
                 // Add the value and the column index
                 Values[index] = value;
@@ -181,11 +178,8 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         {
             // Move all values (with an position larger than index) in the value array to the previous position
             // move all values (with an position larger than index) in the columIndices array to the previous position
-            for (var i = itemIndex + 1; i < ValueCount; i++)
-            {
-                Values[i - 1] = Values[i];
-                ColumnIndices[i - 1] = ColumnIndices[i];
-            }
+            Array.Copy(Values, itemIndex + 1, Values, itemIndex, ValueCount - itemIndex - 1);
+            Array.Copy(ColumnIndices, itemIndex + 1, ColumnIndices, itemIndex, ValueCount - itemIndex - 1);
 
             // Decrease value in Row
             for (var i = row + 1; i < RowPointers.Length; i++)
