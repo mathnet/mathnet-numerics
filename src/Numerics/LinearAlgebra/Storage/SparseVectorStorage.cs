@@ -76,7 +76,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             }
         }
 
-        void InsertAtIndexUnchecked(int itemIndex, int index, T value)
+        internal void InsertAtIndexUnchecked(int itemIndex, int index, T value)
         {
             // Check if the storage needs to be increased
             if ((ValueCount == Values.Length) && (ValueCount < Length))
@@ -100,7 +100,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             ValueCount += 1;
         }
 
-        void RemoveAtIndexUnchecked(int itemIndex)
+        internal void RemoveAtIndexUnchecked(int itemIndex)
         {
             // Value is zero. Let's delete it from Values and Indices array
             Array.Copy(Values, itemIndex + 1, Values, itemIndex, ValueCount - itemIndex - 1);

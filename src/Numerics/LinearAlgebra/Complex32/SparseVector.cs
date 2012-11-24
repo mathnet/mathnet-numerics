@@ -276,9 +276,11 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
                 }
 
                 //populate the non zero values from this
+                var indices = _storage.Indices;
+                var values = _storage.Values;
                 for (int j = 0; j < _storage.ValueCount; j++)
                 {
-                    vnonZeroValues[_storage.Indices[j]] = _storage.Values[j] + scalar;
+                    vnonZeroValues[indices[j]] = values[j] + scalar;
                 }
 
                 //assign this vectors arrary to the new arrays. 
@@ -322,27 +324,29 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
 
             // TODO (ruegg, 2011-10-11): Options to optimize?
 
+            var otherStorage = otherSparse._storage;
             if (ReferenceEquals(this, resultSparse))
             {
                 int i = 0, j = 0;
-                while (i < _storage.ValueCount || j < otherSparse._storage.ValueCount)
+                while (j < otherStorage.ValueCount)
                 {
-                    if (i < _storage.ValueCount && j < otherSparse._storage.ValueCount && _storage.Indices[i] == otherSparse._storage.Indices[j])
+                    if (i >= _storage.ValueCount || _storage.Indices[i] > otherStorage.Indices[j])
                     {
-                        _storage.Values[i++] += otherSparse._storage.Values[j++];
+                        var otherValue = otherStorage.Values[j];
+                        if (!Complex32.Zero.Equals(otherValue))
+                        {
+                            _storage.InsertAtIndexUnchecked(i++, otherStorage.Indices[j], otherValue);
+                        }
+                        j++;
                     }
-                    else if (j >= otherSparse._storage.ValueCount || i < _storage.ValueCount && _storage.Indices[i] < otherSparse._storage.Indices[j])
+                    else if (_storage.Indices[i] == otherStorage.Indices[j])
                     {
-                        i++;
+                        // TODO: result can be zero, remove?
+                        _storage.Values[i++] += otherStorage.Values[j++];
                     }
                     else
                     {
-                        var otherValue = otherSparse._storage.Values[j];
-                        if (otherValue != Complex32.Zero)
-                        {
-                            InsertAtUnchecked(i++, otherSparse._storage.Indices[j], otherValue);
-                        }
-                        j++;
+                        i++;
                     }
                 }
             }
@@ -350,9 +354,9 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
             {
                 result.Clear();
                 int i = 0, j = 0, last = -1;
-                while (i < _storage.ValueCount || j < otherSparse._storage.ValueCount)
+                while (i < _storage.ValueCount || j < otherStorage.ValueCount)
                 {
-                    if (j >= otherSparse._storage.ValueCount || i < _storage.ValueCount && _storage.Indices[i] <= otherSparse._storage.Indices[j])
+                    if (j >= otherStorage.ValueCount || i < _storage.ValueCount && _storage.Indices[i] <= otherStorage.Indices[j])
                     {
                         var next = _storage.Indices[i];
                         if (next != last)
@@ -364,11 +368,11 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
                     }
                     else
                     {
-                        var next = otherSparse._storage.Indices[j];
+                        var next = otherStorage.Indices[j];
                         if (next != last)
                         {
                             last = next;
-                            result.At(next, At(next) + otherSparse._storage.Values[j]);
+                            result.At(next, At(next) + otherStorage.Values[j]);
                         }
                         j++;
                     }
@@ -468,27 +472,29 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
 
             // TODO (ruegg, 2011-10-11): Options to optimize?
 
+            var otherStorage = otherSparse._storage;
             if (ReferenceEquals(this, resultSparse))
             {
                 int i = 0, j = 0;
-                while (i < _storage.ValueCount || j < otherSparse._storage.ValueCount)
+                while (j < otherStorage.ValueCount)
                 {
-                    if (i < _storage.ValueCount && j < otherSparse._storage.ValueCount && _storage.Indices[i] == otherSparse._storage.Indices[j])
+                    if (i >= _storage.ValueCount || _storage.Indices[i] > otherStorage.Indices[j])
                     {
-                        _storage.Values[i++] -= otherSparse._storage.Values[j++];
+                        var otherValue = otherStorage.Values[j];
+                        if (!Complex32.Zero.Equals(otherValue))
+                        {
+                            _storage.InsertAtIndexUnchecked(i++, otherStorage.Indices[j], -otherValue);
+                        }
+                        j++;
                     }
-                    else if (j >= otherSparse._storage.ValueCount || i < _storage.ValueCount && _storage.Indices[i] < otherSparse._storage.Indices[j])
+                    else if (_storage.Indices[i] == otherStorage.Indices[j])
                     {
-                        i++;
+                        // TODO: result can be zero, remove?
+                        _storage.Values[i++] -= otherStorage.Values[j++];
                     }
                     else
                     {
-                        var otherValue = otherSparse._storage.Values[j];
-                        if (otherValue != Complex32.Zero)
-                        {
-                            InsertAtUnchecked(i++, otherSparse._storage.Indices[j], -otherValue);
-                        }
-                        j++;
+                        i++;
                     }
                 }
             }
@@ -496,9 +502,9 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
             {
                 result.Clear();
                 int i = 0, j = 0, last = -1;
-                while (i < _storage.ValueCount || j < otherSparse._storage.ValueCount)
+                while (i < _storage.ValueCount || j < otherStorage.ValueCount)
                 {
-                    if (j >= otherSparse._storage.ValueCount || i < _storage.ValueCount && _storage.Indices[i] <= otherSparse._storage.Indices[j])
+                    if (j >= otherStorage.ValueCount || i < _storage.ValueCount && _storage.Indices[i] <= otherStorage.Indices[j])
                     {
                         var next = _storage.Indices[i];
                         if (next != last)
@@ -510,11 +516,11 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
                     }
                     else
                     {
-                        var next = otherSparse._storage.Indices[j];
+                        var next = otherStorage.Indices[j];
                         if (next != last)
                         {
                             last = next;
-                            result.At(next, At(next) - otherSparse._storage.Values[j]);
+                            result.At(next, At(next) - otherStorage.Values[j]);
                         }
                         j++;
                     }
@@ -1183,62 +1189,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         }
         #endregion
 
-        private void InsertAtUnchecked(int itemIndex, int index, Complex32 value)
-        {
-            // Check if the storage needs to be increased
-            if ((_storage.ValueCount == _storage.Values.Length) && (_storage.ValueCount < Count))
-            {
-                // Value and Indices arrays are completely full so we increase the size
-                var size = Math.Min(_storage.Values.Length + GrowthSize(), Count);
-                Array.Resize(ref _storage.Values, size);
-                Array.Resize(ref _storage.Indices, size);
-            }
-
-            // Move all values (with a position larger than index) in the value array
-            // to the next position
-            // Move all values (with a position larger than index) in the columIndices
-            // array to the next position
-            for (var i = _storage.ValueCount - 1; i > itemIndex - 1; i--)
-            {
-                _storage.Values[i + 1] = _storage.Values[i];
-                _storage.Indices[i + 1] = _storage.Indices[i];
-            }
-
-            // Add the value and the column index
-            _storage.Values[itemIndex] = value;
-            _storage.Indices[itemIndex] = index;
-
-            // increase the number of non-zero numbers by one
-            _storage.ValueCount += 1;
-        }
-
-        /// <summary>
-        /// Calculates the amount with which to grow the storage array's if they need to be
-        /// increased in size.
-        /// </summary>
-        /// <returns>The amount grown.</returns>
-        private int GrowthSize()
-        {
-            int delta;
-            if (_storage.Values.Length > 1024)
-            {
-                delta = _storage.Values.Length / 4;
-            }
-            else
-            {
-                if (_storage.Values.Length > 256)
-                {
-                    delta = 512;
-                }
-                else
-                {
-                    delta = _storage.Values.Length > 64 ? 128 : 32;
-                }
-            }
-
-            return delta;
-        }
-
         #region System.Object override
 
         public override string ToString(string format, IFormatProvider formatProvider)
@@ -1264,7 +1214,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
             for (var i = 0; i < hashNum; i++)
             {
 #if PORTABLE
-                hash ^= Precision.DoubleToInt64Bits(this._storage.Values[i].GetHashCode());
+                hash ^= Precision.DoubleToInt64Bits(_storage.Values[i].GetHashCode());
 #else
                 hash ^= BitConverter.DoubleToInt64Bits(_storage.Values[i].GetHashCode());
 #endif
