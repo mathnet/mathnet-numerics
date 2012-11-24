@@ -36,7 +36,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         /// <value>The number of non zero elements.</value>
         public int ValueCount;
 
-        internal SparseCompressedRowMatrixStorage(int rows, int columns, T zero)
+        internal SparseCompressedRowMatrixStorage(int rows, int columns, T zero = default(T))
             : base(rows, columns)
         {
             _zero = zero;
@@ -81,7 +81,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                 if (_zero.Equals(value))
                 {
                     // Delete existing item
-                    DeleteItemByIndex(index, row);
+                    RemoveAtIndexUnchecked(index, row);
                 }
                 else
                 {
@@ -135,46 +135,13 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             }
         }
 
-        public override void Clear()
-        {
-            ValueCount = 0;
-            Array.Clear(RowPointers, 0, RowPointers.Length);
-        }
-
-        public override void Clear(int rowIndex, int rowCount, int columnIndex, int columnCount)
-        {
-            if (rowIndex == 0 && columnIndex == 0 && rowCount == RowCount && columnCount == ColumnCount)
-            {
-                Clear();
-                return;
-            }
-
-            for (int i = rowIndex + rowCount - 1, row = rowCount - 1; i >= rowIndex; i--, row--)
-            {
-                var startIndex = RowPointers[i];
-                var endIndex = i < RowPointers.Length - 1 ? RowPointers[i + 1] : ValueCount;
-
-                for (int j = endIndex - 1; j >= startIndex; j--)
-                {
-                    // check if the column index is in the range
-                    if ((ColumnIndices[j] >= columnIndex) && (ColumnIndices[j] < columnIndex + columnCount))
-                    {
-                        var column = ColumnIndices[j];
-
-                        // NOTE: potential for more efficient implementation
-                        At(row, column, _zero);
-                    }
-                }
-            }
-        }
-
         /// <summary>
         /// Delete value from internal storage
         /// </summary>
         /// <param name="itemIndex">Index of value in nonZeroValues array</param>
         /// <param name="row">Row number of matrix</param>
         /// <remarks>WARNING: This method is not thread safe. Use "lock" with it and be sure to avoid deadlocks</remarks>
-        void DeleteItemByIndex(int itemIndex, int row)
+        void RemoveAtIndexUnchecked(int itemIndex, int row)
         {
             // Move all values (with an position larger than index) in the value array to the previous position
             // move all values (with an position larger than index) in the columIndices array to the previous position
@@ -238,6 +205,64 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             }
 
             return delta;
+        }
+
+        public override void Clear()
+        {
+            ValueCount = 0;
+            Array.Clear(RowPointers, 0, RowPointers.Length);
+        }
+
+        public override void Clear(int rowIndex, int rowCount, int columnIndex, int columnCount)
+        {
+            if (rowIndex == 0 && columnIndex == 0 && rowCount == RowCount && columnCount == ColumnCount)
+            {
+                Clear();
+                return;
+            }
+
+            for (int row = rowIndex + rowCount - 1; row >= rowIndex; row--)
+            {
+                var startIndex = RowPointers[row];
+                var endIndex = row < RowPointers.Length - 1 ? RowPointers[row + 1] : ValueCount;
+
+                // empty row
+                if (startIndex == endIndex)
+                {
+                    continue;
+                }
+
+                // multiple entries in row
+                var first = Array.BinarySearch(ColumnIndices, startIndex, endIndex - startIndex, columnIndex);
+                var last = Array.BinarySearch(ColumnIndices, startIndex, endIndex - startIndex, columnIndex + columnCount - 1);
+                if (first < 0) first = ~first;
+                if (last < 0) last = ~last - 1;
+                int count = last - first + 1;
+
+                if (count > 0)
+                {
+                    // Move all values (with an position larger than index) in the value array to the previous position
+                    // move all values (with an position larger than index) in the columIndices array to the previous position
+                    Array.Copy(Values, first + count, Values, first, ValueCount - first - count);
+                    Array.Copy(ColumnIndices, first + count, ColumnIndices, first, ValueCount - first - count);
+
+                    // Decrease value in Row
+                    for (var k = row + 1; k < RowPointers.Length; k++)
+                    {
+                        RowPointers[k] -= count;
+                    }
+
+                    ValueCount -= count;
+                }
+            }
+
+            // Check if the storage needs to be shrink. This is reasonable to do if
+            // there are a lot of non-zero elements and storage is two times bigger
+            if ((ValueCount > 1024) && (ValueCount < Values.Length / 2))
+            {
+                Array.Resize(ref Values, ValueCount);
+                Array.Resize(ref ColumnIndices, ValueCount);
+            }
         }
 
         /// <summary>
@@ -513,13 +538,12 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                 return;
             }
 
-            // NOTE: potential for more efficient implementation
-
             if (!skipClearing)
             {
                 target.Clear(targetRowIndex, rowCount, targetColumnIndex, columnCount);
             }
 
+            // NOTE: potential for more efficient implementation
             for (int i = sourceRowIndex, row = 0; i < sourceRowIndex + rowCount; i++, row++)
             {
                 var startIndex = RowPointers[i];

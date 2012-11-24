@@ -29,6 +29,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
     using System;
     using System.Collections.Generic;
     using LinearAlgebra.Double;
+    using LinearAlgebra.Double.IO;
     using NUnit.Framework;
 
     /// <summary>
@@ -314,6 +315,30 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             Assert.AreEqual(Order, matrix.RowCount);
             Assert.AreEqual(Order, matrix.ColumnCount);
             Assert.DoesNotThrow(() => matrix[0, 0] = 1);
+        }
+
+        [Test]
+        public void CanClearSubMatrixEx()
+        {
+            var dmr = new MatlabMatrixReader("./data/Matlab/sparse-small.mat");
+            var matrix = dmr.ReadMatrix("S");
+            var matrix2 = matrix.Clone();
+
+            // Zero the 4th column
+            for (int i = 0; i < matrix.RowCount; i++)
+            {
+                matrix.At(i, 3, 0.0);
+            }
+            matrix2.ClearColumn(3);
+
+            // Zero the 40th row
+            for (int i = 0; i < matrix.ColumnCount; i++)
+            {
+                matrix.At(39, i, 0.0);
+            }
+            matrix2.ClearRow(39);
+
+            Assert.That(matrix2.Equals(matrix), Is.True);
         }
     }
 }
