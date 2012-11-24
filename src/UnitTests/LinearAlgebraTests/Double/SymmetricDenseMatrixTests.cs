@@ -105,6 +105,28 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         /// Can create a matrix form array.
         /// </summary>
         [Test]
+        public void CanCreateMatrixFrom1DArray()
+        {
+            var testData = new Dictionary<string, Matrix>
+                           {
+                             { "Singular3x3", new SymmetricDenseMatrix(3, new[] { 1.0, 2.0, 0.0, 3.0, 0.0, 0.0 }) }, 
+                             { "Square3x3", new SymmetricDenseMatrix(3, new[] { -1.1, 2.0, 1.1, 3.0, 0.0, 6.6 }) }, 
+                             { "Square4x4", new SymmetricDenseMatrix(4, new[] { 1.1, 2.0, 5.0, -3.0, -6.0, 8.0, 4.4, 7.0, 9.0, 10.0 }) }, 
+                             { "Singular4x4", new SymmetricDenseMatrix(4, new[] { 1.0, 2.0, 5.0, 0.0, 0.0, 0.0, 4.0, 7.0, 0.0, 10.0 }) }, 
+                             { "Symmetric3x3", new SymmetricDenseMatrix(3, new[] { 1.0, 2.0, 2.0, 3.0, 0.0, 3.0 }) },
+                             { "IndexTester4x4", new SymmetricDenseMatrix(4, new double[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 }) }
+                           };
+
+            foreach (var name in testData.Keys)
+            {
+                Assert.AreEqual(TestMatrices[name], testData[name]);
+            }
+        }
+
+        /// <summary>
+        /// Can create a matrix form array.
+        /// </summary>
+        [Test]
         public void CanCreateMatrixFrom2DArray()
         {
             var testData = new Dictionary<string, Matrix>
