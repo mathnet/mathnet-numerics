@@ -1387,9 +1387,9 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
                 Array.Resize(ref _nonZeroIndices, size);
             }
 
-            // Move all values (with an position larger than index) in the value array
+            // Move all values (with a position larger than index) in the value array
             // to the next position
-            // Move all values (with an position larger than index) in the columIndices
+            // Move all values (with a position larger than index) in the columIndices
             // array to the next position
             for (var i = NonZerosCount - 1; i > itemIndex - 1; i--)
             {
@@ -1416,7 +1416,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
 
             NonZerosCount -= 1;
 
-            // Check if the storage needs to be shrink. This is reasonable to do if
+            // Check whether we need to shrink the arrays. This is reasonable to do if
             // there are a lot of non-zero elements and storage is two times bigger
             if ((NonZerosCount > 1024) && (NonZerosCount < _nonZeroIndices.Length / 2))
             {

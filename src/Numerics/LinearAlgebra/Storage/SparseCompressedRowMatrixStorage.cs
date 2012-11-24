@@ -114,8 +114,8 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                     Array.Resize(ref ColumnIndices, (int)size);
                 }
 
-                // Move all values (with an position larger than index) in the value array to the next position
-                // move all values (with an position larger than index) in the columIndices array to the next position
+                // Move all values (with a position larger than index) in the value array to the next position
+                // move all values (with a position larger than index) in the columIndices array to the next position
                 Array.Copy(Values, index, Values, index + 1, ValueCount - index);
                 Array.Copy(ColumnIndices, index, ColumnIndices, index + 1, ValueCount - index);
 
@@ -143,8 +143,8 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         /// <remarks>WARNING: This method is not thread safe. Use "lock" with it and be sure to avoid deadlocks</remarks>
         void RemoveAtIndexUnchecked(int itemIndex, int row)
         {
-            // Move all values (with an position larger than index) in the value array to the previous position
-            // move all values (with an position larger than index) in the columIndices array to the previous position
+            // Move all values (with a position larger than index) in the value array to the previous position
+            // move all values (with a position larger than index) in the columIndices array to the previous position
             Array.Copy(Values, itemIndex + 1, Values, itemIndex, ValueCount - itemIndex - 1);
             Array.Copy(ColumnIndices, itemIndex + 1, ColumnIndices, itemIndex, ValueCount - itemIndex - 1);
 
@@ -156,7 +156,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
             ValueCount -= 1;
 
-            // Check if the storage needs to be shrink. This is reasonable to do if 
+            // Check whether we need to shrink the arrays. This is reasonable to do if 
             // there are a lot of non-zero elements and storage is two times bigger
             if ((ValueCount > 1024) && (ValueCount < Values.Length / 2))
             {
@@ -241,8 +241,8 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
                 if (count > 0)
                 {
-                    // Move all values (with an position larger than index) in the value array to the previous position
-                    // move all values (with an position larger than index) in the columIndices array to the previous position
+                    // Move all values (with a position larger than index) in the value array to the previous position
+                    // move all values (with a position larger than index) in the columIndices array to the previous position
                     Array.Copy(Values, first + count, Values, first, ValueCount - first - count);
                     Array.Copy(ColumnIndices, first + count, ColumnIndices, first, ValueCount - first - count);
 
@@ -256,7 +256,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                 }
             }
 
-            // Check if the storage needs to be shrink. This is reasonable to do if
+            // Check whether we need to shrink the arrays. This is reasonable to do if
             // there are a lot of non-zero elements and storage is two times bigger
             if ((ValueCount > 1024) && (ValueCount < Values.Length / 2))
             {

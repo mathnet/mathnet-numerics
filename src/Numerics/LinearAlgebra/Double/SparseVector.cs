@@ -405,7 +405,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                         var otherValue = otherSparse._nonZeroValues[j];
                         if (otherValue != 0.0)
                         {
-                            InsertAtUnchecked(i++, otherSparse._nonZeroIndices[j], otherValue);
+                            InsertAtIndexUnchecked(i++, otherSparse._nonZeroIndices[j], otherValue);
                         }
                         j++;
                     }
@@ -551,7 +551,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                         var otherValue = otherSparse._nonZeroValues[j];
                         if (otherValue != 0.0)
                         {
-                            InsertAtUnchecked(i++, otherSparse._nonZeroIndices[j], -otherValue);
+                            InsertAtIndexUnchecked(i++, otherSparse._nonZeroIndices[j], -otherValue);
                         }
                         j++;
                     }
@@ -1371,7 +1371,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 // Item already exist at itemIndex
                 if (value == 0.0)
                 {
-                    RemoveAtUnchecked(itemIndex);
+                    RemoveAtIndexUnchecked(itemIndex);
                 }
                 else
                 {
@@ -1382,12 +1382,12 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             {
                 if (value != 0.0)
                 {
-                    InsertAtUnchecked(~itemIndex, index, value);
+                    InsertAtIndexUnchecked(~itemIndex, index, value);
                 }
             }
         }
 
-        private void InsertAtUnchecked(int itemIndex, int index, double value)
+        private void InsertAtIndexUnchecked(int itemIndex, int index, double value)
         {
             // Check if the storage needs to be increased
             if ((NonZerosCount == _nonZeroValues.Length) && (NonZerosCount < Count))
@@ -1398,9 +1398,9 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 Array.Resize(ref _nonZeroIndices, size);
             }
 
-            // Move all values (with an position larger than index) in the value array
+            // Move all values (with a position larger than index) in the value array
             // to the next position
-            // Move all values (with an position larger than index) in the columIndices
+            // Move all values (with a position larger than index) in the columIndices
             // array to the next position
             for (var i = NonZerosCount - 1; i > itemIndex - 1; i--)
             {
@@ -1416,7 +1416,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             NonZerosCount += 1;
         }
 
-        private void RemoveAtUnchecked(int itemIndex)
+        private void RemoveAtIndexUnchecked(int itemIndex)
         {
             // Value is zero. Let's delete it from Values and Indices array
             for (var i = itemIndex + 1; i < NonZerosCount; i++)
@@ -1427,7 +1427,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
             NonZerosCount -= 1;
 
-            // Check if the storage needs to be shrink. This is reasonable to do if
+            // Check whether we need to shrink the arrays. This is reasonable to do if
             // there are a lot of non-zero elements and storage is two times bigger
             if ((NonZerosCount > 1024) && (NonZerosCount < _nonZeroIndices.Length / 2))
             {

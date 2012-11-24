@@ -84,11 +84,6 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                 return;
             }
 
-            if (target == null)
-            {
-                throw new ArgumentNullException("target");
-            }
-
             if (Length != target.Length)
             {
                 var message = string.Format(Resources.ArgumentMatrixDimensions2, Length, target.Length);
@@ -118,11 +113,6 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         void CopySubVectorTo(DenseVectorStorage<T> target,
             int sourceIndex, int targetIndex, int count)
         {
-            if (target == null)
-            {
-                throw new ArgumentNullException("target");
-            }
-
             if (ReferenceEquals(this, target))
             {
                 throw new NotSupportedException();
