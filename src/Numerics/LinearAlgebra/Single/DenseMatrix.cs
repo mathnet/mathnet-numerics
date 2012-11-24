@@ -156,7 +156,17 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// Gets the matrix's data.
         /// </summary>
         /// <value>The matrix's data.</value>
+        [Obsolete("Use Values instead. Will be removed in future versions.")]
         public float[] Data
+        {
+            get { return _values; }
+        }
+
+        /// <summary>
+        /// Gets the matrix's data.
+        /// </summary>
+        /// <value>The matrix's data.</value>
+        public float[] Values
         {
             get { return _values; }
         }

@@ -156,7 +156,17 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// Gets the matrix's data.
         /// </summary>
         /// <value>The matrix's data.</value>
+        [Obsolete("Use Values instead. Will be removed in future versions.")]
         public Complex[] Data
+        {
+            get { return _values; }
+        }
+
+        /// <summary>
+        /// Gets the matrix's data.
+        /// </summary>
+        /// <value>The matrix's data.</value>
+        public Complex[] Values
         {
             get { return _values; }
         }

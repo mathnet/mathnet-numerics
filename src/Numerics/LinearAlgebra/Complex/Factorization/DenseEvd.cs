@@ -95,8 +95,8 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
                 var e = new double[order];
 
                 SymmetricTridiagonalize(matrixCopy, d, e, tau, order);
-                SymmetricDiagonalize(((DenseMatrix)MatrixEv).Data, d, e, order);
-                SymmetricUntridiagonalize(((DenseMatrix)MatrixEv).Data, matrixCopy, tau, order);
+                SymmetricDiagonalize(((DenseMatrix)MatrixEv).Values, d, e, order);
+                SymmetricUntridiagonalize(((DenseMatrix)MatrixEv).Values, matrixCopy, tau, order);
 
                 for (var i = 0; i < order; i++)
                 {
@@ -106,8 +106,8 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
             else
             {
                 var matrixH = matrix.ToArray();
-                NonsymmetricReduceToHessenberg(((DenseMatrix)MatrixEv).Data, matrixH, order);
-                NonsymmetricReduceHessenberToRealSchur(((DenseVector)VectorEv).Values, ((DenseMatrix)MatrixEv).Data, matrixH, order);
+                NonsymmetricReduceToHessenberg(((DenseMatrix)MatrixEv).Values, matrixH, order);
+                NonsymmetricReduceHessenberToRealSchur(((DenseVector)VectorEv).Values, ((DenseMatrix)MatrixEv).Values, matrixH, order);
             }
 
             MatrixD.SetDiagonal(VectorEv);
@@ -853,7 +853,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
                         {
                             for (var i = 0; i < order; i++)
                             {
-                                value += ((DenseMatrix)MatrixEv).Data[(j * order) + i].Conjugate() * input.At(i, k);
+                                value += ((DenseMatrix)MatrixEv).Values[(j * order) + i].Conjugate() * input.At(i, k);
                             }
 
                             value /= VectorEv[j].Real;
@@ -867,7 +867,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
                         Complex value = 0.0;
                         for (var i = 0; i < order; i++)
                         {
-                            value += ((DenseMatrix)MatrixEv).Data[(i * order) + j] * tmp[i];
+                            value += ((DenseMatrix)MatrixEv).Values[(i * order) + j] * tmp[i];
                         }
 
                         result.At(j, k, value);
@@ -924,7 +924,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
                     {
                         for (var i = 0; i < order; i++)
                         {
-                            value += ((DenseMatrix)MatrixEv).Data[(j * order) + i].Conjugate() * input[i];
+                            value += ((DenseMatrix)MatrixEv).Values[(j * order) + i].Conjugate() * input[i];
                         }
 
                         value /= VectorEv[j].Real;
@@ -938,7 +938,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
                     value = 0;
                     for (int i = 0; i < order; i++)
                     {
-                        value += ((DenseMatrix)MatrixEv).Data[(i * order) + j] * tmp[i];
+                        value += ((DenseMatrix)MatrixEv).Values[(i * order) + j] * tmp[i];
                     }
 
                     result[j] = value;

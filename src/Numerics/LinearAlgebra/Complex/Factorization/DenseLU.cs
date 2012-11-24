@@ -70,7 +70,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
 
             // Create a new matrix for the LU factors, then perform factorization (while overwriting).
             var factors = (DenseMatrix)matrix.Clone();
-            Control.LinearAlgebraProvider.LUFactor(factors.Data, factors.RowCount, Pivots);
+            Control.LinearAlgebraProvider.LUFactor(factors.Values, factors.RowCount, Pivots);
             Factors = factors;
         }
 
@@ -121,11 +121,11 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
             }
 
             // Copy the contents of input to result.
-            CommonParallel.For(0, dinput.Data.Length, index => dresult.Data[index] = dinput.Data[index]);
+            CommonParallel.For(0, dinput.Values.Length, index => dresult.Values[index] = dinput.Values[index]);
 
             // LU solve by overwriting result.
             var dfactors = (DenseMatrix)Factors;
-            Control.LinearAlgebraProvider.LUSolveFactored(input.ColumnCount, dfactors.Data, dfactors.RowCount, Pivots, dresult.Data);
+            Control.LinearAlgebraProvider.LUSolveFactored(input.ColumnCount, dfactors.Values, dfactors.RowCount, Pivots, dresult.Values);
         }
 
         /// <summary>
@@ -174,7 +174,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
 
             // LU solve by overwriting result.
             var dfactors = (DenseMatrix)Factors;
-            Control.LinearAlgebraProvider.LUSolveFactored(1, dfactors.Data, dfactors.RowCount, Pivots, dresult.Values);
+            Control.LinearAlgebraProvider.LUSolveFactored(1, dfactors.Values, dfactors.RowCount, Pivots, dresult.Values);
         }
 
         /// <summary>
@@ -184,7 +184,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
         public override Matrix<Complex> Inverse()
         {
             var result = (DenseMatrix)Factors.Clone();
-            Control.LinearAlgebraProvider.LUInverseFactored(result.Data, result.RowCount, Pivots);
+            Control.LinearAlgebraProvider.LUInverseFactored(result.Values, result.RowCount, Pivots);
             return result;
         }
     }

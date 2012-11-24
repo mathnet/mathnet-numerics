@@ -67,7 +67,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
 
             // Create a new matrix for the Cholesky factor, then perform factorization (while overwriting).
             var factor = (DenseMatrix)matrix.Clone();
-            Control.LinearAlgebraProvider.CholeskyFactor(factor.Data, factor.RowCount);
+            Control.LinearAlgebraProvider.CholeskyFactor(factor.Values, factor.RowCount);
             CholeskyFactor = factor;
         }
 
@@ -118,11 +118,11 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
             }
 
             // Copy the contents of input to result.
-            Buffer.BlockCopy(dinput.Data, 0, dresult.Data, 0, dinput.Data.Length * Constants.SizeOfFloat);
+            Buffer.BlockCopy(dinput.Values, 0, dresult.Values, 0, dinput.Values.Length * Constants.SizeOfFloat);
 
             // Cholesky solve by overwriting result.
             var dfactor = (DenseMatrix)CholeskyFactor;
-            Control.LinearAlgebraProvider.CholeskySolveFactored(dfactor.Data, dfactor.RowCount, dresult.Data, dresult.ColumnCount);
+            Control.LinearAlgebraProvider.CholeskySolveFactored(dfactor.Values, dfactor.RowCount, dresult.Values, dresult.ColumnCount);
         }
 
         /// <summary>
@@ -171,7 +171,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
 
             // Cholesky solve by overwriting result.
             var dfactor = (DenseMatrix)CholeskyFactor;
-            Control.LinearAlgebraProvider.CholeskySolveFactored(dfactor.Data, dfactor.RowCount, dresult.Values, 1);
+            Control.LinearAlgebraProvider.CholeskySolveFactored(dfactor.Values, dfactor.RowCount, dresult.Values, 1);
         }
     }
 }

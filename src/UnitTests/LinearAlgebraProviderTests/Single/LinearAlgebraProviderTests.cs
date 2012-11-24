@@ -189,7 +189,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Single
         {
             var matrix = _matrices["Square3x3"];
             var work = new float[matrix.RowCount];
-            var norm = Control.LinearAlgebraProvider.MatrixNorm(Norm.OneNorm, matrix.RowCount, matrix.ColumnCount, matrix.Data, work);
+            var norm = Control.LinearAlgebraProvider.MatrixNorm(Norm.OneNorm, matrix.RowCount, matrix.ColumnCount, matrix.Values, work);
             AssertHelpers.AlmostEqual(12.1, norm, 6);
         }
 
@@ -201,7 +201,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Single
         {
             var matrix = _matrices["Square3x3"];
             var work = new float[matrix.RowCount];
-            var norm = Control.LinearAlgebraProvider.MatrixNorm(Norm.FrobeniusNorm, matrix.RowCount, matrix.ColumnCount, matrix.Data, work);
+            var norm = Control.LinearAlgebraProvider.MatrixNorm(Norm.FrobeniusNorm, matrix.RowCount, matrix.ColumnCount, matrix.Values, work);
             AssertHelpers.AlmostEqual(10.777754868246, norm, 8);
         }
 
@@ -213,7 +213,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Single
         {
             var matrix = _matrices["Square3x3"];
             var work = new float[matrix.RowCount];
-            var norm = Control.LinearAlgebraProvider.MatrixNorm(Norm.InfinityNorm, matrix.RowCount, matrix.ColumnCount, matrix.Data, work);
+            var norm = Control.LinearAlgebraProvider.MatrixNorm(Norm.InfinityNorm, matrix.RowCount, matrix.ColumnCount, matrix.Values, work);
             Assert.AreEqual(16.5, norm);
         }
 
@@ -224,7 +224,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Single
         public void CanComputeMatrixL1NormWithWorkArray()
         {
             var matrix = _matrices["Square3x3"];
-            var norm = Control.LinearAlgebraProvider.MatrixNorm(Norm.OneNorm, matrix.RowCount, matrix.ColumnCount, matrix.Data);
+            var norm = Control.LinearAlgebraProvider.MatrixNorm(Norm.OneNorm, matrix.RowCount, matrix.ColumnCount, matrix.Values);
             AssertHelpers.AlmostEqual(12.1, norm, 6);
         }
 
@@ -235,7 +235,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Single
         public void CanComputeMatrixFrobeniusNormWithWorkArray()
         {
             var matrix = _matrices["Square3x3"];
-            var norm = Control.LinearAlgebraProvider.MatrixNorm(Norm.FrobeniusNorm, matrix.RowCount, matrix.ColumnCount, matrix.Data);
+            var norm = Control.LinearAlgebraProvider.MatrixNorm(Norm.FrobeniusNorm, matrix.RowCount, matrix.ColumnCount, matrix.Values);
             AssertHelpers.AlmostEqual(10.777754868246, norm, 8);
         }
 
@@ -246,7 +246,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Single
         public void CanComputeMatrixInfinityNormWithWorkArray()
         {
             var matrix = _matrices["Square3x3"];
-            var norm = Control.LinearAlgebraProvider.MatrixNorm(Norm.InfinityNorm, matrix.RowCount, matrix.ColumnCount, matrix.Data);
+            var norm = Control.LinearAlgebraProvider.MatrixNorm(Norm.InfinityNorm, matrix.RowCount, matrix.ColumnCount, matrix.Values);
             Assert.AreEqual(16.5, norm);
         }
 
@@ -260,7 +260,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Single
             var y = _matrices["Square3x3"];
             var c = new DenseMatrix(x.RowCount, y.ColumnCount);
 
-            Control.LinearAlgebraProvider.MatrixMultiply(x.Data, x.RowCount, x.ColumnCount, y.Data, y.RowCount, y.ColumnCount, c.Data);
+            Control.LinearAlgebraProvider.MatrixMultiply(x.Values, x.RowCount, x.ColumnCount, y.Values, y.RowCount, y.ColumnCount, c.Values);
 
             for (var i = 0; i < c.RowCount; i++)
             {
@@ -281,7 +281,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Single
             var y = _matrices["Tall3x2"];
             var c = new DenseMatrix(x.RowCount, y.ColumnCount);
 
-            Control.LinearAlgebraProvider.MatrixMultiply(x.Data, x.RowCount, x.ColumnCount, y.Data, y.RowCount, y.ColumnCount, c.Data);
+            Control.LinearAlgebraProvider.MatrixMultiply(x.Values, x.RowCount, x.ColumnCount, y.Values, y.RowCount, y.ColumnCount, c.Values);
 
             for (var i = 0; i < c.RowCount; i++)
             {
@@ -302,7 +302,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Single
             var y = _matrices["Wide2x3"];
             var c = new DenseMatrix(x.RowCount, y.ColumnCount);
 
-            Control.LinearAlgebraProvider.MatrixMultiply(x.Data, x.RowCount, x.ColumnCount, y.Data, y.RowCount, y.ColumnCount, c.Data);
+            Control.LinearAlgebraProvider.MatrixMultiply(x.Values, x.RowCount, x.ColumnCount, y.Values, y.RowCount, y.ColumnCount, c.Values);
 
             for (var i = 0; i < c.RowCount; i++)
             {
@@ -323,7 +323,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Single
             var y = _matrices["Square3x3"];
             var c = new DenseMatrix(x.RowCount, y.ColumnCount);
 
-            Control.LinearAlgebraProvider.MatrixMultiplyWithUpdate(Transpose.DontTranspose, Transpose.DontTranspose, 2.2f, x.Data, x.RowCount, x.ColumnCount, y.Data, y.RowCount, y.ColumnCount, 1.0f, c.Data);
+            Control.LinearAlgebraProvider.MatrixMultiplyWithUpdate(Transpose.DontTranspose, Transpose.DontTranspose, 2.2f, x.Values, x.RowCount, x.ColumnCount, y.Values, y.RowCount, y.ColumnCount, 1.0f, c.Values);
 
             for (var i = 0; i < c.RowCount; i++)
             {
@@ -344,7 +344,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Single
             var y = _matrices["Tall3x2"];
             var c = new DenseMatrix(x.RowCount, y.ColumnCount);
 
-            Control.LinearAlgebraProvider.MatrixMultiplyWithUpdate(Transpose.DontTranspose, Transpose.DontTranspose, 2.2f, x.Data, x.RowCount, x.ColumnCount, y.Data, y.RowCount, y.ColumnCount, 1.0f, c.Data);
+            Control.LinearAlgebraProvider.MatrixMultiplyWithUpdate(Transpose.DontTranspose, Transpose.DontTranspose, 2.2f, x.Values, x.RowCount, x.ColumnCount, y.Values, y.RowCount, y.ColumnCount, 1.0f, c.Values);
 
             for (var i = 0; i < c.RowCount; i++)
             {
@@ -365,7 +365,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Single
             var y = _matrices["Wide2x3"];
             var c = new DenseMatrix(x.RowCount, y.ColumnCount);
 
-            Control.LinearAlgebraProvider.MatrixMultiplyWithUpdate(Transpose.DontTranspose, Transpose.DontTranspose, 2.2f, x.Data, x.RowCount, x.ColumnCount, y.Data, y.RowCount, y.ColumnCount, 1.0f, c.Data);
+            Control.LinearAlgebraProvider.MatrixMultiplyWithUpdate(Transpose.DontTranspose, Transpose.DontTranspose, 2.2f, x.Values, x.RowCount, x.ColumnCount, y.Values, y.RowCount, y.ColumnCount, 1.0f, c.Values);
 
             for (var i = 0; i < c.RowCount; i++)
             {
@@ -392,7 +392,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Single
         {
             var matrix = _matrices["Square3x3"];
             var a = new float[matrix.RowCount * matrix.RowCount];
-            Array.Copy(matrix.Data, a, a.Length);
+            Array.Copy(matrix.Values, a, a.Length);
 
             var ipiv = new int[matrix.RowCount];
 
@@ -420,7 +420,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Single
         {
             var matrix = _matrices["Square3x3"];
             var a = new float[matrix.RowCount * matrix.RowCount];
-            Array.Copy(matrix.Data, a, a.Length);
+            Array.Copy(matrix.Values, a, a.Length);
 
             Control.LinearAlgebraProvider.LUInverse(a, matrix.RowCount);
 
@@ -444,7 +444,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Single
         {
             var matrix = _matrices["Square3x3"];
             var a = new float[matrix.RowCount * matrix.RowCount];
-            Array.Copy(matrix.Data, a, a.Length);
+            Array.Copy(matrix.Values, a, a.Length);
 
             var ipiv = new int[matrix.RowCount];
 
@@ -471,7 +471,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Single
         {
             var matrix = _matrices["Square3x3"];
             var a = new float[matrix.RowCount * matrix.RowCount];
-            Array.Copy(matrix.Data, a, a.Length);
+            Array.Copy(matrix.Values, a, a.Length);
 
             var work = new float[matrix.RowCount];
             Control.LinearAlgebraProvider.LUInverse(a, matrix.RowCount, work);
@@ -496,7 +496,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Single
         {
             var matrix = _matrices["Square3x3"];
             var a = new float[matrix.RowCount * matrix.RowCount];
-            Array.Copy(matrix.Data, a, a.Length);
+            Array.Copy(matrix.Values, a, a.Length);
 
             var ipiv = new int[matrix.RowCount];
 
@@ -524,7 +524,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Single
         {
             var matrix = _matrices["Square3x3"];
             var a = new float[matrix.RowCount * matrix.RowCount];
-            Array.Copy(matrix.Data, a, a.Length);
+            Array.Copy(matrix.Values, a, a.Length);
 
             var b = new[] { 1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f };
             Control.LinearAlgebraProvider.LUSolve(2, a, matrix.RowCount, b);
@@ -547,7 +547,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Single
         {
             var matrix = _matrices["Square3x3"];
             var a = new float[matrix.RowCount * matrix.RowCount];
-            Array.Copy(matrix.Data, a, a.Length);
+            Array.Copy(matrix.Values, a, a.Length);
 
             var ipiv = new int[matrix.RowCount];
             Control.LinearAlgebraProvider.LUFactor(a, matrix.RowCount, ipiv);
@@ -640,7 +640,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Single
         {
             var matrix = _matrices["Square3x3"];
             var r = new float[matrix.RowCount * matrix.ColumnCount];
-            Array.Copy(matrix.Data, r, r.Length);
+            Array.Copy(matrix.Values, r, r.Length);
 
             var tau = new float[3];
             var q = new float[matrix.RowCount * matrix.RowCount];
@@ -667,7 +667,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Single
         {
             var matrix = _matrices["Tall3x2"];
             var r = new float[matrix.RowCount * matrix.ColumnCount];
-            Array.Copy(matrix.Data, r, r.Length);
+            Array.Copy(matrix.Values, r, r.Length);
 
             var tau = new float[3];
             var q = new float[matrix.RowCount * matrix.RowCount];
@@ -694,7 +694,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Single
         {
             var matrix = _matrices["Wide2x3"];
             var r = new float[matrix.RowCount * matrix.ColumnCount];
-            Array.Copy(matrix.Data, r, r.Length);
+            Array.Copy(matrix.Values, r, r.Length);
 
             var tau = new float[3];
             var q = new float[matrix.RowCount * matrix.RowCount];
@@ -721,7 +721,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Single
         {
             var matrix = _matrices["Square3x3"];
             var r = new float[matrix.RowCount * matrix.ColumnCount];
-            Array.Copy(matrix.Data, r, r.Length);
+            Array.Copy(matrix.Values, r, r.Length);
 
             var tau = new float[3];
             var q = new float[matrix.RowCount * matrix.RowCount];
@@ -749,7 +749,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Single
         {
             var matrix = _matrices["Tall3x2"];
             var r = new float[matrix.RowCount * matrix.ColumnCount];
-            Array.Copy(matrix.Data, r, r.Length);
+            Array.Copy(matrix.Values, r, r.Length);
 
             var tau = new float[3];
             var q = new float[matrix.RowCount * matrix.RowCount];
@@ -777,7 +777,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Single
         {
             var matrix = _matrices["Wide2x3"];
             var r = new float[matrix.RowCount * matrix.ColumnCount];
-            Array.Copy(matrix.Data, r, r.Length);
+            Array.Copy(matrix.Values, r, r.Length);
 
             var tau = new float[3];
             var q = new float[matrix.RowCount * matrix.RowCount];
@@ -807,7 +807,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Single
             var r = new float[matrix.ColumnCount * matrix.ColumnCount];
             var tau = new float[3];
             var q = new float[matrix.RowCount * matrix.ColumnCount];
-            Array.Copy(matrix.Data, q, q.Length);
+            Array.Copy(matrix.Values, q, q.Length);
 
             Control.LinearAlgebraProvider.ThinQRFactor(q, matrix.RowCount, matrix.ColumnCount, r, tau);
 
@@ -834,7 +834,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Single
             var r = new float[matrix.ColumnCount * matrix.ColumnCount];
             var tau = new float[3];
             var q = new float[matrix.RowCount * matrix.ColumnCount];
-            Array.Copy(matrix.Data, q, q.Length);
+            Array.Copy(matrix.Values, q, q.Length);
 
             Control.LinearAlgebraProvider.ThinQRFactor(q, matrix.RowCount, matrix.ColumnCount, r, tau);
 
@@ -861,7 +861,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Single
             var r = new float[matrix.ColumnCount * matrix.ColumnCount];
             var tau = new float[3];
             var q = new float[matrix.RowCount * matrix.ColumnCount];
-            Array.Copy(matrix.Data, q, q.Length);
+            Array.Copy(matrix.Values, q, q.Length);
 
             var work = new float[matrix.RowCount * matrix.ColumnCount];
             Control.LinearAlgebraProvider.ThinQRFactor(q, matrix.RowCount, matrix.ColumnCount, r, tau, work);
@@ -889,7 +889,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Single
             var r = new float[matrix.ColumnCount * matrix.ColumnCount];
             var tau = new float[3];
             var q = new float[matrix.RowCount * matrix.ColumnCount];
-            Array.Copy(matrix.Data, q, q.Length);
+            Array.Copy(matrix.Values, q, q.Length);
 
             var work = new float[matrix.RowCount * matrix.ColumnCount];
             Control.LinearAlgebraProvider.ThinQRFactor(q, matrix.RowCount, matrix.ColumnCount, r, tau, work);
@@ -914,7 +914,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Single
         {
             var matrix = _matrices["Square3x3"];
             var a = new float[matrix.RowCount * matrix.ColumnCount];
-            Array.Copy(matrix.Data, a, a.Length);
+            Array.Copy(matrix.Values, a, a.Length);
 
             var b = new[] { 1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f };
             var x = new float[matrix.ColumnCount * 2];
@@ -941,7 +941,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Single
         {
             var matrix = _matrices["Tall3x2"];
             var a = new float[matrix.RowCount * matrix.ColumnCount];
-            Array.Copy(matrix.Data, a, a.Length);
+            Array.Copy(matrix.Values, a, a.Length);
 
             var b = new[] { 1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f };
             var x = new float[matrix.ColumnCount * 2];
@@ -967,7 +967,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Single
         {
             var matrix = _matrices["Square3x3"];
             var a = new float[matrix.RowCount * matrix.ColumnCount];
-            Array.Copy(matrix.Data, a, a.Length);
+            Array.Copy(matrix.Values, a, a.Length);
 
             var b = new[] { 1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f };
             var x = new float[matrix.ColumnCount * 2];
@@ -996,7 +996,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Single
         {
             var matrix = _matrices["Tall3x2"];
             var a = new float[matrix.RowCount * matrix.ColumnCount];
-            Array.Copy(matrix.Data, a, a.Length);
+            Array.Copy(matrix.Values, a, a.Length);
 
             var b = new[] { 1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f };
             var x = new float[matrix.ColumnCount * 2];
@@ -1023,7 +1023,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Single
         {
             var matrix = _matrices["Square3x3"];
             var a = new float[matrix.RowCount * matrix.RowCount];
-            Array.Copy(matrix.Data, a, a.Length);
+            Array.Copy(matrix.Values, a, a.Length);
 
             var tau = new float[matrix.ColumnCount];
             var q = new float[matrix.ColumnCount * matrix.ColumnCount];
@@ -1053,7 +1053,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Single
         {
             var matrix = _matrices["Tall3x2"];
             var a = new float[matrix.RowCount * matrix.ColumnCount];
-            Array.Copy(matrix.Data, a, a.Length);
+            Array.Copy(matrix.Values, a, a.Length);
 
             var tau = new float[matrix.ColumnCount];
             var q = new float[matrix.RowCount * matrix.RowCount];
@@ -1081,7 +1081,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Single
         {
             var matrix = _matrices["Square3x3"];
             var a = new float[matrix.RowCount * matrix.RowCount];
-            Array.Copy(matrix.Data, a, a.Length);
+            Array.Copy(matrix.Values, a, a.Length);
 
             var tau = new float[matrix.ColumnCount];
             var q = new float[matrix.ColumnCount * matrix.ColumnCount];
@@ -1112,7 +1112,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Single
         {
             var matrix = _matrices["Tall3x2"];
             var a = new float[matrix.RowCount * matrix.ColumnCount];
-            Array.Copy(matrix.Data, a, a.Length);
+            Array.Copy(matrix.Values, a, a.Length);
 
             var tau = new float[matrix.ColumnCount];
             var q = new float[matrix.RowCount * matrix.RowCount];
@@ -1140,7 +1140,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Single
         {
             var matrix = _matrices["Square3x3"];
             var a = new float[matrix.RowCount * matrix.ColumnCount];
-            Array.Copy(matrix.Data, a, a.Length);
+            Array.Copy(matrix.Values, a, a.Length);
 
             var b = new[] { 1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f };
             var x = new float[matrix.ColumnCount * 2];
@@ -1167,7 +1167,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Single
         {
             var matrix = _matrices["Tall3x2"];
             var a = new float[matrix.RowCount * matrix.ColumnCount];
-            Array.Copy(matrix.Data, a, a.Length);
+            Array.Copy(matrix.Values, a, a.Length);
 
             var b = new[] { 1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f };
             var x = new float[matrix.ColumnCount * 2];
@@ -1193,7 +1193,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Single
         {
             var matrix = _matrices["Square3x3"];
             var a = new float[matrix.RowCount * matrix.ColumnCount];
-            Array.Copy(matrix.Data, a, a.Length);
+            Array.Copy(matrix.Values, a, a.Length);
 
             var b = new[] { 1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f };
             var x = new float[matrix.ColumnCount * 2];
@@ -1222,7 +1222,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Single
         {
             var matrix = _matrices["Tall3x2"];
             var a = new float[matrix.RowCount * matrix.ColumnCount];
-            Array.Copy(matrix.Data, a, a.Length);
+            Array.Copy(matrix.Values, a, a.Length);
 
             var b = new[] { 1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f };
             var x = new float[matrix.ColumnCount * 2];
@@ -1249,7 +1249,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Single
         {
             var matrix = _matrices["Square3x3"];
             var a = new float[matrix.RowCount * matrix.ColumnCount];
-            Array.Copy(matrix.Data, a, a.Length);
+            Array.Copy(matrix.Values, a, a.Length);
 
             var tau = new float[matrix.ColumnCount];
             var r = new float[matrix.ColumnCount * matrix.ColumnCount];
@@ -1279,7 +1279,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Single
         {
             var matrix = _matrices["Tall3x2"];
             var a = new float[matrix.RowCount * matrix.ColumnCount];
-            Array.Copy(matrix.Data, a, a.Length);
+            Array.Copy(matrix.Values, a, a.Length);
 
             var tau = new float[matrix.ColumnCount];
             var r = new float[matrix.ColumnCount * matrix.ColumnCount];
@@ -1307,7 +1307,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Single
         {
             var matrix = _matrices["Square3x3"];
             var a = new float[matrix.RowCount * matrix.ColumnCount];
-            Array.Copy(matrix.Data, a, a.Length);
+            Array.Copy(matrix.Values, a, a.Length);
 
             var tau = new float[matrix.ColumnCount];
             var r = new float[matrix.ColumnCount * matrix.ColumnCount];
@@ -1338,7 +1338,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Single
         {
             var matrix = _matrices["Tall3x2"];
             var a = new float[matrix.RowCount * matrix.ColumnCount];
-            Array.Copy(matrix.Data, a, a.Length);
+            Array.Copy(matrix.Values, a, a.Length);
 
             var tau = new float[matrix.ColumnCount];
             var r = new float[matrix.ColumnCount * matrix.ColumnCount];
@@ -1366,7 +1366,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Single
         {
             var matrix = _matrices["Square3x3"];
             var a = new float[matrix.RowCount * matrix.ColumnCount];
-            Array.Copy(matrix.Data, a, a.Length);
+            Array.Copy(matrix.Values, a, a.Length);
 
             var s = new float[matrix.RowCount];
             var u = new float[matrix.RowCount * matrix.RowCount];
@@ -1403,7 +1403,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Single
         {
             var matrix = _matrices["Tall3x2"];
             var a = new float[matrix.RowCount * matrix.ColumnCount];
-            Array.Copy(matrix.Data, a, a.Length);
+            Array.Copy(matrix.Values, a, a.Length);
 
             var s = new float[matrix.ColumnCount];
             var u = new float[matrix.RowCount * matrix.RowCount];
@@ -1437,7 +1437,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Single
         {
             var matrix = _matrices["Wide2x3"];
             var a = new float[matrix.RowCount * matrix.ColumnCount];
-            Array.Copy(matrix.Data, a, a.Length);
+            Array.Copy(matrix.Values, a, a.Length);
 
             var s = new float[matrix.RowCount];
             var u = new float[matrix.RowCount * matrix.RowCount];
@@ -1472,7 +1472,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Single
         {
             var matrix = _matrices["Square3x3"];
             var a = new float[matrix.RowCount * matrix.ColumnCount];
-            Array.Copy(matrix.Data, a, a.Length);
+            Array.Copy(matrix.Values, a, a.Length);
 
             var s = new float[matrix.RowCount];
             var u = new float[matrix.RowCount * matrix.RowCount];
@@ -1511,7 +1511,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Single
         {
             var matrix = _matrices["Tall3x2"];
             var a = new float[matrix.RowCount * matrix.ColumnCount];
-            Array.Copy(matrix.Data, a, a.Length);
+            Array.Copy(matrix.Values, a, a.Length);
 
             var s = new float[matrix.ColumnCount];
             var u = new float[matrix.RowCount * matrix.RowCount];
@@ -1547,7 +1547,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Single
         {
             var matrix = _matrices["Wide2x3"];
             var a = new float[matrix.RowCount * matrix.ColumnCount];
-            Array.Copy(matrix.Data, a, a.Length);
+            Array.Copy(matrix.Values, a, a.Length);
 
             var s = new float[matrix.RowCount];
             var u = new float[matrix.RowCount * matrix.RowCount];
@@ -1582,7 +1582,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Single
         {
             var matrix = _matrices["Square3x3"];
             var a = new float[matrix.RowCount * matrix.ColumnCount];
-            Array.Copy(matrix.Data, a, a.Length);
+            Array.Copy(matrix.Values, a, a.Length);
 
             var b = new[] { 1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f };
             var x = new float[matrix.ColumnCount * 2];
@@ -1609,7 +1609,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Single
         {
             var matrix = _matrices["Tall3x2"];
             var a = new float[matrix.RowCount * matrix.ColumnCount];
-            Array.Copy(matrix.Data, a, a.Length);
+            Array.Copy(matrix.Values, a, a.Length);
 
             var b = new[] { 1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f };
             var x = new float[matrix.ColumnCount * 2];
@@ -1635,7 +1635,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Single
         {
             var matrix = _matrices["Square3x3"];
             var a = new float[matrix.RowCount * matrix.ColumnCount];
-            Array.Copy(matrix.Data, a, a.Length);
+            Array.Copy(matrix.Values, a, a.Length);
 
             var s = new float[matrix.RowCount];
             var u = new float[matrix.RowCount * matrix.RowCount];
@@ -1667,7 +1667,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Single
         {
             var matrix = _matrices["Tall3x2"];
             var a = new float[matrix.RowCount * matrix.ColumnCount];
-            Array.Copy(matrix.Data, a, a.Length);
+            Array.Copy(matrix.Values, a, a.Length);
 
             var s = new float[matrix.ColumnCount];
             var u = new float[matrix.RowCount * matrix.RowCount];

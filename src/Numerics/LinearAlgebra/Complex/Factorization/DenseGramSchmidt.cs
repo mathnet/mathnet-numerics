@@ -71,7 +71,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
 
             MatrixQ = matrix.Clone();
             MatrixR = matrix.CreateMatrix(matrix.ColumnCount, matrix.ColumnCount);
-            Factorize(((DenseMatrix)MatrixQ).Data, MatrixQ.RowCount, MatrixQ.ColumnCount, ((DenseMatrix)MatrixR).Data);
+            Factorize(((DenseMatrix)MatrixQ).Values, MatrixQ.RowCount, MatrixQ.ColumnCount, ((DenseMatrix)MatrixR).Values);
         }
 
         /// <summary>
@@ -172,7 +172,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
                 throw new NotSupportedException("Can only do GramSchmidt factorization for dense matrices at the moment.");
             }
 
-            _provider.QRSolveFactored(((DenseMatrix)MatrixQ).Data, ((DenseMatrix)MatrixR).Data, MatrixQ.RowCount, MatrixQ.ColumnCount, null, dinput.Data, input.ColumnCount, dresult.Data);
+            _provider.QRSolveFactored(((DenseMatrix)MatrixQ).Values, ((DenseMatrix)MatrixR).Values, MatrixQ.RowCount, MatrixQ.ColumnCount, null, dinput.Values, input.ColumnCount, dresult.Values);
         }
 
         /// <summary>
@@ -217,7 +217,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
                 throw new NotSupportedException("Can only do GramSchmidt factorization for dense vectors at the moment.");
             }
 
-            _provider.QRSolveFactored(((DenseMatrix)MatrixQ).Data, ((DenseMatrix)MatrixR).Data, MatrixQ.RowCount, MatrixQ.ColumnCount, null, dinput.Values, 1, dresult.Values);
+            _provider.QRSolveFactored(((DenseMatrix)MatrixQ).Values, ((DenseMatrix)MatrixR).Values, MatrixQ.RowCount, MatrixQ.ColumnCount, null, dinput.Values, 1, dresult.Values);
         }
     }
 }
