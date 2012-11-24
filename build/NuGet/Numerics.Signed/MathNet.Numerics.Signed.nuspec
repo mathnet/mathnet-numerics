@@ -3,7 +3,7 @@
   <metadata xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
     <id>MathNet.Numerics.Signed</id>
     <version>1.0.0</version>
-    <title>Math.NET Numerics (Strong Name)</title>
+    <title>Math.NET Numerics - Signed Edition</title>
     <summary>Math.NET Numerics, signed and thus with a strong name. We strongly discourage using this package and recommend using MathNet.Numerics instead, which is unsigned and weakly named.</summary>
     <description>Math.NET Numerics, signed and thus with a strong name. We strongly discourage using this package and recommend using MathNet.Numerics instead, which is unsigned and weakly named.</description>
     <authors>Marcus Cuda, Christoph Ruegg, Jurgen Van Gael</authors>
