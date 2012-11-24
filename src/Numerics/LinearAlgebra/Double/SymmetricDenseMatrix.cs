@@ -47,20 +47,6 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         readonly DenseColumnMajorSymmetricMatrixStorage<double> _storage;
 
         /// <summary>
-        /// Number of rows.
-        /// </summary>
-        /// <remarks>Using this instead of the RowCount property to speed up calculating
-        /// a matrix index in the data array.</remarks>
-        readonly int _rowCount;
-
-        /// <summary>
-        /// Number of columns.
-        /// </summary>
-        /// <remarks>Using this instead of the ColumnCount property to speed up calculating
-        /// a matrix index in the data array.</remarks>
-        readonly int _columnCount;
-
-        /// <summary>
         /// Gets the matrix's data.
         /// </summary>
         /// <value>The matrix's data.</value>
@@ -70,8 +56,6 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             : base(storage)
         {
             _storage = storage;
-            _rowCount = _storage.RowCount;
-            _columnCount = _storage.ColumnCount;
             _data = _storage.Data;
         }
 
@@ -99,9 +83,9 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         public SymmetricDenseMatrix(int order, double value)
             : this(order)
         {
-            for (var i = 0; i < Data.Length; i++)
+            for (var i = 0; i < _data.Length; i++)
             {
-                Data[i] = value;
+                _data[i] = value;
             }
         }
 
@@ -145,7 +129,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             {
                 for (var column = row; column < Order; column++)
                 {
-                    Data[indexer.Of(row, column)] = array[row, column];
+                    _data[indexer.Of(row, column)] = array[row, column];
                 }
             }
         }
@@ -178,7 +162,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 {
                     for (var column = row; column < Order; column++)
                     {
-                        Data[indexer.Of(row, column)] = matrix[row, column];
+                        _data[indexer.Of(row, column)] = matrix[row, column];
                     }
                 }
             }
@@ -189,13 +173,12 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         }
 
         /// <summary>
-        /// Gets the matrix's data in array format. 
+        /// Gets the matrix's data.
         /// </summary>
-        /// <value>The matrix's raw data.</value>
+        /// <value>The matrix's data.</value>
         public double[] Data
         {
-            get;
-            private set;
+            get { return _data; }
         }
 
         /// <summary>
@@ -279,7 +262,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             }
             else
             {
-                Control.LinearAlgebraProvider.AddArrays(Data, denseOther.Data, denseResult.Data);
+                Control.LinearAlgebraProvider.AddArrays(_data, denseOther._data, denseResult._data);
             }
         }
 
@@ -298,7 +281,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             }
             else
             {
-                Control.LinearAlgebraProvider.SubtractArrays(Data, denseOther.Data, denseResult.Data);
+                Control.LinearAlgebraProvider.SubtractArrays(_data, denseOther._data, denseResult._data);
             }
         }
 
@@ -316,7 +299,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             }
             else
             {
-                Control.LinearAlgebraProvider.ScaleArray(scalar, Data, denseResult.Data);
+                Control.LinearAlgebraProvider.ScaleArray(scalar, _data, denseResult._data);
             }
         }
 
@@ -397,7 +380,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             }
             else
             {
-                Control.LinearAlgebraProvider.ScaleArray(-1, Data, denseResult.Data);
+                Control.LinearAlgebraProvider.ScaleArray(-1, _data, denseResult._data);
             }
         }
 
@@ -417,7 +400,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             }
             else
             {
-                Control.LinearAlgebraProvider.PointWiseMultiplyArrays(Data, denseOther.Data, denseResult.Data);
+                Control.LinearAlgebraProvider.PointWiseMultiplyArrays(_data, denseOther._data, denseResult._data);
             }
         }
 
@@ -437,7 +420,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             }
             else
             {
-                Control.LinearAlgebraProvider.PointWiseDivideArrays(Data, denseOther.Data, denseResult.Data);
+                Control.LinearAlgebraProvider.PointWiseDivideArrays(_data, denseOther._data, denseResult._data);
             }
         }
 
@@ -537,8 +520,8 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
                 CommonParallel.For(
                     0,
-                    Data.Length,
-                    index => denseResult.Data[index] %= divisor);
+                    _data.Length,
+                    index => denseResult._data[index] %= divisor);
             }
         }
 
@@ -578,9 +561,9 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             }
             else
             {
-                for (var i = 0; i < denseMatrix.Data.Length; i++)
+                for (var i = 0; i < denseMatrix._data.Length; i++)
                 {
-                    denseMatrix.Data[i] = distribution.Sample();
+                    denseMatrix._data[i] = distribution.Sample();
                 }
             }
         }
@@ -600,9 +583,9 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             }
             else
             {
-                for (var i = 0; i < denseMatrix.Data.Length; i++)
+                for (var i = 0; i < denseMatrix._data.Length; i++)
                 {
-                    denseMatrix.Data[i] = distribution.Sample();
+                    denseMatrix._data[i] = distribution.Sample();
                 }
             }
         }

@@ -26,6 +26,8 @@
 
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
 {
+    using System.Collections.Generic;
+
     using MathNet.Numerics.LinearAlgebra.Double;
 
     using NUnit.Framework;
@@ -63,9 +65,12 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         /// </returns>
         protected override Matrix CreateMatrix(double[,] data)
         {
-            return SymmetricMatrix.CheckIfSymmetric(data)
-                       ? (Matrix)new SymmetricDenseMatrix(data)
-                       : new DenseMatrix(data);
+            if (SymmetricMatrix.CheckIfSymmetric(data))
+            {
+                return new SymmetricDenseMatrix(data);
+            }
+
+            return new DenseMatrix(data);
         }
 
         /// <summary>
@@ -94,6 +99,28 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         protected override Vector CreateVector(double[] data)
         {
             return new DenseVector(data);
+        }
+
+        /// <summary>
+        /// Can create a matrix form array.
+        /// </summary>
+        [Test]
+        public void CanCreateMatrixFrom2DArray()
+        {
+            var testData = new Dictionary<string, Matrix>
+                          {
+                             { "Singular3x3", new SymmetricDenseMatrix(new[,] { { 1.0, 2.0, 3.0 }, { 2.0, 0.0, 0.0 }, { 3.0, 0.0, 0.0 } }) }, 
+                             { "Square3x3", new SymmetricDenseMatrix(new[,] { { -1.1, 2.0, 3.0 }, { 2.0, 1.1, 0.0 }, { 3.0, 0.0, 6.6 } }) }, 
+                             { "Square4x4", new SymmetricDenseMatrix(new[,] { { 1.1, 2.0, -3.0, 4.4 }, { 2.0, 5.0, -6.0, 7.0 }, { -3.0, -6.0, 8.0, 9.0 }, { 4.4, 7.0, 9.0, 10.0 } }) }, 
+                             { "Singular4x4", new SymmetricDenseMatrix(new[,] { { 1.0, 2.0, 0.0, 4.0 }, { 2.0, 5.0, 0.0, 7.0 }, { 0.0, 0.0, 0.0, 0.0 }, { 4.0, 7.0, 0.0, 10.0 } }) }, 
+                             { "Symmetric3x3", new SymmetricDenseMatrix(new[,] { { 1.0, 2.0, 3.0 }, { 2.0, 2.0, 0.0 }, { 3.0, 0.0, 3.0 } }) },
+                             { "IndexTester4x4", new SymmetricDenseMatrix(new double[,] { { 0, 1, 3, 6 }, { 1, 2, 4, 7 }, { 3, 4, 5, 8 }, { 6, 7, 8, 9 } }) }
+                         };
+
+            foreach (var name in testData.Keys)
+            {
+                Assert.AreEqual(TestMatrices[name], testData[name]);
+            }
         }
     }
 }
