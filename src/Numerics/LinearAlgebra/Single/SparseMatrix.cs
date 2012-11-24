@@ -97,6 +97,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// The number of columns.
         /// </param>
         /// <param name="value">The value which we assign to each element of the matrix.</param>
+        [Obsolete("Use a dense matrix instead.")]
         public SparseMatrix(int rows, int columns, float value)
             : this(rows, columns)
         {

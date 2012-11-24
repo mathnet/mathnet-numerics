@@ -170,11 +170,11 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
             }
 
             // Copy the contents of input to result.
-            CommonParallel.For(0, dinput.Data.Length, index => dresult.Data[index] = dinput.Data[index]);
+            CommonParallel.For(0, dinput.Values.Length, index => dresult.Values[index] = dinput.Values[index]);
 
             // LU solve by overwriting result.
             var dfactors = (DenseMatrix)Factors;
-            Control.LinearAlgebraProvider.LUSolveFactored(1, dfactors.Data, dfactors.RowCount, Pivots, dresult.Data);
+            Control.LinearAlgebraProvider.LUSolveFactored(1, dfactors.Data, dfactors.RowCount, Pivots, dresult.Values);
         }
 
         /// <summary>

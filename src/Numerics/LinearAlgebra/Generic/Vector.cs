@@ -34,6 +34,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
     using Distributions;
     using Numerics;
     using Properties;
+    using Storage;
     using Threading;
 
     /// <summary>
@@ -60,60 +61,152 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         private static readonly T One = Common.SetOne<T>();
 
         /// <summary>
-        /// Initializes a new instance of the Vector class. 
-        /// Constructs a <strong>Vector</strong> with the given size.
+        /// Initializes a new instance of the Vector class.
         /// </summary>
-        /// <param name="size">
-        /// The size of the <strong>Vector</strong> to construct.
-        /// </param>
-        /// <exception cref="ArgumentOutOfRangeException">
-        /// If <paramref name="size"/> is less than one.
-        /// </exception>
-        protected Vector(int size)
+        protected Vector(VectorStorage<T> storage)
         {
-            if (size < 1)
-            {
-                throw new ArgumentOutOfRangeException("size", Resources.ArgumentMustBePositive);
-            }
-
-            Count = size;
+            Storage = storage;
+            Count = storage.Length;
         }
 
         /// <summary>
-        /// Gets he number of elements in the vector.
+        /// Gets the raw vector data storage.
         /// </summary>
-        public int Count
-        {
-            get;
-            private set;
-        }
+        public VectorStorage<T> Storage { get; private set; }
+
+        /// <summary>
+        /// Gets the number of items.
+        /// </summary>
+        public int Count { get; private set; }
 
         /// <summary>Gets or sets the value at the given <paramref name="index"/>.</summary>
         /// <param name="index">The index of the value to get or set.</param>
         /// <returns>The value of the vector at the given <paramref name="index"/>.</returns> 
         /// <exception cref="ArgumentOutOfRangeException">If <paramref name="index"/> is negative or 
         /// greater than the size of the vector.</exception>
-        public virtual T this[int index]
+        public T this[int index]
         {
-            get
-            {
-                if (index < 0 || index >= Count)
-                {
-                    throw new ArgumentOutOfRangeException("index");
-                }
+            get { return Storage[index]; }
+            set { Storage[index] = value;}
+        }
 
-                return At(index);
+        /// <summary>Gets the value at the given <paramref name="index"/> without range checking..</summary>
+        /// <param name="index">The index of the value to get or set.</param>
+        /// <returns>The value of the vector at the given <paramref name="index"/>.</returns> 
+        public T At(int index)
+        {
+            return Storage.At(index);
+        }
+
+        /// <summary>Sets the <paramref name="value"/> at the given <paramref name="index"/> without range checking..</summary>
+        /// <param name="index">The index of the value to get or set.</param>
+        /// <param name="value">The value to set.</param>
+        public void At(int index, T value)
+        {
+            Storage.At(index, value);
+        }
+
+        /// <summary>
+        /// Resets all values to zero.
+        /// </summary>
+        public void Clear()
+        {
+            Storage.Clear();
+        }
+
+        /// <summary>
+        /// Sets all values of a subvector to zero.
+        /// </summary>
+        public void ClearSubVector(int index, int count)
+        {
+            if (count < 1)
+            {
+                throw new ArgumentOutOfRangeException("count", Resources.ArgumentMustBePositive);
             }
 
-            set
+            if (index + count > Count || index < 0)
             {
-                if (index < 0 || index >= Count)
-                {
-                    throw new ArgumentOutOfRangeException("index");
-                }
-
-                At(index, value);
+                throw new ArgumentOutOfRangeException("index");
             }
+
+            Storage.Clear(index, count);
+        }
+
+        /// <summary>
+        /// Returns a deep-copy clone of the vector.
+        /// </summary>
+        /// <returns>
+        /// A deep-copy clone of the vector.
+        /// </returns>
+        public Vector<T> Clone()
+        {
+            var result = CreateVector(Count);
+            Storage.CopyTo(result.Storage, skipClearing: true);
+            return result;
+        }
+
+        /// <summary>
+        /// Copies the values of this vector into the target vector.
+        /// </summary>
+        /// <param name="target">
+        /// The vector to copy elements into.
+        /// </param>
+        /// <exception cref="ArgumentNullException">
+        /// If <paramref name="target"/> is <see langword="null"/>.
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// If <paramref name="target"/> is not the same size as this vector.
+        /// </exception>
+        public void CopyTo(Vector<T> target)
+        {
+            if (target == null)
+            {
+                throw new ArgumentNullException("target");
+            }
+
+            if (ReferenceEquals(this, target) || ReferenceEquals(Storage, target.Storage))
+            {
+                return;
+            }
+
+            if (Count != target.Count)
+            {
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "target");
+            }
+
+            Storage.CopyTo(target.Storage);
+        }
+
+        /// <summary>
+        /// Copies the requested elements from this vector to another.
+        /// </summary>
+        /// <param name="destination">
+        /// The vector to copy the elements to.
+        /// </param>
+        /// <param name="sourceIndex">
+        /// The element to start copying from.
+        /// </param>
+        /// <param name="targetIndex">
+        /// The element to start copying to.
+        /// </param>
+        /// <param name="count">
+        /// The number of elements to copy.
+        /// </param>
+        public void CopySubVectorTo(Vector<T> destination, int sourceIndex, int targetIndex, int count)
+        {
+            if (destination == null)
+            {
+                throw new ArgumentNullException("destination");
+            }
+
+            // TODO: refactor range checks
+            Storage.CopySubVectorTo(destination.Storage, sourceIndex, targetIndex, count);
+        }
+
+        [Obsolete("Use CopySubVectorTo instead.")]
+        public void CopyTo(Vector<T> destination, int sourceIndex, int targetIndex, int count)
+        {
+            CopySubVectorTo(destination, sourceIndex, targetIndex, count);
         }
 
         /// <summary>
@@ -1167,115 +1260,6 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         #region Copying and Conversion
 
         /// <summary>
-        /// Returns a deep-copy clone of the vector.
-        /// </summary>
-        /// <returns>
-        /// A deep-copy clone of the vector.
-        /// </returns>
-        public Vector<T> Clone()
-        {
-            var retrunVector = CreateVector(Count);
-            CopyTo(retrunVector);
-            return retrunVector;
-        }
-
-        /// <summary>
-        /// Copies the values of this vector into the target vector.
-        /// </summary>
-        /// <param name="target">
-        /// The vector to copy elements into.
-        /// </param>
-        /// <exception cref="ArgumentNullException">
-        /// If <paramref name="target"/> is <see langword="null"/>.
-        /// </exception>
-        /// <exception cref="ArgumentException">
-        /// If <paramref name="target"/> is not the same size as this vector.
-        /// </exception>
-        public virtual void CopyTo(Vector<T> target)
-        {
-            if (target == null)
-            {
-                throw new ArgumentNullException("target");
-            }
-
-            if (Count != target.Count)
-            {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "target");
-            }
-
-            if (ReferenceEquals(this, target))
-            {
-                return;
-            }
-
-            CommonParallel.For(
-                0, 
-                Count, 
-                index => target[index] = this[index]);
-        }
-
-        /// <summary>
-        /// Copies the requested elements from this vector to another.
-        /// </summary>
-        /// <param name="destination">
-        /// The vector to copy the elements to.
-        /// </param>
-        /// <param name="offset">
-        /// The element to start copying from.
-        /// </param>
-        /// <param name="destinationOffset">
-        /// The element to start copying to.
-        /// </param>
-        /// <param name="count">
-        /// The number of elements to copy.
-        /// </param>
-        public virtual void CopyTo(Vector<T> destination, int offset, int destinationOffset, int count)
-        {
-            if (destination == null)
-            {
-                throw new ArgumentNullException("destination");
-            }
-
-            if (offset >= Count)
-            {
-                throw new ArgumentOutOfRangeException("offset");
-            }
-
-            if (offset + count > Count)
-            {
-                throw new ArgumentOutOfRangeException("count");
-            }
-
-            if (destinationOffset >= destination.Count)
-            {
-                throw new ArgumentOutOfRangeException("destinationOffset");
-            }
-
-            if (destinationOffset + count > destination.Count)
-            {
-                throw new ArgumentOutOfRangeException("count");
-            }
-
-            if (ReferenceEquals(this, destination))
-            {
-                var tmpVector = destination.CreateVector(destination.Count);
-                CopyTo(tmpVector);
-
-                CommonParallel.For(
-                    0, 
-                    count, 
-                    index => destination[destinationOffset + index] = tmpVector[offset + index]);
-            }
-            else
-            {
-                CommonParallel.For(
-                    0, 
-                    count, 
-                    index => destination[destinationOffset + index] = this[offset + index]);
-            }
-        }
-
-        /// <summary>
         /// Returns the data contained in the vector as an array.
         /// </summary>
         /// <returns>
@@ -1605,23 +1589,5 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         }
 
         #endregion
-
-        /// <summary>
-        /// Resets all values to zero.
-        /// </summary>
-        public virtual void Clear()
-        {
-            CommonParallel.For(0, Count, index => this[index] = default(T));
-        }
-
-        /// <summary>Gets the value at the given <paramref name="index"/>.</summary>
-        /// <param name="index">The index of the value to get or set.</param>
-        /// <returns>The value of the vector at the given <paramref name="index"/>.</returns> 
-        internal protected abstract T At(int index);
-
-        /// <summary>Sets the <paramref name="value"/> at the given <paramref name="index"/>.</summary>
-        /// <param name="index">The index of the value to get or set.</param>
-        /// <param name="value">The value to set.</param>
-        internal protected abstract void At(int index, T value);
     }
 }

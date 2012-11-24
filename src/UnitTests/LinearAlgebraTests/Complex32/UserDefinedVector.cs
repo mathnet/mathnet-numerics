@@ -28,6 +28,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
 {
     using LinearAlgebra.Complex32;
     using LinearAlgebra.Generic;
+    using LinearAlgebra.Storage;
     using Complex32 = Numerics.Complex32;
 
     /// <summary>
@@ -35,59 +36,49 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
     /// </summary>
     internal class UserDefinedVector : Vector
     {
-        /// <summary>
-        /// Values storage
-        /// </summary>
-        private readonly Complex32[] _data;
+        class UserDefinedVectorStorage : VectorStorage<Complex32>
+        {
+            public readonly Complex32[] Data;
+
+            public UserDefinedVectorStorage(int size)
+                : base(size)
+            {
+                Data = new Complex32[size];
+            }
+
+            public UserDefinedVectorStorage(int size, Complex32[] data)
+                : base(size)
+            {
+                Data = data;
+            }
+
+            public override Complex32 At(int index)
+            {
+                return Data[index];
+            }
+
+            public override void At(int index, Complex32 value)
+            {
+                Data[index] = value;
+            }
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="UserDefinedVector"/> class with a given size.
         /// </summary>
         /// <param name="size">The size of the vector.</param>
-        public UserDefinedVector(int size) : base(size)
+        public UserDefinedVector(int size)
+            : base(new UserDefinedVectorStorage(size))
         {
-            _data = new Complex32[size];
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="UserDefinedVector"/> class for an array.
         /// </summary>
         /// <param name="data">The array to create this vector from.</param>
-        public UserDefinedVector(Complex32[] data) : base(data.Length)
+        public UserDefinedVector(Complex32[] data)
+            : base(new UserDefinedVectorStorage(data.Length, (Complex32[])data.Clone()))
         {
-            _data = (Complex32[])data.Clone();
-        }
-
-        /// <summary>Gets or sets the value at the given <paramref name="index"/>.</summary>
-        /// <param name="index">The index of the value to get or set.</param>
-        /// <returns>The value of the vector at the given <paramref name="index"/>.</returns> 
-        public override Complex32 this[int index]
-        {
-            get
-            {
-                return _data[index];
-            }
-
-            set
-            {
-                _data[index] = value;
-            }
-        }
-
-        /// <summary>Gets the value at the given <paramref name="index"/>.</summary>
-        /// <param name="index">The index of the value to get or set.</param>
-        /// <returns>The value of the vector at the given <paramref name="index"/>.</returns> 
-        protected internal override Complex32 At(int index)
-        {
-            return this[index];
-        }
-
-        /// <summary>Sets the <paramref name="value"/> at the given <paramref name="index"/>.</summary>
-        /// <param name="index">The index of the value to get or set.</param>
-        /// <param name="value">The value to set.</param>
-        protected internal override void At(int index, Complex32 value)
-        {
-            this[index] = value;
         }
 
         /// <summary>

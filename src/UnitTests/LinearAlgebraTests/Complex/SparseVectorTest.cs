@@ -35,6 +35,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
     using System.Numerics;
     using LinearAlgebra.Complex;
     using LinearAlgebra.Generic;
+    using LinearAlgebra.Storage;
     using NUnit.Framework;
 
     /// <summary>
@@ -273,40 +274,41 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
         public void CheckSparseMechanismBySettingValues()
         {
             var vector = new SparseVector(10000);
+            var storage = (SparseVectorStorage<Complex>)vector.Storage;
 
             // Add non-zero elements
             vector[200] = new Complex(1.5, 1);
             Assert.AreEqual(new Complex(1.5, 1), vector[200]);
-            Assert.AreEqual(1, vector.NonZerosCount);
+            Assert.AreEqual(1, storage.ValueCount);
 
             vector[500] = new Complex(3.5, 1);
             Assert.AreEqual(new Complex(3.5, 1), vector[500]);
-            Assert.AreEqual(2, vector.NonZerosCount);
+            Assert.AreEqual(2, storage.ValueCount);
 
             vector[800] = new Complex(5.5, 1);
             Assert.AreEqual(new Complex(5.5, 1), vector[800]);
-            Assert.AreEqual(3, vector.NonZerosCount);
+            Assert.AreEqual(3, storage.ValueCount);
 
             vector[0] = new Complex(7.5, 1);
             Assert.AreEqual(new Complex(7.5, 1), vector[0]);
-            Assert.AreEqual(4, vector.NonZerosCount);
+            Assert.AreEqual(4, storage.ValueCount);
 
             // Remove non-zero elements
             vector[200] = Complex.Zero;
             Assert.AreEqual(Complex.Zero, vector[200]);
-            Assert.AreEqual(3, vector.NonZerosCount);
+            Assert.AreEqual(3, storage.ValueCount);
 
             vector[500] = Complex.Zero;
             Assert.AreEqual(Complex.Zero, vector[500]);
-            Assert.AreEqual(2, vector.NonZerosCount);
+            Assert.AreEqual(2, storage.ValueCount);
 
             vector[800] = Complex.Zero;
             Assert.AreEqual(Complex.Zero, vector[800]);
-            Assert.AreEqual(1, vector.NonZerosCount);
+            Assert.AreEqual(1, storage.ValueCount);
 
             vector[0] = Complex.Zero;
             Assert.AreEqual(Complex.Zero, vector[0]);
-            Assert.AreEqual(0, vector.NonZerosCount);
+            Assert.AreEqual(0, storage.ValueCount);
         }
 
         /// <summary>
@@ -325,11 +327,13 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
 
             // Multiply by 0
             vector *= 0;
+
+            var storage = (SparseVectorStorage<Complex>)vector.Storage;
             Assert.AreEqual(Complex.Zero, vector[200]);
             Assert.AreEqual(Complex.Zero, vector[500]);
             Assert.AreEqual(Complex.Zero, vector[800]);
             Assert.AreEqual(Complex.Zero, vector[0]);
-            Assert.AreEqual(0, vector.NonZerosCount);
+            Assert.AreEqual(0, storage.ValueCount);
         }
 
         /// <summary>
@@ -371,7 +375,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
                 Assert.AreEqual(Data[i] * zeroArray[i], result[i]);
             }
 
-            Assert.AreEqual(2, result.NonZerosCount);
+            var resultStorage = (SparseVectorStorage<Complex>)result.Storage;
+            Assert.AreEqual(2, resultStorage.ValueCount);
         }
 
         /// <summary>

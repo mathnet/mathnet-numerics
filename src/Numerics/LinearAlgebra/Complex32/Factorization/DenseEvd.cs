@@ -108,7 +108,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
             {
                 var matrixH = matrix.ToArray();
                 NonsymmetricReduceToHessenberg(((DenseMatrix)MatrixEv).Data, matrixH, order);
-                NonsymmetricReduceHessenberToRealSchur(((LinearAlgebra.Complex.DenseVector)VectorEv).Data, ((DenseMatrix)MatrixEv).Data, matrixH, order);
+                NonsymmetricReduceHessenberToRealSchur(((LinearAlgebra.Complex.DenseVector)VectorEv).Values, ((DenseMatrix)MatrixEv).Data, matrixH, order);
             }
 
             for (var i = 0; i < VectorEv.Count; i++)

@@ -906,6 +906,9 @@
     <Compile Include="..\Numerics\LinearAlgebra\Storage\SparseCompressedRowMatrixStorage.cs">
       <Link>LinearAlgebra\Storage\SparseCompressedRowMatrixStorage.cs</Link>
     </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Storage\SparseVectorStorage.cs">
+      <Link>LinearAlgebra\Storage\SparseVectorStorage.cs</Link>
+    </Compile>
     <Compile Include="..\Numerics\LinearAlgebra\Storage\VectorStorage.cs">
       <Link>LinearAlgebra\Storage\VectorStorage.cs</Link>
     </Compile>

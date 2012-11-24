@@ -97,7 +97,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
             var vector = CreateVector(Data);
             var other = CreateVector(Data.Length);
 
-            vector.CopyTo(other, 2, 2, 2);
+            vector.CopySubVectorTo(other, 2, 2, 2);
 
             AssertHelpers.AreEqual(Complex32.Zero, other[0]);
             AssertHelpers.AreEqual(Complex32.Zero, other[1]);
@@ -113,7 +113,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
         public void CanCopyPartialVectorToSelf()
         {
             var vector = CreateVector(Data);
-            vector.CopyTo(vector, 0, 2, 2);
+            vector.CopySubVectorTo(vector, 0, 2, 2);
 
             AssertHelpers.AreEqual(new Complex32(1, 1), vector[0]);
             AssertHelpers.AreEqual(new Complex32(2, 1), vector[1]);

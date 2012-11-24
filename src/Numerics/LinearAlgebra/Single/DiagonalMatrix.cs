@@ -377,12 +377,12 @@ namespace MathNet.Numerics.LinearAlgebra.Single
                 return;
             }
 
-            if (_data.Length != denseSource.Data.Length)
+            if (_data.Length != denseSource.Values.Length)
             {
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "source");
             }
 
-            Buffer.BlockCopy(denseSource.Data, 0, _data, 0, denseSource.Data.Length * Constants.SizeOfFloat);
+            Buffer.BlockCopy(denseSource.Values, 0, _data, 0, denseSource.Values.Length * Constants.SizeOfFloat);
         }
 
         /// <summary>

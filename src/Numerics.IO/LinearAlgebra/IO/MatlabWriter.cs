@@ -37,6 +37,7 @@ namespace MathNet.Numerics.LinearAlgebra.IO
     using Generic;
     using Matlab;
     using Properties;
+    using Storage;
 
     /// <summary>
     /// Writes matrices to a Matlab file.
@@ -500,7 +501,7 @@ namespace MathNet.Numerics.LinearAlgebra.IO
                 int count = 0;
                 foreach (var column in matrix.ColumnEnumerator())
                 {
-                    count += ((Double.SparseVector)column.Item2).NonZerosCount;
+                    count += ((SparseVectorStorage<double>)column.Item2.Storage).ValueCount;
                     dataWriter.Write(count);
                 }
                 
@@ -568,7 +569,7 @@ namespace MathNet.Numerics.LinearAlgebra.IO
                 int count = 0;
                 foreach (var column in matrix.ColumnEnumerator())
                 {
-                    count += ((Single.SparseVector)column.Item2).NonZerosCount;
+                    count += ((SparseVectorStorage<float>)column.Item2.Storage).ValueCount;
                     dataWriter.Write(count);
                 }
 
@@ -639,7 +640,7 @@ namespace MathNet.Numerics.LinearAlgebra.IO
                 int count = 0;
                 foreach (var column in matrix.ColumnEnumerator())
                 {
-                    count += ((Complex.SparseVector)column.Item2).NonZerosCount;
+                    count += ((SparseVectorStorage<System.Numerics.Complex>)column.Item2.Storage).ValueCount;
                     dataWriter.Write(count);
                 }
 
@@ -718,7 +719,7 @@ namespace MathNet.Numerics.LinearAlgebra.IO
                 int count = 0;
                 foreach (var column in matrix.ColumnEnumerator())
                 {
-                    count += ((Complex32.SparseVector)column.Item2).NonZerosCount;
+                    count += ((SparseVectorStorage<Numerics.Complex32>)column.Item2.Storage).ValueCount;
                     dataWriter.Write(count);
                 }
 

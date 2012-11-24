@@ -31,6 +31,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
     using Distributions;
     using Generic;
     using Properties;
+    using Storage;
     using Threading;
 
     /// <summary>
@@ -41,15 +42,9 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
     {
         /// <summary>
         /// Initializes a new instance of the Vector class. 
-        /// Constructs a <strong>Vector</strong> with the given size.
         /// </summary>
-        /// <param name="size">
-        /// The size of the <strong>Vector</strong> to construct.
-        /// </param>
-        /// <exception cref="ArgumentException">
-        /// If <paramref name="size"/> is less than one.
-        /// </exception>
-        protected Vector(int size) : base(size)
+        protected Vector(VectorStorage<Complex> storage)
+            : base(storage)
         {
         }
 

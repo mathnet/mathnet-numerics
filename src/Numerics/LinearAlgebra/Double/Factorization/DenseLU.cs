@@ -168,11 +168,11 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
             }
 
             // Copy the contents of input to result.
-            Buffer.BlockCopy(dinput.Data, 0, dresult.Data, 0, dinput.Data.Length * Constants.SizeOfDouble);
+            Buffer.BlockCopy(dinput.Values, 0, dresult.Values, 0, dinput.Values.Length * Constants.SizeOfDouble);
 
             // LU solve by overwriting result.
             var dfactors = (DenseMatrix)Factors;
-            Control.LinearAlgebraProvider.LUSolveFactored(1, dfactors.Data, dfactors.RowCount, Pivots, dresult.Data);
+            Control.LinearAlgebraProvider.LUSolveFactored(1, dfactors.Data, dfactors.RowCount, Pivots, dresult.Values);
         }
 
         /// <summary>

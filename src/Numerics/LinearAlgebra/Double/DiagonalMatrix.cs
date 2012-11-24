@@ -377,12 +377,12 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 return;
             }
 
-            if (_data.Length != denseSource.Data.Length)
+            if (_data.Length != denseSource.Values.Length)
             {
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "source");
             }
 
-            Buffer.BlockCopy(denseSource.Data, 0, _data, 0, denseSource.Data.Length * Constants.SizeOfDouble);
+            Buffer.BlockCopy(denseSource.Values, 0, _data, 0, denseSource.Values.Length * Constants.SizeOfDouble);
         }
 
         /// <summary>

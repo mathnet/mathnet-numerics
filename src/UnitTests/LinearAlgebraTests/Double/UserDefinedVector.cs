@@ -28,65 +28,56 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
 {
     using LinearAlgebra.Double;
     using LinearAlgebra.Generic;
+    using LinearAlgebra.Storage;
 
     /// <summary>
     /// User-defined vector implementation (internal class for testing purposes)
     /// </summary>
     internal class UserDefinedVector : Vector
     {
-        /// <summary>
-        /// Values storage
-        /// </summary>
-        private readonly double[] _data;
+        class UserDefinedVectorStorage : VectorStorage<double>
+        {
+            public readonly double[] Data;
+
+            public UserDefinedVectorStorage(int size)
+                : base(size)
+            {
+                Data = new double[size];
+            }
+
+            public UserDefinedVectorStorage(int size, double[] data)
+                : base(size)
+            {
+                Data = data;
+            }
+
+            public override double At(int index)
+            {
+                return Data[index];
+            }
+
+            public override void At(int index, double value)
+            {
+                Data[index] = value;
+            }
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="UserDefinedVector"/> class with a given size.
         /// </summary>
         /// <param name="size">The size of the vector.</param>
-        public UserDefinedVector(int size) : base(size)
+        public UserDefinedVector(int size)
+            : base(new UserDefinedVectorStorage(size))
         {
-            _data = new double[size];
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="UserDefinedVector"/> class for an array.
         /// </summary>
         /// <param name="data">The array to create this vector from.</param>
-        public UserDefinedVector(double[] data) : base(data.Length)
+        public UserDefinedVector(double[] data)
+            : base(new UserDefinedVectorStorage(data.Length, (double[])data.Clone()))
         {
-            _data = (double[])data.Clone();
-        }
-
-        /// <summary>Gets or sets the value at the given <paramref name="index"/>.</summary>
-        /// <param name="index">The index of the value to get or set.</param>
-        /// <returns>The value of the vector at the given <paramref name="index"/>.</returns> 
-        public override double this[int index]
-        {
-            get
-            {
-                return _data[index];
-            }
-
-            set
-            {
-                _data[index] = value;
-            }
-        }
-
-        /// <summary>Gets the value at the given <paramref name="index"/>.</summary>
-        /// <param name="index">The index of the value to get or set.</param>
-        /// <returns>The value of the vector at the given <paramref name="index"/>.</returns> 
-        protected internal override double At(int index)
-        {
-            return this[index];
-        }
-
-        /// <summary>Sets the <paramref name="value"/> at the given <paramref name="index"/>.</summary>
-        /// <param name="index">The index of the value to get or set.</param>
-        /// <param name="value">The value to set.</param>
-        protected internal override void At(int index, double value)
-        {
-            this[index] = value;
         }
 
         /// <summary>

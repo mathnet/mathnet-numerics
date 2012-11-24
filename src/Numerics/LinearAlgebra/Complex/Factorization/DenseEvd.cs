@@ -107,7 +107,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
             {
                 var matrixH = matrix.ToArray();
                 NonsymmetricReduceToHessenberg(((DenseMatrix)MatrixEv).Data, matrixH, order);
-                NonsymmetricReduceHessenberToRealSchur(((DenseVector)VectorEv).Data, ((DenseMatrix)MatrixEv).Data, matrixH, order);
+                NonsymmetricReduceHessenberToRealSchur(((DenseVector)VectorEv).Values, ((DenseMatrix)MatrixEv).Data, matrixH, order);
             }
 
             MatrixD.SetDiagonal(VectorEv);

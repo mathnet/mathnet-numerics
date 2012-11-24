@@ -184,12 +184,22 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                 throw new ArgumentNullException("target");
             }
 
+            ValidateSubVectorRange(target, sourceIndex, targetIndex, count);
+
             if (ReferenceEquals(this, target))
             {
-                throw new NotSupportedException();
-            }
+                var tmp = new T[count];
+                for (int i = 0; i < tmp.Length; i++)
+                {
+                    tmp[i] = At(i + sourceIndex);
+                }
+                for (int i = 0; i < tmp.Length; i++)
+                {
+                    At(i + targetIndex, tmp[i]);
+                }
 
-            ValidateSubVectorRange(target, sourceIndex, targetIndex, count);
+                return;
+            }
 
             for (int i = sourceIndex, ii = targetIndex; i < sourceIndex + count; i++, ii++)
             {

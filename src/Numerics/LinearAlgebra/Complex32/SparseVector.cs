@@ -37,6 +37,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
     using NumberTheory;
     using Numerics;
     using Properties;
+    using Storage;
     using Threading;
 
     /// <summary>
@@ -46,24 +47,12 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
     [Serializable]
     public class SparseVector : Vector
     {
-        /// <summary>
-        ///  Gets the vector's internal data. The array containing the actual values; only the non-zero values are stored.
-        /// </summary>
-        private Complex32[] _nonZeroValues = new Complex32[0];
+        readonly SparseVectorStorage<Complex32> _storage;
 
-        /// <summary>
-        /// The indices of the non-zero entries.
-        /// </summary>
-        private int[] _nonZeroIndices = new int[0];
-
-        /// <summary>
-        /// Gets the number of non zero elements in the vector.
-        /// </summary>
-        /// <value>The number of non zero elements.</value>
-        public int NonZerosCount
+        internal SparseVector(SparseVectorStorage<Complex32> storage)
+            : base(storage)
         {
-            get;
-            private set;
+            _storage = storage;
         }
 
         #region Constructors
@@ -77,7 +66,8 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// <exception cref="ArgumentException">
         /// If <paramref name="size"/> is less than one.
         /// </exception>
-        public SparseVector(int size) : base(size)
+        public SparseVector(int size)
+            : this(new SparseVectorStorage<Complex32>(size))
         {
         }
 
@@ -94,58 +84,23 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// <exception cref="ArgumentException">
         /// If <paramref name="size"/> is less than one.
         /// </exception>
-        public SparseVector(int size, Complex32 value) : this(size)
+        [Obsolete("Use a dense vector instead.")]
+        public SparseVector(int size, Complex32 value)
+            : this(new SparseVectorStorage<Complex32>(size))
         {
             if (value == Complex32.Zero)
             {
-                // Skip adding values 
                 return;
             }
 
-            // We already know that this vector is "full", let's allocate all needed memory
-            _nonZeroValues = new Complex32[size];
-            _nonZeroIndices = new int[size];
-            NonZerosCount = size;
+            var valueCount = _storage.ValueCount = size;
+            var indices = _storage.Indices = new int[valueCount];
+            var values = _storage.Values = new Complex32[valueCount];
 
-            CommonParallel.For(
-                0, 
-                Count, 
-                index =>
-                {
-                    _nonZeroValues[index] = value;
-                    _nonZeroIndices[index] = index;
-                });
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="SparseVector"/> class by
-        /// copying the values from another.
-        /// </summary>
-        /// <param name="other">
-        /// The vector to create the new vector from.
-        /// </param>
-        public SparseVector(Vector<Complex32> other) : this(other.Count)
-        {
-            var vector = other as SparseVector;
-            if (vector == null)
+            for (int i = 0; i < values.Length; i++)
             {
-                for (var i = 0; i < other.Count; i++)
-                {
-                    this[i] = other.At(i);
-                }
-            }
-            else
-            {
-                _nonZeroValues = new Complex32[vector.NonZerosCount];
-                _nonZeroIndices = new int[vector.NonZerosCount];
-                NonZerosCount = vector.NonZerosCount;
-
-                // Lets copy only needed data. Portion of needed data is determined by NonZerosCount value
-                if (vector.NonZerosCount != 0)
-                {
-                    CommonParallel.For(0, vector.NonZerosCount, index => _nonZeroValues[index] = vector._nonZeroValues[index]);
-                    Buffer.BlockCopy(vector._nonZeroIndices, 0, _nonZeroIndices, 0, vector.NonZerosCount * Constants.SizeOfInt);
-                }
+                values[i] = value;
+                indices[i] = i;
             }
         }
 
@@ -156,18 +111,10 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// <param name="other">
         /// The vector to create the new vector from.
         /// </param>
-        public SparseVector(SparseVector other) : this(other.Count)
+        public SparseVector(Vector<Complex32> other)
+            : this(new SparseVectorStorage<Complex32>(other.Count))
         {
-            // Lets copy only needed data. Portion of needed data is determined by NonZerosCount value
-            _nonZeroValues = new Complex32[other.NonZerosCount];
-            _nonZeroIndices = new int[other.NonZerosCount];
-            NonZerosCount = other.NonZerosCount;
-
-            if (other.NonZerosCount != 0)
-            {
-                CommonParallel.For(0, other.NonZerosCount, index => _nonZeroValues[index] = other._nonZeroValues[index]);
-                Buffer.BlockCopy(other._nonZeroIndices, 0, _nonZeroIndices, 0, other.NonZerosCount * Constants.SizeOfInt);
-            }
+            other.Storage.CopyTo(Storage, skipClearing: true);
         }
 
         /// <summary>
@@ -175,11 +122,12 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// </summary>
         /// <param name="array">The array to create this vector from.</param>
         /// <remarks>The vector copy the array. Any changes to the vector will NOT change the array.</remarks>
-        public SparseVector(IList<Complex32> array) : this(array.Count)
+        public SparseVector(IList<Complex32> array)
+            : this(new SparseVectorStorage<Complex32>(array.Count))
         {
             for (var i = 0; i < array.Count; i++)
             {
-                this[i] = array[i];
+                Storage.At(i, array[i]);
             }
         }
 
@@ -192,9 +140,9 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         public override Matrix<Complex32> ToColumnMatrix()
         {
             var matrix = new SparseMatrix(Count, 1);
-            for (var i = 0; i < NonZerosCount; i++)
+            for (var i = 0; i < _storage.ValueCount; i++)
             {
-                matrix.At(_nonZeroIndices[i], 0, _nonZeroValues[i]);
+                matrix.At(_storage.Indices[i], 0, _storage.Values[i]);
             }
 
             return matrix;
@@ -207,42 +155,12 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         public override Matrix<Complex32> ToRowMatrix()
         {
             var matrix = new SparseMatrix(1, Count);
-            for (var i = 0; i < NonZerosCount; i++)
+            for (var i = 0; i < _storage.ValueCount; i++)
             {
-                matrix.At(0, _nonZeroIndices[i], _nonZeroValues[i]);
+                matrix.At(0, _storage.Indices[i], _storage.Values[i]);
             }
 
             return matrix;
-        }
-
-        /// <summary>Gets or sets the value at the given <paramref name="index"/>.</summary>
-        /// <param name="index">The index of the value to get or set.</param>
-        /// <returns>The value of the vector at the given <paramref name="index"/>.</returns> 
-        /// <exception cref="IndexOutOfRangeException">If <paramref name="index"/> is negative or 
-        /// greater than the size of the vector.</exception>
-        public override Complex32 this[int index]
-        {
-            get
-            {
-                // If index is out of bounds
-                if ((index < 0) || (index >= Count))
-                {
-                    throw new IndexOutOfRangeException();
-                }
-
-                return At(index);
-            }
-
-            set
-            {
-                // If index is out of bounds
-                if ((index < 0) || (index >= Count))
-                {
-                    throw new IndexOutOfRangeException();
-                }
-
-                At(index, value);
-            }
         }
 
         /// <summary>
@@ -279,68 +197,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         }
 
         /// <summary>
-        /// Resets all values to zero.
-        /// </summary>
-        public override void Clear()
-        {
-            NonZerosCount = 0;
-        }
-
-        /// <summary>
-        /// Copies the values of this vector into the target vector.
-        /// </summary>
-        /// <param name="target">
-        /// The vector to copy elements into.
-        /// </param>
-        /// <exception cref="ArgumentNullException">
-        /// If <paramref name="target"/> is <see langword="null"/>.
-        /// </exception>
-        /// <exception cref="ArgumentException">
-        /// If <paramref name="target"/> is not the same size as this vector.
-        /// </exception>
-        public override void CopyTo(Vector<Complex32> target)
-        {
-            if (target == null)
-            {
-                throw new ArgumentNullException("target");
-            }
-
-            if (Count != target.Count)
-            {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "target");
-            }
-
-            if (ReferenceEquals(this, target))
-            {
-                return;
-            }
-
-            var otherVector = target as SparseVector;
-            if (otherVector == null)
-            {
-                target.Clear();
-
-                for (var index = 0; index < NonZerosCount; index++)
-                {
-                    target.At(_nonZeroIndices[index], _nonZeroValues[index]);
-                }
-            }
-            else
-            {
-                // Lets copy only needed data. Portion of needed data is determined by NonZerosCount value
-                otherVector._nonZeroValues = new Complex32[NonZerosCount];
-                otherVector._nonZeroIndices = new int[NonZerosCount];
-                otherVector.NonZerosCount = NonZerosCount;
-
-                if (NonZerosCount != 0)
-                {
-                    Array.Copy(_nonZeroValues, 0, otherVector._nonZeroValues, 0, NonZerosCount);
-                    Buffer.BlockCopy(_nonZeroIndices, 0, otherVector._nonZeroIndices, 0, NonZerosCount * Constants.SizeOfInt);
-                }
-            }
-        }
-
-        /// <summary>
         /// Conjugates vector and save result to <paramref name="target"/>
         /// </summary>
         /// <param name="target">Target vector</param>
@@ -371,14 +227,14 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
             else
             {
                 // Lets copy only needed data. Portion of needed data is determined by NonZerosCount value
-                otherVector._nonZeroValues = new Complex32[NonZerosCount];
-                otherVector._nonZeroIndices = new int[NonZerosCount];
-                otherVector.NonZerosCount = NonZerosCount;
+                otherVector._storage.Values = new Complex32[_storage.ValueCount];
+                otherVector._storage.Indices = new int[_storage.ValueCount];
+                otherVector._storage.ValueCount = _storage.ValueCount;
 
-                if (NonZerosCount != 0)
+                if (_storage.ValueCount != 0)
                 {
-                    CommonParallel.For(0, NonZerosCount, index => otherVector._nonZeroValues[index] = _nonZeroValues[index].Conjugate());
-                    Buffer.BlockCopy(_nonZeroIndices, 0, otherVector._nonZeroIndices, 0, NonZerosCount * Constants.SizeOfInt);
+                    CommonParallel.For(0, _storage.ValueCount, index => otherVector._storage.Values[index] = _storage.Values[index].Conjugate());
+                    Buffer.BlockCopy(_storage.Indices, 0, otherVector._storage.Indices, 0, _storage.ValueCount * Constants.SizeOfInt);
                 }
             }
         }
@@ -420,15 +276,15 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
                 }
 
                 //populate the non zero values from this
-                for (int j = 0; j < NonZerosCount; j++)
+                for (int j = 0; j < _storage.ValueCount; j++)
                 {
-                    vnonZeroValues[_nonZeroIndices[j]] = _nonZeroValues[j] + scalar;
+                    vnonZeroValues[_storage.Indices[j]] = _storage.Values[j] + scalar;
                 }
 
                 //assign this vectors arrary to the new arrays. 
-                _nonZeroValues = vnonZeroValues;
-                _nonZeroIndices = vnonZeroIndices;
-                NonZerosCount = Count;
+                _storage.Values = vnonZeroValues;
+                _storage.Indices = vnonZeroIndices;
+                _storage.ValueCount = Count;
             }
             else
             {
@@ -469,22 +325,22 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
             if (ReferenceEquals(this, resultSparse))
             {
                 int i = 0, j = 0;
-                while (i < NonZerosCount || j < otherSparse.NonZerosCount)
+                while (i < _storage.ValueCount || j < otherSparse._storage.ValueCount)
                 {
-                    if (i < NonZerosCount && j < otherSparse.NonZerosCount && _nonZeroIndices[i] == otherSparse._nonZeroIndices[j])
+                    if (i < _storage.ValueCount && j < otherSparse._storage.ValueCount && _storage.Indices[i] == otherSparse._storage.Indices[j])
                     {
-                        _nonZeroValues[i++] += otherSparse._nonZeroValues[j++];
+                        _storage.Values[i++] += otherSparse._storage.Values[j++];
                     }
-                    else if (j >= otherSparse.NonZerosCount || i < NonZerosCount && _nonZeroIndices[i] < otherSparse._nonZeroIndices[j])
+                    else if (j >= otherSparse._storage.ValueCount || i < _storage.ValueCount && _storage.Indices[i] < otherSparse._storage.Indices[j])
                     {
                         i++;
                     }
                     else
                     {
-                        var otherValue = otherSparse._nonZeroValues[j];
+                        var otherValue = otherSparse._storage.Values[j];
                         if (otherValue != Complex32.Zero)
                         {
-                            InsertAtUnchecked(i++, otherSparse._nonZeroIndices[j], otherValue);
+                            InsertAtUnchecked(i++, otherSparse._storage.Indices[j], otherValue);
                         }
                         j++;
                     }
@@ -494,25 +350,25 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
             {
                 result.Clear();
                 int i = 0, j = 0, last = -1;
-                while (i < NonZerosCount || j < otherSparse.NonZerosCount)
+                while (i < _storage.ValueCount || j < otherSparse._storage.ValueCount)
                 {
-                    if (j >= otherSparse.NonZerosCount || i < NonZerosCount && _nonZeroIndices[i] <= otherSparse._nonZeroIndices[j])
+                    if (j >= otherSparse._storage.ValueCount || i < _storage.ValueCount && _storage.Indices[i] <= otherSparse._storage.Indices[j])
                     {
-                        var next = _nonZeroIndices[i];
+                        var next = _storage.Indices[i];
                         if (next != last)
                         {
                             last = next;
-                            result.At(next, _nonZeroValues[i] + otherSparse.At(next));
+                            result.At(next, _storage.Values[i] + otherSparse.At(next));
                         }
                         i++;
                     }
                     else
                     {
-                        var next = otherSparse._nonZeroIndices[j];
+                        var next = otherSparse._storage.Indices[j];
                         if (next != last)
                         {
                             last = next;
-                            result.At(next, At(next) + otherSparse._nonZeroValues[j]);
+                            result.At(next, At(next) + otherSparse._storage.Values[j]);
                         }
                         j++;
                     }
@@ -615,22 +471,22 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
             if (ReferenceEquals(this, resultSparse))
             {
                 int i = 0, j = 0;
-                while (i < NonZerosCount || j < otherSparse.NonZerosCount)
+                while (i < _storage.ValueCount || j < otherSparse._storage.ValueCount)
                 {
-                    if (i < NonZerosCount && j < otherSparse.NonZerosCount && _nonZeroIndices[i] == otherSparse._nonZeroIndices[j])
+                    if (i < _storage.ValueCount && j < otherSparse._storage.ValueCount && _storage.Indices[i] == otherSparse._storage.Indices[j])
                     {
-                        _nonZeroValues[i++] -= otherSparse._nonZeroValues[j++];
+                        _storage.Values[i++] -= otherSparse._storage.Values[j++];
                     }
-                    else if (j >= otherSparse.NonZerosCount || i < NonZerosCount && _nonZeroIndices[i] < otherSparse._nonZeroIndices[j])
+                    else if (j >= otherSparse._storage.ValueCount || i < _storage.ValueCount && _storage.Indices[i] < otherSparse._storage.Indices[j])
                     {
                         i++;
                     }
                     else
                     {
-                        var otherValue = otherSparse._nonZeroValues[j];
+                        var otherValue = otherSparse._storage.Values[j];
                         if (otherValue != Complex32.Zero)
                         {
-                            InsertAtUnchecked(i++, otherSparse._nonZeroIndices[j], -otherValue);
+                            InsertAtUnchecked(i++, otherSparse._storage.Indices[j], -otherValue);
                         }
                         j++;
                     }
@@ -640,25 +496,25 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
             {
                 result.Clear();
                 int i = 0, j = 0, last = -1;
-                while (i < NonZerosCount || j < otherSparse.NonZerosCount)
+                while (i < _storage.ValueCount || j < otherSparse._storage.ValueCount)
                 {
-                    if (j >= otherSparse.NonZerosCount || i < NonZerosCount && _nonZeroIndices[i] <= otherSparse._nonZeroIndices[j])
+                    if (j >= otherSparse._storage.ValueCount || i < _storage.ValueCount && _storage.Indices[i] <= otherSparse._storage.Indices[j])
                     {
-                        var next = _nonZeroIndices[i];
+                        var next = _storage.Indices[i];
                         if (next != last)
                         {
                             last = next;
-                            result.At(next, _nonZeroValues[i] - otherSparse.At(next));
+                            result.At(next, _storage.Values[i] - otherSparse.At(next));
                         }
                         i++;
                     }
                     else
                     {
-                        var next = otherSparse._nonZeroIndices[j];
+                        var next = otherSparse._storage.Indices[j];
                         if (next != last)
                         {
                             last = next;
-                            result.At(next, At(next) - otherSparse._nonZeroValues[j]);
+                            result.At(next, At(next) - otherSparse._storage.Values[j]);
                         }
                         j++;
                     }
@@ -717,23 +573,18 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// <remarks>Added as an alternative to the unary negation operator.</remarks>
         public override Vector<Complex32> Negate()
         {
-            var result = new SparseVector(Count)
-                         {
-                             _nonZeroValues = new Complex32[NonZerosCount], 
-                             _nonZeroIndices = new int[NonZerosCount], 
-                             NonZerosCount = NonZerosCount
-                         };
+            var result = new SparseVectorStorage<Complex32>(Count);
+            var valueCount = result.ValueCount = _storage.ValueCount;
+            var indices = result.Indices = new int[valueCount];
+            var values = result.Values = new Complex32[valueCount];
 
-            if (NonZerosCount != 0)
+            if (valueCount != 0)
             {
-                CommonParallel.For(
-                    0,
-                    NonZerosCount,
-                    index => result._nonZeroValues[index] = -_nonZeroValues[index]);
-                Buffer.BlockCopy(_nonZeroIndices, 0, result._nonZeroIndices, 0, NonZerosCount * Constants.SizeOfInt);
+                CommonParallel.For(0, valueCount, index => values[index] = -_storage.Values[index]);
+                Buffer.BlockCopy(_storage.Indices, 0, indices, 0, valueCount * Constants.SizeOfInt);
             }
 
-            return result;
+            return new SparseVector(result);
         }
 
         /// <summary>
@@ -754,7 +605,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
             }
 
             var copy = new SparseVector(this);
-            Control.LinearAlgebraProvider.ScaleArray(scalar, copy._nonZeroValues, copy._nonZeroValues);
+            Control.LinearAlgebraProvider.ScaleArray(scalar, copy._storage.Values, copy._storage.Values);
             return copy;
         }
 
@@ -789,23 +640,23 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
             if (sparseResult == null)
             {
                 result.Clear();
-                for (var index = 0; index < NonZerosCount; index++)
+                for (var index = 0; index < _storage.ValueCount; index++)
                 {
-                    result.At(_nonZeroIndices[index], scalar * _nonZeroValues[index]);
+                    result.At(_storage.Indices[index], scalar * _storage.Values[index]);
                 }
             }
             else
             {
                 if (!ReferenceEquals(this, result))
                 {
-                    sparseResult.NonZerosCount = NonZerosCount;
-                    sparseResult._nonZeroIndices = new int[NonZerosCount];
-                    Buffer.BlockCopy(_nonZeroIndices, 0, sparseResult._nonZeroIndices, 0, NonZerosCount * Constants.SizeOfInt);
-                    sparseResult._nonZeroValues = new Complex32[NonZerosCount];
-                    Array.Copy(_nonZeroValues, sparseResult._nonZeroValues, NonZerosCount);
+                    sparseResult._storage.ValueCount = _storage.ValueCount;
+                    sparseResult._storage.Indices = new int[_storage.ValueCount];
+                    Buffer.BlockCopy(_storage.Indices, 0, sparseResult._storage.Indices, 0, _storage.ValueCount * Constants.SizeOfInt);
+                    sparseResult._storage.Values = new Complex32[_storage.ValueCount];
+                    Array.Copy(_storage.Values, sparseResult._storage.Values, _storage.ValueCount);
                 }
 
-                Control.LinearAlgebraProvider.ScaleArray(scalar, sparseResult._nonZeroValues, sparseResult._nonZeroValues);
+                Control.LinearAlgebraProvider.ScaleArray(scalar, sparseResult._storage.Values, sparseResult._storage.Values);
             }
         }
 
@@ -824,16 +675,16 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
 
             if (ReferenceEquals(this, other))
             {
-                for (var i = 0; i < NonZerosCount; i++)
+                for (var i = 0; i < _storage.ValueCount; i++)
                 {
-                    result += _nonZeroValues[i] * _nonZeroValues[i];
+                    result += _storage.Values[i] * _storage.Values[i];
                 }
             }
             else
             {
-                for (var i = 0; i < NonZerosCount; i++)
+                for (var i = 0; i < _storage.ValueCount; i++)
                 {
-                    result += _nonZeroValues[i] * other.At(_nonZeroIndices[i]);
+                    result += _storage.Values[i] * other.At(_storage.Indices[i]);
                 }
             }
 
@@ -925,17 +776,17 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// <returns>The index of absolute minimum element.</returns>   
         public override int AbsoluteMinimumIndex()
         {
-            if (NonZerosCount == 0)
+            if (_storage.ValueCount == 0)
             {
                 // No non-zero elements. Return 0
                 return 0;
             }
 
             var index = 0;
-            var min = _nonZeroValues[index].Magnitude;
-            for (var i = 1; i < NonZerosCount; i++)
+            var min = _storage.Values[index].Magnitude;
+            for (var i = 1; i < _storage.ValueCount; i++)
             {
-                var test = _nonZeroValues[i].Magnitude;
+                var test = _storage.Values[i].Magnitude;
                 if (test < min)
                 {
                     index = i;
@@ -943,7 +794,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
                 }
             }
 
-            return _nonZeroIndices[index];
+            return _storage.Indices[index];
         }
 
         /// <summary>
@@ -1014,9 +865,9 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         public override Complex32 Sum()
         {
             var result = Complex32.Zero;
-            for (var i = 0; i < NonZerosCount; i++)
+            for (var i = 0; i < _storage.ValueCount; i++)
             {
-                result += _nonZeroValues[i];
+                result += _storage.Values[i];
             }
 
             return result;
@@ -1029,9 +880,9 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         public override Complex32 SumMagnitudes()
         {
             var result = 0.0f;
-            for (var i = 0; i < NonZerosCount; i++)
+            for (var i = 0; i < _storage.ValueCount; i++)
             {
-                result += _nonZeroValues[i].Magnitude;
+                result += _storage.Values[i].Magnitude;
             }
 
             return result;
@@ -1046,17 +897,17 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         {
             if (ReferenceEquals(this, other))
             {
-                for (var i = 0; i < NonZerosCount; i++)
+                for (var i = 0; i < _storage.ValueCount; i++)
                 {
-                    _nonZeroValues[i] *= _nonZeroValues[i];
+                    _storage.Values[i] *= _storage.Values[i];
                 }
             }
             else
             {
-                for (var i = 0; i < NonZerosCount; i++)
+                for (var i = 0; i < _storage.ValueCount; i++)
                 {
-                    var index = _nonZeroIndices[i];
-                    result.At(index, other.At(index) * _nonZeroValues[i]);
+                    var index = _storage.Indices[i];
+                    result.At(index, other.At(index) * _storage.Values[i]);
                 }
             }
         }
@@ -1070,17 +921,17 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         {
             if (ReferenceEquals(this, other))
             {
-                for (var i = 0; i < NonZerosCount; i++)
+                for (var i = 0; i < _storage.ValueCount; i++)
                 {
-                    _nonZeroValues[i] /= _nonZeroValues[i];
+                    _storage.Values[i] /= _storage.Values[i];
                 }
             }
             else
             {
-                for (var i = 0; i < NonZerosCount; i++)
+                for (var i = 0; i < _storage.ValueCount; i++)
                 {
-                    var index = _nonZeroIndices[i];
-                    result.At(index, _nonZeroValues[i] / other.At(index));
+                    var index = _storage.Indices[i];
+                    result.At(index, _storage.Values[i] / other.At(index));
                 }
             }
         }
@@ -1106,13 +957,13 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
             }
 
             var matrix = new SparseMatrix(u.Count, v.Count);
-            for (var i = 0; i < u.NonZerosCount; i++)
+            for (var i = 0; i < u._storage.ValueCount; i++)
             {
-                for (var j = 0; j < v.NonZerosCount; j++)
+                for (var j = 0; j < v._storage.ValueCount; j++)
                 {
-                    if (u._nonZeroIndices[i] == v._nonZeroIndices[j])
+                    if (u._storage.Indices[i] == v._storage.Indices[j])
                     {
-                        matrix.At(i, j, u._nonZeroValues[i] * v._nonZeroValues[j]);
+                        matrix.At(i, j, u._storage.Values[i] * v._storage.Values[j]);
                     }
                 }
             }
@@ -1148,25 +999,25 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
                 throw new ArgumentOutOfRangeException("p");
             }
 
-            if (NonZerosCount == 0)
+            if (_storage.ValueCount == 0)
             {
                 return Complex32.Zero;
             }
 
             if (2.0 == p)
             {
-                return _nonZeroValues.Aggregate(Complex32.Zero, SpecialFunctions.Hypotenuse).Magnitude;
+                return _storage.Values.Aggregate(Complex32.Zero, SpecialFunctions.Hypotenuse).Magnitude;
             }
 
             if (Double.IsPositiveInfinity(p))
             {
-                return CommonParallel.Aggregate(0, NonZerosCount, i => _nonZeroValues[i].Magnitude, Math.Max, 0f);
+                return CommonParallel.Aggregate(0, _storage.ValueCount, i => _storage.Values[i].Magnitude, Math.Max, 0f);
             }
 
             var sum = 0.0;
-            for (var index = 0; index < NonZerosCount; index++)
+            for (var index = 0; index < _storage.ValueCount; index++)
             {
-                sum += Math.Pow(_nonZeroValues[index].Magnitude, p);
+                sum += Math.Pow(_storage.Values[index].Magnitude, p);
             }
 
             return (float)Math.Pow(sum, 1.0 / p);
@@ -1332,97 +1183,33 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         }
         #endregion
 
-        /// <summary>
-        /// Gets the value at the given index.
-        /// </summary>
-        /// <param name="index">Value real index in array</param>
-        /// <returns>The value at the given index.</returns>
-        internal protected override Complex32 At(int index)
-        {
-            // Search if item idex exists in NonZeroIndices array in range "0 - real nonzero values count"
-            var itemIndex = Array.BinarySearch(_nonZeroIndices, 0, NonZerosCount, index);
-            return itemIndex >= 0 ? _nonZeroValues[itemIndex] : Complex32.Zero;
-        }
-
-        /// <summary>
-        /// Delete, Add or Update the value in NonZeroValues and NonZeroIndices
-        /// </summary>
-        /// <param name="index">Value real index in array</param>
-        /// <param name="value">The value to set.</param>
-        /// <remarks>This method assume that index is between 0 and Array Size</remarks>
-        internal protected override void At(int index, Complex32 value)
-        {
-            // Search if "index" already exists in range "0 - complex nonzero values count"
-            var itemIndex = Array.BinarySearch(_nonZeroIndices, 0, NonZerosCount, index);
-
-            if (itemIndex >= 0)
-            {
-                // Item already exist at itemIndex
-                if (value == Complex32.Zero)
-                {
-                    RemoveAtUnchecked(itemIndex);
-                }
-                else
-                {
-                    _nonZeroValues[itemIndex] = value;
-                }
-            }
-            else
-            {
-                if (value != Complex32.Zero)
-                {
-                    InsertAtUnchecked(~itemIndex, index, value);
-                }
-            }
-        }
-
         private void InsertAtUnchecked(int itemIndex, int index, Complex32 value)
         {
             // Check if the storage needs to be increased
-            if ((NonZerosCount == _nonZeroValues.Length) && (NonZerosCount < Count))
+            if ((_storage.ValueCount == _storage.Values.Length) && (_storage.ValueCount < Count))
             {
                 // Value and Indices arrays are completely full so we increase the size
-                var size = Math.Min(_nonZeroValues.Length + GrowthSize(), Count);
-                Array.Resize(ref _nonZeroValues, size);
-                Array.Resize(ref _nonZeroIndices, size);
+                var size = Math.Min(_storage.Values.Length + GrowthSize(), Count);
+                Array.Resize(ref _storage.Values, size);
+                Array.Resize(ref _storage.Indices, size);
             }
 
             // Move all values (with a position larger than index) in the value array
             // to the next position
             // Move all values (with a position larger than index) in the columIndices
             // array to the next position
-            for (var i = NonZerosCount - 1; i > itemIndex - 1; i--)
+            for (var i = _storage.ValueCount - 1; i > itemIndex - 1; i--)
             {
-                _nonZeroValues[i + 1] = _nonZeroValues[i];
-                _nonZeroIndices[i + 1] = _nonZeroIndices[i];
+                _storage.Values[i + 1] = _storage.Values[i];
+                _storage.Indices[i + 1] = _storage.Indices[i];
             }
 
             // Add the value and the column index
-            _nonZeroValues[itemIndex] = value;
-            _nonZeroIndices[itemIndex] = index;
+            _storage.Values[itemIndex] = value;
+            _storage.Indices[itemIndex] = index;
 
             // increase the number of non-zero numbers by one
-            NonZerosCount += 1;
-        }
-
-        private void RemoveAtUnchecked(int itemIndex)
-        {
-            // Value is zero. Let's delete it from Values and Indices array
-            for (var i = itemIndex + 1; i < NonZerosCount; i++)
-            {
-                _nonZeroValues[i - 1] = _nonZeroValues[i];
-                _nonZeroIndices[i - 1] = _nonZeroIndices[i];
-            }
-
-            NonZerosCount -= 1;
-
-            // Check whether we need to shrink the arrays. This is reasonable to do if
-            // there are a lot of non-zero elements and storage is two times bigger
-            if ((NonZerosCount > 1024) && (NonZerosCount < _nonZeroIndices.Length / 2))
-            {
-                Array.Resize(ref _nonZeroValues, NonZerosCount);
-                Array.Resize(ref _nonZeroIndices, NonZerosCount);
-            }
+            _storage.ValueCount += 1;
         }
 
         /// <summary>
@@ -1433,19 +1220,19 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         private int GrowthSize()
         {
             int delta;
-            if (_nonZeroValues.Length > 1024)
+            if (_storage.Values.Length > 1024)
             {
-                delta = _nonZeroValues.Length / 4;
+                delta = _storage.Values.Length / 4;
             }
             else
             {
-                if (_nonZeroValues.Length > 256)
+                if (_storage.Values.Length > 256)
                 {
                     delta = 512;
                 }
                 else
                 {
-                    delta = _nonZeroValues.Length > 64 ? 128 : 32;
+                    delta = _storage.Values.Length > 64 ? 128 : 32;
                 }
             }
 
@@ -1458,7 +1245,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         {
             if (Count > 20)
             {
-                return String.Format("SparseVectorOfComplex32({0},{1},{2})", Count, NonZerosCount, GetHashCode());
+                return String.Format("SparseVectorOfComplex32({0},{1},{2})", Count, _storage.ValueCount, GetHashCode());
             }
 
             return base.ToString(format, formatProvider);
@@ -1472,14 +1259,14 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// </returns>
         public override int GetHashCode()
         {
-            var hashNum = Math.Min(NonZerosCount, 20);
+            var hashNum = Math.Min(_storage.ValueCount, 20);
             long hash = 0;
             for (var i = 0; i < hashNum; i++)
             {
 #if PORTABLE
-                hash ^= Precision.DoubleToInt64Bits(this._nonZeroValues[i].GetHashCode());
+                hash ^= Precision.DoubleToInt64Bits(this._storage.Values[i].GetHashCode());
 #else
-                hash ^= BitConverter.DoubleToInt64Bits(_nonZeroValues[i].GetHashCode());
+                hash ^= BitConverter.DoubleToInt64Bits(_storage.Values[i].GetHashCode());
 #endif
             }
 
@@ -1523,27 +1310,27 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
             }
 
             int i = 0, j = 0;
-            while (i < NonZerosCount || j < otherSparse.NonZerosCount)
+            while (i < _storage.ValueCount || j < otherSparse._storage.ValueCount)
             {
-                if (j >= otherSparse.NonZerosCount || i < NonZerosCount && _nonZeroIndices[i] < otherSparse._nonZeroIndices[j])
+                if (j >= otherSparse._storage.ValueCount || i < _storage.ValueCount && _storage.Indices[i] < otherSparse._storage.Indices[j])
                 {
-                    if (_nonZeroValues[i++] != Complex32.Zero)
+                    if (_storage.Values[i++] != Complex32.Zero)
                     {
                         return false;
                     }
                     continue;
                 }
 
-                if (i >= NonZerosCount || j < otherSparse.NonZerosCount && otherSparse._nonZeroIndices[j] < _nonZeroIndices[i])
+                if (i >= _storage.ValueCount || j < otherSparse._storage.ValueCount && otherSparse._storage.Indices[j] < _storage.Indices[i])
                 {
-                    if (otherSparse._nonZeroValues[j++] != Complex32.Zero)
+                    if (otherSparse._storage.Values[j++] != Complex32.Zero)
                     {
                         return false;
                     }
                     continue;
                 }
 
-                if (!_nonZeroValues[i].AlmostEqual(otherSparse._nonZeroValues[j]))
+                if (!_storage.Values[i].AlmostEqual(otherSparse._storage.Values[j]))
                 {
                     return false;
                 }
@@ -1571,9 +1358,9 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// </remarks>
         public override IEnumerable<Tuple<int, Complex32>> GetIndexedEnumerator()
         {
-            for (var i = 0; i < NonZerosCount; i++)
+            for (var i = 0; i < _storage.ValueCount; i++)
             {
-                yield return new Tuple<int, Complex32>(_nonZeroIndices[i], _nonZeroValues[i]);
+                yield return new Tuple<int, Complex32>(_storage.Indices[i], _storage.Values[i]);
             }
         }
 
@@ -1586,9 +1373,9 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         public override Complex32[] ToArray()
         {
             var ret = new Complex32[Count];
-            for (var i = 0; i < NonZerosCount; i++)
+            for (var i = 0; i < _storage.ValueCount; i++)
             {
-                ret[_nonZeroIndices[i]] = _nonZeroValues[i];
+                ret[_storage.Indices[i]] = _storage.Values[i];
             }
 
             return ret;

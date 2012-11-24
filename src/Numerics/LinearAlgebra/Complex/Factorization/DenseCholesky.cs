@@ -169,11 +169,11 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
             }
 
             // Copy the contents of input to result.
-            CommonParallel.For(0, dinput.Data.Length, index => dresult.Data[index] = dinput.Data[index]);
+            CommonParallel.For(0, dinput.Values.Length, index => dresult.Values[index] = dinput.Values[index]);
 
             // Cholesky solve by overwriting result.
             var dfactor = (DenseMatrix)CholeskyFactor;
-            Control.LinearAlgebraProvider.CholeskySolveFactored(dfactor.Data, dfactor.RowCount, dresult.Data, 1);
+            Control.LinearAlgebraProvider.CholeskySolveFactored(dfactor.Data, dfactor.RowCount, dresult.Values, 1);
         }
     }
 }

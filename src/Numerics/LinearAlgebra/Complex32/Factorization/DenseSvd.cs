@@ -70,7 +70,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
             VectorS = new DenseVector(nm);
             MatrixU = new DenseMatrix(matrix.RowCount);
             MatrixVT = new DenseMatrix(matrix.ColumnCount);
-            Control.LinearAlgebraProvider.SingularValueDecomposition(computeVectors, ((DenseMatrix)matrix.Clone()).Data, matrix.RowCount, matrix.ColumnCount, ((DenseVector)VectorS).Data, ((DenseMatrix)MatrixU).Data, ((DenseMatrix)MatrixVT).Data);
+            Control.LinearAlgebraProvider.SingularValueDecomposition(computeVectors, ((DenseMatrix)matrix.Clone()).Data, matrix.RowCount, matrix.ColumnCount, ((DenseVector)VectorS).Values, ((DenseMatrix)MatrixU).Data, ((DenseMatrix)MatrixVT).Data);
         }
 
         /// <summary>
@@ -126,7 +126,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
                 throw new NotSupportedException("Can only do SVD factorization for dense matrices at the moment.");
             }
 
-            Control.LinearAlgebraProvider.SvdSolveFactored(MatrixU.RowCount, MatrixVT.ColumnCount, ((DenseVector)VectorS).Data, ((DenseMatrix)MatrixU).Data, ((DenseMatrix)MatrixVT).Data, dinput.Data, input.ColumnCount, dresult.Data);
+            Control.LinearAlgebraProvider.SvdSolveFactored(MatrixU.RowCount, MatrixVT.ColumnCount, ((DenseVector)VectorS).Values, ((DenseMatrix)MatrixU).Data, ((DenseMatrix)MatrixVT).Data, dinput.Data, input.ColumnCount, dresult.Data);
         }
 
         /// <summary>
@@ -176,7 +176,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
                 throw new NotSupportedException("Can only do SVD factorization for dense vectors at the moment.");
             }
 
-            Control.LinearAlgebraProvider.SvdSolveFactored(MatrixU.RowCount, MatrixVT.ColumnCount, ((DenseVector)VectorS).Data, ((DenseMatrix)MatrixU).Data, ((DenseMatrix)MatrixVT).Data, dinput.Data, 1, dresult.Data);
+            Control.LinearAlgebraProvider.SvdSolveFactored(MatrixU.RowCount, MatrixVT.ColumnCount, ((DenseVector)VectorS).Values, ((DenseMatrix)MatrixU).Data, ((DenseMatrix)MatrixVT).Data, dinput.Values, 1, dresult.Values);
         }
     }
 }

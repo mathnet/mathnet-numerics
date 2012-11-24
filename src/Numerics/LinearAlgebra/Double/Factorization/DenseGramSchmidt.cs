@@ -216,7 +216,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
                 throw new NotSupportedException("Can only do GramSchmidt factorization for dense vectors at the moment.");
             }
 
-            _provider.QRSolveFactored(((DenseMatrix)MatrixQ).Data, ((DenseMatrix)MatrixR).Data, MatrixQ.RowCount, MatrixQ.ColumnCount, null, dinput.Data, 1, dresult.Data);
+            _provider.QRSolveFactored(((DenseMatrix)MatrixQ).Data, ((DenseMatrix)MatrixR).Data, MatrixQ.RowCount, MatrixQ.ColumnCount, null, dinput.Values, 1, dresult.Values);
         }
     }
 }

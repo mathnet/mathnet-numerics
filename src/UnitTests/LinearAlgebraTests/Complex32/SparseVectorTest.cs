@@ -34,6 +34,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
     using System.Collections.Generic;
     using LinearAlgebra.Complex32;
     using LinearAlgebra.Generic;
+    using LinearAlgebra.Storage;
     using NUnit.Framework;
     using Complex32 = Numerics.Complex32;
 
@@ -273,40 +274,41 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
         public void CheckSparseMechanismBySettingValues()
         {
             var vector = new SparseVector(10000);
+            var storage = (SparseVectorStorage<Complex32>)vector.Storage;
 
             // Add non-zero elements
             vector[200] = new Complex32(1.5f, 1);
             Assert.AreEqual(new Complex32(1.5f, 1), vector[200]);
-            Assert.AreEqual(1, vector.NonZerosCount);
+            Assert.AreEqual(1, storage.ValueCount);
 
             vector[500] = new Complex32(3.5f, 1);
             Assert.AreEqual(new Complex32(3.5f, 1), vector[500]);
-            Assert.AreEqual(2, vector.NonZerosCount);
+            Assert.AreEqual(2, storage.ValueCount);
 
             vector[800] = new Complex32(5.5f, 1);
             Assert.AreEqual(new Complex32(5.5f, 1), vector[800]);
-            Assert.AreEqual(3, vector.NonZerosCount);
+            Assert.AreEqual(3, storage.ValueCount);
 
             vector[0] = new Complex32(7.5f, 1);
             Assert.AreEqual(new Complex32(7.5f, 1), vector[0]);
-            Assert.AreEqual(4, vector.NonZerosCount);
+            Assert.AreEqual(4, storage.ValueCount);
 
             // Remove non-zero elements
             vector[200] = Complex32.Zero;
             Assert.AreEqual(Complex32.Zero, vector[200]);
-            Assert.AreEqual(3, vector.NonZerosCount);
+            Assert.AreEqual(3, storage.ValueCount);
 
             vector[500] = Complex32.Zero;
             Assert.AreEqual(Complex32.Zero, vector[500]);
-            Assert.AreEqual(2, vector.NonZerosCount);
+            Assert.AreEqual(2, storage.ValueCount);
 
             vector[800] = Complex32.Zero;
             Assert.AreEqual(Complex32.Zero, vector[800]);
-            Assert.AreEqual(1, vector.NonZerosCount);
+            Assert.AreEqual(1, storage.ValueCount);
 
             vector[0] = Complex32.Zero;
             Assert.AreEqual(Complex32.Zero, vector[0]);
-            Assert.AreEqual(0, vector.NonZerosCount);
+            Assert.AreEqual(0, storage.ValueCount);
         }
 
         /// <summary>
@@ -325,11 +327,13 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
 
             // Multiply by 0
             vector *= 0;
+
+            var storage = (SparseVectorStorage<Complex32>)vector.Storage;
             Assert.AreEqual(Complex32.Zero, vector[200]);
             Assert.AreEqual(Complex32.Zero, vector[500]);
             Assert.AreEqual(Complex32.Zero, vector[800]);
             Assert.AreEqual(Complex32.Zero, vector[0]);
-            Assert.AreEqual(0, vector.NonZerosCount);
+            Assert.AreEqual(0, storage.ValueCount);
         }
 
         /// <summary>
@@ -371,7 +375,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
                 Assert.AreEqual(Data[i] * zeroArray[i], result[i]);
             }
 
-            Assert.AreEqual(2, result.NonZerosCount);
+            var resultStorage = (SparseVectorStorage<Complex32>)result.Storage;
+            Assert.AreEqual(2, resultStorage.ValueCount);
         }
 
         /// <summary>

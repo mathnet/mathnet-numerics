@@ -378,12 +378,12 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
                 return;
             }
 
-            if (_data.Length != denseSource.Data.Length)
+            if (_data.Length != denseSource.Values.Length)
             {
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "source");
             }
 
-            Array.Copy(denseSource.Data, _data, denseSource.Data.Length);
+            Array.Copy(denseSource.Values, _data, denseSource.Values.Length);
         }
 
         /// <summary>

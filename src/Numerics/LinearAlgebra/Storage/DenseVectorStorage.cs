@@ -90,7 +90,6 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                 throw new ArgumentException(message, "target");
             }
 
-            //Buffer.BlockCopy(Data, 0, target.Data, 0, Data.Length * System.Runtime.InteropServices.Marshal.SizeOf(typeof(T)));
             Array.Copy(Data, 0, target.Data, 0, Data.Length);
         }
 
@@ -113,14 +112,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         void CopySubVectorTo(DenseVectorStorage<T> target,
             int sourceIndex, int targetIndex, int count)
         {
-            if (ReferenceEquals(this, target))
-            {
-                throw new NotSupportedException();
-            }
-
             ValidateSubVectorRange(target, sourceIndex, targetIndex, count);
-
-            //Buffer.BlockCopy(Data, sourceIndex, target.Data, targetIndex, count * System.Runtime.InteropServices.Marshal.SizeOf(typeof(T)));
             Array.Copy(Data, sourceIndex, target.Data, targetIndex, count);
         }
     }

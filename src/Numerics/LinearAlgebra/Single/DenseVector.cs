@@ -33,6 +33,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
     using Generic;
     using NumberTheory;
     using Properties;
+    using Storage;
     using Threading;
 
     /// <summary>
@@ -41,6 +42,23 @@ namespace MathNet.Numerics.LinearAlgebra.Single
     [Serializable]
     public class DenseVector : Vector
     {
+        /// <summary>
+        /// Number of elements
+        /// </summary>
+        readonly int _length;
+
+        /// <summary>
+        /// Gets the vector's data.
+        /// </summary>
+        readonly float[] _values;
+
+        internal DenseVector(DenseVectorStorage<float> storage)
+            : base(storage)
+        {
+            _length = storage.Length;
+            _values = storage.Data;
+        }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="DenseVector"/> class with a given size.
         /// </summary>
@@ -51,9 +69,8 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// If <paramref name="size"/> is less than one.
         /// </exception>
         public DenseVector(int size)
-            : base(size)
+            : this(new DenseVectorStorage<float>(size))
         {
-            Data = new float[size];
         }
 
         /// <summary>
@@ -72,9 +89,9 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         public DenseVector(int size, float value)
             : this(size)
         {
-            for (var index = 0; index < Data.Length; index++)
+            for (var index = 0; index < _values.Length; index++)
             {
-                Data[index] = value;
+                _values[index] = value;
             }
         }
 
@@ -88,31 +105,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         public DenseVector(Vector<float> other)
             : this(other.Count)
         {
-            var vector = other as DenseVector;
-            if (vector == null)
-            {
-                CommonParallel.For(
-                    0, 
-                    Data.Length, 
-                    index => this[index] = other[index]);
-            }
-            else
-            {
-                Buffer.BlockCopy(vector.Data, 0, Data, 0, Data.Length * Constants.SizeOfFloat);
-            }
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="DenseVector"/> class by
-        /// copying the values from another.
-        /// </summary>
-        /// <param name="other">
-        /// The vector to create the new vector from.
-        /// </param>
-        public DenseVector(DenseVector other)
-            : this(other.Count)
-        {
-            Buffer.BlockCopy(other.Data, 0, Data, 0, Data.Length * Constants.SizeOfFloat);
+            other.Storage.CopyTo(Storage, skipClearing: true);
         }
 
         /// <summary>
@@ -121,20 +114,18 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// <param name="array">The array to create this vector from.</param>
         /// <remarks>The vector does not copy the array, but keeps a reference to it. Any 
         /// changes to the vector will also change the array.</remarks>
-        public DenseVector(float[] array) : base(array.Length)
+        public DenseVector(float[] array)
+            : this(new DenseVectorStorage<float>(array.Length, array))
         {
-            Data = array;
         }
 
         /// <summary>
-        ///  Gets the vector's internal data.
+        /// Gets the vector's data.
         /// </summary>
-        /// <value>The vector's internal data.</value>
-        /// <remarks>Changing values in the array also changes the corresponding value in vector. Use with care.</remarks>
-        internal float[] Data
+        /// <value>The vector's data.</value>
+        public float[] Values
         {
-            get;
-            private set;
+            get { return _values; }
         }
 
         /// <summary>
@@ -145,14 +136,14 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// <returns>
         /// A reference to the internal date of the given vector.
         /// </returns>
-        public static implicit operator float[](DenseVector vector)
+        public static explicit operator float[](DenseVector vector)
         {
             if (vector == null)
             {
                 throw new ArgumentNullException();
             }
 
-            return vector.Data;
+            return vector.Values;
         }
 
         /// <summary>
@@ -178,10 +169,10 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// <returns>This vector as a column matrix.</returns>
         public override Matrix<float> ToColumnMatrix()
         {
-            var matrix = new DenseMatrix(Count, 1);
-            for (var i = 0; i < Data.Length; i++)
+            var matrix = new DenseMatrix(_length, 1);
+            for (var i = 0; i < _values.Length; i++)
             {
-                matrix.At(i, 0, Data[i]);
+                matrix.At(i, 0, _values[i]);
             }
 
             return matrix;
@@ -193,31 +184,13 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// <returns>This vector as a row matrix.</returns>
         public override Matrix<float> ToRowMatrix()
         {
-            var matrix = new DenseMatrix(1, Count);
-            for (var i = 0; i < Data.Length; i++)
+            var matrix = new DenseMatrix(1, _length);
+            for (var i = 0; i < _values.Length; i++)
             {
-                matrix.At(0, i, Data[i]);
+                matrix.At(0, i, _values[i]);
             }
 
             return matrix;
-        }
-
-        /// <summary>Gets or sets the value at the given <paramref name="index"/>.</summary>
-        /// <param name="index">The index of the value to get or set.</param>
-        /// <returns>The value of the vector at the given <paramref name="index"/>.</returns> 
-        /// <exception cref="IndexOutOfRangeException">If <paramref name="index"/> is negative or 
-        /// greater than the size of the vector.</exception>
-        public override float this[int index]
-        {
-            get
-            {
-                return Data[index];
-            }
-
-            set
-            {
-                Data[index] = value;
-            }
         }
 
         /// <summary>
@@ -254,49 +227,6 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         }
 
         /// <summary>
-        /// Copies the values of this vector into the target vector.
-        /// </summary>
-        /// <param name="target">
-        /// The vector to copy elements into.
-        /// </param>
-        /// <exception cref="ArgumentNullException">
-        /// If <paramref name="target"/> is <see langword="null"/>.
-        /// </exception>
-        /// <exception cref="ArgumentException">
-        /// If <paramref name="target"/> is not the same size as this vector.
-        /// </exception>
-        public override void CopyTo(Vector<float> target)
-        {
-            if (target == null)
-            {
-                throw new ArgumentNullException("target");
-            }
-
-            if (Count != target.Count)
-            {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "target");
-            }
-
-            if (ReferenceEquals(this, target))
-            {
-                return;
-            }
-
-            var otherVector = target as DenseVector;
-            if (otherVector == null)
-            {
-                CommonParallel.For(
-                    0, 
-                    Data.Length, 
-                    index => target[index] = Data[index]);
-            }
-            else
-            {
-                Buffer.BlockCopy(Data, 0, otherVector.Data, 0, Data.Length * Constants.SizeOfFloat);
-            }
-        }
-
-        /// <summary>
         /// Adds a scalar to each element of the vector and stores the result in the result vector.
         /// </summary>
         /// <param name="scalar">The scalar to add.</param>
@@ -312,8 +242,8 @@ namespace MathNet.Numerics.LinearAlgebra.Single
             {
                 CommonParallel.For(
                     0,
-                    Data.Length,
-                    index => dense.Data[index] = Data[index] + scalar);
+                    _values.Length,
+                    index => dense._values[index] = _values[index] + scalar);
             }
         }
 
@@ -328,7 +258,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
             var odense = other as DenseVector;
             if (rdense != null && odense != null)
             {
-                Control.LinearAlgebraProvider.AddVectorToScaledVector(Data, 1.0f, odense.Data, rdense.Data);
+                Control.LinearAlgebraProvider.AddVectorToScaledVector(_values, 1.0f, odense.Values, rdense.Values);
             }
             else
             {
@@ -397,8 +327,8 @@ namespace MathNet.Numerics.LinearAlgebra.Single
             {
                 CommonParallel.For(
                     0,
-                    Data.Length,
-                    index => dense.Data[index] = Data[index] - scalar);
+                    _values.Length,
+                    index => dense._values[index] = _values[index] - scalar);
             }
         }
 
@@ -413,7 +343,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
             var odense = other as DenseVector;
             if (rdense != null && odense != null)
             {
-                Control.LinearAlgebraProvider.AddVectorToScaledVector(Data, -1.0f, odense.Data, rdense.Data);
+                Control.LinearAlgebraProvider.AddVectorToScaledVector(_values, -1.0f, odense.Values, rdense.Values);
             }
             else
             {
@@ -472,11 +402,11 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// <remarks>Added as an alternative to the unary negation operator.</remarks>
         public override Vector<float> Negate()
         {
-            var result = new DenseVector(Count);
+            var result = new DenseVector(_length);
             CommonParallel.For(
                 0, 
-                Data.Length, 
-                index => result[index] = -Data[index]);
+                _values.Length,
+                index => result[index] = -_values[index]);
 
             return result;
         }
@@ -496,7 +426,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
             }
             else
             {
-                Control.LinearAlgebraProvider.ScaleArray(scalar, Data, denseResult.Data);
+                Control.LinearAlgebraProvider.ScaleArray(scalar, _values, denseResult.Values);
             }
         }
 
@@ -510,7 +440,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         {
             var denseVector = other as DenseVector;
 
-            return denseVector == null ? base.DoDotProduct(other) : Control.LinearAlgebraProvider.DotProduct(Data, denseVector.Data);
+            return denseVector == null ? base.DoDotProduct(other) : Control.LinearAlgebraProvider.DotProduct(_values, denseVector.Values);
         }
 
         /// <summary>
@@ -572,7 +502,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "rightSide");
             }
 
-            return Control.LinearAlgebraProvider.DotProduct(leftSide.Data, rightSide.Data);
+            return Control.LinearAlgebraProvider.DotProduct(leftSide.Values, rightSide.Values);
         }
 
         /// <summary>
@@ -602,16 +532,16 @@ namespace MathNet.Numerics.LinearAlgebra.Single
             var denseResult = result as DenseVector;
             if (denseResult == null)
             {
-                for (var index = 0; index < Count; index++)
+                for (var index = 0; index < _length; index++)
                 {
-                    result.At(index, Data[index] % divisor);
+                    result.At(index, _values[index] % divisor);
                 }
             }
             else
             {
-                for (var index = 0; index < Count; index++)
+                for (var index = 0; index < _length; index++)
                 {
-                    denseResult.Data[index] = Data[index] % divisor;
+                    denseResult._values[index] = _values[index] % divisor;
                 }
             }
         }
@@ -640,10 +570,10 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         public override int AbsoluteMinimumIndex()
         {
             var index = 0;
-            var min = Math.Abs(Data[index]);
-            for (var i = 1; i < Count; i++)
+            var min = Math.Abs(_values[index]);
+            for (var i = 1; i < _length; i++)
             {
-                var test = Math.Abs(Data[i]);
+                var test = Math.Abs(_values[i]);
                 if (test < min)
                 {
                     index = i;
@@ -660,7 +590,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// <returns>The value of the absolute minimum element.</returns>
         public override float AbsoluteMinimum()
         {
-            return Math.Abs(Data[AbsoluteMinimumIndex()]);
+            return Math.Abs(_values[AbsoluteMinimumIndex()]);
         }
 
         /// <summary>
@@ -669,7 +599,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// <returns>The value of the absolute maximum element.</returns>
         public override float AbsoluteMaximum()
         {
-            return Math.Abs(Data[AbsoluteMaximumIndex()]);
+            return Math.Abs(_values[AbsoluteMaximumIndex()]);
         }
 
         /// <summary>
@@ -679,10 +609,10 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         public override int AbsoluteMaximumIndex()
         {
             var index = 0;
-            var max = Math.Abs(Data[index]);
-            for (var i = 1; i < Count; i++)
+            var max = Math.Abs(_values[index]);
+            for (var i = 1; i < _length; i++)
             {
-                var test = Math.Abs(Data[i]);
+                var test = Math.Abs(_values[i]);
                 if (test > max)
                 {
                     index = i;
@@ -706,7 +636,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// <exception cref="ArgumentException">If <paramref name="length"/> is not positive.</exception>
         public override Vector<float> SubVector(int index, int length)
         {
-            if (index < 0 || index >= Count)
+            if (index < 0 || index >= _length)
             {
                 throw new ArgumentOutOfRangeException("index");
             }
@@ -716,7 +646,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
                 throw new ArgumentOutOfRangeException("length");
             }
 
-            if (index + length > Count)
+            if (index + length > _length)
             {
                 throw new ArgumentOutOfRangeException("length");
             }
@@ -725,8 +655,8 @@ namespace MathNet.Numerics.LinearAlgebra.Single
 
             CommonParallel.For(
                 index, 
-                index + length, 
-                i => result.Data[i - index] = Data[i]);
+                index + length,
+                i => result._values[i - index] = _values[i]);
             return result;
         }
 
@@ -743,7 +673,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
                 throw new ArgumentNullException("values");
             }
 
-            if (values.Length != Count)
+            if (values.Length != _length)
             {
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "values");
             }
@@ -751,7 +681,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
             CommonParallel.For(
                 0, 
                 values.Length, 
-                i => Data[i] = values[i]);
+                i => _values[i] = values[i]);
         }
 
         /// <summary>
@@ -761,13 +691,13 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         public override int MaximumIndex()
         {
             var index = 0;
-            var max = Data[0];
-            for (var i = 1; i < Count; i++)
+            var max = _values[0];
+            for (var i = 1; i < _length; i++)
             {
-                if (max < Data[i])
+                if (max < _values[i])
                 {
                     index = i;
-                    max = Data[i];
+                    max = _values[i];
                 }
             }
 
@@ -781,13 +711,13 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         public override int MinimumIndex()
         {
             var index = 0;
-            var min = Data[0];
-            for (var i = 1; i < Count; i++)
+            var min = _values[0];
+            for (var i = 1; i < _length; i++)
             {
-                if (min > Data[i])
+                if (min > _values[i])
                 {
                     index = i;
-                    min = Data[i];
+                    min = _values[i];
                 }
             }
 
@@ -802,9 +732,9 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         {
             var sum = 0.0f;
 
-            for (var i = 0; i < Count; i++)
+            for (var i = 0; i < _length; i++)
             {
-                sum += Data[i];
+                sum += _values[i];
             }
 
             return sum;
@@ -818,9 +748,9 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         {
             var sum = 0.0f;
 
-            for (var i = 0; i < Count; i++)
+            for (var i = 0; i < _length; i++)
             {
-                sum += Math.Abs(Data[i]);
+                sum += Math.Abs(_values[i]);
             }
 
             return sum;
@@ -842,8 +772,8 @@ namespace MathNet.Numerics.LinearAlgebra.Single
             {
                 CommonParallel.For(
                     0,
-                    Data.Length,
-                    index => dense.Data[index] = Data[index] * other[index]);
+                    _values.Length,
+                    index => dense._values[index] = _values[index] * other[index]);
             }
         }
 
@@ -864,8 +794,8 @@ namespace MathNet.Numerics.LinearAlgebra.Single
             {
                 CommonParallel.For(
                     0,
-                    Data.Length,
-                    index => dense.Data[index] = Data[index] / other[index]);
+                    _values.Length,
+                    index => dense._values[index] = _values[index] / other[index]);
             }
         }
 
@@ -897,7 +827,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
                 {
                     for (var j = 0; j < v.Count; j++)
                     {
-                        matrix.At(i, j, u.Data[i] * v.Data[j]);
+                        matrix.At(i, j, u._values[i] * v._values[j]);
                     }
                 });
             return matrix;
@@ -937,19 +867,19 @@ namespace MathNet.Numerics.LinearAlgebra.Single
 
             if (2.0 == p)
             {
-                return Data.Aggregate(0f, SpecialFunctions.Hypotenuse);
+                return _values.Aggregate(0f, SpecialFunctions.Hypotenuse);
             }
 
             if (Double.IsPositiveInfinity(p))
             {
-                return CommonParallel.Aggregate(Data, (i, v) => Math.Abs(v), Math.Max, 0f);
+                return CommonParallel.Aggregate(_values, (i, v) => Math.Abs(v), Math.Max, 0f);
             }
 
             var sum = 0.0;
 
-            for (var index = 0; index < Count; index++)
+            for (var index = 0; index < _length; index++)
             {
-                sum += Math.Pow(Math.Abs(Data[index]), p);
+                sum += Math.Pow(Math.Abs(_values[index]), p);
             }
 
             return (float)Math.Pow(sum, 1.0 / p);
@@ -1115,29 +1045,5 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         }
 
         #endregion
-
-        /// <summary>
-        /// Resets all values to zero.
-        /// </summary>
-        public override void Clear()
-        {
-            Array.Clear(Data, 0, Data.Length);
-        }
-
-        /// <summary>Gets the value at the given <paramref name="index"/>.</summary>
-        /// <param name="index">The index of the value to get or set.</param>
-        /// <returns>The value of the vector at the given <paramref name="index"/>.</returns> 
-        internal protected override float At(int index)
-        {
-            return Data[index];
-        }
-
-        /// <summary>Sets the <paramref name="value"/> at the given <paramref name="index"/>.</summary>
-        /// <param name="index">The index of the value to get or set.</param>
-        /// <param name="value">The value to set.</param>
-        internal protected override void At(int index, float value)
-        {
-            Data[index] = value;
-        }
     }
 }

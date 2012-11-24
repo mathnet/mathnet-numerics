@@ -188,7 +188,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
                 throw new NotSupportedException("Can only do QR factorization for dense vectors at the moment.");
             }
 
-            Control.LinearAlgebraProvider.QRSolveFactored(((DenseMatrix)MatrixQ).Data, ((DenseMatrix)MatrixR).Data, MatrixR.RowCount, MatrixR.ColumnCount, Tau, dinput.Data, 1, dresult.Data);
+            Control.LinearAlgebraProvider.QRSolveFactored(((DenseMatrix)MatrixQ).Data, ((DenseMatrix)MatrixR).Data, MatrixR.RowCount, MatrixR.ColumnCount, Tau, dinput.Values, 1, dresult.Values);
         }
     }
 }

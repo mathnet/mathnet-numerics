@@ -30,6 +30,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
     using Distributions;
     using Generic;
     using Properties;
+    using Storage;
     using Threading;
     using Complex32 = Numerics.Complex32;
 
@@ -41,15 +42,9 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
     {
         /// <summary>
         /// Initializes a new instance of the Vector class. 
-        /// Constructs a <strong>Vector</strong> with the given size.
         /// </summary>
-        /// <param name="size">
-        /// The size of the <strong>Vector</strong> to construct.
-        /// </param>
-        /// <exception cref="ArgumentException">
-        /// If <paramref name="size"/> is less than one.
-        /// </exception>
-        protected Vector(int size) : base(size)
+        protected Vector(VectorStorage<Complex32> storage)
+            : base(storage)
         {
         }
 

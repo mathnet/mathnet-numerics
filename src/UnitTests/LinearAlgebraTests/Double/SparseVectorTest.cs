@@ -34,6 +34,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
     using System.Collections.Generic;
     using LinearAlgebra.Double;
     using LinearAlgebra.Generic;
+    using LinearAlgebra.Storage;
     using NUnit.Framework;
 
     /// <summary>
@@ -272,40 +273,41 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         public void CheckSparseMechanismBySettingValues()
         {
             var vector = new SparseVector(10000);
+            var storage = (SparseVectorStorage<double>)vector.Storage;
 
             // Add non-zero elements
             vector[200] = 1.5;
             Assert.AreEqual(1.5, vector[200]);
-            Assert.AreEqual(1, vector.NonZerosCount);
+            Assert.AreEqual(1, storage.ValueCount);
 
             vector[500] = 3.5;
             Assert.AreEqual(3.5, vector[500]);
-            Assert.AreEqual(2, vector.NonZerosCount);
+            Assert.AreEqual(2, storage.ValueCount);
 
             vector[800] = 5.5;
             Assert.AreEqual(5.5, vector[800]);
-            Assert.AreEqual(3, vector.NonZerosCount);
+            Assert.AreEqual(3, storage.ValueCount);
 
             vector[0] = 7.5;
             Assert.AreEqual(7.5, vector[0]);
-            Assert.AreEqual(4, vector.NonZerosCount);
+            Assert.AreEqual(4, storage.ValueCount);
 
             // Remove non-zero elements
             vector[200] = 0;
             Assert.AreEqual(0, vector[200]);
-            Assert.AreEqual(3, vector.NonZerosCount);
+            Assert.AreEqual(3, storage.ValueCount);
 
             vector[500] = 0;
             Assert.AreEqual(0, vector[500]);
-            Assert.AreEqual(2, vector.NonZerosCount);
+            Assert.AreEqual(2, storage.ValueCount);
 
             vector[800] = 0;
             Assert.AreEqual(0, vector[800]);
-            Assert.AreEqual(1, vector.NonZerosCount);
+            Assert.AreEqual(1, storage.ValueCount);
 
             vector[0] = 0;
             Assert.AreEqual(0, vector[0]);
-            Assert.AreEqual(0, vector.NonZerosCount);
+            Assert.AreEqual(0, storage.ValueCount);
         }
 
         /// <summary>
@@ -324,11 +326,13 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
 
             // Multiply by 0
             vector *= 0;
+
+            var storage = (SparseVectorStorage<double>)vector.Storage;
             Assert.AreEqual(0, vector[200]);
             Assert.AreEqual(0, vector[500]);
             Assert.AreEqual(0, vector[800]);
             Assert.AreEqual(0, vector[0]);
-            Assert.AreEqual(0, vector.NonZerosCount);
+            Assert.AreEqual(0, storage.ValueCount);
         }
 
         /// <summary>
@@ -370,7 +374,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
                 Assert.AreEqual(Data[i] * zeroArray[i], result[i]);
             }
 
-            Assert.AreEqual(2, result.NonZerosCount);
+            var resultStorage = (SparseVectorStorage<double>)result.Storage;
+            Assert.AreEqual(2, resultStorage.ValueCount);
         }
 
         /// <summary>

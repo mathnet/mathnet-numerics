@@ -167,11 +167,11 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
             }
 
             // Copy the contents of input to result.
-            Buffer.BlockCopy(dinput.Data, 0, dresult.Data, 0, dinput.Data.Length * Constants.SizeOfDouble);
+            Buffer.BlockCopy(dinput.Values, 0, dresult.Values, 0, dinput.Values.Length * Constants.SizeOfDouble);
 
             // Cholesky solve by overwriting result.
             var dfactor = (DenseMatrix)CholeskyFactor;
-            Control.LinearAlgebraProvider.CholeskySolveFactored(dfactor.Data, dfactor.RowCount, dresult.Data, 1);
+            Control.LinearAlgebraProvider.CholeskySolveFactored(dfactor.Data, dfactor.RowCount, dresult.Values, 1);
         }
     }
 }
