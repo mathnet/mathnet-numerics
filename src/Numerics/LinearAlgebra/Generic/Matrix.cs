@@ -213,6 +213,60 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         }
 
         /// <summary>
+        /// Sets all values of a column to zero.
+        /// </summary>
+        public void ClearColumn(int columnIndex)
+        {
+            if (columnIndex < 0 || columnIndex >= ColumnCount)
+            {
+                throw new ArgumentOutOfRangeException("columnIndex");
+            }
+
+            Storage.Clear(0,RowCount,columnIndex,1);
+        }
+
+        /// <summary>
+        /// Sets all values of a row to zero.
+        /// </summary>
+        public void ClearRow(int rowIndex)
+        {
+            if (rowIndex < 0 || rowIndex >= RowCount)
+            {
+                throw new ArgumentOutOfRangeException("rowIndex");
+            }
+
+            Storage.Clear(rowIndex, 1, 0, ColumnCount);
+        }
+
+        /// <summary>
+        /// Sets all values of a submatrix to zero.
+        /// </summary>
+        public void ClearSubMatrix(int rowIndex, int rowCount, int columnIndex, int columnCount)
+        {
+            if (rowCount < 1)
+            {
+                throw new ArgumentOutOfRangeException("rowCount", Resources.ArgumentMustBePositive);
+            }
+
+            if (columnCount < 1)
+            {
+                throw new ArgumentOutOfRangeException("columnCount", Resources.ArgumentMustBePositive);
+            }
+
+            if (rowIndex + rowCount > RowCount || rowIndex < 0)
+            {
+                throw new ArgumentOutOfRangeException("rowIndex");
+            }
+
+            if (columnIndex + columnCount > ColumnCount || columnIndex < 0)
+            {
+                throw new ArgumentOutOfRangeException("columnIndex");
+            }
+
+            Storage.Clear(rowIndex, rowCount, columnIndex, columnCount);
+        }
+
+        /// <summary>
         /// Creates a clone of this instance.
         /// </summary>
         /// <returns>
