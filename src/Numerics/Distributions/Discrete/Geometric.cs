@@ -324,7 +324,7 @@ namespace MathNet.Numerics.Distributions
         /// </returns>
         private static int DoSample(Random rnd, double p)
         {
-            return (int)Math.Ceiling(-Math.Log(rnd.NextDouble()) / p);
+            return p == 1.0 ? 1 : (int)Math.Ceiling(-Math.Log(1.0 - rnd.NextDouble(), 1.0 - p));
         }
     }
 }
