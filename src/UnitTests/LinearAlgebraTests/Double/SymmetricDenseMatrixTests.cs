@@ -26,6 +26,7 @@
 
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
 {
+    using System;
     using System.Collections.Generic;
 
     using MathNet.Numerics.LinearAlgebra.Double;
@@ -124,6 +125,18 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         }
 
         /// <summary>
+        /// Matrix from array is a reference.
+        /// </summary>
+        [Test]
+        public void MatrixFrom1DArrayIsReference()
+        {
+            var data = new double[] { 1, 1, 1, 1, 1, 1 };
+            var matrix = new SymmetricDenseMatrix(3, data);
+            matrix[0, 0] = 10.0;
+            Assert.AreEqual(10.0, data[0]);
+        }
+
+        /// <summary>
         /// Can create a matrix form array.
         /// </summary>
         [Test]
@@ -143,6 +156,60 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             {
                 Assert.AreEqual(TestMatrices[name], testData[name]);
             }
+        }
+
+        /// <summary>
+        /// Matrix from two-dimensional array is a copy.
+        /// </summary>
+        [Test]
+        public void MatrixFrom2DArrayIsCopy()
+        {
+            var matrix = new DenseMatrix(TestData2D["Singular3x3"]);
+            matrix[0, 0] = 10.0;
+            Assert.AreEqual(1.0, TestData2D["Singular3x3"][0, 0]);
+        }
+
+        /// <summary>
+        /// Can create a matrix with uniform values.
+        /// </summary>
+        [Test]
+        public void CanCreateMatrixWithUniformValues()
+        {
+            var matrix = new SymmetricDenseMatrix(10, 10.0);
+            for (var i = 0; i < matrix.RowCount; i++)
+            {
+                for (var j = 0; j < matrix.ColumnCount; j++)
+                {
+                    Assert.AreEqual(matrix[i, j], 10.0);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Can create an identity matrix.
+        /// </summary>
+        [Test]
+        public void CanCreateIdentity()
+        {
+            var matrix = SymmetricDenseMatrix.Identity(5);
+            for (var i = 0; i < matrix.RowCount; i++)
+            {
+                for (var j = 0; j < matrix.ColumnCount; j++)
+                {
+                    Assert.AreEqual(i == j ? 1.0 : 0.0, matrix[i, j]);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Identity with wrong order throws <c>ArgumentOutOfRangeException</c>.
+        /// </summary>
+        /// <param name="order">The size of the square matrix</param>
+        [TestCase(0)]
+        [TestCase(-1)]
+        public void IdentityWithWrongOrderThrowsArgumentOutOfRangeException(int order)
+        {
+            Assert.Throws<ArgumentOutOfRangeException>(() => SymmetricDenseMatrix.Identity(order));
         }
     }
 }
