@@ -30,7 +30,6 @@ using MathNet.Numerics.LinearAlgebra.Double;
 
 namespace Examples.LinearAlgebraExamples
 {
-    using MathNet.Numerics.LinearAlgebra.Generic;
 
     /// <summary>
     /// Vector data access, copying and conversion examples
