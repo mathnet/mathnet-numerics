@@ -206,7 +206,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 return new DenseMatrix(numberOfRows, numberOfColumns);
             }
 
-            return new SymmetricDenseMatrix(numberOfRows, numberOfColumns);
+            return new SymmetricDenseMatrix(numberOfRows);
         }
 
         /// <summary>
