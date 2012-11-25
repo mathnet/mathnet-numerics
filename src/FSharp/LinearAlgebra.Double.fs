@@ -28,13 +28,13 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-namespace MathNet.Numerics
+namespace MathNet.Numerics.LinearAlgebra.Double
 
 open MathNet.Numerics.LinearAlgebra.Generic
-open MathNet.Numerics.LinearAlgebra.Double
 
 /// A module which implements some F# utility functions.
-module FSharp =
+[<AutoOpen>]
+module Utility =
 
     /// Construct a dense matrix from a list of floating point numbers.
     let inline matrix (lst: list<list<float>>) = DenseMatrix.ofList lst :> Matrix<float>

@@ -64,6 +64,7 @@
     <Compile Include="Apply.fs" />
     <Compile Include="Histogram.fs" />
     <Compile Include="MCMC.fs" />
+    <Compile Include="RandomAndDistributions.fs" />
   </ItemGroup>
   <PropertyGroup>
     <MinimumVisualStudioVersion Condition="'$(MinimumVisualStudioVersion)' == ''">11</MinimumVisualStudioVersion>

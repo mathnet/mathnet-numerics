@@ -1,10 +1,10 @@
-﻿// <copyright file="AssemblyInfo.fs" company="Math.NET">
+﻿// <copyright file="Random.fs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009 Math.NET
+// Copyright (c) 2009-2012 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -28,29 +28,22 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-namespace MathNet.Numerics
+namespace MathNet.Numerics.Distributions
 
-open System.Reflection
-open System.Resources;
-open System.Runtime.CompilerServices
-open System.Runtime.InteropServices
+open MathNet.Numerics.Random
 
-[<assembly: AssemblyTitle("Math.NET Numerics for F#")>]
-[<assembly: AssemblyDescription("F# Modules for Math.NET Numerics, providing methods and algorithms for numerical computations in science, engineering and every day use.")>]
-[<assembly: AssemblyConfiguration("")>]
-[<assembly: AssemblyCompany("Math.NET Project")>]
-[<assembly: AssemblyProduct("Math.NET Numerics")>]
-[<assembly: AssemblyCopyright("Copyright © Math.NET Project")>]
-[<assembly: AssemblyTrademark("")>]
-[<assembly: AssemblyCulture("")>]
-[<assembly: NeutralResourcesLanguage("en")>]
-[<assembly: AssemblyVersion("1.0.0.0")>]
-[<assembly: AssemblyFileVersion("1.0.0.0")>]
+[<AutoOpen>]
+[<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
+module Distributions =
+
+    let withRandom random (dist:#IDistribution) =
+        dist.RandomSource <- random
+        dist
+
+    let withSystemRandom dist = dist |> withRandom (Random.system())
+    let withMersenneTwister dist = dist |> withRandom (Random.mersenneTwister())
 
 #if PORTABLE
 #else
-[<assembly: ComVisible(false)>]
-[<assembly: Guid("048BC4EB-CE2B-4040-9967-4784F5405B0F")>]
+    let withCryptoRandom dist = dist |> withRandom (Random.crypto())
 #endif
-
-()

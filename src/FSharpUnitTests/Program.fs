@@ -1,7 +1,6 @@
 ﻿open FsUnit
-open MathNet.Numerics.FSharp
-open MathNet.Numerics.LinearAlgebra.Double
 open MathNet.Numerics.LinearAlgebra.Generic
+open MathNet.Numerics.LinearAlgebra.Double
 
 /// Unit tests for the dense vector type.
 let DenseVectorTests =

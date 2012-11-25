@@ -51,10 +51,12 @@
   <Import Project="$(MSBuildExtensionsPath32)\FSharp\1.0\Microsoft.FSharp.Targets" Condition="(!Exists('$(MSBuildExtensionsPath32)\..\Microsoft SDKs\F#\3.0\Framework\v4.0\Microsoft.FSharp.Targets')) And (!Exists('$(MSBuildExtensionsPath32)\..\Microsoft F#\v4.0\Microsoft.FSharp.Targets')) And (Exists('$(MSBuildExtensionsPath32)\FSharp\1.0\Microsoft.FSharp.Targets'))" />
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
+    <Compile Include="Random.fs" />
+    <Compile Include="Distributions.fs" />
     <Compile Include="LinearAlgebra.fs" />
     <Compile Include="LinearAlgebra.Double.Vector.fs" />
     <Compile Include="LinearAlgebra.Double.Matrix.fs" />
-    <Compile Include="Main.fs" />
+    <Compile Include="LinearAlgebra.Double.fs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="FSharp.Core" />

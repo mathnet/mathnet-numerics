@@ -44,6 +44,12 @@
     <Compile Include="..\FSharp\AssemblyInfo.fs">
       <Link>AssemblyInfo.fs</Link>
     </Compile>
+    <Compile Include="..\FSharp\Random.fs">
+      <Link>Random.fs</Link>
+    </Compile>
+    <Compile Include="..\FSharp\Distributions.fs">
+      <Link>Distributions.fs</Link>
+    </Compile>
     <Compile Include="..\FSharp\LinearAlgebra.fs">
       <Link>LinearAlgebra.fs</Link>
     </Compile>
@@ -53,8 +59,8 @@
     <Compile Include="..\FSharp\LinearAlgebra.Double.Vector.fs">
       <Link>LinearAlgebra.Double.Vector.fs</Link>
     </Compile>
-    <Compile Include="..\FSharp\Main.fs">
-      <Link>Main.fs</Link>
+    <Compile Include="..\FSharp\LinearAlgebra.Double.fs">
+      <Link>LinearAlgebra.Double.fs</Link>
     </Compile>
   </ItemGroup>
   <ItemGroup>
