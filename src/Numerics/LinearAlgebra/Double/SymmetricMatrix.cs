@@ -78,7 +78,7 @@
         /// </returns>
         public override sealed Matrix<double> Transpose()
         {
-            return this;
+            return this.Clone();
         }
 
         /// <summary>
