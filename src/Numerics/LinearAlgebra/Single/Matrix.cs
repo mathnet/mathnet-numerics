@@ -27,7 +27,6 @@
 namespace MathNet.Numerics.LinearAlgebra.Single
 {
     using System;
-    using Distributions;
     using Generic;
     using Properties;
     using Storage;
@@ -359,38 +358,6 @@ namespace MathNet.Numerics.LinearAlgebra.Single
             }
 
             return sum;
-        }
-
-        /// <summary>
-        /// Populates a matrix with random elements.
-        /// </summary>
-        /// <param name="matrix">The matrix to populate.</param>
-        /// <param name="distribution">Continuous Random Distribution to generate elements from.</param>
-        protected override void DoRandom(Matrix<float> matrix, IContinuousDistribution distribution)
-        {
-            for (var i = 0; i < matrix.RowCount; i++)
-            {
-                for (var j = 0; j < matrix.ColumnCount; j++)
-                {
-                    matrix.At(i, j, Convert.ToSingle(distribution.Sample()));
-                }
-            }
-        }
-
-        /// <summary>
-        /// Populates a matrix with random elements.
-        /// </summary>
-        /// <param name="matrix">The matrix to populate.</param>
-        /// <param name="distribution">Continuous Random Distribution to generate elements from.</param>
-        protected override void DoRandom(Matrix<float> matrix, IDiscreteDistribution distribution)
-        {
-            for (var i = 0; i < matrix.RowCount; i++)
-            {
-                for (var j = 0; j < matrix.ColumnCount; j++)
-                {
-                    matrix.At(i, j, distribution.Sample());
-                }
-            }
         }
     }
 }

@@ -24,14 +24,12 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using MathNet.Numerics.LinearAlgebra.Storage;
-
 namespace MathNet.Numerics.LinearAlgebra.Double
 {
     using System;
-    using Distributions;
     using Generic;
     using Properties;
+    using Storage;
 
     /// <summary>
     /// <c>double</c> version of the <see cref="Matrix{T}"/> class.
@@ -360,38 +358,6 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             }
 
             return sum;
-        }
-
-        /// <summary>
-        /// Populates a matrix with random elements.
-        /// </summary>
-        /// <param name="matrix">The matrix to populate.</param>
-        /// <param name="distribution">Continuous Random Distribution to generate elements from.</param>
-        protected override void DoRandom(Matrix<double> matrix, IContinuousDistribution distribution)
-        {
-            for (var i = 0; i < matrix.RowCount; i++)
-            {
-                for (var j = 0; j < matrix.ColumnCount; j++)
-                {
-                    matrix.At(i, j, distribution.Sample());
-                }
-            }
-        }
-
-        /// <summary>
-        /// Populates a matrix with random elements.
-        /// </summary>
-        /// <param name="matrix">The matrix to populate.</param>
-        /// <param name="distribution">Continuous Random Distribution to generate elements from.</param>
-        protected override void DoRandom(Matrix<double> matrix, IDiscreteDistribution distribution)
-        {
-            for (var i = 0; i < matrix.RowCount; i++)
-            {
-                for (var j = 0; j < matrix.ColumnCount; j++)
-                {
-                    matrix.At(i, j, distribution.Sample());
-                }
-            }
         }
     }
 }

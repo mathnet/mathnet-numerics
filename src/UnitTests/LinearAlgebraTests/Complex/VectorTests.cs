@@ -33,6 +33,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
     using System.Linq;
     using System.Numerics;
     using Distributions;
+    using LinearAlgebra.Complex;
     using LinearAlgebra.Generic;
     using NUnit.Framework;
 
@@ -475,8 +476,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
         [Test]
         public void RandomWithNumberOfElementsLessThanZeroThrowsArgumentException()
         {
-            var vector = CreateVector(4);
-            Assert.Throws<ArgumentException>(() => vector.Random(-2, new ContinuousUniform()));
+            Assert.Throws<ArgumentOutOfRangeException>(() => DenseVector.CreateRandom(-2, new ContinuousUniform()));
         }
 
         /// <summary>

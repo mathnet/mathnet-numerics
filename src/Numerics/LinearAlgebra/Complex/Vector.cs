@@ -358,58 +358,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         }
 
         /// <summary>
-        /// Generates a vector with random elements
-        /// </summary>
-        /// <param name="length">Number of elements in the vector.</param>
-        /// <param name="randomDistribution">Continuous Random Distribution or Source</param>
-        /// <returns>
-        /// A vector with n-random elements distributed according
-        /// to the specified random distribution.
-        /// </returns>
-        /// <exception cref="ArgumentException">If the n vector is non-positive.</exception> 
-        public override Vector<Complex> Random(int length, IContinuousDistribution randomDistribution)
-        {
-            if (length < 1)
-            {
-                throw new ArgumentException(Resources.ArgumentMustBePositive, "length");
-            }
-
-            var vector = CreateVector(length);
-            for (var index = 0; index < length; index++)
-            {
-                vector.At(index, new Complex(randomDistribution.Sample(), randomDistribution.Sample()));
-            }
-
-            return vector;
-        }
-
-        /// <summary>
-        /// Generates a vector with random elements
-        /// </summary>
-        /// <param name="length">Number of elements in the vector.</param>
-        /// <param name="randomDistribution">Continuous Random Distribution or Source</param>
-        /// <returns>
-        /// A vector with n-random elements distributed according
-        /// to the specified random distribution.
-        /// </returns>
-        /// <exception cref="ArgumentException">If the n vector is not positive.</exception> 
-        public override Vector<Complex> Random(int length, IDiscreteDistribution randomDistribution)
-        {
-            if (length < 1)
-            {
-                throw new ArgumentException(Resources.ArgumentMustBePositive, "length");
-            }
-
-            var vector = CreateVector(length);
-            for (var index = 0; index < length; index++)
-            {
-                vector.At(index, new Complex(randomDistribution.Sample(), randomDistribution.Sample()));
-            }
-
-            return vector;
-        }
-
-        /// <summary>
         /// Returns the index of the absolute maximum element.
         /// </summary>
         /// <returns>The index of absolute maximum element.</returns>          

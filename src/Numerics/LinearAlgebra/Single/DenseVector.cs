@@ -30,6 +30,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
     using System.Collections.Generic;
     using System.Globalization;
     using System.Linq;
+    using Distributions;
     using Generic;
     using NumberTheory;
     using Properties;
@@ -117,6 +118,19 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         public DenseVector(float[] array)
             : this(new DenseVectorStorage<float>(array.Length, array))
         {
+        }
+
+        /// <summary>
+        /// Create a new dense vector with values sampled from the provided random distribution.
+        /// </summary>
+        public static DenseVector CreateRandom(int size, IContinuousDistribution distribution)
+        {
+            var storage = new DenseVectorStorage<float>(size);
+            for (var i = 0; i < storage.Data.Length; i++)
+            {
+                storage.Data[i] = (float)distribution.Sample();
+            }
+            return new DenseVector(storage);
         }
 
         /// <summary>

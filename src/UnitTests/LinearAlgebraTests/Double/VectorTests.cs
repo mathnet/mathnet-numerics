@@ -31,6 +31,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
     using System.Collections.Generic;
     using System.Globalization;
     using Distributions;
+    using LinearAlgebra.Double;
     using LinearAlgebra.Generic;
     using NUnit.Framework;
 
@@ -489,8 +490,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [Test]
         public void RandomWithNumberOfElementsLessThanZeroThrowsArgumentException()
         {
-            var vector = CreateVector(4);
-            Assert.Throws<ArgumentException>(() => vector.Random(-2, new ContinuousUniform()));
+            Assert.Throws<ArgumentOutOfRangeException>(() => DenseVector.CreateRandom(-2, new ContinuousUniform()));
         }
 
         /// <summary>

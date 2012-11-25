@@ -32,6 +32,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
     using System.Globalization;
     using Distributions;
     using LinearAlgebra.Generic;
+    using LinearAlgebra.Single;
     using NUnit.Framework;
 
     /// <summary>
@@ -489,8 +490,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
         [Test]
         public void RandomWithNumberOfElementsLessThanZeroThrowsArgumentException()
         {
-            var vector = CreateVector(4);
-            Assert.Throws<ArgumentException>(() => vector.Random(-2, new ContinuousUniform()));
+            Assert.Throws<ArgumentOutOfRangeException>(() => DenseVector.CreateRandom(-2, new ContinuousUniform()));
         }
 
         /// <summary>

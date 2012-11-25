@@ -430,57 +430,5 @@ namespace MathNet.Numerics.LinearAlgebra.Single
 
             return clone;
         }
-
-        /// <summary>
-        /// Generates a vector with random elements
-        /// </summary>
-        /// <param name="length">Number of elements in the vector.</param>
-        /// <param name="randomDistribution">Continuous Random Distribution or Source</param>
-        /// <returns>
-        /// A vector with n-random elements distributed according
-        /// to the specified random distribution.
-        /// </returns>
-        /// <exception cref="ArgumentNullException">If the n vector is non positive<see langword="null" />.</exception> 
-        public override Vector<float> Random(int length, IContinuousDistribution randomDistribution)
-        {
-            if (length < 1)
-            {
-                throw new ArgumentException(Resources.ArgumentMustBePositive, "length");
-            }
-
-            var v = CreateVector(length);
-            for (var index = 0; index < Count; index++)
-            {
-                v.At(index, Convert.ToSingle(randomDistribution.Sample()));
-            }
-
-            return v;
-        }
-
-        /// <summary>
-        /// Generates a vector with random elements
-        /// </summary>
-        /// <param name="length">Number of elements in the vector.</param>
-        /// <param name="randomDistribution">Continuous Random Distribution or Source</param>
-        /// <returns>
-        /// A vector with n-random elements distributed according
-        /// to the specified random distribution.
-        /// </returns>
-        /// <exception cref="ArgumentNullException">If the n vector is non positive<see langword="null" />.</exception> 
-        public override Vector<float> Random(int length, IDiscreteDistribution randomDistribution)
-        {
-            if (length < 1)
-            {
-                throw new ArgumentException(Resources.ArgumentMustBePositive, "length");
-            }
-
-            var v = CreateVector(length);
-            for (var index = 0; index < Count; index++)
-            {
-                v.At(index, Convert.ToSingle(randomDistribution.Sample()));
-            }
-
-            return v;
-        }
     }
 }

@@ -30,6 +30,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
     using System.Collections.Generic;
     using System.Linq;
     using System.Numerics;
+    using Distributions;
     using Generic;
     using NumberTheory;
     using Properties;
@@ -117,6 +118,19 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         public DenseVector(Complex[] array)
             : this(new DenseVectorStorage<Complex>(array.Length, array))
         {
+        }
+
+        /// <summary>
+        /// Create a new dense vector with values sampled from the provided random distribution.
+        /// </summary>
+        public static DenseVector CreateRandom(int size, IContinuousDistribution distribution)
+        {
+            var storage = new DenseVectorStorage<Complex>(size);
+            for (var i = 0; i < storage.Data.Length; i++)
+            {
+                storage.Data[i] = new Complex(distribution.Sample(), distribution.Sample());
+            }
+            return new DenseVector(storage);
         }
 
         /// <summary>

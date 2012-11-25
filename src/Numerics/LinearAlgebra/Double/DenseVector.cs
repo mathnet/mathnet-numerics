@@ -30,6 +30,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
     using System.Collections.Generic;
     using System.Globalization;
     using System.Linq;
+    using Distributions;
     using Generic;
     using NumberTheory;
     using Properties;
@@ -117,6 +118,19 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         public DenseVector(double[] array)
             : this(new DenseVectorStorage<double>(array.Length, array))
         {
+        }
+
+        /// <summary>
+        /// Create a new dense vector with values sampled from the provided random distribution.
+        /// </summary>
+        public static DenseVector CreateRandom(int size, IContinuousDistribution distribution)
+        {
+            var storage = new DenseVectorStorage<double>(size);
+            for (var i = 0; i < storage.Data.Length; i++)
+            {
+                storage.Data[i] = distribution.Sample();
+            }
+            return new DenseVector(storage);
         }
 
         /// <summary>

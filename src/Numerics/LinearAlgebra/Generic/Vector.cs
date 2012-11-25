@@ -863,30 +863,6 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         }
 
         /// <summary>
-        /// Generates a vector with random elements
-        /// </summary>
-        /// <param name="length">Number of elements in the vector.</param>
-        /// <param name="randomDistribution">Continuous Random Distribution or Source</param>
-        /// <returns>
-        /// A vector with n-random elements distributed according
-        /// to the specified random distribution.
-        /// </returns>
-        /// <exception cref="ArgumentException">If the n vector is non-positive.</exception> 
-        public abstract Vector<T> Random(int length, IContinuousDistribution randomDistribution);
-
-        /// <summary>
-        /// Generates a vector with random elements
-        /// </summary>
-        /// <param name="length">Number of elements in the vector.</param>
-        /// <param name="randomDistribution">Continuous Random Distribution or Source</param>
-        /// <returns>
-        /// A vector with n-random elements distributed according
-        /// to the specified random distribution.
-        /// </returns>
-        /// <exception cref="ArgumentException">If the n vector is not positive.</exception> 
-        public abstract Vector<T> Random(int length, IDiscreteDistribution randomDistribution);
-
-        /// <summary>
         /// Outer product of this and another vector.
         /// </summary>
         /// <param name="v">The vector to operate on.</param>

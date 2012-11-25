@@ -121,6 +121,19 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         }
 
         /// <summary>
+        /// Create a new dense vector with values sampled from the provided random distribution.
+        /// </summary>
+        public static DenseVector CreateRandom(int size, IContinuousDistribution distribution)
+        {
+            var storage = new DenseVectorStorage<Complex32>(size);
+            for (var i = 0; i < storage.Data.Length; i++)
+            {
+                storage.Data[i] = new Complex32((float)distribution.Sample(), (float)distribution.Sample());
+            }
+            return new DenseVector(storage);
+        }
+
+        /// <summary>
         /// Gets the vector's data.
         /// </summary>
         /// <value>The vector's data.</value>
@@ -751,58 +764,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
                     }
                 });
             return matrix;
-        }
-
-        /// <summary>
-        /// Generates a vector with random elements
-        /// </summary>
-        /// <param name="length">Number of elements in the vector.</param>
-        /// <param name="randomDistribution">Continuous Random Distribution or Source</param>
-        /// <returns>
-        /// A vector with n-random elements distributed according
-        /// to the specified random distribution.
-        /// </returns>
-        /// <exception cref="ArgumentNullException">If the n vector is non positive<see langword="null" />.</exception> 
-        public override Vector<Complex32> Random(int length, IContinuousDistribution randomDistribution)
-        {
-            if (length < 1)
-            {
-                throw new ArgumentException(Resources.ArgumentMustBePositive, "length");
-            }
-
-            var v = (DenseVector)CreateVector(length);
-            for (var index = 0; index < v._values.Length; index++)
-            {
-                v._values[index] = new Complex32((float)randomDistribution.Sample(), (float)randomDistribution.Sample());
-            }
-
-            return v;
-        }
-
-        /// <summary>
-        /// Generates a vector with random elements
-        /// </summary>
-        /// <param name="length">Number of elements in the vector.</param>
-        /// <param name="randomDistribution">Continuous Random Distribution or Source</param>
-        /// <returns>
-        /// A vector with n-random elements distributed according
-        /// to the specified random distribution.
-        /// </returns>
-        /// <exception cref="ArgumentNullException">If the n vector is non positive<see langword="null" />.</exception> 
-        public override Vector<Complex32> Random(int length, IDiscreteDistribution randomDistribution)
-        {
-            if (length < 1)
-            {
-                throw new ArgumentException(Resources.ArgumentMustBePositive, "length");
-            }
-
-            var v = (DenseVector)CreateVector(length);
-            for (var index = 0; index < v._values.Length; index++)
-            {
-                v._values[index] = new Complex32(randomDistribution.Sample(), randomDistribution.Sample());
-            }
-
-            return v;
         }
 
         /// <summary>

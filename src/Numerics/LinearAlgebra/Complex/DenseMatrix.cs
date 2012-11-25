@@ -29,6 +29,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
     using System;
     using System.Numerics;
     using Algorithms.LinearAlgebra;
+    using Distributions;
     using Generic;
     using Properties;
     using Storage;
@@ -150,6 +151,19 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
             : this(matrix.RowCount, matrix.ColumnCount)
         {
             matrix.Storage.CopyTo(Storage, skipClearing: true);
+        }
+
+        /// <summary>
+        /// Create a new dense matrix with values sampled from the provided random distribution.
+        /// </summary>
+        public static DenseMatrix CreateRandom(int rows, int columns, IContinuousDistribution distribution)
+        {
+            var storage = new DenseColumnMajorMatrixStorage<Complex>(rows, columns);
+            for (var i = 0; i < storage.Data.Length; i++)
+            {
+                storage.Data[i] = new Complex(distribution.Sample(), distribution.Sample());
+            }
+            return new DenseMatrix(storage);
         }
 
         /// <summary>

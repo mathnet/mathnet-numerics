@@ -28,6 +28,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
 {
     using System;
     using Algorithms.LinearAlgebra;
+    using Distributions;
     using Generic;
     using Properties;
     using Storage;
@@ -150,6 +151,19 @@ namespace MathNet.Numerics.LinearAlgebra.Single
             : this(matrix.RowCount, matrix.ColumnCount)
         {
             matrix.Storage.CopyTo(Storage, skipClearing: true);
+        }
+
+        /// <summary>
+        /// Create a new dense matrix with values sampled from the provided random distribution.
+        /// </summary>
+        public static DenseMatrix CreateRandom(int rows, int columns, IContinuousDistribution distribution)
+        {
+            var storage = new DenseColumnMajorMatrixStorage<float>(rows, columns);
+            for (var i = 0; i < storage.Data.Length; i++)
+            {
+                storage.Data[i] = (float)distribution.Sample();
+            }
+            return new DenseMatrix(storage);
         }
 
         /// <summary>
