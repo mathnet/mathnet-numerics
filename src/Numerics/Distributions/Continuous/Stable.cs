@@ -47,27 +47,27 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// The stability parameter of the distribution.
         /// </summary>
-        private double _alpha;
+        double _alpha;
 
         /// <summary>
         /// The skewness parameter of the distribution.
         /// </summary>
-        private double _beta;
+        double _beta;
 
         /// <summary>
         /// The scale parameter of the distribution.
         /// </summary>
-        private double _scale;
+        double _scale;
 
         /// <summary>
         /// The location parameter of the distribution.
         /// </summary>
-        private double _location;
+        double _location;
 
         /// <summary>
         /// The distribution's random number generator.
         /// </summary>
-        private Random _random;
+        Random _random;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Stable"/> class. 
@@ -97,7 +97,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="beta">The skewness parameter of the distribution.</param>
         /// <param name="scale">The scale parameter of the distribution.</param>
         /// <param name="location">The location parameter of the distribution.</param>
-        private void SetParameters(double alpha, double beta, double scale, double location)
+        void SetParameters(double alpha, double beta, double scale, double location)
         {
             if (Control.CheckDistributionParameters && !IsValidParameterSet(alpha, beta, scale, location))
             {
@@ -118,7 +118,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="scale">The scale parameter of the distribution.</param>
         /// <param name="location">The location parameter of the distribution.</param>
         /// <returns><c>true</c> when the parameters are valid, <c>false</c> otherwise.</returns>
-        private static bool IsValidParameterSet(double alpha, double beta, double scale, double location)
+        static bool IsValidParameterSet(double alpha, double beta, double scale, double location)
         {
             if (alpha <= 0 || alpha > 2)
             {
@@ -148,15 +148,9 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Alpha
         {
-            get
-            {
-                return _alpha;
-            }
+            get { return _alpha; }
 
-            set
-            {
-                SetParameters(value, _beta, _scale, _location);
-            }
+            set { SetParameters(value, _beta, _scale, _location); }
         }
 
         /// <summary>
@@ -164,15 +158,9 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Beta
         {
-            get
-            {
-                return _beta;
-            }
+            get { return _beta; }
 
-            set
-            {
-                SetParameters(_alpha, value, _scale, _location);
-            }
+            set { SetParameters(_alpha, value, _scale, _location); }
         }
 
         /// <summary>
@@ -180,15 +168,9 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Scale
         {
-            get
-            {
-                return _scale;
-            }
+            get { return _scale; }
 
-            set
-            {
-                SetParameters(_alpha, _beta, value, _location);
-            }
+            set { SetParameters(_alpha, _beta, value, _location); }
         }
 
         /// <summary>
@@ -196,15 +178,9 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Location
         {
-            get
-            {
-                return _location;
-            }
+            get { return _location; }
 
-            set
-            {
-                SetParameters(_alpha, _beta, _scale, value);
-            }
+            set { SetParameters(_alpha, _beta, _scale, value); }
         }
 
         /// <summary>
@@ -223,10 +199,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public Random RandomSource
         {
-            get
-            {
-                return _random;
-            }
+            get { return _random; }
 
             set
             {
@@ -293,10 +266,7 @@ namespace MathNet.Numerics.Distributions
         /// <remarks>Always throws a not supported exception.</remarks>
         public double Entropy
         {
-            get
-            {
-                throw new NotSupportedException();
-            }
+            get { throw new NotSupportedException(); }
         }
 
         /// <summary>
@@ -351,7 +321,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>
         /// the cumulative density at <paramref name="x"/>.
         /// </returns>
-        private static double LevyCumulativeDistribution(double scale, double location, double x)
+        static double LevyCumulativeDistribution(double scale, double location, double x)
         {
             // The parameters scale and location must be correct
             return SpecialFunctions.Erfc(Math.Sqrt(scale / (2 * (x - location))));
@@ -416,10 +386,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Maximum
         {
-            get
-            {
-                return Double.PositiveInfinity;
-            }
+            get { return Double.PositiveInfinity; }
         }
 
         /// <summary>
@@ -454,7 +421,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="location">The location parameter of the distribution.</param>
         /// <param name="x">The location at which to compute the density.</param>
         /// <returns>the density at <paramref name="x"/>.</returns>
-        private static double LevyDensity(double scale, double location, double x)
+        static double LevyDensity(double scale, double location, double x)
         {
             // The parameters scale and location must be correct
             if (x < location)
@@ -475,26 +442,7 @@ namespace MathNet.Numerics.Distributions
             return Math.Log(Density(x));
         }
 
-        /// <summary>
-        /// Draws a random sample from the distribution.
-        /// </summary>
-        /// <returns>A random number from this distribution.</returns>
-        public double Sample()
-        {
-            return DoSample(RandomSource, _alpha, _beta);
-        }
-
-        /// <summary>
-        /// Generates a sequence of samples from the Stable distribution.
-        /// </summary>
-        /// <returns>a sequence of samples from the distribution.</returns>
-        public IEnumerable<double> Samples()
-        {
-            while (true)
-            {
-                yield return DoSample(RandomSource, _alpha, _beta);
-            }
-        }
+        #endregion
 
         /// <summary>
         /// Samples the distribution.
@@ -502,8 +450,10 @@ namespace MathNet.Numerics.Distributions
         /// <param name="rnd">The random number generator to use.</param>
         /// <param name="alpha">The stability parameter of the distribution.</param>
         /// <param name="beta">The skewness parameter of the distribution.</param>
+        /// <param name="scale">The scale parameter of the distribution.</param>
+        /// <param name="location">The location parameter of the distribution.</param>
         /// <returns>a random number from the distribution.</returns>
-        private static double DoSample(Random rnd, double alpha, double beta)
+        internal static double SampleUnchecked(Random rnd, double alpha, double beta, double scale, double location)
         {
             var randTheta = ContinuousUniform.Sample(rnd, -Constants.PiOver2, Constants.PiOver2);
             var randW = Exponential.Sample(rnd, 1.0);
@@ -518,7 +468,7 @@ namespace MathNet.Numerics.Distributions
                 var factor1 = Math.Sin(angle) / Math.Pow(Math.Cos(randTheta), (1.0 / alpha));
                 var factor2 = Math.Pow(Math.Cos(randTheta - angle) / randW, (1 - alpha) / alpha);
 
-                return factor * factor1 * factor2;
+                return location + scale * (factor * factor1 * factor2);
             }
             else
             {
@@ -526,9 +476,71 @@ namespace MathNet.Numerics.Distributions
                 var summand = part1 * Math.Tan(randTheta);
                 var subtrahend = beta * Math.Log(Constants.PiOver2 * randW * Math.Cos(randTheta) / part1);
 
-                return (2.0 / Math.PI) * (summand - subtrahend);
+                return location + scale * ((2.0 / Math.PI) * (summand - subtrahend));
             }
         }
-        #endregion
+
+        /// <summary>
+        /// Draws a random sample from the distribution.
+        /// </summary>
+        /// <returns>A random number from this distribution.</returns>
+        public double Sample()
+        {
+            return SampleUnchecked(RandomSource, _alpha, _beta, _scale, _location);
+        }
+
+        /// <summary>
+        /// Generates a sequence of samples from the Stable distribution.
+        /// </summary>
+        /// <returns>a sequence of samples from the distribution.</returns>
+        public IEnumerable<double> Samples()
+        {
+            while (true)
+            {
+                yield return SampleUnchecked(RandomSource, _alpha, _beta, _scale, _location);
+            }
+        }
+
+
+        /// <summary>
+        /// Generates a sample from the distribution.
+        /// </summary>
+        /// <param name="rnd">The random number generator to use.</param>
+        /// <param name="alpha">The stability parameter of the distribution.</param>
+        /// <param name="beta">The skewness parameter of the distribution.</param>
+        /// <param name="scale">The scale parameter of the distribution.</param>
+        /// <param name="location">The location parameter of the distribution.</param>
+        /// <returns>a sample from the distribution.</returns>
+        public static double Sample(Random rnd, double alpha, double beta, double scale, double location)
+        {
+            if (Control.CheckDistributionParameters && !IsValidParameterSet(alpha, beta, scale, location))
+            {
+                throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
+            }
+
+            return SampleUnchecked(rnd, location, scale, scale, location);
+        }
+
+        /// <summary>
+        /// Generates a sequence of samples from the distribution.
+        /// </summary>
+        /// <param name="rnd">The random number generator to use.</param>
+        /// <param name="alpha">The stability parameter of the distribution.</param>
+        /// <param name="beta">The skewness parameter of the distribution.</param>
+        /// <param name="scale">The scale parameter of the distribution.</param>
+        /// <param name="location">The location parameter of the distribution.</param>
+        /// <returns>a sequence of samples from the distribution.</returns>
+        public static IEnumerable<double> Samples(Random rnd, double alpha, double beta, double scale, double location)
+        {
+            if (Control.CheckDistributionParameters && !IsValidParameterSet(location, scale, scale, location))
+            {
+                throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
+            }
+
+            while (true)
+            {
+                yield return SampleUnchecked(rnd, location, scale, scale, location);
+            }
+        }
     }
 }

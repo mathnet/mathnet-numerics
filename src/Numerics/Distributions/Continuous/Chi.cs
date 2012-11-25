@@ -47,12 +47,12 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Keeps track of the degrees of freedom for the Chi distribution.
         /// </summary>
-        private double _dof;
+        double _dof;
 
         /// <summary>
         /// The distribution's random number generator.
         /// </summary>
-        private Random _random;
+        Random _random;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Chi"/> class. 
@@ -71,7 +71,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         /// <param name="dof">The degrees of freedom for the Chi distribution.</param>
         /// <exception cref="ArgumentOutOfRangeException">When the parameters don't pass the <see cref="IsValidParameterSet"/> function.</exception>
-        private void SetParameters(double dof)
+        void SetParameters(double dof)
         {
             if (Control.CheckDistributionParameters && !IsValidParameterSet(dof))
             {
@@ -86,7 +86,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         /// <param name="dof">The degrees of freedom for the Chi distribution.</param>
         /// <returns><c>true</c> when the parameters are valid, <c>false</c> otherwise.</returns>
-        private static bool IsValidParameterSet(double dof)
+        static bool IsValidParameterSet(double dof)
         {
             if (dof <= 0 || Double.IsNaN(dof))
             {
@@ -101,15 +101,9 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double DegreesOfFreedom
         {
-            get
-            {
-                return _dof;
-            }
+            get { return _dof; }
 
-            set
-            {
-                SetParameters(value);
-            }
+            set { SetParameters(value); }
         }
 
         /// <summary>
@@ -128,10 +122,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public Random RandomSource
         {
-            get
-            {
-                return _random;
-            }
+            get { return _random; }
 
             set
             {
@@ -149,10 +140,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Mean
         {
-            get
-            {
-                return Math.Sqrt(2) * (SpecialFunctions.Gamma((_dof + 1.0) / 2.0) / SpecialFunctions.Gamma(_dof / 2.0));
-            }
+            get { return Math.Sqrt(2) * (SpecialFunctions.Gamma((_dof + 1.0) / 2.0) / SpecialFunctions.Gamma(_dof / 2.0)); }
         }
 
         /// <summary>
@@ -160,10 +148,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Variance
         {
-            get
-            {
-                return _dof - (Mean * Mean);
-            }
+            get { return _dof - (Mean * Mean); }
         }
 
         /// <summary>
@@ -171,10 +156,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double StdDev
         {
-            get
-            {
-                return Math.Sqrt(Variance);
-            }
+            get { return Math.Sqrt(Variance); }
         }
 
         /// <summary>
@@ -182,10 +164,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Entropy
         {
-            get
-            {
-                return SpecialFunctions.GammaLn(_dof / 2.0) + ((_dof - Math.Log(2) - ((_dof - 1.0) * SpecialFunctions.DiGamma(_dof / 2.0))) / 2.0);
-            }
+            get { return SpecialFunctions.GammaLn(_dof / 2.0) + ((_dof - Math.Log(2) - ((_dof - 1.0) * SpecialFunctions.DiGamma(_dof / 2.0))) / 2.0); }
         }
 
         /// <summary>
@@ -235,10 +214,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Median
         {
-            get
-            {
-                throw new NotSupportedException();
-            }
+            get { throw new NotSupportedException(); }
         }
 
         /// <summary>
@@ -246,10 +222,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Minimum
         {
-            get
-            {
-                return 0.0;
-            }
+            get { return 0.0; }
         }
 
         /// <summary>
@@ -257,10 +230,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Maximum
         {
-            get
-            {
-                return Double.PositiveInfinity;
-            }
+            get { return Double.PositiveInfinity; }
         }
 
         /// <summary>
@@ -283,13 +253,31 @@ namespace MathNet.Numerics.Distributions
             return ((1.0 - (_dof / 2.0)) * Math.Log(2.0)) + ((_dof - 1.0) * Math.Log(x)) - (x * x / 2.0) - SpecialFunctions.GammaLn(_dof / 2.0);
         }
 
+        #endregion
+
+        /// <summary>
+        /// Samples the distribution.
+        /// </summary>
+        /// <param name="rnd">The random number generator to use.</param>
+        /// <returns>a random number from the distribution.</returns>
+        internal static double SampleUnchecked(Random rnd, int dof)
+        {
+            double sum = 0;
+            for (var i = 0; i < dof; i++)
+            {
+                sum += Math.Pow(Normal.Sample(rnd, 0.0, 1.0), 2);
+            }
+
+            return Math.Sqrt(sum);
+        }
+
         /// <summary>
         /// Generates a sample from the Chi distribution.
         /// </summary>
         /// <returns>a sample from the distribution.</returns>
         public double Sample()
         {
-            return DoSample(RandomSource);
+            return SampleUnchecked(RandomSource, (int)_dof);
         }
 
         /// <summary>
@@ -298,29 +286,44 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sequence of samples from the distribution.</returns>
         public IEnumerable<double> Samples()
         {
+            var dof = (int)_dof;
             while (true)
             {
-                yield return DoSample(RandomSource);
+                yield return SampleUnchecked(RandomSource, dof);
             }
         }
 
-        #endregion
-
         /// <summary>
-        /// Samples the distribution.
+        /// Generates a sample from the distribution.
         /// </summary>
         /// <param name="rnd">The random number generator to use.</param>
-        /// <returns>a random number from the distribution.</returns>
-        private double DoSample(Random rnd)
+        /// <returns>a sample from the distribution.</returns>
+        public static double Sample(Random rnd, int dof)
         {
-            double sum = 0;
-            var n = (int)_dof;
-            for (var i = 0; i < n; i++)
+            if (Control.CheckDistributionParameters && !IsValidParameterSet(dof))
             {
-                sum += Math.Pow(Normal.Sample(rnd, 0.0, 1.0), 2);
+                throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
             }
 
-            return Math.Sqrt(sum);
+            return SampleUnchecked(rnd, dof);
+        }
+
+        /// <summary>
+        /// Generates a sequence of samples from the distribution.
+        /// </summary>
+        /// <param name="rnd">The random number generator to use.</param>
+        /// <returns>a sequence of samples from the distribution.</returns>
+        public static IEnumerable<double> Samples(Random rnd, int dof)
+        {
+            if (Control.CheckDistributionParameters && !IsValidParameterSet(dof))
+            {
+                throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
+            }
+
+            while (true)
+            {
+                yield return SampleUnchecked(rnd, dof);
+            }
         }
     }
 }

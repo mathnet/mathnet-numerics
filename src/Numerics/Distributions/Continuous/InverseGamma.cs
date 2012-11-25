@@ -45,17 +45,17 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Inverse Gamma shape parameter. 
         /// </summary>
-        private double _shape;
+        double _shape;
 
         /// <summary>
         /// Inverse Gamma scale parameter scale. 
         /// </summary>
-        private double _scale;
+        double _scale;
 
         /// <summary>
         /// The distribution's random number generator.
         /// </summary>
-        private Random _random;
+        Random _random;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="InverseGamma"/> class. 
@@ -82,7 +82,7 @@ namespace MathNet.Numerics.Distributions
         /// The scale (beta) parameter of the inverse Gamma distribution.
         /// </param>
         /// <exception cref="ArgumentOutOfRangeException">When the parameters don't pass the <see cref="IsValidParameterSet"/> function.</exception>
-        private void SetParameters(double shape, double scale)
+        void SetParameters(double shape, double scale)
         {
             if (Control.CheckDistributionParameters && !IsValidParameterSet(shape, scale))
             {
@@ -103,7 +103,7 @@ namespace MathNet.Numerics.Distributions
         /// The scale (beta) parameter of the inverse Gamma distribution.
         /// </param>
         /// <returns><c>true</c> when the parameters are valid, <c>false</c> otherwise.</returns>
-        private static bool IsValidParameterSet(double shape, double scale)
+        static bool IsValidParameterSet(double shape, double scale)
         {
             if (shape <= 0 || scale <= 0)
             {
@@ -123,15 +123,9 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Shape
         {
-            get
-            {
-                return _shape;
-            }
+            get { return _shape; }
 
-            set
-            {
-                SetParameters(value, _scale);
-            }
+            set { SetParameters(value, _scale); }
         }
 
         /// <summary>
@@ -139,15 +133,9 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Scale
         {
-            get
-            {
-                return _scale;
-            }
+            get { return _scale; }
 
-            set
-            {
-                SetParameters(_shape, value);
-            }
+            set { SetParameters(_shape, value); }
         }
 
         /// <summary>
@@ -166,10 +154,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public Random RandomSource
         {
-            get
-            {
-                return _random;
-            }
+            get { return _random; }
 
             set
             {
@@ -219,10 +204,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double StdDev
         {
-            get
-            {
-                return _scale / (Math.Abs(_shape - 1.0) * Math.Sqrt(_shape - 2.0));
-            }
+            get { return _scale / (Math.Abs(_shape - 1.0) * Math.Sqrt(_shape - 2.0)); }
         }
 
         /// <summary>
@@ -230,10 +212,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Entropy
         {
-            get
-            {
-                return _shape + Math.Log(_scale) + SpecialFunctions.GammaLn(_shape) - ((1 + _shape) * SpecialFunctions.DiGamma(_shape));
-            }
+            get { return _shape + Math.Log(_scale) + SpecialFunctions.GammaLn(_shape) - ((1 + _shape) * SpecialFunctions.DiGamma(_shape)); }
         }
 
         /// <summary>
@@ -271,10 +250,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Mode
         {
-            get
-            {
-                return _scale / (_shape + 1.0);
-            }
+            get { return _scale / (_shape + 1.0); }
         }
 
         /// <summary>
@@ -283,10 +259,7 @@ namespace MathNet.Numerics.Distributions
         /// <remarks>Throws <see cref="NotSupportedException"/>.</remarks>
         public double Median
         {
-            get
-            {
-                throw new NotSupportedException();
-            }
+            get { throw new NotSupportedException(); }
         }
 
         /// <summary>
@@ -294,10 +267,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Minimum
         {
-            get
-            {
-                return 0.0;
-            }
+            get { return 0.0; }
         }
 
         /// <summary>
@@ -305,10 +275,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Maximum
         {
-            get
-            {
-                return Double.PositiveInfinity;
-            }
+            get { return Double.PositiveInfinity; }
         }
 
         /// <summary>
@@ -336,13 +303,27 @@ namespace MathNet.Numerics.Distributions
             return Math.Log(Density(x));
         }
 
+        #endregion
+
+        /// <summary>
+        /// Samples the distribution.
+        /// </summary>
+        /// <param name="rnd">The random number generator to use.</param>
+        /// <param name="shape">The shape (alpha) parameter of the inverse Gamma distribution.</param>
+        /// <param name="scale">The scale (beta) parameter of the inverse Gamma distribution.</param>
+        /// <returns>a random number from the distribution.</returns>
+        internal static double SampleUnchecked(Random rnd, double shape, double scale)
+        {
+            return 1.0 / Gamma.Sample(rnd, shape, scale);
+        }
+
         /// <summary>
         /// Draws a random sample from the distribution.
         /// </summary>
         /// <returns>A random number from this distribution.</returns>
         public double Sample()
         {
-            return DoSample(RandomSource, _shape, _scale);
+            return SampleUnchecked(RandomSource, _shape, _scale);
         }
 
         /// <summary>
@@ -353,26 +334,45 @@ namespace MathNet.Numerics.Distributions
         {
             while (true)
             {
-                yield return DoSample(RandomSource, _shape, _scale);
+                yield return SampleUnchecked(RandomSource, _shape, _scale);
             }
         }
 
-        #endregion
-        
         /// <summary>
-        /// Samples the distribution.
+        /// Generates a sample from the distribution.
         /// </summary>
         /// <param name="rnd">The random number generator to use.</param>
-        /// <param name="shape">
-        /// The shape (alpha) parameter of the inverse Gamma distribution.
-        /// </param>
-        /// <param name="scale">
-        /// The scale (beta) parameter of the inverse Gamma distribution.
-        /// </param>
-        /// <returns>a random number from the distribution.</returns>
-        private static double DoSample(Random rnd, double shape, double scale)
+        /// <param name="shape">The shape (alpha) parameter of the inverse Gamma distribution.</param>
+        /// <param name="scale">The scale (beta) parameter of the inverse Gamma distribution.</param>
+        /// <returns>a sample from the distribution.</returns>
+        public static double Sample(Random rnd, double shape, double scale)
         {
-            return 1.0 / Gamma.Sample(rnd, shape, scale);
+            if (Control.CheckDistributionParameters && !IsValidParameterSet(shape, scale))
+            {
+                throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
+            }
+
+            return SampleUnchecked(rnd, shape, scale);
+        }
+
+        /// <summary>
+        /// Generates a sequence of samples from the distribution.
+        /// </summary>
+        /// <param name="rnd">The random number generator to use.</param>
+        /// <param name="shape">The shape (alpha) parameter of the inverse Gamma distribution.</param>
+        /// <param name="scale">The scale (beta) parameter of the inverse Gamma distribution.</param>
+        /// <returns>a sequence of samples from the distribution.</returns>
+        public static IEnumerable<double> Samples(Random rnd, double shape, double scale)
+        {
+            if (Control.CheckDistributionParameters && !IsValidParameterSet(shape, scale))
+            {
+                throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
+            }
+
+            while (true)
+            {
+                yield return SampleUnchecked(rnd, shape, scale);
+            }
         }
     }
 }

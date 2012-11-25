@@ -49,7 +49,7 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// The distribution's random number generator.
         /// </summary>
-        private Random _random;
+        Random _random;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ChiSquare"/> class. 
@@ -68,7 +68,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         /// <param name="dof">The degrees of freedom for the <c>ChiSquare</c> distribution.</param>
         /// <exception cref="ArgumentOutOfRangeException">When the parameters don't pass the <see cref="IsValidParameterSet"/> function.</exception>
-        private void SetParameters(double dof)
+        void SetParameters(double dof)
         {
             if (Control.CheckDistributionParameters && !IsValidParameterSet(dof))
             {
@@ -83,7 +83,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         /// <param name="dof">The degrees of freedom for the <c>ChiSquare</c> distribution.</param>
         /// <returns><c>true</c> when the parameters are valid, <c>false</c> otherwise.</returns>
-        private static bool IsValidParameterSet(double dof)
+        static bool IsValidParameterSet(double dof)
         {
             return dof > 0 && !Double.IsNaN(dof);
         }
@@ -93,15 +93,9 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double DegreesOfFreedom
         {
-            get
-            {
-                return Mean;
-            }
+            get { return Mean; }
 
-            set
-            {
-                SetParameters(value);
-            }
+            set { SetParameters(value); }
         }
 
         /// <summary>
@@ -120,11 +114,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public Random RandomSource
         {
-            get
-            {
-                return _random;
-            }
-
+            get { return _random; }
             set
             {
                 if (value == null)
@@ -139,11 +129,7 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Gets the mean of the distribution.
         /// </summary>
-        public double Mean
-        {
-            get;
-            private set;
-        }
+        public double Mean { get; private set; }
 
         /// <summary>
         /// Gets the variance of the distribution.
@@ -243,27 +229,6 @@ namespace MathNet.Numerics.Distributions
             return (-x / 2.0) + (((Mean / 2.0) - 1.0) * Math.Log(x)) - ((Mean / 2.0) * Math.Log(2)) - SpecialFunctions.GammaLn(Mean / 2.0);
         }
 
-        /// <summary>
-        /// Generates a sample from the <c>ChiSquare</c> distribution.
-        /// </summary>
-        /// <returns>a sample from the distribution.</returns>
-        public double Sample()
-        {
-            return DoSample(RandomSource, Mean);
-        }
-
-        /// <summary>
-        /// Generates a sequence of samples from the <c>ChiSquare</c> distribution.
-        /// </summary>
-        /// <returns>a sequence of samples from the distribution.</returns>
-        public IEnumerable<double> Samples()
-        {
-            while (true)
-            {
-                yield return DoSample(RandomSource, Mean);
-            }
-        }
-
         #endregion
 
         /// <summary>
@@ -272,7 +237,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="rnd">The random number generator to use.</param>
         /// <param name="dof">The degrees of freedom.</param>
         /// <returns>a random number from the distribution.</returns>
-        private static double DoSample(Random rnd, double dof)
+        internal static double SampleUnchecked(Random rnd, double dof)
         {
             //Use the simple method if the dof is an integer anyway
             if (Math.Floor(dof) == dof && dof < Int32.MaxValue)
@@ -287,7 +252,28 @@ namespace MathNet.Numerics.Distributions
             }
             //Call the gamma function (see http://en.wikipedia.org/wiki/Gamma_distribution#Specializations
             //for a justification)
-            return Gamma.Sample(rnd, dof / 2.0, .5);
+            return Gamma.SampleUnchecked(rnd, dof / 2.0, .5);
+        }
+
+        /// <summary>
+        /// Generates a sample from the <c>ChiSquare</c> distribution.
+        /// </summary>
+        /// <returns>a sample from the distribution.</returns>
+        public double Sample()
+        {
+            return SampleUnchecked(RandomSource, Mean);
+        }
+
+        /// <summary>
+        /// Generates a sequence of samples from the <c>ChiSquare</c> distribution.
+        /// </summary>
+        /// <returns>a sequence of samples from the distribution.</returns>
+        public IEnumerable<double> Samples()
+        {
+            while (true)
+            {
+                yield return SampleUnchecked(RandomSource, Mean);
+            }
         }
 
         /// <summary>
@@ -303,7 +289,26 @@ namespace MathNet.Numerics.Distributions
                 throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
             }
 
-            return DoSample(rnd, dof);
+            return SampleUnchecked(rnd, dof);
+        }
+
+        /// <summary>
+        /// Generates a sequence of samples from the distribution.
+        /// </summary>
+        /// <param name="rnd">The random number generator to use.</param>
+        /// <param name="dof">The degrees of freedom.</param>
+        /// <returns>a sample from the distribution. </returns>
+        public static IEnumerable<double> Samples(Random rnd, double dof)
+        {
+            if (Control.CheckDistributionParameters && !IsValidParameterSet(dof))
+            {
+                throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
+            }
+
+            while (true)
+            {
+                yield return SampleUnchecked(rnd, dof);
+            }
         }
     }
 }

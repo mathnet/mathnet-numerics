@@ -44,12 +44,12 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// The lambda parameter of the Exponential distribution. 
         /// </summary>
-        private double _lambda;
+        double _lambda;
 
         /// <summary>
         /// The distribution's random number generator.
         /// </summary>
-        private Random _random;
+        Random _random;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Exponential"/> class.
@@ -68,7 +68,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         /// <param name="lambda">Lambda parameter.</param>
         /// <exception cref="ArgumentOutOfRangeException">When the parameters don't pass the <see cref="IsValidParameterSet"/> function.</exception>
-        private void SetParameters(double lambda)
+        void SetParameters(double lambda)
         {
             if (Control.CheckDistributionParameters && !IsValidParameterSet(lambda))
             {
@@ -83,7 +83,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         /// <param name="lambda">Lambda parameter.</param>
         /// <returns><c>true</c> when the parameters are valid, <c>false</c> otherwise.</returns>
-        private static bool IsValidParameterSet(double lambda)
+        static bool IsValidParameterSet(double lambda)
         {
             if (lambda < 0)
             {
@@ -103,15 +103,9 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Lambda
         {
-            get
-            {
-                return _lambda;
-            }
+            get { return _lambda; }
 
-            set
-            {
-                SetParameters(value);
-            }
+            set { SetParameters(value); }
         }
 
         /// <summary>
@@ -130,10 +124,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public Random RandomSource
         {
-            get
-            {
-                return _random;
-            }
+            get { return _random; }
 
             set
             {
@@ -151,10 +142,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Mean
         {
-            get
-            {
-                return 1.0 / _lambda;
-            }
+            get { return 1.0 / _lambda; }
         }
 
         /// <summary>
@@ -162,10 +150,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Variance
         {
-            get
-            {
-                return 1.0 / (_lambda * _lambda);
-            }
+            get { return 1.0 / (_lambda * _lambda); }
         }
 
         /// <summary>
@@ -173,10 +158,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double StdDev
         {
-            get
-            {
-                return 1.0 / _lambda;
-            }
+            get { return 1.0 / _lambda; }
         }
 
         /// <summary>
@@ -184,10 +166,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Entropy
         {
-            get
-            {
-                return 1.0 - Math.Log(_lambda);
-            }
+            get { return 1.0 - Math.Log(_lambda); }
         }
 
         /// <summary>
@@ -195,10 +174,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Skewness
         {
-            get
-            {
-                return 2.0;
-            }
+            get { return 2.0; }
         }
 
         /// <summary>
@@ -225,10 +201,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Mode
         {
-            get
-            {
-                return 0.0;
-            }
+            get { return 0.0; }
         }
 
         /// <summary>
@@ -236,10 +209,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Median
         {
-            get
-            {
-                return Math.Log(2.0) / _lambda;
-            }
+            get { return Math.Log(2.0) / _lambda; }
         }
 
         /// <summary>
@@ -247,10 +217,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Minimum
         {
-            get
-            {
-                return 0.0;
-            }
+            get { return 0.0; }
         }
 
         /// <summary>
@@ -258,10 +225,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Maximum
         {
-            get
-            {
-                return Double.PositiveInfinity;
-            }
+            get { return Double.PositiveInfinity; }
         }
 
         /// <summary>
@@ -289,13 +253,32 @@ namespace MathNet.Numerics.Distributions
             return Math.Log(_lambda) - (_lambda * x);
         }
 
+        #endregion
+
+        /// <summary>
+        /// Samples the distribution.
+        /// </summary>
+        /// <param name="rnd">The random number generator to use.</param>
+        /// <param name="lambda">The lambda parameter of the Exponential distribution.</param>
+        /// <returns>a random number from the distribution.</returns>
+        internal static double SampleUnchecked(Random rnd, double lambda)
+        {
+            var r = rnd.NextDouble();
+            while (r == 0.0)
+            {
+                r = rnd.NextDouble();
+            }
+
+            return -Math.Log(r) / lambda;
+        }
+
         /// <summary>
         /// Draws a random sample from the distribution.
         /// </summary>
         /// <returns>A random number from this distribution.</returns>
         public double Sample()
         {
-            return DoSample(RandomSource, _lambda);
+            return SampleUnchecked(RandomSource, _lambda);
         }
 
         /// <summary>
@@ -306,7 +289,7 @@ namespace MathNet.Numerics.Distributions
         {
             while (true)
             {
-                yield return DoSample(RandomSource, _lambda);
+                yield return SampleUnchecked(RandomSource, _lambda);
             }
         }
 
@@ -322,8 +305,8 @@ namespace MathNet.Numerics.Distributions
             {
                 throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
             }
-            
-            return DoSample(rnd, lambda);
+
+            return SampleUnchecked(rnd, lambda);
         }
 
         /// <summary>
@@ -341,26 +324,8 @@ namespace MathNet.Numerics.Distributions
 
             while (true)
             {
-                yield return DoSample(rnd, lambda);
+                yield return SampleUnchecked(rnd, lambda);
             }
-        }
-        #endregion
-
-        /// <summary>
-        /// Samples the distribution.
-        /// </summary>
-        /// <param name="rnd">The random number generator to use.</param>
-        /// <param name="lambda">The lambda parameter of the Exponential distribution.</param>
-        /// <returns>a random number from the distribution.</returns>
-        private static double DoSample(Random rnd, double lambda)
-        {
-            var r = rnd.NextDouble();
-            while (r == 0.0)
-            {
-                r = rnd.NextDouble();
-            }
-
-            return -Math.Log(r) / lambda;
         }
     }
 }

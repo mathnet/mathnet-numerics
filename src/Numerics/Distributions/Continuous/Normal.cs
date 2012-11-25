@@ -44,24 +44,25 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Keeps track of the mean of the normal distribution.
         /// </summary>
-        private double _mean;
+        double _mean;
 
         /// <summary>
         /// Keeps track of the standard deviation of the normal distribution.
         /// </summary>
-        private double _stdDev;
+        double _stdDev;
 
         /// <summary>
         /// The distribution's random number generator.
         /// </summary>
-        private Random _random;
+        Random _random;
 
         /// <summary>
         /// Initializes a new instance of the Normal class. This is a normal distribution with mean 0.0
         /// and standard deviation 1.0. The distribution will
         /// be initialized with the default <seealso cref="System.Random"/> random number generator.
         /// </summary>
-        public Normal() : this(0.0, 1.0)
+        public Normal()
+            : this(0.0, 1.0)
         {
         }
 
@@ -128,7 +129,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="mean">The mean of the normal distribution.</param>
         /// <param name="stddev">The standard deviation of the normal distribution.</param>
         /// <returns><c>true</c> when the parameters are valid, <c>false</c> otherwise.</returns>
-        private static bool IsValidParameterSet(double mean, double stddev)
+        static bool IsValidParameterSet(double mean, double stddev)
         {
             if (stddev < 0.0 || Double.IsNaN(mean) || Double.IsNaN(stddev))
             {
@@ -144,7 +145,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="mean">The mean of the normal distribution.</param>
         /// <param name="stddev">The standard deviation of the normal distribution.</param>
         /// <exception cref="ArgumentOutOfRangeException">When the parameters don't pass the <see cref="IsValidParameterSet"/> function.</exception>
-        private void SetParameters(double mean, double stddev)
+        void SetParameters(double mean, double stddev)
         {
             if (Control.CheckDistributionParameters && !IsValidParameterSet(mean, stddev))
             {
@@ -160,10 +161,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Precision
         {
-            get
-            {
-                return 1.0 / (_stdDev * _stdDev);
-            }
+            get { return 1.0 / (_stdDev * _stdDev); }
 
             set
             {
@@ -186,10 +184,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public Random RandomSource
         {
-            get
-            {
-                return _random;
-            }
+            get { return _random; }
 
             set
             {
@@ -207,15 +202,9 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Mean
         {
-            get
-            {
-                return _mean;
-            }
+            get { return _mean; }
 
-            set
-            {
-                SetParameters(value, _stdDev);
-            }
+            set { SetParameters(value, _stdDev); }
         }
 
         /// <summary>
@@ -223,15 +212,9 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Variance
         {
-            get
-            {
-                return _stdDev * _stdDev;
-            }
+            get { return _stdDev * _stdDev; }
 
-            set
-            {
-                SetParameters(_mean, Math.Sqrt(value));
-            }
+            set { SetParameters(_mean, Math.Sqrt(value)); }
         }
 
         /// <summary>
@@ -239,15 +222,9 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double StdDev
         {
-            get
-            {
-                return _stdDev;
-            }
+            get { return _stdDev; }
 
-            set
-            {
-                SetParameters(_mean, value);
-            }
+            set { SetParameters(_mean, value); }
         }
 
         /// <summary>
@@ -255,10 +232,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Entropy
         {
-            get
-            {
-                return Math.Log(_stdDev) + Constants.LogSqrt2PiE;
-            }
+            get { return Math.Log(_stdDev) + Constants.LogSqrt2PiE; }
         }
 
         /// <summary>
@@ -266,10 +240,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Skewness
         {
-            get
-            {
-                return 0.0;
-            }
+            get { return 0.0; }
         }
 
         #endregion
@@ -281,10 +252,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Mode
         {
-            get
-            {
-                return _mean;
-            }
+            get { return _mean; }
         }
 
         /// <summary>
@@ -292,10 +260,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Median
         {
-            get
-            {
-                return _mean;
-            }
+            get { return _mean; }
         }
 
         /// <summary>
@@ -303,10 +268,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Minimum
         {
-            get
-            {
-                return Double.NegativeInfinity;
-            }
+            get { return Double.NegativeInfinity; }
         }
 
         /// <summary>
@@ -314,10 +276,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Maximum
         {
-            get
-            {
-                return Double.PositiveInfinity;
-            }
+            get { return Double.PositiveInfinity; }
         }
 
         /// <summary>
@@ -388,29 +347,6 @@ namespace MathNet.Numerics.Distributions
             return CumulativeDistribution(_mean, _stdDev, x);
         }
 
-        /// <summary>
-        /// Generates a sample from the normal distribution using the <i>Box-Muller</i> algorithm.
-        /// </summary>
-        /// <returns>a sample from the distribution.</returns>
-        public double Sample()
-        {
-            return _mean + (_stdDev * SampleBoxMuller(RandomSource).Item1);
-        }
-
-        /// <summary>
-        /// Generates a sequence of samples from the normal distribution using the <i>Box-Muller</i> algorithm.
-        /// </summary>
-        /// <returns>a sequence of samples from the distribution.</returns>
-        public IEnumerable<double> Samples()
-        {
-            while (true)
-            {
-                var sample = SampleBoxMuller(RandomSource);
-                yield return _mean + (_stdDev * sample.Item1);
-                yield return _mean + (_stdDev * sample.Item2);
-            }
-        }
-
         #endregion
 
         /// <summary>
@@ -423,51 +359,14 @@ namespace MathNet.Numerics.Distributions
             return _mean - (_stdDev * Math.Sqrt(2.0) * SpecialFunctions.ErfcInv(2.0 * p));
         }
 
-        /// <summary>
-        /// Generates a sample from the normal distribution using the <i>Box-Muller</i> algorithm.
-        /// </summary>
-        /// <param name="rng">The random number generator to use.</param>
-        /// <param name="mean">The mean of the normal distribution from which to generate samples.</param>
-        /// <param name="stddev">The standard deviation of the normal distribution from which to generate samples.</param>
-        /// <returns>a sample from the distribution.</returns>
-        public static double Sample(Random rng, double mean, double stddev)
-        {
-            if (Control.CheckDistributionParameters && !IsValidParameterSet(mean, stddev))
-            {
-                throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
-            }
 
-            return mean + (stddev * SampleBoxMuller(rng).Item1);
-        }
-
-        /// <summary>
-        /// Generates a sequence of samples from the normal distribution using the <i>Box-Muller</i> algorithm.
-        /// </summary>
-        /// <param name="rng">The random number generator to use.</param>
-        /// <param name="mean">The mean of the normal distribution from which to generate samples.</param>
-        /// <param name="stddev">The standard deviation of the normal distribution from which to generate samples.</param>
-        /// <returns>a sequence of samples from the distribution.</returns>
-        public static IEnumerable<double> Samples(Random rng, double mean, double stddev)
-        {
-            if (Control.CheckDistributionParameters && !IsValidParameterSet(mean, stddev))
-            {
-                throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
-            }
-
-            while (true)
-            {
-                var sample = SampleBoxMuller(rng);
-                yield return mean + (stddev * sample.Item1);
-                yield return mean + (stddev * sample.Item2);
-            }
-        }
 
         /// <summary>
         /// Samples a pair of standard normal distributed random variables using the <i>Box-Muller</i> algorithm.
         /// </summary>
         /// <param name="rnd">The random number generator to use.</param>
         /// <returns>a pair of random numbers from the standard normal distribution.</returns>
-        internal static Tuple<double, double> SampleBoxMuller(Random rnd)
+        internal static Tuple<double, double> SampleUncheckedBoxMuller(Random rnd)
         {
             var v1 = (2.0 * rnd.NextDouble()) - 1.0;
             var v2 = (2.0 * rnd.NextDouble()) - 1.0;
@@ -481,6 +380,80 @@ namespace MathNet.Numerics.Distributions
 
             var fac = Math.Sqrt(-2.0 * Math.Log(r) / r);
             return new Tuple<double, double>(v1 * fac, v2 * fac);
+        }
+
+        /// <summary>
+        /// Samples the distribution.
+        /// </summary>
+        /// <param name="rnd">The random number generator to use.</param>
+        /// <param name="mean">The mean of the normal distribution from which to generate samples.</param>
+        /// <param name="stddev">The standard deviation of the normal distribution from which to generate samples.</param>
+        /// <returns>a random number from the distribution.</returns>
+        internal static double SampleUnchecked(Random rnd, double mean, double stddev)
+        {
+            return mean + (stddev * SampleUncheckedBoxMuller(rnd).Item1);
+        }
+
+        /// <summary>
+        /// Generates a sample from the normal distribution using the <i>Box-Muller</i> algorithm.
+        /// </summary>
+        /// <returns>a sample from the distribution.</returns>
+        public double Sample()
+        {
+            return SampleUnchecked(RandomSource, _mean, _stdDev);
+        }
+
+        /// <summary>
+        /// Generates a sequence of samples from the normal distribution using the <i>Box-Muller</i> algorithm.
+        /// </summary>
+        /// <returns>a sequence of samples from the distribution.</returns>
+        public IEnumerable<double> Samples()
+        {
+            while (true)
+            {
+                var sample = SampleUncheckedBoxMuller(RandomSource);
+                yield return _mean + (_stdDev * sample.Item1);
+                yield return _mean + (_stdDev * sample.Item2);
+            }
+        }
+
+        /// <summary>
+        /// Generates a sample from the normal distribution using the <i>Box-Muller</i> algorithm.
+        /// </summary>
+        /// <param name="rnd">The random number generator to use.</param>
+        /// <param name="mean">The mean of the normal distribution from which to generate samples.</param>
+        /// <param name="stddev">The standard deviation of the normal distribution from which to generate samples.</param>
+        /// <returns>a sample from the distribution.</returns>
+        public static double Sample(Random rnd, double mean, double stddev)
+        {
+            if (Control.CheckDistributionParameters && !IsValidParameterSet(mean, stddev))
+            {
+                throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
+            }
+
+            return SampleUnchecked(rnd, mean, stddev);
+        }
+
+        /// <summary>
+        /// Generates a sequence of samples from the normal distribution using the <i>Box-Muller</i> algorithm.
+        /// </summary>
+        /// <param name="rnd">The random number generator to use.</param>
+        /// <param name="mean">The mean of the normal distribution from which to generate samples.</param>
+        /// <param name="stddev">The standard deviation of the normal distribution from which to generate samples.</param>
+        /// <returns>a sequence of samples from the distribution.</returns>
+        public static IEnumerable<double> Samples(Random rnd, double mean, double stddev)
+        {
+            if (Control.CheckDistributionParameters && !IsValidParameterSet(mean, stddev))
+            {
+                throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
+            }
+
+            while (true)
+            {
+                var sample = SampleUncheckedBoxMuller(rnd);
+                yield return mean + (stddev * sample.Item1);
+                yield return mean + (stddev * sample.Item2);
+            }
         }
     }
 }

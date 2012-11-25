@@ -47,12 +47,12 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// The scale parameter of the distribution.
         /// </summary>
-        private double _scale;
+        double _scale;
 
         /// <summary>
         /// The distribution's random number generator.
         /// </summary>
-        private Random _random;
+        Random _random;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Rayleigh"/> class. 
@@ -74,7 +74,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         /// <param name="scale">The scale parameter of the distribution.</param>
         /// <exception cref="ArgumentOutOfRangeException">When the parameters don't pass the <see cref="IsValidParameterSet"/> function.</exception>
-        private void SetParameters(double scale)
+        void SetParameters(double scale)
         {
             if (Control.CheckDistributionParameters && !IsValidParameterSet(scale))
             {
@@ -89,7 +89,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         /// <param name="scale">The scale parameter of the distribution.</param>
         /// <returns><c>true</c> when the parameters are valid, <c>false</c> otherwise.</returns>
-        private static bool IsValidParameterSet(double scale)
+        static bool IsValidParameterSet(double scale)
         {
             if (scale <= 0)
             {
@@ -109,15 +109,9 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Scale
         {
-            get
-            {
-                return _scale;
-            }
+            get { return _scale; }
 
-            set
-            {
-                SetParameters(value);
-            }
+            set { SetParameters(value); }
         }
 
         /// <summary>
@@ -136,10 +130,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public Random RandomSource
         {
-            get
-            {
-                return _random;
-            }
+            get { return _random; }
 
             set
             {
@@ -157,10 +148,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Mean
         {
-            get
-            {
-                return _scale * Math.Sqrt(Constants.PiOver2);
-            }
+            get { return _scale * Math.Sqrt(Constants.PiOver2); }
         }
 
         /// <summary>
@@ -168,10 +156,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Variance
         {
-            get
-            {
-                return (2.0 - Constants.PiOver2) * _scale * _scale;
-            }
+            get { return (2.0 - Constants.PiOver2) * _scale * _scale; }
         }
 
         /// <summary>
@@ -179,10 +164,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double StdDev
         {
-            get
-            {
-                return Math.Sqrt(2.0 - Constants.PiOver2) * _scale;
-            }
+            get { return Math.Sqrt(2.0 - Constants.PiOver2) * _scale; }
         }
 
         /// <summary>
@@ -190,10 +172,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Entropy
         {
-            get
-            {
-                return 1.0 + Math.Log(_scale / Math.Sqrt(2)) + (Constants.EulerMascheroni / 2.0);
-            }
+            get { return 1.0 + Math.Log(_scale / Math.Sqrt(2)) + (Constants.EulerMascheroni / 2.0); }
         }
 
         /// <summary>
@@ -201,10 +180,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Skewness
         {
-            get
-            {
-                return (2.0 * Math.Sqrt(Constants.Pi) * (Constants.Pi - 3.0)) / Math.Pow(4.0 - Constants.Pi, 1.5);
-            }
+            get { return (2.0 * Math.Sqrt(Constants.Pi) * (Constants.Pi - 3.0)) / Math.Pow(4.0 - Constants.Pi, 1.5); }
         }
 
         /// <summary>
@@ -226,10 +202,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Mode
         {
-            get
-            {
-                return _scale;
-            }
+            get { return _scale; }
         }
 
         /// <summary>
@@ -237,10 +210,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Median
         {
-            get
-            {
-                return _scale * Math.Sqrt(Math.Log(4.0));
-            }
+            get { return _scale * Math.Sqrt(Math.Log(4.0)); }
         }
 
         /// <summary>
@@ -248,10 +218,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Minimum
         {
-            get
-            {
-                return 0.0;
-            }
+            get { return 0.0; }
         }
 
         /// <summary>
@@ -259,10 +226,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Maximum
         {
-            get
-            {
-                return Double.PositiveInfinity;
-            }
+            get { return Double.PositiveInfinity; }
         }
 
         /// <summary>
@@ -285,13 +249,26 @@ namespace MathNet.Numerics.Distributions
             return Math.Log(x / (_scale * _scale)) - (x * x / (2.0 * _scale * _scale));
         }
 
+        #endregion
+
+        /// <summary>
+        /// Generates a sample from the Rayleigh distribution without doing parameter checking.
+        /// </summary>
+        /// <param name="rnd">The random number generator to use.</param>
+        /// <param name="scale">The scale parameter.</param>
+        /// <returns>a random number from the Rayleigh distribution.</returns>
+        internal static double SampleUnchecked(Random rnd, double scale)
+        {
+            return scale * Math.Sqrt(-2.0 * Math.Log(rnd.NextDouble()));
+        }
+
         /// <summary>
         /// Draws a random sample from the distribution.
         /// </summary>
         /// <returns>A random number from this distribution.</returns>
         public double Sample()
         {
-            return DoSample(RandomSource);
+            return SampleUnchecked(RandomSource, _scale);
         }
 
         /// <summary>
@@ -302,20 +279,43 @@ namespace MathNet.Numerics.Distributions
         {
             while (true)
             {
-                yield return DoSample(RandomSource);
+                yield return SampleUnchecked(RandomSource, _scale);
             }
         }
 
-        #endregion
-
         /// <summary>
-        /// Generates a sample from the Rayleigh distribution without doing parameter checking.
+        /// Generates a sample from the distribution.
         /// </summary>
         /// <param name="rnd">The random number generator to use.</param>
-        /// <returns>a random number from the Rayleigh distribution.</returns>
-        private double DoSample(Random rnd)
+        /// <param name="scale">The scale parameter.</param>
+        /// <returns>a sample from the distribution.</returns>
+        public static double Sample(Random rnd, double scale)
         {
-            return _scale * Math.Sqrt(-2.0 * Math.Log(rnd.NextDouble()));
+            if (Control.CheckDistributionParameters && !IsValidParameterSet(scale))
+            {
+                throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
+            }
+
+            return SampleUnchecked(rnd, scale);
+        }
+
+        /// <summary>
+        /// Generates a sequence of samples from the distribution.
+        /// </summary>
+        /// <param name="rnd">The random number generator to use.</param>
+        /// <param name="scale">The scale parameter.</param>
+        /// <returns>a sequence of samples from the distribution.</returns>
+        public static IEnumerable<double> Samples(Random rnd, double scale)
+        {
+            if (Control.CheckDistributionParameters && !IsValidParameterSet(scale))
+            {
+                throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
+            }
+
+            while (true)
+            {
+                yield return SampleUnchecked(rnd, scale);
+            }
         }
     }
 }

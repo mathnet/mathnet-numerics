@@ -51,17 +51,17 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Beta shape parameter a.
         /// </summary>
-        private double _shapeA;
+        double _shapeA;
 
         /// <summary>
         /// Beta shape parameter b.
         /// </summary>
-        private double _shapeB;
+        double _shapeB;
 
         /// <summary>
         /// The distribution's random number generator.
         /// </summary>
-        private Random _random;
+        Random _random;
 
         /// <summary>
         /// Initializes a new instance of the Beta class.
@@ -90,7 +90,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="a">The a shape parameter of the Beta distribution.</param>
         /// <param name="b">The b shape parameter of the Beta distribution.</param>
         /// <returns><c>true</c> when the parameters are valid, <c>false</c> otherwise.</returns>
-        private static bool IsValidParameterSet(double a, double b)
+        static bool IsValidParameterSet(double a, double b)
         {
             if (a < 0.0 || b < 0.0 || Double.IsNaN(a) || Double.IsNaN(b))
             {
@@ -106,7 +106,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="a">The a shape parameter of the Beta distribution.</param>
         /// <param name="b">The b shape parameter of the Beta distribution.</param>
         /// <exception cref="ArgumentOutOfRangeException">When the parameters don't pass the <see cref="IsValidParameterSet"/> function.</exception>
-        private void SetParameters(double a, double b)
+        void SetParameters(double a, double b)
         {
             if (Control.CheckDistributionParameters && !IsValidParameterSet(a, b))
             {
@@ -122,15 +122,8 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double A
         {
-            get
-            {
-                return _shapeA;
-            }
-
-            set
-            {
-                SetParameters(value, _shapeB);
-            }
+            get { return _shapeA; }
+            set { SetParameters(value, _shapeB); }
         }
 
         /// <summary>
@@ -138,15 +131,8 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double B
         {
-            get
-            {
-                return _shapeB;
-            }
-
-            set
-            {
-                SetParameters(_shapeA, value);
-            }
+            get { return _shapeB; }
+            set { SetParameters(_shapeA, value); }
         }
 
         #region IDistribution implementation
@@ -156,10 +142,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public Random RandomSource
         {
-            get
-            {
-                return _random;
-            }
+            get { return _random; }
 
             set
             {
@@ -218,10 +201,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Variance
         {
-            get
-            {
-                return (_shapeA * _shapeB) / ((_shapeA + _shapeB) * (_shapeA + _shapeB) * (_shapeA + _shapeB + 1.0));
-            }
+            get { return (_shapeA * _shapeB) / ((_shapeA + _shapeB) * (_shapeA + _shapeB) * (_shapeA + _shapeB + 1.0)); }
         }
 
         /// <summary>
@@ -229,10 +209,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double StdDev
         {
-            get
-            {
-                return Math.Sqrt((_shapeA * _shapeB) / ((_shapeA + _shapeB) * (_shapeA + _shapeB) * (_shapeA + _shapeB + 1.0)));
-            }
+            get { return Math.Sqrt((_shapeA * _shapeB) / ((_shapeA + _shapeB) * (_shapeA + _shapeB) * (_shapeA + _shapeB + 1.0))); }
         }
 
         /// <summary>
@@ -258,9 +235,9 @@ namespace MathNet.Numerics.Distributions
                 }
 
                 return SpecialFunctions.BetaLn(_shapeA, _shapeB)
-                       - ((_shapeA - 1.0) * SpecialFunctions.DiGamma(_shapeA))
-                       - ((_shapeB - 1.0) * SpecialFunctions.DiGamma(_shapeB))
-                       + ((_shapeA + _shapeB - 2.0) * SpecialFunctions.DiGamma(_shapeA + _shapeB));
+                    - ((_shapeA - 1.0) * SpecialFunctions.DiGamma(_shapeA))
+                    - ((_shapeB - 1.0) * SpecialFunctions.DiGamma(_shapeB))
+                    + ((_shapeA + _shapeB - 2.0) * SpecialFunctions.DiGamma(_shapeA + _shapeB));
             }
         }
 
@@ -302,7 +279,7 @@ namespace MathNet.Numerics.Distributions
                 }
 
                 return 2.0 * (_shapeB - _shapeA) * Math.Sqrt(_shapeA + _shapeB + 1.0)
-                       / ((_shapeA + _shapeB + 2.0) * Math.Sqrt(_shapeA * _shapeB));
+                    / ((_shapeA + _shapeB + 2.0) * Math.Sqrt(_shapeA * _shapeB));
             }
         }
 
@@ -361,10 +338,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Median
         {
-            get
-            {
-                throw new NotSupportedException();
-            }
+            get { throw new NotSupportedException(); }
         }
 
         /// <summary>
@@ -372,10 +346,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Minimum
         {
-            get
-            {
-                return 0.0;
-            }
+            get { return 0.0; }
         }
 
         /// <summary>
@@ -383,10 +354,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Maximum
         {
-            get
-            {
-                return 1.0;
-            }
+            get { return 1.0; }
         }
 
         /// <summary>
@@ -515,27 +483,27 @@ namespace MathNet.Numerics.Distributions
             {
                 return 0.0;
             }
-            
+
             if (x >= 1.0)
             {
                 return 1.0;
             }
-            
+
             if (Double.IsPositiveInfinity(_shapeA) && Double.IsPositiveInfinity(_shapeB))
             {
                 return x < 0.5 ? 0.0 : 1.0;
             }
-            
+
             if (Double.IsPositiveInfinity(_shapeA))
             {
                 return x < 1.0 ? 0.0 : 1.0;
             }
-            
+
             if (Double.IsPositiveInfinity(_shapeB))
             {
                 return x >= 0.0 ? 1.0 : 0.0;
             }
-            
+
             if (_shapeA == 0.0 && _shapeB == 0.0)
             {
                 if (x >= 0.0 && x < 1.0)
@@ -545,23 +513,39 @@ namespace MathNet.Numerics.Distributions
 
                 return 1.0;
             }
-            
+
             if (_shapeA == 0.0)
             {
                 return 1.0;
             }
-            
+
             if (_shapeB == 0.0)
             {
                 return x >= 1.0 ? 1.0 : 0.0;
             }
-            
+
             if (_shapeA == 1.0 && _shapeB == 1.0)
             {
                 return x;
             }
-            
+
             return SpecialFunctions.BetaRegularized(_shapeA, _shapeB, x);
+        }
+
+        #endregion
+
+        /// <summary>
+        /// Samples Beta distributed random variables by sampling two Gamma variables and normalizing.
+        /// </summary>
+        /// <param name="rnd">The random number generator to use.</param>
+        /// <param name="a">The A shape parameter.</param>
+        /// <param name="b">The B shape parameter.</param>
+        /// <returns>a random number from the Beta distribution.</returns>
+        internal static double SampleUnchecked(Random rnd, double a, double b)
+        {
+            var x = Gamma.SampleUnchecked(rnd, a, 1.0);
+            var y = Gamma.SampleUnchecked(rnd, b, 1.0);
+            return x / (x + y);
         }
 
         /// <summary>
@@ -570,7 +554,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sample from the distribution.</returns>
         public double Sample()
         {
-            return SampleBeta(RandomSource, _shapeA, _shapeB);
+            return SampleUnchecked(RandomSource, _shapeA, _shapeB);
         }
 
         /// <summary>
@@ -581,37 +565,35 @@ namespace MathNet.Numerics.Distributions
         {
             while (true)
             {
-                yield return SampleBeta(RandomSource, _shapeA, _shapeB);
+                yield return SampleUnchecked(RandomSource, _shapeA, _shapeB);
             }
         }
 
-        #endregion
-
         /// <summary>
-        /// Generates a sample from the normal distribution using the <i>Box-Muller</i> algorithm.
+        /// Generates a sample from the distribution.
         /// </summary>
-        /// <param name="rng">The random number generator to use.</param>
+        /// <param name="rnd">The random number generator to use.</param>
         /// <param name="a">The a shape parameter of the Beta distribution.</param>
         /// <param name="b">The b shape parameter of the Beta distribution.</param>
         /// <returns>a sample from the distribution.</returns>
-        public static double Sample(Random rng, double a, double b)
+        public static double Sample(Random rnd, double a, double b)
         {
             if (Control.CheckDistributionParameters && !IsValidParameterSet(a, b))
             {
                 throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
             }
 
-            return SampleBeta(rng, a, b);
+            return SampleUnchecked(rnd, a, b);
         }
 
         /// <summary>
-        /// Generates a sequence of samples from the normal distribution using the <i>Box-Muller</i> algorithm.
+        /// Generates a sequence of samples from the distribution.
         /// </summary>
-        /// <param name="rng">The random number generator to use.</param>
+        /// <param name="rnd">The random number generator to use.</param>
         /// <param name="a">The a shape parameter of the Beta distribution.</param>
         /// <param name="b">The b shape parameter of the Beta distribution.</param>
         /// <returns>a sequence of samples from the distribution.</returns>
-        public static IEnumerable<double> Samples(Random rng, double a, double b)
+        public static IEnumerable<double> Samples(Random rnd, double a, double b)
         {
             if (Control.CheckDistributionParameters && !IsValidParameterSet(a, b))
             {
@@ -620,22 +602,8 @@ namespace MathNet.Numerics.Distributions
 
             while (true)
             {
-                yield return SampleBeta(rng, a, b);
+                yield return SampleUnchecked(rnd, a, b);
             }
-        }
-
-        /// <summary>
-        /// Samples Beta distributed random variables by sampling two Gamma variables and normalizing.
-        /// </summary>
-        /// <param name="rnd">The random number generator to use.</param>
-        /// <param name="a">The A shape parameter.</param>
-        /// <param name="b">The B shape parameter.</param>
-        /// <returns>a random number from the Beta distribution.</returns>
-        internal static double SampleBeta(Random rnd, double a, double b)
-        {
-            var x = Gamma.SampleGamma(rnd, a, 1.0);
-            var y = Gamma.SampleGamma(rnd, b, 1.0);
-            return x / (x + y);
         }
     }
 }

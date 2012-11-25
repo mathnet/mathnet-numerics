@@ -44,17 +44,17 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// The first parameter - degree of freedom.
         /// </summary>
-        private double _d1;
+        double _d1;
 
         /// <summary>
         /// The second parameter - degree of freedom.
         /// </summary>
-        private double _d2;
+        double _d2;
 
         /// <summary>
         /// The distribution's random number generator.
         /// </summary>
-        private Random _random;
+        Random _random;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FisherSnedecor"/> class. 
@@ -76,7 +76,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         /// <param name="d1">The first parameter - degree of freedom.</param>
         /// <param name="d2">The second parameter - degree of freedom.</param>
-        private void SetParameters(double d1, double d2)
+        void SetParameters(double d1, double d2)
         {
             if (Control.CheckDistributionParameters && !IsValidParameterSet(d1, d2))
             {
@@ -93,7 +93,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="d1">The first parameter - degree of freedom.</param>
         /// <param name="d2">The second parameter - degree of freedom.</param>
         /// <returns><c>true</c> when the parameters are valid, <c>false</c> otherwise.</returns>
-        private static bool IsValidParameterSet(double d1, double d2)
+        static bool IsValidParameterSet(double d1, double d2)
         {
             if (d1 <= 0 || d2 <= 0)
             {
@@ -113,15 +113,9 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double DegreeOfFreedom1
         {
-            get
-            {
-                return _d1;
-            }
+            get { return _d1; }
 
-            set
-            {
-                SetParameters(value, _d2);
-            }
+            set { SetParameters(value, _d2); }
         }
 
         /// <summary>
@@ -129,15 +123,9 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double DegreeOfFreedom2
         {
-            get
-            {
-                return _d2;
-            }
+            get { return _d2; }
 
-            set
-            {
-                SetParameters(_d1, value);
-            }
+            set { SetParameters(_d1, value); }
         }
 
         /// <summary>
@@ -156,10 +144,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public Random RandomSource
         {
-            get
-            {
-                return _random;
-            }
+            get { return _random; }
 
             set
             {
@@ -209,10 +194,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double StdDev
         {
-            get
-            {
-                return Math.Sqrt(Variance);
-            }
+            get { return Math.Sqrt(Variance); }
         }
 
         /// <summary>
@@ -220,10 +202,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Entropy
         {
-            get
-            {
-                throw new NotSupportedException();
-            }
+            get { throw new NotSupportedException(); }
         }
 
         /// <summary>
@@ -277,10 +256,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Median
         {
-            get
-            {
-                throw new NotSupportedException();
-            }
+            get { throw new NotSupportedException(); }
         }
 
         /// <summary>
@@ -288,10 +264,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Minimum
         {
-            get
-            {
-                return 0.0;
-            }
+            get { return 0.0; }
         }
 
         /// <summary>
@@ -299,10 +272,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Maximum
         {
-            get
-            {
-                return double.PositiveInfinity;
-            }
+            get { return double.PositiveInfinity; }
         }
 
         /// <summary>
@@ -325,13 +295,27 @@ namespace MathNet.Numerics.Distributions
             return Math.Log(Density(x));
         }
 
+        #endregion
+
+        /// <summary>
+        /// Generates one sample from the <c>FisherSnedecor</c> distribution without parameter checking.
+        /// </summary>
+        /// <param name="rnd">The random number generator to use.</param>
+        /// <param name="d1">The first parameter - degree of freedom.</param>
+        /// <param name="d2">The second parameter - degree of freedom.</param>
+        /// <returns>a <c>FisherSnedecor</c> distributed random number.</returns>
+        internal static double SampleUnchecked(Random rnd, double d1, double d2)
+        {
+            return (ChiSquare.Sample(rnd, d1) / d1) / (ChiSquare.Sample(rnd, d2) / d2);
+        }
+
         /// <summary>
         /// Generates a sample from the <c>FisherSnedecor</c> distribution.
         /// </summary>
         /// <returns>a sample from the distribution.</returns>
         public double Sample()
         {
-            return DoSample(RandomSource, _d1, _d2);
+            return SampleUnchecked(RandomSource, _d1, _d2);
         }
 
         /// <summary>
@@ -342,22 +326,45 @@ namespace MathNet.Numerics.Distributions
         {
             while (true)
             {
-                yield return DoSample(RandomSource, _d1, _d2);
+                yield return SampleUnchecked(RandomSource, _d1, _d2);
             }
         }
 
-        #endregion
-
         /// <summary>
-        /// Generates one sample from the <c>FisherSnedecor</c> distribution without parameter checking.
+        /// Generates a sample from the distribution.
         /// </summary>
         /// <param name="rnd">The random number generator to use.</param>
         /// <param name="d1">The first parameter - degree of freedom.</param>
         /// <param name="d2">The second parameter - degree of freedom.</param>
-        /// <returns>a <c>FisherSnedecor</c> distributed random number.</returns>
-        private static double DoSample(Random rnd, double d1, double d2)
+        /// <returns>a sample from the distribution.</returns>
+        public static double Sample(Random rnd, double d1, double d2)
         {
-            return (ChiSquare.Sample(rnd, d1) / d1) / (ChiSquare.Sample(rnd, d2) / d2);
+            if (Control.CheckDistributionParameters && !IsValidParameterSet(d1, d2))
+            {
+                throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
+            }
+
+            return SampleUnchecked(rnd, d1, d2);
+        }
+
+        /// <summary>
+        /// Generates a sequence of samples from the distribution.
+        /// </summary>
+        /// <param name="rnd">The random number generator to use.</param>
+        /// <param name="d1">The first parameter - degree of freedom.</param>
+        /// <param name="d2">The second parameter - degree of freedom.</param>
+        /// <returns>a sequence of samples from the distribution.</returns>
+        public static IEnumerable<double> Samples(Random rnd, double d1, double d2)
+        {
+            if (Control.CheckDistributionParameters && !IsValidParameterSet(d1, d2))
+            {
+                throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
+            }
+
+            while (true)
+            {
+                yield return SampleUnchecked(rnd, d1, d2);
+            }
         }
     }
 }

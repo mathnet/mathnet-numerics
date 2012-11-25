@@ -46,17 +46,17 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// The scale parameter of the distribution.
         /// </summary>
-        private double _scale;
+        double _scale;
 
         /// <summary>
         /// The shape parameter of the distribution.
         /// </summary>
-        private double _shape;
+        double _shape;
 
         /// <summary>
         /// The distribution's random number generator.
         /// </summary>
-        private Random _random;
+        Random _random;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Pareto"/> class. 
@@ -82,7 +82,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="scale">The scale parameter of the distribution.</param>
         /// <param name="shape">The shape parameter of the distribution.</param>
         /// <exception cref="ArgumentOutOfRangeException">When the parameters don't pass the <see cref="IsValidParameterSet"/> function.</exception>
-        private void SetParameters(double scale, double shape)
+        void SetParameters(double scale, double shape)
         {
             if (Control.CheckDistributionParameters && !IsValidParameterSet(scale, shape))
             {
@@ -99,7 +99,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="scale">The scale parameter of the distribution.</param>
         /// <param name="shape">The shape parameter of the distribution.</param>
         /// <returns><c>true</c> when the parameters are valid, <c>false</c> otherwise.</returns>
-        private static bool IsValidParameterSet(double scale, double shape)
+        static bool IsValidParameterSet(double scale, double shape)
         {
             if (scale <= 0 || shape <= 0)
             {
@@ -119,15 +119,9 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Scale
         {
-            get
-            {
-                return _scale;
-            }
+            get { return _scale; }
 
-            set
-            {
-                SetParameters(value, _shape);
-            }
+            set { SetParameters(value, _shape); }
         }
 
         /// <summary>
@@ -135,15 +129,9 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Shape
         {
-            get
-            {
-                return _shape;
-            }
+            get { return _shape; }
 
-            set
-            {
-                SetParameters(_scale, value);
-            }
+            set { SetParameters(_scale, value); }
         }
 
         /// <summary>
@@ -162,10 +150,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public Random RandomSource
         {
-            get
-            {
-                return _random;
-            }
+            get { return _random; }
 
             set
             {
@@ -215,10 +200,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double StdDev
         {
-            get
-            {
-                return (_scale * Math.Sqrt(_shape)) / (Math.Abs(_shape - 1.0) * Math.Sqrt(_shape - 2.0));
-            }
+            get { return (_scale * Math.Sqrt(_shape)) / (Math.Abs(_shape - 1.0) * Math.Sqrt(_shape - 2.0)); }
         }
 
         /// <summary>
@@ -226,10 +208,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Entropy
         {
-            get
-            {
-                return Math.Log(_shape / _scale) - (1.0 / _shape) - 1.0;
-            }
+            get { return Math.Log(_shape / _scale) - (1.0 / _shape) - 1.0; }
         }
 
         /// <summary>
@@ -237,10 +216,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Skewness
         {
-            get
-            {
-                return (2.0 * (_shape + 1.0) / (_shape - 3.0)) * Math.Sqrt((_shape - 2.0) / _shape);
-            }
+            get { return (2.0 * (_shape + 1.0) / (_shape - 3.0)) * Math.Sqrt((_shape - 2.0) / _shape); }
         }
 
         /// <summary>
@@ -262,10 +238,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Mode
         {
-            get
-            {
-                return _scale;
-            }
+            get { return _scale; }
         }
 
         /// <summary>
@@ -273,10 +246,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Median
         {
-            get
-            {
-                return _scale * Math.Pow(2.0, 1.0 / _shape);
-            }
+            get { return _scale * Math.Pow(2.0, 1.0 / _shape); }
         }
 
         /// <summary>
@@ -284,10 +254,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Minimum
         {
-            get
-            {
-                return _scale;
-            }
+            get { return _scale; }
         }
 
         /// <summary>
@@ -295,10 +262,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Maximum
         {
-            get
-            {
-                return Double.PositiveInfinity;
-            }
+            get { return Double.PositiveInfinity; }
         }
 
         /// <summary>
@@ -321,13 +285,27 @@ namespace MathNet.Numerics.Distributions
             return Math.Log(Density(x));
         }
 
+        #endregion
+
+        /// <summary>
+        /// Generates a sample from the Pareto distribution without doing parameter checking.
+        /// </summary>
+        /// <param name="rnd">The random number generator to use.</param>
+        /// <param name="scale">The scale parameter.</param>
+        /// <param name="shape">The shape parameter.</param>
+        /// <returns>a random number from the Pareto distribution.</returns>
+        internal static double SampleUnchecked(Random rnd, double scale, double shape)
+        {
+            return scale * Math.Pow(rnd.NextDouble(), -1.0 / shape);
+        }
+
         /// <summary>
         /// Draws a random sample from the distribution.
         /// </summary>
         /// <returns>A random number from this distribution.</returns>
         public double Sample()
         {
-            return DoSample(RandomSource);
+            return SampleUnchecked(RandomSource, _scale, _shape);
         }
 
         /// <summary>
@@ -338,20 +316,45 @@ namespace MathNet.Numerics.Distributions
         {
             while (true)
             {
-                yield return DoSample(RandomSource);
+                yield return SampleUnchecked(RandomSource, _scale, _shape);
             }
         }
 
-        #endregion
-
         /// <summary>
-        /// Generates a sample from the Pareto distribution without doing parameter checking.
+        /// Generates a sample from the distribution.
         /// </summary>
         /// <param name="rnd">The random number generator to use.</param>
-        /// <returns>a random number from the Pareto distribution.</returns>
-        private double DoSample(Random rnd)
+        /// <param name="scale">The scale parameter.</param>
+        /// <param name="shape">The shape parameter.</param>
+        /// <returns>a sample from the distribution.</returns>
+        public static double Sample(Random rnd, double scale, double shape)
         {
-            return _scale * Math.Pow(rnd.NextDouble(), -1.0 / _shape);
+            if (Control.CheckDistributionParameters && !IsValidParameterSet(scale, shape))
+            {
+                throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
+            }
+
+            return SampleUnchecked(rnd, scale, shape);
+        }
+
+        /// <summary>
+        /// Generates a sequence of samples from the distribution.
+        /// </summary>
+        /// <param name="rnd">The random number generator to use.</param>
+        /// <param name="scale">The scale parameter.</param>
+        /// <param name="shape">The shape parameter.</param>
+        /// <returns>a sequence of samples from the distribution.</returns>
+        public static IEnumerable<double> Samples(Random rnd, double scale, double shape)
+        {
+            if (Control.CheckDistributionParameters && !IsValidParameterSet(scale, shape))
+            {
+                throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
+            }
+
+            while (true)
+            {
+                yield return SampleUnchecked(rnd, scale, shape);
+            }
         }
     }
 }

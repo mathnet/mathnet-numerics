@@ -326,7 +326,7 @@ namespace MathNet.Numerics.Distributions
             var v = new DenseVector(count, 0.0);
             for (var d = 0; d < count; d += 2)
             {
-                var sample = Normal.SampleBoxMuller(rnd);
+                var sample = Normal.SampleUncheckedBoxMuller(rnd);
                 v[d] = sample.Item1;
                 if (d + 1 < count)
                 {

@@ -44,17 +44,18 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// The scale of the Cauchy distribution.
         /// </summary>
-        private double _scale;
+        double _scale;
 
         /// <summary>
         /// The distribution's random number generator.
         /// </summary>
-        private Random _random;
+        Random _random;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Cauchy"/> class with the location parameter set to 0 and the scale parameter set to 1
         /// </summary>
-        public Cauchy() : this(0, 1)
+        public Cauchy()
+            : this(0, 1)
         {
         }
 
@@ -82,7 +83,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="location">Location parameter.</param>
         /// <param name="scale">Scale parameter. Must be greater than 0.</param>
         /// <exception cref="ArgumentOutOfRangeException">When the parameters don't pass the <see cref="IsValidParameterSet"/> function.</exception>
-        private void SetParameters(double location, double scale)
+        void SetParameters(double location, double scale)
         {
             if (Control.CheckDistributionParameters && !IsValidParameterSet(location, scale))
             {
@@ -99,7 +100,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="location">Location parameter.</param>
         /// <param name="scale">Scale parameter. Must be greater than 0.</param>
         /// <returns>True when the parameters are valid, <c>false</c> otherwise.</returns>
-        private static bool IsValidParameterSet(double location, double scale)
+        static bool IsValidParameterSet(double location, double scale)
         {
             if (scale <= 0)
             {
@@ -119,15 +120,9 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Location
         {
-            get
-            {
-                return Median;
-            }
+            get { return Median; }
 
-            set
-            {
-                SetParameters(value, _scale);
-            }
+            set { SetParameters(value, _scale); }
         }
 
         /// <summary>
@@ -135,15 +130,9 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Scale
         {
-            get
-            {
-                return _scale;
-            }
+            get { return _scale; }
 
-            set
-            {
-                SetParameters(Median, value);
-            }
+            set { SetParameters(Median, value); }
         }
 
         /// <summary>
@@ -162,11 +151,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public Random RandomSource
         {
-            get
-            {
-                return _random;
-            }
-
+            get { return _random; }
             set
             {
                 if (value == null)
@@ -183,10 +168,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Mean
         {
-            get
-            {
-                throw new NotSupportedException();
-            }
+            get { throw new NotSupportedException(); }
         }
 
         /// <summary>
@@ -194,10 +176,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Variance
         {
-            get
-            {
-                throw new NotSupportedException();
-            }
+            get { throw new NotSupportedException(); }
         }
 
         /// <summary>
@@ -205,10 +184,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double StdDev
         {
-            get
-            {
-                throw new NotSupportedException();
-            }
+            get { throw new NotSupportedException(); }
         }
 
         /// <summary>
@@ -216,10 +192,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Entropy
         {
-            get
-            {
-                return Math.Log(4.0 * Constants.Pi * _scale);
-            }
+            get { return Math.Log(4.0 * Constants.Pi * _scale); }
         }
 
         /// <summary>
@@ -227,10 +200,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Skewness
         {
-            get
-            {
-                throw new NotSupportedException();
-            }
+            get { throw new NotSupportedException(); }
         }
 
         /// <summary>
@@ -252,30 +222,20 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Mode
         {
-            get
-            {
-                return Median;
-            }
+            get { return Median; }
         }
 
         /// <summary>
         /// Gets the median of the distribution.
         /// </summary>
-        public double Median
-        {
-            get;
-            private set;
-        }
+        public double Median { get; private set; }
 
         /// <summary>
         /// Gets the minimum of the distribution.
         /// </summary>
         public double Minimum
         {
-            get
-            {
-                return Double.NegativeInfinity;
-            }
+            get { return Double.NegativeInfinity; }
         }
 
         /// <summary>
@@ -283,10 +243,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Maximum
         {
-            get
-            {
-                return Double.PositiveInfinity;
-            }
+            get { return Double.PositiveInfinity; }
         }
 
         /// <summary>
@@ -309,13 +266,28 @@ namespace MathNet.Numerics.Distributions
             return -Math.Log(Constants.Pi * _scale * (1.0 + (((x - Median) / _scale) * ((x - Median) / _scale))));
         }
 
+        #endregion
+
+        /// <summary>
+        /// Samples the distribution.
+        /// </summary>
+        /// <param name="rnd">The random number generator to use.</param>
+        /// <param name="location">The location shape parameter.</param>
+        /// <param name="scale">The scale parameter.</param>
+        /// <returns>a random number from the distribution.</returns>
+        internal static double SampleUnchecked(Random rnd, double location, double scale)
+        {
+            var u = rnd.NextDouble();
+            return location + (scale * Math.Tan(Constants.Pi * (u - 0.5)));
+        }
+
         /// <summary>
         /// Draws a random sample from the distribution.
         /// </summary>
         /// <returns>A random number from this distribution.</returns>
         public double Sample()
         {
-            return DoSample(RandomSource, Median, _scale);
+            return SampleUnchecked(RandomSource, Median, _scale);
         }
 
         /// <summary>
@@ -326,23 +298,45 @@ namespace MathNet.Numerics.Distributions
         {
             while (true)
             {
-                yield return DoSample(RandomSource, Median, _scale);
+                yield return SampleUnchecked(RandomSource, Median, _scale);
             }
         }
 
-        #endregion
-
         /// <summary>
-        /// Samples the distribution.
+        /// Generates a sample from the distribution.
         /// </summary>
         /// <param name="rnd">The random number generator to use.</param>
         /// <param name="location">The location shape parameter.</param>
         /// <param name="scale">The scale parameter.</param>
-        /// <returns>a random number from the distribution.</returns>
-        private static double DoSample(Random rnd, double location, double scale)
+        /// <returns>a sample from the distribution.</returns>
+        public static double Sample(Random rnd, double location, double scale)
         {
-            var u = rnd.NextDouble();
-            return location + (scale * Math.Tan(Constants.Pi * (u - 0.5)));
+            if (Control.CheckDistributionParameters && !IsValidParameterSet(location, scale))
+            {
+                throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
+            }
+
+            return SampleUnchecked(rnd, location, scale);
+        }
+
+        /// <summary>
+        /// Generates a sequence of samples from the distribution.
+        /// </summary>
+        /// <param name="rnd">The random number generator to use.</param>
+        /// <param name="location">The location shape parameter.</param>
+        /// <param name="scale">The scale parameter.</param>
+        /// <returns>a sequence of samples from the distribution.</returns>
+        public static IEnumerable<double> Samples(Random rnd, double location, double scale)
+        {
+            if (Control.CheckDistributionParameters && !IsValidParameterSet(location, scale))
+            {
+                throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
+            }
+
+            while (true)
+            {
+                yield return SampleUnchecked(rnd, location, scale);
+            }
         }
     }
 }

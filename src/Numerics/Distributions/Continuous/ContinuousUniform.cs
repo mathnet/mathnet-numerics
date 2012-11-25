@@ -48,22 +48,23 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// The distribution's lower bound.
         /// </summary>
-        private double _lower;
+        double _lower;
 
         /// <summary>
         /// The distribution's upper bound.
         /// </summary>
-        private double _upper;
+        double _upper;
 
         /// <summary>
         /// The distribution's random number generator.
         /// </summary>
-        private Random _random;
+        Random _random;
 
         /// <summary>
         /// Initializes a new instance of the ContinuousUniform class with lower bound 0 and upper bound 1.
         /// </summary>
-        public ContinuousUniform() : this(0.0, 1.0)
+        public ContinuousUniform()
+            : this(0.0, 1.0)
         {
         }
 
@@ -94,13 +95,13 @@ namespace MathNet.Numerics.Distributions
         /// <param name="lower">Lower bound.</param>
         /// <param name="upper">Upper bound; must be at least as large as <paramref name="lower"/>.</param>
         /// <returns><c>true</c> when the parameters are valid, <c>false</c> otherwise.</returns>
-        private static bool IsValidParameterSet(double lower, double upper)
+        static bool IsValidParameterSet(double lower, double upper)
         {
             if (upper < lower)
             {
                 return false;
             }
-            
+
             if (Double.IsNaN(upper) || Double.IsNaN(lower))
             {
                 return false;
@@ -115,7 +116,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="lower">Lower bound.</param>
         /// <param name="upper">Upper bound; must be at least as large as <paramref name="lower"/>.</param>
         /// <exception cref="ArgumentOutOfRangeException">When the parameters don't pass the <see cref="IsValidParameterSet"/> function.</exception>
-        private void SetParameters(double lower, double upper)
+        void SetParameters(double lower, double upper)
         {
             if (Control.CheckDistributionParameters && !IsValidParameterSet(lower, upper))
             {
@@ -131,15 +132,9 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Lower
         {
-            get
-            {
-                return _lower;
-            }
+            get { return _lower; }
 
-            set
-            {
-                SetParameters(value, _upper);
-            }
+            set { SetParameters(value, _upper); }
         }
 
         /// <summary>
@@ -147,15 +142,9 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Upper
         {
-            get
-            {
-                return _upper;
-            }
+            get { return _upper; }
 
-            set
-            {
-                SetParameters(_lower, value);
-            }
+            set { SetParameters(_lower, value); }
         }
 
         #region IDistribution Members
@@ -165,10 +154,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public Random RandomSource
         {
-            get
-            {
-                return _random;
-            }
+            get { return _random; }
 
             set
             {
@@ -221,6 +207,7 @@ namespace MathNet.Numerics.Distributions
         {
             get { return 0.0; }
         }
+
         #endregion
 
         #region IContinuousDistribution Members
@@ -300,7 +287,7 @@ namespace MathNet.Numerics.Distributions
             {
                 return 0.0;
             }
-            
+
             if (x >= _upper)
             {
                 return 1.0;
@@ -309,13 +296,27 @@ namespace MathNet.Numerics.Distributions
             return (x - _lower) / (_upper - _lower);
         }
 
+        #endregion
+
+        /// <summary>
+        /// Generates one sample from the <c>ContinuousUniform</c> distribution without parameter checking.
+        /// </summary>
+        /// <param name="rnd">The random number generator to use.</param>
+        /// <param name="lower">The lower bound of the uniform random variable.</param>
+        /// <param name="upper">The upper bound of the uniform random variable.</param>
+        /// <returns>a uniformly distributed random number.</returns>
+        internal static double SampleUnchecked(Random rnd, double lower, double upper)
+        {
+            return lower + (rnd.NextDouble() * (upper - lower));
+        }
+
         /// <summary>
         /// Generates a sample from the <c>ContinuousUniform</c> distribution.
         /// </summary>
         /// <returns>a sample from the distribution.</returns>
         public double Sample()
         {
-            return DoSample(RandomSource, _lower, _upper);
+            return SampleUnchecked(RandomSource, _lower, _upper);
         }
 
         /// <summary>
@@ -326,11 +327,9 @@ namespace MathNet.Numerics.Distributions
         {
             while (true)
             {
-                yield return DoSample(RandomSource, _lower, _upper);
+                yield return SampleUnchecked(RandomSource, _lower, _upper);
             }
         }
-
-        #endregion
 
         /// <summary>
         /// Generates a sample from the <c>ContinuousUniform</c> distribution.
@@ -346,7 +345,7 @@ namespace MathNet.Numerics.Distributions
                 throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
             }
 
-            return DoSample(rnd, lower, upper);
+            return SampleUnchecked(rnd, lower, upper);
         }
 
         /// <summary>
@@ -365,20 +364,8 @@ namespace MathNet.Numerics.Distributions
 
             while (true)
             {
-                yield return DoSample(rnd, lower, upper);
+                yield return SampleUnchecked(rnd, lower, upper);
             }
-        }
-
-        /// <summary>
-        /// Generates one sample from the <c>ContinuousUniform</c> distribution without parameter checking.
-        /// </summary>
-        /// <param name="rnd">The random number generator to use.</param>
-        /// <param name="lower">The lower bound of the uniform random variable.</param>
-        /// <param name="upper">The upper bound of the uniform random variable.</param>
-        /// <returns>a uniformly distributed random number.</returns>
-        private static double DoSample(Random rnd, double lower, double upper)
-        {
-            return lower + (rnd.NextDouble() * (upper - lower));
         }
     }
 }

@@ -52,17 +52,17 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Gamma shape parameter.
         /// </summary>
-        private double _shape;
+        double _shape;
 
         /// <summary>
         /// Gamma inverse scale parameter.
         /// </summary>
-        private double _invScale;
+        double _invScale;
 
         /// <summary>
         /// The distribution's random number generator.
         /// </summary>
-        private Random _random;
+        Random _random;
 
         /// <summary>
         /// Initializes a new instance of the Gamma class.
@@ -114,7 +114,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="shape">The shape of the Gamma distribution.</param>
         /// <param name="invScale">The inverse scale of the Gamma distribution.</param>
         /// <returns><c>true</c> when the parameters are valid, <c>false</c> otherwise.</returns>
-        private static bool IsValidParameterSet(double shape, double invScale)
+        static bool IsValidParameterSet(double shape, double invScale)
         {
             if (shape < 0.0 || invScale < 0.0 || Double.IsNaN(shape) || Double.IsNaN(invScale))
             {
@@ -130,7 +130,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="shape">The shape of the Gamma distribution.</param>
         /// <param name="invScale">The inverse scale of the Gamma distribution.</param>
         /// <exception cref="ArgumentOutOfRangeException">When the parameters don't pass the <see cref="IsValidParameterSet"/> function.</exception>
-        private void SetParameters(double shape, double invScale)
+        void SetParameters(double shape, double invScale)
         {
             if (Control.CheckDistributionParameters && !IsValidParameterSet(shape, invScale))
             {
@@ -146,15 +146,9 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Shape
         {
-            get
-            {
-                return _shape;
-            }
+            get { return _shape; }
 
-            set
-            {
-                SetParameters(value, _invScale);
-            }
+            set { SetParameters(value, _invScale); }
         }
 
         /// <summary>
@@ -162,10 +156,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Scale
         {
-            get
-            {
-                return 1.0 / _invScale;
-            }
+            get { return 1.0 / _invScale; }
 
             set
             {
@@ -185,15 +176,9 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double InvScale
         {
-            get
-            {
-                return _invScale;
-            }
+            get { return _invScale; }
 
-            set
-            {
-                SetParameters(_shape, value);
-            }
+            set { SetParameters(_shape, value); }
         }
 
         #region IDistribution implementation
@@ -203,10 +188,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public Random RandomSource
         {
-            get
-            {
-                return _random;
-            }
+            get { return _random; }
 
             set
             {
@@ -230,12 +212,12 @@ namespace MathNet.Numerics.Distributions
                 {
                     return _shape;
                 }
-                
+
                 if (_invScale == 0.0 && _shape == 0.0)
                 {
                     return Double.NaN;
                 }
-                
+
                 return _shape / _invScale;
             }
         }
@@ -251,12 +233,12 @@ namespace MathNet.Numerics.Distributions
                 {
                     return 0.0;
                 }
-                
+
                 if (_invScale == 0.0 && _shape == 0.0)
                 {
                     return Double.NaN;
                 }
-                
+
                 return _shape / (_invScale * _invScale);
             }
         }
@@ -272,12 +254,12 @@ namespace MathNet.Numerics.Distributions
                 {
                     return 0.0;
                 }
-                
+
                 if (_invScale == 0.0 && _shape == 0.0)
                 {
                     return Double.NaN;
                 }
-                
+
                 return Math.Sqrt(_shape / (_invScale * _invScale));
             }
         }
@@ -293,12 +275,12 @@ namespace MathNet.Numerics.Distributions
                 {
                     return 0.0;
                 }
-                
+
                 if (_invScale == 0.0 && _shape == 0.0)
                 {
                     return Double.NaN;
                 }
-                
+
                 return _shape - Math.Log(_invScale) + SpecialFunctions.GammaLn(_shape) + ((1.0 - _shape) * SpecialFunctions.DiGamma(_shape));
             }
         }
@@ -314,12 +296,12 @@ namespace MathNet.Numerics.Distributions
                 {
                     return 0.0;
                 }
-                
+
                 if (_invScale == 0.0 && _shape == 0.0)
                 {
                     return Double.NaN;
                 }
-                
+
                 return 2.0 / Math.Sqrt(_shape);
             }
         }
@@ -339,12 +321,12 @@ namespace MathNet.Numerics.Distributions
                 {
                     return _shape;
                 }
-                
+
                 if (_invScale == 0.0 && _shape == 0.0)
                 {
                     return Double.NaN;
                 }
-                
+
                 return (_shape - 1.0) / _invScale;
             }
         }
@@ -354,10 +336,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Median
         {
-            get
-            {
-                throw new NotSupportedException();
-            }
+            get { throw new NotSupportedException(); }
         }
 
         /// <summary>
@@ -365,10 +344,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Minimum
         {
-            get
-            {
-                return 0.0;
-            }
+            get { return 0.0; }
         }
 
         /// <summary>
@@ -376,10 +352,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Maximum
         {
-            get
-            {
-                return Double.PositiveInfinity;
-            }
+            get { return Double.PositiveInfinity; }
         }
 
         /// <summary>
@@ -393,17 +366,17 @@ namespace MathNet.Numerics.Distributions
             {
                 return x == _shape ? Double.PositiveInfinity : 0.0;
             }
-            
+
             if (_shape == 0.0 && _invScale == 0.0)
             {
                 return 0.0;
             }
-            
+
             if (_shape == 1.0)
             {
                 return _invScale * Math.Exp(-_invScale * x);
             }
-            
+
             return Math.Pow(_invScale, _shape) * Math.Pow(x, _shape - 1.0) * Math.Exp(-_invScale * x) / SpecialFunctions.Gamma(_shape);
         }
 
@@ -418,17 +391,17 @@ namespace MathNet.Numerics.Distributions
             {
                 return x == _shape ? Double.PositiveInfinity : Double.NegativeInfinity;
             }
-            
+
             if (_shape == 0.0 && _invScale == 0.0)
             {
                 return Double.NegativeInfinity;
             }
-            
+
             if (_shape == 1.0)
             {
                 return Math.Log(_invScale) - (_invScale * x);
             }
-            
+
             return (_shape * Math.Log(_invScale)) + ((_shape - 1.0) * Math.Log(x)) - (_invScale * x) - SpecialFunctions.GammaLn(_shape);
         }
 
@@ -443,74 +416,16 @@ namespace MathNet.Numerics.Distributions
             {
                 return x >= _shape ? 1.0 : 0.0;
             }
-            
+
             if (_shape == 0.0 && _invScale == 0.0)
             {
                 return 0.0;
             }
-            
+
             return SpecialFunctions.GammaLowerRegularized(_shape, x * _invScale);
         }
 
-        /// <summary>
-        /// Generates a sample from the Gamma distribution.
-        /// </summary>
-        /// <returns>a sample from the distribution.</returns>
-        public double Sample()
-        {
-            return SampleGamma(RandomSource, _shape, _invScale);
-        }
-
-        /// <summary>
-        /// Generates a sequence of samples from the Gamma distribution.
-        /// </summary>
-        /// <returns>a sequence of samples from the distribution.</returns>
-        public IEnumerable<double> Samples()
-        {
-            while (true)
-            {
-                yield return SampleGamma(RandomSource, _shape, _invScale);
-            }
-        }
-
         #endregion
-
-        /// <summary>
-        /// Generates a sample from the Gamma distribution.
-        /// </summary>
-        /// <param name="rng">The random number generator to use.</param>
-        /// <param name="shape">The shape of the Gamma distribution from which to generate samples.</param>
-        /// <param name="invScale">The inverse scale of the Gamma distribution from which to generate samples.</param>
-        /// <returns>a sample from the distribution.</returns>
-        public static double Sample(Random rng, double shape, double invScale)
-        {
-            if (Control.CheckDistributionParameters && !IsValidParameterSet(shape, invScale))
-            {
-                throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
-            }
-
-            return SampleGamma(rng, shape, invScale);
-        }
-
-        /// <summary>
-        /// Generates a sequence of samples from the Gamma distribution.
-        /// </summary>
-        /// <param name="rng">The random number generator to use.</param>
-        /// <param name="shape">The shape of the Gamma distribution from which to generate samples.</param>
-        /// <param name="invScale">The inverse scale of the Gamma distribution from which to generate samples.</param>
-        /// <returns>a sequence of samples from the distribution.</returns>
-        public static IEnumerable<double> Samples(Random rng, double shape, double invScale)
-        {
-            if (Control.CheckDistributionParameters && !IsValidParameterSet(shape, invScale))
-            {
-                throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
-            }
-
-            while (true)
-            {
-                yield return SampleGamma(rng, shape, invScale);
-            }
-        }
 
         /// <summary>
         /// <para>Sampling implementation based on:
@@ -522,7 +437,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="shape">The shape of the Gamma distribution.</param>
         /// <param name="invScale">The inverse scale of the Gamma distribution.</param>
         /// <returns>A sample from a Gamma distributed random variable.</returns>
-        internal static double SampleGamma(Random rnd, double shape, double invScale)
+        internal static double SampleUnchecked(Random rnd, double shape, double invScale)
         {
             if (Double.IsPositiveInfinity(invScale))
             {
@@ -563,6 +478,64 @@ namespace MathNet.Numerics.Distributions
                 {
                     return alphafix * d * v / invScale;
                 }
+            }
+        }
+
+        /// <summary>
+        /// Generates a sample from the Gamma distribution.
+        /// </summary>
+        /// <returns>a sample from the distribution.</returns>
+        public double Sample()
+        {
+            return SampleUnchecked(RandomSource, _shape, _invScale);
+        }
+
+        /// <summary>
+        /// Generates a sequence of samples from the Gamma distribution.
+        /// </summary>
+        /// <returns>a sequence of samples from the distribution.</returns>
+        public IEnumerable<double> Samples()
+        {
+            while (true)
+            {
+                yield return SampleUnchecked(RandomSource, _shape, _invScale);
+            }
+        }
+
+        /// <summary>
+        /// Generates a sample from the Gamma distribution.
+        /// </summary>
+        /// <param name="rng">The random number generator to use.</param>
+        /// <param name="shape">The shape of the Gamma distribution from which to generate samples.</param>
+        /// <param name="invScale">The inverse scale of the Gamma distribution from which to generate samples.</param>
+        /// <returns>a sample from the distribution.</returns>
+        public static double Sample(Random rng, double shape, double invScale)
+        {
+            if (Control.CheckDistributionParameters && !IsValidParameterSet(shape, invScale))
+            {
+                throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
+            }
+
+            return SampleUnchecked(rng, shape, invScale);
+        }
+
+        /// <summary>
+        /// Generates a sequence of samples from the Gamma distribution.
+        /// </summary>
+        /// <param name="rng">The random number generator to use.</param>
+        /// <param name="shape">The shape of the Gamma distribution from which to generate samples.</param>
+        /// <param name="invScale">The inverse scale of the Gamma distribution from which to generate samples.</param>
+        /// <returns>a sequence of samples from the distribution.</returns>
+        public static IEnumerable<double> Samples(Random rng, double shape, double invScale)
+        {
+            if (Control.CheckDistributionParameters && !IsValidParameterSet(shape, invScale))
+            {
+                throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
+            }
+
+            while (true)
+            {
+                yield return SampleUnchecked(rng, shape, invScale);
             }
         }
     }

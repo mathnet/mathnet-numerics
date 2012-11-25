@@ -55,29 +55,30 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Keeps track of the location of the Student t-distribution.
         /// </summary>
-        private double _location;
+        double _location;
 
         /// <summary>
         /// Keeps track of the degrees of freedom for the Student t-distribution.
         /// </summary>
-        private double _dof;
+        double _dof;
 
         /// <summary>
         /// Keeps track of the scale for the Student t-distribution.
         /// </summary>
-        private double _scale;
+        double _scale;
 
         /// <summary>
         /// The distribution's random number generator.
         /// </summary>
-        private Random _random;
+        Random _random;
 
         /// <summary>
         /// Initializes a new instance of the StudentT class. This is a Student t-distribution with location 0.0
         /// scale 1.0 and degrees of freedom 1. The distribution will
         /// be initialized with the default <seealso cref="System.Random"/> random number generator.
         /// </summary>
-        public StudentT() : this(0.0, 1.0, 1.0)
+        public StudentT()
+            : this(0.0, 1.0, 1.0)
         {
         }
 
@@ -111,7 +112,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="scale">The scale of the Student t-distribution.</param>
         /// <param name="dof">The degrees of freedom for the Student t-distribution.</param>
         /// <returns><c>true</c> when the parameters are valid, <c>false</c> otherwise.</returns>
-        private static bool IsValidParameterSet(double location, double scale, double dof)
+        static bool IsValidParameterSet(double location, double scale, double dof)
         {
             if (scale <= 0.0 || dof <= 0.0 || Double.IsNaN(scale) || Double.IsNaN(location) || Double.IsNaN(dof))
             {
@@ -128,7 +129,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="scale">The scale of the Student t-distribution.</param>
         /// <param name="dof">The degrees of freedom for the Student t-distribution.</param>
         /// <exception cref="ArgumentOutOfRangeException">When the parameters don't pass the <see cref="IsValidParameterSet"/> function.</exception>
-        private void SetParameters(double location, double scale, double dof)
+        void SetParameters(double location, double scale, double dof)
         {
             if (Control.CheckDistributionParameters && !IsValidParameterSet(location, scale, dof))
             {
@@ -145,15 +146,9 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Location
         {
-            get
-            {
-                return _location;
-            }
+            get { return _location; }
 
-            set
-            {
-                SetParameters(value, _scale, _dof);
-            }
+            set { SetParameters(value, _scale, _dof); }
         }
 
         /// <summary>
@@ -161,15 +156,9 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Scale
         {
-            get
-            {
-                return _scale;
-            }
+            get { return _scale; }
 
-            set
-            {
-                SetParameters(_location, value, _dof);
-            }
+            set { SetParameters(_location, value, _dof); }
         }
 
         /// <summary>
@@ -177,15 +166,9 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double DegreesOfFreedom
         {
-            get
-            {
-                return _dof;
-            }
+            get { return _dof; }
 
-            set
-            {
-                SetParameters(_location, _scale, value);
-            }
+            set { SetParameters(_location, _scale, value); }
         }
 
         #region IDistribution implementation
@@ -195,10 +178,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public Random RandomSource
         {
-            get
-            {
-                return _random;
-            }
+            get { return _random; }
 
             set
             {
@@ -216,10 +196,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Mean
         {
-            get
-            {
-                return _dof > 1.0 ? _location : Double.NaN;
-            }
+            get { return _dof > 1.0 ? _location : Double.NaN; }
         }
 
         /// <summary>
@@ -305,10 +282,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Mode
         {
-            get
-            {
-                return _location;
-            }
+            get { return _location; }
         }
 
         /// <summary>
@@ -316,10 +290,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Median
         {
-            get
-            {
-                return _location;
-            }
+            get { return _location; }
         }
 
         /// <summary>
@@ -327,10 +298,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Minimum
         {
-            get
-            {
-                return Double.NegativeInfinity;
-            }
+            get { return Double.NegativeInfinity; }
         }
 
         /// <summary>
@@ -338,10 +306,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Maximum
         {
-            get
-            {
-                return Double.PositiveInfinity;
-            }
+            get { return Double.PositiveInfinity; }
         }
 
         /// <summary>
@@ -359,9 +324,9 @@ namespace MathNet.Numerics.Distributions
 
             var d = (x - _location) / _scale;
             return Math.Exp(SpecialFunctions.GammaLn((_dof + 1.0) / 2.0) - SpecialFunctions.GammaLn(_dof / 2.0))
-                   * Math.Pow(1.0 + (d * d / _dof), -0.5 * (_dof + 1.0))
-                   / Math.Sqrt(_dof * Math.PI)
-                   / _scale;
+                * Math.Pow(1.0 + (d * d / _dof), -0.5 * (_dof + 1.0))
+                / Math.Sqrt(_dof * Math.PI)
+                / _scale;
         }
 
         /// <summary>
@@ -379,9 +344,9 @@ namespace MathNet.Numerics.Distributions
 
             var d = (x - _location) / _scale;
             return SpecialFunctions.GammaLn((_dof + 1.0) / 2.0)
-                   - (0.5 * ((_dof + 1.0) * Math.Log(1.0 + (d * d / _dof))))
-                   - SpecialFunctions.GammaLn(_dof / 2.0)
-                   - (0.5 * Math.Log(_dof * Math.PI)) - Math.Log(_scale);
+                - (0.5 * ((_dof + 1.0) * Math.Log(1.0 + (d * d / _dof))))
+                - SpecialFunctions.GammaLn(_dof / 2.0)
+                - (0.5 * Math.Log(_dof * Math.PI)) - Math.Log(_scale);
         }
 
         /// <summary>
@@ -403,13 +368,32 @@ namespace MathNet.Numerics.Distributions
             return x <= _location ? ib : 1.0 - ib;
         }
 
+        #endregion
+
+        /// <summary>
+        /// Samples student-t distributed random variables.
+        /// </summary>
+        /// <remarks>The algorithm is method 2 in section 5, chapter 9 
+        /// in L. Devroye's "Non-Uniform Random Variate Generation"</remarks>
+        /// <param name="rnd">The random number generator to use.</param>
+        /// <param name="location">The location of the Student t-distribution.</param>
+        /// <param name="scale">The scale of the Student t-distribution.</param>
+        /// <param name="dof">The degrees of freedom for the standard student-t distribution.</param>
+        /// <returns>a random number from the standard student-t distribution.</returns>
+        internal static double SampleUnchecked(Random rnd, double location, double scale, double dof)
+        {
+            var n = Normal.SampleUncheckedBoxMuller(rnd).Item1;
+            var g = Gamma.SampleUnchecked(rnd, 0.5 * dof, 0.5);
+            return location + (scale * n * Math.Sqrt(dof / g));
+        }
+
         /// <summary>
         /// Generates a sample from the Student t-distribution.
         /// </summary>
         /// <returns>a sample from the distribution.</returns>
         public double Sample()
         {
-            return _location + (_scale * Sample(RandomSource, _dof));
+            return SampleUnchecked(RandomSource, _location, _scale, _dof);
         }
 
         /// <summary>
@@ -420,11 +404,9 @@ namespace MathNet.Numerics.Distributions
         {
             while (true)
             {
-                yield return _location + (_scale * Sample(RandomSource, _dof));
+                yield return SampleUnchecked(RandomSource, _location, _scale, _dof);
             }
         }
-
-        #endregion
 
         /// <summary>
         /// Generates a sample from the Student t-distribution.
@@ -441,7 +423,7 @@ namespace MathNet.Numerics.Distributions
                 throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
             }
 
-            return location + (scale * Sample(rng, dof));
+            return SampleUnchecked(rng, location, scale, dof);
         }
 
         /// <summary>
@@ -461,23 +443,8 @@ namespace MathNet.Numerics.Distributions
 
             while (true)
             {
-                yield return location + (scale * Sample(rng, dof));
+                yield return SampleUnchecked(rng, location, scale, dof);
             }
-        }
-
-        /// <summary>
-        /// Samples standard student-t distributed random variables.
-        /// </summary>
-        /// <remarks>The algorithm is method 2 in section 5, chapter 9 
-        /// in L. Devroye's "Non-Uniform Random Variate Generation"</remarks>
-        /// <param name="rnd">The random number generator to use.</param>
-        /// <param name="dof">The degrees of freedom for the standard student-t distribution.</param>
-        /// <returns>a random number from the standard student-t distribution.</returns>
-        internal static double Sample(Random rnd, double dof)
-        {
-            var n = Normal.SampleBoxMuller(rnd).Item1;
-            var g = Gamma.Sample(rnd, 0.5 * dof, 0.5);
-            return Math.Sqrt(dof / g) * n;
         }
     }
 }
