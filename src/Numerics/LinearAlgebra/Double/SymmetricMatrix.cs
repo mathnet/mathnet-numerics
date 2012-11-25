@@ -84,6 +84,39 @@
         /// <summary>
         /// Adds another matrix to this matrix.
         /// </summary>
+        /// <param name="other">The matrix to add to this matrix.</param>
+        /// <returns>The result of the addition.</returns>
+        /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">If the two matrices don't have the same dimensions.</exception>
+        public override Matrix<double> Add(Matrix<double> other)
+        {
+            if (other == null)
+            {
+                throw new ArgumentNullException("other");
+            }
+
+            if (other.RowCount != RowCount || other.ColumnCount != ColumnCount)
+            {
+                throw DimensionsDontMatch<ArgumentOutOfRangeException>(this, other);
+            }
+
+            Matrix<double> result;
+            if (other is SymmetricMatrix)
+            {
+                result = CreateMatrix(RowCount, ColumnCount);
+            }
+            else
+            {
+                result = CreateMatrix(RowCount, ColumnCount, true);
+            }
+             
+            DoAdd(other, result);
+            return result;
+        }
+
+        /// <summary>
+        /// Adds another matrix to this matrix.
+        /// </summary>
         /// <param name="other">
         /// The matrix to add to this matrix.
         /// </param>
@@ -121,6 +154,40 @@
                 }
             }
         }
+
+        /// <summary>
+        /// Subtracts another matrix from this matrix.
+        /// </summary>
+        /// <param name="other">The matrix to subtract.</param>
+        /// <returns>The result of the subtraction.</returns>
+        /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">If the two matrices don't have the same dimensions.</exception>
+        public override Matrix<double> Subtract(Matrix<double> other)
+        {
+            if (other == null)
+            {
+                throw new ArgumentNullException("other");
+            }
+
+            if (other.RowCount != RowCount || other.ColumnCount != ColumnCount)
+            {
+                throw DimensionsDontMatch<ArgumentOutOfRangeException>(this, other);
+            }
+
+            Matrix<double> result;
+            if (other is SymmetricMatrix)
+            {
+                result = CreateMatrix(RowCount, ColumnCount);
+            }
+            else
+            {
+                result = CreateMatrix(RowCount, ColumnCount, true);
+            }
+
+            DoSubtract(other, result);
+            return result;
+        }
+
 
         /// <summary>
         /// Subtracts another matrix from this matrix.
@@ -247,6 +314,39 @@
         }
 
         /// <summary>
+        /// Pointwise multiplies this matrix with another matrix.
+        /// </summary>
+        /// <param name="other">The matrix to pointwise multiply with this one.</param>
+        /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null" />.</exception> 
+        /// <exception cref="ArgumentException">If this matrix and <paramref name="other"/> are not the same size.</exception>
+        /// <returns>A new matrix that is the pointwise multiplication of this matrix and <paramref name="other"/>.</returns>
+        public override Matrix<double> PointwiseMultiply(Matrix<double> other)
+        {
+            if (other == null)
+            {
+                throw new ArgumentNullException("other");
+            }
+
+            if (ColumnCount != other.ColumnCount || RowCount != other.RowCount)
+            {
+                throw DimensionsDontMatch<ArgumentException>(this, other, "other");
+            }
+
+            Matrix<double> result;
+            if (other is SymmetricMatrix)
+            {
+                result = CreateMatrix(RowCount, ColumnCount);
+            }
+            else
+            {
+                result = CreateMatrix(RowCount, ColumnCount, true);
+            }
+
+            PointwiseMultiply(other, result);
+            return result;
+        }
+
+        /// <summary>
         /// Pointwise multiplies this matrix with another matrix and stores the result into the result matrix.
         /// </summary>
         /// <param name="other">
@@ -279,6 +379,39 @@
                     }
                 }
             }
+        }
+
+        /// <summary>
+        /// Pointwise divide this matrix by another matrix.
+        /// </summary>
+        /// <param name="other">The matrix to pointwise subtract this one by.</param>
+        /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null" />.</exception> 
+        /// <exception cref="ArgumentException">If this matrix and <paramref name="other"/> are not the same size.</exception>
+        /// <returns>A new matrix that is the pointwise division of this matrix and <paramref name="other"/>.</returns>
+        public override Matrix<double> PointwiseDivide(Matrix<double> other)
+        {
+            if (other == null)
+            {
+                throw new ArgumentNullException("other");
+            }
+
+            if (ColumnCount != other.ColumnCount || RowCount != other.RowCount)
+            {
+                throw DimensionsDontMatch<ArgumentException>(this, other);
+            }
+
+            Matrix<double> result;
+            if (other is SymmetricMatrix)
+            {
+                result = CreateMatrix(RowCount, ColumnCount);
+            }
+            else
+            {
+                result = CreateMatrix(RowCount, ColumnCount, true);
+            }
+
+            PointwiseDivide(other, result);
+            return result;
         }
 
         /// <summary>
