@@ -46,32 +46,26 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// The r parameter of the distribution.
         /// </summary>
-        private double _r;
+        double _r;
 
         /// <summary>
         /// The p parameter of the distribution.
         /// </summary>
-        private double _p;
+        double _p;
 
         /// <summary>
         /// The distribution's random number generator.
         /// </summary>
-        private Random _random;
+        Random _random;
 
         /// <summary>
         /// Gets or sets the number of trials.
         /// </summary>
         public double R
         {
-            get
-            {
-                return _r;
-            }
+            get { return _r; }
 
-            set
-            {
-                SetParameters(value, _p);
-            }
+            set { SetParameters(value, _p); }
         }
 
         /// <summary>
@@ -79,15 +73,9 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double P
         {
-            get
-            {
-                return _p;
-            }
+            get { return _p; }
 
-            set
-            {
-                SetParameters(_r, value);
-            }
+            set { SetParameters(_r, value); }
         }
 
         /// <summary>
@@ -107,7 +95,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="r">The number of trials.</param>
         /// <param name="p">The probability of a trial resulting in success.</param>
         /// <exception cref="ArgumentOutOfRangeException">When the parameters don't pass the <see cref="IsValidParameterSet"/> function.</exception>
-        private void SetParameters(double r, double p)
+        void SetParameters(double r, double p)
         {
             if (Control.CheckDistributionParameters && !IsValidParameterSet(r, p))
             {
@@ -124,7 +112,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="r">The number of trials.</param>
         /// <param name="p">The probability of a trial resulting in success.</param>
         /// <returns><c>true</c> when the parameters are valid, <c>false</c> otherwise.</returns>        
-        private static bool IsValidParameterSet(double r, double p)
+        static bool IsValidParameterSet(double r, double p)
         {
             if (r < 0.0 || Double.IsNaN(r))
             {
@@ -157,10 +145,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public Random RandomSource
         {
-            get
-            {
-                return _random;
-            }
+            get { return _random; }
 
             set
             {
@@ -178,10 +163,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Mean
         {
-            get
-            {
-                return _r * (1.0 - _p) / _p;
-            }
+            get { return _r * (1.0 - _p) / _p; }
         }
 
         /// <summary>
@@ -189,10 +171,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Variance
         {
-            get
-            {
-                return _r * (1.0 - _p) / (_p * _p);
-            }
+            get { return _r * (1.0 - _p) / (_p * _p); }
         }
 
         /// <summary>
@@ -200,10 +179,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double StdDev
         {
-            get
-            {
-                return Math.Sqrt(_r * (1.0 - _p)) / _p;
-            }
+            get { return Math.Sqrt(_r * (1.0 - _p)) / _p; }
         }
 
         /// <summary>
@@ -211,10 +187,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Entropy
         {
-            get
-            {
-                throw new NotSupportedException();
-            }
+            get { throw new NotSupportedException(); }
         }
 
         /// <summary>
@@ -222,10 +195,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Skewness
         {
-            get
-            {
-                return (2.0 - _p) / Math.Sqrt(_r * (1.0 - _p));
-            }
+            get { return (2.0 - _p) / Math.Sqrt(_r * (1.0 - _p)); }
         }
 
         /// <summary>
@@ -247,10 +217,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public int Mode
         {
-            get
-            {
-                return _r > 1.0 ? (int)Math.Floor((_r - 1.0) * (1.0 - _p) / _p) : 0;
-            }
+            get { return _r > 1.0 ? (int)Math.Floor((_r - 1.0) * (1.0 - _p) / _p) : 0; }
         }
 
         /// <summary>
@@ -258,10 +225,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public int Median
         {
-            get
-            {
-                throw new NotSupportedException();
-            }
+            get { throw new NotSupportedException(); }
         }
 
         /// <summary>
@@ -269,10 +233,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public int Minimum
         {
-            get
-            {
-                return 0;
-            }
+            get { return 0; }
         }
 
         /// <summary>
@@ -280,10 +241,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public int Maximum
         {
-            get
-            {
-                return int.MaxValue;
-            }
+            get { return int.MaxValue; }
         }
 
         /// <summary>
@@ -296,10 +254,10 @@ namespace MathNet.Numerics.Distributions
         public double Probability(int k)
         {
             var ln = SpecialFunctions.GammaLn(_r + k)
-                     - SpecialFunctions.GammaLn(_r)
-                     - SpecialFunctions.GammaLn(k + 1.0)
-                     + (_r * Math.Log(_p))
-                     + (k * Math.Log(1.0 - _p));
+                - SpecialFunctions.GammaLn(_r)
+                - SpecialFunctions.GammaLn(k + 1.0)
+                + (_r * Math.Log(_p))
+                + (k * Math.Log(1.0 - _p));
             return Math.Exp(ln);
         }
 
@@ -313,32 +271,11 @@ namespace MathNet.Numerics.Distributions
         public double ProbabilityLn(int k)
         {
             var ln = SpecialFunctions.GammaLn(_r + k)
-                     - SpecialFunctions.GammaLn(_r)
-                     - SpecialFunctions.GammaLn(k + 1.0)
-                     + (_r * Math.Log(_p))
-                     + (k * Math.Log(1.0 - _p));
+                - SpecialFunctions.GammaLn(_r)
+                - SpecialFunctions.GammaLn(k + 1.0)
+                + (_r * Math.Log(_p))
+                + (k * Math.Log(1.0 - _p));
             return ln;
-        }
-
-        /// <summary>
-        /// Samples a <c>NegativeBinomial</c> distributed random variable.
-        /// </summary>
-        /// <returns>a sample from the distribution.</returns>
-        public int Sample()
-        {
-            return DoSample(RandomSource, _r, _p);
-        }
-
-        /// <summary>
-        /// Samples an array of <c>NegativeBinomial</c> distributed random variables.
-        /// </summary>
-        /// <returns>a sequence of samples from the distribution.</returns>
-        public IEnumerable<int> Samples()
-        {
-            while (true)
-            {
-                yield return DoSample(RandomSource, _r, _p);
-            }
         }
 
         #endregion
@@ -350,30 +287,75 @@ namespace MathNet.Numerics.Distributions
         /// <param name="r">The r parameter.</param>
         /// <param name="p">The p parameter.</param>
         /// <returns>a sample from the distribution.</returns>
-        private static int DoSample(Random rnd, double r, double p)
+        internal static int SampleUnchecked(Random rnd, double r, double p)
         {
-            var lambda = Gamma.Sample(rnd, r, p);
-            return DoPoissonSample(rnd, lambda);
-        }
-
-        /// <summary>
-        /// Use Knuth's method to generate Poisson distributed random variables.
-        /// </summary>
-        /// <param name="rnd">The random number generator.</param>
-        /// <param name="lambda">The lambda value.</param>
-        /// <returns>a Poisson distributed random number.</returns>
-        private static int DoPoissonSample(Random rnd, double lambda)
-        {
+            var lambda = Gamma.SampleUnchecked(rnd, r, p);
             var c = Math.Exp(-lambda);
-            var p = 1.0;
+            var p1 = 1.0;
             var k = 0;
             do
             {
                 k = k + 1;
-                p = p * rnd.NextDouble();
+                p1 = p1 * rnd.NextDouble();
             }
-            while (p >= c);
+            while (p1 >= c);
             return k - 1;
+        }
+
+        /// <summary>
+        /// Samples a <c>NegativeBinomial</c> distributed random variable.
+        /// </summary>
+        /// <returns>a sample from the distribution.</returns>
+        public int Sample()
+        {
+            return SampleUnchecked(RandomSource, _r, _p);
+        }
+
+        /// <summary>
+        /// Samples an array of <c>NegativeBinomial</c> distributed random variables.
+        /// </summary>
+        /// <returns>a sequence of samples from the distribution.</returns>
+        public IEnumerable<int> Samples()
+        {
+            while (true)
+            {
+                yield return SampleUnchecked(RandomSource, _r, _p);
+            }
+        }
+
+        /// <summary>
+        /// Samples a random variable.
+        /// </summary>
+        /// <param name="rnd">The random number generator to use.</param>
+        /// <param name="r">The r parameter.</param>
+        /// <param name="p">The p parameter.</param>
+        public static int Sample(Random rnd, double r, double p)
+        {
+            if (Control.CheckDistributionParameters && !IsValidParameterSet(r, p))
+            {
+                throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
+            }
+
+            return SampleUnchecked(rnd, r, p);
+        }
+
+        /// <summary>
+        /// Samples a sequence of this random variable.
+        /// </summary>
+        /// <param name="rnd">The random number generator to use.</param>
+        /// <param name="r">The r parameter.</param>
+        /// <param name="p">The p parameter.</param>
+        public static IEnumerable<int> Samples(Random rnd, double r, double p)
+        {
+            if (Control.CheckDistributionParameters && !IsValidParameterSet(r, p))
+            {
+                throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
+            }
+
+            while (true)
+            {
+                yield return SampleUnchecked(rnd, r, p);
+            }
         }
     }
 }

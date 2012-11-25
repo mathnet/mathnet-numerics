@@ -45,17 +45,17 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Stores the normalized binomial probability.
         /// </summary>
-        private double _p;
+        double _p;
 
         /// <summary>
         /// The number of trials.
         /// </summary>
-        private int _n;
+        int _n;
 
         /// <summary>
         /// The distribution's random number generator.
         /// </summary>
-        private Random _random;
+        Random _random;
 
         /// <summary>
         /// Initializes a new instance of the Binomial class.
@@ -85,7 +85,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="p">The success probability of a trial.</param>
         /// <param name="n">The number of trials.</param>
         /// <returns><c>false</c> <paramref name="p"/> is not in the interval [0.0,1.0] or <paramref name="n"/> is negative, <c>true</c> otherwise.</returns>
-        private static bool IsValidParameterSet(double p, int n)
+        static bool IsValidParameterSet(double p, int n)
         {
             if (p < 0.0 || p > 1.0 || Double.IsNaN(p))
             {
@@ -107,7 +107,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="n">The number of trials.</param>
         /// <exception cref="ArgumentOutOfRangeException">If <paramref name="p"/> is not in the interval [0.0,1.0].</exception>
         /// <exception cref="ArgumentOutOfRangeException">If <paramref name="n"/> is negative.</exception>
-        private void SetParameters(double p, int n)
+        void SetParameters(double p, int n)
         {
             if (Control.CheckDistributionParameters && !IsValidParameterSet(p, n))
             {
@@ -123,15 +123,9 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double P
         {
-            get
-            {
-                return _p;
-            }
+            get { return _p; }
 
-            set
-            {
-                SetParameters(value, _n);
-            }
+            set { SetParameters(value, _n); }
         }
 
         /// <summary>
@@ -139,15 +133,9 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public int N
         {
-            get
-            {
-                return _n;
-            }
+            get { return _n; }
 
-            set
-            {
-                SetParameters(_p, value);
-            }
+            set { SetParameters(_p, value); }
         }
 
         #region IDistribution Members
@@ -157,10 +145,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public Random RandomSource
         {
-            get
-            {
-                return _random;
-            }
+            get { return _random; }
 
             set
             {
@@ -178,10 +163,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Mean
         {
-            get
-            {
-                return _p * _n;
-            }
+            get { return _p * _n; }
         }
 
         /// <summary>
@@ -189,10 +171,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double StdDev
         {
-            get
-            {
-                return Math.Sqrt(_p * (1.0 - _p) * _n);
-            }
+            get { return Math.Sqrt(_p * (1.0 - _p) * _n); }
         }
 
         /// <summary>
@@ -200,10 +179,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Variance
         {
-            get
-            {
-                return _p * (1.0 - _p) * _n;
-            }
+            get { return _p * (1.0 - _p) * _n; }
         }
 
         /// <summary>
@@ -234,10 +210,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Skewness
         {
-            get
-            {
-                return (1.0 - (2.0 * _p)) / Math.Sqrt(_n * _p * (1.0 - _p));
-            }
+            get { return (1.0 - (2.0 * _p)) / Math.Sqrt(_n * _p * (1.0 - _p)); }
         }
 
         /// <summary>
@@ -245,10 +218,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public int Minimum
         {
-            get
-            {
-                return 0;
-            }
+            get { return 0; }
         }
 
         /// <summary>
@@ -256,10 +226,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public int Maximum
         {
-            get
-            {
-                return _n;
-            }
+            get { return _n; }
         }
 
         /// <summary>
@@ -273,7 +240,7 @@ namespace MathNet.Numerics.Distributions
             {
                 return 0.0;
             }
-            
+
             if (x > _n)
             {
                 return 1.0;
@@ -303,7 +270,7 @@ namespace MathNet.Numerics.Distributions
                 {
                     return _n;
                 }
-                
+
                 if (_p == 0.0)
                 {
                     return 0;
@@ -318,10 +285,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public int Median
         {
-            get
-            {
-                return (int)Math.Floor(_p * _n);
-            }
+            get { return (int)Math.Floor(_p * _n); }
         }
 
         /// <summary>
@@ -345,7 +309,7 @@ namespace MathNet.Numerics.Distributions
             {
                 return 1.0;
             }
-            
+
             if (_p == 0.0)
             {
                 return 0.0;
@@ -355,7 +319,7 @@ namespace MathNet.Numerics.Distributions
             {
                 return 1.0;
             }
-            
+
             if (_p == 1.0)
             {
                 return 0.0;
@@ -385,7 +349,7 @@ namespace MathNet.Numerics.Distributions
             {
                 return 0.0;
             }
-            
+
             if (_p == 0.0)
             {
                 return Double.NegativeInfinity;
@@ -395,7 +359,7 @@ namespace MathNet.Numerics.Distributions
             {
                 return 0.0;
             }
-            
+
             if (_p == 1.0)
             {
                 return Double.NegativeInfinity;
@@ -404,13 +368,33 @@ namespace MathNet.Numerics.Distributions
             return SpecialFunctions.BinomialLn(_n, k) + (k * Math.Log(_p)) + ((_n - k) * Math.Log(1.0 - _p));
         }
 
+        #endregion
+
+        /// <summary>
+        /// Generates a sample from the Binomial distribution without doing parameter checking.
+        /// </summary>
+        /// <param name="rnd">The random number generator to use.</param>
+        /// <param name="p">The success probability of a trial; must be in the interval [0.0, 1.0].</param>
+        /// <param name="n">The number of trials; must be positive.</param>
+        /// <returns>The number of successful trials.</returns>
+        internal static int SampleUnchecked(Random rnd, double p, int n)
+        {
+            var k = 0;
+            for (var i = 0; i < n; i++)
+            {
+                k += rnd.NextDouble() < p ? 1 : 0;
+            }
+
+            return k;
+        }
+
         /// <summary>
         /// Samples a Binomially distributed random variable.
         /// </summary>
         /// <returns>The number of successes in N trials.</returns>
         public int Sample()
         {
-            return DoSample(RandomSource, _p, _n);
+            return SampleUnchecked(RandomSource, _p, _n);
         }
 
         /// <summary>
@@ -421,11 +405,9 @@ namespace MathNet.Numerics.Distributions
         {
             while (true)
             {
-                yield return DoSample(RandomSource, _p, _n);
+                yield return SampleUnchecked(RandomSource, _p, _n);
             }
         }
-
-        #endregion
 
         /// <summary>
         /// Samples a binomially distributed random variable.
@@ -441,7 +423,7 @@ namespace MathNet.Numerics.Distributions
                 throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
             }
 
-            return DoSample(rnd, p, n);
+            return SampleUnchecked(rnd, p, n);
         }
 
         /// <summary>
@@ -460,26 +442,8 @@ namespace MathNet.Numerics.Distributions
 
             while (true)
             {
-                yield return DoSample(rnd, p, n);
+                yield return SampleUnchecked(rnd, p, n);
             }
-        }
-
-        /// <summary>
-        /// Generates a sample from the Binomial distribution without doing parameter checking.
-        /// </summary>
-        /// <param name="rnd">The random number generator to use.</param>
-        /// <param name="p">The success probability of a trial; must be in the interval [0.0, 1.0].</param>
-        /// <param name="n">The number of trials; must be positive.</param>
-        /// <returns>The number of successful trials.</returns>
-        private static int DoSample(Random rnd, double p, int n)
-        {
-            var k = 0;
-            for (var i = 0; i < n; i++)
-            {
-                k += rnd.NextDouble() < p ? 1 : 0;
-            }
-
-            return k;
         }
     }
 }

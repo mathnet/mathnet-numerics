@@ -45,12 +45,12 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// The geometric distribution parameter. 
         /// </summary>
-        private double _p;
+        double _p;
 
         /// <summary>
         /// The distribution's random number generator.
         /// </summary>
-        private Random _random;
+        Random _random;
 
         /// <summary>
         /// Initializes a new instance of the Geometric class.
@@ -68,7 +68,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         /// <param name="p">The probability of generating a one.</param>
         /// <exception cref="ArgumentOutOfRangeException">When the parameters don't pass the <see cref="IsValidParameterSet"/> function.</exception>
-        private void SetParameters(double p)
+        void SetParameters(double p)
         {
             if (Control.CheckDistributionParameters && !IsValidParameterSet(p))
             {
@@ -83,7 +83,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         /// <param name="p">The probability of generating a one.</param>
         /// <returns><c>true</c> when the parameters are valid, <c>false</c> otherwise.</returns>
-        private static bool IsValidParameterSet(double p)
+        static bool IsValidParameterSet(double p)
         {
             if (p >= 0.0 && p <= 1.0)
             {
@@ -98,15 +98,9 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double P
         {
-            get
-            {
-                return _p;
-            }
+            get { return _p; }
 
-            set
-            {
-                SetParameters(value);
-            }
+            set { SetParameters(value); }
         }
 
         /// <summary>
@@ -127,10 +121,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public Random RandomSource
         {
-            get
-            {
-                return _random;
-            }
+            get { return _random; }
 
             set
             {
@@ -148,10 +139,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Mean
         {
-            get
-            {
-                return 1.0 / _p;
-            }
+            get { return 1.0 / _p; }
         }
 
         /// <summary>
@@ -159,10 +147,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Variance
         {
-            get
-            {
-                return (1.0 - _p) / (_p * _p);
-            }
+            get { return (1.0 - _p) / (_p * _p); }
         }
 
         /// <summary>
@@ -170,10 +155,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double StdDev
         {
-            get
-            {
-                return Math.Sqrt(1.0 - _p) / _p;
-            }
+            get { return Math.Sqrt(1.0 - _p) / _p; }
         }
 
         /// <summary>
@@ -181,10 +163,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Entropy
         {
-            get
-            {
-                return ((-_p * Math.Log(_p, 2.0)) - ((1.0 - _p) * Math.Log(1.0 - _p, 2.0))) / _p;
-            }
+            get { return ((-_p * Math.Log(_p, 2.0)) - ((1.0 - _p) * Math.Log(1.0 - _p, 2.0))) / _p; }
         }
 
         /// <summary>
@@ -193,10 +172,7 @@ namespace MathNet.Numerics.Distributions
         /// <remarks>Throws a not supported exception.</remarks>
         public double Skewness
         {
-            get
-            {
-                return (2.0 - _p) / Math.Sqrt(1.0 - _p);
-            }
+            get { return (2.0 - _p) / Math.Sqrt(1.0 - _p); }
         }
 
         /// <summary>
@@ -218,10 +194,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public int Mode
         {
-            get
-            {
-                return 1;
-            }
+            get { return 1; }
         }
 
         /// <summary>
@@ -229,10 +202,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public int Median
         {
-            get
-            {
-                return (int)Math.Ceiling(-Constants.Ln2 / Math.Log(1 - _p));
-            }
+            get { return (int)Math.Ceiling(-Constants.Ln2 / Math.Log(1 - _p)); }
         }
 
         /// <summary>
@@ -240,10 +210,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public int Minimum
         {
-            get
-            {
-                return 1;
-            }
+            get { return 1; }
         }
 
         /// <summary>
@@ -251,10 +218,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public int Maximum
         {
-            get
-            {
-                return int.MaxValue;
-            }
+            get { return int.MaxValue; }
         }
 
         /// <summary>
@@ -291,27 +255,6 @@ namespace MathNet.Numerics.Distributions
             return ((k - 1) * Math.Log(1.0 - _p)) + Math.Log(_p);
         }
 
-        /// <summary>
-        /// Samples a Geometric distributed random variable.
-        /// </summary>
-        /// <returns>A sample from the Geometric distribution.</returns>
-        public int Sample()
-        {
-            return DoSample(RandomSource, _p);
-        }
-
-        /// <summary>
-        /// Samples an array of Geometric distributed random variables.
-        /// </summary>
-        /// <returns>a sequence of samples from the distribution.</returns>
-        public IEnumerable<int> Samples()
-        {
-            while (true)
-            {
-                yield return DoSample(RandomSource, _p);
-            }
-        }
-
         #endregion
 
         /// <summary>
@@ -322,9 +265,63 @@ namespace MathNet.Numerics.Distributions
         /// <returns>
         /// One sample from the distribution implied by <paramref name="p"/>.
         /// </returns>
-        private static int DoSample(Random rnd, double p)
+        internal static int SampleUnchecked(Random rnd, double p)
         {
             return p == 1.0 ? 1 : (int)Math.Ceiling(-Math.Log(1.0 - rnd.NextDouble(), 1.0 - p));
+        }
+
+        /// <summary>
+        /// Samples a Geometric distributed random variable.
+        /// </summary>
+        /// <returns>A sample from the Geometric distribution.</returns>
+        public int Sample()
+        {
+            return SampleUnchecked(RandomSource, _p);
+        }
+
+        /// <summary>
+        /// Samples an array of Geometric distributed random variables.
+        /// </summary>
+        /// <returns>a sequence of samples from the distribution.</returns>
+        public IEnumerable<int> Samples()
+        {
+            while (true)
+            {
+                yield return SampleUnchecked(RandomSource, _p);
+            }
+        }
+
+        /// <summary>
+        /// Samples a random variable.
+        /// </summary>
+        /// <param name="rnd">The random number generator to use.</param>
+        /// <param name="p">The p parameter</param>
+        public static int Sample(Random rnd, double p)
+        {
+            if (Control.CheckDistributionParameters && !IsValidParameterSet(p))
+            {
+                throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
+            }
+
+            return SampleUnchecked(rnd, p);
+        }
+
+        /// <summary>
+        /// Samples a sequence of this random variable.
+        /// </summary>
+        /// <param name="rnd">The random number generator to use.</param>
+        /// <param name="p">The p parameter</param>
+        public static IEnumerable<int> Samples(Random rnd, double p)
+        {
+            if (Control.CheckDistributionParameters && !IsValidParameterSet(p))
+            {
+                throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
+            }
+
+            while (true)
+            {
+                yield return SampleUnchecked(rnd, p);
+            }
         }
     }
 }

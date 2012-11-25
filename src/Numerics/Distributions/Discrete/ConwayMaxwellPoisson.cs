@@ -52,37 +52,37 @@ namespace MathNet.Numerics.Distributions
         /// Since many properties of the distribution can only be computed approximately, the tolerance
         /// level specifies how much error we accept.
         /// </summary>
-        private const double Tolerance = 1e-12;
+        const double Tolerance = 1e-12;
 
         /// <summary>
         /// The mean of the distribution.
         /// </summary>
-        private double _mean = double.MinValue;
+        double _mean = double.MinValue;
 
         /// <summary>
         ///  The variance of the distribution.
         /// </summary>
-        private double _variance = double.MinValue;
+        double _variance = double.MinValue;
 
         /// <summary>
         /// Caches the value of the normalization constant.
         /// </summary>
-        private double _z = double.MinValue;
+        double _z = double.MinValue;
 
         /// <summary>
         /// The lambda parameter.
         /// </summary>
-        private double _lambda;
+        double _lambda;
 
         /// <summary>
         /// The nu parameter.
         /// </summary>
-        private double _nu;
+        double _nu;
 
         /// <summary>
         /// The distribution's random number generator.
         /// </summary>
-        private Random _random;
+        Random _random;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ConwayMaxwellPoisson"/> class. 
@@ -105,7 +105,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="lambda">The lambda parameter.</param>
         /// <param name="nu">The nu parameter.</param>
         /// <exception cref="ArgumentOutOfRangeException">When the parameters don't pass the <see cref="IsValidParameterSet"/> function.</exception>
-        private void SetParameters(double lambda, double nu)
+        void SetParameters(double lambda, double nu)
         {
             if (Control.CheckDistributionParameters && !IsValidParameterSet(lambda, nu))
             {
@@ -122,7 +122,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="lambda">The lambda parameter.</param>
         /// <param name="nu">The nu parameter.</param>
         /// <returns><c>true</c> when the parameters are valid, <c>false</c> otherwise.</returns>
-        private static bool IsValidParameterSet(double lambda, double nu)
+        static bool IsValidParameterSet(double lambda, double nu)
         {
             if (lambda <= 0.0)
             {
@@ -143,15 +143,9 @@ namespace MathNet.Numerics.Distributions
         /// <value>The value of the lambda parameter.</value>
         public double Lambda
         {
-            get
-            {
-                return _lambda;
-            }
+            get { return _lambda; }
 
-            set
-            {
-                SetParameters(value, _nu);
-            }
+            set { SetParameters(value, _nu); }
         }
 
         /// <summary>
@@ -160,15 +154,9 @@ namespace MathNet.Numerics.Distributions
         /// <value>The value of the Nu parameter.</value>
         public double Nu
         {
-            get
-            {
-                return _nu;
-            }
+            get { return _nu; }
 
-            set
-            {
-                SetParameters(_lambda, value);
-            }
+            set { SetParameters(_lambda, value); }
         }
 
         /// <summary>
@@ -189,10 +177,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public Random RandomSource
         {
-            get
-            {
-                return _random;
-            }
+            get { return _random; }
 
             set
             {
@@ -333,10 +318,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double StdDev
         {
-            get
-            {
-                return Math.Sqrt(Variance);
-            }
+            get { return Math.Sqrt(Variance); }
         }
 
         /// <summary>
@@ -344,10 +326,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Entropy
         {
-            get
-            {
-                throw new NotSupportedException();
-            }
+            get { throw new NotSupportedException(); }
         }
 
         /// <summary>
@@ -355,10 +334,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Skewness
         {
-            get
-            {
-                throw new NotSupportedException();
-            }
+            get { throw new NotSupportedException(); }
         }
 
         /// <summary>
@@ -386,10 +362,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public int Mode
         {
-            get
-            {
-                throw new NotSupportedException();
-            }
+            get { throw new NotSupportedException(); }
         }
 
         /// <summary>
@@ -397,10 +370,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public int Median
         {
-            get
-            {
-                throw new NotSupportedException();
-            }
+            get { throw new NotSupportedException(); }
         }
 
         /// <summary>
@@ -408,10 +378,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public int Minimum
         {
-            get
-            {
-                return 0;
-            }
+            get { return 0; }
         }
 
         /// <summary>
@@ -419,10 +386,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public int Maximum
         {
-            get
-            {
-                throw new NotSupportedException();
-            }
+            get { throw new NotSupportedException(); }
         }
 
         /// <summary>
@@ -449,35 +413,12 @@ namespace MathNet.Numerics.Distributions
             return Math.Log(Probability(k));
         }
 
-        /// <summary>
-        /// Samples a Conway-Maxwell-Poisson distributed random variable.
-        /// </summary>
-        /// <returns>a sample from the distribution.</returns>
-        public int Sample()
-        {
-            return DoSample(RandomSource, _lambda, _nu, Z);
-        }
-
-        /// <summary>
-        /// Samples a sequence of a Conway-Maxwell-Poisson distributed random variables.
-        /// </summary>
-        /// <returns>
-        /// a sequence of samples from a Conway-Maxwell-Poisson distribution.
-        /// </returns>
-        public IEnumerable<int> Samples()
-        {
-            while (true)
-            {
-                yield return DoSample(RandomSource, _lambda, _nu, Z);
-            }
-        }
-
         #endregion
 
         /// <summary>
         /// Gets the normalization constant of the Conway-Maxwell-Poisson distribution.
         /// </summary>
-        private double Z
+        double Z
         {
             get
             {
@@ -488,7 +429,7 @@ namespace MathNet.Numerics.Distributions
 
                 _z = Normalization(_lambda, _nu);
                 return _z;
-            } 
+            }
         }
 
         /// <summary>
@@ -499,7 +440,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>
         /// an approximate normalization constant for the CMP distribution.
         /// </returns>
-        private static double Normalization(double lambda, double nu)
+        static double Normalization(double lambda, double nu)
         {
             // Initialize Z with the first two terms.
             var z = 1.0 + lambda;
@@ -515,7 +456,7 @@ namespace MathNet.Numerics.Distributions
 
                 // The new term.
                 t = t * e;
-    
+
                 // The updated normalization constant.
                 z = z + t;
 
@@ -542,7 +483,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>
         /// One sample from the distribution implied by <paramref name="lambda"/>, <paramref name="nu"/>, and <paramref name="z"/>.
         /// </returns>
-        private static int DoSample(Random rnd, double lambda, double nu, double z)
+        internal static int SampleUnchecked(Random rnd, double lambda, double nu, double z)
         {
             var u = rnd.NextDouble();
             var p = 1.0 / z;
@@ -557,6 +498,66 @@ namespace MathNet.Numerics.Distributions
             }
 
             return i;
+        }
+
+        /// <summary>
+        /// Samples a Conway-Maxwell-Poisson distributed random variable.
+        /// </summary>
+        /// <returns>a sample from the distribution.</returns>
+        public int Sample()
+        {
+            return SampleUnchecked(RandomSource, _lambda, _nu, Z);
+        }
+
+        /// <summary>
+        /// Samples a sequence of a Conway-Maxwell-Poisson distributed random variables.
+        /// </summary>
+        /// <returns>
+        /// a sequence of samples from a Conway-Maxwell-Poisson distribution.
+        /// </returns>
+        public IEnumerable<int> Samples()
+        {
+            while (true)
+            {
+                yield return SampleUnchecked(RandomSource, _lambda, _nu, Z);
+            }
+        }
+
+        /// <summary>
+        /// Samples a random variable.
+        /// </summary>
+        /// <param name="rnd">The random number generator to use.</param>
+        /// <param name="lambda">The lambda parameter</param>
+        /// <param name="nu">The nu parameter.</param>
+        public static int Sample(Random rnd, double lambda, double nu)
+        {
+            if (Control.CheckDistributionParameters && !IsValidParameterSet(lambda, nu))
+            {
+                throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
+            }
+
+            var z = Normalization(lambda, nu);
+            return SampleUnchecked(rnd, lambda, nu, z);
+        }
+
+        /// <summary>
+        /// Samples a sequence of this random variable.
+        /// </summary>
+        /// <param name="rnd">The random number generator to use.</param>
+        /// <param name="lambda">The lambda parameter</param>
+        /// <param name="nu">The nu parameter.</param>
+        public static IEnumerable<int> Samples(Random rnd, double lambda, double nu)
+        {
+            if (Control.CheckDistributionParameters && !IsValidParameterSet(lambda, nu))
+            {
+                throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
+            }
+
+            var z = Normalization(lambda, nu);
+            while (true)
+            {
+                yield return SampleUnchecked(rnd, lambda, nu, z);
+            }
         }
     }
 }

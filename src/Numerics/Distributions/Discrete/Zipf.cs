@@ -47,17 +47,17 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// The s parameter of the distribution.
         /// </summary>
-        private double _s;
+        double _s;
 
         /// <summary>
         /// The n parameter of the distribution.
         /// </summary>
-        private int _n;
+        int _n;
 
         /// <summary>
         /// The distribution's random number generator.
         /// </summary>
-        private Random _random;
+        Random _random;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Zipf"/> class. 
@@ -79,7 +79,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         /// <param name="s">The s parameter of the distribution.</param>
         /// <param name="n">The n parameter of the distribution.</param>
-        private void SetParameters(double s, int n)
+        void SetParameters(double s, int n)
         {
             if (Control.CheckDistributionParameters && !IsValidParameterSet(s, n))
             {
@@ -96,7 +96,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="s">The s parameter of the distribution.</param>
         /// <param name="n">The n parameter of the distribution.</param>
         /// <returns><c>true</c> when the parameters are valid, <c>false</c> otherwise.</returns>
-        private static bool IsValidParameterSet(double s, int n)
+        static bool IsValidParameterSet(double s, int n)
         {
             if (n <= 0 || s <= 0 || Double.IsNaN(s))
             {
@@ -111,15 +111,9 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double S
         {
-            get
-            {
-                return _s;
-            }
+            get { return _s; }
 
-            set
-            {
-                SetParameters(value, _n);
-            }
+            set { SetParameters(value, _n); }
         }
 
         /// <summary>
@@ -127,15 +121,9 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public int N
         {
-            get
-            {
-                return _n;
-            }
+            get { return _n; }
 
-            set
-            {
-                SetParameters(_s, value);
-            }
+            set { SetParameters(_s, value); }
         }
 
         /// <summary>
@@ -154,10 +142,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public Random RandomSource
         {
-            get
-            {
-                return _random;
-            }
+            get { return _random; }
 
             set
             {
@@ -175,10 +160,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Mean
         {
-            get
-            {
-                return SpecialFunctions.GeneralHarmonic(_n, _s - 1.0) / SpecialFunctions.GeneralHarmonic(_n, _s);
-            }
+            get { return SpecialFunctions.GeneralHarmonic(_n, _s - 1.0) / SpecialFunctions.GeneralHarmonic(_n, _s); }
         }
 
         /// <summary>
@@ -203,10 +185,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double StdDev
         {
-            get
-            {
-                return Math.Sqrt(Variance);
-            }
+            get { return Math.Sqrt(Variance); }
         }
 
         /// <summary>
@@ -266,10 +245,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public int Mode
         {
-            get
-            {
-                return 1;
-            }
+            get { return 1; }
         }
 
         /// <summary>
@@ -277,10 +253,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public int Median
         {
-            get
-            {
-                throw new NotSupportedException();
-            }
+            get { throw new NotSupportedException(); }
         }
 
         /// <summary>
@@ -288,10 +261,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public int Minimum
         {
-            get
-            {
-                return 1;
-            }
+            get { return 1; }
         }
 
         /// <summary>
@@ -299,12 +269,9 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public int Maximum
         {
-            get
-            {
-                return _n;
-            }
+            get { return _n; }
         }
-        
+
         /// <summary>
         /// Computes values of the probability mass function.
         /// </summary>
@@ -329,27 +296,6 @@ namespace MathNet.Numerics.Distributions
             return Math.Log(Probability(k));
         }
 
-        /// <summary>
-        /// Draws a random sample from the distribution.
-        /// </summary>
-        /// <returns>a sample from the distribution.</returns>
-        public int Sample()
-        {
-            return DoSample(RandomSource, _s, _n);
-        }
-
-        /// <summary>
-        /// Samples an array of zipf distributed random variables.
-        /// </summary>
-        /// <returns>a sequence of samples from the distribution.</returns>
-        public IEnumerable<int> Samples()
-        {
-            while (true)
-            {
-                yield return DoSample(RandomSource, _s, _n);
-            }
-        }
-
         #endregion
 
         /// <summary>
@@ -359,7 +305,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="s">The s parameter of the distribution.</param>
         /// <param name="n">The n parameter of the distribution.</param>
         /// <returns>a random number from the Zipf distribution.</returns>
-        private static int DoSample(Random rnd, double s, int n)
+        internal static int SampleUnchecked(Random rnd, double s, int n)
         {
             var r = 0.0;
             while (r == 0.0)
@@ -380,6 +326,62 @@ namespace MathNet.Numerics.Distributions
             }
 
             return i;
+        }
+
+        /// <summary>
+        /// Draws a random sample from the distribution.
+        /// </summary>
+        /// <returns>a sample from the distribution.</returns>
+        public int Sample()
+        {
+            return SampleUnchecked(RandomSource, _s, _n);
+        }
+
+        /// <summary>
+        /// Samples an array of zipf distributed random variables.
+        /// </summary>
+        /// <returns>a sequence of samples from the distribution.</returns>
+        public IEnumerable<int> Samples()
+        {
+            while (true)
+            {
+                yield return SampleUnchecked(RandomSource, _s, _n);
+            }
+        }
+
+        /// <summary>
+        /// Samples a random variable.
+        /// </summary>
+        /// <param name="rnd">The random number generator to use.</param>
+        /// <param name="s">The s parameter of the distribution.</param>
+        /// <param name="n">The n parameter of the distribution.</param>
+        public static int Sample(Random rnd, double s, int n)
+        {
+            if (Control.CheckDistributionParameters && !IsValidParameterSet(s, n))
+            {
+                throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
+            }
+
+            return SampleUnchecked(rnd, s, n);
+        }
+
+        /// <summary>
+        /// Samples a sequence of this random variable.
+        /// </summary>
+        /// <param name="rnd">The random number generator to use.</param>
+        /// <param name="s">The s parameter of the distribution.</param>
+        /// <param name="n">The n parameter of the distribution.</param>
+        public static IEnumerable<int> Samples(Random rnd, double s, int n)
+        {
+            if (Control.CheckDistributionParameters && !IsValidParameterSet(s, n))
+            {
+                throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
+            }
+
+            while (true)
+            {
+                yield return SampleUnchecked(rnd, s, n);
+            }
         }
     }
 }

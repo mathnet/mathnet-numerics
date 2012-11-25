@@ -50,12 +50,12 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Stores the unnormalized categorical probabilities.
         /// </summary>
-        private double[] _p;
+        double[] _p;
 
         /// <summary>
         /// The distribution's random number generator.
         /// </summary>
-        private Random _random;
+        Random _random;
 
         /// <summary>
         /// Initializes a new instance of the Categorical class.
@@ -110,7 +110,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="p">An array of nonnegative ratios: this array does not need to be normalized 
         /// as this is often impossible using floating point arithmetic.</param>
         /// <returns>If any of the probabilities are negative returns <c>false</c>, or if the sum of parameters is 0.0; otherwise <c>true</c></returns>
-        private static bool IsValidParameterSet(IEnumerable<double> p)
+        static bool IsValidParameterSet(IEnumerable<double> p)
         {
             var sum = 0.0;
             foreach (double t in p)
@@ -119,7 +119,7 @@ namespace MathNet.Numerics.Distributions
                 {
                     return false;
                 }
-                
+
                 sum += t;
             }
 
@@ -132,7 +132,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="p">An array of nonnegative ratios: this array does not need to be normalized 
         /// as this is often impossible using floating point arithmetic.</param>
         /// <exception cref="ArgumentOutOfRangeException">When the parameters don't pass the <see cref="IsValidParameterSet"/> function.</exception>
-        private void SetParameters(double[] p)
+        void SetParameters(double[] p)
         {
             if (Control.CheckDistributionParameters && !IsValidParameterSet(p))
             {
@@ -163,10 +163,7 @@ namespace MathNet.Numerics.Distributions
                 return p;
             }
 
-            set
-            {
-                SetParameters(value);
-            }
+            set { SetParameters(value); }
         }
 
         #region IDistribution Members
@@ -176,10 +173,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public Random RandomSource
         {
-            get
-            {
-                return _random;
-            }
+            get { return _random; }
 
             set
             {
@@ -197,10 +191,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Mean
         {
-            get
-            {
-                return _p.Mean();
-            }
+            get { return _p.Mean(); }
         }
 
         /// <summary>
@@ -208,10 +199,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double StdDev
         {
-            get
-            {
-                return _p.StandardDeviation();
-            }
+            get { return _p.StandardDeviation(); }
         }
 
         /// <summary>
@@ -219,10 +207,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Variance
         {
-            get
-            {
-                return _p.Variance();
-            }
+            get { return _p.Variance(); }
         }
 
         /// <summary>
@@ -230,10 +215,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Entropy
         {
-            get
-            {
-                return _p.Sum(p => p * Math.Log(p));
-            }
+            get { return _p.Sum(p => p * Math.Log(p)); }
         }
 
         /// <summary>
@@ -242,10 +224,7 @@ namespace MathNet.Numerics.Distributions
         /// <remarks>Throws a <see cref="NotSupportedException"/>.</remarks>
         public double Skewness
         {
-            get
-            {
-                throw new NotSupportedException();
-            }
+            get { throw new NotSupportedException(); }
         }
 
         /// <summary>
@@ -253,10 +232,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public int Minimum
         {
-            get
-            {
-                return 0;
-            }
+            get { return 0; }
         }
 
         /// <summary>
@@ -264,10 +240,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public int Maximum
         {
-            get
-            {
-                return _p.Length - 1;
-            }
+            get { return _p.Length - 1; }
         }
 
         /// <summary>
@@ -281,7 +254,7 @@ namespace MathNet.Numerics.Distributions
             {
                 return 0.0;
             }
-            
+
             if (x >= _p.Length)
             {
                 return 1.0;
@@ -301,10 +274,7 @@ namespace MathNet.Numerics.Distributions
         /// <remarks>Throws a <see cref="NotSupportedException"/>.</remarks>
         public int Mode
         {
-            get
-            {
-                throw new NotSupportedException();
-            }
+            get { throw new NotSupportedException(); }
         }
 
         /// <summary>
@@ -312,10 +282,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public int Median
         {
-            get
-            {
-                return (int)_p.Median();
-            }
+            get { return (int)_p.Median(); }
         }
 
         /// <summary>
@@ -358,68 +325,7 @@ namespace MathNet.Numerics.Distributions
             return Math.Log(_p[k]);
         }
 
-        /// <summary>
-        /// Samples a Binomially distributed random variable.
-        /// </summary>
-        /// <returns>The number of successful trials.</returns>
-        public int Sample()
-        {
-            return Sample(RandomSource, _p);
-        }
-
-        /// <summary>
-        /// Samples an array of Bernoulli distributed random variables.
-        /// </summary>
-        /// <returns>a sequence of successful trial counts.</returns>
-        public IEnumerable<int> Samples()
-        {
-            return Samples(RandomSource, _p);
-        }
-
         #endregion
-
-        /// <summary>
-        /// Samples one categorical distributed random variable; also known as the Discrete distribution.
-        /// </summary>
-        /// <param name="rnd">The random number generator to use.</param>
-        /// <param name="p">An array of nonnegative ratios: this array does not need to be normalized 
-        /// as this is often impossible using floating point arithmetic.</param>
-        /// <returns>One random integer between 0 and the size of the categorical (exclusive).</returns>
-        public static int Sample(Random rnd, double[] p)
-        {
-            if (Control.CheckDistributionParameters && !IsValidParameterSet(p))
-            {
-                throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
-            }
-
-            // The cumulative density of p.
-            var cp = UnnormalizedCdf(p);
-
-            return DoSample(rnd, cp);
-        }
-
-        /// <summary>
-        /// Samples a categorically distributed random variable.
-        /// </summary>
-        /// <param name="rnd">The random number generator to use.</param>
-        /// <param name="p">An array of nonnegative ratios: this array does not need to be normalized 
-        /// as this is often impossible using floating point arithmetic.</param>
-        /// <returns>random integers between 0 and the size of the categorical (exclusive).</returns>
-        public static IEnumerable<int> Samples(Random rnd, double[] p)
-        {
-            if (Control.CheckDistributionParameters && !IsValidParameterSet(p))
-            {
-                throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
-            }
-
-            // The cumulative density of p.
-            var cp = UnnormalizedCdf(p);
-
-            while (true)
-            {
-                yield return DoSample(rnd, cp);
-            }
-        }
 
         /// <summary>
         /// Computes the unnormalized cumulative distribution function. This method performs no
@@ -446,11 +352,11 @@ namespace MathNet.Numerics.Distributions
         /// <param name="rnd">The random number generator to use.</param>
         /// <param name="cdf">The cumulative distribution of the probability distribution.</param>
         /// <returns>One sample from the categorical distribution implied by <paramref name="cdf"/>.</returns>
-        internal static int DoSample(Random rnd, double[] cdf)
+        internal static int SampleUnchecked(Random rnd, double[] cdf)
         {
             // TODO : use binary search to speed up this procedure.
             var u = rnd.NextDouble() * cdf[cdf.Length - 1];
-            
+
             var idx = 0;
             while (u > cdf[idx])
             {
@@ -458,6 +364,67 @@ namespace MathNet.Numerics.Distributions
             }
 
             return idx;
+        }
+
+        /// <summary>
+        /// Samples a Binomially distributed random variable.
+        /// </summary>
+        /// <returns>The number of successful trials.</returns>
+        public int Sample()
+        {
+            return Sample(RandomSource, _p);
+        }
+
+        /// <summary>
+        /// Samples an array of Bernoulli distributed random variables.
+        /// </summary>
+        /// <returns>a sequence of successful trial counts.</returns>
+        public IEnumerable<int> Samples()
+        {
+            return Samples(RandomSource, _p);
+        }
+
+        /// <summary>
+        /// Samples one categorical distributed random variable; also known as the Discrete distribution.
+        /// </summary>
+        /// <param name="rnd">The random number generator to use.</param>
+        /// <param name="p">An array of nonnegative ratios: this array does not need to be normalized 
+        /// as this is often impossible using floating point arithmetic.</param>
+        /// <returns>One random integer between 0 and the size of the categorical (exclusive).</returns>
+        public static int Sample(Random rnd, double[] p)
+        {
+            if (Control.CheckDistributionParameters && !IsValidParameterSet(p))
+            {
+                throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
+            }
+
+            // The cumulative density of p.
+            var cp = UnnormalizedCdf(p);
+
+            return SampleUnchecked(rnd, cp);
+        }
+
+        /// <summary>
+        /// Samples a categorically distributed random variable.
+        /// </summary>
+        /// <param name="rnd">The random number generator to use.</param>
+        /// <param name="p">An array of nonnegative ratios: this array does not need to be normalized 
+        /// as this is often impossible using floating point arithmetic.</param>
+        /// <returns>random integers between 0 and the size of the categorical (exclusive).</returns>
+        public static IEnumerable<int> Samples(Random rnd, double[] p)
+        {
+            if (Control.CheckDistributionParameters && !IsValidParameterSet(p))
+            {
+                throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
+            }
+
+            // The cumulative density of p.
+            var cp = UnnormalizedCdf(p);
+
+            while (true)
+            {
+                yield return SampleUnchecked(rnd, cp);
+            }
         }
     }
 }

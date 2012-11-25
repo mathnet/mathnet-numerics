@@ -45,12 +45,12 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// The probability of generating a one.
         /// </summary>
-        private double _p;
+        double _p;
 
         /// <summary>
         /// The distribution's random number generator.
         /// </summary>
-        private Random _random;
+        Random _random;
 
         /// <summary>
         /// Initializes a new instance of the Bernoulli class.
@@ -77,7 +77,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         /// <param name="p">The probability of generating a one.</param>
         /// <returns><c>true</c> when the parameters are valid, <c>false</c> otherwise.</returns>
-        private static bool IsValidParameterSet(double p)
+        static bool IsValidParameterSet(double p)
         {
             if (p >= 0.0 && p <= 1.0)
             {
@@ -92,7 +92,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         /// <param name="p">The probability of generating a one.</param>
         /// <exception cref="ArgumentOutOfRangeException">When the parameters don't pass the <see cref="IsValidParameterSet"/> function.</exception>
-        private void SetParameters(double p)
+        void SetParameters(double p)
         {
             if (Control.CheckDistributionParameters && !IsValidParameterSet(p))
             {
@@ -107,15 +107,9 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double P
         {
-            get
-            {
-                return _p;
-            }
+            get { return _p; }
 
-            set
-            {
-                SetParameters(value);
-            }
+            set { SetParameters(value); }
         }
 
         #region IDistribution Members
@@ -125,10 +119,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public Random RandomSource
         {
-            get
-            {
-                return _random;
-            }
+            get { return _random; }
 
             set
             {
@@ -146,10 +137,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Mean
         {
-            get
-            {
-                return _p;
-            }
+            get { return _p; }
         }
 
         /// <summary>
@@ -157,10 +145,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double StdDev
         {
-            get
-            {
-                return Math.Sqrt(_p * (1.0 - _p));
-            }
+            get { return Math.Sqrt(_p * (1.0 - _p)); }
         }
 
         /// <summary>
@@ -168,10 +153,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Variance
         {
-            get
-            {
-                return _p * (1.0 - _p);
-            }
+            get { return _p * (1.0 - _p); }
         }
 
         /// <summary>
@@ -179,10 +161,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Entropy
         {
-            get
-            {
-                return -(_p * Math.Log(_p)) - ((1.0 - _p) * Math.Log(1.0 - _p));
-            }
+            get { return -(_p * Math.Log(_p)) - ((1.0 - _p) * Math.Log(1.0 - _p)); }
         }
 
         /// <summary>
@@ -190,10 +169,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Skewness
         {
-            get
-            {
-                return (1.0 - (2.0 * _p)) / Math.Sqrt(_p * (1.0 - _p));
-            }
+            get { return (1.0 - (2.0 * _p)) / Math.Sqrt(_p * (1.0 - _p)); }
         }
 
         /// <summary>
@@ -201,10 +177,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public int Minimum
         {
-            get
-            {
-                return 0;
-            }
+            get { return 0; }
         }
 
         /// <summary>
@@ -212,10 +185,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public int Maximum
         {
-            get
-            {
-                return 1;
-            }
+            get { return 1; }
         }
 
         /// <summary>
@@ -229,7 +199,7 @@ namespace MathNet.Numerics.Distributions
             {
                 return 0.0;
             }
-            
+
             if (x < 1.0)
             {
                 return 1.0 - _p;
@@ -247,10 +217,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public int Mode
         {
-            get
-            {
-                return _p > 0.5 ? 1 : 0;
-            }
+            get { return _p > 0.5 ? 1 : 0; }
         }
 
         /// <summary>
@@ -258,10 +225,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public int Median
         {
-            get
-            {
-                throw new NotSupportedException("The median of the Bernoulli distribution is undefined.");
-            }
+            get { throw new NotSupportedException("The median of the Bernoulli distribution is undefined."); }
         }
 
         /// <summary>
@@ -299,13 +263,31 @@ namespace MathNet.Numerics.Distributions
             return k == 1 ? Math.Log(_p) : Double.NegativeInfinity;
         }
 
+        #endregion
+
+        /// <summary>
+        /// Generates one sample from the Bernoulli distribution.
+        /// </summary>
+        /// <param name="rnd">The random source to use.</param>
+        /// <param name="p">The probability of generating a one.</param>
+        /// <returns>A random sample from the Bernoulli distribution.</returns>
+        internal static int SampleUnchecked(Random rnd, double p)
+        {
+            if (rnd.NextDouble() < p)
+            {
+                return 1;
+            }
+
+            return 0;
+        }
+
         /// <summary>
         /// Samples a Bernoulli distributed random variable.
         /// </summary>
         /// <returns>A sample from the Bernoulli distribution.</returns>
         public int Sample()
         {
-            return DoSample(RandomSource, _p);
+            return SampleUnchecked(RandomSource, _p);
         }
 
         /// <summary>
@@ -316,11 +298,9 @@ namespace MathNet.Numerics.Distributions
         {
             while (true)
             {
-                yield return DoSample(RandomSource, _p);
+                yield return SampleUnchecked(RandomSource, _p);
             }
         }
-
-        #endregion
 
         /// <summary>
         /// Samples a Bernoulli distributed random variable.
@@ -335,7 +315,7 @@ namespace MathNet.Numerics.Distributions
                 throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
             }
 
-            return DoSample(rnd, p);
+            return SampleUnchecked(rnd, p);
         }
 
         /// <summary>
@@ -353,24 +333,9 @@ namespace MathNet.Numerics.Distributions
 
             while (true)
             {
-                yield return DoSample(rnd, p);
+                yield return SampleUnchecked(rnd, p);
             }
         }
 
-        /// <summary>
-        /// Generates one sample from the Bernoulli distribution.
-        /// </summary>
-        /// <param name="rnd">The random source to use.</param>
-        /// <param name="p">The probability of generating a one.</param>
-        /// <returns>A random sample from the Bernoulli distribution.</returns>
-        private static int DoSample(Random rnd, double p)
-        {
-            if (rnd.NextDouble() < p)
-            {
-                return 1;
-            }
-
-            return 0;
-        }
     }
 }

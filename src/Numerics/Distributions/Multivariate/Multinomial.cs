@@ -368,7 +368,7 @@ namespace MathNet.Numerics.Distributions
 
             for (var i = 0; i < n; i++)
             {
-                ret[Categorical.DoSample(rnd, cp)]++;
+                ret[Categorical.SampleUnchecked(rnd, cp)]++;
             }
 
             return ret;
@@ -399,7 +399,7 @@ namespace MathNet.Numerics.Distributions
 
                 for (var i = 0; i < n; i++)
                 {
-                    ret[Categorical.DoSample(rnd, cp)]++;
+                    ret[Categorical.SampleUnchecked(rnd, cp)]++;
                 }
 
                 yield return ret;

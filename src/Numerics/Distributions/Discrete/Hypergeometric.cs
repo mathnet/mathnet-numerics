@@ -52,22 +52,22 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// The size of the population.
         /// </summary>
-        private int _populationSize;
+        int _populationSize;
 
         /// <summary>
         /// The m parameter of the distribution.
         /// </summary>
-        private int _m;
+        int _m;
 
         /// <summary>
         /// The n parameter (number to draw) of the distribution.
         /// </summary>
-        private int _n;
+        int _n;
 
         /// <summary>
         /// The distribution's random number generator.
         /// </summary>
-        private Random _random;
+        Random _random;
 
         /// <summary>
         /// Initializes a new instance of the Hypergeometric class.
@@ -87,7 +87,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="total">The Total parameter of the distribution.</param>
         /// <param name="m">The m parameter of the distribution.</param>
         /// <param name="n">The n parameter of the distribution.</param>
-        private void SetParameters(int total, int m, int n)
+        void SetParameters(int total, int m, int n)
         {
             if (Control.CheckDistributionParameters && !IsValidParameterSet(total, m, n))
             {
@@ -106,7 +106,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="m">The m parameter of the distribution.</param>
         /// <param name="n">The n parameter of the distribution.</param>
         /// <returns><c>true</c> when the parameters are valid, <c>false</c> otherwise.</returns>
-        private static bool IsValidParameterSet(int total, int m, int n)
+        static bool IsValidParameterSet(int total, int m, int n)
         {
             if (total < 0 || m < 0 || n < 0)
             {
@@ -166,10 +166,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public Random RandomSource
         {
-            get
-            {
-                return _random;
-            }
+            get { return _random; }
 
             set
             {
@@ -187,10 +184,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Mean
         {
-            get
-            {
-                return (double)_m * _n / _populationSize;
-            }
+            get { return (double)_m * _n / _populationSize; }
         }
 
         /// <summary>
@@ -198,10 +192,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Variance
         {
-            get
-            {
-                return _n * _m * (_populationSize - _n) * (_populationSize - _m) / (_populationSize * _populationSize * (_populationSize - 1.0));
-            }
+            get { return _n * _m * (_populationSize - _n) * (_populationSize - _m) / (_populationSize * _populationSize * (_populationSize - 1.0)); }
         }
 
         /// <summary>
@@ -225,10 +216,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Skewness
         {
-            get
-            {
-                return (Math.Sqrt(_populationSize - 1.0) * (_populationSize - (2 * _n)) * (_populationSize - (2 * _m))) / (Math.Sqrt(_n * _m * (_populationSize - _m) * (_populationSize - _n)) * (_populationSize - 2.0));
-            }
+            get { return (Math.Sqrt(_populationSize - 1.0) * (_populationSize - (2 * _n)) * (_populationSize - (2 * _m))) / (Math.Sqrt(_n * _m * (_populationSize - _m) * (_populationSize - _n)) * (_populationSize - 2.0)); }
         }
 
         /// <summary>
@@ -320,27 +308,6 @@ namespace MathNet.Numerics.Distributions
             return Math.Log(Probability(k));
         }
 
-        /// <summary>
-        /// Samples a Hypergeometric distributed random variable.
-        /// </summary>
-        /// <returns>The number of successes in n trials.</returns>
-        public int Sample()
-        {
-            return DoSample(RandomSource, _populationSize, _m, _n);
-        }
-
-        /// <summary>
-        /// Samples an array of Hypergeometric distributed random variables.
-        /// </summary>
-        /// <returns>a sequence of successes in n trials.</returns>
-        public IEnumerable<int> Samples()
-        {
-            while (true)
-            {
-                yield return DoSample(RandomSource, _populationSize, _m, _n);
-            }
-        }
-
         #endregion
 
         /// <summary>
@@ -351,7 +318,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="m">The m parameter of the distribution.</param>
         /// <param name="n">The n parameter of the distribution.</param>
         /// <returns>a random number from the Hypergeometric distribution.</returns>
-        private static int DoSample(Random rnd, int size, int m, int n)
+        internal static int SampleUnchecked(Random rnd, int size, int m, int n)
         {
             var x = 0;
 
@@ -367,10 +334,68 @@ namespace MathNet.Numerics.Distributions
 
                 size--;
                 n--;
-            } 
+            }
             while (0 < n);
 
             return x;
+        }
+
+        /// <summary>
+        /// Samples a Hypergeometric distributed random variable.
+        /// </summary>
+        /// <returns>The number of successes in n trials.</returns>
+        public int Sample()
+        {
+            return SampleUnchecked(RandomSource, _populationSize, _m, _n);
+        }
+
+        /// <summary>
+        /// Samples an array of Hypergeometric distributed random variables.
+        /// </summary>
+        /// <returns>a sequence of successes in n trials.</returns>
+        public IEnumerable<int> Samples()
+        {
+            while (true)
+            {
+                yield return SampleUnchecked(RandomSource, _populationSize, _m, _n);
+            }
+        }
+
+        /// <summary>
+        /// Samples a random variable.
+        /// </summary>
+        /// <param name="rnd">The random number generator to use.</param>
+        /// <param name="populationSize">The population size.</param>
+        /// <param name="m">The m parameter of the distribution.</param>
+        /// <param name="n">The n parameter of the distribution.</param>
+        public static int Sample(Random rnd, int populationSize, int m, int n)
+        {
+            if (Control.CheckDistributionParameters && !IsValidParameterSet(populationSize, m, n))
+            {
+                throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
+            }
+
+            return SampleUnchecked(rnd, populationSize, m, n);
+        }
+
+        /// <summary>
+        /// Samples a sequence of this random variable.
+        /// </summary>
+        /// <param name="rnd">The random number generator to use.</param>
+        /// <param name="populationSize">The population size.</param>
+        /// <param name="m">The m parameter of the distribution.</param>
+        /// <param name="n">The n parameter of the distribution.</param>
+        public static IEnumerable<int> Samples(Random rnd, int populationSize, int m, int n)
+        {
+            if (Control.CheckDistributionParameters && !IsValidParameterSet(populationSize, m, n))
+            {
+                throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
+            }
+
+            while (true)
+            {
+                yield return SampleUnchecked(rnd, populationSize, m, n);
+            }
         }
     }
 }
