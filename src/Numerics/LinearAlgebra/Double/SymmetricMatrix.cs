@@ -5,6 +5,7 @@
     using MathNet.Numerics.Distributions;
     using MathNet.Numerics.LinearAlgebra.Generic;
     using MathNet.Numerics.LinearAlgebra.Storage;
+    using MathNet.Numerics.Properties;
 
     /// <summary>
     /// Abstract class for symmetric matrices. 
@@ -374,6 +375,168 @@
                         symmetricMatrix.At(row, column, distribution.Sample());
                     }
                 }
+            }
+        }
+
+        /// <summary>
+        /// Creates a new matrix and inserts the given column at the given index.
+        /// </summary>
+        /// <param name="columnIndex">The index of where to insert the column.</param>
+        /// <param name="column">The column to insert.</param>
+        /// <returns>A new matrix with the inserted column.</returns>
+        /// <exception cref="ArgumentNullException">If <paramref name="column "/> is <see langword="null" />. </exception>
+        /// <exception cref="ArgumentOutOfRangeException">If <paramref name="columnIndex"/> is &lt; zero or &gt; the number of columns.</exception>
+        /// <exception cref="ArgumentException">If the size of <paramref name="column"/> != the number of rows.</exception>
+        public override Matrix<double> InsertColumn(int columnIndex, Vector<double> column)
+        {
+            throw new InvalidOperationException("Inserting a column is not supported on a symmetric matrix. Symmetric matrices are square");
+        }
+
+        /// <summary>
+        /// Copies the values of the given array to the specified column. The changes retain the symmetry of the matrix. 
+        /// </summary>
+        /// <param name="columnIndex">The column to copy the values to.</param>
+        /// <param name="column">The array to copy the values from.</param>
+        /// <exception cref="ArgumentNullException">If <paramref name="column"/> is <see langword="null" />.</exception>        
+        /// <exception cref="ArgumentOutOfRangeException">If <paramref name="columnIndex"/> is less than zero,
+        /// or greater than or equal to the number of columns.</exception>
+        /// <exception cref="ArgumentException">If the size of <paramref name="column"/> does not
+        /// equal the number of rows of this <strong>Matrix</strong>.</exception>
+        /// <exception cref="ArgumentException">If the size of <paramref name="column"/> does not
+        /// equal the number of rows of this <strong>Matrix</strong>.</exception>
+        public override void SetColumn(int columnIndex, double[] column)
+        {
+            if (columnIndex < 0 || columnIndex >= ColumnCount)
+            {
+                throw new ArgumentOutOfRangeException("columnIndex");
+            }
+
+            if (column == null)
+            {
+                throw new ArgumentNullException("column");
+            }
+
+            if (column.Length != RowCount)
+            {
+                throw new ArgumentException(Resources.ArgumentMatrixSameRowDimension, "column");
+            }
+
+            for (var i = 0; i < columnIndex; i++)
+            {
+                At(i, columnIndex, column[i]);
+            }
+        }
+
+        /// <summary>
+        /// Copies the values of the given Vector to the specified column. The changes retain the symmetry of the matrix. 
+        /// </summary>
+        /// <param name="columnIndex">The column to copy the values to.</param>
+        /// <param name="column">The vector to copy the values from.</param>
+        /// <exception cref="ArgumentNullException">If <paramref name="column"/> is <see langword="null" />.</exception>        
+        /// <exception cref="ArgumentOutOfRangeException">If <paramref name="columnIndex"/> is less than zero,
+        /// or greater than or equal to the number of columns.</exception>
+        /// <exception cref="ArgumentException">If the size of <paramref name="column"/> does not
+        /// equal the number of rows of this <strong>Matrix</strong>.</exception>
+        public override void SetColumn(int columnIndex, Vector<double> column)
+        {
+            if (columnIndex < 0 || columnIndex >= ColumnCount)
+            {
+                throw new ArgumentOutOfRangeException("columnIndex");
+            }
+
+            if (column == null)
+            {
+                throw new ArgumentNullException("column");
+            }
+
+            if (column.Count != RowCount)
+            {
+                throw new ArgumentException(Resources.ArgumentMatrixSameRowDimension, "column");
+            }
+
+            for (var i = 0; i < columnIndex; i++)
+            {
+                At(i, columnIndex, column[i]);
+            }
+        }
+
+        /// <summary>
+        /// Creates a new matrix and inserts the given row at the given index.
+        /// </summary>
+        /// <param name="rowIndex">The index of where to insert the row.</param>
+        /// <param name="row">The row to insert.</param>
+        /// <returns>A new matrix with the inserted column.</returns>
+        /// <exception cref="ArgumentNullException">If <paramref name="row"/> is <see langword="null" />. </exception>
+        /// <exception cref="ArgumentOutOfRangeException">If <paramref name="rowIndex"/> is &lt; zero or &gt; the number of rows.</exception>
+        /// <exception cref="ArgumentException">If the size of <paramref name="row"/> != the number of columns.</exception>
+        public override Matrix<double> InsertRow(int rowIndex, Vector<double> row)
+        {
+            throw new InvalidOperationException("Inserting a row is not supported on a symmetric matrix. Symmetric matrices are square");
+        }
+
+        /// <summary>
+        /// Copies the values of the given Vector to the specified row.
+        /// </summary>
+        /// <param name="rowIndex">The row to copy the values to.</param>
+        /// <param name="row">The vector to copy the values from.</param>
+        /// <exception cref="ArgumentNullException">If <paramref name="row"/> is <see langword="null" />.</exception>            
+        /// <exception cref="ArgumentOutOfRangeException">If <paramref name="rowIndex"/> is less than zero,
+        /// or greater than or equal to the number of rows.</exception>
+        /// <exception cref="ArgumentException">If the size of <paramref name="row"/> does not
+        /// equal the number of columns of this <strong>Matrix</strong>.</exception>
+        public override void SetRow(int rowIndex, Vector<double> row)
+        {
+            if (rowIndex < 0 || rowIndex >= RowCount)
+            {
+                throw new ArgumentOutOfRangeException("rowIndex");
+            }
+
+            if (row == null)
+            {
+                throw new ArgumentNullException("row");
+            }
+
+            if (row.Count != ColumnCount)
+            {
+                throw new ArgumentException(Resources.ArgumentMatrixSameRowDimension, "row");
+            }
+
+            for (var i = rowIndex; i < ColumnCount; i++)
+            {
+                At(rowIndex, i, row[i]);
+            }
+        }
+
+        /// <summary>
+        /// Copies the values of the given array to the specified row.
+        /// </summary>
+        /// <param name="rowIndex">The row to copy the values to.</param>
+        /// <param name="row">The array to copy the values from.</param>
+        /// <exception cref="ArgumentNullException">If <paramref name="row"/> is <see langword="null" />.</exception>  
+        /// <exception cref="ArgumentOutOfRangeException">If <paramref name="rowIndex"/> is less than zero,
+        /// or greater than or equal to the number of rows.</exception>
+        /// <exception cref="ArgumentException">If the size of <paramref name="row"/> does not
+        /// equal the number of columns of this <strong>Matrix</strong>.</exception>
+        public override void SetRow(int rowIndex, double[] row)
+        {
+            if (rowIndex < 0 || rowIndex >= RowCount)
+            {
+                throw new ArgumentOutOfRangeException("rowIndex");
+            }
+
+            if (row == null)
+            {
+                throw new ArgumentNullException("row");
+            }
+
+            if (row.Length != ColumnCount)
+            {
+                throw new ArgumentException(Resources.ArgumentMatrixSameRowDimension, "row");
+            }
+
+            for (var i = rowIndex; i < ColumnCount; i++)
+            {
+                At(rowIndex, i, row[i]);
             }
         }
     }
