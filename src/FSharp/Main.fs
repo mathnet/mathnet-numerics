@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009 Math.NET
+// Copyright (c) 2009-2012 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -30,8 +30,8 @@
 
 namespace MathNet.Numerics
 
-open MathNet.Numerics.LinearAlgebra.Double
 open MathNet.Numerics.LinearAlgebra.Generic
+open MathNet.Numerics.LinearAlgebra.Double
 
 /// A module which implements some F# utility functions.
 module FSharp =

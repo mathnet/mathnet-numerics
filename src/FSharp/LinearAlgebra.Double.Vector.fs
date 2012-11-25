@@ -1,10 +1,10 @@
-// <copyright file="Vector.fs" company="Math.NET">
+// <copyright file="LinearAlgebra.Double.Vector.fs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009 Math.NET
+// Copyright (c) 2009-2012 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -30,10 +30,10 @@
 
 namespace MathNet.Numerics.LinearAlgebra.Double
 
-open MathNet.Numerics.LinearAlgebra
 open MathNet.Numerics.LinearAlgebra.Generic
 
 /// A module which implements functional vector operations.
+[<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
 module Vector =
         
     /// Transform a vector into an array.
@@ -185,3 +185,56 @@ module Vector =
         for i = index + 1 to v.Count do 
             newV.Item(i) <- v.Item(i - 1)        
         newV
+
+/// A module which implements functional dense vector operations.
+[<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
+module DenseVector =
+
+    /// Initialize a vector by calling a construction function for every element.
+    let inline init (n: int) f =
+        let v = new DenseVector(n)
+        for i=0 to n-1 do
+            v.[i] <- f i
+        v
+
+    /// Create a vector from a float list.
+    let inline ofList (fl: float list) =
+        let n = List.length fl
+        let v = DenseVector(n)
+        fl |> List.iteri (fun i f -> v.[i] <- f)
+        v
+    
+    /// Create a vector from a sequences.
+    let inline ofSeq (fs: #seq<float>) =
+        let n = Seq.length fs
+        let v = DenseVector(n)
+        fs |> Seq.iteri (fun i f -> v.[i] <- f)
+        v
+    
+    /// Create a vector with evenly spaced entries: e.g. rangef -1.0 0.5 1.0 = [-1.0 -0.5 0.0 0.5 1.0]
+    let inline rangef (start: float) (step: float) (stop: float) =
+        let n = (int ((stop - start) / step)) + 1
+        let v = new DenseVector(n)
+        for i=0 to n-1 do
+            v.[i] <- (float i) * step + start
+        v
+    
+    /// Create a vector with integer entries in the given range.
+    let inline range (start: int) (stop: int) =
+        new DenseVector([| for i in [start .. stop] -> float i |])
+
+/// A module which implements functional sparse vector operations.
+[<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
+module SparseVector =
+    
+    /// Create a sparse vector with a given dimension from a list of entry, value pairs.
+    let inline ofList (dim: int) (fl: list<int * float>) =
+        let v = new SparseVector(dim)
+        fl |> List.iter (fun (i, f) -> v.[i] <- f)
+        v
+    
+    /// Create a sparse vector with a given dimension from a sequence of entry, value pairs.
+    let inline ofSeq (dim: int) (fs: #seq<int * float>) =
+        let v = new SparseVector(dim)
+        fs |> Seq.iter (fun (i, f) -> v.[i] <- f)
+        v

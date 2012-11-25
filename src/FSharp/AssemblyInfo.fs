@@ -35,7 +35,7 @@ open System.Resources;
 open System.Runtime.CompilerServices
 open System.Runtime.InteropServices
 
-[<assembly: AssemblyTitle("Math.NET Numerics F# Modules")>]
+[<assembly: AssemblyTitle("Math.NET Numerics for F#")>]
 [<assembly: AssemblyDescription("F# Modules for Math.NET Numerics, providing methods and algorithms for numerical computations in science, engineering and every day use.")>]
 [<assembly: AssemblyConfiguration("")>]
 [<assembly: AssemblyCompany("Math.NET Project")>]

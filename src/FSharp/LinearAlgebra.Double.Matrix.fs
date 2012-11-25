@@ -1,10 +1,10 @@
-// <copyright file="Matrix.fs" company="Math.NET">
+// <copyright file="LinearAlgebra.Double.Matrix.fs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009 Math.NET
+// Copyright (c) 2009-2012 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -30,10 +30,10 @@
 
 namespace MathNet.Numerics.LinearAlgebra.Double
 
-open MathNet.Numerics.LinearAlgebra.Double
 open MathNet.Numerics.LinearAlgebra.Generic
 
 /// A module which implements functional matrix operations.
+[<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
 module Matrix =
     
     /// Fold a function over all matrix elements.
@@ -241,3 +241,114 @@ module Matrix =
                 macc <- f macc (A.Item(k,i))
             v.[k] <- macc
         v :> Vector<float>
+
+/// A module which implements functional dense vector operations.
+[<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
+module DenseMatrix =
+
+    /// Initialize a matrix by calling a construction function for every element.
+    let inline init (n: int) (m: int) f =
+        let A = new DenseMatrix(n,m)
+        for i=0 to n-1 do
+            for j=0 to m-1 do
+                A.[i,j] <- f i j
+        A
+    
+    /// Create a matrix from a list of float lists. Every list in the master list specifies a row.
+    let inline ofList (fll: float list list) =
+        let n = List.length fll
+        let m = List.length (List.head fll)
+        let A = DenseMatrix(n,m)
+        fll |> List.iteri (fun i fl ->
+                            if (List.length fl) <> m then failwith "Each subrow must be of the same length." else
+                            List.iteri (fun j f -> A.[i,j] <- f) fl)
+        A
+    
+    /// Create a matrix from a list of sequences. Every sequence in the master sequence specifies a row.
+    let inline ofSeq (fss: #seq<#seq<float>>) =
+        let n = Seq.length fss
+        let m = Seq.length (Seq.head fss)
+        let A = DenseMatrix(n,m)
+        fss |> Seq.iteri (fun i fs ->
+                            if (Seq.length fs) <> m then failwith "Each subrow must be of the same length." else
+                            Seq.iteri (fun j f -> A.[i,j] <- f) fs)
+        A
+
+    /// Create a matrix from a 2D array of floating point numbers.
+    let inline ofArray2 (arr: float[,]) = new DenseMatrix(arr)
+    
+    /// Create a matrix with the given entries.
+    let inline initDense (n: int) (m: int) (es: #seq<int * int * float>) =
+        let A = new DenseMatrix(n,m)
+        Seq.iter (fun (i,j,f) -> A.[i,j] <- f) es
+        A
+    
+    /// Create a square matrix with constant diagonal entries.
+    let inline constDiag (n: int) (f: float) =
+        let A = new DenseMatrix(n,n)
+        for i=0 to n-1 do
+            A.[i,i] <- f
+        A
+    
+    /// Create a square matrix with the vector elements on the diagonal.
+    let inline diag (v: #Vector<float>) =
+        let n = v.Count
+        let A = new DenseMatrix(n,n)
+        for i=0 to n-1 do
+            A.[i,i] <- v.Item(i)
+        A
+
+    /// Initialize a matrix by calling a construction function for every row.
+    let inline initRow (n: int) (m: int) (f: int -> #Vector<float>) =
+        let A = new DenseMatrix(n,m)
+        for i=0 to n-1 do A.SetRow(i, f i)
+        A
+
+    /// Initialize a matrix by calling a construction function for every column.
+    let inline initCol (n: int) (m: int) (f: int -> #Vector<float>) =
+        let A = new DenseMatrix(n,m)
+        for i=0 to m-1 do A.SetColumn(i, f i)
+        A
+
+/// A module which implements functional sparse vector operations.
+[<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
+module SparseMatrix =
+    
+    /// Create a matrix from a list of float lists. Every list in the master list specifies a row.
+    let inline ofList (rows: int) (cols: int) (fll: list<int * int * float>) =
+        let A = new SparseMatrix(rows, cols)
+        fll |> List.iter (fun (i, j, x) -> A.[i,j] <- x)
+        A
+    
+    /// Create a matrix from a list of sequences. Every sequence in the master sequence specifies a row.
+    let inline ofSeq (rows: int) (cols: int) (fss: #seq<int * int * float>) =
+        let A = new SparseMatrix(rows, cols)
+        fss |> Seq.iter (fun (i, j, x) -> A.[i,j] <- x)
+        A
+    
+    /// Create a square matrix with constant diagonal entries.
+    let inline constDiag (n: int) (f: float) =
+        let A = new SparseMatrix(n,n)
+        for i=0 to n-1 do
+            A.[i,i] <- f
+        A
+    
+    /// Create a square matrix with the vector elements on the diagonal.
+    let inline diag (v: #Vector<float>) =
+        let n = v.Count
+        let A = new SparseMatrix(n,n)
+        for i=0 to n-1 do
+            A.[i,i] <- v.Item(i)
+        A
+
+    /// Initialize a matrix by calling a construction function for every row.
+    let inline initRow (n: int) (m: int) (f: int -> #Vector<float>) =
+        let A = new SparseMatrix(n,m)
+        for i=0 to n-1 do A.SetRow(i, f i)
+        A
+
+    /// Initialize a matrix by calling a construction function for every column.
+    let inline initCol (n: int) (m: int) (f: int -> #Vector<float>) =
+        let A = new SparseMatrix(n,m)
+        for i=0 to m-1 do A.SetColumn(i, f i)
+        A

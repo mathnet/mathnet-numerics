@@ -41,29 +41,20 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\FSharp\DenseMatrix.fs">
-      <Link>DenseMatrix.fs</Link>
+    <Compile Include="..\FSharp\AssemblyInfo.fs">
+      <Link>AssemblyInfo.fs</Link>
     </Compile>
-    <Compile Include="..\FSharp\DenseVector.fs">
-      <Link>DenseVector.fs</Link>
+    <Compile Include="..\FSharp\LinearAlgebra.fs">
+      <Link>LinearAlgebra.fs</Link>
     </Compile>
-    <Compile Include="..\FSharp\Extensions.fs">
-      <Link>Extensions.fs</Link>
+    <Compile Include="..\FSharp\LinearAlgebra.Double.Matrix.fs">
+      <Link>LinearAlgebra.Double.Matrix.fs</Link>
+    </Compile>
+    <Compile Include="..\FSharp\LinearAlgebra.Double.Vector.fs">
+      <Link>LinearAlgebra.Double.Vector.fs</Link>
     </Compile>
     <Compile Include="..\FSharp\Main.fs">
       <Link>Main.fs</Link>
-    </Compile>
-    <Compile Include="..\FSharp\Matrix.fs">
-      <Link>Matrix.fs</Link>
-    </Compile>
-    <Compile Include="..\FSharp\SparseMatrix.fs">
-      <Link>SparseMatrix.fs</Link>
-    </Compile>
-    <Compile Include="..\FSharp\SparseVector.fs">
-      <Link>SparseVector.fs</Link>
-    </Compile>
-    <Compile Include="..\FSharp\Vector.fs">
-      <Link>Vector.fs</Link>
     </Compile>
   </ItemGroup>
   <ItemGroup>
