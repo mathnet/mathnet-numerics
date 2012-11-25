@@ -571,7 +571,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <exception cref="ArgumentException">If <c>this.RowCount != rightSide.Count</c>.</exception>
         public virtual Vector<T> TransposeThisAndMultiply(Vector<T> rightSide)
         {
-            var ret = CreateVector(RowCount);
+            var ret = CreateVector(ColumnCount);
             TransposeThisAndMultiply(rightSide, ret);
             return ret;
         }
