@@ -100,6 +100,12 @@
         {
             var symmetricOther = other as SymmetricMatrix;
             var symmetricResult = result as SymmetricMatrix;
+
+            if (symmetricResult != null && !other.IsSymmetric)
+            {
+                throw new InvalidOperationException("Symmetric + non-symmetric matrix cannot be a symmetric matrix");
+            }
+
             if (symmetricOther == null || symmetricResult == null)
             {
                 base.DoAdd(other, result);
@@ -135,6 +141,12 @@
         {
             var symmetricOther = other as SymmetricMatrix;
             var symmetricResult = result as SymmetricMatrix;
+
+            if (symmetricResult != null && !other.IsSymmetric)
+            {
+                throw new InvalidOperationException("Symmetric - non-symmetric matrix cannot be a symmetric matrix");
+            }
+
             if (symmetricOther == null || symmetricResult == null)
             {
                 base.DoSubtract(other, result);
@@ -247,6 +259,12 @@
         {
             var symmetricOther = other as SymmetricMatrix;
             var symmetricResult = result as SymmetricMatrix;
+
+            if (symmetricResult != null && !other.IsSymmetric)
+            {
+                throw new InvalidOperationException("Symmetric pointwise* non-symmetric matrix cannot be a symmetric matrix");
+            }
+
             if (symmetricOther == null || symmetricResult == null)
             {
                 base.DoPointwiseMultiply(other, result);
@@ -276,6 +294,12 @@
         {
             var symmetricOther = other as SymmetricMatrix;
             var symmetricResult = result as SymmetricMatrix;
+
+            if (symmetricResult != null && !other.IsSymmetric)
+            {
+                throw new InvalidOperationException("Symmetric pointwise/ non-symmetric matrix cannot be a symmetric matrix");
+            }
+
             if (symmetricOther == null || symmetricResult == null)
             {
                 base.DoPointwiseDivide(other, result);
