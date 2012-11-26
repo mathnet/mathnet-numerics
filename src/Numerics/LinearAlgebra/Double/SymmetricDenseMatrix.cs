@@ -529,14 +529,9 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// Computes the trace of this matrix.
         /// </summary>
         /// <returns>The trace of this matrix</returns>
-        /// <exception cref="ArgumentException">If the matrix is not square</exception>
         public override double Trace()
         {
-            if (RowCount != ColumnCount)
-            {
-                throw new ArgumentException(Resources.ArgumentMatrixSquare);
-            }
-
+            // Matrix is always square.
             var sum = 0.0;
             for (var i = 0; i < RowCount; i++)
             {
