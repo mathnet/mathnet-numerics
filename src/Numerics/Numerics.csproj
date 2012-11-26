@@ -140,6 +140,9 @@
     <Compile Include="Distributions\Multivariate\InverseWishart.cs" />
     <Compile Include="Distributions\Multivariate\MatrixNormal.cs" />
     <Compile Include="Distributions\Multivariate\Wishart.cs" />
+    <Compile Include="LinearAlgebra\Complex32\SquareMatrix.cs" />
+    <Compile Include="LinearAlgebra\Complex32\SymmetricDenseMatrix.cs" />
+    <Compile Include="LinearAlgebra\Complex32\SymmetricMatrix.cs" />
     <Compile Include="LinearAlgebra\Complex\SquareMatrix.cs" />
     <Compile Include="LinearAlgebra\Complex\SymmetricDenseMatrix.cs" />
     <Compile Include="LinearAlgebra\Complex\SymmetricMatrix.cs" />

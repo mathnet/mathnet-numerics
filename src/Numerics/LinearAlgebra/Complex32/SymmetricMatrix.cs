@@ -24,10 +24,10 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-namespace MathNet.Numerics.LinearAlgebra.Complex
+namespace MathNet.Numerics.LinearAlgebra.Complex32
 {
     using System;
-    using System.Numerics;
+    using Numerics;
     using Generic;
     using Distributions;
     using Properties;
@@ -42,7 +42,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// <summary>
         /// Initializes a new instance of the <see cref="SymmetricMatrix"/> class.
         /// </summary>
-        protected SymmetricMatrix(MatrixStorage<Complex> storage)
+        protected SymmetricMatrix(MatrixStorage<Complex32> storage)
             : base(storage)
         {
         }
@@ -56,7 +56,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// <returns>
         /// True is array is symmetric, false if not symmetric. 
         /// </returns>
-        public static bool CheckIfSymmetric(Complex[,] array)
+        public static bool CheckIfSymmetric(Complex32[,] array)
         {
             var rows = array.GetLength(0);
             var columns = array.GetLength(1);
@@ -102,7 +102,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// <returns>
         /// The transpose of this matrix.
         /// </returns>
-        public override sealed Matrix<Complex> Transpose()
+        public override sealed Matrix<Complex32> Transpose()
         {
             return this.Clone();
         }
@@ -114,7 +114,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// <returns>The result of the addition.</returns>
         /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null"/>.</exception>
         /// <exception cref="ArgumentOutOfRangeException">If the two matrices don't have the same dimensions.</exception>
-        public override Matrix<Complex> Add(Matrix<Complex> other)
+        public override Matrix<Complex32> Add(Matrix<Complex32> other)
         {
             if (other == null)
             {
@@ -126,7 +126,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
                 throw DimensionsDontMatch<ArgumentOutOfRangeException>(this, other);
             }
 
-            Matrix<Complex> result;
+            Matrix<Complex32> result;
             if (other is SymmetricMatrix)
             {
                 result = CreateMatrix(RowCount, ColumnCount);
@@ -155,7 +155,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// <exception cref="ArgumentOutOfRangeException">
         /// If the two matrices don't have the same dimensions.
         /// </exception>
-        protected override void DoAdd(Matrix<Complex> other, Matrix<Complex> result)
+        protected override void DoAdd(Matrix<Complex32> other, Matrix<Complex32> result)
         {
             var symmetricOther = other as SymmetricMatrix;
             var symmetricResult = result as SymmetricMatrix;
@@ -188,7 +188,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// <returns>The result of the subtraction.</returns>
         /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null"/>.</exception>
         /// <exception cref="ArgumentOutOfRangeException">If the two matrices don't have the same dimensions.</exception>
-        public override Matrix<Complex> Subtract(Matrix<Complex> other)
+        public override Matrix<Complex32> Subtract(Matrix<Complex32> other)
         {
             if (other == null)
             {
@@ -200,7 +200,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
                 throw DimensionsDontMatch<ArgumentOutOfRangeException>(this, other);
             }
 
-            Matrix<Complex> result;
+            Matrix<Complex32> result;
             if (other is SymmetricMatrix)
             {
                 result = CreateMatrix(RowCount, ColumnCount);
@@ -230,7 +230,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// <exception cref="ArgumentOutOfRangeException">
         /// If the two matrices don't have the same dimensions.
         /// </exception>
-        protected override void DoSubtract(Matrix<Complex> other, Matrix<Complex> result)
+        protected override void DoSubtract(Matrix<Complex32> other, Matrix<Complex32> result)
         {
             var symmetricOther = other as SymmetricMatrix;
             var symmetricResult = result as SymmetricMatrix;
@@ -265,7 +265,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// <param name="result">
         /// The matrix to store the result of the multiplication.
         /// </param>
-        protected override void DoMultiply(Complex scalar, Matrix<Complex> result)
+        protected override void DoMultiply(Complex32 scalar, Matrix<Complex32> result)
         {
             var symmetricResult = result as SymmetricMatrix;
 
@@ -294,7 +294,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// <param name="result">
         /// The result of the multiplication.
         /// </param>
-        protected override sealed void DoTransposeThisAndMultiply(Matrix<Complex> other, Matrix<Complex> result)
+        protected override sealed void DoTransposeThisAndMultiply(Matrix<Complex32> other, Matrix<Complex32> result)
         {
             DoMultiply(other, result);
         }
@@ -308,7 +308,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// <param name="result">
         /// The result of the multiplication.
         /// </param>
-        protected override sealed void DoTransposeThisAndMultiply(Vector<Complex> rightSide, Vector<Complex> result)
+        protected override sealed void DoTransposeThisAndMultiply(Vector<Complex32> rightSide, Vector<Complex32> result)
         {
             DoMultiply(rightSide, result);
         }
@@ -319,7 +319,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// <param name="result">
         /// The result of the negation.
         /// </param>
-        protected override void DoNegate(Matrix<Complex> result)
+        protected override void DoNegate(Matrix<Complex32> result)
         {
             var symmetricResult = result as SymmetricMatrix;
 
@@ -346,7 +346,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null" />.</exception> 
         /// <exception cref="ArgumentException">If this matrix and <paramref name="other"/> are not the same size.</exception>
         /// <returns>A new matrix that is the pointwise multiplication of this matrix and <paramref name="other"/>.</returns>
-        public override Matrix<Complex> PointwiseMultiply(Matrix<Complex> other)
+        public override Matrix<Complex32> PointwiseMultiply(Matrix<Complex32> other)
         {
             if (other == null)
             {
@@ -358,7 +358,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
                 throw DimensionsDontMatch<ArgumentException>(this, other, "other");
             }
 
-            Matrix<Complex> result;
+            Matrix<Complex32> result;
             if (other is SymmetricMatrix)
             {
                 result = CreateMatrix(RowCount, ColumnCount);
@@ -381,7 +381,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// <param name="result">
         /// The matrix to store the result of the pointwise multiplication.
         /// </param>
-        protected override void DoPointwiseMultiply(Matrix<Complex> other, Matrix<Complex> result)
+        protected override void DoPointwiseMultiply(Matrix<Complex32> other, Matrix<Complex32> result)
         {
             var symmetricOther = other as SymmetricMatrix;
             var symmetricResult = result as SymmetricMatrix;
@@ -414,7 +414,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null" />.</exception> 
         /// <exception cref="ArgumentException">If this matrix and <paramref name="other"/> are not the same size.</exception>
         /// <returns>A new matrix that is the pointwise division of this matrix and <paramref name="other"/>.</returns>
-        public override Matrix<Complex> PointwiseDivide(Matrix<Complex> other)
+        public override Matrix<Complex32> PointwiseDivide(Matrix<Complex32> other)
         {
             if (other == null)
             {
@@ -426,7 +426,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
                 throw DimensionsDontMatch<ArgumentException>(this, other);
             }
 
-            Matrix<Complex> result;
+            Matrix<Complex32> result;
             if (other is SymmetricMatrix)
             {
                 result = CreateMatrix(RowCount, ColumnCount);
@@ -449,7 +449,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// <param name="result">
         /// The matrix to store the result of the pointwise division.
         /// </param>
-        protected override void DoPointwiseDivide(Matrix<Complex> other, Matrix<Complex> result)
+        protected override void DoPointwiseDivide(Matrix<Complex32> other, Matrix<Complex32> result)
         {
             var symmetricOther = other as SymmetricMatrix;
             var symmetricResult = result as SymmetricMatrix;
@@ -484,7 +484,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// <param name="result">
         /// Matrix to store the results in.
         /// </param>
-        protected override void DoModulus(Complex divisor, Matrix<Complex> result)
+        protected override void DoModulus(Complex32 divisor, Matrix<Complex32> result)
         {
             throw new NotImplementedException();
         }
@@ -498,7 +498,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// <param name="distribution">
         /// Continuous Random Distribution to generate elements from.
         /// </param>
-        protected override void DoRandom(Matrix<Complex> matrix, IContinuousDistribution distribution)
+        protected override void DoRandom(Matrix<Complex32> matrix, IContinuousDistribution distribution)
         {
             var symmetricMatrix = matrix as SymmetricMatrix;
 
@@ -512,7 +512,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
                 {
                     for (var column = row; column < matrix.ColumnCount; column++)
                     {
-                        symmetricMatrix.At(row, column, distribution.Sample());
+                        symmetricMatrix.At(row, column, Convert.ToSingle(distribution.Sample()));
                     }
                 }
             }
@@ -527,7 +527,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// <param name="distribution">
         /// Continuous Random Distribution to generate elements from.
         /// </param>
-        protected override void DoRandom(Matrix<Complex> matrix, IDiscreteDistribution distribution)
+        protected override void DoRandom(Matrix<Complex32> matrix, IDiscreteDistribution distribution)
         {
             var symmetricMatrix = matrix as SymmetricMatrix;
             if (symmetricMatrix == null)
@@ -555,7 +555,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// <exception cref="ArgumentNullException">If <paramref name="column "/> is <see langword="null" />. </exception>
         /// <exception cref="ArgumentOutOfRangeException">If <paramref name="columnIndex"/> is &lt; zero or &gt; the number of columns.</exception>
         /// <exception cref="ArgumentException">If the size of <paramref name="column"/> != the number of rows.</exception>
-        public override Matrix<Complex> InsertColumn(int columnIndex, Vector<Complex> column)
+        public override Matrix<Complex32> InsertColumn(int columnIndex, Vector<Complex32> column)
         {
             throw new InvalidOperationException("Inserting a column is not supported on a symmetric matrix. Symmetric matrices are square");
         }
@@ -572,7 +572,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// equal the number of rows of this <strong>Matrix</strong>.</exception>
         /// <exception cref="ArgumentException">If the size of <paramref name="column"/> does not
         /// equal the number of rows of this <strong>Matrix</strong>.</exception>
-        public override void SetColumn(int columnIndex, Complex[] column)
+        public override void SetColumn(int columnIndex, Complex32[] column)
         {
             if (columnIndex < 0 || columnIndex >= ColumnCount)
             {
@@ -605,7 +605,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// or greater than or equal to the number of columns.</exception>
         /// <exception cref="ArgumentException">If the size of <paramref name="column"/> does not
         /// equal the number of rows of this <strong>Matrix</strong>.</exception>
-        public override void SetColumn(int columnIndex, Vector<Complex> column)
+        public override void SetColumn(int columnIndex, Vector<Complex32> column)
         {
             if (columnIndex < 0 || columnIndex >= ColumnCount)
             {
@@ -637,7 +637,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// <exception cref="ArgumentNullException">If <paramref name="row"/> is <see langword="null" />. </exception>
         /// <exception cref="ArgumentOutOfRangeException">If <paramref name="rowIndex"/> is &lt; zero or &gt; the number of rows.</exception>
         /// <exception cref="ArgumentException">If the size of <paramref name="row"/> != the number of columns.</exception>
-        public override Matrix<Complex> InsertRow(int rowIndex, Vector<Complex> row)
+        public override Matrix<Complex32> InsertRow(int rowIndex, Vector<Complex32> row)
         {
             throw new InvalidOperationException("Inserting a row is not supported on a symmetric matrix. Symmetric matrices are square");
         }
@@ -652,7 +652,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// or greater than or equal to the number of rows.</exception>
         /// <exception cref="ArgumentException">If the size of <paramref name="row"/> does not
         /// equal the number of columns of this <strong>Matrix</strong>.</exception>
-        public override void SetRow(int rowIndex, Vector<Complex> row)
+        public override void SetRow(int rowIndex, Vector<Complex32> row)
         {
             if (rowIndex < 0 || rowIndex >= RowCount)
             {
@@ -685,7 +685,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// or greater than or equal to the number of rows.</exception>
         /// <exception cref="ArgumentException">If the size of <paramref name="row"/> does not
         /// equal the number of columns of this <strong>Matrix</strong>.</exception>
-        public override void SetRow(int rowIndex, Complex[] row)
+        public override void SetRow(int rowIndex, Complex32[] row)
         {
             if (rowIndex < 0 || rowIndex >= RowCount)
             {
