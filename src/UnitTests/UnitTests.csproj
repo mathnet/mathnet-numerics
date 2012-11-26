@@ -721,6 +721,9 @@
     <Compile Include="LinearAlgebraTests\Single\SparseVectorTest.TextHandling.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="LinearAlgebraTests\Single\SymmetricDenseMatrixTests.cs" />
+    <Compile Include="LinearAlgebraTests\Single\SymmetricMatrixTests.Arithmetic.cs" />
+    <Compile Include="LinearAlgebraTests\Single\SymmetricMatrixTests.cs" />
     <Compile Include="LinearAlgebraTests\Single\UserDefinedMatrix.cs">
       <SubType>Code</SubType>
     </Compile>
