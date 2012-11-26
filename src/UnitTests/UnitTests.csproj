@@ -272,6 +272,9 @@
     <Compile Include="LinearAlgebraTests\Complex32\SparseVectorTest.TextHandling.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="LinearAlgebraTests\Complex32\SymmetricDenseMatrixTests.cs" />
+    <Compile Include="LinearAlgebraTests\Complex32\SymmetricMatrixTests.Arithmetic.cs" />
+    <Compile Include="LinearAlgebraTests\Complex32\SymmetricMatrixTests.cs" />
     <Compile Include="LinearAlgebraTests\Complex32\UserDefinedMatrix.cs">
       <SubType>Code</SubType>
     </Compile>

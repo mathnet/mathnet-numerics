@@ -233,7 +233,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
             var m = new SymmetricDenseMatrix(order);
             for (var i = 0; i < order; i++)
             {
-                m.At(i, i, 1.0f);
+                m.At(i, i, Complex32.One);
             }
 
             return m;
