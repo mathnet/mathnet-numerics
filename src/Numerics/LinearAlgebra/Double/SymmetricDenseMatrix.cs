@@ -27,14 +27,12 @@
 namespace MathNet.Numerics.LinearAlgebra.Double
 {
     using System;
-    using Distributions;
     using Generic;
-
-    using MathNet.Numerics.LinearAlgebra.Storage;
+    using MathNet.Numerics.Distributions;
     using MathNet.Numerics.LinearAlgebra.Storage.Indexers.Static;
-
+    using MathNet.Numerics.Threading;
     using Properties;
-    using Threading;
+    using Storage;
 
     /// <summary>
     /// A Symmetric Matrix class with dense storage. 

@@ -27,9 +27,8 @@
 namespace MathNet.Numerics.LinearAlgebra.Single
 {
     using System;
-
-    using MathNet.Numerics.LinearAlgebra.Storage;
-    using MathNet.Numerics.Properties;
+    using Properties;
+    using Storage;
 
     /// <summary>
     /// Abstract class for square matrices. 

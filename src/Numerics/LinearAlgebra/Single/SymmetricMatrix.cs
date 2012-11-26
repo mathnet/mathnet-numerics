@@ -27,11 +27,10 @@
 namespace MathNet.Numerics.LinearAlgebra.Single
 {
     using System;
-
-    using MathNet.Numerics.Distributions;
-    using MathNet.Numerics.LinearAlgebra.Generic;
-    using MathNet.Numerics.LinearAlgebra.Storage;
-    using MathNet.Numerics.Properties;
+    using Generic;
+    using Distributions;
+    using Properties;
+    using Storage;
 
     /// <summary>
     /// Abstract class for symmetric matrices. 
