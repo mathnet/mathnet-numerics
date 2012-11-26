@@ -588,25 +588,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// equal the number of rows of this <strong>Matrix</strong>.</exception>
         public override void SetColumn(int columnIndex, float[] column)
         {
-            if (columnIndex < 0 || columnIndex >= ColumnCount)
-            {
-                throw new ArgumentOutOfRangeException("columnIndex");
-            }
-
-            if (column == null)
-            {
-                throw new ArgumentNullException("column");
-            }
-
-            if (column.Length != RowCount)
-            {
-                throw new ArgumentException(Resources.ArgumentMatrixSameRowDimension, "column");
-            }
-
-            for (var i = 0; i < columnIndex; i++)
-            {
-                At(i, columnIndex, column[i]);
-            }
+            throw new InvalidOperationException("Setting a column is not supported on a symmetric matrix. It will violate symmetry");
         }
 
         /// <summary>
@@ -621,25 +603,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// equal the number of rows of this <strong>Matrix</strong>.</exception>
         public override void SetColumn(int columnIndex, Vector<float> column)
         {
-            if (columnIndex < 0 || columnIndex >= ColumnCount)
-            {
-                throw new ArgumentOutOfRangeException("columnIndex");
-            }
-
-            if (column == null)
-            {
-                throw new ArgumentNullException("column");
-            }
-
-            if (column.Count != RowCount)
-            {
-                throw new ArgumentException(Resources.ArgumentMatrixSameRowDimension, "column");
-            }
-
-            for (var i = 0; i < columnIndex; i++)
-            {
-                At(i, columnIndex, column[i]);
-            }
+            throw new InvalidOperationException("Setting a column is not supported on a symmetric matrix. It will violate symmetry");
         }
 
         /// <summary>
@@ -668,25 +632,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// equal the number of columns of this <strong>Matrix</strong>.</exception>
         public override void SetRow(int rowIndex, Vector<float> row)
         {
-            if (rowIndex < 0 || rowIndex >= RowCount)
-            {
-                throw new ArgumentOutOfRangeException("rowIndex");
-            }
-
-            if (row == null)
-            {
-                throw new ArgumentNullException("row");
-            }
-
-            if (row.Count != ColumnCount)
-            {
-                throw new ArgumentException(Resources.ArgumentMatrixSameRowDimension, "row");
-            }
-
-            for (var i = rowIndex; i < ColumnCount; i++)
-            {
-                At(rowIndex, i, row[i]);
-            }
+            throw new InvalidOperationException("Setting a row is not supported on a symmetric matrix. It will violate symmetry");
         }
 
         /// <summary>
@@ -701,25 +647,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// equal the number of columns of this <strong>Matrix</strong>.</exception>
         public override void SetRow(int rowIndex, float[] row)
         {
-            if (rowIndex < 0 || rowIndex >= RowCount)
-            {
-                throw new ArgumentOutOfRangeException("rowIndex");
-            }
-
-            if (row == null)
-            {
-                throw new ArgumentNullException("row");
-            }
-
-            if (row.Length != ColumnCount)
-            {
-                throw new ArgumentException(Resources.ArgumentMatrixSameRowDimension, "row");
-            }
-
-            for (var i = rowIndex; i < ColumnCount; i++)
-            {
-                At(rowIndex, i, row[i]);
-            }
+            throw new InvalidOperationException("Setting a row is not supported on a symmetric matrix. It will violate symmetry");
         }
     }
 }
