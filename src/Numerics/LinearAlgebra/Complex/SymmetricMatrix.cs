@@ -108,6 +108,24 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         }
 
         /// <summary>
+        /// Returns the conjugate transpose of this matrix.
+        /// </summary>        
+        /// <returns>The conjugate transpose of this matrix.</returns>
+        public override Matrix<Complex> ConjugateTranspose()
+        {
+            var ret = CreateMatrix(ColumnCount, RowCount);
+            for (var row = 0; row < RowCount; row++)
+            {
+                for (var column = row; column < ColumnCount; column++)
+                {
+                    ret.At(row, column, At(column, row).Conjugate());
+                }
+            }
+
+            return ret;
+        }
+
+        /// <summary>
         /// Adds another matrix to this matrix.
         /// </summary>
         /// <param name="other">The matrix to add to this matrix.</param>
