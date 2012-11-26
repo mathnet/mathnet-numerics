@@ -76,8 +76,6 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// The order of the matrix.
         /// </param>
         /// <param name="value">The value which we assign to each element of the matrix.</param>
-        /// <remarks> Forcing user to input (int, int, double) because only asking (int, double) would 
-        /// create a signature easily confused with (int, int) which is already used </remarks>
         public SymmetricDenseMatrix(int order, float value)
             : this(order)
         {
