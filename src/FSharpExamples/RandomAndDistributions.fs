@@ -75,3 +75,25 @@ let discrete = [
         poisson.Sample()
         geometric.Sample()
     ]
+
+// direct sampling (without creating a configurable distribution object)
+let u = Normal.Sample(Random.system(), 2.0, 4.0)
+let v = Laplace.Samples(Random.mersenneTwister(), 1.0, 3.0) |> Seq.take 100 |> List.ofSeq
+let w = Rayleigh.Sample(c, 1.5)
+let x = Hypergeometric.Sample(h, 100, 20, 5)
+
+// probability distribution functions of the normal dist we configured above
+let nd = normal.Density(4.0) (* pdf *)
+let ndLn = normal.DensityLn(4.0) (* ln(pdf) *)
+let nc = normal.CumulativeDistribution(4.0) (* cdf *)
+let nic = normal.InverseCumulativeDistribution(0.7) (* invcdf *)
+
+// distribution properties of the gamma dist we configured above
+let gammaStats = (
+        gamma.Mean,
+        gamma.Variance,
+        gamma.StdDev,
+        gamma.Entropy,
+        gamma.Skewness,
+        gamma.Mode
+    )
