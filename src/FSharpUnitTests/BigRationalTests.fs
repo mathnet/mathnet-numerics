@@ -331,15 +331,7 @@ type BigNumType() =
                         "1000000000000000000000000000000000018")
         Assert.AreEqual(g_zero.ToString(),"0") 
         Assert.AreEqual(g_normal.ToString(),"88")
-        
-        
-    [<Test; Ignore("Bug 5286 - Differences between CLR 2.0 BigInt and CLR 4.0 BigInt")>]
-    member this.System_Object_GetHashCode() =
-        Assert.AreEqual(g_negative1.GetHashCode(),1210897093)
-        Assert.AreEqual(g_normal.GetHashCode(),89)
-        Assert.AreEqual(g_zero.GetHashCode(),1)
-        ()
-    
+            
     // Static methods    
     [<Test>]
     member this.Abs() =
