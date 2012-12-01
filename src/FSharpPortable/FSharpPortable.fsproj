@@ -78,8 +78,8 @@
     <Compile Include="..\FSharp\q.fs">
       <Link>q.fs</Link>
     </Compile>
-    <Compile Include="..\FSharp\DistributionMonad.fs">
-      <Link>DistributionMonad.fs</Link>
+    <Compile Include="..\FSharp\RandomVariableMonad.fs">
+      <Link>RandomVariableMonad.fs</Link>
     </Compile>
   </ItemGroup>
   <ItemGroup>

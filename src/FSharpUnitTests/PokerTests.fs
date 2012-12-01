@@ -1,7 +1,7 @@
-﻿module MathNet.Numerics.Tests.PokerDistributionTest
+﻿module MathNet.Numerics.Tests.PokerTests
 
 open MathNet.Numerics
-open MathNet.Numerics.Distribution
+open MathNet.Numerics.RandomVariable
 open NUnit.Framework
 open FsUnit
 

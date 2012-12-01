@@ -61,7 +61,7 @@
     <Compile Include="complex.fs" />
     <Compile Include="q.fsi" />
     <Compile Include="q.fs" />
-    <Compile Include="DistributionMonad.fs" />
+    <Compile Include="RandomVariableMonad.fs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="FSharp.Core" />

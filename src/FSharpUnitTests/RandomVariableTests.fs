@@ -1,16 +1,16 @@
-﻿module MathNet.Numerics.Tests.DistributionTest
+﻿module MathNet.Numerics.Tests.RandomVariableTests
 
 open MathNet.Numerics
-open MathNet.Numerics.Distribution
+open MathNet.Numerics.RandomVariable
 open NUnit.Framework
 open FsUnit
 
 [<Test>]
-let ``When creating a empty distribution, then the probability should be 1``() =
-  let actual = distribution { return () }
+let ``When creating a empty randomVariable, then the probability should be 1``() =
+  let actual = randomVariable { return () }
   probability actual |> should equal (1N/1N)
 
-let sumOfTwoFairDices = distribution {
+let sumOfTwoFairDices = randomVariable {
   let! d1 = fairDice 6
   let! d2 = fairDice 6
   return d1 + d2 }
@@ -22,7 +22,7 @@ let ``When creating two fair dices, then P(Sum of 2 dices = 7) should be 1/6``()
     |> probability 
     |> should equal (1N/6N)
 
-let fairCoinAndDice = distribution {
+let fairCoinAndDice = randomVariable {
   let! d = fairDice 6
   let! c = fairCoin
   return d,c }
@@ -67,7 +67,7 @@ let ``When making the first choice in a MontyHall situation, the chances to win 
     |> probability 
     |> should equal (1N/3N)
 
-let montyHallWithSwitch = distribution {
+let montyHallWithSwitch = randomVariable {
     let! firstDoor = firstChoice
     return! switch firstDoor }
 

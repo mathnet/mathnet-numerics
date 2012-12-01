@@ -6,16 +6,16 @@ open System
 open System.Collections
 open System.Collections.Generic
 
-module Distribution =
+module RandomVariable =
     
     type 'a Outcome = {
         Value: 'a
         Probability : BigRational    }
     
-    type 'a Distribution = 'a Outcome seq
+    type 'a RandomVariable = 'a Outcome seq
     
     // P(A AND B) = P(A | B) * P(B)
-    let bind (f: 'a -> 'b Distribution) (dist:'a Distribution) =
+    let bind (f: 'a -> 'b RandomVariable) (dist:'a RandomVariable) =
         dist 
         |> Seq.map (fun p1 -> 
             f p1.Value
@@ -23,40 +23,40 @@ module Distribution =
                 { Value = p2.Value; 
                     Probability = 
                         p1.Probability * p2.Probability}))
-        |> Seq.concat : 'b Distribution
+        |> Seq.concat : 'b RandomVariable
     
     /// Sequentially compose two actions, passing any value produced by the first as an argument to the second.
     let inline (>>=) dist f = bind f dist
     /// Flipped >>=
     let inline (=<<) f dist = bind f dist
     
-    /// Inject a value into the Distribution type
+    /// Inject a value into the RandomVariable type
     let returnM (value:'a) =     
         Seq.singleton { Value = value ; Probability = 1N/1N }
-            : 'a Distribution
+            : 'a RandomVariable
     
-    type DistributionMonadBuilder() =
+    type RandomVariableMonadBuilder() =
         member this.Bind (r, f) = bind f r
         member this.Return x = returnM x
         member this.ReturnFrom x = x
     
-    let distribution = DistributionMonadBuilder()
+    let randomVariable = RandomVariableMonadBuilder()
     
     // Create some helpers
-    let toUniformDistribution seq : 'a Distribution =
+    let toUniformDistribution seq : 'a RandomVariable =
         let l = Seq.length seq
         seq 
         |> Seq.map (fun e ->
             { Value = e; 
                 Probability = 1N / bignum.FromInt l })
     
-    let probability (dist:'a Distribution) = 
+    let probability (dist:'a RandomVariable) = 
         dist
         |> Seq.map (fun o -> o.Probability)
         |> Seq.sum
     
     let certainly = returnM
-    let impossible<'a> :'a Distribution = toUniformDistribution []
+    let impossible<'a> :'a RandomVariable = toUniformDistribution []
     
     let fairDice sides = toUniformDistribution [1..sides]
     
@@ -66,15 +66,15 @@ module Distribution =
     
     let fairCoin = toUniformDistribution [Heads; Tails]
     
-    let filter predicate (dist:'a Distribution) : 'a Distribution =
+    let filter predicate (dist:'a RandomVariable) : 'a RandomVariable =
         dist |> Seq.filter (fun o -> predicate o.Value)
     
     let filterInAnyOrder items dist =
         items
         |> Seq.fold (fun d item -> filter (Seq.exists ((=) (item))) d) dist
 
-    /// Transforms a Distribution value by using a specified mapping function.
-    let map f (dist:'a Distribution) : 'b Distribution = 
+    /// Transforms a RandomVariable value by using a specified mapping function.
+    let map f (dist:'a RandomVariable) : 'b RandomVariable = 
         dist 
         |> Seq.map (fun o -> { Value = f o.Value; Probability = o.Probability })
     
@@ -86,7 +86,7 @@ module Distribution =
         match n with 
         | 0 -> certainly ([],values)
         | _ -> 
-            distribution {
+            randomVariable {
                 let! (x,c1) = selectOne values
                 let! (xs,c2) = selectMany (n-1) c1
                 return x::xs,c2}
