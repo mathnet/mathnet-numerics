@@ -62,10 +62,7 @@
     <Compile Include="..\FSharp\LinearAlgebra.Double.fs">
       <Link>LinearAlgebra.Double.fs</Link>
     </Compile>
-    <Compile Include="n.fsi" />
-    <Compile Include="n.fs" />
-    <Compile Include="z.fsi" />
-    <Compile Include="z.fs" />
+    <Compile Include="BigIntegerExtensions.fs" />
     <Compile Include="..\FSharp\complex.fsi">
       <Link>complex.fsi</Link>
     </Compile>
