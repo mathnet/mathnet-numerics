@@ -57,6 +57,11 @@
     <Compile Include="LinearAlgebra.Double.Vector.fs" />
     <Compile Include="LinearAlgebra.Double.Matrix.fs" />
     <Compile Include="LinearAlgebra.Double.fs" />
+    <Compile Include="complex.fsi" />
+    <Compile Include="complex.fs" />
+    <Compile Include="q.fsi" />
+    <Compile Include="q.fs" />
+    <Compile Include="RandomVariable.fs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="FSharp.Core" />
