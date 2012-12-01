@@ -10,7 +10,9 @@ namespace MathNet.Numerics
     open Microsoft.FSharp.Math
     open System
     open System.Globalization
+    open System.Numerics
 
+    (*
     [<Struct>]
     [<CustomEquality; CustomComparison>]
     type Complex(real: float, imaginary: float) =
@@ -34,9 +36,15 @@ namespace MathNet.Numerics
                 | _ -> false
         override x.GetHashCode() = 
                 (hash x.r >>> 5) ^^^  (hash x.r <<< 3) ^^^  (((hash x.i >>> 4) ^^^  (hash x.i <<< 4)) + 0x9e3779b9)
-
+    *)
                 
     type complex = Complex
+
+    [<AutoOpen>]
+    module private ComplexExtensionsBasic =
+        type Complex with 
+            member x.r = x.Real
+            member x.i = x.Imaginary
 
     [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
     module Complex = 
@@ -98,34 +106,30 @@ namespace MathNet.Numerics
       let tan x = let exp2ix = exp(iscale 2.0 x) in
                   (div (sub exp2ix one) (add exp2ix one)) |> iscale -1.0
 
+    [<AutoOpen>]
+    module ComplexExtensions =
+        type Complex with 
+            member x.r = x.Real
+            member x.i = x.Imaginary
+            static member Create(a,b) = Complex.mkRect (a,b)
+            static member CreatePolar(a,b) = Complex.mkPolar (a,b)
+            member x.Magnitude = Complex.magnitude x
+            member x.Phase = Complex.phase x
+            member x.RealPart = x.r
+            member x.ImaginaryPart = x.i
+            member x.Conjugate = Complex.conjugate x
 
-    type Complex with 
-        static member Create(a,b) = Complex.mkRect (a,b)
-        static member CreatePolar(a,b) = Complex.mkPolar (a,b)
-        member x.Magnitude = Complex.magnitude x
-        member x.Phase = Complex.phase x
-        member x.RealPart = x.r
-        member x.ImaginaryPart = x.i
-        member x.Conjugate = Complex.conjugate x
-
-        static member Sin(x) = Complex.sin(x)
-        static member Cos(x) = Complex.cos(x)
-        static member Abs(x) = Complex.abs(x)
-        static member Tan(x) = Complex.tan(x)
-        static member Log(x) = Complex.log(x)
-        static member Exp(x) = Complex.exp(x)
-        static member Sqrt(x) = Complex.sqrt(x)
+            static member Sin(x) = Complex.sin(x)
+            static member Cos(x) = Complex.cos(x)
+            static member Abs(x) = Complex.abs(x)
+            static member Tan(x) = Complex.tan(x)
+            static member Log(x) = Complex.log(x)
+            static member Exp(x) = Complex.exp(x)
+            static member Sqrt(x) = Complex.sqrt(x)
         
-        static member Zero = Complex.zero
-        static member One = Complex.one 
-        static member OneI = Complex.onei 
-        static member ( +  ) (a,b) = Complex.add a b
-        static member ( -  ) (a,b) = Complex.sub a b
-        static member ( *  ) (a,b) = Complex.mul a b
-        static member ( /  ) (a,b) = Complex.div a b
-        static member ( ~- ) a = Complex.neg a
-        static member ( * ) (a,b) = Complex.smul a b
-        static member ( * ) (a,b) = Complex.muls a b
+            static member Zero = Complex.zero
+            static member One = Complex.one 
+            static member OneI = Complex.onei 
 
 
     module ComplexTopLevelOperators = 
