@@ -19,7 +19,7 @@
     <Optimize>false</Optimize>
     <Tailcalls>false</Tailcalls>
     <OutputPath>..\..\out\debug\Portable\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;PORTABLE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;PORTABLE;FX_NO_BIGINT</DefineConstants>
     <WarningLevel>3</WarningLevel>
     <DocumentationFile>
     </DocumentationFile>
@@ -29,7 +29,7 @@
     <Optimize>true</Optimize>
     <Tailcalls>true</Tailcalls>
     <OutputPath>..\..\out\lib\Portable\</OutputPath>
-    <DefineConstants>TRACE;PORTABLE</DefineConstants>
+    <DefineConstants>TRACE;PORTABLE;FX_NO_BIGINT</DefineConstants>
     <WarningLevel>3</WarningLevel>
     <DocumentationFile>..\..\out\lib\Portable\MathNet.Numerics.FSharp.XML</DocumentationFile>
   </PropertyGroup>
@@ -61,6 +61,25 @@
     </Compile>
     <Compile Include="..\FSharp\LinearAlgebra.Double.fs">
       <Link>LinearAlgebra.Double.fs</Link>
+    </Compile>
+    <Compile Include="n.fsi" />
+    <Compile Include="n.fs" />
+    <Compile Include="z.fsi" />
+    <Compile Include="z.fs" />
+    <Compile Include="..\FSharp\complex.fsi">
+      <Link>complex.fsi</Link>
+    </Compile>
+    <Compile Include="..\FSharp\complex.fs">
+      <Link>complex.fs</Link>
+    </Compile>
+    <Compile Include="..\FSharp\q.fsi">
+      <Link>q.fsi</Link>
+    </Compile>
+    <Compile Include="..\FSharp\q.fs">
+      <Link>q.fs</Link>
+    </Compile>
+    <Compile Include="..\FSharp\DistributionMonad.fs">
+      <Link>DistributionMonad.fs</Link>
     </Compile>
   </ItemGroup>
   <ItemGroup>
