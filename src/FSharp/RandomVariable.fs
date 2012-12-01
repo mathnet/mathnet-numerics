@@ -1,56 +1,57 @@
-﻿namespace MathNet.Numerics
+﻿module MathNet.Numerics.Probability
 
 #nowarn "40"
 
 open System
 open System.Collections
 open System.Collections.Generic
+open MathNet.Numerics
 
-module RandomVariable =
+type Outcome<'T> = {
+    Value: 'T
+    Probability : BigRational }
     
-    type 'a Outcome = {
-        Value: 'a
-        Probability : BigRational    }
+type RandomVariable<'T> = Outcome<'T> seq
+        
+// P(A AND B) = P(A | B) * P(B)
+let private bind f dist =
+    dist 
+    |> Seq.map (fun p1 -> 
+        f p1.Value
+        |> Seq.map (fun p2 -> 
+            { Value = p2.Value; 
+                Probability = 
+                    p1.Probability * p2.Probability}))
+    |> Seq.concat
+        
+/// Inject a value into the RandomVariable type
+let private returnM value =     
+    Seq.singleton { Value = value ; Probability = 1N/1N }
+
+type RandomVariableBuilder() =
+    member this.Bind (r, f) = bind f r
+    member this.Return x = returnM x
+    member this.ReturnFrom x = x
+
+let randomVariable = RandomVariableBuilder()
+
+type CoinSide = 
+    | Heads 
+    | Tails
     
-    type 'a RandomVariable = 'a Outcome seq
-    
-    // P(A AND B) = P(A | B) * P(B)
-    let bind (f: 'a -> 'b RandomVariable) (dist:'a RandomVariable) =
-        dist 
-        |> Seq.map (fun p1 -> 
-            f p1.Value
-            |> Seq.map (fun p2 -> 
-                { Value = p2.Value; 
-                    Probability = 
-                        p1.Probability * p2.Probability}))
-        |> Seq.concat : 'b RandomVariable
-    
-    /// Sequentially compose two actions, passing any value produced by the first as an argument to the second.
-    let inline (>>=) dist f = bind f dist
-    /// Flipped >>=
-    let inline (=<<) f dist = bind f dist
-    
-    /// Inject a value into the RandomVariable type
-    let returnM (value:'a) =     
-        Seq.singleton { Value = value ; Probability = 1N/1N }
-            : 'a RandomVariable
-    
-    type RandomVariableMonadBuilder() =
-        member this.Bind (r, f) = bind f r
-        member this.Return x = returnM x
-        member this.ReturnFrom x = x
-    
-    let randomVariable = RandomVariableMonadBuilder()
-    
+[<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
+[<RequireQualifiedAccess>]
+module RandomVariable =    
+        
     // Create some helpers
-    let toUniformDistribution seq : 'a RandomVariable =
+    let toUniformDistribution seq =
         let l = Seq.length seq
         seq 
         |> Seq.map (fun e ->
             { Value = e; 
                 Probability = 1N / bignum.FromInt l })
     
-    let probability (dist:'a RandomVariable) = 
+    let probability dist = 
         dist
         |> Seq.map (fun o -> o.Probability)
         |> Seq.sum
@@ -60,13 +61,9 @@ module RandomVariable =
     
     let fairDice sides = toUniformDistribution [1..sides]
     
-    type CoinSide = 
-        | Heads 
-        | Tails
-    
     let fairCoin = toUniformDistribution [Heads; Tails]
     
-    let filter predicate (dist:'a RandomVariable) : 'a RandomVariable =
+    let filter predicate dist =
         dist |> Seq.filter (fun o -> predicate o.Value)
     
     let filterInAnyOrder items dist =
@@ -74,7 +71,7 @@ module RandomVariable =
         |> Seq.fold (fun d item -> filter (Seq.exists ((=) (item))) d) dist
 
     /// Transforms a RandomVariable value by using a specified mapping function.
-    let map f (dist:'a RandomVariable) : 'b RandomVariable = 
+    let map f dist = 
         dist 
         |> Seq.map (fun o -> { Value = f o.Value; Probability = o.Probability })
     

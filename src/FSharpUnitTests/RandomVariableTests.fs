@@ -1,44 +1,44 @@
 ﻿module MathNet.Numerics.Tests.RandomVariableTests
 
 open MathNet.Numerics
-open MathNet.Numerics.RandomVariable
+open MathNet.Numerics.Probability
 open NUnit.Framework
 open FsUnit
 
 [<Test>]
 let ``When creating a empty randomVariable, then the probability should be 1``() =
   let actual = randomVariable { return () }
-  probability actual |> should equal (1N/1N)
+  RandomVariable.probability actual |> should equal (1N/1N)
 
 let sumOfTwoFairDices = randomVariable {
-  let! d1 = fairDice 6
-  let! d2 = fairDice 6
+  let! d1 = RandomVariable.fairDice 6
+  let! d2 = RandomVariable.fairDice 6
   return d1 + d2 }
 
 [<Test>]
 let ``When creating two fair dices, then P(Sum of 2 dices = 7) should be 1/6``() =
   sumOfTwoFairDices 
-    |> filter ((=) 7)
-    |> probability 
+    |> RandomVariable.filter ((=) 7)
+    |> RandomVariable.probability 
     |> should equal (1N/6N)
 
 let fairCoinAndDice = randomVariable {
-  let! d = fairDice 6
-  let! c = fairCoin
+  let! d = RandomVariable.fairDice 6
+  let! c = RandomVariable.fairCoin
   return d,c }
 
 [<Test>]
 let ``When creating a fair coin and a fair dice, then P(Heads) should be 1/2``() =
   fairCoinAndDice 
-    |> filter (fun (_,c) -> c = Heads)
-    |> probability 
+    |> RandomVariable.filter (fun (_,c) -> c = Heads)
+    |> RandomVariable.probability 
     |> should equal (1N/2N)
 
 [<Test>]
 let ``When creating a fair coin and a fair dice, then P(Heads and dice > 3) should be 1/4``() =
   fairCoinAndDice 
-    |> filter (fun (d,c) -> c = Heads && d > 3)
-    |> probability 
+    |> RandomVariable.filter (fun (d,c) -> c = Heads && d > 3)
+    |> RandomVariable.probability 
     |> should equal (1N/4N)
 
 // MontyHall Problem
@@ -49,22 +49,22 @@ type Outcome =
 | Car
 | Goat
 
-let firstChoice = toUniformDistribution [Car; Goat; Goat]
+let firstChoice = RandomVariable.toUniformDistribution [Car; Goat; Goat]
 
 let switch firstCoice =
     match firstCoice with
     | Car -> 
         // If you had the car and you switch ==> you lose since there are only goats left
-        certainly Goat 
+        RandomVariable.certainly Goat 
     | Goat -> 
         // If you had the goat, the host has to take out another goat ==> you win
-        certainly Car 
+        RandomVariable.certainly Car 
  
 [<Test>]
 let ``When making the first choice in a MontyHall situation, the chances to win should be 1/3``() =
   firstChoice 
-    |> filter ((=) Car)
-    |> probability 
+    |> RandomVariable.filter ((=) Car)
+    |> RandomVariable.probability 
     |> should equal (1N/3N)
 
 let montyHallWithSwitch = randomVariable {
@@ -74,6 +74,6 @@ let montyHallWithSwitch = randomVariable {
 [<Test>]
 let ``When switching in a MontyHall situation, the chances to win should be 2/3``() =
   montyHallWithSwitch
-    |> filter ((=) Car)
-    |> probability 
+    |> RandomVariable.filter ((=) Car)
+    |> RandomVariable.probability 
     |> should equal (2N/3N)
