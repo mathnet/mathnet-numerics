@@ -125,7 +125,13 @@
     <Compile Include="Distributions\Multivariate\MatrixNormal.cs" />
     <Compile Include="Distributions\Multivariate\Wishart.cs" />
     <Compile Include="LinearAlgebra\Storage\SparseVectorStorage.cs" />
+    <Compile Include="LinearAlgebra\Complex32\SparseMatrix.cs" />
+    <Compile Include="LinearAlgebra\Complex\KnuthSparseMatrix.cs" />
+    <Compile Include="LinearAlgebra\Double\KnuthSparseMatrix.cs" />
+    <Compile Include="LinearAlgebra\Single\KnuthSparseMatrix.cs" />
     <Compile Include="LinearAlgebra\Storage\DenseVectorStorage.cs" />
+    <Compile Include="LinearAlgebra\Storage\KnuthNode.cs" />
+    <Compile Include="LinearAlgebra\Storage\KnuthSparseMatrixStorage.cs" />
     <Compile Include="LinearAlgebra\Storage\MatrixStorage.Validation.cs" />
     <Compile Include="LinearAlgebra\Complex32\ExtensionMethods.cs" />
     <Compile Include="LinearAlgebra\Complex32\Factorization\Cholesky.cs" />
@@ -142,7 +148,6 @@
     <Compile Include="LinearAlgebra\Complex32\Solvers\IIterator.cs" />
     <Compile Include="LinearAlgebra\Complex32\Solvers\Preconditioners\IPreConditioner.cs" />
     <Compile Include="LinearAlgebra\Complex32\Solvers\StopCriterium\IIterationStopCriterium.cs" />
-    <Compile Include="LinearAlgebra\Complex32\SparseMatrix.cs" />
     <Compile Include="LinearAlgebra\Complex32\Vector.cs" />
     <Compile Include="LinearAlgebra\Complex\DenseMatrix.cs" />
     <Compile Include="LinearAlgebra\Complex\DenseVector.cs">
