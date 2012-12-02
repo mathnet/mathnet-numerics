@@ -948,10 +948,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         }
 
         /// <summary>
-        /// Can calculate Kronecker product.
+        /// Can calculate Kronecker product into a result matrix.
         /// </summary>
         [Test]
-        public void CanKroneckerProduct()
+        public void CanKroneckerProductIntoResult()
         {
             var matrixA = TestMatrices["Wide2x3"];
             var matrixB = TestMatrices["Square3x3"];
@@ -972,11 +972,12 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             }
         }
 
+        
         /// <summary>
-        /// Can calculate Kronecker product into a result matrix.
+        /// Can calculate Kronecker product.
         /// </summary>
         [Test]
-        public void CanKroneckerProductIntoResult()
+        public void CanKroneckerProduct()
         {
             var matrixA = TestMatrices["Wide2x3"];
             var matrixB = TestMatrices["Square3x3"];

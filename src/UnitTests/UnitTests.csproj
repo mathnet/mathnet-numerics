@@ -272,6 +272,9 @@
     <Compile Include="LinearAlgebraTests\Complex32\SparseVectorTest.TextHandling.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="LinearAlgebraTests\Complex32\SymmetricDenseMatrixTests.cs" />
+    <Compile Include="LinearAlgebraTests\Complex32\SymmetricMatrixTests.Arithmetic.cs" />
+    <Compile Include="LinearAlgebraTests\Complex32\SymmetricMatrixTests.cs" />
     <Compile Include="LinearAlgebraTests\Complex32\UserDefinedMatrix.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -420,6 +423,9 @@
     <Compile Include="LinearAlgebraTests\Complex\SparseVectorTest.TextHandling.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="LinearAlgebraTests\Complex\SymmetricDenseMatrixTests.cs" />
+    <Compile Include="LinearAlgebraTests\Complex\SymmetricMatrixTests.Arithmetic.cs" />
+    <Compile Include="LinearAlgebraTests\Complex\SymmetricMatrixTests.cs" />
     <Compile Include="LinearAlgebraTests\Complex\UserDefinedMatrix.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -568,6 +574,9 @@
     <Compile Include="LinearAlgebraTests\Double\SparseVectorTest.TextHandling.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="LinearAlgebraTests\Double\SymmetricDenseMatrixTests.cs" />
+    <Compile Include="LinearAlgebraTests\Double\SymmetricMatrixTests.Arithmetic.cs" />
+    <Compile Include="LinearAlgebraTests\Double\SymmetricMatrixTests.cs" />
     <Compile Include="LinearAlgebraTests\Double\UserDefinedMatrix.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -718,6 +727,9 @@
     <Compile Include="LinearAlgebraTests\Single\SparseVectorTest.TextHandling.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="LinearAlgebraTests\Single\SymmetricDenseMatrixTests.cs" />
+    <Compile Include="LinearAlgebraTests\Single\SymmetricMatrixTests.Arithmetic.cs" />
+    <Compile Include="LinearAlgebraTests\Single\SymmetricMatrixTests.cs" />
     <Compile Include="LinearAlgebraTests\Single\UserDefinedMatrix.cs">
       <SubType>Code</SubType>
     </Compile>

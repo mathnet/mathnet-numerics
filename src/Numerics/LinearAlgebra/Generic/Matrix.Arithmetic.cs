@@ -481,7 +481,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
                 throw DimensionsDontMatch<ArgumentException>(this, other);
             }
 
-            var result = CreateMatrix(RowCount, other.ColumnCount);
+            var result = CreateMatrix(RowCount, other.ColumnCount, true);
             Multiply(other, result);
             return result;
         }
@@ -550,7 +550,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
                 throw DimensionsDontMatch<ArgumentException>(this, other);
             }
 
-            var result = CreateMatrix(RowCount, other.RowCount);
+            var result = CreateMatrix(RowCount, other.RowCount, true);
             TransposeAndMultiply(other, result);
             return result;
         }
@@ -683,7 +683,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
                 throw DimensionsDontMatch<ArgumentException>(this, other);
             }
 
-            var result = CreateMatrix(ColumnCount, other.ColumnCount);
+            var result = CreateMatrix(ColumnCount, other.ColumnCount, true);
             TransposeThisAndMultiply(other, result);
             return result;
         }
