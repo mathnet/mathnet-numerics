@@ -243,10 +243,47 @@ namespace MathNet.Numerics
         /// <returns>
         /// The square root of this complex number.
         /// </returns>
-        [TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")]
         public static Complex SquareRoot(this Complex complex)
         {
-            return Complex.Sqrt(complex);
+            // Note: the following code should be equivalent to Complex.Sqrt(complex),
+            // but it turns out that is implemented poorly in System.Numerics,
+            // hence we provide our own implementation here. Do not replace.
+
+            if (complex.IsRealNonNegative())
+            {
+                return new Complex(Math.Sqrt(complex.Real), 0.0);
+            }
+
+            Complex result;
+
+            var absReal = Math.Abs(complex.Real);
+            var absImag = Math.Abs(complex.Imaginary);
+            double w;
+            if (absReal >= absImag)
+            {
+                var ratio = complex.Imaginary / complex.Real;
+                w = Math.Sqrt(absReal) * Math.Sqrt(0.5 * (1.0 + Math.Sqrt(1.0 + (ratio * ratio))));
+            }
+            else
+            {
+                var ratio = complex.Real / complex.Imaginary;
+                w = Math.Sqrt(absImag) * Math.Sqrt(0.5 * (Math.Abs(ratio) + Math.Sqrt(1.0 + (ratio * ratio))));
+            }
+
+            if (complex.Real >= 0.0)
+            {
+                result = new Complex(w, complex.Imaginary / (2.0 * w));
+            }
+            else if (complex.Imaginary >= 0.0)
+            {
+                result = new Complex(absImag / (2.0 * w), w);
+            }
+            else
+            {
+                result = new Complex(absImag / (2.0 * w), -w);
+            }
+
+            return result;
         }
 
         /// <summary>
