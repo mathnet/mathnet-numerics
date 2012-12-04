@@ -37,7 +37,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
     /// </summary>
     [Serializable]
     public abstract class Matrix : Matrix<Complex32>
-    {        
+    {
         /// <summary>
         /// Initializes a new instance of the Matrix class.
         /// </summary>
@@ -67,7 +67,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
 
         /// <summary>
         /// Returns the conjugate transpose of this matrix.
-        /// </summary>        
+        /// </summary>
         /// <returns>The conjugate transpose of this matrix.</returns>
         public override Matrix<Complex32> ConjugateTranspose()
         {
@@ -102,7 +102,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         }
 
         /// <summary>Calculates the infinity norm of this matrix.</summary>
-        /// <returns>The infinity norm of this matrix.</returns>   
+        /// <returns>The infinity norm of this matrix.</returns>
         public override Complex32 InfinityNorm()
         {
             var norm = 0.0f;

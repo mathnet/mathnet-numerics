@@ -116,7 +116,7 @@ namespace MathNet.Numerics.UnitTests
         }
 
         /// <summary>
-        /// Can compute cosine. 
+        /// Can compute cosine.
         /// </summary>
         /// <param name="value">Input value.</param>
         /// <param name="expected">Expected value.</param>
@@ -164,7 +164,7 @@ namespace MathNet.Numerics.UnitTests
         }
 
         /// <summary>
-        /// Can compute hyperbolic cosine. 
+        /// Can compute hyperbolic cosine.
         /// </summary>
         /// <param name="value">Input value.</param>
         /// <param name="expected">Expected value.</param>
@@ -379,7 +379,7 @@ namespace MathNet.Numerics.UnitTests
         }
 
         /// <summary>
-        /// Can compute inverse secant. 
+        /// Can compute inverse secant.
         /// </summary>
         /// <param name="value">Input value.</param>
         /// <param name="expected">Expected value.</param>
@@ -501,7 +501,7 @@ namespace MathNet.Numerics.UnitTests
         }
 
         /// <summary>
-        /// Can convert grad to radian. 
+        /// Can convert grad to radian.
         /// </summary>
         [Test]
         public void CanConvertGradToRadian()

@@ -1,7 +1,7 @@
-// First version copied from the F# Power Pack 
+// First version copied from the F# Power Pack
 // https://raw.github.com/fsharp/powerpack/master/src/FSharp.PowerPack/math/complex.fsi
 
-// (c) Microsoft Corporation 2005-2009. 
+// (c) Microsoft Corporation 2005-2009.
 
 namespace MathNet.Numerics
 
@@ -9,7 +9,7 @@ namespace MathNet.Numerics
     open System.Numerics
 
     [<AutoOpen>]
-    module ComplexExtensions = 
+    module ComplexExtensions =
         /// The type of complex numbers stored as pairs of 64-bit floating point numbers in rectangular coordinates
         type Complex with
             /// The real part of a complex number
@@ -47,7 +47,7 @@ namespace MathNet.Numerics
             static member ( /  ) : Complex * Complex -> Complex
             /// Unary negation of a complex number
             static member ( ~- ) : Complex           -> Complex
-            /// Multiply a scalar by a complex number 
+            /// Multiply a scalar by a complex number
             static member ( * ) : float   * Complex -> Complex
             /// Multiply a complex number by a scalar
             static member ( * ) : Complex * float   -> Complex
@@ -55,7 +55,7 @@ namespace MathNet.Numerics
 
             static member Sin : Complex -> Complex
             static member Cos : Complex -> Complex
-        
+
             /// Computes the absolute value of a complex number: e.g. Abs x+iy = sqrt(x**2.0 + y**2.0.)
             /// Note: Complex.Abs(z) is the same as z.Magnitude
             static member Abs : Complex -> float
@@ -63,7 +63,7 @@ namespace MathNet.Numerics
             static member Log : Complex -> Complex
             static member Exp : Complex -> Complex
             static member Sqrt : Complex -> Complex
-        
+
             (*
             override ToString : unit -> string
             override Equals : obj -> bool
@@ -72,7 +72,7 @@ namespace MathNet.Numerics
             member ToString : format:string * provider:System.IFormatProvider -> string
             *)
 
-    /// The type of complex numbers 
+    /// The type of complex numbers
     type complex = Complex
 
 
@@ -94,7 +94,7 @@ namespace MathNet.Numerics
         val mkPolar : float * float -> complex
         /// A complex of magnitude 1 and the given phase and , i.e. cis x = mkPolar 1.0 x
         val cis     : float -> complex
-        
+
           /// The conjugate of a complex number, i.e. x-yi
         val conjugate : complex -> complex
 
@@ -114,7 +114,7 @@ namespace MathNet.Numerics
         val div     : complex -> complex -> complex
           /// Unary negation of a complex number
         val neg     : complex -> complex
-          /// Multiply a scalar by a complex number 
+          /// Multiply a scalar by a complex number
         val smul    : float -> complex -> complex
           /// Multiply a complex number by a scalar
         val muls    : complex -> float -> complex
@@ -128,17 +128,14 @@ namespace MathNet.Numerics
           /// sqrt(x) and 0 <= phase(x) < pi
         val sqrt : Complex -> Complex
           /// Sine
-        val sin : Complex -> Complex    
+        val sin : Complex -> Complex
           /// Cosine
         val cos : Complex -> Complex
           /// Tagent
         val tan : Complex -> Complex
-        
+
 
     [<AutoOpen>]
-    module ComplexTopLevelOperators = 
+    module ComplexTopLevelOperators =
         /// Constructs a complex number from both the real and imaginary part.
         val complex : float -> float -> complex
-
-
-

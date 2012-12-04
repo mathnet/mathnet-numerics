@@ -453,8 +453,8 @@ namespace MathNet.Numerics
             var keywords =
                 new[]
                 {
-                    textInfo.ListSeparator, numberFormatInfo.NaNSymbol, 
-                    numberFormatInfo.NegativeInfinitySymbol, numberFormatInfo.PositiveInfinitySymbol, 
+                    textInfo.ListSeparator, numberFormatInfo.NaNSymbol,
+                    numberFormatInfo.NegativeInfinitySymbol, numberFormatInfo.PositiveInfinitySymbol,
                     "+", "-", "i", "j"
                 };
 
@@ -583,17 +583,17 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
-        /// Converts the string representation of a complex number to a double-precision complex number equivalent. 
+        /// Converts the string representation of a complex number to a double-precision complex number equivalent.
         /// A return value indicates whether the conversion succeeded or failed.
         /// </summary>
         /// <param name="value">
-        /// A string containing a complex number to convert. 
+        /// A string containing a complex number to convert.
         /// </param>
         /// <param name="result">
         /// The parsed value.
         /// </param>
         /// <returns>
-        /// If the conversion succeeds, the result will contain a complex number equivalent to value. 
+        /// If the conversion succeeds, the result will contain a complex number equivalent to value.
         /// Otherwise the result will contain Complex.Zero.  This parameter is passed uninitialized.
         /// </returns>
         public static bool TryToComplex(this string value, out Complex result)
@@ -677,17 +677,17 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
-        /// Converts the string representation of a complex number to a single-precision complex number equivalent. 
+        /// Converts the string representation of a complex number to a single-precision complex number equivalent.
         /// A return value indicates whether the conversion succeeded or failed.
         /// </summary>
         /// <param name="value">
-        /// A string containing a complex number to convert. 
+        /// A string containing a complex number to convert.
         /// </param>
         /// <param name="result">
         /// The parsed value.
         /// </param>
         /// <returns>
-        /// If the conversion succeeds, the result will contain a complex number equivalent to value. 
+        /// If the conversion succeeds, the result will contain a complex number equivalent to value.
         /// Otherwise the result will contain complex32.Zero.  This parameter is passed uninitialized.
         /// </returns>
         public static bool TryToComplex32(this string value, out Complex32 result)

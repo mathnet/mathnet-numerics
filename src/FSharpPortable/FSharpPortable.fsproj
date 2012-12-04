@@ -62,18 +62,18 @@
     <Compile Include="..\FSharp\LinearAlgebra.Double.fs">
       <Link>LinearAlgebra.Double.fs</Link>
     </Compile>
+    <Compile Include="..\FSharp\Complex.fsi">
+      <Link>Complex.fsi</Link>
+    </Compile>
+    <Compile Include="..\FSharp\Complex.fs">
+      <Link>Complex.fs</Link>
+    </Compile>
     <Compile Include="BigIntegerExtensions.fs" />
-    <Compile Include="..\FSharp\complex.fsi">
-      <Link>complex.fsi</Link>
+    <Compile Include="..\FSharp\BigRational.fsi">
+      <Link>BigRational.fsi</Link>
     </Compile>
-    <Compile Include="..\FSharp\complex.fs">
-      <Link>complex.fs</Link>
-    </Compile>
-    <Compile Include="..\FSharp\q.fsi">
-      <Link>q.fsi</Link>
-    </Compile>
-    <Compile Include="..\FSharp\q.fs">
-      <Link>q.fs</Link>
+    <Compile Include="..\FSharp\BigRational.fs">
+      <Link>BigRational.fs</Link>
     </Compile>
     <Compile Include="..\FSharp\RandomVariable.fs">
       <Link>RandomVariable.fs</Link>
