@@ -34,11 +34,221 @@ namespace MathNet.Numerics
     using System.Collections.Generic;
     using System.Numerics;
 
+#if !PORTABLE
+    using System.Runtime;
+#endif
+
     /// <summary>
-    /// Extension methods 
+    /// Extension methods for the Complex type provided by System.Numerics
     /// </summary>
     public static class ComplexExtensions
     {
+        /// <summary>
+        /// Gets the squared magnitude of the <c>Complex</c> number.
+        /// </summary>
+        /// <param name="complex">The <see cref="Complex"/> number to perfom this operation on.</param>
+        /// <returns>The squared magnitude of the <c>Complex</c> number.</returns>
+        public static double MagnitudeSquared(this Complex complex)
+        {
+            return (complex.Real * complex.Real) + (complex.Imaginary * complex.Imaginary);
+        }
+
+        /// <summary>
+        /// Gets the unity of this complex (same argument, but on the unit circle; exp(I*arg))
+        /// </summary>
+        /// <returns>The unity of this <c>Complex</c>.</returns>
+        public static Complex Sign(this Complex complex)
+        {
+            if (double.IsPositiveInfinity(complex.Real) && double.IsPositiveInfinity(complex.Imaginary))
+            {
+                return new Complex(Constants.Sqrt1Over2, Constants.Sqrt1Over2);
+            }
+
+            if (double.IsPositiveInfinity(complex.Real) && double.IsNegativeInfinity(complex.Imaginary))
+            {
+                return new Complex(Constants.Sqrt1Over2, -Constants.Sqrt1Over2);
+            }
+
+            if (double.IsNegativeInfinity(complex.Real) && double.IsPositiveInfinity(complex.Imaginary))
+            {
+                return new Complex(-Constants.Sqrt1Over2, -Constants.Sqrt1Over2);
+            }
+
+            if (double.IsNegativeInfinity(complex.Real) && double.IsNegativeInfinity(complex.Imaginary))
+            {
+                return new Complex(-Constants.Sqrt1Over2, Constants.Sqrt1Over2);
+            }
+
+            // don't replace this with "Magnitude"!
+            var mod = SpecialFunctions.Hypotenuse(complex.Real, complex.Imaginary);
+            if (mod == 0.0d)
+            {
+                return Complex.Zero;
+            }
+
+            return new Complex(complex.Real / mod, complex.Imaginary / mod);
+        }
+
+        /// <summary>
+        /// Gets the conjugate of the <c>Complex</c> number.
+        /// </summary>
+        /// <param name="complex">The <see cref="Complex"/> number to perfom this operation on.</param>
+        /// <remarks>
+        /// The semantic of <i>setting the conjugate</i> is such that
+        /// <code>
+        /// // a, b of type Complex32
+        /// a.Conjugate = b;
+        /// </code>
+        /// is equivalent to
+        /// <code>
+        /// // a, b of type Complex32
+        /// a = b.Conjugate
+        /// </code>
+        /// </remarks>
+        /// <returns>The conjugate of the <see cref="Complex"/> number.</returns>
+        [TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")]
+        public static Complex Conjugate(this Complex complex)
+        {
+            return Complex.Conjugate(complex);
+        }
+
+        /// <summary>
+        /// Returns the multiplicative inverse of a complex number.
+        /// </summary>
+        [TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")]
+        public static Complex Reciprocal(this Complex complex)
+        {
+            return Complex.Reciprocal(complex);
+        }
+
+        /// <summary>
+        /// Exponential of this <c>Complex</c> (exp(x), E^x).
+        /// </summary>
+        /// <param name="complex">The <see cref="Complex"/> number to perfom this operation on.</param>
+        /// <returns>
+        /// The exponential of this complex number.
+        /// </returns>
+        [TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")]
+        public static Complex Exponential(this Complex complex)
+        {
+            return Complex.Exp(complex);
+        }
+
+        /// <summary>
+        /// Natural Logarithm of this <c>Complex</c> (Base E).
+        /// </summary>
+        /// <param name="complex">The <see cref="Complex"/> number to perfom this operation on.</param>
+        /// <returns>
+        /// The natural logarithm of this complex number.
+        /// </returns>
+        [TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")]
+        public static Complex NaturalLogarithm(this Complex complex)
+        {
+            return Complex.Log(complex);
+        }
+
+        /// <summary>
+        /// Common Logarithm of this <c>Complex</c> (Base 10).
+        /// </summary>
+        /// <returns>The common logarithm of this complex number.</returns>
+        [TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")]
+        public static Complex CommonLogarithm(this Complex complex)
+        {
+            return Complex.Log10(complex);
+        }
+
+        /// <summary>
+        /// Logarithm of this <c>Complex</c> with custom base.
+        /// </summary>
+        /// <returns>The logarithm of this complex number.</returns>
+        [TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")]
+        public static Complex Logarithm(this Complex complex, double baseValue)
+        {
+            return Complex.Log(complex, baseValue);
+        }
+
+        /// <summary>
+        /// Raise this <c>Complex</c> to the given value.
+        /// </summary>
+        /// <param name="complex">The <see cref="Complex"/> number to perfom this operation on.</param>
+        /// <param name="exponent">
+        /// The exponent.
+        /// </param>
+        /// <returns>
+        /// The complex number raised to the given exponent.
+        /// </returns>
+        public static Complex Power(this Complex complex, Complex exponent)
+        {
+            if (complex.IsZero())
+            {
+                if (exponent.IsZero())
+                {
+                    return Complex.One;
+                }
+
+                if (exponent.Real > 0d)
+                {
+                    return Complex.Zero;
+                }
+
+                if (exponent.Real < 0d)
+                {
+                    return exponent.Imaginary == 0d
+                        ? new Complex(double.PositiveInfinity, 0d)
+                        : new Complex(double.PositiveInfinity, double.PositiveInfinity);
+                }
+
+                return new Complex(double.NaN, double.NaN);
+            }
+
+            return Complex.Pow(complex, exponent);
+        }
+
+        /// <summary>
+        /// Raise this <c>Complex</c> to the inverse of the given value.
+        /// </summary>
+        /// <param name="complex">The <see cref="Complex"/> number to perfom this operation on.</param>
+        /// <param name="rootExponent">
+        /// The root exponent.
+        /// </param>
+        /// <returns>
+        /// The complex raised to the inverse of the given exponent.
+        /// </returns>
+        public static Complex Root(this Complex complex, Complex rootExponent)
+        {
+            return Complex.Pow(complex, 1 / rootExponent);
+        }
+
+        /// <summary>
+        /// The Square (power 2) of this <c>Complex</c>
+        /// </summary>
+        /// <param name="complex">The <see cref="Complex"/> number to perfom this operation on.</param>
+        /// <returns>
+        /// The square of this complex number.
+        /// </returns>
+        public static Complex Square(this Complex complex)
+        {
+            if (complex.IsReal())
+            {
+                return new Complex(complex.Real * complex.Real, 0.0);
+            }
+
+            return new Complex((complex.Real * complex.Real) - (complex.Imaginary * complex.Imaginary), 2 * complex.Real * complex.Imaginary);
+        }
+
+        /// <summary>
+        /// The Square Root (power 1/2) of this <c>Complex</c>
+        /// </summary>
+        /// <param name="complex">The <see cref="Complex"/> number to perfom this operation on.</param>
+        /// <returns>
+        /// The square root of this complex number.
+        /// </returns>
+        [TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")]
+        public static Complex SquareRoot(this Complex complex)
+        {
+            return Complex.Sqrt(complex);
+        }
+
         /// <summary>
         /// Gets a value indicating whether the <c>Complex32</c> is zero.
         /// </summary>
@@ -120,191 +330,6 @@ namespace MathNet.Numerics
         public static bool IsRealNonNegative(this Complex complex)
         {
             return complex.Imaginary == 0.0f && complex.Real >= 0;
-        }
-
-        /// <summary>
-        /// Gets the conjugate of the <c>Complex</c> number.
-        /// </summary>
-        /// <param name="complex">The <see cref="Complex"/> number to perfom this operation on.</param>
-        /// <remarks>
-        /// The semantic of <i>setting the conjugate</i> is such that
-        /// <code>
-        /// // a, b of type Complex32
-        /// a.Conjugate = b;
-        /// </code>
-        /// is equivalent to
-        /// <code>
-        /// // a, b of type Complex32
-        /// a = b.Conjugate
-        /// </code>
-        /// </remarks>
-        /// <returns>The conjugate of the <see cref="Complex"/> number.</returns>
-        public static Complex Conjugate(this Complex complex)
-        {
-            return new Complex(complex.Real, -complex.Imaginary);
-        }
-
-        /// <summary>
-        /// Gets the squared magnitude of the <c>Complex</c> number.
-        /// </summary>
-        /// <param name="complex">The <see cref="Complex"/> number to perfom this operation on.</param>
-        /// <returns>The squared magnitude of the <c>Complex</c> number.</returns>
-        public static double MagnitudeSquared(this Complex complex)
-        {
-            return (complex.Real * complex.Real) + (complex.Imaginary * complex.Imaginary);
-        }
-
-        /// <summary>
-        /// Exponential of this <c>Complex</c> (exp(x), E^x).
-        /// </summary>
-        /// <param name="complex">The <see cref="Complex"/> number to perfom this operation on.</param>
-        /// <returns>
-        /// The exponential of this complex number.
-        /// </returns>
-        public static Complex Exponential(this Complex complex)
-        {
-            var exp = Math.Exp(complex.Real);
-            if (complex.IsReal())
-            {
-                return new Complex(exp, 0.0);
-            }
-
-            return new Complex(exp * Trig.Cosine(complex.Imaginary), exp * Trig.Sine(complex.Imaginary));
-        }
-
-        /// <summary>
-        /// Natural Logarithm of this <c>Complex</c> (Base E).
-        /// </summary>
-        /// <param name="complex">The <see cref="Complex"/> number to perfom this operation on.</param>
-        /// <returns>
-        /// The natural logarithm of this complex number.
-        /// </returns>
-        public static Complex NaturalLogarithm(this Complex complex)
-        {
-            if (complex.IsRealNonNegative())
-            {
-                return new Complex(Math.Log(complex.Real), 0.0);
-            }
-
-            return new Complex(0.5 * Math.Log(complex.MagnitudeSquared()), complex.Phase);
-        }
-
-        /// <summary>
-        /// Raise this <c>Complex</c> to the given value.
-        /// </summary>
-        /// <param name="complex">The <see cref="Complex"/> number to perfom this operation on.</param>
-        /// <param name="exponent">
-        /// The exponent.
-        /// </param>
-        /// <returns>
-        /// The complex number raised to the given exponent.
-        /// </returns>
-        public static Complex Power(this Complex complex, Complex exponent)
-        {
-            if (complex.IsZero())
-            {
-                if (exponent.IsZero())
-                {
-                    return Complex.One;
-                }
-
-                if (exponent.Real > 0.0)
-                {
-                    return Complex.Zero;
-                }
-
-                if (exponent.Real < 0)
-                {
-                    if (exponent.Imaginary == 0.0)
-                    {
-                        return new Complex(double.PositiveInfinity, 0.0);
-                    }
-
-                    return new Complex(double.PositiveInfinity, double.PositiveInfinity);
-                }
-
-                return double.NaN;
-            }
-
-            return (exponent * complex.NaturalLogarithm()).Exponential();
-        }
-
-        /// <summary>
-        /// Raise this <c>Complex</c> to the inverse of the given value.
-        /// </summary>
-        /// <param name="complex">The <see cref="Complex"/> number to perfom this operation on.</param>
-        /// <param name="rootExponent">
-        /// The root exponent.
-        /// </param>
-        /// <returns>
-        /// The complex raised to the inverse of the given exponent.
-        /// </returns>
-        public static Complex Root(this Complex complex, Complex rootExponent)
-        {
-            return Power(complex, 1 / rootExponent);
-        }
-
-        /// <summary>
-        /// The Square (power 2) of this <c>Complex</c>
-        /// </summary>
-        /// <param name="complex">The <see cref="Complex"/> number to perfom this operation on.</param>
-        /// <returns>
-        /// The square of this complex number.
-        /// </returns>
-        public static Complex Square(this Complex complex)
-        {
-            if (complex.IsReal())
-            {
-                return new Complex(complex.Real * complex.Real, 0.0);
-            }
-
-            return new Complex((complex.Real * complex.Real) - (complex.Imaginary * complex.Imaginary), 2 * complex.Real * complex.Imaginary);
-        }
-
-        /// <summary>
-        /// The Square Root (power 1/2) of this <c>Complex</c>
-        /// </summary>
-        /// <param name="complex">The <see cref="Complex"/> number to perfom this operation on.</param>
-        /// <returns>
-        /// The square root of this complex number.
-        /// </returns>
-        public static Complex SquareRoot(this Complex complex)
-        {
-            if (complex.IsRealNonNegative())
-            {
-                return new Complex(Math.Sqrt(complex.Real), 0.0);
-            }
-
-            Complex result;
-
-            var absReal = Math.Abs(complex.Real);
-            var absImag = Math.Abs(complex.Imaginary);
-            double w;
-            if (absReal >= absImag)
-            {
-                var ratio = complex.Imaginary / complex.Real;
-                w = Math.Sqrt(absReal) * Math.Sqrt(0.5 * (1.0 + Math.Sqrt(1.0 + (ratio * ratio))));
-            }
-            else
-            {
-                var ratio = complex.Real / complex.Imaginary;
-                w = Math.Sqrt(absImag) * Math.Sqrt(0.5 * (Math.Abs(ratio) + Math.Sqrt(1.0 + (ratio * ratio))));
-            }
-
-            if (complex.Real >= 0.0)
-            {
-                result = new Complex(w, complex.Imaginary / (2.0 * w));
-            }
-            else if (complex.Imaginary >= 0.0)
-            {
-                result = new Complex(absImag / (2.0 * w), w);
-            }
-            else
-            {
-                result = new Complex(absImag / (2.0 * w), -w);
-            }
-
-            return result;
         }
 
         /// <summary>

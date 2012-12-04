@@ -90,7 +90,7 @@ namespace MathNet.Numerics.UnitTests.ComplexTests
             var infinity = double.PositiveInfinity.ToString(provider);
 
             Assert.AreEqual("(" + nan + ", " + nan + ")", Complex32.NaN.ToString(provider));
-            Assert.AreEqual("(" + infinity + ", " + infinity + ")", Complex32.Infinity.ToString(provider));
+            Assert.AreEqual("(" + infinity + ", " + infinity + ")", Complex32.PositiveInfinity.ToString(provider));
             Assert.AreEqual("(0, 0)", Complex32.Zero.ToString(provider));
             Assert.AreEqual("(" + String.Format("{0}", number) + ", 0)", new Complex32(1.1f, 0.0f).ToString(provider));
             Assert.AreEqual("(" + String.Format("-{0}", number) + ", 0)", new Complex32(-1.1f, 0f).ToString(provider));
@@ -133,7 +133,7 @@ namespace MathNet.Numerics.UnitTests.ComplexTests
             Assert.AreEqual("(1.100, 1.100)", String.Format(culture, "{0:.000}", new Complex32(1.1f, 1.1f)));
 
             Assert.AreEqual("(NaN, NaN)", Complex32.NaN.ToString("#.000", culture));
-            Assert.AreEqual("(Infinity, Infinity)", Complex32.Infinity.ToString("#.000", culture));
+            Assert.AreEqual("(Infinity, Infinity)", Complex32.PositiveInfinity.ToString("#.000", culture));
             Assert.AreEqual("(.000, .000)", Complex32.Zero.ToString("#.000", culture));
             Assert.AreEqual("(1.100, .000)", new Complex32(1.1f, 0.0f).ToString("#.000", culture));
             Assert.AreEqual("(.000, -1.100)", new Complex32(0.0f, -1.1f).ToString("#.000", culture));

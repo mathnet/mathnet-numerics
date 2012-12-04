@@ -1032,6 +1032,9 @@
     <Compile Include="..\Numerics\Statistics\Statistics.cs">
       <Link>Statistics\Statistics.cs</Link>
     </Compile>
+    <Compile Include="..\Numerics\TargetedPatchingOptOutAttribute.cs">
+      <Link>TargetedPatchingOptOutAttribute.cs</Link>
+    </Compile>
     <Compile Include="..\Numerics\Threading\CommonParallel.cs">
       <Link>Threading\CommonParallel.cs</Link>
     </Compile>

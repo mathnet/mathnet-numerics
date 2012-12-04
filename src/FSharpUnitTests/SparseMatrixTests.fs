@@ -12,16 +12,17 @@ module SparseMatrixTests =
     let smallM = DenseMatrix.init 4 4 (fun i j -> if i = 1 && j = 2 then 1.0 else 0.0) :> Matrix<float>
     
     [<Test>] 
-    let ``SparseMatrix.ofList`` () = 
+    let ``SparseMatrix.ofList`` () =
         (SparseMatrix.ofList 4 4 [(1,2,1.0)] :> Matrix<float>) |> should equal smallM
 
     [<Test>] 
-    let ``SparseMatrix.ofSeq`` () = 
+    let ``SparseMatrix.ofSeq`` () =
         (SparseMatrix.ofSeq 4 4 (Seq.ofList [(1,2,1.0)]) :> Matrix<float>) |> should equal smallM
 
     [<Test>] 
-    let ``SparseMatrix.constDiag`` () = 
+    let ``SparseMatrix.constDiag`` () =
         SparseMatrix.constDiag 100 2.0 |> should equal (2.0 * (SparseMatrix.Identity 100))
 
-    [<Test>] let ``SparseMatrix.diag`` () = 
+    [<Test>]
+    let ``SparseMatrix.diag`` () =
         SparseMatrix.diag (new DenseVector(100, 2.0)) |> should equal (2.0 * (SparseMatrix.Identity 100))

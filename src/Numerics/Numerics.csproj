@@ -104,6 +104,7 @@
     <Compile Include="Constants.cs" />
     <Compile Include="Control.cs" />
     <Compile Include="Complex32.cs" />
+    <Compile Include="TargetedPatchingOptOutAttribute.cs" />
     <Compile Include="Distributions\Continuous\Cauchy.cs" />
     <Compile Include="Distributions\Continuous\Chi.cs" />
     <Compile Include="Distributions\Continuous\ChiSquare.cs" />
