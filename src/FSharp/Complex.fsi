@@ -53,7 +53,7 @@ namespace MathNet.Numerics
         val mul : complex -> complex -> complex
         /// Complex division of two complex numbers
         val div : complex -> complex -> complex
-        
+
         /// Multiply a scalar by a complex number
         val smul : float -> complex -> complex
         /// Multiply a complex number by a scalar
@@ -156,7 +156,7 @@ namespace MathNet.Numerics
         val mul : complex32 -> complex32 -> complex32
         /// Complex division of two complex numbers
         val div : complex32 -> complex32 -> complex32
-        
+
         /// Multiply a scalar by a complex number
         val smul : float32 -> complex32 -> complex32
         /// Multiply a complex number by a scalar
@@ -222,7 +222,7 @@ namespace MathNet.Numerics
 
         /// Constructs a double precision complex number from both the real and imaginary part.
         val complex : float -> float -> complex
-        
+
         /// Constructs a single precision complex number from both the real and imaginary part.
         val complex32 : float32 -> float32 -> complex32
 

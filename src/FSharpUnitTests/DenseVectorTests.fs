@@ -13,23 +13,23 @@ module DenseVectorTests =
 
     /// A large vector with increasingly large entries
     let largev = new DenseVector( Array.init 100 (fun i -> float i / 100.0) )
-    
-    [<Test>] 
-    let ``DenseVector.init`` () = 
+
+    [<Test>]
+    let ``DenseVector.init`` () =
         DenseVector.init 100 (fun i -> float i / 100.0) |> should equal largev
-    
-    [<Test>] 
-    let ``DenseVector.ofList`` () = 
+
+    [<Test>]
+    let ``DenseVector.ofList`` () =
         DenseVector.ofList [ for i in 0 .. 99 -> float i / 100.0 ] |> should equal largev
-    
-    [<Test>] 
-    let ``DenseVector.ofSeq`` () = 
+
+    [<Test>]
+    let ``DenseVector.ofSeq`` () =
         DenseVector.ofSeq (seq { for i in 0 .. 99 -> float i / 100.0 }) |> should equal largev
-    
-    [<Test>] 
-    let ``DenseVector.rangef`` () = 
+
+    [<Test>]
+    let ``DenseVector.rangef`` () =
         DenseVector.rangef 0.0 0.01 0.99 |> should equal (new DenseVector( [| for i in 0 .. 99 -> 0.01 * float i |] ) )
-    
-    [<Test>] 
-    let ``DenseVector.range`` () = 
+
+    [<Test>]
+    let ``DenseVector.range`` () =
         DenseVector.range 0 99 |> should equal (new DenseVector( [| for i in 0 .. 99 -> float i |] ) )

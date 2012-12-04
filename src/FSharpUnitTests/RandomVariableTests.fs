@@ -17,9 +17,9 @@ let sumOfTwoFairDices = randomVariable {
 
 [<Test>]
 let ``When creating two fair dices, then P(Sum of 2 dices = 7) should be 1/6``() =
-  sumOfTwoFairDices 
+  sumOfTwoFairDices
     |> RandomVariable.filter ((=) 7)
-    |> RandomVariable.probability 
+    |> RandomVariable.probability
     |> should equal (1N/6N)
 
 let fairCoinAndDice = randomVariable {
@@ -29,23 +29,23 @@ let fairCoinAndDice = randomVariable {
 
 [<Test>]
 let ``When creating a fair coin and a fair dice, then P(Heads) should be 1/2``() =
-  fairCoinAndDice 
+  fairCoinAndDice
     |> RandomVariable.filter (fun (_,c) -> c = Heads)
-    |> RandomVariable.probability 
+    |> RandomVariable.probability
     |> should equal (1N/2N)
 
 [<Test>]
 let ``When creating a fair coin and a fair dice, then P(Heads and dice > 3) should be 1/4``() =
-  fairCoinAndDice 
+  fairCoinAndDice
     |> RandomVariable.filter (fun (d,c) -> c = Heads && d > 3)
-    |> RandomVariable.probability 
+    |> RandomVariable.probability
     |> should equal (1N/4N)
 
 // MontyHall Problem
-// See Martin Erwig and Steve Kollmansberger's paper 
+// See Martin Erwig and Steve Kollmansberger's paper
 // "Functional Pearls: Probabilistic functional programming in Haskell"
 
-type Outcome = 
+type Outcome =
 | Car
 | Goat
 
@@ -53,18 +53,18 @@ let firstChoice = RandomVariable.toUniformDistribution [Car; Goat; Goat]
 
 let switch firstCoice =
     match firstCoice with
-    | Car -> 
+    | Car ->
         // If you had the car and you switch ==> you lose since there are only goats left
-        RandomVariable.certainly Goat 
-    | Goat -> 
+        RandomVariable.certainly Goat
+    | Goat ->
         // If you had the goat, the host has to take out another goat ==> you win
-        RandomVariable.certainly Car 
- 
+        RandomVariable.certainly Car
+
 [<Test>]
 let ``When making the first choice in a MontyHall situation, the chances to win should be 1/3``() =
-  firstChoice 
+  firstChoice
     |> RandomVariable.filter ((=) Car)
-    |> RandomVariable.probability 
+    |> RandomVariable.probability
     |> should equal (1N/3N)
 
 let montyHallWithSwitch = randomVariable {
@@ -75,5 +75,5 @@ let montyHallWithSwitch = randomVariable {
 let ``When switching in a MontyHall situation, the chances to win should be 2/3``() =
   montyHallWithSwitch
     |> RandomVariable.filter ((=) Car)
-    |> RandomVariable.probability 
+    |> RandomVariable.probability
     |> should equal (2N/3N)

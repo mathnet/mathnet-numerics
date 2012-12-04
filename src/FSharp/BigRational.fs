@@ -1,7 +1,5 @@
 // First version copied from the F# Power Pack
 // https://raw.github.com/fsharp/powerpack/master/src/FSharp.PowerPack/math/q.fs
-
-
 // (c) Microsoft Corporation. All rights reserved
 
 #nowarn "44"  // OK to use the "compiler only" function RangeGeneric

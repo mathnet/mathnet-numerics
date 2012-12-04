@@ -1,7 +1,5 @@
 // First version copied from the F# Power Pack
 // https://raw.github.com/fsharp/powerpack/master/src/FSharp.PowerPack/math/q.fsi
-
-
 // (c) Microsoft Corporation 2005-2009.
 
 namespace MathNet.Numerics

@@ -9,7 +9,7 @@ let should (f : 'a -> #Constraint) x (y : obj) =
         | :? (unit -> unit) -> box (TestDelegate(y :?> unit -> unit))
         | _ -> y
     Assert.That(y, c)
-    
+
 let equal x = EqualConstraint(x)
 
 let equalWithin tolerance x = equal(x).Within tolerance
