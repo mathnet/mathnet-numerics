@@ -1199,7 +1199,7 @@ namespace MathNet.Numerics
             return new Complex32(value, 0.0f);
         }
 
-#if SYSNUMERICS
+#if !PORTABLE
         /// <summary>
         /// Implicit conversion of a BigInteger int to a <c>Complex32</c>.
         /// </summary>

@@ -28,7 +28,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-#if !SYSNUMERICS
+#if PORTABLE
 namespace System.Numerics
 {
     using System;
@@ -37,10 +37,6 @@ namespace System.Numerics
     using System.Text;
     using MathNet.Numerics;
     using MathNet.Numerics.Properties;
-
-#if !PORTABLE
-    using System.Runtime;
-#endif
 
     /// <summary>
     /// 64-bit double precision complex numbers class.
@@ -722,11 +718,7 @@ namespace System.Numerics
                 }
             }
 
-#if PORTABLE
             var value = GlobalizationHelper.ParseSingle(ref token);
-#else
-            var value = GlobalizationHelper.ParseSingle(ref token, format.GetCultureInfo());
-#endif
 
             // handle suffix imaginary symbol
             if (token != null && (String.Compare(token.Value, "i", StringComparison.OrdinalIgnoreCase) == 0

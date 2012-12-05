@@ -19,7 +19,7 @@
     <Optimize>false</Optimize>
     <Tailcalls>false</Tailcalls>
     <OutputPath>..\..\out\debug\Portable\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;PORTABLE;FX_NO_BIGINT</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;PORTABLE</DefineConstants>
     <WarningLevel>3</WarningLevel>
     <DocumentationFile>
     </DocumentationFile>
@@ -29,7 +29,7 @@
     <Optimize>true</Optimize>
     <Tailcalls>true</Tailcalls>
     <OutputPath>..\..\out\lib\Portable\</OutputPath>
-    <DefineConstants>TRACE;PORTABLE;FX_NO_BIGINT</DefineConstants>
+    <DefineConstants>TRACE;PORTABLE</DefineConstants>
     <WarningLevel>3</WarningLevel>
     <DocumentationFile>..\..\out\lib\Portable\MathNet.Numerics.FSharp.XML</DocumentationFile>
   </PropertyGroup>
@@ -68,7 +68,9 @@
     <Compile Include="..\FSharp\Complex.fs">
       <Link>Complex.fs</Link>
     </Compile>
-    <Compile Include="BigIntegerExtensions.fs" />
+    <Compile Include="..\FSharp\BigIntegerExtensions.fs">
+      <Link>BigIntegerExtensions.fs</Link>
+    </Compile>
     <Compile Include="..\FSharp\BigRational.fsi">
       <Link>BigRational.fsi</Link>
     </Compile>
