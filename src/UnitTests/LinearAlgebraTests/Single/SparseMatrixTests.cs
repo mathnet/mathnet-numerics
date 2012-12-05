@@ -146,22 +146,6 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
         }
 
         /// <summary>
-        /// Can create a matrix with uniform values.
-        /// </summary>
-        [Test]
-        public void CanCreateMatrixWithUniformValues()
-        {
-            var matrix = new SparseMatrix(10, 10, 10.0f);
-            for (var i = 0; i < matrix.RowCount; i++)
-            {
-                for (var j = 0; j < matrix.ColumnCount; j++)
-                {
-                    Assert.AreEqual(matrix[i, j], 10.0f);
-                }
-            }
-        }
-
-        /// <summary>
         /// Can create an identity matrix.
         /// </summary>
         [Test]

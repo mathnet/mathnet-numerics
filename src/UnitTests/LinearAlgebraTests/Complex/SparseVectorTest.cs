@@ -133,19 +133,6 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
         }
 
         /// <summary>
-        /// Can create a sparse vector with constant values.
-        /// </summary>
-        [Test]
-        public void CanCreateSparseVectorWithConstantValues()
-        {
-            var vector = new SparseVector(5, new Complex(5.0, 1));
-            foreach (var t in vector)
-            {
-                Assert.AreEqual(t, new Complex(5.0, 1));
-            }
-        }
-
-        /// <summary>
         /// Can create a sparse matrix.
         /// </summary>
         [Test]
