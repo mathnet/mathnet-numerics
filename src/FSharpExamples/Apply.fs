@@ -90,5 +90,5 @@ for (name, fs, dotnet) in FunctionList do
         if prettyPrint then printfn "\tApply.Map (MKL): %d milliseconds." sw.ElapsedMilliseconds
         else printf "\t%d" sw.ElapsedMilliseconds
         sw.Reset()*)
-    
+
     printfn ""

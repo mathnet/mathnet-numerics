@@ -45,7 +45,7 @@ namespace MathNet.Numerics.UnitTests.ComplexTests
             Assert.That((Complex32.NaN + float.NaN).IsNaN());
             Assert.That((float.NaN + Complex32.NaN).IsNaN());
             Assert.That((float.PositiveInfinity + Complex32.One).IsInfinity());
-            Assert.That((Complex32.Infinity + 1.0f).IsInfinity());
+            Assert.That((Complex32.PositiveInfinity + 1.0f).IsInfinity());
             Assert.That((Complex32.One + 0.0f) == Complex32.One);
             Assert.That((0.0f + Complex32.One) == Complex32.One);
             Assert.That(new Complex32(1.1f, -2.2f) + 1.1f == new Complex32(2.2f, -2.2f));
@@ -59,7 +59,7 @@ namespace MathNet.Numerics.UnitTests.ComplexTests
         public void CanAddSubtractComplexNumbersUsingOperator()
         {
             Assert.That((Complex32.NaN - Complex32.NaN).IsNaN());
-            Assert.That((Complex32.Infinity - Complex32.One).IsInfinity());
+            Assert.That((Complex32.PositiveInfinity - Complex32.One).IsInfinity());
             Assert.That((Complex32.One - Complex32.Zero) == Complex32.One);
             Assert.That((new Complex32(1.1f, -2.2f) - new Complex32(1.1f, -2.2f)) == Complex32.Zero);
         }
@@ -70,10 +70,10 @@ namespace MathNet.Numerics.UnitTests.ComplexTests
         [Test]
         public void CanAddTwoComplexNumbers()
         {
-            Assert.That(Complex32.NaN.Add(Complex32.NaN).IsNaN());
-            Assert.That(Complex32.Infinity.Add(Complex32.One).IsInfinity());
-            Assert.That(Complex32.One.Add(Complex32.Zero) == Complex32.One);
-            Assert.That(new Complex32(1.1f, -2.2f).Add(new Complex32(-1.1f, 2.2f)) == Complex32.Zero);
+            Assert.That(Complex32.Add(Complex32.NaN, (Complex32.NaN)).IsNaN());
+            Assert.That(Complex32.Add(Complex32.PositiveInfinity, Complex32.One).IsInfinity());
+            Assert.That(Complex32.Add(Complex32.One, Complex32.Zero) == Complex32.One);
+            Assert.That(Complex32.Add(new Complex32(1.1f, -2.2f), new Complex32(-1.1f, 2.2f)) == Complex32.Zero);
         }
 
         /// <summary>
@@ -83,7 +83,7 @@ namespace MathNet.Numerics.UnitTests.ComplexTests
         public void CanAddTwoComplexNumbersUsingOperator()
         {
             Assert.That((Complex32.NaN + Complex32.NaN).IsNaN());
-            Assert.That((Complex32.Infinity + Complex32.One).IsInfinity());
+            Assert.That((Complex32.PositiveInfinity + Complex32.One).IsInfinity());
             Assert.That((Complex32.One + Complex32.Zero) == Complex32.One);
             Assert.That((new Complex32(1.1f, -2.2f) + new Complex32(-1.1f, 2.2f)) == Complex32.Zero);
         }
@@ -94,12 +94,11 @@ namespace MathNet.Numerics.UnitTests.ComplexTests
         [Test]
         public void CanCalculateHashCode()
         {
-            var complex = new Complex32(1, 0);
-            Assert.AreEqual(1065353216, complex.GetHashCode());
-            complex = new Complex32(0, 1);
-            Assert.AreEqual(-1065353216, complex.GetHashCode());
-            complex = new Complex32(1, 1);
-            Assert.AreEqual(-16777216, complex.GetHashCode());
+            Assert.AreEqual(new Complex32(1, 2).GetHashCode(), new Complex32(1, 2).GetHashCode());
+            Assert.AreNotEqual(new Complex32(1, 0).GetHashCode(), new Complex32(0, 1).GetHashCode());
+            Assert.AreNotEqual(new Complex32(1, 1).GetHashCode(), new Complex32(2, 2).GetHashCode());
+            Assert.AreNotEqual(new Complex32(1, 0).GetHashCode(), new Complex32(-1, 0).GetHashCode());
+            Assert.AreNotEqual(new Complex32(0, 1).GetHashCode(), new Complex32(0, -1).GetHashCode());
         }
 
         /// <summary>
@@ -285,7 +284,7 @@ namespace MathNet.Numerics.UnitTests.ComplexTests
         [Test]
         public void CanCreateComplexNumberWithModulusArgument()
         {
-            var complex = Complex32.WithModulusArgument(2, (float)-Math.PI / 6);
+            var complex = Complex32.FromPolarCoordinates(2, (float)-Math.PI / 6);
             Assert.AreEqual((float)Math.Sqrt(3), complex.Real, 1e-7f, "Real part is Sqrt(3).");
             Assert.AreEqual(-1.0f, complex.Imaginary, 1e-7f, "Imaginary part is -1.");
         }
@@ -296,7 +295,7 @@ namespace MathNet.Numerics.UnitTests.ComplexTests
         [Test]
         public void CanCreateComplexNumberWithRealImaginaryInitializer()
         {
-            var complex = Complex32.WithRealImaginary(1.1f, -2.2f);
+            var complex = new Complex32(1.1f, -2.2f);
             Assert.AreEqual(1.1f, complex.Real, "Real part is 1.1f.");
             Assert.AreEqual(-2.2f, complex.Imaginary, "Imaginary part is -2.2f.");
         }
@@ -388,8 +387,8 @@ namespace MathNet.Numerics.UnitTests.ComplexTests
             Assert.That((Complex32.NaN * 1.0f).IsNaN());
             Assert.AreEqual(new Complex32(-2, 2), new Complex32(4, -4) / -2);
             Assert.AreEqual(new Complex32(0.25f, 0.25f), 2 / new Complex32(4, -4));
-            Assert.AreEqual(Complex32.Infinity, 2.0f / Complex32.Zero);
-            Assert.AreEqual(Complex32.Infinity, Complex32.One / 0);
+            Assert.AreEqual(Complex32.PositiveInfinity, 2.0f / Complex32.Zero);
+            Assert.AreEqual(Complex32.PositiveInfinity, Complex32.One / 0);
         }
 
         /// <summary>
@@ -398,9 +397,9 @@ namespace MathNet.Numerics.UnitTests.ComplexTests
         [Test]
         public void CanDivideTwoComplexNumbers()
         {
-            Assert.That(Complex32.NaN.Multiply(Complex32.One).IsNaN());
-            Assert.AreEqual(new Complex32(-2, 0), new Complex32(4, -4).Divide(new Complex32(-2, 2)));
-            Assert.AreEqual(Complex32.Infinity, Complex32.One.Divide(Complex32.Zero));
+            Assert.That(Complex32.Divide(Complex32.NaN, Complex32.One).IsNaN());
+            Assert.AreEqual(new Complex32(-2, 0), Complex32.Divide(new Complex32(4, -4), new Complex32(-2, 2)));
+            Assert.AreEqual(Complex32.PositiveInfinity, Complex32.Divide(Complex32.One, Complex32.Zero));
         }
 
         /// <summary>
@@ -411,7 +410,7 @@ namespace MathNet.Numerics.UnitTests.ComplexTests
         {
             Assert.That((Complex32.NaN / Complex32.One).IsNaN());
             Assert.AreEqual(new Complex32(-2, 0), new Complex32(4, -4) / new Complex32(-2, 2));
-            Assert.AreEqual(Complex32.Infinity, Complex32.One / Complex32.Zero);
+            Assert.AreEqual(Complex32.PositiveInfinity, Complex32.One / Complex32.Zero);
         }
 
         /// <summary>
@@ -431,8 +430,8 @@ namespace MathNet.Numerics.UnitTests.ComplexTests
         [Test]
         public void CanMultipleTwoComplexNumbers()
         {
-            Assert.That(Complex32.NaN.Multiply(Complex32.One).IsNaN());
-            Assert.AreEqual(new Complex32(0, 16), new Complex32(4, -4).Multiply(new Complex32(-2, 2)));
+            Assert.That(Complex32.Multiply(Complex32.NaN, Complex32.One).IsNaN());
+            Assert.AreEqual(new Complex32(0, 16), Complex32.Multiply(new Complex32(4, -4), new Complex32(-2, 2)));
         }
 
         /// <summary>
@@ -452,7 +451,7 @@ namespace MathNet.Numerics.UnitTests.ComplexTests
         public void CanNegateValue()
         {
             var complex = new Complex32(1.1f, -2.2f);
-            Assert.AreEqual(new Complex32(-1.1f, 2.2f), complex.Negate());
+            Assert.AreEqual(new Complex32(-1.1f, 2.2f), Complex32.Negate(complex));
         }
 
         /// <summary>
@@ -474,7 +473,7 @@ namespace MathNet.Numerics.UnitTests.ComplexTests
             Assert.That((Complex32.NaN - float.NaN).IsNaN());
             Assert.That((float.NaN - Complex32.NaN).IsNaN());
             Assert.That((float.PositiveInfinity - Complex32.One).IsInfinity());
-            Assert.That((Complex32.Infinity - 1.0f).IsInfinity());
+            Assert.That((Complex32.PositiveInfinity - 1.0f).IsInfinity());
             Assert.That((Complex32.One - 0.0f) == Complex32.One);
             Assert.That((0.0f - Complex32.One) == -Complex32.One);
             Assert.That(new Complex32(1.1f, -2.2f) - 1.1f == new Complex32(0.0f, -2.2f));
@@ -487,10 +486,10 @@ namespace MathNet.Numerics.UnitTests.ComplexTests
         [Test]
         public void CanSubtractTwoComplexNumbers()
         {
-            Assert.That(Complex32.NaN.Subtract(Complex32.NaN).IsNaN());
-            Assert.That(Complex32.Infinity.Subtract(Complex32.One).IsInfinity());
-            Assert.That(Complex32.One.Subtract(Complex32.Zero) == Complex32.One);
-            Assert.That(new Complex32(1.1f, -2.2f).Subtract(new Complex32(1.1f, -2.2f)) == Complex32.Zero);
+            Assert.That(Complex32.Subtract(Complex32.NaN, Complex32.NaN).IsNaN());
+            Assert.That(Complex32.Subtract(Complex32.PositiveInfinity, Complex32.One).IsInfinity());
+            Assert.That(Complex32.Subtract(Complex32.One, Complex32.Zero) == Complex32.One);
+            Assert.That(Complex32.Subtract(new Complex32(1.1f, -2.2f), new Complex32(1.1f, -2.2f)) == Complex32.Zero);
         }
 
         /// <summary>
@@ -500,7 +499,7 @@ namespace MathNet.Numerics.UnitTests.ComplexTests
         public void CanTestForEquality()
         {
             Assert.AreNotEqual(Complex32.NaN, Complex32.NaN);
-            Assert.AreEqual(Complex32.Infinity, Complex32.Infinity);
+            Assert.AreEqual(Complex32.PositiveInfinity, Complex32.PositiveInfinity);
             Assert.AreEqual(new Complex32(1.1f, -2.2f), new Complex32(1.1f, -2.2f));
             Assert.AreNotEqual(new Complex32(-1.1f, 2.2f), new Complex32(1.1f, -2.2f));
         }
@@ -512,38 +511,19 @@ namespace MathNet.Numerics.UnitTests.ComplexTests
         public void CanTestForEqualityUsingOperators()
         {
             Assert.That(Complex32.NaN != Complex32.NaN);
-            Assert.That(Complex32.Infinity == Complex32.Infinity);
+            Assert.That(Complex32.PositiveInfinity == Complex32.PositiveInfinity);
             Assert.That(new Complex32(1.1f, -2.2f) == new Complex32(1.1f, -2.2f));
             Assert.That(new Complex32(-1.1f, 2.2f) != new Complex32(1.1f, -2.2f));
         }
 
         /// <summary>
-        /// Can use Plus.
-        /// </summary>
-        [Test]
-        public void CanUsePlus()
-        {
-            var complex = new Complex32(1.1f, -2.2f);
-            Assert.AreEqual(complex, complex.Plus());
-        }
-
-        /// <summary>
-        /// Can use "+" operator.
+        /// Can use unary "+" operator.
         /// </summary>
         [Test]
         public void CanUsePlusOperator()
         {
             var complex = new Complex32(1.1f, -2.2f);
             Assert.AreEqual(complex, +complex);
-        }
-
-        /// <summary>
-        /// With negative modulus argument throws <c>ArgumentOutOfRangeException</c>.
-        /// </summary>
-        [Test]
-        public void WithNegativeModulusArgumentThrowsArgumentOutOfRangeException()
-        {
-            Assert.Throws<ArgumentOutOfRangeException>(() => Complex32.WithModulusArgument(-1, 1), "Throws exception because modulus is negative.");
         }
 
         /// <summary>

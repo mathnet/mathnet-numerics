@@ -230,7 +230,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
         public void CanGetHashCode()
         {
             var vector = CreateVector(new[] { new Complex32(1, 1), new Complex32(2, 1), new Complex32(3, 1), new Complex32(4, 1), new Complex32(5, 1) });
-            Assert.AreEqual(-1051736064, vector.GetHashCode());
+            Assert.AreEqual(-1042380805, vector.GetHashCode());
         }
 
         /// <summary>

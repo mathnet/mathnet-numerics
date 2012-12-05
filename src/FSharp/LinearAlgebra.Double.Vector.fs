@@ -35,12 +35,12 @@ open MathNet.Numerics.LinearAlgebra.Generic
 /// A module which implements functional vector operations.
 [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
 module Vector =
-        
+
     /// Transform a vector into an array.
     let inline toArray (v: #Vector<float>) =
         let n = v.Count
         Array.init n (fun i -> v.Item(i))
-        
+
     /// Transform a vector into an array.
     let inline toList (v: #Vector<float>) =
         let n = v.Count
@@ -57,30 +57,30 @@ module Vector =
         for i=0 to v.Count-1 do
             v.Item(i) <- f i (v.Item(i))
         ()
-        
+
     /// In-place vector addition.
     let inline addInPlace (v: #Vector<float>) (w: #Vector<float>) = v.Add(w, v)
-        
+
     /// In place vector subtraction.
     let inline subInPlace (v: #Vector<float>) (w: #Vector<float>) = v.Subtract(w, v)
-    
+
     /// Functional map operator for vectors.
-    /// <include file='../../../../FSharpExamples/DenseVector.xml' path='example'/> 
+    /// <include file='../../../../FSharpExamples/DenseVector.xml' path='example'/>
     let inline map f (v: #Vector<float>) =
         let w = v.Clone()
         mapInPlace (fun x -> f x) w
         w
-        
+
     /// Applies a function to all elements of the vector.
     let inline iter (f: float -> unit) (v: #Vector<float>) =
         for i=0 to v.Count-1 do
             f (v.Item i)
-        
+
     /// Applies a function to all elements of the vector.
     let inline iteri (f: int -> float -> unit) (v: #Vector<float>) =
         for i=0 to v.Count-1 do
             f i (v.Item i)
-            
+
     /// Maps a vector to a new vector by applying a function to every element.
     let inline mapi (f: int -> float -> float) (v: #Vector<float>) =
         let w = v.Clone()
@@ -107,7 +107,7 @@ module Vector =
         for i=0 to v.Count-1 do
             acc <- f i acc (v.Item(i))
         acc
-        
+
     /// Checks whether a predicate is satisfied for every element in the vector.
     let inline forall (p: float -> bool) (v: #Vector<float>) =
         let mutable b = true
@@ -116,7 +116,7 @@ module Vector =
             b <- b && (p (v.Item(i)))
             i <- i+1
         b
-    
+
     /// Checks whether there is an entry in the vector that satisfies a given predicate.
     let inline exists (p: float -> bool) (v: #Vector<float>) =
         let mutable b = false
@@ -125,7 +125,7 @@ module Vector =
             b <- b || (p (v.Item(i)))
             i <- i+1
         b
-    
+
     /// Checks whether a predicate is true for all entries in a vector.
     let inline foralli (p: int -> float -> bool) (v: #Vector<float>) =
         let mutable b = true
@@ -134,7 +134,7 @@ module Vector =
             b <- b && (p i (v.Item(i)))
             i <- i+1
         b
-    
+
     /// Checks whether there is an entry in the vector that satisfies a given position dependent predicate.
     let inline existsi (p: int -> float -> bool) (v: #Vector<float>) =
         let mutable b = false
@@ -177,13 +177,13 @@ module Vector =
         p
 
     /// Creates a new vector and inserts the given value at the given index.
-    let inline insert index value (v: #Vector<float>) =        
-        let newV = new DenseVector(v.Count + 1)                
-        for i = 0 to index - 1 do 
-            newV.Item(i) <- v.Item(i)        
-        newV.Item(index) <- value        
-        for i = index + 1 to v.Count do 
-            newV.Item(i) <- v.Item(i - 1)        
+    let inline insert index value (v: #Vector<float>) =
+        let newV = new DenseVector(v.Count + 1)
+        for i = 0 to index - 1 do
+            newV.Item(i) <- v.Item(i)
+        newV.Item(index) <- value
+        for i = index + 1 to v.Count do
+            newV.Item(i) <- v.Item(i - 1)
         newV
 
 /// A module which implements functional dense vector operations.
@@ -203,14 +203,14 @@ module DenseVector =
         let v = DenseVector(n)
         fl |> List.iteri (fun i f -> v.[i] <- f)
         v
-    
+
     /// Create a vector from a sequences.
     let inline ofSeq (fs: #seq<float>) =
         let n = Seq.length fs
         let v = DenseVector(n)
         fs |> Seq.iteri (fun i f -> v.[i] <- f)
         v
-    
+
     /// Create a vector with evenly spaced entries: e.g. rangef -1.0 0.5 1.0 = [-1.0 -0.5 0.0 0.5 1.0]
     let inline rangef (start: float) (step: float) (stop: float) =
         let n = (int ((stop - start) / step)) + 1
@@ -218,7 +218,7 @@ module DenseVector =
         for i=0 to n-1 do
             v.[i] <- (float i) * step + start
         v
-    
+
     /// Create a vector with integer entries in the given range.
     let inline range (start: int) (stop: int) =
         new DenseVector([| for i in [start .. stop] -> float i |])
@@ -226,13 +226,13 @@ module DenseVector =
 /// A module which implements functional sparse vector operations.
 [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
 module SparseVector =
-    
+
     /// Create a sparse vector with a given dimension from a list of entry, value pairs.
     let inline ofList (dim: int) (fl: list<int * float>) =
         let v = new SparseVector(dim)
         fl |> List.iter (fun (i, f) -> v.[i] <- f)
         v
-    
+
     /// Create a sparse vector with a given dimension from a sequence of entry, value pairs.
     let inline ofSeq (dim: int) (fs: #seq<int * float>) =
         let v = new SparseVector(dim)

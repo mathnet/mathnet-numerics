@@ -111,7 +111,7 @@ namespace MathNet.Numerics
             }
 
             return new Complex(
-                Cosine(value.Real) * HyperbolicCosine(value.Imaginary), 
+                Cosine(value.Real) * HyperbolicCosine(value.Imaginary),
                 -Sine(value.Real) * HyperbolicSine(value.Imaginary));
         }
 
@@ -209,7 +209,7 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
-        /// Trigonometric Hyperbolic Cosecant 
+        /// Trigonometric Hyperbolic Cosecant
         /// </summary>
         /// <param name="radian">
         /// The angle in radian.
@@ -279,12 +279,12 @@ namespace MathNet.Numerics
             }
 
             return new Complex(
-                HyperbolicCosine(value.Real) * Cosine(value.Imaginary), 
+                HyperbolicCosine(value.Real) * Cosine(value.Imaginary),
                 HyperbolicSine(value.Real) * Sine(value.Imaginary));
         }
 
         /// <summary>
-        /// Trigonometric Hyperbolic Cotangent 
+        /// Trigonometric Hyperbolic Cotangent
         /// </summary>
         /// <param name="radian">
         /// The angle in radian angle.
@@ -345,7 +345,7 @@ namespace MathNet.Numerics
         /// The angle in radian angle.
         /// </param>
         /// <returns>
-        /// The hyperbolic secant of the radian angle. 
+        /// The hyperbolic secant of the radian angle.
         /// </returns>
         public static double HyperbolicSecant(double radian)
         {
@@ -409,7 +409,7 @@ namespace MathNet.Numerics
             }
 
             return new Complex(
-                HyperbolicSine(value.Real) * Cosine(value.Imaginary), 
+                HyperbolicSine(value.Real) * Cosine(value.Imaginary),
                 HyperbolicCosine(value.Real) * Sine(value.Imaginary));
         }
 
@@ -566,7 +566,7 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
-        /// Trigonometric Hyperbolic Arc Cosecant 
+        /// Trigonometric Hyperbolic Arc Cosecant
         /// </summary>
         /// <param name="radian">
         /// The angle in radian angle.
@@ -595,7 +595,7 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
-        /// Trigonometric Hyperbolic Area Cosine 
+        /// Trigonometric Hyperbolic Area Cosine
         /// </summary>
         /// <param name="radian">
         /// The angle in radian angle.
@@ -652,7 +652,7 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
-        /// Trigonometric Hyperbolic Area Secant 
+        /// Trigonometric Hyperbolic Area Secant
         /// </summary>
         /// <param name="radian">
         /// The angle in radian angle.
@@ -681,7 +681,7 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
-        /// Trigonometric Hyperbolic Area Sine 
+        /// Trigonometric Hyperbolic Area Sine
         /// </summary>
         /// <param name="radian">
         /// The angle in radian angle.
@@ -918,7 +918,7 @@ namespace MathNet.Numerics
             }
 
             return new Complex(
-                Sine(value.Real) * HyperbolicCosine(value.Imaginary), 
+                Sine(value.Real) * HyperbolicCosine(value.Imaginary),
                 Cosine(value.Real) * HyperbolicSine(value.Imaginary));
         }
 

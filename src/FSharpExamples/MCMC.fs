@@ -45,7 +45,7 @@ let rnd = new MersenneTwister()
 // -----------------------------------------------------------------------------
 do
     printfn "Rejection Sampling Example"
-    
+
     /// The target distribution.
     let beta = new Beta(2.7, 6.3)
 
@@ -76,7 +76,7 @@ do
 // -----------------------------------------------------------------------------
 do
     printfn "Metropolis Sampling Example"
-    
+
     let mean, stddev = 1.0, 3.5
     let normal = new Normal(mean, stddev)
 
@@ -93,7 +93,7 @@ do
     printfn "\tEmpirical StdDev = %f (should be %f)" (Statistics.StandardDeviation(arr)) normal.StdDev
     printfn "\tAcceptance rate = %f" ms.AcceptanceRate
     printfn ""
-    
+
 
 
 //
@@ -107,12 +107,12 @@ do
     printfn "Metropolis Hastings Sampling Example (Symmetric Proposal)"
     let mean, stddev = 1.0, 3.5
     let normal = new Normal(mean, stddev)
-    
+
     /// Evaluates the log normal distribution.
     let npdf x m s = -0.5*(x-m)*(x-m)/(s*s) - 0.5 * log(2.0 * System.Math.PI * s * s)
 
     /// Implements the rejection sampling procedure.
-    let ms = new MetropolisHastingsSampler<float>( 0.1, (fun x -> log(normal.Density(x))), 
+    let ms = new MetropolisHastingsSampler<float>( 0.1, (fun x -> log(normal.Density(x))),
                     (fun x y -> npdf x y 0.3), (fun x -> Normal.Sample(rnd, x, 0.3)), 10,
                                                 RandomSource = rnd )
 
@@ -138,22 +138,22 @@ do
     printfn "Metropolis Hastings Sampling Example (Assymetric Proposal)"
     let mean, stddev = 1.0, 3.5
     let normal = new Normal(mean, stddev)
-    
+
     /// Evaluates the logarithm of the normal distribution function.
     let npdf x m s = -0.5*(x-m)*(x-m)/(s*s) - 0.5 * log(2.0 * System.Math.PI * s * s)
-    
+
     /// Samples from a mixture that is biased towards samples larger than x.
     let mixSample x =
         if Bernoulli.Sample(rnd, 0.5) = 1 then
             Normal.Sample(rnd, x, 0.3)
         else
             Normal.Sample(rnd, x + 0.1, 0.3)
-    
+
     /// The transition kernel for the proposal above.
     let krnl xnew x = log (0.5 * exp(npdf xnew x 0.3) + 0.5 * exp(npdf xnew (x+0.1) 0.3))
 
     /// Implements the rejection sampling procedure.
-    let ms = new MetropolisHastingsSampler<float>( 0.1, (fun x -> log(normal.Density(x))), 
+    let ms = new MetropolisHastingsSampler<float>( 0.1, (fun x -> log(normal.Density(x))),
                     (fun xnew x -> krnl xnew x), (fun x -> mixSample x), 10,
                                                 RandomSource = rnd )
 
@@ -178,7 +178,7 @@ do
     printfn "Slice Sampling Example"
     let mean, stddev = 1.0, 3.5
     let normal = new Normal(mean, stddev)
-    
+
     /// Evaluates the unnormalized logarithm of the normal distribution function.
     let npdf x m s = -0.5*(x-m)*(x-m)/(s*s)
 

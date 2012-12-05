@@ -28,7 +28,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-#if SYSNUMERICS
+#if !PORTABLE
 namespace MathNet.Numerics.NumberTheory
 {
     using System;

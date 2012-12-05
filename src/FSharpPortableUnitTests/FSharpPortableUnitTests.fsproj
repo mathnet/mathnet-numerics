@@ -1,0 +1,104 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>90ce8e32-354e-4728-8fe6-87342f469321</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>FSharpPortableUnitTests</RootNamespace>
+    <AssemblyName>FSharpPortableUnitTests</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <Name>FSharpPortableUnitTests</Name>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <Tailcalls>false</Tailcalls>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <WarningLevel>3</WarningLevel>
+    <DocumentationFile>bin\Debug\FSharpPortableUnitTests.XML</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <Tailcalls>true</Tailcalls>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <WarningLevel>3</WarningLevel>
+    <DocumentationFile>bin\Release\FSharpPortableUnitTests.XML</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <MinimumVisualStudioVersion Condition="'$(MinimumVisualStudioVersion)' == ''">11</MinimumVisualStudioVersion>
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\..\Microsoft SDKs\F#\3.0\Framework\v4.0\Microsoft.FSharp.Targets" Condition=" Exists('$(MSBuildExtensionsPath32)\..\Microsoft SDKs\F#\3.0\Framework\v4.0\Microsoft.FSharp.Targets')" />
+  <ItemGroup>
+    <None Include="packages.config" />
+    <Compile Include="..\FSharpUnitTests\FsUnit.fs">
+      <Link>FsUnit.fs</Link>
+    </Compile>
+    <Compile Include="..\FSharpUnitTests\VectorTests.fs">
+      <Link>VectorTests.fs</Link>
+    </Compile>
+    <Compile Include="..\FSharpUnitTests\SparseVectorTests.fs">
+      <Link>SparseVectorTests.fs</Link>
+    </Compile>
+    <Compile Include="..\FSharpUnitTests\DenseVectorTests.fs">
+      <Link>DenseVectorTests.fs</Link>
+    </Compile>
+    <Compile Include="..\FSharpUnitTests\MatrixTests.fs">
+      <Link>MatrixTests.fs</Link>
+    </Compile>
+    <Compile Include="..\FSharpUnitTests\SparseMatrixTests.fs">
+      <Link>SparseMatrixTests.fs</Link>
+    </Compile>
+    <Compile Include="..\FSharpUnitTests\DenseMatrixTests.fs">
+      <Link>DenseMatrixTests.fs</Link>
+    </Compile>
+    <Compile Include="..\FSharpUnitTests\Utilities.fs">
+      <Link>Utilities.fs</Link>
+    </Compile>
+    <Compile Include="..\FSharpUnitTests\BigRationalTests.fs">
+      <Link>BigRationalTests.fs</Link>
+    </Compile>
+    <Compile Include="..\FSharpUnitTests\RandomVariableTests.fs">
+      <Link>RandomVariableTests.fs</Link>
+    </Compile>
+    <Compile Include="..\FSharpUnitTests\PokerTests.fs">
+      <Link>PokerTests.fs</Link>
+    </Compile>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="mscorlib" />
+    <Reference Include="FSharp.Core, Version=4.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="nunit.framework, Version=2.6.2.12296, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Numerics" />
+    <ProjectReference Include="..\FSharpPortable\FSharpPortable.fsproj">
+      <Name>FSharpPortable</Name>
+      <Project>{f5f14d76-428d-43d7-8431-5b885f1ba419}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\Portable\Portable.csproj">
+      <Name>Portable</Name>
+      <Project>{d877f358-a2d2-4cc3-a921-8aa5cf6187e8}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+  </ItemGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

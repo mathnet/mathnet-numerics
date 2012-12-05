@@ -33,19 +33,19 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
 // Module that contains implementation of useful F#-specific
 // extension members for generic Matrix and Vector types
 [<AutoOpen>]
-module FSharpExtensions = 
+module FSharpExtensions =
 
-  // A type extension for the generic vector type that 
+  // A type extension for the generic vector type that
   // adds the 'GetSlice' method to allow vec.[a .. b] syntax
   type MathNet.Numerics.LinearAlgebra.Generic.
-      Vector<'T when 'T : struct and 'T : (new : unit -> 'T) 
-                 and 'T :> System.IEquatable<'T> and 'T :> System.IFormattable 
+      Vector<'T when 'T : struct and 'T : (new : unit -> 'T)
+                 and 'T :> System.IEquatable<'T> and 'T :> System.IFormattable
                  and 'T :> System.ValueType> with
 
     /// Gets a slice of a vector starting at a specified index
     /// and ending at a specified index (both indices are optional)
     /// This method can be used via the x.[start .. finish] syntax
-    member x.GetSlice(start, finish) = 
+    member x.GetSlice(start, finish) =
       let start = defaultArg start 0
       let finish = defaultArg finish (x.Count - 1)
       x.SubVector(start, finish - start + 1)
@@ -53,14 +53,14 @@ module FSharpExtensions =
   // A type extension for the generic matrix type that
   // adds the 'GetSlice' method to allow m.[r1 .. r2, c1 .. c2] syntax
   type MathNet.Numerics.LinearAlgebra.Generic.
-      Matrix<'T when 'T : struct and 'T : (new : unit -> 'T) 
-                 and 'T :> System.IEquatable<'T> and 'T :> System.IFormattable 
+      Matrix<'T when 'T : struct and 'T : (new : unit -> 'T)
+                 and 'T :> System.IEquatable<'T> and 'T :> System.IFormattable
                  and 'T :> System.ValueType> with
 
-    /// Gets a submatrix using a specified column range and 
+    /// Gets a submatrix using a specified column range and
     /// row range (all indices are optional)
     /// This method can be used via the x.[r1 .. r2, c1 .. c2 ] syntax
-    member x.GetSlice(rstart, rfinish, cstart, cfinish) = 
+    member x.GetSlice(rstart, rfinish, cstart, cfinish) =
       let cstart = defaultArg cstart 0
       let rstart = defaultArg rstart 0
       let cfinish = defaultArg cfinish (x.ColumnCount - 1)

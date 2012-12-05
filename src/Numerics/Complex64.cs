@@ -28,41 +28,33 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-#if !SYSNUMERICS
-using MathNet.Numerics;
-
+#if PORTABLE
 namespace System.Numerics
 {
-
     using System;
     using System.Collections.Generic;
     using System.Runtime.InteropServices;
     using System.Text;
+    using MathNet.Numerics;
     using MathNet.Numerics.Properties;
 
     /// <summary>
-    /// 64-bit Complex numbers class.
+    /// 64-bit double precision complex numbers class.
     /// </summary>
     /// <remarks>
     /// <para>
     /// The class <c>Complex</c> provides all elementary operations
     /// on complex numbers. All the operators <c>+</c>, <c>-</c>,
     /// <c>*</c>, <c>/</c>, <c>==</c>, <c>!=</c> are defined in the
-    /// canonical way. Additional complex trigonometric functions 
-    /// are also provided. Note that the <c>Complex</c> structures 
-    /// has two special constant values <see cref="Complex.NaN"/> and 
-    /// <see cref="Complex.Infinity"/>.
-    /// </para>
-    /// <para>
-    /// In order to avoid possible ambiguities resulting from a 
-    /// <c>Complex(double, double)</c> constructor, the static methods 
-    /// <see cref="Complex.WithRealImaginary"/> and <see cref="Complex.WithModulusArgument"/>
-    /// are provided instead.
+    /// canonical way. Additional complex trigonometric functions
+    /// are also provided. Note that the <c>Complex</c> structures
+    /// has two special constant values <see cref="Complex.NaN"/> and
+    /// <see cref="Complex.PositiveInfinity"/>.
     /// </para>
     /// <para>
     /// <code>
-    /// Complex x = Complex.FromRealImaginary(1d, 2d);
-    /// Complex y = Complex.FromModulusArgument(1d, Math.Pi);
+    /// Complex x = new Complex(1d, 2d);
+    /// Complex y = Complex.FromPolarCoordinates(1d, Math.Pi);
     /// Complex z = (x + y) / (x - y);
     /// </code>
     /// </para>
@@ -76,33 +68,6 @@ namespace System.Numerics
     [StructLayout(LayoutKind.Sequential)]
     public struct Complex : IFormattable, IEquatable<Complex>, IPrecisionSupport<Complex>
     {
-    #region fields
-
-        /// <summary>
-        /// Represents imaginary unit number.
-        /// </summary>
-        private static readonly Complex _i = new Complex(0, 1);
-
-        /// <summary>
-        /// Represents a infinite complex number
-        /// </summary>
-        private static readonly Complex _infinity = new Complex(double.PositiveInfinity, double.PositiveInfinity);
-
-        /// <summary>
-        /// Represents not-a-number.
-        /// </summary>
-        private static readonly Complex _nan = new Complex(double.NaN, double.NaN);
-
-        /// <summary>
-        /// Representing the one value.
-        /// </summary>
-        private static readonly Complex _one = new Complex(1.0f, 0.0d);
-
-        /// <summary>
-        /// Representing the zero value.
-        /// </summary>
-        private static readonly Complex _zero = new Complex(0.0d, 0.0d);
-
         /// <summary>
         /// The real component of the complex number.
         /// </summary>
@@ -113,102 +78,79 @@ namespace System.Numerics
         /// </summary>
         private readonly double _imag;
 
-        #endregion fields
-
-    #region Constructor
-
         /// <summary>
         /// Initializes a new instance of the Complex structure with the given real
         /// and imaginary parts.
         /// </summary>
-        /// <param name="real">
-        /// The value for the real component.
-        /// </param>
-        /// <param name="imaginary">
-        /// The value for the imaginary component.
-        /// </param>
-#if !PORTABLE
+        /// <param name="real">The value for the real component.</param>
+        /// <param name="imaginary">The value for the imaginary component.</param>
         [TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")]
-#endif
         public Complex(double real, double imaginary)
         {
             _real = real;
             _imag = imaginary;
         }
 
-        #endregion
-
-    #region Properties
-
         /// <summary>
-        /// Gets a value representing the infinity value. This field is constant.
+        /// Creates a complex number from a point's polar coordinates.
         /// </summary>
-        /// <value>The infinity.</value>
-        /// <remarks>
-        /// The semantic associated to this value is a <c>Complex</c> of
-        /// infinite real and imaginary part. If you need more formal complex
-        /// number handling (according to the Riemann Sphere and the extended
-        /// complex plane C*, or using directed infinity) please check out the
-        /// alternative Math.NET symbolics packages instead.
-        /// </remarks>
-        /// <value>A value representing the infinity value.</value>
-        public static Complex Infinity
+        /// <returns>A complex number.</returns>
+        /// <param name="magnitude">The magnitude, which is the distance from the origin (the intersection of the x-axis and the y-axis) to the number.</param>
+        /// <param name="phase">The phase, which is the angle from the line to the horizontal axis, measured in radians.</param>
+        public static Complex FromPolarCoordinates(double magnitude, double phase)
         {
-            get
+            return new Complex(magnitude * Math.Cos(phase), magnitude * Math.Sin(phase));
+        }
+
+        [Obsolete("Use the public constructor instead.")]
+        public static Complex WithRealImaginary(double real, double imaginary)
+        {
+            return new Complex(real, imaginary);
+        }
+
+        [Obsolete("Use static FromPolarCoordinates instead.")]
+        public static Complex WithModulusArgument(double modulus, double argument)
+        {
+            if (modulus < 0.0d)
             {
-                return _infinity;
+                throw new ArgumentOutOfRangeException("modulus", Resources.ArgumentNotNegative);
             }
+
+            return new Complex(modulus * Math.Cos(argument), modulus * Math.Sin(argument));
         }
 
         /// <summary>
-        /// Gets a value representing not-a-number. This field is constant.
+        /// Returns a new <see cref="T:System.Numerics.Complex" /> instance
+        /// with a real number equal to zero and an imaginary number equal to zero.
         /// </summary>
-        /// <value>A value representing not-a-number.</value>
-        public static Complex NaN
-        {
-            get
-            {
-                return _nan;
-            }
-        }
+        public static readonly Complex Zero = new Complex(0.0f, 0.0f);
 
         /// <summary>
-        /// Gets a value representing the imaginary unit number. This field is constant.
+        /// Returns a new <see cref="T:System.Numerics.Complex" /> instance
+        /// with a real number equal to one and an imaginary number equal to zero.
         /// </summary>
-        /// <value>A value representing the imaginary unit number.</value>
-        public static Complex ImaginaryOne
-        {
-            get
-            {
-                return _i;
-            }
-        }
+        public static readonly Complex One = new Complex(1.0f, 0.0f);
 
         /// <summary>
-        /// Gets a value representing the zero value. This field is constant.
+        /// Returns a new <see cref="T:System.Numerics.Complex" /> instance
+        /// with a real number equal to zero and an imaginary number equal to one.
         /// </summary>
-        /// <value>A value representing the zero value.</value>
-        public static Complex Zero
-        {
-            get
-            {
-                return new Complex(0.0d, 0.0d);
-            }
-        }
+        public static readonly Complex ImaginaryOne = new Complex(0, 1);
 
         /// <summary>
-        /// Gets a value representing the <c>1</c> value. This field is constant.
+        /// Returns a new <see cref="T:System.Numerics.Complex" /> instance
+        /// with real and imaginary numbers positive infinite.
         /// </summary>
-        /// <value>A value representing the <c>1</c> value.</value>
-        public static Complex One
-        {
-            get
-            {
-                return _one;
-            }
-        }
+        public static readonly Complex PositiveInfinity = new Complex(float.PositiveInfinity, float.PositiveInfinity);
 
-        #endregion Properties
+        [Obsolete("Use PositiveInfinity instead")]
+        public static readonly Complex Infinity = PositiveInfinity;
+
+        /// <summary>
+        /// Returns a new <see cref="T:System.Numerics.Complex" /> instance
+        /// with real and imaginary numbers not a number.
+        /// </summary>
+        public static readonly Complex NaN = new Complex(float.NaN, float.NaN);
 
         /// <summary>
         /// Gets the real component of the complex number.
@@ -216,13 +158,8 @@ namespace System.Numerics
         /// <value>The real component of the complex number.</value>
         public double Real
         {
-#if !PORTABLE
             [TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")]
-#endif
-            get
-            {
-                return _real;
-            }
+            get { return _real; }
         }
 
         /// <summary>
@@ -231,135 +168,8 @@ namespace System.Numerics
         /// <value>The real imaginary component of the complex number.</value>
         public double Imaginary
         {
-#if !PORTABLE
             [TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")]
-#endif
-            get
-            {
-                return _imag;
-            }
-        }
-
-        /// <summary>
-        /// Gets a value indicating whether the <c>Complex</c> is zero.
-        /// </summary>
-        /// <returns><c>true</c> if this instance is zero; otherwise, <c>false</c>.</returns>
-        public bool IsZero()
-        {
-            return _real == 0.0d && _imag == 0.0d;
-        }
-
-        /// <summary>
-        /// Gets a value indicating whether the <c>Complex</c> is one.
-        /// </summary>
-        /// <returns><c>true</c> if this instance is one; otherwise, <c>false</c>.</returns>
-        public bool IsOne()
-        {
-            return _real == 1.0d && _imag == 0.0d;
-        }
-
-        /// <summary>
-        /// Gets a value indicating whether the <c>Complex</c> is the imaginary unit.
-        /// </summary>
-        /// <returns><c>true</c> if this instance is ImaginaryOne; otherwise, <c>false</c>.</returns>
-        public bool IsImaginaryOne()
-        {
-            return _real == 0.0d && _imag == 1.0d;
-        }
-
-        /// <summary>
-        /// Gets a value indicating whether the provided <c>Complex</c>evaluates
-        /// to a value that is not a number.
-        /// </summary>
-        /// <returns>
-        /// <c>true</c> if this instance is <see cref="NaN"/>; otherwise,
-        /// <c>false</c>.
-        /// </returns>
-        public bool IsNaN()
-        {
-            return double.IsNaN(_real) || double.IsNaN(_imag);
-        }
-
-        /// <summary>
-        /// Gets a value indicating whether the provided <c>Complex</c> evaluates to an
-        /// infinite value.
-        /// </summary>
-        /// <returns>
-        ///     <c>true</c> if this instance is infinite; otherwise, <c>false</c>.
-        /// </returns>
-        /// <remarks>
-        /// True if it either evaluates to a complex infinity
-        /// or to a directed infinity.
-        /// </remarks>
-        public bool IsInfinity()
-        {
-            return double.IsInfinity(_real) || double.IsInfinity(_imag);
-        }
-
-        /// <summary>
-        /// Gets a value indicating whether the provided <c>Complex</c> is real.
-        /// </summary>
-        /// <returns><c>true</c> if this instance is a real number; otherwise, <c>false</c>.</returns>
-        public bool IsReal()
-        {
-            return _imag == 0.0d;
-        }
-
-        /// <summary>
-        /// Gets a value indicating whether the provided <c>Complex</c> is real and not negative, that is &gt;= 0.
-        /// </summary>
-        /// <returns>
-        ///     <c>true</c> if this instance is real nonnegative number; otherwise, <c>false</c>.
-        /// </returns>
-        public bool IsRealNonNegative()
-        {
-            return _imag == 0.0d && _real >= 0;
-        }
-
-        /// <summary>
-        /// Gets the conjugate of this <c>Complex</c>.
-        /// </summary>
-        /// <remarks>
-        /// The semantic of <i>setting the conjugate</i> is such that
-        /// <code>
-        /// // a, b of type Complex
-        /// a.Conjugate = b;
-        /// </code>
-        /// is equivalent to
-        /// <code>
-        /// // a, b of type Complex
-        /// a = b.Conjugate
-        /// </code>
-        /// </remarks>
-        /// <returns>The conjugate of this <c>Complex</c></returns>
-        public Complex Conjugate()
-        {
-            return new Complex(_real, -_imag);
-        }
-
-        /// <summary>
-        /// Gets the magnitude or modulus of this <c>Complex</c>.
-        /// </summary>
-        /// <returns>The magnitude or modulus of this <c>Complex</c></returns>
-        /// <seealso cref="Phase"/>
-        public double Magnitude
-        {
-            get
-            {
-                return Math.Sqrt((_real * _real) + (_imag * _imag));
-            }
-        }
-
-        /// <summary>
-        /// Gets the squared magnitude of this <c>Complex</c>.
-        /// </summary>
-        /// <returns>The squared magnitude of this <c>Complex</c></returns>
-        public double MagnitudeSquared
-        {
-            get
-            {
-                return (_real * _real) + (_imag * _imag);
-            }
+            get { return _imag; }
         }
 
         /// <summary>
@@ -373,385 +183,19 @@ namespace System.Numerics
         /// <returns>The phase or argument of this <c>Complex</c></returns>
         public double Phase
         {
-            get
-            {
-                if (IsReal() && _real < 0)
-                {
-                    return Math.PI;
-                }
-
-                return IsRealNonNegative() ? 0.0d : Math.Atan2(_imag, _real);
-            }
+            [TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")]
+            get { return Math.Atan2(_imag, _real); }
         }
 
         /// <summary>
-        /// Gets the unity of this complex (same argument, but on the unit circle; exp(I*arg))
+        /// Gets the magnitude (or absolute value) of a complex number.
         /// </summary>
-        /// <returns>The unity of this <c>Complex</c>.</returns>
-        public Complex Sign
+        /// <returns>The magnitude of the current instance.</returns>
+        public double Magnitude
         {
-            get
-            {
-                if (double.IsPositiveInfinity(_real) && double.IsPositiveInfinity(_imag))
-                {
-                    return new Complex(Constants.Sqrt1Over2, Constants.Sqrt1Over2);
-                }
-
-                if (double.IsPositiveInfinity(_real) && double.IsNegativeInfinity(_imag))
-                {
-                    return new Complex(Constants.Sqrt1Over2, -Constants.Sqrt1Over2);
-                }
-
-                if (double.IsNegativeInfinity(_real) && double.IsPositiveInfinity(_imag))
-                {
-                    return new Complex(-Constants.Sqrt1Over2, -Constants.Sqrt1Over2);
-                }
-
-                if (double.IsNegativeInfinity(_real) && double.IsNegativeInfinity(_imag))
-                {
-                    return new Complex(-Constants.Sqrt1Over2, Constants.Sqrt1Over2);
-                }
-
-                // don't replace this with "Magnitude"!
-                var mod = SpecialFunctions.Hypotenuse(_real, _imag);
-                if (mod == 0.0d)
-                {
-                    return Zero;
-                }
-
-                return new Complex(_real / mod, _imag / mod);
-            }
+            [TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")]
+            get { return Math.Sqrt((_real * _real) + (_imag * _imag)); }
         }
-
-    #region Exponential Functions
-
-        /// <summary>
-        /// Exponential of this <c>Complex</c> (exp(x), E^x).
-        /// </summary>
-        /// <returns>
-        /// The exponential of this complex number.
-        /// </returns>
-        public Complex Exponential()
-        {
-            var exp = Math.Exp(_real);
-            if (IsReal())
-            {
-                return new Complex(exp, 0.0d);
-            }
-
-            return new Complex(exp * Trig.Cosine(_imag), exp * Trig.Sine(_imag));
-        }
-
-        /// <summary>
-        /// Natural Logarithm of this <c>Complex</c> (Base E).
-        /// </summary>
-        /// <returns>
-        /// The natural logarithm of this complex number.
-        /// </returns>
-        public Complex NaturalLogarithm()
-        {
-            if (IsRealNonNegative())
-            {
-                return new Complex(Math.Log(_real), 0.0d);
-            }
-
-            return new Complex(0.5d * Math.Log(MagnitudeSquared), Phase);
-        }
-
-        /// <summary>
-        /// Raise this <c>Complex</c> to the given value.
-        /// </summary>
-        /// <param name="exponent">
-        /// The exponent.
-        /// </param>
-        /// <returns>
-        /// The complex number raised to the given exponent.
-        /// </returns>
-        public Complex Power(Complex exponent)
-        {
-            if (IsZero())
-            {
-                if (exponent.IsZero())
-                {
-                    return One;
-                }
-
-                if (exponent.Real > 0.0d)
-                {
-                    return Zero;
-                }
-
-                if (exponent.Real < 0)
-                {
-                    if (exponent.Imaginary == 0.0d)
-                    {
-                        return new Complex(double.PositiveInfinity, 0.0d);
-                    }
-
-                    return new Complex(double.PositiveInfinity, double.PositiveInfinity);
-                }
-
-                return NaN;
-            }
-
-            return (exponent * NaturalLogarithm()).Exponential();
-        }
-
-        /// <summary>
-        /// Raise this <c>Complex</c> to the inverse of the given value.
-        /// </summary>
-        /// <param name="rootExponent">
-        /// The root exponent.
-        /// </param>
-        /// <returns>
-        /// The complex raised to the inverse of the given exponent.
-        /// </returns>
-        public Complex Root(Complex rootExponent)
-        {
-            return Power(1 / rootExponent);
-        }
-
-        /// <summary>
-        /// The Square (power 2) of this <c>Complex</c>
-        /// </summary>
-        /// <returns>
-        /// The square of this complex number.
-        /// </returns>
-        public Complex Square()
-        {
-            if (IsReal())
-            {
-                return new Complex(_real * _real, 0.0d);
-            }
-
-            return new Complex((_real * _real) - (_imag * _imag), 2 * _real * _imag);
-        }
-
-        /// <summary>
-        /// The Square Root (power 1/2) of this <c>Complex</c>
-        /// </summary>
-        /// <returns>
-        /// The square root of this complex number.
-        /// </returns>
-        public Complex SquareRoot()
-        {
-            if (IsRealNonNegative())
-            {
-                return new Complex(Math.Sqrt(_real), 0.0d);
-            }
-
-            Complex result;
-
-            var absReal = Math.Abs(Real);
-            var absImag = Math.Abs(Imaginary);
-            double w;
-            if (absReal >= absImag)
-            {
-                var ratio = Imaginary / Real;
-                w = Math.Sqrt(absReal) * Math.Sqrt(0.5 * (1.0d + Math.Sqrt(1.0d + (ratio * ratio))));
-            }
-            else
-            {
-                var ratio = Real / Imaginary;
-                w = Math.Sqrt(absImag) * Math.Sqrt(0.5 * (Math.Abs(ratio) + Math.Sqrt(1.0d + (ratio * ratio))));
-            }
-
-            if (Real >= 0.0d)
-            {
-                result = new Complex(w, Imaginary / (2.0d * w));
-            }
-            else if (Imaginary >= 0.0d)
-            {
-                result = new Complex(absImag / (2.0 * w), w);
-            }
-            else
-            {
-                result = new Complex(absImag / (2.0 * w), -w);
-            }
-
-            return result;
-        }
-
-        #endregion
-
-    #region Static Initializers
-
-        /// <summary>
-        /// Constructs a <c>Complex</c> from its real
-        /// and imaginary parts.
-        /// </summary>
-        /// <param name="real">
-        /// The value for the real component.
-        /// </param>
-        /// <param name="imaginary">
-        /// The value for the imaginary component.
-        /// </param>
-        /// <returns>
-        /// A new <c>Complex</c> with the given values.
-        /// </returns>
-        public static Complex WithRealImaginary(double real, double imaginary)
-        {
-            return new Complex(real, imaginary);
-        }
-
-        /// <summary>
-        /// Constructs a <c>Complex</c> from its modulus and
-        /// argument.
-        /// </summary>
-        /// <param name="modulus">
-        /// Must be non-negative.
-        /// </param>
-        /// <param name="argument">
-        /// Real number.
-        /// </param>
-        /// <returns>
-        /// A new <c>Complex</c> from the given values.
-        /// </returns>
-        public static Complex WithModulusArgument(double modulus, double argument)
-        {
-            if (modulus < 0.0d)
-            {
-                throw new ArgumentOutOfRangeException("modulus", Resources.ArgumentNotNegative);
-            }
-
-            return new Complex(modulus * Math.Cos(argument), modulus * Math.Sin(argument));
-        }
-
-        #endregion
-
-    #region IFormattable Members
-
-        /// <summary>
-        /// A string representation of this complex number.
-        /// </summary>
-        /// <returns>
-        /// The string representation of this complex number.
-        /// </returns>
-        public override string ToString()
-        {
-            return ToString(null, null);
-        }
-
-        /// <summary>
-        /// A string representation of this complex number.
-        /// </summary>
-        /// <returns>
-        /// The string representation of this complex number formatted as specified by the
-        /// format string.
-        /// </returns>
-        /// <param name="format">
-        /// A format specification.
-        /// </param>
-        public string ToString(string format)
-        {
-            return ToString(format, null);
-        }
-
-        /// <summary>
-        /// A string representation of this complex number.
-        /// </summary>
-        /// <returns>
-        /// The string representation of this complex number formatted as specified by the
-        /// format provider.
-        /// </returns>
-        /// <param name="formatProvider">
-        /// An <see cref="IFormatProvider"/> that supplies culture-specific formatting information.
-        /// </param>
-        public string ToString(IFormatProvider formatProvider)
-        {
-            return ToString(null, formatProvider);
-        }
-
-        /// <summary>
-        /// A string representation of this complex number.
-        /// </summary>
-        /// <returns>
-        /// The string representation of this complex number formatted as specified by the
-        /// format string and format provider.
-        /// </returns>
-        /// <exception cref="FormatException">
-        /// if the n, is not a number.
-        /// </exception>
-        /// <exception cref="ArgumentNullException">
-        /// if s, is <see langword="null"/>.
-        /// </exception>
-        /// <param name="format">
-        /// A format specification.
-        /// </param>
-        /// <param name="formatProvider">
-        /// An <see cref="IFormatProvider"/> that supplies culture-specific formatting information.
-        /// </param>
-        public string ToString(string format, IFormatProvider formatProvider)
-        {
-            var ret = new StringBuilder();
-            ret.Append("(").Append(_real.ToString(format, formatProvider)).Append(", ").Append(_imag.ToString(format, formatProvider)).Append(")");
-            return ret.ToString();
-        }
-
-        #endregion
-
-    #region IEquatable<Complex> Members
-
-        /// <summary>
-        /// Checks if two complex numbers are equal. Two complex numbers are equal if their
-        /// corresponding real and imaginary components are equal.
-        /// </summary>
-        /// <returns>
-        /// Returns <c>true</c> if the two objects are the same object, or if their corresponding
-        /// real and imaginary components are equal, <c>false</c> otherwise.
-        /// </returns>
-        /// <param name="other">
-        /// The complex number to compare to with.
-        /// </param>
-        public bool Equals(Complex other)
-        {
-            if (IsNaN() || other.IsNaN())
-            {
-                return false;
-            }
-
-            if (IsInfinity() && other.IsInfinity())
-            {
-                return true;
-            }
-
-            return _real.AlmostEqual(other._real) && _imag.AlmostEqual(other._imag);
-        }
-
-        /// <summary>
-        /// The hash code for the complex number.
-        /// </summary>
-        /// <returns>
-        /// The hash code of the complex number.
-        /// </returns>
-        /// <remarks>
-        /// The hash code is calculated as
-        /// System.Math.Exp(ComplexMath.Absolute(complexNumber)).
-        /// </remarks>
-        public override int GetHashCode()
-        {
-            return _real.GetHashCode() ^ (-_imag.GetHashCode());
-        }
-
-        /// <summary>
-        /// Checks if two complex numbers are equal. Two complex numbers are equal if their
-        /// corresponding real and imaginary components are equal.
-        /// </summary>
-        /// <returns>
-        /// Returns <c>true</c> if the two objects are the same object, or if their corresponding
-        /// real and imaginary components are equal, <c>false</c> otherwise.
-        /// </returns>
-        /// <param name="obj">
-        /// The complex number to compare to with.
-        /// </param>
-        public override bool Equals(object obj)
-        {
-            return (obj is Complex) && Equals((Complex)obj);
-        }
-
-        #endregion
-
-    #region Operators
 
         /// <summary>
         /// Equality test.
@@ -891,10 +335,10 @@ namespace System.Numerics
 
             if (divisor.IsZero())
             {
-                return Infinity;
+                return PositiveInfinity;
             }
 
-            var modSquared = divisor.MagnitudeSquared;
+            var modSquared = divisor.MagnitudeSquared();
             return new Complex(
                 ((dividend._real * divisor._real) + (dividend._imag * divisor._imag)) / modSquared,
                 ((dividend._imag * divisor._real) - (dividend._real * divisor._imag)) / modSquared);
@@ -913,10 +357,10 @@ namespace System.Numerics
 
             if (divisor.IsZero())
             {
-                return Infinity;
+                return PositiveInfinity;
             }
 
-            var zmod = divisor.MagnitudeSquared;
+            var zmod = divisor.MagnitudeSquared();
             return new Complex(dividend * divisor._real / zmod, -dividend * divisor._imag / zmod);
         }
 
@@ -933,111 +377,148 @@ namespace System.Numerics
 
             if (divisor == 0.0d)
             {
-                return Infinity;
+                return PositiveInfinity;
             }
 
             return new Complex(dividend._real / divisor, dividend._imag / divisor);
         }
 
+        #region IFormattable Members
+
         /// <summary>
-        /// Unary addition.
+        /// A string representation of this complex number.
         /// </summary>
         /// <returns>
-        /// Returns the same complex number.
+        /// The string representation of this complex number.
         /// </returns>
-#if !PORTABLE
-        [TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")]
-#endif
-        public Complex Plus()
+        public override string ToString()
         {
-            return this;
+            return ToString(null, null);
         }
 
         /// <summary>
-        /// Unary minus.
+        /// A string representation of this complex number.
         /// </summary>
         /// <returns>
-        /// The negated value of this complex number.
+        /// The string representation of this complex number formatted as specified by the
+        /// format string.
         /// </returns>
-#if !PORTABLE
-        [TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")]
-#endif
-        public Complex Negate()
-        {
-            return -this;
-        }
-
-        /// <summary>
-        /// Adds a complex number to this one.
-        /// </summary>
-        /// <returns>
-        /// The result of the addition.
-        /// </returns>
-        /// <param name="other">
-        /// The other complex number to add.
+        /// <param name="format">
+        /// A format specification.
         /// </param>
-#if !PORTABLE
-        [TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")]
-#endif
-        public Complex Add(Complex other)
+        public string ToString(string format)
         {
-            return this + other;
+            return ToString(format, null);
         }
 
         /// <summary>
-        /// Subtracts a complex number from this one.
+        /// A string representation of this complex number.
         /// </summary>
         /// <returns>
-        /// The result of the subtraction.
+        /// The string representation of this complex number formatted as specified by the
+        /// format provider.
         /// </returns>
-        /// <param name="other">
-        /// The other complex number to subtract from this one.
+        /// <param name="formatProvider">
+        /// An <see cref="IFormatProvider"/> that supplies culture-specific formatting information.
         /// </param>
-#if !PORTABLE
-        [TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")]
-#endif
-        public Complex Subtract(Complex other)
+        public string ToString(IFormatProvider formatProvider)
         {
-            return this - other;
+            return ToString(null, formatProvider);
         }
 
         /// <summary>
-        /// Multiplies this complex number with this one.
+        /// A string representation of this complex number.
         /// </summary>
         /// <returns>
-        /// The result of the multiplication.
+        /// The string representation of this complex number formatted as specified by the
+        /// format string and format provider.
         /// </returns>
-        /// <param name="multiplier">
-        /// The complex number to multiply.
+        /// <exception cref="FormatException">
+        /// if the n, is not a number.
+        /// </exception>
+        /// <exception cref="ArgumentNullException">
+        /// if s, is <see langword="null"/>.
+        /// </exception>
+        /// <param name="format">
+        /// A format specification.
         /// </param>
-#if !PORTABLE
-        [TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")]
-#endif
-        public Complex Multiply(Complex multiplier)
-        {
-            return this * multiplier;
-        }
-
-        /// <summary>
-        /// Divides this complex number by another.
-        /// </summary>
-        /// <returns>
-        /// The result of the division.
-        /// </returns>
-        /// <param name="divisor">
-        /// The divisor.
+        /// <param name="formatProvider">
+        /// An <see cref="IFormatProvider"/> that supplies culture-specific formatting information.
         /// </param>
-#if !PORTABLE
-        [TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")]
-#endif
-        public Complex Divide(Complex divisor)
+        public string ToString(string format, IFormatProvider formatProvider)
         {
-            return this / divisor;
+            var ret = new StringBuilder();
+            ret.Append("(").Append(_real.ToString(format, formatProvider)).Append(", ").Append(_imag.ToString(format, formatProvider)).Append(")");
+            return ret.ToString();
         }
 
         #endregion
 
-    #region IPrecisionSupport<Complex>
+        #region IEquatable<Complex> Members
+
+        /// <summary>
+        /// Checks if two complex numbers are equal. Two complex numbers are equal if their
+        /// corresponding real and imaginary components are equal.
+        /// </summary>
+        /// <returns>
+        /// Returns <c>true</c> if the two objects are the same object, or if their corresponding
+        /// real and imaginary components are equal, <c>false</c> otherwise.
+        /// </returns>
+        /// <param name="other">
+        /// The complex number to compare to with.
+        /// </param>
+        public bool Equals(Complex other)
+        {
+            if (this.IsNaN() || other.IsNaN())
+            {
+                return false;
+            }
+
+            if (this.IsInfinity() && other.IsInfinity())
+            {
+                return true;
+            }
+
+            return _real.AlmostEqual(other._real) && _imag.AlmostEqual(other._imag);
+        }
+
+        /// <summary>
+        /// The hash code for the complex number.
+        /// </summary>
+        /// <returns>
+        /// The hash code of the complex number.
+        /// </returns>
+        /// <remarks>
+        /// The hash code is calculated as
+        /// System.Math.Exp(ComplexMath.Absolute(complexNumber)).
+        /// </remarks>
+        public override int GetHashCode()
+        {
+            int hash = 27;
+            hash = (13 * hash) + _real.GetHashCode();
+            hash = (13 * hash) + _imag.GetHashCode();
+            return hash;
+        }
+
+        /// <summary>
+        /// Checks if two complex numbers are equal. Two complex numbers are equal if their
+        /// corresponding real and imaginary components are equal.
+        /// </summary>
+        /// <returns>
+        /// Returns <c>true</c> if the two objects are the same object, or if their corresponding
+        /// real and imaginary components are equal, <c>false</c> otherwise.
+        /// </returns>
+        /// <param name="obj">
+        /// The complex number to compare to with.
+        /// </param>
+        public override bool Equals(object obj)
+        {
+            return (obj is Complex) && Equals((Complex)obj);
+        }
+
+        #endregion
+
+        #region IPrecisionSupport<Complex>
 
         /// <summary>
         /// Returns a Norm of a value of this type, which is appropriate for measuring how
@@ -1048,7 +529,7 @@ namespace System.Numerics
         /// </returns>
         double IPrecisionSupport<Complex>.Norm()
         {
-            return MagnitudeSquared;
+            return this.MagnitudeSquared();
         }
 
         /// <summary>
@@ -1063,12 +544,12 @@ namespace System.Numerics
         /// </returns>
         double IPrecisionSupport<Complex>.NormOfDifference(Complex otherValue)
         {
-            return (this - otherValue).MagnitudeSquared;
+            return (this - otherValue).MagnitudeSquared();
         }
 
         #endregion
 
-    #region Parse Functions
+        #region Parse Functions
 
         /// <summary>
         /// Creates a complex number based on a string. The string can be in the
@@ -1131,8 +612,8 @@ namespace System.Numerics
             var keywords =
                 new[]
                 {
-                    textInfo.ListSeparator, numberFormatInfo.NaNSymbol, 
-                    numberFormatInfo.NegativeInfinitySymbol, numberFormatInfo.PositiveInfinitySymbol, 
+                    textInfo.ListSeparator, numberFormatInfo.NaNSymbol,
+                    numberFormatInfo.NegativeInfinitySymbol, numberFormatInfo.PositiveInfinitySymbol,
                     "+", "-", "i", "j"
                 };
 
@@ -1237,11 +718,7 @@ namespace System.Numerics
                 }
             }
 
-#if PORTABLE
             var value = GlobalizationHelper.ParseSingle(ref token);
-#else
-            var value = GlobalizationHelper.ParseSingle(ref token, format.GetCultureInfo());
-#endif
 
             // handle suffix imaginary symbol
             if (token != null && (String.Compare(token.Value, "i", StringComparison.OrdinalIgnoreCase) == 0
@@ -1261,17 +738,17 @@ namespace System.Numerics
         }
 
         /// <summary>
-        /// Converts the string representation of a complex number to a single-precision complex number equivalent. 
+        /// Converts the string representation of a complex number to a single-precision complex number equivalent.
         /// A return value indicates whether the conversion succeeded or failed.
         /// </summary>
         /// <param name="value">
-        /// A string containing a complex number to convert. 
+        /// A string containing a complex number to convert.
         /// </param>
         /// <param name="result">
         /// The parsed value.
         /// </param>
         /// <returns>
-        /// If the conversion succeeds, the result will contain a complex number equivalent to value. 
+        /// If the conversion succeeds, the result will contain a complex number equivalent to value.
         /// Otherwise the result will contain complex32.Zero.  This parameter is passed uninitialized
         /// </returns>
         public static bool TryParse(string value, out Complex result)
@@ -1306,12 +783,12 @@ namespace System.Numerics
             }
             catch (ArgumentNullException)
             {
-                result = _zero;
+                result = Zero;
                 ret = false;
             }
             catch (FormatException)
             {
-                result = _zero;
+                result = Zero;
                 ret = false;
             }
 
@@ -1320,7 +797,7 @@ namespace System.Numerics
 
         #endregion
 
-    #region Conversion
+        #region Conversion
 
         /// <summary>
         /// Explicit conversion of a real decimal to a <c>Complex</c>.
@@ -1458,243 +935,353 @@ namespace System.Numerics
         #endregion
 
         /// <summary>
-        /// Gets the absolute value (or magnitude) of a complex number.
+        /// Returns the additive inverse of a specified complex number.
         /// </summary>
+        /// <returns>The result of the <see cref="P:System.Numerics.Complex.Real" /> and <see cref="P:System.Numerics.Complex.Imaginary" /> components of the <paramref name="value" /> parameter multiplied by -1.</returns>
         /// <param name="value">A complex number.</param>
-        /// <returns>The absolute value (or magnitude) of a complex number.</returns>
-        public static double Abs(Complex value)
+        [TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")]
+        public static Complex Negate(Complex value)
         {
-            return value.Magnitude;
+            return -value;
         }
 
         /// <summary>
-        /// Trigonometric Arc Cosine of a <c>Complex</c> number.
+        /// Computes the conjugate of a complex number and returns the result.
         /// </summary>
+        /// <returns>The conjugate of <paramref name="value" />.</returns>
         /// <param name="value">A complex number.</param>
-        /// <returns>
-        /// The arc cosine of a complex number.
-        /// </returns>
-        public static Complex Acos(Complex value)
+        [TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")]
+        public static Complex Conjugate(Complex value)
         {
-            return (Complex)value.ToComplex().InverseCosine();
+            return new Complex(value._real, -value._imag);
         }
 
         /// <summary>
-        /// Trigonometric Arc Sine of a <c>Complex</c> number.
+        /// Adds two complex numbers and returns the result.
         /// </summary>
-        /// <param name="value">A complex number.</param>
-        /// <returns>
-        /// The arc sine of a complex number.
-        /// </returns>
-        public static Complex Asin(Complex value)
+        /// <returns>The sum of <paramref name="left" /> and <paramref name="right" />.</returns>
+        /// <param name="left">The first complex number to add.</param>
+        /// <param name="right">The second complex number to add.</param>
+        [TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")]
+        public static Complex Add(Complex left, Complex right)
         {
-            return (Complex)value.ToComplex().InverseSine();
+            return left + right;
         }
 
         /// <summary>
-        /// Trigonometric Arc Tangent of a <c>Complex</c> number.
+        /// Subtracts one complex number from another and returns the result.
         /// </summary>
-        /// <param name="value">A complex number.</param>
-        /// <returns>
-        /// The arc tangent of a complex number.
-        /// </returns>
-        public static Complex Atan(Complex value)
+        /// <returns>The result of subtracting <paramref name="right" /> from <paramref name="left" />.</returns>
+        /// <param name="left">The value to subtract from (the minuend).</param>
+        /// <param name="right">The value to subtract (the subtrahend).</param>
+        [TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")]
+        public static Complex Subtract(Complex left, Complex right)
         {
-            return (Complex)value.ToComplex().InverseTangent();
+            return left - right;
         }
 
         /// <summary>
-        /// Trigonometric Cosine of a <c>Complex</c> number.
+        /// Returns the product of two complex numbers.
         /// </summary>
-        /// <param name="value">A complex number.</param>
-        /// <returns>
-        /// The cosine of a complex number.
-        /// </returns>
-        public static Complex Cos(Complex value)
+        /// <returns>The product of the <paramref name="left" /> and <paramref name="right" /> parameters.</returns>
+        /// <param name="left">The first complex number to multiply.</param>
+        /// <param name="right">The second complex number to multiply.</param>
+        [TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")]
+        public static Complex Multiply(Complex left, Complex right)
         {
-            return (Complex)value.ToComplex().Cosine();
+            return left * right;
         }
 
         /// <summary>
-        /// Trigonometric Sine of a <c>Complex</c> number.
+        /// Divides one complex number by another and returns the result.
         /// </summary>
-        /// <param name="value">A complex number.</param>
-        /// <returns>
-        /// The Sine of a complex number.
-        /// </returns>
-        public static Complex Sin(Complex value)
+        /// <returns>The quotient of the division.</returns>
+        /// <param name="dividend">The complex number to be divided.</param>
+        /// <param name="divisor">The complex number to divide by.</param>
+        [TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")]
+        public static Complex Divide(Complex dividend, Complex divisor)
         {
-            return (Complex)value.ToComplex().Sine();
-        }
-
-        /// <summary>
-        /// Trigonometric Tangent of a <c>Complex</c> number.
-        /// </summary>
-        /// <param name="value">A complex number.</param>
-        /// <returns>
-        /// The tangent of a complex number.
-        /// </returns>
-        public static Complex Tan(Complex value)
-        {
-            return (Complex)value.ToComplex().Tangent();
-        }
-
-        /// <summary>
-        /// Trigonometric Hyperbolic Cosine of a <c>Complex</c> number.
-        /// </summary>
-        /// <param name="value">A complex number.</param>
-        /// <returns>
-        /// The hyperbolic cosine of a complex number.
-        /// </returns>
-        public static Complex Cosh(Complex value)
-        {
-            return (Complex)value.ToComplex().HyperbolicCosine();
-        }
-
-        /// <summary>
-        /// Trigonometric Hyperbolic Sine of a <c>Complex</c> number.
-        /// </summary>
-        /// <param name="value">A complex number.</param>
-        /// <returns>
-        /// The hyperbolic sine of a complex number.
-        /// </returns>
-        public static Complex Sinh(Complex value)
-        {
-            return (Complex)value.ToComplex().HyperbolicSine();
-        }
-
-        /// <summary>
-        /// Trigonometric Hyperbolic Tangent of a <c>Complex</c> number.
-        /// </summary>
-        /// <param name="value">A complex number.</param>
-        /// <returns>
-        /// The hyperbolic tangent of a complex number.
-        /// </returns>
-        public static Complex Tanh(Complex value)
-        {
-            return (Complex)value.ToComplex().HyperbolicTangent();
-        }
-
-        /// <summary>
-        /// Exponential of a <c>Complex</c> number (exp(x), E^x).
-        /// </summary>
-        /// <param name="value">A complex number.</param>
-        /// <returns>
-        /// The exponential of a complex number.
-        /// </returns>
-        public static Complex Exp(Complex value)
-        {
-            return (Complex)value.ToComplex().Exponential();
-        }
-
-        /// <summary>
-        /// Constructs a <c>Complex</c> from its magnitude and phase.
-        /// </summary>
-        /// <param name="magnitude">
-        /// Must be non-negative.
-        /// </param>
-        /// <param name="phase">
-        /// Real number.
-        /// </param>
-        /// <returns>
-        /// A new <c>Complex</c> from the given values.
-        /// </returns>
-        /// <seealso cref="WithModulusArgument"/>
-        public static Complex FromPolarCoordinates(double magnitude, double phase)
-        {
-            return WithModulusArgument(magnitude, phase);
-        }
-
-        /// <summary>
-        /// Natural Logarithm  of a <c>Complex</c> number (exp(x), E^x).
-        /// </summary>
-        /// <param name="value">A complex number.</param>
-        /// <returns>
-        /// The natural logarithm of a complex number.
-        /// </returns>
-        public static Complex Log(Complex value)
-        {
-            return (Complex)value.ToComplex().NaturalLogarithm();
-        }
-
-        /// <summary>
-        /// Returns the logarithm of a specified complex number in a specified base
-        /// </summary>
-        /// <param name="value">A complex number.</param>
-        /// <param name="baseValue">The base of the logarithm.</param>
-        /// <returns>The logarithm of value in base baseValue.</returns>
-        public static Complex Log(Complex value, double baseValue)
-        {
-            if (baseValue == 1.0)
-            {
-                return double.NaN;
-            }
-
-            return (Complex)(value.ToComplex().NaturalLogarithm() / Math.Log(baseValue, Math.E));
-        }
-
-        /// <summary>
-        /// Returns the base-10 logarithm of a specified complex number in a specified base
-        /// </summary>
-        /// <param name="value">A complex number.</param>
-        /// <returns>The base-10 logarithm of the complex number.</returns>
-        public static Complex Log10(Complex value)
-        {
-            return Log(value, 10);
-        }
-
-        /// <summary>
-        /// Raise this a <c>Complex</c>number to the given value.
-        /// </summary>
-        /// <param name="value">A complex number.</param>
-        /// <param name="power">The exponent.</param>
-        /// <returns>
-        /// The complex number raised to the given exponent.
-        /// </returns>
-        public static Complex Pow(Complex value, Complex power)
-        {
-            return value.Power(power);
-        }
-
-        /// <summary>
-        /// Raise this a <c>Complex</c>number to the given value.
-        /// </summary>
-        /// <param name="value">A complex number.</param>
-        /// <param name="power">The exponent.</param>
-        /// <returns>
-        /// The complex number raised to the given exponent.
-        /// </returns>
-        public static Complex Pow(Complex value, double power)
-        {
-            return value.Power(power);
+            return dividend / divisor;
         }
 
         /// <summary>
         /// Returns the multiplicative inverse of a complex number.
         /// </summary>
+        /// <returns>The reciprocal of <paramref name="value" />.</returns>
         /// <param name="value">A complex number.</param>
-        /// <returns>The reciprocal of value.</returns>
-        /// <remarks>If value is <see cref="Zero"/>, the method returns <see cref="Zero"/>. Otherwise, it returns the result of the expression <see cref="One"/> / value. </remarks>
         public static Complex Reciprocal(Complex value)
         {
             if (value.IsZero())
             {
-                return _zero;
+                return Zero;
             }
 
             return 1.0d / value;
         }
 
         /// <summary>
-        /// The Square Root (power 1/2) of a <c>Complex</c> number.
+        /// Returns the square root of a specified complex number.
         /// </summary>
+        /// <returns>The square root of <paramref name="value" />.</returns>
         /// <param name="value">A complex number.</param>
-        /// <returns>
-        /// The square root of a complex number.
-        /// </returns>
         public static Complex Sqrt(Complex value)
         {
-            return value.SquareRoot();
+            if (value.IsRealNonNegative())
+            {
+                return new Complex(Math.Sqrt(value.Real), 0.0);
+            }
+
+            Complex result;
+
+            var absReal = Math.Abs(value.Real);
+            var absImag = Math.Abs(value.Imaginary);
+            double w;
+            if (absReal >= absImag)
+            {
+                var ratio = value.Imaginary / value.Real;
+                w = Math.Sqrt(absReal) * Math.Sqrt(0.5 * (1.0 + Math.Sqrt(1.0 + (ratio * ratio))));
+            }
+            else
+            {
+                var ratio = value.Real / value.Imaginary;
+                w = Math.Sqrt(absImag) * Math.Sqrt(0.5 * (Math.Abs(ratio) + Math.Sqrt(1.0 + (ratio * ratio))));
+            }
+
+            if (value.Real >= 0.0)
+            {
+                result = new Complex(w, value.Imaginary / (2.0 * w));
+            }
+            else if (value.Imaginary >= 0.0)
+            {
+                result = new Complex(absImag / (2.0 * w), w);
+            }
+            else
+            {
+                result = new Complex(absImag / (2.0 * w), -w);
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Gets the absolute value (or magnitude) of a complex number.
+        /// </summary>
+        /// <param name="value">A complex number.</param>
+        /// <returns>The absolute value (or magnitude) of a complex number.</returns>
+        [TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")]
+        public static double Abs(Complex value)
+        {
+            return value.Magnitude;
+        }
+
+        /// <summary>
+        /// Returns e raised to the power specified by a complex number.
+        /// </summary>
+        /// <returns>The number e raised to the power <paramref name="value" />.</returns>
+        /// <param name="value">A complex number that specifies a power.</param>
+        public static Complex Exp(Complex value)
+        {
+            var exp = Math.Exp(value.Real);
+            if (value.IsReal())
+            {
+                return new Complex(exp, 0.0);
+            }
+
+            return new Complex(exp * Trig.Cosine(value.Imaginary), exp * Trig.Sine(value.Imaginary));
+        }
+
+        /// <summary>
+        /// Returns a specified complex number raised to a power specified by a complex number.
+        /// </summary>
+        /// <returns>The complex number <paramref name="value" /> raised to the power <paramref name="power" />.</returns>
+        /// <param name="value">A complex number to be raised to a power.</param>
+        /// <param name="power">A complex number that specifies a power.</param>
+        public static Complex Pow(Complex value, Complex power)
+        {
+            if (value.IsZero())
+            {
+                if (power.IsZero())
+                {
+                    return One;
+                }
+
+                if (power.Real > 0.0)
+                {
+                    return Zero;
+                }
+
+                if (power.Real < 0)
+                {
+                    if (power.Imaginary == 0.0)
+                    {
+                        return new Complex(double.PositiveInfinity, 0.0);
+                    }
+
+                    return new Complex(double.PositiveInfinity, double.PositiveInfinity);
+                }
+
+                return double.NaN;
+            }
+
+            return Exp(power * Log(value));
+        }
+
+        /// <summary>
+        /// Returns a specified complex number raised to a power specified by a double-precision floating-point number.
+        /// </summary>
+        /// <returns>The complex number <paramref name="value" /> raised to the power <paramref name="power" />.</returns>
+        /// <param name="value">A complex number to be raised to a power.</param>
+        /// <param name="power">A double-precision floating-point number that specifies a power.</param>
+        public static Complex Pow(Complex value, double power)
+        {
+            if (value.IsZero())
+            {
+                if (power == 0d)
+                {
+                    return One;
+                }
+
+                return power > 0d
+                    ? Zero
+                    : new Complex(double.PositiveInfinity, 0.0);
+            }
+
+            return Exp(power * Log(value));
+        }
+
+        /// <summary>
+        /// Returns the natural (base e) logarithm of a specified complex number.
+        /// </summary>
+        /// <returns>The natural (base e) logarithm of <paramref name="value" />.</returns>
+        /// <param name="value">A complex number.</param>
+        public static Complex Log(Complex value)
+        {
+            if (value.IsRealNonNegative())
+            {
+                return new Complex(Math.Log(value.Real), 0.0);
+            }
+
+            return new Complex(0.5 * Math.Log(value.MagnitudeSquared()), value.Phase);
+        }
+
+        /// <summary>
+        /// Returns the logarithm of a specified complex number in a specified base.
+        /// </summary>
+        /// <returns>The logarithm of <paramref name="value" /> in base <paramref name="baseValue" />.</returns>
+        /// <param name="value">A complex number.</param>
+        /// <param name="baseValue">The base of the logarithm.</param>
+        public static Complex Log(Complex value, double baseValue)
+        {
+            return Log(value) / Math.Log(baseValue);
+        }
+
+        /// <summary>
+        /// Returns the base-10 logarithm of a specified complex number.
+        /// </summary>
+        /// <returns>The base-10 logarithm of <paramref name="value" />.</returns>
+        /// <param name="value">A complex number.</param>
+        public static Complex Log10(Complex value)
+        {
+            return Log(value) / Constants.Ln10;
+        }
+
+        /// <summary>
+        /// Returns the sine of the specified complex number.
+        /// </summary>
+        /// <returns>The sine of <paramref name="value" />.</returns>
+        /// <param name="value">A complex number.</param>
+        [TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")]
+        public static Complex Sin(Complex value)
+        {
+            return Trig.Sine(value);
+        }
+
+        /// <summary>
+        /// Returns the cosine of the specified complex number.
+        /// </summary>
+        /// <returns>The cosine of <paramref name="value" />.</returns>
+        /// <param name="value">A complex number.</param>
+        [TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")]
+        public static Complex Cos(Complex value)
+        {
+            return Trig.Cosine(value);
+        }
+
+        /// <summary>
+        /// Returns the tangent of the specified complex number.
+        /// </summary>
+        /// <returns>The tangent of <paramref name="value" />.</returns>
+        /// <param name="value">A complex number.</param>
+        [TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")]
+        public static Complex Tan(Complex value)
+        {
+            return Trig.Tangent(value);
+        }
+
+        /// <summary>
+        /// Returns the angle that is the arc sine of the specified complex number.
+        /// </summary>
+        /// <returns>The angle which is the arc sine of <paramref name="value" />.</returns>
+        /// <param name="value">A complex number.</param>
+        [TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")]
+        public static Complex Asin(Complex value)
+        {
+            return Trig.InverseSine(value);
+        }
+
+        /// <summary>
+        /// Returns the angle that is the arc cosine of the specified complex number.
+        /// </summary>
+        /// <returns>The angle, measured in radians, which is the arc cosine of <paramref name="value" />.</returns>
+        /// <param name="value">A complex number that represents a cosine.</param>
+        [TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")]
+        public static Complex Acos(Complex value)
+        {
+            return Trig.InverseCosine(value);
+        }
+
+        /// <summary>
+        /// Returns the angle that is the arc tangent of the specified complex number.
+        /// </summary>
+        /// <returns>The angle that is the arc tangent of <paramref name="value" />.</returns>
+        /// <param name="value">A complex number.</param>
+        [TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")]
+        public static Complex Atan(Complex value)
+        {
+            return Trig.InverseTangent(value);
+        }
+
+        /// <summary>
+        /// Returns the hyperbolic sine of the specified complex number.
+        /// </summary>
+        /// <returns>The hyperbolic sine of <paramref name="value" />.</returns>
+        /// <param name="value">A complex number.</param>
+        [TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")]
+        public static Complex Sinh(Complex value)
+        {
+            return Trig.HyperbolicSine(value);
+        }
+
+        /// <summary>
+        /// Returns the hyperbolic cosine of the specified complex number.
+        /// </summary>
+        /// <returns>The hyperbolic cosine of <paramref name="value" />.</returns>
+        /// <param name="value">A complex number.</param>
+        [TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")]
+        public static Complex Cosh(Complex value)
+        {
+            return Trig.HyperbolicCosine(value);
+        }
+
+        /// <summary>
+        /// Returns the hyperbolic tangent of the specified complex number.
+        /// </summary>
+        /// <returns>The hyperbolic tangent of <paramref name="value" />.</returns>
+        /// <param name="value">A complex number.</param>
+        [TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")]
+        public static Complex Tanh(Complex value)
+        {
+            return Trig.HyperbolicTangent(value);
         }
     }
 }

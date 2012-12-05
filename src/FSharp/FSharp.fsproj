@@ -19,7 +19,7 @@
     <Optimize>false</Optimize>
     <Tailcalls>false</Tailcalls>
     <OutputPath>..\..\out\debug\Net40\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
     <WarningLevel>3</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -38,7 +38,7 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <Tailcalls>true</Tailcalls>
-    <DefineConstants>TRACE</DefineConstants>
+    <DefineConstants>TRACE;STRONGNAME</DefineConstants>
     <WarningLevel>3</WarningLevel>
     <DocumentationFile>..\..\out\lib\Net40\MathNet.Numerics.FSharp.xml</DocumentationFile>
     <OutputPath>bin\Release-Signed\</OutputPath>
@@ -57,6 +57,12 @@
     <Compile Include="LinearAlgebra.Double.Vector.fs" />
     <Compile Include="LinearAlgebra.Double.Matrix.fs" />
     <Compile Include="LinearAlgebra.Double.fs" />
+    <Compile Include="Complex.fsi" />
+    <Compile Include="Complex.fs" />
+    <Compile Include="BigIntegerExtensions.fs" />
+    <Compile Include="BigRational.fsi" />
+    <Compile Include="BigRational.fs" />
+    <Compile Include="RandomVariable.fs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="FSharp.Core" />
