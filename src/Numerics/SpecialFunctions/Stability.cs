@@ -28,7 +28,9 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+// ReSharper disable CheckNamespace
 namespace MathNet.Numerics
+// ReSharper restore CheckNamespace
 {
     using System;
     using System.Numerics;

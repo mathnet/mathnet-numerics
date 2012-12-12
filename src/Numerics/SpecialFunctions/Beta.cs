@@ -33,7 +33,9 @@
 //    ALGLIB 2.0.1, Sergey Bochkanov
 // </contribution>
 
+// ReSharper disable CheckNamespace
 namespace MathNet.Numerics
+// ReSharper restore CheckNamespace
 {
     using System;
     using Properties;

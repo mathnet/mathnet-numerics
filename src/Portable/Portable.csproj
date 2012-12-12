@@ -984,9 +984,6 @@
     <Compile Include="..\Numerics\Sorting.cs">
       <Link>Sorting.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\SpecialFunctions.cs">
-      <Link>SpecialFunctions.cs</Link>
-    </Compile>
     <Compile Include="..\numerics\specialfunctions\Beta.cs">
       <Link>SpecialFunctions\Beta.cs</Link>
     </Compile>
@@ -998,6 +995,12 @@
     </Compile>
     <Compile Include="..\numerics\specialfunctions\Gamma.cs">
       <Link>SpecialFunctions\Gamma.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\SpecialFunctions\Harmonic.cs">
+      <Link>SpecialFunctions\Harmonic.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\SpecialFunctions\Logistic.cs">
+      <Link>SpecialFunctions\Logistic.cs</Link>
     </Compile>
     <Compile Include="..\numerics\specialfunctions\Stability.cs">
       <Link>SpecialFunctions\Stability.cs</Link>

@@ -28,7 +28,9 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+// ReSharper disable CheckNamespace
 namespace MathNet.Numerics
+// ReSharper restore CheckNamespace
 {
     using System;
     using Properties;
@@ -37,6 +39,14 @@ namespace MathNet.Numerics
     {
         private const int FactorialMaxArgument = 170;
         private static double[] factorialCache;
+
+        /// <summary>
+        /// Initializes static members of the SpecialFunctions class.
+        /// </summary>
+        static SpecialFunctions()
+        {
+            InitializeFactorial();
+        }
 
         private static void InitializeFactorial()
         {

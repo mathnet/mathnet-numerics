@@ -37,7 +37,9 @@
 //  * double ErfInvImpl(double p, double q, double s)
 // </copyright>
 
+// ReSharper disable CheckNamespace
 namespace MathNet.Numerics
+// ReSharper restore CheckNamespace
 {
     using System;
 
