@@ -739,14 +739,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.Mkl
                 throw new ArgumentException(Resources.WorkArrayTooSmall, "work");
             }
 
-            if (method == QRMethod.Full)
-            {
-                SafeNativeMethods.c_qr_solve(rows, columns, columnsB, a, b, x, work, work.Length);
-            }
-            else
-            {
-                SafeNativeMethods.c_thin_qr_solve(rows, columns, columnsB, a, b, x, work, work.Length);
-            }
+            SafeNativeMethods.c_qr_solve(rows, columns, columnsB, a, b, x, work, work.Length);
         }
 
         /// <summary>

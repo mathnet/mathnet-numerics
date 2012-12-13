@@ -78,16 +78,16 @@
       <Link>AssertHelpers.cs</Link>
     </Compile>
     <Compile Include="..\..\..\UnitTests\LinearAlgebraProviderTests\Complex32\LinearAlgebraProviderTests.cs">
-      <Link>LinearAlgebra\Complex32\LinearAlgebraProviderTests.cs</Link>
+      <Link>LinearAlgebraProviderTests\Complex32\LinearAlgebraProviderTests.cs</Link>
     </Compile>
     <Compile Include="..\..\..\UnitTests\LinearAlgebraProviderTests\Complex\LinearAlgebraProviderTests.cs">
-      <Link>LinearAlgebra\Complex\LinearAlgebraProviderTests.cs</Link>
+      <Link>LinearAlgebraProviderTests\Complex\LinearAlgebraProviderTests.cs</Link>
     </Compile>
     <Compile Include="..\..\..\UnitTests\LinearAlgebraProviderTests\Double\LinearAlgebraProviderTests.cs">
-      <Link>LinearAlgebra\Double\LinearAlgebraProviderTests.cs</Link>
+      <Link>LinearAlgebraProviderTests\Double\LinearAlgebraProviderTests.cs</Link>
     </Compile>
     <Compile Include="..\..\..\UnitTests\LinearAlgebraProviderTests\Single\LinearAlgebraProviderTests.cs">
-      <Link>LinearAlgebra\Single\LinearAlgebraProviderTests.cs</Link>
+      <Link>LinearAlgebraProviderTests\Single\LinearAlgebraProviderTests.cs</Link>
     </Compile>
     <Compile Include="..\..\..\UnitTests\LinearAlgebraTests\Complex32\DenseMatrixTests.cs">
       <Link>LinearAlgebraTests\Complex32\DenseMatrixTests.cs</Link>
