@@ -38,7 +38,6 @@ namespace MathNet.Numerics.UnitTests
     {
         public void BeforeTest(TestDetails testDetails)
         {
-            Console.WriteLine("hhhhhhhhhhhhhhhhhhhhhhh");
             var provider = Properties.Settings.Default.LinearAlgebraProvider.ToLowerInvariant();
 
             if (provider.Contains("mkl"))
