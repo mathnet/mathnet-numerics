@@ -225,7 +225,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Complex32
         public void CanComputeMatrixL1NormWithWorkArray()
         {
             var matrix = _matrices["Square3x3"];
-            var norm = Control.LinearAlgebraProvider.MatrixNorm(Norm.OneNorm, matrix.RowCount, matrix.ColumnCount, matrix.Values);
+            var work = new float[18];
+            var norm = Control.LinearAlgebraProvider.MatrixNorm(Norm.OneNorm, matrix.RowCount, matrix.ColumnCount, matrix.Values, work);
             AssertHelpers.AlmostEqual(12.1f, norm, 6);
         }
 
@@ -236,7 +237,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Complex32
         public void CanComputeMatrixFrobeniusNormWithWorkArray()
         {
             var matrix = _matrices["Square3x3"];
-            var norm = Control.LinearAlgebraProvider.MatrixNorm(Norm.FrobeniusNorm, matrix.RowCount, matrix.ColumnCount, matrix.Values);
+            var work = new float[18];
+            var norm = Control.LinearAlgebraProvider.MatrixNorm(Norm.FrobeniusNorm, matrix.RowCount, matrix.ColumnCount, matrix.Values, work);
             AssertHelpers.AlmostEqual(10.777754868246f, norm, 8);
         }
 
@@ -247,6 +249,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Complex32
         public void CanComputeMatrixInfinityNormWithWorkArray()
         {
             var matrix = _matrices["Square3x3"];
+            var work = new float[18];
             var norm = Control.LinearAlgebraProvider.MatrixNorm(Norm.InfinityNorm, matrix.RowCount, matrix.ColumnCount, matrix.Values);
             Assert.AreEqual(16.5, norm.Real);
         }

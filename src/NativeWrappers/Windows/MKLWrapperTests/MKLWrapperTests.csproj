@@ -525,6 +525,9 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\..\..\data\Matlab\sparse-small.mat">
+      <Link>data\Matlab\sparse-small.mat</Link>
+    </None>
     <None Include="..\..\..\UnitTests\Properties\Settings.settings">
       <Link>Properties\Settings.settings</Link>
     </None>
@@ -550,6 +553,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
