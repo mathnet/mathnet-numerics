@@ -527,6 +527,7 @@
   <ItemGroup>
     <None Include="..\..\..\..\data\Matlab\sparse-small.mat">
       <Link>data\Matlab\sparse-small.mat</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="..\..\..\UnitTests\Properties\Settings.settings">
       <Link>Properties\Settings.settings</Link>

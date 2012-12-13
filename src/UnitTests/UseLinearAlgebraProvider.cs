@@ -28,14 +28,17 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System;
 using NUnit.Framework;
 
 namespace MathNet.Numerics.UnitTests
 {
-    public class UseLinearAlgebraProvider : TestActionAttribute
+    [AttributeUsage(AttributeTargets.Assembly)]
+    public class UseLinearAlgebraProvider : Attribute, ITestAction
     {
-        public override void BeforeTest(TestDetails testDetails)
+        public void BeforeTest(TestDetails testDetails)
         {
+            Console.WriteLine("hhhhhhhhhhhhhhhhhhhhhhh");
             var provider = Properties.Settings.Default.LinearAlgebraProvider.ToLowerInvariant();
 
             if (provider.Contains("mkl"))
@@ -44,7 +47,11 @@ namespace MathNet.Numerics.UnitTests
             }
         }
 
-        public override ActionTargets Targets
+        public void AfterTest(TestDetails details)
+        {
+        }
+
+        public ActionTargets Targets
         {
             get { return ActionTargets.Suite; }
         }

@@ -39,7 +39,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Complex32
     /// <summary>
     /// Base class for linear algebra provider tests.
     /// </summary>
-    [TestFixture, UseLinearAlgebraProvider]
+    [TestFixture]
     public class LinearAlgebraProviderTests
     {
         /// <summary>
