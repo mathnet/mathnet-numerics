@@ -200,6 +200,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.Mkl
             return SafeNativeMethods.d_matrix_norm((byte)norm, rows, columns, matrix, work);
         }
 
+        /* BUG in MKL'S ZLANGE routine. Using managed code until it is fixed.
         /// <summary>
         /// Computes the requested <see cref="Norm"/> of the matrix.
         /// </summary>
@@ -358,6 +359,6 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.Mkl
             }
 
             return SafeNativeMethods.z_matrix_norm((byte)norm, rows, columns, matrix, work);
-        }
+        }*/
     }
 }

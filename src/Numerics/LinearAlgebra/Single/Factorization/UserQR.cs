@@ -68,6 +68,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
                 throw Matrix.DimensionsDontMatch<ArgumentException>(matrix);
             }
 
+            QrMethod = method;
             var minmn = Math.Min(matrix.RowCount, matrix.ColumnCount);
             var u = new float[minmn][];
 

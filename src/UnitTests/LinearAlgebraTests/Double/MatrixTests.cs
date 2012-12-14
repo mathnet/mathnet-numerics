@@ -66,13 +66,13 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         public virtual void CanComputeFrobeniusNorm()
         {
             var matrix = TestMatrices["Square3x3"];
-            AssertHelpers.AlmostEqual(10.77775486824598, matrix.FrobeniusNorm(), 14);
+            AssertHelpers.AlmostEqual(10.77775486824598, matrix.FrobeniusNorm(), 7);
 
             matrix = TestMatrices["Wide2x3"];
-            AssertHelpers.AlmostEqual(4.79478883789474, matrix.FrobeniusNorm(), 14);
+            AssertHelpers.AlmostEqual(4.79478883789474, matrix.FrobeniusNorm(), 7);
 
             matrix = TestMatrices["Tall3x2"];
-            AssertHelpers.AlmostEqual(7.54122006044115, matrix.FrobeniusNorm(), 14);
+            AssertHelpers.AlmostEqual(7.54122006044115, matrix.FrobeniusNorm(), 7);
         }
 
         /// <summary>
@@ -85,10 +85,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             Assert.AreEqual(16.5, matrix.InfinityNorm());
 
             matrix = TestMatrices["Wide2x3"];
-            Assert.AreEqual(6.6, matrix.InfinityNorm());
+            Assert.AreEqual(6.6, matrix.InfinityNorm(), 1e-7);
 
             matrix = TestMatrices["Tall3x2"];
-            Assert.AreEqual(9.9, matrix.InfinityNorm());
+            Assert.AreEqual(9.9, matrix.InfinityNorm(), 1e-4);
         }
 
         /// <summary>
@@ -98,13 +98,13 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         public virtual void CanComputeL1Norm()
         {
             var matrix = TestMatrices["Square3x3"];
-            Assert.AreEqual(12.1, matrix.L1Norm());
+            Assert.AreEqual(12.1, matrix.L1Norm(), 1e-4);
 
             matrix = TestMatrices["Wide2x3"];
             Assert.AreEqual(5.5, matrix.L1Norm());
 
             matrix = TestMatrices["Tall3x2"];
-            Assert.AreEqual(8.8, matrix.L1Norm());
+            Assert.AreEqual(8.8, matrix.L1Norm(), 1e-4);
         }
 
         /// <summary>

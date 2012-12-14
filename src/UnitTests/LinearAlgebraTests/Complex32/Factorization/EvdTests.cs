@@ -119,6 +119,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
         public void CanFactorizeRandomSymmetricMatrix([Values(1, 2, 5, 10, 50, 100)] int order)
         {
             var matrixA = MatrixLoader.GenerateRandomPositiveDefiniteHermitianDenseMatrix(order);
+            MatrixHelpers.ForceConjugateSymmetric(matrixA);
             var factorEvd = matrixA.Evd();
             var eigenVectors = factorEvd.EigenVectors();
             var d = factorEvd.D();
@@ -203,13 +204,14 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
         [Test, Ignore]
         [TestCase(1)]
         [TestCase(2)]
-        [TestCase(5, Ignore = true, IgnoreReason = "Problem with native providers determining if the matrix is symmetric.")]
+        [TestCase(5)]
         [TestCase(10)]
         [TestCase(50)]
         [TestCase(100)]
         public void CanSolveForRandomVectorAndSymmetricMatrix(int order)
         {
             var matrixA = MatrixLoader.GenerateRandomPositiveDefiniteHermitianDenseMatrix(order);
+            MatrixHelpers.ForceConjugateSymmetric(matrixA);
             var matrixACopy = matrixA.Clone();
             var factorEvd = matrixA.Evd();
 
@@ -244,13 +246,14 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
         [Test]
         [TestCase(1)]
         [TestCase(2)]
-        [TestCase(5, Ignore = true, IgnoreReason = "Problem with native providers determining if the matrix is symmetric.")]
+        [TestCase(5)]
         [TestCase(10)]
         [TestCase(50)]
         [TestCase(100)]
         public void CanSolveForRandomMatrixAndSymmetricMatrix(int order)
         {
             var matrixA = MatrixLoader.GenerateRandomPositiveDefiniteHermitianDenseMatrix(order);
+            MatrixHelpers.ForceConjugateSymmetric(matrixA);
             var matrixACopy = matrixA.Clone();
             var factorEvd = matrixA.Evd();
 
@@ -292,13 +295,14 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
         [Test, Ignore]
         [TestCase(1)]
         [TestCase(2)]
-        [TestCase(5, Ignore = true, IgnoreReason = "Problem with native providers determining if the matrix is symmetric.")]
+        [TestCase(5)]
         [TestCase(10)]
         [TestCase(50)]
         [TestCase(100)]
         public void CanSolveForRandomVectorAndSymmetricMatrixWhenResultVectorGiven(int order)
         {
             var matrixA = MatrixLoader.GenerateRandomPositiveDefiniteHermitianDenseMatrix(order);
+            MatrixHelpers.ForceConjugateSymmetric(matrixA);
             var matrixACopy = matrixA.Clone();
             var factorEvd = matrixA.Evd();
             var vectorb = MatrixLoader.GenerateRandomDenseVector(order);
@@ -338,13 +342,14 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
         [Test]
         [TestCase(1)]
         [TestCase(2)]
-        [TestCase(5, Ignore = true, IgnoreReason = "Problem with native providers determining if the matrix is symmetric.")]
+        [TestCase(5)]
         [TestCase(10)]
         [TestCase(50)]
         [TestCase(100)]
         public void CanSolveForRandomMatrixAndSymmetricMatrixWhenResultMatrixGiven(int order)
         {
             var matrixA = MatrixLoader.GenerateRandomPositiveDefiniteHermitianDenseMatrix(order);
+            MatrixHelpers.ForceConjugateSymmetric(matrixA);
             var matrixACopy = matrixA.Clone();
             var factorEvd = matrixA.Evd();
 
