@@ -526,7 +526,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Factorization
             {
                 for (var j = 0; j < matrixB.ColumnCount; j++)
                 {
-                    AssertHelpers.AlmostEqual(matrixB[i, j], matrixBReconstruct[i, j], 3);
+                    Assert.AreEqual(matrixB[i, j], matrixBReconstruct[i, j], 1e-3);
                 }
             }
 
@@ -621,7 +621,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Factorization
             {
                 for (var j = 0; j < matrixB.ColumnCount; j++)
                 {
-                    AssertHelpers.AlmostEqual(matrixB[i, j], matrixBReconstruct[i, j], 3);
+                    Assert.AreEqual(matrixB[i, j], matrixBReconstruct[i, j], 1e-3);
                 }
             }
 
