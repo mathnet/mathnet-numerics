@@ -24,13 +24,14 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using MathNet.Numerics.LinearAlgebra.Generic;
+
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
 {
     using System;
     using System.Numerics;
     using LinearAlgebra.Double;
     using LinearAlgebra.Double.Factorization;
-    using LinearAlgebra.Generic.Factorization;
     using NUnit.Framework;
 
     /// <summary>
@@ -123,6 +124,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
         public void CanFactorizeRandomSymmetricMatrix(int order)
         {
             var matrixA = MatrixLoader.GenerateRandomPositiveDefiniteDenseMatrix(order);
+            MatrixHelpers.ForceSymmetric(matrixA);
             var factorEvd = matrixA.Evd();
             var eigenVectors = factorEvd.EigenVectors();
             var d = factorEvd.D();
@@ -207,13 +209,14 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
         [Test]
         [TestCase(1)]
         [TestCase(2)]
-        [TestCase(5, Ignore = true, IgnoreReason = "Problem with native providers determining if the matrix is symmetric.")]
+        [TestCase(5)]
         [TestCase(10)]
         [TestCase(50)]
         [TestCase(100)]
         public void CanSolveForRandomVectorAndSymmetricMatrix(int order)
         {
             var matrixA = MatrixLoader.GenerateRandomPositiveDefiniteDenseMatrix(order);
+            MatrixHelpers.ForceSymmetric(matrixA);
             var matrixACopy = matrixA.Clone();
             var factorEvd = matrixA.Evd();
 
@@ -240,6 +243,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
             }
         }
 
+        //private 
         /// <summary>
         /// Can solve a system of linear equations for a random matrix and symmetric matrix (AX=B).
         /// </summary>
@@ -247,13 +251,14 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
         [Test]
         [TestCase(1)]
         [TestCase(2)]
-        [TestCase(5, Ignore = true, IgnoreReason = "Problem with native providers determining if the matrix is symmetric.")]
+        [TestCase(5)]
         [TestCase(10)]
         [TestCase(50)]
         [TestCase(100)]
         public void CanSolveForRandomMatrixAndSymmetricMatrix(int order)
         {
             var matrixA = MatrixLoader.GenerateRandomPositiveDefiniteDenseMatrix(order);
+            MatrixHelpers.ForceSymmetric(matrixA);
             var matrixACopy = matrixA.Clone();
             var factorEvd = matrixA.Evd();
 
@@ -295,13 +300,14 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
         [Test]
         [TestCase(1)]
         [TestCase(2)]
-        [TestCase(5, Ignore = true, IgnoreReason = "Problem with native providers determining if the matrix is symmetric.")]
+        [TestCase(5)]
         [TestCase(10)]
         [TestCase(50)]
         [TestCase(100)]
         public void CanSolveForRandomVectorAndSymmetricMatrixWhenResultVectorGiven(int order)
         {
             var matrixA = MatrixLoader.GenerateRandomPositiveDefiniteDenseMatrix(order);
+            MatrixHelpers.ForceSymmetric(matrixA);
             var matrixACopy = matrixA.Clone();
             var factorEvd = matrixA.Evd();
             var vectorb = MatrixLoader.GenerateRandomDenseVector(order);
@@ -340,13 +346,14 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
         [Test]
         [TestCase(1)]
         [TestCase(2)]
-        [TestCase(5, Ignore = true, IgnoreReason = "Problem with native providers determining if the matrix is symmetric.")]
+        [TestCase(5)]
         [TestCase(10)]
         [TestCase(50)]
         [TestCase(100)]
         public void CanSolveForRandomMatrixAndSymmetricMatrixWhenResultMatrixGiven(int order)
         {
             var matrixA = MatrixLoader.GenerateRandomPositiveDefiniteDenseMatrix(order);
+            MatrixHelpers.ForceSymmetric(matrixA);
             var matrixACopy = matrixA.Clone();
             var factorEvd = matrixA.Evd();
 

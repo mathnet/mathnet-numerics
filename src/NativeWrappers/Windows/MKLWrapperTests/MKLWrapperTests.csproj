@@ -497,6 +497,9 @@
     <Compile Include="..\..\..\UnitTests\LinearAlgebraTests\VectorArithmeticTheory.cs">
       <Link>LinearAlgebraTests\VectorArithmeticTheory.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\UnitTests\MatrixHelpers.cs">
+      <Link>MatrixHelpers.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\UnitTests\Properties\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
