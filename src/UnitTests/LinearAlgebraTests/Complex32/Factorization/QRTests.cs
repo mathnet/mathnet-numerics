@@ -242,6 +242,17 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
                 }
             }
 
+            // Make sure the Q*R is the original matrix.
+            var matrixQfromR = q * r;
+            for (var i = 0; i < matrixQfromR.RowCount; i++)
+            {
+                for (var j = 0; j < matrixQfromR.ColumnCount; j++)
+                {
+                    Assert.AreEqual(matrixA[i, j].Real, matrixQfromR[i, j].Real, 1e-3f);
+                    Assert.AreEqual(matrixA[i, j].Imaginary, matrixQfromR[i, j].Imaginary, 1e-3f);
+                }
+            }
+
             // Make sure the Q is unitary --> (Q*)x(Q) = I
             var matrixQсtQ = q.ConjugateTranspose() * q;
             for (var i = 0; i < matrixQсtQ.RowCount; i++)

@@ -919,7 +919,6 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Complex
 
             var mx = new DenseMatrix(matrix.ColumnCount, 2, x);
             var mb = matrix * mx;
-            Console.WriteLine(mx);
             AssertHelpers.AlmostEqual(mb[0, 0], b[0], 14);
             AssertHelpers.AlmostEqual(mb[1, 0], b[1], 14);
             AssertHelpers.AlmostEqual(mb[2, 0], b[2], 14);

@@ -180,7 +180,7 @@ inline MKL_INT qr_factor(MKL_INT m, MKL_INT n, T r[], T tau[], T q[], T work[], 
 	}
 	else
 	{
-		orgqr(&m, &n, &n, q, &m, tau, work, &len, &info);
+		orgqr(&m, &m, &n, q, &m, tau, work, &len, &info);
 	}
 
 	return info;

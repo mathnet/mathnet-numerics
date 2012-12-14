@@ -82,6 +82,15 @@ namespace MathNet.Numerics.LinearAlgebra.Generic.Factorization
         }
 
         /// <summary>
+        /// The QR factorization method.
+        /// </summary>
+        protected QRMethod QrMethod 
+        { 
+            get; 
+            set; 
+        }
+
+        /// <summary>
         /// Internal method which routes the call to perform the QR factorization to the appropriate class.
         /// </summary>
         /// <param name="matrix">The matrix to factor.</param>
@@ -89,6 +98,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic.Factorization
         /// <returns>A QR factorization object.</returns>
         internal static QR<T> Create(Matrix<T> matrix, QRMethod method = QRMethod.Full)
         {
+
             if (typeof(T) == typeof(double))
             {
                 var dense = matrix as LinearAlgebra.Double.DenseMatrix;

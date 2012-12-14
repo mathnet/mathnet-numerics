@@ -40,7 +40,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.Mkl
     /// </summary>
     public partial class MklLinearAlgebraProvider : ManagedLinearAlgebraProvider
     {
-       /* /// <summary>
+        /// <summary>
         /// Computes the requested <see cref="Norm"/> of the matrix.
         /// </summary>
         /// <param name="norm">The type of norm to compute.</param>
@@ -200,6 +200,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.Mkl
             return SafeNativeMethods.d_matrix_norm((byte)norm, rows, columns, matrix, work);
         }
 
+        /* BUG in MKL'S ZLANGE routine. Using managed code until it is fixed.
         /// <summary>
         /// Computes the requested <see cref="Norm"/> of the matrix.
         /// </summary>

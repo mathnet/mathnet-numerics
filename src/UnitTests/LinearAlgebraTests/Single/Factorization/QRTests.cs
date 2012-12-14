@@ -181,6 +181,24 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Factorization
                     Assert.AreEqual(matrixA[i, j], matrixQfromR[i, j], 1e-4);
                 }
             }
+
+            // Make sure the Q is unitary --> (Q*)x(Q) = I
+            var matrixQtQ = q.Transpose() * q;
+
+            for (var i = 0; i < matrixQtQ.RowCount; i++)
+            {
+                for (var j = 0; j < matrixQtQ.ColumnCount; j++)
+                {
+                    if (i == j)
+                    {
+                        Assert.AreEqual(matrixQtQ[i, j], 1.0f, 1e-3f);
+                    }
+                    else
+                    {
+                        Assert.AreEqual(matrixQtQ[i, j], 0.0f, 1e-3f);
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -228,6 +246,23 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Factorization
                 for (var j = 0; j < matrixQfromR.ColumnCount; j++)
                 {
                     Assert.AreEqual(matrixA[i, j], matrixQfromR[i, j], 1.0e-4);
+                }
+            }
+
+            // Make sure the Q is unitary --> (Q*)x(Q) = I
+            var matrixQtQ = q.Transpose() * q;
+            for (var i = 0; i < matrixQtQ.RowCount; i++)
+            {
+                for (var j = 0; j < matrixQtQ.ColumnCount; j++)
+                {
+                    if (i == j)
+                    {
+                        Assert.AreEqual(matrixQtQ[i, j], 1.0f, 1e-3f);
+                    }
+                    else
+                    {
+                        Assert.AreEqual(matrixQtQ[i, j], 0.0f, 1e-3f);
+                    }
                 }
             }
         }
