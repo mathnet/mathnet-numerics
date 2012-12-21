@@ -1067,7 +1067,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
                 {
                     for (var j = 0; j < data.ColumnCount; j++)
                     {
-                        Assert.AreEqual(data[i, j] * other[i, j], result[i, j]);
+                        var value = data[i, j]*other[i, j];
+                        Assert.AreEqual(value.Real, result[i, j].Real, 1e-12);
+                        Assert.AreEqual(value.Imaginary, result[i, j].Imaginary, 1e-12);
                     }
                 }
 
@@ -1076,7 +1078,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
                 {
                     for (var j = 0; j < data.ColumnCount; j++)
                     {
-                        Assert.AreEqual(data[i, j] * other[i, j], result[i, j]);
+                        var value = data[i, j] * other[i, j];
+                        Assert.AreEqual(value.Real, result[i, j].Real, 1e-12);
+                        Assert.AreEqual(value.Imaginary, result[i, j].Imaginary, 1e-12);
                     }
                 }
             }

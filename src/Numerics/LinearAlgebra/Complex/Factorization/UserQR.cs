@@ -69,6 +69,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
                 throw Matrix.DimensionsDontMatch<ArgumentException>(matrix);
             }
 
+            QrMethod = method;
             var minmn = Math.Min(matrix.RowCount, matrix.ColumnCount);
             var u = new Complex[minmn][];
 

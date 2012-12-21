@@ -38,7 +38,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Complex
     /// <summary>
     /// Base class for linear algebra provider tests.
     /// </summary>
-    [TestFixture, UseLinearAlgebraProvider]
+    [TestFixture]
     public class LinearAlgebraProviderTests
     {
         /// <summary>
@@ -224,7 +224,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Complex
         public void CanComputeMatrixL1NormWithWorkArray()
         {
             var matrix = _matrices["Square3x3"];
-            var norm = Control.LinearAlgebraProvider.MatrixNorm(Norm.OneNorm, matrix.RowCount, matrix.ColumnCount, matrix.Values);
+            var work = new double[18];
+            var norm = Control.LinearAlgebraProvider.MatrixNorm(Norm.OneNorm, matrix.RowCount, matrix.ColumnCount, matrix.Values, work);
             AssertHelpers.AlmostEqual(12.1, norm, 6);
         }
 
@@ -235,7 +236,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Complex
         public void CanComputeMatrixFrobeniusNormWithWorkArray()
         {
             var matrix = _matrices["Square3x3"];
-            var norm = Control.LinearAlgebraProvider.MatrixNorm(Norm.FrobeniusNorm, matrix.RowCount, matrix.ColumnCount, matrix.Values);
+            var work = new double[18];
+            var norm = Control.LinearAlgebraProvider.MatrixNorm(Norm.FrobeniusNorm, matrix.RowCount, matrix.ColumnCount, matrix.Values, work);
             AssertHelpers.AlmostEqual(10.777754868246, norm, 8);
         }
 
@@ -246,7 +248,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Complex
         public void CanComputeMatrixInfinityNormWithWorkArray()
         {
             var matrix = _matrices["Square3x3"];
-            var norm = Control.LinearAlgebraProvider.MatrixNorm(Norm.InfinityNorm, matrix.RowCount, matrix.ColumnCount, matrix.Values);
+            var work = new double[18];
+            var norm = Control.LinearAlgebraProvider.MatrixNorm(Norm.InfinityNorm, matrix.RowCount, matrix.ColumnCount, matrix.Values, work);
             Assert.AreEqual(16.5, norm.Real);
         }
 
@@ -916,7 +919,6 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Complex
 
             var mx = new DenseMatrix(matrix.ColumnCount, 2, x);
             var mb = matrix * mx;
-            Console.WriteLine(mx);
             AssertHelpers.AlmostEqual(mb[0, 0], b[0], 14);
             AssertHelpers.AlmostEqual(mb[1, 0], b[1], 14);
             AssertHelpers.AlmostEqual(mb[2, 0], b[2], 14);

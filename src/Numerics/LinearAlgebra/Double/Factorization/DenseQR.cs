@@ -76,6 +76,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
                 throw Matrix.DimensionsDontMatch<ArgumentException>(matrix);
             }
 
+            QrMethod = method;
             Tau = new double[Math.Min(matrix.RowCount, matrix.ColumnCount)];
 
             if (method == QRMethod.Full)
@@ -143,7 +144,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
                 throw new NotSupportedException("Can only do QR factorization for dense matrices at the moment.");
             }
 
-            Control.LinearAlgebraProvider.QRSolveFactored(((DenseMatrix)MatrixQ).Values, ((DenseMatrix)MatrixR).Values, MatrixR.RowCount, MatrixR.ColumnCount, Tau, dinput.Values, input.ColumnCount, dresult.Values);
+            Control.LinearAlgebraProvider.QRSolveFactored(((DenseMatrix)MatrixQ).Values, ((DenseMatrix)MatrixR).Values, MatrixR.RowCount, MatrixR.ColumnCount, Tau, dinput.Values, input.ColumnCount, dresult.Values, QrMethod);
         }
 
         /// <summary>
@@ -188,7 +189,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
                 throw new NotSupportedException("Can only do QR factorization for dense vectors at the moment.");
             }
 
-            Control.LinearAlgebraProvider.QRSolveFactored(((DenseMatrix)MatrixQ).Values, ((DenseMatrix)MatrixR).Values, MatrixR.RowCount, MatrixR.ColumnCount, Tau, dinput.Values, 1, dresult.Values);
+            Control.LinearAlgebraProvider.QRSolveFactored(((DenseMatrix)MatrixQ).Values, ((DenseMatrix)MatrixR).Values, MatrixR.RowCount, MatrixR.ColumnCount, Tau, dinput.Values, 1, dresult.Values, QrMethod);
         }
     }
 }

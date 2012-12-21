@@ -181,6 +181,25 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Factorization
                     AssertHelpers.AlmostEqual(matrixA[i, j], matrixQfromR[i, j], 9);
                 }
             }
+
+            // Make sure the Q is unitary --> (Q*)x(Q) = I
+            var matrixQсtQ = q.ConjugateTranspose() * q;
+            for (var i = 0; i < matrixQсtQ.RowCount; i++)
+            {
+                for (var j = 0; j < matrixQсtQ.ColumnCount; j++)
+                {
+                    if (i == j)
+                    {
+                        Assert.AreEqual(matrixQсtQ[i, j].Real, 1.0, 1e-3);
+                        Assert.AreEqual(matrixQсtQ[i, j].Imaginary, 0.0, 1e-3);
+                    }
+                    else
+                    {
+                        Assert.AreEqual(matrixQсtQ[i, j].Real, 0.0, 1e-3);
+                        Assert.AreEqual(matrixQсtQ[i, j].Imaginary, 0.0, 1e-3);
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -221,6 +240,16 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Factorization
                 }
             }
 
+            // Make sure the Q*R is the original matrix.
+            var matrixQfromR = q * r;
+            for (var i = 0; i < matrixQfromR.RowCount; i++)
+            {
+                for (var j = 0; j < matrixQfromR.ColumnCount; j++)
+                {
+                    AssertHelpers.AlmostEqual(matrixA[i, j], matrixQfromR[i, j], 9);
+                }
+            }
+
             // Make sure the Q is unitary --> (Q*)x(Q) = I
             var matrixQсtQ = q.ConjugateTranspose() * q;
             for (var i = 0; i < matrixQсtQ.RowCount; i++)
@@ -229,13 +258,13 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Factorization
                 {
                     if (i == j)
                     {
-                        Assert.AreEqual(matrixQсtQ[i, j].Real, 1.0f, 1e-3f);
-                        Assert.AreEqual(matrixQсtQ[i, j].Imaginary, 0.0f, 1e-3f);
+                        Assert.AreEqual(matrixQсtQ[i, j].Real, 1.0, 1e-3);
+                        Assert.AreEqual(matrixQсtQ[i, j].Imaginary, 0.0, 1e-3);
                     }
                     else
                     {
-                        Assert.AreEqual(matrixQсtQ[i, j].Real, 0.0f, 1e-3f);
-                        Assert.AreEqual(matrixQсtQ[i, j].Imaginary, 0.0f, 1e-3f);
+                        Assert.AreEqual(matrixQсtQ[i, j].Real, 0.0, 1e-3);
+                        Assert.AreEqual(matrixQсtQ[i, j].Imaginary, 0.0, 1e-3);
                     }
                 }
             }
