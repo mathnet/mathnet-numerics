@@ -104,6 +104,9 @@
     <Compile Include="Constants.cs" />
     <Compile Include="Control.cs" />
     <Compile Include="Complex32.cs" />
+    <Compile Include="SpecialFunctions\Evaluate.cs" />
+    <Compile Include="SpecialFunctions\ModifiedStruve.cs" />
+    <Compile Include="SpecialFunctions\ModifiedBessel.cs" />
     <Compile Include="SpecialFunctions\Logistic.cs" />
     <Compile Include="TargetedPatchingOptOutAttribute.cs" />
     <Compile Include="Distributions\Continuous\Cauchy.cs" />

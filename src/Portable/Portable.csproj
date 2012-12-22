@@ -990,6 +990,9 @@
     <Compile Include="..\numerics\specialfunctions\Erf.cs">
       <Link>SpecialFunctions\Erf.cs</Link>
     </Compile>
+    <Compile Include="..\Numerics\SpecialFunctions\Evaluate.cs">
+      <Link>SpecialFunctions\Evaluate.cs</Link>
+    </Compile>
     <Compile Include="..\numerics\specialfunctions\Factorial.cs">
       <Link>SpecialFunctions\Factorial.cs</Link>
     </Compile>
@@ -1001,6 +1004,12 @@
     </Compile>
     <Compile Include="..\Numerics\SpecialFunctions\Logistic.cs">
       <Link>SpecialFunctions\Logistic.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\SpecialFunctions\ModifiedBessel.cs">
+      <Link>SpecialFunctions\ModifiedBessel.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\SpecialFunctions\ModifiedStruve.cs">
+      <Link>SpecialFunctions\ModifiedStruve.cs</Link>
     </Compile>
     <Compile Include="..\numerics\specialfunctions\Stability.cs">
       <Link>SpecialFunctions\Stability.cs</Link>

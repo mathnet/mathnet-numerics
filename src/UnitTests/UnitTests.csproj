@@ -766,6 +766,8 @@
     <Compile Include="Random\WH2006Tests.cs" />
     <Compile Include="Random\XorshiftTests.cs" />
     <Compile Include="SortingTests.cs" />
+    <Compile Include="SpecialFunctionsTests\ModifiedStruveTests.cs" />
+    <Compile Include="SpecialFunctionsTests\ModifiedBesselTests.cs" />
     <Compile Include="SpecialFunctionsTests\ErfTests.cs" />
     <Compile Include="SpecialFunctionsTests\FactorialTest.cs" />
     <Compile Include="SpecialFunctionsTests\GammaTests.cs" />
