@@ -157,6 +157,7 @@ namespace MathNet.Numerics.Statistics
         /// Gets the sample median.
         /// </summary>
         /// <value>The sample median.</value>
+        [Obsolete("Dropped in future versions for performance reasons. Please use Statistics.Median instead.")]
         public double Median { get; private set; }
 
         /// <summary>
