@@ -24,6 +24,8 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System.Globalization;
+
 namespace MathNet.Numerics.UnitTests.StatisticsTests
 {
     using System.Collections.Generic;
@@ -87,7 +89,7 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
                     line = line.Trim();
                     if (!line.Equals(string.Empty))
                     {
-                        list.Add(double.Parse(line));
+                        list.Add(double.Parse(line, CultureInfo.InvariantCulture));
                     }
 
                     line = reader.ReadLine();
@@ -117,7 +119,7 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
                 return 0;
             }
 
-            return double.Parse(str.Substring(start + 1).Trim());
+            return double.Parse(str.Substring(start + 1).Trim(), CultureInfo.InvariantCulture);
         }
     }
 }
