@@ -66,6 +66,8 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
             _data.Add("numacc3", numacc3);
             var numacc4 = new StatTestData("./data/NIST/NumAcc4.dat");
             _data.Add("numacc4", numacc4);
+            var meixner = new StatTestData("./data/NIST/Meixner.dat");
+            _data.Add("meixner", meixner);
         }
 
         /// <summary>
@@ -102,6 +104,7 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
         [TestCase("numacc2", 13, 0, -2.003003003003, 1.2, 1.1, 1.3, 1001)]
         [TestCase("numacc3", 9, 0, -2.003003003003, 1000000.2, 1000000.1, 1000000.3, 1001)]
         [TestCase("numacc4", 8, 0, -2.00300300299913, 10000000.2, 10000000.1, 10000000.3, 1001)]
+        [TestCase("meixner", 8, -0.016649617280859657, 0.8171318629552635, -0.002042931016531602, -4.825626912281697, 5.3018298664184913, 10000)]
         public void IEnumerableDouble(string dataSet, int digits, double skewness, double kurtosis, double median, double min, double max, int count)
         {
             var data = _data[dataSet];
