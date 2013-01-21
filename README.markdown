@@ -6,30 +6,50 @@ Math.NET Numerics is an opensource **numerical library for .Net, Silverlight and
 Math.NET Numerics is the numerical foundation of the Math.NET project,
 aiming to provide methods and algorithms for numerical computations in science,
 engineering and every day use. Covered topics include special functions,
-linear algebra, probability models, random numbers, interpolation,
+linear algebra, probability models, random numbers, statistics, interpolation,
 integral transforms (FFT) and more.
 
-Math.NET Numerics is the result of merging [dnAnalytics](http://dnanalytics.codeplex.com/)
-with [Math.NET Iridium](http://www.mathdotnet.com/Iridium.aspx) and is intended to
-replace both. It targets Microsoft .Net 4.0, Silverlight 4 and Mono,
-and in addition to purely managed implementations will also support
-native hardware optimization (MKL, ATLAS).
+In addition to the core .NET package (which is written entirely in C#),
+Numerics specifically supports F# 3.0 with idiomatic extension modules and
+maintains mathematical data structures like BigRational that originated in the F# PowerPack.
+If a performance boost is needed, the managed-code provider backing its linear algebra
+routines and decompositions can be exchanged with wrappers for optimized native
+implementations such as Intel MKL.
+
+Supports Mono and .NET 4.0 on Linux, Mac and Windows, the portable version also
+SL5 and .NET for Windows Store apps.
 
 Math.NET Numerics is covered under the terms of the [MIT/X11](http://mathnetnumerics.codeplex.com/license)
 license. You may therefore link to it and use it in both opensource and proprietary
 software projects. See also the [COPYRIGHT](COPYRIGHT.markdown) file in the root folder.
 
+Math.NET Numerics is the result of merging [dnAnalytics](http://dnanalytics.codeplex.com/)
+with [Math.NET Iridium](http://www.mathdotnet.com/Iridium.aspx) and replaces both.
+
 Quick Links
 -----------
 
 * [**Project Website**](http://numerics.mathdotnet.com)
-* [News Blog](http://numerics.mathdotnet.com/blog/)
 * [Source Code](http://github.com/mathnet/mathnet-numerics)
-* [Downloads](http://mathnetnumerics.codeplex.com/Release/ProjectReleases.aspx)
-* [Discussions](http://mathnetnumerics.codeplex.com/discussions?ProjectName=mathnetnumerics)
-* [Work Items and Bug Tracker](http://mathnetnumerics.codeplex.com/workitem/list/advanced)
-* [Ideas & Feedback](http://feedback.mathdotnet.com)
-* Twitter: [@MathNetNumerics](http://twitter.com/MathNetNumerics)
+* [Downloads](http://mathnetnumerics.codeplex.com/releases)
+* [Documentation](http://mathnetnumerics.codeplex.com/documentation)
+* [API Reference](http://numerics.mathdotnet.com/api/)
+* [Code Samples](http://github.com/mathnet/mathnet-numerics/tree/master/src/Examples)
+* [Discussions](http://mathnetnumerics.codeplex.com/discussions)
+* [Work Items and Bug Tracker](http://github.com/mathnet/mathnet-numerics/issues)
+* [Ideas & Feedback](http://feedback.mathdotnet.com/forums/2060-math-net-numerics)
+
+Feeds:
+
+* [Blog Feed](http://feeds.mathdotnet.com/MathNetNumerics)
+* [Activity Feed](http://feeds.mathdotnet.com/MathNetNumericsActivity)
+
+Math.NET Numerics on other sites:
+
+* [@MathDotNet](http://twitter.com/MathDotNet)
+* [Google+](https://plus.google.com/112484567926928665204)
+* [Ohloh](https://www.ohloh.net/p/mathnet)
+* [Stack Overflow](http://stackoverflow.com/questions/tagged/mathdotnet)
 
 Installation Instructions
 -------------------------
