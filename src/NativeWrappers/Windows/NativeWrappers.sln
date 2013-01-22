@@ -3,6 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{5A0892FF-82CE-40FC-BCE1-73810C615F52}"
 	ProjectSection(SolutionItems) = preProject
+		..\Common\lapack_common.h = ..\Common\lapack_common.h
 		..\Common\resource.h = ..\Common\resource.h
 		..\Common\resource.rc = ..\Common\resource.rc
 		..\Common\WindowsDLL.cpp = ..\Common\WindowsDLL.cpp

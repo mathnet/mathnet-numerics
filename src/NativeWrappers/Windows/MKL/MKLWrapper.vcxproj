@@ -104,7 +104,7 @@
       <TargetMachine>MachineX86</TargetMachine>
     </Link>
     <PostBuildEvent>
-      <Command>copy "$(CompilerPathForVC)\libiomp5md.dll" $(OutDir)</Command>
+      <Command>copy "$(INTEL_DEV_REDIST)\redist\$(IntelPlatform)\compiler\libiomp5md.dll" $(OutDir)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -130,7 +130,7 @@
       <TargetMachine>MachineX64</TargetMachine>
     </Link>
     <PostBuildEvent>
-      <Command>copy "$(CompilerPathForVC)\libiomp5md.dll" $(OutDir)</Command>
+      <Command>copy "$(INTEL_DEV_REDIST)\redist\$(IntelPlatform)\compiler\libiomp5md.dll" $(OutDir)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -155,7 +155,7 @@
       <TargetMachine>MachineX86</TargetMachine>
     </Link>
     <PostBuildEvent>
-      <Command>copy "$(CompilerPathForVC)\libiomp5md.dll" $(OutDir)</Command>
+      <Command>copy "$(INTEL_DEV_REDIST)\redist\$(IntelPlatform)\compiler\libiomp5md.dll" $(OutDir)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -183,7 +183,7 @@
       <TargetMachine>MachineX64</TargetMachine>
     </Link>
     <PostBuildEvent>
-      <Command>copy "$(CompilerPathForVC)\libiomp5md.dll" $(OutDir)</Command>
+      <Command>copy "$(INTEL_DEV_REDIST)\redist\$(IntelPlatform)\compiler\libiomp5md.dll" $(OutDir)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -194,7 +194,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Common\wrapper_common.h" />
-    <ClInclude Include="..\..\MKL\lapack.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="..\..\Common\resource.rc" />
