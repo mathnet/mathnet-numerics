@@ -1,30 +1,8 @@
 ﻿#include "mkl_lapack.h"
 #include "mkl_cblas.h"
+#include "lapack_common.h"
 #include "wrapper_common.h"
 #include <algorithm>
-
-template<typename T> 
-inline void copyBtoX (MKL_INT m, MKL_INT n, MKL_INT bn, T b[], T x[]){
-	for (MKL_INT i = 0; i < n; ++i)
-	{
-		for (MKL_INT j = 0; j < bn; ++j)
-		{
-			x[j * n + i] = clone_b[j * m + i];
-		}
-	}
-};
-
-inline void shift_ipiv_down(MKL_INT m, MKL_INT ipiv[]){
-	for(MKL_INT i = 0; i < m; ++i ){
-		ipiv[i] -= 1;
-	}
-}
-
-inline void shift_ipiv_up(MKL_INT m, MKL_INT ipiv[]){
-	for(MKL_INT i = 0; i < m; ++i ){
-		ipiv[i] += 1;
-	}
-}
 
 template<typename T> 
 inline MKL_INT lu_factor(MKL_INT m, T a[], MKL_INT ipiv[], 
@@ -83,9 +61,7 @@ inline MKL_INT lu_solve(MKL_INT n, MKL_INT nrhs, T a[], T b[],
 						  void (*getrf) (const MKL_INT*, const MKL_INT*, T*, const MKL_INT*, MKL_INT*, MKL_INT*),
 						  void (*getrs) (const char*, const MKL_INT*, const MKL_INT*, const T*, const MKL_INT*, const MKL_INT*, T*, const MKL_INT*, MKL_INT*))
 {
-	T* clone = new T[n*n];
-	std::memcpy(clone, a, n*n*sizeof(T));
-
+	T* clone = Clone(n, n, a);
 	MKL_INT* ipiv = new MKL_INT[n];
 	MKL_INT info = 0;
 	getrf(&n, &n, clone, &n, ipiv, &info);
@@ -128,8 +104,7 @@ inline MKL_INT cholesky_solve(MKL_INT n, MKL_INT nrhs, T a[], T b[],
 							  void (*potrf) (const char*, const MKL_INT*, T*, const MKL_INT*, MKL_INT*),
 							  void (*potrs) (const char*, const MKL_INT*, const MKL_INT*, const T*, const MKL_INT*, T*, const MKL_INT*, MKL_INT*))
 {
-	T* clone = new T[n*n];
-	std::memcpy(clone, a, n*n*sizeof(T));
+	T* clone = Clone(n, n, a);
 	char uplo = 'L';
 	MKL_INT info = 0;
 	potrf(&uplo, &n, clone, &n, &info);
@@ -214,11 +189,8 @@ inline MKL_INT qr_solve(MKL_INT m, MKL_INT n, MKL_INT bn, T a[], T b[], T x[], T
 						void (*gels) (const char*, const MKL_INT*, const MKL_INT*, const MKL_INT*, T*, 
 						const MKL_INT*, T* b, const MKL_INT*, T*, const MKL_INT*, MKL_INT*))
 {
-	T* clone_a = new T[m*n];
-	std::memcpy(clone_a, a, m*n*sizeof(T));
-
-	T* clone_b = new T[m*bn];
-	std::memcpy(clone_b, b, m*bn*sizeof(T));
+	T* clone_a = Clone(m, n, a);
+	T* clone_b = Clone(m, bn, b);
 
 	char N = 'N';
 	MKL_INT info = 0;
@@ -237,8 +209,6 @@ inline MKL_INT qr_solve(MKL_INT m, MKL_INT n, MKL_INT bn, T a[], T b[], T x[], T
 	return info;
 }
 
-// combine the next two some how
-// the problem is that complex trsm takes void* instead of MKL_COMPLEX
 template<typename T> 
 inline MKL_INT qr_solve_factored(MKL_INT m, MKL_INT n, MKL_INT bn, T r[], T b[], T tau[], T x[], T work[], MKL_INT len,
 								   void (*ormqr) (const char*, const char*, const MKL_INT*, const MKL_INT*, const MKL_INT*, 
@@ -246,9 +216,7 @@ inline MKL_INT qr_solve_factored(MKL_INT m, MKL_INT n, MKL_INT bn, T r[], T b[],
 								   void (*trsm) (const CBLAS_ORDER, const CBLAS_SIDE, const CBLAS_UPLO, const CBLAS_TRANSPOSE, const CBLAS_DIAG, 
 								                 const MKL_INT, const MKL_INT, const T, const T*, const MKL_INT, T*, const MKL_INT)) 
 {
-	T* clone_b = new T[m*bn];
-	std::memcpy(clone_b, b, m*bn*sizeof(T));
-
+	T* clone_b = Clone(m, bn, b);
 	char side ='L';
 	char tran = 'T';
 	MKL_INT info = 0;
@@ -273,9 +241,7 @@ inline MKL_INT complex_qr_solve_factored(MKL_INT m, MKL_INT n, MKL_INT bn, T r[]
 								   void (*trsm) (const CBLAS_ORDER, const CBLAS_SIDE, const CBLAS_UPLO, const CBLAS_TRANSPOSE, const CBLAS_DIAG, 
 								                 const MKL_INT, const MKL_INT, const void*, const void*, const MKL_INT, void*, const MKL_INT ldb)) 
 {
-	T* clone_b = new T[m*bn];
-	std::memcpy(clone_b, b, m*bn*sizeof(T));
-
+	T* clone_b = Clone(m, bn, b);
 	char side ='L';
 	char tran = 'C';
 	MKL_INT info = 0;
@@ -305,7 +271,6 @@ inline MKL_INT svd_factor(bool compute_vectors, MKL_INT m, MKL_INT n, T a[], T s
 	gesvd(&job, &job, &m, &n, a, &m, s, u, &m, v, &n, work, &len, &info);
 	return info;
 }
-
 
 template<typename T, typename R> 
 inline MKL_INT complex_svd_factor(bool compute_vectors, MKL_INT m, MKL_INT n, T a[], T s[], T u[], T v[], T work[], MKL_INT len,
