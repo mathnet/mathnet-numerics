@@ -64,7 +64,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Double
             { "Wide2x3", new DenseMatrix(new[,] { { -1.1, -2.2, -3.3 }, { 0.0, 1.1, 2.2 } }) }
         };
 
-        /*    /// <summary>
+            /// <summary>
             /// Can add a vector to scaled vector
             /// </summary>
             [Test]
@@ -1682,7 +1682,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Double
                 AssertHelpers.AlmostEqual(test[1, 0], x[1], 14);
                 AssertHelpers.AlmostEqual(test[0, 1], x[2], 14);
                 AssertHelpers.AlmostEqual(test[1, 1], x[3], 14);
-            }*/
+            }
 
         /// <summary>
         /// Checks to see if a matrix and array contain the same values.
