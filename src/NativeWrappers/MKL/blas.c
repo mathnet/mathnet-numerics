@@ -53,28 +53,28 @@ DLLEXPORT MKL_Complex16 z_dot_product(const MKL_INT n, const MKL_Complex16 x[], 
 	return ret;
 }
 
-DLLEXPORT void s_matrix_multiply(const enum CBLAS_TRANSPOSE transA, const enum CBLAS_TRANSPOSE transB, const MKL_INT m, const MKL_INT n, const MKL_INT k, const float alpha, const float x[], const float y[], const float beta, float c[]){
+DLLEXPORT void s_matrix_multiply(CBLAS_TRANSPOSE transA, CBLAS_TRANSPOSE transB, const MKL_INT m, const MKL_INT n, const MKL_INT k, const float alpha, const float x[], const float y[], const float beta, float c[]){
 	MKL_INT lda = transA == CblasNoTrans ? m : k;
 	MKL_INT ldb = transB == CblasNoTrans ? k : n;
 
 	cblas_sgemm(CblasColMajor, transA, transB, m, n, k, alpha, x, lda, y, ldb, beta, c, m);
 }
 
-DLLEXPORT void d_matrix_multiply(const enum CBLAS_TRANSPOSE transA, const enum CBLAS_TRANSPOSE transB, const MKL_INT m, const MKL_INT n, const MKL_INT k, const double alpha, const double x[], const double y[], const double beta, double c[]){
+DLLEXPORT void d_matrix_multiply(CBLAS_TRANSPOSE transA, CBLAS_TRANSPOSE transB, const MKL_INT m, const MKL_INT n, const MKL_INT k, const double alpha, const double x[], const double y[], const double beta, double c[]){
 	MKL_INT lda = transA == CblasNoTrans ? m : k;
 	MKL_INT ldb = transB == CblasNoTrans ? k : n;
 
 	cblas_dgemm(CblasColMajor, transA, transB, m, n, k, alpha, x, lda, y, ldb, beta, c, m);
 }
 
-DLLEXPORT void c_matrix_multiply(const enum CBLAS_TRANSPOSE transA, const enum CBLAS_TRANSPOSE transB, const MKL_INT m, const MKL_INT n, const MKL_INT k, const MKL_Complex8 alpha, const MKL_Complex8 x[], const MKL_Complex8 y[], const MKL_Complex8 beta, MKL_Complex8 c[]){
+DLLEXPORT void c_matrix_multiply(CBLAS_TRANSPOSE transA, CBLAS_TRANSPOSE transB, const MKL_INT m, const MKL_INT n, const MKL_INT k, const MKL_Complex8 alpha, const MKL_Complex8 x[], const MKL_Complex8 y[], const MKL_Complex8 beta, MKL_Complex8 c[]){
 	MKL_INT lda = transA == CblasNoTrans ? m : k;
 	MKL_INT ldb = transB == CblasNoTrans ? k : n;
 
 	cblas_cgemm(CblasColMajor, transA, transB, m, n, k, &alpha, x, lda, y, ldb, &beta, c, m);
 }
 
-DLLEXPORT void z_matrix_multiply(const enum CBLAS_TRANSPOSE transA, const enum CBLAS_TRANSPOSE transB, const MKL_INT m, const MKL_INT n, const MKL_INT k, const MKL_Complex16 alpha, const MKL_Complex16 x[], const MKL_Complex16 y[], const MKL_Complex16 beta, MKL_Complex16 c[]){
+DLLEXPORT void z_matrix_multiply(CBLAS_TRANSPOSE transA, CBLAS_TRANSPOSE transB, const MKL_INT m, const MKL_INT n, const MKL_INT k, const MKL_Complex16 alpha, const MKL_Complex16 x[], const MKL_Complex16 y[], const MKL_Complex16 beta, MKL_Complex16 c[]){
 	MKL_INT lda = transA == CblasNoTrans ? m : k;
 	MKL_INT ldb = transB == CblasNoTrans ? k : n;
 
