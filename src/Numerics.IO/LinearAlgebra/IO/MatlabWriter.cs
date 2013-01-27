@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2010 Math.NET
+// Copyright (c) 2009-2013 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -29,8 +29,8 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.Compression;
 using System.Text;
-using zlib;
 
 namespace MathNet.Numerics.LinearAlgebra.IO
 {
@@ -285,14 +285,31 @@ namespace MathNet.Numerics.LinearAlgebra.IO
         /// <returns>The compressed data.</returns>
         private static byte[] CompressData(byte[] data)
         {
-            using (var compressedStream = new MemoryStream())
+            var adler = BitConverter.GetBytes(Adler32.Compute(data));
+            using (var stream = new MemoryStream())
             {
-                using (var outputStream = new ZOutputStream(compressedStream, zlibConst.Z_DEFAULT_COMPRESSION))
+                stream.WriteByte(0x58);
+                stream.WriteByte(0x85);
+                using (var compressedStream = new MemoryStream())
                 {
-                    outputStream.Write(data, 0, data.Length);
+                    using (var outputStream = new DeflateStream(compressedStream, CompressionMode.Compress))
+                    {
+                        outputStream.Write(data, 0, data.Length);
+                    }
+                    //something odd - we need to write the CRC to the memory stream before returning
+                    //however, the CRC is being added before the data is compressed. It seems that
+                    //both the memorystream and deflate stream need to be closed first, but then
+                    //we cannot append the CRC. So I'm adding a second intermediate memory stream. There should
+                    //be a better way --marcus
+                    var compressedData = compressedStream.ToArray();
+                    stream.Write(compressedData, 0, compressedData.Length);
                 }
 
-                return compressedStream.ToArray();
+                stream.WriteByte(adler[3]);
+                stream.WriteByte(adler[2]);
+                stream.WriteByte(adler[1]);
+                stream.WriteByte(adler[0]);
+                return stream.ToArray();
             }
         }
 
