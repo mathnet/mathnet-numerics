@@ -26,7 +26,7 @@ inline T* Clone(const int m, const int n, const T* a)
 }
 
 template<typename T> 
-void copyBtoX (int m, int n, int bn, T b[], T x[]){
+inline void copyBtoX (int m, int n, int bn, T b[], T x[]){
 	for (int i = 0; i < n; ++i)
 	{
 		for (int j = 0; j < bn; ++j)
