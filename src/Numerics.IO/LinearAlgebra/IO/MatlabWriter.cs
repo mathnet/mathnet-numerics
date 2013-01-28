@@ -286,30 +286,19 @@ namespace MathNet.Numerics.LinearAlgebra.IO
         private static byte[] CompressData(byte[] data)
         {
             var adler = BitConverter.GetBytes(Adler32.Compute(data));
-            using (var stream = new MemoryStream())
+            using (var compressedStream = new MemoryStream())
             {
-                stream.WriteByte(0x58);
-                stream.WriteByte(0x85);
-                using (var compressedStream = new MemoryStream())
+                compressedStream.WriteByte(0x58);
+                compressedStream.WriteByte(0x85);
+                using (var outputStream = new DeflateStream(compressedStream, CompressionMode.Compress, true))
                 {
-                    using (var outputStream = new DeflateStream(compressedStream, CompressionMode.Compress))
-                    {
-                        outputStream.Write(data, 0, data.Length);
-                    }
-                    //something odd - we need to write the CRC to the memory stream before returning
-                    //however, the CRC is being added before the data is compressed. It seems that
-                    //both the memorystream and deflate stream need to be closed first, but then
-                    //we cannot append the CRC. So I'm adding a second intermediate memory stream. There should
-                    //be a better way --marcus
-                    var compressedData = compressedStream.ToArray();
-                    stream.Write(compressedData, 0, compressedData.Length);
+                    outputStream.Write(data, 0, data.Length);
                 }
-
-                stream.WriteByte(adler[3]);
-                stream.WriteByte(adler[2]);
-                stream.WriteByte(adler[1]);
-                stream.WriteByte(adler[0]);
-                return stream.ToArray();
+                compressedStream.WriteByte(adler[3]);
+                compressedStream.WriteByte(adler[2]);
+                compressedStream.WriteByte(adler[1]);
+                compressedStream.WriteByte(adler[0]);
+                return compressedStream.ToArray();
             }
         }
 
