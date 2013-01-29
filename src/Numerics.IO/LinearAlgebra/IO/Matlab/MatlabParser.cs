@@ -412,7 +412,8 @@ namespace MathNet.Numerics.LinearAlgebra.IO.Matlab
             for (var i = 0; i < ir.Count; i++)
             {
                 var row = ir[i];
-                if (jc[col + 1] == i)
+               // if (jc[col + 1] == i)
+                while(jc[col + 1] == i)
                 {
                     col++;
                 }
