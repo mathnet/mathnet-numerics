@@ -95,16 +95,14 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.IO
             }
 
             Matrix mat3 = new SparseMatrix(5, 4);
-            for (var i = 0; i < mat3.ColumnCount; i++)
-            {
-                mat3[i, i] = i + .1f;
-            }
+            mat3[0, 0] = 1.1f;
+            mat3[0, 2] = 2.2f;
+            mat3[4, 3] = 3.3f;
 
             Matrix mat4 = new SparseMatrix(3, 5);
-            for (var i = 0; i < mat4.RowCount; i++)
-            {
-                mat4[i, i] = i + .1f;
-            }
+            mat4[0, 0] = 1.1f;
+            mat4[0, 2] = 2.2f;
+            mat4[2, 4] = 3.3f;
 
             var write = new[] { mat1, mat2, mat3, mat4 };
 

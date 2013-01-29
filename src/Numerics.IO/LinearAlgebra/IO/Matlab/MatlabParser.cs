@@ -24,6 +24,8 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System.IO.Compression;
+
 namespace MathNet.Numerics.LinearAlgebra.IO.Matlab
 {
     using System;
@@ -34,7 +36,6 @@ namespace MathNet.Numerics.LinearAlgebra.IO.Matlab
     using System.Text;
     using Generic;
     using Properties;
-    using zlib;
     using Complex32 = Numerics.Complex32;
 
     /// <summary>
@@ -221,11 +222,12 @@ namespace MathNet.Numerics.LinearAlgebra.IO.Matlab
         private static byte[] DecompressBlock(byte[] compressed, ref DataType type)
         {
             byte[] data;
-            using (var decompressed = new MemoryStream())
+            using (var compressedStream = new MemoryStream(compressed, 2, compressed.Length-6))
             {
-                using (var decompressor = new ZOutputStream(decompressed))
+                using (var decompressor = new DeflateStream(compressedStream, CompressionMode.Decompress))
+                using(var decompressed = new MemoryStream())
                 {
-                    decompressor.Write(compressed, 0, compressed.Length);
+                    decompressor.CopyTo(decompressed);
                     decompressed.Position = 0;
                     var buf = new byte[4];
                     decompressed.Read(buf, 0, 4);
@@ -410,7 +412,7 @@ namespace MathNet.Numerics.LinearAlgebra.IO.Matlab
             for (var i = 0; i < ir.Count; i++)
             {
                 var row = ir[i];
-                if (jc[col + 1] == i)
+                while(jc[col + 1] == i)
                 {
                     col++;
                 }
@@ -467,7 +469,7 @@ namespace MathNet.Numerics.LinearAlgebra.IO.Matlab
             for (var i = 0; i < ir.Count; i++)
             {
                 var row = ir[i];
-                if (jc[col + 1] == i)
+                while (jc[col + 1] == i)
                 {
                     col++;
                 }
@@ -526,7 +528,7 @@ namespace MathNet.Numerics.LinearAlgebra.IO.Matlab
             for (var i = 0; i < ir.Count; i++)
             {
                 var row = ir[i];
-                if (jc[col + 1] == i)
+                while (jc[col + 1] == i)
                 {
                     col++;
                 }
@@ -582,7 +584,7 @@ namespace MathNet.Numerics.LinearAlgebra.IO.Matlab
                 for (var i = 0; i < ir.Count; i++)
                 {
                     var row = ir[i];
-                    if (jc[col + 1] == i)
+                    while (jc[col + 1] == i)
                     {
                         col++;
                     }
@@ -643,7 +645,7 @@ namespace MathNet.Numerics.LinearAlgebra.IO.Matlab
             for (var i = 0; i < ir.Count; i++)
             {
                 var row = ir[i];
-                if (jc[col + 1] == i)
+                while (jc[col + 1] == i)
                 {
                     col++;
                 }
@@ -700,7 +702,7 @@ namespace MathNet.Numerics.LinearAlgebra.IO.Matlab
                 for (var i = 0; i < ir.Count; i++)
                 {
                     var row = ir[i];
-                    if (jc[col + 1] == i)
+                    while (jc[col + 1] == i)
                     {
                         col++;
                     }

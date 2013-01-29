@@ -97,16 +97,14 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.IO
             }
 
             Matrix mat3 = new SparseMatrix(5, 4);
-            for (var i = 0; i < mat3.ColumnCount; i++)
-            {
-                mat3[i, i] = new Complex32(i + .1f, i + .1f);
-            }
+            mat3[0, 0] = new Complex32(1.1f, 1.1f);
+            mat3[0, 2] = new Complex32(2.2f, 2.2f);
+            mat3[4, 3] = new Complex32(3.3f, 3.3f);
 
             Matrix mat4 = new SparseMatrix(3, 5);
-            for (var i = 0; i < mat4.RowCount; i++)
-            {
-                mat4[i, i] = new Complex32(i + .1f, i + .1f);
-            }
+            mat4[0, 0] = new Complex32(1.1f, 1.1f);
+            mat4[0, 2] = new Complex32(2.2f, 2.2f);
+            mat4[2, 4] = new Complex32(3.3f, 3.3f);
 
             var write = new[] { mat1, mat2, mat3, mat4 };
 
