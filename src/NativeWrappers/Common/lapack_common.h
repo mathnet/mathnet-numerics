@@ -1,6 +1,8 @@
 #ifndef LAPACK_COMMON_H
 #define LAPACK_COMMON_H
 
+#include <string.h>
+
 void shift_ipiv_down(int m, int ipiv[]);
 inline void shift_ipiv_down(int m, int ipiv[]){
 	for(int i = 0; i < m; ++i ){
@@ -19,12 +21,12 @@ template<typename T>
 inline T* Clone(const int m, const int n, const T* a)
 {
 	T* clone = new T[m*n];
-	std::memcpy(clone, a, m*n*sizeof(T));
+	memcpy(clone, a, m*n*sizeof(T));
 	return clone;
 }
 
 template<typename T> 
-void copyBtoX (int m, int n, int bn, T b[], T x[]){
+inline void copyBtoX (int m, int n, int bn, T b[], T x[]){
 	for (int i = 0; i < n; ++i)
 	{
 		for (int j = 0; j < bn; ++j)
