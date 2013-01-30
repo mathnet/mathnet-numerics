@@ -105,7 +105,6 @@ namespace Examples
             Console.WriteLine(@"{0} - Largest element", descriptiveStatistics.Maximum.ToString(" #0.00000;-#0.00000"));
             Console.WriteLine(@"{0} - Smallest element", descriptiveStatistics.Minimum.ToString(" #0.00000;-#0.00000"));
             Console.WriteLine(@"{0} - Mean", descriptiveStatistics.Mean.ToString(" #0.00000;-#0.00000"));
-            Console.WriteLine(@"{0} - Median", descriptiveStatistics.Median.ToString(" #0.00000;-#0.00000"));
             Console.WriteLine(@"{0} - Variance", descriptiveStatistics.Variance.ToString(" #0.00000;-#0.00000"));
             Console.WriteLine(@"{0} - Standard deviation", descriptiveStatistics.StandardDeviation.ToString(" #0.00000;-#0.00000"));
             Console.WriteLine(@"{0} - Skewness", descriptiveStatistics.Skewness.ToString(" #0.00000;-#0.00000"));

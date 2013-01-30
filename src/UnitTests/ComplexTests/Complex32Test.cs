@@ -510,8 +510,10 @@ namespace MathNet.Numerics.UnitTests.ComplexTests
         [Test]
         public void CanTestForEqualityUsingOperators()
         {
+#pragma warning disable 1718
             Assert.That(Complex32.NaN != Complex32.NaN);
             Assert.That(Complex32.PositiveInfinity == Complex32.PositiveInfinity);
+#pragma warning restore 1718
             Assert.That(new Complex32(1.1f, -2.2f) == new Complex32(1.1f, -2.2f));
             Assert.That(new Complex32(-1.1f, 2.2f) != new Complex32(1.1f, -2.2f));
         }
