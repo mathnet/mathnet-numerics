@@ -13,9 +13,6 @@
     <licenseUrl>http://mathnetnumerics.codeplex.com/license</licenseUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <tags>math numeric statistics probability integration interpolation linear algebra matrix fft</tags>
-    <dependencies>
-      <dependency id="zlib.net" version="1.0" />
-    </dependencies>
     <frameworkAssemblies>
       <frameworkAssembly assemblyName="System.Numerics" />
     </frameworkAssemblies>
