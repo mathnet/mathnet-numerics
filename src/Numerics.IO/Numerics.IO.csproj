@@ -60,10 +60,6 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="zlib.net, Version=1.0.3.0, Culture=neutral, PublicKeyToken=47d7877cb3620160">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\zlib.net.1.0.4.0\lib\zlib.net.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="LinearAlgebra\Complex32\IO\DelimitedReader.cs" />
@@ -76,6 +72,7 @@
     <Compile Include="LinearAlgebra\IO\DelimitedWriter.cs" />
     <Compile Include="LinearAlgebra\IO\MatlabReader.cs" />
     <Compile Include="LinearAlgebra\IO\MatlabWriter.cs" />
+    <Compile Include="LinearAlgebra\IO\Matlab\Adler32.cs" />
     <Compile Include="LinearAlgebra\IO\Matlab\ArrayClass.cs" />
     <Compile Include="LinearAlgebra\IO\Matlab\ArrayFlags.cs" />
     <Compile Include="LinearAlgebra\IO\Matlab\DataType.cs" />

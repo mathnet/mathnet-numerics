@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2010 Math.NET
+// Copyright (c) 2009-2013 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -29,8 +29,8 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.Compression;
 using System.Text;
-using zlib;
 
 namespace MathNet.Numerics.LinearAlgebra.IO
 {
@@ -285,13 +285,19 @@ namespace MathNet.Numerics.LinearAlgebra.IO
         /// <returns>The compressed data.</returns>
         private static byte[] CompressData(byte[] data)
         {
+            var adler = BitConverter.GetBytes(Adler32.Compute(data));
             using (var compressedStream = new MemoryStream())
             {
-                using (var outputStream = new ZOutputStream(compressedStream, zlibConst.Z_DEFAULT_COMPRESSION))
+                compressedStream.WriteByte(0x58);
+                compressedStream.WriteByte(0x85);
+                using (var outputStream = new DeflateStream(compressedStream, CompressionMode.Compress, true))
                 {
                     outputStream.Write(data, 0, data.Length);
                 }
-
+                compressedStream.WriteByte(adler[3]);
+                compressedStream.WriteByte(adler[2]);
+                compressedStream.WriteByte(adler[1]);
+                compressedStream.WriteByte(adler[0]);
                 return compressedStream.ToArray();
             }
         }
