@@ -46,7 +46,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.IO
         public void CanWriteCommaDelimitedData()
         {
             var matrix = new DenseMatrix(new[,] { { 1.1, 2.2, 3.3 }, { 4.4, 5.5, 6.6 }, { 7.7, 8.8, 9.9 } });
-            var writer = new DelimitedWriter(',');
+            var writer = new DelimitedWriter(',')
+                         {
+                             CultureInfo = CultureInfo.InvariantCulture
+                         };
             var stream = new MemoryStream();
             writer.WriteMatrix(matrix, stream);
             var data = stream.ToArray();
@@ -88,7 +91,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.IO
         public void CanWriteSpaceDelimitedData()
         {
             var matrix = new SparseMatrix(new[,] { { 1.1, 0, 0 }, { 0, 5.5, 0 }, { 0, 0, 9.9 } });
-            var writer = new DelimitedWriter(' ');
+            var writer = new DelimitedWriter(' ')
+                         {
+                             CultureInfo = CultureInfo.InvariantCulture
+                         };
             var stream = new MemoryStream();
             writer.WriteMatrix(matrix, stream);
             var data = stream.ToArray();
@@ -110,7 +116,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.IO
             var headers = new[] { "a", "b", "c" };
             var writer = new DelimitedWriter('\t')
                          {
-                             ColumnHeaders = headers
+                             ColumnHeaders = headers,
+                             CultureInfo = CultureInfo.InvariantCulture
                          };
             var stream = new MemoryStream();
             writer.WriteMatrix(matrix, stream);

@@ -47,7 +47,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.IO
         public void CanWriteCommaDelimitedData()
         {
             var matrix = new DenseMatrix(new[,] { { new Complex32(1.1f, 1.1f), new Complex32(2.2f, 2.2f), new Complex32(3.3f, 3.3f) }, { new Complex32(4.4f, 4.4f), new Complex32(5.5f, 5.5f), new Complex32(6.6f, 6.6f) }, { new Complex32(7.7f, 7.7f), new Complex32(8.8f, 8.8f), new Complex32(9.9f, 9.9f) } });
-            var writer = new DelimitedWriter(',');
+            var writer = new DelimitedWriter(',')
+                         {
+                             CultureInfo = CultureInfo.InvariantCulture
+                         };
             var stream = new MemoryStream();
             writer.WriteMatrix(matrix, stream);
             var data = stream.ToArray();
@@ -89,7 +92,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.IO
         public void CanWriteSpaceDelimitedData()
         {
             var matrix = new DenseMatrix(new[,] { { new Complex32(1.1f, 1.1f), new Complex32(2.2f, 2.2f), new Complex32(3.3f, 3.3f) }, { new Complex32(4.4f, 4.4f), new Complex32(5.5f, 5.5f), new Complex32(6.6f, 6.6f) }, { new Complex32(7.7f, 7.7f), new Complex32(8.8f, 8.8f), new Complex32(9.9f, 9.9f) } });
-            var writer = new DelimitedWriter(' ');
+            var writer = new DelimitedWriter(' ')
+                         {
+                             CultureInfo = CultureInfo.InvariantCulture
+                         };
             var stream = new MemoryStream();
             writer.WriteMatrix(matrix, stream);
             var data = stream.ToArray();
@@ -111,7 +117,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.IO
             var headers = new[] { "a", "b", "c" };
             var writer = new DelimitedWriter('\t')
                          {
-                             ColumnHeaders = headers
+                             ColumnHeaders = headers,
+                             CultureInfo = CultureInfo.InvariantCulture
                          };
             var stream = new MemoryStream();
             writer.WriteMatrix(matrix, stream);
