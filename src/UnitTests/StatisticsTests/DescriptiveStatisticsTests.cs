@@ -114,7 +114,6 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
             AssertHelpers.AlmostEqual(data.StandardDeviation, stats.StandardDeviation, digits);
             AssertHelpers.AlmostEqual(skewness, stats.Skewness, 7);
             AssertHelpers.AlmostEqual(kurtosis, stats.Kurtosis, 7);
-            AssertHelpers.AlmostEqual(median, stats.Median, 15);
             Assert.AreEqual(stats.Minimum, min);
             Assert.AreEqual(stats.Maximum, max);
             Assert.AreEqual(stats.Count, count);
@@ -146,7 +145,6 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
             AssertHelpers.AlmostEqual(data.StandardDeviation, stats.StandardDeviation, 15);
             AssertHelpers.AlmostEqual(skewness, stats.Skewness, 9);
             AssertHelpers.AlmostEqual(kurtosis, stats.Kurtosis, 9);
-            AssertHelpers.AlmostEqual(median, stats.Median, 15);
             Assert.AreEqual(stats.Minimum, min);
             Assert.AreEqual(stats.Maximum, max);
             Assert.AreEqual(stats.Count, count);
@@ -179,7 +177,6 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
             AssertHelpers.AlmostEqual(data.StandardDeviation, stats.StandardDeviation, digits);
             AssertHelpers.AlmostEqual(skewness, stats.Skewness, 7);
             AssertHelpers.AlmostEqual(kurtosis, stats.Kurtosis, 7);
-            AssertHelpers.AlmostEqual(median, stats.Median, 15);
             Assert.AreEqual(stats.Minimum, min);
             Assert.AreEqual(stats.Maximum, max);
             Assert.AreEqual(stats.Count, count);
@@ -212,7 +209,6 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
             AssertHelpers.AlmostEqual(data.StandardDeviation, stats.StandardDeviation, digits);
             AssertHelpers.AlmostEqual(skewness, stats.Skewness, 7);
             AssertHelpers.AlmostEqual(kurtosis, stats.Kurtosis, 7);
-            AssertHelpers.AlmostEqual(median, stats.Median, 15);
             Assert.AreEqual(stats.Minimum, min);
             Assert.AreEqual(stats.Maximum, max);
             Assert.AreEqual(stats.Count, count);
@@ -244,7 +240,6 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
             AssertHelpers.AlmostEqual(data.StandardDeviation, stats.StandardDeviation, 15);
             AssertHelpers.AlmostEqual(skewness, stats.Skewness, 9);
             AssertHelpers.AlmostEqual(kurtosis, stats.Kurtosis, 9);
-            AssertHelpers.AlmostEqual(median, stats.Median, 15);
             Assert.AreEqual(stats.Minimum, min);
             Assert.AreEqual(stats.Maximum, max);
             Assert.AreEqual(stats.Count, count);
@@ -277,7 +272,6 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
             AssertHelpers.AlmostEqual(data.StandardDeviation, stats.StandardDeviation, digits);
             AssertHelpers.AlmostEqual(skewness, stats.Skewness, 7);
             AssertHelpers.AlmostEqual(kurtosis, stats.Kurtosis, 7);
-            AssertHelpers.AlmostEqual(median, stats.Median, 15);
             Assert.AreEqual(stats.Minimum, min);
             Assert.AreEqual(stats.Maximum, max);
             Assert.AreEqual(stats.Count, count);

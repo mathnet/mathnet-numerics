@@ -47,7 +47,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.IO
         public void CanWriteCommaDelimitedData()
         {
             var matrix = new DenseMatrix(new[,] { { new Complex(1.1, 1.1), new Complex(2.2, 2.2), new Complex(3.3, 3.3) }, { new Complex(4.4, 4.4), new Complex(5.5, 5.5), new Complex(6.6, 6.6) }, { new Complex(7.7, 7.7), new Complex(8.8, 8.8), new Complex(9.9, 9.9) } });
-            var writer = new DelimitedWriter(',');
+            var writer = new DelimitedWriter(',')
+                         {
+                             CultureInfo = CultureInfo.InvariantCulture
+                         };
             var stream = new MemoryStream();
             writer.WriteMatrix(matrix, stream);
             var data = stream.ToArray();
@@ -89,7 +92,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.IO
         public void CanWriteSpaceDelimitedData()
         {
             var matrix = new DenseMatrix(new[,] { { new Complex(1.1, 1.1), new Complex(2.2, 2.2), new Complex(3.3, 3.3) }, { new Complex(4.4, 4.4), new Complex(5.5, 5.5), new Complex(6.6, 6.6) }, { new Complex(7.7, 7.7), new Complex(8.8, 8.8), new Complex(9.9, 9.9) } });
-            var writer = new DelimitedWriter(' ');
+            var writer = new DelimitedWriter(' ')
+                         {
+                             CultureInfo = CultureInfo.InvariantCulture
+                         };
             var stream = new MemoryStream();
             writer.WriteMatrix(matrix, stream);
             var data = stream.ToArray();
@@ -111,7 +117,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.IO
             var headers = new[] { "a", "b", "c" };
             var writer = new DelimitedWriter('\t')
                          {
-                             ColumnHeaders = headers
+                             ColumnHeaders = headers,
+                             CultureInfo = CultureInfo.InvariantCulture
                          };
             var stream = new MemoryStream();
             writer.WriteMatrix(matrix, stream);
