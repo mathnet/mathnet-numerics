@@ -751,6 +751,7 @@
     <Compile Include="NumberTheoryTests\GcdRelatedTest.cs" />
     <Compile Include="NumberTheoryTests\GcdRelatedTestBigInteger.cs" />
     <Compile Include="NumberTheoryTests\IntegerTheoryTest.cs" />
+    <Compile Include="OptimizationTests\TestBisectionRootFinder.cs" />
     <Compile Include="PermutationTest.cs" />
     <Compile Include="PrecisionTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -1087,6 +1088,7 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
