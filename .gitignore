@@ -24,3 +24,5 @@ UpgradeLog.htm
 *.so
 *.sdf
 *.opensdf
+src/UnitTests/test-results
+
