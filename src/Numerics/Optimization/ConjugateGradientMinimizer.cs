@@ -34,25 +34,41 @@ namespace MathNet.Numerics.Optimization
             // First step
             var steepestDirection = -gradient;
             var searchDirection = steepestDirection;
-            var result = lineSearcher.FindConformingStep(objective, searchDirection, 1.0);
+            double initialStepSize = 100 * GradientTolerance / (gradient * gradient);
+            var result = lineSearcher.FindConformingStep(objective, searchDirection, initialStepSize);
             objective = result.FunctionInfoAtMinimum;
             ValidateGradient(objective.Gradient, objective.Point);
 
+            double stepSize = (objective.Point - initialGuess).Norm(2.0);
             // Subsequent steps
             int iterations = 1;
+            int totalLineSearchSteps = result.Iterations;
+            int noLineSearchIterations = result.Iterations > 0 ? 0 : 1;
+            int steepestDescentResets = 0;
             while (!ExitCriteriaSatisfied(objective.Point, objective.Gradient) && iterations < MaximumIterations)
             {
                 var previousSteepestDirection = steepestDirection;
                 steepestDirection = -objective.Gradient;
-                var searchDirectionAdjuster = steepestDirection * (steepestDirection - previousSteepestDirection) / (previousSteepestDirection * previousSteepestDirection);
-                searchDirection = steepestDirection + searchDirectionAdjuster * previousSteepestDirection;
-                result = lineSearcher.FindConformingStep(objective, searchDirection, 1.0);
+                var searchDirectionAdjuster = Math.Max(0, steepestDirection*(steepestDirection - previousSteepestDirection)/(previousSteepestDirection*previousSteepestDirection));
+                searchDirection = steepestDirection + searchDirectionAdjuster * searchDirection;
+                if (searchDirection * objective.Gradient >= 0)
+                {
+                    searchDirection = steepestDirection;
+                    steepestDescentResets += 1;
+                }
+
+
+                result = lineSearcher.FindConformingStep(objective, searchDirection, stepSize);
+
+                noLineSearchIterations += result.Iterations == 0 ? 1 : 0;
+                totalLineSearchSteps += result.Iterations;
+				stepSize = (result.FunctionInfoAtMinimum.Point - objective.Point).Norm(2.0);
 
                 objective = result.FunctionInfoAtMinimum;
                 iterations += 1;
             }
 
-            return new MinimizationResult(objective, iterations, MinimizationResult.ExitCondition.AbsoluteGradient);
+            return new MinimizationWithLineSearchResult(objective, iterations, MinimizationResult.ExitCondition.AbsoluteGradient, totalLineSearchSteps, noLineSearchIterations);
         }
 
         private bool ExitCriteriaSatisfied(Vector<double> candidatePoint, Vector<double> gradient)
