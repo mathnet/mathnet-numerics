@@ -199,6 +199,8 @@
     <Compile Include="Optimization\BisectionRootFinder.cs" />
     <Compile Include="Optimization\ConjugateGradientMinimizer.cs" />
     <Compile Include="Optimization\GoldenSectionMinimizer.cs" />
+    <Compile Include="Optimization\LineSearchingMinimizerOutput.cs" />
+    <Compile Include="Optimization\LineSearchOutput.cs" />
     <Compile Include="Optimization\MinimizationOutput.cs" />
     <Compile Include="Optimization\ObjectiveFunction.cs" />
     <Compile Include="Optimization\OptimizationResult.cs" />

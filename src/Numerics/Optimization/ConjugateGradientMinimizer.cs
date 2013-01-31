@@ -32,7 +32,7 @@ namespace MathNet.Numerics.Optimization
                 return new MinimizationOutput(initial_eval, 0);
             
             // Set up line search algorithm
-            var line_searcher = new WeakWolfeLineSearch(1e-4, 0.1);
+            var line_searcher = new WeakWolfeLineSearch(1e-4, 0.1,1000);
 
             // Declare state variables
             IEvaluation candidate_point;
@@ -41,26 +41,51 @@ namespace MathNet.Numerics.Optimization
             // First step
             steepest_direction = -gradient;
             search_direction = steepest_direction;
-            var result = line_searcher.FindConformingStep(objective, initial_eval, search_direction, 1.0);
+            double initial_step_size = 100 * this.GradientTolerance / (gradient * gradient);
+            var result = line_searcher.FindConformingStep(objective, initial_eval, search_direction, initial_step_size);
             candidate_point = result.FunctionInfoAtMinimum;
             this.ValidateGradient(candidate_point.Gradient, candidate_point.Point);
             
+			double step_size = (candidate_point.Point - initial_guess).Norm(2.0);
             // Subsequent steps
             int iterations = 1;
+            int total_line_search_steps = result.Iterations;
+            int no_line_search_iterations = result.Iterations > 0 ? 0 : 1;
+            int steepest_descent_resets = 0;
             while (!this.ExitCriteriaSatisfied(candidate_point.Point, candidate_point.Gradient) && iterations < this.MaximumIterations)
             {
                 previous_steepest_direction = steepest_direction;
                 steepest_direction = -candidate_point.Gradient;
-                var search_direction_adjuster = steepest_direction * (steepest_direction - previous_steepest_direction) / (previous_steepest_direction * previous_steepest_direction);
-                search_direction = steepest_direction + search_direction_adjuster * previous_steepest_direction;
-                result = line_searcher.FindConformingStep(objective, candidate_point, search_direction, 1.0);
+                var search_direction_adjuster = Math.Max(0,steepest_direction * (steepest_direction - previous_steepest_direction) / (previous_steepest_direction * previous_steepest_direction));
+                
+                //double prev_grad_mag = previous_steepest_direction*previous_steepest_direction;
+                //double grad_overlap = steepest_direction*previous_steepest_direction;
+                //double search_grad_overlap = candidate_point.Gradient*search_direction;
 
-                candidate_point = result.FunctionInfoAtMinimum;                
+                //if (iterations % initial_guess.Count == 0 || (Math.Abs(grad_overlap) >= 0.2 * prev_grad_mag) || (-2 * prev_grad_mag >= search_grad_overlap) || (search_grad_overlap >= -0.2 * prev_grad_mag))
+                //    search_direction = steepest_direction;
+                //else 
+                //    search_direction = steepest_direction + search_direction_adjuster * search_direction;
+
+                search_direction = steepest_direction + search_direction_adjuster * search_direction;
+                if (search_direction * candidate_point.Gradient >= 0)
+                {
+                    search_direction = steepest_direction;
+                    steepest_descent_resets += 1;
+                }
+                
+                result = line_searcher.FindConformingStep(objective, candidate_point, search_direction, step_size);
+
+                no_line_search_iterations += result.Iterations == 0 ? 1 : 0;
+                total_line_search_steps += result.Iterations;
+
+				step_size = (result.FunctionInfoAtMinimum.Point - candidate_point.Point).Norm (2.0);
+                candidate_point = result.FunctionInfoAtMinimum;
 
                 iterations += 1;
             }
 
-            return new MinimizationOutput(candidate_point, iterations);
+            return new MinimizationWithLineSearchOutput(candidate_point, iterations, total_line_search_steps, no_line_search_iterations);
         }
 
         private bool ExitCriteriaSatisfied(Vector<double> candidate_point, Vector<double> gradient)

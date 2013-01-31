@@ -11,15 +11,17 @@ namespace MathNet.Numerics.Optimization
     {
         public double C1 { get; set; }
         public double C2 { get; set; }
+		public int MaximumIterations { get; set; }
 
-        public WeakWolfeLineSearch(double c1, double c2)
+        public WeakWolfeLineSearch(double c1, double c2, int max_iterations=10)
         {
             this.C1 = c1;
             this.C2 = c2;
+			this.MaximumIterations = max_iterations;
         }
 
         // Implemented following http://www.math.washington.edu/~burke/crs/408/lectures/L9-weak-Wolfe.pdf
-        public MinimizationOutput FindConformingStep(IObjectiveFunction objective, IEvaluation starting_point, Vector<double> search_direction, double initial_step)
+        public LineSearchOutput FindConformingStep(IObjectiveFunction objective, IEvaluation starting_point, Vector<double> search_direction, double initial_step)
         {
             double lower_bound = 0.0;
             double upper_bound = Double.PositiveInfinity;
@@ -32,7 +34,7 @@ namespace MathNet.Numerics.Optimization
 
             int ii;
             IEvaluation candidate_eval = null;
-            for (ii = 0; ii < 10; ++ii)
+            for (ii = 0; ii < this.MaximumIterations; ++ii)
             {
                 candidate_eval = objective.Evaluate(starting_point.Point + search_direction * step);
 
@@ -53,13 +55,21 @@ namespace MathNet.Numerics.Optimization
                     break;
                 }
             }
-
-            if (ii == 10)
+                       
+            if (ii == this.MaximumIterations)
                 throw new Exception("Line search failed with max iterations.  Function is likely unbounded in search direction.");
             else
-                return new MinimizationOutput(candidate_eval, ii);
+                return new LineSearchOutput(candidate_eval, ii, step);
         }
 
+        private bool Conforms(IEvaluation starting_point, Vector<double> search_direction, double step, IEvaluation ending_point)
+        {
+
+            bool sufficient_decrease = ending_point.Value <= starting_point.Value + this.C1 * step * (starting_point.Gradient * search_direction);
+            bool not_too_steep = ending_point.Gradient * search_direction >= this.C2 * starting_point.Gradient * search_direction;
+
+            return step > 0 && sufficient_decrease && not_too_steep;
+        }
 
     }
 }
