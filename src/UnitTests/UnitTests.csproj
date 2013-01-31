@@ -345,11 +345,16 @@
     <Compile Include="EuclidTests\IntegerTheoryTest.cs" />
     <Compile Include="LinearAlgebraTests\MatrixStorageCombinatorsTests.cs" />
     <Compile Include="LinearAlgebraTests\VectorStorageCombinatorsTests.cs" />
-    <Compile Include="OptimizationTests\RosenbrockFunction.cs" />
     <Compile Include="OptimizationTests\TestNewtonMinimizer.cs" />
     <Compile Include="Random\SystemRandomSourceTests.cs" />
     <Compile Include="OptimizationTests\BfgsTest.cs" />
     <Compile Include="RootFindingTests\BisectionTest.cs" />
+    <Compile Include="MatrixHelpers.cs" />
+    <Compile Include="NumberTheoryTests\GcdRelatedTest.cs" />
+    <Compile Include="NumberTheoryTests\GcdRelatedTestBigInteger.cs" />
+    <Compile Include="NumberTheoryTests\IntegerTheoryTest.cs" />
+    <Compile Include="OptimizationTests\RosenbrockFunction.cs" />
+    <Compile Include="OptimizationTests\TestConjugateGradientMinimizer.cs" />
     <Compile Include="PermutationTest.cs" />
     <Compile Include="PrecisionTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -677,6 +682,7 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <Reference Include="nunit.framework">

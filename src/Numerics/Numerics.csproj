@@ -106,7 +106,6 @@
     <Compile Include="Optimization\Exceptions.cs" />
     <Compile Include="Optimization\ObjectiveFunctions\ObjectiveFunctionBase.cs" />
     <Compile Include="Optimization\ObjectiveFunctions\LazyObjectiveFunction.cs" />
-    <Compile Include="Optimization\ObjectiveFunction.cs" />
     <Compile Include="Optimization\ObjectiveFunctions\ValueObjectiveFunction.cs" />
     <Compile Include="Optimization\ObjectiveFunctions\HessianObjectiveFunction.cs" />
     <Compile Include="Optimization\ObjectiveFunctions\GradientObjectiveFunction.cs" />
@@ -232,6 +231,12 @@
     <Compile Include="RootFinding\Brent.cs" />
     <Compile Include="FindRoots.cs" />
     <Compile Include="RootFinding\Bisection.cs" />
+    <Compile Include="Optimization\BFGS.cs" />
+    <Compile Include="Optimization\ConjugateGradientMinimizer.cs" />
+    <Compile Include="Optimization\GoldenSectionMinimizer.cs" />
+    <Compile Include="Optimization\ObjectiveFunction.cs" />
+    <Compile Include="Optimization\OptimizationResult.cs" />
+    <Compile Include="Optimization\LineSearch\StrongWolfeLineSearch.cs" />
     <Compile Include="SpecialFunctions\Evaluate.cs" />
     <Compile Include="ExcelFunctions.cs" />
     <Compile Include="SpecialFunctions\ExponentialIntegral.cs" />
