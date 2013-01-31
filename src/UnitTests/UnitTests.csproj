@@ -371,10 +371,6 @@
     <Compile Include="Random\SystemRandomSourceTests.cs" />
     <Compile Include="OptimizationTests\BfgsTest.cs" />
     <Compile Include="RootFindingTests\BisectionTest.cs" />
-    <Compile Include="MatrixHelpers.cs" />
-    <Compile Include="NumberTheoryTests\GcdRelatedTest.cs" />
-    <Compile Include="NumberTheoryTests\GcdRelatedTestBigInteger.cs" />
-    <Compile Include="NumberTheoryTests\IntegerTheoryTest.cs" />
     <Compile Include="OptimizationTests\RosenbrockFunction.cs" />
     <Compile Include="OptimizationTests\TestConjugateGradientMinimizer.cs" />
     <Compile Include="PermutationTest.cs" />
