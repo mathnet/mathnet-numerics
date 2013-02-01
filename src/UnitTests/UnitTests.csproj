@@ -122,6 +122,7 @@
     <Compile Include="DistributionTests\Multivariate\MultinomialTests.cs" />
     <Compile Include="DistributionTests\Multivariate\NormalGammaTests.cs" />
     <Compile Include="DistributionTests\Multivariate\WishartTests.cs" />
+    <Compile Include="Filtering\OrderedShiftBufferTest.cs" />
     <Compile Include="IntegralTransformsTests\FourierTest.cs" />
     <Compile Include="IntegralTransformsTests\HartleyTest.cs" />
     <Compile Include="IntegralTransformsTests\InverseTransformTest.cs" />

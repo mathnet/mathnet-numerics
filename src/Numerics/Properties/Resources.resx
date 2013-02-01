@@ -375,4 +375,7 @@
   <data name="Interpolation_Initialize_SamplePointsNotUnique">
     <value xml:space="preserve">All sample points should be unique.</value>
   </data>
+  <data name="ArgumentEvenNumberOfCoefficients" xml:space="preserve">
+    <value>Even number of coefficients required.</value>
+  </data>
 </root>

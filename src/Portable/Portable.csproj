@@ -38,7 +38,7 @@
     <EmbeddedResource Include="..\Numerics\Properties\Resources.resx">
       <Link>Properties\Resources.resx</Link>
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources1.Designer.cs</LastGenOutput>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
@@ -191,6 +191,39 @@
     </Compile>
     <Compile Include="..\Numerics\Distributions\Multivariate\Wishart.cs">
       <Link>Distributions\Multivariate\Wishart.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\Filtering\FilterType.cs">
+      <Link>Filtering\FilterType.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\Filtering\FIR\FirCoefficients.cs">
+      <Link>Filtering\FIR\FirCoefficients.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\Filtering\FIR\OnlineFirFilter.cs">
+      <Link>Filtering\FIR\OnlineFirFilter.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\Filtering\IIR\IirCoefficients.cs">
+      <Link>Filtering\IIR\IirCoefficients.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\Filtering\IIR\OnlineIirFilter.cs">
+      <Link>Filtering\IIR\OnlineIirFilter.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\Filtering\ImpulseResponse.cs">
+      <Link>Filtering\ImpulseResponse.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\Filtering\IOnlineFilter.cs">
+      <Link>Filtering\IOnlineFilter.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\Filtering\Median\OnlineMedianFilter.cs">
+      <Link>Filtering\Median\OnlineMedianFilter.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\Filtering\OnlineFilter.cs">
+      <Link>Filtering\OnlineFilter.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\Filtering\Utils\OrderedShiftBuffer.cs">
+      <Link>Filtering\Utils\OrderedShiftBuffer.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\Filtering\Utils\ShiftBuffer.cs">
+      <Link>Filtering\Utils\ShiftBuffer.cs</Link>
     </Compile>
     <Compile Include="..\Numerics\GlobalizationHelper.cs">
       <Link>GlobalizationHelper.cs</Link>
@@ -930,8 +963,8 @@
     <Compile Include="..\Numerics\Precision.cs">
       <Link>Precision.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\Properties\Resources1.Designer.cs">
-      <Link>Properties\Resources1.Designer.cs</Link>
+    <Compile Include="..\Numerics\Properties\Resources.Designer.cs">
+      <Link>Properties\Resources.Designer.cs</Link>
       <DependentUpon>Resources.resx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
