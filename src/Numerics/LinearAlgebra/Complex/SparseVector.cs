@@ -49,6 +49,15 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
     {
         readonly SparseVectorStorage<Complex> _storage;
 
+        /// <summary>
+        /// Gets the number of non zero elements in the vector.
+        /// </summary>
+        /// <value>The number of non zero elements.</value>
+        public int NonZerosCount
+        {
+            get { return _storage.ValueCount; }
+        }
+
         internal SparseVector(SparseVectorStorage<Complex> storage)
             : base(storage)
         {
