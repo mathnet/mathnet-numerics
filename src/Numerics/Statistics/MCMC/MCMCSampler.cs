@@ -32,7 +32,7 @@ namespace MathNet.Numerics.Statistics.Mcmc
 {
     using System;
 
-	/// <summary>
+    /// <summary>
     /// A method which samples datapoints from a proposal distribution. The implementation of this sampler
     /// is stateless: no variables are saved between two calls to Sample. This proposal is different from
     /// <seealso cref="LocalProposalSampler{T}"/> in that it doesn't take any parameters; it samples random

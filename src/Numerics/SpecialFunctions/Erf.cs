@@ -118,10 +118,10 @@ namespace MathNet.Numerics
         ///<summary>Calculates the inverse error function evaluated at z.</summary>
         /// <returns>The inverse error function evaluated at given value.</returns>
         /// <remarks>
-        /// 	<list type="bullet">
-        /// 		<item>returns Double.PositiveInfinity if <c>z &gt;= 1.0</c>.</item>
-        /// 		<item>returns Double.NegativeInfinity if <c>z &lt;= -1.0</c>.</item>
-        /// 	</list>
+        /// <list type="bullet">
+        /// <item>returns Double.PositiveInfinity if <c>z &gt;= 1.0</c>.</item>
+        /// <item>returns Double.NegativeInfinity if <c>z &lt;= -1.0</c>.</item>
+        /// </list>
         /// </remarks>
         ///<summary>Calculates the inverse error function evaluated at z.</summary>
         ///<param name="z">value to evaluate.</param>
