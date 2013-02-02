@@ -49,6 +49,15 @@ namespace MathNet.Numerics.LinearAlgebra.Double
     {
         readonly SparseVectorStorage<double> _storage;
 
+        /// <summary>
+        /// Gets the number of non zero elements in the vector.
+        /// </summary>
+        /// <value>The number of non zero elements.</value>
+        public int NonZerosCount
+        {
+            get { return _storage.ValueCount; }
+        }
+
         internal SparseVector(SparseVectorStorage<double> storage)
             : base(storage)
         {
