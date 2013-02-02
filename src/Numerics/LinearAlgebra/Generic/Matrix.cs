@@ -283,7 +283,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <returns>
         /// A clone of the instance.
         /// </returns>
-        public virtual Matrix<T> Clone()
+        public Matrix<T> Clone()
         {
             var result = CreateMatrix(RowCount, ColumnCount);
             Storage.CopyToUnchecked(result.Storage, skipClearing: true);
@@ -357,10 +357,15 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <returns>A Vector containing the copied elements.</returns>
         /// <exception cref="ArgumentOutOfRangeException">If <paramref name="index"/> is negative,
         /// or greater than or equal to the number of rows.</exception>
-        public virtual Vector<T> Row(int index)
+        public Vector<T> Row(int index)
         {
+            if (index >= RowCount || index < 0)
+            {
+                throw new ArgumentOutOfRangeException("index");
+            }
+
             var ret = CreateVector(ColumnCount);
-            Row(index, 0, ColumnCount, ret);
+            Storage.CopySubRowToUnchecked(ret.Storage, index, 0, 0, ColumnCount);
             return ret;
         }
 
@@ -373,9 +378,14 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <exception cref="ArgumentOutOfRangeException">If <paramref name="index"/> is negative,
         /// or greater than or equal to the number of rows.</exception>
         /// <exception cref="ArgumentOutOfRangeException">If <b>this.Columns != result.Count</b>.</exception>
-        public virtual void Row(int index, Vector<T> result)
+        public void Row(int index, Vector<T> result)
         {
-            Row(index, 0, ColumnCount, result);
+            if (result == null)
+            {
+                throw new ArgumentNullException("result");
+            }
+
+            Storage.CopySubRowTo(result.Storage, index, 0, 0, ColumnCount);
         }
 
         /// <summary>
@@ -392,10 +402,10 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// or greater than or equal to the number of columns.</item>
         /// <item><c>(columnIndex + length) &gt;= Columns.</c></item></list></exception>        
         /// <exception cref="ArgumentOutOfRangeException">If <paramref name="length"/> is not positive.</exception>
-        public virtual Vector<T> Row(int rowIndex, int columnIndex, int length)
+        public Vector<T> Row(int rowIndex, int columnIndex, int length)
         {
             var ret = CreateVector(length);
-            Row(rowIndex, columnIndex, length, ret);
+            Storage.CopySubRowTo(ret.Storage, rowIndex, columnIndex, 0, length);
             return ret;
         }
 
@@ -415,42 +425,14 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// is greater than or equal to the number of rows.</exception>
         /// <exception cref="ArgumentOutOfRangeException">If <paramref name="length"/> is not positive.</exception>
         /// <exception cref="ArgumentOutOfRangeException">If <strong>result.Count &lt; length</strong>.</exception>
-        public virtual void Row(int rowIndex, int columnIndex, int length, Vector<T> result)
+        public void Row(int rowIndex, int columnIndex, int length, Vector<T> result)
         {
             if (result == null)
             {
                 throw new ArgumentNullException("result");
             }
 
-            if (rowIndex >= RowCount || rowIndex < 0)
-            {
-                throw new ArgumentOutOfRangeException("rowIndex");
-            }
-
-            if (columnIndex >= ColumnCount || columnIndex < 0)
-            {
-                throw new ArgumentOutOfRangeException("columnIndex");
-            }
-
-            if (columnIndex + length > ColumnCount)
-            {
-                throw new ArgumentOutOfRangeException("length");
-            }
-
-            if (length < 1)
-            {
-                throw new ArgumentOutOfRangeException("length", Resources.ArgumentMustBePositive);
-            }
-
-            if (result.Count < length)
-            {
-                throw new ArgumentOutOfRangeException("result", Resources.ArgumentVectorsSameLength);
-            }
-
-            for (int i = columnIndex, j = 0; i < columnIndex + length; i++, j++)
-            {
-                result[j] = At(rowIndex, i);
-            }
+            Storage.CopySubRowTo(result.Storage, rowIndex, columnIndex, 0, length);
         }
 
         /// <summary>
@@ -460,11 +442,16 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <returns>A Vector containing the copied elements.</returns>
         /// <exception cref="ArgumentOutOfRangeException">If <paramref name="index"/> is negative,
         /// or greater than or equal to the number of columns.</exception>
-        public virtual Vector<T> Column(int index)
+        public Vector<T> Column(int index)
         {
-            var result = CreateVector(RowCount);
-            Column(index, 0, RowCount, result);
-            return result;
+            if (index >= ColumnCount || index < 0)
+            {
+                throw new ArgumentOutOfRangeException("index");
+            }
+
+            var ret = CreateVector(RowCount);
+            Storage.CopySubColumnToUnchecked(ret.Storage, index, 0, 0, RowCount);
+            return ret;
         }
 
         /// <summary>
@@ -476,9 +463,14 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <exception cref="ArgumentOutOfRangeException">If <paramref name="index"/> is negative,
         /// or greater than or equal to the number of columns.</exception>
         /// <exception cref="ArgumentOutOfRangeException">If <b>this.Rows != result.Count</b>.</exception>
-        public virtual void Column(int index, Vector<T> result)
+        public void Column(int index, Vector<T> result)
         {
-            Column(index, 0, RowCount, result);
+            if (result == null)
+            {
+                throw new ArgumentNullException("result");
+            }
+
+            Storage.CopySubColumnTo(result.Storage, index, 0, 0, RowCount);
         }
 
         /// <summary>
@@ -496,11 +488,11 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <item><c>(rowIndex + length) &gt;= Rows.</c></item></list>
         /// </exception>        
         /// <exception cref="ArgumentOutOfRangeException">If <paramref name="length"/> is not positive.</exception>
-        public virtual Vector<T> Column(int columnIndex, int rowIndex, int length)
+        public Vector<T> Column(int columnIndex, int rowIndex, int length)
         {
-            var result = CreateVector(length);
-            Column(columnIndex, rowIndex, length, result);
-            return result;
+            var ret = CreateVector(length);
+            Storage.CopySubColumnTo(ret.Storage, columnIndex, rowIndex, 0, length);
+            return ret;
         }
 
         /// <summary>
@@ -519,42 +511,14 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// is greater than or equal to the number of rows.</exception>
         /// <exception cref="ArgumentOutOfRangeException">If <paramref name="length"/> is not positive.</exception>
         /// <exception cref="ArgumentOutOfRangeException">If <strong>result.Count &lt; length</strong>.</exception>
-        public virtual void Column(int columnIndex, int rowIndex, int length, Vector<T> result)
+        public void Column(int columnIndex, int rowIndex, int length, Vector<T> result)
         {
             if (result == null)
             {
                 throw new ArgumentNullException("result");
             }
 
-            if (columnIndex >= ColumnCount || columnIndex < 0)
-            {
-                throw new ArgumentOutOfRangeException("columnIndex");
-            }
-
-            if (rowIndex >= RowCount || rowIndex < 0)
-            {
-                throw new ArgumentOutOfRangeException("rowIndex");
-            }
-
-            if (rowIndex + length > RowCount)
-            {
-                throw new ArgumentOutOfRangeException("length");
-            }
-
-            if (length < 1)
-            {
-                throw new ArgumentOutOfRangeException("length", Resources.ArgumentMustBePositive);
-            }
-
-            if (result.Count < length)
-            {
-                throw new ArgumentOutOfRangeException("result", Resources.ArgumentVectorsSameLength);
-            }
-
-            for (int i = rowIndex, j = 0; i < rowIndex + length; i++, j++)
-            {
-                result[j] = At(i, columnIndex);
-            }
+            Storage.CopySubColumnTo(result.Storage, columnIndex, rowIndex, 0, length);
         }
 
         /// <summary>

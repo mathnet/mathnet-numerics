@@ -263,5 +263,53 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                 }
             }
         }
+
+        public void CopySubRowTo(VectorStorage<T> target, int rowIndex,
+            int sourceColumnIndex, int targetColumnIndex, int columnCount,
+            bool skipClearing = false)
+        {
+            if (target == null)
+            {
+                throw new ArgumentNullException("target");
+            }
+
+            ValidateSubRowRange(target, rowIndex, sourceColumnIndex, targetColumnIndex, columnCount);
+
+            CopySubRowToUnchecked(target, rowIndex, sourceColumnIndex, targetColumnIndex, columnCount, skipClearing);
+        }
+
+        internal virtual void CopySubRowToUnchecked(VectorStorage<T> target, int rowIndex,
+            int sourceColumnIndex, int targetColumnIndex, int columnCount,
+            bool skipClearing = false)
+        {
+            for (int j = sourceColumnIndex, jj = targetColumnIndex; j < sourceColumnIndex + columnCount; j++, jj++)
+            {
+                target.At(jj, At(rowIndex, j));
+            }
+        }
+
+        public void CopySubColumnTo(VectorStorage<T> target, int columnIndex,
+            int sourceRowIndex, int targetRowIndex, int rowCount,
+            bool skipClearing = false)
+        {
+            if (target == null)
+            {
+                throw new ArgumentNullException("target");
+            }
+
+            ValidateSubColumnRange(target, columnIndex, sourceRowIndex, targetRowIndex, rowCount);
+
+            CopySubColumnToUnchecked(target, columnIndex, sourceRowIndex, targetRowIndex, rowCount, skipClearing);
+        }
+
+        internal virtual void CopySubColumnToUnchecked(VectorStorage<T> target, int columnIndex,
+            int sourceRowIndex, int targetRowIndex, int rowCount,
+            bool skipClearing = false)
+        {
+            for (int i = sourceRowIndex, ii = targetRowIndex; i < sourceRowIndex + rowCount; i++, ii++)
+            {
+                target.At(ii, At(i, columnIndex));
+            }
+        }
     }
 }

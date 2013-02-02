@@ -121,5 +121,53 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                 Array.Copy(Data, j*RowCount + sourceRowIndex, target.Data, jj*target.RowCount + targetRowIndex, rowCount);
             }
         }
+
+        internal override void CopySubRowToUnchecked(VectorStorage<T> target, int rowIndex, int sourceColumnIndex, int targetColumnIndex, int columnCount, bool skipClearing = false)
+        {
+            var denseTarget = target as DenseVectorStorage<T>;
+            if (denseTarget != null)
+            {
+                CopySubRowToUnchecked(denseTarget, rowIndex, sourceColumnIndex, targetColumnIndex, columnCount);
+                return;
+            }
+
+            // FALL BACK
+
+            for (int j = sourceColumnIndex, jj = targetColumnIndex; j < sourceColumnIndex + columnCount; j++, jj++)
+            {
+                target.At(jj, Data[(j * RowCount) + rowIndex]);
+            }
+        }
+
+        void CopySubRowToUnchecked(DenseVectorStorage<T> target, int rowIndex, int sourceColumnIndex, int targetColumnIndex, int columnCount, bool skipClearing = false)
+        {
+            for (int j = 0; j<columnCount; j++)
+            {
+                target.Data[j + targetColumnIndex] = Data[(j + sourceColumnIndex) * RowCount + rowIndex];
+            }
+        }
+
+        internal override void CopySubColumnToUnchecked(VectorStorage<T> target, int columnIndex, int sourceRowIndex, int targetRowIndex, int rowCount, bool skipClearing = false)
+        {
+            var denseTarget = target as DenseVectorStorage<T>;
+            if (denseTarget != null)
+            {
+                CopySubColumnToUnchecked(denseTarget, columnIndex, sourceRowIndex, targetRowIndex, rowCount);
+                return;
+            }
+
+            // FALL BACK
+
+            var offset = columnIndex * RowCount;
+            for (int i = sourceRowIndex, ii = targetRowIndex; i < sourceRowIndex + rowCount; i++, ii++)
+            {
+                target.At(ii, Data[offset + i]);
+            }
+        }
+
+        void CopySubColumnToUnchecked(DenseVectorStorage<T> target, int columnIndex, int sourceRowIndex, int targetRowIndex, int rowCount, bool skipClearing = false)
+        {
+            Array.Copy(Data, columnIndex*RowCount + sourceRowIndex, target.Data, targetRowIndex, rowCount);
+        }
     }
 }

@@ -355,5 +355,35 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
             // else: all zero, nop
         }
+
+        internal override void CopySubRowToUnchecked(VectorStorage<T> target, int rowIndex,
+            int sourceColumnIndex, int targetColumnIndex, int columnCount,
+            bool skipClearing = false)
+        {
+            if (!skipClearing)
+            {
+                target.Clear(targetColumnIndex, columnCount);
+            }
+
+            if (rowIndex >= sourceColumnIndex && rowIndex < sourceColumnIndex + columnCount && rowIndex < Data.Length)
+            {
+                target.At(rowIndex - sourceColumnIndex + targetColumnIndex, Data[rowIndex]);
+            }
+        }
+
+        internal override void CopySubColumnToUnchecked(VectorStorage<T> target, int columnIndex,
+            int sourceRowIndex, int targetRowIndex, int rowCount,
+            bool skipClearing = false)
+        {
+            if (!skipClearing)
+            {
+                target.Clear(targetRowIndex, rowCount);
+            }
+
+            if (columnIndex >= sourceRowIndex && columnIndex < sourceRowIndex + rowCount && columnIndex < Data.Length)
+            {
+                target.At(columnIndex - sourceRowIndex + targetRowIndex, Data[columnIndex]);
+            }
+        }
     }
 }

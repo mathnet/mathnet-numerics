@@ -432,15 +432,6 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
             // FALL BACK
 
-            if (ReferenceEquals(this, target))
-            {
-                throw new NotSupportedException();
-            }
-
-            ValidateSubMatrixRange(target,
-                sourceRowIndex, targetRowIndex, rowCount,
-                sourceColumnIndex, targetColumnIndex, columnCount);
-
             if (!skipClearing)
             {
                 target.Clear(targetRowIndex, rowCount, targetColumnIndex, columnCount);
@@ -468,15 +459,6 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             int sourceColumnIndex, int targetColumnIndex, int columnCount,
             bool skipClearing)
         {
-            if (ReferenceEquals(this, target))
-            {
-                throw new NotSupportedException();
-            }
-
-            ValidateSubMatrixRange(target,
-                sourceRowIndex, targetRowIndex, rowCount,
-                sourceColumnIndex, targetColumnIndex, columnCount);
-
             var rowOffset = targetRowIndex - sourceRowIndex;
             var columnOffset = targetColumnIndex - sourceColumnIndex;
 
@@ -540,6 +522,32 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                         target.At(targetRowIndex + row, targetColumnIndex + column, Values[j]);
                     }
                 }
+            }
+        }
+
+        internal override void CopySubRowToUnchecked(VectorStorage<T> target, int rowIndex,
+            int sourceColumnIndex, int targetColumnIndex, int columnCount,
+            bool skipClearing = false)
+        {
+            if (!skipClearing)
+            {
+                target.Clear(targetColumnIndex, columnCount);
+            }
+
+            // Determine bounds in columnIndices array where this item should be searched (using rowIndex)
+            var startIndex = RowPointers[rowIndex];
+            var endIndex = rowIndex < RowPointers.Length - 1 ? RowPointers[rowIndex + 1] : ValueCount;
+
+            if (startIndex == endIndex)
+            {
+                return;
+            }
+
+            // If there are non-zero elements use base class implementation
+            for (int i = sourceColumnIndex, j = 0; i < sourceColumnIndex + columnCount; i++, j++)
+            {
+                var index = FindItem(rowIndex, i);
+                target.At(j, index >= 0 ? Values[index] : _zero);
             }
         }
     }
