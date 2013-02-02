@@ -286,7 +286,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             {
                 for (var j = 0; j != ColumnCount; j++)
                 {
-                    result[i, j] = -At(i, j);
+                    result.At(i, j, -At(i, j));
                 }
             }
         }

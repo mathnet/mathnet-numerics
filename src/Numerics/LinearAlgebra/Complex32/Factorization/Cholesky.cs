@@ -54,7 +54,8 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
                 var det = Complex32.One;
                 for (var j = 0; j < CholeskyFactor.RowCount; j++)
                 {
-                    det *= CholeskyFactor[j, j] * CholeskyFactor[j, j];
+                    var d = CholeskyFactor.At(j, j);
+                    det *= d * d;
                 }
 
                 return det;
@@ -71,7 +72,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
                 var det = Complex32.Zero;
                 for (var j = 0; j < CholeskyFactor.RowCount; j++)
                 {
-                    det += 2.0f * CholeskyFactor[j, j].NaturalLogarithm();
+                    det += 2.0f * CholeskyFactor.At(j, j).NaturalLogarithm();
                 }
 
                 return det;

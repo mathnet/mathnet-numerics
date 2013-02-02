@@ -30,8 +30,8 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
     using System.Collections;
     using System.Collections.Generic;
     using System.Numerics;
+    using System.Runtime;
     using System.Text;
-    using Distributions;
     using Numerics;
     using Properties;
     using Storage;
@@ -86,13 +86,20 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// greater than the size of the vector.</exception>
         public T this[int index]
         {
+            [TargetedPatchingOptOut("Performance critical to inline across NGen image boundaries")]
+            //[MethodImpl(MethodImplOptions.AggressiveInlining)] .Net 4.5 only
             get { return Storage[index]; }
+
+            [TargetedPatchingOptOut("Performance critical to inline across NGen image boundaries")]
+            //[MethodImpl(MethodImplOptions.AggressiveInlining)] .Net 4.5 only
             set { Storage[index] = value;}
         }
 
         /// <summary>Gets the value at the given <paramref name="index"/> without range checking..</summary>
         /// <param name="index">The index of the value to get or set.</param>
-        /// <returns>The value of the vector at the given <paramref name="index"/>.</returns> 
+        /// <returns>The value of the vector at the given <paramref name="index"/>.</returns>
+        [TargetedPatchingOptOut("Performance critical to inline across NGen image boundaries")]
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)] .Net 4.5 only
         public T At(int index)
         {
             return Storage.At(index);
@@ -101,6 +108,8 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <summary>Sets the <paramref name="value"/> at the given <paramref name="index"/> without range checking..</summary>
         /// <param name="index">The index of the value to get or set.</param>
         /// <param name="value">The value to set.</param>
+        [TargetedPatchingOptOut("Performance critical to inline across NGen image boundaries")]
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)] .Net 4.5 only
         public void At(int index, T value)
         {
             Storage.At(index, value);

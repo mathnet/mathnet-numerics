@@ -29,12 +29,14 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
     using System;
     using System.Collections.Generic;
     using System.Numerics;
+    using System.Runtime;
     using System.Text;
     using Factorization;
     using Numerics;
     using Properties;
     using Storage;
     using Threading;
+
 
     /// <summary>
     /// Defines the base class for <c>Matrix</c> classes.
@@ -166,7 +168,12 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// to get and set values without range checking.</remarks>
         public T this[int row, int column]
         {
+            [TargetedPatchingOptOut("Performance critical to inline across NGen image boundaries")]
+            //[MethodImpl(MethodImplOptions.AggressiveInlining)] .Net 4.5 only
             get { return Storage[row, column]; }
+
+            [TargetedPatchingOptOut("Performance critical to inline across NGen image boundaries")]
+            //[MethodImpl(MethodImplOptions.AggressiveInlining)] .Net 4.5 only
             set { Storage[row, column] = value; }
         }
 
@@ -182,6 +189,8 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <returns>
         /// The requested element.
         /// </returns>
+        [TargetedPatchingOptOut("Performance critical to inline across NGen image boundaries")]
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)] .Net 4.5 only
         public T At(int row, int column)
         {
             return Storage.At(row, column);
@@ -199,6 +208,8 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <param name="value">
         /// The value to set the element to.
         /// </param>
+        [TargetedPatchingOptOut("Performance critical to inline across NGen image boundaries")]
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)] .Net 4.5 only
         public void At(int row, int column, T value)
         {
             Storage.At(row, column, value);

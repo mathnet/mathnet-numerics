@@ -54,7 +54,8 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
                 var det = 1.0f;
                 for (var j = 0; j < CholeskyFactor.RowCount; j++)
                 {
-                    det *= CholeskyFactor[j, j] * CholeskyFactor[j, j];
+                    var d = CholeskyFactor.At(j, j);
+                    det *= d * d;
                 }
 
                 return det;
@@ -71,7 +72,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
                 var det = 0.0f;
                 for (var j = 0; j < CholeskyFactor.RowCount; j++)
                 {
-                    det += 2.0f * Convert.ToSingle(Math.Log(CholeskyFactor[j, j]));
+                    det += 2.0f * Convert.ToSingle(Math.Log(CholeskyFactor.At(j, j)));
                 }
 
                 return det;

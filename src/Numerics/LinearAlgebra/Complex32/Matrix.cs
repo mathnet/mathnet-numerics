@@ -296,7 +296,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
             {
                 for (var j = 0; j != ColumnCount; j++)
                 {
-                    result[i, j] = -At(i, j);
+                    result.At(i, j, -At(i, j));
                 }
             }
         }
