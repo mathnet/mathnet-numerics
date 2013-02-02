@@ -59,13 +59,12 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             Array.Clear(Data, index, count);
         }
 
-        /// <remarks>Parameters assumed to be validated already.</remarks>
-        public override void CopyTo(VectorStorage<T> target, bool skipClearing = false)
+        internal override void CopyToUnchecked(VectorStorage<T> target, bool skipClearing = false)
         {
             var denseTarget = target as DenseVectorStorage<T>;
             if (denseTarget != null)
             {
-                CopyTo(denseTarget);
+                CopyToUnchecked(denseTarget);
                 return;
             }
 
@@ -77,7 +76,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             }
         }
 
-        void CopyTo(DenseVectorStorage<T> target)
+        void CopyToUnchecked(DenseVectorStorage<T> target)
         {
             if (ReferenceEquals(this, target))
             {
@@ -93,26 +92,25 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             Array.Copy(Data, 0, target.Data, 0, Data.Length);
         }
 
-        public override void CopySubVectorTo(VectorStorage<T> target,
+        internal override void CopySubVectorToUnchecked(VectorStorage<T> target,
             int sourceIndex, int targetIndex, int count,
             bool skipClearing = false)
         {
             var denseTarget = target as DenseVectorStorage<T>;
             if (denseTarget != null)
             {
-                CopySubVectorTo(denseTarget, sourceIndex, targetIndex, count);
+                CopySubVectorToUnchecked(denseTarget, sourceIndex, targetIndex, count);
                 return;
             }
 
             // FALL BACK
 
-            base.CopySubVectorTo(target, sourceIndex, targetIndex, count, skipClearing);
+            base.CopySubVectorToUnchecked(target, sourceIndex, targetIndex, count, skipClearing);
         }
 
-        void CopySubVectorTo(DenseVectorStorage<T> target,
+        void CopySubVectorToUnchecked(DenseVectorStorage<T> target,
             int sourceIndex, int targetIndex, int count)
         {
-            ValidateSubVectorRange(target, sourceIndex, targetIndex, count);
             Array.Copy(Data, sourceIndex, target.Data, targetIndex, count);
         }
     }

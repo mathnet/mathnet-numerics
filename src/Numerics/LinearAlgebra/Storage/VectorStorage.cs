@@ -166,8 +166,27 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             return hash;
         }
 
-        /// <remarks>Parameters assumed to be validated already.</remarks>
-        public virtual void CopyTo(VectorStorage<T> target, bool skipClearing = false)
+        public void CopyTo(VectorStorage<T> target, bool skipClearing = false)
+        {
+            if (target == null)
+            {
+                throw new ArgumentNullException("target");
+            }
+
+            if (ReferenceEquals(this, target))
+            {
+                return;
+            }
+
+            if (Length != target.Length)
+            {
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "target");
+            }
+
+            CopyToUnchecked(target, skipClearing);
+        }
+
+        internal virtual void CopyToUnchecked(VectorStorage<T> target, bool skipClearing = false)
         {
             for (int i = 0; i < Length; i++)
             {
@@ -175,7 +194,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             }
         }
 
-        public virtual void CopySubVectorTo(VectorStorage<T> target,
+        public void CopySubVectorTo(VectorStorage<T> target,
             int sourceIndex, int targetIndex, int count,
             bool skipClearing = false)
         {
@@ -186,6 +205,13 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
             ValidateSubVectorRange(target, sourceIndex, targetIndex, count);
 
+            CopySubVectorToUnchecked(target, sourceIndex, targetIndex, count, skipClearing);
+        }
+
+        internal virtual void CopySubVectorToUnchecked(VectorStorage<T> target,
+            int sourceIndex, int targetIndex, int count,
+            bool skipClearing = false)
+        {
             if (ReferenceEquals(this, target))
             {
                 var tmp = new T[count];

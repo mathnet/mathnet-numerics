@@ -106,7 +106,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         public DenseVector(Vector<float> other)
             : this(other.Count)
         {
-            other.Storage.CopyTo(Storage, skipClearing: true);
+            other.Storage.CopyToUnchecked(Storage, skipClearing: true);
         }
 
         /// <summary>

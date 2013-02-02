@@ -123,7 +123,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         public SparseVector(Vector<double> other)
             : this(new SparseVectorStorage<double>(other.Count))
         {
-            other.Storage.CopyTo(Storage, skipClearing: true);
+            other.Storage.CopyToUnchecked(Storage, skipClearing: true);
         }
 
         /// <summary>

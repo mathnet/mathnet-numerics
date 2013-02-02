@@ -180,13 +180,12 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             }
         }
 
-        /// <remarks>Parameters assumed to be validated already.</remarks>
-        public override void CopyTo(VectorStorage<T> target, bool skipClearing = false)
+        internal override void CopyToUnchecked(VectorStorage<T> target, bool skipClearing = false)
         {
             var sparseTarget = target as SparseVectorStorage<T>;
             if (sparseTarget != null)
             {
-                CopyTo(sparseTarget);
+                CopyToUnchecked(sparseTarget);
                 return;
             }
 
@@ -206,7 +205,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             }
         }
 
-        void CopyTo(SparseVectorStorage<T> target)
+        void CopyToUnchecked(SparseVectorStorage<T> target)
         {
             if (ReferenceEquals(this, target))
             {
@@ -230,16 +229,14 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             }
         }
 
-        public override void CopySubVectorTo(VectorStorage<T> target,
+        internal override void CopySubVectorToUnchecked(VectorStorage<T> target,
             int sourceIndex, int targetIndex, int count,
             bool skipClearing = false)
         {
-            ValidateSubVectorRange(target, sourceIndex, targetIndex, count);
-
             var sparseTarget = target as SparseVectorStorage<T>;
             if (sparseTarget != null)
             {
-                CopySubVectorTo(sparseTarget, sourceIndex, targetIndex, count, skipClearing);
+                CopySubVectorToUnchecked(sparseTarget, sourceIndex, targetIndex, count, skipClearing);
                 return;
             }
 
@@ -263,7 +260,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             }
         }
 
-        void CopySubVectorTo(SparseVectorStorage<T> target,
+        void CopySubVectorToUnchecked(SparseVectorStorage<T> target,
             int sourceIndex, int targetIndex, int count,
             bool skipClearing)
         {

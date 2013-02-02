@@ -106,7 +106,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         public DenseVector(Vector<Complex32> other)
             : this(other.Count)
         {
-            other.Storage.CopyTo(Storage, skipClearing: true);
+            other.Storage.CopyToUnchecked(Storage, skipClearing: true);
         }
 
         /// <summary>

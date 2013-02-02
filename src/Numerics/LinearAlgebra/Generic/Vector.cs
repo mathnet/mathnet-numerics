@@ -150,7 +150,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         public Vector<T> Clone()
         {
             var result = CreateVector(Count);
-            Storage.CopyTo(result.Storage, skipClearing: true);
+            Storage.CopyToUnchecked(result.Storage, skipClearing: true);
             return result;
         }
 
@@ -171,16 +171,6 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
             if (target == null)
             {
                 throw new ArgumentNullException("target");
-            }
-
-            if (ReferenceEquals(this, target) || ReferenceEquals(Storage, target.Storage))
-            {
-                return;
-            }
-
-            if (Count != target.Count)
-            {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "target");
             }
 
             Storage.CopyTo(target.Storage);

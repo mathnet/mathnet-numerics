@@ -123,7 +123,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         public SparseVector(Vector<Complex> other)
             : this(new SparseVectorStorage<Complex>(other.Count))
         {
-            other.Storage.CopyTo(Storage, skipClearing: true);
+            other.Storage.CopyToUnchecked(Storage, skipClearing: true);
         }
 
         /// <summary>
