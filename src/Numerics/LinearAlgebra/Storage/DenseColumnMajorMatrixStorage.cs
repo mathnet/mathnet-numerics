@@ -68,13 +68,12 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             }
         }
 
-        /// <remarks>Parameters assumed to be validated already.</remarks>
-        public override void CopyTo(MatrixStorage<T> target, bool skipClearing = false)
+        internal override void CopyToUnchecked(MatrixStorage<T> target, bool skipClearing = false)
         {
             var denseTarget = target as DenseColumnMajorMatrixStorage<T>;
             if (denseTarget != null)
             {
-                CopyTo(denseTarget);
+                CopyToUnchecked(denseTarget);
                 return;
             }
 
@@ -89,29 +88,13 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             }
         }
 
-        void CopyTo(DenseColumnMajorMatrixStorage<T> target)
+        void CopyToUnchecked(DenseColumnMajorMatrixStorage<T> target)
         {
-            if (ReferenceEquals(this, target))
-            {
-                return;
-            }
-
-            if (target == null)
-            {
-                throw new ArgumentNullException("target");
-            }
-
-            if (RowCount != target.RowCount || ColumnCount != target.ColumnCount)
-            {
-                var message = string.Format(Resources.ArgumentMatrixDimensions2, RowCount + "x" + ColumnCount, target.RowCount + "x" + target.ColumnCount);
-                throw new ArgumentException(message, "target");
-            }
-
             //Buffer.BlockCopy(Data, 0, target.Data, 0, Data.Length * System.Runtime.InteropServices.Marshal.SizeOf(typeof(T)));
             Array.Copy(Data, 0, target.Data, 0, Data.Length);
         }
 
-        public override void CopySubMatrixTo(MatrixStorage<T> target,
+        internal override void CopySubMatrixToUnchecked(MatrixStorage<T> target,
             int sourceRowIndex, int targetRowIndex, int rowCount,
             int sourceColumnIndex, int targetColumnIndex, int columnCount,
             bool skipClearing = false)
@@ -119,33 +102,19 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             var denseTarget = target as DenseColumnMajorMatrixStorage<T>;
             if (denseTarget != null)
             {
-                CopySubMatrixTo(denseTarget, sourceRowIndex, targetRowIndex, rowCount, sourceColumnIndex, targetColumnIndex, columnCount);
+                CopySubMatrixToUnchecked(denseTarget, sourceRowIndex, targetRowIndex, rowCount, sourceColumnIndex, targetColumnIndex, columnCount);
                 return;
             }
 
             // FALL BACK
 
-            base.CopySubMatrixTo(target, sourceRowIndex, targetRowIndex, rowCount, sourceColumnIndex, targetColumnIndex, columnCount, skipClearing);
+            base.CopySubMatrixToUnchecked(target, sourceRowIndex, targetRowIndex, rowCount, sourceColumnIndex, targetColumnIndex, columnCount, skipClearing);
         }
 
-        void CopySubMatrixTo(DenseColumnMajorMatrixStorage<T> target,
+        void CopySubMatrixToUnchecked(DenseColumnMajorMatrixStorage<T> target,
             int sourceRowIndex, int targetRowIndex, int rowCount,
             int sourceColumnIndex, int targetColumnIndex, int columnCount)
         {
-            if (target == null)
-            {
-                throw new ArgumentNullException("target");
-            }
-
-            if (ReferenceEquals(this, target))
-            {
-                throw new NotSupportedException();
-            }
-
-            ValidateSubMatrixRange(target,
-                sourceRowIndex, targetRowIndex, rowCount,
-                sourceColumnIndex, targetColumnIndex, columnCount);
-
             for (int j = sourceColumnIndex, jj = targetColumnIndex; j < sourceColumnIndex + columnCount; j++, jj++)
             {
                 //Buffer.BlockCopy(Data, j*RowCount + sourceRowIndex, target.Data, jj*target.RowCount + targetRowIndex, rowCount * System.Runtime.InteropServices.Marshal.SizeOf(typeof(T)));

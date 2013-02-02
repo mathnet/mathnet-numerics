@@ -180,7 +180,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         public SparseMatrix(Matrix<Complex32> matrix)
             : this(matrix.RowCount, matrix.ColumnCount)
         {
-            matrix.Storage.CopyTo(Storage, skipClearing: true);
+            matrix.Storage.CopyToUnchecked(Storage, skipClearing: true);
         }
 
         /// <summary>

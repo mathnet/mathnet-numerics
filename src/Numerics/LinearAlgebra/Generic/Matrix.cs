@@ -286,7 +286,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         public virtual Matrix<T> Clone()
         {
             var result = CreateMatrix(RowCount, ColumnCount);
-            Storage.CopyTo(result.Storage, skipClearing: true);
+            Storage.CopyToUnchecked(result.Storage, skipClearing: true);
             return result;
         }
 
@@ -307,17 +307,6 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
             if (target == null)
             {
                 throw new ArgumentNullException("target");
-            }
-
-            if (ReferenceEquals(this, target) || ReferenceEquals(Storage, target.Storage))
-            {
-                return;
-            }
-
-            if (RowCount != target.RowCount || ColumnCount != target.ColumnCount)
-            {
-                var message = string.Format(Resources.ArgumentMatrixDimensions2, RowCount + "x" + ColumnCount, target.RowCount + "x" + target.ColumnCount);
-                throw new ArgumentException(message, "target");
             }
 
             Storage.CopyTo(target.Storage);
@@ -1485,8 +1474,8 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
             }
 
             var result = CreateMatrix(RowCount, ColumnCount + right.ColumnCount, fullyMutable: true);
-            Storage.CopySubMatrixTo(result.Storage, 0, 0, RowCount, 0, 0, ColumnCount, skipClearing: true);
-            right.Storage.CopySubMatrixTo(result.Storage, 0, 0, right.RowCount, 0, ColumnCount, right.ColumnCount, skipClearing: true);
+            Storage.CopySubMatrixToUnchecked(result.Storage, 0, 0, RowCount, 0, 0, ColumnCount, skipClearing: true);
+            right.Storage.CopySubMatrixToUnchecked(result.Storage, 0, 0, right.RowCount, 0, ColumnCount, right.ColumnCount, skipClearing: true);
             return result;
         }
 
@@ -1517,8 +1506,8 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
                 throw new ArgumentException(Resources.ArgumentMatrixSameColumnDimension);
             }
 
-            Storage.CopySubMatrixTo(result.Storage, 0, 0, RowCount, 0, 0, ColumnCount);
-            right.Storage.CopySubMatrixTo(result.Storage, 0, 0, right.RowCount, 0, ColumnCount, right.ColumnCount);
+            Storage.CopySubMatrixToUnchecked(result.Storage, 0, 0, RowCount, 0, 0, ColumnCount);
+            right.Storage.CopySubMatrixToUnchecked(result.Storage, 0, 0, right.RowCount, 0, ColumnCount, right.ColumnCount);
         }
 
         /// <summary>
@@ -1541,8 +1530,8 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
             }
 
             var result = CreateMatrix(RowCount + lower.RowCount, ColumnCount, fullyMutable: true);
-            Storage.CopySubMatrixTo(result.Storage, 0, 0, RowCount, 0, 0, ColumnCount, skipClearing: true);
-            lower.Storage.CopySubMatrixTo(result.Storage, 0, RowCount, lower.RowCount, 0, 0, lower.ColumnCount, skipClearing: true);
+            Storage.CopySubMatrixToUnchecked(result.Storage, 0, 0, RowCount, 0, 0, ColumnCount, skipClearing: true);
+            lower.Storage.CopySubMatrixToUnchecked(result.Storage, 0, RowCount, lower.RowCount, 0, 0, lower.ColumnCount, skipClearing: true);
             return result;
         }
 
@@ -1575,8 +1564,8 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
                 throw DimensionsDontMatch<ArgumentException>(this, result, "result");
             }
 
-            Storage.CopySubMatrixTo(result.Storage, 0, 0, RowCount, 0, 0, ColumnCount);
-            lower.Storage.CopySubMatrixTo(result.Storage, 0, RowCount, lower.RowCount, 0, 0, lower.ColumnCount);
+            Storage.CopySubMatrixToUnchecked(result.Storage, 0, 0, RowCount, 0, 0, ColumnCount);
+            lower.Storage.CopySubMatrixToUnchecked(result.Storage, 0, RowCount, lower.RowCount, 0, 0, lower.ColumnCount);
         }
 
         /// <summary>
@@ -1595,8 +1584,8 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
             }
 
             var result = CreateMatrix(RowCount + lower.RowCount, ColumnCount + lower.ColumnCount, fullyMutable: true);
-            Storage.CopySubMatrixTo(result.Storage, 0, 0, RowCount, 0, 0, ColumnCount);
-            lower.Storage.CopySubMatrixTo(result.Storage, 0, RowCount, lower.RowCount, 0, ColumnCount, lower.ColumnCount);
+            Storage.CopySubMatrixToUnchecked(result.Storage, 0, 0, RowCount, 0, 0, ColumnCount);
+            lower.Storage.CopySubMatrixToUnchecked(result.Storage, 0, RowCount, lower.RowCount, 0, ColumnCount, lower.ColumnCount);
             return result;
         }
 
@@ -1625,8 +1614,8 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
                 throw DimensionsDontMatch<ArgumentException>(this, result, "result");
             }
 
-            Storage.CopySubMatrixTo(result.Storage, 0, 0, RowCount, 0, 0, ColumnCount);
-            lower.Storage.CopySubMatrixTo(result.Storage, 0, RowCount, lower.RowCount, 0, ColumnCount, lower.ColumnCount);
+            Storage.CopySubMatrixToUnchecked(result.Storage, 0, 0, RowCount, 0, 0, ColumnCount);
+            lower.Storage.CopySubMatrixToUnchecked(result.Storage, 0, RowCount, lower.RowCount, 0, ColumnCount, lower.ColumnCount);
         }
 
         /// <summary>Calculates the L1 norm.</summary>

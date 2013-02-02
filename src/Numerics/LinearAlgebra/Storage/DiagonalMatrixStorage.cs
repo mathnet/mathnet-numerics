@@ -143,27 +143,26 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             return hash;
         }
 
-        /// <remarks>Parameters assumed to be validated already.</remarks>
-        public override void CopyTo(MatrixStorage<T> target, bool skipClearing = false)
+        internal override void CopyToUnchecked(MatrixStorage<T> target, bool skipClearing = false)
         {
             var diagonalTarget = target as DiagonalMatrixStorage<T>;
             if (diagonalTarget != null)
             {
-                CopyTo(diagonalTarget);
+                CopyToUnchecked(diagonalTarget);
                 return;
             }
 
             var denseTarget = target as DenseColumnMajorMatrixStorage<T>;
             if (denseTarget != null)
             {
-                CopyTo(denseTarget, skipClearing);
+                CopyToUnchecked(denseTarget, skipClearing);
                 return;
             }
 
             var sparseTarget = target as SparseCompressedRowMatrixStorage<T>;
             if (sparseTarget != null)
             {
-                CopyTo(sparseTarget, skipClearing);
+                CopyToUnchecked(sparseTarget, skipClearing);
                 return;
             }
 
@@ -180,41 +179,14 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             }
         }
 
-        void CopyTo(DiagonalMatrixStorage<T> target)
+        void CopyToUnchecked(DiagonalMatrixStorage<T> target)
         {
-            if (ReferenceEquals(this, target))
-            {
-                return;
-            }
-
-            if (target == null)
-            {
-                throw new ArgumentNullException("target");
-            }
-
-            if (RowCount != target.RowCount || ColumnCount != target.ColumnCount)
-            {
-                var message = string.Format(Resources.ArgumentMatrixDimensions2, RowCount + "x" + ColumnCount, target.RowCount + "x" + target.ColumnCount);
-                throw new ArgumentException(message, "target");
-            }
-
             //Buffer.BlockCopy(Data, 0, target.Data, 0, Data.Length * System.Runtime.InteropServices.Marshal.SizeOf(typeof(T)));
             Array.Copy(Data, 0, target.Data, 0, Data.Length);
         }
 
-        void CopyTo(SparseCompressedRowMatrixStorage<T> target, bool skipClearing)
+        void CopyToUnchecked(SparseCompressedRowMatrixStorage<T> target, bool skipClearing)
         {
-            if (target == null)
-            {
-                throw new ArgumentNullException("target");
-            }
-
-            if (RowCount != target.RowCount || ColumnCount != target.ColumnCount)
-            {
-                var message = string.Format(Resources.ArgumentMatrixDimensions2, RowCount + "x" + ColumnCount, target.RowCount + "x" + target.ColumnCount);
-                throw new ArgumentException(message, "target");
-            }
-
             if (!skipClearing)
             {
                 target.Clear();
@@ -226,19 +198,8 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             }
         }
 
-        void CopyTo(DenseColumnMajorMatrixStorage<T> target, bool skipClearing)
+        void CopyToUnchecked(DenseColumnMajorMatrixStorage<T> target, bool skipClearing)
         {
-            if (target == null)
-            {
-                throw new ArgumentNullException("target");
-            }
-
-            if (RowCount != target.RowCount || ColumnCount != target.ColumnCount)
-            {
-                var message = string.Format(Resources.ArgumentMatrixDimensions2, RowCount + "x" + ColumnCount, target.RowCount + "x" + target.ColumnCount);
-                throw new ArgumentException(message, "target");
-            }
-
             if (!skipClearing)
             {
                 target.Clear();
@@ -250,7 +211,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             }
         }
 
-        public override void CopySubMatrixTo(MatrixStorage<T> target,
+        internal override void CopySubMatrixToUnchecked(MatrixStorage<T> target,
             int sourceRowIndex, int targetRowIndex, int rowCount,
             int sourceColumnIndex, int targetColumnIndex, int columnCount,
             bool skipClearing = false)
@@ -258,43 +219,33 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             var denseTarget = target as DenseColumnMajorMatrixStorage<T>;
             if (denseTarget != null)
             {
-                CopySubMatrixTo(denseTarget, sourceRowIndex, targetRowIndex, rowCount, sourceColumnIndex, targetColumnIndex, columnCount, skipClearing);
+                CopySubMatrixToUnchecked(denseTarget, sourceRowIndex, targetRowIndex, rowCount, sourceColumnIndex, targetColumnIndex, columnCount, skipClearing);
                 return;
             }
 
             var diagonalTarget = target as DiagonalMatrixStorage<T>;
             if (diagonalTarget != null)
             {
-                CopySubMatrixTo(diagonalTarget, sourceRowIndex, targetRowIndex, rowCount, sourceColumnIndex, targetColumnIndex, columnCount);
+                CopySubMatrixToUnchecked(diagonalTarget, sourceRowIndex, targetRowIndex, rowCount, sourceColumnIndex, targetColumnIndex, columnCount);
                 return;
             }
 
             var sparseTarget = target as SparseCompressedRowMatrixStorage<T>;
             if (sparseTarget != null)
             {
-                CopySubMatrixTo(sparseTarget, sourceRowIndex, targetRowIndex, rowCount, sourceColumnIndex, targetColumnIndex, columnCount, skipClearing);
+                CopySubMatrixToUnchecked(sparseTarget, sourceRowIndex, targetRowIndex, rowCount, sourceColumnIndex, targetColumnIndex, columnCount, skipClearing);
                 return;
             }
 
             // FALL BACK
 
-            base.CopySubMatrixTo(target, sourceRowIndex, targetRowIndex, rowCount, sourceColumnIndex, targetColumnIndex, columnCount, skipClearing);
+            base.CopySubMatrixToUnchecked(target, sourceRowIndex, targetRowIndex, rowCount, sourceColumnIndex, targetColumnIndex, columnCount, skipClearing);
         }
 
-        void CopySubMatrixTo(DiagonalMatrixStorage<T> target,
+        void CopySubMatrixToUnchecked(DiagonalMatrixStorage<T> target,
             int sourceRowIndex, int targetRowIndex, int rowCount,
             int sourceColumnIndex, int targetColumnIndex, int columnCount)
         {
-            if (target == null)
-            {
-                throw new ArgumentNullException("target");
-            }
-
-            if (ReferenceEquals(this, target))
-            {
-                throw new NotSupportedException();
-            }
-
             if (sourceRowIndex - sourceColumnIndex != targetRowIndex - targetColumnIndex)
             {
                 if (Data.Any(x => !_zero.Equals(x)))
@@ -306,10 +257,6 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                 return;
             }
 
-            ValidateSubMatrixRange(target,
-                sourceRowIndex, targetRowIndex, rowCount,
-                sourceColumnIndex, targetColumnIndex, columnCount);
-
             var beginInclusive = Math.Max(sourceRowIndex, sourceColumnIndex);
             var endExclusive = Math.Min(sourceRowIndex + rowCount, sourceColumnIndex + columnCount);
             if (endExclusive > beginInclusive)
@@ -319,20 +266,11 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             }
         }
 
-        void CopySubMatrixTo(DenseColumnMajorMatrixStorage<T> target,
+        void CopySubMatrixToUnchecked(DenseColumnMajorMatrixStorage<T> target,
             int sourceRowIndex, int targetRowIndex, int rowCount,
             int sourceColumnIndex, int targetColumnIndex, int columnCount,
             bool skipClearing)
         {
-            if (target == null)
-            {
-                throw new ArgumentNullException("target");
-            }
-
-            ValidateSubMatrixRange(target,
-                sourceRowIndex, targetRowIndex, rowCount,
-                sourceColumnIndex, targetColumnIndex, columnCount);
-
             if (!skipClearing)
             {
                 target.Clear(targetRowIndex, rowCount, targetColumnIndex, columnCount);
@@ -379,20 +317,11 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             }
         }
 
-        void CopySubMatrixTo(SparseCompressedRowMatrixStorage<T> target,
+        void CopySubMatrixToUnchecked(SparseCompressedRowMatrixStorage<T> target,
             int sourceRowIndex, int targetRowIndex, int rowCount,
             int sourceColumnIndex, int targetColumnIndex, int columnCount,
             bool skipClearing)
         {
-            if (target == null)
-            {
-                throw new ArgumentNullException("target");
-            }
-
-            ValidateSubMatrixRange(target,
-                sourceRowIndex, targetRowIndex, rowCount,
-                sourceColumnIndex, targetColumnIndex, columnCount);
-
             if (!skipClearing)
             {
                 target.Clear(targetRowIndex, rowCount, targetColumnIndex, columnCount);

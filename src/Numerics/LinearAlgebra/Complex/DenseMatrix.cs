@@ -150,7 +150,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         public DenseMatrix(Matrix<Complex> matrix)
             : this(matrix.RowCount, matrix.ColumnCount)
         {
-            matrix.Storage.CopyTo(Storage, skipClearing: true);
+            matrix.Storage.CopyToUnchecked(Storage, skipClearing: true);
         }
 
         /// <summary>

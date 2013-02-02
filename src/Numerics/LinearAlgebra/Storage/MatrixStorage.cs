@@ -195,8 +195,28 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             return hash;
         }
 
-        /// <remarks>Parameters assumed to be validated already.</remarks>
-        public virtual void CopyTo(MatrixStorage<T> target, bool skipClearing = false)
+        public void CopyTo(MatrixStorage<T> target, bool skipClearing = false)
+        {
+            if (target == null)
+            {
+                throw new ArgumentNullException("target");
+            }
+
+            if (ReferenceEquals(this, target))
+            {
+                return;
+            }
+
+            if (RowCount != target.RowCount || ColumnCount != target.ColumnCount)
+            {
+                var message = string.Format(Resources.ArgumentMatrixDimensions2, RowCount + "x" + ColumnCount, target.RowCount + "x" + target.ColumnCount);
+                throw new ArgumentException(message, "target");
+            }
+
+            CopyToUnchecked(target, skipClearing);
+        }
+
+        internal virtual void CopyToUnchecked(MatrixStorage<T> target, bool skipClearing = false)
         {
             for (int j = 0; j < ColumnCount; j++)
             {
@@ -207,7 +227,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             }
         }
 
-        public virtual void CopySubMatrixTo(MatrixStorage<T> target,
+        public void CopySubMatrixTo(MatrixStorage<T> target,
             int sourceRowIndex, int targetRowIndex, int rowCount,
             int sourceColumnIndex, int targetColumnIndex, int columnCount,
             bool skipClearing = false)
@@ -226,6 +246,15 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                 sourceRowIndex, targetRowIndex, rowCount,
                 sourceColumnIndex, targetColumnIndex, columnCount);
 
+            CopySubMatrixToUnchecked(target, sourceRowIndex, targetRowIndex, rowCount,
+                sourceColumnIndex, targetColumnIndex, columnCount, skipClearing);
+        }
+
+        internal virtual void CopySubMatrixToUnchecked(MatrixStorage<T> target,
+            int sourceRowIndex, int targetRowIndex, int rowCount,
+            int sourceColumnIndex, int targetColumnIndex, int columnCount,
+            bool skipClearing = false)
+        {
             for (int j = sourceColumnIndex, jj = targetColumnIndex; j < sourceColumnIndex + columnCount; j++, jj++)
             {
                 for (int i = sourceRowIndex, ii = targetRowIndex; i < sourceRowIndex + rowCount; i++, ii++)
