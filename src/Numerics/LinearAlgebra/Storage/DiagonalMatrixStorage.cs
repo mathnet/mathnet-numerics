@@ -385,5 +385,37 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                 target.At(columnIndex - sourceRowIndex + targetRowIndex, Data[columnIndex]);
             }
         }
+
+        public override T[] ToRowMajorArray()
+        {
+            var ret = new T[RowCount * ColumnCount];
+            var stride = ColumnCount + 1;
+            for (int i = 0; i < Data.Length; i++)
+            {
+                ret[i * stride] = Data[i];
+            }
+            return ret;
+        }
+
+        public override T[] ToColumnMajorArray()
+        {
+            var ret = new T[RowCount * ColumnCount];
+            var stride = RowCount + 1;
+            for (int i = 0; i < Data.Length; i++)
+            {
+                ret[i * stride] = Data[i];
+            }
+            return ret;
+        }
+
+        public override T[,] ToArray()
+        {
+            var ret = new T[RowCount, ColumnCount];
+            for (int i = 0; i < Data.Length; i++)
+            {
+                ret[i, i] = Data[i];
+            }
+            return ret;
+        }
     }
 }

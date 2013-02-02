@@ -483,31 +483,6 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         }
 
         /// <summary>
-        /// Returns the matrix's elements as an array with the data laid out column-wise.
-        /// </summary>
-        /// <example><pre>
-        /// 1, 2, 3
-        /// 4, 5, 6  will be returned as  1, 4, 7, 2, 5, 8, 3, 6, 9
-        /// 7, 8, 9
-        /// </pre></example>
-        /// <returns>An array containing the matrix's elements.</returns>
-        public override double[] ToColumnWiseArray()
-        {
-            var values = _storage.Values;
-            var ret = new double[RowCount * ColumnCount];
-            for (var j = 0; j < ColumnCount; j++)
-            {
-                for (var i = 0; i < RowCount; i++)
-                {
-                    var index = _storage.FindItem(i, j);
-                    ret[(j * RowCount) + i] = index >= 0 ? values[index] : 0.0;
-                }
-            }
-
-            return ret;
-        }
-        
-        /// <summary>
         /// Returns the transpose of this matrix.
         /// </summary>        
         /// <returns>The transpose of this matrix.</returns>

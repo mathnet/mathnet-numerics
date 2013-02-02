@@ -169,5 +169,39 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         {
             Array.Copy(Data, columnIndex*RowCount + sourceRowIndex, target.Data, targetRowIndex, rowCount);
         }
+
+        public override T[] ToRowMajorArray()
+        {
+            var ret = new T[Data.Length];
+            for (int i = 0; i < RowCount; i++)
+            {
+                var offset = i * ColumnCount;
+                for (int j = 0; j < ColumnCount; j++)
+                {
+                    ret[offset + j] = Data[(j * RowCount) + i];
+                }
+            }
+            return ret;
+        }
+
+        public override T[] ToColumnMajorArray()
+        {
+            var ret = new T[Data.Length];
+            Array.Copy(Data, ret, Data.Length);
+            return ret;
+        }
+
+        public override T[,] ToArray()
+        {
+            var ret = new T[RowCount, ColumnCount];
+            for (int i = 0; i < RowCount; i++)
+            {
+                for (int j = 0; j < ColumnCount; j++)
+                {
+                    ret[i, j] = Data[(j * RowCount) + i];
+                }
+            }
+            return ret;
+        }
     }
 }

@@ -914,21 +914,6 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         }
 
         /// <summary>
-        /// Returns this matrix as a multidimensional array.
-        /// </summary>
-        /// <returns>A multidimensional containing the values of this matrix.</returns>    
-        public override float[,] ToArray()
-        {
-            var result = new float[RowCount, ColumnCount];
-            for (var i = 0; i < _data.Length; i++)
-            {
-                result[i, i] = _data[i];
-            }
-
-            return result;
-        }
-
-        /// <summary>
         /// Creates a new  <see cref="SparseMatrix"/> and inserts the given column at the given index.
         /// </summary>
         /// <param name="columnIndex">The index of where to insert the column.</param>

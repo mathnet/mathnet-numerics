@@ -1160,20 +1160,9 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// Returns this matrix as a multidimensional array.
         /// </summary>
         /// <returns>A multidimensional containing the values of this matrix.</returns>        
-        public virtual T[,] ToArray()
+        public T[,] ToArray()
         {
-            var ret = new T[RowCount, ColumnCount];
-            CommonParallel.For(
-                0, 
-                ColumnCount, 
-                j =>
-                {
-                    for (var i = 0; i < RowCount; i++)
-                    {
-                        ret[i, j] = At(i, j);
-                    }
-                });
-            return ret;
+            return Storage.ToArray();
         }
 
         /// <summary>
@@ -1185,19 +1174,9 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// 7, 8, 9
         /// </pre></example>
         /// <returns>An array containing the matrix's elements.</returns>
-        public virtual T[] ToColumnWiseArray()
+        public T[] ToColumnWiseArray()
         {
-            var ret = new T[RowCount * ColumnCount];
-            foreach (var column in ColumnEnumerator())
-            {
-                var columnIndex = column.Item1 * RowCount;
-                foreach (var element in column.Item2.GetIndexedEnumerator())
-                {
-                    ret[columnIndex + element.Item1] = element.Item2;
-                }
-            }
-
-            return ret;
+            return Storage.ToColumnMajorArray();
         }
 
         /// <summary>
@@ -1209,20 +1188,9 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// 7, 8, 9
         /// </pre></example>
         /// <returns>An array containing the matrix's elements.</returns>
-        public virtual T[] ToRowWiseArray()
+        public T[] ToRowWiseArray()
         {
-            var ret = new T[RowCount * ColumnCount];
-
-            foreach (var row in RowEnumerator())
-            {
-                var rowIndex = row.Item1 * ColumnCount;
-                foreach (var element in row.Item2.GetIndexedEnumerator())
-                {
-                    ret[rowIndex + element.Item1] = element.Item2;
-                }
-            }
-
-            return ret;
+            return Storage.ToRowMajorArray();
         }
 
         #region Implemented Interfaces

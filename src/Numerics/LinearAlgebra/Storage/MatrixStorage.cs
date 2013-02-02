@@ -311,5 +311,46 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                 target.At(ii, At(i, columnIndex));
             }
         }
+
+        public virtual T[] ToRowMajorArray()
+        {
+            var ret = new T[RowCount * ColumnCount];
+            for (int i = 0; i < RowCount; i++)
+            {
+                var offset = i * ColumnCount;
+                for (int j = 0; j < ColumnCount; j++)
+                {
+                    ret[offset + j] = At(i, j);
+                }
+            }
+            return ret;
+        }
+
+        public virtual T[] ToColumnMajorArray()
+        {
+            var ret = new T[RowCount * ColumnCount];
+            for (int j = 0; j < ColumnCount; j++)
+            {
+                var offset = j * RowCount;
+                for (int i = 0; i < RowCount; i++)
+                {
+                    ret[offset + i] = At(i, j);
+                }
+            }
+            return ret;
+        }
+
+        public virtual T[,] ToArray()
+        {
+            var ret = new T[RowCount,ColumnCount];
+            for (int i = 0; i < RowCount; i++)
+            {
+                for (int j = 0; j < ColumnCount; j++)
+                {
+                    ret[i, j] = At(i, j);
+                }
+            }
+            return ret;
+        }
     }
 }

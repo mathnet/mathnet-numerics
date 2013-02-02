@@ -550,5 +550,60 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                 target.At(j, index >= 0 ? Values[index] : _zero);
             }
         }
+
+        public override T[] ToRowMajorArray()
+        {
+            var ret = new T[RowCount * ColumnCount];
+            if (ValueCount != 0)
+            {
+                for (int row = 0; row < RowCount; row++)
+                {
+                    var offset = row * ColumnCount;
+                    var startIndex = RowPointers[row];
+                    var endIndex = row < RowPointers.Length - 1 ? RowPointers[row + 1] : ValueCount;
+                    for (var j = startIndex; j < endIndex; j++)
+                    {
+                        ret[offset + ColumnIndices[j]] = Values[j];
+                    }
+                }
+            }
+            return ret;
+        }
+
+        public override T[] ToColumnMajorArray()
+        {
+            var ret = new T[RowCount * ColumnCount];
+            if (ValueCount != 0)
+            {
+                for (int row = 0; row < RowCount; row++)
+                {
+                    var startIndex = RowPointers[row];
+                    var endIndex = row < RowPointers.Length - 1 ? RowPointers[row + 1] : ValueCount;
+                    for (var j = startIndex; j < endIndex; j++)
+                    {
+                        ret[(ColumnIndices[j]) * RowCount + row] = Values[j];
+                    }
+                }
+            }
+            return ret;
+        }
+
+        public override T[,] ToArray()
+        {
+            var ret = new T[RowCount, ColumnCount];
+            if (ValueCount != 0)
+            {
+                for (int row = 0; row < RowCount; row++)
+                {
+                    var startIndex = RowPointers[row];
+                    var endIndex = row < RowPointers.Length - 1 ? RowPointers[row + 1] : ValueCount;
+                    for (var j = startIndex; j < endIndex; j++)
+                    {
+                        ret[row, ColumnIndices[j]] = Values[j];
+                    }
+                }
+            }
+            return ret;
+        }
     }
 }
