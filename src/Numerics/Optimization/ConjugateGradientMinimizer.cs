@@ -21,11 +21,12 @@ namespace MathNet.Numerics.Optimization
         public MinimizationOutput FindMinimum(IObjectiveFunction objective, Vector<double> initial_guess)
         {
             if (!objective.GradientSupported)
-                throw new Exception("Gradient not supported in objective function, but required for ConjugateGradient minimization.");
+                throw new IncompatibleObjectiveException("Gradient not supported in objective function, but required for ConjugateGradient minimization.");
+
+            objective = new ObjectiveChecker(objective, this.ValidateObjective, this.ValidateGradient, null);
 
             IEvaluation initial_eval = objective.Evaluate(initial_guess);
-            var gradient = initial_eval.Gradient;
-            this.ValidateGradient(gradient, initial_guess);
+            var gradient = initial_eval.Gradient;            
             
             // Check that we're not already done
             if (this.ExitCriteriaSatisfied(initial_guess, gradient))
@@ -42,11 +43,20 @@ namespace MathNet.Numerics.Optimization
             steepest_direction = -gradient;
             search_direction = steepest_direction;
             double initial_step_size = 100 * this.GradientTolerance / (gradient * gradient);
-            var result = line_searcher.FindConformingStep(objective, initial_eval, search_direction, initial_step_size);
-            candidate_point = result.FunctionInfoAtMinimum;
-            this.ValidateGradient(candidate_point.Gradient, candidate_point.Point);
+            LineSearchOutput result;
+            try 
+            {
+                result = line_searcher.FindConformingStep(objective, initial_eval, search_direction, initial_step_size);
+            } 
+            catch (Exception e) 
+            {
+                throw new InnerOptimizationException("Line search failed.", e);
+            }
+
+            candidate_point = result.FunctionInfoAtMinimum;            
             
 			double step_size = (candidate_point.Point - initial_guess).Norm(2.0);
+            
             // Subsequent steps
             int iterations = 1;
             int total_line_search_steps = result.Iterations;
@@ -73,8 +83,15 @@ namespace MathNet.Numerics.Optimization
                     search_direction = steepest_direction;
                     steepest_descent_resets += 1;
                 }
-                
-                result = line_searcher.FindConformingStep(objective, candidate_point, search_direction, step_size);
+
+                try
+                {
+                    result = line_searcher.FindConformingStep(objective, candidate_point, search_direction, step_size);
+                }
+                catch (Exception e)
+                {
+                    throw new InnerOptimizationException("Line search failed.", e);
+                }
 
                 no_line_search_iterations += result.Iterations == 0 ? 1 : 0;
                 total_line_search_steps += result.Iterations;
@@ -84,6 +101,9 @@ namespace MathNet.Numerics.Optimization
 
                 iterations += 1;
             }
+
+            if (iterations == this.MaximumIterations)
+                throw new MaximumIterationsException(String.Format("Maximum iterations ({0}) reached.", this.MaximumIterations));
 
             return new MinimizationWithLineSearchOutput(candidate_point, iterations, total_line_search_steps, no_line_search_iterations);
         }
@@ -98,14 +118,14 @@ namespace MathNet.Numerics.Optimization
             foreach (var x in gradient)
             {
                 if (Double.IsNaN(x) || Double.IsInfinity(x))
-                    throw new Exception("Non-finite gradient returned.");
+                    throw new EvaluationException("Non-finite gradient returned.");
             }
         }
 
         private void ValidateObjective(double objective, Vector<double> input)
         {
             if (Double.IsNaN(objective) || Double.IsInfinity(objective))
-                throw new Exception("Non-finite objective function returned.");
+                throw new EvaluationException("Non-finite objective function returned.");
         }
     }
 }

@@ -57,7 +57,7 @@ namespace MathNet.Numerics.Optimization
             }
                        
             if (ii == this.MaximumIterations)
-                throw new Exception("Line search failed with max iterations.  Function is likely unbounded in search direction.");
+                throw new MaximumIterationsException(String.Format("Maximum iterations ({0}) reached. Function may be unbounded in search direction.",this.MaximumIterations));
             else
                 return new LineSearchOutput(candidate_eval, ii, step);
         }
