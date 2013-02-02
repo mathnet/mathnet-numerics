@@ -58,7 +58,10 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
             get { return _storage.ValueCount; }
         }
 
-        internal SparseVector(SparseVectorStorage<Complex> storage)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SparseVector"/> class.
+        /// </summary>
+        public SparseVector(SparseVectorStorage<Complex> storage)
             : base(storage)
         {
             _storage = storage;

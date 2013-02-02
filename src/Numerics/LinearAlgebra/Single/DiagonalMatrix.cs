@@ -52,7 +52,10 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// <value>The matrix's data.</value>
         readonly float[] _data;
 
-        internal DiagonalMatrix(DiagonalMatrixStorage<float> storage)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DiagonalMatrix"/> class.
+        /// </summary>
+        public DiagonalMatrix(DiagonalMatrixStorage<float> storage)
             : base(storage)
         {
             _storage = storage;

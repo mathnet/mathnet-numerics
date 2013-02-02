@@ -60,7 +60,10 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// <value>The matrix's data.</value>
         readonly float[] _values;
 
-        internal DenseMatrix(DenseColumnMajorMatrixStorage<float> storage)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DenseMatrix"/> class.
+        /// </summary>
+        public DenseMatrix(DenseColumnMajorMatrixStorage<float> storage)
             : base(storage)
         {
             _rowCount = storage.RowCount;

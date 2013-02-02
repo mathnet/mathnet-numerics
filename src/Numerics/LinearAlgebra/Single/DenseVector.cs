@@ -53,7 +53,10 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// </summary>
         readonly float[] _values;
 
-        internal DenseVector(DenseVectorStorage<float> storage)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DenseVector"/> class.
+        /// </summary>
+        public DenseVector(DenseVectorStorage<float> storage)
             : base(storage)
         {
             _length = storage.Length;

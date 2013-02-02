@@ -58,7 +58,10 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             get { return _storage.ValueCount; }
         }
 
-        internal SparseVector(SparseVectorStorage<double> storage)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SparseVector"/> class.
+        /// </summary>
+        public SparseVector(SparseVectorStorage<double> storage)
             : base(storage)
         {
             _storage = storage;

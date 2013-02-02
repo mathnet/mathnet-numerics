@@ -53,7 +53,10 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// </summary>
         readonly Complex32[] _values;
 
-        internal DenseVector(DenseVectorStorage<Complex32> storage)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DenseVector"/> class.
+        /// </summary>
+        public DenseVector(DenseVectorStorage<Complex32> storage)
             : base(storage)
         {
             _length = storage.Length;

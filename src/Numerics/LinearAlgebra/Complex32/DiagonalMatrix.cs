@@ -53,7 +53,10 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// <value>The matrix's data.</value>
         readonly Complex32[] _data;
 
-        internal DiagonalMatrix(DiagonalMatrixStorage<Complex32> storage)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DiagonalMatrix"/> class.
+        /// </summary>
+        public DiagonalMatrix(DiagonalMatrixStorage<Complex32> storage)
             : base(storage)
         {
             _storage = storage;

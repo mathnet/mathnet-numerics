@@ -60,7 +60,10 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// <value>The matrix's data.</value>
         readonly Complex32[] _values;
 
-        internal DenseMatrix(DenseColumnMajorMatrixStorage<Complex32> storage)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DenseMatrix"/> class.
+        /// </summary>
+        public DenseMatrix(DenseColumnMajorMatrixStorage<Complex32> storage)
             : base(storage)
         {
             _rowCount = storage.RowCount;
