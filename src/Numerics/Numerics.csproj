@@ -445,6 +445,9 @@
     <Compile Include="Statistics\MCMC\UnivariateSliceSampler.cs" />
     <Compile Include="Threading\CommonParallel.cs" />
     <Compile Include="Trigonometry.cs" />
+    <Compile Include="Windowing\PermanentWindow.cs" />
+    <Compile Include="Windowing\VolatileWindow.cs" />
+    <Compile Include="Windowing\Window.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -481,6 +484,7 @@
   <ItemGroup>
     <None Include="MathNet.Numerics.snk" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>
