@@ -28,8 +28,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using MathNet.Numerics.Algorithms.LinearAlgebra.Mkl;
-
 namespace MathNet.Numerics
 {
     using System;
@@ -69,6 +67,9 @@ namespace MathNet.Numerics
             ThreadSafeRandomNumberGenerators = true;
             DisableParallelization = false;
 
+            #if PORTABLE
+            LinearAlgebraProvider = new ManagedLinearAlgebraProvider();
+            #else
             try
             {
                 const string name = "MathNetNumericsLAProvider";
@@ -76,7 +77,7 @@ namespace MathNet.Numerics
                 switch (value != null ? value.ToUpper() : string.Empty)
                 {
                     case "MKL":
-                        LinearAlgebraProvider = new MklLinearAlgebraProvider();
+                        LinearAlgebraProvider = new MathNet.Numerics.Algorithms.LinearAlgebra.Mkl.MklLinearAlgebraProvider();
                         break;
                     default:
                         LinearAlgebraProvider = new ManagedLinearAlgebraProvider();
@@ -88,6 +89,7 @@ namespace MathNet.Numerics
                 // We don't care about any failures here at all
                 LinearAlgebraProvider = new ManagedLinearAlgebraProvider();
             }
+            #endif
         }
 
         /// <summary>
