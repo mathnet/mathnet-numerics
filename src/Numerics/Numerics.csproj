@@ -231,7 +231,7 @@
     <Compile Include="RootFinding\Brent.cs" />
     <Compile Include="FindRoots.cs" />
     <Compile Include="RootFinding\Bisection.cs" />
-    <Compile Include="Optimization\BFGS.cs" />
+    <Compile Include="Optimization\BfgsMinimizer.cs" />
     <Compile Include="Optimization\ConjugateGradientMinimizer.cs" />
     <Compile Include="Optimization\GoldenSectionMinimizer.cs" />
     <Compile Include="Optimization\ObjectiveFunction.cs" />

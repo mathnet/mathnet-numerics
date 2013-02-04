@@ -345,12 +345,14 @@
     <Compile Include="EuclidTests\IntegerTheoryTest.cs" />
     <Compile Include="LinearAlgebraTests\MatrixStorageCombinatorsTests.cs" />
     <Compile Include="LinearAlgebraTests\VectorStorageCombinatorsTests.cs" />
-    <Compile Include="OptimizationTests\TestNewtonMinimizer.cs" />
     <Compile Include="Random\SystemRandomSourceTests.cs" />
     <Compile Include="OptimizationTests\BfgsTest.cs" />
     <Compile Include="RootFindingTests\BisectionTest.cs" />
     <Compile Include="OptimizationTests\RosenbrockFunction.cs" />
+    <Compile Include="OptimizationTests\TestBfgsMinimizer.cs" />
     <Compile Include="OptimizationTests\TestConjugateGradientMinimizer.cs" />
+    <Compile Include="OptimizationTests\TestNewtonMinimizer.cs" />
+    <Compile Include="OptimizationTests\TestRosenbrockFunction.cs" />
     <Compile Include="PermutationTest.cs" />
     <Compile Include="PrecisionTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
