@@ -372,7 +372,10 @@
     <Compile Include="OptimizationTests\BfgsTest.cs" />
     <Compile Include="RootFindingTests\BisectionTest.cs" />
     <Compile Include="OptimizationTests\RosenbrockFunction.cs" />
+    <Compile Include="OptimizationTests\TestBfgsMinimizer.cs" />
     <Compile Include="OptimizationTests\TestConjugateGradientMinimizer.cs" />
+    <Compile Include="OptimizationTests\TestNewtonMinimizer.cs" />
+    <Compile Include="OptimizationTests\TestRosenbrockFunction.cs" />
     <Compile Include="PermutationTest.cs" />
     <Compile Include="PrecisionTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
