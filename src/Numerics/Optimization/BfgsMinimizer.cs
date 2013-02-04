@@ -2,17 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using MathNet.Numerics.LinearAlgebra;
 
 namespace MathNet.Numerics.Optimization
 {
-    public class ConjugateGradientMinimizer
+    public class BfgsMinimizer
     {
         public double GradientTolerance { get; set; }
         public int MaximumIterations { get; set; }
 
-        public ConjugateGradientMinimizer(double gradient_tolerance, int maximum_iterations)
+        public BfgsMinimizer(double gradient_tolerance, int maximum_iterations)
         {
             this.GradientTolerance = gradient_tolerance;
             this.MaximumIterations = maximum_iterations;
@@ -21,33 +20,35 @@ namespace MathNet.Numerics.Optimization
         public MinimizationOutput FindMinimum(IObjectiveFunction objective, Vector<double> initial_guess)
         {
             if (!objective.GradientSupported)
-                throw new IncompatibleObjectiveException("Gradient not supported in objective function, but required for ConjugateGradient minimization.");
+                throw new IncompatibleObjectiveException("Gradient not supported in objective function, but required for BFGS minimization.");
 
             if (!(objective is ObjectiveChecker))
                 objective = new ObjectiveChecker(objective, this.ValidateObjective, this.ValidateGradient, null);
 
-            IEvaluation initial_eval = objective.Evaluate(initial_guess);
-            var gradient = initial_eval.Gradient;            
+            IEvaluation initial_eval = objective.Evaluate(initial_guess);            
             
             // Check that we're not already done
-            if (this.ExitCriteriaSatisfied(initial_guess, gradient))
+            if (this.ExitCriteriaSatisfied(initial_guess, initial_eval.Gradient))
                 return new MinimizationOutput(initial_eval, 0);
             
             // Set up line search algorithm
-            var line_searcher = new WeakWolfeLineSearch(1e-4, 0.1,1000);
+            var line_searcher = new WeakWolfeLineSearch(1e-4, 0.9, 1000);
 
             // Declare state variables
             IEvaluation candidate_point;
-            Vector<double> steepest_direction, previous_steepest_direction, search_direction;
+            double step_size;
+            Vector<double> gradient, previous_gradient, step, search_direction;
+            Matrix<double> inverse_pseudo_hessian;
 
             // First step
-            steepest_direction = -gradient;
-            search_direction = steepest_direction;
-            double initial_step_size = 100 * this.GradientTolerance / (gradient * gradient);
+            inverse_pseudo_hessian = Matrix<double>.Build.DiagonalIdentity(initial_guess.Count);
+            search_direction = -initial_eval.Gradient;
+            step_size = 100 * this.GradientTolerance / (search_direction * search_direction);
+                        
             LineSearchOutput result;
             try 
             {
-                result = line_searcher.FindConformingStep(objective, initial_eval, search_direction, initial_step_size);
+                result = line_searcher.FindConformingStep(objective, initial_eval, search_direction, step_size);
             } 
             catch (Exception e) 
             {
@@ -55,9 +56,11 @@ namespace MathNet.Numerics.Optimization
             }
 
             candidate_point = result.FunctionInfoAtMinimum;
+            gradient = candidate_point.Gradient;
+            previous_gradient = initial_eval.Gradient;
+            step = candidate_point.Point - initial_guess;
+            step_size = result.FinalStep;
 
-            double step_size = result.FinalStep;
-            
             // Subsequent steps
             int iterations = 1;
             int total_line_search_steps = result.Iterations;
@@ -65,29 +68,23 @@ namespace MathNet.Numerics.Optimization
             int steepest_descent_resets = 0;
             while (!this.ExitCriteriaSatisfied(candidate_point.Point, candidate_point.Gradient) && iterations < this.MaximumIterations)
             {
-                previous_steepest_direction = steepest_direction;
-                steepest_direction = -candidate_point.Gradient;
-                var search_direction_adjuster = Math.Max(0,steepest_direction * (steepest_direction - previous_steepest_direction) / (previous_steepest_direction * previous_steepest_direction));
-                
-                //double prev_grad_mag = previous_steepest_direction*previous_steepest_direction;
-                //double grad_overlap = steepest_direction*previous_steepest_direction;
-                //double search_grad_overlap = candidate_point.Gradient*search_direction;
+                var y = candidate_point.Gradient - previous_gradient;
 
-                //if (iterations % initial_guess.Count == 0 || (Math.Abs(grad_overlap) >= 0.2 * prev_grad_mag) || (-2 * prev_grad_mag >= search_grad_overlap) || (search_grad_overlap >= -0.2 * prev_grad_mag))
-                //    search_direction = steepest_direction;
-                //else 
-                //    search_direction = steepest_direction + search_direction_adjuster * search_direction;
+                double sy = step * y;
+                inverse_pseudo_hessian = inverse_pseudo_hessian + ((sy + y * inverse_pseudo_hessian * y) / Math.Pow(sy, 2.0)) * step.OuterProduct(step) - ( (inverse_pseudo_hessian * y.ToColumnMatrix())*step.ToRowMatrix() + step.ToColumnMatrix()*(y.ToRowMatrix() * inverse_pseudo_hessian)) * (1.0 / sy);
 
-                search_direction = steepest_direction + search_direction_adjuster * search_direction;
+               search_direction = -inverse_pseudo_hessian * candidate_point.Gradient;
+
                 if (search_direction * candidate_point.Gradient >= 0)
                 {
-                    search_direction = steepest_direction;
+                    search_direction = -candidate_point.Gradient;
+                    inverse_pseudo_hessian = Matrix<double>.Build.DiagonalIdentity(initial_guess.Count);
                     steepest_descent_resets += 1;
                 }
 
                 try
                 {
-                    result = line_searcher.FindConformingStep(objective, candidate_point, search_direction, step_size);
+                    result = line_searcher.FindConformingStep(objective, candidate_point, search_direction, 1.0);
                 }
                 catch (Exception e)
                 {
@@ -98,6 +95,8 @@ namespace MathNet.Numerics.Optimization
                 total_line_search_steps += result.Iterations;
 
                 step_size = result.FinalStep;
+                step = result.FunctionInfoAtMinimum.Point - candidate_point.Point;
+                previous_gradient = candidate_point.Gradient;
                 candidate_point = result.FunctionInfoAtMinimum;
 
                 iterations += 1;

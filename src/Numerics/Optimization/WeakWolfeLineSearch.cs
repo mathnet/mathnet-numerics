@@ -23,6 +23,10 @@ namespace MathNet.Numerics.Optimization
         // Implemented following http://www.math.washington.edu/~burke/crs/408/lectures/L9-weak-Wolfe.pdf
         public LineSearchOutput FindConformingStep(IObjectiveFunction objective, IEvaluation starting_point, Vector<double> search_direction, double initial_step)
         {
+
+            if (!(objective is ObjectiveChecker))
+                objective = new ObjectiveChecker(objective, this.ValidateValue, this.ValidateGradient, null);
+
             double lower_bound = 0.0;
             double upper_bound = Double.PositiveInfinity;
             double step = initial_step;
@@ -71,5 +75,24 @@ namespace MathNet.Numerics.Optimization
             return step > 0 && sufficient_decrease && not_too_steep;
         }
 
+        private void ValidateValue(double value, Vector<double> input)
+        {
+            if (!this.IsFinite(value))
+                throw new EvaluationException(String.Format("Non-finite value returned by objective function: {0}", value));
+        }
+
+        private void ValidateGradient(Vector<double> gradient, Vector<double> input)
+        {
+            foreach (double x in gradient)
+                if (!this.IsFinite(x))
+                {
+                    throw new EvaluationException(String.Format("Non-finite value returned by gradient: {0}", x));
+                }
+        }
+
+        private bool IsFinite(double x)
+        {
+            return !(Double.IsNaN(x) || Double.IsInfinity(x));
+        }
     }
 }
