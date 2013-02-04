@@ -527,7 +527,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// <returns>The Frobenius norm of this matrix.</returns>
         public override Complex FrobeniusNorm()
         {
-            var aat = (SparseCompressedRowMatrixStorage<Complex>) (this*Transpose()).Storage;
+            var aat = (SparseCompressedRowMatrixStorage<Complex>) (this*ConjugateTranspose()).Storage;
             var norm = 0d;
 
             for (var i = 0; i < aat.RowPointers.Length; i++)

@@ -87,7 +87,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// <returns>The Frobenius norm of this matrix.</returns>
         public override Complex32 FrobeniusNorm()
         {
-            var transpose = Transpose();
+            var transpose = ConjugateTranspose();
             var aat = this * transpose;
 
             var norm = 0.0f;

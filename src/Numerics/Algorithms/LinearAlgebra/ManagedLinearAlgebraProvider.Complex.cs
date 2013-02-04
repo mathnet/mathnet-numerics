@@ -407,7 +407,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
                     break;
                 case Norm.FrobeniusNorm:
                     var aat = new Complex[rows * rows];
-                    MatrixMultiplyWithUpdate(Transpose.DontTranspose, Transpose.Transpose, 1.0, matrix, rows, columns, matrix, rows, columns, 0.0, aat);
+                    MatrixMultiplyWithUpdate(Transpose.DontTranspose, Transpose.ConjugateTranspose, 1.0, matrix, rows, columns, matrix, rows, columns, 0.0, aat);
 
                     for (var i = 0; i < rows; i++)
                     {

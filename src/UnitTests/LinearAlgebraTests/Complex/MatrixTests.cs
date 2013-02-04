@@ -93,13 +93,13 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
         public virtual void CanComputeFrobeniusNorm()
         {
             var matrix = TestMatrices["Square3x3"];
-            AssertHelpers.AlmostEqual(10.8819655930903, matrix.FrobeniusNorm(), 14);
+            AssertHelpers.AlmostEqual(11.1427106217473, matrix.FrobeniusNorm(), 14);
 
             matrix = TestMatrices["Wide2x3"];
-            AssertHelpers.AlmostEqual(5.19052560084774, matrix.FrobeniusNorm(), 14);
+            AssertHelpers.AlmostEqual(5.29055762656452, matrix.FrobeniusNorm(), 14);
 
             matrix = TestMatrices["Tall3x2"];
-            AssertHelpers.AlmostEqual(7.59041159967795, matrix.FrobeniusNorm(), 14);
+            AssertHelpers.AlmostEqual(7.86574853399217, matrix.FrobeniusNorm(), 14);
         }
 
         /// <summary>

@@ -42,7 +42,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.Mkl
         /// <summary>
         /// Name of the native DLL.
         /// </summary>
-        private const string DllName = "MathNET.Numerics.MKL.dll";
+        private const string DllName = "MathNet.Numerics.MKL.dll";
 
         #region BLAS
         
@@ -102,7 +102,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.Mkl
         internal static extern float s_matrix_norm(byte norm, int rows, int columns, [In] float[] a, [In, Out] float[] work);
 
         [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern float d_matrix_norm(byte norm, int rows, int columns, [In] double[] a, [In, Out] double[] work);
+        internal static extern double d_matrix_norm(byte norm, int rows, int columns, [In] double[] a, [In, Out] double[] work);
 
         [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
         internal static extern float c_matrix_norm(byte norm, int rows, int columns, [In] Complex32[] a, [In, Out] float[] work);

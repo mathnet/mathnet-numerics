@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2011 Math.NET
+// Copyright (c) 2009-2013 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -200,7 +200,6 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.Mkl
             return SafeNativeMethods.d_matrix_norm((byte)norm, rows, columns, matrix, work);
         }
 
-        /* BUG in MKL'S ZLANGE routine. Using managed code until it is fixed.
         /// <summary>
         /// Computes the requested <see cref="Norm"/> of the matrix.
         /// </summary>
@@ -359,6 +358,6 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.Mkl
             }
 
             return SafeNativeMethods.z_matrix_norm((byte)norm, rows, columns, matrix, work);
-        }*/
+        }
     }
 }

@@ -62,7 +62,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.IO
             Assert.AreEqual(100, matrix.RowCount);
             Assert.AreEqual(100, matrix.ColumnCount);
             Assert.AreEqual(typeof(DenseMatrix), matrix.GetType());
-            AssertHelpers.AlmostEqual(100.108979553704, matrix.FrobeniusNorm(), 13);
+            AssertHelpers.AlmostEqual(100.108979553704, matrix.FrobeniusNorm(), 5);
         }
 
         /// <summary>
@@ -92,7 +92,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.IO
             var ad = matrices["Ad"];
             Assert.AreEqual(100, ad.RowCount);
             Assert.AreEqual(100, ad.ColumnCount);
-            AssertHelpers.AlmostEqual(100.431635988639, ad.FrobeniusNorm(), 13);
+            AssertHelpers.AlmostEqual(100.431635988639, ad.FrobeniusNorm(), 5);
             Assert.AreEqual(typeof(DenseMatrix), ad.GetType());
         }
 
