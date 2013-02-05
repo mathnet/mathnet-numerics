@@ -104,6 +104,17 @@
     <Compile Include="Constants.cs" />
     <Compile Include="Control.cs" />
     <Compile Include="Complex32.cs" />
+    <Compile Include="Filtering\FilterType.cs" />
+    <Compile Include="Filtering\FIR\FirCoefficients.cs" />
+    <Compile Include="Filtering\FIR\OnlineFirFilter.cs" />
+    <Compile Include="Filtering\IOnlineFilter.cs" />
+    <Compile Include="Filtering\IIR\IirCoefficients.cs" />
+    <Compile Include="Filtering\IIR\OnlineIirFilter.cs" />
+    <Compile Include="Filtering\ImpulseResponse.cs" />
+    <Compile Include="Filtering\Median\OnlineMedianFilter.cs" />
+    <Compile Include="Filtering\OnlineFilter.cs" />
+    <Compile Include="Filtering\Utils\OrderedShiftBuffer.cs" />
+    <Compile Include="Filtering\Utils\ShiftBuffer.cs" />
     <Compile Include="SpecialFunctions\Evaluate.cs" />
     <Compile Include="SpecialFunctions\ModifiedStruve.cs" />
     <Compile Include="SpecialFunctions\ModifiedBessel.cs" />
