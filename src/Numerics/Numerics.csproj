@@ -113,8 +113,6 @@
     <Compile Include="Filtering\ImpulseResponse.cs" />
     <Compile Include="Filtering\Median\OnlineMedianFilter.cs" />
     <Compile Include="Filtering\OnlineFilter.cs" />
-    <Compile Include="Filtering\Utils\OrderedShiftBuffer.cs" />
-    <Compile Include="Filtering\Utils\ShiftBuffer.cs" />
     <Compile Include="SpecialFunctions\Evaluate.cs" />
     <Compile Include="SpecialFunctions\ModifiedStruve.cs" />
     <Compile Include="SpecialFunctions\ModifiedBessel.cs" />

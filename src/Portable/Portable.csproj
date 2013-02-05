@@ -219,12 +219,6 @@
     <Compile Include="..\Numerics\Filtering\OnlineFilter.cs">
       <Link>Filtering\OnlineFilter.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\Filtering\Utils\OrderedShiftBuffer.cs">
-      <Link>Filtering\Utils\OrderedShiftBuffer.cs</Link>
-    </Compile>
-    <Compile Include="..\Numerics\Filtering\Utils\ShiftBuffer.cs">
-      <Link>Filtering\Utils\ShiftBuffer.cs</Link>
-    </Compile>
     <Compile Include="..\Numerics\GlobalizationHelper.cs">
       <Link>GlobalizationHelper.cs</Link>
     </Compile>
@@ -1085,6 +1079,15 @@
     </Compile>
     <Compile Include="..\Numerics\Trigonometry.cs">
       <Link>Trigonometry.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\Windowing\PermanentWindow.cs">
+      <Link>Windowing\PermanentWindow.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\Windowing\VolatileWindow.cs">
+      <Link>Windowing\VolatileWindow.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\Windowing\Window.cs">
+      <Link>Windowing\Window.cs</Link>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

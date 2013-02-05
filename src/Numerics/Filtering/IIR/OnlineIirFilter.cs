@@ -31,7 +31,7 @@
 namespace MathNet.Numerics.Filtering.IIR
 {
     using System;
-    using MathNet.Numerics.Properties;
+    using Properties;
 
     /// <summary>
     /// Infinite Impulse Response (FIR) Filters need much
@@ -87,7 +87,7 @@ namespace MathNet.Numerics.Filtering.IIR
             double un = _leftCoefficients[0] * sample;
             for(int i = 0, j = _halfSize - _offset + 1; i < _halfSize - 1; i++, j++)
             {
-                un = _buffer[i] * _leftCoefficients[j];
+                un += _buffer[i] * _leftCoefficients[j];
             }
 
             _offset = (_offset != 0) ? _offset - 1 : _halfSize - 1;
