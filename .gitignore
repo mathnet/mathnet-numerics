@@ -25,4 +25,4 @@ UpgradeLog.htm
 *.sdf
 *.opensdf
 src/UnitTests/test-results
-
+*.userprefs
