@@ -46,7 +46,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
 #if PORTABLE
     IFormattable, IEnumerable<T>, IEquatable<Vector<T>>
 #else
-    IFormattable, IEnumerable<T>, IEquatable<Vector<T>>, ICloneable
+    IFormattable, IEnumerable<T>, IEquatable<Vector<T>>, ICloneable, IList, IList<T>
 #endif
     where T : struct, IEquatable<T>, IFormattable
     {
@@ -1513,6 +1513,150 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         }
         #endregion
 
+        #region IList
+        int IList.Add(object value)
+        {
+            throw new NotSupportedException();
+        }
+
+        bool IList.Contains(object value)
+        {
+            if (!(value is T))
+                return false;
+            else
+            {
+                return ((IList<T>)this).Contains((T)value);
+            }
+            throw new NotImplementedException();
+        }
+
+        int IList.IndexOf(object value)
+        {
+            throw new NotImplementedException();
+        }
+
+        void IList.Insert(int index, object value)
+        {
+            throw new NotSupportedException();
+        }
+
+        bool IList.IsFixedSize
+        {
+            get { return true; }
+        }
+
+        bool IList.IsReadOnly
+        {
+            get { return false; }
+        }
+
+        void IList.Remove(object value)
+        {
+            throw new NotSupportedException();
+        }
+
+        void IList.RemoveAt(int index)
+        {
+            throw new NotSupportedException();
+        }
+
+        object IList.this[int index]
+        {
+            get
+            {
+                return this[index];
+            }
+            set
+            {
+                this[index] = (T)value;
+            }
+        }
+
+        public void CopyTo(Array array, int arrayIndex)
+        {
+            if (array.LongLength < arrayIndex + this.Count)
+                throw new IndexOutOfRangeException();
+
+            for (int ii = 0; ii < this.Count; ++ii)
+                array.SetValue(this[ii], arrayIndex + ii);
+        }
+
+        bool ICollection.IsSynchronized
+        {
+            get { return false; }
+        }
+
+        object ICollection.SyncRoot
+        {
+            get { return null; }
+        }
+        #endregion
+
+        #region IList<T>
+        void ICollection<T>.Add(T item)
+        {
+            throw new NotSupportedException();
+        }
+        int IList<T>.IndexOf(T item)
+        {
+            for (int ii = 0; ii < this.Count; ++ii)
+            {
+                if (this[ii].Equals(item))
+                    return ii;
+            }
+            return -1;
+        }
+
+        void IList<T>.Insert(int index, T item)
+        {
+            throw new NotSupportedException();
+        }
+
+        void IList<T>.RemoveAt(int index)
+        {
+            throw new NotSupportedException();
+        }
+
+        void ICollection<T>.Clear()
+        {
+            throw new NotSupportedException();
+        }
+
+        bool ICollection<T>.Contains(T item)
+        {
+            foreach (var x in this)
+            {
+                if (x.Equals(item))
+                    return true;
+            }
+            return false;
+        }
+
+        void ICollection<T>.CopyTo(T[] array, int arrayIndex)
+        {
+            if (array.LongLength < arrayIndex + this.Count)
+                throw new IndexOutOfRangeException();
+
+            for (int ii = 0; ii < this.Count; ++ii)
+                array[arrayIndex + ii] = this[ii];
+        }
+
+        int ICollection<T>.Count
+        {
+            get { return this.Count; }
+        }
+
+        bool ICollection<T>.IsReadOnly
+        {
+            get { return true; }
+        }
+
+        bool ICollection<T>.Remove(T item)
+        {
+            throw new NotSupportedException();
+        }
+        #endregion 
+
         #endregion
 
         #region System.Object overrides
@@ -1565,5 +1709,9 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         }
 
         #endregion
+
+                
+
+        
     }
 }
