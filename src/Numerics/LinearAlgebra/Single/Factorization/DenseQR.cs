@@ -120,7 +120,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
             }
 
             // The dimension compatibility conditions for X = A\B require the two matrices A and B to have the same number of rows
-            if (MatrixR.RowCount != input.RowCount)
+            if (MatrixQ.RowCount != input.RowCount)
             {
                 throw new ArgumentException(Resources.ArgumentMatrixSameRowDimension);
             }
@@ -143,7 +143,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
                 throw new NotSupportedException("Can only do QR factorization for dense matrices at the moment.");
             }
 
-            Control.LinearAlgebraProvider.QRSolveFactored(((DenseMatrix)MatrixQ).Values, ((DenseMatrix)MatrixR).Values, MatrixR.RowCount, MatrixR.ColumnCount, Tau, dinput.Values, input.ColumnCount, dresult.Values, QrMethod);
+            Control.LinearAlgebraProvider.QRSolveFactored(((DenseMatrix)MatrixQ).Values, ((DenseMatrix)MatrixR).Values, MatrixQ.RowCount, MatrixR.ColumnCount, Tau, dinput.Values, input.ColumnCount, dresult.Values, QrMethod);
         }
 
         /// <summary>
@@ -165,7 +165,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
 
             // Ax=b where A is an m x n matrix
             // Check that b is a column vector with m entries
-            if (MatrixR.RowCount != input.Count)
+            if (MatrixQ.RowCount != input.Count)
             {
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength);
             }
@@ -188,7 +188,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
                 throw new NotSupportedException("Can only do QR factorization for dense vectors at the moment.");
             }
 
-            Control.LinearAlgebraProvider.QRSolveFactored(((DenseMatrix)MatrixQ).Values, ((DenseMatrix)MatrixR).Values, MatrixR.RowCount, MatrixR.ColumnCount, Tau, dinput.Values, 1, dresult.Values, QrMethod);
+            Control.LinearAlgebraProvider.QRSolveFactored(((DenseMatrix)MatrixQ).Values, ((DenseMatrix)MatrixR).Values, MatrixQ.RowCount, MatrixR.ColumnCount, Tau, dinput.Values, 1, dresult.Values, QrMethod);
         }
     }
 }
