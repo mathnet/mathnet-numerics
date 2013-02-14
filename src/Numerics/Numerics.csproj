@@ -116,7 +116,6 @@
     <Compile Include="Optimization\IUnconstrainedMinimizer.cs" />
     <Compile Include="Optimization\MinimizationResult.cs" />
     <Compile Include="Optimization\MinimizationWithLineSearchResult.cs" />
-    <Compile Include="Optimization\NewtonMinimizer.cs" />
     <Compile Include="Precision.Comparison.cs" />
     <Compile Include="Precision.Equality.cs" />
     <Compile Include="Distributions\Bernoulli.cs" />
@@ -234,7 +233,9 @@
     <Compile Include="Optimization\BfgsMinimizer.cs" />
     <Compile Include="Optimization\ConjugateGradientMinimizer.cs" />
     <Compile Include="Optimization\GoldenSectionMinimizer.cs" />
+    <Compile Include="Optimization\NewtonMinimizer.cs" />
     <Compile Include="Optimization\ObjectiveFunction.cs" />
+    <Compile Include="Optimization\ObjectiveFunction1D.cs" />
     <Compile Include="Optimization\OptimizationResult.cs" />
     <Compile Include="Optimization\LineSearch\StrongWolfeLineSearch.cs" />
     <Compile Include="SpecialFunctions\Evaluate.cs" />
