@@ -412,8 +412,8 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <param name="q">The Q matrix obtained by QR factor. This is only used for the managed provider and can be
         /// <c>null</c> for the native provider. The native provider uses the Q portion stored in the R matrix.</param>
         /// <param name="r">The R matrix obtained by calling <see cref="QRFactor(T[],int,int,T[],T[])"/>. </param>
-        /// <param name="rowsR">The number of rows in the A matrix.</param>
-        /// <param name="columnsR">The number of columns in the A matrix.</param>
+        /// <param name="rowsA">The number of rows in the A matrix.</param>
+        /// <param name="columnsA">The number of columns in the A matrix.</param>
         /// <param name="tau">Contains additional information on Q. Only used for the native solver
         /// and can be <c>null</c> for the managed provider.</param>
         /// <param name="b">On entry the B matrix; on exit the X matrix.</param>
@@ -421,7 +421,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <param name="x">On exit, the solution matrix.</param>
         /// <remarks>Rows must be greater or equal to columns.</remarks>
         /// <param name="method">The type of QR factorization to perform. <seealso cref="QRMethod"/></param>
-        void QRSolveFactored(T[] q, T[] r, int rowsR, int columnsR, T[] tau, T[] b, int columnsB, T[] x, QRMethod method = QRMethod.Full);
+        void QRSolveFactored(T[] q, T[] r, int rowsA, int columnsA, T[] tau, T[] b, int columnsB, T[] x, QRMethod method = QRMethod.Full);
 
         /// <summary>
         /// Solves A*X=B for X using a previously QR factored matrix.
@@ -429,8 +429,8 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <param name="q">The Q matrix obtained by QR factor. This is only used for the managed provider and can be
         /// <c>null</c> for the native provider. The native provider uses the Q portion stored in the R matrix.</param>
         /// <param name="r">The R matrix obtained by calling <see cref="QRFactor(T[],int,int,T[],T[])"/>. </param>
-        /// <param name="rowsR">The number of rows in the A matrix.</param>
-        /// <param name="columnsR">The number of columns in the A matrix.</param>
+        /// <param name="rowsA">The number of rows in the A matrix.</param>
+        /// <param name="columnsA">The number of columns in the A matrix.</param>
         /// <param name="tau">Contains additional information on Q. Only used for the native solver
         /// and can be <c>null</c> for the managed provider.</param>
         /// <param name="b">On entry the B matrix; on exit the X matrix.</param>
@@ -441,7 +441,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// work size value.</param>
         /// <remarks>Rows must be greater or equal to columns.</remarks>
         /// <param name="method">The type of QR factorization to perform. <seealso cref="QRMethod"/></param>
-        void QRSolveFactored(T[] q, T[] r, int rowsR, int columnsR, T[] tau, T[] b, int columnsB, T[] x, T[] work, QRMethod method = QRMethod.Full);
+        void QRSolveFactored(T[] q, T[] r, int rowsA, int columnsA, T[] tau, T[] b, int columnsB, T[] x, T[] work, QRMethod method = QRMethod.Full);
         
         /// <summary>
         /// Computes the singular value decomposition of A.
