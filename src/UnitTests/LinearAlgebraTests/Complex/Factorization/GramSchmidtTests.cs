@@ -372,5 +372,77 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Factorization
                 }
             }
         }
+
+        /// <summary>
+        /// Can solve when using a tall matrix.
+        /// </summary>
+        [Test]
+        public void CanSolveForMatrixWithTallRandomMatrix()
+        {
+            var matrixA = MatrixLoader.GenerateRandomDenseMatrix(20, 10);
+            var matrixACopy = matrixA.Clone();
+            var factorQR = matrixA.GramSchmidt();
+
+            var matrixB = MatrixLoader.GenerateRandomDenseMatrix(20, 5);
+            var matrixX = factorQR.Solve(matrixB);
+
+            // The solution X row dimension is equal to the column dimension of A
+            Assert.AreEqual(matrixA.ColumnCount, matrixX.RowCount);
+
+            // The solution X has the same number of columns as B
+            Assert.AreEqual(matrixB.ColumnCount, matrixX.ColumnCount);
+
+            var test = (matrixA.ConjugateTranspose() * matrixA).Inverse() * matrixA.ConjugateTranspose() * matrixB;
+
+            for (var i = 0; i < matrixX.RowCount; i++)
+            {
+                for (var j = 0; j < matrixX.ColumnCount; j++)
+                {
+                    AssertHelpers.AlmostEqual(test[i, j], matrixX[i, j], 9);
+                }
+            }
+
+            // Make sure A didn't change.
+            for (var i = 0; i < matrixA.RowCount; i++)
+            {
+                for (var j = 0; j < matrixA.ColumnCount; j++)
+                {
+                    Assert.AreEqual(matrixACopy[i, j], matrixA[i, j]);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Can solve when using a tall matrix.
+        /// </summary>
+        [Test]
+        public void CanSolveForVectorWithTallRandomMatrix()
+        {
+            var matrixA = MatrixLoader.GenerateRandomDenseMatrix(20, 10);
+            var matrixACopy = matrixA.Clone();
+            var factorQR = matrixA.GramSchmidt();
+
+            var vectorB = MatrixLoader.GenerateRandomDenseVector(20);
+            var vectorX = factorQR.Solve(vectorB);
+
+            // The solution x dimension is equal to the column dimension of A
+            Assert.AreEqual(matrixA.ColumnCount, vectorX.Count);
+
+            var test = (matrixA.ConjugateTranspose() * matrixA).Inverse() * matrixA.ConjugateTranspose() * vectorB;
+
+            for (var i = 0; i < vectorX.Count; i++)
+            {
+                AssertHelpers.AlmostEqual(test[i], vectorX[i], 9);
+            }
+
+            // Make sure A didn't change.
+            for (var i = 0; i < matrixA.RowCount; i++)
+            {
+                for (var j = 0; j < matrixA.ColumnCount; j++)
+                {
+                    Assert.AreEqual(matrixACopy[i, j], matrixA[i, j]);
+                }
+            }
+        }
     }
 }
