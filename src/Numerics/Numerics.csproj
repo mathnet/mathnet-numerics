@@ -205,7 +205,9 @@
     <Compile Include="Optimization\MinimizationOutput.cs" />
     <Compile Include="Optimization\NewtonMinimizer.cs" />
     <Compile Include="Optimization\ObjectiveChecker.cs" />
+    <Compile Include="Optimization\ObjectiveChecker1D.cs" />
     <Compile Include="Optimization\ObjectiveFunction.cs" />
+    <Compile Include="Optimization\ObjectiveFunction1D.cs" />
     <Compile Include="Optimization\OptimizationResult.cs" />
     <Compile Include="Optimization\StrongWolfeLineSearch.cs" />
     <Compile Include="Optimization\WeakWolfeLineSearch.cs" />
