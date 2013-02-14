@@ -28,6 +28,8 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using MathNet.Numerics.LinearAlgebra.Generic.Factorization;
+
 namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
 {
     using System;
@@ -172,7 +174,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
                 throw new NotSupportedException("Can only do GramSchmidt factorization for dense matrices at the moment.");
             }
 
-            _provider.QRSolveFactored(((DenseMatrix)MatrixQ).Values, ((DenseMatrix)MatrixR).Values, MatrixQ.RowCount, MatrixQ.ColumnCount, null, dinput.Values, input.ColumnCount, dresult.Values);
+            _provider.QRSolveFactored(((DenseMatrix)MatrixQ).Values, ((DenseMatrix)MatrixR).Values, MatrixQ.RowCount, MatrixR.ColumnCount, null, dinput.Values, input.ColumnCount, dresult.Values, QRMethod.Thin);
         }
 
         /// <summary>
@@ -217,7 +219,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
                 throw new NotSupportedException("Can only do GramSchmidt factorization for dense vectors at the moment.");
             }
 
-            _provider.QRSolveFactored(((DenseMatrix)MatrixQ).Values, ((DenseMatrix)MatrixR).Values, MatrixQ.RowCount, MatrixQ.ColumnCount, null, dinput.Values, 1, dresult.Values);
+            _provider.QRSolveFactored(((DenseMatrix)MatrixQ).Values, ((DenseMatrix)MatrixR).Values, MatrixQ.RowCount, MatrixR.ColumnCount, null, dinput.Values, 1, dresult.Values, QRMethod.Thin);
         }
     }
 }
