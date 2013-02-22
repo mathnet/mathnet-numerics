@@ -102,13 +102,13 @@ namespace System.Numerics
             return new Complex(magnitude * Math.Cos(phase), magnitude * Math.Sin(phase));
         }
 
-        [Obsolete("Use the public constructor instead.")]
+        [Obsolete("Use the public constructor instead. Scheduled for removal in v3.0.")]
         public static Complex WithRealImaginary(double real, double imaginary)
         {
             return new Complex(real, imaginary);
         }
 
-        [Obsolete("Use static FromPolarCoordinates instead.")]
+        [Obsolete("Use static FromPolarCoordinates instead. Scheduled for removal in v3.0.")]
         public static Complex WithModulusArgument(double modulus, double argument)
         {
             if (modulus < 0.0d)
@@ -143,7 +143,7 @@ namespace System.Numerics
         /// </summary>
         public static readonly Complex PositiveInfinity = new Complex(float.PositiveInfinity, float.PositiveInfinity);
 
-        [Obsolete("Use PositiveInfinity instead")]
+        [Obsolete("Use PositiveInfinity instead. Scheduled for removal in v3.0.")]
         public static readonly Complex Infinity = PositiveInfinity;
 
         /// <summary>
@@ -383,7 +383,7 @@ namespace System.Numerics
             return new Complex(dividend._real / divisor, dividend._imag / divisor);
         }
 
-        #region IFormattable Members
+#region IFormattable Members
 
         /// <summary>
         /// A string representation of this complex number.
@@ -452,9 +452,9 @@ namespace System.Numerics
             return ret.ToString();
         }
 
-        #endregion
+#endregion
 
-        #region IEquatable<Complex> Members
+#region IEquatable<Complex> Members
 
         /// <summary>
         /// Checks if two complex numbers are equal. Two complex numbers are equal if their
@@ -516,9 +516,9 @@ namespace System.Numerics
             return (obj is Complex) && Equals((Complex)obj);
         }
 
-        #endregion
+#endregion
 
-        #region IPrecisionSupport<Complex>
+#region IPrecisionSupport<Complex>
 
         /// <summary>
         /// Returns a Norm of a value of this type, which is appropriate for measuring how
@@ -547,9 +547,9 @@ namespace System.Numerics
             return (this - otherValue).MagnitudeSquared();
         }
 
-        #endregion
+#endregion
 
-        #region Parse Functions
+#region Parse Functions
 
         /// <summary>
         /// Creates a complex number based on a string. The string can be in the
@@ -795,9 +795,9 @@ namespace System.Numerics
             return ret;
         }
 
-        #endregion
+#endregion
 
-        #region Conversion
+#region Conversion
 
         /// <summary>
         /// Explicit conversion of a real decimal to a <c>Complex</c>.
@@ -932,7 +932,7 @@ namespace System.Numerics
             return new Complex(_real, _imag);
         }
 
-        #endregion
+#endregion
 
         /// <summary>
         /// Returns the additive inverse of a specified complex number.

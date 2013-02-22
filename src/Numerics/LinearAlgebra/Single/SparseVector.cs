@@ -96,7 +96,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// <exception cref="ArgumentException">
         /// If <paramref name="size"/> is less than one.
         /// </exception>
-        [Obsolete("Use a dense vector instead.")]
+        [Obsolete("Use a dense vector instead. Scheduled for removal in v3.0.")]
         public SparseVector(int size, float value)
             : this(new SparseVectorStorage<float>(size))
         {

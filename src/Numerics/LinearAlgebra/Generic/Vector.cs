@@ -202,7 +202,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
             Storage.CopySubVectorTo(destination.Storage, sourceIndex, targetIndex, count);
         }
 
-        [Obsolete("Use CopySubVectorTo instead.")]
+        [Obsolete("Use CopySubVectorTo instead. Scheduled for removal in v3.0.")]
         public void CopyTo(Vector<T> destination, int sourceIndex, int targetIndex, int count)
         {
             CopySubVectorTo(destination, sourceIndex, targetIndex, count);

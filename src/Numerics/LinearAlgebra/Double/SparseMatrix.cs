@@ -100,7 +100,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// The number of columns.
         /// </param>
         /// <param name="value">The value which we assign to each element of the matrix.</param>
-        [Obsolete("Use a dense matrix instead.")]
+        [Obsolete("Use a dense matrix instead. Scheduled for removal in v3.0.")]
         public SparseMatrix(int rows, int columns, double value)
             : this(rows, columns)
         {

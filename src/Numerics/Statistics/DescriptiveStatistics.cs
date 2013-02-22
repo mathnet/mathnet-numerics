@@ -157,7 +157,7 @@ namespace MathNet.Numerics.Statistics
         /// Gets the sample median.
         /// </summary>
         /// <value>The sample median.</value>
-        [Obsolete("Dropped in future versions for performance reasons. Please use Statistics.Median instead.")]
+        [Obsolete("Please use Statistics.Median instead (performance). Scheduled for removal in v3.0.")]
         public double Median
         {
             get { return _medianLazy.Value; }

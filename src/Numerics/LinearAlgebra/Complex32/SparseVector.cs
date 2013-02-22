@@ -96,7 +96,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// <exception cref="ArgumentException">
         /// If <paramref name="size"/> is less than one.
         /// </exception>
-        [Obsolete("Use a dense vector instead.")]
+        [Obsolete("Use a dense vector instead. Scheduled for removal in v3.0.")]
         public SparseVector(int size, Complex32 value)
             : this(new SparseVectorStorage<Complex32>(size))
         {

@@ -173,7 +173,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// Gets the matrix's data.
         /// </summary>
         /// <value>The matrix's data.</value>
-        [Obsolete("Use Values instead. Will be removed in future versions.")]
+        [Obsolete("Use Values instead. Scheduled for removal in v3.0.")]
         public float[] Data
         {
             get { return _values; }
