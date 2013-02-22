@@ -271,15 +271,16 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// <param name="result">The vector to store the result of the addition.</param>
         protected override void DoAdd(Vector<float> other, Vector<float> result)
         {
-            var rdense = result as DenseVector;
-            var odense = other as DenseVector;
-            if (rdense != null && odense != null)
+            var otherDense = other as DenseVector;
+            var resultDense = result as DenseVector;
+
+            if (otherDense == null || resultDense == null)
             {
-                Control.LinearAlgebraProvider.AddVectorToScaledVector(_values, 1.0f, odense.Values, rdense.Values);
+                base.DoAdd(other, result);
             }
             else
             {
-                base.DoAdd(other, result);
+                Control.LinearAlgebraProvider.AddArrays(_values, otherDense._values, resultDense._values);
             }
         }
 
@@ -350,21 +351,22 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         }
 
         /// <summary>
-        /// Subtracts another vector to this vector and stores the result into the result vector.
+        /// Subtracts another vector from this vector and stores the result into the result vector.
         /// </summary>
         /// <param name="other">The vector to subtract from this one.</param>
         /// <param name="result">The vector to store the result of the subtraction.</param>
         protected override void DoSubtract(Vector<float> other, Vector<float> result)
         {
-            var rdense = result as DenseVector;
-            var odense = other as DenseVector;
-            if (rdense != null && odense != null)
+            var otherDense = other as DenseVector;
+            var resultDense = result as DenseVector;
+
+            if (otherDense == null || resultDense == null)
             {
-                Control.LinearAlgebraProvider.AddVectorToScaledVector(_values, -1.0f, odense.Values, rdense.Values);
+                base.DoSubtract(other, result);
             }
             else
             {
-                base.DoSubtract(other, result);
+                Control.LinearAlgebraProvider.SubtractArrays(_values, otherDense._values, resultDense._values);
             }
         }
         
@@ -719,17 +721,16 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// <param name="result">The vector to store the result of the pointwise division.</param>
         protected override void DoPointwiseMultiply(Vector<float> other, Vector<float> result)
         {
-            var dense = result as DenseVector;
-            if (dense == null)
+            var denseOther = other as DenseVector;
+            var denseResult = result as DenseVector;
+
+            if (denseOther == null || denseResult == null)
             {
                 base.DoPointwiseMultiply(other, result);
             }
             else
             {
-                CommonParallel.For(
-                    0,
-                    _values.Length,
-                    index => dense._values[index] = _values[index] * other[index]);
+                Control.LinearAlgebraProvider.PointWiseMultiplyArrays(_values, denseOther._values, denseResult._values);
             }
         }
 
@@ -741,17 +742,16 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// <remarks></remarks>
         protected override void DoPointwiseDivide(Vector<float> other, Vector<float> result)
         {
-            var dense = result as DenseVector;
-            if (dense == null)
+            var denseOther = other as DenseVector;
+            var denseResult = result as DenseVector;
+
+            if (denseOther == null || denseResult == null)
             {
                 base.DoPointwiseDivide(other, result);
             }
             else
             {
-                CommonParallel.For(
-                    0,
-                    _values.Length,
-                    index => dense._values[index] = _values[index] / other[index]);
+                Control.LinearAlgebraProvider.PointWiseDivideArrays(_values, denseOther._values, denseResult._values);
             }
         }
 
