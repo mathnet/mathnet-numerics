@@ -74,10 +74,10 @@ namespace MathNet.Numerics
             {
                 const string name = "MathNetNumericsLAProvider";
                 var value = Environment.GetEnvironmentVariable(name);
-                switch (value != null ? value.ToUpper() : string.Empty)
+                switch (value != null ? value.ToUpperInvariant() : string.Empty)
                 {
                     case "MKL":
-                        LinearAlgebraProvider = new MathNet.Numerics.Algorithms.LinearAlgebra.Mkl.MklLinearAlgebraProvider();
+                        LinearAlgebraProvider = new Algorithms.LinearAlgebra.Mkl.MklLinearAlgebraProvider();
                         break;
                     default:
                         LinearAlgebraProvider = new ManagedLinearAlgebraProvider();
@@ -193,7 +193,7 @@ namespace MathNet.Numerics
         /// <returns><c>true</c> if the operation should be parallelized; <c>false</c> otherwise.</returns>
         public static bool ParallelizeOperation(int elements)
         {
-            return elements < ParallelizeElements || DisableParallelization || NumberOfParallelWorkerThreads < 2;
+            return !DisableParallelization && NumberOfParallelWorkerThreads >= 2 && elements >= ParallelizeElements;
         }
     }
 }
