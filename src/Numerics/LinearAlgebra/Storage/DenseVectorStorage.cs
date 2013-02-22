@@ -83,12 +83,6 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                 return;
             }
 
-            if (Length != target.Length)
-            {
-                var message = string.Format(Resources.ArgumentMatrixDimensions2, Length, target.Length);
-                throw new ArgumentException(message, "target");
-            }
-
             Array.Copy(Data, 0, target.Data, 0, Data.Length);
         }
 
