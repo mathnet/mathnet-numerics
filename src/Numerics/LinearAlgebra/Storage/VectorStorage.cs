@@ -143,7 +143,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         /// <param name="obj">The <see cref="T:System.Object"/> to compare with the current <see cref="T:System.Object"/>. </param>
         public override sealed bool Equals(object obj)
         {
-            return Equals(obj as MatrixStorage<T>);
+            return Equals(obj as VectorStorage<T>);
         }
 
         /// <summary>
