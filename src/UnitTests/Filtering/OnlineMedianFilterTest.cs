@@ -1,11 +1,9 @@
-// <copyright file="OnlineMedianFilter.cs" company="Math.NET">
+// <copyright file="OnlineMedianFilterTest.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
-//
 // Copyright (c) 2009-2010 Math.NET
-//
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -14,10 +12,8 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
-//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
-//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -28,50 +24,32 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-namespace MathNet.Numerics.Filtering.Median
+namespace MathNet.Numerics.UnitTests.Filtering
 {
-    using System.Linq;
-    using Statistics;
+    using Numerics.Filtering.Median;
+    using NUnit.Framework;
 
     /// <summary>
-    /// Median-Filters are non-linear filters, returning
-    /// the median of a sample window as output. Median-Filters
-    /// perform well for denoise-applications where it's
-    /// important to not loose sharp steps/edges.
+    /// OnlineMedian test.
     /// </summary>
-    public class OnlineMedianFilter : OnlineFilter
+    [TestFixture]
+    public class OnlineMedianFilterTest
     {
-        readonly double[] _buffer;
-        int _offset;
-        bool _bufferFull;
-
         /// <summary>
-        /// Create a Median Filter
+        /// Naive transforms real sine correctly.
         /// </summary>
-        public OnlineMedianFilter(int windowSize)
+        [Test]
+        public void MedianWindowFilling()
         {
-            _buffer = new double[windowSize];
-        }
+            var filter = new OnlineMedianFilter(5);
 
-        /// <summary>
-        /// Process a single sample.
-        /// </summary>
-        public override double ProcessSample(double sample)
-        {
-            _buffer[_offset = (_offset == 0) ? _buffer.Length - 1 : _offset - 1] = sample;
-            _bufferFull |= (_offset == 0);
-
-            var data = _bufferFull ? _buffer : _buffer.Skip(_offset);
-            return data.Median();
-        }
-
-        /// <summary>
-        /// Reset internal state.
-        /// </summary>
-        public override void Reset()
-        {
-            _offset = 0;
-            _bufferFull = false;
+            Assert.AreEqual(5, filter.ProcessSample(5));
+            Assert.AreEqual(3.5, filter.ProcessSample(2));
+            Assert.AreEqual(5, filter.ProcessSample(6));
+            Assert.AreEqual(4, filter.ProcessSample(3));
+            Assert.AreEqual(4, filter.ProcessSample(4));
+            Assert.AreEqual(3, filter.ProcessSample(1));
+            Assert.AreEqual(4, filter.ProcessSample(7));
         }
     }
 }
