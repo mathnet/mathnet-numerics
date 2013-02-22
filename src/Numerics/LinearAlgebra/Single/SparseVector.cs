@@ -1375,22 +1375,5 @@ namespace MathNet.Numerics.LinearAlgebra.Single
                 yield return new Tuple<int, float>(_storage.Indices[i], _storage.Values[i]);
             }
         }
-
-        /// <summary>
-        /// Returns the data contained in the vector as an array.
-        /// </summary>
-        /// <returns>
-        /// The vector's data as an array.
-        /// </returns>
-        public override float[] ToArray()
-        {
-            var ret = new float[Count];
-            for (var i = 0; i < _storage.ValueCount; i++)
-            {
-                ret[_storage.Indices[i]] = _storage.Values[i];
-            }
-
-            return ret;
-        }
     }
 }

@@ -1240,15 +1240,11 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <returns>
         /// The vector's data as an array.
         /// </returns>
-        public virtual T[] ToArray()
+        public T[] ToArray()
         {
-            var ret = new T[Count];
-            for (var i = 0; i < ret.Length; i++)
-            {
-                ret[i] = At(i);
-            }
-
-            return ret;
+            var result = new DenseVectorStorage<T>(Count);
+            Storage.CopyToUnchecked(result, skipClearing: true);
+            return result.Data;
         }
 
         /// <summary>

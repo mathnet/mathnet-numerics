@@ -1377,22 +1377,5 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 yield return new Tuple<int, double>(_storage.Indices[i], _storage.Values[i]);
             }
         }
-
-        /// <summary>
-        /// Returns the data contained in the vector as an array.
-        /// </summary>
-        /// <returns>
-        /// The vector's data as an array.
-        /// </returns>
-        public override double[] ToArray()
-        {
-            var ret = new double[Count];
-            for (var i = 0; i < _storage.ValueCount; i++)
-            {
-                ret[_storage.Indices[i]] = _storage.Values[i];
-            }
-
-            return ret;
-        }
     }
 }

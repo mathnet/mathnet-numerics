@@ -1325,22 +1325,5 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
                 yield return new Tuple<int, Complex>(_storage.Indices[i], _storage.Values[i]);
             }
         }
-
-        /// <summary>
-        /// Returns the data contained in the vector as an array.
-        /// </summary>
-        /// <returns>
-        /// The vector's data as an array.
-        /// </returns>
-        public override Complex[] ToArray()
-        {
-            var ret = new Complex[Count];
-            for (var i = 0; i < _storage.ValueCount; i++)
-            {
-                ret[_storage.Indices[i]] = _storage.Values[i];
-            }
-
-            return ret;
-        }
     }
 }

@@ -1325,22 +1325,5 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
                 yield return new Tuple<int, Complex32>(_storage.Indices[i], _storage.Values[i]);
             }
         }
-
-        /// <summary>
-        /// Returns the data contained in the vector as an array.
-        /// </summary>
-        /// <returns>
-        /// The vector's data as an array.
-        /// </returns>
-        public override Complex32[] ToArray()
-        {
-            var ret = new Complex32[Count];
-            for (var i = 0; i < _storage.ValueCount; i++)
-            {
-                ret[_storage.Indices[i]] = _storage.Values[i];
-            }
-
-            return ret;
-        }
     }
 }
