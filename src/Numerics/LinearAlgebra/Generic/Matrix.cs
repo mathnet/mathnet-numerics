@@ -632,7 +632,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         public virtual Matrix<T> SubMatrix(int rowIndex, int rowCount, int columnIndex, int columnCount)
         {
             var target = CreateMatrix(rowCount, columnCount);
-            Storage.CopySubMatrixTo(target.Storage, rowIndex, 0, rowCount, columnIndex, 0, columnCount);
+            Storage.CopySubMatrixTo(target.Storage, rowIndex, 0, rowCount, columnIndex, 0, columnCount, skipClearing: true);
             return target;
         }
 

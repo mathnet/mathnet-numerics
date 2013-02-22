@@ -816,67 +816,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         }
 
         /// <summary>
-        /// Creates a vector containing specified elements.
-        /// </summary>
-        /// <param name="index">The first element to begin copying from.</param>
-        /// <param name="length">The number of elements to copy.</param>
-        /// <returns>A vector containing a copy of the specified elements.</returns>
-        /// <exception cref="ArgumentOutOfRangeException"><list><item>If <paramref name="index"/> is not positive or
-        /// greater than or equal to the size of the vector.</item>
-        /// <item>If <paramref name="index"/> + <paramref name="length"/> is greater than or equal to the size of the vector.</item>
-        /// </list></exception>
-        /// <exception cref="ArgumentException">If <paramref name="length"/> is not positive.</exception>
-        public override Vector<Complex> SubVector(int index, int length)
-        {
-            if (index < 0 || index >= Count)
-            {
-                throw new ArgumentOutOfRangeException("index");
-            }
-
-            if (length <= 0)
-            {
-                throw new ArgumentOutOfRangeException("length");
-            }
-
-            if (index + length > Count)
-            {
-                throw new ArgumentOutOfRangeException("length");
-            }
-
-            var result = new SparseVector(length);
-            for (var i = index; i < index + length; i++)
-            {
-                result.At(i - index, At(i));
-            }
-
-            return result;
-        }
-
-        /// <summary>
-        /// Set the values of this vector to the given values.
-        /// </summary>
-        /// <param name="values">The array containing the values to use.</param>
-        /// <exception cref="ArgumentNullException">If <paramref name="values"/> is <see langword="null" />.</exception>
-        /// <exception cref="ArgumentException">If <paramref name="values"/> is not the same size as this vector.</exception>
-        public override void SetValues(Complex[] values)
-        {
-            if (values == null)
-            {
-                throw new ArgumentNullException("values");
-            }
-
-            if (values.Length != Count)
-            {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "values");
-            }
-
-            for (var i = 0; i < values.Length; i++)
-            {
-                At(i, values[i]);
-            }
-        }
-
-        /// <summary>
         /// Computes the sum of the vector's elements.
         /// </summary>
         /// <returns>The sum of the vector's elements.</returns>

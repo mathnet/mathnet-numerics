@@ -1285,37 +1285,35 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// Creates a vector containing specified elements.
         /// </summary>
         /// <param name="index">The first element to begin copying from.</param>
-        /// <param name="length">The number of elements to copy.</param>
+        /// <param name="count">The number of elements to copy.</param>
         /// <returns>A vector containing a copy of the specified elements.</returns>
         /// <exception cref="ArgumentOutOfRangeException"><list><item>If <paramref name="index"/> is not positive or
         /// greater than or equal to the size of the vector.</item>
         /// <item>If <paramref name="index"/> + <paramref name="length"/> is greater than or equal to the size of the vector.</item>
         /// </list></exception>
         /// <exception cref="ArgumentException">If <paramref name="length"/> is not positive.</exception>
-        public virtual Vector<T> SubVector(int index, int length)
+        public Vector<T> SubVector(int index, int count)
         {
-            if (index < 0 || index >= Count)
+            var target = CreateVector(count);
+            Storage.CopySubVectorTo(target.Storage, index, 0, count, skipClearing: true);
+            return target;
+        }
+
+        /// <summary>
+        /// Copies the values of a given vector into a region in this vector.
+        /// </summary>
+        /// <param name="index">The field to start copying to</param>
+        /// <param name="count">The number of fields to cpy. Must be positive.</param>
+        /// <param name="subVector">The sub-vector to copy from.</param>
+        /// <exception cref="ArgumentNullException">If <paramref name="subVector"/> is <see langword="null" /></exception>
+        public void SetSubVector(int index, int count, Vector<T> subVector)
+        {
+            if (subVector == null)
             {
-                throw new ArgumentOutOfRangeException("index");
+                throw new ArgumentNullException("subVector");
             }
 
-            if (length <= 0)
-            {
-                throw new ArgumentOutOfRangeException("length");
-            }
-
-            if (index + length > Count)
-            {
-                throw new ArgumentOutOfRangeException("index");
-            }
-
-            var result = CreateVector(length);
-
-            CommonParallel.For(
-                index, 
-                index + length, 
-                i => result[i - index] = this[i]);
-            return result;
+            subVector.Storage.CopySubVectorTo(Storage, 0, index, count);
         }
 
         /// <summary>
@@ -1324,22 +1322,10 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <param name="values">The array containing the values to use.</param>
         /// <exception cref="ArgumentNullException">If <paramref name="values"/> is <see langword="null" />.</exception>
         /// <exception cref="ArgumentException">If <paramref name="values"/> is not the same size as this vector.</exception>
-        public virtual void SetValues(T[] values)
+        public void SetValues(T[] values)
         {
-            if (values == null)
-            {
-                throw new ArgumentNullException("values");
-            }
-
-            if (values.Length != Count)
-            {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "values");
-            }
-
-            CommonParallel.For(
-                0, 
-                values.Length, 
-                i => this[i] = values[i]);
+            var source = new DenseVectorStorage<T>(Count, values);
+            source.CopyTo(Storage);
         }
 
         #endregion

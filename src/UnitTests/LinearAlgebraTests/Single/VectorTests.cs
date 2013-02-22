@@ -481,7 +481,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
         public void SetValuesWithNonEqualDataLengthThrowsArgumentException()
         {
             var vector = CreateVector(Data.Length + 2);
-            Assert.Throws<ArgumentException>(() => vector.SetValues(Data));
+            Assert.Throws<ArgumentOutOfRangeException>(() => vector.SetValues(Data));
         }
 
         /// <summary>
