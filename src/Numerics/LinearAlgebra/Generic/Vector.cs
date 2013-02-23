@@ -1142,13 +1142,9 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// </returns>
         public virtual Matrix<T> ToColumnMatrix()
         {
-            var matrix = CreateMatrix(Count, 1);
-            for (var i = 0; i < Count; i++)
-            {
-                matrix.At(i, 0, this[i]);
-            }
-
-            return matrix;
+            var result = CreateMatrix(Count, 1);
+            result.Storage.CopyColumnFrom(Storage, 0, skipClearing: true);
+            return result;
         }
 
         /// <summary>
@@ -1159,13 +1155,9 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// </returns>
         public virtual Matrix<T> ToRowMatrix()
         {
-            var matrix = CreateMatrix(1, Count);
-            for (var i = 0; i < Count; i++)
-            {
-                matrix.At(0, i, this[i]);
-            }
-
-            return matrix;
+            var result = CreateMatrix(1, Count);
+            result.Storage.CopyRowFrom(Storage, 0, skipClearing: true);
+            return result;
         }
 
         /// <summary>
