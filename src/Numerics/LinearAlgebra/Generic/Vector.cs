@@ -1324,9 +1324,9 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <returns>A vector containing a copy of the specified elements.</returns>
         /// <exception cref="ArgumentOutOfRangeException"><list><item>If <paramref name="index"/> is not positive or
         /// greater than or equal to the size of the vector.</item>
-        /// <item>If <paramref name="index"/> + <paramref name="length"/> is greater than or equal to the size of the vector.</item>
+        /// <item>If <paramref name="index"/> + <paramref name="count"/> is greater than or equal to the size of the vector.</item>
         /// </list></exception>
-        /// <exception cref="ArgumentException">If <paramref name="length"/> is not positive.</exception>
+        /// <exception cref="ArgumentException">If <paramref name="count"/> is not positive.</exception>
         public Vector<T> SubVector(int index, int count)
         {
             var target = CreateVector(count);

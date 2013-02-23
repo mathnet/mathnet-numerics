@@ -133,12 +133,8 @@ namespace MathNet.Numerics
         /// addition per loop than evaluating a nested polynomial of
         /// the same degree.
         /// </summary>
-        /// <param name="coefficients">The coefficients of the polynomial.
-        /// </param>
-        /// <param name="x">Argument to the polynomial.
-        /// </param>
-        /// <param name="N">The number of coefficients.
-        /// </param>
+        /// <param name="coefficients">The coefficients of the polynomial.</param>
+        /// <param name="x">Argument to the polynomial.</param>
         /// <remarks>
         /// Reference: https://bpm2.svn.codeplex.com/svn/Common.Numeric/Arithmetic.cs
         /// <p/>

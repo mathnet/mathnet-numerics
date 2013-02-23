@@ -41,12 +41,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// <summary>
         /// Initializes a new instance of the Matrix class.
         /// </summary>
-        /// <param name="rows">
-        /// The number of rows.
-        /// </param>
-        /// <param name="columns">
-        /// The number of columns.
-        /// </param>
         protected Matrix(MatrixStorage<Complex> storage)
             : base(storage)
         {

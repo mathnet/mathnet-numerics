@@ -259,6 +259,7 @@ namespace MathNet.Numerics.Distributions
         /// Samples the distribution.
         /// </summary>
         /// <param name="rnd">The random number generator to use.</param>
+        /// <param name="dof">Degrees of Freedom</param>
         /// <returns>a random number from the distribution.</returns>
         internal static double SampleUnchecked(Random rnd, int dof)
         {
@@ -297,6 +298,7 @@ namespace MathNet.Numerics.Distributions
         /// Generates a sample from the distribution.
         /// </summary>
         /// <param name="rnd">The random number generator to use.</param>
+        /// <param name="dof">Degrees of Freedom</param>
         /// <returns>a sample from the distribution.</returns>
         public static double Sample(Random rnd, int dof)
         {
@@ -312,6 +314,7 @@ namespace MathNet.Numerics.Distributions
         /// Generates a sequence of samples from the distribution.
         /// </summary>
         /// <param name="rnd">The random number generator to use.</param>
+        /// <param name="dof">Degrees of Freedom</param>
         /// <returns>a sequence of samples from the distribution.</returns>
         public static IEnumerable<double> Samples(Random rnd, int dof)
         {

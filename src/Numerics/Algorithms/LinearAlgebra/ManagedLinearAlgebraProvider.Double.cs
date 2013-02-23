@@ -1342,7 +1342,6 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// QR factorization.</param>
         /// <param name="tau">A min(m,n) vector. On exit, contains additional information
         /// to be used by the QR solve routine.</param>
-        /// <param name="method">The type of QR factorization to perform.</param>
         /// <remarks>This is similar to the GEQRF and ORGQR LAPACK routines.</remarks>
         public virtual void QRFactor(double[] r, int rowsR, int columnsR, double[] q, double[] tau)
         {

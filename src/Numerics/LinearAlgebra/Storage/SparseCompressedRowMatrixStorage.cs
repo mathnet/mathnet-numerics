@@ -50,7 +50,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
         /// <summary>
         /// An array containing the column indices of the non-zero values. Element "I" of the array 
-        /// is the number of the column in matrix that contains the I-th value in the <see cref="_nonZeroValues"/> array.
+        /// is the number of the column in matrix that contains the I-th value in the <see cref="Values"/> array.
         /// </summary>
         public int[] ColumnIndices;
 
