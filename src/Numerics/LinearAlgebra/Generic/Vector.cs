@@ -244,7 +244,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// The scalar to add.
         /// </param>
         /// <returns>A copy of the vector with the scalar added.</returns>
-        public virtual Vector<T> Add(T scalar)
+        public Vector<T> Add(T scalar)
         {
             if (scalar.Equals(Zero))
             {
@@ -271,7 +271,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <exception cref="ArgumentException">
         /// If this vector and <paramref name="result"/> are not the same size.
         /// </exception>
-        public virtual void Add(T scalar, Vector<T> result)
+        public void Add(T scalar, Vector<T> result)
         {
             if (result == null)
             {
@@ -281,6 +281,12 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
             if (Count != result.Count)
             {
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
+            }
+
+            if (scalar.Equals(Zero))
+            {
+                CopyTo(result);
+                return;
             }
 
             DoAdd(scalar, result);
@@ -306,7 +312,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <remarks>
         /// Added as an alternative to the unary addition operator.
         /// </remarks>
-        public virtual Vector<T> Plus()
+        public Vector<T> Plus()
         {
             return Clone();
         }
@@ -324,7 +330,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <exception cref="ArgumentException">
         /// If this vector and <paramref name="other"/> are not the same size.
         /// </exception>
-        public virtual Vector<T> Add(Vector<T> other)
+        public Vector<T> Add(Vector<T> other)
         {
             if (other == null)
             {
@@ -362,7 +368,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <exception cref="ArgumentException">
         /// If this vector and <paramref name="result"/> are not the same size.
         /// </exception>
-        public virtual void Add(Vector<T> other, Vector<T> result)
+        public void Add(Vector<T> other, Vector<T> result)
         {
             if (result == null)
             {
@@ -395,9 +401,9 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// The scalar to subtract.
         /// </param>
         /// <returns>A new vector containing the subtraction of this vector and the scalar.</returns>
-        public virtual Vector<T> Subtract(T scalar)
+        public Vector<T> Subtract(T scalar)
         {
-            if (scalar.Equals(default(T)))
+            if (scalar.Equals(Zero))
             {
                 return Clone();
             }
@@ -422,7 +428,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <exception cref="ArgumentException">
         /// If this vector and <paramref name="result"/> are not the same size.
         /// </exception>
-        public virtual void Subtract(T scalar, Vector<T> result)
+        public void Subtract(T scalar, Vector<T> result)
         {
             if (result == null)
             {
@@ -432,6 +438,12 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
             if (Count != result.Count)
             {
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
+            }
+
+            if (scalar.Equals(Zero))
+            {
+                CopyTo(result);
+                return;
             }
 
             DoSubtract(scalar, result);
@@ -472,7 +484,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <exception cref="ArgumentException">
         /// If this vector and <paramref name="other"/> are not the same size.
         /// </exception>
-        public virtual Vector<T> Subtract(Vector<T> other)
+        public Vector<T> Subtract(Vector<T> other)
         {
             if (other == null)
             {
@@ -510,7 +522,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <exception cref="ArgumentException">
         /// If this vector and <paramref name="result"/> are not the same size.
         /// </exception>
-        public virtual void Subtract(Vector<T> other, Vector<T> result)
+        public void Subtract(Vector<T> other, Vector<T> result)
         {
             if (result == null)
             {
@@ -628,7 +640,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <exception cref="ArgumentNullException">
         /// If <paramref name="other"/> is <see langword="null"/>.
         /// </exception>
-        public virtual T DotProduct(Vector<T> other)
+        public T DotProduct(Vector<T> other)
         {
             if (other == null)
             {
@@ -727,7 +739,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <returns>A new vector which is the pointwise multiplication of the two vectors.</returns>
         /// <exception cref="ArgumentNullException">If the other vector is <see langword="null" />.</exception> 
         /// <exception cref="ArgumentException">If this vector and <paramref name="other"/> are not the same size.</exception>
-        public virtual Vector<T> PointwiseMultiply(Vector<T> other)
+        public Vector<T> PointwiseMultiply(Vector<T> other)
         {
             if (other == null)
             {
@@ -753,7 +765,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <exception cref="ArgumentNullException">If the result vector is <see langword="null" />.</exception> 
         /// <exception cref="ArgumentException">If this vector and <paramref name="other"/> are not the same size.</exception>
         /// <exception cref="ArgumentException">If this vector and <paramref name="result"/> are not the same size.</exception>
-        public virtual void PointwiseMultiply(Vector<T> other, Vector<T> result)
+        public void PointwiseMultiply(Vector<T> other, Vector<T> result)
         {
             if (result == null)
             {
@@ -792,7 +804,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <returns>A new vector which is the pointwise division of the two vectors.</returns>
         /// <exception cref="ArgumentNullException">If the other vector is <see langword="null" />.</exception> 
         /// <exception cref="ArgumentException">If this vector and <paramref name="other"/> are not the same size.</exception>
-        public virtual Vector<T> PointwiseDivide(Vector<T> other)
+        public Vector<T> PointwiseDivide(Vector<T> other)
         {
             if (other == null)
             {
@@ -818,7 +830,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <exception cref="ArgumentNullException">If the result vector is <see langword="null" />.</exception> 
         /// <exception cref="ArgumentException">If this vector and <paramref name="other"/> are not the same size.</exception>
         /// <exception cref="ArgumentException">If this vector and <paramref name="result"/> are not the same size.</exception>
-        public virtual void PointwiseDivide(Vector<T> other, Vector<T> result)
+        public void PointwiseDivide(Vector<T> other, Vector<T> result)
         {
             if (result == null)
             {
@@ -925,7 +937,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// Returns the value of maximum element.
         /// </summary>
         /// <returns>The value of maximum element.</returns>        
-        public virtual T Maximum()
+        public T Maximum()
         {
             return this[MaximumIndex()];
         }
@@ -940,7 +952,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// Returns the value of the minimum element.
         /// </summary>
         /// <returns>The value of the minimum element.</returns>
-        public virtual T Minimum()
+        public T Minimum()
         {
             return this[MinimumIndex()];
         }
@@ -968,10 +980,10 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// </summary>
         /// <param name="divisor">The divisor to use.</param>
         /// <returns>A vector containing the result.</returns>
-        public virtual Vector<T> Modulus(T divisor)
+        public Vector<T> Modulus(T divisor)
         {
             var result = CreateVector(Count);
-            Modulus(divisor, result);
+            DoModulus(divisor, result);
             return result;
         }
 
@@ -980,7 +992,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// </summary>
         /// <param name="divisor">The divisor to use.</param>
         /// <param name="result">A vector to store the results in.</param>
-        public virtual void Modulus(T divisor, Vector<T> result)
+        public void Modulus(T divisor, Vector<T> result)
         {
             if (result == null)
             {
