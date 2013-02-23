@@ -208,50 +208,39 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
             return new SparseVector(size);
         }
 
+        #region Operators and supplementary functions
+
         /// <summary>
         /// Conjugates vector and save result to <paramref name="target"/>
         /// </summary>
         /// <param name="target">Target vector</param>
-        public override void Conjugate(Vector<Complex> target)
+        protected override void DoConjugate(Vector<Complex> target)
         {
-            if (target == null)
-            {
-                throw new ArgumentNullException("target");
-            }
-
-            if (Count != target.Count)
-            {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "target");
-            }
-
             if (ReferenceEquals(this, target))
             {
                 var tmp = CreateVector(Count);
-                Conjugate(tmp);
+                DoConjugate(tmp);
                 tmp.CopyTo(target);
             }
 
-            var otherVector = target as SparseVector;
-            if (otherVector == null)
+            var targetSparse = target as SparseVector;
+            if (targetSparse == null)
             {
                 base.Conjugate(target);
+                return;
             }
-            else
-            {
-                // Lets copy only needed data. Portion of needed data is determined by NonZerosCount value
-                otherVector._storage.Values = new Complex[_storage.ValueCount];
-                otherVector._storage.Indices = new int[_storage.ValueCount];
-                otherVector._storage.ValueCount = _storage.ValueCount;
 
-                if (_storage.ValueCount != 0)
-                {
-                    CommonParallel.For(0, _storage.ValueCount, index => otherVector._storage.Values[index] = _storage.Values[index].Conjugate());
-                    Buffer.BlockCopy(_storage.Indices, 0, otherVector._storage.Indices, 0, _storage.ValueCount * Constants.SizeOfInt);
-                }
+            // Lets copy only needed data. Portion of needed data is determined by NonZerosCount value
+            targetSparse._storage.Values = new Complex[_storage.ValueCount];
+            targetSparse._storage.Indices = new int[_storage.ValueCount];
+            targetSparse._storage.ValueCount = _storage.ValueCount;
+
+            if (_storage.ValueCount != 0)
+            {
+                CommonParallel.For(0, _storage.ValueCount, index => targetSparse._storage.Values[index] = _storage.Values[index].Conjugate());
+                Buffer.BlockCopy(_storage.Indices, 0, targetSparse._storage.Indices, 0, _storage.ValueCount * Constants.SizeOfInt);
             }
         }
-        
-        #region Operators and supplementary functions
 
         /// <summary>
         /// Adds a scalar to each element of the vector and stores the result in the result vector.

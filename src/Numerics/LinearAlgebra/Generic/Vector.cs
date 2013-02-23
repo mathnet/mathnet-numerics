@@ -1246,7 +1246,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// Conjugates vector and save result to <paramref name="target"/>
         /// </summary>
         /// <param name="target">Target vector</param>
-        public virtual void Conjugate(Vector<T> target)
+        public void Conjugate(Vector<T> target)
         {
             if (target == null)
             {
