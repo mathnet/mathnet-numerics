@@ -233,6 +233,27 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             return true;
         }
 
+        /// <summary>
+        /// Returns a hash code for this instance.
+        /// </summary>
+        /// <returns>
+        /// A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table. 
+        /// </returns>
+        public override int GetHashCode()
+        {
+            var values = Values;
+            var hashNum = Math.Min(ValueCount, 25);
+            int hash = 17;
+            unchecked
+            {
+                for (var i = 0; i < hashNum; i++)
+                {
+                    hash = hash * 31 + values[i].GetHashCode();
+                }
+            }
+            return hash;
+        }
+
         internal override void CopyToUnchecked(VectorStorage<T> target, bool skipClearing = false)
         {
             var sparseTarget = target as SparseVectorStorage<T>;

@@ -63,7 +63,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <returns>
         ///     <c>true</c> if the specified <see cref="System.Object"/> is equal to this instance; otherwise, <c>false</c>.
         /// </returns>
-        public override bool Equals(object obj)
+        public override sealed bool Equals(object obj)
         {
             var other = obj as Vector<T>;
             return other != null && Storage.Equals(other.Storage);
@@ -75,7 +75,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <returns>
         /// A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table. 
         /// </returns>
-        public override int GetHashCode()
+        public override sealed int GetHashCode()
         {
             return Storage.GetHashCode();
         }

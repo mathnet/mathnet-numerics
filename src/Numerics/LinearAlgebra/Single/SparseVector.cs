@@ -1164,28 +1164,6 @@ namespace MathNet.Numerics.LinearAlgebra.Single
             return base.ToString(format, formatProvider);
         }
 
-        /// <summary>
-        /// Returns a hash code for this instance.
-        /// </summary>
-        /// <returns>
-        /// A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table. 
-        /// </returns>
-        public override int GetHashCode()
-        {
-            var hashNum = Math.Min(_storage.ValueCount, 20);
-            long hash = 0;
-            for (var i = 0; i < hashNum; i++)
-            {
-#if PORTABLE
-                hash ^= Precision.DoubleToInt64Bits(_storage.Values[i].GetHashCode());
-#else
-                hash ^= BitConverter.DoubleToInt64Bits(_storage.Values[i].GetHashCode());
-#endif
-            }
-
-            return BitConverter.ToInt32(BitConverter.GetBytes(hash), 4);
-        }
-
         #endregion
 
         /// <summary>
