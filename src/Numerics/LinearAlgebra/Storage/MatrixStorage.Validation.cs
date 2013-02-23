@@ -84,6 +84,32 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             }
         }
 
+        void ValidateRowRange(VectorStorage<T> target, int rowIndex)
+        {
+            if (rowIndex >= RowCount || rowIndex < 0)
+            {
+                throw new ArgumentOutOfRangeException("rowIndex");
+            }
+
+            if (ColumnCount != target.Length)
+            {
+                throw new ArgumentException(Resources.ArgumentMatrixSameRowDimension, "target");
+            }
+        }
+
+        void ValidateColumnRange(VectorStorage<T> target, int columnIndex)
+        {
+            if (columnIndex >= ColumnCount || columnIndex < 0)
+            {
+                throw new ArgumentOutOfRangeException("columnIndex");
+            }
+
+            if (RowCount != target.Length)
+            {
+                throw new ArgumentException(Resources.ArgumentMatrixSameColumnDimension, "target");
+            }
+        }
+
         void ValidateSubRowRange(VectorStorage<T> target, int rowIndex,
             int sourceColumnIndex, int targetColumnIndex, int columnCount)
         {

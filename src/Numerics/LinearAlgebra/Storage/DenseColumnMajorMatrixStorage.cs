@@ -122,12 +122,17 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             }
         }
 
+        // ROW COPY
+
         internal override void CopySubRowToUnchecked(VectorStorage<T> target, int rowIndex, int sourceColumnIndex, int targetColumnIndex, int columnCount, bool skipClearing = false)
         {
-            var denseTarget = target as DenseVectorStorage<T>;
-            if (denseTarget != null)
+            var targetDense = target as DenseVectorStorage<T>;
+            if (targetDense != null)
             {
-                CopySubRowToUnchecked(denseTarget, rowIndex, sourceColumnIndex, targetColumnIndex, columnCount);
+                for (int j = 0; j<columnCount; j++)
+                {
+                    targetDense.Data[j + targetColumnIndex] = Data[(j + sourceColumnIndex) * RowCount + rowIndex];
+                }
                 return;
             }
 
@@ -139,20 +144,34 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             }
         }
 
-        void CopySubRowToUnchecked(DenseVectorStorage<T> target, int rowIndex, int sourceColumnIndex, int targetColumnIndex, int columnCount, bool skipClearing = false)
+        internal override void CopySubRowFromUnchecked(VectorStorage<T> source, int rowIndex, int sourceColumnIndex, int targetColumnIndex, int columnCount, bool skipClearing = false)
         {
-            for (int j = 0; j<columnCount; j++)
+            var sourceDense = source as DenseVectorStorage<T>;
+            if (sourceDense != null)
             {
-                target.Data[j + targetColumnIndex] = Data[(j + sourceColumnIndex) * RowCount + rowIndex];
+                for (int j = 0; j < columnCount; j++)
+                {
+                    Data[(j + targetColumnIndex) * RowCount + rowIndex] = sourceDense.Data[j + sourceColumnIndex];
+                }
+                return;
+            }
+
+            // FALL BACK
+
+            for (int j = sourceColumnIndex, jj = targetColumnIndex; j < sourceColumnIndex + columnCount; j++, jj++)
+            {
+                Data[(jj * RowCount) + rowIndex] = source.At(j);
             }
         }
 
+        // COLUMN COPY
+
         internal override void CopySubColumnToUnchecked(VectorStorage<T> target, int columnIndex, int sourceRowIndex, int targetRowIndex, int rowCount, bool skipClearing = false)
         {
-            var denseTarget = target as DenseVectorStorage<T>;
-            if (denseTarget != null)
+            var targetDense = target as DenseVectorStorage<T>;
+            if (targetDense != null)
             {
-                CopySubColumnToUnchecked(denseTarget, columnIndex, sourceRowIndex, targetRowIndex, rowCount);
+                Array.Copy(Data, columnIndex*RowCount + sourceRowIndex, targetDense.Data, targetRowIndex, rowCount);
                 return;
             }
 
@@ -165,10 +184,25 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             }
         }
 
-        void CopySubColumnToUnchecked(DenseVectorStorage<T> target, int columnIndex, int sourceRowIndex, int targetRowIndex, int rowCount, bool skipClearing = false)
+        internal override void CopySubColumnFromUnchecked(VectorStorage<T> source, int columnIndex, int sourceRowIndex, int targetRowIndex, int rowCount, bool skipClearing = false)
         {
-            Array.Copy(Data, columnIndex*RowCount + sourceRowIndex, target.Data, targetRowIndex, rowCount);
+            var sourceDense = source as DenseVectorStorage<T>;
+            if (sourceDense != null)
+            {
+                Array.Copy(sourceDense.Data, sourceRowIndex, Data, columnIndex * RowCount + targetRowIndex, rowCount);
+                return;
+            }
+
+            // FALL BACK
+
+            var offset = columnIndex * RowCount;
+            for (int i = sourceRowIndex, ii = targetRowIndex; i < sourceRowIndex + rowCount; i++, ii++)
+            {
+                Data[offset + ii] = source.At(i);
+            }
         }
+
+        // EXTRACT
 
         public override T[] ToRowMajorArray()
         {

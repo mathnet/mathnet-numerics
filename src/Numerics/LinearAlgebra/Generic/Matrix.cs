@@ -385,7 +385,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
                 throw new ArgumentNullException("result");
             }
 
-            Storage.CopySubRowTo(result.Storage, index, 0, 0, ColumnCount);
+            Storage.CopyRowTo(result.Storage, index);
         }
 
         /// <summary>
@@ -470,7 +470,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
                 throw new ArgumentNullException("result");
             }
 
-            Storage.CopySubColumnTo(result.Storage, index, 0, 0, RowCount);
+            Storage.CopyColumnTo(result.Storage, index);
         }
 
         /// <summary>
@@ -804,27 +804,14 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// equal the number of rows of this <strong>Matrix</strong>.</exception>
         /// <exception cref="ArgumentException">If the size of <paramref name="column"/> does not
         /// equal the number of rows of this <strong>Matrix</strong>.</exception>
-        public virtual void SetColumn(int columnIndex, T[] column)
+        public void SetColumn(int columnIndex, T[] column)
         {
-            if (columnIndex < 0 || columnIndex >= ColumnCount)
-            {
-                throw new ArgumentOutOfRangeException("columnIndex");
-            }
-
             if (column == null)
             {
                 throw new ArgumentNullException("column");
             }
 
-            if (column.Length != RowCount)
-            {
-                throw new ArgumentException(Resources.ArgumentMatrixSameRowDimension, "column");
-            }
-
-            for (var i = 0; i < RowCount; i++)
-            {
-                At(i, columnIndex, column[i]);
-            }
+            Storage.CopyColumnFrom(new DenseVectorStorage<T>(column.Length, column), columnIndex);
         }
 
         /// <summary>
@@ -837,27 +824,14 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// or greater than or equal to the number of columns.</exception>
         /// <exception cref="ArgumentException">If the size of <paramref name="column"/> does not
         /// equal the number of rows of this <strong>Matrix</strong>.</exception>
-        public virtual void SetColumn(int columnIndex, Vector<T> column)
+        public void SetColumn(int columnIndex, Vector<T> column)
         {
-            if (columnIndex < 0 || columnIndex >= ColumnCount)
-            {
-                throw new ArgumentOutOfRangeException("columnIndex");
-            }
-
             if (column == null)
             {
                 throw new ArgumentNullException("column");
             }
 
-            if (column.Count != RowCount)
-            {
-                throw new ArgumentException(Resources.ArgumentMatrixSameRowDimension, "column");
-            }
-
-            for (var i = 0; i < RowCount; i++)
-            {
-                At(i, columnIndex, column[i]);
-            }
+            Storage.CopyColumnFrom(column.Storage, columnIndex);
         }
 
         /// <summary>
@@ -913,27 +887,14 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// or greater than or equal to the number of rows.</exception>
         /// <exception cref="ArgumentException">If the size of <paramref name="row"/> does not
         /// equal the number of columns of this <strong>Matrix</strong>.</exception>
-        public virtual void SetRow(int rowIndex, Vector<T> row)
+        public void SetRow(int rowIndex, Vector<T> row)
         {
-            if (rowIndex < 0 || rowIndex >= RowCount)
-            {
-                throw new ArgumentOutOfRangeException("rowIndex");
-            }
-
             if (row == null)
             {
                 throw new ArgumentNullException("row");
             }
 
-            if (row.Count != ColumnCount)
-            {
-                throw new ArgumentException(Resources.ArgumentMatrixSameRowDimension, "row");
-            }
-
-            for (var i = 0; i < ColumnCount; i++)
-            {
-                At(rowIndex, i, row[i]);
-            }
+            Storage.CopyRowFrom(row.Storage, rowIndex);
         }
 
         /// <summary>
@@ -946,27 +907,14 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// or greater than or equal to the number of rows.</exception>
         /// <exception cref="ArgumentException">If the size of <paramref name="row"/> does not
         /// equal the number of columns of this <strong>Matrix</strong>.</exception>
-        public virtual void SetRow(int rowIndex, T[] row)
+        public void SetRow(int rowIndex, T[] row)
         {
-            if (rowIndex < 0 || rowIndex >= RowCount)
-            {
-                throw new ArgumentOutOfRangeException("rowIndex");
-            }
-
             if (row == null)
             {
                 throw new ArgumentNullException("row");
             }
 
-            if (row.Length != ColumnCount)
-            {
-                throw new ArgumentException(Resources.ArgumentMatrixSameRowDimension, "row");
-            }
-
-            for (var i = 0; i < ColumnCount; i++)
-            {
-                At(rowIndex, i, row[i]);
-            }
+            Storage.CopyRowFrom(new DenseVectorStorage<T>(row.Length, row), rowIndex);
         }
 
         /// <summary>

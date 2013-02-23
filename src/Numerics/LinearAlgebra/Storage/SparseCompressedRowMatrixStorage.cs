@@ -525,6 +525,8 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             }
         }
 
+        // ROW COPY
+
         internal override void CopySubRowToUnchecked(VectorStorage<T> target, int rowIndex,
             int sourceColumnIndex, int targetColumnIndex, int columnCount,
             bool skipClearing = false)
@@ -550,6 +552,8 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                 target.At(j, index >= 0 ? Values[index] : _zero);
             }
         }
+
+        // EXTRACT
 
         public override T[] ToRowMajorArray()
         {
