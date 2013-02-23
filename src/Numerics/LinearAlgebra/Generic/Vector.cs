@@ -31,7 +31,6 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
     using System.Collections.Generic;
     using System.Numerics;
     using System.Text;
-    using Distributions;
     using Numerics;
     using Properties;
     using Storage;
@@ -44,11 +43,11 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
     [Serializable]
     public abstract class Vector<T> :
 #if PORTABLE
-    IFormattable, IEnumerable<T>, IEquatable<Vector<T>>
+        IFormattable, IEnumerable<T>, IEquatable<Vector<T>>, IList, IList<T>
 #else
-    IFormattable, IEnumerable<T>, IEquatable<Vector<T>>, ICloneable, IList, IList<T>
+        IFormattable, IEnumerable<T>, IEquatable<Vector<T>>, IList, IList<T>, ICloneable
 #endif
-    where T : struct, IEquatable<T>, IFormattable
+        where T : struct, IEquatable<T>, IFormattable
     {
         /// <summary>
         /// The zero value for type T.
@@ -1514,34 +1513,10 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         #endregion
 
         #region IList
-        int IList.Add(object value)
-        {
-            throw new NotSupportedException();
-        }
 
-        bool IList.Contains(object value)
+        bool IList.IsReadOnly
         {
-            if (!(value is T))
-                return false;
-            else
-            {
-                return ((IList<T>)this).Contains((T)value);
-            }
-        }
-
-        int IList.IndexOf(object value)
-        {
-            if (!(value is T))
-                return -1;
-            else
-            {
-                return ((IList<T>)this).IndexOf((T)value);
-            }
-        }
-
-        void IList.Insert(int index, object value)
-        {
-            throw new NotSupportedException();
+            get { return false; }
         }
 
         bool IList.IsFixedSize
@@ -1549,9 +1524,40 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
             get { return true; }
         }
 
-        bool IList.IsReadOnly
+        object IList.this[int index]
         {
-            get { return false; }
+            get { return Storage[index]; }
+            set { Storage[index] = (T)value; }
+        }
+
+        int IList.IndexOf(object value)
+        {
+            if (!(value is T))
+            {
+                return -1;
+            }
+
+            return ((IList<T>)this).IndexOf((T)value);
+        }
+
+        bool IList.Contains(object value)
+        {
+            if (!(value is T))
+            {
+                return false;
+            }
+
+            return ((ICollection<T>)this).Contains((T)value);
+        }
+
+        void IList.Insert(int index, object value)
+        {
+            throw new NotSupportedException();
+        }
+
+        int IList.Add(object value)
+        {
+            throw new NotSupportedException();
         }
 
         void IList.Remove(object value)
@@ -1564,38 +1570,8 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
             throw new NotSupportedException();
         }
 
-        object IList.this[int index]
-        {
-            get
-            {
-                return this[index];
-            }
-            set
-            {
-                this[index] = (T)value;
-            }
-        }
-
-        void ICollection.CopyTo(Array array, int index)
-        {
-            if (array == null)
-                throw new ArgumentNullException("array");
-            if (index < 0)
-                throw new ArgumentOutOfRangeException("index");
-            if (array.Rank > 1)
-                throw new ArgumentException("Only accept one dimensional arrays.", "array");
-            if (array.LongLength < index + this.Count)
-                throw new ArgumentException("Destination array not large enough to store elements requested to copy.");
-
-            try
-            {
-                this.Storage.CopySubVectorTo(new DenseVectorStorage<T>(array.Length, (T[])array), 0, index, this.Count, skipClearing: true);
-            }
-            catch (InvalidCastException)
-            {
-                throw new ArgumentException("Input type does not match type of Vector", "array");
-            }
-        }
+        #endregion
+        #region ICollection
 
         bool ICollection.IsSynchronized
         {
@@ -1606,19 +1582,69 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         {
             get { return null; }
         }
-        #endregion
 
-        #region IList<T>
+        void ICollection.CopyTo(Array array, int index)
+        {
+            if (array == null)
+            {
+                throw new ArgumentNullException("array");
+            }
+            if (array.Rank != 1)
+            {
+                throw new ArgumentException(Resources.ArgumentSingleDimensionArray, "array");
+            }
+
+            Storage.CopySubVectorTo(new DenseVectorStorage<T>(array.Length, (T[])array), 0, index, Count);
+        }
+
+        #endregion
+        #region ICollection<T>
+
+        bool ICollection<T>.IsReadOnly
+        {
+            get { return false; }
+        }
+
         void ICollection<T>.Add(T item)
         {
             throw new NotSupportedException();
         }
+
+        bool ICollection<T>.Remove(T item)
+        {
+            throw new NotSupportedException();
+        }
+
+        bool ICollection<T>.Contains(T item)
+        {
+            // Do NOT convert this loop to LINQ (since LINQ would redirect to this very method)!
+            foreach (var x in this)
+            {
+                if (x.Equals(item))
+                    return true;
+            }
+            return false;
+        }
+
+        void ICollection<T>.CopyTo(T[] array, int arrayIndex)
+        {
+            if (array == null)
+            {
+                throw new ArgumentNullException("array");
+            }
+
+            Storage.CopySubVectorTo(new DenseVectorStorage<T>(array.Length, array), 0, arrayIndex, Count);
+        }
+
+        #endregion
+        #region IList<T>
+
         int IList<T>.IndexOf(T item)
         {
-            for (int ii = 0; ii < this.Count; ++ii)
+            for (int i = 0; i < Count; ++i)
             {
-                if (this[ii].Equals(item))
-                    return ii;
+                if (this[i].Equals(item))
+                    return i;
             }
             return -1;
         }
@@ -1633,40 +1659,6 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
             throw new NotSupportedException();
         }
 
-        bool ICollection<T>.Contains(T item)
-        {
-            foreach (var x in this)
-            {
-                if (x.Equals(item))
-                    return true;
-            }
-            return false;
-        }
-
-        void ICollection<T>.CopyTo(T[] array, int arrayIndex)
-        {
-            if (array == null)
-                throw new ArgumentNullException("array");
-            if (arrayIndex < 0)
-                throw new ArgumentOutOfRangeException("arrayIndex");
-            if (array.Rank > 1)
-                throw new ArgumentException("Only accept one dimensional arrays.", "array");
-            if (array.LongLength < arrayIndex + this.Count)
-                throw new ArgumentException("Destination array not large enough to store elements requested to copy.");
-
-            this.Storage.CopySubVectorTo(new DenseVectorStorage<T>(array.Length, array), 0, arrayIndex, this.Count, skipClearing: true);
-
-        }
-
-        bool ICollection<T>.IsReadOnly
-        {
-            get { return false; }
-        }
-
-        bool ICollection<T>.Remove(T item)
-        {
-            throw new NotSupportedException();
-        }
         #endregion 
 
         #endregion
