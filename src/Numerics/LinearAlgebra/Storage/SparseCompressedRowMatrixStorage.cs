@@ -277,11 +277,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         public override bool Equals(MatrixStorage<T> other)
         {
             // Reject equality when the argument is null or has a different shape.
-            if (other == null)
-            {
-                return false;
-            }
-            if (ColumnCount != other.ColumnCount || RowCount != other.RowCount)
+            if (other == null || ColumnCount != other.ColumnCount || RowCount != other.RowCount)
             {
                 return false;
             }

@@ -180,6 +180,59 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             }
         }
 
+        public override bool Equals(VectorStorage<T> other)
+        {
+            // Reject equality when the argument is null or has a different shape.
+            if (other == null || Length != other.Length)
+            {
+                return false;
+            }
+
+            // Accept if the argument is the same object as this.
+            if (ReferenceEquals(this, other))
+            {
+                return true;
+            }
+
+            var otherSparse = other as SparseVectorStorage<T>;
+            if (otherSparse == null)
+            {
+                return base.Equals(other);
+            }
+
+            int i = 0, j = 0;
+            while (i < ValueCount || j < otherSparse.ValueCount)
+            {
+                if (j >= otherSparse.ValueCount || i < ValueCount && Indices[i] < otherSparse.Indices[j])
+                {
+                    if (!_zero.Equals(Values[i++]))
+                    {
+                        return false;
+                    }
+                    continue;
+                }
+
+                if (i >= ValueCount || j < otherSparse.ValueCount && otherSparse.Indices[j] < Indices[i])
+                {
+                    if (!_zero.Equals(otherSparse.Values[j++]))
+                    {
+                        return false;
+                    }
+                    continue;
+                }
+
+                if (!Values[i].Equals(otherSparse.Values[j]))
+                {
+                    return false;
+                }
+
+                i++;
+                j++;
+            }
+
+            return true;
+        }
+
         internal override void CopyToUnchecked(VectorStorage<T> target, bool skipClearing = false)
         {
             var sparseTarget = target as SparseVectorStorage<T>;

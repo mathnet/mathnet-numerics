@@ -747,6 +747,9 @@
     <Compile Include="..\Numerics\LinearAlgebra\Generic\Solvers\StopCriterium\StopLevel.cs">
       <Link>LinearAlgebra\Generic\Solvers\StopCriterium\StopLevel.cs</Link>
     </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Generic\Vector.BCL.cs">
+      <Link>LinearAlgebra\Generic\Vector.BCL.cs</Link>
+    </Compile>
     <Compile Include="..\Numerics\LinearAlgebra\Generic\Vector.cs">
       <Link>LinearAlgebra\Generic\Vector.cs</Link>
     </Compile>
