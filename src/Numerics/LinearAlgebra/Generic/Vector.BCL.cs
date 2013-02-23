@@ -73,7 +73,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// Returns a hash code for this instance.
         /// </summary>
         /// <returns>
-        /// A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table. 
+        /// A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table.
         /// </returns>
         public override sealed int GetHashCode()
         {
@@ -86,9 +86,23 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <returns>
         /// A <see cref="System.String"/> that represents this instance.
         /// </returns>
-        public override string ToString()
+        public override sealed string ToString()
         {
             return ToString(null, null);
+        }
+
+        /// <summary>
+        /// Returns a <see cref="System.String"/> that represents this instance.
+        /// </summary>
+        /// <param name="formatProvider">
+        /// An <see cref="IFormatProvider"/> that supplies culture-specific formatting information.
+        /// </param>
+        /// <returns>
+        /// A <see cref="System.String"/> that represents this instance.
+        /// </returns>
+        public string ToString(IFormatProvider formatProvider)
+        {
+            return ToString(null, formatProvider);
         }
 
 #if !PORTABLE

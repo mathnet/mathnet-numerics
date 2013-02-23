@@ -81,8 +81,8 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
 
         /// <summary>Gets or sets the value at the given <paramref name="index"/>.</summary>
         /// <param name="index">The index of the value to get or set.</param>
-        /// <returns>The value of the vector at the given <paramref name="index"/>.</returns> 
-        /// <exception cref="ArgumentOutOfRangeException">If <paramref name="index"/> is negative or 
+        /// <returns>The value of the vector at the given <paramref name="index"/>.</returns>
+        /// <exception cref="ArgumentOutOfRangeException">If <paramref name="index"/> is negative or
         /// greater than the size of the vector.</exception>
         public T this[int index]
         {
@@ -142,57 +142,6 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         }
 
         /// <summary>
-        /// Returns a deep-copy clone of the vector.
-        /// </summary>
-        /// <returns>A deep-copy clone of the vector.</returns>
-        public Vector<T> Clone()
-        {
-            var result = CreateVector(Count);
-            Storage.CopyToUnchecked(result.Storage, skipClearing: true);
-            return result;
-        }
-
-        /// <summary>
-        /// Copies the values of this vector into the target vector.
-        /// </summary>
-        /// <param name="target">The vector to copy elements into.</param>
-        /// <exception cref="ArgumentNullException">If <paramref name="target"/> is <see langword="null"/>.</exception>
-        /// <exception cref="ArgumentException">If <paramref name="target"/> is not the same size as this vector.</exception>
-        public void CopyTo(Vector<T> target)
-        {
-            if (target == null)
-            {
-                throw new ArgumentNullException("target");
-            }
-
-            Storage.CopyTo(target.Storage);
-        }
-
-        /// <summary>
-        /// Copies the requested elements from this vector to another.
-        /// </summary>
-        /// <param name="destination">The vector to copy the elements to.</param>
-        /// <param name="sourceIndex">The element to start copying from.</param>
-        /// <param name="targetIndex">The element to start copying to.</param>
-        /// <param name="count">The number of elements to copy.</param>
-        public void CopySubVectorTo(Vector<T> destination, int sourceIndex, int targetIndex, int count)
-        {
-            if (destination == null)
-            {
-                throw new ArgumentNullException("destination");
-            }
-
-            // TODO: refactor range checks
-            Storage.CopySubVectorTo(destination.Storage, sourceIndex, targetIndex, count);
-        }
-
-        [Obsolete("Use CopySubVectorTo instead. Scheduled for removal in v3.0.")]
-        public void CopyTo(Vector<T> destination, int sourceIndex, int targetIndex, int count)
-        {
-            CopySubVectorTo(destination, sourceIndex, targetIndex, count);
-        }
-
-        /// <summary>
         /// Creates a matrix with the given dimensions using the same storage type
         /// as this vector.
         /// </summary>
@@ -208,8 +157,6 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <param name="size">The size of the <strong>Vector</strong> to create.</param>
         /// <returns>The new <c>Vector</c>.</returns>
         public abstract Vector<T> CreateVector(int size);
-
-        #region Elementary operations
 
         /// <summary>
         /// Adds a scalar to each element of the vector.
@@ -445,6 +392,42 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         protected abstract void DoSubtract(Vector<T> other, Vector<T> result);
 
         /// <summary>
+        /// Return vector with complex conjugate values of the source vector
+        /// </summary>
+        /// <returns>Conjugated vector</returns>
+        public Vector<T> Conjugate()
+        {
+            var retrunVector = CreateVector(Count);
+            Conjugate(retrunVector);
+            return retrunVector;
+        }
+
+        /// <summary>
+        /// Complex conjugates vector and save result to <paramref name="target"/>
+        /// </summary>
+        /// <param name="target">Target vector</param>
+        public void Conjugate(Vector<T> target)
+        {
+            if (target == null)
+            {
+                throw new ArgumentNullException("target");
+            }
+
+            if (Count != target.Count)
+            {
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "target");
+            }
+
+            DoConjugate(target);
+        }
+
+        /// <summary>
+        /// Complex conjugates vector and save result to <paramref name="target"/>
+        /// </summary>
+        /// <param name="target">Target vector</param>
+        protected abstract void DoConjugate(Vector<T> target);
+
+        /// <summary>
         /// Multiplies a scalar to each element of the vector.
         /// </summary>
         /// <param name="scalar">The scalar to multiply.</param>
@@ -589,11 +572,50 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         protected abstract void DoDivide(T scalar, Vector<T> result);
 
         /// <summary>
+        /// Computes the modulus for each element of the vector for the given divisor.
+        /// </summary>
+        /// <param name="divisor">The divisor to use.</param>
+        /// <returns>A vector containing the result.</returns>
+        public Vector<T> Modulus(T divisor)
+        {
+            var result = CreateVector(Count);
+            DoModulus(divisor, result);
+            return result;
+        }
+
+        /// <summary>
+        /// Computes the modulus for each element of the vector for the given divisor.
+        /// </summary>
+        /// <param name="divisor">The divisor to use.</param>
+        /// <param name="result">A vector to store the results in.</param>
+        public void Modulus(T divisor, Vector<T> result)
+        {
+            if (result == null)
+            {
+                throw new ArgumentNullException("result");
+            }
+
+            if (Count != result.Count)
+            {
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
+            }
+
+            DoModulus(divisor, result);
+        }
+
+        /// <summary>
+        /// Computes the modulus for each element of the vector for the given divisor.
+        /// </summary>
+        /// <param name="divisor">The divisor to use.</param>
+        /// <param name="result">A vector to store the results in.</param>
+        protected abstract void DoModulus(T divisor, Vector<T> result);
+
+        /// <summary>
         /// Pointwise multiplies this vector with another vector.
         /// </summary>
         /// <param name="other">The vector to pointwise multiply with this one.</param>
         /// <returns>A new vector which is the pointwise multiplication of the two vectors.</returns>
-        /// <exception cref="ArgumentNullException">If the other vector is <see langword="null" />.</exception> 
+        /// <exception cref="ArgumentNullException">If the other vector is <see langword="null" />.</exception>
         /// <exception cref="ArgumentException">If this vector and <paramref name="other"/> are not the same size.</exception>
         public Vector<T> PointwiseMultiply(Vector<T> other)
         {
@@ -617,8 +639,8 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// </summary>
         /// <param name="other">The vector to pointwise multiply with this one.</param>
         /// <param name="result">The vector to store the result of the pointwise multiplication.</param>
-        /// <exception cref="ArgumentNullException">If the other vector is <see langword="null" />.</exception> 
-        /// <exception cref="ArgumentNullException">If the result vector is <see langword="null" />.</exception> 
+        /// <exception cref="ArgumentNullException">If the other vector is <see langword="null" />.</exception>
+        /// <exception cref="ArgumentNullException">If the result vector is <see langword="null" />.</exception>
         /// <exception cref="ArgumentException">If this vector and <paramref name="other"/> are not the same size.</exception>
         /// <exception cref="ArgumentException">If this vector and <paramref name="result"/> are not the same size.</exception>
         public void PointwiseMultiply(Vector<T> other, Vector<T> result)
@@ -658,7 +680,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// </summary>
         /// <param name="other">The vector to pointwise divide this one by.</param>
         /// <returns>A new vector which is the pointwise division of the two vectors.</returns>
-        /// <exception cref="ArgumentNullException">If the other vector is <see langword="null" />.</exception> 
+        /// <exception cref="ArgumentNullException">If the other vector is <see langword="null" />.</exception>
         /// <exception cref="ArgumentException">If this vector and <paramref name="other"/> are not the same size.</exception>
         public Vector<T> PointwiseDivide(Vector<T> other)
         {
@@ -682,8 +704,8 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// </summary>
         /// <param name="other">The vector to pointwise divide this one by.</param>
         /// <param name="result">The vector to store the result of the pointwise division.</param>
-        /// <exception cref="ArgumentNullException">If the other vector is <see langword="null" />.</exception> 
-        /// <exception cref="ArgumentNullException">If the result vector is <see langword="null" />.</exception> 
+        /// <exception cref="ArgumentNullException">If the other vector is <see langword="null" />.</exception>
+        /// <exception cref="ArgumentNullException">If the result vector is <see langword="null" />.</exception>
         /// <exception cref="ArgumentException">If this vector and <paramref name="other"/> are not the same size.</exception>
         /// <exception cref="ArgumentException">If this vector and <paramref name="result"/> are not the same size.</exception>
         public void PointwiseDivide(Vector<T> other, Vector<T> result)
@@ -724,8 +746,8 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <param name="u">First vector</param>
         /// <param name="v">Second vector</param>
         /// <returns>Matrix M[i,j] = u[i]*v[j] </returns>
-        /// <exception cref="ArgumentNullException">If the u vector is <see langword="null" />.</exception> 
-        /// <exception cref="ArgumentNullException">If the v vector is <see langword="null" />.</exception> 
+        /// <exception cref="ArgumentNullException">If the u vector is <see langword="null" />.</exception>
+        /// <exception cref="ArgumentNullException">If the v vector is <see langword="null" />.</exception>
         public static Matrix<T> OuterProduct(Vector<T> u, Vector<T> v)
         {
             if (u == null)
@@ -744,7 +766,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
             {
                 matrix.SetRow(i, v.Multiply(u[i]));
             }
-            
+
             return matrix;
         }
 
@@ -762,116 +784,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         }
 
         /// <summary>
-        /// Returns the value of the absolute minimum element.
-        /// </summary>
-        /// <returns>The value of the absolute minimum element.</returns>
-        public abstract T AbsoluteMinimum();
-
-        /// <summary>
-        /// Returns the index of the absolute minimum element.
-        /// </summary>
-        /// <returns>The index of absolute minimum element.</returns>   
-        public abstract int AbsoluteMinimumIndex();
-
-        /// <summary>
-        /// Returns the value of the absolute maximum element.
-        /// </summary>
-        /// <returns>The value of the absolute maximum element.</returns>
-        public abstract T AbsoluteMaximum();
-
-        /// <summary>
-        /// Returns the index of the absolute maximum element.
-        /// </summary>
-        /// <returns>The index of absolute maximum element.</returns>   
-        public abstract int AbsoluteMaximumIndex();
-
-        /// <summary>
-        /// Returns the value of maximum element.
-        /// </summary>
-        /// <returns>The value of maximum element.</returns>        
-        public T Maximum()
-        {
-            return this[MaximumIndex()];
-        }
-
-        /// <summary>
-        /// Returns the index of the absolute maximum element.
-        /// </summary>
-        /// <returns>The index of absolute maximum element.</returns>          
-        public abstract int MaximumIndex();
-
-        /// <summary>
-        /// Returns the value of the minimum element.
-        /// </summary>
-        /// <returns>The value of the minimum element.</returns>
-        public T Minimum()
-        {
-            return this[MinimumIndex()];
-        }
-
-        /// <summary>
-        /// Returns the index of the minimum element.
-        /// </summary>
-        /// <returns>The index of minimum element.</returns>  
-        public abstract int MinimumIndex();
-
-        /// <summary>
-        /// Computes the sum of the vector's elements.
-        /// </summary>
-        /// <returns>The sum of the vector's elements.</returns>
-        public abstract T Sum();
-
-        /// <summary>
-        /// Computes the sum of the absolute value of the vector's elements.
-        /// </summary>
-        /// <returns>The sum of the absolute value of the vector's elements.</returns>
-        public abstract T SumMagnitudes();
-
-        /// <summary>
-        /// Computes the modulus for each element of the vector for the given divisor.
-        /// </summary>
-        /// <param name="divisor">The divisor to use.</param>
-        /// <returns>A vector containing the result.</returns>
-        public Vector<T> Modulus(T divisor)
-        {
-            var result = CreateVector(Count);
-            DoModulus(divisor, result);
-            return result;
-        }
-
-        /// <summary>
-        /// Computes the modulus for each element of the vector for the given divisor.
-        /// </summary>
-        /// <param name="divisor">The divisor to use.</param>
-        /// <param name="result">A vector to store the results in.</param>
-        public void Modulus(T divisor, Vector<T> result)
-        {
-            if (result == null)
-            {
-                throw new ArgumentNullException("result");
-            }
-
-            if (Count != result.Count)
-            {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
-            }
-
-            DoModulus(divisor, result);
-        }
-
-        /// <summary>
-        /// Computes the modulus for each element of the vector for the given divisor.
-        /// </summary>
-        /// <param name="divisor">The divisor to use.</param>
-        /// <param name="result">A vector to store the results in.</param>
-        protected abstract void DoModulus(T divisor, Vector<T> result);
-
-        #endregion
-
-        #region Arithmetic Operator Overloading
-
-        /// <summary>
-        /// Returns a <strong>Vector</strong> containing the same values of <paramref name="rightSide"/>. 
+        /// Returns a <strong>Vector</strong> containing the same values of <paramref name="rightSide"/>.
         /// </summary>
         /// <remarks>This method is included for completeness.</remarks>
         /// <param name="rightSide">The vector to get the values from.</param>
@@ -916,7 +829,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         }
 
         /// <summary>
-        /// Returns a <strong>Vector</strong> containing the negated values of <paramref name="rightSide"/>. 
+        /// Returns a <strong>Vector</strong> containing the negated values of <paramref name="rightSide"/>.
         /// </summary>
         /// <param name="rightSide">The vector to get the values from.</param>
         /// <returns>A vector containing the negated values as <paramref name="rightSide"/>.</returns>
@@ -1055,10 +968,6 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
             return leftSide.Modulus(rightSide);
         }
 
-        #endregion
-
-        #region Vector Norms
-
         /// <summary>
         /// Computes the p-Norm.
         /// </summary>
@@ -1081,45 +990,169 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// </returns>
         public abstract Vector<T> Normalize(double p);
 
-        #endregion
+        /// <summary>
+        /// Returns the value of the absolute minimum element.
+        /// </summary>
+        /// <returns>The value of the absolute minimum element.</returns>
+        public abstract T AbsoluteMinimum();
 
         /// <summary>
-        /// Return vector with conjugate values of the source vector
+        /// Returns the index of the absolute minimum element.
         /// </summary>
-        /// <returns>Conjugated vector</returns>
-        public Vector<T> Conjugate()
+        /// <returns>The index of absolute minimum element.</returns>
+        public abstract int AbsoluteMinimumIndex();
+
+        /// <summary>
+        /// Returns the value of the absolute maximum element.
+        /// </summary>
+        /// <returns>The value of the absolute maximum element.</returns>
+        public abstract T AbsoluteMaximum();
+
+        /// <summary>
+        /// Returns the index of the absolute maximum element.
+        /// </summary>
+        /// <returns>The index of absolute maximum element.</returns>
+        public abstract int AbsoluteMaximumIndex();
+
+        /// <summary>
+        /// Returns the value of maximum element.
+        /// </summary>
+        /// <returns>The value of maximum element.</returns>
+        public T Maximum()
         {
-            var retrunVector = CreateVector(Count);
-            Conjugate(retrunVector);
-            return retrunVector;
+            return this[MaximumIndex()];
         }
 
         /// <summary>
-        /// Conjugates vector and save result to <paramref name="target"/>
+        /// Returns the index of the absolute maximum element.
         /// </summary>
-        /// <param name="target">Target vector</param>
-        public void Conjugate(Vector<T> target)
+        /// <returns>The index of absolute maximum element.</returns>
+        public abstract int MaximumIndex();
+
+        /// <summary>
+        /// Returns the value of the minimum element.
+        /// </summary>
+        /// <returns>The value of the minimum element.</returns>
+        public T Minimum()
+        {
+            return this[MinimumIndex()];
+        }
+
+        /// <summary>
+        /// Returns the index of the minimum element.
+        /// </summary>
+        /// <returns>The index of minimum element.</returns>
+        public abstract int MinimumIndex();
+
+        /// <summary>
+        /// Computes the sum of the vector's elements.
+        /// </summary>
+        /// <returns>The sum of the vector's elements.</returns>
+        public abstract T Sum();
+
+        /// <summary>
+        /// Computes the sum of the absolute value of the vector's elements.
+        /// </summary>
+        /// <returns>The sum of the absolute value of the vector's elements.</returns>
+        public abstract T SumMagnitudes();
+
+        /// <summary>
+        /// Returns a deep-copy clone of the vector.
+        /// </summary>
+        /// <returns>A deep-copy clone of the vector.</returns>
+        public Vector<T> Clone()
+        {
+            var result = CreateVector(Count);
+            Storage.CopyToUnchecked(result.Storage, skipClearing: true);
+            return result;
+        }
+
+        /// <summary>
+        /// Set the values of this vector to the given values.
+        /// </summary>
+        /// <param name="values">The array containing the values to use.</param>
+        /// <exception cref="ArgumentNullException">If <paramref name="values"/> is <see langword="null" />.</exception>
+        /// <exception cref="ArgumentException">If <paramref name="values"/> is not the same size as this vector.</exception>
+        public void SetValues(T[] values)
+        {
+            var source = new DenseVectorStorage<T>(Count, values);
+            source.CopyTo(Storage);
+        }
+
+        /// <summary>
+        /// Copies the values of this vector into the target vector.
+        /// </summary>
+        /// <param name="target">The vector to copy elements into.</param>
+        /// <exception cref="ArgumentNullException">If <paramref name="target"/> is <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentException">If <paramref name="target"/> is not the same size as this vector.</exception>
+        public void CopyTo(Vector<T> target)
         {
             if (target == null)
             {
                 throw new ArgumentNullException("target");
             }
 
-            if (Count != target.Count)
-            {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "target");
-            }
-
-            DoConjugate(target);
+            Storage.CopyTo(target.Storage);
         }
 
         /// <summary>
-        /// Conjugates vector and save result to <paramref name="target"/>
+        /// Creates a vector containing specified elements.
         /// </summary>
-        /// <param name="target">Target vector</param>
-        protected abstract void DoConjugate(Vector<T> target);
+        /// <param name="index">The first element to begin copying from.</param>
+        /// <param name="count">The number of elements to copy.</param>
+        /// <returns>A vector containing a copy of the specified elements.</returns>
+        /// <exception cref="ArgumentOutOfRangeException"><list><item>If <paramref name="index"/> is not positive or
+        /// greater than or equal to the size of the vector.</item>
+        /// <item>If <paramref name="index"/> + <paramref name="count"/> is greater than or equal to the size of the vector.</item>
+        /// </list></exception>
+        /// <exception cref="ArgumentException">If <paramref name="count"/> is not positive.</exception>
+        public Vector<T> SubVector(int index, int count)
+        {
+            var target = CreateVector(count);
+            Storage.CopySubVectorTo(target.Storage, index, 0, count, skipClearing: true);
+            return target;
+        }
 
-        #region Copying and Conversion
+        /// <summary>
+        /// Copies the values of a given vector into a region in this vector.
+        /// </summary>
+        /// <param name="index">The field to start copying to</param>
+        /// <param name="count">The number of fields to cpy. Must be positive.</param>
+        /// <param name="subVector">The sub-vector to copy from.</param>
+        /// <exception cref="ArgumentNullException">If <paramref name="subVector"/> is <see langword="null" /></exception>
+        public void SetSubVector(int index, int count, Vector<T> subVector)
+        {
+            if (subVector == null)
+            {
+                throw new ArgumentNullException("subVector");
+            }
+
+            subVector.Storage.CopySubVectorTo(Storage, 0, index, count);
+        }
+
+        /// <summary>
+        /// Copies the requested elements from this vector to another.
+        /// </summary>
+        /// <param name="destination">The vector to copy the elements to.</param>
+        /// <param name="sourceIndex">The element to start copying from.</param>
+        /// <param name="targetIndex">The element to start copying to.</param>
+        /// <param name="count">The number of elements to copy.</param>
+        public void CopySubVectorTo(Vector<T> destination, int sourceIndex, int targetIndex, int count)
+        {
+            if (destination == null)
+            {
+                throw new ArgumentNullException("destination");
+            }
+
+            // TODO: refactor range checks
+            Storage.CopySubVectorTo(destination.Storage, sourceIndex, targetIndex, count);
+        }
+
+        [Obsolete("Use CopySubVectorTo instead. Scheduled for removal in v3.0.")]
+        public void CopyTo(Vector<T> destination, int sourceIndex, int targetIndex, int count)
+        {
+            CopySubVectorTo(destination, sourceIndex, targetIndex, count);
+        }
 
         /// <summary>
         /// Returns the data contained in the vector as an array.
@@ -1161,55 +1194,6 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         }
 
         /// <summary>
-        /// Creates a vector containing specified elements.
-        /// </summary>
-        /// <param name="index">The first element to begin copying from.</param>
-        /// <param name="count">The number of elements to copy.</param>
-        /// <returns>A vector containing a copy of the specified elements.</returns>
-        /// <exception cref="ArgumentOutOfRangeException"><list><item>If <paramref name="index"/> is not positive or
-        /// greater than or equal to the size of the vector.</item>
-        /// <item>If <paramref name="index"/> + <paramref name="count"/> is greater than or equal to the size of the vector.</item>
-        /// </list></exception>
-        /// <exception cref="ArgumentException">If <paramref name="count"/> is not positive.</exception>
-        public Vector<T> SubVector(int index, int count)
-        {
-            var target = CreateVector(count);
-            Storage.CopySubVectorTo(target.Storage, index, 0, count, skipClearing: true);
-            return target;
-        }
-
-        /// <summary>
-        /// Copies the values of a given vector into a region in this vector.
-        /// </summary>
-        /// <param name="index">The field to start copying to</param>
-        /// <param name="count">The number of fields to cpy. Must be positive.</param>
-        /// <param name="subVector">The sub-vector to copy from.</param>
-        /// <exception cref="ArgumentNullException">If <paramref name="subVector"/> is <see langword="null" /></exception>
-        public void SetSubVector(int index, int count, Vector<T> subVector)
-        {
-            if (subVector == null)
-            {
-                throw new ArgumentNullException("subVector");
-            }
-
-            subVector.Storage.CopySubVectorTo(Storage, 0, index, count);
-        }
-
-        /// <summary>
-        /// Set the values of this vector to the given values.
-        /// </summary>
-        /// <param name="values">The array containing the values to use.</param>
-        /// <exception cref="ArgumentNullException">If <paramref name="values"/> is <see langword="null" />.</exception>
-        /// <exception cref="ArgumentException">If <paramref name="values"/> is not the same size as this vector.</exception>
-        public void SetValues(T[] values)
-        {
-            var source = new DenseVectorStorage<T>(Count, values);
-            source.CopyTo(Storage);
-        }
-
-        #endregion
-
-        /// <summary>
         /// Returns an enumerator that iterates through the collection.
         /// </summary>
         /// <returns>
@@ -1231,9 +1215,9 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// element.
         /// </returns>
         /// <remarks>
-        /// The enumerator returns a 
+        /// The enumerator returns a
         /// <seealso cref="Tuple{T,K}"/>
-        /// with the first value being the element index and the second value 
+        /// with the first value being the element index and the second value
         /// being the value of the element at that index. For sparse vectors, the enumerator will exclude all elements
         /// with a zero value.
         /// </remarks>
@@ -1243,22 +1227,6 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
             {
                 yield return new Tuple<int, T>(i, this[i]);
             }
-        }
-
-
-        #region IFormattable
-        /// <summary>
-        /// Returns a <see cref="System.String"/> that represents this instance.
-        /// </summary>
-        /// <param name="formatProvider">
-        /// An <see cref="IFormatProvider"/> that supplies culture-specific formatting information.
-        /// </param>
-        /// <returns>
-        /// A <see cref="System.String"/> that represents this instance.
-        /// </returns>
-        public string ToString(IFormatProvider formatProvider)
-        {
-            return ToString(null, formatProvider);
         }
 
         /// <summary>
@@ -1276,17 +1244,17 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         public virtual string ToString(string format, IFormatProvider formatProvider)
         {
             var stringBuilder = new StringBuilder();
+            var separator = formatProvider.GetTextInfo().ListSeparator;
             for (var index = 0; index < Count; index++)
             {
                 stringBuilder.Append(this[index].ToString(format, formatProvider));
                 if (index != Count - 1)
                 {
-                    stringBuilder.Append(formatProvider.GetTextInfo().ListSeparator);
+                    stringBuilder.Append(separator);
                 }
             }
 
             return stringBuilder.ToString();
         }
-        #endregion
     }
 }
