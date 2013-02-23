@@ -543,11 +543,16 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// The scalar to multiply.
         /// </param>
         /// <returns>A new vector that is the multiplication of the vector and the scalar.</returns>
-        public virtual Vector<T> Multiply(T scalar)
+        public Vector<T> Multiply(T scalar)
         {
             if (scalar.Equals(One))
             {
                 return Clone();
+            }
+
+            if (scalar.Equals(Zero))
+            {
+                return CreateVector(Count);
             }
 
             var result = CreateVector(Count);
@@ -570,7 +575,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <exception cref="ArgumentException">
         /// If this vector and <paramref name="result"/> are not the same size.
         /// </exception>
-        public virtual void Multiply(T scalar, Vector<T> result)
+        public void Multiply(T scalar, Vector<T> result)
         {
             if (result == null)
             {
@@ -580,6 +585,18 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
             if (Count != result.Count)
             {
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
+            }
+
+            if (scalar.Equals(One))
+            {
+                CopyTo(result);
+                return;
+            }
+
+            if (scalar.Equals(Zero))
+            {
+                result.Clear();
+                return;
             }
 
             DoMultiply(scalar, result);
@@ -644,7 +661,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// The scalar to divide with.
         /// </param>
         /// <returns>A new vector that is the division of the vector and the scalar.</returns>
-        public virtual Vector<T> Divide(T scalar)
+        public Vector<T> Divide(T scalar)
         {
             if (scalar.Equals(One))
             {
@@ -671,7 +688,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <exception cref="ArgumentException">
         /// If this vector and <paramref name="result"/> are not the same size.
         /// </exception>
-        public virtual void Divide(T scalar, Vector<T> result)
+        public void Divide(T scalar, Vector<T> result)
         {
             if (result == null)
             {
@@ -681,6 +698,12 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
             if (Count != result.Count)
             {
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
+            }
+
+            if (scalar.Equals(One))
+            {
+                CopyTo(result);
+                return;
             }
 
             DoDivide(scalar, result);
