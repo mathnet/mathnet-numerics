@@ -37,7 +37,7 @@
     <!-- A reference to the entire .NET Framework is automatically included -->
     <EmbeddedResource Include="..\Numerics\Properties\Resources.resx">
       <Link>Properties\Resources.resx</Link>
-      <Generator>ResXFileCodeGenerator</Generator>
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources1.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
