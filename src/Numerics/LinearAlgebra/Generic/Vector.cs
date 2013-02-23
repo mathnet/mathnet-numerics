@@ -46,7 +46,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
 #if PORTABLE
     IFormattable, IEnumerable<T>, IEquatable<Vector<T>>
 #else
-    IFormattable, IEnumerable<T>, IEquatable<Vector<T>>, ICloneable
+    IFormattable, IEnumerable<T>, IEquatable<Vector<T>>, ICloneable, IList, IList<T>
 #endif
     where T : struct, IEquatable<T>, IFormattable
     {
@@ -1529,6 +1529,162 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         }
         #endregion
 
+        #region IList
+        int IList.Add(object value)
+        {
+            throw new NotSupportedException();
+        }
+
+        bool IList.Contains(object value)
+        {
+            if (!(value is T))
+                return false;
+            else
+            {
+                return ((IList<T>)this).Contains((T)value);
+            }
+        }
+
+        int IList.IndexOf(object value)
+        {
+            if (!(value is T))
+                return -1;
+            else
+            {
+                return ((IList<T>)this).IndexOf((T)value);
+            }
+        }
+
+        void IList.Insert(int index, object value)
+        {
+            throw new NotSupportedException();
+        }
+
+        bool IList.IsFixedSize
+        {
+            get { return true; }
+        }
+
+        bool IList.IsReadOnly
+        {
+            get { return false; }
+        }
+
+        void IList.Remove(object value)
+        {
+            throw new NotSupportedException();
+        }
+
+        void IList.RemoveAt(int index)
+        {
+            throw new NotSupportedException();
+        }
+
+        object IList.this[int index]
+        {
+            get
+            {
+                return this[index];
+            }
+            set
+            {
+                this[index] = (T)value;
+            }
+        }
+
+        void ICollection.CopyTo(Array array, int index)
+        {
+            if (array == null)
+                throw new ArgumentNullException("array");
+            if (index < 0)
+                throw new ArgumentOutOfRangeException("index");
+            if (array.Rank > 1)
+                throw new ArgumentException("Only accept one dimensional arrays.", "array");
+            if (array.LongLength < index + this.Count)
+                throw new ArgumentException("Destination array not large enough to store elements requested to copy.");
+
+            try
+            {
+                this.Storage.CopySubVectorTo(new DenseVectorStorage<T>(array.Length, (T[])array), 0, index, this.Count, skipClearing: true);
+            }
+            catch (InvalidCastException)
+            {
+                throw new ArgumentException("Input type does not match type of Vector", "array");
+            }
+        }
+
+        bool ICollection.IsSynchronized
+        {
+            get { return false; }
+        }
+
+        object ICollection.SyncRoot
+        {
+            get { return null; }
+        }
+        #endregion
+
+        #region IList<T>
+        void ICollection<T>.Add(T item)
+        {
+            throw new NotSupportedException();
+        }
+        int IList<T>.IndexOf(T item)
+        {
+            for (int ii = 0; ii < this.Count; ++ii)
+            {
+                if (this[ii].Equals(item))
+                    return ii;
+            }
+            return -1;
+        }
+
+        void IList<T>.Insert(int index, T item)
+        {
+            throw new NotSupportedException();
+        }
+
+        void IList<T>.RemoveAt(int index)
+        {
+            throw new NotSupportedException();
+        }
+
+        bool ICollection<T>.Contains(T item)
+        {
+            foreach (var x in this)
+            {
+                if (x.Equals(item))
+                    return true;
+            }
+            return false;
+        }
+
+        void ICollection<T>.CopyTo(T[] array, int arrayIndex)
+        {
+            if (array == null)
+                throw new ArgumentNullException("array");
+            if (arrayIndex < 0)
+                throw new ArgumentOutOfRangeException("arrayIndex");
+            if (array.Rank > 1)
+                throw new ArgumentException("Only accept one dimensional arrays.", "array");
+            if (array.LongLength < arrayIndex + this.Count)
+                throw new ArgumentException("Destination array not large enough to store elements requested to copy.");
+
+            this.Storage.CopySubVectorTo(new DenseVectorStorage<T>(array.Length, array), 0, arrayIndex, this.Count, skipClearing: true);
+
+        }
+
+        bool ICollection<T>.IsReadOnly
+        {
+            get { return false; }
+        }
+
+        bool ICollection<T>.Remove(T item)
+        {
+            throw new NotSupportedException();
+        }
+        #endregion 
+
         #endregion
 
         #region System.Object overrides
@@ -1581,5 +1737,9 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         }
 
         #endregion
+
+                
+
+        
     }
 }
