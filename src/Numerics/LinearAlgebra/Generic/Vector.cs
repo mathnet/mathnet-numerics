@@ -144,9 +144,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <summary>
         /// Returns a deep-copy clone of the vector.
         /// </summary>
-        /// <returns>
-        /// A deep-copy clone of the vector.
-        /// </returns>
+        /// <returns>A deep-copy clone of the vector.</returns>
         public Vector<T> Clone()
         {
             var result = CreateVector(Count);
@@ -157,15 +155,9 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <summary>
         /// Copies the values of this vector into the target vector.
         /// </summary>
-        /// <param name="target">
-        /// The vector to copy elements into.
-        /// </param>
-        /// <exception cref="ArgumentNullException">
-        /// If <paramref name="target"/> is <see langword="null"/>.
-        /// </exception>
-        /// <exception cref="ArgumentException">
-        /// If <paramref name="target"/> is not the same size as this vector.
-        /// </exception>
+        /// <param name="target">The vector to copy elements into.</param>
+        /// <exception cref="ArgumentNullException">If <paramref name="target"/> is <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentException">If <paramref name="target"/> is not the same size as this vector.</exception>
         public void CopyTo(Vector<T> target)
         {
             if (target == null)
@@ -179,18 +171,10 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <summary>
         /// Copies the requested elements from this vector to another.
         /// </summary>
-        /// <param name="destination">
-        /// The vector to copy the elements to.
-        /// </param>
-        /// <param name="sourceIndex">
-        /// The element to start copying from.
-        /// </param>
-        /// <param name="targetIndex">
-        /// The element to start copying to.
-        /// </param>
-        /// <param name="count">
-        /// The number of elements to copy.
-        /// </param>
+        /// <param name="destination">The vector to copy the elements to.</param>
+        /// <param name="sourceIndex">The element to start copying from.</param>
+        /// <param name="targetIndex">The element to start copying to.</param>
+        /// <param name="count">The number of elements to copy.</param>
         public void CopySubVectorTo(Vector<T> destination, int sourceIndex, int targetIndex, int count)
         {
             if (destination == null)
@@ -212,27 +196,17 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// Creates a matrix with the given dimensions using the same storage type
         /// as this vector.
         /// </summary>
-        /// <param name="rows">
-        /// The number of rows.
-        /// </param>
-        /// <param name="columns">
-        /// The number of columns.
-        /// </param>
-        /// <returns>
-        /// A matrix with the given dimensions.
-        /// </returns>
+        /// <param name="rows">The number of rows.</param>
+        /// <param name="columns">The number of columns.</param>
+        /// <returns>A matrix with the given dimensions.</returns>
         public abstract Matrix<T> CreateMatrix(int rows, int columns);
 
         /// <summary>
         /// Creates a <strong>Vector</strong> of the given size using the same storage type
         /// as this vector.
         /// </summary>
-        /// <param name="size">
-        /// The size of the <strong>Vector</strong> to create.
-        /// </param>
-        /// <returns>
-        /// The new <c>Vector</c>.
-        /// </returns>
+        /// <param name="size">The size of the <strong>Vector</strong> to create.</param>
+        /// <returns>The new <c>Vector</c>.</returns>
         public abstract Vector<T> CreateVector(int size);
 
         #region Elementary operations
@@ -240,9 +214,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <summary>
         /// Adds a scalar to each element of the vector.
         /// </summary>
-        /// <param name="scalar">
-        /// The scalar to add.
-        /// </param>
+        /// <param name="scalar">The scalar to add.</param>
         /// <returns>A copy of the vector with the scalar added.</returns>
         public Vector<T> Add(T scalar)
         {
@@ -259,18 +231,10 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <summary>
         /// Adds a scalar to each element of the vector and stores the result in the result vector.
         /// </summary>
-        /// <param name="scalar">
-        /// The scalar to add.
-        /// </param>
-        /// <param name="result">
-        /// The vector to store the result of the addition.
-        /// </param>
-        /// <exception cref="ArgumentNullException">
-        /// If the result vector is <see langword="null"/>.
-        /// </exception>
-        /// <exception cref="ArgumentException">
-        /// If this vector and <paramref name="result"/> are not the same size.
-        /// </exception>
+        /// <param name="scalar">The scalar to add.</param>
+        /// <param name="result">The vector to store the result of the addition.</param>
+        /// <exception cref="ArgumentNullException">If the result vector is <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentException">If this vector and <paramref name="result"/> are not the same size.</exception>
         public void Add(T scalar, Vector<T> result)
         {
             if (result == null)
@@ -295,20 +259,14 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <summary>
         /// Adds a scalar to each element of the vector and stores the result in the result vector.
         /// </summary>
-        /// <param name="scalar">
-        /// The scalar to add.
-        /// </param>
-        /// <param name="result">
-        /// The vector to store the result of the addition.
-        /// </param>
+        /// <param name="scalar">The scalar to add.</param>
+        /// <param name="result">The vector to store the result of the addition.</param>
         protected abstract void DoAdd(T scalar, Vector<T> result);
 
         /// <summary>
         /// Returns a copy of this vector.
         /// </summary>
-        /// <returns>
-        /// This vector.
-        /// </returns>
+        /// <returns>This vector.</returns>
         /// <remarks>
         /// Added as an alternative to the unary addition operator.
         /// </remarks>
@@ -320,16 +278,10 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <summary>
         /// Adds another vector to this vector.
         /// </summary>
-        /// <param name="other">
-        /// The vector to add to this one.
-        /// </param>
+        /// <param name="other">The vector to add to this one.</param>
         /// <returns>A new vector containing the sum of both vectors.</returns>
-        /// <exception cref="ArgumentNullException">
-        /// If the other vector is <see langword="null"/>.
-        /// </exception>
-        /// <exception cref="ArgumentException">
-        /// If this vector and <paramref name="other"/> are not the same size.
-        /// </exception>
+        /// <exception cref="ArgumentNullException">If the other vector is <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentException">If this vector and <paramref name="other"/> are not the same size.</exception>
         public Vector<T> Add(Vector<T> other)
         {
             if (other == null)
@@ -350,24 +302,12 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <summary>
         /// Adds another vector to this vector and stores the result into the result vector.
         /// </summary>
-        /// <param name="other">
-        /// The vector to add to this one.
-        /// </param>
-        /// <param name="result">
-        /// The vector to store the result of the addition.
-        /// </param>
-        /// <exception cref="ArgumentNullException">
-        /// If the other vector is <see langword="null"/>.
-        /// </exception>
-        /// <exception cref="ArgumentNullException">
-        /// If the result vector is <see langword="null"/>.
-        /// </exception>
-        /// <exception cref="ArgumentException">
-        /// If this vector and <paramref name="other"/> are not the same size.
-        /// </exception>
-        /// <exception cref="ArgumentException">
-        /// If this vector and <paramref name="result"/> are not the same size.
-        /// </exception>
+        /// <param name="other">The vector to add to this one.</param>
+        /// <param name="result">The vector to store the result of the addition.</param>
+        /// <exception cref="ArgumentNullException">If the other vector is <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentNullException">If the result vector is <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentException">If this vector and <paramref name="other"/> are not the same size.</exception>
+        /// <exception cref="ArgumentException">If this vector and <paramref name="result"/> are not the same size.</exception>
         public void Add(Vector<T> other, Vector<T> result)
         {
             if (result == null)
@@ -386,20 +326,14 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <summary>
         /// Adds another vector to this vector and stores the result into the result vector.
         /// </summary>
-        /// <param name="other">
-        /// The vector to add to this one.
-        /// </param>
-        /// <param name="result">
-        /// The vector to store the result of the addition.
-        /// </param>
+        /// <param name="other">The vector to add to this one.</param>
+        /// <param name="result">The vector to store the result of the addition.</param>
         protected abstract void DoAdd(Vector<T> other, Vector<T> result);
 
         /// <summary>
         /// Subtracts a scalar from each element of the vector.
         /// </summary>
-        /// <param name="scalar">
-        /// The scalar to subtract.
-        /// </param>
+        /// <param name="scalar">The scalar to subtract.</param>
         /// <returns>A new vector containing the subtraction of this vector and the scalar.</returns>
         public Vector<T> Subtract(T scalar)
         {
@@ -416,18 +350,10 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <summary>
         /// Subtracts a scalar from each element of the vector and stores the result in the result vector.
         /// </summary>
-        /// <param name="scalar">
-        /// The scalar to subtract.
-        /// </param>
-        /// <param name="result">
-        /// The vector to store the result of the subtraction.
-        /// </param>
-        /// <exception cref="ArgumentNullException">
-        /// If the result vector is <see langword="null"/>.
-        /// </exception>
-        /// <exception cref="ArgumentException">
-        /// If this vector and <paramref name="result"/> are not the same size.
-        /// </exception>
+        /// <param name="scalar">The scalar to subtract.</param>
+        /// <param name="result">The vector to store the result of the subtraction.</param>
+        /// <exception cref="ArgumentNullException">If the result vector is <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentException">If this vector and <paramref name="result"/> are not the same size.</exception>
         public void Subtract(T scalar, Vector<T> result)
         {
             if (result == null)
@@ -452,38 +378,24 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <summary>
         /// Subtracts a scalar from each element of the vector and stores the result in the result vector.
         /// </summary>
-        /// <param name="scalar">
-        /// The scalar to subtract.
-        /// </param>
-        /// <param name="result">
-        /// The vector to store the result of the subtraction.
-        /// </param>
+        /// <param name="scalar">The scalar to subtract.</param>
+        /// <param name="result">The vector to store the result of the subtraction.</param>
         protected abstract void DoSubtract(T scalar, Vector<T> result);
 
         /// <summary>
         /// Returns a negated vector.
         /// </summary>
-        /// <returns>
-        /// The negated vector.
-        /// </returns>
-        /// <remarks>
-        /// Added as an alternative to the unary negation operator.
-        /// </remarks>
+        /// <returns>The negated vector.</returns>
+        /// <remarks>Added as an alternative to the unary negation operator.</remarks>
         public abstract Vector<T> Negate();
 
         /// <summary>
         /// Subtracts another vector from this vector.
         /// </summary>
-        /// <param name="other">
-        /// The vector to subtract from this one.
-        /// </param>
+        /// <param name="other">The vector to subtract from this one.</param>
         /// <returns>A new vector containing the subtraction of the the two vectors.</returns>
-        /// <exception cref="ArgumentNullException">
-        /// If the other vector is <see langword="null"/>.
-        /// </exception>
-        /// <exception cref="ArgumentException">
-        /// If this vector and <paramref name="other"/> are not the same size.
-        /// </exception>
+        /// <exception cref="ArgumentNullException">If the other vector is <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentException">If this vector and <paramref name="other"/> are not the same size.</exception>
         public Vector<T> Subtract(Vector<T> other)
         {
             if (other == null)
@@ -504,24 +416,12 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <summary>
         /// Subtracts another vector to this vector and stores the result into the result vector.
         /// </summary>
-        /// <param name="other">
-        /// The vector to subtract from this one.
-        /// </param>
-        /// <param name="result">
-        /// The vector to store the result of the subtraction.
-        /// </param>
-        /// <exception cref="ArgumentNullException">
-        /// If the other vector is <see langword="null"/>.
-        /// </exception>
-        /// <exception cref="ArgumentNullException">
-        /// If the result vector is <see langword="null"/>.
-        /// </exception>
-        /// <exception cref="ArgumentException">
-        /// If this vector and <paramref name="other"/> are not the same size.
-        /// </exception>
-        /// <exception cref="ArgumentException">
-        /// If this vector and <paramref name="result"/> are not the same size.
-        /// </exception>
+        /// <param name="other">The vector to subtract from this one.</param>
+        /// <param name="result">The vector to store the result of the subtraction.</param>
+        /// <exception cref="ArgumentNullException">If the other vector is <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentNullException">If the result vector is <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentException">If this vector and <paramref name="other"/> are not the same size.</exception>
+        /// <exception cref="ArgumentException">If this vector and <paramref name="result"/> are not the same size.</exception>
         public void Subtract(Vector<T> other, Vector<T> result)
         {
             if (result == null)
@@ -540,20 +440,14 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <summary>
         /// Subtracts another vector to this vector and stores the result into the result vector.
         /// </summary>
-        /// <param name="other">
-        /// The vector to subtract from this one.
-        /// </param>
-        /// <param name="result">
-        /// The vector to store the result of the subtraction.
-        /// </param>
+        /// <param name="other">The vector to subtract from this one.</param>
+        /// <param name="result">The vector to store the result of the subtraction.</param>
         protected abstract void DoSubtract(Vector<T> other, Vector<T> result);
 
         /// <summary>
         /// Multiplies a scalar to each element of the vector.
         /// </summary>
-        /// <param name="scalar">
-        /// The scalar to multiply.
-        /// </param>
+        /// <param name="scalar">The scalar to multiply.</param>
         /// <returns>A new vector that is the multiplication of the vector and the scalar.</returns>
         public Vector<T> Multiply(T scalar)
         {
@@ -575,18 +469,10 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <summary>
         /// Multiplies a scalar to each element of the vector and stores the result in the result vector.
         /// </summary>
-        /// <param name="scalar">
-        /// The scalar to multiply.
-        /// </param>
-        /// <param name="result">
-        /// The vector to store the result of the multiplication.
-        /// </param>
-        /// <exception cref="ArgumentNullException">
-        /// If the result vector is <see langword="null"/>.
-        /// </exception>
-        /// <exception cref="ArgumentException">
-        /// If this vector and <paramref name="result"/> are not the same size.
-        /// </exception>
+        /// <param name="scalar">The scalar to multiply.</param>
+        /// <param name="result">The vector to store the result of the multiplication.</param>
+        /// <exception cref="ArgumentNullException">If the result vector is <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentException">If this vector and <paramref name="result"/> are not the same size.</exception>
         public void Multiply(T scalar, Vector<T> result)
         {
             if (result == null)
@@ -617,29 +503,17 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <summary>
         /// Multiplies a scalar to each element of the vector and stores the result in the result vector.
         /// </summary>
-        /// <param name="scalar">
-        /// The scalar to multiply.
-        /// </param>
-        /// <param name="result">
-        /// The vector to store the result of the multiplication.
-        /// </param>
+        /// <param name="scalar">The scalar to multiply.</param>
+        /// <param name="result">The vector to store the result of the multiplication.</param>
         protected abstract void DoMultiply(T scalar, Vector<T> result);
 
         /// <summary>
         /// Computes the dot product between this vector and another vector.
         /// </summary>
-        /// <param name="other">
-        /// The other vector to add.
-        /// </param>
-        /// <returns>s
-        /// The result of the addition.
-        /// </returns>
-        /// <exception cref="ArgumentException">
-        /// If <paramref name="other"/> is not of the same size.
-        /// </exception>
-        /// <exception cref="ArgumentNullException">
-        /// If <paramref name="other"/> is <see langword="null"/>.
-        /// </exception>
+        /// <param name="other">The other vector to add.</param>
+        /// <returns>The result of the addition.</returns>
+        /// <exception cref="ArgumentException">If <paramref name="other"/> is not of the same size.</exception>
+        /// <exception cref="ArgumentNullException">If <paramref name="other"/> is <see langword="null"/>.</exception>
         public T DotProduct(Vector<T> other)
         {
             if (other == null)
@@ -658,20 +532,14 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <summary>
         /// Computes the dot product between this vector and another vector.
         /// </summary>
-        /// <param name="other">
-        /// The other vector to add.
-        /// </param>
-        /// <returns>s
-        /// The result of the addition.
-        /// </returns>
+        /// <param name="other">The other vector to add.</param>
+        /// <returns>The result of the addition.</returns>
         protected abstract T DoDotProduct(Vector<T> other);
 
         /// <summary>
         /// Divides each element of the vector by a scalar.
         /// </summary>
-        /// <param name="scalar">
-        /// The scalar to divide with.
-        /// </param>
+        /// <param name="scalar">The scalar to divide with.</param>
         /// <returns>A new vector that is the division of the vector and the scalar.</returns>
         public Vector<T> Divide(T scalar)
         {
@@ -688,18 +556,10 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <summary>
         /// Divides each element of the vector by a scalar and stores the result in the result vector.
         /// </summary>
-        /// <param name="scalar">
-        /// The scalar to divide with.
-        /// </param>
-        /// <param name="result">
-        /// The vector to store the result of the division.
-        /// </param>
-        /// <exception cref="ArgumentNullException">
-        /// If the result vector is <see langword="null"/>.
-        /// </exception>
-        /// <exception cref="ArgumentException">
-        /// If this vector and <paramref name="result"/> are not the same size.
-        /// </exception>
+        /// <param name="scalar">The scalar to divide with.</param>
+        /// <param name="result">The vector to store the result of the division.</param>
+        /// <exception cref="ArgumentNullException">If the result vector is <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentException">If this vector and <paramref name="result"/> are not the same size.</exception>
         public void Divide(T scalar, Vector<T> result)
         {
             if (result == null)
@@ -724,12 +584,8 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <summary>
         /// Divides each element of the vector by a scalar and stores the result in the result vector.
         /// </summary>
-        /// <param name="scalar">
-        /// The scalar to divide with.
-        /// </param>
-        /// <param name="result">
-        /// The vector to store the result of the division.
-        /// </param>
+        /// <param name="scalar">The scalar to divide with.</param>
+        /// <param name="result">The vector to store the result of the division.</param>
         protected abstract void DoDivide(T scalar, Vector<T> result);
 
         /// <summary>
@@ -858,12 +714,8 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <summary>
         /// Pointwise divide this vector with another vector and stores the result into the result vector.
         /// </summary>
-        /// <param name="other">
-        /// The vector to pointwise divide this one by.
-        /// </param>
-        /// <param name="result">
-        /// The result of the division.
-        /// </param>
+        /// <param name="other">The vector to pointwise divide this one by.</param>
+        /// <param name="result">The result of the division.</param>
         protected abstract void DoPointwiseDivide(Vector<T> other, Vector<T> result);
 
         /// <summary>
