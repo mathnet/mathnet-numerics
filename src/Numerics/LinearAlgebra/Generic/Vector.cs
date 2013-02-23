@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2010 Math.NET
+// Copyright (c) 2009-2013 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -31,15 +31,11 @@
 namespace MathNet.Numerics.LinearAlgebra.Generic
 {
     using System;
-    using System.Collections;
     using System.Collections.Generic;
-    using System.Numerics;
     using System.Runtime;
     using System.Text;
-    using Numerics;
     using Properties;
     using Storage;
-    using Threading;
 
     /// <summary>
     /// Defines the generic class for <c>Vector</c> classes.
