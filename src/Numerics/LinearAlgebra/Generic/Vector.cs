@@ -3,7 +3,9 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
+//
 // Copyright (c) 2009-2010 Math.NET
+//
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -12,8 +14,10 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
+//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
+//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -41,11 +45,11 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
     /// </summary>
     /// <typeparam name="T">Supported data types are double, single, <see cref="Complex"/>, and <see cref="Complex32"/>.</typeparam>
     [Serializable]
-    public abstract class Vector<T> :
+    public abstract partial class Vector<T> :
 #if PORTABLE
-        IFormattable, IEnumerable<T>, IEquatable<Vector<T>>, IList, IList<T>
+        IFormattable, IEnumerable<T>, IEquatable<Vector<T>>
 #else
-        IFormattable, IEnumerable<T>, IEquatable<Vector<T>>, IList, IList<T>, ICloneable
+        IFormattable, IEnumerable<T>, IEquatable<Vector<T>>
 #endif
         where T : struct, IEquatable<T>, IFormattable
     {
@@ -1348,44 +1352,6 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
 
         #endregion
 
-        #region Implemented Interfaces
-
-#if !PORTABLE
-
-        #region ICloneable
-
-        /// <summary>
-        /// Creates a new object that is a copy of the current instance.
-        /// </summary>
-        /// <returns>
-        /// A new object that is a copy of this instance.
-        /// </returns>
-        object ICloneable.Clone()
-        {
-            return Clone();
-        }
-
-        #endregion
-
-#endif
-
-        #region IEnumerable
-
-        /// <summary>
-        /// Returns an enumerator that iterates through a collection.
-        /// </summary>
-        /// <returns>
-        /// An <see cref="T:System.Collections.IEnumerator"/> object that can be used to iterate through the collection.
-        /// </returns>
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
-
-        #endregion
-
-        #region IEnumerable<T>
-
         /// <summary>
         /// Returns an enumerator that iterates through the collection.
         /// </summary>
@@ -1399,8 +1365,6 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
                 yield return this[index];
             }
         }
-
-        #endregion
 
         /// <summary>
         /// Returns an <see cref="IEnumerator{T}"/> that contains the position and value of the element.
@@ -1424,52 +1388,8 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
             }
         }
 
-        #region IEquatable<Vector>
-
-        /// <summary>
-        /// Indicates whether the current object is equal to another object of the same type.
-        /// </summary>
-        /// <param name="other">
-        /// An object to compare with this object.
-        /// </param>
-        /// <returns>
-        /// <c>true</c> if the current object is equal to the <paramref name="other"/> parameter; otherwise, <c>false</c>.
-        /// </returns>
-        public virtual bool Equals(Vector<T> other)
-        {
-            // Reject equality when the argument is null or has a different length.
-            if (other == null)
-            {
-                return false;
-            }
-
-            if (Count != other.Count)
-            {
-                return false;
-            }
-
-            // Accept if the argument is the same object as this.
-            if (ReferenceEquals(this, other))
-            {
-                return true;
-            }
-
-            // If all else fails, perform element wise comparison.
-            for (var index = 0; index < Count; index++)
-            {
-                if (!this[index].Equals(other[index]))
-                {
-                    return false;
-                }
-            }
-
-            return true;
-        }
-
-        #endregion
 
         #region IFormattable
-
         /// <summary>
         /// Returns a <see cref="System.String"/> that represents this instance.
         /// </summary>
@@ -1511,211 +1431,5 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
             return stringBuilder.ToString();
         }
         #endregion
-
-        #region IList
-
-        bool IList.IsReadOnly
-        {
-            get { return false; }
-        }
-
-        bool IList.IsFixedSize
-        {
-            get { return true; }
-        }
-
-        object IList.this[int index]
-        {
-            get { return Storage[index]; }
-            set { Storage[index] = (T)value; }
-        }
-
-        int IList.IndexOf(object value)
-        {
-            if (!(value is T))
-            {
-                return -1;
-            }
-
-            return ((IList<T>)this).IndexOf((T)value);
-        }
-
-        bool IList.Contains(object value)
-        {
-            if (!(value is T))
-            {
-                return false;
-            }
-
-            return ((ICollection<T>)this).Contains((T)value);
-        }
-
-        void IList.Insert(int index, object value)
-        {
-            throw new NotSupportedException();
-        }
-
-        int IList.Add(object value)
-        {
-            throw new NotSupportedException();
-        }
-
-        void IList.Remove(object value)
-        {
-            throw new NotSupportedException();
-        }
-
-        void IList.RemoveAt(int index)
-        {
-            throw new NotSupportedException();
-        }
-
-        #endregion
-        #region ICollection
-
-        bool ICollection.IsSynchronized
-        {
-            get { return false; }
-        }
-
-        object ICollection.SyncRoot
-        {
-            get { return null; }
-        }
-
-        void ICollection.CopyTo(Array array, int index)
-        {
-            if (array == null)
-            {
-                throw new ArgumentNullException("array");
-            }
-            if (array.Rank != 1)
-            {
-                throw new ArgumentException(Resources.ArgumentSingleDimensionArray, "array");
-            }
-
-            Storage.CopySubVectorTo(new DenseVectorStorage<T>(array.Length, (T[])array), 0, index, Count);
-        }
-
-        #endregion
-        #region ICollection<T>
-
-        bool ICollection<T>.IsReadOnly
-        {
-            get { return false; }
-        }
-
-        void ICollection<T>.Add(T item)
-        {
-            throw new NotSupportedException();
-        }
-
-        bool ICollection<T>.Remove(T item)
-        {
-            throw new NotSupportedException();
-        }
-
-        bool ICollection<T>.Contains(T item)
-        {
-            // Do NOT convert this loop to LINQ (since LINQ would redirect to this very method)!
-            foreach (var x in this)
-            {
-                if (x.Equals(item))
-                    return true;
-            }
-            return false;
-        }
-
-        void ICollection<T>.CopyTo(T[] array, int arrayIndex)
-        {
-            if (array == null)
-            {
-                throw new ArgumentNullException("array");
-            }
-
-            Storage.CopySubVectorTo(new DenseVectorStorage<T>(array.Length, array), 0, arrayIndex, Count);
-        }
-
-        #endregion
-        #region IList<T>
-
-        int IList<T>.IndexOf(T item)
-        {
-            for (int i = 0; i < Count; ++i)
-            {
-                if (this[i].Equals(item))
-                    return i;
-            }
-            return -1;
-        }
-
-        void IList<T>.Insert(int index, T item)
-        {
-            throw new NotSupportedException();
-        }
-
-        void IList<T>.RemoveAt(int index)
-        {
-            throw new NotSupportedException();
-        }
-
-        #endregion 
-
-        #endregion
-
-        #region System.Object overrides
-
-        /// <summary>
-        /// Determines whether the specified <see cref="System.Object"/> is equal to this instance.
-        /// </summary>
-        /// <param name="obj">
-        /// The <see cref="System.Object"/> to compare with this instance.
-        /// </param>
-        /// <returns>
-        /// <c>true</c> if the specified <see cref="System.Object"/> is equal to this instance; otherwise, <c>false</c>.
-        /// </returns>
-        public override bool Equals(object obj)
-        {
-            return Equals(obj as Vector<T>);
-        }
-
-        /// <summary>
-        /// Returns a hash code for this instance.
-        /// </summary>
-        /// <returns>
-        /// A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table. 
-        /// </returns>
-        public override int GetHashCode()
-        {
-            var hashNum = Math.Min(Count, 20);
-            long hash = 0;
-            for (var i = 0; i < hashNum; i++)
-            {
-#if PORTABLE
-                hash ^= Precision.DoubleToInt64Bits(this[i].GetHashCode());
-#else
-                hash ^= BitConverter.DoubleToInt64Bits(this[i].GetHashCode());
-#endif
-            }
-
-            return BitConverter.ToInt32(BitConverter.GetBytes(hash), 4);
-        }
-
-        /// <summary>
-        /// Returns a <see cref="System.String"/> that represents this instance.
-        /// </summary>
-        /// <returns>
-        /// A <see cref="System.String"/> that represents this instance.
-        /// </returns>
-        public override string ToString()
-        {
-            return ToString(null, null);
-        }
-
-        #endregion
-
-                
-
-        
     }
 }
