@@ -1173,7 +1173,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <returns>
         /// This vector as a column matrix.
         /// </returns>
-        public virtual Matrix<T> ToColumnMatrix()
+        public Matrix<T> ToColumnMatrix()
         {
             var result = CreateMatrix(Count, 1);
             Storage.CopyToColumnUnchecked(result.Storage, 0, skipClearing: true);
@@ -1186,7 +1186,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <returns>
         /// This vector as a row matrix.
         /// </returns>
-        public virtual Matrix<T> ToRowMatrix()
+        public Matrix<T> ToRowMatrix()
         {
             var result = CreateMatrix(1, Count);
             Storage.CopyToRowUnchecked(result.Storage, 0, skipClearing: true);

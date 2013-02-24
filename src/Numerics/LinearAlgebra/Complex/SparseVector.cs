@@ -146,36 +146,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         #endregion
 
         /// <summary>
-        /// Create a matrix based on this vector in column form (one single column).
-        /// </summary>
-        /// <returns>This vector as a column matrix.</returns>
-        public override Matrix<Complex> ToColumnMatrix()
-        {
-            var matrix = new SparseMatrix(Count, 1);
-            for (var i = 0; i < _storage.ValueCount; i++)
-            {
-                matrix.At(_storage.Indices[i], 0, _storage.Values[i]);
-            }
-
-            return matrix;
-        }
-
-        /// <summary>
-        /// Create a matrix based on this vector in row form (one single row).
-        /// </summary>
-        /// <returns>This vector as a row matrix.</returns>
-        public override Matrix<Complex> ToRowMatrix()
-        {
-            var matrix = new SparseMatrix(1, Count);
-            for (var i = 0; i < _storage.ValueCount; i++)
-            {
-                matrix.At(0, _storage.Indices[i], _storage.Values[i]);
-            }
-
-            return matrix;
-        }
-
-        /// <summary>
         /// Creates a matrix with the given dimensions using the same storage type
         /// as this vector.
         /// </summary>

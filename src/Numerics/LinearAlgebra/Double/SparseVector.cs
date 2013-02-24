@@ -146,42 +146,6 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         #endregion
 
         /// <summary>
-        /// Create a matrix based on this vector in column form (one single column).
-        /// </summary>
-        /// <returns>This vector as a column matrix.</returns>
-        public override Matrix<double> ToColumnMatrix()
-        {
-            var indices = _storage.Indices;
-            var values = _storage.Values;
-
-            var matrix = new SparseMatrix(Count, 1);
-            for (var i = 0; i < _storage.ValueCount; i++)
-            {
-                matrix.At(indices[i], 0, values[i]);
-            }
-
-            return matrix;
-        }
-
-        /// <summary>
-        /// Create a matrix based on this vector in row form (one single row).
-        /// </summary>
-        /// <returns>This vector as a row matrix.</returns>
-        public override Matrix<double> ToRowMatrix()
-        {
-            var indices = _storage.Indices;
-            var values = _storage.Values;
-
-            var matrix = new SparseMatrix(1, Count);
-            for (var i = 0; i < _storage.ValueCount; i++)
-            {
-                matrix.At(0, indices[i], values[i]);
-            }
-
-            return matrix;
-        }
-
-        /// <summary>
         /// Creates a matrix with the given dimensions using the same storage type
         /// as this vector.
         /// </summary>

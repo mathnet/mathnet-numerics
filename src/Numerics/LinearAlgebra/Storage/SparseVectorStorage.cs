@@ -335,6 +335,46 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             }
         }
 
+        // Row COPY
+
+        internal override void CopyToRowUnchecked(MatrixStorage<T> target, int rowIndex, bool skipClearing = false)
+        {
+            if (!skipClearing)
+            {
+                target.Clear(rowIndex, 1, 0, Length);
+            }
+
+            if (ValueCount == 0)
+            {
+                return;
+            }
+
+            for (int i = 0; i < ValueCount; i++)
+            {
+                target.At(rowIndex, Indices[i], Values[i]);
+            }
+        }
+
+        // COLUMN COPY
+
+        internal override void CopyToColumnUnchecked(MatrixStorage<T> target, int columnIndex, bool skipClearing = false)
+        {
+            if (!skipClearing)
+            {
+                target.Clear(0, Length, columnIndex, 1);
+            }
+
+            if (ValueCount == 0)
+            {
+                return;
+            }
+            
+            for (int i = 0; i < ValueCount; i++)
+            {
+                target.At(Indices[i], columnIndex, Values[i]);
+            }
+        }
+
         // SUB-VECTOR COPY
 
         internal override void CopySubVectorToUnchecked(VectorStorage<T> target,
