@@ -89,12 +89,58 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             Array.Clear(Data, index, count);
         }
 
+        // VECTOR COPY
+
         internal override void CopyToUnchecked(VectorStorage<T> target, bool skipClearing = false)
         {
             var denseTarget = target as DenseVectorStorage<T>;
             if (denseTarget != null)
             {
-                CopyToUnchecked(denseTarget);
+                if (!ReferenceEquals(this, denseTarget))
+                {
+                    Array.Copy(Data, 0, denseTarget.Data, 0, Data.Length);
+                }
+                return;
+            }
+
+            // FALL BACK
+
+            for (int i = 0; i < Data.Length; i++)
+            {
+                target.At(i, Data[i]);
+            }
+        }
+
+        // ROW COPY
+
+        internal override void CopyToRowUnchecked(MatrixStorage<T> target, int rowIndex, bool skipClearing = false)
+        {
+            var denseTarget = target as DenseColumnMajorMatrixStorage<T>;
+            if (denseTarget != null)
+            {
+                for (int j = 0; j < Data.Length; j++)
+                {
+                    denseTarget.Data[j*target.RowCount + rowIndex] = Data[j];
+                }
+                return;
+            }
+
+            // FALL BACK
+
+            for (int j = 0; j < Length; j++)
+            {
+                target.At(rowIndex, j, Data[j]);
+            }
+        }
+
+        // COLUMN COPY
+
+        internal override void CopyToColumnUnchecked(MatrixStorage<T> target, int columnIndex, bool skipClearing = false)
+        {
+            var denseTarget = target as DenseColumnMajorMatrixStorage<T>;
+            if (denseTarget != null)
+            {
+                Array.Copy(Data, 0, denseTarget.Data, columnIndex * denseTarget.RowCount, Data.Length);
                 return;
             }
 
@@ -102,19 +148,11 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
             for (int i = 0; i < Length; i++)
             {
-                target.At(i, Data[i]);
+                target.At(i, columnIndex, Data[i]);
             }
         }
 
-        void CopyToUnchecked(DenseVectorStorage<T> target)
-        {
-            if (ReferenceEquals(this, target))
-            {
-                return;
-            }
-
-            Array.Copy(Data, 0, target.Data, 0, Data.Length);
-        }
+        // SUB-VECTOR COPY
 
         internal override void CopySubVectorToUnchecked(VectorStorage<T> target,
             int sourceIndex, int targetIndex, int count,
@@ -123,7 +161,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             var denseTarget = target as DenseVectorStorage<T>;
             if (denseTarget != null)
             {
-                CopySubVectorToUnchecked(denseTarget, sourceIndex, targetIndex, count);
+                Array.Copy(Data, sourceIndex, denseTarget.Data, targetIndex, count);
                 return;
             }
 
@@ -132,10 +170,49 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             base.CopySubVectorToUnchecked(target, sourceIndex, targetIndex, count, skipClearing);
         }
 
-        void CopySubVectorToUnchecked(DenseVectorStorage<T> target,
-            int sourceIndex, int targetIndex, int count)
+        // SUB-ROW COPY
+
+        internal override void CopyToSubRowUnchecked(MatrixStorage<T> target, int rowIndex,
+            int sourceColumnIndex, int targetColumnIndex, int columnCount,
+            bool skipClearing = false)
         {
-            Array.Copy(Data, sourceIndex, target.Data, targetIndex, count);
+            var denseTarget = target as DenseColumnMajorMatrixStorage<T>;
+            if (denseTarget != null)
+            {
+                for (int j = 0; j < Data.Length; j++)
+                {
+                    denseTarget.Data[(j + targetColumnIndex) * target.RowCount + rowIndex] = Data[j + sourceColumnIndex];
+                }
+                return;
+            }
+
+            // FALL BACK
+
+            for (int j = sourceColumnIndex, jj = targetColumnIndex; j < sourceColumnIndex + columnCount; j++, jj++)
+            {
+                target.At(rowIndex, jj, Data[j]);
+            }
+        }
+
+        // SUB-COLUMN COPY
+
+        internal override void CopyToSubColumnUnchecked(MatrixStorage<T> target, int columnIndex,
+            int sourceRowIndex, int targetRowIndex, int rowCount,
+            bool skipClearing = false)
+        {
+            var denseTarget = target as DenseColumnMajorMatrixStorage<T>;
+            if (denseTarget != null)
+            {
+                Array.Copy(Data, sourceRowIndex, denseTarget.Data, columnIndex*denseTarget.RowCount + targetRowIndex, rowCount);
+                return;
+            }
+
+            // FALL BACK
+
+            for (int i = sourceRowIndex, ii = targetRowIndex; i < sourceRowIndex + rowCount; i++, ii++)
+            {
+                target.At(ii, columnIndex, Data[i]);
+            }
         }
     }
 }

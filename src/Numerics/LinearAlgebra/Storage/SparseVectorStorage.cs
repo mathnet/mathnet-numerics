@@ -284,6 +284,8 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             return hash;
         }
 
+        // VECTOR COPY
+
         internal override void CopyToUnchecked(VectorStorage<T> target, bool skipClearing = false)
         {
             var sparseTarget = target as SparseVectorStorage<T>;
@@ -332,6 +334,8 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                 Buffer.BlockCopy(Indices, 0, target.Indices, 0, ValueCount * Constants.SizeOfInt);
             }
         }
+
+        // SUB-VECTOR COPY
 
         internal override void CopySubVectorToUnchecked(VectorStorage<T> target,
             int sourceIndex, int targetIndex, int count,

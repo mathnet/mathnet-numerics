@@ -36,7 +36,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
     // ReSharper disable UnusedParameter.Global
     public partial class VectorStorage<T>
     {
-        protected void ValidateRange(int index)
+        void ValidateRange(int index)
         {
             if (index < 0 || index >= Length)
             {
@@ -44,7 +44,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             }
         }
 
-        protected void ValidateSubVectorRange(VectorStorage<T> target,
+        void ValidateSubVectorRange(VectorStorage<T> target,
             int sourceIndex, int targetIndex, int count)
         {
             if (count < 1)
@@ -78,6 +78,108 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             if (targetMax > target.Length)
             {
                 throw new ArgumentOutOfRangeException("count");
+            }
+        }
+
+        void ValidateRowRange(MatrixStorage<T> target, int rowIndex)
+        {
+            if (rowIndex >= target.RowCount || rowIndex < 0)
+            {
+                throw new ArgumentOutOfRangeException("rowIndex");
+            }
+
+            if (target.ColumnCount != Length)
+            {
+                throw new ArgumentException(Resources.ArgumentMatrixSameRowDimension, "target");
+            }
+        }
+
+        void ValidateColumnRange(MatrixStorage<T> target, int columnIndex)
+        {
+            if (columnIndex >= target.ColumnCount || columnIndex < 0)
+            {
+                throw new ArgumentOutOfRangeException("columnIndex");
+            }
+
+            if (target.RowCount != Length)
+            {
+                throw new ArgumentException(Resources.ArgumentMatrixSameColumnDimension, "target");
+            }
+        }
+
+        void ValidateSubRowRange(MatrixStorage<T> target, int rowIndex,
+            int sourceColumnIndex, int targetColumnIndex, int columnCount)
+        {
+            if (columnCount < 1)
+            {
+                throw new ArgumentOutOfRangeException("columnCount", Resources.ArgumentMustBePositive);
+            }
+
+            // Verify Source
+
+            if (sourceColumnIndex >= Length || sourceColumnIndex < 0)
+            {
+                throw new ArgumentOutOfRangeException("sourceColumnIndex");
+            }
+
+            if (sourceColumnIndex + columnCount > Length)
+            {
+                throw new ArgumentOutOfRangeException("columnCount");
+            }
+
+            // Verify Target
+
+            if (rowIndex >= target.RowCount || rowIndex < 0)
+            {
+                throw new ArgumentOutOfRangeException("rowIndex");
+            }
+
+            if (targetColumnIndex >= target.ColumnCount || targetColumnIndex < 0)
+            {
+                throw new ArgumentOutOfRangeException("targetColumnIndex");
+            }
+
+            if (targetColumnIndex + columnCount > target.ColumnCount)
+            {
+                throw new ArgumentOutOfRangeException("columnCount");
+            }
+        }
+
+        void ValidateSubColumnRange(MatrixStorage<T> target, int columnIndex,
+            int sourceRowIndex, int targetRowIndex, int rowCount)
+        {
+            if (rowCount < 1)
+            {
+                throw new ArgumentOutOfRangeException("rowCount", Resources.ArgumentMustBePositive);
+            }
+
+            // Verify Source
+
+            if (sourceRowIndex >= Length || sourceRowIndex < 0)
+            {
+                throw new ArgumentOutOfRangeException("sourceRowIndex");
+            }
+
+            if (sourceRowIndex + rowCount > Length)
+            {
+                throw new ArgumentOutOfRangeException("rowCount");
+            }
+
+            // Verify Target
+
+            if (columnIndex >= target.ColumnCount || columnIndex < 0)
+            {
+                throw new ArgumentOutOfRangeException("columnIndex");
+            }
+
+            if (targetRowIndex >= target.RowCount || targetRowIndex < 0)
+            {
+                throw new ArgumentOutOfRangeException("targetRowIndex");
+            }
+
+            if (targetRowIndex + rowCount > target.RowCount)
+            {
+                throw new ArgumentOutOfRangeException("rowCount");
             }
         }
     }

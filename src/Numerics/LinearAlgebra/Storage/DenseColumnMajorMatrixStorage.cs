@@ -174,26 +174,6 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             }
         }
 
-        internal override void CopySubRowFromUnchecked(VectorStorage<T> source, int rowIndex, int sourceColumnIndex, int targetColumnIndex, int columnCount, bool skipClearing = false)
-        {
-            var sourceDense = source as DenseVectorStorage<T>;
-            if (sourceDense != null)
-            {
-                for (int j = 0; j < columnCount; j++)
-                {
-                    Data[(j + targetColumnIndex) * RowCount + rowIndex] = sourceDense.Data[j + sourceColumnIndex];
-                }
-                return;
-            }
-
-            // FALL BACK
-
-            for (int j = sourceColumnIndex, jj = targetColumnIndex; j < sourceColumnIndex + columnCount; j++, jj++)
-            {
-                Data[(jj * RowCount) + rowIndex] = source.At(j);
-            }
-        }
-
         // COLUMN COPY
 
         internal override void CopySubColumnToUnchecked(VectorStorage<T> target, int columnIndex, int sourceRowIndex, int targetRowIndex, int rowCount, bool skipClearing = false)
@@ -211,24 +191,6 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             for (int i = sourceRowIndex, ii = targetRowIndex; i < sourceRowIndex + rowCount; i++, ii++)
             {
                 target.At(ii, Data[offset + i]);
-            }
-        }
-
-        internal override void CopySubColumnFromUnchecked(VectorStorage<T> source, int columnIndex, int sourceRowIndex, int targetRowIndex, int rowCount, bool skipClearing = false)
-        {
-            var sourceDense = source as DenseVectorStorage<T>;
-            if (sourceDense != null)
-            {
-                Array.Copy(sourceDense.Data, sourceRowIndex, Data, columnIndex * RowCount + targetRowIndex, rowCount);
-                return;
-            }
-
-            // FALL BACK
-
-            var offset = columnIndex * RowCount;
-            for (int i = sourceRowIndex, ii = targetRowIndex; i < sourceRowIndex + rowCount; i++, ii++)
-            {
-                Data[offset + ii] = source.At(i);
             }
         }
 

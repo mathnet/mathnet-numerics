@@ -798,6 +798,26 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         }
 
         /// <summary>
+        /// Copies the values of the given Vector to the specified column.
+        /// </summary>
+        /// <param name="columnIndex">The column to copy the values to.</param>
+        /// <param name="column">The vector to copy the values from.</param>
+        /// <exception cref="ArgumentNullException">If <paramref name="column"/> is <see langword="null" />.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">If <paramref name="columnIndex"/> is less than zero,
+        /// or greater than or equal to the number of columns.</exception>
+        /// <exception cref="ArgumentException">If the size of <paramref name="column"/> does not
+        /// equal the number of rows of this <strong>Matrix</strong>.</exception>
+        public void SetColumn(int columnIndex, Vector<T> column)
+        {
+            if (column == null)
+            {
+                throw new ArgumentNullException("column");
+            }
+
+            column.Storage.CopyToColumn(Storage, columnIndex);
+        }
+
+        /// <summary>
         /// Copies the values of the given array to the specified column.
         /// </summary>
         /// <param name="columnIndex">The column to copy the values to.</param>
@@ -816,27 +836,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
                 throw new ArgumentNullException("column");
             }
 
-            Storage.CopyColumnFrom(new DenseVectorStorage<T>(column.Length, column), columnIndex);
-        }
-
-        /// <summary>
-        /// Copies the values of the given Vector to the specified column.
-        /// </summary>
-        /// <param name="columnIndex">The column to copy the values to.</param>
-        /// <param name="column">The vector to copy the values from.</param>
-        /// <exception cref="ArgumentNullException">If <paramref name="column"/> is <see langword="null" />.</exception>
-        /// <exception cref="ArgumentOutOfRangeException">If <paramref name="columnIndex"/> is less than zero,
-        /// or greater than or equal to the number of columns.</exception>
-        /// <exception cref="ArgumentException">If the size of <paramref name="column"/> does not
-        /// equal the number of rows of this <strong>Matrix</strong>.</exception>
-        public void SetColumn(int columnIndex, Vector<T> column)
-        {
-            if (column == null)
-            {
-                throw new ArgumentNullException("column");
-            }
-
-            Storage.CopyColumnFrom(column.Storage, columnIndex);
+            new DenseVectorStorage<T>(column.Length, column).CopyToColumn(Storage, columnIndex);
         }
 
         /// <summary>
@@ -899,7 +899,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
                 throw new ArgumentNullException("row");
             }
 
-            Storage.CopyRowFrom(row.Storage, rowIndex);
+            row.Storage.CopyToRow(Storage, rowIndex);
         }
 
         /// <summary>
@@ -919,7 +919,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
                 throw new ArgumentNullException("row");
             }
 
-            Storage.CopyRowFrom(new DenseVectorStorage<T>(row.Length, row), rowIndex);
+            new DenseVectorStorage<T>(row.Length, row).CopyToRow(Storage, rowIndex);
         }
 
         /// <summary>
