@@ -181,36 +181,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         }
 
         /// <summary>
-        /// Create a matrix based on this vector in column form (one single column).
-        /// </summary>
-        /// <returns>This vector as a column matrix.</returns>
-        public override Matrix<Complex> ToColumnMatrix()
-        {
-            var matrix = new DenseMatrix(_length, 1);
-            for (var i = 0; i < _values.Length; i++)
-            {
-                matrix.At(i, 0, _values[i]);
-            }
-
-            return matrix;
-        }
-
-        /// <summary>
-        /// Create a matrix based on this vector in row form (one single row).
-        /// </summary>
-        /// <returns>This vector as a row matrix.</returns>
-        public override Matrix<Complex> ToRowMatrix()
-        {
-            var matrix = new DenseMatrix(1, _length);
-            for (var i = 0; i < _values.Length; i++)
-            {
-                matrix.At(0, i, _values[i]);
-            }
-
-            return matrix;
-        }
-
-        /// <summary>
         /// Creates a matrix with the given dimensions using the same storage type
         /// as this vector.
         /// </summary>
