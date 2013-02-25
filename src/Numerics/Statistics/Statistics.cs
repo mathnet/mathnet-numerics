@@ -588,5 +588,92 @@ namespace MathNet.Numerics.Statistics
                 }
             }
         }
+
+        /// <summary>
+        /// Calculates the moving average.
+        /// </summary>
+        /// <param name="data">The data to calculate the moving average over.</param>
+        /// <param name="window">The size of moving average window; the number of items
+        /// to include in the average.</param>
+        /// <returns>The calculated moving averages.</returns>
+        public static IList<double> MovingAverage(this IEnumerable<double> data, int window)
+        {
+            if (data == null)
+            {
+                throw new ArgumentNullException("data");
+            }
+
+            var result = new List<double>();
+            var sum = 0.0;
+            var pos = 0;
+            var values = new double[window];
+            foreach (var current in data)
+            {
+                sum += current;
+                if (pos < window)
+                {
+                    values[pos] = current;
+                    if (pos == window - 1)
+                    {
+                        result.Add(sum / window);
+                    }
+                    pos++;
+                }
+                else
+                {
+                    var index = pos % window;
+                    var last = values[index];
+                    sum -= last;
+                    result.Add(sum / window);
+                    values[index] = current;
+                    pos++;
+                }
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// Calculates the moving average.
+        /// </summary>
+        /// <param name="data">The data to calculate the moving average over.</param>
+        /// <param name="window">The size of moving average window; the number of items
+        /// to include in the average.</param>
+        /// <returns>The calculated moving averages.</returns>
+        /// <remarks>null values are ignored.</remarks>
+        public static IList<double> MovingAverage(this IEnumerable<double?> data, int window)
+        {
+            if (data == null)
+            {
+                throw new ArgumentNullException("data");
+            }
+
+            var result = new List<double>();
+            var sum = 0.0;
+            var pos = 0;
+            var values = new double[window];
+            foreach (var current in from value in data where value.HasValue select value.Value)
+            {
+                sum += current;
+                if (pos < window)
+                {
+                    values[pos] = current;
+                    if (pos == window - 1)
+                    {
+                        result.Add(sum / window);
+                    }
+                    pos++;
+                }
+                else
+                {
+                    var index = pos % window;
+                    var last = values[index];
+                    sum -= last;
+                    result.Add(sum / window);
+                    values[index] = current;
+                    pos++;
+                }
+            }
+            return result;
+        }
     }
 }
