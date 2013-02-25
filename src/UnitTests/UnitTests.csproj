@@ -775,6 +775,7 @@
     <Compile Include="StatisticsTests\MCMCTests\MetropolisSamplerTests.cs" />
     <Compile Include="StatisticsTests\MCMCTests\RejectionSamplerTests.cs" />
     <Compile Include="StatisticsTests\MCMCTests\UnivariateSliceSamplerTests.cs" />
+    <Compile Include="StatisticsTests\MovingAverageTests.cs" />
     <Compile Include="StatisticsTests\PercentileTests.cs" />
     <Compile Include="StatisticsTests\StatisticsTests.cs" />
     <Compile Include="StatisticsTests\StatTestData.cs" />

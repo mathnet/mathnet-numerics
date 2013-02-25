@@ -218,6 +218,96 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
             var seq = File.ReadLines("./data/Codeplex-5667.csv").Select(s => double.Parse(s));
             Assert.AreEqual(1.0, seq.Median());
         }
+
+        /// <summary>
+        /// The moving average of an empty data set is also empty.
+        /// </summary>
+        [Test]
+        public void MovingAverageEmptyData()
+        {
+            var data = new double[0];
+            var average = data.MovingAverage(10);
+            Assert.AreEqual(0, average.Count);
+        }
+
+        /// <summary>
+        /// The moving average of an empty data set is also empty.
+        /// </summary>
+        [Test]
+        public void MovingAverageNullableEmptyData()
+        {
+            var data = new double?[0];
+            var average = data.MovingAverage(10);
+            Assert.AreEqual(0, average.Count);
+        }
+
+        /// <summary>
+        /// The moving average of data set with insufficient number of items is empty.
+        /// </summary>
+        [Test]
+        public void MovingAverageInsufficientData()
+        {
+            var data = new double[9];
+            var average = data.MovingAverage(10);
+            Assert.AreEqual(0, average.Count);
+
+            data = new double[10];
+            average = data.MovingAverage(10);
+            Assert.AreEqual(1, average.Count);
+        }
+
+        /// <summary>
+        /// The moving average of data set with insufficient number of items is empty.
+        /// </summary>
+        [Test]
+        public void MovingAverageInsufficientNullableEmptyData()
+        {
+            var data = new double?[9];
+            var average = data.MovingAverage(10);
+            Assert.AreEqual(0, average.Count);
+
+            data = new double?[10];
+            average = data.MovingAverage(10);
+            Assert.AreEqual(0, average.Count);
+        }
+
+        /// <summary>
+        /// Can calculate a the moving average of an array with a window size of 2.
+        /// </summary>
+        [Test]
+        public void MovingAverage()
+        {
+            var data = new []{1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0};
+            var average = data.MovingAverage(2);
+            Assert.AreEqual(average.Count, 9);
+            Assert.AreEqual(1.5, average[0]);
+            Assert.AreEqual(2.5, average[1]);
+            Assert.AreEqual(3.5, average[2]);
+            Assert.AreEqual(4.5, average[3]);
+            Assert.AreEqual(5.5, average[4]);
+            Assert.AreEqual(6.5, average[5]);
+            Assert.AreEqual(7.5, average[6]);
+            Assert.AreEqual(8.5, average[7]);
+            Assert.AreEqual(9.5, average[8]);
+        }
+
+        /// <summary>
+        /// Can calculate a the moving average of an array with a window size of 2.
+        /// </summary>
+        [Test]
+        public void MovingAverageNullableData()
+        {
+            var data = new double?[] { 1.0, null, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, null, 10.0 };
+            var average = data.MovingAverage(2);
+            Assert.AreEqual(average.Count, 7);
+            Assert.AreEqual(2.0, average[0]);
+            Assert.AreEqual(3.5, average[1]);
+            Assert.AreEqual(4.5, average[2]);
+            Assert.AreEqual(5.5, average[3]);
+            Assert.AreEqual(6.5, average[4]);
+            Assert.AreEqual(7.5, average[5]);
+            Assert.AreEqual(9.0, average[6]);
+        }
     }
 #endif
 }
