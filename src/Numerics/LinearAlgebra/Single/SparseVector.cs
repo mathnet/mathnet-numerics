@@ -675,7 +675,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
                 throw new ArgumentNullException("leftSide");
             }
 
-            return (SparseVector)leftSide.Multiply(1.0f / rightSide);
+            return (SparseVector)leftSide.Divide(rightSide);
         }
 
         /// <summary>
