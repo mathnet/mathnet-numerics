@@ -706,7 +706,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
                 throw new ArgumentNullException("leftSide");
             }
 
-            return (SparseVector)leftSide.Multiply(Complex.One / rightSide);
+            return (SparseVector)leftSide.Divide(rightSide);
         }
 
         /// <summary>

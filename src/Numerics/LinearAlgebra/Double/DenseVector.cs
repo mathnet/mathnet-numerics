@@ -491,7 +491,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "rightSide");
             }
 
-            return Control.LinearAlgebraProvider.DotProduct(leftSide.Values, rightSide.Values);
+            return leftSide.DotProduct(rightSide);
         }
 
         /// <summary>
@@ -508,7 +508,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentNullException("leftSide");
             }
 
-            return (DenseVector)leftSide.Multiply(1.0 / rightSide);
+            return (DenseVector)leftSide.Divide(rightSide);
         }
 
         /// <summary>
@@ -542,7 +542,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="rightSide">The divisor to use,</param>
         /// <returns>The result of the calculation</returns>
         /// <exception cref="ArgumentNullException">If <paramref name="leftSide"/> is <see langword="null" />.</exception>
-        public static DenseVector operator %(DenseVector leftSide, float rightSide)
+        public static DenseVector operator %(DenseVector leftSide, double rightSide)
         {
             if (leftSide == null)
             {
