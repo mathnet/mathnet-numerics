@@ -393,6 +393,9 @@ namespace MathNet.Numerics
         /// <summary>Helion Molar Mass: [kg mol^-1] (2007 CODATA)</summary>
         public const double HelionMolarMass = 3.0149322473e-3;
 
+        /// <summary>Avogadro constant: [mol^-1] (2010 CODATA)</summary>
+        public const double Avogadro = 6.0221412927e23;
+
         #endregion
 
         #region Scientific Prefixes

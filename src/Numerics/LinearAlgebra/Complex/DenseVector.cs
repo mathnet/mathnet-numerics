@@ -491,7 +491,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "rightSide");
             }
 
-            return Control.LinearAlgebraProvider.DotProduct(leftSide.Values, rightSide.Values);
+            return leftSide.DotProduct(rightSide);
         }
 
         /// <summary>
@@ -508,7 +508,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
                 throw new ArgumentNullException("leftSide");
             }
 
-            return (DenseVector)leftSide.Multiply(Complex.One / rightSide);
+            return (DenseVector)leftSide.Divide(rightSide);
         }
 
         /// <summary>

@@ -176,6 +176,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// Creates a <see cref="Vector{T}"/> with a the given dimension.
         /// </summary>
         /// <param name="size">The size of the vector.</param>
+        /// <param name="fullyMutable">True if all fields must be mutable.</param>
         /// <returns>
         /// A <see cref="Vector{T}"/> with the given dimension.
         /// </returns>

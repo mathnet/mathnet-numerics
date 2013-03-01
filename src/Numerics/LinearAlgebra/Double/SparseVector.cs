@@ -674,7 +674,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentNullException("leftSide");
             }
 
-            return (SparseVector)leftSide.Multiply(1.0 / rightSide);
+            return (SparseVector)leftSide.Divide(rightSide);
         }
 
         /// <summary>
@@ -708,7 +708,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="rightSide">The divisor to use,</param>
         /// <returns>The result of the calculation</returns>
         /// <exception cref="ArgumentNullException">If <paramref name="leftSide"/> is <see langword="null" />.</exception>
-        public static SparseVector operator %(SparseVector leftSide, float rightSide)
+        public static SparseVector operator %(SparseVector leftSide, double rightSide)
         {
             if (leftSide == null)
             {
