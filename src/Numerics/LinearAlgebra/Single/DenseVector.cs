@@ -3,7 +3,9 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
-// Copyright (c) 2009-2010 Math.NET
+//
+// Copyright (c) 2009-2013 Math.NET
+//
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -12,8 +14,10 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
+//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
+//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -281,19 +285,9 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// <exception cref="ArgumentNullException">If <paramref name="leftSide"/> or <paramref name="rightSide"/> is <see langword="null" />.</exception>
         public static DenseVector operator +(DenseVector leftSide, DenseVector rightSide)
         {
-            if (rightSide == null)
-            {
-                throw new ArgumentNullException("rightSide");
-            }
-
             if (leftSide == null)
             {
                 throw new ArgumentNullException("leftSide");
-            }
-
-            if (leftSide.Count != rightSide.Count)
-            {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "rightSide");
             }
 
             return (DenseVector)leftSide.Add(rightSide);
@@ -366,19 +360,9 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// <exception cref="ArgumentNullException">If <paramref name="leftSide"/> or <paramref name="rightSide"/> is <see langword="null" />.</exception>
         public static DenseVector operator -(DenseVector leftSide, DenseVector rightSide)
         {
-            if (rightSide == null)
-            {
-                throw new ArgumentNullException("rightSide");
-            }
-
             if (leftSide == null)
             {
                 throw new ArgumentNullException("leftSide");
-            }
-
-            if (leftSide.Count != rightSide.Count)
-            {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "rightSide");
             }
 
             return (DenseVector)leftSide.Subtract(rightSide);
@@ -476,19 +460,9 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// <exception cref="ArgumentNullException">If <paramref name="leftSide"/> or <paramref name="rightSide"/> is <see langword="null" />.</exception>
         public static float operator *(DenseVector leftSide, DenseVector rightSide)
         {
-            if (rightSide == null)
-            {
-                throw new ArgumentNullException("rightSide");
-            }
-
             if (leftSide == null)
             {
                 throw new ArgumentNullException("leftSide");
-            }
-
-            if (leftSide.Count != rightSide.Count)
-            {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "rightSide");
             }
 
             return leftSide.DotProduct(rightSide);

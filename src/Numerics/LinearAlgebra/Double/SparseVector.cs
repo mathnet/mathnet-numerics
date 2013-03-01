@@ -346,19 +346,9 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <exception cref="ArgumentNullException">If <paramref name="leftSide"/> or <paramref name="rightSide"/> is <see langword="null" />.</exception>
         public static SparseVector operator +(SparseVector leftSide, SparseVector rightSide)
         {
-            if (rightSide == null)
-            {
-                throw new ArgumentNullException("rightSide");
-            }
-
             if (leftSide == null)
             {
                 throw new ArgumentNullException("leftSide");
-            }
-
-            if (leftSide.Count != rightSide.Count)
-            {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "rightSide");
             }
 
             return (SparseVector)leftSide.Add(rightSide);
@@ -493,19 +483,9 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <exception cref="ArgumentNullException">If <paramref name="leftSide"/> or <paramref name="rightSide"/> is <see langword="null" />.</exception>
         public static SparseVector operator -(SparseVector leftSide, SparseVector rightSide)
         {
-            if (rightSide == null)
-            {
-                throw new ArgumentNullException("rightSide");
-            }
-
             if (leftSide == null)
             {
                 throw new ArgumentNullException("leftSide");
-            }
-
-            if (leftSide.Count != rightSide.Count)
-            {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "rightSide");
             }
 
             return (SparseVector)leftSide.Subtract(rightSide);
@@ -642,19 +622,9 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <exception cref="ArgumentNullException">If <paramref name="leftSide"/> or <paramref name="rightSide"/> is <see langword="null" />.</exception>
         public static double operator *(SparseVector leftSide, SparseVector rightSide)
         {
-            if (rightSide == null)
-            {
-                throw new ArgumentNullException("rightSide");
-            }
-
             if (leftSide == null)
             {
                 throw new ArgumentNullException("leftSide");
-            }
-
-            if (leftSide.Count != rightSide.Count)
-            {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "rightSide");
             }
 
             return leftSide.DotProduct(rightSide);
