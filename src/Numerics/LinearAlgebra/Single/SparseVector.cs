@@ -36,7 +36,6 @@ namespace MathNet.Numerics.LinearAlgebra.Single
     using System.Linq;
     using Generic;
     using NumberTheory;
-    using Properties;
     using Storage;
     using Threading;
 
@@ -66,8 +65,6 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         {
             _storage = storage;
         }
-
-        #region Constructors
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SparseVector"/> class with a given size.
@@ -143,8 +140,6 @@ namespace MathNet.Numerics.LinearAlgebra.Single
             }
         }
 
-        #endregion
-
         /// <summary>
         /// Creates a matrix with the given dimensions using the same storage type
         /// as this vector.
@@ -177,8 +172,6 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         {
             return new SparseVector(size);
         }
-
-        #region Operators and supplementary functions
 
         /// <summary>
         /// Adds a scalar to each element of the vector and stores the result in the result vector.
@@ -321,41 +314,6 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         }
 
         /// <summary>
-        /// Returns a <strong>Vector</strong> containing the same values of <paramref name="rightSide"/>. 
-        /// </summary>
-        /// <remarks>This method is included for completeness.</remarks>
-        /// <param name="rightSide">The vector to get the values from.</param>
-        /// <returns>A vector containing a the same values as <paramref name="rightSide"/>.</returns>
-        /// <exception cref="ArgumentNullException">If <paramref name="rightSide"/> is <see langword="null" />.</exception>
-        public static SparseVector operator +(SparseVector rightSide)
-        {
-            if (rightSide == null)
-            {
-                throw new ArgumentNullException("rightSide");
-            }
-
-            return (SparseVector)rightSide.Plus();
-        }
-
-        /// <summary>
-        /// Adds two <strong>Vectors</strong> together and returns the results.
-        /// </summary>
-        /// <param name="leftSide">One of the vectors to add.</param>
-        /// <param name="rightSide">The other vector to add.</param>
-        /// <returns>The result of the addition.</returns>
-        /// <exception cref="ArgumentException">If <paramref name="leftSide"/> and <paramref name="rightSide"/> are not the same size.</exception>
-        /// <exception cref="ArgumentNullException">If <paramref name="leftSide"/> or <paramref name="rightSide"/> is <see langword="null" />.</exception>
-        public static SparseVector operator +(SparseVector leftSide, SparseVector rightSide)
-        {
-            if (leftSide == null)
-            {
-                throw new ArgumentNullException("leftSide");
-            }
-
-            return (SparseVector)leftSide.Add(rightSide);
-        }
-
-        /// <summary>
         /// Subtracts a scalar from each element of the vector and stores the result in the result vector.
         /// </summary>
         /// <param name="scalar">
@@ -459,40 +417,6 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         }
 
         /// <summary>
-        /// Returns a <strong>Vector</strong> containing the negated values of <paramref name="rightSide"/>. 
-        /// </summary>
-        /// <param name="rightSide">The vector to get the values from.</param>
-        /// <returns>A vector containing the negated values as <paramref name="rightSide"/>.</returns>
-        /// <exception cref="ArgumentNullException">If <paramref name="rightSide"/> is <see langword="null" />.</exception>
-        public static SparseVector operator -(SparseVector rightSide)
-        {
-            if (rightSide == null)
-            {
-                throw new ArgumentNullException("rightSide");
-            }
-
-            return (SparseVector)rightSide.Negate();
-        }
-
-        /// <summary>
-        /// Subtracts two <strong>Vectors</strong> and returns the results.
-        /// </summary>
-        /// <param name="leftSide">The vector to subtract from.</param>
-        /// <param name="rightSide">The vector to subtract.</param>
-        /// <returns>The result of the subtraction.</returns>
-        /// <exception cref="ArgumentException">If <paramref name="leftSide"/> and <paramref name="rightSide"/> are not the same size.</exception>
-        /// <exception cref="ArgumentNullException">If <paramref name="leftSide"/> or <paramref name="rightSide"/> is <see langword="null" />.</exception>
-        public static SparseVector operator -(SparseVector leftSide, SparseVector rightSide)
-        {
-            if (leftSide == null)
-            {
-                throw new ArgumentNullException("leftSide");
-            }
-
-            return (SparseVector)leftSide.Subtract(rightSide);
-        }
-
-        /// <summary>
         /// Returns a negated vector.
         /// </summary>
         /// <returns>The negated vector.</returns>
@@ -580,6 +504,99 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         }
 
         /// <summary>
+        /// Computes the modulus for each element of the vector for the given divisor.
+        /// </summary>
+        /// <param name="divisor">The divisor to use.</param>
+        /// <param name="result">A vector to store the results in.</param>
+        protected override void DoModulus(float divisor, Vector<float> result)
+        {
+            if (ReferenceEquals(this, result))
+            {
+                for (var index = 0; index < _storage.ValueCount; index++)
+                {
+                    _storage.Values[index] %= divisor;
+                }
+            }
+            else
+            {
+                result.Clear();
+                for (var index = 0; index < _storage.ValueCount; index++)
+                {
+                    result.At(_storage.Indices[index], _storage.Values[index] % divisor);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Returns a <strong>Vector</strong> containing the same values of <paramref name="rightSide"/>. 
+        /// </summary>
+        /// <remarks>This method is included for completeness.</remarks>
+        /// <param name="rightSide">The vector to get the values from.</param>
+        /// <returns>A vector containing a the same values as <paramref name="rightSide"/>.</returns>
+        /// <exception cref="ArgumentNullException">If <paramref name="rightSide"/> is <see langword="null" />.</exception>
+        public static SparseVector operator +(SparseVector rightSide)
+        {
+            if (rightSide == null)
+            {
+                throw new ArgumentNullException("rightSide");
+            }
+
+            return (SparseVector)rightSide.Plus();
+        }
+
+        /// <summary>
+        /// Adds two <strong>Vectors</strong> together and returns the results.
+        /// </summary>
+        /// <param name="leftSide">One of the vectors to add.</param>
+        /// <param name="rightSide">The other vector to add.</param>
+        /// <returns>The result of the addition.</returns>
+        /// <exception cref="ArgumentException">If <paramref name="leftSide"/> and <paramref name="rightSide"/> are not the same size.</exception>
+        /// <exception cref="ArgumentNullException">If <paramref name="leftSide"/> or <paramref name="rightSide"/> is <see langword="null" />.</exception>
+        public static SparseVector operator +(SparseVector leftSide, SparseVector rightSide)
+        {
+            if (leftSide == null)
+            {
+                throw new ArgumentNullException("leftSide");
+            }
+
+            return (SparseVector)leftSide.Add(rightSide);
+        }
+
+        /// <summary>
+        /// Returns a <strong>Vector</strong> containing the negated values of <paramref name="rightSide"/>. 
+        /// </summary>
+        /// <param name="rightSide">The vector to get the values from.</param>
+        /// <returns>A vector containing the negated values as <paramref name="rightSide"/>.</returns>
+        /// <exception cref="ArgumentNullException">If <paramref name="rightSide"/> is <see langword="null" />.</exception>
+        public static SparseVector operator -(SparseVector rightSide)
+        {
+            if (rightSide == null)
+            {
+                throw new ArgumentNullException("rightSide");
+            }
+
+            return (SparseVector)rightSide.Negate();
+        }
+
+        /// <summary>
+        /// Subtracts two <strong>Vectors</strong> and returns the results.
+        /// </summary>
+        /// <param name="leftSide">The vector to subtract from.</param>
+        /// <param name="rightSide">The vector to subtract.</param>
+        /// <returns>The result of the subtraction.</returns>
+        /// <exception cref="ArgumentException">If <paramref name="leftSide"/> and <paramref name="rightSide"/> are not the same size.</exception>
+        /// <exception cref="ArgumentNullException">If <paramref name="leftSide"/> or <paramref name="rightSide"/> is <see langword="null" />.</exception>
+        public static SparseVector operator -(SparseVector leftSide, SparseVector rightSide)
+        {
+            if (leftSide == null)
+            {
+                throw new ArgumentNullException("leftSide");
+            }
+
+            return (SparseVector)leftSide.Subtract(rightSide);
+        }
+
+        /// <summary>
         /// Multiplies a vector with a scalar.
         /// </summary>
         /// <param name="leftSide">The vector to scale.</param>
@@ -646,30 +663,6 @@ namespace MathNet.Numerics.LinearAlgebra.Single
             }
 
             return (SparseVector)leftSide.Divide(rightSide);
-        }
-
-        /// <summary>
-        /// Computes the modulus for each element of the vector for the given divisor.
-        /// </summary>
-        /// <param name="divisor">The divisor to use.</param>
-        /// <param name="result">A vector to store the results in.</param>
-        protected override void DoModulus(float divisor, Vector<float> result)
-        {
-            if (ReferenceEquals(this, result))
-            {
-                for (var index = 0; index < _storage.ValueCount; index++)
-                {
-                    _storage.Values[index] %= divisor;
-                }
-            }
-            else
-            {
-                result.Clear();
-                for (var index = 0; index < _storage.ValueCount; index++)
-                {
-                    result.At(_storage.Indices[index], _storage.Values[index] % divisor);
-                }
-            }
         }
 
         /// <summary>
@@ -891,10 +884,6 @@ namespace MathNet.Numerics.LinearAlgebra.Single
             return OuterProduct(this, v);
         }
 
-        #endregion
-
-        #region Vector Norms
-
         /// <summary>
         /// Computes the p-Norm.
         /// </summary>
@@ -930,8 +919,6 @@ namespace MathNet.Numerics.LinearAlgebra.Single
 
             return (float)Math.Pow(sum, 1.0 / p);
         }
-
-        #endregion
 
         #region Parse Functions
 
@@ -1092,8 +1079,6 @@ namespace MathNet.Numerics.LinearAlgebra.Single
 
         #endregion
 
-        #region System.Object override
-
         public override string ToString(string format, IFormatProvider formatProvider)
         {
             if (Count > 20)
@@ -1103,8 +1088,6 @@ namespace MathNet.Numerics.LinearAlgebra.Single
 
             return base.ToString(format, formatProvider);
         }
-
-        #endregion
 
         /// <summary>
         /// Returns an <see cref="IEnumerator{T}"/> that contains the position and value of the element.
