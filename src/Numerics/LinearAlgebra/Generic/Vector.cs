@@ -819,6 +819,40 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         }
 
         /// <summary>
+        /// Adds a scalar to each element of a vector.
+        /// </summary>
+        /// <param name="leftSide">The vector to add to.</param>
+        /// <param name="rightSide">The scalar value to add.</param>
+        /// <returns>The result of the addition.</returns>
+        /// <exception cref="ArgumentNullException">If <paramref name="leftSide"/> is <see langword="null" />.</exception>
+        public static Vector<T> operator +(Vector<T> leftSide, T rightSide)
+        {
+            if (leftSide == null)
+            {
+                throw new ArgumentNullException("leftSide");
+            }
+
+            return leftSide.Add(rightSide);
+        }
+
+        /// <summary>
+        /// Adds a scalar to each element of a vector.
+        /// </summary>
+        /// <param name="leftSide">The scalar value to add.</param>
+        /// <param name="rightSide">The vector to add to.</param>
+        /// <returns>The result of the addition.</returns>
+        /// <exception cref="ArgumentNullException">If <paramref name="rightSide"/> is <see langword="null" />.</exception>
+        public static Vector<T> operator +(T leftSide, Vector<T> rightSide)
+        {
+            if (rightSide == null)
+            {
+                throw new ArgumentNullException("rightSide");
+            }
+
+            return rightSide.Add(leftSide);
+        }
+
+        /// <summary>
         /// Returns a <strong>Vector</strong> containing the negated values of <paramref name="rightSide"/>.
         /// </summary>
         /// <param name="rightSide">The vector to get the values from.</param>
@@ -850,6 +884,42 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
             }
 
             return leftSide.Subtract(rightSide);
+        }
+
+        /// <summary>
+        /// Subtracts a scalar from each element of a vector.
+        /// </summary>
+        /// <param name="leftSide">The vector to subtract from.</param>
+        /// <param name="rightSide">The scalar value to subtract.</param>
+        /// <returns>The result of the subtraction.</returns>
+        /// <exception cref="ArgumentNullException">If <paramref name="leftSide"/> is <see langword="null" />.</exception>
+        public static Vector<T> operator -(Vector<T> leftSide, T rightSide)
+        {
+            if (leftSide == null)
+            {
+                throw new ArgumentNullException("leftSide");
+            }
+
+            return leftSide.Subtract(rightSide);
+        }
+
+        /// <summary>
+        /// Substracts each element of a vector from a scalar.
+        /// </summary>
+        /// <param name="leftSide">The scalar value to subtract from.</param>
+        /// <param name="rightSide">The vector to subtract.</param>
+        /// <returns>The result of the subtraction.</returns>
+        /// <exception cref="ArgumentNullException">If <paramref name="rightSide"/> is <see langword="null" />.</exception>
+        public static Vector<T> operator -(T leftSide, Vector<T> rightSide)
+        {
+            if (rightSide == null)
+            {
+                throw new ArgumentNullException("rightSide");
+            }
+
+            var res = rightSide.Negate();
+            res.Add(leftSide, res);
+            return res;
         }
 
         /// <summary>
