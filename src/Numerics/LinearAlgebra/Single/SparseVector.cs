@@ -1088,27 +1088,5 @@ namespace MathNet.Numerics.LinearAlgebra.Single
 
             return base.ToString(format, formatProvider);
         }
-
-        /// <summary>
-        /// Returns an <see cref="IEnumerator{T}"/> that contains the position and value of the element.
-        /// </summary>
-        /// <returns>
-        /// An <see cref="IEnumerator{T}"/> over this vector that contains the position and value of each
-        /// element.
-        /// </returns>
-        /// <remarks>
-        /// The enumerator returns a 
-        /// <seealso cref="Tuple{T,K}"/>
-        /// with the first value being the element index and the second value 
-        /// being the value of the element at that index. For sparse vectors, the enumerator will exclude all elements
-        /// with a zero value.
-        /// </remarks>
-        public override IEnumerable<Tuple<int, float>> GetIndexedEnumerator()
-        {
-            for (var i = 0; i < _storage.ValueCount; i++)
-            {
-                yield return new Tuple<int, float>(_storage.Indices[i], _storage.Values[i]);
-            }
-        }
     }
 }

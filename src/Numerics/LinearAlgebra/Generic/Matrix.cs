@@ -586,7 +586,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
             {
                 for (var column = 0; column < ColumnCount; column++)
                 {
-                    result.At(row, column, row >= column ? At(row, column) : default(T));
+                    result.At(row, column, row >= column ? At(row, column) : Zero);
                 }
             }
         }
@@ -613,7 +613,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
             {
                 for (var column = 0; column < ColumnCount; column++)
                 {
-                    result.At(row, column, row <= column ? At(row, column) : default(T));
+                    result.At(row, column, row <= column ? At(row, column) : Zero);
                 }
             }
         }
@@ -702,7 +702,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
             {
                 for (var column = 0; column < ColumnCount; column++)
                 {
-                    result.At(row, column, row > column ? At(row, column) : default(T));
+                    result.At(row, column, row > column ? At(row, column) : Zero);
                 }
             }
         }
@@ -749,7 +749,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
             {
                 for (var column = 0; column < ColumnCount; column++)
                 {
-                    result.At(row, column, row < column ? At(row, column) : default(T));
+                    result.At(row, column, row < column ? At(row, column) : Zero);
                 }
             }
         }

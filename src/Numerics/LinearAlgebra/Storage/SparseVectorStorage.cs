@@ -29,6 +29,7 @@
 // </copyright>
 
 using System;
+using System.Collections.Generic;
 using MathNet.Numerics.Properties;
 
 namespace MathNet.Numerics.LinearAlgebra.Storage
@@ -38,8 +39,6 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         where T : struct, IEquatable<T>, IFormattable
     {
         // [ruegg] public fields are OK here
-
-        readonly T _zero;
 
         /// <summary>
         /// Array that contains the indices of the non-zero values.
@@ -56,10 +55,9 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         /// </summary>
         public int ValueCount;
 
-        internal SparseVectorStorage(int length, T zero = default(T))
+        internal SparseVectorStorage(int length)
             : base(length)
         {
-            _zero = zero;
             Indices = new int[0];
             Values = new T[0];
             ValueCount = 0;
@@ -72,7 +70,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         {
             // Search if item idex exists in NonZeroIndices array in range "0 - nonzero values count"
             var itemIndex = Array.BinarySearch(Indices, 0, ValueCount, index);
-            return itemIndex >= 0 ? Values[itemIndex] : _zero;
+            return itemIndex >= 0 ? Values[itemIndex] : Zero;
         }
 
         /// <summary>
@@ -85,7 +83,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             if (itemIndex >= 0)
             {
                 // Non-zero item found in matrix
-                if (_zero.Equals(value))
+                if (Zero.Equals(value))
                 {
                     // Delete existing item
                     RemoveAtIndexUnchecked(itemIndex);
@@ -99,7 +97,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             else
             {
                 // Item not found. Add new value
-                if (!_zero.Equals(value))
+                if (!Zero.Equals(value))
                 {
                     InsertAtIndexUnchecked(~itemIndex, index, value);
                 }
@@ -235,7 +233,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             {
                 if (j >= otherSparse.ValueCount || i < ValueCount && Indices[i] < otherSparse.Indices[j])
                 {
-                    if (!_zero.Equals(Values[i++]))
+                    if (!Zero.Equals(Values[i++]))
                     {
                         return false;
                     }
@@ -244,7 +242,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
                 if (i >= ValueCount || j < otherSparse.ValueCount && otherSparse.Indices[j] < Indices[i])
                 {
-                    if (!_zero.Equals(otherSparse.Values[j++]))
+                    if (!Zero.Equals(otherSparse.Values[j++]))
                     {
                         return false;
                     }
@@ -282,6 +280,30 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                 }
             }
             return hash;
+        }
+
+        // ENUMERATION
+
+        public override IEnumerable<T> Enumerate()
+        {
+            int k = 0;
+            for (int i = 0; i < Length; i++)
+            {
+                yield return k < ValueCount && Indices[k] == i
+                    ? Values[k++]
+                    : Zero;
+            }
+        }
+
+        public override IEnumerable<Tuple<int, T>> EnumerateNonZero()
+        {
+            for (var i = 0; i < ValueCount; i++)
+            {
+                if (!Zero.Equals(Values[i]))
+                {
+                    yield return new Tuple<int, T>(Indices[i], Values[i]);
+                }
+            }
         }
 
         // VECTOR COPY

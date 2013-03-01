@@ -70,7 +70,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// If <paramref name="order"/> is less than one.
         /// </exception>
         public DiagonalMatrix(int order)
-            : this(new DiagonalMatrixStorage<double>(order, order, 0d))
+            : this(new DiagonalMatrixStorage<double>(order, order))
          {
          }
 
@@ -84,7 +84,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// The number of columns.
         /// </param>
         public DiagonalMatrix(int rows, int columns)
-            : this(new DiagonalMatrixStorage<double>(rows, columns, 0d))
+            : this(new DiagonalMatrixStorage<double>(rows, columns))
         {
         }
 
@@ -115,7 +115,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="columns">The number of columns.</param>
         /// <param name="diagonalArray">The one dimensional array which contain diagonal elements.</param>
         public DiagonalMatrix(int rows, int columns, double[] diagonalArray)
-            : this(new DiagonalMatrixStorage<double>(rows, columns, 0d, diagonalArray))
+            : this(new DiagonalMatrixStorage<double>(rows, columns, diagonalArray))
         {
         }
 

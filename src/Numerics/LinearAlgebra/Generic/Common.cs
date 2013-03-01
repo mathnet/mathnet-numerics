@@ -29,7 +29,7 @@
 // </copyright>
 
 
-namespace MathNet.Numerics.LinearAlgebra.Generic
+namespace MathNet.Numerics.LinearAlgebra
 {
     using System;
 
@@ -43,7 +43,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// </summary>
         /// <typeparam name="T">The type to return the value of 1.0 of.</typeparam>
         /// <returns>The value of <c>1.0</c> for type T.</returns>
-        public static T SetOne<T>()
+        public static T OneOf<T>()
         {
             if (typeof(T) == typeof(System.Numerics.Complex))
             {
@@ -57,7 +57,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
 
             if (typeof(T) == typeof(double))
             {
-                return (T)(object)1.0;
+                return (T)(object)1.0d;
             }
 
             if (typeof(T) == typeof(float))
@@ -66,6 +66,36 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
             }
 
             throw new NotSupportedException();
+        }
+
+        /// <summary>
+        /// Sets the value of <c>0.0</c> for type T.
+        /// </summary>
+        /// <typeparam name="T">The type to return the value of 0.0 of.</typeparam>
+        /// <returns>The value of <c>0.0</c> for type T.</returns>
+        public static T ZeroOf<T>()
+        {
+            if (typeof(T) == typeof(System.Numerics.Complex))
+            {
+                return (T)(object)System.Numerics.Complex.Zero;
+            }
+
+            if (typeof(T) == typeof(Numerics.Complex32))
+            {
+                return (T)(object)Numerics.Complex32.Zero;
+            }
+
+            if (typeof(T) == typeof(double))
+            {
+                return (T)(object)0.0d;
+            }
+
+            if (typeof(T) == typeof(float))
+            {
+                return (T)(object)0.0f;
+            }
+
+            return default(T);
         }
     }
 }

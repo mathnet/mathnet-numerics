@@ -43,22 +43,18 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
     /// <typeparam name="T">Supported data types are double, single, <see cref="Complex"/>, and <see cref="Complex32"/>.</typeparam>
     [Serializable]
     public abstract partial class Vector<T> :
-#if PORTABLE
         IFormattable, IEnumerable<T>, IEquatable<Vector<T>>
-#else
-        IFormattable, IEnumerable<T>, IEquatable<Vector<T>>
-#endif
         where T : struct, IEquatable<T>, IFormattable
     {
         /// <summary>
         /// The zero value for type T.
         /// </summary>
-        private static readonly T Zero = default(T);
+        private static readonly T Zero = Common.ZeroOf<T>();
 
         /// <summary>
         /// The value of 1.0 for type T.
         /// </summary>
-        private static readonly T One = Common.SetOne<T>();
+        private static readonly T One = Common.OneOf<T>();
 
         /// <summary>
         /// Initializes a new instance of the Vector class.
@@ -1239,34 +1235,26 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <returns>
         /// A <see cref="T:System.Collections.Generic.IEnumerator`1"/> that can be used to iterate through the collection.
         /// </returns>
-        public virtual IEnumerator<T> GetEnumerator()
+        public IEnumerator<T> GetEnumerator()
         {
-            for (var index = 0; index < Count; index++)
-            {
-                yield return this[index];
-            }
+            return Storage.Enumerate().GetEnumerator();
         }
 
         /// <summary>
-        /// Returns an <see cref="IEnumerator{T}"/> that contains the position and value of the element.
+        /// Returns an <see cref="IEnumerable{T}"/> that contains the position and value of the element, for all non-zero elements.
         /// </summary>
         /// <returns>
-        /// An <see cref="IEnumerator{T}"/> over this vector that contains the position and value of each
-        /// element.
+        /// An <see cref="IEnumerable{T}"/> over this vector that contains the position and value of each element.
         /// </returns>
         /// <remarks>
-        /// The enumerator returns a
-        /// <seealso cref="Tuple{T,K}"/>
+        /// The enumerator returns a <seealso cref="Tuple{T,K}"/>
         /// with the first value being the element index and the second value
-        /// being the value of the element at that index. For sparse vectors, the enumerator will exclude all elements
-        /// with a zero value.
+        /// being the value of the element at that index.
+        /// The enumerator will exclude all elements with a zero value.
         /// </remarks>
-        public virtual IEnumerable<Tuple<int, T>> GetIndexedEnumerator()
+        public IEnumerable<Tuple<int, T>> GetIndexedEnumerator()
         {
-            for (var i = 0; i < Count; i++)
-            {
-                yield return new Tuple<int, T>(i, this[i]);
-            }
+            return Storage.EnumerateNonZero();
         }
 
         /// <summary>

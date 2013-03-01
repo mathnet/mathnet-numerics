@@ -71,7 +71,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// If <paramref name="order"/> is less than one.
         /// </exception>
         public DiagonalMatrix(int order)
-            : this(new DiagonalMatrixStorage<Complex32>(order, order, Complex32.Zero))
+            : this(new DiagonalMatrixStorage<Complex32>(order, order))
         {
         }
 
@@ -85,7 +85,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// The number of columns.
         /// </param>
         public DiagonalMatrix(int rows, int columns)
-            : this(new DiagonalMatrixStorage<Complex32>(rows, columns, Complex32.Zero))
+            : this(new DiagonalMatrixStorage<Complex32>(rows, columns))
         {
         }
 
@@ -116,7 +116,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// <param name="columns">The number of columns.</param>
         /// <param name="diagonalArray">The one dimensional array which contain diagonal elements.</param>
         public DiagonalMatrix(int rows, int columns, Complex32[] diagonalArray)
-            : this(new DiagonalMatrixStorage<Complex32>(rows, columns, Complex32.Zero, diagonalArray))
+            : this(new DiagonalMatrixStorage<Complex32>(rows, columns, diagonalArray))
         {
         }
 

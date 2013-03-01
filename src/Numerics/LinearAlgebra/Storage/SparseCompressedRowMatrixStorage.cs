@@ -40,8 +40,6 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
     {
         // [ruegg] public fields are OK here
 
-        readonly T _zero;
-
         /// <summary>
         /// The array containing the row indices of the existing rows. Element "j" of the array gives the index of the 
         /// element in the <see cref="Values"/> array that is first non-zero element in a row "j"
@@ -66,10 +64,9 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         /// <value>The number of non zero elements.</value>
         public int ValueCount;
 
-        internal SparseCompressedRowMatrixStorage(int rows, int columns, T zero = default(T))
+        internal SparseCompressedRowMatrixStorage(int rows, int columns)
             : base(rows, columns)
         {
-            _zero = zero;
             RowPointers = new int[rows];
             ColumnIndices = new int[0];
             Values = new T[0];
@@ -92,7 +89,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         public override T At(int row, int column)
         {
             var index = FindItem(row, column);
-            return index >= 0 ? Values[index] : _zero;
+            return index >= 0 ? Values[index] : Zero;
         }
 
         /// <summary>
@@ -108,7 +105,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             if (index >= 0)
             {
                 // Non-zero item found in matrix
-                if (_zero.Equals(value))
+                if (Zero.Equals(value))
                 {
                     // Delete existing item
                     RemoveAtIndexUnchecked(index, row);
@@ -122,7 +119,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             else
             {
                 // Item not found. Add new value
-                if (_zero.Equals(value))
+                if (Zero.Equals(value))
                 {
                     return;
                 }
@@ -575,7 +572,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             for (int i = sourceColumnIndex, j = 0; i < sourceColumnIndex + columnCount; i++, j++)
             {
                 var index = FindItem(rowIndex, i);
-                target.At(j, index >= 0 ? Values[index] : _zero);
+                target.At(j, index >= 0 ? Values[index] : Zero);
             }
         }
 

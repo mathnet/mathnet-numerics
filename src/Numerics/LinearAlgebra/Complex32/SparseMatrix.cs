@@ -75,7 +75,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// The number of columns.
         /// </param>
         public SparseMatrix(int rows, int columns)
-            : this(new SparseCompressedRowMatrixStorage<Complex32>(rows, columns, Complex32.Zero))
+            : this(new SparseCompressedRowMatrixStorage<Complex32>(rows, columns))
         {
         }
 
@@ -494,7 +494,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
             var values = _storage.Values;
             var valueCount = _storage.ValueCount;
 
-            var ret = new SparseCompressedRowMatrixStorage<Complex32>(ColumnCount, RowCount, Complex32.Zero)
+            var ret = new SparseCompressedRowMatrixStorage<Complex32>(ColumnCount, RowCount)
                 {
                     ColumnIndices = new int[valueCount],
                     Values = new Complex32[valueCount]
@@ -601,7 +601,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// </exception>
         public static SparseMatrix Identity(int order)
         {
-            var m = new SparseCompressedRowMatrixStorage<Complex32>(order, order, Complex32.Zero)
+            var m = new SparseCompressedRowMatrixStorage<Complex32>(order, order)
                 {
                     ValueCount = order,
                     Values = new Complex32[order],

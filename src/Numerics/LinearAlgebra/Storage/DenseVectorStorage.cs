@@ -29,6 +29,7 @@
 // </copyright>
 
 using System;
+using System.Collections.Generic;
 using MathNet.Numerics.Properties;
 
 namespace MathNet.Numerics.LinearAlgebra.Storage
@@ -87,6 +88,24 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         public override void Clear(int index, int count)
         {
             Array.Clear(Data, index, count);
+        }
+
+        // ENUMERATION
+
+        public override IEnumerable<T> Enumerate()
+        {
+            return Data;
+        }
+
+        public override IEnumerable<Tuple<int, T>> EnumerateNonZero()
+        {
+            for (var i = 0; i < Data.Length; i++)
+            {
+                if (!Zero.Equals(Data[i]))
+                {
+                    yield return new Tuple<int, T>(i, Data[i]);
+                }
+            }
         }
 
         // VECTOR COPY

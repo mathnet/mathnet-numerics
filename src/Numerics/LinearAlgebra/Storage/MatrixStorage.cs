@@ -39,6 +39,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
     {
         // [ruegg] public fields are OK here
 
+        protected static readonly T Zero = Common.ZeroOf<T>();
         public readonly int RowCount;
         public readonly int ColumnCount;
 
@@ -133,7 +134,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             {
                 for (var j = 0; j < ColumnCount; j++)
                 {
-                    At(i, j, default(T));
+                    At(i, j, Zero);
                 }
             }
         }
@@ -144,7 +145,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             {
                 for (var j = columnIndex; j < columnIndex + columnCount; j++)
                 {
-                    At(i, j, default(T));
+                    At(i, j, Zero);
                 }
             }
         }

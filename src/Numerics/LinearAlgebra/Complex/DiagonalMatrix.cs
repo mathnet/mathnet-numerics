@@ -71,7 +71,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// If <paramref name="order"/> is less than one.
         /// </exception>
         public DiagonalMatrix(int order)
-            : this(new DiagonalMatrixStorage<Complex>(order, order, Complex.Zero))
+            : this(new DiagonalMatrixStorage<Complex>(order, order))
          {
          }
 
@@ -85,7 +85,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// The number of columns.
         /// </param>
         public DiagonalMatrix(int rows, int columns)
-            : this(new DiagonalMatrixStorage<Complex>(rows, columns, Complex.Zero))
+            : this(new DiagonalMatrixStorage<Complex>(rows, columns))
         {
         }
 
@@ -116,7 +116,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// <param name="columns">The number of columns.</param>
         /// <param name="diagonalArray">The one dimensional array which contain diagonal elements.</param>
         public DiagonalMatrix(int rows, int columns, Complex[] diagonalArray)
-            : this(new DiagonalMatrixStorage<Complex>(rows, columns, Complex.Zero, diagonalArray))
+            : this(new DiagonalMatrixStorage<Complex>(rows, columns, diagonalArray))
         {
         }
 

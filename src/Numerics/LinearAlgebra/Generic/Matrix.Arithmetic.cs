@@ -32,7 +32,6 @@
 namespace MathNet.Numerics.LinearAlgebra.Generic
 {
     using System;
-    using Distributions;
     using Factorization;
     using Properties;
 
@@ -44,12 +43,12 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <summary>
         /// The value of 1.0.
         /// </summary>
-        private static readonly T One = Common.SetOne<T>();
+        static readonly T One = Common.OneOf<T>();
 
         /// <summary>
         /// The value of 0.0.
         /// </summary>
-        private static readonly T Zero = default(T);
+        static readonly T Zero = Common.ZeroOf<T>();
 
         /// <summary>
         /// Adds another matrix to this matrix.

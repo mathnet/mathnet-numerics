@@ -40,17 +40,15 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
     {
         // [ruegg] public fields are OK here
 
-        readonly T _zero;
         public readonly T[] Data;
 
-        internal DiagonalMatrixStorage(int rows, int columns, T zero)
+        internal DiagonalMatrixStorage(int rows, int columns)
             : base(rows, columns)
         {
-            _zero = zero;
             Data = new T[Math.Min(rows, columns)];
         }
 
-        internal DiagonalMatrixStorage(int rows, int columns, T zero, T[] data)
+        internal DiagonalMatrixStorage(int rows, int columns, T[] data)
             : base(rows, columns)
         {
             if (data == null)
@@ -63,7 +61,6 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                 throw new ArgumentOutOfRangeException("data", string.Format(Resources.ArgumentArrayWrongLength, Math.Min(rows, columns)));
             }
 
-            _zero = zero;
             Data = data;
         }
 
@@ -72,7 +69,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         /// </summary>
         public override T At(int row, int column)
         {
-            return row == column ? Data[row] : _zero;
+            return row == column ? Data[row] : Zero;
         }
 
         /// <summary>
@@ -84,7 +81,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             {
                 Data[row] = value;
             }
-            else if (!_zero.Equals(value))
+            else if (!Zero.Equals(value))
             {
                 throw new IndexOutOfRangeException("Cannot set an off-diagonal element in a diagonal matrix.");
             }
@@ -278,7 +275,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         {
             if (sourceRowIndex - sourceColumnIndex != targetRowIndex - targetColumnIndex)
             {
-                if (Data.Any(x => !_zero.Equals(x)))
+                if (Data.Any(x => !Zero.Equals(x)))
                 {
                     throw new NotSupportedException();
                 }

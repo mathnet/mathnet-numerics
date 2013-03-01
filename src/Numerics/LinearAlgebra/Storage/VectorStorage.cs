@@ -29,6 +29,7 @@
 // </copyright>
 
 using System;
+using System.Collections.Generic;
 using MathNet.Numerics.Properties;
 
 namespace MathNet.Numerics.LinearAlgebra.Storage
@@ -39,6 +40,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
     {
         // [ruegg] public fields are OK here
 
+        protected static readonly T Zero = Common.ZeroOf<T>();
         public readonly int Length;
 
         protected VectorStorage(int length)
@@ -113,7 +115,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         {
             for (var i = 0; i < Length; i++)
             {
-                At(i, default(T));
+                At(i, Zero);
             }
         }
 
@@ -121,7 +123,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         {
             for (var i = index; i < index + count; i++)
             {
-                At(i, default(T));
+                At(i, Zero);
             }
         }
 
@@ -194,6 +196,28 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                 }
             }
             return hash;
+        }
+
+        // ENUMERATION
+
+        public virtual IEnumerable<T> Enumerate()
+        {
+            for (var i = 0; i < Length; i++)
+            {
+                yield return At(i);
+            }
+        }
+
+        public virtual IEnumerable<Tuple<int, T>> EnumerateNonZero()
+        {
+            for (var i = 0; i < Length; i++)
+            {
+                var x = At(i);
+                if (!Zero.Equals(x))
+                {
+                    yield return new Tuple<int, T>(i, x);
+                }
+            }
         }
 
         // VECTOR COPY
