@@ -448,24 +448,33 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         }
 
         /// <summary>
-        /// Returns a negated vector.
+        /// Negates vector and saves result to <paramref name="target"/>
         /// </summary>
-        /// <returns>The negated vector.</returns>
-        /// <remarks>Added as an alternative to the unary negation operator.</remarks>
-        public override Vector<Complex> Negate()
+        /// <param name="target">Target vector</param>
+        protected override void DoNegate(Vector<Complex> target)
         {
-            var result = new SparseVectorStorage<Complex>(Count);
-            var valueCount = result.ValueCount = _storage.ValueCount;
-            var indices = result.Indices = new int[valueCount];
-            var values = result.Values = new Complex[valueCount];
-
-            if (valueCount != 0)
+            var sparseResult = target as SparseVector;
+            if (sparseResult == null)
             {
-                CommonParallel.For(0, valueCount, index => values[index] = -_storage.Values[index]);
-                Buffer.BlockCopy(_storage.Indices, 0, indices, 0, valueCount * Constants.SizeOfInt);
+                target.Clear();
+                for (var index = 0; index < _storage.ValueCount; index++)
+                {
+                    target.At(_storage.Indices[index], -_storage.Values[index]);
+                }
             }
+            else
+            {
+                if (!ReferenceEquals(this, target))
+                {
+                    sparseResult._storage.ValueCount = _storage.ValueCount;
+                    sparseResult._storage.Indices = new int[_storage.ValueCount];
+                    Buffer.BlockCopy(_storage.Indices, 0, sparseResult._storage.Indices, 0, _storage.ValueCount * Constants.SizeOfInt);
+                    sparseResult._storage.Values = new Complex[_storage.ValueCount];
+                    Array.Copy(_storage.Values, sparseResult._storage.Values, _storage.ValueCount);
+                }
 
-            return new SparseVector(result);
+                Control.LinearAlgebraProvider.ScaleArray(-Complex.One, sparseResult._storage.Values, sparseResult._storage.Values);
+            }
         }
 
         /// <summary>

@@ -369,19 +369,20 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         }
 
         /// <summary>
-        /// Returns a negated vector.
+        /// Negates vector and saves result to <paramref name="target"/>
         /// </summary>
-        /// <returns>The negated vector.</returns>
-        /// <remarks>Added as an alternative to the unary negation operator.</remarks>
-        public override Vector<float> Negate()
+        /// <param name="target">Target vector</param>
+        protected override void DoNegate(Vector<float> target)
         {
-            var result = new DenseVector(_length);
-            CommonParallel.For(
-                0, 
-                _values.Length,
-                index => result[index] = -_values[index]);
-
-            return result;
+            var denseResult = target as DenseVector;
+            if (denseResult == null)
+            {
+                base.DoNegate(target);
+            }
+            else
+            {
+                Control.LinearAlgebraProvider.ScaleArray(-1.0f, _values, denseResult.Values);
+            }
         }
 
         /// <summary>

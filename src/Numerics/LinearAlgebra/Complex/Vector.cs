@@ -339,24 +339,15 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         }
 
         /// <summary>
-        /// Returns a negated vector.
+        /// Negates vector and saves result to <paramref name="target"/>
         /// </summary>
-        /// <returns>
-        /// The negated vector.
-        /// </returns>
-        /// <remarks>
-        /// Added as an alternative to the unary negation operator.
-        /// </remarks>
-        public override Vector<Complex> Negate()
+        /// <param name="target">Target vector</param>
+        protected override void DoNegate(Vector<Complex> target)
         {
-            var result = CreateVector(Count);
-
             for (var index = 0; index < Count; index++)
             {
-                result.At(index, -At(index));
+                target.At(index, -At(index));
             }
-
-            return result;
         }
 
         /// <summary>

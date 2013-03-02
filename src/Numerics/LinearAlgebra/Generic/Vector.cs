@@ -335,7 +335,37 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// </summary>
         /// <returns>The negated vector.</returns>
         /// <remarks>Added as an alternative to the unary negation operator.</remarks>
-        public abstract Vector<T> Negate();
+        public Vector<T> Negate()
+        {
+            var retrunVector = CreateVector(Count);
+            DoNegate(retrunVector);
+            return retrunVector;
+        }
+
+        /// <summary>
+        /// Negates vector and save result to <paramref name="target"/>
+        /// </summary>
+        /// <param name="target">Target vector</param>
+        public void Negate(Vector<T> target)
+        {
+            if (target == null)
+            {
+                throw new ArgumentNullException("target");
+            }
+
+            if (Count != target.Count)
+            {
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "target");
+            }
+
+            DoNegate(target);
+        }
+
+        /// <summary>
+        /// Negates vector and save result to <paramref name="target"/>
+        /// </summary>
+        /// <param name="target">Target vector</param>
+        protected abstract void DoNegate(Vector<T> target);
 
         /// <summary>
         /// Subtracts another vector from this vector.
@@ -399,7 +429,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         public Vector<T> Conjugate()
         {
             var retrunVector = CreateVector(Count);
-            Conjugate(retrunVector);
+            DoConjugate(retrunVector);
             return retrunVector;
         }
 
