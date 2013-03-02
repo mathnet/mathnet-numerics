@@ -189,7 +189,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
             var targetSparse = target as SparseVector;
             if (targetSparse == null)
             {
-                base.Conjugate(target);
+                base.DoConjugate(target);
                 return;
             }
 
