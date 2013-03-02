@@ -36,14 +36,8 @@ using MathNet.Numerics.Properties;
 
 namespace MathNet.Numerics.LinearAlgebra.Generic
 {
-    public abstract partial class Vector<T> :
-#if PORTABLE
-        IList, IList<T>
-#else
-        IList, IList<T>, ICloneable
-#endif
+    public abstract partial class Vector<T>
     {
-
         /// <summary>
         /// Indicates whether the current object is equal to another object of the same type.
         /// </summary>
@@ -107,8 +101,6 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
 
 #if !PORTABLE
 
-        #region ICloneable
-
         /// <summary>
         /// Creates a new object that is a copy of the current instance.
         /// </summary>
@@ -119,8 +111,6 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         {
             return Clone();
         }
-
-        #endregion
 
 #endif
 
@@ -268,7 +258,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// </returns>
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return GetEnumerator();
+            return Storage.Enumerate().GetEnumerator();
         }
     }
 }

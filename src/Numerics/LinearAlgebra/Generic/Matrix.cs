@@ -47,10 +47,9 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
     /// <typeparam name="T">Supported data types are <c>double</c>, <c>single</c>, <see cref="Complex"/>, and <see cref="Complex32"/>.</typeparam>
     [Serializable]
     public abstract partial class Matrix<T> :
-#if PORTABLE
         IFormattable, IEquatable<Matrix<T>>
-#else
-        IFormattable, IEquatable<Matrix<T>>, ICloneable
+#if !PORTABLE
+        , ICloneable
 #endif
         where T : struct, IEquatable<T>, IFormattable
     {
@@ -292,19 +291,6 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
             Storage.CopyToUnchecked(result.Storage, skipClearing: true);
             return result;
         }
-
-#if !PORTABLE
-        /// <summary>
-        /// Creates a new object that is a copy of the current instance.
-        /// </summary>
-        /// <returns>
-        /// A new object that is a copy of this instance.
-        /// </returns>
-        object ICloneable.Clone()
-        {
-            return Clone();
-        }
-#endif
 
         /// <summary>
         /// Copies the elements of this matrix to the given matrix.
@@ -1456,17 +1442,6 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <summary>
         /// Returns a <see cref="System.String"/> that represents this instance.
         /// </summary>
-        /// <returns>
-        /// A <see cref="System.String"/> that represents this instance.
-        /// </returns>
-        public override string ToString()
-        {
-            return ToString(null);
-        }
-
-        /// <summary>
-        /// Returns a <see cref="System.String"/> that represents this instance.
-        /// </summary>
         /// <param name="format">
         /// The format to use.
         /// </param>
@@ -1497,44 +1472,6 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
             }
 
             return stringBuilder.ToString();
-        }
-
-        /// <summary>
-        /// Returns a hash code for this instance.
-        /// </summary>
-        /// <returns>
-        /// A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table.
-        /// </returns>
-        public override int GetHashCode()
-        {
-            return Storage.GetHashCode();
-        }
-
-        /// <summary>
-        /// Indicates whether the current object is equal to another object of the same type.
-        /// </summary>
-        /// <param name="other">
-        /// An object to compare with this object.
-        /// </param>
-        /// <returns>
-        /// <c>true</c> if the current object is equal to the <paramref name="other"/> parameter; otherwise, <c>false</c>.
-        /// </returns>
-        public bool Equals(Matrix<T> other)
-        {
-            return other != null && Storage.Equals(other.Storage);
-        }
-
-        /// <summary>
-        /// Determines whether the specified <see cref="System.Object"/> is equal to this instance.
-        /// </summary>
-        /// <param name="obj">The <see cref="System.Object"/> to compare with this instance.</param>
-        /// <returns>
-        ///     <c>true</c> if the specified <see cref="System.Object"/> is equal to this instance; otherwise, <c>false</c>.
-        /// </returns>
-        public override bool Equals(object obj)
-        {
-            var other = obj as Matrix<T>;
-            return other != null && Storage.Equals(other.Storage);
         }
     }
 }

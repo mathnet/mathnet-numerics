@@ -28,9 +28,11 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+
 namespace MathNet.Numerics.LinearAlgebra.Generic
 {
     using System;
+    using System.Collections;
     using System.Collections.Generic;
     using System.Runtime;
     using System.Text;
@@ -43,7 +45,10 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
     /// <typeparam name="T">Supported data types are double, single, <see cref="Complex"/>, and <see cref="Complex32"/>.</typeparam>
     [Serializable]
     public abstract partial class Vector<T> :
-        IFormattable, IEnumerable<T>, IEquatable<Vector<T>>
+        IFormattable, IEnumerable<T>, IEquatable<Vector<T>>, IList, IList<T>
+#if !PORTABLE
+        , ICloneable
+#endif
         where T : struct, IEquatable<T>, IFormattable
     {
         /// <summary>

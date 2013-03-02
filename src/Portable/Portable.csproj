@@ -717,6 +717,9 @@
     <Compile Include="..\Numerics\LinearAlgebra\Generic\Matrix.Arithmetic.cs">
       <Link>LinearAlgebra\Generic\Matrix.Arithmetic.cs</Link>
     </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Generic\Matrix.BCL.cs">
+      <Link>LinearAlgebra\Generic\Matrix.BCL.cs</Link>
+    </Compile>
     <Compile Include="..\Numerics\LinearAlgebra\Generic\Matrix.cs">
       <Link>LinearAlgebra\Generic\Matrix.cs</Link>
     </Compile>
