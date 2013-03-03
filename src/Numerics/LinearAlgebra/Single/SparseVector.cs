@@ -417,23 +417,23 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         }
 
         /// <summary>
-        /// Negates vector and saves result to <paramref name="target"/>
+        /// Negates vector and saves result to <paramref name="result"/>
         /// </summary>
-        /// <param name="target">Target vector</param>
-        protected override void DoNegate(Vector<float> target)
+        /// <param name="result">Target vector</param>
+        protected override void DoNegate(Vector<float> result)
         {
-            var sparseResult = target as SparseVector;
+            var sparseResult = result as SparseVector;
             if (sparseResult == null)
             {
-                target.Clear();
+                result.Clear();
                 for (var index = 0; index < _storage.ValueCount; index++)
                 {
-                    target.At(_storage.Indices[index], -_storage.Values[index]);
+                    result.At(_storage.Indices[index], -_storage.Values[index]);
                 }
             }
             else
             {
-                if (!ReferenceEquals(this, target))
+                if (!ReferenceEquals(this, result))
                 {
                     sparseResult._storage.ValueCount = _storage.ValueCount;
                     sparseResult._storage.Indices = new int[_storage.ValueCount];

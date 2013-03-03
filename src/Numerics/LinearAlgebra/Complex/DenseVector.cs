@@ -369,15 +369,15 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         }
 
         /// <summary>
-        /// Negates vector and saves result to <paramref name="target"/>
+        /// Negates vector and saves result to <paramref name="result"/>
         /// </summary>
-        /// <param name="target">Target vector</param>
-        protected override void DoNegate(Vector<Complex> target)
+        /// <param name="result">Target vector</param>
+        protected override void DoNegate(Vector<Complex> result)
         {
-            var denseResult = target as DenseVector;
+            var denseResult = result as DenseVector;
             if (denseResult == null)
             {
-                base.DoNegate(target);
+                base.DoNegate(result);
             }
             else
             {
@@ -863,24 +863,22 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         #endregion
 
         /// <summary>
-        /// Conjugates vector and save result to <paramref name="target"/>
+        /// Conjugates vector and save result to <paramref name="result"/>
         /// </summary>
-        /// <param name="target">Target vector</param>
-        protected override void DoConjugate(Vector<Complex> target)
+        /// <param name="result">Target vector</param>
+        protected override void DoConjugate(Vector<Complex> result)
         {
-            var denseTarget = target as DenseVector;
+            var resultDense = result as DenseVector;
+            if (resultDense == null)
+            {
+                base.DoConjugate(result);
+                return;
+            }
 
-            if (denseTarget == null)
-            {
-                base.DoConjugate(target);
-            }
-            else
-            {
-                CommonParallel.For(
-                    0,
-                    _length,
-                    index => denseTarget._values[index] = _values[index].Conjugate());
-            }
+            CommonParallel.For(
+                0,
+                _length,
+                index => resultDense._values[index] = _values[index].Conjugate());
         }
     }
 }

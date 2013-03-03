@@ -174,22 +174,22 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         }
 
         /// <summary>
-        /// Conjugates vector and save result to <paramref name="target"/>
+        /// Conjugates vector and save result to <paramref name="result"/>
         /// </summary>
-        /// <param name="target">Target vector</param>
-        protected override void DoConjugate(Vector<Complex> target)
+        /// <param name="result">Target vector</param>
+        protected override void DoConjugate(Vector<Complex> result)
         {
-            if (ReferenceEquals(this, target))
+            if (ReferenceEquals(this, result))
             {
                 var tmp = CreateVector(Count);
                 DoConjugate(tmp);
-                tmp.CopyTo(target);
+                tmp.CopyTo(result);
             }
 
-            var targetSparse = target as SparseVector;
+            var targetSparse = result as SparseVector;
             if (targetSparse == null)
             {
-                base.DoConjugate(target);
+                base.DoConjugate(result);
                 return;
             }
 
@@ -448,23 +448,23 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         }
 
         /// <summary>
-        /// Negates vector and saves result to <paramref name="target"/>
+        /// Negates vector and saves result to <paramref name="result"/>
         /// </summary>
-        /// <param name="target">Target vector</param>
-        protected override void DoNegate(Vector<Complex> target)
+        /// <param name="result">Target vector</param>
+        protected override void DoNegate(Vector<Complex> result)
         {
-            var sparseResult = target as SparseVector;
+            var sparseResult = result as SparseVector;
             if (sparseResult == null)
             {
-                target.Clear();
+                result.Clear();
                 for (var index = 0; index < _storage.ValueCount; index++)
                 {
-                    target.At(_storage.Indices[index], -_storage.Values[index]);
+                    result.At(_storage.Indices[index], -_storage.Values[index]);
                 }
             }
             else
             {
-                if (!ReferenceEquals(this, target))
+                if (!ReferenceEquals(this, result))
                 {
                     sparseResult._storage.ValueCount = _storage.ValueCount;
                     sparseResult._storage.Indices = new int[_storage.ValueCount];

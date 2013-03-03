@@ -329,28 +329,28 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         }
 
         /// <summary>
-        /// Conjugates vector and save result to <paramref name="target"/>
+        /// Conjugates vector and save result to <paramref name="result"/>
         /// </summary>
-        /// <param name="target">Target vector</param>
-        protected override void DoConjugate(Vector<double> target)
+        /// <param name="result">Target vector</param>
+        protected override void DoConjugate(Vector<double> result)
         {
-            if (ReferenceEquals(this, target))
+            if (ReferenceEquals(this, result))
             {
                 return;
             }
 
-            CopyTo(target);
+            CopyTo(result);
         }
 
         /// <summary>
-        /// Negates vector and saves result to <paramref name="target"/>
+        /// Negates vector and saves result to <paramref name="result"/>
         /// </summary>
-        /// <param name="target">Target vector</param>
-        protected override void DoNegate(Vector<double> target)
+        /// <param name="result">Target vector</param>
+        protected override void DoNegate(Vector<double> result)
         {
             for (var index = 0; index < Count; index++)
             {
-                target.At(index, -At(index));
+                result.At(index, -At(index));
             }
         }
 

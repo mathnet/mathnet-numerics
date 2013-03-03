@@ -161,16 +161,16 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
 
 
         /// <summary>
-        /// Negates vector and save result to <paramref name="target"/>
+        /// Negates vector and save result to <paramref name="result"/>
         /// </summary>
-        /// <param name="target">Target vector</param>
-        protected abstract void DoNegate(Vector<T> target);
+        /// <param name="result">Target vector</param>
+        protected abstract void DoNegate(Vector<T> result);
 
         /// <summary>
-        /// Complex conjugates vector and save result to <paramref name="target"/>
+        /// Complex conjugates vector and save result to <paramref name="result"/>
         /// </summary>
-        /// <param name="target">Target vector</param>
-        protected abstract void DoConjugate(Vector<T> target);
+        /// <param name="result">Target vector</param>
+        protected abstract void DoConjugate(Vector<T> result);
 
         /// <summary>
         /// Adds a scalar to each element of the vector and stores the result in the result vector.
@@ -405,22 +405,22 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         }
 
         /// <summary>
-        /// Negates vector and save result to <paramref name="target"/>
+        /// Negates vector and save result to <paramref name="result"/>
         /// </summary>
-        /// <param name="target">Target vector</param>
-        public void Negate(Vector<T> target)
+        /// <param name="result">Target vector</param>
+        public void Negate(Vector<T> result)
         {
-            if (target == null)
+            if (result == null)
             {
-                throw new ArgumentNullException("target");
+                throw new ArgumentNullException("result");
             }
 
-            if (Count != target.Count)
+            if (Count != result.Count)
             {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "target");
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
             }
 
-            DoNegate(target);
+            DoNegate(result);
         }
 
         /// <summary>
@@ -483,22 +483,22 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         }
 
         /// <summary>
-        /// Complex conjugates vector and save result to <paramref name="target"/>
+        /// Complex conjugates vector and save result to <paramref name="result"/>
         /// </summary>
-        /// <param name="target">Target vector</param>
-        public void Conjugate(Vector<T> target)
+        /// <param name="result">Target vector</param>
+        public void Conjugate(Vector<T> result)
         {
-            if (target == null)
+            if (result == null)
             {
-                throw new ArgumentNullException("target");
+                throw new ArgumentNullException("result");
             }
 
-            if (Count != target.Count)
+            if (Count != result.Count)
             {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "target");
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
             }
 
-            DoConjugate(target);
+            DoConjugate(result);
         }
 
         /// <summary>

@@ -327,26 +327,26 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         }
 
         /// <summary>
-        /// Conjugates vector and save result to <paramref name="target"/>
+        /// Conjugates vector and save result to <paramref name="result"/>
         /// </summary>
-        /// <param name="target">Target vector</param>
-        protected override void DoConjugate(Vector<Complex> target)
+        /// <param name="result">Target vector</param>
+        protected override void DoConjugate(Vector<Complex> result)
         {
             for (var index = 0; index < Count; index++)
             {
-                target.At(index, At(index).Conjugate());
+                result.At(index, At(index).Conjugate());
             }
         }
 
         /// <summary>
-        /// Negates vector and saves result to <paramref name="target"/>
+        /// Negates vector and saves result to <paramref name="result"/>
         /// </summary>
-        /// <param name="target">Target vector</param>
-        protected override void DoNegate(Vector<Complex> target)
+        /// <param name="result">Target vector</param>
+        protected override void DoNegate(Vector<Complex> result)
         {
             for (var index = 0; index < Count; index++)
             {
-                target.At(index, -At(index));
+                result.At(index, -At(index));
             }
         }
 

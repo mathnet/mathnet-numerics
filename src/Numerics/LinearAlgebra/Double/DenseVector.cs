@@ -379,15 +379,15 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         }
 
         /// <summary>
-        /// Negates vector and saves result to <paramref name="target"/>
+        /// Negates vector and saves result to <paramref name="result"/>
         /// </summary>
-        /// <param name="target">Target vector</param>
-        protected override void DoNegate(Vector<double> target)
+        /// <param name="result">Target vector</param>
+        protected override void DoNegate(Vector<double> result)
         {
-            var denseResult = target as DenseVector;
+            var denseResult = result as DenseVector;
             if (denseResult == null)
             {
-                base.DoNegate(target);
+                base.DoNegate(result);
             }
             else
             {
