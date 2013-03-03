@@ -38,7 +38,7 @@ namespace MathNet.Numerics.Statistics.Mcmc
     /// Metropolis sampling produces samples from distribition P by sampling from a proposal distribution Q
     /// and accepting/rejecting based on the density of P. Metropolis sampling requires that the proposal
     /// distribution Q is symmetric. All densities are required to be in log space.
-    /// 
+    ///
     /// The Metropolis sampler is a stateful sampler. It keeps track of where it currently is in the domain
     /// of the distribution P.
     /// </summary>
@@ -48,37 +48,37 @@ namespace MathNet.Numerics.Statistics.Mcmc
         /// <summary>
         /// Evaluates the log density function of the sampling distribution.
         /// </summary>
-        private readonly DensityLn<T> mPdfLnP;
+        private readonly DensityLn<T> _pdfLnP;
 
         /// <summary>
         /// A function which samples from a proposal distribution.
         /// </summary>
-        private readonly LocalProposalSampler<T> mProposal;
+        private readonly LocalProposalSampler<T> _proposal;
 
         /// <summary>
         /// The current location of the sampler.
         /// </summary>
-        private T mCurrent;
+        private T _current;
 
         /// <summary>
         /// The log density at the current location.
         /// </summary>
-        private double mCurrentDensityLn;
+        private double _currentDensityLn;
 
         /// <summary>
         /// The number of burn iterations between two samples.
         /// </summary>
-        private int mBurnInterval;
+        private int _burnInterval;
 
         /// <summary>
-        /// Constructs a new Metropolis sampler using the default <see cref="System.Random"/> random 
+        /// Constructs a new Metropolis sampler using the default <see cref="System.Random"/> random
         /// number generator. The burnInterval interval will be set to 0.
         /// </summary>
         /// <param name="x0">The initial sample.</param>
         /// <param name="pdfLnP">The log density of the distribution we want to sample from.</param>
         /// <param name="proposal">A method that samples from the symmetric proposal distribution.</param>
-        public MetropolisSampler(T x0, DensityLn<T> pdfLnP, LocalProposalSampler<T> proposal) :
-            this(x0, pdfLnP, proposal, 0)
+        public MetropolisSampler(T x0, DensityLn<T> pdfLnP, LocalProposalSampler<T> proposal)
+            : this(x0, pdfLnP, proposal, 0)
         {
         }
 
@@ -92,10 +92,10 @@ namespace MathNet.Numerics.Statistics.Mcmc
         /// <exception cref="ArgumentOutOfRangeException">When the number of burnInterval iteration is negative.</exception>
         public MetropolisSampler(T x0, DensityLn<T> pdfLnP, LocalProposalSampler<T> proposal, int burnInterval)
         {
-            mCurrent = x0;
-            mCurrentDensityLn = pdfLnP(x0);
-            mPdfLnP = pdfLnP;
-            mProposal = proposal;
+            _current = x0;
+            _currentDensityLn = pdfLnP(x0);
+            _pdfLnP = pdfLnP;
+            _proposal = proposal;
             BurnInterval = burnInterval;
 
             Burn(BurnInterval);
@@ -107,15 +107,14 @@ namespace MathNet.Numerics.Statistics.Mcmc
         /// <exception cref="ArgumentOutOfRangeException">When burn interval is negative.</exception>
         public int BurnInterval
         {
-            get { return mBurnInterval; }
-
+            get { return _burnInterval; }
             set
             {
                 if (value < 0)
                 {
                     throw new ArgumentOutOfRangeException(Resources.ArgumentNotNegative);
                 }
-                mBurnInterval = value;
+                _burnInterval = value;
             }
         }
 
@@ -127,23 +126,23 @@ namespace MathNet.Numerics.Statistics.Mcmc
             for (int i = 0; i < n; i++)
             {
                 // Get a sample from the proposal.
-                T next = mProposal(mCurrent);
+                T next = _proposal(_current);
                 // Evaluate the density at the next sample.
-                double p = mPdfLnP(next);
+                double p = _pdfLnP(next);
 
                 Samples++;
 
-                double acc = Math.Min(0.0, p - mCurrentDensityLn);
+                double acc = Math.Min(0.0, p - _currentDensityLn);
                 if (acc == 0.0)
                 {
-                    mCurrent = next;
-                    mCurrentDensityLn = p;
+                    _current = next;
+                    _currentDensityLn = p;
                     Accepts++;
                 }
                 else if (Bernoulli.Sample(RandomSource, Math.Exp(acc)) == 1)
                 {
-                    mCurrent = next;
-                    mCurrentDensityLn = p;
+                    _current = next;
+                    _currentDensityLn = p;
                     Accepts++;
                 }
             }
@@ -156,7 +155,7 @@ namespace MathNet.Numerics.Statistics.Mcmc
         {
             Burn(BurnInterval + 1);
 
-            return mCurrent;
+            return _current;
         }
     }
 }

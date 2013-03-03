@@ -43,7 +43,7 @@ namespace MathNet.Numerics.Statistics.Mcmc
     public delegate T GlobalProposalSampler<out T>();
 
     /// <summary>
-    /// A method which samples datapoints from a proposal distribution given an initial sample. The implementation 
+    /// A method which samples datapoints from a proposal distribution given an initial sample. The implementation
     /// of this sampler is stateless: no variables are saved between two calls to Sample. This proposal is different from
     /// <seealso cref="GlobalProposalSampler{T}"/> in that it samples locally around an initial point. In other words, it
     /// makes a small local move rather than producing a global sample from the proposal.
@@ -96,7 +96,7 @@ namespace MathNet.Numerics.Statistics.Mcmc
         /// Keeps track of the number of calls to the proposal sampler.
         /// </summary>
         protected int Samples;
-        
+
         /// <summary>
         /// Initializes a new instance of the <see cref="McmcSampler{T}"/> class.
         /// </summary>
@@ -116,7 +116,6 @@ namespace MathNet.Numerics.Statistics.Mcmc
         public Random RandomSource
         {
             get { return _randomNumberGenerator; }
-
             set
             {
                 if (value == null)

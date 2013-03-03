@@ -3,7 +3,9 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
+//
 // Copyright (c) 2009-2010 Math.NET
+//
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -12,8 +14,10 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
+//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
+//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -45,11 +49,11 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests.McmcTests
         public void RejectTest()
         {
             var uniform = new ContinuousUniform(0.0, 1.0)
-                          {
-                              RandomSource = new MersenneTwister()
-                          };
+                {
+                    RandomSource = new MersenneTwister()
+                };
 
-            var rs = new RejectionSampler<double>(x => Math.Pow(x, 1.7) * Math.Pow(1.0 - x, 5.3), x => 0.021, uniform.Sample);
+            var rs = new RejectionSampler<double>(x => Math.Pow(x, 1.7)*Math.Pow(1.0 - x, 5.3), x => 0.021, uniform.Sample);
             Assert.IsNotNull(rs.RandomSource);
 
             rs.RandomSource = uniform.RandomSource;
@@ -63,14 +67,14 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests.McmcTests
         public void SampleTest()
         {
             var uniform = new ContinuousUniform(0.0, 1.0)
-                          {
-                              RandomSource = new MersenneTwister()
-                          };
+                {
+                    RandomSource = new MersenneTwister()
+                };
 
-            var rs = new RejectionSampler<double>(x => Math.Pow(x, 1.7) * Math.Pow(1.0 - x, 5.3), x => 0.021, uniform.Sample)
-                     {
-                         RandomSource = uniform.RandomSource
-                     };
+            var rs = new RejectionSampler<double>(x => Math.Pow(x, 1.7)*Math.Pow(1.0 - x, 5.3), x => 0.021, uniform.Sample)
+                {
+                    RandomSource = uniform.RandomSource
+                };
 
             rs.Sample();
         }
@@ -82,14 +86,14 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests.McmcTests
         public void SampleArrayTest()
         {
             var uniform = new ContinuousUniform(0.0, 1.0)
-                          {
-                              RandomSource = new MersenneTwister()
-                          };
+                {
+                    RandomSource = new MersenneTwister()
+                };
 
-            var rs = new RejectionSampler<double>(x => Math.Pow(x, 1.7) * Math.Pow(1.0 - x, 5.3), x => 0.021, uniform.Sample)
-                     {
-                         RandomSource = uniform.RandomSource
-                     };
+            var rs = new RejectionSampler<double>(x => Math.Pow(x, 1.7)*Math.Pow(1.0 - x, 5.3), x => 0.021, uniform.Sample)
+                {
+                    RandomSource = uniform.RandomSource
+                };
 
             rs.Sample(5);
         }
@@ -101,11 +105,11 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests.McmcTests
         public void NoUpperBound()
         {
             var uniform = new ContinuousUniform(0.0, 1.0)
-                          {
-                              RandomSource = new MersenneTwister()
-                          };
+                {
+                    RandomSource = new MersenneTwister()
+                };
 
-            var rs = new RejectionSampler<double>(x => Math.Pow(x, 1.7) * Math.Pow(1.0 - x, 5.3), x => Double.NegativeInfinity, uniform.Sample);
+            var rs = new RejectionSampler<double>(x => Math.Pow(x, 1.7)*Math.Pow(1.0 - x, 5.3), x => Double.NegativeInfinity, uniform.Sample);
             Assert.Throws<ArgumentOutOfRangeException>(() => rs.Sample());
         }
 
@@ -116,10 +120,10 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests.McmcTests
         public void NullRandomNumberGenerator()
         {
             var uniform = new ContinuousUniform(0.0, 1.0)
-                          {
-                              RandomSource = new MersenneTwister()
-                          };
-            var rs = new RejectionSampler<double>(x => Math.Pow(x, 1.7) * Math.Pow(1.0 - x, 5.3), x => Double.NegativeInfinity, uniform.Sample);
+                {
+                    RandomSource = new MersenneTwister()
+                };
+            var rs = new RejectionSampler<double>(x => Math.Pow(x, 1.7)*Math.Pow(1.0 - x, 5.3), x => Double.NegativeInfinity, uniform.Sample);
             Assert.Throws<ArgumentNullException>(() => rs.RandomSource = null);
         }
     }

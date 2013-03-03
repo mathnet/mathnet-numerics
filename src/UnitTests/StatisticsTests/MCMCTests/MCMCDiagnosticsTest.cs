@@ -29,15 +29,10 @@
 // </copyright>
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
 using NUnit.Framework;
 using MathNet.Numerics.Statistics;
 using MathNet.Numerics.Distributions;
 using MathNet.Numerics.Statistics.Mcmc.Diagnostics;
-using MathNet.Numerics.Random;
 
 namespace MathNet.Numerics.UnitTests.StatisticsTests.McmcTests
 {
@@ -50,11 +45,11 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests.McmcTests
         /// <summary>
         /// For generation of a random series to test the methods.
         /// </summary>
-        private System.Random rnd = new System.Random();
+        private readonly System.Random _rnd = new System.Random();
         /// <summary>
         /// Distribution to sample the entries of the random series from.
         /// </summary>
-        private Normal dis = new Normal(0, 1);
+        private readonly Normal _dis = new Normal(0, 1);
 
 
         /// <summary>
@@ -71,23 +66,23 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests.McmcTests
         {
             for (int lag = startlag; lag < endlag; lag++)
             {
-                int Length = 10000;
-                double[] firstSeries = new double[Length - lag];
-                double[] secondSeries = new double[Length - lag];
+                const int length = 10000;
+                var firstSeries = new double[length - lag];
+                var secondSeries = new double[length - lag];
 
-                double[] Series = new double[Length];
+                var series = new double[length];
 
-                for (int i = 0; i < Length; i++)
-                { Series[i] = RandomSeries(); }
+                for (int i = 0; i < length; i++)
+                { series[i] = RandomSeries(); }
 
-                double[] TransformedSeries = new double[Length];
-                for (int i = 0; i < Length; i++)
-                { TransformedSeries[i] = Series[i] * Series[i]; }
+                var transformedSeries = new double[length];
+                for (int i = 0; i < length; i++)
+                { transformedSeries[i] = series[i] * series[i]; }
 
-                Array.Copy(TransformedSeries, firstSeries, Length - lag);
-                Array.Copy(TransformedSeries, lag, secondSeries, 0, Length - lag);
+                Array.Copy(transformedSeries, firstSeries, length - lag);
+                Array.Copy(transformedSeries, lag, secondSeries, 0, length - lag);
 
-                double result = MCMCDiagnostics.ACF(Series, lag, x=>x*x);
+                double result = MCMCDiagnostics.ACF(series, lag, x=>x*x);
                 double correlation = Correlation.Pearson(firstSeries, secondSeries);
                 Assert.AreEqual(result, correlation, 10e-13);
 
@@ -95,15 +90,15 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests.McmcTests
         }
 
         /// <summary>
-        /// Set lag to be greater than the length of the series throws a 
+        /// Set lag to be greater than the length of the series throws a
         /// <c>ArgumentOutOfRangeException</c>.
         /// </summary>
         [Test]
         public void LagOutOfRange()
         {
-            int Length = 10;
-            double[] Series = new double[Length];
-            Assert.Throws<ArgumentOutOfRangeException>(() => MCMCDiagnostics.ACF(Series, 11, x=>x));
+            const int length = 10;
+            var series = new double[length];
+            Assert.Throws<ArgumentOutOfRangeException>(() => MCMCDiagnostics.ACF(series, 11, x=>x));
 
         }
         /// <summary>
@@ -120,22 +115,22 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests.McmcTests
         /// </summary>
         /// <returns>A random number.</returns>
         private double RandomSeries()
-        { return rnd.NextDouble() + rnd.NextDouble() * (dis.Sample()); }
+        { return _rnd.NextDouble() + _rnd.NextDouble() * (_dis.Sample()); }
 
         /// <summary>
-        /// Testing the effective size using a random series. 
+        /// Testing the effective size using a random series.
         /// </summary>
         [Test]
         public void EffectiveSizeTest()
         {
-            int Length = 10;
-            double[] Series = new double[Length];
-            for (int i = 0; i < Length; i++)
-            { Series[i] = RandomSeries(); }
+            const int length = 10;
+            var series = new double[length];
+            for (int i = 0; i < length; i++)
+            { series[i] = RandomSeries(); }
 
-            double rho = MCMCDiagnostics.ACF(Series, 1,x=>x*x);
-            double ESS = (1 - rho) / (1 + rho) * Length;
-            Assert.AreEqual(ESS, MCMCDiagnostics.EffectiveSize(Series,x=>x*x), 10e-13);
+            double rho = MCMCDiagnostics.ACF(series, 1,x=>x*x);
+            double ess = (1 - rho) / (1 + rho) * length;
+            Assert.AreEqual(ess, MCMCDiagnostics.EffectiveSize(series,x=>x*x), 10e-13);
         }
     }
 }

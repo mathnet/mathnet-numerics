@@ -1029,6 +1029,15 @@
     <Compile Include="..\Numerics\Statistics\Histogram.cs">
       <Link>Statistics\Histogram.cs</Link>
     </Compile>
+    <Compile Include="..\Numerics\Statistics\MCMC\HybridMC.cs">
+      <Link>Statistics\MCMC\HybridMC.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\Statistics\MCMC\HybridMCGeneric.cs">
+      <Link>Statistics\MCMC\HybridMCGeneric.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\Statistics\MCMC\MCMCDiagnostics.cs">
+      <Link>Statistics\MCMC\MCMCDiagnostics.cs</Link>
+    </Compile>
     <Compile Include="..\Numerics\Statistics\MCMC\MCMCSampler.cs">
       <Link>Statistics\MCMC\MCMCSampler.cs</Link>
     </Compile>
@@ -1040,6 +1049,9 @@
     </Compile>
     <Compile Include="..\Numerics\Statistics\MCMC\RejectionSampler.cs">
       <Link>Statistics\MCMC\RejectionSampler.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\Statistics\MCMC\UnivariateHybridMC.cs">
+      <Link>Statistics\MCMC\UnivariateHybridMC.cs</Link>
     </Compile>
     <Compile Include="..\Numerics\Statistics\MCMC\UnivariateSliceSampler.cs">
       <Link>Statistics\MCMC\UnivariateSliceSampler.cs</Link>

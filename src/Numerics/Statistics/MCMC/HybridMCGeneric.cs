@@ -28,21 +28,16 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-
 namespace MathNet.Numerics.Statistics.Mcmc
 {
+    using System;
     using Distributions;
     using Properties;
 
     /// <summary>
-    /// The Hybrid (also called Hamiltonian) Monte Carlo produces samples from distribition P using a set  
-    /// of Hamiltonian equations to guide the sampling process. It uses the negative of the log density as 
-    /// a potential energy, and a randomly generated momentum to set up a Hamiltonian system, which is then used 
+    /// The Hybrid (also called Hamiltonian) Monte Carlo produces samples from distribition P using a set
+    /// of Hamiltonian equations to guide the sampling process. It uses the negative of the log density as
+    /// a potential energy, and a randomly generated momentum to set up a Hamiltonian system, which is then used
     /// to sample the distribution. This can result in a faster convergence than the random walk Metropolis sampler
     /// (<seealso cref="MetropolisSampler{T}"/>).
     /// </summary>
@@ -50,50 +45,42 @@ namespace MathNet.Numerics.Statistics.Mcmc
     abstract public class HybridMCGeneric<T> : McmcSampler<T>
     {
         /// <summary>
-        /// The delegate type that defines a derivative evaluated at a certain point. 
+        /// The delegate type that defines a derivative evaluated at a certain point.
         /// </summary>
         /// <param name="f">Function to be differentiated.</param>
         /// <param name="x">Value where the derivative is computed.</param>
         /// <returns></returns>
         public delegate T DiffMethod(DensityLn<T> f, T x);
 
-
-        #region Protected/private fields
-
         /// <summary>
-        /// Evaluates the energy function of the target distribution. 
+        /// Evaluates the energy function of the target distribution.
         /// </summary>
-        protected readonly DensityLn<T> Energy;
+        readonly DensityLn<T> _energy;
 
         /// <summary>
         /// The current location of the sampler.
         /// </summary>
-        protected T mCurrent;
-
+        protected T Current;
 
         /// <summary>
         /// The number of burn iterations between two samples.
         /// </summary>
-        protected int mBurnInterval;
+        int _burnInterval;
 
         /// <summary>
         /// The size of each step in the Hamiltonian equation.
         /// </summary>
-        protected double mstepSize;
+        double _stepSize;
 
         /// <summary>
         /// The number of iterations in the Hamiltonian equation.
         /// </summary>
-        protected int mfrogLeapSteps;
+        int _frogLeapSteps;
 
         /// <summary>
         /// The algorithm used for differentiation.
         /// </summary>
-        protected DiffMethod Diff;
-
-        #endregion
-
-        #region Properties
+        readonly DiffMethod _diff;
 
         /// <summary>
         /// Gets or sets the number of iterations in between returning samples.
@@ -101,12 +88,10 @@ namespace MathNet.Numerics.Statistics.Mcmc
         /// <exception cref="ArgumentOutOfRangeException">When burn interval is negative.</exception>
         public int BurnInterval
         {
-            get { return mBurnInterval; }
-
+            get { return _burnInterval; }
             set
             {
-                mBurnInterval = SetNonNegative(value);
-
+                _burnInterval = SetNonNegative(value);
             }
         }
 
@@ -116,11 +101,10 @@ namespace MathNet.Numerics.Statistics.Mcmc
         /// <exception cref="ArgumentOutOfRangeException">When frogleap steps is negative or zero.</exception>
         public int FrogLeapSteps
         {
-            get { return mfrogLeapSteps; }
-
+            get { return _frogLeapSteps; }
             set
             {
-                mfrogLeapSteps = SetPositive(value);
+                _frogLeapSteps = SetPositive(value);
             }
         }
 
@@ -130,19 +114,15 @@ namespace MathNet.Numerics.Statistics.Mcmc
         /// <exception cref="ArgumentOutOfRangeException">When step size is negative or zero.</exception>
         public double StepSize
         {
-            get { return mstepSize; }
+            get { return _stepSize; }
             set
             {
-                mstepSize = SetPositive(value);
+                _stepSize = SetPositive(value);
             }
         }
 
-        #endregion
-
-        #region Ctor
-
         /// <summary>
-        /// Constructs a new Hybrid Monte Carlo sampler. 
+        /// Constructs a new Hybrid Monte Carlo sampler.
         /// </summary>
         /// <param name="x0">The initial sample.</param>
         /// <param name="pdfLnP">The log density of the distribution we want to sample from.</param>
@@ -153,27 +133,25 @@ namespace MathNet.Numerics.Statistics.Mcmc
         /// <param name="diff">The method used for differentiation.</param>
         /// <exception cref="ArgumentOutOfRangeException">When the number of burnInterval iteration is negative.</exception>
         /// <exception cref="ArgumentNullException">When either x0, pdfLnP or diff is null.</exception>
-        public HybridMCGeneric(T x0, DensityLn<T> pdfLnP, int frogLeapSteps, double stepSize, int burnInterval, System.Random randomSource, DiffMethod diff)
+        public HybridMCGeneric(T x0, DensityLn<T> pdfLnP, int frogLeapSteps, double stepSize, int burnInterval, Random randomSource, DiffMethod diff)
         {
-            Energy = new DensityLn<T>(x => -pdfLnP(x));
+            _energy = x => -pdfLnP(x);
             FrogLeapSteps = frogLeapSteps;
             StepSize = stepSize;
             BurnInterval = burnInterval;
-            mCurrent = x0;
-            Diff = diff;
+            Current = x0;
+            _diff = diff;
             RandomSource = randomSource;
         }
-
-        #endregion
 
         /// <summary>
         /// Returns a sample from the distribution P.
         /// </summary>
         public override T Sample()
         {
-            Burn(mBurnInterval + 1);
+            Burn(_burnInterval + 1);
 
-            return mCurrent;
+            return Current;
         }
 
         /// <summary>
@@ -182,52 +160,52 @@ namespace MathNet.Numerics.Statistics.Mcmc
         protected void Burn(int n)
         {
             T p = Create();
-            double E = Energy(mCurrent);
-            T Gradient = Diff(Energy, mCurrent);
+            double e = _energy(Current);
+            T gradient = _diff(_energy, Current);
             for (int i = 0; i < n; i++)
             {
                 RandomizeMomentum(ref p);
-                double H = Hamiltonian(p, E);
+                double h = Hamiltonian(p, e);
 
 
-                T mNew = Copy(mCurrent);
-                T gNew = Copy(Gradient);
+                T mNew = Copy(Current);
+                T gNew = Copy(gradient);
 
-                for (int j = 0; j < mfrogLeapSteps; j++)
+                for (int j = 0; j < _frogLeapSteps; j++)
                 {
                     HamiltonianEquations(ref gNew, ref mNew, ref p);
                 }
 
-                double Enew = Energy(mNew);
-                double Hnew = Hamiltonian(p, Enew);
+                double enew = _energy(mNew);
+                double hnew = Hamiltonian(p, enew);
 
-                double DH = Hnew - H;
+                double dh = hnew - h;
 
-                Update(ref E, ref Gradient, mNew, gNew, Enew, DH);
+                Update(ref e, ref gradient, mNew, gNew, enew, dh);
                 Samples++;
             }
         }
 
-        #region Helper Methods use for sampling
-
         /// <summary>
         /// Method used to update the sample location. Used in the end of the loop.
         /// </summary>
-        /// <param name="E">The old energy.</param>
-        /// <param name="Gradient">The old gradient/derivative of the energy.</param>
+        /// <param name="e">The old energy.</param>
+        /// <param name="gradient">The old gradient/derivative of the energy.</param>
         /// <param name="mNew">The new sample.</param>
         /// <param name="gNew">The new gradient/derivative of the energy.</param>
-        /// <param name="Enew">The new energy.</param>
-        /// <param name="DH">The difference between the old Hamiltonian and new Hamiltonian. Use to determine
+        /// <param name="enew">The new energy.</param>
+        /// <param name="dh">The difference between the old Hamiltonian and new Hamiltonian. Use to determine
         /// if an update should take place. </param>
-        protected void Update(ref double E, ref T Gradient, T mNew, T gNew, double Enew, double DH)
+        protected void Update(ref double e, ref T gradient, T mNew, T gNew, double enew, double dh)
         {
-            if (DH <= 0)
+            if (dh <= 0)
             {
-                mCurrent = mNew; Gradient = gNew; E = Enew; Accepts++;
+                Current = mNew; gradient = gNew; e = enew; Accepts++;
             }
-            else if (Bernoulli.Sample(RandomSource, System.Math.Exp(-DH)) == 1)
-            { mCurrent = mNew; Gradient = gNew; E = Enew; Accepts++; }
+            else if (Bernoulli.Sample(RandomSource, Math.Exp(-dh)) == 1)
+            {
+                Current = mNew; gradient = gNew; e = enew; Accepts++;
+            }
         }
 
         /// <summary>
@@ -244,7 +222,7 @@ namespace MathNet.Numerics.Statistics.Mcmc
         abstract protected T Copy(T source);
 
         /// <summary>
-        /// Method for doing dot product. 
+        /// Method for doing dot product.
         /// </summary>
         /// <param name="first">First vector/scalar in the product.</param>
         /// <param name="second">Second vector/scalar in the product.</param>
@@ -252,7 +230,7 @@ namespace MathNet.Numerics.Statistics.Mcmc
         abstract protected double DoProduct(T first, T second);
 
         /// <summary>
-        /// Method for adding, multiply the second vector/scalar by factor and then 
+        /// Method for adding, multiply the second vector/scalar by factor and then
         /// add it to the first vector/scalar.
         /// </summary>
         /// <param name="first">First vector/scalar.</param>
@@ -261,7 +239,7 @@ namespace MathNet.Numerics.Statistics.Mcmc
         abstract protected void DoAdd(ref T first, double factor, T second);
 
         /// <summary>
-        /// Multiplying the second vector/scalar by factor and then subtract it from 
+        /// Multiplying the second vector/scalar by factor and then subtract it from
         /// the first vector/scalar.
         /// </summary>
         /// <param name="first">First vector/scalar.</param>
@@ -278,38 +256,31 @@ namespace MathNet.Numerics.Statistics.Mcmc
         /// <summary>
         /// The Hamiltonian equations that is used to produce the new sample.
         /// </summary>
-        /// <param name="gradient">The gradient/derivative of the energy function. 
-        /// (Energy is equal to the minus of the log density)</param>
-        /// <param name="current">The current location.</param>
-        /// <param name="momentum">The current momentum.</param>        
         protected void HamiltonianEquations(ref T gNew, ref T mNew, ref T p)
         {
-            DoSubtract(ref p, mstepSize / 2, gNew);
-            DoAdd(ref mNew, mstepSize, p);
-            gNew = Diff(Energy, mNew);
-            DoSubtract(ref p, mstepSize / 2, gNew);
-
+            DoSubtract(ref p, _stepSize / 2, gNew);
+            DoAdd(ref mNew, _stepSize, p);
+            gNew = _diff(_energy, mNew);
+            DoSubtract(ref p, _stepSize / 2, gNew);
         }
 
         /// <summary>
         /// Method to compute the Hamiltonian used in the method.
         /// </summary>
         /// <param name="momentum">The momentum.</param>
-        /// <param name="E">The energy.</param>
+        /// <param name="e">The energy.</param>
         /// <returns>Hamiltonian=E+p.p/2</returns>
-        protected double Hamiltonian(T momentum, double E)
-        { return E + DoProduct(momentum, momentum) / 2; }
-
-        #endregion
-
-        #region Helpers for checking arguments.
+        protected double Hamiltonian(T momentum, double e)
+        {
+            return e + DoProduct(momentum, momentum) / 2;
+        }
 
         /// <summary>
         /// Method to check and set a quantity to a non-negative value.
         /// </summary>
         /// <param name="value">Proposed value to be checked.</param>
         /// <returns>Returns value if it is greater than or equal to zero.</returns>
-        /// <exception cref="ArgumentOutofRangeException">Throws when value is negative.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">Throws when value is negative.</exception>
         protected int SetNonNegative(int value)
         {
             if (value < 0)
@@ -323,23 +294,8 @@ namespace MathNet.Numerics.Statistics.Mcmc
         /// Method to check and set a quantity to a non-negative value.
         /// </summary>
         /// <param name="value">Proposed value to be checked.</param>
-        /// <returns>Returns value if it is greater than or equal to zero.</returns>
-        /// <exception cref="ArgumentOutofRangeException">Throws when value is negative.</exception>
-        protected double SetNonNegative(double value)
-        {
-            if (value < 0)
-            {
-                throw new ArgumentOutOfRangeException(Resources.ArgumentNotNegative);
-            }
-            return value;
-        }
-
-        /// <summary>
-        /// Method to check and set a quantity to a non-negative value.
-        /// </summary>
-        /// <param name="value">Proposed value to be checked.</param>
         /// <returns>Returns value if it is greater than to zero.</returns>
-        /// <exception cref="ArgumentOutofRangeException">Throws when value is negative or zero.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">Throws when value is negative or zero.</exception>
         protected int SetPositive(int value)
         {
             if (value <= 0)
@@ -354,7 +310,7 @@ namespace MathNet.Numerics.Statistics.Mcmc
         /// </summary>
         /// <param name="value">Proposed value to be checked.</param>
         /// <returns>Returns value if it is greater than zero.</returns>
-        /// <exception cref="ArgumentOutofRangeException">Throws when value is negative or zero.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">Throws when value is negative or zero.</exception>
         protected double SetPositive(double value)
         {
             if (value <= 0)
@@ -363,8 +319,5 @@ namespace MathNet.Numerics.Statistics.Mcmc
             }
             return value;
         }
-
-        #endregion
-
     }
 }

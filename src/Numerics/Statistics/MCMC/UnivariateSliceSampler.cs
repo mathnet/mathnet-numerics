@@ -36,7 +36,7 @@ namespace MathNet.Numerics.Statistics.Mcmc
     /// <summary>
     /// Slice sampling produces samples from distribition P by uniformly sampling from under the pdf of P using
     /// a technique described in "Slice Sampling", R. Neal, 2003. All densities are required to be in log space.
-    /// 
+    ///
     /// The slice sampler is a stateful sampler. It keeps track of where it currently is in the domain
     /// of the distribution P.
     /// </summary>
@@ -45,39 +45,43 @@ namespace MathNet.Numerics.Statistics.Mcmc
         /// <summary>
         /// Evaluates the log density function of the target distribution.
         /// </summary>
-        private readonly DensityLn<double> mPdfLnP;
+        private readonly DensityLn<double> _pdfLnP;
+
         /// <summary>
         /// The current location of the sampler.
         /// </summary>
-        private double mCurrent;
+        private double _current;
+
         /// <summary>
         /// The log density at the current location.
         /// </summary>
-        private double mCurrentDensityLn;
+        private double _currentDensityLn;
+
         /// <summary>
         /// The number of burn iterations between two samples.
         /// </summary>
-        private int mBurnInterval;
+        private int _burnInterval;
+
         /// <summary>
         /// The scale of the slice sampler.
         /// </summary>
-        private double mScale;
+        private double _scale;
 
         /// <summary>
-        /// Constructs a new Slice sampler using the default <see cref="System.Random"/> random 
+        /// Constructs a new Slice sampler using the default <see cref="System.Random"/> random
         /// number generator. The burn interval will be set to 0.
         /// </summary>
         /// <param name="x0">The initial sample.</param>
         /// <param name="pdfLnP">The density of the distribution we want to sample from.</param>
         /// <param name="scale">The scale factor of the slice sampler.</param>
         /// <exception cref="ArgumentOutOfRangeException">When the scale of the slice sampler is not positive.</exception>
-        public UnivariateSliceSampler(double x0, DensityLn<double> pdfLnP, double scale) :
-            this(x0, pdfLnP, 0, scale)
+        public UnivariateSliceSampler(double x0, DensityLn<double> pdfLnP, double scale)
+            : this(x0, pdfLnP, 0, scale)
         {
         }
 
         /// <summary>
-        /// Constructs a new slice sampler using the default <see cref="System.Random"/> random number generator. It 
+        /// Constructs a new slice sampler using the default <see cref="System.Random"/> random number generator. It
         /// will set the number of burnInterval iterations and run a burnInterval phase.
         /// </summary>
         /// <param name="x0">The initial sample.</param>
@@ -88,9 +92,9 @@ namespace MathNet.Numerics.Statistics.Mcmc
         /// <exception cref="ArgumentOutOfRangeException">When the scale of the slice sampler is not positive.</exception>
         public UnivariateSliceSampler(double x0, DensityLn<double> pdfLnP, int burnInterval, double scale)
         {
-            mCurrent = x0;
-            mCurrentDensityLn = pdfLnP(x0);
-            mPdfLnP = pdfLnP;
+            _current = x0;
+            _currentDensityLn = pdfLnP(x0);
+            _pdfLnP = pdfLnP;
             Scale = scale;
             BurnInterval = burnInterval;
 
@@ -103,15 +107,14 @@ namespace MathNet.Numerics.Statistics.Mcmc
         /// <exception cref="ArgumentOutOfRangeException">When burn interval is negative.</exception>
         public int BurnInterval
         {
-            get { return mBurnInterval; }
-
+            get { return _burnInterval; }
             set
             {
                 if (value < 0)
                 {
                     throw new ArgumentOutOfRangeException(Resources.ArgumentNotNegative);
                 }
-                    mBurnInterval = value;
+                _burnInterval = value;
             }
         }
 
@@ -120,15 +123,14 @@ namespace MathNet.Numerics.Statistics.Mcmc
         /// </summary>
         public double Scale
         {
-            get { return mScale; }
-
+            get { return _scale; }
             set
             {
                 if (value <= 0.0)
                 {
                     throw new ArgumentOutOfRangeException(Resources.ArgumentPositive);
                 }
-                    mScale = value;
+                _scale = value;
             }
         }
 
@@ -140,36 +142,36 @@ namespace MathNet.Numerics.Statistics.Mcmc
             for (int i = 0; i < n; i++)
             {
                 // The logarithm of the slice height.
-                double lu = Math.Log(RandomSource.NextDouble()) + mCurrentDensityLn;
-                
+                double lu = Math.Log(RandomSource.NextDouble()) + _currentDensityLn;
+
                 // Create a horizontal interval (x_l, x_r) enclosing x.
                 double r = RandomSource.NextDouble();
-                double x_l = mCurrent - r * Scale;
-                double x_r = mCurrent + (1.0 - r) * Scale;
-                
+                double xL = _current - r * Scale;
+                double xR = _current + (1.0 - r) * Scale;
+
                 // Stepping out procedure.
-                while (mPdfLnP(x_l) > lu) { x_l -= Scale; }
-                while (mPdfLnP(x_r) > lu) { x_r += Scale; }
+                while (_pdfLnP(xL) > lu) { xL -= Scale; }
+                while (_pdfLnP(xR) > lu) { xR += Scale; }
 
                 // Shrinking: propose new x and shrink interval until good one found.
                 while (true)
                 {
-                    double xnew = RandomSource.NextDouble() * (x_r - x_l) + x_l;
-                    mCurrentDensityLn = mPdfLnP(xnew);
-                    if (mCurrentDensityLn > lu)
+                    double xnew = RandomSource.NextDouble() * (xR - xL) + xL;
+                    _currentDensityLn = _pdfLnP(xnew);
+                    if (_currentDensityLn > lu)
                     {
-                        mCurrent = xnew;
+                        _current = xnew;
                         Accepts++;
                         Samples++;
                         break;
                     }
-                    if (xnew > mCurrent)
+                    if (xnew > _current)
                     {
-                        x_r = xnew;
+                        xR = xnew;
                     }
                     else
                     {
-                        x_l = xnew;
+                        xL = xnew;
                     }
                 }
             }
@@ -182,7 +184,7 @@ namespace MathNet.Numerics.Statistics.Mcmc
         {
             Burn(BurnInterval + 1);
 
-            return mCurrent;
+            return _current;
         }
     }
 }

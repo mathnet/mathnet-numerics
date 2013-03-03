@@ -44,17 +44,17 @@ namespace MathNet.Numerics.Statistics.Mcmc
         /// <summary>
         /// Evaluates the density function of the sampling distribution.
         /// </summary>
-        private readonly Density<T> mPdfP;
+        private readonly Density<T> _pdfP;
 
         /// <summary>
         /// Evaluates the density function of the proposal distribution.
         /// </summary>
-        private readonly Density<T> mPdfQ;
+        private readonly Density<T> _pdfQ;
 
         /// <summary>
         /// A function which samples from a proposal distribution.
         /// </summary>
-        private readonly GlobalProposalSampler<T> mProposal;
+        private readonly GlobalProposalSampler<T> _proposal;
 
         /// <summary>
         /// Constructs a new rejection sampler using the default <see cref="System.Random"/> random number generator.
@@ -64,9 +64,9 @@ namespace MathNet.Numerics.Statistics.Mcmc
         /// <param name="proposal">A method that samples from the proposal distribution.</param>
         public RejectionSampler(Density<T> pdfP, Density<T> pdfQ, GlobalProposalSampler<T> proposal)
         {
-            mPdfP = pdfP;
-            mPdfQ = pdfQ;
-            mProposal = proposal;
+            _pdfP = pdfP;
+            _pdfQ = pdfQ;
+            _proposal = proposal;
         }
 
         /// <summary>
@@ -79,11 +79,11 @@ namespace MathNet.Numerics.Statistics.Mcmc
             while (true)
             {
                 // Get a sample from the proposal.
-                T x = mProposal();
+                T x = _proposal();
                 // Evaluate the density for proposal.
-                double q = mPdfQ(x);
+                double q = _pdfQ(x);
                 // Evaluate the density for the target density.
-                double p = mPdfP(x);
+                double p = _pdfP(x);
                 // Sample a variable between 0.0 and proposal density.
                 double u = RandomSource.NextDouble() * q;
 
