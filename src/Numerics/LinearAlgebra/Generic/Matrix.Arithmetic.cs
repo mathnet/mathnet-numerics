@@ -51,6 +51,98 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         static readonly T Zero = Common.ZeroOf<T>();
 
         /// <summary>
+        /// Negate each element of this matrix and place the results into the result matrix.
+        /// </summary>
+        /// <param name="result">The result of the negation.</param>
+        protected abstract void DoNegate(Matrix<T> result);
+
+        /// <summary>
+        /// Adds another matrix to this matrix.
+        /// </summary>
+        /// <param name="other">The matrix to add to this matrix.</param>
+        /// <param name="result">The matrix to store the result of the addition.</param>
+        /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">If the two matrices don't have the same dimensions.</exception>
+        protected abstract void DoAdd(Matrix<T> other, Matrix<T> result);
+
+        /// <summary>
+        /// Subtracts another matrix from this matrix.
+        /// </summary>
+        /// <param name="other">The matrix to subtract.</param>
+        /// <param name="result">The matrix to store the result of the subtraction.</param>
+        protected abstract void DoSubtract(Matrix<T> other, Matrix<T> result);
+
+        /// <summary>
+        /// Multiplies each element of the matrix by a scalar and places results into the result matrix.
+        /// </summary>
+        /// <param name="scalar">The scalar to multiply the matrix with.</param>
+        /// <param name="result">The matrix to store the result of the multiplication.</param>
+        protected abstract void DoMultiply(T scalar, Matrix<T> result);
+
+        /// <summary>
+        /// Multiplies this matrix with a vector and places the results into the result vector.
+        /// </summary>
+        /// <param name="rightSide">The vector to multiply with.</param>
+        /// <param name="result">The result of the multiplication.</param>
+        protected abstract void DoMultiply(Vector<T> rightSide, Vector<T> result);
+
+        /// <summary>
+        /// Multiplies this matrix with another matrix and places the results into the result matrix.
+        /// </summary>
+        /// <param name="other">The matrix to multiply with.</param>
+        /// <param name="result">The result of the multiplication.</param>
+        protected abstract void DoMultiply(Matrix<T> other, Matrix<T> result);
+
+        /// <summary>
+        /// Multiplies this matrix with transpose of another matrix and places the results into the result matrix.
+        /// </summary>
+        /// <param name="other">The matrix to multiply with.</param>
+        /// <param name="result">The result of the multiplication.</param>
+        protected abstract void DoTransposeAndMultiply(Matrix<T> other, Matrix<T> result);
+
+        /// <summary>
+        /// Multiplies the transpose of this matrix with a vector and places the results into the result vector.
+        /// </summary>
+        /// <param name="rightSide">The vector to multiply with.</param>
+        /// <param name="result">The result of the multiplication.</param>
+        protected abstract void DoTransposeThisAndMultiply(Vector<T> rightSide, Vector<T> result);
+
+        /// <summary>
+        /// Multiplies the transpose of this matrix with another matrix and places the results into the result matrix.
+        /// </summary>
+        /// <param name="other">The matrix to multiply with.</param>
+        /// <param name="result">The result of the multiplication.</param>
+        protected abstract void DoTransposeThisAndMultiply(Matrix<T> other, Matrix<T> result);
+
+        /// <summary>
+        /// Divides each element of the matrix by a scalar and places results into the result matrix.
+        /// </summary>
+        /// <param name="scalar">The scalar to divide the matrix with.</param>
+        /// <param name="result">The matrix to store the result of the division.</param>
+        protected abstract void DoDivide(T scalar, Matrix<T> result);
+
+        /// <summary>
+        /// Computes the modulus for each element of the matrix.
+        /// </summary>
+        /// <param name="divisor">The divisor to use.</param>
+        /// <param name="result">Matrix to store the results in.</param>
+        protected abstract void DoModulus(T divisor, Matrix<T> result);
+
+        /// <summary>
+        /// Pointwise multiplies this matrix with another matrix and stores the result into the result matrix.
+        /// </summary>
+        /// <param name="other">The matrix to pointwise multiply with this one.</param>
+        /// <param name="result">The matrix to store the result of the pointwise multiplication.</param>
+        protected abstract void DoPointwiseMultiply(Matrix<T> other, Matrix<T> result);
+
+        /// <summary>
+        /// Pointwise divide this matrix by another matrix and stores the result into the result matrix.
+        /// </summary>
+        /// <param name="other">The matrix to pointwise divide this one by.</param>
+        /// <param name="result">The matrix to store the result of the pointwise division.</param>
+        protected abstract void DoPointwiseDivide(Matrix<T> other, Matrix<T> result);
+
+        /// <summary>
         /// Adds another matrix to this matrix.
         /// </summary>
         /// <param name="other">The matrix to add to this matrix.</param>
@@ -107,15 +199,6 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         }
 
         /// <summary>
-        /// Adds another matrix to this matrix.
-        /// </summary>
-        /// <param name="other">The matrix to add to this matrix.</param>
-        /// <param name="result">The matrix to store the result of the addition.</param>
-        /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null"/>.</exception>
-        /// <exception cref="ArgumentOutOfRangeException">If the two matrices don't have the same dimensions.</exception>
-        protected abstract void DoAdd(Matrix<T> other, Matrix<T> result);
-
-        /// <summary>
         /// Subtracts another matrix from this matrix.
         /// </summary>
         /// <param name="other">The matrix to subtract.</param>
@@ -170,13 +253,6 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
 
             DoSubtract(other, result);
         }
-
-        /// <summary>
-        /// Subtracts another matrix from this matrix.
-        /// </summary>
-        /// <param name="other">The matrix to subtract.</param>
-        /// <param name="result">The matrix to store the result of the subtraction.</param>
-        protected abstract void DoSubtract(Matrix<T> other, Matrix<T> result);
 
         /// <summary>
         /// Multiplies each element of this matrix with a scalar.
@@ -300,20 +376,6 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         }
 
         /// <summary>
-        /// Divides each element of the matrix by a scalar and places results into the result matrix.
-        /// </summary>
-        /// <param name="scalar">The scalar to divide the matrix with.</param>
-        /// <param name="result">The matrix to store the result of the division.</param>
-        protected abstract void DoDivide(T scalar, Matrix<T> result);
-        
-        /// <summary>
-        /// Multiplies each element of the matrix by a scalar and places results into the result matrix.
-        /// </summary>
-        /// <param name="scalar">The scalar to multiply the matrix with.</param>
-        /// <param name="result">The matrix to store the result of the multiplication.</param>
-        protected abstract void DoMultiply(T scalar, Matrix<T> result);
-
-        /// <summary>
         /// Multiplies this matrix by a vector and returns the result.
         /// </summary>
         /// <param name="rightSide">The vector to multiply with.</param>
@@ -370,13 +432,6 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
             }
         }
 
-        /// <summary>
-        /// Multiplies this matrix with a vector and places the results into the result vector.
-        /// </summary>
-        /// <param name="rightSide">The vector to multiply with.</param>
-        /// <param name="result">The result of the multiplication.</param>
-        protected abstract void DoMultiply(Vector<T> rightSide, Vector<T> result);
-       
         /// <summary>
         /// Left multiply a matrix with a vector ( = vector * matrix ).
         /// </summary>
@@ -506,13 +561,6 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         }
 
         /// <summary>
-        /// Multiplies this matrix with another matrix and places the results into the result matrix.
-        /// </summary>
-        /// <param name="other">The matrix to multiply with.</param>
-        /// <param name="result">The result of the multiplication.</param>
-        protected abstract void DoMultiply(Matrix<T> other, Matrix<T> result);
-  
-        /// <summary>
         /// Multiplies this matrix with transpose of another matrix and places the results into the result matrix.
         /// </summary>
         /// <param name="other">The matrix to multiply with.</param>
@@ -575,13 +623,6 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         }
 
         /// <summary>
-        /// Multiplies this matrix with transpose of another matrix and places the results into the result matrix.
-        /// </summary>
-        /// <param name="other">The matrix to multiply with.</param>
-        /// <param name="result">The result of the multiplication.</param>
-        protected abstract void DoTransposeAndMultiply(Matrix<T> other, Matrix<T> result);
-
-        /// <summary>
         /// Multiplies the transpose of this matrix by a vector and returns the result.
         /// </summary>
         /// <param name="rightSide">The vector to multiply with.</param>
@@ -637,13 +678,6 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
                 DoTransposeThisAndMultiply(rightSide, result);
             }
         }
-
-        /// <summary>
-        /// Multiplies the transpose of this matrix with a vector and places the results into the result vector.
-        /// </summary>
-        /// <param name="rightSide">The vector to multiply with.</param>
-        /// <param name="result">The result of the multiplication.</param>
-        protected abstract void DoTransposeThisAndMultiply(Vector<T> rightSide, Vector<T> result);
 
         /// <summary>
         /// Multiplies the transpose of this matrix with another matrix and places the results into the result matrix. 
@@ -708,13 +742,6 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         }
 
         /// <summary>
-        /// Multiplies the transpose of this matrix with another matrix and places the results into the result matrix.
-        /// </summary>
-        /// <param name="other">The matrix to multiply with.</param>
-        /// <param name="result">The result of the multiplication.</param>
-        protected abstract void DoTransposeThisAndMultiply(Matrix<T> other, Matrix<T> result);
-
-        /// <summary>
         /// Negate each element of this matrix.
         /// </summary>
         /// <returns>A matrix containing the negated values.</returns>
@@ -745,12 +772,6 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
 
             DoNegate(result);
         }
-
-        /// <summary>
-        /// Negate each element of this matrix and place the results into the result matrix.
-        /// </summary>
-        /// <param name="result">The result of the negation.</param>
-        protected abstract void DoNegate(Matrix<T> result);
 
         /// <summary>
         /// Adds two matrices together and returns the results.
@@ -1023,13 +1044,6 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         }
 
         /// <summary>
-        /// Pointwise multiplies this matrix with another matrix and stores the result into the result matrix.
-        /// </summary>
-        /// <param name="other">The matrix to pointwise multiply with this one.</param>
-        /// <param name="result">The matrix to store the result of the pointwise multiplication.</param>
-        protected abstract void DoPointwiseMultiply(Matrix<T> other, Matrix<T> result);
-
-        /// <summary>
         /// Pointwise divide this matrix by another matrix and stores the result into the result matrix.
         /// </summary>
         /// <param name="other">The matrix to pointwise divide this one by.</param>
@@ -1057,13 +1071,6 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
 
             DoPointwiseDivide(other, result);
         }
-
-        /// <summary>
-        /// Pointwise divide this matrix by another matrix and stores the result into the result matrix.
-        /// </summary>
-        /// <param name="other">The matrix to pointwise divide this one by.</param>
-        /// <param name="result">The matrix to store the result of the pointwise division.</param>
-        protected abstract void DoPointwiseDivide(Matrix<T> other, Matrix<T> result);
 
         /// <summary>
         /// Computes the modulus for each element of the matrix.
@@ -1096,13 +1103,6 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
 
             DoModulus(divisor, result);
         }
-
-        /// <summary>
-        /// Computes the modulus for each element of the matrix.
-        /// </summary>
-        /// <param name="divisor">The divisor to use.</param>
-        /// <param name="result">Matrix to store the results in.</param>
-        protected abstract void DoModulus(T divisor, Matrix<T> result);
 
         /// <summary>
         /// Multiplies a <strong>Matrix</strong> by a constant and returns the result.

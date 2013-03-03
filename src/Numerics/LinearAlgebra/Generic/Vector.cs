@@ -159,6 +159,89 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <returns>The new <c>Vector</c>.</returns>
         public abstract Vector<T> CreateVector(int size);
 
+
+        /// <summary>
+        /// Negates vector and save result to <paramref name="target"/>
+        /// </summary>
+        /// <param name="target">Target vector</param>
+        protected abstract void DoNegate(Vector<T> target);
+
+        /// <summary>
+        /// Complex conjugates vector and save result to <paramref name="target"/>
+        /// </summary>
+        /// <param name="target">Target vector</param>
+        protected abstract void DoConjugate(Vector<T> target);
+
+        /// <summary>
+        /// Adds a scalar to each element of the vector and stores the result in the result vector.
+        /// </summary>
+        /// <param name="scalar">The scalar to add.</param>
+        /// <param name="result">The vector to store the result of the addition.</param>
+        protected abstract void DoAdd(T scalar, Vector<T> result);
+
+        /// <summary>
+        /// Adds another vector to this vector and stores the result into the result vector.
+        /// </summary>
+        /// <param name="other">The vector to add to this one.</param>
+        /// <param name="result">The vector to store the result of the addition.</param>
+        protected abstract void DoAdd(Vector<T> other, Vector<T> result);
+
+        /// <summary>
+        /// Subtracts a scalar from each element of the vector and stores the result in the result vector.
+        /// </summary>
+        /// <param name="scalar">The scalar to subtract.</param>
+        /// <param name="result">The vector to store the result of the subtraction.</param>
+        protected abstract void DoSubtract(T scalar, Vector<T> result);
+
+        /// <summary>
+        /// Subtracts another vector to this vector and stores the result into the result vector.
+        /// </summary>
+        /// <param name="other">The vector to subtract from this one.</param>
+        /// <param name="result">The vector to store the result of the subtraction.</param>
+        protected abstract void DoSubtract(Vector<T> other, Vector<T> result);
+
+        /// <summary>
+        /// Multiplies a scalar to each element of the vector and stores the result in the result vector.
+        /// </summary>
+        /// <param name="scalar">The scalar to multiply.</param>
+        /// <param name="result">The vector to store the result of the multiplication.</param>
+        protected abstract void DoMultiply(T scalar, Vector<T> result);
+
+        /// <summary>
+        /// Computes the dot product between this vector and another vector.
+        /// </summary>
+        /// <param name="other">The other vector to add.</param>
+        /// <returns>The result of the addition.</returns>
+        protected abstract T DoDotProduct(Vector<T> other);
+
+        /// <summary>
+        /// Divides each element of the vector by a scalar and stores the result in the result vector.
+        /// </summary>
+        /// <param name="scalar">The scalar to divide with.</param>
+        /// <param name="result">The vector to store the result of the division.</param>
+        protected abstract void DoDivide(T scalar, Vector<T> result);
+
+        /// <summary>
+        /// Computes the modulus for each element of the vector for the given divisor.
+        /// </summary>
+        /// <param name="divisor">The divisor to use.</param>
+        /// <param name="result">A vector to store the results in.</param>
+        protected abstract void DoModulus(T divisor, Vector<T> result);
+
+        /// <summary>
+        /// Pointwise multiplies this vector with another vector and stores the result into the result vector.
+        /// </summary>
+        /// <param name="other">The vector to pointwise multiply with this one.</param>
+        /// <param name="result">The vector to store the result of the pointwise multiplication.</param>
+        protected abstract void DoPointwiseMultiply(Vector<T> other, Vector<T> result);
+
+        /// <summary>
+        /// Pointwise divide this vector with another vector and stores the result into the result vector.
+        /// </summary>
+        /// <param name="other">The vector to pointwise divide this one by.</param>
+        /// <param name="result">The result of the division.</param>
+        protected abstract void DoPointwiseDivide(Vector<T> other, Vector<T> result);
+
         /// <summary>
         /// Adds a scalar to each element of the vector.
         /// </summary>
@@ -203,13 +286,6 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
 
             DoAdd(scalar, result);
         }
-
-        /// <summary>
-        /// Adds a scalar to each element of the vector and stores the result in the result vector.
-        /// </summary>
-        /// <param name="scalar">The scalar to add.</param>
-        /// <param name="result">The vector to store the result of the addition.</param>
-        protected abstract void DoAdd(T scalar, Vector<T> result);
 
         /// <summary>
         /// Returns a copy of this vector.
@@ -272,13 +348,6 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         }
 
         /// <summary>
-        /// Adds another vector to this vector and stores the result into the result vector.
-        /// </summary>
-        /// <param name="other">The vector to add to this one.</param>
-        /// <param name="result">The vector to store the result of the addition.</param>
-        protected abstract void DoAdd(Vector<T> other, Vector<T> result);
-
-        /// <summary>
         /// Subtracts a scalar from each element of the vector.
         /// </summary>
         /// <param name="scalar">The scalar to subtract.</param>
@@ -324,13 +393,6 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         }
 
         /// <summary>
-        /// Subtracts a scalar from each element of the vector and stores the result in the result vector.
-        /// </summary>
-        /// <param name="scalar">The scalar to subtract.</param>
-        /// <param name="result">The vector to store the result of the subtraction.</param>
-        protected abstract void DoSubtract(T scalar, Vector<T> result);
-
-        /// <summary>
         /// Returns a negated vector.
         /// </summary>
         /// <returns>The negated vector.</returns>
@@ -360,12 +422,6 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
 
             DoNegate(target);
         }
-
-        /// <summary>
-        /// Negates vector and save result to <paramref name="target"/>
-        /// </summary>
-        /// <param name="target">Target vector</param>
-        protected abstract void DoNegate(Vector<T> target);
 
         /// <summary>
         /// Subtracts another vector from this vector.
@@ -416,13 +472,6 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         }
 
         /// <summary>
-        /// Subtracts another vector to this vector and stores the result into the result vector.
-        /// </summary>
-        /// <param name="other">The vector to subtract from this one.</param>
-        /// <param name="result">The vector to store the result of the subtraction.</param>
-        protected abstract void DoSubtract(Vector<T> other, Vector<T> result);
-
-        /// <summary>
         /// Return vector with complex conjugate values of the source vector
         /// </summary>
         /// <returns>Conjugated vector</returns>
@@ -451,12 +500,6 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
 
             DoConjugate(target);
         }
-
-        /// <summary>
-        /// Complex conjugates vector and save result to <paramref name="target"/>
-        /// </summary>
-        /// <param name="target">Target vector</param>
-        protected abstract void DoConjugate(Vector<T> target);
 
         /// <summary>
         /// Multiplies a scalar to each element of the vector.
@@ -515,13 +558,6 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         }
 
         /// <summary>
-        /// Multiplies a scalar to each element of the vector and stores the result in the result vector.
-        /// </summary>
-        /// <param name="scalar">The scalar to multiply.</param>
-        /// <param name="result">The vector to store the result of the multiplication.</param>
-        protected abstract void DoMultiply(T scalar, Vector<T> result);
-
-        /// <summary>
         /// Computes the dot product between this vector and another vector.
         /// </summary>
         /// <param name="other">The other vector to add.</param>
@@ -542,13 +578,6 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
 
             return DoDotProduct(other);
         }
-
-        /// <summary>
-        /// Computes the dot product between this vector and another vector.
-        /// </summary>
-        /// <param name="other">The other vector to add.</param>
-        /// <returns>The result of the addition.</returns>
-        protected abstract T DoDotProduct(Vector<T> other);
 
         /// <summary>
         /// Divides each element of the vector by a scalar.
@@ -596,13 +625,6 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         }
 
         /// <summary>
-        /// Divides each element of the vector by a scalar and stores the result in the result vector.
-        /// </summary>
-        /// <param name="scalar">The scalar to divide with.</param>
-        /// <param name="result">The vector to store the result of the division.</param>
-        protected abstract void DoDivide(T scalar, Vector<T> result);
-
-        /// <summary>
         /// Computes the modulus for each element of the vector for the given divisor.
         /// </summary>
         /// <param name="divisor">The divisor to use.</param>
@@ -633,13 +655,6 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
 
             DoModulus(divisor, result);
         }
-
-        /// <summary>
-        /// Computes the modulus for each element of the vector for the given divisor.
-        /// </summary>
-        /// <param name="divisor">The divisor to use.</param>
-        /// <param name="result">A vector to store the results in.</param>
-        protected abstract void DoModulus(T divisor, Vector<T> result);
 
         /// <summary>
         /// Pointwise multiplies this vector with another vector.
@@ -700,13 +715,6 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         }
 
         /// <summary>
-        /// Pointwise multiplies this vector with another vector and stores the result into the result vector.
-        /// </summary>
-        /// <param name="other">The vector to pointwise multiply with this one.</param>
-        /// <param name="result">The vector to store the result of the pointwise multiplication.</param>
-        protected abstract void DoPointwiseMultiply(Vector<T> other, Vector<T> result);
-
-        /// <summary>
         /// Pointwise divide this vector with another vector.
         /// </summary>
         /// <param name="other">The vector to pointwise divide this one by.</param>
@@ -763,13 +771,6 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
 
             DoPointwiseDivide(other, result);
         }
-
-        /// <summary>
-        /// Pointwise divide this vector with another vector and stores the result into the result vector.
-        /// </summary>
-        /// <param name="other">The vector to pointwise divide this one by.</param>
-        /// <param name="result">The result of the division.</param>
-        protected abstract void DoPointwiseDivide(Vector<T> other, Vector<T> result);
 
         /// <summary>
         /// Outer product of two vectors
