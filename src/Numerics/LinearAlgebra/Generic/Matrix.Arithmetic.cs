@@ -384,8 +384,18 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <exception cref="ArgumentException">If <c>this.ColumnCount != rightSide.Count</c>.</exception>
         public Vector<T> Multiply(Vector<T> rightSide)
         {
+            if (rightSide == null)
+            {
+                throw new ArgumentNullException("rightSide");
+            }
+
+            if (ColumnCount != rightSide.Count)
+            {
+                throw DimensionsDontMatch<ArgumentException>(this, rightSide, "rightSide");
+            }
+
             var ret = CreateVector(RowCount);
-            Multiply(rightSide, ret);
+            DoMultiply(rightSide, ret);
             return ret;
         }
 
@@ -423,7 +433,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
             if (ReferenceEquals(rightSide, result))
             {
                 var tmp = result.CreateVector(result.Count);
-                Multiply(rightSide, tmp);
+                DoMultiply(rightSide, tmp);
                 tmp.CopyTo(result);
             }
             else
@@ -441,8 +451,18 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <exception cref="ArgumentException">If <strong>this.RowCount != <paramref name="leftSide"/>.Count</strong>.</exception>
         public Vector<T> LeftMultiply(Vector<T> leftSide)
         {
+            if (leftSide == null)
+            {
+                throw new ArgumentNullException("leftSide");
+            }
+
+            if (RowCount != leftSide.Count)
+            {
+                throw DimensionsDontMatch<ArgumentException>(this, leftSide, "leftSide");
+            }
+
             var ret = CreateVector(ColumnCount);
-            LeftMultiply(leftSide, ret);
+            DoLeftMultiply(leftSide, ret);
             return ret;
         }
 
@@ -480,7 +500,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
             if (ReferenceEquals(leftSide, result))
             {
                 var tmp = result.CreateVector(result.Count);
-                LeftMultiply(leftSide, tmp);
+                DoLeftMultiply(leftSide, tmp);
                 tmp.CopyTo(result);
             }
             else
@@ -528,7 +548,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
             if (ReferenceEquals(this, result) || ReferenceEquals(other, result))
             {
                 var tmp = result.CreateMatrix(result.RowCount, result.ColumnCount);
-                Multiply(other, tmp);
+                DoMultiply(other, tmp);
                 tmp.CopyTo(result);
             }
             else
@@ -550,13 +570,14 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
             {
                 throw new ArgumentNullException("other");
             }
+
             if (ColumnCount != other.RowCount)
             {
                 throw DimensionsDontMatch<ArgumentException>(this, other);
             }
 
             var result = CreateMatrix(RowCount, other.ColumnCount);
-            Multiply(other, result);
+            DoMultiply(other, result);
             return result;
         }
 
@@ -589,7 +610,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
             if (ReferenceEquals(this, result) || ReferenceEquals(other, result))
             {
                 var tmp = result.CreateMatrix(result.RowCount, result.ColumnCount);
-                TransposeAndMultiply(other, tmp);
+                DoTransposeAndMultiply(other, tmp);
                 tmp.CopyTo(result);
             }
             else
@@ -618,7 +639,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
             }
 
             var result = CreateMatrix(RowCount, other.RowCount);
-            TransposeAndMultiply(other, result);
+            DoTransposeAndMultiply(other, result);
             return result;
         }
 
@@ -631,6 +652,16 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <exception cref="ArgumentException">If <c>this.RowCount != rightSide.Count</c>.</exception>
         public Vector<T> TransposeThisAndMultiply(Vector<T> rightSide)
         {
+            if (rightSide == null)
+            {
+                throw new ArgumentNullException("rightSide");
+            }
+
+            if (RowCount != rightSide.Count)
+            {
+                throw DimensionsDontMatch<ArgumentException>(this, rightSide, "rightSide");
+            }
+
             var ret = CreateVector(ColumnCount);
             DoTransposeThisAndMultiply(rightSide, ret);
             return ret;
@@ -652,14 +683,14 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
                 throw new ArgumentNullException("rightSide");
             }
 
-            if (RowCount != rightSide.Count)
-            {
-                throw DimensionsDontMatch<ArgumentException>(this, rightSide, "rightSide");
-            }
-
             if (result == null)
             {
                 throw new ArgumentNullException("result");
+            }
+
+            if (RowCount != rightSide.Count)
+            {
+                throw DimensionsDontMatch<ArgumentException>(this, rightSide, "rightSide");
             }
 
             if (ColumnCount != result.Count)
@@ -786,19 +817,9 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <exception cref="ArgumentNullException">If <paramref name="leftSide"/> or <paramref name="rightSide"/> is <see langword="null" />.</exception>
         public static Matrix<T> operator +(Matrix<T> leftSide, Matrix<T> rightSide)
         {
-            if (rightSide == null)
-            {
-                throw new ArgumentNullException("rightSide");
-            }
-
             if (leftSide == null)
             {
                 throw new ArgumentNullException("leftSide");
-            }
-
-            if (leftSide.RowCount != rightSide.RowCount || leftSide.ColumnCount != rightSide.ColumnCount)
-            {
-                throw DimensionsDontMatch<ArgumentOutOfRangeException>(leftSide, rightSide);
             }
 
             return leftSide.Add(rightSide);
@@ -833,19 +854,9 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <exception cref="ArgumentNullException">If <paramref name="leftSide"/> or <paramref name="rightSide"/> is <see langword="null" />.</exception>
         public static Matrix<T> operator -(Matrix<T> leftSide, Matrix<T> rightSide)
         {
-            if (rightSide == null)
-            {
-                throw new ArgumentNullException("rightSide");
-            }
-
             if (leftSide == null)
             {
                 throw new ArgumentNullException("leftSide");
-            }
-
-            if (leftSide.RowCount != rightSide.RowCount || leftSide.ColumnCount != rightSide.ColumnCount)
-            {
-                throw DimensionsDontMatch<ArgumentOutOfRangeException>(leftSide, rightSide);
             }
 
             return leftSide.Subtract(rightSide);
@@ -917,16 +928,6 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
             if (leftSide == null)
             {
                 throw new ArgumentNullException("leftSide");
-            }
-
-            if (rightSide == null)
-            {
-                throw new ArgumentNullException("rightSide");
-            }
-
-            if (leftSide.ColumnCount != rightSide.RowCount)
-            {
-                throw DimensionsDontMatch<ArgumentException>(leftSide, rightSide);
             }
 
             return leftSide.Multiply(rightSide);
