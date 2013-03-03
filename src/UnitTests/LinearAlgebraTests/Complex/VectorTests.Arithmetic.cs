@@ -37,17 +37,6 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
     public abstract partial class VectorTests
     {
         /// <summary>
-        /// Can call Plus.
-        /// </summary>
-        [Test]
-        public void CanCallPlus()
-        {
-            var vector = CreateVector(Data);
-            var other = vector.Plus();
-            CollectionAssert.AreEqual(vector, other);
-        }
-
-        /// <summary>
         /// Operator "+" throws <c>ArgumentNullException</c> when call on <c>null</c> vector.
         /// </summary>
         [Test]

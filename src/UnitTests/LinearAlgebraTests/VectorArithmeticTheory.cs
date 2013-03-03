@@ -76,22 +76,6 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         }
 
         [Theory, Timeout(200)]
-        public void CanPlusVector(Vector<T> vector)
-        {
-            var hash = vector.GetHashCode();
-
-            var result1 = +vector;
-            var result2 = vector.Plus();
-
-            Assert.That(vector.GetHashCode(), Is.EqualTo(hash));
-            Assert.That(result1, Is.Not.SameAs(vector));
-            Assert.That(result1.Equals(vector));
-            Assert.That(result2, Is.Not.SameAs(vector));
-            Assert.That(result2.Equals(vector));
-            Assert.That(result1.Equals(result2));
-        }
-
-        [Theory, Timeout(200)]
         public void CanNegateVector(Vector<T> vector)
         {
             var hash = vector.GetHashCode();

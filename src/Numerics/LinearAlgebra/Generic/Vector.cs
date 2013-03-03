@@ -294,6 +294,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <remarks>
         /// Added as an alternative to the unary addition operator.
         /// </remarks>
+        [Obsolete("Use Clone instead. Scheduled for removal in v3.0.")]
         public Vector<T> Plus()
         {
             return Clone();
@@ -829,7 +830,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
                 throw new ArgumentNullException("rightSide");
             }
 
-            return rightSide.Plus();
+            return rightSide.Clone();
         }
 
         /// <summary>
