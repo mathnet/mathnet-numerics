@@ -833,6 +833,22 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         }
 
         /// <summary>
+        /// Returns a <strong>Vector</strong> containing the negated values of <paramref name="rightSide"/>.
+        /// </summary>
+        /// <param name="rightSide">The vector to get the values from.</param>
+        /// <returns>A vector containing the negated values as <paramref name="rightSide"/>.</returns>
+        /// <exception cref="ArgumentNullException">If <paramref name="rightSide"/> is <see langword="null" />.</exception>
+        public static Vector<T> operator -(Vector<T> rightSide)
+        {
+            if (rightSide == null)
+            {
+                throw new ArgumentNullException("rightSide");
+            }
+
+            return rightSide.Negate();
+        }
+
+        /// <summary>
         /// Adds two <strong>Vectors</strong> together and returns the results.
         /// </summary>
         /// <param name="leftSide">One of the vectors to add.</param>
@@ -882,22 +898,6 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
             }
 
             return rightSide.Add(leftSide);
-        }
-
-        /// <summary>
-        /// Returns a <strong>Vector</strong> containing the negated values of <paramref name="rightSide"/>.
-        /// </summary>
-        /// <param name="rightSide">The vector to get the values from.</param>
-        /// <returns>A vector containing the negated values as <paramref name="rightSide"/>.</returns>
-        /// <exception cref="ArgumentNullException">If <paramref name="rightSide"/> is <see langword="null" />.</exception>
-        public static Vector<T> operator -(Vector<T> rightSide)
-        {
-            if (rightSide == null)
-            {
-                throw new ArgumentNullException("rightSide");
-            }
-
-            return rightSide.Negate();
         }
 
         /// <summary>

@@ -229,7 +229,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         }
 
         /// <summary>
-        /// Subtracts another matrix from this matrix. 
+        /// Subtracts another matrix from this matrix.
         /// </summary>
         /// <param name="other">The matrix to subtract.</param>
         /// <param name="result">The matrix to store the result of the subtraction.</param>
@@ -287,7 +287,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// </summary>
         /// <param name="scalar">The scalar to multiply the matrix with.</param>
         /// <param name="result">The matrix to store the result of the multiplication.</param>
-        /// <exception cref="ArgumentNullException">If the result matrix is <see langword="null" />.</exception> 
+        /// <exception cref="ArgumentNullException">If the result matrix is <see langword="null" />.</exception>
         /// <exception cref="ArgumentException">If the result matrix's dimensions are not the same as this matrix.</exception>
         public void Multiply(T scalar, Matrix<T> result)
         {
@@ -305,13 +305,13 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
             {
                 throw new ArgumentException(Resources.ArgumentMatrixSameColumnDimension, "result");
             }
-            
+
             if (scalar.Equals(One))
             {
                 CopyTo(result);
                 return;
             }
-            
+
             if (scalar.Equals(Zero))
             {
                 result.Clear();
@@ -348,7 +348,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// </summary>
         /// <param name="scalar">The scalar to divide the matrix with.</param>
         /// <param name="result">The matrix to store the result of the division.</param>
-        /// <exception cref="ArgumentNullException">If the result matrix is <see langword="null" />.</exception> 
+        /// <exception cref="ArgumentNullException">If the result matrix is <see langword="null" />.</exception>
         /// <exception cref="ArgumentException">If the result matrix's dimensions are not the same as this matrix.</exception>
         public void Divide(T scalar, Matrix<T> result)
         {
@@ -567,7 +567,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// Multiplies this matrix with another matrix and returns the result.
         /// </summary>
         /// <param name="other">The matrix to multiply with.</param>
-        /// <exception cref="ArgumentException">If <strong>this.Columns != other.Rows</strong>.</exception>        
+        /// <exception cref="ArgumentException">If <strong>this.Columns != other.Rows</strong>.</exception>
         /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null" />.</exception>
         /// <returns>The result of the multiplication.</returns>
         public virtual Matrix<T> Multiply(Matrix<T> other)
@@ -629,7 +629,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// Multiplies this matrix with transpose of another matrix and returns the result.
         /// </summary>
         /// <param name="other">The matrix to multiply with.</param>
-        /// <exception cref="ArgumentException">If <strong>this.Columns != other.ColumnCount</strong>.</exception>        
+        /// <exception cref="ArgumentException">If <strong>this.Columns != other.ColumnCount</strong>.</exception>
         /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null" />.</exception>
         /// <returns>The result of the multiplication.</returns>
         public virtual Matrix<T> TransposeAndMultiply(Matrix<T> other)
@@ -717,7 +717,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         }
 
         /// <summary>
-        /// Multiplies the transpose of this matrix with another matrix and places the results into the result matrix. 
+        /// Multiplies the transpose of this matrix with another matrix and places the results into the result matrix.
         /// </summary>
         /// <param name="other">The matrix to multiply with.</param>
         /// <param name="result">The result of the multiplication.</param>
@@ -758,7 +758,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// Multiplies the transpose of this matrix with another matrix and returns the result.
         /// </summary>
         /// <param name="other">The matrix to multiply with.</param>
-        /// <exception cref="ArgumentException">If <strong>this.Rows != other.RowCount</strong>.</exception>        
+        /// <exception cref="ArgumentException">If <strong>this.Rows != other.RowCount</strong>.</exception>
         /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null" />.</exception>
         /// <returns>The result of the multiplication.</returns>
         public Matrix<T> TransposeThisAndMultiply(Matrix<T> other)
@@ -843,6 +843,176 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         }
 
         /// <summary>
+        /// Pointwise multiplies this matrix with another matrix.
+        /// </summary>
+        /// <param name="other">The matrix to pointwise multiply with this one.</param>
+        /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null" />.</exception>
+        /// <exception cref="ArgumentException">If this matrix and <paramref name="other"/> are not the same size.</exception>
+        /// <returns>A new matrix that is the pointwise multiplication of this matrix and <paramref name="other"/>.</returns>
+        public Matrix<T> PointwiseMultiply(Matrix<T> other)
+        {
+            if (other == null)
+            {
+                throw new ArgumentNullException("other");
+            }
+
+            if (ColumnCount != other.ColumnCount || RowCount != other.RowCount)
+            {
+                throw DimensionsDontMatch<ArgumentException>(this, other, "other");
+            }
+
+            var result = CreateMatrix(RowCount, ColumnCount);
+            DoPointwiseMultiply(other, result);
+            return result;
+        }
+
+        /// <summary>
+        /// Pointwise multiplies this matrix with another matrix and stores the result into the result matrix.
+        /// </summary>
+        /// <param name="other">The matrix to pointwise multiply with this one.</param>
+        /// <param name="result">The matrix to store the result of the pointwise multiplication.</param>
+        /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null" />.</exception>
+        /// <exception cref="ArgumentNullException">If the result matrix is <see langword="null" />.</exception>
+        /// <exception cref="ArgumentException">If this matrix and <paramref name="other"/> are not the same size.</exception>
+        /// <exception cref="ArgumentException">If this matrix and <paramref name="result"/> are not the same size.</exception>
+        public void PointwiseMultiply(Matrix<T> other, Matrix<T> result)
+        {
+            if (other == null)
+            {
+                throw new ArgumentNullException("other");
+            }
+
+            if (result == null)
+            {
+                throw new ArgumentNullException("result");
+            }
+
+            if (ColumnCount != result.ColumnCount || RowCount != result.RowCount || ColumnCount != other.ColumnCount || RowCount != other.RowCount)
+            {
+                throw DimensionsDontMatch<ArgumentException>(this, other, result);
+            }
+
+            DoPointwiseMultiply(other, result);
+        }
+
+        /// <summary>
+        /// Pointwise divide this matrix by another matrix.
+        /// </summary>
+        /// <param name="other">The matrix to pointwise subtract this one by.</param>
+        /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null" />.</exception>
+        /// <exception cref="ArgumentException">If this matrix and <paramref name="other"/> are not the same size.</exception>
+        /// <returns>A new matrix that is the pointwise division of this matrix and <paramref name="other"/>.</returns>
+        public Matrix<T> PointwiseDivide(Matrix<T> other)
+        {
+            if (other == null)
+            {
+                throw new ArgumentNullException("other");
+            }
+
+            if (ColumnCount != other.ColumnCount || RowCount != other.RowCount)
+            {
+                throw DimensionsDontMatch<ArgumentException>(this, other);
+            }
+
+            var result = CreateMatrix(RowCount, ColumnCount);
+            DoPointwiseDivide(other, result);
+            return result;
+        }
+
+        /// <summary>
+        /// Pointwise divide this matrix by another matrix and stores the result into the result matrix.
+        /// </summary>
+        /// <param name="other">The matrix to pointwise divide this one by.</param>
+        /// <param name="result">The matrix to store the result of the pointwise division.</param>
+        /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null" />.</exception>
+        /// <exception cref="ArgumentNullException">If the result matrix is <see langword="null" />.</exception>
+        /// <exception cref="ArgumentException">If this matrix and <paramref name="other"/> are not the same size.</exception>
+        /// <exception cref="ArgumentException">If this matrix and <paramref name="result"/> are not the same size.</exception>
+        public void PointwiseDivide(Matrix<T> other, Matrix<T> result)
+        {
+            if (other == null)
+            {
+                throw new ArgumentNullException("other");
+            }
+
+            if (result == null)
+            {
+                throw new ArgumentNullException("result");
+            }
+
+            if (ColumnCount != result.ColumnCount || RowCount != result.RowCount || ColumnCount != other.ColumnCount || RowCount != other.RowCount)
+            {
+                throw DimensionsDontMatch<ArgumentException>(this, other, result);
+            }
+
+            DoPointwiseDivide(other, result);
+        }
+
+        /// <summary>
+        /// Computes the modulus for each element of the matrix.
+        /// </summary>
+        /// <param name="divisor">The divisor to use.</param>
+        /// <returns>A matrix containing the results.</returns>
+        public Matrix<T> Modulus(T divisor)
+        {
+            var result = CreateMatrix(RowCount, ColumnCount);
+            DoModulus(divisor, result);
+            return result;
+        }
+
+        /// <summary>
+        /// Computes the modulus for each element of the matrix.
+        /// </summary>
+        /// <param name="divisor">The divisor to use.</param>
+        /// <param name="result">Matrix to store the results in.</param>
+        public void Modulus(T divisor, Matrix<T> result)
+        {
+            if (result == null)
+            {
+                throw new ArgumentNullException("result");
+            }
+
+            if (ColumnCount != result.ColumnCount || RowCount != result.RowCount)
+            {
+                throw DimensionsDontMatch<ArgumentException>(this, result);
+            }
+
+            DoModulus(divisor, result);
+        }
+
+        /// <summary>
+        /// Returns a <strong>Matrix</strong> containing the same values of <paramref name="rightSide"/>.
+        /// </summary>
+        /// <param name="rightSide">The matrix to get the values from.</param>
+        /// <returns>A matrix containing a the same values as <paramref name="rightSide"/>.</returns>
+        /// <exception cref="ArgumentNullException">If <paramref name="rightSide"/> is <see langword="null" />.</exception>
+        public static Matrix<T> operator +(Matrix<T> rightSide)
+        {
+            if (rightSide == null)
+            {
+                throw new ArgumentNullException("rightSide");
+            }
+
+            return rightSide.Clone();
+        }
+
+        /// <summary>
+        /// Negates each element of the matrix.
+        /// </summary>
+        /// <param name="rightSide">The matrix to negate.</param>
+        /// <returns>A matrix containing the negated values.</returns>
+        /// <exception cref="ArgumentNullException">If <paramref name="rightSide"/> is <see langword="null" />.</exception>
+        public static Matrix<T> operator -(Matrix<T> rightSide)
+        {
+            if (rightSide == null)
+            {
+                throw new ArgumentNullException("rightSide");
+            }
+
+            return rightSide.Negate();
+        }
+
+        /// <summary>
         /// Adds two matrices together and returns the results.
         /// </summary>
         /// <remarks>This operator will allocate new memory for the result. It will
@@ -864,22 +1034,6 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         }
 
         /// <summary>
-        /// Returns a <strong>Matrix</strong> containing the same values of <paramref name="rightSide"/>. 
-        /// </summary>
-        /// <param name="rightSide">The matrix to get the values from.</param>
-        /// <returns>A matrix containing a the same values as <paramref name="rightSide"/>.</returns>
-        /// <exception cref="ArgumentNullException">If <paramref name="rightSide"/> is <see langword="null" />.</exception>
-        public static Matrix<T> operator +(Matrix<T> rightSide)
-        {
-            if (rightSide == null)
-            {
-                throw new ArgumentNullException("rightSide");
-            }
-
-            return rightSide.Clone();
-        }
-
-        /// <summary>
         /// Subtracts two matrices together and returns the results.
         /// </summary>
         /// <remarks>This operator will allocate new memory for the result. It will
@@ -898,22 +1052,6 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
             }
 
             return leftSide.Subtract(rightSide);
-        }
-
-        /// <summary>
-        /// Negates each element of the matrix.
-        /// </summary>
-        /// <param name="rightSide">The matrix to negate.</param>
-        /// <returns>A matrix containing the negated values.</returns>
-        /// <exception cref="ArgumentNullException">If <paramref name="rightSide"/> is <see langword="null" />.</exception>
-        public static Matrix<T> operator -(Matrix<T> rightSide)
-        {
-            if (rightSide == null)
-            {
-                throw new ArgumentNullException("rightSide");
-            }
-
-            return rightSide.Negate();
         }
 
         /// <summary>
@@ -1003,144 +1141,6 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
             }
 
             return rightSide.LeftMultiply(leftSide);
-        }
-
-        /// <summary>
-        /// Pointwise multiplies this matrix with another matrix.
-        /// </summary>
-        /// <param name="other">The matrix to pointwise multiply with this one.</param>
-        /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null" />.</exception> 
-        /// <exception cref="ArgumentException">If this matrix and <paramref name="other"/> are not the same size.</exception>
-        /// <returns>A new matrix that is the pointwise multiplication of this matrix and <paramref name="other"/>.</returns>
-        public Matrix<T> PointwiseMultiply(Matrix<T> other)
-        {
-            if (other == null)
-            {
-                throw new ArgumentNullException("other");
-            }
-
-            if (ColumnCount != other.ColumnCount || RowCount != other.RowCount)
-            {
-                throw DimensionsDontMatch<ArgumentException>(this, other, "other");
-            }
-
-            var result = CreateMatrix(RowCount, ColumnCount);
-            DoPointwiseMultiply(other, result);
-            return result;
-        }
-
-        /// <summary>
-        /// Pointwise multiplies this matrix with another matrix and stores the result into the result matrix.
-        /// </summary>
-        /// <param name="other">The matrix to pointwise multiply with this one.</param>
-        /// <param name="result">The matrix to store the result of the pointwise multiplication.</param>
-        /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null" />.</exception> 
-        /// <exception cref="ArgumentNullException">If the result matrix is <see langword="null" />.</exception> 
-        /// <exception cref="ArgumentException">If this matrix and <paramref name="other"/> are not the same size.</exception>
-        /// <exception cref="ArgumentException">If this matrix and <paramref name="result"/> are not the same size.</exception>
-        public void PointwiseMultiply(Matrix<T> other, Matrix<T> result)
-        {
-            if (other == null)
-            {
-                throw new ArgumentNullException("other");
-            }
-
-            if (result == null)
-            {
-                throw new ArgumentNullException("result");
-            }
-
-            if (ColumnCount != result.ColumnCount || RowCount != result.RowCount || ColumnCount != other.ColumnCount || RowCount != other.RowCount)
-            {
-                throw DimensionsDontMatch<ArgumentException>(this, other, result);
-            }
-
-            DoPointwiseMultiply(other, result);
-        }
-
-        /// <summary>
-        /// Pointwise divide this matrix by another matrix.
-        /// </summary>
-        /// <param name="other">The matrix to pointwise subtract this one by.</param>
-        /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null" />.</exception> 
-        /// <exception cref="ArgumentException">If this matrix and <paramref name="other"/> are not the same size.</exception>
-        /// <returns>A new matrix that is the pointwise division of this matrix and <paramref name="other"/>.</returns>
-        public Matrix<T> PointwiseDivide(Matrix<T> other)
-        {
-            if (other == null)
-            {
-                throw new ArgumentNullException("other");
-            }
-
-            if (ColumnCount != other.ColumnCount || RowCount != other.RowCount)
-            {
-                throw DimensionsDontMatch<ArgumentException>(this, other);
-            }
-
-            var result = CreateMatrix(RowCount, ColumnCount);
-            DoPointwiseDivide(other, result);
-            return result;
-        }
-
-        /// <summary>
-        /// Pointwise divide this matrix by another matrix and stores the result into the result matrix.
-        /// </summary>
-        /// <param name="other">The matrix to pointwise divide this one by.</param>
-        /// <param name="result">The matrix to store the result of the pointwise division.</param>
-        /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null" />.</exception> 
-        /// <exception cref="ArgumentNullException">If the result matrix is <see langword="null" />.</exception> 
-        /// <exception cref="ArgumentException">If this matrix and <paramref name="other"/> are not the same size.</exception>
-        /// <exception cref="ArgumentException">If this matrix and <paramref name="result"/> are not the same size.</exception>
-        public void PointwiseDivide(Matrix<T> other, Matrix<T> result)
-        {
-            if (other == null)
-            {
-                throw new ArgumentNullException("other");
-            }
-
-            if (result == null)
-            {
-                throw new ArgumentNullException("result");
-            }
-
-            if (ColumnCount != result.ColumnCount || RowCount != result.RowCount || ColumnCount != other.ColumnCount || RowCount != other.RowCount)
-            {
-                throw DimensionsDontMatch<ArgumentException>(this, other, result);
-            }
-
-            DoPointwiseDivide(other, result);
-        }
-
-        /// <summary>
-        /// Computes the modulus for each element of the matrix.
-        /// </summary>
-        /// <param name="divisor">The divisor to use.</param>
-        /// <returns>A matrix containing the results.</returns>
-        public Matrix<T> Modulus(T divisor)
-        {
-            var result = CreateMatrix(RowCount, ColumnCount);
-            DoModulus(divisor, result);
-            return result;
-        }
-
-        /// <summary>
-        /// Computes the modulus for each element of the matrix.
-        /// </summary>
-        /// <param name="divisor">The divisor to use.</param>
-        /// <param name="result">Matrix to store the results in.</param>
-        public void Modulus(T divisor, Matrix<T> result)
-        {
-            if (result == null)
-            {
-                throw new ArgumentNullException("result");
-            }
-
-            if (ColumnCount != result.ColumnCount || RowCount != result.RowCount)
-            {
-                throw DimensionsDontMatch<ArgumentException>(this, result);
-            }
-
-            DoModulus(divisor, result);
         }
 
         /// <summary>
@@ -1310,21 +1310,21 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
 
         #region Exceptions - possibly move elsewhere?
 
-        public static Exception DimensionsDontMatch<TException>(Matrix<T> left, Matrix<T> right, Matrix<T> result, string paramName = null) 
+        public static Exception DimensionsDontMatch<TException>(Matrix<T> left, Matrix<T> right, Matrix<T> result, string paramName = null)
             where TException : Exception
         {
             var message = string.Format(Resources.ArgumentMatrixDimensions3, left.RowCount + "x" + left.ColumnCount, right.RowCount + "x" + right.ColumnCount, result.RowCount + "x" + result.ColumnCount);
             return CreateException<TException>(message, paramName);
         }
 
-        public static Exception DimensionsDontMatch<TException>(Matrix<T> left, Matrix<T> right, string paramName = null) 
+        public static Exception DimensionsDontMatch<TException>(Matrix<T> left, Matrix<T> right, string paramName = null)
             where TException : Exception
         {
             var message = string.Format(Resources.ArgumentMatrixDimensions2, left.RowCount + "x" + left.ColumnCount, right.RowCount + "x" + right.ColumnCount);
             return CreateException<TException>(message, paramName);
         }
 
-        public static Exception DimensionsDontMatch<TException>(Matrix<T> matrix) 
+        public static Exception DimensionsDontMatch<TException>(Matrix<T> matrix)
             where TException : Exception
         {
             var message = string.Format(Resources.ArgumentMatrixDimensions1, matrix.RowCount + "x" + matrix.ColumnCount);
@@ -1337,25 +1337,25 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
             return DimensionsDontMatch<TException>(left, right.ToColumnMatrix(), result.ToColumnMatrix(), paramName);
         }
 
-        public static Exception DimensionsDontMatch<TException>(Matrix<T> left, Vector<T> right, string paramName = null) 
+        public static Exception DimensionsDontMatch<TException>(Matrix<T> left, Vector<T> right, string paramName = null)
             where TException : Exception
         {
             return DimensionsDontMatch<TException>(left, right.ToColumnMatrix(), paramName);
         }
 
-        public static Exception DimensionsDontMatch<TException>(Vector<T> left, Matrix<T> right, string paramName = null) 
+        public static Exception DimensionsDontMatch<TException>(Vector<T> left, Matrix<T> right, string paramName = null)
             where TException : Exception
         {
             return DimensionsDontMatch<TException>(left.ToColumnMatrix(), right, paramName);
         }
 
-        public static Exception DimensionsDontMatch<TException>(Vector<T> left, Vector<T> right, string paramName = null) 
+        public static Exception DimensionsDontMatch<TException>(Vector<T> left, Vector<T> right, string paramName = null)
             where TException : Exception
         {
             return DimensionsDontMatch<TException>(left.ToColumnMatrix(), right.ToColumnMatrix(), paramName);
         }
 
-        private static Exception CreateException<TException>(string message, string paramName = null) 
+        private static Exception CreateException<TException>(string message, string paramName = null)
             where TException : Exception
         {
             if (typeof(TException) == typeof(ArgumentException))

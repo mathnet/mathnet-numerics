@@ -36,7 +36,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
     using Properties;
     using Storage;
     using Threading;
-    
+
     /// <summary>
     /// A Matrix class with sparse storage. The underlying storage scheme is 3-array compressed-sparse-row (CSR) Format.
     /// <a href="http://en.wikipedia.org/wiki/Sparse_matrix#Compressed_sparse_row_.28CSR_or_CRS.29">Wikipedia - CSR</a>.
@@ -77,7 +77,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
             : this(new SparseCompressedRowMatrixStorage<float>(rows, columns))
         {
         }
-        
+
         /// <summary>
         /// Initializes a new instance of the <see cref="SparseMatrix"/> class. This matrix is square with a given size.
         /// </summary>
@@ -134,7 +134,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SparseMatrix"/> class from a one dimensional array. 
+        /// Initializes a new instance of the <see cref="SparseMatrix"/> class from a one dimensional array.
         /// </summary>
         /// <param name="rows">The number of rows.</param>
         /// <param name="columns">The number of columns.</param>
@@ -159,7 +159,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SparseMatrix"/> class from a 2D array. 
+        /// Initializes a new instance of the <see cref="SparseMatrix"/> class from a 2D array.
         /// </summary>
         /// <param name="array">The 2D array to create this matrix from.</param>
         public SparseMatrix(float[,] array)
@@ -215,7 +215,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// <summary>
         /// Returns a new matrix containing the lower triangle of this matrix.
         /// </summary>
-        /// <returns>The lower triangle of this matrix.</returns>        
+        /// <returns>The lower triangle of this matrix.</returns>
         public override Matrix<float> LowerTriangle()
         {
             var result = CreateMatrix(RowCount, ColumnCount);
@@ -282,7 +282,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// <summary>
         /// Returns a new matrix containing the upper triangle of this matrix.
         /// </summary>
-        /// <returns>The upper triangle of this matrix.</returns>   
+        /// <returns>The upper triangle of this matrix.</returns>
         public override Matrix<float> UpperTriangle()
         {
             var result = CreateMatrix(RowCount, ColumnCount);
@@ -484,7 +484,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
 
         /// <summary>
         /// Returns the transpose of this matrix.
-        /// </summary>        
+        /// </summary>
         /// <returns>The transpose of this matrix.</returns>
         public override Matrix<float> Transpose()
         {
@@ -555,7 +555,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         }
 
         /// <summary>Calculates the infinity norm of this matrix.</summary>
-        /// <returns>The infinity norm of this matrix.</returns>   
+        /// <returns>The infinity norm of this matrix.</returns>
         public override float InfinityNorm()
         {
             var rowPointers = _storage.RowPointers;
@@ -747,7 +747,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
                 }
             }
         }
-        
+
         /// <summary>
         /// Multiplies each element of the matrix by a scalar and places results into the result matrix.
         /// </summary>
@@ -1211,7 +1211,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         }
 
         /// <summary>
-        /// Returns a <strong>Matrix</strong> containing the same values of <paramref name="rightSide"/>. 
+        /// Returns a <strong>Matrix</strong> containing the same values of <paramref name="rightSide"/>.
         /// </summary>
         /// <param name="rightSide">The matrix to get the values from.</param>
         /// <returns>A matrix containing a the same values as <paramref name="rightSide"/>.</returns>

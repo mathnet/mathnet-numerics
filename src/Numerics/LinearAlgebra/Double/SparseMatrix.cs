@@ -36,16 +36,16 @@ namespace MathNet.Numerics.LinearAlgebra.Double
     using Properties;
     using Storage;
     using Threading;
-    
+
     /// <summary>
     /// A Matrix class with sparse storage. The underlying storage scheme is 3-array compressed-sparse-row (CSR) Format.
     /// <a href="http://en.wikipedia.org/wiki/Sparse_matrix#Compressed_sparse_row_.28CSR_or_CRS.29">Wikipedia - CSR</a>.
     /// </summary>
     [Serializable]
-    public class SparseMatrix : Matrix 
+    public class SparseMatrix : Matrix
     {
         readonly SparseCompressedRowMatrixStorage<double> _storage;
-        
+
         /// <summary>
         /// Gets the number of non zero elements in the matrix.
         /// </summary>
@@ -77,7 +77,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             : this(new SparseCompressedRowMatrixStorage<double>(rows, columns))
         {
         }
-        
+
         /// <summary>
         /// Initializes a new instance of the <see cref="SparseMatrix"/> class. This matrix is square with a given size.
         /// </summary>
@@ -125,7 +125,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 values[i] = value;
                 columnIndices[i] = j;
             }
-            
+
             // Set proper row pointers
             for (var i = 0; i < rowPointers.Length; i++)
             {
@@ -134,7 +134,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SparseMatrix"/> class from a one dimensional array. 
+        /// Initializes a new instance of the <see cref="SparseMatrix"/> class from a one dimensional array.
         /// </summary>
         /// <param name="rows">The number of rows.</param>
         /// <param name="columns">The number of columns.</param>
@@ -159,7 +159,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SparseMatrix"/> class from a 2D array. 
+        /// Initializes a new instance of the <see cref="SparseMatrix"/> class from a 2D array.
         /// </summary>
         /// <param name="array">The 2D array to create this matrix from.</param>
         public SparseMatrix(double[,] array)
@@ -215,7 +215,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <summary>
         /// Returns a new matrix containing the lower triangle of this matrix.
         /// </summary>
-        /// <returns>The lower triangle of this matrix.</returns>        
+        /// <returns>The lower triangle of this matrix.</returns>
         public override Matrix<double> LowerTriangle()
         {
             var result = CreateMatrix(RowCount, ColumnCount);
@@ -282,7 +282,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <summary>
         /// Returns a new matrix containing the upper triangle of this matrix.
         /// </summary>
-        /// <returns>The upper triangle of this matrix.</returns>   
+        /// <returns>The upper triangle of this matrix.</returns>
         public override Matrix<double> UpperTriangle()
         {
             var result = CreateMatrix(RowCount, ColumnCount);
@@ -484,7 +484,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
         /// <summary>
         /// Returns the transpose of this matrix.
-        /// </summary>        
+        /// </summary>
         /// <returns>The transpose of this matrix.</returns>
         public override Matrix<double> Transpose()
         {
@@ -555,7 +555,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         }
 
         /// <summary>Calculates the infinity norm of this matrix.</summary>
-        /// <returns>The infinity norm of this matrix.</returns>   
+        /// <returns>The infinity norm of this matrix.</returns>
         public override double InfinityNorm()
         {
             var rowPointers = _storage.RowPointers;
@@ -1088,7 +1088,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             {
                 var start = rowPointers[row];
                 var end = rowPointers[row + 1];
-                
+
                 if (start == end)
                 {
                     continue;
@@ -1212,7 +1212,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         }
 
         /// <summary>
-        /// Returns a <strong>Matrix</strong> containing the same values of <paramref name="rightSide"/>. 
+        /// Returns a <strong>Matrix</strong> containing the same values of <paramref name="rightSide"/>.
         /// </summary>
         /// <param name="rightSide">The matrix to get the values from.</param>
         /// <returns>A matrix containing a the same values as <paramref name="rightSide"/>.</returns>

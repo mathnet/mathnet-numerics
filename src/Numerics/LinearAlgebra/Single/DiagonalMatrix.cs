@@ -33,7 +33,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
     using Storage;
 
     /// <summary>
-    /// A matrix type for diagonal matrices. 
+    /// A matrix type for diagonal matrices.
     /// </summary>
     /// <remarks>
     /// Diagonal matrices can be non-square matrices but the diagonal always starts
@@ -120,7 +120,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="DiagonalMatrix"/> class from a 2D array. 
+        /// Initializes a new instance of the <see cref="DiagonalMatrix"/> class from a 2D array.
         /// </summary>
         /// <param name="array">The 2D array to create this matrix from.</param>
         /// <exception cref="IndexOutOfRangeException">When <paramref name="array"/> contains an off-diagonal element.</exception>
@@ -276,7 +276,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         }
 
         /// <summary>
-        /// Subtracts another matrix from this matrix. 
+        /// Subtracts another matrix from this matrix.
         /// </summary>
         /// <param name="other">The matrix to subtract.</param>
         /// <param name="result">The matrix to store the result of the subtraction.</param>
@@ -302,7 +302,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// </summary>
         /// <param name="source">The array to copy the values from. The length of the vector should be
         /// Min(Rows, Columns).</param>
-        /// <exception cref="ArgumentNullException">If <paramref name="source"/> is <see langword="null" />.</exception>   
+        /// <exception cref="ArgumentNullException">If <paramref name="source"/> is <see langword="null" />.</exception>
         /// <exception cref="ArgumentException">If the length of <paramref name="source"/> does not
         /// equal Min(Rows, Columns).</exception>
         /// <remarks>For non-square matrices, the elements of <paramref name="source"/> are copied to
@@ -327,7 +327,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// </summary>
         /// <param name="source">The vector to copy the values from. The length of the vector should be
         /// Min(Rows, Columns).</param>
-        /// <exception cref="ArgumentNullException">If <paramref name="source"/> is <see langword="null" />.</exception>   
+        /// <exception cref="ArgumentNullException">If <paramref name="source"/> is <see langword="null" />.</exception>
         /// <exception cref="ArgumentException">If the length of <paramref name="source"/> does not
         /// equal Min(Rows, Columns).</exception>
         /// <remarks>For non-square matrices, the elements of <paramref name="source"/> are copied to
@@ -354,7 +354,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// </summary>
         /// <param name="scalar">The scalar to multiply the matrix with.</param>
         /// <param name="result">The matrix to store the result of the multiplication.</param>
-        /// <exception cref="ArgumentNullException">If the result matrix is <see langword="null" />.</exception> 
+        /// <exception cref="ArgumentNullException">If the result matrix is <see langword="null" />.</exception>
         /// <exception cref="ArgumentException">If the result matrix's dimensions are not the same as this matrix.</exception>
         protected override void DoMultiply(float scalar, Matrix<float> result)
         {
@@ -434,7 +434,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// Multiplies this matrix with another matrix and returns the result.
         /// </summary>
         /// <param name="other">The matrix to multiply with.</param>
-        /// <exception cref="ArgumentException">If <strong>this.Columns != other.Rows</strong>.</exception>        
+        /// <exception cref="ArgumentException">If <strong>this.Columns != other.Rows</strong>.</exception>
         /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null" />.</exception>
         /// <returns>The result of multiplication.</returns>
         public override Matrix<float> Multiply(Matrix<float> other)
@@ -608,7 +608,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// Multiplies this matrix with transpose of another matrix and returns the result.
         /// </summary>
         /// <param name="other">The matrix to multiply with.</param>
-        /// <exception cref="ArgumentException">If <strong>this.Columns != other.Rows</strong>.</exception>        
+        /// <exception cref="ArgumentException">If <strong>this.Columns != other.Rows</strong>.</exception>
         /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null" />.</exception>
         /// <returns>The result of multiplication.</returns>
         public override Matrix<float> TransposeAndMultiply(Matrix<float> other)
@@ -633,7 +633,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
 
         /// <summary>
         /// Returns the transpose of this matrix.
-        /// </summary>        
+        /// </summary>
         /// <returns>The transpose of this matrix.</returns>
         public override Matrix<float> Transpose()
         {
@@ -650,7 +650,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         }
 
         /// <summary>Calculates the L2 norm.</summary>
-        /// <returns>The L2 norm of the matrix.</returns>   
+        /// <returns>The L2 norm of the matrix.</returns>
         public override float L2Norm()
         {
             return _data.Aggregate(float.NegativeInfinity, (current, t) => Math.Max(current, Math.Abs(t)));
@@ -665,7 +665,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         }
 
         /// <summary>Calculates the infinity norm of this matrix.</summary>
-        /// <returns>The infinity norm of this matrix.</returns>   
+        /// <returns>The infinity norm of this matrix.</returns>
         public override float InfinityNorm()
         {
             return L1Norm();
@@ -716,7 +716,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// <summary>
         /// Returns a new matrix containing the lower triangle of this matrix.
         /// </summary>
-        /// <returns>The lower triangle of this matrix.</returns>  
+        /// <returns>The lower triangle of this matrix.</returns>
         public override Matrix<float> LowerTriangle()
         {
             return Clone();
@@ -786,7 +786,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// <summary>
         /// Returns a new matrix containing the upper triangle of this matrix.
         /// </summary>
-        /// <returns>The upper triangle of this matrix.</returns>   
+        /// <returns>The upper triangle of this matrix.</returns>
         public override Matrix<float> UpperTriangle()
         {
             return Clone();
@@ -858,10 +858,10 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// <returns>The requested sub-matrix.</returns>
         /// <exception cref="ArgumentOutOfRangeException">If: <list><item><paramref name="rowIndex"/> is
         /// negative, or greater than or equal to the number of rows.</item>
-        /// <item><paramref name="columnIndex"/> is negative, or greater than or equal to the number 
+        /// <item><paramref name="columnIndex"/> is negative, or greater than or equal to the number
         /// of columns.</item>
         /// <item><c>(columnIndex + columnLength) &gt;= Columns</c></item>
-        /// <item><c>(rowIndex + rowLength) &gt;= Rows</c></item></list></exception>        
+        /// <item><c>(rowIndex + rowLength) &gt;= Rows</c></item></list></exception>
         /// <exception cref="ArgumentOutOfRangeException">If <paramref name="rowCount"/> or <paramref name="columnCount"/>
         /// is not positive.</exception>
         public override Matrix<float> SubMatrix(int rowIndex, int rowCount, int columnIndex, int columnCount)

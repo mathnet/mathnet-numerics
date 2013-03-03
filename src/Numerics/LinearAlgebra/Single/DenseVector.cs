@@ -120,7 +120,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// Initializes a new instance of the <see cref="DenseVector"/> class for an array.
         /// </summary>
         /// <param name="array">The array to create this vector from.</param>
-        /// <remarks>The vector does not copy the array, but keeps a reference to it. Any 
+        /// <remarks>The vector does not copy the array, but keeps a reference to it. Any
         /// changes to the vector will also change the array.</remarks>
         public DenseVector(float[] array)
             : this(new DenseVectorStorage<float>(array.Length, array))
@@ -259,7 +259,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         }
 
         /// <summary>
-        /// Returns a <strong>Vector</strong> containing the same values of <paramref name="rightSide"/>. 
+        /// Returns a <strong>Vector</strong> containing the same values of <paramref name="rightSide"/>.
         /// </summary>
         /// <remarks>This method is included for completeness.</remarks>
         /// <param name="rightSide">The vector to get the values from.</param>
@@ -333,9 +333,9 @@ namespace MathNet.Numerics.LinearAlgebra.Single
                 Control.LinearAlgebraProvider.SubtractArrays(_values, otherDense._values, resultDense._values);
             }
         }
-        
+
         /// <summary>
-        /// Returns a <strong>Vector</strong> containing the negated values of <paramref name="rightSide"/>. 
+        /// Returns a <strong>Vector</strong> containing the negated values of <paramref name="rightSide"/>.
         /// </summary>
         /// <param name="rightSide">The vector to get the values from.</param>
         /// <returns>A vector containing the negated values as <paramref name="rightSide"/>.</returns>
@@ -530,7 +530,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// <summary>
         /// Returns the index of the absolute minimum element.
         /// </summary>
-        /// <returns>The index of absolute minimum element.</returns>   
+        /// <returns>The index of absolute minimum element.</returns>
         public override int AbsoluteMinimumIndex()
         {
             var index = 0;
@@ -569,7 +569,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// <summary>
         /// Returns the index of the absolute maximum element.
         /// </summary>
-        /// <returns>The index of absolute maximum element.</returns>   
+        /// <returns>The index of absolute maximum element.</returns>
         public override int AbsoluteMaximumIndex()
         {
             var index = 0;
@@ -590,7 +590,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// <summary>
         /// Returns the index of the absolute maximum element.
         /// </summary>
-        /// <returns>The index of absolute maximum element.</returns>          
+        /// <returns>The index of absolute maximum element.</returns>
         public override int MaximumIndex()
         {
             var index = 0;
@@ -610,7 +610,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// <summary>
         /// Returns the index of the minimum element.
         /// </summary>
-        /// <returns>The index of minimum element.</returns>  
+        /// <returns>The index of minimum element.</returns>
         public override int MinimumIndex()
         {
             var index = 0;
@@ -706,8 +706,8 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// <param name="u">First vector</param>
         /// <param name="v">Second vector</param>
         /// <returns>Matrix M[i,j] = u[i]*v[j] </returns>
-        /// <exception cref="ArgumentNullException">If the u vector is <see langword="null" />.</exception> 
-        /// <exception cref="ArgumentNullException">If the v vector is <see langword="null" />.</exception> 
+        /// <exception cref="ArgumentNullException">If the u vector is <see langword="null" />.</exception>
+        /// <exception cref="ArgumentNullException">If the v vector is <see langword="null" />.</exception>
         public static DenseMatrix OuterProduct(DenseVector u, DenseVector v)
         {
             if (u == null)
@@ -722,8 +722,8 @@ namespace MathNet.Numerics.LinearAlgebra.Single
 
             var matrix = new DenseMatrix(u.Count, v.Count);
             CommonParallel.For(
-                0, 
-                u.Count, 
+                0,
+                u.Count,
                 i =>
                 {
                     for (var j = 0; j < v.Count; j++)

@@ -135,7 +135,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SparseMatrix"/> class from a one dimensional array. 
+        /// Initializes a new instance of the <see cref="SparseMatrix"/> class from a one dimensional array.
         /// </summary>
         /// <param name="rows">The number of rows.</param>
         /// <param name="columns">The number of columns.</param>
@@ -160,7 +160,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SparseMatrix"/> class from a 2D array. 
+        /// Initializes a new instance of the <see cref="SparseMatrix"/> class from a 2D array.
         /// </summary>
         /// <param name="array">The 2D array to create this matrix from.</param>
         public SparseMatrix(Complex[,] array)
@@ -216,7 +216,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// <summary>
         /// Returns a new matrix containing the lower triangle of this matrix.
         /// </summary>
-        /// <returns>The lower triangle of this matrix.</returns>        
+        /// <returns>The lower triangle of this matrix.</returns>
         public override Matrix<Complex> LowerTriangle()
         {
             var result = CreateMatrix(RowCount, ColumnCount);
@@ -283,7 +283,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// <summary>
         /// Returns a new matrix containing the upper triangle of this matrix.
         /// </summary>
-        /// <returns>The upper triangle of this matrix.</returns>   
+        /// <returns>The upper triangle of this matrix.</returns>
         public override Matrix<Complex> UpperTriangle()
         {
             var result = CreateMatrix(RowCount, ColumnCount);
@@ -485,7 +485,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
 
         /// <summary>
         /// Returns the transpose of this matrix.
-        /// </summary>        
+        /// </summary>
         /// <returns>The transpose of this matrix.</returns>
         public override Matrix<Complex> Transpose()
         {
@@ -557,7 +557,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         }
 
         /// <summary>Calculates the infinity norm of this matrix.</summary>
-        /// <returns>The infinity norm of this matrix.</returns>   
+        /// <returns>The infinity norm of this matrix.</returns>
         public override Complex InfinityNorm()
         {
             var rowPointers = _storage.RowPointers;
@@ -875,7 +875,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
                 {
                     sum += values[index] * rightSide[columnIndices[index]];
                 }
-                
+
                 result[row] = sum;
             }
         }
@@ -1188,7 +1188,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         }
 
         /// <summary>
-        /// Returns a <strong>Matrix</strong> containing the same values of <paramref name="rightSide"/>. 
+        /// Returns a <strong>Matrix</strong> containing the same values of <paramref name="rightSide"/>.
         /// </summary>
         /// <param name="rightSide">The matrix to get the values from.</param>
         /// <returns>A matrix containing a the same values as <paramref name="rightSide"/>.</returns>
