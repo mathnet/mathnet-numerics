@@ -227,34 +227,14 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// <param name="result">The matrix to store the result of the addition.</param>
         /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null"/>.</exception>
         /// <exception cref="ArgumentOutOfRangeException">If the two matrices don't have the same dimensions.</exception>
-        public override void Add(Matrix<float> other, Matrix<float> result)
+        protected override void DoAdd(Matrix<float> other, Matrix<float> result)
         {
-            if (other == null)
-            {
-                throw new ArgumentNullException("other");
-            }
-
-            if (result == null)
-            {
-                throw new ArgumentNullException("result");
-            }
-
-            if (other.RowCount != RowCount || other.ColumnCount != ColumnCount)
-            {
-                throw DimensionsDontMatch<ArgumentOutOfRangeException>(this, other, "other");
-            }
-
-            if (result.RowCount != RowCount || result.ColumnCount != ColumnCount)
-            {
-                throw DimensionsDontMatch<ArgumentOutOfRangeException>(this, result, "result");
-            }
-
             var diagOther = other as DiagonalMatrix;
             var diagResult = result as DiagonalMatrix;
 
             if (diagOther == null || diagResult == null)
             {
-                base.Add(other, result);
+                base.DoAdd(other, result);
             }
             else
             {
@@ -302,34 +282,14 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// <param name="result">The matrix to store the result of the subtraction.</param>
         /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null"/>.</exception>
         /// <exception cref="ArgumentOutOfRangeException">If the two matrices don't have the same dimensions.</exception>
-        public override void Subtract(Matrix<float> other, Matrix<float> result)
+        protected override void DoSubtract(Matrix<float> other, Matrix<float> result)
         {
-            if (other == null)
-            {
-                throw new ArgumentNullException("other");
-            }
-
-            if (result == null)
-            {
-                throw new ArgumentNullException("result");
-            }
-
-            if (other.RowCount != RowCount || other.ColumnCount != ColumnCount)
-            {
-                throw DimensionsDontMatch<ArgumentOutOfRangeException>(this, other, "other");
-            }
-
-            if (result.RowCount != RowCount || result.ColumnCount != ColumnCount)
-            {
-                throw DimensionsDontMatch<ArgumentOutOfRangeException>(this, result, "result");
-            }
-
             var diagOther = other as DiagonalMatrix;
             var diagResult = result as DiagonalMatrix;
 
             if (diagOther == null || diagResult == null)
             {
-                base.Subtract(other, result);
+                base.DoSubtract(other, result);
             }
             else
             {

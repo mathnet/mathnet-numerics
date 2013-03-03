@@ -81,11 +81,16 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <param name="result">The matrix to store the result of the addition.</param>
         /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null"/>.</exception>
         /// <exception cref="ArgumentOutOfRangeException">If the two matrices don't have the same dimensions.</exception>
-        public virtual void Add(Matrix<T> other, Matrix<T> result)
+        public void Add(Matrix<T> other, Matrix<T> result)
         {
             if (other == null)
             {
                 throw new ArgumentNullException("other");
+            }
+
+            if (result == null)
+            {
+                throw new ArgumentNullException("result");
             }
 
             if (other.RowCount != RowCount || other.ColumnCount != ColumnCount)
@@ -141,16 +146,26 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <param name="result">The matrix to store the result of the subtraction.</param>
         /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null"/>.</exception>
         /// <exception cref="ArgumentOutOfRangeException">If the two matrices don't have the same dimensions.</exception>
-        public virtual void Subtract(Matrix<T> other, Matrix<T> result)
+        public void Subtract(Matrix<T> other, Matrix<T> result)
         {
             if (other == null)
             {
                 throw new ArgumentNullException("other");
             }
 
+            if (result == null)
+            {
+                throw new ArgumentNullException("result");
+            }
+
             if (other.RowCount != RowCount || other.ColumnCount != ColumnCount)
             {
-                throw DimensionsDontMatch<ArgumentOutOfRangeException>(this, other);
+                throw DimensionsDontMatch<ArgumentOutOfRangeException>(this, other, "other");
+            }
+
+            if (result.RowCount != RowCount || result.ColumnCount != ColumnCount)
+            {
+                throw DimensionsDontMatch<ArgumentOutOfRangeException>(this, result, "result");
             }
 
             DoSubtract(other, result);
