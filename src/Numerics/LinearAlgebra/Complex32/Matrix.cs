@@ -302,6 +302,21 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         }
 
         /// <summary>
+        /// Complex conjugates each element of this matrix and place the results into the result matrix.
+        /// </summary>
+        /// <param name="result">The result of the conjugation.</param>
+        protected override void DoConjugate(Matrix<Complex32> result)
+        {
+            for (var i = 0; i < RowCount; i++)
+            {
+                for (var j = 0; j != ColumnCount; j++)
+                {
+                    result.At(i, j, At(i, j).Conjugate());
+                }
+            }
+        }
+
+        /// <summary>
         /// Pointwise multiplies this matrix with another matrix and stores the result into the result matrix.
         /// </summary>
         /// <param name="other">The matrix to pointwise multiply with this one.</param>

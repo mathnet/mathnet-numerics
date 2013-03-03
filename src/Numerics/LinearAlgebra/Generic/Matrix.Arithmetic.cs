@@ -57,6 +57,12 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         protected abstract void DoNegate(Matrix<T> result);
 
         /// <summary>
+        /// Complex conjugates each element of this matrix and place the results into the result matrix.
+        /// </summary>
+        /// <param name="result">The result of the conjugation.</param>
+        protected abstract void DoConjugate(Matrix<T> result);
+
+        /// <summary>
         /// Adds another matrix to this matrix.
         /// </summary>
         /// <param name="other">The matrix to add to this matrix.</param>
@@ -802,6 +808,38 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
             }
 
             DoNegate(result);
+        }
+
+        /// <summary>
+        /// Complex conjugate each element of this matrix.
+        /// </summary>
+        /// <returns>A matrix containing the conjugated values.</returns>
+        public Matrix<T> Conjugate()
+        {
+            var result = CreateMatrix(RowCount, ColumnCount);
+            DoConjugate(result);
+            return result;
+        }
+
+        /// <summary>
+        /// Complex conjugate each element of this matrix and place the results into the result matrix.
+        /// </summary>
+        /// <param name="result">The result of the conjugation.</param>
+        /// <exception cref="ArgumentNullException">If the result matrix is <see langword="null" />.</exception>
+        /// <exception cref="ArgumentException">if the result matrix's dimensions are not the same as this matrix.</exception>
+        public void Conjugate(Matrix<T> result)
+        {
+            if (result == null)
+            {
+                throw new ArgumentNullException("result");
+            }
+
+            if (result.RowCount != RowCount || result.ColumnCount != ColumnCount)
+            {
+                throw DimensionsDontMatch<ArgumentException>(this, result);
+            }
+
+            DoConjugate(result);
         }
 
         /// <summary>

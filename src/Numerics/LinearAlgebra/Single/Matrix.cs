@@ -308,6 +308,20 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         }
 
         /// <summary>
+        /// Complex conjugates each element of this matrix and place the results into the result matrix.
+        /// </summary>
+        /// <param name="result">The result of the conjugation.</param>
+        protected override void DoConjugate(Matrix<float> result)
+        {
+            if (ReferenceEquals(this, result))
+            {
+                return;
+            }
+
+            CopyTo(result);
+        }
+
+        /// <summary>
         /// Pointwise multiplies this matrix with another matrix and stores the result into the result matrix.
         /// </summary>
         /// <param name="other">The matrix to pointwise multiply with this one.</param>
