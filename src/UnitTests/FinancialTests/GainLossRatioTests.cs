@@ -29,7 +29,6 @@ namespace MathNet.Numerics.UnitTests.FinancialTests
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Text;
     using MathNet.Numerics.Financial;
     using MathNet.Numerics.Statistics;
     using NUnit.Framework;
@@ -37,6 +36,87 @@ namespace MathNet.Numerics.UnitTests.FinancialTests
     [TestFixture]
     public class GainLossRatioTests
     {
+        [Test]
+        [ExpectedException(typeof(ArgumentNullException))] //assert
+        public void throws_when_input_data_is_null()
+        {
+            //arrange
+            List<double> inputData = null;
+            //act
+            inputData.GainLossRatio();
+        }
 
+        [Test]
+        //Not sure this is correct.  Undefined may be more correct.
+        public void returns_zero_for_a_single_positive_input()
+        {
+            //arrange
+            var inputData = new[] { 1.0 };
+            //act
+            var gainLossRatio = inputData.GainLossRatio();
+            //assert
+            Assert.AreEqual(0.0, gainLossRatio);
+        }
+
+        [Test]
+        //Not sure this is correct.  Undefined may be more correct.
+        public void returns_zero_for_a_single_negative_input()
+        {
+            //arrange
+            var inputData = new[] { -1.0 };
+            //act
+            var gainLossRatio = inputData.GainLossRatio();
+            //assert
+            Assert.AreEqual(0.0, gainLossRatio);
+        }
+
+        [Test]
+        //Not sure this is correct.  Undefined may be more correct.
+        public void returns_zero_for_a_set_of_all_positive_numbers()
+        {
+            //arrange
+            var inputData = new[] { 1.0, 2.0, 3.0 };
+            //act
+            var gainLossRatio = inputData.GainLossRatio();
+            //assert
+            Assert.AreEqual(0.0, gainLossRatio);
+        }
+
+        [Test]
+        //Not sure this is correct.  Undefined may be more correct.
+        public void returns_zero_for_a_set_of_all_negative_numbers()
+        {
+            //arrange
+            var inputData = new[] { -1.0, -2.0, -3.0 };
+            //act
+            var gainLossRatio = inputData.GainLossRatio();
+            //assert
+            Assert.AreEqual(0.0, gainLossRatio);
+        }
+
+        [Test]
+        public void handles_a_value_of_zero_as_a_positive()
+        {
+            //arrange
+            var inputData = new[] { 0.0, 1.0, 2.0 };
+            //act
+            var gainLossRatio = inputData.GainLossRatio();
+            //assert
+            Assert.AreEqual(0.0, gainLossRatio);
+        }
+
+        [Test]
+        public void calculates_the_correct_ratio_given_a_set_of_gains_and_losses()
+        {
+            //arrange
+            var inputData = new[] { -2.0, -1.0, 0.0, 1.0, 2.0 };
+            var meanOfGains = inputData.Where(x => x >= 0).Mean();
+            var meanOfLosses = inputData.Where(x => x < 0).Mean();
+            var expectedRatio = Math.Abs(meanOfGains / meanOfLosses);
+            //act
+            var gainLossRatio = inputData.GainLossRatio();
+            //assert
+            Assert.AreEqual(expectedRatio, gainLossRatio);
+        }
     }
 }
