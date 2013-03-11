@@ -11,7 +11,7 @@ namespace MathNet.Numerics.Optimization
         public double ObjectiveTolerance { get; set; }
         public double XTolerance { get; set; }
         public double LowerExpansionFactor { get; set; }
-        public double UpperExapansionFactor { get; set; }
+        public double UpperExpansionFactor { get; set; }
         public int MaxExpansionSteps { get; set; }
 
         public BisectionRootFinder(double objective_tolerance=1e-5, double x_tolerance=1e-5, double lower_expansion_factor=-1.0, double upper_expansion_factor=-1.0, int max_expansion_steps=10)
@@ -19,7 +19,7 @@ namespace MathNet.Numerics.Optimization
             this.ObjectiveTolerance = objective_tolerance;
             this.XTolerance = x_tolerance;
             this.LowerExpansionFactor = lower_expansion_factor;
-            this.UpperExapansionFactor = upper_expansion_factor;            
+            this.UpperExpansionFactor = upper_expansion_factor;            
             this.MaxExpansionSteps = max_expansion_steps;
         } 
 
@@ -36,8 +36,31 @@ namespace MathNet.Numerics.Optimization
             this.ValidateEvaluation(lower_val, lower_bound);
             this.ValidateEvaluation(upper_val, upper_bound);
 
-            if (Math.Sign(lower_val) == Math.Sign(upper_val) && this.LowerExpansionFactor <= 1.0 && this.UpperExapansionFactor <= 1.0)
+            if (Math.Sign(lower_val) == Math.Sign(upper_val) && this.LowerExpansionFactor <= 1.0 && this.UpperExpansionFactor <= 1.0)
                 throw new Exception("Bounds do not necessarily span a root, and StepExpansionFactor is not set to expand the interval in this case.");
+
+            int expansion_steps = 0;
+            while (Math.Sign(lower_val) == Math.Sign(upper_val) && expansion_steps < this.MaxExpansionSteps)
+            {
+                double midpoint = 0.5 * (upper_bound + lower_bound);
+                double range = upper_bound - lower_bound;
+                if (this.UpperExpansionFactor <= 0.0 || (this.LowerExpansionFactor > 0.0 && Math.Abs(lower_val) < Math.Abs(upper_val)) )
+                {
+                    lower_bound = upper_bound - this.LowerExpansionFactor * range;
+                    lower_val = objective_function(lower_bound);
+                    this.ValidateEvaluation(lower_val, lower_bound);
+                }
+                else
+                {
+                    upper_bound = lower_bound + this.UpperExpansionFactor * range;
+                    upper_val = objective_function(upper_bound);
+                    this.ValidateEvaluation(upper_val, upper_bound);
+                }
+                expansion_steps += 1;
+            }
+
+            if (expansion_steps == this.MaxExpansionSteps)
+                throw new MaximumIterationsException("Could not bound root in maximum expansion iterations.");
 
             while (Math.Abs(upper_val - lower_val) > 0.5 * this.ObjectiveTolerance || Math.Abs(upper_bound - lower_bound) > 0.5 * this.XTolerance)
             {
