@@ -99,32 +99,25 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
         }
 
         /// <summary>
-        /// Small dataset throws <c>ArgumentException</c>.
+        /// Empty dataset returns NaN.
         /// </summary>
         [Test]
-        public void SmallDataSetThrowArgumentException()
+        public void EmptyDataSetReturnsNaN()
         {
             var data = new double[] { };
-            var data1 = data;
-            Assert.Throws<ArgumentException>(() => new Percentile(data1));
-
-            data = new double[] { 1 };
-            var data2 = data;
-            Assert.Throws<ArgumentException>(() => new Percentile(data2));
-
-            data = new double[] { 1, 2 };
-            Assert.Throws<ArgumentException>(() => new Percentile(data));
+            var percentile = new Percentile(data);
+            Assert.IsTrue(double.IsNaN(percentile.Compute(0)));
         }
 
         /// <summary>
-        /// Invalid percentile values throw <c>ArgumentException</c>.
+        /// Invalid percentile values return NaN.
         /// </summary>
         [Test]
-        public void InvalidPercentileValuesThrowArgumentException()
+        public void InvalidPercentileValuesReturnNaN()
         {
             var percentile = new Percentile(Data);
-            Assert.Throws<ArgumentException>(() => percentile.Compute(-0.1));
-            Assert.Throws<ArgumentException>(() => percentile.Compute(100.1));
+            Assert.IsTrue(double.IsNaN(percentile.Compute(-0.1)));
+            Assert.IsTrue(double.IsNaN(percentile.Compute(1.1)));
         }
     }
 }

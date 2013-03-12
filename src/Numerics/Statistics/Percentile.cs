@@ -90,11 +90,6 @@ namespace MathNet.Numerics.Statistics
                 throw new ArgumentNullException("data");
             }
             
-            if (data.Count() < 3)
-            {
-                throw new ArgumentException(string.Format(Properties.Resources.MustContainAtLeast, 3), "data");
-            }
-
             _data = new List<double>(data);
             _data.Sort();
         }
@@ -106,12 +101,12 @@ namespace MathNet.Numerics.Statistics
         /// <returns>the requested percentile.</returns>
         public double Compute(double percentile)
         {
-            if (percentile < 0 || percentile > 100)
+            if (percentile < 0 || percentile > 1 || _data.Count == 0)
             {
-                throw new ArgumentException("Percentile value must be between 0 and 100.");
+                return double.NaN;
             }
 
-            if (percentile == 0.0)
+            if (percentile == 0.0 || _data.Count == 1)
             {
                 return _data[0];
             }
@@ -190,6 +185,9 @@ namespace MathNet.Numerics.Statistics
         {
             var k = (int)(_data.Count * percentile);
             var pk = (k - 0.5) / _data.Count;
+            if(k == 0)
+                return _data[0];
+
             return _data[k - 1] + (_data.Count * (percentile - pk) * (_data[k] - _data[k - 1]));
         }
 
@@ -202,6 +200,11 @@ namespace MathNet.Numerics.Statistics
         {
             var tmp = percentile * (_data.Count + 1.0);
             var k = (int)tmp;
+            if(k == 0)
+                return _data[0];
+            if(k == _data.Count)
+                return _data[k - 1];
+
             var d = tmp - k;
 
             return _data[k - 1] + (d * (_data[k] - _data[k - 1]));
