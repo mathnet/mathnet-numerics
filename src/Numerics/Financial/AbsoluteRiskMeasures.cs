@@ -36,7 +36,7 @@ namespace MathNet.Numerics.Financial
     using System.Text;
     using MathNet.Numerics.Statistics;
 
-    public static class AbsoluteRiskStatistics
+    public static class AbsoluteRiskMeasures
     {
         //Note: The following statistics would be condidered an absolute risk statistic in the finance realm as well.
         // Standard Deviation 
@@ -136,44 +136,6 @@ namespace MathNet.Numerics.Financial
         }
 
         /// <summary>
-        /// Average Gain or Gain Mean
-        /// This is a simple average (arithmetic mean) of the periods with a gain. It is calculated by summing the returns for gain periods (return 0) 
-        /// and then dividing the total by the number of gain periods.
-        /// </summary>
-        /// <param name="data"></param>
-        /// <returns></returns>
-        /// <remarks>http://www.offshore-library.com/kb/statistics.php</remarks>
-        public static double GainMean(this IEnumerable<double> data)
-        {
-            if (data == null)
-            {
-                throw new ArgumentNullException("data");
-            }
-
-            var gains = data.Where(x => x >= 0);
-            return gains.Mean();
-        }
-
-        /// <summary>
-        /// Average Loss or LossMean
-        /// This is a simple average (arithmetic mean) of the periods with a loss. It is calculated by summing the returns for loss periods (return < 0)
-        /// and then dividing the total by the number of loss periods.
-        /// </summary>
-        /// <param name="data"></param>
-        /// <returns></returns>
-        /// <remarks>http://www.offshore-library.com/kb/statistics.php</remarks>
-        public static double LossMean(this IEnumerable<double> data)
-        {
-            if (data == null)
-            {
-                throw new ArgumentNullException("data");
-            }
-
-            var losses = data.Where(x => x < 0);
-            return losses.Mean();
-        }
-
-        /// <summary>
         /// Measures a fund’s average gain in a gain period divided by the fund’s average loss in a losing
         /// period. Periods can be monthly or quarterly depending on the data frequency.
         /// </summary>
@@ -190,9 +152,14 @@ namespace MathNet.Numerics.Financial
             var losses = data.Where(x => x < 0);
 
             var lossMean = losses.Mean();
-            if(lossMean != 0.0)
+            if (lossMean != 0.0)
                 return Math.Abs(gains.Mean() / losses.Mean());
             return 0.0;
+        }
+
+        public static double MaximumDrawdown(this IEnumerable<double> data)
+        {
+            throw new NotImplementedException();
         }
     }
 }

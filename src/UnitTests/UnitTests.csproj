@@ -122,6 +122,7 @@
     <Compile Include="DistributionTests\Multivariate\MultinomialTests.cs" />
     <Compile Include="DistributionTests\Multivariate\NormalGammaTests.cs" />
     <Compile Include="DistributionTests\Multivariate\WishartTests.cs" />
+    <Compile Include="FinancialTests\CompoundMonthlyReturnTests.cs" />
     <Compile Include="FinancialTests\DownsideDeviationTests.cs" />
     <Compile Include="FinancialTests\GainLossRatioTests.cs" />
     <Compile Include="FinancialTests\GainStandardDeviationTests.cs" />
