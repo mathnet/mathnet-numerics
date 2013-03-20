@@ -71,7 +71,7 @@ namespace MathNet.Numerics.Statistics
         /// <summary>
         /// Holds the data.
         /// </summary>
-        private readonly List<double> _data;
+        private readonly double[] _data;
 
         /// <summary>
         /// Gets or sets the method used to calculate the percentiles.
@@ -94,9 +94,9 @@ namespace MathNet.Numerics.Statistics
             {
                 throw new ArgumentNullException("data");
             }
-            
-            _data = new List<double>(data);
-            _data.Sort();
+
+            _data = data.ToArray();
+            Array.Sort(_data);
         }
 
         /// <summary>
@@ -106,39 +106,19 @@ namespace MathNet.Numerics.Statistics
         /// <returns>the requested percentile.</returns>
         public double Compute(double percentile)
         {
-            if (percentile < 0 || percentile > 1 || _data.Count == 0)
-            {
-                return double.NaN;
-            }
-
-            if (percentile == 0.0 || _data.Count == 1)
-            {
-                return _data[0];
-            }
-
-            if (percentile == 1.0)
-            {
-                return _data[_data.Count - 1];
-            }
-
-            var result = double.NaN;
             switch (Method)
             {
                 case PercentileMethod.Nist:
-                    result = Nist(percentile);
-                    break;
+                    return SortedArrayStatistics.QuantileCompatible(_data, percentile, QuantileCompatibility.Nist);
                 case PercentileMethod.Nearest:
-                    result = Nearest(percentile);
-                    break;
+                    return SortedArrayStatistics.QuantileCompatible(_data, percentile, QuantileCompatibility.R3);
                 case PercentileMethod.Interpolation:
-                    result = Interpolation(percentile);
-                    break;
+                    return SortedArrayStatistics.QuantileCompatible(_data, percentile, QuantileCompatibility.R5);
                 case PercentileMethod.Excel:
-                    result = Excel(percentile);
-                    break;
+                    return SortedArrayStatistics.QuantileCompatible(_data, percentile, QuantileCompatibility.Excel);
+                default:
+                    return SortedArrayStatistics.Quantile(_data, percentile);
             }
-
-            return result;
         }
 
         /// <summary>
@@ -154,65 +134,6 @@ namespace MathNet.Numerics.Statistics
             }
 
             return percentiles.Select(Compute).ToList();
-        }
-
-        /// <summary>
-        /// Computes the percentile using the nearest value.
-        /// </summary>
-        /// <param name="percentile">The percentile.</param>
-        /// <returns>the percentile using the nearest value.</returns>
-        private double Nearest(double percentile)
-        {
-            var n = (int)Math.Round((_data.Count * percentile) + 0.5, 0);
-            return _data[n - 1];
-        }
-
-        /// <summary>
-        /// Computes the percentile using Excel's method.
-        /// </summary>
-        /// <param name="percentile">The percentile.</param>
-        /// <returns>the percentile using Excel's method.</returns>
-        private double Excel(double percentile)
-        {
-            var tmp = 1 + (percentile * (_data.Count - 1.0));
-            var k = (int)tmp;
-            var d = tmp - k;
-
-            return _data[k - 1] + (d * (_data[k] - _data[k - 1]));
-        }
-
-        /// <summary>
-        /// Computes the percentile using interpolation.
-        /// </summary>
-        /// <param name="percentile">The percentile.</param>
-        /// <returns>the percentile using the interpolation.</returns>
-        private double Interpolation(double percentile)
-        {
-            var k = (int)(_data.Count * percentile);
-            var pk = (k - 0.5) / _data.Count;
-            if(k == 0)
-                return _data[0];
-
-            return _data[k - 1] + (_data.Count * (percentile - pk) * (_data[k] - _data[k - 1]));
-        }
-
-        /// <summary>
-        /// Computes the percentile using NIST's method.
-        /// </summary>
-        /// <param name="percentile">The percentile.</param>
-        /// <returns>the percentile using NIST's method.</returns>
-        private double Nist(double percentile)
-        {
-            var tmp = percentile * (_data.Count + 1.0);
-            var k = (int)tmp;
-            if(k == 0)
-                return _data[0];
-            if(k == _data.Count)
-                return _data[k - 1];
-
-            var d = tmp - k;
-
-            return _data[k - 1] + (d * (_data[k] - _data[k - 1]));
         }
     }
 }

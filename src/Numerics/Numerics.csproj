@@ -111,6 +111,7 @@
     <Compile Include="SpecialFunctions\ModifiedStruve.cs" />
     <Compile Include="SpecialFunctions\ModifiedBessel.cs" />
     <Compile Include="SpecialFunctions\Logistic.cs" />
+    <Compile Include="Statistics\SortedArrayStatistics.cs" />
     <Compile Include="TargetedPatchingOptOutAttribute.cs" />
     <Compile Include="Distributions\Continuous\Cauchy.cs" />
     <Compile Include="Distributions\Continuous\Chi.cs" />
