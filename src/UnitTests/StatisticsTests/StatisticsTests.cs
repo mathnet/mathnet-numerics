@@ -3,7 +3,9 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
-// Copyright (c) 2009-2010 Math.NET
+//
+// Copyright (c) 2009-2013 Math.NET
+//
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -12,8 +14,10 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
+//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
+//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -45,7 +49,7 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
         /// <summary>
         /// Statistics data.
         /// </summary>
-        private readonly IDictionary<string, StatTestData> _data = new Dictionary<string, StatTestData>();
+        readonly IDictionary<string, StatTestData> _data = new Dictionary<string, StatTestData>();
 
         /// <summary>
         /// Initializes a new instance of the StatisticsTests class.
@@ -170,7 +174,7 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
         [Test]
         public void ShortMinMax()
         {
-            var samples = new[] { -1.0, 5, 0, -3, 10, -0.5, 4 };
+            var samples = new[] {-1.0, 5, 0, -3, 10, -0.5, 4};
             Assert.That(samples.Minimum(), Is.EqualTo(-3), "Min");
             Assert.That(samples.Maximum(), Is.EqualTo(10), "Max");
         }
@@ -182,7 +186,7 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
         public void ShortOrderMedian()
         {
             // -3 -1 -0.5 0  1  4 5 6 10
-            var samples = new[] { -1, 5, 0, -3, 10, -0.5, 4, 1, 6 };
+            var samples = new[] {-1, 5, 0, -3, 10, -0.5, 4, 1, 6};
             Assert.That(samples.Median(), Is.EqualTo(1), "Median");
             Assert.That(Statistics.OrderStatistic(samples, 1), Is.EqualTo(-3), "Order-1");
             Assert.That(Statistics.OrderStatistic(samples, 3), Is.EqualTo(-0.5), "Order-3");
@@ -200,9 +204,9 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
         {
             // Test around 10^9, potential stability issues
             var gaussian = new Distributions.Normal(1e+9, 2)
-                           {
-                               RandomSource = new Numerics.Random.MersenneTwister(100)
-                           };
+                {
+                    RandomSource = new Numerics.Random.MersenneTwister(100)
+                };
 
             AssertHelpers.AlmostEqual(1e+9, gaussian.Samples().Take(10000).Mean(), 11);
             AssertHelpers.AlmostEqual(4d, gaussian.Samples().Take(10000).Variance(), 1);

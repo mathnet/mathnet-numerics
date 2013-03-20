@@ -3,7 +3,9 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
-// Copyright (c) 2009-2010 Math.NET
+//
+// Copyright (c) 2009-2013 Math.NET
+//
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -12,8 +14,10 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
+//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
+//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -40,7 +44,7 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
         /// <summary>
         /// Datatset array.
         /// </summary>
-        private readonly double[] _smallDataset = { 0.5, 1.5, 2.5, 3.5, 4.5, 5.5, 6.5, 7.5, 8.5, 9.5 };
+        readonly double[] _smallDataset = {0.5, 1.5, 2.5, 3.5, 4.5, 5.5, 6.5, 7.5, 8.5, 9.5};
 
         /// <summary>
         /// Can create empty bucket.
@@ -48,7 +52,7 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
         [Test]
         public void CanCreateEmptyBucket()
         {
-            new Bucket(0.0, 1.0);
+            var b = new Bucket(0.0, 1.0);
         }
 
         /// <summary>
@@ -57,7 +61,7 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
         [Test]
         public void CanCreateFilledBucket()
         {
-            new Bucket(0.0, 1.0, 10.0);
+            var b = new Bucket(0.0, 1.0, 10.0);
         }
 
         /// <summary>
@@ -140,7 +144,7 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
         [Test]
         public void CanCreateEmptyHistogram()
         {
-            new Histogram();
+            var h = new Histogram();
         }
 
         /// <summary>
@@ -263,7 +267,7 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
         [Test]
         public void CanCreateEqualSpacedHistogram()
         {
-            new Histogram(new[] { 1.0, 5.0, 10.0 }, 2);
+            var h = new Histogram(new[] {1.0, 5.0, 10.0}, 2);
         }
 
         /// <summary>
@@ -281,7 +285,7 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
         [Test]
         public void CanCreateEqualSpacedHistogramWithGivenLowerAndUpperBound()
         {
-            new Histogram(new[] { 1.0, 5.0, 10.0 }, 2, 0.0, 20.0);
+            var h = new Histogram(new[] {1.0, 5.0, 10.0}, 2, 0.0, 20.0);
         }
 
         /// <summary>
@@ -290,7 +294,7 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
         [Test]
         public void CanAddDataSingle()
         {
-            var h = new Histogram(new[] { 1.0, 5.0, 10.0 }, 2);
+            var h = new Histogram(new[] {1.0, 5.0, 10.0}, 2);
             h.AddData(7.0);
             Assert.AreEqual(2, h[1].Count);
         }
@@ -301,8 +305,8 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
         [Test]
         public void CanAddDataList()
         {
-            var h = new Histogram(new[] { 1.0, 5.0, 10.0 }, 2);
-            h.AddData(new[] { 7.0, 8.0 });
+            var h = new Histogram(new[] {1.0, 5.0, 10.0}, 2);
+            h.AddData(new[] {7.0, 8.0});
             Assert.AreEqual(3, h[1].Count);
         }
 
@@ -312,7 +316,7 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
         [Test]
         public void AddDataIncreasesUpperBound()
         {
-            var h = new Histogram(new[] { 1.0, 5.0, 10.0 }, 2);
+            var h = new Histogram(new[] {1.0, 5.0, 10.0}, 2);
             h.AddData(20.0);
             Assert.AreEqual(2, h[1].Count);
         }
@@ -323,7 +327,7 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
         [Test]
         public void AddDataDecreasesLowerBound()
         {
-            var h = new Histogram(new[] { 1.0, 5.0, 10.0 }, 2);
+            var h = new Histogram(new[] {1.0, 5.0, 10.0}, 2);
             h.AddData(0.0);
             Assert.AreEqual(3, h[0].Count);
         }

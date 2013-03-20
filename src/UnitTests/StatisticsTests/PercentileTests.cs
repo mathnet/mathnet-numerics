@@ -3,7 +3,9 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
-// Copyright (c) 2009-2010 Math.NET
+//
+// Copyright (c) 2009-2013 Math.NET
+//
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -12,8 +14,10 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
+//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
+//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -26,7 +30,6 @@
 
 namespace MathNet.Numerics.UnitTests.StatisticsTests
 {
-    using System;
     using NUnit.Framework;
     using Statistics;
 
@@ -39,7 +42,7 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
         /// <summary>
         /// Data array
         /// </summary>
-        private static readonly double[] Data = { 95.1772, 95.1567, 95.1937, 95.1959, 95.1442, 95.061, 95.1591, 95.1195, 95.1065, 95.0925, 95.199, 95.1682 };
+        static readonly double[] Data = {95.1772, 95.1567, 95.1937, 95.1959, 95.1442, 95.061, 95.1591, 95.1195, 95.1065, 95.0925, 95.199, 95.1682};
 
         /// <summary>
         /// Can compute percentile using NIST method.
@@ -48,9 +51,9 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
         public void CanComputePercentileUsingNistMethod()
         {
             var percentile = new Percentile(Data)
-                             {
-                                 Method = PercentileMethod.Nist
-                             };
+                {
+                    Method = PercentileMethod.Nist
+                };
             Assert.AreEqual(95.19807, percentile.Compute(.9));
         }
 
@@ -61,9 +64,9 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
         public void CanComputePercentileUsingExcelMethod()
         {
             var percentile = new Percentile(Data)
-                             {
-                                 Method = PercentileMethod.Excel
-                             };
+                {
+                    Method = PercentileMethod.Excel
+                };
             Assert.AreEqual(95.19568, percentile.Compute(.9));
         }
 
@@ -74,9 +77,9 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
         public void CanComputePercentileUsingNearestMethod()
         {
             var percentile = new Percentile(Data)
-                             {
-                                 Method = PercentileMethod.Nearest
-                             };
+                {
+                    Method = PercentileMethod.Nearest
+                };
             Assert.AreEqual(95.1959, percentile.Compute(.9));
         }
 
@@ -86,12 +89,12 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
         [Test]
         public void CanComputePercentileUsingInterpolationMethod()
         {
-            var data = new double[] { 1, 2, 3, 4, 5 };
+            var data = new double[] {1, 2, 3, 4, 5};
             var percentile = new Percentile(data)
-                             {
-                                 Method = PercentileMethod.Interpolation
-                             };
-            var values = new[] { .25, .5, .75 };
+                {
+                    Method = PercentileMethod.Interpolation
+                };
+            var values = new[] {.25, .5, .75};
             var percentiles = percentile.Compute(values);
             Assert.AreEqual(1.75, percentiles[0]);
             Assert.AreEqual(3.0, percentiles[1]);
@@ -104,7 +107,7 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
         [Test]
         public void EmptyDataSetReturnsNaN()
         {
-            var data = new double[] { };
+            var data = new double[] {};
             var percentile = new Percentile(data);
             Assert.IsTrue(double.IsNaN(percentile.Compute(0)));
         }
