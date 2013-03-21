@@ -46,7 +46,7 @@ namespace MathNet.Numerics.Statistics
 
             var min = double.PositiveInfinity;
             bool any = false;
-            foreach (double d in stream)
+            foreach (var d in stream)
             {
                 if (d < min || double.IsNaN(d))
                 {
@@ -68,7 +68,7 @@ namespace MathNet.Numerics.Statistics
 
             var max = double.NegativeInfinity;
             bool any = false;
-            foreach (double d in stream)
+            foreach (var d in stream)
             {
                 if (d > max || double.IsNaN(d))
                 {
@@ -77,6 +77,24 @@ namespace MathNet.Numerics.Statistics
                 any = true;
             }
             return any ? max : double.NaN;
+        }
+
+        /// <summary>
+        /// Returns the arithmetic sample mean from the enumerable, in a single pass without memoization.
+        /// Returns NaN if data is empty or any entry is NaN.
+        /// </summary>
+        /// <param name="stream">Sample stream, no sorting is assumed.</param>
+        public static double Mean(IEnumerable<double> stream)
+        {
+            if (stream == null) throw new ArgumentNullException("stream");
+
+            double mean = 0;
+            ulong m = 0;
+            foreach (var d in stream)
+            {
+                mean += (d - mean) / ++m;
+            }
+            return mean;
         }
     }
 }

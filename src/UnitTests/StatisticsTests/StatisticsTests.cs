@@ -86,6 +86,7 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
 
             Assert.Throws<ArgumentNullException>(() => StreamingStatistics.Minimum(data));
             Assert.Throws<ArgumentNullException>(() => StreamingStatistics.Maximum(data));
+            Assert.Throws<ArgumentNullException>(() => StreamingStatistics.Mean(data));
         }
 
         [Test]
@@ -119,6 +120,7 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
 
             Assert.DoesNotThrow(() => StreamingStatistics.Minimum(data));
             Assert.DoesNotThrow(() => StreamingStatistics.Maximum(data));
+            Assert.DoesNotThrow(() => StreamingStatistics.Mean(data));
         }
 
         [TestCase("lottery")]
@@ -134,6 +136,7 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
             var data = _data[dataSet];
             AssertHelpers.AlmostEqual(data.Mean, Statistics.Mean(data.Data), 15);
             AssertHelpers.AlmostEqual(data.Mean, ArrayStatistics.Mean(data.Data), 15);
+            AssertHelpers.AlmostEqual(data.Mean, StreamingStatistics.Mean(data.Data), 15);
         }
 
         [TestCase("lottery")]
@@ -228,11 +231,19 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
             AssertHelpers.AlmostEqual(2d, Statistics.StandardDeviation(gaussian.Samples().Take(10000)), 2);
 
             AssertHelpers.AlmostEqual(1e+9, ArrayStatistics.Mean(gaussian.Samples().Take(10000).ToArray()), 11);
+
+            AssertHelpers.AlmostEqual(1e+9, StreamingStatistics.Mean(gaussian.Samples().Take(10000)), 11);
         }
 
         [Test]
         public void MinimumOfEmptyMustBeNaN()
         {
+            Assert.That(Statistics.Minimum(new double[0]), Is.NaN);
+            Assert.That(Statistics.Minimum(new[] { 2d }), Is.Not.NaN);
+            Assert.That(ArrayStatistics.Minimum(new double[0]), Is.NaN);
+            Assert.That(ArrayStatistics.Minimum(new[] { 2d }), Is.Not.NaN);
+            Assert.That(SortedArrayStatistics.Minimum(new double[0]), Is.NaN);
+            Assert.That(SortedArrayStatistics.Minimum(new[] { 2d }), Is.Not.NaN);
             Assert.That(StreamingStatistics.Minimum(new double[0]), Is.NaN);
             Assert.That(StreamingStatistics.Minimum(new[] {2d }), Is.Not.NaN);
         }
@@ -240,6 +251,12 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
         [Test]
         public void MaximumOfEmptyMustBeNaN()
         {
+            Assert.That(Statistics.Maximum(new double[0]), Is.NaN);
+            Assert.That(Statistics.Maximum(new[] { 2d }), Is.Not.NaN);
+            Assert.That(ArrayStatistics.Maximum(new double[0]), Is.NaN);
+            Assert.That(ArrayStatistics.Maximum(new[] { 2d }), Is.Not.NaN);
+            Assert.That(SortedArrayStatistics.Maximum(new double[0]), Is.NaN);
+            Assert.That(SortedArrayStatistics.Maximum(new[] { 2d }), Is.Not.NaN);
             Assert.That(StreamingStatistics.Maximum(new double[0]), Is.NaN);
             Assert.That(StreamingStatistics.Maximum(new[] { 2d }), Is.Not.NaN);
         }
