@@ -30,7 +30,6 @@
 
 namespace MathNet.Numerics.UnitTests.StatisticsTests
 {
-#if !PORTABLE
     using System;
     using System.Collections.Generic;
     using System.IO;
@@ -39,45 +38,79 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
     using Statistics;
 
     /// <summary>
-    /// Statistics tests.
+    /// Statistics Tests.
     /// </summary>
-    /// <remarks>NOTE: this class is not included into Silverlight version, because it uses data from local files. 
-    /// In Silverlight access to local files is forbidden, except several cases.</remarks>
     [TestFixture]
     public class StatisticsTests
     {
-        /// <summary>
-        /// Statistics data.
-        /// </summary>
-        readonly IDictionary<string, StatTestData> _data = new Dictionary<string, StatTestData>();
+        readonly IDictionary<string, StatTestData> _data = new Dictionary<string, StatTestData>
+            {
+                {"lottery", new StatTestData("./data/NIST/Lottery.dat")},
+                {"lew", new StatTestData("./data/NIST/Lew.dat")},
+                {"mavro", new StatTestData("./data/NIST/Mavro.dat")},
+                {"michelso", new StatTestData("./data/NIST/Michelso.dat")},
+                {"numacc1", new StatTestData("./data/NIST/NumAcc1.dat")},
+                {"numacc2", new StatTestData("./data/NIST/NumAcc2.dat")},
+                {"numacc3", new StatTestData("./data/NIST/NumAcc3.dat")},
+                {"numacc4", new StatTestData("./data/NIST/NumAcc4.dat")}
+            };
 
-        /// <summary>
-        /// Initializes a new instance of the StatisticsTests class.
-        /// </summary>
-        public StatisticsTests()
+        [Test]
+        public void ThrowsOnNullData()
         {
-            var lottery = new StatTestData("./data/NIST/Lottery.dat");
-            _data.Add("lottery", lottery);
-            var lew = new StatTestData("./data/NIST/Lew.dat");
-            _data.Add("lew", lew);
-            var mavro = new StatTestData("./data/NIST/Mavro.dat");
-            _data.Add("mavro", mavro);
-            var michelso = new StatTestData("./data/NIST/Michelso.dat");
-            _data.Add("michelso", michelso);
-            var numacc1 = new StatTestData("./data/NIST/NumAcc1.dat");
-            _data.Add("numacc1", numacc1);
-            var numacc2 = new StatTestData("./data/NIST/NumAcc2.dat");
-            _data.Add("numacc2", numacc2);
-            var numacc3 = new StatTestData("./data/NIST/NumAcc3.dat");
-            _data.Add("numacc3", numacc3);
-            var numacc4 = new StatTestData("./data/NIST/NumAcc4.dat");
-            _data.Add("numacc4", numacc4);
+            double[] data = null;
+
+            Assert.Throws<ArgumentNullException>(() => Statistics.Minimum(data));
+            Assert.Throws<ArgumentNullException>(() => Statistics.Maximum(data));
+            Assert.Throws<ArgumentNullException>(() => Statistics.Mean(data));
+
+            Assert.Throws<ArgumentNullException>(() => SortedArrayStatistics.Minimum(data));
+            Assert.Throws<ArgumentNullException>(() => SortedArrayStatistics.Maximum(data));
+            Assert.Throws<ArgumentNullException>(() => SortedArrayStatistics.Median(data));
+            Assert.Throws<ArgumentNullException>(() => SortedArrayStatistics.LowerQuartile(data));
+            Assert.Throws<ArgumentNullException>(() => SortedArrayStatistics.UpperQuartile(data));
+            Assert.Throws<ArgumentNullException>(() => SortedArrayStatistics.Percentile(data, 30));
+            Assert.Throws<ArgumentNullException>(() => SortedArrayStatistics.Quantile(data, 0.3));
+            Assert.Throws<ArgumentNullException>(() => SortedArrayStatistics.QuantileCompatible(data, 0.3, QuantileCompatibility.Nearest));
+            Assert.Throws<ArgumentNullException>(() => SortedArrayStatistics.InterquartileRange(data));
+            Assert.Throws<ArgumentNullException>(() => SortedArrayStatistics.FiveNumberSummary(data));
+
+            Assert.Throws<ArgumentNullException>(() => ArrayStatistics.Minimum(data));
+            Assert.Throws<ArgumentNullException>(() => ArrayStatistics.Maximum(data));
+            Assert.Throws<ArgumentNullException>(() => ArrayStatistics.Mean(data));
+
+            Assert.Throws<ArgumentNullException>(() => StreamingStatistics.Minimum(data));
+            Assert.Throws<ArgumentNullException>(() => StreamingStatistics.Maximum(data));
         }
 
-        /// <summary>
-        /// Validate mean.
-        /// </summary>
-        /// <param name="dataSet">Dataset name.</param>
+        [Test]
+        public void DoesNotThrowOnEmptyData()
+        {
+            double[] data = new double[0];
+
+            //Assert.DoesNotThrow(() => Statistics.Minimum(data));
+            //Assert.DoesNotThrow(() => Statistics.Maximum(data));
+            //Assert.DoesNotThrow(() => Statistics.Mean(data));
+
+            Assert.DoesNotThrow(() => SortedArrayStatistics.Minimum(data));
+            Assert.DoesNotThrow(() => SortedArrayStatistics.Maximum(data));
+            Assert.DoesNotThrow(() => SortedArrayStatistics.Median(data));
+            Assert.DoesNotThrow(() => SortedArrayStatistics.LowerQuartile(data));
+            Assert.DoesNotThrow(() => SortedArrayStatistics.UpperQuartile(data));
+            Assert.DoesNotThrow(() => SortedArrayStatistics.Percentile(data, 30));
+            Assert.DoesNotThrow(() => SortedArrayStatistics.Quantile(data, 0.3));
+            Assert.DoesNotThrow(() => SortedArrayStatistics.QuantileCompatible(data, 0.3, QuantileCompatibility.Nearest));
+            Assert.DoesNotThrow(() => SortedArrayStatistics.InterquartileRange(data));
+            Assert.DoesNotThrow(() => SortedArrayStatistics.FiveNumberSummary(data));
+
+            Assert.DoesNotThrow(() => ArrayStatistics.Minimum(data));
+            Assert.DoesNotThrow(() => ArrayStatistics.Maximum(data));
+            Assert.DoesNotThrow(() => ArrayStatistics.Mean(data));
+
+            Assert.DoesNotThrow(() => StreamingStatistics.Minimum(data));
+            Assert.DoesNotThrow(() => StreamingStatistics.Maximum(data));
+        }
+
         [TestCase("lottery")]
         [TestCase("lew")]
         [TestCase("mavro")]
@@ -86,17 +119,13 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
         [TestCase("numacc2")]
         [TestCase("numacc3")]
         [TestCase("numacc4")]
-        public void Mean(string dataSet)
+        public void MeanConsistentWithNistData(string dataSet)
         {
             var data = _data[dataSet];
             AssertHelpers.AlmostEqual(data.Mean, Statistics.Mean(data.Data), 15);
             AssertHelpers.AlmostEqual(data.Mean, ArrayStatistics.Mean(data.Data), 15);
         }
 
-        /// <summary>
-        /// <c>Nullable</c> mean.
-        /// </summary>
-        /// <param name="dataSet">Dataset name.</param>
         [TestCase("lottery")]
         [TestCase("lew")]
         [TestCase("mavro")]
@@ -105,20 +134,10 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
         [TestCase("numacc2")]
         [TestCase("numacc3")]
         [TestCase("numacc4")]
-        public void NullableMean(string dataSet)
+        public void NullableMeanConsistentWithNistData(string dataSet)
         {
             var data = _data[dataSet];
             AssertHelpers.AlmostEqual(data.Mean, Statistics.Mean(data.DataWithNulls), 15);
-        }
-
-        /// <summary>
-        /// Mean with <c>null</c> throws <c>ArgumentNullException</c>.
-        /// </summary>
-        [Test]
-        public void MeanThrowsArgumentNullException()
-        {
-            double[] data = null;
-            Assert.Throws<ArgumentNullException>(() => Statistics.Mean(data));
         }
 
         /// <summary>
@@ -228,6 +247,20 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
         }
 
         [Test]
+        public void MinimumOfEmptyMustBeNaN()
+        {
+            Assert.That(StreamingStatistics.Minimum(new double[0]), Is.NaN);
+            Assert.That(StreamingStatistics.Minimum(new[] {2d }), Is.Not.NaN);
+        }
+
+        [Test]
+        public void MaximumOfEmptyMustBeNaN()
+        {
+            Assert.That(StreamingStatistics.Maximum(new double[0]), Is.NaN);
+            Assert.That(StreamingStatistics.Maximum(new[] { 2d }), Is.Not.NaN);
+        }
+
+        [Test]
         public void SampleVarianceOfEmptyAndSingleMustBeNaN()
         {
             Assert.That(Statistics.Variance(new double[0]), Is.NaN);
@@ -257,5 +290,4 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
             Assert.AreEqual(1.0, SortedArrayStatistics.Median(sorted));
         }
     }
-#endif
 }

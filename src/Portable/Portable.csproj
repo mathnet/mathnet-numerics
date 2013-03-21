@@ -1068,6 +1068,9 @@
     <Compile Include="..\Numerics\Statistics\Statistics.cs">
       <Link>Statistics\Statistics.cs</Link>
     </Compile>
+    <Compile Include="..\Numerics\Statistics\StreamingStatistics.cs">
+      <Link>Statistics\StreamingStatistics.cs</Link>
+    </Compile>
     <Compile Include="..\Numerics\TargetedPatchingOptOutAttribute.cs">
       <Link>TargetedPatchingOptOutAttribute.cs</Link>
     </Compile>

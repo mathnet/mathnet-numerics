@@ -28,6 +28,8 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System;
+
 namespace MathNet.Numerics.Statistics
 {
     public static class ArrayStatistics
@@ -42,7 +44,8 @@ namespace MathNet.Numerics.Statistics
         /// <param name="data">Sample array, no sorting is assumed.</param>
         public static double Minimum(double[] data)
         {
-            if (data == null || data.Length == 0) return double.NaN;
+            if (data == null) throw new ArgumentNullException("data");
+            if (data.Length == 0) return double.NaN;
 
             var min = double.PositiveInfinity;
             for (int i = 0; i < data.Length; i++)
@@ -62,7 +65,8 @@ namespace MathNet.Numerics.Statistics
         /// <param name="data">Sample array, no sorting is assumed.</param>
         public static double Maximum(double[] data)
         {
-            if (data == null || data.Length == 0) return double.NaN;
+            if (data == null) throw new ArgumentNullException("data");
+            if (data.Length == 0) return double.NaN;
 
             var max = double.NegativeInfinity;
             for (int i = 0; i < data.Length; i++)
@@ -82,7 +86,8 @@ namespace MathNet.Numerics.Statistics
         /// <param name="data">Sample array, no sorting is assumed.</param>
         public static double Mean(double[] data)
         {
-            if (data == null || data.Length == 0) return double.NaN;
+            if (data == null) throw new ArgumentNullException("data");
+            if (data.Length == 0) return double.NaN;
 
             double mean = 0;
             ulong m = 0;

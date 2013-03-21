@@ -51,7 +51,9 @@ namespace MathNet.Numerics.Statistics
         /// <param name="data">Sample array, must be sorted ascendingly.</param>
         public static double Minimum(double[] data)
         {
-            if (data == null || data.Length == 0) return double.NaN;
+            if (data == null) throw new ArgumentNullException("data");
+            if (data.Length == 0) return double.NaN;
+
             return data[0];
         }
 
@@ -61,7 +63,9 @@ namespace MathNet.Numerics.Statistics
         /// <param name="data">Sample array, must be sorted ascendingly.</param>
         public static double Maximum(double[] data)
         {
-            if (data == null || data.Length == 0) return double.NaN;
+            if (data == null) throw new ArgumentNullException("data");
+            if (data.Length == 0) return double.NaN;
+
             return data[data.Length - 1];
         }
 
@@ -124,7 +128,8 @@ namespace MathNet.Numerics.Statistics
         /// <param name="data">Sample array, must be sorted ascendingly.</param>
         public static double[] FiveNumberSummary(double[] data)
         {
-            if (data == null || data.Length == 0) return new[] {double.NaN, double.NaN, double.NaN, double.NaN, double.NaN};
+            if (data == null) throw new ArgumentNullException("data");
+            if (data.Length == 0) return new[] {double.NaN, double.NaN, double.NaN, double.NaN, double.NaN};
             return new[] {data[0], Quantile(data, 0.25), Quantile(data, 0.50), Quantile(data, 0.75), data[data.Length - 1]};
         }
 
@@ -142,7 +147,8 @@ namespace MathNet.Numerics.Statistics
         /// </remarks>
         public static double Quantile(double[] data, double tau)
         {
-            if (tau < 0d || tau > 1d || data == null || data.Length == 0) return double.NaN;
+            if (data == null) throw new ArgumentNullException("data");
+            if (tau < 0d || tau > 1d || data.Length == 0) return double.NaN;
             if (tau == 0d || data.Length == 1) return data[0];
             if (tau == 1d) return data[data.Length - 1];
 
@@ -158,7 +164,8 @@ namespace MathNet.Numerics.Statistics
         /// </summary>
         public static double QuantileCompatible(double[] data, double tau, QuantileCompatibility compatibility)
         {
-            if (tau < 0d || tau > 1d || data == null || data.Length == 0) return double.NaN;
+            if (data == null) throw new ArgumentNullException("data");
+            if (tau < 0d || tau > 1d || data.Length == 0) return double.NaN;
             if (tau == 0d || data.Length == 1) return data[0];
             if (tau == 1d) return data[data.Length - 1];
 
