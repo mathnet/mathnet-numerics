@@ -118,34 +118,10 @@ namespace MathNet.Numerics.Statistics
         /// <returns>The unbiased population variance of the sample.</returns>
         public static double Variance(this IEnumerable<double> data)
         {
-            if (data == null)
-            {
-                throw new ArgumentNullException("data");
-            }
-
-            double variance = 0;
-            double t = 0;
-            ulong j = 0;
-
-            using (IEnumerator<double> iterator = data.GetEnumerator())
-            {
-                if (iterator.MoveNext())
-                {
-                    j++;
-                    t = iterator.Current;
-                }
-
-                while (iterator.MoveNext())
-                {
-                    j++;
-                    double xi = iterator.Current;
-                    t += xi;
-                    double diff = (j * xi) - t;
-                    variance += (diff * diff) / (j * (j - 1));
-                }
-            }
-
-            return j > 1 ? variance/(j - 1) : double.NaN;
+            var array = data as double[];
+            return array != null
+                ? ArrayStatistics.Variance(array)
+                : StreamingStatistics.Variance(data);
         }
 
         /// <summary>
@@ -155,47 +131,8 @@ namespace MathNet.Numerics.Statistics
         /// <returns>The population variance of the sample.</returns>
         public static double Variance(this IEnumerable<double?> data)
         {
-            if (data == null)
-            {
-                throw new ArgumentNullException("data");
-            }
-
-            double variance = 0;
-            double t = 0;
-            ulong j = 0;
-
-            using (IEnumerator<double?> iterator = data.GetEnumerator())
-            {
-                while (true)
-                {
-                    bool hasNext = iterator.MoveNext();
-                    if (!hasNext)
-                    {
-                        break;
-                    }
-
-                    if (iterator.Current.HasValue)
-                    {
-                        j++;
-                        t = iterator.Current.Value;
-                        break;
-                    }
-                }
-
-                while (iterator.MoveNext())
-                {
-                    if (iterator.Current.HasValue)
-                    {
-                        j++;
-                        double xi = iterator.Current.Value;
-                        t += xi;
-                        double diff = (j * xi) - t;
-                        variance += (diff * diff) / (j * (j - 1));
-                    }
-                }
-            }
-
-            return j > 1 ? variance/(j - 1) : double.NaN;
+            if (data == null) throw new ArgumentNullException("data");
+            return StreamingStatistics.Variance(data.Where(d => d.HasValue).Select(d => d.Value));
         }
 
         /// <summary>

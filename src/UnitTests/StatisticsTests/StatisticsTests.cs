@@ -83,10 +83,12 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
             Assert.Throws<ArgumentNullException>(() => ArrayStatistics.Minimum(data));
             Assert.Throws<ArgumentNullException>(() => ArrayStatistics.Maximum(data));
             Assert.Throws<ArgumentNullException>(() => ArrayStatistics.Mean(data));
+            Assert.Throws<ArgumentNullException>(() => ArrayStatistics.Variance(data));
 
             Assert.Throws<ArgumentNullException>(() => StreamingStatistics.Minimum(data));
             Assert.Throws<ArgumentNullException>(() => StreamingStatistics.Maximum(data));
             Assert.Throws<ArgumentNullException>(() => StreamingStatistics.Mean(data));
+            Assert.Throws<ArgumentNullException>(() => StreamingStatistics.Variance(data));
         }
 
         [Test]
@@ -117,10 +119,12 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
             Assert.DoesNotThrow(() => ArrayStatistics.Minimum(data));
             Assert.DoesNotThrow(() => ArrayStatistics.Maximum(data));
             Assert.DoesNotThrow(() => ArrayStatistics.Mean(data));
+            Assert.DoesNotThrow(() => ArrayStatistics.Variance(data));
 
             Assert.DoesNotThrow(() => StreamingStatistics.Minimum(data));
             Assert.DoesNotThrow(() => StreamingStatistics.Maximum(data));
             Assert.DoesNotThrow(() => StreamingStatistics.Mean(data));
+            Assert.DoesNotThrow(() => StreamingStatistics.Variance(data));
         }
 
         [TestCase("lottery")]
@@ -231,8 +235,10 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
             AssertHelpers.AlmostEqual(2d, Statistics.StandardDeviation(gaussian.Samples().Take(10000)), 2);
 
             AssertHelpers.AlmostEqual(1e+9, ArrayStatistics.Mean(gaussian.Samples().Take(10000).ToArray()), 11);
+            AssertHelpers.AlmostEqual(4d, ArrayStatistics.Variance(gaussian.Samples().Take(10000).ToArray()), 1);
 
             AssertHelpers.AlmostEqual(1e+9, StreamingStatistics.Mean(gaussian.Samples().Take(10000)), 11);
+            AssertHelpers.AlmostEqual(4d, StreamingStatistics.Variance(gaussian.Samples().Take(10000)), 1);
         }
 
         [Test]
@@ -278,6 +284,12 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
             Assert.That(Statistics.Variance(new double[0]), Is.NaN);
             Assert.That(Statistics.Variance(new[] { 2d }), Is.NaN);
             Assert.That(Statistics.Variance(new[] { 2d, 3d }), Is.Not.NaN);
+            Assert.That(ArrayStatistics.Variance(new double[0]), Is.NaN);
+            Assert.That(ArrayStatistics.Variance(new[] { 2d }), Is.NaN);
+            Assert.That(ArrayStatistics.Variance(new[] { 2d, 3d }), Is.Not.NaN);
+            Assert.That(StreamingStatistics.Variance(new double[0]), Is.NaN);
+            Assert.That(StreamingStatistics.Variance(new[] { 2d }), Is.NaN);
+            Assert.That(StreamingStatistics.Variance(new[] { 2d, 3d }), Is.Not.NaN);
         }
 
         [Test]

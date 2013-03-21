@@ -80,7 +80,7 @@ namespace MathNet.Numerics.Statistics
         }
 
         /// <summary>
-        /// Returns the arithmetic sample mean from the enumerable, in a single pass without memoization.
+        /// Estimates the arithmetic sample mean from the enumerable, in a single pass without memoization.
         /// Returns NaN if data is empty or any entry is NaN.
         /// </summary>
         /// <param name="stream">Sample stream, no sorting is assumed.</param>
@@ -97,6 +97,39 @@ namespace MathNet.Numerics.Statistics
                 any = true;
             }
             return any ? mean : double.NaN;
+        }
+
+        /// <summary>
+        /// Estimates the unbiased population or sample variance from the enumerable, in a single pass without memoization.
+        /// On a dataset of size N will use an N-1 normalizer
+        /// Returns NaN if data is empty or any entry is NaN.
+        /// </summary>
+        /// <param name="stream">Sample stream, no sorting is assumed.</param>
+        public static double Variance(IEnumerable<double> stream)
+        {
+            if (stream == null) throw new ArgumentNullException("stream");
+
+            double variance = 0;
+            double t = 0;
+            ulong j = 0;
+            using (var iterator = stream.GetEnumerator())
+            {
+                if (iterator.MoveNext())
+                {
+                    j++;
+                    t = iterator.Current;
+                }
+
+                while (iterator.MoveNext())
+                {
+                    j++;
+                    double xi = iterator.Current;
+                    t += xi;
+                    double diff = (j * xi) - t;
+                    variance += (diff * diff) / (j * (j - 1));
+                }
+            }
+            return j > 1 ? variance / (j - 1) : double.NaN;
         }
     }
 }

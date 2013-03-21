@@ -80,7 +80,7 @@ namespace MathNet.Numerics.Statistics
         }
 
         /// <summary>
-        /// Returns the arithmetic sample mean from the unsorted data array.
+        /// Estimates the arithmetic sample mean from the unsorted data array.
         /// Returns NaN if data is empty or any entry is NaN.
         /// </summary>
         /// <param name="data">Sample array, no sorting is assumed.</param>
@@ -96,6 +96,28 @@ namespace MathNet.Numerics.Statistics
                 mean += (data[i] - mean) / ++m;
             }
             return mean;
+        }
+
+        /// <summary>
+        /// Estimates the unbiased population or sample variance from the unsorted data array.
+        /// On a dataset of size N will use an N-1 normalizer
+        /// Returns NaN if data is empty or any entry is NaN.
+        /// </summary>
+        /// <param name="data">Sample array, no sorting is assumed.</param>
+        public static double Variance(double[] data)
+        {
+            if (data == null) throw new ArgumentNullException("data");
+            if (data.Length <= 1) return double.NaN;
+
+            double variance = 0;
+            double t = data[0];
+            for (int i = 1; i < data.Length; i++)
+            {
+                t += data[i];
+                double diff = ((i + 1) * data[i]) - t;
+                variance += (diff * diff) / ((i + 1) * i);
+            }
+            return variance/(data.Length - 1);
         }
     }
 }
