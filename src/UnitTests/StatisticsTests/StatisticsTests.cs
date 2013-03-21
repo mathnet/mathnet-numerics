@@ -38,7 +38,7 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
     using Statistics;
 
     /// <summary>
-    /// Statistics Tests.
+    /// Statistics Tests
     /// </summary>
     [TestFixture]
     public class StatisticsTests
@@ -150,11 +150,6 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
             AssertHelpers.AlmostEqual(data.Mean, Statistics.Mean(data.DataWithNulls), 15);
         }
 
-        /// <summary>
-        /// Standard Deviation.
-        /// </summary>
-        /// <param name="dataSet">Dataset name.</param>
-        /// <param name="digits">Digits count.</param>
         [TestCase("lottery", 15)]
         [TestCase("lew", 15)]
         [TestCase("mavro", 12)]
@@ -163,17 +158,12 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
         [TestCase("numacc2", 13)]
         [TestCase("numacc3", 9)]
         [TestCase("numacc4", 8)]
-        public void StandardDeviation(string dataSet, int digits)
+        public void StandardDeviationConsistentWithNistData(string dataSet, int digits)
         {
             var data = _data[dataSet];
             AssertHelpers.AlmostEqual(data.StandardDeviation, Statistics.StandardDeviation(data.Data), digits);
         }
 
-        /// <summary>
-        /// <c>Nullable</c> Standard Deviation.
-        /// </summary>
-        /// <param name="dataSet">Dataset name.</param>
-        /// <param name="digits">Digits count.</param>
         [TestCase("lottery", 15)]
         [TestCase("lew", 15)]
         [TestCase("mavro", 12)]
@@ -182,46 +172,30 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
         [TestCase("numacc2", 13)]
         [TestCase("numacc3", 9)]
         [TestCase("numacc4", 8)]
-        public void NullableStandardDeviation(string dataSet, int digits)
+        public void NullableStandardDeviationConsistentWithNistData(string dataSet, int digits)
         {
             var data = _data[dataSet];
             AssertHelpers.AlmostEqual(data.StandardDeviation, Statistics.StandardDeviation(data.DataWithNulls), digits);
         }
 
-        /// <summary>
-        /// Standard Deviation with <c>null</c> throws <c>ArgumentNullException</c>.
-        /// </summary>
         [Test]
-        public void StandardDeviationThrowsArgumentNullException()
-        {
-            double[] data = null;
-            Assert.Throws<ArgumentNullException>(() => Statistics.StandardDeviation(data));
-        }
-
-        /// <summary>
-        /// Validate Min/Max on a short sequence.
-        /// </summary>
-        [Test]
-        public void ShortMinMax()
+        public void MinimumMaximumOnShortSequence()
         {
             var samples = new[] {-1.0, 5, 0, -3, 10, -0.5, 4};
             Assert.That(Statistics.Minimum(samples), Is.EqualTo(-3), "Min");
             Assert.That(Statistics.Maximum(samples), Is.EqualTo(10), "Max");
             Assert.That(ArrayStatistics.Minimum(samples), Is.EqualTo(-3), "Min");
             Assert.That(ArrayStatistics.Maximum(samples), Is.EqualTo(10), "Max");
+            Assert.That(StreamingStatistics.Minimum(samples), Is.EqualTo(-3), "Min");
+            Assert.That(StreamingStatistics.Maximum(samples), Is.EqualTo(10), "Max");
 
-            var sorted = new double[samples.Length];
-            Array.Copy(samples, sorted, samples.Length);
-            Array.Sort(sorted);
-            Assert.That(SortedArrayStatistics.Minimum(sorted), Is.EqualTo(-3), "Min");
-            Assert.That(SortedArrayStatistics.Maximum(sorted), Is.EqualTo(10), "Max");
+            Array.Sort(samples);
+            Assert.That(SortedArrayStatistics.Minimum(samples), Is.EqualTo(-3), "Min");
+            Assert.That(SortedArrayStatistics.Maximum(samples), Is.EqualTo(10), "Max");
         }
 
-        /// <summary>
-        /// Validate Order Statistics and Median on a short sequence.
-        /// </summary>
         [Test]
-        public void ShortOrderMedian()
+        public void MedianOrderOnShortSequence()
         {
             // -3 -1 -0.5 0  1  4 5 6 10
             var samples = new[] {-1, 5, 0, -3, 10, -0.5, 4, 1, 6};
@@ -231,10 +205,8 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
             Assert.That(Statistics.OrderStatistic(samples, 7), Is.EqualTo(5), "Order-7");
             Assert.That(Statistics.OrderStatistic(samples, 9), Is.EqualTo(10), "Order-9");
 
-            var sorted = new double[samples.Length];
-            Array.Copy(samples, sorted, samples.Length);
-            Array.Sort(sorted);
-            Assert.That(SortedArrayStatistics.Median(sorted), Is.EqualTo(1), "Median");
+            Array.Sort(samples);
+            Assert.That(SortedArrayStatistics.Median(samples), Is.EqualTo(1), "Median");
         }
 
         /// <summary>
@@ -254,6 +226,8 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
             AssertHelpers.AlmostEqual(1e+9, Statistics.Mean(gaussian.Samples().Take(10000)), 11);
             AssertHelpers.AlmostEqual(4d, Statistics.Variance(gaussian.Samples().Take(10000)), 1);
             AssertHelpers.AlmostEqual(2d, Statistics.StandardDeviation(gaussian.Samples().Take(10000)), 2);
+
+            AssertHelpers.AlmostEqual(1e+9, ArrayStatistics.Mean(gaussian.Samples().Take(10000).ToArray()), 11);
         }
 
         [Test]
