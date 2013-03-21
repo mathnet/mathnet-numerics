@@ -344,12 +344,7 @@ namespace MathNet.Numerics.Statistics
                 }
             }
 
-            if (count == 0)
-            {
-                throw new ArgumentException(Resources.CollectionEmpty, "data");
-            }
-
-            return min;
+            return count == 0 ? double.NaN : min;
         }
 
         /// <summary>
@@ -375,12 +370,7 @@ namespace MathNet.Numerics.Statistics
                 }
             }
 
-            if (count == 0)
-            {
-                throw new ArgumentException(Resources.CollectionEmpty, "data");
-            }
-
-            return max;
+            return count == 0 ? double.NaN : max;
         }
 
         /// <summary>
@@ -403,12 +393,7 @@ namespace MathNet.Numerics.Statistics
                 count++;
             }
 
-            if (count == 0)
-            {
-                throw new ArgumentException(Resources.CollectionEmpty, "data");
-            }
-
-            return min;
+            return count == 0 ? double.NaN : min;
         }
 
         /// <summary>
@@ -431,12 +416,7 @@ namespace MathNet.Numerics.Statistics
                 count++;
             }
 
-            if (count == 0)
-            {
-                throw new ArgumentException(Resources.CollectionEmpty, "data");
-            }
-
-            return max;
+            return count == 0 ? double.NaN : max;
         }
 
         /// <summary>
@@ -452,6 +432,11 @@ namespace MathNet.Numerics.Statistics
             }
 
             var dataArray = new List<double>(data);
+            if (dataArray.Count == 0)
+            {
+                return double.NaN;
+            }
+
             int index = (dataArray.Count / 2) + 1;
             if (dataArray.Count % 2 == 0)
             {
@@ -484,11 +469,6 @@ namespace MathNet.Numerics.Statistics
                 }
             }
 
-            if (nonNull.Count == 0)
-            {
-                throw new ArgumentException(Resources.CollectionEmpty, "data");
-            }
-
             return nonNull.Median();
         }
 
@@ -507,6 +487,11 @@ namespace MathNet.Numerics.Statistics
             }
 
             var list = new List<double>(samples);
+            if (list.Count == 0)
+            {
+                return double.NaN;
+            }
+
             if (order < 1 || order > list.Count)
             {
                 throw new ArgumentOutOfRangeException("order", Resources.ArgumentInIntervalXYInclusive);

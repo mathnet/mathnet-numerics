@@ -63,6 +63,11 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
             Assert.Throws<ArgumentNullException>(() => Statistics.Minimum(data));
             Assert.Throws<ArgumentNullException>(() => Statistics.Maximum(data));
             Assert.Throws<ArgumentNullException>(() => Statistics.Mean(data));
+            Assert.Throws<ArgumentNullException>(() => Statistics.Median(data));
+            Assert.Throws<ArgumentNullException>(() => Statistics.Variance(data));
+            Assert.Throws<ArgumentNullException>(() => Statistics.StandardDeviation(data));
+            Assert.Throws<ArgumentNullException>(() => Statistics.PopulationVariance(data));
+            Assert.Throws<ArgumentNullException>(() => Statistics.PopulationStandardDeviation(data));
 
             Assert.Throws<ArgumentNullException>(() => SortedArrayStatistics.Minimum(data));
             Assert.Throws<ArgumentNullException>(() => SortedArrayStatistics.Maximum(data));
@@ -88,9 +93,14 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
         {
             double[] data = new double[0];
 
-            //Assert.DoesNotThrow(() => Statistics.Minimum(data));
-            //Assert.DoesNotThrow(() => Statistics.Maximum(data));
-            //Assert.DoesNotThrow(() => Statistics.Mean(data));
+            Assert.DoesNotThrow(() => Statistics.Minimum(data));
+            Assert.DoesNotThrow(() => Statistics.Maximum(data));
+            Assert.DoesNotThrow(() => Statistics.Mean(data));
+            Assert.DoesNotThrow(() => Statistics.Median(data));
+            Assert.DoesNotThrow(() => Statistics.Variance(data));
+            Assert.DoesNotThrow(() => Statistics.StandardDeviation(data));
+            Assert.DoesNotThrow(() => Statistics.PopulationVariance(data));
+            Assert.DoesNotThrow(() => Statistics.PopulationStandardDeviation(data));
 
             Assert.DoesNotThrow(() => SortedArrayStatistics.Minimum(data));
             Assert.DoesNotThrow(() => SortedArrayStatistics.Maximum(data));
