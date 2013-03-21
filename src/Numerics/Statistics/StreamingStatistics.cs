@@ -54,7 +54,7 @@ namespace MathNet.Numerics.Statistics
                 }
                 any = true;
             }
-            return any ? min : double.NaN; 
+            return any ? min : double.NaN;
         }
 
         /// <summary>
@@ -93,7 +93,7 @@ namespace MathNet.Numerics.Statistics
             bool any = false;
             foreach (var d in stream)
             {
-                mean += (d - mean) / ++m;
+                mean += (d - mean)/++m;
                 any = true;
             }
             return any ? mean : double.NaN;
@@ -125,11 +125,44 @@ namespace MathNet.Numerics.Statistics
                     j++;
                     double xi = iterator.Current;
                     t += xi;
-                    double diff = (j * xi) - t;
-                    variance += (diff * diff) / (j * (j - 1));
+                    double diff = (j*xi) - t;
+                    variance += (diff*diff)/(j*(j - 1));
                 }
             }
-            return j > 1 ? variance / (j - 1) : double.NaN;
+            return j > 1 ? variance/(j - 1) : double.NaN;
+        }
+
+        /// <summary>
+        /// Estimates the biased population variance from the enumerable, in a single pass without memoization.
+        /// On a dataset of size N will use an N normalizer
+        /// Returns NaN if data is empty or any entry is NaN.
+        /// </summary>
+        /// <param name="stream">Sample stream, no sorting is assumed.</param>
+        public static double PopulationVariance(IEnumerable<double> stream)
+        {
+            if (stream == null) throw new ArgumentNullException("stream");
+
+            double variance = 0;
+            double t = 0;
+            ulong j = 0;
+            using (var iterator = stream.GetEnumerator())
+            {
+                if (iterator.MoveNext())
+                {
+                    j++;
+                    t = iterator.Current;
+                }
+
+                while (iterator.MoveNext())
+                {
+                    j++;
+                    double xi = iterator.Current;
+                    t += xi;
+                    double diff = (j*xi) - t;
+                    variance += (diff*diff)/(j*(j - 1));
+                }
+            }
+            return variance/j;
         }
     }
 }

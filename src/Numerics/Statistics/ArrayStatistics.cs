@@ -93,7 +93,7 @@ namespace MathNet.Numerics.Statistics
             ulong m = 0;
             for (int i = 0; i < data.Length; i++)
             {
-                mean += (data[i] - mean) / ++m;
+                mean += (data[i] - mean)/++m;
             }
             return mean;
         }
@@ -114,10 +114,32 @@ namespace MathNet.Numerics.Statistics
             for (int i = 1; i < data.Length; i++)
             {
                 t += data[i];
-                double diff = ((i + 1) * data[i]) - t;
-                variance += (diff * diff) / ((i + 1) * i);
+                double diff = ((i + 1)*data[i]) - t;
+                variance += (diff*diff)/((i + 1)*i);
             }
             return variance/(data.Length - 1);
+        }
+
+        /// <summary>
+        /// Estimates the biased population variance from the unsorted data array.
+        /// On a dataset of size N will use an N normalizer
+        /// Returns NaN if data is empty or any entry is NaN.
+        /// </summary>
+        /// <param name="data">Sample array, no sorting is assumed.</param>
+        public static double PopulationVariance(double[] data)
+        {
+            if (data == null) throw new ArgumentNullException("data");
+            if (data.Length == 0) return double.NaN;
+
+            double variance = 0;
+            double t = data[0];
+            for (int i = 1; i < data.Length; i++)
+            {
+                t += data[i];
+                double diff = ((i + 1)*data[i]) - t;
+                variance += (diff*diff)/((i + 1)*i);
+            }
+            return variance/data.Length;
         }
     }
 }

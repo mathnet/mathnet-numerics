@@ -84,11 +84,13 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
             Assert.Throws<ArgumentNullException>(() => ArrayStatistics.Maximum(data));
             Assert.Throws<ArgumentNullException>(() => ArrayStatistics.Mean(data));
             Assert.Throws<ArgumentNullException>(() => ArrayStatistics.Variance(data));
+            Assert.Throws<ArgumentNullException>(() => ArrayStatistics.PopulationVariance(data));
 
             Assert.Throws<ArgumentNullException>(() => StreamingStatistics.Minimum(data));
             Assert.Throws<ArgumentNullException>(() => StreamingStatistics.Maximum(data));
             Assert.Throws<ArgumentNullException>(() => StreamingStatistics.Mean(data));
             Assert.Throws<ArgumentNullException>(() => StreamingStatistics.Variance(data));
+            Assert.Throws<ArgumentNullException>(() => StreamingStatistics.PopulationVariance(data));
         }
 
         [Test]
@@ -120,11 +122,13 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
             Assert.DoesNotThrow(() => ArrayStatistics.Maximum(data));
             Assert.DoesNotThrow(() => ArrayStatistics.Mean(data));
             Assert.DoesNotThrow(() => ArrayStatistics.Variance(data));
+            Assert.DoesNotThrow(() => ArrayStatistics.PopulationVariance(data));
 
             Assert.DoesNotThrow(() => StreamingStatistics.Minimum(data));
             Assert.DoesNotThrow(() => StreamingStatistics.Maximum(data));
             Assert.DoesNotThrow(() => StreamingStatistics.Mean(data));
             Assert.DoesNotThrow(() => StreamingStatistics.Variance(data));
+            Assert.DoesNotThrow(() => StreamingStatistics.PopulationVariance(data));
         }
 
         [TestCase("lottery")]
@@ -298,6 +302,12 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
             Assert.That(Statistics.PopulationVariance(new double[0]), Is.NaN);
             Assert.That(Statistics.PopulationVariance(new[] { 2d }), Is.Not.NaN);
             Assert.That(Statistics.PopulationVariance(new[] { 2d, 3d }), Is.Not.NaN);
+            Assert.That(ArrayStatistics.PopulationVariance(new double[0]), Is.NaN);
+            Assert.That(ArrayStatistics.PopulationVariance(new[] { 2d }), Is.Not.NaN);
+            Assert.That(ArrayStatistics.PopulationVariance(new[] { 2d, 3d }), Is.Not.NaN);
+            Assert.That(StreamingStatistics.PopulationVariance(new double[0]), Is.NaN);
+            Assert.That(StreamingStatistics.PopulationVariance(new[] { 2d }), Is.Not.NaN);
+            Assert.That(StreamingStatistics.PopulationVariance(new[] { 2d, 3d }), Is.Not.NaN);
         }
 
         /// <summary>

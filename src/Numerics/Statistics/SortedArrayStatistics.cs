@@ -42,8 +42,8 @@ namespace MathNet.Numerics.Statistics
 
     public static class SortedArrayStatistics
     {
-        const double Third = 1d / 3d;
-        const double Half = 1d / 2d;
+        const double Third = 1d/3d;
+        const double Half = 1d/2d;
 
         /// <summary>
         /// Returns the smallest value from the sorted data array (ascending).
@@ -88,7 +88,7 @@ namespace MathNet.Numerics.Statistics
         /// <param name="p">Percentile selector, between 0 and 100 (inclusive).</param>
         public static double Percentile(double[] data, int p)
         {
-            return Quantile(data, p / 100d);
+            return Quantile(data, p/100d);
         }
 
         /// <summary>
@@ -180,7 +180,7 @@ namespace MathNet.Numerics.Statistics
                 case QuantileCompatibility.R2:
                 case QuantileCompatibility.SAS5:
                     {
-                        double h = data.Length * tau + Half;
+                        double h = data.Length*tau + Half;
                         return (data[(int) Math.Ceiling(h - Half) - 1] + data[(int) (h + Half) - 1])*Half;
                     }
                 case QuantileCompatibility.R3:
@@ -194,42 +194,42 @@ namespace MathNet.Numerics.Statistics
                 case QuantileCompatibility.SAS1:
                     {
                         double h = data.Length*tau;
-                        var hf = (int)h;
-                        return data[hf - 1] + (h - hf) * (data[hf] - data[hf - 1]);
+                        var hf = (int) h;
+                        return data[hf - 1] + (h - hf)*(data[hf] - data[hf - 1]);
                     }
                 case QuantileCompatibility.R5:
                     {
                         double h = data.Length*tau + Half;
-                        var hf = (int)h;
-                        return data[hf - 1] + (h - hf) * (data[hf] - data[hf - 1]);
+                        var hf = (int) h;
+                        return data[hf - 1] + (h - hf)*(data[hf] - data[hf - 1]);
                     }
                 case QuantileCompatibility.R6:
                 case QuantileCompatibility.SAS4:
                 case QuantileCompatibility.Nist:
                     {
                         double h = (data.Length + 1)*tau;
-                        var hf = (int)h;
-                        return data[hf - 1] + (h - hf) * (data[hf] - data[hf - 1]);
+                        var hf = (int) h;
+                        return data[hf - 1] + (h - hf)*(data[hf] - data[hf - 1]);
                     }
                 case QuantileCompatibility.R7:
                 case QuantileCompatibility.Excel:
                     {
                         double h = (data.Length - 1)*tau + 1d;
-                        var hf = (int)h;
-                        return data[hf - 1] + (h - hf) * (data[hf] - data[hf - 1]);
+                        var hf = (int) h;
+                        return data[hf - 1] + (h - hf)*(data[hf] - data[hf - 1]);
                     }
                 case QuantileCompatibility.R8:
                 case QuantileCompatibility.Default:
                     {
-                        double h = (data.Length + Third) * tau + Third;
-                        var hf = (int)h;
-                        return data[hf - 1] + (h - hf) * (data[hf] - data[hf - 1]);
+                        double h = (data.Length + Third)*tau + Third;
+                        var hf = (int) h;
+                        return data[hf - 1] + (h - hf)*(data[hf] - data[hf - 1]);
                     }
                 case QuantileCompatibility.R9:
                     {
-                        double h = (data.Length + 1d/4d) * tau + 3d/8d;
-                        var hf = (int)h;
-                        return data[hf - 1] + (h - hf) * (data[hf] - data[hf - 1]);
+                        double h = (data.Length + 1d/4d)*tau + 3d/8d;
+                        var hf = (int) h;
+                        return data[hf - 1] + (h - hf)*(data[hf] - data[hf - 1]);
                     }
                 default:
                     throw new NotSupportedException();
