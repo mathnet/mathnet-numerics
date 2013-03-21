@@ -262,6 +262,17 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
         }
 
         [Test]
+        public void MeanOfEmptyMustBeNaN()
+        {
+            Assert.That(Statistics.Mean(new double[0]), Is.NaN);
+            Assert.That(Statistics.Mean(new[] { 2d }), Is.Not.NaN);
+            Assert.That(ArrayStatistics.Mean(new double[0]), Is.NaN);
+            Assert.That(ArrayStatistics.Mean(new[] { 2d }), Is.Not.NaN);
+            Assert.That(StreamingStatistics.Mean(new double[0]), Is.NaN);
+            Assert.That(StreamingStatistics.Mean(new[] { 2d }), Is.Not.NaN);
+        }
+
+        [Test]
         public void SampleVarianceOfEmptyAndSingleMustBeNaN()
         {
             Assert.That(Statistics.Variance(new double[0]), Is.NaN);

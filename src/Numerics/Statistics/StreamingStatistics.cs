@@ -90,11 +90,13 @@ namespace MathNet.Numerics.Statistics
 
             double mean = 0;
             ulong m = 0;
+            bool any = false;
             foreach (var d in stream)
             {
                 mean += (d - mean) / ++m;
+                any = true;
             }
-            return mean;
+            return any ? mean : double.NaN;
         }
     }
 }

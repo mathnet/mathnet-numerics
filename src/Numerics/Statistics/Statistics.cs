@@ -41,25 +41,63 @@ namespace MathNet.Numerics.Statistics
     public static class Statistics
     {
         /// <summary>
+        /// Returns the minimum value in the sample data.
+        /// </summary>
+        /// <param name="data">The sample data.</param>
+        /// <returns>The minimum value in the sample data.</returns>
+        public static double Minimum(this IEnumerable<double> data)
+        {
+            var array = data as double[];
+            return array != null
+                ? ArrayStatistics.Minimum(array)
+                : StreamingStatistics.Minimum(data);
+        }
+        /// <summary>
+        /// Returns the minimum value in the sample data.
+        /// </summary>
+        /// <param name="data">The sample data.</param>
+        /// <returns>The minimum value in the sample data.</returns>
+        public static double Minimum(this IEnumerable<double?> data)
+        {
+            if (data == null) throw new ArgumentNullException("data");
+            return StreamingStatistics.Minimum(data.Where(d => d.HasValue).Select(d => d.Value));
+        }
+
+        /// <summary>
+        /// Returns the maximum value in the sample data.
+        /// </summary>
+        /// <param name="data">The sample data.</param>
+        /// <returns>The maximum value in the sample data.</returns>
+        public static double Maximum(this IEnumerable<double> data)
+        {
+            var array = data as double[];
+            return array != null
+                ? ArrayStatistics.Maximum(array)
+                : StreamingStatistics.Maximum(data);
+        }
+
+        /// <summary>
+        /// Returns the maximum value in the sample data.
+        /// </summary>
+        /// <param name="data">The sample data.</param>
+        /// <returns>The maximum value in the sample data.</returns>
+        public static double Maximum(this IEnumerable<double?> data)
+        {
+            if (data == null) throw new ArgumentNullException("data");
+            return StreamingStatistics.Maximum(data.Where(d => d.HasValue).Select(d => d.Value));
+        }
+
+        /// <summary>
         /// Calculates the sample mean.
         /// </summary>
         /// <param name="data">The data to calculate the mean of.</param>
         /// <returns>The mean of the sample.</returns>
         public static double Mean(this IEnumerable<double> data)
         {
-            if (data == null)
-            {
-                throw new ArgumentNullException("data");
-            }
-
-            double mean = 0;
-            ulong m = 0;
-            foreach (var item in data)
-            {
-                mean += (item - mean) / ++m;
-            }
-
-            return mean;
+            var array = data as double[];
+            return array != null
+                ? ArrayStatistics.Mean(array)
+                : StreamingStatistics.Mean(data);
         }
 
         /// <summary>
@@ -69,22 +107,8 @@ namespace MathNet.Numerics.Statistics
         /// <returns>The mean of the sample.</returns>
         public static double Mean(this IEnumerable<double?> data)
         {
-            if (data == null)
-            {
-                throw new ArgumentNullException("data");
-            }
-
-            double mean = 0;
-            ulong m = 0;
-            foreach (var item in data)
-            {
-                if (item.HasValue)
-                {
-                    mean += (item.Value - mean) / ++m;
-                }
-            }
-
-            return mean;
+            if (data == null) throw new ArgumentNullException("data");
+            return StreamingStatistics.Mean(data.Where(d => d.HasValue).Select(d => d.Value));
         }
 
         /// <summary>
@@ -319,104 +343,6 @@ namespace MathNet.Numerics.Statistics
             }
 
             return Math.Sqrt(PopulationVariance(data));
-        }
-
-        /// <summary>
-        /// Returns the minimum value in the sample data.
-        /// </summary>
-        /// <param name="data">The sample data.</param>
-        /// <returns>The minimum value in the sample data.</returns>
-        public static double Minimum(this IEnumerable<double?> data)
-        {
-            if (data == null)
-            {
-                throw new ArgumentNullException("data");
-            }
-
-            double min = double.MaxValue;
-            ulong count = 0;
-            foreach (double? d in data)
-            {
-                if (d.HasValue)
-                {
-                    min = Math.Min(min, d.Value);
-                    count++;
-                }
-            }
-
-            return count == 0 ? double.NaN : min;
-        }
-
-        /// <summary>
-        /// Returns the maximum value in the sample data.
-        /// </summary>
-        /// <param name="data">The sample data.</param>
-        /// <returns>The maximum value in the sample data.</returns>
-        public static double Maximum(this IEnumerable<double?> data)
-        {
-            if (data == null)
-            {
-                throw new ArgumentNullException("data");
-            }
-
-            double max = double.MinValue;
-            ulong count = 0;
-            foreach (double? d in data)
-            {
-                if (d.HasValue)
-                {
-                    max = Math.Max(max, d.Value);
-                    count++;
-                }
-            }
-
-            return count == 0 ? double.NaN : max;
-        }
-
-        /// <summary>
-        /// Returns the minimum value in the sample data.
-        /// </summary>
-        /// <param name="data">The sample data.</param>
-        /// <returns>The minimum value in the sample data.</returns>
-        public static double Minimum(this IEnumerable<double> data)
-        {
-            if (data == null)
-            {
-                throw new ArgumentNullException("data");
-            }
-
-            double min = double.MaxValue;
-            ulong count = 0;
-            foreach (double d in data)
-            {
-                min = Math.Min(min, d);
-                count++;
-            }
-
-            return count == 0 ? double.NaN : min;
-        }
-
-        /// <summary>
-        /// Returns the maximum value in the sample data.
-        /// </summary>
-        /// <param name="data">The sample data.</param>
-        /// <returns>The maximum value in the sample data.</returns>
-        public static double Maximum(this IEnumerable<double> data)
-        {
-            if (data == null)
-            {
-                throw new ArgumentNullException("data");
-            }
-
-            double max = double.MinValue;
-            ulong count = 0;
-            foreach (double d in data)
-            {
-                max = Math.Max(max, d);
-                count++;
-            }
-
-            return count == 0 ? double.NaN : max;
         }
 
         /// <summary>
