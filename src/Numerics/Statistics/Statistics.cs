@@ -88,7 +88,7 @@ namespace MathNet.Numerics.Statistics
         }
 
         /// <summary>
-        /// Calculates the unbiased population variance estimator (on a dataset of size N will use an N-1 normalizer).
+        /// Calculates the unbiased population (sample) variance estimator (on a dataset of size N will use an N-1 normalizer).
         /// </summary>
         /// <param name="data">The data to calculate the variance of.</param>
         /// <returns>The unbiased population variance of the sample.</returns>
@@ -121,11 +121,11 @@ namespace MathNet.Numerics.Statistics
                 }
             }
 
-            return variance / (j - 1);
+            return j > 1 ? variance/(j - 1) : double.NaN;
         }
 
         /// <summary>
-        /// Computes the unbiased population variance estimator (on a dataset of size N will use an N-1 normalizer) for nullable data.
+        /// Computes the unbiased population (sample) variance estimator (on a dataset of size N will use an N-1 normalizer) for nullable data.
         /// </summary>
         /// <param name="data">The data to calculate the variance of.</param>
         /// <returns>The population variance of the sample.</returns>
@@ -171,7 +171,7 @@ namespace MathNet.Numerics.Statistics
                 }
             }
 
-            return variance / (j - 1);
+            return j > 1 ? variance/(j - 1) : double.NaN;
         }
 
         /// <summary>

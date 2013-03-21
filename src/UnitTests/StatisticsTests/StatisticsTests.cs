@@ -227,6 +227,22 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
             AssertHelpers.AlmostEqual(2d, Statistics.StandardDeviation(gaussian.Samples().Take(10000)), 2);
         }
 
+        [Test]
+        public void SampleVarianceOfEmptyAndSingleMustBeNaN()
+        {
+            Assert.That(Statistics.Variance(new double[0]), Is.NaN);
+            Assert.That(Statistics.Variance(new[] { 2d }), Is.NaN);
+            Assert.That(Statistics.Variance(new[] { 2d, 3d }), Is.Not.NaN);
+        }
+
+        [Test]
+        public void PopulationVarianceOfEmptyMustBeNaN()
+        {
+            Assert.That(Statistics.PopulationVariance(new double[0]), Is.NaN);
+            Assert.That(Statistics.PopulationVariance(new[] { 2d }), Is.Not.NaN);
+            Assert.That(Statistics.PopulationVariance(new[] { 2d, 3d }), Is.Not.NaN);
+        }
+
         /// <summary>
         /// URL http://mathnetnumerics.codeplex.com/workitem/5667
         /// </summary>
