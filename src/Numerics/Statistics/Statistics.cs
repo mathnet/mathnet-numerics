@@ -166,12 +166,10 @@ namespace MathNet.Numerics.Statistics
         /// <returns>The standard deviation of the sample.</returns>
         public static double StandardDeviation(this IEnumerable<double> data)
         {
-            if (data == null)
-            {
-                throw new ArgumentNullException("data");
-            }
-
-            return Math.Sqrt(Variance(data));
+            var array = data as double[];
+            return array != null
+                ? ArrayStatistics.StandardDeviation(array)
+                : StreamingStatistics.StandardDeviation(data);
         }
 
         /// <summary>
@@ -181,12 +179,8 @@ namespace MathNet.Numerics.Statistics
         /// <returns>The standard deviation of the sample.</returns>
         public static double StandardDeviation(this IEnumerable<double?> data)
         {
-            if (data == null)
-            {
-                throw new ArgumentNullException("data");
-            }
-
-            return Math.Sqrt(Variance(data));
+            if (data == null) throw new ArgumentNullException("data");
+            return StreamingStatistics.StandardDeviation(data.Where(d => d.HasValue).Select(d => d.Value));
         }
 
         /// <summary>
@@ -196,12 +190,10 @@ namespace MathNet.Numerics.Statistics
         /// <returns>The standard deviation of the sample.</returns>
         public static double PopulationStandardDeviation(this IEnumerable<double> data)
         {
-            if (data == null)
-            {
-                throw new ArgumentNullException("data");
-            }
-
-            return Math.Sqrt(PopulationVariance(data));
+            var array = data as double[];
+            return array != null
+                ? ArrayStatistics.PopulationStandardDeviation(array)
+                : StreamingStatistics.PopulationStandardDeviation(data);
         }
 
         /// <summary>
@@ -211,12 +203,8 @@ namespace MathNet.Numerics.Statistics
         /// <returns>The standard deviation of the sample.</returns>
         public static double PopulationStandardDeviation(this IEnumerable<double?> data)
         {
-            if (data == null)
-            {
-                throw new ArgumentNullException("data");
-            }
-
-            return Math.Sqrt(PopulationVariance(data));
+            if (data == null) throw new ArgumentNullException("data");
+            return StreamingStatistics.PopulationStandardDeviation(data.Where(d => d.HasValue).Select(d => d.Value));
         }
 
         /// <summary>

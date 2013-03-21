@@ -133,6 +133,17 @@ namespace MathNet.Numerics.Statistics
         }
 
         /// <summary>
+        /// Estimates the unbiased population or sample standard deviation from the enumerable, in a single pass without memoization.
+        /// On a dataset of size N will use an N-1 normalizer
+        /// Returns NaN if data is empty or any entry is NaN.
+        /// </summary>
+        /// <param name="stream">Sample stream, no sorting is assumed.</param>
+        public static double StandardDeviation(IEnumerable<double> stream)
+        {
+            return Math.Sqrt(Variance(stream));
+        }
+
+        /// <summary>
         /// Estimates the biased population variance from the enumerable, in a single pass without memoization.
         /// On a dataset of size N will use an N normalizer
         /// Returns NaN if data is empty or any entry is NaN.
@@ -163,6 +174,17 @@ namespace MathNet.Numerics.Statistics
                 }
             }
             return variance/j;
+        }
+
+        /// <summary>
+        /// Estimates the biased population standard deviation from the enumerable, in a single pass without memoization.
+        /// On a dataset of size N will use an N normalizer
+        /// Returns NaN if data is empty or any entry is NaN.
+        /// </summary>
+        /// <param name="stream">Sample stream, no sorting is assumed.</param>
+        public static double PopulationStandardDeviation(IEnumerable<double> stream)
+        {
+            return Math.Sqrt(PopulationVariance(stream));
         }
     }
 }

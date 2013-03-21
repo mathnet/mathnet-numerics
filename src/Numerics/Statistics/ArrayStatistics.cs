@@ -121,6 +121,17 @@ namespace MathNet.Numerics.Statistics
         }
 
         /// <summary>
+        /// Estimates the unbiased population or sample standard deviation from the unsorted data array.
+        /// On a dataset of size N will use an N-1 normalizer
+        /// Returns NaN if data is empty or any entry is NaN.
+        /// </summary>
+        /// <param name="data">Sample array, no sorting is assumed.</param>
+        public static double StandardDeviation(double[] data)
+        {
+            return Math.Sqrt(Variance(data));
+        }
+
+        /// <summary>
         /// Estimates the biased population variance from the unsorted data array.
         /// On a dataset of size N will use an N normalizer
         /// Returns NaN if data is empty or any entry is NaN.
@@ -140,6 +151,17 @@ namespace MathNet.Numerics.Statistics
                 variance += (diff*diff)/((i + 1)*i);
             }
             return variance/data.Length;
+        }
+
+        /// <summary>
+        /// Estimates the biased population standard deviation from the unsorted data array.
+        /// On a dataset of size N will use an N normalizer
+        /// Returns NaN if data is empty or any entry is NaN.
+        /// </summary>
+        /// <param name="data">Sample array, no sorting is assumed.</param>
+        public static double PopulationStandardDeviation(double[] data)
+        {
+            return Math.Sqrt(PopulationVariance(data));
         }
     }
 }

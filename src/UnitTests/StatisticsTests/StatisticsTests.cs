@@ -84,13 +84,17 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
             Assert.Throws<ArgumentNullException>(() => ArrayStatistics.Maximum(data));
             Assert.Throws<ArgumentNullException>(() => ArrayStatistics.Mean(data));
             Assert.Throws<ArgumentNullException>(() => ArrayStatistics.Variance(data));
+            Assert.Throws<ArgumentNullException>(() => ArrayStatistics.StandardDeviation(data));
             Assert.Throws<ArgumentNullException>(() => ArrayStatistics.PopulationVariance(data));
+            Assert.Throws<ArgumentNullException>(() => ArrayStatistics.PopulationStandardDeviation(data));
 
             Assert.Throws<ArgumentNullException>(() => StreamingStatistics.Minimum(data));
             Assert.Throws<ArgumentNullException>(() => StreamingStatistics.Maximum(data));
             Assert.Throws<ArgumentNullException>(() => StreamingStatistics.Mean(data));
             Assert.Throws<ArgumentNullException>(() => StreamingStatistics.Variance(data));
+            Assert.Throws<ArgumentNullException>(() => StreamingStatistics.StandardDeviation(data));
             Assert.Throws<ArgumentNullException>(() => StreamingStatistics.PopulationVariance(data));
+            Assert.Throws<ArgumentNullException>(() => StreamingStatistics.PopulationStandardDeviation(data));
         }
 
         [Test]
@@ -122,13 +126,17 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
             Assert.DoesNotThrow(() => ArrayStatistics.Maximum(data));
             Assert.DoesNotThrow(() => ArrayStatistics.Mean(data));
             Assert.DoesNotThrow(() => ArrayStatistics.Variance(data));
+            Assert.DoesNotThrow(() => ArrayStatistics.StandardDeviation(data));
             Assert.DoesNotThrow(() => ArrayStatistics.PopulationVariance(data));
+            Assert.DoesNotThrow(() => ArrayStatistics.PopulationStandardDeviation(data));
 
             Assert.DoesNotThrow(() => StreamingStatistics.Minimum(data));
             Assert.DoesNotThrow(() => StreamingStatistics.Maximum(data));
             Assert.DoesNotThrow(() => StreamingStatistics.Mean(data));
             Assert.DoesNotThrow(() => StreamingStatistics.Variance(data));
+            Assert.DoesNotThrow(() => StreamingStatistics.StandardDeviation(data));
             Assert.DoesNotThrow(() => StreamingStatistics.PopulationVariance(data));
+            Assert.DoesNotThrow(() => StreamingStatistics.PopulationStandardDeviation(data));
         }
 
         [TestCase("lottery")]
@@ -173,6 +181,8 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
         {
             var data = _data[dataSet];
             AssertHelpers.AlmostEqual(data.StandardDeviation, Statistics.StandardDeviation(data.Data), digits);
+            AssertHelpers.AlmostEqual(data.StandardDeviation, ArrayStatistics.StandardDeviation(data.Data), digits);
+            AssertHelpers.AlmostEqual(data.StandardDeviation, StreamingStatistics.StandardDeviation(data.Data), digits);
         }
 
         [TestCase("lottery", 15)]
@@ -240,9 +250,11 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
 
             AssertHelpers.AlmostEqual(1e+9, ArrayStatistics.Mean(gaussian.Samples().Take(10000).ToArray()), 11);
             AssertHelpers.AlmostEqual(4d, ArrayStatistics.Variance(gaussian.Samples().Take(10000).ToArray()), 1);
+            AssertHelpers.AlmostEqual(2d, ArrayStatistics.StandardDeviation(gaussian.Samples().Take(10000).ToArray()), 2);
 
             AssertHelpers.AlmostEqual(1e+9, StreamingStatistics.Mean(gaussian.Samples().Take(10000)), 11);
             AssertHelpers.AlmostEqual(4d, StreamingStatistics.Variance(gaussian.Samples().Take(10000)), 1);
+            AssertHelpers.AlmostEqual(2d, StreamingStatistics.StandardDeviation(gaussian.Samples().Take(10000)), 2);
         }
 
         [Test]
