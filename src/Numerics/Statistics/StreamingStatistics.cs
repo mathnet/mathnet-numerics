@@ -33,6 +33,13 @@ using System.Collections.Generic;
 
 namespace MathNet.Numerics.Statistics
 {
+    /// <summary>
+    /// Statistics operating on an IEnumerable in a single pass, without keeping the full data in memory.
+    /// Can be used in a streaming way, e.g. on large datasets not fitting into memory.
+    /// </summary>
+    /// <seealso cref="SortedArrayStatistics"/>
+    /// <seealso cref="StreamingStatistics"/>
+    /// <seealso cref="Statistics"/>
     public static class StreamingStatistics
     {
         /// <summary>

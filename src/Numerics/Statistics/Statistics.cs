@@ -33,7 +33,6 @@ namespace MathNet.Numerics.Statistics
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using Properties;
 
     /// <summary>
     /// Extension methods to return basic statistics on set of data.
@@ -88,7 +87,7 @@ namespace MathNet.Numerics.Statistics
         }
 
         /// <summary>
-        /// Calculates the sample mean.
+        /// Estimates the sample mean.
         /// </summary>
         /// <param name="data">The data to calculate the mean of.</param>
         /// <returns>The mean of the sample.</returns>
@@ -101,7 +100,7 @@ namespace MathNet.Numerics.Statistics
         }
 
         /// <summary>
-        /// Calculates the sample mean.
+        /// Estimates the sample mean.
         /// </summary>
         /// <param name="data">The data to calculate the mean of.</param>
         /// <returns>The mean of the sample.</returns>
@@ -112,7 +111,7 @@ namespace MathNet.Numerics.Statistics
         }
 
         /// <summary>
-        /// Calculates the unbiased population (sample) variance estimator (on a dataset of size N will use an N-1 normalizer).
+        /// Estimates the unbiased population (sample) variance estimator (on a dataset of size N will use an N-1 normalizer).
         /// </summary>
         /// <param name="data">The data to calculate the variance of.</param>
         /// <returns>The unbiased population variance of the sample.</returns>
@@ -125,7 +124,7 @@ namespace MathNet.Numerics.Statistics
         }
 
         /// <summary>
-        /// Computes the unbiased population (sample) variance estimator (on a dataset of size N will use an N-1 normalizer) for nullable data.
+        /// Estimates the unbiased population (sample) variance estimator (on a dataset of size N will use an N-1 normalizer) for nullable data.
         /// </summary>
         /// <param name="data">The data to calculate the variance of.</param>
         /// <returns>The population variance of the sample.</returns>
@@ -136,7 +135,7 @@ namespace MathNet.Numerics.Statistics
         }
 
         /// <summary>
-        /// Calculates the biased population variance estimator (on a dataset of size N will use an N normalizer).
+        /// Estimates the biased population variance estimator (on a dataset of size N will use an N normalizer).
         /// </summary>
         /// <param name="data">The data to calculate the variance of.</param>
         /// <returns>The biased population variance of the sample.</returns>
@@ -149,7 +148,7 @@ namespace MathNet.Numerics.Statistics
         }
 
         /// <summary>
-        /// Computes the biased population variance estimator (on a dataset of size N will use an N normalizer) for nullable data.
+        /// Estimates the biased population variance estimator (on a dataset of size N will use an N normalizer) for nullable data.
         /// </summary>
         /// <param name="data">The data to calculate the variance of.</param>
         /// <returns>The population variance of the sample.</returns>
@@ -160,7 +159,7 @@ namespace MathNet.Numerics.Statistics
         }
 
         /// <summary>
-        /// Calculates the unbiased sample standard deviation (on a dataset of size N will use an N-1 normalizer).
+        /// Estimates the unbiased sample standard deviation (on a dataset of size N will use an N-1 normalizer).
         /// </summary>
         /// <param name="data">The data to calculate the standard deviation of.</param>
         /// <returns>The standard deviation of the sample.</returns>
@@ -173,7 +172,7 @@ namespace MathNet.Numerics.Statistics
         }
 
         /// <summary>
-        /// Calculates the unbiased sample standard deviation (on a dataset of size N will use an N-1 normalizer).
+        /// Estimates the unbiased sample standard deviation (on a dataset of size N will use an N-1 normalizer).
         /// </summary>
         /// <param name="data">The data to calculate the standard deviation of.</param>
         /// <returns>The standard deviation of the sample.</returns>
@@ -184,7 +183,7 @@ namespace MathNet.Numerics.Statistics
         }
 
         /// <summary>
-        /// Calculates the biased sample standard deviation (on a dataset of size N will use an N normalizer).
+        /// Estimates the biased sample standard deviation (on a dataset of size N will use an N normalizer).
         /// </summary>
         /// <param name="data">The data to calculate the standard deviation of.</param>
         /// <returns>The standard deviation of the sample.</returns>
@@ -197,7 +196,7 @@ namespace MathNet.Numerics.Statistics
         }
 
         /// <summary>
-        /// Calculates the biased sample standard deviation (on a dataset of size N will use an N normalizer).
+        /// Estimates the biased sample standard deviation (on a dataset of size N will use an N normalizer).
         /// </summary>
         /// <param name="data">The data to calculate the standard deviation of.</param>
         /// <returns>The standard deviation of the sample.</returns>
@@ -208,158 +207,120 @@ namespace MathNet.Numerics.Statistics
         }
 
         /// <summary>
-        /// Calculates the sample median.
+        /// Estimates the sample median.
         /// </summary>
         /// <param name="data">The data to calculate the median of.</param>
         /// <returns>The median of the sample.</returns>
         public static double Median(this IEnumerable<double> data)
         {
-            if (data == null)
-            {
-                throw new ArgumentNullException("data");
-            }
-
-            var dataArray = new List<double>(data);
-            if (dataArray.Count == 0)
-            {
-                return double.NaN;
-            }
-
-            int index = (dataArray.Count / 2) + 1;
-            if (dataArray.Count % 2 == 0)
-            {
-                double lower = OrderSelect(dataArray, 0, dataArray.Count - 1, index - 1);
-                double upper = dataArray.Skip(index - 1).Minimum();
-                return (lower + upper) / 2.0;
-            }
-
-            return OrderSelect(dataArray, 0, dataArray.Count - 1, index);
+            if (data == null) throw new ArgumentNullException("data");
+            var array = data.ToArray();
+            return ArrayStatistics.MedianInplace(array);
         }
 
         /// <summary>
-        /// Calculates the sample median.
+        /// Estimates the sample median.
         /// </summary>
         /// <param name="data">The data to calculate the median of.</param>
         /// <returns>The median of the sample.</returns>
         public static double Median(this IEnumerable<double?> data)
         {
-            if (data == null)
-            {
-                throw new ArgumentNullException("data");
-            }
-
-            var nonNull = new List<double>();
-            foreach (double? value in data)
-            {
-                if (value.HasValue)
-                {
-                    nonNull.Add(value.Value);
-                }
-            }
-
-            return nonNull.Median();
+            if (data == null) throw new ArgumentNullException("data");
+            var array = data.Where(d => d.HasValue).Select(d => d.Value).ToArray();
+            return ArrayStatistics.MedianInplace(array);
         }
 
         /// <summary>
-        /// Evaluate the i-order (1..N) statistic of the provided samples.
+        /// Estimates the sample tau-quantile.
         /// </summary>
-        /// <param name="samples">The sample data.</param>
+        /// <param name="data">The data to calculate the median of.</param>
+        /// <param name="tau">Quantile selector, between 0.0 and 1.0 (inclusive).</param>
+        /// <returns>The median of the sample.</returns>
+        public static double Quantile(this IEnumerable<double> data, double tau)
+        {
+            if (data == null) throw new ArgumentNullException("data");
+            var array = data.ToArray();
+            return ArrayStatistics.QuantileInplace(array, tau);
+        }
+
+        /// <summary>
+        /// Estimates the sample tau-quantile.
+        /// </summary>
+        /// <param name="data">The data to calculate the median of.</param>
+        /// <param name="tau">Quantile selector, between 0.0 and 1.0 (inclusive).</param>
+        /// <returns>The median of the sample.</returns>
+        public static double Quantile(this IEnumerable<double?> data, double tau)
+        {
+            if (data == null) throw new ArgumentNullException("data");
+            var array = data.Where(d => d.HasValue).Select(d => d.Value).ToArray();
+            return ArrayStatistics.QuantileInplace(array, tau);
+        }
+
+        /// <summary>
+        /// Estimates the empiric inverse CDF at tau (tau-quantile).
+        /// </summary>
+        /// <param name="data">The data to calculate the median of.</param>
+        /// <param name="tau">Quantile selector, between 0.0 and 1.0 (inclusive).</param>
+        /// <returns>The median of the sample.</returns>
+        public static double InverseCDF(this IEnumerable<double> data, double tau)
+        {
+            if (data == null) throw new ArgumentNullException("data");
+            var array = data.ToArray();
+            return ArrayStatistics.QuantileCustomInplace(array, tau, QuantileDefinition.InverseCDF);
+        }
+
+        /// <summary>
+        /// Estimates the empiric inverse CDF at tau (tau-quantile).
+        /// </summary>
+        /// <param name="data">The data to calculate the median of.</param>
+        /// <param name="tau">Quantile selector, between 0.0 and 1.0 (inclusive).</param>
+        /// <returns>The median of the sample.</returns>
+        public static double InverseCDF(this IEnumerable<double?> data, double tau)
+        {
+            if (data == null) throw new ArgumentNullException("data");
+            var array = data.Where(d => d.HasValue).Select(d => d.Value).ToArray();
+            return ArrayStatistics.QuantileCustomInplace(array, tau, QuantileDefinition.InverseCDF);
+        }
+
+        /// <summary>
+        /// Estimates the sample tau-quantile.
+        /// </summary>
+        /// <param name="data">The data to calculate the median of.</param>
+        /// <param name="tau">Quantile selector, between 0.0 and 1.0 (inclusive).</param>
+        /// <returns>The median of the sample.</returns>
+        /// <param name="definition">Quantile definition, to choose what product/definition it should be consistent with</param>
+        public static double QuantileCustom(this IEnumerable<double> data, double tau, QuantileDefinition definition)
+        {
+            if (data == null) throw new ArgumentNullException("data");
+            var array = data.ToArray();
+            return ArrayStatistics.QuantileCustomInplace(array, tau, definition);
+        }
+
+        /// <summary>
+        /// Estimates the sample tau-quantile.
+        /// </summary>
+        /// <param name="data">The data to calculate the median of.</param>
+        /// <param name="tau">Quantile selector, between 0.0 and 1.0 (inclusive).</param>
+        /// <returns>The median of the sample.</returns>
+        /// <param name="definition">Quantile definition, to choose what product/definition it should be consistent with</param>
+        public static double QuantileCustom(this IEnumerable<double?> data, double tau, QuantileDefinition definition)
+        {
+            if (data == null) throw new ArgumentNullException("data");
+            var array = data.Where(d => d.HasValue).Select(d => d.Value).ToArray();
+            return ArrayStatistics.QuantileCustomInplace(array, tau, definition);
+        }
+
+        /// <summary>
+        /// Returns the i-order (1..N) statistic of the provided samples.
+        /// </summary>
+        /// <param name="data">The sample data.</param>
         /// <param name="order">Order of the statistic to evaluate.</param>
         /// <returns>The i'th order statistic in the sample data.</returns>
-        public static double OrderStatistic(IEnumerable<double> samples, int order)
+        public static double OrderStatistic(IEnumerable<double> data, int order)
         {
-            if (order == 1)
-            {
-                // Can be done in linear time by Min()
-                return Minimum(samples);
-            }
-
-            var list = new List<double>(samples);
-            if (list.Count == 0)
-            {
-                return double.NaN;
-            }
-
-            if (order < 1 || order > list.Count)
-            {
-                throw new ArgumentOutOfRangeException("order", Resources.ArgumentInIntervalXYInclusive);
-            }
-
-            if (order == list.Count)
-            {
-                // Can be done in linear time by Max()
-                return Maximum(list);
-            }
-
-            return OrderSelect(list, 0, list.Count - 1, order);
-        }
-
-        /// <summary>
-        /// Implementation of the order statistics finding algorithm based on the algorithm in
-        /// "Introduction to Algorithms", Cormen et al. section 7.1.
-        /// </summary>
-        /// <param name="samples">The sample data.</param>
-        /// <param name="left">The left bound in which to order select.</param>
-        /// <param name="right">The right bound in which to order select.</param>
-        /// <param name="order">The order we are trying to find.</param>
-        /// <returns>The <paramref name="order"/> order statistic.</returns>
-        private static double OrderSelect(IList<double> samples, int left, int right, int order)
-        {
-            while (true)
-            {
-                System.Diagnostics.Debug.Assert(order > 0, "Order must always be positive.");
-                System.Diagnostics.Debug.Assert(left >= 0 && left <= right, "Left side must always be positive and smaller than right side.");
-                System.Diagnostics.Debug.Assert(right < samples.Count, "Right side must always be smaller than number of elements in list.");
-                System.Diagnostics.Debug.Assert(right - left + 1 >= order, "Make sure there are at least order items in the segment [left, right].");
-
-                if (left == right)
-                {
-                    return samples[left];
-                }
-
-                
-                // The pivot point. Choose median of left, right and center
-                //to be the pivot and arrange so that
-                //samples[left]<=samples[right]<=samples[center]
-                int center = (left + right) / 2;
-                if (samples[center] < samples[left])
-                    Sorting.Swap(samples, left, center);
-                if (samples[center] < samples[right])
-                    Sorting.Swap(samples, right, center);
-                if (samples[right] < samples[left])
-                    Sorting.Swap(samples, right, left);
-
-                double pivot = samples[right];
-
-                // The partioning code.
-                int i = left;
-                for (int j = left+1; j <= right - 1; j++)
-                {
-                    if (samples[j] <= pivot)
-                    {
-                        i++;
-                        Sorting.Swap(samples, i, j);
-                    }
-                }
-
-                Sorting.Swap(samples, i + 1, right);
-
-                // Recursive order finding algorithm.
-                if (order == (i - left) + 2)
-                {
-                    return pivot;
-                }
-
-                if (order < (i - left) + 2)
-                {
-                    right = i;
-                }
-                else
-                {
-                    order = order - i + left - 2;
-                    left = i + 2;
-                }
-            }
+            if (data == null) throw new ArgumentNullException("data");
+            var array = data.ToArray();
+            return ArrayStatistics.OrderStatisticInplace(array, order);
         }
     }
 }

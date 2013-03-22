@@ -109,13 +109,13 @@ namespace MathNet.Numerics.Statistics
             switch (Method)
             {
                 case PercentileMethod.Nist:
-                    return SortedArrayStatistics.QuantileCompatible(_data, percentile, QuantileCompatibility.Nist);
+                    return SortedArrayStatistics.QuantileCustom(_data, percentile, QuantileDefinition.Nist);
                 case PercentileMethod.Nearest:
-                    return SortedArrayStatistics.QuantileCompatible(_data, percentile, QuantileCompatibility.R3);
+                    return SortedArrayStatistics.QuantileCustom(_data, percentile, QuantileDefinition.R3);
                 case PercentileMethod.Interpolation:
-                    return SortedArrayStatistics.QuantileCompatible(_data, percentile, QuantileCompatibility.R5);
+                    return SortedArrayStatistics.QuantileCustom(_data, percentile, QuantileDefinition.R5);
                 case PercentileMethod.Excel:
-                    return SortedArrayStatistics.QuantileCompatible(_data, percentile, QuantileCompatibility.Excel);
+                    return SortedArrayStatistics.QuantileCustom(_data, percentile, QuantileDefinition.Excel);
                 default:
                     return SortedArrayStatistics.Quantile(_data, percentile);
             }

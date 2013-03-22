@@ -1062,6 +1062,9 @@
     <Compile Include="..\Numerics\Statistics\Percentile.cs">
       <Link>Statistics\Percentile.cs</Link>
     </Compile>
+    <Compile Include="..\Numerics\Statistics\QuantileDefinition.cs">
+      <Link>Statistics\QuantileDefinition.cs</Link>
+    </Compile>
     <Compile Include="..\Numerics\Statistics\SortedArrayStatistics.cs">
       <Link>Statistics\SortedArrayStatistics.cs</Link>
     </Compile>

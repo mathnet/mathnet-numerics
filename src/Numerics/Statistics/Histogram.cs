@@ -246,7 +246,7 @@ namespace MathNet.Numerics.Statistics
         /// </summary>
         /// <param name="data">The datasequence to build a histogram on.</param>
         /// <param name="nbuckets">The number of buckets to use.</param>
-        public Histogram(IEnumerable<double> data, int nbuckets) 
+        public Histogram(IEnumerable<double> data, int nbuckets)
             : this()
         {
             if (nbuckets < 1)
@@ -256,7 +256,12 @@ namespace MathNet.Numerics.Statistics
 
             double lower = data.Minimum();
             double upper = data.Maximum();
-            double width = (upper - lower) / nbuckets;
+            double width = (upper - lower)/nbuckets;
+
+            if (double.IsNaN(width))
+            {
+                throw new ArgumentException("Data must contain at least one entry.", "data");
+            }
 
             // Add buckets for each bin; the smallest bucket's lowerbound must be slightly smaller
             // than the minimal element.

@@ -32,19 +32,14 @@ using System;
 
 namespace MathNet.Numerics.Statistics
 {
-    public enum QuantileCompatibility
-    {
-        Default=0,
-        Nist,Nearest,Excel,
-        R1,R2,R3,R4,R5,R6,R7,R8,R9,
-        SAS1,SAS2,SAS3,SAS4,SAS5
-    }
-
+    /// <summary>
+    /// Statistics operating on an array already sorted ascendingly.
+    /// </summary>
+    /// <seealso cref="ArrayStatistics"/>
+    /// <seealso cref="StreamingStatistics"/>
+    /// <seealso cref="Statistics"/>
     public static class SortedArrayStatistics
     {
-        const double Third = 1d/3d;
-        const double Half = 1d/2d;
-
         /// <summary>
         /// Returns the smallest value from the sorted data array (ascending).
         /// </summary>
@@ -67,6 +62,19 @@ namespace MathNet.Numerics.Statistics
             if (data.Length == 0) return double.NaN;
 
             return data[data.Length - 1];
+        }
+
+        /// <summary>
+        /// Returns the order statistic (order 1..N) from the sorted data array (ascending).
+        /// </summary>
+        /// <param name="data">Sample array, must be sorted ascendingly.</param>
+        /// <param name="order">One-based order of the statistic, must be between 1 and N (inclusive).</param>
+        public static double OrderStatistic(double[] data, int order)
+        {
+            if (data == null) throw new ArgumentNullException("data");
+            if (order < 1 || order > data.Length) return double.NaN;
+
+            return data[order - 1];
         }
 
         /// <summary>
@@ -152,84 +160,124 @@ namespace MathNet.Numerics.Statistics
             if (tau == 0d || data.Length == 1) return data[0];
             if (tau == 1d) return data[data.Length - 1];
 
-            double h = (data.Length + Third)*tau + Third;
+            double h = (data.Length + 1/3d)*tau + 1/3d;
             var hf = (int) h;
-            return data[hf - 1] + (h - hf)*(data[hf] - data[hf - 1]);
+            return hf < 1 ? data[0]
+                : hf >= data.Length ? data[data.Length - 1]
+                : data[hf - 1] + (h - hf)*(data[hf] - data[hf - 1]);
         }
 
         /// <summary>
         /// Estimates the tau-th quantile from the sorted data array (ascending).
         /// The tau-th quantile is the data value where the cumulative distribution
-        /// function crosses tau. The quantile algorithm can be chosen by the compatibility argument.
+        /// function crosses tau. The quantile defintion can be specified
+        /// by 4 parameters a, b, c and d, consistent with Mathematica.
         /// </summary>
-        public static double QuantileCompatible(double[] data, double tau, QuantileCompatibility compatibility)
+        /// <param name="data">Sample array, must be sorted ascendingly.</param>
+        /// <param name="tau">Quantile selector, between 0.0 and 1.0 (inclusive).</param>
+        public static double QuantileCustom(double[] data, double tau, double a, double b, double c, double d)
+        {
+            if (data == null) throw new ArgumentNullException("data");
+            if (tau < 0d || tau > 1d || data.Length == 0) return double.NaN;
+
+            var x = a + (data.Length + b)*tau - 1;
+#if PORTABLE
+            var ip = (int) x;
+#else
+            var ip = Math.Truncate(x);
+#endif
+            var fp = x - ip;
+
+            if (Math.Abs(fp) < 1e-9)
+            {
+                return data[Math.Min(Math.Max((int) ip, 0), data.Length - 1)];
+            }
+
+            var lower = data[Math.Max((int) Math.Floor(x), 0)];
+            var upper = data[Math.Min((int) Math.Ceiling(x), data.Length - 1)];
+            return lower + (upper - lower)*(c + d*fp);
+        }
+
+        /// <summary>
+        /// Estimates the tau-th quantile from the sorted data array (ascending).
+        /// The tau-th quantile is the data value where the cumulative distribution
+        /// function crosses tau. The quantile definition can be specificed to be compatible
+        /// with an existing system.
+        /// </summary>
+        /// <param name="data">Sample array, must be sorted ascendingly.</param>
+        /// <param name="tau">Quantile selector, between 0.0 and 1.0 (inclusive).</param>
+        /// <param name="definition">Quantile definition, to choose what product/definition it should be consistent with</param>
+        public static double QuantileCustom(double[] data, double tau, QuantileDefinition definition)
         {
             if (data == null) throw new ArgumentNullException("data");
             if (tau < 0d || tau > 1d || data.Length == 0) return double.NaN;
             if (tau == 0d || data.Length == 1) return data[0];
             if (tau == 1d) return data[data.Length - 1];
 
-            switch (compatibility)
+            switch (definition)
             {
-                case QuantileCompatibility.R1:
-                case QuantileCompatibility.SAS3:
+                case QuantileDefinition.R1:
                     {
-                        double h = data.Length*tau + Half;
-                        return data[(int) Math.Ceiling(h - Half) - 1];
+                        double h = data.Length*tau + 0.5d;
+                        return data[(int) Math.Ceiling(h - 0.5d) - 1];
                     }
-                case QuantileCompatibility.R2:
-                case QuantileCompatibility.SAS5:
+                case QuantileDefinition.R2:
                     {
-                        double h = data.Length*tau + Half;
-                        return (data[(int) Math.Ceiling(h - Half) - 1] + data[(int) (h + Half) - 1])*Half;
+                        double h = data.Length*tau + 0.5d;
+                        return (data[(int) Math.Ceiling(h - 0.5d) - 1] + data[(int) (h + 0.5d) - 1])*0.5d;
                     }
-                case QuantileCompatibility.R3:
-                case QuantileCompatibility.SAS2:
-                case QuantileCompatibility.Nearest:
+                case QuantileDefinition.R3:
                     {
                         double h = data.Length*tau;
-                        return data[(int) Math.Round(h) - 1];
+                        return data[Math.Max((int) Math.Round(h) - 1, 0)];
                     }
-                case QuantileCompatibility.R4:
-                case QuantileCompatibility.SAS1:
+                case QuantileDefinition.R4:
                     {
                         double h = data.Length*tau;
                         var hf = (int) h;
-                        return data[hf - 1] + (h - hf)*(data[hf] - data[hf - 1]);
+                        var lower = data[Math.Max(hf - 1, 0)];
+                        var upper = data[Math.Min(hf, data.Length - 1)];
+                        return lower + (h - hf)*(upper - lower);
                     }
-                case QuantileCompatibility.R5:
+                case QuantileDefinition.R5:
                     {
-                        double h = data.Length*tau + Half;
+                        double h = data.Length*tau + 0.5d;
                         var hf = (int) h;
-                        return data[hf - 1] + (h - hf)*(data[hf] - data[hf - 1]);
+                        var lower = data[Math.Max(hf - 1, 0)];
+                        var upper = data[Math.Min(hf, data.Length - 1)];
+                        return lower + (h - hf)*(upper - lower);
                     }
-                case QuantileCompatibility.R6:
-                case QuantileCompatibility.SAS4:
-                case QuantileCompatibility.Nist:
+                case QuantileDefinition.R6:
                     {
                         double h = (data.Length + 1)*tau;
                         var hf = (int) h;
-                        return data[hf - 1] + (h - hf)*(data[hf] - data[hf - 1]);
+                        var lower = data[Math.Max(hf - 1, 0)];
+                        var upper = data[Math.Min(hf, data.Length - 1)];
+                        return lower + (h - hf)*(upper - lower);
                     }
-                case QuantileCompatibility.R7:
-                case QuantileCompatibility.Excel:
+                case QuantileDefinition.R7:
                     {
                         double h = (data.Length - 1)*tau + 1d;
                         var hf = (int) h;
-                        return data[hf - 1] + (h - hf)*(data[hf] - data[hf - 1]);
+                        var lower = data[Math.Max(hf - 1, 0)];
+                        var upper = data[Math.Min(hf, data.Length - 1)];
+                        return lower + (h - hf)*(upper - lower);
                     }
-                case QuantileCompatibility.R8:
-                case QuantileCompatibility.Default:
+                case QuantileDefinition.R8:
                     {
-                        double h = (data.Length + Third)*tau + Third;
+                        double h = (data.Length + 1/3d)*tau + 1/3d;
                         var hf = (int) h;
-                        return data[hf - 1] + (h - hf)*(data[hf] - data[hf - 1]);
+                        var lower = data[Math.Max(hf - 1, 0)];
+                        var upper = data[Math.Min(hf, data.Length - 1)];
+                        return lower + (h - hf)*(upper - lower);
                     }
-                case QuantileCompatibility.R9:
+                case QuantileDefinition.R9:
                     {
-                        double h = (data.Length + 1d/4d)*tau + 3d/8d;
+                        double h = (data.Length + 0.25d)*tau + 0.375d;
                         var hf = (int) h;
-                        return data[hf - 1] + (h - hf)*(data[hf] - data[hf - 1]);
+                        var lower = data[Math.Max(hf - 1, 0)];
+                        var upper = data[Math.Min(hf, data.Length - 1)];
+                        return lower + (h - hf)*(upper - lower);
                     }
                 default:
                     throw new NotSupportedException();
