@@ -157,9 +157,20 @@ namespace MathNet.Numerics.Financial
             return 0.0;
         }
 
+        /// <summary>
+        /// The maximum drawdown is the largest percentage drop in asset price over a specified time period. 
+        /// In other words, it is the greatest peak-to-trough of the asset returns.
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        /// <remarks>The data must be ordered by date ascending.</remarks>
         public static double MaximumDrawdown(this IEnumerable<double> data)
         {
-            throw new NotImplementedException();
+            var peak = data.Max();
+            //if peak is last point, then discard and find new peak
+
+            var trough = data.SkipWhile(d => d < peak).Min();
+            return (peak - trough) / peak;
         }
     }
 }
