@@ -79,7 +79,7 @@ namespace MathNet.Numerics.Statistics
 
         /// <summary>
         /// Estimates the median value from the sorted data array (ascending).
-        /// Applies a linear interpolation, consistent with Quantile and R-8.
+        /// Approximately median-unbiased regardless of the sample distribution (R8).
         /// </summary>
         /// <param name="data">Sample array, must be sorted ascendingly.</param>
         public static double Median(double[] data)
@@ -89,8 +89,8 @@ namespace MathNet.Numerics.Statistics
 
         /// <summary>
         /// Estimates the p-Percentile value from the sorted data array (ascending).
-        /// Applies a linear interpolation, consistent with Quantile and R-8.
         /// If a non-integer Percentile is needed, use Quantile instead.
+        /// Approximately median-unbiased regardless of the sample distribution (R8).
         /// </summary>
         /// <param name="data">Sample array, must be sorted ascendingly.</param>
         /// <param name="p">Percentile selector, between 0 and 100 (inclusive).</param>
@@ -101,7 +101,7 @@ namespace MathNet.Numerics.Statistics
 
         /// <summary>
         /// Estimates the first quartile value from the sorted data array (ascending).
-        /// Applies a linear interpolation, consistent with Quantile and R-8.
+        /// Approximately median-unbiased regardless of the sample distribution (R8).
         /// </summary>
         /// <param name="data">Sample array, must be sorted ascendingly.</param>
         public static double LowerQuartile(double[] data)
@@ -111,7 +111,7 @@ namespace MathNet.Numerics.Statistics
 
         /// <summary>
         /// Estimates the third quartile value from the sorted data array (ascending).
-        /// Applies a linear interpolation, consistent with Quantile and R-8.
+        /// Approximately median-unbiased regardless of the sample distribution (R8).
         /// </summary>
         /// <param name="data">Sample array, must be sorted ascendingly.</param>
         public static double UpperQuartile(double[] data)
@@ -121,7 +121,7 @@ namespace MathNet.Numerics.Statistics
 
         /// <summary>
         /// Estimates the inter-quartile range from the sorted data array (ascending).
-        /// Applies a linear interpolation, consistent with Quantile and R-8.
+        /// Approximately median-unbiased regardless of the sample distribution (R8).
         /// </summary>
         /// <param name="data">Sample array, must be sorted ascendingly.</param>
         public static double InterquartileRange(double[] data)
@@ -131,7 +131,7 @@ namespace MathNet.Numerics.Statistics
 
         /// <summary>
         /// Estimates {min, lower-quantile, median, upper-quantile, max} from the sorted data array (ascending).
-        /// Applies a linear interpolation, consistent with Quantile and R-8.
+        /// Approximately median-unbiased regardless of the sample distribution (R8).
         /// </summary>
         /// <param name="data">Sample array, must be sorted ascendingly.</param>
         public static double[] FiveNumberSummary(double[] data)
@@ -144,7 +144,8 @@ namespace MathNet.Numerics.Statistics
         /// <summary>
         /// Estimates the tau-th quantile from the sorted data array (ascending).
         /// The tau-th quantile is the data value where the cumulative distribution
-        /// function crosses tau. Applies a linear interpolation, compatible with R-8.
+        /// function crosses tau.
+        /// Approximately median-unbiased regardless of the sample distribution (R8).
         /// </summary>
         /// <param name="data">Sample array, must be sorted ascendingly.</param>
         /// <param name="tau">Quantile selector, between 0.0 and 1.0 (inclusive).</param>

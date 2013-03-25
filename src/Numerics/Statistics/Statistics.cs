@@ -207,10 +207,9 @@ namespace MathNet.Numerics.Statistics
         }
 
         /// <summary>
-        /// Estimates the sample median.
+        /// Estimates the sample median from the provided samples (R8).
         /// </summary>
-        /// <param name="data">The data to calculate the median of.</param>
-        /// <returns>The median of the sample.</returns>
+        /// <param name="data">The data sample sequence.</param>
         public static double Median(this IEnumerable<double> data)
         {
             if (data == null) throw new ArgumentNullException("data");
@@ -219,10 +218,9 @@ namespace MathNet.Numerics.Statistics
         }
 
         /// <summary>
-        /// Estimates the sample median.
+        /// Estimates the sample median from the provided samples (R8).
         /// </summary>
-        /// <param name="data">The data to calculate the median of.</param>
-        /// <returns>The median of the sample.</returns>
+        /// <param name="data">The data sample sequence.</param>
         public static double Median(this IEnumerable<double?> data)
         {
             if (data == null) throw new ArgumentNullException("data");
@@ -231,11 +229,13 @@ namespace MathNet.Numerics.Statistics
         }
 
         /// <summary>
-        /// Estimates the sample tau-quantile.
+        /// Estimates the tau-th quantile from the provided samples.
+        /// The tau-th quantile is the data value where the cumulative distribution
+        /// function crosses tau.
+        /// Approximately median-unbiased regardless of the sample distribution (R8).
         /// </summary>
-        /// <param name="data">The data to calculate the median of.</param>
+        /// <param name="data">The data sample sequence.</param>
         /// <param name="tau">Quantile selector, between 0.0 and 1.0 (inclusive).</param>
-        /// <returns>The median of the sample.</returns>
         public static double Quantile(this IEnumerable<double> data, double tau)
         {
             if (data == null) throw new ArgumentNullException("data");
@@ -244,11 +244,13 @@ namespace MathNet.Numerics.Statistics
         }
 
         /// <summary>
-        /// Estimates the sample tau-quantile.
+        /// Estimates the tau-th quantile from the provided samples.
+        /// The tau-th quantile is the data value where the cumulative distribution
+        /// function crosses tau.
+        /// Approximately median-unbiased regardless of the sample distribution (R8).
         /// </summary>
-        /// <param name="data">The data to calculate the median of.</param>
+        /// <param name="data">The data sample sequence.</param>
         /// <param name="tau">Quantile selector, between 0.0 and 1.0 (inclusive).</param>
-        /// <returns>The median of the sample.</returns>
         public static double Quantile(this IEnumerable<double?> data, double tau)
         {
             if (data == null) throw new ArgumentNullException("data");
@@ -257,11 +259,10 @@ namespace MathNet.Numerics.Statistics
         }
 
         /// <summary>
-        /// Estimates the empiric inverse CDF at tau (tau-quantile).
+        /// Estimates the empiric inverse CDF at tau from the provided samples.
         /// </summary>
-        /// <param name="data">The data to calculate the median of.</param>
+        /// <param name="data">The data sample sequence.</param>
         /// <param name="tau">Quantile selector, between 0.0 and 1.0 (inclusive).</param>
-        /// <returns>The median of the sample.</returns>
         public static double InverseCDF(this IEnumerable<double> data, double tau)
         {
             if (data == null) throw new ArgumentNullException("data");
@@ -270,11 +271,10 @@ namespace MathNet.Numerics.Statistics
         }
 
         /// <summary>
-        /// Estimates the empiric inverse CDF at tau (tau-quantile).
+        /// Estimates the empiric inverse CDF at tau from the provided samples.
         /// </summary>
-        /// <param name="data">The data to calculate the median of.</param>
+        /// <param name="data">The data sample sequence.</param>
         /// <param name="tau">Quantile selector, between 0.0 and 1.0 (inclusive).</param>
-        /// <returns>The median of the sample.</returns>
         public static double InverseCDF(this IEnumerable<double?> data, double tau)
         {
             if (data == null) throw new ArgumentNullException("data");
@@ -283,11 +283,13 @@ namespace MathNet.Numerics.Statistics
         }
 
         /// <summary>
-        /// Estimates the sample tau-quantile.
+        /// stimates the tau-th quantile from the provided samples.
+        /// The tau-th quantile is the data value where the cumulative distribution
+        /// function crosses tau. The quantile definition can be specificed to be compatible
+        /// with an existing system.
         /// </summary>
-        /// <param name="data">The data to calculate the median of.</param>
+        /// <param name="data">The data sample sequence.</param>
         /// <param name="tau">Quantile selector, between 0.0 and 1.0 (inclusive).</param>
-        /// <returns>The median of the sample.</returns>
         /// <param name="definition">Quantile definition, to choose what product/definition it should be consistent with</param>
         public static double QuantileCustom(this IEnumerable<double> data, double tau, QuantileDefinition definition)
         {
@@ -297,11 +299,13 @@ namespace MathNet.Numerics.Statistics
         }
 
         /// <summary>
-        /// Estimates the sample tau-quantile.
+        /// stimates the tau-th quantile from the provided samples.
+        /// The tau-th quantile is the data value where the cumulative distribution
+        /// function crosses tau. The quantile definition can be specificed to be compatible
+        /// with an existing system.
         /// </summary>
-        /// <param name="data">The data to calculate the median of.</param>
+        /// <param name="data">The data sample sequence.</param>
         /// <param name="tau">Quantile selector, between 0.0 and 1.0 (inclusive).</param>
-        /// <returns>The median of the sample.</returns>
         /// <param name="definition">Quantile definition, to choose what product/definition it should be consistent with</param>
         public static double QuantileCustom(this IEnumerable<double?> data, double tau, QuantileDefinition definition)
         {
@@ -311,11 +315,134 @@ namespace MathNet.Numerics.Statistics
         }
 
         /// <summary>
-        /// Returns the i-order (1..N) statistic of the provided samples.
+        /// Estimates the p-Percentile value from the provided samples.
+        /// If a non-integer Percentile is needed, use Quantile instead.
+        /// Approximately median-unbiased regardless of the sample distribution (R8).
         /// </summary>
-        /// <param name="data">The sample data.</param>
-        /// <param name="order">Order of the statistic to evaluate.</param>
-        /// <returns>The i'th order statistic in the sample data.</returns>
+        /// <param name="data">The data sample sequence.</param>
+        /// <param name="p">Percentile selector, between 0 and 100 (inclusive).</param>
+        public static double Percentile(this IEnumerable<double> data, int p)
+        {
+            if (data == null) throw new ArgumentNullException("data");
+            var array = data.ToArray();
+            return ArrayStatistics.PercentileInplace(array, p);
+        }
+
+        /// <summary>
+        /// Estimates the p-Percentile value from the provided samples.
+        /// If a non-integer Percentile is needed, use Quantile instead.
+        /// Approximately median-unbiased regardless of the sample distribution (R8).
+        /// </summary>
+        /// <param name="data">The data sample sequence.</param>
+        /// <param name="p">Percentile selector, between 0 and 100 (inclusive).</param>
+        public static double Percentile(this IEnumerable<double?> data, int p)
+        {
+            if (data == null) throw new ArgumentNullException("data");
+            var array = data.Where(d => d.HasValue).Select(d => d.Value).ToArray();
+            return ArrayStatistics.PercentileInplace(array, p);
+        }
+
+        /// <summary>
+        /// Estimates the first quartile value from the provided samples.
+        /// Approximately median-unbiased regardless of the sample distribution (R8).
+        /// </summary>
+        /// <param name="data">The data sample sequence.</param>
+        public static double LowerQuartile(this IEnumerable<double> data)
+        {
+            if (data == null) throw new ArgumentNullException("data");
+            var array = data.ToArray();
+            return ArrayStatistics.LowerQuartileInplace(array);
+        }
+
+        /// <summary>
+        /// Estimates the first quartile value from the provided samples.
+        /// Approximately median-unbiased regardless of the sample distribution (R8).
+        /// </summary>
+        /// <param name="data">The data sample sequence.</param>
+        public static double LowerQuartile(this IEnumerable<double?> data)
+        {
+            if (data == null) throw new ArgumentNullException("data");
+            var array = data.Where(d => d.HasValue).Select(d => d.Value).ToArray();
+            return ArrayStatistics.LowerQuartileInplace(array);
+        }
+
+        /// <summary>
+        /// Estimates the third quartile value from the provided samples.
+        /// Approximately median-unbiased regardless of the sample distribution (R8).
+        /// </summary>
+        /// <param name="data">The data sample sequence.</param>
+        public static double UpperQuartile(this IEnumerable<double> data)
+        {
+            if (data == null) throw new ArgumentNullException("data");
+            var array = data.ToArray();
+            return ArrayStatistics.UpperQuartileInplace(array);
+        }
+
+        /// <summary>
+        /// Estimates the third quartile value from the provided samples.
+        /// Approximately median-unbiased regardless of the sample distribution (R8).
+        /// </summary>
+        /// <param name="data">The data sample sequence.</param>
+        public static double UpperQuartile(this IEnumerable<double?> data)
+        {
+            if (data == null) throw new ArgumentNullException("data");
+            var array = data.Where(d => d.HasValue).Select(d => d.Value).ToArray();
+            return ArrayStatistics.UpperQuartileInplace(array);
+        }
+
+        /// <summary>
+        /// Estimates the inter-quartile range from the provided samples.
+        /// Approximately median-unbiased regardless of the sample distribution (R8).
+        /// </summary>
+        /// <param name="data">The data sample sequence.</param>
+        public static double InterquartileRange(this IEnumerable<double> data)
+        {
+            if (data == null) throw new ArgumentNullException("data");
+            var array = data.ToArray();
+            return ArrayStatistics.InterquartileRangeInplace(array);
+        }
+
+        /// <summary>
+        /// Estimates the inter-quartile range from the provided samples.
+        /// Approximately median-unbiased regardless of the sample distribution (R8).
+        /// </summary>
+        /// <param name="data">The data sample sequence.</param>
+        public static double InterquartileRange(this IEnumerable<double?> data)
+        {
+            if (data == null) throw new ArgumentNullException("data");
+            var array = data.Where(d => d.HasValue).Select(d => d.Value).ToArray();
+            return ArrayStatistics.InterquartileRangeInplace(array);
+        }
+
+        /// <summary>
+        /// Estimates {min, lower-quantile, median, upper-quantile, max} from the provided samples.
+        /// Approximately median-unbiased regardless of the sample distribution (R8).
+        /// </summary>
+        /// <param name="data">The data sample sequence.</param>
+        public static double[] FiveNumberSummary(this IEnumerable<double> data)
+        {
+            if (data == null) throw new ArgumentNullException("data");
+            var array = data.ToArray();
+            return ArrayStatistics.FiveNumberSummaryInplace(array);
+        }
+
+        /// <summary>
+        /// Estimates {min, lower-quantile, median, upper-quantile, max} from the provided samples.
+        /// Approximately median-unbiased regardless of the sample distribution (R8).
+        /// </summary>
+        /// <param name="data">The data sample sequence.</param>
+        public static double[] FiveNumberSummary(this IEnumerable<double?> data)
+        {
+            if (data == null) throw new ArgumentNullException("data");
+            var array = data.Where(d => d.HasValue).Select(d => d.Value).ToArray();
+            return ArrayStatistics.FiveNumberSummaryInplace(array);
+        }
+
+        /// <summary>
+        /// Returns the order statistic (order 1..N) from the provided samples.
+        /// </summary>
+        /// <param name="data">The data sample sequence.</param>
+        /// <param name="order">One-based order of the statistic, must be between 1 and N (inclusive).</param>
         public static double OrderStatistic(IEnumerable<double> data, int order)
         {
             if (data == null) throw new ArgumentNullException("data");

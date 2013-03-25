@@ -87,22 +87,6 @@ namespace MathNet.Numerics.Statistics
         }
 
         /// <summary>
-        /// Returns the order statistic (order 1..N) from the unsorted data array.
-        /// WARNING: Works inplace and can thus causes the data array to be reordered.
-        /// </summary>
-        /// <param name="data">Sample array, no sorting is assumed. Will be reordered.</param>
-        /// <param name="order">One-based order of the statistic, must be between 1 and N (inclusive).</param>
-        public static double OrderStatisticInplace(double[] data, int order)
-        {
-            if (data == null) throw new ArgumentNullException("data");
-            if (order < 1 || order > data.Length) return double.NaN;
-
-            if (order == 1) return Minimum(data);
-            if (order == data.Length) return Maximum(data);
-            return SelectInplace(data, order - 1);
-        }
-
-        /// <summary>
         /// Estimates the arithmetic sample mean from the unsorted data array.
         /// Returns NaN if data is empty or any entry is NaN.
         /// </summary>
@@ -188,8 +172,24 @@ namespace MathNet.Numerics.Statistics
         }
 
         /// <summary>
+        /// Returns the order statistic (order 1..N) from the unsorted data array.
+        /// WARNING: Works inplace and can thus causes the data array to be reordered.
+        /// </summary>
+        /// <param name="data">Sample array, no sorting is assumed. Will be reordered.</param>
+        /// <param name="order">One-based order of the statistic, must be between 1 and N (inclusive).</param>
+        public static double OrderStatisticInplace(double[] data, int order)
+        {
+            if (data == null) throw new ArgumentNullException("data");
+            if (order < 1 || order > data.Length) return double.NaN;
+
+            if (order == 1) return Minimum(data);
+            if (order == data.Length) return Maximum(data);
+            return SelectInplace(data, order - 1);
+        }
+
+        /// <summary>
         /// Estimates the median value from the unsorted data array.
-        /// Applies a linear interpolation, consistent with Quantile and R-8.
+        /// Approximately median-unbiased regardless of the sample distribution (R8).
         /// WARNING: Works inplace and can thus causes the data array to be reordered.
         /// </summary>
         /// <param name="data">Sample array, no sorting is assumed. Will be reordered.</param>
@@ -198,10 +198,73 @@ namespace MathNet.Numerics.Statistics
             return QuantileInplace(data, 0.5d);
         }
 
+
+        /// <summary>
+        /// Estimates the p-Percentile value from the unsorted data array.
+        /// If a non-integer Percentile is needed, use Quantile instead.
+        /// Approximately median-unbiased regardless of the sample distribution (R8).
+        /// WARNING: Works inplace and can thus causes the data array to be reordered.
+        /// </summary>
+        /// <param name="data">Sample array, no sorting is assumed. Will be reordered.</param>
+        /// <param name="p">Percentile selector, between 0 and 100 (inclusive).</param>
+        public static double PercentileInplace(double[] data, int p)
+        {
+            return QuantileInplace(data, p / 100d);
+        }
+
+        /// <summary>
+        /// Estimates the first quartile value from the unsorted data array.
+        /// Approximately median-unbiased regardless of the sample distribution (R8).
+        /// WARNING: Works inplace and can thus causes the data array to be reordered.
+        /// </summary>
+        /// <param name="data">Sample array, no sorting is assumed. Will be reordered.</param>
+        public static double LowerQuartileInplace(double[] data)
+        {
+            return QuantileInplace(data, 0.25d);
+        }
+
+        /// <summary>
+        /// Estimates the third quartile value from the unsorted data array.
+        /// Approximately median-unbiased regardless of the sample distribution (R8).
+        /// WARNING: Works inplace and can thus causes the data array to be reordered.
+        /// </summary>
+        /// <param name="data">Sample array, no sorting is assumed. Will be reordered.</param>
+        public static double UpperQuartileInplace(double[] data)
+        {
+            return QuantileInplace(data, 0.75d);
+        }
+
+        /// <summary>
+        /// Estimates the inter-quartile range from the unsorted data array.
+        /// Approximately median-unbiased regardless of the sample distribution (R8).
+        /// WARNING: Works inplace and can thus causes the data array to be reordered.
+        /// </summary>
+        /// <param name="data">Sample array, no sorting is assumed. Will be reordered.</param>
+        public static double InterquartileRangeInplace(double[] data)
+        {
+            return QuantileInplace(data, 0.75d) - QuantileInplace(data, 0.25d);
+        }
+
+        /// <summary>
+        /// Estimates {min, lower-quantile, median, upper-quantile, max} from the unsorted data array.
+        /// Approximately median-unbiased regardless of the sample distribution (R8).
+        /// WARNING: Works inplace and can thus causes the data array to be reordered.
+        /// </summary>
+        /// <param name="data">Sample array, no sorting is assumed. Will be reordered.</param>
+        public static double[] FiveNumberSummaryInplace(double[] data)
+        {
+            if (data == null) throw new ArgumentNullException("data");
+            if (data.Length == 0) return new[] { double.NaN, double.NaN, double.NaN, double.NaN, double.NaN };
+
+            // TODO: Benchmark: is this still faster than sorting the array then using SortedArrayStatistics instead?
+            return new[] { Minimum(data), QuantileInplace(data, 0.25), QuantileInplace(data, 0.50), QuantileInplace(data, 0.75), Maximum(data) };
+        }
+
         /// <summary>
         /// Estimates the tau-th quantile from the unsorted data array.
         /// The tau-th quantile is the data value where the cumulative distribution
-        /// function crosses tau. Applies a linear interpolation, compatible with R-8.
+        /// function crosses tau.
+        /// Approximately median-unbiased regardless of the sample distribution (R8).
         /// WARNING: Works inplace and can thus causes the data array to be reordered.
         /// </summary>
         /// <param name="data">Sample array, no sorting is assumed. Will be reordered.</param>
