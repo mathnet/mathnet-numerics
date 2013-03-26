@@ -106,69 +106,69 @@ namespace MathNet.Numerics.Statistics
         }
 
         /// <summary>
-        /// Estimates the unbiased population or sample variance from the unsorted data array.
-        /// On a dataset of size N will use an N-1 normalizer
-        /// Returns NaN if data is empty or any entry is NaN.
+        /// Estimates the unbiased population variance from the provided samples as unsorted array.
+        /// On a dataset of size N will use an N-1 normalizer.
+        /// Returns NaN if data has less than two entries or if any entry is NaN.
         /// </summary>
-        /// <param name="data">Sample array, no sorting is assumed.</param>
-        public static double Variance(double[] data)
+        /// <param name="samples">Sample array, no sorting is assumed.</param>
+        public static double Variance(double[] samples)
         {
-            if (data == null) throw new ArgumentNullException("data");
-            if (data.Length <= 1) return double.NaN;
+            if (samples == null) throw new ArgumentNullException("samples");
+            if (samples.Length <= 1) return double.NaN;
 
             double variance = 0;
-            double t = data[0];
-            for (int i = 1; i < data.Length; i++)
+            double t = samples[0];
+            for (int i = 1; i < samples.Length; i++)
             {
-                t += data[i];
-                double diff = ((i + 1)*data[i]) - t;
+                t += samples[i];
+                double diff = ((i + 1)*samples[i]) - t;
                 variance += (diff*diff)/((i + 1)*i);
             }
-            return variance/(data.Length - 1);
+            return variance/(samples.Length - 1);
         }
 
         /// <summary>
-        /// Estimates the unbiased population or sample standard deviation from the unsorted data array.
-        /// On a dataset of size N will use an N-1 normalizer
-        /// Returns NaN if data is empty or any entry is NaN.
+        /// Estimates the unbiased population standard deviation from the provided samples as unsorted array.
+        /// On a dataset of size N will use an N-1 normalizer.
+        /// Returns NaN if data has less than two entries or if any entry is NaN.
         /// </summary>
-        /// <param name="data">Sample array, no sorting is assumed.</param>
-        public static double StandardDeviation(double[] data)
+        /// <param name="samples">Sample array, no sorting is assumed.</param>
+        public static double StandardDeviation(double[] samples)
         {
-            return Math.Sqrt(Variance(data));
+            return Math.Sqrt(Variance(samples));
         }
 
         /// <summary>
-        /// Estimates the biased population variance from the unsorted data array.
-        /// On a dataset of size N will use an N normalizer
-        /// Returns NaN if data is empty or any entry is NaN.
+        /// Evaluates the biased population variance from the provided full population as unsorted array.
+        /// On a dataset of size N will use an N normalizer.
+        /// Returns NaN if data is empty or if any entry is NaN.
         /// </summary>
-        /// <param name="data">Sample array, no sorting is assumed.</param>
-        public static double PopulationVariance(double[] data)
+        /// <param name="population">Sample array, no sorting is assumed.</param>
+        public static double PopulationVariance(double[] population)
         {
-            if (data == null) throw new ArgumentNullException("data");
-            if (data.Length == 0) return double.NaN;
+            if (population == null) throw new ArgumentNullException("population");
+            if (population.Length == 0) return double.NaN;
 
             double variance = 0;
-            double t = data[0];
-            for (int i = 1; i < data.Length; i++)
+            double t = population[0];
+            for (int i = 1; i < population.Length; i++)
             {
-                t += data[i];
-                double diff = ((i + 1)*data[i]) - t;
+                t += population[i];
+                double diff = ((i + 1)*population[i]) - t;
                 variance += (diff*diff)/((i + 1)*i);
             }
-            return variance/data.Length;
+            return variance/population.Length;
         }
 
         /// <summary>
-        /// Estimates the biased population standard deviation from the unsorted data array.
-        /// On a dataset of size N will use an N normalizer
-        /// Returns NaN if data is empty or any entry is NaN.
+        /// Evaluates the biased population standard deviation from the provided full population as unsorted array.
+        /// On a dataset of size N will use an N normalizer.
+        /// Returns NaN if data is empty or if any entry is NaN.
         /// </summary>
-        /// <param name="data">Sample array, no sorting is assumed.</param>
-        public static double PopulationStandardDeviation(double[] data)
+        /// <param name="population">Sample array, no sorting is assumed.</param>
+        public static double PopulationStandardDeviation(double[] population)
         {
-            return Math.Sqrt(PopulationVariance(data));
+            return Math.Sqrt(PopulationVariance(population));
         }
 
         /// <summary>

@@ -41,6 +41,7 @@ namespace MathNet.Numerics.Statistics
     {
         /// <summary>
         /// Returns the minimum value in the sample data.
+        /// Returns NaN if data is empty or if any entry is NaN.
         /// </summary>
         /// <param name="data">The sample data.</param>
         /// <returns>The minimum value in the sample data.</returns>
@@ -53,6 +54,8 @@ namespace MathNet.Numerics.Statistics
         }
         /// <summary>
         /// Returns the minimum value in the sample data.
+        /// Returns NaN if data is empty or if any entry is NaN.
+        /// Null-entries are ignored.
         /// </summary>
         /// <param name="data">The sample data.</param>
         /// <returns>The minimum value in the sample data.</returns>
@@ -64,6 +67,7 @@ namespace MathNet.Numerics.Statistics
 
         /// <summary>
         /// Returns the maximum value in the sample data.
+        /// Returns NaN if data is empty or if any entry is NaN.
         /// </summary>
         /// <param name="data">The sample data.</param>
         /// <returns>The maximum value in the sample data.</returns>
@@ -77,6 +81,8 @@ namespace MathNet.Numerics.Statistics
 
         /// <summary>
         /// Returns the maximum value in the sample data.
+        /// Returns NaN if data is empty or if any entry is NaN.
+        /// Null-entries are ignored.
         /// </summary>
         /// <param name="data">The sample data.</param>
         /// <returns>The maximum value in the sample data.</returns>
@@ -88,6 +94,7 @@ namespace MathNet.Numerics.Statistics
 
         /// <summary>
         /// Estimates the sample mean.
+        /// Returns NaN if data is empty or if any entry is NaN.
         /// </summary>
         /// <param name="data">The data to calculate the mean of.</param>
         /// <returns>The mean of the sample.</returns>
@@ -101,6 +108,8 @@ namespace MathNet.Numerics.Statistics
 
         /// <summary>
         /// Estimates the sample mean.
+        /// Returns NaN if data is empty or if any entry is NaN.
+        /// Null-entries are ignored.
         /// </summary>
         /// <param name="data">The data to calculate the mean of.</param>
         /// <returns>The mean of the sample.</returns>
@@ -111,99 +120,111 @@ namespace MathNet.Numerics.Statistics
         }
 
         /// <summary>
-        /// Estimates the unbiased population (sample) variance estimator (on a dataset of size N will use an N-1 normalizer).
+        /// Estimates the unbiased population variance from the provided samples.
+        /// On a dataset of size N will use an N-1 normalizer.
+        /// Returns NaN if data has less than two entries or if any entry is NaN.
         /// </summary>
-        /// <param name="data">The data to calculate the variance of.</param>
-        /// <returns>The unbiased population variance of the sample.</returns>
-        public static double Variance(this IEnumerable<double> data)
+        /// <param name="samples">A subset of samples, sampled from the full population.</param>
+        public static double Variance(this IEnumerable<double> samples)
         {
-            var array = data as double[];
+            var array = samples as double[];
             return array != null
                 ? ArrayStatistics.Variance(array)
-                : StreamingStatistics.Variance(data);
+                : StreamingStatistics.Variance(samples);
         }
 
         /// <summary>
-        /// Estimates the unbiased population (sample) variance estimator (on a dataset of size N will use an N-1 normalizer) for nullable data.
+        /// Estimates the unbiased population variance from the provided samples.
+        /// On a dataset of size N will use an N-1 normalizer.
+        /// Returns NaN if data has less than two entries or if any entry is NaN.
+        /// Null-entries are ignored.
         /// </summary>
-        /// <param name="data">The data to calculate the variance of.</param>
-        /// <returns>The population variance of the sample.</returns>
-        public static double Variance(this IEnumerable<double?> data)
+        /// <param name="samples">A subset of samples, sampled from the full population.</param>
+        public static double Variance(this IEnumerable<double?> samples)
         {
-            if (data == null) throw new ArgumentNullException("data");
-            return StreamingStatistics.Variance(data.Where(d => d.HasValue).Select(d => d.Value));
+            if (samples == null) throw new ArgumentNullException("samples");
+            return StreamingStatistics.Variance(samples.Where(d => d.HasValue).Select(d => d.Value));
         }
 
         /// <summary>
-        /// Estimates the biased population variance estimator (on a dataset of size N will use an N normalizer).
+        /// Evaluates the biased population variance from the provided full population.
+        /// On a dataset of size N will use an N normalizer.
+        /// Returns NaN if data is empty or if any entry is NaN.
         /// </summary>
-        /// <param name="data">The data to calculate the variance of.</param>
-        /// <returns>The biased population variance of the sample.</returns>
-        public static double PopulationVariance(this IEnumerable<double> data)
+        /// <param name="population">The full population data.</param>
+        public static double PopulationVariance(this IEnumerable<double> population)
         {
-            var array = data as double[];
+            var array = population as double[];
             return array != null
                 ? ArrayStatistics.PopulationVariance(array)
-                : StreamingStatistics.PopulationVariance(data);
+                : StreamingStatistics.PopulationVariance(population);
         }
 
         /// <summary>
-        /// Estimates the biased population variance estimator (on a dataset of size N will use an N normalizer) for nullable data.
+        /// Evaluates the biased population variance from the provided full population.
+        /// On a dataset of size N will use an N normalizer.
+        /// Returns NaN if data is empty or if any entry is NaN.
+        /// Null-entries are ignored.
         /// </summary>
-        /// <param name="data">The data to calculate the variance of.</param>
-        /// <returns>The population variance of the sample.</returns>
-        public static double PopulationVariance(this IEnumerable<double?> data)
+        /// <param name="population">The full population data.</param>
+        public static double PopulationVariance(this IEnumerable<double?> population)
         {
-            if (data == null) throw new ArgumentNullException("data");
-            return StreamingStatistics.PopulationVariance(data.Where(d => d.HasValue).Select(d => d.Value));
+            if (population == null) throw new ArgumentNullException("population");
+            return StreamingStatistics.PopulationVariance(population.Where(d => d.HasValue).Select(d => d.Value));
         }
 
         /// <summary>
-        /// Estimates the unbiased sample standard deviation (on a dataset of size N will use an N-1 normalizer).
+        /// Estimates the unbiased population standard deviation from the provided samples.
+        /// On a dataset of size N will use an N-1 normalizer.
+        /// Returns NaN if data has less than two entries or if any entry is NaN.
         /// </summary>
-        /// <param name="data">The data to calculate the standard deviation of.</param>
-        /// <returns>The standard deviation of the sample.</returns>
-        public static double StandardDeviation(this IEnumerable<double> data)
+        /// <param name="samples">A subset of samples, sampled from the full population.</param>
+        public static double StandardDeviation(this IEnumerable<double> samples)
         {
-            var array = data as double[];
+            var array = samples as double[];
             return array != null
                 ? ArrayStatistics.StandardDeviation(array)
-                : StreamingStatistics.StandardDeviation(data);
+                : StreamingStatistics.StandardDeviation(samples);
         }
 
         /// <summary>
-        /// Estimates the unbiased sample standard deviation (on a dataset of size N will use an N-1 normalizer).
+        /// Estimates the unbiased population standard deviation from the provided samples.
+        /// On a dataset of size N will use an N-1 normalizer.
+        /// Returns NaN if data has less than two entries or if any entry is NaN.
+        /// Null-entries are ignored.
         /// </summary>
-        /// <param name="data">The data to calculate the standard deviation of.</param>
-        /// <returns>The standard deviation of the sample.</returns>
-        public static double StandardDeviation(this IEnumerable<double?> data)
+        /// <param name="samples">A subset of samples, sampled from the full population.</param>
+        public static double StandardDeviation(this IEnumerable<double?> samples)
         {
-            if (data == null) throw new ArgumentNullException("data");
-            return StreamingStatistics.StandardDeviation(data.Where(d => d.HasValue).Select(d => d.Value));
+            if (samples == null) throw new ArgumentNullException("samples");
+            return StreamingStatistics.StandardDeviation(samples.Where(d => d.HasValue).Select(d => d.Value));
         }
 
         /// <summary>
-        /// Estimates the biased sample standard deviation (on a dataset of size N will use an N normalizer).
+        /// Evaluates the biased population standard deviation from the provided full population.
+        /// On a dataset of size N will use an N normalizer.
+        /// Returns NaN if data is empty or if any entry is NaN.
         /// </summary>
-        /// <param name="data">The data to calculate the standard deviation of.</param>
-        /// <returns>The standard deviation of the sample.</returns>
-        public static double PopulationStandardDeviation(this IEnumerable<double> data)
+        /// <param name="population">The full population data.</param>
+        public static double PopulationStandardDeviation(this IEnumerable<double> population)
         {
-            var array = data as double[];
+            var array = population as double[];
             return array != null
                 ? ArrayStatistics.PopulationStandardDeviation(array)
-                : StreamingStatistics.PopulationStandardDeviation(data);
+                : StreamingStatistics.PopulationStandardDeviation(population);
         }
 
         /// <summary>
-        /// Estimates the biased sample standard deviation (on a dataset of size N will use an N normalizer).
+        /// Evaluates the biased population standard deviation from the provided full population.
+        /// On a dataset of size N will use an N normalizer.
+        /// Returns NaN if data is empty or if any entry is NaN.
+        /// Null-entries are ignored.
         /// </summary>
-        /// <param name="data">The data to calculate the standard deviation of.</param>
-        /// <returns>The standard deviation of the sample.</returns>
-        public static double PopulationStandardDeviation(this IEnumerable<double?> data)
+        /// <param name="population">The full population data.</param>
+        public static double PopulationStandardDeviation(this IEnumerable<double?> population)
         {
-            if (data == null) throw new ArgumentNullException("data");
-            return StreamingStatistics.PopulationStandardDeviation(data.Where(d => d.HasValue).Select(d => d.Value));
+            if (population == null) throw new ArgumentNullException("population");
+            return StreamingStatistics.PopulationStandardDeviation(population.Where(d => d.HasValue).Select(d => d.Value));
         }
 
         /// <summary>
@@ -290,7 +311,7 @@ namespace MathNet.Numerics.Statistics
         }
 
         /// <summary>
-        /// Estimates the empiric inverse CDF at tau from the provided samples.
+        /// Estimates the empirical inverse CDF at tau from the provided samples.
         /// </summary>
         /// <param name="data">The data sample sequence.</param>
         /// <param name="tau">Quantile selector, between 0.0 and 1.0 (inclusive).</param>
@@ -302,7 +323,7 @@ namespace MathNet.Numerics.Statistics
         }
 
         /// <summary>
-        /// Estimates the empiric inverse CDF at tau from the provided samples.
+        /// Estimates the empirical inverse CDF at tau from the provided samples.
         /// </summary>
         /// <param name="data">The data sample sequence.</param>
         /// <param name="tau">Quantile selector, between 0.0 and 1.0 (inclusive).</param>
@@ -314,7 +335,7 @@ namespace MathNet.Numerics.Statistics
         }
 
         /// <summary>
-        /// Estimates the empiric inverse CDF at tau from the provided samples.
+        /// Estimates the empirical inverse CDF at tau from the provided samples.
         /// </summary>
         /// <param name="data">The data sample sequence.</param>
         public static Func<double, double> InverseCDFFunc(this IEnumerable<double> data)
@@ -326,7 +347,7 @@ namespace MathNet.Numerics.Statistics
         }
 
         /// <summary>
-        /// Estimates the empiric inverse CDF at tau from the provided samples.
+        /// Estimates the empirical inverse CDF at tau from the provided samples.
         /// </summary>
         /// <param name="data">The data sample sequence.</param>
         public static Func<double, double> InverseCDFFunc(this IEnumerable<double?> data)

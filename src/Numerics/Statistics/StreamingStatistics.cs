@@ -107,19 +107,19 @@ namespace MathNet.Numerics.Statistics
         }
 
         /// <summary>
-        /// Estimates the unbiased population or sample variance from the enumerable, in a single pass without memoization.
-        /// On a dataset of size N will use an N-1 normalizer
-        /// Returns NaN if data is empty or any entry is NaN.
+        /// Estimates the unbiased population variance from the provided samples as enumerable sequence, in a single pass without memoization.
+        /// On a dataset of size N will use an N-1 normalizer.
+        /// Returns NaN if data has less than two entries or if any entry is NaN.
         /// </summary>
-        /// <param name="stream">Sample stream, no sorting is assumed.</param>
-        public static double Variance(IEnumerable<double> stream)
+        /// <param name="samples">Sample stream, no sorting is assumed.</param>
+        public static double Variance(IEnumerable<double> samples)
         {
-            if (stream == null) throw new ArgumentNullException("stream");
+            if (samples == null) throw new ArgumentNullException("samples");
 
             double variance = 0;
             double t = 0;
             ulong j = 0;
-            using (var iterator = stream.GetEnumerator())
+            using (var iterator = samples.GetEnumerator())
             {
                 if (iterator.MoveNext())
                 {
@@ -140,30 +140,30 @@ namespace MathNet.Numerics.Statistics
         }
 
         /// <summary>
-        /// Estimates the unbiased population or sample standard deviation from the enumerable, in a single pass without memoization.
-        /// On a dataset of size N will use an N-1 normalizer
-        /// Returns NaN if data is empty or any entry is NaN.
+        /// Estimates the unbiased population standard deviation from the provided samples as enumerable sequence, in a single pass without memoization.
+        /// On a dataset of size N will use an N-1 normalizer.
+        /// Returns NaN if data has less than two entries or if any entry is NaN.
         /// </summary>
-        /// <param name="stream">Sample stream, no sorting is assumed.</param>
-        public static double StandardDeviation(IEnumerable<double> stream)
+        /// <param name="samples">Sample stream, no sorting is assumed.</param>
+        public static double StandardDeviation(IEnumerable<double> samples)
         {
-            return Math.Sqrt(Variance(stream));
+            return Math.Sqrt(Variance(samples));
         }
 
         /// <summary>
-        /// Estimates the biased population variance from the enumerable, in a single pass without memoization.
-        /// On a dataset of size N will use an N normalizer
-        /// Returns NaN if data is empty or any entry is NaN.
+        /// Evaluates the biased population variance from the provided full population as enumerable sequence, in a single pass without memoization.
+        /// On a dataset of size N will use an N normalizer.
+        /// Returns NaN if data is empty or if any entry is NaN.
         /// </summary>
-        /// <param name="stream">Sample stream, no sorting is assumed.</param>
-        public static double PopulationVariance(IEnumerable<double> stream)
+        /// <param name="population">Sample stream, no sorting is assumed.</param>
+        public static double PopulationVariance(IEnumerable<double> population)
         {
-            if (stream == null) throw new ArgumentNullException("stream");
+            if (population == null) throw new ArgumentNullException("population");
 
             double variance = 0;
             double t = 0;
             ulong j = 0;
-            using (var iterator = stream.GetEnumerator())
+            using (var iterator = population.GetEnumerator())
             {
                 if (iterator.MoveNext())
                 {
@@ -184,14 +184,14 @@ namespace MathNet.Numerics.Statistics
         }
 
         /// <summary>
-        /// Estimates the biased population standard deviation from the enumerable, in a single pass without memoization.
-        /// On a dataset of size N will use an N normalizer
-        /// Returns NaN if data is empty or any entry is NaN.
+        /// Evaluates the biased population standard deviation from the provided full population as enumerable sequence, in a single pass without memoization.
+        /// On a dataset of size N will use an N normalizer.
+        /// Returns NaN if data is empty or if any entry is NaN.
         /// </summary>
-        /// <param name="stream">Sample stream, no sorting is assumed.</param>
-        public static double PopulationStandardDeviation(IEnumerable<double> stream)
+        /// <param name="population">Sample stream, no sorting is assumed.</param>
+        public static double PopulationStandardDeviation(IEnumerable<double> population)
         {
-            return Math.Sqrt(PopulationVariance(stream));
+            return Math.Sqrt(PopulationVariance(population));
         }
     }
 }
