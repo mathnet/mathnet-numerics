@@ -233,6 +233,16 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
             // -3 -1 -0.5 0  1  4 5 6 10
             var samples = new[] { -1, 5, 0, -3, 10, -0.5, 4, 1, 6 };
 
+            var f = Statistics.OrderStatisticFunc(samples);
+            Assert.That(f(0), Is.NaN, "Order-0 (bad)");
+            Assert.That(f(1), Is.EqualTo(-3), "Order-1");
+            Assert.That(f(2), Is.EqualTo(-1), "Order-2");
+            Assert.That(f(3), Is.EqualTo(-0.5), "Order-3");
+            Assert.That(f(7), Is.EqualTo(5), "Order-7");
+            Assert.That(f(8), Is.EqualTo(6), "Order-8");
+            Assert.That(f(9), Is.EqualTo(10), "Order-9");
+            Assert.That(f(10), Is.NaN, "Order-10 (bad)");
+
             Assert.That(Statistics.OrderStatistic(samples, 0), Is.NaN, "Order-0 (bad)");
             Assert.That(Statistics.OrderStatistic(samples, 1), Is.EqualTo(-3), "Order-1");
             Assert.That(Statistics.OrderStatistic(samples, 2), Is.EqualTo(-1), "Order-2");
@@ -279,7 +289,9 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
             var samples = new[] {-1, 5, 0, -3, 10, -0.5, 4, 0.2, 1, 6};
 
             Assert.AreEqual(expected, Statistics.InverseCDF(samples, tau), 1e-14);
+            Assert.AreEqual(expected, Statistics.InverseCDFFunc(samples)(tau), 1e-14);
             Assert.AreEqual(expected, Statistics.QuantileCustom(samples, tau, QuantileDefinition.InverseCDF), 1e-14);
+            Assert.AreEqual(expected, Statistics.QuantileCustomFunc(samples, QuantileDefinition.InverseCDF)(tau), 1e-14);
 
             Assert.AreEqual(expected, ArrayStatistics.QuantileCustomInplace(samples, tau, QuantileDefinition.InverseCDF), 1e-14);
             Assert.AreEqual(expected, ArrayStatistics.QuantileCustomInplace(samples, tau, 0d, 0d, 1d, 0d), 1e-14);
@@ -306,6 +318,7 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
             var samples = new[] {-1, 5, 0, -3, 10, -0.5, 4, 0.2, 1, 6};
 
             Assert.AreEqual(expected, Statistics.QuantileCustom(samples, tau, QuantileDefinition.R2), 1e-14);
+            Assert.AreEqual(expected, Statistics.QuantileCustomFunc(samples, QuantileDefinition.R2)(tau), 1e-14);
 
             Assert.AreEqual(expected, ArrayStatistics.QuantileCustomInplace(samples, tau, QuantileDefinition.InverseCDFAverage), 1e-14);
 
@@ -330,6 +343,7 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
             var samples = new[] {-1, 5, 0, -3, 10, -0.5, 4, 0.2, 1, 6};
 
             Assert.AreEqual(expected, Statistics.QuantileCustom(samples, tau, QuantileDefinition.R3), 1e-14);
+            Assert.AreEqual(expected, Statistics.QuantileCustomFunc(samples, QuantileDefinition.R3)(tau), 1e-14);
 
             Assert.AreEqual(expected, ArrayStatistics.QuantileCustomInplace(samples, tau, QuantileDefinition.Nearest), 1e-14);
             Assert.AreEqual(expected, ArrayStatistics.QuantileCustomInplace(samples, tau, 0.5d, 0d, 0d, 0d), 1e-14);
@@ -356,6 +370,7 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
             var samples = new[] {-1, 5, 0, -3, 10, -0.5, 4, 0.2, 1, 6};
 
             Assert.AreEqual(expected, Statistics.QuantileCustom(samples, tau, QuantileDefinition.R4), 1e-14);
+            Assert.AreEqual(expected, Statistics.QuantileCustomFunc(samples, QuantileDefinition.R4)(tau), 1e-14);
 
             Assert.AreEqual(expected, ArrayStatistics.QuantileCustomInplace(samples, tau, QuantileDefinition.California), 1e-14);
             Assert.AreEqual(expected, ArrayStatistics.QuantileCustomInplace(samples, tau, 0d, 0d, 0d, 1d), 1e-14);
@@ -382,6 +397,7 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
             var samples = new[] {-1, 5, 0, -3, 10, -0.5, 4, 0.2, 1, 6};
 
             Assert.AreEqual(expected, Statistics.QuantileCustom(samples, tau, QuantileDefinition.R5), 1e-14);
+            Assert.AreEqual(expected, Statistics.QuantileCustomFunc(samples, QuantileDefinition.R5)(tau), 1e-14);
 
             Assert.AreEqual(expected, ArrayStatistics.QuantileCustomInplace(samples, tau, QuantileDefinition.Hydrology), 1e-14);
             Assert.AreEqual(expected, ArrayStatistics.QuantileCustomInplace(samples, tau, 0.5d, 0d, 0d, 1d), 1e-14);
@@ -408,6 +424,7 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
             var samples = new[] {-1, 5, 0, -3, 10, -0.5, 4, 0.2, 1, 6};
 
             Assert.AreEqual(expected, Statistics.QuantileCustom(samples, tau, QuantileDefinition.R6), 1e-14);
+            Assert.AreEqual(expected, Statistics.QuantileCustomFunc(samples, QuantileDefinition.R6)(tau), 1e-14);
 
             Assert.AreEqual(expected, ArrayStatistics.QuantileCustomInplace(samples, tau, QuantileDefinition.Weibull), 1e-14);
             Assert.AreEqual(expected, ArrayStatistics.QuantileCustomInplace(samples, tau, 0d, 1d, 0d, 1d), 1e-14);
@@ -434,6 +451,7 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
             var samples = new[] {-1, 5, 0, -3, 10, -0.5, 4, 0.2, 1, 6};
 
             Assert.AreEqual(expected, Statistics.QuantileCustom(samples, tau, QuantileDefinition.R7), 1e-14);
+            Assert.AreEqual(expected, Statistics.QuantileCustomFunc(samples, QuantileDefinition.R7)(tau), 1e-14);
 
             Assert.AreEqual(expected, ArrayStatistics.QuantileCustomInplace(samples, tau, QuantileDefinition.Excel), 1e-14);
             Assert.AreEqual(expected, ArrayStatistics.QuantileCustomInplace(samples, tau, 1d, -1d, 0d, 1d), 1e-14);
@@ -460,6 +478,7 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
 
             Assert.AreEqual(expected, Statistics.Quantile(samples, tau), 1e-14);
             Assert.AreEqual(expected, Statistics.QuantileCustom(samples, tau, QuantileDefinition.R8), 1e-14);
+            Assert.AreEqual(expected, Statistics.QuantileCustomFunc(samples, QuantileDefinition.R8)(tau), 1e-14);
 
             Assert.AreEqual(expected, ArrayStatistics.QuantileInplace(samples, tau), 1e-14);
             Assert.AreEqual(expected, ArrayStatistics.QuantileCustomInplace(samples, tau, QuantileDefinition.Median), 1e-14);
@@ -487,6 +506,7 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
             var samples = new[] {-1, 5, 0, -3, 10, -0.5, 4, 0.2, 1, 6};
 
             Assert.AreEqual(expected, Statistics.QuantileCustom(samples, tau, QuantileDefinition.R9), 1e-14);
+            Assert.AreEqual(expected, Statistics.QuantileCustomFunc(samples, QuantileDefinition.R9)(tau), 1e-14);
 
             Assert.AreEqual(expected, ArrayStatistics.QuantileCustomInplace(samples, tau, QuantileDefinition.Normal), 1e-14);
             Assert.AreEqual(expected, ArrayStatistics.QuantileCustomInplace(samples, tau, 3/8d, 1/4d, 0d, 1d), 1e-14);

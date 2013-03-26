@@ -259,6 +259,37 @@ namespace MathNet.Numerics.Statistics
         }
 
         /// <summary>
+        /// Estimates the tau-th quantile from the provided samples.
+        /// The tau-th quantile is the data value where the cumulative distribution
+        /// function crosses tau.
+        /// Approximately median-unbiased regardless of the sample distribution (R8).
+        /// </summary>
+        /// <param name="data">The data sample sequence.</param>
+        public static Func<double,double> QuantileFunc(this IEnumerable<double> data)
+        {
+            if (data == null) throw new ArgumentNullException("data");
+            var array = data.ToArray();
+            Array.Sort(array);
+            return tau => SortedArrayStatistics.Quantile(array, tau);
+        }
+
+        /// <summary>
+        /// Estimates the tau-th quantile from the provided samples.
+        /// The tau-th quantile is the data value where the cumulative distribution
+        /// function crosses tau.
+        /// Approximately median-unbiased regardless of the sample distribution (R8).
+        /// </summary>
+        /// <param name="data">The data sample sequence.</param>
+        /// <param name="tau">Quantile selector, between 0.0 and 1.0 (inclusive).</param>
+        public static Func<double, double> QuantileFunc(this IEnumerable<double?> data)
+        {
+            if (data == null) throw new ArgumentNullException("data");
+            var array = data.Where(d => d.HasValue).Select(d => d.Value).ToArray();
+            Array.Sort(array);
+            return tau => SortedArrayStatistics.Quantile(array, tau);
+        }
+
+        /// <summary>
         /// Estimates the empiric inverse CDF at tau from the provided samples.
         /// </summary>
         /// <param name="data">The data sample sequence.</param>
@@ -280,6 +311,30 @@ namespace MathNet.Numerics.Statistics
             if (data == null) throw new ArgumentNullException("data");
             var array = data.Where(d => d.HasValue).Select(d => d.Value).ToArray();
             return ArrayStatistics.QuantileCustomInplace(array, tau, QuantileDefinition.InverseCDF);
+        }
+
+        /// <summary>
+        /// Estimates the empiric inverse CDF at tau from the provided samples.
+        /// </summary>
+        /// <param name="data">The data sample sequence.</param>
+        public static Func<double, double> InverseCDFFunc(this IEnumerable<double> data)
+        {
+            if (data == null) throw new ArgumentNullException("data");
+            var array = data.ToArray();
+            Array.Sort(array);
+            return tau => SortedArrayStatistics.QuantileCustom(array, tau, QuantileDefinition.InverseCDF);
+        }
+
+        /// <summary>
+        /// Estimates the empiric inverse CDF at tau from the provided samples.
+        /// </summary>
+        /// <param name="data">The data sample sequence.</param>
+        public static Func<double, double> InverseCDFFunc(this IEnumerable<double?> data)
+        {
+            if (data == null) throw new ArgumentNullException("data");
+            var array = data.Where(d => d.HasValue).Select(d => d.Value).ToArray();
+            Array.Sort(array);
+            return tau => SortedArrayStatistics.QuantileCustom(array, tau, QuantileDefinition.InverseCDF);
         }
 
         /// <summary>
@@ -315,6 +370,38 @@ namespace MathNet.Numerics.Statistics
         }
 
         /// <summary>
+        /// stimates the tau-th quantile from the provided samples.
+        /// The tau-th quantile is the data value where the cumulative distribution
+        /// function crosses tau. The quantile definition can be specificed to be compatible
+        /// with an existing system.
+        /// </summary>
+        /// <param name="data">The data sample sequence.</param>
+        /// <param name="definition">Quantile definition, to choose what product/definition it should be consistent with</param>
+        public static Func<double, double> QuantileCustomFunc(this IEnumerable<double> data, QuantileDefinition definition)
+        {
+            if (data == null) throw new ArgumentNullException("data");
+            var array = data.ToArray();
+            Array.Sort(array);
+            return tau => SortedArrayStatistics.QuantileCustom(array, tau, definition);
+        }
+
+        /// <summary>
+        /// stimates the tau-th quantile from the provided samples.
+        /// The tau-th quantile is the data value where the cumulative distribution
+        /// function crosses tau. The quantile definition can be specificed to be compatible
+        /// with an existing system.
+        /// </summary>
+        /// <param name="data">The data sample sequence.</param>
+        /// <param name="definition">Quantile definition, to choose what product/definition it should be consistent with</param>
+        public static Func<double, double> QuantileCustomFunc(this IEnumerable<double?> data, QuantileDefinition definition)
+        {
+            if (data == null) throw new ArgumentNullException("data");
+            var array = data.Where(d => d.HasValue).Select(d => d.Value).ToArray();
+            Array.Sort(array);
+            return tau => SortedArrayStatistics.QuantileCustom(array, tau, definition);
+        }
+
+        /// <summary>
         /// Estimates the p-Percentile value from the provided samples.
         /// If a non-integer Percentile is needed, use Quantile instead.
         /// Approximately median-unbiased regardless of the sample distribution (R8).
@@ -340,6 +427,34 @@ namespace MathNet.Numerics.Statistics
             if (data == null) throw new ArgumentNullException("data");
             var array = data.Where(d => d.HasValue).Select(d => d.Value).ToArray();
             return ArrayStatistics.PercentileInplace(array, p);
+        }
+
+        /// <summary>
+        /// Estimates the p-Percentile value from the provided samples.
+        /// If a non-integer Percentile is needed, use Quantile instead.
+        /// Approximately median-unbiased regardless of the sample distribution (R8).
+        /// </summary>
+        /// <param name="data">The data sample sequence.</param>
+        public static Func<int, double> PercentileFunc(this IEnumerable<double> data)
+        {
+            if (data == null) throw new ArgumentNullException("data");
+            var array = data.ToArray();
+            Array.Sort(array);
+            return p => SortedArrayStatistics.Percentile(array, p);
+        }
+
+        /// <summary>
+        /// Estimates the p-Percentile value from the provided samples.
+        /// If a non-integer Percentile is needed, use Quantile instead.
+        /// Approximately median-unbiased regardless of the sample distribution (R8).
+        /// </summary>
+        /// <param name="data">The data sample sequence.</param>
+        public static Func<int, double> PercentileFunc(this IEnumerable<double?> data)
+        {
+            if (data == null) throw new ArgumentNullException("data");
+            var array = data.Where(d => d.HasValue).Select(d => d.Value).ToArray();
+            Array.Sort(array);
+            return p => SortedArrayStatistics.Percentile(array, p);
         }
 
         /// <summary>
@@ -448,6 +563,18 @@ namespace MathNet.Numerics.Statistics
             if (data == null) throw new ArgumentNullException("data");
             var array = data.ToArray();
             return ArrayStatistics.OrderStatisticInplace(array, order);
+        }
+
+        /// <summary>
+        /// Returns the order statistic (order 1..N) from the provided samples.
+        /// </summary>
+        /// <param name="data">The data sample sequence.</param>
+        public static Func<int, double> OrderStatisticFunc(IEnumerable<double> data)
+        {
+            if (data == null) throw new ArgumentNullException("data");
+            var array = data.ToArray();
+            Array.Sort(array);
+            return order => SortedArrayStatistics.OrderStatistic(array, order);
         }
     }
 }
