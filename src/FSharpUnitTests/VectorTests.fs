@@ -15,6 +15,32 @@ module VectorTests =
     let largev = new DenseVector(Array.init 100 (fun i -> float i / 100.0)) :> Vector<float>
 
     [<Test>]
+    let ``Vector.GetSlice`` () =
+        largev.[*] |> should equal largev
+        largev.[0..99]  |> should equal largev
+        largev.[1..3]  |> should equal (DenseVector([|0.01;0.02;0.03|]))
+        largev.[97..]  |> should equal (DenseVector([|0.97;0.98;0.99|]))
+        largev.[..4]  |> should equal (DenseVector([|0.00;0.01;0.02;0.03;0.04|]))
+
+    [<Test>]
+    let ``Vector.SetSlice`` () =
+        let v = smallv.Clone() in
+            v.[*] <- DenseVector([|0.1;0.2;0.3;0.4;0.5|]);
+            v |> should equal (DenseVector([|0.1;0.2;0.3;0.4;0.5|]))
+        let v = smallv.Clone() in
+            v.[0..4] <- DenseVector([|0.1;0.2;0.3;0.4;0.5|]);
+            v |> should equal (DenseVector([|0.1;0.2;0.3;0.4;0.5|]))
+        let v = smallv.Clone() in
+            v.[1..3] <- DenseVector([|7.0;8.0;9.0|]);
+            v |> should equal (DenseVector([|0.3;7.0;8.0;9.0;0.3|]))
+        let v = smallv.Clone() in
+            v.[2..] <- DenseVector([|7.0;8.0;9.0|]);
+            v |> should equal (DenseVector([|0.3;0.3;7.0;8.0;9.0|]))
+        let v = smallv.Clone() in
+            v.[..2] <- DenseVector([|7.0;8.0;9.0|]);
+            v |> should equal (DenseVector([|7.0;8.0;9.0;0.3;0.3|]))
+
+    [<Test>]
     let ``Vector.toArray`` () =
         Vector.toArray smallv |> should array_equal [|0.3;0.3;0.3;0.3;0.3|]
 
