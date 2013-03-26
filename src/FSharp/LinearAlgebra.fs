@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2012 Math.NET
+// Copyright (c) 2009-2013 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -50,6 +50,15 @@ module FSharpExtensions =
       let finish = defaultArg finish (x.Count - 1)
       x.SubVector(start, finish - start + 1)
 
+    /// Sets a slice of a vector starting at a specified index
+    /// and ending at a specified index (both indices are optional)
+    /// This method can be used via the x.[start .. finish] <- v syntax
+    member x.SetSlice(start, finish, values) =
+      let start = defaultArg start 0
+      let finish = defaultArg finish (x.Count - 1)
+      x.SetSubVector(start, finish - start + 1, values)
+
+
   // A type extension for the generic matrix type that
   // adds the 'GetSlice' method to allow m.[r1 .. r2, c1 .. c2] syntax
   type MathNet.Numerics.LinearAlgebra.Generic.
@@ -66,3 +75,13 @@ module FSharpExtensions =
       let cfinish = defaultArg cfinish (x.ColumnCount - 1)
       let rfinish = defaultArg rfinish (x.RowCount - 1)
       x.SubMatrix(rstart, rfinish - rstart + 1, cstart, cfinish - cstart + 1)
+
+    /// Sets a submatrix using a specified column range and
+    /// row range (all indices are optional)
+    /// This method can be used via the x.[r1 .. r2, c1 .. c2 ] <- m syntax
+    member x.SetSlice(rstart, rfinish, cstart, cfinish, values) =
+      let cstart = defaultArg cstart 0
+      let rstart = defaultArg rstart 0
+      let cfinish = defaultArg cfinish (x.ColumnCount - 1)
+      let rfinish = defaultArg rfinish (x.RowCount - 1)
+      x.SetSubMatrix(rstart, rfinish - rstart + 1, cstart, cfinish - cstart + 1, values)
