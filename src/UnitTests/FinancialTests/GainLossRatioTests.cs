@@ -34,6 +34,7 @@ namespace MathNet.Numerics.UnitTests.FinancialTests
     using NUnit.Framework;
 
     [TestFixture]
+    [Category("FinancialTests")]
     public class GainLossRatioTests
     {
         [Test]
@@ -48,61 +49,61 @@ namespace MathNet.Numerics.UnitTests.FinancialTests
 
         [Test]
         //Not sure this is correct.  Undefined may be more correct.
-        public void returns_zero_for_a_single_positive_input()
+        public void returns_NaN_for_a_single_positive_input()
         {
             //arrange
             var inputData = new[] { 1.0 };
             //act
             var gainLossRatio = inputData.GainLossRatio();
             //assert
-            Assert.AreEqual(0.0, gainLossRatio);
+            Assert.AreEqual(double.NaN, gainLossRatio);
         }
 
         [Test]
         //Not sure this is correct.  Undefined may be more correct.
-        public void returns_zero_for_a_single_negative_input()
+        public void returns_NaN_for_a_single_negative_input()
         {
             //arrange
             var inputData = new[] { -1.0 };
             //act
             var gainLossRatio = inputData.GainLossRatio();
             //assert
-            Assert.AreEqual(0.0, gainLossRatio);
+            Assert.AreEqual(double.NaN, gainLossRatio);
         }
 
         [Test]
         //Not sure this is correct.  Undefined may be more correct.
-        public void returns_zero_for_a_set_of_all_positive_numbers()
+        public void returns_NaN_for_a_set_of_all_positive_numbers()
         {
             //arrange
             var inputData = new[] { 1.0, 2.0, 3.0 };
             //act
             var gainLossRatio = inputData.GainLossRatio();
             //assert
-            Assert.AreEqual(0.0, gainLossRatio);
+            Assert.AreEqual(double.NaN, gainLossRatio);
         }
 
         [Test]
         //Not sure this is correct.  Undefined may be more correct.
-        public void returns_zero_for_a_set_of_all_negative_numbers()
+        public void returns_NaN_for_a_set_of_all_negative_numbers()
         {
             //arrange
             var inputData = new[] { -1.0, -2.0, -3.0 };
             //act
             var gainLossRatio = inputData.GainLossRatio();
             //assert
-            Assert.AreEqual(0.0, gainLossRatio);
+            Assert.AreEqual(double.NaN, gainLossRatio);
         }
 
         [Test]
         public void handles_a_value_of_zero_as_a_positive()
         {
             //arrange
-            var inputData = new[] { 0.0, 1.0, 2.0 };
+            var inputData = new[] { 0.0, -1.0 };
             //act
-            var gainLossRatio = inputData.GainLossRatio();
+            var gainLossRatio = inputData.GainLossRatio(); 
             //assert
-            Assert.AreEqual(0.0, gainLossRatio);
+            Assert.AreEqual(0.0, gainLossRatio); //0.0 / -1.0 => 0.0
         }
 
         [Test]

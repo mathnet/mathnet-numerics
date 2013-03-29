@@ -105,6 +105,7 @@
     <Compile Include="Constants.cs" />
     <Compile Include="Control.cs" />
     <Compile Include="Complex32.cs" />
+    <Compile Include="Financial\AbsoluteReturnMeasures.cs" />
     <Compile Include="Financial\AbsoluteRiskStatistics.cs" />
     <Compile Include="LinearAlgebra\Generic\Matrix.BCL.cs" />
     <Compile Include="LinearAlgebra\Generic\Vector.BCL.cs" />

@@ -34,6 +34,7 @@ namespace MathNet.Numerics.UnitTests.FinancialTests
     using NUnit.Framework;
 
     [TestFixture]
+    [Category("FinancialTests")]
     public class DownsideDeviationTests
     {
         [Test]

@@ -33,6 +33,7 @@ namespace MathNet.Numerics.UnitTests.FinancialTests
     using NUnit.Framework;
 
     [TestFixture]
+    [Category("FinancialTests")]
     public class GainMeanTests
     {
         [Test]
@@ -46,14 +47,14 @@ namespace MathNet.Numerics.UnitTests.FinancialTests
             Assert.AreEqual(0.0, gainMean);
         }
         [Test]
-        public void returns_zero_when_all_input_is_negative()
+        public void returns_NaN_when_all_input_is_negative()
         {
             //arrange
             var inputData = new[] { -1.0, -2.0, -3.0 };
             //act
             var gainMean = inputData.GainMean();
             //assert
-            Assert.AreEqual(0.0, gainMean);
+            Assert.AreEqual(double.NaN, gainMean);
         }
 
         [Test]
@@ -91,14 +92,14 @@ namespace MathNet.Numerics.UnitTests.FinancialTests
         }
 
         [Test]
-        public void returns_zero_with_no_input_data()
+        public void returns_NaN_with_no_input_data()
         {
             //arrange
             var inputData = new List<double>();
             //act
             var gainMean = inputData.GainMean();
             //assert
-            Assert.AreEqual(0.0, gainMean);
+            Assert.AreEqual(double.NaN, gainMean);
         }
 
     }

@@ -1,4 +1,4 @@
-﻿// <copyright file="LossMeanTests.cs" company="Math.NET">
+﻿// <copyright file="CompoundMonthlyReturnTests.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -28,79 +28,48 @@ namespace MathNet.Numerics.UnitTests.FinancialTests
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
     using MathNet.Numerics.Financial;
-    using MathNet.Numerics.Statistics;
     using NUnit.Framework;
 
     [TestFixture]
     [Category("FinancialTests")]
-    public class LossMeanTests
+    public class CompoundMonthlyReturnTests
     {
         [Test]
-        public void returns_NaN_when_zero_is_the_only_input()
-        {
-            //arrange
-            var inputData = new[] { 0.0 };
-            //act
-            var lossMean = inputData.LossMean();
-            //assert
-            Assert.AreEqual(double.NaN, lossMean);
-        }
-
-        [Test]
-        public void returns_NaN_when_all_input_is_positive()
-        {
-            //arrange
-            var inputData = new[] { 0.0, 1.0 };
-            //act
-            var lossMean = inputData.LossMean();
-            //assert
-            Assert.AreEqual(double.NaN, lossMean);
-        }
-
-        [Test]
-        public void returns_the_same_as_mean_when_all_values_are_negative()
-        {
-            //arrange
-            var inputData = new[] { -1.0, -2.0 };
-            var mean = inputData.Mean();
-            //act
-            var lossMean = inputData.LossMean();
-            //assert
-            Assert.AreEqual(mean, lossMean);
-        }
-
-        [Test]
-        public void does_not_use_positive_input_values()
-        {
-            //arrange
-            var inputData = new[] { -1.0, 2.0 };
-            //act
-            var lossMean = inputData.LossMean();
-            //assert
-            Assert.AreEqual(-1.0, lossMean);
-        }
-
-
-        [Test]
         [ExpectedException(typeof(ArgumentNullException))] //assert
-        public void throws_when_input_data_is_null() 
+        public void throws_when_input_data_is_null()
         {
             //arrange
             List<double> inputData = null;
             //act
-            inputData.LossMean();
+            inputData.CompoundMonthlyReturn();
         }
 
         [Test]
-        public void returns_NaN_with_no_input_data()
+        public void returns_undefined_with_empty_input_data()
         {
             //arrange
-            var inputData = new List<double>();
+            List<double> inputData = new List<double>();
             //act
-            var lossMean = inputData.LossMean();
+            var cmpdReturn = inputData.CompoundMonthlyReturn();
             //assert
-            Assert.AreEqual(double.NaN, lossMean);
+            Assert.AreEqual(double.NaN, cmpdReturn);
         }
+
+        [Test]
+        public void calculates_the_compound_monthly_return()
+        {
+            //arrange
+            var inputData = new[] { 0.2, 0.06, 0.01 };
+            //act
+            var cmpdReturn = inputData.CompoundMonthlyReturn();
+            //assert
+            AssertHelpers.AlmostEqual(0.0870999982199265, cmpdReturn, 15);
+        }
+
+        //Definitly need more tests here.  Would love to find test data for these stats similar to the .dat files used for other tests.
     }
+
 }
