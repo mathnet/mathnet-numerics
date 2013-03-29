@@ -30,6 +30,7 @@
 
 using System;
 using System.Diagnostics;
+using System.Text;
 
 namespace MathNet.Numerics.LinearAlgebra.Generic
 {
@@ -85,6 +86,43 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
             return ToString(null, null);
         }
 
+        /// <summary>
+        /// Returns a <see cref="System.String"/> that represents this instance.
+        /// </summary>
+        /// <param name="format">
+        /// The format to use.
+        /// </param>
+        /// <param name="formatProvider">
+        /// The format provider to use.
+        /// </param>
+        /// <returns>
+        /// A <see cref="System.String"/> that represents this instance.
+        /// </returns>
+        public virtual string ToString(string format, IFormatProvider formatProvider = null)
+        {
+            var separator = (formatProvider.GetTextInfo().ListSeparator);
+            var stringBuilder = new StringBuilder();
+
+            for (var row = 0; row < RowCount; row++)
+            {
+                for (var column = 0; column < ColumnCount; column++)
+                {
+                    stringBuilder.Append(At(row, column).ToString(format, formatProvider));
+                    if (column != ColumnCount - 1)
+                    {
+                        stringBuilder.Append(separator);
+                    }
+                }
+
+                if (row != RowCount - 1)
+                {
+                    stringBuilder.Append(Environment.NewLine);
+                }
+            }
+
+            return stringBuilder.ToString();
+        }
+
 #if !PORTABLE
 
         /// <summary>
@@ -99,8 +137,5 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         }
 
 #endif
-
-
-
     }
 }

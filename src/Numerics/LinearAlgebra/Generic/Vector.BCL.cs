@@ -32,6 +32,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Text;
 using MathNet.Numerics.LinearAlgebra.Storage;
 using MathNet.Numerics.Properties;
 
@@ -99,6 +100,35 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         public string ToString(IFormatProvider formatProvider)
         {
             return ToString(null, formatProvider);
+        }
+
+        /// <summary>
+        /// Returns a <see cref="System.String"/> that represents this instance.
+        /// </summary>
+        /// <param name="format">
+        /// The format to use.
+        /// </param>
+        /// <param name="formatProvider">
+        /// An <see cref="IFormatProvider"/> that supplies culture-specific formatting information.
+        /// </param>
+        /// <returns>
+        /// A <see cref="System.String"/> that represents this instance.
+        /// </returns>
+        public virtual string ToString(string format, IFormatProvider formatProvider = null)
+        {
+            var separator = (formatProvider.GetTextInfo().ListSeparator);
+            var stringBuilder = new StringBuilder();
+
+            for (var index = 0; index < Count; index++)
+            {
+                stringBuilder.Append(At(index).ToString(format, formatProvider));
+                if (index != Count - 1)
+                {
+                    stringBuilder.Append(separator);
+                }
+            }
+
+            return stringBuilder.ToString();
         }
 
 #if !PORTABLE

@@ -28,16 +28,12 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-
-using System.Globalization;
-
 namespace MathNet.Numerics.LinearAlgebra.Generic
 {
     using System;
     using System.Collections;
     using System.Collections.Generic;
     using System.Runtime;
-    using System.Text;
     using Properties;
     using Storage;
 
@@ -1294,36 +1290,6 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         public IEnumerable<Tuple<int, T>> GetIndexedEnumerator()
         {
             return Storage.EnumerateNonZero();
-        }
-
-        /// <summary>
-        /// Returns a <see cref="System.String"/> that represents this instance.
-        /// </summary>
-        /// <param name="format">
-        /// The format to use.
-        /// </param>
-        /// <param name="formatProvider">
-        /// An <see cref="IFormatProvider"/> that supplies culture-specific formatting information.
-        /// </param>
-        /// <returns>
-        /// A <see cref="System.String"/> that represents this instance.
-        /// </returns>
-        public virtual string ToString(string format, IFormatProvider formatProvider = null)
-        {
-            var provider = formatProvider ?? CultureInfo.InvariantCulture;
-            var separator = (provider.GetTextInfo().ListSeparator);
-            var stringBuilder = new StringBuilder();
-
-            for (var index = 0; index < Count; index++)
-            {
-                stringBuilder.Append(this[index].ToString(format, provider));
-                if (index != Count - 1)
-                {
-                    stringBuilder.Append(separator);
-                }
-            }
-
-            return stringBuilder.ToString();
         }
     }
 }

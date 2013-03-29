@@ -28,16 +28,12 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-
-using System.Globalization;
-
 namespace MathNet.Numerics.LinearAlgebra.Generic
 {
     using System;
     using System.Collections.Generic;
     using System.Numerics;
     using System.Runtime;
-    using System.Text;
     using Factorization;
     using Numerics;
     using Properties;
@@ -1439,44 +1435,6 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         public T[] ToRowWiseArray()
         {
             return Storage.ToRowMajorArray();
-        }
-
-        /// <summary>
-        /// Returns a <see cref="System.String"/> that represents this instance.
-        /// </summary>
-        /// <param name="format">
-        /// The format to use.
-        /// </param>
-        /// <param name="formatProvider">
-        /// The format provider to use.
-        /// </param>
-        /// <returns>
-        /// A <see cref="System.String"/> that represents this instance.
-        /// </returns>
-        public virtual string ToString(string format, IFormatProvider formatProvider = null)
-        {
-            var provider = formatProvider ?? CultureInfo.InvariantCulture;
-            var separator = (provider.GetTextInfo().ListSeparator);
-            var stringBuilder = new StringBuilder();
-
-            for (var row = 0; row < RowCount; row++)
-            {
-                for (var column = 0; column < ColumnCount; column++)
-                {
-                    stringBuilder.Append(At(row, column).ToString(format, provider));
-                    if (column != ColumnCount - 1)
-                    {
-                        stringBuilder.Append(separator);
-                    }
-                }
-
-                if (row != RowCount - 1)
-                {
-                    stringBuilder.Append(Environment.NewLine);
-                }
-            }
-
-            return stringBuilder.ToString();
         }
     }
 }
