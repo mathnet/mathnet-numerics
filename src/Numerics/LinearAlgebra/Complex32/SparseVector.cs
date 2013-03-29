@@ -1034,15 +1034,5 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
             return ret;
         }
         #endregion
-
-        public override string ToString(string format, IFormatProvider formatProvider)
-        {
-            if (Count > 20)
-            {
-                return String.Format("SparseVectorOfComplex32({0},{1},{2})", Count, _storage.ValueCount, GetHashCode());
-            }
-
-            return base.ToString(format, formatProvider);
-        }
     }
 }

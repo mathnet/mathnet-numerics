@@ -30,10 +30,10 @@
 
 namespace MathNet.Numerics.LinearAlgebra.Double
 {
-    using System;
     using Generic;
     using Properties;
     using Storage;
+    using System;
 
     /// <summary>
     /// <c>double</c> version of the <see cref="Matrix{T}"/> class.

@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2010 Math.NET
+// Copyright (c) 2009-2013 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -53,6 +53,10 @@ namespace MathNet.Numerics
             // Random Numbers & Distributions
             CheckDistributionParameters = true;
             ThreadSafeRandomNumberGenerators = true;
+
+            // ToString & Formatting
+            MaxToStringColumns = 6;
+            MaxToStringRows = 8;
 
             // Parallelization & Threading
             _numberOfThreads = Environment.ProcessorCount;
@@ -174,5 +178,15 @@ namespace MathNet.Numerics
         {
             return !DisableParallelization && NumberOfParallelWorkerThreads >= 2 && elements >= ParallelizeElements;
         }
+
+        /// <summary>
+        /// Maximum number of columns to print in ToString methods by default.
+        /// </summary>
+        public static int MaxToStringColumns { get; set; }
+
+        /// <summary>
+        /// Maximum number of rows to print in ToString methods by default.
+        /// </summary>
+        public static int MaxToStringRows { get; set; }
     }
 }
