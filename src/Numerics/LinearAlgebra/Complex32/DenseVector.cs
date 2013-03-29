@@ -30,21 +30,22 @@
 
 namespace MathNet.Numerics.LinearAlgebra.Complex32
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
     using Distributions;
     using Generic;
     using NumberTheory;
     using Numerics;
-    using Properties;
     using Storage;
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using System.Linq;
     using Threading;
 
     /// <summary>
     /// A vector using dense storage.
     /// </summary>
     [Serializable]
+    [DebuggerDisplay("DenseVector {Count}-Complex32")]
     public class DenseVector : Vector
     {
         /// <summary>

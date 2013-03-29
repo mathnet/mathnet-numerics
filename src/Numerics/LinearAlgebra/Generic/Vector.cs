@@ -29,6 +29,8 @@
 // </copyright>
 
 
+using System.Globalization;
+
 namespace MathNet.Numerics.LinearAlgebra.Generic
 {
     using System;
@@ -1306,13 +1308,15 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <returns>
         /// A <see cref="System.String"/> that represents this instance.
         /// </returns>
-        public virtual string ToString(string format, IFormatProvider formatProvider)
+        public virtual string ToString(string format, IFormatProvider formatProvider = null)
         {
+            var provider = formatProvider ?? CultureInfo.InvariantCulture;
+            var separator = (provider.GetTextInfo().ListSeparator);
             var stringBuilder = new StringBuilder();
-            var separator = formatProvider.GetTextInfo().ListSeparator;
+
             for (var index = 0; index < Count; index++)
             {
-                stringBuilder.Append(this[index].ToString(format, formatProvider));
+                stringBuilder.Append(this[index].ToString(format, provider));
                 if (index != Count - 1)
                 {
                     stringBuilder.Append(separator);

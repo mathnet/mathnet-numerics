@@ -38,12 +38,14 @@ namespace MathNet.Numerics.LinearAlgebra.Single
     using NumberTheory;
     using Storage;
     using Threading;
+    using System.Diagnostics;
 
     /// <summary>
     /// A vector with sparse storage.
     /// </summary>
     /// <remarks>The sparse vector is not thread safe.</remarks>
     [Serializable]
+    [DebuggerDisplay("SparseVector {Count}-Single {NonZerosCount}-NonZero")]
     public class SparseVector : Vector
     {
         readonly SparseVectorStorage<float> _storage;

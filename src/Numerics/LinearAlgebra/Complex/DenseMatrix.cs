@@ -26,18 +26,20 @@
 
 namespace MathNet.Numerics.LinearAlgebra.Complex
 {
-    using System;
-    using System.Numerics;
     using Algorithms.LinearAlgebra;
     using Distributions;
     using Generic;
     using Properties;
     using Storage;
+    using System;
+    using System.Diagnostics;
+    using System.Numerics;
 
     /// <summary>
     /// A Matrix class with dense storage. The underlying storage is a one dimensional array in column-major order.
     /// </summary>
     [Serializable]
+    [DebuggerDisplay("DenseMatrix {RowCount}x{ColumnCount}-Complex")]
     public class DenseMatrix : Matrix
     {
         /// <summary>

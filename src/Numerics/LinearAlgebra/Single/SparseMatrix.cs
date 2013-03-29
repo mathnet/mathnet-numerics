@@ -30,11 +30,12 @@
 
 namespace MathNet.Numerics.LinearAlgebra.Single
 {
-    using System;
-    using System.Collections.Generic;
     using Generic;
     using Properties;
     using Storage;
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics;
     using Threading;
 
     /// <summary>
@@ -42,6 +43,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
     /// <a href="http://en.wikipedia.org/wiki/Sparse_matrix#Compressed_sparse_row_.28CSR_or_CRS.29">Wikipedia - CSR</a>.
     /// </summary>
     [Serializable]
+    [DebuggerDisplay("SparseMatrix {RowCount}x{ColumnCount}-Single {NonZerosCount}-NonZero")]
     public class SparseMatrix : Matrix
     {
         readonly SparseCompressedRowMatrixStorage<float> _storage;

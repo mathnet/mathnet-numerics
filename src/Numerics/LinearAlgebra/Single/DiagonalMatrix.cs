@@ -26,11 +26,12 @@
 
 namespace MathNet.Numerics.LinearAlgebra.Single
 {
-    using System;
-    using System.Linq;
     using Generic;
     using Properties;
     using Storage;
+    using System;
+    using System.Diagnostics;
+    using System.Linq;
 
     /// <summary>
     /// A matrix type for diagonal matrices.
@@ -42,6 +43,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
     /// 0.0 or NaN; these settings will cause no change to the diagonal matrix.
     /// </remarks>
     [Serializable]
+    [DebuggerDisplay("DiagonalMatrix {RowCount}x{ColumnCount}-Single")]
     public class DiagonalMatrix : Matrix
     {
         readonly DiagonalMatrixStorage<float> _storage;

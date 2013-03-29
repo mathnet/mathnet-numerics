@@ -29,6 +29,8 @@
 // </copyright>
 
 
+using System.Globalization;
+
 namespace MathNet.Numerics.LinearAlgebra.Generic
 {
     using System;
@@ -1453,15 +1455,18 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// </returns>
         public virtual string ToString(string format, IFormatProvider formatProvider = null)
         {
+            var provider = formatProvider ?? CultureInfo.InvariantCulture;
+            var separator = (provider.GetTextInfo().ListSeparator);
             var stringBuilder = new StringBuilder();
+
             for (var row = 0; row < RowCount; row++)
             {
                 for (var column = 0; column < ColumnCount; column++)
                 {
-                    stringBuilder.Append(At(row, column).ToString(format, formatProvider));
+                    stringBuilder.Append(At(row, column).ToString(format, provider));
                     if (column != ColumnCount - 1)
                     {
-                        stringBuilder.Append(formatProvider.GetTextInfo().ListSeparator);
+                        stringBuilder.Append(separator);
                     }
                 }
 

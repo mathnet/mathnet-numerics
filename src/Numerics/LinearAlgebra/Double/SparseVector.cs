@@ -30,13 +30,14 @@
 
 namespace MathNet.Numerics.LinearAlgebra.Double
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Globalization;
-    using System.Linq;
     using Generic;
     using NumberTheory;
     using Storage;
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using System.Globalization;
+    using System.Linq;
     using Threading;
 
     /// <summary>
@@ -44,6 +45,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
     /// </summary>
     /// <remarks>The sparse vector is not thread safe.</remarks>
     [Serializable]
+    [DebuggerDisplay("SparseVector {Count}-Double {NonZerosCount}-NonZero")]
     public class SparseVector : Vector
     {
         readonly SparseVectorStorage<double> _storage;

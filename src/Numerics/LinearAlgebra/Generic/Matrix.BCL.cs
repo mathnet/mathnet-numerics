@@ -29,9 +29,11 @@
 // </copyright>
 
 using System;
+using System.Diagnostics;
 
 namespace MathNet.Numerics.LinearAlgebra.Generic
 {
+    [DebuggerDisplay("Matrix {RowCount}x{ColumnCount}")]
     public abstract partial class Matrix<T>
     {
         /// <summary>

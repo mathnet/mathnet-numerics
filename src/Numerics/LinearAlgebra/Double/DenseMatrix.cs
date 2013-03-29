@@ -26,18 +26,20 @@
 
 namespace MathNet.Numerics.LinearAlgebra.Double
 {
-    using System;
     using Algorithms.LinearAlgebra;
     using Distributions;
     using Generic;
     using Properties;
     using Storage;
+    using System;
+    using System.Diagnostics;
     using Threading;
 
     /// <summary>
     /// A Matrix class with dense storage. The underlying storage is a one dimensional array in column-major order.
     /// </summary>
     [Serializable]
+    [DebuggerDisplay("DenseMatrix {RowCount}x{ColumnCount}-Double")]
     public class DenseMatrix : Matrix
     {
         /// <summary>

@@ -30,21 +30,23 @@
 
 namespace MathNet.Numerics.LinearAlgebra.Double
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Globalization;
-    using System.Linq;
     using Distributions;
     using Generic;
     using NumberTheory;
     using Properties;
     using Storage;
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using System.Globalization;
+    using System.Linq;
     using Threading;
 
     /// <summary>
     /// A vector using dense storage.
     /// </summary>
     [Serializable]
+    [DebuggerDisplay("DenseVector {Count}-Double")]
     public class DenseVector : Vector
     {
         /// <summary>

@@ -30,13 +30,14 @@
 
 namespace MathNet.Numerics.LinearAlgebra.Complex
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Numerics;
     using Generic;
     using NumberTheory;
     using Storage;
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using System.Linq;
+    using System.Numerics;
     using Threading;
 
     /// <summary>
@@ -44,6 +45,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
     /// </summary>
     /// <remarks>The sparse vector is not thread safe.</remarks>
     [Serializable]
+    [DebuggerDisplay("SparseVector {Count}-Complex {NonZerosCount}-NonZero")]
     public class SparseVector : Vector
     {
         readonly SparseVectorStorage<Complex> _storage;

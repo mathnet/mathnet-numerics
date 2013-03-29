@@ -28,23 +28,25 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+
 namespace MathNet.Numerics.LinearAlgebra.Complex
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Numerics;
     using Distributions;
     using Generic;
     using NumberTheory;
-    using Properties;
     using Storage;
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using System.Linq;
+    using System.Numerics;
     using Threading;
 
     /// <summary>
     /// A vector using dense storage.
     /// </summary>
     [Serializable]
+    [DebuggerDisplay("DenseVector {Count}-Complex")]
     public class DenseVector : Vector
     {
         /// <summary>

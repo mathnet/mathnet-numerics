@@ -31,11 +31,13 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using MathNet.Numerics.LinearAlgebra.Storage;
 using MathNet.Numerics.Properties;
 
 namespace MathNet.Numerics.LinearAlgebra.Generic
 {
+    [DebuggerDisplay("Vector {Count}")]
     public abstract partial class Vector<T>
     {
         /// <summary>
