@@ -675,7 +675,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <param name="first">Indicates if this is the first recursion.</param>
         private static void CacheObliviousMatrixMultiply(Transpose transposeA, Transpose transposeB, float alpha, float[] matrixA, int shiftArow, int shiftAcol, float[] matrixB, int shiftBrow, int shiftBcol, float[] result, int shiftCrow, int shiftCcol, int m, int n, int k, int constM, int constN, int constK, bool first)
         {
-            if (m + n + k <= Control.ParallelizeOrder)
+            if (m + n <= Control.ParallelizeOrder)
             {
                 if ((int)transposeA > 111 && (int)transposeB > 111)
                 {
