@@ -24,16 +24,16 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using MathNet.Numerics.LinearAlgebra.Generic.Factorization;
-
 namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Single
 {
-    using System;
-    using System.Collections.Generic;
     using Algorithms.LinearAlgebra;
+    using Distributions;
     using LinearAlgebra.Generic;
+    using LinearAlgebra.Generic.Factorization;
     using LinearAlgebra.Single;
     using NUnit.Framework;
+    using System;
+    using System.Collections.Generic;
 
     /// <summary>
     /// Base class for linear algebra provider tests.
@@ -51,6 +51,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Single
         /// </summary>
         private readonly float[] _x = new[] { 6.6f, 7.7f, 8.8f, 9.9f, 10.1f };
 
+        private static readonly IContinuousDistribution Dist = new Normal();
+
         /// <summary>
         /// Test matrix to use.
         /// </summary>
@@ -61,7 +63,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Single
             { "Square4x4", new DenseMatrix(new[,] { { -1.1f, -2.2f, -3.3f, -4.4f }, { 0.0f, 1.1f, 2.2f, 3.3f }, { 1.0f, 2.1f, 6.2f, 4.3f }, { -4.4f, 5.5f, 6.6f, -7.7f } }) },
             { "Singular4x4", new DenseMatrix(new[,] { { -1.1f, -2.2f, -3.3f, -4.4f }, { -1.1f, -2.2f, -3.3f, -4.4f }, { -1.1f, -2.2f, -3.3f, -4.4f }, { -1.1f, -2.2f, -3.3f, -4.4f } }) },
             { "Tall3x2", new DenseMatrix(new[,] { { -1.1f, -2.2f }, { 0.0f, 1.1f }, { -4.4f, 5.5f } }) },
-            { "Wide2x3", new DenseMatrix(new[,] { { -1.1f, -2.2f, -3.3f }, { 0.0f, 1.1f, 2.2f } }) }
+            { "Wide2x3", new DenseMatrix(new[,] { { -1.1f, -2.2f, -3.3f }, { 0.0f, 1.1f, 2.2f } }) },
+            { "Tall50000x10", DenseMatrix.CreateRandom(50000, 10, Dist) },
+            { "Wide10x50000", DenseMatrix.CreateRandom(10, 50000, Dist) },
+            { "Square1000x1000", DenseMatrix.CreateRandom(1000, 1000, Dist) }
         };
 
         /// <summary>
@@ -1689,6 +1694,17 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Single
             AssertHelpers.AlmostEqual(test[1, 0], x[1], 6);
             AssertHelpers.AlmostEqual(test[0, 1], x[2], 6);
             AssertHelpers.AlmostEqual(test[1, 1], x[3], 6);
+        }
+
+        [TestCase("Wide10x50000", "Tall50000x10")]
+        [TestCase("Square1000x1000", "Square1000x1000")]
+        [Timeout(1000 * 10)]
+        public void IsMatrixMultiplicationPerformant(string leftMatrixKey, string rightMatrixKey)
+        {
+            var leftMatrix = _matrices[leftMatrixKey];
+            var rightMatrix = _matrices[rightMatrixKey];
+            var result = leftMatrix * rightMatrix;
+            Assert.That(result, Is.Not.Null);
         }
 
         /// <summary>

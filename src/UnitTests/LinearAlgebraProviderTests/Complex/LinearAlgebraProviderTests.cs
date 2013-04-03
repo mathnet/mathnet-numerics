@@ -26,14 +26,15 @@
 
 namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Complex
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Numerics;
     using Algorithms.LinearAlgebra;
+    using Distributions;
     using LinearAlgebra.Complex;
     using LinearAlgebra.Generic;
     using LinearAlgebra.Generic.Factorization;
     using NUnit.Framework;
+    using System;
+    using System.Collections.Generic;
+    using System.Numerics;
 
     /// <summary>
     /// Base class for linear algebra provider tests.
@@ -51,6 +52,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Complex
         /// </summary>
         private readonly Complex[] _x = new[] { new Complex(6.6, 0), 7.7, 8.8, 9.9, 10.1 };
 
+        private static readonly IContinuousDistribution Dist = new Normal();
+
         /// <summary>
         /// Test matrix to use.
         /// </summary>
@@ -61,7 +64,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Complex
             { "Square4x4", new DenseMatrix(new[,] { { new Complex(-1.1, 0), -2.2, -3.3, -4.4 }, { 0.0, 1.1, 2.2, 3.3 }, { 1.0, 2.1, 6.2, 4.3 }, { -4.4, 5.5, 6.6, -7.7 } }) },
             { "Singular4x4", new DenseMatrix(new[,] { { new Complex(-1.1, 0), -2.2, -3.3, -4.4 }, { -1.1, -2.2, -3.3, -4.4 }, { -1.1, -2.2, -3.3, -4.4 }, { -1.1, -2.2, -3.3, -4.4 } }) },
             { "Tall3x2", new DenseMatrix(new[,] { { new Complex(-1.1, 0), -2.2 }, { 0.0, 1.1 }, { -4.4, 5.5 } }) },
-            { "Wide2x3", new DenseMatrix(new[,] { { new Complex(-1.1, 0), -2.2, -3.3 }, { 0.0, 1.1, 2.2 } }) }
+            { "Wide2x3", new DenseMatrix(new[,] { { new Complex(-1.1, 0), -2.2, -3.3 }, { 0.0, 1.1, 2.2 } }) },
+            { "Tall50000x10", DenseMatrix.CreateRandom(50000, 10, Dist) },
+            { "Wide10x50000", DenseMatrix.CreateRandom(10, 50000, Dist) },
+            { "Square1000x1000", DenseMatrix.CreateRandom(1000, 1000, Dist) }
         };
 
         /// <summary>
@@ -1680,6 +1686,17 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Complex
             AssertHelpers.AlmostEqual(test[1, 0], x[1], 14);
             AssertHelpers.AlmostEqual(test[0, 1], x[2], 14);
             AssertHelpers.AlmostEqual(test[1, 1], x[3], 14);
+        }
+
+        [TestCase("Wide10x50000", "Tall50000x10")]
+        [TestCase("Square1000x1000", "Square1000x1000")]
+        [Timeout(1000 * 10)]
+        public void IsMatrixMultiplicationPerformant(string leftMatrixKey, string rightMatrixKey)
+        {
+            var leftMatrix = _matrices[leftMatrixKey];
+            var rightMatrix = _matrices[rightMatrixKey];
+            var result = leftMatrix * rightMatrix;
+            Assert.That(result, Is.Not.Null);
         }
 
         /// <summary>
