@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2010 Math.NET
+// Copyright (c) 2009-2013 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -33,8 +33,7 @@ namespace MathNet.Numerics.Financial
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Text;
-    using MathNet.Numerics.Statistics;
+    using Statistics;
 
     public static class AbsoluteRiskMeasures
     {
@@ -60,10 +59,6 @@ namespace MathNet.Numerics.Financial
             }
 
             var gains = data.Where(x => x >= 0);
-            var count = gains.Count();
-            if (count == 0 || count == 1)
-                return double.NaN;
-
             return gains.StandardDeviation();
         }
 
@@ -82,10 +77,6 @@ namespace MathNet.Numerics.Financial
             }
 
             var losses = data.Where(x => x < 0);
-            var count = losses.Count();
-            if (count == 0 || count == 1)
-                return double.NaN;
-
             return losses.StandardDeviation();
         }
 
@@ -106,12 +97,8 @@ namespace MathNet.Numerics.Financial
                 throw new ArgumentNullException("data");
             }
 
-            var belowMARdata = data.Where(x => x < minimalAcceptableReturn);
-            var count = belowMARdata.Count();
-            if (count == 0 || count == 1)
-                return double.NaN;
-
-            return belowMARdata.StandardDeviation();
+            var belowMARData = data.Where(x => x < minimalAcceptableReturn);
+            return belowMARData.StandardDeviation();
         }
 
         /// <summary>
@@ -127,11 +114,8 @@ namespace MathNet.Numerics.Financial
                 throw new ArgumentNullException("data");
             }
 
-            var belowMeanData = data.Where(x => x < data.Mean());
-            var count = belowMeanData.Count();
-            if (count == 0 || count == 1)
-                return double.NaN;
-
+            var mean = data.Mean();
+            var belowMeanData = data.Where(x => x < mean);
             return belowMeanData.StandardDeviation();
         }
 
@@ -150,11 +134,7 @@ namespace MathNet.Numerics.Financial
 
             var gains = data.Where(x => x >= 0);
             var losses = data.Where(x => x < 0);
-
-            var lossMean = losses.Mean();
-
             return Math.Abs(gains.Mean() / losses.Mean());
-
         }
     }
 }
