@@ -34,6 +34,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Double
     using LinearAlgebra.Double;
     using LinearAlgebra.Generic;
     using NUnit.Framework;
+    using System.Threading;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// Base class for linear algebra provider tests.
@@ -61,7 +63,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Double
             { "Square4x4", new DenseMatrix(new[,] { { -1.1, -2.2, -3.3, -4.4 }, { 0.0, 1.1, 2.2, 3.3 }, { 1.0, 2.1, 6.2, 4.3 }, { -4.4, 5.5, 6.6, -7.7 } }) },
             { "Singular4x4", new DenseMatrix(new[,] { { -1.1, -2.2, -3.3, -4.4 }, { -1.1, -2.2, -3.3, -4.4 }, { -1.1, -2.2, -3.3, -4.4 }, { -1.1, -2.2, -3.3, -4.4 } }) },
             { "Tall3x2", new DenseMatrix(new[,] { { -1.1, -2.2 }, { 0.0, 1.1 }, { -4.4, 5.5 } }) },
-            { "Wide2x3", new DenseMatrix(new[,] { { -1.1, -2.2, -3.3 }, { 0.0, 1.1, 2.2 } }) }
+            { "Wide2x3", new DenseMatrix(new[,] { { -1.1, -2.2, -3.3 }, { 0.0, 1.1, 2.2 } }) },
+            { "Tall50000x10", CreateRandomMatrix(50000, 10) },
+            { "Wide10x50000", CreateRandomMatrix(10, 50000) },
+            { "Square1000x1000", CreateRandomMatrix(1000, 1000) }
         };
 
             /// <summary>
@@ -1684,6 +1689,25 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Double
                 AssertHelpers.AlmostEqual(test[1, 1], x[3], 14);
             }
 
+            [TestCase("Wide10x50000", "Tall50000x10")]
+            [TestCase("Square1000x1000", "Square1000x1000")]
+            public void IsMatrixMultiplicationPerformant(string leftMatrixKey, string rightMatrixKey)
+            {
+                var leftMatrix = _matrices[leftMatrixKey];
+                var rightMatrix = _matrices[rightMatrixKey];
+
+                var task = Task.Factory.StartNew(() => leftMatrix * rightMatrix);
+
+                var start = DateTime.Now;
+                while (!task.IsCompleted)
+                {
+                    Thread.Sleep(100);
+                }
+                var clockTime = DateTime.Now - start;
+
+                Assert.IsTrue(clockTime < TimeSpan.FromSeconds(15));
+            }
+
         /// <summary>
         /// Checks to see if a matrix and array contain the same values.
         /// </summary>
@@ -1701,6 +1725,19 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Double
                     Assert.AreEqual(array[index++], matrix[row, col]);
                 }
             }
+        }
+
+        private static DenseMatrix CreateRandomMatrix(int columnCount, int rowCount)
+        {
+            var matrix = new DenseMatrix(columnCount, rowCount);
+
+            var random = new Random(0);
+
+            for (var i = 0; i < columnCount; ++i)
+                for (var j = 0; j < rowCount; ++j)
+                    matrix[i, j] = random.NextDouble();
+
+            return matrix;
         }
     }
 }
