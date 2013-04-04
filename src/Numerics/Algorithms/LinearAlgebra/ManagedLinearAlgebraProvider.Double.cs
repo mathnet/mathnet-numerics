@@ -1946,14 +1946,8 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
             var column = new double[rowsA];
             for (var j = 0; j < columnsB; j++)
             {
-                var jm = j*rowsA;
-                CommonParallel.For(0, rowsA, (u, v) =>
-                    {
-                        for (int k = u; k < v; k++)
-                        {
-                            column[k] = sol[jm + k];
-                        }
-                    });
+                var jm = j * rowsA;
+                Array.Copy(sol, jm, column, 0, rowsA);
                 CommonParallel.For(0, columnsA, (u, v) =>
                     {
                         for (int i = u; i < v; i++)
