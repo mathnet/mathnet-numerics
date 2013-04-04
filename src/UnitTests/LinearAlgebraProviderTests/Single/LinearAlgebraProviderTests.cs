@@ -1702,7 +1702,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Single
 
         [TestCase("Wide10x50000", "Tall50000x10")]
         [TestCase("Square1000x1000", "Square1000x1000")]
-        [Timeout(1000*10)]
+        [Explicit, Timeout(1000*5)]
         public void IsMatrixMultiplicationPerformant(string leftMatrixKey, string rightMatrixKey)
         {
             var leftMatrix = _matrices[leftMatrixKey];
