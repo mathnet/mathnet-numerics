@@ -54,7 +54,7 @@ namespace MathNet.Numerics.Threading
         /// <param name="body">The body to be invoked for each iteration.</param>
         /// <exception cref="ArgumentNullException">The <paramref name="body"/> argument is <c>null</c>.</exception>
         /// <exception cref="AggregateException">At least one invocation of the body threw an exception.</exception>
-        [Obsolete("Scheduled for removal in v3.0.")]
+        [Obsolete("Use a more efficient overload instead. Scheduled for removal in v3.0.")]
         public static void For(int fromInclusive, int toExclusive, Action<int> body)
         {
             if (body == null) throw new ArgumentNullException("body");
@@ -149,6 +149,7 @@ namespace MathNet.Numerics.Threading
         /// <param name="body">The body to be invoked for each iteration.</param>
         /// <exception cref="ArgumentNullException">The <paramref name="body"/> argument is <c>null</c>.</exception>
         /// <exception cref="AggregateException">At least one invocation of the body threw an exception.</exception>
+        [Obsolete("Use a more efficient overload instead. Scheduled for removal in v3.0.")]
         public static void For<T>(T[] array, Action<int, T> body)
         {
             if (body == null)
