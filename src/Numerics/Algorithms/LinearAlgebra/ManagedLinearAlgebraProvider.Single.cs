@@ -1987,16 +1987,10 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
             }
 
             // Fill result matrix
-            CommonParallel.For(0, columnsR, (u, v) =>
-                {
-                    for (int row = u; row < v; row++)
-                    {
-                        for (var col = 0; col < columnsB; col++)
-                        {
-                            x[(col*columnsA) + row] = sol[row + (col*rowsA)];
-                        }
-                    }
-                });
+            for (var col = 0; col < columnsB; col++)
+            {
+                Array.Copy(sol, col * rowsA, x, col * columnsA, columnsR);
+            }
         }
 
         /// <summary>
