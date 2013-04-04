@@ -559,23 +559,25 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         protected override void DoModulus(double divisor, Matrix<double> result)
         {
             var denseResult = result as DenseMatrix;
-
             if (denseResult == null)
             {
-               base.DoModulus(divisor, result);
+                base.DoModulus(divisor, result);
+                return;
             }
-            else
-            {
-                if (!ReferenceEquals(this, result))
-                {
-                    CopyTo(result);
-                }
 
-                CommonParallel.For(
-                    0,
-                    _values.Length,
-                    index => denseResult._values[index] %= divisor);
+            if (!ReferenceEquals(this, result))
+            {
+                CopyTo(result);
             }
+
+            CommonParallel.For(0, _values.Length, (a, b) =>
+                {
+                    var v = denseResult._values;
+                    for (int i = a; i < b; i++)
+                    {
+                        v[i] %= divisor;
+                    }
+                });
         }
 
         /// <summary>

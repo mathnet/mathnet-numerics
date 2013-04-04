@@ -803,7 +803,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                     CopyTo(sparseResult);
                 }
 
-                CommonParallel.For(0, _storage.ValueCount, index => sparseResult._storage.Values[index] *= scalar);
+                Control.LinearAlgebraProvider.ScaleArray(scalar, sparseResult._storage.Values, sparseResult._storage.Values);
             }
         }
 

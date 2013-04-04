@@ -121,7 +121,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
             }
 
             // Copy the contents of input to result.
-            CommonParallel.For(0, dinput.Values.Length, index => dresult.Values[index] = dinput.Values[index]);
+            Array.Copy(dinput.Values, dresult.Values, dinput.Values.Length);
 
             // LU solve by overwriting result.
             var dfactors = (DenseMatrix)Factors;
@@ -170,7 +170,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
             }
 
             // Copy the contents of input to result.
-            CommonParallel.For(0, dinput.Values.Length, index => dresult.Values[index] = dinput.Values[index]);
+            Array.Copy(dinput.Values, dresult.Values, dinput.Values.Length);
 
             // LU solve by overwriting result.
             var dfactors = (DenseMatrix)Factors;

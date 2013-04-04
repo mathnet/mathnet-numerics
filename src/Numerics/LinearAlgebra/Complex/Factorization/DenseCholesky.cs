@@ -120,7 +120,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
             }
 
             // Copy the contents of input to result.
-            CommonParallel.For(0, dinput.Values.Length, index => dresult.Values[index] = dinput.Values[index]);
+            Array.Copy(dinput.Values, dresult.Values, dinput.Values.Length);
 
             // Cholesky solve by overwriting result.
             var dfactor = (DenseMatrix)CholeskyFactor;
@@ -169,7 +169,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
             }
 
             // Copy the contents of input to result.
-            CommonParallel.For(0, dinput.Values.Length, index => dresult.Values[index] = dinput.Values[index]);
+            Array.Copy(dinput.Values, dresult.Values, dinput.Values.Length);
 
             // Cholesky solve by overwriting result.
             var dfactor = (DenseMatrix)CholeskyFactor;

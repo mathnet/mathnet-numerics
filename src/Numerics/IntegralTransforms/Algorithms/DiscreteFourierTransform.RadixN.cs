@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2010 Math.NET
+// Copyright (c) 2009-2013 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -46,7 +46,7 @@ namespace MathNet.Numerics.IntegralTransforms.Algorithms
         /// </summary>
         /// <typeparam name="T">Sample type</typeparam>
         /// <param name="samples">Sample vector</param>
-        private static void Radix2Reorder<T>(T[] samples)
+        static void Radix2Reorder<T>(T[] samples)
         {
             var j = 0;
             for (var i = 0; i < samples.Length - 1; i++)
@@ -64,8 +64,7 @@ namespace MathNet.Numerics.IntegralTransforms.Algorithms
                 {
                     m >>= 1;
                     j ^= m;
-                }
-                while ((j & m) == 0);
+                } while ((j & m) == 0);
             }
         }
 
@@ -76,17 +75,17 @@ namespace MathNet.Numerics.IntegralTransforms.Algorithms
         /// <param name="exponentSign">Fourier series exponent sign.</param>
         /// <param name="levelSize">Level Group Size.</param>
         /// <param name="k">Index inside of the level.</param>
-        private static void Radix2Step(Complex[] samples, int exponentSign, int levelSize, int k)
+        static void Radix2Step(Complex[] samples, int exponentSign, int levelSize, int k)
         {
             // Twiddle Factor
-            var exponent = (exponentSign * k) * Constants.Pi / levelSize;
+            var exponent = (exponentSign*k)*Constants.Pi/levelSize;
             var w = new Complex(Math.Cos(exponent), Math.Sin(exponent));
 
             var step = levelSize << 1;
             for (var i = k; i < samples.Length; i += step)
             {
                 var ai = samples[i];
-                var t = w * samples[i + levelSize];
+                var t = w*samples[i + levelSize];
                 samples[i] = ai + t;
                 samples[i + levelSize] = ai - t;
             }
@@ -133,10 +132,13 @@ namespace MathNet.Numerics.IntegralTransforms.Algorithms
             {
                 var size = levelSize;
 
-                CommonParallel.For(
-                    0, 
-                    size, 
-                    index => Radix2Step(samples, exponentSign, size, index));
+                CommonParallel.For(0, size, (u, v) =>
+                    {
+                        for (int i = u; i < v; i++)
+                        {
+                            Radix2Step(samples, exponentSign, size, i);
+                        }
+                    });
             }
         }
 

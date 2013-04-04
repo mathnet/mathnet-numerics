@@ -232,10 +232,13 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
             }
             else
             {
-                CommonParallel.For(
-                    0,
-                    _values.Length,
-                    index => dense._values[index] = _values[index] + scalar);
+                CommonParallel.For(0, _values.Length, (a, b) =>
+                    {
+                        for (int i = a; i < b; i++)
+                        {
+                            dense._values[i] = _values[i] + scalar;
+                        }
+                    });
             }
         }
 
@@ -291,10 +294,13 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
             }
             else
             {
-                CommonParallel.For(
-                    0,
-                    _values.Length,
-                    index => dense._values[index] = _values[index] - scalar);
+                CommonParallel.For(0, _values.Length, (a, b) =>
+                    {
+                        for (int i = a; i < b; i++)
+                        {
+                            dense._values[i] = _values[i] - scalar;
+                        }
+                    });
             }
         }
 
@@ -624,14 +630,14 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
             }
 
             var matrix = new DenseMatrix(u.Count, v.Count);
-            CommonParallel.For(
-                0,
-                u.Count,
-                i =>
+            CommonParallel.For(0, u.Count, (a, b) =>
                 {
-                    for (var j = 0; j < v.Count; j++)
+                    for (int i = a; i < b; i++)
                     {
-                        matrix.At(i, j, u._values[i] * v._values[j]);
+                        for (var j = 0; j < v.Count; j++)
+                        {
+                            matrix.At(i, j, u._values[i]*v._values[j]);
+                        }
                     }
                 });
             return matrix;
@@ -859,10 +865,13 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
                 return;
             }
 
-            CommonParallel.For(
-                0,
-                _length,
-                index => resultDense._values[index] = _values[index].Conjugate());
+            CommonParallel.For(0, _length, (a, b) =>
+                {
+                    for (int i = a; i < b; i++)
+                    {
+                        resultDense._values[i] = _values[i].Conjugate();
+                    }
+                });
         }
     }
 }

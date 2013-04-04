@@ -202,8 +202,14 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
 
             if (_storage.ValueCount != 0)
             {
-                CommonParallel.For(0, _storage.ValueCount, index => targetSparse._storage.Values[index] = _storage.Values[index].Conjugate());
-                Buffer.BlockCopy(_storage.Indices, 0, targetSparse._storage.Indices, 0, _storage.ValueCount * Constants.SizeOfInt);
+                CommonParallel.For(0, _storage.ValueCount, (a, b) =>
+                    {
+                        for (int i = a; i < b; i++)
+                        {
+                            targetSparse._storage.Values[i] = _storage.Values[i].Conjugate();
+                        }
+                    });
+                Buffer.BlockCopy(_storage.Indices, 0, targetSparse._storage.Indices, 0, _storage.ValueCount*Constants.SizeOfInt);
             }
         }
 
