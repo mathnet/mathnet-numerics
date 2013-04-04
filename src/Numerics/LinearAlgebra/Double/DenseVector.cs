@@ -233,7 +233,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             }
             else
             {
-                CommonParallel.For(0, _values.Length, (a, b) =>
+                CommonParallel.For(0, _values.Length, 4096, (a, b) =>
                     {
                         for (int i = a; i < b; i++)
                         {
@@ -305,7 +305,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             }
             else
             {
-                CommonParallel.For(0, _values.Length, (a, b) =>
+                CommonParallel.For(0, _values.Length, 4096, (a, b) =>
                     {
                         for (int i = a; i < b; i++)
                         {

@@ -76,7 +76,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
             {
                 if (Control.ParallelizeOperation(x.Length))
                 {
-                    CommonParallel.For(0, y.Length, (a, b) =>
+                    CommonParallel.For(0, y.Length, 4096, (a, b) =>
                         {
                             for (int i = a; i < b; i++)
                             {
@@ -96,7 +96,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
             {
                 if (Control.ParallelizeOperation(x.Length))
                 {
-                    CommonParallel.For(0, y.Length, (a, b) =>
+                    CommonParallel.For(0, y.Length, 4096, (a, b) =>
                         {
                             for (int i = a; i < b; i++)
                             {
@@ -140,7 +140,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
             {
                 if (Control.ParallelizeOperation(x.Length))
                 {
-                    CommonParallel.For(0, x.Length, (a, b) =>
+                    CommonParallel.For(0, x.Length, 4096, (a, b) =>
                         {
                             for (int i = a; i < b; i++)
                             {
@@ -225,7 +225,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
 
             if (Control.ParallelizeOperation(x.Length))
             {
-                CommonParallel.For(0, y.Length, (a, b) =>
+                CommonParallel.For(0, y.Length, 4096, (a, b) =>
                     {
                         for (int i = a; i < b; i++)
                         {
@@ -276,7 +276,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
 
             if (Control.ParallelizeOperation(x.Length))
             {
-                CommonParallel.For(0, y.Length, (a, b) =>
+                CommonParallel.For(0, y.Length, 4096, (a, b) =>
                     {
                         for (int i = a; i < b; i++)
                         {
@@ -327,7 +327,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
 
             if (Control.ParallelizeOperation(x.Length))
             {
-                CommonParallel.For(0, y.Length, (a, b) =>
+                CommonParallel.For(0, y.Length, 4096, (a, b) =>
                     {
                         for (int i = a; i < b; i++)
                         {
@@ -378,7 +378,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
 
             if (Control.ParallelizeOperation(x.Length))
             {
-                CommonParallel.For(0, y.Length, (a, b) =>
+                CommonParallel.For(0, y.Length, 4096, (a, b) =>
                     {
                         for (int i = a; i < b; i++)
                         {
@@ -1837,7 +1837,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
             }
 
             a[index] = -norm;
-            CommonParallel.For(0, rowCount - row, (u, v) =>
+            CommonParallel.For(0, rowCount - row, 4096, (u, v) =>
                 {
                     for (int i = u; i < v; i++)
                     {
@@ -1847,7 +1847,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
             work[tmp] += 1.0;
 
             var s = (1.0 / work[tmp]).SquareRoot();
-            CommonParallel.For(0, rowCount - row, (u, v) =>
+            CommonParallel.For(0, rowCount - row, 4096, (u, v) =>
                 {
                     for (int i = u; i < v; i++)
                     {

@@ -232,7 +232,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
             }
             else
             {
-                CommonParallel.For(0, _values.Length, (a, b) =>
+                CommonParallel.For(0, _values.Length, 4096, (a, b) =>
                     {
                         for (int i = a; i < b; i++)
                         {
@@ -294,7 +294,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
             }
             else
             {
-                CommonParallel.For(0, _values.Length, (a, b) =>
+                CommonParallel.For(0, _values.Length, 4096, (a, b) =>
                     {
                         for (int i = a; i < b; i++)
                         {
@@ -865,7 +865,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
                 return;
             }
 
-            CommonParallel.For(0, _length, (a, b) =>
+            CommonParallel.For(0, _length, 4096, (a, b) =>
                 {
                     for (int i = a; i < b; i++)
                     {
