@@ -199,9 +199,9 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// <param name="result">A vector to store the results in.</param>
         protected override void DoModulus(float divisor, Vector<float> result)
         {
-            for (var index = 0; index < Count; index++)
+            for (int i = 0; i < Count; i++)
             {
-                result.At(index, At(index) % divisor);
+                result.At(i, At(i)%divisor);
             }
         }
 

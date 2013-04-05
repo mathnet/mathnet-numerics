@@ -494,20 +494,20 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="result">A vector to store the results in.</param>
         protected override void DoModulus(double divisor, Vector<double> result)
         {
-            var denseResult = result as DenseVector;
-            if (denseResult == null)
+            var dense = result as DenseVector;
+            if (dense == null)
             {
-                for (var index = 0; index < _length; index++)
-                {
-                    result.At(index, _values[index] % divisor);
-                }
+                base.DoModulus(divisor, result);
             }
             else
             {
-                for (var index = 0; index < _length; index++)
-                {
-                    denseResult._values[index] = _values[index] % divisor;
-                }
+                CommonParallel.For(0, _length, 4096, (a, b) =>
+                    {
+                        for (int i = a; i < b; i++)
+                        {
+                            dense._values[i] = _values[i]%divisor;
+                        }
+                    });
             }
         }
 

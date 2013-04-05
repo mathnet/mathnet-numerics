@@ -200,7 +200,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// <param name="result">A vector to store the results in.</param>
         protected override void DoModulus(Complex32 divisor, Vector<Complex32> result)
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
 
         /// <summary>
