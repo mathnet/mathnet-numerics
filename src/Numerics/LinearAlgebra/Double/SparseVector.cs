@@ -1068,5 +1068,10 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         }
 
         #endregion
+
+        public override string ToTypeString()
+        {
+            return string.Format("SparseVector {0}-Double {1:P2} Filled", Count, NonZerosCount / (double)Count);
+        }
     }
 }

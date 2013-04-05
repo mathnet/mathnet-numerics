@@ -1034,5 +1034,10 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
             return ret;
         }
         #endregion
+
+        public override string ToTypeString()
+        {
+            return string.Format("SparseVector {0}-Complex {1:P2} Filled", Count, NonZerosCount / (double)Count);
+        }
     }
 }

@@ -1367,6 +1367,11 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
 
             return (SparseMatrix)leftSide.Modulus(rightSide);
         }
+
+        public override string ToTypeString()
+        {
+            return string.Format("SparseMatrix {0}x{1}-Complex {2:P2} Filled", RowCount, ColumnCount, 100d * NonZerosCount / (RowCount * (double)ColumnCount));
+        }
     }
  }
 

@@ -1390,5 +1390,10 @@ namespace MathNet.Numerics.LinearAlgebra.Single
 
             return (SparseMatrix)leftSide.Modulus(rightSide);
         }
+
+        public override string ToTypeString()
+        {
+            return string.Format("SparseMatrix {0}x{1}-Single {2:P2} Filled", RowCount, ColumnCount, NonZerosCount / (RowCount * (double)ColumnCount));
+        }
     }
 }

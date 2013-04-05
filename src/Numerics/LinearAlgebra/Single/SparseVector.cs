@@ -1072,5 +1072,10 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         }
 
         #endregion
+
+        public override string ToTypeString()
+        {
+            return string.Format("SparseVector {0}-Single {1:P2} Filled", Count, NonZerosCount / (double)Count);
+        }
     }
 }
