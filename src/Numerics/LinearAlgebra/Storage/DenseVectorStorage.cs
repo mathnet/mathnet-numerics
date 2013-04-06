@@ -90,6 +90,27 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             Array.Clear(Data, index, count);
         }
 
+        // INITIALIZATION
+
+        public static DenseVectorStorage<T> FromEnumerable(IEnumerable<T> data)
+        {
+            if (data == null)
+            {
+                throw new ArgumentNullException("data");
+            }
+
+            var arrayData = data as T[];
+            if (arrayData != null)
+            {
+                var copy = new T[arrayData.Length];
+                Array.Copy(arrayData, copy, arrayData.Length);
+                return new DenseVectorStorage<T>(copy.Length, copy);
+            }
+
+            var array = System.Linq.Enumerable.ToArray(data);
+            return new DenseVectorStorage<T>(array.Length, array);
+        }
+
         // ENUMERATION
 
         public override IEnumerable<T> Enumerate()

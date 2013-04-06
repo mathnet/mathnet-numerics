@@ -36,6 +36,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
     using Properties;
     using Storage;
     using System;
+    using System.Collections.Generic;
     using System.Diagnostics;
     using Threading;
 
@@ -143,6 +144,17 @@ namespace MathNet.Numerics.LinearAlgebra.Single
                     _values[(j * _rowCount) + i] = array[i, j];
                 }
             }
+        }
+
+        /// <summary>
+        /// Create a new dense matrix as a copy of the given enumerable.
+        /// The enumerable is assumed to be in column-major order.
+        /// This new matrix will be independent from the enumerable.
+        /// A new memory block will be allocated for storing the vector.
+        /// </summary>
+        public DenseMatrix(int rows, int columns, IEnumerable<float> other)
+            : this(DenseColumnMajorMatrixStorage<float>.FromColumnMajorEnumerable(rows, columns, other))
+        {
         }
 
         /// <summary>

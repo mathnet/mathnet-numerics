@@ -29,6 +29,7 @@
 // </copyright>
 
 using System;
+using System.Collections.Generic;
 using MathNet.Numerics.Properties;
 
 namespace MathNet.Numerics.LinearAlgebra.Storage
@@ -97,6 +98,29 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                 Array.Clear(Data, j*RowCount + rowIndex, rowCount);
             }
         }
+
+        // INITIALIZATION
+
+        public static DenseColumnMajorMatrixStorage<T> FromColumnMajorEnumerable(int rows, int columns, IEnumerable<T> data)
+        {
+            if (data == null)
+            {
+                throw new ArgumentNullException("data");
+            }
+
+            var arrayData = data as T[];
+            if (arrayData != null)
+            {
+                var copy = new T[arrayData.Length];
+                Array.Copy(arrayData, copy, arrayData.Length);
+                return new DenseColumnMajorMatrixStorage<T>(rows, columns, copy);
+            }
+
+            var array = System.Linq.Enumerable.ToArray(data);
+            return new DenseColumnMajorMatrixStorage<T>(rows, columns, array);
+        }
+
+        // MATRIX COPY
 
         internal override void CopyToUnchecked(MatrixStorage<T> target, bool skipClearing = false)
         {

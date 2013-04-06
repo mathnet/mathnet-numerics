@@ -99,12 +99,22 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// <summary>
         /// Create a new dense vector as a copy of the given other vector.
         /// This new vector will be independent from the other vector.
-        /// A new memory block will be allocated for storing the matrix.
+        /// A new memory block will be allocated for storing the vector.
         /// </summary>
         public DenseVector(Vector<Complex32> other)
             : this(other.Count)
         {
             other.Storage.CopyToUnchecked(Storage, skipClearing: true);
+        }
+
+        /// <summary>
+        /// Create a new dense vector as a copy of the given enumerable.
+        /// This new vector will be independent from the enumerable.
+        /// A new memory block will be allocated for storing the vector.
+        /// </summary>
+        public DenseVector(IEnumerable<Complex32> other)
+            : this(DenseVectorStorage<Complex32>.FromEnumerable(other))
+        {
         }
 
         /// <summary>
