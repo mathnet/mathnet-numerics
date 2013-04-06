@@ -282,6 +282,37 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             return hash;
         }
 
+        // INITIALIZATION
+
+        public static SparseVectorStorage<T> FromEnumerable(IEnumerable<T> data)
+        {
+            if (data == null)
+            {
+                throw new ArgumentNullException("data");
+            }
+
+            var indices = new List<int>();
+            var values = new List<T>();
+            int length = 0;
+
+            foreach (T item in data)
+            {
+                if (!Zero.Equals(item))
+                {
+                    values.Add(item);
+                    indices.Add(length);
+                }
+                length++;
+            }
+
+            return new SparseVectorStorage<T>(length)
+                {
+                    Indices = indices.ToArray(),
+                    Values = values.ToArray(),
+                    ValueCount = values.Count
+                };
+        }
+
         // ENUMERATION
 
         public override IEnumerable<T> Enumerate()

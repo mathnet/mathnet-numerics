@@ -119,17 +119,13 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         }
 
         /// <summary>
-        /// Create a new sparse vector as a copy of the given array.
-        /// This new vector will be independent from the array.
+        /// Create a new sparse vector as a copy of the given enumerable.
+        /// This new vector will be independent from the enumerable.
         /// A new memory block will be allocated for storing the vector.
         /// </summary>
-        public SparseVector(IList<Complex> array)
-            : this(new SparseVectorStorage<Complex>(array.Count))
+        public SparseVector(IEnumerable<Complex> other)
+            : this(SparseVectorStorage<Complex>.FromEnumerable(other))
         {
-            for (var i = 0; i < array.Count; i++)
-            {
-                Storage.At(i, array[i]);
-            }
         }
 
         /// <summary>
