@@ -41,7 +41,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
     using Threading;
 
     /// <summary>
-    /// A Matrix class with dense storage. The underlying storage is a one dimensional array in column-major order.
+    /// A Matrix class with dense storage. The underlying storage is a one dimensional array in column-major order (column by column).
     /// </summary>
     [Serializable]
     [DebuggerDisplay("DenseMatrix {RowCount}x{ColumnCount}-Single")]
@@ -120,7 +120,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
 
         /// <summary>
         /// Create a new dense matrix with the given number of rows and columns directly binding to a raw array.
-        /// The array is assumed to be in column-major order and is used directly without copying.
+        /// The array is assumed to be in column-major order (column by column) and is used directly without copying.
         /// Very efficient, but changes to the array and the matrix will affect each other.
         /// </summary>
         /// <seealso cref="http://en.wikipedia.org/wiki/Row-major_order"/>
@@ -148,7 +148,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
 
         /// <summary>
         /// Create a new dense matrix as a copy of the given enumerable.
-        /// The enumerable is assumed to be in column-major order.
+        /// The enumerable is assumed to be in column-major order (column by column).
         /// This new matrix will be independent from the enumerable.
         /// A new memory block will be allocated for storing the vector.
         /// </summary>

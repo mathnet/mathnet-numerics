@@ -133,7 +133,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
 
         /// <summary>
         /// Create a new sparse matrix with the given number of rows and columns as a copy of the given array.
-        /// The array is assumed to be in column-major order.
+        /// The array is assumed to be in column-major order (column by column).
         /// This new matrix will be independent from the provided array.
         /// A new memory block will be allocated for storing the matrix.
         /// </summary>
