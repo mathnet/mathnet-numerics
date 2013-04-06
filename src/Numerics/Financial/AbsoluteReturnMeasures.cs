@@ -82,7 +82,7 @@ namespace MathNet.Numerics.Financial
 
         /// <summary>
         /// Average Loss or LossMean
-        /// This is a simple average (arithmetic mean) of the periods with a loss. It is calculated by summing the returns for loss periods (return < 0)
+        /// This is a simple average (arithmetic mean) of the periods with a loss. It is calculated by summing the returns for loss periods (return &lt; 0)
         /// and then dividing the total by the number of loss periods.
         /// </summary>
         /// <param name="data"></param>
