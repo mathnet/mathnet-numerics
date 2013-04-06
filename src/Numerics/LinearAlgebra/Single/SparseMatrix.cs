@@ -172,6 +172,17 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         }
 
         /// <summary>
+        /// Create a new sparse matrix as a copy of the given enumerable.
+        /// The enumerable is assumed to be in row-major order (row by row).
+        /// This new matrix will be independent from the enumerable.
+        /// A new memory block will be allocated for storing the vector.
+        /// </summary>
+        public SparseMatrix(int rows, int columns, IEnumerable<float> rowMajor)
+            : this(SparseCompressedRowMatrixStorage<float>.FromRowMajorEnumerable(rows, columns, rowMajor))
+        {
+        }
+
+        /// <summary>
         /// Create a new sparse matrix as a copy of the given other matrix.
         /// This new matrix will be independent from the other matrix.
         /// A new memory block will be allocated for storing the matrix.

@@ -152,8 +152,8 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// This new matrix will be independent from the enumerable.
         /// A new memory block will be allocated for storing the vector.
         /// </summary>
-        public DenseMatrix(int rows, int columns, IEnumerable<float> other)
-            : this(DenseColumnMajorMatrixStorage<float>.FromColumnMajorEnumerable(rows, columns, other))
+        public DenseMatrix(int rows, int columns, IEnumerable<float> columnMajor)
+            : this(DenseColumnMajorMatrixStorage<float>.FromColumnMajorEnumerable(rows, columns, columnMajor))
         {
         }
 

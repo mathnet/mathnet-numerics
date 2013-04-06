@@ -361,6 +361,43 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             return hash;
         }
 
+        // INITIALIZATION
+
+        public static SparseCompressedRowMatrixStorage<T> FromRowMajorEnumerable(int rows, int columns, IEnumerable<T> data)
+        {
+            if (data == null)
+            {
+                throw new ArgumentNullException("data");
+            }
+
+            var storage = new SparseCompressedRowMatrixStorage<T>(rows, columns);
+            var rowPointers = storage.RowPointers;
+            var columnIndices = new List<int>();
+            var values = new List<T>();
+
+            var iterator = data.GetEnumerator();
+            for (int row = 0; row < rows; row++)
+            {
+                rowPointers[row] = values.Count;
+                for (int col = 0; col < columns; col++)
+                {
+                    iterator.MoveNext();
+                    if (!Zero.Equals(iterator.Current))
+                    {
+                        values.Add(iterator.Current);
+                        columnIndices.Add(col);
+                    }
+                }
+            }
+
+            storage.ColumnIndices = columnIndices.ToArray();
+            storage.Values = values.ToArray();
+            storage.ValueCount = values.Count;
+            return storage;
+        }
+
+        // MATRIX COPY
+
         internal override void CopyToUnchecked(MatrixStorage<T> target, bool skipClearing = false)
         {
             var sparseTarget = target as SparseCompressedRowMatrixStorage<T>;

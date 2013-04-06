@@ -152,8 +152,8 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// This new matrix will be independent from the enumerable.
         /// A new memory block will be allocated for storing the vector.
         /// </summary>
-        public DenseMatrix(int rows, int columns, IEnumerable<Complex> other)
-            : this(DenseColumnMajorMatrixStorage<Complex>.FromColumnMajorEnumerable(rows, columns, other))
+        public DenseMatrix(int rows, int columns, IEnumerable<Complex> columnMajor)
+            : this(DenseColumnMajorMatrixStorage<Complex>.FromColumnMajorEnumerable(rows, columns, columnMajor))
         {
         }
 
