@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2011 Math.NET
+// Copyright (c) 2009-2013 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -40,7 +40,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
     using Threading;
 
     /// <summary>
-    /// A vector with sparse storage.
+    /// A vector with sparse storage, intended for very large vectors where most of the cells are zero.
     /// </summary>
     /// <remarks>The sparse vector is not thread safe.</remarks>
     [Serializable]
@@ -59,7 +59,10 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SparseVector"/> class.
+        /// Create a new sparse vector straight from an initialized vector storage instance.
+        /// The storage is used directly without copying.
+        /// Intended for advanced scenarios where you're working directly with
+        /// storage for performance or interop reasons.
         /// </summary>
         public SparseVector(SparseVectorStorage<Complex32> storage)
             : base(storage)
@@ -68,42 +71,32 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SparseVector"/> class with a given size.
+        /// Create a new sparse vector with the given length.
+        /// All cells of the vector will be initialized to zero.
+        /// Zero-length vectors are not supported.
         /// </summary>
-        /// <param name="size">
-        /// the size of the vector.
-        /// </param>
-        /// <exception cref="ArgumentException">
-        /// If <paramref name="size"/> is less than one.
-        /// </exception>
-        public SparseVector(int size)
-            : this(new SparseVectorStorage<Complex32>(size))
+        /// <exception cref="ArgumentException">If length is less than one.</exception>
+        public SparseVector(int length)
+            : this(new SparseVectorStorage<Complex32>(length))
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SparseVector"/> class with a given size
-        /// and each element set to the given value;
+        /// Create a new sparse vector with the given length.
+        /// All cells of the vector will be initialized with the provided value.
+        /// Zero-length vectors are not supported.
         /// </summary>
-        /// <param name="size">
-        /// the size of the vector.
-        /// </param>
-        /// <param name="value">
-        /// the value to set each element to.
-        /// </param>
-        /// <exception cref="ArgumentException">
-        /// If <paramref name="size"/> is less than one.
-        /// </exception>
+        /// <exception cref="ArgumentException">If length is less than one.</exception>
         [Obsolete("Use a dense vector instead. Scheduled for removal in v3.0.")]
-        public SparseVector(int size, Complex32 value)
-            : this(new SparseVectorStorage<Complex32>(size))
+        public SparseVector(int length, Complex32 value)
+            : this(new SparseVectorStorage<Complex32>(length))
         {
             if (value == Complex32.Zero)
             {
                 return;
             }
 
-            var valueCount = _storage.ValueCount = size;
+            var valueCount = _storage.ValueCount = length;
             var indices = _storage.Indices = new int[valueCount];
             var values = _storage.Values = new Complex32[valueCount];
 
@@ -115,12 +108,10 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SparseVector"/> class by
-        /// copying the values from another.
+        /// Create a new sparse vector as a copy of the given other vector.
+        /// This new vector will be independent from the other vector.
+        /// A new memory block will be allocated for storing the vector.
         /// </summary>
-        /// <param name="other">
-        /// The vector to create the new vector from.
-        /// </param>
         public SparseVector(Vector<Complex32> other)
             : this(new SparseVectorStorage<Complex32>(other.Count))
         {
@@ -128,10 +119,10 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SparseVector"/> class for an array.
+        /// Create a new sparse vector as a copy of the given array.
+        /// This new vector will be independent from the array.
+        /// A new memory block will be allocated for storing the vector.
         /// </summary>
-        /// <param name="array">The array to create this vector from.</param>
-        /// <remarks>The vector copy the array. Any changes to the vector will NOT change the array.</remarks>
         public SparseVector(IList<Complex32> array)
             : this(new SparseVectorStorage<Complex32>(array.Count))
         {

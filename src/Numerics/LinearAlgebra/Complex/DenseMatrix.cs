@@ -3,7 +3,9 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
-// Copyright (c) 2009-2010 Math.NET
+//
+// Copyright (c) 2009-2013 Math.NET
+//
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -12,8 +14,10 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
+//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
+//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -63,7 +67,10 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         readonly Complex[] _values;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="DenseMatrix"/> class.
+        /// Create a new dense matrix straight from an initialized matrix storage instance.
+        /// The storage is used directly without copying.
+        /// Intended for advanced scenarios where you're working directly with
+        /// storage for performance or interop reasons.
         /// </summary>
         public DenseMatrix(DenseColumnMajorMatrixStorage<Complex> storage)
             : base(storage)
@@ -74,41 +81,33 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="DenseMatrix"/> class. This matrix is square with a given size.
+        /// Create a new square dense matrix with the given number of rows and columns.
+        /// All cells of the matrix will be initialized to zero.
+        /// Zero-length matrices are not supported.
         /// </summary>
-        /// <param name="order">the size of the square matrix.</param>
-        /// <exception cref="ArgumentException">
-        /// If <paramref name="order"/> is less than one.
-        /// </exception>
+        /// <exception cref="ArgumentException">If the order is less than one.</exception>
         public DenseMatrix(int order)
             : this(new DenseColumnMajorMatrixStorage<Complex>(order, order))
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="DenseMatrix"/> class.
+        /// Create a new dense matrix with the given number of rows and columns.
+        /// All cells of the matrix will be initialized to zero.
+        /// Zero-length matrices are not supported.
         /// </summary>
-        /// <param name="rows">
-        /// The number of rows.
-        /// </param>
-        /// <param name="columns">
-        /// The number of columns.
-        /// </param>
+        /// <exception cref="ArgumentException">If the row or column count is less than one.</exception>
         public DenseMatrix(int rows, int columns)
             : this(new DenseColumnMajorMatrixStorage<Complex>(rows, columns))
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="DenseMatrix"/> class with all entries set to a particular value.
+        /// Create a new dense matrix with the given number of rows and columns.
+        /// All cells of the matrix will be initialized to the provided value.
+        /// Zero-length matrices are not supported.
         /// </summary>
-        /// <param name="rows">
-        /// The number of rows.
-        /// </param>
-        /// <param name="columns">
-        /// The number of columns.
-        /// </param>
-        /// <param name="value">The value which we assign to each element of the matrix.</param>
+        /// <exception cref="ArgumentException">If the row or column count is less than one.</exception>
         public DenseMatrix(int rows, int columns, Complex value)
             : this(rows, columns)
         {
@@ -119,22 +118,21 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="DenseMatrix"/> class from a one dimensional array. This constructor
-        /// will reference the one dimensional array and not copy it.
+        /// Create a new dense matrix with the given number of rows and columns directly binding to a raw array.
+        /// The array is assumed to be in column-major order and is used directly without copying.
+        /// Very efficient, but changes to the array and the matrix will affect each other.
         /// </summary>
-        /// <param name="rows">The number of rows.</param>
-        /// <param name="columns">The number of columns.</param>
-        /// <param name="array">The one dimensional array to create this matrix from. This array should store the matrix in column-major order. see: http://en.wikipedia.org/wiki/Row-major_order </param>
-        public DenseMatrix(int rows, int columns, Complex[] array)
-            : this(new DenseColumnMajorMatrixStorage<Complex>(rows, columns, array))
+        /// <seealso cref="http://en.wikipedia.org/wiki/Row-major_order"/>
+        public DenseMatrix(int rows, int columns, Complex[] storage)
+            : this(new DenseColumnMajorMatrixStorage<Complex>(rows, columns, storage))
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="DenseMatrix"/> class from a 2D array. This constructor
-        /// will allocate a completely new memory block for storing the dense matrix.
+        /// Create a new dense matrix as a copy of the given two-dimensional array.
+        /// This new matrix will be independent from the provided array.
+        /// A new memory block will be allocated for storing the matrix.
         /// </summary>
-        /// <param name="array">The 2D array to create this matrix from.</param>
         public DenseMatrix(Complex[,] array)
             : this(array.GetLength(0), array.GetLength(1))
         {
@@ -148,10 +146,10 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="DenseMatrix"/> class, copying
-        /// the values from the given matrix.
+        /// Create a new dense matrix as a copy of the given other matrix.
+        /// This new matrix will be independent from the other matrix.
+        /// A new memory block will be allocated for storing the matrix.
         /// </summary>
-        /// <param name="matrix">The matrix to copy.</param>
         public DenseMatrix(Matrix<Complex> matrix)
             : this(matrix.RowCount, matrix.ColumnCount)
         {
