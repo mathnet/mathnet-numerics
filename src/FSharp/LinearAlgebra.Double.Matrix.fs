@@ -275,7 +275,7 @@ module DenseMatrix =
         A
 
     /// Create a matrix from a 2D array of floating point numbers.
-    let inline ofArray2 (arr: float[,]) = new DenseMatrix(arr)
+    let inline ofArray2 (arr: float[,]) = DenseMatrix.OfArray(arr)
 
     /// Create a matrix with the given entries.
     let inline initDense (n: int) (m: int) (es: #seq<int * int * float>) =

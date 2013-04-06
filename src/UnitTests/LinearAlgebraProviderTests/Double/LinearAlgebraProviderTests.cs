@@ -62,12 +62,12 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Double
         /// </summary>
         readonly IDictionary<string, DenseMatrix> _matrices = new Dictionary<string, DenseMatrix>
             {
-                {"Singular3x3", new DenseMatrix(new[,] {{1.0, 1.0, 2.0}, {1.0, 1.0, 2.0}, {1.0, 1.0, 2.0}})},
-                {"Square3x3", new DenseMatrix(new[,] {{-1.1, -2.2, -3.3}, {0.0, 1.1, 2.2}, {-4.4, 5.5, 6.6}})},
-                {"Square4x4", new DenseMatrix(new[,] {{-1.1, -2.2, -3.3, -4.4}, {0.0, 1.1, 2.2, 3.3}, {1.0, 2.1, 6.2, 4.3}, {-4.4, 5.5, 6.6, -7.7}})},
-                {"Singular4x4", new DenseMatrix(new[,] {{-1.1, -2.2, -3.3, -4.4}, {-1.1, -2.2, -3.3, -4.4}, {-1.1, -2.2, -3.3, -4.4}, {-1.1, -2.2, -3.3, -4.4}})},
-                {"Tall3x2", new DenseMatrix(new[,] {{-1.1, -2.2}, {0.0, 1.1}, {-4.4, 5.5}})},
-                {"Wide2x3", new DenseMatrix(new[,] {{-1.1, -2.2, -3.3}, {0.0, 1.1, 2.2}})},
+                {"Singular3x3", DenseMatrix.OfArray(new[,] {{1.0, 1.0, 2.0}, {1.0, 1.0, 2.0}, {1.0, 1.0, 2.0}})},
+                {"Square3x3", DenseMatrix.OfArray(new[,] {{-1.1, -2.2, -3.3}, {0.0, 1.1, 2.2}, {-4.4, 5.5, 6.6}})},
+                {"Square4x4", DenseMatrix.OfArray(new[,] {{-1.1, -2.2, -3.3, -4.4}, {0.0, 1.1, 2.2, 3.3}, {1.0, 2.1, 6.2, 4.3}, {-4.4, 5.5, 6.6, -7.7}})},
+                {"Singular4x4", DenseMatrix.OfArray(new[,] {{-1.1, -2.2, -3.3, -4.4}, {-1.1, -2.2, -3.3, -4.4}, {-1.1, -2.2, -3.3, -4.4}, {-1.1, -2.2, -3.3, -4.4}})},
+                {"Tall3x2", DenseMatrix.OfArray(new[,] {{-1.1, -2.2}, {0.0, 1.1}, {-4.4, 5.5}})},
+                {"Wide2x3", DenseMatrix.OfArray(new[,] {{-1.1, -2.2, -3.3}, {0.0, 1.1, 2.2}})},
                 {"Tall50000x10", DenseMatrix.CreateRandom(50000, 10, Dist)},
                 {"Wide10x50000", DenseMatrix.CreateRandom(10, 50000, Dist)},
                 {"Square1000x1000", DenseMatrix.CreateRandom(1000, 1000, Dist)}

@@ -9,10 +9,10 @@ open MathNet.Numerics.LinearAlgebra.Double
 module DenseMatrixTests =
 
     /// A small uniform vector.
-    let smallM = new DenseMatrix( Array2D.create 2 2 0.3 )
+    let smallM = DenseMatrix.OfArray( Array2D.create 2 2 0.3 )
 
     /// A large vector with increasingly large entries
-    let largeM = new DenseMatrix( Array2D.init 100 100 (fun i j -> float i * 100.0 + float j) )
+    let largeM = DenseMatrix.OfArray( Array2D.init 100 100 (fun i j -> float i * 100.0 + float j) )
 
     [<Test>]
     let ``DenseMatrix.init`` () =

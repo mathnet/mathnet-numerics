@@ -313,7 +313,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.Preconditioners
                 throw new ArgumentException(Resources.ArgumentMatrixSquare, "matrix");
             }
 
-            var sparseMatrix = (matrix is SparseMatrix) ? matrix as SparseMatrix : new SparseMatrix(matrix);
+            var sparseMatrix = (matrix is SparseMatrix) ? matrix as SparseMatrix : SparseMatrix.OfMatrix(matrix);
 
             // The creation of the preconditioner follows the following algorithm.
             // spaceLeft = lfilNnz * nnz(A)

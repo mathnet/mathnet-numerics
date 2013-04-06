@@ -3,7 +3,9 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
-// Copyright (c) 2009-2010 Math.NET
+//
+// Copyright (c) 2009-2013 Math.NET
+//
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -12,8 +14,10 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
+//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
+//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -26,12 +30,12 @@
 
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.IO
 {
-    using System;
-    using System.Globalization;
-    using System.IO;
     using LinearAlgebra.Double;
     using LinearAlgebra.IO;
     using NUnit.Framework;
+    using System;
+    using System.Globalization;
+    using System.IO;
 
     /// <summary>
     /// Delimited writer tests.
@@ -45,19 +49,19 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.IO
         [Test]
         public void CanWriteCommaDelimitedData()
         {
-            var matrix = new DenseMatrix(new[,] { { 1.1, 2.2, 3.3 }, { 4.4, 5.5, 6.6 }, { 7.7, 8.8, 9.9 } });
+            var matrix = DenseMatrix.OfArray(new[,] {{1.1, 2.2, 3.3}, {4.4, 5.5, 6.6}, {7.7, 8.8, 9.9}});
             var writer = new DelimitedWriter(',')
-                         {
-                             CultureInfo = CultureInfo.InvariantCulture
-                         };
+                {
+                    CultureInfo = CultureInfo.InvariantCulture
+                };
             var stream = new MemoryStream();
             writer.WriteMatrix(matrix, stream);
             var data = stream.ToArray();
             var reader = new StreamReader(new MemoryStream(data));
             var text = reader.ReadToEnd();
             var expected = @"1.1,2.2,3.3" + Environment.NewLine
-                           + "4.4,5.5,6.6" + Environment.NewLine
-                           + "7.7,8.8,9.9";
+                + "4.4,5.5,6.6" + Environment.NewLine
+                + "7.7,8.8,9.9";
             Assert.AreEqual(expected, text);
         }
 
@@ -67,20 +71,20 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.IO
         [Test]
         public void CanWritePeriodDelimitedData()
         {
-            var matrix = new DenseMatrix(new[,] { { 1.1, 2.2, 3.3 }, { 4.4, 5.5, 6.6 }, { 7.7, 8.8, 9.9 } });
+            var matrix = DenseMatrix.OfArray(new[,] {{1.1, 2.2, 3.3}, {4.4, 5.5, 6.6}, {7.7, 8.8, 9.9}});
             var culture = new CultureInfo("tr-TR");
             var writer = new DelimitedWriter('.')
-                         {
-                             CultureInfo = culture
-                         };
+                {
+                    CultureInfo = culture
+                };
             var stream = new MemoryStream();
             writer.WriteMatrix(matrix, stream);
             var data = stream.ToArray();
             var reader = new StreamReader(new MemoryStream(data));
             var text = reader.ReadToEnd();
             var expected = @"1,1.2,2.3,3" + Environment.NewLine
-                           + "4,4.5,5.6,6" + Environment.NewLine
-                           + "7,7.8,8.9,9";
+                + "4,4.5,5.6,6" + Environment.NewLine
+                + "7,7.8,8.9,9";
             Assert.AreEqual(expected, text);
         }
 
@@ -90,19 +94,19 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.IO
         [Test]
         public void CanWriteSpaceDelimitedData()
         {
-            var matrix = new SparseMatrix(new[,] { { 1.1, 0, 0 }, { 0, 5.5, 0 }, { 0, 0, 9.9 } });
+            var matrix = SparseMatrix.OfArray(new[,] {{1.1, 0, 0}, {0, 5.5, 0}, {0, 0, 9.9}});
             var writer = new DelimitedWriter(' ')
-                         {
-                             CultureInfo = CultureInfo.InvariantCulture
-                         };
+                {
+                    CultureInfo = CultureInfo.InvariantCulture
+                };
             var stream = new MemoryStream();
             writer.WriteMatrix(matrix, stream);
             var data = stream.ToArray();
             var reader = new StreamReader(new MemoryStream(data));
             var text = reader.ReadToEnd();
             var expected = @"1.1 0 0" + Environment.NewLine
-                           + "0 5.5 0" + Environment.NewLine
-                           + "0 0 9.9";
+                + "0 5.5 0" + Environment.NewLine
+                + "0 0 9.9";
             Assert.AreEqual(expected, text);
         }
 
@@ -112,22 +116,22 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.IO
         [Test]
         public void CanWriteTabDelimitedData()
         {
-            var matrix = new UserDefinedMatrix(new[,] { { 1.1, 2.2, 3.3 }, { 4.4, 5.5, 6.6 }, { 7.7, 8.8, 9.9 } });
-            var headers = new[] { "a", "b", "c" };
+            var matrix = new UserDefinedMatrix(new[,] {{1.1, 2.2, 3.3}, {4.4, 5.5, 6.6}, {7.7, 8.8, 9.9}});
+            var headers = new[] {"a", "b", "c"};
             var writer = new DelimitedWriter('\t')
-                         {
-                             ColumnHeaders = headers,
-                             CultureInfo = CultureInfo.InvariantCulture
-                         };
+                {
+                    ColumnHeaders = headers,
+                    CultureInfo = CultureInfo.InvariantCulture
+                };
             var stream = new MemoryStream();
             writer.WriteMatrix(matrix, stream);
             var data = stream.ToArray();
             var reader = new StreamReader(new MemoryStream(data));
             var text = reader.ReadToEnd();
             var expected = "a\tb\tc" + Environment.NewLine
-                           + "1.1\t2.2\t3.3" + Environment.NewLine
-                           + "4.4\t5.5\t6.6" + Environment.NewLine
-                           + "7.7\t8.8\t9.9";
+                + "1.1\t2.2\t3.3" + Environment.NewLine
+                + "4.4\t5.5\t6.6" + Environment.NewLine
+                + "7.7\t8.8\t9.9";
             Assert.AreEqual(expected, text);
         }
     }

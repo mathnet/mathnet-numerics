@@ -113,7 +113,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// A new memory block will be allocated for storing the vector.
         /// </summary>
         public DenseVector(IEnumerable<float> other)
-            : this(DenseVectorStorage<float>.FromEnumerable(other))
+            : this(DenseVectorStorage<float>.OfEnumerable(other))
         {
         }
 

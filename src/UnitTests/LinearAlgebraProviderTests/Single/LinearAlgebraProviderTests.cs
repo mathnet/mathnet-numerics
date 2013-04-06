@@ -62,12 +62,12 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Single
         /// </summary>
         readonly IDictionary<string, DenseMatrix> _matrices = new Dictionary<string, DenseMatrix>
             {
-                {"Singular3x3", new DenseMatrix(new[,] {{1.0f, 1.0f, 2.0f}, {1.0f, 1.0f, 2.0f}, {1.0f, 1.0f, 2.0f}})},
-                {"Square3x3", new DenseMatrix(new[,] {{-1.1f, -2.2f, -3.3f}, {0.0f, 1.1f, 2.2f}, {-4.4f, 5.5f, 6.6f}})},
-                {"Square4x4", new DenseMatrix(new[,] {{-1.1f, -2.2f, -3.3f, -4.4f}, {0.0f, 1.1f, 2.2f, 3.3f}, {1.0f, 2.1f, 6.2f, 4.3f}, {-4.4f, 5.5f, 6.6f, -7.7f}})},
-                {"Singular4x4", new DenseMatrix(new[,] {{-1.1f, -2.2f, -3.3f, -4.4f}, {-1.1f, -2.2f, -3.3f, -4.4f}, {-1.1f, -2.2f, -3.3f, -4.4f}, {-1.1f, -2.2f, -3.3f, -4.4f}})},
-                {"Tall3x2", new DenseMatrix(new[,] {{-1.1f, -2.2f}, {0.0f, 1.1f}, {-4.4f, 5.5f}})},
-                {"Wide2x3", new DenseMatrix(new[,] {{-1.1f, -2.2f, -3.3f}, {0.0f, 1.1f, 2.2f}})},
+                {"Singular3x3", DenseMatrix.OfArray(new[,] {{1.0f, 1.0f, 2.0f}, {1.0f, 1.0f, 2.0f}, {1.0f, 1.0f, 2.0f}})},
+                {"Square3x3", DenseMatrix.OfArray(new[,] {{-1.1f, -2.2f, -3.3f}, {0.0f, 1.1f, 2.2f}, {-4.4f, 5.5f, 6.6f}})},
+                {"Square4x4", DenseMatrix.OfArray(new[,] {{-1.1f, -2.2f, -3.3f, -4.4f}, {0.0f, 1.1f, 2.2f, 3.3f}, {1.0f, 2.1f, 6.2f, 4.3f}, {-4.4f, 5.5f, 6.6f, -7.7f}})},
+                {"Singular4x4", DenseMatrix.OfArray(new[,] {{-1.1f, -2.2f, -3.3f, -4.4f}, {-1.1f, -2.2f, -3.3f, -4.4f}, {-1.1f, -2.2f, -3.3f, -4.4f}, {-1.1f, -2.2f, -3.3f, -4.4f}})},
+                {"Tall3x2", DenseMatrix.OfArray(new[,] {{-1.1f, -2.2f}, {0.0f, 1.1f}, {-4.4f, 5.5f}})},
+                {"Wide2x3", DenseMatrix.OfArray(new[,] {{-1.1f, -2.2f, -3.3f}, {0.0f, 1.1f, 2.2f}})},
                 {"Tall50000x10", DenseMatrix.CreateRandom(50000, 10, Dist)},
                 {"Wide10x50000", DenseMatrix.CreateRandom(10, 50000, Dist)},
                 {"Square1000x1000", DenseMatrix.CreateRandom(1000, 1000, Dist)}

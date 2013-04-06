@@ -101,7 +101,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
         // INITIALIZATION
 
-        public static DenseColumnMajorMatrixStorage<T> FromColumnMajorEnumerable(int rows, int columns, IEnumerable<T> data)
+        public static DenseColumnMajorMatrixStorage<T> OfColumnMajorEnumerable(int rows, int columns, IEnumerable<T> data)
         {
             if (data == null)
             {

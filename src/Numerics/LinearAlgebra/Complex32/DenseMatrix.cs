@@ -104,11 +104,64 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         }
 
         /// <summary>
+        /// Create a new dense matrix with the given number of rows and columns directly binding to a raw array.
+        /// The array is assumed to be in column-major order (column by column) and is used directly without copying.
+        /// Very efficient, but changes to the array and the matrix will affect each other.
+        /// </summary>
+        /// <seealso href="http://en.wikipedia.org/wiki/Row-major_order"/>
+        public DenseMatrix(int rows, int columns, Complex32[] storage)
+            : this(new DenseColumnMajorMatrixStorage<Complex32>(rows, columns, storage))
+        {
+        }
+
+        /// <summary>
+        /// Create a new dense matrix as a copy of the given other matrix.
+        /// This new matrix will be independent from the other matrix.
+        /// A new memory block will be allocated for storing the matrix.
+        /// </summary>
+        public static DenseMatrix OfMatrix(Matrix<Complex32> matrix)
+        {
+            var storage = new DenseColumnMajorMatrixStorage<Complex32>(matrix.RowCount, matrix.ColumnCount);
+            matrix.Storage.CopyToUnchecked(storage, skipClearing: true);
+            return new DenseMatrix(storage);
+        }
+
+        /// <summary>
+        /// Create a new dense matrix as a copy of the given two-dimensional array.
+        /// This new matrix will be independent from the provided array.
+        /// A new memory block will be allocated for storing the matrix.
+        /// </summary>
+        public static DenseMatrix OfArray(Complex32[,] array)
+        {
+            var storage = new DenseColumnMajorMatrixStorage<Complex32>(array.GetLength(0), array.GetLength(1));
+            for (var i = 0; i < storage.RowCount; i++)
+            {
+                for (var j = 0; j < storage.ColumnCount; j++)
+                {
+                    storage.Data[(j * storage.RowCount) + i] = array[i, j];
+                }
+            }
+            return new DenseMatrix(storage);
+        }
+
+        /// <summary>
+        /// Create a new dense matrix as a copy of the given enumerable.
+        /// The enumerable is assumed to be in column-major order (column by column).
+        /// This new matrix will be independent from the enumerable.
+        /// A new memory block will be allocated for storing the vector.
+        /// </summary>
+        public static DenseMatrix OfColumnMajor(int rows, int columns, IEnumerable<Complex32> columnMajor)
+        {
+            return new DenseMatrix(DenseColumnMajorMatrixStorage<Complex32>.OfColumnMajorEnumerable(rows, columns, columnMajor));
+        }
+
+        /// <summary>
         /// Create a new dense matrix with the given number of rows and columns.
         /// All cells of the matrix will be initialized to the provided value.
         /// Zero-length matrices are not supported.
         /// </summary>
         /// <exception cref="ArgumentException">If the row or column count is less than one.</exception>
+        [Obsolete("Scheduled for removal in v3.0.")]
         public DenseMatrix(int rows, int columns, Complex32 value)
             : this(rows, columns)
         {
@@ -119,21 +172,11 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         }
 
         /// <summary>
-        /// Create a new dense matrix with the given number of rows and columns directly binding to a raw array.
-        /// The array is assumed to be in column-major order (column by column) and is used directly without copying.
-        /// Very efficient, but changes to the array and the matrix will affect each other.
-        /// </summary>
-        /// <seealso cref="http://en.wikipedia.org/wiki/Row-major_order"/>
-        public DenseMatrix(int rows, int columns, Complex32[] storage)
-            : this(new DenseColumnMajorMatrixStorage<Complex32>(rows, columns, storage))
-        {
-        }
-
-        /// <summary>
         /// Create a new dense matrix as a copy of the given two-dimensional array.
         /// This new matrix will be independent from the provided array.
         /// A new memory block will be allocated for storing the matrix.
         /// </summary>
+        [Obsolete("Use DenseMatrix.OfArray instead. Scheduled for removal in v3.0.")]
         public DenseMatrix(Complex32[,] array)
             : this(array.GetLength(0), array.GetLength(1))
         {
@@ -145,23 +188,13 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
                 }
             }
         }
-        
-        /// <summary>
-        /// Create a new dense matrix as a copy of the given enumerable.
-        /// The enumerable is assumed to be in column-major order (column by column).
-        /// This new matrix will be independent from the enumerable.
-        /// A new memory block will be allocated for storing the vector.
-        /// </summary>
-        public DenseMatrix(int rows, int columns, IEnumerable<Complex32> columnMajor)
-            : this(DenseColumnMajorMatrixStorage<Complex32>.FromColumnMajorEnumerable(rows, columns, columnMajor))
-        {
-        }
 
         /// <summary>
         /// Create a new dense matrix as a copy of the given other matrix.
         /// This new matrix will be independent from the other matrix.
         /// A new memory block will be allocated for storing the matrix.
         /// </summary>
+        [Obsolete("Use DenseMatrix.OfMatrix instead. Scheduled for removal in v3.0.")]
         public DenseMatrix(Matrix<Complex32> matrix)
             : this(matrix.RowCount, matrix.ColumnCount)
         {

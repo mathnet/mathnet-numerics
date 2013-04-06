@@ -113,7 +113,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// A new memory block will be allocated for storing the vector.
         /// </summary>
         public DenseVector(IEnumerable<Complex32> other)
-            : this(DenseVectorStorage<Complex32>.FromEnumerable(other))
+            : this(DenseVectorStorage<Complex32>.OfEnumerable(other))
         {
         }
 

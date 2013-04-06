@@ -363,7 +363,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
         // INITIALIZATION
 
-        public static SparseCompressedRowMatrixStorage<T> FromRowMajorEnumerable(int rows, int columns, IEnumerable<T> data)
+        public static SparseCompressedRowMatrixStorage<T> OfRowMajorEnumerable(int rows, int columns, IEnumerable<T> data)
         {
             if (data == null)
             {

@@ -114,7 +114,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// A new memory block will be allocated for storing the vector.
         /// </summary>
         public DenseVector(IEnumerable<double> other)
-            : this(DenseVectorStorage<double>.FromEnumerable(other))
+            : this(DenseVectorStorage<double>.OfEnumerable(other))
         {
         }
 

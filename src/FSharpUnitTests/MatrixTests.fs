@@ -9,11 +9,11 @@ open MathNet.Numerics.LinearAlgebra.Double
 module MatrixTests =
 
     /// A small uniform vector.
-    let smallM = new DenseMatrix( Array2D.create 2 2 0.3 )
+    let smallM = DenseMatrix.OfArray( Array2D.create 2 2 0.3 )
     let failingFoldBackM = DenseMatrix.init 2 3 (fun i j -> 1.0)
 
     /// A large vector with increasingly large entries
-    let largeM = new DenseMatrix( Array2D.init 100 100 (fun i j -> float i * 100.0 + float j) )
+    let largeM = DenseMatrix.OfArray( Array2D.init 100 100 (fun i j -> float i * 100.0 + float j) )
 
     [<Test>]
     let ``Matrix.GetSlice`` () =

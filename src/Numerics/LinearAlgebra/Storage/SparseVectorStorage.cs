@@ -284,7 +284,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
         // INITIALIZATION
 
-        public static SparseVectorStorage<T> FromEnumerable(IEnumerable<T> data)
+        public static SparseVectorStorage<T> OfEnumerable(IEnumerable<T> data)
         {
             if (data == null)
             {

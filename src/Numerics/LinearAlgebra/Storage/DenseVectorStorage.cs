@@ -92,7 +92,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
         // INITIALIZATION
 
-        public static DenseVectorStorage<T> FromEnumerable(IEnumerable<T> data)
+        public static DenseVectorStorage<T> OfEnumerable(IEnumerable<T> data)
         {
             if (data == null)
             {

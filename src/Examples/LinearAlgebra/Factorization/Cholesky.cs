@@ -70,7 +70,7 @@ namespace Examples.LinearAlgebra.FactorizationExamples
             formatProvider.TextInfo.ListSeparator = " ";
 
             // Create square, symmetric, positive definite matrix
-            var matrix = new DenseMatrix(new[,] { { 2.0, 1.0 }, { 1.0, 2.0 } });
+            var matrix = DenseMatrix.OfArray(new[,] { { 2.0, 1.0 }, { 1.0, 2.0 } });
             Console.WriteLine(@"Initial square, symmetric, positive definite matrix");
             Console.WriteLine(matrix.ToString("#0.00\t", formatProvider));
             Console.WriteLine();

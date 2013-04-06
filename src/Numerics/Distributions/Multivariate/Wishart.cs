@@ -313,7 +313,7 @@ namespace MathNet.Numerics.Distributions
 
             // First generate a lower triangular matrix with Sqrt(Chi-Squares) on the diagonal
             // and normal distributed variables in the lower triangle.
-            var a = new DenseMatrix(count, count, 0.0);
+            var a = new DenseMatrix(count, count);
             for (var d = 0; d < count; d++)
             {
                 a.At(d, d, Math.Sqrt(Gamma.Sample(rnd, (nu - d)/2.0, 0.5)));

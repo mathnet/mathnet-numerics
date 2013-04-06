@@ -72,7 +72,7 @@ namespace Examples.LinearAlgebra.FactorizationExamples
             formatProvider.TextInfo.ListSeparator = " ";
 
             // Create 3 x 2 matrix
-            var matrix = new DenseMatrix(new[,] { { 1.0, 2.0 }, { 3.0, 4.0 }, { 5.0, 6.0 } });
+            var matrix = DenseMatrix.OfArray(new[,] { { 1.0, 2.0 }, { 3.0, 4.0 }, { 5.0, 6.0 } });
             Console.WriteLine(@"Initial 3x2 matrix");
             Console.WriteLine(matrix.ToString("#0.00\t", formatProvider));
             Console.WriteLine();

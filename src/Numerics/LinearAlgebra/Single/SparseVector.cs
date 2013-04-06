@@ -124,7 +124,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// A new memory block will be allocated for storing the vector.
         /// </summary>
         public SparseVector(IEnumerable<float> other)
-            : this(SparseVectorStorage<float>.FromEnumerable(other))
+            : this(SparseVectorStorage<float>.OfEnumerable(other))
         {
         }
 
