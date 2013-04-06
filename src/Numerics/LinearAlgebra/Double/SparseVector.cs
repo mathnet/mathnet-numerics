@@ -31,7 +31,6 @@
 namespace MathNet.Numerics.LinearAlgebra.Double
 {
     using Generic;
-    using NumberTheory;
     using Storage;
     using System;
     using System.Collections.Generic;
@@ -974,38 +973,10 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 value = value.Substring(1, value.Length - 2).Trim();
             }
 
-            // keywords
-            var textInfo = formatProvider.GetTextInfo();
-            var keywords = new[] { textInfo.ListSeparator };
-
-            // lexing
-            var tokens = new LinkedList<string>();
-            GlobalizationHelper.Tokenize(tokens.AddFirst(value), keywords, 0);
-            var token = tokens.First;
-
-            if (token == null || tokens.Count.IsEven())
-            {
-                throw new FormatException();
-            }
-
             // parsing
-            var data = new double[(tokens.Count + 1) >> 1];
-            for (var i = 0; i < data.Length; i++)
-            {
-                if (token == null || token.Value == textInfo.ListSeparator)
-                {
-                    throw new FormatException();
-                }
-
-                data[i] = Double.Parse(token.Value, NumberStyles.Any, formatProvider);
-
-                token = token.Next;
-                if (token != null)
-                {
-                    token = token.Next;
-                }
-            }
-
+            var tokens = value.Split(new[] { formatProvider.GetTextInfo().ListSeparator, " ", "\t" }, StringSplitOptions.RemoveEmptyEntries);
+            var data = tokens.Select(t => Double.Parse(t, NumberStyles.Any, formatProvider)).ToArray();
+            if (data.Length == 0) throw new FormatException();
             return new SparseVector(data);
         }
 

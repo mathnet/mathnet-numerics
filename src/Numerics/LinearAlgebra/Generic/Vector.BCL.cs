@@ -250,7 +250,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <summary>
         /// Returns a <see cref="System.String"/> that represents the content of this vector, row by row.
         /// </summary>
-        public string ToVectorString(int maxLines, int maxPerLine, IFormatProvider provider)
+        public string ToVectorString(int maxLines, int maxPerLine, IFormatProvider provider = null)
         {
             return ToVectorString(maxLines, maxPerLine, 12, "G6", provider);
         }
@@ -258,7 +258,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <summary>
         /// Returns a <see cref="System.String"/> that represents the content of this vector, row by row.
         /// </summary>
-        public string ToVectorString(int maxLines, int maxPerLine, int padding, string format, IFormatProvider provider)
+        public string ToVectorString(int maxLines, int maxPerLine, int padding, string format = null, IFormatProvider provider = null)
         {
             int fullLines = Count/maxPerLine;
             int lastLine = Count%maxPerLine;
@@ -274,11 +274,20 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
             const string separator = " ";
             string pdots = "...".PadLeft(padding);
 
+            if (format == null)
+            {
+                format = "G8";
+            }
+
             var stringBuilder = new StringBuilder();
 
             var iterator = GetEnumerator();
             for (var line = 0; line < fullLines; line++)
             {
+                if (line > 0)
+                {
+                    stringBuilder.Append(Environment.NewLine);
+                }
                 iterator.MoveNext();
                 stringBuilder.Append(iterator.Current.ToString(format, provider).PadLeft(padding));
                 for (var column = 1; column < maxPerLine; column++)
@@ -287,11 +296,14 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
                     iterator.MoveNext();
                     stringBuilder.Append(iterator.Current.ToString(format, provider).PadLeft(padding));
                 }
-                stringBuilder.Append(Environment.NewLine);
             }
 
             if (lastLine > 0)
             {
+                if (fullLines > 0)
+                {
+                    stringBuilder.Append(Environment.NewLine);
+                }
                 iterator.MoveNext();
                 stringBuilder.Append(iterator.Current.ToString(format, provider).PadLeft(padding));
                 for (var column = 1; column < lastLine; column++)
@@ -305,7 +317,6 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
                     stringBuilder.Append(separator);
                     stringBuilder.Append(pdots);
                 }
-                stringBuilder.Append(Environment.NewLine);
             }
 
             return stringBuilder.ToString();

@@ -30,14 +30,14 @@
 
 namespace MathNet.Numerics.LinearAlgebra.Generic
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Numerics;
-    using System.Runtime;
     using Factorization;
     using Numerics;
     using Properties;
     using Storage;
+    using System;
+    using System.Collections.Generic;
+    using System.Numerics;
+    using System.Runtime;
 
     /// <summary>
     /// Defines the base class for <c>Matrix</c> classes.

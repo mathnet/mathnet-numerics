@@ -26,10 +26,10 @@
 
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
 {
-    using System;
-    using System.Collections.Generic;
     using LinearAlgebra.Double;
     using NUnit.Framework;
+    using System;
+    using System.Collections.Generic;
 
     /// <summary>
     /// Dense matrix tests.

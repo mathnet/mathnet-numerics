@@ -32,7 +32,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
 {
     using Distributions;
     using Generic;
-    using NumberTheory;
     using Numerics;
     using Storage;
     using System;
@@ -757,39 +756,38 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
                 value = value.Substring(1, value.Length - 2).Trim();
             }
 
-            // keywords
-            var textInfo = formatProvider.GetTextInfo();
-            var keywords = new[] { textInfo.ListSeparator };
-
-            // lexing
-            var tokens = new LinkedList<string>();
-            GlobalizationHelper.Tokenize(tokens.AddFirst(value), keywords, 0);
-            var token = tokens.First;
-
-            if (token == null || tokens.Count.IsEven())
-            {
-                throw new FormatException();
-            }
-
             // parsing
-            var data = new Complex32[(tokens.Count + 1) >> 1];
-            for (var i = 0; i < data.Length; i++)
+            var strongTokens = value.Split(new[] { formatProvider.GetTextInfo().ListSeparator }, StringSplitOptions.RemoveEmptyEntries);
+            var data = new List<Complex32>();
+            foreach (string strongToken in strongTokens)
             {
-                if (token == null || token.Value == textInfo.ListSeparator)
+                var weakTokens = strongToken.Split(new[] { " ", "\t" }, StringSplitOptions.RemoveEmptyEntries);
+                string current = string.Empty;
+                for (int i = 0; i < weakTokens.Length; i++)
+                {
+                    current += weakTokens[i];
+                    if (current.EndsWith("+") || current.EndsWith("-") || current.StartsWith("(") && !current.EndsWith(")"))
+                    {
+                        continue;
+                    }
+                    var ahead = i < weakTokens.Length - 1 ? weakTokens[i + 1] : string.Empty;
+                    if (ahead.StartsWith("+") || ahead.StartsWith("-"))
+                    {
+                        continue;
+                    }
+                    data.Add(current.ToComplex32(formatProvider));
+                    current = string.Empty;
+                }
+                if (current != string.Empty)
                 {
                     throw new FormatException();
                 }
-
-                data[i] = token.Value.ToComplex32(formatProvider);
-
-                token = token.Next;
-                if (token != null)
-                {
-                    token = token.Next;
-                }
             }
-
-            return new DenseVector(data);
+            if (data.Count == 0)
+            {
+                throw new FormatException();
+            }
+            return new DenseVector(data.ToArray());
         }
 
         /// <summary>

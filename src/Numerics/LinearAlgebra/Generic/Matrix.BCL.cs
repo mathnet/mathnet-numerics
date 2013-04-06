@@ -101,7 +101,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <summary>
         /// Returns a <see cref="System.String"/> that represents the content of this matrix.
         /// </summary>
-        public string ToMatrixString(int maxRows, int maxColumns, IFormatProvider provider)
+        public string ToMatrixString(int maxRows, int maxColumns, IFormatProvider provider = null)
         {
             return ToMatrixString(maxRows, maxColumns, 12, "G6", provider);
         }
@@ -109,7 +109,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <summary>
         /// Returns a <see cref="System.String"/> that represents the content of this matrix.
         /// </summary>
-        public string ToMatrixString(int maxRows, int maxColumns, int padding, string format, IFormatProvider provider)
+        public string ToMatrixString(int maxRows, int maxColumns, int padding, string format = null, IFormatProvider provider = null)
         {
             int rowN = RowCount <= maxRows ? RowCount : maxRows < 3 ? maxRows : maxRows - 1;
             bool rowDots = maxRows < RowCount;
@@ -123,10 +123,19 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
             const string dots = "...";
             string pdots = "...".PadLeft(padding);
 
+            if (format == null)
+            {
+                format = "G8";
+            }
+
             var stringBuilder = new StringBuilder();
 
             for (var row = 0; row < rowN; row++)
             {
+                if (row > 0)
+                {
+                    stringBuilder.Append(Environment.NewLine);
+                }
                 stringBuilder.Append(At(row, 0).ToString(format, provider).PadLeft(padding));
                 for (var column = 1; column < colN; column++)
                 {
@@ -143,11 +152,11 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
                         stringBuilder.Append(At(row, ColumnCount - 1).ToString(format, provider).PadLeft(12));
                     }
                 }
-                stringBuilder.Append(Environment.NewLine);
             }
 
             if (rowDots)
             {
+                stringBuilder.Append(Environment.NewLine);
                 stringBuilder.Append(pdots);
                 for (var column = 1; column < colN; column++)
                 {
@@ -164,11 +173,11 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
                         stringBuilder.Append(pdots);
                     }
                 }
-                stringBuilder.Append(Environment.NewLine);
             }
 
             if (rowLast)
             {
+                stringBuilder.Append(Environment.NewLine);
                 stringBuilder.Append(At(RowCount - 1, 0).ToString(format, provider).PadLeft(padding));
                 for (var column = 1; column < colN; column++)
                 {
@@ -185,7 +194,6 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
                         stringBuilder.Append(At(RowCount - 1, ColumnCount - 1).ToString(format, provider).PadLeft(padding));
                     }
                 }
-                stringBuilder.Append(Environment.NewLine);
             }
 
             return stringBuilder.ToString();

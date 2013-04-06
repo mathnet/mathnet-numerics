@@ -36,7 +36,6 @@ namespace MathNet.Numerics.LinearAlgebra.Double
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
-    using Threading;
 
     /// <summary>
     /// A Matrix class with sparse storage. The underlying storage scheme is 3-array compressed-sparse-row (CSR) Format.

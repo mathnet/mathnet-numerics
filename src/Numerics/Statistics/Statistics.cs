@@ -301,7 +301,6 @@ namespace MathNet.Numerics.Statistics
         /// Approximately median-unbiased regardless of the sample distribution (R8).
         /// </summary>
         /// <param name="data">The data sample sequence.</param>
-        /// <param name="tau">Quantile selector, between 0.0 and 1.0 (inclusive).</param>
         public static Func<double, double> QuantileFunc(this IEnumerable<double?> data)
         {
             if (data == null) throw new ArgumentNullException("data");

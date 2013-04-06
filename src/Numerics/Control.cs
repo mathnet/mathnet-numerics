@@ -30,8 +30,8 @@
 
 namespace MathNet.Numerics
 {
-    using System;
     using Algorithms.LinearAlgebra;
+    using System;
 
     /// <summary>
     /// Sets parameters for the library.
