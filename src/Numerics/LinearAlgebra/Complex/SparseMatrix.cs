@@ -131,7 +131,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// A new memory block will be allocated for storing the matrix.
         /// </summary>
         /// <seealso href="http://en.wikipedia.org/wiki/Row-major_order"/>
-        public static SparseMatrix OfColumnMajor(int rows, int columns, Complex[] columnMajor)
+        public static SparseMatrix OfColumnMajor(int rows, int columns, IList<Complex> columnMajor)
         {
             return new SparseMatrix(SparseCompressedRowMatrixStorage<Complex>.OfColumnMajorList(rows, columns, columnMajor));
         }

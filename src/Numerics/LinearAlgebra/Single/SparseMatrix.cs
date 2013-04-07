@@ -130,7 +130,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// A new memory block will be allocated for storing the matrix.
         /// </summary>
         /// <seealso href="http://en.wikipedia.org/wiki/Row-major_order"/>
-        public static SparseMatrix OfColumnMajor(int rows, int columns, float[] columnMajor)
+        public static SparseMatrix OfColumnMajor(int rows, int columns, IList<float> columnMajor)
         {
             return new SparseMatrix(SparseCompressedRowMatrixStorage<float>.OfColumnMajorList(rows, columns, columnMajor));
         }
