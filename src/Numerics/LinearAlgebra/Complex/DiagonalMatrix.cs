@@ -136,6 +136,33 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// The array to copy from must be diagonal as well.
         /// A new memory block will be allocated for storing the matrix.
         /// </summary>
+        public static DiagonalMatrix OfArray(Complex[,] array)
+        {
+            var storage = new DiagonalMatrixStorage<Complex>(array.GetLength(0), array.GetLength(1));
+            for (var i = 0; i < storage.RowCount; i++)
+            {
+                for (var j = 0; j < storage.ColumnCount; j++)
+                {
+                    if (i == j)
+                    {
+                        storage.Data[i] = array[i, j];
+                    }
+                    else if (((array[i, j].Real != 0d) && !double.IsNaN(array[i, j].Real)) || ((array[i, j].Imaginary != 0d) && !double.IsNaN(array[i, j].Imaginary)))
+                    {
+                        throw new IndexOutOfRangeException("Cannot set an off-diagonal element in a diagonal matrix.");
+                    }
+                }
+            }
+            return new DiagonalMatrix(storage);
+        }
+
+        /// <summary>
+        /// Create a new diagonal matrix as a copy of the given two-dimensional array.
+        /// This new matrix will be independent from the provided array.
+        /// The array to copy from must be diagonal as well.
+        /// A new memory block will be allocated for storing the matrix.
+        /// </summary>
+        [Obsolete("Use DiagonalMatrix.OfArray instead. Scheduled for removal in v3.0.")]
         public DiagonalMatrix(Complex[,] array)
             : this(array.GetLength(0), array.GetLength(1))
         {

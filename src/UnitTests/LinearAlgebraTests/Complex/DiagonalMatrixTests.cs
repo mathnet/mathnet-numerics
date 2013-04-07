@@ -82,7 +82,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
         /// <returns>A matrix with the given values.</returns>
         protected override Matrix CreateMatrix(Complex[,] data)
         {
-            return new DiagonalMatrix(data);
+            return DiagonalMatrix.OfArray(data);
         }
 
         /// <summary>
@@ -151,7 +151,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
         [TestCase("Wide2x3")]
         public void CanCreateMatrixFrom2DArray(string name)
         {
-            var matrix = new DiagonalMatrix(TestData2D[name]);
+            var matrix = DiagonalMatrix.OfArray(TestData2D[name]);
             for (var i = 0; i < TestData2D[name].GetLength(0); i++)
             {
                 for (var j = 0; j < TestData2D[name].GetLength(1); j++)
