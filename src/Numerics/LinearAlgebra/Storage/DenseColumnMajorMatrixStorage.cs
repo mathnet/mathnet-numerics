@@ -130,7 +130,6 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             {
                 for (var i = 0; i < storage.RowCount; i++)
                 {
-
                     storage.Data[index++] = init(i, j);
                 }
             }
