@@ -28,6 +28,8 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System.Runtime;
+
 namespace MathNet.Numerics.LinearAlgebra.Double
 {
     using Algorithms.LinearAlgebra;
@@ -131,15 +133,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// </summary>
         public static DenseMatrix OfArray(double[,] array)
         {
-            var storage = new DenseColumnMajorMatrixStorage<double>(array.GetLength(0), array.GetLength(1));
-            for (var i = 0; i < storage.RowCount; i++)
-            {
-                for (var j = 0; j < storage.ColumnCount; j++)
-                {
-                    storage.Data[(j * storage.RowCount) + i] = array[i, j];
-                }
-            }
-            return new DenseMatrix(storage);
+            return new DenseMatrix(DenseColumnMajorMatrixStorage<double>.OfArray(array));
         }
 
         /// <summary>

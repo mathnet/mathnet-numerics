@@ -109,15 +109,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// </summary>
         public static SparseMatrix OfArray(Complex32[,] array)
         {
-            var storage = new SparseCompressedRowMatrixStorage<Complex32>(array.GetLength(0), array.GetLength(1));
-            for (var i = 0; i < storage.RowCount; i++)
-            {
-                for (var j = 0; j < storage.ColumnCount; j++)
-                {
-                    storage.At(i, j, array[i, j]);
-                }
-            }
-            return new SparseMatrix(storage);
+            return new SparseMatrix(SparseCompressedRowMatrixStorage<Complex32>.OfArray(array));
         }
 
         /// <summary>

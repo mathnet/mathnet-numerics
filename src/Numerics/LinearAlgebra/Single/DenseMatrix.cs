@@ -131,15 +131,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// </summary>
         public static DenseMatrix OfArray(float[,] array)
         {
-            var storage = new DenseColumnMajorMatrixStorage<float>(array.GetLength(0), array.GetLength(1));
-            for (var i = 0; i < storage.RowCount; i++)
-            {
-                for (var j = 0; j < storage.ColumnCount; j++)
-                {
-                    storage.Data[(j * storage.RowCount) + i] = array[i, j];
-                }
-            }
-            return new DenseMatrix(storage);
+            return new DenseMatrix(DenseColumnMajorMatrixStorage<float>.OfArray(array));
         }
 
         /// <summary>

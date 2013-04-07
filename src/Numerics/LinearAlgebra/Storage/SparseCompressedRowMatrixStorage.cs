@@ -370,6 +370,37 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             return storage;
         }
 
+        public static SparseCompressedRowMatrixStorage<T> OfArray(T[,] array)
+        {
+            if (array == null)
+            {
+                throw new ArgumentNullException("array");
+            }
+
+            var storage = new SparseCompressedRowMatrixStorage<T>(array.GetLength(0), array.GetLength(1));
+            var rowPointers = storage.RowPointers;
+            var columnIndices = new List<int>();
+            var values = new List<T>();
+
+            for (int row = 0; row < storage.RowCount; row++)
+            {
+                rowPointers[row] = values.Count;
+                for (int col = 0; col < storage.ColumnCount; col++)
+                {
+                    if (!Zero.Equals(array[row,col]))
+                    {
+                        values.Add(array[row, col]);
+                        columnIndices.Add(col);
+                    }
+                }
+            }
+
+            storage.ColumnIndices = columnIndices.ToArray();
+            storage.Values = values.ToArray();
+            storage.ValueCount = values.Count;
+            return storage;
+        }
+
         public static SparseCompressedRowMatrixStorage<T> OfRowMajorEnumerable(int rows, int columns, IEnumerable<T> data)
         {
             if (data == null)

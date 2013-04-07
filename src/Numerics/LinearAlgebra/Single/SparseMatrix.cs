@@ -108,15 +108,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// </summary>
         public static SparseMatrix OfArray(float[,] array)
         {
-            var storage = new SparseCompressedRowMatrixStorage<float>(array.GetLength(0), array.GetLength(1));
-            for (var i = 0; i < storage.RowCount; i++)
-            {
-                for (var j = 0; j < storage.ColumnCount; j++)
-                {
-                    storage.At(i, j, array[i, j]);
-                }
-            }
-            return new SparseMatrix(storage);
+            return new SparseMatrix(SparseCompressedRowMatrixStorage<float>.OfArray(array));
         }
 
         /// <summary>

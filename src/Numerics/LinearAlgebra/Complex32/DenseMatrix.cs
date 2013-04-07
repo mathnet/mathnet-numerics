@@ -131,15 +131,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// </summary>
         public static DenseMatrix OfArray(Complex32[,] array)
         {
-            var storage = new DenseColumnMajorMatrixStorage<Complex32>(array.GetLength(0), array.GetLength(1));
-            for (var i = 0; i < storage.RowCount; i++)
-            {
-                for (var j = 0; j < storage.ColumnCount; j++)
-                {
-                    storage.Data[(j * storage.RowCount) + i] = array[i, j];
-                }
-            }
-            return new DenseMatrix(storage);
+            return new DenseMatrix(DenseColumnMajorMatrixStorage<Complex32>.OfArray(array));
         }
 
         /// <summary>
