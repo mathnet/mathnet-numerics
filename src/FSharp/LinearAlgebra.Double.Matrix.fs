@@ -289,8 +289,7 @@ module DenseMatrix =
     let inline diag (v: #Vector<float>) =
         let n = v.Count
         let A = new DenseMatrix(n,n)
-        for i=0 to n-1 do
-            A.At(i,i,v.At(i))
+        A.SetDiagonal(v)
         A
 
     /// Initialize a matrix by calling a construction function for every row.
@@ -335,8 +334,7 @@ module SparseMatrix =
     let inline diag (v: #Vector<float>) =
         let n = v.Count
         let A = new SparseMatrix(n,n)
-        for i=0 to n-1 do
-            A.At(i,i, v.At i)
+        A.SetDiagonal(v)
         A
 
     /// Initialize a matrix by calling a construction function for every row.
