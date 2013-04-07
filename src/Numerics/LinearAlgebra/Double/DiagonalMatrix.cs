@@ -30,6 +30,7 @@
 
 namespace MathNet.Numerics.LinearAlgebra.Double
 {
+    using Distributions;
     using Generic;
     using Properties;
     using Storage;
@@ -138,6 +139,23 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         public static DiagonalMatrix OfArray(double[,] array)
         {
             return new DiagonalMatrix(DiagonalMatrixStorage<double>.OfArray(array));
+        }
+
+        /// <summary>
+        /// Create a new diagonal matrix and initialize each diagonal value using the provided init function.
+        /// </summary>
+        public static DiagonalMatrix Create(int rows, int columns, Func<int, double> init)
+        {
+            return new DiagonalMatrix(DiagonalMatrixStorage<double>.OfInit(rows, columns, init));
+        }
+
+        /// <summary>
+        /// Create a new diagonal matrix with diagonal values sampled from the provided random distribution.
+        /// </summary>
+        public static DiagonalMatrix CreateRandom(int rows, int columns, IContinuousDistribution distribution)
+        {
+            return new DiagonalMatrix(DiagonalMatrixStorage<double>.OfInit(rows, columns,
+                i => distribution.Sample()));
         }
 
         /// <summary>

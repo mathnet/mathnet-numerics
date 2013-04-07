@@ -137,42 +137,23 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         }
 
         /// <summary>
+        /// Create a new sparse matrix and initialize each value using the provided init function.
+        /// </summary>
+        public static SparseMatrix Create(int rows, int columns, Func<int, int, Complex32> init)
+        {
+            return new SparseMatrix(SparseCompressedRowMatrixStorage<Complex32>.OfInit(rows, columns, init));
+        }
+
+        /// <summary>
         /// Create a new sparse matrix with the given number of rows and columns.
         /// All cells of the matrix will be initialized to the provided value.
         /// Zero-length matrices are not supported.
         /// </summary>
         /// <exception cref="ArgumentException">If the row or column count is less than one.</exception>
-        [Obsolete("Use a dense matrix instead. Scheduled for removal in v3.0.")]
+        [Obsolete("Use a dense matrix or SparseMatrix.Create instead. Scheduled for removal in v3.0.")]
         public SparseMatrix(int rows, int columns, Complex32 value)
-            : this(rows, columns)
+            : this(SparseCompressedRowMatrixStorage<Complex32>.OfInit(rows, columns, (i,j) => value))
         {
-            if (value.IsZero())
-            {
-                return;
-            }
-
-            var rowPointers = _storage.RowPointers;
-            var valueCount = _storage.ValueCount = rows * columns;
-            var columnIndices = _storage.ColumnIndices = new int[valueCount];
-            var values = _storage.Values = new Complex32[valueCount];
-
-            for (int i = 0, j = 0; i < values.Length; i++, j++)
-            {
-                // Reset column position to "0"
-                if (j == columns)
-                {
-                    j = 0;
-                }
-
-                values[i] = value;
-                columnIndices[i] = j;
-            }
-
-            // Set proper row pointers
-            for (var i = 0; i < rowPointers.Length; i++)
-            {
-                rowPointers[i] = ((i + 1) * columns) - columns;
-            }
         }
 
         /// <summary>

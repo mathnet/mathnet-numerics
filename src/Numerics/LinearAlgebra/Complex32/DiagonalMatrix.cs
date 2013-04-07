@@ -30,6 +30,7 @@
 
 namespace MathNet.Numerics.LinearAlgebra.Complex32
 {
+    using Distributions;
     using Generic;
     using Numerics;
     using Properties;
@@ -139,6 +140,23 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         public static DiagonalMatrix OfArray(Complex32[,] array)
         {
             return new DiagonalMatrix(DiagonalMatrixStorage<Complex32>.OfArray(array));
+        }
+
+        /// <summary>
+        /// Create a new diagonal matrix and initialize each diagonal value using the provided init function.
+        /// </summary>
+        public static DiagonalMatrix Create(int rows, int columns, Func<int, Complex32> init)
+        {
+            return new DiagonalMatrix(DiagonalMatrixStorage<Complex32>.OfInit(rows, columns, init));
+        }
+
+        /// <summary>
+        /// Create a new diagonal matrix with diagonal values sampled from the provided random distribution.
+        /// </summary>
+        public static DiagonalMatrix CreateRandom(int rows, int columns, IContinuousDistribution distribution)
+        {
+            return new DiagonalMatrix(DiagonalMatrixStorage<Complex32>.OfInit(rows, columns,
+                i => new Complex32((float) distribution.Sample(), (float) distribution.Sample())));
         }
 
         /// <summary>

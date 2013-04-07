@@ -30,6 +30,7 @@
 
 namespace MathNet.Numerics.LinearAlgebra.Complex
 {
+    using Distributions;
     using Generic;
     using Properties;
     using Storage;
@@ -139,6 +140,23 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         public static DiagonalMatrix OfArray(Complex[,] array)
         {
             return new DiagonalMatrix(DiagonalMatrixStorage<Complex>.OfArray(array));
+        }
+
+        /// <summary>
+        /// Create a new diagonal matrix and initialize each diagonal value using the provided init function.
+        /// </summary>
+        public static DiagonalMatrix Create(int rows, int columns, Func<int, Complex> init)
+        {
+            return new DiagonalMatrix(DiagonalMatrixStorage<Complex>.OfInit(rows, columns, init));
+        }
+
+        /// <summary>
+        /// Create a new diagonal matrix with diagonal values sampled from the provided random distribution.
+        /// </summary>
+        public static DiagonalMatrix CreateRandom(int rows, int columns, IContinuousDistribution distribution)
+        {
+            return new DiagonalMatrix(DiagonalMatrixStorage<Complex>.OfInit(rows, columns,
+                i => new Complex(distribution.Sample(), distribution.Sample())));
         }
 
         /// <summary>

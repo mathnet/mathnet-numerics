@@ -199,6 +199,16 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             return storage;
         }
 
+        public static DiagonalMatrixStorage<T> OfInit(int rows, int columns, Func<int, T> init)
+        {
+            var storage = new DiagonalMatrixStorage<T>(rows, columns);
+            for (var i = 0; i < storage.Data.Length; i++)
+            {
+                storage.Data[i] = init(i);
+            }
+            return storage;
+        }
+
         // MATRIX COPY
 
         internal override void CopyToUnchecked(MatrixStorage<T> target, bool skipClearing = false)

@@ -111,11 +111,27 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         public static DenseColumnMajorMatrixStorage<T> OfArray(T[,] array)
         {
             var storage = new DenseColumnMajorMatrixStorage<T>(array.GetLength(0), array.GetLength(1));
-            for (var i = 0; i < storage.RowCount; i++)
+            int index = 0;
+            for (var j = 0; j < storage.ColumnCount; j++)
             {
-                for (var j = 0; j < storage.ColumnCount; j++)
+                for (var i = 0; i < storage.RowCount; i++)
                 {
-                    storage.Data[(j * storage.RowCount) + i] = array[i, j];
+                    storage.Data[index++] = array[i, j];
+                }
+            }
+            return storage;
+        }
+
+        public static DenseColumnMajorMatrixStorage<T> OfInit(int rows, int columns, Func<int, int, T> init)
+        {
+            var storage = new DenseColumnMajorMatrixStorage<T>(rows, columns);
+            int index = 0;
+            for (var j = 0; j < storage.ColumnCount; j++)
+            {
+                for (var i = 0; i < storage.RowCount; i++)
+                {
+
+                    storage.Data[index++] = init(i, j);
                 }
             }
             return storage;

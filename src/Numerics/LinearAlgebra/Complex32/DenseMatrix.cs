@@ -138,11 +138,28 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// Create a new dense matrix as a copy of the given enumerable.
         /// The enumerable is assumed to be in column-major order (column by column).
         /// This new matrix will be independent from the enumerable.
-        /// A new memory block will be allocated for storing the vector.
+        /// A new memory block will be allocated for storing the matrix.
         /// </summary>
         public static DenseMatrix OfColumnMajor(int rows, int columns, IEnumerable<Complex32> columnMajor)
         {
             return new DenseMatrix(DenseColumnMajorMatrixStorage<Complex32>.OfColumnMajorEnumerable(rows, columns, columnMajor));
+        }
+
+        /// <summary>
+        /// Create a new dense matrix and initialize each value using the provided init function.
+        /// </summary>
+        public static DenseMatrix Create(int rows, int columns, Func<int, int, Complex32> init)
+        {
+            return new DenseMatrix(DenseColumnMajorMatrixStorage<Complex32>.OfInit(rows, columns, init));
+        }
+
+        /// <summary>
+        /// Create a new dense matrix with values sampled from the provided random distribution.
+        /// </summary>
+        public static DenseMatrix CreateRandom(int rows, int columns, IContinuousDistribution distribution)
+        {
+            return new DenseMatrix(DenseColumnMajorMatrixStorage<Complex32>.OfInit(rows, columns,
+                (i, j) => new Complex32((float) distribution.Sample(), (float) distribution.Sample())));
         }
 
         /// <summary>
@@ -151,14 +168,10 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// Zero-length matrices are not supported.
         /// </summary>
         /// <exception cref="ArgumentException">If the row or column count is less than one.</exception>
-        [Obsolete("Scheduled for removal in v3.0.")]
+        [Obsolete("Use DenseMatrix.Create instead. Scheduled for removal in v3.0.")]
         public DenseMatrix(int rows, int columns, Complex32 value)
-            : this(rows, columns)
+            : this(DenseColumnMajorMatrixStorage<Complex32>.OfInit(rows, columns, (i, j) => value))
         {
-            for (var i = 0; i < _values.Length; i++)
-            {
-                _values[i] = value;
-            }
         }
 
         /// <summary>
@@ -181,19 +194,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         public DenseMatrix(Matrix<Complex32> matrix)
             : this(DenseColumnMajorMatrixStorage<Complex32>.OfMatrix(matrix.Storage))
         {
-        }
-
-        /// <summary>
-        /// Create a new dense matrix with values sampled from the provided random distribution.
-        /// </summary>
-        public static DenseMatrix CreateRandom(int rows, int columns, IContinuousDistribution distribution)
-        {
-            var storage = new DenseColumnMajorMatrixStorage<Complex32>(rows, columns);
-            for (var i = 0; i < storage.Data.Length; i++)
-            {
-                storage.Data[i] = new Complex32((float)distribution.Sample(), (float)distribution.Sample());
-            }
-            return new DenseMatrix(storage);
         }
 
         /// <summary>

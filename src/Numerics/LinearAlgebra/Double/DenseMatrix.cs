@@ -140,11 +140,28 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// Create a new dense matrix as a copy of the given enumerable.
         /// The enumerable is assumed to be in column-major order (column by column).
         /// This new matrix will be independent from the enumerable.
-        /// A new memory block will be allocated for storing the vector.
+        /// A new memory block will be allocated for storing the matrix.
         /// </summary>
         public static DenseMatrix OfColumnMajor(int rows, int columns, IEnumerable<double> columnMajor)
         {
             return new DenseMatrix(DenseColumnMajorMatrixStorage<double>.OfColumnMajorEnumerable(rows, columns, columnMajor));
+        }
+
+        /// <summary>
+        /// Create a new dense matrix and initialize each value using the provided init function.
+        /// </summary>
+        public static DenseMatrix Create(int rows, int columns, Func<int, int, double> init)
+        {
+            return new DenseMatrix(DenseColumnMajorMatrixStorage<double>.OfInit(rows, columns, init));
+        }
+
+        /// <summary>
+        /// Create a new dense matrix with values sampled from the provided random distribution.
+        /// </summary>
+        public static DenseMatrix CreateRandom(int rows, int columns, IContinuousDistribution distribution)
+        {
+            return new DenseMatrix(DenseColumnMajorMatrixStorage<double>.OfInit(rows, columns,
+                (i, j) => distribution.Sample()));
         }
 
         /// <summary>
@@ -153,14 +170,10 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// Zero-length matrices are not supported.
         /// </summary>
         /// <exception cref="ArgumentException">If the row or column count is less than one.</exception>
-        [Obsolete("Scheduled for removal in v3.0.")]
+        [Obsolete("Use DenseMatrix.Create instead. Scheduled for removal in v3.0.")]
         public DenseMatrix(int rows, int columns, double value)
-            : this(rows, columns)
+            : this(DenseColumnMajorMatrixStorage<double>.OfInit(rows, columns, (i, j) => value))
         {
-            for (var i = 0; i < _values.Length; i++)
-            {
-                _values[i] = value;
-            }
         }
 
         /// <summary>
@@ -183,19 +196,6 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         public DenseMatrix(Matrix<double> matrix)
             : this(DenseColumnMajorMatrixStorage<double>.OfMatrix(matrix.Storage))
         {
-        }
-
-        /// <summary>
-        /// Create a new dense matrix with values sampled from the provided random distribution.
-        /// </summary>
-        public static DenseMatrix CreateRandom(int rows, int columns, IContinuousDistribution distribution)
-        {
-            var storage = new DenseColumnMajorMatrixStorage<double>(rows, columns);
-            for (var i = 0; i < storage.Data.Length; i++)
-            {
-                storage.Data[i] = distribution.Sample();
-            }
-            return new DenseMatrix(storage);
         }
 
         /// <summary>
