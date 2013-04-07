@@ -179,6 +179,26 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             return storage;
         }
 
+        public static DiagonalMatrixStorage<T> OfArray(T[,] array)
+        {
+            var storage = new DiagonalMatrixStorage<T>(array.GetLength(0), array.GetLength(1));
+            for (var i = 0; i < storage.RowCount; i++)
+            {
+                for (var j = 0; j < storage.ColumnCount; j++)
+                {
+                    if (i == j)
+                    {
+                        storage.Data[i] = array[i, j];
+                    }
+                    else if (!Zero.Equals(array[i, j]))
+                    {
+                        throw new IndexOutOfRangeException("Cannot set an off-diagonal element in a diagonal matrix.");
+                    }
+                }
+            }
+            return storage;
+        }
+
         // MATRIX COPY
 
         internal override void CopyToUnchecked(MatrixStorage<T> target, bool skipClearing = false)

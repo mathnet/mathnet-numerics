@@ -138,22 +138,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// </summary>
         public static DiagonalMatrix OfArray(Complex32[,] array)
         {
-            var storage = new DiagonalMatrixStorage<Complex32>(array.GetLength(0), array.GetLength(1));
-            for (var i = 0; i < storage.RowCount; i++)
-            {
-                for (var j = 0; j < storage.ColumnCount; j++)
-                {
-                    if (i == j)
-                    {
-                        storage.Data[i] = array[i, j];
-                    }
-                    else if (((array[i, j].Real != 0f) && !float.IsNaN(array[i, j].Real)) || ((array[i, j].Imaginary != 0f) && !float.IsNaN(array[i, j].Imaginary)))
-                    {
-                        throw new IndexOutOfRangeException("Cannot set an off-diagonal element in a diagonal matrix.");
-                    }
-                }
-            }
-            return new DiagonalMatrix(storage);
+            return new DiagonalMatrix(DiagonalMatrixStorage<Complex32>.OfArray(array));
         }
 
         /// <summary>

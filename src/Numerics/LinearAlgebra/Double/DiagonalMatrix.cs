@@ -137,22 +137,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// </summary>
         public static DiagonalMatrix OfArray(double[,] array)
         {
-            var storage = new DiagonalMatrixStorage<double>(array.GetLength(0), array.GetLength(1));
-            for (var i = 0; i < storage.RowCount; i++)
-            {
-                for (var j = 0; j < storage.ColumnCount; j++)
-                {
-                    if (i == j)
-                    {
-                        storage.Data[i] = array[i, j];
-                    }
-                    else if (array[i, j] != 0d && !double.IsNaN(array[i, j]))
-                    {
-                        throw new IndexOutOfRangeException("Cannot set an off-diagonal element in a diagonal matrix.");
-                    }
-                }
-            }
-            return new DiagonalMatrix(storage);
+            return new DiagonalMatrix(DiagonalMatrixStorage<double>.OfArray(array));
         }
 
         /// <summary>
