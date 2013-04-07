@@ -102,9 +102,8 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// A new memory block will be allocated for storing the vector.
         /// </summary>
         public DenseVector(Vector<float> other)
-            : this(other.Count)
+            : this(DenseVectorStorage<float>.OfVector(other.Storage))
         {
-            other.Storage.CopyToUnchecked(Storage, skipClearing: true);
         }
 
         /// <summary>

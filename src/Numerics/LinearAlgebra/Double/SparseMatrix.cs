@@ -98,9 +98,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// </summary>
         public static SparseMatrix OfMatrix(Matrix<double> matrix)
         {
-            var storage = new SparseCompressedRowMatrixStorage<double>(matrix.RowCount, matrix.ColumnCount);
-            matrix.Storage.CopyToUnchecked(storage, skipClearing: true);
-            return new SparseMatrix(storage);
+            return new SparseMatrix(SparseCompressedRowMatrixStorage<double>.OfMatrix(matrix.Storage));
         }
 
         /// <summary>

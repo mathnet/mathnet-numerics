@@ -170,6 +170,17 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             return hash;
         }
 
+        // INITIALIZATION
+
+        public static DiagonalMatrixStorage<T> OfMatrix(MatrixStorage<T> matrix)
+        {
+            var storage = new DiagonalMatrixStorage<T>(matrix.RowCount, matrix.ColumnCount);
+            matrix.CopyToUnchecked(storage, skipClearing: true);
+            return storage;
+        }
+
+        // MATRIX COPY
+
         internal override void CopyToUnchecked(MatrixStorage<T> target, bool skipClearing = false)
         {
             var diagonalTarget = target as DiagonalMatrixStorage<T>;

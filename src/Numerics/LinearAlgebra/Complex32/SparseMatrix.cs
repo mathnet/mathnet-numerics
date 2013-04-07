@@ -99,9 +99,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// </summary>
         public static SparseMatrix OfMatrix(Matrix<Complex32> matrix)
         {
-            var storage = new SparseCompressedRowMatrixStorage<Complex32>(matrix.RowCount, matrix.ColumnCount);
-            matrix.Storage.CopyToUnchecked(storage, skipClearing: true);
-            return new SparseMatrix(storage);
+            return new SparseMatrix(SparseCompressedRowMatrixStorage<Complex32>.OfMatrix(matrix.Storage));
         }
 
         /// <summary>

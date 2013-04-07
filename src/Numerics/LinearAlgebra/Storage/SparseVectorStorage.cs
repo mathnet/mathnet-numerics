@@ -284,6 +284,13 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
         // INITIALIZATION
 
+        public static SparseVectorStorage<T> OfVector(VectorStorage<T> vector)
+        {
+            var storage = new SparseVectorStorage<T>(vector.Length);
+            vector.CopyToUnchecked(storage, skipClearing: true);
+            return storage;
+        }
+
         public static SparseVectorStorage<T> OfEnumerable(IEnumerable<T> data)
         {
             if (data == null)

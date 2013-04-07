@@ -121,9 +121,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// </summary>
         public static DenseMatrix OfMatrix(Matrix<Complex> matrix)
         {
-            var storage = new DenseColumnMajorMatrixStorage<Complex>(matrix.RowCount, matrix.ColumnCount);
-            matrix.Storage.CopyToUnchecked(storage, skipClearing: true);
-            return new DenseMatrix(storage);
+            return new DenseMatrix(DenseColumnMajorMatrixStorage<Complex>.OfMatrix(matrix.Storage));
         }
 
         /// <summary>

@@ -92,6 +92,13 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
         // INITIALIZATION
 
+        public static DenseVectorStorage<T> OfVector(VectorStorage<T> vector)
+        {
+            var storage = new DenseVectorStorage<T>(vector.Length);
+            vector.CopyToUnchecked(storage, skipClearing: true);
+            return storage;
+        }
+
         public static DenseVectorStorage<T> OfEnumerable(IEnumerable<T> data)
         {
             if (data == null)

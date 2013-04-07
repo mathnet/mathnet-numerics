@@ -113,9 +113,8 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// A new memory block will be allocated for storing the vector.
         /// </summary>
         public SparseVector(Vector<Complex32> other)
-            : this(new SparseVectorStorage<Complex32>(other.Count))
+            : this(SparseVectorStorage<Complex32>.OfVector(other.Storage))
         {
-            other.Storage.CopyToUnchecked(Storage, skipClearing: true);
         }
 
         /// <summary>

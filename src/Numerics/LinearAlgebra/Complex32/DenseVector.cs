@@ -102,9 +102,8 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// A new memory block will be allocated for storing the vector.
         /// </summary>
         public DenseVector(Vector<Complex32> other)
-            : this(other.Count)
+            : this(DenseVectorStorage<Complex32>.OfVector(other.Storage))
         {
-            other.Storage.CopyToUnchecked(Storage, skipClearing: true);
         }
 
         /// <summary>

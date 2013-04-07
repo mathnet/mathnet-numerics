@@ -121,9 +121,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// </summary>
         public static DenseMatrix OfMatrix(Matrix<double> matrix)
         {
-            var storage = new DenseColumnMajorMatrixStorage<double>(matrix.RowCount, matrix.ColumnCount);
-            matrix.Storage.CopyToUnchecked(storage, skipClearing: true);
-            return new DenseMatrix(storage);
+            return new DenseMatrix(DenseColumnMajorMatrixStorage<double>.OfMatrix(matrix.Storage));
         }
 
         /// <summary>

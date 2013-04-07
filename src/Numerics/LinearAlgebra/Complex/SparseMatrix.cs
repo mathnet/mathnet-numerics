@@ -99,9 +99,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// </summary>
         public static SparseMatrix OfMatrix(Matrix<Complex> matrix)
         {
-            var storage = new SparseCompressedRowMatrixStorage<Complex>(matrix.RowCount, matrix.ColumnCount);
-            matrix.Storage.CopyToUnchecked(storage, skipClearing: true);
-            return new SparseMatrix(storage);
+            return new SparseMatrix(SparseCompressedRowMatrixStorage<Complex>.OfMatrix(matrix.Storage));
         }
 
         /// <summary>

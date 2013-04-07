@@ -113,9 +113,8 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// A new memory block will be allocated for storing the vector.
         /// </summary>
         public SparseVector(Vector<double> other)
-            : this(new SparseVectorStorage<double>(other.Count))
+            : this(SparseVectorStorage<double>.OfVector(other.Storage))
         {
-            other.Storage.CopyToUnchecked(Storage, skipClearing: true);
         }
 
         /// <summary>

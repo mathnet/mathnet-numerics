@@ -98,9 +98,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// </summary>
         public static SparseMatrix OfMatrix(Matrix<float> matrix)
         {
-            var storage = new SparseCompressedRowMatrixStorage<float>(matrix.RowCount, matrix.ColumnCount);
-            matrix.Storage.CopyToUnchecked(storage, skipClearing: true);
-            return new SparseMatrix(storage);
+            return new SparseMatrix(SparseCompressedRowMatrixStorage<float>.OfMatrix(matrix.Storage));
         }
 
         /// <summary>
