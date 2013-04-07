@@ -99,6 +99,21 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             return storage;
         }
 
+        public static DenseVectorStorage<T> OfInit(int length, Func<int, T> init)
+        {
+            if (length < 1)
+            {
+                throw new ArgumentOutOfRangeException("length", string.Format(Resources.ArgumentLessThanOne, length));
+            }
+
+            var data = new T[length];
+            for (int i = 0; i < data.Length; i++)
+            {
+                data[i] = init(i);
+            }
+            return new DenseVectorStorage<T>(length, data);
+        }
+
         public static DenseVectorStorage<T> OfEnumerable(IEnumerable<T> data)
         {
             if (data == null)

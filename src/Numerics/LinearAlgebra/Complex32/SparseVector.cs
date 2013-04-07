@@ -128,6 +128,14 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         }
 
         /// <summary>
+        /// Create a new sparse vector and initialize each value using the provided init function.
+        /// </summary>
+        public static SparseVector Create(int length, Func<int, Complex32> init)
+        {
+            return new SparseVector(SparseVectorStorage<Complex32>.OfInit(length, init));
+        }
+
+        /// <summary>
         /// Creates a matrix with the given dimensions using the same storage type
         /// as this vector.
         /// </summary>

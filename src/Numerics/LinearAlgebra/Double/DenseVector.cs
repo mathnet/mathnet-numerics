@@ -128,16 +128,20 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         }
 
         /// <summary>
+        /// Create a new dense vector and initialize each value using the provided init function.
+        /// </summary>
+        public static DenseVector Create(int length, Func<int, double> init)
+        {
+            return new DenseVector(DenseVectorStorage<double>.OfInit(length, init));
+        }
+
+        /// <summary>
         /// Create a new dense vector with values sampled from the provided random distribution.
         /// </summary>
-        public static DenseVector CreateRandom(int size, IContinuousDistribution distribution)
+        public static DenseVector CreateRandom(int length, IContinuousDistribution distribution)
         {
-            var storage = new DenseVectorStorage<double>(size);
-            for (var i = 0; i < storage.Data.Length; i++)
-            {
-                storage.Data[i] = distribution.Sample();
-            }
-            return new DenseVector(storage);
+            return new DenseVector(DenseVectorStorage<double>.OfInit(length,
+                i => distribution.Sample()));
         }
 
         /// <summary>
