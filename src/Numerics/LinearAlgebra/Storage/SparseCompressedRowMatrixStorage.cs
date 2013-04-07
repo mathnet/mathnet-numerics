@@ -434,6 +434,42 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             return storage;
         }
 
+        public static SparseCompressedRowMatrixStorage<T> OfColumnMajorList(int rows, int columns, IList<T> data)
+        {
+            if (data == null)
+            {
+                throw new ArgumentNullException("data");
+            }
+            if (rows * columns != data.Count)
+            {
+                throw new ArgumentOutOfRangeException(Resources.ArgumentMatrixDimensions);
+            }
+
+            var storage = new SparseCompressedRowMatrixStorage<T>(rows, columns);
+            var rowPointers = storage.RowPointers;
+            var columnIndices = new List<int>();
+            var values = new List<T>();
+
+            for (int row = 0; row < rows; row++)
+            {
+                rowPointers[row] = values.Count;
+                for (int col = 0; col < columns; col++)
+                {
+                    var item = data[row + (col*rows)];
+                    if (!Zero.Equals(item))
+                    {
+                        values.Add(item);
+                        columnIndices.Add(col);
+                    }
+                }
+            }
+
+            storage.ColumnIndices = columnIndices.ToArray();
+            storage.Values = values.ToArray();
+            storage.ValueCount = values.Count;
+            return storage;
+        }
+
         // MATRIX COPY
 
         internal override void CopyToUnchecked(MatrixStorage<T> target, bool skipClearing = false)

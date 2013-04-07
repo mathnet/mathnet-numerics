@@ -130,22 +130,9 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// A new memory block will be allocated for storing the matrix.
         /// </summary>
         /// <seealso href="http://en.wikipedia.org/wiki/Row-major_order"/>
-        public static SparseMatrix OfColumnMajor(int rows, int columns, float[] array)
+        public static SparseMatrix OfColumnMajor(int rows, int columns, float[] columnMajor)
         {
-            if (rows * columns > array.Length)
-            {
-                throw new ArgumentOutOfRangeException(Resources.ArgumentMatrixDimensions);
-            }
-
-            var storage = new SparseCompressedRowMatrixStorage<float>(rows, columns);
-            for (var i = 0; i < rows; i++)
-            {
-                for (var j = 0; j < columns; j++)
-                {
-                    storage.At(i, j, array[i + (j * rows)]);
-                }
-            }
-            return new SparseMatrix(storage);
+            return new SparseMatrix(SparseCompressedRowMatrixStorage<float>.OfColumnMajorList(rows, columns, columnMajor));
         }
 
         /// <summary>
@@ -196,20 +183,8 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// <seealso href="http://en.wikipedia.org/wiki/Row-major_order"/>
         [Obsolete("Use SparseMatrix.OfColumnMajor instead. Scheduled for removal in v3.0.")]
         public SparseMatrix(int rows, int columns, float[] array)
-            : this(rows, columns)
+            : this(SparseCompressedRowMatrixStorage<float>.OfColumnMajorList(rows, columns, array))
         {
-            if (rows * columns > array.Length)
-            {
-                throw new ArgumentOutOfRangeException(Resources.ArgumentMatrixDimensions);
-            }
-
-            for (var i = 0; i < rows; i++)
-            {
-                for (var j = 0; j < columns; j++)
-                {
-                    _storage.At(i, j, array[i + (j * rows)]);
-                }
-            }
         }
 
         /// <summary>
