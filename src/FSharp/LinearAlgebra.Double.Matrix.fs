@@ -247,12 +247,7 @@ module Matrix =
 module DenseMatrix =
 
     /// Initialize a matrix by calling a construction function for every element.
-    let inline init (n: int) (m: int) f =
-        let A = new DenseMatrix(n,m)
-        for i=0 to n-1 do
-            for j=0 to m-1 do
-                A.At(i, j, f i j)
-        A
+    let inline init (n: int) (m: int) (f: int -> int -> float) = DenseMatrix.Create(n, m, fun n m -> f n m)
 
     /// Create a matrix from a list of float lists. Every list in the master list specifies a row.
     let inline ofList (fll: float list list) =
@@ -313,6 +308,9 @@ module DenseMatrix =
 /// A module which implements functional sparse vector operations.
 [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
 module SparseMatrix =
+
+    /// Initialize a matrix by calling a construction function for every element.
+    let inline init (n: int) (m: int) (f: int -> int -> float) = SparseMatrix.Create(n, m, fun n m -> f n m)
 
     /// Create a matrix from a list of float lists. Every list in the master list specifies a row.
     let inline ofList (rows: int) (cols: int) (fll: list<int * int * float>) =

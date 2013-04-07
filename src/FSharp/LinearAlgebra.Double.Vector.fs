@@ -187,11 +187,7 @@ module Vector =
 module DenseVector =
 
     /// Initialize a vector by calling a construction function for every element.
-    let inline init (n: int) f =
-        let v = new DenseVector(n)
-        for i=0 to n-1 do
-            v.At(i, f i)
-        v
+    let inline init (n: int) (f: int -> float) = DenseVector.Create(n, fun i -> f i)
 
     /// Create a vector from a float list.
     let inline ofList (fl: float list) = DenseVector(Array.ofList fl)
@@ -214,6 +210,9 @@ module DenseVector =
 /// A module which implements functional sparse vector operations.
 [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
 module SparseVector =
+
+    /// Initialize a vector by calling a construction function for every element.
+    let inline init (n: int) (f: int -> float) = SparseVector.Create(n, fun i -> f i)
 
     /// Create a sparse vector with a given dimension from a list of entry, value pairs.
     let inline ofList (dim: int) (fl: list<int * float>) =
