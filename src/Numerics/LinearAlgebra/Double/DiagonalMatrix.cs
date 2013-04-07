@@ -148,22 +148,8 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// </summary>
         [Obsolete("Use DiagonalMatrix.OfArray instead. Scheduled for removal in v3.0.")]
         public DiagonalMatrix(double[,] array)
-            : this(array.GetLength(0), array.GetLength(1))
+            : this(DiagonalMatrixStorage<double>.OfArray(array))
         {
-            for (var i = 0; i < RowCount; i++)
-            {
-                for (var j = 0; j < ColumnCount; j++)
-                {
-                    if (i == j)
-                    {
-                        _data[i] = array[i, j];
-                    }
-                    else if (array[i, j] != 0.0 && !Double.IsNaN(array[i, j]))
-                    {
-                        throw new IndexOutOfRangeException("Cannot set an off-diagonal element in a diagonal matrix.");
-                    }
-                }
-            }
         }
 
         /// <summary>
@@ -174,9 +160,8 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// </summary>
         [Obsolete("Use DiagonalMatrix.OfMatrix instead. Scheduled for removal in v3.0.")]
         public DiagonalMatrix(Matrix<double> matrix)
-            : this(matrix.RowCount, matrix.ColumnCount)
+            : this(DiagonalMatrixStorage<double>.OfMatrix(matrix.Storage))
         {
-            matrix.Storage.CopyToUnchecked(Storage, skipClearing: true);
         }
 
         /// <summary>

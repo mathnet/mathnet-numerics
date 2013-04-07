@@ -219,15 +219,8 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// </summary>
         [Obsolete("Use SparseMatrix.OfArray instead. Scheduled for removal in v3.0.")]
         public SparseMatrix(float[,] array)
-            : this(array.GetLength(0), array.GetLength(1))
+            : this(SparseCompressedRowMatrixStorage<float>.OfArray(array))
         {
-            for (var i = 0; i < _storage.RowCount; i++)
-            {
-                for (var j = 0; j < _storage.ColumnCount; j++)
-                {
-                    _storage.At(i, j, array[i, j]);
-                }
-            }
         }
 
         /// <summary>
@@ -237,9 +230,8 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// </summary>
         [Obsolete("Use SparseMatrix.OfMatrix instead. Scheduled for removal in v3.0.")]
         public SparseMatrix(Matrix<float> matrix)
-            : this(matrix.RowCount, matrix.ColumnCount)
+            : this(SparseCompressedRowMatrixStorage<float>.OfMatrix(matrix.Storage))
         {
-            matrix.Storage.CopyToUnchecked(Storage, skipClearing: true);
         }
 
         /// <summary>

@@ -170,15 +170,8 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// </summary>
         [Obsolete("Use DenseMatrix.OfArray instead. Scheduled for removal in v3.0.")]
         public DenseMatrix(double[,] array)
-            : this(array.GetLength(0), array.GetLength(1))
+            : this(DenseColumnMajorMatrixStorage<double>.OfArray(array))
         {
-            for (var i = 0; i < _rowCount; i++)
-            {
-                for (var j = 0; j < _columnCount; j++)
-                {
-                    _values[(j * _rowCount) + i] = array[i, j];
-                }
-            }
         }
 
         /// <summary>
@@ -188,9 +181,8 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// </summary>
         [Obsolete("Use DenseMatrix.OfMatrix instead. Scheduled for removal in v3.0.")]
         public DenseMatrix(Matrix<double> matrix)
-            : this(matrix.RowCount, matrix.ColumnCount)
+            : this(DenseColumnMajorMatrixStorage<double>.OfMatrix(matrix.Storage))
         {
-            matrix.Storage.CopyToUnchecked(Storage, skipClearing: true);
         }
 
         /// <summary>

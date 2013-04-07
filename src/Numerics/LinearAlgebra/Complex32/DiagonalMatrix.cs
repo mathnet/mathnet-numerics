@@ -149,22 +149,8 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// </summary>
         [Obsolete("Use DiagonalMatrix.OfArray instead. Scheduled for removal in v3.0.")]
         public DiagonalMatrix(Complex32[,] array)
-            : this(array.GetLength(0), array.GetLength(1))
+            : this(DiagonalMatrixStorage<Complex32>.OfArray(array))
         {
-            for (var i = 0; i < RowCount; i++)
-            {
-                for (var j = 0; j < ColumnCount; j++)
-                {
-                    if (i == j)
-                    {
-                        _data[i] = array[i, j];
-                    }
-                    else if (((array[i, j].Real != 0.0) && !double.IsNaN(array[i, j].Real)) || ((array[i, j].Imaginary != 0.0) && !double.IsNaN(array[i, j].Imaginary)))
-                    {
-                        throw new IndexOutOfRangeException("Cannot set an off-diagonal element in a diagonal matrix.");
-                    }
-                }
-            }
         }
 
         /// <summary>
@@ -175,9 +161,8 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// </summary>
         [Obsolete("Use DiagonalMatrix.OfMatrix instead. Scheduled for removal in v3.0.")]
         public DiagonalMatrix(Matrix<Complex32> matrix)
-            : this(matrix.RowCount, matrix.ColumnCount)
+            : this(DiagonalMatrixStorage<Complex32>.OfMatrix(matrix.Storage))
         {
-            matrix.Storage.CopyToUnchecked(Storage, skipClearing: true);
         }
 
         /// <summary>

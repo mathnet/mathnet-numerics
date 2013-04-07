@@ -168,15 +168,8 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// </summary>
         [Obsolete("Use DenseMatrix.OfArray instead. Scheduled for removal in v3.0.")]
         public DenseMatrix(Complex[,] array)
-            : this(array.GetLength(0), array.GetLength(1))
+            : this(DenseColumnMajorMatrixStorage<Complex>.OfArray(array))
         {
-            for (var i = 0; i < _rowCount; i++)
-            {
-                for (var j = 0; j < _columnCount; j++)
-                {
-                    _values[(j * _rowCount) + i] = array[i, j];
-                }
-            }
         }
 
         /// <summary>
@@ -186,9 +179,8 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// </summary>
         [Obsolete("Use DenseMatrix.OfMatrix instead. Scheduled for removal in v3.0.")]
         public DenseMatrix(Matrix<Complex> matrix)
-            : this(matrix.RowCount, matrix.ColumnCount)
+            : this(DenseColumnMajorMatrixStorage<Complex>.OfMatrix(matrix.Storage))
         {
-            matrix.Storage.CopyToUnchecked(Storage, skipClearing: true);
         }
 
         /// <summary>
