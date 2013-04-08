@@ -103,7 +103,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
         /// <returns>The new vector. </returns>
         protected override Vector CreateVector(Complex[] data)
         {
-            return new SparseVector(data);
+            return SparseVector.OfEnumerable(data);
         }
 
         /// <summary>

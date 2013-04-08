@@ -80,7 +80,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
         /// <returns>The new vector. </returns>
         protected override Vector CreateVector(Complex32[] data)
         {
-            return new SparseVector(data);
+            return SparseVector.OfEnumerable(data);
         }
 
         /// <summary>

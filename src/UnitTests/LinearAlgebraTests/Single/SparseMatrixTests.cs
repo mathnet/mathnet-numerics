@@ -79,7 +79,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
         /// <returns>The new vector. </returns>
         protected override Vector CreateVector(float[] data)
         {
-            return new SparseVector(data);
+            return SparseVector.OfEnumerable(data);
         }
 
         /// <summary>

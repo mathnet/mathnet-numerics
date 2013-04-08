@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2011 Math.NET
+// Copyright (c) 2009-2013 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -40,14 +40,14 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [Datapoints]
         Vector<double>[] denseVectors = new Vector<double>[]
             {
-                new SparseVector(new double[] { 1, 2, 3, 4, 5 }),
-                new SparseVector(new double[] { 2, 0, 0, -5, 0 }),
+                SparseVector.OfEnumerable(new double[] {1, 2, 3, 4, 5}),
+                SparseVector.OfEnumerable(new double[] {2, 0, 0, -5, 0}),
                 new SparseVector(5),
                 new SparseVector(int.MaxValue)
             };
 
         [Datapoints]
-        private double[] scalars = new[] { 2d };
+        double[] scalars = new[] {2d};
 
     }
 }

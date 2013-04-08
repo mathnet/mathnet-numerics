@@ -82,41 +82,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         }
 
         /// <summary>
-        /// Create a new dense vector with the given length.
-        /// All cells of the vector will be initialized with the provided value.
-        /// Zero-length vectors are not supported.
-        /// </summary>
-        /// <exception cref="ArgumentException">If length is less than one.</exception>
-        public DenseVector(int length, Complex32 value)
-            : this(length)
-        {
-            for (var index = 0; index < _values.Length; index++)
-            {
-                _values[index] = value;
-            }
-        }
-
-        /// <summary>
-        /// Create a new dense vector as a copy of the given other vector.
-        /// This new vector will be independent from the other vector.
-        /// A new memory block will be allocated for storing the vector.
-        /// </summary>
-        public DenseVector(Vector<Complex32> other)
-            : this(DenseVectorStorage<Complex32>.OfVector(other.Storage))
-        {
-        }
-
-        /// <summary>
-        /// Create a new dense vector as a copy of the given enumerable.
-        /// This new vector will be independent from the enumerable.
-        /// A new memory block will be allocated for storing the vector.
-        /// </summary>
-        public DenseVector(IEnumerable<Complex32> other)
-            : this(DenseVectorStorage<Complex32>.OfEnumerable(other))
-        {
-        }
-
-        /// <summary>
         /// Create a new dense vector directly binding to a raw array.
         /// The array is used directly without copying.
         /// Very efficient, but changes to the array and the vector will affect each other.
@@ -124,6 +89,26 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         public DenseVector(Complex32[] storage)
             : this(new DenseVectorStorage<Complex32>(storage.Length, storage))
         {
+        }
+
+        /// <summary>
+        /// Create a new dense vector as a copy of the given other vector.
+        /// This new vector will be independent from the other vector.
+        /// A new memory block will be allocated for storing the vector.
+        /// </summary>
+        public static DenseVector OfVector(Vector<Complex32> vector)
+        {
+            return new DenseVector(DenseVectorStorage<Complex32>.OfVector(vector.Storage));
+        }
+
+        /// <summary>
+        /// Create a new dense vector as a copy of the given enumerable.
+        /// This new vector will be independent from the enumerable.
+        /// A new memory block will be allocated for storing the vector.
+        /// </summary>
+        public static DenseVector OfEnumerable(IEnumerable<Complex32> enumerable)
+        {
+            return new DenseVector(DenseVectorStorage<Complex32>.OfEnumerable(enumerable));
         }
 
         /// <summary>
@@ -140,7 +125,41 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         public static DenseVector CreateRandom(int length, IContinuousDistribution distribution)
         {
             return new DenseVector(DenseVectorStorage<Complex32>.OfInit(length,
-                i => new Complex32((float) distribution.Sample(), (float) distribution.Sample())));
+                i => new Complex32((float)distribution.Sample(), (float)distribution.Sample())));
+        }
+
+        /// <summary>
+        /// Create a new dense vector with the given length.
+        /// All cells of the vector will be initialized with the provided value.
+        /// Zero-length vectors are not supported.
+        /// </summary>
+        /// <exception cref="ArgumentException">If length is less than one.</exception>
+        [Obsolete("Use DenseVector.Create instead. Scheduled for removal in v3.0.")]
+        public DenseVector(int length, Complex32 value)
+            : this(DenseVectorStorage<Complex32>.OfInit(length, i => value))
+        {
+        }
+
+        /// <summary>
+        /// Create a new dense vector as a copy of the given other vector.
+        /// This new vector will be independent from the other vector.
+        /// A new memory block will be allocated for storing the vector.
+        /// </summary>
+        [Obsolete("Use DenseVector.OfVector instead. Scheduled for removal in v3.0.")]
+        public DenseVector(Vector<Complex32> other)
+            : this(DenseVectorStorage<Complex32>.OfVector(other.Storage))
+        {
+        }
+
+        /// <summary>
+        /// Create a new dense vector as a copy of the given enumerable.
+        /// This new vector will be independent from the enumerable.
+        /// A new memory block will be allocated for storing the vector.
+        /// </summary>
+        [Obsolete("Use DenseVector.OfEnumerable instead. Scheduled for removal in v3.0.")]
+        public DenseVector(IEnumerable<Complex32> other)
+            : this(DenseVectorStorage<Complex32>.OfEnumerable(other))
+        {
         }
 
         /// <summary>

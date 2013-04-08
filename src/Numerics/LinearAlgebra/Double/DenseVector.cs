@@ -83,41 +83,6 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         }
 
         /// <summary>
-        /// Create a new dense vector with the given length.
-        /// All cells of the vector will be initialized with the provided value.
-        /// Zero-length vectors are not supported.
-        /// </summary>
-        /// <exception cref="ArgumentException">If length is less than one.</exception>
-        public DenseVector(int length, double value)
-            : this(length)
-        {
-            for (var index = 0; index < _values.Length; index++)
-            {
-                _values[index] = value;
-            }
-        }
-
-        /// <summary>
-        /// Create a new dense vector as a copy of the given other vector.
-        /// This new vector will be independent from the other vector.
-        /// A new memory block will be allocated for storing the vector.
-        /// </summary>
-        public DenseVector(Vector<double> other)
-            : this(DenseVectorStorage<double>.OfVector(other.Storage))
-        {
-        }
-
-        /// <summary>
-        /// Create a new dense vector as a copy of the given enumerable.
-        /// This new vector will be independent from the enumerable.
-        /// A new memory block will be allocated for storing the vector.
-        /// </summary>
-        public DenseVector(IEnumerable<double> other)
-            : this(DenseVectorStorage<double>.OfEnumerable(other))
-        {
-        }
-
-        /// <summary>
         /// Create a new dense vector directly binding to a raw array.
         /// The array is used directly without copying.
         /// Very efficient, but changes to the array and the vector will affect each other.
@@ -125,6 +90,26 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         public DenseVector(double[] storage)
             : this(new DenseVectorStorage<double>(storage.Length, storage))
         {
+        }
+
+        /// <summary>
+        /// Create a new dense vector as a copy of the given other vector.
+        /// This new vector will be independent from the other vector.
+        /// A new memory block will be allocated for storing the vector.
+        /// </summary>
+        public static DenseVector OfVector(Vector<double> vector)
+        {
+            return new DenseVector(DenseVectorStorage<double>.OfVector(vector.Storage));
+        }
+
+        /// <summary>
+        /// Create a new dense vector as a copy of the given enumerable.
+        /// This new vector will be independent from the enumerable.
+        /// A new memory block will be allocated for storing the vector.
+        /// </summary>
+        public static DenseVector OfEnumerable(IEnumerable<double> enumerable)
+        {
+            return new DenseVector(DenseVectorStorage<double>.OfEnumerable(enumerable));
         }
 
         /// <summary>
@@ -142,6 +127,40 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         {
             return new DenseVector(DenseVectorStorage<double>.OfInit(length,
                 i => distribution.Sample()));
+        }
+
+        /// <summary>
+        /// Create a new dense vector with the given length.
+        /// All cells of the vector will be initialized with the provided value.
+        /// Zero-length vectors are not supported.
+        /// </summary>
+        /// <exception cref="ArgumentException">If length is less than one.</exception>
+        [Obsolete("Use DenseVector.Create instead. Scheduled for removal in v3.0.")]
+        public DenseVector(int length, double value)
+            : this(DenseVectorStorage<double>.OfInit(length, i => value))
+        {
+        }
+
+        /// <summary>
+        /// Create a new dense vector as a copy of the given other vector.
+        /// This new vector will be independent from the other vector.
+        /// A new memory block will be allocated for storing the vector.
+        /// </summary>
+        [Obsolete("Use DenseVector.OfVector instead. Scheduled for removal in v3.0.")]
+        public DenseVector(Vector<double> other)
+            : this(DenseVectorStorage<double>.OfVector(other.Storage))
+        {
+        }
+
+        /// <summary>
+        /// Create a new dense vector as a copy of the given enumerable.
+        /// This new vector will be independent from the enumerable.
+        /// A new memory block will be allocated for storing the vector.
+        /// </summary>
+        [Obsolete("Use DenseVector.OfEnumerable instead. Scheduled for removal in v3.0.")]
+        public DenseVector(IEnumerable<double> other)
+            : this(DenseVectorStorage<double>.OfEnumerable(other))
+        {
         }
 
         /// <summary>

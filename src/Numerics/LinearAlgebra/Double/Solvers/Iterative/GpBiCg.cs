@@ -344,7 +344,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.Iterative
 
             // Define the temporary vectors
             // rDash_0 = r_0
-            Vector rdash = new DenseVector(residuals);
+            Vector rdash = DenseVector.OfVector(residuals);
 
             // t_-1 = 0
             Vector t = new DenseVector(residuals.Count);

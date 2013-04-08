@@ -3,7 +3,9 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
-// Copyright (c) 2009-2010 Math.NET
+//
+// Copyright (c) 2009-2013 Math.NET
+//
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -12,8 +14,10 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
+//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
+//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -23,6 +27,7 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
+
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers
 {
     using System;
@@ -56,7 +61,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers
         [Test]
         public void CreateWithEmptyCollection()
         {
-            var iterator = new Iterator(new IIterationStopCriterium[] { });
+            var iterator = new Iterator(new IIterationStopCriterium[] {});
             Assert.IsNotNull(iterator, "Should have an iterator");
             Assert.AreEqual(0, iterator.NumberOfCriteria, "There shouldn't be any criteria");
         }
@@ -67,7 +72,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers
         [Test]
         public void CreateWithCollectionWithNulls()
         {
-            var iterator = new Iterator(new IIterationStopCriterium[] { null, null });
+            var iterator = new Iterator(new IIterationStopCriterium[] {null, null});
             Assert.IsNotNull(iterator, "Should have an iterator");
             Assert.AreEqual(0, iterator.NumberOfCriteria, "There shouldn't be any criteria");
         }
@@ -79,10 +84,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers
         public void CreateWithDuplicatesThrowsArgumentException()
         {
             Assert.Throws<ArgumentException>(() => new Iterator(new IIterationStopCriterium[]
-                                                                {
-                                                                    new FailureStopCriterium(),
-                                                                    new FailureStopCriterium()
-                                                                }));
+                {
+                    new FailureStopCriterium(),
+                    new FailureStopCriterium()
+                }));
         }
 
         /// <summary>
@@ -92,12 +97,12 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers
         public void CreateWithCollection()
         {
             var criteria = new List<IIterationStopCriterium>
-                           {
-                               new FailureStopCriterium(),
-                               new DivergenceStopCriterium(),
-                               new IterationCountStopCriterium(),
-                               new ResidualStopCriterium()
-                           };
+                {
+                    new FailureStopCriterium(),
+                    new DivergenceStopCriterium(),
+                    new IterationCountStopCriterium(),
+                    new ResidualStopCriterium()
+                };
             var iterator = new Iterator(criteria);
             Assert.IsNotNull(iterator, "Should have an iterator");
 
@@ -139,12 +144,12 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers
         public void Add()
         {
             var criteria = new List<IIterationStopCriterium>
-                           {
-                               new FailureStopCriterium(),
-                               new DivergenceStopCriterium(),
-                               new IterationCountStopCriterium(),
-                               new ResidualStopCriterium()
-                           };
+                {
+                    new FailureStopCriterium(),
+                    new DivergenceStopCriterium(),
+                    new IterationCountStopCriterium(),
+                    new ResidualStopCriterium()
+                };
             var iterator = new Iterator();
             Assert.AreEqual(0, iterator.NumberOfCriteria, "Incorrect criterium count");
 
@@ -169,12 +174,12 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers
         public void RemoveWithNullStopCriteriumThrowsArgumentNullException()
         {
             var criteria = new List<IIterationStopCriterium>
-                           {
-                               new FailureStopCriterium(),
-                               new DivergenceStopCriterium(),
-                               new IterationCountStopCriterium(),
-                               new ResidualStopCriterium()
-                           };
+                {
+                    new FailureStopCriterium(),
+                    new DivergenceStopCriterium(),
+                    new IterationCountStopCriterium(),
+                    new ResidualStopCriterium()
+                };
             var iterator = new Iterator(criteria);
             Assert.AreEqual(criteria.Count, iterator.NumberOfCriteria, "Incorrect criterium count");
 
@@ -188,11 +193,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers
         public void RemoveWithNonExistingStopCriterium()
         {
             var criteria = new List<IIterationStopCriterium>
-                           {
-                               new FailureStopCriterium(),
-                               new DivergenceStopCriterium(),
-                               new IterationCountStopCriterium(),
-                           };
+                {
+                    new FailureStopCriterium(),
+                    new DivergenceStopCriterium(),
+                    new IterationCountStopCriterium(),
+                };
             var iterator = new Iterator(criteria);
             Assert.AreEqual(criteria.Count, iterator.NumberOfCriteria, "Incorrect criterium count");
 
@@ -207,12 +212,12 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers
         public void Remove()
         {
             var criteria = new List<IIterationStopCriterium>
-                           {
-                               new FailureStopCriterium(),
-                               new DivergenceStopCriterium(),
-                               new IterationCountStopCriterium(),
-                               new ResidualStopCriterium()
-                           };
+                {
+                    new FailureStopCriterium(),
+                    new DivergenceStopCriterium(),
+                    new IterationCountStopCriterium(),
+                    new ResidualStopCriterium()
+                };
             var iterator = new Iterator(criteria);
             Assert.AreEqual(criteria.Count, iterator.NumberOfCriteria, "Incorrect criterium count");
 
@@ -232,9 +237,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers
             var iterator = new Iterator();
             Assert.Throws<ArgumentException>(() => iterator.DetermineStatus(
                 0,
-                new DenseVector(3, 4),
-                new DenseVector(3, 5),
-                new DenseVector(3, 6)));
+                DenseVector.Create(3, i => 4),
+                DenseVector.Create(3, i => 5),
+                DenseVector.Create(3, i => 6)));
         }
 
         /// <summary>
@@ -244,19 +249,19 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers
         public void DetermineStatusWithNegativeIterationNumberThrowsArgumentOutOfRangeException()
         {
             var criteria = new List<IIterationStopCriterium>
-                           {
-                               new FailureStopCriterium(),
-                               new DivergenceStopCriterium(),
-                               new IterationCountStopCriterium(),
-                               new ResidualStopCriterium()
-                           };
+                {
+                    new FailureStopCriterium(),
+                    new DivergenceStopCriterium(),
+                    new IterationCountStopCriterium(),
+                    new ResidualStopCriterium()
+                };
             var iterator = new Iterator(criteria);
 
             Assert.Throws<ArgumentOutOfRangeException>(() => iterator.DetermineStatus(
                 -1,
-                new DenseVector(3, 4),
-                new DenseVector(3, 5),
-                new DenseVector(3, 6)));
+                DenseVector.Create(3, i => 4),
+                DenseVector.Create(3, i => 5),
+                DenseVector.Create(3, i => 6)));
         }
 
         /// <summary>
@@ -266,19 +271,19 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers
         public void DetermineStatusWithNullSolutionVectorThrowsArgumentNullException()
         {
             var criteria = new List<IIterationStopCriterium>
-                           {
-                               new FailureStopCriterium(),
-                               new DivergenceStopCriterium(),
-                               new IterationCountStopCriterium(),
-                               new ResidualStopCriterium()
-                           };
+                {
+                    new FailureStopCriterium(),
+                    new DivergenceStopCriterium(),
+                    new IterationCountStopCriterium(),
+                    new ResidualStopCriterium()
+                };
             var iterator = new Iterator(criteria);
 
             Assert.Throws<ArgumentNullException>(() => iterator.DetermineStatus(
                 1,
                 null,
-                new DenseVector(3, 5),
-                new DenseVector(3, 6)));
+                DenseVector.Create(3, i => 5),
+                DenseVector.Create(3, i => 6)));
         }
 
         /// <summary>
@@ -288,19 +293,19 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers
         public void DetermineStatusWithNullSourceVectorThrowsArgumentNullException()
         {
             var criteria = new List<IIterationStopCriterium>
-                           {
-                               new FailureStopCriterium(),
-                               new DivergenceStopCriterium(),
-                               new IterationCountStopCriterium(),
-                               new ResidualStopCriterium()
-                           };
+                {
+                    new FailureStopCriterium(),
+                    new DivergenceStopCriterium(),
+                    new IterationCountStopCriterium(),
+                    new ResidualStopCriterium()
+                };
             var iterator = new Iterator(criteria);
 
             Assert.Throws<ArgumentNullException>(() => iterator.DetermineStatus(
                 1,
-                new DenseVector(3, 5),
+                DenseVector.Create(3, i => 5),
                 null,
-                new DenseVector(3, 6)));
+                DenseVector.Create(3, i => 6)));
         }
 
         /// <summary>
@@ -310,18 +315,18 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers
         public void DetermineStatusWithNullResidualVectorThrowsArgumentNullException()
         {
             var criteria = new List<IIterationStopCriterium>
-                           {
-                               new FailureStopCriterium(),
-                               new DivergenceStopCriterium(),
-                               new IterationCountStopCriterium(),
-                               new ResidualStopCriterium()
-                           };
+                {
+                    new FailureStopCriterium(),
+                    new DivergenceStopCriterium(),
+                    new IterationCountStopCriterium(),
+                    new ResidualStopCriterium()
+                };
             var iterator = new Iterator(criteria);
 
             Assert.Throws<ArgumentNullException>(() => iterator.DetermineStatus(
                 1,
-                new DenseVector(3, 4),
-                new DenseVector(3, 5),
+                DenseVector.Create(3, i => 4),
+                DenseVector.Create(3, i => 5),
                 null));
         }
 
@@ -332,29 +337,29 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers
         public void DetermineStatus()
         {
             var criteria = new List<IIterationStopCriterium>
-                           {
-                               new FailureStopCriterium(),
-                               new DivergenceStopCriterium(),
-                               new IterationCountStopCriterium(1)
-                           };
+                {
+                    new FailureStopCriterium(),
+                    new DivergenceStopCriterium(),
+                    new IterationCountStopCriterium(1)
+                };
 
             var iterator = new Iterator(criteria);
 
             // First step, nothing should happen.
             iterator.DetermineStatus(
                 0,
-                new DenseVector(3, 4),
-                new DenseVector(3, 4),
-                new DenseVector(3, 4));
-            Assert.IsInstanceOf(typeof(CalculationRunning), iterator.Status, "Incorrect status");
+                DenseVector.Create(3, i => 4),
+                DenseVector.Create(3, i => 4),
+                DenseVector.Create(3, i => 4));
+            Assert.IsInstanceOf(typeof (CalculationRunning), iterator.Status, "Incorrect status");
 
             // Second step, should run out of iterations.
             iterator.DetermineStatus(
                 1,
-                new DenseVector(3, 4),
-                new DenseVector(3, 4),
-                new DenseVector(3, 4));
-            Assert.IsInstanceOf(typeof(CalculationStoppedWithoutConvergence), iterator.Status, "Incorrect status");
+                DenseVector.Create(3, i => 4),
+                DenseVector.Create(3, i => 4),
+                DenseVector.Create(3, i => 4));
+            Assert.IsInstanceOf(typeof (CalculationStoppedWithoutConvergence), iterator.Status, "Incorrect status");
         }
 
         /// <summary>
@@ -364,27 +369,27 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers
         public void ResetToPrecalculationState()
         {
             var criteria = new List<IIterationStopCriterium>
-                           {
-                               new FailureStopCriterium(),
-                               new DivergenceStopCriterium(),
-                               new IterationCountStopCriterium(1)
-                           };
+                {
+                    new FailureStopCriterium(),
+                    new DivergenceStopCriterium(),
+                    new IterationCountStopCriterium(1)
+                };
 
             var iterator = new Iterator(criteria);
 
             // First step, nothing should happen.
             iterator.DetermineStatus(
                 0,
-                new DenseVector(3, 4),
-                new DenseVector(3, 4),
-                new DenseVector(3, 4));
-            Assert.IsInstanceOf(typeof(CalculationRunning), iterator.Status, "Incorrect status");
+                DenseVector.Create(3, i => 4),
+                DenseVector.Create(3, i => 4),
+                DenseVector.Create(3, i => 4));
+            Assert.IsInstanceOf(typeof (CalculationRunning), iterator.Status, "Incorrect status");
 
             iterator.ResetToPrecalculationState();
-            Assert.IsInstanceOf(typeof(CalculationIndetermined), iterator.Status, "Incorrect status");
-            Assert.IsInstanceOf(typeof(CalculationIndetermined), criteria[0].Status, "Incorrect status");
-            Assert.IsInstanceOf(typeof(CalculationIndetermined), criteria[1].Status, "Incorrect status");
-            Assert.IsInstanceOf(typeof(CalculationIndetermined), criteria[2].Status, "Incorrect status");
+            Assert.IsInstanceOf(typeof (CalculationIndetermined), iterator.Status, "Incorrect status");
+            Assert.IsInstanceOf(typeof (CalculationIndetermined), criteria[0].Status, "Incorrect status");
+            Assert.IsInstanceOf(typeof (CalculationIndetermined), criteria[1].Status, "Incorrect status");
+            Assert.IsInstanceOf(typeof (CalculationIndetermined), criteria[2].Status, "Incorrect status");
         }
 
         /// <summary>
@@ -394,17 +399,17 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers
         public void Clone()
         {
             var criteria = new List<IIterationStopCriterium>
-                           {
-                               new FailureStopCriterium(),
-                               new DivergenceStopCriterium(),
-                               new IterationCountStopCriterium(),
-                               new ResidualStopCriterium()
-                           };
+                {
+                    new FailureStopCriterium(),
+                    new DivergenceStopCriterium(),
+                    new IterationCountStopCriterium(),
+                    new ResidualStopCriterium()
+                };
 
             var iterator = new Iterator(criteria);
 
             var clonedIterator = iterator.Clone();
-            Assert.IsInstanceOf(typeof(Iterator), clonedIterator, "Incorrect type");
+            Assert.IsInstanceOf(typeof (Iterator), clonedIterator, "Incorrect type");
 
             var clone = clonedIterator as Iterator;
             Assert.IsNotNull(clone);

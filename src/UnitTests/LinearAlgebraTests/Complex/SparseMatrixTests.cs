@@ -80,7 +80,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
         /// <returns>The new vector. </returns>
         protected override Vector CreateVector(Complex[] data)
         {
-            return new SparseVector(data);
+            return SparseVector.OfEnumerable(data);
         }
 
         /// <summary>
@@ -211,7 +211,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
         public void CanAddSparseMatricesBothWays()
         {
             var m1 = new SparseMatrix(1, 3);
-            var m2 = SparseMatrix.OfArray(new Complex[,] { { 0, 1, 1 } });
+            var m2 = SparseMatrix.OfArray(new Complex[,] {{0, 1, 1}});
             var sum1 = m1 + m2;
             var sum2 = m2 + m1;
             Assert.IsTrue(sum1.Equals(m2));
@@ -221,15 +221,15 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
             sparseResult.Add(m2, sparseResult);
             Assert.IsTrue(sparseResult.Equals(sum1));
 
-            sparseResult = SparseMatrix.OfArray(new Complex[,] { { 0, 1, 1 } });
+            sparseResult = SparseMatrix.OfArray(new Complex[,] {{0, 1, 1}});
             sparseResult.Add(m1, sparseResult);
             Assert.IsTrue(sparseResult.Equals(sum1));
 
-            sparseResult = SparseMatrix.OfArray(new Complex[,] { { 0, 1, 1 } });
+            sparseResult = SparseMatrix.OfArray(new Complex[,] {{0, 1, 1}});
             m1.Add(sparseResult, sparseResult);
             Assert.IsTrue(sparseResult.Equals(sum1));
 
-            sparseResult = SparseMatrix.OfArray(new Complex[,] { { 0, 1, 1 } });
+            sparseResult = SparseMatrix.OfArray(new Complex[,] {{0, 1, 1}});
             sparseResult.Add(sparseResult, sparseResult);
             Assert.IsTrue(sparseResult.Equals(2*sum1));
 
@@ -255,7 +255,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
         public void CanSubtractSparseMatricesBothWays()
         {
             var m1 = new SparseMatrix(1, 3);
-            var m2 = SparseMatrix.OfArray(new Complex[,] { { 0, 1, 1 } });
+            var m2 = SparseMatrix.OfArray(new Complex[,] {{0, 1, 1}});
             var diff1 = m1 - m2;
             var diff2 = m2 - m1;
             Assert.IsTrue(diff1.Equals(m2.Negate()));
@@ -265,15 +265,15 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
             sparseResult.Subtract(m2, sparseResult);
             Assert.IsTrue(sparseResult.Equals(diff1));
 
-            sparseResult = SparseMatrix.OfArray(new Complex[,] { { 0, 1, 1 } });
+            sparseResult = SparseMatrix.OfArray(new Complex[,] {{0, 1, 1}});
             sparseResult.Subtract(m1, sparseResult);
             Assert.IsTrue(sparseResult.Equals(diff2));
 
-            sparseResult = SparseMatrix.OfArray(new Complex[,] { { 0, 1, 1 } });
+            sparseResult = SparseMatrix.OfArray(new Complex[,] {{0, 1, 1}});
             m1.Subtract(sparseResult, sparseResult);
             Assert.IsTrue(sparseResult.Equals(diff1));
 
-            sparseResult = SparseMatrix.OfArray(new Complex[,] { { 0, 1, 1 } });
+            sparseResult = SparseMatrix.OfArray(new Complex[,] {{0, 1, 1}});
             sparseResult.Subtract(sparseResult, sparseResult);
             Assert.IsTrue(sparseResult.Equals(0*diff1));
 

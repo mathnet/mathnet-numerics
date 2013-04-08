@@ -3,7 +3,9 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
-// Copyright (c) 2009-2010 Math.NET
+//
+// Copyright (c) 2009-2013 Math.NET
+//
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -12,8 +14,10 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
+//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
+//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -81,7 +85,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.StopCrite
             var criterium = new IterationCountStopCriterium(10);
             Assert.IsNotNull(criterium, "A criterium should have been created");
 
-            Assert.Throws<ArgumentOutOfRangeException>(() => criterium.DetermineStatus(-1, new DenseVector(3, 1), new DenseVector(3, 2), new DenseVector(3, 3)));
+            Assert.Throws<ArgumentOutOfRangeException>(() => criterium.DetermineStatus(-1, DenseVector.Create(3, i => 1), DenseVector.Create(3, i => 2), DenseVector.Create(3, i => 3)));
         }
 
         /// <summary>
@@ -93,11 +97,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.StopCrite
             var criterium = new IterationCountStopCriterium(10);
             Assert.IsNotNull(criterium, "A criterium should have been created");
 
-            criterium.DetermineStatus(5, new DenseVector(3, 1), new DenseVector(3, 2), new DenseVector(3, 3));
-            Assert.IsInstanceOf(typeof(CalculationRunning), criterium.Status, "Should be running");
+            criterium.DetermineStatus(5, DenseVector.Create(3, i => 1), DenseVector.Create(3, i => 2), DenseVector.Create(3, i => 3));
+            Assert.IsInstanceOf(typeof (CalculationRunning), criterium.Status, "Should be running");
 
-            criterium.DetermineStatus(10, new DenseVector(3, 1), new DenseVector(3, 2), new DenseVector(3, 3));
-            Assert.IsInstanceOf(typeof(CalculationStoppedWithoutConvergence), criterium.Status, "Should be finished");
+            criterium.DetermineStatus(10, DenseVector.Create(3, i => 1), DenseVector.Create(3, i => 2), DenseVector.Create(3, i => 3));
+            Assert.IsInstanceOf(typeof (CalculationStoppedWithoutConvergence), criterium.Status, "Should be finished");
         }
 
         /// <summary>
@@ -109,11 +113,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.StopCrite
             var criterium = new IterationCountStopCriterium(10);
             Assert.IsNotNull(criterium, "A criterium should have been created");
 
-            criterium.DetermineStatus(5, new DenseVector(3, 1), new DenseVector(3, 2), new DenseVector(3, 3));
-            Assert.IsInstanceOf(typeof(CalculationRunning), criterium.Status, "Should be running");
+            criterium.DetermineStatus(5, DenseVector.Create(3, i => 1), DenseVector.Create(3, i => 2), DenseVector.Create(3, i => 3));
+            Assert.IsInstanceOf(typeof (CalculationRunning), criterium.Status, "Should be running");
 
             criterium.ResetToPrecalculationState();
-            Assert.IsInstanceOf(typeof(CalculationIndetermined), criterium.Status, "Should not have started");
+            Assert.IsInstanceOf(typeof (CalculationIndetermined), criterium.Status, "Should not have started");
         }
 
         /// <summary>
@@ -127,7 +131,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.StopCrite
             Assert.AreEqual(10, criterium.MaximumNumberOfIterations, "Incorrect maximum");
 
             var clone = criterium.Clone();
-            Assert.IsInstanceOf(typeof(IterationCountStopCriterium), clone, "Wrong criterium type");
+            Assert.IsInstanceOf(typeof (IterationCountStopCriterium), clone, "Wrong criterium type");
 
             var clonedCriterium = clone as IterationCountStopCriterium;
             Assert.IsNotNull(clonedCriterium);

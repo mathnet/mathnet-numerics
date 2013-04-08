@@ -68,35 +68,35 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Iterative
         /// The status used if there is no status, i.e. the solver hasn't run yet and there is no
         /// iterator.
         /// </summary>
-        private static readonly ICalculationStatus DefaultStatus = new CalculationIndetermined();
+        static readonly ICalculationStatus DefaultStatus = new CalculationIndetermined();
 
         /// <summary>
         /// The preconditioner that will be used. Can be set to <c>null</c>, in which case the default
         /// pre-conditioner will be used.
         /// </summary>
-        private IPreConditioner _preconditioner;
+        IPreConditioner _preconditioner;
 
         /// <summary>
         /// The iterative process controller.
         /// </summary>
-        private IIterator _iterator;
+        IIterator _iterator;
 
         /// <summary>
         /// Indicates the number of <c>BiCGStab</c> steps should be taken 
         /// before switching.
         /// </summary>
-        private int _numberOfBiCgStabSteps = 1;
+        int _numberOfBiCgStabSteps = 1;
 
         /// <summary>
         /// Indicates the number of <c>GPBiCG</c> steps should be taken 
         /// before switching.
         /// </summary>
-        private int _numberOfGpbiCgSteps = 4;
+        int _numberOfGpbiCgSteps = 4;
 
         /// <summary>
         /// Indicates if the user has stopped the solver.
         /// </summary>
-        private bool _hasBeenStopped;
+        bool _hasBeenStopped;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GpBiCg"/> class.
@@ -105,7 +105,8 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Iterative
         /// When using this constructor the solver will use the <see cref="IIterator"/> with
         /// the standard settings and a default preconditioner.
         /// </remarks>
-        public GpBiCg() : this(null, null)
+        public GpBiCg()
+            : this(null, null)
         {
         }
 
@@ -128,7 +129,8 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Iterative
         /// </para>
         /// </remarks>
         /// <param name="iterator">The <see cref="IIterator"/> that will be used to monitor the iterative process.</param>
-        public GpBiCg(IIterator iterator) : this(null, iterator)
+        public GpBiCg(IIterator iterator)
+            : this(null, iterator)
         {
         }
 
@@ -140,7 +142,8 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Iterative
         /// the standard settings.
         /// </remarks>
         /// <param name="preconditioner">The <see cref="IPreConditioner"/> that will be used to precondition the matrix equation.</param>
-        public GpBiCg(IPreConditioner preconditioner) : this(preconditioner, null)
+        public GpBiCg(IPreConditioner preconditioner)
+            : this(preconditioner, null)
         {
         }
 
@@ -173,10 +176,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Iterative
         /// </summary>
         public int NumberOfBiCgStabSteps
         {
-            get
-            {
-                return _numberOfBiCgStabSteps;
-            }
+            get { return _numberOfBiCgStabSteps; }
 
             set
             {
@@ -185,7 +185,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Iterative
                     throw new ArgumentOutOfRangeException("value");
                 }
 
-                _numberOfBiCgStabSteps = value;     
+                _numberOfBiCgStabSteps = value;
             }
         }
 
@@ -195,10 +195,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Iterative
         /// </summary>
         public int NumberOfGpBiCgSteps
         {
-            get
-            {
-                return _numberOfGpbiCgSteps;
-            }
+            get { return _numberOfGpbiCgSteps; }
 
             set
             {
@@ -234,10 +231,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Iterative
         /// </summary>
         public ICalculationStatus IterationResult
         {
-            get 
-            {
-                return (_iterator != null) ? _iterator.Status : DefaultStatus;
-            }
+            get { return (_iterator != null) ? _iterator.Status : DefaultStatus; }
         }
 
         /// <summary>
@@ -327,7 +321,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Iterative
             {
                 _preconditioner = new UnitPreconditioner();
             }
-         
+
             _preconditioner.Initialize(matrix);
 
             // x_0 is initial guess
@@ -344,7 +338,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Iterative
 
             // Define the temporary vectors
             // rDash_0 = r_0
-            Vector rdash = new DenseVector(residuals);
+            Vector rdash = DenseVector.OfVector(residuals);
 
             // t_-1 = 0
             Vector t = new DenseVector(residuals.Count);
@@ -382,7 +376,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Iterative
                 matrix.Multiply(temp, s);
 
                 // alpha_k = (r*_0 * r_k) / (r*_0 * s_k)
-                var alpha = rdash.DotProduct(residuals) / rdash.DotProduct(s);
+                var alpha = rdash.DotProduct(residuals)/rdash.DotProduct(s);
 
                 // y_k = t_(k-1) - r_k - alpha_k * w_(k-1) + alpha_k s_k
                 s.Subtract(w, temp);
@@ -405,7 +399,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Iterative
                 // c_k = A d_k
                 matrix.Multiply(temp, c);
                 var cdot = c.DotProduct(c);
-                
+
                 // cDot can only be zero if c is a zero vector
                 // We'll set cDot to 1 if it is zero to prevent NaN's
                 // Note that the calculation should continue fine because
@@ -425,7 +419,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Iterative
                 if (((_numberOfBiCgStabSteps == 0) && (iterationNumber == 0)) || ShouldRunBiCgStabSteps(iterationNumber))
                 {
                     // sigma_k = (c_k * t_k) / (c_k * c_k)
-                    sigma = ctdot / cdot;
+                    sigma = ctdot/cdot;
 
                     // eta_k = 0
                     eta = 0;
@@ -446,13 +440,13 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Iterative
                     var ytdot = y.DotProduct(t);
                     var cydot = c.DotProduct(y);
 
-                    var denom = (cdot * ydot) - (cydot * cydot);
+                    var denom = (cdot*ydot) - (cydot*cydot);
 
                     // sigma_k = ((y_k * y_k)(c_k * t_k) - (y_k * t_k)(c_k * y_k)) / ((c_k * c_k)(y_k * y_k) - (y_k * c_k)(c_k * y_k))
-                    sigma = ((ydot * ctdot) - (ytdot * cydot)) / denom;
+                    sigma = ((ydot*ctdot) - (ytdot*cydot))/denom;
 
                     // eta_k = ((c_k * c_k)(y_k * t_k) - (y_k * c_k)(c_k * t_k)) / ((c_k * c_k)(y_k * y_k) - (y_k * c_k)(c_k * y_k))
-                    eta = ((cdot * ytdot) - (cydot * ctdot)) / denom;
+                    eta = ((cdot*ytdot) - (cydot*ctdot))/denom;
                 }
 
                 // u_k = sigma_k s_k + eta_k (t_(k-1) - r_k + beta_(k-1) u_(k-1))
@@ -498,7 +492,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Iterative
 
                 // beta_k = alpha_k / sigma_k * (r*_0 * r_(k+1)) / (r*_0 * r_k)
                 // But first we check if there is a possible NaN. If so just reset beta to zero.
-                beta = (!sigma.AlmostEqual(0, 1)) ? alpha / sigma * rdash.DotProduct(residuals) / rdash.DotProduct(t0) : 0;
+                beta = (!sigma.AlmostEqual(0, 1)) ? alpha/sigma*rdash.DotProduct(residuals)/rdash.DotProduct(t0) : 0;
 
                 // w_k = c_k + beta_k s_k
                 s.Multiply(beta, temp2);
@@ -527,7 +521,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Iterative
         /// <param name="residual">Residual values in <see cref="Vector"/>.</param>
         /// <param name="x">Instance of the <see cref="Vector"/> x.</param>
         /// <param name="b">Instance of the <see cref="Vector"/> b.</param>
-        private static void CalculateTrueResidual(Matrix matrix, Vector residual, Vector x, Vector b)
+        static void CalculateTrueResidual(Matrix matrix, Vector residual, Vector x, Vector b)
         {
             // -Ax = residual
             matrix.Multiply(x, residual);
@@ -545,7 +539,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Iterative
         /// <param name="source">Source <see cref="Vector"/>.</param>
         /// <param name="residuals">Residual <see cref="Vector"/>.</param>
         /// <returns><c>true</c> if continue, otherwise <c>false</c></returns>
-        private bool ShouldContinue(int iterationNumber, Vector result, Vector source, Vector residuals)
+        bool ShouldContinue(int iterationNumber, Vector result, Vector source, Vector residuals)
         {
             if (_hasBeenStopped)
             {
@@ -561,17 +555,17 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Iterative
             // - the calculation needs to be stopped from a numerical point of view (divergence, convergence etc.)
             return (!status.TerminatesCalculation) && (!_hasBeenStopped);
         }
-        
+
         /// <summary>
         /// Decide if to do steps with BiCgStab
         /// </summary>
         /// <param name="iterationNumber">Number of iteration</param>
         /// <returns><c>true</c> if yes, otherwise <c>false</c></returns>
-        private bool ShouldRunBiCgStabSteps(int iterationNumber)
+        bool ShouldRunBiCgStabSteps(int iterationNumber)
         {
             // Run the first steps as BiCGStab
             // The number of steps past a whole iteration set
-            var difference = iterationNumber % (_numberOfBiCgStabSteps + _numberOfGpbiCgSteps);
+            var difference = iterationNumber%(_numberOfBiCgStabSteps + _numberOfGpbiCgSteps);
 
             // Do steps with BiCGStab if:
             // - The difference is zero or more (i.e. we have done zero or more complete cycles)
@@ -598,7 +592,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Iterative
                 throw new ArgumentNullException("input");
             }
 
-            var result = (Matrix)matrix.CreateMatrix(input.RowCount, input.ColumnCount);
+            var result = (Matrix) matrix.CreateMatrix(input.RowCount, input.ColumnCount);
             Solve(matrix, input, result);
             return result;
         }
@@ -634,7 +628,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Iterative
 
             for (var column = 0; column < input.ColumnCount; column++)
             {
-                var solution = Solve(matrix, (Vector)input.Column(column));
+                var solution = Solve(matrix, (Vector) input.Column(column));
                 foreach (var element in solution.GetIndexedEnumerator())
                 {
                     result.At(element.Item1, column, element.Item2);

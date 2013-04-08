@@ -59,23 +59,23 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Iterative
         /// The status used if there is no status, i.e. the solver hasn't run yet and there is no
         /// iterator.
         /// </summary>
-        private static readonly ICalculationStatus DefaultStatus = new CalculationIndetermined();
+        static readonly ICalculationStatus DefaultStatus = new CalculationIndetermined();
 
         /// <summary>
         /// The preconditioner that will be used. Can be set to <see langword="null" />, in which case the default
         /// pre-conditioner will be used.
         /// </summary>
-        private IPreConditioner _preconditioner;
+        IPreConditioner _preconditioner;
 
         /// <summary>
         /// The iterative process controller.
         /// </summary>
-        private IIterator _iterator;
+        IIterator _iterator;
 
         /// <summary>
         /// Indicates if the user has stopped the solver.
         /// </summary>
-        private bool _hasBeenStopped;
+        bool _hasBeenStopped;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TFQMR"/> class.
@@ -84,7 +84,8 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Iterative
         /// When using this constructor the solver will use the <see cref="IIterator"/> with
         /// the standard settings and a default preconditioner.
         /// </remarks>
-        public TFQMR() : this(null, null)
+        public TFQMR()
+            : this(null, null)
         {
         }
 
@@ -107,7 +108,8 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Iterative
         /// </para>
         /// </remarks>
         /// <param name="iterator">The <see cref="IIterator"/> that will be used to monitor the iterative process.</param>
-        public TFQMR(IIterator iterator) : this(null, iterator)
+        public TFQMR(IIterator iterator)
+            : this(null, iterator)
         {
         }
 
@@ -119,7 +121,8 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Iterative
         /// the standard settings.
         /// </remarks>
         /// <param name="preconditioner">The <see cref="IPreConditioner"/> that will be used to precondition the matrix equation.</param>
-        public TFQMR(IPreConditioner preconditioner) : this(preconditioner, null)
+        public TFQMR(IPreConditioner preconditioner)
+            : this(preconditioner, null)
         {
         }
 
@@ -169,10 +172,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Iterative
         /// </summary>
         public ICalculationStatus IterationResult
         {
-            get 
-            { 
-                return (_iterator != null) ? _iterator.Status : DefaultStatus; 
-            }
+            get { return (_iterator != null) ? _iterator.Status : DefaultStatus; }
         }
 
         /// <summary>
@@ -260,17 +260,17 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Iterative
             _preconditioner.Initialize(matrix);
 
             var d = new DenseVector(input.Count);
-            var r = new DenseVector(input);
+            var r = DenseVector.OfVector(input);
 
             var uodd = new DenseVector(input.Count);
             var ueven = new DenseVector(input.Count);
 
             var v = new DenseVector(input.Count);
-            var pseudoResiduals = new DenseVector(input);
+            var pseudoResiduals = DenseVector.OfVector(input);
 
             var x = new DenseVector(input.Count);
             var yodd = new DenseVector(input.Count);
-            var yeven = new DenseVector(input);
+            var yeven = DenseVector.OfVector(input);
 
             // Temp vectors
             var temp = new DenseVector(input.Count);
@@ -286,12 +286,12 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Iterative
             double theta = 0;
 
             var tau = startNorm.Real;
-            Complex rho = tau * tau;
+            Complex rho = tau*tau;
 
             // Calculate the initial values for v
             // M temp = yEven
             _preconditioner.Approximate(yeven, temp);
-            
+
             // v = A temp
             matrix.Multiply(temp, v);
 
@@ -315,7 +315,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Iterative
                     }
 
                     // alpha = rho / sigma
-                    alpha = rho / sigma;
+                    alpha = rho/sigma;
 
                     // yOdd = yEven - alpha * v
                     v.Multiply(-alpha, temp1);
@@ -340,18 +340,18 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Iterative
                 temp2.CopyTo(pseudoResiduals);
 
                 // d = yOdd + theta * theta * eta / alpha * d
-                d.Multiply(theta * theta * eta / alpha, temp);
+                d.Multiply(theta*theta*eta/alpha, temp);
                 yinternal.Add(temp, d);
 
                 // theta = ||pseudoResiduals||_2 / tau
-                theta = pseudoResiduals.Norm(2).Real / tau;
-                var c = 1 / Math.Sqrt(1 + (theta * theta));
+                theta = pseudoResiduals.Norm(2).Real/tau;
+                var c = 1/Math.Sqrt(1 + (theta*theta));
 
                 // tau = tau * theta * c
-                tau *= theta * c;
+                tau *= theta*c;
 
                 // eta = c^2 * alpha
-                eta = c * c * alpha;
+                eta = c*c*alpha;
 
                 // x = x + eta * d
                 d.Multiply(eta, temp1);
@@ -388,7 +388,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Iterative
                     }
 
                     var rhoNew = pseudoResiduals.DotProduct(r.Conjugate());
-                    var beta = rhoNew / rho;
+                    var beta = rhoNew/rho;
 
                     // Update rho for the next loop
                     rho = rhoNew;
@@ -425,7 +425,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Iterative
         /// <param name="residual">Residual values in <see cref="Vector"/>.</param>
         /// <param name="x">Instance of the <see cref="Vector"/> x.</param>
         /// <param name="b">Instance of the <see cref="Vector"/> b.</param>
-        private static void CalculateTrueResidual(Matrix matrix, Vector residual, Vector x, Vector b)
+        static void CalculateTrueResidual(Matrix matrix, Vector residual, Vector x, Vector b)
         {
             // -Ax = residual
             matrix.Multiply(x, residual);
@@ -443,7 +443,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Iterative
         /// <param name="source">Source <see cref="Vector"/>.</param>
         /// <param name="residuals">Residual <see cref="Vector"/>.</param>
         /// <returns><c>true</c> if continue, otherwise <c>false</c></returns>
-        private bool ShouldContinue(int iterationNumber, Vector result, Vector source, Vector residuals)
+        bool ShouldContinue(int iterationNumber, Vector result, Vector source, Vector residuals)
         {
             if (_hasBeenStopped)
             {
@@ -465,9 +465,9 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Iterative
         /// </summary>
         /// <param name="number">Number to check</param>
         /// <returns><c>true</c> if <paramref name="number"/> even, otherwise <c>false</c></returns>
-        private static bool IsEven(int number)
+        static bool IsEven(int number)
         {
-            return number % 2 == 0;
+            return number%2 == 0;
         }
 
         /// <summary>
@@ -489,7 +489,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Iterative
                 throw new ArgumentNullException("input");
             }
 
-            var result = (Matrix)matrix.CreateMatrix(input.RowCount, input.ColumnCount);
+            var result = (Matrix) matrix.CreateMatrix(input.RowCount, input.ColumnCount);
             Solve(matrix, input, result);
             return result;
         }
@@ -525,7 +525,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Iterative
 
             for (var column = 0; column < input.ColumnCount; column++)
             {
-                var solution = Solve(matrix, (Vector)input.Column(column));
+                var solution = Solve(matrix, (Vector) input.Column(column));
                 foreach (var element in solution.GetIndexedEnumerator())
                 {
                     result.At(element.Item1, column, element.Item2);

@@ -82,6 +82,34 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         }
 
         /// <summary>
+        /// Create a new sparse vector as a copy of the given other vector.
+        /// This new vector will be independent from the other vector.
+        /// A new memory block will be allocated for storing the vector.
+        /// </summary>
+        public static SparseVector OfVector(Vector<float> vector)
+        {
+            return new SparseVector(SparseVectorStorage<float>.OfVector(vector.Storage));
+        }
+
+        /// <summary>
+        /// Create a new sparse vector as a copy of the given enumerable.
+        /// This new vector will be independent from the enumerable.
+        /// A new memory block will be allocated for storing the vector.
+        /// </summary>
+        public static SparseVector OfEnumerable(IEnumerable<float> enumerable)
+        {
+            return new SparseVector(SparseVectorStorage<float>.OfEnumerable(enumerable));
+        }
+
+        /// <summary>
+        /// Create a new sparse vector and initialize each value using the provided init function.
+        /// </summary>
+        public static SparseVector Create(int length, Func<int, float> init)
+        {
+            return new SparseVector(SparseVectorStorage<float>.OfInit(length, init));
+        }
+
+        /// <summary>
         /// Create a new sparse vector with the given length.
         /// All cells of the vector will be initialized with the provided value.
         /// Zero-length vectors are not supported.
@@ -89,22 +117,8 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// <exception cref="ArgumentException">If length is less than one.</exception>
         [Obsolete("Use a dense vector instead. Scheduled for removal in v3.0.")]
         public SparseVector(int length, float value)
-            : this(new SparseVectorStorage<float>(length))
+            : this(SparseVectorStorage<float>.OfInit(length, i => value))
         {
-            if (value == 0.0)
-            {
-                return;
-            }
-
-            var valueCount = _storage.ValueCount = length;
-            var indices = _storage.Indices = new int[valueCount];
-            var values = _storage.Values = new float[valueCount];
-
-            for (int i = 0; i < values.Length; i++)
-            {
-                values[i] = value;
-                indices[i] = i;
-            }
         }
 
         /// <summary>
@@ -112,6 +126,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// This new vector will be independent from the other vector.
         /// A new memory block will be allocated for storing the vector.
         /// </summary>
+        [Obsolete("Use SparseVector.OfVector instead. Scheduled for removal in v3.0.")]
         public SparseVector(Vector<float> other)
             : this(SparseVectorStorage<float>.OfVector(other.Storage))
         {
@@ -122,17 +137,10 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// This new vector will be independent from the enumerable.
         /// A new memory block will be allocated for storing the vector.
         /// </summary>
+        [Obsolete("Use SparseVector.OfEnumerable instead. Scheduled for removal in v3.0.")]
         public SparseVector(IEnumerable<float> other)
             : this(SparseVectorStorage<float>.OfEnumerable(other))
         {
-        }
-
-        /// <summary>
-        /// Create a new sparse vector and initialize each value using the provided init function.
-        /// </summary>
-        public static SparseVector Create(int length, Func<int, float> init)
-        {
-            return new SparseVector(SparseVectorStorage<float>.OfInit(length, init));
         }
 
         /// <summary>
@@ -973,9 +981,9 @@ namespace MathNet.Numerics.LinearAlgebra.Single
 
             // parsing
             var tokens = value.Split(new[] { formatProvider.GetTextInfo().ListSeparator, " ", "\t" }, StringSplitOptions.RemoveEmptyEntries);
-            var data = tokens.Select(t => Single.Parse(t, NumberStyles.Any, formatProvider)).ToArray();
-            if (data.Length == 0) throw new FormatException();
-            return new SparseVector(data);
+            var data = tokens.Select(t => Single.Parse(t, NumberStyles.Any, formatProvider)).ToList();
+            if (data.Count == 0) throw new FormatException();
+            return OfEnumerable(data);
         }
 
         /// <summary>

@@ -264,17 +264,17 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.Iterative
             _preconditioner.Initialize(matrix);
 
             var d = new DenseVector(input.Count);
-            var r = new DenseVector(input);
+            var r = DenseVector.OfVector(input);
 
             var uodd = new DenseVector(input.Count);
             var ueven = new DenseVector(input.Count);
 
             var v = new DenseVector(input.Count);
-            var pseudoResiduals = new DenseVector(input);
+            var pseudoResiduals = DenseVector.OfVector(input);
 
             var x = new DenseVector(input.Count);
             var yodd = new DenseVector(input.Count);
-            var yeven = new DenseVector(input);
+            var yeven = DenseVector.OfVector(input);
 
             // Temp vectors
             var temp = new DenseVector(input.Count);

@@ -3,7 +3,9 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
-// Copyright (c) 2009-2010 Math.NET
+//
+// Copyright (c) 2009-2013 Math.NET
+//
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -12,8 +14,10 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
+//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
+//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -23,6 +27,7 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
+
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers.Iterative
 {
     using System;
@@ -42,12 +47,12 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers.Iterative
         /// <summary>
         /// Convergence boundary.
         /// </summary>
-        private const float ConvergenceBoundary = 1e-5f;
+        const float ConvergenceBoundary = 1e-5f;
 
         /// <summary>
         /// Maximum iterations.
         /// </summary>
-        private const int MaximumIterations = 1000;
+        const int MaximumIterations = 1000;
 
         /// <summary>
         /// Solve wide matrix throws <c>ArgumentException</c>.
@@ -85,16 +90,16 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers.Iterative
             Matrix matrix = SparseMatrix.Identity(100);
 
             // Create the y vector
-            Vector y = new DenseVector(matrix.RowCount, 1);
+            Vector y = DenseVector.Create(matrix.RowCount, i => 1);
 
             // Create an iteration monitor which will keep track of iterative convergence
             var monitor = new Iterator(new IIterationStopCriterium[]
-                                       {
-                                           new IterationCountStopCriterium(MaximumIterations),
-                                           new ResidualStopCriterium(ConvergenceBoundary),
-                                           new DivergenceStopCriterium(),
-                                           new FailureStopCriterium()
-                                       });
+                {
+                    new IterationCountStopCriterium(MaximumIterations),
+                    new ResidualStopCriterium(ConvergenceBoundary),
+                    new DivergenceStopCriterium(),
+                    new FailureStopCriterium()
+                });
             var solver = new GpBiCg(monitor);
 
             // Solve equation Ax = y
@@ -127,19 +132,19 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers.Iterative
             Matrix matrix = SparseMatrix.Identity(100);
 
             // Scale it with a funny number
-            matrix.Multiply((float)Math.PI, matrix);
+            matrix.Multiply((float) Math.PI, matrix);
 
             // Create the y vector
-            Vector y = new DenseVector(matrix.RowCount, 1);
+            Vector y = DenseVector.Create(matrix.RowCount, i => 1);
 
             // Create an iteration monitor which will keep track of iterative convergence
             var monitor = new Iterator(new IIterationStopCriterium[]
-                                       {
-                                           new IterationCountStopCriterium(MaximumIterations),
-                                           new ResidualStopCriterium(ConvergenceBoundary),
-                                           new DivergenceStopCriterium(),
-                                           new FailureStopCriterium()
-                                       });
+                {
+                    new IterationCountStopCriterium(MaximumIterations),
+                    new ResidualStopCriterium(ConvergenceBoundary),
+                    new DivergenceStopCriterium(),
+                    new FailureStopCriterium()
+                });
 
             var solver = new GpBiCg(monitor);
 
@@ -209,16 +214,16 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers.Iterative
             }
 
             // Create the y vector
-            Vector y = new DenseVector(matrix.RowCount, 1);
+            Vector y = DenseVector.Create(matrix.RowCount, i => 1);
 
             // Create an iteration monitor which will keep track of iterative convergence
             var monitor = new Iterator(new IIterationStopCriterium[]
-                                       {
-                                           new IterationCountStopCriterium(MaximumIterations),
-                                           new ResidualStopCriterium(ConvergenceBoundary),
-                                           new DivergenceStopCriterium(),
-                                           new FailureStopCriterium()
-                                       });
+                {
+                    new IterationCountStopCriterium(MaximumIterations),
+                    new ResidualStopCriterium(ConvergenceBoundary),
+                    new DivergenceStopCriterium(),
+                    new FailureStopCriterium()
+                });
 
             var solver = new GpBiCg(monitor);
 
@@ -257,10 +262,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers.Iterative
                 var vectorb = MatrixLoader.GenerateRandomDenseVector(order);
 
                 var monitor = new Iterator(new IIterationStopCriterium[]
-                                           {
-                                               new IterationCountStopCriterium(MaximumIterations),
-                                               new ResidualStopCriterium((float)Math.Pow(1.0 / 10.0, iteration)),
-                                           });
+                    {
+                        new IterationCountStopCriterium(MaximumIterations),
+                        new ResidualStopCriterium((float) Math.Pow(1.0/10.0, iteration)),
+                    });
                 var solver = new GpBiCg(monitor);
                 var resultx = solver.Solve(matrixA, vectorb);
 
@@ -271,12 +276,12 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers.Iterative
                 }
 
                 Assert.AreEqual(matrixA.ColumnCount, resultx.Count);
-                var matrixBReconstruct = matrixA * resultx;
+                var matrixBReconstruct = matrixA*resultx;
 
                 // Check the reconstruction.
                 for (var i = 0; i < order; i++)
                 {
-                    Assert.AreEqual(vectorb[i], matrixBReconstruct[i], (float)Math.Pow(1.0 / 10.0, iteration - 3));
+                    Assert.AreEqual(vectorb[i], matrixBReconstruct[i], (float) Math.Pow(1.0/10.0, iteration - 3));
                 }
 
                 return;
@@ -298,10 +303,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers.Iterative
                 var matrixB = MatrixLoader.GenerateRandomDenseMatrix(order, order);
 
                 var monitor = new Iterator(new IIterationStopCriterium[]
-                                           {
-                                               new IterationCountStopCriterium(MaximumIterations),
-                                               new ResidualStopCriterium((float)Math.Pow(1.0 / 10.0, iteration))
-                                           });
+                    {
+                        new IterationCountStopCriterium(MaximumIterations),
+                        new ResidualStopCriterium((float) Math.Pow(1.0/10.0, iteration))
+                    });
                 var solver = new GpBiCg(monitor);
                 var matrixX = solver.Solve(matrixA, matrixB);
 
@@ -317,14 +322,14 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers.Iterative
                 // The solution X has the same number of columns as B
                 Assert.AreEqual(matrixB.ColumnCount, matrixX.ColumnCount);
 
-                var matrixBReconstruct = matrixA * matrixX;
+                var matrixBReconstruct = matrixA*matrixX;
 
                 // Check the reconstruction.
                 for (var i = 0; i < matrixB.RowCount; i++)
                 {
                     for (var j = 0; j < matrixB.ColumnCount; j++)
                     {
-                        Assert.AreEqual(matrixB[i, j], matrixBReconstruct[i, j], (float)Math.Pow(1.0 / 10.0, iteration - 3));
+                        Assert.AreEqual(matrixB[i, j], matrixBReconstruct[i, j], (float) Math.Pow(1.0/10.0, iteration - 3));
                     }
                 }
 

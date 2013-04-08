@@ -3,7 +3,9 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
-// Copyright (c) 2009-2010 Math.NET
+//
+// Copyright (c) 2009-2013 Math.NET
+//
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -12,8 +14,10 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
+//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
+//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -43,12 +47,12 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.Iterative
         /// <summary>
         /// Convergence boundary.
         /// </summary>
-        private const double ConvergenceBoundary = 1e-10;
+        const double ConvergenceBoundary = 1e-10;
 
         /// <summary>
         /// Maximum iterations.
         /// </summary>
-        private const int MaximumIterations = 1000;
+        const int MaximumIterations = 1000;
 
         /// <summary>
         /// Solve wide matrix throws <c>ArgumentException</c>.
@@ -86,16 +90,16 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.Iterative
             Matrix matrix = SparseMatrix.Identity(100);
 
             // Create the y vector
-            Vector y = new DenseVector(matrix.RowCount, 1);
+            Vector y = DenseVector.Create(matrix.RowCount, i => 1);
 
             // Create an iteration monitor which will keep track of iterative convergence
             var monitor = new Iterator(new IIterationStopCriterium[]
-                                       {
-                                           new IterationCountStopCriterium(MaximumIterations),
-                                           new ResidualStopCriterium(ConvergenceBoundary),
-                                           new DivergenceStopCriterium(),
-                                           new FailureStopCriterium()
-                                       });
+                {
+                    new IterationCountStopCriterium(MaximumIterations),
+                    new ResidualStopCriterium(ConvergenceBoundary),
+                    new DivergenceStopCriterium(),
+                    new FailureStopCriterium()
+                });
             var solver = new BiCgStab(monitor);
 
             // Solve equation Ax = y
@@ -131,16 +135,16 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.Iterative
             matrix.Multiply(Math.PI, matrix);
 
             // Create the y vector
-            Vector y = new DenseVector(matrix.RowCount, 1);
+            Vector y = DenseVector.Create(matrix.RowCount, i => 1);
 
             // Create an iteration monitor which will keep track of iterative convergence
             var monitor = new Iterator(new IIterationStopCriterium[]
-                                       {
-                                           new IterationCountStopCriterium(MaximumIterations),
-                                           new ResidualStopCriterium(ConvergenceBoundary),
-                                           new DivergenceStopCriterium(),
-                                           new FailureStopCriterium()
-                                       });
+                {
+                    new IterationCountStopCriterium(MaximumIterations),
+                    new ResidualStopCriterium(ConvergenceBoundary),
+                    new DivergenceStopCriterium(),
+                    new FailureStopCriterium()
+                });
             var solver = new BiCgStab(monitor);
 
             // Solve equation Ax = y
@@ -209,16 +213,16 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.Iterative
             }
 
             // Create the y vector
-            Vector y = new DenseVector(matrix.RowCount, 1);
+            Vector y = DenseVector.Create(matrix.RowCount, i => 1);
 
             // Create an iteration monitor which will keep track of iterative convergence
             var monitor = new Iterator(new IIterationStopCriterium[]
-                                       {
-                                           new IterationCountStopCriterium(MaximumIterations),
-                                           new ResidualStopCriterium(ConvergenceBoundary),
-                                           new DivergenceStopCriterium(),
-                                           new FailureStopCriterium()
-                                       });
+                {
+                    new IterationCountStopCriterium(MaximumIterations),
+                    new ResidualStopCriterium(ConvergenceBoundary),
+                    new DivergenceStopCriterium(),
+                    new FailureStopCriterium()
+                });
             var solver = new BiCgStab(monitor);
 
             // Solve equation Ax = y
@@ -258,16 +262,16 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.Iterative
             var vectorb = MatrixLoader.GenerateRandomDenseVector(order);
 
             var monitor = new Iterator(new IIterationStopCriterium[]
-                                       {
-                                           new IterationCountStopCriterium(1000),
-                                           new ResidualStopCriterium(1e-10),
-                                       });
+                {
+                    new IterationCountStopCriterium(1000),
+                    new ResidualStopCriterium(1e-10),
+                });
             var solver = new BiCgStab(monitor);
 
             var resultx = solver.Solve(matrixA, vectorb);
             Assert.AreEqual(matrixA.ColumnCount, resultx.Count);
 
-            var matrixBReconstruct = matrixA * resultx;
+            var matrixBReconstruct = matrixA*resultx;
 
             // Check the reconstruction.
             for (var i = 0; i < order; i++)
@@ -289,10 +293,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.Iterative
             var matrixB = MatrixLoader.GenerateRandomDenseMatrix(order, order);
 
             var monitor = new Iterator(new IIterationStopCriterium[]
-                                       {
-                                           new IterationCountStopCriterium(1000),
-                                           new ResidualStopCriterium(1e-10)
-                                       });
+                {
+                    new IterationCountStopCriterium(1000),
+                    new ResidualStopCriterium(1e-10)
+                });
             var solver = new BiCgStab(monitor);
             var matrixX = solver.Solve(matrixA, matrixB);
 
@@ -302,7 +306,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.Iterative
             // The solution X has the same number of columns as B
             Assert.AreEqual(matrixB.ColumnCount, matrixX.ColumnCount);
 
-            var matrixBReconstruct = matrixA * matrixX;
+            var matrixBReconstruct = matrixA*matrixX;
 
             // Check the reconstruction.
             for (var i = 0; i < matrixB.RowCount; i++)
