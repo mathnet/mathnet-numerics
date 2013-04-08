@@ -35,6 +35,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
     using Properties;
     using Storage;
     using System;
+    using System.Collections.Generic;
     using System.Diagnostics;
     using System.Linq;
     using System.Numerics;
@@ -140,6 +141,27 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         public static DiagonalMatrix OfArray(Complex[,] array)
         {
             return new DiagonalMatrix(DiagonalMatrixStorage<Complex>.OfArray(array));
+        }
+
+        /// <summary>
+        /// Create a new diagonal matrix and initialize each diagonal value from the provided indexed enumerable.
+        /// Keys must be provided at most once, zero is assumed if a key is omitted.
+        /// This new matrix will be independent from the enumerable.
+        /// A new memory block will be allocated for storing the matrix.
+        /// </summary>
+        public static DiagonalMatrix OfIndexedDiagonal(int rows, int columns, IEnumerable<Tuple<int, Complex>> diagonal)
+        {
+            return new DiagonalMatrix(DiagonalMatrixStorage<Complex>.OfIndexedEnumerable(rows, columns, diagonal));
+        }
+
+        /// <summary>
+        /// Create a new diagonal matrix and initialize each diagonal value from the provided enumerable.
+        /// This new matrix will be independent from the enumerable.
+        /// A new memory block will be allocated for storing the matrix.
+        /// </summary>
+        public static DiagonalMatrix OfDiagonal(int rows, int columns, IEnumerable<Complex> diagonal)
+        {
+            return new DiagonalMatrix(DiagonalMatrixStorage<Complex>.OfEnumerable(rows, columns, diagonal));
         }
 
         /// <summary>

@@ -112,6 +112,17 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         }
 
         /// <summary>
+        /// Create a new sparse matrix as a copy of the given indexed enumerable.
+        /// Keys must be provided at most once, zero is assumed if a key is omitted.
+        /// This new matrix will be independent from the enumerable.
+        /// A new memory block will be allocated for storing the matrix.
+        /// </summary>
+        public static SparseMatrix OfIndexed(int rows, int columns, IEnumerable<Tuple<int, int, float>> enumerable)
+        {
+            return new SparseMatrix(SparseCompressedRowMatrixStorage<float>.OfIndexedEnumerable(rows, columns, enumerable));
+        }
+
+        /// <summary>
         /// Create a new sparse matrix as a copy of the given enumerable.
         /// The enumerable is assumed to be in row-major order (row by row).
         /// This new matrix will be independent from the enumerable.

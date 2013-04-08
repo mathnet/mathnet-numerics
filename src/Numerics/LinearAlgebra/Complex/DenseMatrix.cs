@@ -135,6 +135,17 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         }
 
         /// <summary>
+        /// Create a new dense matrix as a copy of the given indexed enumerable.
+        /// Keys must be provided at most once, zero is assumed if a key is omitted.
+        /// This new matrix will be independent from the enumerable.
+        /// A new memory block will be allocated for storing the matrix.
+        /// </summary>
+        public static DenseMatrix OfIndexed(int rows, int columns, IEnumerable<Tuple<int, int, Complex>> enumerable)
+        {
+            return new DenseMatrix(DenseColumnMajorMatrixStorage<Complex>.OfIndexedEnumerable(rows, columns, enumerable));
+        }
+
+        /// <summary>
         /// Create a new dense matrix as a copy of the given enumerable.
         /// The enumerable is assumed to be in column-major order (column by column).
         /// This new matrix will be independent from the enumerable.

@@ -428,6 +428,49 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             return storage;
         }
 
+        public static SparseCompressedRowMatrixStorage<T> OfIndexedEnumerable(int rows, int columns, IEnumerable<Tuple<int, int, T>> data)
+        {
+            if (data == null)
+            {
+                throw new ArgumentNullException("data");
+            }
+
+            var trows = new List<Tuple<int, T>>[rows];
+            foreach (var item in data)
+            {
+                if (!Zero.Equals(item.Item3))
+                {
+                    var row = trows[item.Item1] ?? (trows[item.Item1] = new List<Tuple<int, T>>());
+                    row.Add(new Tuple<int, T>(item.Item2, item.Item3));
+                }
+            }
+
+            var storage = new SparseCompressedRowMatrixStorage<T>(rows, columns);
+            var rowPointers = storage.RowPointers;
+            var columnIndices = new List<int>();
+            var values = new List<T>();
+
+            int index = 0;
+            for (int row = 0; row < rows; row++)
+            {
+                rowPointers[row] = index;
+                if (trows[row] != null)
+                {
+                    foreach (var item in trows[row])
+                    {
+                        values.Add(item.Item2);
+                        columnIndices.Add(item.Item1);
+                        index++;
+                    }
+                }
+            }
+
+            storage.ColumnIndices = columnIndices.ToArray();
+            storage.Values = values.ToArray();
+            storage.ValueCount = values.Count;
+            return storage;
+        }
+
         public static SparseCompressedRowMatrixStorage<T> OfRowMajorEnumerable(int rows, int columns, IEnumerable<T> data)
         {
             if (data == null)

@@ -29,6 +29,7 @@
 // </copyright>
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using MathNet.Numerics.Properties;
 
@@ -205,6 +206,39 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             for (var i = 0; i < storage.Data.Length; i++)
             {
                 storage.Data[i] = init(i);
+            }
+            return storage;
+        }
+
+        public static DiagonalMatrixStorage<T> OfEnumerable(int rows, int columns, IEnumerable<T> data)
+        {
+            if (data == null)
+            {
+                throw new ArgumentNullException("data");
+            }
+
+            var arrayData = data as T[];
+            if (arrayData != null)
+            {
+                var copy = new T[arrayData.Length];
+                Array.Copy(arrayData, copy, arrayData.Length);
+                return new DiagonalMatrixStorage<T>(rows, columns, copy);
+            }
+
+            return new DiagonalMatrixStorage<T>(rows, columns, data.ToArray());
+        }
+
+        public static DiagonalMatrixStorage<T> OfIndexedEnumerable(int rows, int columns, IEnumerable<Tuple<int, T>> data)
+        {
+            if (data == null)
+            {
+                throw new ArgumentNullException("data");
+            }
+
+            var storage = new DiagonalMatrixStorage<T>(rows, columns);
+            foreach(var item in data)
+            {
+                storage.Data[item.Item1] = item.Item2;
             }
             return storage;
         }

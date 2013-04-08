@@ -249,6 +249,12 @@ module DenseMatrix =
     /// Initialize a matrix by calling a construction function for every element.
     let inline init (n: int) (m: int) (f: int -> int -> float) = DenseMatrix.Create(n, m, fun n m -> f n m)
 
+    /// Create a matrix with a given dimension from an indexed list of row, column, value tuples.
+    let inline ofListi (n: int) (m: int) (fl: list<int * int * float>) = DenseMatrix.OfIndexed(n, m, Seq.ofList fl)
+    
+    /// Create a matrix with a given dimension from an indexed sequences of row, column, value tuples.
+    let inline ofSeqi (n: int) (m: int) (fs: #seq<int * int * float>) = DenseMatrix.OfIndexed(n, m, fs)
+
     /// Create a matrix from a list of float lists. Every list in the master list specifies a row.
     let inline ofList (fll: float list list) =
         let n = List.length fll
@@ -310,6 +316,12 @@ module SparseMatrix =
 
     /// Initialize a matrix by calling a construction function for every element.
     let inline init (n: int) (m: int) (f: int -> int -> float) = SparseMatrix.Create(n, m, fun n m -> f n m)
+
+    /// Create a matrix with a given dimension from an indexed list of row, column, value tuples.
+    let inline ofListi (n: int) (m: int) (fl: list<int * int * float>) = SparseMatrix.OfIndexed(n, m, Seq.ofList fl)
+    
+    /// Create a matrix with a given dimension from an indexed sequences of row, column, value tuples.
+    let inline ofSeqi (n: int) (m: int) (fs: #seq<int * int * float>) = SparseMatrix.OfIndexed(n, m, fs)
 
     /// Create a matrix from a list of float lists. Every list in the master list specifies a row.
     let inline ofList (rows: int) (cols: int) (fll: list<int * int * float>) =

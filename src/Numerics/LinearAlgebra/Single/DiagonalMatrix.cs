@@ -35,6 +35,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
     using Properties;
     using Storage;
     using System;
+    using System.Collections.Generic;
     using System.Diagnostics;
     using System.Linq;
 
@@ -139,6 +140,27 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         public static DiagonalMatrix OfArray(float[,] array)
         {
             return new DiagonalMatrix(DiagonalMatrixStorage<float>.OfArray(array));
+        }
+
+        /// <summary>
+        /// Create a new diagonal matrix and initialize each diagonal value from the provided indexed enumerable.
+        /// Keys must be provided at most once, zero is assumed if a key is omitted.
+        /// This new matrix will be independent from the enumerable.
+        /// A new memory block will be allocated for storing the matrix.
+        /// </summary>
+        public static DiagonalMatrix OfIndexedDiagonal(int rows, int columns, IEnumerable<Tuple<int, float>> diagonal)
+        {
+            return new DiagonalMatrix(DiagonalMatrixStorage<float>.OfIndexedEnumerable(rows, columns, diagonal));
+        }
+
+        /// <summary>
+        /// Create a new diagonal matrix and initialize each diagonal value from the provided enumerable.
+        /// This new matrix will be independent from the enumerable.
+        /// A new memory block will be allocated for storing the matrix.
+        /// </summary>
+        public static DiagonalMatrix OfDiagonal(int rows, int columns, IEnumerable<float> diagonal)
+        {
+            return new DiagonalMatrix(DiagonalMatrixStorage<float>.OfEnumerable(rows, columns, diagonal));
         }
 
         /// <summary>

@@ -136,6 +136,21 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             return storage;
         }
 
+        public static DenseColumnMajorMatrixStorage<T> OfIndexedEnumerable(int rows, int columns, IEnumerable<Tuple<int, int, T>> data)
+        {
+            if (data == null)
+            {
+                throw new ArgumentNullException("data");
+            }
+
+            var array = new T[rows * columns];
+            foreach (var item in data)
+            {
+                array[(item.Item2 * rows) + item.Item1] = item.Item3;
+            }
+            return new DenseColumnMajorMatrixStorage<T>(rows, columns, array);
+        }
+
         public static DenseColumnMajorMatrixStorage<T> OfColumnMajorEnumerable(int rows, int columns, IEnumerable<T> data)
         {
             if (data == null)
