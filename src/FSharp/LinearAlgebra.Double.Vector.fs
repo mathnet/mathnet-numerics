@@ -186,20 +186,32 @@ module Vector =
 [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
 module DenseVector =
 
+    /// Create a vector that directly binds to a raw storage array, without copying.
+    let inline raw (raw: float[]) = DenseVector(raw)
+
+    /// Initialize an all-zero vector with the given dimension.
+    let inline zeroCreate (n: int) = DenseVector(n)
+
+    /// Initialize a random vector with the given dimension and distribution.
+    let inline randomCreate (n: int) dist = DenseVector.CreateRandom(n, dist)
+
+    /// Initialize an all-zero vector with the given dimension.
+    let inline create (n: int) x = DenseVector.Create(n, fun i -> x)
+
     /// Initialize a vector by calling a construction function for every element.
     let inline init (n: int) (f: int -> float) = DenseVector.Create(n, fun i -> f i)
 
     /// Create a vector from a float list.
     let inline ofList (fl: float list) = DenseVector(Array.ofList fl)
 
-    /// Create a vector with a given dimension from an indexed list of index, value pairs.
-    let inline ofListi (dim: int) (fl: list<int * float>) = DenseVector.OfIndexedEnumerable(dim, Seq.ofList fl)
-
     /// Create a vector from a sequences.
     let inline ofSeq (fs: #seq<float>) = DenseVector.OfEnumerable(fs)
 
+    /// Create a vector with a given dimension from an indexed list of index, value pairs.
+    let inline ofListi (n: int) (fl: list<int * float>) = DenseVector.OfIndexedEnumerable(n, Seq.ofList fl)
+
     /// Create a vector with a given dimension from an indexed sequences of index, value pairs.
-    let inline ofSeqi (dim: int) (fs: #seq<int * float>) = DenseVector.OfIndexedEnumerable(dim, fs)
+    let inline ofSeqi (n: int) (fs: #seq<int * float>) = DenseVector.OfIndexedEnumerable(n, fs)
 
     /// Create a vector with evenly spaced entries: e.g. rangef -1.0 0.5 1.0 = [-1.0 -0.5 0.0 0.5 1.0]
     let inline rangef (start: float) (step: float) (stop: float) =
@@ -217,19 +229,22 @@ module DenseVector =
 [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
 module SparseVector =
 
+    /// Initialize an all-zero vector with the given dimension.
+    let inline zeroCreate (n: int) = SparseVector(n)
+
     /// Initialize a vector by calling a construction function for every element.
     let inline init (n: int) (f: int -> float) = SparseVector.Create(n, fun i -> f i)
 
     /// Create a sparse vector with a given dimension from a list of index, value pairs.
     [<System.ObsoleteAttribute("Use ofListi instead. Will be changed to expect a non-indexed seq in a future version.")>]
-    let inline ofList (dim: int) (fl: list<int * float>) = SparseVector.OfIndexedEnumerable(dim, Seq.ofList fl)
-
-    /// Create a sparse vector with a given dimension from an indexed list of index, value pairs.
-    let inline ofListi (dim: int) (fl: list<int * float>) = SparseVector.OfIndexedEnumerable(dim, Seq.ofList fl)
+    let inline ofList (n: int) (fl: list<int * float>) = SparseVector.OfIndexedEnumerable(n, Seq.ofList fl)
 
     /// Create a sparse vector with a given dimension from a sequence of index, value pairs.
     [<System.ObsoleteAttribute("Use ofSeqi instead. Will be changed to expect a non-indexed seq in a future version.")>]
-    let inline ofSeq (dim: int) (fs: #seq<int * float>) = SparseVector.OfIndexedEnumerable(dim, fs)
+    let inline ofSeq (n: int) (fs: #seq<int * float>) = SparseVector.OfIndexedEnumerable(n, fs)
+
+    /// Create a sparse vector with a given dimension from an indexed list of index, value pairs.
+    let inline ofListi (n: int) (fl: list<int * float>) = SparseVector.OfIndexedEnumerable(n, Seq.ofList fl)
 
     /// Create a sparse vector with a given dimension from an indexed sequence of index, value pairs.
-    let inline ofSeqi (dim: int) (fs: #seq<int * float>) = SparseVector.OfIndexedEnumerable(dim, fs)
+    let inline ofSeqi (n: int) (fs: #seq<int * float>) = SparseVector.OfIndexedEnumerable(n, fs)
