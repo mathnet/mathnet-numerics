@@ -133,6 +133,21 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             return new DenseVectorStorage<T>(array.Length, array);
         }
 
+        public static DenseVectorStorage<T> OfIndexedEnumerable(int length, IEnumerable<Tuple<int, T>> data)
+        {
+            if (data == null)
+            {
+                throw new ArgumentNullException("data");
+            }
+
+            var array = new T[length];
+            foreach (var item in data)
+            {
+                array[item.Item1] = item.Item2;
+            }
+            return new DenseVectorStorage<T>(array.Length, array);
+        }
+
         // ENUMERATION
 
         public override IEnumerable<T> Enumerate()

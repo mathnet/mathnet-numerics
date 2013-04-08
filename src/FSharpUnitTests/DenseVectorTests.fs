@@ -9,7 +9,7 @@ open MathNet.Numerics.LinearAlgebra.Double
 module DenseVectorTests =
 
     /// A small uniform vector.
-    let smallv = new DenseVector(5, 0.3 )
+    let smallv = DenseVector.Create(5, fun i -> 0.3)
 
     /// A large vector with increasingly large entries
     let largev = new DenseVector( Array.init 100 (fun i -> float i / 100.0) )
@@ -23,8 +23,16 @@ module DenseVectorTests =
         DenseVector.ofList [ for i in 0 .. 99 -> float i / 100.0 ] |> should equal largev
 
     [<Test>]
+    let ``DenseVector.ofListi`` () =
+        DenseVector.ofListi 100 [ for i in 0 .. 99 -> i, float i / 100.0 ] |> should equal largev
+
+    [<Test>]
     let ``DenseVector.ofSeq`` () =
         DenseVector.ofSeq (seq { for i in 0 .. 99 -> float i / 100.0 }) |> should equal largev
+
+    [<Test>]
+    let ``DenseVector.ofSeqi`` () =
+        DenseVector.ofSeqi 100 (seq { for i in 99 .. -1 .. 0 -> i, float i / 100.0 }) |> should equal largev
 
     [<Test>]
     let ``DenseVector.rangef`` () =

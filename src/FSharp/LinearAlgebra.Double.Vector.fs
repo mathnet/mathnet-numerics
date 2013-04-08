@@ -192,8 +192,14 @@ module DenseVector =
     /// Create a vector from a float list.
     let inline ofList (fl: float list) = DenseVector(Array.ofList fl)
 
+    /// Create a vector with a given dimension from an indexed list of index, value pairs.
+    let inline ofListi (dim: int) (fl: list<int * float>) = DenseVector.OfIndexedEnumerable(dim, Seq.ofList fl)
+
     /// Create a vector from a sequences.
-    let inline ofSeq (fs: #seq<float>) = DenseVector(Array.ofSeq fs)
+    let inline ofSeq (fs: #seq<float>) = DenseVector.OfEnumerable(fs)
+
+    /// Create a vector with a given dimension from an indexed sequences of index, value pairs.
+    let inline ofSeqi (dim: int) (fs: #seq<int * float>) = DenseVector.OfIndexedEnumerable(dim, fs)
 
     /// Create a vector with evenly spaced entries: e.g. rangef -1.0 0.5 1.0 = [-1.0 -0.5 0.0 0.5 1.0]
     let inline rangef (start: float) (step: float) (stop: float) =
@@ -214,14 +220,16 @@ module SparseVector =
     /// Initialize a vector by calling a construction function for every element.
     let inline init (n: int) (f: int -> float) = SparseVector.Create(n, fun i -> f i)
 
-    /// Create a sparse vector with a given dimension from a list of entry, value pairs.
-    let inline ofList (dim: int) (fl: list<int * float>) =
-        let v = new SparseVector(dim)
-        fl |> List.iter (fun (i, f) -> v.[i] <- f)
-        v
+    /// Create a sparse vector with a given dimension from a list of index, value pairs.
+    [<System.ObsoleteAttribute("Use ofListi instead. Will be changed to expect a non-indexed seq in a future version.")>]
+    let inline ofList (dim: int) (fl: list<int * float>) = SparseVector.OfIndexedEnumerable(dim, Seq.ofList fl)
 
-    /// Create a sparse vector with a given dimension from a sequence of entry, value pairs.
-    let inline ofSeq (dim: int) (fs: #seq<int * float>) =
-        let v = new SparseVector(dim)
-        fs |> Seq.iter (fun (i, f) -> v.[i] <- f)
-        v
+    /// Create a sparse vector with a given dimension from an indexed list of index, value pairs.
+    let inline ofListi (dim: int) (fl: list<int * float>) = SparseVector.OfIndexedEnumerable(dim, Seq.ofList fl)
+
+    /// Create a sparse vector with a given dimension from a sequence of index, value pairs.
+    [<System.ObsoleteAttribute("Use ofSeqi instead. Will be changed to expect a non-indexed seq in a future version.")>]
+    let inline ofSeq (dim: int) (fs: #seq<int * float>) = SparseVector.OfIndexedEnumerable(dim, fs)
+
+    /// Create a sparse vector with a given dimension from an indexed sequence of index, value pairs.
+    let inline ofSeqi (dim: int) (fs: #seq<int * float>) = SparseVector.OfIndexedEnumerable(dim, fs)

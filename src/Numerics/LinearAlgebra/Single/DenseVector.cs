@@ -112,6 +112,17 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         }
 
         /// <summary>
+        /// Create a new dense vector as a copy of the given indexed enumerable.
+        /// Keys must be provided at most once, zero is assumed if a key is omitted.
+        /// This new vector will be independent from the enumerable.
+        /// A new memory block will be allocated for storing the vector.
+        /// </summary>
+        public static DenseVector OfIndexedEnumerable(int length, IEnumerable<Tuple<int, float>> enumerable)
+        {
+            return new DenseVector(DenseVectorStorage<float>.OfIndexedEnumerable(length, enumerable));
+        }
+
+        /// <summary>
         /// Create a new dense vector and initialize each value using the provided init function.
         /// </summary>
         public static DenseVector Create(int length, Func<int, float> init)

@@ -40,7 +40,7 @@ module DenseMatrixTests =
 
     [<Test>]
     let ``DenseMatrix.diag`` () =
-        DenseMatrix.diag (new DenseVector(100, 2.0)) |> should equal (2.0 * (DenseMatrix.Identity 100))
+        DenseMatrix.diag (DenseVector.Create(100, fun i -> 2.0)) |> should equal (2.0 * (DenseMatrix.Identity 100))
 
     [<Test>]
     let ``DenseMatrix.init_row`` () =

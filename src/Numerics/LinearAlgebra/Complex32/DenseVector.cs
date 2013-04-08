@@ -112,6 +112,17 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         }
 
         /// <summary>
+        /// Create a new dense vector as a copy of the given indexed enumerable.
+        /// Keys must be provided at most once, zero is assumed if a key is omitted.
+        /// This new vector will be independent from the enumerable.
+        /// A new memory block will be allocated for storing the vector.
+        /// </summary>
+        public static DenseVector OfIndexedEnumerable(int length, IEnumerable<Tuple<int, Complex32>> enumerable)
+        {
+            return new DenseVector(DenseVectorStorage<Complex32>.OfIndexedEnumerable(length, enumerable));
+        }
+
+        /// <summary>
         /// Create a new dense vector and initialize each value using the provided init function.
         /// </summary>
         public static DenseVector Create(int length, Func<int, Complex32> init)

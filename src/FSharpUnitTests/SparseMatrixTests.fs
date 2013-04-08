@@ -25,4 +25,4 @@ module SparseMatrixTests =
 
     [<Test>]
     let ``SparseMatrix.diag`` () =
-        SparseMatrix.diag (new DenseVector(100, 2.0)) |> should equal (2.0 * (SparseMatrix.Identity 100))
+        SparseMatrix.diag (DenseVector.Create(100, fun i -> 2.0)) |> should equal (2.0 * (SparseMatrix.Identity 100))

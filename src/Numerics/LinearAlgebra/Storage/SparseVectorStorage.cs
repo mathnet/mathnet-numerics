@@ -306,7 +306,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                 if (!Zero.Equals(item))
                 {
                     values.Add(item);
-                    indices.Add(length);
+                    indices.Add(i);
                 }
             }
             return new SparseVectorStorage<T>(length)
@@ -326,22 +326,52 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
             var indices = new List<int>();
             var values = new List<T>();
-            int length = 0;
+            int index = 0;
 
             foreach (T item in data)
             {
                 if (!Zero.Equals(item))
                 {
                     values.Add(item);
-                    indices.Add(length);
+                    indices.Add(index);
                 }
-                length++;
+                index++;
             }
 
-            return new SparseVectorStorage<T>(length)
+            return new SparseVectorStorage<T>(index)
                 {
                     Indices = indices.ToArray(),
                     Values = values.ToArray(),
+                    ValueCount = values.Count
+                };
+        }
+
+        public static SparseVectorStorage<T> OfIndexedEnumerable(int length, IEnumerable<Tuple<int, T>> data)
+        {
+            if (data == null)
+            {
+                throw new ArgumentNullException("data");
+            }
+
+            var indices = new List<int>();
+            var values = new List<T>();
+            foreach (var item in data)
+            {
+                if (!Zero.Equals(item.Item2))
+                {
+                    values.Add(item.Item2);
+                    indices.Add(item.Item1);
+                }
+            }
+
+            var indicesArray = indices.ToArray();
+            var valuesArray = values.ToArray();
+            Sorting.Sort(indicesArray, valuesArray);
+
+            return new SparseVectorStorage<T>(length)
+                {
+                    Indices = indicesArray,
+                    Values = valuesArray,
                     ValueCount = values.Count
                 };
         }

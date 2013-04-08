@@ -102,6 +102,17 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         }
 
         /// <summary>
+        /// Create a new sparse vector as a copy of the given indexed enumerable.
+        /// Keys must be provided at most once, zero is assumed if a key is omitted.
+        /// This new vector will be independent from the enumerable.
+        /// A new memory block will be allocated for storing the vector.
+        /// </summary>
+        public static SparseVector OfIndexedEnumerable(int length, IEnumerable<Tuple<int, Complex>> enumerable)
+        {
+            return new SparseVector(SparseVectorStorage<Complex>.OfIndexedEnumerable(length, enumerable));
+        }
+
+        /// <summary>
         /// Create a new sparse vector and initialize each value using the provided init function.
         /// </summary>
         public static SparseVector Create(int length, Func<int, Complex> init)
