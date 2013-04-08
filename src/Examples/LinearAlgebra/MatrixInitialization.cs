@@ -72,7 +72,7 @@ namespace Examples.LinearAlgebraExamples
             var matrix3 = new DenseMatrix(2, 3);
 
             // 4. Initialize a new instance of the matrix with all entries set to a particular value.
-            var matrix4 = new DenseMatrix(2, 3, 3.0);
+            var matrix4 = DenseMatrix.Create(2, 3, (i, j) => 3.0);
 
             // 4. Initialize a new instance of the matrix from a one dimensional array. This array should store the matrix in column-major order. 
             var matrix5 = new DenseMatrix(2, 3, new[] { 1.0, 4.0, 2.0, 5.0, 3.0, 6.0 });
