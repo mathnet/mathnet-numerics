@@ -159,6 +159,32 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         }
 
         /// <summary>
+        /// Create a new dense matrix as a copy of the given enumerable of enumerable columns.
+        /// Each enumerable in the master enumerable specifies a column.
+        /// This new matrix will be independent from the enumerables.
+        /// A new memory block will be allocated for storing the matrix.
+        /// </summary>
+        public static DenseMatrix OfColumns<TColumn>(int rows, int columns, IEnumerable<TColumn> data)
+            // NOTE: flexible typing to 'backport' generic covariance.
+            where TColumn : IEnumerable<double>
+        {
+            return new DenseMatrix(DenseColumnMajorMatrixStorage<double>.OfColumnEnumerables(rows, columns, data));
+        }
+
+        /// <summary>
+        /// Create a new dense matrix as a copy of the given enumerable of enumerable rows.
+        /// Each enumerable in the master enumerable specifies a row.
+        /// This new matrix will be independent from the enumerables.
+        /// A new memory block will be allocated for storing the matrix.
+        /// </summary>
+        public static DenseMatrix OfRows<TRow>(int rows, int columns, IEnumerable<TRow> data)
+            // NOTE: flexible typing to 'backport' generic covariance.
+            where TRow : IEnumerable<double>
+        {
+            return new DenseMatrix(DenseColumnMajorMatrixStorage<double>.OfRowEnumerables(rows, columns, data));
+        }
+
+        /// <summary>
         /// Create a new dense matrix and initialize each value using the provided init function.
         /// </summary>
         public static DenseMatrix Create(int rows, int columns, Func<int, int, double> init)
@@ -257,7 +283,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
         /// <summary>
         /// Returns the transpose of this matrix.
-        /// </summary>        
+        /// </summary>
         /// <returns>The transpose of this matrix.</returns>
         public override Matrix<double> Transpose()
         {
@@ -289,7 +315,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         }
 
         /// <summary>Calculates the infinity norm of this matrix.</summary>
-        /// <returns>The infinity norm of this matrix.</returns>  
+        /// <returns>The infinity norm of this matrix.</returns>
         public override double InfinityNorm()
         {
             return Control.LinearAlgebraProvider.MatrixNorm(Norm.InfinityNorm, _rowCount, _columnCount, _values);
@@ -357,7 +383,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 Control.LinearAlgebraProvider.SubtractArrays(_values, denseOther._values, denseResult._values);
             }
         }
-    
+
         /// <summary>
         /// Multiplies each element of the matrix by a scalar and places results into the result matrix.
         /// </summary>
@@ -375,7 +401,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 Control.LinearAlgebraProvider.ScaleArray(scalar, _values, denseResult._values);
             }
         }
-     
+
         /// <summary>
         /// Multiplies this matrix with a vector and places the results into the result vector.
         /// </summary>
@@ -671,7 +697,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         }
 
         /// <summary>
-        /// Returns a <strong>Matrix</strong> containing the same values of <paramref name="rightSide"/>. 
+        /// Returns a <strong>Matrix</strong> containing the same values of <paramref name="rightSide"/>.
         /// </summary>
         /// <param name="rightSide">The matrix to get the values from.</param>
         /// <returns>A matrix containing a the same values as <paramref name="rightSide"/>.</returns>

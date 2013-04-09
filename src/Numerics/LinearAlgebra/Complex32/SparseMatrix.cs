@@ -148,6 +148,32 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         }
 
         /// <summary>
+        /// Create a new sparse matrix as a copy of the given enumerable of enumerable columns.
+        /// Each enumerable in the master enumerable specifies a column.
+        /// This new matrix will be independent from the enumerables.
+        /// A new memory block will be allocated for storing the matrix.
+        /// </summary>
+        public static SparseMatrix OfColumns<TColumn>(int rows, int columns, IEnumerable<TColumn> data)
+            // NOTE: flexible typing to 'backport' generic covariance.
+            where TColumn : IEnumerable<Complex32>
+        {
+            return new SparseMatrix(SparseCompressedRowMatrixStorage<Complex32>.OfColumnEnumerables(rows, columns, data));
+        }
+
+        /// <summary>
+        /// Create a new sparse matrix as a copy of the given enumerable of enumerable rows.
+        /// Each enumerable in the master enumerable specifies a row.
+        /// This new matrix will be independent from the enumerables.
+        /// A new memory block will be allocated for storing the matrix.
+        /// </summary>
+        public static SparseMatrix OfRows<TRow>(int rows, int columns, IEnumerable<TRow> data)
+            // NOTE: flexible typing to 'backport' generic covariance.
+            where TRow : IEnumerable<Complex32>
+        {
+            return new SparseMatrix(SparseCompressedRowMatrixStorage<Complex32>.OfRowEnumerables(rows, columns, data));
+        }
+
+        /// <summary>
         /// Create a new sparse matrix and initialize each value using the provided init function.
         /// </summary>
         public static SparseMatrix Create(int rows, int columns, Func<int, int, Complex32> init)
