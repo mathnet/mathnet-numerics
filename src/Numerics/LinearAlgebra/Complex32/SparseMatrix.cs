@@ -32,7 +32,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
 {
     using Generic;
     using Numerics;
-    using Properties;
     using Storage;
     using System;
     using System.Collections.Generic;

@@ -31,7 +31,6 @@
 namespace MathNet.Numerics.LinearAlgebra.Double
 {
     using Generic;
-    using Properties;
     using Storage;
     using System;
     using System.Collections.Generic;
