@@ -40,6 +40,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
     [TestFixture]
     public class MatrixStructureTheory : MatrixStructureTheory<double>
     {
+        public MatrixStructureTheory()
+            : base(0d, typeof (DenseMatrix), typeof (SparseMatrix), typeof (DiagonalMatrix), typeof (DenseVector), typeof (SparseVector))
+        {
+        }
+
         [Datapoints]
         Matrix<double>[] _matrices = new Matrix<double>[]
             {
@@ -89,11 +94,6 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         {
             var dist = new Normal {RandomSource = new MersenneTwister(seed)};
             return new DenseVector(dist.Samples().Take(size).ToArray());
-        }
-
-        protected override double Zero
-        {
-            get { return 0d; }
         }
     }
 }

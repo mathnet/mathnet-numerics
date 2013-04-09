@@ -41,6 +41,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
     [TestFixture]
     public class MatrixStructureTheory : MatrixStructureTheory<Complex>
     {
+        public MatrixStructureTheory()
+            : base(Complex.Zero, typeof(DenseMatrix), typeof(SparseMatrix), typeof(DiagonalMatrix), typeof(DenseVector), typeof(SparseVector))
+        {
+        }
+
         [Datapoints]
         Matrix<Complex>[] _matrices = new Matrix<Complex>[]
             {
@@ -90,11 +95,6 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
         {
             var dist = new Normal {RandomSource = new MersenneTwister(seed)};
             return new DenseVector(Enumerable.Range(0, size).Select(k => new Complex(dist.Sample(), dist.Sample())).ToArray());
-        }
-
-        protected override Complex Zero
-        {
-            get { return Complex.Zero; }
         }
     }
 }

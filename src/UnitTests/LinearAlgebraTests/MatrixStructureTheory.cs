@@ -1,4 +1,34 @@
-﻿using System.Collections.Generic;
+﻿// <copyright file="MatrixStructureTheory.cs" company="Math.NET">
+// Math.NET Numerics, part of the Math.NET Project
+// http://numerics.mathdotnet.com
+// http://github.com/mathnet/mathnet-numerics
+// http://mathnetnumerics.codeplex.com
+//
+// Copyright (c) 2009-2013 Math.NET
+//
+// Permission is hereby granted, free of charge, to any person
+// obtaining a copy of this software and associated documentation
+// files (the "Software"), to deal in the Software without
+// restriction, including without limitation the rights to use,
+// copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the
+// Software is furnished to do so, subject to the following
+// conditions:
+//
+// The above copyright notice and this permission notice shall be
+// included in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+// OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+// HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+// WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+// FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+// OTHER DEALINGS IN THE SOFTWARE.
+// </copyright>
+
+using System.Collections.Generic;
 
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
 {
@@ -15,7 +45,23 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         protected abstract Matrix<T> CreateSparseZero(int rows, int columns);
         protected abstract Vector<T> CreateVectorZero(int size);
         protected abstract Vector<T> CreateVectorRandom(int size, int seed);
-        protected abstract T Zero { get; }
+
+        protected readonly T Zero;
+        protected readonly dynamic Dense;
+        protected readonly dynamic Sparse;
+        protected readonly dynamic Diagonal;
+        protected readonly dynamic DenseVector;
+        protected readonly dynamic SparseVector;
+
+        protected MatrixStructureTheory(T zero, Type dense, Type sparse, Type diagonal, Type denseVector, Type sparseVector)
+        {
+            Zero = zero;
+            Dense = new StaticDynamicWrapper(dense);
+            Sparse = new StaticDynamicWrapper(sparse);
+            Diagonal = new StaticDynamicWrapper(diagonal);
+            DenseVector = new StaticDynamicWrapper(denseVector);
+            SparseVector = new StaticDynamicWrapper(sparseVector);
+        }
 
         protected Matrix<T> CreateDenseFor(Matrix<T> m, int rows = -1, int columns = -1, int seed = 1)
         {
@@ -31,7 +77,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
                 : CreateVectorZero(size);
         }
 
-        [Theory, Timeout(200)]
+        [Theory]
         public void IsEqualToItself(Matrix<T> matrix)
         {
             Assert.That(matrix, Is.EqualTo(matrix));
@@ -42,7 +88,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
             Assert.IsTrue((object) matrix == matrix);
         }
 
-        [Theory, Timeout(200)]
+        [Theory]
         public void IsNotEqualToOthers(Matrix<T> left, Matrix<T> right)
         {
             // IF (assuming we don't have duplicate data points)
@@ -57,7 +103,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
             Assert.IsFalse((object) left == right);
         }
 
-        [Theory, Timeout(200)]
+        [Theory]
         public void IsNotEqualToNonMatrixType(Matrix<T> matrix)
         {
             Assert.That(matrix, Is.Not.EqualTo(2));
@@ -67,7 +113,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
             Assert.IsFalse(matrix == (object) 2);
         }
 
-        [Theory, Timeout(200)]
+        [Theory]
         public void CanClone(Matrix<T> matrix)
         {
             var clone = matrix.Clone();
@@ -77,7 +123,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
             Assert.That(clone.ColumnCount, Is.EqualTo(matrix.ColumnCount));
         }
 
-        [Theory, Timeout(200)]
+        [Theory]
         public void CanCloneUsingICloneable(Matrix<T> matrix)
         {
             var clone = (Matrix<T>) ((ICloneable) matrix).Clone();
@@ -87,7 +133,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
             Assert.That(clone.ColumnCount, Is.EqualTo(matrix.ColumnCount));
         }
 
-        [Theory, Timeout(200)]
+        [Theory]
         public void CanCopyTo(Matrix<T> matrix)
         {
             var dense = CreateDenseZero(matrix.RowCount, matrix.ColumnCount);
@@ -106,13 +152,13 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
             Assert.That(() => matrix.CopyTo(CreateDenseZero(matrix.RowCount, matrix.ColumnCount + 1)), Throws.ArgumentException);
         }
 
-        [Theory, Timeout(200)]
+        [Theory]
         public void CanGetHashCode(Matrix<T> matrix)
         {
             Assert.That(matrix.GetHashCode(), Is.Not.EqualTo(matrix.CreateMatrix(matrix.RowCount, matrix.ColumnCount).GetHashCode()));
         }
 
-        [Theory, Timeout(200)]
+        [Theory]
         public void CanClear(Matrix<T> matrix)
         {
             var cleared = matrix.Clone();
@@ -120,21 +166,21 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
             Assert.That(cleared, Is.EqualTo(matrix.CreateMatrix(matrix.RowCount, matrix.ColumnCount)));
         }
 
-        [Theory, Timeout(200)]
+        [Theory]
         public void CanClearSubMatrix(Matrix<T> matrix)
         {
             var cleared = matrix.Clone();
             Assume.That(cleared.RowCount, Is.GreaterThanOrEqualTo(2));
             Assume.That(cleared.ColumnCount, Is.GreaterThanOrEqualTo(2));
 
-            cleared.Storage.Clear(0,2,1,1);
+            cleared.Storage.Clear(0, 2, 1, 1);
             Assert.That(cleared.At(0, 0), Is.EqualTo(matrix.At(0, 0)));
             Assert.That(cleared.At(1, 0), Is.EqualTo(matrix.At(1, 0)));
             Assert.That(cleared.At(0, 1), Is.EqualTo(Zero));
             Assert.That(cleared.At(1, 1), Is.EqualTo(Zero));
         }
 
-        [Theory, Timeout(200)]
+        [Theory]
         public void CanToArray(Matrix<T> matrix)
         {
             var array = matrix.ToArray();
@@ -149,29 +195,29 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
             }
         }
 
-        [Theory, Timeout(200)]
+        [Theory]
         public void CanToColumnWiseArray(Matrix<T> matrix)
         {
             var array = matrix.ToColumnWiseArray();
-            Assert.That(array.Length, Is.EqualTo(matrix.RowCount * matrix.ColumnCount));
+            Assert.That(array.Length, Is.EqualTo(matrix.RowCount*matrix.ColumnCount));
             for (int i = 0; i < array.Length; i++)
             {
-                Assert.That(array[i], Is.EqualTo(matrix[i % matrix.RowCount, i / matrix.RowCount]));
+                Assert.That(array[i], Is.EqualTo(matrix[i%matrix.RowCount, i/matrix.RowCount]));
             }
         }
 
-        [Theory, Timeout(200)]
+        [Theory]
         public void CanToRowWiseArray(Matrix<T> matrix)
         {
             var array = matrix.ToRowWiseArray();
-            Assert.That(array.Length, Is.EqualTo(matrix.RowCount * matrix.ColumnCount));
+            Assert.That(array.Length, Is.EqualTo(matrix.RowCount*matrix.ColumnCount));
             for (int i = 0; i < array.Length; i++)
             {
-                Assert.That(array[i], Is.EqualTo(matrix[i / matrix.ColumnCount, i % matrix.ColumnCount]));
+                Assert.That(array[i], Is.EqualTo(matrix[i/matrix.ColumnCount, i%matrix.ColumnCount]));
             }
         }
 
-        [Theory, Timeout(200)]
+        [Theory]
         public void CanCreateSameType(Matrix<T> matrix)
         {
             var empty = matrix.CreateMatrix(5, 6);
@@ -183,85 +229,155 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
             Assert.That(() => matrix.CreateMatrix(-1, -1), Throws.InstanceOf<ArgumentOutOfRangeException>());
         }
 
-        [Test, Timeout(200)]
-        public void CanCreateFromColumns()
+        [Test]
+        public void CanCreateDenseFromMultiDimArray()
         {
-            var column1 = CreateVectorRandom(1, 0);
-            var column2 = CreateVectorRandom(4, 1);
-            var column3 = CreateVectorRandom(2, 3);
-
-            var matrix = Matrix<T>.CreateFromColumns(new List<Vector<T>>
-                {
-                    column1,
-                    column2,
-                    column3
-                });
-
+            T[,] array = CreateDenseRandom(4, 3, 0).ToArray();
+            var matrix = Dense.OfArray(array);
+            Assert.That(matrix.GetType().Name, Is.EqualTo("DenseMatrix"));
             Assert.That(matrix.RowCount, Is.EqualTo(4));
             Assert.That(matrix.ColumnCount, Is.EqualTo(3));
-
-            Assert.That(matrix[0, 0], Is.EqualTo(column1[0]));
-            Assert.That(matrix[0, 1], Is.EqualTo(column2[0]));
-            Assert.That(matrix[1, 1], Is.EqualTo(column2[1]));
-            Assert.That(matrix[2, 1], Is.EqualTo(column2[2]));
-            Assert.That(matrix[3, 1], Is.EqualTo(column2[3]));
-            Assert.That(matrix[0, 2], Is.EqualTo(column3[0]));
-            Assert.That(matrix[1, 2], Is.EqualTo(column3[1]));
-
-            Assert.That(matrix[1, 0], Is.EqualTo(Zero));
-            Assert.That(matrix[2, 0], Is.EqualTo(Zero));
-            Assert.That(matrix[3, 0], Is.EqualTo(Zero));
-            Assert.That(matrix[2, 2], Is.EqualTo(Zero));
-            Assert.That(matrix[3, 2], Is.EqualTo(Zero));
+            for (int i = 0; i < 4; i++)
+                for (int j = 0; j < 3; j++)
+                    Assert.That(matrix[i, j], Is.EqualTo(array[i, j]));
         }
 
-        [Test, Timeout(200)]
-        public void CanCreateFromRows()
+        [Test]
+        public void CanCreateSparseFromMultiDimArray()
         {
-            var row1 = CreateVectorRandom(1, 0);
-            var row2 = CreateVectorRandom(4, 1);
-            var row3 = CreateVectorRandom(2, 3);
+            T[,] array = CreateDenseRandom(4, 3, 0).ToArray();
+            var matrix = Sparse.OfArray(array);
+            Assert.That(matrix.GetType().Name, Is.EqualTo("SparseMatrix"));
+            Assert.That(matrix.RowCount, Is.EqualTo(4));
+            Assert.That(matrix.ColumnCount, Is.EqualTo(3));
+            for (int i = 0; i < 4; i++)
+                for (int j = 0; j < 3; j++)
+                    Assert.That(matrix[i, j], Is.EqualTo(array[i, j]));
+        }
 
-            var matrix = Matrix<T>.CreateFromRows(new List<Vector<T>>
+        [Test]
+        public void CanCreateDenseFromJaggedArray()
+        {
+            T[][] array = new[]
                 {
-                    row1,
-                    row2,
-                    row3
-                });
-
+                    CreateVectorRandom(4, 0).ToArray(),
+                    CreateVectorRandom(4, 1).ToArray(),
+                    CreateVectorRandom(4, 3).ToArray()
+                };
+            var matrix = Dense.OfRows(3, 4, array);
+            Assert.That(matrix.GetType().Name, Is.EqualTo("DenseMatrix"));
             Assert.That(matrix.RowCount, Is.EqualTo(3));
             Assert.That(matrix.ColumnCount, Is.EqualTo(4));
-
-            Assert.That(matrix[0, 0], Is.EqualTo(row1[0]));
-            Assert.That(matrix[1, 0], Is.EqualTo(row2[0]));
-            Assert.That(matrix[1, 1], Is.EqualTo(row2[1]));
-            Assert.That(matrix[1, 2], Is.EqualTo(row2[2]));
-            Assert.That(matrix[1, 3], Is.EqualTo(row2[3]));
-            Assert.That(matrix[2, 0], Is.EqualTo(row3[0]));
-            Assert.That(matrix[2, 1], Is.EqualTo(row3[1]));
-
-            Assert.That(matrix[0, 1], Is.EqualTo(Zero));
-            Assert.That(matrix[0, 2], Is.EqualTo(Zero));
-            Assert.That(matrix[0, 3], Is.EqualTo(Zero));
-            Assert.That(matrix[2, 2], Is.EqualTo(Zero));
-            Assert.That(matrix[2, 3], Is.EqualTo(Zero));
+            for (int i = 0; i < 3; i++)
+                for (int j = 0; j < 4; j++)
+                    Assert.That(matrix[i, j], Is.EqualTo(array[i][j]));
         }
 
-        [Test, Timeout(200)]
+        [Test]
+        public void CanCreateSparseFromJaggedArray()
+        {
+            T[][] array = new[]
+                {
+                    CreateVectorRandom(4, 0).ToArray(),
+                    CreateVectorRandom(4, 1).ToArray(),
+                    CreateVectorRandom(4, 3).ToArray()
+                };
+            var matrix = Sparse.OfRows(3, 4, array);
+            Assert.That(matrix.GetType().Name, Is.EqualTo("SparseMatrix"));
+            Assert.That(matrix.RowCount, Is.EqualTo(3));
+            Assert.That(matrix.ColumnCount, Is.EqualTo(4));
+            for (int i = 0; i < 3; i++)
+                for (int j = 0; j < 4; j++)
+                    Assert.That(matrix[i, j], Is.EqualTo(array[i][j]));
+        }
+
+        [Test]
+        public void CanCreateDenseFromColumnVectors()
+        {
+            var columns = new[]
+                {
+                    CreateVectorRandom(4, 0),
+                    CreateVectorRandom(4, 1),
+                    CreateVectorRandom(4, 3)
+                };
+            var matrix = Dense.OfColumns(4, 3, columns);
+            Assert.That(matrix.GetType().Name, Is.EqualTo("DenseMatrix"));
+            Assert.That(matrix.RowCount, Is.EqualTo(4));
+            Assert.That(matrix.ColumnCount, Is.EqualTo(3));
+            for (int i = 0; i < 4; i++)
+                for (int j = 0; j < 3; j++)
+                    Assert.That(matrix[i, j], Is.EqualTo(columns[j][i]));
+        }
+
+        [Test]
+        public void CanCreateSparseFromColumnVectors()
+        {
+            var columns = new[]
+                {
+                    CreateVectorRandom(4, 0),
+                    CreateVectorRandom(4, 1),
+                    CreateVectorRandom(4, 3)
+                };
+            var matrix = Sparse.OfColumns(4, 3, columns);
+            Assert.That(matrix.GetType().Name, Is.EqualTo("SparseMatrix"));
+            Assert.That(matrix.RowCount, Is.EqualTo(4));
+            Assert.That(matrix.ColumnCount, Is.EqualTo(3));
+            for (int i = 0; i < 4; i++)
+                for (int j = 0; j < 3; j++)
+                    Assert.That(matrix[i, j], Is.EqualTo(columns[j][i]));
+        }
+
+        [Test]
+        public void CanCreateDenseFromRowVectors()
+        {
+            var rows = new[]
+                {
+                    CreateVectorRandom(4, 0),
+                    CreateVectorRandom(4, 1),
+                    CreateVectorRandom(4, 3)
+                };
+            var matrix = Dense.OfRows(3, 4, rows);
+            Assert.That(matrix.GetType().Name, Is.EqualTo("DenseMatrix"));
+            Assert.That(matrix.RowCount, Is.EqualTo(3));
+            Assert.That(matrix.ColumnCount, Is.EqualTo(4));
+            for (int j = 0; j < 4; j++)
+                for (int i = 0; i < 3; i++)
+                    Assert.That(matrix[i, j], Is.EqualTo(rows[i][j]));
+        }
+
+        [Test]
+        public void CanCreateSparseFromRowVectors()
+        {
+            var rows = new[]
+                {
+                    CreateVectorRandom(4, 0),
+                    CreateVectorRandom(4, 1),
+                    CreateVectorRandom(4, 3)
+                };
+            var matrix = Sparse.OfRows(3, 4, rows);
+            Assert.That(matrix.GetType().Name, Is.EqualTo("SparseMatrix"));
+            Assert.That(matrix.RowCount, Is.EqualTo(3));
+            Assert.That(matrix.ColumnCount, Is.EqualTo(4));
+            for (int j = 0; j < 4; j++)
+                for (int i = 0; i < 3; i++)
+                    Assert.That(matrix[i, j], Is.EqualTo(rows[i][j]));
+        }
+
+        [Test]
         public void CanEnumerateWithIndex()
         {
             var dense = CreateDenseRandom(2, 3, 0);
-            using(var enumerator = dense.IndexedEnumerator().GetEnumerator())
-            for (int i = 0; i < 2; i++)
-            {
-                for (int j = 0; j < 3; j++)
+            using (var enumerator = dense.IndexedEnumerator().GetEnumerator())
+                for (int i = 0; i < 2; i++)
                 {
-                    enumerator.MoveNext();
-                    Assert.AreEqual(i, enumerator.Current.Item1);
-                    Assert.AreEqual(j, enumerator.Current.Item2);
-                    Assert.AreEqual(dense[i, j], enumerator.Current.Item3);
+                    for (int j = 0; j < 3; j++)
+                    {
+                        enumerator.MoveNext();
+                        Assert.AreEqual(i, enumerator.Current.Item1);
+                        Assert.AreEqual(j, enumerator.Current.Item2);
+                        Assert.AreEqual(dense[i, j], enumerator.Current.Item3);
+                    }
                 }
-            }
         }
     }
 }

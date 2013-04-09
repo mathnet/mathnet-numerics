@@ -41,6 +41,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
     [TestFixture]
     public class MatrixStructureTheory : MatrixStructureTheory<Complex32>
     {
+        public MatrixStructureTheory()
+            : base(Complex32.Zero, typeof(DenseMatrix), typeof(SparseMatrix), typeof(DiagonalMatrix), typeof(DenseVector), typeof(SparseVector))
+        {
+        }
+
         [Datapoints]
         Matrix<Complex32>[] _matrices = new Matrix<Complex32>[]
             {
@@ -90,11 +95,6 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
         {
             var dist = new Normal {RandomSource = new MersenneTwister(seed)};
             return new DenseVector(Enumerable.Range(0, size).Select(k => new Complex32((float) dist.Sample(), (float) dist.Sample())).ToArray());
-        }
-
-        protected override Complex32 Zero
-        {
-            get { return Complex32.Zero; }
         }
     }
 }

@@ -40,6 +40,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
     [TestFixture]
     public class MatrixStructureTheory : MatrixStructureTheory<float>
     {
+        public MatrixStructureTheory()
+            : base(0f, typeof(DenseMatrix), typeof(SparseMatrix), typeof(DiagonalMatrix), typeof(DenseVector), typeof(SparseVector))
+        {
+        }
+
         [Datapoints]
         Matrix<float>[] _matrices = new Matrix<float>[]
             {
@@ -89,11 +94,6 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
         {
             var dist = new Normal {RandomSource = new MersenneTwister(seed)};
             return new DenseVector(dist.Samples().Select(d => (float) d).Take(size).ToArray());
-        }
-
-        protected override float Zero
-        {
-            get { return 0f; }
         }
     }
 }

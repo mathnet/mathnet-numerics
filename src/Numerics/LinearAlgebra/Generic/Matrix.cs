@@ -84,6 +84,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <param name="columnVectors">The vectors to construct the matrix from.</param>
         /// <returns>The matrix constructed from the list of column vectors.</returns>
         /// <remarks>Creates a matrix of size Max(<paramref name="columnVectors"/>[i].Count) x <paramref name="columnVectors"/>.Count</remarks>
+        [Obsolete("Use DenseMatrix.OfColumns or SparseMatrix.OfColumns instead. Scheduled for removal in v3.0.")]
         public static Matrix<T> CreateFromColumns(IList<Vector<T>> columnVectors)
         {
             if (columnVectors == null)
@@ -122,6 +123,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <param name="rowVectors">The vectors to construct the matrix from.</param>
         /// <returns>The matrix constructed from the list of row vectors.</returns>
         /// <remarks>Creates a matrix of size Max(<paramref name="rowVectors"/>.Count) x <paramref name="rowVectors"/>[i].Count</remarks>
+        [Obsolete("Use DenseMatrix.OfRows or SparseMatrix.OfRows instead. Scheduled for removal in v3.0.")]
         public static Matrix<T> CreateFromRows(IList<Vector<T>> rowVectors)
         {
             if (rowVectors == null)

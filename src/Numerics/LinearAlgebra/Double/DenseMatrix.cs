@@ -164,8 +164,18 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// This new matrix will be independent from the enumerables.
         /// A new memory block will be allocated for storing the matrix.
         /// </summary>
-        public static DenseMatrix OfColumns<TColumn>(int rows, int columns, IEnumerable<TColumn> data)
-            // NOTE: flexible typing to 'backport' generic covariance.
+        public static DenseMatrix OfColumns(int rows, int columns, IEnumerable<IEnumerable<double>> data)
+        {
+            return new DenseMatrix(DenseColumnMajorMatrixStorage<double>.OfColumnEnumerables(rows, columns, data));
+        }
+
+        /// <summary>
+        /// Create a new dense matrix as a copy of the given enumerable of enumerable columns.
+        /// Each enumerable in the master enumerable specifies a column.
+        /// This new matrix will be independent from the enumerables.
+        /// A new memory block will be allocated for storing the matrix.
+        /// </summary>
+        public static DenseMatrix OfColumnsCovariant<TColumn>(int rows, int columns, IEnumerable<TColumn> data)
             where TColumn : IEnumerable<double>
         {
             return new DenseMatrix(DenseColumnMajorMatrixStorage<double>.OfColumnEnumerables(rows, columns, data));
@@ -177,8 +187,18 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// This new matrix will be independent from the enumerables.
         /// A new memory block will be allocated for storing the matrix.
         /// </summary>
-        public static DenseMatrix OfRows<TRow>(int rows, int columns, IEnumerable<TRow> data)
-            // NOTE: flexible typing to 'backport' generic covariance.
+        public static DenseMatrix OfRows(int rows, int columns, IEnumerable<IEnumerable<double>> data)
+        {
+            return new DenseMatrix(DenseColumnMajorMatrixStorage<double>.OfRowEnumerables(rows, columns, data));
+        }
+
+        /// <summary>
+        /// Create a new dense matrix as a copy of the given enumerable of enumerable rows.
+        /// Each enumerable in the master enumerable specifies a row.
+        /// This new matrix will be independent from the enumerables.
+        /// A new memory block will be allocated for storing the matrix.
+        /// </summary>
+        public static DenseMatrix OfRowsCovariant<TRow>(int rows, int columns, IEnumerable<TRow> data)
             where TRow : IEnumerable<double>
         {
             return new DenseMatrix(DenseColumnMajorMatrixStorage<double>.OfRowEnumerables(rows, columns, data));

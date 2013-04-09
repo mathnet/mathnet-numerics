@@ -144,6 +144,17 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         {
             return new SparseMatrix(SparseCompressedRowMatrixStorage<float>.OfColumnMajorList(rows, columns, columnMajor));
         }
+        
+        /// <summary>
+        /// Create a new sparse matrix as a copy of the given enumerable of enumerable columns.
+        /// Each enumerable in the master enumerable specifies a column.
+        /// This new matrix will be independent from the enumerables.
+        /// A new memory block will be allocated for storing the matrix.
+        /// </summary>
+        public static SparseMatrix OfColumns(int rows, int columns, IEnumerable<IEnumerable<float>> data)
+        {
+            return new SparseMatrix(SparseCompressedRowMatrixStorage<float>.OfColumnEnumerables(rows, columns, data));
+        }
 
         /// <summary>
         /// Create a new sparse matrix as a copy of the given enumerable of enumerable columns.
@@ -151,7 +162,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// This new matrix will be independent from the enumerables.
         /// A new memory block will be allocated for storing the matrix.
         /// </summary>
-        public static SparseMatrix OfColumns<TColumn>(int rows, int columns, IEnumerable<TColumn> data)
+        public static SparseMatrix OfColumnsCovariant<TColumn>(int rows, int columns, IEnumerable<TColumn> data)
             // NOTE: flexible typing to 'backport' generic covariance.
             where TColumn : IEnumerable<float>
         {
@@ -164,7 +175,18 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// This new matrix will be independent from the enumerables.
         /// A new memory block will be allocated for storing the matrix.
         /// </summary>
-        public static SparseMatrix OfRows<TRow>(int rows, int columns, IEnumerable<TRow> data)
+        public static SparseMatrix OfRows(int rows, int columns, IEnumerable<IEnumerable<float>> data)
+        {
+            return new SparseMatrix(SparseCompressedRowMatrixStorage<float>.OfRowEnumerables(rows, columns, data));
+        }
+
+        /// <summary>
+        /// Create a new sparse matrix as a copy of the given enumerable of enumerable rows.
+        /// Each enumerable in the master enumerable specifies a row.
+        /// This new matrix will be independent from the enumerables.
+        /// A new memory block will be allocated for storing the matrix.
+        /// </summary>
+        public static SparseMatrix OfRowsCovariant<TRow>(int rows, int columns, IEnumerable<TRow> data)
             // NOTE: flexible typing to 'backport' generic covariance.
             where TRow : IEnumerable<float>
         {

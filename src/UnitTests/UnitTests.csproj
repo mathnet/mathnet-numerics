@@ -745,6 +745,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="LinearAlgebraTests\Double\VectorArithmeticTheory.cs" />
+    <Compile Include="LinearAlgebraTests\StaticDynamicWrapper.cs" />
     <Compile Include="LinearAlgebraTests\VectorArithmeticTheory.cs" />
     <Compile Include="MatrixHelpers.cs" />
     <Compile Include="NumberTheoryTests\GcdRelatedTest.cs" />
