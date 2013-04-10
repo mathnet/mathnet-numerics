@@ -1291,5 +1291,26 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         {
             return Storage.EnumerateNonZero();
         }
+
+        /// <summary>
+        /// Applies a function to each value of this vector and replaces the value with its result.
+        /// If forceMapZero is not set to true, zero values may or may not be skipped depending
+        /// on the actual data storage implementation (relevant mostly for sparse vectors).
+        /// </summary>
+        public void MapInplace(Func<T, T> f, bool forceMapZeros = false)
+        {
+            Storage.MapInplace(f, forceMapZeros);
+        }
+
+        /// <summary>
+        /// Applies a function to each value of this vector and replaces the value with its result.
+        /// The index of each value (zero-based) is passed as first argument to the function.
+        /// If forceMapZero is not set to true, zero values may or may not be skipped depending
+        /// on the actual data storage implementation (relevant mostly for sparse vectors).
+        /// </summary>
+        public void MapIndexedInplace(Func<int, T, T> f, bool forceMapZeros = false)
+        {
+            Storage.MapIndexedInplace(f, forceMapZeros);
+        }
     }
 }

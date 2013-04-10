@@ -11,6 +11,9 @@ module VectorTests =
     /// A small uniform vector.
     let smallv = new DenseVector([|0.3;0.3;0.3;0.3;0.3|]) :> Vector<float>
 
+    /// A small uniform vector.
+    let sparsev = SparseVector.OfIndexedEnumerable(5, [(1,0.3)]) :> Vector<float>
+
     /// A large vector with increasingly large entries
     let largev = new DenseVector(Array.init 100 (fun i -> float i / 100.0)) :> Vector<float>
 
@@ -49,16 +52,40 @@ module VectorTests =
         Vector.toList smallv |> should equal [0.3;0.3;0.3;0.3;0.3]
 
     [<Test>]
-    let ``Vector.mapInPlace`` () =
+    let ``Vector.mapInPlace.Dense`` () =
         let w = smallv.Clone()
         Vector.mapInPlace (fun x -> 2.0 * x) w
         w |> should equal (2.0 * smallv)
 
     [<Test>]
-    let ``Vector.mapiInPlace`` () =
+    let ``Vector.mapInPlace.Sparse`` () =
+        let w = sparsev.Clone()
+        Vector.mapInPlace (fun x -> 2.0 * x) w
+        w |> should equal (2.0 * sparsev)
+
+    [<Test>]
+    let ``Vector.mapnzInPlace.Sparse`` () =
+        let w = sparsev.Clone()
+        Vector.mapnzInPlace (fun x -> 2.0 * x) w
+        w |> should equal (2.0 * sparsev)
+
+    [<Test>]
+    let ``Vector.mapiInPlace.Dense`` () =
         let w = largev.Clone()
         Vector.mapiInPlace (fun i x -> float i / 100.0) w
         w |> should equal (largev)
+        
+    [<Test>]
+    let ``Vector.mapiInPlace.Sparse`` () =
+        let w = sparsev.Clone()
+        Vector.mapiInPlace (fun i x -> 2.0 * float i * x) w
+        w |> should equal (2.0 * sparsev)
+
+    [<Test>]
+    let ``Vector.mapinzInPlace.Sparse`` () =
+        let w = sparsev.Clone()
+        Vector.mapinzInPlace (fun i x -> 2.0 * float i * x) w
+        w |> should equal (2.0 * sparsev)
 
     [<Test>]
     let ``Vector.addInPlace`` () =
@@ -77,8 +104,16 @@ module VectorTests =
         Vector.map (fun x -> 2.0 * x) largev |> should equal (2.0 * largev)
 
     [<Test>]
+    let ``Vector.mapnz`` () =
+        Vector.mapnz (fun x -> 2.0 * x) largev |> should equal (2.0 * largev)
+
+    [<Test>]
     let ``Vector.mapi`` () =
         Vector.mapi (fun i x -> float i / 100.0) largev |> should equal largev
+
+    [<Test>]
+    let ``Vector.mapinz`` () =
+        Vector.mapinz (fun i x -> float i / 100.0) largev |> should equal largev
 
     [<Test>]
     let ``Vector.fold`` () =

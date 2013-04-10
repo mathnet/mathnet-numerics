@@ -44,28 +44,57 @@ module Vector =
 
     /// In-place mutation by applying a function to every element of the vector.
     let inline mapInPlace (f: float -> float) (v: #Vector<float>) =
-        for i=0 to v.Count-1 do
-            v.At(i, f (v.At i))
+        v.MapInplace((fun x -> f x), true)
         ()
 
     /// In-place mutation by applying a function to every element of the vector.
     let inline mapiInPlace (f: int -> float -> float) (v: #Vector<float>) =
-        for i=0 to v.Count-1 do
-            v.At(i, f i (v.At i))
+        v.MapIndexedInplace((fun i x -> f i x), true)
         ()
+
+    /// In-place mutation by applying a function to every element of the vector.
+    /// Zero-values may be skipped (relevant mostly for sparse vectors).
+    let inline mapnzInPlace (f: float -> float) (v: #Vector<float>) =
+        v.MapInplace((fun x -> f x), false)
+        ()
+
+    /// In-place mutation by applying a function to every element of the vector.
+    /// Zero-values may be skipped (relevant mostly for sparse vectors).
+    let inline mapinzInPlace (f: int -> float -> float) (v: #Vector<float>) =
+        v.MapIndexedInplace((fun i x -> f i x), false)
+        ()
+
+    /// Maps a vector to a new vector by applying a function to every element.
+    let inline map f (v: #Vector<float>) =
+        let w = v.Clone()
+        w.MapInplace((fun x -> f x), true)
+        w
+
+    /// Maps a vector to a new vector by applying a function to every element.
+    /// Zero-values may be skipped (relevant mostly for sparse vectors).
+    let inline mapnz f (v: #Vector<float>) =
+        let w = v.Clone()
+        w.MapInplace((fun x -> f x), false)
+        w
+
+    /// Maps a vector to a new vector by applying a function to every element.
+    let inline mapi (f: int -> float -> float) (v: #Vector<float>) =
+        let w = v.Clone()
+        w.MapIndexedInplace((fun i x -> f i x), true)
+        w
+
+    /// Maps a vector to a new vector by applying a function to every element.
+    /// Zero-values may be skipped (relevant mostly for sparse vectors).
+    let inline mapinz (f: int -> float -> float) (v: #Vector<float>) =
+        let w = v.Clone()
+        w.MapIndexedInplace((fun i x -> f i x), false)
+        w
 
     /// In-place vector addition.
     let inline addInPlace (v: #Vector<float>) (w: #Vector<float>) = v.Add(w, v)
 
     /// In place vector subtraction.
     let inline subInPlace (v: #Vector<float>) (w: #Vector<float>) = v.Subtract(w, v)
-
-    /// Functional map operator for vectors.
-    /// <include file='../../../../FSharpExamples/DenseVector.xml' path='example'/>
-    let inline map f (v: #Vector<float>) =
-        let w = v.Clone()
-        mapInPlace (fun x -> f x) w
-        w
 
     /// Applies a function to all elements of the vector.
     let inline iter (f: float -> unit) (v: #Vector<float>) =
@@ -77,11 +106,6 @@ module Vector =
         for i=0 to v.Count-1 do
             f i (v.At i)
 
-    /// Maps a vector to a new vector by applying a function to every element.
-    let inline mapi (f: int -> float -> float) (v: #Vector<float>) =
-        let w = v.Clone()
-        mapiInPlace f w
-        w
 
     /// Fold all entries of a vector.
     let inline fold (f: 'a -> float -> 'a) (acc0: 'a) (v: #Vector<float>) =
