@@ -31,6 +31,7 @@
 using System;
 using System.Collections.Generic;
 using MathNet.Numerics.Properties;
+using MathNet.Numerics.Threading;
 
 namespace MathNet.Numerics.LinearAlgebra.Storage
 {
@@ -107,10 +108,13 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             }
 
             var data = new T[length];
-            for (int i = 0; i < data.Length; i++)
-            {
-                data[i] = init(i);
-            }
+            CommonParallel.For(0, data.Length, 4096, (a, b) =>
+                {
+                    for (int i = a; i < b; i++)
+                    {
+                        data[i] = init(i);
+                    }
+                });
             return new DenseVectorStorage<T>(length, data);
         }
 
@@ -296,18 +300,24 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
         public override void MapInplace(Func<T, T> f, bool forceMapZeros = false)
         {
-            for (int i = 0; i < Data.Length; i++)
-            {
-                Data[i] = f(Data[i]);
-            }
+            CommonParallel.For(0, Data.Length, 4096, (a, b) =>
+                {
+                    for (int i = a; i < b; i++)
+                    {
+                        Data[i] = f(Data[i]);
+                    }
+                });
         }
 
         public override void MapIndexedInplace(Func<int, T, T> f, bool forceMapZeros = false)
         {
-            for (int i = 0; i < Data.Length; i++)
-            {
-                Data[i] = f(i, Data[i]);
-            }
+            CommonParallel.For(0, Data.Length, 4096, (a, b) =>
+                {
+                    for (int i = a; i < b; i++)
+                    {
+                        Data[i] = f(i, Data[i]);
+                    }
+                });
         }
     }
 }

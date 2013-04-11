@@ -30,6 +30,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using MathNet.Numerics.Properties;
 
 namespace MathNet.Numerics.LinearAlgebra.Storage
@@ -454,10 +455,11 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             for (int row = 0; row < rows; row++)
             {
                 rowPointers[row] = index;
-                if (trows[row] != null)
+                var trow = trows[row];
+                if (trow != null)
                 {
-                    // TODO: Don't we need to sort here!?
-                    foreach (var item in trows[row])
+                    trow.Sort();
+                    foreach (var item in trow)
                     {
                         values.Add(item.Item2);
                         columnIndices.Add(item.Item1);
@@ -547,9 +549,11 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             for (int row = 0; row < rows; row++)
             {
                 rowPointers[row] = index;
-                if (trows[row] != null)
+                var trow = trows[row];
+                if (trow != null)
                 {
-                    foreach (var item in trows[row])
+                    trow.Sort();
+                    foreach (var item in trow)
                     {
                         values.Add(item.Item2);
                         columnIndices.Add(item.Item1);
