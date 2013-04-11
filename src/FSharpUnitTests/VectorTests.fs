@@ -9,13 +9,13 @@ open MathNet.Numerics.LinearAlgebra.Double
 module VectorTests =
 
     /// A small uniform vector.
-    let smallv = new DenseVector([|0.3;0.3;0.3;0.3;0.3|]) :> Vector<float>
+    let smallv = DenseVector([|0.3;0.3;0.3;0.3;0.3|])
 
-    /// A small uniform vector.
-    let sparsev = SparseVector.OfIndexedEnumerable(5, [(1,0.3)]) :> Vector<float>
+    /// A small sparse vector.
+    let sparsev = SparseVector.ofListi 5 [(1,0.3)]
 
     /// A large vector with increasingly large entries
-    let largev = new DenseVector(Array.init 100 (fun i -> float i / 100.0)) :> Vector<float>
+    let largev = DenseVector(Array.init 100 (fun i -> float i / 100.0))
 
     [<Test>]
     let ``Vector.GetSlice`` () =
@@ -54,37 +54,37 @@ module VectorTests =
     [<Test>]
     let ``Vector.mapInPlace.Dense`` () =
         let w = smallv.Clone()
-        Vector.mapInPlace (fun x -> 2.0 * x) w
+        w |> Vector.mapInPlace (fun x -> 2.0 * x)
         w |> should equal (2.0 * smallv)
 
     [<Test>]
     let ``Vector.mapInPlace.Sparse`` () =
         let w = sparsev.Clone()
-        Vector.mapInPlace (fun x -> 2.0 * x) w
+        w |> Vector.mapInPlace (fun x -> 2.0 * x)
         w |> should equal (2.0 * sparsev)
 
     [<Test>]
     let ``Vector.mapnzInPlace.Sparse`` () =
         let w = sparsev.Clone()
-        Vector.mapnzInPlace (fun x -> 2.0 * x) w
+        w |> Vector.mapnzInPlace (fun x -> 2.0 * x)
         w |> should equal (2.0 * sparsev)
 
     [<Test>]
     let ``Vector.mapiInPlace.Dense`` () =
         let w = largev.Clone()
-        Vector.mapiInPlace (fun i x -> float i / 100.0) w
+        w |> Vector.mapiInPlace (fun i x -> float i / 100.0)
         w |> should equal (largev)
-        
+
     [<Test>]
     let ``Vector.mapiInPlace.Sparse`` () =
         let w = sparsev.Clone()
-        Vector.mapiInPlace (fun i x -> 2.0 * float i * x) w
+        w |> Vector.mapiInPlace (fun i x -> 2.0 * float i * x)
         w |> should equal (2.0 * sparsev)
 
     [<Test>]
     let ``Vector.mapinzInPlace.Sparse`` () =
         let w = sparsev.Clone()
-        Vector.mapinzInPlace (fun i x -> 2.0 * float i * x) w
+        w |> Vector.mapinzInPlace (fun i x -> 2.0 * float i * x)
         w |> should equal (2.0 * sparsev)
 
     [<Test>]

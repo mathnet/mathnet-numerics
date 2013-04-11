@@ -1438,5 +1438,26 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         {
             return Storage.ToRowMajorArray();
         }
+
+        /// <summary>
+        /// Applies a function to each value of this matrix and replaces the value with its result.
+        /// If forceMapZero is not set to true, zero values may or may not be skipped depending
+        /// on the actual data storage implementation (relevant mostly for sparse matrices).
+        /// </summary>
+        public void MapInplace(Func<T, T> f, bool forceMapZeros = false)
+        {
+            Storage.MapInplace(f, forceMapZeros);
+        }
+
+        /// <summary>
+        /// Applies a function to each value of this matrix and replaces the value with its result.
+        /// The row and column indices of each value (zero-based) are passed as first arguments to the function.
+        /// If forceMapZero is not set to true, zero values may or may not be skipped depending
+        /// on the actual data storage implementation (relevant mostly for sparse matrices).
+        /// </summary>
+        public void MapIndexedInplace(Func<int, int, T, T> f, bool forceMapZeros = false)
+        {
+            Storage.MapIndexedInplace(f, forceMapZeros);
+        }
     }
 }

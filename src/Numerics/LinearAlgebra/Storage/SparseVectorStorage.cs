@@ -612,7 +612,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             }
             else
             {
-                for (int i = 0; i < Values.Length; i++)
+                for (int i = 0; i < ValueCount; i++)
                 {
                     var item = f(Values[i]);
                     if (!Zero.Equals(item))
@@ -646,7 +646,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             }
             else
             {
-                for (int i = 0; i < Values.Length; i++)
+                for (int i = 0; i < ValueCount; i++)
                 {
                     var item = f(Indices[i], Values[i]);
                     if (!Zero.Equals(item))

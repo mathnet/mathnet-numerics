@@ -364,5 +364,28 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             }
             return ret;
         }
+
+        // FUNCTIONAL COMBINATORS
+
+        public override void MapInplace(Func<T, T> f, bool forceMapZeros = false)
+        {
+            for (int i = 0; i < Data.Length; i++)
+            {
+                Data[i] = f(Data[i]);
+            }
+        }
+
+        public override void MapIndexedInplace(Func<int, int, T, T> f, bool forceMapZeros = false)
+        {
+            int index = 0;
+            for (int j = 0; j < ColumnCount; j++)
+            {
+                for (int i = 0; i < RowCount; i++)
+                {
+                    Data[index] = f(i, j, Data[index]);
+                    index++;
+                }
+            }
+        }
     }
 }

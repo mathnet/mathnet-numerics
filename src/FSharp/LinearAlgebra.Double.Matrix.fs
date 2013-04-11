@@ -36,6 +36,82 @@ open MathNet.Numerics.LinearAlgebra.Generic
 [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
 module Matrix =
 
+    /// Transform a vector into a 2D array.
+    let inline toArray2 (A: #Matrix<float>) = A.ToArray()
+
+    /// In-place map of every matrix element using a function.
+    let inline mapInPlace (f: float -> float) (A: #Matrix<float>) =
+        A.MapInplace((fun x -> f x), true)
+
+    /// In-place map of every matrix element using a position dependent function.
+    let inline mapiInPlace (f: int -> int -> float -> float) (A: #Matrix<float>) =
+        A.MapIndexedInplace((fun i j x -> f i j x), true)
+
+    /// In-place map of every matrix element using a function.
+    /// Zero-values may be skipped (relevant mostly for sparse matrices).
+    let inline mapnzInPlace (f: float -> float) (A: #Matrix<float>) =
+        A.MapInplace((fun x -> f x), false)
+
+    /// In-place map of every matrix element using a position dependent function.
+    /// Zero-values may be skipped (relevant mostly for sparse matrices).
+    let inline mapinzInPlace (f: int -> int -> float -> float) (A: #Matrix<float>) =
+        A.MapIndexedInplace((fun i j x -> f i j x), false)
+
+    /// In-place map every matrix column using the given position dependent function.
+    let inline mapColsInPlace (f: int -> Vector<float> -> Vector<float>) (A: #Matrix<float>) =
+        for j = 0 to A.ColumnCount-1 do
+            A.SetColumn(j, f j (A.Column(j)))
+
+    /// In-place map every matrix row using the given position dependent function.
+    let inline mapRowsInPlace (f: int -> Vector<float> -> Vector<float>) (A: #Matrix<float>) =
+        for i = 0 to A.RowCount-1 do
+            A.SetRow(i, f i (A.Row(i)))
+
+    [<System.ObsoleteAttribute("Use mapiInPlace instead. Scheduled for removal in v3.0.")>]
+    let inplaceMapi = mapiInPlace
+    [<System.ObsoleteAttribute("Use mapColsInPlace instead. Scheduled for removal in v3.0.")>]
+    let inplaceMapCols = mapColsInPlace
+    [<System.ObsoleteAttribute("Use mapRowsInPlace instead. Scheduled for removal in v3.0.")>]
+    let inplaceMapRows = mapRowsInPlace
+
+    /// Map every matrix element using the given function.
+    let inline map (f: float -> float) (A: #Matrix<float>) =
+        let A = A.Clone()
+        A.MapInplace((fun x -> f x), true)
+        A
+
+    /// Map every matrix element using the given function.
+    /// Zero-values may be skipped (relevant mostly for sparse matrices).
+    let inline mapnz (f: float -> float) (A: #Matrix<float>) =
+        let A = A.Clone()
+        A.MapInplace((fun x -> f x), false)
+        A
+
+    /// Map every matrix element using the given position dependent function.
+    let inline mapi (f: int -> int -> float -> float) (A: #Matrix<float>) =
+        let A = A.Clone()
+        A.MapIndexedInplace((fun i j x -> f i j x), true)
+        A
+
+    /// Map every matrix element using the given position dependent function.
+    /// Zero-values may be skipped (relevant mostly for sparse matrices).
+    let inline mapinz (f: int -> int -> float -> float) (A: #Matrix<float>) =
+        let A = A.Clone()
+        A.MapIndexedInplace((fun i j x -> f i j x), false)
+        A
+
+    /// Map every matrix column using the given position dependent function.
+    let inline mapCols (f: int -> Vector<float> -> Vector<float>) (A: #Matrix<float>) =
+        let A = A.Clone()
+        mapColsInPlace f A
+        A
+
+    /// Map every matrix row using the given position dependent function.
+    let inline mapRows (f: int -> Vector<float> -> Vector<float>) (A: #Matrix<float>) =
+        let A = A.Clone()
+        mapRowsInPlace f A
+        A
+
     /// Fold a function over all matrix elements.
     let inline fold (f: 'a -> float -> 'a) (acc0: 'a) (A: #Matrix<float>) =
         let n = A.RowCount
@@ -65,12 +141,6 @@ module Matrix =
             for j=0 to m-1 do
                 acc <- f i j acc (A.At(i,j))
         acc
-
-    /// Create a 2D array from a matrix.
-    let inline toArray2 (A: #Matrix<float>) =
-        let n = A.RowCount
-        let m = A.ColumnCount
-        Array2D.init n m (fun i j -> (A.Item(i,j)))
 
     /// Checks whether a predicate holds for all elements of a matrix.
     let inline forall (p: float -> bool) (A: #Matrix<float>) =
@@ -116,61 +186,9 @@ module Matrix =
             if j = A.ColumnCount then i <- i+1; j <- 0
         b
 
-    /// Map every matrix element using the given function.
-    let inline map (f: float -> float) (A: #Matrix<float>) =
-        let N = A.RowCount
-        let M = A.ColumnCount
-        let C = A.Clone()
-        for i=0 to N-1 do
-            for j=0 to M-1 do
-                C.At(i, j, f (C.At(i,j)))
-        C
-
-    /// Map every matrix element using the given position dependent function.
-    let inline mapi (f: int -> int -> float -> float) (A: #Matrix<float>) =
-        let N = A.RowCount
-        let M = A.ColumnCount
-        let C = A.Clone()
-        for i=0 to N-1 do
-            for j=0 to M-1 do
-                C.At(i, j, f i j (C.At(i,j)))
-        C
-
-    /// In-place map every matrix column using the given position dependent function.
-    let inline inplaceMapCols (f: int -> Vector<float> -> Vector<float>) (A: #Matrix<float>) =
-        for j = 0 to A.ColumnCount-1 do
-            A.SetColumn(j, f j (A.Column(j)))
-        ()
-
-    /// In-place map every matrix row using the given position dependent function.
-    let inline inplaceMapRows (f: int -> Vector<float> -> Vector<float>) (A: #Matrix<float>) =
-        for i = 0 to A.RowCount-1 do
-            A.SetRow(i, f i (A.Row(i)))
-        ()
-
-    /// Map every matrix column using the given position dependent function.
-    let inline mapCols (f: int -> Vector<float> -> Vector<float>) (A: #Matrix<float>) =
-        let A = A.Clone()
-        inplaceMapCols f A
-        A
-
-    /// Map every matrix row using the given position dependent function.
-    let inline mapRows (f: int -> Vector<float> -> Vector<float>) (A: #Matrix<float>) =
-        let A = A.Clone()
-        inplaceMapRows f A
-        A
-
     /// In-place assignment.
     let inline inplaceAssign (f: int -> int -> float) (A: #Matrix<float>) =
-        for i=0 to A.RowCount-1 do
-            for j=0 to A.ColumnCount-1 do
-                A.At(i, j, f i j)
-
-    /// In-place map of every matrix element using a position dependent function.
-    let inline inplaceMapi (f: int -> int -> float -> float) (A: #Matrix<float>) =
-        for i=0 to A.RowCount-1 do
-            for j=0 to A.ColumnCount-1 do
-                A.At(i, j, f i j (A.At(i,j)))
+        A.MapIndexedInplace((fun i j x -> f i j), true)
 
     /// Creates a sequence that iterates the non-zero entries in the matrix.
     let inline nonZeroEntries (A: #Matrix<float>) =
@@ -199,14 +217,12 @@ module Matrix =
         for i=0 to A.RowCount-1 do
             for j=0 to A.ColumnCount-1 do
                 f (A.At(i,j))
-        ()
 
     /// Iterates over all elements of a matrix using the element indices.
     let inline iteri (f: int -> int -> float -> unit) (A: #Matrix<float>) =
         for i=0 to A.RowCount-1 do
             for j=0 to A.ColumnCount-1 do
                 f i j (A.At(i,j))
-        ()
 
     /// Fold one column.
     let inline foldCol (f: 'a -> float -> 'a) acc (A: #Matrix<float>) k =
@@ -298,10 +314,7 @@ module DenseMatrix =
 
     /// Create a matrix with the given entries.
     [<System.ObsoleteAttribute("Use ofSeqi instead. Scheduled for removal in v3.0.")>]
-    let inline initDense (rows: int) (cols: int) (es: #seq<int * int * float>) =
-        let A = new DenseMatrix(rows,cols)
-        Seq.iter (fun (i,j,f) -> A.At(i,j,f)) es
-        A
+    let inline initDense (rows: int) (cols: int) (es: #seq<int * int * float>) = ofSeqi rows cols es
 
     /// Create a square matrix with constant diagonal entries.
     let inline constDiag (n: int) (f: float) =

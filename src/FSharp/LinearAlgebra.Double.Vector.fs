@@ -45,24 +45,20 @@ module Vector =
     /// In-place mutation by applying a function to every element of the vector.
     let inline mapInPlace (f: float -> float) (v: #Vector<float>) =
         v.MapInplace((fun x -> f x), true)
-        ()
 
     /// In-place mutation by applying a function to every element of the vector.
     let inline mapiInPlace (f: int -> float -> float) (v: #Vector<float>) =
         v.MapIndexedInplace((fun i x -> f i x), true)
-        ()
 
     /// In-place mutation by applying a function to every element of the vector.
     /// Zero-values may be skipped (relevant mostly for sparse vectors).
     let inline mapnzInPlace (f: float -> float) (v: #Vector<float>) =
         v.MapInplace((fun x -> f x), false)
-        ()
 
     /// In-place mutation by applying a function to every element of the vector.
     /// Zero-values may be skipped (relevant mostly for sparse vectors).
     let inline mapinzInPlace (f: int -> float -> float) (v: #Vector<float>) =
         v.MapIndexedInplace((fun i x -> f i x), false)
-        ()
 
     /// Maps a vector to a new vector by applying a function to every element.
     let inline map f (v: #Vector<float>) =

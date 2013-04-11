@@ -456,6 +456,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                 rowPointers[row] = index;
                 if (trows[row] != null)
                 {
+                    // TODO: Don't we need to sort here!?
                     foreach (var item in trows[row])
                     {
                         values.Add(item.Item2);
@@ -906,6 +907,108 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                 }
             }
             return ret;
+        }
+
+        // FUNCTIONAL COMBINATORS
+
+        public override void MapInplace(Func<T, T> f, bool forceMapZeros = false)
+        {
+            var newRowPointers = new int[RowCount];
+            var newColumnIndices = new List<int>();
+            var newValues = new List<T>();
+
+            if (forceMapZeros || !Zero.Equals(f(Zero)))
+            {
+                int k = 0;
+                for (int row = 0; row < RowCount; row++)
+                {
+                    newRowPointers[row] = newValues.Count;
+                    for (int col = 0; col < ColumnCount; col++)
+                    {
+                        var item = k < (row < RowPointers.Length - 1 ? RowPointers[row + 1] : ValueCount) && (ColumnIndices[k]) == col
+                            ? f(Values[k++])
+                            : f(Zero);
+                        if (!Zero.Equals(item))
+                        {
+                            newValues.Add(item);
+                            newColumnIndices.Add(col);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                for (int row = 0; row < RowCount; row++)
+                {
+                    newRowPointers[row] = newValues.Count;
+                    var startIndex = RowPointers[row];
+                    var endIndex = row < RowPointers.Length - 1 ? RowPointers[row + 1] : ValueCount;
+                    for (var j = startIndex; j < endIndex; j++)
+                    {
+                        var item = f(Values[j]);
+                        if (!Zero.Equals(item))
+                        {
+                            newValues.Add(item);
+                            newColumnIndices.Add(ColumnIndices[j]);
+                        }
+                    }
+                }
+            }
+
+            ColumnIndices = newColumnIndices.ToArray();
+            Values = newValues.ToArray();
+            ValueCount = newValues.Count;
+            Array.Copy(newRowPointers, RowPointers, RowCount);
+        }
+
+        public override void MapIndexedInplace(Func<int, int, T, T> f, bool forceMapZeros = false)
+        {
+            var newRowPointers = new int[RowCount];
+            var newColumnIndices = new List<int>();
+            var newValues = new List<T>();
+
+            if (forceMapZeros || !Zero.Equals(f(0,0,Zero)))
+            {
+                int k = 0;
+                for (int row = 0; row < RowCount; row++)
+                {
+                    newRowPointers[row] = newValues.Count;
+                    for (int col = 0; col < ColumnCount; col++)
+                    {
+                        var item = k < (row < RowPointers.Length - 1 ? RowPointers[row + 1] : ValueCount) && (ColumnIndices[k]) == col
+                            ? f(row, col, Values[k++])
+                            : f(row, col, Zero);
+                        if (!Zero.Equals(item))
+                        {
+                            newValues.Add(item);
+                            newColumnIndices.Add(col);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                for (int row = 0; row < RowCount; row++)
+                {
+                    newRowPointers[row] = newValues.Count;
+                    var startIndex = RowPointers[row];
+                    var endIndex = row < RowPointers.Length - 1 ? RowPointers[row + 1] : ValueCount;
+                    for (var j = startIndex; j < endIndex; j++)
+                    {
+                        var item = f(row, ColumnIndices[j], Values[j]);
+                        if (!Zero.Equals(item))
+                        {
+                            newValues.Add(item);
+                            newColumnIndices.Add(ColumnIndices[j]);
+                        }
+                    }
+                }
+            }
+
+            ColumnIndices = newColumnIndices.ToArray();
+            Values = newValues.ToArray();
+            ValueCount = newValues.Count;
+            Array.Copy(newRowPointers, RowPointers, RowCount);
         }
     }
 }

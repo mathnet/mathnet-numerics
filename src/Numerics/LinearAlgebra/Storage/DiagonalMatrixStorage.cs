@@ -525,5 +525,27 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             }
             return ret;
         }
+
+        // FUNCTIONAL COMBINATORS
+
+        public override void MapInplace(Func<T, T> f, bool forceMapZeros = false)
+        {
+            // we deliberately ignore forceMapZeros since we would not actually
+            // support any non-zero results outside of the diagonal anyway
+            for (int i = 0; i < Data.Length; i++)
+            {
+                Data[i] = f(Data[i]);
+            }
+        }
+
+        public override void MapIndexedInplace(Func<int, int, T, T> f, bool forceMapZeros = false)
+        {
+            // we deliberately ignore forceMapZeros since we would not actually
+            // support any non-zero results outside of the diagonal anyway
+            for (int i = 0; i < Data.Length; i++)
+            {
+                Data[i] = f(i, i, Data[i]);
+            }
+        }
     }
 }
