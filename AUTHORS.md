@@ -1,40 +1,67 @@
 Math.NET Numerics Authors
 =========================
 
-* [Marcus Cuda](http://marcuscuda.com/): @cuda
-* [Jurgen Van Gael](http://mlg.eng.cam.ac.uk/jurgen/): @jvangael
-* [Christoph Rüegg](http://christoph.ruegg.name/): @cdrnet
-* [Andriy Bratiychuk](http://ua.linkedin.com/pub/andriy-bratiychuk/4/6b/920)
+The Math.NET projects is a community effort. This page only lists actual code contributors for practical reasons, but any contributions like submitting issues or helping the community are just as valuable. Thanks a lot for all the contributions.
 
-Contributors
-------------
-* [Alexander Karatarakis](http://karatarakis.com/alex/)
+### Maintainers
 
-Other dnAnalytics Contributors
-------------------------------
+- [Christoph Rüegg](http://christoph.ruegg.name/): @cdrnet
+- Jurgen Van Gael: @jvangael
 
-* Patrick van der Valde
+### Contributors
 
-Other Math.NET Iridium Contributors
------------------------------------
+*ordered by #commits*
 
-* [Joannès Vermorel](http://www.vermorel.com/)
-* Matthew Kitchin
-* Rana Ian
-* Andrew Kurochka
-* Thaddaeus Parker
+- [Christoph Rüegg](http://christoph.ruegg.name/)
+- [Marcus Cuda](http://marcuscuda.com/)
+- Jurgen Van Gael
+- Alexander Karatarakis
+- Gustavo Guerra
+- Hani Medhat
+- manyue
+- tibel
+- Andriy Bratiychuk
+- Phil
+- Artyom Baranovskiy
+- Patrick van der Valde
+- cureos
+- Andrew Kazyrevich
+- Scott Stephens
+- Gregor959
+- IUser
+- Iain McDonald
+- Iain Sproat
+- Kosei ABE
+- Till Hoffmann
+- Tomas Petricek
+- VicPara
+- bstrausser
+- nyuriks
+- seahearman
 
-ALGLIB Contributors
--------------------
+### dnAnalytics Contributors
 
-* [Sergey Bochkanov](http://www.alglib.net/)
+- [Marcus Cuda](http://marcuscuda.com/)
+- Jurgen Van Gael
+- Patrick van der Valde
 
-Boost Contributors
-------------------
+### Math.NET Iridium Contributors
 
-* John Maddock
+- [Christoph Rüegg](http://christoph.ruegg.name/)
+- [Joannès Vermorel](http://www.vermorel.com/)
+- Matthew Kitchin
+- Rana Ian
+- Andrew Kurochka
+- Thaddaeus Parker
 
-Cephes Math Library Contributors
---------------------------------
+### ALGLIB Contributors
 
-* Stephen L. Moshier
+- [Sergey Bochkanov](http://www.alglib.net/)
+
+### Boost Contributors
+
+- John Maddock
+
+### Cephes Math Library Contributors
+
+- Stephen L. Moshier

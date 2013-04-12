@@ -3,7 +3,7 @@ Math.NET Numerics Release Notes
 
 - Website: [numerics.mathdotnet.com](http://numerics.mathdotnet.com)
 - GitHub/Mainline: [github.com/mathnet/mathnet-numerics](https://github.com/mathnet/mathnet-numerics)
-- Codeplex: [mathnetnumerics.codeplex.com](http://mathnetnumerics.codeplex.com)
+- CodePlex: [mathnetnumerics.codeplex.com](http://mathnetnumerics.codeplex.com)
 - License: MIT/X11 Open Source
 
 NuGet Packages, available in the [NuGet Gallery](https://nuget.org/profiles/mathnet/):
@@ -16,7 +16,7 @@ NuGet Packages, available in the [NuGet Gallery](https://nuget.org/profiles/math
 - `MathNet.Numerics.Samples` - code samples in C#
 - `MathNet.Numerics.FSharp.Samples` - code samples in F#
 
-Zip Packages, available on [Codeplex](http://mathnetnumerics.codeplex.com/releases):
+Zip Packages, available on [CodePlex](http://mathnetnumerics.codeplex.com/releases):
 
 - Binaries - core package and F# extensions, including both .Net 4 and portable builds
 - Signed Binaries - strong-named version of the core package (not recommended)
