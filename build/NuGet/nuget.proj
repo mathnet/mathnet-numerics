@@ -26,9 +26,8 @@
 	
 	<Target Name="CopyContentFiles">
 		<RemoveDir Directories="$(NumericsPack)/content" />
-		<Copy SourceFiles="$(Root)/README.markdown" DestinationFiles="$(NumericsPack)/content/App_Readme/MathNet.Numerics.readme.txt" />
-		<Copy SourceFiles="$(Root)/COPYRIGHT.markdown" DestinationFiles="$(NumericsPack)/content/App_Readme/MathNet.Numerics.copyright.txt" />
-		<Copy SourceFiles="$(Root)/AUTHORS.markdown" DestinationFiles="$(NumericsPack)/content/App_Readme/MathNet.Numerics.authors.txt" />
+		<Copy SourceFiles="$(Root)/README.md" DestinationFiles="$(NumericsPack)/content/App_Readme/MathNet.Numerics.readme.txt" />
+		<Copy SourceFiles="$(Root)/COPYRIGHT.md" DestinationFiles="$(NumericsPack)/content/App_Readme/MathNet.Numerics.copyright.txt" />
 
 		<RemoveDir Directories="$(NumericsPack)/lib" />
 		<Copy SourceFiles="@(NumericsNet40)" DestinationFolder="$(NumericsPack)/lib/net40" />
