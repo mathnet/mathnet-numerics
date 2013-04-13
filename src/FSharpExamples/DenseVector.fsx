@@ -28,8 +28,8 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-#r "../../out/debug/Net40/MathNet.Numerics.dll"
-#r "../../out/debug/Net40/MathNet.Numerics.FSharp.dll"
+#r "../../out/lib/Net40/MathNet.Numerics.dll"
+#r "../../out/lib/Net40/MathNet.Numerics.FSharp.dll"
 
 open MathNet.Numerics.LinearAlgebra
 open MathNet.Numerics.LinearAlgebra.Double

@@ -28,8 +28,8 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-#r "../../out/debug/Net40/MathNet.Numerics.dll"
-#r "../../out/debug/Net40/MathNet.Numerics.FSharp.dll"
+#r "../../out/lib/Net40/MathNet.Numerics.dll"
+#r "../../out/lib/Net40/MathNet.Numerics.FSharp.dll"
 
 open MathNet.Numerics.Random
 open MathNet.Numerics.Statistics
@@ -196,10 +196,3 @@ do
     printfn "\tEmpirical Mean = %f (should be %f)" (Statistics.Mean(arr)) normal.Mean
     printfn "\tEmpirical StdDev = %f (should be %f)" (Statistics.StandardDeviation(arr)) normal.StdDev
     printfn ""
-
-
-
-
-
-
-System.Console.ReadLine() |> ignore

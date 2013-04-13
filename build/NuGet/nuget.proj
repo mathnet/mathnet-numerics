@@ -117,11 +117,11 @@
 			ReplacementText="namespace %24rootnamespace%24.Samples.MathNet.Numerics"/>
 		<FileUpdate
 			Files="@(FSharpSamplePreprocessingFiles)"
-			Regex="(/out/(debug|release)/Net40/MathNet\.Numerics\.dll)"
+			Regex="(/out/(debug|lib)/Net40/MathNet\.Numerics\.dll)"
 			ReplacementText="/../packages/MathNet.Numerics.$(NumericsPackVersion)/lib/net40/MathNet.Numerics.dll"/>
 		<FileUpdate
 			Files="@(FSharpSamplePreprocessingFiles)"
-			Regex="(/out/(debug|release)/Net40/MathNet\.Numerics\.FSharp\.dll)"
+			Regex="(/out/(debug|lib)/Net40/MathNet\.Numerics\.FSharp\.dll)"
 			ReplacementText="/../packages/MathNet.Numerics.FSharp.$(FSharpPackVersion)/lib/net40/MathNet.Numerics.FSharp.dll"/>
 	</Target>
 

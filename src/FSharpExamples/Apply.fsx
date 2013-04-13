@@ -28,71 +28,59 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-#r "../../out/debug/Net40/MathNet.Numerics.dll"
-#r "../../out/debug/Net40/MathNet.Numerics.FSharp.dll"
+#r "../../out/lib/Net40/MathNet.Numerics.dll"
+#r "../../out/lib/Net40/MathNet.Numerics.FSharp.dll"
 
 open System.Numerics
 open MathNet.Numerics
+open MathNet.Numerics.Distributions
+open MathNet.Numerics.Random
 open MathNet.Numerics.LinearAlgebra.Double
 open MathNet.Numerics.LinearAlgebra.Generic
-/// Flag to specify wether we want pretty printing or tab separated output.
-let prettyPrint = false
 
 /// The size of the vector we want to map things for.
 let N = 1000000
+
 /// The number of times we repeat a call.
 let T = 10
+
 /// The list of all functions we want to test.
-let FunctionList : (string * (float -> float) * (float -> float)) [] =
-    [| ("Cosine", cos, System.Math.Cos);
-       ("Sine", sin, System.Math.Sin);
-       ("Tangent", tan, System.Math.Tan);
-       ("Inverse Cosine", acos, System.Math.Acos);
-       ("Inverse Sine", asin, System.Math.Asin);
-       ("Inverse Tangent", atan, System.Math.Atan);
-       ("Hyperbolic Cosine", cosh, System.Math.Cosh);
-       ("Hyperbolic Sine", sinh, System.Math.Sinh);
-       ("Hyperbolic Tangent", tanh, System.Math.Tanh);
-       ("Abs", abs, System.Math.Abs);
-       ("Exp", exp, System.Math.Exp);
-       ("Log", log, System.Math.Log);
-       ("Sqrt", sqrt, System.Math.Sqrt);
-       ("Error Function", SpecialFunctions.Erf, SpecialFunctions.Erf);
-       ("Error Function Complement", SpecialFunctions.Erfc, SpecialFunctions.Erfc);
-       ("Inverse Error Function", SpecialFunctions.ErfInv, SpecialFunctions.ErfInv);
-       ("Inverse Error Function Complement", SpecialFunctions.ErfcInv, SpecialFunctions.ErfcInv) |]
+let FunctionList : (string * (float -> float)) [] =
+    [| ("Cosine", cos);
+       ("Sine", sin);
+       ("Tangent", tan);
+       ("Inverse Cosine", acos);
+       ("Inverse Sine", asin);
+       ("Inverse Tangent", atan);
+       ("Hyperbolic Cosine", cosh);
+       ("Hyperbolic Sine", sinh);
+       ("Hyperbolic Tangent", tanh);
+       ("Abs", abs);
+       ("Exp", exp);
+       ("Log", log);
+       ("Sqrt", sqrt);
+       ("Error Function", SpecialFunctions.Erf);
+       ("Error Function Complement", SpecialFunctions.Erfc);
+       ("Inverse Error Function", SpecialFunctions.ErfInv);
+       ("Inverse Error Function Complement", SpecialFunctions.ErfcInv) |]
 
 /// A vector with random entries.
 let w =
-    let rnd = new Random.MersenneTwister()
-    (new DenseVector(Array.init N (fun _ -> rnd.NextDouble() * 10.0))) :> Vector<float>
+    let dist = Normal(1.0, 10.0) |> withRandom (Random.mersenneTwister ())
+    DenseVector.randomCreate N dist
 
 /// A stopwatch to time the execution.
-let sw = new System.Diagnostics.Stopwatch()
+let sw = System.Diagnostics.Stopwatch()
 
 
-for (name, fs, dotnet) in FunctionList do
-    if prettyPrint then printfn "Running %s on an %d dimensional vector for %d iterations:" name N T
-    else printf "%s" name
+printfn "%d-dimensional vector for %d iterations:" N T
 
-    /// Perform the standard F# map function.
-    do
-        let v = w.Clone()
-        sw.Start()
-        for t in 1 .. T do Vector.mapInPlace fs v
-        sw.Stop()
-        if prettyPrint then printfn "\tVector.map (F#): %d milliseconds." sw.ElapsedMilliseconds
-        else printf "\t%d" sw.ElapsedMilliseconds
-        sw.Reset()
-    (*
-    /// Perform the Apply.Map function.
-    do
-        let v = w.Clone()
-        sw.Start()
-        for t in 1 .. T do v.Map(fun x -> dotnet x)
-        sw.Stop()
-        if prettyPrint then printfn "\tApply.Map (MKL): %d milliseconds." sw.ElapsedMilliseconds
-        else printf "\t%d" sw.ElapsedMilliseconds
-        sw.Reset()*)
+for (name, f) in FunctionList do
+    
+    let v = w.Clone()
 
-    printfn ""
+    sw.Restart()
+    for t in 1 .. T do Vector.mapInPlace f v
+    sw.Stop()
+
+    printfn "%s:\t\t%d ms" name sw.ElapsedMilliseconds

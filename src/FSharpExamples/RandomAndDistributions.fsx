@@ -28,8 +28,8 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-#r "../../out/debug/Net40/MathNet.Numerics.dll"
-#r "../../out/debug/Net40/MathNet.Numerics.FSharp.dll"
+#r "../../out/lib/Net40/MathNet.Numerics.dll"
+#r "../../out/lib/Net40/MathNet.Numerics.FSharp.dll"
 
 open MathNet.Numerics.Random
 open MathNet.Numerics.Distributions
@@ -65,7 +65,7 @@ let exponential = new Exponential(2.4)
 let gamma = new Gamma(2.0, 1.5) |> withCryptoRandom
 let cauchy = new Cauchy() |> withRandom (Random.mrg32k3aWith 10 false)
 let poisson = new Poisson(3.0)
-let geometric = new Geometric(1.2) |> withSystemRandom
+let geometric = new Geometric(0.8) |> withSystemRandom
 
 // generate some random samples from these distributions
 let continuous = [
