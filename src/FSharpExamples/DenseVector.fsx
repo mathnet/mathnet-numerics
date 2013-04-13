@@ -1,8 +1,10 @@
-﻿// <copyright file="DenseVector.fs" company="Math.NET">
+﻿// <copyright file="DenseVector.fsx" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
-// http://mathnet.opensourcedotnet.info
+// http://numerics.mathdotnet.com
+// http://github.com/mathnet/mathnet-numerics
+// http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009 Math.NET
+// Copyright (c) 2009-2013 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -25,7 +27,9 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
-module MathNet.Numerics.FSharp.Examples.DenseVector
+
+#r "../../out/debug/Net40/MathNet.Numerics.dll"
+#r "../../out/debug/Net40/MathNet.Numerics.FSharp.dll"
 
 open MathNet.Numerics.LinearAlgebra
 open MathNet.Numerics.LinearAlgebra.Double
@@ -44,7 +48,6 @@ let z = v + w
 
 // ... or scale them in the process.
 let x = v + 3.0 * t
-
 
 // We can create a vector from an integer range (in this case, 5 and 10 inclusive) ...
 let s = DenseVector.range 5 10

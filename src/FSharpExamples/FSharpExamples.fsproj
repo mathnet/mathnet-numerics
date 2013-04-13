@@ -60,11 +60,11 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DenseVector.fs" />
-    <Compile Include="Apply.fs" />
-    <Compile Include="Histogram.fs" />
-    <Compile Include="MCMC.fs" />
-    <Compile Include="RandomAndDistributions.fs" />
+    <None Include="DenseVector.fsx" />
+    <None Include="Apply.fsx" />
+    <None Include="Histogram.fsx" />
+    <None Include="MCMC.fsx" />
+    <None Include="RandomAndDistributions.fsx" />
   </ItemGroup>
   <PropertyGroup>
     <MinimumVisualStudioVersion Condition="'$(MinimumVisualStudioVersion)' == ''">11</MinimumVisualStudioVersion>
