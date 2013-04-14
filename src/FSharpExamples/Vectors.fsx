@@ -1,4 +1,4 @@
-﻿// <copyright file="DenseVector.fsx" company="Math.NET">
+﻿// <copyright file="Vectors.fsx" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -33,24 +33,49 @@
 
 open MathNet.Numerics.LinearAlgebra
 open MathNet.Numerics.LinearAlgebra.Double
+open MathNet.Numerics.Distributions
 
-// Create a new 100 dimensional dense vector.
-let v = DenseVector.init 100 (fun i -> float i / 100.0)
+// Create a dense vector of length 3 directly from an array (by reference, without copy)
+let a1 = DenseVector [| 1.0; 2.0; 3.0 |]
+let a2 = DenseVector.raw [| 1.0; 2.0; 3.0 |]
+
+// Create a vector of length 100 with a given number for each value
+let b1 = DenseVector.zeroCreate 100
+let b2 = DenseVector.create 100 20.5
+let b3 = SparseVector.zeroCreate 100
+
+// Create a vector of length 100 with random values sampled from a distribution
+let c = DenseVector.randomCreate 100 (Normal.WithMeanStdDev(2.0, 0.5))
+
+// Create a vector of length 100 with each value initialized by a lambda function
+let d1 = DenseVector.init 100 (fun i -> float i / 100.0)
+let d2 = SparseVector.init 100 (fun i -> if i%5 = 0 then float i / 100.0 else 0.0)
+
+// Vectors can also be constructed from sequences
+let e = DenseVector.ofSeq (seq { for i in 1 .. 100 do yield float i })
+
+// Or from F# lists
+let f = DenseVector.ofList [ for i in 1 .. 100 -> float i ]
+
+// Or from indexed lists or sequences where all other values are zero (useful mostly for sparse data)
+let g1 = DenseVector.ofListi 100 [(4,20.0); (18,3.0); (2,100.0)]
+let g2 = SparseVector.ofListi 100 [(4,20.0); (18,3.0); (2,100.0)]
 
 // Another way to create a 100 dimensional dense vector is using the vector function.
-let w = vector (List.init 100 (fun i -> float i ** 2.0))
-
-// Vectors can also be constructed from sequences.
-let t = DenseVector.ofSeq (seq { for i in 1 .. 100 do yield float i })
+let h = vector (List.init 100 (fun i -> float i ** 2.0))
 
 // We can now add two vectors together ...
-let z = v + w
+let z = a1 + a2
 
 // ... or scale them in the process.
-let x = v + 3.0 * t
+let x = d2 + 3.0 * e - g2
 
 // We can create a vector from an integer range (in this case, 5 and 10 inclusive) ...
-let s = DenseVector.range 5 10
+let u = DenseVector.range 5 10
 
 // ... or we can create a vector from a double range with a particular step size.
-let r = DenseVector.rangef 0.0 0.1 10.0
+let v = DenseVector.rangef 0.0 0.1 10.0
+
+// "pretty" printing (configurable with the Control class):
+printfn "%s" (v.ToString())
+// "printfn "%A" v" doesn't work yet because FSI treats it as sequence
