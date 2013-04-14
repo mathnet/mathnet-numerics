@@ -66,6 +66,7 @@ namespace MathNet.Numerics.Statistics
     /// <summary>
     /// Class to calculate percentiles.
     /// </summary>
+    [Obsolete("Use Statistics.Quantile or .QuantileFunc or one of the custom variants instead. Scheduled for removal in v3.0.")]
     public class Percentile
     {
         /// <summary>
