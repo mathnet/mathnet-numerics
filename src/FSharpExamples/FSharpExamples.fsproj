@@ -49,6 +49,7 @@
     <None Include="Histogram.fsx" />
     <None Include="MCMC.fsx" />
     <None Include="Vectors.fsx" />
+    <None Include="Matrices.fsx" />
     <None Include="LinearRegression.fsx" />
     <None Include="Apply.fsx" />
   </ItemGroup>
