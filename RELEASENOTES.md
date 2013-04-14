@@ -21,50 +21,52 @@ Zip Packages, available on [CodePlex](http://mathnetnumerics.codeplex.com/releas
 - Binaries - core package and F# extensions, including both .Net 4 and portable builds
 - Signed Binaries - strong-named version of the core package (not recommended)
 
-Over time some members and classes within Math.NET Numerics have been replaced with more suitable alternatives. In order to maintain compatibility, such parts are not removed immediately but instead marked with the **Obsolete-attribute**. We strongly recommend to follow the instructions in the attribute text whenever you find any code calling an obsolete member, since we do intend to remove them at the next major release, v3.0.
+Over time some members and classes within Math.NET Numerics have been replaced with more suitable alternatives. In order to maintain compatibility, such parts are not removed immediately but instead marked with the **Obsolete**-attribute. We strongly recommend to follow the instructions in the attribute text whenever you find any code calling an obsolete member, since we do intend to remove them at the next major release, v3.0.
 
-v2.5.0 - Preliminary, TBA
--------------------------
+v2.5.0 - April 14, 2013
+-----------------------
 
 ### *Potentially Breaking Changes:*
 
-Despite semver this release contains two changes that may potentially break code, without triggering a major version number change. The changes fix semantic bugs and a major usability issue without changing the formal API itself. Most users are not expected to be affected negatively, although some workarounds to fix the inconsistencies may no longer be needed. Nevertheless, this is an exceptional case and we try hard to avoid such changes in the future.
+Despite semver this release contains two changes that may break code but without triggering a major version number change. The changes fix semantic bugs and a major usability issue without changing the formal API itself. Most users are not expected to be affected negatively. Nevertheless, this is an exceptional case and we try hard to avoid such changes in the future.
 
-- Statistics like Min, Max, Mean, Variance and Standard Deviation no longer throw exceptions if the data set is empty (unless the data set itself is null) but instead return NaN. Variance and Standard Deviation will also return NaN if the set contains only a single entry. Population Variance and Population Standard Deviation will return 0 in this case. *This may break code in case you relied upon the previous unusual and inconsistent behavior.*
+- Statistics: Empty statistics now return NaN instead of either 0 or throwing an exception. *This may break code in case you relied upon the previous unusual and inconsistent behavior.*
 
-- Matrix and Vector `ToString` methods no longer render the whole structure to a string for large data, among others because they used to wreak havoc in debugging and interactive scenarios like F# FSI. Instead, ToString now only renders an excerpt of the data, together with a line about dimension, type and in case of sparse data a sparseness indicator. The intention is to give a good idea about the data in a visually useful way. How much data is shown can be adjusted in the Control class. See also ToTypeString and ToVector/MatrixString. *This may break code if you relied upon ToString to export your full data to text form intended to be parsed again later. Note that the classes in the MathNet.Numerics.IO library are more appropriate for storing and loading data.*
+- Linear Algebra: More reasonable ToString behavior for matrices and vectors. *This may break code if you relied upon ToString to export your full data to text form intended to be parsed again later. Note that the classes in the MathNet.Numerics.IO library are more appropriate for storing and loading data.*
 
 ### Statistics:
 
-- More consistent behavior for empty and single-element data sets. See above in the 'Potentially Breaking Changes' section.
-- Reworked order statistics (Quantile, Quartile, Percentile, IQR, Fivenum, etc.), supporting compatibility with all 9 R-types, Excel and Mathematica.
-- Old Percentile class now leverages the new order statistics, fixing a range check bug as side effect.
-- New Hybrid Monte Carlo sampler for multivariate distributions
-- New financial statistics: absolute risk and return measures
-- Explicit efficient statistics for sorted arrays, unsorted arrays and sequences/streams. Avoids multiple enumerations.
+- More consistent behavior for empty and single-element data sets: Min, Max, Mean, Variance, Standard Deviation etc. no longer throw exceptions if the data set is empty but instead return NaN. Variance and Standard Deviation will also return NaN if the set contains only a single entry. Population Variance and Population Standard Deviation will return 0 in this case.
+- Reworked order statistics (Quantile, Quartile, Percentile, IQR, Fivenum, etc.), now much easier to use and supporting compatibility with all 9 R-types, Excel and Mathematica. The obsolete Percentile class now leverages the new order statistics, fixing a range check bug as side effect.
+- New Hybrid Monte Carlo sampler for multivariate distributions.
+- New financial statistics: absolute risk and return measures.
+- Explicit statistics for sorted arrays, unsorted arrays and sequences/streams. Faster algorithms on sorted data, also avoids multiple enumerations.
 - Some statistics like Quantile or empirical inverse CDF can optionally return a parametric function when multiple evaluations are needed, like for plotting.
 
 ### Linear Algebra:
 
-- More reasonable ToString behavior for matrices and vectors. See above in the 'Potentially Breaking Changes' section.
-- Performance: reworked and tuned common parallelization. Some operations are up to 3 magnitudes faster in some cases. Replaced copy loops with native routines. More algorithms are storage-aware (and should thus perform better especially on sparse data).
-- Fixed range checks in the thin QR decomposition.
+- More reasonable ToString behavior for matrices and vectors: `ToString` methods no longer render the whole structure to a string for large data, among others because they used to wreak havoc in debugging and interactive scenarios like F# FSI. Instead, ToString now only renders an excerpt of the data, together with a line about dimension, type and in case of sparse data a sparseness indicator. The intention is to give a good idea about the data in a visually useful way. How much data is shown can be adjusted in the Control class. See also ToTypeString and ToVector/MatrixString.
+- Performance: reworked and tuned common parallelization. Some operations are up to 3 magnitudes faster in some extreme cases. Replaced copy loops with native routines. More algorithms are storage-aware (and should thus perform better especially on sparse data).
+- Fixed range checks in the Thin-QR decomposition.
 - Fixed bug in Gram Schmidt for solving tall matrices.
 - Vectors now implement the BCL IList interfaces (fixed-length) for better integration with existing .Net code.
 - Matrix/Vector parsing has been updated to be able to parse the new visual format as well (see ToMatrixString).
 - DebuggerDisplay attributes for matrices/vectors.
 - Map/IndexedMap combinators with storage-aware and partially parallelized implementations for both dense and sparse data.
-- Reworked Matrix/Vector construction from arrays, enumerables, indexed enumerables, nested enumerables or by providing an init function/lambda. Non-obsolete constructors now always use the raw data array directly, while static functions always return a matrix/vector independent of the provided data source.
+- Reworked Matrix/Vector construction from arrays, enumerables, indexed enumerables, nested enumerables or by providing an init function/lambda. Non-obsolete constructors now always use the raw data array directly without copying, while static functions always return a matrix/vector independent of the provided data source.
 - F#: Improved extensions for matrix and vector construction: create, zeroCreate, randomCreate, init, ofArray2, ofRowSeq/List, ofColumnSeq/List, ofSeqi/Listi (indexed). Storage-aware for performance.
 - F#: Updated map/mapi and other combinators to leverage core implementation, added map*nz* variants where zero-values may be skipped (relevant mostly for sparse matrices).
 - F#: Idiomatic slice setters for sub-matrices and sub-vectors
+- F#: Added more examples for matrix/vector creation and linear regression to the F# Sample-package.
 
 ### Misc:
 
 - Control: Simpler usage with new static ConfigureAuto and ConfigureSingleThread methods. Resolved misleading configuration logic and naming around disabling parallelization.
 - Control: New settings for linear algebra ToString behavior.
+- Fixed range check in the Xor-shift pseudo-RNG.
 - Parallelization: Reworked our common logic to avoid expensive lambda calls in inner loops. Tunable.
-- Various minor improvements on consistency, performance, tests, xml docs, obsolete attributes, redundant code, argument checks, resources, cleanup, etc.
+- F#: Examples (and thus the NuGet Sample package) are now F# scripts prepared for experimenting interactively in FSI, instead of normal F# files. Tries to get the assembly references right for most users, both within the Math.NET Numerics solution and the NuGet package.
+- Various minor improvements on consistency, performance, tests, xml docs, obsolete attributes, redundant code, argument checks, resources, cleanup, nuget, etc.
 
 
 v2.4.0 - February 3, 2013
@@ -84,6 +86,7 @@ v2.4.0 - February 3, 2013
 
 - Adds the BigRational module from the F# PowerPack, now to be maintained here instead.
 - Better support for our Complex types (close to the F# PowerPack Complex type)
+
 
 v2.3.0 - November 25, 2012
 --------------------------

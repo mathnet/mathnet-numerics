@@ -1,7 +1,7 @@
 Math.NET Numerics Contributors
 ==============================
 
-The Math.NET project is a community effort. This page only lists actual code contributors for practical reasons, but any contributions like submitting issues or helping the community are just as valuable.
+The Math.NET project is a community effort. We accept contributions and pull requests, so why don't you join us as well? This page only lists actual code contributors for practical reasons, but any contributions like submitting issues or helping the community are just as valuable. 
 
 ### Maintainers
 
