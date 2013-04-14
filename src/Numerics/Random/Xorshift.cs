@@ -27,6 +27,9 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
+
+using MathNet.Numerics.Properties;
+
 namespace MathNet.Numerics.Random
 {
     using System;
@@ -187,9 +190,9 @@ namespace MathNet.Numerics.Random
                 seed = 1;
             }
 
-            if (a > c)
+            if (a <= c)
             {
-                throw new ArgumentException("a must be less than c", "a");
+                throw new ArgumentException(string.Format(Resources.ArgumentOutOfRangeGreater, "a", "c"), "a");
             }
 
             _x = (uint)seed;
