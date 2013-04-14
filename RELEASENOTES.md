@@ -21,7 +21,7 @@ Zip Packages, available on [CodePlex](http://mathnetnumerics.codeplex.com/releas
 - Binaries - core package and F# extensions, including both .Net 4 and portable builds
 - Signed Binaries - strong-named version of the core package (not recommended)
 
-Over time some members and classes within Math.NET Numerics have been replaced with more suitable alternatives. In order to maintain compatibility, such parts are not removed immediately but instead marked with the **Obsolete**-attribute. We strongly recommend to follow the instructions in the attribute text whenever you find any code calling an obsolete member, since we do intend to remove them at the next major release, v3.0.
+Over time some members and classes have been replaced with more suitable alternatives. In order to maintain compatibility, such parts are not removed immediately but instead marked with the **Obsolete**-attribute. We strongly recommend to follow the instructions in the attribute text whenever you find any code calling an obsolete member, since we *do* intend to remove them at the next *major* release, v3.0.
 
 v2.5.0 - April 14, 2013
 -----------------------
@@ -51,13 +51,13 @@ Despite semver this release contains two changes that may break code but without
 - Fixed bug in Gram Schmidt for solving tall matrices.
 - Vectors now implement the BCL IList interfaces (fixed-length) for better integration with existing .Net code.
 - Matrix/Vector parsing has been updated to be able to parse the new visual format as well (see ToMatrixString).
-- DebuggerDisplay attributes for matrices/vectors.
+- DebuggerDisplay attributes for matrices and vectors.
 - Map/IndexedMap combinators with storage-aware and partially parallelized implementations for both dense and sparse data.
 - Reworked Matrix/Vector construction from arrays, enumerables, indexed enumerables, nested enumerables or by providing an init function/lambda. Non-obsolete constructors now always use the raw data array directly without copying, while static functions always return a matrix/vector independent of the provided data source.
-- F#: Improved extensions for matrix and vector construction: create, zeroCreate, randomCreate, init, ofArray2, ofRowSeq/List, ofColumnSeq/List, ofSeqi/Listi (indexed). Storage-aware for performance.
-- F#: Updated map/mapi and other combinators to leverage core implementation, added map*nz* variants where zero-values may be skipped (relevant mostly for sparse matrices).
+- F#: Improved extensions for matrix and vector construction: create, zeroCreate, randomCreate, init, ofArray2, ofRows/ofRowsList, ofColumns/ofSolumnsList, ofSeqi/Listi (indexed). Storage-aware for performance.
+- F#: Updated map/mapi and other combinators to leverage core implementation, added -nz variants where zero-values may be skipped (relevant mostly for sparse matrices).
 - F#: Idiomatic slice setters for sub-matrices and sub-vectors
-- F#: Added more examples for matrix/vector creation and linear regression to the F# Sample-package.
+- F#: More examples for matrix/vector creation and linear regression in the F# Sample-package.
 
 ### Misc:
 
