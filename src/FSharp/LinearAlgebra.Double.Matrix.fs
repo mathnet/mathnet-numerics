@@ -295,16 +295,16 @@ module DenseMatrix =
         DenseMatrix.OfRowsCovariant(n, m, fll)
 
     /// Create a matrix from a list of sequences. Every sequence in the master sequence specifies a row.
-    let inline ofRowSeq (rows: int) (cols: int) (fss: #seq<#seq<float>>) = DenseMatrix.OfRowsCovariant(rows, cols, fss)
+    let inline ofRows (rows: int) (cols: int) (fss: #seq<#seq<float>>) = DenseMatrix.OfRowsCovariant(rows, cols, fss)
 
     /// Create a matrix from a list of float lists. Every list in the master list specifies a row.
-    let inline ofRowList (rows: int) (cols: int) (fll: float list list) = DenseMatrix.OfRowsCovariant(rows, cols, fll)
+    let inline ofRowsList (rows: int) (cols: int) (fll: float list list) = DenseMatrix.OfRowsCovariant(rows, cols, fll)
 
     /// Create a matrix from a list of sequences. Every sequence in the master sequence specifies a column.
-    let inline ofColumnSeq (rows: int) (cols: int) (fss: #seq<#seq<float>>) = DenseMatrix.OfColumnsCovariant(rows, cols, fss)
+    let inline ofColumns (rows: int) (cols: int) (fss: #seq<#seq<float>>) = DenseMatrix.OfColumnsCovariant(rows, cols, fss)
 
     /// Create a matrix from a list of float lists. Every list in the master list specifies a column.
-    let inline ofColumnList (rows: int) (cols: int) (fll: float list list) = DenseMatrix.OfColumnsCovariant(rows, cols, fll)
+    let inline ofColumnsList (rows: int) (cols: int) (fll: float list list) = DenseMatrix.OfColumnsCovariant(rows, cols, fll)
 
     /// Create a matrix with a given dimension from an indexed sequences of row, column, value tuples.
     let inline ofSeqi (rows: int) (cols: int) (fs: #seq<int * int * float>) = DenseMatrix.OfIndexed(rows, cols, fs)
@@ -364,16 +364,16 @@ module SparseMatrix =
     let inline ofList (rows: int) (cols: int) (fl: list<int * int * float>) = SparseMatrix.OfIndexed(rows, cols, Seq.ofList fl)
 
     /// Create a matrix from a list of sequences. Every sequence in the master sequence specifies a row.
-    let inline ofRowSeq (rows: int) (cols: int) (fss: #seq<#seq<float>>) = SparseMatrix.OfRowsCovariant(rows, cols, fss)
+    let inline ofRows (rows: int) (cols: int) (fss: #seq<#seq<float>>) = SparseMatrix.OfRowsCovariant(rows, cols, fss)
 
     /// Create a matrix from a list of float lists. Every list in the master list specifies a row.
-    let inline ofRowList (rows: int) (cols: int) (fll: float list list) = SparseMatrix.OfRowsCovariant(rows, cols, fll)
+    let inline ofRowsList (rows: int) (cols: int) (fll: float list list) = SparseMatrix.OfRowsCovariant(rows, cols, fll)
 
     /// Create a matrix from a list of sequences. Every sequence in the master sequence specifies a column.
-    let inline ofColumnSeq (rows: int) (cols: int) (fss: #seq<#seq<float>>) = SparseMatrix.OfColumnsCovariant(rows, cols, fss)
+    let inline ofColumns (rows: int) (cols: int) (fss: #seq<#seq<float>>) = SparseMatrix.OfColumnsCovariant(rows, cols, fss)
 
     /// Create a matrix from a list of float lists. Every list in the master list specifies a column.
-    let inline ofColumnList (rows: int) (cols: int) (fll: float list list) = SparseMatrix.OfColumnsCovariant(rows, cols, fll)
+    let inline ofColumnsList (rows: int) (cols: int) (fll: float list list) = SparseMatrix.OfColumnsCovariant(rows, cols, fll)
 
     /// Create a matrix with a given dimension from an indexed sequences of row, column, value tuples.
     let inline ofSeqi (rows: int) (cols: int) (fs: #seq<int * int * float>) = SparseMatrix.OfIndexed(rows, cols, fs)

@@ -53,20 +53,21 @@ let d1 = DenseMatrix.init 3 4 (fun i j -> float i / 100.0 + float j)
 let d2 = SparseMatrix.init 3 4 (fun i j -> if i=j then float i / 100.0 + float j else 0.0)
 
 // Matrices can also be constructed from sequences of rows or of columns
-let e1 = DenseMatrix.ofRowSeq 20 10 (seq { for i in 1 .. 20 do yield Array.init 10 (fun j -> float j + 100.0 * float i) })
-let e2 = SparseMatrix.ofRowSeq 20 10 (seq { for i in 1 .. 20 do yield Array.init 10 (fun j -> if i%5 = 0 then float j + 100.0 * float i else 0.0) })
-let e3 = DenseMatrix.ofColumnSeq 20 10 (seq { for j in 1 .. 10 do yield Array.init 20 (fun i -> float j + 100.0 * float i) })
-let e4 = SparseMatrix.ofColumnSeq 20 10 (seq { for j in 1 .. 10 do yield Array.init 20 (fun i -> if i%5 = 0 then float j + 100.0 * float i else 0.0) })
+let e1 = DenseMatrix.ofRows 20 10 (seq { for i in 1 .. 20 do yield Array.init 10 (fun j -> float j + 100.0 * float i) })
+let e2 = SparseMatrix.ofRows 20 10 (seq { for i in 1 .. 20 do yield Array.init 10 (fun j -> if i%5 = 0 then float j + 100.0 * float i else 0.0) })
+let e3 = DenseMatrix.ofColumns 20 10 (seq { for j in 1 .. 10 do yield Array.init 20 (fun i -> float j + 100.0 * float i) })
+let e4 = SparseMatrix.ofColumns 20 10 (seq { for j in 1 .. 10 do yield Array.init 20 (fun i -> if i%5 = 0 then float j + 100.0 * float i else 0.0) })
 
 // Or from F# lists
-let f1 = DenseMatrix.ofRowList 20 10 [ for i in 1 .. 20 -> List.init 10 (fun j -> float j + 100.0 * float i) ]
-let f2 = SparseMatrix.ofRowList 20 10 [ for i in 1 .. 20 -> List.init 10 (fun j -> if i%5 = 0 then float j + 100.0 * float i else 0.0) ]
-let f3 = DenseMatrix.ofColumnList 20 10 [ for j in 1 .. 10 -> List.init 20 (fun i -> float j + 100.0 * float i) ]
-let f4 = SparseMatrix.ofColumnList 20 10 [ for j in 1 .. 10 -> List.init 20 (fun i -> if i%5 = 0 then float j + 100.0 * float i else 0.0) ]
+let f1 = DenseMatrix.ofRowsList 20 10 [ for i in 1 .. 20 -> List.init 10 (fun j -> float j + 100.0 * float i) ]
+let f2 = SparseMatrix.ofRowsList 20 10 [ for i in 1 .. 20 -> List.init 10 (fun j -> if i%5 = 0 then float j + 100.0 * float i else 0.0) ]
+let f3 = DenseMatrix.ofColumnsList 20 10 [ for j in 1 .. 10 -> List.init 20 (fun i -> float j + 100.0 * float i) ]
+let f4 = SparseMatrix.ofColumnsList 20 10 [ for j in 1 .. 10 -> List.init 20 (fun i -> if i%5 = 0 then float j + 100.0 * float i else 0.0) ]
 
 // Or from indexed lists or sequences where all other values are zero (useful mostly for sparse data)
 let g1 = DenseMatrix.ofListi 20 10 [(4,3,20.0); (18,9,3.0); (2,1,100.0)]
 let g2 = SparseMatrix.ofListi 20 10 [(4,3,20.0); (18,9,3.0); (2,1,100.0)]
+let g3 = SparseMatrix.ofSeqi 20 10 (Seq.ofList [(4,3,20.0); (18,9,3.0); (2,1,100.0)])
 
 // Another way to create dense matrix is using the matrix function.
 let h = matrix [[1.0;  2.0;  3.0]

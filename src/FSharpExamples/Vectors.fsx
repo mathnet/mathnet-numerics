@@ -60,6 +60,7 @@ let f = DenseVector.ofList [ for i in 1 .. 100 -> float i ]
 // Or from indexed lists or sequences where all other values are zero (useful mostly for sparse data)
 let g1 = DenseVector.ofListi 100 [(4,20.0); (18,3.0); (2,100.0)]
 let g2 = SparseVector.ofListi 100 [(4,20.0); (18,3.0); (2,100.0)]
+let g3 = SparseVector.ofSeqi 100 (Seq.ofList [(4,20.0); (18,3.0); (2,100.0)])
 
 // Another way to create a 100 dimensional dense vector is using the vector function.
 let h = vector (List.init 100 (fun i -> float i ** 2.0))

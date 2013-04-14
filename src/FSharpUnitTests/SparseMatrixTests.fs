@@ -25,20 +25,20 @@ module SparseMatrixTests =
         SparseMatrix.ofArray2 (Array2D.init 4 6 (fun i j -> if i = 1 && j = 2 then 1.0 else 0.0)) |> should equal smallM
 
     [<Test>]
-    let ``SparseMatrix.ofRowSeq`` () =
-        SparseMatrix.ofRowSeq 4 6 (Seq.ofList [[0.;0.;0.;0.;0.;0.];[0.;0.;1.;0.;0.;0.];[0.;0.;0.;0.;0.;0.];[0.;0.;0.;0.;0.;0.]]) |> should equal smallM
+    let ``SparseMatrix.ofRows`` () =
+        SparseMatrix.ofRows 4 6 (Seq.ofList [[0.;0.;0.;0.;0.;0.];[0.;0.;1.;0.;0.;0.];[0.;0.;0.;0.;0.;0.];[0.;0.;0.;0.;0.;0.]]) |> should equal smallM
 
     [<Test>]
-    let ``SparseMatrix.ofRowList`` () =
-        SparseMatrix.ofRowList 4 6 [[0.;0.;0.;0.;0.;0.];[0.;0.;1.;0.;0.;0.];[0.;0.;0.;0.;0.;0.];[0.;0.;0.;0.;0.;0.]] |> should equal smallM
+    let ``SparseMatrix.ofRowsList`` () =
+        SparseMatrix.ofRowsList 4 6 [[0.;0.;0.;0.;0.;0.];[0.;0.;1.;0.;0.;0.];[0.;0.;0.;0.;0.;0.];[0.;0.;0.;0.;0.;0.]] |> should equal smallM
 
     [<Test>]
-    let ``SparseMatrix.ofColumnSeq`` () =
-        SparseMatrix.ofColumnSeq 4 6 (Seq.ofList [[0.;0.;0.;0.];[0.;0.;0.;0.];[0.;1.;0.;0.];[0.;0.;0.;0.];[0.;0.;0.;0.];[0.;0.;0.;0.]]) |> should equal smallM
+    let ``SparseMatrix.ofColumns`` () =
+        SparseMatrix.ofColumns 4 6 (Seq.ofList [[0.;0.;0.;0.];[0.;0.;0.;0.];[0.;1.;0.;0.];[0.;0.;0.;0.];[0.;0.;0.;0.];[0.;0.;0.;0.]]) |> should equal smallM
 
     [<Test>]
     let ``SparseMatrix.ofColumnList`` () =
-        SparseMatrix.ofColumnList 4 6 [[0.;0.;0.;0.];[0.;0.;0.;0.];[0.;1.;0.;0.];[0.;0.;0.;0.];[0.;0.;0.;0.];[0.;0.;0.;0.]] |> should equal smallM
+        SparseMatrix.ofColumnsList 4 6 [[0.;0.;0.;0.];[0.;0.;0.;0.];[0.;1.;0.;0.];[0.;0.;0.;0.];[0.;0.;0.;0.];[0.;0.;0.;0.]] |> should equal smallM
 
     [<Test>]
     let ``SparseMatrix.ofSeqi`` () =

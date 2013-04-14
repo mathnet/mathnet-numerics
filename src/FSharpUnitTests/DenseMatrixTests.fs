@@ -53,20 +53,20 @@ module DenseMatrixTests =
         DenseMatrix.ofList [[0.3;0.3];[0.3;0.3];[0.3;0.3]] |> should equal smallM
 
     [<Test>]
-    let ``DenseMatrix.ofRowSeq`` () =
-        DenseMatrix.ofRowSeq 3 2 (Seq.ofList [[0.3;0.3];[0.3;0.3];[0.3;0.3]]) |> should equal smallM
+    let ``DenseMatrix.ofRows`` () =
+        DenseMatrix.ofRows 3 2 (Seq.ofList [[0.3;0.3];[0.3;0.3];[0.3;0.3]]) |> should equal smallM
 
     [<Test>]
-    let ``DenseMatrix.ofRowList`` () =
-        DenseMatrix.ofRowList 3 2 [[0.3;0.3];[0.3;0.3];[0.3;0.3]] |> should equal smallM
+    let ``DenseMatrix.ofRowsList`` () =
+        DenseMatrix.ofRowsList 3 2 [[0.3;0.3];[0.3;0.3];[0.3;0.3]] |> should equal smallM
 
     [<Test>]
-    let ``DenseMatrix.ofColumnSeq`` () =
-        DenseMatrix.ofColumnSeq 3 2 (Seq.ofList [[0.3;0.3;0.3];[0.3;0.3;0.3]]) |> should equal smallM
+    let ``DenseMatrix.ofColumn`` () =
+        DenseMatrix.ofColumns 3 2 (Seq.ofList [[0.3;0.3;0.3];[0.3;0.3;0.3]]) |> should equal smallM
 
     [<Test>]
-    let ``DenseMatrix.ofColumnList`` () =
-        DenseMatrix.ofColumnList 3 2 [[0.3;0.3;0.3];[0.3;0.3;0.3]] |> should equal smallM
+    let ``DenseMatrix.ofColumnsList`` () =
+        DenseMatrix.ofColumnsList 3 2 [[0.3;0.3;0.3];[0.3;0.3;0.3]] |> should equal smallM
 
     [<Test>]
     let ``DenseMatrix.ofSeqi`` () =

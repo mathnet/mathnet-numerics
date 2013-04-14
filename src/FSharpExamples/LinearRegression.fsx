@@ -43,7 +43,7 @@ open MathNet.Numerics.Distributions
 let ``Fitting to a line`` =
     printfn "Fitting to a line"
 
-    let X = DenseMatrix.ofColumnList 3 2 [ List.init 3 (fun i -> 1.0); [ 10.0; 20.0; 30.0 ] ]
+    let X = DenseMatrix.ofColumnsList 3 2 [ List.init 3 (fun i -> 1.0); [ 10.0; 20.0; 30.0 ] ]
     let y = DenseVector [| 15.0; 20.0; 25.0 |]
     let p = X.QR().Solve(y)
 
@@ -73,7 +73,7 @@ let ``Fitting to an arbitrary linear function from noisy data`` =
         [
             xdata |> List.map f1
             xdata |> List.map f2
-        ] |> DenseMatrix.ofColumnList 10 2
+        ] |> DenseMatrix.ofColumnsList 10 2
     let y = DenseVector.ofList ydata
 
     // solve
@@ -101,7 +101,7 @@ let ``Fitting to an sine from noisy data`` =
                 Array.create xdata.Length 1.0
                 xdata |> Array.map (fun x -> Math.Sin(omega*x))
                 xdata |> Array.map (fun x -> Math.Cos(omega*x))
-            ] |> DenseMatrix.ofColumnSeq xdata.Length 3
+            ] |> DenseMatrix.ofColumns xdata.Length 3
     let y = DenseVector ydata
 
     let p = X.QR().Solve(y)
