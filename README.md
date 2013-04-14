@@ -21,7 +21,7 @@ SL5 and .NET for Windows Store apps.
 
 Math.NET Numerics is covered under the terms of the [MIT/X11](http://mathnetnumerics.codeplex.com/license)
 license. You may therefore link to it and use it in both opensource and proprietary
-software projects. See also the [copyright](COPYRIGHT.md) file in the root folder.
+software projects. See also the [license](LICENSE.md) file in the root folder.
 
 Math.NET Numerics is the result of merging [dnAnalytics](http://dnanalytics.codeplex.com/)
 with [Math.NET Iridium](http://www.mathdotnet.com/Iridium.aspx) and replaces both.
@@ -56,7 +56,7 @@ Installation Instructions
 
 Download the *MathNet.Numerics.dll* assembly, add a reference to it to your project and you're done. To make this even simpler we publish binary releases to the [**NuGet Gallery**](http://nuget.org/) as package *MathNet.Numerics* (or *MathNet.Numerics.FSharp* for F# integration). Alternatively we also publish binary releases including documentation on [CodePlex](http://mathnetnumerics.codeplex.com/releases).
 
-[Release Notes & Changes](RELEASENOTES.md)
+* [Release Notes & Changes](RELEASENOTES.md)
 
 Team & Contributors
 -------------------
@@ -72,4 +72,4 @@ Matthew Kitchin, Rana Ian, Andrew Kurochka,
 Thaddaeus Parker, Sergey Bochkanov (ALGLIB), John Maddock (Boost),
 Stephen L. Moshier (Cephes Math Library)
 
-See also the [AUTHORS](AUTHORS.md) file for a full list of all contributors.
+See [contributors](CONTRIBUTORS.md) file for a full list of all contributors.
