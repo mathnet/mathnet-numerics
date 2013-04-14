@@ -13,8 +13,8 @@ NuGet Packages, available in the [NuGet Gallery](https://nuget.org/profiles/math
 - `MathNet.Numerics.MKL.Win-x86` - optional Linear Algebra MKL native provider
 - `MathNet.Numerics.MKL.Win-x64` - optional Linear Algebra MKL native provider
 - `MathNet.Numerics.Signed` - strong-named version of the core package (not recommended)
-- `MathNet.Numerics.Samples` - code samples in C#
-- `MathNet.Numerics.FSharp.Samples` - code samples in F#
+- `MathNet.Numerics.Sample` - code samples in C#
+- `MathNet.Numerics.FSharp.Sample` - code samples in F#
 
 Zip Packages, available on [CodePlex](http://mathnetnumerics.codeplex.com/releases):
 
@@ -54,7 +54,7 @@ Despite semver this release contains two changes that may break code but without
 - DebuggerDisplay attributes for matrices and vectors.
 - Map/IndexedMap combinators with storage-aware and partially parallelized implementations for both dense and sparse data.
 - Reworked Matrix/Vector construction from arrays, enumerables, indexed enumerables, nested enumerables or by providing an init function/lambda. Non-obsolete constructors now always use the raw data array directly without copying, while static functions always return a matrix/vector independent of the provided data source.
-- F#: Improved extensions for matrix and vector construction: create, zeroCreate, randomCreate, init, ofArray2, ofRows/ofRowsList, ofColumns/ofSolumnsList, ofSeqi/Listi (indexed). Storage-aware for performance.
+- F#: Improved extensions for matrix and vector construction: create, zeroCreate, randomCreate, init, ofArray2, ofRows/ofRowsList, ofColumns/ofColumnsList, ofSeqi/Listi (indexed). Storage-aware for performance.
 - F#: Updated map/mapi and other combinators to leverage core implementation, added -nz variants where zero-values may be skipped (relevant mostly for sparse matrices).
 - F#: Idiomatic slice setters for sub-matrices and sub-vectors
 - F#: More examples for matrix/vector creation and linear regression in the F# Sample-package.
