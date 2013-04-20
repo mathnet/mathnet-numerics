@@ -30,7 +30,6 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Factorization
     using System.Numerics;
     using LinearAlgebra.Complex;
     using LinearAlgebra.Complex.Factorization;
-    using LinearAlgebra.Generic.Factorization;
     using NUnit.Framework;
 
     /// <summary>

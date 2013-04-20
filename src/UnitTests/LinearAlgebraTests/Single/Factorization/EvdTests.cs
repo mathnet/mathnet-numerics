@@ -77,7 +77,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Factorization
         /// Can factorize a random square matrix.
         /// </summary>
         /// <param name="order">Matrix order.</param>
-        [Test, Ignore]
+        [Test]
         public void CanFactorizeRandomMatrix([Values(1, 2, 5, 10, 50, 100)] int order)
         {
             var matrixA = MatrixLoader.GenerateRandomDenseMatrix(order, order);
@@ -108,8 +108,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Factorization
         /// Can factorize a symmetric random square matrix.
         /// </summary>
         /// <param name="order">Matrix order.</param>
-        [Test, Ignore]
-        public void CanFactorizeRandomSymmetricMatrix([Values(1, 2, 5, 10, 50, 100)] int order)
+        [Test]
+        public void CanFactorizeRandomSymmetricMatrix([Values(1, 2, 5, 10, 50)] int order)
         {
             var matrixA = MatrixLoader.GenerateRandomPositiveDefiniteDenseMatrix(order);
             MatrixHelpers.ForceSymmetric(matrixA);
@@ -169,7 +169,6 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Factorization
                 matrixA[i - 1, i] = 1;
                 matrixA[i + 1, i] = 1;
             }
-
             var factorEvd = matrixA.Evd();
 
             Assert.AreEqual(factorEvd.Determinant, 0);

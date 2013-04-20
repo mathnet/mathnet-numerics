@@ -3,7 +3,7 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
-// Copyright (c) 2009-2010 Math.NET
+// Copyright (c) 2009-2013 Math.NET
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -24,14 +24,15 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using System.Numerics;
-using MathNet.Numerics.LinearAlgebra.Generic.Factorization;
-
 namespace MathNet.Numerics.Algorithms.LinearAlgebra
 {
     using System;
     using Properties;
     using Threading;
+    using System.Numerics;
+    using Numerics.LinearAlgebra.Complex32.Factorization;
+    using Numerics.LinearAlgebra.Generic.Factorization;
+    using Numerics.LinearAlgebra.Complex32;
 
     /// <summary>
     /// The managed linear algebra provider.
@@ -2981,6 +2982,88 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
                     }
 
                     x[(k * columnsA) + j] = value;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Computes the eigenvalues and eigenvectors of a matrix.
+        /// </summary>
+        /// <param name="isSymmetric">Wether the matrix is symmetric or not.</param>
+        /// <param name="order">The order of the matrix.</param>
+        /// <param name="matrix">The matrix to decompose. The lenth of the array must be order * order.</param>
+        /// <param name="matrixEv">On output, the matrix contains the eigen vectors. The lenth of the array must be order * order.</param>
+        /// <param name="vectorEv">On output, the eigen values (λ) of matrix in ascending value. The length of the arry must <paramref name="order"/>.</param>
+        /// <param name="matrixD">On output, the block diagonal eigenvalue matrix. The lenth of the array must be order * order.</param>
+        public virtual void EigenDecomp(bool isSymmetric, int order, Complex32[] matrix, Complex32[] matrixEv, Complex[] vectorEv, Complex32[] matrixD)
+        {
+            if (matrix == null) 
+            {
+                throw new ArgumentNullException("matrix");
+            }
+
+            if (matrix.Length != order * order )
+            {
+                throw new ArgumentException(String.Format(Resources.ArgumentArrayWrongLength, order * order), "matrix");
+            }
+            
+            if (matrixEv == null) 
+            {
+                throw new ArgumentNullException("matrixEv");
+            }
+
+            if (matrixEv.Length != order * order )
+            {
+                throw new ArgumentException(String.Format(Resources.ArgumentArrayWrongLength, order * order), "matrixEv");
+            }
+
+            if (vectorEv == null) 
+            {
+                throw new ArgumentNullException("vectorEv");
+            }
+
+            if (vectorEv.Length != order)
+            {
+                throw new ArgumentException(String.Format(Resources.ArgumentArrayWrongLength, order), "vectorEv");
+            }
+
+            if (matrixD == null) 
+            {
+                throw new ArgumentNullException("matrixD");
+            }
+
+            if (matrixD.Length != order * order )
+            {
+                throw new ArgumentException(String.Format(Resources.ArgumentArrayWrongLength, order * order), "matrixD");
+            }
+
+            var matrixCopy = new Complex32[matrix.Length];
+            Array.Copy(matrix, matrixCopy, matrix.Length);
+            var v = new DenseVector(order);
+            if (isSymmetric)
+            {
+                var tau = new Complex32[order];
+                var d = new float[order];
+                var e = new float[order];
+
+                DenseEvd.SymmetricTridiagonalize(matrixCopy, d, e, tau, order);
+                DenseEvd.SymmetricDiagonalize(matrixEv, d, e, order);
+                DenseEvd.SymmetricUntridiagonalize(matrixEv, matrixCopy, tau, order);
+
+                for (var i = 0; i < order; i++)
+                {
+                    vectorEv[i] = new Complex(d[i], e[i]);
+                    matrixD[i * order + i] = new Complex32(d[i], e[i]);
+                }
+            }
+            else
+            {
+                DenseEvd.NonsymmetricReduceToHessenberg(matrixEv, matrixCopy, order);
+                DenseEvd.NonsymmetricReduceHessenberToRealSchur(v.Values, matrixEv, matrixCopy, order);
+                for (var i = 0; i < order; i++)
+                {
+                    vectorEv[i] = new Complex(v[i].Real, v[i].Imaginary);
+                    matrixD[i * order + i] = v[i];
                 }
             }
         }

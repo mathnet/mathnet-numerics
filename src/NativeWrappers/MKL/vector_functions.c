@@ -1,7 +1,9 @@
 #include "mkl_vml.h"
 #include "wrapper_common.h"
 
-
+#if GCC
+extern "C" {
+#endif
 DLLEXPORT void s_vector_add( const int n, const float x[], const float y[], float result[] ){
 	vsAdd( n, x, y, result );
 }
@@ -65,3 +67,6 @@ DLLEXPORT void z_vector_multiply( const int n, const MKL_Complex16 x[], const MK
 DLLEXPORT void z_vector_divide( const int n, const MKL_Complex16 x[], const MKL_Complex16 y[], MKL_Complex16 result[] ){
 	vzDiv( n, x, y, result );
 }
+#if GCC
+}
+#endif

@@ -80,9 +80,9 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
            
             IsSymmetric = true;
 
-            for (var i = 0; i < order & IsSymmetric; i++)
+            for (var i = 0; IsSymmetric && i < order; i++)
             {
-                for (var j = 0; j < order & IsSymmetric; j++)
+                for (var j = 0; IsSymmetric && j < order; j++)
                 {
                     IsSymmetric &= matrix.At(i, j) == matrix.At(j, i).Conjugate();
                 }

@@ -248,7 +248,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Complex32
             var matrix = _matrices["Square3x3"];
             var work = new float[18];
             var norm = Control.LinearAlgebraProvider.MatrixNorm(Norm.FrobeniusNorm, matrix.RowCount, matrix.ColumnCount, matrix.Values, work);
-            AssertHelpers.AlmostEqual(10.777754868246f, norm, 8);
+            AssertHelpers.AlmostEqual(10.777754868246f, norm, 6);
         }
 
         /// <summary>

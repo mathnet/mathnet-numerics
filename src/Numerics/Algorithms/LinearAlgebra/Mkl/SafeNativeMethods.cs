@@ -2,7 +2,7 @@
 // Math.NET Numerics, part of the Math.NET Project
 // http://mathnet.opensourcedotnet.info
 //
-// Copyright (c) 2009-2010 Math.NET
+// Copyright (c) 2009-2013 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -266,6 +266,18 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.Mkl
         [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
         internal static extern int z_svd_factor(bool computeVectors, int m, int n, [In, Out] Complex[] a, [In, Out] Complex[] s, [In, Out] Complex[] u, [In, Out] Complex[] v, [In, Out] Complex[] work, int len);
 
+        [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
+        internal static extern int s_eigen(bool isSymmetric, int n, [In] float[] a, [In, Out] float[] vectors, [In, Out] Complex[] values, [In, Out] float[] d);
+
+        [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
+        internal static extern int d_eigen(bool isSymmetric, int n, [In] double[] a, [In, Out] double[] vectors, [In, Out]  Complex[] values, [In, Out] double[] d);
+
+        [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
+        internal static extern int c_eigen(bool isSymmetric, int n, [In] Complex32[] a, [In, Out] Complex32[] vectors, [In, Out]  Complex[] values, [In, Out] Complex32[] d);
+
+        [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
+        internal static extern int z_eigen(bool isSymmetric, int n, [In] Complex[] a, [In, Out] Complex[] vectors, [In, Out]  Complex[] values, [In, Out] Complex[] d);
+        
         #endregion LAPACK
 
         #region Vector Functions

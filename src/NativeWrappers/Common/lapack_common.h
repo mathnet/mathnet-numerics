@@ -18,8 +18,7 @@ inline void shift_ipiv_up(int m, int ipiv[]){
 }
 
 template<typename T> 
-inline T* Clone(const int m, const int n, const T* a)
-{
+inline T* Clone(const int m, const int n, const T* a){
 	T* clone = new T[m*n];
 	memcpy(clone, a, m*n*sizeof(T));
 	return clone;
