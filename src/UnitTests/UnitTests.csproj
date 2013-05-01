@@ -770,7 +770,7 @@
     <Compile Include="Random\WH1982Tests.cs" />
     <Compile Include="Random\WH2006Tests.cs" />
     <Compile Include="Random\XorshiftTests.cs" />
-    <Compile Include="RootFindingTests\BrentRootFinderTest.cs" />
+    <Compile Include="RootFindingTests\BrentRootFindingTest.cs" />
     <Compile Include="SortingTests.cs" />
     <Compile Include="SpecialFunctionsTests\ModifiedStruveTests.cs" />
     <Compile Include="SpecialFunctionsTests\ModifiedBesselTests.cs" />
