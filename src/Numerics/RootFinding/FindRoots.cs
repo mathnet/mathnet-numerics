@@ -1,5 +1,4 @@
 ﻿using System;
-using MathNet.Numerics.Properties;
 
 namespace MathNet.Numerics.RootFinding
 {
@@ -16,15 +15,14 @@ namespace MathNet.Numerics.RootFinding
         /// Algorithm by by Brent, Van Wijngaarden, Dekker et al.
         /// Implementation inspired by Press, Teukolsky, Vetterling, and Flannery, "Numerical Recipes in C", 2nd edition, Cambridge University Press
         /// </remarks>
+        /// <exception cref="NonConvergenceException"></exception>
 	    public static double BrentMethod(Func<double, double> f, double xmin, double xmax, double accuracy = 1e-8, int maxIterations = 100)
         {
-	        double xMid = 0;
-	        double d = 0.0, e = 0.0;
-
             double fxmin = f(xmin);
             double fxmax = f(xmax);
             double root = xmax;
             double froot = fxmax;
+            double d = 0.0, e = 0.0;
 
             for (int i = 0; i <= maxIterations; i++)
             {
@@ -48,7 +46,7 @@ namespace MathNet.Numerics.RootFinding
 
                 // convergence check
                 double xAcc1 = 2.0 * Precision.DoubleMachinePrecision * Math.Abs(root) + 0.5 * accuracy;
-                xMid = (xmax - root) / 2.0;
+                double xMid = (xmax - root) / 2.0;
                 if (Math.Abs(xMid) <= xAcc1 || froot.AlmostEqualWithAbsoluteError(0, froot, accuracy))
                 {
                     return root;
@@ -112,7 +110,7 @@ namespace MathNet.Numerics.RootFinding
             }
 
             // The algorithm has exceeded the number of iterations allowed
-            throw new RootFindingException(Resources.AccuracyNotReached, maxIterations, xmin, xmax, Math.Abs(xMid));
+            throw new NonConvergenceException();
         }
 
         /// <summary>Helper method useful for preventing rounding errors.</summary>
