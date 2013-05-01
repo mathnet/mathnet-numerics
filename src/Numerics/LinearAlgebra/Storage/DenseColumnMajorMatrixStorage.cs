@@ -181,7 +181,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             {
                 for (int column = 0; column < columns; column++)
                 {
-                    if (!columnIterator.MoveNext()) throw new ArgumentOutOfRangeException("data", string.Format(Resources.ArgumentArrayWrongLength, rows));
+                    if (!columnIterator.MoveNext()) throw new ArgumentOutOfRangeException("data", string.Format(Resources.ArgumentArrayWrongLength, columns));
                     var arrayColumn = columnIterator.Current as T[];
                     if (arrayColumn != null)
                     {
@@ -194,14 +194,14 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                             var end = (column + 1)*rows;
                             for (int index = column*rows; index < end; index++)
                             {
-                                if (!rowIterator.MoveNext()) throw new ArgumentOutOfRangeException("data", string.Format(Resources.ArgumentArrayWrongLength, columns));
+                                if (!rowIterator.MoveNext()) throw new ArgumentOutOfRangeException("data", string.Format(Resources.ArgumentArrayWrongLength, rows));
                                 array[index] = rowIterator.Current;
                             }
-                            if (rowIterator.MoveNext()) throw new ArgumentOutOfRangeException("data", string.Format(Resources.ArgumentArrayWrongLength, columns));
+                            if (rowIterator.MoveNext()) throw new ArgumentOutOfRangeException("data", string.Format(Resources.ArgumentArrayWrongLength, rows));
                         }
                     }
                 }
-                if (columnIterator.MoveNext()) throw new ArgumentOutOfRangeException("data", string.Format(Resources.ArgumentArrayWrongLength, rows));
+                if (columnIterator.MoveNext()) throw new ArgumentOutOfRangeException("data", string.Format(Resources.ArgumentArrayWrongLength, columns));
             }
             return new DenseColumnMajorMatrixStorage<T>(rows, columns, array);
         }
