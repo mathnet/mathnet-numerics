@@ -5,36 +5,26 @@ namespace MathNet.Numerics.RootFinding
 {
     public abstract class RootFinder
 	{
-	    protected const double DOUBLE_ACCURACY = 9.99200722162641E-16;
-        private const int DEFAULT_MAX_ITERATIONS = 30;
-        private const double DEFAULT_ACCURACY = 1e-8;
+	    protected const double DoubleAccuracy = 9.99200722162641E-16;
+        private const int DefaultMaxIterations = 30;
+        private const double DefaultAccuracy = 1e-8;
 
-        //protected int _maxNumIters;
-        //protected double _xmin = double.MinValue;
-        //protected double _xmax = double.MaxValue;
-        //protected double _accuracy;
-        //protected Func<double, double> _func;
-        //protected Func<double, double> m_Of;
         int _maxNumIters;
         double _xmin = double.MinValue;
         double _xmax = double.MaxValue;
-        double _accuracy;
         Func<double, double> _func;
-        private double bracketingFactor = 1.6;
+        private double _bracketingFactor = 1.6;
 
-		/// <summary>Constructor.</summary>
-		/// <param name="f">A continuous function.</param>
-        public RootFinder() : this(DEFAULT_MAX_ITERATIONS, DEFAULT_ACCURACY)
+        public RootFinder() : this(DefaultMaxIterations, DefaultAccuracy)
         {
         }
 
         public RootFinder(int numIters, double accuracy)
         {
             _maxNumIters = numIters;
-            _accuracy = accuracy;
+            Accuracy = accuracy;
 		}
 
-	    #region Properties
         protected double XMin { get { return _xmin; } }
         protected double XMax { get { return _xmax; } }
 
@@ -43,15 +33,19 @@ namespace MathNet.Numerics.RootFinding
             get { return _func; }
             set { _func = value; }
         }
+
+        public double Accuracy { get; set; }
+
         public double BracketingFactor
         {
-            get { return bracketingFactor; }
+            get { return _bracketingFactor; }
             set
             {
                 if (value <= 0.0) throw new ArgumentOutOfRangeException(); 
-                bracketingFactor = value;
+                _bracketingFactor = value;
             }
         }
+
         public int Iterations
         {
             set
@@ -61,12 +55,6 @@ namespace MathNet.Numerics.RootFinding
             }
             protected get { return _maxNumIters; }
         }
-        public double Accuracy
-        {
-            get { return _accuracy; }
-            set { _accuracy = value; }
-        }
-	    #endregion Properties
 
 		/// <summary>Detect a range containing at least one root.</summary>
 		/// <param name="xmin">Lower value of the range.</param>

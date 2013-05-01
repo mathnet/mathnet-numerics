@@ -54,7 +54,7 @@ namespace MathNet.Numerics.RootFinding
                     fxmax = fxmin;
                 }
                 // Convergence check
-                xAcc1 = 2.0 * DOUBLE_ACCURACY * Math.Abs(root) + 0.5 * Accuracy;
+                xAcc1 = 2.0 * DoubleAccuracy * Math.Abs(root) + 0.5 * Accuracy;
                 xMid = (xmax - root) / 2.0;
                 if (Math.Abs(xMid) <= xAcc1 || Close(froot, 0.0))
                 {
