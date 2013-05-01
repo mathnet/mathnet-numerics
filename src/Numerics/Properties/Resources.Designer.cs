@@ -61,6 +61,15 @@ namespace MathNet.Numerics.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The accuracy couldn&apos;t be reached with the specified number of iterations..
+        /// </summary>
+        public static string AccuracyNotReached {
+            get {
+                return ResourceManager.GetString("AccuracyNotReached", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The array arguments must have the same length..
         /// </summary>
         public static string ArgumentArraysSameLength {
@@ -741,6 +750,15 @@ namespace MathNet.Numerics.Properties {
         public static string ProposalDistributionNoUpperBound {
             get {
                 return ResourceManager.GetString("ProposalDistributionNoUpperBound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The algorithm ended without root in the range..
+        /// </summary>
+        public static string RootNotFound {
+            get {
+                return ResourceManager.GetString("RootNotFound", resourceCulture);
             }
         }
         
