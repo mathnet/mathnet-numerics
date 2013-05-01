@@ -109,6 +109,8 @@
     <Compile Include="Financial\AbsoluteRiskMeasures.cs" />
     <Compile Include="LinearAlgebra\Generic\Matrix.BCL.cs" />
     <Compile Include="LinearAlgebra\Generic\Vector.BCL.cs" />
+    <Compile Include="RootFinding\BrentRootFinder.cs" />
+    <Compile Include="RootFinding\RootFinder.cs" />
     <Compile Include="SpecialFunctions\Evaluate.cs" />
     <Compile Include="SpecialFunctions\ModifiedStruve.cs" />
     <Compile Include="SpecialFunctions\ModifiedBessel.cs" />

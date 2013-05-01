@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MathNet.Numerics.RootFinders
+namespace MathNet.Numerics.RootFinding
 {
 	public class BrentRootFinder : RootFinder
 	{
