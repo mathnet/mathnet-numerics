@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Runtime.Serialization;
 using MathNet.Numerics.Properties;
 
 namespace MathNet.Numerics
@@ -20,9 +19,11 @@ namespace MathNet.Numerics
         public NonConvergenceException(string message, Exception innerException) : base(message, innerException)
         {
         }
-
-        protected NonConvergenceException(SerializationInfo info, StreamingContext context) : base(info, context)
+#if !PORTABLE
+        protected NonConvergenceException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
+            : base(info, context)
         {
         }
+#endif
     }
 }
