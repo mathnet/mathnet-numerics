@@ -109,7 +109,7 @@ namespace MathNet.Numerics.RootFinding
             }
 
             // The algorithm has exceeded the number of iterations allowed
-            throw new RootFinderException(Resources.AccuracyNotReached, i, new Range(XMin, XMax), Math.Abs(xMid));
+            throw new RootFindingException(Resources.AccuracyNotReached, i, XMin, XMax, Math.Abs(xMid));
         }
 	}
 }
