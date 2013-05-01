@@ -1,4 +1,5 @@
 ﻿using System;
+using MathNet.Numerics.Properties;
 
 namespace MathNet.Numerics.RootFinding
 {
@@ -108,7 +109,7 @@ namespace MathNet.Numerics.RootFinding
             }
 
             // The algorithm has exceeded the number of iterations allowed
-            throw new RootFinderException(ACCURACY_NOT_REACHED, i, new Range(XMin, XMax), Math.Abs(xMid));
+            throw new RootFinderException(Resources.AccuracyNotReached, i, new Range(XMin, XMax), Math.Abs(xMid));
         }
 	}
 }

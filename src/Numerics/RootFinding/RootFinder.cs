@@ -1,4 +1,5 @@
 ﻿using System;
+using MathNet.Numerics.Properties;
 
 namespace MathNet.Numerics.RootFinding
 {
@@ -41,13 +42,7 @@ namespace MathNet.Numerics.RootFinding
     }
 	public abstract class RootFinder
 	{
-
-		protected const string INVALID_RANGE="Invalid range while finding root";
-        protected const string ACCURACY_NOT_REACHED = "The accuracy couldn't be reached with the specified number of iterations";
-        protected const string ROOT_NOT_FOUND = "The algorithm ended without root in the range";
-        protected const string ROOT_NOT_BRACKETED = "The algorithm could not start because the root seemed not to be bracketed";
-        protected const string INVALID_ALGORITHM = "This algorithm is not able to solve this equation";
-        protected const double DOUBLE_ACCURACY = 9.99200722162641E-16;
+	    protected const double DOUBLE_ACCURACY = 9.99200722162641E-16;
         private const int DEFAULT_MAX_ITERATIONS = 30;
         private const double DEFAULT_ACCURACY = 1e-8;
 
@@ -122,7 +117,7 @@ namespace MathNet.Numerics.RootFinding
         {
             if (xmin >= xmax)
             {
-                throw new RootFinderException(INVALID_RANGE, 0, new Range(xmin, xmax), 0.0);
+                throw new RootFinderException(string.Format(Resources.ArgumentOutOfRangeGreater,"xmax","xmin"), 0, new Range(xmin, xmax), 0.0);
             }
 
             double fmin = _func(xmin);
@@ -144,7 +139,7 @@ namespace MathNet.Numerics.RootFinding
                 }
             } 
 
-            throw new RootFinderException(ROOT_NOT_FOUND, i, new Range(fmin, fmax), 0.0);
+            throw new RootFinderException(Resources.RootNotFound, i, new Range(fmin, fmax), 0.0);
         }
 
 		/// <summary>Prototype algorithm for solving the equation f(x)=0.</summary>
