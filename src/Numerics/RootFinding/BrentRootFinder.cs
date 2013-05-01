@@ -111,5 +111,17 @@ namespace MathNet.Numerics.RootFinding
             // The algorithm has exceeded the number of iterations allowed
             throw new RootFindingException(Resources.AccuracyNotReached, i, XMin, XMax, Math.Abs(xMid));
         }
+
+        /// <summary>Helper method useful for preventing rounding errors.</summary>
+        /// <returns>a*sign(b)</returns>
+        static double Sign(double a, double b)
+        {
+            return b >= 0 ? (a >= 0 ? a : -a) : (a >= 0 ? -a : a);
+        }
+
+        static bool Close(double d1, double d2)
+        {
+            return Math.Abs(d1 - d2) <= double.Epsilon;
+        }
 	}
 }

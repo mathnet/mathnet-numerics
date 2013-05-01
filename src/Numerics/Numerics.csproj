@@ -109,6 +109,7 @@
     <Compile Include="Financial\AbsoluteRiskMeasures.cs" />
     <Compile Include="LinearAlgebra\Generic\Matrix.BCL.cs" />
     <Compile Include="LinearAlgebra\Generic\Vector.BCL.cs" />
+    <Compile Include="RootFinding\Bracketing.cs" />
     <Compile Include="RootFinding\BrentRootFinder.cs" />
     <Compile Include="RootFinding\RootFinder.cs" />
     <Compile Include="RootFinding\RootFindingException.cs" />
