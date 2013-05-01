@@ -4,14 +4,13 @@ using NUnit.Framework;
 namespace MathNet.Numerics.UnitTests.RootFindingTests
 {
     [TestFixture]
-    public class BrentRootFindingTest
+    public class BrentTest
     {
         [Test]
         public void MultipleRoots()
         {
-            var solver = new BrentRootFinder(100, 1e-14) {Func = x => x*x - 4};
-            double root = solver.Solve(-5, 5);
-            Assert.AreEqual(0, solver.Func(root));
+            double root = FindRoots.BrentMethod(x => x*x - 4, -5, 5, 1e-14, 100);
+            Assert.AreEqual(0, root*root - 4);
         }
     }
 }
