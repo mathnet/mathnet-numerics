@@ -2174,6 +2174,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// right singular vectors.</param>
         /// <param name="work">The work array. Length should be at least <paramref name="rowsA"/>.</param>
         /// <remarks>This is equivalent to the GESVD LAPACK routine.</remarks>
+        /// <exception cref="NonConvergenceException"></exception>
         public virtual void SingularValueDecomposition(bool computeVectors, Complex[] a, int rowsA, int columnsA, Complex[] s, Complex[] u, Complex[] vt, Complex[] work)
         {
             if (a == null)
@@ -2559,7 +2560,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
                 // If too many iterations have been performed throw exception.
                 if (iter >= Maxiter)
                 {
-                    throw new ArgumentException(Resources.ConvergenceFailed);
+                    throw new NonConvergenceException();
                 }
 
                 // This section of the program inspects for negligible elements in the s and e arrays,  

@@ -2060,6 +2060,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <param name="vt">If <paramref name="computeVectors"/> is <c>true</c>, on exit VT contains the transposed
         /// right singular vectors.</param>
         /// <param name="work">The work array. Length should be at least <paramref name="rowsA"/>.</param>
+        /// <exception cref="NonConvergenceException"></exception>
         public virtual void SingularValueDecomposition(bool computeVectors, float[] a, int rowsA, int columnsA, float[] s, float[] u, float[] vt, float[] work)
         {
             if (a == null)
@@ -2449,7 +2450,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
                 // If too many iterations have been performed throw exception.
                 if (iter >= Maxiter)
                 {
-                    throw new ArgumentException(Resources.ConvergenceFailed);
+                    throw new NonConvergenceException();
                 }
 
                 // This section of the program inspects for negligible elements in the s and e arrays,  

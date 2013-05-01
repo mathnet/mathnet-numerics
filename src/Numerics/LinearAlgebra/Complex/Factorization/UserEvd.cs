@@ -246,6 +246,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
         /// Bowdler, Martin, Reinsch, and Wilkinson, Handbook for
         /// Auto. Comp., Vol.ii-Linear Algebra, and the corresponding
         /// Fortran subroutine in EISPACK.</remarks>
+        /// <exception cref="NonConvergenceException"></exception>
         private void SymmetricDiagonalize(double[] d, double[] e, int order)
         {
             const int Maxiter = 1000;
@@ -344,7 +345,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
                         // throw exception that Convergence Failed
                         if (iter >= Maxiter)
                         {
-                            throw new ArgumentException(Resources.ConvergenceFailed);
+                            throw new NonConvergenceException();
                         }
                     }
                     while (Math.Abs(e[l]) > eps * tst1);

@@ -256,6 +256,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
         /// Bowdler, Martin, Reinsch, and Wilkinson, Handbook for
         /// Auto. Comp., Vol.ii-Linear Algebra, and the corresponding
         /// Fortran subroutine in EISPACK.</remarks>
+        /// <exception cref="NonConvergenceException"></exception>
         internal static void SymmetricDiagonalize(float[] a, float[] d, float[] e, int order)
         {
             const int Maxiter = 1000;
@@ -354,7 +355,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
                         // throw exception that Convergence Failed
                         if (iter >= Maxiter)
                         {
-                            throw new ArgumentException(Resources.ConvergenceFailed);
+                            throw new NonConvergenceException();
                         }
                     } while (Math.Abs(e[l]) > eps*tst1);
                 }
@@ -528,6 +529,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
         /// by Martin and Wilkinson, Handbook for Auto. Comp.,
         /// Vol.ii-Linear Algebra, and the corresponding
         /// Fortran subroutine in EISPACK.</remarks>
+        /// <exception cref="NonConvergenceException"></exception>
         internal static void NonsymmetricReduceHessenberToRealSchur(float[] a, float[] matrixH, float[] d, float[] e, int order)
         {
             // Initialize
@@ -732,7 +734,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
                     iter = iter + 1;
                     if (iter >= 30*order)
                     {
-                        throw new ArgumentException(Resources.ConvergenceFailed);
+                        throw new NonConvergenceException();
                     }
 
                     // Look for two consecutive small sub-diagonal elements
