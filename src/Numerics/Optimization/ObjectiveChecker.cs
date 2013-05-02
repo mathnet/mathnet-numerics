@@ -9,7 +9,7 @@ namespace MathNet.Numerics.Optimization
     public class CheckedEvaluation : IEvaluation
     {
         private ObjectiveChecker Checker;
-        private IEvaluation InnerEvaluation;
+        public IEvaluation InnerEvaluation { get; private set; }
         private bool ValueChecked;
         private bool GradientChecked;
         private bool HessianChecked;
