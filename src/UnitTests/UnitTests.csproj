@@ -751,7 +751,7 @@
     <Compile Include="NumberTheoryTests\GcdRelatedTest.cs" />
     <Compile Include="NumberTheoryTests\GcdRelatedTestBigInteger.cs" />
     <Compile Include="NumberTheoryTests\IntegerTheoryTest.cs" />
-    <Compile Include="OptimizationTests\TestBisectionRootFinder.cs" />
+    <Compile Include="RootFindingTests\BisectionTest.cs" />
     <Compile Include="PermutationTest.cs" />
     <Compile Include="PrecisionTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

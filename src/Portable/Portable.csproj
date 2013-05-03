@@ -984,6 +984,9 @@
     <Compile Include="..\Numerics\Random\Xorshift.cs">
       <Link>Random\Xorshift.cs</Link>
     </Compile>
+    <Compile Include="..\Numerics\RootFinding\Algorithms\Bisection.cs">
+      <Link>RootFinding\Algorithms\Bisection.cs</Link>
+    </Compile>
     <Compile Include="..\Numerics\RootFinding\Algorithms\Brent.cs">
       <Link>RootFinding\Algorithms\Brent.cs</Link>
     </Compile>
