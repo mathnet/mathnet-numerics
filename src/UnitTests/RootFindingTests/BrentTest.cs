@@ -28,6 +28,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System;
 using MathNet.Numerics.RootFinding.Algorithms;
 using NUnit.Framework;
 
@@ -39,8 +40,17 @@ namespace MathNet.Numerics.UnitTests.RootFindingTests
         [Test]
         public void MultipleRoots()
         {
-            double root = Brent.FindRoot(x => x*x - 4, -5, 5, 1e-14, 100);
-            Assert.AreEqual(0, root*root - 4);
+            // Roots at -2, 2
+            Func<double, double> f1 = x => x*x - 4;
+            Assert.AreEqual(0, f1(Brent.FindRoot(f1, -5, 5, 1e-14, 100)));
+            Assert.AreEqual(-2, Brent.FindRoot(f1, -5, -1, 1e-14, 100));
+            Assert.AreEqual(2, Brent.FindRoot(f1, 1, 4, 1e-14, 100));
+
+            // Roots at 3, 4
+            Func<double, double> f2 = x => (x - 3)*(x - 4);
+            Assert.AreEqual(0, f2(Brent.FindRoot(f2, -5, 5, 1e-14, 100)));
+            Assert.AreEqual(3, Brent.FindRoot(f2, -5, 3.5, 1e-14, 100));
+            Assert.AreEqual(4, Brent.FindRoot(f2, 3.2, 5, 1e-14, 100));
         }
     }
 }
