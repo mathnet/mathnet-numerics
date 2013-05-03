@@ -39,5 +39,17 @@ namespace MathNet.Numerics.RootFinding
         {
             return Brent.FindRoot(f, lowerBound, upperBound, 1e-8, 100);
         }
+
+        public static double OfFunctionAndDerivative(Func<double, double> f, Func<double, double> df, double lowerBound, double upperBound)
+        {
+            try
+            {
+                return NewtonRaphson.FindRoot(f, df, lowerBound, upperBound, 1e-8, 100);
+            }
+            catch (NonConvergenceException)
+            {
+                return Brent.FindRoot(f, lowerBound, upperBound, 1e-8, 100);
+            }
+        }
     }
 }

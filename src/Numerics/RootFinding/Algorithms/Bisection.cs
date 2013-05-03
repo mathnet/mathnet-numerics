@@ -29,41 +29,39 @@
 // </copyright>
 
 using System;
+using MathNet.Numerics.Properties;
 
 namespace MathNet.Numerics.RootFinding.Algorithms
 {
     public static class Bisection
     {
-        public static double FindRootExpand(Func<double, double> f, double guessLowerBound, double guessUpperBound, double accuracy = 1e-5, double expandFactor = 1.6, int maxExpandIteratons = 100)
+        /// <summary>Find a solution of the equation f(x)=0.</summary>
+        /// <exception cref="NonConvergenceException"></exception>
+        public static double FindRootExpand(Func<double, double> f, double guessLowerBound, double guessUpperBound, double accuracy = 1e-8, double expandFactor = 1.6, int maxExpandIteratons = 100)
         {
             Bracketing.Expand(f, ref guessLowerBound, ref guessUpperBound, expandFactor, maxExpandIteratons);
             return FindRoot(f, guessLowerBound, guessUpperBound, accuracy);
         }
 
         /// <summary>Find a solution of the equation f(x)=0.</summary>
-        public static double FindRoot(Func<double, double> f, double lowerBound, double upperBound, double accuracy = 1e-5)
+        /// <exception cref="NonConvergenceException"></exception>
+        public static double FindRoot(Func<double, double> f, double lowerBound, double upperBound, double accuracy = 1e-8)
         {
             double fmin = f(lowerBound);
             double fmax = f(upperBound);
 
-            if (fmin == 0.0)
-                return lowerBound;
-            if (fmax == 0.0)
-                return upperBound;
-
-            ValidateEvaluation(fmin, lowerBound);
-            ValidateEvaluation(fmax, upperBound);
+            if (fmin == 0.0) return lowerBound;
+            if (fmax == 0.0) return upperBound;
 
             if (Math.Sign(fmin) == Math.Sign(fmax))
             {
-                throw new NonConvergenceException("Bounds do not necessarily span a root.");
+                throw new NonConvergenceException(Resources.RootMustBeBracketedByBounds);
             }
 
             while (Math.Abs(fmax - fmin) > 0.5 * accuracy || Math.Abs(upperBound - lowerBound) > 0.5 * Precision.DoubleMachinePrecision)
             {
                 double midpoint = 0.5*(upperBound + lowerBound);
                 double midval = f(midpoint);
-                ValidateEvaluation(midval, midpoint);
 
                 if (Math.Sign(midval) == Math.Sign(fmin))
                 {
@@ -82,14 +80,6 @@ namespace MathNet.Numerics.RootFinding.Algorithms
             }
 
             return 0.5*(lowerBound + upperBound);
-        }
-
-        static void ValidateEvaluation(double output, double input)
-        {
-            if (Double.IsInfinity(output) || Double.IsInfinity(output))
-            {
-                throw new Exception(String.Format("Objective function returned non-finite result: f({0}) = {1}", input, output));
-            }
         }
     }
 }

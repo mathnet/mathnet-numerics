@@ -381,4 +381,7 @@
   <data name="RootNotFound" xml:space="preserve">
     <value>The algorithm ended without root in the range.</value>
   </data>
+  <data name="RootMustBeBracketedByBounds" xml:space="preserve">
+    <value>The lower and upper bounds must bracket a single root.</value>
+  </data>
 </root>

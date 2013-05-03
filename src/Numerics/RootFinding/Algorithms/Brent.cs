@@ -139,8 +139,7 @@ namespace MathNet.Numerics.RootFinding.Algorithms
                 froot = f(root);
             }
 
-            // The algorithm has exceeded the number of iterations allowed
-            throw new NonConvergenceException();
+            throw new NonConvergenceException("The algorithm has exceeded the number of iterations allowed");
         }
 
         /// <summary>Helper method useful for preventing rounding errors.</summary>

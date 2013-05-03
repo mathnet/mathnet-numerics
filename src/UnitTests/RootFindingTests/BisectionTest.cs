@@ -46,6 +46,9 @@ namespace MathNet.Numerics.UnitTests.RootFindingTests
             Assert.AreEqual(0, f1(Bisection.FindRootExpand(f1, 3, 4, 1e-14)));
             Assert.AreEqual(-2, Bisection.FindRoot(f1, -5, -1, 1e-14));
             Assert.AreEqual(2, Bisection.FindRoot(f1, 1, 4, 1e-14));
+            Assert.AreEqual(0, f1(Bisection.FindRoot(x => -f1(x), 0, 5, 1e-14)));
+            Assert.AreEqual(-2, Bisection.FindRoot(x => -f1(x), -5, -1, 1e-14));
+            Assert.AreEqual(2, Bisection.FindRoot(x => -f1(x), 1, 4, 1e-14));
 
             // Roots at 3, 4
             Func<double, double> f2 = x => (x - 3) * (x - 4);
@@ -54,6 +57,14 @@ namespace MathNet.Numerics.UnitTests.RootFindingTests
             Assert.AreEqual(4, Bisection.FindRoot(f2, 3.2, 5, 1e-14));
             Assert.AreEqual(3, Bisection.FindRoot(f2, 2.1, 3.9, 0.001), 0.001);
             Assert.AreEqual(3, Bisection.FindRoot(f2, 2.1, 3.4, 0.001), 0.001);
+        }
+
+        [Test]
+        public void LocalMinima()
+        {
+            Func<double, double> f1 = x => x * x * x - 2 * x + 2;
+            Assert.AreEqual(0, f1(Bisection.FindRoot(f1, -5, 5, 1e-14)), 1e-14);
+            Assert.AreEqual(0, f1(Bisection.FindRoot(f1, -2, 4, 1e-14)), 1e-14);
         }
 
         [Test]

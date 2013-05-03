@@ -754,6 +754,15 @@ namespace MathNet.Numerics.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The lower and upper bounds must bracket a single root..
+        /// </summary>
+        public static string RootMustBeBracketedByBounds {
+            get {
+                return ResourceManager.GetString("RootMustBeBracketedByBounds", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The algorithm ended without root in the range..
         /// </summary>
         public static string RootNotFound {

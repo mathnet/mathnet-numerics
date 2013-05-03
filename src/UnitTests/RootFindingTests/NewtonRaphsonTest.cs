@@ -35,42 +35,46 @@ using NUnit.Framework;
 namespace MathNet.Numerics.UnitTests.RootFindingTests
 {
     [TestFixture]
-    public class BrentTest
+    public class NewtonRaphsonTest
     {
         [Test]
         public void MultipleRoots()
         {
             // Roots at -2, 2
-            Func<double, double> f1 = x => x*x - 4;
-            Assert.AreEqual(0, f1(Brent.FindRoot(f1, -5, 5, 1e-14, 100)));
-            Assert.AreEqual(-2, Brent.FindRoot(f1, -5, -1, 1e-14, 100));
-            Assert.AreEqual(2, Brent.FindRoot(f1, 1, 4, 1e-14, 100));
-            Assert.AreEqual(0, f1(Brent.FindRoot(x => -f1(x), -5, 5, 1e-14, 100)));
-            Assert.AreEqual(-2, Brent.FindRoot(x => -f1(x), -5, -1, 1e-14, 100));
-            Assert.AreEqual(2, Brent.FindRoot(x => -f1(x), 1, 4, 1e-14, 100));
+            Func<double, double> f1 = x => x * x - 4;
+            Func<double, double> df1 = x => 2 * x;
+            Assert.AreEqual(0, f1(NewtonRaphson.FindRoot(f1, df1, -5, 5, 1e-14, 100)));
+            Assert.AreEqual(-2, NewtonRaphson.FindRoot(f1, df1, -5, -1, 1e-14, 100));
+            Assert.AreEqual(2, NewtonRaphson.FindRoot(f1, df1, 1, 4, 1e-14, 100));
+            Assert.AreEqual(0, f1(NewtonRaphson.FindRoot(x => -f1(x), x => -df1(x), -5, 5, 1e-14, 100)));
+            Assert.AreEqual(-2, NewtonRaphson.FindRoot(x => -f1(x), x => -df1(x), -5, -1, 1e-14, 100));
+            Assert.AreEqual(2, NewtonRaphson.FindRoot(x => -f1(x), x => -df1(x), 1, 4, 1e-14, 100));
 
             // Roots at 3, 4
-            Func<double, double> f2 = x => (x - 3)*(x - 4);
-            Assert.AreEqual(0, f2(Brent.FindRoot(f2, -5, 5, 1e-14, 100)));
-            Assert.AreEqual(3, Brent.FindRoot(f2, -5, 3.5, 1e-14, 100));
-            Assert.AreEqual(4, Brent.FindRoot(f2, 3.2, 5, 1e-14, 100));
-            Assert.AreEqual(3, Brent.FindRoot(f2, 2.1, 3.9, 0.001, 50), 0.001);
-            Assert.AreEqual(3, Brent.FindRoot(f2, 2.1, 3.4, 0.001, 50), 0.001);
+            Func<double, double> f2 = x => (x - 3) * (x - 4);
+            Func<double, double> df2 = x => 2 * x - 7;
+            Assert.AreEqual(0, f2(NewtonRaphson.FindRoot(f2, df2, -5, 5, 1e-14, 100)));
+            Assert.AreEqual(3, NewtonRaphson.FindRoot(f2, df2, -5, 3.5, 1e-14, 100));
+            Assert.AreEqual(4, NewtonRaphson.FindRoot(f2, df2, 3.2, 5, 1e-14, 100));
+            Assert.AreEqual(3, NewtonRaphson.FindRoot(f2, df2, 2.1, 3.9, 0.001, 50), 0.001);
+            Assert.AreEqual(3, NewtonRaphson.FindRoot(f2, df2, 2.1, 3.4, 0.001, 50), 0.001);
         }
 
         [Test]
         public void LocalMinima()
         {
             Func<double, double> f1 = x => x * x * x - 2 * x + 2;
-            Assert.AreEqual(0, f1(Brent.FindRoot(f1, -5, 5, 1e-14, 100)), 1e-14);
-            Assert.AreEqual(0, f1(Brent.FindRoot(f1, -2, 4, 1e-14, 100)), 1e-14);
+            Func<double, double> df1 = x => 3 * x * x - 2;
+            Assert.AreEqual(0, f1(NewtonRaphson.FindRoot(f1, df1, -5, 5, 1e-14, 100)));
+            Assert.AreEqual(0, f1(NewtonRaphson.FindRoot(f1, df1, -2, 4, 1e-14, 100)));
         }
 
         [Test]
         public void NoRoot()
         {
             Func<double, double> f1 = x => x * x + 4;
-            Assert.Throws<NonConvergenceException>(() => Brent.FindRoot(f1, -5, 5, 1e-14, 50));
+            Func<double, double> df1 = x => 2 * x;
+            Assert.Throws<NonConvergenceException>(() => NewtonRaphson.FindRoot(f1, df1, -5, 5, 1e-14, 50));
         }
     }
 }
