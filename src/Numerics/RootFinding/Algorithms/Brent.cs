@@ -1,4 +1,4 @@
-﻿// <copyright file="FindRoots.cs" company="Math.NET">
+﻿// <copyright file="Brent.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -30,9 +30,9 @@
 
 using System;
 
-namespace MathNet.Numerics.RootFinding
+namespace MathNet.Numerics.RootFinding.Algorithms
 {
-    public static class FindRoots
+    public static class Brent
     {
         /// <summary>Find a solution of the equation f(x)=0.</summary>
         /// <param name="f">The function to find roots from.</param>
@@ -46,7 +46,7 @@ namespace MathNet.Numerics.RootFinding
         /// Implementation inspired by Press, Teukolsky, Vetterling, and Flannery, "Numerical Recipes in C", 2nd edition, Cambridge University Press
         /// </remarks>
         /// <exception cref="NonConvergenceException"></exception>
-        public static double BrentMethod(Func<double, double> f, double xmin, double xmax, double accuracy = 1e-8, int maxIterations = 100)
+        public static double FindRoot(Func<double, double> f, double xmin, double xmax, double accuracy = 1e-8, int maxIterations = 100)
         {
             double fxmin = f(xmin);
             double fxmax = f(xmax);

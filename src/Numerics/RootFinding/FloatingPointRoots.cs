@@ -1,4 +1,4 @@
-﻿// <copyright file="BrentTest.cs" company="Math.NET">
+﻿// <copyright file="FloatingPointRoots.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -28,19 +28,16 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System;
 using MathNet.Numerics.RootFinding.Algorithms;
-using NUnit.Framework;
 
-namespace MathNet.Numerics.UnitTests.RootFindingTests
+namespace MathNet.Numerics.RootFinding
 {
-    [TestFixture]
-    public class BrentTest
+    public static class FloatingPointRoots
     {
-        [Test]
-        public void MultipleRoots()
+        public static double Find(Func<double, double> f, double xmin, double xmax)
         {
-            double root = Brent.FindRoot(x => x*x - 4, -5, 5, 1e-14, 100);
-            Assert.AreEqual(0, root*root - 4);
+            return Brent.FindRoot(f, xmin, xmax, 1e-8, 100);
         }
     }
 }

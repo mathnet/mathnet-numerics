@@ -984,11 +984,14 @@
     <Compile Include="..\Numerics\Random\Xorshift.cs">
       <Link>Random\Xorshift.cs</Link>
     </Compile>
+    <Compile Include="..\Numerics\RootFinding\Algorithms\Brent.cs">
+      <Link>RootFinding\Algorithms\Brent.cs</Link>
+    </Compile>
     <Compile Include="..\Numerics\RootFinding\Bracketing.cs">
       <Link>RootFinding\Bracketing.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\RootFinding\FindRoots.cs">
-      <Link>RootFinding\FindRoots.cs</Link>
+    <Compile Include="..\Numerics\RootFinding\FloatingPointRoots.cs">
+      <Link>RootFinding\FloatingPointRoots.cs</Link>
     </Compile>
     <Compile Include="..\Numerics\SerializableAttribute.cs">
       <Link>SerializableAttribute.cs</Link>

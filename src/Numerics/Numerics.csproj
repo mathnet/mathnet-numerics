@@ -111,7 +111,8 @@
     <Compile Include="LinearAlgebra\Generic\Vector.BCL.cs" />
     <Compile Include="NonConvergenceException.cs" />
     <Compile Include="RootFinding\Bracketing.cs" />
-    <Compile Include="RootFinding\FindRoots.cs" />
+    <Compile Include="RootFinding\Algorithms\Brent.cs" />
+    <Compile Include="RootFinding\FloatingPointRoots.cs" />
     <Compile Include="SpecialFunctions\Evaluate.cs" />
     <Compile Include="SpecialFunctions\ModifiedStruve.cs" />
     <Compile Include="SpecialFunctions\ModifiedBessel.cs" />
@@ -486,6 +487,7 @@
   <ItemGroup>
     <None Include="MathNet.Numerics.snk" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>
