@@ -51,6 +51,15 @@ namespace MathNet.Numerics.UnitTests.RootFindingTests
             Assert.AreEqual(0, f2(Brent.FindRoot(f2, -5, 5, 1e-14, 100)));
             Assert.AreEqual(3, Brent.FindRoot(f2, -5, 3.5, 1e-14, 100));
             Assert.AreEqual(4, Brent.FindRoot(f2, 3.2, 5, 1e-14, 100));
+            Assert.AreEqual(3, Brent.FindRoot(f2, 2.1, 3.9, 0.001, 50), 0.001);
+            Assert.AreEqual(3, Brent.FindRoot(f2, 2.1, 3.4, 0.001, 50), 0.001);
+        }
+
+        [Test]
+        public void NoRoot()
+        {
+            Func<double, double> f1 = x => x * x + 4;
+            Assert.Throws<NonConvergenceException>(() => Brent.FindRoot(f1, -5, 5, 1e-14, 50));
         }
     }
 }

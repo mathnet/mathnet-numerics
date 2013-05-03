@@ -77,7 +77,7 @@ namespace MathNet.Numerics.RootFinding.Algorithms
                 // convergence check
                 double xAcc1 = 2.0*Precision.DoubleMachinePrecision*Math.Abs(root) + 0.5*accuracy;
                 double xMid = (upperBound - root)/2.0;
-                if (Math.Abs(xMid) <= xAcc1 || froot.AlmostEqualWithAbsoluteError(0, froot, accuracy))
+                if (Math.Abs(xMid) <= xAcc1 && froot.AlmostEqualWithAbsoluteError(0, froot, accuracy))
                 {
                     return root;
                 }

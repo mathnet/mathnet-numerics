@@ -34,8 +34,14 @@ namespace MathNet.Numerics.RootFinding.Algorithms
 {
     public static class Bisection
     {
+        public static double FindRootExpand(Func<double, double> f, double guessLowerBound, double guessUpperBound, double accuracy = 1e-5, double expandFactor = 1.6, int maxExpandIteratons = 100)
+        {
+            Bracketing.Expand(f, ref guessLowerBound, ref guessUpperBound, expandFactor, maxExpandIteratons);
+            return FindRoot(f, guessLowerBound, guessUpperBound, accuracy);
+        }
+
         /// <summary>Find a solution of the equation f(x)=0.</summary>
-        public static double FindRoot(Func<double, double> f, double lowerBound, double upperBound, double fTolerance = 1e-5, double xTolerance = 1e-5, double lowerExpansionFactor = -1.0, double upperExpansionFactor = -1.0, int maxExpansionSteps = 10)
+        public static double FindRoot(Func<double, double> f, double lowerBound, double upperBound, double accuracy = 1e-5)
         {
             double fmin = f(lowerBound);
             double fmax = f(upperBound);
@@ -48,32 +54,12 @@ namespace MathNet.Numerics.RootFinding.Algorithms
             ValidateEvaluation(fmin, lowerBound);
             ValidateEvaluation(fmax, upperBound);
 
-            if (Math.Sign(fmin) == Math.Sign(fmax) && lowerExpansionFactor <= 1.0 && upperExpansionFactor <= 1.0)
-                throw new Exception("Bounds do not necessarily span a root, and StepExpansionFactor is not set to expand the interval in this case.");
-
-            int expansionSteps = 0;
-            while (Math.Sign(fmin) == Math.Sign(fmax) && expansionSteps < maxExpansionSteps)
+            if (Math.Sign(fmin) == Math.Sign(fmax))
             {
-                double range = upperBound - lowerBound;
-                if (upperExpansionFactor <= 0.0 || (lowerExpansionFactor > 0.0 && Math.Abs(fmin) < Math.Abs(fmax)))
-                {
-                    lowerBound = upperBound - lowerExpansionFactor * range;
-                    fmin = f(lowerBound);
-                    ValidateEvaluation(fmin, lowerBound);
-                }
-                else
-                {
-                    upperBound = lowerBound + upperExpansionFactor * range;
-                    fmax = f(upperBound);
-                    ValidateEvaluation(fmax, upperBound);
-                }
-                expansionSteps += 1;
+                throw new NonConvergenceException("Bounds do not necessarily span a root.");
             }
 
-            if (expansionSteps == maxExpansionSteps)
-                throw new NonConvergenceException();
-
-            while (Math.Abs(fmax - fmin) > 0.5 * fTolerance || Math.Abs(upperBound - lowerBound) > 0.5 * xTolerance)
+            while (Math.Abs(fmax - fmin) > 0.5 * accuracy || Math.Abs(upperBound - lowerBound) > 0.5 * Precision.DoubleMachinePrecision)
             {
                 double midpoint = 0.5*(upperBound + lowerBound);
                 double midval = f(midpoint);

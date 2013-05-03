@@ -40,15 +40,27 @@ namespace MathNet.Numerics.UnitTests.RootFindingTests
         [Test]
         public void MultipleRoots()
         {
-            var f1 = new Func<double, double>(x => (x - 3)*(x - 4));
-            double r1 = Bisection.FindRoot(f1, 2.1, 3.9, 0.001, 0.001);
-            Assert.That(Math.Abs(f1(r1)), Is.LessThan(0.001));
-            Assert.That(Math.Abs(r1 - 3.0), Is.LessThan(0.001));
+            // Roots at -2, 2
+            Func<double, double> f1 = x => x * x - 4;
+            Assert.AreEqual(0, f1(Bisection.FindRoot(f1, 0, 5, 1e-14)));
+            Assert.AreEqual(0, f1(Bisection.FindRootExpand(f1, 3, 4, 1e-14)));
+            Assert.AreEqual(-2, Bisection.FindRoot(f1, -5, -1, 1e-14));
+            Assert.AreEqual(2, Bisection.FindRoot(f1, 1, 4, 1e-14));
 
-            var f2 = new Func<double, double>(x => (x - 3)*(x - 4));
-            double r2 = Bisection.FindRoot(f1, 2.1, 3.4, 0.001, 0.001);
-            Assert.That(Math.Abs(f2(r2)), Is.LessThan(0.001));
-            Assert.That(Math.Abs(r2 - 3.0), Is.LessThan(0.001));
+            // Roots at 3, 4
+            Func<double, double> f2 = x => (x - 3) * (x - 4);
+            Assert.AreEqual(0, f2(Bisection.FindRoot(f2, 3.5, 5, 1e-14)), 1e-14);
+            Assert.AreEqual(3, Bisection.FindRoot(f2, -5, 3.5, 1e-14));
+            Assert.AreEqual(4, Bisection.FindRoot(f2, 3.2, 5, 1e-14));
+            Assert.AreEqual(3, Bisection.FindRoot(f2, 2.1, 3.9, 0.001), 0.001);
+            Assert.AreEqual(3, Bisection.FindRoot(f2, 2.1, 3.4, 0.001), 0.001);
+        }
+
+        [Test]
+        public void NoRoot()
+        {
+            Func<double, double> f1 = x => x * x + 4;
+            Assert.Throws<NonConvergenceException>(() => Bisection.FindRoot(f1, -5, 5, 1e-14));
         }
     }
 }
