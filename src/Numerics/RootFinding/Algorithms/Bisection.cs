@@ -32,76 +32,62 @@ using System;
 
 namespace MathNet.Numerics.RootFinding.Algorithms
 {
-    public class Bisection
+    public static class Bisection
     {
-        public Bisection(double objective_tolerance = 1e-5, double x_tolerance = 1e-5, double lower_expansion_factor = -1.0, double upper_expansion_factor = -1.0, int max_expansion_steps = 10)
+        /// <summary>Find a solution of the equation f(x)=0.</summary>
+        public static double FindRoot(Func<double, double> f, double lowerBound, double upperBound, double fTolerance = 1e-5, double xTolerance = 1e-5, double lowerExpansionFactor = -1.0, double upperExpansionFactor = -1.0, int maxExpansionSteps = 10)
         {
-            ObjectiveTolerance = objective_tolerance;
-            XTolerance = x_tolerance;
-            LowerExpansionFactor = lower_expansion_factor;
-            UpperExpansionFactor = upper_expansion_factor;
-            MaxExpansionSteps = max_expansion_steps;
-        }
+            double fmin = f(lowerBound);
+            double fmax = f(upperBound);
 
-        public double ObjectiveTolerance { get; set; }
-        public double XTolerance { get; set; }
-        public double LowerExpansionFactor { get; set; }
-        public double UpperExpansionFactor { get; set; }
-        public int MaxExpansionSteps { get; set; }
+            if (fmin == 0.0)
+                return lowerBound;
+            if (fmax == 0.0)
+                return upperBound;
 
-        public double FindRoot(Func<double, double> objective_function, double lower_bound, double upper_bound)
-        {
-            double lower_val = objective_function(lower_bound);
-            double upper_val = objective_function(upper_bound);
+            ValidateEvaluation(fmin, lowerBound);
+            ValidateEvaluation(fmax, upperBound);
 
-            if (lower_val == 0.0)
-                return lower_bound;
-            if (upper_val == 0.0)
-                return upper_bound;
-
-            ValidateEvaluation(lower_val, lower_bound);
-            ValidateEvaluation(upper_val, upper_bound);
-
-            if (Math.Sign(lower_val) == Math.Sign(upper_val) && LowerExpansionFactor <= 1.0 && UpperExpansionFactor <= 1.0)
+            if (Math.Sign(fmin) == Math.Sign(fmax) && lowerExpansionFactor <= 1.0 && upperExpansionFactor <= 1.0)
                 throw new Exception("Bounds do not necessarily span a root, and StepExpansionFactor is not set to expand the interval in this case.");
 
-            int expansion_steps = 0;
-            while (Math.Sign(lower_val) == Math.Sign(upper_val) && expansion_steps < MaxExpansionSteps)
+            int expansionSteps = 0;
+            while (Math.Sign(fmin) == Math.Sign(fmax) && expansionSteps < maxExpansionSteps)
             {
-                double range = upper_bound - lower_bound;
-                if (UpperExpansionFactor <= 0.0 || (LowerExpansionFactor > 0.0 && Math.Abs(lower_val) < Math.Abs(upper_val)))
+                double range = upperBound - lowerBound;
+                if (upperExpansionFactor <= 0.0 || (lowerExpansionFactor > 0.0 && Math.Abs(fmin) < Math.Abs(fmax)))
                 {
-                    lower_bound = upper_bound - LowerExpansionFactor*range;
-                    lower_val = objective_function(lower_bound);
-                    ValidateEvaluation(lower_val, lower_bound);
+                    lowerBound = upperBound - lowerExpansionFactor * range;
+                    fmin = f(lowerBound);
+                    ValidateEvaluation(fmin, lowerBound);
                 }
                 else
                 {
-                    upper_bound = lower_bound + UpperExpansionFactor*range;
-                    upper_val = objective_function(upper_bound);
-                    ValidateEvaluation(upper_val, upper_bound);
+                    upperBound = lowerBound + upperExpansionFactor * range;
+                    fmax = f(upperBound);
+                    ValidateEvaluation(fmax, upperBound);
                 }
-                expansion_steps += 1;
+                expansionSteps += 1;
             }
 
-            if (expansion_steps == MaxExpansionSteps)
+            if (expansionSteps == maxExpansionSteps)
                 throw new NonConvergenceException();
 
-            while (Math.Abs(upper_val - lower_val) > 0.5*ObjectiveTolerance || Math.Abs(upper_bound - lower_bound) > 0.5*XTolerance)
+            while (Math.Abs(fmax - fmin) > 0.5 * fTolerance || Math.Abs(upperBound - lowerBound) > 0.5 * xTolerance)
             {
-                double midpoint = 0.5*(upper_bound + lower_bound);
-                double midval = objective_function(midpoint);
+                double midpoint = 0.5*(upperBound + lowerBound);
+                double midval = f(midpoint);
                 ValidateEvaluation(midval, midpoint);
 
-                if (Math.Sign(midval) == Math.Sign(lower_val))
+                if (Math.Sign(midval) == Math.Sign(fmin))
                 {
-                    lower_bound = midpoint;
-                    lower_val = midval;
+                    lowerBound = midpoint;
+                    fmin = midval;
                 }
-                else if (Math.Sign(midval) == Math.Sign(upper_val))
+                else if (Math.Sign(midval) == Math.Sign(fmax))
                 {
-                    upper_bound = midpoint;
-                    upper_val = midval;
+                    upperBound = midpoint;
+                    fmax = midval;
                 }
                 else
                 {
@@ -109,18 +95,15 @@ namespace MathNet.Numerics.RootFinding.Algorithms
                 }
             }
 
-            return 0.5*(lower_bound + upper_bound);
+            return 0.5*(lowerBound + upperBound);
         }
 
-        void ValidateEvaluation(double output, double input)
+        static void ValidateEvaluation(double output, double input)
         {
-            if (!IsFinite(output))
+            if (Double.IsInfinity(output) || Double.IsInfinity(output))
+            {
                 throw new Exception(String.Format("Objective function returned non-finite result: f({0}) = {1}", input, output));
-        }
-
-        static bool IsFinite(double x)
-        {
-            return !(Double.IsInfinity(x) || Double.IsNaN(x));
+            }
         }
     }
 }

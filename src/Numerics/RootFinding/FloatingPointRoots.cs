@@ -35,9 +35,9 @@ namespace MathNet.Numerics.RootFinding
 {
     public static class FloatingPointRoots
     {
-        public static double Find(Func<double, double> f, double xmin, double xmax)
+        public static double OfFunction(Func<double, double> f, double lowerBound, double upperBound)
         {
-            return Brent.FindRoot(f, xmin, xmax, 1e-8, 100);
+            return Brent.FindRoot(f, lowerBound, upperBound, 1e-8, 100);
         }
     }
 }
