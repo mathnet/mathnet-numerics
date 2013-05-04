@@ -77,13 +77,13 @@ namespace MathNet.Numerics.UnitTests.RootFindingTests
             Func<double, double> df1 = x => -1/(x*x - 4*x + 4);
             Assert.AreEqual(1.5, HybridNewtonRaphson.FindRoot(f1, df1, 1, 2, 1e-14, 100, 20));
             Assert.AreEqual(1.5, HybridNewtonRaphson.FindRoot(f1, df1, 1, 6, 1e-14, 100, 20));
-            Assert.AreEqual(1.5, FloatingPointRoots.OfFunctionAndDerivative(f1, df1, 1, 6));
+            Assert.AreEqual(1.5, RealRoots.OfFunctionAndDerivative(f1, df1, 1, 6));
 
             Func<double, double> f2 = x => -1/(x - 2) + 2;
             Func<double, double> df2 = x => 1/(x*x - 4*x + 4);
             Assert.AreEqual(2.5, HybridNewtonRaphson.FindRoot(f2, df2, 2, 3, 1e-14, 100, 20));
             Assert.AreEqual(2.5, HybridNewtonRaphson.FindRoot(f2, df2, -2, 3, 1e-14, 100, 20));
-            Assert.AreEqual(2.5, FloatingPointRoots.OfFunctionAndDerivative(f2, df2, -2, 3));
+            Assert.AreEqual(2.5, RealRoots.OfFunctionAndDerivative(f2, df2, -2, 3));
 
             Func<double, double> f3 = x => 1/(x - 2) + x + 2;
             Func<double, double> df3 = x => -1/(x*x - 4*x + 4) + 1;

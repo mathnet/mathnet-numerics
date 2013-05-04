@@ -33,7 +33,7 @@ using MathNet.Numerics.RootFinding.Algorithms;
 
 namespace MathNet.Numerics.RootFinding
 {
-    public static class FloatingPointRoots
+    public static class RealRoots
     {
         public static double OfFunction(Func<double, double> f, double lowerBound, double upperBound, double accuracy = 1e-8)
         {

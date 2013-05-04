@@ -999,8 +999,8 @@
     <Compile Include="..\Numerics\RootFinding\Bracketing.cs">
       <Link>RootFinding\Bracketing.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\RootFinding\FloatingPointRoots.cs">
-      <Link>RootFinding\FloatingPointRoots.cs</Link>
+    <Compile Include="..\Numerics\RootFinding\RealRoots.cs">
+      <Link>RootFinding\RealRoots.cs</Link>
     </Compile>
     <Compile Include="..\Numerics\SerializableAttribute.cs">
       <Link>SerializableAttribute.cs</Link>
