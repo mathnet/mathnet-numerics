@@ -129,7 +129,7 @@ namespace MathNet.Numerics.RootFinding.Algorithms
                     continue;
                 }
 
-                if (Math.Abs(step) < accuracy)
+                if (Math.Abs(step) < accuracy && Math.Abs(fx) < accuracy)
                 {
                     return true;
                 }
@@ -149,7 +149,7 @@ namespace MathNet.Numerics.RootFinding.Algorithms
                     lowerBound = root;
                     fmin = fx;
                 }
-                else if (Math.Sign(fmin) != Math.Sign(fmax))
+                else if (Math.Sign(fmin) != Math.Sign(fmax) && Math.Abs(fx) < accuracy)
                 {
                     return true;
                 }
