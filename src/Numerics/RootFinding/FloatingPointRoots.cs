@@ -43,14 +43,16 @@ namespace MathNet.Numerics.RootFinding
         public static double OfFunctionAndDerivative(Func<double, double> f, Func<double, double> df, double lowerBound, double upperBound, double accuracy = 1e-8)
         {
             double root;
-            if (HybridNewtonRaphson.TryFindSingleRoot(f, df, lowerBound, upperBound, accuracy, 100, 20, out root))
+            if (HybridNewtonRaphson.TryFindRoot(f, df, lowerBound, upperBound, accuracy, 100, 20, out root))
+            {
+                return root;
+            }
+            if (Brent.TryFindRoot(f, lowerBound, upperBound, accuracy, 100, out root))
             {
                 return root;
             }
 
-            return Brent.FindRoot(f, lowerBound, upperBound, accuracy, 100);
-
-            //throw new NonConvergenceException("The algorithm has exceeded the number of iterations allowed");
+            throw new NonConvergenceException("The algorithm has exceeded the number of iterations allowed");
         }
     }
 }

@@ -35,12 +35,19 @@ namespace MathNet.Numerics.RootFinding.Algorithms
     public static class HybridNewtonRaphson
     {
         /// <summary>Find a solution of the equation f(x)=0.</summary>
+        /// <param name="f">The function to find roots from.</param>
+        /// <param name="df">The first derivative of the function to find roots from.</param>
+        /// <param name="lowerBound">The low value of the range where the root is supposed to be.</param>
+        /// <param name="upperBound">The high value of the range where the root is supposed to be.</param>
+        /// <param name="accuracy">Desired accuracy. The root will be refined until the accuracy or the maximum number of iterations is reached.</param>
+        /// <param name="maxIterations">Maximum number of iterations.</param>
+        /// <returns>Returns the root with the specified accuracy.</returns>
         /// <remarks>Hybrid Newton-Raphson that falls back to bisection when overshooting or converging too slow, or to subdivision on lacking bracketing.</remarks>
         /// <exception cref="NonConvergenceException"></exception>
-        public static double FindSingleRoot(Func<double, double> f, Func<double, double> df, double lowerBound, double upperBound, double accuracy, int maxIterations, int subdivision)
+        public static double FindRoot(Func<double, double> f, Func<double, double> df, double lowerBound, double upperBound, double accuracy, int maxIterations, int subdivision)
         {
             double root;
-            if (TryFindSingleRoot(f, df, lowerBound, upperBound, accuracy, maxIterations, subdivision, out root))
+            if (TryFindRoot(f, df, lowerBound, upperBound, accuracy, maxIterations, subdivision, out root))
             {
                 return root;
             }
@@ -48,8 +55,16 @@ namespace MathNet.Numerics.RootFinding.Algorithms
         }
 
         /// <summary>Find a solution of the equation f(x)=0.</summary>
+        /// <param name="f">The function to find roots from.</param>
+        /// <param name="df">The first derivative of the function to find roots from.</param>
+        /// <param name="lowerBound">The low value of the range where the root is supposed to be.</param>
+        /// <param name="upperBound">The high value of the range where the root is supposed to be.</param>
+        /// <param name="accuracy">Desired accuracy. The root will be refined until the accuracy or the maximum number of iterations is reached.</param>
+        /// <param name="maxIterations">Maximum number of iterations.</param>
+        /// <param name="root">The root that was found, if any. Undefined if the function returns false.</param>
+        /// <returns>True if a root with the specified accuracy was found, else false.</returns>
         /// <remarks>Hybrid Newton-Raphson that falls back to bisection when overshooting or converging too slow, or to subdivision on lacking bracketing.</remarks>
-        public static bool TryFindSingleRoot(Func<double, double> f, Func<double, double> df, double lowerBound, double upperBound, double accuracy, int maxIterations, int subdivision, out double root)
+        public static bool TryFindRoot(Func<double, double> f, Func<double, double> df, double lowerBound, double upperBound, double accuracy, int maxIterations, int subdivision, out double root)
         {
             double fmin = f(lowerBound);
             double fmax = f(upperBound);
@@ -148,7 +163,7 @@ namespace MathNet.Numerics.RootFinding.Algorithms
             var zeroCrossings = ZeroCrossingBracketing.FindIntervalsWithin(f, lowerBound, upperBound, subdivision);
             foreach (Tuple<double, double> bounds in zeroCrossings)
             {
-                if (TryFindSingleRoot(f, df, bounds.Item1, bounds.Item2, accuracy, maxIterations, subdivision, out root))
+                if (TryFindRoot(f, df, bounds.Item1, bounds.Item2, accuracy, maxIterations, subdivision, out root))
                 {
                     return true;
                 }

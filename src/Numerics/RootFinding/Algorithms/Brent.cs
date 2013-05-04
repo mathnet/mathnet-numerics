@@ -46,13 +46,36 @@ namespace MathNet.Numerics.RootFinding.Algorithms
         /// Implementation inspired by Press, Teukolsky, Vetterling, and Flannery, "Numerical Recipes in C", 2nd edition, Cambridge University Press
         /// </remarks>
         /// <exception cref="NonConvergenceException"></exception>
-        public static double FindRoot(Func<double, double> f, double lowerBound, double upperBound, double accuracy = 1e-8, int maxIterations = 100)
+        public static double FindRoot(Func<double, double> f, double lowerBound, double upperBound, double accuracy, int maxIterations)
+        {
+            double root;
+            if (TryFindRoot(f, lowerBound, upperBound, accuracy, maxIterations, out root))
+            {
+                return root;
+            }
+            throw new NonConvergenceException("The algorithm has exceeded the number of iterations allowed");
+        }
+
+        /// <summary>Find a solution of the equation f(x)=0.</summary>
+        /// <param name="f">The function to find roots from.</param>
+        /// <param name="lowerBound">The low value of the range where the root is supposed to be.</param>
+        /// <param name="upperBound">The high value of the range where the root is supposed to be.</param>
+        /// <param name="accuracy">Desired accuracy. The root will be refined until the accuracy or the maximum number of iterations is reached.</param>
+        /// <param name="maxIterations">Maximum number of iterations. Usually 100.</param>
+        /// <param name="root">The root that was found, if any. Undefined if the function returns false.</param>
+        /// <returns>True if a root with the specified accuracy was found, else false.</returns>
+        /// <remarks>
+        /// Algorithm by by Brent, Van Wijngaarden, Dekker et al.
+        /// Implementation inspired by Press, Teukolsky, Vetterling, and Flannery, "Numerical Recipes in C", 2nd edition, Cambridge University Press
+        /// </remarks>
+        public static bool TryFindRoot(Func<double, double> f, double lowerBound, double upperBound, double accuracy, int maxIterations, out double root)
         {
             double fmin = f(lowerBound);
             double fmax = f(upperBound);
-            double root = upperBound;
             double froot = fmax;
             double d = 0.0, e = 0.0;
+
+            root = upperBound;
 
             for (int i = 0; i <= maxIterations; i++)
             {
@@ -79,7 +102,7 @@ namespace MathNet.Numerics.RootFinding.Algorithms
                 double xMid = (upperBound - root)/2.0;
                 if (Math.Abs(xMid) <= xAcc1 && froot.AlmostEqualWithAbsoluteError(0, froot, accuracy))
                 {
-                    return root;
+                    return true;
                 }
 
                 if (Math.Abs(e) >= xAcc1 && Math.Abs(fmin) > Math.Abs(froot))
@@ -139,7 +162,7 @@ namespace MathNet.Numerics.RootFinding.Algorithms
                 froot = f(root);
             }
 
-            throw new NonConvergenceException("The algorithm has exceeded the number of iterations allowed");
+            return false;
         }
 
         /// <summary>Helper method useful for preventing rounding errors.</summary>
