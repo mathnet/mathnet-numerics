@@ -29,6 +29,7 @@
 // </copyright>
 
 using System;
+using MathNet.Numerics.RootFinding;
 using MathNet.Numerics.RootFinding.Algorithms;
 using NUnit.Framework;
 
@@ -43,21 +44,21 @@ namespace MathNet.Numerics.UnitTests.RootFindingTests
             // Roots at -2, 2
             Func<double, double> f1 = x => x * x - 4;
             Func<double, double> df1 = x => 2 * x;
-            Assert.AreEqual(0, f1(NewtonRaphson.FindRoot(f1, df1, -5, 5, 1e-14, 100)));
-            Assert.AreEqual(-2, NewtonRaphson.FindRoot(f1, df1, -5, -1, 1e-14, 100));
-            Assert.AreEqual(2, NewtonRaphson.FindRoot(f1, df1, 1, 4, 1e-14, 100));
-            Assert.AreEqual(0, f1(NewtonRaphson.FindRoot(x => -f1(x), x => -df1(x), -5, 5, 1e-14, 100)));
-            Assert.AreEqual(-2, NewtonRaphson.FindRoot(x => -f1(x), x => -df1(x), -5, -1, 1e-14, 100));
-            Assert.AreEqual(2, NewtonRaphson.FindRoot(x => -f1(x), x => -df1(x), 1, 4, 1e-14, 100));
+            Assert.AreEqual(0, f1(HybridNewtonRaphson.FindSingleRoot(f1, df1, -5, 5, 1e-14, 100, 20)));
+            Assert.AreEqual(-2, HybridNewtonRaphson.FindSingleRoot(f1, df1, -5, -1, 1e-14, 100, 20));
+            Assert.AreEqual(2, HybridNewtonRaphson.FindSingleRoot(f1, df1, 1, 4, 1e-14, 100, 20));
+            Assert.AreEqual(0, f1(HybridNewtonRaphson.FindSingleRoot(x => -f1(x), x => -df1(x), -5, 5, 1e-14, 100, 20)));
+            Assert.AreEqual(-2, HybridNewtonRaphson.FindSingleRoot(x => -f1(x), x => -df1(x), -5, -1, 1e-14, 100, 20));
+            Assert.AreEqual(2, HybridNewtonRaphson.FindSingleRoot(x => -f1(x), x => -df1(x), 1, 4, 1e-14, 100, 20));
 
             // Roots at 3, 4
             Func<double, double> f2 = x => (x - 3) * (x - 4);
             Func<double, double> df2 = x => 2 * x - 7;
-            Assert.AreEqual(0, f2(NewtonRaphson.FindRoot(f2, df2, -5, 5, 1e-14, 100)));
-            Assert.AreEqual(3, NewtonRaphson.FindRoot(f2, df2, -5, 3.5, 1e-14, 100));
-            Assert.AreEqual(4, NewtonRaphson.FindRoot(f2, df2, 3.2, 5, 1e-14, 100));
-            Assert.AreEqual(3, NewtonRaphson.FindRoot(f2, df2, 2.1, 3.9, 0.001, 50), 0.001);
-            Assert.AreEqual(3, NewtonRaphson.FindRoot(f2, df2, 2.1, 3.4, 0.001, 50), 0.001);
+            Assert.AreEqual(0, f2(HybridNewtonRaphson.FindSingleRoot(f2, df2, -5, 5, 1e-14, 100, 20)));
+            Assert.AreEqual(3, HybridNewtonRaphson.FindSingleRoot(f2, df2, -5, 3.5, 1e-14, 100, 20));
+            Assert.AreEqual(4, HybridNewtonRaphson.FindSingleRoot(f2, df2, 3.2, 5, 1e-14, 100, 20));
+            Assert.AreEqual(3, HybridNewtonRaphson.FindSingleRoot(f2, df2, 2.1, 3.9, 0.001, 50, 20), 0.001);
+            Assert.AreEqual(3, HybridNewtonRaphson.FindSingleRoot(f2, df2, 2.1, 3.4, 0.001, 50, 20), 0.001);
         }
 
         [Test]
@@ -65,8 +66,31 @@ namespace MathNet.Numerics.UnitTests.RootFindingTests
         {
             Func<double, double> f1 = x => x * x * x - 2 * x + 2;
             Func<double, double> df1 = x => 3 * x * x - 2;
-            Assert.AreEqual(0, f1(NewtonRaphson.FindRoot(f1, df1, -5, 5, 1e-14, 100)));
-            Assert.AreEqual(0, f1(NewtonRaphson.FindRoot(f1, df1, -2, 4, 1e-14, 100)));
+            Assert.AreEqual(0, f1(HybridNewtonRaphson.FindSingleRoot(f1, df1, -5, 5, 1e-14, 100, 20)));
+            Assert.AreEqual(0, f1(HybridNewtonRaphson.FindSingleRoot(f1, df1, -2, 4, 1e-14, 100, 20)));
+        }
+
+        [Test]
+        public void Pole()
+        {
+            Func<double, double> f1 = x => 1/(x - 2) + 2;
+            Func<double, double> df1 = x => -1/(x*x - 4*x + 4);
+            Assert.AreEqual(1.5, HybridNewtonRaphson.FindSingleRoot(f1, df1, 1, 2, 1e-14, 100, 20));
+            Assert.AreEqual(1.5, HybridNewtonRaphson.FindSingleRoot(f1, df1, 1, 6, 1e-14, 100, 20));
+            Assert.AreEqual(1.5, FloatingPointRoots.OfFunctionAndDerivative(f1, df1, 1, 6));
+
+            Func<double, double> f2 = x => -1/(x - 2) + 2;
+            Func<double, double> df2 = x => 1/(x*x - 4*x + 4);
+            Assert.AreEqual(2.5, HybridNewtonRaphson.FindSingleRoot(f2, df2, 2, 3, 1e-14, 100, 20));
+            Assert.AreEqual(2.5, HybridNewtonRaphson.FindSingleRoot(f2, df2, -2, 3, 1e-14, 100, 20));
+            Assert.AreEqual(2.5, FloatingPointRoots.OfFunctionAndDerivative(f2, df2, -2, 3));
+
+            Func<double, double> f3 = x => 1/(x - 2) + x + 2;
+            Func<double, double> df3 = x => -1/(x*x - 4*x + 4) + 1;
+            Assert.AreEqual(-Math.Sqrt(3), HybridNewtonRaphson.FindSingleRoot(f3, df3, -2, -1, 1e-14, 100, 20), 1e-14);
+            Assert.AreEqual(Math.Sqrt(3), HybridNewtonRaphson.FindSingleRoot(f3, df3, 1, 1.99, 1e-14, 100, 20));
+            Assert.AreEqual(Math.Sqrt(3), HybridNewtonRaphson.FindSingleRoot(f3, df3, -1.5, 1.99, 1e-14, 100, 20));
+            Assert.AreEqual(Math.Sqrt(3), HybridNewtonRaphson.FindSingleRoot(f3, df3, 1, 6, 1e-14, 100, 20));
         }
 
         [Test]
@@ -74,7 +98,7 @@ namespace MathNet.Numerics.UnitTests.RootFindingTests
         {
             Func<double, double> f1 = x => x * x + 4;
             Func<double, double> df1 = x => 2 * x;
-            Assert.Throws<NonConvergenceException>(() => NewtonRaphson.FindRoot(f1, df1, -5, 5, 1e-14, 50));
+            Assert.Throws<NonConvergenceException>(() => HybridNewtonRaphson.FindSingleRoot(f1, df1, -5, 5, 1e-14, 50, 20));
         }
     }
 }

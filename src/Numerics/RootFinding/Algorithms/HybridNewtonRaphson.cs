@@ -1,0 +1,161 @@
+﻿// <copyright file="NewtonRaphson.cs" company="Math.NET">
+// Math.NET Numerics, part of the Math.NET Project
+// http://numerics.mathdotnet.com
+// http://github.com/mathnet/mathnet-numerics
+// http://mathnetnumerics.codeplex.com
+// 
+// Copyright (c) 2009-2013 Math.NET
+// 
+// Permission is hereby granted, free of charge, to any person
+// obtaining a copy of this software and associated documentation
+// files (the "Software"), to deal in the Software without
+// restriction, including without limitation the rights to use,
+// copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the
+// Software is furnished to do so, subject to the following
+// conditions:
+// 
+// The above copyright notice and this permission notice shall be
+// included in all copies or substantial portions of the Software.
+// 
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+// OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+// HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+// WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+// FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+// OTHER DEALINGS IN THE SOFTWARE.
+// </copyright>
+
+using System;
+
+namespace MathNet.Numerics.RootFinding.Algorithms
+{
+    public static class HybridNewtonRaphson
+    {
+        /// <summary>Find a solution of the equation f(x)=0.</summary>
+        /// <remarks>Hybrid Newton-Raphson that falls back to bisection when overshooting or converging too slow, or to subdivision on lacking bracketing.</remarks>
+        /// <exception cref="NonConvergenceException"></exception>
+        public static double FindSingleRoot(Func<double, double> f, Func<double, double> df, double lowerBound, double upperBound, double accuracy, int maxIterations, int subdivision)
+        {
+            double root;
+            if (TryFindSingleRoot(f, df, lowerBound, upperBound, accuracy, maxIterations, subdivision, out root))
+            {
+                return root;
+            }
+            throw new NonConvergenceException("The algorithm has exceeded the number of iterations allowed");
+        }
+
+        /// <summary>Find a solution of the equation f(x)=0.</summary>
+        /// <remarks>Hybrid Newton-Raphson that falls back to bisection when overshooting or converging too slow, or to subdivision on lacking bracketing.</remarks>
+        public static bool TryFindSingleRoot(Func<double, double> f, Func<double, double> df, double lowerBound, double upperBound, double accuracy, int maxIterations, int subdivision, out double root)
+        {
+            double fmin = f(lowerBound);
+            double fmax = f(upperBound);
+
+            if (fmin == 0.0)
+            {
+                root = lowerBound;
+                return true;
+            }
+            if (fmax == 0.0)
+            {
+                root = upperBound;
+                return true;
+            }
+
+            root = 0.5*(lowerBound + upperBound);
+            double fx = f(root);
+            double lastStep = Math.Abs(upperBound - lowerBound);
+            for (int i = 0; i < maxIterations; i++)
+            {
+                double dfx = df(root);
+
+                // Netwon-Raphson step
+                double step = fx/dfx;
+                root -= step;
+
+                bool overshoot = root > upperBound, undershoot = root < lowerBound;
+                if (overshoot || undershoot || Math.Abs(2*fx) > Math.Abs(lastStep*dfx))
+                {
+                    // Newton-Raphson step failed
+
+                    // If same signs, try subdivision to scan for zero crossing intervals
+                    if (Math.Sign(fmin) == Math.Sign(fmax) && TryScanForCrossingsWithRoots(f, df, lowerBound, upperBound, accuracy, maxIterations - i - 1, subdivision, out root))
+                    {
+                        return true;
+                    }
+
+                    // Bisection
+                    root = 0.5*(upperBound + lowerBound);
+                    fx = f(root);
+                    lastStep = 0.5*Math.Abs(upperBound - lowerBound);
+                    if (Math.Sign(fx) == Math.Sign(fmin))
+                    {
+                        lowerBound = root;
+                        fmin = fx;
+                        if (overshoot)
+                        {
+                            root = upperBound;
+                            fx = fmax;
+                        }
+                    }
+                    else
+                    {
+                        upperBound = root;
+                        fmax = fx;
+                        if (undershoot)
+                        {
+                            root = lowerBound;
+                            fx = fmin;
+                        }
+                    }
+                    continue;
+                }
+
+                if (Math.Abs(step) < accuracy)
+                {
+                    return true;
+                }
+
+                // Evaluation
+                fx = f(root);
+                lastStep = step;
+
+                // Update bounds
+                if (Math.Sign(fx) != Math.Sign(fmin))
+                {
+                    upperBound = root;
+                    fmax = fx;
+                }
+                else if (Math.Sign(fx) != Math.Sign(fmax))
+                {
+                    lowerBound = root;
+                    fmin = fx;
+                }
+                else if (Math.Sign(fmin) != Math.Sign(fmax))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        static bool TryScanForCrossingsWithRoots(Func<double, double> f, Func<double, double> df, double lowerBound, double upperBound, double accuracy, int maxIterations, int subdivision, out double root)
+        {
+            var zeroCrossings = ZeroCrossingBracketing.FindIntervalsWithin(f, lowerBound, upperBound, subdivision);
+            foreach (Tuple<double, double> bounds in zeroCrossings)
+            {
+                if (TryFindSingleRoot(f, df, bounds.Item1, bounds.Item2, accuracy, maxIterations, subdivision, out root))
+                {
+                    return true;
+                }
+            }
+
+            root = double.NaN;
+            return false;
+        }
+    }
+}

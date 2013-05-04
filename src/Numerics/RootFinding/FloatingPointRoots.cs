@@ -35,21 +35,22 @@ namespace MathNet.Numerics.RootFinding
 {
     public static class FloatingPointRoots
     {
-        public static double OfFunction(Func<double, double> f, double lowerBound, double upperBound)
+        public static double OfFunction(Func<double, double> f, double lowerBound, double upperBound, double accuracy = 1e-8)
         {
-            return Brent.FindRoot(f, lowerBound, upperBound, 1e-8, 100);
+            return Brent.FindRoot(f, lowerBound, upperBound, accuracy, 100);
         }
 
-        public static double OfFunctionAndDerivative(Func<double, double> f, Func<double, double> df, double lowerBound, double upperBound)
+        public static double OfFunctionAndDerivative(Func<double, double> f, Func<double, double> df, double lowerBound, double upperBound, double accuracy = 1e-8)
         {
-            try
+            double root;
+            if (HybridNewtonRaphson.TryFindSingleRoot(f, df, lowerBound, upperBound, accuracy, 100, 20, out root))
             {
-                return NewtonRaphson.FindRoot(f, df, lowerBound, upperBound, 1e-8, 100);
+                return root;
             }
-            catch (NonConvergenceException)
-            {
-                return Brent.FindRoot(f, lowerBound, upperBound, 1e-8, 100);
-            }
+
+            return Brent.FindRoot(f, lowerBound, upperBound, accuracy, 100);
+
+            //throw new NonConvergenceException("The algorithm has exceeded the number of iterations allowed");
         }
     }
 }
