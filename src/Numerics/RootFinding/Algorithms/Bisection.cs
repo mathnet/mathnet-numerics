@@ -50,8 +50,14 @@ namespace MathNet.Numerics.RootFinding.Algorithms
             double fmin = f(lowerBound);
             double fmax = f(upperBound);
 
-            if (fmin == 0.0) return lowerBound;
-            if (fmax == 0.0) return upperBound;
+            if (Math.Abs(fmin) < accuracy)
+            {
+                return lowerBound;
+            }
+            if (Math.Abs(fmax) < accuracy)
+            {
+                return upperBound;
+            }
 
             if (Math.Sign(fmin) == Math.Sign(fmax))
             {
