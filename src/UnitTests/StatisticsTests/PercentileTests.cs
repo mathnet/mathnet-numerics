@@ -28,6 +28,8 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System;
+
 namespace MathNet.Numerics.UnitTests.StatisticsTests
 {
     using NUnit.Framework;
@@ -36,7 +38,7 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
     /// <summary>
     /// Percentile tests.
     /// </summary>
-    [TestFixture]
+    [TestFixture, Obsolete]
     public class PercentileTests
     {
         /// <summary>
@@ -47,7 +49,7 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
         /// <summary>
         /// Can compute percentile using NIST method.
         /// </summary>
-        [Test]
+        [Test, Obsolete]
         public void CanComputePercentileUsingNistMethod()
         {
             var percentile = new Percentile(Data)
@@ -61,7 +63,7 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
         /// <summary>
         /// Can compute percentile using excel method.
         /// </summary>
-        [Test]
+        [Test, Obsolete]
         public void CanComputePercentileUsingExcelMethod()
         {
             var percentile = new Percentile(Data)
@@ -75,7 +77,7 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
         /// <summary>
         /// Can compute percentile using nearest method.
         /// </summary>
-        [Test]
+        [Test, Obsolete]
         public void CanComputePercentileUsingNearestMethod()
         {
             var percentile = new Percentile(Data)
@@ -89,7 +91,7 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
         /// <summary>
         /// Can compute percentile using interpolation method
         /// </summary>
-        [Test]
+        [Test, Obsolete]
         public void CanComputePercentileUsingInterpolationMethod()
         {
             var data = new double[] {1, 2, 3, 4, 5};
@@ -113,7 +115,7 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
         /// <summary>
         /// Empty dataset returns NaN.
         /// </summary>
-        [Test]
+        [Test, Obsolete]
         public void EmptyDataSetReturnsNaN()
         {
             var data = new double[] {};
@@ -125,7 +127,7 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
         /// <summary>
         /// Invalid percentile values return NaN.
         /// </summary>
-        [Test]
+        [Test, Obsolete]
         public void InvalidPercentileValuesReturnNaN()
         {
             var percentile = new Percentile(Data);
