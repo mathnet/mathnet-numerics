@@ -717,6 +717,46 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         }
 
         /// <summary>
+        /// Adds a scalar to a matrix.
+        /// </summary>
+        /// <param name="leftSide">The left scalar to add.</param>
+        /// <param name="rightSide">The right matrix to add.</param>
+        /// <returns>The result of the addition.</returns>
+        /// <exception cref="ArgumentOutOfRangeException">If <paramref name="leftSide"/> and <paramref name="rightSide"/> don't have the same dimensions.</exception>
+        /// <exception cref="ArgumentNullException">If <paramref name="leftSide"/> or <paramref name="rightSide"/> is <see langword="null" />.</exception>
+        public static DenseMatrix operator +(double leftSide, DenseMatrix rightSide)
+        {
+          if (rightSide == null)
+          {
+            throw new ArgumentNullException("rightSide");
+          }
+          var leftSideMatrix = DenseMatrix.Create(rightSide.RowCount, rightSide.ColumnCount, (i, j) => leftSide);
+
+          return (DenseMatrix)leftSideMatrix.Add(rightSide);
+        }
+
+
+        /// <summary>
+        /// Adds a scalar to a matrix.
+        /// </summary>
+        /// <param name="leftSide">The left matrix to add.</param>
+        /// <param name="rightSide">The right scalar to add.</param>
+        /// <returns>The result of the addition.</returns>
+        /// <exception cref="ArgumentOutOfRangeException">If <paramref name="leftSide"/> and <paramref name="rightSide"/> don't have the same dimensions.</exception>
+        /// <exception cref="ArgumentNullException">If <paramref name="leftSide"/> or <paramref name="rightSide"/> is <see langword="null" />.</exception>
+        public static DenseMatrix operator +(DenseMatrix leftSide, double rightSide)
+        {
+          if (leftSide == null)
+          {
+            throw new ArgumentNullException("leftSide");
+          }
+          var rightSideMatrix = DenseMatrix.Create(leftSide.RowCount, leftSide.ColumnCount, (i, j) => rightSide);
+
+          return (DenseMatrix)leftSide.Add(rightSideMatrix);
+        }
+
+
+        /// <summary>
         /// Returns a <strong>Matrix</strong> containing the same values of <paramref name="rightSide"/>.
         /// </summary>
         /// <param name="rightSide">The matrix to get the values from.</param>
@@ -761,6 +801,46 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             }
 
             return (DenseMatrix)leftSide.Subtract(rightSide);
+        }
+
+        /// <summary>
+        /// Subtracts a matrix from a scalar.
+        /// </summary>
+        /// <param name="leftSide">The left scalar to subtract.</param>
+        /// <param name="rightSide">The right matrix to subtract.</param>
+        /// <returns>The result of the subtraction.</returns>
+        /// <exception cref="ArgumentOutOfRangeException">If <paramref name="leftSide"/> and <paramref name="rightSide"/> don't have the same dimensions.</exception>
+        /// <exception cref="ArgumentNullException">If <paramref name="leftSide"/> or <paramref name="rightSide"/> is <see langword="null" />.</exception>
+        public static DenseMatrix operator -(double leftSide, DenseMatrix rightSide)
+        {
+          if (rightSide == null)
+          {
+            throw new ArgumentNullException("rightSide");
+          }
+
+          var leftSideMatrix = DenseMatrix.Create(rightSide.RowCount, rightSide.ColumnCount, (i, j) => leftSide);
+
+          return (DenseMatrix)leftSideMatrix.Subtract(rightSide);
+        }
+
+        /// <summary>
+        /// Subtracts a scalar from a matrix.
+        /// </summary>
+        /// <param name="leftSide">The left matrix to subtract.</param>
+        /// <param name="rightSide">The right scalar to subtract.</param>
+        /// <returns>The result of the subtraction.</returns>
+        /// <exception cref="ArgumentOutOfRangeException">If <paramref name="leftSide"/> and <paramref name="rightSide"/> don't have the same dimensions.</exception>
+        /// <exception cref="ArgumentNullException">If <paramref name="leftSide"/> or <paramref name="rightSide"/> is <see langword="null" />.</exception>
+        public static DenseMatrix operator -(DenseMatrix leftSide, double rightSide)
+        {
+          if (leftSide == null)
+          {
+            throw new ArgumentNullException("leftSide");
+          }
+
+          var rightSideMatrix = DenseMatrix.Create(leftSide.RowCount, leftSide.ColumnCount, (i, j) => rightSide);
+
+          return (DenseMatrix)(leftSide.Subtract(rightSideMatrix));
         }
 
         /// <summary>
