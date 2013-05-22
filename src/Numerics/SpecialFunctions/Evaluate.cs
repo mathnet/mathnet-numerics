@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2012 Math.NET
+// Copyright (c) 2009-2013 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -61,11 +61,31 @@ namespace MathNet.Numerics
         /// <param name="coefficients">The coefficients of the polynomial.</param>
         /// <param name="z">The location where to evaluate the polynomial at.</param>
         /// <returns>the evaluation of the polynomial.</returns>
+        [Obsolete("Use Polynomial(z, params coefficients) instead.")]
         public static double Polynomial(double[] coefficients, double z)
         {
             int count = coefficients.Length;
             double sum = coefficients[count - 1];
             for (int i = count - 2; i >= 0; --i)
+            {
+                sum *= z;
+                sum += coefficients[i];
+            }
+
+            return sum;
+        }
+
+        /// <summary>
+        /// Evaluate a polynomial at point x.
+        /// Coefficients are ordered by power with power k at index k.
+        /// Example: coefficients [3,-1,2] represent y=2x^2-x+3.
+        /// </summary>
+        /// <param name="z">The location where to evaluate the polynomial at.</param>
+        /// <param name="coefficients">The coefficients of the polynomial, coefficient for power k at index k.</param>
+        public static double Polynomial(double z, params double[] coefficients)
+        {
+            double sum = coefficients[coefficients.Length - 1];
+            for (int i = coefficients.Length - 2; i >= 0; --i)
             {
                 sum *= z;
                 sum += coefficients[i];
