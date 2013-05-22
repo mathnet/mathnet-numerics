@@ -101,6 +101,23 @@ namespace MathNet.Numerics.UnitTests.RootFindingTests
         }
 
         [Test]
+        public void Cubic()
+        {
+            // with complex roots (looking for the real root only)
+            Func<double, double> f1 = x => 3*x*x*x + 4*x*x + 5*x + 6;
+            Func<double, double> df1 = x => 9*x*x + 8*x + 5;
+            Assert.AreEqual(-1.265328088928, HybridNewtonRaphson.FindRoot(f1, df1, -2, -1, 1e-10, 100, 20), 1e-6);
+            Assert.AreEqual(-1.265328088928, HybridNewtonRaphson.FindRoot(f1, df1, -5, 5, 1e-10, 100, 20), 1e-6);
+
+            // real roots only
+            Func<double, double> f2 = x => 2*x*x*x + 4*x*x - 50*x + 6;
+            Func<double, double> df2 = x => 6*x*x + 8*x - 50;
+            Assert.AreEqual(-6.1466562197069, HybridNewtonRaphson.FindRoot(f2, df2, -8, -5, 1e-10, 100, 20), 1e-6);
+            Assert.AreEqual(0.12124737195841, HybridNewtonRaphson.FindRoot(f2, df2, -1, 1, 1e-10, 100, 20), 1e-6);
+            Assert.AreEqual(4.0254088477485, HybridNewtonRaphson.FindRoot(f2, df2, 3, 5, 1e-10, 100, 20), 1e-6);
+        }
+
+        [Test]
         public void NoRoot()
         {
             Func<double, double> f1 = x => x * x + 4;

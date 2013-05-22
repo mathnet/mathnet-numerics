@@ -93,6 +93,11 @@ namespace MathNet.Numerics.RootFinding.Algorithms
                 double step = fx/dfx;
                 root -= step;
 
+                if (Math.Abs(step) < accuracy && Math.Abs(fx) < accuracy)
+                {
+                    return true;
+                }
+
                 bool overshoot = root > upperBound, undershoot = root < lowerBound;
                 if (overshoot || undershoot || Math.Abs(2*fx) > Math.Abs(lastStep*dfx))
                 {
@@ -129,11 +134,6 @@ namespace MathNet.Numerics.RootFinding.Algorithms
                         }
                     }
                     continue;
-                }
-
-                if (Math.Abs(step) < accuracy && Math.Abs(fx) < accuracy)
-                {
-                    return true;
                 }
 
                 // Evaluation
