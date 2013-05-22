@@ -32,7 +32,7 @@ namespace MathNet.Numerics.Statistics
 {
     using System;
     using System.Collections.Generic;
-    using Properties;
+    using System.Linq;
 
     /// <summary>
     /// A class with correlation measures between two datasets.
@@ -87,6 +87,48 @@ namespace MathNet.Numerics.Statistics
             }
 
             return r / Math.Sqrt(varA * varB);
+        }
+
+        /// <summary>
+        /// Computes the Spearman Ranked Correlation Coefficient.
+        /// </summary>
+        /// <param name="dataA">Sample data series A.</param>
+        /// <param name="dataB">Sample data series B.</param>
+        /// <returns>The Spearman Ranked Correlation Coefficient.</returns>
+        public static double Spearman(IEnumerable<double> dataA, IEnumerable<double> dataB)
+        {
+            return Pearson(RankedSeries(dataA.ToList()), RankedSeries(dataB.ToList()));
+        }
+
+        private static IEnumerable<double> RankedSeries(ICollection<double> series)
+        {
+            if (series == null || series.Count == 0)
+                return Enumerable.Empty<double>();
+
+            var rankedSamples = series.Select((sample, index) => new { Sample = sample, RankIndex = index }).OrderBy(s => s.Sample).ToList();
+
+            var rankedArray = new double[series.Count];
+
+            var previousSample = rankedSamples.Select((sampleIndex, index) => new { SampleIndex = sampleIndex, LoopIndex = index }).First();
+            foreach (var rankedSampleIndex in rankedSamples.Select((sampleIndex, index) => new { SampleIndex = sampleIndex, LoopIndex = index }))
+            {
+                var currentSample = rankedSampleIndex;
+
+                if (Math.Abs(currentSample.SampleIndex.Sample - previousSample.SampleIndex.Sample) <= 0)
+                    continue;
+
+                var rankedValue = (currentSample.LoopIndex + previousSample.LoopIndex - 1) / 2d + 1;
+                foreach (var index in Enumerable.Range(previousSample.LoopIndex, currentSample.LoopIndex - previousSample.LoopIndex))
+                    rankedArray[rankedSamples[index].RankIndex] = rankedValue;
+
+                previousSample = currentSample;
+            }
+
+            var finalValue = (rankedSamples.Count + previousSample.LoopIndex - 1) / 2d + 1;
+            foreach (var index in Enumerable.Range(previousSample.LoopIndex, rankedSamples.Count - previousSample.LoopIndex))
+                rankedArray[rankedSamples[index].RankIndex] = finalValue;
+
+            return rankedArray;
         }
     }
 }
