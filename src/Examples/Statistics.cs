@@ -77,7 +77,7 @@ namespace Examples
             Console.WriteLine(@"{0} - Standard deviation", chiSquare.StdDev.ToString(" #0.00000;-#0.00000"));
             Console.WriteLine(@"{0} - Skewness", chiSquare.Skewness.ToString(" #0.00000;-#0.00000"));
             Console.WriteLine();
-            
+
             // 2. Generate 1000 samples of the ChiSquare(5) distribution
             Console.WriteLine(@"2. Generate 1000 samples of the ChiSquare(5) distribution");
             var data = new double[1000];
@@ -120,12 +120,14 @@ namespace Examples
 
             // 5. Correlation coefficient between 1000 samples of ChiSquare(5) and ChiSquare(2.5)
             Console.WriteLine(@"5. Correlation coefficient between 1000 samples of ChiSquare(5) and ChiSquare(2.5) is {0}", Correlation.Pearson(data, dataB).ToString("N04"));
+            Console.WriteLine(@"6. Ranked correlation coefficient between 1000 samples of ChiSquare(5) and ChiSquare(2.5) is {0}", Correlation.Spearman(data, dataB).ToString("N04"));
             Console.WriteLine();
 
             // 6. Correlation coefficient between 1000 samples of f(x) = x * 2 and f(x) = x * x
             data = SignalGenerator.EquidistantInterval(x => x * 2, 0, 100, 1000);
             dataB = SignalGenerator.EquidistantInterval(x => x * x, 0, 100, 1000);
-            Console.WriteLine(@"6. Correlation coefficient between 1000 samples of f(x) = x * 2 and f(x) = x * x is {0}", Correlation.Pearson(data, dataB).ToString("N04"));
+            Console.WriteLine(@"7. Correlation coefficient between 1000 samples of f(x) = x * 2 and f(x) = x * x is {0}", Correlation.Pearson(data, dataB).ToString("N04"));
+            Console.WriteLine(@"8. Ranked correlation coefficient between 1000 samples of f(x) = x * 2 and f(x) = x * x is {0}", Correlation.Spearman(data, dataB).ToString("N04"));
             Console.WriteLine();
         }
     }

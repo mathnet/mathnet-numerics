@@ -71,7 +71,7 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
             var dataB = _data["lew"].Data.Take(200);
 
             var corr = Correlation.Pearson(dataA, dataB);
-            AssertHelpers.AlmostEqual(corr, -0.029470861580726, 13);
+            AssertHelpers.AlmostEqual(-0.029470861580726, corr, 13);
         }
 
         /// <summary>
@@ -83,6 +83,30 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
             var dataA = _data["lottery"].Data;
             var dataB = _data["lew"].Data;
             Assert.Throws<ArgumentOutOfRangeException>(() => Correlation.Pearson(dataA, dataB));
+        }
+
+        /// <summary>
+        /// Spearman correlation test.
+        /// </summary>
+        [Test]
+        public void SpearmanCorrelationTest()
+        {
+            var dataA = _data["lottery"].Data.Take(200);
+            var dataB = _data["lew"].Data.Take(200);
+
+            var corr = Correlation.Spearman(dataA, dataB);
+            AssertHelpers.AlmostEqual(-0.0382856977898528, corr, 13);
+        }
+
+        /// <summary>
+        /// Spearman correlation test fail.
+        /// </summary>
+        [Test]
+        public void SpearmanCorrelationTestFail()
+        {
+            var dataA = _data["lottery"].Data;
+            var dataB = _data["lew"].Data;
+            Assert.Throws<ArgumentOutOfRangeException>(() => Correlation.Spearman(dataA, dataB));
         }
     }
 #endif
