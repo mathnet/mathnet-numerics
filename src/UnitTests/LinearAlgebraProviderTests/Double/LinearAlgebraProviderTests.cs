@@ -36,13 +36,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Double
     using LinearAlgebra.Generic;
     using LinearAlgebra.Generic.Factorization;
     using NUnit.Framework;
-<<<<<<< HEAD
     using System.Threading;
     using System.Threading.Tasks;
-=======
     using System;
     using System.Collections.Generic;
->>>>>>> upstream/master
+
 
     /// <summary>
     /// Base class for linear algebra provider tests.
@@ -66,37 +64,17 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Double
         /// Test matrix to use.
         /// </summary>
         readonly IDictionary<string, DenseMatrix> _matrices = new Dictionary<string, DenseMatrix>
-<<<<<<< HEAD
         {
-            { "Singular3x3", new DenseMatrix(new[,] { { 1.0, 1.0, 2.0 }, { 1.0, 1.0, 2.0 }, { 1.0, 1.0, 2.0 } }) },
-            { "Square3x3", new DenseMatrix(new[,] { { -1.1, -2.2, -3.3 }, { 0.0, 1.1, 2.2 }, { -4.4, 5.5, 6.6 } }) },
-            { "Square4x4", new DenseMatrix(new[,] { { -1.1, -2.2, -3.3, -4.4 }, { 0.0, 1.1, 2.2, 3.3 }, { 1.0, 2.1, 6.2, 4.3 }, { -4.4, 5.5, 6.6, -7.7 } }) },
-            { "Singular4x4", new DenseMatrix(new[,] { { -1.1, -2.2, -3.3, -4.4 }, { -1.1, -2.2, -3.3, -4.4 }, { -1.1, -2.2, -3.3, -4.4 }, { -1.1, -2.2, -3.3, -4.4 } }) },
-            { "Tall3x2", new DenseMatrix(new[,] { { -1.1, -2.2 }, { 0.0, 1.1 }, { -4.4, 5.5 } }) },
-            { "Wide2x3", new DenseMatrix(new[,] { { -1.1, -2.2, -3.3 }, { 0.0, 1.1, 2.2 } }) },
-            { "Tall50000x10", CreateRandomMatrix(50000, 10) },
-            { "Wide10x50000", CreateRandomMatrix(10, 50000) },
-            { "Square1000x1000", CreateRandomMatrix(1000, 1000) }
+            {"Singular3x3", DenseMatrix.OfArray(new[,] {{1.0, 1.0, 2.0}, {1.0, 1.0, 2.0}, {1.0, 1.0, 2.0}})},
+            {"Square3x3", DenseMatrix.OfArray(new[,] {{-1.1, -2.2, -3.3}, {0.0, 1.1, 2.2}, {-4.4, 5.5, 6.6}})},
+            {"Square4x4", DenseMatrix.OfArray(new[,] {{-1.1, -2.2, -3.3, -4.4}, {0.0, 1.1, 2.2, 3.3}, {1.0, 2.1, 6.2, 4.3}, {-4.4, 5.5, 6.6, -7.7}})},
+            {"Singular4x4", DenseMatrix.OfArray(new[,] {{-1.1, -2.2, -3.3, -4.4}, {-1.1, -2.2, -3.3, -4.4}, {-1.1, -2.2, -3.3, -4.4}, {-1.1, -2.2, -3.3, -4.4}})},
+            {"Tall3x2", DenseMatrix.OfArray(new[,] {{-1.1, -2.2}, {0.0, 1.1}, {-4.4, 5.5}})},
+            {"Wide2x3", DenseMatrix.OfArray(new[,] {{-1.1, -2.2, -3.3}, {0.0, 1.1, 2.2}})},
+            {"Tall50000x10", DenseMatrix.CreateRandom(50000, 10, Dist)},
+            {"Wide10x50000", DenseMatrix.CreateRandom(10, 50000, Dist)},
+            {"Square1000x1000", DenseMatrix.CreateRandom(1000, 1000, Dist)}
         };
-
-            /// <summary>
-            /// Can add a vector to scaled vector
-            /// </summary>
-            [Test]
-            public void CanAddVectorToScaledVectorDouble()
-=======
->>>>>>> upstream/master
-            {
-                {"Singular3x3", DenseMatrix.OfArray(new[,] {{1.0, 1.0, 2.0}, {1.0, 1.0, 2.0}, {1.0, 1.0, 2.0}})},
-                {"Square3x3", DenseMatrix.OfArray(new[,] {{-1.1, -2.2, -3.3}, {0.0, 1.1, 2.2}, {-4.4, 5.5, 6.6}})},
-                {"Square4x4", DenseMatrix.OfArray(new[,] {{-1.1, -2.2, -3.3, -4.4}, {0.0, 1.1, 2.2, 3.3}, {1.0, 2.1, 6.2, 4.3}, {-4.4, 5.5, 6.6, -7.7}})},
-                {"Singular4x4", DenseMatrix.OfArray(new[,] {{-1.1, -2.2, -3.3, -4.4}, {-1.1, -2.2, -3.3, -4.4}, {-1.1, -2.2, -3.3, -4.4}, {-1.1, -2.2, -3.3, -4.4}})},
-                {"Tall3x2", DenseMatrix.OfArray(new[,] {{-1.1, -2.2}, {0.0, 1.1}, {-4.4, 5.5}})},
-                {"Wide2x3", DenseMatrix.OfArray(new[,] {{-1.1, -2.2, -3.3}, {0.0, 1.1, 2.2}})},
-                {"Tall50000x10", DenseMatrix.CreateRandom(50000, 10, Dist)},
-                {"Wide10x50000", DenseMatrix.CreateRandom(10, 50000, Dist)},
-                {"Square1000x1000", DenseMatrix.CreateRandom(1000, 1000, Dist)}
-            };
 
         /// <summary>
         /// Can add a vector to scaled vector
@@ -1728,25 +1706,6 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Double
             var result = leftMatrix*rightMatrix;
             Assert.That(result, Is.Not.Null);
         }
-
-            [TestCase("Wide10x50000", "Tall50000x10")]
-            [TestCase("Square1000x1000", "Square1000x1000")]
-            public void IsMatrixMultiplicationPerformant(string leftMatrixKey, string rightMatrixKey)
-            {
-                var leftMatrix = _matrices[leftMatrixKey];
-                var rightMatrix = _matrices[rightMatrixKey];
-
-                var task = Task.Factory.StartNew(() => leftMatrix * rightMatrix);
-
-                var start = DateTime.Now;
-                while (!task.IsCompleted)
-                {
-                    Thread.Sleep(100);
-                }
-                var clockTime = DateTime.Now - start;
-
-                Assert.IsTrue(clockTime < TimeSpan.FromSeconds(15));
-            }
 
         /// <summary>
         /// Checks to see if a matrix and array contain the same values.
