@@ -3,7 +3,9 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
-// Copyright (c) 2009-2010 Math.NET
+//
+// Copyright (c) 2009-2013 Math.NET
+//
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -12,8 +14,10 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
+//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
+//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -26,10 +30,10 @@
 
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
 {
-    using System;
-    using System.Collections.Generic;
     using LinearAlgebra.Single;
     using NUnit.Framework;
+    using System;
+    using System.Collections.Generic;
 
     /// <summary>
     /// Dense matrix tests.
@@ -54,7 +58,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
         /// <returns>A matrix with the given values.</returns>
         protected override Matrix CreateMatrix(float[,] data)
         {
-            return new DenseMatrix(data);
+            return DenseMatrix.OfArray(data);
         }
 
         /// <summary>
@@ -85,13 +89,13 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
         public void CanCreateMatrixFrom1DArray()
         {
             var testData = new Dictionary<string, Matrix>
-                           {
-                               { "Singular3x3", new DenseMatrix(3, 3, new[] { 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 2.0f, 2.0f, 2.0f }) },
-                               { "Square3x3", new DenseMatrix(3, 3, new[] { -1.1f, 0.0f, -4.4f, -2.2f, 1.1f, 5.5f, -3.3f, 2.2f, 6.6f }) },
-                               { "Square4x4", new DenseMatrix(4, 4, new[] { -1.1f, 0.0f, 1.0f, -4.4f, -2.2f, 1.1f, 2.1f, 5.5f, -3.3f, 2.2f, 6.2f, 6.6f, -4.4f, 3.3f, 4.3f, -7.7f }) },
-                               { "Tall3x2", new DenseMatrix(3, 2, new[] { -1.1f, 0.0f, -4.4f, -2.2f, 1.1f, 5.5f }) },
-                               { "Wide2x3", new DenseMatrix(2, 3, new[] { -1.1f, 0.0f, -2.2f, 1.1f, -3.3f, 2.2f }) }
-                           };
+                {
+                    {"Singular3x3", new DenseMatrix(3, 3, new[] {1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 2.0f, 2.0f, 2.0f})},
+                    {"Square3x3", new DenseMatrix(3, 3, new[] {-1.1f, 0.0f, -4.4f, -2.2f, 1.1f, 5.5f, -3.3f, 2.2f, 6.6f})},
+                    {"Square4x4", new DenseMatrix(4, 4, new[] {-1.1f, 0.0f, 1.0f, -4.4f, -2.2f, 1.1f, 2.1f, 5.5f, -3.3f, 2.2f, 6.2f, 6.6f, -4.4f, 3.3f, 4.3f, -7.7f})},
+                    {"Tall3x2", new DenseMatrix(3, 2, new[] {-1.1f, 0.0f, -4.4f, -2.2f, 1.1f, 5.5f})},
+                    {"Wide2x3", new DenseMatrix(2, 3, new[] {-1.1f, 0.0f, -2.2f, 1.1f, -3.3f, 2.2f})}
+                };
 
             foreach (var name in testData.Keys)
             {
@@ -105,7 +109,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
         [Test]
         public void MatrixFrom1DArrayIsReference()
         {
-            var data = new float[] { 1, 1, 1, 1, 1, 1, 2, 2, 2 };
+            var data = new float[] {1, 1, 1, 1, 1, 1, 2, 2, 2};
             var matrix = new DenseMatrix(3, 3, data);
             matrix[0, 0] = 10.0f;
             Assert.AreEqual(10.0f, data[0]);
@@ -117,7 +121,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
         [Test]
         public void MatrixFrom2DArrayIsCopy()
         {
-            var matrix = new DenseMatrix(TestData2D["Singular3x3"]);
+            var matrix = DenseMatrix.OfArray(TestData2D["Singular3x3"]);
             matrix[0, 0] = 10.0f;
             Assert.AreEqual(1.0f, TestData2D["Singular3x3"][0, 0]);
         }
@@ -134,7 +138,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
         [TestCase("Wide2x3")]
         public void CanCreateMatrixFrom2DArray(string name)
         {
-            var matrix = new DenseMatrix(TestData2D[name]);
+            var matrix = DenseMatrix.OfArray(TestData2D[name]);
             for (var i = 0; i < TestData2D[name].GetLength(0); i++)
             {
                 for (var j = 0; j < TestData2D[name].GetLength(1); j++)
@@ -150,7 +154,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
         [Test]
         public void CanCreateMatrixWithUniformValues()
         {
-            var matrix = new DenseMatrix(10, 10, 10.0f);
+            var matrix = DenseMatrix.Create(10, 10, (i, j) => 10.0f);
             for (var i = 0; i < matrix.RowCount; i++)
             {
                 for (var j = 0; j < matrix.ColumnCount; j++)

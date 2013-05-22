@@ -199,9 +199,9 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="result">A vector to store the results in.</param>
         protected override void DoModulus(double divisor, Vector<double> result)
         {
-            for (var index = 0; index < Count; index++)
+            for (int i = 0; i < Count; i++)
             {
-                result[index] = At(index) % divisor;
+                result.At(i, At(i)%divisor);
             }
         }
 

@@ -3,7 +3,9 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
-// Copyright (c) 2009-2010 Math.NET
+//
+// Copyright (c) 2009-2013 Math.NET
+//
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -12,8 +14,10 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
+//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
+//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -26,10 +30,10 @@
 
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
 {
-    using System;
-    using System.Globalization;
     using LinearAlgebra.Single;
     using NUnit.Framework;
+    using System;
+    using System.Globalization;
 
     /// <summary>
     /// Sparse vector text handling tests.
@@ -43,16 +47,16 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
         /// <param name="expectedToString">Expected result.</param>
         [TestCase("2", "2")]
         [TestCase("(3)", "3")]
-        [TestCase("[1,2,3]", "1,2,3")]
-        [TestCase(" [ 1 , 2 , 3 ] ", "1,2,3")]
-        [TestCase(" [ -1 , 2 , +3 ] ", "-1,2,3")]
-        [TestCase(" [1.2,3.4 , 5.6] ", "1.2,3.4,5.6")]
+        [TestCase("[1,2,3]", "1 2 3")]
+        [TestCase(" [ 1 , 2 , 3 ] ", "1 2 3")]
+        [TestCase(" [ -1 , 2 , +3 ] ", "-1 2 3")]
+        [TestCase(" [1.2,3.4 , 5.6] ", "1.2 3.4 5.6")]
         public void CanParseSingleSparseVectorsWithInvariant(string stringToParse, string expectedToString)
         {
             var formatProvider = CultureInfo.InvariantCulture;
             var vector = SparseVector.Parse(stringToParse, formatProvider);
 
-            Assert.AreEqual(expectedToString, vector.ToString(formatProvider));
+            Assert.AreEqual(expectedToString, vector.ToVectorString(1, int.MaxValue, 1, "G", formatProvider));
         }
 
         /// <summary>
@@ -61,15 +65,15 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
         /// <param name="stringToParse">String to parse.</param>
         /// <param name="expectedToString">Expected result.</param>
         /// <param name="culture">Culture name.</param>
-        [TestCase(" 1.2,3.4 , 5.6 ", "1.2,3.4,5.6", "en-US")]
-        [TestCase(" 1.2;3.4 ; 5.6 ", "1.2;3.4;5.6", "de-CH")]
-        [TestCase(" 1,2;3,4 ; 5,6 ", "1,2;3,4;5,6", "de-DE")]
+        [TestCase(" 1.2,3.4 , 5.6 ", "1.2 3.4 5.6", "en-US")]
+        [TestCase(" 1.2;3.4 ; 5.6 ", "1.2 3.4 5.6", "de-CH")]
+        [TestCase(" 1,2;3,4 ; 5,6 ", "1,2 3,4 5,6", "de-DE")]
         public void CanParseSingleSparseVectorsWithCulture(string stringToParse, string expectedToString, string culture)
         {
             var formatProvider = new CultureInfo(culture);
             var vector = SparseVector.Parse(stringToParse, formatProvider);
 
-            Assert.AreEqual(expectedToString, vector.ToString(formatProvider));
+            Assert.AreEqual(expectedToString, vector.ToVectorString(1, int.MaxValue, 1, "G", formatProvider));
         }
 
         /// <summary>
@@ -77,17 +81,16 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
         /// </summary>
         /// <param name="vectorAsString">Vector as string.</param>
         [TestCase("15")]
-        [TestCase("1{0}2{1}3{0}4{1}5{0}6")]
+        [TestCase("1{0}2 3{0}4 5{0}6")]
         public void CanParseSingleSparseVectors(string vectorAsString)
         {
             var mappedString = String.Format(
                 vectorAsString,
-                CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator,
-                CultureInfo.CurrentCulture.TextInfo.ListSeparator);
+                CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator);
 
             var vector = SparseVector.Parse(mappedString);
 
-            Assert.AreEqual(mappedString, vector.ToString());
+            Assert.AreEqual(mappedString, vector.ToVectorString(1, int.MaxValue, 1, "G"));
         }
 
         /// <summary>
@@ -131,11 +134,6 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
         [TestCase(null)]
         [TestCase("")]
         [TestCase(",")]
-        [TestCase("1,")]
-        [TestCase(",1")]
-        [TestCase("1,2,")]
-        [TestCase(",1,2,")]
-        [TestCase("1,,2,,3")]
         [TestCase("1e+")]
         [TestCase("1e")]
         [TestCase("()")]

@@ -73,13 +73,13 @@ namespace Examples.LinearAlgebraExamples
             formatProvider.TextInfo.ListSeparator = " ";
 
             // Create matrix "A"
-            var matrixA = new DenseMatrix(new[,] { { 1.0, 2.0, 3.0 }, { 4.0, 5.0, 6.0 }, { 7.0, 8.0, 9.0 } });
+            var matrixA = DenseMatrix.OfArray(new[,] { { 1.0, 2.0, 3.0 }, { 4.0, 5.0, 6.0 }, { 7.0, 8.0, 9.0 } });
             Console.WriteLine(@"Matrix A");
             Console.WriteLine(matrixA.ToString("#0.00\t", formatProvider));
             Console.WriteLine();
 
             // Create matrix "B"
-            var matrixB = new DenseMatrix(new[,] { { 1.0, 3.0, 5.0 }, { 2.0, 4.0, 6.0 }, { 3.0, 5.0, 7.0 } });
+            var matrixB = DenseMatrix.OfArray(new[,] { { 1.0, 3.0, 5.0 }, { 2.0, 4.0, 6.0 }, { 3.0, 5.0, 7.0 } });
             Console.WriteLine(@"Matrix B");
             Console.WriteLine(matrixB.ToString("#0.00\t", formatProvider));
             Console.WriteLine();

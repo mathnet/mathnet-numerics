@@ -66,13 +66,13 @@ namespace Examples.LinearAlgebraExamples
             var vector1 = new DenseVector(5);
 
             // 2. Initialize a new instance of the vector with a given size and each element set to the given value
-            var vector2 = new DenseVector(5, 3.0);
+            var vector2 = DenseVector.Create(5, i => 3.0);
 
             // 3. Initialize a new instance of the vector from an array.
             var vector3 = new DenseVector(new[] { 1.0, 2.0, 3.0, 4.0, 5.0 });
 
             // 4. Initialize a new instance of the vector by copying the values from another.
-            var vector4 = new DenseVector(vector3);
+            var vector4 = DenseVector.OfVector(vector3);
 
             // Format vector output to console
             var formatProvider = (CultureInfo)CultureInfo.InvariantCulture.Clone();

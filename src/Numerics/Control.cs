@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2010 Math.NET
+// Copyright (c) 2009-2013 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -30,46 +30,45 @@
 
 namespace MathNet.Numerics
 {
-    using System;
     using Algorithms.LinearAlgebra;
+    using System;
 
     /// <summary>
     /// Sets parameters for the library.
     /// </summary>
     public static class Control
     {
-        /// <summary>
-        /// Initial number of threads to use;
-        /// </summary>
-        private static int _numberOfThreads = Environment.ProcessorCount;
+        private static int _numberOfThreads;
+        private static int _blockSize;
+        private static int _parallelizeOrder;
+        private static int _parallelizeElements;
 
-        /// <summary>
-        /// Initial block size for the native linear algebra provider.
-        /// </summary>
-        private static int _blockSize = 512;
-
-        /// <summary>
-        /// Initial parallel order size for the matrix multiply in linear algebra provider.
-        /// </summary>
-        private static int _parallelizeOrder = 64;
-
-        /// <summary>
-        /// The default cutoff point for order size for the matrix multiply in linear algebra provider.
-        /// </summary>
-        private static int _parallelizeElements = 300;
-
-        /// <summary>
-        /// Initializes static members of the Control class.
-        /// </summary>
         static Control()
         {
+            ConfigureAuto();
+        }
+
+        public static void ConfigureAuto()
+        {
+            // Random Numbers & Distributions
             CheckDistributionParameters = true;
             ThreadSafeRandomNumberGenerators = true;
-            DisableParallelization = false;
 
-            #if PORTABLE
+            // ToString & Formatting
+            MaxToStringColumns = 6;
+            MaxToStringRows = 8;
+
+            // Parallelization & Threading
+            _numberOfThreads = Environment.ProcessorCount;
+            DisableParallelization = _numberOfThreads < 2;
+            _blockSize = 512;
+            _parallelizeOrder = 64;
+            _parallelizeElements = 300;
+
+            // Linear Algebra Provider
+#if PORTABLE
             LinearAlgebraProvider = new ManagedLinearAlgebraProvider();
-            #else
+#else
             try
             {
                 const string name = "MathNetNumericsLAProvider";
@@ -89,7 +88,14 @@ namespace MathNet.Numerics
                 // We don't care about any failures here at all
                 LinearAlgebraProvider = new ManagedLinearAlgebraProvider();
             }
-            #endif
+#endif
+        }
+
+        public static void ConfigureSingleThread()
+        {
+            _numberOfThreads = 1;
+            DisableParallelization = true;
+            ThreadSafeRandomNumberGenerators = false;
         }
 
         /// <summary>
@@ -117,73 +123,50 @@ namespace MathNet.Numerics
         /// Gets or sets the linear algebra provider.
         /// </summary>
         /// <value>The linear algebra provider.</value>
-        public static ILinearAlgebraProvider LinearAlgebraProvider
-        {
-            get;
-            set;
-        }
+        public static ILinearAlgebraProvider LinearAlgebraProvider { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating how many parallel worker threads shall be used
         /// when parallelization is applicable.
         /// </summary>
-        /// <remarks>The Silverlight version of the library defaults to one thread.</remarks>
+        /// <remarks>Default to the number of processor cores, must be between 1 and 1024 (inclusive).</remarks>
         public static int NumberOfParallelWorkerThreads
         {
             get { return _numberOfThreads; }
-            set
-            {   // instead of throwing an out of range exception, simply normalize
-                _numberOfThreads = Math.Max(1, Math.Min(1024, value));
-            }
+            set { _numberOfThreads = Math.Max(1, Math.Min(1024, value)); }
         }
 
         /// <summary>
-        /// Gets or sets the the block size to use for the native linear
-        /// algebra provider.
+        /// Gets or sets the the block size to use for
+        /// the native linear algebra provider.
         /// </summary>
-        /// <value>The block size. Must be at least 32.</value>
+        /// <value>The block size. Default 512, must be at least 32.</value>
         public static int BlockSize
         {
             get { return _blockSize; }
-            set
-            {
-                if (_blockSize > 31)
-                {
-                    _blockSize = value;
-                }
-            }
+            set { _blockSize = Math.Max(32, value); }
         }
 
         /// <summary>
-        /// Gets or sets the order of the matrix when linear algebra provider must calculate multiply in parallel threads.
+        /// Gets or sets the order of the matrix when linear algebra provider
+        /// must calculate multiply in parallel threads.
         /// </summary>
-        /// <value>The order. Default is 64.</value>
+        /// <value>The order. Default 64, must be at least 3.</value>
         public static int ParallelizeOrder
         {
             get { return _parallelizeOrder; }
-            set
-            {
-                if (_parallelizeOrder > 2)
-                {
-                    _parallelizeOrder = value;
-                }
-            }
+            set { _parallelizeOrder = Math.Max(3, value); }
         }
 
         /// <summary>
-        /// Gets or sets the number of elements a vector or matrix must contain before we multiply threads.
+        /// Gets or sets the number of elements a vector or matrix
+        /// must contain before we multiply threads.
         /// </summary>
-        /// <value>Number of elements. Default is 300.</value>
+        /// <value>Number of elements. Default 300, must be at least 3.</value>
         public static int ParallelizeElements
         {
             get { return _parallelizeElements; }
-            set
-            {
-                if (_parallelizeElements > 2)
-                {
-                    _parallelizeElements = value;
-                }
-            }
+            set { _parallelizeElements = Math.Max(3, value); }
         }
 
         /// <summary>
@@ -195,5 +178,15 @@ namespace MathNet.Numerics
         {
             return !DisableParallelization && NumberOfParallelWorkerThreads >= 2 && elements >= ParallelizeElements;
         }
+
+        /// <summary>
+        /// Maximum number of columns to print in ToString methods by default.
+        /// </summary>
+        public static int MaxToStringColumns { get; set; }
+
+        /// <summary>
+        /// Maximum number of rows to print in ToString methods by default.
+        /// </summary>
+        public static int MaxToStringRows { get; set; }
     }
 }

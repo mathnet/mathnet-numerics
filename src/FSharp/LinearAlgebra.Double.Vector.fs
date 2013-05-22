@@ -44,28 +44,53 @@ module Vector =
 
     /// In-place mutation by applying a function to every element of the vector.
     let inline mapInPlace (f: float -> float) (v: #Vector<float>) =
-        for i=0 to v.Count-1 do
-            v.At(i, f (v.At i))
-        ()
+        v.MapInplace((fun x -> f x), true)
 
     /// In-place mutation by applying a function to every element of the vector.
     let inline mapiInPlace (f: int -> float -> float) (v: #Vector<float>) =
-        for i=0 to v.Count-1 do
-            v.At(i, f i (v.At i))
-        ()
+        v.MapIndexedInplace((fun i x -> f i x), true)
+
+    /// In-place mutation by applying a function to every element of the vector.
+    /// Zero-values may be skipped (relevant mostly for sparse vectors).
+    let inline mapnzInPlace (f: float -> float) (v: #Vector<float>) =
+        v.MapInplace((fun x -> f x), false)
+
+    /// In-place mutation by applying a function to every element of the vector.
+    /// Zero-values may be skipped (relevant mostly for sparse vectors).
+    let inline mapinzInPlace (f: int -> float -> float) (v: #Vector<float>) =
+        v.MapIndexedInplace((fun i x -> f i x), false)
+
+    /// Maps a vector to a new vector by applying a function to every element.
+    let inline map f (v: #Vector<float>) =
+        let w = v.Clone()
+        w.MapInplace((fun x -> f x), true)
+        w
+
+    /// Maps a vector to a new vector by applying a function to every element.
+    /// Zero-values may be skipped (relevant mostly for sparse vectors).
+    let inline mapnz f (v: #Vector<float>) =
+        let w = v.Clone()
+        w.MapInplace((fun x -> f x), false)
+        w
+
+    /// Maps a vector to a new vector by applying a function to every element.
+    let inline mapi (f: int -> float -> float) (v: #Vector<float>) =
+        let w = v.Clone()
+        w.MapIndexedInplace((fun i x -> f i x), true)
+        w
+
+    /// Maps a vector to a new vector by applying a function to every element.
+    /// Zero-values may be skipped (relevant mostly for sparse vectors).
+    let inline mapinz (f: int -> float -> float) (v: #Vector<float>) =
+        let w = v.Clone()
+        w.MapIndexedInplace((fun i x -> f i x), false)
+        w
 
     /// In-place vector addition.
     let inline addInPlace (v: #Vector<float>) (w: #Vector<float>) = v.Add(w, v)
 
     /// In place vector subtraction.
     let inline subInPlace (v: #Vector<float>) (w: #Vector<float>) = v.Subtract(w, v)
-
-    /// Functional map operator for vectors.
-    /// <include file='../../../../FSharpExamples/DenseVector.xml' path='example'/>
-    let inline map f (v: #Vector<float>) =
-        let w = v.Clone()
-        mapInPlace (fun x -> f x) w
-        w
 
     /// Applies a function to all elements of the vector.
     let inline iter (f: float -> unit) (v: #Vector<float>) =
@@ -77,11 +102,6 @@ module Vector =
         for i=0 to v.Count-1 do
             f i (v.At i)
 
-    /// Maps a vector to a new vector by applying a function to every element.
-    let inline mapi (f: int -> float -> float) (v: #Vector<float>) =
-        let w = v.Clone()
-        mapiInPlace f w
-        w
 
     /// Fold all entries of a vector.
     let inline fold (f: 'a -> float -> 'a) (acc0: 'a) (v: #Vector<float>) =
@@ -186,18 +206,32 @@ module Vector =
 [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
 module DenseVector =
 
+    /// Create a vector that directly binds to a raw storage array, without copying.
+    let inline raw (raw: float[]) = DenseVector(raw)
+
+    /// Initialize an all-zero vector with the given dimension.
+    let inline zeroCreate (n: int) = DenseVector(n)
+
+    /// Initialize a random vector with the given dimension and distribution.
+    let inline randomCreate (n: int) dist = DenseVector.CreateRandom(n, dist)
+
+    /// Initialize an all-zero vector with the given dimension.
+    let inline create (n: int) x = DenseVector.Create(n, fun i -> x)
+
     /// Initialize a vector by calling a construction function for every element.
-    let inline init (n: int) f =
-        let v = new DenseVector(n)
-        for i=0 to n-1 do
-            v.At(i, f i)
-        v
+    let inline init (n: int) (f: int -> float) = DenseVector.Create(n, fun i -> f i)
 
     /// Create a vector from a float list.
     let inline ofList (fl: float list) = DenseVector(Array.ofList fl)
 
     /// Create a vector from a sequences.
-    let inline ofSeq (fs: #seq<float>) = DenseVector(Array.ofSeq fs)
+    let inline ofSeq (fs: #seq<float>) = DenseVector.OfEnumerable(fs)
+
+    /// Create a vector with a given dimension from an indexed list of index, value pairs.
+    let inline ofListi (n: int) (fl: list<int * float>) = DenseVector.OfIndexedEnumerable(n, Seq.ofList fl)
+
+    /// Create a vector with a given dimension from an indexed sequences of index, value pairs.
+    let inline ofSeqi (n: int) (fs: #seq<int * float>) = DenseVector.OfIndexedEnumerable(n, fs)
 
     /// Create a vector with evenly spaced entries: e.g. rangef -1.0 0.5 1.0 = [-1.0 -0.5 0.0 0.5 1.0]
     let inline rangef (start: float) (step: float) (stop: float) =
@@ -215,14 +249,22 @@ module DenseVector =
 [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
 module SparseVector =
 
-    /// Create a sparse vector with a given dimension from a list of entry, value pairs.
-    let inline ofList (dim: int) (fl: list<int * float>) =
-        let v = new SparseVector(dim)
-        fl |> List.iter (fun (i, f) -> v.[i] <- f)
-        v
+    /// Initialize an all-zero vector with the given dimension.
+    let inline zeroCreate (n: int) = SparseVector(n)
 
-    /// Create a sparse vector with a given dimension from a sequence of entry, value pairs.
-    let inline ofSeq (dim: int) (fs: #seq<int * float>) =
-        let v = new SparseVector(dim)
-        fs |> Seq.iter (fun (i, f) -> v.[i] <- f)
-        v
+    /// Initialize a vector by calling a construction function for every element.
+    let inline init (n: int) (f: int -> float) = SparseVector.Create(n, fun i -> f i)
+
+    /// Create a sparse vector with a given dimension from a list of index, value pairs.
+    [<System.ObsoleteAttribute("Use ofListi instead. Will be changed to expect a non-indexed list in a future version.")>]
+    let inline ofList (n: int) (fl: list<int * float>) = SparseVector.OfIndexedEnumerable(n, Seq.ofList fl)
+
+    /// Create a sparse vector with a given dimension from a sequence of index, value pairs.
+    [<System.ObsoleteAttribute("Use ofSeqi instead. Will be changed to expect a non-indexed seq in a future version.")>]
+    let inline ofSeq (n: int) (fs: #seq<int * float>) = SparseVector.OfIndexedEnumerable(n, fs)
+
+    /// Create a sparse vector with a given dimension from an indexed list of index, value pairs.
+    let inline ofListi (n: int) (fl: list<int * float>) = SparseVector.OfIndexedEnumerable(n, Seq.ofList fl)
+
+    /// Create a sparse vector with a given dimension from an indexed sequence of index, value pairs.
+    let inline ofSeqi (n: int) (fs: #seq<int * float>) = SparseVector.OfIndexedEnumerable(n, fs)

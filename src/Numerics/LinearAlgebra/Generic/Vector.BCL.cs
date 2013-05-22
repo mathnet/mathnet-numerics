@@ -32,6 +32,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Text;
 using MathNet.Numerics.LinearAlgebra.Storage;
 using MathNet.Numerics.Properties;
 
@@ -74,31 +75,6 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         public override sealed int GetHashCode()
         {
             return Storage.GetHashCode();
-        }
-
-        /// <summary>
-        /// Returns a <see cref="System.String"/> that represents this instance.
-        /// </summary>
-        /// <returns>
-        /// A <see cref="System.String"/> that represents this instance.
-        /// </returns>
-        public override sealed string ToString()
-        {
-            return ToString(null, null);
-        }
-
-        /// <summary>
-        /// Returns a <see cref="System.String"/> that represents this instance.
-        /// </summary>
-        /// <param name="formatProvider">
-        /// An <see cref="IFormatProvider"/> that supplies culture-specific formatting information.
-        /// </param>
-        /// <returns>
-        /// A <see cref="System.String"/> that represents this instance.
-        /// </returns>
-        public string ToString(IFormatProvider formatProvider)
-        {
-            return ToString(null, formatProvider);
         }
 
 #if !PORTABLE
@@ -261,6 +237,125 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         IEnumerator IEnumerable.GetEnumerator()
         {
             return Storage.Enumerate().GetEnumerator();
+        }
+
+        /// <summary>
+        /// Returns a <see cref="System.String"/> that describes the type, dimensions and shape of this vector.
+        /// </summary>
+        public virtual string ToTypeString()
+        {
+            return string.Format("{0} {1}-{2}", GetType().Name, Count, typeof(T).Name);
+        }
+
+        /// <summary>
+        /// Returns a <see cref="System.String"/> that represents the content of this vector, row by row.
+        /// </summary>
+        public string ToVectorString(int maxLines, int maxPerLine, IFormatProvider provider = null)
+        {
+            return ToVectorString(maxLines, maxPerLine, 12, "G6", provider);
+        }
+
+        /// <summary>
+        /// Returns a <see cref="System.String"/> that represents the content of this vector, row by row.
+        /// </summary>
+        public string ToVectorString(int maxLines, int maxPerLine, int padding, string format = null, IFormatProvider provider = null)
+        {
+            int fullLines = Count/maxPerLine;
+            int lastLine = Count%maxPerLine;
+            bool incomplete = false;
+
+            if (fullLines > maxLines || fullLines == maxLines && lastLine > 0)
+            {
+                fullLines = maxLines - 1;
+                lastLine = maxPerLine - 1;
+                incomplete = true;
+            }
+
+            const string separator = " ";
+            string pdots = "...".PadLeft(padding);
+
+            if (format == null)
+            {
+                format = "G8";
+            }
+
+            var stringBuilder = new StringBuilder();
+
+            var iterator = GetEnumerator();
+            for (var line = 0; line < fullLines; line++)
+            {
+                if (line > 0)
+                {
+                    stringBuilder.Append(Environment.NewLine);
+                }
+                iterator.MoveNext();
+                stringBuilder.Append(iterator.Current.ToString(format, provider).PadLeft(padding));
+                for (var column = 1; column < maxPerLine; column++)
+                {
+                    stringBuilder.Append(separator);
+                    iterator.MoveNext();
+                    stringBuilder.Append(iterator.Current.ToString(format, provider).PadLeft(padding));
+                }
+            }
+
+            if (lastLine > 0)
+            {
+                if (fullLines > 0)
+                {
+                    stringBuilder.Append(Environment.NewLine);
+                }
+                iterator.MoveNext();
+                stringBuilder.Append(iterator.Current.ToString(format, provider).PadLeft(padding));
+                for (var column = 1; column < lastLine; column++)
+                {
+                    stringBuilder.Append(separator);
+                    iterator.MoveNext();
+                    stringBuilder.Append(iterator.Current.ToString(format, provider).PadLeft(padding));
+                }
+                if (incomplete)
+                {
+                    stringBuilder.Append(separator);
+                    stringBuilder.Append(pdots);
+                }
+            }
+
+            return stringBuilder.ToString();
+        }
+
+        /// <summary>
+        /// Returns a <see cref="System.String"/> that summarizes this vector.
+        /// </summary>
+        public string ToString(int maxLines, int maxPerLine, IFormatProvider provider = null)
+        {
+            return string.Concat(ToTypeString(), Environment.NewLine, ToVectorString(maxLines, maxPerLine, provider));
+        }
+
+        /// <summary>
+        /// Returns a <see cref="System.String"/> that summarizes this vector.
+        /// The maximum number of cells can be configured in the <see cref="Control"/> class.
+        /// </summary>
+        public override sealed string ToString()
+        {
+            return string.Concat(ToTypeString(), Environment.NewLine, ToVectorString(Control.MaxToStringRows, Control.MaxToStringColumns, null));
+        }
+
+        /// <summary>
+        /// Returns a <see cref="System.String"/> that summarizes this vector.
+        /// The maximum number of cells can be configured in the <see cref="Control"/> class.
+        /// The format string is ignored.
+        /// </summary>
+        public string ToString(string format, IFormatProvider formatProvider)
+        {
+            return string.Concat(ToTypeString(), Environment.NewLine, ToVectorString(Control.MaxToStringRows, Control.MaxToStringColumns, formatProvider));
+        }
+
+        /// <summary>
+        /// Returns a <see cref="System.String"/> that summarizes this vector.
+        /// </summary>
+        [Obsolete("Scheduled for removal in v3.0.")]
+        public string ToString(IFormatProvider formatProvider)
+        {
+            return ToString(null, formatProvider);
         }
     }
 }

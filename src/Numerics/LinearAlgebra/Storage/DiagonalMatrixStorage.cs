@@ -29,8 +29,10 @@
 // </copyright>
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using MathNet.Numerics.Properties;
+using MathNet.Numerics.Threading;
 
 namespace MathNet.Numerics.LinearAlgebra.Storage
 {
@@ -169,6 +171,80 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             }
             return hash;
         }
+
+        // INITIALIZATION
+
+        public static DiagonalMatrixStorage<T> OfMatrix(MatrixStorage<T> matrix)
+        {
+            var storage = new DiagonalMatrixStorage<T>(matrix.RowCount, matrix.ColumnCount);
+            matrix.CopyToUnchecked(storage, skipClearing: true);
+            return storage;
+        }
+
+        public static DiagonalMatrixStorage<T> OfArray(T[,] array)
+        {
+            var storage = new DiagonalMatrixStorage<T>(array.GetLength(0), array.GetLength(1));
+            for (var i = 0; i < storage.RowCount; i++)
+            {
+                for (var j = 0; j < storage.ColumnCount; j++)
+                {
+                    if (i == j)
+                    {
+                        storage.Data[i] = array[i, j];
+                    }
+                    else if (!Zero.Equals(array[i, j]))
+                    {
+                        throw new IndexOutOfRangeException("Cannot set an off-diagonal element in a diagonal matrix.");
+                    }
+                }
+            }
+            return storage;
+        }
+
+        public static DiagonalMatrixStorage<T> OfInit(int rows, int columns, Func<int, T> init)
+        {
+            var storage = new DiagonalMatrixStorage<T>(rows, columns);
+            for (var i = 0; i < storage.Data.Length; i++)
+            {
+                storage.Data[i] = init(i);
+            }
+            return storage;
+        }
+
+        public static DiagonalMatrixStorage<T> OfEnumerable(int rows, int columns, IEnumerable<T> data)
+        {
+            if (data == null)
+            {
+                throw new ArgumentNullException("data");
+            }
+
+            var arrayData = data as T[];
+            if (arrayData != null)
+            {
+                var copy = new T[arrayData.Length];
+                Array.Copy(arrayData, copy, arrayData.Length);
+                return new DiagonalMatrixStorage<T>(rows, columns, copy);
+            }
+
+            return new DiagonalMatrixStorage<T>(rows, columns, data.ToArray());
+        }
+
+        public static DiagonalMatrixStorage<T> OfIndexedEnumerable(int rows, int columns, IEnumerable<Tuple<int, T>> data)
+        {
+            if (data == null)
+            {
+                throw new ArgumentNullException("data");
+            }
+
+            var storage = new DiagonalMatrixStorage<T>(rows, columns);
+            foreach(var item in data)
+            {
+                storage.Data[item.Item1] = item.Item2;
+            }
+            return storage;
+        }
+
+        // MATRIX COPY
 
         internal override void CopyToUnchecked(MatrixStorage<T> target, bool skipClearing = false)
         {
@@ -449,6 +525,34 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                 ret[i, i] = Data[i];
             }
             return ret;
+        }
+
+        // FUNCTIONAL COMBINATORS
+
+        public override void MapInplace(Func<T, T> f, bool forceMapZeros = false)
+        {
+            // we deliberately ignore forceMapZeros since we would not actually
+            // support any non-zero results outside of the diagonal anyway
+            CommonParallel.For(0, Data.Length, 4096, (a, b) =>
+                {
+                    for (int i = a; i < b; i++)
+                    {
+                        Data[i] = f(Data[i]);
+                    }
+                });
+        }
+
+        public override void MapIndexedInplace(Func<int, int, T, T> f, bool forceMapZeros = false)
+        {
+            // we deliberately ignore forceMapZeros since we would not actually
+            // support any non-zero results outside of the diagonal anyway
+            CommonParallel.For(0, Data.Length, 4096, (a, b) =>
+                {
+                    for (int i = a; i < b; i++)
+                    {
+                        Data[i] = f(i, i, Data[i]);
+                    }
+                });
         }
     }
 }

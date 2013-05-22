@@ -28,16 +28,12 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-
-using System.Globalization;
-
 namespace MathNet.Numerics.LinearAlgebra.Generic
 {
     using System;
     using System.Collections;
     using System.Collections.Generic;
     using System.Runtime;
-    using System.Text;
     using Properties;
     using Storage;
 
@@ -1297,33 +1293,24 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         }
 
         /// <summary>
-        /// Returns a <see cref="System.String"/> that represents this instance.
+        /// Applies a function to each value of this vector and replaces the value with its result.
+        /// If forceMapZero is not set to true, zero values may or may not be skipped depending
+        /// on the actual data storage implementation (relevant mostly for sparse vectors).
         /// </summary>
-        /// <param name="format">
-        /// The format to use.
-        /// </param>
-        /// <param name="formatProvider">
-        /// An <see cref="IFormatProvider"/> that supplies culture-specific formatting information.
-        /// </param>
-        /// <returns>
-        /// A <see cref="System.String"/> that represents this instance.
-        /// </returns>
-        public virtual string ToString(string format, IFormatProvider formatProvider = null)
+        public void MapInplace(Func<T, T> f, bool forceMapZeros = false)
         {
-            var provider = formatProvider ?? CultureInfo.InvariantCulture;
-            var separator = (provider.GetTextInfo().ListSeparator);
-            var stringBuilder = new StringBuilder();
+            Storage.MapInplace(f, forceMapZeros);
+        }
 
-            for (var index = 0; index < Count; index++)
-            {
-                stringBuilder.Append(this[index].ToString(format, provider));
-                if (index != Count - 1)
-                {
-                    stringBuilder.Append(separator);
-                }
-            }
-
-            return stringBuilder.ToString();
+        /// <summary>
+        /// Applies a function to each value of this vector and replaces the value with its result.
+        /// The index of each value (zero-based) is passed as first argument to the function.
+        /// If forceMapZero is not set to true, zero values may or may not be skipped depending
+        /// on the actual data storage implementation (relevant mostly for sparse vectors).
+        /// </summary>
+        public void MapIndexedInplace(Func<int, T, T> f, bool forceMapZeros = false)
+        {
+            Storage.MapIndexedInplace(f, forceMapZeros);
         }
     }
 }

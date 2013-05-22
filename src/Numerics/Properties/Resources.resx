@@ -369,10 +369,19 @@
   <data name="TooManyElements" xml:space="preserve">
     <value>We only support sparse matrix with less than int.MaxValue elements.</value>
   </data>
-  <data name="Interpolation_Initialize_SamplePointsNotStrictlyAscendingOrder">
-    <value xml:space="preserve">Sample points should be sorted in strictly ascending order</value>
+  <data name="Interpolation_Initialize_SamplePointsNotStrictlyAscendingOrder" xml:space="preserve">
+    <value>Sample points should be sorted in strictly ascending order</value>
   </data>
-  <data name="Interpolation_Initialize_SamplePointsNotUnique">
-    <value xml:space="preserve">All sample points should be unique.</value>
+  <data name="Interpolation_Initialize_SamplePointsNotUnique" xml:space="preserve">
+    <value>All sample points should be unique.</value>
+  </data>
+  <data name="AccuracyNotReached" xml:space="preserve">
+    <value>The accuracy couldn't be reached with the specified number of iterations.</value>
+  </data>
+  <data name="RootNotFound" xml:space="preserve">
+    <value>The algorithm ended without root in the range.</value>
+  </data>
+  <data name="RootMustBeBracketedByBounds" xml:space="preserve">
+    <value>The lower and upper bounds must bracket a single root.</value>
   </data>
 </root>

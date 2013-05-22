@@ -1,8 +1,10 @@
-﻿// <copyright file="RandomAndDistributions.fs" company="Math.NET">
+﻿// <copyright file="RandomAndDistributions.fsx" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
-// http://mathnet.opensourcedotnet.info
+// http://numerics.mathdotnet.com
+// http://github.com/mathnet/mathnet-numerics
+// http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2012 Math.NET
+// Copyright (c) 2009-2013 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -26,7 +28,8 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-module RandomAndDistributions
+#r "../../out/lib/Net40/MathNet.Numerics.dll"
+#r "../../out/lib/Net40/MathNet.Numerics.FSharp.dll"
 
 open MathNet.Numerics.Random
 open MathNet.Numerics.Distributions
@@ -62,7 +65,7 @@ let exponential = new Exponential(2.4)
 let gamma = new Gamma(2.0, 1.5) |> withCryptoRandom
 let cauchy = new Cauchy() |> withRandom (Random.mrg32k3aWith 10 false)
 let poisson = new Poisson(3.0)
-let geometric = new Geometric(1.2) |> withSystemRandom
+let geometric = new Geometric(0.8) |> withSystemRandom
 
 // generate some random samples from these distributions
 let continuous = [

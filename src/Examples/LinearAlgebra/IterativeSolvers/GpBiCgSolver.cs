@@ -75,7 +75,7 @@ namespace Examples.LinearAlgebra.IterativeSolversExamples
             // 4*x + 1*y + 5*z = 43
 
             // Create matrix "A" with coefficients 
-            var matrixA = new DenseMatrix(new[,] { { 5.00, 2.00, -4.00 }, { 3.00, -7.00, 6.00 }, { 4.00, 1.00, 5.00 } });
+            var matrixA = DenseMatrix.OfArray(new[,] { { 5.00, 2.00, -4.00 }, { 3.00, -7.00, 6.00 }, { 4.00, 1.00, 5.00 } });
             Console.WriteLine(@"Matrix 'A' with coefficients");
             Console.WriteLine(matrixA.ToString("#0.00\t", formatProvider));
             Console.WriteLine();

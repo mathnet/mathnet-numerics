@@ -30,7 +30,6 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
     using System.Numerics;
     using LinearAlgebra.Complex32;
     using LinearAlgebra.Complex32.Factorization;
-    using LinearAlgebra.Generic.Factorization;
     using NUnit.Framework;
     using Complex32 = Numerics.Complex32;
 
@@ -115,8 +114,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
         /// <summary>
         /// Can factorize a symmetric random square matrix.
         /// </summary> <param name="order">Matrix order.</param>
-        [Test, Ignore]
-        public void CanFactorizeRandomSymmetricMatrix([Values(1, 2, 5, 10, 50, 100)] int order)
+        [Test]
+        public void CanFactorizeRandomSymmetricMatrix([Values(1, 2, 5, 10)] int order)
         {
             var matrixA = MatrixLoader.GenerateRandomPositiveDefiniteHermitianDenseMatrix(order);
             MatrixHelpers.ForceConjugateSymmetric(matrixA);
@@ -201,13 +200,12 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
         /// Can solve a system of linear equations for a random vector and symmetric matrix (Ax=b).
         /// </summary>
         /// <param name="order">Matrix order.</param>
-        [Test, Ignore]
+        [Test]
         [TestCase(1)]
         [TestCase(2)]
         [TestCase(5)]
         [TestCase(10)]
         [TestCase(50)]
-        [TestCase(100)]
         public void CanSolveForRandomVectorAndSymmetricMatrix(int order)
         {
             var matrixA = MatrixLoader.GenerateRandomPositiveDefiniteHermitianDenseMatrix(order);
@@ -249,7 +247,6 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
         [TestCase(5)]
         [TestCase(10)]
         [TestCase(50)]
-        [TestCase(100)]
         public void CanSolveForRandomMatrixAndSymmetricMatrix(int order)
         {
             var matrixA = MatrixLoader.GenerateRandomPositiveDefiniteHermitianDenseMatrix(order);
@@ -292,13 +289,12 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
         /// Can solve a system of linear equations for a random vector and symmetric matrix (Ax=b) into a result vector.
         /// </summary>
         /// <param name="order">Matrix order.</param>
-        [Test, Ignore]
+        [Test]
         [TestCase(1)]
         [TestCase(2)]
         [TestCase(5)]
         [TestCase(10)]
         [TestCase(50)]
-        [TestCase(100)]
         public void CanSolveForRandomVectorAndSymmetricMatrixWhenResultVectorGiven(int order)
         {
             var matrixA = MatrixLoader.GenerateRandomPositiveDefiniteHermitianDenseMatrix(order);

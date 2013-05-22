@@ -192,6 +192,12 @@
     <Compile Include="..\Numerics\Distributions\Multivariate\Wishart.cs">
       <Link>Distributions\Multivariate\Wishart.cs</Link>
     </Compile>
+    <Compile Include="..\Numerics\Financial\AbsoluteReturnMeasures.cs">
+      <Link>Financial\AbsoluteReturnMeasures.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\Financial\AbsoluteRiskMeasures.cs">
+      <Link>Financial\AbsoluteRiskMeasures.cs</Link>
+    </Compile>
     <Compile Include="..\Numerics\GlobalizationHelper.cs">
       <Link>GlobalizationHelper.cs</Link>
     </Compile>
@@ -921,6 +927,9 @@
     <Compile Include="..\Numerics\LinearAlgebra\Storage\VectorStorage.Validation.cs">
       <Link>LinearAlgebra\Storage\VectorStorage.Validation.cs</Link>
     </Compile>
+    <Compile Include="..\Numerics\NonConvergenceException.cs">
+      <Link>NonConvergenceException.cs</Link>
+    </Compile>
     <Compile Include="..\Numerics\NumberTheory\IntegerTheory.cs">
       <Link>NumberTheory\IntegerTheory.cs</Link>
     </Compile>
@@ -974,6 +983,21 @@
     </Compile>
     <Compile Include="..\Numerics\Random\Xorshift.cs">
       <Link>Random\Xorshift.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\RootFinding\Algorithms\Bisection.cs">
+      <Link>RootFinding\Algorithms\Bisection.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\RootFinding\Algorithms\Brent.cs">
+      <Link>RootFinding\Algorithms\Brent.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\RootFinding\Algorithms\HybridNewtonRaphson.cs">
+      <Link>RootFinding\Algorithms\HybridNewtonRaphson.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\RootFinding\Algorithms\ZeroCrossingBracketing.cs">
+      <Link>RootFinding\Algorithms\ZeroCrossingBracketing.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\RootFinding\RealRoots.cs">
+      <Link>RootFinding\RealRoots.cs</Link>
     </Compile>
     <Compile Include="..\Numerics\SerializableAttribute.cs">
       <Link>SerializableAttribute.cs</Link>

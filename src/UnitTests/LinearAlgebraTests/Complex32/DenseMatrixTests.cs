@@ -3,7 +3,9 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
-// Copyright (c) 2009-2010 Math.NET
+//
+// Copyright (c) 2009-2013 Math.NET
+//
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -12,8 +14,10 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
+//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
+//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -26,10 +30,10 @@
 
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
 {
-    using System;
-    using System.Collections.Generic;
     using LinearAlgebra.Complex32;
     using NUnit.Framework;
+    using System;
+    using System.Collections.Generic;
     using Complex32 = Numerics.Complex32;
 
     /// <summary>
@@ -55,7 +59,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
         /// <returns>A matrix with the given values.</returns>
         protected override Matrix CreateMatrix(Complex32[,] data)
         {
-            return new DenseMatrix(data);
+            return DenseMatrix.OfArray(data);
         }
 
         /// <summary>
@@ -86,13 +90,13 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
         public void CanCreateMatrixFrom1DArray()
         {
             var testData = new Dictionary<string, Matrix>
-                           {
-                               { "Singular3x3", new DenseMatrix(3, 3, new[] { new Complex32(1.0f, 1), new Complex32(1.0f, 1), new Complex32(1.0f, 1), new Complex32(1.0f, 1), new Complex32(1.0f, 1), new Complex32(1.0f, 1), new Complex32(2.0f, 1), new Complex32(2.0f, 1), new Complex32(2.0f, 1) }) },
-                               { "Square3x3", new DenseMatrix(3, 3, new[] { new Complex32(-1.1f, 1), Complex32.Zero, new Complex32(-4.4f, 1), new Complex32(-2.2f, 1), new Complex32(1.1f, 1), new Complex32(5.5f, 1), new Complex32(-3.3f, 1), new Complex32(2.2f, 1), new Complex32(6.6f, 1) }) },
-                               { "Square4x4", new DenseMatrix(4, 4, new[] { new Complex32(-1.1f, 1), Complex32.Zero, new Complex32(1.0f, 1), new Complex32(-4.4f, 1), new Complex32(-2.2f, 1), new Complex32(1.1f, 1), new Complex32(2.1f, 1), new Complex32(5.5f, 1), new Complex32(-3.3f, 1), new Complex32(2.2f, 1), new Complex32(6.2f, 1), new Complex32(6.6f, 1), new Complex32(-4.4f, 1), new Complex32(3.3f, 1), new Complex32(4.3f, 1), new Complex32(-7.7f, 1) }) },
-                               { "Tall3x2", new DenseMatrix(3, 2, new[] { new Complex32(-1.1f, 1), Complex32.Zero, new Complex32(-4.4f, 1), new Complex32(-2.2f, 1), new Complex32(1.1f, 1), new Complex32(5.5f, 1) }) },
-                               { "Wide2x3", new DenseMatrix(2, 3, new[] { new Complex32(-1.1f, 1), Complex32.Zero, new Complex32(-2.2f, 1), new Complex32(1.1f, 1), new Complex32(-3.3f, 1), new Complex32(2.2f, 1) }) }
-                           };
+                {
+                    {"Singular3x3", new DenseMatrix(3, 3, new[] {new Complex32(1.0f, 1), new Complex32(1.0f, 1), new Complex32(1.0f, 1), new Complex32(1.0f, 1), new Complex32(1.0f, 1), new Complex32(1.0f, 1), new Complex32(2.0f, 1), new Complex32(2.0f, 1), new Complex32(2.0f, 1)})},
+                    {"Square3x3", new DenseMatrix(3, 3, new[] {new Complex32(-1.1f, 1), Complex32.Zero, new Complex32(-4.4f, 1), new Complex32(-2.2f, 1), new Complex32(1.1f, 1), new Complex32(5.5f, 1), new Complex32(-3.3f, 1), new Complex32(2.2f, 1), new Complex32(6.6f, 1)})},
+                    {"Square4x4", new DenseMatrix(4, 4, new[] {new Complex32(-1.1f, 1), Complex32.Zero, new Complex32(1.0f, 1), new Complex32(-4.4f, 1), new Complex32(-2.2f, 1), new Complex32(1.1f, 1), new Complex32(2.1f, 1), new Complex32(5.5f, 1), new Complex32(-3.3f, 1), new Complex32(2.2f, 1), new Complex32(6.2f, 1), new Complex32(6.6f, 1), new Complex32(-4.4f, 1), new Complex32(3.3f, 1), new Complex32(4.3f, 1), new Complex32(-7.7f, 1)})},
+                    {"Tall3x2", new DenseMatrix(3, 2, new[] {new Complex32(-1.1f, 1), Complex32.Zero, new Complex32(-4.4f, 1), new Complex32(-2.2f, 1), new Complex32(1.1f, 1), new Complex32(5.5f, 1)})},
+                    {"Wide2x3", new DenseMatrix(2, 3, new[] {new Complex32(-1.1f, 1), Complex32.Zero, new Complex32(-2.2f, 1), new Complex32(1.1f, 1), new Complex32(-3.3f, 1), new Complex32(2.2f, 1)})}
+                };
 
             foreach (var name in testData.Keys)
             {
@@ -106,7 +110,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
         [Test]
         public void MatrixFrom1DArrayIsReference()
         {
-            var data = new[] { new Complex32(1.0f, 1), new Complex32(1.0f, 1), new Complex32(1.0f, 1), new Complex32(1.0f, 1), new Complex32(1.0f, 1), new Complex32(1.0f, 1), new Complex32(2.0f, 1), new Complex32(2.0f, 1), new Complex32(2.0f, 1) };
+            var data = new[] {new Complex32(1.0f, 1), new Complex32(1.0f, 1), new Complex32(1.0f, 1), new Complex32(1.0f, 1), new Complex32(1.0f, 1), new Complex32(1.0f, 1), new Complex32(2.0f, 1), new Complex32(2.0f, 1), new Complex32(2.0f, 1)};
             var matrix = new DenseMatrix(3, 3, data);
             matrix[0, 0] = new Complex32(10.0f, 1);
             Assert.AreEqual(new Complex32(10.0f, 1), data[0]);
@@ -118,7 +122,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
         [Test]
         public void MatrixFrom2DArrayIsCopy()
         {
-            var matrix = new DenseMatrix(TestData2D["Singular3x3"]);
+            var matrix = DenseMatrix.OfArray(TestData2D["Singular3x3"]);
             matrix[0, 0] = 10.0f;
             Assert.AreEqual(new Complex32(1.0f, 1), TestData2D["Singular3x3"][0, 0]);
         }
@@ -135,7 +139,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
         [TestCase("Wide2x3")]
         public void CanCreateMatrixFrom2DArray(string name)
         {
-            var matrix = new DenseMatrix(TestData2D[name]);
+            var matrix = DenseMatrix.OfArray(TestData2D[name]);
             for (var i = 0; i < TestData2D[name].GetLength(0); i++)
             {
                 for (var j = 0; j < TestData2D[name].GetLength(1); j++)
@@ -151,7 +155,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
         [Test]
         public void CanCreateMatrixWithUniformValues()
         {
-            var matrix = new DenseMatrix(10, 10, new Complex32(10.0f, 1));
+            var matrix = DenseMatrix.Create(10, 10, (i, j) => new Complex32(10.0f, 1));
             for (var i = 0; i < matrix.RowCount; i++)
             {
                 for (var j = 0; j < matrix.ColumnCount; j++)

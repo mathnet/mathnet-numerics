@@ -1,8 +1,10 @@
-﻿// <copyright file="Histogram.fs" company="Math.NET">
+﻿// <copyright file="Histogram.fsx" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
-// http://mathnet.opensourcedotnet.info
+// http://numerics.mathdotnet.com
+// http://github.com/mathnet/mathnet-numerics
+// http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009 Math.NET
+// Copyright (c) 2009-2013 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -25,17 +27,19 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
-module MathNet.Numerics.FSharp.Examples.Histogram
+
+#r "../../out/lib/Net40/MathNet.Numerics.dll"
+#r "../../out/lib/Net40/MathNet.Numerics.FSharp.dll"
 
 open MathNet.Numerics.Statistics
 
 /// The number of buckets to use in our histogram.
-let B = 9
+let B = 4
 
 /// Create a small dataset.
 let data = [| 0.5; 1.5; 2.5; 3.5; 4.5; 5.5; 6.5; 7.5; 8.5; 9.5 |]
 
-/// A histogram with 9 buckets for this dataset.
+/// A histogram with 4 buckets for this dataset.
 let hist = new Histogram(data, B)
 
 // Print some histogram information.

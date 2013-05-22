@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2012 Math.NET
+// Copyright (c) 2009-2013 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -38,7 +38,7 @@ namespace MathNet.Numerics.Threading
     using System.Collections.Generic;
 #else
     using System.Linq;
-    using MathNet.Numerics.Properties;
+    using Properties;
 #endif
 
     /// <summary>
@@ -54,80 +54,91 @@ namespace MathNet.Numerics.Threading
         /// <param name="body">The body to be invoked for each iteration.</param>
         /// <exception cref="ArgumentNullException">The <paramref name="body"/> argument is <c>null</c>.</exception>
         /// <exception cref="AggregateException">At least one invocation of the body threw an exception.</exception>
+        [Obsolete("Use a more efficient overload instead. Scheduled for removal in v3.0.")]
         public static void For(int fromInclusive, int toExclusive, Action<int> body)
         {
-            if (body == null)
-            {
-                throw new ArgumentNullException("body");
-            }
+            if (body == null) throw new ArgumentNullException("body");
+            if (toExclusive <= fromInclusive) throw new ArgumentOutOfRangeException("toExclusive");
 
-            // Special case: no action
-            if (fromInclusive >= toExclusive)
+            int rangeSize = (toExclusive - fromInclusive)/(Control.NumberOfParallelWorkerThreads*2);
+            rangeSize = Math.Max(rangeSize, 1);
+
+            For(fromInclusive,
+                toExclusive,
+                rangeSize,
+                (start, stop) =>
+                    {
+                        for (var i = start; i < stop; i++)
+                        {
+                            body(i);
+                        }
+                    });
+        }
+
+        /// <summary>
+        /// Executes a for loop in which iterations may run in parallel.
+        /// </summary>
+        /// <param name="fromInclusive">The start index, inclusive.</param>
+        /// <param name="toExclusive">The end index, exclusive.</param>
+        /// <param name="body">The body to be invoked for each iteration range.</param>
+        public static void For(int fromInclusive, int toExclusive, Action<int, int> body)
+        {
+            For(fromInclusive, toExclusive, Math.Max(1, (toExclusive - fromInclusive)/Control.NumberOfParallelWorkerThreads), body);
+        }
+
+        /// <summary>
+        /// Executes a for loop in which iterations may run in parallel.
+        /// </summary>
+        /// <param name="fromInclusive">The start index, inclusive.</param>
+        /// <param name="toExclusive">The end index, exclusive.</param>
+        /// <param name="body">The body to be invoked for each iteration range.</param>
+        public static void For(int fromInclusive, int toExclusive, int rangeSize, Action<int, int> body)
+        {
+            if (body == null) throw new ArgumentNullException("body");
+            if (fromInclusive < 0) throw new ArgumentOutOfRangeException("fromInclusive");
+            if (fromInclusive > toExclusive) throw new ArgumentOutOfRangeException("toExclusive");
+            if (rangeSize < 1) throw new ArgumentOutOfRangeException("rangeSize");
+
+            var length = toExclusive - fromInclusive;
+
+            // Special case: nothing to do
+            if (length <= 0)
             {
                 return;
             }
 
-            // Special case: single action, inline
-            if (fromInclusive == (toExclusive - 1))
+            var maxDegreeOfParallelism = Control.NumberOfParallelWorkerThreads;
+
+            // Special case: not worth to parallelize, inline
+            if (Control.DisableParallelization || maxDegreeOfParallelism < 2 || (rangeSize*2) > length)
             {
-                body(fromInclusive);
+                body(fromInclusive, toExclusive);
                 return;
             }
 
-            // Special case: straight execution without parallelism
-            if (Control.DisableParallelization || Control.NumberOfParallelWorkerThreads < 2)
-            {
-                for (var index = fromInclusive; index < toExclusive; index++)
-                {
-                    body(index);
-                }
-                return;
-            }
-
-            // Common case
 #if PORTABLE
-            var tasks = new Task[Control.NumberOfParallelWorkerThreads];
-            var size = (toExclusive - fromInclusive) / tasks.Length;
+            var tasks = new Task[Math.Min(maxDegreeOfParallelism, length/rangeSize)];
+            rangeSize = (toExclusive - fromInclusive)/tasks.Length;
 
             // partition the jobs into separate sets for each but the last worked thread
             for (var i = 0; i < tasks.Length - 1; i++)
             {
-                var start = fromInclusive + (i * size);
-                var stop = fromInclusive + ((i + 1) * size);
+                var start = fromInclusive + (i*rangeSize);
+                var stop = fromInclusive + ((i + 1)*rangeSize);
 
-                tasks[i] = Task.Factory.StartNew(() =>
-                    {
-                        for (int j = start; j < stop; j++)
-                        {
-                            body(j);
-                        }
-                    });
+                tasks[i] = Task.Factory.StartNew(() => body(start, stop));
             }
 
             // add another set for last worker thread
-            tasks[tasks.Length - 1] = Task.Factory.StartNew(() =>
-                {
-                    for (int j = fromInclusive + ((tasks.Length - 1) * size); j < toExclusive; j++)
-                    {
-                        body(j);
-                    }
-                });
+            tasks[tasks.Length - 1] =
+                Task.Factory.StartNew(() => body(fromInclusive + ((tasks.Length - 1)*rangeSize), toExclusive));
 
             Task.WaitAll(tasks);
 #else
             Parallel.ForEach(
-                Partitioner.Create(fromInclusive, toExclusive),
-                new ParallelOptions
-                {
-                    MaxDegreeOfParallelism = Control.NumberOfParallelWorkerThreads
-                },
-                (range, loopState) =>
-                {
-                    for (var i = range.Item1; i < range.Item2; i++)
-                    {
-                        body(i);
-                    }
-                });
+                Partitioner.Create(fromInclusive, toExclusive, rangeSize),
+                new ParallelOptions {MaxDegreeOfParallelism = maxDegreeOfParallelism},
+                (range, loopState) => body(range.Item1, range.Item2));
 #endif
         }
 
@@ -138,6 +149,7 @@ namespace MathNet.Numerics.Threading
         /// <param name="body">The body to be invoked for each iteration.</param>
         /// <exception cref="ArgumentNullException">The <paramref name="body"/> argument is <c>null</c>.</exception>
         /// <exception cref="AggregateException">At least one invocation of the body threw an exception.</exception>
+        [Obsolete("Use a more efficient overload instead. Scheduled for removal in v3.0.")]
         public static void For<T>(T[] array, Action<int, T> body)
         {
             if (body == null)
@@ -203,16 +215,16 @@ namespace MathNet.Numerics.Threading
             Parallel.ForEach(
                 Partitioner.Create(0, array.Length),
                 new ParallelOptions
-                {
-                    MaxDegreeOfParallelism = Control.NumberOfParallelWorkerThreads
-                },
-                (range, loopState) =>
-                {
-                    for (var i = range.Item1; i < range.Item2; i++)
                     {
-                        body(i, array[i]);
-                    }
-                });
+                        MaxDegreeOfParallelism = Control.NumberOfParallelWorkerThreads
+                    },
+                (range, loopState) =>
+                    {
+                        for (var i = range.Item1; i < range.Item2; i++)
+                        {
+                            body(i, array[i]);
+                        }
+                    });
 #endif
         }
 
@@ -237,6 +249,16 @@ namespace MathNet.Numerics.Threading
                 return;
             }
 
+            // Special case: straight execution without parallelism
+            if (Control.DisableParallelization || Control.NumberOfParallelWorkerThreads < 2)
+            {
+                for (int i = 0; i < actions.Length; i++)
+                {
+                    actions[i]();
+                }
+                return;
+            }
+
             // Common case
 #if PORTABLE
             var tasks = new Task[actions.Length];
@@ -252,12 +274,11 @@ namespace MathNet.Numerics.Threading
             }
             Task.WaitAll(tasks);
 #else
-            var maxThreads = Control.DisableParallelization ? 1 : Control.NumberOfParallelWorkerThreads;
             Parallel.Invoke(
                 new ParallelOptions
-                {
-                    MaxDegreeOfParallelism = maxThreads
-                },
+                    {
+                        MaxDegreeOfParallelism = Control.NumberOfParallelWorkerThreads
+                    },
                 actions);
 #endif
         }
@@ -290,7 +311,7 @@ namespace MathNet.Numerics.Threading
             // Special case: single action, inline
             if (fromInclusive == (toExclusive - 1))
             {
-                return reduce(new [] { select(fromInclusive) });
+                return reduce(new[] {select(fromInclusive)});
             }
 
             // Special case: straight execution without parallelism
@@ -346,25 +367,25 @@ namespace MathNet.Numerics.Threading
             var maxThreads = Control.DisableParallelization ? 1 : Control.NumberOfParallelWorkerThreads;
             Parallel.ForEach(
                 Partitioner.Create(fromInclusive, toExclusive),
-                new ParallelOptions { MaxDegreeOfParallelism = maxThreads },
+                new ParallelOptions {MaxDegreeOfParallelism = maxThreads},
                 () => new List<T>(),
                 (range, loop, localData) =>
-                {
-                    var mapped = new T[range.Item2 - range.Item1];
-                    for (int k = 0; k < mapped.Length; k++)
                     {
-                        mapped[k] = select(k + range.Item1);
-                    }
-                    localData.Add(reduce(mapped));
-                    return localData;
-                },
+                        var mapped = new T[range.Item2 - range.Item1];
+                        for (int k = 0; k < mapped.Length; k++)
+                        {
+                            mapped[k] = select(k + range.Item1);
+                        }
+                        localData.Add(reduce(mapped));
+                        return localData;
+                    },
                 localResult =>
-                {
-                    lock (syncLock)
                     {
-                        intermediateResults.Add(reduce(localResult.ToArray()));
-                    }
-                });
+                        lock (syncLock)
+                        {
+                            intermediateResults.Add(reduce(localResult.ToArray()));
+                        }
+                    });
             return reduce(intermediateResults.ToArray());
 #endif
         }
@@ -396,7 +417,7 @@ namespace MathNet.Numerics.Threading
             // Special case: single action, inline
             if (array.Length == 1)
             {
-                return reduce(new[] { select(0, array[0]) });
+                return reduce(new[] {select(0, array[0])});
             }
 
             // Special case: straight execution without parallelism
@@ -452,25 +473,25 @@ namespace MathNet.Numerics.Threading
             var maxThreads = Control.DisableParallelization ? 1 : Control.NumberOfParallelWorkerThreads;
             Parallel.ForEach(
                 Partitioner.Create(0, array.Length),
-                new ParallelOptions { MaxDegreeOfParallelism = maxThreads },
+                new ParallelOptions {MaxDegreeOfParallelism = maxThreads},
                 () => new List<U>(),
                 (range, loop, localData) =>
-                {
-                    var mapped = new U[range.Item2 - range.Item1];
-                    for (int k = 0; k < mapped.Length; k++)
                     {
-                        mapped[k] = select(k + range.Item1, array[k + range.Item1]);
-                    }
-                    localData.Add(reduce(mapped));
-                    return localData;
-                },
+                        var mapped = new U[range.Item2 - range.Item1];
+                        for (int k = 0; k < mapped.Length; k++)
+                        {
+                            mapped[k] = select(k + range.Item1, array[k + range.Item1]);
+                        }
+                        localData.Add(reduce(mapped));
+                        return localData;
+                    },
                 localResult =>
-                {
-                    lock (syncLock)
                     {
-                        intermediateResults.Add(reduce(localResult.ToArray()));
-                    }
-                });
+                        lock (syncLock)
+                        {
+                            intermediateResults.Add(reduce(localResult.ToArray()));
+                        }
+                    });
             return reduce(intermediateResults.ToArray());
 #endif
         }
@@ -518,24 +539,24 @@ namespace MathNet.Numerics.Threading
         public static U Aggregate<T, U>(T[] array, Func<int, T, U> select, Func<U, U, U> reducePair, U reduceDefault)
         {
             return Aggregate(array, select, results =>
-            {
-                if (results == null || results.Length == 0)
                 {
-                    return reduceDefault;
-                }
+                    if (results == null || results.Length == 0)
+                    {
+                        return reduceDefault;
+                    }
 
-                if (results.Length == 1)
-                {
-                    return results[0];
-                }
+                    if (results.Length == 1)
+                    {
+                        return results[0];
+                    }
 
-                U result = results[0];
-                for (int i = 1; i < results.Length; i++)
-                {
-                    result = reducePair(result, results[i]);
-                }
-                return result;
-            });
+                    U result = results[0];
+                    for (int i = 1; i < results.Length; i++)
+                    {
+                        result = reducePair(result, results[i]);
+                    }
+                    return result;
+                });
         }
     }
 }

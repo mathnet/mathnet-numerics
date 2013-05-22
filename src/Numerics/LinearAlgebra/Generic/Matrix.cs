@@ -28,20 +28,16 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-
-using System.Globalization;
-
 namespace MathNet.Numerics.LinearAlgebra.Generic
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Numerics;
-    using System.Runtime;
-    using System.Text;
     using Factorization;
     using Numerics;
     using Properties;
     using Storage;
+    using System;
+    using System.Collections.Generic;
+    using System.Numerics;
+    using System.Runtime;
 
     /// <summary>
     /// Defines the base class for <c>Matrix</c> classes.
@@ -88,6 +84,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <param name="columnVectors">The vectors to construct the matrix from.</param>
         /// <returns>The matrix constructed from the list of column vectors.</returns>
         /// <remarks>Creates a matrix of size Max(<paramref name="columnVectors"/>[i].Count) x <paramref name="columnVectors"/>.Count</remarks>
+        [Obsolete("Use DenseMatrix.OfColumns or SparseMatrix.OfColumns instead. Scheduled for removal in v3.0.")]
         public static Matrix<T> CreateFromColumns(IList<Vector<T>> columnVectors)
         {
             if (columnVectors == null)
@@ -126,6 +123,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <param name="rowVectors">The vectors to construct the matrix from.</param>
         /// <returns>The matrix constructed from the list of row vectors.</returns>
         /// <remarks>Creates a matrix of size Max(<paramref name="rowVectors"/>.Count) x <paramref name="rowVectors"/>[i].Count</remarks>
+        [Obsolete("Use DenseMatrix.OfRows or SparseMatrix.OfRows instead. Scheduled for removal in v3.0.")]
         public static Matrix<T> CreateFromRows(IList<Vector<T>> rowVectors)
         {
             if (rowVectors == null)
@@ -1442,41 +1440,24 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         }
 
         /// <summary>
-        /// Returns a <see cref="System.String"/> that represents this instance.
+        /// Applies a function to each value of this matrix and replaces the value with its result.
+        /// If forceMapZero is not set to true, zero values may or may not be skipped depending
+        /// on the actual data storage implementation (relevant mostly for sparse matrices).
         /// </summary>
-        /// <param name="format">
-        /// The format to use.
-        /// </param>
-        /// <param name="formatProvider">
-        /// The format provider to use.
-        /// </param>
-        /// <returns>
-        /// A <see cref="System.String"/> that represents this instance.
-        /// </returns>
-        public virtual string ToString(string format, IFormatProvider formatProvider = null)
+        public void MapInplace(Func<T, T> f, bool forceMapZeros = false)
         {
-            var provider = formatProvider ?? CultureInfo.InvariantCulture;
-            var separator = (provider.GetTextInfo().ListSeparator);
-            var stringBuilder = new StringBuilder();
+            Storage.MapInplace(f, forceMapZeros);
+        }
 
-            for (var row = 0; row < RowCount; row++)
-            {
-                for (var column = 0; column < ColumnCount; column++)
-                {
-                    stringBuilder.Append(At(row, column).ToString(format, provider));
-                    if (column != ColumnCount - 1)
-                    {
-                        stringBuilder.Append(separator);
-                    }
-                }
-
-                if (row != RowCount - 1)
-                {
-                    stringBuilder.Append(Environment.NewLine);
-                }
-            }
-
-            return stringBuilder.ToString();
+        /// <summary>
+        /// Applies a function to each value of this matrix and replaces the value with its result.
+        /// The row and column indices of each value (zero-based) are passed as first arguments to the function.
+        /// If forceMapZero is not set to true, zero values may or may not be skipped depending
+        /// on the actual data storage implementation (relevant mostly for sparse matrices).
+        /// </summary>
+        public void MapIndexedInplace(Func<int, int, T, T> f, bool forceMapZeros = false)
+        {
+            Storage.MapIndexedInplace(f, forceMapZeros);
         }
     }
 }

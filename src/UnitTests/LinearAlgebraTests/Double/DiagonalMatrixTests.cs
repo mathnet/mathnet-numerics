@@ -3,7 +3,9 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
-// Copyright (c) 2009-2010 Math.NET
+//
+// Copyright (c) 2009-2013 Math.NET
+//
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -12,8 +14,10 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
+//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
+//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -23,19 +27,13 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
-
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
     using LinearAlgebra.Double;
     using LinearAlgebra.Generic;
     using NUnit.Framework;
-
-#if PORTABLE
-    using Threading;
-#endif
+    using System;
+    using System.Collections.Generic;
 
     /// <summary>
     /// Diagonal matrix tests.
@@ -49,14 +47,14 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         public override void SetupMatrices()
         {
             TestData2D = new Dictionary<string, double[,]>
-                         {
-                             { "Singular3x3", new[,] { { 1.0, 0.0, 0.0 }, { 0.0, 0.0, 0.0 }, { 0.0, 0.0, 3.0 } } },
-                             { "Square3x3", new[,] { { -1.1, 0.0, 0.0 }, { 0.0, 1.1, 0.0 }, { 0.0, 0.0, 6.6 } } },
-                             { "Square4x4", new[,] { { -1.1, 0.0, 0.0, 0.0 }, { 0.0, 1.1, 0.0, 0.0 }, { 0.0, 0.0, 6.2, 0.0 }, { 0.0, 0.0, 0.0, -7.7 } } },
-                             { "Singular4x4", new[,] { { -1.1, 0.0, 0.0, 0.0 }, { 0.0, -2.2, 0.0, 0.0 }, { 0.0, 0.0, 0.0, 0.0 }, { 0.0, 0.0, 0.0, -4.4 } } },
-                             { "Tall3x2", new[,] { { -1.1, 0.0 }, { 0.0, 1.1 }, { 0.0, 0.0 } } },
-                             { "Wide2x3", new[,] { { -1.1, 0.0, 0.0 }, { 0.0, 1.1, 0.0 } } }
-                         };
+                {
+                    {"Singular3x3", new[,] {{1.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 3.0}}},
+                    {"Square3x3", new[,] {{-1.1, 0.0, 0.0}, {0.0, 1.1, 0.0}, {0.0, 0.0, 6.6}}},
+                    {"Square4x4", new[,] {{-1.1, 0.0, 0.0, 0.0}, {0.0, 1.1, 0.0, 0.0}, {0.0, 0.0, 6.2, 0.0}, {0.0, 0.0, 0.0, -7.7}}},
+                    {"Singular4x4", new[,] {{-1.1, 0.0, 0.0, 0.0}, {0.0, -2.2, 0.0, 0.0}, {0.0, 0.0, 0.0, 0.0}, {0.0, 0.0, 0.0, -4.4}}},
+                    {"Tall3x2", new[,] {{-1.1, 0.0}, {0.0, 1.1}, {0.0, 0.0}}},
+                    {"Wide2x3", new[,] {{-1.1, 0.0, 0.0}, {0.0, 1.1, 0.0}}}
+                };
 
             TestMatrices = new Dictionary<string, Matrix>();
             foreach (var name in TestData2D.Keys)
@@ -83,7 +81,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         /// <returns>A matrix with the given values.</returns>
         protected override Matrix CreateMatrix(double[,] data)
         {
-            return new DiagonalMatrix(data);
+            return DiagonalMatrix.OfArray(data);
         }
 
         /// <summary>
@@ -114,13 +112,13 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         public void CanCreateMatrixFromDiagonalArray()
         {
             var testData = new Dictionary<string, Matrix<double>>
-                           {
-                               { "Singular3x3", new DiagonalMatrix(3, 3, new[] { 1.0, 0.0, 3.0 }) },
-                               { "Square3x3", new DiagonalMatrix(3, 3, new[] { -1.1, 1.1, 6.6 }) },
-                               { "Square4x4", new DiagonalMatrix(4, 4, new[] { -1.1, 1.1, 6.2, -7.7 }) },
-                               { "Tall3x2", new DiagonalMatrix(3, 2, new[] { -1.1, 1.1 }) },
-                               { "Wide2x3", new DiagonalMatrix(2, 3, new[] { -1.1, 1.1 }) },
-                           };
+                {
+                    {"Singular3x3", new DiagonalMatrix(3, 3, new[] {1.0, 0.0, 3.0})},
+                    {"Square3x3", new DiagonalMatrix(3, 3, new[] {-1.1, 1.1, 6.6})},
+                    {"Square4x4", new DiagonalMatrix(4, 4, new[] {-1.1, 1.1, 6.2, -7.7})},
+                    {"Tall3x2", new DiagonalMatrix(3, 2, new[] {-1.1, 1.1})},
+                    {"Wide2x3", new DiagonalMatrix(2, 3, new[] {-1.1, 1.1})},
+                };
 
             foreach (var name in testData.Keys)
             {
@@ -134,7 +132,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [Test]
         public void MatrixFrom1DArrayIsReference()
         {
-            var data = new double[] { 1, 2, 3, 4, 5 };
+            var data = new double[] {1, 2, 3, 4, 5};
             var matrix = new DiagonalMatrix(5, 5, data);
             matrix[0, 0] = 10.0;
             Assert.AreEqual(10.0, data[0]);
@@ -152,7 +150,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [TestCase("Wide2x3")]
         public void CanCreateMatrixFrom2DArray(string name)
         {
-            var matrix = new DiagonalMatrix(TestData2D[name]);
+            var matrix = DiagonalMatrix.OfArray(TestData2D[name]);
             for (var i = 0; i < TestData2D[name].GetLength(0); i++)
             {
                 for (var j = 0; j < TestData2D[name].GetLength(1); j++)
@@ -221,7 +219,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             {
                 for (var j = 0; j < matrixC.ColumnCount; j++)
                 {
-                    AssertHelpers.AlmostEqual(matrixA.Row(i) * matrixB.Column(j), matrixC[i, j], 15);
+                    AssertHelpers.AlmostEqual(matrixA.Row(i)*matrixB.Column(j), matrixC[i, j], 15);
                 }
             }
         }
@@ -233,7 +231,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         public void PermuteMatrixRowsThrowsInvalidOperationException()
         {
             var matrixp = CreateMatrix(TestData2D["Singular3x3"]);
-            var permutation = new Permutation(new[] { 2, 0, 1 });
+            var permutation = new Permutation(new[] {2, 0, 1});
             Assert.Throws<InvalidOperationException>(() => matrixp.PermuteRows(permutation));
         }
 
@@ -244,7 +242,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         public void PermuteMatrixColumnsThrowsInvalidOperationException()
         {
             var matrixp = CreateMatrix(TestData2D["Singular3x3"]);
-            var permutation = new Permutation(new[] { 2, 0, 1 });
+            var permutation = new Permutation(new[] {2, 0, 1});
             Assert.Throws<InvalidOperationException>(() => matrixp.PermuteColumns(permutation));
         }
 
@@ -261,13 +259,13 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
                 var min = Math.Min(data.RowCount, data.ColumnCount);
                 for (var i = 0; i < min; i++)
                 {
-                    Assert.AreEqual(data[i, i] / other[i, i], result[i, i]);
+                    Assert.AreEqual(data[i, i]/other[i, i], result[i, i]);
                 }
 
                 result = data.PointwiseDivide(other);
                 for (var i = 0; i < min; i++)
                 {
-                    Assert.AreEqual(data[i, i] / other[i, i], result[i, i]);
+                    Assert.AreEqual(data[i, i]/other[i, i], result[i, i]);
                 }
             }
         }
@@ -278,15 +276,15 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         public override void CanComputeFrobeniusNorm()
         {
             var matrix = TestMatrices["Square3x3"];
-            var denseMatrix = new DenseMatrix(TestData2D["Square3x3"]);
+            var denseMatrix = DenseMatrix.OfArray(TestData2D["Square3x3"]);
             AssertHelpers.AlmostEqual(denseMatrix.FrobeniusNorm(), matrix.FrobeniusNorm(), 14);
 
             matrix = TestMatrices["Wide2x3"];
-            denseMatrix = new DenseMatrix(TestData2D["Wide2x3"]);
+            denseMatrix = DenseMatrix.OfArray(TestData2D["Wide2x3"]);
             AssertHelpers.AlmostEqual(denseMatrix.FrobeniusNorm(), matrix.FrobeniusNorm(), 14);
 
             matrix = TestMatrices["Tall3x2"];
-            denseMatrix = new DenseMatrix(TestData2D["Tall3x2"]);
+            denseMatrix = DenseMatrix.OfArray(TestData2D["Tall3x2"]);
             AssertHelpers.AlmostEqual(denseMatrix.FrobeniusNorm(), matrix.FrobeniusNorm(), 14);
         }
 
@@ -296,15 +294,15 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         public override void CanComputeInfinityNorm()
         {
             var matrix = TestMatrices["Square3x3"];
-            var denseMatrix = new DenseMatrix(TestData2D["Square3x3"]);
+            var denseMatrix = DenseMatrix.OfArray(TestData2D["Square3x3"]);
             AssertHelpers.AlmostEqual(denseMatrix.InfinityNorm(), matrix.InfinityNorm(), 14);
 
             matrix = TestMatrices["Wide2x3"];
-            denseMatrix = new DenseMatrix(TestData2D["Wide2x3"]);
+            denseMatrix = DenseMatrix.OfArray(TestData2D["Wide2x3"]);
             AssertHelpers.AlmostEqual(denseMatrix.InfinityNorm(), matrix.InfinityNorm(), 14);
 
             matrix = TestMatrices["Tall3x2"];
-            denseMatrix = new DenseMatrix(TestData2D["Tall3x2"]);
+            denseMatrix = DenseMatrix.OfArray(TestData2D["Tall3x2"]);
             AssertHelpers.AlmostEqual(denseMatrix.InfinityNorm(), matrix.InfinityNorm(), 14);
         }
 
@@ -314,15 +312,15 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         public override void CanComputeL1Norm()
         {
             var matrix = TestMatrices["Square3x3"];
-            var denseMatrix = new DenseMatrix(TestData2D["Square3x3"]);
+            var denseMatrix = DenseMatrix.OfArray(TestData2D["Square3x3"]);
             AssertHelpers.AlmostEqual(denseMatrix.L1Norm(), matrix.L1Norm(), 14);
 
             matrix = TestMatrices["Wide2x3"];
-            denseMatrix = new DenseMatrix(TestData2D["Wide2x3"]);
+            denseMatrix = DenseMatrix.OfArray(TestData2D["Wide2x3"]);
             AssertHelpers.AlmostEqual(denseMatrix.L1Norm(), matrix.L1Norm(), 14);
 
             matrix = TestMatrices["Tall3x2"];
-            denseMatrix = new DenseMatrix(TestData2D["Tall3x2"]);
+            denseMatrix = DenseMatrix.OfArray(TestData2D["Tall3x2"]);
             AssertHelpers.AlmostEqual(denseMatrix.L1Norm(), matrix.L1Norm(), 14);
         }
 
@@ -332,15 +330,15 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         public override void CanComputeL2Norm()
         {
             var matrix = TestMatrices["Square3x3"];
-            var denseMatrix = new DenseMatrix(TestData2D["Square3x3"]);
+            var denseMatrix = DenseMatrix.OfArray(TestData2D["Square3x3"]);
             AssertHelpers.AlmostEqual(denseMatrix.L2Norm(), matrix.L2Norm(), 14);
 
             matrix = TestMatrices["Wide2x3"];
-            denseMatrix = new DenseMatrix(TestData2D["Wide2x3"]);
+            denseMatrix = DenseMatrix.OfArray(TestData2D["Wide2x3"]);
             AssertHelpers.AlmostEqual(denseMatrix.L2Norm(), matrix.L2Norm(), 14);
 
             matrix = TestMatrices["Tall3x2"];
-            denseMatrix = new DenseMatrix(TestData2D["Tall3x2"]);
+            denseMatrix = DenseMatrix.OfArray(TestData2D["Tall3x2"]);
             AssertHelpers.AlmostEqual(denseMatrix.L2Norm(), matrix.L2Norm(), 14);
         }
 
@@ -351,11 +349,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         public void CanComputeDeterminant()
         {
             var matrix = TestMatrices["Square3x3"];
-            var denseMatrix = new DenseMatrix(TestData2D["Square3x3"]);
+            var denseMatrix = DenseMatrix.OfArray(TestData2D["Square3x3"]);
             AssertHelpers.AlmostEqual(denseMatrix.Determinant(), matrix.Determinant(), 14);
 
             matrix = TestMatrices["Square4x4"];
-            denseMatrix = new DenseMatrix(TestData2D["Square4x4"]);
+            denseMatrix = DenseMatrix.OfArray(TestData2D["Square4x4"]);
             AssertHelpers.AlmostEqual(denseMatrix.Determinant(), matrix.Determinant(), 14);
         }
 
@@ -400,16 +398,16 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             // [ 2 0 ]
             // [ 0 3 ]
             var subM3 = diagMatrix.SubMatrix(0, 3, 1, 2);
-            Assert.IsTrue(subM3.Equals(new DenseMatrix(3, 2, new[] { 0d, 2d, 0d, 0d, 0d, 3d })));
+            Assert.IsTrue(subM3.Equals(new DenseMatrix(3, 2, new[] {0d, 2d, 0d, 0d, 0d, 3d})));
         }
 
         [Test]
         public void DiagonalDenseMatrixMultiplication_IssueCP5706()
         {
             Matrix<double> diagonal = DiagonalMatrix.Identity(3);
-            Matrix<double> dense = new DenseMatrix(new double[,] { { 1, 2, 3 }, { 1, 2, 3 }, { 1, 2, 3 } });
-            var test = diagonal * dense;
-            var test2 = dense * diagonal;
+            Matrix<double> dense = DenseMatrix.OfArray(new double[,] {{1, 2, 3}, {1, 2, 3}, {1, 2, 3}});
+            var test = diagonal*dense;
+            var test2 = dense*diagonal;
         }
     }
 }

@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2010 Math.NET
+// Copyright (c) 2009-2013 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -31,16 +31,15 @@
 namespace MathNet.Numerics.LinearAlgebra.Complex
 {
     using Generic;
-    using Properties;
     using Storage;
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Numerics;
-    using Threading;
 
     /// <summary>
-    /// A Matrix class with sparse storage. The underlying storage scheme is 3-array compressed-sparse-row (CSR) Format.
+    /// A Matrix with sparse storage, intended for very large matrices where most of the cells are zero.
+    /// The underlying storage scheme is 3-array compressed-sparse-row (CSR) Format.
     /// <a href="http://en.wikipedia.org/wiki/Sparse_matrix#Compressed_sparse_row_.28CSR_or_CRS.29">Wikipedia - CSR</a>.
     /// </summary>
     [Serializable]
@@ -59,7 +58,10 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SparseMatrix"/> class.
+        /// Create a new sparse matrix straight from an initialized matrix storage instance.
+        /// The storage is used directly without copying.
+        /// Intended for advanced scenarios where you're working directly with
+        /// storage for performance or interop reasons.
         /// </summary>
         public SparseMatrix(SparseCompressedRowMatrixStorage<Complex> storage)
             : base(storage)
@@ -68,124 +70,183 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SparseMatrix"/> class.
+        /// Create a new square sparse matrix with the given number of rows and columns.
+        /// All cells of the matrix will be initialized to zero.
+        /// Zero-length matrices are not supported.
         /// </summary>
-        /// <param name="rows">
-        /// The number of rows.
-        /// </param>
-        /// <param name="columns">
-        /// The number of columns.
-        /// </param>
-        public SparseMatrix(int rows, int columns)
-            : this(new SparseCompressedRowMatrixStorage<Complex>(rows, columns))
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="SparseMatrix"/> class. This matrix is square with a given size.
-        /// </summary>
-        /// <param name="order">the size of the square matrix.</param>
-        /// <exception cref="ArgumentException">
-        /// If <paramref name="order"/> is less than one.
-        /// </exception>
+        /// <exception cref="ArgumentException">If the order is less than one.</exception>
         public SparseMatrix(int order)
             : this(order, order)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SparseMatrix"/> class with all entries set to a particular value.
+        /// Create a new sparse matrix with the given number of rows and columns.
+        /// All cells of the matrix will be initialized to zero.
+        /// Zero-length matrices are not supported.
         /// </summary>
-        /// <param name="rows">
-        /// The number of rows.
-        /// </param>
-        /// <param name="columns">
-        /// The number of columns.
-        /// </param>
-        /// <param name="value">The value which we assign to each element of the matrix.</param>
-        [Obsolete("Use a dense matrix instead. Scheduled for removal in v3.0.")]
+        /// <exception cref="ArgumentException">If the row or column count is less than one.</exception>
+        public SparseMatrix(int rows, int columns)
+            : this(new SparseCompressedRowMatrixStorage<Complex>(rows, columns))
+        {
+        }
+
+        /// <summary>
+        /// Create a new sparse matrix as a copy of the given other matrix.
+        /// This new matrix will be independent from the other matrix.
+        /// A new memory block will be allocated for storing the matrix.
+        /// </summary>
+        public static SparseMatrix OfMatrix(Matrix<Complex> matrix)
+        {
+            return new SparseMatrix(SparseCompressedRowMatrixStorage<Complex>.OfMatrix(matrix.Storage));
+        }
+
+        /// <summary>
+        /// Create a new sparse matrix as a copy of the given two-dimensional array.
+        /// This new matrix will be independent from the provided array.
+        /// A new memory block will be allocated for storing the matrix.
+        /// </summary>
+        public static SparseMatrix OfArray(Complex[,] array)
+        {
+            return new SparseMatrix(SparseCompressedRowMatrixStorage<Complex>.OfArray(array));
+        }
+
+        /// <summary>
+        /// Create a new sparse matrix as a copy of the given indexed enumerable.
+        /// Keys must be provided at most once, zero is assumed if a key is omitted.
+        /// This new matrix will be independent from the enumerable.
+        /// A new memory block will be allocated for storing the matrix.
+        /// </summary>
+        public static SparseMatrix OfIndexed(int rows, int columns, IEnumerable<Tuple<int, int, Complex>> enumerable)
+        {
+            return new SparseMatrix(SparseCompressedRowMatrixStorage<Complex>.OfIndexedEnumerable(rows, columns, enumerable));
+        }
+
+        /// <summary>
+        /// Create a new sparse matrix as a copy of the given enumerable.
+        /// The enumerable is assumed to be in row-major order (row by row).
+        /// This new matrix will be independent from the enumerable.
+        /// A new memory block will be allocated for storing the vector.
+        /// </summary>
+        /// <seealso href="http://en.wikipedia.org/wiki/Row-major_order"/>
+        public static SparseMatrix OfRowMajor(int rows, int columns, IEnumerable<Complex> rowMajor)
+        {
+            return new SparseMatrix(SparseCompressedRowMatrixStorage<Complex>.OfRowMajorEnumerable(rows, columns, rowMajor));
+        }
+
+        /// <summary>
+        /// Create a new sparse matrix with the given number of rows and columns as a copy of the given array.
+        /// The array is assumed to be in column-major order (column by column).
+        /// This new matrix will be independent from the provided array.
+        /// A new memory block will be allocated for storing the matrix.
+        /// </summary>
+        /// <seealso href="http://en.wikipedia.org/wiki/Row-major_order"/>
+        public static SparseMatrix OfColumnMajor(int rows, int columns, IList<Complex> columnMajor)
+        {
+            return new SparseMatrix(SparseCompressedRowMatrixStorage<Complex>.OfColumnMajorList(rows, columns, columnMajor));
+        }
+
+        /// <summary>
+        /// Create a new sparse matrix as a copy of the given enumerable of enumerable columns.
+        /// Each enumerable in the master enumerable specifies a column.
+        /// This new matrix will be independent from the enumerables.
+        /// A new memory block will be allocated for storing the matrix.
+        /// </summary>
+        public static SparseMatrix OfColumns(int rows, int columns, IEnumerable<IEnumerable<Complex>> data)
+        {
+            return new SparseMatrix(SparseCompressedRowMatrixStorage<Complex>.OfColumnEnumerables(rows, columns, data));
+        }
+
+        /// <summary>
+        /// Create a new sparse matrix as a copy of the given enumerable of enumerable columns.
+        /// Each enumerable in the master enumerable specifies a column.
+        /// This new matrix will be independent from the enumerables.
+        /// A new memory block will be allocated for storing the matrix.
+        /// </summary>
+        public static SparseMatrix OfColumnsCovariant<TColumn>(int rows, int columns, IEnumerable<TColumn> data)
+            // NOTE: flexible typing to 'backport' generic covariance.
+            where TColumn : IEnumerable<Complex>
+        {
+            return new SparseMatrix(SparseCompressedRowMatrixStorage<Complex>.OfColumnEnumerables(rows, columns, data));
+        }
+
+        /// <summary>
+        /// Create a new sparse matrix as a copy of the given enumerable of enumerable rows.
+        /// Each enumerable in the master enumerable specifies a row.
+        /// This new matrix will be independent from the enumerables.
+        /// A new memory block will be allocated for storing the matrix.
+        /// </summary>
+        public static SparseMatrix OfRows(int rows, int columns, IEnumerable<IEnumerable<Complex>> data)
+        {
+            return new SparseMatrix(SparseCompressedRowMatrixStorage<Complex>.OfRowEnumerables(rows, columns, data));
+        }
+
+        /// <summary>
+        /// Create a new sparse matrix as a copy of the given enumerable of enumerable rows.
+        /// Each enumerable in the master enumerable specifies a row.
+        /// This new matrix will be independent from the enumerables.
+        /// A new memory block will be allocated for storing the matrix.
+        /// </summary>
+        public static SparseMatrix OfRowsCovariant<TRow>(int rows, int columns, IEnumerable<TRow> data)
+            // NOTE: flexible typing to 'backport' generic covariance.
+            where TRow : IEnumerable<Complex>
+        {
+            return new SparseMatrix(SparseCompressedRowMatrixStorage<Complex>.OfRowEnumerables(rows, columns, data));
+        }
+
+        /// <summary>
+        /// Create a new sparse matrix and initialize each value using the provided init function.
+        /// </summary>
+        public static SparseMatrix Create(int rows, int columns, Func<int, int, Complex> init)
+        {
+            return new SparseMatrix(SparseCompressedRowMatrixStorage<Complex>.OfInit(rows, columns, init));
+        }
+
+        /// <summary>
+        /// Create a new sparse matrix with the given number of rows and columns.
+        /// All cells of the matrix will be initialized to the provided value.
+        /// Zero-length matrices are not supported.
+        /// </summary>
+        /// <exception cref="ArgumentException">If the row or column count is less than one.</exception>
+        [Obsolete("Use a dense matrix or SparseMatrix.Create instead. Scheduled for removal in v3.0.")]
         public SparseMatrix(int rows, int columns, Complex value)
-            : this(rows, columns)
+            : this(SparseCompressedRowMatrixStorage<Complex>.OfInit(rows, columns, (i, j) => value))
         {
-            if (value.IsZero())
-            {
-                return;
-            }
-
-            var rowPointers = _storage.RowPointers;
-            var valueCount = _storage.ValueCount = rows * columns;
-            var columnIndices = _storage.ColumnIndices = new int[valueCount];
-            var values = _storage.Values = new Complex[valueCount];
-
-            for (int i = 0, j = 0; i < values.Length; i++, j++)
-            {
-                // Reset column position to "0"
-                if (j == columns)
-                {
-                    j = 0;
-                }
-
-                values[i] = value;
-                columnIndices[i] = j;
-            }
-
-            // Set proper row pointers
-            for (var i = 0; i < rowPointers.Length; i++)
-            {
-                rowPointers[i] = ((i + 1) * columns) - columns;
-            }
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SparseMatrix"/> class from a one dimensional array.
+        /// Create a new sparse matrix with the given number of rows and columns as a copy of the given array.
+        /// The array is assumed to be in column-major order (column by column).
+        /// This new matrix will be independent from the provided array.
+        /// A new memory block will be allocated for storing the matrix.
         /// </summary>
-        /// <param name="rows">The number of rows.</param>
-        /// <param name="columns">The number of columns.</param>
-        /// <param name="array">The one dimensional array to create this matrix from. This array should store the matrix in column-major order. see: http://en.wikipedia.org/wiki/Column-major_order </param>
-        /// <exception cref="ArgumentOutOfRangeException">If <paramref name="array"/> length is less than <paramref name="rows"/> * <paramref name="columns"/>.
-        /// </exception>
+        /// <seealso href="http://en.wikipedia.org/wiki/Row-major_order"/>
+        [Obsolete("Use SparseMatrix.OfColumnMajor instead. Scheduled for removal in v3.0.")]
         public SparseMatrix(int rows, int columns, Complex[] array)
-            : this(rows, columns)
+            : this(SparseCompressedRowMatrixStorage<Complex>.OfColumnMajorList(rows, columns, array))
         {
-            if (rows * columns > array.Length)
-            {
-                throw new ArgumentOutOfRangeException(Resources.ArgumentMatrixDimensions);
-            }
-
-            for (var i = 0; i < rows; i++)
-            {
-                for (var j = 0; j < columns; j++)
-                {
-                    _storage.At(i, j, array[i + (j * rows)]);
-                }
-            }
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SparseMatrix"/> class from a 2D array.
+        /// Create a new sparse matrix as a copy of the given two-dimensional array.
+        /// This new matrix will be independent from the provided array.
+        /// A new memory block will be allocated for storing the matrix.
         /// </summary>
-        /// <param name="array">The 2D array to create this matrix from.</param>
+        [Obsolete("Use SparseMatrix.OfArray instead. Scheduled for removal in v3.0.")]
         public SparseMatrix(Complex[,] array)
-            : this(array.GetLength(0), array.GetLength(1))
+            : this(SparseCompressedRowMatrixStorage<Complex>.OfArray(array))
         {
-            for (var i = 0; i < _storage.RowCount; i++)
-            {
-                for (var j = 0; j < _storage.ColumnCount; j++)
-                {
-                    _storage.At(i, j, array[i, j]);
-                }
-            }
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SparseMatrix"/> class, copying
-        /// the values from the given matrix.
+        /// Create a new sparse matrix as a copy of the given other matrix.
+        /// This new matrix will be independent from the other matrix.
+        /// A new memory block will be allocated for storing the matrix.
         /// </summary>
-        /// <param name="matrix">The matrix to copy.</param>
+        [Obsolete("Use SparseMatrix.OfMatrix instead. Scheduled for removal in v3.0.")]
         public SparseMatrix(Matrix<Complex> matrix)
-            : this(matrix.RowCount, matrix.ColumnCount)
+            : this(SparseCompressedRowMatrixStorage<Complex>.OfMatrix(matrix.Storage))
         {
-            matrix.Storage.CopyToUnchecked(Storage, skipClearing: true);
         }
 
         /// <summary>
@@ -805,7 +866,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
                     CopyTo(sparseResult);
                 }
 
-                CommonParallel.For(0, NonZerosCount, index => sparseResult._storage.Values[index] *= scalar);
+                Control.LinearAlgebraProvider.ScaleArray(scalar, sparseResult._storage.Values, sparseResult._storage.Values);
             }
         }
 
@@ -1366,6 +1427,11 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
             }
 
             return (SparseMatrix)leftSide.Modulus(rightSide);
+        }
+
+        public override string ToTypeString()
+        {
+            return string.Format("SparseMatrix {0}x{1}-Complex {2:P2} Filled", RowCount, ColumnCount, 100d * NonZerosCount / (RowCount * (double)ColumnCount));
         }
     }
  }

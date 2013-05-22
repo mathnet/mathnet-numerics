@@ -122,6 +122,14 @@
     <Compile Include="DistributionTests\Multivariate\MultinomialTests.cs" />
     <Compile Include="DistributionTests\Multivariate\NormalGammaTests.cs" />
     <Compile Include="DistributionTests\Multivariate\WishartTests.cs" />
+    <Compile Include="FinancialTests\CompoundMonthlyReturnTests.cs" />
+    <Compile Include="FinancialTests\DownsideDeviationTests.cs" />
+    <Compile Include="FinancialTests\GainLossRatioTests.cs" />
+    <Compile Include="FinancialTests\GainStandardDeviationTests.cs" />
+    <Compile Include="FinancialTests\LossMeanTests.cs" />
+    <Compile Include="FinancialTests\GainMeanTests.cs" />
+    <Compile Include="FinancialTests\LossStandardDeviationTests.cs" />
+    <Compile Include="FinancialTests\SemiDeviationTests.cs" />
     <Compile Include="IntegralTransformsTests\FourierTest.cs" />
     <Compile Include="IntegralTransformsTests\HartleyTest.cs" />
     <Compile Include="IntegralTransformsTests\InverseTransformTest.cs" />
@@ -737,11 +745,13 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="LinearAlgebraTests\Double\VectorArithmeticTheory.cs" />
+    <Compile Include="LinearAlgebraTests\StaticDynamicWrapper.cs" />
     <Compile Include="LinearAlgebraTests\VectorArithmeticTheory.cs" />
     <Compile Include="MatrixHelpers.cs" />
     <Compile Include="NumberTheoryTests\GcdRelatedTest.cs" />
     <Compile Include="NumberTheoryTests\GcdRelatedTestBigInteger.cs" />
     <Compile Include="NumberTheoryTests\IntegerTheoryTest.cs" />
+    <Compile Include="RootFindingTests\BisectionTest.cs" />
     <Compile Include="PermutationTest.cs" />
     <Compile Include="PrecisionTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -761,6 +771,8 @@
     <Compile Include="Random\WH1982Tests.cs" />
     <Compile Include="Random\WH2006Tests.cs" />
     <Compile Include="Random\XorshiftTests.cs" />
+    <Compile Include="RootFindingTests\BrentTest.cs" />
+    <Compile Include="RootFindingTests\NewtonRaphsonTest.cs" />
     <Compile Include="SortingTests.cs" />
     <Compile Include="SpecialFunctionsTests\ModifiedStruveTests.cs" />
     <Compile Include="SpecialFunctionsTests\ModifiedBesselTests.cs" />
@@ -1077,6 +1089,7 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

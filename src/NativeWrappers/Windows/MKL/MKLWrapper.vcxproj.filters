@@ -29,11 +29,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Common\wrapper_common.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
     <ResourceCompile Include="..\..\Common\resource.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>

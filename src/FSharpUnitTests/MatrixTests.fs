@@ -9,11 +9,14 @@ open MathNet.Numerics.LinearAlgebra.Double
 module MatrixTests =
 
     /// A small uniform vector.
-    let smallM = new DenseMatrix( Array2D.create 2 2 0.3 )
+    let smallM = DenseMatrix.OfArray( Array2D.create 2 2 0.3 )
     let failingFoldBackM = DenseMatrix.init 2 3 (fun i j -> 1.0)
 
+    /// A small sparse matrix.
+    let sparseM = SparseMatrix.ofListi 2 3 [(1,0,0.3)]
+
     /// A large vector with increasingly large entries
-    let largeM = new DenseMatrix( Array2D.init 100 100 (fun i j -> float i * 100.0 + float j) )
+    let largeM = DenseMatrix.OfArray( Array2D.init 100 100 (fun i j -> float i * 100.0 + float j) )
 
     [<Test>]
     let ``Matrix.GetSlice`` () =
@@ -42,6 +45,70 @@ module MatrixTests =
             m |> should equal (DenseMatrix(4,4,[|0.;100.;200.;300.;1.;101.;201.;301.;5.;6.;202.;302.;7.;8.;203.;303.|]))
 
     [<Test>]
+    let ``Matrix.toArray2`` () =
+        Matrix.toArray2 smallM |> should array2_equal (Array2D.create 2 2 0.3)
+
+    [<Test>]
+    let ``Matrix.mapInPlace.Dense`` () =
+        let M = largeM.Clone()
+        M |> Matrix.mapInPlace (fun x -> 3.0 * x)
+        M |> should equal (3.0 * largeM)
+
+    [<Test>]
+    let ``Matrix.mapInPlace.Sparse`` () =
+        let M = sparseM.Clone()
+        M |> Matrix.mapInPlace (fun x -> 3.0 * x)
+        M |> should equal (3.0 * sparseM)
+
+    [<Test>]
+    let ``Matrix.mapnzInPlace.Sparse`` () =
+        let M = sparseM.Clone()
+        M |> Matrix.mapnzInPlace (fun x -> 3.0 * x)
+        M |> should equal (3.0 * sparseM)
+
+    [<Test>]
+    let ``Matrix.mapiInPlace.Dense`` () =
+        let M = largeM.Clone()
+        M |> Matrix.mapiInPlace (fun i j x -> 2.0 * (float i * 100.0 + float j) + x)
+        M |> should equal (3.0 * largeM)
+
+    [<Test>]
+    let ``Matrix.mapiInPlace.Sparse`` () =
+        let M = sparseM.Clone()
+        M |> Matrix.mapiInPlace (fun i j x -> if i=j then 2.0*x+1.0 else 2.0*x)
+        M |> should equal (2.0 * sparseM + SparseMatrix.init 2 3 (fun i j -> if i=j then 1.0 else 0.0))
+
+    [<Test>]
+    let ``Matrix.mapinzInPlace.Sparse`` () =
+        let M = sparseM.Clone()
+        M |> Matrix.mapinzInPlace (fun i j x -> 2.0*x)
+        M |> should equal (2.0 * sparseM)
+
+    [<Test>]
+    let ``Matrix.map`` () =
+        Matrix.map (fun x -> 2.0 * x) smallM |> should equal (2.0 * smallM)
+
+    [<Test>]
+    let ``Matrix.mapnz`` () =
+        Matrix.mapnz (fun x -> 2.0 * x) smallM |> should equal (2.0 * smallM)
+
+    [<Test>]
+    let ``Matrix.mapi`` () =
+        Matrix.mapi (fun i j x -> float i * 100.0 + float j + x) largeM |> should equal (2.0 * largeM)
+
+    [<Test>]
+    let ``Matrix.mapinz`` () =
+        Matrix.mapinz (fun i j x -> float i * 100.0 + float j + x) largeM |> should equal (2.0 * largeM)
+
+    [<Test>]
+    let ``Matrix.mapCols`` () =
+        Matrix.mapCols (fun j col -> col.Add(float j)) smallM |> should (approximately_matrix_equal 14) (matrix [[0.3;1.3];[0.3;1.3]])
+
+    [<Test>]
+    let ``Matrix.mapRows`` () =
+        Matrix.mapRows (fun i row -> row.Add(float i)) smallM |> should (approximately_matrix_equal 14) (matrix [[0.3;0.3];[1.3;1.3]])
+
+    [<Test>]
     let ``Matrix.fold`` () =
         Matrix.fold (fun a b -> a - b) 0.0 smallM |> should equal -1.2
 
@@ -56,10 +123,6 @@ module MatrixTests =
     [<Test>]
     let ``Matrix.foldi`` () =
         Matrix.foldi (fun i j acc x -> acc + x + float (i+j)) 0.0 smallM |> should equal 5.2
-
-    [<Test>]
-    let ``Matrix.toArray2`` () =
-        Matrix.toArray2 smallM |> should array2_equal (Array2D.create 2 2 0.3)
 
     [<Test>]
     let ``Matrix.forall`` () =
@@ -78,32 +141,10 @@ module MatrixTests =
         Matrix.existsi (fun i j x -> x = float i * 100.0 + float j) largeM |> should equal true
 
     [<Test>]
-    let ``Matrix.map`` () =
-        Matrix.map (fun x -> 2.0 * x) smallM |> should equal (2.0 * smallM)
-
-    [<Test>]
-    let ``Matrix.mapi`` () =
-        Matrix.mapi (fun i j x -> float i * 100.0 + float j + x) largeM |> should equal (2.0 * largeM)
-
-    [<Test>]
-    let ``Matrix.mapCols`` () =
-        Matrix.mapCols (fun j col -> col.Add(float j)) smallM |> should (approximately_matrix_equal 14) (matrix [[0.3;1.3];[0.3;1.3]])
-
-    [<Test>]
-    let ``Matrix.mapRows`` () =
-        Matrix.mapRows (fun i row -> row.Add(float i)) smallM |> should (approximately_matrix_equal 14) (matrix [[0.3;0.3];[1.3;1.3]])
-
-    [<Test>]
     let ``Matrix.inplaceAssign`` () =
         let N = smallM.Clone()
-        Matrix.inplaceAssign (fun i j -> 0.0) N
+        N |> Matrix.inplaceAssign (fun i j -> 0.0)
         N |> should equal (0.0 * smallM)
-
-    [<Test>]
-    let ``Matrix.inplaceMapi`` () =
-        let N = largeM.Clone()
-        Matrix.inplaceMapi (fun i j x -> 2.0 * (float i * 100.0 + float j) + x) N
-        N |> should equal (3.0 * largeM)
 
     [<Test>]
     let ``Matrix.nonZeroEntries`` () =

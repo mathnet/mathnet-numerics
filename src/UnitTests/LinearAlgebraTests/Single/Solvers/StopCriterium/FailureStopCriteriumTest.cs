@@ -3,7 +3,9 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
-// Copyright (c) 2009-2010 Math.NET
+//
+// Copyright (c) 2009-2013 Math.NET
+//
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -12,8 +14,10 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
+//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
+//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -23,6 +27,7 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
+
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers.StopCriterium
 {
     using System;
@@ -56,7 +61,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers.StopCrite
             var criterium = new FailureStopCriterium();
             Assert.IsNotNull(criterium, "There should be a criterium");
 
-            Assert.Throws<ArgumentOutOfRangeException>(() => criterium.DetermineStatus(-1, new DenseVector(3, 4), new DenseVector(3, 5), new DenseVector(3, 6)));
+            Assert.Throws<ArgumentOutOfRangeException>(() => criterium.DetermineStatus(-1, DenseVector.Create(3, i => 4), DenseVector.Create(3, i => 5), DenseVector.Create(3, i => 6)));
         }
 
         /// <summary>
@@ -68,7 +73,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers.StopCrite
             var criterium = new FailureStopCriterium();
             Assert.IsNotNull(criterium, "There should be a criterium");
 
-            Assert.Throws<ArgumentNullException>(() => criterium.DetermineStatus(1, null, new DenseVector(3, 6), new DenseVector(4, 4)));
+            Assert.Throws<ArgumentNullException>(() => criterium.DetermineStatus(1, null, DenseVector.Create(3, i => 6), DenseVector.Create(4, i => 4)));
         }
 
         /// <summary>
@@ -80,7 +85,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers.StopCrite
             var criterium = new FailureStopCriterium();
             Assert.IsNotNull(criterium, "There should be a criterium");
 
-            Assert.Throws<ArgumentNullException>(() => criterium.DetermineStatus(1, new DenseVector(3, 4), new DenseVector(3, 6), null));
+            Assert.Throws<ArgumentNullException>(() => criterium.DetermineStatus(1, DenseVector.Create(3, i => 4), DenseVector.Create(3, i => 6), null));
         }
 
         /// <summary>
@@ -92,7 +97,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers.StopCrite
             var criterium = new FailureStopCriterium();
             Assert.IsNotNull(criterium, "There should be a criterium");
 
-            Assert.Throws<ArgumentException>(() => criterium.DetermineStatus(1, new DenseVector(3, 4), new DenseVector(3, 6), new DenseVector(4, 4)));
+            Assert.Throws<ArgumentException>(() => criterium.DetermineStatus(1, DenseVector.Create(3, i => 4), DenseVector.Create(3, i => 6), DenseVector.Create(4, i => 4)));
         }
 
         /// <summary>
@@ -104,12 +109,12 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers.StopCrite
             var criterium = new FailureStopCriterium();
             Assert.IsNotNull(criterium, "There should be a criterium");
 
-            var solution = new DenseVector(new[] { 1.0f, 1.0f, 2.0f });
-            var source = new DenseVector(new[] { 1001.0f, 0, 2003.0f });
-            var residual = new DenseVector(new[] { 1000, float.NaN, 2001 });
+            var solution = new DenseVector(new[] {1.0f, 1.0f, 2.0f});
+            var source = new DenseVector(new[] {1001.0f, 0, 2003.0f});
+            var residual = new DenseVector(new[] {1000, float.NaN, 2001});
 
             criterium.DetermineStatus(5, solution, source, residual);
-            Assert.IsInstanceOf(typeof(CalculationFailure), criterium.Status, "Should be failed");
+            Assert.IsInstanceOf(typeof (CalculationFailure), criterium.Status, "Should be failed");
         }
 
         /// <summary>
@@ -121,12 +126,12 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers.StopCrite
             var criterium = new FailureStopCriterium();
             Assert.IsNotNull(criterium, "There should be a criterium");
 
-            var solution = new DenseVector(new[] { 1, 1, float.NaN });
-            var source = new DenseVector(new[] { 1001.0f, 0.0f, 2003.0f });
-            var residual = new DenseVector(new[] { 1000.0f, 1000.0f, 2001.0f });
+            var solution = new DenseVector(new[] {1, 1, float.NaN});
+            var source = new DenseVector(new[] {1001.0f, 0.0f, 2003.0f});
+            var residual = new DenseVector(new[] {1000.0f, 1000.0f, 2001.0f});
 
             criterium.DetermineStatus(5, solution, source, residual);
-            Assert.IsInstanceOf(typeof(CalculationFailure), criterium.Status, "Should be failed");
+            Assert.IsInstanceOf(typeof (CalculationFailure), criterium.Status, "Should be failed");
         }
 
         /// <summary>
@@ -138,12 +143,12 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers.StopCrite
             var criterium = new FailureStopCriterium();
             Assert.IsNotNull(criterium, "There should be a criterium");
 
-            var solution = new DenseVector(new[] { 3.0f, 2.0f, 1.0f });
-            var source = new DenseVector(new[] { 1001.0f, 0.0f, 2003.0f });
-            var residual = new DenseVector(new[] { 1.0f, 2.0f, 3.0f });
+            var solution = new DenseVector(new[] {3.0f, 2.0f, 1.0f});
+            var source = new DenseVector(new[] {1001.0f, 0.0f, 2003.0f});
+            var residual = new DenseVector(new[] {1.0f, 2.0f, 3.0f});
 
             criterium.DetermineStatus(5, solution, source, residual);
-            Assert.IsInstanceOf(typeof(CalculationRunning), criterium.Status, "Should be running");
+            Assert.IsInstanceOf(typeof (CalculationRunning), criterium.Status, "Should be running");
         }
 
         /// <summary>
@@ -155,15 +160,15 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers.StopCrite
             var criterium = new FailureStopCriterium();
             Assert.IsNotNull(criterium, "There should be a criterium");
 
-            var solution = new DenseVector(new[] { 1.0f, 1.0f, 2.0f });
-            var source = new DenseVector(new[] { 1001.0f, 0.0f, 2003.0f });
-            var residual = new DenseVector(new[] { 1000.0f, 1000.0f, 2001.0f });
+            var solution = new DenseVector(new[] {1.0f, 1.0f, 2.0f});
+            var source = new DenseVector(new[] {1001.0f, 0.0f, 2003.0f});
+            var residual = new DenseVector(new[] {1000.0f, 1000.0f, 2001.0f});
 
             criterium.DetermineStatus(5, solution, source, residual);
-            Assert.IsInstanceOf(typeof(CalculationRunning), criterium.Status, "Should be running");
+            Assert.IsInstanceOf(typeof (CalculationRunning), criterium.Status, "Should be running");
 
             criterium.ResetToPrecalculationState();
-            Assert.IsInstanceOf(typeof(CalculationIndetermined), criterium.Status, "Should not have started");
+            Assert.IsInstanceOf(typeof (CalculationIndetermined), criterium.Status, "Should not have started");
         }
 
         /// <summary>
@@ -176,7 +181,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers.StopCrite
             Assert.IsNotNull(criterium, "There should be a criterium");
 
             var clone = criterium.Clone();
-            Assert.IsInstanceOf(typeof(FailureStopCriterium), clone, "Wrong criterium type");
+            Assert.IsInstanceOf(typeof (FailureStopCriterium), clone, "Wrong criterium type");
         }
     }
 }

@@ -391,5 +391,23 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                 target.At(ii, columnIndex, At(i));
             }
         }
+
+        // FUNCTIONAL COMBINATORS
+
+        public virtual void MapInplace(Func<T, T> f, bool forceMapZeros = false)
+        {
+            for (int i = 0; i < Length; i++)
+            {
+                At(i, f(At(i)));
+            }
+        }
+
+        public virtual void MapIndexedInplace(Func<int, T, T> f, bool forceMapZeros = false)
+        {
+            for (int i = 0; i < Length; i++)
+            {
+                At(i, f(i, At(i)));
+            }
+        }
     }
 }

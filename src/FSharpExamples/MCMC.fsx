@@ -1,8 +1,10 @@
-﻿// <copyright file="MCMC.fs" company="Math.NET">
+﻿// <copyright file="MCMC.fsx" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
-// http://mathnet.opensourcedotnet.info
+// http://numerics.mathdotnet.com
+// http://github.com/mathnet/mathnet-numerics
+// http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009 Math.NET
+// Copyright (c) 2009-2013 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -25,7 +27,9 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
-module MathNet.Numerics.FSharp.Examples.Mcmc
+
+#r "../../out/lib/Net40/MathNet.Numerics.dll"
+#r "../../out/lib/Net40/MathNet.Numerics.FSharp.dll"
 
 open MathNet.Numerics.Random
 open MathNet.Numerics.Statistics
@@ -192,10 +196,3 @@ do
     printfn "\tEmpirical Mean = %f (should be %f)" (Statistics.Mean(arr)) normal.Mean
     printfn "\tEmpirical StdDev = %f (should be %f)" (Statistics.StandardDeviation(arr)) normal.StdDev
     printfn ""
-
-
-
-
-
-
-System.Console.ReadLine() |> ignore

@@ -36,6 +36,82 @@ open MathNet.Numerics.LinearAlgebra.Generic
 [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
 module Matrix =
 
+    /// Transform a vector into a 2D array.
+    let inline toArray2 (A: #Matrix<float>) = A.ToArray()
+
+    /// In-place map of every matrix element using a function.
+    let inline mapInPlace (f: float -> float) (A: #Matrix<float>) =
+        A.MapInplace((fun x -> f x), true)
+
+    /// In-place map of every matrix element using a position dependent function.
+    let inline mapiInPlace (f: int -> int -> float -> float) (A: #Matrix<float>) =
+        A.MapIndexedInplace((fun i j x -> f i j x), true)
+
+    /// In-place map of every matrix element using a function.
+    /// Zero-values may be skipped (relevant mostly for sparse matrices).
+    let inline mapnzInPlace (f: float -> float) (A: #Matrix<float>) =
+        A.MapInplace((fun x -> f x), false)
+
+    /// In-place map of every matrix element using a position dependent function.
+    /// Zero-values may be skipped (relevant mostly for sparse matrices).
+    let inline mapinzInPlace (f: int -> int -> float -> float) (A: #Matrix<float>) =
+        A.MapIndexedInplace((fun i j x -> f i j x), false)
+
+    /// In-place map every matrix column using the given position dependent function.
+    let inline mapColsInPlace (f: int -> Vector<float> -> Vector<float>) (A: #Matrix<float>) =
+        for j = 0 to A.ColumnCount-1 do
+            A.SetColumn(j, f j (A.Column(j)))
+
+    /// In-place map every matrix row using the given position dependent function.
+    let inline mapRowsInPlace (f: int -> Vector<float> -> Vector<float>) (A: #Matrix<float>) =
+        for i = 0 to A.RowCount-1 do
+            A.SetRow(i, f i (A.Row(i)))
+
+    [<System.ObsoleteAttribute("Use mapiInPlace instead. Scheduled for removal in v3.0.")>]
+    let inplaceMapi = mapiInPlace
+    [<System.ObsoleteAttribute("Use mapColsInPlace instead. Scheduled for removal in v3.0.")>]
+    let inplaceMapCols = mapColsInPlace
+    [<System.ObsoleteAttribute("Use mapRowsInPlace instead. Scheduled for removal in v3.0.")>]
+    let inplaceMapRows = mapRowsInPlace
+
+    /// Map every matrix element using the given function.
+    let inline map (f: float -> float) (A: #Matrix<float>) =
+        let A = A.Clone()
+        A.MapInplace((fun x -> f x), true)
+        A
+
+    /// Map every matrix element using the given function.
+    /// Zero-values may be skipped (relevant mostly for sparse matrices).
+    let inline mapnz (f: float -> float) (A: #Matrix<float>) =
+        let A = A.Clone()
+        A.MapInplace((fun x -> f x), false)
+        A
+
+    /// Map every matrix element using the given position dependent function.
+    let inline mapi (f: int -> int -> float -> float) (A: #Matrix<float>) =
+        let A = A.Clone()
+        A.MapIndexedInplace((fun i j x -> f i j x), true)
+        A
+
+    /// Map every matrix element using the given position dependent function.
+    /// Zero-values may be skipped (relevant mostly for sparse matrices).
+    let inline mapinz (f: int -> int -> float -> float) (A: #Matrix<float>) =
+        let A = A.Clone()
+        A.MapIndexedInplace((fun i j x -> f i j x), false)
+        A
+
+    /// Map every matrix column using the given position dependent function.
+    let inline mapCols (f: int -> Vector<float> -> Vector<float>) (A: #Matrix<float>) =
+        let A = A.Clone()
+        mapColsInPlace f A
+        A
+
+    /// Map every matrix row using the given position dependent function.
+    let inline mapRows (f: int -> Vector<float> -> Vector<float>) (A: #Matrix<float>) =
+        let A = A.Clone()
+        mapRowsInPlace f A
+        A
+
     /// Fold a function over all matrix elements.
     let inline fold (f: 'a -> float -> 'a) (acc0: 'a) (A: #Matrix<float>) =
         let n = A.RowCount
@@ -65,12 +141,6 @@ module Matrix =
             for j=0 to m-1 do
                 acc <- f i j acc (A.At(i,j))
         acc
-
-    /// Create a 2D array from a matrix.
-    let inline toArray2 (A: #Matrix<float>) =
-        let n = A.RowCount
-        let m = A.ColumnCount
-        Array2D.init n m (fun i j -> (A.Item(i,j)))
 
     /// Checks whether a predicate holds for all elements of a matrix.
     let inline forall (p: float -> bool) (A: #Matrix<float>) =
@@ -116,61 +186,9 @@ module Matrix =
             if j = A.ColumnCount then i <- i+1; j <- 0
         b
 
-    /// Map every matrix element using the given function.
-    let inline map (f: float -> float) (A: #Matrix<float>) =
-        let N = A.RowCount
-        let M = A.ColumnCount
-        let C = A.Clone()
-        for i=0 to N-1 do
-            for j=0 to M-1 do
-                C.At(i, j, f (C.At(i,j)))
-        C
-
-    /// Map every matrix element using the given position dependent function.
-    let inline mapi (f: int -> int -> float -> float) (A: #Matrix<float>) =
-        let N = A.RowCount
-        let M = A.ColumnCount
-        let C = A.Clone()
-        for i=0 to N-1 do
-            for j=0 to M-1 do
-                C.At(i, j, f i j (C.At(i,j)))
-        C
-
-    /// In-place map every matrix column using the given position dependent function.
-    let inline inplaceMapCols (f: int -> Vector<float> -> Vector<float>) (A: #Matrix<float>) =
-        for j = 0 to A.ColumnCount-1 do
-            A.SetColumn(j, f j (A.Column(j)))
-        ()
-
-    /// In-place map every matrix row using the given position dependent function.
-    let inline inplaceMapRows (f: int -> Vector<float> -> Vector<float>) (A: #Matrix<float>) =
-        for i = 0 to A.RowCount-1 do
-            A.SetRow(i, f i (A.Row(i)))
-        ()
-
-    /// Map every matrix column using the given position dependent function.
-    let inline mapCols (f: int -> Vector<float> -> Vector<float>) (A: #Matrix<float>) =
-        let A = A.Clone()
-        inplaceMapCols f A
-        A
-
-    /// Map every matrix row using the given position dependent function.
-    let inline mapRows (f: int -> Vector<float> -> Vector<float>) (A: #Matrix<float>) =
-        let A = A.Clone()
-        inplaceMapRows f A
-        A
-
     /// In-place assignment.
     let inline inplaceAssign (f: int -> int -> float) (A: #Matrix<float>) =
-        for i=0 to A.RowCount-1 do
-            for j=0 to A.ColumnCount-1 do
-                A.At(i, j, f i j)
-
-    /// In-place map of every matrix element using a position dependent function.
-    let inline inplaceMapi (f: int -> int -> float -> float) (A: #Matrix<float>) =
-        for i=0 to A.RowCount-1 do
-            for j=0 to A.ColumnCount-1 do
-                A.At(i, j, f i j (A.At(i,j)))
+        A.MapIndexedInplace((fun i j x -> f i j), true)
 
     /// Creates a sequence that iterates the non-zero entries in the matrix.
     let inline nonZeroEntries (A: #Matrix<float>) =
@@ -199,14 +217,12 @@ module Matrix =
         for i=0 to A.RowCount-1 do
             for j=0 to A.ColumnCount-1 do
                 f (A.At(i,j))
-        ()
 
     /// Iterates over all elements of a matrix using the element indices.
     let inline iteri (f: int -> int -> float -> unit) (A: #Matrix<float>) =
         for i=0 to A.RowCount-1 do
             for j=0 to A.ColumnCount-1 do
                 f i j (A.At(i,j))
-        ()
 
     /// Fold one column.
     let inline foldCol (f: 'a -> float -> 'a) acc (A: #Matrix<float>) k =
@@ -246,42 +262,59 @@ module Matrix =
 [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
 module DenseMatrix =
 
-    /// Initialize a matrix by calling a construction function for every element.
-    let inline init (n: int) (m: int) f =
-        let A = new DenseMatrix(n,m)
-        for i=0 to n-1 do
-            for j=0 to m-1 do
-                A.At(i, j, f i j)
-        A
+    /// Create a matrix that directly binds to a raw storage array in column-major (column by column) format, without copying.
+    let inline raw (rows: int) (cols: int) (columnMajor: float[]) = DenseMatrix(rows, cols, columnMajor)
 
-    /// Create a matrix from a list of float lists. Every list in the master list specifies a row.
-    let inline ofList (fll: float list list) =
-        let n = List.length fll
-        let m = List.length (List.head fll)
-        let A = DenseMatrix(n,m)
-        fll |> List.iteri (fun i fl ->
-                            if (List.length fl) <> m then failwith "Each subrow must be of the same length." else
-                            List.iteri (fun j f -> A.At(i,j,f)) fl)
-        A
+    /// Create an all-zero matrix with the given dimension.
+    let inline zeroCreate (rows: int) (cols: int) = DenseMatrix(rows, cols)
+
+    /// Create a random matrix with the given dimension and value distribution.
+    let inline randomCreate (rows: int) (cols: int) dist = DenseMatrix.CreateRandom(rows, cols, dist)
+
+    /// Create a matrix with the given dimension and set all values to x.
+    let inline create (rows: int) (cols: int) x = DenseMatrix.Create(rows, cols, fun i j -> x)
+
+    /// Initialize a matrix by calling a construction function for every element.
+    let inline init (rows: int) (cols: int) (f: int -> int -> float) = DenseMatrix.Create(rows, cols, fun i j -> f i j)
+
+    /// Create a matrix from a 2D array of floating point numbers.
+    let inline ofArray2 array = DenseMatrix.OfArray(array)
 
     /// Create a matrix from a list of sequences. Every sequence in the master sequence specifies a row.
+    /// If the dimensions are known, consider to use ofRowSeq instead to avoid multiple enumeration.
     let inline ofSeq (fss: #seq<#seq<float>>) =
         let n = Seq.length fss
         let m = Seq.length (Seq.head fss)
-        let A = DenseMatrix(n,m)
-        fss |> Seq.iteri (fun i fs ->
-                            if (Seq.length fs) <> m then failwith "Each subrow must be of the same length." else
-                            Seq.iteri (fun j f -> A.At(i,j,f)) fs)
-        A
+        DenseMatrix.OfRowsCovariant(n, m, fss)
 
-    /// Create a matrix from a 2D array of floating point numbers.
-    let inline ofArray2 (arr: float[,]) = new DenseMatrix(arr)
+    /// Create a matrix from a list of float lists. Every list in the master list specifies a row.
+    /// If the dimensions are known, consider to use ofRowList instead to avoid multiple enumeration.
+    let inline ofList (fll: float list list) =
+        let n = List.length fll
+        let m = List.length (List.head fll)
+        DenseMatrix.OfRowsCovariant(n, m, fll)
+
+    /// Create a matrix from a list of sequences. Every sequence in the master sequence specifies a row.
+    let inline ofRows (rows: int) (cols: int) (fss: #seq<#seq<float>>) = DenseMatrix.OfRowsCovariant(rows, cols, fss)
+
+    /// Create a matrix from a list of float lists. Every list in the master list specifies a row.
+    let inline ofRowsList (rows: int) (cols: int) (fll: float list list) = DenseMatrix.OfRowsCovariant(rows, cols, fll)
+
+    /// Create a matrix from a list of sequences. Every sequence in the master sequence specifies a column.
+    let inline ofColumns (rows: int) (cols: int) (fss: #seq<#seq<float>>) = DenseMatrix.OfColumnsCovariant(rows, cols, fss)
+
+    /// Create a matrix from a list of float lists. Every list in the master list specifies a column.
+    let inline ofColumnsList (rows: int) (cols: int) (fll: float list list) = DenseMatrix.OfColumnsCovariant(rows, cols, fll)
+
+    /// Create a matrix with a given dimension from an indexed sequences of row, column, value tuples.
+    let inline ofSeqi (rows: int) (cols: int) (fs: #seq<int * int * float>) = DenseMatrix.OfIndexed(rows, cols, fs)
+
+    /// Create a matrix with a given dimension from an indexed list of row, column, value tuples.
+    let inline ofListi (rows: int) (cols: int) (fl: list<int * int * float>) = DenseMatrix.OfIndexed(rows, cols, Seq.ofList fl)
 
     /// Create a matrix with the given entries.
-    let inline initDense (n: int) (m: int) (es: #seq<int * int * float>) =
-        let A = new DenseMatrix(n,m)
-        Seq.iter (fun (i,j,f) -> A.At(i,j,f)) es
-        A
+    [<System.ObsoleteAttribute("Use ofSeqi instead. Scheduled for removal in v3.0.")>]
+    let inline initDense (rows: int) (cols: int) (es: #seq<int * int * float>) = ofSeqi rows cols es
 
     /// Create a square matrix with constant diagonal entries.
     let inline constDiag (n: int) (f: float) =
@@ -294,37 +327,59 @@ module DenseMatrix =
     let inline diag (v: #Vector<float>) =
         let n = v.Count
         let A = new DenseMatrix(n,n)
-        for i=0 to n-1 do
-            A.At(i,i,v.At(i))
+        A.SetDiagonal(v)
         A
 
     /// Initialize a matrix by calling a construction function for every row.
-    let inline initRow (n: int) (m: int) (f: int -> #Vector<float>) =
-        let A = new DenseMatrix(n,m)
-        for i=0 to n-1 do A.SetRow(i, f i)
+    let inline initRow (rows: int) (cols: int) (f: int -> #Vector<float>) =
+        let A = new DenseMatrix(rows,cols)
+        for i=0 to rows-1 do A.SetRow(i, f i)
         A
 
     /// Initialize a matrix by calling a construction function for every column.
-    let inline initCol (n: int) (m: int) (f: int -> #Vector<float>) =
-        let A = new DenseMatrix(n,m)
-        for i=0 to m-1 do A.SetColumn(i, f i)
+    let inline initCol (rows: int) (cols: int) (f: int -> #Vector<float>) =
+        let A = new DenseMatrix(rows,cols)
+        for i=0 to cols-1 do A.SetColumn(i, f i)
         A
 
 /// A module which implements functional sparse vector operations.
 [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
 module SparseMatrix =
 
-    /// Create a matrix from a list of float lists. Every list in the master list specifies a row.
-    let inline ofList (rows: int) (cols: int) (fll: list<int * int * float>) =
-        let A = new SparseMatrix(rows, cols)
-        fll |> List.iter (fun (i, j, x) -> A.At(i,j,x))
-        A
+    /// Create an all-zero matrix with the given dimension.
+    let inline zeroCreate (rows: int) (cols: int) = SparseMatrix(rows, cols)
+
+    /// Initialize a matrix by calling a construction function for every element.
+    let inline init (rows: int) (cols: int) (f: int -> int -> float) = SparseMatrix.Create(rows, cols, fun n m -> f n m)
+
+    /// Create a matrix from a 2D array of floating point numbers.
+    let inline ofArray2 array = SparseMatrix.OfArray(array)
+
+    /// Create a matrix with a given dimension from an indexed sequences of row, column, value tuples.
+    [<System.ObsoleteAttribute("Use ofSeqi instead. Will be changed to expect a non-indexed seq in a future version.")>]
+    let inline ofSeq (rows: int) (cols: int) (fs: #seq<int * int * float>) = SparseMatrix.OfIndexed(rows, cols, fs)
+
+    /// Create a matrix with a given dimension from an indexed list of row, column, value tuples.
+    [<System.ObsoleteAttribute("Use ofListi instead. Will be changed to expect a non-indexed list in a future version.")>]
+    let inline ofList (rows: int) (cols: int) (fl: list<int * int * float>) = SparseMatrix.OfIndexed(rows, cols, Seq.ofList fl)
 
     /// Create a matrix from a list of sequences. Every sequence in the master sequence specifies a row.
-    let inline ofSeq (rows: int) (cols: int) (fss: #seq<int * int * float>) =
-        let A = new SparseMatrix(rows, cols)
-        fss |> Seq.iter (fun (i, j, x) -> A.At(i,j,x))
-        A
+    let inline ofRows (rows: int) (cols: int) (fss: #seq<#seq<float>>) = SparseMatrix.OfRowsCovariant(rows, cols, fss)
+
+    /// Create a matrix from a list of float lists. Every list in the master list specifies a row.
+    let inline ofRowsList (rows: int) (cols: int) (fll: float list list) = SparseMatrix.OfRowsCovariant(rows, cols, fll)
+
+    /// Create a matrix from a list of sequences. Every sequence in the master sequence specifies a column.
+    let inline ofColumns (rows: int) (cols: int) (fss: #seq<#seq<float>>) = SparseMatrix.OfColumnsCovariant(rows, cols, fss)
+
+    /// Create a matrix from a list of float lists. Every list in the master list specifies a column.
+    let inline ofColumnsList (rows: int) (cols: int) (fll: float list list) = SparseMatrix.OfColumnsCovariant(rows, cols, fll)
+
+    /// Create a matrix with a given dimension from an indexed sequences of row, column, value tuples.
+    let inline ofSeqi (rows: int) (cols: int) (fs: #seq<int * int * float>) = SparseMatrix.OfIndexed(rows, cols, fs)
+
+    /// Create a matrix with a given dimension from an indexed list of row, column, value tuples.
+    let inline ofListi (rows: int) (cols: int) (fl: list<int * int * float>) = SparseMatrix.OfIndexed(rows, cols, Seq.ofList fl)
 
     /// Create a square matrix with constant diagonal entries.
     let inline constDiag (n: int) (f: float) =
@@ -337,18 +392,17 @@ module SparseMatrix =
     let inline diag (v: #Vector<float>) =
         let n = v.Count
         let A = new SparseMatrix(n,n)
-        for i=0 to n-1 do
-            A.At(i,i, v.At i)
+        A.SetDiagonal(v)
         A
 
     /// Initialize a matrix by calling a construction function for every row.
-    let inline initRow (n: int) (m: int) (f: int -> #Vector<float>) =
-        let A = new SparseMatrix(n,m)
-        for i=0 to n-1 do A.SetRow(i, f i)
+    let inline initRow (rows: int) (cols: int) (f: int -> #Vector<float>) =
+        let A = new SparseMatrix(rows,cols)
+        for i=0 to rows-1 do A.SetRow(i, f i)
         A
 
     /// Initialize a matrix by calling a construction function for every column.
-    let inline initCol (n: int) (m: int) (f: int -> #Vector<float>) =
-        let A = new SparseMatrix(n,m)
-        for i=0 to m-1 do A.SetColumn(i, f i)
+    let inline initCol (rows: int) (cols: int) (f: int -> #Vector<float>) =
+        let A = new SparseMatrix(rows,cols)
+        for i=0 to cols-1 do A.SetColumn(i, f i)
         A

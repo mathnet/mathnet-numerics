@@ -57,7 +57,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
         /// <param name="matrix">The matrix to factor.</param>
         /// <param name="computeVectors">Compute the singular U and VT vectors or not.</param>
         /// <exception cref="ArgumentNullException">If <paramref name="matrix"/> is <c>null</c>.</exception>
-        /// <exception cref="ArgumentException">If SVD algorithm failed to converge with matrix <paramref name="matrix"/>.</exception>
+        /// <exception cref="NonConvergenceException"></exception>
         public UserSvd(Matrix<Complex32> matrix, bool computeVectors)
         {
             if (matrix == null)
@@ -356,7 +356,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
                 // throw exception that Convergence Failed
                 if (iter >= Maxiter)
                 {
-                     throw new ArgumentException(Resources.ConvergenceFailed);
+                    throw new NonConvergenceException();
                 }
 
                 // This section of the program inspects for negligible elements in the s and e arrays. On

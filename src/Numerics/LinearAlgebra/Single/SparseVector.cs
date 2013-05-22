@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2011 Math.NET
+// Copyright (c) 2009-2013 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -30,18 +30,17 @@
 
 namespace MathNet.Numerics.LinearAlgebra.Single
 {
+    using Generic;
+    using Storage;
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Globalization;
     using System.Linq;
-    using Generic;
-    using NumberTheory;
-    using Storage;
     using Threading;
-    using System.Diagnostics;
 
     /// <summary>
-    /// A vector with sparse storage.
+    /// A vector with sparse storage, intended for very large vectors where most of the cells are zero.
     /// </summary>
     /// <remarks>The sparse vector is not thread safe.</remarks>
     [Serializable]
@@ -60,7 +59,10 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SparseVector"/> class.
+        /// Create a new sparse vector straight from an initialized vector storage instance.
+        /// The storage is used directly without copying.
+        /// Intended for advanced scenarios where you're working directly with
+        /// storage for performance or interop reasons.
         /// </summary>
         public SparseVector(SparseVectorStorage<float> storage)
             : base(storage)
@@ -69,77 +71,87 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SparseVector"/> class with a given size.
+        /// Create a new sparse vector with the given length.
+        /// All cells of the vector will be initialized to zero.
+        /// Zero-length vectors are not supported.
         /// </summary>
-        /// <param name="size">
-        /// the size of the vector.
-        /// </param>
-        /// <exception cref="ArgumentException">
-        /// If <paramref name="size"/> is less than one.
-        /// </exception>
-        public SparseVector(int size)
-            : this(new SparseVectorStorage<float>(size))
+        /// <exception cref="ArgumentException">If length is less than one.</exception>
+        public SparseVector(int length)
+            : this(new SparseVectorStorage<float>(length))
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SparseVector"/> class with a given size
-        /// and each element set to the given value;
+        /// Create a new sparse vector as a copy of the given other vector.
+        /// This new vector will be independent from the other vector.
+        /// A new memory block will be allocated for storing the vector.
         /// </summary>
-        /// <param name="size">
-        /// the size of the vector.
-        /// </param>
-        /// <param name="value">
-        /// the value to set each element to.
-        /// </param>
-        /// <exception cref="ArgumentException">
-        /// If <paramref name="size"/> is less than one.
-        /// </exception>
+        public static SparseVector OfVector(Vector<float> vector)
+        {
+            return new SparseVector(SparseVectorStorage<float>.OfVector(vector.Storage));
+        }
+
+        /// <summary>
+        /// Create a new sparse vector as a copy of the given enumerable.
+        /// This new vector will be independent from the enumerable.
+        /// A new memory block will be allocated for storing the vector.
+        /// </summary>
+        public static SparseVector OfEnumerable(IEnumerable<float> enumerable)
+        {
+            return new SparseVector(SparseVectorStorage<float>.OfEnumerable(enumerable));
+        }
+
+        /// <summary>
+        /// Create a new sparse vector as a copy of the given indexed enumerable.
+        /// Keys must be provided at most once, zero is assumed if a key is omitted.
+        /// This new vector will be independent from the enumerable.
+        /// A new memory block will be allocated for storing the vector.
+        /// </summary>
+        public static SparseVector OfIndexedEnumerable(int length, IEnumerable<Tuple<int, float>> enumerable)
+        {
+            return new SparseVector(SparseVectorStorage<float>.OfIndexedEnumerable(length, enumerable));
+        }
+
+        /// <summary>
+        /// Create a new sparse vector and initialize each value using the provided init function.
+        /// </summary>
+        public static SparseVector Create(int length, Func<int, float> init)
+        {
+            return new SparseVector(SparseVectorStorage<float>.OfInit(length, init));
+        }
+
+        /// <summary>
+        /// Create a new sparse vector with the given length.
+        /// All cells of the vector will be initialized with the provided value.
+        /// Zero-length vectors are not supported.
+        /// </summary>
+        /// <exception cref="ArgumentException">If length is less than one.</exception>
         [Obsolete("Use a dense vector instead. Scheduled for removal in v3.0.")]
-        public SparseVector(int size, float value)
-            : this(new SparseVectorStorage<float>(size))
+        public SparseVector(int length, float value)
+            : this(SparseVectorStorage<float>.OfInit(length, i => value))
         {
-            if (value == 0.0)
-            {
-                return;
-            }
-
-            var valueCount = _storage.ValueCount = size;
-            var indices = _storage.Indices = new int[valueCount];
-            var values = _storage.Values = new float[valueCount];
-
-            for (int i = 0; i < values.Length; i++)
-            {
-                values[i] = value;
-                indices[i] = i;
-            }
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SparseVector"/> class by
-        /// copying the values from another.
+        /// Create a new sparse vector as a copy of the given other vector.
+        /// This new vector will be independent from the other vector.
+        /// A new memory block will be allocated for storing the vector.
         /// </summary>
-        /// <param name="other">
-        /// The vector to create the new vector from.
-        /// </param>
+        [Obsolete("Use SparseVector.OfVector instead. Scheduled for removal in v3.0.")]
         public SparseVector(Vector<float> other)
-            : this(new SparseVectorStorage<float>(other.Count))
+            : this(SparseVectorStorage<float>.OfVector(other.Storage))
         {
-            other.Storage.CopyToUnchecked(Storage, skipClearing: true);
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SparseVector"/> class for an array.
+        /// Create a new sparse vector as a copy of the given enumerable.
+        /// This new vector will be independent from the enumerable.
+        /// A new memory block will be allocated for storing the vector.
         /// </summary>
-        /// <param name="array">The array to create this vector from.</param>
-        /// <remarks>The vector copy the array. Any changes to the vector will NOT change the array.</remarks>
-        public SparseVector(IList<float> array)
-            : this(new SparseVectorStorage<float>(array.Count))
+        [Obsolete("Use SparseVector.OfEnumerable instead. Scheduled for removal in v3.0.")]
+        public SparseVector(IEnumerable<float> other)
+            : this(SparseVectorStorage<float>.OfEnumerable(other))
         {
-            for (var i = 0; i < array.Count; i++)
-            {
-                Storage.At(i, array[i]);
-            }
         }
 
         /// <summary>
@@ -978,39 +990,11 @@ namespace MathNet.Numerics.LinearAlgebra.Single
                 value = value.Substring(1, value.Length - 2).Trim();
             }
 
-            // keywords
-            var textInfo = formatProvider.GetTextInfo();
-            var keywords = new[] { textInfo.ListSeparator };
-
-            // lexing
-            var tokens = new LinkedList<string>();
-            GlobalizationHelper.Tokenize(tokens.AddFirst(value), keywords, 0);
-            var token = tokens.First;
-
-            if (token == null || tokens.Count.IsEven())
-            {
-                throw new FormatException();
-            }
-
             // parsing
-            var data = new float[(tokens.Count + 1) >> 1];
-            for (var i = 0; i < data.Length; i++)
-            {
-                if (token == null || token.Value == textInfo.ListSeparator)
-                {
-                    throw new FormatException();
-                }
-
-                data[i] = float.Parse(token.Value, NumberStyles.Any, formatProvider);
-
-                token = token.Next;
-                if (token != null)
-                {
-                    token = token.Next;
-                }
-            }
-
-            return new SparseVector(data);
+            var tokens = value.Split(new[] { formatProvider.GetTextInfo().ListSeparator, " ", "\t" }, StringSplitOptions.RemoveEmptyEntries);
+            var data = tokens.Select(t => Single.Parse(t, NumberStyles.Any, formatProvider)).ToList();
+            if (data.Count == 0) throw new FormatException();
+            return OfEnumerable(data);
         }
 
         /// <summary>
@@ -1073,14 +1057,9 @@ namespace MathNet.Numerics.LinearAlgebra.Single
 
         #endregion
 
-        public override string ToString(string format, IFormatProvider formatProvider)
+        public override string ToTypeString()
         {
-            if (Count > 20)
-            {
-                return String.Format("SparseVectorOfSingle({0},{1},{2})", Count, _storage.ValueCount, GetHashCode());
-            }
-
-            return base.ToString(format, formatProvider);
+            return string.Format("SparseVector {0}-Single {1:P2} Filled", Count, NonZerosCount / (double)Count);
         }
     }
 }

@@ -3,7 +3,7 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
-// Copyright (c) 2009-2010 Math.NET
+// Copyright (c) 2009-2013 Math.NET
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -24,11 +24,11 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using MathNet.Numerics.LinearAlgebra.Generic.Factorization;
-
 namespace MathNet.Numerics.Algorithms.LinearAlgebra
 {
     using System;
+    using System.Numerics;
+    using Numerics.LinearAlgebra.Generic.Factorization;
     using Properties;
     using Threading;
 
@@ -70,7 +70,13 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
             {
                 if (Control.ParallelizeOperation(x.Length))
                 {
-                    CommonParallel.For(0, y.Length, index => result[index] = y[index] + x[index]);
+                    CommonParallel.For(0, y.Length, 4096, (a, b) =>
+                        {
+                            for (int i = a; i < b; i++)
+                            {
+                                result[i] = y[i] + x[i];
+                            }
+                        });
                 }
                 else
                 {
@@ -84,7 +90,13 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
             {
                 if (Control.ParallelizeOperation(x.Length))
                 {
-                    CommonParallel.For(0, y.Length, index => result[index] = y[index] + (alpha * x[index]));
+                    CommonParallel.For(0, y.Length, 4096, (a, b) =>
+                        {
+                            for (int i = a; i < b; i++)
+                            {
+                                result[i] = y[i] + (alpha*x[i]);
+                            }
+                        });
                 }
                 else
                 {
@@ -122,7 +134,13 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
             {
                 if (Control.ParallelizeOperation(x.Length))
                 {
-                    CommonParallel.For(0, x.Length, index => { result[index] = alpha * x[index]; });
+                    CommonParallel.For(0, x.Length, 4096, (a, b) =>
+                        {
+                            for (int i = a; i < b; i++)
+                            {
+                                result[i] = alpha*x[i];
+                            }
+                        });
                 }
                 else
                 {
@@ -202,7 +220,13 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
 
             if (Control.ParallelizeOperation(x.Length))
             {
-                CommonParallel.For(0, y.Length, index => { result[index] = x[index] + y[index]; });
+                CommonParallel.For(0, y.Length, 4096, (a, b) =>
+                    {
+                        for (int i = a; i < b; i++)
+                        {
+                            result[i] = x[i] + y[i];
+                        }
+                    });
             }
             else
             {
@@ -247,7 +271,13 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
 
             if (Control.ParallelizeOperation(x.Length))
             {
-                CommonParallel.For(0, y.Length, index => { result[index] = x[index] - y[index]; });
+                CommonParallel.For(0, y.Length, 4096, (a, b) =>
+                    {
+                        for (int i = a; i < b; i++)
+                        {
+                            result[i] = x[i] - y[i];
+                        }
+                    });
             }
             else
             {
@@ -292,7 +322,13 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
 
             if (Control.ParallelizeOperation(x.Length))
             {
-                CommonParallel.For(0, y.Length, index => { result[index] = x[index] * y[index]; });
+                CommonParallel.For(0, y.Length, 4096, (a, b) =>
+                    {
+                        for (int i = a; i < b; i++)
+                        {
+                            result[i] = x[i]*y[i];
+                        }
+                    });
             }
             else
             {
@@ -337,7 +373,13 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
 
             if (Control.ParallelizeOperation(x.Length))
             {
-                CommonParallel.For(0, y.Length, index => { result[index] = x[index] / y[index]; });
+                CommonParallel.For(0, y.Length, 4096, (a, b) =>
+                    {
+                        for (int i = a; i < b; i++)
+                        {
+                            result[i] = x[i]/y[i];
+                        }
+                    });
             }
             else
             {
@@ -675,7 +717,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <param name="first">Indicates if this is the first recursion.</param>
         private static void CacheObliviousMatrixMultiply(Transpose transposeA, Transpose transposeB, float alpha, float[] matrixA, int shiftArow, int shiftAcol, float[] matrixB, int shiftBrow, int shiftBcol, float[] result, int shiftCrow, int shiftCcol, int m, int n, int k, int constM, int constN, int constK, bool first)
         {
-            if (m + n + k <= Control.ParallelizeOrder)
+            if (m + n <= Control.ParallelizeOrder)
             {
                 if ((int)transposeA > 111 && (int)transposeB > 111)
                 {
@@ -1281,17 +1323,13 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
                 throw new ArgumentException(Resources.ArgumentReferenceDifferent);
             }
 
-            if (Control.ParallelizeOperation(columnsB * 10))
-            {
-                CommonParallel.For(0, columnsB, c => DoCholeskySolve(a, orderA, b, c));
-            }
-            else
-            {
-                for (var index = 0; index < columnsB; index++)
+            CommonParallel.For(0, columnsB, (u, v) =>
                 {
-                    DoCholeskySolve(a, orderA, b, index);
-                }
-            }
+                    for (int i = u; i < v; i++)
+                    {
+                        DoCholeskySolve(a, orderA, b, i);
+                    }
+                });
         }
 
         /// <summary>
@@ -1439,7 +1477,13 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
                 }
             }
 
-            CommonParallel.For(0, rowsR, i => q[(i * rowsR) + i] = 1.0f);
+            CommonParallel.For(0, rowsR, (a, b) =>
+                {
+                    for (int i = a; i < b; i++)
+                    {
+                        q[(i*rowsR) + i] = 1.0f;
+                    }
+                });
 
             var minmn = Math.Min(rowsR, columnsR);
             for (var i = 0; i < minmn; i++)
@@ -1648,14 +1692,14 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
             var tmp = column * rowCount;
             var index = tmp + row;
 
-            CommonParallel.For(
-                row,
-                rowCount,
-                i =>
+            CommonParallel.For(row, rowCount, (u, v) =>
                 {
-                    var iIndex = tmp + i;
-                    work[iIndex - row] = a[iIndex];
-                    a[iIndex] = 0.0f;
+                    for (int i = u; i < v; i++)
+                    {
+                        var iIndex = tmp + i;
+                        work[iIndex - row] = a[iIndex];
+                        a[iIndex] = 0.0f;
+                    }
                 });
 
             var norm = 0.0;
@@ -1680,11 +1724,23 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
             }
 
             a[index] = -1.0f / scale;
-            CommonParallel.For(0, rowCount - row, i => work[tmp + i] *= scale);
+            CommonParallel.For(0, rowCount - row, 4096, (u, v) =>
+                {
+                    for (int i = u; i < v; i++)
+                    {
+                        work[tmp + i] *= scale;
+                    }
+                });
             work[tmp] += 1.0f;
 
             var s = (float)Math.Sqrt(1.0 / work[tmp]);
-            CommonParallel.For(0, rowCount - row, i => work[tmp + i] *= s);
+            CommonParallel.For(0, rowCount - row, 4096, (u, v) =>
+                {
+                    for (int i = u; i < v; i++)
+                    {
+                        work[tmp + i] *= s;
+                    }
+                });
         }
 
         #endregion
@@ -1863,84 +1919,78 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
                 columnsQ = rowsR = columnsR = columnsA;
             }
 
-            if (r.Length != rowsR * columnsR)
+            if (r.Length != rowsR*columnsR)
             {
-                throw new ArgumentException(string.Format(Resources.ArgumentArrayWrongLength, rowsR * columnsR), "r");
+                throw new ArgumentException(string.Format(Resources.ArgumentArrayWrongLength, rowsR*columnsR), "r");
             }
 
-            if (q.Length != rowsQ * columnsQ)
+            if (q.Length != rowsQ*columnsQ)
             {
-                throw new ArgumentException(string.Format(Resources.ArgumentArrayWrongLength, rowsQ * columnsQ), "q");
+                throw new ArgumentException(string.Format(Resources.ArgumentArrayWrongLength, rowsQ*columnsQ), "q");
             }
 
-            if (b.Length != rowsA * columnsB)
+            if (b.Length != rowsA*columnsB)
             {
-                throw new ArgumentException(string.Format(Resources.ArgumentArrayWrongLength, rowsA * columnsB), "b");
+                throw new ArgumentException(string.Format(Resources.ArgumentArrayWrongLength, rowsA*columnsB), "b");
             }
 
-            if (x.Length != columnsA * columnsB)
+            if (x.Length != columnsA*columnsB)
             {
-                throw new ArgumentException(string.Format(Resources.ArgumentArrayWrongLength, columnsA * columnsB), "x");
+                throw new ArgumentException(string.Format(Resources.ArgumentArrayWrongLength, columnsA*columnsB), "x");
             }
 
             var sol = new float[b.Length];
 
             // Copy B matrix to "sol", so B data will not be changed
-            Buffer.BlockCopy(b, 0, sol, 0, b.Length * Constants.SizeOfFloat);
+            Buffer.BlockCopy(b, 0, sol, 0, b.Length*Constants.SizeOfFloat);
 
             // Compute Y = transpose(Q)*B
             var column = new float[rowsA];
             for (var j = 0; j < columnsB; j++)
             {
                 var jm = j * rowsA;
-                CommonParallel.For(0, rowsA, k => column[k] = sol[jm + k]);
-                CommonParallel.For(
-                    0,
-                    columnsA,
-                    i =>
+                Array.Copy(sol, jm, column, 0, rowsA);
+                CommonParallel.For(0, columnsA, (u, v) =>
                     {
-                        var im = i * rowsA;
-
-                        var sum = 0.0f;
-                        for (var k = 0; k < rowsA; k++)
+                        for (int i = u; i < v; i++)
                         {
-                            sum += q[im + k] * column[k];
-                        }
+                            var im = i*rowsA;
 
-                        sol[jm + i] = sum;
+                            var sum = 0.0f;
+                            for (var k = 0; k < rowsA; k++)
+                            {
+                                sum += q[im + k]*column[k];
+                            }
+
+                            sol[jm + i] = sum;
+                        }
                     });
             }
 
             // Solve R*X = Y;
             for (var k = columnsA - 1; k >= 0; k--)
             {
-                var km = k * rowsR;
+                var km = k*rowsR;
                 for (var j = 0; j < columnsB; j++)
                 {
-                    sol[(j * rowsA) + k] /= r[km + k];
+                    sol[(j*rowsA) + k] /= r[km + k];
                 }
 
                 for (var i = 0; i < k; i++)
                 {
                     for (var j = 0; j < columnsB; j++)
                     {
-                        var jm = j * rowsA;
-                        sol[jm + i] -= sol[jm + k] * r[km + i];
+                        var jm = j*rowsA;
+                        sol[jm + i] -= sol[jm + k]*r[km + i];
                     }
                 }
             }
 
             // Fill result matrix
-            CommonParallel.For(
-                0,
-                columnsR,
-                row =>
-                {
-                    for (var col = 0; col < columnsB; col++)
-                    {
-                        x[(col * columnsA) + row] = sol[row + (col * rowsA)];
-                    }
-                });
+            for (var col = 0; col < columnsB; col++)
+            {
+                Array.Copy(sol, col * rowsA, x, col * columnsA, columnsR);
+            }
         }
 
         /// <summary>
@@ -2010,6 +2060,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <param name="vt">If <paramref name="computeVectors"/> is <c>true</c>, on exit VT contains the transposed
         /// right singular vectors.</param>
         /// <param name="work">The work array. Length should be at least <paramref name="rowsA"/>.</param>
+        /// <exception cref="NonConvergenceException"></exception>
         public virtual void SingularValueDecomposition(bool computeVectors, float[] a, int rowsA, int columnsA, float[] s, float[] u, float[] vt, float[] work)
         {
             if (a == null)
@@ -2399,7 +2450,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
                 // If too many iterations have been performed throw exception.
                 if (iter >= Maxiter)
                 {
-                    throw new ArgumentException(Resources.ConvergenceFailed);
+                    throw new NonConvergenceException();
                 }
 
                 // This section of the program inspects for negligible elements in the s and e arrays,  
@@ -2883,6 +2934,98 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
                     }
 
                     x[(k * columnsA) + j] = value;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Computes the eigenvalues and eigenvectors of a matrix.
+        /// </summary>
+        /// <param name="isSymmetric">Wether the matrix is symmetric or not.</param>
+        /// <param name="order">The order of the matrix.</param>
+        /// <param name="matrix">The matrix to decompose. The lenth of the array must be order * order.</param>
+        /// <param name="matrixEv">On output, the matrix contains the eigen vectors. The lenth of the array must be order * order.</param>
+        /// <param name="vectorEv">On output, the eigen values (λ) of matrix in ascending value. The length of the arry must <paramref name="order"/>.</param>
+        /// <param name="matrixD">On output, the block diagonal eigenvalue matrix. The lenth of the array must be order * order.</param>
+        public virtual void EigenDecomp(bool isSymmetric, int order, float[] matrix, float[] matrixEv, Complex[] vectorEv, float[] matrixD)
+        {
+            if (matrix == null)
+            {
+                throw new ArgumentNullException("matrix");
+            }
+
+            if (matrix.Length != order * order)
+            {
+                throw new ArgumentException(String.Format(Resources.ArgumentArrayWrongLength, order * order), "matrix");
+            }
+
+            if (matrixEv == null)
+            {
+                throw new ArgumentNullException("matrixEv");
+            }
+
+            if (matrixEv.Length != order * order)
+            {
+                throw new ArgumentException(String.Format(Resources.ArgumentArrayWrongLength, order * order), "matrixEv");
+            }
+
+            if (vectorEv == null)
+            {
+                throw new ArgumentNullException("vectorEv");
+            }
+
+            if (vectorEv.Length != order)
+            {
+                throw new ArgumentException(String.Format(Resources.ArgumentArrayWrongLength, order), "vectorEv");
+            }
+
+            if (matrixD == null)
+            {
+                throw new ArgumentNullException("matrixD");
+            }
+
+            if (matrixD.Length != order * order)
+            {
+                throw new ArgumentException(String.Format(Resources.ArgumentArrayWrongLength, order * order), "matrixD");
+            }
+
+            var d = new float[order];
+            var e = new float[order];
+
+            if (isSymmetric)
+            {
+                Buffer.BlockCopy(matrix, 0, matrixEv, 0, matrix.Length * Constants.SizeOfFloat);
+                var om1 = order - 1;
+                for (var i = 0; i < order; i++)
+                {
+                    d[i] = matrixEv[i * order + om1];
+                }
+
+                Numerics.LinearAlgebra.Single.Factorization.DenseEvd.SymmetricTridiagonalize(matrixEv, d, e, order);
+                Numerics.LinearAlgebra.Single.Factorization.DenseEvd.SymmetricDiagonalize(matrixEv, d, e, order);
+            }
+            else
+            {
+                var matrixH = new float[matrix.Length];
+                Buffer.BlockCopy(matrix, 0, matrixH, 0, matrix.Length * Constants.SizeOfFloat);
+                Numerics.LinearAlgebra.Single.Factorization.DenseEvd.NonsymmetricReduceToHessenberg(matrixEv, matrixH, order);
+                Numerics.LinearAlgebra.Single.Factorization.DenseEvd.NonsymmetricReduceHessenberToRealSchur(matrixEv, matrixH, d, e, order);
+            }
+
+            for (var i = 0; i < order; i++)
+            {
+                vectorEv[i] = new Complex(d[i], e[i]);
+
+                var io = i * order;
+                matrixD[io + i] = d[i];
+
+                if (e[i] > 0)
+                {
+                    matrixD[io + order + i] = e[i];
+                }
+                else if (e[i] < 0)
+                {
+                    matrixD[io - order + i] = e[i];
                 }
             }
         }

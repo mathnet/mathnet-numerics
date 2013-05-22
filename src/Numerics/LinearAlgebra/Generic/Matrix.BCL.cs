@@ -30,6 +30,7 @@
 
 using System;
 using System.Diagnostics;
+using System.Text;
 
 namespace MathNet.Numerics.LinearAlgebra.Generic
 {
@@ -74,17 +75,6 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
             return Storage.GetHashCode();
         }
 
-        /// <summary>
-        /// Returns a <see cref="System.String"/> that represents this instance.
-        /// </summary>
-        /// <returns>
-        /// A <see cref="System.String"/> that represents this instance.
-        /// </returns>
-        public override string ToString()
-        {
-            return ToString(null, null);
-        }
-
 #if !PORTABLE
 
         /// <summary>
@@ -100,7 +90,140 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
 
 #endif
 
+        /// <summary>
+        /// Returns a <see cref="System.String"/> that describes the type, dimensions and shape of this matrix.
+        /// </summary>
+        public virtual string ToTypeString()
+        {
+            return string.Format("{0} {1}x{2}-{3}", GetType().Name, RowCount, ColumnCount, typeof(T).Name);
+        }
 
+        /// <summary>
+        /// Returns a <see cref="System.String"/> that represents the content of this matrix.
+        /// </summary>
+        public string ToMatrixString(int maxRows, int maxColumns, IFormatProvider provider = null)
+        {
+            return ToMatrixString(maxRows, maxColumns, 12, "G6", provider);
+        }
 
+        /// <summary>
+        /// Returns a <see cref="System.String"/> that represents the content of this matrix.
+        /// </summary>
+        public string ToMatrixString(int maxRows, int maxColumns, int padding, string format = null, IFormatProvider provider = null)
+        {
+            int rowN = RowCount <= maxRows ? RowCount : maxRows < 3 ? maxRows : maxRows - 1;
+            bool rowDots = maxRows < RowCount;
+            bool rowLast = rowDots && maxRows > 2;
+
+            int colN = ColumnCount <= maxColumns ? ColumnCount : maxColumns < 3 ? maxColumns : maxColumns - 1;
+            bool colDots = maxColumns < ColumnCount;
+            bool colLast = colDots && maxColumns > 2;
+
+            const string separator = " ";
+            const string dots = "...";
+            string pdots = "...".PadLeft(padding);
+
+            if (format == null)
+            {
+                format = "G8";
+            }
+
+            var stringBuilder = new StringBuilder();
+
+            for (var row = 0; row < rowN; row++)
+            {
+                if (row > 0)
+                {
+                    stringBuilder.Append(Environment.NewLine);
+                }
+                stringBuilder.Append(At(row, 0).ToString(format, provider).PadLeft(padding));
+                for (var column = 1; column < colN; column++)
+                {
+                    stringBuilder.Append(separator);
+                    stringBuilder.Append(At(row, column).ToString(format, provider).PadLeft(padding));
+                }
+                if (colDots)
+                {
+                    stringBuilder.Append(separator);
+                    stringBuilder.Append(dots);
+                    if (colLast)
+                    {
+                        stringBuilder.Append(separator);
+                        stringBuilder.Append(At(row, ColumnCount - 1).ToString(format, provider).PadLeft(12));
+                    }
+                }
+            }
+
+            if (rowDots)
+            {
+                stringBuilder.Append(Environment.NewLine);
+                stringBuilder.Append(pdots);
+                for (var column = 1; column < colN; column++)
+                {
+                    stringBuilder.Append(separator);
+                    stringBuilder.Append(pdots);
+                }
+                if (colDots)
+                {
+                    stringBuilder.Append(separator);
+                    stringBuilder.Append(dots);
+                    if (colLast)
+                    {
+                        stringBuilder.Append(separator);
+                        stringBuilder.Append(pdots);
+                    }
+                }
+            }
+
+            if (rowLast)
+            {
+                stringBuilder.Append(Environment.NewLine);
+                stringBuilder.Append(At(RowCount - 1, 0).ToString(format, provider).PadLeft(padding));
+                for (var column = 1; column < colN; column++)
+                {
+                    stringBuilder.Append(separator);
+                    stringBuilder.Append(At(RowCount - 1, column).ToString(format, provider).PadLeft(padding));
+                }
+                if (colDots)
+                {
+                    stringBuilder.Append(separator);
+                    stringBuilder.Append(dots);
+                    if (colLast)
+                    {
+                        stringBuilder.Append(separator);
+                        stringBuilder.Append(At(RowCount - 1, ColumnCount - 1).ToString(format, provider).PadLeft(padding));
+                    }
+                }
+            }
+
+            return stringBuilder.ToString();
+        }
+
+        /// <summary>
+        /// Returns a <see cref="System.String"/> that summarizes this matrix.
+        /// </summary>
+        public string ToString(int maxRows, int maxColumns, IFormatProvider provider = null)
+        {
+            return string.Concat(ToTypeString(), Environment.NewLine, ToMatrixString(maxRows, maxColumns, provider));
+        }
+
+        /// <summary>
+        /// Returns a <see cref="System.String"/> that summarizes this matrix.
+        /// The maximum number of cells can be configured in the <see cref="Control"/> class.
+        /// </summary>
+        public override sealed string ToString()
+        {
+            return string.Concat(ToTypeString(), Environment.NewLine, ToMatrixString(Control.MaxToStringRows, Control.MaxToStringColumns, null));
+        }
+
+        /// <summary>
+        /// Returns a <see cref="System.String"/> that summarizes this matrix.
+        /// The maximum number of cells can be configured in the <see cref="Control"/> class.
+        /// The format string is ignored.
+        /// </summary>
+        public string ToString(string format, IFormatProvider formatProvider)
+        {
+            return string.Concat(ToTypeString(), Environment.NewLine, ToMatrixString(Control.MaxToStringRows, Control.MaxToStringColumns, formatProvider));
+        }
     }
 }

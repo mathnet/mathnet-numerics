@@ -282,6 +282,100 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             return hash;
         }
 
+        // INITIALIZATION
+
+        public static SparseVectorStorage<T> OfVector(VectorStorage<T> vector)
+        {
+            var storage = new SparseVectorStorage<T>(vector.Length);
+            vector.CopyToUnchecked(storage, skipClearing: true);
+            return storage;
+        }
+
+        public static SparseVectorStorage<T> OfInit(int length, Func<int, T> init)
+        {
+            if (length < 1)
+            {
+                throw new ArgumentOutOfRangeException("length", string.Format(Resources.ArgumentLessThanOne, length));
+            }
+
+            var indices = new List<int>();
+            var values = new List<T>();
+            for (int i = 0; i < length; i++)
+            {
+                var item = init(i);
+                if (!Zero.Equals(item))
+                {
+                    values.Add(item);
+                    indices.Add(i);
+                }
+            }
+            return new SparseVectorStorage<T>(length)
+                {
+                    Indices = indices.ToArray(),
+                    Values = values.ToArray(),
+                    ValueCount = values.Count
+                };
+        }
+
+        public static SparseVectorStorage<T> OfEnumerable(IEnumerable<T> data)
+        {
+            if (data == null)
+            {
+                throw new ArgumentNullException("data");
+            }
+
+            var indices = new List<int>();
+            var values = new List<T>();
+            int index = 0;
+
+            foreach (T item in data)
+            {
+                if (!Zero.Equals(item))
+                {
+                    values.Add(item);
+                    indices.Add(index);
+                }
+                index++;
+            }
+
+            return new SparseVectorStorage<T>(index)
+                {
+                    Indices = indices.ToArray(),
+                    Values = values.ToArray(),
+                    ValueCount = values.Count
+                };
+        }
+
+        public static SparseVectorStorage<T> OfIndexedEnumerable(int length, IEnumerable<Tuple<int, T>> data)
+        {
+            if (data == null)
+            {
+                throw new ArgumentNullException("data");
+            }
+
+            var indices = new List<int>();
+            var values = new List<T>();
+            foreach (var item in data)
+            {
+                if (!Zero.Equals(item.Item2))
+                {
+                    values.Add(item.Item2);
+                    indices.Add(item.Item1);
+                }
+            }
+
+            var indicesArray = indices.ToArray();
+            var valuesArray = values.ToArray();
+            Sorting.Sort(indicesArray, valuesArray);
+
+            return new SparseVectorStorage<T>(length)
+                {
+                    Indices = indicesArray,
+                    Values = valuesArray,
+                    ValueCount = values.Count
+                };
+        }
+
         // ENUMERATION
 
         public override IEnumerable<T> Enumerate()
@@ -495,6 +589,76 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             {
                 target.At(Indices[i] + offset, Values[i]);
             }
+        }
+
+        // FUNCTIONAL COMBINATORS
+
+        public override void MapInplace(Func<T, T> f, bool forceMapZeros = false)
+        {
+            var indices = new List<int>();
+            var values = new List<T>();
+            if (forceMapZeros || !Zero.Equals(f(Zero)))
+            {
+                int k = 0;
+                for (int i = 0; i < Length; i++)
+                {
+                    var item = k < ValueCount && (Indices[k]) == i ? f(Values[k++]) : f(Zero);
+                    if (!Zero.Equals(item))
+                    {
+                        values.Add(item);
+                        indices.Add(i);
+                    }
+                }
+            }
+            else
+            {
+                for (int i = 0; i < ValueCount; i++)
+                {
+                    var item = f(Values[i]);
+                    if (!Zero.Equals(item))
+                    {
+                        values.Add(item);
+                        indices.Add(Indices[i]);
+                    }
+                }
+            }
+            Indices = indices.ToArray();
+            Values = values.ToArray();
+            ValueCount = values.Count;
+        }
+
+        public override void MapIndexedInplace(Func<int, T, T> f, bool forceMapZeros = false)
+        {
+            var indices = new List<int>();
+            var values = new List<T>();
+            if (forceMapZeros || !Zero.Equals(f(0, Zero)))
+            {
+                int k = 0;
+                for (int i = 0; i < Length; i++)
+                {
+                    var item = k < ValueCount && (Indices[k]) == i ? f(i, Values[k++]) : f(i, Zero);
+                    if (!Zero.Equals(item))
+                    {
+                        values.Add(item);
+                        indices.Add(i);
+                    }
+                }
+            }
+            else
+            {
+                for (int i = 0; i < ValueCount; i++)
+                {
+                    var item = f(Indices[i], Values[i]);
+                    if (!Zero.Equals(item))
+                    {
+                        values.Add(item);
+                        indices.Add(Indices[i]);
+                    }
+                }
+            }
+            Indices = indices.ToArray();
+            Values = values.ToArray();
+            ValueCount = values.Count;
         }
     }
 }

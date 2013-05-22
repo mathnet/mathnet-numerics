@@ -3,7 +3,9 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
-// Copyright (c) 2009-2010 Math.NET
+//
+// Copyright (c) 2009-2013 Math.NET
+//
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -12,8 +14,10 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
+//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
+//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -89,7 +93,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         public void CanCreateDenseVectorFromAnotherDenseVector()
         {
             var vector = new DenseVector(Data);
-            var other = new DenseVector(vector);
+            var other = DenseVector.OfVector(vector);
 
             Assert.AreNotSame(vector, other);
             for (var i = 0; i < Data.Length; i++)
@@ -105,7 +109,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         public void CanCreateDenseVectorFromAnotherVector()
         {
             var vector = (Vector<double>)new DenseVector(Data);
-            var other = new DenseVector(vector);
+            var other = DenseVector.OfVector(vector);
 
             Assert.AreNotSame(vector, other);
             for (var i = 0; i < Data.Length; i++)
@@ -121,7 +125,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         public void CanCreateDenseVectorFromUserDefinedVector()
         {
             var vector = new UserDefinedVector(Data);
-            var other = new DenseVector(vector);
+            var other = DenseVector.OfVector(vector);
 
             for (var i = 0; i < Data.Length; i++)
             {
@@ -135,7 +139,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [Test]
         public void CanCreateDenseVectorWithConstantValues()
         {
-            var vector = new DenseVector(5, 5);
+            var vector = DenseVector.Create(5, i => 5);
             foreach (var t in vector)
             {
                 Assert.AreEqual(t, 5);

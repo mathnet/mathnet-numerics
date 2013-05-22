@@ -28,6 +28,8 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System;
+
 namespace MathNet.Numerics.UnitTests.StatisticsTests
 {
     using NUnit.Framework;
@@ -36,7 +38,7 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
     /// <summary>
     /// Percentile tests.
     /// </summary>
-    [TestFixture]
+    [TestFixture, Obsolete]
     public class PercentileTests
     {
         /// <summary>
@@ -47,7 +49,7 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
         /// <summary>
         /// Can compute percentile using NIST method.
         /// </summary>
-        [Test]
+        [Test, Obsolete]
         public void CanComputePercentileUsingNistMethod()
         {
             var percentile = new Percentile(Data)
@@ -55,12 +57,13 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
                     Method = PercentileMethod.Nist
                 };
             Assert.AreEqual(95.19807, percentile.Compute(.9));
+            Assert.AreEqual(95.19807, Data.QuantileCustom(.9, QuantileDefinition.Nist));
         }
 
         /// <summary>
         /// Can compute percentile using excel method.
         /// </summary>
-        [Test]
+        [Test, Obsolete]
         public void CanComputePercentileUsingExcelMethod()
         {
             var percentile = new Percentile(Data)
@@ -68,12 +71,13 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
                     Method = PercentileMethod.Excel
                 };
             Assert.AreEqual(95.19568, percentile.Compute(.9));
+            Assert.AreEqual(95.19568, Data.QuantileCustom(.9, QuantileDefinition.Excel));
         }
 
         /// <summary>
         /// Can compute percentile using nearest method.
         /// </summary>
-        [Test]
+        [Test, Obsolete]
         public void CanComputePercentileUsingNearestMethod()
         {
             var percentile = new Percentile(Data)
@@ -81,12 +85,13 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
                     Method = PercentileMethod.Nearest
                 };
             Assert.AreEqual(95.1959, percentile.Compute(.9));
+            Assert.AreEqual(95.1959, Data.QuantileCustom(.9, QuantileDefinition.Nearest));
         }
 
         /// <summary>
         /// Can compute percentile using interpolation method
         /// </summary>
-        [Test]
+        [Test, Obsolete]
         public void CanComputePercentileUsingInterpolationMethod()
         {
             var data = new double[] {1, 2, 3, 4, 5};
@@ -94,33 +99,42 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
                 {
                     Method = PercentileMethod.Interpolation
                 };
+
             var values = new[] {.25, .5, .75};
             var percentiles = percentile.Compute(values);
             Assert.AreEqual(1.75, percentiles[0]);
             Assert.AreEqual(3.0, percentiles[1]);
             Assert.AreEqual(4.25, percentiles[2]);
+
+            var q = data.QuantileCustomFunc(QuantileDefinition.R5);
+            Assert.AreEqual(1.75, q(0.25));
+            Assert.AreEqual(3.0, q(0.5));
+            Assert.AreEqual(4.25, q(0.75));
         }
 
         /// <summary>
         /// Empty dataset returns NaN.
         /// </summary>
-        [Test]
+        [Test, Obsolete]
         public void EmptyDataSetReturnsNaN()
         {
             var data = new double[] {};
             var percentile = new Percentile(data);
             Assert.IsTrue(double.IsNaN(percentile.Compute(0)));
+            Assert.IsTrue(double.IsNaN(data.Quantile(0)));
         }
 
         /// <summary>
         /// Invalid percentile values return NaN.
         /// </summary>
-        [Test]
+        [Test, Obsolete]
         public void InvalidPercentileValuesReturnNaN()
         {
             var percentile = new Percentile(Data);
             Assert.IsTrue(double.IsNaN(percentile.Compute(-0.1)));
             Assert.IsTrue(double.IsNaN(percentile.Compute(1.1)));
+            Assert.IsTrue(double.IsNaN(Data.Quantile(-0.1)));
+            Assert.IsTrue(double.IsNaN(Data.Quantile(1.1)));
         }
     }
 }

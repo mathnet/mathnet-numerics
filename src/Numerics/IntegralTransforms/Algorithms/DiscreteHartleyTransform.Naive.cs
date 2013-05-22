@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2010 Math.NET
+// Copyright (c) 2009-2013 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -45,23 +45,23 @@ namespace MathNet.Numerics.IntegralTransforms.Algorithms
         /// <returns>Corresponding frequency-space vector.</returns>
         internal static double[] Naive(double[] samples)
         {
-            var w0 = Constants.Pi2 / samples.Length;
+            var w0 = Constants.Pi2/samples.Length;
             var spectrum = new double[samples.Length];
 
-            CommonParallel.For(
-                0, 
-                samples.Length,
-                index =>
+            CommonParallel.For(0, samples.Length, (u, v) =>
                 {
-                    var wk = w0 * index;
-                    var sum = 0.0;
-                    for (var n = 0; n < samples.Length; n++)
+                    for (int i = u; i < v; i++)
                     {
-                        var w = n * wk;
-                        sum += samples[n] * Constants.Sqrt2 * Math.Cos(w - Constants.PiOver4);
-                    }
+                        var wk = w0*i;
+                        var sum = 0.0;
+                        for (var n = 0; n < samples.Length; n++)
+                        {
+                            var w = n*wk;
+                            sum += samples[n]*Constants.Sqrt2*Math.Cos(w - Constants.PiOver4);
+                        }
 
-                    spectrum[index] = sum;
+                        spectrum[i] = sum;
+                    }
                 });
 
             return spectrum;

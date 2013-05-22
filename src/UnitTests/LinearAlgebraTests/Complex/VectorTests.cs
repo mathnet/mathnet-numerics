@@ -3,7 +3,9 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
-// Copyright (c) 2009-2010 Math.NET
+//
+// Copyright (c) 2009-2013 Math.NET
+//
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -12,8 +14,10 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
+//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
+//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -26,16 +30,15 @@
 
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
 {
-    using System;
-    using System.Collections;
-    using System.Collections.Generic;
-    using System.Globalization;
-    using System.Linq;
-    using System.Numerics;
     using Distributions;
     using LinearAlgebra.Complex;
     using LinearAlgebra.Generic;
     using NUnit.Framework;
+    using System;
+    using System.Collections;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Numerics;
 
     /// <summary>
     /// Abstract class with the common set of vector tests.
@@ -84,9 +87,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
         public void CanConvertVectorToString()
         {
             var vector = CreateVector(Data);
-            var str = vector.ToString();
-            var sep = CultureInfo.CurrentCulture.TextInfo.ListSeparator;
-            Assert.AreEqual(string.Format("(1{0} 1){1}(2{0} 1){1}(3{0} 1){1}(4{0} 1){1}(5{0} 1)", ",", sep), str);
+            var str = vector.ToVectorString(1, int.MaxValue, 1);
+            Assert.AreEqual("(1, 1) (2, 1) (3, 1) (4, 1) (5, 1)", str);
         }
 
         /// <summary>

@@ -73,7 +73,7 @@ namespace Examples.LinearAlgebra.FactorizationExamples
             formatProvider.TextInfo.ListSeparator = " ";
 
             // Create square matrix
-            var matrix = new DenseMatrix(new[,] { { 1.0, 2.0 }, { 3.0, 4.0 } });
+            var matrix = DenseMatrix.OfArray(new[,] { { 1.0, 2.0 }, { 3.0, 4.0 } });
             Console.WriteLine(@"Initial square matrix");
             Console.WriteLine(matrix.ToString("#0.00\t", formatProvider));
             Console.WriteLine();

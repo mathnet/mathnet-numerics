@@ -63,7 +63,7 @@ namespace Examples.LinearAlgebraExamples
         public void Run()
         {
             // 1. Initialize a new instance of the matrix from a 2D array. This constructor will allocate a completely new memory block for storing the dense matrix.
-            var matrix1 = new DenseMatrix(new[,] { { 1.0, 2.0, 3.0 }, { 4.0, 5.0, 6.0 } });
+            var matrix1 = DenseMatrix.OfArray(new[,] { { 1.0, 2.0, 3.0 }, { 4.0, 5.0, 6.0 } });
 
             // 2. Initialize a new instance of the empty square matrix with a given order.
             var matrix2 = new DenseMatrix(3);
@@ -72,7 +72,7 @@ namespace Examples.LinearAlgebraExamples
             var matrix3 = new DenseMatrix(2, 3);
 
             // 4. Initialize a new instance of the matrix with all entries set to a particular value.
-            var matrix4 = new DenseMatrix(2, 3, 3.0);
+            var matrix4 = DenseMatrix.Create(2, 3, (i, j) => 3.0);
 
             // 4. Initialize a new instance of the matrix from a one dimensional array. This array should store the matrix in column-major order. 
             var matrix5 = new DenseMatrix(2, 3, new[] { 1.0, 4.0, 2.0, 5.0, 3.0, 6.0 });
