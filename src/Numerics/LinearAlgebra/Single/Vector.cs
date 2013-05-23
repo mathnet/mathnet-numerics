@@ -146,6 +146,19 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         }
 
         /// <summary>
+        /// Divides a scalar by each element of the vector and stores the result in the result vector.
+        /// </summary>
+        /// <param name="scalar">The scalar to divide.</param>
+        /// <param name="result">The vector to store the result of the division.</param>
+        protected override void DoDivideByThis(float scalar, Vector<float> result)
+        {
+            for (var index = 0; index < Count; index++)
+            {
+                result.At(index, scalar / At(index));
+            }
+        }
+
+        /// <summary>
         /// Pointwise multiplies this vector with another vector and stores the result into the result vector.
         /// </summary>
         /// <param name="other">The vector to pointwise multiply with this one.</param>

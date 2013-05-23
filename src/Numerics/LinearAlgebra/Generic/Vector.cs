@@ -231,6 +231,13 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         protected abstract void DoDivide(T scalar, Vector<T> result);
 
         /// <summary>
+        /// Divides a scalar by each element of the vector and stores the result in the result vector.
+        /// </summary>
+        /// <param name="scalar">The scalar to divide.</param>
+        /// <param name="result">The vector to store the result of the division.</param>
+        protected abstract void DoDivideByThis(T scalar, Vector<T> result);
+
+        /// <summary>
         /// Computes the modulus for each element of the vector for the given divisor.
         /// </summary>
         /// <param name="divisor">The divisor to use.</param>
@@ -669,6 +676,40 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         }
 
         /// <summary>
+        /// Divides a scalar by each element of the vector.
+        /// </summary>
+        /// <param name="scalar">The scalar to divide.</param>
+        /// <returns>A new vector that is the division of the vector and the scalar.</returns>
+        public Vector<T> DevideByThis(T scalar)
+        {
+            var result = CreateVector(Count);
+            DoDivideByThis(scalar, result);
+            return result;
+        }
+
+        /// <summary>
+        /// Divides a scalar by each element of the vector and stores the result in the result vector.
+        /// </summary>
+        /// <param name="scalar">The scalar to divide.</param>
+        /// <param name="result">The vector to store the result of the division.</param>
+        /// <exception cref="ArgumentNullException">If the result vector is <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentException">If this vector and <paramref name="result"/> are not the same size.</exception>
+        public void DivideByThis(T scalar, Vector<T> result)
+        {
+            if (result == null)
+            {
+                throw new ArgumentNullException("result");
+            }
+
+            if (Count != result.Count)
+            {
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
+            }
+
+            DoDivideByThis(scalar, result);
+        }
+
+        /// <summary>
         /// Computes the modulus for each element of the vector for the given divisor.
         /// </summary>
         /// <param name="divisor">The divisor to use.</param>
@@ -1049,6 +1090,23 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         }
 
         /// <summary>
+        /// Divides a scalar with a vector.
+        /// </summary>
+        /// <param name="leftSide">The scalar to divide.</param>
+        /// <param name="rightSide">The vector.</param>
+        /// <returns>The result of the division.</returns>
+        /// <exception cref="ArgumentNullException">If <paramref name="rightSide"/> is <see langword="null" />.</exception>
+        public static Vector<T> operator /(T leftSide, Vector<T> rightSide)
+        {
+            if (rightSide == null)
+            {
+                throw new ArgumentNullException("rightSide");
+            }
+
+            return rightSide.DevideByThis(leftSide);
+        }
+
+        /// <summary>
         /// Divides a vector with a scalar.
         /// </summary>
         /// <param name="leftSide">The vector to divide.</param>
@@ -1063,6 +1121,24 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
             }
 
             return leftSide.Divide(rightSide);
+        }
+
+        /// <summary>
+        /// Pointwise divides two <strong>Vectors</strong>.
+        /// </summary>
+        /// <param name="leftSide">The vector to divide.</param>
+        /// <param name="rightSide">The other vector.</param>
+        /// <returns>The result of the division.</returns>
+        /// <exception cref="ArgumentException">If <paramref name="leftSide"/> and <paramref name="rightSide"/> are not the same size.</exception>
+        /// <exception cref="ArgumentNullException">If <paramref name="leftSide"/> is <see langword="null" />.</exception>
+        public static Vector<T> operator /(Vector<T> leftSide, Vector<T> rightSide)
+        {
+            if (leftSide == null)
+            {
+                throw new ArgumentNullException("leftSide");
+            }
+
+            return leftSide.PointwiseDivide(rightSide);
         }
 
         /// <summary>
