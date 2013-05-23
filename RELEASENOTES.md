@@ -35,14 +35,15 @@ v2.6.0 - TBA, work in progress
 - Most algorithms support a TryFind-pattern which returns success instead of throwing an exception. Simplifies  common fall-back scenarios and works with F# pattern matching (similar to TryParse from BCL).
 - Basic bracketing algorithm
 
-### Statistics & Distributions:
-
-- BUG: Fixed static sampling methods of the `Stable` distribution. *~Artyom Baranovskiy*
-- Spearman Rank Correlation Coefficient *~Iain McDonald*
-
 ### Linear Algebra:
 
-- BUG: Fixed exception text message when creating a matrix from enumerables (rows vs columns)
+- Native eigenvalue decomposition (EVD) support with our MKL packages *~Marcus Cuda*
+- BUG: Fixed exception text message when creating a matrix from enumerables (rows vs columns) *~Thomas Ibel*
+
+### Statistics & Distributions:
+
+- Spearman Rank Correlation Coefficient *~Iain McDonald*
+- BUG: Fixed static sampling methods of the `Stable` distribution. *~Artyom Baranovskiy*
 
 ### Misc:
 
@@ -64,18 +65,18 @@ Despite semver this release contains two changes that may break code but without
 
 - More consistent behavior for empty and single-element data sets: Min, Max, Mean, Variance, Standard Deviation etc. no longer throw exceptions if the data set is empty but instead return NaN. Variance and Standard Deviation will also return NaN if the set contains only a single entry. Population Variance and Population Standard Deviation will return 0 in this case.
 - Reworked order statistics (Quantile, Quartile, Percentile, IQR, Fivenum, etc.), now much easier to use and supporting compatibility with all 9 R-types, Excel and Mathematica. The obsolete Percentile class now leverages the new order statistics, fixing a range check bug as side effect.
-- New Hybrid Monte Carlo sampler for multivariate distributions.
-- New financial statistics: absolute risk and return measures.
+- New Hybrid Monte Carlo sampler for multivariate distributions. *~manyue*
+- New financial statistics: absolute risk and return measures. *~Phil Cleveland*
 - Explicit statistics for sorted arrays, unsorted arrays and sequences/streams. Faster algorithms on sorted data, also avoids multiple enumerations.
 - Some statistics like Quantile or empirical inverse CDF can optionally return a parametric function when multiple evaluations are needed, like for plotting.
 
 ### Linear Algebra:
 
 - More reasonable ToString behavior for matrices and vectors: `ToString` methods no longer render the whole structure to a string for large data, among others because they used to wreak havoc in debugging and interactive scenarios like F# FSI. Instead, ToString now only renders an excerpt of the data, together with a line about dimension, type and in case of sparse data a sparseness indicator. The intention is to give a good idea about the data in a visually useful way. How much data is shown can be adjusted in the Control class. See also ToTypeString and ToVector/MatrixString.
-- Performance: reworked and tuned common parallelization. Some operations are up to 3 magnitudes faster in some extreme cases. Replaced copy loops with native routines. More algorithms are storage-aware (and should thus perform better especially on sparse data).
-- Fixed range checks in the Thin-QR decomposition.
-- Fixed bug in Gram Schmidt for solving tall matrices.
-- Vectors now implement the BCL IList interfaces (fixed-length) for better integration with existing .Net code.
+- Performance: reworked and tuned common parallelization. Some operations are up to 3 magnitudes faster in some extreme cases. Replaced copy loops with native routines. More algorithms are storage-aware (and should thus perform better especially on sparse data). *~Thomas Ibel, Iain McDonald, Marcus Cuda*
+- Fixed range checks in the Thin-QR decomposition. *~Marcus Cuda*
+- Fixed bug in Gram Schmidt for solving tall matrices. *~Marcus Cuda*
+- Vectors now implement the BCL IList interfaces (fixed-length) for better integration with existing .Net code. *~Scott Stephens*
 - Matrix/Vector parsing has been updated to be able to parse the new visual format as well (see ToMatrixString).
 - DebuggerDisplay attributes for matrices and vectors.
 - Map/IndexedMap combinators with storage-aware and partially parallelized implementations for both dense and sparse data.
@@ -98,20 +99,20 @@ Despite semver this release contains two changes that may break code but without
 v2.4.0 - February 3, 2013
 -------------------------
 
-- Drops the dependency on the zlib library. We thus no longer have any dependencies on other packages.
-- Adds Modified Bessel & Struve special functions
-- Fixes a bug in our iterative kurtosis statistics formula
+- Drops the dependency on the zlib library. We thus no longer have any dependencies on other packages. *~Marcus Cuda, Thomas Ibel*
+- Adds Modified Bessel & Struve special functions *~Wei Wu*
+- Fixes a bug in our iterative kurtosis statistics formula *~Artyom Baranovskiy*
 
 ### Linear Algebra:
 
 - Performance work, this time mostly around accessing matrix rows/columns as vectors. Opting out from targeted patching in our matrix and vector indexers to allow inlining.
-- Fixes an issue around Thin-QR solve
+- Fixes an issue around Thin-QR solve *~Marcus Cuda*
 - Simplifications around using native linear algebra providers (see Math.NET Numerics With Native Linear Algebra)
 
 ### F#:
 
-- Adds the BigRational module from the F# PowerPack, now to be maintained here instead.
-- Better support for our Complex types (close to the F# PowerPack Complex type)
+- Adds the BigRational module from the F# PowerPack, now to be maintained here instead. *~Gustavo Guerra*
+- Better support for our Complex types (close to the F# PowerPack Complex type) *~Gustavo Guerra*
 
 
 v2.3.0 - November 25, 2012
