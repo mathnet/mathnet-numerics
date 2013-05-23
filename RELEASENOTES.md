@@ -12,6 +12,8 @@ NuGet Packages, available in the [NuGet Gallery](https://nuget.org/profiles/math
 - `MathNet.Numerics.FSharp` - optional extensions for a better F# experience
 - `MathNet.Numerics.MKL.Win-x86` - optional Linear Algebra MKL native provider
 - `MathNet.Numerics.MKL.Win-x64` - optional Linear Algebra MKL native provider
+- `MathNet.Numerics.MKL.Linux-x86` - optional Linear Algebra MKL native provider
+- `MathNet.Numerics.MKL.Linux-x64` - optional Linear Algebra MKL native provider
 - `MathNet.Numerics.Signed` - strong-named version of the core package (not recommended)
 - `MathNet.Numerics.Sample` - code samples in C#
 - `MathNet.Numerics.FSharp.Sample` - code samples in F#
