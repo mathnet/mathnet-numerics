@@ -23,6 +23,32 @@ Zip Packages, available on [CodePlex](http://mathnetnumerics.codeplex.com/releas
 
 Over time some members and classes have been replaced with more suitable alternatives. In order to maintain compatibility, such parts are not removed immediately but instead marked with the **Obsolete**-attribute. We strongly recommend to follow the instructions in the attribute text whenever you find any code calling an obsolete member, since we *do* intend to remove them at the next *major* release, v3.0.
 
+v2.6.0 - TBA, work in progress
+------------------------------
+
+### Root Finding:
+
+- We now provide basic root finding algorithms
+- Brent algorithm. *~Candy Chiu*
+- Bisection algorithm. *~Scott Stephens*
+- Hybrid versions of Newton-Raphson and Bisection that try to recover automatically in cases where they usually would fail. This modification makes them more robust e.g. in the presence of singularities and less sensitive to the search range/interval.
+- Most algorithms support a TryFind-pattern which returns success instead of throwing an exception. Simplifies  common fall-back scenarios and works with F# pattern matching (similar to TryParse from BCL).
+- Basic bracketing algorithm
+
+### Statistics & Distributions:
+
+- BUG: Fixed static sampling methods of the `Stable` distribution. *~Artyom Baranovskiy*
+- Spearman Rank Correlation Coefficient *~Iain McDonald*
+
+### Linear Algebra:
+
+- BUG: Fixed exception text message when creating a matrix from enumerables (rows vs columns)
+
+### Misc:
+
+- The F# extensions now have a strong name in (and only in) the signed package as well (previously had not been signed). *~Gauthier Segay*
+- Evaluate.Polynomial with new overload which is easier to use.
+
 v2.5.0 - April 14, 2013
 -----------------------
 
