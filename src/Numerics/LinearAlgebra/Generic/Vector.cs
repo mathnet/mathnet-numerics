@@ -881,7 +881,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
 
             for (var i = 0; i < u.Count; i++)
             {
-                matrix.SetRow(i, v.Multiply(u[i]));
+                matrix.SetRow(i, v.Multiply(u.At(i)));
             }
 
             return matrix;
@@ -1210,7 +1210,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <returns>The value of maximum element.</returns>
         public T Maximum()
         {
-            return this[MaximumIndex()];
+            return At(MaximumIndex());
         }
 
         /// <summary>
@@ -1225,7 +1225,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <returns>The value of the minimum element.</returns>
         public T Minimum()
         {
-            return this[MinimumIndex()];
+            return At(MinimumIndex());
         }
 
         /// <summary>
