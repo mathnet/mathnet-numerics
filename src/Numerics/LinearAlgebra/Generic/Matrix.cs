@@ -110,7 +110,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
             {
                 for (var i = 0; i < columnVectors[j].Count; i++)
                 {
-                    matrix.At(i, j, columnVectors[j][i]);
+                    matrix.At(i, j, columnVectors[j].At(i));
                 }
             }
 
@@ -149,7 +149,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
             {
                 for (var j = 0; j < rowVectors[i].Count; j++)
                 {
-                    matrix.At(i, j, rowVectors[i][j]);
+                    matrix.At(i, j, rowVectors[i].At(j));
                 }
             }
 
@@ -640,7 +640,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
 
             for (var i = 0; i < min; i++)
             {
-                diagonal[i] = At(i, i);
+                diagonal.At(i, At(i, i));
             }
 
             return diagonal;
@@ -962,7 +962,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
 
             for (var i = 0; i < min; i++)
             {
-                At(i, i, source[i]);
+                At(i, i, source.At(i));
             }
         }
 

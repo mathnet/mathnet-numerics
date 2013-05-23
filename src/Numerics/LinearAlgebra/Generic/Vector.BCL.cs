@@ -96,7 +96,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         {
             for (int i = 0; i < Count; ++i)
             {
-                if (this[i].Equals(item))
+                if (At(i).Equals(item))
                     return i;
             }
             return -1;
