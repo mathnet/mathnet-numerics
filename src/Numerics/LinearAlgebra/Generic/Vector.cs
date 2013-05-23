@@ -192,6 +192,17 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         protected abstract void DoSubtract(T scalar, Vector<T> result);
 
         /// <summary>
+        /// Subtracts each element of the vector from a scalar and stores the result in the result vector.
+        /// </summary>
+        /// <param name="scalar">The scalar to subtract from.</param>
+        /// <param name="result">The vector to store the result of the subtraction.</param>
+        protected virtual void DoSubtractFrom(T scalar, Vector<T> result)
+        {
+            DoNegate(result);
+            result.DoAdd(scalar, result);
+        }
+
+        /// <summary>
         /// Subtracts another vector to this vector and stores the result into the result vector.
         /// </summary>
         /// <param name="other">The vector to subtract from this one.</param>
@@ -389,6 +400,40 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
             }
 
             DoSubtract(scalar, result);
+        }
+
+        /// <summary>
+        /// Subtracts each element of the vector from a scalar.
+        /// </summary>
+        /// <param name="scalar">The scalar to subtract from.</param>
+        /// <returns>A new vector containing the subtraction of the scalar and this vector.</returns>
+        public Vector<T> SubtractFrom(T scalar)
+        {
+            var result = CreateVector(Count);
+            DoSubtractFrom(scalar, result);
+            return result;
+        }
+
+        /// <summary>
+        /// Subtracts each element of the vector from a scalar and stores the result in the result vector.
+        /// </summary>
+        /// <param name="scalar">The scalar to subtract from.</param>
+        /// <param name="result">The vector to store the result of the subtraction.</param>
+        /// <exception cref="ArgumentNullException">If the result vector is <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentException">If this vector and <paramref name="result"/> are not the same size.</exception>
+        public void SubtractFrom(T scalar, Vector<T> result)
+        {
+            if (result == null)
+            {
+                throw new ArgumentNullException("result");
+            }
+
+            if (Count != result.Count)
+            {
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
+            }
+
+            DoSubtractFrom(scalar, result);
         }
 
         /// <summary>
@@ -948,9 +993,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
                 throw new ArgumentNullException("rightSide");
             }
 
-            var res = rightSide.Negate();
-            res.Add(leftSide, res);
-            return res;
+            return rightSide.SubtractFrom(leftSide);
         }
 
         /// <summary>
