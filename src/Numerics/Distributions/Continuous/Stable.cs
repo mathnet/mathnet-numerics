@@ -518,7 +518,7 @@ namespace MathNet.Numerics.Distributions
                 throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
             }
 
-            return SampleUnchecked(rnd, location, scale, scale, location);
+            return SampleUnchecked(rnd, alpha, beta, scale, location);
         }
 
         /// <summary>
@@ -539,7 +539,7 @@ namespace MathNet.Numerics.Distributions
 
             while (true)
             {
-                yield return SampleUnchecked(rnd, location, scale, scale, location);
+                yield return SampleUnchecked(rnd, alpha, beta, scale, location);
             }
         }
     }
