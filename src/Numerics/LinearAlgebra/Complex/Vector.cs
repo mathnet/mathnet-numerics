@@ -186,6 +186,16 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         }
 
         /// <summary>
+        /// Pointwise modulus this vector with another vector and stores the result into the result vector.
+        /// </summary>
+        /// <param name="other">The vector to pointwise modulus this one by.</param>
+        /// <param name="result">The result of the modulus.</param>
+        protected override void DoPointwiseModulus(Vector<Complex> other, Vector<Complex> result)
+        {
+            throw new NotSupportedException();
+        }
+
+        /// <summary>
         /// Computes the dot product between this vector and another vector.
         /// </summary>
         /// <param name="other">
@@ -212,6 +222,16 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// <param name="divisor">The divisor to use.</param>
         /// <param name="result">A vector to store the results in.</param>
         protected override void DoModulus(Complex divisor, Vector<Complex> result)
+        {
+            throw new NotSupportedException();
+        }
+
+        /// <summary>
+        /// Computes the modulus for the given dividend for each element of the vector.
+        /// </summary>
+        /// <param name="scalar">The dividend to use.</param>
+        /// <param name="result">A vector to store the results in.</param>
+        protected override void DoModulusByThis(Complex scalar, Vector<Complex> result)
         {
             throw new NotSupportedException();
         }
