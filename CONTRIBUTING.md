@@ -8,6 +8,7 @@ Math.NET Numerics is driven by the community and contributors like you. I'm exci
 ## Getting Started
 
 - Make sure you have a [GitHub account](https://github.com/signup/free), it's free.
+- Please configure a proper name and email address in git ([how to](https://help.github.com/articles/set-up-git)).
 - Fork the [mainline repository](https://github.com/mathnet/mathnet-numerics) on GitHub ([how to](https://help.github.com/articles/fork-a-repo)).
 
 We use the [Fork & Pull Model](https://help.github.com/articles/using-pull-requests/), as common for GitHub projects. If you've already contributed to another GitHub project then you're all set. If not, [here is another  introduction](https://gun.io/blog/how-to-github-fork-branch-and-pull-request/).

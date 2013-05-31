@@ -10,28 +10,30 @@ The Math.NET project is a community effort. We accept contributions and pull req
 
 ### Contributors
 
-*ordered by #commits*
+*ordered by #commits, then alphabetically*
 
-- [Christoph Rüegg](http://christoph.ruegg.name/)
+- [Christoph Rüegg](http://christoph.ruegg.name/) (cdrnet)
 - [Marcus Cuda](http://marcuscuda.com/)
 - Jurgen Van Gael
-- Alexander Karatarakis
+- Alexander Karatarakis (Danimoth)
 - Gustavo Guerra
+- Thomas Ibel (tibel)
 - Hani Medhat
 - manyue
-- tibel
-- Andriy Bratiychuk
-- Phil
+- Andriy Bratiychuk (Abratiychuk)
 - Artyom Baranovskiy
-- Patrick van der Valde
-- cureos
-- Andrew Kazyrevich
+- Phil Cleveland (Phil)
 - Scott Stephens
+- Patrick van der Valde
+- Anders Gustafsson (cureos)
+- Andrew Kazyrevich
+- Iain McDonald (lifebeyondfife)
+- Candy Chiu
+- Gauthier Segay
 - Gregor959
 - IUser
-- Iain McDonald
 - Iain Sproat
-- Kosei ABE
+- Kosei ABE (kos59125)
 - Till Hoffmann
 - Tomas Petricek
 - VicPara
