@@ -185,6 +185,32 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         }
 
         /// <summary>
+        /// Pointwise modulus this vector with another vector and stores the result into the result vector.
+        /// </summary>
+        /// <param name="other">The vector to pointwise modulus this one by.</param>
+        /// <param name="result">The result of the modulus.</param>
+        protected override void DoPointwiseModulus(Vector<double> other, Vector<double> result)
+        {
+            for (var index = 0; index < Count; index++)
+            {
+                result.At(index, At(index) % other.At(index));
+            }
+        }
+
+        /// <summary>
+        /// Computes the modulus for the given dividend for each element of the vector.
+        /// </summary>
+        /// <param name="scalar">The dividend to use.</param>
+        /// <param name="result">A vector to store the results in.</param>
+        protected override void DoModulusByThis(double scalar, Vector<double> result)
+        {
+            for (var index = 0; index < Count; index++)
+            {
+                result.At(index, scalar % At(index));
+            }
+        }
+
+        /// <summary>
         /// Computes the dot product between this vector and another vector.
         /// </summary>
         /// <param name="other">
