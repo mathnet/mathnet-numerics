@@ -40,6 +40,7 @@ v2.6.0 - TBA, work in progress
 ### Linear Algebra:
 
 - Native eigenvalue decomposition (EVD) support with our MKL packages *~Marcus Cuda*
+- Add missing scalar-vector operations (s-v, s/v, s%v) *~Thomas Ibel*
 - BUG: Fixed exception text message when creating a matrix from enumerables (rows vs columns) *~Thomas Ibel*
 
 ### Statistics & Distributions:
