@@ -155,7 +155,7 @@ namespace MathNet.Numerics.LinearAlgebra.IO
         /// </summary>
         public DelimitedReader()
         {
-            _regex = new Regex(string.Format(Base, @"\s", RegexOptions.Compiled));
+            _regex = new Regex(string.Format(Base, @"\s"), RegexOptions.Compiled);
             SetParser();
         }
 
@@ -185,7 +185,7 @@ namespace MathNet.Numerics.LinearAlgebra.IO
                 throw new ArgumentNullException("delimiter");
             }
 
-            _regex = new Regex(string.Format(Base, delimiter, RegexOptions.Compiled));
+            _regex = new Regex(string.Format(Base, delimiter), RegexOptions.Compiled);
             SetParser();
         }
 
