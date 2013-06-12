@@ -230,7 +230,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         public void CanGetHashCode()
         {
             var vector = CreateVector(new double[] { 1, 2, 3, 4 });
-            Assert.AreEqual(-1140355183, vector.GetHashCode());
+            Assert.AreEqual(vector.GetHashCode(), vector.GetHashCode());
+            Assert.AreEqual(vector.GetHashCode(), CreateVector(new double[] { 1, 2, 3, 4 }).GetHashCode());
+            Assert.AreNotEqual(vector.GetHashCode(), CreateVector(new double[] { 1 }).GetHashCode());
         }
 
         /// <summary>

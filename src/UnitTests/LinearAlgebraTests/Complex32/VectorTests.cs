@@ -232,7 +232,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
         public void CanGetHashCode()
         {
             var vector = CreateVector(new[] { new Complex32(1, 1), new Complex32(2, 1), new Complex32(3, 1), new Complex32(4, 1), new Complex32(5, 1) });
-            Assert.AreEqual(-26300510, vector.GetHashCode());
+            Assert.AreEqual(vector.GetHashCode(), vector.GetHashCode());
+            Assert.AreEqual(vector.GetHashCode(), CreateVector(new[] { new Complex32(1, 1), new Complex32(2, 1), new Complex32(3, 1), new Complex32(4, 1), new Complex32(5, 1) }).GetHashCode());
+            Assert.AreNotEqual(vector.GetHashCode(), CreateVector(new[] { new Complex32(1, 1) }).GetHashCode());
         }
 
         /// <summary>
