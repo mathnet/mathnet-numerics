@@ -87,7 +87,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
         public void CanComputeNormInfinity()
         {
             var vector = CreateVector(Data);
-            AssertHelpers.AlmostEqual(5.09901951359279, vector.Norm(Double.PositiveInfinity), 15);
+            AssertHelpers.AlmostEqual(5.09901951359279, vector.Norm(Double.PositiveInfinity), 14);
         }
 
         /// <summary>
