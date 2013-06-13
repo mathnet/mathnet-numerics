@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using MathNet.Numerics.LinearAlgebra.Double;
 
 namespace MathNet.Numerics.Optimization
 {
@@ -38,7 +39,7 @@ namespace MathNet.Numerics.Optimization
                     }
                     catch (Exception e)
                     {
-                        throw new EvaluationException("Objective function evaluation failed.", e);
+                        throw new EvaluationException("Objective function evaluation failed.", e, new DenseVector(1, this.Point));
                     }
                     this.Checker.ValueChecker(tmp, this.InnerEvaluation.Point);
                 }
@@ -60,7 +61,7 @@ namespace MathNet.Numerics.Optimization
                     }
                     catch (Exception e)
                     {
-                        throw new EvaluationException("Objective derivative evaluation failed.", e);
+                        throw new EvaluationException("Objective derivative evaluation failed.", e, new DenseVector(1, this.Point));
                     }
                     this.Checker.DerivativeChecker(tmp, this.InnerEvaluation.Point);
                 }
@@ -82,7 +83,7 @@ namespace MathNet.Numerics.Optimization
                     }
                     catch (Exception e)
                     {
-                        throw new EvaluationException("Objective second derivative evaluation failed.", e);
+                        throw new EvaluationException("Objective second derivative evaluation failed.", e, new DenseVector(1,this.Point));
                     }
                     this.Checker.SecondDerivativeChecker(tmp, this.InnerEvaluation.Point);
                 }
@@ -124,7 +125,7 @@ namespace MathNet.Numerics.Optimization
             }
             catch (Exception e)
             {
-                throw new EvaluationException("Objective evaluation failed.", e);
+                throw new EvaluationException("Objective evaluation failed.", e, new DenseVector(1,point));
             }
         }
     }

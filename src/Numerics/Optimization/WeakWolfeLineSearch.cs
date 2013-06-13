@@ -11,12 +11,14 @@ namespace MathNet.Numerics.Optimization
     {
         public double C1 { get; set; }
         public double C2 { get; set; }
+		public double ParameterTolerance { get; set; }
 		public int MaximumIterations { get; set; }
 
-        public WeakWolfeLineSearch(double c1, double c2, int max_iterations=10)
+        public WeakWolfeLineSearch(double c1, double c2, double parameter_tolerance, int max_iterations=10)
         {
             this.C1 = c1;
             this.C2 = c2;
+			this.ParameterTolerance = parameter_tolerance;
 			this.MaximumIterations = max_iterations;
         }
 
@@ -38,6 +40,7 @@ namespace MathNet.Numerics.Optimization
 
             int ii;
             IEvaluation candidate_eval = null;
+			ExitCondition reason_for_exit = ExitCondition.None;
             for (ii = 0; ii < this.MaximumIterations; ++ii)
             {
                 candidate_eval = objective.Evaluate(starting_point.Point + search_direction * step);
@@ -56,14 +59,32 @@ namespace MathNet.Numerics.Optimization
                 }
                 else 
                 {
+					reason_for_exit = ExitCondition.WeakWolfeCriteria;
                     break;
                 }
+
+				if (!Double.IsInfinity(upper_bound))
+				{
+					double max_rel_change = 0.0;
+					for (int jj = 0; jj < candidate_eval.Point.Count; ++jj)
+					{
+						double tmp = Math.Abs (search_direction[jj]*(upper_bound - lower_bound)) / Math.Max(Math.Abs(candidate_eval.Point[jj]),1.0);
+						max_rel_change = Math.Max(max_rel_change, tmp);
+					}
+					if (max_rel_change < this.ParameterTolerance)
+					{
+						reason_for_exit = ExitCondition.LackOfProgress;
+						break;
+					}
+				}
             }
                        
-            if (ii == this.MaximumIterations)
-                throw new MaximumIterationsException(String.Format("Maximum iterations ({0}) reached. Function may be unbounded in search direction.",this.MaximumIterations));
+            if (ii == this.MaximumIterations && Double.IsPositiveInfinity(upper_bound))
+                throw new MaximumIterationsException(String.Format("Maximum iterations ({0}) reached. Function appears to be unbounded in search direction.",this.MaximumIterations));
+			else if (ii == this.MaximumIterations)
+				throw new MaximumIterationsException(String.Format("Maximum iterations ({0}) reached.",this.MaximumIterations));
             else
-                return new LineSearchOutput(candidate_eval, ii, step);
+                return new LineSearchOutput(candidate_eval, ii, step, reason_for_exit);
         }
 
         private bool Conforms(IEvaluation starting_point, Vector<double> search_direction, double step, IEvaluation ending_point)
@@ -78,7 +99,7 @@ namespace MathNet.Numerics.Optimization
         private void ValidateValue(double value, Vector<double> input)
         {
             if (!this.IsFinite(value))
-                throw new EvaluationException(String.Format("Non-finite value returned by objective function: {0}", value));
+                throw new EvaluationException(String.Format("Non-finite value returned by objective function: {0}", value),input);
         }
 
         private void ValidateGradient(Vector<double> gradient, Vector<double> input)
@@ -86,7 +107,7 @@ namespace MathNet.Numerics.Optimization
             foreach (double x in gradient)
                 if (!this.IsFinite(x))
                 {
-                    throw new EvaluationException(String.Format("Non-finite value returned by gradient: {0}", x));
+                    throw new EvaluationException(String.Format("Non-finite value returned by gradient: {0}", x),input);
                 }
         }
 

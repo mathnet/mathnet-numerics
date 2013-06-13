@@ -66,7 +66,7 @@ namespace MathNet.Numerics.Optimization
         private void ValueChecker(double value, double point)
         {
             if (Double.IsNaN(value) || Double.IsInfinity(value))
-                throw new EvaluationException("Objective function returned non-finite value.");
+                throw new EvaluationException("Objective function returned non-finite value.", point);
         }
         private static double _golden_ratio = (1.0 + Math.Sqrt(5)) / 2.0;
     }

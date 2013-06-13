@@ -31,10 +31,10 @@ namespace MathNet.Numerics.Optimization
             
             // Check that we're not already done
             if (this.ExitCriteriaSatisfied(initial_guess, gradient))
-                return new MinimizationOutput(initial_eval, 0);
+                return new MinimizationOutput(initial_eval, 0, ExitCondition.AbsoluteGradient);
             
             // Set up line search algorithm
-            var line_searcher = new WeakWolfeLineSearch(1e-4, 0.1,1000);
+            var line_searcher = new WeakWolfeLineSearch(1e-4, 0.1, 1e-4, max_iterations:1000);
 
             // Declare state variables
             IEvaluation candidate_point;
@@ -106,7 +106,7 @@ namespace MathNet.Numerics.Optimization
             if (iterations == this.MaximumIterations)
                 throw new MaximumIterationsException(String.Format("Maximum iterations ({0}) reached.", this.MaximumIterations));
 
-            return new MinimizationWithLineSearchOutput(candidate_point, iterations, total_line_search_steps, iterations_with_nontrivial_line_search);
+            return new MinimizationWithLineSearchOutput(candidate_point, iterations, ExitCondition.AbsoluteGradient, total_line_search_steps, iterations_with_nontrivial_line_search);
         }
 
         private bool ExitCriteriaSatisfied(Vector<double> candidate_point, Vector<double> gradient)
@@ -119,14 +119,14 @@ namespace MathNet.Numerics.Optimization
             foreach (var x in gradient)
             {
                 if (Double.IsNaN(x) || Double.IsInfinity(x))
-                    throw new EvaluationException("Non-finite gradient returned.");
+                    throw new EvaluationException("Non-finite gradient returned.", input);
             }
         }
 
         private void ValidateObjective(double objective, Vector<double> input)
         {
             if (Double.IsNaN(objective) || Double.IsInfinity(objective))
-                throw new EvaluationException("Non-finite objective function returned.");
+                throw new EvaluationException("Non-finite objective function returned.", input);
         }
     }
 }

@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using MathNet.Numerics.LinearAlgebra;
+using MathNet.Numerics.LinearAlgebra.Double;
 
 namespace MathNet.Numerics.Optimization
 {
@@ -22,11 +24,24 @@ namespace MathNet.Numerics.Optimization
 
     public class EvaluationException : OptimizationException
     {
-        public EvaluationException(string message)
-            : base(message) {}
+        public Vector<double> Point { get; private set; }
+        public EvaluationException(string message, Vector<double> point)
+            : base(message) 
+        {
+            this.Point = point;
+        }
 
-        public EvaluationException(string message, Exception inner_exception) 
-            : base(message, inner_exception) { }
+        public EvaluationException(string message, double point)
+            : base(message)
+        {
+            this.Point = new DenseVector(1, point);
+        }
+
+        public EvaluationException(string message, Exception inner_exception, Vector<double> point) 
+            : base(message, inner_exception) 
+        {
+            this.Point = point;
+        }
     }
 
     public class InnerOptimizationException : OptimizationException

@@ -39,7 +39,7 @@ namespace MathNet.Numerics.Optimization
                     }
                     catch (Exception e)
                     {
-                        throw new EvaluationException("Objective function evaluation failed.", e);
+                        throw new EvaluationException("Objective function evaluation failed.", e, this.Point);
                     }
                     this.Checker.ValueChecker(tmp,this.InnerEvaluation.Point);
                 }
@@ -61,7 +61,7 @@ namespace MathNet.Numerics.Optimization
                     }
                     catch (Exception e)
                     {
-                        throw new EvaluationException("Objective gradient evaluation failed.", e);
+                        throw new EvaluationException("Objective gradient evaluation failed.", e, this.Point);
                     }
                     this.Checker.GradientChecker(tmp, this.InnerEvaluation.Point);
                 }
@@ -83,7 +83,7 @@ namespace MathNet.Numerics.Optimization
                     }
                     catch (Exception e)
                     {
-                        throw new EvaluationException("Objective hessian evaluation failed.", e);
+                        throw new EvaluationException("Objective hessian evaluation failed.", e, this.Point);
                     }
                     this.Checker.HessianChecker(tmp, this.InnerEvaluation.Point);
                 }
@@ -125,7 +125,7 @@ namespace MathNet.Numerics.Optimization
             }
             catch (Exception e)
             {
-                throw new EvaluationException("Objective evaluation failed.", e);
+                throw new EvaluationException("Objective evaluation failed.", e, point);
             }
         }
     }

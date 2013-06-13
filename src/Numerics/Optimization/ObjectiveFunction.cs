@@ -9,7 +9,7 @@ namespace MathNet.Numerics.Optimization
 {
     public interface IEvaluation
     {
-        Vector<double> Point { get; }
+        Vector<double> Point { get; }        
         double Value { get; }
         Vector<double> Gradient { get; }
         Matrix<double> Hessian { get; }
@@ -21,6 +21,48 @@ namespace MathNet.Numerics.Optimization
         bool HessianSupported { get; }
         IEvaluation Evaluate(Vector<double> point);
     }
+
+    public abstract class BaseEvaluation : IEvaluation
+    {
+        protected double? _value;
+        protected Vector<double> _gradient;
+        protected Matrix<double> _hessian;
+        protected Vector<double> _point;
+        
+        public Vector<double> Point { get { return _point; } }
+        public double Value 
+        { 
+            get 
+            {
+                if (!_value.HasValue)
+                    setValue();
+                return _value.Value; 
+            } 
+        }
+        public Vector<double> Gradient 
+        { 
+            get 
+            {
+                if (_gradient == null)
+                    setGradient();
+                return _gradient; 
+            } 
+        }
+        public Matrix<double> Hessian 
+        { 
+            get
+            {
+                if (_hessian == null)
+                    setHessian();
+                return _hessian; 
+            } 
+        }
+
+        protected abstract void setValue();
+        protected abstract void setGradient();
+        protected abstract void setHessian();
+    }
+
 
     public class CachedEvaluation : IEvaluation
     {

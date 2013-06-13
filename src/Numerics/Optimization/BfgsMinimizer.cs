@@ -6,14 +6,17 @@ using MathNet.Numerics.LinearAlgebra;
 
 namespace MathNet.Numerics.Optimization
 {
+
     public class BfgsMinimizer
     {
         public double GradientTolerance { get; set; }
+		public double ParameterTolerance { get; set; }
         public int MaximumIterations { get; set; }
 
-        public BfgsMinimizer(double gradient_tolerance, int maximum_iterations)
+        public BfgsMinimizer(double gradient_tolerance, double parameter_tolerance, int maximum_iterations)
         {
             this.GradientTolerance = gradient_tolerance;
+			this.ParameterTolerance = parameter_tolerance;
             this.MaximumIterations = maximum_iterations;
         }
 
@@ -28,16 +31,17 @@ namespace MathNet.Numerics.Optimization
             IEvaluation initial_eval = objective.Evaluate(initial_guess);            
             
             // Check that we're not already done
-            if (this.ExitCriteriaSatisfied(initial_guess, initial_eval.Gradient))
-                return new MinimizationOutput(initial_eval, 0);
+			ExitCondition current_exit_condition = this.ExitCriteriaSatisfied(initial_eval, null);
+            if (current_exit_condition != ExitCondition.None)
+                return new MinimizationOutput(initial_eval, 0, current_exit_condition);
             
             // Set up line search algorithm
-            var line_searcher = new WeakWolfeLineSearch(1e-4, 0.9, 1000);
+            var line_searcher = new WeakWolfeLineSearch(1e-4, 0.9,this.ParameterTolerance, max_iterations:1000);
 
             // Declare state variables
-            IEvaluation candidate_point;
+            IEvaluation candidate_point, previous_point;
             double step_size;
-            Vector<double> gradient, previous_gradient, step, search_direction;
+            Vector<double> gradient, step, search_direction;
             Matrix<double> inverse_pseudo_hessian;
 
             // First step
@@ -55,27 +59,27 @@ namespace MathNet.Numerics.Optimization
                 throw new InnerOptimizationException("Line search failed.", e);
             }
 
+			previous_point = initial_eval;
             candidate_point = result.FunctionInfoAtMinimum;
-            gradient = candidate_point.Gradient;
-            previous_gradient = initial_eval.Gradient;
+            gradient = candidate_point.Gradient;            
             step = candidate_point.Point - initial_guess;
             step_size = result.FinalStep;
 
             // Subsequent steps
-            int iterations = 1;
+            int iterations;
             int total_line_search_steps = result.Iterations;
             int iterations_with_nontrivial_line_search = result.Iterations > 0 ? 0 : 1;
             int steepest_descent_resets = 0;
-            while (!this.ExitCriteriaSatisfied(candidate_point.Point, candidate_point.Gradient) && iterations < this.MaximumIterations)
+			for (iterations = 1; iterations < this.MaximumIterations; ++iterations)
             {
-                var y = candidate_point.Gradient - previous_gradient;
+                var y = candidate_point.Gradient - previous_point.Gradient;
 
                 double sy = step * y;
                 inverse_pseudo_hessian = inverse_pseudo_hessian + ((sy + y * inverse_pseudo_hessian * y) / Math.Pow(sy, 2.0)) * step.OuterProduct(step) - ( (inverse_pseudo_hessian * y.ToColumnMatrix())*step.ToRowMatrix() + step.ToColumnMatrix()*(y.ToRowMatrix() * inverse_pseudo_hessian)) * (1.0 / sy);
 
-               search_direction = -inverse_pseudo_hessian * candidate_point.Gradient;
+                search_direction = -inverse_pseudo_hessian * candidate_point.Gradient;
 
-                if (search_direction * candidate_point.Gradient >= 0)
+                if (search_direction * candidate_point.Gradient >= -this.GradientTolerance*this.GradientTolerance)
                 {
                     search_direction = -candidate_point.Gradient;
                     inverse_pseudo_hessian = Matrix<double>.Build.DiagonalIdentity(initial_guess.Count);
@@ -96,21 +100,50 @@ namespace MathNet.Numerics.Optimization
 
                 step_size = result.FinalStep;
                 step = result.FunctionInfoAtMinimum.Point - candidate_point.Point;
-                previous_gradient = candidate_point.Gradient;
+				previous_point = candidate_point;
                 candidate_point = result.FunctionInfoAtMinimum;
 
-                iterations += 1;
+				current_exit_condition = this.ExitCriteriaSatisfied(candidate_point, previous_point);
+				if (current_exit_condition != ExitCondition.None)
+					break;
             }
 
             if (iterations == this.MaximumIterations)
                 throw new MaximumIterationsException(String.Format("Maximum iterations ({0}) reached.", this.MaximumIterations));
 
-            return new MinimizationWithLineSearchOutput(candidate_point, iterations, total_line_search_steps, iterations_with_nontrivial_line_search);
+			return new MinimizationWithLineSearchOutput(candidate_point, iterations, current_exit_condition, total_line_search_steps, iterations_with_nontrivial_line_search);
         }
 
-        private bool ExitCriteriaSatisfied(Vector<double> candidate_point, Vector<double> gradient)
+        private ExitCondition ExitCriteriaSatisfied(IEvaluation candidate_point, IEvaluation last_point)
         {
-            return gradient.Norm(2.0) < this.GradientTolerance;
+			Vector<double> rel_grad = new MathNet.Numerics.LinearAlgebra.Double.DenseVector(candidate_point.Point.Count);
+			double relative_gradient = 0.0;
+			double normalizer = Math.Max(Math.Abs(candidate_point.Value),1.0);
+			for (int ii = 0; ii < rel_grad.Count; ++ii)
+			{
+				double tmp = candidate_point.Gradient[ii]*Math.Max(Math.Abs(candidate_point.Point[ii]), 1.0) / normalizer;
+				relative_gradient = Math.Max(relative_gradient, Math.Abs(tmp));
+			}
+			if (relative_gradient < this.GradientTolerance)
+			{
+				return ExitCondition.RelativeGradient;
+			}
+
+			if (last_point != null)
+			{
+				double most_progress = 0.0;
+				for (int ii = 0; ii < candidate_point.Point.Count; ++ii)
+				{
+					var tmp = Math.Abs(candidate_point.Point[ii] - last_point.Point[ii])/Math.Max(Math.Abs(last_point.Point[ii]),1.0);
+					most_progress = Math.Max(most_progress, tmp);
+				}
+				if ( most_progress < this.ParameterTolerance )
+				{
+					return ExitCondition.LackOfProgress;
+				}
+			}
+
+			return ExitCondition.None;
         }
 
         private void ValidateGradient(Vector<double> gradient, Vector<double> input)
@@ -118,14 +151,14 @@ namespace MathNet.Numerics.Optimization
             foreach (var x in gradient)
             {
                 if (Double.IsNaN(x) || Double.IsInfinity(x))
-                    throw new EvaluationException("Non-finite gradient returned.");
+                    throw new EvaluationException("Non-finite gradient returned.",input);
             }
         }
 
         private void ValidateObjective(double objective, Vector<double> input)
         {
             if (Double.IsNaN(objective) || Double.IsInfinity(objective))
-                throw new EvaluationException("Non-finite objective function returned.");
+                throw new EvaluationException("Non-finite objective function returned.", input);
         }
     }
 }
