@@ -107,7 +107,13 @@ namespace MathNet.Numerics.Optimization
             }
         }
 
-        static void ValidateHessian(IObjectiveFunction eval)
+        private void ValidateObjective(IObjectiveFunction eval)
+        {
+            if (Double.IsNaN(eval.Value) || Double.IsInfinity(eval.Value))
+                throw new EvaluationException("Non-finite objective function returned.", eval);
+        }
+
+        private void ValidateHessian(IObjectiveFunction eval)
         {
             for (int ii = 0; ii < eval.Hessian.RowCount; ++ii)
             {

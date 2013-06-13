@@ -7,11 +7,13 @@ namespace MathNet.Numerics.Optimization
     public class BfgsMinimizer
     {
         public double GradientTolerance { get; set; }
+		public double ParameterTolerance { get; set; }
         public int MaximumIterations { get; set; }
 
-        public BfgsMinimizer(double gradientTolerance, int maximumIterations)
+        public BfgsMinimizer(double gradientTolerance, double parameterTolerance, int maximumIterations)
         {
             GradientTolerance = gradientTolerance;
+			ParameterTolerance = parameterTolerance;
             MaximumIterations = maximumIterations;
         }
 
@@ -21,21 +23,24 @@ namespace MathNet.Numerics.Optimization
                 throw new IncompatibleObjectiveException("Gradient not supported in objective function, but required for BFGS minimization.");
 
             objective.EvaluateAt(initialGuess);
-
             ValidateGradient(objective);
 
+            var initial = objective.Fork();
+
             // Check that we're not already done
-            if (ExitCriteriaSatisfied(objective.Point, objective.Gradient))
-                return new MinimizationResult(objective, 0, MinimizationResult.ExitCondition.AbsoluteGradient);
+            MinimizationResult.ExitCondition currentExitCondition = ExitCriteriaSatisfied(objective, null);
+            if (currentExitCondition != MinimizationResult.ExitCondition.None)
+                return new MinimizationResult(objective, 0, currentExitCondition);
 
             // Set up line search algorithm
-            var lineSearcher = new WeakWolfeLineSearch(1e-4, 0.9, 1000);
+            var lineSearcher = new WeakWolfeLineSearch(1e-4, 0.9, ParameterTolerance, 1000);
 
             // First step
             var inversePseudoHessian = CreateMatrix.DenseIdentity<double>(initialGuess.Count);
             var searchDirection = -objective.Gradient;
             var stepSize = 100 * GradientTolerance / (searchDirection * searchDirection);
 
+            var previousPoint = objective.Point;
             var previousGradient = objective.Gradient;
 
             LineSearchResult result;
@@ -56,10 +61,10 @@ namespace MathNet.Numerics.Optimization
             stepSize = result.FinalStep;
 
             // Subsequent steps
-            int iterations = 1;
+            int iterations;
             int totalLineSearchSteps = result.Iterations;
             int iterationsWithNontrivialLineSearch = result.Iterations > 0 ? 0 : 1;
-            while (!ExitCriteriaSatisfied(objective.Point, objective.Gradient) && iterations < MaximumIterations)
+			for (iterations = 1; iterations < MaximumIterations; ++iterations)
             {
                 var y = objective.Gradient - previousGradient;
 
@@ -68,14 +73,14 @@ namespace MathNet.Numerics.Optimization
 
                 searchDirection = -inversePseudoHessian * objective.Gradient;
 
-                if (searchDirection * objective.Gradient >= 0)
+                if (searchDirection * objective.Gradient >= -GradientTolerance*GradientTolerance)
                 {
                     searchDirection = -objective.Gradient;
                     inversePseudoHessian = CreateMatrix.DenseIdentity<double>(initialGuess.Count);
                 }
 
                 previousGradient = objective.Gradient;
-                var previousPoint = objective.Point;
+                previousPoint = objective.Point;
 
                 try
                 {
@@ -92,18 +97,47 @@ namespace MathNet.Numerics.Optimization
                 step = result.FunctionInfoAtMinimum.Point - previousPoint;
                 objective = result.FunctionInfoAtMinimum;
 
-                iterations += 1;
+                currentExitCondition = ExitCriteriaSatisfied(objective, previousPoint);
+                if (currentExitCondition != MinimizationResult.ExitCondition.None)
+                    break;
             }
 
-            if (iterations == this.MaximumIterations)
+            if (iterations == MaximumIterations)
                 throw new MaximumIterationsException(String.Format("Maximum iterations ({0}) reached.", MaximumIterations));
 
             return new MinimizationWithLineSearchResult(objective, iterations, MinimizationResult.ExitCondition.AbsoluteGradient, totalLineSearchSteps, iterationsWithNontrivialLineSearch);
         }
 
-        private bool ExitCriteriaSatisfied(Vector<double> candidatePoint, Vector<double> gradient)
+        private MinimizationResult.ExitCondition ExitCriteriaSatisfied(IObjectiveFunction candidatePoint, Vector<double> lastPoint)
         {
-            return gradient.Norm(2.0) < this.GradientTolerance;
+            Vector<double> relGrad = new LinearAlgebra.Double.DenseVector(candidatePoint.Point.Count);
+			double relativeGradient = 0.0;
+            double normalizer = Math.Max(Math.Abs(candidatePoint.Value), 1.0);
+			for (int ii = 0; ii < relGrad.Count; ++ii)
+			{
+                double tmp = candidatePoint.Gradient[ii]*Math.Max(Math.Abs(candidatePoint.Point[ii]), 1.0) / normalizer;
+				relativeGradient = Math.Max(relativeGradient, Math.Abs(tmp));
+			}
+			if (relativeGradient < GradientTolerance)
+			{
+				return MinimizationResult.ExitCondition.RelativeGradient;
+			}
+
+            if (lastPoint != null)
+			{
+				double mostProgress = 0.0;
+                for (int ii = 0; ii < candidatePoint.Point.Count; ++ii)
+				{
+                    var tmp = Math.Abs(candidatePoint.Point[ii] - lastPoint[ii])/Math.Max(Math.Abs(lastPoint[ii]), 1.0);
+					mostProgress = Math.Max(mostProgress, tmp);
+				}
+				if ( mostProgress < ParameterTolerance )
+				{
+					return MinimizationResult.ExitCondition.LackOfProgress;
+				}
+			}
+
+			return MinimizationResult.ExitCondition.None;
         }
 
         private void ValidateGradient(IObjectiveFunction objective)
