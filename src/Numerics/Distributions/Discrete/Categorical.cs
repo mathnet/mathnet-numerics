@@ -426,5 +426,45 @@ namespace MathNet.Numerics.Distributions
                 yield return SampleUnchecked(rnd, cp);
             }
         }
+
+        /// <summary>
+        /// Returns the inverse of the distribution function for the categorical distribution
+        /// specified by the given normalized CDF, for the given probability.
+        /// </summary>
+        /// <param name="normalizedCDF">An array corresponding to a normalized CDF for a categorical distribution.</param>
+        /// <param name="probability">A real number between 0 and 1.</param>
+        /// <returns>An integer between 0 and the size of the categorical (exclusive),
+        /// that corresponds to the inverse CDF for the given probability.</returns>
+        public static int InverseDistributionFunction(double[] normalizedCDF, double probability)
+        {
+            if (Control.CheckDistributionParameters)
+            {
+                if (probability < 0.0 || probability > 1.0 || Double.IsNaN(probability))
+                {
+                    throw new ArgumentOutOfRangeException("probability");
+                }
+
+                if (normalizedCDF[0] < 0.0 || normalizedCDF[0] > 1.0 || Double.IsNaN(normalizedCDF[0]))
+                    throw new ArgumentOutOfRangeException("normalizedCDF");
+
+                for (var i = 1; i < normalizedCDF.Length; i++)
+                {
+                    var cd = normalizedCDF[i];
+                    if (cd < 0.0 || cd > 1.0 || cd < normalizedCDF[i - 1] || Double.IsNaN(cd))
+                    {
+                        throw new ArgumentOutOfRangeException("normalizedCDF");
+                    }
+                }
+            }
+
+            int idx = Array.BinarySearch(normalizedCDF, probability);
+
+            if (idx < 0)
+            {
+                idx = ~idx;
+            }
+
+            return idx;
+        }
     }
 }
