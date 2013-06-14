@@ -24,6 +24,7 @@ namespace MathNet.Numerics.Optimization
         {
             get { return this.InnerEvaluation.Point; }
         }
+        public EvaluationStatus Status { get { return this.InnerEvaluation.Status; } }
 
         public double Value
         {
@@ -39,9 +40,9 @@ namespace MathNet.Numerics.Optimization
                     }
                     catch (Exception e)
                     {
-                        throw new EvaluationException("Objective function evaluation failed.", e, this.Point);
+                        throw new EvaluationException("Objective function evaluation failed.", this.InnerEvaluation, e);
                     }
-                    this.Checker.ValueChecker(tmp,this.InnerEvaluation.Point);
+                    this.Checker.ValueChecker(this.InnerEvaluation);
                 }
                 return this.InnerEvaluation.Value;
             }
@@ -61,9 +62,9 @@ namespace MathNet.Numerics.Optimization
                     }
                     catch (Exception e)
                     {
-                        throw new EvaluationException("Objective gradient evaluation failed.", e, this.Point);
+                        throw new EvaluationException("Objective gradient evaluation failed.", this.InnerEvaluation, e);
                     }
-                    this.Checker.GradientChecker(tmp, this.InnerEvaluation.Point);
+                    this.Checker.GradientChecker(this.InnerEvaluation);
                 }
                 return this.InnerEvaluation.Gradient;
             }
@@ -83,9 +84,9 @@ namespace MathNet.Numerics.Optimization
                     }
                     catch (Exception e)
                     {
-                        throw new EvaluationException("Objective hessian evaluation failed.", e, this.Point);
+                        throw new EvaluationException("Objective hessian evaluation failed.", this.InnerEvaluation, e);
                     }
-                    this.Checker.HessianChecker(tmp, this.InnerEvaluation.Point);
+                    this.Checker.HessianChecker(InnerEvaluation);
                 }
                 return this.InnerEvaluation.Hessian;
             }
@@ -95,11 +96,11 @@ namespace MathNet.Numerics.Optimization
     public class ObjectiveChecker : IObjectiveFunction
     {
         public IObjectiveFunction InnerObjective { get; private set; }
-        public Action<double, Vector<double>> ValueChecker { get; private set; }
-        public Action<Vector<double>, Vector<double>> GradientChecker { get; private set; }
-        public Action<Matrix<double>, Vector<double>> HessianChecker { get; private set; }
+        public Action<IEvaluation> ValueChecker { get; private set; }
+        public Action<IEvaluation> GradientChecker { get; private set; }
+        public Action<IEvaluation> HessianChecker { get; private set; }
 
-        public ObjectiveChecker(IObjectiveFunction objective, Action<double, Vector<double>> value_checker, Action<Vector<double>, Vector<double>> gradient_checker, Action<Matrix<double>, Vector<double>> hessian_checker)
+        public ObjectiveChecker(IObjectiveFunction objective, Action<IEvaluation> value_checker, Action<IEvaluation> gradient_checker, Action<IEvaluation> hessian_checker)
         {
             this.InnerObjective = objective;
             this.ValueChecker = value_checker;
@@ -125,7 +126,7 @@ namespace MathNet.Numerics.Optimization
             }
             catch (Exception e)
             {
-                throw new EvaluationException("Objective evaluation failed.", e, point);
+                throw new EvaluationException("Objective evaluation failed.", new NullEvaluation(point), e);
             }
         }
     }

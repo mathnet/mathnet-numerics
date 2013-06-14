@@ -96,18 +96,18 @@ namespace MathNet.Numerics.Optimization
             return step > 0 && sufficient_decrease && not_too_steep;
         }
 
-        private void ValidateValue(double value, Vector<double> input)
+        private void ValidateValue(IEvaluation eval)
         {
-            if (!this.IsFinite(value))
-                throw new EvaluationException(String.Format("Non-finite value returned by objective function: {0}", value),input);
+            if (!this.IsFinite(eval.Value))
+                throw new EvaluationException(String.Format("Non-finite value returned by objective function: {0}", eval.Value),eval);
         }
 
-        private void ValidateGradient(Vector<double> gradient, Vector<double> input)
+        private void ValidateGradient(IEvaluation eval)
         {
-            foreach (double x in gradient)
+            foreach (double x in eval.Gradient)
                 if (!this.IsFinite(x))
                 {
-                    throw new EvaluationException(String.Format("Non-finite value returned by gradient: {0}", x),input);
+                    throw new EvaluationException(String.Format("Non-finite value returned by gradient: {0}", x),eval);
                 }
         }
 

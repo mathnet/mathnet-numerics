@@ -24,24 +24,32 @@ namespace MathNet.Numerics.Optimization
 
     public class EvaluationException : OptimizationException
     {
-        public Vector<double> Point { get; private set; }
-        public EvaluationException(string message, Vector<double> point)
-            : base(message) 
-        {
-            this.Point = point;
-        }
+        public IEvaluation Evaluation { get; private set; }
 
-        public EvaluationException(string message, double point)
+        public EvaluationException(string message, IEvaluation eval)
             : base(message)
         {
-            this.Point = DenseVector.Create(1, point);
+            this.Evaluation = eval;
         }
 
-        public EvaluationException(string message, Exception inner_exception, Vector<double> point) 
-            : base(message, inner_exception) 
+        public EvaluationException(string message, IEvaluation eval, Exception inner_exception)
+            : base(message, inner_exception)
         {
-            this.Point = point;
+            this.Evaluation = eval;
         }
+
+        public EvaluationException(string message, IEvaluation1D eval)
+            : base(message)
+        {
+            this.Evaluation = new OneDEvaluationExpander(eval);
+        }
+
+        public EvaluationException(string message, IEvaluation1D eval, Exception inner_exception)
+            : base(message, inner_exception)
+        {
+            this.Evaluation = new OneDEvaluationExpander(eval);
+        }
+
     }
 
     public class InnerOptimizationException : OptimizationException

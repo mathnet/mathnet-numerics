@@ -25,6 +25,8 @@ namespace MathNet.Numerics.Optimization
             get { return this.InnerEvaluation.Point; }
         }
 
+        public EvaluationStatus Status { get { return this.InnerEvaluation.Status; } }
+
         public double Value
         {
             get
@@ -39,9 +41,9 @@ namespace MathNet.Numerics.Optimization
                     }
                     catch (Exception e)
                     {
-                        throw new EvaluationException("Objective function evaluation failed.", e, DenseVector.Create(1, this.Point));
+                        throw new EvaluationException("Objective function evaluation failed.", this.InnerEvaluation, e);
                     }
-                    this.Checker.ValueChecker(tmp, this.InnerEvaluation.Point);
+                    this.Checker.ValueChecker(this.InnerEvaluation);
                 }
                 return this.InnerEvaluation.Value;
             }
@@ -61,9 +63,9 @@ namespace MathNet.Numerics.Optimization
                     }
                     catch (Exception e)
                     {
-                        throw new EvaluationException("Objective derivative evaluation failed.", e, DenseVector.Create(1, this.Point));
+                        throw new EvaluationException("Objective derivative evaluation failed.", this.InnerEvaluation, e);
                     }
-                    this.Checker.DerivativeChecker(tmp, this.InnerEvaluation.Point);
+                    this.Checker.DerivativeChecker(this.InnerEvaluation);
                 }
                 return this.InnerEvaluation.Derivative;
             }
@@ -83,9 +85,9 @@ namespace MathNet.Numerics.Optimization
                     }
                     catch (Exception e)
                     {
-                        throw new EvaluationException("Objective second derivative evaluation failed.", e, DenseVector.Create(1, this.Point));
+                        throw new EvaluationException("Objective second derivative evaluation failed.", this.InnerEvaluation, e);
                     }
-                    this.Checker.SecondDerivativeChecker(tmp, this.InnerEvaluation.Point);
+                    this.Checker.SecondDerivativeChecker(this.InnerEvaluation);
                 }
                 return this.InnerEvaluation.SecondDerivative;
             }
@@ -95,11 +97,11 @@ namespace MathNet.Numerics.Optimization
     public class ObjectiveChecker1D : IObjectiveFunction1D
     {
         public IObjectiveFunction1D InnerObjective { get; private set; }
-        public Action<double, double> ValueChecker { get; private set; }
-        public Action<double, double> DerivativeChecker { get; private set; }
-        public Action<double, double> SecondDerivativeChecker { get; private set; }
+        public Action<IEvaluation1D> ValueChecker { get; private set; }
+        public Action<IEvaluation1D> DerivativeChecker { get; private set; }
+        public Action<IEvaluation1D> SecondDerivativeChecker { get; private set; }
 
-        public ObjectiveChecker1D(IObjectiveFunction1D objective, Action<double, double> value_checker, Action<double, double> gradient_checker, Action<double, double> hessian_checker)
+        public ObjectiveChecker1D(IObjectiveFunction1D objective, Action<IEvaluation1D> value_checker, Action<IEvaluation1D> gradient_checker, Action<IEvaluation1D> hessian_checker)
         {
             this.InnerObjective = objective;
             this.ValueChecker = value_checker;
@@ -125,7 +127,7 @@ namespace MathNet.Numerics.Optimization
             }
             catch (Exception e)
             {
-                throw new EvaluationException("Objective evaluation failed.", e, DenseVector.Create(1, point));
+                throw new EvaluationException("Objective evaluation failed.", new NullEvaluation(point), e);
             }
         }
     }

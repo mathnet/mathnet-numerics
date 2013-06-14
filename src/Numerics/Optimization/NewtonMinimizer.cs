@@ -98,29 +98,29 @@ namespace MathNet.Numerics.Optimization
             return gradient.Norm(2.0) < this.GradientTolerance;
         }
 
-        private void ValidateGradient(Vector<double> gradient, Vector<double> input)
+        private void ValidateGradient(IEvaluation eval)
         {
-            foreach (var x in gradient)
+            foreach (var x in eval.Gradient)
             {
                 if (Double.IsNaN(x) || Double.IsInfinity(x))
-                    throw new EvaluationException("Non-finite gradient returned.", input);
+                    throw new EvaluationException("Non-finite gradient returned.", eval);
             }
         }
 
-        private void ValidateObjective(double objective, Vector<double> input)
+        private void ValidateObjective(IEvaluation eval)
         {
-            if (Double.IsNaN(objective) || Double.IsInfinity(objective))
-                throw new EvaluationException("Non-finite objective function returned.", input);
+            if (Double.IsNaN(eval.Value) || Double.IsInfinity(eval.Value))
+                throw new EvaluationException("Non-finite objective function returned.", eval);
         }
 
-        private void ValidateHessian(Matrix<double> hessian, Vector<double> input)
+        private void ValidateHessian(IEvaluation eval)
         {
-            for (int ii = 0; ii < hessian.RowCount; ++ii)
+            for (int ii = 0; ii < eval.Hessian.RowCount; ++ii)
             {
-                for (int jj = 0; jj < hessian.ColumnCount; ++jj)
+                for (int jj = 0; jj < eval.Hessian.ColumnCount; ++jj)
                 {
-                    if (Double.IsNaN(hessian[ii,jj]) || Double.IsInfinity(hessian[ii,jj]))
-                        throw new EvaluationException("Non-finite Hessian returned.", input);
+                    if (Double.IsNaN(eval.Hessian[ii,jj]) || Double.IsInfinity(eval.Hessian[ii,jj]))
+                        throw new EvaluationException("Non-finite Hessian returned.", eval);
                 }
             }
         }

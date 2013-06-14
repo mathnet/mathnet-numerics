@@ -114,19 +114,19 @@ namespace MathNet.Numerics.Optimization
             return gradient.Norm(2.0) < this.GradientTolerance;
         }
 
-        private void ValidateGradient(Vector<double> gradient, Vector<double> input)
+        private void ValidateGradient(IEvaluation eval)
         {
-            foreach (var x in gradient)
+            foreach (var x in eval.Gradient)
             {
                 if (Double.IsNaN(x) || Double.IsInfinity(x))
-                    throw new EvaluationException("Non-finite gradient returned.", input);
+                    throw new EvaluationException("Non-finite gradient returned.", eval);
             }
         }
 
-        private void ValidateObjective(double objective, Vector<double> input)
+        private void ValidateObjective(IEvaluation eval)
         {
-            if (Double.IsNaN(objective) || Double.IsInfinity(objective))
-                throw new EvaluationException("Non-finite objective function returned.", input);
+            if (Double.IsNaN(eval.Value) || Double.IsInfinity(eval.Value))
+                throw new EvaluationException("Non-finite objective function returned.", eval);
         }
     }
 }
