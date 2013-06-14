@@ -446,6 +446,7 @@
     <Compile Include="Threading\CommonParallel.cs" />
     <Compile Include="Trigonometry.cs" />
     <Compile Include="Window.cs" />
+    <Compile Include="Optimization\ExitCondition.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">

@@ -34,7 +34,7 @@ namespace MathNet.Numerics.Optimization
         public EvaluationException(string message, double point)
             : base(message)
         {
-            this.Point = new DenseVector(1, point);
+            this.Point = DenseVector.Create(1, point);
         }
 
         public EvaluationException(string message, Exception inner_exception, Vector<double> point) 
