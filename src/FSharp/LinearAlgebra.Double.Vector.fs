@@ -215,7 +215,7 @@ module DenseVector =
     /// Initialize a random vector with the given dimension and distribution.
     let inline randomCreate (n: int) dist = DenseVector.CreateRandom(n, dist)
 
-    /// Initialize an all-zero vector with the given dimension.
+    /// Initialize an n-valued vector with the given dimension.
     let inline create (n: int) x = DenseVector.Create(n, fun i -> x)
 
     /// Initialize a vector by calling a construction function for every element.
