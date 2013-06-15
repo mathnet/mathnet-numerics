@@ -1388,7 +1388,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         }
 
         /// <summary>
-        /// Iterates throw each element in the matrix (row-wise).
+        /// Iterates through each element in the matrix (row-wise).
         /// </summary>
         /// <returns>The value at the current iteration along with its position (row, column, value).</returns>
         public virtual IEnumerable<Tuple<int, int, T>> IndexedEnumerator()
