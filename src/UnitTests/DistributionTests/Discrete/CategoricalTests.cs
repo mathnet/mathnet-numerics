@@ -161,7 +161,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         [Test]
         public void CanSampleStatic()
         {
-            Categorical.Sample(new Random(), _largeP);
+            Categorical.SampleWithProbabilityMass(new Random(), _largeP);
         }
 
         /// <summary>
@@ -170,7 +170,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         [Test]
         public void FailSampleStatic()
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() => Categorical.Sample(new Random(), _badP));
+            Assert.Throws<ArgumentOutOfRangeException>(() => Categorical.SampleWithProbabilityMass(new Random(), _badP));
         }
 
         /// <summary>

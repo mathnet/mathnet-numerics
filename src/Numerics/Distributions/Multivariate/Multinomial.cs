@@ -361,7 +361,7 @@ namespace MathNet.Numerics.Distributions
             }
 
             // The cumulative density of p.
-            var cp = Categorical.UnnormalizedCdf(p);
+            var cp = Categorical.ProbabilityMassToCumulativeDistribution(p);
 
             // The variable that stores the counts.
             var ret = new int[p.Length];
@@ -390,7 +390,7 @@ namespace MathNet.Numerics.Distributions
             }
 
             // The cumulative density of p.
-            var cp = Categorical.UnnormalizedCdf(p);
+            var cp = Categorical.ProbabilityMassToCumulativeDistribution(p);
 
             while (true)
             {
