@@ -435,7 +435,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="probability">A real number between 0 and 1.</param>
         /// <returns>An integer between 0 and the size of the categorical (exclusive),
         /// that corresponds to the inverse CDF for the given probability.</returns>
-        public static int InverseDistributionFunction(double[] normalizedCDF, double probability)
+        public static int InverseCumulativeDistribution(double[] normalizedCDF, double probability)
         {
             if (Control.CheckDistributionParameters)
             {
