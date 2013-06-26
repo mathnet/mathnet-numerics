@@ -282,6 +282,9 @@
     <Compile Include="..\Numerics\IPrecisionSupport.cs">
       <Link>IPrecisionSupport.cs</Link>
     </Compile>
+    <Compile Include="..\Numerics\LeastSquares.cs">
+      <Link>LeastSquares.cs</Link>
+    </Compile>
     <Compile Include="..\Numerics\LinearAlgebra\Complex32\DenseMatrix.cs">
       <Link>LinearAlgebra\Complex32\DenseMatrix.cs</Link>
     </Compile>

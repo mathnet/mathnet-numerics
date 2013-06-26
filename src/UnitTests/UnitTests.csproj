@@ -144,6 +144,7 @@
     <Compile Include="InterpolationTests\EquidistantPolynomialTest.cs" />
     <Compile Include="InterpolationTests\NevillePolynomialTest.cs" />
     <Compile Include="InterpolationTests\LinearInterpolationCase.cs" />
+    <Compile Include="LeastSquaresTests.cs" />
     <Compile Include="LinearAlgebraProviderTests\Complex32\LinearAlgebraProviderTests.cs" />
     <Compile Include="LinearAlgebraProviderTests\Complex\LinearAlgebraProviderTests.cs" />
     <Compile Include="LinearAlgebraProviderTests\Double\LinearAlgebraProviderTests.cs">

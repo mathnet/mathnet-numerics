@@ -76,6 +76,7 @@
     <Compile Include="BigRationalTests.fs" />
     <Compile Include="RandomVariableTests.fs" />
     <Compile Include="PokerTests.fs" />
+    <Compile Include="CurveFittingTests.fs" />
     <None Include="packages.config" />
   </ItemGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
