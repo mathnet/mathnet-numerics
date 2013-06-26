@@ -8,6 +8,8 @@ open MathNet.Numerics.LinearAlgebra.Double
 /// Unit tests for the vector type.
 module VectorTests =
 
+    let approximately_equal tolerance = equalWithin (10.0 ** (float -tolerance))
+
     /// A small uniform vector.
     let smallv = DenseVector([|0.3;0.3;0.3;0.3;0.3|])
 
@@ -45,7 +47,7 @@ module VectorTests =
 
     [<Test>]
     let ``Vector.toArray`` () =
-        Vector.toArray smallv |> should array_equal [|0.3;0.3;0.3;0.3;0.3|]
+        Vector.toArray smallv |> should equal [|0.3;0.3;0.3;0.3;0.3|]
 
     [<Test>]
     let ``Vector.toList`` () =
@@ -145,11 +147,11 @@ module VectorTests =
 
     [<Test>]
     let ``Vector.scan`` () =
-        Vector.scan (fun acc x -> acc + x) smallv |> should (approximately_vector_equal 14) (new DenseVector( [|0.3;0.6;0.9;1.2;1.5|] ) :> Vector<float>)
+        Vector.scan (fun acc x -> acc + x) smallv |> should (approximately_equal 14) (new DenseVector( [|0.3;0.6;0.9;1.2;1.5|] ) :> Vector<float>)
 
     [<Test>]
     let ``Vector.scanBack`` () =
-        Vector.scanBack (fun x acc -> acc + x) smallv |> should (approximately_vector_equal 14) (new DenseVector( [|1.5;1.2;0.9;0.6;0.3|] ) :> Vector<float>)
+        Vector.scanBack (fun x acc -> acc + x) smallv |> should (approximately_equal 14) (new DenseVector( [|1.5;1.2;0.9;0.6;0.3|] ) :> Vector<float>)
 
     [<Test>]
     let ``Vector.reduce`` () =
@@ -161,4 +163,4 @@ module VectorTests =
 
     [<Test>]
     let ``Vector.insert`` () =
-        Vector.insert 2 0.5 smallv |> should (approximately_vector_equal 14) (new DenseVector ( [|0.3;0.3;0.5;0.3;0.3;0.3|] ) :> Vector<float>)
+        Vector.insert 2 0.5 smallv |> should (approximately_equal 14) (new DenseVector ( [|0.3;0.3;0.5;0.3;0.3;0.3|] ) :> Vector<float>)

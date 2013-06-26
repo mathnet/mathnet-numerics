@@ -8,6 +8,8 @@ open MathNet.Numerics.LinearAlgebra.Double
 /// Unit tests for the matrix type.
 module MatrixTests =
 
+    let approximately_equal tolerance = equalWithin (10.0 ** (float -tolerance))
+
     /// A small uniform vector.
     let smallM = DenseMatrix.OfArray( Array2D.create 2 2 0.3 )
     let failingFoldBackM = DenseMatrix.init 2 3 (fun i j -> 1.0)
@@ -46,7 +48,7 @@ module MatrixTests =
 
     [<Test>]
     let ``Matrix.toArray2`` () =
-        Matrix.toArray2 smallM |> should array2_equal (Array2D.create 2 2 0.3)
+        Matrix.toArray2 smallM |> should equal (Array2D.create 2 2 0.3)
 
     [<Test>]
     let ``Matrix.mapInPlace.Dense`` () =
@@ -102,11 +104,11 @@ module MatrixTests =
 
     [<Test>]
     let ``Matrix.mapCols`` () =
-        Matrix.mapCols (fun j col -> col.Add(float j)) smallM |> should (approximately_matrix_equal 14) (matrix [[0.3;1.3];[0.3;1.3]])
+        Matrix.mapCols (fun j col -> col.Add(float j)) smallM |> should (approximately_equal 14) (matrix [[0.3;1.3];[0.3;1.3]])
 
     [<Test>]
     let ``Matrix.mapRows`` () =
-        Matrix.mapRows (fun i row -> row.Add(float i)) smallM |> should (approximately_matrix_equal 14) (matrix [[0.3;0.3];[1.3;1.3]])
+        Matrix.mapRows (fun i row -> row.Add(float i)) smallM |> should (approximately_equal 14) (matrix [[0.3;0.3];[1.3;1.3]])
 
     [<Test>]
     let ``Matrix.fold`` () =
