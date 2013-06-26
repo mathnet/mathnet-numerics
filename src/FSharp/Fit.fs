@@ -39,18 +39,35 @@ module Fit =
 
     let private tofs (f:Func<_,_>) = fun a -> f.Invoke(a)
 
+    /// Least-Squares fitting the points (x,y) to a line y : x -> a+b*x,
+    /// returning its best fitting parameters as [a, b] array.
     let line x y = let p = Fit.Line(x,y) in (p.[0],p.[1])
+
+    /// Least-Squares fitting the points (x,y) to a line y : x -> a+b*x,
+    /// returning a function y' for the best fitting line.
     let lineF x y = Fit.LineFunc(x,y) |> tofs
 
+
+    /// Least-Squares fitting the points (x,y) to a k-order polynomial y : x -> p0 + p1*x + p2*x^2 + ... + pk*x^k,
+    /// returning its best fitting parameters as [p0, p1, p2, ..., pk] array, compatible with Evaluate.Polynomial.
     let polynomial order x y = Fit.Polynomial(x,y,order)
+
+    /// Least-Squares fitting the points (x,y) to a k-order polynomial y : x -> p0 + p1*x + p2*x^2 + ... + pk*x^k,
+    /// returning a function y' for the best fitting polynomial.
     let polynomialF order x y = Fit.PolynomialFunc(x,y,order) |> tofs
 
+
+    /// Least-Squares fitting the points (x,y) to an arbitrary linear combination y : x -> p0*f0(x) + p1*f1(x) + ... + pk*fk(x),
+    /// returning its best fitting parameters as [p0, p1, p2, ..., pk] list.
     let linear functions (x:float[]) (y:float[]) =
         functions
         |> List.map (fun f -> List.init (Array.length x) (fun i -> f x.[i]))
         |> DenseMatrix.ofColumnsList (Array.length x) (List.length functions)
         |> fun m -> m.QR(QRMethod.Thin).Solve(DenseVector(y)).ToArray()
         |> List.ofArray
+
+    /// Least-Squares fitting the points (x,y) to an arbitrary linear combination y : x -> p0*f0(x) + p1*f1(x) + ... + pk*fk(x),
+    /// returning a function y' for the best fitting combination.
     let linearF functions x y =
         let parts = linear functions x y |> List.zip functions
         in fun z -> parts |> List.fold (fun s (f,p) -> s+p*(f z)) 0.0

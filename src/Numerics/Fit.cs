@@ -101,7 +101,7 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
-        /// LLeast-Squares fitting the points (x,y) to an arbitrary linear combination y : x -> p0*f0(x) + p1*f1(x) + ... + pk*fk(x),
+        /// Least-Squares fitting the points (x,y) to an arbitrary linear combination y : x -> p0*f0(x) + p1*f1(x) + ... + pk*fk(x),
         /// returning a function y' for the best fitting combination.
         /// </summary>
         public static Func<double, double> LinearCombinationFunc(double[] x, double[] y, params Func<double, double>[] functions)
