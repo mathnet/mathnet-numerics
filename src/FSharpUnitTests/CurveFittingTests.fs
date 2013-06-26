@@ -15,8 +15,10 @@ module CurveFittingTests =
         let x = Array.append [| 1.0 .. 2.0 .. 10.0 |] [| -1.0 .. -1.0 .. -5.0  |]
         let y = x |> Array.map f
 
-        LeastSquares.FitToLine(x,y)
-        |> should (equalWithin 1.0e-12) [| 4.0; -1.5 |]
+        // LeastSquares.FitToLine(x,y)
+        let a, b = Fit.line x y
+        a |> should (equalWithin 1.0e-12) 4.0
+        b |> should (equalWithin 1.0e-12) -1.5
 
         let fres = LeastSquares.FitToLineFunc(x,y) |> tofs
         in x |> Array.iter (fun x -> fres x |> should (equalWithin 1.0e-12) (f x))
@@ -30,7 +32,8 @@ module CurveFittingTests =
         let x = [| 1.0 .. 6.0 |]
         let y = [| 4.986; 2.347; 2.061; -2.995; -2.352; -5.782 |]
 
-        LeastSquares.FitToLinearCombination(x, y, (fun z -> 1.0), (fun z -> Math.Sin(z)), (fun z -> Math.Cos(z)))
+        // LeastSquares.FitToLinearCombination(x, y, (fun z -> 1.0), (fun z -> Math.Sin(z)), (fun z -> Math.Cos(z)))
+        (x,y) ||> Fit.linear [(fun _ -> 1.0); (Math.Sin); (Math.Cos) ]
         |> should (equalWithin 1.0e-4) [| -0.287476; 4.02159; -1.46962 |]
 
         let fres = LeastSquares.FitToLinearCombinationFunc(x, y, (fun z -> 1.0), (fun z -> Math.Sin(z)), (fun z -> Math.Cos(z))) |> tofs

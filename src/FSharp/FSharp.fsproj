@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -14,7 +14,7 @@
     <TargetFrameworkProfile />
     <!-- Conditional Strong Name -->
     <AssemblyOriginatorKeyFile>..\MathNet.Numerics.snk</AssemblyOriginatorKeyFile>
-    <SignAssembly Condition=" '$(SignAssembly)' == '' ">false</SignAssembly>    
+    <SignAssembly Condition=" '$(SignAssembly)' == '' ">false</SignAssembly>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -34,12 +34,12 @@
     <WarningLevel>3</WarningLevel>
     <DocumentationFile>..\..\out\lib\Net40\MathNet.Numerics.FSharp.xml</DocumentationFile>
     <!-- Conditional Strong Name: NO -->
-    <SignAssembly>false</SignAssembly>    
+    <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <DocumentationFile>MathNet.Numerics.FSharp.XML</DocumentationFile>
     <!-- Conditional Strong Name: NO -->
-    <SignAssembly>false</SignAssembly>    
+    <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release-Signed|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -50,7 +50,7 @@
     <DocumentationFile>..\..\out\lib\Net40\MathNet.Numerics.FSharp.xml</DocumentationFile>
     <OutputPath>..\..\out\lib\Net40\</OutputPath>
     <!-- Conditional Strong Name: YES -->
-    <SignAssembly>true</SignAssembly>    
+    <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
     <MinimumVisualStudioVersion Condition="'$(MinimumVisualStudioVersion)' == ''">11</MinimumVisualStudioVersion>
@@ -71,6 +71,7 @@
     <Compile Include="BigIntegerExtensions.fs" />
     <Compile Include="BigRational.fsi" />
     <Compile Include="BigRational.fs" />
+    <Compile Include="LeastSquares.fs" />
     <Compile Include="RandomVariable.fs" />
   </ItemGroup>
   <ItemGroup>
