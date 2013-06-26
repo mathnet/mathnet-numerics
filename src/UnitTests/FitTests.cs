@@ -1,4 +1,4 @@
-﻿// <copyright file="LeastSquaresTests.cs" company="Math.NET">
+﻿// <copyright file="FitTests.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -36,7 +36,7 @@ using NUnit.Framework;
 namespace MathNet.Numerics.UnitTests
 {
     [TestFixture]
-    public class LeastSquaresTests
+    public class FitTests
     {
         [Test]
         public void FitsToExactLineWhenPointsAreOnLine()
@@ -44,12 +44,12 @@ namespace MathNet.Numerics.UnitTests
             var x = new[] {30.0, 40.0, 50.0, 12.0, -3.4, 100.5};
             var y = x.Select(z => 4.0 - 1.5*z).ToArray();
 
-            var resp = LeastSquares.FitToLine(x, y);
+            var resp = Fit.Line(x, y);
             Assert.AreEqual(2, resp.Length);
             Assert.AreEqual(4.0, resp[0], 1e-12);
             Assert.AreEqual(-1.5, resp[1], 1e-12);
 
-            var resf = LeastSquares.FitToLineFunc(x, y);
+            var resf = Fit.LineFunc(x, y);
             foreach (var z in Enumerable.Range(-3, 10))
             {
                 Assert.AreEqual(4.0 - 1.5*z, resf(z), 1e-12);
@@ -65,12 +65,12 @@ namespace MathNet.Numerics.UnitTests
             var x = Enumerable.Range(1, 6).Select(Convert.ToDouble).ToArray();
             var y = new[] {4.986, 2.347, 2.061, -2.995, -2.352, -5.782};
 
-            var resp = LeastSquares.FitToLine(x, y);
+            var resp = Fit.Line(x, y);
             Assert.AreEqual(2, resp.Length);
             Assert.AreEqual(7.01013, resp[0], 1e-4);
             Assert.AreEqual(-2.08551, resp[1], 1e-4);
 
-            var resf = LeastSquares.FitToLineFunc(x, y);
+            var resf = Fit.LineFunc(x, y);
             foreach (var z in Enumerable.Range(-3, 10))
             {
                 Assert.AreEqual(7.01013 - 2.08551 * z, resf(z), 1e-4);
@@ -86,7 +86,7 @@ namespace MathNet.Numerics.UnitTests
             var x = Enumerable.Range(1, 6).Select(Convert.ToDouble).ToArray();
             var y = new[] { 4.986, 2.347, 2.061, -2.995, -2.352, -5.782 };
 
-            var resp = LeastSquares.FitToPolynomial(x, y, 0);
+            var resp = Fit.Polynomial(x, y, 0);
             Assert.AreEqual(1, resp.Length);
             Assert.AreEqual(-0.289167, resp[0], 1e-4);
             Assert.AreEqual(y.Mean(), resp[0], 1e-4);
@@ -101,12 +101,12 @@ namespace MathNet.Numerics.UnitTests
             var x = Enumerable.Range(1, 6).Select(Convert.ToDouble).ToArray();
             var y = new[] { 4.986, 2.347, 2.061, -2.995, -2.352, -5.782 };
 
-            var resp = LeastSquares.FitToPolynomial(x, y, 1);
+            var resp = Fit.Polynomial(x, y, 1);
             Assert.AreEqual(2, resp.Length);
             Assert.AreEqual(7.01013, resp[0], 1e-4);
             Assert.AreEqual(-2.08551, resp[1], 1e-4);
 
-            var resf = LeastSquares.FitToPolynomialFunc(x, y, 1);
+            var resf = Fit.PolynomialFunc(x, y, 1);
             foreach (var z in Enumerable.Range(-3, 10))
             {
                 Assert.AreEqual(7.01013 - 2.08551 * z, resf(z), 1e-4);
@@ -122,13 +122,13 @@ namespace MathNet.Numerics.UnitTests
             var x = Enumerable.Range(1, 6).Select(Convert.ToDouble).ToArray();
             var y = new[] { 4.986, 2.347, 2.061, -2.995, -2.352, -5.782 };
 
-            var resp = LeastSquares.FitToPolynomial(x, y, 2);
+            var resp = Fit.Polynomial(x, y, 2);
             Assert.AreEqual(3, resp.Length);
             Assert.AreEqual(6.9703, resp[0], 1e-4);
             Assert.AreEqual(-2.05564, resp[1], 1e-4);
             Assert.AreEqual(-0.00426786, resp[2], 1e-6);
 
-            var resf = LeastSquares.FitToPolynomialFunc(x, y, 2);
+            var resf = Fit.PolynomialFunc(x, y, 2);
             foreach (var z in Enumerable.Range(-3, 10))
             {
                 Assert.AreEqual(Evaluate.Polynomial(z, resp), resf(z), 1e-4);
@@ -144,13 +144,13 @@ namespace MathNet.Numerics.UnitTests
             var x = Enumerable.Range(1, 6).Select(Convert.ToDouble).ToArray();
             var y = new[] { 4.986, 2.347, 2.061, -2.995, -2.352, -5.782 };
 
-            var resp = LeastSquares.FitToLinearCombination(x, y, z => 1.0, Math.Sin, Math.Cos);
+            var resp = Fit.LinearCombination(x, y, z => 1.0, Math.Sin, Math.Cos);
             Assert.AreEqual(3, resp.Length);
             Assert.AreEqual(-0.287476, resp[0], 1e-4);
             Assert.AreEqual(4.02159, resp[1], 1e-4);
             Assert.AreEqual(-1.46962, resp[2], 1e-4);
 
-            var resf = LeastSquares.FitToLinearCombinationFunc(x, y, z => 1.0, Math.Sin, Math.Cos);
+            var resf = Fit.LinearCombinationFunc(x, y, z => 1.0, Math.Sin, Math.Cos);
             foreach (var z in Enumerable.Range(-3, 10))
             {
                 Assert.AreEqual(4.02159*Math.Sin(z) - 1.46962*Math.Cos(z) - 0.287476, resf(z), 1e-4);

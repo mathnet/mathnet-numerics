@@ -1,4 +1,4 @@
-﻿// <copyright file="LeastSquares.cs" company="Math.NET">
+﻿// <copyright file="Fit.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -35,13 +35,16 @@ using MathNet.Numerics.LinearAlgebra.Generic.Factorization;
 
 namespace MathNet.Numerics
 {
-    public static class LeastSquares
+    /// <summary>
+    /// Least-Squares Curve Fitting Routines
+    /// </summary>
+    public static class Fit
     {
         /// <summary>
         /// Least-Squares fitting the points (x,y) to a line y : x -> a+b*x,
         /// returning its best fitting parameters as [a, b] array.
         /// </summary>
-        public static double[] FitToLine(double[] x, double[] y)
+        public static double[] Line(double[] x, double[] y)
         {
             // TODO: we should use a direct algorithm instead (PERF)
             return DenseMatrix
@@ -54,9 +57,9 @@ namespace MathNet.Numerics
         /// Least-Squares fitting the points (x,y) to a line y : x -> a+b*x,
         /// returning a function y' for the best fitting line.
         /// </summary>
-        public static Func<double, double> FitToLineFunc(double[] x, double[] y)
+        public static Func<double, double> LineFunc(double[] x, double[] y)
         {
-            var parameters = FitToLine(x, y);
+            var parameters = Line(x, y);
             double a = parameters[0], b = parameters[1];
             return z => a + b*z;
         }
@@ -65,7 +68,7 @@ namespace MathNet.Numerics
         /// Least-Squares fitting the points (x,y) to a k-order polynomial y : x -> p0 + p1*x + p2*x^2 + ... + pk*x^k,
         /// returning its best fitting parameters as [p0, p1, p2, ..., pk] array, compatible with Evaluate.Polynomial.
         /// </summary>
-        public static double[] FitToPolynomial(double[] x, double[] y, int order)
+        public static double[] Polynomial(double[] x, double[] y, int order)
         {
             // TODO: consider to use a specific algorithm instead
             return DenseMatrix
@@ -78,9 +81,9 @@ namespace MathNet.Numerics
         /// Least-Squares fitting the points (x,y) to a k-order polynomial y : x -> p0 + p1*x + p2*x^2 + ... + pk*x^k,
         /// returning a function y' for the best fitting polynomial.
         /// </summary>
-        public static Func<double, double> FitToPolynomialFunc(double[] x, double[] y, int order)
+        public static Func<double, double> PolynomialFunc(double[] x, double[] y, int order)
         {
-            var parameters = FitToPolynomial(x, y, order);
+            var parameters = Polynomial(x, y, order);
             return z => Evaluate.Polynomial(z, parameters);
         }
 
@@ -88,7 +91,7 @@ namespace MathNet.Numerics
         /// Least-Squares fitting the points (x,y) to an arbitrary linear combination y : x -> p0*f0(x) + p1*f1(x) + ... + pk*fk(x),
         /// returning its best fitting parameters as [p0, p1, p2, ..., pk] array.
         /// </summary>
-        public static double[] FitToLinearCombination(double[] x, double[] y, params Func<double,double>[] functions)
+        public static double[] LinearCombination(double[] x, double[] y, params Func<double,double>[] functions)
         {
             // TODO: consider to use a specific algorithm instead
             return DenseMatrix
@@ -101,9 +104,9 @@ namespace MathNet.Numerics
         /// LLeast-Squares fitting the points (x,y) to an arbitrary linear combination y : x -> p0*f0(x) + p1*f1(x) + ... + pk*fk(x),
         /// returning a function y' for the best fitting combination.
         /// </summary>
-        public static Func<double, double> FitToLinearCombinationFunc(double[] x, double[] y, params Func<double, double>[] functions)
+        public static Func<double, double> LinearCombinationFunc(double[] x, double[] y, params Func<double, double>[] functions)
         {
-            var parameters = FitToLinearCombination(x, y, functions);
+            var parameters = LinearCombination(x, y, functions);
             return z => functions.Zip(parameters, (f, p) => p*f(z)).Sum();
         }
     }

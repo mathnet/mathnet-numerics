@@ -7,8 +7,6 @@ open FsUnit
 
 module CurveFittingTests =
 
-    let tofs (f:Func<_,_>) = fun a -> f.Invoke(a)
-
     [<Test>]
     let ``When fitting to an exact line should return exact parameters``() =
         let f z = 4.0 - 1.5*z
@@ -20,7 +18,7 @@ module CurveFittingTests =
         a |> should (equalWithin 1.0e-12) 4.0
         b |> should (equalWithin 1.0e-12) -1.5
 
-        let fres = LeastSquares.FitToLineFunc(x,y) |> tofs
+        let fres = Fit.lineF x y
         in x |> Array.iter (fun x -> fres x |> should (equalWithin 1.0e-12) (f x))
 
     [<Test>]
@@ -36,5 +34,5 @@ module CurveFittingTests =
         (x,y) ||> Fit.linear [(fun _ -> 1.0); (Math.Sin); (Math.Cos) ]
         |> should (equalWithin 1.0e-4) [ -0.287476; 4.02159; -1.46962 ]
 
-        let fres = LeastSquares.FitToLinearCombinationFunc(x, y, (fun z -> 1.0), (fun z -> Math.Sin(z)), (fun z -> Math.Cos(z))) |> tofs
+        let fres = Fit.linearF [(fun z -> 1.0); (fun z -> Math.Sin(z)); (fun z -> Math.Cos(z))] x y
         in x |> Array.iter (fun x -> fres x |> should (equalWithin 1.0e-4) (4.02159*Math.Sin(x) - 1.46962*Math.Cos(x) - 0.287476))

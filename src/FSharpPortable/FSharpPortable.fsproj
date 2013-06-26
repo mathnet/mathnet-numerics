@@ -77,8 +77,8 @@
     <Compile Include="..\FSharp\BigRational.fs">
       <Link>BigRational.fs</Link>
     </Compile>
-    <Compile Include="..\FSharp\LeastSquares.fs">
-      <Link>LeastSquares.fs</Link>
+    <Compile Include="..\FSharp\Fit.fs">
+      <Link>Fit.fs</Link>
     </Compile>
     <Compile Include="..\FSharp\RandomVariable.fs">
       <Link>RandomVariable.fs</Link>

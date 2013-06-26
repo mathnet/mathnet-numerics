@@ -198,6 +198,9 @@
     <Compile Include="..\Numerics\Financial\AbsoluteRiskMeasures.cs">
       <Link>Financial\AbsoluteRiskMeasures.cs</Link>
     </Compile>
+    <Compile Include="..\Numerics\Fit.cs">
+      <Link>Fit.cs</Link>
+    </Compile>
     <Compile Include="..\Numerics\GlobalizationHelper.cs">
       <Link>GlobalizationHelper.cs</Link>
     </Compile>
@@ -281,9 +284,6 @@
     </Compile>
     <Compile Include="..\Numerics\IPrecisionSupport.cs">
       <Link>IPrecisionSupport.cs</Link>
-    </Compile>
-    <Compile Include="..\Numerics\LeastSquares.cs">
-      <Link>LeastSquares.cs</Link>
     </Compile>
     <Compile Include="..\Numerics\LinearAlgebra\Complex32\DenseMatrix.cs">
       <Link>LinearAlgebra\Complex32\DenseMatrix.cs</Link>

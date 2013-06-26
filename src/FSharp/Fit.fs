@@ -1,4 +1,4 @@
-﻿// <copyright file="LeastSquares.fs" company="Math.NET">
+﻿// <copyright file="Fit.fs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -39,11 +39,11 @@ module Fit =
 
     let private tofs (f:Func<_,_>) = fun a -> f.Invoke(a)
 
-    let line x y = let p = LeastSquares.FitToLine(x,y) in (p.[0],p.[1])
-    let linef x y = LeastSquares.FitToLineFunc(x,y) |> tofs
+    let line x y = let p = Fit.Line(x,y) in (p.[0],p.[1])
+    let lineF x y = Fit.LineFunc(x,y) |> tofs
 
-    let polynomial order x y = LeastSquares.FitToPolynomial(x,y,order)
-    let polynomialf order x y = LeastSquares.FitToPolynomialFunc(x,y,order) |> tofs
+    let polynomial order x y = Fit.Polynomial(x,y,order)
+    let polynomialF order x y = Fit.PolynomialFunc(x,y,order) |> tofs
 
     let linear functions (x:float[]) (y:float[]) =
         functions
@@ -51,6 +51,6 @@ module Fit =
         |> DenseMatrix.ofColumnsList (Array.length x) (List.length functions)
         |> fun m -> m.QR(QRMethod.Thin).Solve(DenseVector(y)).ToArray()
         |> List.ofArray
-    let linearf functions x y =
+    let linearF functions x y =
         let parts = linear functions x y |> List.zip functions
         in fun z -> parts |> List.fold (fun s (f,p) -> s+p*(f z)) 0.0
