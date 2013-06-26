@@ -34,7 +34,7 @@ module CurveFittingTests =
 
         // LeastSquares.FitToLinearCombination(x, y, (fun z -> 1.0), (fun z -> Math.Sin(z)), (fun z -> Math.Cos(z)))
         (x,y) ||> Fit.linear [(fun _ -> 1.0); (Math.Sin); (Math.Cos) ]
-        |> should (equalWithin 1.0e-4) [| -0.287476; 4.02159; -1.46962 |]
+        |> should (equalWithin 1.0e-4) [ -0.287476; 4.02159; -1.46962 ]
 
         let fres = LeastSquares.FitToLinearCombinationFunc(x, y, (fun z -> 1.0), (fun z -> Math.Sin(z)), (fun z -> Math.Cos(z))) |> tofs
         in x |> Array.iter (fun x -> fres x |> should (equalWithin 1.0e-4) (4.02159*Math.Sin(x) - 1.46962*Math.Cos(x) - 0.287476))

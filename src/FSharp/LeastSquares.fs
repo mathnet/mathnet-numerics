@@ -50,6 +50,7 @@ module Fit =
         |> List.map (fun f -> List.init (Array.length x) (fun i -> f x.[i]))
         |> DenseMatrix.ofColumnsList (Array.length x) (List.length functions)
         |> fun m -> m.QR(QRMethod.Thin).Solve(DenseVector(y)).ToArray()
+        |> List.ofArray
     let linearf functions x y =
-        let parameters = linear functions x y |> List.ofArray
-        in fun z -> functions |> List.zip parameters |> List.fold (fun s (p,f) -> s+p*(f z)) 0.0
+        let parts = linear functions x y |> List.zip functions
+        in fun z -> parts |> List.fold (fun s (f,p) -> s+p*(f z)) 0.0
