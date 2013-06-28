@@ -32,6 +32,8 @@ using System;
 using System.Linq;
 using MathNet.Numerics.LinearAlgebra.Double;
 using MathNet.Numerics.LinearAlgebra.Generic.Factorization;
+using MathNet.Numerics.Properties;
+using MathNet.Numerics.Statistics;
 
 namespace MathNet.Numerics
 {
@@ -46,11 +48,34 @@ namespace MathNet.Numerics
         /// </summary>
         public static double[] Line(double[] x, double[] y)
         {
-            // TODO: we should use a direct algorithm instead (PERF)
-            return DenseMatrix
-                .OfColumns(x.Length, 2, new[] {DenseVector.Create(x.Length, i => 1.0), new DenseVector(x)})
-                .QR(QRMethod.Thin).Solve(new DenseVector(y))
-                .ToArray();
+            if (x == null) throw new ArgumentNullException("x");
+            if (y == null) throw new ArgumentNullException("y");
+            if (x.Length != y.Length) throw new ArgumentException(Resources.ArgumentVectorsSameLength);
+            if (x.Length <= 1) throw new ArgumentException(string.Format(Resources.ArrayTooSmall, 2));
+
+            var mx = ArrayStatistics.Mean(x);
+            var my = ArrayStatistics.Mean(y);
+
+            double xsum = x[0];
+            double xvariance = 0;
+            double covariance = (x[0] - mx)*(y[0] - my);
+            for (int i = 1; i < x.Length; i++)
+            {
+                covariance += (x[i] - mx)*(y[i] - my);
+
+                xsum += x[i];
+                double diff = (i + 1)*x[i] - xsum;
+                xvariance += (diff*diff)/((i + 1)*i);
+            }
+
+            var b = covariance/xvariance;
+            return new[] {my - b*mx, b};
+
+            // General Solution:
+            //return DenseMatrix
+            //    .OfColumns(x.Length, 2, new[] {DenseVector.Create(x.Length, i => 1.0), new DenseVector(x)})
+            //    .QR(QRMethod.Thin).Solve(new DenseVector(y))
+            //    .ToArray();
         }
 
         /// <summary>
@@ -70,7 +95,6 @@ namespace MathNet.Numerics
         /// </summary>
         public static double[] Polynomial(double[] x, double[] y, int order)
         {
-            // TODO: consider to use a specific algorithm instead
             return DenseMatrix
                 .OfColumns(x.Length, order + 1, Enumerable.Range(0, order + 1).Select(j => DenseVector.Create(x.Length, i => Math.Pow(x[i], j))))
                 .QR(QRMethod.Thin).Solve(new DenseVector(y))
