@@ -121,7 +121,7 @@ namespace MathNet.Numerics.Statistics
 
         /// <summary>
         /// Estimates the unbiased population variance from the provided samples.
-        /// On a dataset of size N will use an N-1 normalizer.
+        /// On a dataset of size N will use an N-1 normalizer (Bessel's correction).
         /// Returns NaN if data has less than two entries or if any entry is NaN.
         /// </summary>
         /// <param name="samples">A subset of samples, sampled from the full population.</param>
@@ -135,7 +135,7 @@ namespace MathNet.Numerics.Statistics
 
         /// <summary>
         /// Estimates the unbiased population variance from the provided samples.
-        /// On a dataset of size N will use an N-1 normalizer.
+        /// On a dataset of size N will use an N-1 normalizer (Bessel's correction).
         /// Returns NaN if data has less than two entries or if any entry is NaN.
         /// Null-entries are ignored.
         /// </summary>
@@ -147,8 +147,8 @@ namespace MathNet.Numerics.Statistics
         }
 
         /// <summary>
-        /// Evaluates the biased population variance from the provided full population.
-        /// On a dataset of size N will use an N normalizer.
+        /// Evaluates the population variance from the provided full population.
+        /// On a dataset of size N will use an N normalizer and would thus be biased if applied to a subset.
         /// Returns NaN if data is empty or if any entry is NaN.
         /// </summary>
         /// <param name="population">The full population data.</param>
@@ -161,8 +161,8 @@ namespace MathNet.Numerics.Statistics
         }
 
         /// <summary>
-        /// Evaluates the biased population variance from the provided full population.
-        /// On a dataset of size N will use an N normalizer.
+        /// Evaluates the population variance from the provided full population.
+        /// On a dataset of size N will use an N normalize and would thus be biased if applied to a subsetr.
         /// Returns NaN if data is empty or if any entry is NaN.
         /// Null-entries are ignored.
         /// </summary>
@@ -175,7 +175,7 @@ namespace MathNet.Numerics.Statistics
 
         /// <summary>
         /// Estimates the unbiased population standard deviation from the provided samples.
-        /// On a dataset of size N will use an N-1 normalizer.
+        /// On a dataset of size N will use an N-1 normalizer (Bessel's correction).
         /// Returns NaN if data has less than two entries or if any entry is NaN.
         /// </summary>
         /// <param name="samples">A subset of samples, sampled from the full population.</param>
@@ -189,7 +189,7 @@ namespace MathNet.Numerics.Statistics
 
         /// <summary>
         /// Estimates the unbiased population standard deviation from the provided samples.
-        /// On a dataset of size N will use an N-1 normalizer.
+        /// On a dataset of size N will use an N-1 normalizer (Bessel's correction).
         /// Returns NaN if data has less than two entries or if any entry is NaN.
         /// Null-entries are ignored.
         /// </summary>
@@ -201,8 +201,8 @@ namespace MathNet.Numerics.Statistics
         }
 
         /// <summary>
-        /// Evaluates the biased population standard deviation from the provided full population.
-        /// On a dataset of size N will use an N normalizer.
+        /// Evaluates the population standard deviation from the provided full population.
+        /// On a dataset of size N will use an N normalizer and would thus be biased if applied to a subset.
         /// Returns NaN if data is empty or if any entry is NaN.
         /// </summary>
         /// <param name="population">The full population data.</param>
@@ -215,8 +215,8 @@ namespace MathNet.Numerics.Statistics
         }
 
         /// <summary>
-        /// Evaluates the biased population standard deviation from the provided full population.
-        /// On a dataset of size N will use an N normalizer.
+        /// Evaluates the population standard deviation from the provided full population.
+        /// On a dataset of size N will use an N normalizer and would thus be biased if applied to a subset.
         /// Returns NaN if data is empty or if any entry is NaN.
         /// Null-entries are ignored.
         /// </summary>
