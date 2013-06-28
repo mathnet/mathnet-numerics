@@ -75,6 +75,21 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
         }
 
         /// <summary>
+        /// Pearson correlation test.
+        /// </summary>
+        [Test]
+        public void PearsonCorrelationConsistentWithCovariance()
+        {
+            var dataA = _data["lottery"].Data.Take(200);
+            var dataB = _data["lew"].Data.Take(200);
+
+            var direct = Correlation.Pearson(dataA, dataB);
+            var covariance = dataA.Covariance(dataB)/(dataA.StandardDeviation()*dataB.StandardDeviation());
+
+            AssertHelpers.AlmostEqual(covariance, direct, 13);
+        }
+
+        /// <summary>
         /// Pearson correlation test fail.
         /// </summary>
         [Test]

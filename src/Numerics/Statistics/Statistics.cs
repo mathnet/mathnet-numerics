@@ -228,6 +228,68 @@ namespace MathNet.Numerics.Statistics
         }
 
         /// <summary>
+        /// Estimates the unbiased population covariance from the provided samples.
+        /// On a dataset of size N will use an N-1 normalizer (Bessel's correction).
+        /// Returns NaN if data has less than two entries or if any entry is NaN.
+        /// </summary>
+        /// <param name="samples1">A subset of samples, sampled from the full population.</param>
+        /// <param name="samples2">A subset of samples, sampled from the full population.</param>
+        public static double Covariance(this IEnumerable<double> samples1, IEnumerable<double> samples2)
+        {
+            var array1 = samples1 as double[];
+            var array2 = samples2 as double[];
+            return array1 != null && array2 != null
+                ? ArrayStatistics.Covariance(array1, array2)
+                : StreamingStatistics.Covariance(samples1, samples2);
+        }
+
+        /// <summary>
+        /// Estimates the unbiased population covariance from the provided samples.
+        /// On a dataset of size N will use an N-1 normalizer (Bessel's correction).
+        /// Returns NaN if data has less than two entries or if any entry is NaN.
+        /// Null-entries are ignored.
+        /// </summary>
+        /// <param name="samples1">A subset of samples, sampled from the full population.</param>
+        /// <param name="samples2">A subset of samples, sampled from the full population.</param>
+        public static double Covariance(this IEnumerable<double?> samples1, IEnumerable<double?> samples2)
+        {
+            if (samples1 == null) throw new ArgumentNullException("samples1");
+            if (samples2 == null) throw new ArgumentNullException("samples2");
+            return StreamingStatistics.Covariance(samples1.Where(d => d.HasValue).Select(d => d.Value), samples2.Where(d => d.HasValue).Select(d => d.Value));
+        }
+
+        /// <summary>
+        /// Evaluates the population covariance from the provided full populations.
+        /// On a dataset of size N will use an N normalizer and would thus be biased if applied to a subset.
+        /// Returns NaN if data is empty or if any entry is NaN.
+        /// </summary>
+        /// <param name="population1">The full population data.</param>
+        /// <param name="population2">The full population data.</param>
+        public static double PopulationCovariance(this IEnumerable<double> population1, IEnumerable<double> population2)
+        {
+            var array1 = population1 as double[];
+            var array2 = population2 as double[];
+            return array1 != null && array2 != null
+                ? ArrayStatistics.PopulationCovariance(array1, array2)
+                : StreamingStatistics.PopulationCovariance(population1, population2);
+        }
+
+        /// <summary>
+        /// Evaluates the population covariance from the provided full populations.
+        /// On a dataset of size N will use an N normalize and would thus be biased if applied to a subsetr.
+        /// Returns NaN if data is empty or if any entry is NaN.
+        /// Null-entries are ignored.
+        /// </summary>
+        /// <param name="population1">The full population data.</param>
+        /// <param name="population2">The full population data.</param>
+        public static double PopulationCovariance(this IEnumerable<double?> population1, IEnumerable<double?> population2)
+        {
+            if (population1 == null) throw new ArgumentNullException("population1");
+            if (population2 == null) throw new ArgumentNullException("population2");
+            return StreamingStatistics.PopulationCovariance(population1.Where(d => d.HasValue).Select(d => d.Value), population2.Where(d => d.HasValue).Select(d => d.Value));
+        }
+
+        /// <summary>
         /// Estimates the sample median from the provided samples (R8).
         /// </summary>
         /// <param name="data">The data sample sequence.</param>

@@ -29,6 +29,7 @@
 // </copyright>
 
 using System;
+using MathNet.Numerics.Properties;
 
 namespace MathNet.Numerics.Statistics
 {
@@ -169,6 +170,56 @@ namespace MathNet.Numerics.Statistics
         public static double PopulationStandardDeviation(double[] population)
         {
             return Math.Sqrt(PopulationVariance(population));
+        }
+
+        /// <summary>
+        /// Estimates the unbiased population covariance from the provided two sample arrays.
+        /// On a dataset of size N will use an N-1 normalizer (Bessel's correction).
+        /// Returns NaN if data has less than two entries or if any entry is NaN.
+        /// </summary>
+        /// <param name="samples1">First sample array.</param>
+        /// <param name="samples2">Second sample array.</param>
+        public static double Covariance(double[] samples1, double[] samples2)
+        {
+            if (samples1 == null) throw new ArgumentNullException("samples1");
+            if (samples2 == null) throw new ArgumentNullException("samples2");
+            if (samples1.Length != samples2.Length) throw new ArgumentException(Resources.ArgumentVectorsSameLength);
+            if (samples1.Length <= 1) return double.NaN;
+
+            var mean1 = Mean(samples1);
+            var mean2 = Mean(samples2);
+
+            var covariance = 0.0;
+            for (int i = 0; i < samples1.Length; i++)
+            {
+                covariance += (samples1[i] - mean1)*(samples2[i] - mean2);
+            }
+            return covariance/(samples1.Length - 1);
+        }
+
+        /// <summary>
+        /// Evaluates the population covariance from the full population provided as two arrays.
+        /// On a dataset of size N will use an N normalizer and would thus be biased if applied to a subset.
+        /// Returns NaN if data is empty or if any entry is NaN.
+        /// </summary>
+        /// <param name="samples1">First sample array.</param>
+        /// <param name="samples2">Second sample array.</param>
+        public static double PopulationCovariance(double[] samples1, double[] samples2)
+        {
+            if (samples1 == null) throw new ArgumentNullException("samples1");
+            if (samples2 == null) throw new ArgumentNullException("samples2");
+            if (samples1.Length != samples2.Length) throw new ArgumentException(Resources.ArgumentVectorsSameLength);
+            if (samples1.Length == 0) return double.NaN;
+
+            var mean1 = Mean(samples1);
+            var mean2 = Mean(samples2);
+
+            var covariance = 0.0;
+            for (int i = 0; i < samples1.Length; i++)
+            {
+                covariance += (samples1[i] - mean1) * (samples2[i] - mean2);
+            }
+            return covariance/samples1.Length;
         }
 
         /// <summary>

@@ -30,6 +30,7 @@
 
 using System;
 using System.Collections.Generic;
+using MathNet.Numerics.Properties;
 
 namespace MathNet.Numerics.Statistics
 {
@@ -192,6 +193,96 @@ namespace MathNet.Numerics.Statistics
         public static double PopulationStandardDeviation(IEnumerable<double> population)
         {
             return Math.Sqrt(PopulationVariance(population));
+        }
+
+        /// <summary>
+        /// Estimates the unbiased population covariance from the provided two sample enumerable sequences, in a single pass without memoization.
+        /// On a dataset of size N will use an N-1 normalizer (Bessel's correction).
+        /// Returns NaN if data has less than two entries or if any entry is NaN.
+        /// </summary>
+        /// <param name="samples1">First sample stream.</param>
+        /// <param name="samples2">Second sample stream.</param>
+        public static double Covariance(IEnumerable<double> samples1, IEnumerable<double> samples2)
+        {
+            if (samples1 == null) throw new ArgumentNullException("samples1");
+            if (samples2 == null) throw new ArgumentNullException("samples2");
+
+            // https://en.wikipedia.org/wiki/Algorithms_for_calculating_variance
+
+            var n = 0;
+            var mean1 = 0.0;
+            var mean2 = 0.0;
+            var comoment = 0.0;
+
+            using (var s1 = samples1.GetEnumerator())
+            using (var s2 = samples2.GetEnumerator())
+            {
+                while (s1.MoveNext())
+                {
+                    if (!s2.MoveNext())
+                    {
+                        throw new ArgumentException(Resources.ArgumentVectorsSameLength);
+                    }
+
+                    var mean2Prev = mean2;
+                    n++;
+                    mean1 += (s1.Current - mean1)/n;
+                    mean2 += (s2.Current - mean2)/n;
+                    comoment += (s1.Current - mean1)*(s2.Current - mean2Prev);
+
+                }
+                if (s2.MoveNext())
+                {
+                    throw new ArgumentException(Resources.ArgumentVectorsSameLength);
+                }
+            }
+
+            return n > 1 ? comoment/(n - 1) : double.NaN;
+        }
+
+        /// <summary>
+        /// Evaluates the population covariance from the full population provided as two enumerable sequences, in a single pass without memoization.
+        /// On a dataset of size N will use an N normalizer and would thus be biased if applied to a subset.
+        /// Returns NaN if data is empty or if any entry is NaN.
+        /// </summary>
+        /// <param name="samples1">First sample stream.</param>
+        /// <param name="samples2">Second sample stream.</param>
+        public static double PopulationCovariance(IEnumerable<double> samples1, IEnumerable<double> samples2)
+        {
+            if (samples1 == null) throw new ArgumentNullException("samples1");
+            if (samples2 == null) throw new ArgumentNullException("samples2");
+
+            // https://en.wikipedia.org/wiki/Algorithms_for_calculating_variance
+
+            var n = 0;
+            var mean1 = 0.0;
+            var mean2 = 0.0;
+            var comoment = 0.0;
+
+            using (var s1 = samples1.GetEnumerator())
+            using (var s2 = samples2.GetEnumerator())
+            {
+                while (s1.MoveNext())
+                {
+                    if (!s2.MoveNext())
+                    {
+                        throw new ArgumentException(Resources.ArgumentVectorsSameLength);
+                    }
+
+                    var mean2Prev = mean2;
+                    n++;
+                    mean1 += (s1.Current - mean1) / n;
+                    mean2 += (s2.Current - mean2) / n;
+                    comoment += (s1.Current - mean1) * (s2.Current - mean2Prev);
+
+                }
+                if (s2.MoveNext())
+                {
+                    throw new ArgumentException(Resources.ArgumentVectorsSameLength);
+                }
+            }
+
+            return comoment/n;
         }
     }
 }

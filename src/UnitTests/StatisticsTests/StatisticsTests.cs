@@ -69,6 +69,8 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
             Assert.Throws<ArgumentNullException>(() => Statistics.StandardDeviation(data));
             Assert.Throws<ArgumentNullException>(() => Statistics.PopulationVariance(data));
             Assert.Throws<ArgumentNullException>(() => Statistics.PopulationStandardDeviation(data));
+            Assert.Throws<ArgumentNullException>(() => Statistics.Covariance(data, data));
+            Assert.Throws<ArgumentNullException>(() => Statistics.PopulationCovariance(data, data));
 
             Assert.Throws<ArgumentNullException>(() => SortedArrayStatistics.Minimum(data));
             Assert.Throws<ArgumentNullException>(() => SortedArrayStatistics.Maximum(data));
@@ -91,6 +93,8 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
             Assert.Throws<ArgumentNullException>(() => ArrayStatistics.StandardDeviation(data));
             Assert.Throws<ArgumentNullException>(() => ArrayStatistics.PopulationVariance(data));
             Assert.Throws<ArgumentNullException>(() => ArrayStatistics.PopulationStandardDeviation(data));
+            Assert.Throws<ArgumentNullException>(() => ArrayStatistics.Covariance(data, data));
+            Assert.Throws<ArgumentNullException>(() => ArrayStatistics.PopulationCovariance(data, data));
             Assert.Throws<ArgumentNullException>(() => ArrayStatistics.MedianInplace(data));
             Assert.Throws<ArgumentNullException>(() => ArrayStatistics.QuantileInplace(data, 0.3));
 
@@ -101,6 +105,8 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
             Assert.Throws<ArgumentNullException>(() => StreamingStatistics.StandardDeviation(data));
             Assert.Throws<ArgumentNullException>(() => StreamingStatistics.PopulationVariance(data));
             Assert.Throws<ArgumentNullException>(() => StreamingStatistics.PopulationStandardDeviation(data));
+            Assert.Throws<ArgumentNullException>(() => StreamingStatistics.Covariance(data, data));
+            Assert.Throws<ArgumentNullException>(() => StreamingStatistics.PopulationCovariance(data, data));
         }
 
         [Test]
@@ -117,6 +123,8 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
             Assert.DoesNotThrow(() => Statistics.StandardDeviation(data));
             Assert.DoesNotThrow(() => Statistics.PopulationVariance(data));
             Assert.DoesNotThrow(() => Statistics.PopulationStandardDeviation(data));
+            Assert.DoesNotThrow(() => Statistics.Covariance(data, data));
+            Assert.DoesNotThrow(() => Statistics.PopulationCovariance(data, data));
 
             Assert.DoesNotThrow(() => SortedArrayStatistics.Minimum(data));
             Assert.DoesNotThrow(() => SortedArrayStatistics.Maximum(data));
@@ -139,6 +147,8 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
             Assert.DoesNotThrow(() => ArrayStatistics.StandardDeviation(data));
             Assert.DoesNotThrow(() => ArrayStatistics.PopulationVariance(data));
             Assert.DoesNotThrow(() => ArrayStatistics.PopulationStandardDeviation(data));
+            Assert.DoesNotThrow(() => ArrayStatistics.Covariance(data, data));
+            Assert.DoesNotThrow(() => ArrayStatistics.PopulationCovariance(data, data));
             Assert.DoesNotThrow(() => ArrayStatistics.MedianInplace(data));
             Assert.DoesNotThrow(() => ArrayStatistics.QuantileInplace(data, 0.3));
 
@@ -149,6 +159,8 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
             Assert.DoesNotThrow(() => StreamingStatistics.StandardDeviation(data));
             Assert.DoesNotThrow(() => StreamingStatistics.PopulationVariance(data));
             Assert.DoesNotThrow(() => StreamingStatistics.PopulationStandardDeviation(data));
+            Assert.DoesNotThrow(() => StreamingStatistics.Covariance(data, data));
+            Assert.DoesNotThrow(() => StreamingStatistics.PopulationCovariance(data, data));
         }
 
         [TestCase("lottery")]
@@ -561,6 +573,64 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
             AssertHelpers.AlmostEqual(1e+9, StreamingStatistics.Mean(gaussian.Samples().Take(10000)), 11);
             AssertHelpers.AlmostEqual(4d, StreamingStatistics.Variance(gaussian.Samples().Take(10000)), 1);
             AssertHelpers.AlmostEqual(2d, StreamingStatistics.StandardDeviation(gaussian.Samples().Take(10000)), 2);
+        }
+
+        [TestCase("lottery")]
+        [TestCase("lew")]
+        [TestCase("mavro")]
+        [TestCase("michelso")]
+        [TestCase("numacc1")]
+        public void CovarianceConsistentWithVariance(string dataSet)
+        {
+            var data = _data[dataSet];
+            AssertHelpers.AlmostEqual(Statistics.Variance(data.Data), Statistics.Covariance(data.Data, data.Data), 10);
+            AssertHelpers.AlmostEqual(ArrayStatistics.Variance(data.Data), ArrayStatistics.Covariance(data.Data, data.Data), 10);
+            AssertHelpers.AlmostEqual(StreamingStatistics.Variance(data.Data), StreamingStatistics.Covariance(data.Data, data.Data), 10);
+        }
+
+        [TestCase("lottery")]
+        [TestCase("lew")]
+        [TestCase("mavro")]
+        [TestCase("michelso")]
+        [TestCase("numacc1")]
+        public void PopulationCovarianceConsistentWithPopulationVariance(string dataSet)
+        {
+            var data = _data[dataSet];
+            AssertHelpers.AlmostEqual(Statistics.PopulationVariance(data.Data), Statistics.PopulationCovariance(data.Data, data.Data), 10);
+            AssertHelpers.AlmostEqual(ArrayStatistics.PopulationVariance(data.Data), ArrayStatistics.PopulationCovariance(data.Data, data.Data), 10);
+            AssertHelpers.AlmostEqual(StreamingStatistics.PopulationVariance(data.Data), StreamingStatistics.PopulationCovariance(data.Data, data.Data), 10);
+        }
+
+        [Test]
+        public void CovarianceIsSymmetric()
+        {
+            var dataA = _data["lottery"].Data.Take(200);
+            var dataB = _data["lew"].Data.Take(200);
+
+            AssertHelpers.AlmostEqual(Statistics.Covariance(dataA, dataB), Statistics.Covariance(dataB, dataA), 12);
+            AssertHelpers.AlmostEqual(StreamingStatistics.Covariance(dataA, dataB), StreamingStatistics.Covariance(dataB, dataA), 12);
+            AssertHelpers.AlmostEqual(ArrayStatistics.Covariance(dataA.ToArray(), dataB.ToArray()), ArrayStatistics.Covariance(dataB.ToArray(), dataA.ToArray()), 12);
+
+            AssertHelpers.AlmostEqual(Statistics.PopulationCovariance(dataA, dataB), Statistics.PopulationCovariance(dataB, dataA), 12);
+            AssertHelpers.AlmostEqual(StreamingStatistics.PopulationCovariance(dataA, dataB), StreamingStatistics.PopulationCovariance(dataB, dataA), 12);
+            AssertHelpers.AlmostEqual(ArrayStatistics.PopulationCovariance(dataA.ToArray(), dataB.ToArray()), ArrayStatistics.PopulationCovariance(dataB.ToArray(), dataA.ToArray()), 12);
+        }
+
+        [TestCase("lottery")]
+        [TestCase("lew")]
+        [TestCase("mavro")]
+        [TestCase("michelso")]
+        [TestCase("numacc1")]
+        public void ArrayStatisticsConsistentWithStreamimgStatistics(string dataSet)
+        {
+            var data = _data[dataSet];
+            AssertHelpers.AlmostEqual(ArrayStatistics.Mean(data.Data), StreamingStatistics.Mean(data.Data), 10);
+            AssertHelpers.AlmostEqual(ArrayStatistics.Variance(data.Data), StreamingStatistics.Variance(data.Data), 10);
+            AssertHelpers.AlmostEqual(ArrayStatistics.StandardDeviation(data.Data), StreamingStatistics.StandardDeviation(data.Data), 10);
+            AssertHelpers.AlmostEqual(ArrayStatistics.PopulationVariance(data.Data), StreamingStatistics.PopulationVariance(data.Data), 10);
+            AssertHelpers.AlmostEqual(ArrayStatistics.PopulationStandardDeviation(data.Data), StreamingStatistics.PopulationStandardDeviation(data.Data), 10);
+            AssertHelpers.AlmostEqual(ArrayStatistics.Covariance(data.Data, data.Data), StreamingStatistics.Covariance(data.Data, data.Data), 10);
+            AssertHelpers.AlmostEqual(ArrayStatistics.PopulationCovariance(data.Data, data.Data), StreamingStatistics.PopulationCovariance(data.Data, data.Data), 10);
         }
 
         [Test]
