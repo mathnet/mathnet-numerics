@@ -202,24 +202,24 @@ namespace MathNet.Numerics.Statistics
         /// On a dataset of size N will use an N normalizer and would thus be biased if applied to a subset.
         /// Returns NaN if data is empty or if any entry is NaN.
         /// </summary>
-        /// <param name="samples1">First sample array.</param>
-        /// <param name="samples2">Second sample array.</param>
-        public static double PopulationCovariance(double[] samples1, double[] samples2)
+        /// <param name="population1">First population array.</param>
+        /// <param name="population2">Second population array.</param>
+        public static double PopulationCovariance(double[] population1, double[] population2)
         {
-            if (samples1 == null) throw new ArgumentNullException("samples1");
-            if (samples2 == null) throw new ArgumentNullException("samples2");
-            if (samples1.Length != samples2.Length) throw new ArgumentException(Resources.ArgumentVectorsSameLength);
-            if (samples1.Length == 0) return double.NaN;
+            if (population1 == null) throw new ArgumentNullException("population1");
+            if (population2 == null) throw new ArgumentNullException("population2");
+            if (population1.Length != population2.Length) throw new ArgumentException(Resources.ArgumentVectorsSameLength);
+            if (population1.Length == 0) return double.NaN;
 
-            var mean1 = Mean(samples1);
-            var mean2 = Mean(samples2);
+            var mean1 = Mean(population1);
+            var mean2 = Mean(population2);
 
             var covariance = 0.0;
-            for (int i = 0; i < samples1.Length; i++)
+            for (int i = 0; i < population1.Length; i++)
             {
-                covariance += (samples1[i] - mean1) * (samples2[i] - mean2);
+                covariance += (population1[i] - mean1) * (population2[i] - mean2);
             }
-            return covariance/samples1.Length;
+            return covariance/population1.Length;
         }
 
         /// <summary>

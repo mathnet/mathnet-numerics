@@ -245,12 +245,12 @@ namespace MathNet.Numerics.Statistics
         /// On a dataset of size N will use an N normalizer and would thus be biased if applied to a subset.
         /// Returns NaN if data is empty or if any entry is NaN.
         /// </summary>
-        /// <param name="samples1">First sample stream.</param>
-        /// <param name="samples2">Second sample stream.</param>
-        public static double PopulationCovariance(IEnumerable<double> samples1, IEnumerable<double> samples2)
+        /// <param name="population1">First population stream.</param>
+        /// <param name="population2">Second population stream.</param>
+        public static double PopulationCovariance(IEnumerable<double> population1, IEnumerable<double> population2)
         {
-            if (samples1 == null) throw new ArgumentNullException("samples1");
-            if (samples2 == null) throw new ArgumentNullException("samples2");
+            if (population1 == null) throw new ArgumentNullException("population1");
+            if (population2 == null) throw new ArgumentNullException("population2");
 
             // https://en.wikipedia.org/wiki/Algorithms_for_calculating_variance
 
@@ -259,24 +259,24 @@ namespace MathNet.Numerics.Statistics
             var mean2 = 0.0;
             var comoment = 0.0;
 
-            using (var s1 = samples1.GetEnumerator())
-            using (var s2 = samples2.GetEnumerator())
+            using (var p1 = population1.GetEnumerator())
+            using (var p2 = population2.GetEnumerator())
             {
-                while (s1.MoveNext())
+                while (p1.MoveNext())
                 {
-                    if (!s2.MoveNext())
+                    if (!p2.MoveNext())
                     {
                         throw new ArgumentException(Resources.ArgumentVectorsSameLength);
                     }
 
                     var mean2Prev = mean2;
                     n++;
-                    mean1 += (s1.Current - mean1) / n;
-                    mean2 += (s2.Current - mean2) / n;
-                    comoment += (s1.Current - mean1) * (s2.Current - mean2Prev);
+                    mean1 += (p1.Current - mean1) / n;
+                    mean2 += (p2.Current - mean2) / n;
+                    comoment += (p1.Current - mean1) * (p2.Current - mean2Prev);
 
                 }
-                if (s2.MoveNext())
+                if (p2.MoveNext())
                 {
                     throw new ArgumentException(Resources.ArgumentVectorsSameLength);
                 }
