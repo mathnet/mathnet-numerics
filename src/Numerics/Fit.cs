@@ -33,7 +33,6 @@ using System.Linq;
 using MathNet.Numerics.LinearAlgebra.Double;
 using MathNet.Numerics.LinearAlgebra.Generic.Factorization;
 using MathNet.Numerics.Properties;
-using MathNet.Numerics.Statistics;
 
 namespace MathNet.Numerics
 {
@@ -53,22 +52,28 @@ namespace MathNet.Numerics
             if (x.Length != y.Length) throw new ArgumentException(Resources.ArgumentVectorsSameLength);
             if (x.Length <= 1) throw new ArgumentException(string.Format(Resources.ArrayTooSmall, 2));
 
-            var mx = ArrayStatistics.Mean(x);
-            var my = ArrayStatistics.Mean(y);
-
-            double xsum = x[0];
-            double xvariance = 0;
-            double covariance = (x[0] - mx)*(y[0] - my);
-            for (int i = 1; i < x.Length; i++)
+            // First Pass: Mean (Less robust but faster than ArrayStatistics.Mean)
+            double mx = 0.0;
+            double my = 0.0;
+            for (int i = 0; i < x.Length; i++)
             {
-                covariance += (x[i] - mx)*(y[i] - my);
+                mx += x[i];
+                my += y[i];
+            }
+            mx /= x.Length;
+            my /= y.Length;
 
-                xsum += x[i];
-                double diff = (i + 1)*x[i] - xsum;
-                xvariance += (diff*diff)/((i + 1)*i);
+            // Second Pass: Covariance/Variance
+            double covariance = 0.0;
+            double variance = 0.0;
+            for (int i = 0; i < x.Length; i++)
+            {
+                double diff = x[i] - mx;
+                covariance += diff*(y[i] - my);
+                variance += diff*diff;
             }
 
-            var b = covariance/xvariance;
+            var b = covariance/variance;
             return new[] {my - b*mx, b};
 
             // General Solution:
