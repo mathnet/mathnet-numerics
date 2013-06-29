@@ -171,6 +171,50 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             return new DenseColumnMajorMatrixStorage<T>(rows, columns, array);
         }
 
+        public static DenseColumnMajorMatrixStorage<T> OfColumnVectors(VectorStorage<T>[] data)
+        {
+            if (data == null) throw new ArgumentNullException("data");
+            int columns = data.Length;
+            int rows = data[0].Length;
+            var array = new T[rows * columns];
+            for (int j = 0; j < data.Length; j++)
+            {
+                var column = data[j];
+                var denseColumn = column as DenseVectorStorage<T>;
+                if (denseColumn != null)
+                {
+                    Array.Copy(denseColumn.Data, 0, array, j * rows, rows);
+                }
+                else
+                {
+                    // FALL BACK
+                    int offset = j*rows;
+                    for (int i = 0; i < rows; i++)
+                    {
+                        array[offset + i] = column.At(i);
+                    }
+                }
+            }
+            return new DenseColumnMajorMatrixStorage<T>(rows, columns, array);
+        }
+
+        public static DenseColumnMajorMatrixStorage<T> OfRowVectors(VectorStorage<T>[] data)
+        {
+            if (data == null) throw new ArgumentNullException("data");
+            int rows = data.Length;
+            int columns = data[0].Length;
+            var array = new T[rows * columns];
+            for (int j = 0; j < columns; j++)
+            {
+                int offset = j*rows;
+                for (int i = 0; i < rows; i++)
+                {
+                    array[offset + i] = data[i].At(j);
+                }
+            }
+            return new DenseColumnMajorMatrixStorage<T>(rows, columns, array);
+        }
+
         public static DenseColumnMajorMatrixStorage<T> OfColumnEnumerables<TColumn>(int rows, int columns, IEnumerable<TColumn> data)
             // NOTE: flexible typing to 'backport' generic covariance.
             where TColumn : IEnumerable<T>
