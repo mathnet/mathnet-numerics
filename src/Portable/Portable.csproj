@@ -996,8 +996,8 @@
     <Compile Include="..\Numerics\RootFinding\Brent.cs">
       <Link>RootFinding\Brent.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\RootFinding\HybridNewtonRaphson.cs">
-      <Link>RootFinding\HybridNewtonRaphson.cs</Link>
+    <Compile Include="..\Numerics\RootFinding\RobustNewtonRaphson.cs">
+      <Link>RootFinding\RobustNewtonRaphson.cs</Link>
     </Compile>
     <Compile Include="..\Numerics\RootFinding\ZeroCrossingBracketing.cs">
       <Link>RootFinding\ZeroCrossingBracketing.cs</Link>

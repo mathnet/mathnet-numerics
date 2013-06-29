@@ -43,7 +43,7 @@ namespace MathNet.Numerics
         public static double OfFunctionAndDerivative(Func<double, double> f, Func<double, double> df, double lowerBound, double upperBound, double accuracy = 1e-8)
         {
             double root;
-            if (HybridNewtonRaphson.TryFindRoot(f, df, lowerBound, upperBound, accuracy, 100, 20, out root))
+            if (RobustNewtonRaphson.TryFindRoot(f, df, lowerBound, upperBound, accuracy, 100, 20, out root))
             {
                 return root;
             }

@@ -1,4 +1,4 @@
-﻿// <copyright file="NewtonRaphson.cs" company="Math.NET">
+﻿// <copyright file="RobustNewtonRaphson.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -32,7 +32,7 @@ using System;
 
 namespace MathNet.Numerics.RootFinding
 {
-    public static class HybridNewtonRaphson
+    public static class RobustNewtonRaphson
     {
         /// <summary>Find a solution of the equation f(x)=0.</summary>
         /// <param name="f">The function to find roots from.</param>
