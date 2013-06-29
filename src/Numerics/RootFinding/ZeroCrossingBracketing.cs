@@ -32,7 +32,7 @@ using System;
 using System.Collections.Generic;
 using MathNet.Numerics.Properties;
 
-namespace MathNet.Numerics.RootFinding.Algorithms
+namespace MathNet.Numerics.RootFinding
 {
     public static class ZeroCrossingBracketing
     {

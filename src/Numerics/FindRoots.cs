@@ -1,4 +1,4 @@
-﻿// <copyright file="FloatingPointRoots.cs" company="Math.NET">
+﻿// <copyright file="FindRoots.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -29,11 +29,11 @@
 // </copyright>
 
 using System;
-using MathNet.Numerics.RootFinding.Algorithms;
+using MathNet.Numerics.RootFinding;
 
-namespace MathNet.Numerics.RootFinding
+namespace MathNet.Numerics
 {
-    public static class RealRoots
+    public static class FindRoots
     {
         public static double OfFunction(Func<double, double> f, double lowerBound, double upperBound, double accuracy = 1e-8)
         {

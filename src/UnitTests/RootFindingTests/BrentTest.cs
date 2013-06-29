@@ -29,7 +29,7 @@
 // </copyright>
 
 using System;
-using MathNet.Numerics.RootFinding.Algorithms;
+using MathNet.Numerics.RootFinding;
 using NUnit.Framework;
 
 namespace MathNet.Numerics.UnitTests.RootFindingTests

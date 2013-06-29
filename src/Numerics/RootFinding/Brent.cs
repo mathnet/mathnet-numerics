@@ -30,7 +30,7 @@
 
 using System;
 
-namespace MathNet.Numerics.RootFinding.Algorithms
+namespace MathNet.Numerics.RootFinding
 {
     public static class Brent
     {

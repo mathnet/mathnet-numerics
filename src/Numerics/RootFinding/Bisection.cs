@@ -31,7 +31,7 @@
 using System;
 using MathNet.Numerics.Properties;
 
-namespace MathNet.Numerics.RootFinding.Algorithms
+namespace MathNet.Numerics.RootFinding
 {
     public static class Bisection
     {

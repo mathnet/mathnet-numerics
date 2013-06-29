@@ -198,6 +198,9 @@
     <Compile Include="..\Numerics\Financial\AbsoluteRiskMeasures.cs">
       <Link>Financial\AbsoluteRiskMeasures.cs</Link>
     </Compile>
+    <Compile Include="..\Numerics\FindRoots.cs">
+      <Link>FindRoots.cs</Link>
+    </Compile>
     <Compile Include="..\Numerics\Fit.cs">
       <Link>Fit.cs</Link>
     </Compile>
@@ -987,20 +990,17 @@
     <Compile Include="..\Numerics\Random\Xorshift.cs">
       <Link>Random\Xorshift.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\RootFinding\Algorithms\Bisection.cs">
-      <Link>RootFinding\Algorithms\Bisection.cs</Link>
+    <Compile Include="..\Numerics\RootFinding\Bisection.cs">
+      <Link>RootFinding\Bisection.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\RootFinding\Algorithms\Brent.cs">
-      <Link>RootFinding\Algorithms\Brent.cs</Link>
+    <Compile Include="..\Numerics\RootFinding\Brent.cs">
+      <Link>RootFinding\Brent.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\RootFinding\Algorithms\HybridNewtonRaphson.cs">
-      <Link>RootFinding\Algorithms\HybridNewtonRaphson.cs</Link>
+    <Compile Include="..\Numerics\RootFinding\HybridNewtonRaphson.cs">
+      <Link>RootFinding\HybridNewtonRaphson.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\RootFinding\Algorithms\ZeroCrossingBracketing.cs">
-      <Link>RootFinding\Algorithms\ZeroCrossingBracketing.cs</Link>
-    </Compile>
-    <Compile Include="..\Numerics\RootFinding\RealRoots.cs">
-      <Link>RootFinding\RealRoots.cs</Link>
+    <Compile Include="..\Numerics\RootFinding\ZeroCrossingBracketing.cs">
+      <Link>RootFinding\ZeroCrossingBracketing.cs</Link>
     </Compile>
     <Compile Include="..\Numerics\SerializableAttribute.cs">
       <Link>SerializableAttribute.cs</Link>
