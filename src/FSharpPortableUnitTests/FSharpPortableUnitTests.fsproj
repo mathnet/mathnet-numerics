@@ -92,8 +92,8 @@
     <Compile Include="..\FSharpUnitTests\PokerTests.fs">
       <Link>PokerTests.fs</Link>
     </Compile>
-    <Compile Include="..\FSharpUnitTests\CurveFittingTests.fs">
-      <Link>CurveFittingTests.fs</Link>
+    <Compile Include="..\FSharpUnitTests\FitTests.fs">
+      <Link>FitTests.fs</Link>
     </Compile>
     <None Include="App.config" />
     <None Include="packages.config" />

@@ -5,7 +5,7 @@ open MathNet.Numerics
 open NUnit.Framework
 open FsUnit
 
-module CurveFittingTests =
+module FitTests =
 
     [<Test>]
     let ``When fitting to an exact line should return exact parameters``() =
