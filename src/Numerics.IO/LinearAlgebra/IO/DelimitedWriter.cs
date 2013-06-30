@@ -38,6 +38,7 @@ namespace MathNet.Numerics.LinearAlgebra.IO
     /// Writes an <see cref="Matrix{TDataType}"/> to delimited text file. If the user does not
     /// specify a delimiter, a tab separator is used.
     /// </summary>
+    [Obsolete("Use MathNet.Numerics.Data.Text instead (separate NuGet package). Scheduled for removal in v3.0.")]
     public class DelimitedWriter : MatrixWriter
     {
         /// <summary>

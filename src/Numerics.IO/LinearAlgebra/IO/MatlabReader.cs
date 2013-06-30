@@ -40,6 +40,7 @@ namespace MathNet.Numerics.LinearAlgebra.IO
     /// Creates matrices from Matlab files.
     /// </summary>
     /// <typeparam name="TDataType">The data type of the Matrix. It can be either: double, float, Complex, or Complex32.</typeparam>
+    [Obsolete("Use MathNet.Numerics.Data.Matlab instead (separate NuGet package). Scheduled for removal in v3.0.")]
     public class MatlabMatrixReader<TDataType> where TDataType : struct, IEquatable<TDataType>, IFormattable
     {
         /// <summary>

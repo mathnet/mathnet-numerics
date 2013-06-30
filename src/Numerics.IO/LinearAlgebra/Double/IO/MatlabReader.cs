@@ -24,6 +24,8 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System;
+
 namespace MathNet.Numerics.LinearAlgebra.Double.IO
 {
     using System.IO;
@@ -32,6 +34,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.IO
     /// <summary>
     /// Creates matrices from Matlab files.
     /// </summary>
+    [Obsolete("Use MathNet.Numerics.Data.Matlab instead (separate NuGet package). Scheduled for removal in v3.0.")]
     public class MatlabMatrixReader : MatlabMatrixReader<double>
     {
         /// <summary>

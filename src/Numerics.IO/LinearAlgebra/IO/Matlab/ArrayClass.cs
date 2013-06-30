@@ -26,11 +26,14 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System;
+
 namespace MathNet.Numerics.LinearAlgebra.IO.Matlab
 {
     /// <summary>
     /// Enumeration for the Matlab array types
     /// </summary>
+    [Obsolete("Use MathNet.Numerics.Data.Matlab instead (separate NuGet package). Scheduled for removal in v3.0.")]
     internal enum ArrayClass : byte
     {
         /// <summary>

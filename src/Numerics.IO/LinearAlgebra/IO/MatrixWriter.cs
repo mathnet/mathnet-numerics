@@ -37,6 +37,7 @@ namespace MathNet.Numerics.LinearAlgebra.IO
     /// <summary>
     /// Base class to write a single <see cref="Matrix{DataType}"/> to a file or stream.
     /// </summary>
+    [Obsolete("Use MathNet.Numerics.Data.Text instead (separate NuGet package). Scheduled for removal in v3.0.")]
     public abstract class MatrixWriter
     {
         /// <summary>

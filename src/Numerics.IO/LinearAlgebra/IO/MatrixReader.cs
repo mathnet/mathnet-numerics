@@ -36,6 +36,7 @@ namespace MathNet.Numerics.LinearAlgebra.IO
     /// </summary>
     /// <typeparam name="TMatrix">The type of Matrix to return.</typeparam>
     /// <typeparam name="TDataType">The data type of the Matrix. It can be either: double, float, Complex, or Complex32.</typeparam>
+    [Obsolete("Use MathNet.Numerics.Data.Text instead (separate NuGet package). Scheduled for removal in v3.0.")]
     public abstract class MatrixReader<TMatrix, TDataType>
         where TMatrix : Matrix<TDataType>
         where TDataType : struct, IEquatable<TDataType>, IFormattable

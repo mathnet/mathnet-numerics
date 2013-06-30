@@ -36,6 +36,7 @@ namespace MathNet.Numerics.LinearAlgebra.IO.Matlab
     /// Represents a Matlab file
     /// </summary>
     /// <typeparam name="TDataType">The data type of the matrix to return.</typeparam>
+    [Obsolete("Use MathNet.Numerics.Data.Matlab instead (separate NuGet package). Scheduled for removal in v3.0.")]
     internal class MatlabFile<TDataType> where TDataType : struct, IEquatable<TDataType>, IFormattable 
     {
         /// <summary>

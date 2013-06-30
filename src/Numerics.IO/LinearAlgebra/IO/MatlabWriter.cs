@@ -42,6 +42,7 @@ namespace MathNet.Numerics.LinearAlgebra.IO
     /// <summary>
     /// Writes matrices to a Matlab file.
     /// </summary>
+    [Obsolete("Use MathNet.Numerics.Data.Matlab instead (separate NuGet package). Scheduled for removal in v3.0.")]
     public class MatlabMatrixWriter : IDisposable
     {
         /// <summary>

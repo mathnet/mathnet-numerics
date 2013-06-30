@@ -53,8 +53,11 @@
 
 */
 
+using System;
+
 namespace MathNet.Numerics.LinearAlgebra.IO.Matlab
 {
+    [Obsolete("Use MathNet.Numerics.Data.Matlab instead (separate NuGet package). Scheduled for removal in v3.0.")]
     internal static class Adler32
     {
         /* largest prime smaller than 65536 */

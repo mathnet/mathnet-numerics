@@ -34,6 +34,7 @@ namespace MathNet.Numerics.LinearAlgebra.IO.Matlab
     /// Matlab Array Flags
     /// </summary>
     [Flags]
+    [Obsolete("Use MathNet.Numerics.Data.Matlab instead (separate NuGet package). Scheduled for removal in v3.0.")]
     internal enum ArrayFlags
     {
         /// <summary>

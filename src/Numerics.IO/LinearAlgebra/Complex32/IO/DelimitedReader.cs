@@ -36,6 +36,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.IO
     /// specify a delimiter, then any whitespace is used.
     /// </summary>
     /// <typeparam name="TMatrix">The type of the matrix to return.</typeparam>
+    [Obsolete("Use MathNet.Numerics.Data.Text instead (separate NuGet package). Scheduled for removal in v3.0.")]
     public class DelimitedReader<TMatrix> : DelimitedReader<TMatrix, Complex32>
         where TMatrix : Matrix<Complex32>
     {
