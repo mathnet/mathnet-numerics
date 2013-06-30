@@ -10,6 +10,8 @@ NuGet Packages, available in the [NuGet Gallery](https://nuget.org/profiles/math
 
 - `MathNet.Numerics` - core package, including both .Net 4 and portable builds
 - `MathNet.Numerics.FSharp` - optional extensions for a better F# experience
+- `MathNet.Numerics.Data.Text` - optional extensions for text-based matrix input/output (CSV for now)
+- `MathNet.Numerics.Data.Matlab` - optional extensions for Matlab matrix file input/output
 - `MathNet.Numerics.MKL.Win-x86` - optional Linear Algebra MKL native provider
 - `MathNet.Numerics.MKL.Win-x64` - optional Linear Algebra MKL native provider
 - `MathNet.Numerics.MKL.Linux-x86` - optional Linear Algebra MKL native provider
@@ -28,30 +30,45 @@ Over time some members and classes have been replaced with more suitable alterna
 v2.6.0 - TBA, work in progress
 ------------------------------
 
-### Root Finding:
+### New: Linear Curve Fitting
 
-- We now provide basic root finding algorithms
+- Linear least-squares fitting to lines, polynomials and linear combinations of arbitrary functions. To be extended in future versions.
+- Accompanying idiomatic F# module.
+
+### New: Root Finding
+
+- We now provide basic root finding algorithms. To be extended in future versions.
+- Accompanying idiomatic F# module.
 - Brent algorithm. *~Candy Chiu*
 - Bisection algorithm. *~Scott Stephens*
 - Hybrid versions of Newton-Raphson and Bisection that try to recover automatically in cases where they usually would fail. This modification makes them more robust e.g. in the presence of singularities and less sensitive to the search range/interval.
 - Most algorithms support a TryFind-pattern which returns success instead of throwing an exception. Simplifies  common fall-back scenarios and works with F# pattern matching (similar to TryParse from BCL).
 - Basic bracketing algorithm
 
-### Linear Algebra:
+### Linear Algebra
 
 - Native eigenvalue decomposition (EVD) support with our MKL packages *~Marcus Cuda*
 - Add missing scalar-vector operations (s-v, s/v, s%v) *~Thomas Ibel*
+- Support for new F# 3.1 row/column slicing syntax on matrices
+- Matrices learned proper OfColumn/RowVectors, analog also in F#.
+- Documentation Fixes *~Robin Neatherway*
 - BUG: Fixed exception text message when creating a matrix from enumerables (rows vs columns) *~Thomas Ibel*
+- We're phasing out MathNet.Numerics.IO that used to be included in the main package for matrix file I/O for text and Matlab formats. Use the new .Data.Text and .Data.Matlab packages instead.
 
-### Statistics & Distributions:
+### Statistics & Distributions
 
 - Spearman Rank Correlation Coefficient *~Iain McDonald*
+- Covariance function, in Array-, Streaming- and common Statistics.
+- Categorical: distribution more consistent, no longer requires normalized pdf/cdf parameters
+- Categorical: inverse CDF function *~Paul Varkey*
 - BUG: Fixed static sampling methods of the `Stable` distribution. *~Artyom Baranovskiy*
 
-### Misc:
+### Misc
 
 - The F# extensions now have a strong name in (and only in) the signed package as well (previously had not been signed). *~Gauthier Segay*
 - Evaluate.Polynomial with new overload which is easier to use.
+- Fixed a couple badly designed unit tests that failed on Mono.
+- Repository now Vagrant-ready for easy testing against recent Mono on Debian.
 
 v2.5.0 - April 14, 2013
 -----------------------

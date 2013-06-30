@@ -25,6 +25,7 @@ The Math.NET project is a community effort. We accept contributions and pull req
 - Phil Cleveland (Phil)
 - Scott Stephens
 - Patrick van der Valde
+- Robin Neatherway
 - Anders Gustafsson (cureos)
 - Andrew Kazyrevich
 - Iain McDonald (lifebeyondfife)
@@ -39,6 +40,7 @@ The Math.NET project is a community effort. We accept contributions and pull req
 - VicPara
 - bstrausser
 - nyuriks
+- Paul Varkey
 - seahearman
 
 ### dnAnalytics Contributors
