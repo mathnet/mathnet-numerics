@@ -300,11 +300,17 @@ module DenseMatrix =
     /// Create a matrix from a list of float lists. Every list in the master list specifies a row.
     let inline ofRowsList (rows: int) (cols: int) (fll: float list list) = DenseMatrix.OfRowsCovariant(rows, cols, fll)
 
+    /// Create a matrix from a list of row vectors.
+    let inline ofRowVectors (vectors: #Vector<float> list) = DenseMatrix.OfRowVectors(vectors |> Array.ofList |> box |> unbox)
+
     /// Create a matrix from a list of sequences. Every sequence in the master sequence specifies a column.
     let inline ofColumns (rows: int) (cols: int) (fss: #seq<#seq<float>>) = DenseMatrix.OfColumnsCovariant(rows, cols, fss)
 
     /// Create a matrix from a list of float lists. Every list in the master list specifies a column.
     let inline ofColumnsList (rows: int) (cols: int) (fll: float list list) = DenseMatrix.OfColumnsCovariant(rows, cols, fll)
+
+    /// Create a matrix from a list of column vectors.
+    let inline ofColumnVectors (vectors: #Vector<float> list) = DenseMatrix.OfColumnVectors(vectors |> Array.ofSeq |> box |> unbox)
 
     /// Create a matrix with a given dimension from an indexed sequences of row, column, value tuples.
     let inline ofSeqi (rows: int) (cols: int) (fs: #seq<int * int * float>) = DenseMatrix.OfIndexed(rows, cols, fs)

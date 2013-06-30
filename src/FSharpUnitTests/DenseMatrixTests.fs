@@ -61,12 +61,20 @@ module DenseMatrixTests =
         DenseMatrix.ofRowsList 3 2 [[0.3;0.3];[0.3;0.3];[0.3;0.3]] |> should equal smallM
 
     [<Test>]
+    let ``DenseMatrix.ofRowVectors`` () =
+        DenseMatrix.ofRowVectors [vector [0.3;0.3]; vector [0.3;0.3]; vector [0.3;0.3]] |> should equal smallM
+
+    [<Test>]
     let ``DenseMatrix.ofColumn`` () =
         DenseMatrix.ofColumns 3 2 (Seq.ofList [[0.3;0.3;0.3];[0.3;0.3;0.3]]) |> should equal smallM
 
     [<Test>]
     let ``DenseMatrix.ofColumnsList`` () =
         DenseMatrix.ofColumnsList 3 2 [[0.3;0.3;0.3];[0.3;0.3;0.3]] |> should equal smallM
+
+    [<Test>]
+    let ``DenseMatrix.ofColumnVectors`` () =
+        DenseMatrix.ofColumnVectors [vector [0.3;0.3;0.3]; vector [0.3;0.3;0.3]] |> should equal smallM
 
     [<Test>]
     let ``DenseMatrix.ofSeqi`` () =
