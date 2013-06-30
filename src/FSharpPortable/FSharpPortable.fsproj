@@ -80,6 +80,9 @@
     <Compile Include="..\FSharp\Fit.fs">
       <Link>Fit.fs</Link>
     </Compile>
+    <Compile Include="..\FSharp\FindRoots.fs">
+      <Link>FindRoots.fs</Link>
+    </Compile>
     <Compile Include="..\FSharp\RandomVariable.fs">
       <Link>RandomVariable.fs</Link>
     </Compile>

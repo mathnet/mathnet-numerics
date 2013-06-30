@@ -71,8 +71,9 @@
     <Compile Include="BigIntegerExtensions.fs" />
     <Compile Include="BigRational.fsi" />
     <Compile Include="BigRational.fs" />
-    <Compile Include="Fit.fs" />
     <Compile Include="RandomVariable.fs" />
+    <Compile Include="Fit.fs" />
+    <Compile Include="FindRoots.fs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="FSharp.Core" />
