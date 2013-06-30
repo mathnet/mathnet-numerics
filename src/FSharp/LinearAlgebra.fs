@@ -94,22 +94,22 @@ module FSharpExtensions =
       x.Row(r, cstart, cfinish - cstart + 1)
 
     /// Gets a column subvector using a specified row index and column range.
-    /// This method can be used via the x.[r, c1 .. c2] syntax (F#3.1)
+    /// This method can be used via the x.[r1 .. r2, c] syntax (F#3.1)
     member x.GetSlice(rstart, rfinish, c) =
       let rstart = defaultArg rstart 0
       let rfinish = defaultArg rfinish (x.RowCount - 1)
       x.Column(c, rstart, rfinish - rstart + 1)
 
-//    /// Sets a row subvector using a specified row index and column range.
-//    /// This method can be used via the x.[r, c1 .. c2] <- v syntax (F#3.1)
-//    member x.GetSlice(r, cstart, cfinish, values) =
-//      let cstart = defaultArg cstart 0
-//      let cfinish = defaultArg cfinish (x.ColumnCount - 1)
-//      x.SetRow(r, cstart, cfinish - cstart + 1, values)
-//
-//    /// Sets a column subvector using a specified row index and column range.
-//    /// This method can be used via the x.[r, c1 .. c2] <- v syntax (F#3.1)
-//    member x.GetSlice(rstart, rfinish, c, values) =
-//      let rstart = defaultArg rstart 0
-//      let rfinish = defaultArg rfinish (x.RowCount - 1)
-//      x.SetColumn(c, rstart, rfinish - rstart + 1, values)
+    /// Sets a row subvector using a specified row index and column range.
+    /// This method can be used via the x.[r, c1 .. c2] <- v syntax (F#3.1)
+    member x.SetSlice(r, cstart, cfinish, values) =
+      let cstart = defaultArg cstart 0
+      let cfinish = defaultArg cfinish (x.ColumnCount - 1)
+      x.SetRow(r, cstart, cfinish - cstart + 1, values)
+
+    /// Sets a column subvector using a specified row index and column range.
+    /// This method can be used via the x.[r1 .. r2, c] <- v syntax (F#3.1)
+    member x.SetSlice(rstart, rfinish, c, values) =
+      let rstart = defaultArg rstart 0
+      let rfinish = defaultArg rfinish (x.RowCount - 1)
+      x.SetColumn(c, rstart, rfinish - rstart + 1, values)

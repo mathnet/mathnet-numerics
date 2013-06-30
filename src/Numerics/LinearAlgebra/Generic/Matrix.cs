@@ -804,6 +804,28 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         }
 
         /// <summary>
+        /// Copies the values of the given Vector to the specified sub-column.
+        /// </summary>
+        /// <param name="columnIndex">The column to copy the values to.</param>
+        /// <param name="rowIndex">The row to start copying to.</param>
+        /// <param name="length">The number of elements to copy.</param>
+        /// <param name="column">The vector to copy the values from.</param>
+        /// <exception cref="ArgumentNullException">If <paramref name="column"/> is <see langword="null" />.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">If <paramref name="columnIndex"/> is less than zero,
+        /// or greater than or equal to the number of columns.</exception>
+        /// <exception cref="ArgumentException">If the size of <paramref name="column"/> does not
+        /// equal the number of rows of this <strong>Matrix</strong>.</exception>
+        public void SetColumn(int columnIndex, int rowIndex, int length, Vector<T> column)
+        {
+            if (column == null)
+            {
+                throw new ArgumentNullException("column");
+            }
+
+            column.Storage.CopyToSubColumn(Storage, columnIndex, 0, rowIndex, length);
+        }
+
+        /// <summary>
         /// Copies the values of the given array to the specified column.
         /// </summary>
         /// <param name="columnIndex">The column to copy the values to.</param>
@@ -887,6 +909,29 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
 
             row.Storage.CopyToRow(Storage, rowIndex);
         }
+
+        /// <summary>
+        /// Copies the values of the given Vector to the specified sub-row.
+        /// </summary>
+        /// <param name="rowIndex">The row to copy the values to.</param>
+        /// <param name="columnIndex">The column to start copying to.</param>
+        /// <param name="length">The number of elements to copy.</param>
+        /// <param name="row">The vector to copy the values from.</param>
+        /// <exception cref="ArgumentNullException">If <paramref name="row"/> is <see langword="null" />.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">If <paramref name="rowIndex"/> is less than zero,
+        /// or greater than or equal to the number of rows.</exception>
+        /// <exception cref="ArgumentException">If the size of <paramref name="row"/> does not
+        /// equal the number of columns of this <strong>Matrix</strong>.</exception>
+        public void SetRow(int rowIndex, int columnIndex, int length, Vector<T> row)
+        {
+            if (row == null)
+            {
+                throw new ArgumentNullException("row");
+            }
+
+            row.Storage.CopyToSubRow(Storage, rowIndex, 0, columnIndex, length);
+        }
+
 
         /// <summary>
         /// Copies the values of the given array to the specified row.
