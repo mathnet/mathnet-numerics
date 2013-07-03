@@ -28,6 +28,8 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+#if !PORTABLE
+
 namespace MathNet.Numerics.Algorithms.LinearAlgebra.Mkl
 {
     using System;
@@ -1229,3 +1231,5 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.Mkl
         }
     }
 }
+
+#endif

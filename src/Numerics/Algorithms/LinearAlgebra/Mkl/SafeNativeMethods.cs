@@ -26,6 +26,8 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+#if !PORTABLE
+
 using System.Numerics;
 using System.Runtime.InteropServices;
 using System.Security;
@@ -44,7 +46,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.Mkl
         /// </summary>
         private const string DllName = "MathNet.Numerics.MKL.dll";
 
-        #region BLAS
+#region BLAS
         
         [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
         internal static extern void s_axpy(int n, float alpha, float[] x, [In, Out] float[] y);
@@ -96,7 +98,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.Mkl
 
         #endregion BLAS
         
-        #region LAPACK
+#region LAPACK
 
         [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
         internal static extern float s_matrix_norm(byte norm, int rows, int columns, [In] float[] a, [In, Out] float[] work);
@@ -280,7 +282,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.Mkl
         
         #endregion LAPACK
 
-        #region Vector Functions
+#region Vector Functions
         
         [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
         internal static extern void s_vector_add(int n, float[] x, float[] y, [In, Out] float[] result);
@@ -333,3 +335,5 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.Mkl
         #endregion  Vector Functions
     }
 }
+
+#endif

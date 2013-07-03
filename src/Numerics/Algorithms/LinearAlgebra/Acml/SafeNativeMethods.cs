@@ -26,6 +26,8 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+#if !PORTABLE
+
 using System.Numerics;
 using System.Runtime.InteropServices;
 using System.Security;
@@ -44,7 +46,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.Acml
         /// </summary>
         private const string DllName = "MathNET.Numerics.ACML.dll";
 
-        #region BLAS
+#region BLAS
         
         [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
         internal static extern void s_axpy(int n, float alpha, float[] x, [In, Out] float[] y);
@@ -96,7 +98,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.Acml
 
         #endregion BLAS
         
-        #region LAPACK
+#region LAPACK
 
         [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
         internal static extern float s_matrix_norm(byte norm, int rows, int columns, [In] float[] a, [In, Out] float[] work);
@@ -257,3 +259,5 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.Acml
         #endregion LAPACK
     }
 }
+
+#endif

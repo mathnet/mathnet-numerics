@@ -28,6 +28,8 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+#if !PORTABLE
+
 using MathNet.Numerics.LinearAlgebra.Generic.Factorization;
 
 namespace MathNet.Numerics.Algorithms.LinearAlgebra.Acml
@@ -1092,3 +1094,5 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.Acml
         }
     }
 }
+
+#endif

@@ -28,6 +28,8 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+#if !PORTABLE
+
 namespace MathNet.Numerics.Algorithms.LinearAlgebra.GotoBlas
 {
     using System;
@@ -361,3 +363,5 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.GotoBlas
         }
     }
 }
+
+#endif

@@ -38,6 +38,11 @@
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath32)\..\Microsoft SDKs\F#\3.0\Framework\v4.0\Microsoft.FSharp.Targets" Condition=" Exists('$(MSBuildExtensionsPath32)\..\Microsoft SDKs\F#\3.0\Framework\v4.0\Microsoft.FSharp.Targets')" />
   <ItemGroup>
+    <ProjectReference Include="..\Numerics\Portable.csproj">
+      <Name>Portable</Name>
+      <Project>{d877f358-a2d2-4cc3-a921-8aa5cf6187e8}</Project>
+      <Private>True</Private>
+    </ProjectReference>
     <Reference Include="FSharp.Core" />
     <Reference Include="FsUnit.NUnit">
       <HintPath>..\..\packages\FsUnit.1.2.1.0\Lib\Net40\FsUnit.NUnit.dll</HintPath>
@@ -53,11 +58,6 @@
     <ProjectReference Include="..\FSharpPortable\FSharpPortable.fsproj">
       <Name>FSharpPortable</Name>
       <Project>{f5f14d76-428d-43d7-8431-5b885f1ba419}</Project>
-      <Private>True</Private>
-    </ProjectReference>
-    <ProjectReference Include="..\Portable\Portable.csproj">
-      <Name>Portable</Name>
-      <Project>{d877f358-a2d2-4cc3-a921-8aa5cf6187e8}</Project>
       <Private>True</Private>
     </ProjectReference>
   </ItemGroup>

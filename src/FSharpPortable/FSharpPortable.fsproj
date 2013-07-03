@@ -88,7 +88,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Portable\Portable.csproj">
+    <ProjectReference Include="..\Numerics\Portable.csproj">
       <Name>Portable</Name>
       <Project>{d877f358-a2d2-4cc3-a921-8aa5cf6187e8}</Project>
       <Private>True</Private>
