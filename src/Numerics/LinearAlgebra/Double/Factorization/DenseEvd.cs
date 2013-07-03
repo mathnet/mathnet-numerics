@@ -31,9 +31,14 @@
 namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
 {
     using System;
-    using System.Numerics;
     using Generic;
     using Properties;
+
+#if NOSYSNUMERICS
+    using Complex = Numerics.Complex;
+#else
+    using Complex = System.Numerics.Complex;
+#endif
 
     /// <summary>
     /// Eigenvalues and eigenvectors of a real matrix.
@@ -1092,14 +1097,14 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
         /// <param name="yreal">Real part of Y</param>
         /// <param name="yimag">Imaginary part of Y</param>
         /// <returns>Division result as a <see cref="Complex"/> number.</returns>
-        static System.Numerics.Complex Cdiv(double xreal, double ximag, double yreal, double yimag)
+        static Complex Cdiv(double xreal, double ximag, double yreal, double yimag)
         {
             if (Math.Abs(yimag) < Math.Abs(yreal))
             {
-                return new System.Numerics.Complex((xreal + (ximag*(yimag/yreal)))/(yreal + (yimag*(yimag/yreal))), (ximag - (xreal*(yimag/yreal)))/(yreal + (yimag*(yimag/yreal))));
+                return new Complex((xreal + (ximag*(yimag/yreal)))/(yreal + (yimag*(yimag/yreal))), (ximag - (xreal*(yimag/yreal)))/(yreal + (yimag*(yimag/yreal))));
             }
 
-            return new System.Numerics.Complex((ximag + (xreal*(yreal/yimag)))/(yimag + (yreal*(yreal/yimag))), (-xreal + (ximag*(yreal/yimag)))/(yimag + (yreal*(yreal/yimag))));
+            return new Complex((ximag + (xreal*(yreal/yimag)))/(yimag + (yreal*(yreal/yimag))), (-xreal + (ximag*(yreal/yimag)))/(yimag + (yreal*(yreal/yimag))));
         }
 
         /// <summary>

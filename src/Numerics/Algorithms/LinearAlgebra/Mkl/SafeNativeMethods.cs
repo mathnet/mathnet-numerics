@@ -26,7 +26,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-#if !PORTABLE
+#if NATIVEMKL
 
 using System.Numerics;
 using System.Runtime.InteropServices;
@@ -96,7 +96,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.Mkl
         [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
         internal static extern void z_matrix_multiply(Transpose transA, Transpose transB, int m, int n, int k, Complex alpha, Complex[] x, Complex[] y, Complex beta, [In, Out]Complex[] c);
 
-        #endregion BLAS
+#endregion BLAS
         
 #region LAPACK
 
@@ -280,7 +280,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.Mkl
         [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
         internal static extern int z_eigen(bool isSymmetric, int n, [In] Complex[] a, [In, Out] Complex[] vectors, [In, Out]  Complex[] values, [In, Out] Complex[] d);
         
-        #endregion LAPACK
+#endregion LAPACK
 
 #region Vector Functions
         
@@ -332,7 +332,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.Mkl
         [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
         internal static extern void z_vector_divide(int n, Complex[] x, Complex[] y, [In, Out] Complex[] result);
         
-        #endregion  Vector Functions
+#endregion  Vector Functions
     }
 }
 

@@ -30,8 +30,11 @@
 
 namespace MathNet.Numerics.IntegralTransforms
 {
-    using System.Numerics;
     using Algorithms;
+
+#if !NOSYSNUMERICS
+    using Complex = System.Numerics.Complex;
+#endif
 
     /// <summary>
     /// Integral Transforms (including FFT).

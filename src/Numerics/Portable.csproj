@@ -20,7 +20,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>..\..\out\debug\Portable\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;PORTABLE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;PORTABLE;NOSYSNUMERICS</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -28,7 +28,7 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>..\..\out\lib\Portable\</OutputPath>
-    <DefineConstants>TRACE;PORTABLE</DefineConstants>
+    <DefineConstants>TRACE;PORTABLE;NOSYSNUMERICS</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>..\..\out\lib\Portable\MathNet.Numerics.XML</DocumentationFile>
@@ -42,7 +42,8 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="**\*.cs" Exclude="Properties\Resources.Designer.cs"></Compile>
+    <Compile Include="**\*.cs" Exclude="Properties\Resources.Designer.cs">
+    </Compile>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

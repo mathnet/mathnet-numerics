@@ -31,10 +31,15 @@
 namespace MathNet.Numerics.LinearAlgebra.Generic.Factorization
 {
     using System;
-    using System.Numerics;
     using Generic;
     using Numerics;
     using Properties;
+
+#if NOSYSNUMERICS
+    using Complex = Numerics.Complex;
+#else
+    using Complex = System.Numerics.Complex;
+#endif
 
     /// <summary>
     /// <para>A class which encapsulates the functionality of the singular value decomposition (SVD).</para>

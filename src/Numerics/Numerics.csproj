@@ -43,7 +43,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <DefineConstants>TRACE;DEBUG</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;NATIVEMKL</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>
@@ -57,7 +57,7 @@
     <SignAssembly>false</SignAssembly>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <DefineConstants>TRACE</DefineConstants>
+    <DefineConstants>TRACE;NATIVEMKL</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
@@ -71,7 +71,7 @@
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <Optimize>true</Optimize>
-    <DefineConstants>TRACE;STRONGNAME</DefineConstants>
+    <DefineConstants>TRACE;NATIVEMKL;STRONGNAME</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>

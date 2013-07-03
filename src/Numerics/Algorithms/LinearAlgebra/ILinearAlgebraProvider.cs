@@ -31,7 +31,10 @@
 // INITIAL DRAFT MISSING EXCEPTION SPECIFICATIONS
 namespace MathNet.Numerics.Algorithms.LinearAlgebra
 {
-    using System.Numerics;
+
+#if !NOSYSNUMERICS
+    using Complex = System.Numerics.Complex;
+#endif
 
     /// <summary>
     /// Interface to linear algebra algorithms that work off 1-D arrays.

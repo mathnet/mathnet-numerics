@@ -32,10 +32,13 @@ namespace MathNet.Numerics
 {
     using System;
     using System.Collections.Generic;
-    using System.Numerics;
 
 #if !PORTABLE
     using System.Runtime;
+#endif
+
+#if !NOSYSNUMERICS
+    using Complex = System.Numerics.Complex;
 #endif
 
     /// <summary>

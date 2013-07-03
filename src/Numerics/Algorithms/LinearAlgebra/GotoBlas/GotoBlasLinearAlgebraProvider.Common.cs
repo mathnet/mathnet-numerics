@@ -28,7 +28,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-#if !PORTABLE
+#if NATIVEGOTO
 
 namespace MathNet.Numerics.Algorithms.LinearAlgebra.GotoBlas
 {

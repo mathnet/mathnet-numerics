@@ -27,9 +27,14 @@
 namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
 {
     using System;
-    using System.Numerics;
     using Generic.Factorization;
     using Properties;
+
+#if NOSYSNUMERICS
+    using Complex = Numerics.Complex;
+#else
+    using Complex = System.Numerics.Complex;
+#endif
 
     /// <summary>
     /// <para>A class which encapsulates the functionality of the QR decomposition.</para>

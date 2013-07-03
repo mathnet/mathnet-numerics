@@ -28,15 +28,14 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-#if PORTABLE
-namespace System.Numerics
+#if NOSYSNUMERICS
+namespace MathNet.Numerics
 {
     using System;
     using System.Collections.Generic;
     using System.Runtime.InteropServices;
     using System.Text;
-    using MathNet.Numerics;
-    using MathNet.Numerics.Properties;
+    using Properties;
 
     /// <summary>
     /// 64-bit double precision complex numbers class.
@@ -120,25 +119,25 @@ namespace System.Numerics
         }
 
         /// <summary>
-        /// Returns a new <see cref="T:System.Numerics.Complex" /> instance
+        /// Returns a new Complex instance
         /// with a real number equal to zero and an imaginary number equal to zero.
         /// </summary>
         public static readonly Complex Zero = new Complex(0.0f, 0.0f);
 
         /// <summary>
-        /// Returns a new <see cref="T:System.Numerics.Complex" /> instance
+        /// Returns a new Complex instance
         /// with a real number equal to one and an imaginary number equal to zero.
         /// </summary>
         public static readonly Complex One = new Complex(1.0f, 0.0f);
 
         /// <summary>
-        /// Returns a new <see cref="T:System.Numerics.Complex" /> instance
+        /// Returns a new Complex instance
         /// with a real number equal to zero and an imaginary number equal to one.
         /// </summary>
         public static readonly Complex ImaginaryOne = new Complex(0, 1);
 
         /// <summary>
-        /// Returns a new <see cref="T:System.Numerics.Complex" /> instance
+        /// Returns a new Complex instance
         /// with real and imaginary numbers positive infinite.
         /// </summary>
         public static readonly Complex PositiveInfinity = new Complex(float.PositiveInfinity, float.PositiveInfinity);
@@ -147,7 +146,7 @@ namespace System.Numerics
         public static readonly Complex Infinity = PositiveInfinity;
 
         /// <summary>
-        /// Returns a new <see cref="T:System.Numerics.Complex" /> instance
+        /// Returns a new Complex instance
         /// with real and imaginary numbers not a number.
         /// </summary>
         public static readonly Complex NaN = new Complex(float.NaN, float.NaN);

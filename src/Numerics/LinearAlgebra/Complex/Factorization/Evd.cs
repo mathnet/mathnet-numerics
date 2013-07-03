@@ -26,8 +26,13 @@
 
 namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
 {
-    using System.Numerics;
     using Generic.Factorization;
+
+#if NOSYSNUMERICS
+    using Complex = Numerics.Complex;
+#else
+    using Complex = System.Numerics.Complex;
+#endif
 
     /// <summary>
     /// Eigenvalues and eigenvectors of a real matrix.

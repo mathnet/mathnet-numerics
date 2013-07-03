@@ -38,7 +38,12 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Linq;
-    using System.Numerics;
+
+#if NOSYSNUMERICS
+    using Complex = Numerics.Complex;
+#else
+    using Complex = System.Numerics.Complex;
+#endif
 
     /// <summary>
     /// A matrix type for diagonal matrices.

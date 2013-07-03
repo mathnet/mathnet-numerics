@@ -32,10 +32,13 @@ namespace MathNet.Numerics
 {
     using System;
     using System.Collections.Generic;
-    using System.Numerics;
 
 #if PORTABLE
     using System.Runtime.InteropServices;
+#endif
+
+#if !NOSYSNUMERICS
+    using Complex = System.Numerics.Complex;
 #endif
 
     /// <summary>
@@ -1818,31 +1821,31 @@ namespace MathNet.Numerics
         /// </summary>
         /// <param name="value">The value to convert.</param>
         /// <returns>The bit array.</returns>
-        internal static int FloatToInt32Bits(float value)
+        static int FloatToInt32Bits(float value)
         {
             return BitConverter.ToInt32(BitConverter.GetBytes(value), 0);
         }
 
 #if PORTABLE
-        internal static long DoubleToInt64Bits(double value)
+        static long DoubleToInt64Bits(double value)
         {
             var union = new DoubleLongUnion {Double = value};
             return union.Int64;
         }
 
-        internal static double Int64BitsToDouble(long value)
+        static double Int64BitsToDouble(long value)
         {
             var union = new DoubleLongUnion {Int64 = value};
             return union.Double;
         }
 
-        internal static double Truncate(double value)
+        static double Truncate(double value)
         {
             return value >= 0.0 ? Math.Floor(value) : Math.Ceiling(value);
         }
 
         [StructLayout(LayoutKind.Explicit)]
-        public struct DoubleLongUnion
+        struct DoubleLongUnion
         {
             [FieldOffset(0)]
             public double Double;

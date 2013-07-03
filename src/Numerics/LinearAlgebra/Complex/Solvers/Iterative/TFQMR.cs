@@ -31,10 +31,15 @@
 namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Iterative
 {
     using System;
-    using System.Numerics;
     using Generic.Solvers.Status;
     using Preconditioners;
     using Properties;
+
+#if NOSYSNUMERICS
+    using Complex = Numerics.Complex;
+#else
+    using Complex = System.Numerics.Complex;
+#endif
 
     /// <summary>
     /// A Transpose Free Quasi-Minimal Residual (TFQMR) iterative matrix solver.

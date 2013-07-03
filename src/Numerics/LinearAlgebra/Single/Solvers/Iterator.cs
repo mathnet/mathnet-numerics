@@ -307,19 +307,8 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
         /// <returns>The deep clone of the current iterator.</returns>
         public IIterator Clone()
         {
-            var stopCriteria = _stopCriterias.Select(pair => pair.Value).Select(stopCriterium => (IIterationStopCriterium)stopCriterium.Clone()).ToList();
+            var stopCriteria = _stopCriterias.Select(pair => pair.Value).Select(stopCriterium => stopCriterium.Clone()).ToList();
             return new Iterator(stopCriteria);
         }
-
-#if !PORTABLE
-        /// <summary>
-        /// Creates a deep clone of the current iterator.
-        /// </summary>
-        /// <returns>The deep clone of the current iterator.</returns>
-        object ICloneable.Clone()
-        {
-            return Clone();
-        }
-#endif
     }
 }

@@ -26,7 +26,6 @@
 
 namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.StopCriterium
 {
-    using System;
     using Generic.Solvers.Status;
     using Generic.Solvers.StopCriterium;
 
@@ -34,9 +33,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.StopCriterium
     /// The base interface for classes that provide stop criteria for iterative calculations. 
     /// </summary>
     public interface IIterationStopCriterium
-#if !PORTABLE
- : ICloneable
-#endif
     {
         /// <summary>
         /// Determines the status of the iterative calculation based on the stop criteria stored
@@ -73,8 +69,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.StopCriterium
         /// </summary>
         StopLevel StopLevel { get; }
 
-#if PORTABLE
         IIterationStopCriterium Clone();
-#endif
     }
 }

@@ -33,7 +33,10 @@ namespace MathNet.Numerics
 // ReSharper restore CheckNamespace
 {
     using System;
-    using System.Numerics;
+
+#if !NOSYSNUMERICS
+    using Complex = System.Numerics.Complex;
+#endif
 
     public partial class SpecialFunctions
     {

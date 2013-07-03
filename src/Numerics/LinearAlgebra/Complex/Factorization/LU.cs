@@ -26,8 +26,13 @@
 
 namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
 {
-    using System.Numerics;
     using Generic.Factorization;
+
+#if NOSYSNUMERICS
+    using Complex = Numerics.Complex;
+#else
+    using Complex = System.Numerics.Complex;
+#endif
 
     /// <summary>
     /// <para>A class which encapsulates the functionality of an LU factorization.</para>

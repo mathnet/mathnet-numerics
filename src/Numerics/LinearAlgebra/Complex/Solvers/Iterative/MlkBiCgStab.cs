@@ -34,11 +34,16 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Iterative
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Linq;
-    using System.Numerics;
     using Distributions;
     using Generic.Solvers.Status;
     using Preconditioners;
     using Properties;
+
+#if NOSYSNUMERICS
+    using Complex = Numerics.Complex;
+#else
+    using Complex = System.Numerics.Complex;
+#endif
 
     /// <summary>
     /// A Multiple-Lanczos Bi-Conjugate Gradient stabilized iterative matrix solver.

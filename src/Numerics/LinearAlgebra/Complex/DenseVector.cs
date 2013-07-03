@@ -37,8 +37,13 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Linq;
-    using System.Numerics;
     using Threading;
+
+#if NOSYSNUMERICS
+    using Complex = Numerics.Complex;
+#else
+    using Complex = System.Numerics.Complex;
+#endif
 
     /// <summary>
     /// A vector using dense storage.

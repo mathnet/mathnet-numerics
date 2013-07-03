@@ -38,9 +38,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers
     /// Defines the base interface for iterators that help control an iterative calculation.
     /// </summary>
     public interface IIterator
-#if !PORTABLE
- : ICloneable
-#endif
     {
         /// <summary>
         /// Adds an <see cref="IIterationStopCriterium"/> to the internal collection of stop-criteria. Only a 
@@ -101,8 +98,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers
         /// </remarks>
         void ResetToPrecalculationState();
 
-#if PORTABLE
         IIterator Clone();
-#endif
     }
 }

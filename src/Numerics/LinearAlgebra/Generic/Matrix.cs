@@ -36,7 +36,6 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
     using Storage;
     using System;
     using System.Collections.Generic;
-    using System.Numerics;
     using System.Runtime;
 
     /// <summary>

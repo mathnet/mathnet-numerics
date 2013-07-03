@@ -28,7 +28,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-#if !PORTABLE
+#if NATIVEMKL
 
 namespace MathNet.Numerics.Algorithms.LinearAlgebra.Mkl
 {

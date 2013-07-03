@@ -27,11 +27,16 @@
 namespace MathNet.Numerics.Algorithms.LinearAlgebra
 {
     using System;
-    using System.Numerics;
     using Properties;
     using Threading;
     using Numerics.LinearAlgebra.Complex.Factorization;
     using Numerics.LinearAlgebra.Generic.Factorization;
+
+#if NOSYSNUMERICS
+    using Complex = Numerics.Complex;
+#else
+    using Complex = System.Numerics.Complex;
+#endif
 
     /// <summary>
     /// The managed linear algebra provider.

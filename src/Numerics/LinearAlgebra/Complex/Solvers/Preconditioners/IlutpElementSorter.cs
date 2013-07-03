@@ -30,8 +30,13 @@
 
 namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Preconditioners
 {
-    using System.Numerics;
     using Generic;
+
+#if NOSYSNUMERICS
+    using Complex = Numerics.Complex;
+#else
+    using Complex = System.Numerics.Complex;
+#endif
 
     /// <summary>
     /// An element sort algorithm for the <see cref="Ilutp"/> class.

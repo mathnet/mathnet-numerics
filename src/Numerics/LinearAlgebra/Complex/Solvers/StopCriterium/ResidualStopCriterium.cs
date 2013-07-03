@@ -393,16 +393,5 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.StopCriterium
         {
             return new ResidualStopCriterium(_maximum, _minimumIterationsBelowMaximum);
         }
-
-#if !PORTABLE
-        /// <summary>
-        /// Clones the current <see cref="ResidualStopCriterium"/> and its settings.
-        /// </summary>
-        /// <returns>A new instance of the <see cref="ResidualStopCriterium"/> object.</returns>
-        object ICloneable.Clone()
-        {
-            return Clone();
-        }
-#endif
     }
 }

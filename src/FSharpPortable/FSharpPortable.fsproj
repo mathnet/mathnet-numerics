@@ -19,7 +19,7 @@
     <Optimize>false</Optimize>
     <Tailcalls>false</Tailcalls>
     <OutputPath>..\..\out\debug\Portable\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;PORTABLE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;PORTABLE;NOSYSNUMERICS</DefineConstants>
     <WarningLevel>3</WarningLevel>
     <DocumentationFile>
     </DocumentationFile>
@@ -29,7 +29,7 @@
     <Optimize>true</Optimize>
     <Tailcalls>true</Tailcalls>
     <OutputPath>..\..\out\lib\Portable\</OutputPath>
-    <DefineConstants>TRACE;PORTABLE</DefineConstants>
+    <DefineConstants>TRACE;PORTABLE;NOSYSNUMERICS</DefineConstants>
     <WarningLevel>3</WarningLevel>
     <DocumentationFile>..\..\out\lib\Portable\MathNet.Numerics.FSharp.XML</DocumentationFile>
   </PropertyGroup>

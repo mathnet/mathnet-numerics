@@ -33,6 +33,12 @@ namespace MathNet.Numerics.LinearAlgebra
 {
     using System;
 
+#if NOSYSNUMERICS
+    using Complex64 = Numerics.Complex;
+#else
+    using Complex64 = System.Numerics.Complex;
+#endif
+
     /// <summary>
     /// A setup functions to help simplify the generic code.
     /// </summary>
@@ -45,9 +51,9 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <returns>The value of <c>1.0</c> for type T.</returns>
         public static T OneOf<T>()
         {
-            if (typeof(T) == typeof(System.Numerics.Complex))
+            if (typeof(T) == typeof(Complex64))
             {
-                return (T)(object)System.Numerics.Complex.One;
+                return (T)(object)Complex64.One;
             }
 
             if (typeof(T) == typeof(Numerics.Complex32))
@@ -75,9 +81,9 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <returns>The value of <c>0.0</c> for type T.</returns>
         public static T ZeroOf<T>()
         {
-            if (typeof(T) == typeof(System.Numerics.Complex))
+            if (typeof(T) == typeof(Complex64))
             {
-                return (T)(object)System.Numerics.Complex.Zero;
+                return (T)(object)Complex64.Zero;
             }
 
             if (typeof(T) == typeof(Numerics.Complex32))

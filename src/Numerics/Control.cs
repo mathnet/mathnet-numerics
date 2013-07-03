@@ -66,9 +66,7 @@ namespace MathNet.Numerics
             _parallelizeElements = 300;
 
             // Linear Algebra Provider
-#if PORTABLE
-            LinearAlgebraProvider = new ManagedLinearAlgebraProvider();
-#else
+#if NATIVEMKL
             try
             {
                 const string name = "MathNetNumericsLAProvider";
@@ -88,6 +86,8 @@ namespace MathNet.Numerics
                 // We don't care about any failures here at all
                 LinearAlgebraProvider = new ManagedLinearAlgebraProvider();
             }
+#else
+            LinearAlgebraProvider = new ManagedLinearAlgebraProvider();
 #endif
         }
 

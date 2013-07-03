@@ -26,7 +26,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-#if !PORTABLE
+#if NATIVEACML
 
 using System.Numerics;
 using System.Runtime.InteropServices;
@@ -96,7 +96,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.Acml
         [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
         internal static extern void z_matrix_multiply(Transpose transA, Transpose transB, int m, int n, int k, Complex alpha, Complex[] x, Complex[] y, Complex beta, [In, Out]Complex[] c);
 
-        #endregion BLAS
+#endregion BLAS
         
 #region LAPACK
 
@@ -256,7 +256,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.Acml
         [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
         internal static extern int z_svd_factor(bool computeVectors, int m, int n, [In, Out] Complex[] a, [In, Out] Complex[] s, [In, Out] Complex[] u, [In, Out] Complex[] v, [In, Out] Complex[] work, int len);
 
-        #endregion LAPACK
+#endregion LAPACK
     }
 }
 

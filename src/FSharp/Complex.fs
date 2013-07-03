@@ -7,7 +7,11 @@ namespace MathNet.Numerics
     open Microsoft.FSharp.Math
     open System
     open System.Globalization
+
+#if NOSYSNUMERICS
+#else
     open System.Numerics
+#endif
 
     type complex = Complex
     type complex32 = Complex32

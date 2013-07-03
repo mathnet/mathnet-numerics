@@ -31,7 +31,10 @@
 namespace MathNet.Numerics
 {
     using System;
-    using System.Numerics;
+
+#if !NOSYSNUMERICS
+    using Complex = System.Numerics.Complex;
+#endif
 
     /// <summary>
     /// Double-precision trigonometry toolkit.

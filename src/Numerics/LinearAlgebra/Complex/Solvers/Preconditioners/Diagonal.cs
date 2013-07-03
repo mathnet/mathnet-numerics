@@ -31,8 +31,13 @@
 namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Preconditioners
 {
     using System;
-    using System.Numerics;
     using Properties;
+
+#if NOSYSNUMERICS
+    using Complex = Numerics.Complex;
+#else
+    using Complex = System.Numerics.Complex;
+#endif
 
     /// <summary>
     /// A diagonal preconditioner. The preconditioner uses the inverse

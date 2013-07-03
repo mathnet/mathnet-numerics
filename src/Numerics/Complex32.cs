@@ -28,16 +28,22 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-
 namespace MathNet.Numerics
 {
     using System;
     using System.Collections.Generic;
     using System.Globalization;
-    using System.Numerics;
-    using System.Runtime;
     using System.Runtime.InteropServices;
     using Properties;
+
+#if !PORTABLE
+    using System.Runtime;
+#endif
+
+#if !NOSYSNUMERICS
+    using Complex = System.Numerics.Complex;
+    using BigInteger = System.Numerics.BigInteger;
+#endif
 
     /// <summary>
     /// 32-bit single precision complex numbers class.
@@ -1199,7 +1205,7 @@ namespace MathNet.Numerics
             return new Complex32(value, 0.0f);
         }
 
-#if !PORTABLE
+#if !NOSYSNUMERICS
         /// <summary>
         /// Implicit conversion of a BigInteger int to a <c>Complex32</c>.
         /// </summary>
@@ -1277,7 +1283,7 @@ namespace MathNet.Numerics
         /// <summary>
         /// Returns the additive inverse of a specified complex number.
         /// </summary>
-        /// <returns>The result of the <see cref="P:System.Numerics.Complex.Real" /> and <see cref="P:System.Numerics.Complex.Imaginary" /> components of the <paramref name="value" /> parameter multiplied by -1.</returns>
+        /// <returns>The result of the real and imaginary components of the value parameter multiplied by -1.</returns>
         /// <param name="value">A complex number.</param>
         [TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")]
         public static Complex32 Negate(Complex32 value)

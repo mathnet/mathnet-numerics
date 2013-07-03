@@ -26,10 +26,15 @@
 
 namespace MathNet.Numerics.LinearAlgebra.Complex
 {
-    using System.Numerics;
     using Factorization;
     using Generic;
     using Generic.Factorization;
+
+#if NOSYSNUMERICS
+    using Complex = Numerics.Complex;
+#else
+    using Complex = System.Numerics.Complex;
+#endif
 
     /// <summary>
     /// Extension methods which return factorizations for the various matrix classes.

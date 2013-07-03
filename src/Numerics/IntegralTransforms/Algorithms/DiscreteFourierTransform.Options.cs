@@ -31,7 +31,10 @@
 namespace MathNet.Numerics.IntegralTransforms.Algorithms
 {
     using System;
-    using System.Numerics;
+
+#if !NOSYSNUMERICS
+    using Complex = System.Numerics.Complex;
+#endif
 
     /// <summary>
     /// Complex Fast (FFT) Implementation of the Discrete Fourier Transform (DFT).

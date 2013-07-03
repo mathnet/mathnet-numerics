@@ -28,7 +28,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-#if !PORTABLE
+#if NATIVEGOTO
 
 using MathNet.Numerics.LinearAlgebra.Generic.Factorization;
 

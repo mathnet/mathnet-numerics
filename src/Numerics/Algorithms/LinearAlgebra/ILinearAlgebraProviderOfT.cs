@@ -30,8 +30,6 @@ using MathNet.Numerics.LinearAlgebra.Generic.Factorization;
 
 namespace MathNet.Numerics.Algorithms.LinearAlgebra
 {
-    using System.Numerics;
-
     /// <summary>
     /// How to transpose a matrix.
     /// </summary>
@@ -83,7 +81,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
     /// <summary>
     /// Interface to linear algebra algorithms that work off 1-D arrays.
     /// </summary>
-    /// <typeparam name="T">Supported data types are double, single, <see cref="Complex"/>, and <see cref="Complex32"/>.</typeparam>
+    /// <typeparam name="T">Supported data types are double, single, Complex, and Complex32.</typeparam>
     public interface ILinearAlgebraProvider<T>
         where T : struct
     {

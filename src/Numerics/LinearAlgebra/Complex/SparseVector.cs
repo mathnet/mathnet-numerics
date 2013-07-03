@@ -36,8 +36,13 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Linq;
-    using System.Numerics;
     using Threading;
+
+#if NOSYSNUMERICS
+    using Complex = Numerics.Complex;
+#else
+    using Complex = System.Numerics.Complex;
+#endif
 
     /// <summary>
     /// A vector with sparse storage, intended for very large vectors where most of the cells are zero.

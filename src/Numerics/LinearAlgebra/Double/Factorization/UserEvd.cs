@@ -30,9 +30,14 @@
 namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
 {
     using System;
-    using System.Numerics;
     using Generic;
     using Properties;
+
+#if NOSYSNUMERICS
+    using Complex = Numerics.Complex;
+#else
+    using Complex = System.Numerics.Complex;
+#endif
 
     /// <summary>
     /// Eigenvalues and eigenvectors of a real matrix.

@@ -35,7 +35,12 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
-    using System.Numerics;
+
+#if NOSYSNUMERICS
+    using Complex = Numerics.Complex;
+#else
+    using Complex = System.Numerics.Complex;
+#endif
 
     /// <summary>
     /// A Matrix with sparse storage, intended for very large matrices where most of the cells are zero.

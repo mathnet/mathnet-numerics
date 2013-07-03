@@ -1,8 +1,8 @@
 ﻿namespace System.Numerics
 
-open System
-
 #if PORTABLE
+
+open System
 
 [<AutoOpen>]
 module BigIntegerExtensions =

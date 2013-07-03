@@ -33,6 +33,12 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
     using System;
     using Generic;
     using Properties;
+
+#if NOSYSNUMERICS
+    using Complex = Numerics.Complex;
+#else
+    using Complex = System.Numerics.Complex;
+#endif
     
     /// <summary>
     /// Eigenvalues and eigenvectors of a complex matrix.
@@ -103,10 +109,10 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
         /// Smith, Boyle, Dongarra, Garbow, Ikebe, Klema, Moler, and Wilkinson, Handbook for 
         /// Auto. Comp., Vol.ii-Linear Algebra, and the corresponding 
         /// Fortran subroutine in EISPACK.</remarks>
-        internal static void SymmetricTridiagonalize(System.Numerics.Complex[] matrixA, double[] d, double[] e, System.Numerics.Complex[] tau, int order)
+        internal static void SymmetricTridiagonalize(Complex[] matrixA, double[] d, double[] e, Complex[] tau, int order)
         {
             double hh;
-            tau[order - 1] = System.Numerics.Complex.One;
+            tau[order - 1] = Complex.One;
 
             for (var i = 0; i < order; i++)
             {
@@ -127,7 +133,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
 
                 if (scale == 0.0)
                 {
-                    tau[i - 1] = System.Numerics.Complex.One;
+                    tau[i - 1] = Complex.One;
                     e[i] = 0.0;
                 }
                 else
@@ -138,10 +144,10 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
                         h += matrixA[k*order + i].MagnitudeSquared();
                     }
 
-                    System.Numerics.Complex g = Math.Sqrt(h);
+                    Complex g = Math.Sqrt(h);
                     e[i] = scale*g.Real;
 
-                    System.Numerics.Complex temp;
+                    Complex temp;
                     var im1Oi = (i - 1)*order + i;
                     var f = matrixA[im1Oi];
                     if (f.Magnitude != 0)
@@ -159,10 +165,10 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
 
                     if ((f.Magnitude == 0) || (i != 1))
                     {
-                        f = System.Numerics.Complex.Zero;
+                        f = Complex.Zero;
                         for (var j = 0; j < i; j++)
                         {
-                            var tmp = System.Numerics.Complex.Zero;
+                            var tmp = Complex.Zero;
                             var jO = j*order;
                             // Form element of A*U.
                             for (var k = 0; k <= j; k++)
@@ -206,7 +212,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
 
                 hh = d[i];
                 d[i] = matrixA[i*order + i].Real;
-                matrixA[i*order + i] = new System.Numerics.Complex(hh, scale*Math.Sqrt(h));
+                matrixA[i*order + i] = new Complex(hh, scale*Math.Sqrt(h));
             }
 
             hh = d[0];
@@ -227,7 +233,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
         /// Auto. Comp., Vol.ii-Linear Algebra, and the corresponding
         /// Fortran subroutine in EISPACK.</remarks>
         /// <exception cref="NonConvergenceException"></exception>
-        internal static void SymmetricDiagonalize(System.Numerics.Complex[] dataEv, double[] d, double[] e, int order)
+        internal static void SymmetricDiagonalize(Complex[] dataEv, double[] d, double[] e, int order)
         {
             const int Maxiter = 1000;
 
@@ -373,7 +379,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
         /// by Smith, Boyle, Dongarra, Garbow, Ikebe, Klema, Moler, and Wilkinson, Handbook for
         /// Auto. Comp., Vol.ii-Linear Algebra, and the corresponding
         /// Fortran subroutine in EISPACK.</remarks>
-        internal static void SymmetricUntridiagonalize(System.Numerics.Complex[] dataEv, System.Numerics.Complex[] matrixA, System.Numerics.Complex[] tau, int order)
+        internal static void SymmetricUntridiagonalize(Complex[] dataEv, Complex[] matrixA, Complex[] tau, int order)
         {
             for (var i = 0; i < order; i++)
             {
@@ -391,7 +397,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
                 {
                     for (var j = 0; j < order; j++)
                     {
-                        var s = System.Numerics.Complex.Zero;
+                        var s = Complex.Zero;
                         for (var k = 0; k < i; k++)
                         {
                             s += dataEv[(j*order) + k]*matrixA[k*order + i];
@@ -418,9 +424,9 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
         /// by Martin and Wilkinson, Handbook for Auto. Comp.,
         /// Vol.ii-Linear Algebra, and the corresponding
         /// Fortran subroutines in EISPACK.</remarks>
-        internal static void NonsymmetricReduceToHessenberg(System.Numerics.Complex[] dataEv, System.Numerics.Complex[] matrixH, int order)
+        internal static void NonsymmetricReduceToHessenberg(Complex[] dataEv, Complex[] matrixH, int order)
         {
-            var ort = new System.Numerics.Complex[order];
+            var ort = new Complex[order];
 
             for (var m = 1; m < order - 1; m++)
             {
@@ -459,7 +465,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
                     // H = (I-u*u'/h)*H*(I-u*u')/h)
                     for (var j = m; j < order; j++)
                     {
-                        var f = System.Numerics.Complex.Zero;
+                        var f = Complex.Zero;
                         var jO = j*order;
                         for (var i = order - 1; i >= m; i--)
                         {
@@ -475,7 +481,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
 
                     for (var i = 0; i < order; i++)
                     {
-                        var f = System.Numerics.Complex.Zero;
+                        var f = Complex.Zero;
                         for (var j = order - 1; j >= m; j--)
                         {
                             f += ort[j]*matrixH[j*order + i];
@@ -498,7 +504,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
             {
                 for (var j = 0; j < order; j++)
                 {
-                    dataEv[(j*order) + i] = i == j ? System.Numerics.Complex.One : System.Numerics.Complex.Zero;
+                    dataEv[(j*order) + i] = i == j ? Complex.One : Complex.Zero;
                 }
             }
 
@@ -506,7 +512,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
             {
                 var mm1O = (m - 1)*order;
                 var mm1Om = mm1O + m;
-                if (matrixH[mm1Om] != System.Numerics.Complex.Zero && ort[m] != System.Numerics.Complex.Zero)
+                if (matrixH[mm1Om] != Complex.Zero && ort[m] != Complex.Zero)
                 {
                     var norm = (matrixH[mm1Om].Real*ort[m].Real) + (matrixH[mm1Om].Imaginary*ort[m].Imaginary);
 
@@ -517,7 +523,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
 
                     for (var j = m; j < order; j++)
                     {
-                        var g = System.Numerics.Complex.Zero;
+                        var g = Complex.Zero;
                         for (var i = m; i < order; i++)
                         {
                             g += ort[i].Conjugate()*dataEv[(j*order) + i];
@@ -573,14 +579,14 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
         /// by Martin and Wilkinson, Handbook for Auto. Comp.,
         /// Vol.ii-Linear Algebra, and the corresponding
         /// Fortran subroutine in EISPACK.</remarks>
-        internal static void NonsymmetricReduceHessenberToRealSchur(System.Numerics.Complex[] vectorV, System.Numerics.Complex[] dataEv, System.Numerics.Complex[] matrixH, int order)
+        internal static void NonsymmetricReduceHessenberToRealSchur(Complex[] vectorV, Complex[] dataEv, Complex[] matrixH, int order)
         {
             // Initialize
             var n = order - 1;
             var eps = Precision.DoubleMachinePrecision;
 
             double norm;
-            System.Numerics.Complex x, y, z, exshift = System.Numerics.Complex.Zero;
+            Complex x, y, z, exshift =Complex.Zero;
 
             // Outer loop over eigenvalue index
             var iter = 0;
@@ -618,7 +624,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
                 else
                 {
                     // Form shift
-                    System.Numerics.Complex s;
+                    Complex s;
                     if (iter != 10 && iter != 20)
                     {
                         s = matrixH[nOn];
@@ -662,7 +668,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
                         x = matrixH[im1Oim1]/norm;
                         vectorV[i - 1] = x;
                         matrixH[im1Oim1] = norm;
-                        matrixH[im1O + i] = new System.Numerics.Complex(0.0, s.Real/norm);
+                        matrixH[im1O + i] = new Complex(0.0, s.Real/norm);
 
                         for (var j = i; j < order; j++)
                         {
@@ -706,7 +712,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
                             else
                             {
                                 y = matrixH[jm1Oi].Real;
-                                matrixH[jm1Oi] = new System.Numerics.Complex((x.Real*y.Real) - (x.Imaginary*y.Imaginary) + (matrixH[jm1O + j].Imaginary*z.Real), matrixH[jm1Oi].Imaginary);
+                                matrixH[jm1Oi] = new Complex((x.Real*y.Real) - (x.Imaginary*y.Imaginary) + (matrixH[jm1O + j].Imaginary*z.Real), matrixH[jm1Oi].Imaginary);
                             }
 
                             matrixH[jO + i] = (x.Conjugate()*z) - (matrixH[jm1O + j].Imaginary*y);
@@ -798,7 +804,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
                 var jO = j*order;
                 for (var i = 0; i < order; i++)
                 {
-                    z = System.Numerics.Complex.Zero;
+                    z = Complex.Zero;
                     for (var k = 0; k <= j; k++)
                     {
                         z += dataEv[(k*order) + i]*matrixH[jO + k];
@@ -814,7 +820,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
         /// </summary>
         /// <param name="input">The right hand side <see cref="Matrix{T}"/>, <b>B</b>.</param>
         /// <param name="result">The left hand side <see cref="Matrix{T}"/>, <b>X</b>.</param>
-        public override void Solve(Matrix<System.Numerics.Complex> input, Matrix<System.Numerics.Complex> result)
+        public override void Solve(Matrix<Complex> input, Matrix<Complex> result)
         {
             // Check for proper arguments.
             if (input == null)
@@ -848,13 +854,13 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
             if (IsSymmetric)
             {
                 var order = VectorEv.Count;
-                var tmp = new System.Numerics.Complex[order];
+                var tmp = new Complex[order];
 
                 for (var k = 0; k < order; k++)
                 {
                     for (var j = 0; j < order; j++)
                     {
-                        System.Numerics.Complex value = 0.0;
+                        Complex value = 0.0;
                         if (j < order)
                         {
                             for (var i = 0; i < order; i++)
@@ -870,7 +876,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
 
                     for (var j = 0; j < order; j++)
                     {
-                        System.Numerics.Complex value = 0.0;
+                        Complex value = 0.0;
                         for (var i = 0; i < order; i++)
                         {
                             value += ((DenseMatrix) MatrixEv).Values[(i*order) + j]*tmp[i];
@@ -891,7 +897,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
         /// </summary>
         /// <param name="input">The right hand side vector, <b>b</b>.</param>
         /// <param name="result">The left hand side <see cref="Matrix{T}"/>, <b>x</b>.</param>
-        public override void Solve(Vector<System.Numerics.Complex> input, Vector<System.Numerics.Complex> result)
+        public override void Solve(Vector<Complex> input, Vector<Complex> result)
         {
             if (input == null)
             {
@@ -920,8 +926,8 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
             {
                 // Symmetric case -> x = V * inv(λ) * VH * b;
                 var order = VectorEv.Count;
-                var tmp = new System.Numerics.Complex[order];
-                System.Numerics.Complex value;
+                var tmp = new Complex[order];
+                Complex value;
 
                 for (var j = 0; j < order; j++)
                 {

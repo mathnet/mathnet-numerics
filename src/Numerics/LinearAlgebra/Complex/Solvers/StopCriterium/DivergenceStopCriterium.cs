@@ -377,16 +377,5 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.StopCriterium
         {
             return new DivergenceStopCriterium(_maximumRelativeIncrease, _minimumNumberOfIterations);
         }
-
-#if !PORTABLE
-        /// <summary>
-        /// Clone this object
-        /// </summary>
-        /// <returns>Object clone</returns>
-        object ICloneable.Clone()
-        {
-            return Clone();
-        }
-#endif
     }
 }

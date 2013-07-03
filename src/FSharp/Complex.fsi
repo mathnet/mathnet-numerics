@@ -5,7 +5,11 @@
 namespace MathNet.Numerics
 
     open System
+
+#if NOSYSNUMERICS
+#else
     open System.Numerics
+#endif
 
     /// The type of complex numbers
     type complex = Complex

@@ -211,16 +211,5 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.StopCriterium
         {
             return new IterationCountStopCriterium(_maximumNumberOfIterations);
         }
-
-#if !PORTABLE
-        /// <summary>
-        /// Clones the current <see cref="IterationCountStopCriterium"/> and its settings.
-        /// </summary>
-        /// <returns>A new instance of the <see cref="IterationCountStopCriterium"/> object.</returns>
-        object ICloneable.Clone()
-        {
-            return Clone();
-        }
-#endif
     }
 }

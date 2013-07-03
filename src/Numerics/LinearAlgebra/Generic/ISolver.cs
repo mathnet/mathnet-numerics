@@ -32,7 +32,6 @@
 namespace MathNet.Numerics.LinearAlgebra.Generic
 {
     using System;
-    using System.Numerics;
 
     /// <summary>
     /// Classes that solves a system of linear equations, <c>AX = B</c>.
