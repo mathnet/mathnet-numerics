@@ -86,5 +86,14 @@ namespace MathNet.Numerics.UnitTests.RootFindingTests
             Func<double, double> f1 = x => x * x + 4;
             Assert.Throws<NonConvergenceException>(() => Brent.FindRoot(f1, -5, 5, 1e-14, 50));
         }
+
+        [Test]
+        public void Oneeq1()
+        {
+            Func<double, double> f1 = z => 8 * Math.Pow((4 - z) * z, 2) / (Math.Pow(6 - 3 * z, 2) * (2 - z)) - 0.186;
+            double x = Brent.FindRoot(f1, 0.1, 0.9, 1e-14, 100);
+            Assert.AreEqual(0.277759543089215, x, 1e-9);
+            Assert.AreEqual(0, f1(x), 1e-16);
+        }
     }
 }
