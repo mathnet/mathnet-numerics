@@ -82,5 +82,30 @@ namespace MathNet.Numerics.UnitTests.RootFindingTests
             Assert.AreEqual(0.277759543089215, x, 1e-9);
             Assert.AreEqual(0, f1(x), 1e-16);
         }
+
+        [Test]
+        public void Oneeq2a()
+        {
+            Func<double, double> f1 = T =>
+            {
+                const double x1 = 0.332112;
+                const double x2 = 1 - x1;
+                const double G12 = 0.07858889;
+                const double G21 = 0.30175355;
+                double P2 = Math.Pow(10, 6.87776 - 1171.53 / (224.366 + T));
+                double P1 = Math.Pow(10, 8.04494 - 1554.3 / (222.65 + T));
+                double t1 = x1 + x2 * G12;
+                double t2 = x2 + x1 * G21;
+                double gamma2 = Math.Exp(-Math.Log(t2) - (x1 * (G12 * t2 - G21 * t1)) / (t1 * t2));
+                double gamma1 = Math.Exp(-Math.Log(t1) + (x2 * (G12 * t2 - G21 * t1)) / (t1 * t2));
+                double k1 = gamma1 * P1 / 760;
+                double k2 = gamma2 * P2 / 760;
+                return 1 - k1 * x1 - k2 * x2;
+            };
+
+            double x = Bisection.FindRoot(f1, 0, 100);
+            Assert.AreEqual(58.7000023925600, x, 1e-5);
+            Assert.AreEqual(0, f1(x), 1e-14);
+        }
     }
 }

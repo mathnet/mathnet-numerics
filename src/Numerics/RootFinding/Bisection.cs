@@ -67,6 +67,11 @@ namespace MathNet.Numerics.RootFinding
             while (Math.Abs(fmax - fmin) > 0.5 * accuracy || Math.Abs(upperBound - lowerBound) > 0.5 * Precision.DoubleMachinePrecision)
             {
                 double midpoint = 0.5*(upperBound + lowerBound);
+                if ((midpoint == lowerBound) || (midpoint == upperBound))
+                {
+                    return midpoint;
+                }
+
                 double midval = f(midpoint);
 
                 if (Math.Sign(midval) == Math.Sign(fmin))
