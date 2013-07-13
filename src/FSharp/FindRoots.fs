@@ -41,8 +41,23 @@ module FindRoots =
 
     // direct algorithms
 
+    let bisection maxIterations accuracy lowerBound upperBound (f:double->double) =
+        match Bisection.TryFindRoot(tobcl f, lowerBound, upperBound, accuracy, maxIterations) with
+        | true, root -> Some root
+        | false, _ -> None
+
     let brent maxIterations accuracy lowerBound upperBound (f:double->double) =
         match Brent.TryFindRoot(tobcl f, lowerBound, upperBound, accuracy, maxIterations) with
+        | true, root -> Some root
+        | false, _ -> None
+
+    let newtonRaphson maxIterations accuracy lowerBound upperBound (f:double->double) (df:double->double) =
+        match NewtonRaphson.TryFindRoot(tobcl f, tobcl df, 0.5 * (lowerBound + upperBound), lowerBound, upperBound, accuracy, maxIterations) with
+        | true, root -> Some root
+        | false, _ -> None
+
+    let newtonRaphsonGuess maxIterations accuracy guess (f:double->double) (df:double->double) =
+        match NewtonRaphson.TryFindRoot(tobcl f, tobcl df, guess, Double.MinValue, Double.MaxValue, accuracy, maxIterations) with
         | true, root -> Some root
         | false, _ -> None
 
