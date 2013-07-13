@@ -78,7 +78,7 @@ namespace MathNet.Numerics.UnitTests.RootFindingTests
         public void Oneeq1()
         {
             Func<double, double> f1 = z => 8 * Math.Pow((4 - z) * z, 2) / (Math.Pow(6 - 3 * z, 2) * (2 - z)) - 0.186;
-            double x = Bisection.FindRoot(f1, 0.1, 0.9);
+            double x = Bisection.FindRoot(f1, 0.1, 0.9, accuracy: 1e-9, maxIterations: 80);
             Assert.AreEqual(0.277759543089215, x, 1e-9);
             Assert.AreEqual(0, f1(x), 1e-16);
         }
