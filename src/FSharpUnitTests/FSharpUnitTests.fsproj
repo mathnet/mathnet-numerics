@@ -80,6 +80,7 @@
     <Compile Include="RandomVariableTests.fs" />
     <Compile Include="PokerTests.fs" />
     <Compile Include="FitTests.fs" />
+    <Compile Include="FindRootsTests.fs" />
     <None Include="packages.config" />
     <None Include="App.config" />
   </ItemGroup>

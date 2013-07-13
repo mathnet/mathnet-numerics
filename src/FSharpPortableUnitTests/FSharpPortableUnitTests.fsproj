@@ -95,6 +95,9 @@
     <Compile Include="..\FSharpUnitTests\FitTests.fs">
       <Link>FitTests.fs</Link>
     </Compile>
+    <Compile Include="..\FSharpUnitTests\FindRootsTests.fs">
+      <Link>FindRootsTests.fs</Link>
+    </Compile>
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
