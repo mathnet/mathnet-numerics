@@ -32,18 +32,18 @@ v2.6.0 - TBA, work in progress
 
 ### New: Linear Curve Fitting
 
-- Linear least-squares fitting to lines, polynomials and linear combinations of arbitrary functions. To be extended in future versions.
-- Accompanying idiomatic F# module.
+- Linear least-squares fitting (regression) to lines, polynomials and linear combinations of arbitrary functions.
+- Also works well in F# with the F# extensions.
 
 ### New: Root Finding
 
-- We now provide basic root finding algorithms. To be extended in future versions.
-- Accompanying idiomatic F# module.
 - Brent algorithm. *~Candy Chiu*
 - Bisection algorithm. *~Scott Stephens*
-- Hybrid versions of Newton-Raphson and Bisection that try to recover automatically in cases where they usually would fail. This modification makes them more robust e.g. in the presence of singularities and less sensitive to the search range/interval.
-- Most algorithms support a TryFind-pattern which returns success instead of throwing an exception. Simplifies  common fall-back scenarios and works with F# pattern matching (similar to TryParse from BCL).
+- Newton-Raphson algorithm.
+- Robust Newton-Raphson algorithm that tries to recover automatically in cases where it would fail or converge too slowly. This modification makes it more robust e.g. in the presence of singularities and less sensitive to the search range/interval.
+- All algorithms support a TryFind-pattern which returns success instead of throwing an exception.
 - Basic bracketing algorithm
+- Also works well in F# with the F# extensions.
 
 ### Linear Algebra
 
