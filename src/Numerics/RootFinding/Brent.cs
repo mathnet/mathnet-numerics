@@ -32,6 +32,10 @@ using System;
 
 namespace MathNet.Numerics.RootFinding
 {
+    /// <summary>
+    /// Algorithm by by Brent, Van Wijngaarden, Dekker et al.
+    /// Implementation inspired by Press, Teukolsky, Vetterling, and Flannery, "Numerical Recipes in C", 2nd edition, Cambridge University Press
+    /// </summary>
     public static class Brent
     {
         /// <summary>Find a solution of the equation f(x)=0.</summary>
@@ -41,10 +45,6 @@ namespace MathNet.Numerics.RootFinding
         /// <param name="accuracy">Desired accuracy. The root will be refined until the accuracy or the maximum number of iterations is reached.</param>
         /// <param name="maxIterations">Maximum number of iterations. Usually 100.</param>
         /// <returns>Returns the root with the specified accuracy.</returns>
-        /// <remarks>
-        /// Algorithm by by Brent, Van Wijngaarden, Dekker et al.
-        /// Implementation inspired by Press, Teukolsky, Vetterling, and Flannery, "Numerical Recipes in C", 2nd edition, Cambridge University Press
-        /// </remarks>
         /// <exception cref="NonConvergenceException"></exception>
         public static double FindRoot(Func<double, double> f, double lowerBound, double upperBound, double accuracy, int maxIterations)
         {
@@ -64,10 +64,6 @@ namespace MathNet.Numerics.RootFinding
         /// <param name="maxIterations">Maximum number of iterations. Usually 100.</param>
         /// <param name="root">The root that was found, if any. Undefined if the function returns false.</param>
         /// <returns>True if a root with the specified accuracy was found, else false.</returns>
-        /// <remarks>
-        /// Algorithm by by Brent, Van Wijngaarden, Dekker et al.
-        /// Implementation inspired by Press, Teukolsky, Vetterling, and Flannery, "Numerical Recipes in C", 2nd edition, Cambridge University Press
-        /// </remarks>
         public static bool TryFindRoot(Func<double, double> f, double lowerBound, double upperBound, double accuracy, int maxIterations, out double root)
         {
             double fmin = f(lowerBound);

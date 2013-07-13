@@ -111,6 +111,7 @@
     <Compile Include="LinearAlgebra\Generic\Matrix.BCL.cs" />
     <Compile Include="LinearAlgebra\Generic\Vector.BCL.cs" />
     <Compile Include="NonConvergenceException.cs" />
+    <Compile Include="RootFinding\NewtonRaphson.cs" />
     <Compile Include="RootFinding\RobustNewtonRaphson.cs" />
     <Compile Include="RootFinding\ZeroCrossingBracketing.cs" />
     <Compile Include="RootFinding\Brent.cs" />

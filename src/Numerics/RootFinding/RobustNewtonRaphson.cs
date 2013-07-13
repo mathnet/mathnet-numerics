@@ -32,6 +32,10 @@ using System;
 
 namespace MathNet.Numerics.RootFinding
 {
+    /// <summary>
+    /// Robust Newton-Raphson root-finding algorithm that falls back to bisection when overshooting or converging too slow, or to subdivision on lacking bracketing.
+    /// </summary>
+    /// <seealso cref="NewtonRaphson"/>
     public static class RobustNewtonRaphson
     {
         /// <summary>Find a solution of the equation f(x)=0.</summary>
@@ -43,7 +47,6 @@ namespace MathNet.Numerics.RootFinding
         /// <param name="maxIterations">Maximum number of iterations. Example: 100.</param>
         /// <param name="subdivision">How many parts an interval should be split into for zero crossing scanning in case of lacking bracketing. Example: 20.</param>
         /// <returns>Returns the root with the specified accuracy.</returns>
-        /// <remarks>Hybrid Newton-Raphson that falls back to bisection when overshooting or converging too slow, or to subdivision on lacking bracketing.</remarks>
         /// <exception cref="NonConvergenceException"></exception>
         public static double FindRoot(Func<double, double> f, Func<double, double> df, double lowerBound, double upperBound, double accuracy, int maxIterations, int subdivision)
         {
@@ -65,7 +68,6 @@ namespace MathNet.Numerics.RootFinding
         /// <param name="subdivision">How many parts an interval should be split into for zero crossing scanning in case of lacking bracketing. Example: 20.</param>
         /// <param name="root">The root that was found, if any. Undefined if the function returns false.</param>
         /// <returns>True if a root with the specified accuracy was found, else false.</returns>
-        /// <remarks>Hybrid Newton-Raphson that falls back to bisection when overshooting or converging too slow, or to subdivision on lacking bracketing.</remarks>
         public static bool TryFindRoot(Func<double, double> f, Func<double, double> df, double lowerBound, double upperBound, double accuracy, int maxIterations, int subdivision, out double root)
         {
             double fmin = f(lowerBound);

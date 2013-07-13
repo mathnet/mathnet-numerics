@@ -33,6 +33,9 @@ using MathNet.Numerics.Properties;
 
 namespace MathNet.Numerics.RootFinding
 {
+    /// <summary>
+    /// Bisection root-finding algorithm.
+    /// </summary>
     public static class Bisection
     {
         /// <summary>Find a solution of the equation f(x)=0.</summary>
