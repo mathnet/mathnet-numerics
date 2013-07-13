@@ -43,12 +43,12 @@ namespace MathNet.Numerics.RootFinding
         /// <param name="df">The first derivative of the function to find roots from.</param>
         /// <param name="lowerBound">The low value of the range where the root is supposed to be.</param>
         /// <param name="upperBound">The high value of the range where the root is supposed to be.</param>
-        /// <param name="accuracy">Desired accuracy. The root will be refined until the accuracy or the maximum number of iterations is reached. Example: 1e-14.</param>
-        /// <param name="maxIterations">Maximum number of iterations. Example: 100.</param>
-        /// <param name="subdivision">How many parts an interval should be split into for zero crossing scanning in case of lacking bracketing. Example: 20.</param>
+        /// <param name="accuracy">Desired accuracy. The root will be refined until the accuracy or the maximum number of iterations is reached. Default 1e-8.</param>
+        /// <param name="maxIterations">Maximum number of iterations. Default 100.</param>
+        /// <param name="subdivision">How many parts an interval should be split into for zero crossing scanning in case of lacking bracketing. Default 20.</param>
         /// <returns>Returns the root with the specified accuracy.</returns>
         /// <exception cref="NonConvergenceException"></exception>
-        public static double FindRoot(Func<double, double> f, Func<double, double> df, double lowerBound, double upperBound, double accuracy, int maxIterations, int subdivision)
+        public static double FindRoot(Func<double, double> f, Func<double, double> df, double lowerBound, double upperBound, double accuracy = 1e-8, int maxIterations = 100, int subdivision = 20)
         {
             double root;
             if (TryFindRoot(f, df, lowerBound, upperBound, accuracy, maxIterations, subdivision, out root))
