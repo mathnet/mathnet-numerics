@@ -29,7 +29,7 @@ The Math.NET project is a community effort. We accept contributions and pull req
 - Anders Gustafsson (cureos)
 - Andrew Kazyrevich
 - Iain McDonald (lifebeyondfife)
-- taschna
+- Alexander Täschner (taschna)
 - Candy Chiu
 - Gauthier Segay
 - Gregor959
