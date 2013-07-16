@@ -111,6 +111,12 @@ namespace MathNet.Numerics.RootFinding
                     return true;
                 }
 
+                if ((lowerBound == root) || (upperBound == root))
+                {
+                    // accuracy not sufficient, but cannot be improved further
+                    return false;
+                }
+
                 double midval = f(root);
 
                 if (Math.Sign(midval) == Math.Sign(fmin))
