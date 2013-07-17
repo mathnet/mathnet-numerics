@@ -72,6 +72,7 @@ namespace MathNet.Numerics.RootFinding
             double d = 0.0, e = 0.0;
 
             root = upperBound;
+            double xMid = double.NaN;
 
             for (int i = 0; i <= maxIterations; i++)
             {
@@ -95,10 +96,18 @@ namespace MathNet.Numerics.RootFinding
 
                 // convergence check
                 double xAcc1 = 2.0*Precision.DoubleMachinePrecision*Math.Abs(root) + 0.5*accuracy;
-                double xMid = (upperBound - root)/2.0;
+                double xMidOld = xMid;
+                xMid = (upperBound - root)/2.0;
+
                 if (Math.Abs(xMid) <= xAcc1 && froot.AlmostEqualWithAbsoluteError(0, froot, accuracy))
                 {
                     return true;
+                }
+
+                if (xMid == xMidOld)
+                {
+                    // accuracy not sufficient, but cannot be improved further
+                    return false;
                 }
 
                 if (Math.Abs(e) >= xAcc1 && Math.Abs(fmin) > Math.Abs(froot))

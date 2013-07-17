@@ -497,8 +497,14 @@ namespace MathNet.Numerics.UnitTests.RootFindingTests
                 return 1.296 * (T - Tp) + 10369 * k * Pp;
             };
 
-            double x = Bisection.FindRoot(f1, 500, 1000);
+            double x = Bisection.FindRoot(f1, 500, 725);
             Assert.AreEqual(690.4486645013260, x, 1e-5);
+            Assert.AreEqual(0, f1(x), 1e-12);
+            x = Bisection.FindRoot(f1, 725, 850, 1e-12);
+            Assert.AreEqual(758.3286948959860, x, 1e-5);
+            Assert.AreEqual(0, f1(x), 1e-12);
+            x = Bisection.FindRoot(f1, 850, 1000, 1e-12);
+            Assert.AreEqual(912.7964911381540, x, 1e-5);
             Assert.AreEqual(0, f1(x), 1e-12);
         }
 
