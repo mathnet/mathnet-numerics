@@ -37,7 +37,18 @@ namespace MathNet.Numerics
     {
         public static double OfFunction(Func<double, double> f, double lowerBound, double upperBound, double accuracy = 1e-8)
         {
-            return Brent.FindRoot(f, lowerBound, upperBound, accuracy, 100);
+            double root;
+            if (Brent.TryFindRoot(f, lowerBound, upperBound, accuracy, 100, out root))
+            {
+                return root;
+            }
+
+            if (Bisection.TryFindRoot(f, lowerBound, upperBound, accuracy, 100, out root))
+            {
+                return root;
+            }
+
+            throw new NonConvergenceException("The algorithm has failed or exceeded the number of iterations allowed");
         }
 
         public static double OfFunctionAndDerivative(Func<double, double> f, Func<double, double> df, double lowerBound, double upperBound, double accuracy = 1e-8)

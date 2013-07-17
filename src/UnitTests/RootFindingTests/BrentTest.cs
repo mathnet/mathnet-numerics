@@ -90,6 +90,7 @@ namespace MathNet.Numerics.UnitTests.RootFindingTests
         [Test]
         public void Oneeq1()
         {
+            // Test case from http://www.polymath-software.com/library/nle/Oneeq1.htm
             Func<double, double> f1 = z => 8 * Math.Pow((4 - z) * z, 2) / (Math.Pow(6 - 3 * z, 2) * (2 - z)) - 0.186;
             double x = Brent.FindRoot(f1, 0.1, 0.9, 1e-14, 100);
             Assert.AreEqual(0.277759543089215, x, 1e-9);
@@ -99,6 +100,7 @@ namespace MathNet.Numerics.UnitTests.RootFindingTests
         [Test]
         public void Oneeq2a()
         {
+            // Test case from http://www.polymath-software.com/library/nle/Oneeq2a.htm
             Func<double, double> f1 = T =>
             {
                 const double x1 = 0.332112;
