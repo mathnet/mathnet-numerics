@@ -10,7 +10,7 @@ The Math.NET project is a community effort. We accept contributions and pull req
 
 ### Contributors
 
-*ordered by #commits, then alphabetically*
+*ordered by #commits, then alphabetically (`git shortlog -sn`). Feel free to add a link to your personal site/blog and/or twitter handle.*
 
 - [Christoph Rüegg](http://christoph.ruegg.name/) (cdrnet)
 - [Marcus Cuda](http://marcuscuda.com/)
@@ -20,6 +20,7 @@ The Math.NET project is a community effort. We accept contributions and pull req
 - Thomas Ibel (tibel)
 - Hani Medhat
 - manyue
+- Alexander Täschner (taschna)
 - Andriy Bratiychuk (Abratiychuk)
 - Artyom Baranovskiy
 - Phil Cleveland (Phil)
@@ -29,7 +30,6 @@ The Math.NET project is a community effort. We accept contributions and pull req
 - Anders Gustafsson (cureos)
 - Andrew Kazyrevich
 - Iain McDonald (lifebeyondfife)
-- Alexander Täschner (taschna)
 - Candy Chiu
 - Gauthier Segay
 - Gregor959

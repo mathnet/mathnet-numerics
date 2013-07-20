@@ -10,8 +10,8 @@ NuGet Packages, available in the [NuGet Gallery](https://nuget.org/profiles/math
 
 - `MathNet.Numerics` - core package, including both .Net 4 and portable builds
 - `MathNet.Numerics.FSharp` - optional extensions for a better F# experience
-- `MathNet.Numerics.Data.Text` - optional extensions for text-based matrix input/output (CSV for now)
-- `MathNet.Numerics.Data.Matlab` - optional extensions for Matlab matrix file input/output
+- `MathNet.Numerics.Data.Text` - NEW: optional extensions for text-based matrix input/output (CSV for now)
+- `MathNet.Numerics.Data.Matlab` - NEW: optional extensions for Matlab matrix file input/output
 - `MathNet.Numerics.MKL.Win-x86` - optional Linear Algebra MKL native provider
 - `MathNet.Numerics.MKL.Win-x64` - optional Linear Algebra MKL native provider
 - `MathNet.Numerics.MKL.Linux-x86` - optional Linear Algebra MKL native provider
@@ -37,8 +37,8 @@ v2.6.0 - TBA, work in progress
 
 ### New: Root Finding
 
-- Brent algorithm. *~Candy Chiu*
-- Bisection algorithm. *~Scott Stephens*
+- Brent algorithm. *~Candy Chiu, Alexander Täschner*
+- Bisection algorithm. *~Scott Stephens, Alexander Täschner*
 - Newton-Raphson algorithm.
 - Robust Newton-Raphson algorithm that tries to recover automatically in cases where it would fail or converge too slowly. This modification makes it more robust e.g. in the presence of singularities and less sensitive to the search range/interval.
 - All algorithms support a TryFind-pattern which returns success instead of throwing an exception.
@@ -72,6 +72,8 @@ v2.6.0 - TBA, work in progress
 
 v2.5.0 - April 14, 2013
 -----------------------
+
+See also: [What's New in Math.NET Numerics 2.5](http://christoph.ruegg.name/blog/new-in-mathnet-numerics-2-5.html): Announcement, Explanations and Sample Code.
 
 ### *Potentially Breaking Changes:*
 
