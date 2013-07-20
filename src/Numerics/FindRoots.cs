@@ -35,16 +35,16 @@ namespace MathNet.Numerics
 {
     public static class FindRoots
     {
-        public static double OfFunction(Func<double, double> f, double lowerBound, double upperBound, double accuracy = 1e-8)
+        public static double OfFunction(Func<double, double> f, double lowerBound, double upperBound, double accuracy = 1e-8, int maxIterations = 100)
         {
             double root;
 
-            if (Brent.TryFindRoot(f, lowerBound, upperBound, accuracy, 100, out root))
+            if (Brent.TryFindRoot(f, lowerBound, upperBound, accuracy, maxIterations, out root))
             {
                 return root;
             }
 
-            if (Bisection.TryFindRoot(f, lowerBound, upperBound, accuracy, 100, out root))
+            if (Bisection.TryFindRoot(f, lowerBound, upperBound, accuracy, maxIterations, out root))
             {
                 return root;
             }
@@ -52,16 +52,16 @@ namespace MathNet.Numerics
             throw new NonConvergenceException("The algorithm has failed or exceeded the number of iterations allowed");
         }
 
-        public static double OfFunctionAndDerivative(Func<double, double> f, Func<double, double> df, double lowerBound, double upperBound, double accuracy = 1e-8)
+        public static double OfFunctionAndDerivative(Func<double, double> f, Func<double, double> df, double lowerBound, double upperBound, double accuracy = 1e-8, int maxIterations = 100)
         {
             double root;
 
-            if (RobustNewtonRaphson.TryFindRoot(f, df, lowerBound, upperBound, accuracy, 100, 20, out root))
+            if (RobustNewtonRaphson.TryFindRoot(f, df, lowerBound, upperBound, accuracy, maxIterations, 20, out root))
             {
                 return root;
             }
 
-            if (Bisection.TryFindRoot(f, lowerBound, upperBound, accuracy, 100, out root))
+            if (Bisection.TryFindRoot(f, lowerBound, upperBound, accuracy, maxIterations, out root))
             {
                 return root;
             }
