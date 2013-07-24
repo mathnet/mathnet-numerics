@@ -29,6 +29,7 @@
 // </copyright>
 
 using System;
+using MathNet.Numerics.Properties;
 
 namespace MathNet.Numerics.RootFinding
 {
@@ -55,7 +56,7 @@ namespace MathNet.Numerics.RootFinding
             {
                 return root;
             }
-            throw new NonConvergenceException("The algorithm failed or has exceeded the number of iterations allowed. Consider to use RobustNewtonRaphson instead.");
+            throw new NonConvergenceException(Resources.RootFindingFailedRecommendRobustNewtonRaphson);
         }
 
         /// <summary>Find a solution of the equation f(x)=0.</summary>
@@ -75,7 +76,7 @@ namespace MathNet.Numerics.RootFinding
             {
                 return root;
             }
-            throw new NonConvergenceException("The algorithm failed or has exceeded the number of iterations allowed. Consider to use RobustNewtonRaphson instead.");
+            throw new NonConvergenceException(Resources.RootFindingFailedRecommendRobustNewtonRaphson);
         }
 
         /// <summary>Find a solution of the equation f(x)=0.</summary>

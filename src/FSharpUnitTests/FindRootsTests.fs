@@ -39,5 +39,5 @@ module FindRootsTests =
     let ``Simple method should find both roots of (x - 3) * (x - 4)``() =
         f |> FindRoots.ofFunction -5.0 3.5 |> Option.get |> should (equalWithin 1e-8) 3.0
         f |> FindRoots.ofFunction 3.2 5.0 |> Option.get |> should (equalWithin 1e-8) 4.0
-        (f, df) ||> FindRoots.ofFunctionAndDerivative -5.0 3.5 |> Option.get |> should (equalWithin 1e-8) 3.0
-        (f, df) ||> FindRoots.ofFunctionAndDerivative 3.2 5.0 |> Option.get |> should (equalWithin 1e-8) 4.0
+        (f, df) ||> FindRoots.ofFunctionDerivative -5.0 3.5 |> Option.get |> should (equalWithin 1e-8) 3.0
+        (f, df) ||> FindRoots.ofFunctionDerivative 3.2 5.0 |> Option.get |> should (equalWithin 1e-8) 4.0

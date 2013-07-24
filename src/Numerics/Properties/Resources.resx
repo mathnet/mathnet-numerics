@@ -384,4 +384,10 @@
   <data name="RootMustBeBracketedByBounds" xml:space="preserve">
     <value>The lower and upper bounds must bracket a single root.</value>
   </data>
+  <data name="RootFindingFailed" xml:space="preserve">
+    <value>The algorithm has failed, exceeded the number of iterations allowed or there is no root within the provided bounds.</value>
+  </data>
+  <data name="RootFindingFailedRecommendRobustNewtonRaphson" xml:space="preserve">
+    <value>The algorithm has failed, exceeded the number of iterations allowed or there is no root within the provided bounds. Consider to use RobustNewtonRaphson instead.</value>
+  </data>
 </root>

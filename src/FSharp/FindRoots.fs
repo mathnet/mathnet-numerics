@@ -73,6 +73,6 @@ module FindRoots =
         brent 100 1e-8 lowerBound upperBound f
         |>| fun () -> bisection 100 1e-8 lowerBound upperBound f
 
-    let ofFunctionAndDerivative lowerBound upperBound (f:double->double) (df:double->double) =
+    let ofFunctionDerivative lowerBound upperBound (f:double->double) (df:double->double) =
         newtonRaphsonRobust 100 20 1e-8 lowerBound upperBound f df
         |>| fun () -> bisection 100 1e-8 lowerBound upperBound f

@@ -29,6 +29,7 @@
 // </copyright>
 
 using System;
+using MathNet.Numerics.Properties;
 using MathNet.Numerics.RootFinding;
 
 namespace MathNet.Numerics
@@ -49,10 +50,10 @@ namespace MathNet.Numerics
                 return root;
             }
 
-            throw new NonConvergenceException("The algorithm has failed or exceeded the number of iterations allowed");
+            throw new NonConvergenceException(Resources.RootFindingFailed);
         }
 
-        public static double OfFunctionAndDerivative(Func<double, double> f, Func<double, double> df, double lowerBound, double upperBound, double accuracy = 1e-8, int maxIterations = 100)
+        public static double OfFunctionDerivative(Func<double, double> f, Func<double, double> df, double lowerBound, double upperBound, double accuracy = 1e-8, int maxIterations = 100)
         {
             double root;
 
@@ -66,7 +67,7 @@ namespace MathNet.Numerics
                 return root;
             }
 
-            throw new NonConvergenceException("The algorithm has exceeded the number of iterations allowed");
+            throw new NonConvergenceException(Resources.RootFindingFailed);
         }
     }
 }
