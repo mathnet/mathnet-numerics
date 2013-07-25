@@ -29,7 +29,7 @@
 // </copyright>
 
 using System;
-using MathNet.Numerics.RootFinding;
+using System.Numerics;
 using NUnit.Framework;
 
 namespace MathNet.Numerics.UnitTests.RootFindingTests
@@ -153,6 +153,53 @@ namespace MathNet.Numerics.UnitTests.RootFindingTests
             double x = FindRoots.OfFunction(f1, 0.01, 1);
             Assert.AreEqual(0.842524411168525, x, 1e-2);
             Assert.AreEqual(0, f1(x), 1e-13);
+        }
+
+        private void AssertComplexEqual(Complex expected, Complex actual, double delta)
+        {
+            Assert.AreEqual(expected.Real, actual.Real, delta);
+            Assert.AreEqual(expected.Imaginary, actual.Imaginary, delta);
+        }
+
+        [TestCase(2d, 3d, 1d)]
+        [TestCase(-2d, 3d, 2d)]
+        [TestCase(2d, -3d, -2d)]
+        [TestCase(3d, 0d, 2d)]
+        public void QuadraticExpanded(double u, double v, double t)
+        {
+            // t*(x+u)*(x+v) = t*u*v + t*(u+v)*x + t*x^2
+            double c = t*u*v, b = t*(u + v), a = t;
+            var x = FindRoots.Quadratic(c, b, a);
+            Complex x1 = x.Item1, x2 = x.Item2;
+
+            // Expected Roots: -u, -v
+            Complex r1 = new Complex(-u, 0d), r2 = new Complex(-v, 0d);
+            Assert.IsTrue(x1.AlmostEqualWithError(r1, 1e-14) && x2.AlmostEqualWithError(r2, 1e-14)
+                || x1.AlmostEqualWithError(r2, 1e-14) && x2.AlmostEqualWithError(r1, 1e-14));
+
+            // Verify they really are roots
+            AssertComplexEqual(Complex.Zero, c + b*x1 + a*x1*x1, 1e-14);
+            AssertComplexEqual(Complex.Zero, c + b*x2 + a*x2*x2, 1e-14);
+        }
+
+        [TestCase(1d, 1d, 1d, -0.5, -0.866025403784439, -0.5, 0.866025403784439)]
+        [TestCase(3d, 4d, 5d, -0.4, -0.663324958071080, -0.4, 0.663324958071080)]
+        [TestCase(-4d, 2d, 1.5d, -2.43050087404306, 0d, 1.09716754070973, 0d)]
+        [TestCase(4d, 0d, 1.5d, 0d, -1.63299316185545, 0d, 1.63299316185545)]
+        public void QuadraticExpected(double c, double b, double a, double x1R, double x1I, double x2R, double x2I)
+        {
+            // c + b*x + a*x^2
+            var x = FindRoots.Quadratic(c, b, a);
+            Complex x1 = x.Item1, x2 = x.Item2;
+
+            // Expected roots?
+            Complex r1 = new Complex(x1R, x1I), r2 = new Complex(x2R, x2I);
+            Assert.IsTrue(x1.AlmostEqualWithError(r1, 1e-14) && x2.AlmostEqualWithError(r2, 1e-14)
+                || x1.AlmostEqualWithError(r2, 1e-14) && x2.AlmostEqualWithError(r1, 1e-14));
+
+            // Verify they really are roots
+            AssertComplexEqual(Complex.Zero, c + b*x1 + a*x1*x1, 1e-14);
+            AssertComplexEqual(Complex.Zero, c + b*x2 + a*x2*x2, 1e-14);
         }
     }
 }

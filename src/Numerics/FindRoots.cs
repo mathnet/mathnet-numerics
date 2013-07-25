@@ -32,10 +32,22 @@ using System;
 using MathNet.Numerics.Properties;
 using MathNet.Numerics.RootFinding;
 
+#if NOSYSNUMERICS
+    using Complex = Numerics.Complex;
+#else
+    using Complex = System.Numerics.Complex;
+#endif
+
 namespace MathNet.Numerics
 {
     public static class FindRoots
     {
+        /// <summary>Find a solution of the equation f(x)=0.</summary>
+        /// <param name="f">The function to find roots from.</param>
+        /// <param name="lowerBound">The low value of the range where the root is supposed to be.</param>
+        /// <param name="upperBound">The high value of the range where the root is supposed to be.</param>
+        /// <param name="accuracy">Desired accuracy. The root will be refined until the accuracy or the maximum number of iterations is reached. Example: 1e-14.</param>
+        /// <param name="maxIterations">Maximum number of iterations. Example: 100.</param>
         public static double OfFunction(Func<double, double> f, double lowerBound, double upperBound, double accuracy = 1e-8, int maxIterations = 100)
         {
             double root;
@@ -53,6 +65,13 @@ namespace MathNet.Numerics
             throw new NonConvergenceException(Resources.RootFindingFailed);
         }
 
+        /// <summary>Find a solution of the equation f(x)=0.</summary>
+        /// <param name="f">The function to find roots from.</param>
+        /// <param name="df">The first derivative of the function to find roots from.</param>
+        /// <param name="lowerBound">The low value of the range where the root is supposed to be.</param>
+        /// <param name="upperBound">The high value of the range where the root is supposed to be.</param>
+        /// <param name="accuracy">Desired accuracy. The root will be refined until the accuracy or the maximum number of iterations is reached. Example: 1e-14.</param>
+        /// <param name="maxIterations">Maximum number of iterations. Example: 100.</param>
         public static double OfFunctionDerivative(Func<double, double> f, Func<double, double> df, double lowerBound, double upperBound, double accuracy = 1e-8, int maxIterations = 100)
         {
             double root;
@@ -68,6 +87,25 @@ namespace MathNet.Numerics
             }
 
             throw new NonConvergenceException(Resources.RootFindingFailed);
+        }
+
+        /// <summary>
+        /// Find both complex roots of the quadratic equation c + b*x + a*x^2 = 0.
+        /// Note the special coefficient order ascending by exponent (consistent with polynomials).
+        /// </summary>
+        public static Tuple<Complex, Complex> Quadratic(double c, double b, double a)
+        {
+            if (b == 0d)
+            {
+                var t = new Complex(-c/a, 0d).SquareRoot();
+                return new Tuple<Complex, Complex>(t, -t);
+            }
+
+            var q = b > 0d
+                ? -0.5*(b + new Complex(b*b - 4*a*c, 0d).SquareRoot())
+                : -0.5*(b - new Complex(b*b - 4*a*c, 0d).SquareRoot());
+
+            return new Tuple<Complex, Complex>(q/a, c/q);
         }
     }
 }
