@@ -310,7 +310,7 @@ module DenseMatrix =
     let inline ofColumnsList (rows: int) (cols: int) (fll: float list list) = DenseMatrix.OfColumnsCovariant(rows, cols, fll)
 
     /// Create a matrix from a list of column vectors.
-    let inline ofColumnVectors (vectors: #Vector<float> list) = DenseMatrix.OfColumnVectors(vectors |> Array.ofSeq |> box |> unbox)
+    let inline ofColumnVectors (vectors: #Vector<float> list) = DenseMatrix.OfColumnVectors(vectors |> Array.ofList |> box |> unbox)
 
     /// Create a matrix with a given dimension from an indexed sequences of row, column, value tuples.
     let inline ofSeqi (rows: int) (cols: int) (fs: #seq<int * int * float>) = DenseMatrix.OfIndexed(rows, cols, fs)
