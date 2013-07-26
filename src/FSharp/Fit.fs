@@ -59,7 +59,7 @@ module Fit =
 
     /// Least-Squares fitting the points (x,y) to an arbitrary linear combination y : x -> p0*f0(x) + p1*f1(x) + ... + pk*fk(x),
     /// returning its best fitting parameters as [p0, p1, p2, ..., pk] list.
-    let linear functions (x:float[]) (y:float[]) =
+    let linear functions (x:_[]) (y:float[]) =
         functions
         |> List.map (fun f -> List.init (Array.length x) (fun i -> f x.[i]))
         |> DenseMatrix.ofColumnsList (Array.length x) (List.length functions)

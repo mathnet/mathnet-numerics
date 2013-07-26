@@ -31,7 +31,6 @@
 using System;
 using System.Linq;
 using MathNet.Numerics.LinearAlgebra.Double;
-using MathNet.Numerics.LinearAlgebra.Generic;
 using MathNet.Numerics.LinearAlgebra.Generic.Factorization;
 using MathNet.Numerics.Properties;
 
@@ -158,6 +157,28 @@ namespace MathNet.Numerics
         public static Func<double[], double> LinearMultiDimFunc(double[][] x, double[] y, params Func<double[], double>[] functions)
         {
             var parameters = LinearMultiDim(x, y, functions);
+            return z => functions.Zip(parameters, (f, p) => p * f(z)).Sum();
+        }
+
+        /// <summary>
+        /// Least-Squares fitting the points (T,y) = (T,y) to an arbitrary linear combination y : X -> p0*f0(T) + p1*f1(T) + ... + pk*fk(T),
+        /// returning its best fitting parameters as [p0, p1, p2, ..., pk] array.
+        /// </summary>
+        public static double[] LinearGeneric<T>(T[] x, double[] y, params Func<T, double>[] functions)
+        {
+            return DenseMatrix
+                .OfRows(x.Length, functions.Length, x.Select(xi => functions.Select(f => f(xi))))
+                .QR(QRMethod.Thin).Solve(new DenseVector(y))
+                .ToArray();
+        }
+
+        /// <summary>
+        /// Least-Squares fitting the points (T,y) = (T,y) to an arbitrary linear combination y : X -> p0*f0(T) + p1*f1(T) + ... + pk*fk(T),
+        /// returning a function y' for the best fitting combination.
+        /// </summary>
+        public static Func<T, double> LinearGenericFunc<T>(T[] x, double[] y, params Func<T, double>[] functions)
+        {
+            var parameters = LinearGeneric(x, y, functions);
             return z => functions.Zip(parameters, (f, p) => p * f(z)).Sum();
         }
     }
