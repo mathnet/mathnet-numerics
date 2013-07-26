@@ -27,21 +27,26 @@ Zip Packages, available on [CodePlex](http://mathnetnumerics.codeplex.com/releas
 
 Over time some members and classes have been replaced with more suitable alternatives. In order to maintain compatibility, such parts are not removed immediately but instead marked with the **Obsolete**-attribute. We strongly recommend to follow the instructions in the attribute text whenever you find any code calling an obsolete member, since we *do* intend to remove them at the next *major* release, v3.0.
 
-v2.6.0 - TBA, work in progress
+v2.6.0 - July 26, 2013
 ------------------------------
+
+See also: [What's New in Math.NET Numerics 2.6](http://christoph.ruegg.name/blog/new-in-mathnet-numerics-2-6.html): Announcement, Explanations and Sample Code.
 
 ### New: Linear Curve Fitting
 
 - Linear least-squares fitting (regression) to lines, polynomials and linear combinations of arbitrary functions.
+- Multi-dimensional fitting.
 - Also works well in F# with the F# extensions.
 
 ### New: Root Finding
 
-- Brent algorithm. *~Candy Chiu, Alexander Täschner*
-- Bisection algorithm. *~Scott Stephens, Alexander Täschner*
-- Newton-Raphson algorithm.
-- Robust Newton-Raphson algorithm that tries to recover automatically in cases where it would fail or converge too slowly. This modification makes it more robust e.g. in the presence of singularities and less sensitive to the search range/interval.
+- Brent's method. *~Candy Chiu, Alexander Täschner*
+- Bisection method. *~Scott Stephens, Alexander Täschner*
+- Broyden's method, for multi-dimensional functions. *~Alexander Täschner*
+- Newton-Raphson method.
+- Robust Newton-Raphson variant that tries to recover automatically in cases where it would fail or converge too slowly. This modification makes it more robust e.g. in the presence of singularities and less sensitive to the search range/interval.
 - All algorithms support a TryFind-pattern which returns success instead of throwing an exception.
+- Special case for quadratic functions, in the future to be extended e.g. to polynomials.
 - Basic bracketing algorithm
 - Also works well in F# with the F# extensions.
 
@@ -65,6 +70,7 @@ v2.6.0 - TBA, work in progress
 
 ### Misc
 
+- BUG: Fixed a bug in the Gamma Regularized special function where in some cases with large values it returned 1 instead of 0 and vice versa.
 - The F# extensions now have a strong name in (and only in) the signed package as well (previously had not been signed). *~Gauthier Segay*
 - Evaluate.Polynomial with new overload which is easier to use.
 - Fixed a couple badly designed unit tests that failed on Mono.
