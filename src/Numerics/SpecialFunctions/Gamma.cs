@@ -162,20 +162,18 @@ namespace MathNet.Numerics
         /// <returns>The upper incomplete regularized gamma function.</returns>
         public static double GammaUpperRegularized(double a, double x)
         {
-            double t;
-
-            const double igammaepsilon = 0.000000000000001;
-            const double igammabignumber = 4503599627370496.0;
-            const double igammabignumberinv = 2.22044604925031308085 * 0.0000000000000001;
+            const double Epsilon = 0.000000000000001;
+            const double BigNumber = 4503599627370496.0;
+            const double BigNumberInverse = 2.22044604925031308085e-16;
             
-            if (x <= 0 | a <= 0)
+            if (x <= 0d || a <= 0d)
             {
-                return 1;
+                return 1d;
             }
 
-            if (x < 1 | x < a)
+            if (x < 1d || x < a)
             {
-                return 1 - GammaLowerRegularized(a, x);
+                return 1d - GammaLowerRegularized(a, x);
             }
 
             double ax = a * Math.Log(x) - x - GammaLn(a);
@@ -185,6 +183,7 @@ namespace MathNet.Numerics
             }
 
             ax = Math.Exp(ax);
+            double t;
             double y = 1 - a;
             double z = x + y + 1;
             double c = 0;
@@ -217,15 +216,15 @@ namespace MathNet.Numerics
                 qkm2 = qkm1;
                 qkm1 = qk;
 
-                if (Math.Abs(pk) > igammabignumber)
+                if (Math.Abs(pk) > BigNumber)
                 {
-                    pkm2 = pkm2 * igammabignumberinv;
-                    pkm1 = pkm1 * igammabignumberinv;
-                    qkm2 = qkm2 * igammabignumberinv;
-                    qkm1 = qkm1 * igammabignumberinv;
+                    pkm2 = pkm2 * BigNumberInverse;
+                    pkm1 = pkm1 * BigNumberInverse;
+                    qkm2 = qkm2 * BigNumberInverse;
+                    qkm1 = qkm1 * BigNumberInverse;
                 }
             }
-            while (t > igammaepsilon);
+            while (t > Epsilon);
 
             return ans * ax;
         }
