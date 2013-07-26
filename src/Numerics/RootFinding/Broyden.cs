@@ -31,6 +31,7 @@
 using MathNet.Numerics.LinearAlgebra.Double;
 using MathNet.Numerics.LinearAlgebra.Generic;
 using System;
+using MathNet.Numerics.Properties;
 
 namespace MathNet.Numerics.RootFinding
 {
@@ -54,59 +55,58 @@ namespace MathNet.Numerics.RootFinding
             {
                 return root;
             }
-            throw new NonConvergenceException("The algorithm has exceeded the number of iterations allowed");
+            throw new NonConvergenceException(Resources.RootFindingFailed);
         }
 
         /// <summary>Find a solution of the equation f(x)=0.</summary>
         /// <param name="f">The function to find roots from.</param>
-        /// <param name="initialGuess">The low value of the range where the root is supposed to be.</param>
+        /// <param name="initialGuess">Initial guess of the root.</param>
         /// <param name="accuracy">Desired accuracy. The root will be refined until the accuracy or the maximum number of iterations is reached.</param>
         /// <param name="maxIterations">Maximum number of iterations. Usually 100.</param>
         /// <param name="root">The root that was found, if any. Undefined if the function returns false.</param>
         /// <returns>True if a root with the specified accuracy was found, else false.</returns>
         public static bool TryFindRoot(Func<double[], double[]> f, double[] initialGuess, double accuracy, int maxIterations, out double[] root)
         {
-            double[] F = f(initialGuess);
-            DenseVector FVect = new DenseVector(F);
-            double g = FVect.Norm(2);
+            var x = new DenseVector(initialGuess);
 
-            Matrix<double> B = CalculateApproximateJacobian(f, initialGuess, F);
+            double[] y0 = f(initialGuess);
+            var y = new DenseVector(y0);
+            double g = y.Norm(2);
 
-            Vector<double> x = new DenseVector(initialGuess);
+            Matrix<double> B = CalculateApproximateJacobian(f, initialGuess, y0);
 
             for (int i = 0; i <= maxIterations; i++)
             {
-                Vector<double> dx = -B.LU().Solve(FVect);
-                Vector<double> xnew = x + dx;
-                double[] FNew = f(xnew.ToArray());
-                DenseVector FNewVect = new DenseVector(FNew);
-                double gNew = FNewVect.Norm(2);
-                if (gNew > g)
+                var dx = (DenseVector) (-B.LU().Solve(y));
+                var xnew = x + dx;
+                var ynew = new DenseVector(f(xnew.Values));
+                double gnew = ynew.Norm(2);
+
+                if (gnew > g)
                 {
-                    double g2 = g * g;
-                    double scale = g2 / (g2 + gNew * gNew);
+                    double g2 = g*g;
+                    double scale = g2/(g2 + gnew*gnew);
                     if (scale == 0.0) scale = 1.0e-4;
-                    dx = scale * dx;
+                    dx = scale*dx;
                     xnew = x + dx;
-                    FNew = f(xnew.ToArray());
-                    FNewVect = new DenseVector(FNew);
-                    gNew = FNewVect.Norm(2);
+                    ynew = new DenseVector(f(xnew.Values));
+                    gnew = ynew.Norm(2);
                 }
 
-                if (gNew < accuracy)
+                if (gnew < accuracy)
                 {
-                    root = xnew.ToArray();
+                    root = xnew.Values;
                     return true;
                 }
 
                 // update Jacobian B
-                DenseVector dF = FNewVect - FVect;
-                Matrix<double> dB = (dF - B.Multiply(dx)).ToColumnMatrix() * dx.Multiply(1.0 / Math.Pow(dx.Norm(2),2)).ToRowMatrix();
+                DenseVector dF = ynew - y;
+                Matrix<double> dB = (dF - B.Multiply(dx)).ToColumnMatrix()*dx.Multiply(1.0/Math.Pow(dx.Norm(2), 2)).ToRowMatrix();
                 B = B + dB;
 
                 x = xnew;
-                FVect = FNewVect;
-                g = gNew;
+                y = ynew;
+                g = gnew;
             }
 
             root = null;
@@ -119,25 +119,27 @@ namespace MathNet.Numerics.RootFinding
         /// <param name="f">The function.</param>
         /// <param name="x0">The argument.</param>
         /// <returns></returns>
-        private static Matrix<double> CalculateApproximateJacobian(Func<double[], double[]> f, double[] x0, double[] F0)
+        static Matrix<double> CalculateApproximateJacobian(Func<double[], double[]> f, double[] x0, double[] y0)
         {
             int dim = x0.Length;
-            double[] xpos = new double[dim];
-            DenseMatrix B = new DenseMatrix(dim);
+            var B = new DenseMatrix(dim);
+
+            var x = new double[dim];
+            Array.Copy(x0, x, dim);
 
             for (int j = 0; j < dim; j++)
             {
-                Array.Copy(x0, xpos, dim);
-
-                double h = Math.Abs(x0[j]) * 1.0e-4;
+                double h = Math.Abs(x0[j])*1.0e-4;
                 if (h == 0.0) h = 1.0e-4;
-                xpos[j] += h;
 
-                double[] Fpos = f(xpos);
+                var xj = x[j];
+                x[j] = xj + h;
+                double[] y = f(x);
+                x[j] = xj;
 
                 for (int i = 0; i < dim; i++)
                 {
-                    B[i, j] = (Fpos[i] - F0[i]) / h;
+                    B.At(i, j, (y[i] - y0[i])/h);
                 }
             }
 
