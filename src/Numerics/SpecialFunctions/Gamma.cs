@@ -181,7 +181,7 @@ namespace MathNet.Numerics
             double ax = a * Math.Log(x) - x - GammaLn(a);
             if (ax < -709.78271289338399)
             {
-                return 0;
+                return a < x ? 0d : 1d;
             }
 
             ax = Math.Exp(ax);
@@ -291,7 +291,7 @@ namespace MathNet.Numerics
             double ax = (a * Math.Log(x)) - x - GammaLn(a);
             if (ax < -709.78271289338399)
             {
-                return 1d;
+                return a < x ? 1d : 0d;
             }
 
             if (x <= 1 || x <= a)
