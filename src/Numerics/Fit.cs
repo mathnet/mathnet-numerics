@@ -140,46 +140,25 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
-        /// Least-Squares fitting the points (X,y) = ((x0,x1,..,xk),y) to an arbitrary linear combination y : X -> p0*f0(x0) + p1*f1(x1) + ... + pk*fk(xk),
+        /// Least-Squares fitting the points (X,y) = ((x0,x1,..,xk),y) to an arbitrary linear combination y : X -> p0*f0(x) + p1*f1(x) + ... + pk*fk(x),
         /// returning its best fitting parameters as [p0, p1, p2, ..., pk] array.
         /// </summary>
-        public static double[] LinearMultiDim(double[][] x, double[] y, params Func<double, double>[] functions)
+        public static double[] LinearMultiDim(double[][] x, double[] y, params Func<double[], double>[] functions)
         {
             return DenseMatrix
-                .OfRows(x.Length, functions.Length, x.Select(xi => functions.Select((f, k) => f(xi[k]))))
+                .OfRows(x.Length, functions.Length, x.Select(xi => functions.Select(f => f(xi))))
                 .QR(QRMethod.Thin).Solve(new DenseVector(y))
                 .ToArray();
         }
 
         /// <summary>
-        /// Least-Squares fitting the points (X,y) = ((x0,x1,..,xk),y) to an arbitrary linear combination y : X -> p0*f0(x0) + p1*f1(x1) + ... + pk*fk(xk),
+        /// Least-Squares fitting the points (X,y) = ((x0,x1,..,xk),y) to an arbitrary linear combination y : X -> p0*f0(x) + p1*f1(x) + ... + pk*fk(x),
         /// returning a function y' for the best fitting combination.
         /// </summary>
-        public static Func<double[], double> LinearMultiDimFunc(double[][] x, double[] y, params Func<double, double>[] functions)
+        public static Func<double[], double> LinearMultiDimFunc(double[][] x, double[] y, params Func<double[], double>[] functions)
         {
             var parameters = LinearMultiDim(x, y, functions);
-            return z => functions.Select((f, i) => parameters[i]*f(z[i])).Sum();
-        }
-
-        /// <summary>
-        /// Least-Squares fitting the points (X,y) = ((x0,x1,..,xk),y) to an arbitrary linear combination y : X -> p0*f0(x0) + p1*f1(x1) + ... + pk*fk(xk),
-        /// returning its best fitting parameters as [p0, p1, p2, ..., pk] array.
-        /// </summary>
-        public static Vector<double> LinearVector(Vector<double>[] x, double[] y, Func<Vector<double>, Vector<double>> functions)
-        {
-            return DenseMatrix
-                .OfRowVectors(x.Select(functions).ToArray()) // PERF: Array.map instead of seq
-                .QR(QRMethod.Thin).Solve(new DenseVector(y));
-        }
-
-        /// <summary>
-        /// Least-Squares fitting the points (X,y) = ((x0,x1,..,xk),y) to an arbitrary linear combination y : X -> p0*f0(x0) + p1*f1(x1) + ... + pk*fk(xk),
-        /// returning a function y' for the best fitting combination.
-        /// </summary>
-        public static Func<Vector<double>, double> LinearVectorFunc(Vector<double>[] x, double[] y, Func<Vector<double>, Vector<double>> functions)
-        {
-            var parameters = LinearVector(x, y, functions);
-            return z => functions(z).Select((yi, i) => parameters[i]*yi).Sum();
+            return z => functions.Zip(parameters, (f, p) => p * f(z)).Sum();
         }
     }
 }
