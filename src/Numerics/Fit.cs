@@ -143,12 +143,43 @@ namespace MathNet.Numerics
         /// Least-Squares fitting the points (X,y) = ((x0,x1,..,xk),y) to an arbitrary linear combination y : X -> p0*f0(x0) + p1*f1(x1) + ... + pk*fk(xk),
         /// returning its best fitting parameters as [p0, p1, p2, ..., pk] array.
         /// </summary>
-        public static double[] LinearCombinationVector(Vector<double>[] x, double[] y, params Func<double, double>[] functions)
+        public static double[] MultiDimensional(double[][] x, double[] y, params Func<double, double>[] functions)
         {
             return DenseMatrix
-                .OfColumns(x.Length, functions.Length, functions.Select((f, k) => DenseVector.Create(x.Length, i => f(x[i].At(k)))))
+                .OfRows(x.Length, functions.Length, x.Select(xi => functions.Select((f, k) => f(xi[k]))))
                 .QR(QRMethod.Thin).Solve(new DenseVector(y))
                 .ToArray();
+        }
+
+        /// <summary>
+        /// Least-Squares fitting the points (X,y) = ((x0,x1,..,xk),y) to an arbitrary linear combination y : X -> p0*f0(x0) + p1*f1(x1) + ... + pk*fk(xk),
+        /// returning a function y' for the best fitting combination.
+        /// </summary>
+        public static Func<double[], double> MultiDimensionalFunc(double[][] x, double[] y, params Func<double, double>[] functions)
+        {
+            var parameters = MultiDimensional(x, y, functions);
+            return z => functions.Select((f, i) => parameters[i]*f(z[i])).Sum();
+        }
+
+        /// <summary>
+        /// Least-Squares fitting the points (X,y) = ((x0,x1,..,xk),y) to an arbitrary linear combination y : X -> p0*f0(x0) + p1*f1(x1) + ... + pk*fk(xk),
+        /// returning its best fitting parameters as [p0, p1, p2, ..., pk] array.
+        /// </summary>
+        public static Vector<double> Vector(Vector<double>[] x, double[] y, Func<Vector<double>, Vector<double>> functions)
+        {
+            return DenseMatrix
+                .OfRowVectors(x.Select(functions).ToArray()) // PERF: Array.map instead of seq
+                .QR(QRMethod.Thin).Solve(new DenseVector(y));
+        }
+
+        /// <summary>
+        /// Least-Squares fitting the points (X,y) = ((x0,x1,..,xk),y) to an arbitrary linear combination y : X -> p0*f0(x0) + p1*f1(x1) + ... + pk*fk(xk),
+        /// returning a function y' for the best fitting combination.
+        /// </summary>
+        public static Func<Vector<double>, double> VectorFunc(Vector<double>[] x, double[] y, Func<Vector<double>, Vector<double>> functions)
+        {
+            var parameters = Vector(x, y, functions);
+            return z => functions(z).Select((yi, i) => parameters[i]*yi).Sum();
         }
     }
 }
