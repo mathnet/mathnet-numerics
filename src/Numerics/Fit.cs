@@ -31,6 +31,7 @@
 using System;
 using System.Linq;
 using MathNet.Numerics.LinearAlgebra.Double;
+using MathNet.Numerics.LinearAlgebra.Generic;
 using MathNet.Numerics.LinearAlgebra.Generic.Factorization;
 using MathNet.Numerics.Properties;
 
@@ -122,7 +123,6 @@ namespace MathNet.Numerics
         /// </summary>
         public static double[] LinearCombination(double[] x, double[] y, params Func<double,double>[] functions)
         {
-            // TODO: consider to use a specific algorithm instead
             return DenseMatrix
                 .OfColumns(x.Length, functions.Length, functions.Select(f => DenseVector.Create(x.Length, i => f(x[i]))))
                 .QR(QRMethod.Thin).Solve(new DenseVector(y))
@@ -137,6 +137,18 @@ namespace MathNet.Numerics
         {
             var parameters = LinearCombination(x, y, functions);
             return z => functions.Zip(parameters, (f, p) => p*f(z)).Sum();
+        }
+
+        /// <summary>
+        /// Least-Squares fitting the points (X,y) = ((x0,x1,..,xk),y) to an arbitrary linear combination y : X -> p0*f0(x0) + p1*f1(x1) + ... + pk*fk(xk),
+        /// returning its best fitting parameters as [p0, p1, p2, ..., pk] array.
+        /// </summary>
+        public static double[] LinearCombinationVector(Vector<double>[] x, double[] y, params Func<double, double>[] functions)
+        {
+            return DenseMatrix
+                .OfColumns(x.Length, functions.Length, functions.Select((f, k) => DenseVector.Create(x.Length, i => f(x[i].At(k)))))
+                .QR(QRMethod.Thin).Solve(new DenseVector(y))
+                .ToArray();
         }
     }
 }
