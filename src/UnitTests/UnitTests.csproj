@@ -200,18 +200,6 @@
     <Compile Include="LinearAlgebraTests\Complex32\Factorization\UserSvdTests.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="LinearAlgebraTests\Complex32\IO\DelimitedReaderTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Complex32\IO\DelimitedWriterTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Complex32\IO\MatlabReaderTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Complex32\IO\MatlabWriterTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="LinearAlgebraTests\Complex32\MatrixLoader.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -346,18 +334,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="LinearAlgebraTests\Complex\Factorization\UserSvdTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Complex\IO\DelimitedReaderTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Complex\IO\DelimitedWriterTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Complex\IO\MatlabReaderTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Complex\IO\MatlabWriterTests.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="LinearAlgebraTests\Complex\MatrixLoader.cs">
@@ -498,18 +474,6 @@
     <Compile Include="LinearAlgebraTests\Double\Factorization\UserSvdTests.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="LinearAlgebraTests\Double\IO\DelimitedReaderTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Double\IO\DelimitedWriterTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Double\IO\MatlabReaderTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Double\IO\MatlabWriterTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="LinearAlgebraTests\Double\MatrixLoader.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -644,18 +608,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="LinearAlgebraTests\Single\Factorization\UserSvdTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Single\IO\DelimitedReaderTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Single\IO\DelimitedWriterTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Single\IO\MatlabReaderTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Single\IO\MatlabWriterTests.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="LinearAlgebraTests\Single\MatrixLoader.cs">
@@ -801,10 +753,6 @@
     <Compile Include="UseLinearAlgebraProvider.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Numerics.IO\Numerics.IO.csproj">
-      <Project>{EB1A5D32-F264-4BCE-BEB7-0B97085075BE}</Project>
-      <Name>Numerics.IO</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Numerics\Numerics.csproj">
       <Project>{B7CAE5F4-A23F-4438-B5BE-41226618B695}</Project>
       <Name>Numerics</Name>

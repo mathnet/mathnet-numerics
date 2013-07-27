@@ -24,8 +24,6 @@ Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "FSharpUnitTests", "src\FSha
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "src\UnitTests\UnitTests.csproj", "{DAF07AA8-C5C9-4963-98F7-2C3285064DAD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Numerics.IO", "src\Numerics.IO\Numerics.IO.csproj", "{EB1A5D32-F264-4BCE-BEB7-0B97085075BE}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -69,12 +67,6 @@ Global
 		{DAF07AA8-C5C9-4963-98F7-2C3285064DAD}.Release|Any CPU.Build.0 = Release|Any CPU
 		{DAF07AA8-C5C9-4963-98F7-2C3285064DAD}.Release-Signed|Any CPU.ActiveCfg = Release-Signed|Any CPU
 		{DAF07AA8-C5C9-4963-98F7-2C3285064DAD}.Release-Signed|Any CPU.Build.0 = Release-Signed|Any CPU
-		{EB1A5D32-F264-4BCE-BEB7-0B97085075BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EB1A5D32-F264-4BCE-BEB7-0B97085075BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EB1A5D32-F264-4BCE-BEB7-0B97085075BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EB1A5D32-F264-4BCE-BEB7-0B97085075BE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{EB1A5D32-F264-4BCE-BEB7-0B97085075BE}.Release-Signed|Any CPU.ActiveCfg = Release-Signed|Any CPU
-		{EB1A5D32-F264-4BCE-BEB7-0B97085075BE}.Release-Signed|Any CPU.Build.0 = Release-Signed|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
