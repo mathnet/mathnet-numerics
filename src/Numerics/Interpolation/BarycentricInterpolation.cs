@@ -28,11 +28,11 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-namespace MathNet.Numerics.Interpolation.Algorithms
-{
-    using System;
-    using System.Collections.Generic;
+using System;
+using System.Collections.Generic;
 
+namespace MathNet.Numerics.Interpolation
+{
     /// <summary>
     /// Barycentric Interpolation Algorithm.
     /// </summary>
@@ -44,17 +44,17 @@ namespace MathNet.Numerics.Interpolation.Algorithms
         /// <summary>
         /// Sample Points t.
         /// </summary>
-        private IList<double> _points;
+        IList<double> _points;
 
         /// <summary>
         /// Sample Values x(t).
         /// </summary>
-        private IList<double> _values;
+        IList<double> _values;
 
         /// <summary>
         /// Barycentric Weights w(t).
         /// </summary>
-        private IList<double> _weights;
+        IList<double> _weights;
 
         /// <summary>
         /// Initializes a new instance of the BarycentricInterpolation class.
@@ -187,19 +187,19 @@ namespace MathNet.Numerics.Interpolation.Algorithms
             {
                 if (i != closestPoint)
                 {
-                    double v = offset * _weights[i] / (t - _points[i]);
-                    s1 = s1 + (v * _values[i]);
+                    double v = offset*_weights[i]/(t - _points[i]);
+                    s1 = s1 + (v*_values[i]);
                     s2 = s2 + v;
                 }
                 else
                 {
                     double v = _weights[i];
-                    s1 = s1 + (v * _values[i]);
+                    s1 = s1 + (v*_values[i]);
                     s2 = s2 + v;
                 }
             }
 
-            return s1 / s2;
+            return s1/s2;
         }
 
         /// <summary>

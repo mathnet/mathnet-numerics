@@ -28,12 +28,12 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-namespace MathNet.Numerics.Interpolation.Algorithms
-{
-    using System;
-    using System.Collections.Generic;
-    using Properties;
+using System;
+using System.Collections.Generic;
+using MathNet.Numerics.Properties;
 
+namespace MathNet.Numerics.Interpolation
+{
     /// <summary>
     /// Lagrange Polynomial Interpolation using Neville's Algorithm.
     /// </summary>
@@ -52,12 +52,12 @@ namespace MathNet.Numerics.Interpolation.Algorithms
         /// <summary>
         /// Sample Points t.
         /// </summary>
-        private IList<double> _points;
+        IList<double> _points;
 
         /// <summary>
         /// Spline Values x(t).
         /// </summary>
-        private IList<double> _values;
+        IList<double> _values;
 
         /// <summary>
         /// Initializes a new instance of the NevillePolynomialInterpolation class.
@@ -151,7 +151,7 @@ namespace MathNet.Numerics.Interpolation.Algorithms
                     double hp = t - _points[i + level];
                     double ho = _points[i] - t;
                     double den = _points[i] - _points[i + level];
-                    x[i] = ((hp * x[i]) + (ho * x[i + 1])) / den;
+                    x[i] = ((hp*x[i]) + (ho*x[i + 1]))/den;
                 }
             }
 
@@ -178,8 +178,8 @@ namespace MathNet.Numerics.Interpolation.Algorithms
                     double hp = t - _points[i + level];
                     double ho = _points[i] - t;
                     double den = _points[i] - _points[i + level];
-                    dx[i] = ((hp * dx[i]) + x[i] + (ho * dx[i + 1]) - x[i + 1]) / den;
-                    x[i] = ((hp * x[i]) + (ho * x[i + 1])) / den;
+                    dx[i] = ((hp*dx[i]) + x[i] + (ho*dx[i + 1]) - x[i + 1])/den;
+                    x[i] = ((hp*x[i]) + (ho*x[i + 1]))/den;
                 }
             }
 
@@ -212,9 +212,9 @@ namespace MathNet.Numerics.Interpolation.Algorithms
                     double hp = t - _points[i + level];
                     double ho = _points[i] - t;
                     double den = _points[i] - _points[i + level];
-                    ddx[i] = ((hp * ddx[i]) + (ho * ddx[i + 1]) + (2 * dx[i]) - (2 * dx[i + 1])) / den;
-                    dx[i] = ((hp * dx[i]) + x[i] + (ho * dx[i + 1]) - x[i + 1]) / den;
-                    x[i] = ((hp * x[i]) + (ho * x[i + 1])) / den;
+                    ddx[i] = ((hp*ddx[i]) + (ho*ddx[i + 1]) + (2*dx[i]) - (2*dx[i + 1]))/den;
+                    dx[i] = ((hp*dx[i]) + x[i] + (ho*dx[i + 1]) - x[i + 1])/den;
+                    x[i] = ((hp*x[i]) + (ho*x[i + 1]))/den;
                 }
             }
 

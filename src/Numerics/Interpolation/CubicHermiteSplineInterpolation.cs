@@ -1,4 +1,4 @@
-﻿// <copyright file="LinearSplineInterpolation.cs" company="Math.NET">
+﻿// <copyright file="CubicHermiteSplineInterpolation.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -28,44 +28,46 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-namespace MathNet.Numerics.Interpolation.Algorithms
-{
-    using System;
-    using System.Collections.Generic;
-    using Properties;
+using System;
+using System.Collections.Generic;
+using MathNet.Numerics.Properties;
 
+namespace MathNet.Numerics.Interpolation
+{
     /// <summary>
-    /// Linear Spline Interpolation Algorithm.
+    /// Cubic Hermite Spline Interpolation Algorithm.
     /// </summary>
     /// <remarks>
     /// This algorithm supports both differentiation and integration.
     /// </remarks>
-    public class LinearSplineInterpolation : IInterpolation
+    public class CubicHermiteSplineInterpolation : IInterpolation
     {
         /// <summary>
         /// Internal Spline Interpolation
         /// </summary>
-        private readonly SplineInterpolation _spline;
+        readonly SplineInterpolation _spline;
 
         /// <summary>
-        /// Initializes a new instance of the LinearSplineInterpolation class.
+        /// Initializes a new instance of the CubicHermiteSplineInterpolation class.
         /// </summary>
-        public LinearSplineInterpolation()
+        public CubicHermiteSplineInterpolation()
         {
             _spline = new SplineInterpolation();
         }
 
         /// <summary>
-        /// Initializes a new instance of the LinearSplineInterpolation class.
+        /// Initializes a new instance of the CubicHermiteSplineInterpolation class.
         /// </summary>
         /// <param name="samplePoints">Sample Points t, sorted ascending.</param>
         /// <param name="sampleValues">Sample Values x(t)</param>
-        public LinearSplineInterpolation(
+        /// <param name="sampleDerivatives">Sample Derivatives x'(t)</param>
+        public CubicHermiteSplineInterpolation(
             IList<double> samplePoints,
-            IList<double> sampleValues)
+            IList<double> sampleValues,
+            IList<double> sampleDerivatives)
         {
             _spline = new SplineInterpolation();
-            Initialize(samplePoints, sampleValues);
+            Initialize(samplePoints, sampleValues, sampleDerivatives);
         }
 
         /// <summary>
@@ -92,13 +94,16 @@ namespace MathNet.Numerics.Interpolation.Algorithms
         /// </summary>
         /// <param name="samplePoints">Sample Points t, sorted ascending.</param>
         /// <param name="sampleValues">Sample Values x(t)</param>
+        /// <param name="sampleDerivatives">Sample Derivatives x'(t)</param>
         public void Initialize(
             IList<double> samplePoints,
-            IList<double> sampleValues)
+            IList<double> sampleValues,
+            IList<double> sampleDerivatives)
         {
             double[] coefficients = EvaluateSplineCoefficients(
                 samplePoints,
-                sampleValues);
+                sampleValues,
+                sampleDerivatives);
 
             _spline.Initialize(samplePoints, coefficients);
         }
@@ -109,10 +114,12 @@ namespace MathNet.Numerics.Interpolation.Algorithms
         /// </summary>
         /// <param name="samplePoints">Sample Points t, sorted ascending.</param>
         /// <param name="sampleValues">Sample Values x(t)</param>
+        /// <param name="sampleDerivatives">Sample Derivatives x'(t)</param>
         /// <returns>Spline Coefficient Vector</returns>
         public static double[] EvaluateSplineCoefficients(
             IList<double> samplePoints,
-            IList<double> sampleValues)
+            IList<double> sampleValues,
+            IList<double> sampleDerivatives)
         {
             if (null == samplePoints)
             {
@@ -124,12 +131,18 @@ namespace MathNet.Numerics.Interpolation.Algorithms
                 throw new ArgumentNullException("sampleValues");
             }
 
+            if (null == sampleDerivatives)
+            {
+                throw new ArgumentNullException("sampleDerivatives");
+            }
+
             if (samplePoints.Count < 2)
             {
                 throw new ArgumentOutOfRangeException("samplePoints");
             }
 
-            if (samplePoints.Count != sampleValues.Count)
+            if (samplePoints.Count != sampleValues.Count
+                || samplePoints.Count != sampleDerivatives.Count)
             {
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength);
             }
@@ -138,14 +151,17 @@ namespace MathNet.Numerics.Interpolation.Algorithms
                 if (samplePoints[i] <= samplePoints[i - 1])
                     throw new ArgumentException(Resources.Interpolation_Initialize_SamplePointsNotStrictlyAscendingOrder, "samplePoints");
 
-            double[] coefficients = new double[4 * (samplePoints.Count - 1)];
+            double[] coefficients = new double[4*(samplePoints.Count - 1)];
 
             for (int i = 0, j = 0; i < samplePoints.Count - 1; i++, j += 4)
             {
+                double delta = samplePoints[i + 1] - samplePoints[i];
+                double delta2 = delta*delta;
+                double delta3 = delta*delta2;
                 coefficients[j] = sampleValues[i];
-                coefficients[j + 1] = (sampleValues[i + 1] - sampleValues[i]) / (samplePoints[i + 1] - samplePoints[i]);
-                coefficients[j + 2] = 0;
-                coefficients[j + 3] = 0;
+                coefficients[j + 1] = sampleDerivatives[i];
+                coefficients[j + 2] = ((3*(sampleValues[i + 1] - sampleValues[i])) - (2*sampleDerivatives[i]*delta) - (sampleDerivatives[i + 1]*delta))/delta2;
+                coefficients[j + 3] = ((2*(sampleValues[i] - sampleValues[i + 1])) + (sampleDerivatives[i]*delta) + (sampleDerivatives[i + 1]*delta))/delta3;
             }
 
             return coefficients;

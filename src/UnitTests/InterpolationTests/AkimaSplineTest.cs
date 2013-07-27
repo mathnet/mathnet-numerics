@@ -31,7 +31,6 @@
 namespace MathNet.Numerics.UnitTests.InterpolationTests
 {
     using Interpolation;
-    using Interpolation.Algorithms;
     using NUnit.Framework;
 
     /// <summary>

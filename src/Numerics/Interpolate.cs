@@ -28,11 +28,11 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-namespace MathNet.Numerics.Interpolation
-{
-    using System.Collections.Generic;
-    using Algorithms;
+using System.Collections.Generic;
+using MathNet.Numerics.Interpolation;
 
+namespace MathNet.Numerics
+{
     /// <summary>
     /// Interpolation Factory.
     /// </summary>

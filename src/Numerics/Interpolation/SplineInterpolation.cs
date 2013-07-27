@@ -28,12 +28,12 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-namespace MathNet.Numerics.Interpolation.Algorithms
-{
-    using System;
-    using System.Collections.Generic;
-    using Properties;
+using System;
+using System.Collections.Generic;
+using MathNet.Numerics.Properties;
 
+namespace MathNet.Numerics.Interpolation
+{
     /// <summary>
     /// Third-Degree Spline Interpolation Algorithm.
     /// </summary>
@@ -45,17 +45,17 @@ namespace MathNet.Numerics.Interpolation.Algorithms
         /// <summary>
         /// Sample Points t.
         /// </summary>
-        private IList<double> _points;
+        IList<double> _points;
 
         /// <summary>
         /// Spline Coefficients c(t).
         /// </summary>
-        private IList<double> _coefficients;
+        IList<double> _coefficients;
 
         /// <summary>
         /// Number of samples.
         /// </summary>
-        private int _sampleCount;
+        int _sampleCount;
 
         /// <summary>
         /// Initializes a new instance of the SplineInterpolation class.
@@ -119,7 +119,7 @@ namespace MathNet.Numerics.Interpolation.Algorithms
                 throw new ArgumentOutOfRangeException("samplePoints");
             }
 
-            if (splineCoefficients.Count != 4 * (samplePoints.Count - 1))
+            if (splineCoefficients.Count != 4*(samplePoints.Count - 1))
             {
                 throw new ArgumentOutOfRangeException("splineCoefficients");
             }
@@ -147,9 +147,9 @@ namespace MathNet.Numerics.Interpolation.Algorithms
             int k = closestLeftIndex << 2;
 
             return _coefficients[k]
-                   + (offset * (_coefficients[k + 1]
-                                + (offset * (_coefficients[k + 2]
-                                             + (offset * _coefficients[k + 3])))));
+                + (offset*(_coefficients[k + 1]
+                    + (offset*(_coefficients[k + 2]
+                        + (offset*_coefficients[k + 3])))));
         }
 
         /// <summary>
@@ -168,8 +168,8 @@ namespace MathNet.Numerics.Interpolation.Algorithms
             int k = closestLeftIndex << 2;
 
             return _coefficients[k + 1]
-                   + (2 * offset * _coefficients[k + 2])
-                   + (3 * offset * offset * _coefficients[k + 3]);
+                + (2*offset*_coefficients[k + 2])
+                + (3*offset*offset*_coefficients[k + 3]);
         }
 
         /// <summary>
@@ -193,16 +193,16 @@ namespace MathNet.Numerics.Interpolation.Algorithms
             int k = closestLeftIndex << 2;
 
             interpolatedValue = _coefficients[k]
-                                + (offset * (_coefficients[k + 1]
-                                             + (offset * (_coefficients[k + 2]
-                                                          + (offset * _coefficients[k + 3])))));
+                + (offset*(_coefficients[k + 1]
+                    + (offset*(_coefficients[k + 2]
+                        + (offset*_coefficients[k + 3])))));
 
-            secondDerivative = (2 * _coefficients[k + 2])
-                               + (6 * offset * _coefficients[k + 3]);
+            secondDerivative = (2*_coefficients[k + 2])
+                + (6*offset*_coefficients[k + 3]);
 
             return _coefficients[k + 1]
-                   + (2 * offset * _coefficients[k + 2])
-                   + (3 * offset * offset * _coefficients[k + 3]);
+                + (2*offset*_coefficients[k + 2])
+                + (3*offset*offset*_coefficients[k + 3]);
         }
 
         /// <summary>
@@ -220,19 +220,19 @@ namespace MathNet.Numerics.Interpolation.Algorithms
             for (int i = 0, j = 0; i < closestLeftIndex; i++, j += 4)
             {
                 double w = _points[i + 1] - _points[i];
-                result += w * (_coefficients[j]
-                               + ((w * _coefficients[j + 1] * 0.5)
-                                  + (w * ((_coefficients[j + 2] / 3)
-                                          + (w * _coefficients[j + 3] * 0.25)))));
+                result += w*(_coefficients[j]
+                    + ((w*_coefficients[j + 1]*0.5)
+                        + (w*((_coefficients[j + 2]/3)
+                            + (w*_coefficients[j + 3]*0.25)))));
             }
 
             double offset = t - _points[closestLeftIndex];
             int k = closestLeftIndex << 2;
 
-            return result + (offset * (_coefficients[k]
-                                       + (offset * _coefficients[k + 1] * 0.5)
-                                       + (offset * _coefficients[k + 2] / 3)
-                                       + (offset * _coefficients[k + 3] * 0.25)));
+            return result + (offset*(_coefficients[k]
+                + (offset*_coefficients[k + 1]*0.5)
+                + (offset*_coefficients[k + 2]/3)
+                + (offset*_coefficients[k + 3]*0.25)));
         }
 
         /// <summary>
@@ -240,14 +240,14 @@ namespace MathNet.Numerics.Interpolation.Algorithms
         /// </summary>
         /// <param name="t">The value to look for.</param>
         /// <returns>The sample point index.</returns>
-        private int IndexOfClosestPointLeftOf(double t)
+        int IndexOfClosestPointLeftOf(double t)
         {
             // Binary search in the [ t[0], ..., t[n-2] ] (t[n-1] is not included)
             int low = 0;
             int high = _sampleCount - 1;
             while (low != high - 1)
             {
-                int middle = (low + high) / 2;
+                int middle = (low + high)/2;
                 if (_points[middle] > t)
                 {
                     high = middle;

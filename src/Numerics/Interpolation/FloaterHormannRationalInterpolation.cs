@@ -28,11 +28,11 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-namespace MathNet.Numerics.Interpolation.Algorithms
-{
-    using System;
-    using System.Collections.Generic;
+using System;
+using System.Collections.Generic;
 
+namespace MathNet.Numerics.Interpolation
+{
     /// <summary>
     /// Barycentric Rational Interpolation without poles, using Mike Floater and Kai Hormann's Algorithm.
     /// </summary>
@@ -44,7 +44,7 @@ namespace MathNet.Numerics.Interpolation.Algorithms
         /// <summary>
         /// Internal Barycentric Interpolation
         /// </summary>
-        private readonly BarycentricInterpolation _barycentric;
+        readonly BarycentricInterpolation _barycentric;
 
         /// <summary>
         /// Initializes a new instance of the FloaterHormannRationalInterpolation class.
@@ -234,14 +234,14 @@ namespace MathNet.Numerics.Interpolation.Algorithms
                     {
                         if (j != k)
                         {
-                            v = v / Math.Abs(sortedPoints[k] - sortedPoints[j]);
+                            v = v/Math.Abs(sortedPoints[k] - sortedPoints[j]);
                         }
                     }
 
                     s = s + v;
                 }
 
-                sortedWeights[k] = sign * s;
+                sortedWeights[k] = sign*s;
                 sign = -sign;
             }
 

@@ -28,12 +28,12 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-namespace MathNet.Numerics.Interpolation.Algorithms
-{
-    using System;
-    using System.Collections.Generic;
-    using Properties;
+using System;
+using System.Collections.Generic;
+using MathNet.Numerics.Properties;
 
+namespace MathNet.Numerics.Interpolation
+{
     /// <summary>
     /// Cubic Spline Interpolation Algorithm with continuous first and second derivatives.
     /// </summary>
@@ -45,7 +45,7 @@ namespace MathNet.Numerics.Interpolation.Algorithms
         /// <summary>
         /// Internal Spline Interpolation
         /// </summary>
-        private readonly CubicHermiteSplineInterpolation _spline;
+        readonly CubicHermiteSplineInterpolation _spline;
 
         /// <summary>
         /// Initializes a new instance of the CubicSplineInterpolation class.
@@ -246,7 +246,7 @@ namespace MathNet.Numerics.Interpolation.Algorithms
                     a1[0] = 0;
                     a2[0] = 1;
                     a3[0] = 1;
-                    b[0] = 2 * (sampleValues[1] - sampleValues[0]) / (samplePoints[1] - samplePoints[0]);
+                    b[0] = 2*(sampleValues[1] - sampleValues[0])/(samplePoints[1] - samplePoints[0]);
                     break;
                 case SplineBoundaryCondition.FirstDerivative:
                     a1[0] = 0;
@@ -258,7 +258,7 @@ namespace MathNet.Numerics.Interpolation.Algorithms
                     a1[0] = 0;
                     a2[0] = 2;
                     a3[0] = 1;
-                    b[0] = (3 * ((sampleValues[1] - sampleValues[0]) / (samplePoints[1] - samplePoints[0]))) - (0.5 * leftBoundary * (samplePoints[1] - samplePoints[0]));
+                    b[0] = (3*((sampleValues[1] - sampleValues[0])/(samplePoints[1] - samplePoints[0]))) - (0.5*leftBoundary*(samplePoints[1] - samplePoints[0]));
                     break;
                 default:
                     throw new NotSupportedException(Resources.InvalidLeftBoundaryCondition);
@@ -268,9 +268,9 @@ namespace MathNet.Numerics.Interpolation.Algorithms
             for (int i = 1; i < samplePoints.Count - 1; i++)
             {
                 a1[i] = samplePoints[i + 1] - samplePoints[i];
-                a2[i] = 2 * (samplePoints[i + 1] - samplePoints[i - 1]);
+                a2[i] = 2*(samplePoints[i + 1] - samplePoints[i - 1]);
                 a3[i] = samplePoints[i] - samplePoints[i - 1];
-                b[i] = (3 * (sampleValues[i] - sampleValues[i - 1]) / (samplePoints[i] - samplePoints[i - 1]) * (samplePoints[i + 1] - samplePoints[i])) + (3 * (sampleValues[i + 1] - sampleValues[i]) / (samplePoints[i + 1] - samplePoints[i]) * (samplePoints[i] - samplePoints[i - 1]));
+                b[i] = (3*(sampleValues[i] - sampleValues[i - 1])/(samplePoints[i] - samplePoints[i - 1])*(samplePoints[i + 1] - samplePoints[i])) + (3*(sampleValues[i + 1] - sampleValues[i])/(samplePoints[i + 1] - samplePoints[i])*(samplePoints[i] - samplePoints[i - 1]));
             }
 
             // Right Boundary
@@ -280,7 +280,7 @@ namespace MathNet.Numerics.Interpolation.Algorithms
                     a1[n - 1] = 1;
                     a2[n - 1] = 1;
                     a3[n - 1] = 0;
-                    b[n - 1] = 2 * (sampleValues[n - 1] - sampleValues[n - 2]) / (samplePoints[n - 1] - samplePoints[n - 2]);
+                    b[n - 1] = 2*(sampleValues[n - 1] - sampleValues[n - 2])/(samplePoints[n - 1] - samplePoints[n - 2]);
                     break;
                 case SplineBoundaryCondition.FirstDerivative:
                     a1[n - 1] = 0;
@@ -292,7 +292,7 @@ namespace MathNet.Numerics.Interpolation.Algorithms
                     a1[n - 1] = 1;
                     a2[n - 1] = 2;
                     a3[n - 1] = 0;
-                    b[n - 1] = (3 * (sampleValues[n - 1] - sampleValues[n - 2]) / (samplePoints[n - 1] - samplePoints[n - 2])) + (0.5 * rightBoundary * (samplePoints[n - 1] - samplePoints[n - 2]));
+                    b[n - 1] = (3*(sampleValues[n - 1] - sampleValues[n - 2])/(samplePoints[n - 1] - samplePoints[n - 2])) + (0.5*rightBoundary*(samplePoints[n - 1] - samplePoints[n - 2]));
                     break;
                 default:
                     throw new NotSupportedException(Resources.InvalidRightBoundaryCondition);
@@ -343,7 +343,7 @@ namespace MathNet.Numerics.Interpolation.Algorithms
         /// <param name="c">The c-vector[n].</param>
         /// <param name="d">The d-vector[n], will be modified by this function.</param>
         /// <returns>The x-vector[n]</returns>
-        private static double[] SolveTridiagonal(
+        static double[] SolveTridiagonal(
             double[] a,
             double[] b,
             double[] c,
@@ -353,15 +353,15 @@ namespace MathNet.Numerics.Interpolation.Algorithms
 
             for (int k = 1; k < a.Length; k++)
             {
-                double t = a[k] / b[k - 1];
-                b[k] = b[k] - (t * c[k - 1]);
-                d[k] = d[k] - (t * d[k - 1]);
+                double t = a[k]/b[k - 1];
+                b[k] = b[k] - (t*c[k - 1]);
+                d[k] = d[k] - (t*d[k - 1]);
             }
 
-            x[x.Length - 1] = d[d.Length - 1] / b[b.Length - 1];
+            x[x.Length - 1] = d[d.Length - 1]/b[b.Length - 1];
             for (int k = x.Length - 2; k >= 0; k--)
             {
-                x[k] = (d[k] - (c[k] * x[k + 1])) / b[k];
+                x[k] = (d[k] - (c[k]*x[k + 1]))/b[k];
             }
 
             return x;

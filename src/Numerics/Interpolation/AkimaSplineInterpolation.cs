@@ -1,4 +1,4 @@
-﻿// <copyright file="CubicHermiteSplineInterpolation.cs" company="Math.NET">
+﻿// <copyright file="AkimaSplineInterpolation.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -28,46 +28,44 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-namespace MathNet.Numerics.Interpolation.Algorithms
-{
-    using System;
-    using System.Collections.Generic;
-    using Properties;
+using System;
+using System.Collections.Generic;
+using MathNet.Numerics.Properties;
 
+namespace MathNet.Numerics.Interpolation
+{
     /// <summary>
-    /// Cubic Hermite Spline Interpolation Algorithm.
+    /// Akima Spline Interpolation Algorithm.
     /// </summary>
     /// <remarks>
     /// This algorithm supports both differentiation and integration.
     /// </remarks>
-    public class CubicHermiteSplineInterpolation : IInterpolation
+    public class AkimaSplineInterpolation : IInterpolation
     {
         /// <summary>
         /// Internal Spline Interpolation
         /// </summary>
-        private readonly SplineInterpolation _spline;
+        readonly CubicHermiteSplineInterpolation _spline;
 
         /// <summary>
-        /// Initializes a new instance of the CubicHermiteSplineInterpolation class.
+        /// Initializes a new instance of the AkimaSplineInterpolation class.
         /// </summary>
-        public CubicHermiteSplineInterpolation()
+        public AkimaSplineInterpolation()
         {
-            _spline = new SplineInterpolation();
+            _spline = new CubicHermiteSplineInterpolation();
         }
 
         /// <summary>
-        /// Initializes a new instance of the CubicHermiteSplineInterpolation class.
+        /// Initializes a new instance of the AkimaSplineInterpolation class.
         /// </summary>
         /// <param name="samplePoints">Sample Points t, sorted ascending.</param>
         /// <param name="sampleValues">Sample Values x(t)</param>
-        /// <param name="sampleDerivatives">Sample Derivatives x'(t)</param>
-        public CubicHermiteSplineInterpolation(
+        public AkimaSplineInterpolation(
             IList<double> samplePoints,
-            IList<double> sampleValues,
-            IList<double> sampleDerivatives)
+            IList<double> sampleValues)
         {
-            _spline = new SplineInterpolation();
-            Initialize(samplePoints, sampleValues, sampleDerivatives);
+            _spline = new CubicHermiteSplineInterpolation();
+            Initialize(samplePoints, sampleValues);
         }
 
         /// <summary>
@@ -94,32 +92,27 @@ namespace MathNet.Numerics.Interpolation.Algorithms
         /// </summary>
         /// <param name="samplePoints">Sample Points t, sorted ascending.</param>
         /// <param name="sampleValues">Sample Values x(t)</param>
-        /// <param name="sampleDerivatives">Sample Derivatives x'(t)</param>
         public void Initialize(
             IList<double> samplePoints,
-            IList<double> sampleValues,
-            IList<double> sampleDerivatives)
+            IList<double> sampleValues)
         {
-            double[] coefficients = EvaluateSplineCoefficients(
+            double[] derivatives = EvaluateSplineDerivatives(
                 samplePoints,
-                sampleValues,
-                sampleDerivatives);
+                sampleValues);
 
-            _spline.Initialize(samplePoints, coefficients);
+            _spline.Initialize(samplePoints, sampleValues, derivatives);
         }
 
         /// <summary>
-        /// Evaluate the spline coefficients as used
+        /// Evaluate the spline derivatives as used
         /// internally by this interpolation algorithm.
         /// </summary>
         /// <param name="samplePoints">Sample Points t, sorted ascending.</param>
         /// <param name="sampleValues">Sample Values x(t)</param>
-        /// <param name="sampleDerivatives">Sample Derivatives x'(t)</param>
-        /// <returns>Spline Coefficient Vector</returns>
-        public static double[] EvaluateSplineCoefficients(
+        /// <returns>Spline Derivative Vector</returns>
+        public static double[] EvaluateSplineDerivatives(
             IList<double> samplePoints,
-            IList<double> sampleValues,
-            IList<double> sampleDerivatives)
+            IList<double> sampleValues)
         {
             if (null == samplePoints)
             {
@@ -131,18 +124,12 @@ namespace MathNet.Numerics.Interpolation.Algorithms
                 throw new ArgumentNullException("sampleValues");
             }
 
-            if (null == sampleDerivatives)
-            {
-                throw new ArgumentNullException("sampleDerivatives");
-            }
-
-            if (samplePoints.Count < 2)
+            if (samplePoints.Count < 5)
             {
                 throw new ArgumentOutOfRangeException("samplePoints");
             }
 
-            if (samplePoints.Count != sampleValues.Count
-                || samplePoints.Count != sampleDerivatives.Count)
+            if (samplePoints.Count != sampleValues.Count)
             {
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength);
             }
@@ -151,20 +138,99 @@ namespace MathNet.Numerics.Interpolation.Algorithms
                 if (samplePoints[i] <= samplePoints[i - 1])
                     throw new ArgumentException(Resources.Interpolation_Initialize_SamplePointsNotStrictlyAscendingOrder, "samplePoints");
 
-            double[] coefficients = new double[4 * (samplePoints.Count - 1)];
+            int n = samplePoints.Count;
 
-            for (int i = 0, j = 0; i < samplePoints.Count - 1; i++, j += 4)
+            /* Prepare divided differences (diff) and weights (w) */
+
+            var differences = new double[n - 1];
+            var weights = new double[n - 1];
+
+            for (int i = 0; i < differences.Length; i++)
             {
-                double delta = samplePoints[i + 1] - samplePoints[i];
-                double delta2 = delta * delta;
-                double delta3 = delta * delta2;
-                coefficients[j] = sampleValues[i];
-                coefficients[j + 1] = sampleDerivatives[i];
-                coefficients[j + 2] = ((3 * (sampleValues[i + 1] - sampleValues[i])) - (2 * sampleDerivatives[i] * delta) - (sampleDerivatives[i + 1] * delta)) / delta2;
-                coefficients[j + 3] = ((2 * (sampleValues[i] - sampleValues[i + 1])) + (sampleDerivatives[i] * delta) + (sampleDerivatives[i + 1] * delta)) / delta3;
+                differences[i] = (sampleValues[i + 1] - sampleValues[i])/(samplePoints[i + 1] - samplePoints[i]);
             }
 
-            return coefficients;
+            for (int i = 1; i < weights.Length; i++)
+            {
+                weights[i] = Math.Abs(differences[i] - differences[i - 1]);
+            }
+
+            /* Prepare Hermite interpolation scheme */
+
+            var derivatives = new double[n];
+
+            for (int i = 2; i < derivatives.Length - 2; i++)
+            {
+                derivatives[i] =
+                    weights[i - 1].AlmostEqual(0.0) && weights[i + 1].AlmostEqual(0.0)
+                        ? (((samplePoints[i + 1] - samplePoints[i])*differences[i - 1])
+                            + ((samplePoints[i] - samplePoints[i - 1])*differences[i]))
+                            /(samplePoints[i + 1] - samplePoints[i - 1])
+                        : ((weights[i + 1]*differences[i - 1])
+                            + (weights[i - 1]*differences[i]))
+                            /(weights[i + 1] + weights[i - 1]);
+            }
+
+            derivatives[0] = DifferentiateThreePoint(samplePoints, sampleValues, 0, 0, 1, 2);
+            derivatives[1] = DifferentiateThreePoint(samplePoints, sampleValues, 1, 0, 1, 2);
+            derivatives[n - 2] = DifferentiateThreePoint(samplePoints, sampleValues, n - 2, n - 3, n - 2, n - 1);
+            derivatives[n - 1] = DifferentiateThreePoint(samplePoints, sampleValues, n - 1, n - 3, n - 2, n - 1);
+
+            /* Build Akima spline using Hermite interpolation scheme */
+
+            return derivatives;
+        }
+
+        /// <summary>
+        /// Evaluate the spline coefficients as used
+        /// internally by this interpolation algorithm.
+        /// </summary>
+        /// <param name="samplePoints">Sample Points t, sorted ascending.</param>
+        /// <param name="sampleValues">Sample Values x(t)</param>
+        /// <returns>Spline Coefficient Vector</returns>
+        public static double[] EvaluateSplineCoefficients(
+            IList<double> samplePoints,
+            IList<double> sampleValues)
+        {
+            double[] derivatives = EvaluateSplineDerivatives(
+                samplePoints,
+                sampleValues);
+
+            return CubicHermiteSplineInterpolation.EvaluateSplineCoefficients(
+                samplePoints,
+                sampleValues,
+                derivatives);
+        }
+
+        /// <summary>
+        /// Three-Point Differentiation Helper.
+        /// </summary>
+        /// <param name="samplePoints">Sample Points t.</param>
+        /// <param name="sampleValues">Sample Values x(t).</param>
+        /// <param name="indexT">Index of the point of the differentiation.</param>
+        /// <param name="index0">Index of the first sample.</param>
+        /// <param name="index1">Index of the second sample.</param>
+        /// <param name="index2">Index of the third sample.</param>
+        /// <returns>The derivative approximation.</returns>
+        static double DifferentiateThreePoint(
+            IList<double> samplePoints,
+            IList<double> sampleValues,
+            int indexT,
+            int index0,
+            int index1,
+            int index2)
+        {
+            double x0 = sampleValues[index0];
+            double x1 = sampleValues[index1];
+            double x2 = sampleValues[index2];
+
+            double t = samplePoints[indexT] - samplePoints[index0];
+            double t1 = samplePoints[index1] - samplePoints[index0];
+            double t2 = samplePoints[index2] - samplePoints[index0];
+
+            double a = (x2 - x0 - (t2/t1*(x1 - x0)))/((t2*t2) - (t1*t2));
+            double b = (x1 - x0 - (a*t1*t1))/t1;
+            return (2*a*t) + b;
         }
 
         /// <summary>

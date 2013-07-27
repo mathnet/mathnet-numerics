@@ -35,7 +35,6 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
     using System.IO;
     using System.Linq;
     using Interpolation;
-    using Interpolation.Algorithms;
     using NUnit.Framework;
 
     /// <summary>

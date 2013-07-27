@@ -1,4 +1,4 @@
-﻿// <copyright file="BulirschStoerRationalInterpolation.cs" company="Math.NET">
+﻿// <copyright file="EquidistantPolynomialInterpolation.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -28,47 +28,57 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-namespace MathNet.Numerics.Interpolation.Algorithms
-{
-    using System;
-    using System.Collections.Generic;
+using System;
+using System.Collections.Generic;
 
+namespace MathNet.Numerics.Interpolation
+{
     /// <summary>
-    /// Rational Interpolation (with poles) using Roland Bulirsch and Josef Stoer's Algorithm.
+    /// Barycentric Polynomial Interpolation where the given sample points are equidistant.
     /// </summary>
     /// <remarks>
-    /// <para>
-    /// This algorithm supports neither differentiation nor integration.
-    /// </para>
+    /// This algorithm neither supports differentiation nor integration.
     /// </remarks>
-    public class BulirschStoerRationalInterpolation : IInterpolation
+    public class EquidistantPolynomialInterpolation : IInterpolation
     {
         /// <summary>
-        /// Sample Points t.
+        /// Internal Barycentric Interpolation
         /// </summary>
-        private IList<double> _points;
+        readonly BarycentricInterpolation _barycentric;
 
         /// <summary>
-        /// Spline Values x(t).
+        /// Initializes a new instance of the EquidistantPolynomialInterpolation class.
         /// </summary>
-        private IList<double> _values;
-
-        /// <summary>
-        /// Initializes a new instance of the BulirschStoerRationalInterpolation class.
-        /// </summary>
-        public BulirschStoerRationalInterpolation()
+        public EquidistantPolynomialInterpolation()
         {
+            _barycentric = new BarycentricInterpolation();
         }
 
         /// <summary>
-        /// Initializes a new instance of the BulirschStoerRationalInterpolation class.
+        /// Initializes a new instance of the EquidistantPolynomialInterpolation class.
         /// </summary>
-        /// <param name="samplePoints">Sample Points t</param>
-        /// <param name="sampleValues">Sample Values x(t)</param>
-        public BulirschStoerRationalInterpolation(
+        /// <param name="leftBound">Left bound of the sample point interval.</param>
+        /// <param name="rightBound">Right bound of the sample point interval.</param>
+        /// <param name="sampleValues">Sample Values x(t) where t is equidistant over [a,b], i.e. x[i] = x(a+(b-a)*i/(n-1))</param>
+        public EquidistantPolynomialInterpolation(
+            double leftBound,
+            double rightBound,
+            IList<double> sampleValues)
+        {
+            _barycentric = new BarycentricInterpolation();
+            Initialize(leftBound, rightBound, sampleValues);
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the EquidistantPolynomialInterpolation class.
+        /// </summary>
+        /// <param name="samplePoints">Equidistant Sample Points t = a+(b-a)*i/(n-1)</param>
+        /// <param name="sampleValues">Sample Values x(t) where t are equidistant over [a,b], i.e. x[i] = x(a+(b-a)*i/(n-1))</param>
+        public EquidistantPolynomialInterpolation(
             IList<double> samplePoints,
             IList<double> sampleValues)
         {
+            _barycentric = new BarycentricInterpolation();
             Initialize(samplePoints, sampleValues);
         }
 
@@ -92,36 +102,80 @@ namespace MathNet.Numerics.Interpolation.Algorithms
         }
 
         /// <summary>
-        /// Initialize the interpolation method with the given sample pairs.
+        /// Initialize the interpolation method with the given sampls in the interval [leftBound,rightBound].
         /// </summary>
-        /// <param name="samplePoints">Sample Points t</param>
-        /// <param name="sampleValues">Sample Values x(t)</param>
+        /// <param name="leftBound">Left bound of the sample point interval.</param>
+        /// <param name="rightBound">Right bound of the sample point interval.</param>
+        /// <param name="sampleValues">Sample Values x(t) where t are equidistant over [a,b], i.e. x[i] = x(a+(b-a)*i/(n-1))</param>
         public void Initialize(
-            IList<double> samplePoints,
+            double leftBound,
+            double rightBound,
             IList<double> sampleValues)
         {
-            if (null == samplePoints)
-            {
-                throw new ArgumentNullException("samplePoints");
-            }
-
             if (null == sampleValues)
             {
                 throw new ArgumentNullException("sampleValues");
             }
 
-            if (samplePoints.Count < 1)
+            if (sampleValues.Count < 1)
             {
-                throw new ArgumentOutOfRangeException("samplePoints");
+                throw new ArgumentOutOfRangeException("sampleValues");
             }
 
-            if (samplePoints.Count != sampleValues.Count)
+            var samplePoints = new double[sampleValues.Count];
+            samplePoints[0] = leftBound;
+            double step = (rightBound - leftBound)/(samplePoints.Length - 1);
+            for (int i = 1; i < samplePoints.Length; i++)
             {
-                throw new ArgumentException(Properties.Resources.ArgumentVectorsSameLength);
+                samplePoints[i] = samplePoints[i - 1] + step;
             }
 
-            _points = samplePoints;
-            _values = sampleValues;
+            var weights = EvaluateBarycentricWeights(sampleValues.Count);
+
+            _barycentric.Initialize(samplePoints, sampleValues, weights);
+        }
+
+        /// <summary>
+        /// Initialize the interpolation method with the given sample set (no sorting assumed).
+        /// </summary>
+        /// <param name="samplePoints">Equidistant Sample Points t = a+(b-a)*i/(n-1)</param>
+        /// <param name="sampleValues">Sample Values x(t) where t are equidistant over [a,b], i.e. x[i] = x(a+(b-a)*i/(n-1))</param>
+        public void Initialize(
+            IList<double> samplePoints,
+            IList<double> sampleValues)
+        {
+            if (null == sampleValues)
+            {
+                throw new ArgumentNullException("sampleValues");
+            }
+
+            var weights = EvaluateBarycentricWeights(sampleValues.Count);
+
+            _barycentric.Initialize(samplePoints, sampleValues, weights);
+        }
+
+        /// <summary>
+        /// Evaluate the barycentric weights as used
+        /// internally by this interpolation algorithm.
+        /// </summary>
+        /// <param name="sampleCount">Count of Sample Values x(t).</param>
+        /// <returns>Barycentric Weight Vector</returns>
+        public static double[] EvaluateBarycentricWeights(
+            int sampleCount)
+        {
+            if (sampleCount < 1)
+            {
+                throw new ArgumentOutOfRangeException("sampleCount");
+            }
+
+            var weights = new double[sampleCount];
+            weights[0] = 1.0;
+            for (int i = 1; i < weights.Length; i++)
+            {
+                weights[i] = -(weights[i - 1]*(weights.Length - i))/i;
+            }
+
+            return weights;
         }
 
         /// <summary>
@@ -131,59 +185,7 @@ namespace MathNet.Numerics.Interpolation.Algorithms
         /// <returns>Interpolated value x(t).</returns>
         public double Interpolate(double t)
         {
-            const double Tiny = 1.0e-25;
-            int n = _points.Count;
-
-            double[] c = new double[n];
-            double[] d = new double[n];
-
-            int nearestIndex = 0;
-            double nearestDistance = Math.Abs(t - _points[0]);
-
-            for (int i = 0; i < n; i++)
-            {
-                double distance = Math.Abs(t - _points[i]);
-                if (distance.AlmostEqual(0.0))
-                {
-                    return _values[i];
-                }
-
-                if (distance < nearestDistance)
-                {
-                    nearestIndex = i;
-                    nearestDistance = distance;
-                }
-
-                c[i] = _values[i];
-                d[i] = _values[i] + Tiny;
-            }
-
-            double x = _values[nearestIndex];
-
-            for (int level = 1; level < n; level++)
-            {
-                for (int i = 0; i < n - level; i++)
-                {
-                    double hp = _points[i + level] - t;
-                    double ho = (_points[i] - t) * d[i] / hp;
-
-                    double den = ho - c[i + 1];
-                    if (den.AlmostEqual(0.0))
-                    {
-                        return double.NaN; // zero-div, singularity
-                    }
-
-                    den = (c[i + 1] - d[i]) / den;
-                    d[i] = c[i + 1] * den;
-                    c[i] = ho * den;
-                }
-
-                x += (2 * nearestIndex) < (n - level)
-                    ? c[nearestIndex]
-                    : d[--nearestIndex];
-            }
-
-            return x;
+            return _barycentric.Interpolate(t);
         }
 
         /// <summary>
