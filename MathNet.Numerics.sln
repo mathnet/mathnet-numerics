@@ -7,9 +7,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{49EE
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Readme", "Readme", "{C2F37492-38AE-4186-8A7F-17B0B080942C}"
 	ProjectSection(SolutionItems) = preProject
-		AUTHORS.markdown = AUTHORS.markdown
-		COPYRIGHT.markdown = COPYRIGHT.markdown
-		README.markdown = README.markdown
+		CONTRIBUTING.md = CONTRIBUTING.md
+		CONTRIBUTORS.md = CONTRIBUTORS.md
+		LICENSE.md = LICENSE.md
+		MAINTAINING.md = MAINTAINING.md
+		README.md = README.md
+		RELEASENOTES.md = RELEASENOTES.md
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Examples", "src\Examples\Examples.csproj", "{8239A6FF-1EF3-4DA4-A860-95C392DD6899}"
