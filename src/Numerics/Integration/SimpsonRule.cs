@@ -28,12 +28,12 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-namespace MathNet.Numerics.Integration.Algorithms
-{
-    using System;
-    using NumberTheory;
-    using Properties;
+using System;
+using MathNet.Numerics.NumberTheory;
+using MathNet.Numerics.Properties;
 
+namespace MathNet.Numerics.Integration
+{
     /// <summary>
     /// Approximation algorithm for definite integrals by Simpson's rule.
     /// </summary>
@@ -56,8 +56,8 @@ namespace MathNet.Numerics.Integration.Algorithms
                 throw new ArgumentNullException("f");
             }
 
-            double midpoint = (intervalEnd + intervalBegin) / 2;
-            return (intervalEnd - intervalBegin) / 6 * (f(intervalBegin) + f(intervalEnd) + (4 * f(midpoint)));
+            double midpoint = (intervalEnd + intervalBegin)/2;
+            return (intervalEnd - intervalBegin)/6*(f(intervalBegin) + f(intervalEnd) + (4*f(midpoint)));
         }
 
         /// <summary>
@@ -89,8 +89,8 @@ namespace MathNet.Numerics.Integration.Algorithms
                 throw new ArgumentException(Resources.ArgumentEven, "numberOfPartitions");
             }
 
-            double step = (intervalEnd - intervalBegin) / numberOfPartitions;
-            double factor = step / 3;
+            double step = (intervalEnd - intervalBegin)/numberOfPartitions;
+            double factor = step/3;
 
             double offset = step;
             int m = 4;
@@ -98,12 +98,12 @@ namespace MathNet.Numerics.Integration.Algorithms
             for (int i = 0; i < numberOfPartitions - 1; i++)
             {
                 // NOTE (cdrnet, 2009-01-07): Do not combine intervalBegin and offset (numerical stability)
-                sum += m * f(intervalBegin + offset);
+                sum += m*f(intervalBegin + offset);
                 m = 6 - m;
                 offset += step;
             }
 
-            return factor * sum;
+            return factor*sum;
         }
     }
 }

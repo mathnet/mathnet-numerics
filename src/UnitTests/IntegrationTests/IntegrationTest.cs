@@ -28,7 +28,6 @@ namespace MathNet.Numerics.UnitTests.IntegrationTests
 {
     using System;
     using Integration;
-    using Integration.Algorithms;
     using NUnit.Framework;
 
     /// <summary>

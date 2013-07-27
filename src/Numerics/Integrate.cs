@@ -28,11 +28,11 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-namespace MathNet.Numerics.Integration
-{
-    using System;
-    using Algorithms;
+using System;
+using MathNet.Numerics.Integration;
 
+namespace MathNet.Numerics
+{
     /// <summary>
     /// Numeric Integration (Quadrature).
     /// </summary>

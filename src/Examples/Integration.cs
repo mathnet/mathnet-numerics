@@ -25,7 +25,7 @@
 // </copyright>
 
 using System;
-using MathNet.Numerics.Integration;
+using MathNet.Numerics;
 
 namespace Examples
 {

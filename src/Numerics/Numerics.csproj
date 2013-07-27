@@ -392,10 +392,10 @@
     <Compile Include="IntegralTransforms\Algorithms\DiscreteFourierTransform.RadixN.cs" />
     <Compile Include="IntegralTransforms\Transform.cs" />
     <Compile Include="IntegralTransforms\FourierOptions.cs" />
-    <Compile Include="Integration\Algorithms\DoubleExponentialTransformation.cs" />
-    <Compile Include="Integration\Algorithms\SimpsonRule.cs" />
-    <Compile Include="Integration\Algorithms\NewtonCotesTrapeziumRule.cs" />
-    <Compile Include="Integration\Integrate.cs" />
+    <Compile Include="Integration\DoubleExponentialTransformation.cs" />
+    <Compile Include="Integration\SimpsonRule.cs" />
+    <Compile Include="Integration\NewtonCotesTrapeziumRule.cs" />
+    <Compile Include="Integrate.cs" />
     <Compile Include="Interpolation\AkimaSplineInterpolation.cs" />
     <Compile Include="Interpolation\BarycentricInterpolation.cs" />
     <Compile Include="Interpolation\BulirschStoerRationalInterpolation.cs" />
