@@ -318,19 +318,6 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         }
 
         /// <summary>
-        /// Returns a copy of this vector.
-        /// </summary>
-        /// <returns>This vector.</returns>
-        /// <remarks>
-        /// Added as an alternative to the unary addition operator.
-        /// </remarks>
-        [Obsolete("Use Clone instead. Scheduled for removal in v3.0.")]
-        public Vector<T> Plus()
-        {
-            return Clone();
-        }
-
-        /// <summary>
         /// Adds another vector to this vector.
         /// </summary>
         /// <param name="other">The vector to add to this one.</param>
@@ -1475,12 +1462,6 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
 
             // TODO: refactor range checks
             Storage.CopySubVectorTo(destination.Storage, sourceIndex, targetIndex, count);
-        }
-
-        [Obsolete("Use CopySubVectorTo instead. Scheduled for removal in v3.0.")]
-        public void CopyTo(Vector<T> destination, int sourceIndex, int targetIndex, int count)
-        {
-            CopySubVectorTo(destination, sourceIndex, targetIndex, count);
         }
 
         /// <summary>

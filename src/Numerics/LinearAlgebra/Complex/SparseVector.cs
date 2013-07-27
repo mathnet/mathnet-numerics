@@ -126,40 +126,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         }
 
         /// <summary>
-        /// Create a new sparse vector with the given length.
-        /// All cells of the vector will be initialized with the provided value.
-        /// Zero-length vectors are not supported.
-        /// </summary>
-        /// <exception cref="ArgumentException">If length is less than one.</exception>
-        [Obsolete("Use a dense vector instead. Scheduled for removal in v3.0.")]
-        public SparseVector(int length, Complex value)
-            : this(SparseVectorStorage<Complex>.OfInit(length, i => value))
-        {
-        }
-
-        /// <summary>
-        /// Create a new sparse vector as a copy of the given other vector.
-        /// This new vector will be independent from the other vector.
-        /// A new memory block will be allocated for storing the vector.
-        /// </summary>
-        [Obsolete("Use SparseVector.OfVector instead. Scheduled for removal in v3.0.")]
-        public SparseVector(Vector<Complex> other)
-            : this(SparseVectorStorage<Complex>.OfVector(other.Storage))
-        {
-        }
-
-        /// <summary>
-        /// Create a new sparse vector as a copy of the given enumerable.
-        /// This new vector will be independent from the enumerable.
-        /// A new memory block will be allocated for storing the vector.
-        /// </summary>
-        [Obsolete("Use SparseVector.OfEnumerable instead. Scheduled for removal in v3.0.")]
-        public SparseVector(IEnumerable<Complex> other)
-            : this(SparseVectorStorage<Complex>.OfEnumerable(other))
-        {
-        }
-
-        /// <summary>
         /// Creates a matrix with the given dimensions using the same storage type
         /// as this vector.
         /// </summary>

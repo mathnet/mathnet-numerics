@@ -202,53 +202,6 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         }
 
         /// <summary>
-        /// Create a new sparse matrix with the given number of rows and columns.
-        /// All cells of the matrix will be initialized to the provided value.
-        /// Zero-length matrices are not supported.
-        /// </summary>
-        /// <exception cref="ArgumentException">If the row or column count is less than one.</exception>
-        [Obsolete("Use a dense matrix or SparseMatrix.Create instead. Scheduled for removal in v3.0.")]
-        public SparseMatrix(int rows, int columns, float value)
-            : this(SparseCompressedRowMatrixStorage<float>.OfInit(rows, columns, (i, j) => value))
-        {
-        }
-
-        /// <summary>
-        /// Create a new sparse matrix with the given number of rows and columns as a copy of the given array.
-        /// The array is assumed to be in column-major order (column by column).
-        /// This new matrix will be independent from the provided array.
-        /// A new memory block will be allocated for storing the matrix.
-        /// </summary>
-        /// <seealso href="http://en.wikipedia.org/wiki/Row-major_order"/>
-        [Obsolete("Use SparseMatrix.OfColumnMajor instead. Scheduled for removal in v3.0.")]
-        public SparseMatrix(int rows, int columns, float[] array)
-            : this(SparseCompressedRowMatrixStorage<float>.OfColumnMajorList(rows, columns, array))
-        {
-        }
-
-        /// <summary>
-        /// Create a new sparse matrix as a copy of the given two-dimensional array.
-        /// This new matrix will be independent from the provided array.
-        /// A new memory block will be allocated for storing the matrix.
-        /// </summary>
-        [Obsolete("Use SparseMatrix.OfArray instead. Scheduled for removal in v3.0.")]
-        public SparseMatrix(float[,] array)
-            : this(SparseCompressedRowMatrixStorage<float>.OfArray(array))
-        {
-        }
-
-        /// <summary>
-        /// Create a new sparse matrix as a copy of the given other matrix.
-        /// This new matrix will be independent from the other matrix.
-        /// A new memory block will be allocated for storing the matrix.
-        /// </summary>
-        [Obsolete("Use SparseMatrix.OfMatrix instead. Scheduled for removal in v3.0.")]
-        public SparseMatrix(Matrix<float> matrix)
-            : this(SparseCompressedRowMatrixStorage<float>.OfMatrix(matrix.Storage))
-        {
-        }
-
-        /// <summary>
         /// Creates a <c>SparseMatrix</c> for the given number of rows and columns.
         /// </summary>
         /// <param name="numberOfRows">The number of rows.</param>

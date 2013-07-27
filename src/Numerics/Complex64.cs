@@ -101,23 +101,6 @@ namespace MathNet.Numerics
             return new Complex(magnitude * Math.Cos(phase), magnitude * Math.Sin(phase));
         }
 
-        [Obsolete("Use the public constructor instead. Scheduled for removal in v3.0.")]
-        public static Complex WithRealImaginary(double real, double imaginary)
-        {
-            return new Complex(real, imaginary);
-        }
-
-        [Obsolete("Use static FromPolarCoordinates instead. Scheduled for removal in v3.0.")]
-        public static Complex WithModulusArgument(double modulus, double argument)
-        {
-            if (modulus < 0.0d)
-            {
-                throw new ArgumentOutOfRangeException("modulus", Resources.ArgumentNotNegative);
-            }
-
-            return new Complex(modulus * Math.Cos(argument), modulus * Math.Sin(argument));
-        }
-
         /// <summary>
         /// Returns a new Complex instance
         /// with a real number equal to zero and an imaginary number equal to zero.
@@ -141,9 +124,6 @@ namespace MathNet.Numerics
         /// with real and imaginary numbers positive infinite.
         /// </summary>
         public static readonly Complex PositiveInfinity = new Complex(float.PositiveInfinity, float.PositiveInfinity);
-
-        [Obsolete("Use PositiveInfinity instead. Scheduled for removal in v3.0.")]
-        public static readonly Complex Infinity = PositiveInfinity;
 
         /// <summary>
         /// Returns a new Complex instance

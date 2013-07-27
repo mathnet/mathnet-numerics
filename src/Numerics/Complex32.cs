@@ -34,7 +34,6 @@ namespace MathNet.Numerics
     using System.Collections.Generic;
     using System.Globalization;
     using System.Runtime.InteropServices;
-    using Properties;
 
 #if !PORTABLE
     using System.Runtime;
@@ -109,23 +108,6 @@ namespace MathNet.Numerics
             return new Complex32(magnitude * (float)Math.Cos(phase), magnitude * (float)Math.Sin(phase));
         }
 
-        [Obsolete("Use the public constructor instead. Scheduled for removal in v3.0.")]
-        public static Complex32 WithRealImaginary(float real, float imaginary)
-        {
-            return new Complex32(real, imaginary);
-        }
-
-        [Obsolete("Use static FromPolarCoordinates instead. Scheduled for removal in v3.0.")]
-        public static Complex32 WithModulusArgument(float modulus, float argument)
-        {
-            if (modulus < 0.0f)
-            {
-                throw new ArgumentOutOfRangeException("modulus", Resources.ArgumentNotNegative);
-            }
-
-            return new Complex32(modulus * (float)Math.Cos(argument), modulus * (float)Math.Sin(argument));
-        }
-
         /// <summary>
         /// Returns a new <see cref="T:MathNet.Numerics.Complex32" /> instance
         /// with a real number equal to zero and an imaginary number equal to zero.
@@ -149,9 +131,6 @@ namespace MathNet.Numerics
         /// with real and imaginary numbers positive infinite.
         /// </summary>
         public static readonly Complex32 PositiveInfinity = new Complex32(float.PositiveInfinity, float.PositiveInfinity);
-
-        [Obsolete("Use PositiveInfinity instead. Scheduled for removal in v3.0.")]
-        public static readonly Complex32 Infinity = PositiveInfinity;
 
         /// <summary>
         /// Returns a new <see cref="T:MathNet.Numerics.Complex32" /> instance
@@ -674,18 +653,6 @@ namespace MathNet.Numerics
             return new Complex32(dividend._real / divisor, dividend._imag / divisor);
         }
 
-        [Obsolete("No Operation. Scheduled for removal in v3.0.")]
-        public Complex32 Plus()
-        {
-            return this;
-        }
-
-        [Obsolete("Use static Complex32.Negate or the unary - operator instead. Scheduled for removal in v3.0.")]
-        public Complex32 Negate()
-        {
-            return -this;
-        }
-
         /// <summary>
         /// Computes the conjugate of a complex number and returns the result.
         /// </summary>
@@ -705,30 +672,6 @@ namespace MathNet.Numerics
             }
 
             return 1.0f / this;
-        }
-
-        [Obsolete("Use static Complex32.Add or the + operator instead. Scheduled for removal in v3.0.")]
-        public Complex32 Add(Complex32 other)
-        {
-            return this + other;
-        }
-
-        [Obsolete("Use static Complex32.Subtract or the - operator instead. Scheduled for removal in v3.0.")]
-        public Complex32 Subtract(Complex32 other)
-        {
-            return this - other;
-        }
-
-        [Obsolete("Use static Complex32.Multiply or the * operator instead. Scheduled for removal in v3.0.")]
-        public Complex32 Multiply(Complex32 multiplier)
-        {
-            return this * multiplier;
-        }
-
-        [Obsolete("Use static Complex32.Divide or the / operator instead. Scheduled for removal in v3.0.")]
-        public Complex32 Divide(Complex32 divisor)
-        {
-            return this / divisor;
         }
 
         #region IFormattable Members

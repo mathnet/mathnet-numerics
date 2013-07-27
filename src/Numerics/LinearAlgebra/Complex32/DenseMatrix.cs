@@ -250,50 +250,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         }
 
         /// <summary>
-        /// Create a new dense matrix with the given number of rows and columns.
-        /// All cells of the matrix will be initialized to the provided value.
-        /// Zero-length matrices are not supported.
-        /// </summary>
-        /// <exception cref="ArgumentException">If the row or column count is less than one.</exception>
-        [Obsolete("Use DenseMatrix.Create instead. Scheduled for removal in v3.0.")]
-        public DenseMatrix(int rows, int columns, Complex32 value)
-            : this(DenseColumnMajorMatrixStorage<Complex32>.OfInit(rows, columns, (i, j) => value))
-        {
-        }
-
-        /// <summary>
-        /// Create a new dense matrix as a copy of the given two-dimensional array.
-        /// This new matrix will be independent from the provided array.
-        /// A new memory block will be allocated for storing the matrix.
-        /// </summary>
-        [Obsolete("Use DenseMatrix.OfArray instead. Scheduled for removal in v3.0.")]
-        public DenseMatrix(Complex32[,] array)
-            : this(DenseColumnMajorMatrixStorage<Complex32>.OfArray(array))
-        {
-        }
-
-        /// <summary>
-        /// Create a new dense matrix as a copy of the given other matrix.
-        /// This new matrix will be independent from the other matrix.
-        /// A new memory block will be allocated for storing the matrix.
-        /// </summary>
-        [Obsolete("Use DenseMatrix.OfMatrix instead. Scheduled for removal in v3.0.")]
-        public DenseMatrix(Matrix<Complex32> matrix)
-            : this(DenseColumnMajorMatrixStorage<Complex32>.OfMatrix(matrix.Storage))
-        {
-        }
-
-        /// <summary>
-        /// Gets the matrix's data.
-        /// </summary>
-        /// <value>The matrix's data.</value>
-        [Obsolete("Use Values instead. Scheduled for removal in v3.0.")]
-        public Complex32[] Data
-        {
-            get { return _values; }
-        }
-
-        /// <summary>
         /// Gets the matrix's data.
         /// </summary>
         /// <value>The matrix's data.</value>

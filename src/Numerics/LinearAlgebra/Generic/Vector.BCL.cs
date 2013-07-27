@@ -348,14 +348,5 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         {
             return string.Concat(ToTypeString(), Environment.NewLine, ToVectorString(Control.MaxToStringRows, Control.MaxToStringColumns, formatProvider));
         }
-
-        /// <summary>
-        /// Returns a <see cref="System.String"/> that summarizes this vector.
-        /// </summary>
-        [Obsolete("Scheduled for removal in v3.0.")]
-        public string ToString(IFormatProvider formatProvider)
-        {
-            return ToString(null, formatProvider);
-        }
     }
 }

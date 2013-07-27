@@ -56,26 +56,6 @@ namespace MathNet.Numerics
     public static class Evaluate
     {
         /// <summary>
-        /// Evaluate polynomials.
-        /// </summary>
-        /// <param name="coefficients">The coefficients of the polynomial.</param>
-        /// <param name="z">The location where to evaluate the polynomial at.</param>
-        /// <returns>the evaluation of the polynomial.</returns>
-        [Obsolete("Use Polynomial(z, params coefficients) instead.")]
-        public static double Polynomial(double[] coefficients, double z)
-        {
-            int count = coefficients.Length;
-            double sum = coefficients[count - 1];
-            for (int i = count - 2; i >= 0; --i)
-            {
-                sum *= z;
-                sum += coefficients[i];
-            }
-
-            return sum;
-        }
-
-        /// <summary>
         /// Evaluate a polynomial at point x.
         /// Coefficients are ordered by power with power k at index k.
         /// Example: coefficients [3,-1,2] represent y=2x^2-x+3.

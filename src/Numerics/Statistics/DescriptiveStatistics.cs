@@ -86,8 +86,6 @@ namespace MathNet.Numerics.Statistics
             {
                 Compute(data);
             }
-
-            _medianLazy = new Lazy<double>(() => data.Median());
         }
 
         /// <summary>
@@ -109,7 +107,6 @@ namespace MathNet.Numerics.Statistics
                 throw new ArgumentNullException("data");
             }
 
-
             if (increasedAccuracy)
             {
                 ComputeHA(data);
@@ -118,8 +115,6 @@ namespace MathNet.Numerics.Statistics
             {
                 Compute(data);
             }
-
-            _medianLazy = new Lazy<double>(() => data.Median());
         }
 
         /// <summary>
@@ -152,18 +147,6 @@ namespace MathNet.Numerics.Statistics
         /// <value>The sample skewness.</value>
         /// <remarks>Returns zero if <see cref="Count"/> is less than three. </remarks>
         public double Skewness { get; private set; }
-
-        /// <summary>
-        /// Gets the sample median.
-        /// </summary>
-        /// <value>The sample median.</value>
-        [Obsolete("Please use Statistics.Median instead (performance). Scheduled for removal in v3.0.")]
-        public double Median
-        {
-            get { return _medianLazy.Value; }
-        }
-
-        readonly Lazy<double> _medianLazy;
 
         /// <summary>
         /// Gets the sample kurtosis.

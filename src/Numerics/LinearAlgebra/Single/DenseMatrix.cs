@@ -250,50 +250,6 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         }
 
         /// <summary>
-        /// Create a new dense matrix with the given number of rows and columns.
-        /// All cells of the matrix will be initialized to the provided value.
-        /// Zero-length matrices are not supported.
-        /// </summary>
-        /// <exception cref="ArgumentException">If the row or column count is less than one.</exception>
-        [Obsolete("Use DenseMatrix.Create instead. Scheduled for removal in v3.0.")]
-        public DenseMatrix(int rows, int columns, float value)
-            : this(DenseColumnMajorMatrixStorage<float>.OfInit(rows, columns, (i, j) => value))
-        {
-        }
-
-        /// <summary>
-        /// Create a new dense matrix as a copy of the given two-dimensional array.
-        /// This new matrix will be independent from the provided array.
-        /// A new memory block will be allocated for storing the matrix.
-        /// </summary>
-        [Obsolete("Use DenseMatrix.OfArray instead. Scheduled for removal in v3.0.")]
-        public DenseMatrix(float[,] array)
-            : this(DenseColumnMajorMatrixStorage<float>.OfArray(array))
-        {
-        }
-
-        /// <summary>
-        /// Create a new dense matrix as a copy of the given other matrix.
-        /// This new matrix will be independent from the other matrix.
-        /// A new memory block will be allocated for storing the matrix.
-        /// </summary>
-        [Obsolete("Use DenseMatrix.OfMatrix instead. Scheduled for removal in v3.0.")]
-        public DenseMatrix(Matrix<float> matrix)
-            : this(DenseColumnMajorMatrixStorage<float>.OfMatrix(matrix.Storage))
-        {
-        }
-
-        /// <summary>
-        /// Gets the matrix's data.
-        /// </summary>
-        /// <value>The matrix's data.</value>
-        [Obsolete("Use Values instead. Scheduled for removal in v3.0.")]
-        public float[] Data
-        {
-            get { return _values; }
-        }
-
-        /// <summary>
         /// Gets the matrix's data.
         /// </summary>
         /// <value>The matrix's data.</value>

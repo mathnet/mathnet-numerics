@@ -187,30 +187,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         }
 
         /// <summary>
-        /// Create a new diagonal matrix as a copy of the given two-dimensional array.
-        /// This new matrix will be independent from the provided array.
-        /// The array to copy from must be diagonal as well.
-        /// A new memory block will be allocated for storing the matrix.
-        /// </summary>
-        [Obsolete("Use DiagonalMatrix.OfArray instead. Scheduled for removal in v3.0.")]
-        public DiagonalMatrix(Complex[,] array)
-            : this(DiagonalMatrixStorage<Complex>.OfArray(array))
-        {
-        }
-
-        /// <summary>
-        /// Create a new diagonal matrix as a copy of the given other matrix.
-        /// This new matrix will be independent from the other matrix.
-        /// The matrix to copy from must be diagonal as well.
-        /// A new memory block will be allocated for storing the matrix.
-        /// </summary>
-        [Obsolete("Use DiagonalMatrix.OfMatrix instead. Scheduled for removal in v3.0.")]
-        public DiagonalMatrix(Matrix<Complex> matrix)
-            : this(DiagonalMatrixStorage<Complex>.OfMatrix(matrix.Storage))
-        {
-        }
-
-        /// <summary>
         /// Creates a <c>DiagonalMatrix</c> for the given number of rows and columns.
         /// </summary>
         /// <param name="numberOfRows">The number of rows.</param>

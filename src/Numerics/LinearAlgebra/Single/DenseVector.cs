@@ -140,40 +140,6 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         }
 
         /// <summary>
-        /// Create a new dense vector with the given length.
-        /// All cells of the vector will be initialized with the provided value.
-        /// Zero-length vectors are not supported.
-        /// </summary>
-        /// <exception cref="ArgumentException">If length is less than one.</exception>
-        [Obsolete("Use DenseVector.Create instead. Scheduled for removal in v3.0.")]
-        public DenseVector(int length, float value)
-            : this(DenseVectorStorage<float>.OfInit(length, i => value))
-        {
-        }
-
-        /// <summary>
-        /// Create a new dense vector as a copy of the given other vector.
-        /// This new vector will be independent from the other vector.
-        /// A new memory block will be allocated for storing the vector.
-        /// </summary>
-        [Obsolete("Use DenseVector.OfVector instead. Scheduled for removal in v3.0.")]
-        public DenseVector(Vector<float> other)
-            : this(DenseVectorStorage<float>.OfVector(other.Storage))
-        {
-        }
-
-        /// <summary>
-        /// Create a new dense vector as a copy of the given enumerable.
-        /// This new vector will be independent from the enumerable.
-        /// A new memory block will be allocated for storing the vector.
-        /// </summary>
-        [Obsolete("Use DenseVector.OfEnumerable instead. Scheduled for removal in v3.0.")]
-        public DenseVector(IEnumerable<float> other)
-            : this(DenseVectorStorage<float>.OfEnumerable(other))
-        {
-        }
-
-        /// <summary>
         /// Gets the vector's data.
         /// </summary>
         /// <value>The vector's data.</value>

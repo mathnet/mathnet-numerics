@@ -51,35 +51,6 @@ namespace MathNet.Numerics.Threading
         /// </summary>
         /// <param name="fromInclusive">The start index, inclusive.</param>
         /// <param name="toExclusive">The end index, exclusive.</param>
-        /// <param name="body">The body to be invoked for each iteration.</param>
-        /// <exception cref="ArgumentNullException">The <paramref name="body"/> argument is <c>null</c>.</exception>
-        /// <exception cref="AggregateException">At least one invocation of the body threw an exception.</exception>
-        [Obsolete("Use a more efficient overload instead. Scheduled for removal in v3.0.")]
-        public static void For(int fromInclusive, int toExclusive, Action<int> body)
-        {
-            if (body == null) throw new ArgumentNullException("body");
-            if (toExclusive <= fromInclusive) throw new ArgumentOutOfRangeException("toExclusive");
-
-            int rangeSize = (toExclusive - fromInclusive)/(Control.NumberOfParallelWorkerThreads*2);
-            rangeSize = Math.Max(rangeSize, 1);
-
-            For(fromInclusive,
-                toExclusive,
-                rangeSize,
-                (start, stop) =>
-                    {
-                        for (var i = start; i < stop; i++)
-                        {
-                            body(i);
-                        }
-                    });
-        }
-
-        /// <summary>
-        /// Executes a for loop in which iterations may run in parallel.
-        /// </summary>
-        /// <param name="fromInclusive">The start index, inclusive.</param>
-        /// <param name="toExclusive">The end index, exclusive.</param>
         /// <param name="body">The body to be invoked for each iteration range.</param>
         public static void For(int fromInclusive, int toExclusive, Action<int, int> body)
         {
@@ -139,92 +110,6 @@ namespace MathNet.Numerics.Threading
                 Partitioner.Create(fromInclusive, toExclusive, rangeSize),
                 new ParallelOptions {MaxDegreeOfParallelism = maxDegreeOfParallelism},
                 (range, loopState) => body(range.Item1, range.Item2));
-#endif
-        }
-
-        /// <summary>
-        /// Executes a for loop in which iterations may run in parallel.
-        /// </summary>
-        /// <param name="array">The array to iterate over.</param>
-        /// <param name="body">The body to be invoked for each iteration.</param>
-        /// <exception cref="ArgumentNullException">The <paramref name="body"/> argument is <c>null</c>.</exception>
-        /// <exception cref="AggregateException">At least one invocation of the body threw an exception.</exception>
-        [Obsolete("Use a more efficient overload instead. Scheduled for removal in v3.0.")]
-        public static void For<T>(T[] array, Action<int, T> body)
-        {
-            if (body == null)
-            {
-                throw new ArgumentNullException("body");
-            }
-
-            // Special case: no action
-            if (array == null || array.Length == 0)
-            {
-                return;
-            }
-
-            // Special case: single action, inline
-            if (array.Length == 0)
-            {
-                body(0, array[0]);
-                return;
-            }
-
-            // Special case: straight execution without parallelism
-            if (Control.DisableParallelization || Control.NumberOfParallelWorkerThreads < 2)
-            {
-                // efficient since the compiler can drop the range checks
-                for (int i = 0; i < array.Length; i++)
-                {
-                    body(i, array[i]);
-                }
-                return;
-            }
-
-            // Common case
-#if PORTABLE
-            var tasks = new Task[Control.NumberOfParallelWorkerThreads];
-            var size = array.Length / tasks.Length;
-
-            // partition the jobs into separate sets for each but the last worked thread
-            for (var i1 = 0; i1 < tasks.Length - 1; i1++)
-            {
-                var start = (i1 * size);
-                var stop = ((i1 + 1) * size);
-
-                tasks[i1] = Task.Factory.StartNew(() =>
-                    {
-                        for (int j = start; j < stop; j++)
-                        {
-                            body(j, array[j]);
-                        }
-                    });
-            }
-
-            // add another set for last worker thread
-            tasks[tasks.Length - 1] = Task.Factory.StartNew(() =>
-                {
-                    for (int j = ((tasks.Length - 1) * size); j < array.Length; j++)
-                    {
-                        body(j, array[j]);
-                    }
-                });
-
-            Task.WaitAll(tasks);
-#else
-            Parallel.ForEach(
-                Partitioner.Create(0, array.Length),
-                new ParallelOptions
-                    {
-                        MaxDegreeOfParallelism = Control.NumberOfParallelWorkerThreads
-                    },
-                (range, loopState) =>
-                    {
-                        for (var i = range.Item1; i < range.Item2; i++)
-                        {
-                            body(i, array[i]);
-                        }
-                    });
 #endif
         }
 

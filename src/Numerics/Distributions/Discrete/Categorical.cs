@@ -412,19 +412,6 @@ namespace MathNet.Numerics.Distributions
         /// Samples one categorical distributed random variable; also known as the Discrete distribution.
         /// </summary>
         /// <param name="rnd">The random number generator to use.</param>
-        /// <param name="pmfUnnormalized">An array of nonnegative ratios: this array does not need to be normalized 
-        /// as this is often impossible using floating point arithmetic.</param>
-        /// <returns>One random integer between 0 and the size of the categorical (exclusive).</returns>
-        [Obsolete("Use SampleWithProbabilityMass instead (or SampleWithCumulativeDistribution which is faster). Scheduled for removal in v3.0.")]
-        public static int Sample(Random rnd, double[] pmfUnnormalized)
-        {
-            return SampleWithProbabilityMass(rnd, pmfUnnormalized);
-        }
-
-        /// <summary>
-        /// Samples one categorical distributed random variable; also known as the Discrete distribution.
-        /// </summary>
-        /// <param name="rnd">The random number generator to use.</param>
         /// <param name="cdfUnnormalized">An array of the cumulative distribution. Not assumed to be normalized.</param>
         /// <returns>One random integer between 0 and the size of the categorical (exclusive).</returns>
         public static int SampleWithCumulativeDistribution(Random rnd, double[] cdfUnnormalized)
@@ -452,19 +439,6 @@ namespace MathNet.Numerics.Distributions
 
             var cdf = ProbabilityMassToCumulativeDistribution(pmfUnnormalized);
             return SampleUnchecked(rnd, cdf);
-        }
-
-        /// <summary>
-        /// Samples a categorically distributed random variable.
-        /// </summary>
-        /// <param name="rnd">The random number generator to use.</param>
-        /// <param name="p">An array of nonnegative ratios: this array does not need to be normalized 
-        /// as this is often impossible using floating point arithmetic.</param>
-        /// <returns>random integers between 0 and the size of the categorical (exclusive).</returns>
-        [Obsolete("Use SamplesWithProbabilityMass instead (or SamplesWithCumulativeDistribution which is faster). Scheduled for removal in v3.0.")]
-        public static IEnumerable<int> Samples(Random rnd, double[] p)
-        {
-            return SamplesWithProbabilityMass(rnd, p);
         }
 
         /// <summary>

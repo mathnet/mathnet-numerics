@@ -67,13 +67,6 @@ module Matrix =
         for i = 0 to A.RowCount-1 do
             A.SetRow(i, f i (A.Row(i)))
 
-    [<System.ObsoleteAttribute("Use mapiInPlace instead. Scheduled for removal in v3.0.")>]
-    let inplaceMapi = mapiInPlace
-    [<System.ObsoleteAttribute("Use mapColsInPlace instead. Scheduled for removal in v3.0.")>]
-    let inplaceMapCols = mapColsInPlace
-    [<System.ObsoleteAttribute("Use mapRowsInPlace instead. Scheduled for removal in v3.0.")>]
-    let inplaceMapRows = mapRowsInPlace
-
     /// Map every matrix element using the given function.
     let inline map (f: float -> float) (A: #Matrix<float>) =
         let A = A.Clone()
