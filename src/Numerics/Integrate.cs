@@ -51,17 +51,9 @@ namespace MathNet.Numerics
         /// <param name="intervalEnd">Where the interval stops, inclusive and finite.</param>
         /// <param name="targetAbsoluteError">The expected relative accuracy of the approximation.</param>
         /// <returns>Approximation of the finite integral in the given interval.</returns>
-        public static double OnClosedInterval(
-            Func<double, double> f,
-            double intervalBegin,
-            double intervalEnd,
-            double targetAbsoluteError)
+        public static double OnClosedInterval(Func<double, double> f, double intervalBegin, double intervalEnd, double targetAbsoluteError)
         {
-            return Det.Integrate(
-                f,
-                intervalBegin,
-                intervalEnd,
-                targetAbsoluteError);
+            return Det.Integrate(f, intervalBegin, intervalEnd, targetAbsoluteError);
         }
 
         /// <summary>
@@ -71,16 +63,9 @@ namespace MathNet.Numerics
         /// <param name="intervalBegin">Where the interval starts, inclusive and finite.</param>
         /// <param name="intervalEnd">Where the interval stops, inclusive and finite.</param>
         /// <returns>Approximation of the finite integral in the given interval.</returns>
-        public static double OnClosedInterval(
-            Func<double, double> f,
-            double intervalBegin,
-            double intervalEnd)
+        public static double OnClosedInterval(Func<double, double> f, double intervalBegin, double intervalEnd)
         {
-            return Det.Integrate(
-                f,
-                intervalBegin,
-                intervalEnd,
-                1e-8);
+            return Det.Integrate(f, intervalBegin, intervalEnd, 1e-8);
         }
     }
 }

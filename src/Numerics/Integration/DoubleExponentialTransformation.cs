@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2010 Math.NET
+// Copyright (c) 2009-2013 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -39,6 +39,129 @@ namespace MathNet.Numerics.Integration
     /// </summary>
     public class DoubleExponentialTransformation
     {
+        /// <summary>
+        /// Maximum number of iterations, until the asked
+        /// maximum error is (likely to be) satisfied.
+        /// </summary>
+        const int NumberOfMaximumLevels = 10;
+
+        /// <summary>
+        /// Abscissa vector per level provider.
+        /// </summary>
+        IEnumerable<double[]> _levelAbcissas;
+
+        /// <summary>
+        /// Weight vector per level provider.
+        /// </summary>
+        IEnumerable<double[]> _levelWeights;
+
+        /// <summary>
+        /// Approximate the integral by the double exponential transformation
+        /// </summary>
+        /// <param name="f">The analytic smooth function to integrate.</param>
+        /// <param name="intervalBegin">Where the interval starts, inclusive and finite.</param>
+        /// <param name="intervalEnd">Where the interval stops, inclusive and finite.</param>
+        /// <param name="targetRelativeError">The expected relative accuracy of the approximation.</param>
+        /// <returns>Approximation of the finite integral in the given interval.</returns>
+        public double Integrate(Func<double, double> f, double intervalBegin, double intervalEnd, double targetRelativeError)
+        {
+            if (_levelAbcissas == null)
+            {
+                _levelAbcissas = ProvideLevelAbcissas();
+                _levelWeights = ProvideLevelWeights();
+            }
+
+            return NewtonCotesTrapeziumRule.IntegrateAdaptiveTransformedOdd(
+                f,
+                intervalBegin, intervalEnd,
+                _levelAbcissas, _levelWeights,
+                1, targetRelativeError);
+        }
+
+        /// <summary>
+        /// Abscissa vector per level provider.
+        /// </summary>
+        /// <returns>Level Enumerator.</returns>
+        internal static IEnumerable<double[]> ProvideLevelAbcissas()
+        {
+            for (int i = 0; i < NumberOfMaximumLevels; i++)
+            {
+                yield return EvaluateAbcissas(i);
+            }
+        }
+
+        /// <summary>
+        /// Weight vector per level provider.
+        /// </summary>
+        /// <returns>Level Enumerator.</returns>
+        internal static IEnumerable<double[]> ProvideLevelWeights()
+        {
+            for (int i = 0; i < NumberOfMaximumLevels; i++)
+            {
+                yield return EvaluateWeights(i);
+            }
+        }
+
+        /// <summary>
+        /// Compute the abscissa vector for a single level.
+        /// </summary>
+        /// <param name="level">The level to evaluate the abscissa vector for.</param>
+        /// <returns>Abscissa Vector.</returns>
+        static double[] EvaluateAbcissas(int level)
+        {
+            if (level < PrecomputedAbscissas.Length)
+            {
+                return PrecomputedAbscissas[level];
+            }
+
+            double step = level <= 1 ? 1.0 : (1.0/(2 << (level - 2)));
+            double offset = level == 0 ? 0.0 : (1.0/(2 << (level - 1)));
+            int length = level == 0 ? 4 : (3 << (level - 1));
+
+            double t = 0;
+            double[] abcissas = new double[length];
+            for (int i = 0; i < abcissas.Length; i++)
+            {
+                double arg = offset + t;
+                t += step;
+
+                abcissas[i] = Math.Tanh(Constants.PiOver2*Math.Sinh(arg));
+            }
+
+            return abcissas;
+        }
+
+        /// <summary>
+        /// Compute the weight vector for a single level.
+        /// </summary>
+        /// <param name="level">The level to evaluate the weight vector for.</param>
+        /// <returns>Weight Vector.</returns>
+        static double[] EvaluateWeights(int level)
+        {
+            if (level < PrecomputedWeights.Length)
+            {
+                return PrecomputedWeights[level];
+            }
+
+            double step = level <= 1 ? 1.0 : (1.0/(2 << (level - 2)));
+            double offset = level == 0 ? 0.0 : (1.0/(2 << (level - 1)));
+            int length = level == 0 ? 4 : (3 << (level - 1));
+
+            double t = 0;
+            double[] weights = new double[length];
+            for (int i = 0; i < weights.Length; i++)
+            {
+                double arg = offset + t;
+                t += step;
+
+                // TODO: reuse abcissas as computed in EvaluateAbcissas
+                double abcissa = Math.Tanh(Constants.PiOver2*Math.Sinh(arg));
+                weights[i] = Constants.PiOver2*(1 - (abcissa*abcissa))*Math.Cosh(arg);
+            }
+
+            return weights;
+        }
+
         #region Precomputed Abcissas and Weights
 
         /// <summary>
@@ -486,135 +609,5 @@ namespace MathNet.Numerics.Integration
                 };
 
         #endregion
-
-        /// <summary>
-        /// Maximum number of iterations, until the asked
-        /// maximum error is (likely to be) satisfied.
-        /// </summary>
-        const int NumberOfMaximumLevels = 10;
-
-        /// <summary>
-        /// Abscissa vector per level provider.
-        /// </summary>
-        IEnumerable<double[]> _levelAbcissas;
-
-        /// <summary>
-        /// Weight vector per level provider.
-        /// </summary>
-        IEnumerable<double[]> _levelWeights;
-
-        /// <summary>
-        /// Approximate the integral by the double exponential transformation
-        /// </summary>
-        /// <param name="f">The analytic smooth function to integrate.</param>
-        /// <param name="intervalBegin">Where the interval starts, inclusive and finite.</param>
-        /// <param name="intervalEnd">Where the interval stops, inclusive and finite.</param>
-        /// <param name="targetRelativeError">The expected relative accuracy of the approximation.</param>
-        /// <returns>Approximation of the finite integral in the given interval.</returns>
-        public double Integrate(
-            Func<double, double> f,
-            double intervalBegin,
-            double intervalEnd,
-            double targetRelativeError)
-        {
-            if (_levelAbcissas == null)
-            {
-                _levelAbcissas = ProvideLevelAbcissas();
-                _levelWeights = ProvideLevelWeights();
-            }
-
-            return NewtonCotesTrapeziumRule.IntegrateAdaptiveTransformedOdd(
-                f,
-                intervalBegin,
-                intervalEnd,
-                _levelAbcissas,
-                _levelWeights,
-                1,
-                targetRelativeError);
-        }
-
-        /// <summary>
-        /// Abscissa vector per level provider.
-        /// </summary>
-        /// <returns>Level Enumerator.</returns>
-        internal static IEnumerable<double[]> ProvideLevelAbcissas()
-        {
-            for (int i = 0; i < NumberOfMaximumLevels; i++)
-            {
-                yield return EvaluateAbcissas(i);
-            }
-        }
-
-        /// <summary>
-        /// Weight vector per level provider.
-        /// </summary>
-        /// <returns>Level Enumerator.</returns>
-        internal static IEnumerable<double[]> ProvideLevelWeights()
-        {
-            for (int i = 0; i < NumberOfMaximumLevels; i++)
-            {
-                yield return EvaluateWeights(i);
-            }
-        }
-
-        /// <summary>
-        /// Compute the abscissa vector for a single level.
-        /// </summary>
-        /// <param name="level">The level to evaluate the abscissa vector for.</param>
-        /// <returns>Abscissa Vector.</returns>
-        static double[] EvaluateAbcissas(int level)
-        {
-            if (level < PrecomputedAbscissas.Length)
-            {
-                return PrecomputedAbscissas[level];
-            }
-
-            double step = level <= 1 ? 1.0 : (1.0/(2 << (level - 2)));
-            double offset = level == 0 ? 0.0 : (1.0/(2 << (level - 1)));
-            int length = level == 0 ? 4 : (3 << (level - 1));
-
-            double t = 0;
-            double[] abcissas = new double[length];
-            for (int i = 0; i < abcissas.Length; i++)
-            {
-                double arg = offset + t;
-                t += step;
-
-                abcissas[i] = Math.Tanh(Constants.PiOver2*Math.Sinh(arg));
-            }
-
-            return abcissas;
-        }
-
-        /// <summary>
-        /// Compute the weight vector for a single level.
-        /// </summary>
-        /// <param name="level">The level to evaluate the weight vector for.</param>
-        /// <returns>Weight Vector.</returns>
-        static double[] EvaluateWeights(int level)
-        {
-            if (level < PrecomputedWeights.Length)
-            {
-                return PrecomputedWeights[level];
-            }
-
-            double step = level <= 1 ? 1.0 : (1.0/(2 << (level - 2)));
-            double offset = level == 0 ? 0.0 : (1.0/(2 << (level - 1)));
-            int length = level == 0 ? 4 : (3 << (level - 1));
-
-            double t = 0;
-            double[] weights = new double[length];
-            for (int i = 0; i < weights.Length; i++)
-            {
-                double arg = offset + t;
-                t += step;
-
-                // TODO: reuse abcissas as computed in EvaluateAbcissas
-                double abcissa = Math.Tanh(Constants.PiOver2*Math.Sinh(arg));
-                weights[i] = Constants.PiOver2*(1 - (abcissa*abcissa))*Math.Cosh(arg);
-            }
-
-            return weights;
-        }
     }
 }

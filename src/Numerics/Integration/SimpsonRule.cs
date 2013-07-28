@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2010 Math.NET
+// Copyright (c) 2009-2013 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -46,10 +46,7 @@ namespace MathNet.Numerics.Integration
         /// <param name="intervalBegin">Where the interval starts, inclusive and finite.</param>
         /// <param name="intervalEnd">Where the interval stops, inclusive and finite.</param>
         /// <returns>Approximation of the finite integral in the given interval.</returns>
-        public static double IntegrateThreePoint(
-            Func<double, double> f,
-            double intervalBegin,
-            double intervalEnd)
+        public static double IntegrateThreePoint(Func<double, double> f, double intervalBegin, double intervalEnd)
         {
             if (f == null)
             {
@@ -68,11 +65,7 @@ namespace MathNet.Numerics.Integration
         /// <param name="intervalEnd">Where the interval stops, inclusive and finite.</param>
         /// <param name="numberOfPartitions">Even number of composite subdivision partitions.</param>
         /// <returns>Approximation of the finite integral in the given interval.</returns>
-        public static double IntegrateComposite(
-            Func<double, double> f,
-            double intervalBegin,
-            double intervalEnd,
-            int numberOfPartitions)
+        public static double IntegrateComposite(Func<double, double> f, double intervalBegin, double intervalEnd, int numberOfPartitions)
         {
             if (f == null)
             {

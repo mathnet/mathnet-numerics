@@ -48,9 +48,7 @@ namespace MathNet.Numerics
         /// which can then be used to compute interpolations and extrapolations
         /// on arbitrary points.
         /// </returns>
-        public static IInterpolation Common(
-            IList<double> points,
-            IList<double> values)
+        public static IInterpolation Common(IList<double> points, IList<double> values)
         {
             return RationalWithoutPoles(points, values);
         }
@@ -65,9 +63,7 @@ namespace MathNet.Numerics
         /// which can then be used to compute interpolations and extrapolations
         /// on arbitrary points.
         /// </returns>
-        public static IInterpolation LinearBetweenPoints(
-            IList<double> points,
-            IList<double> values)
+        public static IInterpolation LinearBetweenPoints(IList<double> points, IList<double> values)
         {
             var method = new LinearSplineInterpolation();
             method.Initialize(points, values);
@@ -84,9 +80,7 @@ namespace MathNet.Numerics
         /// which can then be used to compute interpolations and extrapolations
         /// on arbitrary points.
         /// </returns>
-        public static IInterpolation RationalWithoutPoles(
-            IList<double> points,
-            IList<double> values)
+        public static IInterpolation RationalWithoutPoles(IList<double> points, IList<double> values)
         {
             var method = new FloaterHormannRationalInterpolation();
             method.Initialize(points, values);
@@ -103,9 +97,7 @@ namespace MathNet.Numerics
         /// which can then be used to compute interpolations and extrapolations
         /// on arbitrary points.
         /// </returns>
-        public static IInterpolation RationalWithPoles(
-            IList<double> points,
-            IList<double> values)
+        public static IInterpolation RationalWithPoles(IList<double> points, IList<double> values)
         {
             var method = new BulirschStoerRationalInterpolation();
             method.Initialize(points, values);

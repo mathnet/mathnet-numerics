@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2010 Math.NET
+// Copyright (c) 2009-2013 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -49,10 +49,7 @@ namespace MathNet.Numerics.Integration
         /// <param name="intervalBegin">Where the interval starts, inclusive and finite.</param>
         /// <param name="intervalEnd">Where the interval stops, inclusive and finite.</param>
         /// <returns>Approximation of the finite integral in the given interval.</returns>
-        public static double IntegrateTwoPoint(
-            Func<double, double> f,
-            double intervalBegin,
-            double intervalEnd)
+        public static double IntegrateTwoPoint(Func<double, double> f, double intervalBegin, double intervalEnd)
         {
             if (f == null)
             {
@@ -70,11 +67,7 @@ namespace MathNet.Numerics.Integration
         /// <param name="intervalEnd">Where the interval stops, inclusive and finite.</param>
         /// <param name="numberOfPartitions">Number of composite subdivision partitions.</param>
         /// <returns>Approximation of the finite integral in the given interval.</returns>
-        public static double IntegrateComposite(
-            Func<double, double> f,
-            double intervalBegin,
-            double intervalEnd,
-            int numberOfPartitions)
+        public static double IntegrateComposite(Func<double, double> f, double intervalBegin, double intervalEnd, int numberOfPartitions)
         {
             if (f == null)
             {
@@ -108,11 +101,7 @@ namespace MathNet.Numerics.Integration
         /// <param name="intervalEnd">Where the interval stops, inclusive and finite.</param>
         /// <param name="targetError">The expected accuracy of the approximation.</param>
         /// <returns>Approximation of the finite integral in the given interval.</returns>
-        public static double IntegrateAdaptive(
-            Func<double, double> f,
-            double intervalBegin,
-            double intervalEnd,
-            double targetError)
+        public static double IntegrateAdaptive(Func<double, double> f, double intervalBegin, double intervalEnd, double targetError)
         {
             if (f == null)
             {
@@ -157,12 +146,9 @@ namespace MathNet.Numerics.Integration
         /// <returns>Approximation of the finite integral in the given interval.</returns>
         public static double IntegrateAdaptiveTransformedOdd(
             Func<double, double> f,
-            double intervalBegin,
-            double intervalEnd,
-            IEnumerable<double[]> levelAbscissas,
-            IEnumerable<double[]> levelWeights,
-            double levelOneStep,
-            double targetRelativeError)
+            double intervalBegin, double intervalEnd,
+            IEnumerable<double[]> levelAbscissas, IEnumerable<double[]> levelWeights,
+            double levelOneStep, double targetRelativeError)
         {
             if (f == null)
             {
