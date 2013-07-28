@@ -126,7 +126,6 @@
     <Compile Include="Statistics\QuantileDefinition.cs" />
     <Compile Include="Statistics\StreamingStatistics.cs" />
     <Compile Include="Statistics\SortedArrayStatistics.cs" />
-    <Compile Include="TargetedPatchingOptOutAttribute.cs" />
     <Compile Include="Distributions\Continuous\Cauchy.cs" />
     <Compile Include="Distributions\Continuous\Chi.cs" />
     <Compile Include="Distributions\Continuous\ChiSquare.cs" />
@@ -386,6 +385,7 @@
     <Compile Include="GlobalizationHelper.cs" />
     <Compile Include="Interpolation\Algorithms\EquidistantPolynomialInterpolation.cs" />
     <Compile Include="IPrecisionSupport.cs" />
+    <Compile Include="Interpolation\EquidistantPolynomialInterpolation.cs" />
     <Compile Include="IntegralTransforms\Algorithms\DiscreteFourierTransform.Options.cs" />
     <Compile Include="IntegralTransforms\Algorithms\DiscreteFourierTransform.Bluestein.cs" />
     <Compile Include="IntegralTransforms\Algorithms\DiscreteFourierTransform.Naive.cs" />
@@ -429,7 +429,7 @@
     <Compile Include="Random\WH1982.cs" />
     <Compile Include="Random\WH2006.cs" />
     <Compile Include="Random\Xorshift.cs" />
-    <Compile Include="SerializableAttribute.cs" />
+    <Compile Include="PortableAttributes.cs" />
     <Compile Include="Signals\SignalGenerator.Random.cs" />
     <Compile Include="Signals\SignalGenerator.Chebyshev.cs" />
     <Compile Include="Signals\SignalGenerator.Equidistant.cs" />
@@ -488,9 +488,6 @@
       <ProductName>Windows Installer 3.1</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="MathNet.Numerics.snk" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
