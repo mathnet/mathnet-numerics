@@ -43,12 +43,9 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         /// <summary>
         /// Continuous uniform distribution.
         /// </summary>
-        private IContinuousDistribution GetUniform(int seed)
+        IContinuousDistribution GetUniform(int seed)
         {
-            return new ContinuousUniform(-1, 1)
-            {
-                RandomSource = new Random(seed)
-            };
+            return new ContinuousUniform(-1, 1, new Random(seed));
         }
 
         /// <summary>
@@ -59,7 +56,7 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         /// <param name="inverse">Is inverse.</param>
         /// <param name="dft">DFT function delegate.</param>
         /// <param name="hartley">Hartley transform delegate.</param>
-        private static void VerifyMatchesDft(
+        static void VerifyMatchesDft(
             double[] samples,
             double maximumError,
             bool inverse,

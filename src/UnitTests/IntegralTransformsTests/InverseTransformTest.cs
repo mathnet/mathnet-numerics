@@ -43,12 +43,9 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         /// <summary>
         /// Continuous uniform distribution.
         /// </summary>
-        private IContinuousDistribution GetUniform(int seed)
+        IContinuousDistribution GetUniform(int seed)
         {
-            return new ContinuousUniform(-1, 1)
-                {
-                    RandomSource = new Random(seed)
-                };
+            return new ContinuousUniform(-1, 1, new Random(seed));
         }
 
         /// <summary>
@@ -58,7 +55,7 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         /// <param name="maximumError">Maximum error value.</param>
         /// <param name="forward">Forward delegate.</param>
         /// <param name="inverse">Inverse delegate.</param>
-        private void VerifyIsReversibleComplex(
+        void VerifyIsReversibleComplex(
             int count,
             double maximumError,
             Func<Complex[], Complex[]> forward,
@@ -84,7 +81,7 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         /// <param name="maximumError">Maximum error value.</param>
         /// <param name="forward">Forward delegate.</param>
         /// <param name="inverse">Inverse delegate.</param>
-        private void VerifyIsReversibleReal(
+        void VerifyIsReversibleReal(
             int count,
             double maximumError,
             Func<double[], double[]> forward,
@@ -134,15 +131,15 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
                 0x8000,
                 1e-12,
                 s =>
-                {
-                    dft.Radix2Forward(s, options);
-                    return s;
-                },
+                    {
+                        dft.Radix2Forward(s, options);
+                        return s;
+                    },
                 s =>
-                {
-                    dft.Radix2Inverse(s, options);
-                    return s;
-                });
+                    {
+                        dft.Radix2Inverse(s, options);
+                        return s;
+                    });
         }
 
         /// <summary>
@@ -159,15 +156,15 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
                 0x7FFF,
                 1e-12,
                 s =>
-                {
-                    dft.BluesteinForward(s, options);
-                    return s;
-                },
+                    {
+                        dft.BluesteinForward(s, options);
+                        return s;
+                    },
                 s =>
-                {
-                    dft.BluesteinInverse(s, options);
-                    return s;
-                });
+                    {
+                        dft.BluesteinInverse(s, options);
+                        return s;
+                    });
         }
 
         /// <summary>

@@ -69,16 +69,24 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Initializes a new instance of the <see cref="Wishart"/> class. 
         /// </summary>
-        /// <param name="nu">
-        /// The degrees of freedom for the Wishart distribution.
-        /// </param>
-        /// <param name="s">
-        /// The scale matrix for the Wishart distribution.
-        /// </param>
+        /// <param name="nu">The degrees of freedom for the Wishart distribution.</param>
+        /// <param name="s">The scale matrix for the Wishart distribution.</param>
         public Wishart(double nu, Matrix<double> s)
         {
+            _random = new Random();
             SetParameters(nu, s);
-            RandomSource = new Random();
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Wishart"/> class. 
+        /// </summary>
+        /// <param name="nu">The degrees of freedom for the Wishart distribution.</param>
+        /// <param name="s">The scale matrix for the Wishart distribution.</param>
+        /// <param name="randomSource">The random number generator which is used to draw random samples.</param>
+        public Wishart(double nu, Matrix<double> s, Random randomSource)
+        {
+            _random = randomSource ?? new Random();
+            SetParameters(nu, s);
         }
 
         /// <summary>
@@ -174,11 +182,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public Random RandomSource
         {
-            get
-            {
-                return _random;
-            }
-
+            get { return _random; }
             set
             {
                 if (value == null)

@@ -72,22 +72,28 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Initializes a new instance of the <see cref="Stable"/> class. 
         /// </summary>
-        /// <param name="alpha">
-        /// The stability parameter of the distribution.
-        /// </param>
-        /// <param name="beta">
-        /// The skewness parameter of the distribution.
-        /// </param>
-        /// <param name="scale">
-        /// The scale parameter of the distribution.
-        /// </param>
-        /// <param name="location">
-        /// The location parameter of the distribution.
-        /// </param>
+        /// <param name="alpha">The stability parameter of the distribution.</param>
+        /// <param name="beta">The skewness parameter of the distribution.</param>
+        /// <param name="scale">The scale parameter of the distribution.</param>
+        /// <param name="location">The location parameter of the distribution.</param>
         public Stable(double alpha, double beta, double scale, double location)
         {
+            _random = new Random();
             SetParameters(alpha, beta, scale, location);
-            RandomSource = new Random();
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Stable"/> class. 
+        /// </summary>
+        /// <param name="alpha">The stability parameter of the distribution.</param>
+        /// <param name="beta">The skewness parameter of the distribution.</param>
+        /// <param name="scale">The scale parameter of the distribution.</param>
+        /// <param name="location">The location parameter of the distribution.</param>
+        /// <param name="randomSource">The random number generator which is used to draw random samples.</param>
+        public Stable(double alpha, double beta, double scale, double location, Random randomSource)
+        {
+            _random = randomSource ?? new Random();
+            SetParameters(alpha, beta, scale, location);
         }
 
         /// <summary>
@@ -200,7 +206,6 @@ namespace MathNet.Numerics.Distributions
         public Random RandomSource
         {
             get { return _random; }
-
             set
             {
                 if (value == null)

@@ -64,7 +64,6 @@ namespace MathNet.Numerics.Distributions
         public double R
         {
             get { return _r; }
-
             set { SetParameters(value, _p); }
         }
 
@@ -74,7 +73,6 @@ namespace MathNet.Numerics.Distributions
         public double P
         {
             get { return _p; }
-
             set { SetParameters(_r, value); }
         }
 
@@ -85,8 +83,20 @@ namespace MathNet.Numerics.Distributions
         /// <param name="p">The probability of a trial resulting in success.</param>
         public NegativeBinomial(double r, double p)
         {
+            _random = new Random();
             SetParameters(r, p);
-            RandomSource = new Random();
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="NegativeBinomial"/> class. 
+        /// </summary>
+        /// <param name="r">The number of trials.</param>
+        /// <param name="p">The probability of a trial resulting in success.</param>
+        /// <param name="randomSource">The random number generator which is used to draw random samples.</param>
+        public NegativeBinomial(double r, double p, Random randomSource)
+        {
+            _random = randomSource ?? new Random();
+            SetParameters(r, p);
         }
 
         /// <summary>
@@ -146,7 +156,6 @@ namespace MathNet.Numerics.Distributions
         public Random RandomSource
         {
             get { return _random; }
-
             set
             {
                 if (value == null)

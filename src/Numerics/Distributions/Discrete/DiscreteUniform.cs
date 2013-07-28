@@ -64,8 +64,20 @@ namespace MathNet.Numerics.Distributions
         /// <param name="upper">Upper bound; must be at least as large as <paramref name="lower"/>.</param>
         public DiscreteUniform(int lower, int upper)
         {
+            _random = new Random();
             SetParameters(lower, upper);
-            RandomSource = new Random();
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the DiscreteUniform class.
+        /// </summary>
+        /// <param name="lower">Lower bound.</param>
+        /// <param name="upper">Upper bound; must be at least as large as <paramref name="lower"/>.</param>
+        /// <param name="randomSource">The random number generator which is used to draw random samples.</param>
+        public DiscreteUniform(int lower, int upper, Random randomSource)
+        {
+            _random = randomSource ?? new Random();
+            SetParameters(lower, upper);
         }
 
         /// <summary>
@@ -140,7 +152,6 @@ namespace MathNet.Numerics.Distributions
         public Random RandomSource
         {
             get { return _random; }
-
             set
             {
                 if (value == null)

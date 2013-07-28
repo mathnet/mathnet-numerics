@@ -54,13 +54,22 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Initializes a new instance of the <see cref="ChiSquare"/> class. 
         /// </summary>
-        /// <param name="dof">
-        /// The degrees of freedom for the ChiSquare distribution.
-        /// </param>
+        /// <param name="dof">The degrees of freedom for the ChiSquare distribution.</param>
         public ChiSquare(double dof)
         {
+            _random = new Random();
             SetParameters(dof);
-            RandomSource = new Random();
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ChiSquare"/> class. 
+        /// </summary>
+        /// <param name="dof">The degrees of freedom for the ChiSquare distribution.</param>
+        /// <param name="randomSource">The random number generator which is used to draw random samples.</param>
+        public ChiSquare(double dof, Random randomSource)
+        {
+            _random = randomSource ?? new Random();
+            SetParameters(dof);
         }
 
         /// <summary>

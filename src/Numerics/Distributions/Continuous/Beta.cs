@@ -71,8 +71,21 @@ namespace MathNet.Numerics.Distributions
         /// <exception cref="ArgumentOutOfRangeException">If any of the Beta parameters are negative.</exception>
         public Beta(double a, double b)
         {
+            _random = new Random();
             SetParameters(a, b);
-            RandomSource = new Random();
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the Beta class.
+        /// </summary>
+        /// <param name="a">The a shape parameter of the Beta distribution.</param>
+        /// <param name="b">The b shape parameter of the Beta distribution.</param>
+        /// <param name="randomSource">The random number generator which is used to draw random samples.</param>
+        /// <exception cref="ArgumentOutOfRangeException">If any of the Beta parameters are negative.</exception>
+        public Beta(double a, double b, Random randomSource)
+        {
+            _random = randomSource ?? new Random();
+            SetParameters(a, b);
         }
 
         /// <summary>
@@ -143,7 +156,6 @@ namespace MathNet.Numerics.Distributions
         public Random RandomSource
         {
             get { return _random; }
-
             set
             {
                 if (value == null)

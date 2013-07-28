@@ -68,22 +68,28 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Initializes a new instance of the <see cref="MatrixNormal"/> class. 
         /// </summary>
-        /// <param name="m">
-        /// The mean of the matrix normal.
-        /// </param>
-        /// <param name="v">
-        /// The covariance matrix for the rows.
-        /// </param>
-        /// <param name="k">
-        /// The covariance matrix for the columns.
-        /// </param>
-        /// <exception cref="ArgumentOutOfRangeException">
-        /// If the dimensions of the mean and two covariance matrices don't match.
-        /// </exception>
+        /// <param name="m">The mean of the matrix normal.</param>
+        /// <param name="v">The covariance matrix for the rows.</param>
+        /// <param name="k">The covariance matrix for the columns.</param>
+        /// <exception cref="ArgumentOutOfRangeException">If the dimensions of the mean and two covariance matrices don't match.</exception>
         public MatrixNormal(Matrix<double> m, Matrix<double> v, Matrix<double> k)
         {
+            _random = new Random();
             SetParameters(m, v, k);
-            RandomSource = new Random();
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MatrixNormal"/> class. 
+        /// </summary>
+        /// <param name="m">The mean of the matrix normal.</param>
+        /// <param name="v">The covariance matrix for the rows.</param>
+        /// <param name="k">The covariance matrix for the columns.</param>
+        /// <param name="randomSource">The random number generator which is used to draw random samples.</param>
+        /// <exception cref="ArgumentOutOfRangeException">If the dimensions of the mean and two covariance matrices don't match.</exception>
+        public MatrixNormal(Matrix<double> m, Matrix<double> v, Matrix<double> k, Random randomSource)
+        {
+            _random = randomSource ?? new Random();
+            SetParameters(m, v, k);
         }
 
         /// <summary>
@@ -212,11 +218,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public Random RandomSource
         {
-            get
-            {
-                return _random;
-            }
-
+            get { return _random; }
             set
             {
                 if (value == null)

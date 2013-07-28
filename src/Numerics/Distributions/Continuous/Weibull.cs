@@ -78,8 +78,20 @@ namespace MathNet.Numerics.Distributions
         /// <param name="scale">The inverse scale of the Weibull distribution.</param>
         public Weibull(double shape, double scale)
         {
+            _random = new Random();
             SetParameters(shape, scale);
-            RandomSource = new Random();
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the Weibull class.
+        /// </summary>
+        /// <param name="shape">The shape of the Weibull distribution.</param>
+        /// <param name="scale">The inverse scale of the Weibull distribution.</param>
+        /// <param name="randomSource">The random number generator which is used to draw random samples.</param>
+        public Weibull(double shape, double scale, Random randomSource)
+        {
+            _random = randomSource ?? new Random();
+            SetParameters(shape, scale);
         }
 
         /// <summary>
@@ -153,7 +165,6 @@ namespace MathNet.Numerics.Distributions
         public Random RandomSource
         {
             get { return _random; }
-
             set
             {
                 if (value == null)

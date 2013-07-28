@@ -57,16 +57,24 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Initializes a new instance of the <see cref="Rayleigh"/> class. 
         /// </summary>
-        /// <param name="scale">
-        /// The scale parameter of the distribution.
-        /// </param>
-        /// <exception cref="ArgumentException">
-        /// If <paramref name="scale"/> is negative.
-        /// </exception>
+        /// <param name="scale">The scale parameter of the distribution.</param>
+        /// <exception cref="ArgumentException">If <paramref name="scale"/> is negative.</exception>
         public Rayleigh(double scale)
         {
+            _random = new Random();
             SetParameters(scale);
-            RandomSource = new Random();
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Rayleigh"/> class. 
+        /// </summary>
+        /// <param name="scale">The scale parameter of the distribution.</param>
+        /// <param name="randomSource">The random number generator which is used to draw random samples.</param>
+        /// <exception cref="ArgumentException">If <paramref name="scale"/> is negative.</exception>
+        public Rayleigh(double scale, Random randomSource)
+        {
+            _random = randomSource ?? new Random();
+            SetParameters(scale);
         }
 
         /// <summary>
@@ -131,7 +139,6 @@ namespace MathNet.Numerics.Distributions
         public Random RandomSource
         {
             get { return _random; }
-
             set
             {
                 if (value == null)

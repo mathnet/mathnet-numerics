@@ -66,8 +66,22 @@ namespace MathNet.Numerics.Distributions
         /// <exception cref="ArgumentOutOfRangeException">If <paramref name="n"/> is negative.</exception>
         public Binomial(double p, int n)
         {
+            _random = new Random();
             SetParameters(p, n);
-            RandomSource = new Random();
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the Binomial class.
+        /// </summary>
+        /// <param name="p">The success probability of a trial.</param>
+        /// <param name="n">The number of trials.</param>
+        /// <param name="randomSource">The random number generator which is used to draw random samples.</param>
+        /// <exception cref="ArgumentOutOfRangeException">If <paramref name="p"/> is not in the interval [0.0,1.0].</exception>
+        /// <exception cref="ArgumentOutOfRangeException">If <paramref name="n"/> is negative.</exception>
+        public Binomial(double p, int n, Random randomSource)
+        {
+            _random = randomSource ?? new Random();
+            SetParameters(p, n);
         }
 
         /// <summary>
@@ -146,7 +160,6 @@ namespace MathNet.Numerics.Distributions
         public Random RandomSource
         {
             get { return _random; }
-
             set
             {
                 if (value == null)

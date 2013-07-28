@@ -54,13 +54,22 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Initializes a new instance of the <see cref="Exponential"/> class.
         /// </summary>
-        /// <param name="lambda">
-        /// The lambda parameter of the Exponential distribution.
-        /// </param>
+        /// <param name="lambda">The lambda parameter of the Exponential distribution.</param>
         public Exponential(double lambda)
         {
+            _random = new Random();
             SetParameters(lambda);
-            RandomSource = new Random();
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Exponential"/> class.
+        /// </summary>
+        /// <param name="lambda">The lambda parameter of the Exponential distribution.</param>
+        /// <param name="randomSource">The random number generator which is used to draw random samples.</param>
+        public Exponential(double lambda, Random randomSource)
+        {
+            _random = randomSource ?? new Random();
+            SetParameters(lambda);
         }
 
         /// <summary>
@@ -125,7 +134,6 @@ namespace MathNet.Numerics.Distributions
         public Random RandomSource
         {
             get { return _random; }
-
             set
             {
                 if (value == null)

@@ -115,10 +115,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         public static Matrix GenerateRandomDenseMatrix(int row, int col)
         {
             // Fill a matrix with standard random numbers.
-            var normal = new Normal
-                {
-                    RandomSource = new MersenneTwister(1)
-                };
+            var normal = new Normal(new MersenneTwister(1));
             var matrixA = new DenseMatrix(row, col);
             for (var i = 0; i < row; i++)
             {
@@ -139,10 +136,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         public static Matrix<double> GenerateRandomPositiveDefiniteDenseMatrix(int order)
         {
             // Fill a matrix with standard random numbers.
-            var normal = new Normal
-                {
-                    RandomSource = new MersenneTwister(1)
-                };
+            var normal = new Normal(new MersenneTwister(1));
             var matrixA = new DenseMatrix(order);
             for (var i = 0; i < order; i++)
             {
@@ -164,10 +158,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         public static Vector GenerateRandomDenseVector(int order)
         {
             // Fill a matrix with standard random numbers.
-            var normal = new Normal
-                {
-                    RandomSource = new MersenneTwister(1)
-                };
+            var normal = new Normal(new MersenneTwister(1));
             var v = new DenseVector(order);
             for (var i = 0; i < order; i++)
             {
@@ -186,10 +177,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         public static Matrix GenerateRandomUserDefinedMatrix(int row, int col)
         {
             // Fill a matrix with standard random numbers.
-            var normal = new Normal
-                {
-                    RandomSource = new MersenneTwister(1)
-                };
+            var normal = new Normal(new MersenneTwister(1));
             var matrixA = new UserDefinedMatrix(row, col);
             for (var i = 0; i < row; i++)
             {
@@ -210,10 +198,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         public static Matrix<double> GenerateRandomPositiveDefiniteUserDefinedMatrix(int order)
         {
             // Fill a matrix with standard random numbers.
-            var normal = new Normal
-                {
-                    RandomSource = new MersenneTwister(1)
-                };
+            var normal = new Normal(new MersenneTwister(1));
             var matrixA = new UserDefinedMatrix(order);
             for (var i = 0; i < order; i++)
             {
@@ -235,10 +220,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         public static Vector GenerateRandomUserDefinedVector(int order)
         {
             // Fill a matrix with standard random numbers.
-            var normal = new Normal
-                {
-                    RandomSource = new MersenneTwister(1)
-                };
+            var normal = new Normal(new MersenneTwister(1));
             var v = new UserDefinedVector(order);
             for (var i = 0; i < order; i++)
             {

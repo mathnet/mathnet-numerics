@@ -61,16 +61,24 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Initializes a new instance of the <see cref="Erlang"/> class. 
         /// </summary>
-        /// <param name="shape">
-        /// The shape of the Erlang distribution.
-        /// </param>
-        /// <param name="invScale">
-        /// The inverse scale of the Erlang distribution.
-        /// </param>
+        /// <param name="shape">The shape of the Erlang distribution.</param>
+        /// <param name="invScale">The inverse scale of the Erlang distribution.</param>
         public Erlang(int shape, double invScale)
         {
+            _random = new Random();
             SetParameters(shape, invScale);
-            RandomSource = new Random();
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Erlang"/> class. 
+        /// </summary>
+        /// <param name="shape">The shape of the Erlang distribution.</param>
+        /// <param name="invScale">The inverse scale of the Erlang distribution.</param>
+        /// <param name="randomSource">The random number generator which is used to draw random samples.</param>
+        public Erlang(int shape, double invScale, Random randomSource)
+        {
+            _random = randomSource ?? new Random();
+            SetParameters(shape, invScale);
         }
 
         /// <summary>
@@ -186,7 +194,6 @@ namespace MathNet.Numerics.Distributions
         public Random RandomSource
         {
             get { return _random; }
-
             set
             {
                 if (value == null)

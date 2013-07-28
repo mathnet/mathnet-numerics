@@ -49,12 +49,8 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Initializes a new instance of the <see cref="MeanPrecisionPair"/> struct. 
         /// </summary>
-        /// <param name="m">
-        /// The mean of the pair.
-        /// </param>
-        /// <param name="p">
-        /// The precision of the pair.
-        /// </param>
+        /// <param name="m">The mean of the pair.</param>
+        /// <param name="p">The precision of the pair.</param>
         public MeanPrecisionPair(double m, double p)
         {
             _mean = m;
@@ -141,22 +137,28 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Initializes a new instance of the <see cref="NormalGamma"/> class. 
         /// </summary>
-        /// <param name="meanLocation">
-        /// The location of the mean.
-        /// </param>
-        /// <param name="meanScale">
-        /// The scale of the mean.
-        /// </param>
-        /// <param name="precisionShape">
-        /// The shape of the precision.
-        /// </param>
-        /// <param name="precisionInverseScale">
-        /// The inverse scale of the precision.
-        /// </param>
+        /// <param name="meanLocation">The location of the mean.</param>
+        /// <param name="meanScale">The scale of the mean.</param>
+        /// <param name="precisionShape">The shape of the precision.</param>
+        /// <param name="precisionInverseScale">The inverse scale of the precision.</param>
         public NormalGamma(double meanLocation, double meanScale, double precisionShape, double precisionInverseScale)
         {
-            SetParameters(meanLocation, meanScale, precisionShape, precisionInverseScale);
             _random = new Random();
+            SetParameters(meanLocation, meanScale, precisionShape, precisionInverseScale);
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="NormalGamma"/> class. 
+        /// </summary>
+        /// <param name="meanLocation">The location of the mean.</param>
+        /// <param name="meanScale">The scale of the mean.</param>
+        /// <param name="precisionShape">The shape of the precision.</param>
+        /// <param name="precisionInverseScale">The inverse scale of the precision.</param>
+        /// <param name="randomSource">The random number generator which is used to draw random samples.</param>
+        public NormalGamma(double meanLocation, double meanScale, double precisionShape, double precisionInverseScale, Random randomSource)
+        {
+            _random = randomSource ?? new Random();
+            SetParameters(meanLocation, meanScale, precisionShape, precisionInverseScale);
         }
 
         /// <summary>
@@ -279,11 +281,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public Random RandomSource
         {
-            get
-            {
-                return _random;
-            }
-
+            get { return _random; }
             set
             {
                 if (value == null)

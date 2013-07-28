@@ -162,9 +162,8 @@ namespace MathNet.Numerics.Statistics.Mcmc
             : base(x0, pdfLnP, frogLeapSteps, stepSize, burnInterval, randomSource, diff)
         {
             MomentumStdDev = pSdv;
-            _distribution = new Normal(0, MomentumStdDev) {RandomSource = RandomSource};
+            _distribution = new Normal(0.0, MomentumStdDev, RandomSource);
             Burn(BurnInterval);
-
         }
 
         /// <summary>

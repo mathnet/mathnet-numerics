@@ -43,12 +43,9 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         /// <summary>
         /// Continuous uniform distribution.
         /// </summary>
-        private IContinuousDistribution GetUniform(int seed)
+        IContinuousDistribution GetUniform(int seed)
         {
-            return new ContinuousUniform(-1, 1)
-            {
-                RandomSource = new Random(seed)
-            };
+            return new ContinuousUniform(-1, 1, new Random(seed));
         }
 
         /// <summary>
@@ -58,7 +55,7 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         /// <param name="maximumError">Maximum error.</param>
         /// <param name="naive">Naive transform.</param>
         /// <param name="fast">Fast delegate.</param>
-        private static void VerifyMatchesNaiveComplex(
+        static void VerifyMatchesNaiveComplex(
             Complex[] samples,
             double maximumError,
             Func<Complex[], Complex[]> naive,

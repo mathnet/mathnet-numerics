@@ -184,10 +184,7 @@ namespace MathNet.Numerics.Statistics.Mcmc
         private void Initialize(double[] x0)
         {
             Current = (double[])x0.Clone();
-            _pDistribution = new Normal(0, 1)
-                {
-                    RandomSource = RandomSource
-                };
+            _pDistribution = new Normal(0.0, 1.0, RandomSource);
         }
 
         /// <summary>
