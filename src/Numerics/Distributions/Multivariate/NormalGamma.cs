@@ -39,12 +39,12 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// The mean value.
         /// </summary>
-        private double _mean;
+        double _mean;
 
         /// <summary>
         /// The precision value.
         /// </summary>
-        private double _precision;
+        double _precision;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MeanPrecisionPair"/> struct. 
@@ -62,15 +62,9 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Mean
         {
-            get
-            {
-                return _mean;
-            }
+            get { return _mean; }
 
-            set
-            {
-                _mean = value;
-            }
+            set { _mean = value; }
         }
 
         /// <summary>
@@ -78,15 +72,9 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Precision
         {
-            get
-            {
-                return _precision;
-            }
+            get { return _precision; }
 
-            set
-            {
-                _precision = value;
-            }
+            set { _precision = value; }
         }
     }
 
@@ -112,27 +100,27 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// The location of the mean.
         /// </summary>
-        private double _meanLocation;
+        double _meanLocation;
 
         /// <summary>
         /// The scale of the mean.
         /// </summary>
-        private double _meanScale;
+        double _meanScale;
 
         /// <summary>
         /// The shape of the precision.
         /// </summary>
-        private double _precisionShape;
+        double _precisionShape;
 
         /// <summary>
         /// The inverse scale of the precision.
         /// </summary>
-        private double _precisionInvScale;
+        double _precisionInvScale;
 
         /// <summary>
         /// The distribution's random number generator.
         /// </summary>
-        private Random _random;
+        Random _random;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="NormalGamma"/> class. 
@@ -169,7 +157,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="precShape">The shape of the precision.</param>
         /// <param name="precInvScale">The inverse scale of the precision.</param>
         /// <returns><c>true</c> when the parameters are valid, <c>false</c> otherwise.</returns>
-        private static bool IsValidParameterSet(double meanLocation, double meanScale, double precShape, double precInvScale)
+        static bool IsValidParameterSet(double meanLocation, double meanScale, double precShape, double precInvScale)
         {
             if (meanScale <= 0.0 || precShape <= 0.0 || precInvScale <= 0.0
                 || Double.IsNaN(meanLocation) || Double.IsNaN(meanScale) || Double.IsNaN(precShape)
@@ -189,7 +177,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="precShape">The shape of the precision.</param>
         /// <param name="precInvScale">The inverse scale of the precision.</param>
         /// <exception cref="ArgumentOutOfRangeException">When the parameters don't pass the <see cref="IsValidParameterSet"/> function.</exception>
-        private void SetParameters(double meanLocation, double meanScale, double precShape, double precInvScale)
+        void SetParameters(double meanLocation, double meanScale, double precShape, double precInvScale)
         {
             if (Control.CheckDistributionParameters && !IsValidParameterSet(meanLocation, meanScale, precShape, precInvScale))
             {
@@ -209,7 +197,7 @@ namespace MathNet.Numerics.Distributions
         public override string ToString()
         {
             return "NormalGamma(Mean Location = " + _meanLocation + ", Mean Scale = " + _meanScale +
-                   ", Precision Shape = " + _precisionShape + ", Precision Inverse Scale = " + _precisionInvScale + ")";
+                ", Precision Shape = " + _precisionShape + ", Precision Inverse Scale = " + _precisionInvScale + ")";
         }
 
         /// <summary>
@@ -217,15 +205,8 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double MeanLocation
         {
-            get
-            {
-                return _meanLocation;
-            }
-
-            set
-            {
-                SetParameters(value, _meanScale, _precisionShape, _precisionInvScale);
-            }
+            get { return _meanLocation; }
+            set { SetParameters(value, _meanScale, _precisionShape, _precisionInvScale); }
         }
 
         /// <summary>
@@ -233,15 +214,8 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double MeanScale
         {
-            get
-            {
-                return _meanScale;
-            }
-
-            set
-            {
-                SetParameters(_meanLocation, value, _precisionShape, _precisionInvScale);
-            }
+            get { return _meanScale; }
+            set { SetParameters(_meanLocation, value, _precisionShape, _precisionInvScale); }
         }
 
         /// <summary>
@@ -249,15 +223,8 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double PrecisionShape
         {
-            get
-            {
-                return _precisionShape;
-            }
-
-            set
-            {
-                SetParameters(_meanLocation, _meanScale, value, _precisionInvScale);
-            }
+            get { return _precisionShape; }
+            set { SetParameters(_meanLocation, _meanScale, value, _precisionInvScale); }
         }
 
         /// <summary>
@@ -265,15 +232,8 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double PrecisionInverseScale
         {
-            get
-            {
-                return _precisionInvScale;
-            }
-
-            set
-            {
-                SetParameters(_meanLocation, _meanScale, _precisionShape, value);
-            }
+            get { return _precisionInvScale; }
+            set { SetParameters(_meanLocation, _meanScale, _precisionShape, value); }
         }
 
         /// <summary>
@@ -301,10 +261,10 @@ namespace MathNet.Numerics.Distributions
         {
             if (Double.IsPositiveInfinity(_precisionInvScale))
             {
-                return new StudentT(_meanLocation, 1.0 / (_meanScale * _precisionShape), Double.PositiveInfinity);
+                return new StudentT(_meanLocation, 1.0/(_meanScale*_precisionShape), Double.PositiveInfinity);
             }
-            
-            return new StudentT(_meanLocation, Math.Sqrt(_precisionInvScale / (_meanScale * _precisionShape)), 2.0 * _precisionShape);
+
+            return new StudentT(_meanLocation, Math.Sqrt(_precisionInvScale/(_meanScale*_precisionShape)), 2.0*_precisionShape);
         }
 
         /// <summary>
@@ -322,10 +282,7 @@ namespace MathNet.Numerics.Distributions
         /// <value>The mean of the distribution.</value>
         public MeanPrecisionPair Mean
         {
-            get
-            {
-                return Double.IsPositiveInfinity(_precisionInvScale) ? new MeanPrecisionPair(_meanLocation, _precisionShape) : new MeanPrecisionPair(_meanLocation, _precisionShape / _precisionInvScale);
-            }
+            get { return Double.IsPositiveInfinity(_precisionInvScale) ? new MeanPrecisionPair(_meanLocation, _precisionShape) : new MeanPrecisionPair(_meanLocation, _precisionShape/_precisionInvScale); }
         }
 
         /// <summary>
@@ -334,10 +291,7 @@ namespace MathNet.Numerics.Distributions
         /// <value>The mean of the distribution.</value>
         public MeanPrecisionPair Variance
         {
-            get
-            {
-                return new MeanPrecisionPair(_precisionInvScale / (_meanScale * (_precisionShape - 1)), _precisionShape / Math.Sqrt(_precisionInvScale));
-            }
+            get { return new MeanPrecisionPair(_precisionInvScale/(_meanScale*(_precisionShape - 1)), _precisionShape/Math.Sqrt(_precisionInvScale)); }
         }
 
         /// <summary>
@@ -375,9 +329,9 @@ namespace MathNet.Numerics.Distributions
 
             // double e = -0.5 * prec * (mean - _meanLocation) * (mean - _meanLocation) - prec * _precisionInvScale;
             // return Math.Pow(prec * _precisionInvScale, _precisionShape) * Math.Exp(e) / (Constants.Sqrt2Pi * Math.Sqrt(prec) * SpecialFunctions.Gamma(_precisionShape));
-            double e = -(0.5 * prec * _meanScale * (mean - _meanLocation) * (mean - _meanLocation)) - (prec * _precisionInvScale);
-            return Math.Pow(prec * _precisionInvScale, _precisionShape) * Math.Exp(e) * Math.Sqrt(_meanScale)
-                   / (Constants.Sqrt2Pi * Math.Sqrt(prec) * SpecialFunctions.Gamma(_precisionShape));
+            double e = -(0.5*prec*_meanScale*(mean - _meanLocation)*(mean - _meanLocation)) - (prec*_precisionInvScale);
+            return Math.Pow(prec*_precisionInvScale, _precisionShape)*Math.Exp(e)*Math.Sqrt(_meanScale)
+                /(Constants.Sqrt2Pi*Math.Sqrt(prec)*SpecialFunctions.Gamma(_precisionShape));
         }
 
         /// <summary>
@@ -402,12 +356,12 @@ namespace MathNet.Numerics.Distributions
             {
                 throw new NotSupportedException();
             }
-            
+
             if (Double.IsPositiveInfinity(_precisionInvScale))
             {
                 throw new NotSupportedException();
             }
-            
+
             if (_meanScale <= 0.0)
             {
                 throw new NotSupportedException();
@@ -415,8 +369,8 @@ namespace MathNet.Numerics.Distributions
 
             // double e = -0.5 * prec * (mean - _meanLocation) * (mean - _meanLocation) - prec * _precisionInvScale;
             // return (_precisionShape - 0.5) * Math.Log(prec) + _precisionShape * Math.Log(_precisionInvScale) + e - Constants.LogSqrt2Pi - SpecialFunctions.GammaLn(_precisionShape);
-            double e = -(0.5 * prec * _meanScale * (mean - _meanLocation) * (mean - _meanLocation)) - (prec * _precisionInvScale);
-            return ((_precisionShape - 0.5) * Math.Log(prec)) + (_precisionShape * Math.Log(_precisionInvScale))  - (0.5 * Math.Log(_meanScale)) + e - Constants.LogSqrt2Pi - SpecialFunctions.GammaLn(_precisionShape);
+            double e = -(0.5*prec*_meanScale*(mean - _meanLocation)*(mean - _meanLocation)) - (prec*_precisionInvScale);
+            return ((_precisionShape - 0.5)*Math.Log(prec)) + (_precisionShape*Math.Log(_precisionInvScale)) - (0.5*Math.Log(_meanScale)) + e - Constants.LogSqrt2Pi - SpecialFunctions.GammaLn(_precisionShape);
         }
 
         /// <summary>
@@ -462,7 +416,7 @@ namespace MathNet.Numerics.Distributions
             mp.Precision = Double.IsPositiveInfinity(precisionInverseScale) ? precisionShape : Gamma.Sample(rnd, precisionShape, precisionInverseScale);
 
             // Sample the mean.
-            mp.Mean = meanScale == 0.0 ? meanLocation : Normal.Sample(rnd, meanLocation, Math.Sqrt(1.0 / (meanScale * mp.Precision)));
+            mp.Mean = meanScale == 0.0 ? meanLocation : Normal.Sample(rnd, meanLocation, Math.Sqrt(1.0/(meanScale*mp.Precision)));
 
             return mp;
         }
@@ -491,7 +445,7 @@ namespace MathNet.Numerics.Distributions
                 mp.Precision = Double.IsPositiveInfinity(precisionInvScale) ? precisionShape : Gamma.Sample(rnd, precisionShape, precisionInvScale);
 
                 // Sample the mean.
-                mp.Mean = meanScale == 0.0 ? meanLocation : Normal.Sample(rnd, meanLocation, Math.Sqrt(1.0 / (meanScale * mp.Precision)));
+                mp.Mean = meanScale == 0.0 ? meanLocation : Normal.Sample(rnd, meanLocation, Math.Sqrt(1.0/(meanScale*mp.Precision)));
 
                 yield return mp;
             }

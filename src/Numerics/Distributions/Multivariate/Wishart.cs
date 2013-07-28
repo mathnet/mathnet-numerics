@@ -49,22 +49,22 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// The degrees of freedom for the Wishart distribution.
         /// </summary>
-        private double _nu;
+        double _nu;
 
         /// <summary>
         /// The scale matrix for the Wishart distribution.
         /// </summary>
-        private Matrix<double> _s;
+        Matrix<double> _s;
 
         /// <summary>
         /// Caches the Cholesky factorization of the scale matrix.
         /// </summary>
-        private Cholesky<double> _chol;
+        Cholesky<double> _chol;
 
         /// <summary>
         /// The distribution's random number generator.
         /// </summary>
-        private Random _random;
+        Random _random;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Wishart"/> class. 
@@ -95,7 +95,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="nu">The degrees of freedom for the Wishart distribution.</param>
         /// <param name="s">The scale matrix for the Wishart distribution.</param>
         /// <exception cref="ArgumentOutOfRangeException">When the parameters don't pass the <see cref="IsValidParameterSet"/> function.</exception>
-        private void SetParameters(double nu, Matrix<double> s)
+        void SetParameters(double nu, Matrix<double> s)
         {
             if (Control.CheckDistributionParameters && !IsValidParameterSet(nu, s))
             {
@@ -113,7 +113,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="nu">The degrees of freedom for the Wishart distribution.</param>
         /// <param name="s">The scale matrix for the Wishart distribution.</param>
         /// <returns><c>true</c> when the parameters are valid, <c>false</c> otherwise.</returns>
-        private static bool IsValidParameterSet(double nu, Matrix<double> s)
+        static bool IsValidParameterSet(double nu, Matrix<double> s)
         {
             if (s.RowCount != s.ColumnCount)
             {
@@ -141,15 +141,8 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Nu
         {
-            get
-            {
-                return _nu;
-            }
-
-            set
-            {
-                SetParameters(value, _s);
-            }
+            get { return _nu; }
+            set { SetParameters(value, _s); }
         }
 
         /// <summary>
@@ -157,15 +150,8 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public Matrix<double> S
         {
-            get
-            {
-                return _s;
-            }
-
-            set
-            {
-                SetParameters(_nu, value);
-            }
+            get { return _s; }
+            set { SetParameters(_nu, value); }
         }
 
         /// <summary>
@@ -200,10 +186,7 @@ namespace MathNet.Numerics.Distributions
         /// <value>The mean of the distribution.</value>
         public Matrix<double> Mean
         {
-            get
-            {
-                return _nu * _s;
-            }
+            get { return _nu*_s; }
         }
 
         /// <summary>
@@ -212,10 +195,7 @@ namespace MathNet.Numerics.Distributions
         /// <value>The mode of the distribution.</value>
         public Matrix<double> Mode
         {
-            get
-            {
-                return (_nu - _s.RowCount - 1.0) * _s;
-            }
+            get { return (_nu - _s.RowCount - 1.0)*_s; }
         }
 
         /// <summary>
@@ -231,7 +211,7 @@ namespace MathNet.Numerics.Distributions
                 {
                     for (var j = 0; j < res.ColumnCount; j++)
                     {
-                        res.At(i, j, _nu * ((_s.At(i, j) * _s.At(i, j)) + (_s.At(i, i) * _s.At(j, j))));
+                        res.At(i, j, _nu*((_s.At(i, j)*_s.At(i, j)) + (_s.At(i, i)*_s.At(j, j))));
                     }
                 }
 
@@ -258,17 +238,17 @@ namespace MathNet.Numerics.Distributions
             var siX = _chol.Solve(x);
 
             // Compute the multivariate Gamma function.
-            var gp = Math.Pow(Constants.Pi, p * (p - 1.0) / 4.0);
+            var gp = Math.Pow(Constants.Pi, p*(p - 1.0)/4.0);
             for (var j = 1; j <= p; j++)
             {
-                gp *= SpecialFunctions.Gamma((_nu + 1.0 - j) / 2.0);
+                gp *= SpecialFunctions.Gamma((_nu + 1.0 - j)/2.0);
             }
 
-            return Math.Pow(dX, (_nu - p - 1.0) / 2.0)
-                   * Math.Exp(-0.5 * siX.Trace())
-                   / Math.Pow(2.0, _nu * p / 2.0)
-                   / Math.Pow(_chol.Determinant, _nu / 2.0)
-                   / gp;
+            return Math.Pow(dX, (_nu - p - 1.0)/2.0)
+                *Math.Exp(-0.5*siX.Trace())
+                /Math.Pow(2.0, _nu*p/2.0)
+                /Math.Pow(_chol.Determinant, _nu/2.0)
+                /gp;
         }
 
         /// <summary>
@@ -311,7 +291,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="s">The S parameter to use.</param>
         /// <param name="chol">The cholesky decomposition to use.</param>
         /// <returns>a random number from the distribution.</returns>
-        private static Matrix<double> DoSample(Random rnd, double nu, Matrix<double> s, Cholesky<double> chol)
+        static Matrix<double> DoSample(Random rnd, double nu, Matrix<double> s, Cholesky<double> chol)
         {
             var count = s.RowCount;
 
@@ -332,7 +312,7 @@ namespace MathNet.Numerics.Distributions
             }
 
             var factor = chol.Factor;
-            return factor * a * a.Transpose() * factor.Transpose();
+            return factor*a*a.Transpose()*factor.Transpose();
         }
     }
 }

@@ -113,7 +113,6 @@ namespace MathNet.Numerics.Distributions
         public double Lambda
         {
             get { return _lambda; }
-
             set { SetParameters(value); }
         }
 
@@ -150,7 +149,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Mean
         {
-            get { return 1.0 / _lambda; }
+            get { return 1.0/_lambda; }
         }
 
         /// <summary>
@@ -158,7 +157,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Variance
         {
-            get { return 1.0 / (_lambda * _lambda); }
+            get { return 1.0/(_lambda*_lambda); }
         }
 
         /// <summary>
@@ -166,7 +165,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double StdDev
         {
-            get { return 1.0 / _lambda; }
+            get { return 1.0/_lambda; }
         }
 
         /// <summary>
@@ -194,7 +193,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (x >= 0.0)
             {
-                return 1.0 - Math.Exp(-_lambda * x);
+                return 1.0 - Math.Exp(-_lambda*x);
             }
 
             return 0.0;
@@ -217,7 +216,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Median
         {
-            get { return Math.Log(2.0) / _lambda; }
+            get { return Math.Log(2.0)/_lambda; }
         }
 
         /// <summary>
@@ -245,7 +244,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (x >= 0.0)
             {
-                return _lambda * Math.Exp(-_lambda * x);
+                return _lambda*Math.Exp(-_lambda*x);
             }
 
             return 0.0;
@@ -258,7 +257,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>the log density at <paramref name="x"/>.</returns>
         public double DensityLn(double x)
         {
-            return Math.Log(_lambda) - (_lambda * x);
+            return Math.Log(_lambda) - (_lambda*x);
         }
 
         #endregion
@@ -277,7 +276,7 @@ namespace MathNet.Numerics.Distributions
                 r = rnd.NextDouble();
             }
 
-            return -Math.Log(r) / lambda;
+            return -Math.Log(r)/lambda;
         }
 
         /// <summary>

@@ -152,7 +152,6 @@ namespace MathNet.Numerics.Distributions
         public double Lambda
         {
             get { return _lambda; }
-
             set { SetParameters(value, _nu); }
         }
 
@@ -163,7 +162,6 @@ namespace MathNet.Numerics.Distributions
         public double Nu
         {
             get { return _nu; }
-
             set { SetParameters(_lambda, value); }
         }
 
@@ -219,28 +217,28 @@ namespace MathNet.Numerics.Distributions
                 var z = 1 + _lambda;
 
                 // The probability of the next term.
-                var a1 = _lambda * _lambda / Math.Pow(2, _nu);
+                var a1 = _lambda*_lambda/Math.Pow(2, _nu);
 
                 // The unnormalized mean.
                 var zx = _lambda;
 
                 // The contribution of the next term to the mean.
-                var ax1 = 2 * a1;
+                var ax1 = 2*a1;
 
                 for (var i = 3; i < 1000; i++)
                 {
-                    var e = _lambda / Math.Pow(i, _nu);
-                    var ex = _lambda / Math.Pow(i, _nu - 1) / (i - 1);
-                    var a2 = a1 * e;
-                    var ax2 = ax1 * ex;
+                    var e = _lambda/Math.Pow(i, _nu);
+                    var ex = _lambda/Math.Pow(i, _nu - 1)/(i - 1);
+                    var a2 = a1*e;
+                    var ax2 = ax1*ex;
 
-                    var m = zx / z;
-                    var upper = (zx + (ax1 / (1 - (ax2 / ax1)))) / z;
-                    var lower = zx / (z + (a1 / (1 - (a2 / a1))));
+                    var m = zx/z;
+                    var upper = (zx + (ax1/(1 - (ax2/ax1))))/z;
+                    var lower = zx/(z + (a1/(1 - (a2/a1))));
 
                     if ((ax2 < ax1) && (a2 < a1))
                     {
-                        var r = (upper - lower) / m;
+                        var r = (upper - lower)/m;
                         if (r < Tolerance)
                         {
                             break;
@@ -253,7 +251,7 @@ namespace MathNet.Numerics.Distributions
                     ax1 = ax2;
                 }
 
-                _mean = zx / z;
+                _mean = zx/z;
                 return _mean;
             }
         }
@@ -280,28 +278,28 @@ namespace MathNet.Numerics.Distributions
                 var z = 1 + _lambda;
 
                 // The probability of the next term.
-                var a1 = _lambda * _lambda / Math.Pow(2, _nu);
+                var a1 = _lambda*_lambda/Math.Pow(2, _nu);
 
                 // The unnormalized second moment.
                 var zxx = _lambda;
 
                 // The contribution of the next term to the second moment.
-                var axx1 = 4 * a1;
+                var axx1 = 4*a1;
 
                 for (var i = 3; i < 1000; i++)
                 {
-                    var e = _lambda / Math.Pow(i, _nu);
-                    var exx = _lambda / Math.Pow(i, _nu - 2) / (i - 1) / (i - 1);
-                    var a2 = a1 * e;
-                    var axx2 = axx1 * exx;
+                    var e = _lambda/Math.Pow(i, _nu);
+                    var exx = _lambda/Math.Pow(i, _nu - 2)/(i - 1)/(i - 1);
+                    var a2 = a1*e;
+                    var axx2 = axx1*exx;
 
-                    var m = zxx / z;
-                    var upper = (zxx + (axx1 / (1 - (axx2 / axx1)))) / z;
-                    var lower = zxx / (z + (a1 / (1 - (a2 / a1))));
+                    var m = zxx/z;
+                    var upper = (zxx + (axx1/(1 - (axx2/axx1))))/z;
+                    var lower = zxx/(z + (a1/(1 - (a2/a1))));
 
                     if ((axx2 < axx1) && (a2 < a1))
                     {
-                        var r = (upper - lower) / m;
+                        var r = (upper - lower)/m;
                         if (r < Tolerance)
                         {
                             break;
@@ -315,7 +313,7 @@ namespace MathNet.Numerics.Distributions
                 }
 
                 var mean = Mean;
-                _variance = (zxx / z) - (mean * mean);
+                _variance = (zxx/z) - (mean*mean);
                 return _variance;
             }
         }
@@ -405,7 +403,7 @@ namespace MathNet.Numerics.Distributions
         /// </returns>
         public double Probability(int k)
         {
-            return Math.Pow(_lambda, k) / Math.Pow(SpecialFunctions.Factorial(k), _nu) / Z;
+            return Math.Pow(_lambda, k)/Math.Pow(SpecialFunctions.Factorial(k), _nu)/Z;
         }
 
         /// <summary>
@@ -459,10 +457,10 @@ namespace MathNet.Numerics.Distributions
             for (var i = 2; i < 1000; i++)
             {
                 // The new addition for term i.
-                var e = lambda / Math.Pow(i, nu);
+                var e = lambda/Math.Pow(i, nu);
 
                 // The new term.
-                t = t * e;
+                t = t*e;
 
                 // The updated normalization constant.
                 z = z + t;
@@ -470,7 +468,7 @@ namespace MathNet.Numerics.Distributions
                 // The stopping criterion.
                 if (e < 1)
                 {
-                    if (t / (1 - e) / z < Tolerance)
+                    if (t/(1 - e)/z < Tolerance)
                     {
                         break;
                     }
@@ -493,14 +491,14 @@ namespace MathNet.Numerics.Distributions
         internal static int SampleUnchecked(Random rnd, double lambda, double nu, double z)
         {
             var u = rnd.NextDouble();
-            var p = 1.0 / z;
+            var p = 1.0/z;
             var cdf = p;
             var i = 0;
 
             while (u > cdf)
             {
                 i++;
-                p = p * lambda / Math.Pow(i, nu);
+                p = p*lambda/Math.Pow(i, nu);
                 cdf += p;
             }
 

@@ -167,7 +167,7 @@ namespace MathNet.Numerics.Distributions
         /// <remarks>Approximation, see Wikipedia <a href="http://en.wikipedia.org/wiki/Poisson_distribution">Poisson distribution</a></remarks>
         public double Entropy
         {
-            get { return (0.5 * Math.Log(2 * Constants.Pi * Constants.E * _lambda)) - (1.0 / (12.0 * _lambda)) - (1.0 / (24.0 * _lambda * _lambda)) - (19.0 / (360.0 * _lambda * _lambda * _lambda)); }
+            get { return (0.5*Math.Log(2*Constants.Pi*Constants.E*_lambda)) - (1.0/(12.0*_lambda)) - (1.0/(24.0*_lambda*_lambda)) - (19.0/(360.0*_lambda*_lambda*_lambda)); }
         }
 
         /// <summary>
@@ -175,7 +175,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Skewness
         {
-            get { return 1.0 / Math.Sqrt(_lambda); }
+            get { return 1.0/Math.Sqrt(_lambda); }
         }
 
         /// <summary>
@@ -213,7 +213,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public int Mode
         {
-            get { return (int)Math.Floor(_lambda); }
+            get { return (int) Math.Floor(_lambda); }
         }
 
         /// <summary>
@@ -222,7 +222,7 @@ namespace MathNet.Numerics.Distributions
         /// <remarks>Approximation, see Wikipedia <a href="http://en.wikipedia.org/wiki/Poisson_distribution">Poisson distribution</a></remarks>
         public int Median
         {
-            get { return (int)Math.Floor(_lambda + (1.0 / 3.0) - (0.02 / _lambda)); }
+            get { return (int) Math.Floor(_lambda + (1.0/3.0) - (0.02/_lambda)); }
         }
 
         /// <summary>
@@ -232,7 +232,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>the probability mass at location <paramref name="k"/>.</returns>
         public double Probability(int k)
         {
-            return Math.Exp(-_lambda + (k * Math.Log(_lambda)) - SpecialFunctions.FactorialLn(k));
+            return Math.Exp(-_lambda + (k*Math.Log(_lambda)) - SpecialFunctions.FactorialLn(k));
         }
 
         /// <summary>
@@ -242,7 +242,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>the log probability mass at location <paramref name="k"/>.</returns>
         public double ProbabilityLn(int k)
         {
-            return -_lambda + (k * Math.Log(_lambda)) - SpecialFunctions.FactorialLn(k);
+            return -_lambda + (k*Math.Log(_lambda)) - SpecialFunctions.FactorialLn(k);
         }
 
         #endregion
@@ -287,26 +287,26 @@ namespace MathNet.Numerics.Distributions
         /// The article is on pages 29-35. The algorithm given here is on page 32. </remarks>
         static int DoSampleLarge(Random rnd, double lambda)
         {
-            var c = 0.767 - (3.36 / lambda);
-            var beta = Math.PI / Math.Sqrt(3.0 * lambda);
-            var alpha = beta * lambda;
+            var c = 0.767 - (3.36/lambda);
+            var beta = Math.PI/Math.Sqrt(3.0*lambda);
+            var alpha = beta*lambda;
             var k = Math.Log(c) - lambda - Math.Log(beta);
 
             for (;;)
             {
                 var u = rnd.NextDouble();
-                var x = (alpha - Math.Log((1.0 - u) / u)) / beta;
-                var n = (int)Math.Floor(x + 0.5);
+                var x = (alpha - Math.Log((1.0 - u)/u))/beta;
+                var n = (int) Math.Floor(x + 0.5);
                 if (n < 0)
                 {
                     continue;
                 }
 
                 var v = rnd.NextDouble();
-                var y = alpha - (beta * x);
+                var y = alpha - (beta*x);
                 var temp = 1.0 + Math.Exp(y);
-                var lhs = y + Math.Log(v / (temp * temp));
-                var rhs = k + (n * Math.Log(lambda)) - SpecialFunctions.FactorialLn(n);
+                var lhs = y + Math.Log(v/(temp*temp));
+                var rhs = k + (n*Math.Log(lambda)) - SpecialFunctions.FactorialLn(n);
                 if (lhs <= rhs)
                 {
                     return n;

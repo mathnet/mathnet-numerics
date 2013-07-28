@@ -143,7 +143,6 @@ namespace MathNet.Numerics.Distributions
         public double Shape
         {
             get { return _shape; }
-
             set { SetParameters(value, _scale); }
         }
 
@@ -153,7 +152,6 @@ namespace MathNet.Numerics.Distributions
         public double Scale
         {
             get { return _scale; }
-
             set { SetParameters(_shape, value); }
         }
 
@@ -181,7 +179,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Mean
         {
-            get { return _scale * SpecialFunctions.Gamma(1.0 + (1.0 / _shape)); }
+            get { return _scale*SpecialFunctions.Gamma(1.0 + (1.0/_shape)); }
         }
 
         /// <summary>
@@ -189,7 +187,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Variance
         {
-            get { return (_scale * _scale * SpecialFunctions.Gamma(1.0 + (2.0 / _shape))) - (Mean * Mean); }
+            get { return (_scale*_scale*SpecialFunctions.Gamma(1.0 + (2.0/_shape))) - (Mean*Mean); }
         }
 
         /// <summary>
@@ -205,7 +203,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Entropy
         {
-            get { return (Constants.EulerMascheroni * (1.0 - (1.0 / _shape))) + Math.Log(_scale / _shape) + 1.0; }
+            get { return (Constants.EulerMascheroni*(1.0 - (1.0/_shape))) + Math.Log(_scale/_shape) + 1.0; }
         }
 
         /// <summary>
@@ -217,9 +215,9 @@ namespace MathNet.Numerics.Distributions
             {
                 double mu = Mean;
                 double sigma = StdDev;
-                double sigma2 = sigma * sigma;
-                double sigma3 = sigma2 * sigma;
-                return ((_scale * _scale * _scale * SpecialFunctions.Gamma(1.0 + (3.0 / _shape))) - (3.0 * sigma2 * mu) - (mu * mu * mu)) / sigma3;
+                double sigma2 = sigma*sigma;
+                double sigma3 = sigma2*sigma;
+                return ((_scale*_scale*_scale*SpecialFunctions.Gamma(1.0 + (3.0/_shape))) - (3.0*sigma2*mu) - (mu*mu*mu))/sigma3;
             }
         }
 
@@ -239,7 +237,7 @@ namespace MathNet.Numerics.Distributions
                     return 0.0;
                 }
 
-                return _scale * Math.Pow((_shape - 1.0) / _shape, 1.0 / _shape);
+                return _scale*Math.Pow((_shape - 1.0)/_shape, 1.0/_shape);
             }
         }
 
@@ -248,7 +246,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Median
         {
-            get { return _scale * Math.Pow(Constants.Ln2, 1.0 / _shape); }
+            get { return _scale*Math.Pow(Constants.Ln2, 1.0/_shape); }
         }
 
         /// <summary>
@@ -278,10 +276,10 @@ namespace MathNet.Numerics.Distributions
             {
                 if (x == 0.0 && _shape == 1.0)
                 {
-                    return _shape / _scale;
+                    return _shape/_scale;
                 }
 
-                return _shape * Math.Pow(x / _scale, _shape - 1.0) * Math.Exp(-Math.Pow(x, _shape) * _scalePowShapeInv) / _scale;
+                return _shape*Math.Pow(x/_scale, _shape - 1.0)*Math.Exp(-Math.Pow(x, _shape)*_scalePowShapeInv)/_scale;
             }
 
             return 0.0;
@@ -301,7 +299,7 @@ namespace MathNet.Numerics.Distributions
                     return Math.Log(_shape) - Math.Log(_scale);
                 }
 
-                return Math.Log(_shape) + ((_shape - 1.0) * Math.Log(x / _scale)) - (Math.Pow(x, _shape) * _scalePowShapeInv) - Math.Log(_scale);
+                return Math.Log(_shape) + ((_shape - 1.0)*Math.Log(x/_scale)) - (Math.Pow(x, _shape)*_scalePowShapeInv) - Math.Log(_scale);
             }
 
             return double.NegativeInfinity;
@@ -319,7 +317,7 @@ namespace MathNet.Numerics.Distributions
                 return 0.0;
             }
 
-            return -SpecialFunctions.ExponentialMinusOne(-Math.Pow(x, _shape) * _scalePowShapeInv);
+            return -SpecialFunctions.ExponentialMinusOne(-Math.Pow(x, _shape)*_scalePowShapeInv);
         }
 
         #endregion
@@ -335,7 +333,7 @@ namespace MathNet.Numerics.Distributions
         internal static double SampleUnchecked(Random rnd, double shape, double scale)
         {
             var x = rnd.NextDouble();
-            return scale * Math.Pow(-Math.Log(x), 1.0 / shape);
+            return scale*Math.Pow(-Math.Log(x), 1.0/shape);
         }
 
         /// <summary>

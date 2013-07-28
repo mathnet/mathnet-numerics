@@ -59,7 +59,6 @@ namespace MathNet.Numerics.Distributions
         public double Location
         {
             get { return Mean; }
-
             set { SetParameters(value, _scale); }
         }
 
@@ -69,14 +68,14 @@ namespace MathNet.Numerics.Distributions
         public double Scale
         {
             get { return _scale; }
-
             set { SetParameters(Mean, value); }
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Laplace"/> class (location = 0, scale = 1). 
         /// </summary>
-        public Laplace() : this(0.0, 1.0)
+        public Laplace()
+            : this(0.0, 1.0)
         {
         }
 
@@ -181,7 +180,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Variance
         {
-            get { return 2.0 * _scale * _scale; }
+            get { return 2.0*_scale*_scale; }
         }
 
         /// <summary>
@@ -189,7 +188,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double StdDev
         {
-            get { return Math.Sqrt(2.0) * _scale; }
+            get { return Math.Sqrt(2.0)*_scale; }
         }
 
         /// <summary>
@@ -197,7 +196,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Entropy
         {
-            get { return Math.Log(2.0 * Constants.E * _scale); }
+            get { return Math.Log(2.0*Constants.E*_scale); }
         }
 
         /// <summary>
@@ -215,7 +214,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>the cumulative density at <paramref name="x"/>.</returns>
         public double CumulativeDistribution(double x)
         {
-            return 0.5 * (1.0 + (Math.Sign(x - Mean) * (1.0 - Math.Exp(-Math.Abs(x - Mean) / _scale))));
+            return 0.5*(1.0 + (Math.Sign(x - Mean)*(1.0 - Math.Exp(-Math.Abs(x - Mean)/_scale))));
         }
 
         #endregion
@@ -261,7 +260,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>the density at <paramref name="x"/>.</returns>        
         public double Density(double x)
         {
-            return Math.Exp(-Math.Abs(x - Mean) / _scale) / (2.0 * _scale);
+            return Math.Exp(-Math.Abs(x - Mean)/_scale)/(2.0*_scale);
         }
 
         /// <summary>
@@ -286,7 +285,7 @@ namespace MathNet.Numerics.Distributions
         internal static double SampleUnchecked(Random rnd, double location, double scale)
         {
             var u = rnd.NextDouble() - 0.5;
-            return location - (scale * Math.Sign(u) * Math.Log(1.0 - (2.0 * Math.Abs(u))));
+            return location - (scale*Math.Sign(u)*Math.Log(1.0 - (2.0*Math.Abs(u))));
         }
 
         /// <summary>

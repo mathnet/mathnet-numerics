@@ -131,7 +131,6 @@ namespace MathNet.Numerics.Distributions
         public double Mu
         {
             get { return _mu; }
-
             set { SetParameters(value, _sigma); }
         }
 
@@ -141,7 +140,6 @@ namespace MathNet.Numerics.Distributions
         public double Sigma
         {
             get { return _sigma; }
-
             set { SetParameters(_mu, value); }
         }
 
@@ -153,7 +151,6 @@ namespace MathNet.Numerics.Distributions
         public Random RandomSource
         {
             get { return _random; }
-
             set
             {
                 if (value == null)
@@ -170,7 +167,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Mean
         {
-            get { return Math.Exp(_mu + (_sigma * _sigma / 2.0)); }
+            get { return Math.Exp(_mu + (_sigma*_sigma/2.0)); }
         }
 
         /// <summary>
@@ -180,8 +177,8 @@ namespace MathNet.Numerics.Distributions
         {
             get
             {
-                var sigma2 = _sigma * _sigma;
-                return (Math.Exp(sigma2) - 1.0) * Math.Exp(_mu + _mu + sigma2);
+                var sigma2 = _sigma*_sigma;
+                return (Math.Exp(sigma2) - 1.0)*Math.Exp(_mu + _mu + sigma2);
             }
         }
 
@@ -192,8 +189,8 @@ namespace MathNet.Numerics.Distributions
         {
             get
             {
-                var sigma2 = _sigma * _sigma;
-                return Math.Sqrt((Math.Exp(sigma2) - 1.0) * Math.Exp(_mu + _mu + sigma2));
+                var sigma2 = _sigma*_sigma;
+                return Math.Sqrt((Math.Exp(sigma2) - 1.0)*Math.Exp(_mu + _mu + sigma2));
             }
         }
 
@@ -212,8 +209,8 @@ namespace MathNet.Numerics.Distributions
         {
             get
             {
-                var expsigma2 = Math.Exp(_sigma * _sigma);
-                return (expsigma2 + 2.0) * Math.Sqrt(expsigma2 - 1);
+                var expsigma2 = Math.Exp(_sigma*_sigma);
+                return (expsigma2 + 2.0)*Math.Sqrt(expsigma2 - 1);
             }
         }
 
@@ -226,7 +223,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Mode
         {
-            get { return Math.Exp(_mu - (_sigma * _sigma)); }
+            get { return Math.Exp(_mu - (_sigma*_sigma)); }
         }
 
         /// <summary>
@@ -265,8 +262,8 @@ namespace MathNet.Numerics.Distributions
                 return 0.0;
             }
 
-            var a = (Math.Log(x) - _mu) / _sigma;
-            return Math.Exp(-0.5 * a * a) / (x * _sigma * Constants.Sqrt2Pi);
+            var a = (Math.Log(x) - _mu)/_sigma;
+            return Math.Exp(-0.5*a*a)/(x*_sigma*Constants.Sqrt2Pi);
         }
 
         /// <summary>
@@ -281,8 +278,8 @@ namespace MathNet.Numerics.Distributions
                 return Double.NegativeInfinity;
             }
 
-            var a = (Math.Log(x) - _mu) / _sigma;
-            return (-0.5 * a * a) - Math.Log(x * _sigma) - Constants.LogSqrt2Pi;
+            var a = (Math.Log(x) - _mu)/_sigma;
+            return (-0.5*a*a) - Math.Log(x*_sigma) - Constants.LogSqrt2Pi;
         }
 
         /// <summary>
@@ -297,7 +294,7 @@ namespace MathNet.Numerics.Distributions
                 return 0.0;
             }
 
-            return 0.5 * (1.0 + SpecialFunctions.Erf((Math.Log(x) - _mu) / (_sigma * Constants.Sqrt2)));
+            return 0.5*(1.0 + SpecialFunctions.Erf((Math.Log(x) - _mu)/(_sigma*Constants.Sqrt2)));
         }
 
         #endregion
@@ -320,8 +317,8 @@ namespace MathNet.Numerics.Distributions
             while (true)
             {
                 var sample = Normal.SampleUncheckedBoxMuller(RandomSource);
-                yield return Math.Exp(_mu + (_sigma * sample.Item1));
-                yield return Math.Exp(_mu + (_sigma * sample.Item2));
+                yield return Math.Exp(_mu + (_sigma*sample.Item1));
+                yield return Math.Exp(_mu + (_sigma*sample.Item2));
             }
         }
 
@@ -359,8 +356,8 @@ namespace MathNet.Numerics.Distributions
             while (true)
             {
                 var sample = Normal.SampleUncheckedBoxMuller(rng);
-                yield return Math.Exp(mu + (sigma * sample.Item1));
-                yield return Math.Exp(mu + (sigma * sample.Item2));
+                yield return Math.Exp(mu + (sigma*sample.Item1));
+                yield return Math.Exp(mu + (sigma*sample.Item2));
             }
         }
     }

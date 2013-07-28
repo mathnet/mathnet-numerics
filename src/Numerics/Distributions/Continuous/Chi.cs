@@ -111,7 +111,6 @@ namespace MathNet.Numerics.Distributions
         public double DegreesOfFreedom
         {
             get { return _dof; }
-
             set { SetParameters(value); }
         }
 
@@ -148,7 +147,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Mean
         {
-            get { return Math.Sqrt(2) * (SpecialFunctions.Gamma((_dof + 1.0) / 2.0) / SpecialFunctions.Gamma(_dof / 2.0)); }
+            get { return Math.Sqrt(2)*(SpecialFunctions.Gamma((_dof + 1.0)/2.0)/SpecialFunctions.Gamma(_dof/2.0)); }
         }
 
         /// <summary>
@@ -156,7 +155,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Variance
         {
-            get { return _dof - (Mean * Mean); }
+            get { return _dof - (Mean*Mean); }
         }
 
         /// <summary>
@@ -172,7 +171,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Entropy
         {
-            get { return SpecialFunctions.GammaLn(_dof / 2.0) + ((_dof - Math.Log(2) - ((_dof - 1.0) * SpecialFunctions.DiGamma(_dof / 2.0))) / 2.0); }
+            get { return SpecialFunctions.GammaLn(_dof/2.0) + ((_dof - Math.Log(2) - ((_dof - 1.0)*SpecialFunctions.DiGamma(_dof/2.0)))/2.0); }
         }
 
         /// <summary>
@@ -183,7 +182,7 @@ namespace MathNet.Numerics.Distributions
             get
             {
                 var sigma = StdDev;
-                return (Mean * (1.0 - (2.0 * (sigma * sigma)))) / (sigma * sigma * sigma);
+                return (Mean*(1.0 - (2.0*(sigma*sigma))))/(sigma*sigma*sigma);
             }
         }
 
@@ -194,7 +193,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>the cumulative density at <paramref name="x"/>.</returns>
         public double CumulativeDistribution(double x)
         {
-            return SpecialFunctions.GammaLowerIncomplete(_dof / 2.0, x * x / 2.0) / SpecialFunctions.Gamma(_dof / 2.0);
+            return SpecialFunctions.GammaLowerIncomplete(_dof/2.0, x*x/2.0)/SpecialFunctions.Gamma(_dof/2.0);
         }
 
         #endregion
@@ -248,7 +247,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>the density at <paramref name="x"/>.</returns>
         public double Density(double x)
         {
-            return (Math.Pow(2.0, 1.0 - (_dof / 2.0)) * Math.Pow(x, _dof - 1.0) * Math.Exp(-x * x / 2.0)) / SpecialFunctions.Gamma(_dof / 2.0);
+            return (Math.Pow(2.0, 1.0 - (_dof/2.0))*Math.Pow(x, _dof - 1.0)*Math.Exp(-x*x/2.0))/SpecialFunctions.Gamma(_dof/2.0);
         }
 
         /// <summary>
@@ -258,7 +257,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>the log density at <paramref name="x"/>.</returns>
         public double DensityLn(double x)
         {
-            return ((1.0 - (_dof / 2.0)) * Math.Log(2.0)) + ((_dof - 1.0) * Math.Log(x)) - (x * x / 2.0) - SpecialFunctions.GammaLn(_dof / 2.0);
+            return ((1.0 - (_dof/2.0))*Math.Log(2.0)) + ((_dof - 1.0)*Math.Log(x)) - (x*x/2.0) - SpecialFunctions.GammaLn(_dof/2.0);
         }
 
         #endregion
@@ -286,7 +285,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sample from the distribution.</returns>
         public double Sample()
         {
-            return SampleUnchecked(RandomSource, (int)_dof);
+            return SampleUnchecked(RandomSource, (int) _dof);
         }
 
         /// <summary>
@@ -295,7 +294,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sequence of samples from the distribution.</returns>
         public IEnumerable<double> Samples()
         {
-            var dof = (int)_dof;
+            var dof = (int) _dof;
             while (true)
             {
                 yield return SampleUnchecked(RandomSource, dof);

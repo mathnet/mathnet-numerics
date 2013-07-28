@@ -120,7 +120,6 @@ namespace MathNet.Numerics.Distributions
         public double P
         {
             get { return _p; }
-
             set { SetParameters(value); }
         }
 
@@ -156,7 +155,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double StdDev
         {
-            get { return Math.Sqrt(_p * (1.0 - _p)); }
+            get { return Math.Sqrt(_p*(1.0 - _p)); }
         }
 
         /// <summary>
@@ -164,7 +163,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Variance
         {
-            get { return _p * (1.0 - _p); }
+            get { return _p*(1.0 - _p); }
         }
 
         /// <summary>
@@ -172,7 +171,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Entropy
         {
-            get { return -(_p * Math.Log(_p)) - ((1.0 - _p) * Math.Log(1.0 - _p)); }
+            get { return -(_p*Math.Log(_p)) - ((1.0 - _p)*Math.Log(1.0 - _p)); }
         }
 
         /// <summary>
@@ -180,7 +179,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Skewness
         {
-            get { return (1.0 - (2.0 * _p)) / Math.Sqrt(_p * (1.0 - _p)); }
+            get { return (1.0 - (2.0*_p))/Math.Sqrt(_p*(1.0 - _p)); }
         }
 
         /// <summary>

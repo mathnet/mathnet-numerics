@@ -196,7 +196,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Mean
         {
-            get { return (double)_m * _n / _populationSize; }
+            get { return (double) _m*_n/_populationSize; }
         }
 
         /// <summary>
@@ -204,7 +204,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Variance
         {
-            get { return _n * _m * (_populationSize - _n) * (_populationSize - _m) / (_populationSize * _populationSize * (_populationSize - 1.0)); }
+            get { return _n*_m*(_populationSize - _n)*(_populationSize - _m)/(_populationSize*_populationSize*(_populationSize - 1.0)); }
         }
 
         /// <summary>
@@ -228,7 +228,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Skewness
         {
-            get { return (Math.Sqrt(_populationSize - 1.0) * (_populationSize - (2 * _n)) * (_populationSize - (2 * _m))) / (Math.Sqrt(_n * _m * (_populationSize - _m) * (_populationSize - _n)) * (_populationSize - 2.0)); }
+            get { return (Math.Sqrt(_populationSize - 1.0)*(_populationSize - (2*_n))*(_populationSize - (2*_m)))/(Math.Sqrt(_n*_m*(_populationSize - _m)*(_populationSize - _n))*(_populationSize - 2.0)); }
         }
 
         /// <summary>
@@ -251,13 +251,13 @@ namespace MathNet.Numerics.Distributions
             }
 
             var sum = 0.0;
-            var k = (int)Math.Ceiling(x - alpha) - 1;
+            var k = (int) Math.Ceiling(x - alpha) - 1;
             for (var i = alpha; i <= alpha + k; i++)
             {
-                sum += SpecialFunctions.Binomial(_m, i) * SpecialFunctions.Binomial(_populationSize - _m, _n - i);
+                sum += SpecialFunctions.Binomial(_m, i)*SpecialFunctions.Binomial(_populationSize - _m, _n - i);
             }
 
-            return sum / SpecialFunctions.Binomial(_populationSize, _n);
+            return sum/SpecialFunctions.Binomial(_populationSize, _n);
         }
 
         #endregion
@@ -269,7 +269,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public int Mode
         {
-            get { return (_n + 1) * (_m + 1) / (_populationSize + 2); }
+            get { return (_n + 1)*(_m + 1)/(_populationSize + 2); }
         }
 
         /// <summary>
@@ -305,7 +305,7 @@ namespace MathNet.Numerics.Distributions
         /// </returns>
         public double Probability(int k)
         {
-            return SpecialFunctions.Binomial(_m, k) * SpecialFunctions.Binomial(_populationSize - _m, _n - k) / SpecialFunctions.Binomial(_populationSize, _n);
+            return SpecialFunctions.Binomial(_m, k)*SpecialFunctions.Binomial(_populationSize - _m, _n - k)/SpecialFunctions.Binomial(_populationSize, _n);
         }
 
         /// <summary>
@@ -336,7 +336,7 @@ namespace MathNet.Numerics.Distributions
 
             do
             {
-                var p = (double)m / size;
+                var p = (double) m/size;
                 var r = rnd.NextDouble();
                 if (r < p)
                 {
@@ -346,8 +346,7 @@ namespace MathNet.Numerics.Distributions
 
                 size--;
                 n--;
-            }
-            while (0 < n);
+            } while (0 < n);
 
             return x;
         }

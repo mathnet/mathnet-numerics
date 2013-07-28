@@ -103,7 +103,6 @@ namespace MathNet.Numerics.Distributions
         public double DegreesOfFreedom
         {
             get { return Mean; }
-
             set { SetParameters(value); }
         }
 
@@ -145,7 +144,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Variance
         {
-            get { return 2.0 * Mean; }
+            get { return 2.0*Mean; }
         }
 
         /// <summary>
@@ -153,7 +152,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double StdDev
         {
-            get { return Math.Sqrt(2.0 * Mean); }
+            get { return Math.Sqrt(2.0*Mean); }
         }
 
         /// <summary>
@@ -161,7 +160,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Entropy
         {
-            get { return (Mean / 2.0) + Math.Log(2.0 * SpecialFunctions.Gamma(Mean / 2.0)) + ((1.0 - (Mean / 2.0)) * SpecialFunctions.DiGamma(Mean / 2.0)); }
+            get { return (Mean/2.0) + Math.Log(2.0*SpecialFunctions.Gamma(Mean/2.0)) + ((1.0 - (Mean/2.0))*SpecialFunctions.DiGamma(Mean/2.0)); }
         }
 
         /// <summary>
@@ -169,7 +168,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Skewness
         {
-            get { return Math.Sqrt(8.0 / Mean); }
+            get { return Math.Sqrt(8.0/Mean); }
         }
 
         /// <summary>
@@ -179,7 +178,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>the cumulative density at <paramref name="x"/>.</returns>
         public double CumulativeDistribution(double x)
         {
-            return SpecialFunctions.GammaLowerIncomplete(Mean / 2.0, x / 2.0) / SpecialFunctions.Gamma(Mean / 2.0);
+            return SpecialFunctions.GammaLowerIncomplete(Mean/2.0, x/2.0)/SpecialFunctions.Gamma(Mean/2.0);
         }
 
         #endregion
@@ -199,7 +198,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Median
         {
-            get { return Mean - (2.0 / 3.0); }
+            get { return Mean - (2.0/3.0); }
         }
 
         /// <summary>
@@ -225,7 +224,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>the density at <paramref name="x"/>.</returns>
         public double Density(double x)
         {
-            return (Math.Pow(x, (Mean / 2.0) - 1.0) * Math.Exp(-x / 2.0)) / (Math.Pow(2.0, Mean / 2.0) * SpecialFunctions.Gamma(Mean / 2.0));
+            return (Math.Pow(x, (Mean/2.0) - 1.0)*Math.Exp(-x/2.0))/(Math.Pow(2.0, Mean/2.0)*SpecialFunctions.Gamma(Mean/2.0));
         }
 
         /// <summary>
@@ -235,7 +234,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>the log density at <paramref name="x"/>.</returns>
         public double DensityLn(double x)
         {
-            return (-x / 2.0) + (((Mean / 2.0) - 1.0) * Math.Log(x)) - ((Mean / 2.0) * Math.Log(2)) - SpecialFunctions.GammaLn(Mean / 2.0);
+            return (-x/2.0) + (((Mean/2.0) - 1.0)*Math.Log(x)) - ((Mean/2.0)*Math.Log(2)) - SpecialFunctions.GammaLn(Mean/2.0);
         }
 
         #endregion
@@ -252,7 +251,7 @@ namespace MathNet.Numerics.Distributions
             if (Math.Floor(dof) == dof && dof < Int32.MaxValue)
             {
                 double sum = 0;
-                var n = (int)dof;
+                var n = (int) dof;
                 for (var i = 0; i < n; i++)
                 {
                     sum += Math.Pow(Normal.Sample(rnd, 0.0, 1.0), 2);
@@ -261,7 +260,7 @@ namespace MathNet.Numerics.Distributions
             }
             //Call the gamma function (see http://en.wikipedia.org/wiki/Gamma_distribution#Specializations
             //for a justification)
-            return Gamma.SampleUnchecked(rnd, dof / 2.0, .5);
+            return Gamma.SampleUnchecked(rnd, dof/2.0, .5);
         }
 
         /// <summary>

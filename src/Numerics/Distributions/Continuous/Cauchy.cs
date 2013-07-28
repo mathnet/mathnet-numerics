@@ -127,7 +127,6 @@ namespace MathNet.Numerics.Distributions
         public double Location
         {
             get { return Median; }
-
             set { SetParameters(value, _scale); }
         }
 
@@ -137,7 +136,6 @@ namespace MathNet.Numerics.Distributions
         public double Scale
         {
             get { return _scale; }
-
             set { SetParameters(Median, value); }
         }
 
@@ -198,7 +196,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Entropy
         {
-            get { return Math.Log(4.0 * Constants.Pi * _scale); }
+            get { return Math.Log(4.0*Constants.Pi*_scale); }
         }
 
         /// <summary>
@@ -216,7 +214,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>the cumulative density at <paramref name="x"/>.</returns>
         public double CumulativeDistribution(double x)
         {
-            return ((1.0 / Constants.Pi) * Math.Atan((x - Median) / _scale)) + 0.5;
+            return ((1.0/Constants.Pi)*Math.Atan((x - Median)/_scale)) + 0.5;
         }
 
         #endregion
@@ -259,7 +257,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>the density at <paramref name="x"/>.</returns>
         public double Density(double x)
         {
-            return 1.0 / (Constants.Pi * _scale * (1.0 + (((x - Median) / _scale) * ((x - Median) / _scale))));
+            return 1.0/(Constants.Pi*_scale*(1.0 + (((x - Median)/_scale)*((x - Median)/_scale))));
         }
 
         /// <summary>
@@ -269,7 +267,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>the log density at <paramref name="x"/>.</returns>
         public double DensityLn(double x)
         {
-            return -Math.Log(Constants.Pi * _scale * (1.0 + (((x - Median) / _scale) * ((x - Median) / _scale))));
+            return -Math.Log(Constants.Pi*_scale*(1.0 + (((x - Median)/_scale)*((x - Median)/_scale))));
         }
 
         #endregion
@@ -284,7 +282,7 @@ namespace MathNet.Numerics.Distributions
         internal static double SampleUnchecked(Random rnd, double location, double scale)
         {
             var u = rnd.NextDouble();
-            return location + (scale * Math.Tan(Constants.Pi * (u - 0.5)));
+            return location + (scale*Math.Tan(Constants.Pi*(u - 0.5)));
         }
 
         /// <summary>

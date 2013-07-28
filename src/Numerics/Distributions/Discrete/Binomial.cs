@@ -138,7 +138,6 @@ namespace MathNet.Numerics.Distributions
         public double P
         {
             get { return _p; }
-
             set { SetParameters(value, _n); }
         }
 
@@ -148,7 +147,6 @@ namespace MathNet.Numerics.Distributions
         public int N
         {
             get { return _n; }
-
             set { SetParameters(_p, value); }
         }
 
@@ -176,7 +174,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Mean
         {
-            get { return _p * _n; }
+            get { return _p*_n; }
         }
 
         /// <summary>
@@ -184,7 +182,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double StdDev
         {
-            get { return Math.Sqrt(_p * (1.0 - _p) * _n); }
+            get { return Math.Sqrt(_p*(1.0 - _p)*_n); }
         }
 
         /// <summary>
@@ -192,7 +190,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Variance
         {
-            get { return _p * (1.0 - _p) * _n; }
+            get { return _p*(1.0 - _p)*_n; }
         }
 
         /// <summary>
@@ -211,7 +209,7 @@ namespace MathNet.Numerics.Distributions
                 for (var i = 0; i <= _n; i++)
                 {
                     var p = Probability(i);
-                    e -= p * Math.Log(p);
+                    e -= p*Math.Log(p);
                 }
 
                 return e;
@@ -223,7 +221,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Skewness
         {
-            get { return (1.0 - (2.0 * _p)) / Math.Sqrt(_n * _p * (1.0 - _p)); }
+            get { return (1.0 - (2.0*_p))/Math.Sqrt(_n*_p*(1.0 - _p)); }
         }
 
         /// <summary>
@@ -260,9 +258,9 @@ namespace MathNet.Numerics.Distributions
             }
 
             var cdf = 0.0;
-            for (var i = 0; i <= (int)Math.Floor(x); i++)
+            for (var i = 0; i <= (int) Math.Floor(x); i++)
             {
-                cdf += Combinatorics.Combinations(_n, i) * Math.Pow(_p, i) * Math.Pow(1.0 - _p, _n - i);
+                cdf += Combinatorics.Combinations(_n, i)*Math.Pow(_p, i)*Math.Pow(1.0 - _p, _n - i);
             }
 
             return cdf;
@@ -289,7 +287,7 @@ namespace MathNet.Numerics.Distributions
                     return 0;
                 }
 
-                return (int)Math.Floor((_n + 1) * _p);
+                return (int) Math.Floor((_n + 1)*_p);
             }
         }
 
@@ -298,7 +296,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public int Median
         {
-            get { return (int)Math.Floor(_p * _n); }
+            get { return (int) Math.Floor(_p*_n); }
         }
 
         /// <summary>
@@ -338,7 +336,7 @@ namespace MathNet.Numerics.Distributions
                 return 0.0;
             }
 
-            return SpecialFunctions.Binomial(_n, k) * Math.Pow(_p, k) * Math.Pow(1.0 - _p, _n - k);
+            return SpecialFunctions.Binomial(_n, k)*Math.Pow(_p, k)*Math.Pow(1.0 - _p, _n - k);
         }
 
         /// <summary>
@@ -378,7 +376,7 @@ namespace MathNet.Numerics.Distributions
                 return Double.NegativeInfinity;
             }
 
-            return SpecialFunctions.BinomialLn(_n, k) + (k * Math.Log(_p)) + ((_n - k) * Math.Log(1.0 - _p));
+            return SpecialFunctions.BinomialLn(_n, k) + (k*Math.Log(_p)) + ((_n - k)*Math.Log(1.0 - _p));
         }
 
         #endregion

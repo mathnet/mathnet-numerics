@@ -48,22 +48,22 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// The mean of the matrix normal distribution.        
         /// </summary>
-        private Matrix<double> _m;
+        Matrix<double> _m;
 
         /// <summary>
         /// The covariance matrix for the rows.
         /// </summary>
-        private Matrix<double> _v;
+        Matrix<double> _v;
 
         /// <summary>
         /// The covariance matrix for the columns.
         /// </summary>
-        private Matrix<double> _k;
+        Matrix<double> _k;
 
         /// <summary>
         /// The distribution's random number generator.
         /// </summary>
-        private Random _random;
+        Random _random;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MatrixNormal"/> class. 
@@ -109,15 +109,8 @@ namespace MathNet.Numerics.Distributions
         /// <value>The mean of the distribution.</value>
         public Matrix<double> Mean
         {
-            get
-            {
-                return _m;
-            }
-
-            set
-            {
-                SetParameters(value, _v, _k);
-            }
+            get { return _m; }
+            set { SetParameters(value, _v, _k); }
         }
 
         /// <summary>
@@ -126,15 +119,8 @@ namespace MathNet.Numerics.Distributions
         /// <value>The row covariance.</value>
         public Matrix<double> RowCovariance
         {
-            get
-            {
-                return _v;
-            }
-
-            set
-            {
-                SetParameters(_m, value, _k);
-            }
+            get { return _v; }
+            set { SetParameters(_m, value, _k); }
         }
 
         /// <summary>
@@ -143,15 +129,8 @@ namespace MathNet.Numerics.Distributions
         /// <value>The column covariance.</value>
         public Matrix<double> ColumnCovariance
         {
-            get
-            {
-                return _k;
-            }
-
-            set
-            {
-                SetParameters(_m, _v, value);
-            }
+            get { return _k; }
+            set { SetParameters(_m, _v, value); }
         }
 
         /// <summary>
@@ -161,7 +140,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="v">The covariance matrix for the rows.</param>
         /// <param name="k">The covariance matrix for the columns.</param>
         /// <exception cref="ArgumentOutOfRangeException">When the parameters don't pass the <see cref="IsValidParameterSet"/> function.</exception>
-        private void SetParameters(Matrix<double> m, Matrix<double> v, Matrix<double> k)
+        void SetParameters(Matrix<double> m, Matrix<double> v, Matrix<double> k)
         {
             if (Control.CheckDistributionParameters && !IsValidParameterSet(m, v, k))
             {
@@ -180,7 +159,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="v">The covariance matrix for the rows.</param>
         /// <param name="k">The covariance matrix for the columns.</param>
         /// <returns><c>true</c> when the parameters are valid, <c>false</c> otherwise.</returns>
-        private static bool IsValidParameterSet(Matrix<double> m, Matrix<double> v, Matrix<double> k)
+        static bool IsValidParameterSet(Matrix<double> m, Matrix<double> v, Matrix<double> k)
         {
             var n = m.RowCount;
             var p = m.ColumnCount;
@@ -247,10 +226,10 @@ namespace MathNet.Numerics.Distributions
             var cholV = Cholesky<double>.Create(_v);
             var cholK = Cholesky<double>.Create(_k);
 
-            return Math.Exp(-0.5 * cholV.Solve(a.Transpose() * cholK.Solve(a)).Trace())
-                   / Math.Pow(2.0 * Constants.Pi, x.RowCount * x.ColumnCount / 2.0)
-                   / Math.Pow(cholV.Determinant, x.RowCount / 2.0)
-                   / Math.Pow(cholK.Determinant, x.ColumnCount / 2.0);
+            return Math.Exp(-0.5*cholV.Solve(a.Transpose()*cholK.Solve(a)).Trace())
+                /Math.Pow(2.0*Constants.Pi, x.RowCount*x.ColumnCount/2.0)
+                /Math.Pow(cholV.Determinant, x.RowCount/2.0)
+                /Math.Pow(cholK.Determinant, x.ColumnCount/2.0);
         }
 
         /// <summary>
@@ -285,7 +264,7 @@ namespace MathNet.Numerics.Distributions
             var vki = v.KroneckerProduct(k.Inverse());
 
             // Sample a vector valued random variable with VKi as the covariance.
-            var vector = SampleVectorNormal(rnd, new DenseVector(n * p), vki);
+            var vector = SampleVectorNormal(rnd, new DenseVector(n*p), vki);
 
             // Unstack the vector v and add the mean.
             var r = m.Clone();
@@ -293,7 +272,7 @@ namespace MathNet.Numerics.Distributions
             {
                 for (var j = 0; j < p; j++)
                 {
-                    r.At(i, j, r.At(i, j) + vector[(j * n) + i]);
+                    r.At(i, j, r.At(i, j) + vector[(j*n) + i]);
                 }
             }
 
@@ -307,7 +286,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="mean">The mean of the vector normal distribution.</param>
         /// <param name="covariance">The covariance matrix of the vector normal distribution.</param>
         /// <returns>a sequence of samples from defined distribution.</returns>
-        private static Vector<double> SampleVectorNormal(Random rnd, Vector<double> mean, Matrix<double> covariance)
+        static Vector<double> SampleVectorNormal(Random rnd, Vector<double> mean, Matrix<double> covariance)
         {
             var chol = Cholesky<double>.Create(covariance);
             return SampleVectorNormal(rnd, mean, chol);
@@ -320,7 +299,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="mean">The mean of the vector normal distribution.</param>
         /// <param name="cholesky">The Cholesky factorization of the covariance matrix.</param>
         /// <returns>a sequence of samples from defined distribution.</returns>
-        private static Vector<double> SampleVectorNormal(Random rnd, Vector<double> mean, Cholesky<double> cholesky)
+        static Vector<double> SampleVectorNormal(Random rnd, Vector<double> mean, Cholesky<double> cholesky)
         {
             var count = mean.Count;
 
@@ -337,7 +316,7 @@ namespace MathNet.Numerics.Distributions
             }
 
             // Return the transformed variable.
-            return mean + (cholesky.Factor * v);
+            return mean + (cholesky.Factor*v);
         }
     }
 }
