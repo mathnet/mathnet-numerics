@@ -155,7 +155,6 @@ namespace MathNet.Numerics.Distributions
         public double Alpha
         {
             get { return _alpha; }
-
             set { SetParameters(value, _beta, _scale, _location); }
         }
 
@@ -165,7 +164,6 @@ namespace MathNet.Numerics.Distributions
         public double Beta
         {
             get { return _beta; }
-
             set { SetParameters(_alpha, value, _scale, _location); }
         }
 
@@ -175,7 +173,6 @@ namespace MathNet.Numerics.Distributions
         public double Scale
         {
             get { return _scale; }
-
             set { SetParameters(_alpha, _beta, value, _location); }
         }
 
@@ -185,7 +182,6 @@ namespace MathNet.Numerics.Distributions
         public double Location
         {
             get { return _location; }
-
             set { SetParameters(_alpha, _beta, _scale, value); }
         }
 
@@ -242,7 +238,7 @@ namespace MathNet.Numerics.Distributions
             {
                 if (_alpha == 2)
                 {
-                    return 2.0 * _scale * _scale;
+                    return 2.0*_scale*_scale;
                 }
 
                 return Double.PositiveInfinity;
@@ -258,7 +254,7 @@ namespace MathNet.Numerics.Distributions
             {
                 if (_alpha == 2)
                 {
-                    return Math.Sqrt(2.0) * _scale;
+                    return Math.Sqrt(2.0)*_scale;
                 }
 
                 return Double.PositiveInfinity;
@@ -329,7 +325,7 @@ namespace MathNet.Numerics.Distributions
         static double LevyCumulativeDistribution(double scale, double location, double x)
         {
             // The parameters scale and location must be correct
-            return SpecialFunctions.Erfc(Math.Sqrt(scale / (2 * (x - location))));
+            return SpecialFunctions.Erfc(Math.Sqrt(scale/(2*(x - location))));
         }
 
         #endregion
@@ -434,7 +430,7 @@ namespace MathNet.Numerics.Distributions
                 throw new NotSupportedException();
             }
 
-            return (Math.Sqrt(scale / Constants.Pi2) * Math.Exp(-scale / (2 * (x - location)))) / Math.Pow(x - location, 1.5);
+            return (Math.Sqrt(scale/Constants.Pi2)*Math.Exp(-scale/(2*(x - location))))/Math.Pow(x - location, 1.5);
         }
 
         /// <summary>
@@ -465,23 +461,23 @@ namespace MathNet.Numerics.Distributions
 
             if (!1.0.AlmostEqual(alpha))
             {
-                var theta = (1.0 / alpha) * Math.Atan(beta * Math.Tan(Constants.PiOver2 * alpha));
-                var angle = alpha * (randTheta + theta);
-                var part1 = beta * Math.Tan(Constants.PiOver2 * alpha);
+                var theta = (1.0/alpha)*Math.Atan(beta*Math.Tan(Constants.PiOver2*alpha));
+                var angle = alpha*(randTheta + theta);
+                var part1 = beta*Math.Tan(Constants.PiOver2*alpha);
 
-                var factor = Math.Pow(1.0 + (part1 * part1), 1.0 / (2.0 * alpha));
-                var factor1 = Math.Sin(angle) / Math.Pow(Math.Cos(randTheta), (1.0 / alpha));
-                var factor2 = Math.Pow(Math.Cos(randTheta - angle) / randW, (1 - alpha) / alpha);
+                var factor = Math.Pow(1.0 + (part1*part1), 1.0/(2.0*alpha));
+                var factor1 = Math.Sin(angle)/Math.Pow(Math.Cos(randTheta), (1.0/alpha));
+                var factor2 = Math.Pow(Math.Cos(randTheta - angle)/randW, (1 - alpha)/alpha);
 
-                return location + scale * (factor * factor1 * factor2);
+                return location + scale*(factor*factor1*factor2);
             }
             else
             {
-                var part1 = Constants.PiOver2 + (beta * randTheta);
-                var summand = part1 * Math.Tan(randTheta);
-                var subtrahend = beta * Math.Log(Constants.PiOver2 * randW * Math.Cos(randTheta) / part1);
+                var part1 = Constants.PiOver2 + (beta*randTheta);
+                var summand = part1*Math.Tan(randTheta);
+                var subtrahend = beta*Math.Log(Constants.PiOver2*randW*Math.Cos(randTheta)/part1);
 
-                return location + scale * ((2.0 / Math.PI) * (summand - subtrahend));
+                return location + scale*((2.0/Math.PI)*(summand - subtrahend));
             }
         }
 

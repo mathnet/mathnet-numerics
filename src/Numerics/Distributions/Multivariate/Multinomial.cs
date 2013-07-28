@@ -51,17 +51,17 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Stores the normalized multinomial probabilities.
         /// </summary>
-        private double[] _p;
+        double[] _p;
 
         /// <summary>
         /// The number of trials.
         /// </summary>
-        private int _n;
+        int _n;
 
         /// <summary>
         /// The distribution's random number generator.
         /// </summary>
-        private Random _random;
+        Random _random;
 
         /// <summary>
         /// Initializes a new instance of the Multinomial class.
@@ -98,7 +98,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         /// <param name="h">Histogram instance</param>
         /// <param name="n">The number of trials.</param>
-                /// <exception cref="ArgumentOutOfRangeException">If any of the probabilities are negative or do not sum to one.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">If any of the probabilities are negative or do not sum to one.</exception>
         /// <exception cref="ArgumentOutOfRangeException">If <paramref name="n"/> is negative.</exception>
         public Multinomial(Histogram h, int n)
         {
@@ -137,7 +137,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="n">The number of trials.</param>
         /// <returns>If any of the probabilities are negative returns <c>false</c>, 
         /// if the sum of parameters is 0.0, or if the number of trials is negative; otherwise <c>true</c>.</returns>
-        private static bool IsValidParameterSet(IEnumerable<double> p, int n)
+        static bool IsValidParameterSet(IEnumerable<double> p, int n)
         {
             var sum = 0.0;
             foreach (var t in p)
@@ -165,14 +165,14 @@ namespace MathNet.Numerics.Distributions
         /// as this is often impossible using floating point arithmetic.</param>
         /// <param name="n">The number of trials.</param>
         /// <exception cref="ArgumentOutOfRangeException">When the parameters don't pass the <see cref="IsValidParameterSet"/> function.</exception>
-        private void SetParameters(double[] p, int n)
+        void SetParameters(double[] p, int n)
         {
             if (Control.CheckDistributionParameters && !IsValidParameterSet(p, n))
             {
                 throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
             }
 
-            _p = (double[])p.Clone();
+            _p = (double[]) p.Clone();
             _n = n;
         }
 
@@ -181,15 +181,8 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double[] P
         {
-            get
-            {
-                return (double[])_p.Clone();
-            }
-
-            set
-            {
-                SetParameters(value, _n);
-            }
+            get { return (double[]) _p.Clone(); }
+            set { SetParameters(value, _n); }
         }
 
         /// <summary>
@@ -197,15 +190,8 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public int N
         {
-            get
-            {
-                return _n;
-            }
-
-            set
-            {
-                SetParameters(_p, value);
-            }
+            get { return _n; }
+            set { SetParameters(_p, value); }
         }
 
         /// <summary>
@@ -230,10 +216,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public Vector<double> Mean
         {
-            get
-            {
-                return _n * (DenseVector)P;
-            }
+            get { return _n*(DenseVector) P; }
         }
 
         /// <summary>
@@ -244,10 +227,10 @@ namespace MathNet.Numerics.Distributions
             get
             {
                 // Do not use _p, because operations below will modify _p array. Use P or _p.Clone(). 
-                var res = (DenseVector)P;
+                var res = (DenseVector) P;
                 for (var i = 0; i < res.Count; i++)
                 {
-                    res[i] *= _n * (1 - res[i]);
+                    res[i] *= _n*(1 - res[i]);
                 }
 
                 return res;
@@ -262,10 +245,10 @@ namespace MathNet.Numerics.Distributions
             get
             {
                 // Do not use _p, because operations below will modify _p array. Use P or _p.Clone(). 
-                var res = (DenseVector)P;
+                var res = (DenseVector) P;
                 for (var i = 0; i < res.Count; i++)
                 {
-                    res[i] = (1.0 - (2.0 * res[i])) / Math.Sqrt(_n * (1.0 - res[i]) * res[i]);
+                    res[i] = (1.0 - (2.0*res[i]))/Math.Sqrt(_n*(1.0 - res[i])*res[i]);
                 }
 
                 return res;
@@ -300,7 +283,7 @@ namespace MathNet.Numerics.Distributions
                     num *= Math.Pow(_p[i], x[i]);
                 }
 
-                return coef * num;
+                return coef*num;
             }
 
             return 0.0;
@@ -328,7 +311,7 @@ namespace MathNet.Numerics.Distributions
             if (x.Sum() == _n)
             {
                 var coef = Math.Log(SpecialFunctions.Multinomial(_n, x));
-                var num = x.Select((t, i) => t * Math.Log(_p[i])).Sum();
+                var num = x.Select((t, i) => t*Math.Log(_p[i])).Sum();
                 return coef + num;
             }
 

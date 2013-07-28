@@ -90,7 +90,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a normal distribution.</returns>
         public static Erlang WithShapeScale(int shape, double scale)
         {
-            return new Erlang(shape, 1.0 / scale);
+            return new Erlang(shape, 1.0/scale);
         }
 
         /// <summary>
@@ -142,8 +142,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public int Shape
         {
-            get { return (int)_shape; }
-
+            get { return (int) _shape; }
             set { SetParameters(value, _invScale); }
         }
 
@@ -152,11 +151,10 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Scale
         {
-            get { return 1.0 / _invScale; }
-
+            get { return 1.0/_invScale; }
             set
             {
-                var invScale = 1.0 / value;
+                var invScale = 1.0/value;
 
                 if (Double.IsNegativeInfinity(invScale))
                 {
@@ -173,7 +171,6 @@ namespace MathNet.Numerics.Distributions
         public double InvScale
         {
             get { return _invScale; }
-
             set { SetParameters(_shape, value); }
         }
 
@@ -222,7 +219,7 @@ namespace MathNet.Numerics.Distributions
                     return Double.NaN;
                 }
 
-                return _shape / _invScale;
+                return _shape/_invScale;
             }
         }
 
@@ -243,7 +240,7 @@ namespace MathNet.Numerics.Distributions
                     return Double.NaN;
                 }
 
-                return _shape / (_invScale * _invScale);
+                return _shape/(_invScale*_invScale);
             }
         }
 
@@ -264,7 +261,7 @@ namespace MathNet.Numerics.Distributions
                     return Double.NaN;
                 }
 
-                return Math.Sqrt(_shape) / _invScale;
+                return Math.Sqrt(_shape)/_invScale;
             }
         }
 
@@ -285,7 +282,7 @@ namespace MathNet.Numerics.Distributions
                     return Double.NaN;
                 }
 
-                return _shape - Math.Log(_invScale) + SpecialFunctions.GammaLn(_shape) + ((1.0 - _shape) * SpecialFunctions.DiGamma(_shape));
+                return _shape - Math.Log(_invScale) + SpecialFunctions.GammaLn(_shape) + ((1.0 - _shape)*SpecialFunctions.DiGamma(_shape));
             }
         }
 
@@ -306,7 +303,7 @@ namespace MathNet.Numerics.Distributions
                     return Double.NaN;
                 }
 
-                return 2.0 / Math.Sqrt(_shape);
+                return 2.0/Math.Sqrt(_shape);
             }
         }
 
@@ -327,7 +324,7 @@ namespace MathNet.Numerics.Distributions
                 return 0.0;
             }
 
-            return SpecialFunctions.GammaLowerRegularized(_shape, x * _invScale);
+            return SpecialFunctions.GammaLowerRegularized(_shape, x*_invScale);
         }
 
         #endregion
@@ -356,7 +353,7 @@ namespace MathNet.Numerics.Distributions
                     return Double.NaN;
                 }
 
-                return (_shape - 1.0) / _invScale;
+                return (_shape - 1.0)/_invScale;
             }
         }
 
@@ -403,10 +400,10 @@ namespace MathNet.Numerics.Distributions
 
             if (_shape == 1.0)
             {
-                return _invScale * Math.Exp(-_invScale * x);
+                return _invScale*Math.Exp(-_invScale*x);
             }
 
-            return Math.Pow(_invScale, _shape) * Math.Pow(x, _shape - 1.0) * Math.Exp(-_invScale * x) / SpecialFunctions.Gamma(_shape);
+            return Math.Pow(_invScale, _shape)*Math.Pow(x, _shape - 1.0)*Math.Exp(-_invScale*x)/SpecialFunctions.Gamma(_shape);
         }
 
         /// <summary>
@@ -428,10 +425,10 @@ namespace MathNet.Numerics.Distributions
 
             if (_shape == 1.0)
             {
-                return Math.Log(_invScale) - (_invScale * x);
+                return Math.Log(_invScale) - (_invScale*x);
             }
 
-            return (_shape * Math.Log(_invScale)) + ((_shape - 1.0) * Math.Log(x)) - (_invScale * x) - SpecialFunctions.GammaLn(_shape);
+            return (_shape*Math.Log(_invScale)) + ((_shape - 1.0)*Math.Log(x)) - (_invScale*x) - SpecialFunctions.GammaLn(_shape);
         }
 
         #endregion
@@ -460,32 +457,32 @@ namespace MathNet.Numerics.Distributions
             if (shape < 1.0)
             {
                 a = shape + 1.0;
-                alphafix = Math.Pow(rnd.NextDouble(), 1.0 / shape);
+                alphafix = Math.Pow(rnd.NextDouble(), 1.0/shape);
             }
 
-            var d = a - (1.0 / 3.0);
-            var c = 1.0 / Math.Sqrt(9.0 * d);
+            var d = a - (1.0/3.0);
+            var c = 1.0/Math.Sqrt(9.0*d);
             while (true)
             {
                 var x = Normal.Sample(rnd, 0.0, 1.0);
-                var v = 1.0 + (c * x);
+                var v = 1.0 + (c*x);
                 while (v <= 0.0)
                 {
                     x = Normal.Sample(rnd, 0.0, 1.0);
-                    v = 1.0 + (c * x);
+                    v = 1.0 + (c*x);
                 }
 
-                v = v * v * v;
+                v = v*v*v;
                 var u = rnd.NextDouble();
-                x = x * x;
-                if (u < 1.0 - (0.0331 * x * x))
+                x = x*x;
+                if (u < 1.0 - (0.0331*x*x))
                 {
-                    return alphafix * d * v / invScale;
+                    return alphafix*d*v/invScale;
                 }
 
-                if (Math.Log(u) < (0.5 * x) + (d * (1.0 - v + Math.Log(v))))
+                if (Math.Log(u) < (0.5*x) + (d*(1.0 - v + Math.Log(v))))
                 {
-                    return alphafix * d * v / invScale;
+                    return alphafix*d*v/invScale;
                 }
             }
         }

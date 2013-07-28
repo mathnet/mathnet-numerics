@@ -197,7 +197,7 @@ namespace MathNet.Numerics.Distributions
         /// exactly in a floating point representation.</remarks>
         public double[] P
         {
-            get { return (double[])_pmfNormalized.Clone(); }
+            get { return (double[]) _pmfNormalized.Clone(); }
             set { SetParameters(value); }
         }
 
@@ -249,7 +249,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Entropy
         {
-            get { return _pmfNormalized.Sum(p => p * Math.Log(p)); }
+            get { return _pmfNormalized.Sum(p => p*Math.Log(p)); }
         }
 
         /// <summary>
@@ -315,7 +315,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public int Median
         {
-            get { return (int)_pmfNormalized.Median(); }
+            get { return (int) _pmfNormalized.Median(); }
         }
 
         /// <summary>
@@ -388,7 +388,7 @@ namespace MathNet.Numerics.Distributions
         internal static int SampleUnchecked(Random rnd, double[] cdfUnnormalized)
         {
             // TODO : use binary search to speed up this procedure.
-            var u = rnd.NextDouble() * cdfUnnormalized[cdfUnnormalized.Length - 1];
+            var u = rnd.NextDouble()*cdfUnnormalized[cdfUnnormalized.Length - 1];
 
             var idx = 0;
             while (u > cdfUnnormalized[idx])

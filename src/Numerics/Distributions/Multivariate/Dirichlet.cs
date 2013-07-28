@@ -48,12 +48,12 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// The Dirichlet distribution parameters.
         /// </summary>
-        private double[] _alpha;
+        double[] _alpha;
 
         /// <summary>
         /// The distribution's random number generator.
         /// </summary>
-        private Random _random;
+        Random _random;
 
         /// <summary>
         /// Initializes a new instance of the Dirichlet class. The distribution will
@@ -134,7 +134,7 @@ namespace MathNet.Numerics.Distributions
                 {
                     return false;
                 }
-                
+
                 if (t > 0.0)
                 {
                     allzero = false;
@@ -149,14 +149,14 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         /// <param name="alpha">The parameters of the Dirichlet distribution.</param>
         /// <exception cref="ArgumentOutOfRangeException">When the parameters don't pass the <see cref="IsValidParameterSet"/> function.</exception>
-        private void SetParameters(double[] alpha)
+        void SetParameters(double[] alpha)
         {
             if (Control.CheckDistributionParameters && !IsValidParameterSet(alpha))
             {
                 throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
             }
 
-            _alpha = (double[])alpha.Clone();
+            _alpha = (double[]) alpha.Clone();
         }
 
         /// <summary>
@@ -175,10 +175,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public int Dimension
         {
-            get
-            {
-                return _alpha.Length;
-            }
+            get { return _alpha.Length; }
         }
 
         /// <summary>
@@ -186,26 +183,16 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double[] Alpha
         {
-            get
-            {
-                return _alpha;
-            }
-
-            set
-            {
-                SetParameters(value);
-            }
+            get { return _alpha; }
+            set { SetParameters(value); }
         }
 
         /// <summary>
         /// Gets the sum of the Dirichlet parameters.
         /// </summary>
-        private double AlphaSum
+        double AlphaSum
         {
-            get
-            {
-                return _alpha.Sum();
-            }
+            get { return _alpha.Sum(); }
         }
 
         /// <summary>
@@ -219,7 +206,7 @@ namespace MathNet.Numerics.Distributions
                 var parm = new double[Dimension];
                 for (var i = 0; i < Dimension; i++)
                 {
-                    parm[i] = _alpha[i] / sum;
+                    parm[i] = _alpha[i]/sum;
                 }
 
                 return parm;
@@ -237,7 +224,7 @@ namespace MathNet.Numerics.Distributions
                 var v = new double[_alpha.Length];
                 for (var i = 0; i < _alpha.Length; i++)
                 {
-                    v[i] = _alpha[i] * (s - _alpha[i]) / (s * s * (s + 1.0));
+                    v[i] = _alpha[i]*(s - _alpha[i])/(s*s*(s + 1.0));
                 }
 
                 return v;
@@ -251,8 +238,8 @@ namespace MathNet.Numerics.Distributions
         {
             get
             {
-                var num = _alpha.Sum(t => (t - 1) * SpecialFunctions.DiGamma(t));
-                return SpecialFunctions.GammaLn(AlphaSum) + ((AlphaSum - Dimension) * SpecialFunctions.DiGamma(AlphaSum)) - num;
+                var num = _alpha.Sum(t => (t - 1)*SpecialFunctions.DiGamma(t));
+                return SpecialFunctions.GammaLn(AlphaSum) + ((AlphaSum - Dimension)*SpecialFunctions.DiGamma(AlphaSum)) - num;
             }
         }
 
@@ -297,7 +284,7 @@ namespace MathNet.Numerics.Distributions
                     return 0.0;
                 }
 
-                term += (_alpha[i] - 1.0) * Math.Log(xi) - SpecialFunctions.GammaLn(_alpha[i]);
+                term += (_alpha[i] - 1.0)*Math.Log(xi) - SpecialFunctions.GammaLn(_alpha[i]);
                 sumxi += xi;
                 sumalpha += _alpha[i];
             }
@@ -310,7 +297,7 @@ namespace MathNet.Numerics.Distributions
                     return 0.0;
                 }
 
-                term += (_alpha[_alpha.Length - 1] - 1.0) * Math.Log(1.0 - sumxi) - SpecialFunctions.GammaLn(_alpha[_alpha.Length - 1]);
+                term += (_alpha[_alpha.Length - 1] - 1.0)*Math.Log(1.0 - sumxi) - SpecialFunctions.GammaLn(_alpha[_alpha.Length - 1]);
                 sumalpha += _alpha[_alpha.Length - 1];
             }
             else if (!sumxi.AlmostEqualInDecimalPlaces(1.0, 8))
@@ -355,7 +342,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sample from the distribution.</returns>
         public static double[] Sample(Random rnd, double[] alpha)
         {
-            if (Control.CheckDistributionParameters && ! IsValidParameterSet(alpha))
+            if (Control.CheckDistributionParameters && !IsValidParameterSet(alpha))
             {
                 throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
             }

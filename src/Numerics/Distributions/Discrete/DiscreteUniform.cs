@@ -130,7 +130,6 @@ namespace MathNet.Numerics.Distributions
         public int LowerBound
         {
             get { return _lower; }
-
             set { SetParameters(value, _upper); }
         }
 
@@ -140,7 +139,6 @@ namespace MathNet.Numerics.Distributions
         public int UpperBound
         {
             get { return _upper; }
-
             set { SetParameters(_lower, value); }
         }
 
@@ -168,7 +166,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Mean
         {
-            get { return (_lower + _upper) / 2.0; }
+            get { return (_lower + _upper)/2.0; }
         }
 
         /// <summary>
@@ -176,7 +174,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double StdDev
         {
-            get { return Math.Sqrt((((_upper - _lower + 1.0) * (_upper - _lower + 1.0)) - 1.0) / 12.0); }
+            get { return Math.Sqrt((((_upper - _lower + 1.0)*(_upper - _lower + 1.0)) - 1.0)/12.0); }
         }
 
         /// <summary>
@@ -184,7 +182,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Variance
         {
-            get { return (((_upper - _lower + 1.0) * (_upper - _lower + 1.0)) - 1.0) / 12.0; }
+            get { return (((_upper - _lower + 1.0)*(_upper - _lower + 1.0)) - 1.0)/12.0; }
         }
 
         /// <summary>
@@ -236,7 +234,7 @@ namespace MathNet.Numerics.Distributions
                 return 1.0;
             }
 
-            return Math.Min(1.0, (Math.Floor(x) - _lower + 1) / (_upper - _lower + 1));
+            return Math.Min(1.0, (Math.Floor(x) - _lower + 1)/(_upper - _lower + 1));
         }
 
         #endregion
@@ -248,7 +246,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public int Mode
         {
-            get { return (int)Math.Floor((_lower + _upper) / 2.0); }
+            get { return (int) Math.Floor((_lower + _upper)/2.0); }
         }
 
         /// <summary>
@@ -256,7 +254,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public int Median
         {
-            get { return (int)Math.Floor((_lower + _upper) / 2.0); }
+            get { return (int) Math.Floor((_lower + _upper)/2.0); }
         }
 
         /// <summary>
@@ -270,7 +268,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (k >= _lower && k <= _upper)
             {
-                return 1.0 / (_upper - _lower + 1);
+                return 1.0/(_upper - _lower + 1);
             }
 
             return 0.0;
@@ -304,7 +302,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>A random sample from the discrete uniform distribution.</returns>
         internal static int SampleUnchecked(Random rnd, int lower, int upper)
         {
-            return (rnd.Next() % (upper - lower + 1)) + lower;
+            return (rnd.Next()%(upper - lower + 1)) + lower;
         }
 
         /// <summary>

@@ -204,7 +204,7 @@ namespace MathNet.Numerics.Distributions
                     return 0.0;
                 }
 
-                return _shapeA / (_shapeA + _shapeB);
+                return _shapeA/(_shapeA + _shapeB);
             }
         }
 
@@ -213,7 +213,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Variance
         {
-            get { return (_shapeA * _shapeB) / ((_shapeA + _shapeB) * (_shapeA + _shapeB) * (_shapeA + _shapeB + 1.0)); }
+            get { return (_shapeA*_shapeB)/((_shapeA + _shapeB)*(_shapeA + _shapeB)*(_shapeA + _shapeB + 1.0)); }
         }
 
         /// <summary>
@@ -221,7 +221,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double StdDev
         {
-            get { return Math.Sqrt((_shapeA * _shapeB) / ((_shapeA + _shapeB) * (_shapeA + _shapeB) * (_shapeA + _shapeB + 1.0))); }
+            get { return Math.Sqrt((_shapeA*_shapeB)/((_shapeA + _shapeB)*(_shapeA + _shapeB)*(_shapeA + _shapeB + 1.0))); }
         }
 
         /// <summary>
@@ -247,9 +247,9 @@ namespace MathNet.Numerics.Distributions
                 }
 
                 return SpecialFunctions.BetaLn(_shapeA, _shapeB)
-                    - ((_shapeA - 1.0) * SpecialFunctions.DiGamma(_shapeA))
-                    - ((_shapeB - 1.0) * SpecialFunctions.DiGamma(_shapeB))
-                    + ((_shapeA + _shapeB - 2.0) * SpecialFunctions.DiGamma(_shapeA + _shapeB));
+                    - ((_shapeA - 1.0)*SpecialFunctions.DiGamma(_shapeA))
+                    - ((_shapeB - 1.0)*SpecialFunctions.DiGamma(_shapeB))
+                    + ((_shapeA + _shapeB - 2.0)*SpecialFunctions.DiGamma(_shapeA + _shapeB));
             }
         }
 
@@ -290,8 +290,8 @@ namespace MathNet.Numerics.Distributions
                     return -2.0;
                 }
 
-                return 2.0 * (_shapeB - _shapeA) * Math.Sqrt(_shapeA + _shapeB + 1.0)
-                    / ((_shapeA + _shapeB + 2.0) * Math.Sqrt(_shapeA * _shapeB));
+                return 2.0*(_shapeB - _shapeA)*Math.Sqrt(_shapeA + _shapeB + 1.0)
+                    /((_shapeA + _shapeB + 2.0)*Math.Sqrt(_shapeA*_shapeB));
             }
         }
 
@@ -341,7 +341,7 @@ namespace MathNet.Numerics.Distributions
                     return 0.5;
                 }
 
-                return (_shapeA - 1) / (_shapeA + _shapeB - 2);
+                return (_shapeA - 1)/(_shapeA + _shapeB - 2);
             }
         }
 
@@ -421,8 +421,8 @@ namespace MathNet.Numerics.Distributions
                 return 1.0;
             }
 
-            var b = SpecialFunctions.Gamma(_shapeA + _shapeB) / (SpecialFunctions.Gamma(_shapeA) * SpecialFunctions.Gamma(_shapeB));
-            return b * Math.Pow(x, _shapeA - 1.0) * Math.Pow(1.0 - x, _shapeB - 1.0);
+            var b = SpecialFunctions.Gamma(_shapeA + _shapeB)/(SpecialFunctions.Gamma(_shapeA)*SpecialFunctions.Gamma(_shapeB));
+            return b*Math.Pow(x, _shapeA - 1.0)*Math.Pow(1.0 - x, _shapeB - 1.0);
         }
 
         /// <summary>
@@ -478,8 +478,8 @@ namespace MathNet.Numerics.Distributions
             }
 
             var a = SpecialFunctions.GammaLn(_shapeA + _shapeB) - SpecialFunctions.GammaLn(_shapeA) - SpecialFunctions.GammaLn(_shapeB);
-            var b = x == 0.0 ? (_shapeA == 1.0 ? 0.0 : Double.NegativeInfinity) : (_shapeA - 1.0) * Math.Log(x);
-            var c = x == 1.0 ? (_shapeB == 1.0 ? 0.0 : Double.NegativeInfinity) : (_shapeB - 1.0) * Math.Log(1.0 - x);
+            var b = x == 0.0 ? (_shapeA == 1.0 ? 0.0 : Double.NegativeInfinity) : (_shapeA - 1.0)*Math.Log(x);
+            var c = x == 1.0 ? (_shapeB == 1.0 ? 0.0 : Double.NegativeInfinity) : (_shapeB - 1.0)*Math.Log(1.0 - x);
 
             return a + b + c;
         }
@@ -557,7 +557,7 @@ namespace MathNet.Numerics.Distributions
         {
             var x = Gamma.SampleUnchecked(rnd, a, 1.0);
             var y = Gamma.SampleUnchecked(rnd, b, 1.0);
-            return x / (x + y);
+            return x/(x + y);
         }
 
         /// <summary>

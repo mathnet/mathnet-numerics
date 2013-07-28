@@ -122,7 +122,6 @@ namespace MathNet.Numerics.Distributions
         public double DegreeOfFreedom1
         {
             get { return _d1; }
-
             set { SetParameters(value, _d2); }
         }
 
@@ -132,7 +131,6 @@ namespace MathNet.Numerics.Distributions
         public double DegreeOfFreedom2
         {
             get { return _d2; }
-
             set { SetParameters(_d1, value); }
         }
 
@@ -176,7 +174,7 @@ namespace MathNet.Numerics.Distributions
                     throw new NotSupportedException();
                 }
 
-                return _d2 / (_d2 - 2.0);
+                return _d2/(_d2 - 2.0);
             }
         }
 
@@ -192,7 +190,7 @@ namespace MathNet.Numerics.Distributions
                     throw new NotSupportedException();
                 }
 
-                return (2.0 * _d2 * _d2 * (_d1 + _d2 - 2.0)) / (_d1 * (_d2 - 2.0) * (_d2 - 2.0) * (_d2 - 4.0));
+                return (2.0*_d2*_d2*(_d1 + _d2 - 2.0))/(_d1*(_d2 - 2.0)*(_d2 - 2.0)*(_d2 - 4.0));
             }
         }
 
@@ -224,7 +222,7 @@ namespace MathNet.Numerics.Distributions
                     throw new NotSupportedException();
                 }
 
-                return (((2.0 * _d1) + _d2 - 2.0) * Math.Sqrt(8.0 * (_d2 - 4.0))) / ((_d2 - 6.0) * Math.Sqrt(_d1 * (_d1 + _d2 - 2.0)));
+                return (((2.0*_d1) + _d2 - 2.0)*Math.Sqrt(8.0*(_d2 - 4.0)))/((_d2 - 6.0)*Math.Sqrt(_d1*(_d1 + _d2 - 2.0)));
             }
         }
 
@@ -235,7 +233,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>the cumulative density at <paramref name="x"/>.</returns>
         public double CumulativeDistribution(double x)
         {
-            return SpecialFunctions.BetaRegularized(_d1 / 2.0, _d2 / 2.0, _d1 * x / ((_d1 * x) + _d2));
+            return SpecialFunctions.BetaRegularized(_d1/2.0, _d2/2.0, _d1*x/((_d1*x) + _d2));
         }
 
         #endregion
@@ -254,7 +252,7 @@ namespace MathNet.Numerics.Distributions
                     throw new NotSupportedException();
                 }
 
-                return (_d2 * (_d1 - 2.0)) / (_d1 * (_d2 + 2.0));
+                return (_d2*(_d1 - 2.0))/(_d1*(_d2 + 2.0));
             }
         }
 
@@ -289,7 +287,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>the density at <paramref name="x"/>.</returns>
         public double Density(double x)
         {
-            return Math.Sqrt(Math.Pow(_d1 * x, _d1) * Math.Pow(_d2, _d2) / Math.Pow((_d1 * x) + _d2, _d1 + _d2)) / (x * SpecialFunctions.Beta(_d1 / 2.0, _d2 / 2.0));
+            return Math.Sqrt(Math.Pow(_d1*x, _d1)*Math.Pow(_d2, _d2)/Math.Pow((_d1*x) + _d2, _d1 + _d2))/(x*SpecialFunctions.Beta(_d1/2.0, _d2/2.0));
         }
 
         /// <summary>
@@ -313,7 +311,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a <c>FisherSnedecor</c> distributed random number.</returns>
         internal static double SampleUnchecked(Random rnd, double d1, double d2)
         {
-            return (ChiSquare.Sample(rnd, d1) / d1) / (ChiSquare.Sample(rnd, d2) / d2);
+            return (ChiSquare.Sample(rnd, d1)/d1)/(ChiSquare.Sample(rnd, d2)/d2);
         }
 
         /// <summary>

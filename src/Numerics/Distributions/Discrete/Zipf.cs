@@ -120,7 +120,6 @@ namespace MathNet.Numerics.Distributions
         public double S
         {
             get { return _s; }
-
             set { SetParameters(value, _n); }
         }
 
@@ -130,7 +129,6 @@ namespace MathNet.Numerics.Distributions
         public int N
         {
             get { return _n; }
-
             set { SetParameters(_s, value); }
         }
 
@@ -167,7 +165,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Mean
         {
-            get { return SpecialFunctions.GeneralHarmonic(_n, _s - 1.0) / SpecialFunctions.GeneralHarmonic(_n, _s); }
+            get { return SpecialFunctions.GeneralHarmonic(_n, _s - 1.0)/SpecialFunctions.GeneralHarmonic(_n, _s); }
         }
 
         /// <summary>
@@ -183,7 +181,7 @@ namespace MathNet.Numerics.Distributions
                 }
 
                 var generalHarmonicsNS = SpecialFunctions.GeneralHarmonic(_n, _s);
-                return (SpecialFunctions.GeneralHarmonic(_n, _s - 2) * SpecialFunctions.GeneralHarmonic(_n, _s)) - (Math.Pow(SpecialFunctions.GeneralHarmonic(_n, _s - 1), 2) / (generalHarmonicsNS * generalHarmonicsNS));
+                return (SpecialFunctions.GeneralHarmonic(_n, _s - 2)*SpecialFunctions.GeneralHarmonic(_n, _s)) - (Math.Pow(SpecialFunctions.GeneralHarmonic(_n, _s - 1), 2)/(generalHarmonicsNS*generalHarmonicsNS));
             }
         }
 
@@ -205,10 +203,10 @@ namespace MathNet.Numerics.Distributions
                 double sum = 0;
                 for (var i = 0; i < _n; i++)
                 {
-                    sum += Math.Log(i + 1) / Math.Pow(i + 1, _s);
+                    sum += Math.Log(i + 1)/Math.Pow(i + 1, _s);
                 }
 
-                return ((_s / SpecialFunctions.GeneralHarmonic(_n, _s)) * sum) + Math.Log(SpecialFunctions.GeneralHarmonic(_n, _s));
+                return ((_s/SpecialFunctions.GeneralHarmonic(_n, _s))*sum) + Math.Log(SpecialFunctions.GeneralHarmonic(_n, _s));
             }
         }
 
@@ -224,7 +222,7 @@ namespace MathNet.Numerics.Distributions
                     throw new NotSupportedException();
                 }
 
-                return ((SpecialFunctions.GeneralHarmonic(_n, _s - 3) * Math.Pow(SpecialFunctions.GeneralHarmonic(_n, _s), 2)) - (SpecialFunctions.GeneralHarmonic(_n, _s - 1) * ((3 * SpecialFunctions.GeneralHarmonic(_n, _s - 2) * SpecialFunctions.GeneralHarmonic(_n, _s)) - Math.Pow(SpecialFunctions.GeneralHarmonic(_n, _s - 1), 2)))) / Math.Pow((SpecialFunctions.GeneralHarmonic(_n, _s - 2) * SpecialFunctions.GeneralHarmonic(_n, _s)) - Math.Pow(SpecialFunctions.GeneralHarmonic(_n, _s - 1), 2), 1.5);
+                return ((SpecialFunctions.GeneralHarmonic(_n, _s - 3)*Math.Pow(SpecialFunctions.GeneralHarmonic(_n, _s), 2)) - (SpecialFunctions.GeneralHarmonic(_n, _s - 1)*((3*SpecialFunctions.GeneralHarmonic(_n, _s - 2)*SpecialFunctions.GeneralHarmonic(_n, _s)) - Math.Pow(SpecialFunctions.GeneralHarmonic(_n, _s - 1), 2))))/Math.Pow((SpecialFunctions.GeneralHarmonic(_n, _s - 2)*SpecialFunctions.GeneralHarmonic(_n, _s)) - Math.Pow(SpecialFunctions.GeneralHarmonic(_n, _s - 1), 2), 1.5);
             }
         }
 
@@ -240,7 +238,7 @@ namespace MathNet.Numerics.Distributions
                 return 0.0;
             }
 
-            return SpecialFunctions.GeneralHarmonic((int)x, _s) / SpecialFunctions.GeneralHarmonic(_n, _s);
+            return SpecialFunctions.GeneralHarmonic((int) x, _s)/SpecialFunctions.GeneralHarmonic(_n, _s);
         }
 
         #endregion
@@ -288,7 +286,7 @@ namespace MathNet.Numerics.Distributions
         /// </returns>
         public double Probability(int k)
         {
-            return (1.0 / Math.Pow(k, _s)) / SpecialFunctions.GeneralHarmonic(_n, _s);
+            return (1.0/Math.Pow(k, _s))/SpecialFunctions.GeneralHarmonic(_n, _s);
         }
 
         /// <summary>
@@ -320,12 +318,12 @@ namespace MathNet.Numerics.Distributions
                 r = rnd.NextDouble();
             }
 
-            var p = 1.0 / SpecialFunctions.GeneralHarmonic(n, s);
+            var p = 1.0/SpecialFunctions.GeneralHarmonic(n, s);
             int i;
             var sum = 0.0;
             for (i = 1; i <= n; i++)
             {
-                sum += p / Math.Pow(i, s);
+                sum += p/Math.Pow(i, s);
                 if (sum >= r)
                 {
                     break;

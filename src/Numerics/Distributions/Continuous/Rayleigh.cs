@@ -118,7 +118,6 @@ namespace MathNet.Numerics.Distributions
         public double Scale
         {
             get { return _scale; }
-
             set { SetParameters(value); }
         }
 
@@ -155,7 +154,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Mean
         {
-            get { return _scale * Math.Sqrt(Constants.PiOver2); }
+            get { return _scale*Math.Sqrt(Constants.PiOver2); }
         }
 
         /// <summary>
@@ -163,7 +162,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Variance
         {
-            get { return (2.0 - Constants.PiOver2) * _scale * _scale; }
+            get { return (2.0 - Constants.PiOver2)*_scale*_scale; }
         }
 
         /// <summary>
@@ -171,7 +170,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double StdDev
         {
-            get { return Math.Sqrt(2.0 - Constants.PiOver2) * _scale; }
+            get { return Math.Sqrt(2.0 - Constants.PiOver2)*_scale; }
         }
 
         /// <summary>
@@ -179,7 +178,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Entropy
         {
-            get { return 1.0 + Math.Log(_scale / Math.Sqrt(2)) + (Constants.EulerMascheroni / 2.0); }
+            get { return 1.0 + Math.Log(_scale/Math.Sqrt(2)) + (Constants.EulerMascheroni/2.0); }
         }
 
         /// <summary>
@@ -187,7 +186,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Skewness
         {
-            get { return (2.0 * Math.Sqrt(Constants.Pi) * (Constants.Pi - 3.0)) / Math.Pow(4.0 - Constants.Pi, 1.5); }
+            get { return (2.0*Math.Sqrt(Constants.Pi)*(Constants.Pi - 3.0))/Math.Pow(4.0 - Constants.Pi, 1.5); }
         }
 
         /// <summary>
@@ -197,7 +196,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>the cumulative density at <paramref name="x"/>.</returns>
         public double CumulativeDistribution(double x)
         {
-            return 1.0 - Math.Exp(-x * x / (2.0 * _scale * _scale));
+            return 1.0 - Math.Exp(-x*x/(2.0*_scale*_scale));
         }
 
         #endregion
@@ -217,7 +216,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Median
         {
-            get { return _scale * Math.Sqrt(Math.Log(4.0)); }
+            get { return _scale*Math.Sqrt(Math.Log(4.0)); }
         }
 
         /// <summary>
@@ -243,7 +242,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>the density at <paramref name="x"/>.</returns>
         public double Density(double x)
         {
-            return (x / (_scale * _scale)) * Math.Exp(-x * x / (2.0 * _scale * _scale));
+            return (x/(_scale*_scale))*Math.Exp(-x*x/(2.0*_scale*_scale));
         }
 
         /// <summary>
@@ -253,7 +252,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>the log density at <paramref name="x"/>.</returns>
         public double DensityLn(double x)
         {
-            return Math.Log(x / (_scale * _scale)) - (x * x / (2.0 * _scale * _scale));
+            return Math.Log(x/(_scale*_scale)) - (x*x/(2.0*_scale*_scale));
         }
 
         #endregion
@@ -266,7 +265,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a random number from the Rayleigh distribution.</returns>
         internal static double SampleUnchecked(Random rnd, double scale)
         {
-            return scale * Math.Sqrt(-2.0 * Math.Log(rnd.NextDouble()));
+            return scale*Math.Sqrt(-2.0*Math.Log(rnd.NextDouble()));
         }
 
         /// <summary>

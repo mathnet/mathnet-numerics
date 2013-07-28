@@ -77,7 +77,8 @@ namespace MathNet.Numerics.Distributions
         /// scale 1.0 and degrees of freedom 1. The distribution will
         /// be initialized with the default <seealso cref="System.Random"/> random number generator.
         /// </summary>
-        public StudentT() : this(0.0, 1.0, 1.0)
+        public StudentT()
+            : this(0.0, 1.0, 1.0)
         {
         }
 
@@ -161,7 +162,6 @@ namespace MathNet.Numerics.Distributions
         public double Location
         {
             get { return _location; }
-
             set { SetParameters(value, _scale, _dof); }
         }
 
@@ -171,7 +171,6 @@ namespace MathNet.Numerics.Distributions
         public double Scale
         {
             get { return _scale; }
-
             set { SetParameters(_location, value, _dof); }
         }
 
@@ -181,7 +180,6 @@ namespace MathNet.Numerics.Distributions
         public double DegreesOfFreedom
         {
             get { return _dof; }
-
             set { SetParameters(_location, _scale, value); }
         }
 
@@ -221,12 +219,12 @@ namespace MathNet.Numerics.Distributions
             {
                 if (Double.IsPositiveInfinity(_dof))
                 {
-                    return _scale * _scale;
+                    return _scale*_scale;
                 }
 
                 if (_dof > 2.0)
                 {
-                    return _dof * _scale * _scale / (_dof - 2.0);
+                    return _dof*_scale*_scale/(_dof - 2.0);
                 }
 
                 return _dof > 1.0 ? Double.PositiveInfinity : Double.NaN;
@@ -242,12 +240,12 @@ namespace MathNet.Numerics.Distributions
             {
                 if (Double.IsPositiveInfinity(_dof))
                 {
-                    return Math.Sqrt(_scale * _scale);
+                    return Math.Sqrt(_scale*_scale);
                 }
 
                 if (_dof > 2.0)
                 {
-                    return Math.Sqrt(_dof * _scale * _scale / (_dof - 2.0));
+                    return Math.Sqrt(_dof*_scale*_scale/(_dof - 2.0));
                 }
 
                 return _dof > 1.0 ? Double.PositiveInfinity : Double.NaN;
@@ -266,7 +264,7 @@ namespace MathNet.Numerics.Distributions
                     throw new NotSupportedException();
                 }
 
-                return (((_dof + 1.0) / 2.0) * (SpecialFunctions.DiGamma((1.0 + _dof) / 2.0) - SpecialFunctions.DiGamma(_dof / 2.0))) + Math.Log(Math.Sqrt(_dof) * SpecialFunctions.Beta(_dof / 2.0, 1.0 / 2.0));
+                return (((_dof + 1.0)/2.0)*(SpecialFunctions.DiGamma((1.0 + _dof)/2.0) - SpecialFunctions.DiGamma(_dof/2.0))) + Math.Log(Math.Sqrt(_dof)*SpecialFunctions.Beta(_dof/2.0, 1.0/2.0));
             }
         }
 
@@ -335,11 +333,11 @@ namespace MathNet.Numerics.Distributions
                 return Normal.Density(_location, _scale, x);
             }
 
-            var d = (x - _location) / _scale;
-            return Math.Exp(SpecialFunctions.GammaLn((_dof + 1.0) / 2.0) - SpecialFunctions.GammaLn(_dof / 2.0))
-                * Math.Pow(1.0 + (d * d / _dof), -0.5 * (_dof + 1.0))
-                / Math.Sqrt(_dof * Math.PI)
-                / _scale;
+            var d = (x - _location)/_scale;
+            return Math.Exp(SpecialFunctions.GammaLn((_dof + 1.0)/2.0) - SpecialFunctions.GammaLn(_dof/2.0))
+                *Math.Pow(1.0 + (d*d/_dof), -0.5*(_dof + 1.0))
+                /Math.Sqrt(_dof*Math.PI)
+                /_scale;
         }
 
         /// <summary>
@@ -355,11 +353,11 @@ namespace MathNet.Numerics.Distributions
                 return Normal.DensityLn(_location, _scale, x);
             }
 
-            var d = (x - _location) / _scale;
-            return SpecialFunctions.GammaLn((_dof + 1.0) / 2.0)
-                - (0.5 * ((_dof + 1.0) * Math.Log(1.0 + (d * d / _dof))))
-                - SpecialFunctions.GammaLn(_dof / 2.0)
-                - (0.5 * Math.Log(_dof * Math.PI)) - Math.Log(_scale);
+            var d = (x - _location)/_scale;
+            return SpecialFunctions.GammaLn((_dof + 1.0)/2.0)
+                - (0.5*((_dof + 1.0)*Math.Log(1.0 + (d*d/_dof))))
+                - SpecialFunctions.GammaLn(_dof/2.0)
+                - (0.5*Math.Log(_dof*Math.PI)) - Math.Log(_scale);
         }
 
         /// <summary>
@@ -375,9 +373,9 @@ namespace MathNet.Numerics.Distributions
                 return Normal.CumulativeDistribution(_location, _scale, x);
             }
 
-            var k = (x - _location) / _scale;
-            var h = _dof / (_dof + (k * k));
-            var ib = 0.5 * SpecialFunctions.BetaRegularized(_dof / 2.0, 0.5, h);
+            var k = (x - _location)/_scale;
+            var h = _dof/(_dof + (k*k));
+            var ib = 0.5*SpecialFunctions.BetaRegularized(_dof/2.0, 0.5, h);
             return x <= _location ? ib : 1.0 - ib;
         }
 
@@ -396,8 +394,8 @@ namespace MathNet.Numerics.Distributions
         internal static double SampleUnchecked(Random rnd, double location, double scale, double dof)
         {
             var n = Normal.SampleUncheckedBoxMuller(rnd).Item1;
-            var g = Gamma.SampleUnchecked(rnd, 0.5 * dof, 0.5);
-            return location + (scale * n * Math.Sqrt(dof / g));
+            var g = Gamma.SampleUnchecked(rnd, 0.5*dof, 0.5);
+            return location + (scale*n*Math.Sqrt(dof/g));
         }
 
         /// <summary>

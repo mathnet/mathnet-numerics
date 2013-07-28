@@ -172,7 +172,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Mean
         {
-            get { return _r * (1.0 - _p) / _p; }
+            get { return _r*(1.0 - _p)/_p; }
         }
 
         /// <summary>
@@ -180,7 +180,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Variance
         {
-            get { return _r * (1.0 - _p) / (_p * _p); }
+            get { return _r*(1.0 - _p)/(_p*_p); }
         }
 
         /// <summary>
@@ -188,7 +188,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double StdDev
         {
-            get { return Math.Sqrt(_r * (1.0 - _p)) / _p; }
+            get { return Math.Sqrt(_r*(1.0 - _p))/_p; }
         }
 
         /// <summary>
@@ -204,7 +204,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Skewness
         {
-            get { return (2.0 - _p) / Math.Sqrt(_r * (1.0 - _p)); }
+            get { return (2.0 - _p)/Math.Sqrt(_r*(1.0 - _p)); }
         }
 
         /// <summary>
@@ -226,7 +226,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public int Mode
         {
-            get { return _r > 1.0 ? (int)Math.Floor((_r - 1.0) * (1.0 - _p) / _p) : 0; }
+            get { return _r > 1.0 ? (int) Math.Floor((_r - 1.0)*(1.0 - _p)/_p) : 0; }
         }
 
         /// <summary>
@@ -265,8 +265,8 @@ namespace MathNet.Numerics.Distributions
             var ln = SpecialFunctions.GammaLn(_r + k)
                 - SpecialFunctions.GammaLn(_r)
                 - SpecialFunctions.GammaLn(k + 1.0)
-                + (_r * Math.Log(_p))
-                + (k * Math.Log(1.0 - _p));
+                + (_r*Math.Log(_p))
+                + (k*Math.Log(1.0 - _p));
             return Math.Exp(ln);
         }
 
@@ -282,8 +282,8 @@ namespace MathNet.Numerics.Distributions
             var ln = SpecialFunctions.GammaLn(_r + k)
                 - SpecialFunctions.GammaLn(_r)
                 - SpecialFunctions.GammaLn(k + 1.0)
-                + (_r * Math.Log(_p))
-                + (k * Math.Log(1.0 - _p));
+                + (_r*Math.Log(_p))
+                + (k*Math.Log(1.0 - _p));
             return ln;
         }
 
@@ -305,9 +305,8 @@ namespace MathNet.Numerics.Distributions
             do
             {
                 k = k + 1;
-                p1 = p1 * rnd.NextDouble();
-            }
-            while (p1 >= c);
+                p1 = p1*rnd.NextDouble();
+            } while (p1 >= c);
             return k - 1;
         }
 

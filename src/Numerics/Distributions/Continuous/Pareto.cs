@@ -127,7 +127,6 @@ namespace MathNet.Numerics.Distributions
         public double Scale
         {
             get { return _scale; }
-
             set { SetParameters(value, _shape); }
         }
 
@@ -137,7 +136,6 @@ namespace MathNet.Numerics.Distributions
         public double Shape
         {
             get { return _shape; }
-
             set { SetParameters(_scale, value); }
         }
 
@@ -181,7 +179,7 @@ namespace MathNet.Numerics.Distributions
                     throw new NotSupportedException();
                 }
 
-                return _shape * _scale / (_shape - 1.0);
+                return _shape*_scale/(_shape - 1.0);
             }
         }
 
@@ -197,7 +195,7 @@ namespace MathNet.Numerics.Distributions
                     return double.PositiveInfinity;
                 }
 
-                return _scale * _scale * _shape / ((_shape - 1.0) * (_shape - 1.0) * (_shape - 2.0));
+                return _scale*_scale*_shape/((_shape - 1.0)*(_shape - 1.0)*(_shape - 2.0));
             }
         }
 
@@ -206,7 +204,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double StdDev
         {
-            get { return (_scale * Math.Sqrt(_shape)) / (Math.Abs(_shape - 1.0) * Math.Sqrt(_shape - 2.0)); }
+            get { return (_scale*Math.Sqrt(_shape))/(Math.Abs(_shape - 1.0)*Math.Sqrt(_shape - 2.0)); }
         }
 
         /// <summary>
@@ -214,7 +212,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Entropy
         {
-            get { return Math.Log(_shape / _scale) - (1.0 / _shape) - 1.0; }
+            get { return Math.Log(_shape/_scale) - (1.0/_shape) - 1.0; }
         }
 
         /// <summary>
@@ -222,7 +220,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Skewness
         {
-            get { return (2.0 * (_shape + 1.0) / (_shape - 3.0)) * Math.Sqrt((_shape - 2.0) / _shape); }
+            get { return (2.0*(_shape + 1.0)/(_shape - 3.0))*Math.Sqrt((_shape - 2.0)/_shape); }
         }
 
         /// <summary>
@@ -232,7 +230,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>the cumulative density at <paramref name="x"/>.</returns>
         public double CumulativeDistribution(double x)
         {
-            return 1.0 - Math.Pow(_scale / x, _shape);
+            return 1.0 - Math.Pow(_scale/x, _shape);
         }
 
         #endregion
@@ -252,7 +250,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Median
         {
-            get { return _scale * Math.Pow(2.0, 1.0 / _shape); }
+            get { return _scale*Math.Pow(2.0, 1.0/_shape); }
         }
 
         /// <summary>
@@ -278,7 +276,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>the density at <paramref name="x"/>.</returns>
         public double Density(double x)
         {
-            return _shape * Math.Pow(_scale, _shape) / Math.Pow(x, _shape + 1.0);
+            return _shape*Math.Pow(_scale, _shape)/Math.Pow(x, _shape + 1.0);
         }
 
         /// <summary>
@@ -302,7 +300,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a random number from the Pareto distribution.</returns>
         internal static double SampleUnchecked(Random rnd, double scale, double shape)
         {
-            return scale * Math.Pow(rnd.NextDouble(), -1.0 / shape);
+            return scale*Math.Pow(rnd.NextDouble(), -1.0/shape);
         }
 
         /// <summary>

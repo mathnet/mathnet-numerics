@@ -150,7 +150,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Mean
         {
-            get { return 1.0 / _p; }
+            get { return 1.0/_p; }
         }
 
         /// <summary>
@@ -158,7 +158,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Variance
         {
-            get { return (1.0 - _p) / (_p * _p); }
+            get { return (1.0 - _p)/(_p*_p); }
         }
 
         /// <summary>
@@ -166,7 +166,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double StdDev
         {
-            get { return Math.Sqrt(1.0 - _p) / _p; }
+            get { return Math.Sqrt(1.0 - _p)/_p; }
         }
 
         /// <summary>
@@ -174,7 +174,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Entropy
         {
-            get { return ((-_p * Math.Log(_p, 2.0)) - ((1.0 - _p) * Math.Log(1.0 - _p, 2.0))) / _p; }
+            get { return ((-_p*Math.Log(_p, 2.0)) - ((1.0 - _p)*Math.Log(1.0 - _p, 2.0)))/_p; }
         }
 
         /// <summary>
@@ -183,7 +183,7 @@ namespace MathNet.Numerics.Distributions
         /// <remarks>Throws a not supported exception.</remarks>
         public double Skewness
         {
-            get { return (2.0 - _p) / Math.Sqrt(1.0 - _p); }
+            get { return (2.0 - _p)/Math.Sqrt(1.0 - _p); }
         }
 
         /// <summary>
@@ -213,7 +213,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public int Median
         {
-            get { return (int)Math.Ceiling(-Constants.Ln2 / Math.Log(1 - _p)); }
+            get { return (int) Math.Ceiling(-Constants.Ln2/Math.Log(1 - _p)); }
         }
 
         /// <summary>
@@ -246,7 +246,7 @@ namespace MathNet.Numerics.Distributions
                 return 0.0;
             }
 
-            return Math.Pow(1.0 - _p, k - 1) * _p;
+            return Math.Pow(1.0 - _p, k - 1)*_p;
         }
 
         /// <summary>
@@ -263,7 +263,7 @@ namespace MathNet.Numerics.Distributions
                 return Double.NegativeInfinity;
             }
 
-            return ((k - 1) * Math.Log(1.0 - _p)) + Math.Log(_p);
+            return ((k - 1)*Math.Log(1.0 - _p)) + Math.Log(_p);
         }
 
         #endregion
@@ -278,7 +278,7 @@ namespace MathNet.Numerics.Distributions
         /// </returns>
         internal static int SampleUnchecked(Random rnd, double p)
         {
-            return p == 1.0 ? 1 : (int)Math.Ceiling(-Math.Log(1.0 - rnd.NextDouble(), 1.0 - p));
+            return p == 1.0 ? 1 : (int) Math.Ceiling(-Math.Log(1.0 - rnd.NextDouble(), 1.0 - p));
         }
 
         /// <summary>
