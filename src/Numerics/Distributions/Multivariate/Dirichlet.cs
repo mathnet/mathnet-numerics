@@ -62,21 +62,27 @@ namespace MathNet.Numerics.Distributions
         /// <param name="alpha">An array with the Dirichlet parameters.</param>
         public Dirichlet(double[] alpha)
         {
+            _random = new Random();
             SetParameters(alpha);
-            RandomSource = new Random();
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the Dirichlet class. The distribution will
+        /// be initialized with the default <seealso cref="System.Random"/> random number generator.
+        /// </summary>
+        /// <param name="alpha">An array with the Dirichlet parameters.</param>
+        /// <param name="randomSource">The random number generator which is used to draw random samples.</param>
+        public Dirichlet(double[] alpha, Random randomSource)
+        {
+            _random = randomSource ?? new Random();
+            SetParameters(alpha);
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Dirichlet"/> class. 
-        /// <seealso cref="System.Random"/>
-        /// random number generator.
-        /// </summary>
-        /// <param name="alpha">
-        /// The value of each parameter of the Dirichlet distribution.
-        /// </param>
-        /// <param name="k">
-        /// The dimension of the Dirichlet distribution.
-        /// </param>
+        /// <seealso cref="System.Random"/>random number generator.</summary>
+        /// <param name="alpha">The value of each parameter of the Dirichlet distribution.</param>
+        /// <param name="k">The dimension of the Dirichlet distribution.</param>
         public Dirichlet(double alpha, int k)
         {
             // Create a parameter structure.
@@ -86,8 +92,27 @@ namespace MathNet.Numerics.Distributions
                 parm[i] = alpha;
             }
 
+            _random = new Random();
             SetParameters(parm);
-            RandomSource = new Random();
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Dirichlet"/> class. 
+        /// <seealso cref="System.Random"/>random number generator.</summary>
+        /// <param name="alpha">The value of each parameter of the Dirichlet distribution.</param>
+        /// <param name="k">The dimension of the Dirichlet distribution.</param>
+        /// <param name="randomSource">The random number generator which is used to draw random samples.</param>
+        public Dirichlet(double alpha, int k, Random randomSource)
+        {
+            // Create a parameter structure.
+            var parm = new double[k];
+            for (var i = 0; i < k; i++)
+            {
+                parm[i] = alpha;
+            }
+
+            _random = randomSource ?? new Random();
+            SetParameters(parm);
         }
 
         /// <summary>
@@ -301,11 +326,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public Random RandomSource
         {
-            get
-            {
-                return _random;
-            }
-
+            get { return _random; }
             set
             {
                 if (value == null)

@@ -56,7 +56,6 @@ namespace MathNet.Numerics.Distributions
         public double Lambda
         {
             get { return _lambda; }
-
             set { SetParameters(value); }
         }
 
@@ -67,8 +66,20 @@ namespace MathNet.Numerics.Distributions
         /// <exception cref="System.ArgumentOutOfRangeException">If <paramref name="lambda"/> is equal or less then 0.0.</exception>
         public Poisson(double lambda)
         {
+            _random = new Random();
             SetParameters(lambda);
-            RandomSource = new Random();
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Poisson"/> class.
+        /// </summary>
+        /// <param name="lambda">The Poisson distribution parameter λ.</param>
+        /// <param name="randomSource">The random number generator which is used to draw random samples.</param>
+        /// <exception cref="System.ArgumentOutOfRangeException">If <paramref name="lambda"/> is equal or less then 0.0.</exception>
+        public Poisson(double lambda, Random randomSource)
+        {
+            _random = randomSource ?? new Random();
+            SetParameters(lambda);
         }
 
         /// <summary>
@@ -115,7 +126,6 @@ namespace MathNet.Numerics.Distributions
         public Random RandomSource
         {
             get { return _random; }
-
             set
             {
                 if (value == null)

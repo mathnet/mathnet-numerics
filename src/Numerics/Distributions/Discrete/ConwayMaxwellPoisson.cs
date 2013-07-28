@@ -87,16 +87,24 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Initializes a new instance of the <see cref="ConwayMaxwellPoisson"/> class. 
         /// </summary>
-        /// <param name="lambda">
-        /// The lambda parameter.
-        /// </param>
-        /// <param name="nu">
-        /// The nu parameter.
-        /// </param>
+        /// <param name="lambda">The lambda parameter.</param>
+        /// <param name="nu">The nu parameter.</param>
         public ConwayMaxwellPoisson(double lambda, double nu)
         {
+            _random = new Random();
             SetParameters(lambda, nu);
-            RandomSource = new Random();
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ConwayMaxwellPoisson"/> class. 
+        /// </summary>
+        /// <param name="lambda">The lambda parameter.</param>
+        /// <param name="nu">The nu parameter.</param>
+        /// <param name="randomSource">The random number generator which is used to draw random samples.</param>
+        public ConwayMaxwellPoisson(double lambda, double nu, Random randomSource)
+        {
+            _random = randomSource ?? new Random();
+            SetParameters(lambda, nu);
         }
 
         /// <summary>
@@ -178,7 +186,6 @@ namespace MathNet.Numerics.Distributions
         public Random RandomSource
         {
             get { return _random; }
-
             set
             {
                 if (value == null)

@@ -76,27 +76,33 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Initializes a new instance of the <see cref="Laplace"/> class (location = 0, scale = 1). 
         /// </summary>
-        public Laplace()
-            : this(0.0, 1.0)
+        public Laplace() : this(0.0, 1.0)
         {
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Laplace"/> class. 
         /// </summary>
-        /// <param name="location">
-        /// The location for the Laplace distribution.
-        /// </param>
-        /// <param name="scale">
-        /// The scale for the Laplace distribution.
-        /// </param>
-        /// <exception cref="ArgumentException">
-        /// If <paramref name="scale"/> is negative.
-        /// </exception>
+        /// <param name="location">The location for the Laplace distribution.</param>
+        /// <param name="scale">The scale for the Laplace distribution.</param>
+        /// <exception cref="ArgumentException">If <paramref name="scale"/> is negative.</exception>
         public Laplace(double location, double scale)
         {
+            _random = new Random();
             SetParameters(location, scale);
-            RandomSource = new Random();
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Laplace"/> class. 
+        /// </summary>
+        /// <param name="location">The location for the Laplace distribution.</param>
+        /// <param name="scale">The scale for the Laplace distribution.</param>
+        /// <param name="randomSource">The random number generator which is used to draw random samples.</param>
+        /// <exception cref="ArgumentException">If <paramref name="scale"/> is negative.</exception>
+        public Laplace(double location, double scale, Random randomSource)
+        {
+            _random = randomSource ?? new Random();
+            SetParameters(location, scale);
         }
 
         /// <summary>
@@ -154,7 +160,6 @@ namespace MathNet.Numerics.Distributions
         public Random RandomSource
         {
             get { return _random; }
-
             set
             {
                 if (value == null)

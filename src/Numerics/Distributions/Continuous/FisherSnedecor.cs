@@ -59,16 +59,24 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Initializes a new instance of the <see cref="FisherSnedecor"/> class. 
         /// </summary>
-        /// <param name="d1">
-        /// The first parameter - degree of freedom.
-        /// </param>
-        /// <param name="d2">
-        /// The second parameter - degree of freedom.
-        /// </param>
+        /// <param name="d1">The first parameter - degree of freedom.</param>
+        /// <param name="d2">The second parameter - degree of freedom.</param>
         public FisherSnedecor(double d1, double d2)
         {
+            _random = new Random();
             SetParameters(d1, d2);
-            RandomSource = new Random();
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FisherSnedecor"/> class. 
+        /// </summary>
+        /// <param name="d1">The first parameter - degree of freedom.</param>
+        /// <param name="d2">The second parameter - degree of freedom.</param>
+        /// <param name="randomSource">The random number generator which is used to draw random samples.</param>
+        public FisherSnedecor(double d1, double d2, Random randomSource)
+        {
+            _random = randomSource ?? new Random();
+            SetParameters(d1, d2);
         }
 
         /// <summary>
@@ -145,12 +153,11 @@ namespace MathNet.Numerics.Distributions
         public Random RandomSource
         {
             get { return _random; }
-
             set
             {
                 if (value == null)
                 {
-                    throw new ArgumentNullException(Resources.InvalidDistributionParameters);
+                    throw new ArgumentNullException();
                 }
 
                 _random = value;

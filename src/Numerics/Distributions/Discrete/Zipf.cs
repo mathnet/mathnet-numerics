@@ -62,16 +62,24 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Initializes a new instance of the <see cref="Zipf"/> class. 
         /// </summary>
-        /// <param name="s">
-        /// The s parameter of the distribution.
-        /// </param>
-        /// <param name="n">
-        /// The n parameter of the distribution.
-        /// </param>
+        /// <param name="s">The s parameter of the distribution.</param>
+        /// <param name="n">The n parameter of the distribution.</param>
         public Zipf(double s, int n)
         {
+            _random = new Random();
             SetParameters(s, n);
-            RandomSource = new Random();
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Zipf"/> class. 
+        /// </summary>
+        /// <param name="s">The s parameter of the distribution.</param>
+        /// <param name="n">The n parameter of the distribution.</param>
+        /// <param name="randomSource">The random number generator which is used to draw random samples.</param>
+        public Zipf(double s, int n, Random randomSource)
+        {
+            _random = randomSource ?? new Random();
+            SetParameters(s, n);
         }
 
         /// <summary>
@@ -143,7 +151,6 @@ namespace MathNet.Numerics.Distributions
         public Random RandomSource
         {
             get { return _random; }
-
             set
             {
                 if (value == null)

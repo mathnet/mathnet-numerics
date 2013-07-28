@@ -384,8 +384,6 @@
     <Compile Include="IntegralTransforms\HartleyOptions.cs" />
     <Compile Include="GlobalizationHelper.cs" />
     <Compile Include="Interpolation\Algorithms\EquidistantPolynomialInterpolation.cs" />
-    <Compile Include="IPrecisionSupport.cs" />
-    <Compile Include="Interpolation\EquidistantPolynomialInterpolation.cs" />
     <Compile Include="IntegralTransforms\Algorithms\DiscreteFourierTransform.Options.cs" />
     <Compile Include="IntegralTransforms\Algorithms\DiscreteFourierTransform.Bluestein.cs" />
     <Compile Include="IntegralTransforms\Algorithms\DiscreteFourierTransform.Naive.cs" />

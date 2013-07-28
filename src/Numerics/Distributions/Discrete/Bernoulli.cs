@@ -59,8 +59,20 @@ namespace MathNet.Numerics.Distributions
         /// <exception cref="ArgumentOutOfRangeException">If the Bernoulli parameter is not in the range [0,1].</exception>
         public Bernoulli(double p)
         {
+            _random = new Random();
             SetParameters(p);
-            RandomSource = new Random();
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the Bernoulli class.
+        /// </summary>
+        /// <param name="p">The probability of generating one.</param>
+        /// <param name="randomSource">The random number generator which is used to draw random samples.</param>
+        /// <exception cref="ArgumentOutOfRangeException">If the Bernoulli parameter is not in the range [0,1].</exception>
+        public Bernoulli(double p, Random randomSource)
+        {
+            _random = randomSource ?? new Random();
+            SetParameters(p);
         }
 
         /// <summary>
@@ -120,7 +132,6 @@ namespace MathNet.Numerics.Distributions
         public Random RandomSource
         {
             get { return _random; }
-
             set
             {
                 if (value == null)

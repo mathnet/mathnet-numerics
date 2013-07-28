@@ -61,16 +61,26 @@ namespace MathNet.Numerics.Distributions
         /// The distribution will be initialized with the default <seealso cref="System.Random"/>
         /// random number generator.
         /// </summary>
-        /// <param name="mu">
-        /// The mu of the logarithm of the distribution.
-        /// </param>
-        /// <param name="sigma">
-        /// The standard deviation of the logarithm of the distribution.
-        /// </param>
+        /// <param name="mu">The mu of the logarithm of the distribution.</param>
+        /// <param name="sigma">The standard deviation of the logarithm of the distribution.</param>
         public LogNormal(double mu, double sigma)
         {
+            _random = new Random();
             SetParameters(mu, sigma);
-            RandomSource = new Random();
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="LogNormal"/> class. 
+        /// The distribution will be initialized with the default <seealso cref="System.Random"/>
+        /// random number generator.
+        /// </summary>
+        /// <param name="mu">The mu of the logarithm of the distribution.</param>
+        /// <param name="sigma">The standard deviation of the logarithm of the distribution.</param>
+        /// <param name="randomSource">The random number generator which is used to draw random samples.</param>
+        public LogNormal(double mu, double sigma, Random randomSource)
+        {
+            _random = randomSource ?? new Random();
+            SetParameters(mu, sigma);
         }
 
         /// <summary>

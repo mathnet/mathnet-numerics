@@ -71,8 +71,20 @@ namespace MathNet.Numerics.Distributions
         /// <param name="invScale">The inverse scale of the Gamma distribution.</param>
         public Gamma(double shape, double invScale)
         {
+            _random = new Random();
             SetParameters(shape, invScale);
-            RandomSource = new Random();
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the Gamma class.
+        /// </summary>
+        /// <param name="shape">The shape of the Gamma distribution.</param>
+        /// <param name="invScale">The inverse scale of the Gamma distribution.</param>
+        /// <param name="randomSource">The random number generator which is used to draw random samples.</param>
+        public Gamma(double shape, double invScale, Random randomSource)
+        {
+            _random = randomSource ?? new Random();
+            SetParameters(shape, invScale);
         }
 
         /// <summary>
@@ -189,7 +201,6 @@ namespace MathNet.Numerics.Distributions
         public Random RandomSource
         {
             get { return _random; }
-
             set
             {
                 if (value == null)

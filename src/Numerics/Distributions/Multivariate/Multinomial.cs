@@ -73,8 +73,23 @@ namespace MathNet.Numerics.Distributions
         /// <exception cref="ArgumentOutOfRangeException">If <paramref name="n"/> is negative.</exception>
         public Multinomial(double[] p, int n)
         {
+            _random = new Random();
             SetParameters(p, n);
-            RandomSource = new Random();
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the Multinomial class.
+        /// </summary>
+        /// <param name="p">An array of nonnegative ratios: this array does not need to be normalized 
+        /// as this is often impossible using floating point arithmetic.</param>
+        /// <param name="n">The number of trials.</param>
+        /// <param name="randomSource">The random number generator which is used to draw random samples.</param>
+        /// <exception cref="ArgumentOutOfRangeException">If any of the probabilities are negative or do not sum to one.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">If <paramref name="n"/> is negative.</exception>
+        public Multinomial(double[] p, int n, Random randomSource)
+        {
+            _random = randomSource ?? new Random();
+            SetParameters(p, n);
         }
 
         /// <summary>
@@ -198,11 +213,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public Random RandomSource
         {
-            get
-            {
-                return _random;
-            }
-
+            get { return _random; }
             set
             {
                 if (value == null)

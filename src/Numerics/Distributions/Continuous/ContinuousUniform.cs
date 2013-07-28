@@ -63,8 +63,7 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Initializes a new instance of the ContinuousUniform class with lower bound 0 and upper bound 1.
         /// </summary>
-        public ContinuousUniform()
-            : this(0.0, 1.0)
+        public ContinuousUniform() : this(0.0, 1.0)
         {
         }
 
@@ -76,8 +75,21 @@ namespace MathNet.Numerics.Distributions
         /// <exception cref="ArgumentException">If the upper bound is smaller than the lower bound.</exception>
         public ContinuousUniform(double lower, double upper)
         {
+            _random = new Random();
             SetParameters(lower, upper);
-            RandomSource = new Random();
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the ContinuousUniform class with given lower and upper bounds.
+        /// </summary>
+        /// <param name="lower">Lower bound.</param>
+        /// <param name="upper">Upper bound; must be at least as large as lower.</param>
+        /// <param name="randomSource">The random number generator which is used to draw random samples.</param>
+        /// <exception cref="ArgumentException">If the upper bound is smaller than the lower bound.</exception>
+        public ContinuousUniform(double lower, double upper, Random randomSource)
+        {
+            _random = randomSource ?? new Random();
+            SetParameters(lower, upper);
         }
 
         /// <summary>
@@ -155,7 +167,6 @@ namespace MathNet.Numerics.Distributions
         public Random RandomSource
         {
             get { return _random; }
-
             set
             {
                 if (value == null)

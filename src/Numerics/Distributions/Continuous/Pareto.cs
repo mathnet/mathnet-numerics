@@ -61,19 +61,26 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Initializes a new instance of the <see cref="Pareto"/> class. 
         /// </summary>
-        /// <param name="scale">
-        /// The scale parameter of the distribution.
-        /// </param>
-        /// <param name="shape">
-        /// The shape parameter of the distribution.
-        /// </param>
-        /// <exception cref="ArgumentException">
-        /// If <paramref name="scale"/> or <paramref name="shape"/> are negative.
-        /// </exception>
+        /// <param name="scale">The scale parameter of the distribution.</param>
+        /// <param name="shape">The shape parameter of the distribution.</param>
+        /// <exception cref="ArgumentException">If <paramref name="scale"/> or <paramref name="shape"/> are negative.</exception>
         public Pareto(double scale, double shape)
         {
+            _random = new Random();
             SetParameters(scale, shape);
-            RandomSource = new Random();
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Pareto"/> class. 
+        /// </summary>
+        /// <param name="scale">The scale parameter of the distribution.</param>
+        /// <param name="shape">The shape parameter of the distribution.</param>
+        /// <param name="randomSource">The random number generator which is used to draw random samples.</param>
+        /// <exception cref="ArgumentException">If <paramref name="scale"/> or <paramref name="shape"/> are negative.</exception>
+        public Pareto(double scale, double shape, Random randomSource)
+        {
+            _random = randomSource ?? new Random();
+            SetParameters(scale, shape);
         }
 
         /// <summary>
@@ -151,7 +158,6 @@ namespace MathNet.Numerics.Distributions
         public Random RandomSource
         {
             get { return _random; }
-
             set
             {
                 if (value == null)

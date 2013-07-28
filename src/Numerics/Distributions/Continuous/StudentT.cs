@@ -77,8 +77,7 @@ namespace MathNet.Numerics.Distributions
         /// scale 1.0 and degrees of freedom 1. The distribution will
         /// be initialized with the default <seealso cref="System.Random"/> random number generator.
         /// </summary>
-        public StudentT()
-            : this(0.0, 1.0, 1.0)
+        public StudentT() : this(0.0, 1.0, 1.0)
         {
         }
 
@@ -92,8 +91,23 @@ namespace MathNet.Numerics.Distributions
         /// <param name="dof">The degrees of freedom for the Student t-distribution.</param>
         public StudentT(double location, double scale, double dof)
         {
+            _random = new Random();
             SetParameters(location, scale, dof);
-            RandomSource = new Random();
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the StudentT class with a particular location, scale and degrees of
+        /// freedom. The distribution will
+        /// be initialized with the default <seealso cref="System.Random"/> random number generator.
+        /// </summary>
+        /// <param name="location">The location of the Student t-distribution.</param>
+        /// <param name="scale">The scale of the Student t-distribution.</param>
+        /// <param name="dof">The degrees of freedom for the Student t-distribution.</param>
+        /// <param name="randomSource">The random number generator which is used to draw random samples.</param>
+        public StudentT(double location, double scale, double dof, Random randomSource)
+        {
+            _random = randomSource ?? new Random();
+            SetParameters(location, scale, dof);
         }
 
         /// <summary>
@@ -179,7 +193,6 @@ namespace MathNet.Numerics.Distributions
         public Random RandomSource
         {
             get { return _random; }
-
             set
             {
                 if (value == null)

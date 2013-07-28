@@ -60,16 +60,24 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Initializes a new instance of the <see cref="InverseGamma"/> class. 
         /// </summary>
-        /// <param name="shape">
-        /// The shape (alpha) parameter of the inverse Gamma distribution.
-        /// </param>
-        /// <param name="scale">
-        /// The scale (beta) parameter of the inverse Gamma distribution.
-        /// </param>
+        /// <param name="shape">The shape (alpha) parameter of the inverse Gamma distribution.</param>
+        /// <param name="scale">The scale (beta) parameter of the inverse Gamma distribution.</param>
         public InverseGamma(double shape, double scale)
         {
-            SetParameters(shape, scale);
             _random = new Random();
+            SetParameters(shape, scale);
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="InverseGamma"/> class. 
+        /// </summary>
+        /// <param name="shape">The shape (alpha) parameter of the inverse Gamma distribution.</param>
+        /// <param name="scale">The scale (beta) parameter of the inverse Gamma distribution.</param>
+        /// <param name="randomSource">The random number generator which is used to draw random samples.</param>
+        public InverseGamma(double shape, double scale, Random randomSource)
+        {
+            _random = randomSource ?? new Random();
+            SetParameters(shape, scale);
         }
 
         /// <summary>
@@ -155,7 +163,6 @@ namespace MathNet.Numerics.Distributions
         public Random RandomSource
         {
             get { return _random; }
-
             set
             {
                 if (value == null)

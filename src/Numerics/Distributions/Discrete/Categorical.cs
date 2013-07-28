@@ -63,8 +63,21 @@ namespace MathNet.Numerics.Distributions
         /// <exception cref="ArgumentException">If any of the probabilities are negative or do not sum to one.</exception>
         public Categorical(double[] probabilityMass)
         {
+            _random = new Random();
             SetParameters(probabilityMass);
-            RandomSource = new Random();
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the Categorical class.
+        /// </summary>
+        /// <param name="probabilityMass">An array of nonnegative ratios: this array does not need to be normalized 
+        /// as this is often impossible using floating point arithmetic.</param>
+        /// <param name="randomSource">The random number generator which is used to draw random samples.</param>
+        /// <exception cref="ArgumentException">If any of the probabilities are negative or do not sum to one.</exception>
+        public Categorical(double[] probabilityMass, Random randomSource)
+        {
+            _random = randomSource ?? new Random();
+            SetParameters(probabilityMass);
         }
 
         /// <summary>
@@ -89,8 +102,8 @@ namespace MathNet.Numerics.Distributions
                 p[i] = histogram[i].Count;
             }
 
+            _random = new Random();
             SetParameters(p);
-            RandomSource = new Random();
         }
 
         /// <summary>
@@ -196,7 +209,6 @@ namespace MathNet.Numerics.Distributions
         public Random RandomSource
         {
             get { return _random; }
-
             set
             {
                 if (value == null)

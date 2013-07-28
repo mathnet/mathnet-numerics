@@ -77,8 +77,21 @@ namespace MathNet.Numerics.Distributions
         /// <param name="n">The n parameter of the distribution.</param>
         public Hypergeometric(int populationSize, int m, int n)
         {
+            _random = new Random();
             SetParameters(populationSize, m, n);
-            RandomSource = new Random();
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the Hypergeometric class.
+        /// </summary>
+        /// <param name="populationSize">The population size.</param>
+        /// <param name="m">The m parameter of the distribution.</param>
+        /// <param name="n">The n parameter of the distribution.</param>
+        /// <param name="randomSource">The random number generator which is used to draw random samples.</param>
+        public Hypergeometric(int populationSize, int m, int n, Random randomSource)
+        {
+            _random = randomSource ?? new Random();
+            SetParameters(populationSize, m, n);
         }
 
         /// <summary>
@@ -167,7 +180,6 @@ namespace MathNet.Numerics.Distributions
         public Random RandomSource
         {
             get { return _random; }
-
             set
             {
                 if (value == null)

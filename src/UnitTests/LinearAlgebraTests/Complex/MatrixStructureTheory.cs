@@ -77,7 +77,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
 
         protected override Matrix<Complex> CreateDenseRandom(int rows, int columns, int seed)
         {
-            var dist = new Normal {RandomSource = new MersenneTwister(seed)};
+            var dist = new Normal(new MersenneTwister(seed));
             return new DenseMatrix(rows, columns, Enumerable.Range(0, rows*columns).Select(k => new Complex(dist.Sample(), dist.Sample())).ToArray());
         }
 
@@ -93,7 +93,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
 
         protected override Vector<Complex> CreateVectorRandom(int size, int seed)
         {
-            var dist = new Normal {RandomSource = new MersenneTwister(seed)};
+            var dist = new Normal(new MersenneTwister(seed));
             return new DenseVector(Enumerable.Range(0, size).Select(k => new Complex(dist.Sample(), dist.Sample())).ToArray());
         }
     }

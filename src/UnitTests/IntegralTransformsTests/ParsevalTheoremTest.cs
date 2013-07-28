@@ -26,6 +26,7 @@
 
 namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
 {
+    using System;
     using System.Linq;
     using System.Numerics;
     using Distributions;
@@ -44,12 +45,9 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         /// <summary>
         /// Continuous uniform distribution.
         /// </summary>
-        private IContinuousDistribution GetUniform(int seed)
+        IContinuousDistribution GetUniform(int seed)
         {
-            return new ContinuousUniform(-1, 1)
-            {
-                RandomSource = new System.Random(seed)
-            };
+            return new ContinuousUniform(-1, 1, new Random(seed));
         }
 
         /// <summary>
@@ -85,7 +83,7 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         {
             var samples = SignalGenerator.Random(x => x, GetUniform(1), count);
 
-            var timeSpaceEnergy = (from s in samples select s * s).Mean();
+            var timeSpaceEnergy = (from s in samples select s*s).Mean();
 
             var work = new double[samples.Length];
             samples.CopyTo(work, 0);
@@ -94,8 +92,9 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
             var dht = new DiscreteHartleyTransform();
             work = dht.NaiveForward(work, HartleyOptions.Default);
 
-            var frequencySpaceEnergy = (from s in work select s * s).Mean();
+            var frequencySpaceEnergy = (from s in work select s*s).Mean();
             Assert.AreEqual(timeSpaceEnergy, frequencySpaceEnergy, 1e-12);
         }
     }
 }
+

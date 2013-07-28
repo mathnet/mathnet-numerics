@@ -61,8 +61,17 @@ namespace MathNet.Numerics.Distributions
         /// and standard deviation 1.0. The distribution will
         /// be initialized with the default <seealso cref="System.Random"/> random number generator.
         /// </summary>
-        public Normal()
-            : this(0.0, 1.0)
+        public Normal() : this(0.0, 1.0)
+        {
+        }
+        
+        /// <summary>
+        /// Initializes a new instance of the Normal class. This is a normal distribution with mean 0.0
+        /// and standard deviation 1.0. The distribution will
+        /// be initialized with the default <seealso cref="System.Random"/> random number generator.
+        /// </summary>
+        /// <param name="randomSource">The random number generator which is used to draw random samples.</param>
+        public Normal(Random randomSource) : this(0.0, 1.0, randomSource)
         {
         }
 
@@ -74,8 +83,21 @@ namespace MathNet.Numerics.Distributions
         /// <param name="stddev">The standard deviation of the normal distribution.</param>
         public Normal(double mean, double stddev)
         {
+            _random = new Random();
             SetParameters(mean, stddev);
-            RandomSource = new Random();
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the Normal class with a particular mean and standard deviation. The distribution will
+        /// be initialized with the default <seealso cref="System.Random"/> random number generator.
+        /// </summary>
+        /// <param name="mean">The mean of the normal distribution.</param>
+        /// <param name="stddev">The standard deviation of the normal distribution.</param>
+        /// <param name="randomSource">The random number generator which is used to draw random samples.</param>
+        public Normal(double mean, double stddev, Random randomSource)
+        {
+            _random = randomSource ?? new Random();
+            SetParameters(mean, stddev);
         }
 
         /// <summary>
@@ -185,7 +207,6 @@ namespace MathNet.Numerics.Distributions
         public Random RandomSource
         {
             get { return _random; }
-
             set
             {
                 if (value == null)

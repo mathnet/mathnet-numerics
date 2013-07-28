@@ -54,27 +54,33 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Initializes a new instance of the <see cref="Cauchy"/> class with the location parameter set to 0 and the scale parameter set to 1
         /// </summary>
-        public Cauchy()
-            : this(0, 1)
+        public Cauchy() : this(0, 1)
         {
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Cauchy"/> class. 
         /// </summary>
-        /// <param name="location">
-        /// The location parameter for the distribution.
-        /// </param>
-        /// <param name="scale">
-        /// The scale parameter for the distribution.
-        /// </param>
-        /// <exception cref="ArgumentException">
-        /// If <paramref name="scale"/> is negative.
-        /// </exception>
+        /// <param name="location">The location parameter for the distribution.</param>
+        /// <param name="scale">The scale parameter for the distribution.</param>
+        /// <exception cref="ArgumentException">If <paramref name="scale"/> is negative.</exception>
         public Cauchy(double location, double scale)
         {
+            _random = new Random();
             SetParameters(location, scale);
-            RandomSource = new Random();
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Cauchy"/> class. 
+        /// </summary>
+        /// <param name="location">The location parameter for the distribution.</param>
+        /// <param name="scale">The scale parameter for the distribution.</param>
+        /// <param name="randomSource">The random number generator which is used to draw random samples.</param>
+        /// <exception cref="ArgumentException">If <paramref name="scale"/> is negative.</exception>
+        public Cauchy(double location, double scale, Random randomSource)
+        {
+            _random = randomSource ?? new Random();
+            SetParameters(location, scale);
         }
 
         /// <summary>
