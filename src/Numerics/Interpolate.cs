@@ -69,7 +69,7 @@ namespace MathNet.Numerics
             IList<double> points,
             IList<double> values)
         {
-            LinearSplineInterpolation method = new LinearSplineInterpolation();
+            var method = new LinearSplineInterpolation();
             method.Initialize(points, values);
             return method;
         }
@@ -88,7 +88,7 @@ namespace MathNet.Numerics
             IList<double> points,
             IList<double> values)
         {
-            FloaterHormannRationalInterpolation method = new FloaterHormannRationalInterpolation();
+            var method = new FloaterHormannRationalInterpolation();
             method.Initialize(points, values);
             return method;
         }
@@ -107,7 +107,7 @@ namespace MathNet.Numerics
             IList<double> points,
             IList<double> values)
         {
-            BulirschStoerRationalInterpolation method = new BulirschStoerRationalInterpolation();
+            var method = new BulirschStoerRationalInterpolation();
             method.Initialize(points, values);
             return method;
         }

@@ -82,7 +82,7 @@ namespace MathNet.Numerics.Interpolation
         /// Gets a value indicating whether the algorithm supports differentiation (interpolated derivative).
         /// </summary>
         /// <seealso cref="Differentiate(double)"/>
-        /// <seealso cref="Differentiate(double, out double, out double)"/>
+        /// <seealso cref="DifferentiateAll(double)"/>
         bool IInterpolation.SupportsDifferentiation
         {
             get { return true; }
@@ -164,7 +164,7 @@ namespace MathNet.Numerics.Interpolation
         /// <param name="t">Point t to interpolate at.</param>
         /// <returns>Interpolated first derivative at point t.</returns>
         /// <seealso cref="IInterpolation.SupportsDifferentiation"/>
-        /// <seealso cref="Differentiate(double, out double, out double)"/>
+        /// <seealso cref="DifferentiateAll(double)"/>
         public double Differentiate(double t)
         {
             double[] x = new double[_values.Count];
@@ -187,22 +187,17 @@ namespace MathNet.Numerics.Interpolation
         }
 
         /// <summary>
-        /// Differentiate at point t.
+        /// Interpolate, differentiate and 2nd differentiate at point t.
         /// </summary>
         /// <param name="t">Point t to interpolate at.</param>
-        /// <param name="interpolatedValue">Interpolated value x(t)</param>
-        /// <param name="secondDerivative">Interpolated second derivative at point t.</param>
         /// <returns>Interpolated first derivative at point t.</returns>
         /// <seealso cref="IInterpolation.SupportsDifferentiation"/>
         /// <seealso cref="Differentiate(double)"/>
-        public double Differentiate(
-            double t,
-            out double interpolatedValue,
-            out double secondDerivative)
+        public Tuple<double, double, double> DifferentiateAll(double t)
         {
-            double[] x = new double[_values.Count];
-            double[] dx = new double[_values.Count];
-            double[] ddx = new double[_values.Count];
+            var x = new double[_values.Count];
+            var dx = new double[_values.Count];
+            var ddx = new double[_values.Count];
             _values.CopyTo(x, 0);
 
             for (int level = 1; level < x.Length; level++)
@@ -212,19 +207,17 @@ namespace MathNet.Numerics.Interpolation
                     double hp = t - _points[i + level];
                     double ho = _points[i] - t;
                     double den = _points[i] - _points[i + level];
-                    ddx[i] = ((hp*ddx[i]) + (ho*ddx[i + 1]) + (2*dx[i]) - (2*dx[i + 1]))/den;
-                    dx[i] = ((hp*dx[i]) + x[i] + (ho*dx[i + 1]) - x[i + 1])/den;
-                    x[i] = ((hp*x[i]) + (ho*x[i + 1]))/den;
+                    ddx[i] = ((hp * ddx[i]) + (ho * ddx[i + 1]) + (2 * dx[i]) - (2 * dx[i + 1])) / den;
+                    dx[i] = ((hp * dx[i]) + x[i] + (ho * dx[i + 1]) - x[i + 1]) / den;
+                    x[i] = ((hp * x[i]) + (ho * x[i + 1])) / den;
                 }
             }
 
-            interpolatedValue = x[0];
-            secondDerivative = ddx[0];
-            return dx[0];
+            return new Tuple<double, double, double>(x[0], dx[0], ddx[0]);
         }
 
         /// <summary>
-        /// Integrate up to point t.
+        /// Integrate up to point t. NOT SUPPORTED.
         /// </summary>
         /// <param name="t">Right bound of the integration interval [a,t].</param>
         /// <returns>Interpolated definite integral over the interval [a,t].</returns>

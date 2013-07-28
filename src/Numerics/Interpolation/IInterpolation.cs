@@ -28,6 +28,8 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System;
+
 namespace MathNet.Numerics.Interpolation
 {
     /// <summary>
@@ -39,7 +41,7 @@ namespace MathNet.Numerics.Interpolation
         /// Gets a value indicating whether the algorithm supports differentiation (interpolated derivative).
         /// </summary>
         /// <seealso cref="Differentiate(double)"/>
-        /// <seealso cref="Differentiate(double, out double, out double)"/>
+        /// <seealso cref="DifferentiateAll(double)"/>
         bool SupportsDifferentiation { get; }
 
         /// <summary>
@@ -61,22 +63,17 @@ namespace MathNet.Numerics.Interpolation
         /// <param name="t">Point t to interpolate at.</param>
         /// <returns>Interpolated first derivative at point t.</returns>
         /// <seealso cref="SupportsDifferentiation"/>
-        /// <seealso cref="Differentiate(double, out double, out double)"/>
+        /// <seealso cref="DifferentiateAll(double)"/>
         double Differentiate(double t);
 
         /// <summary>
-        /// Differentiate at point t.
+        /// Interpolate, differentiate and 2nd differentiate at point t.
         /// </summary>
         /// <param name="t">Point t to interpolate at.</param>
-        /// <param name="interpolatedValue">Interpolated value x(t)</param>
-        /// <param name="secondDerivative">Interpolated second derivative at point t.</param>
         /// <returns>Interpolated first derivative at point t.</returns>
         /// <seealso cref="SupportsDifferentiation"/>
         /// <seealso cref="Differentiate(double)"/>
-        double Differentiate(
-            double t,
-            out double interpolatedValue,
-            out double secondDerivative);
+        Tuple<double, double, double> DifferentiateAll(double t);
 
         /// <summary>
         /// Integrate up to point t.

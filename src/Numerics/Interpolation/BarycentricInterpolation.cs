@@ -81,7 +81,7 @@ namespace MathNet.Numerics.Interpolation
         /// Gets a value indicating whether the algorithm supports differentiation (interpolated derivative).
         /// </summary>
         /// <seealso cref="IInterpolation.Differentiate(double)"/>
-        /// <seealso cref="IInterpolation.Differentiate(double, out double, out double)"/>
+        /// <seealso cref="IInterpolation.DifferentiateAll(double)"/>
         bool IInterpolation.SupportsDifferentiation
         {
             get { return false; }
@@ -203,36 +203,31 @@ namespace MathNet.Numerics.Interpolation
         }
 
         /// <summary>
-        /// Differentiate at point t.
+        /// Differentiate at point t. NOT SUPPORTED.
         /// </summary>
         /// <param name="t">Point t to interpolate at.</param>
         /// <returns>Interpolated first derivative at point t.</returns>
         /// <seealso cref="IInterpolation.SupportsDifferentiation"/>
-        /// <seealso cref="IInterpolation.Differentiate(double, out double, out double)"/>
+        /// <seealso cref="IInterpolation.DifferentiateAll(double)"/>
         double IInterpolation.Differentiate(double t)
         {
             throw new NotSupportedException();
         }
 
         /// <summary>
-        /// Differentiate at point t.
+        /// Interpolate, differentiate and 2nd differentiate at point t. NOT SUPPORTED.
         /// </summary>
         /// <param name="t">Point t to interpolate at.</param>
-        /// <param name="interpolatedValue">Interpolated value x(t)</param>
-        /// <param name="secondDerivative">Interpolated second derivative at point t.</param>
         /// <returns>Interpolated first derivative at point t.</returns>
         /// <seealso cref="IInterpolation.SupportsDifferentiation"/>
         /// <seealso cref="IInterpolation.Differentiate(double)"/>
-        double IInterpolation.Differentiate(
-            double t,
-            out double interpolatedValue,
-            out double secondDerivative)
+        Tuple<double, double, double> IInterpolation.DifferentiateAll(double t)
         {
             throw new NotSupportedException();
         }
 
         /// <summary>
-        /// Integrate up to point t.
+        /// Integrate up to point t. NOT SUPPORTED.
         /// </summary>
         /// <param name="t">Right bound of the integration interval [a,t].</param>
         /// <returns>Interpolated definite integral over the interval [a,t].</returns>

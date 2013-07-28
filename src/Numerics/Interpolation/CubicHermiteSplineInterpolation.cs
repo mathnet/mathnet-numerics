@@ -74,7 +74,7 @@ namespace MathNet.Numerics.Interpolation
         /// Gets a value indicating whether the algorithm supports differentiation (interpolated derivative).
         /// </summary>
         /// <seealso cref="Differentiate(double)"/>
-        /// <seealso cref="Differentiate(double, out double, out double)"/>
+        /// <seealso cref="DifferentiateAll(double)"/>
         bool IInterpolation.SupportsDifferentiation
         {
             get { return true; }
@@ -183,27 +183,22 @@ namespace MathNet.Numerics.Interpolation
         /// <param name="t">Point t to interpolate at.</param>
         /// <returns>Interpolated first derivative at point t.</returns>
         /// <seealso cref="IInterpolation.SupportsDifferentiation"/>
-        /// <seealso cref="Differentiate(double, out double, out double)"/>
+        /// <seealso cref="DifferentiateAll(double)"/>
         public double Differentiate(double t)
         {
             return _spline.Differentiate(t);
         }
 
         /// <summary>
-        /// Differentiate at point t.
+        /// Interpolate, differentiate and 2nd differentiate at point t.
         /// </summary>
         /// <param name="t">Point t to interpolate at.</param>
-        /// <param name="interpolatedValue">Interpolated value x(t)</param>
-        /// <param name="secondDerivative">Interpolated second derivative at point t.</param>
         /// <returns>Interpolated first derivative at point t.</returns>
         /// <seealso cref="IInterpolation.SupportsDifferentiation"/>
         /// <seealso cref="Differentiate(double)"/>
-        public double Differentiate(
-            double t,
-            out double interpolatedValue,
-            out double secondDerivative)
+        public Tuple<double, double, double> DifferentiateAll(double t)
         {
-            return _spline.Differentiate(t, out interpolatedValue, out secondDerivative);
+            return _spline.DifferentiateAll(t);
         }
 
         /// <summary>

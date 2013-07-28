@@ -80,7 +80,7 @@ namespace MathNet.Numerics.Interpolation
         /// Gets a value indicating whether the algorithm supports differentiation (interpolated derivative).
         /// </summary>
         /// <seealso cref="Differentiate(double)"/>
-        /// <seealso cref="Differentiate(double, out double, out double)"/>
+        /// <seealso cref="DifferentiateAll(double)"/>
         bool IInterpolation.SupportsDifferentiation
         {
             get { return true; }
@@ -158,7 +158,7 @@ namespace MathNet.Numerics.Interpolation
         /// <param name="t">Point t to interpolate at.</param>
         /// <returns>Interpolated first derivative at point t.</returns>
         /// <seealso cref="IInterpolation.SupportsDifferentiation"/>
-        /// <seealso cref="Differentiate(double, out double, out double)"/>
+        /// <seealso cref="DifferentiateAll(double)"/>
         public double Differentiate(double t)
         {
             int closestLeftIndex = IndexOfClosestPointLeftOf(t);
@@ -173,36 +173,22 @@ namespace MathNet.Numerics.Interpolation
         }
 
         /// <summary>
-        /// Differentiate at point t.
+        /// Interpolate, differentiate and 2nd differentiate at point t.
         /// </summary>
         /// <param name="t">Point t to interpolate at.</param>
-        /// <param name="interpolatedValue">Interpolated value x(t)</param>
-        /// <param name="secondDerivative">Interpolated second derivative at point t.</param>
         /// <returns>Interpolated first derivative at point t.</returns>
         /// <seealso cref="IInterpolation.SupportsDifferentiation"/>
         /// <seealso cref="Differentiate(double)"/>
-        public double Differentiate(
-            double t,
-            out double interpolatedValue,
-            out double secondDerivative)
+        public Tuple<double, double, double> DifferentiateAll(double t)
         {
             int closestLeftIndex = IndexOfClosestPointLeftOf(t);
-
-            // Differentiation
             double offset = t - _points[closestLeftIndex];
             int k = closestLeftIndex << 2;
 
-            interpolatedValue = _coefficients[k]
-                + (offset*(_coefficients[k + 1]
-                    + (offset*(_coefficients[k + 2]
-                        + (offset*_coefficients[k + 3])))));
-
-            secondDerivative = (2*_coefficients[k + 2])
-                + (6*offset*_coefficients[k + 3]);
-
-            return _coefficients[k + 1]
-                + (2*offset*_coefficients[k + 2])
-                + (3*offset*offset*_coefficients[k + 3]);
+            return new Tuple<double, double, double>(
+                _coefficients[k] + (offset*(_coefficients[k + 1] + (offset*(_coefficients[k + 2] + (offset*_coefficients[k + 3]))))),
+                _coefficients[k + 1] + (2*offset*_coefficients[k + 2]) + (3*offset*offset*_coefficients[k + 3]),
+                (2*_coefficients[k + 2]) + (6*offset*_coefficients[k + 3]));
         }
 
         /// <summary>
