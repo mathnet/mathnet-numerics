@@ -60,9 +60,7 @@ namespace MathNet.Numerics.Interpolation
         /// </summary>
         /// <param name="samplePoints">Sample Points t, sorted ascending.</param>
         /// <param name="sampleValues">Sample Values x(t)</param>
-        public LinearSplineInterpolation(
-            IList<double> samplePoints,
-            IList<double> sampleValues)
+        public LinearSplineInterpolation(IList<double> samplePoints, IList<double> sampleValues)
         {
             _spline = new SplineInterpolation();
             Initialize(samplePoints, sampleValues);
@@ -92,14 +90,9 @@ namespace MathNet.Numerics.Interpolation
         /// </summary>
         /// <param name="samplePoints">Sample Points t, sorted ascending.</param>
         /// <param name="sampleValues">Sample Values x(t)</param>
-        public void Initialize(
-            IList<double> samplePoints,
-            IList<double> sampleValues)
+        public void Initialize(IList<double> samplePoints, IList<double> sampleValues)
         {
-            double[] coefficients = EvaluateSplineCoefficients(
-                samplePoints,
-                sampleValues);
-
+            double[] coefficients = EvaluateSplineCoefficients(samplePoints, sampleValues);
             _spline.Initialize(samplePoints, coefficients);
         }
 
@@ -110,9 +103,7 @@ namespace MathNet.Numerics.Interpolation
         /// <param name="samplePoints">Sample Points t, sorted ascending.</param>
         /// <param name="sampleValues">Sample Values x(t)</param>
         /// <returns>Spline Coefficient Vector</returns>
-        public static double[] EvaluateSplineCoefficients(
-            IList<double> samplePoints,
-            IList<double> sampleValues)
+        public static double[] EvaluateSplineCoefficients(IList<double> samplePoints, IList<double> sampleValues)
         {
             if (null == samplePoints)
             {

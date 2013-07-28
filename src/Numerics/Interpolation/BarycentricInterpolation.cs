@@ -69,10 +69,7 @@ namespace MathNet.Numerics.Interpolation
         /// <param name="samplePoints">Sample Points t (no sorting assumed)</param>
         /// <param name="sampleValues">Sample Values x(t)</param>
         /// <param name="barycentricWeights">Barycentric weights w(t)</param>
-        public BarycentricInterpolation(
-            IList<double> samplePoints,
-            IList<double> sampleValues,
-            IList<double> barycentricWeights)
+        public BarycentricInterpolation(IList<double> samplePoints, IList<double> sampleValues, IList<double> barycentricWeights)
         {
             Initialize(samplePoints, sampleValues, barycentricWeights);
         }
@@ -102,10 +99,7 @@ namespace MathNet.Numerics.Interpolation
         /// <param name="samplePoints">Sample Points t</param>
         /// <param name="sampleValues">Sample Values x(t)</param>
         /// <param name="barycentricWeights">Barycentric weights w(t)</param>
-        public void Initialize(
-            IList<double> samplePoints,
-            IList<double> sampleValues,
-            IList<double> barycentricWeights)
+        public void Initialize(IList<double> samplePoints, IList<double> sampleValues, IList<double> barycentricWeights)
         {
             if (null == samplePoints)
             {

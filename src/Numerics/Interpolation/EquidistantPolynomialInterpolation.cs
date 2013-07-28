@@ -60,10 +60,7 @@ namespace MathNet.Numerics.Interpolation
         /// <param name="leftBound">Left bound of the sample point interval.</param>
         /// <param name="rightBound">Right bound of the sample point interval.</param>
         /// <param name="sampleValues">Sample Values x(t) where t is equidistant over [a,b], i.e. x[i] = x(a+(b-a)*i/(n-1))</param>
-        public EquidistantPolynomialInterpolation(
-            double leftBound,
-            double rightBound,
-            IList<double> sampleValues)
+        public EquidistantPolynomialInterpolation(double leftBound, double rightBound, IList<double> sampleValues)
         {
             _barycentric = new BarycentricInterpolation();
             Initialize(leftBound, rightBound, sampleValues);
@@ -74,9 +71,7 @@ namespace MathNet.Numerics.Interpolation
         /// </summary>
         /// <param name="samplePoints">Equidistant Sample Points t = a+(b-a)*i/(n-1)</param>
         /// <param name="sampleValues">Sample Values x(t) where t are equidistant over [a,b], i.e. x[i] = x(a+(b-a)*i/(n-1))</param>
-        public EquidistantPolynomialInterpolation(
-            IList<double> samplePoints,
-            IList<double> sampleValues)
+        public EquidistantPolynomialInterpolation(IList<double> samplePoints, IList<double> sampleValues)
         {
             _barycentric = new BarycentricInterpolation();
             Initialize(samplePoints, sampleValues);
@@ -107,10 +102,7 @@ namespace MathNet.Numerics.Interpolation
         /// <param name="leftBound">Left bound of the sample point interval.</param>
         /// <param name="rightBound">Right bound of the sample point interval.</param>
         /// <param name="sampleValues">Sample Values x(t) where t are equidistant over [a,b], i.e. x[i] = x(a+(b-a)*i/(n-1))</param>
-        public void Initialize(
-            double leftBound,
-            double rightBound,
-            IList<double> sampleValues)
+        public void Initialize(double leftBound, double rightBound, IList<double> sampleValues)
         {
             if (null == sampleValues)
             {
@@ -140,9 +132,7 @@ namespace MathNet.Numerics.Interpolation
         /// </summary>
         /// <param name="samplePoints">Equidistant Sample Points t = a+(b-a)*i/(n-1)</param>
         /// <param name="sampleValues">Sample Values x(t) where t are equidistant over [a,b], i.e. x[i] = x(a+(b-a)*i/(n-1))</param>
-        public void Initialize(
-            IList<double> samplePoints,
-            IList<double> sampleValues)
+        public void Initialize(IList<double> samplePoints, IList<double> sampleValues)
         {
             if (null == sampleValues)
             {
@@ -150,7 +140,6 @@ namespace MathNet.Numerics.Interpolation
             }
 
             var weights = EvaluateBarycentricWeights(sampleValues.Count);
-
             _barycentric.Initialize(samplePoints, sampleValues, weights);
         }
 
@@ -160,8 +149,7 @@ namespace MathNet.Numerics.Interpolation
         /// </summary>
         /// <param name="sampleCount">Count of Sample Values x(t).</param>
         /// <returns>Barycentric Weight Vector</returns>
-        public static double[] EvaluateBarycentricWeights(
-            int sampleCount)
+        public static double[] EvaluateBarycentricWeights(int sampleCount)
         {
             if (sampleCount < 1)
             {

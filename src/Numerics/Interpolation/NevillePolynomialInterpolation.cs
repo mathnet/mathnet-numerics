@@ -71,9 +71,7 @@ namespace MathNet.Numerics.Interpolation
         /// </summary>
         /// <param name="samplePoints">Sample Points t</param>
         /// <param name="sampleValues">Sample Values x(t)</param>
-        public NevillePolynomialInterpolation(
-            IList<double> samplePoints,
-            IList<double> sampleValues)
+        public NevillePolynomialInterpolation(IList<double> samplePoints, IList<double> sampleValues)
         {
             Initialize(samplePoints, sampleValues);
         }
@@ -102,9 +100,7 @@ namespace MathNet.Numerics.Interpolation
         /// </summary>
         /// <param name="samplePoints">Sample Points t</param>
         /// <param name="sampleValues">Sample Values x(t)</param>
-        public void Initialize(
-            IList<double> samplePoints,
-            IList<double> sampleValues)
+        public void Initialize(IList<double> samplePoints, IList<double> sampleValues)
         {
             if (null == samplePoints)
             {
@@ -141,7 +137,7 @@ namespace MathNet.Numerics.Interpolation
         /// <returns>Interpolated value x(t).</returns>
         public double Interpolate(double t)
         {
-            double[] x = new double[_values.Count];
+            var x = new double[_values.Count];
             _values.CopyTo(x, 0);
 
             for (int level = 1; level < x.Length; level++)
@@ -167,8 +163,8 @@ namespace MathNet.Numerics.Interpolation
         /// <seealso cref="DifferentiateAll(double)"/>
         public double Differentiate(double t)
         {
-            double[] x = new double[_values.Count];
-            double[] dx = new double[_values.Count];
+            var x = new double[_values.Count];
+            var dx = new double[_values.Count];
             _values.CopyTo(x, 0);
 
             for (int level = 1; level < x.Length; level++)

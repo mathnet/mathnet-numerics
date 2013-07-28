@@ -60,15 +60,10 @@ namespace MathNet.Numerics.Interpolation
         /// </summary>
         /// <param name="samplePoints">Sample Points t, sorted ascending.</param>
         /// <param name="sampleValues">Sample Values x(t)</param>
-        public CubicSplineInterpolation(
-            IList<double> samplePoints,
-            IList<double> sampleValues)
+        public CubicSplineInterpolation(IList<double> samplePoints, IList<double> sampleValues)
         {
             _spline = new CubicHermiteSplineInterpolation();
-
-            Initialize(
-                samplePoints,
-                sampleValues);
+            Initialize(samplePoints, sampleValues);
         }
 
         /// <summary>
@@ -81,22 +76,16 @@ namespace MathNet.Numerics.Interpolation
         /// <param name="rightBoundaryCondition">Condition of the right boundary.</param>
         /// <param name="rightBoundary">Right boundary value. Ignored in the parabolic case.</param>
         public CubicSplineInterpolation(
-            IList<double> samplePoints,
-            IList<double> sampleValues,
-            SplineBoundaryCondition leftBoundaryCondition,
-            double leftBoundary,
-            SplineBoundaryCondition rightBoundaryCondition,
-            double rightBoundary)
+            IList<double> samplePoints, IList<double> sampleValues,
+            SplineBoundaryCondition leftBoundaryCondition, double leftBoundary,
+            SplineBoundaryCondition rightBoundaryCondition, double rightBoundary)
         {
             _spline = new CubicHermiteSplineInterpolation();
 
             Initialize(
-                samplePoints,
-                sampleValues,
-                leftBoundaryCondition,
-                leftBoundary,
-                rightBoundaryCondition,
-                rightBoundary);
+                samplePoints, sampleValues,
+                leftBoundaryCondition, leftBoundary,
+                rightBoundaryCondition, rightBoundary);
         }
 
         /// <summary>
@@ -123,18 +112,11 @@ namespace MathNet.Numerics.Interpolation
         /// </summary>
         /// <param name="samplePoints">Sample Points t, sorted ascending.</param>
         /// <param name="sampleValues">Sample Values x(t)</param>
-        public void Initialize(
-            IList<double> samplePoints,
-            IList<double> sampleValues)
+        public void Initialize(IList<double> samplePoints, IList<double> sampleValues)
         {
-            double[] derivatives = EvaluateSplineDerivatives(
-                samplePoints,
-                sampleValues,
-                SplineBoundaryCondition.SecondDerivative,
-                0.0,
-                SplineBoundaryCondition.SecondDerivative,
-                0.0);
-
+            double[] derivatives = EvaluateSplineDerivatives(samplePoints, sampleValues,
+                SplineBoundaryCondition.SecondDerivative, 0.0,
+                SplineBoundaryCondition.SecondDerivative, 0.0);
             _spline.Initialize(samplePoints, sampleValues, derivatives);
         }
 
@@ -148,21 +130,14 @@ namespace MathNet.Numerics.Interpolation
         /// <param name="rightBoundaryCondition">Condition of the right boundary.</param>
         /// <param name="rightBoundary">Right boundary value. Ignored in the parabolic case.</param>
         public void Initialize(
-            IList<double> samplePoints,
-            IList<double> sampleValues,
-            SplineBoundaryCondition leftBoundaryCondition,
-            double leftBoundary,
-            SplineBoundaryCondition rightBoundaryCondition,
-            double rightBoundary)
+            IList<double> samplePoints, IList<double> sampleValues,
+            SplineBoundaryCondition leftBoundaryCondition, double leftBoundary,
+            SplineBoundaryCondition rightBoundaryCondition, double rightBoundary)
         {
             double[] derivatives = EvaluateSplineDerivatives(
-                samplePoints,
-                sampleValues,
-                leftBoundaryCondition,
-                leftBoundary,
-                rightBoundaryCondition,
-                rightBoundary);
-
+                samplePoints, sampleValues,
+                leftBoundaryCondition, leftBoundary,
+                rightBoundaryCondition, rightBoundary);
             _spline.Initialize(samplePoints, sampleValues, derivatives);
         }
 
@@ -178,12 +153,9 @@ namespace MathNet.Numerics.Interpolation
         /// <param name="rightBoundary">Right boundary value. Ignored in the parabolic case.</param>
         /// <returns>Spline Derivative Vector</returns>
         public static double[] EvaluateSplineDerivatives(
-            IList<double> samplePoints,
-            IList<double> sampleValues,
-            SplineBoundaryCondition leftBoundaryCondition,
-            double leftBoundary,
-            SplineBoundaryCondition rightBoundaryCondition,
-            double rightBoundary)
+            IList<double> samplePoints, IList<double> sampleValues,
+            SplineBoundaryCondition leftBoundaryCondition, double leftBoundary,
+            SplineBoundaryCondition rightBoundaryCondition, double rightBoundary)
         {
             if (null == samplePoints)
             {
@@ -314,25 +286,15 @@ namespace MathNet.Numerics.Interpolation
         /// <param name="rightBoundary">Right boundary value. Ignored in the parabolic case.</param>
         /// <returns>Spline Coefficient Vector</returns>
         public static double[] EvaluateSplineCoefficients(
-            IList<double> samplePoints,
-            IList<double> sampleValues,
-            SplineBoundaryCondition leftBoundaryCondition,
-            double leftBoundary,
-            SplineBoundaryCondition rightBoundaryCondition,
-            double rightBoundary)
+            IList<double> samplePoints, IList<double> sampleValues,
+            SplineBoundaryCondition leftBoundaryCondition, double leftBoundary,
+            SplineBoundaryCondition rightBoundaryCondition, double rightBoundary)
         {
             double[] derivatives = EvaluateSplineDerivatives(
-                samplePoints,
-                sampleValues,
-                leftBoundaryCondition,
-                leftBoundary,
-                rightBoundaryCondition,
-                rightBoundary);
-
-            return CubicHermiteSplineInterpolation.EvaluateSplineCoefficients(
-                samplePoints,
-                sampleValues,
-                derivatives);
+                samplePoints, sampleValues,
+                leftBoundaryCondition, leftBoundary,
+                rightBoundaryCondition, rightBoundary);
+            return CubicHermiteSplineInterpolation.EvaluateSplineCoefficients(samplePoints, sampleValues, derivatives);
         }
 
         /// <summary>
@@ -343,11 +305,7 @@ namespace MathNet.Numerics.Interpolation
         /// <param name="c">The c-vector[n].</param>
         /// <param name="d">The d-vector[n], will be modified by this function.</param>
         /// <returns>The x-vector[n]</returns>
-        static double[] SolveTridiagonal(
-            double[] a,
-            double[] b,
-            double[] c,
-            double[] d)
+        static double[] SolveTridiagonal(double[] a, double[] b, double[] c, double[] d)
         {
             double[] x = new double[a.Length];
 

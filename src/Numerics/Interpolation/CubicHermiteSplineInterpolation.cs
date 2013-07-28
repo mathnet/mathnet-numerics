@@ -61,10 +61,7 @@ namespace MathNet.Numerics.Interpolation
         /// <param name="samplePoints">Sample Points t, sorted ascending.</param>
         /// <param name="sampleValues">Sample Values x(t)</param>
         /// <param name="sampleDerivatives">Sample Derivatives x'(t)</param>
-        public CubicHermiteSplineInterpolation(
-            IList<double> samplePoints,
-            IList<double> sampleValues,
-            IList<double> sampleDerivatives)
+        public CubicHermiteSplineInterpolation(IList<double> samplePoints, IList<double> sampleValues, IList<double> sampleDerivatives)
         {
             _spline = new SplineInterpolation();
             Initialize(samplePoints, sampleValues, sampleDerivatives);
@@ -95,16 +92,9 @@ namespace MathNet.Numerics.Interpolation
         /// <param name="samplePoints">Sample Points t, sorted ascending.</param>
         /// <param name="sampleValues">Sample Values x(t)</param>
         /// <param name="sampleDerivatives">Sample Derivatives x'(t)</param>
-        public void Initialize(
-            IList<double> samplePoints,
-            IList<double> sampleValues,
-            IList<double> sampleDerivatives)
+        public void Initialize(IList<double> samplePoints, IList<double> sampleValues, IList<double> sampleDerivatives)
         {
-            double[] coefficients = EvaluateSplineCoefficients(
-                samplePoints,
-                sampleValues,
-                sampleDerivatives);
-
+            double[] coefficients = EvaluateSplineCoefficients(samplePoints, sampleValues, sampleDerivatives);
             _spline.Initialize(samplePoints, coefficients);
         }
 
@@ -116,10 +106,7 @@ namespace MathNet.Numerics.Interpolation
         /// <param name="sampleValues">Sample Values x(t)</param>
         /// <param name="sampleDerivatives">Sample Derivatives x'(t)</param>
         /// <returns>Spline Coefficient Vector</returns>
-        public static double[] EvaluateSplineCoefficients(
-            IList<double> samplePoints,
-            IList<double> sampleValues,
-            IList<double> sampleDerivatives)
+        public static double[] EvaluateSplineCoefficients(IList<double> samplePoints, IList<double> sampleValues, IList<double> sampleDerivatives)
         {
             if (null == samplePoints)
             {
@@ -151,7 +138,7 @@ namespace MathNet.Numerics.Interpolation
                 if (samplePoints[i] <= samplePoints[i - 1])
                     throw new ArgumentException(Resources.Interpolation_Initialize_SamplePointsNotStrictlyAscendingOrder, "samplePoints");
 
-            double[] coefficients = new double[4*(samplePoints.Count - 1)];
+            var coefficients = new double[4*(samplePoints.Count - 1)];
 
             for (int i = 0, j = 0; i < samplePoints.Count - 1; i++, j += 4)
             {

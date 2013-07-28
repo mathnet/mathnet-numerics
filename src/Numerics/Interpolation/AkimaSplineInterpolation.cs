@@ -60,9 +60,7 @@ namespace MathNet.Numerics.Interpolation
         /// </summary>
         /// <param name="samplePoints">Sample Points t, sorted ascending.</param>
         /// <param name="sampleValues">Sample Values x(t)</param>
-        public AkimaSplineInterpolation(
-            IList<double> samplePoints,
-            IList<double> sampleValues)
+        public AkimaSplineInterpolation(IList<double> samplePoints, IList<double> sampleValues)
         {
             _spline = new CubicHermiteSplineInterpolation();
             Initialize(samplePoints, sampleValues);
@@ -92,14 +90,9 @@ namespace MathNet.Numerics.Interpolation
         /// </summary>
         /// <param name="samplePoints">Sample Points t, sorted ascending.</param>
         /// <param name="sampleValues">Sample Values x(t)</param>
-        public void Initialize(
-            IList<double> samplePoints,
-            IList<double> sampleValues)
+        public void Initialize(IList<double> samplePoints, IList<double> sampleValues)
         {
-            double[] derivatives = EvaluateSplineDerivatives(
-                samplePoints,
-                sampleValues);
-
+            double[] derivatives = EvaluateSplineDerivatives(samplePoints, sampleValues);
             _spline.Initialize(samplePoints, sampleValues, derivatives);
         }
 
@@ -110,9 +103,7 @@ namespace MathNet.Numerics.Interpolation
         /// <param name="samplePoints">Sample Points t, sorted ascending.</param>
         /// <param name="sampleValues">Sample Values x(t)</param>
         /// <returns>Spline Derivative Vector</returns>
-        public static double[] EvaluateSplineDerivatives(
-            IList<double> samplePoints,
-            IList<double> sampleValues)
+        public static double[] EvaluateSplineDerivatives(IList<double> samplePoints, IList<double> sampleValues)
         {
             if (null == samplePoints)
             {
@@ -188,18 +179,10 @@ namespace MathNet.Numerics.Interpolation
         /// <param name="samplePoints">Sample Points t, sorted ascending.</param>
         /// <param name="sampleValues">Sample Values x(t)</param>
         /// <returns>Spline Coefficient Vector</returns>
-        public static double[] EvaluateSplineCoefficients(
-            IList<double> samplePoints,
-            IList<double> sampleValues)
+        public static double[] EvaluateSplineCoefficients(IList<double> samplePoints, IList<double> sampleValues)
         {
-            double[] derivatives = EvaluateSplineDerivatives(
-                samplePoints,
-                sampleValues);
-
-            return CubicHermiteSplineInterpolation.EvaluateSplineCoefficients(
-                samplePoints,
-                sampleValues,
-                derivatives);
+            double[] derivatives = EvaluateSplineDerivatives(samplePoints, sampleValues);
+            return CubicHermiteSplineInterpolation.EvaluateSplineCoefficients(samplePoints, sampleValues, derivatives);
         }
 
         /// <summary>
@@ -213,12 +196,8 @@ namespace MathNet.Numerics.Interpolation
         /// <param name="index2">Index of the third sample.</param>
         /// <returns>The derivative approximation.</returns>
         static double DifferentiateThreePoint(
-            IList<double> samplePoints,
-            IList<double> sampleValues,
-            int indexT,
-            int index0,
-            int index1,
-            int index2)
+            IList<double> samplePoints, IList<double> sampleValues,
+            int indexT, int index0, int index1, int index2)
         {
             double x0 = sampleValues[index0];
             double x1 = sampleValues[index1];

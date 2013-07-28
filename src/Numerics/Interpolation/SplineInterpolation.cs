@@ -69,9 +69,7 @@ namespace MathNet.Numerics.Interpolation
         /// </summary>
         /// <param name="samplePoints">Sample Points t (length: N), sorted ascending.</param>
         /// <param name="splineCoefficients">Spline Coefficients (length: 4*(N-1)).</param>
-        public SplineInterpolation(
-            IList<double> samplePoints,
-            IList<double> splineCoefficients)
+        public SplineInterpolation(IList<double> samplePoints, IList<double> splineCoefficients)
         {
             Initialize(samplePoints, splineCoefficients);
         }
@@ -100,9 +98,7 @@ namespace MathNet.Numerics.Interpolation
         /// </summary>
         /// <param name="samplePoints">Sample Points t (length: N), sorted ascending.</param>
         /// <param name="splineCoefficients">Spline Coefficients (length: 4*(N-1)).</param>
-        public void Initialize(
-            IList<double> samplePoints,
-            IList<double> splineCoefficients)
+        public void Initialize(IList<double> samplePoints, IList<double> splineCoefficients)
         {
             if (null == samplePoints)
             {

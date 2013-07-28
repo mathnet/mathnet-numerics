@@ -59,9 +59,7 @@ namespace MathNet.Numerics.Interpolation
         /// </summary>
         /// <param name="samplePoints">Sample Points t</param>
         /// <param name="sampleValues">Sample Values x(t)</param>
-        public FloaterHormannRationalInterpolation(
-            IList<double> samplePoints,
-            IList<double> sampleValues)
+        public FloaterHormannRationalInterpolation(IList<double> samplePoints, IList<double> sampleValues)
         {
             _barycentric = new BarycentricInterpolation();
             Initialize(samplePoints, sampleValues);
@@ -76,10 +74,7 @@ namespace MathNet.Numerics.Interpolation
         /// Order of the interpolation scheme, 0 &lt;= order &lt;= N.
         /// In most cases a value between 3 and 8 gives good results.
         /// </param>
-        public FloaterHormannRationalInterpolation(
-            IList<double> samplePoints,
-            IList<double> sampleValues,
-            int order)
+        public FloaterHormannRationalInterpolation(IList<double> samplePoints, IList<double> sampleValues, int order)
         {
             _barycentric = new BarycentricInterpolation();
             Initialize(samplePoints, sampleValues, order);
@@ -112,18 +107,14 @@ namespace MathNet.Numerics.Interpolation
         /// </remarks>
         /// <param name="samplePoints">Sample Points t (no sorting assumed)</param>
         /// <param name="sampleValues">Sample Values x(t)</param>
-        public void Initialize(
-            IList<double> samplePoints,
-            IList<double> sampleValues)
+        public void Initialize(IList<double> samplePoints, IList<double> sampleValues)
         {
             if (null == samplePoints)
             {
                 throw new ArgumentNullException("samplePoints");
             }
 
-            double[] weights = EvaluateBarycentricWeights(
-                samplePoints,
-                sampleValues,
+            double[] weights = EvaluateBarycentricWeights(samplePoints, sampleValues,
                 Math.Min(3, samplePoints.Count - 1));
 
             _barycentric.Initialize(samplePoints, sampleValues, weights);
@@ -138,16 +129,9 @@ namespace MathNet.Numerics.Interpolation
         /// Order of the interpolation scheme, 0 &lt;= order &lt;= N.
         /// In most cases a value between 3 and 8 gives good results.
         /// </param>
-        public void Initialize(
-            IList<double> samplePoints,
-            IList<double> sampleValues,
-            int order)
+        public void Initialize(IList<double> samplePoints, IList<double> sampleValues, int order)
         {
-            double[] weights = EvaluateBarycentricWeights(
-                samplePoints,
-                sampleValues,
-                order);
-
+            double[] weights = EvaluateBarycentricWeights(samplePoints, sampleValues, order);
             _barycentric.Initialize(samplePoints, sampleValues, weights);
         }
 
@@ -162,10 +146,7 @@ namespace MathNet.Numerics.Interpolation
         /// In most cases a value between 3 and 8 gives good results.
         /// </param>
         /// <returns>Barycentric Weight Vector</returns>
-        public static double[] EvaluateBarycentricWeights(
-            IList<double> samplePoints,
-            IList<double> sampleValues,
-            int order)
+        public static double[] EvaluateBarycentricWeights(IList<double> samplePoints, IList<double> sampleValues, int order)
         {
             if (null == samplePoints)
             {

@@ -65,9 +65,7 @@ namespace MathNet.Numerics.Interpolation
         /// </summary>
         /// <param name="samplePoints">Sample Points t</param>
         /// <param name="sampleValues">Sample Values x(t)</param>
-        public BulirschStoerRationalInterpolation(
-            IList<double> samplePoints,
-            IList<double> sampleValues)
+        public BulirschStoerRationalInterpolation(IList<double> samplePoints, IList<double> sampleValues)
         {
             Initialize(samplePoints, sampleValues);
         }
@@ -96,9 +94,7 @@ namespace MathNet.Numerics.Interpolation
         /// </summary>
         /// <param name="samplePoints">Sample Points t</param>
         /// <param name="sampleValues">Sample Values x(t)</param>
-        public void Initialize(
-            IList<double> samplePoints,
-            IList<double> sampleValues)
+        public void Initialize(IList<double> samplePoints, IList<double> sampleValues)
         {
             if (null == samplePoints)
             {
