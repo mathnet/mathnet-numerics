@@ -28,9 +28,9 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using System;
 using MathNet.Numerics.RootFinding;
 using NUnit.Framework;
+using System;
 
 namespace MathNet.Numerics.UnitTests.RootFindingTests
 {
@@ -766,7 +766,6 @@ namespace MathNet.Numerics.UnitTests.RootFindingTests
         public void Twoeq1()
         {
             // Test case from http://www.polymath-software.com/library/nle/Twoeq1.htm
-            // not solvable with this method
             Func<double[], double[]> fa1 = x =>
             {
                 double D = x[0];
@@ -782,11 +781,15 @@ namespace MathNet.Numerics.UnitTests.RootFindingTests
                 double kvis = vis / rho;
                 double Re = v * D / kvis;
                 double fD = -dp / rho + 2 * fF * v * v * L / D;
-                double ffF = (Re < 2100) ? (fF - 16 / Re) : (fF - 1 / Math.Pow(4 * Math.Log(Re * Math.Sqrt(fF)) - 0.4, 2));
+                double ffF = (Re < 2100) ? (fF - 16 / Re) : (fF - 1 / Math.Pow(4 * Math.Log10(Re * Math.Sqrt(fF)) - 0.4, 2));
                 return new double[2] { fD, ffF };
             };
 
-            Assert.Throws<NonConvergenceException>(() => Broyden.FindRoot(fa1, new double[2] { 0.04, 0.001 }, 1e-14));
+            double[] r = Broyden.FindRoot(fa1, new double[2] { 0.04, 0.001 }, 1e-14);
+            Assert.AreEqual(0.0389653029101, r[0], 1e-5);
+            Assert.AreEqual(0.0045905347283, r[1], 1e-5);
+            Assert.AreEqual(0, fa1(r)[0], 1e-12);
+            Assert.AreEqual(0, fa1(r)[1], 1e-12);
         }
 
         [Test]
@@ -898,8 +901,6 @@ namespace MathNet.Numerics.UnitTests.RootFindingTests
             Assert.AreEqual(0, fa1(r)[1], 1e-14);
         }
 
-        /*
-         * Test converges, but to a point at A=1.7455, B=2.59. Error in test case?
         [Test]
         public void Twoeq5a()
         {
@@ -918,8 +919,8 @@ namespace MathNet.Numerics.UnitTests.RootFindingTests
                 double gamma2 = 760 / P2;
                 double g1calc = Math.Pow(10, A * Math.Pow(x2 / (A * x1 / B + x2), 2));
                 double g2calc = Math.Pow(10, B * Math.Pow(x1 / (x1 + B * x2 / A), 2));
-                double fA = Math.Log(gamma1) - A * Math.Pow(x2 / (A * x1 / B + x2), 2);
-                double fB = Math.Log(gamma2) - B * Math.Pow(x1 / (x1 + B * x2 / A), 2);
+                double fA = Math.Log10(gamma1) - A * Math.Pow(x2 / (A * x1 / B + x2), 2);
+                double fB = Math.Log10(gamma2) - B * Math.Pow(x1 / (x1 + B * x2 / A), 2);
                 return new double[2] { fA, fB };
             };
 
@@ -929,10 +930,7 @@ namespace MathNet.Numerics.UnitTests.RootFindingTests
             Assert.AreEqual(0, fa1(r)[0], 1e-14);
             Assert.AreEqual(0, fa1(r)[1], 1e-14);
         }        
-        */
 
-        /*
-         * Test converges, but to a point at A=1.7455, B=2.59. Error in test case?
         [Test]
         public void Twoeq5b()
         {
@@ -951,8 +949,8 @@ namespace MathNet.Numerics.UnitTests.RootFindingTests
                 double gamma2 = 760 / P2;
                 double g1calc = Math.Pow(10, A * Math.Pow(x2 / (A * x1 / B + x2), 2));
                 double g2calc = Math.Pow(10, B * Math.Pow(x1 / (x1 + B * x2 / A), 2));
-                double fA = Math.Log(gamma1) * Math.Pow(A * x1 / B + x2, 2) - A * Math.Pow(x2, 2);
-                double fB = Math.Log(gamma2) * Math.Pow(x1 + B * x2 / A, 2) - B * Math.Pow(x1, 2);
+                double fA = Math.Log10(gamma1) * Math.Pow(A * x1 / B + x2, 2) - A * Math.Pow(x2, 2);
+                double fB = Math.Log10(gamma2) * Math.Pow(x1 + B * x2 / A, 2) - B * Math.Pow(x1, 2);
                 return new double[2] { fA, fB };
             };
 
@@ -961,8 +959,7 @@ namespace MathNet.Numerics.UnitTests.RootFindingTests
             Assert.AreEqual(1.1249035089540, r[1], 1e-5);
             Assert.AreEqual(0, fa1(r)[0], 1e-14);
             Assert.AreEqual(0, fa1(r)[1], 1e-14);
-        }        
-        */
+        }         
 
         [Test]
         public void Twoeq6()
@@ -1033,7 +1030,6 @@ namespace MathNet.Numerics.UnitTests.RootFindingTests
         public void Twoeq9()
         {
             // Test case from http://www.polymath-software.com/library/nle/Twoeq9.htm
-            // not solvable with this method
             Func<double[], double[]> fa1 = x =>
             {
                 double fF = x[0];
@@ -1044,12 +1040,16 @@ namespace MathNet.Numerics.UnitTests.RootFindingTests
                 const double g = 32.2;
                 const double eps = .00015;
                 double Re = rho * D * u / (13.2 * 0.000672);
-                double ffF = fF - 1 / Math.Pow(2.28 - 4 * Math.Log(eps / D + 4.67 / (Re * Math.Sqrt(fF))), 2);
+                double ffF = fF - 1 / Math.Pow(2.28 - 4 * Math.Log10(eps / D + 4.67 / (Re * Math.Sqrt(fF))), 2);
                 double fu = 133.7 - (2 * fF * rho * u * u * L / D + rho * g * 200) / (g * 144);
                 return new double[2] { ffF, fu };
             };
 
-            Assert.Throws<NonConvergenceException>(() => Broyden.FindRoot(fa1, new double[2] { 0.1, 10.0 }, 1e-14));
+            double[] r = Broyden.FindRoot(fa1, new double[2] { 0.1, 10.0 }, 1e-14);
+            Assert.AreEqual(0.006874616348157, r[0], 1e-5);
+            Assert.AreEqual(5.6728221306731, r[1], 1e-5);
+            Assert.AreEqual(0, fa1(r)[0], 1e-14);
+            Assert.AreEqual(0, fa1(r)[1], 1e-14);
         }
 
         [Test]
@@ -1372,6 +1372,1277 @@ namespace MathNet.Numerics.UnitTests.RootFindingTests
             Assert.AreEqual(0, fa1(r)[0], 1e-12);
             Assert.AreEqual(0, fa1(r)[1], 1e-12);
             Assert.AreEqual(0, fa1(r)[2], 1e-12);
+        }
+
+        [Test]
+        public void Foureq1()
+        {
+            // Test case from http://www.polymath-software.com/library/nle/Foureq1.htm
+            Func<double[], double[]> fa1 = xa =>
+            {
+                double CA = xa[0];
+                double CB = xa[1];
+                double CC = xa[2];
+                double T = xa[3];
+                double k1 = 4e6 * Math.Exp(-60000 / (8.314 * T));
+                double KA = 17 * Math.Exp(-7000 / (8.314 * T));
+                double k2 = 3e4 * Math.Exp(-80000 / (8.314 * T));
+                double k2p = 3e4 * Math.Exp(-90000 / (8.314 * T));
+                const double T0 = 298;
+                const double CA0 = 3;
+                const double CB0 = 0;
+                const double CC0 = 0;
+                const double theta = 300;
+                double fCA = CA0 - CA - theta * k1 * CA / (1 + KA * CB);
+                double fCB = CB - CB0 - (theta * k1 * CA / (1 + KA * CB) - theta * k2 * CB + theta * k2p * CC);
+                double fCC = CC - CC0 - theta * k2 * CB + theta * k2p * CC;
+                double fT = 85 * (T - T0) + 0.02 * (T * T - T0 * T0) - ((16000 + 3 * T - 0.002 * T * T) * ((CA0 - CA) / CA0) + (30000 + 4 * T - 0.003 * T * T) * CC / CA0);
+                return new double[4] { fCA, fCB, fCC, fT };
+            };
+
+            double[] r = Broyden.FindRoot(fa1, new double[4] { 3, 0, 0, 300 }, 1e-14);
+            Assert.AreEqual(2.7873203092938, r[0], 1e-5);
+            Assert.AreEqual(0.2126796260201, r[1], 1e-5);
+            Assert.AreEqual(6.468613E-08, r[2], 1e-14);
+            Assert.AreEqual(310.2125563399750, r[3], 1e-5);
+            Assert.AreEqual(0, fa1(r)[0], 1e-12);
+            Assert.AreEqual(0, fa1(r)[1], 1e-12);
+            Assert.AreEqual(0, fa1(r)[2], 1e-12);
+            Assert.AreEqual(0, fa1(r)[3], 1e-12);
+        }
+
+        [Test]
+        public void Fiveq1()
+        {
+            // Test case from http://www.polymath-software.com/library/nle/Fiveq1.htm
+            // Constraints (0 <= b <= 1, 0 <= y <= 1) are not met; found an "unphysical" solution.
+            Func<double[], double[]> fa1 = xa =>
+            {
+                double ca = xa[0];
+                double t1 = xa[1];
+                double tc = xa[2];
+                double b = xa[3];
+                double y = xa[4];
+                double k = 0.0744 * Math.Exp(-1.182e7 / (8314.39 * (t1 + 273.16)));
+                const double kc = 1;
+                double m = y + kc * (10 / 20 - b);
+                double fc = 0.02 * Math.Pow(50, -m);
+                const double F = 0.0075;
+                const double V = 7.08;
+                const double dhr = -9.86e7;
+                const double rho = 19.2;
+                const double cp = 1.815e5;
+                const double u = 3550;
+                const double a = 5.4;
+                const double taui = 600;
+                double fca = F * (2.88 - ca) / V - k * ca * ca;
+                double ft1 = F * (66 - t1) / V - dhr * k * ca * ca / (rho * cp) - u * a * (t1 - tc) / (V * rho * cp);
+                double ftc = u * a * (t1 - tc) / (1.82 * 1000 * 4184) - fc * (tc - 27) / 1.82;
+                double fb = ((t1 - 80) / 20 - b) / 20;
+                double fy = (m - y) / taui;
+                return new double[5] { fca, ft1, ftc, fb, fy };
+            };
+
+            double[] r = Broyden.FindRoot(fa1, new double[5] { 1, 100, 50, 0.4, 0.25 }, 1e-14);
+            Assert.IsFalse(r[3] >= 0);
+            Assert.IsFalse(r[4] >= 0);
+            //Assert.AreEqual(1.1206138931808, r[0], 1e-5);
+            //Assert.AreEqual(90, r[1], 1e-5);
+            //Assert.AreEqual(54.8512245178517, r[2], 1e-5);
+            //Assert.AreEqual(0.5, r[3], 1e-5);
+            //Assert.AreEqual(0.3172119884117, r[4], 1e-5);
+            Assert.AreEqual(0, fa1(r)[0], 1e-12);
+            Assert.AreEqual(0, fa1(r)[1], 1e-12);
+            Assert.AreEqual(0, fa1(r)[2], 1e-12);
+            Assert.AreEqual(0, fa1(r)[3], 1e-12);
+            Assert.AreEqual(0, fa1(r)[4], 1e-12);
+        }
+
+        [Test]
+        public void Sixeq1()
+        {
+            // Test case from http://www.polymath-software.com/library/nle/Sixeq1.htm
+            Func<double[], double[]> fa1 = xa =>
+            {
+                double x1 = xa[0];
+                double x2 = xa[1];
+                double x3 = xa[2];
+                double x4 = xa[3];
+                double x5 = xa[4];
+                double x6 = xa[5];
+                double fx1 = x1 + x2 + x4 - 0.001;
+                double fx2 = x5 + x6 - 55;
+                double fx3 = x1 + x2 + x3 + 2 * x5 + x6 - 110.001;
+                double fx4 = x1 - 0.1 * x2;
+                double fx5 = x1 - 1e4 * x3 * x4;
+                double fx6 = x5 - 55e14 * x3 * x6;
+                return new double[6] { fx1, fx2, fx3, fx4, fx5, fx6 };
+            };
+
+            double[] r = Broyden.FindRoot(fa1, new double[6] { 10, 10, 10, 10, 10, 10 }, 1e-2, 1000);
+            Assert.AreEqual(0.0000826446329, r[0], 1e-9);
+            Assert.AreEqual(0.0008264463286, r[1], 1e-8);
+            Assert.AreEqual(0.0000909091485, r[2], 1e-8);
+            Assert.AreEqual(0.0000909090385, r[3], 1e-8);
+            Assert.AreEqual(54.9999999998900, r[4], 1e-5);
+            Assert.AreEqual(0.0000000001100, r[5], 1e-12);
+            Assert.AreEqual(0, fa1(r)[0], 1e-12);
+            Assert.AreEqual(0, fa1(r)[1], 1e-10);
+            Assert.AreEqual(0, fa1(r)[2], 1e-10);
+            Assert.AreEqual(0, fa1(r)[3], 1e-12);
+            Assert.AreEqual(0, fa1(r)[4], 1e-7);
+            Assert.AreEqual(0, fa1(r)[5], 1e-2);
+        }
+
+        [Test]
+        public void Sixeq2a()
+        {
+            // Test case from http://www.polymath-software.com/library/nle/Sixeq2a.htm
+            Func<double[], double[]> fa1 = xa =>
+            {
+                double x1 = xa[0];
+                double x2 = xa[1];
+                double x3 = xa[2];
+                double x4 = xa[3];
+                double x5 = xa[4];
+                double x6 = xa[5];
+                const double k1 = 31.24;
+                const double k2 = 2.062;
+                const double kr1 = 0.272;
+                const double kr2 = 0.02;
+                const double k3 = 303.03;
+                double fx1 = 1 - x1 - k1 * x1 * x6 + kr1 * x4;
+                double fx2 = 1 - x2 - k2 * x2 * x6 + kr2 * x5;
+                double fx3 = -x3 + 2 * k3 * x4 * x5;
+                double fx4 = k1 * x1 * x6 - kr1 * x4 - k3 * x4 * x5;
+                double fx5 = 1.5 * (k2 * x2 * x6 - kr2 * x5) - k3 * x4 * x5;
+                double fx6 = 1 - x4 - x5 - x6;
+                return new double[6] { fx1, fx2, fx3, fx4, fx5, fx6 };
+            };
+
+            double[] r = Broyden.FindRoot(fa1, new double[6] { 0.99, 0.05, 0.05, 0.99, 0.05, 0 }, 1e-14);
+            Assert.AreEqual(0.9700739407529, r[0], 1e-5);
+            Assert.AreEqual(0.9800492938353, r[1], 1e-5);
+            Assert.AreEqual(0.0598521184942, r[2], 1e-6);
+            Assert.AreEqual(0.9900268865935, r[3], 1e-5);
+            Assert.AreEqual(0.0000997509107, r[4], 1e-10);
+            Assert.AreEqual(0.0098733624958, r[5], 1e-8);
+            Assert.AreEqual(0, fa1(r)[0], 1e-12);
+            Assert.AreEqual(0, fa1(r)[1], 1e-12);
+            Assert.AreEqual(0, fa1(r)[2], 1e-12);
+            Assert.AreEqual(0, fa1(r)[3], 1e-12);
+            Assert.AreEqual(0, fa1(r)[4], 1e-12);
+            Assert.AreEqual(0, fa1(r)[5], 1e-12);
+        }
+
+        [Test]
+        public void Sixeq2b()
+        {
+            // Test case from http://www.polymath-software.com/library/nle/Sixeq2b.htm
+            Func<double[], double[]> fa1 = xa =>
+            {
+                double x1 = xa[0];
+                double x2 = xa[1];
+                double x3 = xa[2];
+                double x4 = xa[3];
+                double x5 = xa[4];
+                double x6 = xa[5];
+                const double k1 = 17.721;
+                const double k2 = 3.483;
+                const double kr1 = 0.118;
+                const double kr2 = 0.033;
+                const double k3 = 505.051;
+                double fx1 = 1 - x1 - k1 * x1 * x6 + kr1 * x4;
+                double fx2 = 1 - x2 - k2 * x2 * x6 + kr2 * x5;
+                double fx3 = -x3 + 2 * k3 * x4 * x5;
+                double fx4 = k1 * x1 * x6 - kr1 * x4 - k3 * x4 * x5;
+                double fx5 = 1.5 * (k2 * x2 * x6 - kr2 * x5) - k3 * x4 * x5;
+                double fx6 = 1 - x4 - x5 - x6;
+                return new double[6] { fx1, fx2, fx3, fx4, fx5, fx6 };
+            };
+
+            double[] r = Broyden.FindRoot(fa1, new double[6] { 0.99, 0.05, 0.05, 0.99, 0.05, 0 }, 1e-14);
+            Assert.AreEqual(0.9499424500947, r[0], 1e-5);
+            Assert.AreEqual(0.9666283000631, r[1], 1e-5);
+            Assert.AreEqual(0.1001150998106, r[2], 1e-5);
+            Assert.AreEqual(0.9899868097778, r[3], 1e-5);
+            Assert.AreEqual(0.0001001163356, r[4], 1e-10);
+            Assert.AreEqual(0.0099130738866, r[5], 1e-8);
+            Assert.AreEqual(0, fa1(r)[0], 1e-12);
+            Assert.AreEqual(0, fa1(r)[1], 1e-12);
+            Assert.AreEqual(0, fa1(r)[2], 1e-12);
+            Assert.AreEqual(0, fa1(r)[3], 1e-12);
+            Assert.AreEqual(0, fa1(r)[4], 1e-12);
+            Assert.AreEqual(0, fa1(r)[5], 1e-12);
+        }
+
+        [Test]
+        public void Sixeq2c()
+        {
+            // Test case from http://www.polymath-software.com/library/nle/Sixeq2c.htm
+            Func<double[], double[]> fa1 = xa =>
+            {
+                double x1 = xa[0];
+                double x2 = xa[1];
+                double x3 = xa[2];
+                double x4 = xa[3];
+                double x5 = xa[4];
+                double x6 = xa[5];
+                const double k1 = 17.721;
+                const double k2 = 6.966;
+                const double kr1 = 0.118;
+                const double kr2 = 333.333;
+                const double k3 = 505.051;
+                double fx1 = 1 - x1 - k1 * x1 * x6 + kr1 * x4;
+                double fx2 = 1 - x2 - k2 * x2 * x6 + kr2 * x5;
+                double fx3 = -x3 + 2 * k3 * x4 * x5;
+                double fx4 = k1 * x1 * x6 - kr1 * x4 - k3 * x4 * x5;
+                double fx5 = 1.5 * (k2 * x2 * x6 - kr2 * x5) - k3 * x4 * x5;
+                double fx6 = 1 - x4 - x5 - x6;
+                return new double[6] { fx1, fx2, fx3, fx4, fx5, fx6 };
+            };
+
+            double[] r = Broyden.FindRoot(fa1, new double[6] { 0.99, 0.05, 0.05, 0.99, 0.05, 0 }, 1e-14);
+            Assert.AreEqual(0.9499356376871, r[0], 1e-5);
+            Assert.AreEqual(0.9666237584581, r[1], 1e-5);
+            Assert.AreEqual(0.1001150998106, r[2], 1e-4);
+            Assert.AreEqual(0.9899863241315, r[3], 1e-5);
+            Assert.AreEqual(0.0001001299968, r[4], 1e-10);
+            Assert.AreEqual(0.0099135458718, r[5], 1e-8);
+            Assert.AreEqual(0, fa1(r)[0], 1e-12);
+            Assert.AreEqual(0, fa1(r)[1], 1e-12);
+            Assert.AreEqual(0, fa1(r)[2], 1e-12);
+            Assert.AreEqual(0, fa1(r)[3], 1e-12);
+            Assert.AreEqual(0, fa1(r)[4], 1e-12);
+            Assert.AreEqual(0, fa1(r)[5], 1e-12);
+        }
+
+        [Test]
+        public void Sixeq3()
+        {
+            // Test case from http://www.polymath-software.com/library/nle/Sixeq3.htm
+            Func<double[], double[]> fa1 = xa =>
+            {
+                double x11 = xa[0];
+                double x12 = xa[1];
+                double x21 = xa[2];
+                double x22 = xa[3];
+                double t = xa[4];
+                double beta1 = xa[5];
+                double p1 = Math.Pow(10, 7.62231 - 1417.9 / (191.15 + t));
+                double p2 = Math.Pow(10, 8.10765 - 1750.29 / (235 + t));
+                const double A = 1.7;
+                const double B = 0.7;
+                double gamma11 = Math.Pow(10, A * x21 * x21 / Math.Pow(A * x11 / B + x21, 2));
+                double gamma21 = Math.Pow(10, B * x11 * x11 / Math.Pow(x11 + B * x21 / A, 2));
+                double gamma12 = Math.Pow(10, A * x22 * x22 / Math.Pow(A * x12 / B + x22, 2));
+                double gamma22 = Math.Pow(10, B * x12 * x12 / Math.Pow(x12 + B * x22 / A, 2));
+                double k11 = gamma11 * p1 / 760;
+                double k21 = gamma21 * p2 / 760;
+                double k12 = gamma12 * p1 / 760;
+                double k22 = gamma22 * p2 / 760;
+                double fx11 = x11 - 0.2 / (beta1 + (1 - beta1) * k11 / k12);
+                double fx12 = x12 - x11 * k11 / k12;
+                double fx21 = x21 - 0.8 / (beta1 + (1 - beta1) * k21 / k22);
+                double fx22 = x22 - x21 * k21 / k22;
+                double ft = x11 * (1 - k11) + x21 * (1 - k21);
+                double fbeta1 = (x11 - x12) + (x21 - x22);
+                return new double[6] { fx11, fx12, fx21, fx22, ft, fbeta1 };
+            };
+
+            double[] r = Broyden.FindRoot(fa1, new double[6] { 0, 1, 1, 0, 100, 0.8 }, 1e-14);
+            Assert.AreEqual(0.0226982050031, r[0], 1e-7);
+            Assert.AreEqual(0.6867475652564, r[1], 1e-6);
+            Assert.AreEqual(0.9773017949969, r[2], 1e-6);
+            Assert.AreEqual(0.3132524347436, r[3], 1e-6);
+            Assert.AreEqual(88.5378298767092, r[4], 1e-5);
+            Assert.AreEqual(0.7329990726454, r[5], 1e-6);
+            Assert.AreEqual(0, fa1(r)[0], 1e-12);
+            Assert.AreEqual(0, fa1(r)[1], 1e-12);
+            Assert.AreEqual(0, fa1(r)[2], 1e-12);
+            Assert.AreEqual(0, fa1(r)[3], 1e-12);
+            Assert.AreEqual(0, fa1(r)[4], 1e-12);
+            Assert.AreEqual(0, fa1(r)[5], 1e-12);
+        }
+
+        [Test]
+        public void Sixeq4a()
+        {
+            // Test case from http://www.polymath-software.com/library/nle/Sixeq4a.htm
+            // not solvable with this method
+            Func<double[], double[]> fa1 = xa =>
+            {
+                double CA = xa[0];
+                double CB = xa[1];
+                double CC = xa[2];
+                double CD = xa[3];
+                double CE = xa[4];
+                double T = xa[5];
+                const double R = 1.987;
+                double k1B = 0.4 * Math.Exp((20000 / R) * (1.0 / 300.0 - 1 / T));
+                double k2C = 10 * Math.Exp((5000 / R) * (1.0 / 310.0 - 1 / T));
+                double k3E = 10 * Math.Exp((10000 / R) * (1.0 / 320.0 - 1 / T));
+                double r1B = -k1B * CA * CB;
+                double r2C = -k2C * CC * CB * CB;
+                double r3E = k3E * CD;
+                double rA = 2 * r1B;
+                double rB = r1B + 2 * r2C;
+                double rC = -3 * r1B + r2C;
+                double rD = -r3E - r2C;
+                double rE = r3E;
+                double SRH = -rA * 20000 + 2 * r2C * 10000 + 5000 * r3E;
+                const double V = 500;
+                const double vo = 75 / 3.3;
+                const double CAO = 25 / vo;
+                const double CBO = 50 / vo;
+                double fCA = V - vo * (CAO - CA) / (-rA);
+                double fCB = V - vo * (CBO - CB) / (-rB);
+                double fCC = V - vo * CC / rC;
+                double fCD = V - vo * CD / rD;
+                double fCE = V - vo * CE / rE;
+                double fT = 5000 * (350 - T) - 25 * (20 + 40) * (T - 300) + V * SRH;
+                return new double[6] { fCA, fCB, fCC, fCD, fCE, fT };
+            };
+
+            Assert.Throws<NonConvergenceException>(() => Broyden.FindRoot(fa1, new double[6] { 0.5, 0.01, 1, 0.01, 1, 420 }, 1e1));
+        }
+
+        [Test]
+        public void Sixeq4b()
+        {
+            // Test case from http://www.polymath-software.com/library/nle/Sixeq4b.htm
+            Func<double[], double[]> fa1 = xa =>
+            {
+                double CA = xa[0];
+                double CB = xa[1];
+                double CC = xa[2];
+                double CD = xa[3];
+                double CE = xa[4];
+                double T = xa[5];
+                const double R = 1.987;
+                double k1B = 0.4 * Math.Exp((20000 / R) * (1.0 / 300.0 - 1 / T));
+                double k2C = 10 * Math.Exp((5000 / R) * (1.0 / 310.0 - 1 / T));
+                double k3E = 10 * Math.Exp((10000 / R) * (1.0 / 320.0 - 1 / T));
+                double r1B = -k1B * CA * CB;
+                double r2C = -k2C * CC * CB * CB;
+                double r3E = k3E * CD;
+                double rA = 2 * r1B;
+                double rB = r1B + 2 * r2C;
+                double rC = -3 * r1B + r2C;
+                double rD = -r3E - r2C;
+                double rE = r3E;
+                double SRH = -rA * 20000 + 2 * r2C * 10000 + 5000 * r3E;
+                const double V = 500;
+                const double vo = 75 / 3.3;
+                const double CAO = 25 / vo;
+                const double CBO = 50 / vo;
+                double fCA = V * (-rA) - vo * (CAO - CA);
+                double fCB = V * (-rB) - vo * (CBO - CB);
+                double fCC = V * rC - vo * CC;
+                double fCD = V * rD - vo * CD;
+                double fCE = V * rE - vo * CE;
+                double fT = 5000 * (350 - T) - 25 * (20 + 40) * (T - 300) + V * SRH;
+                return new double[6] { fCA, fCB, fCC, fCD, fCE, fT };
+            };
+
+            double[] r = Broyden.FindRoot(fa1, new double[6] { 0.5, 0.01, 1, 0.01, 1, 420 }, 1e-7, 10000);
+            Assert.AreEqual(0.002666326911334, r[0], 1e-9);
+            Assert.AreEqual(0.033464055791589, r[1], 1e-8);
+            Assert.AreEqual(0.837065955800961, r[2], 1e-6);
+            Assert.AreEqual(0.000396698449814, r[3], 1e-10);
+            Assert.AreEqual(0.808537855382225, r[4], 1e-6);
+            Assert.AreEqual(372.764586230922, r[5], 1e-5);
+            Assert.AreEqual(0, fa1(r)[0], 1e-9);
+            Assert.AreEqual(0, fa1(r)[1], 1e-9);
+            Assert.AreEqual(0, fa1(r)[2], 1e-9);
+            Assert.AreEqual(0, fa1(r)[3], 1e-8);
+            Assert.AreEqual(0, fa1(r)[4], 1e-8);
+            Assert.AreEqual(0, fa1(r)[5], 1e-7);
+        }
+
+        [Test]
+        public void Seveneq1()
+        {
+            // Test case from http://www.polymath-software.com/library/nle/Seveneq1.htm
+            Func<double[], double[]> fa1 = xa =>
+            {
+                double x1 = xa[0];
+                double x2 = xa[1];
+                double x3 = xa[2];
+                double x4 = xa[3];
+                double x5 = xa[4];
+                double x6 = xa[5];
+                double x7 = xa[6];
+                double fx1 = 0.5 * x1 + x2 + 0.5 * x3 - x6 / x7;
+                double fx2 = x3 + x4 + 2 * x5 - 2 / x7;
+                double fx3 = x1 + x2 + x5 - 1 / x7;
+                double fx4 = -28837 * x1 - 139009 * x2 - 78213 * x3 + 18927 * x4 + 8427 * x5 + 13492 / x7 - 10690 * x6 / x7;
+                double fx5 = x1 + x2 + x3 + x4 + x5 - 1;
+                double fx6 = 400 * x1 * x4 * x4 * x4 - 1.7837e5 * x3 * x5;
+                double fx7 = x1 * x3 - 2.6058 * x2 * x4;
+                return new double[7] { fx1, fx2, fx3, fx4, fx5, fx6, fx7 };
+            };
+
+            double[] r = Broyden.FindRoot(fa1, new double[7] { 0.5, 0, 0, 0.5, 0, 0.5, 2 }, 1e-12);
+            Assert.AreEqual(0.3228708394765, r[0], 1e-9);
+            Assert.AreEqual(0.0092235435392, r[1], 1e-8);
+            Assert.AreEqual(0.0460170909606, r[2], 1e-8);
+            Assert.AreEqual(0.6181716750708, r[3], 1e-8);
+            Assert.AreEqual(0.0037168509528, r[4], 1e-5);
+            Assert.AreEqual(0.5767153959355, r[5], 1e-12);
+            Assert.AreEqual(2.9778634507910, r[6], 1e-12);
+            Assert.AreEqual(0, fa1(r)[0], 1e-12);
+            Assert.AreEqual(0, fa1(r)[1], 1e-12);
+            Assert.AreEqual(0, fa1(r)[2], 1e-12);
+            Assert.AreEqual(0, fa1(r)[3], 1e-12);
+            Assert.AreEqual(0, fa1(r)[4], 1e-12);
+            Assert.AreEqual(0, fa1(r)[5], 1e-12);
+            Assert.AreEqual(0, fa1(r)[6], 1e-12);
+        }
+
+        [Test]
+        public void Seveneq2a()
+        {
+            // Test case from http://www.polymath-software.com/library/nle/Seveneq2a.htm
+            Func<double[], double[]> fa1 = xa =>
+            {
+                double A = xa[0];
+                double B = xa[1];
+                double C = xa[2];
+                double D = xa[3];
+                double E = xa[4];
+                double F = xa[5];
+                double G = xa[6];
+                double fA = 5.5 * (D - B) / (A - B - C) - B / (B + C);
+                double fB = 3.5 * (0.888 * A - C - D) / (A - B - C) - C / (B + C);
+                double fC = 5.5 * (0.0986 * A - 0.01 * (1.098 * A - B - 9 * D - E - F + G) - (B + E)) / (1.098 * A - B - 9 * D - E - F + G) - E / (E + F);
+                double fD = 3.5 * (0.986 * A - 9 * D - F - 0.0986 * A + 0.01 * (1.098 * A - B - 9 * D - E - F + G)) / (1.098 * A - B - 9 * D - E - F + G) - F / (E + F);
+                double fE = 150.2 * 133.7 * 0.32 * 0.32 / (A - B - C) - D * (A - B - C) / Math.Pow(0.0986 * A - D, 2);
+                double fF = 446.8 * 133.7 * 0.0032 * 0.0032 / (1.098 * A - B - 9 * D - E - F + G) - (A * 0.0986 - D) / (1.098 * A - B - 9 * D - E - F + G) + 0.01;
+                double fG = 0.04 * (74.12 * (0.986 * A - 10 * D) + 222.24 * (0.0986 * A - D) + 18 * (D - B) + 278.84 * D + 98.09 * 0.0136 * A) / 98.01 - 0.0136 * A - G;
+                return new double[7] { fA, fB, fC, fD, fE, fF, fG };
+            };
+
+            double[] r = Broyden.FindRoot(fa1, new double[7] { 80, 7, 60, 7, 0.5, 4, 0.05 }, 1e-12);
+            Assert.AreEqual(80.5340430736936, r[0], 1e-9);
+            Assert.AreEqual(6.9725465115675, r[1], 1e-8);
+            Assert.AreEqual(61.1190817582544, r[2], 1e-8);
+            Assert.AreEqual(7.2042004491716, r[3], 1e-8);
+            Assert.AreEqual(0.5476701839101, r[4], 1e-5);
+            Assert.AreEqual(3.6532933311347, r[5], 1e-12);
+            Assert.AreEqual(0.0597027236971, r[6], 1e-12);
+            Assert.AreEqual(0, fa1(r)[0], 1e-12);
+            Assert.AreEqual(0, fa1(r)[1], 1e-12);
+            Assert.AreEqual(0, fa1(r)[2], 1e-12);
+            Assert.AreEqual(0, fa1(r)[3], 1e-12);
+            Assert.AreEqual(0, fa1(r)[4], 1e-12);
+            Assert.AreEqual(0, fa1(r)[5], 1e-12);
+            Assert.AreEqual(0, fa1(r)[6], 1e-12);
+        }
+
+        [Test]
+        public void Seveneq2b()
+        {
+            // Test case from http://www.polymath-software.com/library/nle/Seveneq2b.htm
+            Func<double[], double[]> fa1 = xa =>
+            {
+                double A = xa[0];
+                double B = xa[1];
+                double C = xa[2];
+                double D = xa[3];
+                double E = xa[4];
+                double F = xa[5];
+                double G = xa[6];
+                double fA = 5.5 * (D - B) * (B + C) - B * (A - B - C);
+                double fB = 3.5 * (0.888 * A - C - D) * (B + C) - C * (A - B - C);
+                double fC = 5.5 * (0.0986 * A - 0.01 * (1.098 * A - B - 9 * D - E - F + G) - (B + E)) * (E + F) - E * (1.098 * A - B - 9 * D - E - F + G);
+                double fD = 3.5 * (0.986 * A - 9 * D - F - 0.0986 * A + 0.01 * (1.098 * A - B - 9 * D - E - F + G)) * (E + F) - F * (1.098 * A - B - 9 * D - E - F + G);
+                double fE = 2056.4 * Math.Pow(0.0986 * A - D, 2) - D * Math.Pow(A - B - C, 2);
+                double fF = 0.61177 - (A * 0.0986 - D) + 0.01 * (1.098 * A - B - 9 * D - E - F + G);
+                double fG = 0.04 * (74.12 * (0.986 * A - 10 * D) + 222.24 * (0.0986 * A - D) + 18 * (D - B) + 278.84 * D + 98.09 * 0.0136 * A) / 98.01 - 0.0136 * A - G;
+                return new double[7] { fA, fB, fC, fD, fE, fF, fG };
+            };
+
+            double[] r = Broyden.FindRoot(fa1, new double[7] { 80, 7, 60, 7, 0.5, 4, 0.06 }, 1e-11);
+            Assert.AreEqual(80.5396204210231, r[0], 1e-9);
+            Assert.AreEqual(6.9730107905982, r[1], 1e-8);
+            Assert.AreEqual(61.1233326471120, r[2], 1e-8);
+            Assert.AreEqual(7.2046801639777, r[3], 1e-8);
+            Assert.AreEqual(0.5477285762994, r[4], 1e-5);
+            Assert.AreEqual(3.6537136469003, r[5], 1e-12);
+            Assert.AreEqual(0.0597122208353, r[6], 1e-12);
+            Assert.AreEqual(0, fa1(r)[0], 1e-12);
+            Assert.AreEqual(0, fa1(r)[1], 1e-11);
+            Assert.AreEqual(0, fa1(r)[2], 1e-12);
+            Assert.AreEqual(0, fa1(r)[3], 1e-12);
+            Assert.AreEqual(0, fa1(r)[4], 1e-11);
+            Assert.AreEqual(0, fa1(r)[5], 1e-12);
+            Assert.AreEqual(0, fa1(r)[6], 1e-12);
+        }
+
+        [Test]
+        public void Seveneq3a()
+        {
+            // Test case from http://www.polymath-software.com/library/nle/Seveneq3a.htm
+            Func<double[], double[]> fa1 = xa =>
+            {
+                double q01 = xa[0];
+                double q12 = xa[1];
+                double q13 = xa[2];
+                double q24 = xa[3];
+                double q23 = xa[4];
+                double q34 = xa[5];
+                double q45 = xa[6];
+                const double fF = 0.005;
+                const double rho = 997.08;
+                const double D = 0.154;
+                const double D5 = D * D * D * D * D;
+                const double pi = 3.1416;
+                const double pi2 = pi * pi;
+                const double deltaPUMP = -15.0e5;
+                const double k01 = 32 * fF * rho * 100 / (pi2 * D5);
+                const double k12 = 32 * fF * rho * 300 / (pi2 * D5);
+                const double k24 = 32 * fF * rho * 1200 / (pi2 * D5);
+                const double k45 = 32 * fF * rho * 300 / (pi2 * D5);
+                const double k13 = 32 * fF * rho * 1200 / (pi2 * D5);
+                const double k23 = 32 * fF * rho * 300 / (pi2 * D5);
+                const double k34 = 32 * fF * rho * 1200 / (pi2 * D5);
+                double fq01 = q01 - q12 - q13;
+                double fq12 = q12 - q24 - q23;
+                double fq13 = q23 + q13 - q34;
+                double fq24 = q24 + q34 - q45;
+                double fq23 = k01 * q01 * q01 + k12 * q12 * q12 + k24 * q24 * q24 + k45 * q45 * q45 + deltaPUMP;
+                double fq34 = k13 * q13 * q13 - k23 * q23 * q23 - k12 * q12 * q12;
+                double fq45 = k23 * q23 * q23 + k34 * q34 * q34 - k24 * q24 * q24;
+                return new double[7] { fq01, fq12, fq13, fq24, fq23, fq34, fq45 };
+            };
+
+            double[] r = Broyden.FindRoot(fa1, new double[7] { 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1 }, 1e-9);
+            Assert.AreEqual(0.098136927428176, r[0], 1e-8);
+            Assert.AreEqual(0.064819554408160, r[1], 1e-8);
+            Assert.AreEqual(0.033317373020015, r[2], 1e-8);
+            Assert.AreEqual(0.049372394599739, r[3], 1e-8);
+            Assert.AreEqual(0.015447159808421, r[4], 1e-8);
+            Assert.AreEqual(0.048764532828436, r[5], 1e-8);
+            Assert.AreEqual(0.098136927428176, r[6], 1e-8);
+            Assert.AreEqual(0, fa1(r)[0], 1e-12);
+            Assert.AreEqual(0, fa1(r)[1], 1e-12);
+            Assert.AreEqual(0, fa1(r)[2], 1e-12);
+            Assert.AreEqual(0, fa1(r)[3], 1e-12);
+            Assert.AreEqual(0, fa1(r)[4], 1e-12);
+            Assert.AreEqual(0, fa1(r)[5], 1e-10);
+            Assert.AreEqual(0, fa1(r)[6], 1e-9);
+        }
+
+        [Test]
+        public void Seveneq3b()
+        {
+            // Test case from http://www.polymath-software.com/library/nle/Seveneq3b.htm
+            Func<double[], double[]> fa1 = xa =>
+            {
+                double q01 = xa[0];
+                double q12 = xa[1];
+                double q13 = xa[2];
+                double q24 = xa[3];
+                double q23 = xa[4];
+                double q34 = xa[5];
+                double q45 = xa[6];
+                const double rho = 997.08;
+                const double D = 0.154;
+                const double D5 = D * D * D * D * D;
+                const double pi = 3.1416;
+                const double pi2 = pi * pi;
+                const double mu = 8.937e-4;
+                const double deltaPUMP = -15.0e5;
+                const double ed = 4.6e-5 / D;
+                double fF01 = 1 / (16 * Math.Pow(Math.Log10(ed / 3.7 - 5.02 * pi * D * mu / (4 * q01 * rho) * Math.Log10(ed / 3.7 + 14.5 * pi * D * mu / (4 * q01 * mu))), 2));
+                double fF12 = 1 / (16 * Math.Pow(Math.Log10(ed / 3.7 - 5.02 * pi * D * mu / (4 * q12 * rho) * Math.Log10(ed / 3.7 + 14.5 * pi * D * mu / (4 * q12 * rho))), 2));
+                double fF24 = 1 / (16 * Math.Pow(Math.Log10(ed / 3.7 - 5.02 * pi * D * mu / (4 * q24 * rho) * Math.Log10(ed / 3.7 + 14.5 * pi * D * mu / (4 * q24 * rho))), 2));
+                double fF45 = 1 / (16 * Math.Pow(Math.Log10(ed / 3.7 - 5.02 * pi * D * mu / (4 * q45 * rho) * Math.Log10(ed / 3.7 + 14.5 * pi * D * mu / (4 * q45 * rho))), 2));
+                double fF13 = 1 / (16 * Math.Pow(Math.Log10(ed / 3.7 - 5.02 * pi * D * mu / (4 * q13 * rho) * Math.Log10(ed / 3.7 + 14.5 * pi * D * mu / (4 * q13 * rho))), 2));
+                double fF23 = 1 / (16 * Math.Pow(Math.Log10(ed / 3.7 - 5.02 * pi * D * mu / (4 * q23 * rho) * Math.Log10(ed / 3.7 + 14.5 * pi * D * mu / (4 * q23 * rho))), 2));
+                double fF34 = 1 / (16 * Math.Pow(Math.Log10(ed / 3.7 - 5.02 * pi * D * mu / (4 * q34 * rho) * Math.Log10(ed / 3.7 + 14.5 * pi * D * mu / (4 * q34 * rho))), 2));
+                double k01 = 32 * fF01 * rho * 100 / (pi2 * D5);
+                double k12 = 32 * fF12 * rho * 300 / (pi2 * D5);
+                double k24 = 32 * fF24 * rho * 1200 / (pi2 * D5);
+                double k45 = 32 * fF45 * rho * 300 / (pi2 * D5);
+                double k13 = 32 * fF13 * rho * 1200 / (pi2 * D5);
+                double k23 = 32 * fF23 * rho * 300 / (pi2 * D5);
+                double k34 = 32 * fF34 * rho * 1200 / (pi2 * D5);
+                double fq01 = q01 - q12 - q13;
+                double fq12 = q12 - q24 - q23;
+                double fq13 = q23 + q13 - q34;
+                double fq24 = q24 + q34 - q45;
+                double fq23 = k01 * q01 * q01 + k12 * q12 * q12 + k24 * q24 * q24 + k45 * q45 * q45 + deltaPUMP;
+                double fq34 = k13 * q13 * q13 - k23 * q23 * q23 - k12 * q12 * q12;
+                double fq45 = k23 * q23 * q23 + k34 * q34 * q34 - k24 * q24 * q24;
+                return new double[7] { fq01, fq12, fq13, fq24, fq23, fq34, fq45 };
+            };
+
+            double[] r = Broyden.FindRoot(fa1, new double[7] { 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1 }, 1e-10);
+            Assert.AreEqual(0.110237410418775, r[0], 1e-8);
+            Assert.AreEqual(0.073312448014583, r[1], 1e-8);
+            Assert.AreEqual(0.036924962404192, r[2], 1e-8);
+            Assert.AreEqual(0.055534266884471, r[3], 1e-8);
+            Assert.AreEqual(0.017778181130112, r[4], 1e-8);
+            Assert.AreEqual(0.054703143534304, r[5], 1e-8);
+            Assert.AreEqual(0.110237410418774, r[6], 1e-8);
+            Assert.AreEqual(0, fa1(r)[0], 1e-12);
+            Assert.AreEqual(0, fa1(r)[1], 1e-12);
+            Assert.AreEqual(0, fa1(r)[2], 1e-12);
+            Assert.AreEqual(0, fa1(r)[3], 1e-12);
+            Assert.AreEqual(0, fa1(r)[4], 1e-12);
+            Assert.AreEqual(0, fa1(r)[5], 1e-10);
+            Assert.AreEqual(0, fa1(r)[6], 1e-12);
+        }
+
+        [Test]
+        public void Seveneq4()
+        {
+            // Test case from http://www.polymath-software.com/library/nle/Seveneq4.htm
+            Func<double[], double[]> fa1 = xa =>
+            {
+                double q12 = xa[0];
+                double q14 = xa[1];
+                double q23 = xa[2];
+                double q43 = xa[3];
+                double q35 = xa[4];
+                double q65 = xa[5];
+                double q46 = xa[6];
+                const double fc = 8.7e-4;
+                double dp12 = fc * 2000 * q12 * q12 / Math.Pow(12, 5);
+                double dp23 = fc * 1000 * q23 * q23 / Math.Pow(8, 5);
+                double dp43 = fc * 2000 * q43 * q43 / Math.Pow(8, 5);
+                double dp35 = fc * 1000 * q35 * q35 / Math.Pow(6, 5);
+                double fq12 = 1400 - q12 - q14;
+                double fq14 = dp12 + dp23 - dp43 - fc * q14 * q14 * 1000 / Math.Pow(8, 5);
+                double fq23 = q12 - 420 - q23;
+                double fq43 = q43 + q23 - 420 - q35;
+                double fq35 = q35 + q65 - 420;
+                double fq65 = q46 - 140 - q65;
+                double fq46 = dp43 + dp35 - fc * 0.2572 * q65 * q65 - fc * 0.1286 * q46 * q46;
+                return new double[7] { fq12, fq14, fq23, fq43, fq35, fq65, fq46 };
+            };
+
+            double[] r = Broyden.FindRoot(fa1, new double[7] { 1000, 500, 600, 200, 300, 100, 400 }, 1e-12);
+            Assert.AreEqual(872.751598594702, r[0], 1e-5);
+            Assert.AreEqual(527.248401405298, r[1], 1e-5);
+            Assert.AreEqual(452.751598594702, r[2], 1e-5);
+            Assert.AreEqual(252.590830181724, r[3], 1e-5);
+            Assert.AreEqual(285.342428776427, r[4], 1e-5);
+            Assert.AreEqual(134.657571223573, r[5], 1e-5);
+            Assert.AreEqual(274.657571223573, r[6], 1e-5);
+            Assert.AreEqual(0, fa1(r)[0], 1e-12);
+            Assert.AreEqual(0, fa1(r)[1], 1e-12);
+            Assert.AreEqual(0, fa1(r)[2], 1e-12);
+            Assert.AreEqual(0, fa1(r)[3], 1e-12);
+            Assert.AreEqual(0, fa1(r)[4], 1e-12);
+            Assert.AreEqual(0, fa1(r)[5], 1e-12);
+            Assert.AreEqual(0, fa1(r)[6], 1e-12);
+        }
+
+        [Test]
+        public void Nineq1()
+        {
+            // Test case from http://www.polymath-software.com/library/nle/Nineq1.htm
+            Func<double[], double[]> fa1 = xa =>
+            {
+                double x11 = xa[0];
+                double x12 = xa[1];
+                double x13 = xa[2];
+                double x21 = xa[3];
+                double x22 = xa[4];
+                double x23 = xa[5];
+                double V = xa[6];
+                double L1 = xa[7];
+                double L2 = xa[8];
+                const double T = 63.7;
+                const double A12 = 1.6 - 217 / (T + 273);
+                const double A21 = 3.125 - 855 / (T + 273);
+                const double A13 = 0.63 + 23.3 / (T + 273);
+                const double A31 = 0.33 + 23.3 / (273 + T);
+                const double A23 = 1.54128 + 554 / (T + 273);
+                const double A32 = -2.2534 + 1449 / (T + 273);
+                double g11 = Math.Pow(10, x12 * x12 * (A12 + 2 * x11 * (A21 - A12)) + x13 * x13 * (A13 + 2 * x11 * (A31 - A13)) + x12 * x13 * (0.5 * (A21 + A12 + A31 + A13 - A23 - A32) + x11 * (A21 - A12 + A31 - A13) + (x12 - x13) * (A23 - A32) - (1 - 2 * x11) * 0.25));
+                double g21 = Math.Pow(10, x22 * x22 * (A12 + 2 * x21 * (A21 - A12)) + x23 * x23 * (A13 + 2 * x21 * (A31 - A13)) + x22 * x23 * (0.5 * (A21 + A12 + A31 + A13 - A23 - A32) + x21 * (A21 - A12 + A31 - A13) + (x22 - x23) * (A23 - A32) - (1 - 2 * x21) * 0.25));
+                double g22 = Math.Pow(10, x23 * x23 * (A23 + 2 * x22 * (A31 - A23)) + x21 * x21 * (A21 + 2 * x22 * (A12 - A21)) + x23 * x21 * (0.5 * (A32 + A23 + A12 + A21 - A31 - A13) + x22 * (A32 - A23 + A12 - A21) + (x23 - x21) * (A31 - A13) - (1 - 2 * x22) * 0.25));
+                double g12 = Math.Pow(10, x13 * x13 * (A23 + 2 * x12 * (A32 - A23)) + x11 * x11 * (A21 + 2 * x12 * (A12 - A21)) + x13 * x11 * (0.5 * (A32 + A23 + A12 + A21 - A31 - A13) + x12 * (A32 - A23 + A12 - A21) + (x13 - x11) * (A31 - A13) - (1 - 2 * x12) * 0.25));
+                double g13 = Math.Pow(10, x11 * x11 * (A31 + 2 * x13 * (A13 - A31)) + x12 * x12 * (A32 + 2 * x13 * (A23 - A32)) + x11 * x12 * (0.5 * (A13 + A31 + A23 + A32 - A12 - A21) + x13 * (A13 - A31 + A23 - A32) + (x11 - x13) * (A12 - A21) - (1 - 2 * x13) * 0.25));
+                double g23 = Math.Pow(10, x21 * x21 * (A31 + 2 * x23 * (A13 - A31)) + x22 * x22 * (A32 + 2 * x23 * (A23 - A32)) + x21 * x22 * (0.5 * (A13 + A31 + A23 + A32 - A12 - A21) + x23 * (A13 - A31 + A23 - A32) + (x21 - x23) * (A12 - A21) - (1 - 2 * x23) * 0.25));
+                double k12 = Math.Pow(10, 6.90565 - 1211.033 / (T + 220.79)) * g12 / 760;
+                double k22 = Math.Pow(10, 6.90565 - 1211.033 / (T + 220.79)) * g22 / 760;
+                double k11 = Math.Pow(10, 8.21337 - 1652.05 / (T + 231.48)) * g11 / 760;
+                double k21 = Math.Pow(10, 8.21337 - 1652.05 / (T + 231.48)) * g21 / 760;
+                double k13 = Math.Pow(10, 8.10765 - 1750.286 / (T + 235)) * g13 / 760;
+                double k23 = Math.Pow(10, 8.10765 - 1750.286 / (T + 235)) * g23 / 760;
+                double fx11 = x11 * (L1 + L2 * k11 / k21 + V * k11) - 0.23;
+                double fx12 = x12 * (L1 + L2 * k12 / k22 + V * k12) - 0.27;
+                double fx13 = x13 * (L1 + L2 * k13 / k23 + V * k13) - 0.5;
+                double fx21 = x21 - x11 * k11 / k21;
+                double fx22 = x22 - x12 * k12 / k22;
+                double fx23 = x23 - x13 * k13 / k23;
+                double fV = x11 + x12 + x13 - 1;
+                double fL1 = L1 + L2 + V - 1;
+                double fL2 = x21 + x22 + x23 - 1;
+                return new double[9] { fx11, fx12, fx13, fx21, fx22, fx23, fV, fL1, fL2 };
+            };
+
+            double[] r = Broyden.FindRoot(fa1, new double[9] { 0.3, 0, 0.7, 0, 1, 0, 0.4, 0.55, 0.06 }, 1e-14);
+            Assert.AreEqual(0.2253818399616, r[0], 1e-5);
+            Assert.AreEqual(0.0042438488738, r[1], 1e-5);
+            Assert.AreEqual(0.7703743111646, r[2], 1e-5);
+            Assert.AreEqual(0.0960474647746, r[3], 1e-5);
+            Assert.AreEqual(0.8916699617303, r[4], 1e-5);
+            Assert.AreEqual(0.0122825734951, r[5], 1e-5);
+            Assert.AreEqual(0.3838837845197, r[6], 1e-5);
+            Assert.AreEqual(0.5483053023942, r[7], 1e-5);
+            Assert.AreEqual(0.0678109130861, r[8], 1e-5);
+            Assert.AreEqual(0, fa1(r)[0], 1e-12);
+            Assert.AreEqual(0, fa1(r)[1], 1e-12);
+            Assert.AreEqual(0, fa1(r)[2], 1e-12);
+            Assert.AreEqual(0, fa1(r)[3], 1e-12);
+            Assert.AreEqual(0, fa1(r)[4], 1e-12);
+            Assert.AreEqual(0, fa1(r)[5], 1e-12);
+            Assert.AreEqual(0, fa1(r)[6], 1e-12);
+            Assert.AreEqual(0, fa1(r)[7], 1e-12);
+            Assert.AreEqual(0, fa1(r)[8], 1e-12);
+        }
+
+        [Test]
+        public void Teneq1a()
+        {
+            // Test case from http://www.polymath-software.com/library/nle/Teneq1a.htm
+            // method fails if started too far away from the root
+            Func<double[], double[]> fa1 = xa =>
+            {
+                double x1 = xa[0];
+                double x2 = xa[1];
+                double x3 = xa[2];
+                double x4 = xa[3];
+                double x5 = xa[4];
+                double x6 = xa[5];
+                double x7 = xa[6];
+                double x8 = xa[7];
+                double x9 = xa[8];
+                double x10 = xa[9];
+                const double R = 10;
+                double xs = x1 + x2 + x3 + x4 + x5 + x6 + x7 + x8 + x9 + x10;
+                double fx1 = x1 + x4 - 3;
+                double fx2 = 2 * x1 + x2 + x4 + x7 + x8 + x9 + 2 * x10 - R;
+                double fx3 = 2 * x2 + 2 * x5 + x6 + x7 - 8;
+                double fx4 = 2 * x3 + x5 - 4 * R;
+                double fx5 = x1 * x5 - 0.193 * x2 * x4;
+                double fx6 = x6 * Math.Sqrt(x2) - 0.002597 * Math.Sqrt(x2 * x4 * xs);
+                double fx7 = x7 * Math.Sqrt(x4) - 0.003448 * Math.Sqrt(x1 * x4 * xs);
+                double fx8 = x8 * x4 - 1.799e-5 * x2 * xs;
+                double fx9 = x9 * x4 - 0.0002155 * x1 * Math.Sqrt(x3 * xs);
+                double fx10 = x10 * x4 * x4 - 3.846e-5 * x4 * x4 * xs;
+                return new double[10] { fx1, fx2, fx3, fx4, fx5, fx6, fx7, fx8, fx9, fx10 };
+            };
+
+            Assert.Throws<NonConvergenceException>(() => Broyden.FindRoot(fa1, new double[10] { 1, 1, 10, 1, 1, 1, 0, 0, 0, 0 }, 1e-1));
+            double[] r = Broyden.FindRoot(fa1, new double[10] { 3, 4, 20, 0.1, 0.1, 0.01, 0.01, 0.01, 0.1, 0.001 }, 1e-14);
+            Assert.AreEqual(2.88010599840556, r[0], 1e-5);
+            Assert.AreEqual(3.95067493980017, r[1], 1e-5);
+            Assert.AreEqual(19.9841296101664, r[2], 1e-5);
+            Assert.AreEqual(0.11989400159444, r[3], 1e-5);
+            Assert.AreEqual(0.03174077966720, r[4], 1e-5);
+            Assert.AreEqual(0.00468458194156, r[5], 1e-5);
+            Assert.AreEqual(0.03048397912369, r[6], 1e-5);
+            Assert.AreEqual(0.01608812124188, r[7], 1e-5);
+            Assert.AreEqual(0.12055939838135, r[8], 1e-5);
+            Assert.AreEqual(0.00104378152368, r[9], 1e-5);
+            Assert.AreEqual(0, fa1(r)[0], 1e-12);
+            Assert.AreEqual(0, fa1(r)[1], 1e-12);
+            Assert.AreEqual(0, fa1(r)[2], 1e-12);
+            Assert.AreEqual(0, fa1(r)[3], 1e-12);
+            Assert.AreEqual(0, fa1(r)[4], 1e-12);
+            Assert.AreEqual(0, fa1(r)[5], 1e-12);
+            Assert.AreEqual(0, fa1(r)[6], 1e-12);
+            Assert.AreEqual(0, fa1(r)[7], 1e-12);
+            Assert.AreEqual(0, fa1(r)[8], 1e-12);
+            Assert.AreEqual(0, fa1(r)[9], 1e-12);
+        }
+
+        [Test]
+        public void Teneq1b()
+        {
+            // Test case from http://www.polymath-software.com/library/nle/Teneq1b.htm
+            // method fails if started too far away from the root
+            Func<double[], double[]> fa1 = xa =>
+            {
+                double x1 = xa[0];
+                double x2 = xa[1];
+                double x3 = xa[2];
+                double x4 = xa[3];
+                double x5 = xa[4];
+                double x6 = xa[5];
+                double x7 = xa[6];
+                double x8 = xa[7];
+                double x9 = xa[8];
+                double x10 = xa[9];
+                const double R = 40;
+                double xs = x1 + x2 + x3 + x4 + x5 + x6 + x7 + x8 + x9 + x10;
+                double fx1 = x1 + x4 - 3;
+                double fx2 = 2 * x1 + x2 + x4 + x7 + x8 + x9 + 2 * x10 - R;
+                double fx3 = 2 * x2 + 2 * x5 + x6 + x7 - 8;
+                double fx4 = 2 * x3 + x5 - 4 * R;
+                double fx5 = x1 * x5 - 0.193 * x2 * x4;
+                double fx6 = x6 * Math.Sqrt(x2) - 0.002597 * Math.Sqrt(x2 * x4 * xs);
+                double fx7 = x7 * Math.Sqrt(x4) - 0.003448 * Math.Sqrt(x1 * x4 * xs);
+                double fx8 = x8 * x4 - 1.799e-5 * x2 * xs;
+                double fx9 = x9 * x4 - 0.0002155 * x1 * Math.Sqrt(x3 * xs);
+                double fx10 = x10 * x4 * x4 - 3.846e-5 * x4 * x4 * xs;
+                return new double[10] { fx1, fx2, fx3, fx4, fx5, fx6, fx7, fx8, fx9, fx10 };
+            };
+
+            Assert.Throws<NonConvergenceException>(() => Broyden.FindRoot(fa1, new double[10] { 2, 5, 80, 1, 0, 0, 0, 0, 20, 5 }, 1e-5));
+            double[] r = Broyden.FindRoot(fa1, new double[10] { 3, 4, 80, 0.001, 0.001, 0.001, 0.01, 4, 26, 0.01 }, 1e-14);
+            Assert.AreEqual(2.99763549788728, r[0], 1e-5);
+            Assert.AreEqual(3.96642685827836, r[1], 1e-5);
+            Assert.AreEqual(79.9996980829447, r[2], 1e-5);
+            Assert.AreEqual(0.00236450211272, r[3], 1e-5);
+            Assert.AreEqual(0.00060383411050, r[4], 1e-5);
+            Assert.AreEqual(0.00136594705508, r[5], 1e-5);
+            Assert.AreEqual(0.06457266816721, r[6], 1e-5);
+            Assert.AreEqual(3.53081557628766, r[7], 1e-5);
+            Assert.AreEqual(26.43154979533460, r[8], 1e-5);
+            Assert.AreEqual(0.00449980202242, r[9], 1e-5);
+            Assert.AreEqual(0, fa1(r)[0], 1e-12);
+            Assert.AreEqual(0, fa1(r)[1], 1e-12);
+            Assert.AreEqual(0, fa1(r)[2], 1e-12);
+            Assert.AreEqual(0, fa1(r)[3], 1e-12);
+            Assert.AreEqual(0, fa1(r)[4], 1e-12);
+            Assert.AreEqual(0, fa1(r)[5], 1e-12);
+            Assert.AreEqual(0, fa1(r)[6], 1e-12);
+            Assert.AreEqual(0, fa1(r)[7], 1e-12);
+            Assert.AreEqual(0, fa1(r)[8], 1e-12);
+            Assert.AreEqual(0, fa1(r)[9], 1e-12);
+        }
+
+        [Test]
+        public void Teneq2a()
+        {
+            // Test case from http://www.polymath-software.com/library/nle/Teneq2a.htm
+            // method fails if started too far away from the root
+            Func<double[], double[]> fa1 = xa =>
+            {
+                double n1 = xa[0];
+                double n2 = xa[1];
+                double n3 = xa[2];
+                double n4 = xa[3];
+                double n5 = xa[4];
+                double n6 = xa[5];
+                double n7 = xa[6];
+                double n8 = xa[7];
+                double n9 = xa[8];
+                double n10 = xa[9];
+                double nt = n1 + n2 + n3 + n4 + n5 + n6 + n7 + n8 + n9 + n10;
+                const double K5 = 0.193;
+                const double K6 = 2.597e-3;
+                const double K7 = 3.448e-3;
+                const double K8 = 1.799e-5;
+                const double K9 = 2.155e-4;
+                const double K10 = 3.846e-5;
+                const double R = 10;
+                const double p = 40;
+                double fn1 = n1 + n4 - 3;
+                double fn2 = 2 * n1 + n2 + n4 + n7 + n8 + n9 + 2 * n10 - R;
+                double fn3 = 2 * n2 + 2 * n5 + n6 + n7 - 8;
+                double fn4 = 2 * n3 + n9 - 4 * R;
+                double fn5 = K5 * n2 * n4 - n1 * n5;
+                double fn6 = K6 * Math.Sqrt(n2 * n4) - Math.Sqrt(n1) * n6 * Math.Sqrt(p / nt);
+                double fn7 = K7 * Math.Sqrt(n1 * n2) - Math.Sqrt(n4) * n7 * Math.Sqrt(p / nt);
+                double fn8 = K8 * n1 - n4 * n8 * (p / nt);
+                double fn9 = K9 * n1 * Math.Sqrt(n3) - n4 * n9 * Math.Sqrt(p / nt);
+                double fn10 = K10 * n1 * n1 - n4 * n4 * n10 * (p / nt);
+                return new double[10] { fn1, fn2, fn3, fn4, fn5, fn6, fn7, fn8, fn9, fn10 };
+            };
+
+            Assert.Throws<NonConvergenceException>(() => Broyden.FindRoot(fa1, new double[10] { 1.5, 2, 35, 0.5, 0.05, 0.005, 0.04, 0.003, 0.02, 5 }, 1e-5));
+            double[] r = Broyden.FindRoot(fa1, new double[10] { 3, 4, 20, 0.1, 0.01, 0.001, 0.04, 0.003, 0.03, 0.03 }, 1e-14);
+            Assert.AreEqual(2.91572542389522, r[0], 1e-5);
+            Assert.AreEqual(3.96094281080888, r[1], 1e-5);
+            Assert.AreEqual(19.9862916465515, r[2], 1e-5);
+            Assert.AreEqual(8.42745761047765E-02, r[3], 1e-5);
+            Assert.AreEqual(2.20956017698935E-02, r[4], 1e-5);
+            Assert.AreEqual(7.22766590884200E-04, r[5], 1e-5);
+            Assert.AreEqual(3.32004082515745E-02, r[6], 1e-5);
+            Assert.AreEqual(4.21099693391800E-04, r[7], 1e-5);
+            Assert.AreEqual(2.74167068969179E-02, r[8], 1e-5);
+            Assert.AreEqual(3.11467752270064E-02, r[9], 1e-5);
+            Assert.AreEqual(0, fa1(r)[0], 1e-12);
+            Assert.AreEqual(0, fa1(r)[1], 1e-12);
+            Assert.AreEqual(0, fa1(r)[2], 1e-12);
+            Assert.AreEqual(0, fa1(r)[3], 1e-12);
+            Assert.AreEqual(0, fa1(r)[4], 1e-12);
+            Assert.AreEqual(0, fa1(r)[5], 1e-12);
+            Assert.AreEqual(0, fa1(r)[6], 1e-12);
+            Assert.AreEqual(0, fa1(r)[7], 1e-12);
+            Assert.AreEqual(0, fa1(r)[8], 1e-12);
+            Assert.AreEqual(0, fa1(r)[9], 1e-12);
+        }
+
+        [Test]
+        public void Teneq2b()
+        {
+            // Test case from http://www.polymath-software.com/library/nle/Teneq2b.htm
+            // Found solution disagrees with testcase!? Method fails if started too far away from the root.
+            Func<double[], double[]> fa1 = xa =>
+            {
+                double n1 = xa[0];
+                double n2 = xa[1];
+                double n3 = xa[2];
+                double n4 = xa[3];
+                double n5 = xa[4];
+                double n6 = xa[5];
+                double n7 = xa[6];
+                double n8 = xa[7];
+                double n9 = xa[8];
+                double n10 = xa[9];
+                double nt = n1 + n2 + n3 + n4 + n5 + n6 + n7 + n8 + n9 + n10;
+                const double K5 = 0.193;
+                const double K6 = 2.597e-3;
+                const double K7 = 3.448e-3;
+                const double K8 = 1.799e-5;
+                const double K9 = 2.155e-4;
+                const double K10 = 3.846e-5;
+                const double R = 40;
+                const double p = 40;
+                double fn1 = n1 + n4 - 3;
+                double fn2 = 2 * n1 + n2 + n4 + n7 + n8 + n9 + 2 * n10 - R;
+                double fn3 = 2 * n2 + 2 * n5 + n6 + n7 - 8;
+                double fn4 = 2 * n3 + n9 - 4 * R;
+                double fn5 = K5 * n2 * n4 - n1 * n5;
+                double fn6 = K6 * Math.Sqrt(n2 * n4) - Math.Sqrt(n1) * n6 * Math.Sqrt(p / nt);
+                double fn7 = K7 * Math.Sqrt(n1 * n2) - Math.Sqrt(n4) * n7 * Math.Sqrt(p / nt);
+                double fn8 = K8 * n1 - n4 * n8 * (p / nt);
+                double fn9 = K9 * n1 * Math.Sqrt(n3) - n4 * n9 * Math.Sqrt(p / nt);
+                double fn10 = K10 * n1 * n1 - n4 * n4 * n10 * (p / nt);
+                return new double[10] { fn1, fn2, fn3, fn4, fn5, fn6, fn7, fn8, fn9, fn10 };
+            };
+
+            Assert.Throws<NonConvergenceException>(() => Broyden.FindRoot(fa1, new double[10] { 1.5, 2, 35, 0.5, 0.05, 0.005, 0.04, 0.003, 0.02, 5 }, 1e-5));
+            double[] r = Broyden.FindRoot(fa1, new double[10] { 3, 4, 80, 0.01, 0.002, 0.0006, 0.1, 0.004, 0.1, 15 }, 1e-14);
+            //Assert.AreEqual(2.91572542389522, r[0], 1e-5);
+            //Assert.AreEqual(3.96094281080888, r[1], 1e-5);
+            //Assert.AreEqual(19.9862916465515, r[2], 1e-5);
+            //Assert.AreEqual(8.42745761047765E-02, r[3], 1e-5);
+            //Assert.AreEqual(2.20956017698935E-02, r[4], 1e-5);
+            //Assert.AreEqual(7.22766590884200E-04, r[5], 1e-5);
+            //Assert.AreEqual(3.32004082515745E-02, r[6], 1e-5);
+            //Assert.AreEqual(4.21099693391800E-04, r[7], 1e-5);
+            //Assert.AreEqual(2.74167068969179E-02, r[8], 1e-5);
+            //Assert.AreEqual(3.11467752270064E-02, r[9], 1e-5);
+            Assert.AreEqual(0, fa1(r)[0], 1e-12);
+            Assert.AreEqual(0, fa1(r)[1], 1e-12);
+            Assert.AreEqual(0, fa1(r)[2], 1e-12);
+            Assert.AreEqual(0, fa1(r)[3], 1e-12);
+            Assert.AreEqual(0, fa1(r)[4], 1e-12);
+            Assert.AreEqual(0, fa1(r)[5], 1e-12);
+            Assert.AreEqual(0, fa1(r)[6], 1e-12);
+            Assert.AreEqual(0, fa1(r)[7], 1e-12);
+            Assert.AreEqual(0, fa1(r)[8], 1e-12);
+            Assert.AreEqual(0, fa1(r)[9], 1e-12);
+        }
+
+        [Test]
+        public void Teneq3()
+        {
+            // Test case from http://www.polymath-software.com/library/nle/Teneq3.htm
+            // method fails if started too far away from the root
+            Func<double[], double[]> fa1 = xa =>
+            {
+                double x1 = xa[0];
+                double x2 = xa[1];
+                double x3 = xa[2];
+                double x4 = xa[3];
+                double x5 = xa[4];
+                double x6 = xa[5];
+                double x7 = xa[6];
+                double x8 = xa[7];
+                double x9 = xa[8];
+                double x10 = xa[9];
+                double tau = 22.5 / (x3 + x4);
+                const double kA = 0.08;
+                const double kB = 0.03;
+                const double xAinf = kB / (kA + kB);
+                const double KA = 0.4409;
+                const double KB = 1.8299;
+                double fx1 = x3 - x1 - x9;
+                double fx2 = x4 - x2 - x10;
+                double fx3 = (x3 / (x3 + x4) - xAinf) * Math.Exp(-(kA + kB) * tau) + xAinf - x5 / (x5 + x6);
+                double fx4 = x3 + x4 - x5 - x6;
+                double fx5 = x7 / (x7 + x8) - KA * x9 / (x9 + x10);
+                double fx6 = x8 / (x7 + x8) - KB * x10 / (x9 + x10);
+                double fx7 = x5 - x7 - x9;
+                double fx8 = x6 - x8 - x10;
+                double fx9 = x1 - 0.9;
+                double fx10 = x2 - 0.1;
+                return new double[10] { fx1, fx2, fx3, fx4, fx5, fx6, fx7, fx8, fx9, fx10 };
+            };
+
+            double[] r = Broyden.FindRoot(fa1, new double[10] { 0.9, 0.1, 1, 0.2, 0.5, 0.8, 0.2, 0.7, 0.2, 0.1 }, 1e-14);
+            Assert.AreEqual(0.9, r[0], 1e-5);
+            Assert.AreEqual(0.1, r[1], 1e-5);
+            Assert.AreEqual(1.1898916711704, r[2], 1e-5);
+            Assert.AreEqual(0.2952987508752, r[3], 1e-5);
+            Assert.AreEqual(0.5533206920487, r[4], 1e-5);
+            Assert.AreEqual(0.9318697299969, r[5], 1e-5);
+            Assert.AreEqual(0.2634290208783, r[6], 1e-5);
+            Assert.AreEqual(0.7365709791217, r[7], 1e-5);
+            Assert.AreEqual(0.2898916711704, r[8], 1e-5);
+            Assert.AreEqual(0.1952987508752, r[9], 1e-5);
+            Assert.AreEqual(0, fa1(r)[0], 1e-12);
+            Assert.AreEqual(0, fa1(r)[1], 1e-12);
+            Assert.AreEqual(0, fa1(r)[2], 1e-12);
+            Assert.AreEqual(0, fa1(r)[3], 1e-12);
+            Assert.AreEqual(0, fa1(r)[4], 1e-12);
+            Assert.AreEqual(0, fa1(r)[5], 1e-12);
+            Assert.AreEqual(0, fa1(r)[6], 1e-12);
+            Assert.AreEqual(0, fa1(r)[7], 1e-12);
+            Assert.AreEqual(0, fa1(r)[8], 1e-12);
+            Assert.AreEqual(0, fa1(r)[9], 1e-12);
+        }
+
+        [Test]
+        public void Eleveneq1()
+        {
+            // Test case from http://www.polymath-software.com/library/nle/11eq1.htm
+            // Found solution disagrees with testcase!?
+            Func<double[], double[]> fa1 = xa =>
+            {
+                double x1 = xa[0];
+                double x2 = xa[1];
+                double x3 = xa[2];
+                double V = xa[3];
+                double L = xa[4];
+                double s11 = xa[5];
+                double s12 = xa[6];
+                double s13 = xa[7];
+                double s61 = xa[8];
+                double s62 = xa[9];
+                double s63 = xa[10];
+                const double s102 = 0;
+                double s21 = s11 / (1 + 0.211 * 1.5);
+                double s71 = L * x1;
+                double s72 = L * x2;
+                double s73 = L * x3;
+                double s41 = V * 2.523 * x1;
+                double s42 = V * 1.57 * x2;
+                double s43 = V * 0.0329 * x3;
+                double s51 = 0.75 * s41;
+                double s52 = 0.75 * s42;
+                double s53 = 0.75 * s43;
+                double s81 = 0.1 * s71;
+                double s101 = 0.9 * 0.1 * s71;
+                double s82 = 0.5 * s72;
+                double s83 = 0.2 * s73;
+                double s103 = 0.8 * 0.4 * s73;
+                double s22 = s12 / (1 + 0.101 * 1.5) + 0.211 * s21 * 1.5 / (1 + 0.101 * 1.5);
+                double s31 = s21 / (1 + 0.44 * 2);
+                double s23 = s13 + 0.101 * 1.5 * s22;
+                double s32 = s22 / (1 + 0.219 * 2) + 0.44 * s31 * 2 / (1 + 0.219 * 2);
+                double s33 = s23 + 0.219 * 2 * s32;
+                double fx1 = s61 - x1 * (L + V * 2.523);
+                double fx2 = s62 - x2 * (L + V * 1.57);
+                double fx3 = s63 - x3 * (L + V * 0.0329);
+                double fV = 2.523 * x1 + 1.57 * x2 + 0.0329 * x3 - 1;
+                double fL = x1 + x2 + x3 - 1;
+                double fs11 = s11 - 970 - s51;
+                double fs12 = s12 - 30 - s52;
+                double fs13 = s13 - s53;
+                double fs61 = s81 + s101 + s31 - s61;
+                double fs62 = s82 + s102 + s32 - s62;
+                double fs63 = s83 + s103 + s33 - s63;
+                return new double[11] { fx1, fx2, fx3, V, L, s11, s12, s13, s61, s62, s63 };
+            };
+
+            double[] r = Broyden.FindRoot(fa1, new double[11] { 0.1, 0.2, 0, 500, 500, 970, 30, 0, 970, 30, 0 }, 1e-14);
+            //Assert.AreEqual(0.16547930319775, r[0], 1e-5);
+            //Assert.AreEqual(0.36109556119140, r[1], 1e-5);
+            //Assert.AreEqual(0.4734251356109, r[2], 1e-5);
+            //Assert.AreEqual(630.763337421609, r[3], 1e-5);
+            //Assert.AreEqual(1554.563311908010, r[4], 1e-5);
+            //Assert.AreEqual(1167.509795711420, r[5], 1e-5);
+            //Assert.AreEqual(298.194278136889, r[6], 1e-5);
+            //Assert.AreEqual(7.368429217898, r[7], 1e-5);
+            //Assert.AreEqual(520.594447913209, r[8], 1e-5);
+            //Assert.AreEqual(918.938282370162, r[9], 1e-5);
+            //Assert.AreEqual(745.793919046246, r[10], 1e-5);
+            Assert.AreEqual(0, fa1(r)[0], 1e-12);
+            Assert.AreEqual(0, fa1(r)[1], 1e-12);
+            Assert.AreEqual(0, fa1(r)[2], 1e-12);
+            Assert.AreEqual(0, fa1(r)[3], 1e-12);
+            Assert.AreEqual(0, fa1(r)[4], 1e-12);
+            Assert.AreEqual(0, fa1(r)[5], 1e-12);
+            Assert.AreEqual(0, fa1(r)[6], 1e-12);
+            Assert.AreEqual(0, fa1(r)[7], 1e-12);
+            Assert.AreEqual(0, fa1(r)[8], 1e-12);
+            Assert.AreEqual(0, fa1(r)[9], 1e-12);
+            Assert.AreEqual(0, fa1(r)[10], 1e-12);
+        }
+
+        [Test]
+        public void Thirteeneq1()
+        {
+            // Test case from http://www.polymath-software.com/library/nle/13eq1.htm
+            Func<double[], double[]> fa1 = xa =>
+            {
+                double v1 = xa[0];
+                double v2 = xa[1];
+                double v3 = xa[2];
+                double v4 = xa[3];
+                double v5 = xa[4];
+                double v6 = xa[5];
+                double v7 = xa[6];
+                double v8 = xa[7];
+                double v9 = xa[8];
+                double v10 = xa[9];
+                double v11 = xa[10];
+                double v12 = xa[11];
+                double v13 = xa[12];
+                double xs = v1 + v2 + v3 + v4 + v5 + v6 + v7 + v8 + v9 + v10;
+                double fv1 = -6.089 + Math.Log(v1 / xs) + v11;
+                double fv2 = -17.164 + Math.Log(v2 / xs) + 2 * v11;
+                double fv3 = -34.054 + Math.Log(v3 / xs) + 2 * v11 + v13;
+                double fv4 = -5.914 + Math.Log(v4 / xs) + v12;
+                double fv5 = -24.721 + Math.Log(v5 / xs) + 2 * v12;
+                double fv6 = -14.986 + Math.Log(v6 / xs) + v11 + v12;
+                double fv7 = -24.1 + Math.Log(v7 / xs) + v12 + v13;
+                double fv8 = -10.708 + Math.Log(v8 / xs) + v13;
+                double fv9 = -26.662 + Math.Log(v9 / xs) + 2 * v13;
+                double fv10 = -22.197 + Math.Log(v10 / xs) + v11 + v13;
+                double fv11 = v1 + 2 * v2 + 2 * v3 + v6 + v10 - 2;
+                double fv12 = v4 + 2 * v5 + v6 + v7 - 1;
+                double fv13 = v3 + v7 + v8 + 2 * v9 + v10 - 1;
+                return new double[13] { fv1, fv2, fv3, fv4, fv5, fv6, fv7, fv8, fv9, fv10, fv11, fv12, fv13 };
+            };
+
+            double[] r = Broyden.FindRoot(fa1, new double[13] { 0.05, 0.2, 0.8,0.001, 0.5, 0.0007, 0.03, 0.02, 0.1, 0.1, 10, 10, 10 }, 1e-13);
+            Assert.AreEqual(0.04070664967202, r[0], 1e-5);
+            Assert.AreEqual(0.14796418434584, r[1], 1e-5);
+            Assert.AreEqual(0.78211670254494, r[2], 1e-5);
+            Assert.AreEqual(0.00141449528575, r[3], 1e-5);
+            Assert.AreEqual(0.48528331804737, r[4], 1e-5);
+            Assert.AreEqual(0.00069374665473, r[5], 1e-5);
+            Assert.AreEqual(0.02732512196478, r[6], 1e-5);
+            Assert.AreEqual(0.01790081773259, r[7], 1e-5);
+            Assert.AreEqual(0.03710976393300, r[8], 1e-5);
+            Assert.AreEqual(0.09843782989168, r[9], 1e-5);
+            Assert.AreEqual(9.78442121489321, r[10], 1e-5);
+            Assert.AreEqual(12.9690398976484, r[11], 1e-5);
+            Assert.AreEqual(15.2249662814130, r[12], 1e-5);
+            Assert.AreEqual(0, fa1(r)[0], 1e-12);
+            Assert.AreEqual(0, fa1(r)[1], 1e-12);
+            Assert.AreEqual(0, fa1(r)[2], 1e-12);
+            Assert.AreEqual(0, fa1(r)[3], 1e-12);
+            Assert.AreEqual(0, fa1(r)[4], 1e-12);
+            Assert.AreEqual(0, fa1(r)[5], 1e-12);
+            Assert.AreEqual(0, fa1(r)[6], 1e-12);
+            Assert.AreEqual(0, fa1(r)[7], 1e-12);
+            Assert.AreEqual(0, fa1(r)[8], 1e-12);
+            Assert.AreEqual(0, fa1(r)[9], 1e-12);
+            Assert.AreEqual(0, fa1(r)[10], 1e-12);
+            Assert.AreEqual(0, fa1(r)[11], 1e-12);
+            Assert.AreEqual(0, fa1(r)[12], 1e-12);
+        }
+
+        [Test]
+        public void Fourteeneq1()
+        {
+            // Test case from http://www.polymath-software.com/library/nle/14eq1.htm
+            Func<double[], double[]> fa1 = xa =>
+            {
+                double x11 = xa[0];
+                double x12 = xa[1];
+                double x13 = xa[2];
+                double x21 = xa[3];
+                double x22 = xa[4];
+                double x23 = xa[5];
+                double t1 = xa[6];
+                double t2 = xa[7];
+                double t3 = xa[8];
+                double tf = xa[9];
+                double t0 = xa[10];
+                double V1 = xa[11];
+                double V2 = xa[12];
+                double V3 = xa[13];
+                const double F = 1;
+                const double B = 0.75;
+                const double D = 0.25;
+                double L0 = V1 - D;
+                double L1 = V2 - D;
+                double L2 = V3 + F - D;
+                const double L3 = B;
+                const double P = 760 * 120 / 14.7;
+                double k11 = Math.Pow(10 ,6.80776 - 935.77 / ((t1 - 32) * 5 / 9 + 238.789)) / P;
+                double k12 = Math.Pow(10, 6.80776 - 935.77 / ((t2 - 32) * 5 / 9 + 238.789)) / P;
+                double k13 = Math.Pow(10, 6.80776 - 935.77 / ((t3 - 32) * 5 / 9 + 238.789)) / P;
+                double k21 = Math.Pow(10, 6.85296 - 1064.84 / ((t1 - 32) * 5 / 9 + 232.012)) / P;
+                double k22 = Math.Pow(10, 6.85296 - 1064.84 / ((t2 - 32) * 5 / 9 + 232.012)) / P;
+                double k23 = Math.Pow(10, 6.85296 - 1064.84 / ((t3 - 32) * 5 / 9 + 232.012)) / P;
+                double k1f = Math.Pow(10, 6.80776 - 935.77 / ((tf - 32) * 5 / 9 + 238.789)) / P;
+                double k2f = Math.Pow(10, 6.85296 - 1064.84 / ((tf - 32) * 5 / 9 + 232.012)) / P;
+                double k10 = Math.Pow(10, 6.80776 - 935.77 / ((t0 - 32) * 5 / 9 + 238.789)) / P;
+                double k20 = Math.Pow(10, 6.85296 - 1064.84 / ((tf - 32) * 5 / 9 + 232.012)) / P;
+                double hl1 = t1 * (29.6 + 0.04 * t1) * x11 + t1 * (38.5 + 0.025 * t1) * x21;
+                double hv1 = (8003 + t1 * (43.8 - 0.04 * t1)) * k11 * x11 + (12004 + t1 * (31.7 + 0.007 * t1)) * k21 * x21;
+                double hl2 = t2 * (29.6 + 0.04 * t2) * x12 + t2 * (38.5 + 0.025 * t2) * x22;
+                double hv2 = (8003 + t2 * (43.8 - 0.04 * t2)) * k12 * x12 + (12004 + t2 * (31.7 + 0.007 * t2)) * k22 * x22;
+                double hl3 = t3 * (29.6 + 0.04 * t3) * x13 + t3 * (38.5 + 0.025 * t3) * x23;
+                double hv3 = (8003 + t3 * (43.8 - 0.04 * t3)) * k13 * x13 + (12004 + t3 * (31.7 + 0.007 * t3)) * k23 * x23;
+                const double z1 = 0.40;
+                const double z2 = 1 - z1;
+                double hf = tf * (29.6 + 0.04 * tf) * z1 + tf * (38.5 + 0.025 * tf) * z2;
+                double h0 = t0 * (29.6 + 0.04 * t0) * k10 * k11 * x11 + t0 * (38.5 + 0.025 * t0) * k20 * k21 * x21;
+                const double Q = 10000;
+                double fx11 =-((V1-L0)*k11+L1)*x11+V2*k12*x12 ;
+                double fx12 = L1 * x11 - (V2 * k12 + L2) * x12 + V3 * k13 * x13 + z1 * F;
+                double fx13 = L2 * x12 - (V3 * k13 + B) * x13;
+                double fx21 =-((V1-L0)*k21+L1)*x21+V2*k22*x22 ;
+                double fx22 = L1 * x21 - (V2 * k22 + L2) * x22 + V3 * k23 * x23 + z2 * F;
+                double fx23 = L2 * x22 - (V3 * k23 + B) * x23;
+                double ft1 = k11 * x11 + k21 * x21 - 1;
+                double ft2 = k12 * x12 + k22 * x22 - 1;
+                double ft3 = k13 * x13 + k23 * x23 - 1;
+                double ftf = k1f * z1 + k2f * z2 - 1;
+                double ft0 = k10 * k11 * x11 + k20 * k21 * x21 - 1;
+                double fV1 = -V1 * hv1 + V2 * hv2 - L1 * hl1 + L0 * h0;
+                double fV2 = -V2 * hv2 + V3 * hv3 + hf + L1 * hl1 - L2 * hl2;
+                double fV3 = -V3 * hv3 + Q + L2 * hl2 - L3 * hl3; 
+                return new double[14] { fx11, fx12, fx13, fx21, fx22, fx23, ft1, ft2, ft3, ftf, ft0, fV1, fV2, fV3 };
+            };
+
+            double[] r = Broyden.FindRoot(fa1, new double[14] { 0.5, 0.4, 0.3, 0.3, 0.4, 0.5, 145, 190, 210, 200, 200, 1, 1, 1 }, 1e-10);
+            Assert.AreEqual(0.57902594925514, r[0], 1e-5);
+            Assert.AreEqual(0.39569120229748, r[1], 1e-5);
+            Assert.AreEqual(0.27186578944464, r[2], 1e-5);
+            Assert.AreEqual(0.42097405074479, r[3], 1e-5);
+            Assert.AreEqual(0.60430879770252, r[4], 1e-5);
+            Assert.AreEqual(0.72813421055536, r[5], 1e-5);
+            Assert.AreEqual(186.378525897475, r[6], 1e-5);
+            Assert.AreEqual(200.526868526979, r[7], 1e-5);
+            Assert.AreEqual(211.486095297259, r[8], 1e-5);
+            Assert.AreEqual(200.167501447086, r[9], 1e-5);
+            Assert.AreEqual(169.064015709595, r[10], 1e-5);
+            Assert.AreEqual(1.08137588467567, r[11], 1e-5);
+            Assert.AreEqual(1.06683987591090, r[12], 1e-5);
+            Assert.AreEqual(1.04952829661125, r[13], 1e-5);
+            Assert.AreEqual(0, fa1(r)[0], 1e-12);
+            Assert.AreEqual(0, fa1(r)[1], 1e-12);
+            Assert.AreEqual(0, fa1(r)[2], 1e-12);
+            Assert.AreEqual(0, fa1(r)[3], 1e-12);
+            Assert.AreEqual(0, fa1(r)[4], 1e-12);
+            Assert.AreEqual(0, fa1(r)[5], 1e-12);
+            Assert.AreEqual(0, fa1(r)[6], 1e-12);
+            Assert.AreEqual(0, fa1(r)[7], 1e-12);
+            Assert.AreEqual(0, fa1(r)[8], 1e-12);
+            Assert.AreEqual(0, fa1(r)[9], 1e-12);
+            Assert.AreEqual(0, fa1(r)[10], 1e-12);
+            Assert.AreEqual(0, fa1(r)[11], 1e-10);
+            Assert.AreEqual(0, fa1(r)[12], 1e-11);
+            Assert.AreEqual(0, fa1(r)[13], 1e-11);
         }
     }
 }
