@@ -78,6 +78,24 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         protected abstract void DoAdd(Matrix<T> other, Matrix<T> result);
 
         /// <summary>
+        /// Subtracts a scalar from each element of the matrix and stores the result in the result matrix.
+        /// </summary>
+        /// <param name="scalar">The scalar to subtract.</param>
+        /// <param name="result">The matrix to store the result of the subtraction.</param>
+        protected abstract void DoSubtract(T scalar, Matrix<T> result);
+
+        /// <summary>
+        /// Subtracts each element of the matrix from a scalar and stores the result in the result matrix.
+        /// </summary>
+        /// <param name="scalar">The scalar to subtract from.</param>
+        /// <param name="result">The matrix to store the result of the subtraction.</param>
+        protected virtual void DoSubtractFrom(T scalar, Matrix<T> result)
+        {
+            DoNegate(result);
+            result.DoAdd(scalar, result);
+        }
+
+        /// <summary>
         /// Subtracts another matrix from this matrix.
         /// </summary>
         /// <param name="other">The matrix to subtract.</param>
@@ -255,6 +273,85 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
             }
 
             DoAdd(other, result);
+        }
+
+        /// <summary>
+        /// Subtracts a scalar from each element of the matrix.
+        /// </summary>
+        /// <param name="scalar">The scalar to subtract.</param>
+        /// <returns>A new matrix containing the subtraction of this matrix and the scalar.</returns>
+        public Matrix<T> Subtract(T scalar)
+        {
+            if (scalar.Equals(Zero))
+            {
+                return Clone();
+            }
+
+            var result = CreateMatrix(RowCount, ColumnCount);
+            DoSubtract(scalar, result);
+            return result;
+        }
+
+        /// <summary>
+        /// Subtracts a scalar from each element of the matrix and stores the result in the result matrix.
+        /// </summary>
+        /// <param name="scalar">The scalar to subtract.</param>
+        /// <param name="result">The matrix to store the result of the subtraction.</param>
+        /// <exception cref="ArgumentNullException">If the result matrix is <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentException">If this matrix and <paramref name="result"/> are not the same size.</exception>
+        public void Subtract(T scalar, Matrix<T> result)
+        {
+            if (result == null)
+            {
+                throw new ArgumentNullException("result");
+            }
+
+            if (result.RowCount != RowCount || result.ColumnCount != ColumnCount)
+            {
+                throw DimensionsDontMatch<ArgumentOutOfRangeException>(this, result, "result");
+            }
+
+            if (scalar.Equals(Zero))
+            {
+                CopyTo(result);
+                return;
+            }
+
+            DoSubtract(scalar, result);
+        }
+
+        /// <summary>
+        /// Subtracts each element of the matrix from a scalar.
+        /// </summary>
+        /// <param name="scalar">The scalar to subtract from.</param>
+        /// <returns>A new matrix containing the subtraction of the scalar and this matrix.</returns>
+        public Matrix<T> SubtractFrom(T scalar)
+        {
+            var result = CreateMatrix(RowCount, ColumnCount);
+            DoSubtractFrom(scalar, result);
+            return result;
+        }
+
+        /// <summary>
+        /// Subtracts each element of the matrix from a scalar and stores the result in the result matrix.
+        /// </summary>
+        /// <param name="scalar">The scalar to subtract from.</param>
+        /// <param name="result">The matrix to store the result of the subtraction.</param>
+        /// <exception cref="ArgumentNullException">If the result matrix is <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentException">If this matrix and <paramref name="result"/> are not the same size.</exception>
+        public void SubtractFrom(T scalar, Matrix<T> result)
+        {
+            if (result == null)
+            {
+                throw new ArgumentNullException("result");
+            }
+
+            if (result.RowCount != RowCount || result.ColumnCount != ColumnCount)
+            {
+                throw DimensionsDontMatch<ArgumentOutOfRangeException>(this, result, "result");
+            }
+
+            DoSubtractFrom(scalar, result);
         }
 
         /// <summary>
