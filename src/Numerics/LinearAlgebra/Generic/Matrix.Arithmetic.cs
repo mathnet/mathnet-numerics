@@ -62,6 +62,13 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         protected abstract void DoConjugate(Matrix<T> result);
 
         /// <summary>
+        /// Add a scalar to each element of the matrix and stores the result in the result vector.
+        /// </summary>
+        /// <param name="scalar">The scalar to add.</param>
+        /// <param name="result">The matrix to store the result of the addition.</param>
+        protected abstract void DoAdd(T scalar, Matrix<T> result);
+
+        /// <summary>
         /// Adds another matrix to this matrix.
         /// </summary>
         /// <param name="other">The matrix to add to this matrix.</param>
@@ -146,6 +153,53 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <param name="other">The matrix to pointwise divide this one by.</param>
         /// <param name="result">The matrix to store the result of the pointwise division.</param>
         protected abstract void DoPointwiseDivide(Matrix<T> other, Matrix<T> result);
+
+        /// <summary>
+        /// Adds a scalar to each element of the matrix.
+        /// </summary>
+        /// <param name="scalar">The scalar to add.</param>
+        /// <returns>The result of the addition.</returns>
+        /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">If the two matrices don't have the same dimensions.</exception>
+        public Matrix<T> Add(T scalar)
+        {
+            if (scalar.Equals(Zero))
+            {
+                return Clone();
+            }
+
+            var result = CreateMatrix(RowCount, ColumnCount);
+            DoAdd(scalar, result);
+            return result;
+        }
+
+        /// <summary>
+        /// Adds a scalar to each element of the matrix and stores the result in the result matrix.
+        /// </summary>
+        /// <param name="scalar">The scalar to add.</param>
+        /// <param name="result">The matrix to store the result of the addition.</param>
+        /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">If the two matrices don't have the same dimensions.</exception>
+        public void Add(T scalar, Matrix<T> result)
+        {
+            if (result == null)
+            {
+                throw new ArgumentNullException("result");
+            }
+
+            if (result.RowCount != RowCount || result.ColumnCount != ColumnCount)
+            {
+                throw DimensionsDontMatch<ArgumentOutOfRangeException>(this, result, "result");
+            }
+
+            if (scalar.Equals(Zero))
+            {
+                CopyTo(result);
+                return;
+            }
+
+            DoAdd(scalar, result);
+        }
 
         /// <summary>
         /// Adds another matrix to this matrix.

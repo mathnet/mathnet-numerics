@@ -349,6 +349,30 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         #endregion
 
         /// <summary>
+        /// Add a scalar to each element of the matrix and stores the result in the result vector.
+        /// </summary>
+        /// <param name="scalar">The scalar to add.</param>
+        /// <param name="result">The matrix to store the result of the addition.</param>
+        protected override void DoAdd(double scalar, Matrix<double> result)
+        {
+            var denseResult = result as DenseMatrix;
+            if (denseResult == null)
+            {
+                base.DoAdd(scalar, result);
+                return;
+            }
+
+            CommonParallel.For(0, _values.Length, 4096, (a, b) =>
+                {
+                    var v = denseResult._values;
+                    for (int i = a; i < b; i++)
+                    {
+                        v[i] = _values[i] + scalar;
+                    }
+                });
+        }
+
+        /// <summary>
         /// Adds another matrix to this matrix.
         /// </summary>
         /// <param name="other">The matrix to add to this matrix.</param>
