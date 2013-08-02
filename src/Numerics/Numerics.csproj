@@ -109,7 +109,9 @@
     <Compile Include="Financial\AbsoluteReturnMeasures.cs" />
     <Compile Include="Financial\AbsoluteRiskMeasures.cs" />
     <Compile Include="LinearAlgebra\Generic\Matrix.BCL.cs" />
+    <Compile Include="LinearAlgebra\Generic\Matrix.Operators.cs" />
     <Compile Include="LinearAlgebra\Generic\Vector.BCL.cs" />
+    <Compile Include="LinearAlgebra\Generic\Vector.Operators.cs" />
     <Compile Include="NonConvergenceException.cs" />
     <Compile Include="RootFinding\Broyden.cs" />
     <Compile Include="RootFinding\NewtonRaphson.cs" />
