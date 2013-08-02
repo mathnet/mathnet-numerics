@@ -125,6 +125,22 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         }
 
         /// <summary>
+        /// Add a scalar to each element of the matrix and stores the result in the result vector.
+        /// </summary>
+        /// <param name="scalar">The scalar to add.</param>
+        /// <param name="result">The matrix to store the result of the addition.</param>
+        protected override void DoAdd(Complex32 scalar, Matrix<Complex32> result)
+        {
+            for (var i = 0; i < RowCount; i++)
+            {
+                for (var j = 0; j < ColumnCount; j++)
+                {
+                    result.At(i, j, At(i, j) + scalar);
+                }
+            }
+        }
+
+        /// <summary>
         /// Adds another matrix to this matrix.
         /// </summary>
         /// <param name="other">The matrix to add to this matrix.</param>

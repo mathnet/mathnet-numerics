@@ -28,6 +28,8 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using MathNet.Numerics.Threading;
+
 namespace MathNet.Numerics.LinearAlgebra.Complex32
 {
     using Algorithms.LinearAlgebra;
@@ -621,6 +623,30 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
             {
                 Control.LinearAlgebraProvider.PointWiseDivideArrays(_values, denseOther._values, denseResult._values);
             }
+        }
+
+        /// <summary>
+        /// Add a scalar to each element of the matrix and stores the result in the result vector.
+        /// </summary>
+        /// <param name="scalar">The scalar to add.</param>
+        /// <param name="result">The matrix to store the result of the addition.</param>
+        protected override void DoAdd(Complex32 scalar, Matrix<Complex32> result)
+        {
+            var denseResult = result as DenseMatrix;
+            if (denseResult == null)
+            {
+                base.DoAdd(scalar, result);
+                return;
+            }
+
+            CommonParallel.For(0, _values.Length, 4096, (a, b) =>
+                {
+                    var v = denseResult._values;
+                    for (int i = a; i < b; i++)
+                    {
+                        v[i] = _values[i] + scalar;
+                    }
+                });
         }
 
         /// <summary>

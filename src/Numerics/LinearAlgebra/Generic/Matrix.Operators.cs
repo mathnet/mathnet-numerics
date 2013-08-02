@@ -92,6 +92,44 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         }
 
         /// <summary>
+        /// Adds a scalar to each element of the matrix.
+        /// </summary>
+        /// <remarks>This operator will allocate new memory for the result. It will
+        /// choose the representation of the provided matrix.</remarks>
+        /// <param name="leftSide">The left matrix to add.</param>
+        /// <param name="rightSide">The scalar value to add.</param>
+        /// <returns>The result of the addition.</returns>
+        /// <exception cref="ArgumentNullException">If <paramref name="leftSide"/> is <see langword="null" />.</exception>
+        public static Matrix<T> operator +(Matrix<T> leftSide, T rightSide)
+        {
+            if (leftSide == null)
+            {
+                throw new ArgumentNullException("leftSide");
+            }
+
+            return leftSide.Add(rightSide);
+        }
+
+        /// <summary>
+        /// Adds a scalar to each element of the matrix.
+        /// </summary>
+        /// <remarks>This operator will allocate new memory for the result. It will
+        /// choose the representation of the provided matrix.</remarks>
+        /// <param name="leftSide">The scalar value to add.</param>
+        /// <param name="rightSide">The right matrix to add.</param>
+        /// <returns>The result of the addition.</returns>
+        /// <exception cref="ArgumentNullException">If <paramref name="rightSide"/> is <see langword="null" />.</exception>
+        public static Matrix<T> operator +(T leftSide, Matrix<T> rightSide)
+        {
+            if (rightSide == null)
+            {
+                throw new ArgumentNullException("rightSide");
+            }
+
+            return rightSide.Add(leftSide);
+        }
+
+        /// <summary>
         /// Subtracts two matrices together and returns the results.
         /// </summary>
         /// <remarks>This operator will allocate new memory for the result. It will
