@@ -137,7 +137,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// is denser.</remarks>
         /// <param name="leftSide">The left matrix to subtract.</param>
         /// <param name="rightSide">The right matrix to subtract.</param>
-        /// <returns>The result of the addition.</returns>
+        /// <returns>The result of the subtraction.</returns>
         /// <exception cref="ArgumentOutOfRangeException">If <paramref name="leftSide"/> and <paramref name="rightSide"/> don't have the same dimensions.</exception>
         /// <exception cref="ArgumentNullException">If <paramref name="leftSide"/> or <paramref name="rightSide"/> is <see langword="null" />.</exception>
         public static Matrix<T> operator -(Matrix<T> leftSide, Matrix<T> rightSide)
@@ -148,6 +148,46 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
             }
 
             return leftSide.Subtract(rightSide);
+        }
+
+        /// <summary>
+        /// Subtracts a scalar from each element of a matrix.
+        /// </summary>
+        /// <remarks>This operator will allocate new memory for the result. It will
+        /// choose the representation of the provided matrix.</remarks>
+        /// <param name="leftSide">The left matrix to subtract.</param>
+        /// <param name="rightSide">The scalar value to subtract.</param>
+        /// <returns>The result of the subtraction.</returns>
+        /// <exception cref="ArgumentOutOfRangeException">If <paramref name="leftSide"/> and <paramref name="rightSide"/> don't have the same dimensions.</exception>
+        /// <exception cref="ArgumentNullException">If <paramref name="leftSide"/> or <paramref name="rightSide"/> is <see langword="null" />.</exception>
+        public static Matrix<T> operator -(Matrix<T> leftSide, T rightSide)
+        {
+            if (leftSide == null)
+            {
+                throw new ArgumentNullException("leftSide");
+            }
+
+            return leftSide.Subtract(rightSide);
+        }
+
+        /// <summary>
+        /// Substracts each element of a matrix from a scalar.
+        /// </summary>
+        /// <remarks>This operator will allocate new memory for the result. It will
+        /// choose the representation of the provided matrix.</remarks>
+        /// <param name="leftSide">The scalar value to subtract.</param>
+        /// <param name="rightSide">The right matrix to subtract.</param>
+        /// <returns>The result of the subtraction.</returns>
+        /// <exception cref="ArgumentOutOfRangeException">If <paramref name="leftSide"/> and <paramref name="rightSide"/> don't have the same dimensions.</exception>
+        /// <exception cref="ArgumentNullException">If <paramref name="leftSide"/> or <paramref name="rightSide"/> is <see langword="null" />.</exception>
+        public static Matrix<T> operator -(T leftSide, Matrix<T> rightSide)
+        {
+            if (rightSide == null)
+            {
+                throw new ArgumentNullException("rightSide");
+            }
+
+            return rightSide.SubtractFrom(leftSide);
         }
 
         /// <summary>
