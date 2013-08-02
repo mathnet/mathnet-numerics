@@ -110,6 +110,7 @@
     <Compile Include="Financial\AbsoluteRiskMeasures.cs" />
     <Compile Include="LinearAlgebra\Generic\Matrix.BCL.cs" />
     <Compile Include="LinearAlgebra\Generic\Matrix.Operators.cs" />
+    <Compile Include="LinearAlgebra\Generic\Vector.Arithmetic.cs" />
     <Compile Include="LinearAlgebra\Generic\Vector.BCL.cs" />
     <Compile Include="LinearAlgebra\Generic\Vector.Operators.cs" />
     <Compile Include="NonConvergenceException.cs" />
