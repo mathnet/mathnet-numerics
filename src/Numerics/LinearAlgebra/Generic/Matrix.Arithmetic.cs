@@ -29,6 +29,8 @@
 // </copyright>
 
 
+using System.Runtime.CompilerServices;
+
 namespace MathNet.Numerics.LinearAlgebra.Generic
 {
     using System;
@@ -1158,6 +1160,18 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
             }
 
             return leftSide.Modulus(rightSide);
+        }
+
+        [SpecialName]
+        public static Matrix<T> op_DotMultiply(Matrix<T> x, Matrix<T> y)
+        {
+            return x.PointwiseMultiply(y);
+        }
+
+        [SpecialName]
+        public static Matrix<T> op_DotDivide(Matrix<T> x, Matrix<T> y)
+        {
+            return x.PointwiseDivide(y);
         }
 
         /// <summary>

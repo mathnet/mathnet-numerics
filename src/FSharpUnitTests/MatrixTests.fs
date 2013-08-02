@@ -10,14 +10,14 @@ module MatrixTests =
 
     let approximately_equal tolerance = equalWithin (10.0 ** (float -tolerance))
 
-    /// A small uniform vector.
+    /// A small uniform matrix.
     let smallM = DenseMatrix.OfArray( Array2D.create 2 2 0.3 )
     let failingFoldBackM = DenseMatrix.init 2 3 (fun i j -> 1.0)
 
     /// A small sparse matrix.
     let sparseM = SparseMatrix.ofListi 2 3 [(1,0,0.3)]
 
-    /// A large vector with increasingly large entries
+    /// A large matrix with increasingly large entries
     let largeM = DenseMatrix.OfArray( Array2D.init 100 100 (fun i j -> float i * 100.0 + float j) )
 
     [<Test>]
@@ -179,3 +179,13 @@ module MatrixTests =
     [<Test>]
     let ``Matrix.foldByRow`` () =
         Matrix.foldByRow (+) 0.0 smallM |> should equal (DenseVector.ofList [0.6;0.6] :> Vector<float>)
+
+    [<Test>]
+    let ``Pointwise Multiplication using .* Operator`` () =
+        let z = largeM .* largeM
+        z |> should equal (DenseMatrix.init 100 100 (fun i j -> (float i * 100.0 + float j) ** 2.0))
+
+    [<Test>]
+    let ``Pointwise Division using ./ Operator`` () =
+        let z = largeM ./ DenseMatrix.create 100 100 2.0
+        z |> should equal (largeM * 0.5)
