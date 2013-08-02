@@ -28,6 +28,8 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System.Runtime.CompilerServices;
+
 namespace MathNet.Numerics.LinearAlgebra.Generic
 {
     using System;
@@ -1295,6 +1297,24 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
             }
 
             return leftSide.PointwiseModulus(rightSide);
+        }
+
+        [SpecialName]
+        public static Vector<T> op_DotMultiply(Vector<T> x, Vector<T> y)
+        {
+            return x.PointwiseMultiply(y);
+        }
+
+        [SpecialName]
+        public static Vector<T> op_DotDivide(Vector<T> x, Vector<T> y)
+        {
+            return x.PointwiseDivide(y);
+        }
+
+        [SpecialName]
+        public static Vector<T> op_DotPercent(Vector<T> x, Vector<T> y)
+        {
+            return x.PointwiseModulus(y);
         }
 
         /// <summary>

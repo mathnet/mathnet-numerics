@@ -164,3 +164,18 @@ module VectorTests =
     [<Test>]
     let ``Vector.insert`` () =
         Vector.insert 2 0.5 smallv |> should (approximately_equal 14) (new DenseVector ( [|0.3;0.3;0.5;0.3;0.3;0.3|] ) :> Vector<float>)
+
+    [<Test>]
+    let ``Pointwise Multiplication using .* Operator`` () =
+        let z = largev .* largev
+        z |> should equal (DenseVector.init 100 (fun i -> (float i / 100.0) ** 2.0))
+
+    [<Test>]
+    let ``Pointwise Division using ./ Operator`` () =
+        let z = largev ./ DenseVector.create 100 2.0
+        z |> should equal (largev * 0.5)
+
+    [<Test>]
+    let ``Pointwise Modulus using .% Operator`` () =
+        let z = largev .% DenseVector.create 100 2.0
+        z |> should equal (largev % 2.0)
