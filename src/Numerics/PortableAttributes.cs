@@ -18,6 +18,11 @@ namespace MathNet.Numerics
             Reason = reason;
         }
     }
+
+    [AttributeUsage(AttributeTargets.Method, AllowMultiple = false, Inherited = false)]
+    public class SpecialNameAttribute : Attribute
+    {
+    }
 }
 
 #endif
