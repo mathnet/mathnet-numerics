@@ -586,6 +586,24 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         }
 
         /// <summary>
+        /// Divides each element of the matrix by a scalar and places results into the result matrix.
+        /// </summary>
+        /// <param name="scalar">The scalar to divide the matrix with.</param>
+        /// <param name="result">The matrix to store the result of the division.</param>
+        protected override void DoDivide(Complex32 scalar, Matrix<Complex32> result)
+        {
+            var denseResult = result as DenseMatrix;
+            if (denseResult == null)
+            {
+                base.DoDivide(scalar, result);
+            }
+            else
+            {
+                Control.LinearAlgebraProvider.ScaleArray(1.0f/scalar, _values, denseResult._values);
+            }
+        }
+
+        /// <summary>
         /// Pointwise multiplies this matrix with another matrix and stores the result into the result matrix.
         /// </summary>
         /// <param name="other">The matrix to pointwise multiply with this one.</param>
