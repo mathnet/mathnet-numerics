@@ -28,17 +28,18 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using MathNet.Numerics.Distributions;
+using MathNet.Numerics.LinearAlgebra.Generic;
+using MathNet.Numerics.LinearAlgebra.Storage;
+using MathNet.Numerics.Properties;
+using MathNet.Numerics.Threading;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+
 namespace MathNet.Numerics.LinearAlgebra.Single
 {
-    using Distributions;
-    using Generic;
-    using Properties;
-    using Storage;
-    using System;
-    using System.Collections.Generic;
-    using System.Diagnostics;
-    using System.Linq;
-
     /// <summary>
     /// A matrix type for diagonal matrices.
     /// </summary>
@@ -1020,28 +1021,49 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// <summary>
         /// Computes the modulus for each element of the matrix.
         /// </summary>
-        /// <param name="divisor">The divisor to use.</param>
+        /// <param name="divisor">The scalar denominator to use.</param>
         /// <param name="result">Matrix to store the results in.</param>
         protected override void DoModulus(float divisor, Matrix<float> result)
         {
-            var denseResult = result as DiagonalMatrix;
-
-            if (denseResult == null)
+            var diagonalResult = result as DiagonalMatrix;
+            if (diagonalResult == null)
             {
                 base.DoModulus(divisor, result);
+                return;
             }
-            else
-            {
-                if (!ReferenceEquals(this, result))
-                {
-                    CopyTo(result);
-                }
 
-                for (var index = 0; index < _data.Length; index++)
+            CommonParallel.For(0, _data.Length, 4096, (a, b) =>
                 {
-                    denseResult._data[index] %= divisor;
-                }
+                    var r = diagonalResult._data;
+                    for (var i = a; i < b; i++)
+                    {
+                        r[i] = _data[i]%divisor;
+                    }
+                });
+        }
+
+        /// <summary>
+        /// Computes the modulus for each element of the matrix.
+        /// </summary>
+        /// <param name="dividend">The scalar numerator to use.</param>
+        /// <param name="result">Matrix to store the results in.</param>
+        protected override void DoModulusByThis(float dividend, Matrix<float> result)
+        {
+            var diagonalResult = result as DiagonalMatrix;
+            if (diagonalResult == null)
+            {
+                base.DoModulusByThis(dividend, result);
+                return;
             }
+
+            CommonParallel.For(0, _data.Length, 4096, (a, b) =>
+                {
+                    var r = diagonalResult._data;
+                    for (var i = a; i < b; i++)
+                    {
+                        r[i] = dividend%_data[i];
+                    }
+                });
         }
 
         #region Static constructors for special matrices.

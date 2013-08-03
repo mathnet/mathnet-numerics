@@ -147,23 +147,30 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <summary>
         /// Divides each element of the matrix by a scalar and places results into the result matrix.
         /// </summary>
-        /// <param name="scalar">The scalar to divide the matrix with.</param>
+        /// <param name="divisor">The scalar denominator to use.</param>
         /// <param name="result">The matrix to store the result of the division.</param>
-        protected abstract void DoDivide(T scalar, Matrix<T> result);
+        protected abstract void DoDivide(T divisor, Matrix<T> result);
 
         /// <summary>
         /// Divides a scalar by each element of the matrix and stores the result in the result matrix.
         /// </summary>
-        /// <param name="scalar">The scalar to divide.</param>
+        /// <param name="dividend">The scalar numerator to use.</param>
         /// <param name="result">The matrix to store the result of the division.</param>
-        protected abstract void DoDivideByThis(T scalar, Matrix<T> result);
+        protected abstract void DoDivideByThis(T dividend, Matrix<T> result);
 
         /// <summary>
-        /// Computes the modulus for each element of the matrix.
+        /// Computes the modulus for the given divisor each element of the matrix.
         /// </summary>
-        /// <param name="divisor">The divisor to use.</param>
+        /// <param name="divisor">The scalar denominator to use.</param>
         /// <param name="result">Matrix to store the results in.</param>
         protected abstract void DoModulus(T divisor, Matrix<T> result);
+
+        /// <summary>
+        /// Computes the modulus for the given dividend for each element of the matrix.
+        /// </summary>
+        /// <param name="dividend">The scalar numerator to use.</param>
+        /// <param name="result">A vector to store the results in.</param>
+        protected abstract void DoModulusByThis(T dividend, Matrix<T> result);
 
         /// <summary>
         /// Pointwise multiplies this matrix with another matrix and stores the result into the result matrix.
@@ -175,9 +182,16 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <summary>
         /// Pointwise divide this matrix by another matrix and stores the result into the result matrix.
         /// </summary>
-        /// <param name="other">The matrix to pointwise divide this one by.</param>
+        /// <param name="divisor">The pointwise denominator matrix to use.</param>
         /// <param name="result">The matrix to store the result of the pointwise division.</param>
-        protected abstract void DoPointwiseDivide(Matrix<T> other, Matrix<T> result);
+        protected abstract void DoPointwiseDivide(Matrix<T> divisor, Matrix<T> result);
+
+        /// <summary>
+        /// Pointwise modulus this matrix with another matrix and stores the result into the result matrix.
+        /// </summary>
+        /// <param name="divisor">The pointwise denominator matrix to use</param>
+        /// <param name="result">The result of the modulus.</param>
+        protected abstract void DoPointwiseModulus(Matrix<T> divisor, Matrix<T> result);
 
         /// <summary>
         /// Adds a scalar to each element of the matrix.
@@ -1039,6 +1053,70 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         }
 
         /// <summary>
+        /// Computes the modulus (matrix % divisor) for each element of the matrix.
+        /// </summary>
+        /// <param name="divisor">The scalar denominator to use.</param>
+        /// <returns>A matrix containing the results.</returns>
+        public Matrix<T> Modulus(T divisor)
+        {
+            var result = CreateMatrix(RowCount, ColumnCount);
+            DoModulus(divisor, result);
+            return result;
+        }
+
+        /// <summary>
+        /// Computes the modulus (matrix % divisor) for each element of the matrix.
+        /// </summary>
+        /// <param name="divisor">The scalar denominator to use.</param>
+        /// <param name="result">Matrix to store the results in.</param>
+        public void Modulus(T divisor, Matrix<T> result)
+        {
+            if (result == null)
+            {
+                throw new ArgumentNullException("result");
+            }
+
+            if (ColumnCount != result.ColumnCount || RowCount != result.RowCount)
+            {
+                throw DimensionsDontMatch<ArgumentException>(this, result);
+            }
+
+            DoModulus(divisor, result);
+        }
+
+        /// <summary>
+        /// Computes the modulus (dividend % matrix) for each element of the matrix.
+        /// </summary>
+        /// <param name="dividend">The scalar numerator to use.</param>
+        /// <returns>A matrix containing the results.</returns>
+        public Matrix<T> ModulusByThis(T dividend)
+        {
+            var result = CreateMatrix(RowCount, ColumnCount);
+            DoModulusByThis(dividend, result);
+            return result;
+        }
+
+        /// <summary>
+        /// Computes the modulus (dividend % matrix) for each element of the matrix.
+        /// </summary>
+        /// <param name="dividend">The scalar numerator to use.</param>
+        /// <param name="result">Matrix to store the results in.</param>
+        public void ModulusByThis(T dividend, Matrix<T> result)
+        {
+            if (result == null)
+            {
+                throw new ArgumentNullException("result");
+            }
+
+            if (ColumnCount != result.ColumnCount || RowCount != result.RowCount)
+            {
+                throw DimensionsDontMatch<ArgumentException>(this, result);
+            }
+
+            DoModulusByThis(dividend, result);
+        }
+
+        /// <summary>
         /// Pointwise multiplies this matrix with another matrix.
         /// </summary>
         /// <param name="other">The matrix to pointwise multiply with this one.</param>
@@ -1094,41 +1172,41 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <summary>
         /// Pointwise divide this matrix by another matrix.
         /// </summary>
-        /// <param name="other">The matrix to pointwise subtract this one by.</param>
+        /// <param name="divisor">The pointwise denominator matrix to use.</param>
         /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null" />.</exception>
-        /// <exception cref="ArgumentException">If this matrix and <paramref name="other"/> are not the same size.</exception>
-        /// <returns>A new matrix that is the pointwise division of this matrix and <paramref name="other"/>.</returns>
-        public Matrix<T> PointwiseDivide(Matrix<T> other)
+        /// <exception cref="ArgumentException">If this matrix and <paramref name="divisor"/> are not the same size.</exception>
+        /// <returns>A new matrix that is the pointwise division of this matrix and <paramref name="divisor"/>.</returns>
+        public Matrix<T> PointwiseDivide(Matrix<T> divisor)
         {
-            if (other == null)
+            if (divisor == null)
             {
-                throw new ArgumentNullException("other");
+                throw new ArgumentNullException("divisor");
             }
 
-            if (ColumnCount != other.ColumnCount || RowCount != other.RowCount)
+            if (ColumnCount != divisor.ColumnCount || RowCount != divisor.RowCount)
             {
-                throw DimensionsDontMatch<ArgumentException>(this, other);
+                throw DimensionsDontMatch<ArgumentException>(this, divisor);
             }
 
             var result = CreateMatrix(RowCount, ColumnCount);
-            DoPointwiseDivide(other, result);
+            DoPointwiseDivide(divisor, result);
             return result;
         }
 
         /// <summary>
         /// Pointwise divide this matrix by another matrix and stores the result into the result matrix.
         /// </summary>
-        /// <param name="other">The matrix to pointwise divide this one by.</param>
+        /// <param name="divisor">The pointwise denominator matrix to use.</param>
         /// <param name="result">The matrix to store the result of the pointwise division.</param>
         /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null" />.</exception>
         /// <exception cref="ArgumentNullException">If the result matrix is <see langword="null" />.</exception>
-        /// <exception cref="ArgumentException">If this matrix and <paramref name="other"/> are not the same size.</exception>
+        /// <exception cref="ArgumentException">If this matrix and <paramref name="divisor"/> are not the same size.</exception>
         /// <exception cref="ArgumentException">If this matrix and <paramref name="result"/> are not the same size.</exception>
-        public void PointwiseDivide(Matrix<T> other, Matrix<T> result)
+        public void PointwiseDivide(Matrix<T> divisor, Matrix<T> result)
         {
-            if (other == null)
+            if (divisor == null)
             {
-                throw new ArgumentNullException("other");
+                throw new ArgumentNullException("divisor");
             }
 
             if (result == null)
@@ -1136,44 +1214,65 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
                 throw new ArgumentNullException("result");
             }
 
-            if (ColumnCount != result.ColumnCount || RowCount != result.RowCount || ColumnCount != other.ColumnCount || RowCount != other.RowCount)
+            if (ColumnCount != result.ColumnCount || RowCount != result.RowCount || ColumnCount != divisor.ColumnCount || RowCount != divisor.RowCount)
             {
-                throw DimensionsDontMatch<ArgumentException>(this, other, result);
+                throw DimensionsDontMatch<ArgumentException>(this, divisor, result);
             }
 
-            DoPointwiseDivide(other, result);
+            DoPointwiseDivide(divisor, result);
         }
 
         /// <summary>
-        /// Computes the modulus for each element of the matrix.
+        /// Pointwise modulus this matrix by another matrix.
         /// </summary>
-        /// <param name="divisor">The divisor to use.</param>
-        /// <returns>A matrix containing the results.</returns>
-        public Matrix<T> Modulus(T divisor)
+        /// <param name="divisor">The pointwise denominator matrix to use.</param>
+        /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null" />.</exception>
+        /// <exception cref="ArgumentException">If this matrix and <paramref name="divisor"/> are not the same size.</exception>
+        /// <returns>A new matrix that is the pointwise modulus of this matrix and <paramref name="divisor"/>.</returns>
+        public Matrix<T> PointwiseModulus(Matrix<T> divisor)
         {
+            if (divisor == null)
+            {
+                throw new ArgumentNullException("divisor");
+            }
+
+            if (ColumnCount != divisor.ColumnCount || RowCount != divisor.RowCount)
+            {
+                throw DimensionsDontMatch<ArgumentException>(this, divisor);
+            }
+
             var result = CreateMatrix(RowCount, ColumnCount);
-            DoModulus(divisor, result);
+            DoPointwiseModulus(divisor, result);
             return result;
         }
 
         /// <summary>
-        /// Computes the modulus for each element of the matrix.
+        /// Pointwise modulus this matrix by another matrix and stores the result into the result matrix.
         /// </summary>
-        /// <param name="divisor">The divisor to use.</param>
-        /// <param name="result">Matrix to store the results in.</param>
-        public void Modulus(T divisor, Matrix<T> result)
+        /// <param name="divisor">The pointwise denominator matrix to use.</param>
+        /// <param name="result">The matrix to store the result of the pointwise modulus.</param>
+        /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null" />.</exception>
+        /// <exception cref="ArgumentNullException">If the result matrix is <see langword="null" />.</exception>
+        /// <exception cref="ArgumentException">If this matrix and <paramref name="divisor"/> are not the same size.</exception>
+        /// <exception cref="ArgumentException">If this matrix and <paramref name="result"/> are not the same size.</exception>
+        public void PointwiseModulus(Matrix<T> divisor, Matrix<T> result)
         {
+            if (divisor == null)
+            {
+                throw new ArgumentNullException("divisor");
+            }
+
             if (result == null)
             {
                 throw new ArgumentNullException("result");
             }
 
-            if (ColumnCount != result.ColumnCount || RowCount != result.RowCount)
+            if (ColumnCount != result.ColumnCount || RowCount != result.RowCount || ColumnCount != divisor.ColumnCount || RowCount != divisor.RowCount)
             {
-                throw DimensionsDontMatch<ArgumentException>(this, result);
+                throw DimensionsDontMatch<ArgumentException>(this, divisor, result);
             }
 
-            DoModulus(divisor, result);
+            DoPointwiseModulus(divisor, result);
         }
 
         /// <summary>

@@ -103,30 +103,30 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <summary>
         /// Divides each element of the vector by a scalar and stores the result in the result vector.
         /// </summary>
-        /// <param name="scalar">The scalar to divide with.</param>
+        /// <param name="divisor">The scalar denominator to use.</param>
         /// <param name="result">The vector to store the result of the division.</param>
-        protected abstract void DoDivide(T scalar, Vector<T> result);
+        protected abstract void DoDivide(T divisor, Vector<T> result);
 
         /// <summary>
         /// Divides a scalar by each element of the vector and stores the result in the result vector.
         /// </summary>
-        /// <param name="scalar">The scalar to divide.</param>
+        /// <param name="dividend">The scalar numerator to use.</param>
         /// <param name="result">The vector to store the result of the division.</param>
-        protected abstract void DoDivideByThis(T scalar, Vector<T> result);
+        protected abstract void DoDivideByThis(T dividend, Vector<T> result);
 
         /// <summary>
         /// Computes the modulus for each element of the vector for the given divisor.
         /// </summary>
-        /// <param name="scalar">The divisor to use.</param>
+        /// <param name="divisor">The scalar denominator to use.</param>
         /// <param name="result">A vector to store the results in.</param>
-        protected abstract void DoModulus(T scalar, Vector<T> result);
+        protected abstract void DoModulus(T divisor, Vector<T> result);
 
         /// <summary>
         /// Computes the modulus for the given dividend for each element of the vector.
         /// </summary>
-        /// <param name="scalar">The dividend to use.</param>
+        /// <param name="dividend">The scalar numerator to use.</param>
         /// <param name="result">A vector to store the results in.</param>
-        protected abstract void DoModulusByThis(T scalar, Vector<T> result);
+        protected abstract void DoModulusByThis(T dividend, Vector<T> result);
 
         /// <summary>
         /// Pointwise multiplies this vector with another vector and stores the result into the result vector.
@@ -138,16 +138,16 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <summary>
         /// Pointwise divide this vector with another vector and stores the result into the result vector.
         /// </summary>
-        /// <param name="other">The vector to pointwise divide this one by.</param>
+        /// <param name="divisor">The pointwise denominator vector to use.</param>
         /// <param name="result">The result of the division.</param>
-        protected abstract void DoPointwiseDivide(Vector<T> other, Vector<T> result);
+        protected abstract void DoPointwiseDivide(Vector<T> divisor, Vector<T> result);
 
         /// <summary>
         /// Pointwise modulus this vector with another vector and stores the result into the result vector.
         /// </summary>
-        /// <param name="other">The vector to pointwise modulus this one by.</param>
+        /// <param name="divisor">The pointwise denominator vector to use.</param>
         /// <param name="result">The result of the modulus.</param>
-        protected abstract void DoPointwiseModulus(Vector<T> other, Vector<T> result);
+        protected abstract void DoPointwiseModulus(Vector<T> divisor, Vector<T> result);
 
         /// <summary>
         /// Adds a scalar to each element of the vector.
@@ -588,23 +588,23 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         }
 
         /// <summary>
-        /// Computes the modulus for each element of the vector for the given divisor.
+        /// Computes the modulus (vector % divisor) for each element of the vector for the given divisor.
         /// </summary>
-        /// <param name="scalar">The divisor to use.</param>
+        /// <param name="divisor">The scalar denominator to use.</param>
         /// <returns>A vector containing the result.</returns>
-        public Vector<T> Modulus(T scalar)
+        public Vector<T> Modulus(T divisor)
         {
             var result = CreateVector(Count);
-            DoModulus(scalar, result);
+            DoModulus(divisor, result);
             return result;
         }
 
         /// <summary>
-        /// Computes the modulus for each element of the vector for the given divisor.
+        /// Computes the modulus (vector % divisor) for each element of the vector for the given divisor.
         /// </summary>
-        /// <param name="scalar">The divisor to use.</param>
+        /// <param name="divisor">The scalar denominator to use.</param>
         /// <param name="result">A vector to store the results in.</param>
-        public void Modulus(T scalar, Vector<T> result)
+        public void Modulus(T divisor, Vector<T> result)
         {
             if (result == null)
             {
@@ -616,27 +616,27 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
             }
 
-            DoModulus(scalar, result);
+            DoModulus(divisor, result);
         }
 
         /// <summary>
-        /// Computes the modulus for the given dividend for each element of the vector.
+        /// Computes the modulus (dividend % vector) for the given dividend for each element of the vector.
         /// </summary>
-        /// <param name="scalar">The dividend to use.</param>
+        /// <param name="dividend">The scalar numerator to use.</param>
         /// <returns>A vector containing the result.</returns>
-        public Vector<T> ModulusByThis(T scalar)
+        public Vector<T> ModulusByThis(T dividend)
         {
             var result = CreateVector(Count);
-            DoModulusByThis(scalar, result);
+            DoModulusByThis(dividend, result);
             return result;
         }
 
         /// <summary>
-        /// Computes the modulus for the given dividend for each element of the vector.
+        /// Computes the modulus (dividend % vector) for the given dividend for each element of the vector.
         /// </summary>
-        /// <param name="scalar">The dividend to use.</param>
+        /// <param name="dividend">The scalar numerator to use.</param>
         /// <param name="result">A vector to store the results in.</param>
-        public void ModulusByThis(T scalar, Vector<T> result)
+        public void ModulusByThis(T dividend, Vector<T> result)
         {
             if (result == null)
             {
@@ -648,7 +648,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
             }
 
-            DoModulusByThis(scalar, result);
+            DoModulusByThis(dividend, result);
         }
 
         /// <summary>
@@ -712,51 +712,51 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <summary>
         /// Pointwise divide this vector with another vector.
         /// </summary>
-        /// <param name="other">The vector to pointwise divide this one by.</param>
+        /// <param name="divisor">The pointwise denominator vector to use.</param>
         /// <returns>A new vector which is the pointwise division of the two vectors.</returns>
         /// <exception cref="ArgumentNullException">If the other vector is <see langword="null" />.</exception>
-        /// <exception cref="ArgumentException">If this vector and <paramref name="other"/> are not the same size.</exception>
-        public Vector<T> PointwiseDivide(Vector<T> other)
+        /// <exception cref="ArgumentException">If this vector and <paramref name="divisor"/> are not the same size.</exception>
+        public Vector<T> PointwiseDivide(Vector<T> divisor)
         {
-            if (other == null)
+            if (divisor == null)
             {
-                throw new ArgumentNullException("other");
+                throw new ArgumentNullException("divisor");
             }
 
-            if (Count != other.Count)
+            if (Count != divisor.Count)
             {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "divisor");
             }
 
             var result = CreateVector(Count);
-            DoPointwiseDivide(other, result);
+            DoPointwiseDivide(divisor, result);
             return result;
         }
 
         /// <summary>
         /// Pointwise divide this vector with another vector and stores the result into the result vector.
         /// </summary>
-        /// <param name="other">The vector to pointwise divide this one by.</param>
+        /// <param name="divisor">The pointwise denominator vector to use.</param>
         /// <param name="result">The vector to store the result of the pointwise division.</param>
         /// <exception cref="ArgumentNullException">If the other vector is <see langword="null" />.</exception>
         /// <exception cref="ArgumentNullException">If the result vector is <see langword="null" />.</exception>
-        /// <exception cref="ArgumentException">If this vector and <paramref name="other"/> are not the same size.</exception>
+        /// <exception cref="ArgumentException">If this vector and <paramref name="divisor"/> are not the same size.</exception>
         /// <exception cref="ArgumentException">If this vector and <paramref name="result"/> are not the same size.</exception>
-        public void PointwiseDivide(Vector<T> other, Vector<T> result)
+        public void PointwiseDivide(Vector<T> divisor, Vector<T> result)
         {
             if (result == null)
             {
                 throw new ArgumentNullException("result");
             }
 
-            if (other == null)
+            if (divisor == null)
             {
-                throw new ArgumentNullException("other");
+                throw new ArgumentNullException("divisor");
             }
 
-            if (Count != other.Count)
+            if (Count != divisor.Count)
             {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "divisor");
             }
 
             if (Count != result.Count)
@@ -764,57 +764,57 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
             }
 
-            DoPointwiseDivide(other, result);
+            DoPointwiseDivide(divisor, result);
         }
 
         /// <summary>
         /// Pointwise modulus this vector with another vector.
         /// </summary>
-        /// <param name="other">The vector to pointwise modulus this one by.</param>
+        /// <param name="divisor">The pointwise denominator vector to use.</param>
         /// <returns>A new vector which is the pointwise modulus of the two vectors.</returns>
         /// <exception cref="ArgumentNullException">If the other vector is <see langword="null" />.</exception>
-        /// <exception cref="ArgumentException">If this vector and <paramref name="other"/> are not the same size.</exception>
-        public Vector<T> PointwiseModulus(Vector<T> other)
+        /// <exception cref="ArgumentException">If this vector and <paramref name="divisor"/> are not the same size.</exception>
+        public Vector<T> PointwiseModulus(Vector<T> divisor)
         {
-            if (other == null)
+            if (divisor == null)
             {
-                throw new ArgumentNullException("other");
+                throw new ArgumentNullException("divisor");
             }
 
-            if (Count != other.Count)
+            if (Count != divisor.Count)
             {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "divisor");
             }
 
             var result = CreateVector(Count);
-            DoPointwiseModulus(other, result);
+            DoPointwiseModulus(divisor, result);
             return result;
         }
 
         /// <summary>
         /// Pointwise modulus this vector with another vector and stores the result into the result vector.
         /// </summary>
-        /// <param name="other">The vector to pointwise modulus this one by.</param>
+        /// <param name="divisor">The pointwise denominator vector to use.</param>
         /// <param name="result">The vector to store the result of the pointwise modulus.</param>
         /// <exception cref="ArgumentNullException">If the other vector is <see langword="null" />.</exception>
         /// <exception cref="ArgumentNullException">If the result vector is <see langword="null" />.</exception>
-        /// <exception cref="ArgumentException">If this vector and <paramref name="other"/> are not the same size.</exception>
+        /// <exception cref="ArgumentException">If this vector and <paramref name="divisor"/> are not the same size.</exception>
         /// <exception cref="ArgumentException">If this vector and <paramref name="result"/> are not the same size.</exception>
-        public void PointwiseModulus(Vector<T> other, Vector<T> result)
+        public void PointwiseModulus(Vector<T> divisor, Vector<T> result)
         {
             if (result == null)
             {
                 throw new ArgumentNullException("result");
             }
 
-            if (other == null)
+            if (divisor == null)
             {
-                throw new ArgumentNullException("other");
+                throw new ArgumentNullException("divisor");
             }
 
-            if (Count != other.Count)
+            if (Count != divisor.Count)
             {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "divisor");
             }
 
             if (Count != result.Count)
@@ -822,7 +822,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
             }
 
-            DoPointwiseModulus(other, result);
+            DoPointwiseModulus(divisor, result);
         }
 
         /// <summary>

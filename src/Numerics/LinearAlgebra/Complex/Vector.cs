@@ -140,27 +140,27 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// <summary>
         /// Divides each element of the vector by a scalar and stores the result in the result vector.
         /// </summary>
-        /// <param name="scalar">
+        /// <param name="divisor">
         /// The scalar to divide with.
         /// </param>
         /// <param name="result">
         /// The vector to store the result of the division.
         /// </param>
-        protected override void DoDivide(Complex scalar, Vector<Complex> result)
+        protected override void DoDivide(Complex divisor, Vector<Complex> result)
         {
-            DoMultiply(1 / scalar, result);
+            DoMultiply(1 / divisor, result);
         }
 
         /// <summary>
         /// Divides a scalar by each element of the vector and stores the result in the result vector.
         /// </summary>
-        /// <param name="scalar">The scalar to divide.</param>
+        /// <param name="dividend">The scalar to divide.</param>
         /// <param name="result">The vector to store the result of the division.</param>
-        protected override void DoDivideByThis(Complex scalar, Vector<Complex> result)
+        protected override void DoDivideByThis(Complex dividend, Vector<Complex> result)
         {
             for (var index = 0; index < Count; index++)
             {
-                result.At(index, scalar / At(index));
+                result.At(index, dividend / At(index));
             }
         }
 
@@ -180,22 +180,22 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// <summary>
         /// Pointwise divide this vector with another vector and stores the result into the result vector.
         /// </summary>
-        /// <param name="other">The vector to pointwise divide this one by.</param>
+        /// <param name="divisor">The vector to pointwise divide this one by.</param>
         /// <param name="result">The vector to store the result of the pointwise division.</param>
-        protected override void DoPointwiseDivide(Vector<Complex> other, Vector<Complex> result)
+        protected override void DoPointwiseDivide(Vector<Complex> divisor, Vector<Complex> result)
         {
             for (var index = 0; index < Count; index++)
             {
-                result.At(index, At(index) / other.At(index));
+                result.At(index, At(index) / divisor.At(index));
             }
         }
 
         /// <summary>
         /// Pointwise modulus this vector with another vector and stores the result into the result vector.
         /// </summary>
-        /// <param name="other">The vector to pointwise modulus this one by.</param>
+        /// <param name="divisor">The vector to pointwise modulus this one by.</param>
         /// <param name="result">The result of the modulus.</param>
-        protected override void DoPointwiseModulus(Vector<Complex> other, Vector<Complex> result)
+        protected override void DoPointwiseModulus(Vector<Complex> divisor, Vector<Complex> result)
         {
             throw new NotSupportedException();
         }
@@ -224,7 +224,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// <summary>
         /// Computes the modulus for each element of the vector for the given divisor.
         /// </summary>
-        /// <param name="divisor">The divisor to use.</param>
+        /// <param name="divisor">The scalar denominator to use.</param>
         /// <param name="result">A vector to store the results in.</param>
         protected override void DoModulus(Complex divisor, Vector<Complex> result)
         {
@@ -234,9 +234,9 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// <summary>
         /// Computes the modulus for the given dividend for each element of the vector.
         /// </summary>
-        /// <param name="scalar">The dividend to use.</param>
+        /// <param name="dividend">The scalar numerator to use.</param>
         /// <param name="result">A vector to store the results in.</param>
-        protected override void DoModulusByThis(Complex scalar, Vector<Complex> result)
+        protected override void DoModulusByThis(Complex dividend, Vector<Complex> result)
         {
             throw new NotSupportedException();
         }

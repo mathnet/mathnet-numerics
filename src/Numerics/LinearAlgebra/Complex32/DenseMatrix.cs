@@ -544,18 +544,18 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// <summary>
         /// Divides each element of the matrix by a scalar and places results into the result matrix.
         /// </summary>
-        /// <param name="scalar">The scalar to divide the matrix with.</param>
+        /// <param name="divisor">The scalar to divide the matrix with.</param>
         /// <param name="result">The matrix to store the result of the division.</param>
-        protected override void DoDivide(Complex32 scalar, Matrix<Complex32> result)
+        protected override void DoDivide(Complex32 divisor, Matrix<Complex32> result)
         {
             var denseResult = result as DenseMatrix;
             if (denseResult == null)
             {
-                base.DoDivide(scalar, result);
+                base.DoDivide(divisor, result);
             }
             else
             {
-                Control.LinearAlgebraProvider.ScaleArray(1.0f/scalar, _values, denseResult._values);
+                Control.LinearAlgebraProvider.ScaleArray(1.0f/divisor, _values, denseResult._values);
             }
         }
 
@@ -582,16 +582,16 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// <summary>
         /// Pointwise divide this matrix by another matrix and stores the result into the result matrix.
         /// </summary>
-        /// <param name="other">The matrix to pointwise divide this one by.</param>
+        /// <param name="divisor">The matrix to pointwise divide this one by.</param>
         /// <param name="result">The matrix to store the result of the pointwise division.</param>
-        protected override void DoPointwiseDivide(Matrix<Complex32> other, Matrix<Complex32> result)
+        protected override void DoPointwiseDivide(Matrix<Complex32> divisor, Matrix<Complex32> result)
         {
-            var denseOther = other as DenseMatrix;
+            var denseOther = divisor as DenseMatrix;
             var denseResult = result as DenseMatrix;
 
             if (denseOther == null || denseResult == null)
             {
-                base.DoPointwiseDivide(other, result);
+                base.DoPointwiseDivide(divisor, result);
             }
             else
             {

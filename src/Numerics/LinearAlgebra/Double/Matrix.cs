@@ -220,25 +220,25 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <summary>
         /// Divides each element of the matrix by a scalar and places results into the result matrix.
         /// </summary>
-        /// <param name="scalar">The scalar to divide the matrix with.</param>
+        /// <param name="divisor">The scalar to divide the matrix with.</param>
         /// <param name="result">The matrix to store the result of the division.</param>
-        protected override void DoDivide(double scalar, Matrix<double> result)
+        protected override void DoDivide(double divisor, Matrix<double> result)
         {
-            DoMultiply(1.0 / scalar, result);
+            DoMultiply(1.0 / divisor, result);
         }
 
         /// <summary>
         /// Divides a scalar by each element of the matrix and stores the result in the result matrix.
         /// </summary>
-        /// <param name="scalar">The scalar to add.</param>
+        /// <param name="dividend">The scalar to add.</param>
         /// <param name="result">The matrix to store the result of the division.</param>
-        protected override void DoDivideByThis(double scalar, Matrix<double> result)
+        protected override void DoDivideByThis(double dividend, Matrix<double> result)
         {
             for (var i = 0; i < RowCount; i++)
             {
                 for (var j = 0; j < ColumnCount; j++)
                 {
-                    result.At(i, j, scalar / At(i, j));
+                    result.At(i, j, dividend / At(i, j));
                 }
             }
         }
@@ -358,6 +358,38 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         }
 
         /// <summary>
+        /// Computes the modulus for each element of the matrix.
+        /// </summary>
+        /// <param name="divisor">The scalar denominator to use.</param>
+        /// <param name="result">Matrix to store the results in.</param>
+        protected override void DoModulus(double divisor, Matrix<double> result)
+        {
+            for (var row = 0; row < RowCount; row++)
+            {
+                for (var column = 0; column < ColumnCount; column++)
+                {
+                    result.At(row, column, At(row, column)%divisor);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Computes the modulus for each element of the matrix.
+        /// </summary>
+        /// <param name="dividend">The scalar numerator to use.</param>
+        /// <param name="result">Matrix to store the results in.</param>
+        protected override void DoModulusByThis(double dividend, Matrix<double> result)
+        {
+            for (var row = 0; row < RowCount; row++)
+            {
+                for (var column = 0; column < ColumnCount; column++)
+                {
+                    result.At(row, column, dividend%At(row, column));
+                }
+            }
+        }
+
+        /// <summary>
         /// Pointwise multiplies this matrix with another matrix and stores the result into the result matrix.
         /// </summary>
         /// <param name="other">The matrix to pointwise multiply with this one.</param>
@@ -368,7 +400,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             {
                 for (var i = 0; i < RowCount; i++)
                 {
-                    result.At(i, j, At(i, j) * other.At(i, j));
+                    result.At(i, j, At(i, j)*other.At(i, j));
                 }
             }
         }
@@ -376,31 +408,31 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <summary>
         /// Pointwise divide this matrix by another matrix and stores the result into the result matrix.
         /// </summary>
-        /// <param name="other">The matrix to pointwise divide this one by.</param>
+        /// <param name="divisor">The matrix to pointwise divide this one by.</param>
         /// <param name="result">The matrix to store the result of the pointwise division.</param>
-        protected override void DoPointwiseDivide(Matrix<double> other, Matrix<double> result)
+        protected override void DoPointwiseDivide(Matrix<double> divisor, Matrix<double> result)
         {
             for (var j = 0; j < ColumnCount; j++)
             {
                 for (var i = 0; i < RowCount; i++)
                 {
-                    result.At(i, j, At(i, j) / other.At(i, j));
+                    result.At(i, j, At(i, j)/divisor.At(i, j));
                 }
             }
         }
 
         /// <summary>
-        /// Computes the modulus for each element of the matrix.
+        /// Pointwise modulus this matrix with another matrix and stores the result into the result matrix.
         /// </summary>
-        /// <param name="divisor">The divisor to use.</param>
-        /// <param name="result">Matrix to store the results in.</param>
-        protected override void DoModulus(double divisor, Matrix<double> result)
+        /// <param name="divisor">The pointwise denominator matrix to use</param>
+        /// <param name="result">The result of the modulus.</param>
+        protected override void DoPointwiseModulus(Matrix<double> divisor, Matrix<double> result)
         {
-            for (var row = 0; row < RowCount; row++)
+            for (var j = 0; j < ColumnCount; j++)
             {
-                for (var column = 0; column < ColumnCount; column++)
+                for (var i = 0; i < RowCount; i++)
                 {
-                    result.At(row, column, At(row, column) % divisor);
+                    result.At(i, j, At(i, j)%divisor.At(i, j));
                 }
             }
         }

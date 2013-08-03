@@ -282,52 +282,87 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <summary>
         /// Divides a scalar with a matrix.
         /// </summary>
-        /// <param name="leftSide">The scalar to divide.</param>
-        /// <param name="rightSide">The matrix.</param>
+        /// <param name="dividend">The scalar to divide.</param>
+        /// <param name="divisor">The matrix.</param>
         /// <returns>The result of the division.</returns>
-        /// <exception cref="ArgumentNullException">If <paramref name="rightSide"/> is <see langword="null" />.</exception>
-        public static Matrix<T> operator /(T leftSide, Matrix<T> rightSide)
+        /// <exception cref="ArgumentNullException">If <paramref name="divisor"/> is <see langword="null" />.</exception>
+        public static Matrix<T> operator /(T dividend, Matrix<T> divisor)
         {
-            if (rightSide == null)
+            if (divisor == null)
             {
-                throw new ArgumentNullException("rightSide");
+                throw new ArgumentNullException("divisor");
             }
 
-            return rightSide.DivideByThis(leftSide);
+            return divisor.DivideByThis(dividend);
         }
 
         /// <summary>
         /// Divides a matrix with a scalar.
         /// </summary>
-        /// <param name="leftSide">The matrix to divide.</param>
-        /// <param name="rightSide">The scalar value.</param>
+        /// <param name="dividend">The matrix to divide.</param>
+        /// <param name="divisor">The scalar value.</param>
         /// <returns>The result of the division.</returns>
-        /// <exception cref="ArgumentNullException">If <paramref name="leftSide"/> is <see langword="null" />.</exception>
-        public static Matrix<T> operator /(Matrix<T> leftSide, T rightSide)
+        /// <exception cref="ArgumentNullException">If <paramref name="dividend"/> is <see langword="null" />.</exception>
+        public static Matrix<T> operator /(Matrix<T> dividend, T divisor)
         {
-            if (leftSide == null)
+            if (dividend == null)
             {
-                throw new ArgumentNullException("leftSide");
+                throw new ArgumentNullException("dividend");
             }
 
-            return leftSide.Divide(rightSide);
+            return dividend.Divide(divisor);
         }
 
         /// <summary>
-        /// Multiplies a <strong>Matrix</strong> by a constant and returns the result.
+        /// Computes the modulus of each element of the matrix of the given divisor.
         /// </summary>
-        /// <param name="leftSide">The matrix to multiply.</param>
-        /// <param name="rightSide">The constant to multiply the matrix by.</param>
-        /// <returns>The result of the multiplication.</returns>
-        /// <exception cref="ArgumentNullException">If <paramref name="leftSide"/> is <see langword="null" />.</exception>
-        public static Matrix<T> operator %(Matrix<T> leftSide, T rightSide)
+        /// <param name="dividend">The matrix whose elements we want to compute the modulus of.</param>
+        /// <param name="divisor">The divisor to use.</param>
+        /// <returns>The result of the calculation</returns>
+        /// <exception cref="ArgumentNullException">If <paramref name="dividend"/> is <see langword="null" />.</exception>
+        public static Matrix<T> operator %(Matrix<T> dividend, T divisor)
         {
-            if (leftSide == null)
+            if (dividend == null)
             {
-                throw new ArgumentNullException("leftSide");
+                throw new ArgumentNullException("dividend");
             }
 
-            return leftSide.Modulus(rightSide);
+            return dividend.Modulus(divisor);
+        }
+
+        /// <summary>
+        /// Computes the modulus of the given dividend of each element of the matrix.
+        /// </summary>
+        /// <param name="dividend">The dividend we want to compute the modulus of.</param>
+        /// <param name="divisor">The matrix whose elements we want to use as divisor.</param>
+        /// <returns>The result of the calculation</returns>
+        /// <exception cref="ArgumentNullException">If <paramref name="divisor"/> is <see langword="null" />.</exception>
+        public static Matrix<T> operator %(T dividend, Matrix<T> divisor)
+        {
+            if (divisor == null)
+            {
+                throw new ArgumentNullException("dividend");
+            }
+
+            return divisor.ModulusByThis(dividend);
+        }
+
+        /// <summary>
+        /// Computes the pointwise modulus of each element of two matrices.
+        /// </summary>
+        /// <param name="dividend">The matrix whose elements we want to compute the modulus of.</param>
+        /// <param name="divisor">The divisor to use.</param>
+        /// <returns>The result of the calculation</returns>
+        /// <exception cref="ArgumentException">If <paramref name="dividend"/> and <paramref name="divisor"/> are not the same size.</exception>
+        /// <exception cref="ArgumentNullException">If <paramref name="dividend"/> is <see langword="null" />.</exception>
+        public static Matrix<T> operator %(Matrix<T> dividend, Matrix<T> divisor)
+        {
+            if (dividend == null)
+            {
+                throw new ArgumentNullException("dividend");
+            }
+
+            return dividend.PointwiseModulus(divisor);
         }
 
         [SpecialName]
@@ -337,9 +372,15 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         }
 
         [SpecialName]
-        public static Matrix<T> op_DotDivide(Matrix<T> x, Matrix<T> y)
+        public static Matrix<T> op_DotDivide(Matrix<T> dividend, Matrix<T> divisor)
         {
-            return x.PointwiseDivide(y);
+            return dividend.PointwiseDivide(divisor);
+        }
+
+        [SpecialName]
+        public static Vector<T> op_DotPercent(Vector<T> dividend, Vector<T> divisor)
+        {
+            return dividend.PointwiseModulus(divisor);
         }
     }
 }
