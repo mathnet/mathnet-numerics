@@ -152,6 +152,13 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         protected abstract void DoDivide(T scalar, Matrix<T> result);
 
         /// <summary>
+        /// Divides a scalar by each element of the matrix and stores the result in the result matrix.
+        /// </summary>
+        /// <param name="scalar">The scalar to divide.</param>
+        /// <param name="result">The matrix to store the result of the division.</param>
+        protected abstract void DoDivideByThis(T scalar, Matrix<T> result);
+
+        /// <summary>
         /// Computes the modulus for each element of the matrix.
         /// </summary>
         /// <param name="divisor">The divisor to use.</param>
@@ -529,6 +536,45 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
             }
 
             DoDivide(scalar, result);
+        }
+
+        /// <summary>
+        /// Divides a scalar by each element of the matrix.
+        /// </summary>
+        /// <param name="scalar">The scalar to divide.</param>
+        /// <returns>The result of the division.</returns>
+        public Matrix<T> DivideByThis(T scalar)
+        {
+            var result = CreateMatrix(RowCount, ColumnCount);
+            DoDivideByThis(scalar, result);
+            return result;
+        }
+
+        /// <summary>
+        /// Divides a scalar by each element of the matrix and places results into the result matrix.
+        /// </summary>
+        /// <param name="scalar">The scalar to divide.</param>
+        /// <param name="result">The matrix to store the result of the division.</param>
+        /// <exception cref="ArgumentNullException">If the result matrix is <see langword="null" />.</exception>
+        /// <exception cref="ArgumentException">If the result matrix's dimensions are not the same as this matrix.</exception>
+        public void DivideByThis(T scalar, Matrix<T> result)
+        {
+            if (result == null)
+            {
+                throw new ArgumentNullException("result");
+            }
+
+            if (result.RowCount != RowCount)
+            {
+                throw new ArgumentException(Resources.ArgumentMatrixSameRowDimension, "result");
+            }
+
+            if (result.ColumnCount != ColumnCount)
+            {
+                throw new ArgumentException(Resources.ArgumentMatrixSameColumnDimension, "result");
+            }
+
+            DoDivideByThis(scalar, result);
         }
 
         /// <summary>

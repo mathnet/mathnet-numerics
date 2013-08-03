@@ -280,6 +280,40 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         }
 
         /// <summary>
+        /// Divides a scalar with a matrix.
+        /// </summary>
+        /// <param name="leftSide">The scalar to divide.</param>
+        /// <param name="rightSide">The matrix.</param>
+        /// <returns>The result of the division.</returns>
+        /// <exception cref="ArgumentNullException">If <paramref name="rightSide"/> is <see langword="null" />.</exception>
+        public static Matrix<T> operator /(T leftSide, Matrix<T> rightSide)
+        {
+            if (rightSide == null)
+            {
+                throw new ArgumentNullException("rightSide");
+            }
+
+            return rightSide.DivideByThis(leftSide);
+        }
+
+        /// <summary>
+        /// Divides a matrix with a scalar.
+        /// </summary>
+        /// <param name="leftSide">The matrix to divide.</param>
+        /// <param name="rightSide">The scalar value.</param>
+        /// <returns>The result of the division.</returns>
+        /// <exception cref="ArgumentNullException">If <paramref name="leftSide"/> is <see langword="null" />.</exception>
+        public static Matrix<T> operator /(Matrix<T> leftSide, T rightSide)
+        {
+            if (leftSide == null)
+            {
+                throw new ArgumentNullException("leftSide");
+            }
+
+            return leftSide.Divide(rightSide);
+        }
+
+        /// <summary>
         /// Multiplies a <strong>Matrix</strong> by a constant and returns the result.
         /// </summary>
         /// <param name="leftSide">The matrix to multiply.</param>
