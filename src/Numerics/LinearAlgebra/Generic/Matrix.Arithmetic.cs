@@ -73,7 +73,6 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// </summary>
         /// <param name="other">The matrix to add to this matrix.</param>
         /// <param name="result">The matrix to store the result of the addition.</param>
-        /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null"/>.</exception>
         /// <exception cref="ArgumentOutOfRangeException">If the two matrices don't have the same dimensions.</exception>
         protected abstract void DoAdd(Matrix<T> other, Matrix<T> result);
 
@@ -198,7 +197,6 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// </summary>
         /// <param name="scalar">The scalar to add.</param>
         /// <returns>The result of the addition.</returns>
-        /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null"/>.</exception>
         /// <exception cref="ArgumentOutOfRangeException">If the two matrices don't have the same dimensions.</exception>
         public Matrix<T> Add(T scalar)
         {
@@ -217,15 +215,9 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// </summary>
         /// <param name="scalar">The scalar to add.</param>
         /// <param name="result">The matrix to store the result of the addition.</param>
-        /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null"/>.</exception>
         /// <exception cref="ArgumentOutOfRangeException">If the two matrices don't have the same dimensions.</exception>
         public void Add(T scalar, Matrix<T> result)
         {
-            if (result == null)
-            {
-                throw new ArgumentNullException("result");
-            }
-
             if (result.RowCount != RowCount || result.ColumnCount != ColumnCount)
             {
                 throw DimensionsDontMatch<ArgumentOutOfRangeException>(this, result, "result");
@@ -245,15 +237,9 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// </summary>
         /// <param name="other">The matrix to add to this matrix.</param>
         /// <returns>The result of the addition.</returns>
-        /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null"/>.</exception>
         /// <exception cref="ArgumentOutOfRangeException">If the two matrices don't have the same dimensions.</exception>
         public virtual Matrix<T> Add(Matrix<T> other)
         {
-            if (other == null)
-            {
-                throw new ArgumentNullException("other");
-            }
-
             if (other.RowCount != RowCount || other.ColumnCount != ColumnCount)
             {
                 throw DimensionsDontMatch<ArgumentOutOfRangeException>(this, other);
@@ -269,20 +255,9 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// </summary>
         /// <param name="other">The matrix to add to this matrix.</param>
         /// <param name="result">The matrix to store the result of the addition.</param>
-        /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null"/>.</exception>
         /// <exception cref="ArgumentOutOfRangeException">If the two matrices don't have the same dimensions.</exception>
         public void Add(Matrix<T> other, Matrix<T> result)
         {
-            if (other == null)
-            {
-                throw new ArgumentNullException("other");
-            }
-
-            if (result == null)
-            {
-                throw new ArgumentNullException("result");
-            }
-
             if (other.RowCount != RowCount || other.ColumnCount != ColumnCount)
             {
                 throw DimensionsDontMatch<ArgumentOutOfRangeException>(this, other, "other");
@@ -318,15 +293,9 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// </summary>
         /// <param name="scalar">The scalar to subtract.</param>
         /// <param name="result">The matrix to store the result of the subtraction.</param>
-        /// <exception cref="ArgumentNullException">If the result matrix is <see langword="null"/>.</exception>
         /// <exception cref="ArgumentException">If this matrix and <paramref name="result"/> are not the same size.</exception>
         public void Subtract(T scalar, Matrix<T> result)
         {
-            if (result == null)
-            {
-                throw new ArgumentNullException("result");
-            }
-
             if (result.RowCount != RowCount || result.ColumnCount != ColumnCount)
             {
                 throw DimensionsDontMatch<ArgumentOutOfRangeException>(this, result, "result");
@@ -358,15 +327,9 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// </summary>
         /// <param name="scalar">The scalar to subtract from.</param>
         /// <param name="result">The matrix to store the result of the subtraction.</param>
-        /// <exception cref="ArgumentNullException">If the result matrix is <see langword="null"/>.</exception>
         /// <exception cref="ArgumentException">If this matrix and <paramref name="result"/> are not the same size.</exception>
         public void SubtractFrom(T scalar, Matrix<T> result)
         {
-            if (result == null)
-            {
-                throw new ArgumentNullException("result");
-            }
-
             if (result.RowCount != RowCount || result.ColumnCount != ColumnCount)
             {
                 throw DimensionsDontMatch<ArgumentOutOfRangeException>(this, result, "result");
@@ -380,15 +343,9 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// </summary>
         /// <param name="other">The matrix to subtract.</param>
         /// <returns>The result of the subtraction.</returns>
-        /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null"/>.</exception>
         /// <exception cref="ArgumentOutOfRangeException">If the two matrices don't have the same dimensions.</exception>
         public virtual Matrix<T> Subtract(Matrix<T> other)
         {
-            if (other == null)
-            {
-                throw new ArgumentNullException("other");
-            }
-
             if (other.RowCount != RowCount || other.ColumnCount != ColumnCount)
             {
                 throw DimensionsDontMatch<ArgumentOutOfRangeException>(this, other);
@@ -404,20 +361,9 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// </summary>
         /// <param name="other">The matrix to subtract.</param>
         /// <param name="result">The matrix to store the result of the subtraction.</param>
-        /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null"/>.</exception>
         /// <exception cref="ArgumentOutOfRangeException">If the two matrices don't have the same dimensions.</exception>
         public void Subtract(Matrix<T> other, Matrix<T> result)
         {
-            if (other == null)
-            {
-                throw new ArgumentNullException("other");
-            }
-
-            if (result == null)
-            {
-                throw new ArgumentNullException("result");
-            }
-
             if (other.RowCount != RowCount || other.ColumnCount != ColumnCount)
             {
                 throw DimensionsDontMatch<ArgumentOutOfRangeException>(this, other, "other");
@@ -458,15 +404,9 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// </summary>
         /// <param name="scalar">The scalar to multiply the matrix with.</param>
         /// <param name="result">The matrix to store the result of the multiplication.</param>
-        /// <exception cref="ArgumentNullException">If the result matrix is <see langword="null" />.</exception>
         /// <exception cref="ArgumentException">If the result matrix's dimensions are not the same as this matrix.</exception>
         public void Multiply(T scalar, Matrix<T> result)
         {
-            if (result == null)
-            {
-                throw new ArgumentNullException("result");
-            }
-
             if (result.RowCount != RowCount)
             {
                 throw new ArgumentException(Resources.ArgumentMatrixSameRowDimension, "result");
@@ -519,15 +459,9 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// </summary>
         /// <param name="scalar">The scalar to divide the matrix with.</param>
         /// <param name="result">The matrix to store the result of the division.</param>
-        /// <exception cref="ArgumentNullException">If the result matrix is <see langword="null" />.</exception>
         /// <exception cref="ArgumentException">If the result matrix's dimensions are not the same as this matrix.</exception>
         public void Divide(T scalar, Matrix<T> result)
         {
-            if (result == null)
-            {
-                throw new ArgumentNullException("result");
-            }
-
             if (result.RowCount != RowCount)
             {
                 throw new ArgumentException(Resources.ArgumentMatrixSameRowDimension, "result");
@@ -569,15 +503,9 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// </summary>
         /// <param name="scalar">The scalar to divide.</param>
         /// <param name="result">The matrix to store the result of the division.</param>
-        /// <exception cref="ArgumentNullException">If the result matrix is <see langword="null" />.</exception>
         /// <exception cref="ArgumentException">If the result matrix's dimensions are not the same as this matrix.</exception>
         public void DivideByThis(T scalar, Matrix<T> result)
         {
-            if (result == null)
-            {
-                throw new ArgumentNullException("result");
-            }
-
             if (result.RowCount != RowCount)
             {
                 throw new ArgumentException(Resources.ArgumentMatrixSameRowDimension, "result");
@@ -596,15 +524,9 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// </summary>
         /// <param name="rightSide">The vector to multiply with.</param>
         /// <returns>The result of the multiplication.</returns>
-        /// <exception cref="ArgumentNullException">If <paramref name="rightSide"/> is <see langword="null" />.</exception>
         /// <exception cref="ArgumentException">If <c>this.ColumnCount != rightSide.Count</c>.</exception>
         public Vector<T> Multiply(Vector<T> rightSide)
         {
-            if (rightSide == null)
-            {
-                throw new ArgumentNullException("rightSide");
-            }
-
             if (ColumnCount != rightSide.Count)
             {
                 throw DimensionsDontMatch<ArgumentException>(this, rightSide, "rightSide");
@@ -620,25 +542,13 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// </summary>
         /// <param name="rightSide">The vector to multiply with.</param>
         /// <param name="result">The result of the multiplication.</param>
-        /// <exception cref="ArgumentNullException">If <paramref name="rightSide"/> is <see langword="null" />.</exception>
-        /// <exception cref="ArgumentNullException">If <paramref name="result"/> is <see langword="null" />.</exception>
         /// <exception cref="ArgumentException">If <strong>result.Count != this.RowCount</strong>.</exception>
         /// <exception cref="ArgumentException">If <strong>this.ColumnCount != <paramref name="rightSide"/>.Count</strong>.</exception>
         public virtual void Multiply(Vector<T> rightSide, Vector<T> result)
         {
-            if (rightSide == null)
-            {
-                throw new ArgumentNullException("rightSide");
-            }
-
             if (ColumnCount != rightSide.Count)
             {
                 throw DimensionsDontMatch<ArgumentException>(this, rightSide, "rightSide");
-            }
-
-            if (result == null)
-            {
-                throw new ArgumentNullException("result");
             }
 
             if (RowCount != result.Count)
@@ -663,15 +573,9 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// </summary>
         /// <param name="leftSide">The vector to multiply with.</param>
         /// <returns>The result of the multiplication.</returns>
-        /// <exception cref="ArgumentNullException">If <paramref name="leftSide"/> is <see langword="null" />.</exception>
         /// <exception cref="ArgumentException">If <strong>this.RowCount != <paramref name="leftSide"/>.Count</strong>.</exception>
         public Vector<T> LeftMultiply(Vector<T> leftSide)
         {
-            if (leftSide == null)
-            {
-                throw new ArgumentNullException("leftSide");
-            }
-
             if (RowCount != leftSide.Count)
             {
                 throw DimensionsDontMatch<ArgumentException>(this, leftSide, "leftSide");
@@ -687,25 +591,13 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// </summary>
         /// <param name="leftSide">The vector to multiply with.</param>
         /// <param name="result">The result of the multiplication.</param>
-        /// <exception cref="ArgumentNullException">If <paramref name="leftSide"/> is <see langword="null" />.</exception>
-        /// <exception cref="ArgumentNullException">If the result matrix is <see langword="null" />.</exception>
         /// <exception cref="ArgumentException">If <strong>result.Count != this.ColumnCount</strong>.</exception>
         /// <exception cref="ArgumentException">If <strong>this.RowCount != <paramref name="leftSide"/>.Count</strong>.</exception>
         public virtual void LeftMultiply(Vector<T> leftSide, Vector<T> result)
         {
-            if (leftSide == null)
-            {
-                throw new ArgumentNullException("leftSide");
-            }
-
             if (RowCount != leftSide.Count)
             {
                 throw DimensionsDontMatch<ArgumentException>(this, leftSide, "leftSide");
-            }
-
-            if (result == null)
-            {
-                throw new ArgumentNullException("result");
             }
 
             if (ColumnCount != result.Count)
@@ -740,22 +632,10 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// </summary>
         /// <param name="other">The matrix to multiply with.</param>
         /// <param name="result">The result of the multiplication.</param>
-        /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null" />.</exception>
-        /// <exception cref="ArgumentNullException">If the result matrix is <see langword="null" />.</exception>
         /// <exception cref="ArgumentException">If <strong>this.Columns != other.Rows</strong>.</exception>
         /// <exception cref="ArgumentException">If the result matrix's dimensions are not the this.Rows x other.Columns.</exception>
         public virtual void Multiply(Matrix<T> other, Matrix<T> result)
         {
-            if (other == null)
-            {
-                throw new ArgumentNullException("other");
-            }
-
-            if (result == null)
-            {
-                throw new ArgumentNullException("result");
-            }
-
             if (ColumnCount != other.RowCount || result.RowCount != RowCount || result.ColumnCount != other.ColumnCount)
             {
                 throw DimensionsDontMatch<ArgumentException>(this, other, result);
@@ -778,15 +658,9 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// </summary>
         /// <param name="other">The matrix to multiply with.</param>
         /// <exception cref="ArgumentException">If <strong>this.Columns != other.Rows</strong>.</exception>
-        /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null" />.</exception>
         /// <returns>The result of the multiplication.</returns>
         public virtual Matrix<T> Multiply(Matrix<T> other)
         {
-            if (other == null)
-            {
-                throw new ArgumentNullException("other");
-            }
-
             if (ColumnCount != other.RowCount)
             {
                 throw DimensionsDontMatch<ArgumentException>(this, other);
@@ -802,22 +676,10 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// </summary>
         /// <param name="other">The matrix to multiply with.</param>
         /// <param name="result">The result of the multiplication.</param>
-        /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null" />.</exception>
-        /// <exception cref="ArgumentNullException">If the result matrix is <see langword="null" />.</exception>
         /// <exception cref="ArgumentException">If <strong>this.Columns != other.ColumnCount</strong>.</exception>
         /// <exception cref="ArgumentException">If the result matrix's dimensions are not the this.RowCount x other.RowCount.</exception>
         public virtual void TransposeAndMultiply(Matrix<T> other, Matrix<T> result)
-               {
-            if (other == null)
-            {
-                throw new ArgumentNullException("other");
-            }
-
-            if (result == null)
-            {
-                throw new ArgumentNullException("result");
-            }
-
+        {
             if (ColumnCount != other.ColumnCount || result.RowCount != RowCount || result.ColumnCount != other.RowCount)
             {
                 throw DimensionsDontMatch<ArgumentException>(this, other, result);
@@ -840,15 +702,9 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// </summary>
         /// <param name="other">The matrix to multiply with.</param>
         /// <exception cref="ArgumentException">If <strong>this.Columns != other.ColumnCount</strong>.</exception>
-        /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null" />.</exception>
         /// <returns>The result of the multiplication.</returns>
         public virtual Matrix<T> TransposeAndMultiply(Matrix<T> other)
         {
-            if (other == null)
-            {
-                throw new ArgumentNullException("other");
-            }
-
             if (ColumnCount != other.ColumnCount)
             {
                 throw DimensionsDontMatch<ArgumentException>(this, other);
@@ -864,15 +720,9 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// </summary>
         /// <param name="rightSide">The vector to multiply with.</param>
         /// <returns>The result of the multiplication.</returns>
-        /// <exception cref="ArgumentNullException">If <paramref name="rightSide"/> is <see langword="null" />.</exception>
         /// <exception cref="ArgumentException">If <c>this.RowCount != rightSide.Count</c>.</exception>
         public Vector<T> TransposeThisAndMultiply(Vector<T> rightSide)
         {
-            if (rightSide == null)
-            {
-                throw new ArgumentNullException("rightSide");
-            }
-
             if (RowCount != rightSide.Count)
             {
                 throw DimensionsDontMatch<ArgumentException>(this, rightSide, "rightSide");
@@ -888,22 +738,10 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// </summary>
         /// <param name="rightSide">The vector to multiply with.</param>
         /// <param name="result">The result of the multiplication.</param>
-        /// <exception cref="ArgumentNullException">If <paramref name="rightSide"/> is <see langword="null" />.</exception>
-        /// <exception cref="ArgumentNullException">If <paramref name="result"/> is <see langword="null" />.</exception>
         /// <exception cref="ArgumentException">If <strong>result.Count != this.ColumnCount</strong>.</exception>
         /// <exception cref="ArgumentException">If <strong>this.RowCount != <paramref name="rightSide"/>.Count</strong>.</exception>
         public void TransposeThisAndMultiply(Vector<T> rightSide, Vector<T> result)
         {
-            if (rightSide == null)
-            {
-                throw new ArgumentNullException("rightSide");
-            }
-
-            if (result == null)
-            {
-                throw new ArgumentNullException("result");
-            }
-
             if (RowCount != rightSide.Count)
             {
                 throw DimensionsDontMatch<ArgumentException>(this, rightSide, "rightSide");
@@ -931,22 +769,10 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// </summary>
         /// <param name="other">The matrix to multiply with.</param>
         /// <param name="result">The result of the multiplication.</param>
-        /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null" />.</exception>
-        /// <exception cref="ArgumentNullException">If the result matrix is <see langword="null" />.</exception>
         /// <exception cref="ArgumentException">If <strong>this.Rows != other.RowCount</strong>.</exception>
         /// <exception cref="ArgumentException">If the result matrix's dimensions are not the this.ColumnCount x other.ColumnCount.</exception>
         public void TransposeThisAndMultiply(Matrix<T> other, Matrix<T> result)
         {
-            if (other == null)
-            {
-                throw new ArgumentNullException("other");
-            }
-
-            if (result == null)
-            {
-                throw new ArgumentNullException("result");
-            }
-
             if (RowCount != other.RowCount || result.RowCount != ColumnCount || result.ColumnCount != other.ColumnCount)
             {
                 throw DimensionsDontMatch<ArgumentException>(this, other, result);
@@ -969,15 +795,9 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// </summary>
         /// <param name="other">The matrix to multiply with.</param>
         /// <exception cref="ArgumentException">If <strong>this.Rows != other.RowCount</strong>.</exception>
-        /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null" />.</exception>
         /// <returns>The result of the multiplication.</returns>
         public Matrix<T> TransposeThisAndMultiply(Matrix<T> other)
         {
-            if (other == null)
-            {
-                throw new ArgumentNullException("other");
-            }
-
             if (RowCount != other.RowCount)
             {
                 throw DimensionsDontMatch<ArgumentException>(this, other);
@@ -1003,15 +823,9 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// Negate each element of this matrix and place the results into the result matrix.
         /// </summary>
         /// <param name="result">The result of the negation.</param>
-        /// <exception cref="ArgumentNullException">If the result matrix is <see langword="null" />.</exception>
         /// <exception cref="ArgumentException">if the result matrix's dimensions are not the same as this matrix.</exception>
         public void Negate(Matrix<T> result)
         {
-            if (result == null)
-            {
-                throw new ArgumentNullException("result");
-            }
-
             if (result.RowCount != RowCount || result.ColumnCount != ColumnCount)
             {
                 throw DimensionsDontMatch<ArgumentException>(this, result);
@@ -1035,15 +849,9 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// Complex conjugate each element of this matrix and place the results into the result matrix.
         /// </summary>
         /// <param name="result">The result of the conjugation.</param>
-        /// <exception cref="ArgumentNullException">If the result matrix is <see langword="null" />.</exception>
         /// <exception cref="ArgumentException">if the result matrix's dimensions are not the same as this matrix.</exception>
         public void Conjugate(Matrix<T> result)
         {
-            if (result == null)
-            {
-                throw new ArgumentNullException("result");
-            }
-
             if (result.RowCount != RowCount || result.ColumnCount != ColumnCount)
             {
                 throw DimensionsDontMatch<ArgumentException>(this, result);
@@ -1071,11 +879,6 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <param name="result">Matrix to store the results in.</param>
         public void Modulus(T divisor, Matrix<T> result)
         {
-            if (result == null)
-            {
-                throw new ArgumentNullException("result");
-            }
-
             if (ColumnCount != result.ColumnCount || RowCount != result.RowCount)
             {
                 throw DimensionsDontMatch<ArgumentException>(this, result);
@@ -1103,11 +906,6 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <param name="result">Matrix to store the results in.</param>
         public void ModulusByThis(T dividend, Matrix<T> result)
         {
-            if (result == null)
-            {
-                throw new ArgumentNullException("result");
-            }
-
             if (ColumnCount != result.ColumnCount || RowCount != result.RowCount)
             {
                 throw DimensionsDontMatch<ArgumentException>(this, result);
@@ -1120,16 +918,10 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// Pointwise multiplies this matrix with another matrix.
         /// </summary>
         /// <param name="other">The matrix to pointwise multiply with this one.</param>
-        /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null" />.</exception>
         /// <exception cref="ArgumentException">If this matrix and <paramref name="other"/> are not the same size.</exception>
         /// <returns>A new matrix that is the pointwise multiplication of this matrix and <paramref name="other"/>.</returns>
         public Matrix<T> PointwiseMultiply(Matrix<T> other)
         {
-            if (other == null)
-            {
-                throw new ArgumentNullException("other");
-            }
-
             if (ColumnCount != other.ColumnCount || RowCount != other.RowCount)
             {
                 throw DimensionsDontMatch<ArgumentException>(this, other, "other");
@@ -1145,22 +937,10 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// </summary>
         /// <param name="other">The matrix to pointwise multiply with this one.</param>
         /// <param name="result">The matrix to store the result of the pointwise multiplication.</param>
-        /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null" />.</exception>
-        /// <exception cref="ArgumentNullException">If the result matrix is <see langword="null" />.</exception>
         /// <exception cref="ArgumentException">If this matrix and <paramref name="other"/> are not the same size.</exception>
         /// <exception cref="ArgumentException">If this matrix and <paramref name="result"/> are not the same size.</exception>
         public void PointwiseMultiply(Matrix<T> other, Matrix<T> result)
         {
-            if (other == null)
-            {
-                throw new ArgumentNullException("other");
-            }
-
-            if (result == null)
-            {
-                throw new ArgumentNullException("result");
-            }
-
             if (ColumnCount != result.ColumnCount || RowCount != result.RowCount || ColumnCount != other.ColumnCount || RowCount != other.RowCount)
             {
                 throw DimensionsDontMatch<ArgumentException>(this, other, result);
@@ -1173,16 +953,10 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// Pointwise divide this matrix by another matrix.
         /// </summary>
         /// <param name="divisor">The pointwise denominator matrix to use.</param>
-        /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null" />.</exception>
         /// <exception cref="ArgumentException">If this matrix and <paramref name="divisor"/> are not the same size.</exception>
         /// <returns>A new matrix that is the pointwise division of this matrix and <paramref name="divisor"/>.</returns>
         public Matrix<T> PointwiseDivide(Matrix<T> divisor)
         {
-            if (divisor == null)
-            {
-                throw new ArgumentNullException("divisor");
-            }
-
             if (ColumnCount != divisor.ColumnCount || RowCount != divisor.RowCount)
             {
                 throw DimensionsDontMatch<ArgumentException>(this, divisor);
@@ -1198,22 +972,10 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// </summary>
         /// <param name="divisor">The pointwise denominator matrix to use.</param>
         /// <param name="result">The matrix to store the result of the pointwise division.</param>
-        /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null" />.</exception>
-        /// <exception cref="ArgumentNullException">If the result matrix is <see langword="null" />.</exception>
         /// <exception cref="ArgumentException">If this matrix and <paramref name="divisor"/> are not the same size.</exception>
         /// <exception cref="ArgumentException">If this matrix and <paramref name="result"/> are not the same size.</exception>
         public void PointwiseDivide(Matrix<T> divisor, Matrix<T> result)
         {
-            if (divisor == null)
-            {
-                throw new ArgumentNullException("divisor");
-            }
-
-            if (result == null)
-            {
-                throw new ArgumentNullException("result");
-            }
-
             if (ColumnCount != result.ColumnCount || RowCount != result.RowCount || ColumnCount != divisor.ColumnCount || RowCount != divisor.RowCount)
             {
                 throw DimensionsDontMatch<ArgumentException>(this, divisor, result);
@@ -1226,16 +988,10 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// Pointwise modulus this matrix by another matrix.
         /// </summary>
         /// <param name="divisor">The pointwise denominator matrix to use.</param>
-        /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null" />.</exception>
         /// <exception cref="ArgumentException">If this matrix and <paramref name="divisor"/> are not the same size.</exception>
         /// <returns>A new matrix that is the pointwise modulus of this matrix and <paramref name="divisor"/>.</returns>
         public Matrix<T> PointwiseModulus(Matrix<T> divisor)
         {
-            if (divisor == null)
-            {
-                throw new ArgumentNullException("divisor");
-            }
-
             if (ColumnCount != divisor.ColumnCount || RowCount != divisor.RowCount)
             {
                 throw DimensionsDontMatch<ArgumentException>(this, divisor);
@@ -1251,22 +1007,10 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// </summary>
         /// <param name="divisor">The pointwise denominator matrix to use.</param>
         /// <param name="result">The matrix to store the result of the pointwise modulus.</param>
-        /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null" />.</exception>
-        /// <exception cref="ArgumentNullException">If the result matrix is <see langword="null" />.</exception>
         /// <exception cref="ArgumentException">If this matrix and <paramref name="divisor"/> are not the same size.</exception>
         /// <exception cref="ArgumentException">If this matrix and <paramref name="result"/> are not the same size.</exception>
         public void PointwiseModulus(Matrix<T> divisor, Matrix<T> result)
         {
-            if (divisor == null)
-            {
-                throw new ArgumentNullException("divisor");
-            }
-
-            if (result == null)
-            {
-                throw new ArgumentNullException("result");
-            }
-
             if (ColumnCount != result.ColumnCount || RowCount != result.RowCount || ColumnCount != divisor.ColumnCount || RowCount != divisor.RowCount)
             {
                 throw DimensionsDontMatch<ArgumentException>(this, divisor, result);
@@ -1328,15 +1072,9 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// with M = this.Rows * lower.Rows and N = this.Columns * lower.Columns.
         /// </summary>
         /// <param name="other">The other matrix.</param>
-        /// <exception cref="ArgumentNullException">If other is <see langword="null" />.</exception>
         /// <returns>The kronecker product of the two matrices.</returns>
         public virtual Matrix<T> KroneckerProduct(Matrix<T> other)
         {
-            if (other == null)
-            {
-                throw new ArgumentNullException("other");
-            }
-
             var result = CreateMatrix(RowCount * other.RowCount, ColumnCount * other.ColumnCount);
             KroneckerProduct(other, result);
             return result;
@@ -1348,21 +1086,9 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// </summary>
         /// <param name="other">The other matrix.</param>
         /// <param name="result">The kronecker product of the two matrices.</param>
-        /// <exception cref="ArgumentNullException">If other is <see langword="null" />.</exception>
-        /// <exception cref="ArgumentNullException">If the result matrix is <see langword="null" />.</exception>
         /// <exception cref="ArgumentException">If the result matrix's dimensions are not (this.Rows * lower.rows) x (this.Columns * lower.Columns).</exception>
         public virtual void KroneckerProduct(Matrix<T> other, Matrix<T> result)
         {
-            if (other == null)
-            {
-                throw new ArgumentNullException("other");
-            }
-
-            if (result == null)
-            {
-                throw new ArgumentNullException("result");
-            }
-
             if (result.RowCount != (RowCount * other.RowCount) || result.ColumnCount != (ColumnCount * other.ColumnCount))
             {
                 throw DimensionsDontMatch<ArgumentOutOfRangeException>(this, other, result);

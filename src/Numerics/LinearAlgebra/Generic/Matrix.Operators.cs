@@ -46,11 +46,6 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <exception cref="ArgumentNullException">If <paramref name="rightSide"/> is <see langword="null" />.</exception>
         public static Matrix<T> operator +(Matrix<T> rightSide)
         {
-            if (rightSide == null)
-            {
-                throw new ArgumentNullException("rightSide");
-            }
-
             return rightSide.Clone();
         }
 
@@ -62,11 +57,6 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <exception cref="ArgumentNullException">If <paramref name="rightSide"/> is <see langword="null" />.</exception>
         public static Matrix<T> operator -(Matrix<T> rightSide)
         {
-            if (rightSide == null)
-            {
-                throw new ArgumentNullException("rightSide");
-            }
-
             return rightSide.Negate();
         }
 
@@ -83,11 +73,6 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <exception cref="ArgumentNullException">If <paramref name="leftSide"/> or <paramref name="rightSide"/> is <see langword="null" />.</exception>
         public static Matrix<T> operator +(Matrix<T> leftSide, Matrix<T> rightSide)
         {
-            if (leftSide == null)
-            {
-                throw new ArgumentNullException("leftSide");
-            }
-
             return leftSide.Add(rightSide);
         }
 
@@ -102,11 +87,6 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <exception cref="ArgumentNullException">If <paramref name="leftSide"/> is <see langword="null" />.</exception>
         public static Matrix<T> operator +(Matrix<T> leftSide, T rightSide)
         {
-            if (leftSide == null)
-            {
-                throw new ArgumentNullException("leftSide");
-            }
-
             return leftSide.Add(rightSide);
         }
 
@@ -121,11 +101,6 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <exception cref="ArgumentNullException">If <paramref name="rightSide"/> is <see langword="null" />.</exception>
         public static Matrix<T> operator +(T leftSide, Matrix<T> rightSide)
         {
-            if (rightSide == null)
-            {
-                throw new ArgumentNullException("rightSide");
-            }
-
             return rightSide.Add(leftSide);
         }
 
@@ -142,11 +117,6 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <exception cref="ArgumentNullException">If <paramref name="leftSide"/> or <paramref name="rightSide"/> is <see langword="null" />.</exception>
         public static Matrix<T> operator -(Matrix<T> leftSide, Matrix<T> rightSide)
         {
-            if (leftSide == null)
-            {
-                throw new ArgumentNullException("leftSide");
-            }
-
             return leftSide.Subtract(rightSide);
         }
 
@@ -162,11 +132,6 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <exception cref="ArgumentNullException">If <paramref name="leftSide"/> or <paramref name="rightSide"/> is <see langword="null" />.</exception>
         public static Matrix<T> operator -(Matrix<T> leftSide, T rightSide)
         {
-            if (leftSide == null)
-            {
-                throw new ArgumentNullException("leftSide");
-            }
-
             return leftSide.Subtract(rightSide);
         }
 
@@ -182,11 +147,6 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <exception cref="ArgumentNullException">If <paramref name="leftSide"/> or <paramref name="rightSide"/> is <see langword="null" />.</exception>
         public static Matrix<T> operator -(T leftSide, Matrix<T> rightSide)
         {
-            if (rightSide == null)
-            {
-                throw new ArgumentNullException("rightSide");
-            }
-
             return rightSide.SubtractFrom(leftSide);
         }
 
@@ -199,11 +159,6 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <exception cref="ArgumentNullException">If <paramref name="leftSide"/> is <see langword="null" />.</exception>
         public static Matrix<T> operator *(Matrix<T> leftSide, T rightSide)
         {
-            if (leftSide == null)
-            {
-                throw new ArgumentNullException("leftSide");
-            }
-
             return leftSide.Multiply(rightSide);
         }
 
@@ -216,11 +171,6 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <exception cref="ArgumentNullException">If <paramref name="rightSide"/> is <see langword="null" />.</exception>
         public static Matrix<T> operator *(T leftSide, Matrix<T> rightSide)
         {
-            if (rightSide == null)
-            {
-                throw new ArgumentNullException("rightSide");
-            }
-
             return rightSide.Multiply(leftSide);
         }
 
@@ -237,11 +187,6 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <exception cref="ArgumentException">If the dimensions of <paramref name="leftSide"/> or <paramref name="rightSide"/> don't conform.</exception>
         public static Matrix<T> operator *(Matrix<T> leftSide, Matrix<T> rightSide)
         {
-            if (leftSide == null)
-            {
-                throw new ArgumentNullException("leftSide");
-            }
-
             return leftSide.Multiply(rightSide);
         }
 
@@ -254,11 +199,6 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <exception cref="ArgumentNullException">If <paramref name="leftSide"/> or <paramref name="rightSide"/> is <see langword="null" />.</exception>
         public static Vector<T> operator *(Matrix<T> leftSide, Vector<T> rightSide)
         {
-            if (leftSide == null)
-            {
-                throw new ArgumentNullException("leftSide");
-            }
-
             return leftSide.Multiply(rightSide);
         }
 
@@ -271,11 +211,6 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <exception cref="ArgumentNullException">If <paramref name="leftSide"/> or <paramref name="rightSide"/> is <see langword="null" />.</exception>
         public static Vector<T> operator *(Vector<T> leftSide, Matrix<T> rightSide)
         {
-            if (rightSide == null)
-            {
-                throw new ArgumentNullException("rightSide");
-            }
-
             return rightSide.LeftMultiply(leftSide);
         }
 
@@ -288,11 +223,6 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <exception cref="ArgumentNullException">If <paramref name="divisor"/> is <see langword="null" />.</exception>
         public static Matrix<T> operator /(T dividend, Matrix<T> divisor)
         {
-            if (divisor == null)
-            {
-                throw new ArgumentNullException("divisor");
-            }
-
             return divisor.DivideByThis(dividend);
         }
 
@@ -305,11 +235,6 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <exception cref="ArgumentNullException">If <paramref name="dividend"/> is <see langword="null" />.</exception>
         public static Matrix<T> operator /(Matrix<T> dividend, T divisor)
         {
-            if (dividend == null)
-            {
-                throw new ArgumentNullException("dividend");
-            }
-
             return dividend.Divide(divisor);
         }
 
@@ -322,11 +247,6 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <exception cref="ArgumentNullException">If <paramref name="dividend"/> is <see langword="null" />.</exception>
         public static Matrix<T> operator %(Matrix<T> dividend, T divisor)
         {
-            if (dividend == null)
-            {
-                throw new ArgumentNullException("dividend");
-            }
-
             return dividend.Modulus(divisor);
         }
 
@@ -339,11 +259,6 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <exception cref="ArgumentNullException">If <paramref name="divisor"/> is <see langword="null" />.</exception>
         public static Matrix<T> operator %(T dividend, Matrix<T> divisor)
         {
-            if (divisor == null)
-            {
-                throw new ArgumentNullException("dividend");
-            }
-
             return divisor.ModulusByThis(dividend);
         }
 
@@ -357,11 +272,6 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <exception cref="ArgumentNullException">If <paramref name="dividend"/> is <see langword="null" />.</exception>
         public static Matrix<T> operator %(Matrix<T> dividend, Matrix<T> divisor)
         {
-            if (dividend == null)
-            {
-                throw new ArgumentNullException("dividend");
-            }
-
             return dividend.PointwiseModulus(divisor);
         }
 

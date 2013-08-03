@@ -171,15 +171,9 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// </summary>
         /// <param name="scalar">The scalar to add.</param>
         /// <param name="result">The vector to store the result of the addition.</param>
-        /// <exception cref="ArgumentNullException">If the result vector is <see langword="null"/>.</exception>
         /// <exception cref="ArgumentException">If this vector and <paramref name="result"/> are not the same size.</exception>
         public void Add(T scalar, Vector<T> result)
         {
-            if (result == null)
-            {
-                throw new ArgumentNullException("result");
-            }
-
             if (Count != result.Count)
             {
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
@@ -199,15 +193,9 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// </summary>
         /// <param name="other">The vector to add to this one.</param>
         /// <returns>A new vector containing the sum of both vectors.</returns>
-        /// <exception cref="ArgumentNullException">If the other vector is <see langword="null"/>.</exception>
         /// <exception cref="ArgumentException">If this vector and <paramref name="other"/> are not the same size.</exception>
         public Vector<T> Add(Vector<T> other)
         {
-            if (other == null)
-            {
-                throw new ArgumentNullException("other");
-            }
-
             if (Count != other.Count)
             {
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
@@ -223,17 +211,10 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// </summary>
         /// <param name="other">The vector to add to this one.</param>
         /// <param name="result">The vector to store the result of the addition.</param>
-        /// <exception cref="ArgumentNullException">If the other vector is <see langword="null"/>.</exception>
-        /// <exception cref="ArgumentNullException">If the result vector is <see langword="null"/>.</exception>
         /// <exception cref="ArgumentException">If this vector and <paramref name="other"/> are not the same size.</exception>
         /// <exception cref="ArgumentException">If this vector and <paramref name="result"/> are not the same size.</exception>
         public void Add(Vector<T> other, Vector<T> result)
         {
-            if (result == null)
-            {
-                throw new ArgumentNullException("result");
-            }
-
             if (Count != result.Count)
             {
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
@@ -264,15 +245,9 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// </summary>
         /// <param name="scalar">The scalar to subtract.</param>
         /// <param name="result">The vector to store the result of the subtraction.</param>
-        /// <exception cref="ArgumentNullException">If the result vector is <see langword="null"/>.</exception>
         /// <exception cref="ArgumentException">If this vector and <paramref name="result"/> are not the same size.</exception>
         public void Subtract(T scalar, Vector<T> result)
         {
-            if (result == null)
-            {
-                throw new ArgumentNullException("result");
-            }
-
             if (Count != result.Count)
             {
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
@@ -304,15 +279,9 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// </summary>
         /// <param name="scalar">The scalar to subtract from.</param>
         /// <param name="result">The vector to store the result of the subtraction.</param>
-        /// <exception cref="ArgumentNullException">If the result vector is <see langword="null"/>.</exception>
         /// <exception cref="ArgumentException">If this vector and <paramref name="result"/> are not the same size.</exception>
         public void SubtractFrom(T scalar, Vector<T> result)
         {
-            if (result == null)
-            {
-                throw new ArgumentNullException("result");
-            }
-
             if (Count != result.Count)
             {
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
@@ -339,11 +308,6 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <param name="result">Target vector</param>
         public void Negate(Vector<T> result)
         {
-            if (result == null)
-            {
-                throw new ArgumentNullException("result");
-            }
-
             if (Count != result.Count)
             {
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
@@ -357,15 +321,9 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// </summary>
         /// <param name="other">The vector to subtract from this one.</param>
         /// <returns>A new vector containing the subtraction of the the two vectors.</returns>
-        /// <exception cref="ArgumentNullException">If the other vector is <see langword="null"/>.</exception>
         /// <exception cref="ArgumentException">If this vector and <paramref name="other"/> are not the same size.</exception>
         public Vector<T> Subtract(Vector<T> other)
         {
-            if (other == null)
-            {
-                throw new ArgumentNullException("other");
-            }
-
             if (Count != other.Count)
             {
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
@@ -381,17 +339,10 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// </summary>
         /// <param name="other">The vector to subtract from this one.</param>
         /// <param name="result">The vector to store the result of the subtraction.</param>
-        /// <exception cref="ArgumentNullException">If the other vector is <see langword="null"/>.</exception>
-        /// <exception cref="ArgumentNullException">If the result vector is <see langword="null"/>.</exception>
         /// <exception cref="ArgumentException">If this vector and <paramref name="other"/> are not the same size.</exception>
         /// <exception cref="ArgumentException">If this vector and <paramref name="result"/> are not the same size.</exception>
         public void Subtract(Vector<T> other, Vector<T> result)
         {
-            if (result == null)
-            {
-                throw new ArgumentNullException("result");
-            }
-
             if (Count != result.Count)
             {
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
@@ -417,11 +368,6 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <param name="result">Target vector</param>
         public void Conjugate(Vector<T> result)
         {
-            if (result == null)
-            {
-                throw new ArgumentNullException("result");
-            }
-
             if (Count != result.Count)
             {
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
@@ -457,15 +403,9 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// </summary>
         /// <param name="scalar">The scalar to multiply.</param>
         /// <param name="result">The vector to store the result of the multiplication.</param>
-        /// <exception cref="ArgumentNullException">If the result vector is <see langword="null"/>.</exception>
         /// <exception cref="ArgumentException">If this vector and <paramref name="result"/> are not the same size.</exception>
         public void Multiply(T scalar, Vector<T> result)
         {
-            if (result == null)
-            {
-                throw new ArgumentNullException("result");
-            }
-
             if (Count != result.Count)
             {
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
@@ -492,14 +432,8 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <param name="other">The other vector to add.</param>
         /// <returns>The result of the addition.</returns>
         /// <exception cref="ArgumentException">If <paramref name="other"/> is not of the same size.</exception>
-        /// <exception cref="ArgumentNullException">If <paramref name="other"/> is <see langword="null"/>.</exception>
         public T DotProduct(Vector<T> other)
         {
-            if (other == null)
-            {
-                throw new ArgumentNullException("other");
-            }
-
             if (Count != other.Count)
             {
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
@@ -530,15 +464,9 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// </summary>
         /// <param name="scalar">The scalar to divide with.</param>
         /// <param name="result">The vector to store the result of the division.</param>
-        /// <exception cref="ArgumentNullException">If the result vector is <see langword="null"/>.</exception>
         /// <exception cref="ArgumentException">If this vector and <paramref name="result"/> are not the same size.</exception>
         public void Divide(T scalar, Vector<T> result)
         {
-            if (result == null)
-            {
-                throw new ArgumentNullException("result");
-            }
-
             if (Count != result.Count)
             {
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
@@ -570,15 +498,9 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// </summary>
         /// <param name="scalar">The scalar to divide.</param>
         /// <param name="result">The vector to store the result of the division.</param>
-        /// <exception cref="ArgumentNullException">If the result vector is <see langword="null"/>.</exception>
         /// <exception cref="ArgumentException">If this vector and <paramref name="result"/> are not the same size.</exception>
         public void DivideByThis(T scalar, Vector<T> result)
         {
-            if (result == null)
-            {
-                throw new ArgumentNullException("result");
-            }
-
             if (Count != result.Count)
             {
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
@@ -606,11 +528,6 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <param name="result">A vector to store the results in.</param>
         public void Modulus(T divisor, Vector<T> result)
         {
-            if (result == null)
-            {
-                throw new ArgumentNullException("result");
-            }
-
             if (Count != result.Count)
             {
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
@@ -638,11 +555,6 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <param name="result">A vector to store the results in.</param>
         public void ModulusByThis(T dividend, Vector<T> result)
         {
-            if (result == null)
-            {
-                throw new ArgumentNullException("result");
-            }
-
             if (Count != result.Count)
             {
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
@@ -656,15 +568,9 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// </summary>
         /// <param name="other">The vector to pointwise multiply with this one.</param>
         /// <returns>A new vector which is the pointwise multiplication of the two vectors.</returns>
-        /// <exception cref="ArgumentNullException">If the other vector is <see langword="null" />.</exception>
         /// <exception cref="ArgumentException">If this vector and <paramref name="other"/> are not the same size.</exception>
         public Vector<T> PointwiseMultiply(Vector<T> other)
         {
-            if (other == null)
-            {
-                throw new ArgumentNullException("other");
-            }
-
             if (Count != other.Count)
             {
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
@@ -680,22 +586,10 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// </summary>
         /// <param name="other">The vector to pointwise multiply with this one.</param>
         /// <param name="result">The vector to store the result of the pointwise multiplication.</param>
-        /// <exception cref="ArgumentNullException">If the other vector is <see langword="null" />.</exception>
-        /// <exception cref="ArgumentNullException">If the result vector is <see langword="null" />.</exception>
         /// <exception cref="ArgumentException">If this vector and <paramref name="other"/> are not the same size.</exception>
         /// <exception cref="ArgumentException">If this vector and <paramref name="result"/> are not the same size.</exception>
         public void PointwiseMultiply(Vector<T> other, Vector<T> result)
         {
-            if (result == null)
-            {
-                throw new ArgumentNullException("result");
-            }
-
-            if (other == null)
-            {
-                throw new ArgumentNullException("other");
-            }
-
             if (Count != other.Count)
             {
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
@@ -714,15 +608,9 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// </summary>
         /// <param name="divisor">The pointwise denominator vector to use.</param>
         /// <returns>A new vector which is the pointwise division of the two vectors.</returns>
-        /// <exception cref="ArgumentNullException">If the other vector is <see langword="null" />.</exception>
         /// <exception cref="ArgumentException">If this vector and <paramref name="divisor"/> are not the same size.</exception>
         public Vector<T> PointwiseDivide(Vector<T> divisor)
         {
-            if (divisor == null)
-            {
-                throw new ArgumentNullException("divisor");
-            }
-
             if (Count != divisor.Count)
             {
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "divisor");
@@ -738,22 +626,10 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// </summary>
         /// <param name="divisor">The pointwise denominator vector to use.</param>
         /// <param name="result">The vector to store the result of the pointwise division.</param>
-        /// <exception cref="ArgumentNullException">If the other vector is <see langword="null" />.</exception>
-        /// <exception cref="ArgumentNullException">If the result vector is <see langword="null" />.</exception>
         /// <exception cref="ArgumentException">If this vector and <paramref name="divisor"/> are not the same size.</exception>
         /// <exception cref="ArgumentException">If this vector and <paramref name="result"/> are not the same size.</exception>
         public void PointwiseDivide(Vector<T> divisor, Vector<T> result)
         {
-            if (result == null)
-            {
-                throw new ArgumentNullException("result");
-            }
-
-            if (divisor == null)
-            {
-                throw new ArgumentNullException("divisor");
-            }
-
             if (Count != divisor.Count)
             {
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "divisor");
@@ -772,15 +648,9 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// </summary>
         /// <param name="divisor">The pointwise denominator vector to use.</param>
         /// <returns>A new vector which is the pointwise modulus of the two vectors.</returns>
-        /// <exception cref="ArgumentNullException">If the other vector is <see langword="null" />.</exception>
         /// <exception cref="ArgumentException">If this vector and <paramref name="divisor"/> are not the same size.</exception>
         public Vector<T> PointwiseModulus(Vector<T> divisor)
         {
-            if (divisor == null)
-            {
-                throw new ArgumentNullException("divisor");
-            }
-
             if (Count != divisor.Count)
             {
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "divisor");
@@ -796,22 +666,10 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// </summary>
         /// <param name="divisor">The pointwise denominator vector to use.</param>
         /// <param name="result">The vector to store the result of the pointwise modulus.</param>
-        /// <exception cref="ArgumentNullException">If the other vector is <see langword="null" />.</exception>
-        /// <exception cref="ArgumentNullException">If the result vector is <see langword="null" />.</exception>
         /// <exception cref="ArgumentException">If this vector and <paramref name="divisor"/> are not the same size.</exception>
         /// <exception cref="ArgumentException">If this vector and <paramref name="result"/> are not the same size.</exception>
         public void PointwiseModulus(Vector<T> divisor, Vector<T> result)
         {
-            if (result == null)
-            {
-                throw new ArgumentNullException("result");
-            }
-
-            if (divisor == null)
-            {
-                throw new ArgumentNullException("divisor");
-            }
-
             if (Count != divisor.Count)
             {
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "divisor");
@@ -831,20 +689,8 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <param name="u">First vector</param>
         /// <param name="v">Second vector</param>
         /// <returns>Matrix M[i,j] = u[i]*v[j] </returns>
-        /// <exception cref="ArgumentNullException">If the u vector is <see langword="null" />.</exception>
-        /// <exception cref="ArgumentNullException">If the v vector is <see langword="null" />.</exception>
         public static Matrix<T> OuterProduct(Vector<T> u, Vector<T> v)
         {
-            if (u == null)
-            {
-                throw new ArgumentNullException("u");
-            }
-
-            if (v == null)
-            {
-                throw new ArgumentNullException("v");
-            }
-
             var matrix = u.CreateMatrix(u.Count, v.Count);
 
             for (var i = 0; i < u.Count; i++)

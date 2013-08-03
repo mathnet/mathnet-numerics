@@ -320,17 +320,5 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
                 }
             }
         }
-
-        /// <summary>
-        /// Outer product for <c>null</c> dense vectors throws <c>ArgumentNullException</c>.
-        /// </summary>
-        [Test]
-        public void OuterProductForNullDenseVectorsThrowsArgumentNullException()
-        {
-            DenseVector vector1 = null;
-            var vector2 = CreateVector(Data);
-            Assert.Throws<ArgumentNullException>(() => Vector<Complex>.OuterProduct(vector1, vector2));
-            Assert.Throws<ArgumentNullException>(() => Vector<Complex>.OuterProduct(vector2, vector1));
-        }
     }
 }

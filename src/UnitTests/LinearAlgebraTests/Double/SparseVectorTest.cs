@@ -242,18 +242,6 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         }
 
         /// <summary>
-        /// Outer product for <c>null</c> sparse vectors throws <c>ArgumentNullException</c>.
-        /// </summary>
-        [Test]
-        public void OuterProductForNullSparseVectorsThrowsArgumentNullException()
-        {
-            SparseVector vector1 = null;
-            var vector2 = CreateVector(Data);
-            Assert.Throws<ArgumentNullException>(() => Vector<double>.OuterProduct(vector1, vector2));
-            Assert.Throws<ArgumentNullException>(() => Vector<double>.OuterProduct(vector2, vector1));
-        }
-
-        /// <summary>
         /// Check sparse mechanism by setting values.
         /// </summary>
         [Test]
