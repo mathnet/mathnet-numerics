@@ -28,16 +28,15 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using MathNet.Numerics.LinearAlgebra.Generic.Factorization;
+using MathNet.Numerics.LinearAlgebra.Factorization;
+using MathNet.Numerics.Properties;
+using MathNet.Numerics.Threading;
+using System;
+using System.Linq;
 
 namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
 {
-    using System;
-    using System.Linq;
-    using Generic;
     using Numerics;
-    using Properties;
-    using Threading;
 
     /// <summary>
     /// <para>A class which encapsulates the functionality of the QR decomposition.</para>

@@ -28,7 +28,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-namespace MathNet.Numerics.LinearAlgebra.Generic
+namespace MathNet.Numerics.LinearAlgebra
 
 // Module that contains implementation of useful F#-specific
 // extension members for generic Matrix and Vector types
@@ -37,7 +37,7 @@ module FSharpExtensions =
 
   // A type extension for the generic vector type that
   // adds the 'GetSlice' method to allow vec.[a .. b] syntax
-  type MathNet.Numerics.LinearAlgebra.Generic.
+  type MathNet.Numerics.LinearAlgebra.
       Vector<'T when 'T : struct and 'T : (new : unit -> 'T)
                  and 'T :> System.IEquatable<'T> and 'T :> System.IFormattable
                  and 'T :> System.ValueType> with
@@ -61,7 +61,7 @@ module FSharpExtensions =
 
   // A type extension for the generic matrix type that
   // adds the 'GetSlice' method to allow m.[r1 .. r2, c1 .. c2] syntax
-  type MathNet.Numerics.LinearAlgebra.Generic.
+  type MathNet.Numerics.LinearAlgebra.
       Matrix<'T when 'T : struct and 'T : (new : unit -> 'T)
                  and 'T :> System.IEquatable<'T> and 'T :> System.IFormattable
                  and 'T :> System.ValueType> with

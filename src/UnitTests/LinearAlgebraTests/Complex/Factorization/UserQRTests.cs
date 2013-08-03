@@ -24,15 +24,15 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using MathNet.Numerics.LinearAlgebra.Generic.Factorization;
+using MathNet.Numerics.LinearAlgebra.Complex;
+using MathNet.Numerics.LinearAlgebra.Complex.Factorization;
+using MathNet.Numerics.LinearAlgebra.Factorization;
+using NUnit.Framework;
+using System;
 
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Factorization
 {
-    using System;
     using System.Numerics;
-    using LinearAlgebra.Complex;
-    using LinearAlgebra.Complex.Factorization;
-    using NUnit.Framework;
 
     /// <summary>
     /// QR factorization tests for a user matrix.

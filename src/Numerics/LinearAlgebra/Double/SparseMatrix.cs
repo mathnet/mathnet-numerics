@@ -28,14 +28,13 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using MathNet.Numerics.LinearAlgebra.Storage;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+
 namespace MathNet.Numerics.LinearAlgebra.Double
 {
-    using Generic;
-    using Storage;
-    using System;
-    using System.Collections.Generic;
-    using System.Diagnostics;
-
     /// <summary>
     /// A Matrix with sparse storage, intended for very large matrices where most of the cells are zero.
     /// The underlying storage scheme is 3-array compressed-sparse-row (CSR) Format.

@@ -28,12 +28,12 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using MathNet.Numerics.LinearAlgebra.Storage;
+using MathNet.Numerics.Threading;
+using System;
+
 namespace MathNet.Numerics.LinearAlgebra.Complex32
 {
-    using System;
-    using Generic;
-    using Storage;
-    using Threading;
     using Complex32 = Numerics.Complex32;
 
     /// <summary>

@@ -27,14 +27,15 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
+
+using MathNet.Numerics.LinearAlgebra;
+using MathNet.Numerics.LinearAlgebra.Double;
+using NUnit.Framework;
+using System;
+using System.Collections.Generic;
+
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
 {
-    using LinearAlgebra.Double;
-    using LinearAlgebra.Generic;
-    using NUnit.Framework;
-    using System;
-    using System.Collections.Generic;
-
     /// <summary>
     /// Diagonal matrix tests.
     /// </summary>

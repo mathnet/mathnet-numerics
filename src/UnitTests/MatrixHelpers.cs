@@ -23,9 +23,10 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
+
+using MathNet.Numerics.LinearAlgebra;
 using System;
 using System.Numerics;
-using MathNet.Numerics.LinearAlgebra.Generic;
 
 namespace MathNet.Numerics.UnitTests
 {

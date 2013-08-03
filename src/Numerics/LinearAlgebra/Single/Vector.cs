@@ -28,13 +28,12 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using MathNet.Numerics.LinearAlgebra.Storage;
+using MathNet.Numerics.Threading;
+using System;
+
 namespace MathNet.Numerics.LinearAlgebra.Single
 {
-    using System;
-    using Generic;
-    using Storage;
-    using Threading;
-
     /// <summary>
     /// <c>float</c> version of the <see cref="Vector{T}"/> class.
     /// </summary>

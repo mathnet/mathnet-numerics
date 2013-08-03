@@ -28,16 +28,16 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using MathNet.Numerics.Properties;
+using System;
+
 namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
 {
-    using System;
-    using Generic;
-    using Properties;
 
 #if NOSYSNUMERICS
-    using Complex = Numerics.Complex;
+    using Numerics;
 #else
-    using Complex = System.Numerics.Complex;
+    using System.Numerics;
 #endif
 
     /// <summary>

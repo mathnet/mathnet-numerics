@@ -30,7 +30,7 @@
 
 namespace MathNet.Numerics.LinearAlgebra.Double
 
-open MathNet.Numerics.LinearAlgebra.Generic
+open MathNet.Numerics.LinearAlgebra
 
 /// A module which implements functional matrix operations.
 [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]

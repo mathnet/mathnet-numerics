@@ -28,7 +28,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-namespace MathNet.Numerics.LinearAlgebra.Generic.Solvers.Status
+namespace MathNet.Numerics.LinearAlgebra.Solvers.Status
 {
     /// <summary>
     /// Indicates that a calculation has converged to the desired convergence levels.

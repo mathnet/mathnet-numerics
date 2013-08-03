@@ -28,13 +28,13 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using MathNet.Numerics.LinearAlgebra.Solvers.Status;
+using MathNet.Numerics.LinearAlgebra.Solvers.StopCriterium;
+using System;
+using System.Diagnostics;
+
 namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.StopCriterium
 {
-    using System;
-    using System.Diagnostics;
-    using Generic.Solvers.Status;
-    using Generic.Solvers.StopCriterium;
-
     /// <summary>
     /// Defines an <see cref="IIterationStopCriterium"/> that monitors the numbers of iteration 
     /// steps as stop criterium.

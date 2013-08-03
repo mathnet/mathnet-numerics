@@ -28,12 +28,11 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using MathNet.Numerics.Properties;
+using System;
+
 namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
 {
-    using System;
-    using Generic;
-    using Properties;
-
     /// <summary>
     /// <para>A class which encapsulates the functionality of an LU factorization.</para>
     /// <para>For a matrix A, the LU factorization is a pair of lower triangular matrix L and

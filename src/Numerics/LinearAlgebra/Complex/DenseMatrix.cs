@@ -28,18 +28,17 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using MathNet.Numerics.Algorithms.LinearAlgebra;
+using MathNet.Numerics.Distributions;
+using MathNet.Numerics.LinearAlgebra.Storage;
+using MathNet.Numerics.Properties;
 using MathNet.Numerics.Threading;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace MathNet.Numerics.LinearAlgebra.Complex
 {
-    using Algorithms.LinearAlgebra;
-    using Distributions;
-    using Generic;
-    using Properties;
-    using Storage;
-    using System;
-    using System.Collections.Generic;
-    using System.Diagnostics;
 
 #if NOSYSNUMERICS
     using Complex = Numerics.Complex;

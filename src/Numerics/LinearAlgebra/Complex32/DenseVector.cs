@@ -28,17 +28,17 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using MathNet.Numerics.Distributions;
+using MathNet.Numerics.LinearAlgebra.Storage;
+using MathNet.Numerics.Threading;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+
 namespace MathNet.Numerics.LinearAlgebra.Complex32
 {
-    using Distributions;
-    using Generic;
     using Numerics;
-    using Storage;
-    using System;
-    using System.Collections.Generic;
-    using System.Diagnostics;
-    using System.Linq;
-    using Threading;
 
     /// <summary>
     /// A vector using dense storage.
@@ -676,7 +676,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
                 return _values.Aggregate(Complex32.Zero, SpecialFunctions.Hypotenuse).Magnitude;
             }
 
-            if (Double.IsPositiveInfinity(p))
+            if (double.IsPositiveInfinity(p))
             {
                 return CommonParallel.Aggregate(_values, (i, v) => v.Magnitude, Math.Max, 0f);
             }

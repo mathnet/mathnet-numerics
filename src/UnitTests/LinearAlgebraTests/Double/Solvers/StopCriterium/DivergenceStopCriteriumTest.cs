@@ -28,14 +28,14 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using MathNet.Numerics.LinearAlgebra.Double;
+using MathNet.Numerics.LinearAlgebra.Double.Solvers.StopCriterium;
+using MathNet.Numerics.LinearAlgebra.Solvers.Status;
+using NUnit.Framework;
+using System;
+
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.StopCriterium
 {
-    using System;
-    using LinearAlgebra.Double;
-    using LinearAlgebra.Double.Solvers.StopCriterium;
-    using LinearAlgebra.Generic.Solvers.Status;
-    using NUnit.Framework;
-
     /// <summary>
     /// Divergence stop criterium test.
     /// </summary>

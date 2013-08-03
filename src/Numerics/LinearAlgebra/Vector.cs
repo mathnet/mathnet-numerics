@@ -35,7 +35,7 @@ using System.Runtime;
 using MathNet.Numerics.LinearAlgebra.Storage;
 using MathNet.Numerics.Properties;
 
-namespace MathNet.Numerics.LinearAlgebra.Generic
+namespace MathNet.Numerics.LinearAlgebra
 {
     /// <summary>
     /// Defines the generic class for <c>Vector</c> classes.
@@ -52,12 +52,12 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <summary>
         /// The zero value for type T.
         /// </summary>
-        private static readonly T Zero = Common.ZeroOf<T>();
+        static readonly T Zero = Common.ZeroOf<T>();
 
         /// <summary>
         /// The value of 1.0 for type T.
         /// </summary>
-        private static readonly T One = Common.OneOf<T>();
+        static readonly T One = Common.OneOf<T>();
 
         /// <summary>
         /// Initializes a new instance of the Vector class.
@@ -91,7 +91,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
 
             [TargetedPatchingOptOut("Performance critical to inline across NGen image boundaries")]
             //[MethodImpl(MethodImplOptions.AggressiveInlining)] .Net 4.5 only
-            set { Storage[index] = value;}
+            set { Storage[index] = value; }
         }
 
         /// <summary>Gets the value at the given <paramref name="index"/> without range checking..</summary>

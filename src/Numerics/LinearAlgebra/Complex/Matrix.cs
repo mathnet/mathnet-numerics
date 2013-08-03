@@ -28,12 +28,12 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System;
+using MathNet.Numerics.LinearAlgebra.Storage;
+using MathNet.Numerics.Properties;
+
 namespace MathNet.Numerics.LinearAlgebra.Complex
 {
-    using System;
-    using Generic;
-    using Properties;
-    using Storage;
 
 #if NOSYSNUMERICS
     using Complex = Numerics.Complex;

@@ -28,14 +28,12 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using System.Collections.Generic;
+using MathNet.Numerics.LinearAlgebra;
+using NUnit.Framework;
+using System;
 
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
 {
-    using System;
-    using LinearAlgebra.Generic;
-    using NUnit.Framework;
-
     [TestFixture]
     public abstract partial class MatrixStructureTheory<T>
         where T : struct, IEquatable<T>, IFormattable

@@ -28,14 +28,15 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using MathNet.Numerics.LinearAlgebra.Solvers.Status;
+using System;
+using MathNet.Numerics.LinearAlgebra.Complex;
+using MathNet.Numerics.LinearAlgebra.Complex.Solvers.StopCriterium;
+using NUnit.Framework;
+
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.StopCriterium
 {
-    using System;
     using System.Numerics;
-    using LinearAlgebra.Complex;
-    using LinearAlgebra.Complex.Solvers.StopCriterium;
-    using LinearAlgebra.Generic.Solvers.Status;
-    using NUnit.Framework;
 
     /// <summary>
     /// Failure stop criterium tests.

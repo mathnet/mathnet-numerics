@@ -28,16 +28,14 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using MathNet.Numerics.LinearAlgebra.Generic.Factorization;
+using MathNet.Numerics.LinearAlgebra.Factorization;
+using MathNet.Numerics.Properties;
+using MathNet.Numerics.Threading;
+using System;
+using System.Linq;
 
 namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
 {
-    using System;
-    using System.Linq;
-    using Generic;
-    using Properties;
-    using Threading;
-
     /// <summary>
     /// <para>A class which encapsulates the functionality of the QR decomposition.</para>
     /// <para>Any real square matrix A may be decomposed as A = QR where Q is an orthogonal matrix 

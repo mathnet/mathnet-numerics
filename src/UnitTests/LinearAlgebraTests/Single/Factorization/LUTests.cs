@@ -24,13 +24,12 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using MathNet.Numerics.LinearAlgebra.Single;
+using NUnit.Framework;
+using System;
+
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Factorization
 {
-    using System;
-    using LinearAlgebra.Generic.Factorization;
-    using LinearAlgebra.Single;
-    using NUnit.Framework;
-
     /// <summary>
     /// LU factorization tests for a dense matrix.
     /// </summary>

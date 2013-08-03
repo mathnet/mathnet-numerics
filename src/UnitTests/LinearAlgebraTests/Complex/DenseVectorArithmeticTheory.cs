@@ -30,10 +30,10 @@
 
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
 {
-    using System.Numerics;
+    using LinearAlgebra;
     using LinearAlgebra.Complex;
-    using LinearAlgebra.Generic;
     using NUnit.Framework;
+    using System.Numerics;
 
     [TestFixture]
     public class DenseVectorArithmeticTheory : VectorArithmeticTheory

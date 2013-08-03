@@ -24,14 +24,13 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using System;
+using MathNet.Numerics.LinearAlgebra;
+using MathNet.Numerics.LinearAlgebra.Complex32;
 using MathNet.Numerics.LinearAlgebra.Storage;
 
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
 {
-    using LinearAlgebra.Complex32;
-    using LinearAlgebra.Generic;
-    using Complex32 = Numerics.Complex32;
+    using Numerics;
 
     /// <summary>
     /// User-defined matrix implementation (internal class for testing purposes)

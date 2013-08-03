@@ -28,16 +28,15 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-namespace MathNet.Numerics.LinearAlgebra.Generic
-{
-    using Factorization;
-    using Numerics;
-    using Properties;
-    using Storage;
-    using System;
-    using System.Collections.Generic;
-    using System.Runtime;
+using MathNet.Numerics.LinearAlgebra.Factorization;
+using MathNet.Numerics.LinearAlgebra.Storage;
+using MathNet.Numerics.Properties;
+using System;
+using System.Collections.Generic;
+using System.Runtime;
 
+namespace MathNet.Numerics.LinearAlgebra
+{
     /// <summary>
     /// Defines the base class for <c>Matrix</c> classes.
     /// </summary>
@@ -156,7 +155,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
                 throw new ArgumentOutOfRangeException("columnIndex");
             }
 
-            Storage.Clear(0,RowCount,columnIndex,1);
+            Storage.Clear(0, RowCount, columnIndex, 1);
         }
 
         /// <summary>

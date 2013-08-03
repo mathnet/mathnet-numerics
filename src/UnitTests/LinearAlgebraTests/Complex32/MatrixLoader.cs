@@ -28,15 +28,16 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using MathNet.Numerics.Distributions;
+using MathNet.Numerics.LinearAlgebra;
+using MathNet.Numerics.LinearAlgebra.Complex32;
+using MathNet.Numerics.Random;
+using NUnit.Framework;
+using System.Collections.Generic;
+
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
 {
-    using System.Collections.Generic;
-    using Distributions;
-    using LinearAlgebra.Complex32;
-    using LinearAlgebra.Generic;
-    using Numerics.Random;
-    using NUnit.Framework;
-    using Complex32 = Numerics.Complex32;
+    using Numerics;
 
     /// <summary>
     /// Base class for matrix tests.

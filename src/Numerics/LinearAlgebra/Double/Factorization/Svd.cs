@@ -28,14 +28,13 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using MathNet.Numerics.LinearAlgebra.Factorization;
+using MathNet.Numerics.Properties;
+using System;
+using System.Linq;
+
 namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
 {
-    using System;
-    using System.Linq;
-    using Generic;
-    using Generic.Factorization;
-    using Properties;
-
     /// <summary>
     /// <para>A class which encapsulates the functionality of the singular value decomposition (SVD).</para>
     /// <para>Suppose M is an m-by-n matrix whose entries are real numbers. 

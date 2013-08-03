@@ -32,7 +32,7 @@ namespace MathNet.Numerics
 
 open System
 open MathNet.Numerics.LinearAlgebra.Double
-open MathNet.Numerics.LinearAlgebra.Generic.Factorization
+open MathNet.Numerics.LinearAlgebra.Factorization
 
 [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
 module Fit =

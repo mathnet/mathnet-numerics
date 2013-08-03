@@ -31,10 +31,8 @@
 namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
 {
     using System;
-    using Generic;
     using Numerics;
     using Properties;
-    using Threading;
 
     /// <summary>
     /// <para>A class which encapsulates the functionality of a Cholesky factorization for dense matrices.</para>

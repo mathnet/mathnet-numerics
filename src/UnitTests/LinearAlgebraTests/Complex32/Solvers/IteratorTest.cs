@@ -28,16 +28,16 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using MathNet.Numerics.LinearAlgebra.Complex32;
+using MathNet.Numerics.LinearAlgebra.Complex32.Solvers;
+using MathNet.Numerics.LinearAlgebra.Complex32.Solvers.StopCriterium;
+using MathNet.Numerics.LinearAlgebra.Solvers.Status;
+using NUnit.Framework;
+using System;
+using System.Collections.Generic;
+
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers
 {
-    using System;
-    using System.Collections.Generic;
-    using LinearAlgebra.Complex32;
-    using LinearAlgebra.Complex32.Solvers;
-    using LinearAlgebra.Complex32.Solvers.StopCriterium;
-    using LinearAlgebra.Generic.Solvers.Status;
-    using NUnit.Framework;
-
     /// <summary>
     /// Iterator tests
     /// </summary>

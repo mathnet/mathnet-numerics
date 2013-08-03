@@ -28,13 +28,13 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using MathNet.Numerics.LinearAlgebra.Single.Solvers.Preconditioners;
+using MathNet.Numerics.LinearAlgebra.Solvers.Status;
+using MathNet.Numerics.Properties;
+using System;
+
 namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Iterative
 {
-    using System;
-    using Generic.Solvers.Status;
-    using Preconditioners;
-    using Properties;
-
     /// <summary>
     /// A Generalized Product Bi-Conjugate Gradient iterative matrix solver.
     /// </summary>

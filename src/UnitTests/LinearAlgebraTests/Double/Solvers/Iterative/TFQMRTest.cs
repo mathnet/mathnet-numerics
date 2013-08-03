@@ -28,16 +28,16 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using MathNet.Numerics.LinearAlgebra.Double;
+using MathNet.Numerics.LinearAlgebra.Double.Solvers;
+using MathNet.Numerics.LinearAlgebra.Double.Solvers.Iterative;
+using MathNet.Numerics.LinearAlgebra.Double.Solvers.StopCriterium;
+using MathNet.Numerics.LinearAlgebra.Solvers.Status;
+using NUnit.Framework;
+using System;
+
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.Iterative
 {
-    using System;
-    using LinearAlgebra.Double;
-    using LinearAlgebra.Double.Solvers;
-    using LinearAlgebra.Double.Solvers.Iterative;
-    using LinearAlgebra.Double.Solvers.StopCriterium;
-    using LinearAlgebra.Generic.Solvers.Status;
-    using NUnit.Framework;
-
     /// <summary>
     /// Tests of Transpose Free Quasi-Minimal Residual iterative matrix solver.
     /// </summary>

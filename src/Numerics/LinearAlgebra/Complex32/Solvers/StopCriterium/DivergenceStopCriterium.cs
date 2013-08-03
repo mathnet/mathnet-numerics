@@ -28,13 +28,13 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using MathNet.Numerics.LinearAlgebra.Solvers.Status;
+using MathNet.Numerics.LinearAlgebra.Solvers.StopCriterium;
+using System;
+using System.Diagnostics;
+
 namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.StopCriterium
 {
-    using System;
-    using System.Diagnostics;
-    using Generic.Solvers.Status;
-    using Generic.Solvers.StopCriterium;
-
     /// <summary>
     /// Monitors an iterative calculation for signs of divergence.
     /// </summary>
@@ -250,7 +250,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.StopCriterium
 
             // Store the infinity norms of both the solution and residual vectors
             // These values will be used to calculate the relative drop in residuals later on.
-            _residualHistory[_residualHistory.Length - 1] = residualVector.Norm(Double.PositiveInfinity).Real;
+            _residualHistory[_residualHistory.Length - 1] = residualVector.Norm(double.PositiveInfinity).Real;
 
             // Check if we have NaN's. If so we've gone way beyond normal divergence.
             // Stop the iteration.
@@ -359,7 +359,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.StopCriterium
         /// Gets the <see cref="StopLevel"/> which indicates what sort of stop criterium this
         /// <see cref="IIterationStopCriterium"/> monitors.
         /// </summary>
-        /// <value>Returns <see cref="Generic.Solvers.StopCriterium.StopLevel.Divergence"/>.</value>
+        /// <value>Returns <see cref="LinearAlgebra.Solvers.StopCriterium.StopLevel.Divergence"/>.</value>
         public StopLevel StopLevel
         {
             [DebuggerStepThrough]

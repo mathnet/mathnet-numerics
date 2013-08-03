@@ -28,12 +28,13 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using MathNet.Numerics.LinearAlgebra;
+using MathNet.Numerics.LinearAlgebra.Complex;
+using NUnit.Framework;
+
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
 {
     using System.Numerics;
-    using LinearAlgebra.Complex;
-    using LinearAlgebra.Generic;
-    using NUnit.Framework;
 
     [TestFixture]
     public class SparseVectorArithmeticTheory : VectorArithmeticTheory

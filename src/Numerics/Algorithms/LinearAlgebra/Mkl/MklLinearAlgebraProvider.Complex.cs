@@ -30,7 +30,7 @@
 
 #if NATIVEMKL
 
-using MathNet.Numerics.LinearAlgebra.Generic.Factorization;
+using MathNet.Numerics.LinearAlgebra.Factorization;
 
 namespace MathNet.Numerics.Algorithms.LinearAlgebra.Mkl
 {

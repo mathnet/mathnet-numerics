@@ -28,14 +28,14 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using MathNet.Numerics.LinearAlgebra.Storage;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+
 namespace MathNet.Numerics.LinearAlgebra.Complex32
 {
-    using Generic;
     using Numerics;
-    using Storage;
-    using System;
-    using System.Collections.Generic;
-    using System.Diagnostics;
 
     /// <summary>
     /// A Matrix with sparse storage, intended for very large matrices where most of the cells are zero.

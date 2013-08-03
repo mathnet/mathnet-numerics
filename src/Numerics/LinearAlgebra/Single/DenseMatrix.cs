@@ -28,18 +28,17 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using MathNet.Numerics.Algorithms.LinearAlgebra;
+using MathNet.Numerics.Distributions;
+using MathNet.Numerics.LinearAlgebra.Storage;
+using MathNet.Numerics.Properties;
+using MathNet.Numerics.Threading;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+
 namespace MathNet.Numerics.LinearAlgebra.Single
 {
-    using Algorithms.LinearAlgebra;
-    using Distributions;
-    using Generic;
-    using Properties;
-    using Storage;
-    using System;
-    using System.Collections.Generic;
-    using System.Diagnostics;
-    using Threading;
-
     /// <summary>
     /// A Matrix class with dense storage. The underlying storage is a one dimensional array in column-major order (column by column).
     /// </summary>

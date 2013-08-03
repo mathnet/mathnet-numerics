@@ -28,17 +28,16 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using MathNet.Numerics.LinearAlgebra.Storage;
+using MathNet.Numerics.Threading;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Globalization;
+using System.Linq;
+
 namespace MathNet.Numerics.LinearAlgebra.Single
 {
-    using Generic;
-    using Storage;
-    using System;
-    using System.Collections.Generic;
-    using System.Diagnostics;
-    using System.Globalization;
-    using System.Linq;
-    using Threading;
-
     /// <summary>
     /// A vector with sparse storage, intended for very large vectors where most of the cells are zero.
     /// </summary>
@@ -878,7 +877,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
                 return _storage.Values.Aggregate(0f, SpecialFunctions.Hypotenuse);
             }
 
-            if (Double.IsPositiveInfinity(p))
+            if (double.IsPositiveInfinity(p))
             {
                 return CommonParallel.Aggregate(0, _storage.ValueCount, i => Math.Abs(_storage.Values[i]), Math.Max, 0f);
             }
@@ -958,7 +957,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
 
             // parsing
             var tokens = value.Split(new[] { formatProvider.GetTextInfo().ListSeparator, " ", "\t" }, StringSplitOptions.RemoveEmptyEntries);
-            var data = tokens.Select(t => Single.Parse(t, NumberStyles.Any, formatProvider)).ToList();
+            var data = tokens.Select(t => float.Parse(t, NumberStyles.Any, formatProvider)).ToList();
             if (data.Count == 0) throw new FormatException();
             return OfEnumerable(data);
         }

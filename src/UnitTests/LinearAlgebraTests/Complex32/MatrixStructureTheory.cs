@@ -28,15 +28,16 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using MathNet.Numerics.Distributions;
+using MathNet.Numerics.LinearAlgebra;
+using MathNet.Numerics.LinearAlgebra.Complex32;
+using MathNet.Numerics.Random;
+using NUnit.Framework;
+using System.Linq;
+
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
 {
-    using Distributions;
-    using LinearAlgebra.Complex32;
-    using LinearAlgebra.Generic;
-    using Numerics.Random;
-    using NUnit.Framework;
-    using System.Linq;
-    using Complex32 = Numerics.Complex32;
+    using Numerics;
 
     [TestFixture]
     public class MatrixStructureTheory : MatrixStructureTheory<Complex32>

@@ -28,12 +28,12 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using MathNet.Numerics.LinearAlgebra.Double.Solvers.StopCriterium;
+using MathNet.Numerics.LinearAlgebra.Solvers.Status;
+using System;
+
 namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
 {
-    using System;
-    using Generic.Solvers.Status;
-    using StopCriterium;
-
     /// <summary>
     /// Defines the base interface for iterators that help control an iterative calculation.
     /// </summary>

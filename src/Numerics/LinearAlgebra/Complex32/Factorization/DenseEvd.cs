@@ -28,13 +28,11 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using MathNet.Numerics.Properties;
+using System;
 
 namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
 {
-    using System;
-    using Generic;
-    using Properties;
-
     /// <summary>
     /// Eigenvalues and eigenvectors of a complex matrix.
     /// </summary>

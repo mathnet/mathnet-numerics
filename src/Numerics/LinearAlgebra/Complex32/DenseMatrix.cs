@@ -28,19 +28,18 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using MathNet.Numerics.Algorithms.LinearAlgebra;
+using MathNet.Numerics.Distributions;
+using MathNet.Numerics.LinearAlgebra.Storage;
+using MathNet.Numerics.Properties;
 using MathNet.Numerics.Threading;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace MathNet.Numerics.LinearAlgebra.Complex32
 {
-    using Algorithms.LinearAlgebra;
-    using Distributions;
-    using Generic;
     using Numerics;
-    using Properties;
-    using Storage;
-    using System;
-    using System.Collections.Generic;
-    using System.Diagnostics;
 
     /// <summary>
     /// A Matrix class with dense storage. The underlying storage is a one dimensional array in column-major order (column by column).

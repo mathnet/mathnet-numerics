@@ -29,7 +29,6 @@
 // </copyright>
 
 using MathNet.Numerics.Distributions;
-using MathNet.Numerics.LinearAlgebra.Generic;
 using MathNet.Numerics.LinearAlgebra.Storage;
 using MathNet.Numerics.Properties;
 using MathNet.Numerics.Threading;

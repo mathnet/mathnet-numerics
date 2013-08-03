@@ -28,15 +28,15 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using MathNet.Numerics.LinearAlgebra.Single.Solvers.StopCriterium;
+using MathNet.Numerics.LinearAlgebra.Solvers.Status;
+using MathNet.Numerics.Properties;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
 namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using Generic.Solvers.Status;
-    using Properties;
-    using StopCriterium;
-
     /// <summary>
     /// An iterator that is used to check if an iterative calculation should continue or stop.
     /// </summary>

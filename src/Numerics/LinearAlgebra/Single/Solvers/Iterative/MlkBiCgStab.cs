@@ -28,16 +28,16 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using MathNet.Numerics.Distributions;
+using MathNet.Numerics.LinearAlgebra.Single.Solvers.Preconditioners;
+using MathNet.Numerics.LinearAlgebra.Solvers.Status;
+using MathNet.Numerics.Properties;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+
 namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Iterative
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Diagnostics;
-    using Distributions;
-    using Generic.Solvers.Status;
-    using Preconditioners;
-    using Properties;
-
     /// <summary>
     /// A Multiple-Lanczos Bi-Conjugate Gradient stabilized iterative matrix solver.
     /// </summary>

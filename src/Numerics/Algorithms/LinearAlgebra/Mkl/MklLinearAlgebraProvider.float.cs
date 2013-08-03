@@ -28,6 +28,8 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using MathNet.Numerics.LinearAlgebra.Factorization;
+
 #if NATIVEMKL
 
 namespace MathNet.Numerics.Algorithms.LinearAlgebra.Mkl
@@ -35,7 +37,6 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.Mkl
     using System;
     using System.Numerics;
     using System.Security;
-    using Numerics.LinearAlgebra.Generic.Factorization;
     using Properties;
 
     /// <summary>

@@ -28,20 +28,20 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using MathNet.Numerics.LinearAlgebra.Storage;
+using MathNet.Numerics.Threading;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+
 namespace MathNet.Numerics.LinearAlgebra.Complex
 {
-    using Generic;
-    using Storage;
-    using System;
-    using System.Collections.Generic;
-    using System.Diagnostics;
-    using System.Linq;
-    using Threading;
 
 #if NOSYSNUMERICS
-    using Complex = Numerics.Complex;
+    using Numerics;
 #else
-    using Complex = System.Numerics.Complex;
+    using System.Numerics;
 #endif
 
     /// <summary>
@@ -846,7 +846,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
                 return _storage.Values.Aggregate(Complex.Zero, SpecialFunctions.Hypotenuse).Magnitude;
             }
 
-            if (Double.IsPositiveInfinity(p))
+            if (double.IsPositiveInfinity(p))
             {
                 return CommonParallel.Aggregate(0, _storage.ValueCount, i => _storage.Values[i].Magnitude, Math.Max, 0d);
             }

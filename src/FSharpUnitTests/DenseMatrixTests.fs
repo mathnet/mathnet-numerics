@@ -2,7 +2,7 @@
 
 open NUnit.Framework
 open FsUnit
-open MathNet.Numerics.LinearAlgebra.Generic
+open MathNet.Numerics.LinearAlgebra
 open MathNet.Numerics.LinearAlgebra.Double
 open MathNet.Numerics.Distributions
 open MathNet.Numerics.Statistics

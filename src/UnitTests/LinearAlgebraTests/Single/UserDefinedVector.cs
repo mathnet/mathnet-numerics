@@ -24,12 +24,12 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using MathNet.Numerics.LinearAlgebra;
+using MathNet.Numerics.LinearAlgebra.Single;
+using MathNet.Numerics.LinearAlgebra.Storage;
+
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
 {
-    using LinearAlgebra.Generic;
-    using LinearAlgebra.Single;
-    using LinearAlgebra.Storage;
-
     /// <summary>
     /// User-defined vector implementation (internal class for testing purposes)
     /// </summary>

@@ -28,18 +28,18 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using MathNet.Numerics.LinearAlgebra.Storage;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+
 namespace MathNet.Numerics.LinearAlgebra.Complex
 {
-    using Generic;
-    using Storage;
-    using System;
-    using System.Collections.Generic;
-    using System.Diagnostics;
 
 #if NOSYSNUMERICS
-    using Complex = Numerics.Complex;
+    using Numerics;
 #else
-    using Complex = System.Numerics.Complex;
+    using System.Numerics;
 #endif
 
     /// <summary>

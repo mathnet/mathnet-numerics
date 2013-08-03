@@ -28,17 +28,18 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using MathNet.Numerics.Algorithms.LinearAlgebra;
+using MathNet.Numerics.Distributions;
+using MathNet.Numerics.LinearAlgebra;
+using MathNet.Numerics.LinearAlgebra.Complex32;
+using MathNet.Numerics.LinearAlgebra.Factorization;
+using NUnit.Framework;
+using System;
+using System.Collections.Generic;
+
 namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Complex32
 {
-    using Algorithms.LinearAlgebra;
-    using Distributions;
-    using LinearAlgebra.Complex32;
-    using LinearAlgebra.Generic;
-    using LinearAlgebra.Generic.Factorization;
     using Numerics;
-    using NUnit.Framework;
-    using System;
-    using System.Collections.Generic;
 
     /// <summary>
     /// Base class for linear algebra provider tests.

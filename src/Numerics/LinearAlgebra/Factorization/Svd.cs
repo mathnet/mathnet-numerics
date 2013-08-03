@@ -28,17 +28,15 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-namespace MathNet.Numerics.LinearAlgebra.Generic.Factorization
-{
-    using System;
-    using Generic;
-    using Numerics;
-    using Properties;
+using MathNet.Numerics.Properties;
+using System;
 
-#if NOSYSNUMERICS
-    using Complex = Numerics.Complex;
-#else
-    using Complex = System.Numerics.Complex;
+namespace MathNet.Numerics.LinearAlgebra.Factorization
+{
+    using Numerics;
+
+#if !NOSYSNUMERICS
+    using System.Numerics;
 #endif
 
     /// <summary>
@@ -114,24 +112,24 @@ namespace MathNet.Numerics.LinearAlgebra.Generic.Factorization
         {
             if (typeof(T) == typeof(double))
             {
-                var dense = matrix as LinearAlgebra.Double.DenseMatrix;
+                var dense = matrix as Double.DenseMatrix;
                 if (dense != null)
                 {
-                    return new LinearAlgebra.Double.Factorization.DenseSvd(dense, computeVectors) as Svd<T>;
+                    return new Double.Factorization.DenseSvd(dense, computeVectors) as Svd<T>;
                 }
 
-                return new LinearAlgebra.Double.Factorization.UserSvd(matrix as Matrix<double>, computeVectors) as Svd<T>;
+                return new Double.Factorization.UserSvd(matrix as Matrix<double>, computeVectors) as Svd<T>;
             }
 
             if (typeof(T) == typeof(float))
             {
-                var dense = matrix as LinearAlgebra.Single.DenseMatrix;
+                var dense = matrix as Single.DenseMatrix;
                 if (dense != null)
                 {
-                    return new LinearAlgebra.Single.Factorization.DenseSvd(dense, computeVectors) as Svd<T>;
+                    return new Single.Factorization.DenseSvd(dense, computeVectors) as Svd<T>;
                 }
 
-                return new LinearAlgebra.Single.Factorization.UserSvd(matrix as Matrix<float>, computeVectors) as Svd<T>;
+                return new Single.Factorization.UserSvd(matrix as Matrix<float>, computeVectors) as Svd<T>;
             }
 
             if (typeof(T) == typeof(Complex))

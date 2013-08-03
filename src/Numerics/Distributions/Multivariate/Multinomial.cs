@@ -26,13 +26,13 @@
 
 namespace MathNet.Numerics.Distributions
 {
+    using LinearAlgebra;
+    using LinearAlgebra.Double;
+    using Properties;
+    using Statistics;
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using LinearAlgebra.Double;
-    using LinearAlgebra.Generic;
-    using Properties;
-    using Statistics;
 
     /// <summary>
     /// Implements the multinomial distribution. For details about this distribution, see 

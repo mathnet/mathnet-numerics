@@ -24,11 +24,11 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using MathNet.Numerics.LinearAlgebra.Solvers.Status;
+using MathNet.Numerics.LinearAlgebra.Solvers.StopCriterium;
+
 namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.StopCriterium
 {
-    using Generic.Solvers.Status;
-    using Generic.Solvers.StopCriterium;
-
     /// <summary>
     /// The base interface for classes that provide stop criteria for iterative calculations. 
     /// </summary>

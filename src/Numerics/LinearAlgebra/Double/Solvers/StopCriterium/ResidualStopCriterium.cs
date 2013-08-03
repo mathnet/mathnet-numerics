@@ -28,14 +28,14 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using MathNet.Numerics.LinearAlgebra.Solvers.Status;
+using MathNet.Numerics.LinearAlgebra.Solvers.StopCriterium;
+using MathNet.Numerics.Properties;
+using System;
+using System.Diagnostics;
+
 namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.StopCriterium
 {
-    using System;
-    using System.Diagnostics;
-    using Generic.Solvers.Status;
-    using Generic.Solvers.StopCriterium;
-    using Properties;
-
     /// <summary>
     /// Defines an <see cref="IIterationStopCriterium"/> that monitors residuals as stop criterium.
     /// </summary>
@@ -257,11 +257,11 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.StopCriterium
             // Store the infinity norms of both the solution and residual vectors
             // These values will be used to calculate the relative drop in residuals
             // later on.
-            var residualNorm = residualVector.Norm(Double.PositiveInfinity);
+            var residualNorm = residualVector.Norm(double.PositiveInfinity);
             
             // Check the residuals by calculating:
             // ||r_i|| <= stop_tol * ||b||
-            var stopCriterium = ComputeStopCriterium(sourceVector.Norm(Double.PositiveInfinity));
+            var stopCriterium = ComputeStopCriterium(sourceVector.Norm(double.PositiveInfinity));
 
             // First check that we have real numbers not NaN's.
             // NaN's can occur when the iterative process diverges so we

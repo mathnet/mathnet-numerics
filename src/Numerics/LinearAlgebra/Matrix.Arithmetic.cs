@@ -29,10 +29,10 @@
 // </copyright>
 
 using System;
-using MathNet.Numerics.LinearAlgebra.Generic.Factorization;
+using MathNet.Numerics.LinearAlgebra.Factorization;
 using MathNet.Numerics.Properties;
 
-namespace MathNet.Numerics.LinearAlgebra.Generic
+namespace MathNet.Numerics.LinearAlgebra
 {
     /// <summary>
     /// Defines the base class for <c>Matrix</c> classes.
@@ -1075,7 +1075,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <returns>The kronecker product of the two matrices.</returns>
         public virtual Matrix<T> KroneckerProduct(Matrix<T> other)
         {
-            var result = CreateMatrix(RowCount * other.RowCount, ColumnCount * other.ColumnCount);
+            var result = CreateMatrix(RowCount*other.RowCount, ColumnCount*other.ColumnCount);
             KroneckerProduct(other, result);
             return result;
         }
@@ -1089,7 +1089,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <exception cref="ArgumentException">If the result matrix's dimensions are not (this.Rows * lower.rows) x (this.Columns * lower.Columns).</exception>
         public virtual void KroneckerProduct(Matrix<T> other, Matrix<T> result)
         {
-            if (result.RowCount != (RowCount * other.RowCount) || result.ColumnCount != (ColumnCount * other.ColumnCount))
+            if (result.RowCount != (RowCount*other.RowCount) || result.ColumnCount != (ColumnCount*other.ColumnCount))
             {
                 throw DimensionsDontMatch<ArgumentOutOfRangeException>(this, other, result);
             }
@@ -1098,7 +1098,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
             {
                 for (var i = 0; i < RowCount; i++)
                 {
-                    result.SetSubMatrix(i * other.RowCount, other.RowCount, j * other.ColumnCount, other.ColumnCount, At(i, j) * other);
+                    result.SetSubMatrix(i*other.RowCount, other.RowCount, j*other.ColumnCount, other.ColumnCount, At(i, j)*other);
                 }
             }
         }
@@ -1196,14 +1196,14 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
             return DimensionsDontMatch<TException>(left.ToColumnMatrix(), right.ToColumnMatrix(), paramName);
         }
 
-        private static Exception CreateException<TException>(string message, string paramName = null)
+        static Exception CreateException<TException>(string message, string paramName = null)
             where TException : Exception
         {
-            if (typeof(TException) == typeof(ArgumentException))
+            if (typeof (TException) == typeof (ArgumentException))
             {
                 return new ArgumentException(message, paramName);
             }
-            if (typeof(TException) == typeof(ArgumentOutOfRangeException))
+            if (typeof (TException) == typeof (ArgumentOutOfRangeException))
             {
                 return new ArgumentOutOfRangeException(paramName, message);
             }

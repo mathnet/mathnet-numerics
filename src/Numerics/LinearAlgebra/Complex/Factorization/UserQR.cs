@@ -28,20 +28,19 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using MathNet.Numerics.LinearAlgebra.Generic.Factorization;
+using MathNet.Numerics.LinearAlgebra.Factorization;
+using MathNet.Numerics.Properties;
+using MathNet.Numerics.Threading;
+using System;
+using System.Linq;
 
 namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
 {
-    using System;
-    using System.Linq;
-    using Generic;
-    using Properties;
-    using Threading;
 
 #if NOSYSNUMERICS
-    using Complex = Numerics.Complex;
+    using Numerics;
 #else
-    using Complex = System.Numerics.Complex;
+    using System.Numerics;
 #endif
 
     /// <summary>

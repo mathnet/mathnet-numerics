@@ -24,11 +24,12 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using MathNet.Numerics.LinearAlgebra;
+using NUnit.Framework;
+using System;
+
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
 {
-    using System;
-    using LinearAlgebra.Generic;
-    using NUnit.Framework;
     using Complex32 = Numerics.Complex32;
 
     /// <summary>

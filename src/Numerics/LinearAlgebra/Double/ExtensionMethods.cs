@@ -24,12 +24,11 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using MathNet.Numerics.LinearAlgebra.Double.Factorization;
+using MathNet.Numerics.LinearAlgebra.Factorization;
+
 namespace MathNet.Numerics.LinearAlgebra.Double
 {
-    using Factorization;
-    using Generic;
-    using Generic.Factorization;
-
     /// <summary>
     /// Extension methods which return factorizations for the various matrix classes.
     /// </summary>

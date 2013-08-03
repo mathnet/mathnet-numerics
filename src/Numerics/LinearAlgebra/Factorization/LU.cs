@@ -24,16 +24,14 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-namespace MathNet.Numerics.LinearAlgebra.Generic.Factorization
+using System;
+
+namespace MathNet.Numerics.LinearAlgebra.Factorization
 {
-    using System;
-    using Generic;
     using Numerics;
 
-#if NOSYSNUMERICS
-    using Complex = Numerics.Complex;
-#else
-    using Complex = System.Numerics.Complex;
+#if !NOSYSNUMERICS
+    using System.Numerics;
 #endif
 
     /// <summary>
@@ -82,24 +80,24 @@ namespace MathNet.Numerics.LinearAlgebra.Generic.Factorization
         {
             if (typeof(T) == typeof(double))
             {
-                var dense = matrix as LinearAlgebra.Double.DenseMatrix;
+                var dense = matrix as Double.DenseMatrix;
                 if (dense != null)
                 {
-                    return new LinearAlgebra.Double.Factorization.DenseLU(dense) as LU<T>;
+                    return new Double.Factorization.DenseLU(dense) as LU<T>;
                 }
 
-                return new LinearAlgebra.Double.Factorization.UserLU(matrix as Matrix<double>) as LU<T>;
+                return new Double.Factorization.UserLU(matrix as Matrix<double>) as LU<T>;
             }
 
             if (typeof(T) == typeof(float))
             {
-                var dense = matrix as LinearAlgebra.Single.DenseMatrix;
+                var dense = matrix as Single.DenseMatrix;
                 if (dense != null)
                 {
-                    return new LinearAlgebra.Single.Factorization.DenseLU(dense) as LU<T>;
+                    return new Single.Factorization.DenseLU(dense) as LU<T>;
                 }
 
-                return new LinearAlgebra.Single.Factorization.UserLU(matrix as Matrix<float>) as LU<T>;
+                return new Single.Factorization.UserLU(matrix as Matrix<float>) as LU<T>;
             }
 
             if (typeof(T) == typeof(Complex))

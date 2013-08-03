@@ -28,16 +28,16 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using MathNet.Numerics.LinearAlgebra.Complex;
+using MathNet.Numerics.LinearAlgebra.Complex.Solvers;
+using MathNet.Numerics.LinearAlgebra.Complex.Solvers.Iterative;
+using MathNet.Numerics.LinearAlgebra.Complex.Solvers.StopCriterium;
+using MathNet.Numerics.LinearAlgebra.Solvers.Status;
+using NUnit.Framework;
+using System;
+
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.Iterative
 {
-    using System;
-    using LinearAlgebra.Complex;
-    using LinearAlgebra.Complex.Solvers;
-    using LinearAlgebra.Complex.Solvers.Iterative;
-    using LinearAlgebra.Complex.Solvers.StopCriterium;
-    using LinearAlgebra.Generic.Solvers.Status;
-    using NUnit.Framework;
-
     /// <summary>
     /// Tests for Generalized Product Bi-Conjugate Gradient iterative matrix solver.
     /// </summary>

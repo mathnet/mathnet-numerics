@@ -28,16 +28,16 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using MathNet.Numerics.LinearAlgebra.Solvers.Status;
+using MathNet.Numerics.Properties;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+
 namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.Iterative
 {
-    using System;
-    using System.Collections.Generic;
-    using System.IO;
-    using System.Linq;
-    using System.Reflection;
-    using Generic.Solvers.Status;
-    using Properties;
-
     /// <summary>
     /// A composite matrix solver. The actual solver is made by a sequence of
     /// matrix solvers. 

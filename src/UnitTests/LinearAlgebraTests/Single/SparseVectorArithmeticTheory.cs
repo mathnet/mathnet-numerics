@@ -28,12 +28,12 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using MathNet.Numerics.LinearAlgebra;
+using MathNet.Numerics.LinearAlgebra.Single;
+using NUnit.Framework;
+
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
 {
-    using LinearAlgebra.Generic;
-    using LinearAlgebra.Single;
-    using NUnit.Framework;
-
     [TestFixture]
     public class SparseVectorArithmeticTheory : VectorArithmeticTheory
     {

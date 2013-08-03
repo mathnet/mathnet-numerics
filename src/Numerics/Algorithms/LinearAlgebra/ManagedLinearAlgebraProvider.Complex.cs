@@ -24,14 +24,14 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using MathNet.Numerics.LinearAlgebra.Factorization;
+
 namespace MathNet.Numerics.Algorithms.LinearAlgebra
 {
     using System;
     using Properties;
     using Threading;
     using Numerics.LinearAlgebra.Complex.Factorization;
-    using Numerics.LinearAlgebra.Generic.Factorization;
-
 #if NOSYSNUMERICS
     using Complex = Numerics.Complex;
 #else

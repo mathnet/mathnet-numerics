@@ -28,10 +28,10 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using MathNet.Numerics.LinearAlgebra.Solvers.Status;
+
 namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers
 {
-    using Generic.Solvers.Status;
-
     /// <summary>
     /// Defines the interface for <see cref="IIterativeSolver"/> classes that solve the matrix equation Ax = b in
     /// an iterative manner.

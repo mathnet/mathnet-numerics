@@ -26,11 +26,11 @@
 
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
 {
-    using System;
     using Distributions;
-    using LinearAlgebra.Generic;
+    using LinearAlgebra;
     using LinearAlgebra.Single;
     using NUnit.Framework;
+    using System;
 
     /// <summary>
     /// Abstract class with the common set of matrix tests

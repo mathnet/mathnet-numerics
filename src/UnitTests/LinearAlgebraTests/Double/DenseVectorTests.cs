@@ -28,14 +28,14 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using MathNet.Numerics.LinearAlgebra;
+using MathNet.Numerics.LinearAlgebra.Double;
+using NUnit.Framework;
+using System;
+using System.Collections.Generic;
+
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
 {
-    using System;
-    using System.Collections.Generic;
-    using LinearAlgebra.Double;
-    using LinearAlgebra.Generic;
-    using NUnit.Framework;
-
     /// <summary>
     /// Dense vector tests.
     /// </summary>

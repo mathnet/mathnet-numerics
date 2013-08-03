@@ -24,14 +24,14 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using MathNet.Numerics.LinearAlgebra.Factorization;
+using MathNet.Numerics.LinearAlgebra.Single;
+using MathNet.Numerics.LinearAlgebra.Single.Factorization;
+using NUnit.Framework;
+using System;
+
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Factorization
 {
-    using System;
-    using LinearAlgebra.Generic.Factorization;
-    using LinearAlgebra.Single;
-    using LinearAlgebra.Single.Factorization;
-    using NUnit.Framework;
-
     /// <summary>
     /// QR factorization tests for a dense matrix.
     /// </summary>

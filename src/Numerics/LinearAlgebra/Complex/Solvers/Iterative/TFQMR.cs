@@ -28,12 +28,13 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using MathNet.Numerics.LinearAlgebra.Complex.Solvers.Preconditioners;
+using MathNet.Numerics.LinearAlgebra.Solvers.Status;
+using MathNet.Numerics.Properties;
+using System;
+
 namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Iterative
 {
-    using System;
-    using Generic.Solvers.Status;
-    using Preconditioners;
-    using Properties;
 
 #if NOSYSNUMERICS
     using Complex = Numerics.Complex;

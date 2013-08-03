@@ -24,12 +24,13 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using MathNet.Numerics.LinearAlgebra;
+using MathNet.Numerics.LinearAlgebra.Factorization;
+using MathNet.Numerics.Properties;
+
 namespace MathNet.Numerics.Distributions
 {
     using System;
-    using LinearAlgebra.Generic;
-    using LinearAlgebra.Generic.Factorization;
-    using Properties;
 
     /// <summary>
     /// This class implements functionality for the inverse Wishart distribution. This distribution is

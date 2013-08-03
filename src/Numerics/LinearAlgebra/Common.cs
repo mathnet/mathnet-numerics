@@ -28,7 +28,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-
 namespace MathNet.Numerics.LinearAlgebra
 {
     using System;
@@ -37,6 +36,7 @@ namespace MathNet.Numerics.LinearAlgebra
     using Complex64 = Numerics.Complex;
 #else
     using Complex64 = System.Numerics.Complex;
+
 #endif
 
     /// <summary>
@@ -51,24 +51,24 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <returns>The value of <c>1.0</c> for type T.</returns>
         public static T OneOf<T>()
         {
-            if (typeof(T) == typeof(Complex64))
+            if (typeof (T) == typeof (Complex64))
             {
-                return (T)(object)Complex64.One;
+                return (T) (object) Complex64.One;
             }
 
-            if (typeof(T) == typeof(Numerics.Complex32))
+            if (typeof (T) == typeof (Numerics.Complex32))
             {
-                return (T)(object)Numerics.Complex32.One;
+                return (T) (object) Numerics.Complex32.One;
             }
 
-            if (typeof(T) == typeof(double))
+            if (typeof (T) == typeof (double))
             {
-                return (T)(object)1.0d;
+                return (T) (object) 1.0d;
             }
 
-            if (typeof(T) == typeof(float))
+            if (typeof (T) == typeof (float))
             {
-                return (T)(object)1.0f;
+                return (T) (object) 1.0f;
             }
 
             throw new NotSupportedException();
@@ -81,24 +81,24 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <returns>The value of <c>0.0</c> for type T.</returns>
         public static T ZeroOf<T>()
         {
-            if (typeof(T) == typeof(Complex64))
+            if (typeof (T) == typeof (Complex64))
             {
-                return (T)(object)Complex64.Zero;
+                return (T) (object) Complex64.Zero;
             }
 
-            if (typeof(T) == typeof(Numerics.Complex32))
+            if (typeof (T) == typeof (Numerics.Complex32))
             {
-                return (T)(object)Numerics.Complex32.Zero;
+                return (T) (object) Numerics.Complex32.Zero;
             }
 
-            if (typeof(T) == typeof(double))
+            if (typeof (T) == typeof (double))
             {
-                return (T)(object)0.0d;
+                return (T) (object) 0.0d;
             }
 
-            if (typeof(T) == typeof(float))
+            if (typeof (T) == typeof (float))
             {
-                return (T)(object)0.0f;
+                return (T) (object) 0.0f;
             }
 
             return default(T);

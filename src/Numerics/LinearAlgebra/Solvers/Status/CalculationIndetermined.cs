@@ -1,4 +1,4 @@
-// <copyright file="CalculationFailure.cs" company="Math.NET">
+// <copyright file="CalculationIndetermined.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -28,12 +28,12 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-namespace MathNet.Numerics.LinearAlgebra.Generic.Solvers.Status
+namespace MathNet.Numerics.LinearAlgebra.Solvers.Status
 {
     /// <summary>
-    /// Indicates that a calculation has failed for some reason.
+    /// Indicates that the state of the calculation is indetermined, not started or stopped.
     /// </summary>
-    public struct CalculationFailure : ICalculationStatus
+    public struct CalculationIndetermined : ICalculationStatus
     {
         /// <summary>
         /// Gets a value indicating whether current status warrants stopping the calculation.
@@ -42,10 +42,8 @@ namespace MathNet.Numerics.LinearAlgebra.Generic.Solvers.Status
         {
             get
             {
-                return true;
+                return false;
             }
         }
-
-        // TODO: CalcuationFailure - Indicate why the calculation has failed?
     }
 }

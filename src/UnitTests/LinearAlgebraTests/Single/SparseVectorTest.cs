@@ -30,13 +30,12 @@
 
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
 {
-    using System;
-    using System.Collections.Generic;
-    using LinearAlgebra.Generic;
+    using LinearAlgebra;
     using LinearAlgebra.Single;
     using LinearAlgebra.Storage;
     using NUnit.Framework;
-    using Complex32 = Numerics.Complex32;
+    using System;
+    using System.Collections.Generic;
 
     /// <summary>
     /// Sparse vector tests.

@@ -28,13 +28,12 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System;
+using MathNet.Numerics.LinearAlgebra.Storage;
+using MathNet.Numerics.Threading;
+
 namespace MathNet.Numerics.LinearAlgebra.Double
 {
-    using System;
-    using Generic;
-    using Storage;
-    using Threading;
-
     /// <summary>
     /// <c>double</c> version of the <see cref="Vector{T}"/> class.
     /// </summary>
@@ -352,7 +351,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentOutOfRangeException("p");
             }
 
-            if (Double.IsPositiveInfinity(p))
+            if (double.IsPositiveInfinity(p))
             {
                 return CommonParallel.Aggregate(0, Count, i => Math.Abs(At(i)), Math.Max, 0d);
             }

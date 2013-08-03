@@ -24,9 +24,10 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using MathNet.Numerics.LinearAlgebra.Factorization;
+
 namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
 {
-    using Generic.Factorization;
     using Numerics;
 
     /// <summary>

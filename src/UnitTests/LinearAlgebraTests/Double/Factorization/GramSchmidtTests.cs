@@ -24,14 +24,13 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using MathNet.Numerics.LinearAlgebra.Double;
+using MathNet.Numerics.LinearAlgebra.Double.Factorization;
+using NUnit.Framework;
+using System;
+
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
 {
-    using System;
-    using LinearAlgebra.Double;
-    using LinearAlgebra.Double.Factorization;
-    using LinearAlgebra.Generic.Factorization;
-    using NUnit.Framework;
-
     /// <summary>
     /// GramSchmidt factorization tests for a dense matrix.
     /// </summary>

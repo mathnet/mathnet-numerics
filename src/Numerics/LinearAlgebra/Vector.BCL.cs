@@ -36,7 +36,7 @@ using System.Text;
 using MathNet.Numerics.LinearAlgebra.Storage;
 using MathNet.Numerics.Properties;
 
-namespace MathNet.Numerics.LinearAlgebra.Generic
+namespace MathNet.Numerics.LinearAlgebra
 {
     [DebuggerDisplay("Vector {Count}")]
     public abstract partial class Vector<T>
@@ -161,7 +161,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         object IList.this[int index]
         {
             get { return Storage[index]; }
-            set { Storage[index] = (T)value; }
+            set { Storage[index] = (T) value; }
         }
 
         int IList.IndexOf(object value)
@@ -171,7 +171,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
                 return -1;
             }
 
-            return ((IList<T>)this).IndexOf((T)value);
+            return ((IList<T>) this).IndexOf((T) value);
         }
 
         bool IList.Contains(object value)
@@ -181,7 +181,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
                 return false;
             }
 
-            return ((ICollection<T>)this).Contains((T)value);
+            return ((ICollection<T>) this).Contains((T) value);
         }
 
         void IList.Insert(int index, object value)
@@ -225,7 +225,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
                 throw new ArgumentException(Resources.ArgumentSingleDimensionArray, "array");
             }
 
-            Storage.CopySubVectorTo(new DenseVectorStorage<T>(array.Length, (T[])array), 0, index, Count);
+            Storage.CopySubVectorTo(new DenseVectorStorage<T>(array.Length, (T[]) array), 0, index, Count);
         }
 
         /// <summary>
@@ -244,7 +244,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// </summary>
         public virtual string ToTypeString()
         {
-            return string.Format("{0} {1}-{2}", GetType().Name, Count, typeof(T).Name);
+            return string.Format("{0} {1}-{2}", GetType().Name, Count, typeof (T).Name);
         }
 
         /// <summary>

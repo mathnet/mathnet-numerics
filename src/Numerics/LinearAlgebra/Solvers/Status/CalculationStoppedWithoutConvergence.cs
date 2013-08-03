@@ -1,4 +1,4 @@
-// <copyright file="CalculationIndetermined.cs" company="Math.NET">
+// <copyright file="CalculationStoppedWithoutConvergence.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -28,12 +28,13 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-namespace MathNet.Numerics.LinearAlgebra.Generic.Solvers.Status
+namespace MathNet.Numerics.LinearAlgebra.Solvers.Status
 {
     /// <summary>
-    /// Indicates that the state of the calculation is indetermined, not started or stopped.
+    /// Indicates that the calculation has been stopped due to reaching the stopping
+    /// limits, but that convergence was not achieved.
     /// </summary>
-    public struct CalculationIndetermined : ICalculationStatus
+    public struct CalculationStoppedWithoutConvergence : ICalculationStatus
     {
         /// <summary>
         /// Gets a value indicating whether current status warrants stopping the calculation.
@@ -42,8 +43,10 @@ namespace MathNet.Numerics.LinearAlgebra.Generic.Solvers.Status
         {
             get
             {
-                return false;
+                return true;
             }
         }
+
+        // TODO: Indicate which stopping limit was reached?
     }
 }

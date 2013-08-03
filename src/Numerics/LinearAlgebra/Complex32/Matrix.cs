@@ -28,13 +28,13 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using MathNet.Numerics.LinearAlgebra.Storage;
+using MathNet.Numerics.Properties;
+using System;
+
 namespace MathNet.Numerics.LinearAlgebra.Complex32
 {
-    using System;
-    using Generic;
     using Numerics;
-    using Properties;
-    using Storage;
 
     /// <summary>
     /// <c>Complex32</c> version of the <see cref="Matrix{T}"/> class.

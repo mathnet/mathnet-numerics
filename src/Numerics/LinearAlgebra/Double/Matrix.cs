@@ -28,13 +28,12 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System;
+using MathNet.Numerics.LinearAlgebra.Storage;
+using MathNet.Numerics.Properties;
+
 namespace MathNet.Numerics.LinearAlgebra.Double
 {
-    using Generic;
-    using Properties;
-    using Storage;
-    using System;
-
     /// <summary>
     /// <c>double</c> version of the <see cref="Matrix{T}"/> class.
     /// </summary>

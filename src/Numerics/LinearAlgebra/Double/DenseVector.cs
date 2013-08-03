@@ -28,19 +28,18 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using MathNet.Numerics.Distributions;
+using MathNet.Numerics.LinearAlgebra.Storage;
+using MathNet.Numerics.Properties;
+using MathNet.Numerics.Threading;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Globalization;
+using System.Linq;
+
 namespace MathNet.Numerics.LinearAlgebra.Double
 {
-    using Distributions;
-    using Generic;
-    using Properties;
-    using Storage;
-    using System;
-    using System.Collections.Generic;
-    using System.Diagnostics;
-    using System.Globalization;
-    using System.Linq;
-    using Threading;
-
     /// <summary>
     /// A vector using dense storage.
     /// </summary>
@@ -770,7 +769,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 return _values.Aggregate(0.0, SpecialFunctions.Hypotenuse);
             }
 
-            if (Double.IsPositiveInfinity(p))
+            if (double.IsPositiveInfinity(p))
             {
                 return CommonParallel.Aggregate(_values, (i, v) => Math.Abs(v), Math.Max, 0d);
             }
@@ -852,7 +851,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
             // parsing
             var tokens = value.Split(new[] {formatProvider.GetTextInfo().ListSeparator, " ", "\t"}, StringSplitOptions.RemoveEmptyEntries);
-            var data = tokens.Select(t => Double.Parse(t, NumberStyles.Any, formatProvider)).ToArray();
+            var data = tokens.Select(t => double.Parse(t, NumberStyles.Any, formatProvider)).ToArray();
             if (data.Length == 0) throw new FormatException();
             return new DenseVector(data);
         }

@@ -24,12 +24,13 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using MathNet.Numerics.LinearAlgebra;
+using NUnit.Framework;
+using System.Collections.Generic;
+
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
 {
-    using System.Collections.Generic;
     using System.Numerics;
-    using LinearAlgebra.Generic;
-    using NUnit.Framework;
 
     /// <summary>
     /// Test class for user-defined vector.

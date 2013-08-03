@@ -24,12 +24,13 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using MathNet.Numerics.LinearAlgebra;
+using NUnit.Framework;
+using System;
+
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
 {
-    using System;
     using System.Numerics;
-    using LinearAlgebra.Generic;
-    using NUnit.Framework;
 
     /// <summary>
     /// Abstract class with the common arithmetic set of vector tests.

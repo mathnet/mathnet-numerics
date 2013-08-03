@@ -30,11 +30,11 @@
 
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
 {
-    using System;
-    using System.Collections.Generic;
-    using LinearAlgebra.Generic;
+    using LinearAlgebra;
     using LinearAlgebra.Single;
     using NUnit.Framework;
+    using System;
+    using System.Collections.Generic;
 
     /// <summary>
     /// Dense vector tests.

@@ -30,12 +30,11 @@
 
 namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Preconditioners
 {
-    using Generic;
 
 #if NOSYSNUMERICS
-    using Complex = Numerics.Complex;
+    using Numerics;
 #else
-    using Complex = System.Numerics.Complex;
+    using System.Numerics;
 #endif
 
     /// <summary>

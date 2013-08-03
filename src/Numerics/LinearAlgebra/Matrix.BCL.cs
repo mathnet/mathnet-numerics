@@ -32,7 +32,7 @@ using System;
 using System.Diagnostics;
 using System.Text;
 
-namespace MathNet.Numerics.LinearAlgebra.Generic
+namespace MathNet.Numerics.LinearAlgebra
 {
     [DebuggerDisplay("Matrix {RowCount}x{ColumnCount}")]
     public abstract partial class Matrix<T>
@@ -95,7 +95,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// </summary>
         public virtual string ToTypeString()
         {
-            return string.Format("{0} {1}x{2}-{3}", GetType().Name, RowCount, ColumnCount, typeof(T).Name);
+            return string.Format("{0} {1}x{2}-{3}", GetType().Name, RowCount, ColumnCount, typeof (T).Name);
         }
 
         /// <summary>

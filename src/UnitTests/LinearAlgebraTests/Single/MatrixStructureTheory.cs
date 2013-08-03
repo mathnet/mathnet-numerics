@@ -28,15 +28,15 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using MathNet.Numerics.Distributions;
+using MathNet.Numerics.LinearAlgebra;
+using MathNet.Numerics.LinearAlgebra.Single;
+using MathNet.Numerics.Random;
+using NUnit.Framework;
+using System.Linq;
+
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
 {
-    using Distributions;
-    using LinearAlgebra.Generic;
-    using LinearAlgebra.Single;
-    using Numerics.Random;
-    using NUnit.Framework;
-    using System.Linq;
-
     [TestFixture]
     public class MatrixStructureTheory : MatrixStructureTheory<float>
     {

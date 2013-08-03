@@ -28,13 +28,13 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using MathNet.Numerics.LinearAlgebra.Double.Solvers.Preconditioners;
+using MathNet.Numerics.LinearAlgebra.Solvers.Status;
+using MathNet.Numerics.Properties;
+using System;
+
 namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.Iterative
 {
-    using System;
-    using Generic.Solvers.Status;
-    using Preconditioners;
-    using Properties;
-
     /// <summary>
     /// A Transpose Free Quasi-Minimal Residual (TFQMR) iterative matrix solver.
     /// </summary>

@@ -31,7 +31,7 @@
 using System;
 using System.Runtime.CompilerServices;
 
-namespace MathNet.Numerics.LinearAlgebra.Generic
+namespace MathNet.Numerics.LinearAlgebra
 {
     public abstract partial class Vector<T>
     {

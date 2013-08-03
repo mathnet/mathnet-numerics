@@ -24,11 +24,11 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using MathNet.Numerics.LinearAlgebra.Factorization;
+
 namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
 {
     using System;
-    using Generic.Factorization;
-
 #if NOSYSNUMERICS
     using Complex = Numerics.Complex;
 #else
