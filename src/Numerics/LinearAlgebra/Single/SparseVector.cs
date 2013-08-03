@@ -822,11 +822,11 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// <summary>
         /// Pointwise multiplies this vector with another vector and stores the result into the result vector.
         /// </summary>
-        /// <param name="other">The vector to pointwise multiply with this one.</param>
+        /// <param name="divisor">The vector to pointwise multiply with this one.</param>
         /// <param name="result">The vector to store the result of the pointwise multiplication.</param>
-        protected override void DoPointwiseDivide(Vector<float> other, Vector<float> result)
+        protected override void DoPointwiseDivide(Vector<float> divisor, Vector<float> result)
         {
-            if (ReferenceEquals(this, other))
+            if (ReferenceEquals(this, divisor))
             {
                 for (var i = 0; i < _storage.ValueCount; i++)
                 {
@@ -838,7 +838,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
                 for (var i = 0; i < _storage.ValueCount; i++)
                 {
                     var index = _storage.Indices[i];
-                    result.At(index, _storage.Values[i] / other.At(index));
+                    result.At(index, _storage.Values[i] / divisor.At(index));
                 }
             }
         }

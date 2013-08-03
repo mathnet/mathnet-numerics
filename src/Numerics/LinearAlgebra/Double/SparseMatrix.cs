@@ -1045,9 +1045,9 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <summary>
         /// Pointwise divide this matrix by another matrix and stores the result into the result matrix.
         /// </summary>
-        /// <param name="other">The matrix to pointwise divide this one by.</param>
+        /// <param name="divisor">The matrix to pointwise divide this one by.</param>
         /// <param name="result">The matrix to store the result of the pointwise division.</param>
-        protected override void DoPointwiseDivide(Matrix<double> other, Matrix<double> result)
+        protected override void DoPointwiseDivide(Matrix<double> divisor, Matrix<double> result)
         {
             result.Clear();
 
@@ -1066,7 +1066,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 {
                     if (values[j] != 0d)
                     {
-                        result.At(i, columnIndices[j], values[j]/other.At(i, columnIndices[j]));
+                        result.At(i, columnIndices[j], values[j]/divisor.At(i, columnIndices[j]));
                     }
                 }
             }

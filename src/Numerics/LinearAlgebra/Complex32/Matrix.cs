@@ -230,25 +230,25 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// <summary>
         /// Divides each element of the matrix by a scalar and places results into the result matrix.
         /// </summary>
-        /// <param name="scalar">The scalar to divide the matrix with.</param>
+        /// <param name="divisor">The scalar to divide the matrix with.</param>
         /// <param name="result">The matrix to store the result of the division.</param>
-        protected override void DoDivide(Complex32 scalar, Matrix<Complex32> result)
+        protected override void DoDivide(Complex32 divisor, Matrix<Complex32> result)
         {
-            DoMultiply(1.0f / scalar, result);
+            DoMultiply(1.0f / divisor, result);
         }
 
         /// <summary>
         /// Divides a scalar by each element of the matrix and stores the result in the result matrix.
         /// </summary>
-        /// <param name="scalar">The scalar to add.</param>
+        /// <param name="dividend">The scalar to add.</param>
         /// <param name="result">The matrix to store the result of the division.</param>
-        protected override void DoDivideByThis(Complex32 scalar, Matrix<Complex32> result)
+        protected override void DoDivideByThis(Complex32 dividend, Matrix<Complex32> result)
         {
             for (var i = 0; i < RowCount; i++)
             {
                 for (var j = 0; j < ColumnCount; j++)
                 {
-                    result.At(i, j, scalar / At(i, j));
+                    result.At(i, j, dividend / At(i, j));
                 }
             }
         }
@@ -387,27 +387,47 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// <summary>
         /// Pointwise divide this matrix by another matrix and stores the result into the result matrix.
         /// </summary>
-        /// <param name="other">The matrix to pointwise divide this one by.</param>
+        /// <param name="divisor">The matrix to pointwise divide this one by.</param>
         /// <param name="result">The matrix to store the result of the pointwise division.</param>
-        protected override void DoPointwiseDivide(Matrix<Complex32> other, Matrix<Complex32> result)
+        protected override void DoPointwiseDivide(Matrix<Complex32> divisor, Matrix<Complex32> result)
         {
             for (var j = 0; j < ColumnCount; j++)
             {
                 for (var i = 0; i < RowCount; i++)
                 {
-                    result.At(i, j, At(i, j) / other.At(i, j));
+                    result.At(i, j, At(i, j) / divisor.At(i, j));
                 }
             }
         }
 
         /// <summary>
+        /// Pointwise modulus this matrix with another matrix and stores the result into the result matrix.
+        /// </summary>
+        /// <param name="divisor">The pointwise denominator matrix to use</param>
+        /// <param name="result">The result of the modulus.</param>
+        protected override void DoPointwiseModulus(Matrix<Complex32> divisor, Matrix<Complex32> result)
+        {
+            throw new NotSupportedException();
+        }
+
+        /// <summary>
         /// Computes the modulus for each element of the matrix.
         /// </summary>
-        /// <param name="divisor">The divisor to use.</param>
+        /// <param name="divisor">The scalar denominator to use.</param>
         /// <param name="result">Matrix to store the results in.</param>
         protected override void DoModulus(Complex32 divisor, Matrix<Complex32> result)
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException();
+        }
+
+        /// <summary>
+        /// Computes the modulus for each element of the matrix.
+        /// </summary>
+        /// <param name="dividend">The scalar numerator to use.</param>
+        /// <param name="result">Matrix to store the results in.</param>
+        protected override void DoModulusByThis(Complex32 dividend, Matrix<Complex32> result)
+        {
+            throw new NotSupportedException();
         }
 
         /// <summary>

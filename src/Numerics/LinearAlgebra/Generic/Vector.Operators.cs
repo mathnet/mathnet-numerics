@@ -227,105 +227,105 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <summary>
         /// Divides a scalar with a vector.
         /// </summary>
-        /// <param name="leftSide">The scalar to divide.</param>
-        /// <param name="rightSide">The vector.</param>
+        /// <param name="dividend">The scalar to divide.</param>
+        /// <param name="divisor">The vector.</param>
         /// <returns>The result of the division.</returns>
-        /// <exception cref="ArgumentNullException">If <paramref name="rightSide"/> is <see langword="null" />.</exception>
-        public static Vector<T> operator /(T leftSide, Vector<T> rightSide)
+        /// <exception cref="ArgumentNullException">If <paramref name="divisor"/> is <see langword="null" />.</exception>
+        public static Vector<T> operator /(T dividend, Vector<T> divisor)
         {
-            if (rightSide == null)
+            if (divisor == null)
             {
-                throw new ArgumentNullException("rightSide");
+                throw new ArgumentNullException("divisor");
             }
 
-            return rightSide.DevideByThis(leftSide);
+            return divisor.DevideByThis(dividend);
         }
 
         /// <summary>
         /// Divides a vector with a scalar.
         /// </summary>
-        /// <param name="leftSide">The vector to divide.</param>
-        /// <param name="rightSide">The scalar value.</param>
+        /// <param name="dividend">The vector to divide.</param>
+        /// <param name="divisor">The scalar value.</param>
         /// <returns>The result of the division.</returns>
-        /// <exception cref="ArgumentNullException">If <paramref name="leftSide"/> is <see langword="null" />.</exception>
-        public static Vector<T> operator /(Vector<T> leftSide, T rightSide)
+        /// <exception cref="ArgumentNullException">If <paramref name="dividend"/> is <see langword="null" />.</exception>
+        public static Vector<T> operator /(Vector<T> dividend, T divisor)
         {
-            if (leftSide == null)
+            if (dividend == null)
             {
-                throw new ArgumentNullException("leftSide");
+                throw new ArgumentNullException("dividend");
             }
 
-            return leftSide.Divide(rightSide);
+            return dividend.Divide(divisor);
         }
 
         /// <summary>
         /// Pointwise divides two <strong>Vectors</strong>.
         /// </summary>
-        /// <param name="leftSide">The vector to divide.</param>
-        /// <param name="rightSide">The other vector.</param>
+        /// <param name="dividend">The vector to divide.</param>
+        /// <param name="divisor">The other vector.</param>
         /// <returns>The result of the division.</returns>
-        /// <exception cref="ArgumentException">If <paramref name="leftSide"/> and <paramref name="rightSide"/> are not the same size.</exception>
-        /// <exception cref="ArgumentNullException">If <paramref name="leftSide"/> is <see langword="null" />.</exception>
-        public static Vector<T> operator /(Vector<T> leftSide, Vector<T> rightSide)
+        /// <exception cref="ArgumentException">If <paramref name="dividend"/> and <paramref name="divisor"/> are not the same size.</exception>
+        /// <exception cref="ArgumentNullException">If <paramref name="dividend"/> is <see langword="null" />.</exception>
+        public static Vector<T> operator /(Vector<T> dividend, Vector<T> divisor)
         {
-            if (leftSide == null)
+            if (dividend == null)
             {
-                throw new ArgumentNullException("leftSide");
+                throw new ArgumentNullException("dividend");
             }
 
-            return leftSide.PointwiseDivide(rightSide);
+            return dividend.PointwiseDivide(divisor);
         }
 
         /// <summary>
         /// Computes the modulus of each element of the vector of the given divisor.
         /// </summary>
-        /// <param name="leftSide">The vector whose elements we want to compute the modulus of.</param>
-        /// <param name="rightSide">The divisor to use.</param>
+        /// <param name="dividend">The vector whose elements we want to compute the modulus of.</param>
+        /// <param name="divisor">The divisor to use.</param>
         /// <returns>The result of the calculation</returns>
-        /// <exception cref="ArgumentNullException">If <paramref name="leftSide"/> is <see langword="null" />.</exception>
-        public static Vector<T> operator %(Vector<T> leftSide, T rightSide)
+        /// <exception cref="ArgumentNullException">If <paramref name="dividend"/> is <see langword="null" />.</exception>
+        public static Vector<T> operator %(Vector<T> dividend, T divisor)
         {
-            if (leftSide == null)
+            if (dividend == null)
             {
-                throw new ArgumentNullException("leftSide");
+                throw new ArgumentNullException("dividend");
             }
 
-            return leftSide.Modulus(rightSide);
+            return dividend.Modulus(divisor);
         }
 
         /// <summary>
         /// Computes the modulus of the given dividend of each element of the vector.
         /// </summary>
-        /// <param name="leftSide">The dividend we want to compute the modulus of.</param>
-        /// <param name="rightSide">The vector whose elements we want to use as divisor.</param>
+        /// <param name="dividend">The dividend we want to compute the modulus of.</param>
+        /// <param name="divisor">The vector whose elements we want to use as divisor.</param>
         /// <returns>The result of the calculation</returns>
-        /// <exception cref="ArgumentNullException">If <paramref name="leftSide"/> is <see langword="null" />.</exception>
-        public static Vector<T> operator %(T leftSide, Vector<T> rightSide)
+        /// <exception cref="ArgumentNullException">If <paramref name="dividend"/> is <see langword="null" />.</exception>
+        public static Vector<T> operator %(T dividend, Vector<T> divisor)
         {
-            if (rightSide == null)
+            if (divisor == null)
             {
-                throw new ArgumentNullException("rightSide");
+                throw new ArgumentNullException("divisor");
             }
 
-            return rightSide.ModulusByThis(leftSide);
+            return divisor.ModulusByThis(dividend);
         }
 
         /// <summary>
-        /// Computes the pointwise modulus of each element of two <strong>vectors</strong>.
+        /// Computes the pointwise modulus of each element of two vectors.
         /// </summary>
-        /// <param name="leftSide">The vector whose elements we want to compute the modulus of.</param>
-        /// <param name="rightSide">The divisor to use.</param>
+        /// <param name="dividend">The vector whose elements we want to compute the modulus of.</param>
+        /// <param name="divisor">The divisor to use.</param>
         /// <returns>The result of the calculation</returns>
-        /// <exception cref="ArgumentException">If <paramref name="leftSide"/> and <paramref name="rightSide"/> are not the same size.</exception>
-        /// <exception cref="ArgumentNullException">If <paramref name="leftSide"/> is <see langword="null" />.</exception>
-        public static Vector<T> operator %(Vector<T> leftSide, Vector<T> rightSide)
+        /// <exception cref="ArgumentException">If <paramref name="dividend"/> and <paramref name="divisor"/> are not the same size.</exception>
+        /// <exception cref="ArgumentNullException">If <paramref name="dividend"/> is <see langword="null" />.</exception>
+        public static Vector<T> operator %(Vector<T> dividend, Vector<T> divisor)
         {
-            if (leftSide == null)
+            if (dividend == null)
             {
-                throw new ArgumentNullException("leftSide");
+                throw new ArgumentNullException("dividend");
             }
 
-            return leftSide.PointwiseModulus(rightSide);
+            return dividend.PointwiseModulus(divisor);
         }
 
         [SpecialName]
@@ -335,15 +335,15 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         }
 
         [SpecialName]
-        public static Vector<T> op_DotDivide(Vector<T> x, Vector<T> y)
+        public static Vector<T> op_DotDivide(Vector<T> dividend, Vector<T> divisor)
         {
-            return x.PointwiseDivide(y);
+            return dividend.PointwiseDivide(divisor);
         }
 
         [SpecialName]
-        public static Vector<T> op_DotPercent(Vector<T> x, Vector<T> y)
+        public static Vector<T> op_DotPercent(Vector<T> dividend, Vector<T> divisor)
         {
-            return x.PointwiseModulus(y);
+            return dividend.PointwiseModulus(divisor);
         }
     }
 }

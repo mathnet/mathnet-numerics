@@ -134,27 +134,27 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// <summary>
         /// Divides each element of the vector by a scalar and stores the result in the result vector.
         /// </summary>
-        /// <param name="scalar">
+        /// <param name="divisor">
         /// The scalar to divide with.
         /// </param>
         /// <param name="result">
         /// The vector to store the result of the division.
         /// </param>
-        protected override void DoDivide(float scalar, Vector<float> result)
+        protected override void DoDivide(float divisor, Vector<float> result)
         {
-            DoMultiply(1 / scalar, result);
+            DoMultiply(1 / divisor, result);
         }
 
         /// <summary>
         /// Divides a scalar by each element of the vector and stores the result in the result vector.
         /// </summary>
-        /// <param name="scalar">The scalar to divide.</param>
+        /// <param name="dividend">The scalar to divide.</param>
         /// <param name="result">The vector to store the result of the division.</param>
-        protected override void DoDivideByThis(float scalar, Vector<float> result)
+        protected override void DoDivideByThis(float dividend, Vector<float> result)
         {
             for (var index = 0; index < Count; index++)
             {
-                result.At(index, scalar / At(index));
+                result.At(index, dividend / At(index));
             }
         }
 
@@ -174,26 +174,26 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// <summary>
         /// Pointwise divide this vector with another vector and stores the result into the result vector.
         /// </summary>
-        /// <param name="other">The vector to pointwise divide this one by.</param>
+        /// <param name="divisor">The vector to pointwise divide this one by.</param>
         /// <param name="result">The vector to store the result of the pointwise division.</param>
-        protected override void DoPointwiseDivide(Vector<float> other, Vector<float> result)
+        protected override void DoPointwiseDivide(Vector<float> divisor, Vector<float> result)
         {
             for (var index = 0; index < Count; index++)
             {
-                result.At(index, At(index) / other.At(index));
+                result.At(index, At(index) / divisor.At(index));
             }
         }
 
         /// <summary>
         /// Pointwise modulus this vector with another vector and stores the result into the result vector.
         /// </summary>
-        /// <param name="other">The vector to pointwise modulus this one by.</param>
+        /// <param name="divisor">The vector to pointwise modulus this one by.</param>
         /// <param name="result">The result of the modulus.</param>
-        protected override void DoPointwiseModulus(Vector<float> other, Vector<float> result)
+        protected override void DoPointwiseModulus(Vector<float> divisor, Vector<float> result)
         {
             for (var index = 0; index < Count; index++)
             {
-                result.At(index, At(index) % other.At(index));
+                result.At(index, At(index) % divisor.At(index));
             }
         }
 
@@ -221,7 +221,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// <summary>
         /// Computes the modulus for each element of the vector for the given divisor.
         /// </summary>
-        /// <param name="divisor">The divisor to use.</param>
+        /// <param name="divisor">The scalar denominator to use.</param>
         /// <param name="result">A vector to store the results in.</param>
         protected override void DoModulus(float divisor, Vector<float> result)
         {
@@ -234,13 +234,13 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// <summary>
         /// Computes the modulus for the given dividend for each element of the vector.
         /// </summary>
-        /// <param name="scalar">The dividend to use.</param>
+        /// <param name="dividend">The scalar numerator to use.</param>
         /// <param name="result">A vector to store the results in.</param>
-        protected override void DoModulusByThis(float scalar, Vector<float> result)
+        protected override void DoModulusByThis(float dividend, Vector<float> result)
         {
             for (var index = 0; index < Count; index++)
             {
-                result.At(index, scalar % At(index));
+                result.At(index, dividend%At(index));
             }
         }
 

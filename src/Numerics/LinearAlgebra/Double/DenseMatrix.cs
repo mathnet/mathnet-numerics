@@ -674,18 +674,18 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <summary>
         /// Divides each element of the matrix by a scalar and places results into the result matrix.
         /// </summary>
-        /// <param name="scalar">The scalar to divide the matrix with.</param>
+        /// <param name="divisor">The scalar to divide the matrix with.</param>
         /// <param name="result">The matrix to store the result of the division.</param>
-        protected override void DoDivide(double scalar, Matrix<double> result)
+        protected override void DoDivide(double divisor, Matrix<double> result)
         {
             var denseResult = result as DenseMatrix;
             if (denseResult == null)
             {
-                base.DoDivide(scalar, result);
+                base.DoDivide(divisor, result);
             }
             else
             {
-                Control.LinearAlgebraProvider.ScaleArray(1.0/scalar, _values, denseResult._values);
+                Control.LinearAlgebraProvider.ScaleArray(1.0/divisor, _values, denseResult._values);
             }
         }
 
@@ -712,16 +712,16 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <summary>
         /// Pointwise divide this matrix by another matrix and stores the result into the result matrix.
         /// </summary>
-        /// <param name="other">The matrix to pointwise divide this one by.</param>
+        /// <param name="divisor">The matrix to pointwise divide this one by.</param>
         /// <param name="result">The matrix to store the result of the pointwise division.</param>
-        protected override void DoPointwiseDivide(Matrix<double> other, Matrix<double> result)
+        protected override void DoPointwiseDivide(Matrix<double> divisor, Matrix<double> result)
         {
-            var denseOther = other as DenseMatrix;
+            var denseOther = divisor as DenseMatrix;
             var denseResult = result as DenseMatrix;
 
             if (denseOther == null || denseResult == null)
             {
-                base.DoPointwiseDivide(other, result);
+                base.DoPointwiseDivide(divisor, result);
             }
             else
             {
@@ -754,6 +754,30 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                     for (int i = a; i < b; i++)
                     {
                         v[i] %= divisor;
+                    }
+                });
+        }
+
+        /// <summary>
+        /// Computes the modulus for each element of the matrix.
+        /// </summary>
+        /// <param name="dividend">The scalar numerator to use.</param>
+        /// <param name="result">Matrix to store the results in.</param>
+        protected override void DoModulusByThis(double dividend, Matrix<double> result)
+        {
+            var denseResult = result as DenseMatrix;
+            if (denseResult == null)
+            {
+                base.DoModulusByThis(dividend, result);
+                return;
+            }
+
+            CommonParallel.For(0, _values.Length, 4096, (a, b) =>
+                {
+                    var v = denseResult._values;
+                    for (int i = a; i < b; i++)
+                    {
+                        v[i] = dividend%_values[i];
                     }
                 });
         }
