@@ -238,6 +238,22 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         }
 
         /// <summary>
+        /// Divides a scalar by each element of the matrix and stores the result in the result matrix.
+        /// </summary>
+        /// <param name="scalar">The scalar to add.</param>
+        /// <param name="result">The matrix to store the result of the division.</param>
+        protected override void DoDivideByThis(Complex32 scalar, Matrix<Complex32> result)
+        {
+            for (var i = 0; i < RowCount; i++)
+            {
+                for (var j = 0; j < ColumnCount; j++)
+                {
+                    result.At(i, j, scalar / At(i, j));
+                }
+            }
+        }
+
+        /// <summary>
         /// Multiplies this matrix with another matrix and places the results into the result matrix.
         /// </summary>
         /// <param name="other">The matrix to multiply with.</param>
