@@ -123,7 +123,7 @@ namespace MathNet.Numerics.Statistics
             {
                 t += samples[i];
                 double diff = ((i + 1)*samples[i]) - t;
-                variance += (diff*diff)/((i + 1)*i);
+                variance += (diff*diff)/((i + 1.0)*i);
             }
             return variance/(samples.Length - 1);
         }
@@ -145,7 +145,7 @@ namespace MathNet.Numerics.Statistics
             {
                 t += population[i];
                 double diff = ((i + 1)*population[i]) - t;
-                variance += (diff*diff)/((i + 1)*i);
+                variance += (diff*diff)/((i + 1.0)*i);
             }
             return variance/population.Length;
         }

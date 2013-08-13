@@ -712,5 +712,15 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
             Array.Sort(array);
             Assert.AreEqual(1.0, SortedArrayStatistics.Median(array));
         }
+
+        [Test]
+        public void VarianceDenominatorMustNotOverflow_GitHubIssue137()
+        {
+            var a = new double[46342];
+            a[a.Length - 1] = 1000d;
+
+            Assert.AreEqual(21.578697, a.Variance(), 1e-5);
+            Assert.AreEqual(21.578231, a.PopulationVariance(), 1e-5);
+        }
     }
 }
