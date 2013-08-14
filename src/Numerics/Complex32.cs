@@ -1402,7 +1402,7 @@ namespace MathNet.Numerics
         /// <param name="value">A complex number.</param>
         public static Complex32 Sin(Complex32 value)
         {
-            return (Complex32)Trig.Sine(value.ToComplex());
+            return (Complex32)Trig.Sin(value.ToComplex());
         }
 
         /// <summary>
@@ -1412,7 +1412,7 @@ namespace MathNet.Numerics
         /// <param name="value">A complex number.</param>
         public static Complex32 Cos(Complex32 value)
         {
-            return (Complex32)Trig.Cosine(value.ToComplex());
+            return (Complex32)Trig.Cos(value.ToComplex());
         }
 
         /// <summary>
@@ -1422,7 +1422,7 @@ namespace MathNet.Numerics
         /// <param name="value">A complex number.</param>
         public static Complex32 Tan(Complex32 value)
         {
-            return (Complex32)Trig.Tangent(value.ToComplex());
+            return (Complex32)Trig.Tan(value.ToComplex());
         }
 
         /// <summary>
@@ -1432,7 +1432,7 @@ namespace MathNet.Numerics
         /// <param name="value">A complex number.</param>
         public static Complex32 Asin(Complex32 value)
         {
-            return (Complex32)Trig.InverseSine(value.ToComplex());
+            return (Complex32)Trig.Asin(value.ToComplex());
         }
 
         /// <summary>
@@ -1442,7 +1442,7 @@ namespace MathNet.Numerics
         /// <param name="value">A complex number that represents a cosine.</param>
         public static Complex32 Acos(Complex32 value)
         {
-            return (Complex32)Trig.InverseCosine(value.ToComplex());
+            return (Complex32)Trig.Acos(value.ToComplex());
         }
 
         /// <summary>
@@ -1452,7 +1452,7 @@ namespace MathNet.Numerics
         /// <param name="value">A complex number.</param>
         public static Complex32 Atan(Complex32 value)
         {
-            return (Complex32)Trig.InverseTangent(value.ToComplex());
+            return (Complex32)Trig.Atan(value.ToComplex());
         }
 
         /// <summary>
@@ -1462,7 +1462,7 @@ namespace MathNet.Numerics
         /// <param name="value">A complex number.</param>
         public static Complex32 Sinh(Complex32 value)
         {
-            return (Complex32)Trig.HyperbolicSine(value.ToComplex());
+            return (Complex32)Trig.Sinh(value.ToComplex());
         }
 
         /// <summary>
@@ -1472,7 +1472,7 @@ namespace MathNet.Numerics
         /// <param name="value">A complex number.</param>
         public static Complex32 Cosh(Complex32 value)
         {
-            return (Complex32)Trig.HyperbolicCosine(value.ToComplex());
+            return (Complex32)Trig.Cosh(value.ToComplex());
         }
 
         /// <summary>
@@ -1482,7 +1482,7 @@ namespace MathNet.Numerics
         /// <param name="value">A complex number.</param>
         public static Complex32 Tanh(Complex32 value)
         {
-            return (Complex32)Trig.HyperbolicTangent(value.ToComplex());
+            return (Complex32)Trig.Tanh(value.ToComplex());
         }
     }
 }

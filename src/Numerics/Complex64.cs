@@ -1066,7 +1066,7 @@ namespace MathNet.Numerics
                 return new Complex(exp, 0.0);
             }
 
-            return new Complex(exp * Trig.Cosine(value.Imaginary), exp * Trig.Sine(value.Imaginary));
+            return new Complex(exp * Trig.Cos(value.Imaginary), exp * Trig.Sin(value.Imaginary));
         }
 
         /// <summary>
@@ -1172,7 +1172,7 @@ namespace MathNet.Numerics
         [TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")]
         public static Complex Sin(Complex value)
         {
-            return Trig.Sine(value);
+            return Trig.Sin(value);
         }
 
         /// <summary>
@@ -1183,7 +1183,7 @@ namespace MathNet.Numerics
         [TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")]
         public static Complex Cos(Complex value)
         {
-            return Trig.Cosine(value);
+            return Trig.Cos(value);
         }
 
         /// <summary>
@@ -1194,7 +1194,7 @@ namespace MathNet.Numerics
         [TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")]
         public static Complex Tan(Complex value)
         {
-            return Trig.Tangent(value);
+            return Trig.Tan(value);
         }
 
         /// <summary>
@@ -1205,7 +1205,7 @@ namespace MathNet.Numerics
         [TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")]
         public static Complex Asin(Complex value)
         {
-            return Trig.InverseSine(value);
+            return Trig.Asin(value);
         }
 
         /// <summary>
@@ -1216,7 +1216,7 @@ namespace MathNet.Numerics
         [TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")]
         public static Complex Acos(Complex value)
         {
-            return Trig.InverseCosine(value);
+            return Trig.Acos(value);
         }
 
         /// <summary>
@@ -1227,7 +1227,7 @@ namespace MathNet.Numerics
         [TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")]
         public static Complex Atan(Complex value)
         {
-            return Trig.InverseTangent(value);
+            return Trig.Atan(value);
         }
 
         /// <summary>
@@ -1238,7 +1238,7 @@ namespace MathNet.Numerics
         [TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")]
         public static Complex Sinh(Complex value)
         {
-            return Trig.HyperbolicSine(value);
+            return Trig.Sinh(value);
         }
 
         /// <summary>
@@ -1249,7 +1249,7 @@ namespace MathNet.Numerics
         [TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")]
         public static Complex Cosh(Complex value)
         {
-            return Trig.HyperbolicCosine(value);
+            return Trig.Cosh(value);
         }
 
         /// <summary>
@@ -1260,7 +1260,7 @@ namespace MathNet.Numerics
         [TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")]
         public static Complex Tanh(Complex value)
         {
-            return Trig.HyperbolicTangent(value);
+            return Trig.Tanh(value);
         }
     }
 }

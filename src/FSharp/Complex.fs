@@ -58,22 +58,30 @@ namespace MathNet.Numerics
         let sin x = Complex.Sin(x)
         let cos x = Complex.Cos(x)
         let tan x = Complex.Tan(x)
+        let cot (x:complex) = Trig.Cot(x)
+        let sec (x:complex) = Trig.Sec(x)
+        let csc (x:complex) = Trig.Csc(x)
+
         let asin x = Complex.Asin(x)
         let acos x = Complex.Acos(x)
         let atan x = Complex.Atan(x)
+        let acot (x:complex) = Trig.Acot(x)
+        let asec (x:complex) = Trig.Asec(x)
+        let acsc (x:complex) = Trig.Acsc(x)
+
         let sinh x = Complex.Sinh(x)
         let cosh x = Complex.Cosh(x)
         let tanh x = Complex.Tanh(x)
+        let coth (x:complex) = Trig.Coth(x)
+        let sech (x:complex) = Trig.Sech(x)
+        let csch (x:complex) = Trig.Csch(x)
 
-        let sec (x:complex) = Trig.Secant(x)
-        let csc (x:complex) = Trig.Cosecant(x)
-        let cot (x:complex) = Trig.Cotangent(x)
-        let asec (x:complex) = Trig.InverseSecant(x)
-        let acsc (x:complex) = Trig.InverseCosecant(x)
-        let acot (x:complex) = Trig.InverseCotangent(x)
-        let sech (x:complex) = Trig.HyperbolicSecant(x)
-        let csch (x:complex) = Trig.HyperbolicCosecant(x)
-        let coth (x:complex) = Trig.HyperbolicCotangent(x)
+        let asinh (x:complex) = Trig.Asinh(x)
+        let acosh (x:complex) = Trig.Acosh(x)
+        let atanh (x:complex) = Trig.Atanh(x)
+        let acoth (x:complex) = Trig.Acoth(x)
+        let asech (x:complex) = Trig.Asech(x)
+        let acsch (x:complex) = Trig.Acsch(x)
 
     [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
     [<RequireQualifiedAccess>]
@@ -114,26 +122,34 @@ namespace MathNet.Numerics
         let sqr (x:complex32) = x.Square()
         let sqrt (x:complex32) = x.SquareRoot() // numerically more stable than Complex.Sqrt
 
+        // no complex32 implementations available yet for some, fix once available
         let sin x = Complex32.Sin(x)
         let cos x = Complex32.Cos(x)
         let tan x = Complex32.Tan(x)
+        let cot (x:complex32) = ofComplex <| Trig.Cot(x.ToComplex())
+        let sec (x:complex32) = ofComplex <| Trig.Sec(x.ToComplex())
+        let csc (x:complex32) = ofComplex <| Trig.Csc(x.ToComplex())
+
         let asin x = Complex32.Asin(x)
         let acos x = Complex32.Acos(x)
         let atan x = Complex32.Atan(x)
+        let acot (x:complex32) = ofComplex <| Trig.Acot(x.ToComplex())
+        let asec (x:complex32) = ofComplex <| Trig.Asec(x.ToComplex())
+        let acsc (x:complex32) = ofComplex <| Trig.Acsc(x.ToComplex())
+
         let sinh x = Complex32.Sinh(x)
         let cosh x = Complex32.Cosh(x)
         let tanh x = Complex32.Tanh(x)
+        let coth (x:complex32) = ofComplex <| Trig.Coth(x.ToComplex())
+        let sech (x:complex32) = ofComplex <| Trig.Sech(x.ToComplex())
+        let csch (x:complex32) = ofComplex <| Trig.Csch(x.ToComplex())
 
-        // no complex32 implementations available yet, fix once available
-        let sec (x:complex32) = ofComplex <| Trig.Secant(x.ToComplex())
-        let csc (x:complex32) = ofComplex <| Trig.Cosecant(x.ToComplex())
-        let cot (x:complex32) = ofComplex <| Trig.Cotangent(x.ToComplex())
-        let asec (x:complex32) = ofComplex <| Trig.InverseSecant(x.ToComplex())
-        let acsc (x:complex32) = ofComplex <| Trig.InverseCosecant(x.ToComplex())
-        let acot (x:complex32) = ofComplex <| Trig.InverseCotangent(x.ToComplex())
-        let sech (x:complex32) = ofComplex <| Trig.HyperbolicSecant(x.ToComplex())
-        let csch (x:complex32) = ofComplex <| Trig.HyperbolicCosecant(x.ToComplex())
-        let coth (x:complex32) = ofComplex <| Trig.HyperbolicCotangent(x.ToComplex())
+        let asinh (x:complex32) = ofComplex <| Trig.Asinh(x.ToComplex())
+        let acosh (x:complex32) = ofComplex <| Trig.Acosh(x.ToComplex())
+        let atanh (x:complex32) = ofComplex <| Trig.Atanh(x.ToComplex())
+        let acoth (x:complex32) = ofComplex <| Trig.Acoth(x.ToComplex())
+        let asech (x:complex32) = ofComplex <| Trig.Asech(x.ToComplex())
+        let acsch (x:complex32) = ofComplex <| Trig.Acsch(x.ToComplex())
 
     [<AutoOpen>]
     module ComplexExtensions =

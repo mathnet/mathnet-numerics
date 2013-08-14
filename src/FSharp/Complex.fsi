@@ -79,44 +79,58 @@ namespace MathNet.Numerics
         val sqr : complex -> complex
         /// sqrt(x) and 0 <= phase(x) < pi
         val sqrt : complex -> complex
-
+        
         /// Sine
         val sin : complex -> complex
         /// Cosine
         val cos : complex -> complex
         /// Tagent
         val tan : complex -> complex
+        /// Cotangent
+        val cot : complex -> complex
+        /// Secant
+        val sec : complex -> complex
+        /// Cosecant
+        val csc : complex -> complex
+
         /// Arc Sine
         val asin : complex -> complex
         /// Arc Cosine
         val acos : complex -> complex
         /// Arc Tagent
         val atan : complex -> complex
+        /// Arc Cotangent
+        val acot : complex -> complex
+        /// Arc Secant
+        val asec : complex -> complex
+        /// Arc Cosecant
+        val acsc : complex -> complex
+
         /// Hyperbolic Sine
         val sinh : complex -> complex
         /// Hyperbolic Cosine
         val cosh : complex -> complex
         /// Hyperbolic Tagent
         val tanh : complex -> complex
-
-        /// Secant
-        val sec : complex -> complex
-        /// Cosecant
-        val csc : complex -> complex
-        /// Cotangent
-        val cot : complex -> complex
-        /// Arc Secant
-        val asec : complex -> complex
-        /// Arc Cosecant
-        val acsc : complex -> complex
-        /// Arc Cotangent
-        val acot : complex -> complex
+        /// Hyperbolic Cotangent
+        val coth : complex -> complex
         /// Hyperbolic Secant
         val sech : complex -> complex
         /// Hyperbolic Cosecant
         val csch : complex -> complex
-        /// Hyperbolic Cotangent
-        val coth : complex -> complex
+        
+        /// Inverse Hyperbolic Sine
+        val asinh : complex -> complex
+        /// Inverse Hyperbolic Cosine
+        val acosh : complex -> complex
+        /// Inverse Hyperbolic Tagent
+        val atanh : complex -> complex
+        /// Inverse Hyperbolic Cotangent
+        val acoth : complex -> complex
+        /// Inverse Hyperbolic Secant
+        val asech : complex -> complex
+        /// Inverse Hyperbolic Cosecant
+        val acsch : complex -> complex
 
     [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
     [<RequireQualifiedAccess>]
@@ -189,37 +203,52 @@ namespace MathNet.Numerics
         val cos : complex32 -> complex32
         /// Tagent
         val tan : complex32 -> complex32
+        /// Cotangent
+        val cot : complex32 -> complex32
+        /// Secant
+        val sec : complex32 -> complex32
+        /// Cosecant
+        val csc : complex32 -> complex32
+
         /// Arc Sine
         val asin : complex32 -> complex32
         /// Arc Cosine
         val acos : complex32 -> complex32
         /// Arc Tagent
         val atan : complex32 -> complex32
+        /// Arc Cotangent
+        val acot : complex32 -> complex32
+        /// Arc Secant
+        val asec : complex32 -> complex32
+        /// Arc Cosecant
+        val acsc : complex32 -> complex32
+
         /// Hyperbolic Sine
         val sinh : complex32 -> complex32
         /// Hyperbolic Cosine
         val cosh : complex32 -> complex32
         /// Hyperbolic Tagent
         val tanh : complex32 -> complex32
-
-        /// Secant
-        val sec : complex32 -> complex32
-        /// Cosecant
-        val csc : complex32 -> complex32
-        /// Cotangent
-        val cot : complex32 -> complex32
-        /// Arc Secant
-        val asec : complex32 -> complex32
-        /// Arc Cosecant
-        val acsc : complex32 -> complex32
-        /// Arc Cotangent
-        val acot : complex32 -> complex32
+        /// Hyperbolic Cotangent
+        val coth : complex32 -> complex32
         /// Hyperbolic Secant
         val sech : complex32 -> complex32
         /// Hyperbolic Cosecant
         val csch : complex32 -> complex32
-        /// Hyperbolic Cotangent
-        val coth : complex32 -> complex32
+        
+        /// Inverse Hyperbolic Sine
+        val asinh : complex32 -> complex32
+        /// Inverse Hyperbolic Cosine
+        val acosh : complex32 -> complex32
+        /// Inverse Hyperbolic Tagent
+        val atanh : complex32 -> complex32
+        /// Inverse Hyperbolic Cotangent
+        val acoth : complex32 -> complex32
+        /// Inverse Hyperbolic Secant
+        val asech : complex32 -> complex32
+        /// Inverse Hyperbolic Cosecant
+        val acsch : complex32 -> complex32
+
 
     [<AutoOpen>]
     module ComplexExtensions =
