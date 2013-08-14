@@ -49,36 +49,36 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         /// <summary>
         /// Can create Hypergeometric.
         /// </summary>
-        /// <param name="size">Population size.</param>
-        /// <param name="m">M parameter.</param>
-        /// <param name="n">N parameter.</param>
+        /// <param name="population">Population size.</param>
+        /// <param name="success">M parameter.</param>
+        /// <param name="draws">N parameter.</param>
         [TestCase(0, 0, 0)]
         [TestCase(1, 1, 1)]
         [TestCase(2, 1, 1)]
         [TestCase(2, 2, 2)]
         [TestCase(10, 1, 1)]
         [TestCase(10, 5, 3)]
-        public void CanCreateHypergeometric(int size, int m, int n)
+        public void CanCreateHypergeometric(int population, int success, int draws)
         {
-            var d = new Hypergeometric(size, m, n);
-            Assert.AreEqual(size, d.PopulationSize);
-            Assert.AreEqual(m, d.M);
-            Assert.AreEqual(n, d.N);
+            var d = new Hypergeometric(population, success, draws);
+            Assert.AreEqual(population, d.Population);
+            Assert.AreEqual(success, d.Success);
+            Assert.AreEqual(draws, d.Draws);
         }
 
         /// <summary>
         /// Hypergeometric create fails with bad parameters.
         /// </summary>
-        /// <param name="size">Population size.</param>
-        /// <param name="m">M parameter.</param>
+        /// <param name="population">Population size.</param>
+        /// <param name="success">M parameter.</param>
         /// <param name="n">N parameter.</param>
         [TestCase(2, 3, 2)]
         [TestCase(10, 5, 20)]
         [TestCase(-2, 1, 1)]
         [TestCase(0, 1, 1)]
-        public void HypergeometricCreateFailsWithBadParameters(int size, int m, int n)
+        public void HypergeometricCreateFailsWithBadParameters(int population, int success, int n)
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() => new Hypergeometric(size, m, n));
+            Assert.Throws<ArgumentOutOfRangeException>(() => new Hypergeometric(population, success, n));
         }
 
         /// <summary>
@@ -88,90 +88,90 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         public void ValidateToString()
         {
             var d = new Hypergeometric(10, 1, 1);
-            Assert.AreEqual("Hypergeometric(N = 10, m = 1, n = 1)", d.ToString());
+            Assert.AreEqual("Hypergeometric(N = 10, M = 1, n = 1)", d.ToString());
         }
 
         /// <summary>
         /// Can set size.
         /// </summary>
-        /// <param name="size">Population size.</param>
+        /// <param name="population">Population size.</param>
         [TestCase(5)]
         [TestCase(10)]
         [TestCase(20)]
-        public void CanSetSize(int size)
+        public void CanSetPopulation(int population)
         {
             new Hypergeometric(10, 1, 1)
-            {
-                PopulationSize = size
-            };
+                {
+                    Population = population
+                };
         }
 
         /// <summary>
         /// Set size fails with bad values.
         /// </summary>
-        /// <param name="size">Population size.</param>
+        /// <param name="population">Population size.</param>
         [TestCase(-1)]
         [TestCase(0)]
-        public void SetSizeFails(int size)
+        public void SetPopulationFails(int population)
         {
             var d = new Hypergeometric(10, 1, 1);
-            Assert.Throws<ArgumentOutOfRangeException>(() => d.PopulationSize = size);
+            Assert.Throws<ArgumentOutOfRangeException>(() => d.Population = population);
         }
 
         /// <summary>
         /// Can set M.
         /// </summary>
-        /// <param name="m">M parameter.</param>
+        /// <param name="success">M parameter.</param>
         [TestCase(0)]
         [TestCase(1)]
         [TestCase(2)]
         [TestCase(5)]
-        public void CanSetm(int m)
+        public void CanSetSuccess(int success)
         {
             new Hypergeometric(10, 1, 1)
-            {
-                M = m
-            };
+                {
+                    Success = success
+                };
         }
 
         /// <summary>
         /// Set M fails with bad values.
         /// </summary>
-        /// <param name="m">M parameter.</param>
+        /// <param name="success">M parameter.</param>
         [TestCase(11)]
         [TestCase(-1)]
-        public void SetmFails(int m)
+        public void SetSuccessFails(int success)
         {
             var d = new Hypergeometric(10, 1, 1);
-            Assert.Throws<ArgumentOutOfRangeException>(() => d.M = m);
+            Assert.Throws<ArgumentOutOfRangeException>(() => d.Success = success);
         }
 
         /// <summary>
         /// Can set N.
         /// </summary>
-        /// <param name="n">N parameter.</param>
+        /// <param name="draws">N parameter.</param>
         [TestCase(0)]
         [TestCase(1)]
         [TestCase(2)]
         [TestCase(5)]
-        public void CanSetn(int n)
+        public void CanSetDraws(int draws)
         {
             new Hypergeometric(10, 1, 1)
-            {
-                N = n
-            };
+                {
+                    Draws = draws
+                };
         }
 
         /// <summary>
         /// Set N fails with bad values.
         /// </summary>
-        /// <param name="n">N parameter.</param>
+        /// <param name="draws">N parameter.</param>
         [TestCase(11)]
         [TestCase(-1)]
-        public void SetnFails(int n)
+        public void SetDrawsFails(int draws)
         {
             var d = new Hypergeometric(10, 1, 1);
-            Assert.Throws<ArgumentOutOfRangeException>(() => d.N = n);
+            Assert.Throws<ArgumentOutOfRangeException>(() => d.Draws = draws);
         }
 
         /// <summary>
@@ -187,37 +187,37 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         /// <summary>
         /// Validate skewness.
         /// </summary>
-        /// <param name="size">Population size.</param>
-        /// <param name="m">M parameter.</param>
-        /// <param name="n">N parameter.</param>
+        /// <param name="population">Population size.</param>
+        /// <param name="success">M parameter.</param>
+        /// <param name="draws">N parameter.</param>
         [TestCase(0, 0, 0)]
         [TestCase(1, 1, 1)]
         [TestCase(2, 1, 1)]
         [TestCase(2, 2, 2)]
         [TestCase(10, 1, 1)]
         [TestCase(10, 5, 3)]
-        public void ValidateSkewness(int size, int m, int n)
+        public void ValidateSkewness(int population, int success, int draws)
         {
-            var d = new Hypergeometric(size, m, n);
-            Assert.AreEqual((Math.Sqrt(size - 1.0) * (size - (2 * n)) * (size - (2 * m))) / (Math.Sqrt(n * m * (size - m) * (size - n)) * (size - 2.0)), d.Skewness);
+            var d = new Hypergeometric(population, success, draws);
+            Assert.AreEqual((Math.Sqrt(population - 1.0)*(population - (2*draws))*(population - (2*success)))/(Math.Sqrt(draws*success*(population - success)*(population - draws))*(population - 2.0)), d.Skewness);
         }
 
         /// <summary>
         /// Validate mode.
         /// </summary>
-        /// <param name="size">Population size.</param>
-        /// <param name="m">M parameter.</param>
-        /// <param name="n">N parameter.</param>
+        /// <param name="population">Population size.</param>
+        /// <param name="success">M parameter.</param>
+        /// <param name="draws">N parameter.</param>
         [TestCase(0, 0, 0)]
         [TestCase(1, 1, 1)]
         [TestCase(2, 1, 1)]
         [TestCase(2, 2, 2)]
         [TestCase(10, 1, 1)]
         [TestCase(10, 5, 3)]
-        public void ValidateMode(int size, int m, int n)
+        public void ValidateMode(int population, int success, int draws)
         {
-            var d = new Hypergeometric(size, m, n);
-            Assert.AreEqual((n + 1) * (m + 1) / (size + 2), d.Mode);
+            var d = new Hypergeometric(population, success, draws);
+            Assert.AreEqual((draws + 1)*(success + 1)/(population + 2), d.Mode);
         }
 
         /// <summary>
@@ -233,45 +233,45 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         /// <summary>
         /// Validate minimum.
         /// </summary>
-        /// <param name="size">Population size.</param>
-        /// <param name="m">M parameter.</param>
-        /// <param name="n">N parameter.</param>
+        /// <param name="population">Population size.</param>
+        /// <param name="success">M parameter.</param>
+        /// <param name="draws">N parameter.</param>
         [TestCase(0, 0, 0)]
         [TestCase(1, 1, 1)]
         [TestCase(2, 1, 1)]
         [TestCase(2, 2, 2)]
         [TestCase(10, 1, 1)]
         [TestCase(10, 5, 3)]
-        public void ValidateMinimum(int size, int m, int n)
+        public void ValidateMinimum(int population, int success, int draws)
         {
-            var d = new Hypergeometric(size, m, n);
-            Assert.AreEqual(Math.Max(0, n + m - size), d.Minimum);
+            var d = new Hypergeometric(population, success, draws);
+            Assert.AreEqual(Math.Max(0, draws + success - population), d.Minimum);
         }
 
         /// <summary>
         /// Validate maximum.
         /// </summary>
-        /// <param name="size">Population size.</param>
-        /// <param name="m">M parameter.</param>
-        /// <param name="n">N parameter.</param>
+        /// <param name="population">Population size.</param>
+        /// <param name="success">M parameter.</param>
+        /// <param name="draws">N parameter.</param>
         [TestCase(0, 0, 0)]
         [TestCase(1, 1, 1)]
         [TestCase(2, 1, 1)]
         [TestCase(2, 2, 2)]
         [TestCase(10, 1, 1)]
         [TestCase(10, 5, 3)]
-        public void ValidateMaximum(int size, int m, int n)
+        public void ValidateMaximum(int population, int success, int draws)
         {
-            var d = new Hypergeometric(size, m, n);
-            Assert.AreEqual(Math.Min(m, n), d.Maximum);
+            var d = new Hypergeometric(population, success, draws);
+            Assert.AreEqual(Math.Min(success, draws), d.Maximum);
         }
 
         /// <summary>
         /// Validate probability.
         /// </summary>
-        /// <param name="size">Population size.</param>
-        /// <param name="m">M parameter.</param>
-        /// <param name="n">N parameter.</param>
+        /// <param name="population">Population size.</param>
+        /// <param name="success">M parameter.</param>
+        /// <param name="draws">N parameter.</param>
         /// <param name="x">Input X value.</param>
         [TestCase(0, 0, 0, 0)]
         [TestCase(1, 1, 1, 1)]
@@ -282,18 +282,18 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         [TestCase(10, 1, 1, 1)]
         [TestCase(10, 5, 3, 1)]
         [TestCase(10, 5, 3, 3)]
-        public void ValidateProbability(int size, int m, int n, int x)
+        public void ValidateProbability(int population, int success, int draws, int x)
         {
-            var d = new Hypergeometric(size, m, n);
-            Assert.AreEqual(SpecialFunctions.Binomial(m, x) * SpecialFunctions.Binomial(size - m, n - x) / SpecialFunctions.Binomial(size, n), d.Probability(x));
+            var d = new Hypergeometric(population, success, draws);
+            Assert.AreEqual(SpecialFunctions.Binomial(success, x)*SpecialFunctions.Binomial(population - success, draws - x)/SpecialFunctions.Binomial(population, draws), d.Probability(x));
         }
 
         /// <summary>
         /// Validate probability log.
         /// </summary>
-        /// <param name="size">Population size.</param>
-        /// <param name="m">M parameter.</param>
-        /// <param name="n">N parameter.</param>
+        /// <param name="population">Population size.</param>
+        /// <param name="success">M parameter.</param>
+        /// <param name="draws">N parameter.</param>
         /// <param name="x">Input X value.</param>
         [TestCase(0, 0, 0, 0)]
         [TestCase(1, 1, 1, 1)]
@@ -304,9 +304,9 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         [TestCase(10, 1, 1, 1)]
         [TestCase(10, 5, 3, 1)]
         [TestCase(10, 5, 3, 3)]
-        public void ValidateProbabilityLn(int size, int m, int n, int x)
+        public void ValidateProbabilityLn(int population, int success, int draws, int x)
         {
-            var d = new Hypergeometric(size, m, n);
+            var d = new Hypergeometric(population, success, draws);
             Assert.AreEqual(Math.Log(d.Probability(x)), d.ProbabilityLn(x));
         }
 
@@ -334,9 +334,9 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         /// <summary>
         /// Validate cumulative distribution.
         /// </summary>
-        /// <param name="size">Population size.</param>
-        /// <param name="m">M parameter.</param>
-        /// <param name="n">N parameter.</param>
+        /// <param name="population">Population size.</param>
+        /// <param name="success">M parameter.</param>
+        /// <param name="draws">N parameter.</param>
         /// <param name="x">Input X value.</param>
         /// <param name="cdf">Expected value.</param>
         [TestCase(0, 0, 0, 0.5, 1.0)]
@@ -347,11 +347,23 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         [TestCase(10, 1, 1, 0.3, 0.9)]
         [TestCase(10, 1, 1, 1.2, 1.0)]
         [TestCase(10, 5, 3, 1.1, 0.5)]
-        [TestCase(10, 5, 3, 3.0, 0.916666666666667)]
-        public void ValidateCumulativeDistribution(int size, int m, int n, double x, double cdf)
+        [TestCase(10, 5, 3, 2.0, 11.0/12.0)]
+        [TestCase(10, 5, 3, 3.0, 1.0)]
+        [TestCase(10000, 2, 9800, 0.0, 199.0/499950.0)]
+        [TestCase(10000, 2, 9800, 0.5, 199.0/499950.0)]
+        [TestCase(10000, 2, 9800, 1.5, 19799.0/499950.0)]
+        public void ValidateCumulativeDistribution(int population, int success, int draws, double x, double cdf)
         {
-            var d = new Hypergeometric(size, m, n);
-            AssertHelpers.AlmostEqual(cdf, d.CumulativeDistribution(x), 14);
+            var d = new Hypergeometric(population, success, draws);
+            AssertHelpers.AlmostEqual(cdf, d.CumulativeDistribution(x), 10);
+        }
+
+        [Test]
+        public void CumulativeDistributionMustNotOverflow_CodePlexIssue5729()
+        {
+            var d = new Hypergeometric(10000, 2, 9800);
+            Assert.That(d.CumulativeDistribution(0.0), Is.Not.NaN);
+            Assert.That(d.CumulativeDistribution(0.1), Is.Not.NaN);
         }
     }
 }
