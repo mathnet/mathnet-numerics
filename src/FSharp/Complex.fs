@@ -62,8 +62,8 @@ namespace MathNet.Numerics
         let sec (x:complex) = Trig.Sec(x)
         let csc (x:complex) = Trig.Csc(x)
 
-        let asin x = Complex.Asin(x)
-        let acos x = Complex.Acos(x)
+        let asin (x:complex) = Trig.Asin(x) // numerically more stable than Complex.Asin
+        let acos (x:complex) = Trig.Acos(x) // numerically more stable than Complex.Acos
         let atan x = Complex.Atan(x)
         let acot (x:complex) = Trig.Acot(x)
         let asec (x:complex) = Trig.Asec(x)
@@ -130,8 +130,8 @@ namespace MathNet.Numerics
         let sec (x:complex32) = ofComplex <| Trig.Sec(x.ToComplex())
         let csc (x:complex32) = ofComplex <| Trig.Csc(x.ToComplex())
 
-        let asin x = Complex32.Asin(x)
-        let acos x = Complex32.Acos(x)
+        let asin (x:complex32) = ofComplex <| Trig.Asin(x.ToComplex()) // numerically more stable than Complex.Asin
+        let acos (x:complex32) = ofComplex <| Trig.Acos(x.ToComplex()) // numerically more stable than Complex.Acos
         let atan x = Complex32.Atan(x)
         let acot (x:complex32) = ofComplex <| Trig.Acot(x.ToComplex())
         let asec (x:complex32) = ofComplex <| Trig.Asec(x.ToComplex())

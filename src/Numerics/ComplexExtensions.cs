@@ -132,7 +132,7 @@ namespace MathNet.Numerics
         /// The exponential of this complex number.
         /// </returns>
         [TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")]
-        public static Complex Exponential(this Complex complex)
+        public static Complex Exp(this Complex complex)
         {
             return Complex.Exp(complex);
         }
@@ -145,7 +145,7 @@ namespace MathNet.Numerics
         /// The natural logarithm of this complex number.
         /// </returns>
         [TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")]
-        public static Complex NaturalLogarithm(this Complex complex)
+        public static Complex Ln(this Complex complex)
         {
             return Complex.Log(complex);
         }
@@ -155,7 +155,7 @@ namespace MathNet.Numerics
         /// </summary>
         /// <returns>The common logarithm of this complex number.</returns>
         [TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")]
-        public static Complex CommonLogarithm(this Complex complex)
+        public static Complex Log10(this Complex complex)
         {
             return Complex.Log10(complex);
         }
@@ -165,7 +165,7 @@ namespace MathNet.Numerics
         /// </summary>
         /// <returns>The logarithm of this complex number.</returns>
         [TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")]
-        public static Complex Logarithm(this Complex complex, double baseValue)
+        public static Complex Log(this Complex complex, double baseValue)
         {
             return Complex.Log(complex, baseValue);
         }

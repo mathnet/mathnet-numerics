@@ -50,7 +50,7 @@ namespace MathNet.Numerics.UnitTests.ComplexTests
         {
             var value = new Complex(real, imag);
             var expected = new Complex(expectedReal, expectedImag);
-            AssertHelpers.AlmostEqual(expected, value.Exponential(), 15);
+            AssertHelpers.AlmostEqual(expected, value.Exp(), 15);
         }
 
         /// <summary>
@@ -69,7 +69,7 @@ namespace MathNet.Numerics.UnitTests.ComplexTests
         {
             var value = new Complex(real, imag);
             var expected = new Complex(expectedReal, expectedImag);
-            AssertHelpers.AlmostEqual(expected, value.NaturalLogarithm(), 15);
+            AssertHelpers.AlmostEqual(expected, value.Ln(), 15);
         }
 
         /// <summary>

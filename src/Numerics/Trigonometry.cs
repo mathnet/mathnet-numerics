@@ -378,7 +378,7 @@ namespace MathNet.Numerics
                 return -Asin(-value);
             }
 
-            return -Complex.ImaginaryOne * ((1 - value.Square()).SquareRoot() + (Complex.ImaginaryOne * value)).NaturalLogarithm();
+            return -Complex.ImaginaryOne * ((1 - value.Square()).SquareRoot() + (Complex.ImaginaryOne * value)).Ln();
         }
 
         /// <summary>
@@ -414,7 +414,7 @@ namespace MathNet.Numerics
                 return Constants.Pi - Acos(-value);
             }
 
-            return -Complex.ImaginaryOne * (value + (Complex.ImaginaryOne * (1 - value.Square()).SquareRoot())).NaturalLogarithm();
+            return -Complex.ImaginaryOne * (value + (Complex.ImaginaryOne * (1 - value.Square()).SquareRoot())).Ln();
         }
 
         /// <summary>
@@ -443,7 +443,7 @@ namespace MathNet.Numerics
         public static Complex Atan(this Complex value)
         {
             var iz = new Complex(-value.Imaginary, value.Real); // I*this
-            return new Complex(0, 0.5) * ((1 - iz).NaturalLogarithm() - (1 + iz).NaturalLogarithm());
+            return new Complex(0, 0.5) * ((1 - iz).Ln() - (1 + iz).Ln());
         }
 
         /// <summary>
@@ -477,7 +477,7 @@ namespace MathNet.Numerics
             }
 
             var inv = Complex.ImaginaryOne / value;
-            return (Complex.ImaginaryOne * 0.5) * ((1.0 - inv).NaturalLogarithm() - (1.0 + inv).NaturalLogarithm());
+            return (Complex.ImaginaryOne * 0.5) * ((1.0 - inv).Ln() - (1.0 + inv).Ln());
         }
 
         /// <summary>
@@ -506,7 +506,7 @@ namespace MathNet.Numerics
         public static Complex Asec(this Complex value)
         {
             var inv = 1 / value;
-            return -Complex.ImaginaryOne * (inv + (Complex.ImaginaryOne * (1 - inv.Square()).SquareRoot())).NaturalLogarithm();
+            return -Complex.ImaginaryOne * (inv + (Complex.ImaginaryOne * (1 - inv.Square()).SquareRoot())).Ln();
         }
 
         /// <summary>
@@ -538,7 +538,7 @@ namespace MathNet.Numerics
         public static Complex Acsc(this Complex value)
         {
             var inv = 1 / value;
-            return -Complex.ImaginaryOne * ((Complex.ImaginaryOne * inv) + (1 - inv.Square()).SquareRoot()).NaturalLogarithm();
+            return -Complex.ImaginaryOne * ((Complex.ImaginaryOne * inv) + (1 - inv.Square()).SquareRoot()).Ln();
         }
 
         /// <summary>
@@ -751,7 +751,7 @@ namespace MathNet.Numerics
                 return new Complex(Sech(value.Real), 0.0);
             }
 
-            var exp = value.Exponential();
+            var exp = value.Exp();
 
             if (exp.IsInfinity())
             {
@@ -791,7 +791,7 @@ namespace MathNet.Numerics
                 return new Complex(Csch(value.Real), 0.0);
             }
 
-            var exp = value.Exponential();
+            var exp = value.Exp();
 
             if (exp.IsInfinity())
             {
@@ -826,7 +826,7 @@ namespace MathNet.Numerics
         /// </returns>
         public static Complex Asinh(this Complex value)
         {
-            return (value + (value.Square() + 1).SquareRoot()).NaturalLogarithm();
+            return (value + (value.Square() + 1).SquareRoot()).Ln();
         }
 
         /// <summary>
@@ -854,7 +854,7 @@ namespace MathNet.Numerics
         /// </returns>
         public static Complex Acosh(this Complex value)
         {
-            return (value + ((value - 1).SquareRoot() * (value + 1).SquareRoot())).NaturalLogarithm();
+            return (value + ((value - 1).SquareRoot() * (value + 1).SquareRoot())).Ln();
         }
 
         /// <summary>
@@ -882,7 +882,7 @@ namespace MathNet.Numerics
         /// </returns>
         public static Complex Atanh(this Complex value)
         {
-            return 0.5 * ((1 + value).NaturalLogarithm() - (1 - value).NaturalLogarithm());
+            return 0.5 * ((1 + value).Ln() - (1 - value).Ln());
         }
 
         /// <summary>
@@ -911,7 +911,7 @@ namespace MathNet.Numerics
         public static Complex Acoth(this Complex value)
         {
             var inv = 1.0 / value;
-            return 0.5 * ((1.0 + inv).NaturalLogarithm() - (1.0 - inv).NaturalLogarithm());
+            return 0.5 * ((1.0 + inv).Ln() - (1.0 - inv).Ln());
         }
 
         /// <summary>
@@ -940,7 +940,7 @@ namespace MathNet.Numerics
         public static Complex Asech(this Complex value)
         {
             var inv = 1 / value;
-            return (inv + ((inv - 1).SquareRoot() * (inv + 1).SquareRoot())).NaturalLogarithm();
+            return (inv + ((inv - 1).SquareRoot() * (inv + 1).SquareRoot())).Ln();
         }
 
         /// <summary>
@@ -969,7 +969,7 @@ namespace MathNet.Numerics
         public static Complex Acsch(this Complex value)
         {
             var inv = 1 / value;
-            return (inv + (inv.Square() + 1).SquareRoot()).NaturalLogarithm();
+            return (inv + (inv.Square() + 1).SquareRoot()).Ln();
         }
     }
 }
