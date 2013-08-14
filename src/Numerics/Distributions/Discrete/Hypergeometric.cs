@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2010 Math.NET
+// Copyright (c) 2009-2013 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -28,11 +28,12 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using MathNet.Numerics.Properties;
+using System.Collections.Generic;
+
 namespace MathNet.Numerics.Distributions
 {
     using System;
-    using System.Collections.Generic;
-    using Properties;
 
     /// <summary>
     /// This class implements functionality for the Hypergeometric distribution. This distribution is
@@ -50,19 +51,19 @@ namespace MathNet.Numerics.Distributions
     public class Hypergeometric : IDiscreteDistribution
     {
         /// <summary>
-        /// The size of the population.
+        /// The size of the population (N).
         /// </summary>
-        int _populationSize;
+        int _population;
 
         /// <summary>
-        /// The m parameter of the distribution.
+        /// The number successes within the population (K, M).
         /// </summary>
-        int _m;
+        int _success;
 
         /// <summary>
-        /// The n parameter (number to draw) of the distribution.
+        /// The number of draws without replacement (n).
         /// </summary>
-        int _n;
+        int _draws;
 
         /// <summary>
         /// The distribution's random number generator.
@@ -72,61 +73,61 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Initializes a new instance of the Hypergeometric class.
         /// </summary>
-        /// <param name="populationSize">The population size.</param>
-        /// <param name="m">The m parameter of the distribution.</param>
-        /// <param name="n">The n parameter of the distribution.</param>
-        public Hypergeometric(int populationSize, int m, int n)
+        /// <param name="population">The size of the population (N).</param>
+        /// <param name="success">The number successes within the population (K, M).</param>
+        /// <param name="draws">The number of draws without replacement (n).</param>
+        public Hypergeometric(int population, int success, int draws)
         {
             _random = new Random();
-            SetParameters(populationSize, m, n);
+            SetParameters(population, success, draws);
         }
 
         /// <summary>
         /// Initializes a new instance of the Hypergeometric class.
         /// </summary>
-        /// <param name="populationSize">The population size.</param>
-        /// <param name="m">The m parameter of the distribution.</param>
-        /// <param name="n">The n parameter of the distribution.</param>
+        /// <param name="population">The size of the population (N).</param>
+        /// <param name="success">The number successes within the population (K, M).</param>
+        /// <param name="draws">The number of draws without replacement (n).</param>
         /// <param name="randomSource">The random number generator which is used to draw random samples.</param>
-        public Hypergeometric(int populationSize, int m, int n, Random randomSource)
+        public Hypergeometric(int population, int success, int draws, Random randomSource)
         {
             _random = randomSource ?? new Random();
-            SetParameters(populationSize, m, n);
+            SetParameters(population, success, draws);
         }
 
         /// <summary>
         /// Sets the parameters of the distribution after checking their validity.
         /// </summary>
-        /// <param name="total">The Total parameter of the distribution.</param>
-        /// <param name="m">The m parameter of the distribution.</param>
-        /// <param name="n">The n parameter of the distribution.</param>
-        void SetParameters(int total, int m, int n)
+        /// <param name="population">The size of the population (N).</param>
+        /// <param name="success">The number successes within the population (K, M).</param>
+        /// <param name="draws">The number of draws without replacement (n).</param>
+        void SetParameters(int population, int success, int draws)
         {
-            if (Control.CheckDistributionParameters && !IsValidParameterSet(total, m, n))
+            if (Control.CheckDistributionParameters && !IsValidParameterSet(population, success, draws))
             {
                 throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
             }
 
-            _populationSize = total;
-            _m = m;
-            _n = n;
+            _population = population;
+            _success = success;
+            _draws = draws;
         }
 
         /// <summary>
         /// Checks whether the parameters of the distribution are valid.
         /// </summary>
-        /// <param name="total">The Total parameter of the distribution.</param>
-        /// <param name="m">The m parameter of the distribution.</param>
-        /// <param name="n">The n parameter of the distribution.</param>
+        /// <param name="population">The size of the population (N).</param>
+        /// <param name="success">The number successes within the population (K, M).</param>
+        /// <param name="draws">The number of draws without replacement (n).</param>
         /// <returns><c>true</c> when the parameters are valid, <c>false</c> otherwise.</returns>
-        static bool IsValidParameterSet(int total, int m, int n)
+        static bool IsValidParameterSet(int population, int success, int draws)
         {
-            if (total < 0 || m < 0 || n < 0)
+            if (population < 0 || success < 0 || draws < 0)
             {
                 return false;
             }
 
-            if (m > total || n > total)
+            if (success > population || draws > population)
             {
                 return false;
             }
@@ -135,30 +136,60 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Gets or sets the population size.
+        /// Gets or sets the size of the population (N).
         /// </summary>
+        public int Population
+        {
+            get { return _population; }
+            set { SetParameters(value, _success, _draws); }
+        }
+
+        /// <summary>
+        /// Gets or sets the number of draws without replacement (n).
+        /// </summary>
+        public int Draws
+        {
+            get { return _draws; }
+            set { SetParameters(_population, value, _draws); }
+        }
+
+        /// <summary>
+        /// Gets or sets the number successes within the population (K, M).
+        /// </summary>
+        public int Success
+        {
+            get { return _success; }
+            set { SetParameters(_population, _success, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the size of the population (N).
+        /// </summary>
+        [Obsolete("Use Population instead. Scheduled for removal in v3.0.")]
         public int PopulationSize
         {
-            get { return _populationSize; }
-            set { SetParameters(value, _m, _n); }
+            get { return _population; }
+            set { SetParameters(value, _success, _draws); }
         }
 
         /// <summary>
-        /// Gets or sets the n parameter of the distribution.
+        /// Gets or sets the number of draws without replacement (n).
         /// </summary>
+        [Obsolete("Use Draws instead. Scheduled for removal in v3.0.")]
         public int N
         {
-            get { return _n; }
-            set { SetParameters(_populationSize, value, _n); }
+            get { return _draws; }
+            set { SetParameters(_population, value, _draws); }
         }
 
         /// <summary>
-        /// Gets or sets the m parameter of the distribution.
+        /// Gets or sets the number successes within the population (K, M).
         /// </summary>
+        [Obsolete("Use Success instead. Scheduled for removal in v3.0.")]
         public int M
         {
-            get { return _m; }
-            set { SetParameters(_populationSize, _m, value); }
+            get { return _success; }
+            set { SetParameters(_population, _success, value); }
         }
 
         /// <summary>
@@ -169,10 +200,8 @@ namespace MathNet.Numerics.Distributions
         /// </returns>
         public override string ToString()
         {
-            return "Hypergeometric(N = " + _populationSize + ", m = " + _m + ", n = " + _n + ")";
+            return "Hypergeometric(N = " + _population + ", M = " + _success + ", n = " + _draws + ")";
         }
-
-        #region IDistribution Members
 
         /// <summary>
         /// Gets or sets the random number generator which is used to draw random samples.
@@ -196,7 +225,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Mean
         {
-            get { return (double) _m*_n/_populationSize; }
+            get { return (double) _success*_draws/_population; }
         }
 
         /// <summary>
@@ -204,7 +233,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Variance
         {
-            get { return _n*_m*(_populationSize - _n)*(_populationSize - _m)/(_populationSize*_populationSize*(_populationSize - 1.0)); }
+            get { return _draws*_success*(_population - _draws)*(_population - _success)/(_population*_population*(_population - 1.0)); }
         }
 
         /// <summary>
@@ -228,48 +257,15 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Skewness
         {
-            get { return (Math.Sqrt(_populationSize - 1.0)*(_populationSize - (2*_n))*(_populationSize - (2*_m)))/(Math.Sqrt(_n*_m*(_populationSize - _m)*(_populationSize - _n))*(_populationSize - 2.0)); }
+            get { return (Math.Sqrt(_population - 1.0)*(_population - (2*_draws))*(_population - (2*_success)))/(Math.Sqrt(_draws*_success*(_population - _success)*(_population - _draws))*(_population - 2.0)); }
         }
-
-        /// <summary>
-        /// Computes the cumulative distribution function of the distribution.
-        /// </summary>
-        /// <param name="x">The location at which to compute the cumulative density.</param>
-        /// <returns>the cumulative density at <paramref name="x"/>.</returns>
-        public double CumulativeDistribution(double x)
-        {
-            int alpha = Minimum;
-            int beta = Maximum;
-            if (x <= alpha)
-            {
-                return 0.0;
-            }
-
-            if (x > beta)
-            {
-                return 1.0;
-            }
-
-            var sum = 0.0;
-            var k = (int) Math.Ceiling(x - alpha) - 1;
-            for (var i = alpha; i <= alpha + k; i++)
-            {
-                sum += SpecialFunctions.Binomial(_m, i)*SpecialFunctions.Binomial(_populationSize - _m, _n - i);
-            }
-
-            return sum/SpecialFunctions.Binomial(_populationSize, _n);
-        }
-
-        #endregion
-
-        #region IDiscreteDistribution Members
 
         /// <summary>
         /// Gets the mode of the distribution.
         /// </summary>
         public int Mode
         {
-            get { return (_n + 1)*(_m + 1)/(_populationSize + 2); }
+            get { return (_draws + 1)*(_success + 1)/(_population + 2); }
         }
 
         /// <summary>
@@ -285,7 +281,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public int Minimum
         {
-            get { return Math.Max(0, _n + _m - _populationSize); }
+            get { return Math.Max(0, _draws + _success - _population); }
         }
 
         /// <summary>
@@ -293,11 +289,11 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public int Maximum
         {
-            get { return Math.Min(_m, _n); }
+            get { return Math.Min(_success, _draws); }
         }
 
         /// <summary>
-        /// Computes values of the probability mass function.
+        /// Computes values of the probability mass function (PMF), i.e. P(X = x).
         /// </summary>
         /// <param name="k">The location in the domain where we want to evaluate the probability mass function.</param>
         /// <returns>
@@ -305,11 +301,11 @@ namespace MathNet.Numerics.Distributions
         /// </returns>
         public double Probability(int k)
         {
-            return SpecialFunctions.Binomial(_m, k)*SpecialFunctions.Binomial(_populationSize - _m, _n - k)/SpecialFunctions.Binomial(_populationSize, _n);
+            return SpecialFunctions.Binomial(_success, k)*SpecialFunctions.Binomial(_population - _success, _draws - k)/SpecialFunctions.Binomial(_population, _draws);
         }
 
         /// <summary>
-        /// Computes values of the log probability mass function.
+        /// Computes values of the log probability mass function (lnPMF), i.e. ln(P(X = x)).
         /// </summary>
         /// <param name="k">The location in the domain where we want to evaluate the log probability mass function.</param>
         /// <returns>
@@ -320,33 +316,57 @@ namespace MathNet.Numerics.Distributions
             return Math.Log(Probability(k));
         }
 
-        #endregion
+        /// <summary>
+        /// Computes the cumulative distribution function (CDF) of the distribution, i.e. P(X &lt;= x).
+        /// </summary>
+        /// <param name="x">The location at which to compute the cumulative density.</param>
+        /// <returns>the cumulative density at <paramref name="x"/>.</returns>
+        public double CumulativeDistribution(double x)
+        {
+            if (x < Minimum)
+            {
+                return 0.0;
+            }
+            if (x >= Maximum)
+            {
+                return 1.0;
+            }
+
+            var k = (int) Math.Floor(x);
+            var denominatorLn = SpecialFunctions.BinomialLn(_population, _draws);
+            var sum = 0.0;
+            for (var i = 0; i <= k; i++)
+            {
+                sum += Math.Exp(SpecialFunctions.BinomialLn(_success, i) + SpecialFunctions.BinomialLn(_population - _success, _draws - i) - denominatorLn);
+            }
+            return sum;
+        }
 
         /// <summary>
         /// Generates a sample from the Hypergeometric distribution without doing parameter checking.
         /// </summary>
         /// <param name="rnd">The random number generator to use.</param>
-        /// <param name="size">The Total parameter of the distribution.</param>
-        /// <param name="m">The m parameter of the distribution.</param>
-        /// <param name="n">The n parameter of the distribution.</param>
+        /// <param name="population">The size of the population (N).</param>
+        /// <param name="success">The number successes within the population (K, M).</param>
+        /// <param name="draws">The n parameter of the distribution.</param>
         /// <returns>a random number from the Hypergeometric distribution.</returns>
-        internal static int SampleUnchecked(Random rnd, int size, int m, int n)
+        internal static int SampleUnchecked(Random rnd, int population, int success, int draws)
         {
             var x = 0;
 
             do
             {
-                var p = (double) m/size;
+                var p = (double) success/population;
                 var r = rnd.NextDouble();
                 if (r < p)
                 {
                     x++;
-                    m--;
+                    success--;
                 }
 
-                size--;
-                n--;
-            } while (0 < n);
+                population--;
+                draws--;
+            } while (0 < draws);
 
             return x;
         }
@@ -357,7 +377,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>The number of successes in n trials.</returns>
         public int Sample()
         {
-            return SampleUnchecked(RandomSource, _populationSize, _m, _n);
+            return SampleUnchecked(RandomSource, _population, _success, _draws);
         }
 
         /// <summary>
@@ -368,7 +388,7 @@ namespace MathNet.Numerics.Distributions
         {
             while (true)
             {
-                yield return SampleUnchecked(RandomSource, _populationSize, _m, _n);
+                yield return SampleUnchecked(RandomSource, _population, _success, _draws);
             }
         }
 
@@ -376,36 +396,36 @@ namespace MathNet.Numerics.Distributions
         /// Samples a random variable.
         /// </summary>
         /// <param name="rnd">The random number generator to use.</param>
-        /// <param name="populationSize">The population size.</param>
-        /// <param name="m">The m parameter of the distribution.</param>
-        /// <param name="n">The n parameter of the distribution.</param>
-        public static int Sample(Random rnd, int populationSize, int m, int n)
+        /// <param name="population">The size of the population (N).</param>
+        /// <param name="success">The number successes within the population (K, M).</param>
+        /// <param name="draws">The number of draws without replacement (n).</param>
+        public static int Sample(Random rnd, int population, int success, int draws)
         {
-            if (Control.CheckDistributionParameters && !IsValidParameterSet(populationSize, m, n))
+            if (Control.CheckDistributionParameters && !IsValidParameterSet(population, success, draws))
             {
                 throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
             }
 
-            return SampleUnchecked(rnd, populationSize, m, n);
+            return SampleUnchecked(rnd, population, success, draws);
         }
 
         /// <summary>
         /// Samples a sequence of this random variable.
         /// </summary>
         /// <param name="rnd">The random number generator to use.</param>
-        /// <param name="populationSize">The population size.</param>
-        /// <param name="m">The m parameter of the distribution.</param>
-        /// <param name="n">The n parameter of the distribution.</param>
-        public static IEnumerable<int> Samples(Random rnd, int populationSize, int m, int n)
+        /// <param name="population">The size of the population (N).</param>
+        /// <param name="success">The number successes within the population (K, M).</param>
+        /// <param name="draws">The number of draws without replacement (n).</param>
+        public static IEnumerable<int> Samples(Random rnd, int population, int success, int draws)
         {
-            if (Control.CheckDistributionParameters && !IsValidParameterSet(populationSize, m, n))
+            if (Control.CheckDistributionParameters && !IsValidParameterSet(population, success, draws))
             {
                 throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
             }
 
             while (true)
             {
-                yield return SampleUnchecked(rnd, populationSize, m, n);
+                yield return SampleUnchecked(rnd, population, success, draws);
             }
         }
     }

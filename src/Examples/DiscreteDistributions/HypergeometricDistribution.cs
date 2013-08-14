@@ -65,7 +65,7 @@ namespace Examples.DiscreteDistributionsExamples
         {
             // 1. Initialize the new instance of the Hypergeometric distribution class with parameters PopulationSize = 10, M = 2, N = 8
             var hypergeometric = new Hypergeometric(30, 15, 10);
-            Console.WriteLine(@"1. Initialize the new instance of the Hypergeometric distribution class with parameters PopulationSize = {0}, M = {1}, N = {2}", hypergeometric.PopulationSize, hypergeometric.M, hypergeometric.N);
+            Console.WriteLine(@"1. Initialize the new instance of the Hypergeometric distribution class with parameters Population = {0}, Success = {1}, Draws = {2}", hypergeometric.Population, hypergeometric.Success, hypergeometric.Draws);
             Console.WriteLine();
 
             // 2. Distributuion properties:
@@ -125,9 +125,9 @@ namespace Examples.DiscreteDistributionsExamples
 
             // 5. Generate 100000 samples of the Hypergeometric(52, 13, 5) distribution and display histogram
             Console.WriteLine(@"5. Generate 100000 samples of the Hypergeometric(52, 13, 5) distribution and display histogram");
-            hypergeometric.PopulationSize = 52;
-            hypergeometric.M = 13;
-            hypergeometric.N = 5;
+            hypergeometric.Population = 52;
+            hypergeometric.Success = 13;
+            hypergeometric.Draws = 5;
             for (var i = 0; i < data.Length; i++)
             {
                 data[i] = hypergeometric.Sample();
