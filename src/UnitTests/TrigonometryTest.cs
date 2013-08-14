@@ -737,6 +737,8 @@ namespace MathNet.Numerics.UnitTests
         [TestCase(8.388608e6, 1.19209289550780998537e-7, 1.5707963267948966, 16.635532333438682)]
         [TestCase(-8.388608e6, -1.19209289550780998537e-7, -1.5707963267948966, -16.635532333438682)]
         [TestCase(0.5, -0.5, 0.4522784471511907, -0.53063753095251787)]
+        [TestCase(123400000000d, 0d, 1.57079632679489661923, -26.23184412897764390497)]
+        [TestCase(-123400000000d, 0d, -1.57079632679489661923, 26.23184412897764390497)]
         public void CanComputeComplexInverseSine(double real, double imag, double expectedReal, double expectedImag)
         {
             var actual = new Complex(real, imag).InverseSine();
@@ -759,6 +761,8 @@ namespace MathNet.Numerics.UnitTests
         [TestCase(8.388608e6, 1.19209289550780998537e-7, 1.4210854715202073e-14, -16.635532333438682)]
         [TestCase(-8.388608e6, -1.19209289550780998537e-7, 3.1415926535897789, 16.63553233343868)]
         [TestCase(0.5, -0.5, 1.1185178796437059, 0.53063753095251787)]
+        [TestCase(123400000000d, 0d, 0d, 26.23184412897764390497)]
+        [TestCase(-123400000000d, 0d, 3.14159265358979323846, -26.23184412897764390497)]
         public void CanComputeComplexInverseCosine(double real, double imag, double expectedReal, double expectedImag)
         {
             var actual = new Complex(real, imag).InverseCosine();

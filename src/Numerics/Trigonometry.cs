@@ -531,6 +531,11 @@ namespace MathNet.Numerics
         /// </returns>
         public static Complex InverseCosine(this Complex value)
         {
+            if (value.Imaginary < 0 || value.Imaginary == 0d && value.Real > 0)
+            {
+                return Constants.Pi - InverseCosine(-value);
+            }
+
             return -Complex.ImaginaryOne * (value + (Complex.ImaginaryOne * (1 - value.Square()).SquareRoot())).NaturalLogarithm();
         }
 
@@ -793,6 +798,11 @@ namespace MathNet.Numerics
         /// </returns>
         public static Complex InverseSine(this Complex value)
         {
+            if (value.Imaginary > 0 || value.Imaginary == 0d && value.Real < 0)
+            {
+                return -InverseSine(-value);
+            }
+
             return -Complex.ImaginaryOne * ((1 - value.Square()).SquareRoot() + (Complex.ImaginaryOne * value)).NaturalLogarithm();
         }
 
