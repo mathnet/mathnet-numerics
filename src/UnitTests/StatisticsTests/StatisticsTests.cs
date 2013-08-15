@@ -179,6 +179,9 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
             AssertHelpers.AlmostEqual(data.Mean, Statistics.Mean(data.Data), 15);
             AssertHelpers.AlmostEqual(data.Mean, ArrayStatistics.Mean(data.Data), 15);
             AssertHelpers.AlmostEqual(data.Mean, StreamingStatistics.Mean(data.Data), 15);
+            AssertHelpers.AlmostEqual(data.Mean, Statistics.MeanVariance(data.Data).Item1, 15);
+            AssertHelpers.AlmostEqual(data.Mean, ArrayStatistics.MeanVariance(data.Data).Item1, 15);
+            AssertHelpers.AlmostEqual(data.Mean, StreamingStatistics.MeanVariance(data.Data).Item1, 15);
         }
 
         [TestCase("lottery")]
@@ -209,6 +212,9 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
             AssertHelpers.AlmostEqual(data.StandardDeviation, Statistics.StandardDeviation(data.Data), digits);
             AssertHelpers.AlmostEqual(data.StandardDeviation, ArrayStatistics.StandardDeviation(data.Data), digits);
             AssertHelpers.AlmostEqual(data.StandardDeviation, StreamingStatistics.StandardDeviation(data.Data), digits);
+            AssertHelpers.AlmostEqual(data.StandardDeviation, Math.Sqrt(Statistics.MeanVariance(data.Data).Item2), digits);
+            AssertHelpers.AlmostEqual(data.StandardDeviation, Math.Sqrt(ArrayStatistics.MeanVariance(data.Data).Item2), digits);
+            AssertHelpers.AlmostEqual(data.StandardDeviation, Math.Sqrt(StreamingStatistics.MeanVariance(data.Data).Item2), digits);
         }
 
         [TestCase("lottery", 15)]

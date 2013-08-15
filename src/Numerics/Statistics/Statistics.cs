@@ -228,6 +228,21 @@ namespace MathNet.Numerics.Statistics
         }
 
         /// <summary>
+        /// Estimates the sample mean and the unbiased population variance from the provided samples.
+        /// On a dataset of size N will use an N-1 normalizer (Bessel's correction).
+        /// Returns NaN for mean if data is empty or if any entry is NaN and NaN for variance if data has less than two entries or if any entry is NaN.
+        /// </summary>
+        /// <param name="samples">The data to calculate the mean of.</param>
+        /// <returns>The mean of the sample.</returns>
+        public static Tuple<double, double> MeanVariance(this IEnumerable<double> samples)
+        {
+            var array = samples as double[];
+            return array != null
+                ? ArrayStatistics.MeanVariance(array)
+                : StreamingStatistics.MeanVariance(samples);
+        }
+
+        /// <summary>
         /// Estimates the unbiased population covariance from the provided samples.
         /// On a dataset of size N will use an N-1 normalizer (Bessel's correction).
         /// Returns NaN if data has less than two entries or if any entry is NaN.

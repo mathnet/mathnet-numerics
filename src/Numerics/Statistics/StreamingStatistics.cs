@@ -118,26 +118,28 @@ namespace MathNet.Numerics.Statistics
             if (samples == null) throw new ArgumentNullException("samples");
 
             double variance = 0;
-            double t = 0;
-            ulong j = 0;
+            double sum = 0;
+            ulong count = 0;
+
             using (var iterator = samples.GetEnumerator())
             {
                 if (iterator.MoveNext())
                 {
-                    j++;
-                    t = iterator.Current;
+                    count++;
+                    sum = iterator.Current;
                 }
 
                 while (iterator.MoveNext())
                 {
-                    j++;
+                    count++;
                     double xi = iterator.Current;
-                    t += xi;
-                    double diff = (j*xi) - t;
-                    variance += (diff*diff)/(j*(j - 1));
+                    sum += xi;
+                    double diff = (count*xi) - sum;
+                    variance += (diff*diff)/(count*(count - 1));
                 }
             }
-            return j > 1 ? variance/(j - 1) : double.NaN;
+
+            return count > 1 ? variance/(count - 1) : double.NaN;
         }
 
         /// <summary>
@@ -151,26 +153,28 @@ namespace MathNet.Numerics.Statistics
             if (population == null) throw new ArgumentNullException("population");
 
             double variance = 0;
-            double t = 0;
-            ulong j = 0;
+            double sum = 0;
+            ulong count = 0;
+
             using (var iterator = population.GetEnumerator())
             {
                 if (iterator.MoveNext())
                 {
-                    j++;
-                    t = iterator.Current;
+                    count++;
+                    sum = iterator.Current;
                 }
 
                 while (iterator.MoveNext())
                 {
-                    j++;
+                    count++;
                     double xi = iterator.Current;
-                    t += xi;
-                    double diff = (j*xi) - t;
-                    variance += (diff*diff)/(j*(j - 1));
+                    sum += xi;
+                    double diff = (count*xi) - sum;
+                    variance += (diff*diff)/(count*(count - 1));
                 }
             }
-            return variance/j;
+
+            return variance/count;
         }
 
         /// <summary>
@@ -193,6 +197,45 @@ namespace MathNet.Numerics.Statistics
         public static double PopulationStandardDeviation(IEnumerable<double> population)
         {
             return Math.Sqrt(PopulationVariance(population));
+        }
+
+        /// <summary>
+        /// Estimates the arithmetic sample mean and the unbiased population variance from the provided samples as enumerable sequence, in a single pass without memoization.
+        /// On a dataset of size N will use an N-1 normalizer (Bessel's correction).
+        /// Returns NaN for mean if data is empty or any entry is NaN, and NaN for variance if data has less than two entries or if any entry is NaN.
+        /// </summary>
+        /// <param name="samples">Sample stream, no sorting is assumed.</param>
+        public static Tuple<double, double> MeanVariance(IEnumerable<double> samples)
+        {
+            if (samples == null) throw new ArgumentNullException("samples");
+
+            double mean = 0;
+            double variance = 0;
+            double sum = 0;
+            ulong count = 0;
+
+            using (var iterator = samples.GetEnumerator())
+            {
+                if (iterator.MoveNext())
+                {
+                    count++;
+                    sum = mean = iterator.Current;
+                }
+
+                while (iterator.MoveNext())
+                {
+                    count++;
+                    double xi = iterator.Current;
+                    sum += xi;
+                    double diff = (count * xi) - sum;
+                    variance += (diff * diff) / (count * (count - 1));
+                    mean += (xi - mean) / count;
+                }
+            }
+
+            return new Tuple<double, double>(
+                count > 0 ? mean : double.NaN,
+                count > 1 ? variance/(count - 1) : double.NaN);
         }
 
         /// <summary>
