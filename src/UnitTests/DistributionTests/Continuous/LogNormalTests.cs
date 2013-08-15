@@ -517,5 +517,22 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
             var n = new LogNormal(mu, sigma);
             AssertHelpers.AlmostEqual(f, n.CumulativeDistribution(x), 8);
         }
+
+        /// <summary>
+        /// Can estimate distribution parameters.
+        /// </summary>
+        [TestCase(0.0, 0.0)]
+        [TestCase(10.0, 0.1)]
+        [TestCase(-5.0, 1.0)]
+        [TestCase(0.0, 5.0)]
+        [TestCase(10.0, 50.0)]
+        public void CanEstimateParameters(double mu, double sigma)
+        {
+            var original = new LogNormal(mu, sigma, new Random(100));
+            var estimated = LogNormal.Estimate(original.Samples().Take(10000));
+
+            AssertHelpers.AlmostEqual(mu, estimated.Mu, 2);
+            AssertHelpers.AlmostEqual(sigma, estimated.Sigma, 2);
+        }
     }
 }
