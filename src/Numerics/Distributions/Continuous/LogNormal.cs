@@ -100,7 +100,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Estimates the normal distribution parameters from sample data with maximum-likelihood.
+        /// Estimates the log-normal distribution parameters from sample data with maximum-likelihood.
         /// </summary>
         public static LogNormal Estimate(IEnumerable<double> samples)
         {
