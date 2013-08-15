@@ -491,5 +491,22 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
             var n = Normal.WithMeanStdDev(5.0, 2.0);
             AssertHelpers.AlmostEqual(x, n.InverseCumulativeDistribution(f), 15);
         }
+
+        /// <summary>
+        /// Can estimate distribution parameters.
+        /// </summary>
+        [TestCase(0.0, 0.0)]
+        [TestCase(10.0, 0.1)]
+        [TestCase(-5.0, 1.0)]
+        [TestCase(0.0, 5.0)]
+        [TestCase(10.0, 50.0)]
+        public void CanEstimateParameters(double mean, double stddev)
+        {
+            var original = new Normal(mean, stddev, new Random(100));
+            var estimated = Normal.Estimate(original.Samples().Take(10000));
+
+            AssertHelpers.AlmostEqual(mean, estimated.Mean, 2);
+            AssertHelpers.AlmostEqual(stddev, estimated.StdDev, 2);
+        }
     }
 }

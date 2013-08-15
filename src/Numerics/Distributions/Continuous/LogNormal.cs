@@ -24,11 +24,14 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System.Linq;
+using MathNet.Numerics.Properties;
+using MathNet.Numerics.Statistics;
+using System.Collections.Generic;
+
 namespace MathNet.Numerics.Distributions
 {
     using System;
-    using System.Collections.Generic;
-    using Properties;
 
     /// <summary>
     /// Implements the univariate Log-Normal distribution. For details about this distribution, see 
@@ -81,6 +84,28 @@ namespace MathNet.Numerics.Distributions
         {
             _random = randomSource ?? new Random();
             SetParameters(mu, sigma);
+        }
+
+        /// <summary>
+        /// Constructs a log-normal distribution with the desired mean and variance. The distribution will
+        /// be initialized with the default <seealso cref="System.Random"/> random number generator.
+        /// </summary>
+        /// <param name="mean">The mean of the log-normal distribution.</param>
+        /// <param name="var">The variance of the log-normal distribution.</param>
+        /// <returns>a log-normal distribution.</returns>
+        public static LogNormal WithMeanVariance(double mean, double var)
+        {
+            var sigma2 = Math.Log(var / (mean * mean) + 1.0);
+            return new LogNormal(Math.Log(mean) - sigma2 / 2.0, Math.Sqrt(sigma2));
+        }
+
+        /// <summary>
+        /// Estimates the normal distribution parameters from sample data with maximum-likelihood.
+        /// </summary>
+        public static LogNormal Estimate(IEnumerable<double> samples)
+        {
+            var muSigma2 = samples.Select(s => Math.Log(s)).MeanVariance();
+            return new LogNormal(muSigma2.Item1, Math.Sqrt(muSigma2.Item2));
         }
 
         /// <summary>

@@ -24,11 +24,13 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using MathNet.Numerics.Properties;
+using MathNet.Numerics.Statistics;
+using System.Collections.Generic;
+
 namespace MathNet.Numerics.Distributions
 {
     using System;
-    using System.Collections.Generic;
-    using Properties;
 
     /// <summary>
     /// Implements the univariate Normal (or Gaussian) distribution. For details about this distribution, see 
@@ -139,6 +141,15 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
+        /// Estimates the normal distribution parameters from sample data with maximum-likelihood.
+        /// </summary>
+        public static Normal Estimate(IEnumerable<double> samples)
+        {
+            var meanVariance = samples.MeanVariance();
+            return new Normal(meanVariance.Item1, Math.Sqrt(meanVariance.Item2));
+        }
+
+        /// <summary>
         /// A string representation of the distribution.
         /// </summary>
         /// <returns>a string representation of the distribution.</returns>
@@ -201,8 +212,6 @@ namespace MathNet.Numerics.Distributions
             }
         }
 
-        #region IDistribution implementation
-
         /// <summary>
         /// Gets or sets the random number generator which is used to draw random samples.
         /// </summary>
@@ -263,10 +272,6 @@ namespace MathNet.Numerics.Distributions
             get { return 0.0; }
         }
 
-        #endregion
-
-        #region IContinuousDistribution implementation
-
         /// <summary>
         /// Gets the mode of the normal distribution.
         /// </summary>
@@ -300,7 +305,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Computes the density of the normal distribution.
+        /// Computes the density of the normal distribution (PDF), i.e. dP(X &lt;= x)/dx.
         /// </summary>
         /// <param name="mean">The mean of the normal distribution.</param>
         /// <param name="sdev">The standard deviation of the normal distribution.</param>
@@ -313,7 +318,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Computes the log density of the normal distribution.
+        /// Computes the log density of the normal distribution (lnPDF), i.e. ln(dP(X &lt;= x)/dx).
         /// </summary>
         /// <param name="mean">The mean of the normal distribution.</param>
         /// <param name="sdev">The standard deviation of the normal distribution.</param>
@@ -326,7 +331,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Computes the density of the normal distribution.
+        /// Computes the density of the normal distribution (PDF), i.e. dP(X &lt;= x)/dx.
         /// </summary>
         /// <param name="x">The location at which to compute the density.</param>
         /// <returns>the density at <paramref name="x"/>.</returns>
@@ -336,7 +341,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Computes the log density of the normal distribution.
+        /// Computes the log density of the normal distribution (lnPDF), i.e. ln(dP(X &lt;= x)/dx).
         /// </summary>
         /// <param name="x">The location at which to compute the log density.</param>
         /// <returns>the log density at <paramref name="x"/>.</returns>
@@ -346,7 +351,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Computes the cumulative distribution function of the normal distribution.
+        /// Computes the cumulative distribution function (CDF) of the normal distribution, i.e. P(X &lt;= x).
         /// </summary>
         /// <param name="mean">The mean of the normal distribution.</param>
         /// <param name="sdev">The standard deviation of the normal distribution.</param>
@@ -358,7 +363,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Computes the cumulative distribution function of the normal distribution.
+        /// Computes the cumulative distribution function (CDF) of the normal distribution, i.e. P(X &lt;= x).
         /// </summary>
         /// <param name="x">The location at which to compute the cumulative density.</param>
         /// <returns>the cumulative density at <paramref name="x"/>.</returns>
@@ -366,8 +371,6 @@ namespace MathNet.Numerics.Distributions
         {
             return CumulativeDistribution(_mean, _stdDev, x);
         }
-
-        #endregion
 
         /// <summary>
         /// Computes the inverse cumulative distribution function of the normal distribution.
