@@ -284,7 +284,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Iterative
             var temp2 = new DenseVector(input.Count);
 
             // Initialize
-            var startNorm = input.Norm(2);
+            var startNorm = input.L2Norm();
 
             // Define the scalars
             Complex32 alpha = 0;
@@ -350,7 +350,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Iterative
                 yinternal.Add(temp, d);
 
                 // theta = ||pseudoResiduals||_2 / tau
-                theta = pseudoResiduals.Norm(2).Real/tau;
+                theta = pseudoResiduals.L2Norm().Real / tau;
                 var c = 1/(float) Math.Sqrt(1 + (theta*theta));
 
                 // tau = tau * theta * c

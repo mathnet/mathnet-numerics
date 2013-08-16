@@ -212,6 +212,16 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         }
 
         /// <summary>
+        /// Computes the dot product between the conjugate of this vector and another vector.
+        /// </summary>
+        /// <param name="other">The other vector.</param>
+        /// <returns>The sum of conj(a[i])*b[i] for all i.</returns>
+        protected override sealed float DoConjugateDotProduct(Vector<float> other)
+        {
+            return DoDotProduct(other);
+        }
+
+        /// <summary>
         /// Computes the modulus for each element of the vector for the given divisor.
         /// </summary>
         /// <param name="divisor">The scalar denominator to use.</param>
@@ -304,29 +314,43 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         public override float Sum()
         {
             var sum = 0.0f;
-
             for (var i = 0; i < Count; i++)
             {
                 sum += At(i);
             }
-
             return sum;
         }
 
         /// <summary>
-        /// Computes the sum of the absolute value of the vector's elements.
+        /// Calculates the L1 norm of the vector, also known as Manhattan norm.
         /// </summary>
-        /// <returns>The sum of the absolute value of the vector's elements.</returns>
-        public override float SumMagnitudes()
+        /// <returns>The sum of the absolute values.</returns>
+        public override float L1Norm()
         {
             var sum = 0.0f;
-
             for (var i = 0; i < Count; i++)
             {
                 sum += Math.Abs(At(i));
             }
-
             return sum;
+        }
+
+        /// <summary>
+        /// Calculates the L2 norm of the vector, also known as Euclidean norm.
+        /// </summary>
+        /// <returns>The square root of the sum of the squared values.</returns>
+        public override float L2Norm()
+        {
+            return (float)Math.Sqrt(DoDotProduct(this));
+        }
+
+        /// <summary>
+        /// Calculates the infinity norm of the vector.
+        /// </summary>
+        /// <returns>The square root of the sum of the squared values.</returns>
+        public override float InfinityNorm()
+        {
+            return CommonParallel.Aggregate(0, Count, i => Math.Abs(At(i)), Math.Max, 0f);
         }
 
         /// <summary>
@@ -340,24 +364,18 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// </returns>
         public override float Norm(double p)
         {
-            if (p < 0.0)
-            {
-                throw new ArgumentOutOfRangeException("p");
-            }
+            if (p < 0d) throw new ArgumentOutOfRangeException("p");
 
-            if (float.IsPositiveInfinity((float)p))
-            {
-                return CommonParallel.Aggregate(0, Count, i => Math.Abs(At(i)), Math.Max, 0f);
-            }
+            if (p == 1d) return L1Norm();
+            if (p == 2d) return L2Norm();
+            if (double.IsPositiveInfinity(p)) return InfinityNorm();
 
-            var sum = 0.0;
-
+            var sum = 0d;
             for (var index = 0; index < Count; index++)
             {
                 sum += Math.Pow(Math.Abs(At(index)), p);
             }
-
-            return (float)Math.Pow(sum, 1.0 / p);
+            return (float) Math.Pow(sum, 1.0/p);
         }
 
         /// <summary>

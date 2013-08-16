@@ -724,23 +724,56 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
             {
                 result += _storage.Values[i];
             }
-
             return result;
         }
 
         /// <summary>
-        /// Computes the sum of the absolute value of the vector's elements.
+        /// Calculates the L1 norm of the vector, also known as Manhattan norm.
         /// </summary>
-        /// <returns>The sum of the absolute value of the vector's elements.</returns>
-        public override Complex32 SumMagnitudes()
+        /// <returns>The sum of the absolute values.</returns>
+        public override Complex32 L1Norm()
         {
-            var result = 0.0f;
+            var result = 0f;
             for (var i = 0; i < _storage.ValueCount; i++)
             {
                 result += _storage.Values[i].Magnitude;
             }
-
             return result;
+        }
+
+        /// <summary>
+        /// Calculates the infinity norm of the vector.
+        /// </summary>
+        /// <returns>The square root of the sum of the squared values.</returns>
+        public override Complex32 InfinityNorm()
+        {
+            return CommonParallel.Aggregate(0, _storage.ValueCount, i => _storage.Values[i].Magnitude, Math.Max, 0f);
+        }
+
+        /// <summary>
+        /// Computes the p-Norm.
+        /// </summary>
+        /// <param name="p">The p value.</param>
+        /// <returns>Scalar <c>ret = (sum(abs(this[i])^p))^(1/p)</c></returns>
+        public override Complex32 Norm(double p)
+        {
+            if (p < 0d) throw new ArgumentOutOfRangeException("p");
+
+            if (_storage.ValueCount == 0)
+            {
+                return Complex32.Zero;
+            }
+
+            if (p == 1d) return L1Norm();
+            if (p == 2d) return L2Norm();
+            if (double.IsPositiveInfinity(p)) return InfinityNorm();
+
+            var sum = 0d;
+            for (var index = 0; index < _storage.ValueCount; index++)
+            {
+                sum += Math.Pow(_storage.Values[index].Magnitude, p);
+            }
+            return (float)Math.Pow(sum, 1.0 / p);
         }
 
         /// <summary>
@@ -836,42 +869,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         public Matrix<Complex32> OuterProduct(SparseVector v)
         {
             return OuterProduct(this, v);
-        }
-
-        /// <summary>
-        /// Computes the p-Norm.
-        /// </summary>
-        /// <param name="p">The p value.</param>
-        /// <returns>Scalar <c>ret = (sum(abs(this[i])^p))^(1/p)</c></returns>
-        public override Complex32 Norm(double p)
-        {
-            if (1 > p)
-            {
-                throw new ArgumentOutOfRangeException("p");
-            }
-
-            if (_storage.ValueCount == 0)
-            {
-                return Complex32.Zero;
-            }
-
-            if (2.0 == p)
-            {
-                return _storage.Values.Aggregate(Complex32.Zero, SpecialFunctions.Hypotenuse).Magnitude;
-            }
-
-            if (double.IsPositiveInfinity(p))
-            {
-                return CommonParallel.Aggregate(0, _storage.ValueCount, i => _storage.Values[i].Magnitude, Math.Max, 0f);
-            }
-
-            var sum = 0.0;
-            for (var index = 0; index < _storage.ValueCount; index++)
-            {
-                sum += Math.Pow(_storage.Values[index].Magnitude, p);
-            }
-
-            return (float)Math.Pow(sum, 1.0 / p);
         }
 
         #region Parse Functions

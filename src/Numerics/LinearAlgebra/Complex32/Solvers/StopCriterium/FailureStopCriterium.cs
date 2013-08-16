@@ -105,8 +105,8 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.StopCriterium
             }
 
             // Store the infinity norms of both the solution and residual vectors
-            var residualNorm = residualVector.Norm(float.PositiveInfinity);
-            var solutionNorm = solutionVector.Norm(float.PositiveInfinity);
+            var residualNorm = residualVector.InfinityNorm();
+            var solutionNorm = solutionVector.InfinityNorm();
 
             if (float.IsNaN(solutionNorm.Real) || float.IsNaN(residualNorm.Real))
             {

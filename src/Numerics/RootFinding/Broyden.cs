@@ -71,7 +71,7 @@ namespace MathNet.Numerics.RootFinding
 
             double[] y0 = f(initialGuess);
             var y = new DenseVector(y0);
-            double g = y.Norm(2);
+            double g = y.L2Norm();
 
             Matrix<double> B = CalculateApproximateJacobian(f, initialGuess, y0);
 
@@ -80,7 +80,7 @@ namespace MathNet.Numerics.RootFinding
                 var dx = (DenseVector) (-B.LU().Solve(y));
                 var xnew = x + dx;
                 var ynew = new DenseVector(f(xnew.Values));
-                double gnew = ynew.Norm(2);
+                double gnew = ynew.L2Norm();
 
                 if (gnew > g)
                 {
@@ -90,7 +90,7 @@ namespace MathNet.Numerics.RootFinding
                     dx = scale*dx;
                     xnew = x + dx;
                     ynew = new DenseVector(f(xnew.Values));
-                    gnew = ynew.Norm(2);
+                    gnew = ynew.L2Norm();
                 }
 
                 if (gnew < accuracy)
@@ -101,7 +101,7 @@ namespace MathNet.Numerics.RootFinding
 
                 // update Jacobian B
                 DenseVector dF = ynew - y;
-                Matrix<double> dB = (dF - B.Multiply(dx)).ToColumnMatrix()*dx.Multiply(1.0/Math.Pow(dx.Norm(2), 2)).ToRowMatrix();
+                Matrix<double> dB = (dF - B.Multiply(dx)).ToColumnMatrix() * dx.Multiply(1.0 / Math.Pow(dx.L2Norm(), 2)).ToRowMatrix();
                 B = B + dB;
 
                 x = xnew;

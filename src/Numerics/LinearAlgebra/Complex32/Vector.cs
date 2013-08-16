@@ -312,29 +312,43 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         public override Complex32 Sum()
         {
             var sum = Complex32.Zero;
-
             for (var i = 0; i < Count; i++)
             {
                 sum += At(i);
             }
-
             return sum;
         }
 
         /// <summary>
-        /// Computes the sum of the absolute value of the vector's elements.
+        /// Calculates the L1 norm of the vector, also known as Manhattan norm.
         /// </summary>
-        /// <returns>The sum of the absolute value of the vector's elements.</returns>
-        public override Complex32 SumMagnitudes()
+        /// <returns>The sum of the absolute values.</returns>
+        public override Complex32 L1Norm()
         {
             var sum = Complex32.Zero;
-
             for (var i = 0; i < Count; i++)
             {
                 sum += At(i).Magnitude;
             }
-
             return sum;
+        }
+
+        /// <summary>
+        /// Calculates the L2 norm of the vector, also known as Euclidean norm.
+        /// </summary>
+        /// <returns>The square root of the sum of the squared values.</returns>
+        public override Complex32 L2Norm()
+        {
+            return DoConjugateDotProduct(this).SquareRoot();
+        }
+
+        /// <summary>
+        /// Calculates the infinity norm of the vector.
+        /// </summary>
+        /// <returns>The square root of the sum of the squared values.</returns>
+        public override Complex32 InfinityNorm()
+        {
+            return CommonParallel.Aggregate(0, Count, i => At(i).Magnitude, Math.Max, 0f);
         }
 
         /// <summary>
@@ -348,24 +362,18 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// </returns>
         public override Complex32 Norm(double p)
         {
-            if (p < 0.0)
-            {
-                throw new ArgumentOutOfRangeException("p");
-            }
+            if (p < 0d) throw new ArgumentOutOfRangeException("p");
 
-            if (double.IsPositiveInfinity(p))
-            {
-                return CommonParallel.Aggregate(0, Count, i => At(i).Magnitude, Math.Max, 0f);
-            }
+            if (p == 1d) return L1Norm();
+            if (p == 2d) return L2Norm();
+            if (double.IsPositiveInfinity(p)) return InfinityNorm();
 
-            var sum = 0.0;
-
+            var sum = 0d;
             for (var index = 0; index < Count; index++)
             {
                 sum += Math.Pow(At(index).Magnitude, p);
             }
-
-            return (float)Math.Pow(sum, 1.0 / p);
+            return (float) Math.Pow(sum, 1.0/p);
         }
 
         /// <summary>

@@ -257,11 +257,11 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.StopCriterium
             // Store the infinity norms of both the solution and residual vectors
             // These values will be used to calculate the relative drop in residuals
             // later on.
-            var residualNorm = residualVector.Norm(double.PositiveInfinity);
+            var residualNorm = residualVector.InfinityNorm();
             
             // Check the residuals by calculating:
             // ||r_i|| <= stop_tol * ||b||
-            var stopCriterium = ComputeStopCriterium(sourceVector.Norm(double.PositiveInfinity));
+            var stopCriterium = ComputeStopCriterium(sourceVector.InfinityNorm());
 
             // First check that we have real numbers not NaN's.
             // NaN's can occur when the iterative process diverges so we

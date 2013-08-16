@@ -388,7 +388,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Preconditioners
                 
                 // pivot the row
                 PivotRow(workVector);
-                var vectorNorm = workVector.Norm(Double.PositiveInfinity);
+                var vectorNorm = workVector.InfinityNorm();
                 
                 // for j = 1, .. , i - 1)
                 for (var j = 0; j < i; j++)
