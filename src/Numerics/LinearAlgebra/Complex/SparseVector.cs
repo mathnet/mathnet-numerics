@@ -506,16 +506,11 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// <summary>
         /// Computes the dot product between this vector and another vector.
         /// </summary>
-        /// <param name="other">
-        /// The other vector to add.
-        /// </param>
-        /// <returns>s
-        /// The result of the addition.
-        /// </returns>
+        /// <param name="other">The other vector.</param>
+        /// <returns>The sum of a[i]*b[i] for all i.</returns>
         protected override Complex DoDotProduct(Vector<Complex> other)
         {
             var result = Complex.Zero;
-
             if (ReferenceEquals(this, other))
             {
                 for (var i = 0; i < _storage.ValueCount; i++)
@@ -530,7 +525,31 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
                     result += _storage.Values[i] * other.At(_storage.Indices[i]);
                 }
             }
+            return result;
+        }
 
+        /// <summary>
+        /// Computes the dot product between the conjugate of this vector and another vector.
+        /// </summary>
+        /// <param name="other">The other vector.</param>
+        /// <returns>The sum of conj(a[i])*b[i] for all i.</returns>
+        protected override Complex DoConjugateDotProduct(Vector<Complex> other)
+        {
+            var result = Complex.Zero;
+            if (ReferenceEquals(this, other))
+            {
+                for (var i = 0; i < _storage.ValueCount; i++)
+                {
+                    result += _storage.Values[i].Conjugate() * _storage.Values[i];
+                }
+            }
+            else
+            {
+                for (var i = 0; i < _storage.ValueCount; i++)
+                {
+                    result += _storage.Values[i].Conjugate() * other.At(_storage.Indices[i]);
+                }
+            }
             return result;
         }
 

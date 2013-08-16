@@ -395,14 +395,33 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// <summary>
         /// Computes the dot product between this vector and another vector.
         /// </summary>
-        /// <param name="other">The other vector to add.</param>
-        /// <returns>s
-        /// The result of the addition.</returns>
+        /// <param name="other">The other vector.</param>
+        /// <returns>The sum of a[i]*b[i] for all i.</returns>
         protected override Complex32 DoDotProduct(Vector<Complex32> other)
         {
             var denseVector = other as DenseVector;
+            return denseVector == null
+                ? base.DoDotProduct(other)
+                : Control.LinearAlgebraProvider.DotProduct(_values, denseVector.Values);
+        }
 
-            return denseVector == null ? base.DoDotProduct(other) : Control.LinearAlgebraProvider.DotProduct(_values, denseVector.Values);
+        /// <summary>
+        /// Computes the dot product between the conjugate of this vector and another vector.
+        /// </summary>
+        /// <param name="other">The other vector.</param>
+        /// <returns>The sum of conj(a[i])*b[i] for all i.</returns>
+        protected override Complex32 DoConjugateDotProduct(Vector<Complex32> other)
+        {
+            var denseVector = other as DenseVector;
+            if (denseVector == null) return base.DoConjugateDotProduct(other);
+
+            // TODO: provide native cdotc routine
+            var dot = Complex32.Zero;
+            for (var i = 0; i < _values.Length; i++)
+            {
+                dot += _values[i].Conjugate() * denseVector._values[i];
+            }
+            return dot;
         }
 
         /// <summary>
