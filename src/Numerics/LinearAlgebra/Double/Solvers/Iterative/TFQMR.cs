@@ -282,7 +282,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.Iterative
             var temp2 = new DenseVector(input.Count);
            
             // Initialize
-            var startNorm = input.Norm(2);
+            var startNorm = input.L2Norm();
 
             // Define the scalars
             double alpha = 0;
@@ -348,7 +348,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.Iterative
                 yinternal.Add(temp, d);
 
                 // theta = ||pseudoResiduals||_2 / tau
-                theta = pseudoResiduals.Norm(2) / tau;
+                theta = pseudoResiduals.L2Norm() / tau;
                 var c = 1 / Math.Sqrt(1 + (theta * theta));
 
                 // tau = tau * theta * c

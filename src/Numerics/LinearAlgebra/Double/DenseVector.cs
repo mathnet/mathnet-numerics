@@ -667,29 +667,65 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         public override double Sum()
         {
             var sum = 0.0;
-
             for (var index = 0; index < _length; index++)
             {
                 sum += _values[index];
             }
-
             return sum;
         }
 
         /// <summary>
-        /// Computes the sum of the absolute value of the vector's elements.
+        /// Calculates the L1 norm of the vector, also known as Manhattan norm.
         /// </summary>
-        /// <returns>The sum of the absolute value of the vector's elements.</returns>
-        public override double SumMagnitudes()
+        /// <returns>The sum of the absolute values.</returns>
+        public override double L1Norm()
         {
-            var sum = 0.0;
-
+            var sum = 0d;
             for (var index = 0; index < _length; index++)
             {
                 sum += Math.Abs(_values[index]);
             }
-
             return sum;
+        }
+
+        /// <summary>
+        /// Calculates the L2 norm of the vector, also known as Euclidean norm.
+        /// </summary>
+        /// <returns>The square root of the sum of the squared values.</returns>
+        public override double L2Norm()
+        {
+            // TODO: native provider
+            return _values.Aggregate(0d, SpecialFunctions.Hypotenuse);
+        }
+
+        /// <summary>
+        /// Calculates the infinity norm of the vector.
+        /// </summary>
+        /// <returns>The square root of the sum of the squared values.</returns>
+        public override double InfinityNorm()
+        {
+            return CommonParallel.Aggregate(_values, (i, v) => Math.Abs(v), Math.Max, 0d);
+        }
+
+        /// <summary>
+        /// Computes the p-Norm.
+        /// </summary>
+        /// <param name="p">The p value.</param>
+        /// <returns>Scalar <c>ret = (sum(abs(this[i])^p))^(1/p)</c></returns>
+        public override double Norm(double p)
+        {
+            if (p < 0d) throw new ArgumentOutOfRangeException("p");
+
+            if (p == 1d) return L1Norm();
+            if (p == 2d) return L2Norm();
+            if (Double.IsPositiveInfinity(p)) return InfinityNorm();
+
+            var sum = 0d;
+            for (var index = 0; index < _length; index++)
+            {
+                sum += Math.Pow(Math.Abs(_values[index]), p);
+            }
+            return Math.Pow(sum, 1.0 / p);
         }
 
         /// <summary>
@@ -779,46 +815,6 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         {
             return OuterProduct(this, v);
         }
-
-        #region Vector Norms
-
-        /// <summary>
-        /// Computes the p-Norm.
-        /// </summary>
-        /// <param name="p">The p value.</param>
-        /// <returns>Scalar <c>ret = (sum(abs(this[i])^p))^(1/p)</c></returns>
-        public override double Norm(double p)
-        {
-            if (p < 0.0)
-            {
-                throw new ArgumentOutOfRangeException("p");
-            }
-
-            if (1.0 == p)
-            {
-                return SumMagnitudes();
-            }
-
-            if (2.0 == p)
-            {
-                return _values.Aggregate(0.0, SpecialFunctions.Hypotenuse);
-            }
-
-            if (Double.IsPositiveInfinity(p))
-            {
-                return CommonParallel.Aggregate(_values, (i, v) => Math.Abs(v), Math.Max, 0d);
-            }
-
-            var sum = 0.0;
-            for (var index = 0; index < _length; index++)
-            {
-                sum += Math.Pow(Math.Abs(_values[index]), p);
-            }
-
-            return Math.Pow(sum, 1.0 / p);
-        }
-
-        #endregion
 
         #region Parse Functions
 

@@ -41,7 +41,7 @@ namespace MathNet.Numerics
         /// </summary>
         public static double SAD(Vector<double> a, Vector<double> b)
         {
-            return (a - b).SumMagnitudes();
+            return (a - b).L1Norm();
         }
 
         /// <summary>
@@ -49,7 +49,7 @@ namespace MathNet.Numerics
         /// </summary>
         public static float SAD(Vector<float> a, Vector<float> b)
         {
-            return (a - b).SumMagnitudes();
+            return (a - b).L1Norm();
         }
 
         /// <summary>
@@ -87,7 +87,7 @@ namespace MathNet.Numerics
         /// </summary>
         public static double MAE(Vector<double> a, Vector<double> b)
         {
-            return SAD(a, b)/a.Count;
+            return (a - b).L1Norm()/a.Count;
         }
 
         /// <summary>
@@ -95,7 +95,7 @@ namespace MathNet.Numerics
         /// </summary>
         public static float MAE(Vector<float> a, Vector<float> b)
         {
-            return SAD(a, b)/a.Count;
+            return (a - b).L1Norm()/a.Count;
         }
 
         /// <summary>
@@ -119,7 +119,7 @@ namespace MathNet.Numerics
         /// </summary>
         public static double SSD(Vector<double> a, Vector<double> b)
         {
-            var norm = (a - b).Norm(2d);
+            var norm = (a - b).L2Norm();
             return norm*norm;
         }
 
@@ -128,7 +128,7 @@ namespace MathNet.Numerics
         /// </summary>
         public static float SSD(Vector<float> a, Vector<float> b)
         {
-            var norm = (a - b).Norm(2d);
+            var norm = (a - b).L2Norm();
             return norm*norm;
         }
 
@@ -157,7 +157,8 @@ namespace MathNet.Numerics
         /// </summary>
         public static double MSE(Vector<double> a, Vector<double> b)
         {
-            return SSD(a, b)/a.Count;
+            var norm = (a - b).L2Norm();
+            return norm*norm/a.Count;
         }
 
         /// <summary>
@@ -165,7 +166,8 @@ namespace MathNet.Numerics
         /// </summary>
         public static float MSE(Vector<float> a, Vector<float> b)
         {
-            return SSD(a, b)/a.Count;
+            var norm = (a - b).L2Norm();
+            return norm*norm/a.Count;
         }
 
         /// <summary>

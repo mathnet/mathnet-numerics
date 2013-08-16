@@ -673,7 +673,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.Iterative
                 result.Add((Vector)orthogonalMatrix.Column(i));
                 
                 // Normalize the result vector
-                result[i].Multiply(1 / result[i].Norm(2), result[i]);
+                result[i].Multiply(1 / result[i].L2Norm(), result[i]);
             }
 
             return result;

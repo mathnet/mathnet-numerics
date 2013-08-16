@@ -41,6 +41,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         public void CanComputeNorm()
         {
             var vector = CreateVector(Data);
+            AssertHelpers.AlmostEqual(7.416198487095663, vector.L2Norm(), 15);
             AssertHelpers.AlmostEqual(7.416198487095663, vector.Norm(2), 15);
         }
 
@@ -51,6 +52,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         public void CanComputeNorm1()
         {
             var vector = CreateVector(Data);
+            AssertHelpers.AlmostEqual(15.0, vector.L1Norm(), 15);
             AssertHelpers.AlmostEqual(15.0, vector.Norm(1), 15);
         }
 
@@ -61,6 +63,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         public void CanComputeSquareNorm()
         {
             var vector = CreateVector(Data);
+            AssertHelpers.AlmostEqual(55.0, vector.L2Norm() * vector.L2Norm(), 15);
             AssertHelpers.AlmostEqual(55.0, vector.Norm(2) * vector.Norm(2), 15);
         }
 
@@ -86,6 +89,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         public void CanComputeNormInfinity()
         {
             var vector = CreateVector(Data);
+            AssertHelpers.AlmostEqual(5.0, vector.InfinityNorm(), 15);
             AssertHelpers.AlmostEqual(5.0, vector.Norm(Double.PositiveInfinity), 15);
         }
 

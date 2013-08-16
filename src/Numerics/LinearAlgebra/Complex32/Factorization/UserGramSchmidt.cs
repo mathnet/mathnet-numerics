@@ -69,7 +69,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
 
             for (var k = 0; k < MatrixQ.ColumnCount; k++)
             {
-                var norm = MatrixQ.Column(k).Norm(2).Real;
+                var norm = MatrixQ.Column(k).L2Norm().Real;
                 if (norm == 0.0f)
                 {
                     throw new ArgumentException(Resources.ArgumentMatrixNotRankDeficient);
