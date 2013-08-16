@@ -377,7 +377,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Iterative
                 matrix.Multiply(temp, s);
 
                 // alpha_k = (r*_0 * r_k) / (r*_0 * s_k)
-                var alpha = rdash.DotProduct(residuals)/rdash.DotProduct(s);
+                var alpha = rdash.ConjugateDotProduct(residuals)/rdash.ConjugateDotProduct(s);
 
                 // y_k = t_(k-1) - r_k - alpha_k * w_(k-1) + alpha_k s_k
                 s.Subtract(w, temp);
@@ -399,7 +399,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Iterative
 
                 // c_k = A d_k
                 matrix.Multiply(temp, c);
-                var cdot = c.DotProduct(c);
+                var cdot = c.ConjugateDotProduct(c);
 
                 // cDot can only be zero if c is a zero vector
                 // We'll set cDot to 1 if it is zero to prevent NaN's
@@ -414,7 +414,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Iterative
                 // to do at least one at the start to initialize the
                 // system, but we'll only have to take special measures
                 // if we don't do any so ...
-                var ctdot = c.DotProduct(t);
+                var ctdot = c.ConjugateDotProduct(t);
                 Complex32 eta;
                 Complex32 sigma;
                 if (((_numberOfBiCgStabSteps == 0) && (iterationNumber == 0)) || ShouldRunBiCgStabSteps(iterationNumber))
@@ -427,7 +427,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Iterative
                 }
                 else
                 {
-                    var ydot = y.DotProduct(y);
+                    var ydot = y.ConjugateDotProduct(y);
 
                     // yDot can only be zero if y is a zero vector
                     // We'll set yDot to 1 if it is zero to prevent NaN's
@@ -438,8 +438,8 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Iterative
                         ydot = 1.0f;
                     }
 
-                    var ytdot = y.DotProduct(t);
-                    var cydot = c.DotProduct(y);
+                    var ytdot = y.ConjugateDotProduct(t);
+                    var cydot = c.ConjugateDotProduct(y);
 
                     var denom = (cdot*ydot) - (cydot*cydot);
 
@@ -493,7 +493,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Iterative
 
                 // beta_k = alpha_k / sigma_k * (r*_0 * r_(k+1)) / (r*_0 * r_k)
                 // But first we check if there is a possible NaN. If so just reset beta to zero.
-                beta = (!sigma.Real.AlmostEqual(0, 1) || !sigma.Imaginary.AlmostEqual(0, 1)) ? alpha/sigma*rdash.DotProduct(residuals)/rdash.DotProduct(t0) : 0;
+                beta = (!sigma.Real.AlmostEqual(0, 1) || !sigma.Imaginary.AlmostEqual(0, 1)) ? alpha/sigma*rdash.ConjugateDotProduct(residuals)/rdash.ConjugateDotProduct(t0) : 0;
 
                 // w_k = c_k + beta_k s_k
                 s.Multiply(beta, temp2);

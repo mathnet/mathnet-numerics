@@ -282,15 +282,13 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Iterative
             var temp1 = new DenseVector(input.Count);
             var temp2 = new DenseVector(input.Count);
 
-            // Initialize
-            var startNorm = input.L2Norm();
-
             // Define the scalars
             Complex32 alpha = 0;
             Complex32 eta = 0;
             float theta = 0;
 
-            var tau = startNorm.Real;
+            // Initialize
+            var tau = input.L2Norm().Real;
             Complex32 rho = tau*tau;
 
             // Calculate the initial values for v
@@ -311,7 +309,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Iterative
                 if (IsEven(iterationNumber))
                 {
                     // sigma = (v, r)
-                    var sigma = v.DotProduct(r.Conjugate());
+                    var sigma = r.ConjugateDotProduct(v);
                     if (sigma.Real.AlmostEqual(0, 1) && sigma.Imaginary.AlmostEqual(0, 1))
                     {
                         // FAIL HERE
@@ -349,7 +347,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Iterative
                 yinternal.Add(temp, d);
 
                 // theta = ||pseudoResiduals||_2 / tau
-                theta = pseudoResiduals.L2Norm().Real / tau;
+                theta = pseudoResiduals.L2Norm().Real/tau;
                 var c = 1/(float) Math.Sqrt(1 + (theta*theta));
 
                 // tau = tau * theta * c
@@ -392,7 +390,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Iterative
                         break;
                     }
 
-                    var rhoNew = pseudoResiduals.DotProduct(r.Conjugate());
+                    var rhoNew = r.ConjugateDotProduct(pseudoResiduals);
                     var beta = rhoNew/rho;
 
                     // Update rho for the next loop
