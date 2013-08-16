@@ -439,6 +439,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <param name="other">The other vector.</param>
         /// <returns>The sum of a[i]*b[i] for all i.</returns>
         /// <exception cref="ArgumentException">If <paramref name="other"/> is not of the same size.</exception>
+        /// <seealso cref="ConjugateDotProduct"/>
         public T DotProduct(Vector<T> other)
         {
             if (Count != other.Count) throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
@@ -453,6 +454,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <returns>The sum of conj(a[i])*b[i] for all i.</returns>
         /// <exception cref="ArgumentException">If <paramref name="other"/> is not of the same size.</exception>
         /// <exception cref="ArgumentNullException">If <paramref name="other"/> is <see langword="null"/>.</exception>
+        /// <seealso cref="DotProduct"/>
         public T ConjugateDotProduct(Vector<T> other)
         {
             if (Count != other.Count) throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");

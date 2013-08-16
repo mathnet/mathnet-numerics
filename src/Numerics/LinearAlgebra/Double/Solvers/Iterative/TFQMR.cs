@@ -280,17 +280,15 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.Iterative
             var temp = new DenseVector(input.Count);
             var temp1 = new DenseVector(input.Count);
             var temp2 = new DenseVector(input.Count);
-           
-            // Initialize
-            var startNorm = input.L2Norm();
 
             // Define the scalars
             double alpha = 0;
             double eta = 0;
             double theta = 0;
 
-            var tau = startNorm;
-            var rho = tau * tau;
+            // Initialize
+            var tau = input.L2Norm();
+            var rho = tau*tau;
 
             // Calculate the initial values for v
             // M temp = yEven
