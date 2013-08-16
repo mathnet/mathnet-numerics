@@ -440,14 +440,14 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <summary>
         /// Computes the dot product between this vector and another vector.
         /// </summary>
-        /// <param name="other">The other vector to add.</param>
-        /// <returns>s
-        /// The result of the addition.</returns>
+        /// <param name="other">The other vector.</param>
+        /// <returns>The sum of a[i]*b[i] for all i.</returns>
         protected override double DoDotProduct(Vector<double> other)
         {
             var denseVector = other as DenseVector;
-
-            return denseVector == null ? base.DoDotProduct(other) : Control.LinearAlgebraProvider.DotProduct(_values, denseVector.Values);
+            return denseVector == null
+                ? base.DoDotProduct(other)
+                : Control.LinearAlgebraProvider.DotProduct(_values, denseVector.Values);
         }
 
         /// <summary>

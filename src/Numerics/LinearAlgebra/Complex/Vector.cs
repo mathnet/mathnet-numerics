@@ -203,21 +203,30 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// <summary>
         /// Computes the dot product between this vector and another vector.
         /// </summary>
-        /// <param name="other">
-        /// The other vector to add.
-        /// </param>
-        /// <returns>
-        /// The result of the addition.
-        /// </returns>
+        /// <param name="other">The other vector.</param>
+        /// <returns>The sum of a[i]*b[i] for all i.</returns>
         protected override Complex DoDotProduct(Vector<Complex> other)
         {
             var dot = Complex.Zero;
-
             for (var i = 0; i < Count; i++)
             {
                 dot += At(i) * other.At(i);
             }
+            return dot;
+        }
 
+        /// <summary>
+        /// Computes the dot product between the conjugate of this vector and another vector.
+        /// </summary>
+        /// <param name="other">The other vector.</param>
+        /// <returns>The sum of conj(a[i])*b[i] for all i.</returns>
+        protected override Complex DoConjugateDotProduct(Vector<Complex> other)
+        {
+            var dot = Complex.Zero;
+            for (var i = 0; i < Count; i++)
+            {
+                dot += At(i).Conjugate() * other.At(i);
+            }
             return dot;
         }
 

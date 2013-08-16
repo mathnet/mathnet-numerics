@@ -200,21 +200,15 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// <summary>
         /// Computes the dot product between this vector and another vector.
         /// </summary>
-        /// <param name="other">
-        /// The other vector to add.
-        /// </param>
-        /// <returns>s
-        /// The result of the addition.
-        /// </returns>
+        /// <param name="other">The other vector.</param>
+        /// <returns>The sum of a[i]*b[i] for all i.</returns>
         protected override float DoDotProduct(Vector<float> other)
         {
             var dot = 0.0f;
-
             for (var i = 0; i < Count; i++)
             {
                 dot += At(i) * other.At(i);
             }
-
             return dot;
         }
 

@@ -96,9 +96,19 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <summary>
         /// Computes the dot product between this vector and another vector.
         /// </summary>
-        /// <param name="other">The other vector to add.</param>
-        /// <returns>The result of the addition.</returns>
+        /// <param name="other">The other vector.</param>
+        /// <returns>The sum of a[i]*b[i] for all i.</returns>
         protected abstract T DoDotProduct(Vector<T> other);
+
+        /// <summary>
+        /// Computes the dot product between the conjugate of this vector and another vector.
+        /// </summary>
+        /// <param name="other">The other vector.</param>
+        /// <returns>The sum of conj(a[i])*b[i] for all i.</returns>
+        protected virtual T DoConjugateDotProduct(Vector<T> other)
+        {
+            return DoDotProduct(other);
+        }
 
         /// <summary>
         /// Divides each element of the vector by a scalar and stores the result in the result vector.
@@ -502,23 +512,31 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <summary>
         /// Computes the dot product between this vector and another vector.
         /// </summary>
-        /// <param name="other">The other vector to add.</param>
-        /// <returns>The result of the addition.</returns>
+        /// <param name="other">The other vector.</param>
+        /// <returns>The sum of a[i]*b[i] for all i.</returns>
         /// <exception cref="ArgumentException">If <paramref name="other"/> is not of the same size.</exception>
         /// <exception cref="ArgumentNullException">If <paramref name="other"/> is <see langword="null"/>.</exception>
         public T DotProduct(Vector<T> other)
         {
-            if (other == null)
-            {
-                throw new ArgumentNullException("other");
-            }
-
-            if (Count != other.Count)
-            {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
-            }
+            if (other == null) throw new ArgumentNullException("other");
+            if (Count != other.Count) throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
 
             return DoDotProduct(other);
+        }
+
+        /// <summary>
+        /// Computes the dot product between the conjugate of this vector and another vector.
+        /// </summary>
+        /// <param name="other">The other vector.</param>
+        /// <returns>The sum of conj(a[i])*b[i] for all i.</returns>
+        /// <exception cref="ArgumentException">If <paramref name="other"/> is not of the same size.</exception>
+        /// <exception cref="ArgumentNullException">If <paramref name="other"/> is <see langword="null"/>.</exception>
+        public T ConjugateDotProduct(Vector<T> other)
+        {
+            if (other == null) throw new ArgumentNullException("other");
+            if (Count != other.Count) throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
+
+            return DoConjugateDotProduct(other);
         }
 
         /// <summary>
