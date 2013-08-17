@@ -28,10 +28,10 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using MathNet.Numerics.Algorithms.LinearAlgebra;
 using MathNet.Numerics.Distributions;
 using MathNet.Numerics.LinearAlgebra.Storage;
 using MathNet.Numerics.Properties;
+using MathNet.Numerics.Providers.LinearAlgebra;
 using MathNet.Numerics.Threading;
 using System;
 using System.Collections.Generic;
@@ -389,8 +389,8 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
             else
             {
                 Control.LinearAlgebraProvider.MatrixMultiplyWithUpdate(
-                    Algorithms.LinearAlgebra.Transpose.DontTranspose,
-                    Algorithms.LinearAlgebra.Transpose.DontTranspose,
+                    Providers.LinearAlgebra.Transpose.DontTranspose,
+                    Providers.LinearAlgebra.Transpose.DontTranspose,
                     1.0,
                     _values,
                     _rowCount,
@@ -420,8 +420,8 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
             else
             {
                 Control.LinearAlgebraProvider.MatrixMultiplyWithUpdate(
-                    Algorithms.LinearAlgebra.Transpose.DontTranspose,
-                    Algorithms.LinearAlgebra.Transpose.DontTranspose,
+                    Providers.LinearAlgebra.Transpose.DontTranspose,
+                    Providers.LinearAlgebra.Transpose.DontTranspose,
                     1.0,
                     _values,
                     _rowCount,
@@ -451,8 +451,8 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
             else
             {
                 Control.LinearAlgebraProvider.MatrixMultiplyWithUpdate(
-                    Algorithms.LinearAlgebra.Transpose.DontTranspose,
-                    Algorithms.LinearAlgebra.Transpose.Transpose,
+                    Providers.LinearAlgebra.Transpose.DontTranspose,
+                    Providers.LinearAlgebra.Transpose.Transpose,
                     1.0,
                     _values,
                     _rowCount,
@@ -482,8 +482,8 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
             else
             {
                 Control.LinearAlgebraProvider.MatrixMultiplyWithUpdate(
-                    Algorithms.LinearAlgebra.Transpose.Transpose,
-                    Algorithms.LinearAlgebra.Transpose.DontTranspose,
+                    Providers.LinearAlgebra.Transpose.Transpose,
+                    Providers.LinearAlgebra.Transpose.DontTranspose,
                     1.0,
                     _values,
                     _rowCount,
@@ -513,8 +513,8 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
             else
             {
                 Control.LinearAlgebraProvider.MatrixMultiplyWithUpdate(
-                    Algorithms.LinearAlgebra.Transpose.Transpose,
-                    Algorithms.LinearAlgebra.Transpose.DontTranspose,
+                    Providers.LinearAlgebra.Transpose.Transpose,
+                    Providers.LinearAlgebra.Transpose.DontTranspose,
                     1.0,
                     _values,
                     _rowCount,

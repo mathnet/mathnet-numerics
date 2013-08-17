@@ -1,10 +1,10 @@
-﻿// <copyright file="MklLinearAlgebraProvider.Common.cs" company="Math.NET">
+﻿// <copyright file="GotoBlasLinearAlgebraProvider.Common.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2013 Math.NET
+// Copyright (c) 2009-2011 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -28,9 +28,9 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-#if NATIVEMKL
+#if NATIVEGOTO
 
-namespace MathNet.Numerics.Algorithms.LinearAlgebra.Mkl
+namespace MathNet.Numerics.Providers.LinearAlgebra.GotoBlas
 {
     using System;
     using System.Numerics;
@@ -38,9 +38,9 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.Mkl
     using Properties;
    
     /// <summary>
-    /// Intel's Math Kernel Library (MKL) linear algebra provider.
+    /// GotoBLAS2 linear algebra provider.
     /// </summary>
-    public partial class MklLinearAlgebraProvider : ManagedLinearAlgebraProvider
+    public partial class GotoBlasLinearAlgebraProvider : ManagedLinearAlgebraProvider
     {
         /// <summary>
         /// Computes the requested <see cref="Norm"/> of the matrix.

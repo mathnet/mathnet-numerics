@@ -1,9 +1,11 @@
-﻿// <copyright file="ManagedLinearAlgebraProvider.Double.cs" company="Math.NET">
+﻿// <copyright file="ManagedLinearAlgebraProvider.Single.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
+// 
 // Copyright (c) 2009-2013 Math.NET
+// 
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -12,8 +14,10 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
+// 
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
+// 
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -25,12 +29,12 @@
 // </copyright>
 
 using MathNet.Numerics.LinearAlgebra.Factorization;
+using MathNet.Numerics.Properties;
+using MathNet.Numerics.Threading;
+using System;
 
-namespace MathNet.Numerics.Algorithms.LinearAlgebra
+namespace MathNet.Numerics.Providers.LinearAlgebra
 {
-    using System;
-    using Properties;
-    using Threading;
 
 #if !NOSYSNUMERICS
     using Complex = System.Numerics.Complex;
@@ -39,7 +43,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
     /// <summary>
     /// The managed linear algebra provider.
     /// </summary>
-    public partial class ManagedLinearAlgebraProvider : ILinearAlgebraProvider
+    public partial class ManagedLinearAlgebraProvider
     {
         /// <summary>
         /// Adds a scaled vector to another: <c>result = y + alpha*x</c>.
@@ -49,7 +53,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <param name="x">The vector to add to <paramref name="y"/>.</param>
         /// <param name="result">The result of the addition.</param>
         /// <remarks>This is similar to the AXPY BLAS routine.</remarks>
-        public virtual void AddVectorToScaledVector(double[] y, double alpha, double[] x, double[] result)
+        public virtual void AddVectorToScaledVector(float[] y, float alpha, float[] x, float[] result)
         {
             if (y == null)
             {
@@ -119,7 +123,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <param name="x">The values to scale.</param>
         /// <param name="result">This result of the scaling.</param>
         /// <remarks>This is similar to the SCAL BLAS routine.</remarks>
-        public virtual void ScaleArray(double alpha, double[] x, double[] result)
+        public virtual void ScaleArray(float alpha, float[] x, float[] result)
         {
             if (x == null)
             {
@@ -163,7 +167,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <param name="y">The vector y.</param>
         /// <returns>The dot product of x and y.</returns>
         /// <remarks>This is equivalent to the DOT BLAS routine.</remarks>
-        public virtual double DotProduct(double[] x, double[] y)
+        public virtual float DotProduct(float[] x, float[] y)
         {
             if (y == null)
             {
@@ -180,7 +184,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength);
             }
 
-            var sum = 0.0;
+            var sum = 0.0f;
 
             for (var index = 0; index < y.Length; index++)
             {
@@ -200,7 +204,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <remarks>There is no equivalent BLAS routine, but many libraries
         /// provide optimized (parallel and/or vectorized) versions of this
         /// routine.</remarks>
-        public virtual void AddArrays(double[] x, double[] y, double[] result)
+        public virtual void AddArrays(float[] x, float[] y, float[] result)
         {
             if (y == null)
             {
@@ -251,7 +255,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <remarks>There is no equivalent BLAS routine, but many libraries
         /// provide optimized (parallel and/or vectorized) versions of this
         /// routine.</remarks>
-        public virtual void SubtractArrays(double[] x, double[] y, double[] result)
+        public virtual void SubtractArrays(float[] x, float[] y, float[] result)
         {
             if (y == null)
             {
@@ -302,7 +306,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <remarks>There is no equivalent BLAS routine, but many libraries
         /// provide optimized (parallel and/or vectorized) versions of this
         /// routine.</remarks>
-        public virtual void PointWiseMultiplyArrays(double[] x, double[] y, double[] result)
+        public virtual void PointWiseMultiplyArrays(float[] x, float[] y, float[] result)
         {
             if (y == null)
             {
@@ -353,7 +357,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <remarks>There is no equivalent BLAS routine, but many libraries
         /// provide optimized (parallel and/or vectorized) versions of this
         /// routine.</remarks>
-        public virtual void PointWiseDivideArrays(double[] x, double[] y, double[] result)
+        public virtual void PointWiseDivideArrays(float[] x, float[] y, float[] result)
         {
             if (y == null)
             {
@@ -393,7 +397,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
                 }
             }
         }
-
+        
         /// <summary>
         /// Computes the requested <see cref="Norm"/> of the matrix.
         /// </summary>
@@ -404,7 +408,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <returns>
         /// The requested <see cref="Norm"/> of the matrix.
         /// </returns>
-        public virtual double MatrixNorm(Norm norm, int rows, int columns, double[] matrix)
+        public virtual float MatrixNorm(Norm norm, int rows, int columns, float[] matrix)
         {
             var ret = 0.0;
             switch (norm)
@@ -423,7 +427,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
 
                     break;
                 case Norm.LargestAbsoluteValue:
-                    
+
                     for (var i = 0; i < rows; i++)
                     {
                         for (var j = 0; j < columns; j++)
@@ -447,8 +451,8 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
 
                     break;
                 case Norm.FrobeniusNorm:
-                    var aat = new double[rows * rows];
-                    MatrixMultiplyWithUpdate(Transpose.DontTranspose, Transpose.Transpose, 1.0, matrix, rows, columns, matrix, rows, columns, 0.0, aat);
+                    var aat = new float[rows * rows];
+                    MatrixMultiplyWithUpdate(Transpose.DontTranspose, Transpose.Transpose, 1.0f, matrix, rows, columns, matrix, rows, columns, 0.0f, aat);
 
                     for (var i = 0; i < rows; i++)
                     {
@@ -459,9 +463,9 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
                     break;
             }
 
-            return ret;
+            return Convert.ToSingle(ret);
         }
-
+             
         /// <summary>
         /// Computes the requested <see cref="Norm"/> of the matrix.
         /// </summary>
@@ -469,11 +473,12 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <param name="rows">The number of rows.</param>
         /// <param name="columns">The number of columns.</param>
         /// <param name="matrix">The matrix to compute the norm from.</param>
-        /// <param name="work">The work array. Not used in the managed provider.</param>
+        /// <param name="work">The work array. Only used when <see cref="Norm.InfinityNorm"/>
+        /// and needs to be have a length of at least M (number of rows of <paramref name="matrix"/>.</param>
         /// <returns>
         /// The requested <see cref="Norm"/> of the matrix.
         /// </returns>
-        public virtual double MatrixNorm(Norm norm, int rows, int columns, double[] matrix, double[] work)
+        public virtual float MatrixNorm(Norm norm, int rows, int columns, float[] matrix, float[] work)
         {
             return MatrixNorm(norm, rows, columns, matrix);
         }
@@ -490,7 +495,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <param name="result">Where to store the result of the multiplication.</param>
         /// <remarks>This is a simplified version of the BLAS GEMM routine with alpha
         /// set to 1.0 and beta set to 0.0, and x and y are not transposed.</remarks>
-        public virtual void MatrixMultiply(double[] x, int rowsX, int columnsX, double[] y, int rowsY, int columnsY, double[] result)
+        public virtual void MatrixMultiply(float[] x, int rowsX, int columnsX, float[] y, int rowsY, int columnsY, float[] result)
         {
             // First check some basic requirement on the parameters of the matrix multiplication.
             if (x == null)
@@ -531,27 +536,27 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
             // Check whether we will be overwriting any of our inputs and make copies if necessary.
             // TODO - we can don't have to allocate a completely new matrix when x or y point to the same memory
             // as result, we can do it on a row wise basis. We should investigate this.
-            double[] xdata;
+            float[] xdata;
             if (ReferenceEquals(x, result))
             {
-                xdata = (double[])x.Clone();
+                xdata = (float[])x.Clone();
             }
             else
             {
                 xdata = x;
             }
 
-            double[] ydata;
+            float[] ydata;
             if (ReferenceEquals(y, result))
             {
-                ydata = (double[])y.Clone();
+                ydata = (float[])y.Clone();
             }
             else
             {
                 ydata = y;
             }
 
-            MatrixMultiplyWithUpdate(Transpose.DontTranspose, Transpose.DontTranspose, 1.0, xdata, rowsX, columnsX, ydata, rowsY, columnsY, 0.0, result);
+            MatrixMultiplyWithUpdate(Transpose.DontTranspose, Transpose.DontTranspose, 1.0f, xdata, rowsX, columnsX, ydata, rowsY, columnsY, 0.0f, result);
         }
 
         /// <summary>
@@ -568,7 +573,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <param name="columnsB">The number of columns in the <paramref name="b"/> matrix.</param>
         /// <param name="beta">The value to scale the <paramref name="c"/> matrix.</param>
         /// <param name="c">The c matrix.</param>
-        public virtual void MatrixMultiplyWithUpdate(Transpose transposeA, Transpose transposeB, double alpha, double[] a, int rowsA, int columnsA, double[] b, int rowsB, int columnsB, double beta, double[] c)
+        public virtual void MatrixMultiplyWithUpdate(Transpose transposeA, Transpose transposeB, float alpha, float[] a, int rowsA, int columnsA, float[] b, int rowsB, int columnsB, float beta, float[] c)
         {
             int m; // The number of rows of matrix op(A) and of the matrix C.
             int n; // The number of columns of matrix op(B) and of the matrix C.
@@ -659,36 +664,36 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
             // Check whether we will be overwriting any of our inputs and make copies if necessary.
             // TODO - we can don't have to allocate a completely new matrix when x or y point to the same memory
             // as result, we can do it on a row wise basis. We should investigate this.
-            double[] adata;
+            float[] adata;
             if (ReferenceEquals(a, c))
             {
-                adata = (double[])a.Clone();
+                adata = (float[])a.Clone();
             }
             else
             {
                 adata = a;
             }
 
-            double[] bdata;
+            float[] bdata;
             if (ReferenceEquals(b, c))
             {
-                bdata = (double[])b.Clone();
+                bdata = (float[])b.Clone();
             }
             else
             {
                 bdata = b;
             }
 
-            if (beta == 0.0)
+            if (beta == 0.0f)
             {
                 Array.Clear(c, 0, c.Length);
             }
-            else if (beta != 1.0)
+            else if (beta != 1.0f)
             {
                 Control.LinearAlgebraProvider.ScaleArray(beta, c, c);
             }
 
-            if (alpha == 0.0)
+            if (alpha == 0.0f)
             {
                 return;
             }
@@ -718,7 +723,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <param name="constN">The constant number of columns of matrix op(B) and of the matrix C.</param>
         /// <param name="constK">The constant number of columns of matrix op(A) and the rows of the matrix op(B).</param>
         /// <param name="first">Indicates if this is the first recursion.</param>
-        private static void CacheObliviousMatrixMultiply(Transpose transposeA, Transpose transposeB, double alpha, double[] matrixA, int shiftArow, int shiftAcol, double[] matrixB, int shiftBrow, int shiftBcol, double[] result, int shiftCrow, int shiftCcol, int m, int n, int k, int constM, int constN, int constK, bool first)
+        private static void CacheObliviousMatrixMultiply(Transpose transposeA, Transpose transposeB, float alpha, float[] matrixA, int shiftArow, int shiftAcol, float[] matrixB, int shiftBrow, int shiftBcol, float[] result, int shiftCrow, int shiftCcol, int m, int n, int k, int constM, int constN, int constK, bool first)
         {
             if (m + n <= Control.ParallelizeOrder)
             {
@@ -731,7 +736,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
                         for (var n1 = 0; n1 < n; ++n1)
                         {
                             var matBcolPos = n1 + shiftBcol;
-                            double sum = 0;
+                            float sum = 0;
                             for (var k1 = 0; k1 < k; ++k1)
                             {
                                 sum += matrixA[(matArowPos * constK) + k1 + shiftAcol] *
@@ -751,7 +756,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
                         for (var n1 = 0; n1 < n; ++n1)
                         {
                             var matBcolPos = n1 + shiftBcol;
-                            double sum = 0;
+                            float sum = 0;
                             for (var k1 = 0; k1 < k; ++k1)
                             {
                                 sum += matrixA[(matArowPos * constK) + k1 + shiftAcol] *
@@ -771,7 +776,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
                         for (var n1 = 0; n1 < n; ++n1)
                         {
                             var matBcolPos = n1 + shiftBcol;
-                            double sum = 0;
+                            float sum = 0;
                             for (var k1 = 0; k1 < k; ++k1)
                             {
                                 sum += matrixA[((k1 + shiftAcol) * constM) + matArowPos] *
@@ -791,7 +796,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
                         for (var n1 = 0; n1 < n; ++n1)
                         {
                             var matBcolPos = n1 + shiftBcol;
-                            double sum = 0;
+                            float sum = 0;
                             for (var k1 = 0; k1 < k; ++k1)
                             {
                                 sum += matrixA[((k1 + shiftAcol) * constM) + matArowPos] *
@@ -848,7 +853,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <param name="order">The order of the square matrix <paramref name="data"/>.</param>
         /// <param name="ipiv">On exit, it contains the pivot indices. The size of the array must be <paramref name="order"/>.</param>
         /// <remarks>This is equivalent to the GETRF LAPACK routine.</remarks>
-        public virtual void LUFactor(double[] data, int order, int[] ipiv)
+        public virtual void LUFactor(float[] data, int order, int[] ipiv)
         {
             if (data == null)
             {
@@ -876,7 +881,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
                 ipiv[i] = i;
             }
 
-            var vecLUcolj = new double[order];
+            var vecLUcolj = new float[order];
 
             // Outer loop.
             for (var j = 0; j < order; j++)
@@ -895,7 +900,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
                 {
                     // Most of the time is spent in the following dot product.
                     var kmax = Math.Min(i, j);
-                    var s = 0.0;
+                    var s = 0.0f;
                     for (var k = 0; k < kmax; k++)
                     {
                         s += data[(k * order) + i] * vecLUcolj[k];
@@ -946,7 +951,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <param name="a">The N by N matrix to invert. Contains the inverse On exit.</param>
         /// <param name="order">The order of the square matrix <paramref name="a"/>.</param>
         /// <remarks>This is equivalent to the GETRF and GETRI LAPACK routines.</remarks>
-        public virtual void LUInverse(double[] a, int order)
+        public virtual void LUInverse(float[] a, int order)
         {
             if (a == null)
             {
@@ -970,7 +975,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <param name="order">The order of the square matrix <paramref name="a"/>.</param>
         /// <param name="ipiv">The pivot indices of <paramref name="a"/>.</param>
         /// <remarks>This is equivalent to the GETRI LAPACK routine.</remarks>
-        public virtual void LUInverseFactored(double[] a, int order, int[] ipiv)
+        public virtual void LUInverseFactored(float[] a, int order, int[] ipiv)
         {
             if (a == null)
             {
@@ -992,10 +997,10 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
                 throw new ArgumentException(Resources.ArgumentArraysSameLength, "ipiv");
             }
 
-            var inverse = new double[a.Length];
+            var inverse = new float[a.Length];
             for (var i = 0; i < order; i++)
             {
-                inverse[i + (order * i)] = 1.0;
+                inverse[i + (order * i)] = 1.0f;
             }
 
             LUSolveFactored(order, a, order, ipiv, inverse);
@@ -1011,7 +1016,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// but should be N*blocksize. The blocksize is machine dependent. On exit, work[0] contains the optimal
         /// work size value.</param>
         /// <remarks>This is equivalent to the GETRF and GETRI LAPACK routines.</remarks>
-        public virtual void LUInverse(double[] a, int order, double[] work)
+        public virtual void LUInverse(float[] a, int order, float[] work)
         {
             LUInverse(a, order);
         }
@@ -1023,12 +1028,12 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <param name="order">The order of the square matrix <paramref name="a"/>.</param>
         /// <param name="ipiv">The pivot indices of <paramref name="a"/>.</param>
         /// <param name="work">The work array. The array must have a length of at least N,
-        /// but should be N*blocksize. The blocksize is machine dependent.  On exit, work[0] contains the optimal
+        /// but should be N*blocksize. The blocksize is machine dependent. On exit, work[0] contains the optimal
         /// work size value.</param>
         /// <remarks>This is equivalent to the GETRI LAPACK routine.</remarks>
-        public virtual void LUInverseFactored(double[] a, int order, int[] ipiv, double[] work)
+        public virtual void LUInverseFactored(float[] a, int order, int[] ipiv, float[] work)
         {
-           LUInverseFactored(a, order, ipiv);
+            LUInverseFactored(a, order, ipiv);
         }
 
         /// <summary>
@@ -1039,7 +1044,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <param name="order">The order of the square matrix <paramref name="a"/>.</param>
         /// <param name="b">On entry the B matrix; on exit the X matrix.</param>
         /// <remarks>This is equivalent to the GETRF and GETRS LAPACK routines.</remarks>
-        public virtual void LUSolve(int columnsOfB, double[] a, int order, double[] b)
+        public virtual void LUSolve(int columnsOfB, float[] a, int order, float[] b)
         {
             if (a == null)
             {
@@ -1067,7 +1072,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
             }
 
             var ipiv = new int[order];
-            var clone = new double[a.Length];
+            var clone = new float[a.Length];
             a.Copy(clone);
             LUFactor(clone, order, ipiv);
             LUSolveFactored(columnsOfB, clone, order, ipiv, b);
@@ -1082,7 +1087,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <param name="ipiv">The pivot indices of <paramref name="a"/>.</param>
         /// <param name="b">On entry the B matrix; on exit the X matrix.</param>
         /// <remarks>This is equivalent to the GETRS LAPACK routine.</remarks>
-        public virtual void LUSolveFactored(int columnsOfB, double[] a, int order, int[] ipiv, double[] b)
+        public virtual void LUSolveFactored(int columnsOfB, float[] a, int order, int[] ipiv, float[] b)
         {
             if (a == null)
             {
@@ -1113,7 +1118,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
             {
                 throw new ArgumentException(Resources.ArgumentArraysSameLength, "b");
             }
-
+            
             if (ReferenceEquals(a, b))
             {
                 throw new ArgumentException(Resources.ArgumentReferenceDifferent);
@@ -1181,30 +1186,30 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// the Cholesky factorization.</param>
         /// <param name="order">The number of rows or columns in the matrix.</param>
         /// <remarks>This is equivalent to the POTRF LAPACK routine.</remarks>
-        public virtual void CholeskyFactor(double[] a, int order)
+        public virtual void CholeskyFactor(float[] a, int order)
         {
             if (a == null)
             {
                 throw new ArgumentNullException("a");
             }
 
-            var tmpColumn = new double[order];
+            var tmpColumn = new float[order];
 
             // Main loop - along the diagonal
-            for (int ij = 0; ij < order; ij++)
+            for (var ij = 0; ij < order; ij++)
             {
                 // "Pivot" element
-                double tmpVal = a[(ij * order) + ij];
+                var tmpVal = a[(ij * order) + ij];
 
                 if (tmpVal > 0.0)
                 {
-                    tmpVal = Math.Sqrt(tmpVal);
+                    tmpVal = (float)Math.Sqrt(tmpVal);
                     a[(ij * order) + ij] = tmpVal;
                     tmpColumn[ij] = tmpVal;
 
                     // Calculate multipliers and copy to local column
                     // Current column, below the diagonal
-                    for (int i = ij + 1; i < order; i++)
+                    for (var i = ij + 1; i < order; i++)
                     {
                         a[(ij * order) + i] /= tmpVal;
                         tmpColumn[i] = a[(ij * order) + i];
@@ -1220,7 +1225,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
 
                 for (int i = ij + 1; i < order; i++)
                 {
-                    a[(i * order) + ij] = 0.0;
+                    a[(i * order) + ij] = 0.0f;
                 }
             }
         }
@@ -1234,7 +1239,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <param name="colLimit">Total columns</param>
         /// <param name="multipliers">Multipliers calculated previously</param>
         /// <param name="availableCores">Number of available processors</param>
-        private static void DoCholeskyStep(double[] data, int rowDim, int firstCol, int colLimit, double[] multipliers, int availableCores)
+        private static void DoCholeskyStep(float[] data, int rowDim, int firstCol, int colLimit, float[] multipliers, int availableCores)
         {
             var tmpColCount = colLimit - firstCol;
 
@@ -1268,7 +1273,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <param name="b">On entry the B matrix; on exit the X matrix.</param>
         /// <param name="columnsB">The number of columns in the B matrix.</param>
         /// <remarks>This is equivalent to the POTRF add POTRS LAPACK routines.</remarks>
-        public virtual void CholeskySolve(double[] a, int orderA, double[] b, int columnsB)
+        public virtual void CholeskySolve(float[] a, int orderA, float[] b, int columnsB)
         {
             if (a == null)
             {
@@ -1290,7 +1295,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
                 throw new ArgumentException(Resources.ArgumentReferenceDifferent);
             }
 
-            var clone = new double[a.Length];
+            var clone = new float[a.Length];
             a.Copy(clone);
             CholeskyFactor(clone, orderA);
             CholeskySolveFactored(clone, orderA, b, columnsB);
@@ -1299,12 +1304,12 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <summary>
         /// Solves A*X=B for X using a previously factored A matrix.
         /// </summary>
-        /// <param name="a">The square, positive definite matrix A. Has to be different than <paramref name="b"/>.</param>
+        /// <param name="a">The square, positive definite matrix A.</param>
         /// <param name="orderA">The number of rows and columns in A.</param>
         /// <param name="b">On entry the B matrix; on exit the X matrix.</param>
         /// <param name="columnsB">The number of columns in the B matrix.</param>
         /// <remarks>This is equivalent to the POTRS LAPACK routine.</remarks>
-        public virtual void CholeskySolveFactored(double[] a, int orderA, double[] b, int columnsB)
+        public virtual void CholeskySolveFactored(float[] a, int orderA, float[] b, int columnsB)
         {
             if (a == null)
             {
@@ -1342,12 +1347,12 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <param name="orderA">The number of rows and columns in A.</param>
         /// <param name="b">On entry the B matrix; on exit the X matrix.</param>
         /// <param name="index">The column to solve for.</param>
-        private static void DoCholeskySolve(double[] a, int orderA, double[] b, int index)
+        private static void DoCholeskySolve(float[] a, int orderA, float[] b, int index)
         {
             var cindex = index * orderA;
 
             // Solve L*Y = B;
-            double sum;
+            float sum;
             for (var i = 0; i < orderA; i++)
             {
                 sum = b[cindex + i];
@@ -1385,7 +1390,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <param name="tau">A min(m,n) vector. On exit, contains additional information
         /// to be used by the QR solve routine.</param>
         /// <remarks>This is similar to the GEQRF and ORGQR LAPACK routines.</remarks>
-        public virtual void QRFactor(double[] r, int rowsR, int columnsR, double[] q, double[] tau)
+        public virtual void QRFactor(float[] r, int rowsR, int columnsR, float[] q, float[] tau)
         {
             if (r == null)
             {
@@ -1412,8 +1417,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
                 throw new ArgumentException(string.Format(Resources.ArgumentArrayWrongLength, "rowsR * rowsR"), "q");
             }
 
-
-            var work = columnsR > rowsR ? new double[rowsR * rowsR] : new double[rowsR * columnsR];
+            var work = columnsR > rowsR ? new float[rowsR * rowsR] : new float[rowsR * columnsR];
             QRFactor(r, rowsR, columnsR, q, tau, work);
         }
 
@@ -1432,7 +1436,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// but should be N*blocksize. The blocksize is machine dependent. On exit, work[0] contains the optimal
         /// work size value.</param>
         /// <remarks>This is similar to the GEQRF and ORGQR LAPACK routines.</remarks>
-        public virtual void QRFactor(double[] r, int rowsR, int columnsR, double[] q, double[] tau, double[] work)
+        public virtual void QRFactor(float[] r, int rowsR, int columnsR, float[] q, float[] tau, float[] work)
         {
             if (r == null)
             {
@@ -1485,7 +1489,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
                 {
                     for (int i = a; i < b; i++)
                     {
-                        q[(i*rowsR) + i] = 1.0;
+                        q[(i*rowsR) + i] = 1.0f;
                     }
                 });
 
@@ -1516,7 +1520,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <param name="tau">A min(m,n) vector. On exit, contains additional information
         /// to be used by the QR solve routine.</param>
         /// <remarks>This is similar to the GEQRF and ORGQR LAPACK routines.</remarks>
-        public virtual void ThinQRFactor(double[] a, int rowsA, int columnsA, double[] r, double[] tau)
+        public virtual void ThinQRFactor(float[] a, int rowsA, int columnsA, float[] r, float[] tau)
         {
             if (r == null)
             {
@@ -1543,12 +1547,12 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
                 throw new ArgumentException(string.Format(Resources.ArgumentArrayWrongLength, "columnsA * columnsA"), "r");
             }
 
-            var work = new double[rowsA * columnsA];
+            var work = new float[rowsA * columnsA];
             ThinQRFactor(a, rowsA, columnsA, r, tau, work);
         }
 
         /// <summary>
-        /// Computes the thin QR factorization of A where M &gt; N.
+        /// Computes the QR factorization of A where M &gt; N.
         /// </summary>
         /// <param name="a">On entry, it is the M by N A matrix to factor. On exit,
         /// it is overwritten with the Q matrix of the QR factorization.</param>
@@ -1562,7 +1566,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// but should be N*blocksize. The blocksize is machine dependent. On exit, work[0] contains the optimal
         /// work size value.</param>
         /// <remarks>This is similar to the GEQRF and ORGQR LAPACK routines.</remarks>
-        public virtual void ThinQRFactor(double[] a, int rowsA, int columnsA, double[] r, double[] tau, double[] work)
+        public virtual void ThinQRFactor(float[] a, int rowsA, int columnsA, float[] r, float[] tau, float[] work)
         {
             if (r == null)
             {
@@ -1596,7 +1600,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
 
             if (work.Length < rowsA * columnsA)
             {
-                work[0] = rowsA*columnsA;
+                work[0] = rowsA * columnsA;
                 throw new ArgumentException(Resources.WorkArrayTooSmall, "work");
             }
 
@@ -1608,21 +1612,21 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
             }
 
             //copy R 
-            for (var j = 0; j < columnsA; j++ )
+            for (var j = 0; j < columnsA; j++)
             {
                 var rIndex = j * columnsA;
                 var aIndex = j * rowsA;
                 for (var i = 0; i < columnsA; i++)
                 {
-                    r[rIndex + i] = a[aIndex+i];
+                    r[rIndex + i] = a[aIndex + i];
                 }
             }
 
             //clear A and set diagonals to 1
             Array.Clear(a, 0, a.Length);
-            for (var i = 0; i < columnsA; i++ )
+            for (var i = 0; i < columnsA; i++)
             {
-                a[i * rowsA + i] = 1.0;
+                a[i * rowsA + i] = 1.0f;
             }
 
             for (var i = minmn - 1; i >= 0; i--)
@@ -1632,6 +1636,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
 
             work[0] = rowsA * columnsA;
         }
+
 
         #region QR Factor Helper functions
 
@@ -1646,7 +1651,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <param name="columnStart">The first column</param>
         /// <param name="columnCount">The last column</param>
         /// <param name="availableCores">Number of available CPUs</param>
-        private static void ComputeQR(double[] work, int workIndex, double[] a, int rowStart, int rowCount, int columnStart, int columnCount, int availableCores)
+        private static void ComputeQR(float[] work, int workIndex, float[] a, int rowStart, int rowCount, int columnStart, int columnCount, int availableCores)
         {
             if (rowStart > rowCount || columnStart > columnCount)
             {
@@ -1668,13 +1673,13 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
             {
                 for (var j = columnStart; j < columnCount; j++)
                 {
-                    var scale = 0.0;
-                    for (var i = rowStart; i < rowCount; i++)     
+                    var scale = 0.0f;
+                    for (var i = rowStart; i < rowCount; i++)
                     {
                         scale += work[(workIndex * rowCount) + i - rowStart] * a[(j * rowCount) + i];
                     }
-                
-                    for (var i = rowStart; i < rowCount; i++)    
+
+                    for (var i = rowStart; i < rowCount; i++)
                     {
                         a[(j * rowCount) + i] -= work[(workIndex * rowCount) + i - rowStart] * scale;
                     }
@@ -1690,7 +1695,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <param name="rowCount">The number of rows in matrix</param>
         /// <param name="row">The first row</param>
         /// <param name="column">Column index</param>
-        private static void GenerateColumn(double[] work, double[] a, int rowCount, int row, int column)
+        private static void GenerateColumn(float[] work, float[] a, int rowCount, int row, int column)
         {
             var tmp = column * rowCount;
             var index = tmp + row;
@@ -1701,7 +1706,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
                     {
                         var iIndex = tmp + i;
                         work[iIndex - row] = a[iIndex];
-                        a[iIndex] = 0.0;
+                        a[iIndex] = 0.0f;
                     }
                 });
 
@@ -1713,20 +1718,20 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
             }
 
             norm = Math.Sqrt(norm);
-            if (row == rowCount - 1  || norm == 0)
+            if (row == rowCount - 1 || norm == 0)
             {
                 a[index] = -work[tmp];
-                work[tmp] = Math.Sqrt(2.0);
+                work[tmp] = (float)Math.Sqrt(2.0);
                 return;
             }
 
-            var scale = 1.0 / norm;
+            var scale = 1.0f / (float)norm;
             if (work[tmp] < 0.0)
             {
-                scale *= -1.0;
+                scale *= -1.0f;
             }
 
-            a[index] = -1.0 / scale;
+            a[index] = -1.0f / scale;
             CommonParallel.For(0, rowCount - row, 4096, (u, v) =>
                 {
                     for (int i = u; i < v; i++)
@@ -1734,9 +1739,9 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
                         work[tmp + i] *= scale;
                     }
                 });
-            work[tmp] += 1.0;
+            work[tmp] += 1.0f;
 
-            var s = Math.Sqrt(1.0 / work[tmp]);
+            var s = (float)Math.Sqrt(1.0 / work[tmp]);
             CommonParallel.For(0, rowCount - row, 4096, (u, v) =>
                 {
                     for (int i = u; i < v; i++)
@@ -1759,9 +1764,9 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <param name="x">On exit, the solution matrix.</param>
         /// <param name="method">The type of QR factorization to perform. <seealso cref="QRMethod"/></param>
         /// <remarks>Rows must be greater or equal to columns.</remarks>
-        public virtual void QRSolve(double[] a, int rows, int columns, double[] b, int columnsB, double[] x, QRMethod method = QRMethod.Full)
+        public virtual void QRSolve(float[] a, int rows, int columns, float[] b, int columnsB, float[] x, QRMethod method = QRMethod.Full)
         {
-            var work = new double[rows * columns];
+            var work = new float[rows * columns];
             QRSolve(a, rows, columns, b, columnsB, x, work, method);
         }
 
@@ -1779,7 +1784,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// work size value.</param>
         /// <param name="method">The type of QR factorization to perform. <seealso cref="QRMethod"/></param>
         /// <remarks>Rows must be greater or equal to columns.</remarks>
-        public virtual void QRSolve(double[] a, int rows, int columns, double[] b, int columnsB, double[] x, double[] work, QRMethod method = QRMethod.Full)
+        public virtual void QRSolve(float[] a, int rows, int columns, float[] b, int columnsB, float[] x, float[] work, QRMethod method = QRMethod.Full)
         {
             if (a == null)
             {
@@ -1827,17 +1832,18 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
                 throw new ArgumentException(Resources.WorkArrayTooSmall, "work");
             }
 
-            var clone = new double[a.Length];
+            var clone = new float[a.Length];
             a.Copy(clone);
 
-           if (method == QRMethod.Full)
+            if (method == QRMethod.Full)
             {
-                var q = new double[rows * rows];
+                var q = new float[rows * rows];
                 QRFactor(clone, rows, columns, q, work);
                 QRSolveFactored(q, clone, rows, columns, null, b, columnsB, x, method);
-            } else
+            }
+            else
             {
-                var r = new double[columns * columns];
+                var r = new float[columns * columns];
                 ThinQRFactor(clone, rows, columns, r, work);
                 QRSolveFactored(clone, r, rows, columns, null, b, columnsB, x, method);
             }
@@ -1850,7 +1856,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// </summary>
         /// <param name="q">The Q matrix obtained by QR factor. This is only used for the managed provider and can be
         /// <c>null</c> for the native provider. The native provider uses the Q portion stored in the R matrix.</param>
-        /// <param name="r">The R matrix obtained by calling <see cref="QRFactor(double[],int,int,double[],double[])"/>. </param>
+        /// <param name="r">The R matrix obtained by calling <see cref="QRFactor(float[],int,int,float[],float[])"/>. </param>
         /// <param name="rowsA">The number of rows in the A matrix.</param>
         /// <param name="columnsA">The number of columns in the A matrix.</param>
         /// <param name="tau">Contains additional information on Q. Only used for the native solver
@@ -1863,7 +1869,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// work size value.</param>
         /// <param name="method">The type of QR factorization to perform. <seealso cref="QRMethod"/></param>
         /// <remarks>Rows must be greater or equal to columns.</remarks>
-        public virtual void QRSolveFactored(double[] q, double[] r, int rowsA, int columnsA, double[] tau, double[] b, int columnsB, double[] x, double[] work, QRMethod method = QRMethod.Full)
+        public virtual void QRSolveFactored(float[] q, float[] r, int rowsA, int columnsA, float[] tau, float[] b, int columnsB, float[] x, float[] work, QRMethod method = QRMethod.Full)
         {
             QRSolveFactored(q, r, rowsA, columnsA, tau, b, columnsB, x, method);
         }
@@ -1871,8 +1877,8 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <summary>
         /// Solves A*X=B for X using a previously QR factored matrix.
         /// </summary>
-        /// <param name="q">The Q matrix obtained by calling <see cref="QRFactor(double[],int,int,double[],double[])"/>.</param>
-        /// <param name="r">The R matrix obtained by calling <see cref="QRFactor(double[],int,int,double[],double[])"/>. </param>
+        /// <param name="q">The Q matrix obtained by calling <see cref="QRFactor(float[],int,int,float[],float[])"/>.</param>
+        /// <param name="r">The R matrix obtained by calling <see cref="QRFactor(float[],int,int,float[],float[])"/>. </param>
         /// <param name="rowsA">The number of rows in the A matrix.</param>
         /// <param name="columnsA">The number of columns in the A matrix.</param>
         /// <param name="tau">Contains additional information on Q. Only used for the native solver
@@ -1882,7 +1888,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <param name="x">On exit, the solution matrix.</param>
         /// <param name="method">The type of QR factorization to perform. <seealso cref="QRMethod"/></param>
         /// <remarks>Rows must be greater or equal to columns.</remarks>
-        public virtual void QRSolveFactored(double[] q, double[] r, int rowsA, int columnsA, double[] tau, double[] b, int columnsB, double[] x, QRMethod method = QRMethod.Full)
+        public virtual void QRSolveFactored(float[] q, float[] r, int rowsA, int columnsA, float[] tau, float[] b, int columnsB, float[] x, QRMethod method = QRMethod.Full)
         {
             if (r == null)
             {
@@ -1941,13 +1947,13 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
                 throw new ArgumentException(string.Format(Resources.ArgumentArrayWrongLength, columnsA*columnsB), "x");
             }
 
-            var sol = new double[b.Length];
+            var sol = new float[b.Length];
 
             // Copy B matrix to "sol", so B data will not be changed
-            Buffer.BlockCopy(b, 0, sol, 0, b.Length*Constants.SizeOfDouble);
+            Buffer.BlockCopy(b, 0, sol, 0, b.Length*Constants.SizeOfFloat);
 
             // Compute Y = transpose(Q)*B
-            var column = new double[rowsA];
+            var column = new float[rowsA];
             for (var j = 0; j < columnsB; j++)
             {
                 var jm = j * rowsA;
@@ -1958,7 +1964,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
                         {
                             var im = i*rowsA;
 
-                            var sum = 0.0;
+                            var sum = 0.0f;
                             for (var k = 0; k < rowsA; k++)
                             {
                                 sum += q[im + k]*column[k];
@@ -1991,7 +1997,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
             // Fill result matrix
             for (var col = 0; col < columnsB; col++)
             {
-                Array.Copy(sol, col*rowsA, x, col*columnsA, columnsR);
+                Array.Copy(sol, col * rowsA, x, col * columnsA, columnsR);
             }
         }
 
@@ -2008,7 +2014,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <param name="vt">If <paramref name="computeVectors"/> is <c>true</c>, on exit VT contains the transposed
         /// right singular vectors.</param>
         /// <remarks>This is equivalent to the GESVD LAPACK routine.</remarks>
-        public virtual void SingularValueDecomposition(bool computeVectors, double[] a, int rowsA, int columnsA, double[] s, double[] u, double[] vt)
+        public virtual void SingularValueDecomposition(bool computeVectors, float[] a, int rowsA, int columnsA, float[] s, float[] u, float[] vt)
         {
             if (a == null)
             {
@@ -2045,7 +2051,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
                 throw new ArgumentException(Resources.ArgumentArraysSameLength, "s");
             }
 
-            var work = new double[rowsA];
+            var work = new float[rowsA];
             SingularValueDecomposition(computeVectors, a, rowsA, columnsA, s, u, vt, work);
         }
 
@@ -2062,9 +2068,8 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <param name="vt">If <paramref name="computeVectors"/> is <c>true</c>, on exit VT contains the transposed
         /// right singular vectors.</param>
         /// <param name="work">The work array. Length should be at least <paramref name="rowsA"/>.</param>
-        /// <remarks>This is equivalent to the GESVD LAPACK routine.</remarks>
         /// <exception cref="NonConvergenceException"></exception>
-        public virtual void SingularValueDecomposition(bool computeVectors, double[] a, int rowsA, int columnsA, double[] s, double[] u, double[] vt, double[] work)
+        public virtual void SingularValueDecomposition(bool computeVectors, float[] a, int rowsA, int columnsA, float[] s, float[] u, float[] vt, float[] work)
         {
             if (a == null)
             {
@@ -2119,15 +2124,15 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
 
             const int Maxiter = 1000;
 
-            var e = new double[columnsA];
-            var v = new double[vt.Length];
-            var stemp = new double[Math.Min(rowsA + 1, columnsA)];
+            var e = new float[columnsA];
+            var v = new float[vt.Length];
+            var stemp = new float[Math.Min(rowsA + 1, columnsA)];
 
             int i, j, l, lp1;
 
-            var cs = 0.0;
-            var sn = 0.0;
-            double t;
+            var cs = 0.0f;
+            var sn = 0.0f;
+            float t;
 
             var ncu = rowsA;
 
@@ -2144,13 +2149,15 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
                 {
                     // Compute the transformation for the l-th column and
                     // place the l-th diagonal in vector s[l].
-                    var sum = 0.0;
+                    var l1 = l;
+
+                    var sum = 0.0f;
                     for (var i1 = l; i1 < rowsA; i1++)
                     {
-                        sum += a[(l * rowsA) + i1] * a[(l * rowsA) + i1];
+                        sum += a[(l1 * rowsA) + i1] * a[(l1 * rowsA) + i1];
                     }
-
-                    stemp[l] = Math.Sqrt(sum);
+                    
+                    stemp[l] = (float)Math.Sqrt(sum);
 
                     if (stemp[l] != 0.0)
                     {
@@ -2162,10 +2169,10 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
                         // A part of column "l" of Matrix A from row "l" to end multiply by 1.0 / s[l]
                         for (i = l; i < rowsA; i++)
                         {
-                            a[(l * rowsA) + i] = a[(l * rowsA) + i] * (1.0 / stemp[l]);
+                            a[(l * rowsA) + i] = a[(l * rowsA) + i] * (1.0f / stemp[l]);
                         }
 
-                        a[(l * rowsA) + l] = 1.0 + a[(l * rowsA) + l];
+                        a[(l * rowsA) + l] = 1.0f + a[(l * rowsA) + l];
                     }
 
                     stemp[l] = -stemp[l];
@@ -2178,7 +2185,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
                         if (stemp[l] != 0.0)
                         {
                             // Apply the transformation.
-                            t = 0.0;
+                            t = 0.0f;
                             for (i = l; i < rowsA; i++)
                             {
                                 t += a[(j * rowsA) + i] * a[(l * rowsA) + i];
@@ -2219,7 +2226,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
                     enorm += e[i] * e[i];
                 }
 
-                e[l] = Math.Sqrt(enorm);
+                e[l] = (float)Math.Sqrt(enorm);
                 if (e[l] != 0.0)
                 {
                     if (e[lp1] != 0.0)
@@ -2230,10 +2237,10 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
                     // Scale vector "e" from "lp1" by 1.0 / e[l]
                     for (i = lp1; i < e.Length; i++)
                     {
-                        e[i] = e[i] * (1.0 / e[l]);
+                        e[i] = e[i] * (1.0f / e[l]);
                     }
 
-                    e[lp1] = 1.0 + e[lp1];
+                    e[lp1] = 1.0f + e[lp1];
                 }
 
                 e[l] = -e[l];
@@ -2243,7 +2250,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
                     // Apply the transformation.
                     for (i = lp1; i < rowsA; i++)
                     {
-                        work[i] = 0.0;
+                        work[i] = 0.0f;
                     }
 
                     for (j = lp1; j < columnsA; j++)
@@ -2287,7 +2294,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
 
             if (rowsA < m)
             {
-                stemp[m - 1] = 0.0;
+                stemp[m - 1] = 0.0f;
             }
 
             if (nrtp1 < m)
@@ -2295,7 +2302,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
                 e[nrtp1 - 1] = a[((m - 1) * rowsA) + (nrtp1 - 1)];
             }
 
-            e[m - 1] = 0.0;
+            e[m - 1] = 0.0f;
 
             // If required, generate "u".
             if (computeVectors)
@@ -2304,10 +2311,10 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
                 {
                     for (i = 0; i < rowsA; i++)
                     {
-                        u[(j * rowsA) + i] = 0.0;
+                        u[(j * rowsA) + i] = 0.0f;
                     }
 
-                    u[(j * rowsA) + j] = 1.0;
+                    u[(j * rowsA) + j] = 1.0f;
                 }
 
                 for (l = nct - 1; l >= 0; l--)
@@ -2316,7 +2323,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
                     {
                         for (j = l + 1; j < ncu; j++)
                         {
-                            t = 0.0;
+                            t = 0.0f;
                             for (i = l; i < rowsA; i++)
                             {
                                 t += u[(j * rowsA) + i] * u[(l * rowsA) + i];
@@ -2333,23 +2340,23 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
                         // A part of column "l" of matrix A from row "l" to end multiply by -1.0
                         for (i = l; i < rowsA; i++)
                         {
-                            u[(l * rowsA) + i] = u[(l * rowsA) + i] * -1.0;
+                            u[(l * rowsA) + i] = u[(l * rowsA) + i] * -1.0f;
                         }
 
-                        u[(l * rowsA) + l] = 1.0 + u[(l * rowsA) + l];
+                        u[(l * rowsA) + l] = 1.0f + u[(l * rowsA) + l];
                         for (i = 0; i < l; i++)
                         {
-                            u[(l * rowsA) + i] = 0.0;
+                            u[(l * rowsA) + i] = 0.0f;
                         }
                     }
                     else
                     {
                         for (i = 0; i < rowsA; i++)
                         {
-                            u[(l * rowsA) + i] = 0.0;
+                            u[(l * rowsA) + i] = 0.0f;
                         }
 
-                        u[(l * rowsA) + l] = 1.0;
+                        u[(l * rowsA) + l] = 1.0f;
                     }
                 }
             }
@@ -2366,7 +2373,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
                         {
                             for (j = lp1; j < columnsA; j++)
                             {
-                                t = 0.0;
+                                t = 0.0f;
                                 for (i = lp1; i < columnsA; i++)
                                 {
                                     t += v[(j * columnsA) + i] * v[(l * columnsA) + i];
@@ -2383,17 +2390,17 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
 
                     for (i = 0; i < columnsA; i++)
                     {
-                        v[(l * columnsA) + i] = 0.0;
+                        v[(l * columnsA) + i] = 0.0f;
                     }
 
-                    v[(l * columnsA) + l] = 1.0;
+                    v[(l * columnsA) + l] = 1.0f;
                 }
             }
 
             // Transform "s" and "e" so that they are double
             for (i = 0; i < m; i++)
             {
-                double r;
+                float r;
                 if (stemp[i] != 0.0)
                 {
                     t = stemp[i];
@@ -2466,9 +2473,9 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
                 {
                     test = Math.Abs(stemp[l]) + Math.Abs(stemp[l + 1]);
                     ztest = test + Math.Abs(e[l]);
-                    if (ztest.AlmostEqualInDecimalPlaces(test, 15))
+                    if (ztest.AlmostEqualInDecimalPlaces(test, 7))
                     {
-                        e[l] = 0.0;
+                        e[l] = 0.0f;
                         break;
                     }
                 }
@@ -2495,9 +2502,9 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
                         }
 
                         ztest = test + Math.Abs(stemp[ls]);
-                        if (ztest.AlmostEqualInDecimalPlaces(test, 15))
+                        if (ztest.AlmostEqualInDecimalPlaces(test, 7))
                         {
-                            stemp[ls] = 0.0;
+                            stemp[ls] = 0.0f;
                             break;
                         }
                     }
@@ -2521,14 +2528,14 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
 
                 // Perform the task indicated by kase.
                 int k;
-                double f;
+                float f;
                 switch (kase)
                 {
                         // Deflate negligible s[m].
                     case 1:
                         f = e[m - 2];
-                        e[m - 2] = 0.0;
-                        double t1;
+                        e[m - 2] = 0.0f;
+                        float t1;
                         for (var kk = l; kk < m - 1; kk++)
                         {
                             k = m - 2 - kk + l;
@@ -2559,7 +2566,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
                     // Split at negligible s[l].
                     case 2:
                         f = e[l - 1];
-                        e[l - 1] = 0.0;
+                        e[l - 1] = 0.0f;
                         for (k = l; k < m; k++)
                         {
                             t1 = stemp[k];
@@ -2585,7 +2592,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
                     case 3:
 
                         // calculate the shift.
-                        var scale = 0.0;
+                        var scale = 0.0f;
                         scale = Math.Max(scale, Math.Abs(stemp[m - 1]));
                         scale = Math.Max(scale, Math.Abs(stemp[m - 2]));
                         scale = Math.Max(scale, Math.Abs(e[m - 2]));
@@ -2596,12 +2603,12 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
                         var emm1 = e[m - 2] / scale;
                         var sl = stemp[l] / scale;
                         var el = e[l] / scale;
-                        var b = (((smm1 + sm) * (smm1 - sm)) + (emm1 * emm1)) / 2.0;
+                        var b = (((smm1 + sm) * (smm1 - sm)) + (emm1 * emm1)) / 2.0f;
                         var c = (sm * emm1) * (sm * emm1);
-                        var shift = 0.0;
+                        var shift = 0.0f;
                         if (b != 0.0 || c != 0.0)
                         {
-                            shift = Math.Sqrt((b * b) + c);
+                            shift = (float)Math.Sqrt((b * b) + c);
                             if (b < 0.0)
                             {
                                 shift = -shift;
@@ -2669,7 +2676,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
                                 // A part of column "l" of matrix VT from row 0 to end multiply by -1
                                 for (i = 0; i < columnsA; i++)
                                 {
-                                    v[(l * columnsA) + i] = v[(l * columnsA) + i] * -1.0;
+                                    v[(l * columnsA) + i] = v[(l * columnsA) + i] * -1.0f;
                                 }
                             }
                         }
@@ -2731,7 +2738,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
             // Copy stemp to s with size adjustment. We are using ported copy of linpack's svd code and it uses
             // a singular vector of length rows+1 when rows < columns. The last element is not used and needs to be removed.
             // We should port lapack's svd routine to remove this problem.
-            Buffer.BlockCopy(stemp, 0, s, 0, Math.Min(rowsA, columnsA) * Constants.SizeOfDouble);
+            Buffer.BlockCopy(stemp, 0, s, 0, Math.Min(rowsA, columnsA) * Constants.SizeOfFloat);
 
             // On return the first element of the work array stores the min size of the work array could have been
             // work[0] = Math.Max(3 * Math.Min(aRows, aColumns) + Math.Max(aRows, aColumns), 5 * Math.Min(aRows, aColumns));
@@ -2747,9 +2754,9 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <param name="c">Contains the parameter c associated with the Givens rotation</param>
         /// <param name="s">Contains the parameter s associated with the Givens rotation</param>
         /// <remarks>This is equivalent to the DROTG LAPACK routine.</remarks>
-        private static void Drotg(ref double da, ref double db, ref double c, ref double s)
+        private static void Drotg(ref float da, ref float db, ref float c, ref float s)
         {
-            double r, z;
+            float r, z;
 
             var roe = db;
             var absda = Math.Abs(da);
@@ -2762,16 +2769,16 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
             var scale = absda + absdb;
             if (scale == 0.0)
             {
-                c = 1.0;
-                s = 0.0;
-                r = 0.0;
-                z = 0.0;
+                c = 1.0f;
+                s = 0.0f;
+                r = 0.0f;
+                z = 0.0f;
             }
             else
             {
                 var sda = da / scale;
                 var sdb = db / scale;
-                r = scale * Math.Sqrt((sda * sda) + (sdb * sdb));
+                r = scale * (float)Math.Sqrt((sda * sda) + (sdb * sdb));
                 if (roe < 0.0)
                 {
                     r = -r;
@@ -2779,7 +2786,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
 
                 c = da / r;
                 s = db / r;
-                z = 1.0;
+                z = 1.0f;
                 if (absda > absdb)
                 {
                     z = s;
@@ -2787,7 +2794,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
 
                 if (absdb >= absda && c != 0.0)
                 {
-                    z = 1.0 / c;
+                    z = 1.0f / c;
                 }
             }
 
@@ -2804,7 +2811,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <param name="b">The B matrix.</param>
         /// <param name="columnsB">The number of columns of B.</param>
         /// <param name="x">On exit, the solution matrix.</param>
-        public virtual void SvdSolve(double[] a, int rowsA, int columnsA, double[] b, int columnsB, double[] x)
+        public virtual void SvdSolve(float[] a, int rowsA, int columnsA, float[] b, int columnsB, float[] x)
         {
             if (a == null)
             {
@@ -2831,13 +2838,13 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
                 throw new ArgumentException(Resources.ArgumentArraysSameLength, "b");
             }
 
-            var work = new double[rowsA];
-            var s = new double[Math.Min(rowsA, columnsA)];
-            var u = new double[rowsA * rowsA];
-            var vt = new double[columnsA * columnsA];
+            var work = new float[rowsA];
+            var s = new float[Math.Min(rowsA, columnsA)];
+            var u = new float[rowsA * rowsA];
+            var vt = new float[columnsA * columnsA];
 
-            var clone = new double[a.Length];
-            Buffer.BlockCopy(a, 0, clone, 0, a.Length * Constants.SizeOfDouble);
+            var clone = new float[a.Length];
+            Buffer.BlockCopy(a, 0, clone, 0, a.Length * Constants.SizeOfFloat);
             SingularValueDecomposition(true, clone, rowsA, columnsA, s, u, vt, work);
             SvdSolveFactored(rowsA, columnsA, s, u, vt, b, columnsB, x);
         }
@@ -2847,13 +2854,13 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// </summary>
         /// <param name="rowsA">The number of rows in the A matrix.</param>
         /// <param name="columnsA">The number of columns in the A matrix.</param>
-        /// <param name="s">The s values returned by <see cref="SingularValueDecomposition(bool,double[],int,int,double[],double[],double[])"/>.</param>
-        /// <param name="u">The left singular vectors returned by  <see cref="SingularValueDecomposition(bool,double[],int,int,double[],double[],double[])"/>.</param>
-        /// <param name="vt">The right singular  vectors returned by  <see cref="SingularValueDecomposition(bool,double[],int,int,double[],double[],double[])"/>.</param>
+        /// <param name="s">The s values returned by <see cref="SingularValueDecomposition(bool,float[],int,int,float[],float[],float[])"/>.</param>
+        /// <param name="u">The left singular vectors returned by  <see cref="SingularValueDecomposition(bool,float[],int,int,float[],float[],float[])"/>.</param>
+        /// <param name="vt">The right singular  vectors returned by  <see cref="SingularValueDecomposition(bool,float[],int,int,float[],float[],float[])"/>.</param>
         /// <param name="b">The B matrix.</param>
         /// <param name="columnsB">The number of columns of B.</param>
         /// <param name="x">On exit, the solution matrix.</param>
-        public virtual void SvdSolveFactored(int rowsA, int columnsA, double[] s, double[] u, double[] vt, double[] b, int columnsB, double[] x)
+        public virtual void SvdSolveFactored(int rowsA, int columnsA, float[] s, float[] u, float[] vt, float[] b, int columnsB, float[] x)
         {
             if (s == null)
             {
@@ -2906,13 +2913,13 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
             }
 
             var mn = Math.Min(rowsA, columnsA);
-            var tmp = new double[columnsA];
+            var tmp = new float[columnsA];
 
             for (var k = 0; k < columnsB; k++)
             {
                 for (var j = 0; j < columnsA; j++)
                 {
-                    double value = 0;
+                    float value = 0;
                     if (j < mn)
                     {
                         for (var i = 0; i < rowsA; i++)
@@ -2928,7 +2935,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
 
                 for (var j = 0; j < columnsA; j++)
                 {
-                    double value = 0;
+                    float value = 0;
                     for (var i = 0; i < columnsA; i++)
                     {
                         value += vt[(j * columnsA) + i] * tmp[i];
@@ -2948,29 +2955,29 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <param name="matrixEv">On output, the matrix contains the eigen vectors. The lenth of the array must be order * order.</param>
         /// <param name="vectorEv">On output, the eigen values (λ) of matrix in ascending value. The length of the arry must <paramref name="order"/>.</param>
         /// <param name="matrixD">On output, the block diagonal eigenvalue matrix. The lenth of the array must be order * order.</param>
-        public virtual void EigenDecomp(bool isSymmetric, int order, double[] matrix, double[] matrixEv, Complex[] vectorEv, double[] matrixD)
+        public virtual void EigenDecomp(bool isSymmetric, int order, float[] matrix, float[] matrixEv, Complex[] vectorEv, float[] matrixD)
         {
-            if (matrix == null) 
+            if (matrix == null)
             {
                 throw new ArgumentNullException("matrix");
             }
 
-            if (matrix.Length != order * order )
+            if (matrix.Length != order * order)
             {
                 throw new ArgumentException(String.Format(Resources.ArgumentArrayWrongLength, order * order), "matrix");
             }
-            
-            if (matrixEv == null) 
+
+            if (matrixEv == null)
             {
                 throw new ArgumentNullException("matrixEv");
             }
 
-            if (matrixEv.Length != order * order )
+            if (matrixEv.Length != order * order)
             {
                 throw new ArgumentException(String.Format(Resources.ArgumentArrayWrongLength, order * order), "matrixEv");
             }
 
-            if (vectorEv == null) 
+            if (vectorEv == null)
             {
                 throw new ArgumentNullException("vectorEv");
             }
@@ -2980,37 +2987,37 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
                 throw new ArgumentException(String.Format(Resources.ArgumentArrayWrongLength, order), "vectorEv");
             }
 
-            if (matrixD == null) 
+            if (matrixD == null)
             {
                 throw new ArgumentNullException("matrixD");
             }
 
-            if (matrixD.Length != order * order )
+            if (matrixD.Length != order * order)
             {
                 throw new ArgumentException(String.Format(Resources.ArgumentArrayWrongLength, order * order), "matrixD");
             }
 
-            var d = new double[order];
-            var e = new double[order];
+            var d = new float[order];
+            var e = new float[order];
 
             if (isSymmetric)
             {
-                Buffer.BlockCopy(matrix, 0, matrixEv, 0, matrix.Length * Constants.SizeOfDouble);
+                Buffer.BlockCopy(matrix, 0, matrixEv, 0, matrix.Length * Constants.SizeOfFloat);
                 var om1 = order - 1;
                 for (var i = 0; i < order; i++)
                 {
-                    d[i] = matrixEv[i*order + om1];
+                    d[i] = matrixEv[i * order + om1];
                 }
 
-                Numerics.LinearAlgebra.Double.Factorization.DenseEvd.SymmetricTridiagonalize(matrixEv, d, e, order);
-                Numerics.LinearAlgebra.Double.Factorization.DenseEvd.SymmetricDiagonalize(matrixEv, d, e, order);
+                Numerics.LinearAlgebra.Single.Factorization.DenseEvd.SymmetricTridiagonalize(matrixEv, d, e, order);
+                Numerics.LinearAlgebra.Single.Factorization.DenseEvd.SymmetricDiagonalize(matrixEv, d, e, order);
             }
             else
             {
-                var matrixH = new double[matrix.Length];
-                Buffer.BlockCopy(matrix, 0, matrixH, 0, matrix.Length * Constants.SizeOfDouble);
-                Numerics.LinearAlgebra.Double.Factorization.DenseEvd.NonsymmetricReduceToHessenberg(matrixEv, matrixH, order);
-                Numerics.LinearAlgebra.Double.Factorization.DenseEvd.NonsymmetricReduceHessenberToRealSchur(matrixEv, matrixH, d, e, order);
+                var matrixH = new float[matrix.Length];
+                Buffer.BlockCopy(matrix, 0, matrixH, 0, matrix.Length * Constants.SizeOfFloat);
+                Numerics.LinearAlgebra.Single.Factorization.DenseEvd.NonsymmetricReduceToHessenberg(matrixEv, matrixH, order);
+                Numerics.LinearAlgebra.Single.Factorization.DenseEvd.NonsymmetricReduceHessenberToRealSchur(matrixEv, matrixH, d, e, order);
             }
 
             for (var i = 0; i < order; i++)
@@ -3023,7 +3030,6 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
                 if (e[i] > 0)
                 {
                     matrixD[io + order + i] = e[i];
-                    matrixD[(i+1) * order + i] = e[i];
                 }
                 else if (e[i] < 0)
                 {

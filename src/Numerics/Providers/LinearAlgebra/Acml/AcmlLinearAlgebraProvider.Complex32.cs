@@ -1,9 +1,11 @@
-﻿// <copyright file="AcmlLinearAlgebraProvider.Complex.cs" company="Math.NET">
+﻿// <copyright file="AcmlLinearAlgebraProvider.Complex32.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
+//
 // Copyright (c) 2009-2011 Math.NET
+//
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -12,8 +14,10 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
+//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
+//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -26,19 +30,18 @@
 
 #if NATIVEACML
 
-using MathNet.Numerics.LinearAlgebra.Generic.Factorization;
+using MathNet.Numerics.LinearAlgebra.Factorization;
 
-namespace MathNet.Numerics.Algorithms.LinearAlgebra.Acml
+namespace MathNet.Numerics.Providers.LinearAlgebra.Acml
 {
     using System;
-    using System.Numerics;
     using System.Security;
     using Properties;
-
+   
     /// <summary>
     /// AMD Core Math Library (ACML) linear algebra provider.
     /// </summary>
-    public partial class AcmlLinearAlgebraProvider : ManagedLinearAlgebraProvider
+    public partial class AcmlLinearAlgebraProvider
     {
         /// <summary>
         /// Computes the dot product of x and y.
@@ -48,7 +51,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.Acml
         /// <returns>The dot product of x and y.</returns>
         /// <remarks>This is equivalent to the DOT BLAS routine.</remarks>
         [SecuritySafeCritical]
-        public override Complex DotProduct(Complex[] x, Complex[] y)
+        public override Complex32 DotProduct(Complex32[] x, Complex32[] y)
         {
             if (y == null)
             {
@@ -65,9 +68,9 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.Acml
                 throw new ArgumentException(Resources.ArgumentArraysSameLength);
             }
 
-            return SafeNativeMethods.z_dot_product(x.Length, x, y);
+            return SafeNativeMethods.c_dot_product(x.Length, x, y);
         }
-
+        
         /// <summary>
         /// Adds a scaled vector to another: <c>result = y + alpha*x</c>.
         /// </summary>
@@ -77,7 +80,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.Acml
         /// <param name="result">The result of the addition.</param>
         /// <remarks>This is similar to the AXPY BLAS routine.</remarks>
         [SecuritySafeCritical]
-        public override void AddVectorToScaledVector(Complex[] y, Complex alpha, Complex[] x, Complex[] result)
+        public override void AddVectorToScaledVector(Complex32[] y, Complex32 alpha, Complex32[] x, Complex32[] result)
         {
             if (y == null)
             {
@@ -99,12 +102,12 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.Acml
                 Array.Copy(y, 0, result, 0, y.Length);
             }
 
-            if (alpha == Complex.Zero)
+            if (alpha == Complex32.Zero)
             {
                 return;
             }
 
-            SafeNativeMethods.z_axpy(y.Length, alpha, x, result);
+            SafeNativeMethods.c_axpy(y.Length, alpha, x, result);
         }
 
         /// <summary>
@@ -115,24 +118,24 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.Acml
         /// <param name="result">This result of the scaling.</param>
         /// <remarks>This is similar to the SCAL BLAS routine.</remarks>
         [SecuritySafeCritical]
-        public override void ScaleArray(Complex alpha, Complex[] x, Complex[] result)
+        public override void ScaleArray(Complex32 alpha, Complex32[] x, Complex32[] result)
         {
             if (x == null)
             {
                 throw new ArgumentNullException("x");
-            }
-
+            } 
+            
             if (!ReferenceEquals(x, result))
             {
                 Array.Copy(x, 0, result, 0, x.Length);
             }
 
-            if (alpha == Complex.One)
+            if (alpha == Complex32.One)
             {
                 return;
             }
 
-            SafeNativeMethods.z_scale(x.Length, alpha, result);
+            SafeNativeMethods.c_scale(x.Length, alpha, result);
         }
 
         /// <summary>
@@ -146,10 +149,10 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.Acml
         /// <param name="columnsY">The number of columns in the y matrix.</param>
         /// <param name="result">Where to store the result of the multiplication.</param>
         /// <remarks>This is a simplified version of the BLAS GEMM routine with alpha
-        /// set to Complex.One and beta set to Complex.Zero, and x and y are not transposed.</remarks>
-        public override void MatrixMultiply(Complex[] x, int rowsX, int columnsX, Complex[] y, int rowsY, int columnsY, Complex[] result)
+        /// set to Complex32.One and beta set to Complex32.Zero, and x and y are not transposed.</remarks>
+        public override void MatrixMultiply(Complex32[] x, int rowsX, int columnsX, Complex32[] y, int rowsY, int columnsY, Complex32[] result)
         {
-            MatrixMultiplyWithUpdate(Transpose.DontTranspose, Transpose.DontTranspose, Complex.One, x, rowsX, columnsX, y, rowsY, columnsY, Complex.Zero, result);
+            MatrixMultiplyWithUpdate(Transpose.DontTranspose, Transpose.DontTranspose, Complex32.One, x, rowsX, columnsX, y, rowsY, columnsY, Complex32.Zero, result);
         }
 
         /// <summary>
@@ -167,7 +170,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.Acml
         /// <param name="beta">The value to scale the <paramref name="c"/> matrix.</param>
         /// <param name="c">The c matrix.</param>
         [SecuritySafeCritical]
-        public override void MatrixMultiplyWithUpdate(Transpose transposeA, Transpose transposeB, Complex alpha, Complex[] a, int rowsA, int columnsA, Complex[] b, int rowsB, int columnsB, Complex beta, Complex[] c)
+        public override void MatrixMultiplyWithUpdate(Transpose transposeA, Transpose transposeB, Complex32 alpha, Complex32[] a, int rowsA, int columnsA, Complex32[] b, int rowsB, int columnsB, Complex32 beta, Complex32[] c)
         {
             if (a == null)
             {
@@ -191,7 +194,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.Acml
 
             if (c.Length != m * n)
             {
-                throw new ArgumentException(Resources.ArgumentMatrixDimensions);
+                throw new ArgumentException(Resources.ArgumentMatrixDimensions);   
             }
 
             if (k != l)
@@ -199,20 +202,20 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.Acml
                 throw new ArgumentException(Resources.ArgumentMatrixDimensions);
             }
 
-            SafeNativeMethods.z_matrix_multiply(transposeA, transposeB, m, n, k, alpha, a, b, beta, c);
+            SafeNativeMethods.c_matrix_multiply(transposeA, transposeB, m, n, k, alpha, a, b, beta, c);
         }
 
         /// <summary>
         /// Computes the LUP factorization of A. P*A = L*U.
         /// </summary>
         /// <param name="data">An <paramref name="order"/> by <paramref name="order"/> matrix. The matrix is overwritten with the
-        /// the LU factorization on exit. The lower triangular factor L is stored in under the diagonal of <paramref name="data"/> (the diagonal is always Complex.One
+        /// the LU factorization on exit. The lower triangular factor L is stored in under the diagonal of <paramref name="data"/> (the diagonal is always Complex32.One
         /// for the L factor). The upper triangular factor U is stored on and above the diagonal of <paramref name="data"/>.</param>
         /// <param name="order">The order of the square matrix <paramref name="data"/>.</param>
         /// <param name="ipiv">On exit, it contains the pivot indices. The size of the array must be <paramref name="order"/>.</param>
         /// <remarks>This is equivalent to the GETRF LAPACK routine.</remarks>
         [SecuritySafeCritical]
-        public override void LUFactor(Complex[] data, int order, int[] ipiv)
+        public override void LUFactor(Complex32[] data, int order, int[] ipiv)
         {
             if (data == null)
             {
@@ -233,8 +236,8 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.Acml
             {
                 throw new ArgumentException(Resources.ArgumentArraysSameLength, "ipiv");
             }
-
-            SafeNativeMethods.z_lu_factor(order, data, ipiv);
+            
+            SafeNativeMethods.c_lu_factor(order, data, ipiv);
         }
 
         /// <summary>
@@ -244,7 +247,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.Acml
         /// <param name="order">The order of the square matrix <paramref name="a"/>.</param>
         /// <remarks>This is equivalent to the GETRF and GETRI LAPACK routines.</remarks>
         [SecuritySafeCritical]
-        public override void LUInverse(Complex[] a, int order)
+        public override void LUInverse(Complex32[] a, int order)
         {
             if (a == null)
             {
@@ -256,8 +259,8 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.Acml
                 throw new ArgumentException(Resources.ArgumentArraysSameLength, "a");
             }
 
-            var work = new Complex[order];
-            SafeNativeMethods.z_lu_inverse(order, a, work, work.Length);
+            var work = new Complex32[order];
+            SafeNativeMethods.c_lu_inverse(order, a, work, work.Length);        
         }
 
         /// <summary>
@@ -268,7 +271,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.Acml
         /// <param name="ipiv">The pivot indices of <paramref name="a"/>.</param>
         /// <remarks>This is equivalent to the GETRI LAPACK routine.</remarks>
         [SecuritySafeCritical]
-        public override void LUInverseFactored(Complex[] a, int order, int[] ipiv)
+        public override void LUInverseFactored(Complex32[] a, int order, int[] ipiv)
         {
             if (a == null)
             {
@@ -290,8 +293,8 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.Acml
                 throw new ArgumentException(Resources.ArgumentArraysSameLength, "ipiv");
             }
 
-            var work = new Complex[order];
-            SafeNativeMethods.z_lu_inverse_factored(order, a, ipiv, work, order);
+            var work = new Complex32[order];
+            SafeNativeMethods.c_lu_inverse_factored(order, a, ipiv, work, order);        
         }
 
         /// <summary>
@@ -304,7 +307,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.Acml
         /// work size value.</param>
         /// <remarks>This is equivalent to the GETRF and GETRI LAPACK routines.</remarks>
         [SecuritySafeCritical]
-        public override void LUInverse(Complex[] a, int order, Complex[] work)
+        public override void LUInverse(Complex32[] a, int order, Complex32[] work)
         {
             if (a == null)
             {
@@ -326,7 +329,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.Acml
                 throw new ArgumentException(Resources.WorkArrayTooSmall, "work");
             }
 
-            SafeNativeMethods.z_lu_inverse(order, a, work, work.Length);
+            SafeNativeMethods.c_lu_inverse(order, a, work, work.Length);        
         }
 
         /// <summary>
@@ -340,7 +343,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.Acml
         /// work size value.</param>
         /// <remarks>This is equivalent to the GETRI LAPACK routine.</remarks>
         [SecuritySafeCritical]
-        public override void LUInverseFactored(Complex[] a, int order, int[] ipiv, Complex[] work)
+        public override void LUInverseFactored(Complex32[] a, int order, int[] ipiv, Complex32[] work)
         {
             if (a == null)
             {
@@ -372,7 +375,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.Acml
                 throw new ArgumentException(Resources.WorkArrayTooSmall, "work");
             }
 
-            SafeNativeMethods.z_lu_inverse_factored(order, a, ipiv, work, order);
+            SafeNativeMethods.c_lu_inverse_factored(order, a, ipiv, work, order);        
         }
 
         /// <summary>
@@ -384,7 +387,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.Acml
         /// <param name="b">On entry the B matrix; on exit the X matrix.</param>
         /// <remarks>This is equivalent to the GETRF and GETRS LAPACK routines.</remarks>
         [SecuritySafeCritical]
-        public override void LUSolve(int columnsOfB, Complex[] a, int order, Complex[] b)
+        public override void LUSolve(int columnsOfB, Complex32[] a, int order, Complex32[] b)
         {
             if (a == null)
             {
@@ -400,13 +403,13 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.Acml
             {
                 throw new ArgumentException(Resources.ArgumentArraysSameLength, "b");
             }
-
+            
             if (ReferenceEquals(a, b))
             {
                 throw new ArgumentException(Resources.ArgumentReferenceDifferent);
             }
 
-            SafeNativeMethods.z_lu_solve(order, columnsOfB, a, b);
+            SafeNativeMethods.c_lu_solve(order, columnsOfB, a, b); 
         }
 
         /// <summary>
@@ -419,7 +422,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.Acml
         /// <param name="b">On entry the B matrix; on exit the X matrix.</param>
         /// <remarks>This is equivalent to the GETRS LAPACK routine.</remarks>
         [SecuritySafeCritical]
-        public override void LUSolveFactored(int columnsOfB, Complex[] a, int order, int[] ipiv, Complex[] b)
+        public override void LUSolveFactored(int columnsOfB, Complex32[] a, int order, int[] ipiv, Complex32[] b)
         {
             if (a == null)
             {
@@ -451,7 +454,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.Acml
                 throw new ArgumentException(Resources.ArgumentReferenceDifferent);
             }
 
-            SafeNativeMethods.z_lu_solve_factored(order, columnsOfB, a, ipiv, b);
+            SafeNativeMethods.c_lu_solve_factored(order, columnsOfB, a, ipiv, b); 
         }
 
         /// <summary>
@@ -462,7 +465,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.Acml
         /// <param name="order">The number of rows or columns in the matrix.</param>
         /// <remarks>This is equivalent to the POTRF LAPACK routine.</remarks>
         [SecuritySafeCritical]
-        public override void CholeskyFactor(Complex[] a, int order)
+        public override void CholeskyFactor(Complex32[] a, int order)
         {
             if (a == null)
             {
@@ -479,7 +482,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.Acml
                 throw new ArgumentException(Resources.ArgumentArraysSameLength, "a");
             }
 
-            var info = SafeNativeMethods.z_cholesky_factor(order, a);
+            var info = SafeNativeMethods.c_cholesky_factor(order, a);
 
             if (info > 0)
             {
@@ -497,7 +500,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.Acml
         /// <remarks>This is equivalent to the POTRF add POTRS LAPACK routines.
         /// </remarks>
         [SecuritySafeCritical]
-        public override void CholeskySolve(Complex[] a, int orderA, Complex[] b, int columnsB)
+        public override void CholeskySolve(Complex32[] a, int orderA, Complex32[] b, int columnsB)
         {
             if (a == null)
             {
@@ -519,7 +522,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.Acml
                 throw new ArgumentException(Resources.ArgumentReferenceDifferent);
             }
 
-            SafeNativeMethods.z_cholesky_solve(orderA, columnsB, a, b);
+            SafeNativeMethods.c_cholesky_solve(orderA, columnsB, a, b); 
         }
 
         /// <summary>
@@ -531,7 +534,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.Acml
         /// <param name="columnsB">The number of columns in the B matrix.</param>
         /// <remarks>This is equivalent to the POTRS LAPACK routine.</remarks>
         [SecuritySafeCritical]
-        public override void CholeskySolveFactored(Complex[] a, int orderA, Complex[] b, int columnsB)
+        public override void CholeskySolveFactored(Complex32[] a, int orderA, Complex32[] b, int columnsB)
         {
             if (a == null)
             {
@@ -553,7 +556,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.Acml
                 throw new ArgumentException(Resources.ArgumentReferenceDifferent);
             }
 
-            SafeNativeMethods.z_cholesky_solve_factored(orderA, columnsB, a, b);
+            SafeNativeMethods.c_cholesky_solve_factored(orderA, columnsB, a, b); 
         }
 
         /// <summary>
@@ -569,7 +572,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.Acml
         /// to be used by the QR solve routine.</param>
         /// <remarks>This is similar to the GEQRF and ORGQR LAPACK routines.</remarks>
         [SecuritySafeCritical]
-        public override void QRFactor(Complex[] r, int rowsR, int columnsR, Complex[] q, Complex[] tau)
+        public override void QRFactor(Complex32[] r, int rowsR, int columnsR, Complex32[] q, Complex32[] tau)
         {
             if (r == null)
             {
@@ -596,8 +599,8 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.Acml
                 throw new ArgumentException(string.Format(Resources.ArgumentArrayWrongLength, "rowsR * rowsR"), "q");
             }
 
-            var work = new Complex[columnsR * Control.BlockSize];
-            SafeNativeMethods.z_qr_factor(rowsR, columnsR, r, tau, q, work, work.Length);
+            var work = new Complex32[columnsR * Control.BlockSize];
+            SafeNativeMethods.c_qr_factor(rowsR, columnsR, r, tau, q, work, work.Length);
         }
 
         /// <summary>
@@ -616,7 +619,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.Acml
         /// work size value.</param>
         /// <remarks>This is similar to the GEQRF and ORGQR LAPACK routines.</remarks>
         [SecuritySafeCritical]
-        public override void QRFactor(Complex[] r, int rowsR, int columnsR, Complex[] q, Complex[] tau, Complex[] work)
+        public override void QRFactor(Complex32[] r, int rowsR, int columnsR, Complex32[] q, Complex32[] tau, Complex32[] work)
         {
             if (r == null)
             {
@@ -654,7 +657,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.Acml
                 throw new ArgumentException(Resources.WorkArrayTooSmall, "work");
             }
 
-            SafeNativeMethods.z_qr_factor(rowsR, columnsR, r, tau, q, work, work.Length);
+            SafeNativeMethods.c_qr_factor(rowsR, columnsR, r, tau, q, work, work.Length);
         }
 
         /// <summary>
@@ -667,7 +670,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.Acml
         /// <param name="columnsB">The number of columns of B.</param>
         /// <param name="x">On exit, the solution matrix.</param>
         /// <remarks>Rows must be greater or equal to columns.</remarks>
-        public override void QRSolve(Complex[] a, int rows, int columns, Complex[] b, int columnsB, Complex[] x)
+        public override void QRSolve(Complex32[] a, int rows, int columns,  Complex32[] b, int columnsB,  Complex32[] x)
         {
             if (a == null)
             {
@@ -704,7 +707,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.Acml
                 throw new ArgumentException(Resources.RowsLessThanColumns);
             }
 
-            var work = new Complex[columns * Control.BlockSize];
+            var work = new Complex32[columns * Control.BlockSize];
             QRSolve(a, rows, columns, b, columnsB, x, work);
         }
 
@@ -721,7 +724,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.Acml
         /// but should be N*blocksize. The blocksize is machine dependent. On exit, work[0] contains the optimal
         /// work size value.</param>
         /// <remarks>Rows must be greater or equal to columns.</remarks>
-        public override void QRSolve(Complex[] a, int rows, int columns, Complex[] b, int columnsB, Complex[] x, Complex[] work)
+        public override void QRSolve(Complex32[] a, int rows, int columns, Complex32[] b, int columnsB, Complex32[] x, Complex32[] work)
         {
             if (a == null)
             {
@@ -769,14 +772,14 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.Acml
                 throw new ArgumentException(Resources.WorkArrayTooSmall, "work");
             }
 
-            SafeNativeMethods.z_qr_solve(rows, columns, columnsB, a, b, x, work, work.Length);
+            SafeNativeMethods.c_qr_solve(rows, columns, columnsB, a, b, x, work, work.Length);
         }
 
         /// <summary>
         /// Solves A*X=B for X using a previously QR factored matrix.
         /// </summary>
-        /// <param name="q">The Q matrix obtained by calling <see cref="QRFactor(Complex[],int,int,Complex[],Complex[])"/>.</param>
-        /// <param name="r">The R matrix obtained by calling <see cref="QRFactor(Complex[],int,int,Complex[],Complex[])"/>. </param>
+        /// <param name="q">The Q matrix obtained by calling <see cref="QRFactor(Complex32[],int,int,Complex32[],Complex32[])"/>.</param>
+        /// <param name="r">The R matrix obtained by calling <see cref="QRFactor(Complex32[],int,int,Complex32[],Complex32[])"/>. </param>
         /// <param name="rowsR">The number of rows in the A matrix.</param>
         /// <param name="columnsR">The number of columns in the A matrix.</param>
         /// <param name="tau">Contains additional information on Q. Only used for the native solver
@@ -786,7 +789,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.Acml
         /// <param name="x">On exit, the solution matrix.</param>
         /// <remarks>Rows must be greater or equal to columns.</remarks>
         [SecuritySafeCritical]
-        public override void QRSolveFactored(Complex[] q, Complex[] r, int rowsR, int columnsR, Complex[] tau, Complex[] b, int columnsB, Complex[] x)
+        public override void QRSolveFactored(Complex32[] q, Complex32[] r, int rowsR, int columnsR, Complex32[] tau, Complex32[] b, int columnsB, Complex32[] x)
         {
             if (r == null)
             {
@@ -832,8 +835,8 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.Acml
             {
                 throw new ArgumentException(Resources.RowsLessThanColumns);
             }
-
-            var work = new Complex[columnsR * Control.BlockSize];
+            
+            var work = new Complex32[columnsR * Control.BlockSize];
             QRSolveFactored(q, r, rowsR, columnsR, tau, b, columnsB, x, work);
         }
 
@@ -842,7 +845,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.Acml
         /// </summary>
         /// <param name="q">The Q matrix obtained by QR factor. This is only used for the managed provider and can be
         /// <c>null</c> for the native provider. The native provider uses the Q portion stored in the R matrix.</param>
-        /// <param name="r">The R matrix obtained by calling <see cref="QRFactor(Complex[],int,int,Complex[],Complex[])"/>. </param>
+        /// <param name="r">The R matrix obtained by calling <see cref="QRFactor(Complex32[],int,int,Complex32[],Complex32[])"/>. </param>
         /// <param name="rowsR">The number of rows in the A matrix.</param>
         /// <param name="columnsR">The number of columns in the A matrix.</param>
         /// <param name="tau">Contains additional information on Q. Only used for the native solver
@@ -854,7 +857,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.Acml
         /// but should be N*blocksize. The blocksize is machine dependent. On exit, work[0] contains the optimal
         /// work size value.</param>
         /// <remarks>Rows must be greater or equal to columns.</remarks>
-        public override void QRSolveFactored(Complex[] q, Complex[] r, int rowsR, int columnsR, Complex[] tau, Complex[] b, int columnsB, Complex[] x, Complex[] work)
+        public override void QRSolveFactored(Complex32[] q, Complex32[] r, int rowsR, int columnsR, Complex32[] tau, Complex32[] b, int columnsB, Complex32[] x, Complex32[] work)
         {
             if (r == null)
             {
@@ -912,7 +915,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.Acml
                 throw new ArgumentException(Resources.WorkArrayTooSmall, "work");
             }
 
-            SafeNativeMethods.z_qr_solve_factored(rowsR, columnsR, columnsB, r, b, tau, x, work, work.Length);
+            SafeNativeMethods.c_qr_solve_factored(rowsR, columnsR, columnsB, r, b, tau, x, work, work.Length);
         }
 
         /// <summary>
@@ -929,7 +932,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.Acml
         /// right singular vectors.</param>
         /// <remarks>This is equivalent to the GESVD LAPACK routine.</remarks>
         [SecuritySafeCritical]
-        public override void SingularValueDecomposition(bool computeVectors, Complex[] a, int rowsA, int columnsA, Complex[] s, Complex[] u, Complex[] vt)
+        public override void SingularValueDecomposition(bool computeVectors, Complex32[] a, int rowsA, int columnsA, Complex32[] s, Complex32[] u, Complex32[] vt)
         {
             if (a == null)
             {
@@ -966,7 +969,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.Acml
                 throw new ArgumentException(Resources.ArgumentArraysSameLength, "s");
             }
 
-            var work = new Complex[(2 * Math.Min(rowsA, columnsA)) + Math.Max(rowsA, columnsA)];
+            var work = new Complex32[(2 * Math.Min(rowsA, columnsA)) + Math.Max(rowsA, columnsA)];
             SingularValueDecomposition(computeVectors, a, rowsA, columnsA, s, u, vt, work);
         }
 
@@ -979,7 +982,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.Acml
         /// <param name="b">The B matrix.</param>
         /// <param name="columnsB">The number of columns of B.</param>
         /// <param name="x">On exit, the solution matrix.</param>
-        public override void SvdSolve(Complex[] a, int rowsA, int columnsA, Complex[] b, int columnsB, Complex[] x)
+        public override void SvdSolve(Complex32[] a, int rowsA, int columnsA, Complex32[] b, int columnsB, Complex32[] x)
         {
             if (a == null)
             {
@@ -1006,12 +1009,12 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.Acml
                 throw new ArgumentException(Resources.ArgumentArraysSameLength, "b");
             }
 
-            var work = new Complex[(2 * Math.Min(rowsA, columnsA)) + Math.Max(rowsA, columnsA)];
-            var s = new Complex[Math.Min(rowsA, columnsA)];
-            var u = new Complex[rowsA * rowsA];
-            var vt = new Complex[columnsA * columnsA];
+            var work = new Complex32[(2 * Math.Min(rowsA, columnsA)) + Math.Max(rowsA, columnsA)];
+            var s = new Complex32[Math.Min(rowsA, columnsA)];
+            var u = new Complex32[rowsA * rowsA];
+            var vt = new Complex32[columnsA * columnsA];
 
-            var clone = new Complex[a.Length];
+            var clone = new Complex32[a.Length];
             a.Copy(clone);
             SingularValueDecomposition(true, clone, rowsA, columnsA, s, u, vt, work);
             SvdSolveFactored(rowsA, columnsA, s, u, vt, b, columnsB, x);
@@ -1034,7 +1037,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.Acml
         /// On exit, work[0] contains the optimal work size value.</param>
         /// <remarks>This is equivalent to the GESVD LAPACK routine.</remarks>
         [SecuritySafeCritical]
-        public override void SingularValueDecomposition(bool computeVectors, Complex[] a, int rowsA, int columnsA, Complex[] s, Complex[] u, Complex[] vt, Complex[] work)
+        public override void SingularValueDecomposition(bool computeVectors, Complex32[] a, int rowsA, int columnsA, Complex32[] s, Complex32[] u, Complex32[] vt, Complex32[] work)
         {
             if (a == null)
             {
@@ -1087,7 +1090,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.Acml
                 throw new ArgumentException(Resources.WorkArrayTooSmall, "work");
             }
 
-            SafeNativeMethods.z_svd_factor(computeVectors, rowsA, columnsA, a, s, u, vt, work, work.Length);
+            SafeNativeMethods.c_svd_factor(computeVectors, rowsA, columnsA, a, s, u, vt, work, work.Length);
         }
     }
 }

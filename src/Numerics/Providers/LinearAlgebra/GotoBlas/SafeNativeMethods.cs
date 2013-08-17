@@ -26,13 +26,13 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-#if NATIVEACML
+#if NATIVEGOTO
 
 using System.Numerics;
 using System.Runtime.InteropServices;
 using System.Security;
 
-namespace MathNet.Numerics.Algorithms.LinearAlgebra.Acml
+namespace MathNet.Numerics.Providers.LinearAlgebra.GotoBlas
 {
     /// <summary>
     /// P/Invoke methods to the native math libraries.
@@ -44,7 +44,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.Acml
         /// <summary>
         /// Name of the native DLL.
         /// </summary>
-        private const string DllName = "MathNET.Numerics.ACML.dll";
+        private const string DllName = "MathNET.Numerics.GotoBLAS2.dll";
 
 #region BLAS
         

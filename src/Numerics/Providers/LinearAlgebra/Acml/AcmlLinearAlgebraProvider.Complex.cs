@@ -1,11 +1,9 @@
-﻿// <copyright file="GotoBlasLinearAlgebraProvider.double.cs" company="Math.NET">
+﻿// <copyright file="AcmlLinearAlgebraProvider.Complex.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
-//
 // Copyright (c) 2009-2011 Math.NET
-//
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -14,10 +12,8 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
-//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
-//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -28,21 +24,50 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-#if NATIVEGOTO
+#if NATIVEACML
 
-using MathNet.Numerics.LinearAlgebra.Generic.Factorization;
+using MathNet.Numerics.LinearAlgebra.Factorization;
 
-namespace MathNet.Numerics.Algorithms.LinearAlgebra.GotoBlas
+namespace MathNet.Numerics.Providers.LinearAlgebra.Acml
 {
     using System;
+    using System.Numerics;
     using System.Security;
     using Properties;
-   
+
     /// <summary>
-    /// GotoBLAS2 linear algebra provider.
+    /// AMD Core Math Library (ACML) linear algebra provider.
     /// </summary>
-    public partial class GotoBlasLinearAlgebraProvider
+    public partial class AcmlLinearAlgebraProvider : ManagedLinearAlgebraProvider
     {
+        /// <summary>
+        /// Computes the dot product of x and y.
+        /// </summary>
+        /// <param name="x">The vector x.</param>
+        /// <param name="y">The vector y.</param>
+        /// <returns>The dot product of x and y.</returns>
+        /// <remarks>This is equivalent to the DOT BLAS routine.</remarks>
+        [SecuritySafeCritical]
+        public override Complex DotProduct(Complex[] x, Complex[] y)
+        {
+            if (y == null)
+            {
+                throw new ArgumentNullException("y");
+            }
+
+            if (x == null)
+            {
+                throw new ArgumentNullException("x");
+            }
+
+            if (x.Length != y.Length)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength);
+            }
+
+            return SafeNativeMethods.z_dot_product(x.Length, x, y);
+        }
+
         /// <summary>
         /// Adds a scaled vector to another: <c>result = y + alpha*x</c>.
         /// </summary>
@@ -52,7 +77,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.GotoBlas
         /// <param name="result">The result of the addition.</param>
         /// <remarks>This is similar to the AXPY BLAS routine.</remarks>
         [SecuritySafeCritical]
-        public override void AddVectorToScaledVector(double[] y, double alpha, double[] x, double[] result)
+        public override void AddVectorToScaledVector(Complex[] y, Complex alpha, Complex[] x, Complex[] result)
         {
             if (y == null)
             {
@@ -74,12 +99,12 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.GotoBlas
                 Array.Copy(y, 0, result, 0, y.Length);
             }
 
-            if (alpha == 0.0)
+            if (alpha == Complex.Zero)
             {
                 return;
             }
 
-            SafeNativeMethods.d_axpy(y.Length, alpha, x, result);
+            SafeNativeMethods.z_axpy(y.Length, alpha, x, result);
         }
 
         /// <summary>
@@ -90,24 +115,24 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.GotoBlas
         /// <param name="result">This result of the scaling.</param>
         /// <remarks>This is similar to the SCAL BLAS routine.</remarks>
         [SecuritySafeCritical]
-        public override void ScaleArray(double alpha, double[] x, double[] result)
+        public override void ScaleArray(Complex alpha, Complex[] x, Complex[] result)
         {
             if (x == null)
             {
                 throw new ArgumentNullException("x");
-            } 
-            
+            }
+
             if (!ReferenceEquals(x, result))
             {
                 Array.Copy(x, 0, result, 0, x.Length);
             }
 
-            if (alpha == 1.0)
+            if (alpha == Complex.One)
             {
                 return;
             }
 
-            SafeNativeMethods.d_scale(x.Length, alpha, result);
+            SafeNativeMethods.z_scale(x.Length, alpha, result);
         }
 
         /// <summary>
@@ -121,10 +146,10 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.GotoBlas
         /// <param name="columnsY">The number of columns in the y matrix.</param>
         /// <param name="result">Where to store the result of the multiplication.</param>
         /// <remarks>This is a simplified version of the BLAS GEMM routine with alpha
-        /// set to 1.0 and beta set to 0.0, and x and y are not transposed.</remarks>
-        public override void MatrixMultiply(double[] x, int rowsX, int columnsX, double[] y, int rowsY, int columnsY, double[] result)
+        /// set to Complex.One and beta set to Complex.Zero, and x and y are not transposed.</remarks>
+        public override void MatrixMultiply(Complex[] x, int rowsX, int columnsX, Complex[] y, int rowsY, int columnsY, Complex[] result)
         {
-            MatrixMultiplyWithUpdate(Transpose.DontTranspose, Transpose.DontTranspose, 1.0, x, rowsX, columnsX, y, rowsY, columnsY, 0.0, result);
+            MatrixMultiplyWithUpdate(Transpose.DontTranspose, Transpose.DontTranspose, Complex.One, x, rowsX, columnsX, y, rowsY, columnsY, Complex.Zero, result);
         }
 
         /// <summary>
@@ -142,7 +167,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.GotoBlas
         /// <param name="beta">The value to scale the <paramref name="c"/> matrix.</param>
         /// <param name="c">The c matrix.</param>
         [SecuritySafeCritical]
-        public override void MatrixMultiplyWithUpdate(Transpose transposeA, Transpose transposeB, double alpha, double[] a, int rowsA, int columnsA, double[] b, int rowsB, int columnsB, double beta, double[] c)
+        public override void MatrixMultiplyWithUpdate(Transpose transposeA, Transpose transposeB, Complex alpha, Complex[] a, int rowsA, int columnsA, Complex[] b, int rowsB, int columnsB, Complex beta, Complex[] c)
         {
             if (a == null)
             {
@@ -166,7 +191,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.GotoBlas
 
             if (c.Length != m * n)
             {
-                throw new ArgumentException(Resources.ArgumentMatrixDimensions);   
+                throw new ArgumentException(Resources.ArgumentMatrixDimensions);
             }
 
             if (k != l)
@@ -174,20 +199,20 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.GotoBlas
                 throw new ArgumentException(Resources.ArgumentMatrixDimensions);
             }
 
-            SafeNativeMethods.d_matrix_multiply(transposeA, transposeB, m, n, k, alpha, a, b, beta, c);
+            SafeNativeMethods.z_matrix_multiply(transposeA, transposeB, m, n, k, alpha, a, b, beta, c);
         }
 
         /// <summary>
         /// Computes the LUP factorization of A. P*A = L*U.
         /// </summary>
         /// <param name="data">An <paramref name="order"/> by <paramref name="order"/> matrix. The matrix is overwritten with the
-        /// the LU factorization on exit. The lower triangular factor L is stored in under the diagonal of <paramref name="data"/> (the diagonal is always 1.0
+        /// the LU factorization on exit. The lower triangular factor L is stored in under the diagonal of <paramref name="data"/> (the diagonal is always Complex.One
         /// for the L factor). The upper triangular factor U is stored on and above the diagonal of <paramref name="data"/>.</param>
         /// <param name="order">The order of the square matrix <paramref name="data"/>.</param>
         /// <param name="ipiv">On exit, it contains the pivot indices. The size of the array must be <paramref name="order"/>.</param>
         /// <remarks>This is equivalent to the GETRF LAPACK routine.</remarks>
         [SecuritySafeCritical]
-        public override void LUFactor(double[] data, int order, int[] ipiv)
+        public override void LUFactor(Complex[] data, int order, int[] ipiv)
         {
             if (data == null)
             {
@@ -208,8 +233,8 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.GotoBlas
             {
                 throw new ArgumentException(Resources.ArgumentArraysSameLength, "ipiv");
             }
-            
-            SafeNativeMethods.d_lu_factor(order, data, ipiv);
+
+            SafeNativeMethods.z_lu_factor(order, data, ipiv);
         }
 
         /// <summary>
@@ -219,7 +244,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.GotoBlas
         /// <param name="order">The order of the square matrix <paramref name="a"/>.</param>
         /// <remarks>This is equivalent to the GETRF and GETRI LAPACK routines.</remarks>
         [SecuritySafeCritical]
-        public override void LUInverse(double[] a, int order)
+        public override void LUInverse(Complex[] a, int order)
         {
             if (a == null)
             {
@@ -231,8 +256,8 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.GotoBlas
                 throw new ArgumentException(Resources.ArgumentArraysSameLength, "a");
             }
 
-            var work = new double[order];
-            SafeNativeMethods.d_lu_inverse(order, a, work, work.Length);        
+            var work = new Complex[order];
+            SafeNativeMethods.z_lu_inverse(order, a, work, work.Length);
         }
 
         /// <summary>
@@ -243,7 +268,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.GotoBlas
         /// <param name="ipiv">The pivot indices of <paramref name="a"/>.</param>
         /// <remarks>This is equivalent to the GETRI LAPACK routine.</remarks>
         [SecuritySafeCritical]
-        public override void LUInverseFactored(double[] a, int order, int[] ipiv)
+        public override void LUInverseFactored(Complex[] a, int order, int[] ipiv)
         {
             if (a == null)
             {
@@ -265,8 +290,8 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.GotoBlas
                 throw new ArgumentException(Resources.ArgumentArraysSameLength, "ipiv");
             }
 
-            var work = new double[order];
-            SafeNativeMethods.d_lu_inverse_factored(order, a, ipiv, work, order);        
+            var work = new Complex[order];
+            SafeNativeMethods.z_lu_inverse_factored(order, a, ipiv, work, order);
         }
 
         /// <summary>
@@ -279,7 +304,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.GotoBlas
         /// work size value.</param>
         /// <remarks>This is equivalent to the GETRF and GETRI LAPACK routines.</remarks>
         [SecuritySafeCritical]
-        public override void LUInverse(double[] a, int order, double[] work)
+        public override void LUInverse(Complex[] a, int order, Complex[] work)
         {
             if (a == null)
             {
@@ -301,7 +326,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.GotoBlas
                 throw new ArgumentException(Resources.WorkArrayTooSmall, "work");
             }
 
-            SafeNativeMethods.d_lu_inverse(order, a, work, work.Length);        
+            SafeNativeMethods.z_lu_inverse(order, a, work, work.Length);
         }
 
         /// <summary>
@@ -315,7 +340,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.GotoBlas
         /// work size value.</param>
         /// <remarks>This is equivalent to the GETRI LAPACK routine.</remarks>
         [SecuritySafeCritical]
-        public override void LUInverseFactored(double[] a, int order, int[] ipiv, double[] work)
+        public override void LUInverseFactored(Complex[] a, int order, int[] ipiv, Complex[] work)
         {
             if (a == null)
             {
@@ -347,7 +372,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.GotoBlas
                 throw new ArgumentException(Resources.WorkArrayTooSmall, "work");
             }
 
-            SafeNativeMethods.d_lu_inverse_factored(order, a, ipiv, work, order);        
+            SafeNativeMethods.z_lu_inverse_factored(order, a, ipiv, work, order);
         }
 
         /// <summary>
@@ -359,7 +384,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.GotoBlas
         /// <param name="b">On entry the B matrix; on exit the X matrix.</param>
         /// <remarks>This is equivalent to the GETRF and GETRS LAPACK routines.</remarks>
         [SecuritySafeCritical]
-        public override void LUSolve(int columnsOfB, double[] a, int order, double[] b)
+        public override void LUSolve(int columnsOfB, Complex[] a, int order, Complex[] b)
         {
             if (a == null)
             {
@@ -375,13 +400,13 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.GotoBlas
             {
                 throw new ArgumentException(Resources.ArgumentArraysSameLength, "b");
             }
-            
+
             if (ReferenceEquals(a, b))
             {
                 throw new ArgumentException(Resources.ArgumentReferenceDifferent);
             }
 
-            SafeNativeMethods.d_lu_solve(order, columnsOfB, a, b); 
+            SafeNativeMethods.z_lu_solve(order, columnsOfB, a, b);
         }
 
         /// <summary>
@@ -394,7 +419,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.GotoBlas
         /// <param name="b">On entry the B matrix; on exit the X matrix.</param>
         /// <remarks>This is equivalent to the GETRS LAPACK routine.</remarks>
         [SecuritySafeCritical]
-        public override void LUSolveFactored(int columnsOfB, double[] a, int order, int[] ipiv, double[] b)
+        public override void LUSolveFactored(int columnsOfB, Complex[] a, int order, int[] ipiv, Complex[] b)
         {
             if (a == null)
             {
@@ -426,7 +451,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.GotoBlas
                 throw new ArgumentException(Resources.ArgumentReferenceDifferent);
             }
 
-            SafeNativeMethods.d_lu_solve_factored(order, columnsOfB, a, ipiv, b); 
+            SafeNativeMethods.z_lu_solve_factored(order, columnsOfB, a, ipiv, b);
         }
 
         /// <summary>
@@ -437,7 +462,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.GotoBlas
         /// <param name="order">The number of rows or columns in the matrix.</param>
         /// <remarks>This is equivalent to the POTRF LAPACK routine.</remarks>
         [SecuritySafeCritical]
-        public override void CholeskyFactor(double[] a, int order)
+        public override void CholeskyFactor(Complex[] a, int order)
         {
             if (a == null)
             {
@@ -454,7 +479,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.GotoBlas
                 throw new ArgumentException(Resources.ArgumentArraysSameLength, "a");
             }
 
-            var info = SafeNativeMethods.d_cholesky_factor(order, a);
+            var info = SafeNativeMethods.z_cholesky_factor(order, a);
 
             if (info > 0)
             {
@@ -472,7 +497,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.GotoBlas
         /// <remarks>This is equivalent to the POTRF add POTRS LAPACK routines.
         /// </remarks>
         [SecuritySafeCritical]
-        public override void CholeskySolve(double[] a, int orderA, double[] b, int columnsB)
+        public override void CholeskySolve(Complex[] a, int orderA, Complex[] b, int columnsB)
         {
             if (a == null)
             {
@@ -494,7 +519,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.GotoBlas
                 throw new ArgumentException(Resources.ArgumentReferenceDifferent);
             }
 
-            SafeNativeMethods.d_cholesky_solve(orderA, columnsB, a, b); 
+            SafeNativeMethods.z_cholesky_solve(orderA, columnsB, a, b);
         }
 
         /// <summary>
@@ -506,7 +531,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.GotoBlas
         /// <param name="columnsB">The number of columns in the B matrix.</param>
         /// <remarks>This is equivalent to the POTRS LAPACK routine.</remarks>
         [SecuritySafeCritical]
-        public override void CholeskySolveFactored(double[] a, int orderA, double[] b, int columnsB)
+        public override void CholeskySolveFactored(Complex[] a, int orderA, Complex[] b, int columnsB)
         {
             if (a == null)
             {
@@ -528,7 +553,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.GotoBlas
                 throw new ArgumentException(Resources.ArgumentReferenceDifferent);
             }
 
-            SafeNativeMethods.d_cholesky_solve_factored(orderA, columnsB, a, b); 
+            SafeNativeMethods.z_cholesky_solve_factored(orderA, columnsB, a, b);
         }
 
         /// <summary>
@@ -544,7 +569,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.GotoBlas
         /// to be used by the QR solve routine.</param>
         /// <remarks>This is similar to the GEQRF and ORGQR LAPACK routines.</remarks>
         [SecuritySafeCritical]
-        public override void QRFactor(double[] r, int rowsR, int columnsR, double[] q, double[] tau, QRMethod method = QRMethod.Full)
+        public override void QRFactor(Complex[] r, int rowsR, int columnsR, Complex[] q, Complex[] tau)
         {
             if (r == null)
             {
@@ -571,8 +596,8 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.GotoBlas
                 throw new ArgumentException(string.Format(Resources.ArgumentArrayWrongLength, "rowsR * rowsR"), "q");
             }
 
-            var work = new double[columnsR * Control.BlockSize];
-            SafeNativeMethods.d_qr_factor(rowsR, columnsR, r, tau, q, work, work.Length);
+            var work = new Complex[columnsR * Control.BlockSize];
+            SafeNativeMethods.z_qr_factor(rowsR, columnsR, r, tau, q, work, work.Length);
         }
 
         /// <summary>
@@ -591,7 +616,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.GotoBlas
         /// work size value.</param>
         /// <remarks>This is similar to the GEQRF and ORGQR LAPACK routines.</remarks>
         [SecuritySafeCritical]
-        public override void QRFactor(double[] r, int rowsR, int columnsR, double[] q, double[] tau, double[] work)
+        public override void QRFactor(Complex[] r, int rowsR, int columnsR, Complex[] q, Complex[] tau, Complex[] work)
         {
             if (r == null)
             {
@@ -629,7 +654,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.GotoBlas
                 throw new ArgumentException(Resources.WorkArrayTooSmall, "work");
             }
 
-            SafeNativeMethods.d_qr_factor(rowsR, columnsR, r, tau, q, work, work.Length);
+            SafeNativeMethods.z_qr_factor(rowsR, columnsR, r, tau, q, work, work.Length);
         }
 
         /// <summary>
@@ -642,7 +667,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.GotoBlas
         /// <param name="columnsB">The number of columns of B.</param>
         /// <param name="x">On exit, the solution matrix.</param>
         /// <remarks>Rows must be greater or equal to columns.</remarks>
-        public override void QRSolve(double[] a, int rows, int columns,  double[] b, int columnsB,  double[] x)
+        public override void QRSolve(Complex[] a, int rows, int columns, Complex[] b, int columnsB, Complex[] x)
         {
             if (a == null)
             {
@@ -679,7 +704,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.GotoBlas
                 throw new ArgumentException(Resources.RowsLessThanColumns);
             }
 
-            var work = new double[columns * Control.BlockSize];
+            var work = new Complex[columns * Control.BlockSize];
             QRSolve(a, rows, columns, b, columnsB, x, work);
         }
 
@@ -696,7 +721,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.GotoBlas
         /// but should be N*blocksize. The blocksize is machine dependent. On exit, work[0] contains the optimal
         /// work size value.</param>
         /// <remarks>Rows must be greater or equal to columns.</remarks>
-        public override void QRSolve(double[] a, int rows, int columns, double[] b, int columnsB, double[] x, double[] work)
+        public override void QRSolve(Complex[] a, int rows, int columns, Complex[] b, int columnsB, Complex[] x, Complex[] work)
         {
             if (a == null)
             {
@@ -744,14 +769,14 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.GotoBlas
                 throw new ArgumentException(Resources.WorkArrayTooSmall, "work");
             }
 
-            SafeNativeMethods.d_qr_solve(rows, columns, columnsB, a, b, x, work, work.Length);
+            SafeNativeMethods.z_qr_solve(rows, columns, columnsB, a, b, x, work, work.Length);
         }
 
         /// <summary>
         /// Solves A*X=B for X using a previously QR factored matrix.
         /// </summary>
-        /// <param name="q">The Q matrix obtained by calling <see cref="QRFactor(double[],int,int,double[],double[],QRMethod)"/>.</param>
-        /// <param name="r">The R matrix obtained by calling <see cref="QRFactor(double[],int,int,double[],double[],QRMethod)"/>. </param>
+        /// <param name="q">The Q matrix obtained by calling <see cref="QRFactor(Complex[],int,int,Complex[],Complex[])"/>.</param>
+        /// <param name="r">The R matrix obtained by calling <see cref="QRFactor(Complex[],int,int,Complex[],Complex[])"/>. </param>
         /// <param name="rowsR">The number of rows in the A matrix.</param>
         /// <param name="columnsR">The number of columns in the A matrix.</param>
         /// <param name="tau">Contains additional information on Q. Only used for the native solver
@@ -761,7 +786,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.GotoBlas
         /// <param name="x">On exit, the solution matrix.</param>
         /// <remarks>Rows must be greater or equal to columns.</remarks>
         [SecuritySafeCritical]
-        public override void QRSolveFactored(double[] q, double[] r, int rowsR, int columnsR, double[] tau, double[] b, int columnsB, double[] x)
+        public override void QRSolveFactored(Complex[] q, Complex[] r, int rowsR, int columnsR, Complex[] tau, Complex[] b, int columnsB, Complex[] x)
         {
             if (r == null)
             {
@@ -807,8 +832,8 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.GotoBlas
             {
                 throw new ArgumentException(Resources.RowsLessThanColumns);
             }
-            
-            var work = new double[columnsR * Control.BlockSize];
+
+            var work = new Complex[columnsR * Control.BlockSize];
             QRSolveFactored(q, r, rowsR, columnsR, tau, b, columnsB, x, work);
         }
 
@@ -817,7 +842,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.GotoBlas
         /// </summary>
         /// <param name="q">The Q matrix obtained by QR factor. This is only used for the managed provider and can be
         /// <c>null</c> for the native provider. The native provider uses the Q portion stored in the R matrix.</param>
-        /// <param name="r">The R matrix obtained by calling <see cref="QRFactor(double[],int,int,double[],double[],QRMethod)"/>. </param>
+        /// <param name="r">The R matrix obtained by calling <see cref="QRFactor(Complex[],int,int,Complex[],Complex[])"/>. </param>
         /// <param name="rowsR">The number of rows in the A matrix.</param>
         /// <param name="columnsR">The number of columns in the A matrix.</param>
         /// <param name="tau">Contains additional information on Q. Only used for the native solver
@@ -829,7 +854,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.GotoBlas
         /// but should be N*blocksize. The blocksize is machine dependent. On exit, work[0] contains the optimal
         /// work size value.</param>
         /// <remarks>Rows must be greater or equal to columns.</remarks>
-        public override void QRSolveFactored(double[] q, double[] r, int rowsR, int columnsR, double[] tau, double[] b, int columnsB, double[] x, double[] work)
+        public override void QRSolveFactored(Complex[] q, Complex[] r, int rowsR, int columnsR, Complex[] tau, Complex[] b, int columnsB, Complex[] x, Complex[] work)
         {
             if (r == null)
             {
@@ -887,7 +912,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.GotoBlas
                 throw new ArgumentException(Resources.WorkArrayTooSmall, "work");
             }
 
-            SafeNativeMethods.d_qr_solve_factored(rowsR, columnsR, columnsB, r, b, tau, x, work, work.Length);
+            SafeNativeMethods.z_qr_solve_factored(rowsR, columnsR, columnsB, r, b, tau, x, work, work.Length);
         }
 
         /// <summary>
@@ -904,7 +929,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.GotoBlas
         /// right singular vectors.</param>
         /// <remarks>This is equivalent to the GESVD LAPACK routine.</remarks>
         [SecuritySafeCritical]
-        public override void SingularValueDecomposition(bool computeVectors, double[] a, int rowsA, int columnsA, double[] s, double[] u, double[] vt)
+        public override void SingularValueDecomposition(bool computeVectors, Complex[] a, int rowsA, int columnsA, Complex[] s, Complex[] u, Complex[] vt)
         {
             if (a == null)
             {
@@ -941,7 +966,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.GotoBlas
                 throw new ArgumentException(Resources.ArgumentArraysSameLength, "s");
             }
 
-            var work = new double[Math.Max((3 * Math.Min(rowsA, columnsA)) + Math.Max(rowsA, columnsA), 5 * Math.Min(rowsA, columnsA))];
+            var work = new Complex[(2 * Math.Min(rowsA, columnsA)) + Math.Max(rowsA, columnsA)];
             SingularValueDecomposition(computeVectors, a, rowsA, columnsA, s, u, vt, work);
         }
 
@@ -954,7 +979,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.GotoBlas
         /// <param name="b">The B matrix.</param>
         /// <param name="columnsB">The number of columns of B.</param>
         /// <param name="x">On exit, the solution matrix.</param>
-        public override void SvdSolve(double[] a, int rowsA, int columnsA, double[] b, int columnsB, double[] x)
+        public override void SvdSolve(Complex[] a, int rowsA, int columnsA, Complex[] b, int columnsB, Complex[] x)
         {
             if (a == null)
             {
@@ -981,12 +1006,12 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.GotoBlas
                 throw new ArgumentException(Resources.ArgumentArraysSameLength, "b");
             }
 
-            var work = new double[Math.Max((3 * Math.Min(rowsA, columnsA)) + Math.Max(rowsA, columnsA), 5 * Math.Min(rowsA, columnsA))];
-            var s = new double[Math.Min(rowsA, columnsA)];
-            var u = new double[rowsA * rowsA];
-            var vt = new double[columnsA * columnsA];
+            var work = new Complex[(2 * Math.Min(rowsA, columnsA)) + Math.Max(rowsA, columnsA)];
+            var s = new Complex[Math.Min(rowsA, columnsA)];
+            var u = new Complex[rowsA * rowsA];
+            var vt = new Complex[columnsA * columnsA];
 
-            var clone = new double[a.Length];
+            var clone = new Complex[a.Length];
             a.Copy(clone);
             SingularValueDecomposition(true, clone, rowsA, columnsA, s, u, vt, work);
             SvdSolveFactored(rowsA, columnsA, s, u, vt, b, columnsB, x);
@@ -1009,7 +1034,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.GotoBlas
         /// On exit, work[0] contains the optimal work size value.</param>
         /// <remarks>This is equivalent to the GESVD LAPACK routine.</remarks>
         [SecuritySafeCritical]
-        public override void SingularValueDecomposition(bool computeVectors, double[] a, int rowsA, int columnsA, double[] s, double[] u, double[] vt, double[] work)
+        public override void SingularValueDecomposition(bool computeVectors, Complex[] a, int rowsA, int columnsA, Complex[] s, Complex[] u, Complex[] vt, Complex[] work)
         {
             if (a == null)
             {
@@ -1056,13 +1081,13 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.GotoBlas
                 throw new ArgumentException(Resources.ArgumentSingleDimensionArray, "work");
             }
 
-            if (work.Length < Math.Max((3 * Math.Min(rowsA, columnsA)) + Math.Max(rowsA, columnsA), 5 * Math.Min(rowsA, columnsA)))
+            if (work.Length < (2 * Math.Min(rowsA, columnsA)) + Math.Max(rowsA, columnsA))
             {
-                work[0] = Math.Max((3 * Math.Min(rowsA, columnsA)) + Math.Max(rowsA, columnsA), 5 * Math.Min(rowsA, columnsA));
+                work[0] = (2 * Math.Min(rowsA, columnsA)) + Math.Max(rowsA, columnsA);
                 throw new ArgumentException(Resources.WorkArrayTooSmall, "work");
             }
 
-            SafeNativeMethods.d_svd_factor(computeVectors, rowsA, columnsA, a, s, u, vt, work, work.Length);
+            SafeNativeMethods.z_svd_factor(computeVectors, rowsA, columnsA, a, s, u, vt, work, work.Length);
         }
     }
 }

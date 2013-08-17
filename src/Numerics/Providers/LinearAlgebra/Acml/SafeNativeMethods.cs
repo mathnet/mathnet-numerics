@@ -2,7 +2,7 @@
 // Math.NET Numerics, part of the Math.NET Project
 // http://mathnet.opensourcedotnet.info
 //
-// Copyright (c) 2009-2013 Math.NET
+// Copyright (c) 2009-2010 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -26,13 +26,13 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-#if NATIVEMKL
+#if NATIVEACML
 
 using System.Numerics;
 using System.Runtime.InteropServices;
 using System.Security;
 
-namespace MathNet.Numerics.Algorithms.LinearAlgebra.Mkl
+namespace MathNet.Numerics.Providers.LinearAlgebra.Acml
 {
     /// <summary>
     /// P/Invoke methods to the native math libraries.
@@ -44,7 +44,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.Mkl
         /// <summary>
         /// Name of the native DLL.
         /// </summary>
-        private const string DllName = "MathNet.Numerics.MKL.dll";
+        private const string DllName = "MathNET.Numerics.ACML.dll";
 
 #region BLAS
         
@@ -104,7 +104,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.Mkl
         internal static extern float s_matrix_norm(byte norm, int rows, int columns, [In] float[] a, [In, Out] float[] work);
 
         [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern double d_matrix_norm(byte norm, int rows, int columns, [In] double[] a, [In, Out] double[] work);
+        internal static extern float d_matrix_norm(byte norm, int rows, int columns, [In] double[] a, [In, Out] double[] work);
 
         [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
         internal static extern float c_matrix_norm(byte norm, int rows, int columns, [In] Complex32[] a, [In, Out] float[] work);
@@ -221,18 +221,6 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.Mkl
         internal static extern int z_qr_factor(int m, int n, [In, Out] Complex[] r, [In, Out] Complex[] tau, [In, Out] Complex[] q, [In, Out] Complex[] work, int len);
 
         [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern int s_qr_thin_factor(int m, int n, [In, Out] float[] q, [In, Out] float[] tau, [In, Out] float[] r, [In, Out] float[] work, int len);
-
-        [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern int d_qr_thin_factor(int m, int n, [In, Out] double[] q, [In, Out] double[] tau, [In, Out] double[] r, [In, Out] double[] work, int len);
-
-        [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern int c_qr_thin_factor(int m, int n, [In, Out] Complex32[] q, [In, Out] Complex32[] tau, [In, Out] Complex32[] r, [In, Out] Complex32[] work, int len);
-
-        [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern int z_qr_thin_factor(int m, int n, [In, Out] Complex[] q, [In, Out] Complex[] tau, [In, Out] Complex[] r, [In, Out] Complex[] work, int len);
-
-        [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
         internal static extern int s_qr_solve(int m, int n, int bn, float[] r, float[] b, [In, Out] float[] x, [In, Out] float[] work, int len);
 
         [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
@@ -268,71 +256,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.Mkl
         [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
         internal static extern int z_svd_factor(bool computeVectors, int m, int n, [In, Out] Complex[] a, [In, Out] Complex[] s, [In, Out] Complex[] u, [In, Out] Complex[] v, [In, Out] Complex[] work, int len);
 
-        [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern int s_eigen(bool isSymmetric, int n, [In] float[] a, [In, Out] float[] vectors, [In, Out] Complex[] values, [In, Out] float[] d);
-
-        [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern int d_eigen(bool isSymmetric, int n, [In] double[] a, [In, Out] double[] vectors, [In, Out]  Complex[] values, [In, Out] double[] d);
-
-        [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern int c_eigen(bool isSymmetric, int n, [In] Complex32[] a, [In, Out] Complex32[] vectors, [In, Out]  Complex[] values, [In, Out] Complex32[] d);
-
-        [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern int z_eigen(bool isSymmetric, int n, [In] Complex[] a, [In, Out] Complex[] vectors, [In, Out]  Complex[] values, [In, Out] Complex[] d);
-        
 #endregion LAPACK
-
-#region Vector Functions
-        
-        [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern void s_vector_add(int n, float[] x, float[] y, [In, Out] float[] result);
-
-        [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern void s_vector_subtract(int n, float[] x, float[] y, [In, Out] float[] result);
-
-        [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern void s_vector_multiply(int n, float[] x, float[] y, [In, Out] float[] result);
-
-        [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern void s_vector_divide(int n, float[] x, float[] y, [In, Out] float[] result);
-
-        [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern void d_vector_add(int n, double[] x, double[] y, [In, Out] double[] result);
-
-        [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern void d_vector_subtract(int n, double[] x, double[] y, [In, Out] double[] result);
-
-        [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern void d_vector_multiply(int n, double[] x, double[] y, [In, Out] double[] result);
-
-        [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern void d_vector_divide(int n, double[] x, double[] y, [In, Out] double[] result);
-
-        [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern void c_vector_add(int n, Complex32[] x, Complex32[] y, [In, Out] Complex32[] result);
-
-        [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern void c_vector_subtract(int n, Complex32[] x, Complex32[] y, [In, Out] Complex32[] result);
-
-        [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern void c_vector_multiply(int n, Complex32[] x, Complex32[] y, [In, Out] Complex32[] result);
-
-        [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern void c_vector_divide(int n, Complex32[] x, Complex32[] y, [In, Out] Complex32[] result);
-
-        [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern void z_vector_add(int n, Complex[] x, Complex[] y, [In, Out] Complex[] result);
-
-        [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern void z_vector_subtract(int n, Complex[] x, Complex[] y, [In, Out] Complex[] result);
-
-        [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern void z_vector_multiply(int n, Complex[] x, Complex[] y, [In, Out] Complex[] result);
-
-        [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern void z_vector_divide(int n, Complex[] x, Complex[] y, [In, Out] Complex[] result);
-        
-#endregion  Vector Functions
     }
 }
 

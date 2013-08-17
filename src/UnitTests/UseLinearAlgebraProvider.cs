@@ -39,10 +39,9 @@ namespace MathNet.Numerics.UnitTests
         public void BeforeTest(TestDetails testDetails)
         {
             var provider = Properties.Settings.Default.LinearAlgebraProvider.ToLowerInvariant();
-
             if (provider.Contains("mkl"))
             {
-                Control.LinearAlgebraProvider = new Algorithms.LinearAlgebra.Mkl.MklLinearAlgebraProvider();
+                Control.LinearAlgebraProvider = new Providers.LinearAlgebra.Mkl.MklLinearAlgebraProvider();
             }
         }
 

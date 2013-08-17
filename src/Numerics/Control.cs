@@ -28,11 +28,11 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using MathNet.Numerics.Providers.LinearAlgebra;
+using System;
+
 namespace MathNet.Numerics
 {
-    using Algorithms.LinearAlgebra;
-    using System;
-
     /// <summary>
     /// Sets parameters for the library.
     /// </summary>
@@ -74,7 +74,7 @@ namespace MathNet.Numerics
                 switch (value != null ? value.ToUpperInvariant() : string.Empty)
                 {
                     case "MKL":
-                        LinearAlgebraProvider = new Algorithms.LinearAlgebra.Mkl.MklLinearAlgebraProvider();
+                        LinearAlgebraProvider = new Providers.LinearAlgebra.Mkl.MklLinearAlgebraProvider();
                         break;
                     default:
                         LinearAlgebraProvider = new ManagedLinearAlgebraProvider();

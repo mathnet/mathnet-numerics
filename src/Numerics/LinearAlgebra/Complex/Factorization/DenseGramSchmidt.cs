@@ -31,6 +31,7 @@
 using MathNet.Numerics.LinearAlgebra.Factorization;
 using MathNet.Numerics.Properties;
 using System;
+using MathNet.Numerics.Providers.LinearAlgebra;
 
 namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
 {
@@ -53,7 +54,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
         /// <summary>
         /// used for QR solve
         /// </summary>
-        private readonly Algorithms.LinearAlgebra.ILinearAlgebraProvider _provider = new Algorithms.LinearAlgebra.ManagedLinearAlgebraProvider();
+        private readonly ILinearAlgebraProvider _provider = new ManagedLinearAlgebraProvider();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DenseGramSchmidt"/> class. This object creates an unitary matrix 
