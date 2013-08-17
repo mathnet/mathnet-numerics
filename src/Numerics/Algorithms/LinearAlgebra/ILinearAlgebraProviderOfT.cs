@@ -30,6 +30,11 @@ using MathNet.Numerics.LinearAlgebra.Factorization;
 
 namespace MathNet.Numerics.Algorithms.LinearAlgebra
 {
+
+#if !NOSYSNUMERICS
+    using Complex = System.Numerics.Complex;
+#endif
+
     /// <summary>
     /// How to transpose a matrix.
     /// </summary>
@@ -82,8 +87,9 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
     /// Interface to linear algebra algorithms that work off 1-D arrays.
     /// </summary>
     /// <typeparam name="T">Supported data types are double, single, Complex, and Complex32.</typeparam>
-    public interface ILinearAlgebraProvider<T>
+    public interface ILinearAlgebraProvider<T,TNorm>
         where T : struct
+        where TNorm : struct
     {
         /*/// <summary>
         /// Queries the provider for the optimal, workspace block size
@@ -181,6 +187,20 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// The requested <see cref="Norm"/> of the matrix.
         /// </returns>
         T MatrixNorm(Norm norm, int rows, int columns, T[] matrix);
+
+        /// <summary>
+        /// Computes the requested <see cref="Norm"/> of the matrix.
+        /// </summary>
+        /// <param name="norm">The type of norm to compute.</param>
+        /// <param name="rows">The number of rows.</param>
+        /// <param name="columns">The number of columns.</param>
+        /// <param name="matrix">The matrix to compute the norm from.</param>
+        /// <param name="work">The work array. Only used when <see cref="Norm.InfinityNorm"/>
+        /// and needs to be have a length of at least M (number of rows of <paramref name="matrix"/>.</param>
+        /// <returns>
+        /// The requested <see cref="Norm"/> of the matrix.
+        /// </returns>
+        T MatrixNorm(Norm norm, int rows, int columns, T[] matrix, TNorm[] work);
 
         /// <summary>
         /// Multiples two matrices. <c>result = x * y</c>
@@ -496,5 +516,16 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <param name="columnsB">The number of columns of B.</param>
         /// <param name="x">On exit, the solution matrix.</param>
         void SvdSolveFactored(int rowsA, int columnsA, T[] s, T[] u, T[] vt, T[] b, int columnsB, T[] x);
+
+        /// <summary>
+        /// Computes the eigenvalues and eigenvectors of a matrix.
+        /// </summary>
+        /// <param name="isSymmetric">Wether the matrix is symmetric or not.</param>
+        /// <param name="order">The order of the matrix.</param>
+        /// <param name="matrix">The matrix to decompose. The lenth of the array must be order * order.</param>
+        /// <param name="matrixEv">On output, the matrix contains the eigen vectors. The lenth of the array must be order * order.</param>
+        /// <param name="vectorEv">On output, the eigen values (λ) of matrix in ascending value. The length of the arry must <paramref name="order"/>.</param>
+        /// <param name="matrixD">On output, the block diagonal eigenvalue matrix. The lenth of the array must be order * order.</param>
+        void EigenDecomp(bool isSymmetric, int order, T[] matrix, T[] matrixEv, Complex[] vectorEv, T[] matrixD);
     }
 }
