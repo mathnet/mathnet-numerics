@@ -1,4 +1,4 @@
-﻿// <copyright file="AcmlLinearAlgebraProvider.float.cs" company="Math.NET">
+﻿// <copyright file="GotoBlasLinearAlgebraProvider.Single.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -28,48 +28,20 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-#if NATIVEACML
+#if NATIVEGOTO
 
 using MathNet.Numerics.LinearAlgebra.Factorization;
 using MathNet.Numerics.Properties;
 using System;
 using System.Security;
 
-namespace MathNet.Numerics.Providers.LinearAlgebra.Acml
+namespace MathNet.Numerics.Providers.LinearAlgebra.GotoBlas
 {
     /// <summary>
-    /// AMD Core Math Library (ACML) linear algebra provider.
+    /// GotoBLAS2 linear algebra provider.
     /// </summary>
-    public partial class AcmlLinearAlgebraProvider
+    public partial class GotoBlasLinearAlgebraProvider
     {
-        /// <summary>
-        /// Computes the dot product of x and y.
-        /// </summary>
-        /// <param name="x">The vector x.</param>
-        /// <param name="y">The vector y.</param>
-        /// <returns>The dot product of x and y.</returns>
-        /// <remarks>This is equivalent to the DOT BLAS routine.</remarks>
-        [SecuritySafeCritical]
-        public override float DotProduct(float[] x, float[] y)
-        {
-            if (y == null)
-            {
-                throw new ArgumentNullException("y");
-            }
-
-            if (x == null)
-            {
-                throw new ArgumentNullException("x");
-            }
-
-            if (x.Length != y.Length)
-            {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength);
-            }
-
-            return SafeNativeMethods.s_dot_product(x.Length, x, y);
-        }
-
         /// <summary>
         /// Adds a scaled vector to another: <c>result = y + alpha*x</c>.
         /// </summary>
@@ -777,8 +749,8 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Acml
         /// <summary>
         /// Solves A*X=B for X using a previously QR factored matrix.
         /// </summary>
-        /// <param name="q">The Q matrix obtained by calling <see cref="QRFactor(float[],int,int,float[],float[])"/>.</param>
-        /// <param name="r">The R matrix obtained by calling <see cref="QRFactor(float[],int,int,float[],float[])"/>. </param>
+        /// <param name="q">The Q matrix obtained by calling <see cref="QRFactor(float[],int,int,float[],float[],QRMethod)"/>.</param>
+        /// <param name="r">The R matrix obtained by calling <see cref="QRFactor(float[],int,int,float[],float[],QRMethod)"/>. </param>
         /// <param name="rowsR">The number of rows in the A matrix.</param>
         /// <param name="columnsR">The number of columns in the A matrix.</param>
         /// <param name="tau">Contains additional information on Q. Only used for the native solver
@@ -844,7 +816,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Acml
         /// </summary>
         /// <param name="q">The Q matrix obtained by QR factor. This is only used for the managed provider and can be
         /// <c>null</c> for the native provider. The native provider uses the Q portion stored in the R matrix.</param>
-        /// <param name="r">The R matrix obtained by calling <see cref="QRFactor(float[],int,int,float[],float[])"/>. </param>
+        /// <param name="r">The R matrix obtained by calling <see cref="QRFactor(float[],int,int,float[],float[],QRMethod)"/>. </param>
         /// <param name="rowsR">The number of rows in the A matrix.</param>
         /// <param name="columnsR">The number of columns in the A matrix.</param>
         /// <param name="tau">Contains additional information on Q. Only used for the native solver
@@ -1085,7 +1057,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Acml
 
             if (work.Length < Math.Max(((3*Math.Min(rowsA, columnsA)) + Math.Max(rowsA, columnsA)), 5*Math.Min(rowsA, columnsA)))
             {
-                work[0] = Math.Max((3*Math.Min(rowsA, columnsA)) + Math.Max(rowsA, columnsA), 5*Math.Min(rowsA, columnsA));
+                work[0] = Math.Max(((3*Math.Min(rowsA, columnsA)) + Math.Max(rowsA, columnsA)), 5*Math.Min(rowsA, columnsA));
                 throw new ArgumentException(Resources.WorkArrayTooSmall, "work");
             }
 
