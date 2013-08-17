@@ -110,7 +110,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                 {
                     for (var index = 0; index < x.Length; index++)
                     {
-                        result[index] = y[index] + (alpha * x[index]);
+                        result[index] = y[index] + (alpha*x[index]);
                     }
                 }
             }
@@ -154,7 +154,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                 {
                     for (var index = 0; index < x.Length; index++)
                     {
-                        result[index] = alpha * x[index];
+                        result[index] = alpha*x[index];
                     }
                 }
             }
@@ -188,7 +188,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
 
             for (var index = 0; index < y.Length; index++)
             {
-                sum += y[index] * x[index];
+                sum += y[index]*x[index];
             }
 
             return sum;
@@ -342,7 +342,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
             {
                 for (var index = 0; index < x.Length; index++)
                 {
-                    result[index] = x[index] * y[index];
+                    result[index] = x[index]*y[index];
                 }
             }
         }
@@ -393,11 +393,11 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
             {
                 for (var index = 0; index < x.Length; index++)
                 {
-                    result[index] = x[index] / y[index];
+                    result[index] = x[index]/y[index];
                 }
             }
         }
-        
+
         /// <summary>
         /// Computes the requested <see cref="Norm"/> of the matrix.
         /// </summary>
@@ -419,7 +419,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                         var s = 0.0;
                         for (var i = 0; i < rows; i++)
                         {
-                            s += Math.Abs(matrix[(j * rows) + i]);
+                            s += Math.Abs(matrix[(j*rows) + i]);
                         }
 
                         ret = Math.Max(ret, s);
@@ -432,7 +432,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                     {
                         for (var j = 0; j < columns; j++)
                         {
-                            ret = Math.Max(Math.Abs(matrix[(j * rows) + i]), ret);
+                            ret = Math.Max(Math.Abs(matrix[(j*rows) + i]), ret);
                         }
                     }
 
@@ -443,7 +443,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                         var s = 0.0;
                         for (var j = 0; j < columns; j++)
                         {
-                            s += Math.Abs(matrix[(j * rows) + i]);
+                            s += Math.Abs(matrix[(j*rows) + i]);
                         }
 
                         ret = Math.Max(ret, s);
@@ -451,12 +451,12 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
 
                     break;
                 case Norm.FrobeniusNorm:
-                    var aat = new float[rows * rows];
+                    var aat = new float[rows*rows];
                     MatrixMultiplyWithUpdate(Transpose.DontTranspose, Transpose.Transpose, 1.0f, matrix, rows, columns, matrix, rows, columns, 0.0f, aat);
 
                     for (var i = 0; i < rows; i++)
                     {
-                        ret += Math.Abs(aat[(i * rows) + i]);
+                        ret += Math.Abs(aat[(i*rows) + i]);
                     }
 
                     ret = Math.Sqrt(ret);
@@ -465,7 +465,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
 
             return Convert.ToSingle(ret);
         }
-             
+
         /// <summary>
         /// Computes the requested <see cref="Norm"/> of the matrix.
         /// </summary>
@@ -513,12 +513,12 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                 throw new ArgumentNullException("result");
             }
 
-            if (rowsX * columnsX != x.Length)
+            if (rowsX*columnsX != x.Length)
             {
                 throw new ArgumentException("x.Length != xRows * xColumns");
             }
 
-            if (rowsY * columnsY != y.Length)
+            if (rowsY*columnsY != y.Length)
             {
                 throw new ArgumentException("y.Length != yRows * yColumns");
             }
@@ -528,7 +528,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                 throw new ArgumentException("xColumns != yRows");
             }
 
-            if (rowsX * columnsY != result.Length)
+            if (rowsX*columnsY != result.Length)
             {
                 throw new ArgumentException("xRows * yColumns != result.Length");
             }
@@ -539,7 +539,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
             float[] xdata;
             if (ReferenceEquals(x, result))
             {
-                xdata = (float[])x.Clone();
+                xdata = (float[]) x.Clone();
             }
             else
             {
@@ -549,7 +549,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
             float[] ydata;
             if (ReferenceEquals(y, result))
             {
-                ydata = (float[])y.Clone();
+                ydata = (float[]) y.Clone();
             }
             else
             {
@@ -590,14 +590,14 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                 throw new ArgumentNullException("b");
             }
 
-            if ((int)transposeA > 111 && (int)transposeB > 111)
+            if ((int) transposeA > 111 && (int) transposeB > 111)
             {
                 if (rowsA != columnsB)
                 {
                     throw new ArgumentOutOfRangeException();
                 }
 
-                if (columnsA * rowsB != c.Length)
+                if (columnsA*rowsB != c.Length)
                 {
                     throw new ArgumentOutOfRangeException();
                 }
@@ -606,14 +606,14 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                 n = rowsB;
                 k = rowsA;
             }
-            else if ((int)transposeA > 111)
+            else if ((int) transposeA > 111)
             {
                 if (rowsA != rowsB)
                 {
                     throw new ArgumentOutOfRangeException();
                 }
 
-                if (columnsA * columnsB != c.Length)
+                if (columnsA*columnsB != c.Length)
                 {
                     throw new ArgumentOutOfRangeException();
                 }
@@ -622,14 +622,14 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                 n = columnsB;
                 k = rowsA;
             }
-            else if ((int)transposeB > 111)
+            else if ((int) transposeB > 111)
             {
                 if (columnsA != columnsB)
                 {
                     throw new ArgumentOutOfRangeException();
                 }
 
-                if (rowsA * rowsB != c.Length)
+                if (rowsA*rowsB != c.Length)
                 {
                     throw new ArgumentOutOfRangeException();
                 }
@@ -645,7 +645,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                     throw new ArgumentOutOfRangeException();
                 }
 
-                if (rowsA * columnsB != c.Length)
+                if (rowsA*columnsB != c.Length)
                 {
                     throw new ArgumentOutOfRangeException();
                 }
@@ -667,7 +667,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
             float[] adata;
             if (ReferenceEquals(a, c))
             {
-                adata = (float[])a.Clone();
+                adata = (float[]) a.Clone();
             }
             else
             {
@@ -677,7 +677,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
             float[] bdata;
             if (ReferenceEquals(b, c))
             {
-                bdata = (float[])b.Clone();
+                bdata = (float[]) b.Clone();
             }
             else
             {
@@ -723,11 +723,11 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
         /// <param name="constN">The constant number of columns of matrix op(B) and of the matrix C.</param>
         /// <param name="constK">The constant number of columns of matrix op(A) and the rows of the matrix op(B).</param>
         /// <param name="first">Indicates if this is the first recursion.</param>
-        private static void CacheObliviousMatrixMultiply(Transpose transposeA, Transpose transposeB, float alpha, float[] matrixA, int shiftArow, int shiftAcol, float[] matrixB, int shiftBrow, int shiftBcol, float[] result, int shiftCrow, int shiftCcol, int m, int n, int k, int constM, int constN, int constK, bool first)
+        static void CacheObliviousMatrixMultiply(Transpose transposeA, Transpose transposeB, float alpha, float[] matrixA, int shiftArow, int shiftAcol, float[] matrixB, int shiftBrow, int shiftBcol, float[] result, int shiftCrow, int shiftCcol, int m, int n, int k, int constM, int constN, int constK, bool first)
         {
             if (m + n <= Control.ParallelizeOrder)
             {
-                if ((int)transposeA > 111 && (int)transposeB > 111)
+                if ((int) transposeA > 111 && (int) transposeB > 111)
                 {
                     for (var m1 = 0; m1 < m; m1++)
                     {
@@ -739,15 +739,15 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                             float sum = 0;
                             for (var k1 = 0; k1 < k; ++k1)
                             {
-                                sum += matrixA[(matArowPos * constK) + k1 + shiftAcol] *
-                                       matrixB[((k1 + shiftBrow) * constN) + matBcolPos];
+                                sum += matrixA[(matArowPos*constK) + k1 + shiftAcol]*
+                                    matrixB[((k1 + shiftBrow)*constN) + matBcolPos];
                             }
 
-                            result[((n1 + shiftCcol) * constM) + matCrowPos] += alpha * sum;
+                            result[((n1 + shiftCcol)*constM) + matCrowPos] += alpha*sum;
                         }
                     }
                 }
-                else if ((int)transposeA > 111)
+                else if ((int) transposeA > 111)
                 {
                     for (var m1 = 0; m1 < m; m1++)
                     {
@@ -759,15 +759,15 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                             float sum = 0;
                             for (var k1 = 0; k1 < k; ++k1)
                             {
-                                sum += matrixA[(matArowPos * constK) + k1 + shiftAcol] *
-                                       matrixB[(matBcolPos * constK) + k1 + shiftBrow];
+                                sum += matrixA[(matArowPos*constK) + k1 + shiftAcol]*
+                                    matrixB[(matBcolPos*constK) + k1 + shiftBrow];
                             }
 
-                            result[((n1 + shiftCcol) * constM) + matCrowPos] += alpha * sum;
+                            result[((n1 + shiftCcol)*constM) + matCrowPos] += alpha*sum;
                         }
                     }
                 }
-                else if ((int)transposeB > 111)
+                else if ((int) transposeB > 111)
                 {
                     for (var m1 = 0; m1 < m; m1++)
                     {
@@ -779,11 +779,11 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                             float sum = 0;
                             for (var k1 = 0; k1 < k; ++k1)
                             {
-                                sum += matrixA[((k1 + shiftAcol) * constM) + matArowPos] *
-                                       matrixB[((k1 + shiftBrow) * constN) + matBcolPos];
+                                sum += matrixA[((k1 + shiftAcol)*constM) + matArowPos]*
+                                    matrixB[((k1 + shiftBrow)*constN) + matBcolPos];
                             }
 
-                            result[((n1 + shiftCcol) * constM) + matCrowPos] += alpha * sum;
+                            result[((n1 + shiftCcol)*constM) + matCrowPos] += alpha*sum;
                         }
                     }
                 }
@@ -799,11 +799,11 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                             float sum = 0;
                             for (var k1 = 0; k1 < k; ++k1)
                             {
-                                sum += matrixA[((k1 + shiftAcol) * constM) + matArowPos] *
-                                       matrixB[(matBcolPos * constK) + k1 + shiftBrow];
+                                sum += matrixA[((k1 + shiftAcol)*constM) + matArowPos]*
+                                    matrixB[(matBcolPos*constK) + k1 + shiftBrow];
                             }
 
-                            result[((n1 + shiftCcol) * constM) + matCrowPos] += alpha * sum;
+                            result[((n1 + shiftCcol)*constM) + matCrowPos] += alpha*sum;
                         }
                     }
                 }
@@ -811,7 +811,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
             else
             {
                 // divide and conquer
-                int m2 = m / 2, n2 = n / 2, k2 = k / 2;
+                int m2 = m/2, n2 = n/2, k2 = k/2;
 
                 if (first)
                 {
@@ -865,7 +865,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                 throw new ArgumentNullException("ipiv");
             }
 
-            if (data.Length != order * order)
+            if (data.Length != order*order)
             {
                 throw new ArgumentException(Resources.ArgumentArraysSameLength, "data");
             }
@@ -886,7 +886,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
             // Outer loop.
             for (var j = 0; j < order; j++)
             {
-                var indexj = j * order;
+                var indexj = j*order;
                 var indexjj = indexj + j;
 
                 // Make a copy of the j-th column to localize references.
@@ -903,7 +903,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                     var s = 0.0f;
                     for (var k = 0; k < kmax; k++)
                     {
-                        s += data[(k * order) + i] * vecLUcolj[k];
+                        s += data[(k*order) + i]*vecLUcolj[k];
                     }
 
                     data[indexj + i] = vecLUcolj[i] -= s;
@@ -923,7 +923,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                 {
                     for (var k = 0; k < order; k++)
                     {
-                        var indexk = k * order;
+                        var indexk = k*order;
                         var indexkp = indexk + p;
                         var indexkj = indexk + j;
                         var temp = data[indexkp];
@@ -958,7 +958,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                 throw new ArgumentNullException("a");
             }
 
-            if (a.Length != order * order)
+            if (a.Length != order*order)
             {
                 throw new ArgumentException(Resources.ArgumentArraysSameLength, "a");
             }
@@ -987,7 +987,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                 throw new ArgumentNullException("ipiv");
             }
 
-            if (a.Length != order * order)
+            if (a.Length != order*order)
             {
                 throw new ArgumentException(Resources.ArgumentArraysSameLength, "a");
             }
@@ -1000,7 +1000,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
             var inverse = new float[a.Length];
             for (var i = 0; i < order; i++)
             {
-                inverse[i + (order * i)] = 1.0f;
+                inverse[i + (order*i)] = 1.0f;
             }
 
             LUSolveFactored(order, a, order, ipiv, inverse);
@@ -1056,12 +1056,12 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                 throw new ArgumentNullException("b");
             }
 
-            if (a.Length != order * order)
+            if (a.Length != order*order)
             {
                 throw new ArgumentException(Resources.ArgumentArraysSameLength, "a");
             }
 
-            if (b.Length != order * columnsOfB)
+            if (b.Length != order*columnsOfB)
             {
                 throw new ArgumentException(Resources.ArgumentArraysSameLength, "b");
             }
@@ -1104,7 +1104,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                 throw new ArgumentNullException("b");
             }
 
-            if (a.Length != order * order)
+            if (a.Length != order*order)
             {
                 throw new ArgumentException(Resources.ArgumentArraysSameLength, "a");
             }
@@ -1114,11 +1114,11 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                 throw new ArgumentException(Resources.ArgumentArraysSameLength, "ipiv");
             }
 
-            if (b.Length != order * columnsOfB)
+            if (b.Length != order*columnsOfB)
             {
                 throw new ArgumentException(Resources.ArgumentArraysSameLength, "b");
             }
-            
+
             if (ReferenceEquals(a, b))
             {
                 throw new ArgumentException(Resources.ArgumentReferenceDifferent);
@@ -1135,7 +1135,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                 var p = ipiv[i];
                 for (var j = 0; j < columnsOfB; j++)
                 {
-                    var indexk = j * order;
+                    var indexk = j*order;
                     var indexkp = indexk + p;
                     var indexkj = indexk + i;
                     var temp = b[indexkp];
@@ -1147,13 +1147,13 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
             // Solve L*Y = P*B
             for (var k = 0; k < order; k++)
             {
-                var korder = k * order;
+                var korder = k*order;
                 for (var i = k + 1; i < order; i++)
                 {
                     for (var j = 0; j < columnsOfB; j++)
                     {
-                        var index = j * order;
-                        b[i + index] -= b[k + index] * a[i + korder];
+                        var index = j*order;
+                        b[i + index] -= b[k + index]*a[i + korder];
                     }
                 }
             }
@@ -1161,19 +1161,19 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
             // Solve U*X = Y;
             for (var k = order - 1; k >= 0; k--)
             {
-                var korder = k + (k * order);
+                var korder = k + (k*order);
                 for (var j = 0; j < columnsOfB; j++)
                 {
-                    b[k + (j * order)] /= a[korder];
+                    b[k + (j*order)] /= a[korder];
                 }
 
-                korder = k * order;
+                korder = k*order;
                 for (var i = 0; i < k; i++)
                 {
                     for (var j = 0; j < columnsOfB; j++)
                     {
-                        var index = j * order;
-                        b[i + index] -= b[k + index] * a[i + korder];
+                        var index = j*order;
+                        b[i + index] -= b[k + index]*a[i + korder];
                     }
                 }
             }
@@ -1199,20 +1199,20 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
             for (var ij = 0; ij < order; ij++)
             {
                 // "Pivot" element
-                var tmpVal = a[(ij * order) + ij];
+                var tmpVal = a[(ij*order) + ij];
 
                 if (tmpVal > 0.0)
                 {
-                    tmpVal = (float)Math.Sqrt(tmpVal);
-                    a[(ij * order) + ij] = tmpVal;
+                    tmpVal = (float) Math.Sqrt(tmpVal);
+                    a[(ij*order) + ij] = tmpVal;
                     tmpColumn[ij] = tmpVal;
 
                     // Calculate multipliers and copy to local column
                     // Current column, below the diagonal
                     for (var i = ij + 1; i < order; i++)
                     {
-                        a[(ij * order) + i] /= tmpVal;
-                        tmpColumn[i] = a[(ij * order) + i];
+                        a[(ij*order) + i] /= tmpVal;
+                        tmpColumn[i] = a[(ij*order) + i];
                     }
 
                     // Remaining columns, below the diagonal
@@ -1225,7 +1225,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
 
                 for (int i = ij + 1; i < order; i++)
                 {
-                    a[(i * order) + ij] = 0.0f;
+                    a[(i*order) + ij] = 0.0f;
                 }
             }
         }
@@ -1239,14 +1239,14 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
         /// <param name="colLimit">Total columns</param>
         /// <param name="multipliers">Multipliers calculated previously</param>
         /// <param name="availableCores">Number of available processors</param>
-        private static void DoCholeskyStep(float[] data, int rowDim, int firstCol, int colLimit, float[] multipliers, int availableCores)
+        static void DoCholeskyStep(float[] data, int rowDim, int firstCol, int colLimit, float[] multipliers, int availableCores)
         {
             var tmpColCount = colLimit - firstCol;
 
             if ((availableCores > 1) && (tmpColCount > Control.ParallelizeElements))
             {
-                var tmpSplit = firstCol + (tmpColCount / 3);
-                var tmpCores = availableCores / 2;
+                var tmpSplit = firstCol + (tmpColCount/3);
+                var tmpCores = availableCores/2;
 
                 CommonParallel.Invoke(
                     () => DoCholeskyStep(data, rowDim, firstCol, tmpSplit, multipliers, tmpCores),
@@ -1259,7 +1259,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                     var tmpVal = multipliers[j];
                     for (var i = j; i < rowDim; i++)
                     {
-                        data[(j * rowDim) + i] -= multipliers[i] * tmpVal;
+                        data[(j*rowDim) + i] -= multipliers[i]*tmpVal;
                     }
                 }
             }
@@ -1285,7 +1285,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                 throw new ArgumentNullException("b");
             }
 
-            if (b.Length != orderA * columnsB)
+            if (b.Length != orderA*columnsB)
             {
                 throw new ArgumentException(Resources.ArgumentArraysSameLength, "b");
             }
@@ -1321,7 +1321,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                 throw new ArgumentNullException("b");
             }
 
-            if (b.Length != orderA * columnsB)
+            if (b.Length != orderA*columnsB)
             {
                 throw new ArgumentException(Resources.ArgumentArraysSameLength, "b");
             }
@@ -1347,9 +1347,9 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
         /// <param name="orderA">The number of rows and columns in A.</param>
         /// <param name="b">On entry the B matrix; on exit the X matrix.</param>
         /// <param name="index">The column to solve for.</param>
-        private static void DoCholeskySolve(float[] a, int orderA, float[] b, int index)
+        static void DoCholeskySolve(float[] a, int orderA, float[] b, int index)
         {
-            var cindex = index * orderA;
+            var cindex = index*orderA;
 
             // Solve L*Y = B;
             float sum;
@@ -1358,23 +1358,23 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                 sum = b[cindex + i];
                 for (var k = i - 1; k >= 0; k--)
                 {
-                    sum -= a[(k * orderA) + i] * b[cindex + k];
+                    sum -= a[(k*orderA) + i]*b[cindex + k];
                 }
 
-                b[cindex + i] = sum / a[(i * orderA) + i];
+                b[cindex + i] = sum/a[(i*orderA) + i];
             }
 
             // Solve L'*X = Y;
             for (var i = orderA - 1; i >= 0; i--)
             {
                 sum = b[cindex + i];
-                var iindex = i * orderA;
+                var iindex = i*orderA;
                 for (var k = i + 1; k < orderA; k++)
                 {
-                    sum -= a[iindex + k] * b[cindex + k];
+                    sum -= a[iindex + k]*b[cindex + k];
                 }
 
-                b[cindex + i] = sum / a[iindex + i];
+                b[cindex + i] = sum/a[iindex + i];
             }
         }
 
@@ -1402,7 +1402,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                 throw new ArgumentNullException("q");
             }
 
-            if (r.Length != rowsR * columnsR)
+            if (r.Length != rowsR*columnsR)
             {
                 throw new ArgumentException(string.Format(Resources.ArgumentArrayWrongLength, "rowsR * columnsR"), "r");
             }
@@ -1412,12 +1412,12 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                 throw new ArgumentException(string.Format(Resources.ArrayTooSmall, "min(m,n)"), "tau");
             }
 
-            if (q.Length != rowsR * rowsR)
+            if (q.Length != rowsR*rowsR)
             {
                 throw new ArgumentException(string.Format(Resources.ArgumentArrayWrongLength, "rowsR * rowsR"), "q");
             }
 
-            var work = columnsR > rowsR ? new float[rowsR * rowsR] : new float[rowsR * columnsR];
+            var work = columnsR > rowsR ? new float[rowsR*rowsR] : new float[rowsR*columnsR];
             QRFactor(r, rowsR, columnsR, q, tau, work);
         }
 
@@ -1453,7 +1453,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                 throw new ArgumentNullException("q");
             }
 
-            if (r.Length != rowsR * columnsR)
+            if (r.Length != rowsR*columnsR)
             {
                 throw new ArgumentException(string.Format(Resources.ArgumentArrayWrongLength, "rowsR * columnsR"), "r");
             }
@@ -1463,24 +1463,24 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                 throw new ArgumentException(string.Format(Resources.ArrayTooSmall, "min(m,n)"), "tau");
             }
 
-            if (q.Length != rowsR * rowsR)
+            if (q.Length != rowsR*rowsR)
             {
                 throw new ArgumentException(string.Format(Resources.ArgumentArrayWrongLength, "rowsR * rowsR"), "q");
             }
 
             if (columnsR > rowsR)
             {
-                if (work.Length < rowsR * rowsR)
+                if (work.Length < rowsR*rowsR)
                 {
-                    work[0] = rowsR * rowsR;
+                    work[0] = rowsR*rowsR;
                     throw new ArgumentException(Resources.WorkArrayTooSmall, "work");
                 }
             }
             else
             {
-                if (work.Length < rowsR * columnsR)
+                if (work.Length < rowsR*columnsR)
                 {
-                    work[0] = rowsR * columnsR;
+                    work[0] = rowsR*columnsR;
                     throw new ArgumentException(Resources.WorkArrayTooSmall, "work");
                 }
             }
@@ -1505,7 +1505,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                 ComputeQR(work, i, q, i, rowsR, i, rowsR, Control.NumberOfParallelWorkerThreads);
             }
 
-            work[0] = columnsR > rowsR ? rowsR * rowsR : rowsR * columnsR;
+            work[0] = columnsR > rowsR ? rowsR*rowsR : rowsR*columnsR;
         }
 
         /// <summary>
@@ -1532,7 +1532,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                 throw new ArgumentNullException("a");
             }
 
-            if (a.Length != rowsA * columnsA)
+            if (a.Length != rowsA*columnsA)
             {
                 throw new ArgumentException(string.Format(Resources.ArgumentArrayWrongLength, "rowsR * columnsR"), "a");
             }
@@ -1542,12 +1542,12 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                 throw new ArgumentException(string.Format(Resources.ArrayTooSmall, "min(m,n)"), "tau");
             }
 
-            if (r.Length != columnsA * columnsA)
+            if (r.Length != columnsA*columnsA)
             {
                 throw new ArgumentException(string.Format(Resources.ArgumentArrayWrongLength, "columnsA * columnsA"), "r");
             }
 
-            var work = new float[rowsA * columnsA];
+            var work = new float[rowsA*columnsA];
             ThinQRFactor(a, rowsA, columnsA, r, tau, work);
         }
 
@@ -1583,7 +1583,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                 throw new ArgumentNullException("q");
             }
 
-            if (a.Length != rowsA * columnsA)
+            if (a.Length != rowsA*columnsA)
             {
                 throw new ArgumentException(string.Format(Resources.ArgumentArrayWrongLength, "rowsR * columnsR"), "a");
             }
@@ -1593,14 +1593,14 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                 throw new ArgumentException(string.Format(Resources.ArrayTooSmall, "min(m,n)"), "tau");
             }
 
-            if (r.Length != columnsA * columnsA)
+            if (r.Length != columnsA*columnsA)
             {
                 throw new ArgumentException(string.Format(Resources.ArgumentArrayWrongLength, "columnsA * columnsA"), "r");
             }
 
-            if (work.Length < rowsA * columnsA)
+            if (work.Length < rowsA*columnsA)
             {
-                work[0] = rowsA * columnsA;
+                work[0] = rowsA*columnsA;
                 throw new ArgumentException(Resources.WorkArrayTooSmall, "work");
             }
 
@@ -1614,8 +1614,8 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
             //copy R 
             for (var j = 0; j < columnsA; j++)
             {
-                var rIndex = j * columnsA;
-                var aIndex = j * rowsA;
+                var rIndex = j*columnsA;
+                var aIndex = j*rowsA;
                 for (var i = 0; i < columnsA; i++)
                 {
                     r[rIndex + i] = a[aIndex + i];
@@ -1626,7 +1626,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
             Array.Clear(a, 0, a.Length);
             for (var i = 0; i < columnsA; i++)
             {
-                a[i * rowsA + i] = 1.0f;
+                a[i*rowsA + i] = 1.0f;
             }
 
             for (var i = minmn - 1; i >= 0; i--)
@@ -1634,7 +1634,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                 ComputeQR(work, i, a, i, rowsA, i, columnsA, Control.NumberOfParallelWorkerThreads);
             }
 
-            work[0] = rowsA * columnsA;
+            work[0] = rowsA*columnsA;
         }
 
 
@@ -1651,7 +1651,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
         /// <param name="columnStart">The first column</param>
         /// <param name="columnCount">The last column</param>
         /// <param name="availableCores">Number of available CPUs</param>
-        private static void ComputeQR(float[] work, int workIndex, float[] a, int rowStart, int rowCount, int columnStart, int columnCount, int availableCores)
+        static void ComputeQR(float[] work, int workIndex, float[] a, int rowStart, int rowCount, int columnStart, int columnCount, int availableCores)
         {
             if (rowStart > rowCount || columnStart > columnCount)
             {
@@ -1662,8 +1662,8 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
 
             if ((availableCores > 1) && (tmpColCount > 200))
             {
-                var tmpSplit = columnStart + (tmpColCount / 2);
-                var tmpCores = availableCores / 2;
+                var tmpSplit = columnStart + (tmpColCount/2);
+                var tmpCores = availableCores/2;
 
                 CommonParallel.Invoke(
                     () => ComputeQR(work, workIndex, a, rowStart, rowCount, columnStart, tmpSplit, tmpCores),
@@ -1676,12 +1676,12 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                     var scale = 0.0f;
                     for (var i = rowStart; i < rowCount; i++)
                     {
-                        scale += work[(workIndex * rowCount) + i - rowStart] * a[(j * rowCount) + i];
+                        scale += work[(workIndex*rowCount) + i - rowStart]*a[(j*rowCount) + i];
                     }
 
                     for (var i = rowStart; i < rowCount; i++)
                     {
-                        a[(j * rowCount) + i] -= work[(workIndex * rowCount) + i - rowStart] * scale;
+                        a[(j*rowCount) + i] -= work[(workIndex*rowCount) + i - rowStart]*scale;
                     }
                 }
             }
@@ -1695,9 +1695,9 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
         /// <param name="rowCount">The number of rows in matrix</param>
         /// <param name="row">The first row</param>
         /// <param name="column">Column index</param>
-        private static void GenerateColumn(float[] work, float[] a, int rowCount, int row, int column)
+        static void GenerateColumn(float[] work, float[] a, int rowCount, int row, int column)
         {
-            var tmp = column * rowCount;
+            var tmp = column*rowCount;
             var index = tmp + row;
 
             CommonParallel.For(row, rowCount, (u, v) =>
@@ -1714,24 +1714,24 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
             for (var i = 0; i < rowCount - row; ++i)
             {
                 var iindex = tmp + i;
-                norm += work[iindex] * work[iindex];
+                norm += work[iindex]*work[iindex];
             }
 
             norm = Math.Sqrt(norm);
             if (row == rowCount - 1 || norm == 0)
             {
                 a[index] = -work[tmp];
-                work[tmp] = (float)Math.Sqrt(2.0);
+                work[tmp] = (float) Math.Sqrt(2.0);
                 return;
             }
 
-            var scale = 1.0f / (float)norm;
+            var scale = 1.0f/(float) norm;
             if (work[tmp] < 0.0)
             {
                 scale *= -1.0f;
             }
 
-            a[index] = -1.0f / scale;
+            a[index] = -1.0f/scale;
             CommonParallel.For(0, rowCount - row, 4096, (u, v) =>
                 {
                     for (int i = u; i < v; i++)
@@ -1741,7 +1741,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                 });
             work[tmp] += 1.0f;
 
-            var s = (float)Math.Sqrt(1.0 / work[tmp]);
+            var s = (float) Math.Sqrt(1.0/work[tmp]);
             CommonParallel.For(0, rowCount - row, 4096, (u, v) =>
                 {
                     for (int i = u; i < v; i++)
@@ -1766,7 +1766,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
         /// <remarks>Rows must be greater or equal to columns.</remarks>
         public virtual void QRSolve(float[] a, int rows, int columns, float[] b, int columnsB, float[] x, QRMethod method = QRMethod.Full)
         {
-            var work = new float[rows * columns];
+            var work = new float[rows*columns];
             QRSolve(a, rows, columns, b, columnsB, x, work, method);
         }
 
@@ -1806,17 +1806,17 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                 throw new ArgumentNullException("work");
             }
 
-            if (a.Length != rows * columns)
+            if (a.Length != rows*columns)
             {
                 throw new ArgumentException(Resources.ArgumentArraysSameLength, "a");
             }
 
-            if (b.Length != rows * columnsB)
+            if (b.Length != rows*columnsB)
             {
                 throw new ArgumentException(Resources.ArgumentArraysSameLength, "b");
             }
 
-            if (x.Length != columns * columnsB)
+            if (x.Length != columns*columnsB)
             {
                 throw new ArgumentException(Resources.ArgumentArraysSameLength, "x");
             }
@@ -1826,9 +1826,9 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                 throw new ArgumentException(Resources.RowsLessThanColumns);
             }
 
-            if (work.Length < rows * columns)
+            if (work.Length < rows*columns)
             {
-                work[0] = rows * columns;
+                work[0] = rows*columns;
                 throw new ArgumentException(Resources.WorkArrayTooSmall, "work");
             }
 
@@ -1837,18 +1837,18 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
 
             if (method == QRMethod.Full)
             {
-                var q = new float[rows * rows];
+                var q = new float[rows*rows];
                 QRFactor(clone, rows, columns, q, work);
                 QRSolveFactored(q, clone, rows, columns, null, b, columnsB, x, method);
             }
             else
             {
-                var r = new float[columns * columns];
+                var r = new float[columns*columns];
                 ThinQRFactor(clone, rows, columns, r, work);
                 QRSolveFactored(clone, r, rows, columns, null, b, columnsB, x, method);
             }
 
-            work[0] = rows * columns;
+            work[0] = rows*columns;
         }
 
         /// <summary>
@@ -1956,7 +1956,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
             var column = new float[rowsA];
             for (var j = 0; j < columnsB; j++)
             {
-                var jm = j * rowsA;
+                var jm = j*rowsA;
                 Array.Copy(sol, jm, column, 0, rowsA);
                 CommonParallel.For(0, columnsA, (u, v) =>
                     {
@@ -1997,7 +1997,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
             // Fill result matrix
             for (var col = 0; col < columnsB; col++)
             {
-                Array.Copy(sol, col * rowsA, x, col * columnsA, columnsR);
+                Array.Copy(sol, col*rowsA, x, col*columnsA, columnsR);
             }
         }
 
@@ -2036,12 +2036,12 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                 throw new ArgumentNullException("vt");
             }
 
-            if (u.Length != rowsA * rowsA)
+            if (u.Length != rowsA*rowsA)
             {
                 throw new ArgumentException(Resources.ArgumentArraysSameLength, "u");
             }
 
-            if (vt.Length != columnsA * columnsA)
+            if (vt.Length != columnsA*columnsA)
             {
                 throw new ArgumentException(Resources.ArgumentArraysSameLength, "vt");
             }
@@ -2096,12 +2096,12 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                 throw new ArgumentNullException("work");
             }
 
-            if (u.Length != rowsA * rowsA)
+            if (u.Length != rowsA*rowsA)
             {
                 throw new ArgumentException(Resources.ArgumentArraysSameLength, "u");
             }
 
-            if (vt.Length != columnsA * columnsA)
+            if (vt.Length != columnsA*columnsA)
             {
                 throw new ArgumentException(Resources.ArgumentArraysSameLength, "vt");
             }
@@ -2154,25 +2154,25 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                     var sum = 0.0f;
                     for (var i1 = l; i1 < rowsA; i1++)
                     {
-                        sum += a[(l1 * rowsA) + i1] * a[(l1 * rowsA) + i1];
+                        sum += a[(l1*rowsA) + i1]*a[(l1*rowsA) + i1];
                     }
-                    
-                    stemp[l] = (float)Math.Sqrt(sum);
+
+                    stemp[l] = (float) Math.Sqrt(sum);
 
                     if (stemp[l] != 0.0)
                     {
-                        if (a[(l * rowsA) + l] != 0.0)
+                        if (a[(l*rowsA) + l] != 0.0)
                         {
-                            stemp[l] = Math.Abs(stemp[l]) * (a[(l * rowsA) + l] / Math.Abs(a[(l * rowsA) + l]));
+                            stemp[l] = Math.Abs(stemp[l])*(a[(l*rowsA) + l]/Math.Abs(a[(l*rowsA) + l]));
                         }
 
                         // A part of column "l" of Matrix A from row "l" to end multiply by 1.0 / s[l]
                         for (i = l; i < rowsA; i++)
                         {
-                            a[(l * rowsA) + i] = a[(l * rowsA) + i] * (1.0f / stemp[l]);
+                            a[(l*rowsA) + i] = a[(l*rowsA) + i]*(1.0f/stemp[l]);
                         }
 
-                        a[(l * rowsA) + l] = 1.0f + a[(l * rowsA) + l];
+                        a[(l*rowsA) + l] = 1.0f + a[(l*rowsA) + l];
                     }
 
                     stemp[l] = -stemp[l];
@@ -2188,21 +2188,21 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                             t = 0.0f;
                             for (i = l; i < rowsA; i++)
                             {
-                                t += a[(j * rowsA) + i] * a[(l * rowsA) + i];
+                                t += a[(j*rowsA) + i]*a[(l*rowsA) + i];
                             }
 
-                            t = -t / a[(l * rowsA) + l];
+                            t = -t/a[(l*rowsA) + l];
 
                             for (var ii = l; ii < rowsA; ii++)
                             {
-                                a[(j * rowsA) + ii] += t * a[(l * rowsA) + ii];
+                                a[(j*rowsA) + ii] += t*a[(l*rowsA) + ii];
                             }
                         }
                     }
 
                     // Place the l-th row of matrix into "e" for the
                     // subsequent calculation of the row transformation.
-                    e[j] = a[(j * rowsA) + l];
+                    e[j] = a[(j*rowsA) + l];
                 }
 
                 if (computeVectors && l < nct)
@@ -2210,7 +2210,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                     // Place the transformation in "u" for subsequent back multiplication.
                     for (i = l; i < rowsA; i++)
                     {
-                        u[(l * rowsA) + i] = a[(l * rowsA) + i];
+                        u[(l*rowsA) + i] = a[(l*rowsA) + i];
                     }
                 }
 
@@ -2223,21 +2223,21 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                 var enorm = 0.0;
                 for (i = lp1; i < e.Length; i++)
                 {
-                    enorm += e[i] * e[i];
+                    enorm += e[i]*e[i];
                 }
 
-                e[l] = (float)Math.Sqrt(enorm);
+                e[l] = (float) Math.Sqrt(enorm);
                 if (e[l] != 0.0)
                 {
                     if (e[lp1] != 0.0)
                     {
-                        e[l] = Math.Abs(e[l]) * (e[lp1] / Math.Abs(e[lp1]));
+                        e[l] = Math.Abs(e[l])*(e[lp1]/Math.Abs(e[lp1]));
                     }
 
                     // Scale vector "e" from "lp1" by 1.0 / e[l]
                     for (i = lp1; i < e.Length; i++)
                     {
-                        e[i] = e[i] * (1.0f / e[l]);
+                        e[i] = e[i]*(1.0f/e[l]);
                     }
 
                     e[lp1] = 1.0f + e[lp1];
@@ -2257,16 +2257,16 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                     {
                         for (var ii = lp1; ii < rowsA; ii++)
                         {
-                            work[ii] += e[j] * a[(j * rowsA) + ii];
+                            work[ii] += e[j]*a[(j*rowsA) + ii];
                         }
                     }
 
                     for (j = lp1; j < columnsA; j++)
                     {
-                        var ww = -e[j] / e[lp1];
+                        var ww = -e[j]/e[lp1];
                         for (var ii = lp1; ii < rowsA; ii++)
                         {
-                            a[(j * rowsA) + ii] += ww * work[ii];
+                            a[(j*rowsA) + ii] += ww*work[ii];
                         }
                     }
                 }
@@ -2279,7 +2279,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                 // Place the transformation in v for subsequent back multiplication.
                 for (i = lp1; i < columnsA; i++)
                 {
-                    v[(l * columnsA) + i] = e[i];
+                    v[(l*columnsA) + i] = e[i];
                 }
             }
 
@@ -2289,7 +2289,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
             var nrtp1 = nrt + 1;
             if (nct < columnsA)
             {
-                stemp[nctp1 - 1] = a[((nctp1 - 1) * rowsA) + (nctp1 - 1)];
+                stemp[nctp1 - 1] = a[((nctp1 - 1)*rowsA) + (nctp1 - 1)];
             }
 
             if (rowsA < m)
@@ -2299,7 +2299,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
 
             if (nrtp1 < m)
             {
-                e[nrtp1 - 1] = a[((m - 1) * rowsA) + (nrtp1 - 1)];
+                e[nrtp1 - 1] = a[((m - 1)*rowsA) + (nrtp1 - 1)];
             }
 
             e[m - 1] = 0.0f;
@@ -2311,10 +2311,10 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                 {
                     for (i = 0; i < rowsA; i++)
                     {
-                        u[(j * rowsA) + i] = 0.0f;
+                        u[(j*rowsA) + i] = 0.0f;
                     }
 
-                    u[(j * rowsA) + j] = 1.0f;
+                    u[(j*rowsA) + j] = 1.0f;
                 }
 
                 for (l = nct - 1; l >= 0; l--)
@@ -2326,37 +2326,37 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                             t = 0.0f;
                             for (i = l; i < rowsA; i++)
                             {
-                                t += u[(j * rowsA) + i] * u[(l * rowsA) + i];
+                                t += u[(j*rowsA) + i]*u[(l*rowsA) + i];
                             }
 
-                            t = -t / u[(l * rowsA) + l];
+                            t = -t/u[(l*rowsA) + l];
 
                             for (var ii = l; ii < rowsA; ii++)
                             {
-                                u[(j * rowsA) + ii] += t * u[(l * rowsA) + ii];
+                                u[(j*rowsA) + ii] += t*u[(l*rowsA) + ii];
                             }
                         }
 
                         // A part of column "l" of matrix A from row "l" to end multiply by -1.0
                         for (i = l; i < rowsA; i++)
                         {
-                            u[(l * rowsA) + i] = u[(l * rowsA) + i] * -1.0f;
+                            u[(l*rowsA) + i] = u[(l*rowsA) + i]*-1.0f;
                         }
 
-                        u[(l * rowsA) + l] = 1.0f + u[(l * rowsA) + l];
+                        u[(l*rowsA) + l] = 1.0f + u[(l*rowsA) + l];
                         for (i = 0; i < l; i++)
                         {
-                            u[(l * rowsA) + i] = 0.0f;
+                            u[(l*rowsA) + i] = 0.0f;
                         }
                     }
                     else
                     {
                         for (i = 0; i < rowsA; i++)
                         {
-                            u[(l * rowsA) + i] = 0.0f;
+                            u[(l*rowsA) + i] = 0.0f;
                         }
 
-                        u[(l * rowsA) + l] = 1.0f;
+                        u[(l*rowsA) + l] = 1.0f;
                     }
                 }
             }
@@ -2376,13 +2376,13 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                                 t = 0.0f;
                                 for (i = lp1; i < columnsA; i++)
                                 {
-                                    t += v[(j * columnsA) + i] * v[(l * columnsA) + i];
+                                    t += v[(j*columnsA) + i]*v[(l*columnsA) + i];
                                 }
 
-                                t = -t / v[(l * columnsA) + lp1];
+                                t = -t/v[(l*columnsA) + lp1];
                                 for (var ii = l; ii < columnsA; ii++)
                                 {
-                                    v[(j * columnsA) + ii] += t * v[(l * columnsA) + ii];
+                                    v[(j*columnsA) + ii] += t*v[(l*columnsA) + ii];
                                 }
                             }
                         }
@@ -2390,10 +2390,10 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
 
                     for (i = 0; i < columnsA; i++)
                     {
-                        v[(l * columnsA) + i] = 0.0f;
+                        v[(l*columnsA) + i] = 0.0f;
                     }
 
-                    v[(l * columnsA) + l] = 1.0f;
+                    v[(l*columnsA) + l] = 1.0f;
                 }
             }
 
@@ -2404,11 +2404,11 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                 if (stemp[i] != 0.0)
                 {
                     t = stemp[i];
-                    r = stemp[i] / t;
+                    r = stemp[i]/t;
                     stemp[i] = t;
                     if (i < m - 1)
                     {
-                        e[i] = e[i] / r;
+                        e[i] = e[i]/r;
                     }
 
                     if (computeVectors)
@@ -2416,7 +2416,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                         // A part of column "i" of matrix U from row 0 to end multiply by r
                         for (j = 0; j < rowsA; j++)
                         {
-                            u[(i * rowsA) + j] = u[(i * rowsA) + j] * r;
+                            u[(i*rowsA) + j] = u[(i*rowsA) + j]*r;
                         }
                     }
                 }
@@ -2433,9 +2433,9 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                 }
 
                 t = e[i];
-                r = t / e[i];
+                r = t/e[i];
                 e[i] = t;
-                stemp[i + 1] = stemp[i + 1] * r;
+                stemp[i + 1] = stemp[i + 1]*r;
                 if (!computeVectors)
                 {
                     continue;
@@ -2444,7 +2444,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                 // A part of column "i+1" of matrix VT from row 0 to end multiply by r
                 for (j = 0; j < columnsA; j++)
                 {
-                    v[((i + 1) * columnsA) + j] = v[((i + 1) * columnsA) + j] * r;
+                    v[((i + 1)*columnsA) + j] = v[((i + 1)*columnsA) + j]*r;
                 }
             }
 
@@ -2545,8 +2545,8 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                             stemp[k] = t1;
                             if (k != l)
                             {
-                                f = -sn * e[k - 1];
-                                e[k - 1] = cs * e[k - 1];
+                                f = -sn*e[k - 1];
+                                e[k - 1] = cs*e[k - 1];
                             }
 
                             if (computeVectors)
@@ -2554,16 +2554,16 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                                 // Rotate
                                 for (i = 0; i < columnsA; i++)
                                 {
-                                    var z = (cs * v[(k * columnsA) + i]) + (sn * v[((m - 1) * columnsA) + i]);
-                                    v[((m - 1) * columnsA) + i] = (cs * v[((m - 1) * columnsA) + i]) - (sn * v[(k * columnsA) + i]);
-                                    v[(k * columnsA) + i] = z;
+                                    var z = (cs*v[(k*columnsA) + i]) + (sn*v[((m - 1)*columnsA) + i]);
+                                    v[((m - 1)*columnsA) + i] = (cs*v[((m - 1)*columnsA) + i]) - (sn*v[(k*columnsA) + i]);
+                                    v[(k*columnsA) + i] = z;
                                 }
                             }
                         }
 
                         break;
 
-                    // Split at negligible s[l].
+                        // Split at negligible s[l].
                     case 2:
                         f = e[l - 1];
                         e[l - 1] = 0.0f;
@@ -2572,16 +2572,16 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                             t1 = stemp[k];
                             Drotg(ref t1, ref f, ref cs, ref sn);
                             stemp[k] = t1;
-                            f = -sn * e[k];
-                            e[k] = cs * e[k];
+                            f = -sn*e[k];
+                            e[k] = cs*e[k];
                             if (computeVectors)
                             {
                                 // Rotate
                                 for (i = 0; i < rowsA; i++)
                                 {
-                                    var z = (cs * u[(k * rowsA) + i]) + (sn * u[((l - 1) * rowsA) + i]);
-                                    u[((l - 1) * rowsA) + i] = (cs * u[((l - 1) * rowsA) + i]) - (sn * u[(k * rowsA) + i]);
-                                    u[(k * rowsA) + i] = z;
+                                    var z = (cs*u[(k*rowsA) + i]) + (sn*u[((l - 1)*rowsA) + i]);
+                                    u[((l - 1)*rowsA) + i] = (cs*u[((l - 1)*rowsA) + i]) - (sn*u[(k*rowsA) + i]);
+                                    u[(k*rowsA) + i] = z;
                                 }
                             }
                         }
@@ -2598,27 +2598,27 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                         scale = Math.Max(scale, Math.Abs(e[m - 2]));
                         scale = Math.Max(scale, Math.Abs(stemp[l]));
                         scale = Math.Max(scale, Math.Abs(e[l]));
-                        var sm = stemp[m - 1] / scale;
-                        var smm1 = stemp[m - 2] / scale;
-                        var emm1 = e[m - 2] / scale;
-                        var sl = stemp[l] / scale;
-                        var el = e[l] / scale;
-                        var b = (((smm1 + sm) * (smm1 - sm)) + (emm1 * emm1)) / 2.0f;
-                        var c = (sm * emm1) * (sm * emm1);
+                        var sm = stemp[m - 1]/scale;
+                        var smm1 = stemp[m - 2]/scale;
+                        var emm1 = e[m - 2]/scale;
+                        var sl = stemp[l]/scale;
+                        var el = e[l]/scale;
+                        var b = (((smm1 + sm)*(smm1 - sm)) + (emm1*emm1))/2.0f;
+                        var c = (sm*emm1)*(sm*emm1);
                         var shift = 0.0f;
                         if (b != 0.0 || c != 0.0)
                         {
-                            shift = (float)Math.Sqrt((b * b) + c);
+                            shift = (float) Math.Sqrt((b*b) + c);
                             if (b < 0.0)
                             {
                                 shift = -shift;
                             }
 
-                            shift = c / (b + shift);
+                            shift = c/(b + shift);
                         }
 
-                        f = ((sl + sm) * (sl - sm)) + shift;
-                        var g = sl * el;
+                        f = ((sl + sm)*(sl - sm)) + shift;
+                        var g = sl*el;
 
                         // Chase zeros
                         for (k = l; k < m - 1; k++)
@@ -2629,33 +2629,33 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                                 e[k - 1] = f;
                             }
 
-                            f = (cs * stemp[k]) + (sn * e[k]);
-                            e[k] = (cs * e[k]) - (sn * stemp[k]);
-                            g = sn * stemp[k + 1];
-                            stemp[k + 1] = cs * stemp[k + 1];
+                            f = (cs*stemp[k]) + (sn*e[k]);
+                            e[k] = (cs*e[k]) - (sn*stemp[k]);
+                            g = sn*stemp[k + 1];
+                            stemp[k + 1] = cs*stemp[k + 1];
                             if (computeVectors)
                             {
                                 for (i = 0; i < columnsA; i++)
                                 {
-                                    var z = (cs * v[(k * columnsA) + i]) + (sn * v[((k + 1) * columnsA) + i]);
-                                    v[((k + 1) * columnsA) + i] = (cs * v[((k + 1) * columnsA) + i]) - (sn * v[(k * columnsA) + i]);
-                                    v[(k * columnsA) + i] = z;
+                                    var z = (cs*v[(k*columnsA) + i]) + (sn*v[((k + 1)*columnsA) + i]);
+                                    v[((k + 1)*columnsA) + i] = (cs*v[((k + 1)*columnsA) + i]) - (sn*v[(k*columnsA) + i]);
+                                    v[(k*columnsA) + i] = z;
                                 }
                             }
 
                             Drotg(ref f, ref g, ref cs, ref sn);
                             stemp[k] = f;
-                            f = (cs * e[k]) + (sn * stemp[k + 1]);
-                            stemp[k + 1] = -(sn * e[k]) + (cs * stemp[k + 1]);
-                            g = sn * e[k + 1];
-                            e[k + 1] = cs * e[k + 1];
+                            f = (cs*e[k]) + (sn*stemp[k + 1]);
+                            stemp[k + 1] = -(sn*e[k]) + (cs*stemp[k + 1]);
+                            g = sn*e[k + 1];
+                            e[k + 1] = cs*e[k + 1];
                             if (computeVectors && k < rowsA)
                             {
                                 for (i = 0; i < rowsA; i++)
                                 {
-                                    var z = (cs * u[(k * rowsA) + i]) + (sn * u[((k + 1) * rowsA) + i]);
-                                    u[((k + 1) * rowsA) + i] = (cs * u[((k + 1) * rowsA) + i]) - (sn * u[(k * rowsA) + i]);
-                                    u[(k * rowsA) + i] = z;
+                                    var z = (cs*u[(k*rowsA) + i]) + (sn*u[((k + 1)*rowsA) + i]);
+                                    u[((k + 1)*rowsA) + i] = (cs*u[((k + 1)*rowsA) + i]) - (sn*u[(k*rowsA) + i]);
+                                    u[(k*rowsA) + i] = z;
                                 }
                             }
                         }
@@ -2676,7 +2676,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                                 // A part of column "l" of matrix VT from row 0 to end multiply by -1
                                 for (i = 0; i < columnsA; i++)
                                 {
-                                    v[(l * columnsA) + i] = v[(l * columnsA) + i] * -1.0f;
+                                    v[(l*columnsA) + i] = v[(l*columnsA) + i]*-1.0f;
                                 }
                             }
                         }
@@ -2697,9 +2697,9 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                                 // Swap columns l, l + 1
                                 for (i = 0; i < columnsA; i++)
                                 {
-                                    var z = v[(l * columnsA) + i];
-                                    v[(l * columnsA) + i] = v[((l + 1) * columnsA) + i];
-                                    v[((l + 1) * columnsA) + i] = z;
+                                    var z = v[(l*columnsA) + i];
+                                    v[(l*columnsA) + i] = v[((l + 1)*columnsA) + i];
+                                    v[((l + 1)*columnsA) + i] = z;
                                 }
                             }
 
@@ -2708,9 +2708,9 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                                 // Swap columns l, l + 1
                                 for (i = 0; i < rowsA; i++)
                                 {
-                                    var z = u[(l * rowsA) + i];
-                                    u[(l * rowsA) + i] = u[((l + 1) * rowsA) + i];
-                                    u[((l + 1) * rowsA) + i] = z;
+                                    var z = u[(l*rowsA) + i];
+                                    u[(l*rowsA) + i] = u[((l + 1)*rowsA) + i];
+                                    u[((l + 1)*rowsA) + i] = z;
                                 }
                             }
 
@@ -2730,7 +2730,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                 {
                     for (j = 0; j < columnsA; j++)
                     {
-                        vt[(j * columnsA) + i] = v[(i * columnsA) + j];
+                        vt[(j*columnsA) + i] = v[(i*columnsA) + j];
                     }
                 }
             }
@@ -2738,7 +2738,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
             // Copy stemp to s with size adjustment. We are using ported copy of linpack's svd code and it uses
             // a singular vector of length rows+1 when rows < columns. The last element is not used and needs to be removed.
             // We should port lapack's svd routine to remove this problem.
-            Buffer.BlockCopy(stemp, 0, s, 0, Math.Min(rowsA, columnsA) * Constants.SizeOfFloat);
+            Buffer.BlockCopy(stemp, 0, s, 0, Math.Min(rowsA, columnsA)*Constants.SizeOfFloat);
 
             // On return the first element of the work array stores the min size of the work array could have been
             // work[0] = Math.Max(3 * Math.Min(aRows, aColumns) + Math.Max(aRows, aColumns), 5 * Math.Min(aRows, aColumns));
@@ -2754,7 +2754,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
         /// <param name="c">Contains the parameter c associated with the Givens rotation</param>
         /// <param name="s">Contains the parameter s associated with the Givens rotation</param>
         /// <remarks>This is equivalent to the DROTG LAPACK routine.</remarks>
-        private static void Drotg(ref float da, ref float db, ref float c, ref float s)
+        static void Drotg(ref float da, ref float db, ref float c, ref float s)
         {
             float r, z;
 
@@ -2776,16 +2776,16 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
             }
             else
             {
-                var sda = da / scale;
-                var sdb = db / scale;
-                r = scale * (float)Math.Sqrt((sda * sda) + (sdb * sdb));
+                var sda = da/scale;
+                var sdb = db/scale;
+                r = scale*(float) Math.Sqrt((sda*sda) + (sdb*sdb));
                 if (roe < 0.0)
                 {
                     r = -r;
                 }
 
-                c = da / r;
-                s = db / r;
+                c = da/r;
+                s = db/r;
                 z = 1.0f;
                 if (absda > absdb)
                 {
@@ -2794,7 +2794,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
 
                 if (absdb >= absda && c != 0.0)
                 {
-                    z = 1.0f / c;
+                    z = 1.0f/c;
                 }
             }
 
@@ -2828,23 +2828,23 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                 throw new ArgumentNullException("x");
             }
 
-            if (b.Length != rowsA * columnsB)
+            if (b.Length != rowsA*columnsB)
             {
                 throw new ArgumentException(Resources.ArgumentArraysSameLength, "b");
             }
 
-            if (x.Length != columnsA * columnsB)
+            if (x.Length != columnsA*columnsB)
             {
                 throw new ArgumentException(Resources.ArgumentArraysSameLength, "b");
             }
 
             var work = new float[rowsA];
             var s = new float[Math.Min(rowsA, columnsA)];
-            var u = new float[rowsA * rowsA];
-            var vt = new float[columnsA * columnsA];
+            var u = new float[rowsA*rowsA];
+            var vt = new float[columnsA*columnsA];
 
             var clone = new float[a.Length];
-            Buffer.BlockCopy(a, 0, clone, 0, a.Length * Constants.SizeOfFloat);
+            Buffer.BlockCopy(a, 0, clone, 0, a.Length*Constants.SizeOfFloat);
             SingularValueDecomposition(true, clone, rowsA, columnsA, s, u, vt, work);
             SvdSolveFactored(rowsA, columnsA, s, u, vt, b, columnsB, x);
         }
@@ -2887,12 +2887,12 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                 throw new ArgumentNullException("x");
             }
 
-            if (u.Length != rowsA * rowsA)
+            if (u.Length != rowsA*rowsA)
             {
                 throw new ArgumentException(Resources.ArgumentArraysSameLength, "u");
             }
 
-            if (vt.Length != columnsA * columnsA)
+            if (vt.Length != columnsA*columnsA)
             {
                 throw new ArgumentException(Resources.ArgumentArraysSameLength, "vt");
             }
@@ -2902,12 +2902,12 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                 throw new ArgumentException(Resources.ArgumentArraysSameLength, "s");
             }
 
-            if (b.Length != rowsA * columnsB)
+            if (b.Length != rowsA*columnsB)
             {
                 throw new ArgumentException(Resources.ArgumentArraysSameLength, "b");
             }
 
-            if (x.Length != columnsA * columnsB)
+            if (x.Length != columnsA*columnsB)
             {
                 throw new ArgumentException(Resources.ArgumentArraysSameLength, "b");
             }
@@ -2924,7 +2924,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                     {
                         for (var i = 0; i < rowsA; i++)
                         {
-                            value += u[(j * rowsA) + i] * b[(k * rowsA) + i];
+                            value += u[(j*rowsA) + i]*b[(k*rowsA) + i];
                         }
 
                         value /= s[j];
@@ -2938,10 +2938,10 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                     float value = 0;
                     for (var i = 0; i < columnsA; i++)
                     {
-                        value += vt[(j * columnsA) + i] * tmp[i];
+                        value += vt[(j*columnsA) + i]*tmp[i];
                     }
 
-                    x[(k * columnsA) + j] = value;
+                    x[(k*columnsA) + j] = value;
                 }
             }
         }
@@ -2962,9 +2962,9 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                 throw new ArgumentNullException("matrix");
             }
 
-            if (matrix.Length != order * order)
+            if (matrix.Length != order*order)
             {
-                throw new ArgumentException(String.Format(Resources.ArgumentArrayWrongLength, order * order), "matrix");
+                throw new ArgumentException(String.Format(Resources.ArgumentArrayWrongLength, order*order), "matrix");
             }
 
             if (matrixEv == null)
@@ -2972,9 +2972,9 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                 throw new ArgumentNullException("matrixEv");
             }
 
-            if (matrixEv.Length != order * order)
+            if (matrixEv.Length != order*order)
             {
-                throw new ArgumentException(String.Format(Resources.ArgumentArrayWrongLength, order * order), "matrixEv");
+                throw new ArgumentException(String.Format(Resources.ArgumentArrayWrongLength, order*order), "matrixEv");
             }
 
             if (vectorEv == null)
@@ -2992,9 +2992,9 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                 throw new ArgumentNullException("matrixD");
             }
 
-            if (matrixD.Length != order * order)
+            if (matrixD.Length != order*order)
             {
-                throw new ArgumentException(String.Format(Resources.ArgumentArrayWrongLength, order * order), "matrixD");
+                throw new ArgumentException(String.Format(Resources.ArgumentArrayWrongLength, order*order), "matrixD");
             }
 
             var d = new float[order];
@@ -3002,11 +3002,11 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
 
             if (isSymmetric)
             {
-                Buffer.BlockCopy(matrix, 0, matrixEv, 0, matrix.Length * Constants.SizeOfFloat);
+                Buffer.BlockCopy(matrix, 0, matrixEv, 0, matrix.Length*Constants.SizeOfFloat);
                 var om1 = order - 1;
                 for (var i = 0; i < order; i++)
                 {
-                    d[i] = matrixEv[i * order + om1];
+                    d[i] = matrixEv[i*order + om1];
                 }
 
                 Numerics.LinearAlgebra.Single.Factorization.DenseEvd.SymmetricTridiagonalize(matrixEv, d, e, order);
@@ -3015,7 +3015,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
             else
             {
                 var matrixH = new float[matrix.Length];
-                Buffer.BlockCopy(matrix, 0, matrixH, 0, matrix.Length * Constants.SizeOfFloat);
+                Buffer.BlockCopy(matrix, 0, matrixH, 0, matrix.Length*Constants.SizeOfFloat);
                 Numerics.LinearAlgebra.Single.Factorization.DenseEvd.NonsymmetricReduceToHessenberg(matrixEv, matrixH, order);
                 Numerics.LinearAlgebra.Single.Factorization.DenseEvd.NonsymmetricReduceHessenberToRealSchur(matrixEv, matrixH, d, e, order);
             }
@@ -3024,7 +3024,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
             {
                 vectorEv[i] = new Complex(d[i], e[i]);
 
-                var io = i * order;
+                var io = i*order;
                 matrixD[io + i] = d[i];
 
                 if (e[i] > 0)

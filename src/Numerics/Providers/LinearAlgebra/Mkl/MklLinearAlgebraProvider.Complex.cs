@@ -70,7 +70,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
 
             return SafeNativeMethods.z_dot_product(x.Length, x, y);
         }
-        
+
         /// <summary>
         /// Adds a scaled vector to another: <c>result = y + alpha*x</c>.
         /// </summary>
@@ -123,8 +123,8 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
             if (x == null)
             {
                 throw new ArgumentNullException("x");
-            } 
-            
+            }
+
             if (!ReferenceEquals(x, result))
             {
                 Array.Copy(x, 0, result, 0, x.Length);
@@ -192,9 +192,9 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
             var k = transposeA == Transpose.DontTranspose ? columnsA : rowsA;
             var l = transposeB == Transpose.DontTranspose ? rowsB : columnsB;
 
-            if (c.Length != m * n)
+            if (c.Length != m*n)
             {
-                throw new ArgumentException(Resources.ArgumentMatrixDimensions);   
+                throw new ArgumentException(Resources.ArgumentMatrixDimensions);
             }
 
             if (k != l)
@@ -227,7 +227,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
                 throw new ArgumentNullException("ipiv");
             }
 
-            if (data.Length != order * order)
+            if (data.Length != order*order)
             {
                 throw new ArgumentException(Resources.ArgumentArraysSameLength, "data");
             }
@@ -236,7 +236,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
             {
                 throw new ArgumentException(Resources.ArgumentArraysSameLength, "ipiv");
             }
-            
+
             SafeNativeMethods.z_lu_factor(order, data, ipiv);
         }
 
@@ -254,13 +254,13 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
                 throw new ArgumentNullException("a");
             }
 
-            if (a.Length != order * order)
+            if (a.Length != order*order)
             {
                 throw new ArgumentException(Resources.ArgumentArraysSameLength, "a");
             }
 
             var work = new Complex[order];
-            SafeNativeMethods.z_lu_inverse(order, a, work, work.Length);        
+            SafeNativeMethods.z_lu_inverse(order, a, work, work.Length);
         }
 
         /// <summary>
@@ -283,7 +283,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
                 throw new ArgumentNullException("ipiv");
             }
 
-            if (a.Length != order * order)
+            if (a.Length != order*order)
             {
                 throw new ArgumentException(Resources.ArgumentArraysSameLength, "a");
             }
@@ -294,7 +294,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
             }
 
             var work = new Complex[order];
-            SafeNativeMethods.z_lu_inverse_factored(order, a, ipiv, work, order);        
+            SafeNativeMethods.z_lu_inverse_factored(order, a, ipiv, work, order);
         }
 
         /// <summary>
@@ -314,7 +314,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
                 throw new ArgumentNullException("a");
             }
 
-            if (a.Length != order * order)
+            if (a.Length != order*order)
             {
                 throw new ArgumentException(Resources.ArgumentArraysSameLength, "a");
             }
@@ -329,7 +329,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
                 throw new ArgumentException(Resources.WorkArrayTooSmall, "work");
             }
 
-            SafeNativeMethods.z_lu_inverse(order, a, work, work.Length);        
+            SafeNativeMethods.z_lu_inverse(order, a, work, work.Length);
         }
 
         /// <summary>
@@ -355,7 +355,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
                 throw new ArgumentNullException("ipiv");
             }
 
-            if (a.Length != order * order)
+            if (a.Length != order*order)
             {
                 throw new ArgumentException(Resources.ArgumentArraysSameLength, "a");
             }
@@ -375,7 +375,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
                 throw new ArgumentException(Resources.WorkArrayTooSmall, "work");
             }
 
-            SafeNativeMethods.z_lu_inverse_factored(order, a, ipiv, work, order);        
+            SafeNativeMethods.z_lu_inverse_factored(order, a, ipiv, work, order);
         }
 
         /// <summary>
@@ -394,22 +394,22 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
                 throw new ArgumentNullException("a");
             }
 
-            if (a.Length != order * order)
+            if (a.Length != order*order)
             {
                 throw new ArgumentException(Resources.ArgumentArraysSameLength, "a");
             }
 
-            if (b.Length != columnsOfB * order)
+            if (b.Length != columnsOfB*order)
             {
                 throw new ArgumentException(Resources.ArgumentArraysSameLength, "b");
             }
-            
+
             if (ReferenceEquals(a, b))
             {
                 throw new ArgumentException(Resources.ArgumentReferenceDifferent);
             }
 
-            SafeNativeMethods.z_lu_solve(order, columnsOfB, a, b); 
+            SafeNativeMethods.z_lu_solve(order, columnsOfB, a, b);
         }
 
         /// <summary>
@@ -434,7 +434,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
                 throw new ArgumentNullException("ipiv");
             }
 
-            if (a.Length != order * order)
+            if (a.Length != order*order)
             {
                 throw new ArgumentException(Resources.ArgumentArraysSameLength, "a");
             }
@@ -444,7 +444,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
                 throw new ArgumentException(Resources.ArgumentArraysSameLength, "ipiv");
             }
 
-            if (b.Length != columnsOfB * order)
+            if (b.Length != columnsOfB*order)
             {
                 throw new ArgumentException(Resources.ArgumentArraysSameLength, "b");
             }
@@ -454,7 +454,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
                 throw new ArgumentException(Resources.ArgumentReferenceDifferent);
             }
 
-            SafeNativeMethods.z_lu_solve_factored(order, columnsOfB, a, ipiv, b); 
+            SafeNativeMethods.z_lu_solve_factored(order, columnsOfB, a, ipiv, b);
         }
 
         /// <summary>
@@ -477,7 +477,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
                 throw new ArgumentException(Resources.ArgumentMustBePositive, "order");
             }
 
-            if (a.Length != order * order)
+            if (a.Length != order*order)
             {
                 throw new ArgumentException(Resources.ArgumentArraysSameLength, "a");
             }
@@ -512,7 +512,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
                 throw new ArgumentNullException("b");
             }
 
-            if (b.Length != orderA * columnsB)
+            if (b.Length != orderA*columnsB)
             {
                 throw new ArgumentException(Resources.ArgumentArraysSameLength, "b");
             }
@@ -522,7 +522,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
                 throw new ArgumentException(Resources.ArgumentReferenceDifferent);
             }
 
-            SafeNativeMethods.z_cholesky_solve(orderA, columnsB, a, b); 
+            SafeNativeMethods.z_cholesky_solve(orderA, columnsB, a, b);
         }
 
         /// <summary>
@@ -546,7 +546,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
                 throw new ArgumentNullException("b");
             }
 
-            if (b.Length != orderA * columnsB)
+            if (b.Length != orderA*columnsB)
             {
                 throw new ArgumentException(Resources.ArgumentArraysSameLength, "b");
             }
@@ -556,7 +556,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
                 throw new ArgumentException(Resources.ArgumentReferenceDifferent);
             }
 
-            SafeNativeMethods.z_cholesky_solve_factored(orderA, columnsB, a, b); 
+            SafeNativeMethods.z_cholesky_solve_factored(orderA, columnsB, a, b);
         }
 
         /// <summary>
@@ -584,7 +584,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
                 throw new ArgumentNullException("q");
             }
 
-            if (r.Length != rowsR * columnsR)
+            if (r.Length != rowsR*columnsR)
             {
                 throw new ArgumentException(string.Format(Resources.ArgumentArrayWrongLength, "rowsR * columnsR"), "r");
             }
@@ -594,12 +594,12 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
                 throw new ArgumentException(string.Format(Resources.ArrayTooSmall, "min(m,n)"), "tau");
             }
 
-            if (q.Length != rowsR * rowsR)
+            if (q.Length != rowsR*rowsR)
             {
                 throw new ArgumentException(string.Format(Resources.ArgumentArrayWrongLength, "rowsR * rowsR"), "q");
             }
 
-            var work = new Complex[columnsR * Control.BlockSize];
+            var work = new Complex[columnsR*Control.BlockSize];
             SafeNativeMethods.z_qr_factor(rowsR, columnsR, r, tau, q, work, work.Length);
         }
 
@@ -636,7 +636,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
                 throw new ArgumentNullException("work");
             }
 
-            if (r.Length != rowsR * columnsR)
+            if (r.Length != rowsR*columnsR)
             {
                 throw new ArgumentException(string.Format(Resources.ArgumentArrayWrongLength, "rowsR * columnsR"), "r");
             }
@@ -646,14 +646,14 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
                 throw new ArgumentException(string.Format(Resources.ArrayTooSmall, "min(m,n)"), "tau");
             }
 
-            if (q.Length != rowsR * rowsR)
+            if (q.Length != rowsR*rowsR)
             {
                 throw new ArgumentException(string.Format(Resources.ArgumentArrayWrongLength, "rowsR * rowsR"), "q");
             }
 
-            if (work.Length < columnsR * Control.BlockSize)
+            if (work.Length < columnsR*Control.BlockSize)
             {
-                work[0] = columnsR * Control.BlockSize;
+                work[0] = columnsR*Control.BlockSize;
                 throw new ArgumentException(Resources.WorkArrayTooSmall, "work");
             }
 
@@ -674,7 +674,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
         [SecuritySafeCritical]
         public override void QRSolve(Complex[] a, int rows, int columns, Complex[] b, int columnsB, Complex[] x, QRMethod method = QRMethod.Full)
         {
-            var work = new Complex[columns * Control.BlockSize];
+            var work = new Complex[columns*Control.BlockSize];
             QRSolve(a, rows, columns, b, columnsB, x, work, method);
         }
 
@@ -715,17 +715,17 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
                 throw new ArgumentNullException("work");
             }
 
-            if (a.Length != rows * columns)
+            if (a.Length != rows*columns)
             {
                 throw new ArgumentException(Resources.ArgumentArraysSameLength, "a");
             }
 
-            if (b.Length != rows * columnsB)
+            if (b.Length != rows*columnsB)
             {
                 throw new ArgumentException(Resources.ArgumentArraysSameLength, "b");
             }
 
-            if (x.Length != columns * columnsB)
+            if (x.Length != columns*columnsB)
             {
                 throw new ArgumentException(Resources.ArgumentArraysSameLength, "x");
             }
@@ -737,7 +737,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
 
             if (work.Length < 1)
             {
-                work[0] = rows * Control.BlockSize;
+                work[0] = rows*Control.BlockSize;
                 throw new ArgumentException(Resources.WorkArrayTooSmall, "work");
             }
 
@@ -761,7 +761,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
         [SecuritySafeCritical]
         public override void QRSolveFactored(Complex[] q, Complex[] r, int rowsR, int columnsR, Complex[] tau, Complex[] b, int columnsB, Complex[] x, QRMethod method = QRMethod.Full)
         {
-            var work = new Complex[columnsR * Control.BlockSize];
+            var work = new Complex[columnsR*Control.BlockSize];
             QRSolveFactored(q, r, rowsR, columnsR, tau, b, columnsB, x, work, method);
         }
 
@@ -823,29 +823,29 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
                 columnsQ = rowsR = columnsR = columnsA;
             }
 
-            if (r.Length != rowsR * columnsR)
+            if (r.Length != rowsR*columnsR)
             {
-                throw new ArgumentException(string.Format(Resources.ArgumentArrayWrongLength, rowsR * columnsR), "r");
+                throw new ArgumentException(string.Format(Resources.ArgumentArrayWrongLength, rowsR*columnsR), "r");
             }
 
-            if (q.Length != rowsQ * columnsQ)
+            if (q.Length != rowsQ*columnsQ)
             {
-                throw new ArgumentException(string.Format(Resources.ArgumentArrayWrongLength, rowsQ * columnsQ), "q");
+                throw new ArgumentException(string.Format(Resources.ArgumentArrayWrongLength, rowsQ*columnsQ), "q");
             }
 
-            if (b.Length != rowsA * columnsB)
+            if (b.Length != rowsA*columnsB)
             {
-                throw new ArgumentException(string.Format(Resources.ArgumentArrayWrongLength, rowsA * columnsB), "b");
+                throw new ArgumentException(string.Format(Resources.ArgumentArrayWrongLength, rowsA*columnsB), "b");
             }
 
-            if (x.Length != columnsA * columnsB)
+            if (x.Length != columnsA*columnsB)
             {
-                throw new ArgumentException(string.Format(Resources.ArgumentArrayWrongLength, columnsA * columnsB), "x");
+                throw new ArgumentException(string.Format(Resources.ArgumentArrayWrongLength, columnsA*columnsB), "x");
             }
 
             if (work.Length < 1)
             {
-                work[0] = rowsA * Control.BlockSize;
+                work[0] = rowsA*Control.BlockSize;
                 throw new ArgumentException(Resources.WorkArrayTooSmall, "work");
             }
 
@@ -897,12 +897,12 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
                 throw new ArgumentNullException("vt");
             }
 
-            if (u.Length != rowsA * rowsA)
+            if (u.Length != rowsA*rowsA)
             {
                 throw new ArgumentException(Resources.ArgumentArraysSameLength, "u");
             }
 
-            if (vt.Length != columnsA * columnsA)
+            if (vt.Length != columnsA*columnsA)
             {
                 throw new ArgumentException(Resources.ArgumentArraysSameLength, "vt");
             }
@@ -912,7 +912,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
                 throw new ArgumentException(Resources.ArgumentArraysSameLength, "s");
             }
 
-            var work = new Complex[(2 * Math.Min(rowsA, columnsA)) + Math.Max(rowsA, columnsA)];
+            var work = new Complex[(2*Math.Min(rowsA, columnsA)) + Math.Max(rowsA, columnsA)];
             SingularValueDecomposition(computeVectors, a, rowsA, columnsA, s, u, vt, work);
         }
 
@@ -942,20 +942,20 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
                 throw new ArgumentNullException("x");
             }
 
-            if (b.Length != rowsA * columnsB)
+            if (b.Length != rowsA*columnsB)
             {
                 throw new ArgumentException(Resources.ArgumentArraysSameLength, "b");
             }
 
-            if (x.Length != columnsA * columnsB)
+            if (x.Length != columnsA*columnsB)
             {
                 throw new ArgumentException(Resources.ArgumentArraysSameLength, "b");
             }
 
-            var work = new Complex[(2 * Math.Min(rowsA, columnsA)) + Math.Max(rowsA, columnsA)];
+            var work = new Complex[(2*Math.Min(rowsA, columnsA)) + Math.Max(rowsA, columnsA)];
             var s = new Complex[Math.Min(rowsA, columnsA)];
-            var u = new Complex[rowsA * rowsA];
-            var vt = new Complex[columnsA * columnsA];
+            var u = new Complex[rowsA*rowsA];
+            var vt = new Complex[columnsA*columnsA];
 
             var clone = new Complex[a.Length];
             a.Copy(clone);
@@ -1007,12 +1007,12 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
                 throw new ArgumentNullException("work");
             }
 
-            if (u.Length != rowsA * rowsA)
+            if (u.Length != rowsA*rowsA)
             {
                 throw new ArgumentException(Resources.ArgumentArraysSameLength, "u");
             }
 
-            if (vt.Length != columnsA * columnsA)
+            if (vt.Length != columnsA*columnsA)
             {
                 throw new ArgumentException(Resources.ArgumentArraysSameLength, "vt");
             }
@@ -1027,9 +1027,9 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
                 throw new ArgumentException(Resources.ArgumentSingleDimensionArray, "work");
             }
 
-            if (work.Length < (2 * Math.Min(rowsA, columnsA)) + Math.Max(rowsA, columnsA))
+            if (work.Length < (2*Math.Min(rowsA, columnsA)) + Math.Max(rowsA, columnsA))
             {
-                work[0] = (2 * Math.Min(rowsA, columnsA)) + Math.Max(rowsA, columnsA);
+                work[0] = (2*Math.Min(rowsA, columnsA)) + Math.Max(rowsA, columnsA);
                 throw new ArgumentException(Resources.WorkArrayTooSmall, "work");
             }
 
@@ -1062,7 +1062,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
             {
                 throw new ArgumentException(Resources.ArgumentArraysSameLength);
             }
-            
+
             if (x.Length != result.Length)
             {
                 throw new ArgumentException(Resources.ArgumentArraysSameLength);
@@ -1097,12 +1097,12 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
             {
                 throw new ArgumentException(Resources.ArgumentArraysSameLength);
             }
-            
+
             if (x.Length != result.Length)
             {
                 throw new ArgumentException(Resources.ArgumentArraysSameLength);
             }
-            
+
             SafeNativeMethods.z_vector_subtract(x.Length, x, y, result);
         }
 
@@ -1132,12 +1132,12 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
             {
                 throw new ArgumentException(Resources.ArgumentArraysSameLength);
             }
-            
+
             if (x.Length != result.Length)
             {
                 throw new ArgumentException(Resources.ArgumentArraysSameLength);
             }
-            
+
             SafeNativeMethods.z_vector_multiply(x.Length, x, y, result);
         }
 
@@ -1167,12 +1167,12 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
             {
                 throw new ArgumentException(Resources.ArgumentArraysSameLength);
             }
-            
+
             if (x.Length != result.Length)
             {
                 throw new ArgumentException(Resources.ArgumentArraysSameLength);
             }
-            
+
             SafeNativeMethods.z_vector_divide(x.Length, x, y, result);
         }
     }

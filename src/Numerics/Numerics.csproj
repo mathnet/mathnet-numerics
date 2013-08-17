@@ -101,7 +101,6 @@
     <Compile Include="Providers\LinearAlgebra\ManagedLinearAlgebraProvider.Complex.cs" />
     <Compile Include="Providers\LinearAlgebra\ManagedLinearAlgebraProvider.Single.cs" />
     <Compile Include="Providers\LinearAlgebra\ILinearAlgebraProvider.cs" />
-    <Compile Include="Providers\LinearAlgebra\ILinearAlgebraProviderOfT.cs" />
     <Compile Include="Providers\LinearAlgebra\ManagedLinearAlgebraProvider.Double.cs" />
     <Compile Include="Providers\LinearAlgebra\Mkl\MklLinearAlgebraProvider.Common.cs" />
     <Compile Include="Providers\LinearAlgebra\Mkl\MklLinearAlgebraProvider.Complex.cs" />

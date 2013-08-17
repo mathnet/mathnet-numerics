@@ -70,9 +70,9 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
                 throw new ArgumentException(Resources.ArgumentMustBePositive, "columns");
             }
 
-            if (matrix.Length < rows * columns)
+            if (matrix.Length < rows*columns)
             {
-                throw new ArgumentException(string.Format(Resources.ArrayTooSmall, rows * columns), "matrix");
+                throw new ArgumentException(string.Format(Resources.ArrayTooSmall, rows*columns), "matrix");
             }
 
             var work = new float[rows];
@@ -109,9 +109,9 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
                 throw new ArgumentException(Resources.ArgumentMustBePositive, "columns");
             }
 
-            if (matrix.Length < rows * columns)
+            if (matrix.Length < rows*columns)
             {
-                throw new ArgumentException(string.Format(Resources.ArrayTooSmall, rows * columns), "matrix");
+                throw new ArgumentException(string.Format(Resources.ArrayTooSmall, rows*columns), "matrix");
             }
 
             if (work.Length < rows)
@@ -119,7 +119,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
                 throw new ArgumentException(string.Format(Resources.ArrayTooSmall, rows), "work");
             }
 
-            return SafeNativeMethods.s_matrix_norm((byte)norm, rows, columns, matrix, work);
+            return SafeNativeMethods.s_matrix_norm((byte) norm, rows, columns, matrix, work);
         }
 
         /// <summary>
@@ -150,9 +150,9 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
                 throw new ArgumentException(Resources.ArgumentMustBePositive, "columns");
             }
 
-            if (matrix.Length < rows * columns)
+            if (matrix.Length < rows*columns)
             {
-                throw new ArgumentException(string.Format(Resources.ArrayTooSmall, rows * columns), "matrix");
+                throw new ArgumentException(string.Format(Resources.ArrayTooSmall, rows*columns), "matrix");
             }
 
             var work = new double[rows];
@@ -189,9 +189,9 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
                 throw new ArgumentException(Resources.ArgumentMustBePositive, "columns");
             }
 
-            if (matrix.Length < rows * columns)
+            if (matrix.Length < rows*columns)
             {
-                throw new ArgumentException(string.Format(Resources.ArrayTooSmall, rows * columns), "matrix");
+                throw new ArgumentException(string.Format(Resources.ArrayTooSmall, rows*columns), "matrix");
             }
 
             if (work.Length < rows)
@@ -199,7 +199,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
                 throw new ArgumentException(string.Format(Resources.ArrayTooSmall, rows), "work");
             }
 
-            return SafeNativeMethods.d_matrix_norm((byte)norm, rows, columns, matrix, work);
+            return SafeNativeMethods.d_matrix_norm((byte) norm, rows, columns, matrix, work);
         }
 
         /// <summary>
@@ -230,9 +230,9 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
                 throw new ArgumentException(Resources.ArgumentMustBePositive, "columns");
             }
 
-            if (matrix.Length < rows * columns)
+            if (matrix.Length < rows*columns)
             {
-                throw new ArgumentException(string.Format(Resources.ArrayTooSmall, rows * columns), "matrix");
+                throw new ArgumentException(string.Format(Resources.ArrayTooSmall, rows*columns), "matrix");
             }
 
             var work = new float[rows];
@@ -269,9 +269,9 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
                 throw new ArgumentException(Resources.ArgumentMustBePositive, "columns");
             }
 
-            if (matrix.Length < rows * columns)
+            if (matrix.Length < rows*columns)
             {
-                throw new ArgumentException(string.Format(Resources.ArrayTooSmall, rows * columns), "matrix");
+                throw new ArgumentException(string.Format(Resources.ArrayTooSmall, rows*columns), "matrix");
             }
 
             if (work.Length < rows)
@@ -279,7 +279,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
                 throw new ArgumentException(string.Format(Resources.ArrayTooSmall, rows), "work");
             }
 
-            return SafeNativeMethods.c_matrix_norm((byte)norm, rows, columns, matrix, work);
+            return SafeNativeMethods.c_matrix_norm((byte) norm, rows, columns, matrix, work);
         }
 
         /// <summary>
@@ -310,9 +310,9 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
                 throw new ArgumentException(Resources.ArgumentMustBePositive, "columns");
             }
 
-            if (matrix.Length < rows * columns)
+            if (matrix.Length < rows*columns)
             {
-                throw new ArgumentException(string.Format(Resources.ArrayTooSmall, rows * columns), "matrix");
+                throw new ArgumentException(string.Format(Resources.ArrayTooSmall, rows*columns), "matrix");
             }
 
             var work = new double[rows];
@@ -349,9 +349,9 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
                 throw new ArgumentException(Resources.ArgumentMustBePositive, "columns");
             }
 
-            if (matrix.Length < rows * columns)
+            if (matrix.Length < rows*columns)
             {
-                throw new ArgumentException(string.Format(Resources.ArrayTooSmall, rows * columns), "matrix");
+                throw new ArgumentException(string.Format(Resources.ArrayTooSmall, rows*columns), "matrix");
             }
 
             if (work.Length < rows)
@@ -359,7 +359,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
                 throw new ArgumentException(string.Format(Resources.ArrayTooSmall, rows), "work");
             }
 
-            return SafeNativeMethods.z_matrix_norm((byte)norm, rows, columns, matrix, work);
+            return SafeNativeMethods.z_matrix_norm((byte) norm, rows, columns, matrix, work);
         }
     }
 }

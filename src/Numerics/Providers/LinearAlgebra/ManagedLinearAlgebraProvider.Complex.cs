@@ -1854,7 +1854,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                 });
             work[tmp] += 1.0;
 
-            var s = (1.0 / work[tmp]).SquareRoot();
+            var s = (1.0/work[tmp]).SquareRoot();
             CommonParallel.For(0, rowCount - row, 4096, (u, v) =>
                 {
                     for (int i = u; i < v; i++)
@@ -2110,7 +2110,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
             // Fill result matrix
             for (var col = 0; col < columnsB; col++)
             {
-                Array.Copy(sol, col * rowsA, x, col * columnsA, columnsR);
+                Array.Copy(sol, col*rowsA, x, col*columnsA, columnsR);
             }
         }
 
@@ -3013,9 +3013,9 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                 throw new ArgumentNullException("matrix");
             }
 
-            if (matrix.Length != order * order)
+            if (matrix.Length != order*order)
             {
-                throw new ArgumentException(String.Format(Resources.ArgumentArrayWrongLength, order * order), "matrix");
+                throw new ArgumentException(String.Format(Resources.ArgumentArrayWrongLength, order*order), "matrix");
             }
 
             if (matrixEv == null)
@@ -3023,9 +3023,9 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                 throw new ArgumentNullException("matrixEv");
             }
 
-            if (matrixEv.Length != order * order)
+            if (matrixEv.Length != order*order)
             {
-                throw new ArgumentException(String.Format(Resources.ArgumentArrayWrongLength, order * order), "matrixEv");
+                throw new ArgumentException(String.Format(Resources.ArgumentArrayWrongLength, order*order), "matrixEv");
             }
 
             if (vectorEv == null)
@@ -3043,9 +3043,9 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                 throw new ArgumentNullException("matrixD");
             }
 
-            if (matrixD.Length != order * order)
+            if (matrixD.Length != order*order)
             {
-                throw new ArgumentException(String.Format(Resources.ArgumentArrayWrongLength, order * order), "matrixD");
+                throw new ArgumentException(String.Format(Resources.ArgumentArrayWrongLength, order*order), "matrixD");
             }
             var matrixCopy = new Complex[matrix.Length];
             Array.Copy(matrix, matrixCopy, matrix.Length);
@@ -3071,9 +3071,9 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                 DenseEvd.NonsymmetricReduceHessenberToRealSchur(vectorEv, matrixEv, matrixCopy, order);
             }
 
-            for (var i = 0; i < order; i ++)
+            for (var i = 0; i < order; i++)
             {
-                matrixD[i * order + i] = vectorEv[i];
+                matrixD[i*order + i] = vectorEv[i];
             }
         }
     }
