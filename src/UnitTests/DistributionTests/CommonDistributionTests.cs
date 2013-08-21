@@ -240,7 +240,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
         /// <param name="delta">The error probability we are willing to tolerate.</param>
         /// <param name="s">The samples to use for testing.</param>
         /// <param name="dist">The distribution we are testing.</param>
-        public static void VapnikChervonenkisTest(double epsilon, double delta, IEnumerable<double> s, IDistribution dist)
+        public static void VapnikChervonenkisTest(double epsilon, double delta, IEnumerable<double> s, IUnivariateDistribution dist)
         {
             // Using VC-dimension, we can bound the probability of making an error when estimating empirical probability
             // distributions. We are using Theorem 2.41 in "All Of Nonparametric Statistics". 

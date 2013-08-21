@@ -1,4 +1,4 @@
-﻿// <copyright file="IDistribution.cs" company="Math.NET">
+﻿// <copyright file="IUnivariateDistribution.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -35,7 +35,7 @@ namespace MathNet.Numerics.Distributions
     /// <summary>
     /// The interface for univariate distributions.
     /// </summary>
-    public interface IDistribution
+    public interface IUnivariateDistribution
     {
         /// <summary>
         /// Gets or sets the random number generator which is used to generate random samples from the distribution.

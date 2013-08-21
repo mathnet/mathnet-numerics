@@ -36,7 +36,7 @@ open MathNet.Numerics.Random
 [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
 module Distributions =
 
-    let withRandom random (dist:#IDistribution) =
+    let withRandom random (dist:#IUnivariateDistribution) =
         dist.RandomSource <- random
         dist
 

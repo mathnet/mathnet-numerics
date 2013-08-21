@@ -394,7 +394,7 @@
     <Compile Include="Permutation.cs" />
     <Compile Include="Distributions\IContinuousDistribution.cs" />
     <Compile Include="Distributions\IDiscreteDistribution.cs" />
-    <Compile Include="Distributions\IDistribution.cs" />
+    <Compile Include="Distributions\IUnivariateDistribution.cs" />
     <Compile Include="IntegralTransforms\Algorithms\DiscreteHartleyTransform.Naive.cs" />
     <Compile Include="IntegralTransforms\Algorithms\DiscreteHartleyTransform.Options.cs" />
     <Compile Include="IntegralTransforms\HartleyOptions.cs" />

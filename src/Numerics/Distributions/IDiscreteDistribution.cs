@@ -35,7 +35,7 @@ namespace MathNet.Numerics.Distributions
     /// <summary>
     /// The interface for discrete univariate distributions.
     /// </summary>
-    public interface IDiscreteDistribution : IDistribution
+    public interface IDiscreteDistribution : IUnivariateDistribution
     {
         /// <summary>
         /// Gets the mode of the distribution.

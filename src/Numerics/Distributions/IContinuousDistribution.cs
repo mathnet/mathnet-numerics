@@ -35,7 +35,7 @@ namespace MathNet.Numerics.Distributions
     /// <summary>
     /// The interface for continuous univariate distributions.
     /// </summary>
-    public interface IContinuousDistribution : IDistribution
+    public interface IContinuousDistribution : IUnivariateDistribution
     {
         /// <summary>
         /// Gets the mode of the distribution.
