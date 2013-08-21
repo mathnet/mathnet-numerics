@@ -24,14 +24,14 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System;
+using MathNet.Numerics.Distributions;
+using MathNet.Numerics.LinearAlgebra;
+using MathNet.Numerics.LinearAlgebra.Single;
+using NUnit.Framework;
+
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
 {
-    using Distributions;
-    using LinearAlgebra;
-    using LinearAlgebra.Single;
-    using NUnit.Framework;
-    using System;
-
     /// <summary>
     /// Abstract class with the common set of matrix tests
     /// </summary>

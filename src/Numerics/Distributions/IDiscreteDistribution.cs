@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2010 Math.NET
+// Copyright (c) 2009-2013 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -58,14 +58,14 @@ namespace MathNet.Numerics.Distributions
         int Maximum { get; }
 
         /// <summary>
-        /// Computes values of the probability mass function.
+        /// Computes the probability mass (PMF), i.e. P(X = x).
         /// </summary>
         /// <param name="k">The location in the domain where we want to evaluate the probability mass function.</param>
         /// <returns>the probability mass at location <paramref name="k"/>.</returns>
         double Probability(int k);
 
         /// <summary>
-        /// Computes values of the log probability mass function.
+        /// Computes the log probability mass (lnPMF), i.e. ln(P(X = x)).
         /// </summary>
         /// <param name="k">The location in the domain where we want to evaluate the log probability mass function.</param>
         /// <returns>the log probability mass at location <paramref name="k"/>.</returns>

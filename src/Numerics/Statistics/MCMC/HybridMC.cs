@@ -28,11 +28,13 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System;
+using System.Linq;
+using MathNet.Numerics.Distributions;
+
 namespace MathNet.Numerics.Statistics.Mcmc
 {
-    using System;
-    using System.Linq;
-    using Distributions;
+    using Random = System.Random;
 
     /// <summary>
     /// A hybrid Monte Carlo sampler for multivariate distributions.

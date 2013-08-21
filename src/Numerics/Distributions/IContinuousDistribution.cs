@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2010 Math.NET
+// Copyright (c) 2009-2013 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -58,14 +58,14 @@ namespace MathNet.Numerics.Distributions
         double Maximum { get; }
 
         /// <summary>
-        /// The probability density of the distribution.
+        /// Computes the density of the distribution (PDF), i.e. dP(X &lt;= x)/dx.
         /// </summary>
         /// <param name="x">The location at which to compute the density.</param>
         /// <returns>the density at <paramref name="x"/>.</returns>
         double Density(double x);
 
         /// <summary>
-        /// The log probability density of the distribution.
+        /// Computes the log density of the distribution (lnPDF), i.e. ln(dP(X &lt;= x)/dx).
         /// </summary>
         /// <param name="x">The location at which to compute the log density.</param>
         /// <returns>the log density at <paramref name="x"/>.</returns>

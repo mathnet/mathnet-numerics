@@ -28,15 +28,16 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using MathNet.Numerics.Distributions;
 using MathNet.Numerics.Random;
+using NUnit.Framework;
 
 namespace MathNet.Numerics.UnitTests.StatisticsTests
 {
-    using System;
-    using System.Collections.Generic;
-    using System.IO;
-    using System.Linq;
-    using NUnit.Framework;
     using Statistics;
 
     /// <summary>
@@ -565,7 +566,7 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
         public void StabilityMeanVariance()
         {
             // Test around 10^9, potential stability issues
-            var gaussian = new Distributions.Normal(1e+9, 2, new MersenneTwister(100));
+            var gaussian = new Normal(1e+9, 2, new MersenneTwister(100));
 
             AssertHelpers.AlmostEqual(1e+9, Statistics.Mean(gaussian.Samples().Take(10000)), 11);
             AssertHelpers.AlmostEqual(4d, Statistics.Variance(gaussian.Samples().Take(10000)), 1);

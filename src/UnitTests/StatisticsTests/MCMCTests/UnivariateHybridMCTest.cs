@@ -30,14 +30,13 @@
 
 using System;
 using MathNet.Numerics.Distributions;
-using NUnit.Framework;
+using MathNet.Numerics.Statistics;
 using MathNet.Numerics.Statistics.Mcmc;
 using MathNet.Numerics.Statistics.Mcmc.Diagnostics;
-using MathNet.Numerics.Statistics;
+using NUnit.Framework;
 
 namespace MathNet.Numerics.UnitTests.StatisticsTests.McmcTests
 {
-
     /// <summary>
     /// Test for the UnivariateHybridMC.
     /// </summary>

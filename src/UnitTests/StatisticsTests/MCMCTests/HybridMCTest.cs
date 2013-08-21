@@ -29,10 +29,11 @@
 // </copyright>
 
 using System;
-using NUnit.Framework;
+using MathNet.Numerics.Distributions;
 using MathNet.Numerics.Statistics;
 using MathNet.Numerics.Statistics.Mcmc;
 using MathNet.Numerics.Statistics.Mcmc.Diagnostics;
+using NUnit.Framework;
 
 namespace MathNet.Numerics.UnitTests.StatisticsTests.McmcTests
 {
@@ -42,7 +43,7 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests.McmcTests
     [TestFixture]
     public class HybridMCTest
     {
-        private readonly Distributions.Normal _normal = new Distributions.Normal(0, 1);
+        private readonly Normal _normal = new Normal(0, 1);
 
         /// <summary>
         /// Testing the constructor to make sure that RandomSource is

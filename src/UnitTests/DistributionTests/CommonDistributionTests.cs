@@ -24,15 +24,17 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using MathNet.Numerics.Distributions;
+using MathNet.Numerics.Random;
+using MathNet.Numerics.Statistics;
+using NUnit.Framework;
+
 namespace MathNet.Numerics.UnitTests.DistributionTests
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using Distributions;
-    using Numerics.Random;
-    using NUnit.Framework;
-    using Statistics;
+    using Random = System.Random;
 
     /// <summary>
     /// This class will perform various tests on discrete and continuous univariate distributions. The multivariate distributions

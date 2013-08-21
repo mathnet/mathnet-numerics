@@ -28,13 +28,15 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System;
+using MathNet.Numerics.Distributions;
+using MathNet.Numerics.Random;
+using MathNet.Numerics.Statistics.Mcmc;
+using NUnit.Framework;
+
 namespace MathNet.Numerics.UnitTests.StatisticsTests.McmcTests
 {
-    using System;
-    using Distributions;
-    using Numerics.Random;
-    using NUnit.Framework;
-    using Statistics.Mcmc;
+    using Random = System.Random;
 
     /// <summary>
     /// Metropolis sampler tests.

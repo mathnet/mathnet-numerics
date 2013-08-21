@@ -28,13 +28,13 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using MathNet.Numerics.Distributions;
 using MathNet.Numerics.LinearAlgebra.Single.Solvers.Preconditioners;
 using MathNet.Numerics.LinearAlgebra.Solvers.Status;
 using MathNet.Numerics.Properties;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 
 namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Iterative
 {

@@ -24,17 +24,18 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System.Linq;
+using System.Numerics;
+using MathNet.Numerics.Distributions;
+using MathNet.Numerics.IntegralTransforms;
+using MathNet.Numerics.IntegralTransforms.Algorithms;
+using MathNet.Numerics.Signals;
+using MathNet.Numerics.Statistics;
+using NUnit.Framework;
+
 namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
 {
-    using System;
-    using System.Linq;
-    using System.Numerics;
-    using Distributions;
-    using IntegralTransforms;
-    using IntegralTransforms.Algorithms;
-    using NUnit.Framework;
-    using Signals;
-    using Statistics;
+    using Random = System.Random;
 
     /// <summary>
     /// Parseval theorem verification tests.

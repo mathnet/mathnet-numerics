@@ -28,12 +28,12 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System.Linq;
 using MathNet.Numerics.Distributions;
 using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Single;
 using MathNet.Numerics.Random;
 using NUnit.Framework;
-using System.Linq;
 
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
 {

@@ -86,6 +86,40 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Distributions\Bernoulli.cs" />
+    <Compile Include="Distributions\Beta.cs" />
+    <Compile Include="Distributions\Binomial.cs" />
+    <Compile Include="Distributions\Categorical.cs" />
+    <Compile Include="Distributions\Cauchy.cs" />
+    <Compile Include="Distributions\Chi.cs" />
+    <Compile Include="Distributions\ChiSquare.cs" />
+    <Compile Include="Distributions\ContinuousUniform.cs" />
+    <Compile Include="Distributions\ConwayMaxwellPoisson.cs" />
+    <Compile Include="Distributions\Dirichlet.cs" />
+    <Compile Include="Distributions\DiscreteUniform.cs" />
+    <Compile Include="Distributions\Erlang.cs" />
+    <Compile Include="Distributions\Exponential.cs" />
+    <Compile Include="Distributions\FisherSnedecor.cs" />
+    <Compile Include="Distributions\Gamma.cs" />
+    <Compile Include="Distributions\Geometric.cs" />
+    <Compile Include="Distributions\Hypergeometric.cs" />
+    <Compile Include="Distributions\InverseGamma.cs" />
+    <Compile Include="Distributions\InverseWishart.cs" />
+    <Compile Include="Distributions\Laplace.cs" />
+    <Compile Include="Distributions\LogNormal.cs" />
+    <Compile Include="Distributions\MatrixNormal.cs" />
+    <Compile Include="Distributions\Multinomial.cs" />
+    <Compile Include="Distributions\NegativeBinomial.cs" />
+    <Compile Include="Distributions\Normal.cs" />
+    <Compile Include="Distributions\NormalGamma.cs" />
+    <Compile Include="Distributions\Pareto.cs" />
+    <Compile Include="Distributions\Poisson.cs" />
+    <Compile Include="Distributions\Rayleigh.cs" />
+    <Compile Include="Distributions\Stable.cs" />
+    <Compile Include="Distributions\StudentT.cs" />
+    <Compile Include="Distributions\Weibull.cs" />
+    <Compile Include="Distributions\Wishart.cs" />
+    <Compile Include="Distributions\Zipf.cs" />
     <Compile Include="Providers\LinearAlgebra\Acml\AcmlLinearAlgebraProvider.Complex.cs" />
     <Compile Include="Providers\LinearAlgebra\Acml\AcmlLinearAlgebraProvider.Complex32.cs" />
     <Compile Include="Providers\LinearAlgebra\Acml\AcmlLinearAlgebraProvider.Double.cs" />
@@ -140,26 +174,6 @@
     <Compile Include="Statistics\QuantileDefinition.cs" />
     <Compile Include="Statistics\StreamingStatistics.cs" />
     <Compile Include="Statistics\SortedArrayStatistics.cs" />
-    <Compile Include="Distributions\Continuous\Cauchy.cs" />
-    <Compile Include="Distributions\Continuous\Chi.cs" />
-    <Compile Include="Distributions\Continuous\ChiSquare.cs" />
-    <Compile Include="Distributions\Continuous\Erlang.cs" />
-    <Compile Include="Distributions\Continuous\Exponential.cs" />
-    <Compile Include="Distributions\Continuous\FisherSnedecor.cs" />
-    <Compile Include="Distributions\Continuous\InverseGamma.cs" />
-    <Compile Include="Distributions\Continuous\Laplace.cs" />
-    <Compile Include="Distributions\Continuous\Pareto.cs" />
-    <Compile Include="Distributions\Continuous\Rayleigh.cs" />
-    <Compile Include="Distributions\Continuous\Stable.cs" />
-    <Compile Include="Distributions\Discrete\ConwayMaxwellPoisson.cs" />
-    <Compile Include="Distributions\Discrete\Geometric.cs" />
-    <Compile Include="Distributions\Discrete\Hypergeometric.cs" />
-    <Compile Include="Distributions\Discrete\NegativeBinomial.cs" />
-    <Compile Include="Distributions\Discrete\Poisson.cs" />
-    <Compile Include="Distributions\Discrete\Zipf.cs" />
-    <Compile Include="Distributions\Multivariate\InverseWishart.cs" />
-    <Compile Include="Distributions\Multivariate\MatrixNormal.cs" />
-    <Compile Include="Distributions\Multivariate\Wishart.cs" />
     <Compile Include="LinearAlgebra\Storage\SparseVectorStorage.cs" />
     <Compile Include="LinearAlgebra\Storage\DenseVectorStorage.cs" />
     <Compile Include="LinearAlgebra\Storage\MatrixStorage.Validation.cs" />
@@ -378,21 +392,9 @@
     <Compile Include="LinearAlgebra\Storage\VectorStorage.cs" />
     <Compile Include="LinearAlgebra\Storage\VectorStorage.Validation.cs" />
     <Compile Include="Permutation.cs" />
-    <Compile Include="Distributions\Continuous\Beta.cs" />
-    <Compile Include="Distributions\Continuous\ContinuousUniform.cs" />
-    <Compile Include="Distributions\Continuous\LogNormal.cs" />
-    <Compile Include="Distributions\Continuous\Weibull.cs" />
-    <Compile Include="Distributions\Continuous\Gamma.cs" />
-    <Compile Include="Distributions\Continuous\Normal.cs" />
-    <Compile Include="Distributions\Discrete\Bernoulli.cs" />
-    <Compile Include="Distributions\Discrete\Binomial.cs" />
-    <Compile Include="Distributions\Discrete\Categorical.cs" />
-    <Compile Include="Distributions\Discrete\DiscreteUniform.cs" />
     <Compile Include="Distributions\IContinuousDistribution.cs" />
     <Compile Include="Distributions\IDiscreteDistribution.cs" />
     <Compile Include="Distributions\IDistribution.cs" />
-    <Compile Include="Distributions\Multivariate\Dirichlet.cs" />
-    <Compile Include="Distributions\Multivariate\Multinomial.cs" />
     <Compile Include="IntegralTransforms\Algorithms\DiscreteHartleyTransform.Naive.cs" />
     <Compile Include="IntegralTransforms\Algorithms\DiscreteHartleyTransform.Options.cs" />
     <Compile Include="IntegralTransforms\HartleyOptions.cs" />
@@ -474,10 +476,6 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Distributions\Continuous\StudentT.cs" />
-    <Compile Include="Distributions\Multivariate\NormalGamma.cs" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

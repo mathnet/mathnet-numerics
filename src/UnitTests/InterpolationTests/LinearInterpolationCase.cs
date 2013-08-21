@@ -28,11 +28,11 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using MathNet.Numerics.Distributions;
+using MathNet.Numerics.Random;
+
 namespace MathNet.Numerics.UnitTests.InterpolationTests
 {
-    using Distributions;
-    using Numerics.Random;
-
     /// <summary>
     /// LinearInterpolation test case.
     /// </summary>

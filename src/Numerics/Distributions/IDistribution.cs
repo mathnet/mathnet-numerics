@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2010 Math.NET
+// Copyright (c) 2009-2013 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -68,7 +68,7 @@ namespace MathNet.Numerics.Distributions
         double Skewness { get; }
 
         /// <summary>
-        /// Computes the cumulative distribution function (cdf) for this probability distribution.
+        /// Computes the cumulative distribution (CDF) of the distribution, i.e. P(X &lt;= x).
         /// </summary>
         /// <param name="x">The location at which to compute the cumulative distribution function.</param>
         /// <returns>the cumulative distribution at location <paramref name="x"/>.</returns>
