@@ -50,6 +50,8 @@ namespace MathNet.Numerics.Distributions
     /// to <c>false</c>, all parameter checks can be turned off.</para></remarks>
     public class Wishart
     {
+        System.Random _random;
+
         /// <summary>
         /// The degrees of freedom for the Wishart distribution.
         /// </summary>
@@ -64,11 +66,6 @@ namespace MathNet.Numerics.Distributions
         /// Caches the Cholesky factorization of the scale matrix.
         /// </summary>
         Cholesky<double> _chol;
-
-        /// <summary>
-        /// The distribution's random number generator.
-        /// </summary>
-        System.Random _random;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Wishart"/> class. 

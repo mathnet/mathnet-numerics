@@ -47,20 +47,17 @@ namespace MathNet.Numerics.Distributions
     /// to <c>false</c>, all parameter checks can be turned off.</para></remarks>
     public class Binomial : IDiscreteDistribution
     {
+        System.Random _random;
+
         /// <summary>
-        /// Stores the normalized binomial probability.
+        /// Success probability in each trial.
         /// </summary>
         double _p;
 
         /// <summary>
         /// The number of trials.
         /// </summary>
-        int _n;
-
-        /// <summary>
-        /// The distribution's random number generator.
-        /// </summary>
-        System.Random _random;
+        int _trials;
 
         /// <summary>
         /// Initializes a new instance of the Binomial class.
@@ -95,7 +92,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a string representation of the distribution.</returns>
         public override string ToString()
         {
-            return "Binomial(Success Probability = " + _p + ", Number of Trials = " + _n + ")";
+            return "Binomial(Success Probability = " + _p + ", Number of Trials = " + _trials + ")";
         }
 
         /// <summary>
@@ -124,25 +121,7 @@ namespace MathNet.Numerics.Distributions
             }
 
             _p = p;
-            _n = n;
-        }
-
-        /// <summary>
-        /// Gets or sets the success probability.
-        /// </summary>
-        public double P
-        {
-            get { return _p; }
-            set { SetParameters(value, _n); }
-        }
-
-        /// <summary>
-        /// Gets or sets the number of trials.
-        /// </summary>
-        public int N
-        {
-            get { return _n; }
-            set { SetParameters(_p, value); }
+            _trials = n;
         }
 
         /// <summary>
@@ -151,15 +130,25 @@ namespace MathNet.Numerics.Distributions
         public System.Random RandomSource
         {
             get { return _random; }
-            set
-            {
-                if (value == null)
-                {
-                    throw new ArgumentNullException();
-                }
+            set { _random = value ?? new System.Random(); }
+        }
 
-                _random = value;
-            }
+        /// <summary>
+        /// Gets or sets the success probability.
+        /// </summary>
+        public double P
+        {
+            get { return _p; }
+            set { SetParameters(value, _trials); }
+        }
+
+        /// <summary>
+        /// Gets or sets the number of trials.
+        /// </summary>
+        public int N
+        {
+            get { return _trials; }
+            set { SetParameters(_p, value); }
         }
 
         /// <summary>
@@ -167,7 +156,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Mean
         {
-            get { return _p*_n; }
+            get { return _p*_trials; }
         }
 
         /// <summary>
@@ -175,7 +164,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double StdDev
         {
-            get { return Math.Sqrt(_p*(1.0 - _p)*_n); }
+            get { return Math.Sqrt(_p*(1.0 - _p)*_trials); }
         }
 
         /// <summary>
@@ -183,7 +172,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Variance
         {
-            get { return _p*(1.0 - _p)*_n; }
+            get { return _p*(1.0 - _p)*_trials; }
         }
 
         /// <summary>
@@ -199,7 +188,7 @@ namespace MathNet.Numerics.Distributions
                 }
 
                 var e = 0.0;
-                for (var i = 0; i <= _n; i++)
+                for (var i = 0; i <= _trials; i++)
                 {
                     var p = Probability(i);
                     e -= p*Math.Log(p);
@@ -214,7 +203,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Skewness
         {
-            get { return (1.0 - (2.0*_p))/Math.Sqrt(_n*_p*(1.0 - _p)); }
+            get { return (1.0 - (2.0*_p))/Math.Sqrt(_trials*_p*(1.0 - _p)); }
         }
 
         /// <summary>
@@ -230,7 +219,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public int Maximum
         {
-            get { return _n; }
+            get { return _trials; }
         }
 
         /// <summary>
@@ -242,7 +231,7 @@ namespace MathNet.Numerics.Distributions
             {
                 if (_p == 1.0)
                 {
-                    return _n;
+                    return _trials;
                 }
 
                 if (_p == 0.0)
@@ -250,7 +239,7 @@ namespace MathNet.Numerics.Distributions
                     return 0;
                 }
 
-                return (int) Math.Floor((_n + 1)*_p);
+                return (int) Math.Floor((_trials + 1)*_p);
             }
         }
 
@@ -259,7 +248,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public int Median
         {
-            get { return (int) Math.Floor(_p*_n); }
+            get { return (int) Math.Floor(_p*_trials); }
         }
 
         /// <summary>
@@ -274,7 +263,7 @@ namespace MathNet.Numerics.Distributions
                 return 0.0;
             }
 
-            if (k > _n)
+            if (k > _trials)
             {
                 return 0.0;
             }
@@ -289,7 +278,7 @@ namespace MathNet.Numerics.Distributions
                 return 0.0;
             }
 
-            if (_p == 1.0 && k == _n)
+            if (_p == 1.0 && k == _trials)
             {
                 return 1.0;
             }
@@ -299,7 +288,7 @@ namespace MathNet.Numerics.Distributions
                 return 0.0;
             }
 
-            return SpecialFunctions.Binomial(_n, k)*Math.Pow(_p, k)*Math.Pow(1.0 - _p, _n - k);
+            return SpecialFunctions.Binomial(_trials, k)*Math.Pow(_p, k)*Math.Pow(1.0 - _p, _trials - k);
         }
 
         /// <summary>
@@ -314,7 +303,7 @@ namespace MathNet.Numerics.Distributions
                 return Double.NegativeInfinity;
             }
 
-            if (k > _n)
+            if (k > _trials)
             {
                 return Double.NegativeInfinity;
             }
@@ -329,7 +318,7 @@ namespace MathNet.Numerics.Distributions
                 return Double.NegativeInfinity;
             }
 
-            if (_p == 1.0 && k == _n)
+            if (_p == 1.0 && k == _trials)
             {
                 return 0.0;
             }
@@ -339,7 +328,7 @@ namespace MathNet.Numerics.Distributions
                 return Double.NegativeInfinity;
             }
 
-            return SpecialFunctions.BinomialLn(_n, k) + (k*Math.Log(_p)) + ((_n - k)*Math.Log(1.0 - _p));
+            return SpecialFunctions.BinomialLn(_trials, k) + (k*Math.Log(_p)) + ((_trials - k)*Math.Log(1.0 - _p));
         }
 
         /// <summary>
@@ -354,7 +343,7 @@ namespace MathNet.Numerics.Distributions
                 return 0.0;
             }
 
-            if (x > _n)
+            if (x > _trials)
             {
                 return 1.0;
             }
@@ -362,7 +351,7 @@ namespace MathNet.Numerics.Distributions
             var cdf = 0.0;
             for (var i = 0; i <= (int) Math.Floor(x); i++)
             {
-                cdf += Combinatorics.Combinations(_n, i)*Math.Pow(_p, i)*Math.Pow(1.0 - _p, _n - i);
+                cdf += Combinatorics.Combinations(_trials, i)*Math.Pow(_p, i)*Math.Pow(1.0 - _p, _trials - i);
             }
 
             return cdf;
@@ -392,7 +381,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>The number of successes in N trials.</returns>
         public int Sample()
         {
-            return SampleUnchecked(RandomSource, _p, _n);
+            return SampleUnchecked(RandomSource, _p, _trials);
         }
 
         /// <summary>
@@ -403,7 +392,7 @@ namespace MathNet.Numerics.Distributions
         {
             while (true)
             {
-                yield return SampleUnchecked(RandomSource, _p, _n);
+                yield return SampleUnchecked(RandomSource, _p, _trials);
             }
         }
 

@@ -53,6 +53,8 @@ namespace MathNet.Numerics.Distributions
     /// to <c>false</c>, all parameter checks can be turned off.</para></remarks>
     public class ConwayMaxwellPoisson : IDiscreteDistribution
     {
+        System.Random _random;
+
         /// <summary>
         /// Since many properties of the distribution can only be computed approximately, the tolerance
         /// level specifies how much error we accept.
@@ -85,11 +87,6 @@ namespace MathNet.Numerics.Distributions
         double _nu;
 
         /// <summary>
-        /// The distribution's random number generator.
-        /// </summary>
-        System.Random _random;
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="ConwayMaxwellPoisson"/> class. 
         /// </summary>
         /// <param name="lambda">The lambda parameter.</param>
@@ -113,6 +110,28 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
+        /// Returns a <see cref="System.String"/> that represents this instance.
+        /// </summary>
+        /// <returns>
+        /// A <see cref="System.String"/> that represents this instance.
+        /// </returns>
+        public override string ToString()
+        {
+            return "ConwayMaxwellPoisson(Lambda = " + _lambda + ", Nu = " + _nu + ")";
+        }
+
+        /// <summary>
+        /// Checks whether the parameters of the distribution are valid. 
+        /// </summary>
+        /// <param name="lambda">The lambda parameter.</param>
+        /// <param name="nu">The nu parameter.</param>
+        /// <returns><c>true</c> when the parameters are valid, <c>false</c> otherwise.</returns>
+        static bool IsValidParameterSet(double lambda, double nu)
+        {
+            return lambda > 0.0 && nu >= 0.0;
+        }
+
+        /// <summary>
         /// Sets the parameters of the distribution after checking their validity.
         /// </summary>
         /// <param name="lambda">The lambda parameter.</param>
@@ -130,14 +149,12 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Checks whether the parameters of the distribution are valid. 
+        /// Gets or sets the random number generator which is used to draw random samples.
         /// </summary>
-        /// <param name="lambda">The lambda parameter.</param>
-        /// <param name="nu">The nu parameter.</param>
-        /// <returns><c>true</c> when the parameters are valid, <c>false</c> otherwise.</returns>
-        static bool IsValidParameterSet(double lambda, double nu)
+        public System.Random RandomSource
         {
-            return lambda > 0.0 && nu >= 0.0;
+            get { return _random; }
+            set { _random = value ?? new System.Random(); }
         }
 
         /// <summary>
@@ -158,34 +175,6 @@ namespace MathNet.Numerics.Distributions
         {
             get { return _nu; }
             set { SetParameters(_lambda, value); }
-        }
-
-        /// <summary>
-        /// Returns a <see cref="System.String"/> that represents this instance.
-        /// </summary>
-        /// <returns>
-        /// A <see cref="System.String"/> that represents this instance.
-        /// </returns>
-        public override string ToString()
-        {
-            return "ConwayMaxwellPoisson(Lambda = " + _lambda + ", Nu = " + _nu + ")";
-        }
-
-        /// <summary>
-        /// Gets or sets the random number generator which is used to draw random samples.
-        /// </summary>
-        public System.Random RandomSource
-        {
-            get { return _random; }
-            set
-            {
-                if (value == null)
-                {
-                    throw new ArgumentNullException();
-                }
-
-                _random = value;
-            }
         }
 
         /// <summary>

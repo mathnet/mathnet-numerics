@@ -44,15 +44,9 @@ namespace MathNet.Numerics.Distributions
     /// </remarks>
     public class Poisson : IDiscreteDistribution
     {
-        /// <summary>
-        /// The Poisson distribution parameter λ.
-        /// </summary>
-        double _lambda;
-
-        /// <summary>
-        /// The distribution's random number generator.
-        /// </summary>
         System.Random _random;
+
+        double _lambda;
 
         /// <summary>
         /// Gets or sets the Poisson distribution parameter λ.
@@ -87,6 +81,27 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
+        /// Returns a <see cref="System.String"/> that represents this instance.
+        /// </summary>
+        /// <returns>
+        /// A <see cref="System.String"/> that represents this instance.
+        /// </returns>
+        public override string ToString()
+        {
+            return "Poisson(λ = " + _lambda + ")";
+        }
+
+        /// <summary>
+        /// Checks whether the parameters of the distribution are valid. 
+        /// </summary>
+        /// <param name="lambda">The mean (λ) of the distribution.</param>
+        /// <returns><c>true</c> when the parameters are valid, <c>false</c> otherwise.</returns>
+        static bool IsValidParameterSet(double lambda)
+        {
+            return lambda > 0.00;
+        }
+
+        /// <summary>
         /// Sets the parameters of the distribution after checking their validity.
         /// </summary>
         /// <param name="lambda">The mean (λ) of the distribution.</param>
@@ -102,41 +117,12 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Checks whether the parameters of the distribution are valid. 
-        /// </summary>
-        /// <param name="lambda">The mean (λ) of the distribution.</param>
-        /// <returns><c>true</c> when the parameters are valid, <c>false</c> otherwise.</returns>
-        static bool IsValidParameterSet(double lambda)
-        {
-            return lambda > 0.00;
-        }
-
-        /// <summary>
-        /// Returns a <see cref="System.String"/> that represents this instance.
-        /// </summary>
-        /// <returns>
-        /// A <see cref="System.String"/> that represents this instance.
-        /// </returns>
-        public override string ToString()
-        {
-            return "Poisson(λ = " + _lambda + ")";
-        }
-
-        /// <summary>
         /// Gets or sets the random number generator which is used to draw random samples.
         /// </summary>
         public System.Random RandomSource
         {
             get { return _random; }
-            set
-            {
-                if (value == null)
-                {
-                    throw new ArgumentNullException();
-                }
-
-                _random = value;
-            }
+            set { _random = value ?? new System.Random(); }
         }
 
         /// <summary>

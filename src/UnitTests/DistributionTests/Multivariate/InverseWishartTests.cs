@@ -121,14 +121,12 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
             };
         }
 
-        /// <summary>
-        /// Fail set random source with <c>null</c> reference.
-        /// </summary>
         [Test]
-        public void FailSetRandomSourceWithNullReference()
+        public void HasRandomSourceEvenAfterSetToNull()
         {
             var d = new InverseWishart(1.0, MatrixLoader.GenerateRandomPositiveDefiniteDenseMatrix(2));
-            Assert.Throws<ArgumentNullException>(() => d.RandomSource = null);
+            Assert.DoesNotThrow(() => d.RandomSource = null);
+            Assert.IsNotNull(d.RandomSource);
         }
 
         /// <summary>

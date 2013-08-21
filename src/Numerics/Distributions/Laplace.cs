@@ -48,15 +48,9 @@ namespace MathNet.Numerics.Distributions
     /// to <c>false</c>, all parameter checks can be turned off.</para></remarks>
     public class Laplace : IContinuousDistribution
     {
-        /// <summary>
-        /// The scale of the Laplace distribution.
-        /// </summary>
-        double _scale;
-
-        /// <summary>
-        /// The distribution's random number generator.
-        /// </summary>
         System.Random _random;
+
+        double _scale;
 
         /// <summary>
         /// Gets or sets the location of the Laplace distribution.
@@ -110,6 +104,26 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
+        /// A string representation of the distribution.
+        /// </summary>
+        /// <returns>a string representation of the distribution.</returns>
+        public override string ToString()
+        {
+            return "Laplace(Location = " + Mean + ", Scale = " + _scale + ")";
+        }
+
+        /// <summary>
+        /// Checks whether the parameters of the distribution are valid. 
+        /// </summary>
+        /// <param name="location">The location for the Laplace distribution.</param>
+        /// <param name="scale">The scale for the Laplace distribution.</param>
+        /// <returns><c>true</c> when the parameters are valid, <c>false</c> otherwise.</returns>
+        static bool IsValidParameterSet(double location, double scale)
+        {
+            return scale > 0.0 && !Double.IsNaN(location);
+        }
+
+        /// <summary>
         /// Sets the parameters of the distribution after checking their validity.
         /// </summary>
         /// <param name="location">The location for the Laplace distribution.</param>
@@ -127,40 +141,12 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Checks whether the parameters of the distribution are valid. 
-        /// </summary>
-        /// <param name="location">The location for the Laplace distribution.</param>
-        /// <param name="scale">The scale for the Laplace distribution.</param>
-        /// <returns><c>true</c> when the parameters are valid, <c>false</c> otherwise.</returns>
-        static bool IsValidParameterSet(double location, double scale)
-        {
-            return scale > 0.0 && !Double.IsNaN(location);
-        }
-
-        /// <summary>
-        /// A string representation of the distribution.
-        /// </summary>
-        /// <returns>a string representation of the distribution.</returns>
-        public override string ToString()
-        {
-            return "Laplace(Location = " + Mean + ", Scale = " + _scale + ")";
-        }
-
-        /// <summary>
         /// Gets or sets the random number generator which is used to draw random samples.
         /// </summary>
         public System.Random RandomSource
         {
             get { return _random; }
-            set
-            {
-                if (value == null)
-                {
-                    throw new ArgumentNullException();
-                }
-
-                _random = value;
-            }
+            set { _random = value ?? new System.Random(); }
         }
 
         /// <summary>

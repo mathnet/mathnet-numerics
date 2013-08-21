@@ -48,15 +48,12 @@ namespace MathNet.Numerics.Distributions
     /// to <c>false</c>, all parameter checks can be turned off.</para></remarks>
     public class Chi : IContinuousDistribution
     {
+        System.Random _random;
+
         /// <summary>
         /// Keeps track of the degrees of freedom for the Chi distribution.
         /// </summary>
         double _dof;
-
-        /// <summary>
-        /// The distribution's random number generator.
-        /// </summary>
-        System.Random _random;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Chi"/> class. 
@@ -80,6 +77,25 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
+        /// A string representation of the distribution.
+        /// </summary>
+        /// <returns>a string representation of the distribution.</returns>
+        public override string ToString()
+        {
+            return "Chi(DoF = " + _dof + ")";
+        }
+
+        /// <summary>
+        /// Checks whether the parameters of the distribution are valid.
+        /// </summary>
+        /// <param name="dof">The degrees of freedom for the Chi distribution.</param>
+        /// <returns><c>true</c> when the parameters are valid, <c>false</c> otherwise.</returns>
+        static bool IsValidParameterSet(double dof)
+        {
+            return dof > 0.0;
+        }
+
+        /// <summary>
         /// Sets the parameters of the distribution after checking their validity.
         /// </summary>
         /// <param name="dof">The degrees of freedom for the Chi distribution.</param>
@@ -95,13 +111,12 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Checks whether the parameters of the distribution are valid.
+        /// Gets or sets the random number generator which is used to draw random samples.
         /// </summary>
-        /// <param name="dof">The degrees of freedom for the Chi distribution.</param>
-        /// <returns><c>true</c> when the parameters are valid, <c>false</c> otherwise.</returns>
-        static bool IsValidParameterSet(double dof)
+        public System.Random RandomSource
         {
-            return dof > 0.0;
+            get { return _random; }
+            set { _random = value ?? new System.Random(); }
         }
 
         /// <summary>
@@ -111,32 +126,6 @@ namespace MathNet.Numerics.Distributions
         {
             get { return _dof; }
             set { SetParameters(value); }
-        }
-
-        /// <summary>
-        /// A string representation of the distribution.
-        /// </summary>
-        /// <returns>a string representation of the distribution.</returns>
-        public override string ToString()
-        {
-            return "Chi(DoF = " + _dof + ")";
-        }
-
-        /// <summary>
-        /// Gets or sets the distribution's random number generator.
-        /// </summary>
-        public System.Random RandomSource
-        {
-            get { return _random; }
-            set
-            {
-                if (value == null)
-                {
-                    throw new ArgumentNullException();
-                }
-
-                _random = value;
-            }
         }
 
         /// <summary>

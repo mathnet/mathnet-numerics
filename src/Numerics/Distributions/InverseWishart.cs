@@ -46,8 +46,10 @@ namespace MathNet.Numerics.Distributions
     /// <para>The statistics classes will check all the incoming parameters whether they are in the allowed
     /// range. This might involve heavy computation. Optionally, by setting Control.CheckDistributionParameters
     /// to <c>false</c>, all parameter checks can be turned off.</para></remarks>
-    public class InverseWishart
+    public class InverseWishart : IDistribution
     {
+        System.Random _random;
+
         /// <summary>
         /// The degrees of freedom for the inverse Wishart distribution.
         /// </summary>
@@ -62,11 +64,6 @@ namespace MathNet.Numerics.Distributions
         /// Caches the Cholesky factorization of the scale matrix.
         /// </summary>
         Cholesky<double> _chol;
-
-        /// <summary>
-        /// The distribution's random number generator.
-        /// </summary>
-        System.Random _random;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="InverseWishart"/> class. 
@@ -101,24 +98,6 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Sets the parameters of the distribution after checking their validity.
-        /// </summary>
-        /// <param name="nu">The degrees of freedom for the Wishart distribution.</param>
-        /// <param name="s">The scale matrix for the Wishart distribution.</param>
-        /// <exception cref="ArgumentOutOfRangeException">When the parameters don't pass the <see cref="IsValidParameterSet"/> function.</exception>
-        void SetParameters(double nu, Matrix<double> s)
-        {
-            if (Control.CheckDistributionParameters && !IsValidParameterSet(nu, s))
-            {
-                throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
-            }
-
-            _nu = nu;
-            _s = s;
-            _chol = Cholesky<double>.Create(_s);
-        }
-
-        /// <summary>
         /// Checks whether the parameters of the distribution are valid. 
         /// </summary>
         /// <param name="nu">The degrees of freedom for the Wishart distribution.</param>
@@ -143,6 +122,33 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
+        /// Sets the parameters of the distribution after checking their validity.
+        /// </summary>
+        /// <param name="nu">The degrees of freedom for the Wishart distribution.</param>
+        /// <param name="s">The scale matrix for the Wishart distribution.</param>
+        /// <exception cref="ArgumentOutOfRangeException">When the parameters don't pass the <see cref="IsValidParameterSet"/> function.</exception>
+        void SetParameters(double nu, Matrix<double> s)
+        {
+            if (Control.CheckDistributionParameters && !IsValidParameterSet(nu, s))
+            {
+                throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
+            }
+
+            _nu = nu;
+            _s = s;
+            _chol = Cholesky<double>.Create(_s);
+        }
+
+        /// <summary>
+        /// Gets or sets the random number generator which is used to draw random samples.
+        /// </summary>
+        public System.Random RandomSource
+        {
+            get { return _random; }
+            set { _random = value ?? new System.Random(); }
+        }
+
+        /// <summary>
         /// Gets or sets the degrees of freedom for the inverse Wishart distribution.
         /// </summary>
         public double Nu
@@ -158,23 +164,6 @@ namespace MathNet.Numerics.Distributions
         {
             get { return _s; }
             set { SetParameters(_nu, value); }
-        }
-
-        /// <summary>
-        /// Gets or sets the random number generator which is used to draw random samples.
-        /// </summary>
-        public System.Random RandomSource
-        {
-            get { return _random; }
-            set
-            {
-                if (value == null)
-                {
-                    throw new ArgumentNullException();
-                }
-
-                _random = value;
-            }
         }
 
         /// <summary>

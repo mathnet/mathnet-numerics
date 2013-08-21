@@ -49,15 +49,9 @@ namespace MathNet.Numerics.Distributions
     /// to <c>false</c>, all parameter checks can be turned off.</para></remarks>
     public class Rayleigh : IContinuousDistribution
     {
-        /// <summary>
-        /// The scale parameter of the distribution.
-        /// </summary>
-        double _scale;
-
-        /// <summary>
-        /// The distribution's random number generator.
-        /// </summary>
         System.Random _random;
+
+        double _scale;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Rayleigh"/> class. 
@@ -83,6 +77,25 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
+        /// A string representation of the distribution.
+        /// </summary>
+        /// <returns>a string representation of the distribution.</returns>
+        public override string ToString()
+        {
+            return "Rayleigh(Scale = " + _scale + ")";
+        }
+
+        /// <summary>
+        /// Checks whether the parameters of the distribution are valid. 
+        /// </summary>
+        /// <param name="scale">The scale parameter of the distribution.</param>
+        /// <returns><c>true</c> when the parameters are valid, <c>false</c> otherwise.</returns>
+        static bool IsValidParameterSet(double scale)
+        {
+            return scale > 0.0;
+        }
+
+        /// <summary>
         /// Sets the parameters of the distribution after checking their validity.
         /// </summary>
         /// <param name="scale">The scale parameter of the distribution.</param>
@@ -98,13 +111,12 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Checks whether the parameters of the distribution are valid. 
+        /// Gets or sets the random number generator which is used to draw random samples.
         /// </summary>
-        /// <param name="scale">The scale parameter of the distribution.</param>
-        /// <returns><c>true</c> when the parameters are valid, <c>false</c> otherwise.</returns>
-        static bool IsValidParameterSet(double scale)
+        public System.Random RandomSource
         {
-            return scale > 0.0;
+            get { return _random; }
+            set { _random = value ?? new System.Random(); }
         }
 
         /// <summary>
@@ -114,32 +126,6 @@ namespace MathNet.Numerics.Distributions
         {
             get { return _scale; }
             set { SetParameters(value); }
-        }
-
-        /// <summary>
-        /// A string representation of the distribution.
-        /// </summary>
-        /// <returns>a string representation of the distribution.</returns>
-        public override string ToString()
-        {
-            return "Rayleigh(Scale = " + _scale + ")";
-        }
-
-        /// <summary>
-        /// Gets or sets the random number generator which is used to draw random samples.
-        /// </summary>
-        public System.Random RandomSource
-        {
-            get { return _random; }
-            set
-            {
-                if (value == null)
-                {
-                    throw new ArgumentNullException();
-                }
-
-                _random = value;
-            }
         }
 
         /// <summary>

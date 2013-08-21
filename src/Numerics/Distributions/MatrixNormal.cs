@@ -47,8 +47,10 @@ namespace MathNet.Numerics.Distributions
     /// <para>The statistics classes will check all the incoming parameters whether they are in the allowed
     /// range. This might involve heavy computation. Optionally, by setting Control.CheckDistributionParameters
     /// to <c>false</c>, all parameter checks can be turned off.</para></remarks>
-    public class MatrixNormal
+    public class MatrixNormal : IDistribution
     {
+        System.Random _random;
+
         /// <summary>
         /// The mean of the matrix normal distribution.        
         /// </summary>
@@ -63,11 +65,6 @@ namespace MathNet.Numerics.Distributions
         /// The covariance matrix for the columns.
         /// </summary>
         Matrix<double> _k;
-
-        /// <summary>
-        /// The distribution's random number generator.
-        /// </summary>
-        System.Random _random;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MatrixNormal"/> class. 
@@ -105,55 +102,6 @@ namespace MathNet.Numerics.Distributions
         public override string ToString()
         {
             return "MatrixNormal(Rows = " + _m.RowCount + ", Columns = " + _m.ColumnCount + ")";
-        }
-
-        /// <summary>
-        /// Gets or sets the mean. (M)
-        /// </summary>
-        /// <value>The mean of the distribution.</value>
-        public Matrix<double> Mean
-        {
-            get { return _m; }
-            set { SetParameters(value, _v, _k); }
-        }
-
-        /// <summary>
-        /// Gets or sets the row covariance. (V)
-        /// </summary>
-        /// <value>The row covariance.</value>
-        public Matrix<double> RowCovariance
-        {
-            get { return _v; }
-            set { SetParameters(_m, value, _k); }
-        }
-
-        /// <summary>
-        /// Gets or sets the column covariance. (K)
-        /// </summary>
-        /// <value>The column covariance.</value>
-        public Matrix<double> ColumnCovariance
-        {
-            get { return _k; }
-            set { SetParameters(_m, _v, value); }
-        }
-
-        /// <summary>
-        /// Sets the parameters of the distribution after checking their validity.
-        /// </summary>
-        /// <param name="m">The mean of the matrix normal.</param>
-        /// <param name="v">The covariance matrix for the rows.</param>
-        /// <param name="k">The covariance matrix for the columns.</param>
-        /// <exception cref="ArgumentOutOfRangeException">When the parameters don't pass the <see cref="IsValidParameterSet"/> function.</exception>
-        void SetParameters(Matrix<double> m, Matrix<double> v, Matrix<double> k)
-        {
-            if (Control.CheckDistributionParameters && !IsValidParameterSet(m, v, k))
-            {
-                throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
-            }
-
-            _m = m;
-            _v = v;
-            _k = k;
         }
 
         /// <summary>
@@ -197,20 +145,61 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
+        /// Sets the parameters of the distribution after checking their validity.
+        /// </summary>
+        /// <param name="m">The mean of the matrix normal.</param>
+        /// <param name="v">The covariance matrix for the rows.</param>
+        /// <param name="k">The covariance matrix for the columns.</param>
+        /// <exception cref="ArgumentOutOfRangeException">When the parameters don't pass the <see cref="IsValidParameterSet"/> function.</exception>
+        void SetParameters(Matrix<double> m, Matrix<double> v, Matrix<double> k)
+        {
+            if (Control.CheckDistributionParameters && !IsValidParameterSet(m, v, k))
+            {
+                throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
+            }
+
+            _m = m;
+            _v = v;
+            _k = k;
+        }
+
+        /// <summary>
         /// Gets or sets the random number generator which is used to draw random samples.
         /// </summary>
         public System.Random RandomSource
         {
             get { return _random; }
-            set
-            {
-                if (value == null)
-                {
-                    throw new ArgumentNullException();
-                }
+            set { _random = value ?? new System.Random(); }
+        }
 
-                _random = value;
-            }
+        /// <summary>
+        /// Gets or sets the mean. (M)
+        /// </summary>
+        /// <value>The mean of the distribution.</value>
+        public Matrix<double> Mean
+        {
+            get { return _m; }
+            set { SetParameters(value, _v, _k); }
+        }
+
+        /// <summary>
+        /// Gets or sets the row covariance. (V)
+        /// </summary>
+        /// <value>The row covariance.</value>
+        public Matrix<double> RowCovariance
+        {
+            get { return _v; }
+            set { SetParameters(_m, value, _k); }
+        }
+
+        /// <summary>
+        /// Gets or sets the column covariance. (K)
+        /// </summary>
+        /// <value>The column covariance.</value>
+        public Matrix<double> ColumnCovariance
+        {
+            get { return _k; }
+            set { SetParameters(_m, _v, value); }
         }
 
         /// <summary>

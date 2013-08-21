@@ -54,20 +54,10 @@ namespace MathNet.Numerics.Distributions
     /// to <c>false</c>, all parameter checks can be turned off.</para></remarks>
     public class Gamma : IContinuousDistribution
     {
-        /// <summary>
-        /// Gamma shape parameter.
-        /// </summary>
-        double _shape;
-
-        /// <summary>
-        /// Gamma inverse scale parameter.
-        /// </summary>
-        double _invScale;
-
-        /// <summary>
-        /// The distribution's random number generator.
-        /// </summary>
         System.Random _random;
+
+        double _shape;
+        double _invScale;
 
         /// <summary>
         /// Initializes a new instance of the Gamma class.
@@ -154,6 +144,15 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
+        /// Gets or sets the random number generator which is used to draw random samples.
+        /// </summary>
+        public System.Random RandomSource
+        {
+            get { return _random; }
+            set { _random = value ?? new System.Random(); }
+        }
+
+        /// <summary>
         /// Gets or sets the shape of the Gamma distribution.
         /// </summary>
         public double Shape
@@ -188,23 +187,6 @@ namespace MathNet.Numerics.Distributions
         {
             get { return _invScale; }
             set { SetParameters(_shape, value); }
-        }
-
-        /// <summary>
-        /// Gets or sets the random number generator which is used to draw random samples.
-        /// </summary>
-        public System.Random RandomSource
-        {
-            get { return _random; }
-            set
-            {
-                if (value == null)
-                {
-                    throw new ArgumentNullException();
-                }
-
-                _random = value;
-            }
         }
 
         /// <summary>

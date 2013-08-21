@@ -95,6 +95,7 @@
     <Compile Include="Distributions\ChiSquare.cs" />
     <Compile Include="Distributions\ContinuousUniform.cs" />
     <Compile Include="Distributions\ConwayMaxwellPoisson.cs" />
+    <Compile Include="Distributions\IDistribution.cs" />
     <Compile Include="Distributions\Dirichlet.cs" />
     <Compile Include="Distributions\DiscreteUniform.cs" />
     <Compile Include="Distributions\Erlang.cs" />

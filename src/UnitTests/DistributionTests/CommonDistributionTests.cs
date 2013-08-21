@@ -160,22 +160,19 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
             }
         }
 
-        /// <summary>
-        /// Fail set random source with <c>null</c> reference.
-        /// </summary>
         [Test]
-        public void FailSetRandomSourceWithNullReference()
+        public void HasRandomSourceEvenAfterSetToNull()
         {
             foreach (var dd in _discreteDistributions)
             {
-                var dd1 = dd;
-                Assert.Throws<ArgumentNullException>(() => dd1.RandomSource = null);
+                Assert.DoesNotThrow(() => dd.RandomSource = null);
+                Assert.IsNotNull(dd.RandomSource);
             }
 
             foreach (var cd in _continuousDistributions)
             {
-                var cd1 = cd;
-                Assert.Throws<ArgumentNullException>(() => cd1.RandomSource = null);
+                Assert.DoesNotThrow(() => cd.RandomSource = null);
+                Assert.IsNotNull(cd.RandomSource);
             }
         }
 

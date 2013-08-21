@@ -46,6 +46,8 @@ namespace MathNet.Numerics.Distributions
     /// to <c>false</c>, all parameter checks can be turned off.</para></remarks>
     public class FisherSnedecor : IContinuousDistribution
     {
+        System.Random _random;
+
         /// <summary>
         /// The first parameter - degree of freedom.
         /// </summary>
@@ -55,11 +57,6 @@ namespace MathNet.Numerics.Distributions
         /// The second parameter - degree of freedom.
         /// </summary>
         double _d2;
-
-        /// <summary>
-        /// The distribution's random number generator.
-        /// </summary>
-        System.Random _random;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FisherSnedecor"/> class. 
@@ -85,6 +82,26 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
+        /// A string representation of the distribution.
+        /// </summary>
+        /// <returns>a string representation of the distribution.</returns>
+        public override string ToString()
+        {
+            return "FisherSnedecor(DegreeOfFreedom1 = " + _d1 + ", DegreeOfFreedom2 = " + _d2 + ")";
+        }
+
+        /// <summary>
+        /// Checks whether the parameters of the distribution are valid.
+        /// </summary>
+        /// <param name="d1">The first parameter - degree of freedom.</param>
+        /// <param name="d2">The second parameter - degree of freedom.</param>
+        /// <returns><c>true</c> when the parameters are valid, <c>false</c> otherwise.</returns>
+        static bool IsValidParameterSet(double d1, double d2)
+        {
+            return d1 > 0.0 && d2 > 0.0;
+        }
+
+        /// <summary>
         /// Sets the parameters of the distribution after checking their validity.
         /// </summary>
         /// <param name="d1">The first parameter - degree of freedom.</param>
@@ -101,14 +118,12 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Checks whether the parameters of the distribution are valid.
+        /// Gets or sets the random number generator which is used to draw random samples.
         /// </summary>
-        /// <param name="d1">The first parameter - degree of freedom.</param>
-        /// <param name="d2">The second parameter - degree of freedom.</param>
-        /// <returns><c>true</c> when the parameters are valid, <c>false</c> otherwise.</returns>
-        static bool IsValidParameterSet(double d1, double d2)
+        public System.Random RandomSource
         {
-            return d1 > 0.0 && d2 > 0.0;
+            get { return _random; }
+            set { _random = value ?? new System.Random(); }
         }
 
         /// <summary>
@@ -127,32 +142,6 @@ namespace MathNet.Numerics.Distributions
         {
             get { return _d2; }
             set { SetParameters(_d1, value); }
-        }
-
-        /// <summary>
-        /// A string representation of the distribution.
-        /// </summary>
-        /// <returns>a string representation of the distribution.</returns>
-        public override string ToString()
-        {
-            return "FisherSnedecor(DegreeOfFreedom1 = " + _d1 + ", DegreeOfFreedom2 = " + _d2 + ")";
-        }
-
-        /// <summary>
-        /// Gets or sets the distribution's random number generator.
-        /// </summary>
-        public System.Random RandomSource
-        {
-            get { return _random; }
-            set
-            {
-                if (value == null)
-                {
-                    throw new ArgumentNullException();
-                }
-
-                _random = value;
-            }
         }
 
         /// <summary>

@@ -50,8 +50,10 @@ namespace MathNet.Numerics.Distributions
     /// <para>The statistics classes will check all the incoming parameters whether they are in the allowed
     /// range. This might involve heavy computation. Optionally, by setting Control.CheckDistributionParameters
     /// to <c>false</c>, all parameter checks can be turned off.</para></remarks>
-    public class Multinomial
+    public class Multinomial : IDistribution
     {
+        System.Random _random;
+
         /// <summary>
         /// Stores the normalized multinomial probabilities.
         /// </summary>
@@ -60,12 +62,7 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// The number of trials.
         /// </summary>
-        int _n;
-
-        /// <summary>
-        /// The distribution's random number generator.
-        /// </summary>
-        System.Random _random;
+        int _trials;
 
         /// <summary>
         /// Initializes a new instance of the Multinomial class.
@@ -130,7 +127,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a string representation of the distribution.</returns>
         public override string ToString()
         {
-            return "Multinomial(Dimension = " + _p.Length + ", Number of Trails = " + _n + ")";
+            return "Multinomial(Dimension = " + _p.Length + ", Number of Trails = " + _trials + ")";
         }
 
         /// <summary>
@@ -177,25 +174,7 @@ namespace MathNet.Numerics.Distributions
             }
 
             _p = (double[]) p.Clone();
-            _n = n;
-        }
-
-        /// <summary>
-        /// Gets or sets the proportion of ratios.
-        /// </summary>
-        public double[] P
-        {
-            get { return (double[]) _p.Clone(); }
-            set { SetParameters(value, _n); }
-        }
-
-        /// <summary>
-        /// Gets or sets the number of trials.
-        /// </summary>
-        public int N
-        {
-            get { return _n; }
-            set { SetParameters(_p, value); }
+            _trials = n;
         }
 
         /// <summary>
@@ -204,15 +183,25 @@ namespace MathNet.Numerics.Distributions
         public System.Random RandomSource
         {
             get { return _random; }
-            set
-            {
-                if (value == null)
-                {
-                    throw new ArgumentNullException();
-                }
+            set { _random = value ?? new System.Random(); }
+        }
 
-                _random = value;
-            }
+        /// <summary>
+        /// Gets or sets the proportion of ratios.
+        /// </summary>
+        public double[] P
+        {
+            get { return (double[]) _p.Clone(); }
+            set { SetParameters(value, _trials); }
+        }
+
+        /// <summary>
+        /// Gets or sets the number of trials.
+        /// </summary>
+        public int N
+        {
+            get { return _trials; }
+            set { SetParameters(_p, value); }
         }
 
         /// <summary>
@@ -220,7 +209,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public Vector<double> Mean
         {
-            get { return _n*(DenseVector) P; }
+            get { return _trials*(DenseVector) P; }
         }
 
         /// <summary>
@@ -234,7 +223,7 @@ namespace MathNet.Numerics.Distributions
                 var res = (DenseVector) P;
                 for (var i = 0; i < res.Count; i++)
                 {
-                    res[i] *= _n*(1 - res[i]);
+                    res[i] *= _trials*(1 - res[i]);
                 }
 
                 return res;
@@ -252,7 +241,7 @@ namespace MathNet.Numerics.Distributions
                 var res = (DenseVector) P;
                 for (var i = 0; i < res.Count; i++)
                 {
-                    res[i] = (1.0 - (2.0*res[i]))/Math.Sqrt(_n*(1.0 - res[i])*res[i]);
+                    res[i] = (1.0 - (2.0*res[i]))/Math.Sqrt(_trials*(1.0 - res[i])*res[i]);
                 }
 
                 return res;
@@ -278,9 +267,9 @@ namespace MathNet.Numerics.Distributions
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "x");
             }
 
-            if (x.Sum() == _n)
+            if (x.Sum() == _trials)
             {
-                var coef = SpecialFunctions.Multinomial(_n, x);
+                var coef = SpecialFunctions.Multinomial(_trials, x);
                 var num = 1.0;
                 for (var i = 0; i < x.Length; i++)
                 {
@@ -312,9 +301,9 @@ namespace MathNet.Numerics.Distributions
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "x");
             }
 
-            if (x.Sum() == _n)
+            if (x.Sum() == _trials)
             {
-                var coef = Math.Log(SpecialFunctions.Multinomial(_n, x));
+                var coef = Math.Log(SpecialFunctions.Multinomial(_trials, x));
                 var num = x.Select((t, i) => t*Math.Log(_p[i])).Sum();
                 return coef + num;
             }
@@ -328,7 +317,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>the counts for each of the different possible values.</returns>
         public int[] Sample()
         {
-            return Sample(RandomSource, _p, _n);
+            return Sample(RandomSource, _p, _trials);
         }
 
         /// <summary>
@@ -339,7 +328,7 @@ namespace MathNet.Numerics.Distributions
         {
             while (true)
             {
-                yield return Sample(RandomSource, _p, _n);
+                yield return Sample(RandomSource, _p, _trials);
             }
         }
 

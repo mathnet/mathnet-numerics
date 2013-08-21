@@ -47,15 +47,9 @@ namespace MathNet.Numerics.Distributions
     /// to <c>false</c>, all parameter checks can be turned off.</para></remarks>
     public class Bernoulli : IDiscreteDistribution
     {
-        /// <summary>
-        /// The probability of generating a one.
-        /// </summary>
-        double _p;
-
-        /// <summary>
-        /// The distribution's random number generator.
-        /// </summary>
         System.Random _random;
+
+        double _p;
 
         /// <summary>
         /// Initializes a new instance of the Bernoulli class.
@@ -115,29 +109,21 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
+        /// Gets or sets the random number generator which is used to draw random samples.
+        /// </summary>
+        public System.Random RandomSource
+        {
+            get { return _random; }
+            set { _random = value ?? new System.Random(); }
+        }
+
+        /// <summary>
         /// Gets or sets the probability of generating a one.
         /// </summary>
         public double P
         {
             get { return _p; }
             set { SetParameters(value); }
-        }
-
-        /// <summary>
-        /// Gets or sets the random number generator which is used to draw random samples.
-        /// </summary>
-        public System.Random RandomSource
-        {
-            get { return _random; }
-            set
-            {
-                if (value == null)
-                {
-                    throw new ArgumentNullException();
-                }
-
-                _random = value;
-            }
         }
 
         /// <summary>

@@ -42,15 +42,9 @@ namespace MathNet.Numerics.Distributions
     /// to <c>false</c>, all parameter checks can be turned off.</para></remarks>
     public class Cauchy : IContinuousDistribution
     {
-        /// <summary>
-        /// The scale of the Cauchy distribution.
-        /// </summary>
-        double _scale;
-
-        /// <summary>
-        /// The distribution's random number generator.
-        /// </summary>
         System.Random _random;
+
+        double _scale;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Cauchy"/> class with the location parameter set to 0 and the scale parameter set to 1
@@ -85,6 +79,26 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
+        /// A string representation of the distribution.
+        /// </summary>
+        /// <returns>a string representation of the distribution.</returns>
+        public override string ToString()
+        {
+            return "Cauchy(Location = " + Median + ", Scale = " + _scale + ")";
+        }
+
+        /// <summary>
+        /// Checks whether the parameters of the distribution are valid. 
+        /// </summary>
+        /// <param name="location">Location parameter.</param>
+        /// <param name="scale">Scale parameter. Must be greater than 0.</param>
+        /// <returns>True when the parameters are valid, <c>false</c> otherwise.</returns>
+        static bool IsValidParameterSet(double location, double scale)
+        {
+            return scale > 0.0 && !Double.IsNaN(location);
+        }
+
+        /// <summary>
         /// Sets the parameters of the distribution after checking their validity.
         /// </summary>
         /// <param name="location">Location parameter.</param>
@@ -102,14 +116,12 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Checks whether the parameters of the distribution are valid. 
+        /// Gets or sets the random number generator which is used to draw random samples.
         /// </summary>
-        /// <param name="location">Location parameter.</param>
-        /// <param name="scale">Scale parameter. Must be greater than 0.</param>
-        /// <returns>True when the parameters are valid, <c>false</c> otherwise.</returns>
-        static bool IsValidParameterSet(double location, double scale)
+        public System.Random RandomSource
         {
-            return scale > 0.0 && !Double.IsNaN(location);
+            get { return _random; }
+            set { _random = value ?? new System.Random(); }
         }
 
         /// <summary>
@@ -130,31 +142,6 @@ namespace MathNet.Numerics.Distributions
             set { SetParameters(Median, value); }
         }
 
-        /// <summary>
-        /// A string representation of the distribution.
-        /// </summary>
-        /// <returns>a string representation of the distribution.</returns>
-        public override string ToString()
-        {
-            return "Cauchy(Location = " + Median + ", Scale = " + _scale + ")";
-        }
-
-        /// <summary>
-        /// Gets or sets the random number generator which is used to draw random samples.
-        /// </summary>
-        public System.Random RandomSource
-        {
-            get { return _random; }
-            set
-            {
-                if (value == null)
-                {
-                    throw new ArgumentNullException();
-                }
-
-                _random = value;
-            }
-        }
 
         /// <summary>
         /// Gets the mean of the distribution.

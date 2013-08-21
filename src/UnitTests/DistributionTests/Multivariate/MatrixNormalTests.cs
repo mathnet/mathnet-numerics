@@ -130,16 +130,14 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
             };
         }
 
-        /// <summary>
-        /// Fail set random source with <c>null</c> reference.
-        /// </summary>
         [Test]
-        public void FailSetRandomSourceWithNullReference()
+        public void HasRandomSourceEvenAfterSetToNull()
         {
             const int N = 2;
             const int P = 3;
             var d = new MatrixNormal(MatrixLoader.GenerateRandomDenseMatrix(N, P), MatrixLoader.GenerateRandomPositiveDefiniteDenseMatrix(N), MatrixLoader.GenerateRandomPositiveDefiniteDenseMatrix(P));
-            Assert.Throws<ArgumentNullException>(() => d.RandomSource = null);
+            Assert.DoesNotThrow(() => d.RandomSource = null);
+            Assert.IsNotNull(d.RandomSource);
         }
 
         /// <summary>

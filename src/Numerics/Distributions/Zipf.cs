@@ -49,6 +49,8 @@ namespace MathNet.Numerics.Distributions
     /// to <c>false</c>, all parameter checks can be turned off.</para></remarks>
     public class Zipf : IDiscreteDistribution
     {
+        System.Random _random;
+
         /// <summary>
         /// The s parameter of the distribution.
         /// </summary>
@@ -58,11 +60,6 @@ namespace MathNet.Numerics.Distributions
         /// The n parameter of the distribution.
         /// </summary>
         int _n;
-
-        /// <summary>
-        /// The distribution's random number generator.
-        /// </summary>
-        System.Random _random;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Zipf"/> class. 
@@ -88,6 +85,26 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
+        /// A string representation of the distribution.
+        /// </summary>
+        /// <returns>a string representation of the distribution.</returns>
+        public override string ToString()
+        {
+            return "Zipf(S = " + _s + ", N = " + _n + ")";
+        }
+
+        /// <summary>
+        /// Checks whether the parameters of the distribution are valid. 
+        /// </summary>
+        /// <param name="s">The s parameter of the distribution.</param>
+        /// <param name="n">The n parameter of the distribution.</param>
+        /// <returns><c>true</c> when the parameters are valid, <c>false</c> otherwise.</returns>
+        static bool IsValidParameterSet(double s, int n)
+        {
+            return n > 0 && s > 0.0;
+        }
+
+        /// <summary>
         /// Sets the parameters of the distribution after checking their validity.
         /// </summary>
         /// <param name="s">The s parameter of the distribution.</param>
@@ -104,14 +121,12 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Checks whether the parameters of the distribution are valid. 
+        /// Gets or sets the random number generator which is used to draw random samples.
         /// </summary>
-        /// <param name="s">The s parameter of the distribution.</param>
-        /// <param name="n">The n parameter of the distribution.</param>
-        /// <returns><c>true</c> when the parameters are valid, <c>false</c> otherwise.</returns>
-        static bool IsValidParameterSet(double s, int n)
+        public System.Random RandomSource
         {
-            return n > 0 && s > 0.0;
+            get { return _random; }
+            set { _random = value ?? new System.Random(); }
         }
 
         /// <summary>
@@ -130,32 +145,6 @@ namespace MathNet.Numerics.Distributions
         {
             get { return _n; }
             set { SetParameters(_s, value); }
-        }
-
-        /// <summary>
-        /// A string representation of the distribution.
-        /// </summary>
-        /// <returns>a string representation of the distribution.</returns>
-        public override string ToString()
-        {
-            return "Zipf(S = " + _s + ", N = " + _n + ")";
-        }
-
-        /// <summary>
-        /// Gets or sets the random number generator which is used to draw random samples.
-        /// </summary>
-        public System.Random RandomSource
-        {
-            get { return _random; }
-            set
-            {
-                if (value == null)
-                {
-                    throw new ArgumentNullException();
-                }
-
-                _random = value;
-            }
         }
 
         /// <summary>

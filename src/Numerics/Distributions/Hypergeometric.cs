@@ -49,6 +49,8 @@ namespace MathNet.Numerics.Distributions
     /// to <c>false</c>, all parameter checks can be turned off.</para></remarks>
     public class Hypergeometric : IDiscreteDistribution
     {
+        System.Random _random;
+
         /// <summary>
         /// The size of the population (N).
         /// </summary>
@@ -63,11 +65,6 @@ namespace MathNet.Numerics.Distributions
         /// The number of draws without replacement (n).
         /// </summary>
         int _draws;
-
-        /// <summary>
-        /// The distribution's random number generator.
-        /// </summary>
-        System.Random _random;
 
         /// <summary>
         /// Initializes a new instance of the Hypergeometric class.
@@ -95,6 +92,29 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
+        /// Returns a <see cref="System.String"/> that represents this instance.
+        /// </summary>
+        /// <returns>
+        /// A <see cref="System.String"/> that represents this instance.
+        /// </returns>
+        public override string ToString()
+        {
+            return "Hypergeometric(N = " + _population + ", M = " + _success + ", n = " + _draws + ")";
+        }
+
+        /// <summary>
+        /// Checks whether the parameters of the distribution are valid.
+        /// </summary>
+        /// <param name="population">The size of the population (N).</param>
+        /// <param name="success">The number successes within the population (K, M).</param>
+        /// <param name="draws">The number of draws without replacement (n).</param>
+        /// <returns><c>true</c> when the parameters are valid, <c>false</c> otherwise.</returns>
+        static bool IsValidParameterSet(int population, int success, int draws)
+        {
+            return population >= 0 && success >= 0 && draws >= 0 && (success <= population && draws <= population);
+        }
+
+        /// <summary>
         /// Sets the parameters of the distribution after checking their validity.
         /// </summary>
         /// <param name="population">The size of the population (N).</param>
@@ -113,15 +133,12 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Checks whether the parameters of the distribution are valid.
+        /// Gets or sets the random number generator which is used to draw random samples.
         /// </summary>
-        /// <param name="population">The size of the population (N).</param>
-        /// <param name="success">The number successes within the population (K, M).</param>
-        /// <param name="draws">The number of draws without replacement (n).</param>
-        /// <returns><c>true</c> when the parameters are valid, <c>false</c> otherwise.</returns>
-        static bool IsValidParameterSet(int population, int success, int draws)
+        public System.Random RandomSource
         {
-            return population >= 0 && success >= 0 && draws >= 0 && (success <= population && draws <= population);
+            get { return _random; }
+            set { _random = value ?? new System.Random(); }
         }
 
         /// <summary>
@@ -179,34 +196,6 @@ namespace MathNet.Numerics.Distributions
         {
             get { return _success; }
             set { SetParameters(_population, _success, value); }
-        }
-
-        /// <summary>
-        /// Returns a <see cref="System.String"/> that represents this instance.
-        /// </summary>
-        /// <returns>
-        /// A <see cref="System.String"/> that represents this instance.
-        /// </returns>
-        public override string ToString()
-        {
-            return "Hypergeometric(N = " + _population + ", M = " + _success + ", n = " + _draws + ")";
-        }
-
-        /// <summary>
-        /// Gets or sets the random number generator which is used to draw random samples.
-        /// </summary>
-        public System.Random RandomSource
-        {
-            get { return _random; }
-            set
-            {
-                if (value == null)
-                {
-                    throw new ArgumentNullException();
-                }
-
-                _random = value;
-            }
         }
 
         /// <summary>

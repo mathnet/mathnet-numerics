@@ -53,20 +53,10 @@ namespace MathNet.Numerics.Distributions
     /// to <c>false</c>, all parameter checks can be turned off.</para></remarks>
     public class Beta : IContinuousDistribution
     {
-        /// <summary>
-        /// Beta shape parameter a.
-        /// </summary>
-        double _shapeA;
-
-        /// <summary>
-        /// Beta shape parameter b.
-        /// </summary>
-        double _shapeB;
-
-        /// <summary>
-        /// The distribution's random number generator.
-        /// </summary>
         System.Random _random;
+
+        double _shapeA;
+        double _shapeB;
 
         /// <summary>
         /// Initializes a new instance of the Beta class.
@@ -131,6 +121,15 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
+        /// Gets or sets the random number generator which is used to draw random samples.
+        /// </summary>
+        public System.Random RandomSource
+        {
+            get { return _random; }
+            set { _random = value ?? new System.Random(); }
+        }
+
+        /// <summary>
         /// Gets or sets the A shape parameter of the Beta distribution.
         /// </summary>
         public double A
@@ -146,23 +145,6 @@ namespace MathNet.Numerics.Distributions
         {
             get { return _shapeB; }
             set { SetParameters(_shapeA, value); }
-        }
-
-        /// <summary>
-        /// Gets or sets the random number generator which is used to draw random samples.
-        /// </summary>
-        public System.Random RandomSource
-        {
-            get { return _random; }
-            set
-            {
-                if (value == null)
-                {
-                    throw new ArgumentNullException();
-                }
-
-                _random = value;
-            }
         }
 
         /// <summary>

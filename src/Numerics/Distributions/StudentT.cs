@@ -57,25 +57,11 @@ namespace MathNet.Numerics.Distributions
     /// to <c>false</c>, all parameter checks can be turned off.</para></remarks>
     public class StudentT : IContinuousDistribution
     {
-        /// <summary>
-        /// Keeps track of the location of the Student t-distribution.
-        /// </summary>
-        double _location;
-
-        /// <summary>
-        /// Keeps track of the degrees of freedom for the Student t-distribution.
-        /// </summary>
-        double _dof;
-
-        /// <summary>
-        /// Keeps track of the scale for the Student t-distribution.
-        /// </summary>
-        double _scale;
-
-        /// <summary>
-        /// The distribution's random number generator.
-        /// </summary>
         System.Random _random;
+
+        double _location;
+        double _scale;
+        double _freedom;
 
         /// <summary>
         /// Initializes a new instance of the StudentT class. This is a Student t-distribution with location 0.0
@@ -122,7 +108,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a string representation of the distribution.</returns>
         public override string ToString()
         {
-            return "StudentT(Location = " + _location + ", Scale = " + _scale + ", DoF = " + _dof + ")";
+            return "StudentT(Location = " + _location + ", Scale = " + _scale + ", DoF = " + _freedom + ")";
         }
 
         /// <summary>
@@ -153,34 +139,7 @@ namespace MathNet.Numerics.Distributions
 
             _location = location;
             _scale = scale;
-            _dof = dof;
-        }
-
-        /// <summary>
-        /// Gets or sets the location of the Student t-distribution.
-        /// </summary>
-        public double Location
-        {
-            get { return _location; }
-            set { SetParameters(value, _scale, _dof); }
-        }
-
-        /// <summary>
-        /// Gets or sets the scale of the Student t-distribution.
-        /// </summary>
-        public double Scale
-        {
-            get { return _scale; }
-            set { SetParameters(_location, value, _dof); }
-        }
-
-        /// <summary>
-        /// Gets or sets the degrees of freedom of the Student t-distribution.
-        /// </summary>
-        public double DegreesOfFreedom
-        {
-            get { return _dof; }
-            set { SetParameters(_location, _scale, value); }
+            _freedom = dof;
         }
 
         /// <summary>
@@ -189,15 +148,34 @@ namespace MathNet.Numerics.Distributions
         public System.Random RandomSource
         {
             get { return _random; }
-            set
-            {
-                if (value == null)
-                {
-                    throw new ArgumentNullException();
-                }
+            set { _random = value ?? new System.Random(); }
+        }
 
-                _random = value;
-            }
+        /// <summary>
+        /// Gets or sets the location of the Student t-distribution.
+        /// </summary>
+        public double Location
+        {
+            get { return _location; }
+            set { SetParameters(value, _scale, _freedom); }
+        }
+
+        /// <summary>
+        /// Gets or sets the scale of the Student t-distribution.
+        /// </summary>
+        public double Scale
+        {
+            get { return _scale; }
+            set { SetParameters(_location, value, _freedom); }
+        }
+
+        /// <summary>
+        /// Gets or sets the degrees of freedom of the Student t-distribution.
+        /// </summary>
+        public double DegreesOfFreedom
+        {
+            get { return _freedom; }
+            set { SetParameters(_location, _scale, value); }
         }
 
         /// <summary>
@@ -205,7 +183,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Mean
         {
-            get { return _dof > 1.0 ? _location : Double.NaN; }
+            get { return _freedom > 1.0 ? _location : Double.NaN; }
         }
 
         /// <summary>
@@ -215,17 +193,17 @@ namespace MathNet.Numerics.Distributions
         {
             get
             {
-                if (Double.IsPositiveInfinity(_dof))
+                if (Double.IsPositiveInfinity(_freedom))
                 {
                     return _scale*_scale;
                 }
 
-                if (_dof > 2.0)
+                if (_freedom > 2.0)
                 {
-                    return _dof*_scale*_scale/(_dof - 2.0);
+                    return _freedom*_scale*_scale/(_freedom - 2.0);
                 }
 
-                return _dof > 1.0 ? Double.PositiveInfinity : Double.NaN;
+                return _freedom > 1.0 ? Double.PositiveInfinity : Double.NaN;
             }
         }
 
@@ -236,17 +214,17 @@ namespace MathNet.Numerics.Distributions
         {
             get
             {
-                if (Double.IsPositiveInfinity(_dof))
+                if (Double.IsPositiveInfinity(_freedom))
                 {
                     return Math.Sqrt(_scale*_scale);
                 }
 
-                if (_dof > 2.0)
+                if (_freedom > 2.0)
                 {
-                    return Math.Sqrt(_dof*_scale*_scale/(_dof - 2.0));
+                    return Math.Sqrt(_freedom*_scale*_scale/(_freedom - 2.0));
                 }
 
-                return _dof > 1.0 ? Double.PositiveInfinity : Double.NaN;
+                return _freedom > 1.0 ? Double.PositiveInfinity : Double.NaN;
             }
         }
 
@@ -262,7 +240,7 @@ namespace MathNet.Numerics.Distributions
                     throw new NotSupportedException();
                 }
 
-                return (((_dof + 1.0)/2.0)*(SpecialFunctions.DiGamma((1.0 + _dof)/2.0) - SpecialFunctions.DiGamma(_dof/2.0))) + Math.Log(Math.Sqrt(_dof)*SpecialFunctions.Beta(_dof/2.0, 1.0/2.0));
+                return (((_freedom + 1.0)/2.0)*(SpecialFunctions.DiGamma((1.0 + _freedom)/2.0) - SpecialFunctions.DiGamma(_freedom/2.0))) + Math.Log(Math.Sqrt(_freedom)*SpecialFunctions.Beta(_freedom/2.0, 1.0/2.0));
             }
         }
 
@@ -273,7 +251,7 @@ namespace MathNet.Numerics.Distributions
         {
             get
             {
-                if (_dof <= 3)
+                if (_freedom <= 3)
                 {
                     throw new NotSupportedException();
                 }
@@ -322,15 +300,15 @@ namespace MathNet.Numerics.Distributions
         public double Density(double x)
         {
             // TODO JVG we can probably do a better job for Cauchy special case
-            if (_dof >= 1e+8d)
+            if (_freedom >= 1e+8d)
             {
                 return Normal.Density(_location, _scale, x);
             }
 
             var d = (x - _location)/_scale;
-            return Math.Exp(SpecialFunctions.GammaLn((_dof + 1.0)/2.0) - SpecialFunctions.GammaLn(_dof/2.0))
-                   *Math.Pow(1.0 + (d*d/_dof), -0.5*(_dof + 1.0))
-                   /Math.Sqrt(_dof*Math.PI)
+            return Math.Exp(SpecialFunctions.GammaLn((_freedom + 1.0)/2.0) - SpecialFunctions.GammaLn(_freedom/2.0))
+                   *Math.Pow(1.0 + (d*d/_freedom), -0.5*(_freedom + 1.0))
+                   /Math.Sqrt(_freedom*Math.PI)
                    /_scale;
         }
 
@@ -342,16 +320,16 @@ namespace MathNet.Numerics.Distributions
         public double DensityLn(double x)
         {
             // TODO JVG we can probably do a better job for Cauchy special case
-            if (_dof >= 1e+8d)
+            if (_freedom >= 1e+8d)
             {
                 return Normal.DensityLn(_location, _scale, x);
             }
 
             var d = (x - _location)/_scale;
-            return SpecialFunctions.GammaLn((_dof + 1.0)/2.0)
-                   - (0.5*((_dof + 1.0)*Math.Log(1.0 + (d*d/_dof))))
-                   - SpecialFunctions.GammaLn(_dof/2.0)
-                   - (0.5*Math.Log(_dof*Math.PI)) - Math.Log(_scale);
+            return SpecialFunctions.GammaLn((_freedom + 1.0)/2.0)
+                   - (0.5*((_freedom + 1.0)*Math.Log(1.0 + (d*d/_freedom))))
+                   - SpecialFunctions.GammaLn(_freedom/2.0)
+                   - (0.5*Math.Log(_freedom*Math.PI)) - Math.Log(_scale);
         }
 
         /// <summary>
@@ -362,14 +340,14 @@ namespace MathNet.Numerics.Distributions
         public double CumulativeDistribution(double x)
         {
             // TODO JVG we can probably do a better job for Cauchy special case
-            if (Double.IsPositiveInfinity(_dof))
+            if (Double.IsPositiveInfinity(_freedom))
             {
                 return Normal.CumulativeDistribution(_location, _scale, x);
             }
 
             var k = (x - _location)/_scale;
-            var h = _dof/(_dof + (k*k));
-            var ib = 0.5*SpecialFunctions.BetaRegularized(_dof/2.0, 0.5, h);
+            var h = _freedom/(_freedom + (k*k));
+            var ib = 0.5*SpecialFunctions.BetaRegularized(_freedom/2.0, 0.5, h);
             return x <= _location ? ib : 1.0 - ib;
         }
 
@@ -396,7 +374,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sample from the distribution.</returns>
         public double Sample()
         {
-            return SampleUnchecked(RandomSource, _location, _scale, _dof);
+            return SampleUnchecked(RandomSource, _location, _scale, _freedom);
         }
 
         /// <summary>
@@ -407,7 +385,7 @@ namespace MathNet.Numerics.Distributions
         {
             while (true)
             {
-                yield return SampleUnchecked(RandomSource, _location, _scale, _dof);
+                yield return SampleUnchecked(RandomSource, _location, _scale, _freedom);
             }
         }
 

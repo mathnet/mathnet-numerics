@@ -48,10 +48,9 @@ namespace MathNet.Numerics.Distributions
     /// to <c>false</c>, all parameter checks can be turned off.</para></remarks>
     public class NegativeBinomial : IDiscreteDistribution
     {
-        /// <summary>
-        /// The r parameter of the distribution.
-        /// </summary>
-        double _r;
+        System.Random _random;
+
+        double _trials;
 
         /// <summary>
         /// The p parameter of the distribution.
@@ -59,16 +58,11 @@ namespace MathNet.Numerics.Distributions
         double _p;
 
         /// <summary>
-        /// The distribution's random number generator.
-        /// </summary>
-        System.Random _random;
-
-        /// <summary>
         /// Gets or sets the number of trials.
         /// </summary>
         public double R
         {
-            get { return _r; }
+            get { return _trials; }
             set { SetParameters(value, _p); }
         }
 
@@ -78,7 +72,7 @@ namespace MathNet.Numerics.Distributions
         public double P
         {
             get { return _p; }
-            set { SetParameters(_r, value); }
+            set { SetParameters(_trials, value); }
         }
 
         /// <summary>
@@ -105,20 +99,14 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Sets the parameters of the distribution after checking their validity.
+        /// Returns a <see cref="System.String"/> that represents this instance.
         /// </summary>
-        /// <param name="r">The number of trials.</param>
-        /// <param name="p">The probability of a trial resulting in success.</param>
-        /// <exception cref="ArgumentOutOfRangeException">When the parameters don't pass the <see cref="IsValidParameterSet"/> function.</exception>
-        void SetParameters(double r, double p)
+        /// <returns>
+        /// A <see cref="System.String"/> that represents this instance.
+        /// </returns>
+        public override string ToString()
         {
-            if (Control.CheckDistributionParameters && !IsValidParameterSet(r, p))
-            {
-                throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
-            }
-
-            _p = p;
-            _r = r;
+            return "NegativeBinomial(R = " + _trials + ", P = " + _p + ")";
         }
 
         /// <summary>
@@ -133,39 +121,36 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Returns a <see cref="System.String"/> that represents this instance.
+        /// Sets the parameters of the distribution after checking their validity.
         /// </summary>
-        /// <returns>
-        /// A <see cref="System.String"/> that represents this instance.
-        /// </returns>
-        public override string ToString()
+        /// <param name="r">The number of trials.</param>
+        /// <param name="p">The probability of a trial resulting in success.</param>
+        /// <exception cref="ArgumentOutOfRangeException">When the parameters don't pass the <see cref="IsValidParameterSet"/> function.</exception>
+        void SetParameters(double r, double p)
         {
-            return "NegativeBinomial(R = " + _r + ", P = " + _p + ")";
+            if (Control.CheckDistributionParameters && !IsValidParameterSet(r, p))
+            {
+                throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
+            }
+
+            _p = p;
+            _trials = r;
         }
 
         /// <summary>
-        /// Gets or sets the distribution's random number generator.
+        /// Gets or sets the random number generator which is used to draw random samples.
         /// </summary>
         public System.Random RandomSource
         {
             get { return _random; }
-            set
-            {
-                if (value == null)
-                {
-                    throw new ArgumentNullException();
-                }
-
-                _random = value;
-            }
+            set { _random = value ?? new System.Random(); }
         }
-
         /// <summary>
         /// Gets the mean of the distribution.
         /// </summary>
         public double Mean
         {
-            get { return _r*(1.0 - _p)/_p; }
+            get { return _trials*(1.0 - _p)/_p; }
         }
 
         /// <summary>
@@ -173,7 +158,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Variance
         {
-            get { return _r*(1.0 - _p)/(_p*_p); }
+            get { return _trials*(1.0 - _p)/(_p*_p); }
         }
 
         /// <summary>
@@ -181,7 +166,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double StdDev
         {
-            get { return Math.Sqrt(_r*(1.0 - _p))/_p; }
+            get { return Math.Sqrt(_trials*(1.0 - _p))/_p; }
         }
 
         /// <summary>
@@ -197,7 +182,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Skewness
         {
-            get { return (2.0 - _p)/Math.Sqrt(_r*(1.0 - _p)); }
+            get { return (2.0 - _p)/Math.Sqrt(_trials*(1.0 - _p)); }
         }
 
         /// <summary>
@@ -205,7 +190,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public int Mode
         {
-            get { return _r > 1.0 ? (int) Math.Floor((_r - 1.0)*(1.0 - _p)/_p) : 0; }
+            get { return _trials > 1.0 ? (int) Math.Floor((_trials - 1.0)*(1.0 - _p)/_p) : 0; }
         }
 
         /// <summary>
@@ -239,10 +224,10 @@ namespace MathNet.Numerics.Distributions
         /// <returns>the probability mass at location <paramref name="k"/>.</returns>
         public double Probability(int k)
         {
-            var ln = SpecialFunctions.GammaLn(_r + k)
-                     - SpecialFunctions.GammaLn(_r)
+            var ln = SpecialFunctions.GammaLn(_trials + k)
+                     - SpecialFunctions.GammaLn(_trials)
                      - SpecialFunctions.GammaLn(k + 1.0)
-                     + (_r*Math.Log(_p))
+                     + (_trials*Math.Log(_p))
                      + (k*Math.Log(1.0 - _p));
             return Math.Exp(ln);
         }
@@ -254,10 +239,10 @@ namespace MathNet.Numerics.Distributions
         /// <returns>the log probability mass at location <paramref name="k"/>.</returns>
         public double ProbabilityLn(int k)
         {
-            var ln = SpecialFunctions.GammaLn(_r + k)
-                     - SpecialFunctions.GammaLn(_r)
+            var ln = SpecialFunctions.GammaLn(_trials + k)
+                     - SpecialFunctions.GammaLn(_trials)
                      - SpecialFunctions.GammaLn(k + 1.0)
-                     + (_r*Math.Log(_p))
+                     + (_trials*Math.Log(_p))
                      + (k*Math.Log(1.0 - _p));
             return ln;
         }
@@ -269,7 +254,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>the cumulative distribution at location <paramref name="x"/>.</returns>
         public double CumulativeDistribution(double x)
         {
-            return 1 - SpecialFunctions.BetaRegularized(x + 1, _r, 1 - _p);
+            return 1 - SpecialFunctions.BetaRegularized(x + 1, _trials, 1 - _p);
         }
 
         /// <summary>
@@ -299,7 +284,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sample from the distribution.</returns>
         public int Sample()
         {
-            return SampleUnchecked(RandomSource, _r, _p);
+            return SampleUnchecked(RandomSource, _trials, _p);
         }
 
         /// <summary>
@@ -310,7 +295,7 @@ namespace MathNet.Numerics.Distributions
         {
             while (true)
             {
-                yield return SampleUnchecked(RandomSource, _r, _p);
+                yield return SampleUnchecked(RandomSource, _trials, _p);
             }
         }
 

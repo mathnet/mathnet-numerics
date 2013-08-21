@@ -47,20 +47,10 @@ namespace MathNet.Numerics.Distributions
     /// to <c>false</c>, all parameter checks can be turned off.</para></remarks>
     public class InverseGamma : IContinuousDistribution
     {
-        /// <summary>
-        /// Inverse Gamma shape parameter. 
-        /// </summary>
-        double _shape;
-
-        /// <summary>
-        /// Inverse Gamma scale parameter scale. 
-        /// </summary>
-        double _scale;
-
-        /// <summary>
-        /// The distribution's random number generator.
-        /// </summary>
         System.Random _random;
+
+        double _shape;
+        double _scale;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="InverseGamma"/> class. 
@@ -86,14 +76,30 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
+        /// A string representation of the distribution.
+        /// </summary>
+        /// <returns>a string representation of the distribution.</returns>
+        public override string ToString()
+        {
+            return "InverseGamma(Shape = " + _shape + ", Inverse Scale = " + _scale + ")";
+        }
+
+        /// <summary>
+        /// Checks whether the parameters of the distribution are valid. 
+        /// </summary>
+        /// <param name="shape">The shape (alpha) parameter of the inverse Gamma distribution.</param>
+        /// <param name="scale">The scale (beta) parameter of the inverse Gamma distribution.</param>
+        /// <returns><c>true</c> when the parameters are valid, <c>false</c> otherwise.</returns>
+        static bool IsValidParameterSet(double shape, double scale)
+        {
+            return shape > 0.0 && scale > 0.0;
+        }
+
+        /// <summary>
         /// Sets the parameters of the distribution after checking their validity.
         /// </summary>
-        /// <param name="shape">
-        /// The shape (alpha) parameter of the inverse Gamma distribution.
-        /// </param>
-        /// <param name="scale">
-        /// The scale (beta) parameter of the inverse Gamma distribution.
-        /// </param>
+        /// <param name="shape">The shape (alpha) parameter of the inverse Gamma distribution.</param>
+        /// <param name="scale">The scale (beta) parameter of the inverse Gamma distribution.</param>
         /// <exception cref="ArgumentOutOfRangeException">When the parameters don't pass the <see cref="IsValidParameterSet"/> function.</exception>
         void SetParameters(double shape, double scale)
         {
@@ -107,14 +113,12 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Checks whether the parameters of the distribution are valid. 
+        /// Gets or sets the random number generator which is used to draw random samples.
         /// </summary>
-        /// <param name="shape">The shape (alpha) parameter of the inverse Gamma distribution.</param>
-        /// <param name="scale">The scale (beta) parameter of the inverse Gamma distribution.</param>
-        /// <returns><c>true</c> when the parameters are valid, <c>false</c> otherwise.</returns>
-        static bool IsValidParameterSet(double shape, double scale)
+        public System.Random RandomSource
         {
-            return shape > 0.0 && scale > 0.0;
+            get { return _random; }
+            set { _random = value ?? new System.Random(); }
         }
 
         /// <summary>
@@ -133,32 +137,6 @@ namespace MathNet.Numerics.Distributions
         {
             get { return _scale; }
             set { SetParameters(_shape, value); }
-        }
-
-        /// <summary>
-        /// A string representation of the distribution.
-        /// </summary>
-        /// <returns>a string representation of the distribution.</returns>
-        public override string ToString()
-        {
-            return "InverseGamma(Shape = " + _shape + ", Inverse Scale = " + _scale + ")";
-        }
-
-        /// <summary>
-        /// Gets or sets the random number generator which is used to draw random samples.
-        /// </summary>
-        public System.Random RandomSource
-        {
-            get { return _random; }
-            set
-            {
-                if (value == null)
-                {
-                    throw new ArgumentNullException();
-                }
-
-                _random = value;
-            }
         }
 
         /// <summary>

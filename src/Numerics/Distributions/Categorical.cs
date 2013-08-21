@@ -53,6 +53,7 @@ namespace MathNet.Numerics.Distributions
     public class Categorical : IDiscreteDistribution
     {
         System.Random _random;
+
         double[] _pmfNormalized;
         double[] _cdfUnnormalized;
 
@@ -188,7 +189,15 @@ namespace MathNet.Numerics.Distributions
             {
                 _pmfNormalized[i] = p[i]/sum;
             }
+        }
 
+        /// <summary>
+        /// Gets or sets the random number generator which is used to draw random samples.
+        /// </summary>
+        public System.Random RandomSource
+        {
+            get { return _random; }
+            set { _random = value ?? new System.Random(); }
         }
 
         /// <summary>
@@ -200,23 +209,6 @@ namespace MathNet.Numerics.Distributions
         {
             get { return (double[]) _pmfNormalized.Clone(); }
             set { SetParameters(value); }
-        }
-
-        /// <summary>
-        /// Gets or sets the random number generator which is used to draw random samples.
-        /// </summary>
-        public System.Random RandomSource
-        {
-            get { return _random; }
-            set
-            {
-                if (value == null)
-                {
-                    throw new ArgumentNullException();
-                }
-
-                _random = value;
-            }
         }
 
         /// <summary>

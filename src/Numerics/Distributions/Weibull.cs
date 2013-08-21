@@ -48,29 +48,19 @@ namespace MathNet.Numerics.Distributions
     /// to <c>false</c>, all parameter checks can be turned off.</para></remarks>
     public class Weibull : IContinuousDistribution
     {
-        /// <summary>
-        /// Weibull shape parameter.
-        /// </summary>
-        double _shape;
+        System.Random _random;
 
-        /// <summary>
-        /// Weibull inverse scale parameter.
-        /// </summary>
+        double _shape;
         double _scale;
 
         /// <summary>
-        /// Reusable intermediate result 1 / (<see cref="_scale"/> ^ <see cref="_shape"/>)
+        /// Reusable intermediate result 1 / (_scale ^ _shape)
         /// </summary>
         /// <remarks>
         /// By caching this parameter we can get slightly better numerics precision
         /// in certain constellations without any additional computations.
         /// </remarks>
         double _scalePowShapeInv;
-
-        /// <summary>
-        /// The distribution's random number generator.
-        /// </summary>
-        System.Random _random;
 
         /// <summary>
         /// Initializes a new instance of the Weibull class.
@@ -134,6 +124,15 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
+        /// Gets or sets the random number generator which is used to draw random samples.
+        /// </summary>
+        public System.Random RandomSource
+        {
+            get { return _random; }
+            set { _random = value ?? new System.Random(); }
+        }
+
+        /// <summary>
         /// Gets or sets the shape of the Weibull distribution.
         /// </summary>
         public double Shape
@@ -149,23 +148,6 @@ namespace MathNet.Numerics.Distributions
         {
             get { return _scale; }
             set { SetParameters(_shape, value); }
-        }
-
-        /// <summary>
-        /// Gets or sets the random number generator which is used to draw random samples.
-        /// </summary>
-        public System.Random RandomSource
-        {
-            get { return _random; }
-            set
-            {
-                if (value == null)
-                {
-                    throw new ArgumentNullException();
-                }
-
-                _random = value;
-            }
         }
 
         /// <summary>

@@ -100,32 +100,14 @@ namespace MathNet.Numerics.Distributions
     /// <para>The statistics classes will check all the incoming parameters whether they are in the allowed
     /// range. This might involve heavy computation. Optionally, by setting Control.CheckDistributionParameters
     /// to <c>false</c>, all parameter checks can be turned off.</para></remarks>
-    public class NormalGamma
+    public class NormalGamma : IDistribution
     {
-        /// <summary>
-        /// The location of the mean.
-        /// </summary>
-        double _meanLocation;
-
-        /// <summary>
-        /// The scale of the mean.
-        /// </summary>
-        double _meanScale;
-
-        /// <summary>
-        /// The shape of the precision.
-        /// </summary>
-        double _precisionShape;
-
-        /// <summary>
-        /// The inverse scale of the precision.
-        /// </summary>
-        double _precisionInvScale;
-
-        /// <summary>
-        /// The distribution's random number generator.
-        /// </summary>
         System.Random _random;
+
+        double _meanLocation;
+        double _meanScale;
+        double _precisionShape;
+        double _precisionInvScale;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="NormalGamma"/> class. 
@@ -152,6 +134,16 @@ namespace MathNet.Numerics.Distributions
         {
             _random = randomSource ?? new System.Random();
             SetParameters(meanLocation, meanScale, precisionShape, precisionInverseScale);
+        }
+
+        /// <summary>
+        /// A string representation of the distribution.
+        /// </summary>
+        /// <returns>a string representation of the distribution.</returns>
+        public override string ToString()
+        {
+            return "NormalGamma(Mean Location = " + _meanLocation + ", Mean Scale = " + _meanScale +
+                   ", Precision Shape = " + _precisionShape + ", Precision Inverse Scale = " + _precisionInvScale + ")";
         }
 
         /// <summary>
@@ -189,13 +181,12 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// A string representation of the distribution.
+        /// Gets or sets the random number generator which is used to draw random samples.
         /// </summary>
-        /// <returns>a string representation of the distribution.</returns>
-        public override string ToString()
+        public System.Random RandomSource
         {
-            return "NormalGamma(Mean Location = " + _meanLocation + ", Mean Scale = " + _meanScale +
-                   ", Precision Shape = " + _precisionShape + ", Precision Inverse Scale = " + _precisionInvScale + ")";
+            get { return _random; }
+            set { _random = value ?? new System.Random(); }
         }
 
         /// <summary>
@@ -232,23 +223,6 @@ namespace MathNet.Numerics.Distributions
         {
             get { return _precisionInvScale; }
             set { SetParameters(_meanLocation, _meanScale, _precisionShape, value); }
-        }
-
-        /// <summary>
-        /// Gets or sets the random number generator which is used to draw random samples.
-        /// </summary>
-        public System.Random RandomSource
-        {
-            get { return _random; }
-            set
-            {
-                if (value == null)
-                {
-                    throw new ArgumentNullException();
-                }
-
-                _random = value;
-            }
         }
 
         /// <summary>
