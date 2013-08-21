@@ -49,20 +49,13 @@ namespace MathNet.Numerics.Distributions
     {
         System.Random _random;
 
-        /// <summary>
-        /// Success probability in each trial.
-        /// </summary>
         double _p;
-
-        /// <summary>
-        /// The number of trials.
-        /// </summary>
         int _trials;
 
         /// <summary>
         /// Initializes a new instance of the Binomial class.
         /// </summary>
-        /// <param name="p">The success probability of a trial.</param>
+        /// <param name="p">The success probability in each trial.</param>
         /// <param name="n">The number of trials.</param>
         /// <exception cref="ArgumentOutOfRangeException">If <paramref name="p"/> is not in the interval [0.0,1.0].</exception>
         /// <exception cref="ArgumentOutOfRangeException">If <paramref name="n"/> is negative.</exception>
@@ -75,7 +68,7 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Initializes a new instance of the Binomial class.
         /// </summary>
-        /// <param name="p">The success probability of a trial.</param>
+        /// <param name="p">The success probability in each trial.</param>
         /// <param name="n">The number of trials.</param>
         /// <param name="randomSource">The random number generator which is used to draw random samples.</param>
         /// <exception cref="ArgumentOutOfRangeException">If <paramref name="p"/> is not in the interval [0.0,1.0].</exception>
@@ -125,16 +118,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Gets or sets the random number generator which is used to draw random samples.
-        /// </summary>
-        public System.Random RandomSource
-        {
-            get { return _random; }
-            set { _random = value ?? new System.Random(); }
-        }
-
-        /// <summary>
-        /// Gets or sets the success probability.
+        /// Gets or sets the success probability in each trial.
         /// </summary>
         public double P
         {
@@ -149,6 +133,15 @@ namespace MathNet.Numerics.Distributions
         {
             get { return _trials; }
             set { SetParameters(_p, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the random number generator which is used to draw random samples.
+        /// </summary>
+        public System.Random RandomSource
+        {
+            get { return _random; }
+            set { _random = value ?? new System.Random(); }
         }
 
         /// <summary>

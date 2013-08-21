@@ -178,20 +178,11 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Gets or sets the random number generator which is used to draw random samples.
-        /// </summary>
-        public System.Random RandomSource
-        {
-            get { return _random; }
-            set { _random = value ?? new System.Random(); }
-        }
-
-        /// <summary>
         /// Gets or sets the proportion of ratios.
         /// </summary>
         public double[] P
         {
-            get { return (double[]) _p.Clone(); }
+            get { return (double[])_p.Clone(); }
             set { SetParameters(value, _trials); }
         }
 
@@ -202,6 +193,15 @@ namespace MathNet.Numerics.Distributions
         {
             get { return _trials; }
             set { SetParameters(_p, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the random number generator which is used to draw random samples.
+        /// </summary>
+        public System.Random RandomSource
+        {
+            get { return _random; }
+            set { _random = value ?? new System.Random(); }
         }
 
         /// <summary>

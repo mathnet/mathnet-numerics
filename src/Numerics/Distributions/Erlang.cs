@@ -50,37 +50,37 @@ namespace MathNet.Numerics.Distributions
         System.Random _random;
 
         double _shape;
-        double _invScale;
+        double _rate;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Erlang"/> class. 
         /// </summary>
-        /// <param name="shape">The shape of the Erlang distribution.</param>
-        /// <param name="invScale">The inverse scale of the Erlang distribution.</param>
-        public Erlang(int shape, double invScale)
+        /// <param name="shape">The shape (k) of the Erlang distribution.</param>
+        /// <param name="rate">The rate or inverse scale (λ) of the Erlang distribution.</param>
+        public Erlang(int shape, double rate)
         {
             _random = new System.Random();
-            SetParameters(shape, invScale);
+            SetParameters(shape, rate);
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Erlang"/> class. 
         /// </summary>
-        /// <param name="shape">The shape of the Erlang distribution.</param>
-        /// <param name="invScale">The inverse scale of the Erlang distribution.</param>
+        /// <param name="shape">The shape (k) of the Erlang distribution.</param>
+        /// <param name="rate">The rate or inverse scale (λ) of the Erlang distribution.</param>
         /// <param name="randomSource">The random number generator which is used to draw random samples.</param>
-        public Erlang(int shape, double invScale, System.Random randomSource)
+        public Erlang(int shape, double rate, System.Random randomSource)
         {
             _random = randomSource ?? new System.Random();
-            SetParameters(shape, invScale);
+            SetParameters(shape, rate);
         }
 
         /// <summary>
         /// Constructs a Erlang distribution from a shape and scale parameter. The distribution will
         /// be initialized with the default <seealso cref="System.Random"/> random number generator.
         /// </summary>
-        /// <param name="shape">The shape of the Erlang distribution.</param>
-        /// <param name="scale">The scale of the Erlang distribution.</param>
+        /// <param name="shape">The shape (k) of the Erlang distribution.</param>
+        /// <param name="scale">The scale (mu) of the Erlang distribution.</param>
         /// <returns>a normal distribution.</returns>
         public static Erlang WithShapeScale(int shape, double scale)
         {
@@ -91,12 +91,12 @@ namespace MathNet.Numerics.Distributions
         /// Constructs a Erlang distribution from a shape and inverse scale parameter. The distribution will
         /// be initialized with the default <seealso cref="System.Random"/> random number generator.
         /// </summary>
-        /// <param name="shape">The shape of the Erlang distribution.</param>
-        /// <param name="invScale">The inverse scale of the Erlang distribution.</param>
+        /// <param name="shape">The shape (k) of the Erlang distribution.</param>
+        /// <param name="rate">The rate or inverse scale (λ) of the Erlang distribution.</param>
         /// <returns>a normal distribution.</returns>
-        public static Erlang WithShapeInvScale(int shape, double invScale)
+        public static Erlang WithShapeRate(int shape, double rate)
         {
-            return new Erlang(shape, invScale);
+            return new Erlang(shape, rate);
         }
 
         /// <summary>
@@ -105,34 +105,69 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a string representation of the distribution.</returns>
         public override string ToString()
         {
-            return "Erlang(Shape = " + _shape + ", Inverse Scale = " + _invScale + ")";
+            return "Erlang(Shape = " + _shape + ", λ = " + _rate + ")";
         }
 
         /// <summary>
         /// Checks whether the parameters of the distribution are valid.
         /// </summary>
-        /// <param name="shape">The shape of the Erlang distribution.</param>
-        /// <param name="invScale">The inverse scale of the Erlang distribution.</param>
+        /// <param name="shape">The shape (k) of the Erlang distribution.</param>
+        /// <param name="rate">The rate or inverse scale (λ) of the Erlang distribution.</param>
         /// <returns><c>true</c> when the parameters are valid, <c>false</c> otherwise.</returns>
-        static bool IsValidParameterSet(double shape, double invScale)
+        static bool IsValidParameterSet(double shape, double rate)
         {
-            return shape >= 0.0 && invScale >= 0.0;
+            return shape >= 0.0 && rate >= 0.0;
         }
 
         /// <summary>
         /// Sets the parameters of the distribution after checking their validity.
         /// </summary>
-        /// <param name="shape">The shape of the Erlang distribution.</param>
-        /// <param name="invScale">The inverse scale of the Erlang distribution.</param>
-        void SetParameters(double shape, double invScale)
+        /// <param name="shape">The shape (k) of the Erlang distribution.</param>
+        /// <param name="rate">The rate or inverse scale (λ) of the Erlang distribution.</param>
+        void SetParameters(double shape, double rate)
         {
-            if (Control.CheckDistributionParameters && !IsValidParameterSet(shape, invScale))
+            if (Control.CheckDistributionParameters && !IsValidParameterSet(shape, rate))
             {
                 throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
             }
 
             _shape = shape;
-            _invScale = invScale;
+            _rate = rate;
+        }
+
+        /// <summary>
+        /// Gets or sets the shape (k) of the Erlang distribution.
+        /// </summary>
+        public int Shape
+        {
+            get { return (int)_shape; }
+            set { SetParameters(value, _rate); }
+        }
+
+        /// <summary>
+        /// Gets or sets the rate or inverse scale (λ) of the Erlang distribution.
+        /// </summary>
+        public double Rate
+        {
+            get { return _rate; }
+            set { SetParameters(_shape, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the scale of the Erlang distribution.
+        /// </summary>
+        public double Scale
+        {
+            get { return 1.0 / _rate; }
+            set
+            {
+                var invScale = 1.0 / value;
+                if (Double.IsNegativeInfinity(invScale))
+                {
+                    invScale = -invScale;
+                }
+                SetParameters(_shape, invScale);
+            }
         }
 
         /// <summary>
@@ -145,60 +180,23 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Gets or sets the shape of the Erlang distribution.
-        /// </summary>
-        public int Shape
-        {
-            get { return (int) _shape; }
-            set { SetParameters(value, _invScale); }
-        }
-
-        /// <summary>
-        /// Gets or sets the scale of the Erlang distribution.
-        /// </summary>
-        public double Scale
-        {
-            get { return 1.0/_invScale; }
-            set
-            {
-                var invScale = 1.0/value;
-
-                if (Double.IsNegativeInfinity(invScale))
-                {
-                    invScale = -invScale;
-                }
-
-                SetParameters(_shape, invScale);
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the inverse scale of the Erlang distribution.
-        /// </summary>
-        public double InvScale
-        {
-            get { return _invScale; }
-            set { SetParameters(_shape, value); }
-        }
-
-        /// <summary>
         /// Gets the mean of the distribution.
         /// </summary>
         public double Mean
         {
             get
             {
-                if (Double.IsPositiveInfinity(_invScale))
+                if (Double.IsPositiveInfinity(_rate))
                 {
                     return _shape;
                 }
 
-                if (_invScale == 0.0 && _shape == 0.0)
+                if (_rate == 0.0 && _shape == 0.0)
                 {
                     return Double.NaN;
                 }
 
-                return _shape/_invScale;
+                return _shape/_rate;
             }
         }
 
@@ -209,17 +207,17 @@ namespace MathNet.Numerics.Distributions
         {
             get
             {
-                if (Double.IsPositiveInfinity(_invScale))
+                if (Double.IsPositiveInfinity(_rate))
                 {
                     return 0.0;
                 }
 
-                if (_invScale == 0.0 && _shape == 0.0)
+                if (_rate == 0.0 && _shape == 0.0)
                 {
                     return Double.NaN;
                 }
 
-                return _shape/(_invScale*_invScale);
+                return _shape/(_rate*_rate);
             }
         }
 
@@ -230,17 +228,17 @@ namespace MathNet.Numerics.Distributions
         {
             get
             {
-                if (Double.IsPositiveInfinity(_invScale))
+                if (Double.IsPositiveInfinity(_rate))
                 {
                     return 0.0;
                 }
 
-                if (_invScale == 0.0 && _shape == 0.0)
+                if (_rate == 0.0 && _shape == 0.0)
                 {
                     return Double.NaN;
                 }
 
-                return Math.Sqrt(_shape)/_invScale;
+                return Math.Sqrt(_shape)/_rate;
             }
         }
 
@@ -251,17 +249,17 @@ namespace MathNet.Numerics.Distributions
         {
             get
             {
-                if (Double.IsPositiveInfinity(_invScale))
+                if (Double.IsPositiveInfinity(_rate))
                 {
                     return 0.0;
                 }
 
-                if (_invScale == 0.0 && _shape == 0.0)
+                if (_rate == 0.0 && _shape == 0.0)
                 {
                     return Double.NaN;
                 }
 
-                return _shape - Math.Log(_invScale) + SpecialFunctions.GammaLn(_shape) + ((1.0 - _shape)*SpecialFunctions.DiGamma(_shape));
+                return _shape - Math.Log(_rate) + SpecialFunctions.GammaLn(_shape) + ((1.0 - _shape)*SpecialFunctions.DiGamma(_shape));
             }
         }
 
@@ -272,12 +270,12 @@ namespace MathNet.Numerics.Distributions
         {
             get
             {
-                if (Double.IsPositiveInfinity(_invScale))
+                if (Double.IsPositiveInfinity(_rate))
                 {
                     return 0.0;
                 }
 
-                if (_invScale == 0.0 && _shape == 0.0)
+                if (_rate == 0.0 && _shape == 0.0)
                 {
                     return Double.NaN;
                 }
@@ -298,17 +296,17 @@ namespace MathNet.Numerics.Distributions
                     throw new NotSupportedException();
                 }
 
-                if (Double.IsPositiveInfinity(_invScale))
+                if (Double.IsPositiveInfinity(_rate))
                 {
                     return _shape;
                 }
 
-                if (_invScale == 0.0 && _shape == 0.0)
+                if (_rate == 0.0 && _shape == 0.0)
                 {
                     return Double.NaN;
                 }
 
-                return (_shape - 1.0)/_invScale;
+                return (_shape - 1.0)/_rate;
             }
         }
 
@@ -343,22 +341,22 @@ namespace MathNet.Numerics.Distributions
         /// <returns>the density at <paramref name="x"/>.</returns>
         public double Density(double x)
         {
-            if (Double.IsPositiveInfinity(_invScale))
+            if (Double.IsPositiveInfinity(_rate))
             {
                 return x == _shape ? Double.PositiveInfinity : 0.0;
             }
 
-            if (_shape == 0.0 && _invScale == 0.0)
+            if (_shape == 0.0 && _rate == 0.0)
             {
                 return 0.0;
             }
 
             if (_shape == 1.0)
             {
-                return _invScale*Math.Exp(-_invScale*x);
+                return _rate*Math.Exp(-_rate*x);
             }
 
-            return Math.Pow(_invScale, _shape)*Math.Pow(x, _shape - 1.0)*Math.Exp(-_invScale*x)/SpecialFunctions.Gamma(_shape);
+            return Math.Pow(_rate, _shape)*Math.Pow(x, _shape - 1.0)*Math.Exp(-_rate*x)/SpecialFunctions.Gamma(_shape);
         }
 
         /// <summary>
@@ -368,22 +366,22 @@ namespace MathNet.Numerics.Distributions
         /// <returns>the log density at <paramref name="x"/>.</returns>
         public double DensityLn(double x)
         {
-            if (Double.IsPositiveInfinity(_invScale))
+            if (Double.IsPositiveInfinity(_rate))
             {
                 return x == _shape ? Double.PositiveInfinity : Double.NegativeInfinity;
             }
 
-            if (_shape == 0.0 && _invScale == 0.0)
+            if (_shape == 0.0 && _rate == 0.0)
             {
                 return Double.NegativeInfinity;
             }
 
             if (_shape == 1.0)
             {
-                return Math.Log(_invScale) - (_invScale*x);
+                return Math.Log(_rate) - (_rate*x);
             }
 
-            return (_shape*Math.Log(_invScale)) + ((_shape - 1.0)*Math.Log(x)) - (_invScale*x) - SpecialFunctions.GammaLn(_shape);
+            return (_shape*Math.Log(_rate)) + ((_shape - 1.0)*Math.Log(x)) - (_rate*x) - SpecialFunctions.GammaLn(_shape);
         }
 
         /// <summary>
@@ -393,17 +391,17 @@ namespace MathNet.Numerics.Distributions
         /// <returns>the cumulative distribution at location <paramref name="x"/>.</returns>
         public double CumulativeDistribution(double x)
         {
-            if (Double.IsPositiveInfinity(_invScale))
+            if (Double.IsPositiveInfinity(_rate))
             {
                 return x >= _shape ? 1.0 : 0.0;
             }
 
-            if (_shape == 0.0 && _invScale == 0.0)
+            if (_shape == 0.0 && _rate == 0.0)
             {
                 return 0.0;
             }
 
-            return SpecialFunctions.GammaLowerRegularized(_shape, x*_invScale);
+            return SpecialFunctions.GammaLowerRegularized(_shape, x*_rate);
         }
 
         /// <summary>
@@ -466,7 +464,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sample from the distribution.</returns>
         public double Sample()
         {
-            return SampleUnchecked(RandomSource, _shape, _invScale);
+            return SampleUnchecked(RandomSource, _shape, _rate);
         }
 
         /// <summary>
@@ -477,7 +475,7 @@ namespace MathNet.Numerics.Distributions
         {
             while (true)
             {
-                yield return SampleUnchecked(RandomSource, _shape, _invScale);
+                yield return SampleUnchecked(RandomSource, _shape, _rate);
             }
         }
 

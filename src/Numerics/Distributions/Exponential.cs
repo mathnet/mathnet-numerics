@@ -37,7 +37,7 @@ namespace MathNet.Numerics.Distributions
     /// <summary>
     /// Continuous Univariate Exponential distribution.
     /// The exponential distribution is a distribution over the real numbers parameterized by one non-negative parameter.
-    /// <a href="http://en.wikipedia.org/wiki/exponential_distribution">Wikipedia - exponential distribution</a>.
+    /// <a href="http://en.wikipedia.org/wiki/Exponential_distribution">Wikipedia - exponential distribution</a>.
     /// </summary>
     /// <remarks>The distribution will use the <see cref="System.Random"/> by default. 
     /// <para>Users can set the random number generator by using the <see cref="RandomSource"/> property.</para>
@@ -48,27 +48,27 @@ namespace MathNet.Numerics.Distributions
     {
         System.Random _random;
 
-        double _lambda;
+        double _rate;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Exponential"/> class.
         /// </summary>
-        /// <param name="lambda">The lambda parameter of the Exponential distribution.</param>
-        public Exponential(double lambda)
+        /// <param name="rate">The rate (λ) parameter of the Exponential distribution.</param>
+        public Exponential(double rate)
         {
             _random = new System.Random();
-            SetParameters(lambda);
+            SetParameters(rate);
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Exponential"/> class.
         /// </summary>
-        /// <param name="lambda">The lambda parameter of the Exponential distribution.</param>
+        /// <param name="rate">The rate (λ) parameter of the Exponential distribution.</param>
         /// <param name="randomSource">The random number generator which is used to draw random samples.</param>
-        public Exponential(double lambda, System.Random randomSource)
+        public Exponential(double rate, System.Random randomSource)
         {
             _random = randomSource ?? new System.Random();
-            SetParameters(lambda);
+            SetParameters(rate);
         }
 
         /// <summary>
@@ -77,32 +77,41 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a string representation of the distribution.</returns>
         public override string ToString()
         {
-            return "Exponential(Lambda = " + _lambda + ")";
+            return "Exponential(λ = " + _rate + ")";
         }
 
         /// <summary>
         /// Checks whether the parameters of the distribution are valid. 
         /// </summary>
-        /// <param name="lambda">Lambda parameter.</param>
+        /// <param name="rate">The rate (λ) parameter of the Exponential distribution.</param>
         /// <returns><c>true</c> when the parameters are valid, <c>false</c> otherwise.</returns>
-        static bool IsValidParameterSet(double lambda)
+        static bool IsValidParameterSet(double rate)
         {
-            return lambda >= 0.0;
+            return rate >= 0.0;
         }
 
         /// <summary>
         /// Sets the parameters of the distribution after checking their validity.
         /// </summary>
-        /// <param name="lambda">Lambda parameter.</param>
+        /// <param name="rate">The rate (λ) parameter of the Exponential distribution.</param>
         /// <exception cref="ArgumentOutOfRangeException">When the parameters don't pass the <see cref="IsValidParameterSet"/> function.</exception>
-        void SetParameters(double lambda)
+        void SetParameters(double rate)
         {
-            if (Control.CheckDistributionParameters && !IsValidParameterSet(lambda))
+            if (Control.CheckDistributionParameters && !IsValidParameterSet(rate))
             {
                 throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
             }
 
-            _lambda = lambda;
+            _rate = rate;
+        }
+
+        /// <summary>
+        /// Gets or sets the rate (λ) parameter of the distribution.
+        /// </summary>
+        public double Rate
+        {
+            get { return _rate; }
+            set { SetParameters(value); }
         }
 
         /// <summary>
@@ -115,20 +124,11 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Gets or sets the lambda parameter of the distribution.
-        /// </summary>
-        public double Lambda
-        {
-            get { return _lambda; }
-            set { SetParameters(value); }
-        }
-
-        /// <summary>
         /// Gets the mean of the distribution.
         /// </summary>
         public double Mean
         {
-            get { return 1.0/_lambda; }
+            get { return 1.0/_rate; }
         }
 
         /// <summary>
@@ -136,7 +136,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Variance
         {
-            get { return 1.0/(_lambda*_lambda); }
+            get { return 1.0/(_rate*_rate); }
         }
 
         /// <summary>
@@ -144,7 +144,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double StdDev
         {
-            get { return 1.0/_lambda; }
+            get { return 1.0/_rate; }
         }
 
         /// <summary>
@@ -152,7 +152,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Entropy
         {
-            get { return 1.0 - Math.Log(_lambda); }
+            get { return 1.0 - Math.Log(_rate); }
         }
 
         /// <summary>
@@ -176,7 +176,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Median
         {
-            get { return Math.Log(2.0)/_lambda; }
+            get { return Math.Log(2.0)/_rate; }
         }
 
         /// <summary>
@@ -204,7 +204,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (x >= 0.0)
             {
-                return _lambda*Math.Exp(-_lambda*x);
+                return _rate*Math.Exp(-_rate*x);
             }
 
             return 0.0;
@@ -217,7 +217,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>the log density at <paramref name="x"/>.</returns>
         public double DensityLn(double x)
         {
-            return Math.Log(_lambda) - (_lambda*x);
+            return Math.Log(_rate) - (_rate*x);
         }
 
         /// <summary>
@@ -229,7 +229,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (x >= 0.0)
             {
-                return 1.0 - Math.Exp(-_lambda*x);
+                return 1.0 - Math.Exp(-_rate*x);
             }
 
             return 0.0;
@@ -239,9 +239,9 @@ namespace MathNet.Numerics.Distributions
         /// Samples the distribution.
         /// </summary>
         /// <param name="rnd">The random number generator to use.</param>
-        /// <param name="lambda">The lambda parameter of the Exponential distribution.</param>
+        /// <param name="rate">The rate (λ) parameter of the Exponential distribution.</param>
         /// <returns>a random number from the distribution.</returns>
-        internal static double SampleUnchecked(System.Random rnd, double lambda)
+        internal static double SampleUnchecked(System.Random rnd, double rate)
         {
             var r = rnd.NextDouble();
             while (r == 0.0)
@@ -249,7 +249,7 @@ namespace MathNet.Numerics.Distributions
                 r = rnd.NextDouble();
             }
 
-            return -Math.Log(r)/lambda;
+            return -Math.Log(r)/rate;
         }
 
         /// <summary>
@@ -258,7 +258,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>A random number from this distribution.</returns>
         public double Sample()
         {
-            return SampleUnchecked(RandomSource, _lambda);
+            return SampleUnchecked(RandomSource, _rate);
         }
 
         /// <summary>
@@ -269,7 +269,7 @@ namespace MathNet.Numerics.Distributions
         {
             while (true)
             {
-                yield return SampleUnchecked(RandomSource, _lambda);
+                yield return SampleUnchecked(RandomSource, _rate);
             }
         }
 
@@ -277,34 +277,34 @@ namespace MathNet.Numerics.Distributions
         /// Draws a random sample from the distribution.
         /// </summary>
         /// <param name="rnd">The random number generator to use.</param>
-        /// <param name="lambda">The lambda parameter of the Exponential distribution.</param>
+        /// <param name="rate">The rate (λ) parameter of the Exponential distribution.</param>
         /// <returns>A random number from this distribution.</returns>
-        public static double Sample(System.Random rnd, double lambda)
+        public static double Sample(System.Random rnd, double rate)
         {
-            if (Control.CheckDistributionParameters && !IsValidParameterSet(lambda))
+            if (Control.CheckDistributionParameters && !IsValidParameterSet(rate))
             {
                 throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
             }
 
-            return SampleUnchecked(rnd, lambda);
+            return SampleUnchecked(rnd, rate);
         }
 
         /// <summary>
         /// Generates a sequence of samples from the Exponential distribution.
         /// </summary>
         /// <param name="rnd">The random number generator to use.</param>
-        /// <param name="lambda">The lambda parameter of the Exponential distribution.</param>
+        /// <param name="rate">The rate (λ) parameter of the Exponential distribution.</param>
         /// <returns>a sequence of samples from the distribution.</returns>
-        public static IEnumerable<double> Samples(System.Random rnd, double lambda)
+        public static IEnumerable<double> Samples(System.Random rnd, double rate)
         {
-            if (Control.CheckDistributionParameters && !IsValidParameterSet(lambda))
+            if (Control.CheckDistributionParameters && !IsValidParameterSet(rate))
             {
                 throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
             }
 
             while (true)
             {
-                yield return SampleUnchecked(rnd, lambda);
+                yield return SampleUnchecked(rnd, rate);
             }
         }
     }

@@ -1,4 +1,4 @@
-// <copyright file="StableTests.cs" company="Math.NET">
+﻿// <copyright file="StableTests.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -103,8 +103,8 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [Test]
         public void ValidateToString()
         {
-            var n = new Stable(1.2, 0.3, 1.0, 2.0);
-            Assert.AreEqual(String.Format("Stable(Stability = {0}, Skewness = {1}, Scale = {2}, Location = {3})", n.Alpha, n.Beta, n.Scale, n.Location), n.ToString());
+            var n = new Stable(1.2d, 0.3d, 1d, 2d);
+            Assert.AreEqual("Stable(α = 1.2, β = 0.3, c = 1, μ = 2)", n.ToString());
         }
 
         /// <summary>

@@ -1,4 +1,4 @@
-// <copyright file="RayleighTests.cs" company="Math.NET">
+﻿// <copyright file="RayleighTests.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -79,8 +79,8 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [Test]
         public void ValidateToString()
         {
-            var n = new Rayleigh(2.0);
-            Assert.AreEqual("Rayleigh(Scale = 2)", n.ToString());
+            var n = new Rayleigh(2d);
+            Assert.AreEqual("Rayleigh(σ = 2)", n.ToString());
         }
 
         /// <summary>

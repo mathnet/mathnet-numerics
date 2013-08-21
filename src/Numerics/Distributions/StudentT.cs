@@ -143,15 +143,6 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Gets or sets the random number generator which is used to draw random samples.
-        /// </summary>
-        public System.Random RandomSource
-        {
-            get { return _random; }
-            set { _random = value ?? new System.Random(); }
-        }
-
-        /// <summary>
         /// Gets or sets the location of the Student t-distribution.
         /// </summary>
         public double Location
@@ -176,6 +167,15 @@ namespace MathNet.Numerics.Distributions
         {
             get { return _freedom; }
             set { SetParameters(_location, _scale, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the random number generator which is used to draw random samples.
+        /// </summary>
+        public System.Random RandomSource
+        {
+            get { return _random; }
+            set { _random = value ?? new System.Random(); }
         }
 
         /// <summary>

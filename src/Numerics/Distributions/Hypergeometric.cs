@@ -51,19 +51,8 @@ namespace MathNet.Numerics.Distributions
     {
         System.Random _random;
 
-        /// <summary>
-        /// The size of the population (N).
-        /// </summary>
         int _population;
-
-        /// <summary>
-        /// The number successes within the population (K, M).
-        /// </summary>
         int _success;
-
-        /// <summary>
-        /// The number of draws without replacement (n).
-        /// </summary>
         int _draws;
 
         /// <summary>

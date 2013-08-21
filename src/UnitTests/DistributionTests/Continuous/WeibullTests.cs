@@ -1,4 +1,4 @@
-// <copyright file="WeibullTests.cs" company="Math.NET">
+﻿// <copyright file="WeibullTests.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -89,8 +89,8 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [Test]
         public void ValidateToString()
         {
-            var n = new Weibull(1.0, 2.0);
-            Assert.AreEqual("Weibull(Shape = 1, Scale = 2)", n.ToString());
+            var n = new Weibull(1d, 2d);
+            Assert.AreEqual("Weibull(k = 1, λ = 2)", n.ToString());
         }
 
         /// <summary>

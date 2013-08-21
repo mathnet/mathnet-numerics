@@ -1,4 +1,4 @@
-// <copyright file="ErlangTests.cs" company="Math.NET">
+﻿// <copyright file="ErlangTests.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -61,7 +61,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         {
             var n = new Erlang(shape, invScale);
             Assert.AreEqual(shape, n.Shape);
-            Assert.AreEqual(invScale, n.InvScale);
+            Assert.AreEqual(invScale, n.Rate);
         }
 
         /// <summary>
@@ -92,9 +92,9 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [TestCase(10, Double.PositiveInfinity)]
         public void CanCreateErlangWithShapeInvScale(int shape, double invScale)
         {
-            var n = Erlang.WithShapeInvScale(shape, invScale);
+            var n = Erlang.WithShapeRate(shape, invScale);
             Assert.AreEqual(shape, n.Shape);
-            Assert.AreEqual(invScale, n.InvScale);
+            Assert.AreEqual(invScale, n.Rate);
         }
 
         /// <summary>
@@ -121,8 +121,8 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [Test]
         public void ValidateToString()
         {
-            var n = new Erlang(1, 2.0);
-            Assert.AreEqual("Erlang(Shape = 1, Inverse Scale = 2)", n.ToString());
+            var n = new Erlang(1, 2d);
+            Assert.AreEqual("Erlang(Shape = 1, λ = 2)", n.ToString());
         }
 
         /// <summary>
@@ -193,7 +193,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         {
             new Erlang(1, 1.0)
             {
-                InvScale = invScale
+                Rate = invScale
             };
         }
 
@@ -204,7 +204,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void SetInvScaleFailsWithNegativeInvScale()
         {
             var n = new Erlang(1, 1.0);
-            Assert.Throws<ArgumentOutOfRangeException>(() => n.InvScale = -1.0);
+            Assert.Throws<ArgumentOutOfRangeException>(() => n.Rate = -1.0);
         }
 
         /// <summary>

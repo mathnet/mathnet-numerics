@@ -111,22 +111,21 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
+        /// Gets or sets the probability of generating a one.
+        /// </summary>
+        public double P
+        {
+            get { return _p; }
+            set { SetParameters(value); }
+        }
+
+        /// <summary>
         /// Gets or sets the random number generator which is used to draw random samples.
         /// </summary>
         public System.Random RandomSource
         {
             get { return _random; }
             set { _random = value ?? new System.Random(); }
-        }
-
-        /// <summary>
-        /// Gets or sets the probability of generating a one.
-        /// </summary>
-        public double P
-        {
-            get { return _p; }
-
-            set { SetParameters(value); }
         }
 
         /// <summary>

@@ -181,15 +181,6 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Gets or sets the random number generator which is used to draw random samples.
-        /// </summary>
-        public System.Random RandomSource
-        {
-            get { return _random; }
-            set { _random = value ?? new System.Random(); }
-        }
-
-        /// <summary>
         /// Gets or sets the location of the mean.
         /// </summary>
         public double MeanLocation
@@ -223,6 +214,15 @@ namespace MathNet.Numerics.Distributions
         {
             get { return _precisionInvScale; }
             set { SetParameters(_meanLocation, _meanScale, _precisionShape, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the random number generator which is used to draw random samples.
+        /// </summary>
+        public System.Random RandomSource
+        {
+            get { return _random; }
+            set { _random = value ?? new System.Random(); }
         }
 
         /// <summary>

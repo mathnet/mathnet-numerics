@@ -192,23 +192,22 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
+        /// Gets or sets the probability mass vector (non-negative ratios) of the multinomial.
+        /// </summary>
+        /// <remarks>Sometimes the normalized probability vector cannot be represented exactly in a floating point representation.</remarks>
+        public double[] P
+        {
+            get { return (double[])_pmfNormalized.Clone(); }
+            set { SetParameters(value); }
+        }
+
+        /// <summary>
         /// Gets or sets the random number generator which is used to draw random samples.
         /// </summary>
         public System.Random RandomSource
         {
             get { return _random; }
             set { _random = value ?? new System.Random(); }
-        }
-
-        /// <summary>
-        /// Gets or sets the normalized probability vector of the multinomial.
-        /// </summary>
-        /// <remarks>Sometimes the normalized probability vector cannot be represented
-        /// exactly in a floating point representation.</remarks>
-        public double[] P
-        {
-            get { return (double[]) _pmfNormalized.Clone(); }
-            set { SetParameters(value); }
         }
 
         /// <summary>

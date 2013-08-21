@@ -164,15 +164,6 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Gets or sets the random number generator which is used to draw random samples.
-        /// </summary>
-        public System.Random RandomSource
-        {
-            get { return _random; }
-            set { _random = value ?? new System.Random(); }
-        }
-
-        /// <summary>
         /// Gets or sets the mean. (M)
         /// </summary>
         /// <value>The mean of the distribution.</value>
@@ -200,6 +191,15 @@ namespace MathNet.Numerics.Distributions
         {
             get { return _k; }
             set { SetParameters(_m, _v, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the random number generator which is used to draw random samples.
+        /// </summary>
+        public System.Random RandomSource
+        {
+            get { return _random; }
+            set { _random = value ?? new System.Random(); }
         }
 
         /// <summary>

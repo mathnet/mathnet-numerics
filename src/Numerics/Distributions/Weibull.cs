@@ -1,4 +1,4 @@
-// <copyright file="Weibull.cs" company="Math.NET">
+﻿// <copyright file="Weibull.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -65,8 +65,8 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Initializes a new instance of the Weibull class.
         /// </summary>
-        /// <param name="shape">The shape of the Weibull distribution.</param>
-        /// <param name="scale">The inverse scale of the Weibull distribution.</param>
+        /// <param name="shape">The shape (k) of the Weibull distribution.</param>
+        /// <param name="scale">The scale (λ) of the Weibull distribution.</param>
         public Weibull(double shape, double scale)
         {
             _random = new System.Random();
@@ -76,8 +76,8 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Initializes a new instance of the Weibull class.
         /// </summary>
-        /// <param name="shape">The shape of the Weibull distribution.</param>
-        /// <param name="scale">The inverse scale of the Weibull distribution.</param>
+        /// <param name="shape">The shape (k) of the Weibull distribution.</param>
+        /// <param name="scale">The scale (λ) of the Weibull distribution.</param>
         /// <param name="randomSource">The random number generator which is used to draw random samples.</param>
         public Weibull(double shape, double scale, System.Random randomSource)
         {
@@ -91,14 +91,14 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a string representation of the distribution.</returns>
         public override string ToString()
         {
-            return "Weibull(Shape = " + _shape + ", Scale = " + _scale + ")";
+            return "Weibull(k = " + _shape + ", λ = " + _scale + ")";
         }
 
         /// <summary>
         /// Checks whether the parameters of the distribution are valid. 
         /// </summary>
-        /// <param name="shape">The shape of the Weibull distribution.</param>
-        /// <param name="scale">The scale of the Weibull distribution.</param>
+        /// <param name="shape">The shape (k) of the Weibull distribution.</param>
+        /// <param name="scale">The scale (λ) of the Weibull distribution.</param>
         /// <returns><c>true</c> when the parameters positive valid floating point numbers, <c>false</c> otherwise.</returns>
         static bool IsValidParameterSet(double shape, double scale)
         {
@@ -108,8 +108,8 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Sets the parameters of the distribution after checking their validity.
         /// </summary>
-        /// <param name="shape">The shape of the Weibull distribution.</param>
-        /// <param name="scale">The inverse scale of the Weibull distribution.</param>
+        /// <param name="shape">The shape (k) of the Weibull distribution.</param>
+        /// <param name="scale">The scale (λ) of the Weibull distribution.</param>
         /// <exception cref="ArgumentOutOfRangeException">When the parameters don't pass the <see cref="IsValidParameterSet"/> function.</exception>
         void SetParameters(double shape, double scale)
         {
@@ -124,16 +124,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Gets or sets the random number generator which is used to draw random samples.
-        /// </summary>
-        public System.Random RandomSource
-        {
-            get { return _random; }
-            set { _random = value ?? new System.Random(); }
-        }
-
-        /// <summary>
-        /// Gets or sets the shape of the Weibull distribution.
+        /// Gets or sets the shape (k) of the Weibull distribution.
         /// </summary>
         public double Shape
         {
@@ -142,12 +133,21 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Gets or sets the scale of the Weibull distribution.
+        /// Gets or sets the scale (λ) of the Weibull distribution.
         /// </summary>
         public double Scale
         {
             get { return _scale; }
             set { SetParameters(_shape, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the random number generator which is used to draw random samples.
+        /// </summary>
+        public System.Random RandomSource
+        {
+            get { return _random; }
+            set { _random = value ?? new System.Random(); }
         }
 
         /// <summary>
@@ -297,8 +297,8 @@ namespace MathNet.Numerics.Distributions
         /// any parameter checks.
         /// </summary>
         /// <param name="rnd">The random number generator to use.</param>
-        /// <param name="shape">The shape of the Weibull distribution.</param>
-        /// <param name="scale">The scale of the Weibull distribution.</param>
+        /// <param name="shape">The shape (k) of the Weibull distribution.</param>
+        /// <param name="scale">The scale (λ) of the Weibull distribution.</param>
         /// <returns>A sample from a Weibull distributed random variable.</returns>
         internal static double SampleUnchecked(System.Random rnd, double shape, double scale)
         {
@@ -331,8 +331,8 @@ namespace MathNet.Numerics.Distributions
         /// Generates a sample from the Weibull distribution.
         /// </summary>
         /// <param name="rng">The random number generator to use.</param>
-        /// <param name="shape">The shape of the Weibull distribution from which to generate samples.</param>
-        /// <param name="scale">The scale of the Weibull distribution from which to generate samples.</param>
+        /// <param name="shape">The shape (k) of the Weibull distribution.</param>
+        /// <param name="scale">The scale (λ) of the Weibull distribution.</param>
         /// <returns>a sample from the distribution.</returns>
         public static double Sample(System.Random rng, double shape, double scale)
         {
@@ -348,8 +348,8 @@ namespace MathNet.Numerics.Distributions
         /// Generates a sequence of samples from the Weibull distribution.
         /// </summary>
         /// <param name="rng">The random number generator to use.</param>
-        /// <param name="shape">The shape of the Weibull distribution from which to generate samples.</param>
-        /// <param name="scale">The scale of the Weibull distribution from which to generate samples.</param>
+        /// <param name="shape">The shape (k) of the Weibull distribution.</param>
+        /// <param name="scale">The scale (λ) of the Weibull distribution.</param>
         /// <returns>a sequence of samples from the distribution.</returns>
         public static IEnumerable<double> Samples(System.Random rng, double shape, double scale)
         {

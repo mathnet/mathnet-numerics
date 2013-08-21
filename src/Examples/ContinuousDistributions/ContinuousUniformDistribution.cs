@@ -65,7 +65,7 @@ namespace Examples.ContinuousDistributionsExamples
         {
             // 1. Initialize the new instance of the ContinuousUniform distribution class with default parameters.
             var continuousUniform = new ContinuousUniform();
-            Console.WriteLine(@"1. Initialize the new instance of the ContinuousUniform distribution class with parameters Lower = {0}, Upper = {1}", continuousUniform.Lower, continuousUniform.Upper);
+            Console.WriteLine(@"1. Initialize the new instance of the ContinuousUniform distribution class with parameters Lower = {0}, Upper = {1}", continuousUniform.LowerBound, continuousUniform.UpperBound);
             Console.WriteLine();
 
             // 2. Distributuion properties:
@@ -131,8 +131,8 @@ namespace Examples.ContinuousDistributionsExamples
 
             // 5. Generate 100000 samples of the ContinuousUniform(2, 10) distribution and display histogram
             Console.WriteLine(@"5. Generate 100000 samples of the ContinuousUniform(2, 10) distribution and display histogram");
-            continuousUniform.Upper = 10;
-            continuousUniform.Lower = 2;
+            continuousUniform.UpperBound = 10;
+            continuousUniform.LowerBound = 2;
             for (var i = 0; i < data.Length; i++)
             {
                 data[i] = continuousUniform.Sample();

@@ -1,4 +1,4 @@
-// <copyright file="Beta.cs" company="Math.NET">
+﻿// <copyright file="Beta.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -61,8 +61,8 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Initializes a new instance of the Beta class.
         /// </summary>
-        /// <param name="a">The a shape parameter of the Beta distribution.</param>
-        /// <param name="b">The b shape parameter of the Beta distribution.</param>
+        /// <param name="a">The α shape parameter of the Beta distribution.</param>
+        /// <param name="b">The β shape parameter of the Beta distribution.</param>
         /// <exception cref="ArgumentOutOfRangeException">If any of the Beta parameters are negative.</exception>
         public Beta(double a, double b)
         {
@@ -73,8 +73,8 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Initializes a new instance of the Beta class.
         /// </summary>
-        /// <param name="a">The a shape parameter of the Beta distribution.</param>
-        /// <param name="b">The b shape parameter of the Beta distribution.</param>
+        /// <param name="a">The α shape parameter of the Beta distribution.</param>
+        /// <param name="b">The β shape parameter of the Beta distribution.</param>
         /// <param name="randomSource">The random number generator which is used to draw random samples.</param>
         /// <exception cref="ArgumentOutOfRangeException">If any of the Beta parameters are negative.</exception>
         public Beta(double a, double b, System.Random randomSource)
@@ -89,14 +89,14 @@ namespace MathNet.Numerics.Distributions
         /// <returns>A string representation of the Beta distribution.</returns>
         public override string ToString()
         {
-            return "Beta(A = " + _shapeA + ", B = " + _shapeB + ")";
+            return "Beta(α = " + _shapeA + ", β = " + _shapeB + ")";
         }
 
         /// <summary>
         /// Checks whether the parameters of the distribution are valid. 
         /// </summary>
-        /// <param name="a">The a shape parameter of the Beta distribution.</param>
-        /// <param name="b">The b shape parameter of the Beta distribution.</param>
+        /// <param name="a">The α shape parameter of the Beta distribution.</param>
+        /// <param name="b">The β shape parameter of the Beta distribution.</param>
         /// <returns><c>true</c> when the parameters are valid, <c>false</c> otherwise.</returns>
         static bool IsValidParameterSet(double a, double b)
         {
@@ -106,8 +106,8 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Sets the parameters of the distribution after checking their validity.
         /// </summary>
-        /// <param name="a">The a shape parameter of the Beta distribution.</param>
-        /// <param name="b">The b shape parameter of the Beta distribution.</param>
+        /// <param name="a">The α shape parameter of the Beta distribution.</param>
+        /// <param name="b">The β shape parameter of the Beta distribution.</param>
         /// <exception cref="ArgumentOutOfRangeException">When the parameters don't pass the <see cref="IsValidParameterSet"/> function.</exception>
         void SetParameters(double a, double b)
         {
@@ -121,16 +121,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Gets or sets the random number generator which is used to draw random samples.
-        /// </summary>
-        public System.Random RandomSource
-        {
-            get { return _random; }
-            set { _random = value ?? new System.Random(); }
-        }
-
-        /// <summary>
-        /// Gets or sets the A shape parameter of the Beta distribution.
+        /// Gets or sets the α shape parameter of the Beta distribution.
         /// </summary>
         public double A
         {
@@ -139,12 +130,21 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Gets or sets the B shape parameter of the Beta distribution.
+        /// Gets or sets the β shape parameter of the Beta distribution.
         /// </summary>
         public double B
         {
             get { return _shapeB; }
             set { SetParameters(_shapeA, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the random number generator which is used to draw random samples.
+        /// </summary>
+        public System.Random RandomSource
+        {
+            get { return _random; }
+            set { _random = value ?? new System.Random(); }
         }
 
         /// <summary>
@@ -524,8 +524,8 @@ namespace MathNet.Numerics.Distributions
         /// Samples Beta distributed random variables by sampling two Gamma variables and normalizing.
         /// </summary>
         /// <param name="rnd">The random number generator to use.</param>
-        /// <param name="a">The A shape parameter.</param>
-        /// <param name="b">The B shape parameter.</param>
+        /// <param name="a">The α shape parameter of the Beta distribution.</param>
+        /// <param name="b">The β shape parameter of the Beta distribution.</param>
         /// <returns>a random number from the Beta distribution.</returns>
         internal static double SampleUnchecked(System.Random rnd, double a, double b)
         {
@@ -559,8 +559,8 @@ namespace MathNet.Numerics.Distributions
         /// Generates a sample from the distribution.
         /// </summary>
         /// <param name="rnd">The random number generator to use.</param>
-        /// <param name="a">The a shape parameter of the Beta distribution.</param>
-        /// <param name="b">The b shape parameter of the Beta distribution.</param>
+        /// <param name="a">The α shape parameter of the Beta distribution.</param>
+        /// <param name="b">The β shape parameter of the Beta distribution.</param>
         /// <returns>a sample from the distribution.</returns>
         public static double Sample(System.Random rnd, double a, double b)
         {
@@ -576,8 +576,8 @@ namespace MathNet.Numerics.Distributions
         /// Generates a sequence of samples from the distribution.
         /// </summary>
         /// <param name="rnd">The random number generator to use.</param>
-        /// <param name="a">The a shape parameter of the Beta distribution.</param>
-        /// <param name="b">The b shape parameter of the Beta distribution.</param>
+        /// <param name="a">The α shape parameter of the Beta distribution.</param>
+        /// <param name="b">The β shape parameter of the Beta distribution.</param>
         /// <returns>a sequence of samples from the distribution.</returns>
         public static IEnumerable<double> Samples(System.Random rnd, double a, double b)
         {

@@ -55,11 +55,8 @@ namespace MathNet.Numerics.Distributions
     {
         System.Random _random;
 
-        /// <summary>
-        /// Since many properties of the distribution can only be computed approximately, the tolerance
-        /// level specifies how much error we accept.
-        /// </summary>
-        const double Tolerance = 1e-12;
+        double _lambda;
+        double _nu;
 
         /// <summary>
         /// The mean of the distribution.
@@ -77,20 +74,16 @@ namespace MathNet.Numerics.Distributions
         double _z = double.MinValue;
 
         /// <summary>
-        /// The lambda parameter.
+        /// Since many properties of the distribution can only be computed approximately, the tolerance
+        /// level specifies how much error we accept.
         /// </summary>
-        double _lambda;
-
-        /// <summary>
-        /// The nu parameter.
-        /// </summary>
-        double _nu;
+        const double Tolerance = 1e-12;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ConwayMaxwellPoisson"/> class. 
         /// </summary>
-        /// <param name="lambda">The lambda parameter.</param>
-        /// <param name="nu">The nu parameter.</param>
+        /// <param name="lambda">The lambda (λ) parameter.</param>
+        /// <param name="nu">The nu (ν) parameter.</param>
         public ConwayMaxwellPoisson(double lambda, double nu)
         {
             _random = new System.Random();
@@ -100,8 +93,8 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Initializes a new instance of the <see cref="ConwayMaxwellPoisson"/> class. 
         /// </summary>
-        /// <param name="lambda">The lambda parameter.</param>
-        /// <param name="nu">The nu parameter.</param>
+        /// <param name="lambda">The lambda (λ) parameter.</param>
+        /// <param name="nu">The nu (ν) parameter.</param>
         /// <param name="randomSource">The random number generator which is used to draw random samples.</param>
         public ConwayMaxwellPoisson(double lambda, double nu, System.Random randomSource)
         {
@@ -112,19 +105,17 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Returns a <see cref="System.String"/> that represents this instance.
         /// </summary>
-        /// <returns>
-        /// A <see cref="System.String"/> that represents this instance.
-        /// </returns>
+        /// <returns>A <see cref="System.String"/> that represents this instance.</returns>
         public override string ToString()
         {
-            return "ConwayMaxwellPoisson(Lambda = " + _lambda + ", Nu = " + _nu + ")";
+            return "ConwayMaxwellPoisson(λ = " + _lambda + ", ν = " + _nu + ")";
         }
 
         /// <summary>
         /// Checks whether the parameters of the distribution are valid. 
         /// </summary>
-        /// <param name="lambda">The lambda parameter.</param>
-        /// <param name="nu">The nu parameter.</param>
+        /// <param name="lambda">The lambda (λ) parameter.</param>
+        /// <param name="nu">The nu (ν) parameter.</param>
         /// <returns><c>true</c> when the parameters are valid, <c>false</c> otherwise.</returns>
         static bool IsValidParameterSet(double lambda, double nu)
         {
@@ -134,8 +125,8 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Sets the parameters of the distribution after checking their validity.
         /// </summary>
-        /// <param name="lambda">The lambda parameter.</param>
-        /// <param name="nu">The nu parameter.</param>
+        /// <param name="lambda">The lambda (λ) parameter.</param>
+        /// <param name="nu">The nu (ν) parameter.</param>
         /// <exception cref="ArgumentOutOfRangeException">When the parameters don't pass the <see cref="IsValidParameterSet"/> function.</exception>
         void SetParameters(double lambda, double nu)
         {
@@ -149,16 +140,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Gets or sets the random number generator which is used to draw random samples.
-        /// </summary>
-        public System.Random RandomSource
-        {
-            get { return _random; }
-            set { _random = value ?? new System.Random(); }
-        }
-
-        /// <summary>
-        /// Gets or sets the lambda parameter.
+        /// Gets or sets the lambda (λ) parameter.
         /// </summary>
         /// <value>The value of the lambda parameter.</value>
         public double Lambda
@@ -168,13 +150,22 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Gets or sets the Nu parameter.
+        /// Gets or sets the DegreeOfFreedom (ν) parameter.
         /// </summary>
-        /// <value>The value of the Nu parameter.</value>
+        /// <value>The value of the DegreeOfFreedom parameter.</value>
         public double Nu
         {
             get { return _nu; }
             set { SetParameters(_lambda, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the random number generator which is used to draw random samples.
+        /// </summary>
+        public System.Random RandomSource
+        {
+            get { return _random; }
+            set { _random = value ?? new System.Random(); }
         }
 
         /// <summary>
@@ -454,8 +445,8 @@ namespace MathNet.Numerics.Distributions
         /// Returns one trials from the distribution.
         /// </summary>
         /// <param name="rnd">The random number generator to use.</param>
-        /// <param name="lambda">The lambda parameter</param>
-        /// <param name="nu">The nu parameter.</param>
+        /// <param name="lambda">The lambda (λ) parameter.</param>
+        /// <param name="nu">The nu (ν) parameter.</param>
         /// <param name="z">The z parameter.</param>
         /// <returns>
         /// One sample from the distribution implied by <paramref name="lambda"/>, <paramref name="nu"/>, and <paramref name="z"/>.
@@ -504,8 +495,8 @@ namespace MathNet.Numerics.Distributions
         /// Samples a random variable.
         /// </summary>
         /// <param name="rnd">The random number generator to use.</param>
-        /// <param name="lambda">The lambda parameter</param>
-        /// <param name="nu">The nu parameter.</param>
+        /// <param name="lambda">The lambda (λ) parameter.</param>
+        /// <param name="nu">The nu (ν) parameter.</param>
         public static int Sample(System.Random rnd, double lambda, double nu)
         {
             if (Control.CheckDistributionParameters && !IsValidParameterSet(lambda, nu))
@@ -521,8 +512,8 @@ namespace MathNet.Numerics.Distributions
         /// Samples a sequence of this random variable.
         /// </summary>
         /// <param name="rnd">The random number generator to use.</param>
-        /// <param name="lambda">The lambda parameter</param>
-        /// <param name="nu">The nu parameter.</param>
+        /// <param name="lambda">The lambda (λ) parameter.</param>
+        /// <param name="nu">The nu (ν) parameter.</param>
         public static IEnumerable<int> Samples(System.Random rnd, double lambda, double nu)
         {
             if (Control.CheckDistributionParameters && !IsValidParameterSet(lambda, nu))

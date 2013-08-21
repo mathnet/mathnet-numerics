@@ -48,14 +48,7 @@ namespace MathNet.Numerics.Distributions
     {
         System.Random _random;
 
-        /// <summary>
-        /// The distribution's lower bound.
-        /// </summary>
         double _lower;
-
-        /// <summary>
-        /// The distribution's upper bound.
-        /// </summary>
         double _upper;
 
         /// <summary>
@@ -128,18 +121,9 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Gets or sets the random number generator which is used to draw random samples.
-        /// </summary>
-        public System.Random RandomSource
-        {
-            get { return _random; }
-            set { _random = value ?? new System.Random(); }
-        }
-
-        /// <summary>
         /// Gets or sets the lower bound of the distribution.
         /// </summary>
-        public double Lower
+        public double LowerBound
         {
             get { return _lower; }
             set { SetParameters(value, _upper); }
@@ -148,10 +132,19 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Gets or sets the upper bound of the distribution.
         /// </summary>
-        public double Upper
+        public double UpperBound
         {
             get { return _upper; }
             set { SetParameters(_lower, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the random number generator which is used to draw random samples.
+        /// </summary>
+        public System.Random RandomSource
+        {
+            get { return _random; }
+            set { _random = value ?? new System.Random(); }
         }
 
         /// <summary>

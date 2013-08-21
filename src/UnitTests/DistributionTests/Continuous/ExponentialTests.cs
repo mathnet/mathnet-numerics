@@ -1,4 +1,4 @@
-// <copyright file="ExponentialTests.cs" company="Math.NET">
+﻿// <copyright file="ExponentialTests.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -58,7 +58,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void CanCreateExponential(double lambda)
         {
             var n = new Exponential(lambda);
-            Assert.AreEqual(lambda, n.Lambda);
+            Assert.AreEqual(lambda, n.Rate);
         }
 
         /// <summary>
@@ -79,8 +79,8 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [Test]
         public void ValidateToString()
         {
-            var n = new Exponential(2.0);
-            Assert.AreEqual("Exponential(Lambda = 2)", n.ToString());
+            var n = new Exponential(2d);
+            Assert.AreEqual("Exponential(λ = 2)", n.ToString());
         }
 
         /// <summary>
@@ -97,7 +97,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         {
             new Exponential(1.0)
             {
-                Lambda = lambda
+                Rate = lambda
             };
         }
 
@@ -108,7 +108,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void SetLambdaFailsWithNegativeLambda()
         {
             var n = new Exponential(1.0);
-            Assert.Throws<ArgumentOutOfRangeException>(() => n.Lambda = -1.0);
+            Assert.Throws<ArgumentOutOfRangeException>(() => n.Rate = -1.0);
         }
 
         /// <summary>

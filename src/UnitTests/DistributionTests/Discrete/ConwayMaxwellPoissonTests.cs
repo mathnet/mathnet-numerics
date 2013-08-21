@@ -1,4 +1,4 @@
-// <copyright file="ConwayMaxwellPoissonTests.cs" company="Math.NET">
+﻿// <copyright file="ConwayMaxwellPoissonTests.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -50,7 +50,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         /// Can create <c>ConwayMaxwellPoisson</c>.
         /// </summary>
         /// <param name="lambda">Lambda value.</param>
-        /// <param name="nu">Nu parameter.</param>
+        /// <param name="nu">DegreeOfFreedom parameter.</param>
         [TestCase(0.1, 0.0)]
         [TestCase(1.0, 2.5)]
         [TestCase(2.5, 3.0)]
@@ -78,8 +78,8 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         [Test]
         public void ValidateToString()
         {
-            var d = new ConwayMaxwellPoisson(1.0, 2.0);
-            Assert.AreEqual("ConwayMaxwellPoisson(Lambda = 1, Nu = 2)", d.ToString());
+            var d = new ConwayMaxwellPoisson(1d, 2d);
+            Assert.AreEqual("ConwayMaxwellPoisson(λ = 1, ν = 2)", d.ToString());
         }
 
         /// <summary>
@@ -99,9 +99,9 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         }
 
         /// <summary>
-        /// Can set Nu.
+        /// Can set DegreeOfFreedom.
         /// </summary>
-        /// <param name="nu">Nu parameter.</param>
+        /// <param name="nu">DegreeOfFreedom parameter.</param>
         [TestCase(0.0)]
         [TestCase(3.0)]
         [TestCase(10.0)]
@@ -129,9 +129,9 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         }
 
         /// <summary>
-        /// Set Nu with bad values fails.
+        /// Set DegreeOfFreedom with bad values fails.
         /// </summary>
-        /// <param name="nu">Nu parameter.</param>
+        /// <param name="nu">DegreeOfFreedom parameter.</param>
         [TestCase(-0.1)]
         [TestCase(-1.0)]
         [TestCase(-10.0)]
@@ -186,7 +186,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         /// Validate mean.
         /// </summary>
         /// <param name="lambda">Lambda value.</param>
-        /// <param name="nu">Nu parameter.</param>
+        /// <param name="nu">DegreeOfFreedom parameter.</param>
         /// <param name="mean">Expected value.</param>
         [TestCase(1, 1, 1.0)]
         [TestCase(2, 1, 2.0)]
@@ -224,7 +224,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         /// Validate probability.
         /// </summary>
         /// <param name="lambda">Lambda value.</param>
-        /// <param name="nu">Nu parameter.</param>
+        /// <param name="nu">DegreeOfFreedom parameter.</param>
         /// <param name="x">Input X value.</param>
         /// <param name="p">Expected value.</param>
         [TestCase(1.0, 1.0, 1, 0.367879441171442)]
@@ -243,7 +243,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         /// Validate probability log.
         /// </summary>
         /// <param name="lambda">Lambda value.</param>
-        /// <param name="nu">Nu parameter.</param>
+        /// <param name="nu">DegreeOfFreedom parameter.</param>
         /// <param name="x">Input X value.</param>
         /// <param name="pln">Expected value.</param>
         [TestCase(1.0, 1.0, 1, -1.0)]
@@ -283,7 +283,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         /// Validate cumulative distribution.
         /// </summary>
         /// <param name="lambda">Lambda value.</param>
-        /// <param name="nu">Nu parameter.</param>
+        /// <param name="nu">DegreeOfFreedom parameter.</param>
         /// <param name="x">Input X value.</param>
         /// <param name="cdf">Expected value.</param>
         [TestCase(1.0, 1.0, 1, 0.735758882342885)]

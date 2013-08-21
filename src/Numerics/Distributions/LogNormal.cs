@@ -1,4 +1,4 @@
-// <copyright file="LogNormal.cs" company="Math.NET">
+﻿// <copyright file="LogNormal.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -58,8 +58,8 @@ namespace MathNet.Numerics.Distributions
         /// The distribution will be initialized with the default <seealso cref="System.Random"/>
         /// random number generator.
         /// </summary>
-        /// <param name="mu">The mu of the logarithm of the distribution.</param>
-        /// <param name="sigma">The standard deviation of the logarithm of the distribution.</param>
+        /// <param name="mu">The log-scale (μ) of the logarithm of the distribution.</param>
+        /// <param name="sigma">The shape (σ) of the logarithm of the distribution.</param>
         public LogNormal(double mu, double sigma)
         {
             _random = new System.Random();
@@ -71,8 +71,8 @@ namespace MathNet.Numerics.Distributions
         /// The distribution will be initialized with the default <seealso cref="System.Random"/>
         /// random number generator.
         /// </summary>
-        /// <param name="mu">The mu of the logarithm of the distribution.</param>
-        /// <param name="sigma">The standard deviation of the logarithm of the distribution.</param>
+        /// <param name="mu">The log-scale (μ) of the distribution.</param>
+        /// <param name="sigma">The shape (σ) of the distribution.</param>
         /// <param name="randomSource">The random number generator which is used to draw random samples.</param>
         public LogNormal(double mu, double sigma, System.Random randomSource)
         {
@@ -108,14 +108,14 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a string representation of the distribution.</returns>
         public override string ToString()
         {
-            return "LogNormal(Mu = " + _mu + ", Sigma = " + _sigma + ")";
+            return "LogNormal(μ = " + _mu + ", σ = " + _sigma + ")";
         }
 
         /// <summary>
         /// Checks whether the parameters of the distribution are valid. 
         /// </summary>
-        /// <param name="mu">The mu of the logarithm of the distribution.</param>
-        /// <param name="sigma">The standard deviation of the logarithm of the distribution.</param>
+        /// <param name="mu">The log-scale (μ) of the distribution.</param>
+        /// <param name="sigma">The shape (σ) of the distribution.</param>
         /// <returns><c>true</c> when the parameters are valid, <c>false</c> otherwise.</returns>
         static bool IsValidParameterSet(double mu, double sigma)
         {
@@ -125,8 +125,8 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Sets the parameters of the distribution after checking their validity.
         /// </summary>
-        /// <param name="mu">The mu of the logarithm of the distribution.</param>
-        /// <param name="sigma">The standard deviation of the logarithm of the distribution.</param>
+        /// <param name="mu">The log-scale (μ) of the distribution.</param>
+        /// <param name="sigma">The shape (σ) of the distribution.</param>
         /// <exception cref="ArgumentOutOfRangeException">When the parameters don't pass the <see cref="IsValidParameterSet"/> function.</exception>
         void SetParameters(double mu, double sigma)
         {
@@ -140,16 +140,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Gets or sets the random number generator which is used to draw random samples.
-        /// </summary>
-        public System.Random RandomSource
-        {
-            get { return _random; }
-            set { _random = value ?? new System.Random(); }
-        }
-
-        /// <summary>
-        /// Gets or sets the mean of the logarithm of the log-normal.
+        /// Gets or sets the log-scale (μ) (mean of the logarithm) of the distribution.
         /// </summary>
         public double Mu
         {
@@ -158,12 +149,21 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Gets or sets the standard deviation of the logarithm of the log-normal.
+        /// Gets or sets the shape (σ) (standard deviation of the logarithm) of the distribution.
         /// </summary>
         public double Sigma
         {
             get { return _sigma; }
             set { SetParameters(_mu, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the random number generator which is used to draw random samples.
+        /// </summary>
+        public System.Random RandomSource
+        {
+            get { return _random; }
+            set { _random = value ?? new System.Random(); }
         }
 
         /// <summary>
@@ -324,8 +324,8 @@ namespace MathNet.Numerics.Distributions
         /// Generates a sample from the log-normal distribution using the <i>Box-Muller</i> algorithm.
         /// </summary>
         /// <param name="rng">The random number generator to use.</param>
-        /// <param name="mu">The mu of the logarithm of the distribution.</param>
-        /// <param name="sigma">The standard deviation of the logarithm of the distribution.</param>
+        /// <param name="mu">The log-scale (μ) of the distribution.</param>
+        /// <param name="sigma">The shape (σ) of the distribution.</param>
         /// <returns>a sample from the distribution.</returns>
         public static double Sample(System.Random rng, double mu, double sigma)
         {
@@ -341,8 +341,8 @@ namespace MathNet.Numerics.Distributions
         /// Generates a sequence of samples from the log-normal distribution using the <i>Box-Muller</i> algorithm.
         /// </summary>
         /// <param name="rng">The random number generator to use.</param>
-        /// <param name="mu">The mu of the logarithm of the distribution.</param>
-        /// <param name="sigma">The standard deviation of the logarithm of the distribution.</param>
+        /// <param name="mu">The log-scale (μ) of the distribution.</param>
+        /// <param name="sigma">The shape (σ) of the distribution.</param>
         /// <returns>a sequence of samples from the distribution.</returns>
         public static IEnumerable<double> Samples(System.Random rng, double mu, double sigma)
         {

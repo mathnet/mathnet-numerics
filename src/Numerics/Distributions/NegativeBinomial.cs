@@ -51,29 +51,7 @@ namespace MathNet.Numerics.Distributions
         System.Random _random;
 
         double _trials;
-
-        /// <summary>
-        /// The p parameter of the distribution.
-        /// </summary>
         double _p;
-
-        /// <summary>
-        /// Gets or sets the number of trials.
-        /// </summary>
-        public double R
-        {
-            get { return _trials; }
-            set { SetParameters(value, _p); }
-        }
-
-        /// <summary>
-        /// Gets or sets the probability of success.
-        /// </summary>
-        public double P
-        {
-            get { return _p; }
-            set { SetParameters(_trials, value); }
-        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="NegativeBinomial"/> class. 
@@ -135,6 +113,24 @@ namespace MathNet.Numerics.Distributions
 
             _p = p;
             _trials = r;
+        }
+
+        /// <summary>
+        /// Gets or sets the number of trials.
+        /// </summary>
+        public double R
+        {
+            get { return _trials; }
+            set { SetParameters(value, _p); }
+        }
+
+        /// <summary>
+        /// Gets or sets the probability of success.
+        /// </summary>
+        public double P
+        {
+            get { return _p; }
+            set { SetParameters(_trials, value); }
         }
 
         /// <summary>

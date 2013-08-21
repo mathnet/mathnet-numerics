@@ -65,7 +65,7 @@ namespace Examples.ContinuousDistributionsExamples
         {
             // 1. Initialize the new instance of the Exponential distribution class with parameter Lambda = 1.
             var exponential = new Exponential(1);
-            Console.WriteLine(@"1. Initialize the new instance of the Exponential distribution class with parameter Lambda = {0}", exponential.Lambda);
+            Console.WriteLine(@"1. Initialize the new instance of the Exponential distribution class with parameter Lambda = {0}", exponential.Rate);
             Console.WriteLine();
 
             // 2. Distributuion properties:
@@ -131,7 +131,7 @@ namespace Examples.ContinuousDistributionsExamples
 
             // 5. Generate 100000 samples of the Exponential(9) distribution and display histogram
             Console.WriteLine(@"5. Generate 100000 samples of the Exponential(9) distribution and display histogram");
-            exponential.Lambda = 9;
+            exponential.Rate = 9;
             for (var i = 0; i < data.Length; i++)
             {
                 data[i] = exponential.Sample();
@@ -142,7 +142,7 @@ namespace Examples.ContinuousDistributionsExamples
 
             // 6. Generate 100000 samples of the Exponential(0.01) distribution and display histogram
             Console.WriteLine(@"6. Generate 100000 samples of the Exponential(0.01) distribution and display histogram");
-            exponential.Lambda = 0.01;
+            exponential.Rate = 0.01;
             for (var i = 0; i < data.Length; i++)
             {
                 data[i] = exponential.Sample();

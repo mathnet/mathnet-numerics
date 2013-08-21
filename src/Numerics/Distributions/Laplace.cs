@@ -50,25 +50,8 @@ namespace MathNet.Numerics.Distributions
     {
         System.Random _random;
 
+        double _location;
         double _scale;
-
-        /// <summary>
-        /// Gets or sets the location of the Laplace distribution.
-        /// </summary>
-        public double Location
-        {
-            get { return Mean; }
-            set { SetParameters(value, _scale); }
-        }
-
-        /// <summary>
-        /// Gets or sets the scale of the Laplace distribution.
-        /// </summary>
-        public double Scale
-        {
-            get { return _scale; }
-            set { SetParameters(Mean, value); }
-        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Laplace"/> class (location = 0, scale = 1). 
@@ -109,14 +92,14 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a string representation of the distribution.</returns>
         public override string ToString()
         {
-            return "Laplace(Location = " + Mean + ", Scale = " + _scale + ")";
+            return "Laplace(μ = " + _location + ", b = " + _scale + ")";
         }
 
         /// <summary>
         /// Checks whether the parameters of the distribution are valid. 
         /// </summary>
-        /// <param name="location">The location for the Laplace distribution.</param>
-        /// <param name="scale">The scale for the Laplace distribution.</param>
+        /// <param name="location">The location (μ) of the Laplace distribution.</param>
+        /// <param name="scale">The scale (b) of the Laplace distribution.</param>
         /// <returns><c>true</c> when the parameters are valid, <c>false</c> otherwise.</returns>
         static bool IsValidParameterSet(double location, double scale)
         {
@@ -126,8 +109,8 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Sets the parameters of the distribution after checking their validity.
         /// </summary>
-        /// <param name="location">The location for the Laplace distribution.</param>
-        /// <param name="scale">The scale for the Laplace distribution.</param>
+        /// <param name="location">The location (μ) of the Laplace distribution.</param>
+        /// <param name="scale">The scale (b) of the Laplace distribution.</param>
         /// <exception cref="ArgumentOutOfRangeException">When the parameters don't pass the <see cref="IsValidParameterSet"/> function.</exception>
         void SetParameters(double location, double scale)
         {
@@ -136,8 +119,26 @@ namespace MathNet.Numerics.Distributions
                 throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
             }
 
-            Mean = location;
+            _location = location;
             _scale = scale;
+        }
+
+        /// <summary>
+        /// Gets or sets the location (μ) of the Laplace distribution.
+        /// </summary>
+        public double Location
+        {
+            get { return _location; }
+            set { SetParameters(value, _scale); }
+        }
+
+        /// <summary>
+        /// Gets or sets the scale (b) of the Laplace distribution.
+        /// </summary>
+        public double Scale
+        {
+            get { return _scale; }
+            set { SetParameters(_location, value); }
         }
 
         /// <summary>
@@ -152,7 +153,10 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Gets the mean of the distribution.
         /// </summary>
-        public double Mean { get; private set; }
+        public double Mean
+        {
+            get { return _location; }
+        }
 
         /// <summary>
         /// Gets the variance of the distribution.
@@ -191,7 +195,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Mode
         {
-            get { return Mean; }
+            get { return _location; }
         }
 
         /// <summary>
@@ -199,7 +203,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Median
         {
-            get { return Mean; }
+            get { return _location; }
         }
 
         /// <summary>
@@ -225,7 +229,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>the density at <paramref name="x"/>.</returns>      
         public double Density(double x)
         {
-            return Math.Exp(-Math.Abs(x - Mean)/_scale)/(2.0*_scale);
+            return Math.Exp(-Math.Abs(x - _location)/_scale)/(2.0*_scale);
         }
 
         /// <summary>
@@ -245,15 +249,15 @@ namespace MathNet.Numerics.Distributions
         /// <returns>the cumulative distribution at location <paramref name="x"/>.</returns>
         public double CumulativeDistribution(double x)
         {
-            return 0.5*(1.0 + (Math.Sign(x - Mean)*(1.0 - Math.Exp(-Math.Abs(x - Mean)/_scale))));
+            return 0.5*(1.0 + (Math.Sign(x - _location)*(1.0 - Math.Exp(-Math.Abs(x - _location)/_scale))));
         }
 
         /// <summary>
         /// Samples the distribution.
         /// </summary>
         /// <param name="rnd">The random number generator to use.</param>
-        /// <param name="location">The location shape parameter.</param>
-        /// <param name="scale">The scale parameter.</param>
+        /// <param name="location">The location (μ) of the Laplace distribution.</param>
+        /// <param name="scale">The scale (b) of the Laplace distribution.</param>
         /// <returns>a random number from the distribution.</returns>
         internal static double SampleUnchecked(System.Random rnd, double location, double scale)
         {
@@ -267,7 +271,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sample from the distribution.</returns>
         public double Sample()
         {
-            return SampleUnchecked(RandomSource, Mean, _scale);
+            return SampleUnchecked(RandomSource, _location, _scale);
         }
 
         /// <summary>
@@ -278,7 +282,7 @@ namespace MathNet.Numerics.Distributions
         {
             while (true)
             {
-                yield return SampleUnchecked(RandomSource, Mean, _scale);
+                yield return SampleUnchecked(RandomSource, _location, _scale);
             }
         }
 
@@ -286,8 +290,8 @@ namespace MathNet.Numerics.Distributions
         /// Generates a sample from the distribution.
         /// </summary>
         /// <param name="rnd">The random number generator to use.</param>
-        /// <param name="location">The location shape parameter.</param>
-        /// <param name="scale">The scale parameter.</param>
+        /// <param name="location">The location (μ) of the Laplace distribution.</param>
+        /// <param name="scale">The scale (b) of the Laplace distribution.</param>
         /// <returns>a sample from the distribution.</returns>
         public static double Sample(System.Random rnd, double location, double scale)
         {
@@ -303,8 +307,8 @@ namespace MathNet.Numerics.Distributions
         /// Generates a sequence of samples from the distribution.
         /// </summary>
         /// <param name="rnd">The random number generator to use.</param>
-        /// <param name="location">The location shape parameter.</param>
-        /// <param name="scale">The scale parameter.</param>
+        /// <param name="location">The location (μ) of the Laplace distribution.</param>
+        /// <param name="scale">The scale (b) of the Laplace distribution.</param>
         /// <returns>a sequence of samples from the distribution.</returns>
         public static IEnumerable<double> Samples(System.Random rnd, double location, double scale)
         {

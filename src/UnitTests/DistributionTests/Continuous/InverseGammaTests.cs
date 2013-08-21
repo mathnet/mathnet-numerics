@@ -1,4 +1,4 @@
-// <copyright file="InverseGammaTests.cs" company="Math.NET">
+﻿// <copyright file="InverseGammaTests.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -87,8 +87,8 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [Test]
         public void ValidateToString()
         {
-            var n = new InverseGamma(1.1, 2.1);
-            Assert.AreEqual(String.Format("InverseGamma(Shape = {0}, Inverse Scale = {1})", n.Shape, n.Scale), n.ToString());
+            var n = new InverseGamma(1.1d, 2.1d);
+            Assert.AreEqual("InverseGamma(α = 1.1, β = 2.1)", n.ToString());
         }
 
         /// <summary>

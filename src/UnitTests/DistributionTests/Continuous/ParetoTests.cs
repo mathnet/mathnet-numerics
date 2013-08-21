@@ -1,4 +1,4 @@
-// <copyright file="ParetoTests.cs" company="Math.NET">
+﻿// <copyright file="ParetoTests.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -87,8 +87,8 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [Test]
         public void ValidateToString()
         {
-            var n = new Pareto(1.0, 2.0);
-            Assert.AreEqual("Pareto(Scale = 1, Shape = 2)", n.ToString());
+            var n = new Pareto(1d, 2d);
+            Assert.AreEqual("Pareto(xm = 1, α = 2)", n.ToString());
         }
 
         /// <summary>

@@ -47,9 +47,6 @@ namespace MathNet.Numerics.Distributions
     {
         System.Random _random;
 
-        /// <summary>
-        /// The Dirichlet distribution parameters.
-        /// </summary>
         double[] _alpha;
 
         /// <summary>
@@ -168,6 +165,15 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
+        /// Gets or sets the parameters of the Dirichlet distribution.
+        /// </summary>
+        public double[] Alpha
+        {
+            get { return _alpha; }
+            set { SetParameters(value); }
+        }
+
+        /// <summary>
         /// Gets or sets the random number generator which is used to draw random samples.
         /// </summary>
         public System.Random RandomSource
@@ -182,15 +188,6 @@ namespace MathNet.Numerics.Distributions
         public int Dimension
         {
             get { return _alpha.Length; }
-        }
-
-        /// <summary>
-        /// Gets or sets the parameters of the Dirichlet distribution.
-        /// </summary>
-        public double[] Alpha
-        {
-            get { return _alpha; }
-            set { SetParameters(value); }
         }
 
         /// <summary>

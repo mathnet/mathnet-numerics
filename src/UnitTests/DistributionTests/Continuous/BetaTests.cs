@@ -1,4 +1,4 @@
-// <copyright file="BetaTests.cs" company="Math.NET">
+﻿// <copyright file="BetaTests.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -90,8 +90,8 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [Test]
         public void ValidateToString()
         {
-            var n = new Beta(1.0, 2.0);
-            Assert.AreEqual("Beta(A = 1, B = 2)", n.ToString());
+            var n = new Beta(1d, 2d);
+            Assert.AreEqual("Beta(α = 1, β = 2)", n.ToString());
         }
 
         /// <summary>

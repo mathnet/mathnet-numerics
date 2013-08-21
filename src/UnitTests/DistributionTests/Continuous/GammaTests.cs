@@ -1,4 +1,4 @@
-// <copyright file="GammaTests.cs" company="Math.NET">
+﻿// <copyright file="GammaTests.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -63,7 +63,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         {
             var n = new Gamma(shape, invScale);
             Assert.AreEqual(shape, n.Shape);
-            Assert.AreEqual(invScale, n.InvScale);
+            Assert.AreEqual(invScale, n.Rate);
         }
 
         /// <summary>
@@ -94,9 +94,9 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [TestCase(10.0, Double.PositiveInfinity)]
         public void CanCreateGammaWithShapeInvScale(double shape, double invScale)
         {
-            var n = Gamma.WithShapeInvScale(shape, invScale);
+            var n = Gamma.WithShapeRate(shape, invScale);
             Assert.AreEqual(shape, n.Shape);
-            Assert.AreEqual(invScale, n.InvScale);
+            Assert.AreEqual(invScale, n.Rate);
         }
 
         /// <summary>
@@ -123,8 +123,8 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [Test]
         public void ValidateToString()
         {
-            var n = new Gamma(1.0, 2.0);
-            Assert.AreEqual("Gamma(Shape = 1, Inverse Scale = 2)", n.ToString());
+            var n = new Gamma(1d, 2d);
+            Assert.AreEqual("Gamma(α = 1, β = 2)", n.ToString());
         }
 
         /// <summary>
@@ -197,7 +197,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         {
             new Gamma(1.0, 1.0)
             {
-                InvScale = invScale
+                Rate = invScale
             };
         }
 
@@ -208,7 +208,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void SetInvScaleFailsWithNegativeInvScale()
         {
             var n = new Gamma(1.0, 1.0);
-            Assert.Throws<ArgumentOutOfRangeException>(() => n.InvScale = -1.0);
+            Assert.Throws<ArgumentOutOfRangeException>(() => n.Rate = -1.0);
         }
 
         /// <summary>

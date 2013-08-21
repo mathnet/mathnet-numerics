@@ -51,26 +51,18 @@ namespace MathNet.Numerics.Distributions
     {
         System.Random _random;
 
-        /// <summary>
-        /// The stability parameter of the distribution.
-        /// </summary>
         double _alpha;
-
-        /// <summary>
-        /// The skewness parameter of the distribution.
-        /// </summary>
         double _beta;
-
         double _scale;
         double _location;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Stable"/> class. 
         /// </summary>
-        /// <param name="alpha">The stability parameter of the distribution.</param>
-        /// <param name="beta">The skewness parameter of the distribution.</param>
-        /// <param name="scale">The scale parameter of the distribution.</param>
-        /// <param name="location">The location parameter of the distribution.</param>
+        /// <param name="alpha">The stability (α) of the distribution.</param>
+        /// <param name="beta">The skewness (β) of the distribution.</param>
+        /// <param name="scale">The scale (c) of the distribution.</param>
+        /// <param name="location">The location (μ) of the distribution.</param>
         public Stable(double alpha, double beta, double scale, double location)
         {
             _random = new System.Random();
@@ -80,10 +72,10 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Initializes a new instance of the <see cref="Stable"/> class. 
         /// </summary>
-        /// <param name="alpha">The stability parameter of the distribution.</param>
-        /// <param name="beta">The skewness parameter of the distribution.</param>
-        /// <param name="scale">The scale parameter of the distribution.</param>
-        /// <param name="location">The location parameter of the distribution.</param>
+        /// <param name="alpha">The stability (α) of the distribution.</param>
+        /// <param name="beta">The skewness (β) of the distribution.</param>
+        /// <param name="scale">The scale (c) of the distribution.</param>
+        /// <param name="location">The location (μ) of the distribution.</param>
         /// <param name="randomSource">The random number generator which is used to draw random samples.</param>
         public Stable(double alpha, double beta, double scale, double location, System.Random randomSource)
         {
@@ -97,16 +89,16 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a string representation of the distribution.</returns>
         public override string ToString()
         {
-            return "Stable(" + "Stability = " + _alpha + ", Skewness = " + _beta + ", Scale = " + _scale + ", Location = " + _location + ")";
+            return "Stable(α = " + _alpha + ", β = " + _beta + ", c = " + _scale + ", μ = " + _location + ")";
         }
 
         /// <summary>
         /// Checks whether the parameters of the distribution are valid. 
         /// </summary>
-        /// <param name="alpha">The stability parameter of the distribution.</param>
-        /// <param name="beta">The skewness parameter of the distribution.</param>
-        /// <param name="scale">The scale parameter of the distribution.</param>
-        /// <param name="location">The location parameter of the distribution.</param>
+        /// <param name="alpha">The stability (α) of the distribution.</param>
+        /// <param name="beta">The skewness (β) of the distribution.</param>
+        /// <param name="scale">The scale (c) of the distribution.</param>
+        /// <param name="location">The location (μ) of the distribution.</param>
         /// <returns><c>true</c> when the parameters are valid, <c>false</c> otherwise.</returns>
         static bool IsValidParameterSet(double alpha, double beta, double scale, double location)
         {
@@ -116,10 +108,10 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Sets the parameters of the distribution after checking their validity.
         /// </summary>
-        /// <param name="alpha">The stability parameter of the distribution.</param>
-        /// <param name="beta">The skewness parameter of the distribution.</param>
-        /// <param name="scale">The scale parameter of the distribution.</param>
-        /// <param name="location">The location parameter of the distribution.</param>
+        /// <param name="alpha">The stability (α) of the distribution.</param>
+        /// <param name="beta">The skewness (β) of the distribution.</param>
+        /// <param name="scale">The scale (c) of the distribution.</param>
+        /// <param name="location">The location (μ) of the distribution.</param>
         void SetParameters(double alpha, double beta, double scale, double location)
         {
             if (Control.CheckDistributionParameters && !IsValidParameterSet(alpha, beta, scale, location))
@@ -134,16 +126,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Gets or sets the random number generator which is used to draw random samples.
-        /// </summary>
-        public System.Random RandomSource
-        {
-            get { return _random; }
-            set { _random = value ?? new System.Random(); }
-        }
-
-        /// <summary>
-        /// Gets or sets the stability parameter of the distribution.
+        /// Gets or sets the stability (α) of the distribution.
         /// </summary>
         public double Alpha
         {
@@ -152,7 +135,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Gets or sets The skewness parameter of the distribution.
+        /// Gets or sets The skewness (β) of the distribution.
         /// </summary>
         public double Beta
         {
@@ -161,7 +144,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Gets or sets the scale parameter of the distribution.
+        /// Gets or sets the scale (c) of the distribution.
         /// </summary>
         public double Scale
         {
@@ -170,12 +153,21 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Gets or sets the location parameter of the distribution.
+        /// Gets or sets the location (μ) of the distribution.
         /// </summary>
         public double Location
         {
             get { return _location; }
             set { SetParameters(_alpha, _beta, _scale, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the random number generator which is used to draw random samples.
+        /// </summary>
+        public System.Random RandomSource
+        {
+            get { return _random; }
+            set { _random = value ?? new System.Random(); }
         }
 
         /// <summary>
@@ -338,8 +330,8 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Computes the density of the Levy distribution.
         /// </summary>
-        /// <param name="scale">The scale parameter of the distribution.</param>
-        /// <param name="location">The location parameter of the distribution.</param>
+        /// <param name="scale">The scale (c) of the distribution.</param>
+        /// <param name="location">The location (μ) of the distribution.</param>
         /// <param name="x">The location at which to compute the density.</param>
         /// <returns>the density at <paramref name="x"/>.</returns>
         static double LevyDensity(double scale, double location, double x)
@@ -392,8 +384,8 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Computes the cumulative distribution function of the Levy distribution.
         /// </summary>
-        /// <param name="scale">The scale parameter.</param>
-        /// <param name="location">The location parameter.</param>
+        /// <param name="scale">The scale (c) of the distribution.</param>
+        /// <param name="location">The location (μ) of the distribution.</param>
         /// <param name="x">The location at which to compute the cumulative density.</param>
         /// <returns>the cumulative density at <paramref name="x"/>.</returns>
         static double LevyCumulativeDistribution(double scale, double location, double x)
@@ -406,10 +398,10 @@ namespace MathNet.Numerics.Distributions
         /// Samples the distribution.
         /// </summary>
         /// <param name="rnd">The random number generator to use.</param>
-        /// <param name="alpha">The stability parameter of the distribution.</param>
-        /// <param name="beta">The skewness parameter of the distribution.</param>
-        /// <param name="scale">The scale parameter of the distribution.</param>
-        /// <param name="location">The location parameter of the distribution.</param>
+        /// <param name="alpha">The stability (α) of the distribution.</param>
+        /// <param name="beta">The skewness (β) of the distribution.</param>
+        /// <param name="scale">The scale (c) of the distribution.</param>
+        /// <param name="location">The location (μ) of the distribution.</param>
         /// <returns>a random number from the distribution.</returns>
         internal static double SampleUnchecked(System.Random rnd, double alpha, double beta, double scale, double location)
         {
@@ -464,10 +456,10 @@ namespace MathNet.Numerics.Distributions
         /// Generates a sample from the distribution.
         /// </summary>
         /// <param name="rnd">The random number generator to use.</param>
-        /// <param name="alpha">The stability parameter of the distribution.</param>
-        /// <param name="beta">The skewness parameter of the distribution.</param>
-        /// <param name="scale">The scale parameter of the distribution.</param>
-        /// <param name="location">The location parameter of the distribution.</param>
+        /// <param name="alpha">The stability (α) of the distribution.</param>
+        /// <param name="beta">The skewness (β) of the distribution.</param>
+        /// <param name="scale">The scale (c) of the distribution.</param>
+        /// <param name="location">The location (μ) of the distribution.</param>
         /// <returns>a sample from the distribution.</returns>
         public static double Sample(System.Random rnd, double alpha, double beta, double scale, double location)
         {
@@ -483,10 +475,10 @@ namespace MathNet.Numerics.Distributions
         /// Generates a sequence of samples from the distribution.
         /// </summary>
         /// <param name="rnd">The random number generator to use.</param>
-        /// <param name="alpha">The stability parameter of the distribution.</param>
-        /// <param name="beta">The skewness parameter of the distribution.</param>
-        /// <param name="scale">The scale parameter of the distribution.</param>
-        /// <param name="location">The location parameter of the distribution.</param>
+        /// <param name="alpha">The stability (α) of the distribution.</param>
+        /// <param name="beta">The skewness (β) of the distribution.</param>
+        /// <param name="scale">The scale (c) of the distribution.</param>
+        /// <param name="location">The location (μ) of the distribution.</param>
         /// <returns>a sequence of samples from the distribution.</returns>
         public static IEnumerable<double> Samples(System.Random rnd, double alpha, double beta, double scale, double location)
         {

@@ -55,8 +55,8 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void CanCreateContinuousUniform()
         {
             var n = new ContinuousUniform();
-            Assert.AreEqual(0.0, n.Lower);
-            Assert.AreEqual(1.0, n.Upper);
+            Assert.AreEqual(0.0, n.LowerBound);
+            Assert.AreEqual(1.0, n.UpperBound);
         }
 
         /// <summary>
@@ -74,8 +74,8 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void CanCreateContinuousUniform(double lower, double upper)
         {
             var n = new ContinuousUniform(lower, upper);
-            Assert.AreEqual(lower, n.Lower);
-            Assert.AreEqual(upper, n.Upper);
+            Assert.AreEqual(lower, n.LowerBound);
+            Assert.AreEqual(upper, n.UpperBound);
         }
 
         /// <summary>
@@ -115,7 +115,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         {
             new ContinuousUniform
             {
-                Lower = lower
+                LowerBound = lower
             };
         }
 
@@ -126,7 +126,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void SetBadLowerFails()
         {
             var n = new ContinuousUniform();
-            Assert.Throws<ArgumentOutOfRangeException>(() => n.Lower = 3.0);
+            Assert.Throws<ArgumentOutOfRangeException>(() => n.LowerBound = 3.0);
         }
 
         /// <summary>
@@ -140,7 +140,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         {
             new ContinuousUniform
             {
-                Upper = upper
+                UpperBound = upper
             };
         }
 
@@ -151,7 +151,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void SetBadUpperFails()
         {
             var n = new ContinuousUniform();
-            Assert.Throws<ArgumentOutOfRangeException>(() => n.Upper = -1.0);
+            Assert.Throws<ArgumentOutOfRangeException>(() => n.UpperBound = -1.0);
         }
 
         /// <summary>

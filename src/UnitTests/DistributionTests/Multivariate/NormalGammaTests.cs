@@ -264,7 +264,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
             var ng = new NormalGamma(meanLocation, meanScale, precShape, precInvScale);
             var pm = ng.PrecisionMarginal();
             Assert.AreEqual(precShape, pm.Shape);
-            Assert.AreEqual(precInvScale, pm.InvScale);
+            Assert.AreEqual(precInvScale, pm.Rate);
         }
 
         /// <summary>

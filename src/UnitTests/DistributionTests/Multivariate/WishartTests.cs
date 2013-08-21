@@ -50,7 +50,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         /// <summary>
         /// Can create wishart.
         /// </summary>
-        /// <param name="nu">Nu parameter.</param>
+        /// <param name="nu">DegreeOfFreedom parameter.</param>
         /// <param name="order">Scale matrix order.</param>
         [TestCase(0.1, 2)]
         [TestCase(1.0, 5)]
@@ -61,12 +61,12 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
 
             var d = new Wishart(nu, matrix);
 
-            Assert.AreEqual(nu, d.Nu);
-            for (var i = 0; i < d.S.RowCount; i++)
+            Assert.AreEqual(nu, d.DegreeOfFreedom);
+            for (var i = 0; i < d.Scale.RowCount; i++)
             {
-                for (var j = 0; j < d.S.ColumnCount; j++)
+                for (var j = 0; j < d.Scale.ColumnCount; j++)
                 {
-                    Assert.AreEqual(matrix[i, j], d.S[i, j]);
+                    Assert.AreEqual(matrix[i, j], d.Scale[i, j]);
                 }
             }
         }
@@ -74,7 +74,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         /// <summary>
         /// Fail create Wishart with bad parameters.
         /// </summary>
-        /// <param name="nu">Nu parameter.</param>
+        /// <param name="nu">DegreeOfFreedom parameter.</param>
         /// <param name="order">Scale matrix order.</param>
         [TestCase(0.0, 2)]
         [TestCase(0.1, 5)]
@@ -91,7 +91,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         /// <summary>
         /// Fail create Wishart with bad parameters.
         /// </summary>
-        /// <param name="nu">Nu parameter.</param>
+        /// <param name="nu">DegreeOfFreedom parameter.</param>
         /// <param name="order">Scale matrix order.</param>
         [TestCase(-1.0, 2)]
         [TestCase(Double.NaN, 5)]
@@ -140,26 +140,26 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         public void ValidateToString()
         {
             var d = new Wishart(1.0, MatrixLoader.GenerateRandomPositiveDefiniteDenseMatrix(2));
-            Assert.AreEqual("Wishart(Nu = 1, Rows = 2, Columns = 2)", d.ToString());
+            Assert.AreEqual("Wishart(DegreeOfFreedom = 1, Rows = 2, Columns = 2)", d.ToString());
         }
 
         /// <summary>
-        /// Can get Nu.
+        /// Can get DegreeOfFreedom.
         /// </summary>
-        /// <param name="nu">Nu parameter.</param>
+        /// <param name="nu">DegreeOfFreedom parameter.</param>
         [TestCase(1.0)]
         [TestCase(2.0)]
         [TestCase(5.0)]
         public void CanGetNu(double nu)
         {
             var d = new Wishart(nu, MatrixLoader.GenerateRandomPositiveDefiniteDenseMatrix(2));
-            Assert.AreEqual(nu, d.Nu);
+            Assert.AreEqual(nu, d.DegreeOfFreedom);
         }
 
         /// <summary>
-        /// Can set Nu.
+        /// Can set DegreeOfFreedom.
         /// </summary>
-        /// <param name="nu">Nu parameter.</param>
+        /// <param name="nu">DegreeOfFreedom parameter.</param>
         [TestCase(1.0)]
         [TestCase(2.0)]
         [TestCase(5.0)]
@@ -167,7 +167,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         {
             new Wishart(1.0, MatrixLoader.GenerateRandomPositiveDefiniteDenseMatrix(2))
             {
-                Nu = nu
+                DegreeOfFreedom = nu
             };
         }
 
@@ -185,7 +185,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
             {
                 for (var j = 0; j < Order; j++)
                 {
-                    Assert.AreEqual(matrix[i, j], d.S[i, j]);
+                    Assert.AreEqual(matrix[i, j], d.Scale[i, j]);
                 }
             }
         }
@@ -198,14 +198,14 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         {
             new Wishart(1.0, MatrixLoader.GenerateRandomPositiveDefiniteDenseMatrix(2))
             {
-                S = MatrixLoader.GenerateRandomPositiveDefiniteDenseMatrix(2)
+                Scale = MatrixLoader.GenerateRandomPositiveDefiniteDenseMatrix(2)
             };
         }
 
         /// <summary>
         /// Validate mean.
         /// </summary>
-        /// <param name="nu">Nu parameter.</param>
+        /// <param name="nu">DegreeOfFreedom parameter.</param>
         /// <param name="order">Scale matrix order.</param>
         [TestCase(0.1, 2)]
         [TestCase(1.0, 5)]
@@ -215,11 +215,11 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
             var d = new Wishart(nu, MatrixLoader.GenerateRandomPositiveDefiniteDenseMatrix(order));
 
             var mean = d.Mean;
-            for (var i = 0; i < d.S.RowCount; i++)
+            for (var i = 0; i < d.Scale.RowCount; i++)
             {
-                for (var j = 0; j < d.S.ColumnCount; j++)
+                for (var j = 0; j < d.Scale.ColumnCount; j++)
                 {
-                    Assert.AreEqual(nu * d.S[i, j], mean[i, j]);
+                    Assert.AreEqual(nu * d.Scale[i, j], mean[i, j]);
                 }
             }
         }
@@ -227,7 +227,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         /// <summary>
         /// Validate mode.
         /// </summary>
-        /// <param name="nu">Nu parameter.</param>
+        /// <param name="nu">DegreeOfFreedom parameter.</param>
         /// <param name="order">Scale matrix order.</param>
         [TestCase(0.1, 2)]
         [TestCase(1.0, 5)]
@@ -237,11 +237,11 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
             var d = new Wishart(nu, MatrixLoader.GenerateRandomPositiveDefiniteDenseMatrix(order));
 
             var mode = d.Mode;
-            for (var i = 0; i < d.S.RowCount; i++)
+            for (var i = 0; i < d.Scale.RowCount; i++)
             {
-                for (var j = 0; j < d.S.ColumnCount; j++)
+                for (var j = 0; j < d.Scale.ColumnCount; j++)
                 {
-                    Assert.AreEqual((nu - d.S.RowCount - 1.0) * d.S[i, j], mode[i, j]);
+                    Assert.AreEqual((nu - d.Scale.RowCount - 1.0) * d.Scale[i, j], mode[i, j]);
                 }
             }
         }
@@ -249,7 +249,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         /// <summary>
         /// Validate variance.
         /// </summary>
-        /// <param name="nu">Nu parameter.</param>
+        /// <param name="nu">DegreeOfFreedom parameter.</param>
         /// <param name="order">Scale matrix order.</param>
         [TestCase(0.1, 2)]
         [TestCase(1.0, 5)]
@@ -259,11 +259,11 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
             var d = new Wishart(nu, MatrixLoader.GenerateRandomPositiveDefiniteDenseMatrix(order));
 
             var variance = d.Variance;
-            for (var i = 0; i < d.S.RowCount; i++)
+            for (var i = 0; i < d.Scale.RowCount; i++)
             {
-                for (var j = 0; j < d.S.ColumnCount; j++)
+                for (var j = 0; j < d.Scale.ColumnCount; j++)
                 {
-                    Assert.AreEqual(nu * ((d.S[i, j] * d.S[i, j]) + (d.S[i, i] * d.S[j, j])), variance[i, j]);
+                    Assert.AreEqual(nu * ((d.Scale[i, j] * d.Scale[i, j]) + (d.Scale[i, i] * d.Scale[j, j])), variance[i, j]);
                 }
             }
         }
@@ -271,7 +271,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         /// <summary>
         /// Validate density.
         /// </summary>
-        /// <param name="nu">Nu parameter.</param>
+        /// <param name="nu">DegreeOfFreedom parameter.</param>
         /// <param name="density">Expected value.</param>
         [TestCase(1.0, 0.014644982561926487)]
         [TestCase(2.0, 0.041042499311949421)]

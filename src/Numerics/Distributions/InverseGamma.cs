@@ -38,7 +38,7 @@ namespace MathNet.Numerics.Distributions
     /// Continuous Univariate Inverse Gamma distribution.
     /// The inverse Gamma distribution is a distribution over the positive real numbers parameterized by
     /// two positive parameters.
-    /// <a href="http://en.wikipedia.org/wiki/inverse-gamma_distribution">Wikipedia - InverseGamma distribution</a>.
+    /// <a href="http://en.wikipedia.org/wiki/Inverse-gamma_distribution">Wikipedia - InverseGamma distribution</a>.
     /// </summary>
     /// <remarks><para>The distribution will use the <see cref="System.Random"/> by default. 
     /// Users can set the random number generator by using the <see cref="RandomSource"/> property.</para>
@@ -55,8 +55,8 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Initializes a new instance of the <see cref="InverseGamma"/> class. 
         /// </summary>
-        /// <param name="shape">The shape (alpha) parameter of the inverse Gamma distribution.</param>
-        /// <param name="scale">The scale (beta) parameter of the inverse Gamma distribution.</param>
+        /// <param name="shape">The shape (α) of the inverse Gamma distribution.</param>
+        /// <param name="scale">The scale (β) of the inverse Gamma distribution.</param>
         public InverseGamma(double shape, double scale)
         {
             _random = new System.Random();
@@ -66,8 +66,8 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Initializes a new instance of the <see cref="InverseGamma"/> class. 
         /// </summary>
-        /// <param name="shape">The shape (alpha) parameter of the inverse Gamma distribution.</param>
-        /// <param name="scale">The scale (beta) parameter of the inverse Gamma distribution.</param>
+        /// <param name="shape">The shape (α) of the inverse Gamma distribution.</param>
+        /// <param name="scale">The scale (β) of the inverse Gamma distribution.</param>
         /// <param name="randomSource">The random number generator which is used to draw random samples.</param>
         public InverseGamma(double shape, double scale, System.Random randomSource)
         {
@@ -81,14 +81,14 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a string representation of the distribution.</returns>
         public override string ToString()
         {
-            return "InverseGamma(Shape = " + _shape + ", Inverse Scale = " + _scale + ")";
+            return "InverseGamma(α = " + _shape + ", β = " + _scale + ")";
         }
 
         /// <summary>
         /// Checks whether the parameters of the distribution are valid. 
         /// </summary>
-        /// <param name="shape">The shape (alpha) parameter of the inverse Gamma distribution.</param>
-        /// <param name="scale">The scale (beta) parameter of the inverse Gamma distribution.</param>
+        /// <param name="shape">The shape (α) of the inverse Gamma distribution.</param>
+        /// <param name="scale">The scale (β) of the inverse Gamma distribution.</param>
         /// <returns><c>true</c> when the parameters are valid, <c>false</c> otherwise.</returns>
         static bool IsValidParameterSet(double shape, double scale)
         {
@@ -98,8 +98,8 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Sets the parameters of the distribution after checking their validity.
         /// </summary>
-        /// <param name="shape">The shape (alpha) parameter of the inverse Gamma distribution.</param>
-        /// <param name="scale">The scale (beta) parameter of the inverse Gamma distribution.</param>
+        /// <param name="shape">The shape (α) of the inverse Gamma distribution.</param>
+        /// <param name="scale">The scale (β) of the inverse Gamma distribution.</param>
         /// <exception cref="ArgumentOutOfRangeException">When the parameters don't pass the <see cref="IsValidParameterSet"/> function.</exception>
         void SetParameters(double shape, double scale)
         {
@@ -113,16 +113,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Gets or sets the random number generator which is used to draw random samples.
-        /// </summary>
-        public System.Random RandomSource
-        {
-            get { return _random; }
-            set { _random = value ?? new System.Random(); }
-        }
-
-        /// <summary>
-        /// Gets or sets the shape (alpha) parameter.
+        /// Gets or sets the shape (α) parameter.
         /// </summary>
         public double Shape
         {
@@ -131,12 +122,21 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Gets or sets The scale (beta) parameter.
+        /// Gets or sets The scale (β) parameter.
         /// </summary>
         public double Scale
         {
             get { return _scale; }
             set { SetParameters(_shape, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the random number generator which is used to draw random samples.
+        /// </summary>
+        public System.Random RandomSource
+        {
+            get { return _random; }
+            set { _random = value ?? new System.Random(); }
         }
 
         /// <summary>
@@ -275,8 +275,8 @@ namespace MathNet.Numerics.Distributions
         /// Samples the distribution.
         /// </summary>
         /// <param name="rnd">The random number generator to use.</param>
-        /// <param name="shape">The shape (alpha) parameter of the inverse Gamma distribution.</param>
-        /// <param name="scale">The scale (beta) parameter of the inverse Gamma distribution.</param>
+        /// <param name="shape">The shape (α) of the inverse Gamma distribution.</param>
+        /// <param name="scale">The scale (β) of the inverse Gamma distribution.</param>
         /// <returns>a random number from the distribution.</returns>
         internal static double SampleUnchecked(System.Random rnd, double shape, double scale)
         {
@@ -308,8 +308,8 @@ namespace MathNet.Numerics.Distributions
         /// Generates a sample from the distribution.
         /// </summary>
         /// <param name="rnd">The random number generator to use.</param>
-        /// <param name="shape">The shape (alpha) parameter of the inverse Gamma distribution.</param>
-        /// <param name="scale">The scale (beta) parameter of the inverse Gamma distribution.</param>
+        /// <param name="shape">The shape (α) of the inverse Gamma distribution.</param>
+        /// <param name="scale">The scale (β) of the inverse Gamma distribution.</param>
         /// <returns>a sample from the distribution.</returns>
         public static double Sample(System.Random rnd, double shape, double scale)
         {
@@ -325,8 +325,8 @@ namespace MathNet.Numerics.Distributions
         /// Generates a sequence of samples from the distribution.
         /// </summary>
         /// <param name="rnd">The random number generator to use.</param>
-        /// <param name="shape">The shape (alpha) parameter of the inverse Gamma distribution.</param>
-        /// <param name="scale">The scale (beta) parameter of the inverse Gamma distribution.</param>
+        /// <param name="shape">The shape (α) of the inverse Gamma distribution.</param>
+        /// <param name="scale">The scale (β) of the inverse Gamma distribution.</param>
         /// <returns>a sequence of samples from the distribution.</returns>
         public static IEnumerable<double> Samples(System.Random rnd, double shape, double scale)
         {

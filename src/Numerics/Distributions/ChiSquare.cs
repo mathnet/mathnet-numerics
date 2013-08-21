@@ -48,6 +48,8 @@ namespace MathNet.Numerics.Distributions
     {
         System.Random _random;
 
+        double _freedom;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="ChiSquare"/> class. 
         /// </summary>
@@ -75,7 +77,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a string representation of the distribution.</returns>
         public override string ToString()
         {
-            return "ChiSquare(DoF = " + Mean + ")";
+            return "ChiSquare(DoF = " + _freedom + ")";
         }
 
         /// <summary>
@@ -100,7 +102,16 @@ namespace MathNet.Numerics.Distributions
                 throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
             }
 
-            Mean = dof;
+            _freedom = dof;
+        }
+
+        /// <summary>
+        /// Gets or sets the degrees of freedom of the <c>ChiSquare</c> distribution.
+        /// </summary>
+        public double DegreesOfFreedom
+        {
+            get { return _freedom; }
+            set { SetParameters(value); }
         }
 
         /// <summary>
@@ -113,25 +124,19 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Gets or sets the degrees of freedom of the <c>ChiSquare</c> distribution.
-        /// </summary>
-        public double DegreesOfFreedom
-        {
-            get { return Mean; }
-            set { SetParameters(value); }
-        }
-
-        /// <summary>
         /// Gets the mean of the distribution.
         /// </summary>
-        public double Mean { get; private set; }
+        public double Mean
+        {
+            get { return _freedom; }
+        }
 
         /// <summary>
         /// Gets the variance of the distribution.
         /// </summary>
         public double Variance
         {
-            get { return 2.0*Mean; }
+            get { return 2.0*_freedom; }
         }
 
         /// <summary>
@@ -139,7 +144,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double StdDev
         {
-            get { return Math.Sqrt(2.0*Mean); }
+            get { return Math.Sqrt(2.0 * _freedom); }
         }
 
         /// <summary>
@@ -147,7 +152,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Entropy
         {
-            get { return (Mean/2.0) + Math.Log(2.0*SpecialFunctions.Gamma(Mean/2.0)) + ((1.0 - (Mean/2.0))*SpecialFunctions.DiGamma(Mean/2.0)); }
+            get { return (_freedom/2.0) + Math.Log(2.0*SpecialFunctions.Gamma(_freedom/2.0)) + ((1.0 - (_freedom/2.0))*SpecialFunctions.DiGamma(_freedom/2.0)); }
         }
 
         /// <summary>
@@ -155,7 +160,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Skewness
         {
-            get { return Math.Sqrt(8.0/Mean); }
+            get { return Math.Sqrt(8.0 / _freedom); }
         }
 
         /// <summary>
@@ -163,7 +168,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Mode
         {
-            get { return Mean - 2.0; }
+            get { return _freedom - 2.0; }
         }
 
         /// <summary>
@@ -171,7 +176,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Median
         {
-            get { return Mean - (2.0/3.0); }
+            get { return _freedom - (2.0 / 3.0); }
         }
 
         /// <summary>
@@ -197,7 +202,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>the density at <paramref name="x"/>.</returns>
         public double Density(double x)
         {
-            return (Math.Pow(x, (Mean/2.0) - 1.0)*Math.Exp(-x/2.0))/(Math.Pow(2.0, Mean/2.0)*SpecialFunctions.Gamma(Mean/2.0));
+            return (Math.Pow(x, (_freedom / 2.0) - 1.0) * Math.Exp(-x / 2.0)) / (Math.Pow(2.0, _freedom / 2.0) * SpecialFunctions.Gamma(_freedom / 2.0));
         }
 
         /// <summary>
@@ -207,7 +212,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>the log density at <paramref name="x"/>.</returns>
         public double DensityLn(double x)
         {
-            return (-x/2.0) + (((Mean/2.0) - 1.0)*Math.Log(x)) - ((Mean/2.0)*Math.Log(2)) - SpecialFunctions.GammaLn(Mean/2.0);
+            return (-x / 2.0) + (((_freedom / 2.0) - 1.0) * Math.Log(x)) - ((_freedom / 2.0) * Math.Log(2)) - SpecialFunctions.GammaLn(_freedom / 2.0);
         }
 
         /// <summary>
@@ -217,7 +222,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>the cumulative distribution at location <paramref name="x"/>.</returns>
         public double CumulativeDistribution(double x)
         {
-            return SpecialFunctions.GammaLowerIncomplete(Mean/2.0, x/2.0)/SpecialFunctions.Gamma(Mean/2.0);
+            return SpecialFunctions.GammaLowerIncomplete(_freedom / 2.0, x / 2.0) / SpecialFunctions.Gamma(_freedom / 2.0);
         }
 
         /// <summary>
@@ -250,7 +255,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sample from the distribution.</returns>
         public double Sample()
         {
-            return SampleUnchecked(RandomSource, Mean);
+            return SampleUnchecked(RandomSource, _freedom);
         }
 
         /// <summary>
@@ -261,7 +266,7 @@ namespace MathNet.Numerics.Distributions
         {
             while (true)
             {
-                yield return SampleUnchecked(RandomSource, Mean);
+                yield return SampleUnchecked(RandomSource, _freedom);
             }
         }
 

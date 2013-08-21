@@ -49,15 +49,6 @@ namespace MathNet.Numerics.Distributions
         double _lambda;
 
         /// <summary>
-        /// Gets or sets the Poisson distribution parameter λ.
-        /// </summary>
-        public double Lambda
-        {
-            get { return _lambda; }
-            set { SetParameters(value); }
-        }
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="Poisson"/> class.
         /// </summary>
         /// <param name="lambda">The Poisson distribution parameter λ.</param>
@@ -114,6 +105,15 @@ namespace MathNet.Numerics.Distributions
             }
 
             _lambda = lambda;
+        }
+
+        /// <summary>
+        /// Gets or sets the Poisson distribution parameter λ.
+        /// </summary>
+        public double Lambda
+        {
+            get { return _lambda; }
+            set { SetParameters(value); }
         }
 
         /// <summary>

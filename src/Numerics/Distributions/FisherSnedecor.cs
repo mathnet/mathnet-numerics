@@ -48,15 +48,8 @@ namespace MathNet.Numerics.Distributions
     {
         System.Random _random;
 
-        /// <summary>
-        /// The first parameter - degree of freedom.
-        /// </summary>
-        double _d1;
-
-        /// <summary>
-        /// The second parameter - degree of freedom.
-        /// </summary>
-        double _d2;
+        double _freedom1;
+        double _freedom2;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FisherSnedecor"/> class. 
@@ -87,7 +80,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a string representation of the distribution.</returns>
         public override string ToString()
         {
-            return "FisherSnedecor(DegreeOfFreedom1 = " + _d1 + ", DegreeOfFreedom2 = " + _d2 + ")";
+            return "FisherSnedecor(DegreeOfFreedom1 = " + _freedom1 + ", DegreeOfFreedom2 = " + _freedom2 + ")";
         }
 
         /// <summary>
@@ -113,8 +106,26 @@ namespace MathNet.Numerics.Distributions
                 throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
             }
 
-            _d1 = d1;
-            _d2 = d2;
+            _freedom1 = d1;
+            _freedom2 = d2;
+        }
+
+        /// <summary>
+        /// Gets or sets the first parameter - degree of freedom.
+        /// </summary>
+        public double DegreeOfFreedom1
+        {
+            get { return _freedom1; }
+            set { SetParameters(value, _freedom2); }
+        }
+
+        /// <summary>
+        /// Gets or sets the second parameter - degree of freedom.
+        /// </summary>
+        public double DegreeOfFreedom2
+        {
+            get { return _freedom2; }
+            set { SetParameters(_freedom1, value); }
         }
 
         /// <summary>
@@ -127,36 +138,18 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Gets or sets the first parameter - degree of freedom.
-        /// </summary>
-        public double DegreeOfFreedom1
-        {
-            get { return _d1; }
-            set { SetParameters(value, _d2); }
-        }
-
-        /// <summary>
-        /// Gets or sets the second parameter - degree of freedom.
-        /// </summary>
-        public double DegreeOfFreedom2
-        {
-            get { return _d2; }
-            set { SetParameters(_d1, value); }
-        }
-
-        /// <summary>
         /// Gets the mean of the distribution.
         /// </summary>
         public double Mean
         {
             get
             {
-                if (_d2 <= 2)
+                if (_freedom2 <= 2)
                 {
                     throw new NotSupportedException();
                 }
 
-                return _d2/(_d2 - 2.0);
+                return _freedom2/(_freedom2 - 2.0);
             }
         }
 
@@ -167,12 +160,12 @@ namespace MathNet.Numerics.Distributions
         {
             get
             {
-                if (_d2 <= 4)
+                if (_freedom2 <= 4)
                 {
                     throw new NotSupportedException();
                 }
 
-                return (2.0*_d2*_d2*(_d1 + _d2 - 2.0))/(_d1*(_d2 - 2.0)*(_d2 - 2.0)*(_d2 - 4.0));
+                return (2.0*_freedom2*_freedom2*(_freedom1 + _freedom2 - 2.0))/(_freedom1*(_freedom2 - 2.0)*(_freedom2 - 2.0)*(_freedom2 - 4.0));
             }
         }
 
@@ -199,12 +192,12 @@ namespace MathNet.Numerics.Distributions
         {
             get
             {
-                if (_d2 <= 6)
+                if (_freedom2 <= 6)
                 {
                     throw new NotSupportedException();
                 }
 
-                return (((2.0*_d1) + _d2 - 2.0)*Math.Sqrt(8.0*(_d2 - 4.0)))/((_d2 - 6.0)*Math.Sqrt(_d1*(_d1 + _d2 - 2.0)));
+                return (((2.0*_freedom1) + _freedom2 - 2.0)*Math.Sqrt(8.0*(_freedom2 - 4.0)))/((_freedom2 - 6.0)*Math.Sqrt(_freedom1*(_freedom1 + _freedom2 - 2.0)));
             }
         }
 
@@ -215,12 +208,12 @@ namespace MathNet.Numerics.Distributions
         {
             get
             {
-                if (_d1 <= 2)
+                if (_freedom1 <= 2)
                 {
                     throw new NotSupportedException();
                 }
 
-                return (_d2*(_d1 - 2.0))/(_d1*(_d2 + 2.0));
+                return (_freedom2*(_freedom1 - 2.0))/(_freedom1*(_freedom2 + 2.0));
             }
         }
 
@@ -255,7 +248,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>the density at <paramref name="x"/>.</returns>
         public double Density(double x)
         {
-            return Math.Sqrt(Math.Pow(_d1*x, _d1)*Math.Pow(_d2, _d2)/Math.Pow((_d1*x) + _d2, _d1 + _d2))/(x*SpecialFunctions.Beta(_d1/2.0, _d2/2.0));
+            return Math.Sqrt(Math.Pow(_freedom1*x, _freedom1)*Math.Pow(_freedom2, _freedom2)/Math.Pow((_freedom1*x) + _freedom2, _freedom1 + _freedom2))/(x*SpecialFunctions.Beta(_freedom1/2.0, _freedom2/2.0));
         }
 
         /// <summary>
@@ -275,7 +268,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>the cumulative distribution at location <paramref name="x"/>.</returns>
         public double CumulativeDistribution(double x)
         {
-            return SpecialFunctions.BetaRegularized(_d1/2.0, _d2/2.0, _d1*x/((_d1*x) + _d2));
+            return SpecialFunctions.BetaRegularized(_freedom1/2.0, _freedom2/2.0, _freedom1*x/((_freedom1*x) + _freedom2));
         }
 
         /// <summary>
@@ -296,7 +289,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sample from the distribution.</returns>
         public double Sample()
         {
-            return SampleUnchecked(RandomSource, _d1, _d2);
+            return SampleUnchecked(RandomSource, _freedom1, _freedom2);
         }
 
         /// <summary>
@@ -307,7 +300,7 @@ namespace MathNet.Numerics.Distributions
         {
             while (true)
             {
-                yield return SampleUnchecked(RandomSource, _d1, _d2);
+                yield return SampleUnchecked(RandomSource, _freedom1, _freedom2);
             }
         }
 

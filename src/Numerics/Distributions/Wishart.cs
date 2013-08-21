@@ -55,12 +55,12 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// The degrees of freedom for the Wishart distribution.
         /// </summary>
-        double _nu;
+        double _degreeOfFreedom;
 
         /// <summary>
         /// The scale matrix for the Wishart distribution.
         /// </summary>
-        Matrix<double> _s;
+        Matrix<double> _scale;
 
         /// <summary>
         /// Caches the Cholesky factorization of the scale matrix.
@@ -70,66 +70,66 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Initializes a new instance of the <see cref="Wishart"/> class. 
         /// </summary>
-        /// <param name="nu">The degrees of freedom for the Wishart distribution.</param>
-        /// <param name="s">The scale matrix for the Wishart distribution.</param>
-        public Wishart(double nu, Matrix<double> s)
+        /// <param name="degreeOfFreedom">The degrees of freedom (n) for the Wishart distribution.</param>
+        /// <param name="scale">The scale matrix (V) for the Wishart distribution.</param>
+        public Wishart(double degreeOfFreedom, Matrix<double> scale)
         {
             _random = new System.Random();
-            SetParameters(nu, s);
+            SetParameters(degreeOfFreedom, scale);
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Wishart"/> class. 
         /// </summary>
-        /// <param name="nu">The degrees of freedom for the Wishart distribution.</param>
-        /// <param name="s">The scale matrix for the Wishart distribution.</param>
+        /// <param name="degreeOfFreedom">The degrees of freedom (n) for the Wishart distribution.</param>
+        /// <param name="scale">The scale matrix (V) for the Wishart distribution.</param>
         /// <param name="randomSource">The random number generator which is used to draw random samples.</param>
-        public Wishart(double nu, Matrix<double> s, System.Random randomSource)
+        public Wishart(double degreeOfFreedom, Matrix<double> scale, System.Random randomSource)
         {
             _random = randomSource ?? new System.Random();
-            SetParameters(nu, s);
+            SetParameters(degreeOfFreedom, scale);
         }
 
         /// <summary>
         /// Sets the parameters of the distribution after checking their validity.
         /// </summary>
-        /// <param name="nu">The degrees of freedom for the Wishart distribution.</param>
-        /// <param name="s">The scale matrix for the Wishart distribution.</param>
+        /// <param name="degreeOfFreedom">The degrees of freedom (n) for the Wishart distribution.</param>
+        /// <param name="scale">The scale matrix (V) for the Wishart distribution.</param>
         /// <exception cref="ArgumentOutOfRangeException">When the parameters don't pass the <see cref="IsValidParameterSet"/> function.</exception>
-        void SetParameters(double nu, Matrix<double> s)
+        void SetParameters(double degreeOfFreedom, Matrix<double> scale)
         {
-            if (Control.CheckDistributionParameters && !IsValidParameterSet(nu, s))
+            if (Control.CheckDistributionParameters && !IsValidParameterSet(degreeOfFreedom, scale))
             {
                 throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
             }
 
-            _nu = nu;
-            _s = s;
-            _chol = Cholesky<double>.Create(_s);
+            _degreeOfFreedom = degreeOfFreedom;
+            _scale = scale;
+            _chol = Cholesky<double>.Create(_scale);
         }
 
         /// <summary>
         /// Checks whether the parameters of the distribution are valid. 
         /// </summary>
-        /// <param name="nu">The degrees of freedom for the Wishart distribution.</param>
-        /// <param name="s">The scale matrix for the Wishart distribution.</param>
+        /// <param name="degreeOfFreedom">The degrees of freedom (n) for the Wishart distribution.</param>
+        /// <param name="scale">The scale matrix (V) for the Wishart distribution.</param>
         /// <returns><c>true</c> when the parameters are valid, <c>false</c> otherwise.</returns>
-        static bool IsValidParameterSet(double nu, Matrix<double> s)
+        static bool IsValidParameterSet(double degreeOfFreedom, Matrix<double> scale)
         {
-            if (s.RowCount != s.ColumnCount)
+            if (scale.RowCount != scale.ColumnCount)
             {
                 return false;
             }
 
-            for (var i = 0; i < s.RowCount; i++)
+            for (var i = 0; i < scale.RowCount; i++)
             {
-                if (s.At(i, i) <= 0.0)
+                if (scale.At(i, i) <= 0.0)
                 {
                     return false;
                 }
             }
 
-            if (nu <= 0.0 || Double.IsNaN(nu))
+            if (degreeOfFreedom <= 0.0 || Double.IsNaN(degreeOfFreedom))
             {
                 return false;
             }
@@ -138,21 +138,21 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Gets or sets the degrees of freedom for the Wishart distribution.
+        /// Gets or sets the degrees of freedom (n) for the Wishart distribution.
         /// </summary>
-        public double Nu
+        public double DegreeOfFreedom
         {
-            get { return _nu; }
-            set { SetParameters(value, _s); }
+            get { return _degreeOfFreedom; }
+            set { SetParameters(value, _scale); }
         }
 
         /// <summary>
-        /// Gets or sets the scale matrix for the Wishart distribution.
+        /// Gets or sets the scale matrix (V) for the Wishart distribution.
         /// </summary>
-        public Matrix<double> S
+        public Matrix<double> Scale
         {
-            get { return _s; }
-            set { SetParameters(_nu, value); }
+            get { return _scale; }
+            set { SetParameters(_degreeOfFreedom, value); }
         }
 
         /// <summary>
@@ -161,7 +161,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a string representation of the distribution.</returns>
         public override string ToString()
         {
-            return "Wishart(Nu = " + _nu + ", Rows = " + _s.RowCount + ", Columns = " + _s.ColumnCount + ")";
+            return "Wishart(DegreeOfFreedom = " + _degreeOfFreedom + ", Rows = " + _scale.RowCount + ", Columns = " + _scale.ColumnCount + ")";
         }
 
         /// <summary>
@@ -187,7 +187,7 @@ namespace MathNet.Numerics.Distributions
         /// <value>The mean of the distribution.</value>
         public Matrix<double> Mean
         {
-            get { return _nu*_s; }
+            get { return _degreeOfFreedom*_scale; }
         }
 
         /// <summary>
@@ -196,7 +196,7 @@ namespace MathNet.Numerics.Distributions
         /// <value>The mode of the distribution.</value>
         public Matrix<double> Mode
         {
-            get { return (_nu - _s.RowCount - 1.0)*_s; }
+            get { return (_degreeOfFreedom - _scale.RowCount - 1.0)*_scale; }
         }
 
         /// <summary>
@@ -207,12 +207,12 @@ namespace MathNet.Numerics.Distributions
         {
             get
             {
-                var res = _s.CreateMatrix(_s.RowCount, _s.ColumnCount);
+                var res = _scale.CreateMatrix(_scale.RowCount, _scale.ColumnCount);
                 for (var i = 0; i < res.RowCount; i++)
                 {
                     for (var j = 0; j < res.ColumnCount; j++)
                     {
-                        res.At(i, j, _nu*((_s.At(i, j)*_s.At(i, j)) + (_s.At(i, i)*_s.At(j, j))));
+                        res.At(i, j, _degreeOfFreedom*((_scale.At(i, j)*_scale.At(i, j)) + (_scale.At(i, i)*_scale.At(j, j))));
                     }
                 }
 
@@ -228,11 +228,11 @@ namespace MathNet.Numerics.Distributions
         /// <returns>the density at <paramref name="x"/>.</returns>
         public double Density(Matrix<double> x)
         {
-            var p = _s.RowCount;
+            var p = _scale.RowCount;
 
             if (x.RowCount != p || x.ColumnCount != p)
             {
-                throw Matrix.DimensionsDontMatch<ArgumentOutOfRangeException>(x, _s, "x");
+                throw Matrix.DimensionsDontMatch<ArgumentOutOfRangeException>(x, _scale, "x");
             }
 
             var dX = x.Determinant();
@@ -242,13 +242,13 @@ namespace MathNet.Numerics.Distributions
             var gp = Math.Pow(Constants.Pi, p*(p - 1.0)/4.0);
             for (var j = 1; j <= p; j++)
             {
-                gp *= SpecialFunctions.Gamma((_nu + 1.0 - j)/2.0);
+                gp *= SpecialFunctions.Gamma((_degreeOfFreedom + 1.0 - j)/2.0);
             }
 
-            return Math.Pow(dX, (_nu - p - 1.0)/2.0)
+            return Math.Pow(dX, (_degreeOfFreedom - p - 1.0)/2.0)
                    *Math.Exp(-0.5*siX.Trace())
-                   /Math.Pow(2.0, _nu*p/2.0)
-                   /Math.Pow(_chol.Determinant, _nu/2.0)
+                   /Math.Pow(2.0, _degreeOfFreedom*p/2.0)
+                   /Math.Pow(_chol.Determinant, _degreeOfFreedom/2.0)
                    /gp;
         }
 
@@ -261,7 +261,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>A random number from this distribution.</returns>
         public Matrix<double> Sample()
         {
-            return DoSample(RandomSource, _nu, _s, _chol);
+            return DoSample(RandomSource, _degreeOfFreedom, _scale, _chol);
         }
 
         /// <summary>
@@ -271,37 +271,37 @@ namespace MathNet.Numerics.Distributions
         ///     Applied Statistics, Vol. 21, No. 3 (1972), pp. 341-345
         /// </summary>
         /// <param name="rnd">The random number generator to use.</param>
-        /// <param name="nu">The degrees of freedom.</param>
-        /// <param name="s">The scale matrix.</param>
+        /// <param name="degreeOfFreedom">The degrees of freedom (n) for the Wishart distribution.</param>
+        /// <param name="scale">The scale matrix (V) for the Wishart distribution.</param>
         /// <returns>a sequence of samples from the distribution.</returns>
-        public static Matrix<double> Sample(System.Random rnd, double nu, Matrix<double> s)
+        public static Matrix<double> Sample(System.Random rnd, double degreeOfFreedom, Matrix<double> scale)
         {
-            if (Control.CheckDistributionParameters && !IsValidParameterSet(nu, s))
+            if (Control.CheckDistributionParameters && !IsValidParameterSet(degreeOfFreedom, scale))
             {
                 throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
             }
 
-            return DoSample(rnd, nu, s, Cholesky<double>.Create(s));
+            return DoSample(rnd, degreeOfFreedom, scale, Cholesky<double>.Create(scale));
         }
 
         /// <summary>
         /// Samples the distribution.
         /// </summary>
         /// <param name="rnd">The random number generator to use.</param>
-        /// <param name="nu">The nu parameter to use.</param>
-        /// <param name="s">The S parameter to use.</param>
+        /// <param name="degreeOfFreedom">The degrees of freedom (n) for the Wishart distribution.</param>
+        /// <param name="scale">The scale matrix (V) for the Wishart distribution.</param>
         /// <param name="chol">The cholesky decomposition to use.</param>
         /// <returns>a random number from the distribution.</returns>
-        static Matrix<double> DoSample(System.Random rnd, double nu, Matrix<double> s, Cholesky<double> chol)
+        static Matrix<double> DoSample(System.Random rnd, double degreeOfFreedom, Matrix<double> scale, Cholesky<double> chol)
         {
-            var count = s.RowCount;
+            var count = scale.RowCount;
 
             // First generate a lower triangular matrix with Sqrt(Chi-Squares) on the diagonal
             // and normal distributed variables in the lower triangle.
             var a = new DenseMatrix(count, count);
             for (var d = 0; d < count; d++)
             {
-                a.At(d, d, Math.Sqrt(Gamma.Sample(rnd, (nu - d)/2.0, 0.5)));
+                a.At(d, d, Math.Sqrt(Gamma.Sample(rnd, (degreeOfFreedom - d)/2.0, 0.5)));
             }
 
             for (var i = 1; i < count; i++)
