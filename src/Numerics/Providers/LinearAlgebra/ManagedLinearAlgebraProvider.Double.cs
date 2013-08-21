@@ -1720,7 +1720,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
             if (row == rowCount - 1 || norm == 0)
             {
                 a[index] = -work[tmp];
-                work[tmp] = Math.Sqrt(2.0);
+                work[tmp] = Constants.Sqrt2;
                 return;
             }
 

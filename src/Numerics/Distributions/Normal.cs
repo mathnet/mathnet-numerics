@@ -378,7 +378,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>the inverse cumulative density at <paramref name="p"/>.</returns>
         public double InverseCumulativeDistribution(double p)
         {
-            return _mean - (_stdDev*Math.Sqrt(2.0)*SpecialFunctions.ErfcInv(2.0*p));
+            return _mean - (_stdDev*Constants.Sqrt2*SpecialFunctions.ErfcInv(2.0*p));
         }
 
         /// <summary>

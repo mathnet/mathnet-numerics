@@ -146,7 +146,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
             if (row == a.RowCount - 1 || norm == 0)
             {
                 a.At(row, column, -u[0]);
-                u[0] = Math.Sqrt(2.0);
+                u[0] = Constants.Sqrt2;
                 return u;
             }
 

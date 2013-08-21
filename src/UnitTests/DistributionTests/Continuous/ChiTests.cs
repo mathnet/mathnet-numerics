@@ -124,7 +124,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void ValidateMean(double dof)
         {
             var n = new Chi(dof);
-            Assert.AreEqual(Math.Sqrt(2) * (SpecialFunctions.Gamma((dof + 1.0) / 2.0) / SpecialFunctions.Gamma(dof / 2.0)), n.Mean);
+            Assert.AreEqual(Constants.Sqrt2 * (SpecialFunctions.Gamma((dof + 1.0) / 2.0) / SpecialFunctions.Gamma(dof / 2.0)), n.Mean);
         }
 
         /// <summary>

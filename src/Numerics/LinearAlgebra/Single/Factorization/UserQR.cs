@@ -145,7 +145,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
             if (row == a.RowCount - 1 || norm == 0)
             {
                 a.At(row, column, -u[0]);
-                u[0] = (float)Math.Sqrt(2.0);
+                u[0] = (float)Constants.Sqrt2;
                 return u;
             }
 

@@ -181,7 +181,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double StdDev
         {
-            get { return Math.Sqrt(2.0)*_scale; }
+            get { return Constants.Sqrt2*_scale; }
         }
 
         /// <summary>

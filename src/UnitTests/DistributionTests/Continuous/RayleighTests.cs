@@ -167,7 +167,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void ValidateEntropy(double scale)
         {
             var n = new Rayleigh(scale);
-            Assert.AreEqual(1.0 + Math.Log(scale / Math.Sqrt(2)) + (Constants.EulerMascheroni / 2.0), n.Entropy);
+            Assert.AreEqual(1.0 + Math.Log(scale / Constants.Sqrt2) + (Constants.EulerMascheroni / 2.0), n.Entropy);
         }
 
         /// <summary>

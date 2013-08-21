@@ -237,7 +237,7 @@ namespace MathNet.Numerics.Distributions
             {
                 if (_alpha == 2)
                 {
-                    return Math.Sqrt(2.0)*_scale;
+                    return Constants.Sqrt2*_scale;
                 }
 
                 return Double.PositiveInfinity;
@@ -452,7 +452,7 @@ namespace MathNet.Numerics.Distributions
                 var summand = part1*Math.Tan(randTheta);
                 var subtrahend = beta*Math.Log(Constants.PiOver2*randW*Math.Cos(randTheta)/part1);
 
-                return location + scale*((2.0/Math.PI)*(summand - subtrahend));
+                return location + scale*Constants.TwoInvPi*(summand - subtrahend);
             }
         }
 

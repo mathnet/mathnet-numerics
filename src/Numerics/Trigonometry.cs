@@ -473,7 +473,7 @@ namespace MathNet.Numerics
         {
             if (value.IsZero())
             {
-                return Math.PI / 2.0;
+                return Constants.PiOver2;
             }
 
             var inv = Complex.ImaginaryOne / value;

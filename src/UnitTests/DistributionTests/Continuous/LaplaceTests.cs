@@ -192,7 +192,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void ValidateStdDev(double location, double scale)
         {
             var n = new Laplace(location, scale);
-            Assert.AreEqual(Math.Sqrt(2.0) * scale, n.StdDev);
+            Assert.AreEqual(Constants.Sqrt2 * scale, n.StdDev);
         }
 
         /// <summary>

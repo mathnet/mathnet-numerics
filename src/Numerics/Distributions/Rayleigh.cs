@@ -171,7 +171,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Entropy
         {
-            get { return 1.0 + Math.Log(_scale/Math.Sqrt(2)) + (Constants.EulerMascheroni/2.0); }
+            get { return 1.0 + Math.Log(_scale/Constants.Sqrt2) + (Constants.EulerMascheroni/2.0); }
         }
 
         /// <summary>

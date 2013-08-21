@@ -141,7 +141,7 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests.McmcTests
             double deviationRation = Math.Pow(stats.StandardDeviation/sdv, 2);
 
             //Approximating chi-square with normal distribution. (Degree of freedom is large)
-            double deviationConvergence = 3*Math.Sqrt(2)/Math.Sqrt(effective);
+            double deviationConvergence = 3*Constants.Sqrt2/Math.Sqrt(effective);
             Assert.AreEqual(deviationRation, 1, deviationConvergence, "Standard Deivation");
         }
     }

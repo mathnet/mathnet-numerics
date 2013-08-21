@@ -144,7 +144,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Mean
         {
-            get { return Math.Sqrt(2)*(SpecialFunctions.Gamma((_dof + 1.0)/2.0)/SpecialFunctions.Gamma(_dof/2.0)); }
+            get { return Constants.Sqrt2*(SpecialFunctions.Gamma((_dof + 1.0)/2.0)/SpecialFunctions.Gamma(_dof/2.0)); }
         }
 
         /// <summary>

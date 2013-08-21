@@ -31,6 +31,7 @@
 #r "../../out/lib/Net40/MathNet.Numerics.dll"
 #r "../../out/lib/Net40/MathNet.Numerics.FSharp.dll"
 
+open MathNet.Numerics
 open MathNet.Numerics.Random
 open MathNet.Numerics.Statistics
 open MathNet.Numerics.Distributions
@@ -113,7 +114,7 @@ do
     let normal = new Normal(mean, stddev)
 
     /// Evaluates the log normal distribution.
-    let npdf x m s = -0.5*(x-m)*(x-m)/(s*s) - 0.5 * log(2.0 * System.Math.PI * s * s)
+    let npdf x m s = -0.5*(x-m)*(x-m)/(s*s) - 0.5 * log(Constants.Pi2 * s * s)
 
     /// Implements the rejection sampling procedure.
     let ms = new MetropolisHastingsSampler<float>( 0.1, (fun x -> log(normal.Density(x))),
@@ -144,7 +145,7 @@ do
     let normal = new Normal(mean, stddev)
 
     /// Evaluates the logarithm of the normal distribution function.
-    let npdf x m s = -0.5*(x-m)*(x-m)/(s*s) - 0.5 * log(2.0 * System.Math.PI * s * s)
+    let npdf x m s = -0.5*(x-m)*(x-m)/(s*s) - 0.5 * log(Constants.Pi2 * s * s)
 
     /// Samples from a mixture that is biased towards samples larger than x.
     let mixSample x =

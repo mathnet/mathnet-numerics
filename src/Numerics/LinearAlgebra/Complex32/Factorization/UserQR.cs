@@ -147,7 +147,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
             if (row == a.RowCount - 1 || norm.Magnitude == 0)
             {
                 a.At(row, column, -u[0]);
-                u[0] = (float)Math.Sqrt(2.0);
+                u[0] = (float)Constants.Sqrt2;
                 return u;
             }
 
