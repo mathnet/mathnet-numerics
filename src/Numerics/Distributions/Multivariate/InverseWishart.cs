@@ -136,12 +136,7 @@ namespace MathNet.Numerics.Distributions
                 }
             }
 
-            if (nu <= 0.0 || Double.IsNaN(nu))
-            {
-                return false;
-            }
-
-            return true;
+            return nu > 0.0;
         }
 
         /// <summary>

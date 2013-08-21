@@ -28,18 +28,18 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System;
+
 namespace MathNet.Numerics.Random
 {
-    using System;
-
     /// <summary>
     /// Multiplicative congruential generator using a modulus of 2^31-1 and a multiplier of 1132489760.
     /// </summary>
-    public partial class Mcg31m1 : AbstractRandomNumberGenerator
+    public class Mcg31m1 : AbstractRandomNumberGenerator
     {
-        private const ulong _modulus = 2147483647;
-        private const ulong _multiplier = 1132489760;
-        private const double _reciprocal = 1.0 / _modulus;
+        private const ulong Modulus = 2147483647;
+        private const ulong Multiplier = 1132489760;
+        private const double Reciprocal = 1.0 / Modulus;
         private ulong _xn;
 
         /// <summary>
@@ -82,7 +82,7 @@ namespace MathNet.Numerics.Random
             {
                 seed = 1;
             }
-            _xn = (uint) seed%_modulus;
+            _xn = (uint) seed%Modulus;
         }
 
         /// <summary>
@@ -93,8 +93,8 @@ namespace MathNet.Numerics.Random
         /// </returns>
         protected override double DoSample()
         {
-            double ret = _xn*_reciprocal;
-            _xn = (_xn*_multiplier)%_modulus;
+            double ret = _xn*Reciprocal;
+            _xn = (_xn*Multiplier)%Modulus;
             return ret;
         }
     }

@@ -106,12 +106,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns><c>true</c> when the parameters are valid, <c>false</c> otherwise.</returns>
         static bool IsValidParameterSet(double s, int n)
         {
-            if (n <= 0 || s <= 0 || Double.IsNaN(s))
-            {
-                return false;
-            }
-
-            return true;
+            return n > 0 && s > 0.0;
         }
 
         /// <summary>
@@ -180,8 +175,9 @@ namespace MathNet.Numerics.Distributions
                     throw new NotSupportedException();
                 }
 
-                var generalHarmonicsNS = SpecialFunctions.GeneralHarmonic(_n, _s);
-                return (SpecialFunctions.GeneralHarmonic(_n, _s - 2)*SpecialFunctions.GeneralHarmonic(_n, _s)) - (Math.Pow(SpecialFunctions.GeneralHarmonic(_n, _s - 1), 2)/(generalHarmonicsNS*generalHarmonicsNS));
+                var ghns = SpecialFunctions.GeneralHarmonic(_n, _s);
+                return (SpecialFunctions.GeneralHarmonic(_n, _s - 2)*SpecialFunctions.GeneralHarmonic(_n, _s))
+                       - (Math.Pow(SpecialFunctions.GeneralHarmonic(_n, _s - 1), 2)/(ghns*ghns));
             }
         }
 

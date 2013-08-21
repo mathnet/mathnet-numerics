@@ -1116,9 +1116,9 @@ namespace MathNet.Numerics.LinearAlgebra.Single
 
             var lastRow = rowPointers.Length - 1;
 
-            if (rowPointers[lastRow] < NonZerosCount)
+            if (rowPointers[lastRow] < valueCount)
             {
-                for (var index = rowPointers[lastRow]; index < NonZerosCount; index++)
+                for (var index = rowPointers[lastRow]; index < valueCount; index++)
                 {
                     yield return new Tuple<int, int, float>(lastRow, columnIndices[index], values[index]);
                 }

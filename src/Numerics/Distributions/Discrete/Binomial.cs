@@ -101,17 +101,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns><c>false</c> <paramref name="p"/> is not in the interval [0.0,1.0] or <paramref name="n"/> is negative, <c>true</c> otherwise.</returns>
         static bool IsValidParameterSet(double p, int n)
         {
-            if (p < 0.0 || p > 1.0 || Double.IsNaN(p))
-            {
-                return false;
-            }
-
-            if (n < 0)
-            {
-                return false;
-            }
-
-            return true;
+            return p >= 0.0 && p <= 1.0 && n >= 0;
         }
 
         /// <summary>

@@ -28,12 +28,12 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System;
+using MathNet.Numerics.Properties;
+using MathNet.Numerics.Threading;
+
 namespace MathNet.Numerics.Random
 {
-    using System;
-    using Properties;
-    using Threading;
-
     /// <summary>
     /// Represents a Parallel Additive Lagged Fibonacci pseudo-random number generator.
     /// </summary>

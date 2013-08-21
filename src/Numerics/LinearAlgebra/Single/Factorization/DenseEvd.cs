@@ -264,7 +264,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
         /// <exception cref="NonConvergenceException"></exception>
         internal static void SymmetricDiagonalize(float[] a, float[] d, float[] e, int order)
         {
-            const int Maxiter = 1000;
+            const int maxiter = 1000;
 
             for (var i = 1; i < order; i++)
             {
@@ -358,7 +358,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
 
                         // Check for convergence. If too many iterations have been performed, 
                         // throw exception that Convergence Failed
-                        if (iter >= Maxiter)
+                        if (iter >= maxiter)
                         {
                             throw new NonConvergenceException();
                         }
@@ -1038,7 +1038,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
                                 var vi = (d[i] - p)*2.0f*q;
                                 if ((vr == 0.0f) && (vi == 0.0f))
                                 {
-                                    vr = eps*norm*(float) (Math.Abs(w) + Math.Abs(q) + Math.Abs(x) + Math.Abs(y) + Math.Abs(z));
+                                    vr = eps*norm*(Math.Abs(w) + Math.Abs(q) + Math.Abs(x) + Math.Abs(y) + Math.Abs(z));
                                 }
 
                                 var res = Cdiv((x*r) - (z*ra) + (q*sa), (x*s) - (z*sa) - (q*ra), vr, vi);

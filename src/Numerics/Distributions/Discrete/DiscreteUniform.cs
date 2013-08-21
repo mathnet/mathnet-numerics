@@ -99,12 +99,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns><c>true</c> when the parameters are valid, <c>false</c> otherwise.</returns>
         static bool IsValidParameterSet(int lower, int upper)
         {
-            if (lower <= upper)
-            {
-                return true;
-            }
-
-            return false;
+            return lower <= upper;
         }
 
         /// <summary>

@@ -49,7 +49,6 @@ namespace MathNet.Numerics.Statistics.Mcmc
         /// </summary>
         /// <param name="f">Function to be differentiated.</param>
         /// <param name="x">Value where the derivative is computed.</param>
-        /// <returns></returns>
         public delegate T DiffMethod(DensityLn<T> f, T x);
 
         /// <summary>
@@ -133,7 +132,7 @@ namespace MathNet.Numerics.Statistics.Mcmc
         /// <param name="diff">The method used for differentiation.</param>
         /// <exception cref="ArgumentOutOfRangeException">When the number of burnInterval iteration is negative.</exception>
         /// <exception cref="ArgumentNullException">When either x0, pdfLnP or diff is null.</exception>
-        public HybridMCGeneric(T x0, DensityLn<T> pdfLnP, int frogLeapSteps, double stepSize, int burnInterval, Random randomSource, DiffMethod diff)
+        protected HybridMCGeneric(T x0, DensityLn<T> pdfLnP, int frogLeapSteps, double stepSize, int burnInterval, Random randomSource, DiffMethod diff)
         {
             _energy = x => -pdfLnP(x);
             FrogLeapSteps = frogLeapSteps;
@@ -226,7 +225,6 @@ namespace MathNet.Numerics.Statistics.Mcmc
         /// </summary>
         /// <param name="first">First vector/scalar in the product.</param>
         /// <param name="second">Second vector/scalar in the product.</param>
-        /// <returns></returns>
         abstract protected double DoProduct(T first, T second);
 
         /// <summary>

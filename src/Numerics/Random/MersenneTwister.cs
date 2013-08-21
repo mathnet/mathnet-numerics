@@ -66,10 +66,10 @@
    email: m-mat @ math.sci.hiroshima-u.ac.jp (remove space)
 */
 
+using System;
+
 namespace MathNet.Numerics.Random
 {
-    using System;
-
     /// <summary>
     /// Random number generator using Mersenne Twister 19937 algorithm.
     /// </summary>
@@ -78,37 +78,37 @@ namespace MathNet.Numerics.Random
         /// <summary>
         /// Mersenne twister constant.
         /// </summary>
-        private const uint _lower_mask = 0x7fffffff;
+        private const uint LowerMask = 0x7fffffff;
 
         /// <summary>
         /// Mersenne twister constant.
         /// </summary>
-        private const int _m = 397;
+        private const int M = 397;
 
         /// <summary>
         /// Mersenne twister constant.
         /// </summary>
-        private const uint _matrix_a = 0x9908b0df;
+        private const uint MatrixA = 0x9908b0df;
 
         /// <summary>
         /// Mersenne twister constant.
         /// </summary>
-        private const int _n = 624;
+        private const int N = 624;
 
         /// <summary>
         /// Mersenne twister constant.
         /// </summary>
-        private const double _reciprocal = 1.0/4294967296.0;
+        private const double Reciprocal = 1.0/4294967296.0;
 
         /// <summary>
         /// Mersenne twister constant.
         /// </summary>
-        private const uint _upper_mask = 0x80000000;
+        private const uint UpperMask = 0x80000000;
 
         /// <summary>
         /// Mersenne twister constant.
         /// </summary>
-        private static readonly uint[] _mag01 = {0x0U, _matrix_a};
+        private static readonly uint[] Mag01 = {0x0U, MatrixA};
 
         /// <summary>
         /// Mersenne twister constant.
@@ -118,7 +118,7 @@ namespace MathNet.Numerics.Random
         /// <summary>
         /// Mersenne twister constant.
         /// </summary>
-        private int mti = _n + 1;
+        private int _mti = N + 1;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MersenneTwister"/> class using
@@ -183,14 +183,14 @@ namespace MathNet.Numerics.Random
         private void init_genrand(uint s)
         {
             _mt[0] = s & 0xffffffff;
-            for (mti = 1; mti < _n; mti++)
+            for (_mti = 1; _mti < N; _mti++)
             {
-                _mt[mti] = (1812433253*(_mt[mti - 1] ^ (_mt[mti - 1] >> 30)) + (uint) mti);
+                _mt[_mti] = (1812433253*(_mt[_mti - 1] ^ (_mt[_mti - 1] >> 30)) + (uint) _mti);
                 /* See Knuth TAOCP Vol2. 3rd Ed. P.106 for multiplier. */
                 /* In the previous versions, MSBs of the seed affect   */
                 /* only MSBs of the array _mt[].                        */
                 /* 2002/01/09 modified by Makoto Matsumoto             */
-                _mt[mti] &= 0xffffffff;
+                _mt[_mti] &= 0xffffffff;
                 /* for >32 bit machines */
             }
         }
@@ -243,31 +243,31 @@ namespace MathNet.Numerics.Random
 
             /* mag01[x] = x * MATRIX_A  for x=0,1 */
 
-            if (mti >= _n)
+            if (_mti >= N)
             {
                 /* generate _n words at one time */
                 int kk;
 
-                if (mti == _n + 1) /* if init_genrand() has not been called, */
+                if (_mti == N + 1) /* if init_genrand() has not been called, */
                     init_genrand(5489); /* a default initial seed is used */
 
-                for (kk = 0; kk < _n - _m; kk++)
+                for (kk = 0; kk < N - M; kk++)
                 {
-                    y = (_mt[kk] & _upper_mask) | (_mt[kk + 1] & _lower_mask);
-                    _mt[kk] = _mt[kk + _m] ^ (y >> 1) ^ _mag01[y & 0x1];
+                    y = (_mt[kk] & UpperMask) | (_mt[kk + 1] & LowerMask);
+                    _mt[kk] = _mt[kk + M] ^ (y >> 1) ^ Mag01[y & 0x1];
                 }
-                for (; kk < _n - 1; kk++)
+                for (; kk < N - 1; kk++)
                 {
-                    y = (_mt[kk] & _upper_mask) | (_mt[kk + 1] & _lower_mask);
-                    _mt[kk] = _mt[kk + (_m - _n)] ^ (y >> 1) ^ _mag01[y & 0x1];
+                    y = (_mt[kk] & UpperMask) | (_mt[kk + 1] & LowerMask);
+                    _mt[kk] = _mt[kk + (M - N)] ^ (y >> 1) ^ Mag01[y & 0x1];
                 }
-                y = (_mt[_n - 1] & _upper_mask) | (_mt[0] & _lower_mask);
-                _mt[_n - 1] = _mt[_m - 1] ^ (y >> 1) ^ _mag01[y & 0x1];
+                y = (_mt[N - 1] & UpperMask) | (_mt[0] & LowerMask);
+                _mt[N - 1] = _mt[M - 1] ^ (y >> 1) ^ Mag01[y & 0x1];
 
-                mti = 0;
+                _mti = 0;
             }
 
-            y = _mt[mti++];
+            y = _mt[_mti++];
 
             /* Tempering */
             y ^= (y >> 11);
@@ -286,7 +286,7 @@ namespace MathNet.Numerics.Random
         /// </returns>
         protected override double DoSample()
         {
-            return genrand_int32() * _reciprocal;
+            return genrand_int32() * Reciprocal;
         }
 
        /* /// <summary>

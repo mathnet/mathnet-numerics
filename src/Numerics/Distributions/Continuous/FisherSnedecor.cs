@@ -103,17 +103,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns><c>true</c> when the parameters are valid, <c>false</c> otherwise.</returns>
         static bool IsValidParameterSet(double d1, double d2)
         {
-            if (d1 <= 0 || d2 <= 0)
-            {
-                return false;
-            }
-
-            if (Double.IsNaN(d1) || Double.IsNaN(d2))
-            {
-                return false;
-            }
-
-            return true;
+            return d1 > 0.0 && d2 > 0.0;
         }
 
         /// <summary>

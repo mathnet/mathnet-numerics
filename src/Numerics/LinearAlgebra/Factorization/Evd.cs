@@ -167,7 +167,7 @@ namespace MathNet.Numerics.LinearAlgebra.Factorization
                     return new LinearAlgebra.Complex32.Factorization.DenseEvd(dense) as Evd<T>;
                 }
 
-                return new LinearAlgebra.Complex32.Factorization.UserEvd(matrix as Matrix<Numerics.Complex32>) as Evd<T>;
+                return new LinearAlgebra.Complex32.Factorization.UserEvd(matrix as Matrix<Complex32>) as Evd<T>;
             }
 
             throw new NotSupportedException();

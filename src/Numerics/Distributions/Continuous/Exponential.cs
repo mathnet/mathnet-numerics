@@ -94,17 +94,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns><c>true</c> when the parameters are valid, <c>false</c> otherwise.</returns>
         static bool IsValidParameterSet(double lambda)
         {
-            if (lambda < 0)
-            {
-                return false;
-            }
-
-            if (Double.IsNaN(lambda))
-            {
-                return false;
-            }
-
-            return true;
+            return lambda >= 0.0;
         }
 
         /// <summary>

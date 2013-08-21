@@ -29,11 +29,10 @@
 // </copyright>
 
 using MathNet.Numerics.Properties;
+using System;
 
 namespace MathNet.Numerics.Random
 {
-    using System;
-
     /// <summary>
     /// Implements a multiply-with-carry Xorshift pseudo random number generator (RNG) specified in Marsaglia, George. (2003). Xorshift RNGs.
     /// <code>Xn = a * Xn−3 + c mod 2^32</code>
@@ -41,6 +40,56 @@ namespace MathNet.Numerics.Random
     /// </summary>
     public class Xorshift : AbstractRandomNumberGenerator
     {
+        /// <summary>
+        /// The default value for X1.
+        /// </summary>
+        private const uint YSeed = 362436069;
+
+        /// <summary>
+        /// The default value for X2.
+        /// </summary>
+        private const uint ZSeed = 77465321;
+
+        /// <summary>
+        /// The default value for the multiplier.
+        /// </summary>
+        private const uint ASeed = 916905990;
+
+        /// <summary>
+        /// The default value for the carry over.
+        /// </summary>
+        private const uint CSeed = 13579;
+
+        /// <summary>
+        /// The multiplier to compute a double-precision floating point number [0, 1)
+        /// </summary>
+        private const double UlongToDoubleMultiplier = 1.0 / (uint.MaxValue + 1.0);
+
+        /// <summary>
+        /// Seed or last but three unsigned random number. 
+        /// </summary>
+        private ulong _x;
+
+        /// <summary>
+        /// Last but two unsigned random number. 
+        /// </summary>
+        private ulong _y;
+
+        /// <summary>
+        /// Last but one unsigned random number. 
+        /// </summary>
+        private ulong _z;
+
+        /// <summary>
+        /// The value of the carry over. 
+        /// </summary>
+        private ulong _c;
+
+        /// <summary>
+        /// The multiplier.
+        /// </summary>
+        private readonly ulong _a;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Xorshift"/> class using
         /// the current time as the seed.
@@ -201,56 +250,6 @@ namespace MathNet.Numerics.Random
             _a = (ulong)a;
             _c = (ulong)c;
         }
-
-        /// <summary>
-        /// The default value for X1.
-        /// </summary>
-        private const uint YSeed = 362436069;
-
-        /// <summary>
-        /// The default value for X2.
-        /// </summary>
-        private const uint ZSeed = 77465321;
-
-        /// <summary>
-        /// The default value for the multiplier.
-        /// </summary>
-        private const uint ASeed = 916905990;
-        
-        /// <summary>
-        /// The default value for the carry over.
-        /// </summary>
-        private const uint CSeed = 13579;
-
-        /// <summary>
-        /// The multiplier to compute a double-precision floating point number [0, 1)
-        /// </summary>
-        private const double UlongToDoubleMultiplier = 1.0 / (uint.MaxValue + 1.0);
-
-        /// <summary>
-        /// Seed or last but three unsigned random number. 
-        /// </summary>
-        private ulong _x;
-
-        /// <summary>
-        /// Last but two unsigned random number. 
-        /// </summary>
-        private ulong _y;
-
-        /// <summary>
-        /// Last but one unsigned random number. 
-        /// </summary>
-        private ulong _z;
-
-        /// <summary>
-        /// The value of the carry over. 
-        /// </summary>
-        private ulong _c;
-
-        /// <summary>
-        /// The multiplier.
-        /// </summary>
-        private readonly ulong _a;
 
         /// <summary>
         /// Returns a random number between 0.0 and 1.0.

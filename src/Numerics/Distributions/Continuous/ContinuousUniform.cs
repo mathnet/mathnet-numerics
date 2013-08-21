@@ -109,17 +109,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns><c>true</c> when the parameters are valid, <c>false</c> otherwise.</returns>
         static bool IsValidParameterSet(double lower, double upper)
         {
-            if (upper < lower)
-            {
-                return false;
-            }
-
-            if (Double.IsNaN(upper) || Double.IsNaN(lower))
-            {
-                return false;
-            }
-
-            return true;
+            return upper >= lower && !Double.IsNaN(upper) && !Double.IsNaN(lower);
         }
 
         /// <summary>

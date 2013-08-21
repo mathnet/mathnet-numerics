@@ -28,10 +28,11 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using MathNet.Numerics.Properties;
+
 namespace MathNet.Numerics.Random
 {
     using System;
-    using Properties;
 
     /// <summary>
     /// Abstract class for random number generators. This class introduces a layer between <see cref="System.Random"/>

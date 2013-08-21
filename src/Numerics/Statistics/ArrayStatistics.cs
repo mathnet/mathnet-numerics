@@ -368,6 +368,10 @@ namespace MathNet.Numerics.Statistics
         /// </summary>
         /// <param name="data">Sample array, no sorting is assumed. Will be reordered.</param>
         /// <param name="tau">Quantile selector, between 0.0 and 1.0 (inclusive)</param>
+        /// <param name="a">a-parameter</param>
+        /// <param name="b">b-parameter</param>
+        /// <param name="c">c-parameter</param>
+        /// <param name="d">d-parameter</param>
         public static double QuantileCustomInplace(double[] data, double tau, double a, double b, double c, double d)
         {
             if (data == null) throw new ArgumentNullException("data");

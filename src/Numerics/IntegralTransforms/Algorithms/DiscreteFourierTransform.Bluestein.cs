@@ -73,8 +73,8 @@ namespace MathNet.Numerics.IntegralTransforms.Algorithms
 
             // Padding to power of two >= 2N–1 so we can apply Radix-2 FFT.
             int m = ((n << 1) - 1).CeilingToPowerOfTwo();
-            Complex[] b = new Complex[m];
-            Complex[] a = new Complex[m];
+            var b = new Complex[m];
+            var a = new Complex[m];
 
             CommonParallel.Invoke(
                 () =>

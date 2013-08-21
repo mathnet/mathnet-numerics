@@ -137,7 +137,7 @@ namespace MathNet.Numerics.Statistics.Mcmc
         /// <param name="randomSource">Random number generator used to sample the momentum.</param>
         /// <exception cref="ArgumentOutOfRangeException">When the number of burnInterval iteration is negative.</exception>
         public UnivariateHybridMC(double x0, DensityLn<double> pdfLnP, int frogLeapSteps, double stepSize, int burnInterval, double pSdv, Random randomSource)
-            : this(x0, pdfLnP, frogLeapSteps, stepSize, burnInterval, pSdv, randomSource, new DiffMethod(UnivariateHybridMC.Grad))
+            : this(x0, pdfLnP, frogLeapSteps, stepSize, burnInterval, pSdv, randomSource, Grad)
         {
         }
 

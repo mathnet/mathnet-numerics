@@ -56,8 +56,8 @@ namespace MathNet.Numerics
             }
 
             return (formatProvider as CultureInfo)
-                   ?? (formatProvider.GetFormat(typeof(CultureInfo)) as CultureInfo)
-                      ?? CultureInfo.CurrentCulture;
+                ?? (formatProvider.GetFormat(typeof (CultureInfo)) as CultureInfo)
+                    ?? CultureInfo.CurrentCulture;
         }
 
         /// <summary>
@@ -84,8 +84,13 @@ namespace MathNet.Numerics
         /// <returns>A <see cref="TextInfo"/> instance.</returns>
         internal static TextInfo GetTextInfo(this IFormatProvider formatProvider)
         {
-            return (formatProvider as TextInfo)
-                   ?? GetCultureInfo(formatProvider).TextInfo;
+            if (formatProvider == null)
+            {
+                return CultureInfo.CurrentCulture.TextInfo;
+            }
+
+            return (formatProvider.GetFormat(typeof (TextInfo)) as TextInfo)
+                ?? GetCultureInfo(formatProvider).TextInfo;
         }
 
         /// <summary>

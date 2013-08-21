@@ -59,7 +59,6 @@ namespace MathNet.Numerics
         /// Returns the modified Struve function of order 0.
         /// </summary>
         /// <param name="x">The value to compute the function of.</param>
-        /// <returns></returns>
         public static double StruveL0(double x)
         {
             //*********************************************************************72
@@ -159,9 +158,6 @@ namespace MathNet.Numerics
                 return -StruveL0(-x);
             }
 
-            const double LNR2PI = 0.91893853320467274178;
-            const double TWOBPI = 0.63661977236758134308;
-
             double[] ARL0 = new double[28];
             ARL0[0] = 0.42127458349979924863;
             ARL0[1] = -0.33859536391220612188;
@@ -237,36 +233,36 @@ namespace MathNet.Numerics
             AI0ML0[23] = 0.16e-18;
 
             // MACHINE-DEPENDENT VALUES (Suitable for IEEE-arithmetic machines)
-            const int NTERM1 = 25; const int NTERM2 = 14; const int NTERM3 = 21;
-            const double XLOW = 4.4703484e-8; const double XMAX = 1.797693e308;
-            const double XHIGH1 = 5.1982303e8; const double XHIGH2 = 2.5220158e17;
+            const int nterm1 = 25; const int nterm2 = 14; const int nterm3 = 21;
+            const double xlow = 4.4703484e-8; const double xmax = 1.797693e308;
+            const double xhigh1 = 5.1982303e8; const double xhigh2 = 2.5220158e17;
 
             // Code for |xvalue| <= 16
             if (x <= 16.0)
             {
-                if (x < XLOW)
+                if (x < xlow)
                 {
-                    return TWOBPI * x;
+                    return Constants.TwoInvPi * x;
                 }
 
                 double T = (4.0 * x - 24.0) / (x + 24.0);
-                return TWOBPI * x * Evaluate.ChebyshevSum(NTERM1, ARL0, T) * Math.Exp(x);
+                return Constants.TwoInvPi * x * Evaluate.ChebyshevSum(nterm1, ARL0, T) * Math.Exp(x);
             }
 
             // Code for |xvalue| > 16
             double ch1;
-            if (x > XHIGH2)
+            if (x > xhigh2)
             {
                 ch1 = 1.0;
             }
             else
             {
                 double T = (x - 28.0) / (4.0 - x);
-                ch1 = Evaluate.ChebyshevSum(NTERM2, ARL0AS, T);
+                ch1 = Evaluate.ChebyshevSum(nterm2, ARL0AS, T);
             }
 
             double ch2;
-            if (x > XHIGH1)
+            if (x > xhigh1)
             {
                 ch2 = 1.0;
             }
@@ -274,23 +270,22 @@ namespace MathNet.Numerics
             {
                 double xsq = x * x;
                 double T = (800.0 - xsq) / (288.0 + xsq);
-                ch2 = Evaluate.ChebyshevSum(NTERM3, AI0ML0, T);
+                ch2 = Evaluate.ChebyshevSum(nterm3, AI0ML0, T);
             }
 
-            double test = Math.Log(ch1) - LNR2PI - Math.Log(x) / 2.0 + x;
-            if (test > Math.Log(XMAX))
+            double test = Math.Log(ch1) - Constants.LogSqrt2Pi - Math.Log(x) / 2.0 + x;
+            if (test > Math.Log(xmax))
             {
                 throw new ArithmeticException("ERROR IN MISCFUN FUNCTION STRVL0: ARGUMENT CAUSES OVERFLOW");
             }
 
-            return Math.Exp(test) - TWOBPI * ch2 / x;
+            return Math.Exp(test) - Constants.TwoInvPi * ch2 / x;
         }
 
         /// <summary>
         /// Returns the modified Struve function of order 1.
         /// </summary>
         /// <param name="x">The value to compute the function of.</param>
-        /// <returns></returns>
         public static double StruveL1(double x)
         {
             //*********************************************************************72
@@ -395,10 +390,6 @@ namespace MathNet.Numerics
                 return StruveL1(-x);
             }
 
-            const double LNR2PI = 0.91893853320467274178;
-            const double PI3BY2 = 4.71238898038468985769;
-            const double TWOBPI = 0.63661977236758134308;
-
             double[] ARL1 = new double[27];
             ARL1[0] = 0.38996027351229538208;
             ARL1[1] = -0.33658096101975749366;
@@ -476,42 +467,42 @@ namespace MathNet.Numerics
             AI1ML1[25] = -0.1e-19;
 
             // MACHINE-DEPENDENT VALUES (Suitable for IEEE-arithmetic machines)
-            const int NTERM1 = 24; const int NTERM2 = 13; const int NTERM3 = 22;
-            const double XLOW1 = 5.7711949e-8; const double XLOW2 = 3.3354714e-154; const double XMAX = 1.797693e308;
-            const double XHIGH1 = 5.19823025e8; const double XHIGH2 = 2.7021597e17;
+            const int nterm1 = 24; const int nterm2 = 13; const int nterm3 = 22;
+            const double xlow1 = 5.7711949e-8; const double xlow2 = 3.3354714e-154; const double xmax = 1.797693e308;
+            const double xhigh1 = 5.19823025e8; const double xhigh2 = 2.7021597e17;
 
             // CODE FOR |x| <= 16
             if (x <= 16.0)
             {
-                if (x <= XLOW2)
+                if (x <= xlow2)
                 {
                     return 0.0;
                 }
 
                 double xsq = x * x;
-                if (x < XLOW1)
+                if (x < xlow1)
                 {
-                    return xsq / PI3BY2;
+                    return xsq / Constants.Pi3Over2;
                 }
 
                 double t = (4.0 * x - 24.0) / (x + 24.0);
-                return xsq * Evaluate.ChebyshevSum(NTERM1, ARL1, t) * Math.Exp(x) / PI3BY2;
+                return xsq * Evaluate.ChebyshevSum(nterm1, ARL1, t) * Math.Exp(x) / Constants.Pi3Over2;
             }
 
             // CODE FOR |x| > 16
             double ch1;
-            if (x > XHIGH2)
+            if (x > xhigh2)
             {
                 ch1 = 1.0;
             }
             else
             {
                 double t = (x - 30.0) / (2.0 - x);
-                ch1 = Evaluate.ChebyshevSum(NTERM2, ARL1AS, t);
+                ch1 = Evaluate.ChebyshevSum(nterm2, ARL1AS, t);
             }
 
             double ch2;
-            if (x > XHIGH1)
+            if (x > xhigh1)
             {
                 ch2 = 1.0;
             }
@@ -519,23 +510,22 @@ namespace MathNet.Numerics
             {
                 double xsq = x * x;
                 double t = (800.0 - xsq) / (288.0 + xsq);
-                ch2 = Evaluate.ChebyshevSum(NTERM3, AI1ML1, t);
+                ch2 = Evaluate.ChebyshevSum(nterm3, AI1ML1, t);
             }
 
-            double test = Math.Log(ch1) - LNR2PI - Math.Log(x) / 2.0 + x;
-            if (test > Math.Log(XMAX))
+            double test = Math.Log(ch1) - Constants.LogSqrt2Pi - Math.Log(x) / 2.0 + x;
+            if (test > Math.Log(xmax))
             {
                 throw new ArithmeticException("ERROR IN MISCFUN FUNCTION STRVL1: ARGUMENT CAUSES OVERFLOW");
             }
 
-            return Math.Exp(test) - TWOBPI * ch2;
+            return Math.Exp(test) - Constants.TwoInvPi * ch2;
         }
 
         /// <summary>
         /// Returns the difference between the Bessel I0 and Struve L0 functions.
         /// </summary>
         /// <param name="x">The value to compute the function of.</param>
-        /// <returns></returns>
         public static double BesselI0MStruveL0(double x)
         {
             // TODO: way off for large x (e.g. 100) - needs direct approximation
@@ -546,7 +536,6 @@ namespace MathNet.Numerics
         /// Returns the difference between the Bessel I1 and Struve L1 functions.
         /// </summary>
         /// <param name="x">The value to compute the function of.</param>
-        /// <returns></returns>
         public static double BesselI1MStruveL1(double x)
         {
             // TODO: way off for large x (e.g. 100) - needs direct approximation

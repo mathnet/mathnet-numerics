@@ -44,7 +44,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Preconditioners
     /// This sort algorithm is used to sort the columns in a sparse matrix based on
     /// the value of the element on the diagonal of the matrix.
     /// </remarks>
-    internal class IlutpElementSorter
+    internal static class IlutpElementSorter
     {
         /// <summary>
         /// Sorts the elements of the <paramref name="values"/> vector in decreasing

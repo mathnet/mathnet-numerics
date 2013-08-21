@@ -49,8 +49,6 @@ namespace MathNet.Numerics.Financial
         /// and measures the variation of only the gain periods around the gain mean. Measures the volatility of upside performance.
         /// © Copyright 1996, 1999 Gary L.Gastineau. First Edition. © 1992 Swiss Bank Corporation.
         /// </summary>
-        /// <param name="data"></param>
-        /// <returns></returns>
         public static double GainStandardDeviation(this IEnumerable<double> data)
         {
             if (data == null)
@@ -66,8 +64,6 @@ namespace MathNet.Numerics.Financial
         /// Similar to standard deviation, except this statistic calculates an average (mean) return for only the periods with a loss and then 
         /// measures the variation of only the losing periods around this loss mean. This statistic measures the volatility of downside performance.
         /// </summary>
-        /// <param name="data"></param>
-        /// <returns></returns>
         /// <remarks>http://www.offshore-library.com/kb/statistics.php</remarks>
         public static double LossStandardDeviation(this IEnumerable<double> data)
         {
@@ -87,9 +83,6 @@ namespace MathNet.Numerics.Financial
         /// 7%. (The loss standard deviation, on the other hand, would take only losing periods, calculate an average return for
         /// the losing periods, and then measure the variation between each losing return and the losing return average).
         /// </summary>
-        /// <param name="data"></param>
-        /// <param name="minimalAcceptableReturn"></param>
-        /// <returns></returns>
         public static double DownsideDeviation(this IEnumerable<double> data, double minimalAcceptableReturn)
         {
             if (data == null)
@@ -105,8 +98,6 @@ namespace MathNet.Numerics.Financial
         /// A measure of volatility in returns below the mean. It's similar to standard deviation, but it only
         /// looks at periods where the investment return was less than average return.
         /// </summary>
-        /// <param name="data"></param>
-        /// <returns></returns>
         public static double SemiDeviation(this IEnumerable<double> data)
         {
             if (data == null)
@@ -123,8 +114,6 @@ namespace MathNet.Numerics.Financial
         /// Measures a fund’s average gain in a gain period divided by the fund’s average loss in a losing
         /// period. Periods can be monthly or quarterly depending on the data frequency.
         /// </summary>
-        /// <param name="data"></param>
-        /// <returns></returns>
         public static double GainLossRatio(this IEnumerable<double> data)
         {
             if (data == null)

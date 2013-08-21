@@ -132,17 +132,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns><c>true</c> when the parameters are valid, <c>false</c> otherwise.</returns>
         static bool IsValidParameterSet(double lambda, double nu)
         {
-            if (lambda <= 0.0)
-            {
-                return false;
-            }
-
-            if (nu < 0.0)
-            {
-                return false;
-            }
-
-            return true;
+            return lambda > 0.0 && nu >= 0.0;
         }
 
         /// <summary>

@@ -74,14 +74,12 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
             MatrixU = matrixCopy.CreateMatrix(matrixCopy.RowCount, matrixCopy.RowCount);
             MatrixVT = matrixCopy.CreateMatrix(matrixCopy.ColumnCount, matrixCopy.ColumnCount);
 
-            const int Maxiter = 1000;
+            const int maxiter = 1000;
             var e = new Complex32[matrixCopy.ColumnCount];
             var work = new Complex32[matrixCopy.RowCount];
 
             int i, j;
             int l, lp1;
-            var cs = 0.0f;
-            var sn = 0.0f;
             Complex32 t;
 
             var ncu = matrixCopy.RowCount;
@@ -355,7 +353,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
             {
                 // Quit if all the singular values have been found. If too many iterations have been performed, 
                 // throw exception that Convergence Failed
-                if (iter >= Maxiter)
+                if (iter >= maxiter)
                 {
                     throw new NonConvergenceException();
                 }
@@ -428,6 +426,8 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
                 // Perform the task indicated by kase.
                 int k;
                 float f;
+                float sn;
+                float cs;
                 switch (kase)
                 {
                     // Deflate negligible VectorS[m].
@@ -439,7 +439,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
                         {
                             k = m - 2 - kk + l;
                             t1 = VectorS[k].Real;
-                            Srotg(ref t1, ref f, ref cs, ref sn);
+                            Srotg(ref t1, ref f, out cs, out sn);
                             VectorS[k] = t1;
                             if (k != l)
                             {
@@ -462,7 +462,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
                         for (k = l; k < m; k++)
                         {
                             t1 = VectorS[k].Real;
-                            Srotg(ref t1, ref f, ref cs, ref sn);
+                            Srotg(ref t1, ref f, out cs, out sn);
                             VectorS[k] = t1;
                             f = -sn * e[k].Real;
                             e[k] = cs * e[k];
@@ -509,7 +509,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
                         // Chase zeros.
                         for (k = l; k < m - 1; k++)
                         {
-                            Srotg(ref f, ref g, ref cs, ref sn);
+                            Srotg(ref f, ref g, out cs, out sn);
                             if (k != l)
                             {
                                 e[k - 1] = f;
@@ -524,7 +524,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
                                 Csrot(MatrixVT, matrixCopy.ColumnCount, k, k + 1, cs, sn);
                             }
 
-                            Srotg(ref f, ref g, ref cs, ref sn);
+                            Srotg(ref f, ref g, out cs, out sn);
                             VectorS[k] = f;
                             f = (cs * e[k].Real) + (sn * VectorS[k + 1].Real);
                             VectorS[k + 1] = (-sn * e[k]) + (cs * VectorS[k + 1]);
@@ -670,7 +670,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
         /// <param name="c">Contains the parameter c associated with the Givens rotation</param>
         /// <param name="s">Contains the parameter s associated with the Givens rotation</param>
         /// <remarks>This is equivalent to the DROTG LAPACK routine.</remarks>
-        private static void Srotg(ref float da, ref float db, ref float c, ref float s)
+        private static void Srotg(ref float da, ref float db, out float c, out float s)
         {
             float r, z;
 

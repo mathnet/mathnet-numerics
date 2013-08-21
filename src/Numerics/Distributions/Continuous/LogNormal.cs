@@ -125,12 +125,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns><c>true</c> when the parameters are valid, <c>false</c> otherwise.</returns>
         static bool IsValidParameterSet(double mu, double sigma)
         {
-            if (sigma < 0.0 || Double.IsNaN(mu) || Double.IsNaN(mu) || Double.IsNaN(sigma))
-            {
-                return false;
-            }
-
-            return true;
+            return sigma >= 0.0 && !Double.IsNaN(mu) && !Double.IsNaN(mu);
         }
 
         /// <summary>

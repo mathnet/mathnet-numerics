@@ -111,8 +111,8 @@ namespace MathNet.Numerics.NumberTheory
                 return 0;
             }
 
-            const int MaxPowerOfTwo = 0x40000000;
-            if (number > MaxPowerOfTwo)
+            const int maxPowerOfTwo = 0x40000000;
+            if (number > maxPowerOfTwo)
             {
                 throw new ArgumentOutOfRangeException("number");
             }
@@ -140,8 +140,8 @@ namespace MathNet.Numerics.NumberTheory
                 return 0;
             }
 
-            const long MaxPowerOfTwo = 0x4000000000000000;
-            if (number > MaxPowerOfTwo)
+            const long maxPowerOfTwo = 0x4000000000000000;
+            if (number > maxPowerOfTwo)
             {
                 throw new ArgumentOutOfRangeException("number");
             }

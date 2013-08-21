@@ -64,13 +64,13 @@ namespace MathNet.Numerics.Statistics
                     {
                         throw new ArgumentOutOfRangeException("dataB", "Datasets dataA and dataB need to have the same length. dataB is shorter.");
                     }
-                    double Acurrent = ieA.Current;
-                    double Bcurrent = ieB.Current;
+                    double currentA = ieA.Current;
+                    double currentB = ieB.Current;
 
-                    double deltaA = Acurrent - meanA;
+                    double deltaA = currentA - meanA;
                     double scaleDeltaA = deltaA / ++n;
 
-                    double deltaB = Bcurrent - meanB;
+                    double deltaB = currentB - meanB;
                     double scaleDeltaB = deltaB / n;
 
                     meanA += scaleDeltaA;

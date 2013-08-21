@@ -126,27 +126,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns><c>true</c> when the parameters are valid, <c>false</c> otherwise.</returns>
         static bool IsValidParameterSet(double alpha, double beta, double scale, double location)
         {
-            if (alpha <= 0 || alpha > 2)
-            {
-                return false;
-            }
-
-            if (beta < -1 || beta > 1)
-            {
-                return false;
-            }
-
-            if (scale <= 0)
-            {
-                return false;
-            }
-
-            if (Double.IsNaN(alpha) || Double.IsNaN(beta) || Double.IsNaN(scale) || Double.IsNaN(location))
-            {
-                return false;
-            }
-
-            return true;
+            return alpha > 0.0 && alpha <= 2.0 && beta >= -1.0 && beta <= 1.0 && scale > 0.0 && !Double.IsNaN(location);
         }
 
         /// <summary>

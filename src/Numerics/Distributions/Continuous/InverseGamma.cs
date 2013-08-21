@@ -104,26 +104,12 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Checks whether the parameters of the distribution are valid. 
         /// </summary>
-        /// <param name="shape">
-        /// The shape (alpha) parameter of the inverse Gamma distribution.
-        /// </param>
-        /// <param name="scale">
-        /// The scale (beta) parameter of the inverse Gamma distribution.
-        /// </param>
+        /// <param name="shape">The shape (alpha) parameter of the inverse Gamma distribution.</param>
+        /// <param name="scale">The scale (beta) parameter of the inverse Gamma distribution.</param>
         /// <returns><c>true</c> when the parameters are valid, <c>false</c> otherwise.</returns>
         static bool IsValidParameterSet(double shape, double scale)
         {
-            if (shape <= 0 || scale <= 0)
-            {
-                return false;
-            }
-
-            if (Double.IsNaN(shape) || Double.IsNaN(scale))
-            {
-                return false;
-            }
-
-            return true;
+            return shape > 0.0 && scale > 0.0;
         }
 
         /// <summary>

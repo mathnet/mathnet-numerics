@@ -28,10 +28,10 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System;
+
 namespace MathNet.Numerics.Random
 {
-    using System;
-
     /// <summary>
     /// Wichmann-Hill’s 1982 combined multiplicative congruential generator. 
     /// </summary>
@@ -40,12 +40,12 @@ namespace MathNet.Numerics.Random
     ///</remarks>
     public class WH1982 : AbstractRandomNumberGenerator
     {
-        private const uint _modx = 30269;
-        private const double _modx_recip = 1.0/_modx;
-        private const uint _mody = 30307;
-        private const double _mody_recip = 1.0/_mody;
-        private const uint _modz = 30323;
-        private const double _modz_recip = 1.0/_modz;
+        private const uint Modx = 30269;
+        private const double ModxRecip = 1.0/Modx;
+        private const uint Mody = 30307;
+        private const double ModyRecip = 1.0/Mody;
+        private const uint Modz = 30323;
+        private const double ModzRecip = 1.0/Modz;
         private uint _xn;
         private uint _yn = 1;
         private uint _zn = 1;
@@ -92,7 +92,7 @@ namespace MathNet.Numerics.Random
             {
                 seed = 1;
             }
-            _xn = (uint) seed%_modx;
+            _xn = (uint) seed%Modx;
         }
 
         /// <summary>
@@ -103,11 +103,11 @@ namespace MathNet.Numerics.Random
         /// </returns>
         protected override double DoSample()
         {
-            _xn = (171*_xn)%_modx;
-            _yn = (172*_yn)%_mody;
-            _zn = (170*_zn)%_modz;
+            _xn = (171*_xn)%Modx;
+            _yn = (172*_yn)%Mody;
+            _zn = (170*_zn)%Modz;
 
-            double w = _xn*_modx_recip + _yn*_mody_recip + _zn*_modz_recip;
+            double w = _xn*ModxRecip + _yn*ModyRecip + _zn*ModzRecip;
             w -= (int) w;
             return w;
         }

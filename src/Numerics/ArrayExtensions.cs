@@ -28,9 +28,10 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System;
+
 namespace MathNet.Numerics
 {
-    using System;
 
 #if !NOSYSNUMERICS
     using Complex = System.Numerics.Complex;

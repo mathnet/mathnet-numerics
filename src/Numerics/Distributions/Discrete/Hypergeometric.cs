@@ -122,17 +122,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns><c>true</c> when the parameters are valid, <c>false</c> otherwise.</returns>
         static bool IsValidParameterSet(int population, int success, int draws)
         {
-            if (population < 0 || success < 0 || draws < 0)
-            {
-                return false;
-            }
-
-            if (success > population || draws > population)
-            {
-                return false;
-            }
-
-            return true;
+            return population >= 0 && success >= 0 && draws >= 0 && (success <= population && draws <= population);
         }
 
         /// <summary>

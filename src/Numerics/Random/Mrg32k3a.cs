@@ -28,16 +28,31 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System;
+
 namespace MathNet.Numerics.Random
 {
-    using System;
-
     /// <summary>
     /// A 32-bit combined multiple recursive generator with 2 components of order 3.
     /// </summary>
     ///<remarks>Based off of P. L'Ecuyer, "Combined Multiple Recursive Random Number Generators," Operations Research, 44, 5 (1996), 816--822. </remarks>
-    public partial class Mrg32k3a : AbstractRandomNumberGenerator
+    public class Mrg32k3a : AbstractRandomNumberGenerator
     {
+        private const double A12 = 1403580;
+        private const double A13 = 810728;
+        private const double A21 = 527612;
+        private const double A23 = 1370589;
+        private const double Modulus1 = 4294967087;
+        private const double Modulus2 = 4294944443;
+
+        private const double Reciprocal = 1.0 / Modulus1;
+        private double _xn1 = 1;
+        private double _xn2 = 1;
+        private double _xn3;
+        private double _yn1 = 1;
+        private double _yn2 = 1;
+        private double _yn3 = 1;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Mcg31m1"/> class using
         /// the current time as the seed.
@@ -57,20 +72,6 @@ namespace MathNet.Numerics.Random
         public Mrg32k3a(bool threadSafe) : this((int)DateTime.Now.Ticks, threadSafe)
         {
         }
-        private const double _a12 = 1403580;
-        private const double _a13 = 810728;
-        private const double _a21 = 527612;
-        private const double _a23 = 1370589;
-        private const double _modulus1 = 4294967087;
-        private const double _modulus2 = 4294944443;
-
-        private const double _reciprocal = 1.0/_modulus1;
-        private double _xn1 = 1;
-        private double _xn2 = 1;
-        private double _xn3;
-        private double _yn1 = 1;
-        private double _yn2 = 1;
-        private double _yn3 = 1;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Mrg32k3a"/> class.
@@ -106,20 +107,20 @@ namespace MathNet.Numerics.Random
         /// </returns>
         protected override double DoSample()
         {
-            double xn = _a12*_xn2 - _a13*_xn3;
-            double k = (long) (xn/_modulus1);
-            xn -= k*_modulus1;
+            double xn = A12*_xn2 - A13*_xn3;
+            double k = (long) (xn/Modulus1);
+            xn -= k*Modulus1;
             if (xn < 0)
             {
-                xn += _modulus1;
+                xn += Modulus1;
             }
 
-            double yn = _a21*_yn1 - _a23*_yn3;
-            k = (long) (yn/_modulus2);
-            yn -= k*_modulus2;
+            double yn = A21*_yn1 - A23*_yn3;
+            k = (long) (yn/Modulus2);
+            yn -= k*Modulus2;
             if (yn < 0)
             {
-                yn += _modulus2;
+                yn += Modulus2;
             }
             _xn3 = _xn2;
             _xn2 = _xn1;
@@ -130,9 +131,9 @@ namespace MathNet.Numerics.Random
 
             if (xn <= yn)
             {
-                return (xn - yn + _modulus1)*_reciprocal;
+                return (xn - yn + Modulus1)*Reciprocal;
             }
-            return (xn - yn)*_reciprocal;
+            return (xn - yn)*Reciprocal;
         }
     }
 }

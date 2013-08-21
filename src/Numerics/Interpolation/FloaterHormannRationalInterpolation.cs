@@ -173,15 +173,15 @@ namespace MathNet.Numerics.Interpolation
                 throw new ArgumentOutOfRangeException("order");
             }
 
-            double[] sortedWeights = new double[sampleValues.Count];
-            double[] sortedPoints = new double[samplePoints.Count];
+            var sortedWeights = new double[sampleValues.Count];
+            var sortedPoints = new double[samplePoints.Count];
             samplePoints.CopyTo(sortedPoints, 0);
 
             // order: odd -> negative, even -> positive
             double sign = ((order & 0x1) == 0x1) ? -1.0 : 1.0;
 
             // init permutation vector
-            int[] perm = new int[sortedWeights.Length];
+            var perm = new int[sortedWeights.Length];
             for (int i = 0; i < perm.Length; i++)
             {
                 perm[i] = i;
@@ -227,12 +227,11 @@ namespace MathNet.Numerics.Interpolation
             }
 
             // reorder back to original order, based on the permutation vector.
-            double[] weights = new double[sortedWeights.Length];
+            var weights = new double[sortedWeights.Length];
             for (int i = 0; i < weights.Length; i++)
             {
                 weights[perm[i]] = sortedWeights[i];
             }
-
             return weights;
         }
 

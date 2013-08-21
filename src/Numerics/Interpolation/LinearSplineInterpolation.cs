@@ -129,8 +129,7 @@ namespace MathNet.Numerics.Interpolation
                 if (samplePoints[i] <= samplePoints[i - 1])
                     throw new ArgumentException(Resources.Interpolation_Initialize_SamplePointsNotStrictlyAscendingOrder, "samplePoints");
 
-            double[] coefficients = new double[4*(samplePoints.Count - 1)];
-
+            var coefficients = new double[4*(samplePoints.Count - 1)];
             for (int i = 0, j = 0; i < samplePoints.Count - 1; i++, j += 4)
             {
                 coefficients[j] = sampleValues[i];
@@ -138,7 +137,6 @@ namespace MathNet.Numerics.Interpolation
                 coefficients[j + 2] = 0;
                 coefficients[j + 3] = 0;
             }
-
             return coefficients;
         }
 

@@ -44,31 +44,30 @@ namespace MathNet.Numerics
         /// <summary>
         /// The order of the <see cref="GammaLn"/> approximation.
         /// </summary>
-        private const int Gamma_n = 10;
+        private const int GammaN = 10;
 
         /// <summary>
         /// Auxiliary variable when evaluating the <see cref="GammaLn"/> function.
         /// </summary>
-        private const double Gamma_r = 10.900511;
+        private const double GammaR = 10.900511;
 
         /// <summary>
         /// Polynomial coefficients for the <see cref="GammaLn"/> approximation.
         /// </summary>
-        private static readonly double[] Gamma_dk =
-            new[]
-            {
-                2.48574089138753565546e-5,
-                1.05142378581721974210,
-                -3.45687097222016235469,
-                4.51227709466894823700,
-                -2.98285225323576655721,
-                1.05639711577126713077,
-                -1.95428773191645869583e-1,
-                1.70970543404441224307e-2,
-                -5.71926117404305781283e-4,
-                4.63399473359905636708e-6,
-                -2.71994908488607703910e-9
-            };
+        static readonly double[] GammaDk =
+        {
+            2.48574089138753565546e-5,
+            1.05142378581721974210,
+            -3.45687097222016235469,
+            4.51227709466894823700,
+            -2.98285225323576655721,
+            1.05639711577126713077,
+            -1.95428773191645869583e-1,
+            1.70970543404441224307e-2,
+            -5.71926117404305781283e-4,
+            4.63399473359905636708e-6,
+            -2.71994908488607703910e-9
+        };
 
         /// <summary>
         /// Computes the logarithm of the Gamma function. 
@@ -86,29 +85,29 @@ namespace MathNet.Numerics
         {
             if (z < 0.5)
             {
-                double s = Gamma_dk[0];
-                for (int i = 1; i <= Gamma_n; i++)
+                double s = GammaDk[0];
+                for (int i = 1; i <= GammaN; i++)
                 {
-                    s += Gamma_dk[i] / (i - z);
+                    s += GammaDk[i] / (i - z);
                 }
 
                 return Constants.LnPi
                        - Math.Log(Math.Sin(Math.PI * z))
                        - Math.Log(s)
                        - Constants.LogTwoSqrtEOverPi
-                       - ((0.5 - z) * Math.Log((0.5 - z + Gamma_r) / Math.E));
+                       - ((0.5 - z) * Math.Log((0.5 - z + GammaR) / Math.E));
             }
             else
             {
-                double s = Gamma_dk[0];
-                for (int i = 1; i <= Gamma_n; i++)
+                double s = GammaDk[0];
+                for (int i = 1; i <= GammaN; i++)
                 {
-                    s += Gamma_dk[i] / (z + i - 1.0);
+                    s += GammaDk[i] / (z + i - 1.0);
                 }
 
                 return Math.Log(s)
                        + Constants.LogTwoSqrtEOverPi
-                       + ((z - 0.5) * Math.Log((z - 0.5 + Gamma_r) / Math.E));
+                       + ((z - 0.5) * Math.Log((z - 0.5 + GammaR) / Math.E));
             }
         }
 
@@ -130,26 +129,26 @@ namespace MathNet.Numerics
         {
             if (z < 0.5)
             {
-                double s = Gamma_dk[0];
-                for (int i = 1; i <= Gamma_n; i++)
+                double s = GammaDk[0];
+                for (int i = 1; i <= GammaN; i++)
                 {
-                    s += Gamma_dk[i] / (i - z);
+                    s += GammaDk[i] / (i - z);
                 }
 
                 return Math.PI / (Math.Sin(Math.PI * z)
                                   * s
                                   * Constants.TwoSqrtEOverPi
-                                  * Math.Pow((0.5 - z + Gamma_r) / Math.E, 0.5 - z));
+                                  * Math.Pow((0.5 - z + GammaR) / Math.E, 0.5 - z));
             }
             else
             {
-                double s = Gamma_dk[0];
-                for (int i = 1; i <= Gamma_n; i++)
+                double s = GammaDk[0];
+                for (int i = 1; i <= GammaN; i++)
                 {
-                    s += Gamma_dk[i] / (z + i - 1.0);
+                    s += GammaDk[i] / (z + i - 1.0);
                 }
 
-                return s * Constants.TwoSqrtEOverPi * Math.Pow((z - 0.5 + Gamma_r) / Math.E, z - 0.5);
+                return s * Constants.TwoSqrtEOverPi * Math.Pow((z - 0.5 + GammaR) / Math.E, z - 0.5);
             }
         }
     
@@ -162,9 +161,9 @@ namespace MathNet.Numerics
         /// <returns>The upper incomplete regularized gamma function.</returns>
         public static double GammaUpperRegularized(double a, double x)
         {
-            const double Epsilon = 0.000000000000001;
-            const double BigNumber = 4503599627370496.0;
-            const double BigNumberInverse = 2.22044604925031308085e-16;
+            const double epsilon = 0.000000000000001;
+            const double big = 4503599627370496.0;
+            const double bigInv = 2.22044604925031308085e-16;
             
             if (x <= 0d || a <= 0d)
             {
@@ -216,15 +215,15 @@ namespace MathNet.Numerics
                 qkm2 = qkm1;
                 qkm1 = qk;
 
-                if (Math.Abs(pk) > BigNumber)
+                if (Math.Abs(pk) > big)
                 {
-                    pkm2 = pkm2 * BigNumberInverse;
-                    pkm1 = pkm1 * BigNumberInverse;
-                    qkm2 = qkm2 * BigNumberInverse;
-                    qkm1 = qkm1 * BigNumberInverse;
+                    pkm2 = pkm2 * bigInv;
+                    pkm1 = pkm1 * bigInv;
+                    qkm2 = qkm2 * bigInv;
+                    qkm1 = qkm1 * bigInv;
                 }
             }
-            while (t > Epsilon);
+            while (t > epsilon);
 
             return ans * ax;
         }
@@ -262,9 +261,9 @@ namespace MathNet.Numerics
         /// <returns>The lower incomplete gamma function.</returns>
         public static double GammaLowerRegularized(double a, double x)
         {
-            const double Epsilon = 0.000000000000001;
-            const double BigNumber = 4503599627370496.0;
-            const double BigNumberInverse = 2.22044604925031308085e-16;
+            const double epsilon = 0.000000000000001;
+            const double big = 4503599627370496.0;
+            const double bigInv = 2.22044604925031308085e-16;
 
             if (a < 0d || x < 0d)
             {
@@ -305,7 +304,7 @@ namespace MathNet.Numerics
                     c2 = c2 * x / r2;
                     ans2 += c2;
                 }
-                while ((c2 / ans2) > Epsilon);
+                while ((c2 / ans2) > epsilon);
 
                 return Math.Exp(ax) * ans2 / a;
             }
@@ -351,15 +350,15 @@ namespace MathNet.Numerics
                 q2 = q;
 
                 // normalize fraction when the numerator becomes large
-                if (Math.Abs(p) > BigNumber)
+                if (Math.Abs(p) > big)
                 {
-                    p3 *= BigNumberInverse;
-                    p2 *= BigNumberInverse;
-                    q3 *= BigNumberInverse;
-                    q2 *= BigNumberInverse;
+                    p3 *= bigInv;
+                    p2 *= bigInv;
+                    q3 *= bigInv;
+                    q2 *= bigInv;
                 }
             }
-            while (error > Epsilon);
+            while (error > epsilon);
 
             return 1d - (Math.Exp(ax) * ans);
         }
@@ -378,15 +377,15 @@ namespace MathNet.Numerics
         /// <returns>The value of the DiGamma function at <paramref name="x"/>.</returns>
         public static double DiGamma(double x)
         {
-            const double C = 12.0;
-            const double D1 = -0.57721566490153286;
-            const double D2 = 1.6449340668482264365;
-            const double S = 1e-6;
-            const double S3 = 1.0 / 12.0;
-            const double S4 = 1.0 / 120.0;
-            const double S5 = 1.0 / 252.0;
-            const double S6 = 1.0 / 240.0;
-            const double S7 = 1.0 / 132.0;
+            const double c = 12.0;
+            const double d1 = -0.57721566490153286;
+            const double d2 = 1.6449340668482264365;
+            const double s = 1e-6;
+            const double s3 = 1.0 / 12.0;
+            const double s4 = 1.0 / 120.0;
+            const double s5 = 1.0 / 252.0;
+            const double s6 = 1.0 / 240.0;
+            const double s7 = 1.0 / 132.0;
 
             if (Double.IsNegativeInfinity(x) || Double.IsNaN(x))
             {
@@ -405,25 +404,25 @@ namespace MathNet.Numerics
                 return DiGamma(1.0 - x) + (Math.PI / Math.Tan(-Math.PI * x));
             }
 
-            if (x <= S)
+            if (x <= s)
             {
-                return D1 - (1 / x) + (D2 * x);
+                return d1 - (1 / x) + (d2 * x);
             }
 
             double result = 0;
-            while (x < C)
+            while (x < c)
             {
                 result -= 1 / x;
                 x++;
             }
 
-            if (x >= C)
+            if (x >= c)
             {
                 var r = 1 / x;
                 result += Math.Log(x) - (0.5 * r);
                 r *= r;
 
-                result -= r * (S3 - (r * (S4 - (r * (S5 - (r * (S6 - (r * S7))))))));
+                result -= r * (s3 - (r * (s4 - (r * (s5 - (r * (s6 - (r * s7))))))));
             }
 
             return result;

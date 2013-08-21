@@ -40,8 +40,6 @@ namespace MathNet.Numerics.Financial
         /// <summary>
         /// Compound Monthly Return or Geometric Return or Annualized Return
         /// </summary>
-        /// <param name="data"></param>
-        /// <returns></returns>
         public static double CompoundMonthlyReturn(this IEnumerable<double> data)
         {
             if (data == null)
@@ -58,7 +56,7 @@ namespace MathNet.Numerics.Financial
             {
                 compoundReturn *= (1 + item);
             }
-            return Math.Pow(compoundReturn, 1.0 / (double)samples) - 1.0;
+            return Math.Pow(compoundReturn, 1.0 / samples) - 1.0;
         }
 
         /// <summary>
@@ -66,8 +64,6 @@ namespace MathNet.Numerics.Financial
         /// This is a simple average (arithmetic mean) of the periods with a gain. It is calculated by summing the returns for gain periods (return 0) 
         /// and then dividing the total by the number of gain periods.
         /// </summary>
-        /// <param name="data"></param>
-        /// <returns></returns>
         /// <remarks>http://www.offshore-library.com/kb/statistics.php</remarks>
         public static double GainMean(this IEnumerable<double> data)
         {
@@ -85,8 +81,6 @@ namespace MathNet.Numerics.Financial
         /// This is a simple average (arithmetic mean) of the periods with a loss. It is calculated by summing the returns for loss periods (return &lt; 0)
         /// and then dividing the total by the number of loss periods.
         /// </summary>
-        /// <param name="data"></param>
-        /// <returns></returns>
         /// <remarks>http://www.offshore-library.com/kb/statistics.php</remarks>
         public static double LossMean(this IEnumerable<double> data)
         {

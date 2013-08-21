@@ -62,6 +62,7 @@ namespace MathNet.Numerics.Threading
         /// </summary>
         /// <param name="fromInclusive">The start index, inclusive.</param>
         /// <param name="toExclusive">The end index, exclusive.</param>
+        /// <param name="rangeSize">The partition size for splitting work into smaller pieces.</param>
         /// <param name="body">The body to be invoked for each iteration range.</param>
         public static void For(int fromInclusive, int toExclusive, int rangeSize, Action<int, int> body)
         {
@@ -282,7 +283,7 @@ namespace MathNet.Numerics.Threading
         /// <param name="select">The function to select items over a subset.</param>
         /// <param name="reduce">The function to select the item of selection from the subsets.</param>
         /// <returns>The selected value.</returns>
-        public static U Aggregate<T, U>(T[] array, Func<int, T, U> select, Func<U[], U> reduce)
+        public static TOut Aggregate<T, TOut>(T[] array, Func<int, T, TOut> select, Func<TOut[], TOut> reduce)
         {
             if (select == null)
             {
@@ -296,7 +297,7 @@ namespace MathNet.Numerics.Threading
             // Special case: no action
             if (array == null || array.Length == 0)
             {
-                return reduce(new U[0]);
+                return reduce(new TOut[0]);
             }
 
             // Special case: single action, inline
@@ -308,7 +309,7 @@ namespace MathNet.Numerics.Threading
             // Special case: straight execution without parallelism
             if (Control.DisableParallelization || Control.NumberOfParallelWorkerThreads < 2)
             {
-                var mapped = new U[array.Length];
+                var mapped = new TOut[array.Length];
                 for (int k = 0; k < mapped.Length; k++)
                 {
                     mapped[k] = select(k, array[k]);
@@ -317,7 +318,7 @@ namespace MathNet.Numerics.Threading
             }
 
 #if PORTABLE
-            var tasks = new Task<U>[Control.NumberOfParallelWorkerThreads];
+            var tasks = new Task<TOut>[Control.NumberOfParallelWorkerThreads];
             var size = array.Length / tasks.Length;
 
             // partition the jobs into separate sets for each but the last worked thread
@@ -328,7 +329,7 @@ namespace MathNet.Numerics.Threading
 
                 tasks[i] = Task.Factory.StartNew(() =>
                     {
-                        var mapped = new U[stop - start];
+                        var mapped = new TOut[stop - start];
                         for (int k = 0; k < mapped.Length; k++)
                         {
                             mapped[k] = select(k + start, array[k + start]);
@@ -341,7 +342,7 @@ namespace MathNet.Numerics.Threading
             tasks[tasks.Length - 1] = Task.Factory.StartNew(() =>
                 {
                     var start = ((tasks.Length - 1) * size);
-                    var mapped = new U[array.Length - start];
+                    var mapped = new TOut[array.Length - start];
                     for (int k = 0; k < mapped.Length; k++)
                     {
                         mapped[k] = select(k + start, array[k + start]);
@@ -353,16 +354,16 @@ namespace MathNet.Numerics.Threading
                 .ContinueWhenAll(tasks, tsk => reduce(tsk.Select(t => t.Result).ToArray()))
                 .Result;
 #else
-            var intermediateResults = new List<U>();
+            var intermediateResults = new List<TOut>();
             var syncLock = new object();
             var maxThreads = Control.DisableParallelization ? 1 : Control.NumberOfParallelWorkerThreads;
             Parallel.ForEach(
                 Partitioner.Create(0, array.Length),
                 new ParallelOptions {MaxDegreeOfParallelism = maxThreads},
-                () => new List<U>(),
+                () => new List<TOut>(),
                 (range, loop, localData) =>
                     {
-                        var mapped = new U[range.Item2 - range.Item1];
+                        var mapped = new TOut[range.Item2 - range.Item1];
                         for (int k = 0; k < mapped.Length; k++)
                         {
                             mapped[k] = select(k + range.Item1, array[k + range.Item1]);
@@ -421,7 +422,7 @@ namespace MathNet.Numerics.Threading
         /// <param name="reducePair">The function to select the item of selection from the subsets.</param>
         /// <param name="reduceDefault">Default result of the reduce function on an empty set.</param>
         /// <returns>The selected value.</returns>
-        public static U Aggregate<T, U>(T[] array, Func<int, T, U> select, Func<U, U, U> reducePair, U reduceDefault)
+        public static TOut Aggregate<T, TOut>(T[] array, Func<int, T, TOut> select, Func<TOut, TOut, TOut> reducePair, TOut reduceDefault)
         {
             return Aggregate(array, select, results =>
                 {
@@ -435,7 +436,7 @@ namespace MathNet.Numerics.Threading
                         return results[0];
                     }
 
-                    U result = results[0];
+                    TOut result = results[0];
                     for (int i = 1; i < results.Length; i++)
                     {
                         result = reducePair(result, results[i]);

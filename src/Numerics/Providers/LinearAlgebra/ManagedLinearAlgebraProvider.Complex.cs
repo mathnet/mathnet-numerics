@@ -1689,12 +1689,12 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
 
             if (a == null)
             {
-                throw new ArgumentNullException("q");
+                throw new ArgumentNullException("a");
             }
 
             if (work == null)
             {
-                throw new ArgumentNullException("q");
+                throw new ArgumentNullException("work");
             }
 
             if (a.Length != rowsA*columnsA)
@@ -2236,7 +2236,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                 throw new ArgumentException(Resources.WorkArrayTooSmall, "work");
             }
 
-            const int Maxiter = 1000;
+            const int maxiter = 1000;
 
             var e = new Complex[columnsA];
             var v = new Complex[vt.Length];
@@ -2244,8 +2244,6 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
 
             int i, j, l, lp1;
 
-            var cs = 0.0;
-            var sn = 0.0;
             Complex t;
 
             var ncu = rowsA;
@@ -2566,7 +2564,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
             {
                 // Quit if all the singular values have been found.
                 // If too many iterations have been performed throw exception.
-                if (iter >= Maxiter)
+                if (iter >= maxiter)
                 {
                     throw new NonConvergenceException();
                 }
@@ -2639,6 +2637,8 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                 // Perform the task indicated by kase.
                 int k;
                 double f;
+                double cs;
+                double sn;
                 switch (kase)
                 {
                         // Deflate negligible s[m].
@@ -2650,7 +2650,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                         {
                             k = m - 2 - kk + l;
                             t1 = stemp[k].Real;
-                            Drotg(ref t1, ref f, ref cs, ref sn);
+                            Drotg(ref t1, ref f, out cs, out sn);
                             stemp[k] = t1;
                             if (k != l)
                             {
@@ -2679,7 +2679,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                         for (k = l; k < m; k++)
                         {
                             t1 = stemp[k].Real;
-                            Drotg(ref t1, ref f, ref cs, ref sn);
+                            Drotg(ref t1, ref f, out cs, out sn);
                             stemp[k] = t1;
                             f = -sn*e[k].Real;
                             e[k] = cs*e[k];
@@ -2731,7 +2731,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                         // Chase zeros
                         for (k = l; k < m - 1; k++)
                         {
-                            Drotg(ref f, ref g, ref cs, ref sn);
+                            Drotg(ref f, ref g, out cs, out sn);
                             if (k != l)
                             {
                                 e[k - 1] = f;
@@ -2751,7 +2751,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                                 }
                             }
 
-                            Drotg(ref f, ref g, ref cs, ref sn);
+                            Drotg(ref f, ref g, out cs, out sn);
                             stemp[k] = f;
                             f = (cs*e[k].Real) + (sn*stemp[k + 1].Real);
                             stemp[k + 1] = -(sn*e[k]) + (cs*stemp[k + 1]);

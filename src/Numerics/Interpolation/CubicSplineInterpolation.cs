@@ -206,10 +206,10 @@ namespace MathNet.Numerics.Interpolation
                 rightBoundary = 0d;
             }
 
-            double[] a1 = new double[n];
-            double[] a2 = new double[n];
-            double[] a3 = new double[n];
-            double[] b = new double[n];
+            var a1 = new double[n];
+            var a2 = new double[n];
+            var a3 = new double[n];
+            var b = new double[n];
 
             // Left Boundary
             switch (leftBoundaryCondition)
@@ -307,8 +307,6 @@ namespace MathNet.Numerics.Interpolation
         /// <returns>The x-vector[n]</returns>
         static double[] SolveTridiagonal(double[] a, double[] b, double[] c, double[] d)
         {
-            double[] x = new double[a.Length];
-
             for (int k = 1; k < a.Length; k++)
             {
                 double t = a[k]/b[k - 1];
@@ -316,6 +314,7 @@ namespace MathNet.Numerics.Interpolation
                 d[k] = d[k] - (t*d[k - 1]);
             }
 
+            var x = new double[a.Length];
             x[x.Length - 1] = d[d.Length - 1]/b[b.Length - 1];
             for (int k = x.Length - 2; k >= 0; k--)
             {

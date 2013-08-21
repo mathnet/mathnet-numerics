@@ -257,7 +257,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
         /// <exception cref="NonConvergenceException"></exception>
         private void SymmetricDiagonalize(float[] d, float[] e, int order)
         {
-            const int Maxiter = 1000;
+            const int maxiter = 1000;
 
             for (var i = 1; i < order; i++)
             {
@@ -351,7 +351,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
 
                         // Check for convergence. If too many iterations have been performed, 
                         // throw exception that Convergence Failed
-                        if (iter >= Maxiter)
+                        if (iter >= maxiter)
                         {
                             throw new NonConvergenceException();
                         }

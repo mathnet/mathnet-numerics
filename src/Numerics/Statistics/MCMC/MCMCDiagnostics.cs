@@ -53,13 +53,13 @@ namespace MathNet.Numerics.Statistics.Mcmc.Diagnostics
         {
             if (lag < 0)
             {
-                throw new ArgumentOutOfRangeException("Lag must be positive");
+                throw new ArgumentOutOfRangeException("lag", "Lag must be positive");
             }
 
             int length = series.Count();
             if (lag >= length)
             {
-                throw new ArgumentOutOfRangeException("Lag must be smaller than the sample size");
+                throw new ArgumentOutOfRangeException("lag", "Lag must be smaller than the sample size");
             }
 
             var transformedSeries = series.Select(f);

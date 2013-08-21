@@ -91,12 +91,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns><c>true</c> when the parameters are valid, <c>false</c> otherwise.</returns>
         static bool IsValidParameterSet(double p)
         {
-            if (p >= 0.0 && p <= 1.0)
-            {
-                return true;
-            }
-
-            return false;
+            return p >= 0.0 && p <= 1.0;
         }
 
         /// <summary>

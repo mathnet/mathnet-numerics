@@ -159,14 +159,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns><c>true</c> when the parameters are valid, <c>false</c> otherwise.</returns>
         static bool IsValidParameterSet(double meanLocation, double meanScale, double precShape, double precInvScale)
         {
-            if (meanScale <= 0.0 || precShape <= 0.0 || precInvScale <= 0.0
-                || Double.IsNaN(meanLocation) || Double.IsNaN(meanScale) || Double.IsNaN(precShape)
-                || Double.IsNaN(precInvScale))
-            {
-                return false;
-            }
-
-            return true;
+            return (meanScale > 0.0) && (precShape > 0.0) && (precInvScale > 0.0) && !Double.IsNaN(meanLocation);
         }
 
         /// <summary>

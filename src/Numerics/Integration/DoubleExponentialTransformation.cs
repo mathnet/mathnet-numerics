@@ -119,7 +119,7 @@ namespace MathNet.Numerics.Integration
             int length = level == 0 ? 4 : (3 << (level - 1));
 
             double t = 0;
-            double[] abcissas = new double[length];
+            var abcissas = new double[length];
             for (int i = 0; i < abcissas.Length; i++)
             {
                 double arg = offset + t;
@@ -148,7 +148,7 @@ namespace MathNet.Numerics.Integration
             int length = level == 0 ? 4 : (3 << (level - 1));
 
             double t = 0;
-            double[] weights = new double[length];
+            var weights = new double[length];
             for (int i = 0; i < weights.Length; i++)
             {
                 double arg = offset + t;
@@ -158,7 +158,6 @@ namespace MathNet.Numerics.Integration
                 double abcissa = Math.Tanh(Constants.PiOver2*Math.Sinh(arg));
                 weights[i] = Constants.PiOver2*(1 - (abcissa*abcissa))*Math.Cosh(arg);
             }
-
             return weights;
         }
 

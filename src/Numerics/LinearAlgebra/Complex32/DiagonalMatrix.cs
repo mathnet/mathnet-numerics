@@ -398,7 +398,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
             var diagResult = result as DiagonalMatrix;
             if (diagResult == null)
             {
-                base.Multiply(scalar, result);
+                base.DoMultiply(scalar, result);
             }
             else
             {

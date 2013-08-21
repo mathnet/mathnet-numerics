@@ -138,13 +138,11 @@ namespace MathNet.Numerics.Statistics.Mcmc
         /// <returns>An array of samples.</returns>
         public virtual T[] Sample(int n)
         {
-            T[] ret = new T[n];
-
+            var ret = new T[n];
             for (int i = 0; i < n; i++)
             {
                 ret[i] = Sample();
             }
-
             return ret;
         }
 

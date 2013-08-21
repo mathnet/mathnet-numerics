@@ -80,7 +80,7 @@ namespace MathNet.Numerics.Statistics
 
             if (increasedAccuracy)
             {
-                ComputeHA(data);
+                ComputeDecimal(data);
             }
             else
             {
@@ -109,7 +109,7 @@ namespace MathNet.Numerics.Statistics
 
             if (increasedAccuracy)
             {
-                ComputeHA(data);
+                ComputeDecimal(data);
             }
             else
             {
@@ -184,15 +184,15 @@ namespace MathNet.Numerics.Statistics
             {
                 double delta = xi - mean;
                 double scaleDelta = delta / ++n;
-                double scaleDeltaSQR = scaleDelta * scaleDelta;
+                double scaleDeltaSqr = scaleDelta * scaleDelta;
                 double tmpDelta = delta * (n - 1);
 
                 mean += scaleDelta;
 
-                kurtosis += tmpDelta * scaleDelta * scaleDeltaSQR * (n * n - 3 * n + 3)
-                    + 6 * scaleDeltaSQR * variance - 4 * scaleDelta * skewness;
+                kurtosis += tmpDelta * scaleDelta * scaleDeltaSqr * (n * n - 3 * n + 3)
+                    + 6 * scaleDeltaSqr * variance - 4 * scaleDelta * skewness;
 
-                skewness += tmpDelta * scaleDeltaSQR * (n - 2) - 3 * scaleDelta * variance;
+                skewness += tmpDelta * scaleDeltaSqr * (n - 2) - 3 * scaleDelta * variance;
                 variance += tmpDelta * scaleDelta;
 
                 if (minimum > xi) { minimum = xi; }
@@ -222,15 +222,15 @@ namespace MathNet.Numerics.Statistics
                 {
                     double delta = xi.Value - mean;
                     double scaleDelta = delta / ++n;
-                    double scaleDeltaSQR = scaleDelta * scaleDelta;
+                    double scaleDeltaSqr = scaleDelta * scaleDelta;
                     double tmpDelta = delta * (n - 1);
 
                     mean += scaleDelta;
 
-                    kurtosis += tmpDelta * scaleDelta * scaleDeltaSQR * (n * n - 3 * n + 3)
-                        + 6 * scaleDeltaSQR * variance - 4 * scaleDelta * skewness;
+                    kurtosis += tmpDelta * scaleDelta * scaleDeltaSqr * (n * n - 3 * n + 3)
+                        + 6 * scaleDeltaSqr * variance - 4 * scaleDelta * skewness;
 
-                    skewness += tmpDelta * scaleDeltaSQR * (n - 2) - 3 * scaleDelta * variance;
+                    skewness += tmpDelta * scaleDeltaSqr * (n - 2) - 3 * scaleDelta * variance;
                     variance += tmpDelta * scaleDelta;
                     if (minimum > xi) { minimum = xi.Value; }
                     if (maximum < xi) { maximum = xi.Value; }
@@ -245,7 +245,7 @@ namespace MathNet.Numerics.Statistics
         /// Computes descriptive statistics from a stream of data values using high accuracy.
         /// </summary>
         /// <param name="data">A sequence of datapoints.</param>
-        private void ComputeHA(IEnumerable<double> data)
+        private void ComputeDecimal(IEnumerable<double> data)
         {
             decimal mean = 0;
             decimal variance = 0;
@@ -280,7 +280,7 @@ namespace MathNet.Numerics.Statistics
         /// Computes descriptive statistics from a stream of nullable data values using high accuracy.
         /// </summary>
         /// <param name="data">A sequence of datapoints.</param>
-        private void ComputeHA(IEnumerable<double?> data)
+        private void ComputeDecimal(IEnumerable<double?> data)
         {
             decimal mean = 0;
             decimal variance = 0;

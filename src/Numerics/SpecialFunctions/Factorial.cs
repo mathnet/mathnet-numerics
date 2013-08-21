@@ -38,7 +38,7 @@ namespace MathNet.Numerics
     public partial class SpecialFunctions
     {
         private const int FactorialMaxArgument = 170;
-        private static double[] factorialCache;
+        private static double[] _factorialCache;
 
         /// <summary>
         /// Initializes static members of the SpecialFunctions class.
@@ -50,11 +50,11 @@ namespace MathNet.Numerics
 
         private static void InitializeFactorial()
         {
-            factorialCache = new double[FactorialMaxArgument + 1];
-            factorialCache[0] = 1.0;
-            for (int i = 1; i < factorialCache.Length; i++)
+            _factorialCache = new double[FactorialMaxArgument + 1];
+            _factorialCache[0] = 1.0;
+            for (int i = 1; i < _factorialCache.Length; i++)
             {
-                factorialCache[i] = factorialCache[i - 1] * i;
+                _factorialCache[i] = _factorialCache[i - 1] * i;
             }
         }
 
@@ -77,9 +77,9 @@ namespace MathNet.Numerics
                 throw new ArgumentOutOfRangeException("x", Resources.ArgumentPositive);
             }
 
-            if (x < factorialCache.Length)
+            if (x < _factorialCache.Length)
             {
-                return factorialCache[x];
+                return _factorialCache[x];
             }
 
             return Double.PositiveInfinity;
@@ -101,9 +101,9 @@ namespace MathNet.Numerics
                 return 0d;
             }
 
-            if (x < factorialCache.Length)
+            if (x < _factorialCache.Length)
             {
-                return Math.Log(factorialCache[x]);
+                return Math.Log(_factorialCache[x]);
             }
 
             return GammaLn(x + 1.0);

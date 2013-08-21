@@ -111,12 +111,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns><c>true</c> when the parameters positive valid floating point numbers, <c>false</c> otherwise.</returns>
         static bool IsValidParameterSet(double shape, double scale)
         {
-            if (shape <= 0.0 || scale <= 0.0 || Double.IsNaN(shape) || Double.IsNaN(scale))
-            {
-                return false;
-            }
-
-            return true;
+            return shape > 0.0 && scale > 0.0;
         }
 
         /// <summary>

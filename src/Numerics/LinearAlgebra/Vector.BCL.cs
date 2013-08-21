@@ -336,7 +336,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// </summary>
         public override sealed string ToString()
         {
-            return string.Concat(ToTypeString(), Environment.NewLine, ToVectorString(Control.MaxToStringRows, Control.MaxToStringColumns, null));
+            return string.Concat(ToTypeString(), Environment.NewLine, ToVectorString(Control.MaxToStringRows, Control.MaxToStringColumns));
         }
 
         /// <summary>

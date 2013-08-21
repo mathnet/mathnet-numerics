@@ -117,8 +117,8 @@ namespace MathNet.Numerics.RootFinding
         /// Helper method to calculate an approxiamtion of the Jacobian.
         /// </summary>
         /// <param name="f">The function.</param>
-        /// <param name="x0">The argument.</param>
-        /// <returns></returns>
+        /// <param name="x0">The argument (initial guess).</param>
+        /// <param name="y0">The result (of initial guess).</param>
         static Matrix<double> CalculateApproximateJacobian(Func<double[], double[]> f, double[] x0, double[] y0)
         {
             int dim = x0.Length;

@@ -29,18 +29,19 @@
 // </copyright>
 
 #if !PORTABLE
+
+using System;
+using System.Security.Cryptography;
+
 namespace MathNet.Numerics.Random
 {
-    using System;
-    using System.Security.Cryptography;
-
     /// <summary>
     /// A random number generator based on the <see cref="System.Security.Cryptography.RandomNumberGenerator"/> class in the .NET library.
     /// </summary>
     public class SystemCryptoRandomNumberGenerator : AbstractRandomNumberGenerator, IDisposable
     {
-        private const double mReciprocal = 1.0 / uint.MaxValue;
-        private readonly RandomNumberGenerator mRandom;
+        private const double Reciprocal = 1.0 / uint.MaxValue;
+        private readonly RandomNumberGenerator _random;
 
         /// <summary>
         /// Construct a new random number generator with a random seed.
@@ -49,7 +50,7 @@ namespace MathNet.Numerics.Random
         /// <see cref="Control.ThreadSafeRandomNumberGenerators"/> to set whether the instance is thread safe.</remarks>
         public SystemCryptoRandomNumberGenerator(): this(new RNGCryptoServiceProvider(), Control.ThreadSafeRandomNumberGenerators)
         {
-            mRandom = new RNGCryptoServiceProvider();
+            _random = new RNGCryptoServiceProvider();
         }
 
         /// <summary>
@@ -81,7 +82,7 @@ namespace MathNet.Numerics.Random
             {
                 throw new ArgumentNullException("rng");
             }
-            mRandom = rng;
+            _random = rng;
         }
 
 
@@ -93,15 +94,16 @@ namespace MathNet.Numerics.Random
         /// </returns>
         protected override double DoSample()
         {
-            byte[] bytes = new byte[4];
-            mRandom.GetBytes(bytes);
-            return BitConverter.ToUInt32(bytes, 0) * mReciprocal;
+            var bytes = new byte[4];
+            _random.GetBytes(bytes);
+            return BitConverter.ToUInt32(bytes, 0) * Reciprocal;
         }
 
         public void Dispose()
         {
-            mRandom.Dispose();
+            _random.Dispose();
         }
     }
 }
+
 #endif

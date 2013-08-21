@@ -166,12 +166,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns><c>true</c> when the parameters are valid, <c>false</c> otherwise.</returns>
         static bool IsValidParameterSet(double mean, double stddev)
         {
-            if (stddev < 0.0 || Double.IsNaN(mean) || Double.IsNaN(stddev))
-            {
-                return false;
-            }
-
-            return true;
+            return stddev >= 0.0 && !Double.IsNaN(mean);
         }
 
         /// <summary>

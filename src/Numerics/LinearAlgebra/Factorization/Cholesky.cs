@@ -99,7 +99,7 @@ namespace MathNet.Numerics.LinearAlgebra.Factorization
                     return new LinearAlgebra.Complex32.Factorization.DenseCholesky(dense) as Cholesky<T>;
                 }
 
-                return new LinearAlgebra.Complex32.Factorization.UserCholesky(matrix as Matrix<Numerics.Complex32>) as Cholesky<T>;
+                return new LinearAlgebra.Complex32.Factorization.UserCholesky(matrix as Matrix<Complex32>) as Cholesky<T>;
             }
 
             throw new NotSupportedException();

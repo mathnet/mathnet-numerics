@@ -33,7 +33,6 @@ using MathNet.Numerics.Threading;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 
 namespace MathNet.Numerics.LinearAlgebra.Complex
 {

@@ -403,7 +403,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
             var diagResult = result as DiagonalMatrix;
             if (diagResult == null)
             {
-                base.Multiply(scalar, result);
+                base.DoMultiply(scalar, result);
             }
             else
             {

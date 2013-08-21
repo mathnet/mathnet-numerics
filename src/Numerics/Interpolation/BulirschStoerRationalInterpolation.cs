@@ -127,11 +127,11 @@ namespace MathNet.Numerics.Interpolation
         /// <returns>Interpolated value x(t).</returns>
         public double Interpolate(double t)
         {
-            const double Tiny = 1.0e-25;
+            const double tiny = 1.0e-25;
             int n = _points.Count;
 
-            double[] c = new double[n];
-            double[] d = new double[n];
+            var c = new double[n];
+            var d = new double[n];
 
             int nearestIndex = 0;
             double nearestDistance = Math.Abs(t - _points[0]);
@@ -151,7 +151,7 @@ namespace MathNet.Numerics.Interpolation
                 }
 
                 c[i] = _values[i];
-                d[i] = _values[i] + Tiny;
+                d[i] = _values[i] + tiny;
             }
 
             double x = _values[nearestIndex];
