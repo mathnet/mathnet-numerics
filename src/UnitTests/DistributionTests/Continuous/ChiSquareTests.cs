@@ -57,7 +57,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [TestCase(Double.PositiveInfinity)]
         public void CanCreateChiSquare(double dof)
         {
-            var n = new ChiSquare(dof);
+            var n = new ChiSquared(dof);
             Assert.AreEqual(dof, n.DegreesOfFreedom);
         }
 
@@ -72,7 +72,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [TestCase(Double.NaN)]
         public void ChiSquareCreateFailsWithBadParameters(double dof)
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() => new ChiSquare(dof));
+            Assert.Throws<ArgumentOutOfRangeException>(() => new ChiSquared(dof));
         }
 
         /// <summary>
@@ -81,8 +81,8 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [Test]
         public void ValidateToString()
         {
-            var n = new ChiSquare(1.0);
-            Assert.AreEqual("ChiSquare(DoF = 1)", n.ToString());
+            var n = new ChiSquared(1.0);
+            Assert.AreEqual("ChiSquared(k = 1)", n.ToString());
         }
 
         /// <summary>
@@ -95,7 +95,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [TestCase(Double.PositiveInfinity)]
         public void CanSetDoF(double dof)
         {
-            new ChiSquare(1.0)
+            new ChiSquared(1.0)
             {
                 DegreesOfFreedom = dof
             };
@@ -110,7 +110,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [TestCase(0.0)]
         public void SetDofFailsWithNonPositiveDoF(double dof)
         {
-            var n = new ChiSquare(1.0);
+            var n = new ChiSquared(1.0);
             Assert.Throws<ArgumentOutOfRangeException>(() => n.DegreesOfFreedom = dof);
         }
 
@@ -125,7 +125,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [TestCase(Double.PositiveInfinity)]
         public void ValidateMean(double dof)
         {
-            var n = new ChiSquare(dof);
+            var n = new ChiSquared(dof);
             Assert.AreEqual(dof, n.Mean);
         }
 
@@ -140,7 +140,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [TestCase(Double.PositiveInfinity)]
         public void ValidateVariance(double dof)
         {
-            var n = new ChiSquare(dof);
+            var n = new ChiSquared(dof);
             Assert.AreEqual(2 * dof, n.Variance);
         }
 
@@ -155,7 +155,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [TestCase(Double.PositiveInfinity)]
         public void ValidateStdDev(double dof)
         {
-            var n = new ChiSquare(dof);
+            var n = new ChiSquared(dof);
             Assert.AreEqual(Math.Sqrt(n.Variance), n.StdDev);
         }
 
@@ -170,7 +170,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [TestCase(Double.PositiveInfinity)]
         public void ValidateMode(double dof)
         {
-            var n = new ChiSquare(dof);
+            var n = new ChiSquared(dof);
             Assert.AreEqual(dof - 2, n.Mode);
         }
 
@@ -185,7 +185,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [TestCase(Double.PositiveInfinity)]
         public void ValidateMedian(double dof)
         {
-            var n = new ChiSquare(dof);
+            var n = new ChiSquared(dof);
             Assert.AreEqual(dof - (2.0 / 3.0), n.Median);
         }
 
@@ -195,7 +195,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [Test]
         public void ValidateMinimum()
         {
-            var n = new ChiSquare(1.0);
+            var n = new ChiSquared(1.0);
             Assert.AreEqual(0.0, n.Minimum);
         }
 
@@ -205,7 +205,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [Test]
         public void ValidateMaximum()
         {
-            var n = new ChiSquare(1.0);
+            var n = new ChiSquared(1.0);
             Assert.AreEqual(Double.PositiveInfinity, n.Maximum);
         }
 
@@ -240,7 +240,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [TestCase(Double.PositiveInfinity, Double.PositiveInfinity)]
         public void ValidateDensity(double dof, double x)
         {
-            var n = new ChiSquare(dof);
+            var n = new ChiSquared(dof);
             Assert.AreEqual((Math.Pow(x, (dof / 2.0) - 1.0) * Math.Exp(-x / 2.0)) / (Math.Pow(2.0, dof / 2.0) * SpecialFunctions.Gamma(dof / 2.0)), n.Density(x));
         }
 
@@ -275,7 +275,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [TestCase(Double.PositiveInfinity, Double.PositiveInfinity)]
         public void ValidateDensityLn(double dof, double x)
         {
-            var n = new ChiSquare(dof);
+            var n = new ChiSquared(dof);
             Assert.AreEqual((-x / 2.0) + (((dof / 2.0) - 1.0) * Math.Log(x)) - ((dof / 2.0) * Math.Log(2)) - SpecialFunctions.GammaLn(dof / 2.0), n.DensityLn(x));
         }
 
@@ -285,7 +285,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [Test]
         public void CanSampleStatic()
         {
-            ChiSquare.Sample(new Random(), 2.0);
+            ChiSquared.Sample(new Random(), 2.0);
         }
 
         /// <summary>
@@ -294,7 +294,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [Test]
         public void FailSampleStatic()
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() => ChiSquare.Sample(new Random(), -1.0));
+            Assert.Throws<ArgumentOutOfRangeException>(() => ChiSquared.Sample(new Random(), -1.0));
         }
 
         /// <summary>
@@ -303,7 +303,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [Test]
         public void CanSample()
         {
-            var n = new ChiSquare(1.0);
+            var n = new ChiSquared(1.0);
             n.Sample();
         }
 
@@ -313,7 +313,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [Test]
         public void CanSampleSequence()
         {
-            var n = new ChiSquare(1.0);
+            var n = new ChiSquared(1.0);
             var ied = n.Samples();
             ied.Take(5).ToArray();
         }
@@ -349,7 +349,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [TestCase(Double.PositiveInfinity, Double.PositiveInfinity)]
         public void ValidateCumulativeDistribution(double dof, double x)
         {
-            var n = new ChiSquare(dof);
+            var n = new ChiSquared(dof);
             Assert.AreEqual(SpecialFunctions.GammaLowerIncomplete(dof / 2.0, x / 2.0) / SpecialFunctions.Gamma(dof / 2.0), n.CumulativeDistribution(x));
         }
     }

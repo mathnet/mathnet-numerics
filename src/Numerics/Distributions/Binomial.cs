@@ -245,7 +245,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Computes the probability mass (PMF), i.e. P(X = x).
+        /// Computes the probability mass (PMF) at k, i.e. P(X = k).
         /// </summary>
         /// <param name="k">The location in the domain where we want to evaluate the probability mass function.</param>
         /// <returns>the probability mass at location <paramref name="k"/>.</returns>
@@ -285,7 +285,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Computes the log probability mass (lnPMF), i.e. ln(P(X = x)).
+        /// Computes the log probability mass (lnPMF) at k, i.e. ln(P(X = k)).
         /// </summary>
         /// <param name="k">The location in the domain where we want to evaluate the log probability mass function.</param>
         /// <returns>the log probability mass at location <paramref name="k"/>.</returns>
@@ -325,7 +325,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Computes the cumulative distribution (CDF) of the distribution, i.e. P(X &lt;= x).
+        /// Computes the cumulative distribution (CDF) of the distribution at x, i.e. P(X &lt;= x).
         /// </summary>
         /// <param name="x">The location at which to compute the cumulative distribution function.</param>
         /// <returns>the cumulative distribution at location <paramref name="x"/>.</returns>
@@ -357,7 +357,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="p">The success probability of a trial; must be in the interval [0.0, 1.0].</param>
         /// <param name="n">The number of trials; must be positive.</param>
         /// <returns>The number of successful trials.</returns>
-        internal static int SampleUnchecked(System.Random rnd, double p, int n)
+        static int SampleUnchecked(System.Random rnd, double p, int n)
         {
             var k = 0;
             for (var i = 0; i < n; i++)
@@ -374,7 +374,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>The number of successes in N trials.</returns>
         public int Sample()
         {
-            return SampleUnchecked(RandomSource, _p, _trials);
+            return SampleUnchecked(_random, _p, _trials);
         }
 
         /// <summary>
@@ -385,7 +385,7 @@ namespace MathNet.Numerics.Distributions
         {
             while (true)
             {
-                yield return SampleUnchecked(RandomSource, _p, _trials);
+                yield return SampleUnchecked(_random, _p, _trials);
             }
         }
 

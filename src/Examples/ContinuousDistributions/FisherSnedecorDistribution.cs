@@ -63,9 +63,9 @@ namespace Examples.ContinuousDistributionsExamples
         /// <a href="http://en.wikipedia.org/wiki/F-distribution">FisherSnedecor distribution</a>
         public void Run()
         {
-            // 1. Initialize the new instance of the FisherSnedecor distribution class with parameter DegreeOfFreedom1 = 50, DegreeOfFreedom2 = 20.
+            // 1. Initialize the new instance of the FisherSnedecor distribution class with parameter DegreesOfFreedom1 = 50, DegreesOfFreedom2 = 20.
             var fisherSnedecor = new FisherSnedecor(50, 20);
-            Console.WriteLine(@"1. Initialize the new instance of the FisherSnedecor distribution class with parameters DegreeOfFreedom1 = {0}, DegreeOfFreedom2 = {1}", fisherSnedecor.DegreeOfFreedom1, fisherSnedecor.DegreeOfFreedom2);
+            Console.WriteLine(@"1. Initialize the new instance of the FisherSnedecor distribution class with parameters DegreesOfFreedom1 = {0}, DegreesOfFreedom2 = {1}", fisherSnedecor.DegreesOfFreedom1, fisherSnedecor.DegreesOfFreedom2);
             Console.WriteLine();
 
             // 2. Distributuion properties:
@@ -125,8 +125,8 @@ namespace Examples.ContinuousDistributionsExamples
 
             // 5. Generate 100000 samples of the FisherSnedecor(20, 10) distribution and display histogram
             Console.WriteLine(@"5. Generate 100000 samples of the FisherSnedecor(20, 10) distribution and display histogram");
-            fisherSnedecor.DegreeOfFreedom1 = 20;
-            fisherSnedecor.DegreeOfFreedom2 = 10;
+            fisherSnedecor.DegreesOfFreedom1 = 20;
+            fisherSnedecor.DegreesOfFreedom2 = 10;
             for (var i = 0; i < data.Length; i++)
             {
                 data[i] = fisherSnedecor.Sample();
@@ -137,8 +137,8 @@ namespace Examples.ContinuousDistributionsExamples
 
             // 6. Generate 100000 samples of the FisherSnedecor(100, 100) distribution and display histogram
             Console.WriteLine(@"6. Generate 100000 samples of the FisherSnedecor(100, 100) distribution and display histogram");
-            fisherSnedecor.DegreeOfFreedom1 = 100;
-            fisherSnedecor.DegreeOfFreedom2 = 100;
+            fisherSnedecor.DegreesOfFreedom1 = 100;
+            fisherSnedecor.DegreesOfFreedom2 = 100;
             for (var i = 0; i < data.Length; i++)
             {
                 data[i] = fisherSnedecor.Sample();

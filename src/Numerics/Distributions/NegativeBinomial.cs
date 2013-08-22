@@ -56,7 +56,7 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Initializes a new instance of the <see cref="NegativeBinomial"/> class. 
         /// </summary>
-        /// <param name="r">The number of trials.</param>
+        /// <param name="r">The number of failures until the experiment stopped.</param>
         /// <param name="p">The probability of a trial resulting in success.</param>
         public NegativeBinomial(double r, double p)
         {
@@ -67,7 +67,7 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Initializes a new instance of the <see cref="NegativeBinomial"/> class. 
         /// </summary>
-        /// <param name="r">The number of trials.</param>
+        /// <param name="r">The number of failures until the experiment stopped.</param>
         /// <param name="p">The probability of a trial resulting in success.</param>
         /// <param name="randomSource">The random number generator which is used to draw random samples.</param>
         public NegativeBinomial(double r, double p, System.Random randomSource)
@@ -90,7 +90,7 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Checks whether the parameters of the distribution are valid. 
         /// </summary>
-        /// <param name="r">The number of trials.</param>
+        /// <param name="r">The number of failures until the experiment stopped.</param>
         /// <param name="p">The probability of a trial resulting in success.</param>
         /// <returns><c>true</c> when the parameters are valid, <c>false</c> otherwise.</returns>        
         static bool IsValidParameterSet(double r, double p)
@@ -101,7 +101,7 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Sets the parameters of the distribution after checking their validity.
         /// </summary>
-        /// <param name="r">The number of trials.</param>
+        /// <param name="r">The number of failures until the experiment stopped.</param>
         /// <param name="p">The probability of a trial resulting in success.</param>
         /// <exception cref="ArgumentOutOfRangeException">When the parameters don't pass the <see cref="IsValidParameterSet"/> function.</exception>
         void SetParameters(double r, double p)
@@ -214,7 +214,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Computes the probability mass (PMF), i.e. P(X = x).
+        /// Computes the probability mass (PMF) at k, i.e. P(X = k).
         /// </summary>
         /// <param name="k">The location in the domain where we want to evaluate the probability mass function.</param>
         /// <returns>the probability mass at location <paramref name="k"/>.</returns>
@@ -229,7 +229,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Computes the log probability mass (lnPMF), i.e. ln(P(X = x)).
+        /// Computes the log probability mass (lnPMF) at k, i.e. ln(P(X = k)).
         /// </summary>
         /// <param name="k">The location in the domain where we want to evaluate the log probability mass function.</param>
         /// <returns>the log probability mass at location <paramref name="k"/>.</returns>
@@ -244,7 +244,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Computes the cumulative distribution (CDF) of the distribution, i.e. P(X &lt;= x).
+        /// Computes the cumulative distribution (CDF) of the distribution at x, i.e. P(X &lt;= x).
         /// </summary>
         /// <param name="x">The location at which to compute the cumulative distribution function.</param>
         /// <returns>the cumulative distribution at location <paramref name="x"/>.</returns>
@@ -257,10 +257,10 @@ namespace MathNet.Numerics.Distributions
         /// Samples a negative binomial distributed random variable.
         /// </summary>
         /// <param name="rnd">The random number generator to use.</param>
-        /// <param name="r">The r parameter.</param>
-        /// <param name="p">The p parameter.</param>
+        /// <param name="r">The number of failures until the experiment stopped.</param>
+        /// <param name="p">The probability of a trial resulting in success.</param>
         /// <returns>a sample from the distribution.</returns>
-        internal static int SampleUnchecked(System.Random rnd, double r, double p)
+        static int SampleUnchecked(System.Random rnd, double r, double p)
         {
             var lambda = Gamma.SampleUnchecked(rnd, r, p);
             var c = Math.Exp(-lambda);
@@ -280,7 +280,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sample from the distribution.</returns>
         public int Sample()
         {
-            return SampleUnchecked(RandomSource, _trials, _p);
+            return SampleUnchecked(_random, _trials, _p);
         }
 
         /// <summary>
@@ -291,7 +291,7 @@ namespace MathNet.Numerics.Distributions
         {
             while (true)
             {
-                yield return SampleUnchecked(RandomSource, _trials, _p);
+                yield return SampleUnchecked(_random, _trials, _p);
             }
         }
 
@@ -299,8 +299,8 @@ namespace MathNet.Numerics.Distributions
         /// Samples a random variable.
         /// </summary>
         /// <param name="rnd">The random number generator to use.</param>
-        /// <param name="r">The r parameter.</param>
-        /// <param name="p">The p parameter.</param>
+        /// <param name="r">The number of failures until the experiment stopped.</param>
+        /// <param name="p">The probability of a trial resulting in success.</param>
         public static int Sample(System.Random rnd, double r, double p)
         {
             if (Control.CheckDistributionParameters && !IsValidParameterSet(r, p))
@@ -315,8 +315,8 @@ namespace MathNet.Numerics.Distributions
         /// Samples a sequence of this random variable.
         /// </summary>
         /// <param name="rnd">The random number generator to use.</param>
-        /// <param name="r">The r parameter.</param>
-        /// <param name="p">The p parameter.</param>
+        /// <param name="r">The number of failures until the experiment stopped.</param>
+        /// <param name="p">The probability of a trial resulting in success.</param>
         public static IEnumerable<int> Samples(System.Random rnd, double r, double p)
         {
             if (Control.CheckDistributionParameters && !IsValidParameterSet(r, p))

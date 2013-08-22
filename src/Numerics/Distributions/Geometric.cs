@@ -202,7 +202,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Computes the probability mass (PMF), i.e. P(X = x).
+        /// Computes the probability mass (PMF) at k, i.e. P(X = k).
         /// </summary>
         /// <param name="k">The location in the domain where we want to evaluate the probability mass function.</param>
         /// <returns>the probability mass at location <paramref name="k"/>.</returns>
@@ -217,7 +217,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Computes the log probability mass (lnPMF), i.e. ln(P(X = x)).
+        /// Computes the log probability mass (lnPMF) at k, i.e. ln(P(X = k)).
         /// </summary>
         /// <param name="k">The location in the domain where we want to evaluate the log probability mass function.</param>
         /// <returns>the log probability mass at location <paramref name="k"/>.</returns>
@@ -232,7 +232,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Computes the cumulative distribution (CDF) of the distribution, i.e. P(X &lt;= x).
+        /// Computes the cumulative distribution (CDF) of the distribution at x, i.e. P(X &lt;= x).
         /// </summary>
         /// <param name="x">The location at which to compute the cumulative distribution function.</param>
         /// <returns>the cumulative distribution at location <paramref name="x"/>.</returns>
@@ -249,7 +249,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>
         /// One sample from the distribution implied by <paramref name="p"/>.
         /// </returns>
-        internal static int SampleUnchecked(System.Random rnd, double p)
+        static int SampleUnchecked(System.Random rnd, double p)
         {
             return p == 1.0 ? 1 : (int) Math.Ceiling(-Math.Log(1.0 - rnd.NextDouble(), 1.0 - p));
         }
@@ -260,7 +260,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>A sample from the Geometric distribution.</returns>
         public int Sample()
         {
-            return SampleUnchecked(RandomSource, _p);
+            return SampleUnchecked(_random, _p);
         }
 
         /// <summary>
@@ -271,7 +271,7 @@ namespace MathNet.Numerics.Distributions
         {
             while (true)
             {
-                yield return SampleUnchecked(RandomSource, _p);
+                yield return SampleUnchecked(_random, _p);
             }
         }
 

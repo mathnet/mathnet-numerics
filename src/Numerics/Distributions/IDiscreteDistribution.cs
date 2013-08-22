@@ -33,8 +33,9 @@ namespace MathNet.Numerics.Distributions
     using System.Collections.Generic;
 
     /// <summary>
-    /// The interface for discrete univariate distributions.
+    /// Discrete Univariate Probability Distribution.
     /// </summary>
+    /// <seealso cref="IContinuousDistribution"/>
     public interface IDiscreteDistribution : IUnivariateDistribution
     {
         /// <summary>
@@ -48,24 +49,24 @@ namespace MathNet.Numerics.Distributions
         int Median { get; }
 
         /// <summary>
-        /// Gets the smallest element in the domain of the distributions which can be represented by an integer.
+        /// Gets the smallest element in the domain of the distribution which can be represented by an integer.
         /// </summary>
         int Minimum { get; }
 
         /// <summary>
-        /// Gets the largest element in the domain of the distributions which can be represented by an integer.
+        /// Gets the largest element in the domain of the distribution which can be represented by an integer.
         /// </summary>
         int Maximum { get; }
 
         /// <summary>
-        /// Computes the probability mass (PMF), i.e. P(X = x).
+        /// Computes the probability mass (PMF) at k, i.e. P(X = k).
         /// </summary>
         /// <param name="k">The location in the domain where we want to evaluate the probability mass function.</param>
         /// <returns>the probability mass at location <paramref name="k"/>.</returns>
         double Probability(int k);
 
         /// <summary>
-        /// Computes the log probability mass (lnPMF), i.e. ln(P(X = x)).
+        /// Computes the log probability mass (lnPMF) at k, i.e. ln(P(X = k)).
         /// </summary>
         /// <param name="k">The location in the domain where we want to evaluate the log probability mass function.</param>
         /// <returns>the log probability mass at location <paramref name="k"/>.</returns>
@@ -80,7 +81,7 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Draws a sequence of random samples from the distribution.
         /// </summary>
-        /// <returns>a sequence of samples from the distribution.</returns>
+        /// <returns>an infinite sequence of samples from the distribution.</returns>
         IEnumerable<int> Samples();
     }
 }

@@ -33,8 +33,9 @@ namespace MathNet.Numerics.Distributions
     using System.Collections.Generic;
 
     /// <summary>
-    /// The interface for continuous univariate distributions.
+    /// Continuous Univariate Probability Distribution.
     /// </summary>
+    /// <seealso cref="IDiscreteDistribution"/>
     public interface IContinuousDistribution : IUnivariateDistribution
     {
         /// <summary>
@@ -48,24 +49,24 @@ namespace MathNet.Numerics.Distributions
         double Median { get; }
 
         /// <summary>
-        /// Gets the smallest element in the domain of the distributions which can be represented by a double.
+        /// Gets the smallest element in the domain of the distribution which can be represented by a double.
         /// </summary>
         double Minimum { get; }
 
         /// <summary>
-        /// Gets the largest element in the domain of the distributions which can be represented by a double.
+        /// Gets the largest element in the domain of the distribution which can be represented by a double.
         /// </summary>
         double Maximum { get; }
 
         /// <summary>
-        /// Computes the density of the distribution (PDF), i.e. dP(X &lt;= x)/dx.
+        /// Computes the probability density of the distribution (PDF) at x, i.e. dP(X &lt;= x)/dx.
         /// </summary>
         /// <param name="x">The location at which to compute the density.</param>
         /// <returns>the density at <paramref name="x"/>.</returns>
         double Density(double x);
 
         /// <summary>
-        /// Computes the log density of the distribution (lnPDF), i.e. ln(dP(X &lt;= x)/dx).
+        /// Computes the log probability density of the distribution (lnPDF) at x, i.e. ln(dP(X &lt;= x)/dx).
         /// </summary>
         /// <param name="x">The location at which to compute the log density.</param>
         /// <returns>the log density at <paramref name="x"/>.</returns>
@@ -80,7 +81,7 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Draws a sequence of random samples from the distribution.
         /// </summary>
-        /// <returns>a sequence of samples from the distribution.</returns>
+        /// <returns>an infinite sequence of samples from the distribution.</returns>
         IEnumerable<double> Samples();
     }
 }

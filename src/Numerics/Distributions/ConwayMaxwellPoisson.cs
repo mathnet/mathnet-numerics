@@ -83,7 +83,7 @@ namespace MathNet.Numerics.Distributions
         /// Initializes a new instance of the <see cref="ConwayMaxwellPoisson"/> class. 
         /// </summary>
         /// <param name="lambda">The lambda (λ) parameter.</param>
-        /// <param name="nu">The nu (ν) parameter.</param>
+        /// <param name="nu">The rate of decay (ν) parameter.</param>
         public ConwayMaxwellPoisson(double lambda, double nu)
         {
             _random = new System.Random();
@@ -94,7 +94,7 @@ namespace MathNet.Numerics.Distributions
         /// Initializes a new instance of the <see cref="ConwayMaxwellPoisson"/> class. 
         /// </summary>
         /// <param name="lambda">The lambda (λ) parameter.</param>
-        /// <param name="nu">The nu (ν) parameter.</param>
+        /// <param name="nu">The rate of decay (ν) parameter.</param>
         /// <param name="randomSource">The random number generator which is used to draw random samples.</param>
         public ConwayMaxwellPoisson(double lambda, double nu, System.Random randomSource)
         {
@@ -115,7 +115,7 @@ namespace MathNet.Numerics.Distributions
         /// Checks whether the parameters of the distribution are valid. 
         /// </summary>
         /// <param name="lambda">The lambda (λ) parameter.</param>
-        /// <param name="nu">The nu (ν) parameter.</param>
+        /// <param name="nu">The rate of decay (ν) parameter.</param>
         /// <returns><c>true</c> when the parameters are valid, <c>false</c> otherwise.</returns>
         static bool IsValidParameterSet(double lambda, double nu)
         {
@@ -126,7 +126,7 @@ namespace MathNet.Numerics.Distributions
         /// Sets the parameters of the distribution after checking their validity.
         /// </summary>
         /// <param name="lambda">The lambda (λ) parameter.</param>
-        /// <param name="nu">The nu (ν) parameter.</param>
+        /// <param name="nu">The rate of decay (ν) parameter.</param>
         /// <exception cref="ArgumentOutOfRangeException">When the parameters don't pass the <see cref="IsValidParameterSet"/> function.</exception>
         void SetParameters(double lambda, double nu)
         {
@@ -142,7 +142,6 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Gets or sets the lambda (λ) parameter.
         /// </summary>
-        /// <value>The value of the lambda parameter.</value>
         public double Lambda
         {
             get { return _lambda; }
@@ -150,9 +149,8 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Gets or sets the DegreeOfFreedom (ν) parameter.
+        /// Gets or sets the rate of decay (ν) parameter.
         /// </summary>
-        /// <value>The value of the DegreeOfFreedom parameter.</value>
         public double Nu
         {
             get { return _nu; }
@@ -348,7 +346,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Computes the probability mass (PMF), i.e. P(X = x).
+        /// Computes the probability mass (PMF) at k, i.e. P(X = k).
         /// </summary>
         /// <param name="k">The location in the domain where we want to evaluate the probability mass function.</param>
         /// <returns>the probability mass at location <paramref name="k"/>.</returns>
@@ -358,7 +356,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Computes the log probability mass (lnPMF), i.e. ln(P(X = x)).
+        /// Computes the log probability mass (lnPMF) at k, i.e. ln(P(X = k)).
         /// </summary>
         /// <param name="k">The location in the domain where we want to evaluate the log probability mass function.</param>
         /// <returns>the log probability mass at location <paramref name="k"/>.</returns>
@@ -368,7 +366,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Computes the cumulative distribution (CDF) of the distribution, i.e. P(X &lt;= x).
+        /// Computes the cumulative distribution (CDF) of the distribution at x, i.e. P(X &lt;= x).
         /// </summary>
         /// <param name="x">The location at which to compute the cumulative distribution function.</param>
         /// <returns>the cumulative distribution at location <paramref name="x"/>.</returns>
@@ -403,8 +401,8 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Computes an approximate normalization constant for the CMP distribution.
         /// </summary>
-        /// <param name="lambda">The lambda parameter for the CMP distribution.</param>
-        /// <param name="nu">The nu parameter for the CMP distribution.</param>
+        /// <param name="lambda">The lambda (λ) parameter for the CMP distribution.</param>
+        /// <param name="nu">The rate of decay (ν) parameter for the CMP distribution.</param>
         /// <returns>
         /// an approximate normalization constant for the CMP distribution.
         /// </returns>
@@ -446,12 +444,12 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         /// <param name="rnd">The random number generator to use.</param>
         /// <param name="lambda">The lambda (λ) parameter.</param>
-        /// <param name="nu">The nu (ν) parameter.</param>
+        /// <param name="nu">The rate of decay (ν) parameter.</param>
         /// <param name="z">The z parameter.</param>
         /// <returns>
         /// One sample from the distribution implied by <paramref name="lambda"/>, <paramref name="nu"/>, and <paramref name="z"/>.
         /// </returns>
-        internal static int SampleUnchecked(System.Random rnd, double lambda, double nu, double z)
+        static int SampleUnchecked(System.Random rnd, double lambda, double nu, double z)
         {
             var u = rnd.NextDouble();
             var p = 1.0/z;
@@ -474,7 +472,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sample from the distribution.</returns>
         public int Sample()
         {
-            return SampleUnchecked(RandomSource, _lambda, _nu, Z);
+            return SampleUnchecked(_random, _lambda, _nu, Z);
         }
 
         /// <summary>
@@ -487,7 +485,7 @@ namespace MathNet.Numerics.Distributions
         {
             while (true)
             {
-                yield return SampleUnchecked(RandomSource, _lambda, _nu, Z);
+                yield return SampleUnchecked(_random, _lambda, _nu, Z);
             }
         }
 
@@ -496,7 +494,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         /// <param name="rnd">The random number generator to use.</param>
         /// <param name="lambda">The lambda (λ) parameter.</param>
-        /// <param name="nu">The nu (ν) parameter.</param>
+        /// <param name="nu">The rate of decay (ν) parameter.</param>
         public static int Sample(System.Random rnd, double lambda, double nu)
         {
             if (Control.CheckDistributionParameters && !IsValidParameterSet(lambda, nu))
@@ -513,7 +511,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         /// <param name="rnd">The random number generator to use.</param>
         /// <param name="lambda">The lambda (λ) parameter.</param>
-        /// <param name="nu">The nu (ν) parameter.</param>
+        /// <param name="nu">The rate of decay (ν) parameter.</param>
         public static IEnumerable<int> Samples(System.Random rnd, double lambda, double nu)
         {
             if (Control.CheckDistributionParameters && !IsValidParameterSet(lambda, nu))

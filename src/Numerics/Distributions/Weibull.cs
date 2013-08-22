@@ -238,7 +238,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Computes the density of the distribution (PDF), i.e. dP(X &lt;= x)/dx.
+        /// Computes the probability density of the distribution (PDF) at x, i.e. dP(X &lt;= x)/dx.
         /// </summary>
         /// <param name="x">The location at which to compute the density.</param>
         /// <returns>the density at <paramref name="x"/>.</returns>
@@ -258,7 +258,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Computes the log density of the distribution (lnPDF), i.e. ln(dP(X &lt;= x)/dx).
+        /// Computes the log probability density of the distribution (lnPDF) at x, i.e. ln(dP(X &lt;= x)/dx).
         /// </summary>
         /// <param name="x">The location at which to compute the log density.</param>
         /// <returns>the log density at <paramref name="x"/>.</returns>
@@ -278,7 +278,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Computes the cumulative distribution (CDF) of the distribution, i.e. P(X &lt;= x).
+        /// Computes the cumulative distribution (CDF) of the distribution at x, i.e. P(X &lt;= x).
         /// </summary>
         /// <param name="x">The location at which to compute the cumulative distribution function.</param>
         /// <returns>the cumulative distribution at location <paramref name="x"/>.</returns>
@@ -300,7 +300,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="shape">The shape (k) of the Weibull distribution.</param>
         /// <param name="scale">The scale (λ) of the Weibull distribution.</param>
         /// <returns>A sample from a Weibull distributed random variable.</returns>
-        internal static double SampleUnchecked(System.Random rnd, double shape, double scale)
+        static double SampleUnchecked(System.Random rnd, double shape, double scale)
         {
             var x = rnd.NextDouble();
             return scale*Math.Pow(-Math.Log(x), 1.0/shape);
@@ -312,7 +312,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sample from the distribution.</returns>
         public double Sample()
         {
-            return SampleUnchecked(RandomSource, _shape, _scale);
+            return SampleUnchecked(_random, _shape, _scale);
         }
 
         /// <summary>
@@ -323,35 +323,35 @@ namespace MathNet.Numerics.Distributions
         {
             while (true)
             {
-                yield return SampleUnchecked(RandomSource, _shape, _scale);
+                yield return SampleUnchecked(_random, _shape, _scale);
             }
         }
 
         /// <summary>
         /// Generates a sample from the Weibull distribution.
         /// </summary>
-        /// <param name="rng">The random number generator to use.</param>
+        /// <param name="rnd">The random number generator to use.</param>
         /// <param name="shape">The shape (k) of the Weibull distribution.</param>
         /// <param name="scale">The scale (λ) of the Weibull distribution.</param>
         /// <returns>a sample from the distribution.</returns>
-        public static double Sample(System.Random rng, double shape, double scale)
+        public static double Sample(System.Random rnd, double shape, double scale)
         {
             if (Control.CheckDistributionParameters && !IsValidParameterSet(shape, scale))
             {
                 throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
             }
 
-            return SampleUnchecked(rng, shape, scale);
+            return SampleUnchecked(rnd, shape, scale);
         }
 
         /// <summary>
         /// Generates a sequence of samples from the Weibull distribution.
         /// </summary>
-        /// <param name="rng">The random number generator to use.</param>
+        /// <param name="rnd">The random number generator to use.</param>
         /// <param name="shape">The shape (k) of the Weibull distribution.</param>
         /// <param name="scale">The scale (λ) of the Weibull distribution.</param>
         /// <returns>a sequence of samples from the distribution.</returns>
-        public static IEnumerable<double> Samples(System.Random rng, double shape, double scale)
+        public static IEnumerable<double> Samples(System.Random rnd, double shape, double scale)
         {
             if (Control.CheckDistributionParameters && !IsValidParameterSet(shape, scale))
             {
@@ -360,7 +360,7 @@ namespace MathNet.Numerics.Distributions
 
             while (true)
             {
-                yield return SampleUnchecked(rng, shape, scale);
+                yield return SampleUnchecked(rnd, shape, scale);
             }
         }
     }

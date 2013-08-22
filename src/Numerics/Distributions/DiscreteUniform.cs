@@ -214,7 +214,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Computes the probability mass (PMF), i.e. P(X = x).
+        /// Computes the probability mass (PMF) at k, i.e. P(X = k).
         /// </summary>
         /// <param name="k">The location in the domain where we want to evaluate the probability mass function.</param>
         /// <returns>the probability mass at location <paramref name="k"/>.</returns>
@@ -229,7 +229,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Computes the log probability mass (lnPMF), i.e. ln(P(X = x)).
+        /// Computes the log probability mass (lnPMF) at k, i.e. ln(P(X = k)).
         /// </summary>
         /// <param name="k">The location in the domain where we want to evaluate the log probability mass function.</param>
         /// <returns>the log probability mass at location <paramref name="k"/>.</returns>
@@ -244,7 +244,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Computes the cumulative distribution (CDF) of the distribution, i.e. P(X &lt;= x).
+        /// Computes the cumulative distribution (CDF) of the distribution at x, i.e. P(X &lt;= x).
         /// </summary>
         /// <param name="x">The location at which to compute the cumulative distribution function.</param>
         /// <returns>the cumulative distribution at location <paramref name="x"/>.</returns>
@@ -270,7 +270,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="lower">The lower bound of the uniform random variable.</param>
         /// <param name="upper">The upper bound of the uniform random variable.</param>
         /// <returns>A random sample from the discrete uniform distribution.</returns>
-        internal static int SampleUnchecked(System.Random rnd, int lower, int upper)
+        static int SampleUnchecked(System.Random rnd, int lower, int upper)
         {
             return (rnd.Next()%(upper - lower + 1)) + lower;
         }
@@ -281,7 +281,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sample from the distribution.</returns>
         public int Sample()
         {
-            return SampleUnchecked(RandomSource, _lower, _upper);
+            return SampleUnchecked(_random, _lower, _upper);
         }
 
         /// <summary>
@@ -292,7 +292,7 @@ namespace MathNet.Numerics.Distributions
         {
             while (true)
             {
-                yield return SampleUnchecked(RandomSource, _lower, _upper);
+                yield return SampleUnchecked(_random, _lower, _upper);
             }
         }
 

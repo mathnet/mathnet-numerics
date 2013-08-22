@@ -55,22 +55,22 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Initializes a new instance of the <see cref="Chi"/> class. 
         /// </summary>
-        /// <param name="dof">The degrees of freedom for the Chi distribution.</param>
-        public Chi(double dof)
+        /// <param name="freedom">The degrees of freedom (k) of the distribution.</param>
+        public Chi(double freedom)
         {
             _random = new System.Random();
-            SetParameters(dof);
+            SetParameters(freedom);
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Chi"/> class. 
         /// </summary>
-        /// <param name="dof">The degrees of freedom for the Chi distribution.</param>
+        /// <param name="freedom">The degrees of freedom (k) of the distribution.</param>
         /// <param name="randomSource">The random number generator which is used to draw random samples.</param>
-        public Chi(double dof, System.Random randomSource)
+        public Chi(double freedom, System.Random randomSource)
         {
             _random = randomSource ?? new System.Random();
-            SetParameters(dof);
+            SetParameters(freedom);
         }
 
         /// <summary>
@@ -79,36 +79,36 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a string representation of the distribution.</returns>
         public override string ToString()
         {
-            return "Chi(DoF = " + _freedom + ")";
+            return "Chi(k = " + _freedom + ")";
         }
 
         /// <summary>
         /// Checks whether the parameters of the distribution are valid.
         /// </summary>
-        /// <param name="dof">The degrees of freedom for the Chi distribution.</param>
+        /// <param name="freedom">The degrees of freedom for the Chi distribution.</param>
         /// <returns><c>true</c> when the parameters are valid, <c>false</c> otherwise.</returns>
-        static bool IsValidParameterSet(double dof)
+        static bool IsValidParameterSet(double freedom)
         {
-            return dof > 0.0;
+            return freedom > 0.0;
         }
 
         /// <summary>
         /// Sets the parameters of the distribution after checking their validity.
         /// </summary>
-        /// <param name="dof">The degrees of freedom for the Chi distribution.</param>
+        /// <param name="freedom">The degrees of freedom for the Chi distribution.</param>
         /// <exception cref="ArgumentOutOfRangeException">When the parameters don't pass the <see cref="IsValidParameterSet"/> function.</exception>
-        void SetParameters(double dof)
+        void SetParameters(double freedom)
         {
-            if (Control.CheckDistributionParameters && !IsValidParameterSet(dof))
+            if (Control.CheckDistributionParameters && !IsValidParameterSet(freedom))
             {
                 throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
             }
 
-            _freedom = dof;
+            _freedom = freedom;
         }
 
         /// <summary>
-        /// Gets or sets the degrees of freedom of the Chi distribution.
+        /// Gets or sets the degrees of freedom (k) of the Chi distribution.
         /// </summary>
         public double DegreesOfFreedom
         {
@@ -210,7 +210,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Computes the density of the distribution (PDF), i.e. dP(X &lt;= x)/dx.
+        /// Computes the probability density of the distribution (PDF) at x, i.e. dP(X &lt;= x)/dx.
         /// </summary>
         /// <param name="x">The location at which to compute the density.</param>
         /// <returns>the density at <paramref name="x"/>.</returns>
@@ -220,7 +220,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Computes the log density of the distribution (lnPDF), i.e. ln(dP(X &lt;= x)/dx).
+        /// Computes the log probability density of the distribution (lnPDF) at x, i.e. ln(dP(X &lt;= x)/dx).
         /// </summary>
         /// <param name="x">The location at which to compute the log density.</param>
         /// <returns>the log density at <paramref name="x"/>.</returns>
@@ -230,7 +230,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Computes the cumulative distribution (CDF) of the distribution, i.e. P(X &lt;= x).
+        /// Computes the cumulative distribution (CDF) of the distribution at x, i.e. P(X &lt;= x).
         /// </summary>
         /// <param name="x">The location at which to compute the cumulative distribution function.</param>
         /// <returns>the cumulative distribution at location <paramref name="x"/>.</returns>
@@ -243,12 +243,12 @@ namespace MathNet.Numerics.Distributions
         /// Samples the distribution.
         /// </summary>
         /// <param name="rnd">The random number generator to use.</param>
-        /// <param name="dof">Degrees of Freedom</param>
+        /// <param name="freedom">The degrees of freedom (k) of the distribution.</param>
         /// <returns>a random number from the distribution.</returns>
-        internal static double SampleUnchecked(System.Random rnd, int dof)
+        static double SampleUnchecked(System.Random rnd, int freedom)
         {
             double sum = 0;
-            for (var i = 0; i < dof; i++)
+            for (var i = 0; i < freedom; i++)
             {
                 sum += Math.Pow(Normal.Sample(rnd, 0.0, 1.0), 2);
             }
@@ -262,7 +262,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sample from the distribution.</returns>
         public double Sample()
         {
-            return SampleUnchecked(RandomSource, (int) _freedom);
+            return SampleUnchecked(_random, (int) _freedom);
         }
 
         /// <summary>
@@ -271,10 +271,10 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sequence of samples from the distribution.</returns>
         public IEnumerable<double> Samples()
         {
-            var dof = (int) _freedom;
+            var freedom = (int)_freedom;
             while (true)
             {
-                yield return SampleUnchecked(RandomSource, dof);
+                yield return SampleUnchecked(_random, freedom);
             }
         }
 
@@ -282,34 +282,34 @@ namespace MathNet.Numerics.Distributions
         /// Generates a sample from the distribution.
         /// </summary>
         /// <param name="rnd">The random number generator to use.</param>
-        /// <param name="dof">Degrees of Freedom</param>
+        /// <param name="freedom">The degrees of freedom (k) of the distribution.</param>
         /// <returns>a sample from the distribution.</returns>
-        public static double Sample(System.Random rnd, int dof)
+        public static double Sample(System.Random rnd, int freedom)
         {
-            if (Control.CheckDistributionParameters && !IsValidParameterSet(dof))
+            if (Control.CheckDistributionParameters && !IsValidParameterSet(freedom))
             {
                 throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
             }
 
-            return SampleUnchecked(rnd, dof);
+            return SampleUnchecked(rnd, freedom);
         }
 
         /// <summary>
         /// Generates a sequence of samples from the distribution.
         /// </summary>
         /// <param name="rnd">The random number generator to use.</param>
-        /// <param name="dof">Degrees of Freedom</param>
+        /// <param name="freedom">The degrees of freedom (k) of the distribution.</param>
         /// <returns>a sequence of samples from the distribution.</returns>
-        public static IEnumerable<double> Samples(System.Random rnd, int dof)
+        public static IEnumerable<double> Samples(System.Random rnd, int freedom)
         {
-            if (Control.CheckDistributionParameters && !IsValidParameterSet(dof))
+            if (Control.CheckDistributionParameters && !IsValidParameterSet(freedom))
             {
                 throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
             }
 
             while (true)
             {
-                yield return SampleUnchecked(rnd, dof);
+                yield return SampleUnchecked(rnd, freedom);
             }
         }
     }

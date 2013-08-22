@@ -351,7 +351,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sample from the distribution.</returns>
         public MeanPrecisionPair Sample()
         {
-            return Sample(RandomSource, _meanLocation, _meanScale, _precisionShape, _precisionInvScale);
+            return Sample(_random, _meanLocation, _meanScale, _precisionShape, _precisionInvScale);
         }
 
         /// <summary>
@@ -362,7 +362,7 @@ namespace MathNet.Numerics.Distributions
         {
             while (true)
             {
-                yield return Sample(RandomSource, _meanLocation, _meanScale, _precisionShape, _precisionInvScale);
+                yield return Sample(_random, _meanLocation, _meanScale, _precisionShape, _precisionInvScale);
             }
         }
 

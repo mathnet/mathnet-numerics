@@ -200,7 +200,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Computes the probability mass (PMF), i.e. P(X = x).
+        /// Computes the probability mass (PMF) at k, i.e. P(X = k).
         /// </summary>
         /// <param name="k">The location in the domain where we want to evaluate the probability mass function.</param>
         /// <returns>the probability mass at location <paramref name="k"/>.</returns>
@@ -210,7 +210,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Computes the log probability mass (lnPMF), i.e. ln(P(X = x)).
+        /// Computes the log probability mass (lnPMF) at k, i.e. ln(P(X = k)).
         /// </summary>
         /// <param name="k">The location in the domain where we want to evaluate the log probability mass function.</param>
         /// <returns>the log probability mass at location <paramref name="k"/>.</returns>
@@ -220,7 +220,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Computes the cumulative distribution (CDF) of the distribution, i.e. P(X &lt;= x).
+        /// Computes the cumulative distribution (CDF) of the distribution at x, i.e. P(X &lt;= x).
         /// </summary>
         /// <param name="x">The location at which to compute the cumulative distribution function.</param>
         /// <returns>the cumulative distribution at location <paramref name="x"/>.</returns>
@@ -235,7 +235,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="rnd">The random source to use.</param>
         /// <param name="lambda">The Poisson distribution parameter λ.</param>
         /// <returns>A random sample from the Poisson distribution.</returns>
-        internal static int SampleUnchecked(System.Random rnd, double lambda)
+        static int SampleUnchecked(System.Random rnd, double lambda)
         {
             return (lambda < 30.0) ? DoSampleShort(rnd, lambda) : DoSampleLarge(rnd, lambda);
         }
@@ -302,7 +302,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>A sample from the Poisson distribution.</returns>
         public int Sample()
         {
-            return SampleUnchecked(RandomSource, _lambda);
+            return SampleUnchecked(_random, _lambda);
         }
 
         /// <summary>
@@ -313,7 +313,7 @@ namespace MathNet.Numerics.Distributions
         {
             while (true)
             {
-                yield return SampleUnchecked(RandomSource, _lambda);
+                yield return SampleUnchecked(_random, _lambda);
             }
         }
 

@@ -231,7 +231,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>A random number from this distribution.</returns>
         public Matrix<double> Sample()
         {
-            return Sample(RandomSource, _m, _v, _k);
+            return Sample(_random, _m, _v, _k);
         }
 
         /// <summary>
@@ -282,34 +282,12 @@ namespace MathNet.Numerics.Distributions
         static Vector<double> SampleVectorNormal(System.Random rnd, Vector<double> mean, Matrix<double> covariance)
         {
             var chol = Cholesky<double>.Create(covariance);
-            return SampleVectorNormal(rnd, mean, chol);
-        }
-
-        /// <summary>
-        /// Samples a vector normal distributed random variable.
-        /// </summary>
-        /// <param name="rnd">The random number generator to use.</param>
-        /// <param name="mean">The mean of the vector normal distribution.</param>
-        /// <param name="cholesky">The Cholesky factorization of the covariance matrix.</param>
-        /// <returns>a sequence of samples from defined distribution.</returns>
-        static Vector<double> SampleVectorNormal(System.Random rnd, Vector<double> mean, Cholesky<double> cholesky)
-        {
-            var count = mean.Count;
 
             // Sample a standard normal variable.
-            var v = new DenseVector(count);
-            for (var d = 0; d < count; d += 2)
-            {
-                var sample = Normal.SampleUncheckedBoxMuller(rnd);
-                v[d] = sample.Item1;
-                if (d + 1 < count)
-                {
-                    v[d + 1] = sample.Item2;
-                }
-            }
+            var v = DenseVector.CreateRandom(mean.Count, new Normal(rnd));
 
             // Return the transformed variable.
-            return mean + (cholesky.Factor*v);
+            return mean + (chol.Factor*v);
         }
     }
 }

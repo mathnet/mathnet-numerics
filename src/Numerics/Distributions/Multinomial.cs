@@ -317,7 +317,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>the counts for each of the different possible values.</returns>
         public int[] Sample()
         {
-            return Sample(RandomSource, _p, _trials);
+            return Sample(_random, _p, _trials);
         }
 
         /// <summary>
@@ -328,7 +328,7 @@ namespace MathNet.Numerics.Distributions
         {
             while (true)
             {
-                yield return Sample(RandomSource, _p, _trials);
+                yield return Sample(_random, _p, _trials);
             }
         }
 

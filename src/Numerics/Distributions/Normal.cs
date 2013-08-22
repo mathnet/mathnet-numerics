@@ -309,7 +309,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Computes the density of the distribution (PDF), i.e. dP(X &lt;= x)/dx.
+        /// Computes the probability density of the distribution (PDF) at x, i.e. dP(X &lt;= x)/dx.
         /// </summary>
         /// <param name="x">The location at which to compute the density.</param>
         /// <returns>the density at <paramref name="x"/>.</returns>
@@ -319,7 +319,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Computes the log density of the distribution (lnPDF), i.e. ln(dP(X &lt;= x)/dx).
+        /// Computes the log probability density of the distribution (lnPDF) at x, i.e. ln(dP(X &lt;= x)/dx).
         /// </summary>
         /// <param name="x">The location at which to compute the log density.</param>
         /// <returns>the log density at <paramref name="x"/>.</returns>
@@ -341,7 +341,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Computes the cumulative distribution (CDF) of the distribution, i.e. P(X &lt;= x).
+        /// Computes the cumulative distribution (CDF) of the distribution at x, i.e. P(X &lt;= x).
         /// </summary>
         /// <param name="x">The location at which to compute the cumulative distribution function.</param>
         /// <returns>the cumulative distribution at location <paramref name="x"/>.</returns>
@@ -351,7 +351,8 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Computes the inverse cumulative distribution function of the normal distribution.
+        /// Computes the inverse of the cumulative distribution function (InvCDF) for the distribution
+        /// at the given probability.
         /// </summary>
         /// <param name="p">The location at which to compute the inverse cumulative density.</param>
         /// <returns>the inverse cumulative density at <paramref name="p"/>.</returns>
@@ -365,7 +366,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         /// <param name="rnd">The random number generator to use.</param>
         /// <returns>a pair of random numbers from the standard normal distribution.</returns>
-        internal static Tuple<double, double> SampleUncheckedBoxMuller(System.Random rnd)
+        static Tuple<double, double> SampleStandardBoxMuller(System.Random rnd)
         {
             var v1 = (2.0*rnd.NextDouble()) - 1.0;
             var v2 = (2.0*rnd.NextDouble()) - 1.0;
@@ -390,7 +391,24 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a random number from the distribution.</returns>
         internal static double SampleUnchecked(System.Random rnd, double mean, double stddev)
         {
-            return mean + (stddev*SampleUncheckedBoxMuller(rnd).Item1);
+            return mean + (stddev*SampleStandardBoxMuller(rnd).Item1);
+        }
+
+        /// <summary>
+        /// Samples the distribution.
+        /// </summary>
+        /// <param name="rnd">The random number generator to use.</param>
+        /// <param name="mean">The mean (μ) of the normal distribution.</param>
+        /// <param name="stddev">The standard deviation (σ) of the normal distribution.</param>
+        /// <returns>a random number from the distribution.</returns>
+        internal static IEnumerable<double> SamplesUnchecked(System.Random rnd, double mean, double stddev)
+        {
+            while (true)
+            {
+                var sample = SampleStandardBoxMuller(rnd);
+                yield return mean + (stddev*sample.Item1);
+                yield return mean + (stddev*sample.Item2);
+            }
         }
 
         /// <summary>
@@ -399,7 +417,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sample from the distribution.</returns>
         public double Sample()
         {
-            return SampleUnchecked(RandomSource, _mean, _stdDev);
+            return SampleUnchecked(_random, _mean, _stdDev);
         }
 
         /// <summary>
@@ -408,12 +426,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sequence of samples from the distribution.</returns>
         public IEnumerable<double> Samples()
         {
-            while (true)
-            {
-                var sample = SampleUncheckedBoxMuller(RandomSource);
-                yield return _mean + (_stdDev*sample.Item1);
-                yield return _mean + (_stdDev*sample.Item2);
-            }
+            return SamplesUnchecked(_random, _mean, _stdDev);
         }
 
         /// <summary>
@@ -447,12 +460,7 @@ namespace MathNet.Numerics.Distributions
                 throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
             }
 
-            while (true)
-            {
-                var sample = SampleUncheckedBoxMuller(rnd);
-                yield return mean + (stddev*sample.Item1);
-                yield return mean + (stddev*sample.Item2);
-            }
+            return SamplesUnchecked(rnd, mean, stddev);
         }
     }
 }

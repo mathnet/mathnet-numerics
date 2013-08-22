@@ -50,7 +50,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         /// <summary>
         /// Can create wishart.
         /// </summary>
-        /// <param name="nu">DegreeOfFreedom parameter.</param>
+        /// <param name="nu">DegreesOfFreedom parameter.</param>
         /// <param name="order">Scale matrix order.</param>
         [TestCase(0.1, 2)]
         [TestCase(1.0, 5)]
@@ -61,7 +61,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
 
             var d = new Wishart(nu, matrix);
 
-            Assert.AreEqual(nu, d.DegreeOfFreedom);
+            Assert.AreEqual(nu, d.DegreesOfFreedom);
             for (var i = 0; i < d.Scale.RowCount; i++)
             {
                 for (var j = 0; j < d.Scale.ColumnCount; j++)
@@ -74,7 +74,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         /// <summary>
         /// Fail create Wishart with bad parameters.
         /// </summary>
-        /// <param name="nu">DegreeOfFreedom parameter.</param>
+        /// <param name="nu">DegreesOfFreedom parameter.</param>
         /// <param name="order">Scale matrix order.</param>
         [TestCase(0.0, 2)]
         [TestCase(0.1, 5)]
@@ -91,7 +91,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         /// <summary>
         /// Fail create Wishart with bad parameters.
         /// </summary>
-        /// <param name="nu">DegreeOfFreedom parameter.</param>
+        /// <param name="nu">DegreesOfFreedom parameter.</param>
         /// <param name="order">Scale matrix order.</param>
         [TestCase(-1.0, 2)]
         [TestCase(Double.NaN, 5)]
@@ -140,26 +140,26 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         public void ValidateToString()
         {
             var d = new Wishart(1.0, MatrixLoader.GenerateRandomPositiveDefiniteDenseMatrix(2));
-            Assert.AreEqual("Wishart(DegreeOfFreedom = 1, Rows = 2, Columns = 2)", d.ToString());
+            Assert.AreEqual("Wishart(DegreesOfFreedom = 1, Rows = 2, Columns = 2)", d.ToString());
         }
 
         /// <summary>
-        /// Can get DegreeOfFreedom.
+        /// Can get DegreesOfFreedom.
         /// </summary>
-        /// <param name="nu">DegreeOfFreedom parameter.</param>
+        /// <param name="nu">DegreesOfFreedom parameter.</param>
         [TestCase(1.0)]
         [TestCase(2.0)]
         [TestCase(5.0)]
         public void CanGetNu(double nu)
         {
             var d = new Wishart(nu, MatrixLoader.GenerateRandomPositiveDefiniteDenseMatrix(2));
-            Assert.AreEqual(nu, d.DegreeOfFreedom);
+            Assert.AreEqual(nu, d.DegreesOfFreedom);
         }
 
         /// <summary>
-        /// Can set DegreeOfFreedom.
+        /// Can set DegreesOfFreedom.
         /// </summary>
-        /// <param name="nu">DegreeOfFreedom parameter.</param>
+        /// <param name="nu">DegreesOfFreedom parameter.</param>
         [TestCase(1.0)]
         [TestCase(2.0)]
         [TestCase(5.0)]
@@ -167,7 +167,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         {
             new Wishart(1.0, MatrixLoader.GenerateRandomPositiveDefiniteDenseMatrix(2))
             {
-                DegreeOfFreedom = nu
+                DegreesOfFreedom = nu
             };
         }
 
@@ -205,7 +205,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         /// <summary>
         /// Validate mean.
         /// </summary>
-        /// <param name="nu">DegreeOfFreedom parameter.</param>
+        /// <param name="nu">DegreesOfFreedom parameter.</param>
         /// <param name="order">Scale matrix order.</param>
         [TestCase(0.1, 2)]
         [TestCase(1.0, 5)]
@@ -227,7 +227,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         /// <summary>
         /// Validate mode.
         /// </summary>
-        /// <param name="nu">DegreeOfFreedom parameter.</param>
+        /// <param name="nu">DegreesOfFreedom parameter.</param>
         /// <param name="order">Scale matrix order.</param>
         [TestCase(0.1, 2)]
         [TestCase(1.0, 5)]
@@ -249,7 +249,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         /// <summary>
         /// Validate variance.
         /// </summary>
-        /// <param name="nu">DegreeOfFreedom parameter.</param>
+        /// <param name="nu">DegreesOfFreedom parameter.</param>
         /// <param name="order">Scale matrix order.</param>
         [TestCase(0.1, 2)]
         [TestCase(1.0, 5)]
@@ -271,7 +271,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         /// <summary>
         /// Validate density.
         /// </summary>
-        /// <param name="nu">DegreeOfFreedom parameter.</param>
+        /// <param name="nu">DegreesOfFreedom parameter.</param>
         /// <param name="density">Expected value.</param>
         [TestCase(1.0, 0.014644982561926487)]
         [TestCase(2.0, 0.041042499311949421)]

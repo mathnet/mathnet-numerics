@@ -346,7 +346,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Computes the density of the distribution (PDF), i.e. dP(X &lt;= x)/dx.
+        /// Computes the probability density of the distribution (PDF) at x, i.e. dP(X &lt;= x)/dx.
         /// </summary>
         /// <param name="x">The location at which to compute the density.</param>
         /// <returns>the density at <paramref name="x"/>.</returns>
@@ -402,7 +402,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Computes the log density of the distribution (lnPDF), i.e. ln(dP(X &lt;= x)/dx).
+        /// Computes the log probability density of the distribution (lnPDF) at x, i.e. ln(dP(X &lt;= x)/dx).
         /// </summary>
         /// <param name="x">The location at which to compute the log density.</param>
         /// <returns>the log density at <paramref name="x"/>.</returns>
@@ -461,7 +461,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Computes the cumulative distribution (CDF) of the distribution, i.e. P(X &lt;= x).
+        /// Computes the cumulative distribution (CDF) of the distribution at x, i.e. P(X &lt;= x).
         /// </summary>
         /// <param name="x">The location at which to compute the cumulative distribution function.</param>
         /// <returns>the cumulative distribution at location <paramref name="x"/>.</returns>
@@ -527,7 +527,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="a">The α shape parameter of the Beta distribution.</param>
         /// <param name="b">The β shape parameter of the Beta distribution.</param>
         /// <returns>a random number from the Beta distribution.</returns>
-        internal static double SampleUnchecked(System.Random rnd, double a, double b)
+        static double SampleUnchecked(System.Random rnd, double a, double b)
         {
             var x = Gamma.SampleUnchecked(rnd, a, 1.0);
             var y = Gamma.SampleUnchecked(rnd, b, 1.0);
@@ -540,7 +540,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sample from the distribution.</returns>
         public double Sample()
         {
-            return SampleUnchecked(RandomSource, _shapeA, _shapeB);
+            return SampleUnchecked(_random, _shapeA, _shapeB);
         }
 
         /// <summary>
@@ -551,7 +551,7 @@ namespace MathNet.Numerics.Distributions
         {
             while (true)
             {
-                yield return SampleUnchecked(RandomSource, _shapeA, _shapeB);
+                yield return SampleUnchecked(_random, _shapeA, _shapeB);
             }
         }
 

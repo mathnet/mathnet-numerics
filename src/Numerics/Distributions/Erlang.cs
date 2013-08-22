@@ -105,7 +105,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a string representation of the distribution.</returns>
         public override string ToString()
         {
-            return "Erlang(Shape = " + _shape + ", λ = " + _rate + ")";
+            return "Erlang(k = " + _shape + ", λ = " + _rate + ")";
         }
 
         /// <summary>
@@ -335,7 +335,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Computes the density of the distribution (PDF), i.e. dP(X &lt;= x)/dx.
+        /// Computes the probability density of the distribution (PDF) at x, i.e. dP(X &lt;= x)/dx.
         /// </summary>
         /// <param name="x">The location at which to compute the density.</param>
         /// <returns>the density at <paramref name="x"/>.</returns>
@@ -360,7 +360,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Computes the log density of the distribution (lnPDF), i.e. ln(dP(X &lt;= x)/dx).
+        /// Computes the log probability density of the distribution (lnPDF) at x, i.e. ln(dP(X &lt;= x)/dx).
         /// </summary>
         /// <param name="x">The location at which to compute the log density.</param>
         /// <returns>the log density at <paramref name="x"/>.</returns>
@@ -385,7 +385,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Computes the cumulative distribution (CDF) of the distribution, i.e. P(X &lt;= x).
+        /// Computes the cumulative distribution (CDF) of the distribution at x, i.e. P(X &lt;= x).
         /// </summary>
         /// <param name="x">The location at which to compute the cumulative distribution function.</param>
         /// <returns>the cumulative distribution at location <paramref name="x"/>.</returns>
@@ -414,7 +414,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="shape">The shape of the Gamma distribution.</param>
         /// <param name="invScale">The inverse scale of the Gamma distribution.</param>
         /// <returns>A sample from a Erlang distributed random variable.</returns>
-        internal static double SampleUnchecked(System.Random rnd, double shape, double invScale)
+        static double SampleUnchecked(System.Random rnd, double shape, double invScale)
         {
             if (Double.IsPositiveInfinity(invScale))
             {
@@ -464,7 +464,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sample from the distribution.</returns>
         public double Sample()
         {
-            return SampleUnchecked(RandomSource, _shape, _rate);
+            return SampleUnchecked(_random, _shape, _rate);
         }
 
         /// <summary>
@@ -475,7 +475,7 @@ namespace MathNet.Numerics.Distributions
         {
             while (true)
             {
-                yield return SampleUnchecked(RandomSource, _shape, _rate);
+                yield return SampleUnchecked(_random, _shape, _rate);
             }
         }
 

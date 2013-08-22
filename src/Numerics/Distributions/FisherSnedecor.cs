@@ -54,8 +54,8 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Initializes a new instance of the <see cref="FisherSnedecor"/> class. 
         /// </summary>
-        /// <param name="d1">The first parameter - degree of freedom.</param>
-        /// <param name="d2">The second parameter - degree of freedom.</param>
+        /// <param name="d1">The first degree of freedom (d1) of the distribution.</param>
+        /// <param name="d2">The second degree of freedom (d2) of the distribution.</param>
         public FisherSnedecor(double d1, double d2)
         {
             _random = new System.Random();
@@ -65,8 +65,8 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Initializes a new instance of the <see cref="FisherSnedecor"/> class. 
         /// </summary>
-        /// <param name="d1">The first parameter - degree of freedom.</param>
-        /// <param name="d2">The second parameter - degree of freedom.</param>
+        /// <param name="d1">The first degree of freedom (d1) of the distribution.</param>
+        /// <param name="d2">The second degree of freedom (d2) of the distribution.</param>
         /// <param name="randomSource">The random number generator which is used to draw random samples.</param>
         public FisherSnedecor(double d1, double d2, System.Random randomSource)
         {
@@ -80,14 +80,14 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a string representation of the distribution.</returns>
         public override string ToString()
         {
-            return "FisherSnedecor(DegreeOfFreedom1 = " + _freedom1 + ", DegreeOfFreedom2 = " + _freedom2 + ")";
+            return "FisherSnedecor(d1 = " + _freedom1 + ", d2 = " + _freedom2 + ")";
         }
 
         /// <summary>
         /// Checks whether the parameters of the distribution are valid.
         /// </summary>
-        /// <param name="d1">The first parameter - degree of freedom.</param>
-        /// <param name="d2">The second parameter - degree of freedom.</param>
+        /// <param name="d1">The first degree of freedom (d1) of the distribution.</param>
+        /// <param name="d2">The second degree of freedom (d2) of the distribution.</param>
         /// <returns><c>true</c> when the parameters are valid, <c>false</c> otherwise.</returns>
         static bool IsValidParameterSet(double d1, double d2)
         {
@@ -97,8 +97,8 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Sets the parameters of the distribution after checking their validity.
         /// </summary>
-        /// <param name="d1">The first parameter - degree of freedom.</param>
-        /// <param name="d2">The second parameter - degree of freedom.</param>
+        /// <param name="d1">The first degree of freedom (d1) of the distribution.</param>
+        /// <param name="d2">The second degree of freedom (d2) of the distribution.</param>
         void SetParameters(double d1, double d2)
         {
             if (Control.CheckDistributionParameters && !IsValidParameterSet(d1, d2))
@@ -113,7 +113,7 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Gets or sets the first parameter - degree of freedom.
         /// </summary>
-        public double DegreeOfFreedom1
+        public double DegreesOfFreedom1
         {
             get { return _freedom1; }
             set { SetParameters(value, _freedom2); }
@@ -122,7 +122,7 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Gets or sets the second parameter - degree of freedom.
         /// </summary>
-        public double DegreeOfFreedom2
+        public double DegreesOfFreedom2
         {
             get { return _freedom2; }
             set { SetParameters(_freedom1, value); }
@@ -242,7 +242,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Computes the density of the distribution (PDF), i.e. dP(X &lt;= x)/dx.
+        /// Computes the probability density of the distribution (PDF) at x, i.e. dP(X &lt;= x)/dx.
         /// </summary>
         /// <param name="x">The location at which to compute the density.</param>
         /// <returns>the density at <paramref name="x"/>.</returns>
@@ -252,7 +252,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Computes the log density of the distribution (lnPDF), i.e. ln(dP(X &lt;= x)/dx).
+        /// Computes the log probability density of the distribution (lnPDF) at x, i.e. ln(dP(X &lt;= x)/dx).
         /// </summary>
         /// <param name="x">The location at which to compute the log density.</param>
         /// <returns>the log density at <paramref name="x"/>.</returns>
@@ -262,7 +262,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Computes the cumulative distribution (CDF) of the distribution, i.e. P(X &lt;= x).
+        /// Computes the cumulative distribution (CDF) of the distribution at x, i.e. P(X &lt;= x).
         /// </summary>
         /// <param name="x">The location at which to compute the cumulative distribution function.</param>
         /// <returns>the cumulative distribution at location <paramref name="x"/>.</returns>
@@ -275,12 +275,12 @@ namespace MathNet.Numerics.Distributions
         /// Generates one sample from the <c>FisherSnedecor</c> distribution without parameter checking.
         /// </summary>
         /// <param name="rnd">The random number generator to use.</param>
-        /// <param name="d1">The first parameter - degree of freedom.</param>
-        /// <param name="d2">The second parameter - degree of freedom.</param>
+        /// <param name="d1">The first degree of freedom (d1) of the distribution.</param>
+        /// <param name="d2">The second degree of freedom (d2) of the distribution.</param>
         /// <returns>a <c>FisherSnedecor</c> distributed random number.</returns>
-        internal static double SampleUnchecked(System.Random rnd, double d1, double d2)
+        static double SampleUnchecked(System.Random rnd, double d1, double d2)
         {
-            return (ChiSquare.Sample(rnd, d1)/d1)/(ChiSquare.Sample(rnd, d2)/d2);
+            return (ChiSquared.Sample(rnd, d1)/d1)/(ChiSquared.Sample(rnd, d2)/d2);
         }
 
         /// <summary>
@@ -289,7 +289,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sample from the distribution.</returns>
         public double Sample()
         {
-            return SampleUnchecked(RandomSource, _freedom1, _freedom2);
+            return SampleUnchecked(_random, _freedom1, _freedom2);
         }
 
         /// <summary>
@@ -300,7 +300,7 @@ namespace MathNet.Numerics.Distributions
         {
             while (true)
             {
-                yield return SampleUnchecked(RandomSource, _freedom1, _freedom2);
+                yield return SampleUnchecked(_random, _freedom1, _freedom2);
             }
         }
 
@@ -308,8 +308,8 @@ namespace MathNet.Numerics.Distributions
         /// Generates a sample from the distribution.
         /// </summary>
         /// <param name="rnd">The random number generator to use.</param>
-        /// <param name="d1">The first parameter - degree of freedom.</param>
-        /// <param name="d2">The second parameter - degree of freedom.</param>
+        /// <param name="d1">The first degree of freedom (d1) of the distribution.</param>
+        /// <param name="d2">The second degree of freedom (d2) of the distribution.</param>
         /// <returns>a sample from the distribution.</returns>
         public static double Sample(System.Random rnd, double d1, double d2)
         {
@@ -325,8 +325,8 @@ namespace MathNet.Numerics.Distributions
         /// Generates a sequence of samples from the distribution.
         /// </summary>
         /// <param name="rnd">The random number generator to use.</param>
-        /// <param name="d1">The first parameter - degree of freedom.</param>
-        /// <param name="d2">The second parameter - degree of freedom.</param>
+        /// <param name="d1">The first degree of freedom (d1) of the distribution.</param>
+        /// <param name="d2">The second degree of freedom (d2) of the distribution.</param>
         /// <returns>a sequence of samples from the distribution.</returns>
         public static IEnumerable<double> Samples(System.Random rnd, double d1, double d2)
         {

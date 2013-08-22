@@ -61,24 +61,24 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Initializes a new instance of the <see cref="InverseWishart"/> class. 
         /// </summary>
-        /// <param name="degreeOfFreedom">The degree of freedom (ν) for the inverse Wishart distribution.</param>
+        /// <param name="degreesOfFreedom">The degree of freedom (ν) for the inverse Wishart distribution.</param>
         /// <param name="scale">The scale matrix (Ψ) for the inverse Wishart distribution.</param>
-        public InverseWishart(double degreeOfFreedom, Matrix<double> scale)
+        public InverseWishart(double degreesOfFreedom, Matrix<double> scale)
         {
             _random = new System.Random();
-            SetParameters(degreeOfFreedom, scale);
+            SetParameters(degreesOfFreedom, scale);
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="InverseWishart"/> class. 
         /// </summary>
-        /// <param name="degreeOfFreedom">The degree of freedom (ν) for the inverse Wishart distribution.</param>
+        /// <param name="degreesOfFreedom">The degree of freedom (ν) for the inverse Wishart distribution.</param>
         /// <param name="scale">The scale matrix (Ψ) for the inverse Wishart distribution.</param>
         /// <param name="randomSource">The random number generator which is used to draw random samples.</param>
-        public InverseWishart(double degreeOfFreedom, Matrix<double> scale, System.Random randomSource)
+        public InverseWishart(double degreesOfFreedom, Matrix<double> scale, System.Random randomSource)
         {
             _random = randomSource ?? new System.Random();
-            SetParameters(degreeOfFreedom, scale);
+            SetParameters(degreesOfFreedom, scale);
         }
 
         /// <summary>
@@ -93,10 +93,10 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Checks whether the parameters of the distribution are valid. 
         /// </summary>
-        /// <param name="degreeOfFreedom">The degree of freedom (ν) for the inverse Wishart distribution.</param>
+        /// <param name="degreesOfFreedom">The degree of freedom (ν) for the inverse Wishart distribution.</param>
         /// <param name="scale">The scale matrix (Ψ) for the inverse Wishart distribution.</param>
         /// <returns><c>true</c> when the parameters are valid, <c>false</c> otherwise.</returns>
-        static bool IsValidParameterSet(double degreeOfFreedom, Matrix<double> scale)
+        static bool IsValidParameterSet(double degreesOfFreedom, Matrix<double> scale)
         {
             if (scale.RowCount != scale.ColumnCount)
             {
@@ -111,23 +111,23 @@ namespace MathNet.Numerics.Distributions
                 }
             }
 
-            return degreeOfFreedom > 0.0;
+            return degreesOfFreedom > 0.0;
         }
 
         /// <summary>
         /// Sets the parameters of the distribution after checking their validity.
         /// </summary>
-        /// <param name="degreeOfFreedom">The degree of freedom (ν) for the inverse Wishart distribution.</param>
+        /// <param name="degreesOfFreedom">The degree of freedom (ν) for the inverse Wishart distribution.</param>
         /// <param name="scale">The scale matrix (Ψ) for the inverse Wishart distribution.</param>
         /// <exception cref="ArgumentOutOfRangeException">When the parameters don't pass the <see cref="IsValidParameterSet"/> function.</exception>
-        void SetParameters(double degreeOfFreedom, Matrix<double> scale)
+        void SetParameters(double degreesOfFreedom, Matrix<double> scale)
         {
-            if (Control.CheckDistributionParameters && !IsValidParameterSet(degreeOfFreedom, scale))
+            if (Control.CheckDistributionParameters && !IsValidParameterSet(degreesOfFreedom, scale))
             {
                 throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
             }
 
-            _freedom = degreeOfFreedom;
+            _freedom = degreesOfFreedom;
             _scale = scale;
             _chol = Cholesky<double>.Create(_scale);
         }
@@ -135,7 +135,7 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Gets or sets the degree of freedom (ν) for the inverse Wishart distribution.
         /// </summary>
-        public double DegreeOfFreedom
+        public double DegreesOfFreedom
         {
             get { return _freedom; }
             set { SetParameters(value, _scale); }
@@ -242,7 +242,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sample from the distribution.</returns>
         public Matrix<double> Sample()
         {
-            return Sample(RandomSource, _freedom, _scale);
+            return Sample(_random, _freedom, _scale);
         }
 
         /// <summary>
@@ -250,17 +250,17 @@ namespace MathNet.Numerics.Distributions
         /// a Wishart random variable and inverting the matrix.
         /// </summary>
         /// <param name="rnd">The random number generator to use.</param>
-        /// <param name="degreeOfFreedom">The degree of freedom (ν) for the inverse Wishart distribution.</param>
+        /// <param name="degreesOfFreedom">The degree of freedom (ν) for the inverse Wishart distribution.</param>
         /// <param name="scale">The scale matrix (Ψ) for the inverse Wishart distribution.</param>
         /// <returns>a sample from the distribution.</returns>
-        public static Matrix<double> Sample(System.Random rnd, double degreeOfFreedom, Matrix<double> scale)
+        public static Matrix<double> Sample(System.Random rnd, double degreesOfFreedom, Matrix<double> scale)
         {
-            if (Control.CheckDistributionParameters && !IsValidParameterSet(degreeOfFreedom, scale))
+            if (Control.CheckDistributionParameters && !IsValidParameterSet(degreesOfFreedom, scale))
             {
                 throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
             }
 
-            var r = Wishart.Sample(rnd, degreeOfFreedom, scale.Inverse());
+            var r = Wishart.Sample(rnd, degreesOfFreedom, scale.Inverse());
             return r.Inverse();
         }
     }

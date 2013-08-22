@@ -119,7 +119,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns><c>true</c> when the parameters are valid, <c>false</c> otherwise.</returns>
         static bool IsValidParameterSet(double mu, double sigma)
         {
-            return sigma >= 0.0 && !Double.IsNaN(mu) && !Double.IsNaN(mu);
+            return sigma >= 0.0 && !Double.IsNaN(mu);
         }
 
         /// <summary>
@@ -251,7 +251,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Computes the density of the distribution (PDF), i.e. dP(X &lt;= x)/dx.
+        /// Computes the probability density of the distribution (PDF) at x, i.e. dP(X &lt;= x)/dx.
         /// </summary>
         /// <param name="x">The location at which to compute the density.</param>
         /// <returns>the density at <paramref name="x"/>.</returns>
@@ -267,7 +267,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Computes the log density of the distribution (lnPDF), i.e. ln(dP(X &lt;= x)/dx).
+        /// Computes the log probability density of the distribution (lnPDF) at x, i.e. ln(dP(X &lt;= x)/dx).
         /// </summary>
         /// <param name="x">The location at which to compute the log density.</param>
         /// <returns>the log density at <paramref name="x"/>.</returns>
@@ -283,7 +283,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Computes the cumulative distribution (CDF) of the distribution, i.e. P(X &lt;= x).
+        /// Computes the cumulative distribution (CDF) of the distribution at x, i.e. P(X &lt;= x).
         /// </summary>
         /// <param name="x">The location at which to compute the cumulative distribution function.</param>
         /// <returns>the cumulative distribution at location <paramref name="x"/>.</returns>
@@ -303,7 +303,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sample from the distribution.</returns>
         public double Sample()
         {
-            return Math.Exp(Normal.SampleUnchecked(RandomSource, _mu, _sigma));
+            return Math.Exp(Normal.SampleUnchecked(_random, _mu, _sigma));
         }
 
         /// <summary>
@@ -312,51 +312,31 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sequence of samples from the distribution.</returns>
         public IEnumerable<double> Samples()
         {
-            while (true)
-            {
-                var sample = Normal.SampleUncheckedBoxMuller(RandomSource);
-                yield return Math.Exp(_mu + (_sigma*sample.Item1));
-                yield return Math.Exp(_mu + (_sigma*sample.Item2));
-            }
+            return Normal.SamplesUnchecked(_random, _mu, _sigma).Select(Math.Exp);
         }
 
         /// <summary>
         /// Generates a sample from the log-normal distribution using the <i>Box-Muller</i> algorithm.
         /// </summary>
-        /// <param name="rng">The random number generator to use.</param>
+        /// <param name="rnd">The random number generator to use.</param>
         /// <param name="mu">The log-scale (μ) of the distribution.</param>
         /// <param name="sigma">The shape (σ) of the distribution.</param>
         /// <returns>a sample from the distribution.</returns>
-        public static double Sample(System.Random rng, double mu, double sigma)
+        public static double Sample(System.Random rnd, double mu, double sigma)
         {
-            if (Control.CheckDistributionParameters && !IsValidParameterSet(mu, sigma))
-            {
-                throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
-            }
-
-            return Math.Exp(Normal.SampleUnchecked(rng, mu, sigma));
+            return Math.Exp(Normal.Sample(rnd, mu, sigma));
         }
 
         /// <summary>
         /// Generates a sequence of samples from the log-normal distribution using the <i>Box-Muller</i> algorithm.
         /// </summary>
-        /// <param name="rng">The random number generator to use.</param>
+        /// <param name="rnd">The random number generator to use.</param>
         /// <param name="mu">The log-scale (μ) of the distribution.</param>
         /// <param name="sigma">The shape (σ) of the distribution.</param>
         /// <returns>a sequence of samples from the distribution.</returns>
-        public static IEnumerable<double> Samples(System.Random rng, double mu, double sigma)
+        public static IEnumerable<double> Samples(System.Random rnd, double mu, double sigma)
         {
-            if (Control.CheckDistributionParameters && !IsValidParameterSet(mu, sigma))
-            {
-                throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
-            }
-
-            while (true)
-            {
-                var sample = Normal.SampleUncheckedBoxMuller(rng);
-                yield return Math.Exp(mu + (sigma*sample.Item1));
-                yield return Math.Exp(mu + (sigma*sample.Item2));
-            }
+            return Normal.Samples(rnd, mu, sigma).Select(Math.Exp);
         }
     }
 }

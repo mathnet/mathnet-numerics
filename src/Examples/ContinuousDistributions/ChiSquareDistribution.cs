@@ -64,7 +64,7 @@ namespace Examples.ContinuousDistributionsExamples
         public void Run()
         {
             // 1. Initialize the new instance of the ChiSquare distribution class with parameter dof = 1.
-            var chiSquare = new ChiSquare(1);
+            var chiSquare = new ChiSquared(1);
             Console.WriteLine(@"1. Initialize the new instance of the ChiSquare distribution class with parameter DegreesOfFreedom = {0}", chiSquare.DegreesOfFreedom);
             Console.WriteLine();
 

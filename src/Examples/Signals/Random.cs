@@ -96,7 +96,7 @@ namespace Examples.SignalsExamples
             Console.WriteLine();
 
             // 3. Get 10 random samples of f(x, y) = (x * y) / 2 using ChiSquare(10) distribution
-            var chiSquare = new ChiSquare(10);
+            var chiSquare = new ChiSquared(10);
             result = SignalGenerator.Random(TwoDomainFunction, chiSquare, 10);
             Console.WriteLine(@" 3. Get 10 random samples of f(x, y) = (x * y) / 2 using ChiSquare(10) distribution");
             for (var i = 0; i < result.Length; i++)

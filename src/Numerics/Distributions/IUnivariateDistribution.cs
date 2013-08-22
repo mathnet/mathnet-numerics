@@ -31,8 +31,10 @@
 namespace MathNet.Numerics.Distributions
 {
     /// <summary>
-    /// The interface for univariate distributions.
+    /// Univariate Probability Distribution.
     /// </summary>
+    /// <seealso cref="IContinuousDistribution"/>
+    /// <seealso cref="IDiscreteDistribution"/>
     public interface IUnivariateDistribution : IDistribution
     {
         /// <summary>
@@ -61,7 +63,7 @@ namespace MathNet.Numerics.Distributions
         double Skewness { get; }
 
         /// <summary>
-        /// Computes the cumulative distribution (CDF) of the distribution, i.e. P(X &lt;= x).
+        /// Computes the cumulative distribution (CDF) of the distribution at x, i.e. P(X &lt;= x).
         /// </summary>
         /// <param name="x">The location at which to compute the cumulative distribution function.</param>
         /// <returns>the cumulative distribution at location <paramref name="x"/>.</returns>

@@ -35,7 +35,7 @@ using MathNet.Numerics.Properties;
 namespace MathNet.Numerics.Distributions
 {
     /// <summary>
-    /// Continuous Univariate ChiSquare distribution.
+    /// Continuous Univariate Chi-Squared distribution.
     /// This distribution is a sum of the squares of k independent standard normal random variables.
     /// <a href="http://en.wikipedia.org/wiki/Chi-square_distribution">Wikipedia - ChiSquare distribution</a>.
     /// </summary>
@@ -44,31 +44,31 @@ namespace MathNet.Numerics.Distributions
     /// <para>The statistics classes will check all the incoming parameters whether they are in the allowed
     /// range. This might involve heavy computation. Optionally, by setting Control.CheckDistributionParameters
     /// to <c>false</c>, all parameter checks can be turned off.</para></remarks>
-    public class ChiSquare : IContinuousDistribution
+    public class ChiSquared : IContinuousDistribution
     {
         System.Random _random;
 
         double _freedom;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ChiSquare"/> class. 
+        /// Initializes a new instance of the <see cref="ChiSquared"/> class. 
         /// </summary>
-        /// <param name="dof">The degrees of freedom for the ChiSquare distribution.</param>
-        public ChiSquare(double dof)
+        /// <param name="freedom">The degrees of freedom (k) of the distribution.</param>
+        public ChiSquared(double freedom)
         {
             _random = new System.Random();
-            SetParameters(dof);
+            SetParameters(freedom);
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ChiSquare"/> class. 
+        /// Initializes a new instance of the <see cref="ChiSquared"/> class. 
         /// </summary>
-        /// <param name="dof">The degrees of freedom for the ChiSquare distribution.</param>
+        /// <param name="freedom">The degrees of freedom (k) of the distribution.</param>
         /// <param name="randomSource">The random number generator which is used to draw random samples.</param>
-        public ChiSquare(double dof, System.Random randomSource)
+        public ChiSquared(double freedom, System.Random randomSource)
         {
             _random = randomSource ?? new System.Random();
-            SetParameters(dof);
+            SetParameters(freedom);
         }
 
         /// <summary>
@@ -77,36 +77,36 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a string representation of the distribution.</returns>
         public override string ToString()
         {
-            return "ChiSquare(DoF = " + _freedom + ")";
+            return "ChiSquared(k = " + _freedom + ")";
         }
 
         /// <summary>
         /// Checks whether the parameters of the distribution are valid. 
         /// </summary>
-        /// <param name="dof">The degrees of freedom for the <c>ChiSquare</c> distribution.</param>
+        /// <param name="freedom">The degrees of freedom (k) of the distribution.</param>
         /// <returns><c>true</c> when the parameters are valid, <c>false</c> otherwise.</returns>
-        static bool IsValidParameterSet(double dof)
+        static bool IsValidParameterSet(double freedom)
         {
-            return dof > 0 && !Double.IsNaN(dof);
+            return freedom > 0 && !Double.IsNaN(freedom);
         }
 
         /// <summary>
         /// Sets the parameters of the distribution after checking their validity.
         /// </summary>
-        /// <param name="dof">The degrees of freedom for the <c>ChiSquare</c> distribution.</param>
+        /// <param name="freedom">The degrees of freedom (k) of the distribution.</param>
         /// <exception cref="ArgumentOutOfRangeException">When the parameters don't pass the <see cref="IsValidParameterSet"/> function.</exception>
-        void SetParameters(double dof)
+        void SetParameters(double freedom)
         {
-            if (Control.CheckDistributionParameters && !IsValidParameterSet(dof))
+            if (Control.CheckDistributionParameters && !IsValidParameterSet(freedom))
             {
                 throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
             }
 
-            _freedom = dof;
+            _freedom = freedom;
         }
 
         /// <summary>
-        /// Gets or sets the degrees of freedom of the <c>ChiSquare</c> distribution.
+        /// Gets or sets the degrees of freedom (k) of the Chi-Squared distribution.
         /// </summary>
         public double DegreesOfFreedom
         {
@@ -196,7 +196,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Computes the density of the distribution (PDF), i.e. dP(X &lt;= x)/dx.
+        /// Computes the probability density of the distribution (PDF) at x, i.e. dP(X &lt;= x)/dx.
         /// </summary>
         /// <param name="x">The location at which to compute the density.</param>
         /// <returns>the density at <paramref name="x"/>.</returns>
@@ -206,7 +206,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Computes the log density of the distribution (lnPDF), i.e. ln(dP(X &lt;= x)/dx).
+        /// Computes the log probability density of the distribution (lnPDF) at x, i.e. ln(dP(X &lt;= x)/dx).
         /// </summary>
         /// <param name="x">The location at which to compute the log density.</param>
         /// <returns>the log density at <paramref name="x"/>.</returns>
@@ -216,7 +216,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Computes the cumulative distribution (CDF) of the distribution, i.e. P(X &lt;= x).
+        /// Computes the cumulative distribution (CDF) of the distribution at x, i.e. P(X &lt;= x).
         /// </summary>
         /// <param name="x">The location at which to compute the cumulative distribution function.</param>
         /// <returns>the cumulative distribution at location <paramref name="x"/>.</returns>
@@ -229,24 +229,25 @@ namespace MathNet.Numerics.Distributions
         /// Samples the distribution.
         /// </summary>
         /// <param name="rnd">The random number generator to use.</param>
-        /// <param name="dof">The degrees of freedom.</param>
+        /// <param name="freedom">The degrees of freedom (k) of the distribution.</param>
         /// <returns>a random number from the distribution.</returns>
-        internal static double SampleUnchecked(System.Random rnd, double dof)
+        static double SampleUnchecked(System.Random rnd, double freedom)
         {
-            //Use the simple method if the dof is an integer anyway
-            if (Math.Floor(dof) == dof && dof < Int32.MaxValue)
+            // Use the simple method if the degrees if freedom is an integer anyway
+            if (Math.Floor(freedom) == freedom && freedom < Int32.MaxValue)
             {
                 double sum = 0;
-                var n = (int) dof;
+                var n = (int) freedom;
                 for (var i = 0; i < n; i++)
                 {
                     sum += Math.Pow(Normal.Sample(rnd, 0.0, 1.0), 2);
                 }
                 return sum;
             }
+
             //Call the gamma function (see http://en.wikipedia.org/wiki/Gamma_distribution#Specializations
             //for a justification)
-            return Gamma.SampleUnchecked(rnd, dof/2.0, .5);
+            return Gamma.SampleUnchecked(rnd, freedom/2.0, .5);
         }
 
         /// <summary>
@@ -255,7 +256,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sample from the distribution.</returns>
         public double Sample()
         {
-            return SampleUnchecked(RandomSource, _freedom);
+            return SampleUnchecked(_random, _freedom);
         }
 
         /// <summary>
@@ -266,7 +267,7 @@ namespace MathNet.Numerics.Distributions
         {
             while (true)
             {
-                yield return SampleUnchecked(RandomSource, _freedom);
+                yield return SampleUnchecked(_random, _freedom);
             }
         }
 
@@ -274,34 +275,34 @@ namespace MathNet.Numerics.Distributions
         /// Generates a sample from the <c>ChiSquare</c> distribution.
         /// </summary>
         /// <param name="rnd">The random number generator to use.</param>
-        /// <param name="dof">The degrees of freedom.</param>
+        /// <param name="freedom">The degrees of freedom (k) of the distribution.</param>
         /// <returns>a sample from the distribution. </returns>
-        public static double Sample(System.Random rnd, double dof)
+        public static double Sample(System.Random rnd, double freedom)
         {
-            if (Control.CheckDistributionParameters && !IsValidParameterSet(dof))
+            if (Control.CheckDistributionParameters && !IsValidParameterSet(freedom))
             {
                 throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
             }
 
-            return SampleUnchecked(rnd, dof);
+            return SampleUnchecked(rnd, freedom);
         }
 
         /// <summary>
         /// Generates a sequence of samples from the distribution.
         /// </summary>
         /// <param name="rnd">The random number generator to use.</param>
-        /// <param name="dof">The degrees of freedom.</param>
+        /// <param name="freedom">The degrees of freedom (k) of the distribution.</param>
         /// <returns>a sample from the distribution. </returns>
-        public static IEnumerable<double> Samples(System.Random rnd, double dof)
+        public static IEnumerable<double> Samples(System.Random rnd, double freedom)
         {
-            if (Control.CheckDistributionParameters && !IsValidParameterSet(dof))
+            if (Control.CheckDistributionParameters && !IsValidParameterSet(freedom))
             {
                 throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
             }
 
             while (true)
             {
-                yield return SampleUnchecked(rnd, dof);
+                yield return SampleUnchecked(rnd, freedom);
             }
         }
     }

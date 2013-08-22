@@ -223,17 +223,17 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Computes the density of the distribution (PDF), i.e. dP(X &lt;= x)/dx.
+        /// Computes the probability density of the distribution (PDF) at x, i.e. dP(X &lt;= x)/dx.
         /// </summary>
         /// <param name="x">The location at which to compute the density.</param>
-        /// <returns>the density at <paramref name="x"/>.</returns>      
+        /// <returns>the density at <paramref name="x"/>.</returns>
         public double Density(double x)
         {
             return Math.Exp(-Math.Abs(x - _location)/_scale)/(2.0*_scale);
         }
 
         /// <summary>
-        /// Computes the log density of the distribution (lnPDF), i.e. ln(dP(X &lt;= x)/dx).
+        /// Computes the log probability density of the distribution (lnPDF) at x, i.e. ln(dP(X &lt;= x)/dx).
         /// </summary>
         /// <param name="x">The location at which to compute the log density.</param>
         /// <returns>the log density at <paramref name="x"/>.</returns>
@@ -243,7 +243,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Computes the cumulative distribution (CDF) of the distribution, i.e. P(X &lt;= x).
+        /// Computes the cumulative distribution (CDF) of the distribution at x, i.e. P(X &lt;= x).
         /// </summary>
         /// <param name="x">The location at which to compute the cumulative distribution function.</param>
         /// <returns>the cumulative distribution at location <paramref name="x"/>.</returns>
@@ -259,7 +259,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="location">The location (μ) of the Laplace distribution.</param>
         /// <param name="scale">The scale (b) of the Laplace distribution.</param>
         /// <returns>a random number from the distribution.</returns>
-        internal static double SampleUnchecked(System.Random rnd, double location, double scale)
+        static double SampleUnchecked(System.Random rnd, double location, double scale)
         {
             var u = rnd.NextDouble() - 0.5;
             return location - (scale*Math.Sign(u)*Math.Log(1.0 - (2.0*Math.Abs(u))));
@@ -271,7 +271,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sample from the distribution.</returns>
         public double Sample()
         {
-            return SampleUnchecked(RandomSource, _location, _scale);
+            return SampleUnchecked(_random, _location, _scale);
         }
 
         /// <summary>
@@ -282,7 +282,7 @@ namespace MathNet.Numerics.Distributions
         {
             while (true)
             {
-                yield return SampleUnchecked(RandomSource, _location, _scale);
+                yield return SampleUnchecked(_random, _location, _scale);
             }
         }
 

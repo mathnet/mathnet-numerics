@@ -50,7 +50,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         /// <summary>
         /// Can create inverse Wishart.
         /// </summary>
-        /// <param name="nu">DegreeOfFreedom parameter.</param>
+        /// <param name="nu">DegreesOfFreedom parameter.</param>
         /// <param name="order">Scale matrix order.</param>
         [TestCase(0.1, 2)]
         [TestCase(1.0, 5)]
@@ -60,7 +60,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
             var matrix = MatrixLoader.GenerateRandomPositiveDefiniteDenseMatrix(order);
             var d = new InverseWishart(nu, matrix);
 
-            Assert.AreEqual(nu, d.DegreeOfFreedom);
+            Assert.AreEqual(nu, d.DegreesOfFreedom);
             for (var i = 0; i < d.Scale.RowCount; i++)
             {
                 for (var j = 0; j < d.Scale.ColumnCount; j++)
@@ -73,7 +73,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         /// <summary>
         /// Fail create inverse Wishart with bad parameters.
         /// </summary>
-        /// <param name="nu">DegreeOfFreedom parameter.</param>
+        /// <param name="nu">DegreesOfFreedom parameter.</param>
         /// <param name="order">Scale matrix order.</param>
         [TestCase(0.1, 2)]
         [TestCase(1.0, 5)]
@@ -89,7 +89,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         /// <summary>
         /// Fail create inverse Wishart with bad parameters.
         /// </summary>
-        /// <param name="nu">DegreeOfFreedom parameter.</param>
+        /// <param name="nu">DegreesOfFreedom parameter.</param>
         /// <param name="order">Scale matrix order.</param>
         [TestCase(-1.0, 2)]
         [TestCase(Double.NaN, 5)]
@@ -149,13 +149,13 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         public void CanGetNu(double nu)
         {
             var d = new InverseWishart(nu, MatrixLoader.GenerateRandomPositiveDefiniteDenseMatrix(2));
-            Assert.AreEqual(nu, d.DegreeOfFreedom);
+            Assert.AreEqual(nu, d.DegreesOfFreedom);
         }
 
         /// <summary>
-        /// Can set DegreeOfFreedom.
+        /// Can set DegreesOfFreedom.
         /// </summary>
-        /// <param name="nu">DegreeOfFreedom parameter.</param>
+        /// <param name="nu">DegreesOfFreedom parameter.</param>
         [TestCase(1.0)]
         [TestCase(2.0)]
         [TestCase(5.0)]
@@ -163,7 +163,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         {
             new InverseWishart(1.0, MatrixLoader.GenerateRandomPositiveDefiniteDenseMatrix(2))
             {
-                DegreeOfFreedom = nu
+                DegreesOfFreedom = nu
             };
         }
 
@@ -201,7 +201,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         /// <summary>
         /// Validate mean.
         /// </summary>
-        /// <param name="nu">DegreeOfFreedom parameter.</param>
+        /// <param name="nu">DegreesOfFreedom parameter.</param>
         /// <param name="order">Scale matrix order.</param>
         [TestCase(0.1, 2)]
         [TestCase(1.0, 5)]
@@ -223,7 +223,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         /// <summary>
         /// Validate mode.
         /// </summary>
-        /// <param name="nu">DegreeOfFreedom parameter.</param>
+        /// <param name="nu">DegreesOfFreedom parameter.</param>
         /// <param name="order">Scale matrix order.</param>
         [TestCase(0.1, 2)]
         [TestCase(1.0, 5)]
@@ -245,7 +245,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         /// <summary>
         /// Validate variance.
         /// </summary>
-        /// <param name="nu">DegreeOfFreedom parameter.</param>
+        /// <param name="nu">DegreesOfFreedom parameter.</param>
         /// <param name="order">Scale matrix order.</param>
         [TestCase(0.1, 2)]
         [TestCase(1.0, 5)]
@@ -269,7 +269,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         /// <summary>
         /// Validate density.
         /// </summary>
-        /// <param name="nu">DegreeOfFreedom parameter.</param>
+        /// <param name="nu">DegreesOfFreedom parameter.</param>
         /// <param name="density">Expected value.</param>
         [TestCase(1.0, 0.03228684517430723)]
         [TestCase(2.0, 0.018096748360719193)]

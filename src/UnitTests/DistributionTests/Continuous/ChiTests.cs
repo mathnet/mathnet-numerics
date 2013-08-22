@@ -80,7 +80,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void ValidateToString()
         {
             var n = new Chi(1.0);
-            Assert.AreEqual("Chi(DoF = 1)", n.ToString());
+            Assert.AreEqual("Chi(k = 1)", n.ToString());
         }
 
         /// <summary>

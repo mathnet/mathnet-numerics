@@ -66,8 +66,8 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void CanCreateFisherSnedecor(double d1, double d2)
         {
             var n = new FisherSnedecor(d1, d2);
-            Assert.AreEqual(d1, n.DegreeOfFreedom1);
-            Assert.AreEqual(d2, n.DegreeOfFreedom2);
+            Assert.AreEqual(d1, n.DegreesOfFreedom1);
+            Assert.AreEqual(d2, n.DegreesOfFreedom2);
         }
 
         /// <summary>
@@ -102,8 +102,8 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [Test]
         public void ValidateToString()
         {
-            var n = new FisherSnedecor(2.0, 1.0);
-            Assert.AreEqual("FisherSnedecor(DegreeOfFreedom1 = 2, DegreeOfFreedom2 = 1)", n.ToString());
+            var n = new FisherSnedecor(2d, 1d);
+            Assert.AreEqual("FisherSnedecor(d1 = 2, d2 = 1)", n.ToString());
         }
 
         /// <summary>
@@ -114,11 +114,11 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [TestCase(1.0)]
         [TestCase(10.0)]
         [TestCase(Double.PositiveInfinity)]
-        public void CanSetDegreeOfFreedom1(double d1)
+        public void CanSetDegreesOfFreedom1(double d1)
         {
             new FisherSnedecor(1.0, 2.0)
             {
-                DegreeOfFreedom1 = d1
+                DegreesOfFreedom1 = d1
             };
         }
 
@@ -126,10 +126,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         /// Set degree of freedom 1 fails with negative value.
         /// </summary>
         [Test]
-        public void SetDegreeOfFreedom1FailsWithNegativeDegreeOfFreedom()
+        public void SetDegreesOfFreedom1FailsWithNegativeDegreeOfFreedom()
         {
             var n = new FisherSnedecor(1.0, 2.0);
-            Assert.Throws<ArgumentOutOfRangeException>(() => n.DegreeOfFreedom1 = -1.0);
+            Assert.Throws<ArgumentOutOfRangeException>(() => n.DegreesOfFreedom1 = -1.0);
         }
 
         /// <summary>
@@ -140,11 +140,11 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [TestCase(1.0)]
         [TestCase(10.0)]
         [TestCase(Double.PositiveInfinity)]
-        public void CanSetDegreeOfFreedom2(double d2)
+        public void CanSetDegreesOfFreedom2(double d2)
         {
             new FisherSnedecor(1.0, 2.0)
             {
-                DegreeOfFreedom2 = d2
+                DegreesOfFreedom2 = d2
             };
         }
 
@@ -152,10 +152,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         /// Set degree of freedom 2 fails with negative value.
         /// </summary>
         [Test]
-        public void SetDegreeOfFreedom2FailsWithNegativeDegreeOfFreedom()
+        public void SetDegreesOfFreedom2FailsWithNegativeDegreeOfFreedom()
         {
             var n = new FisherSnedecor(1.0, 2.0);
-            Assert.Throws<ArgumentOutOfRangeException>(() => n.DegreeOfFreedom2 = -1.0);
+            Assert.Throws<ArgumentOutOfRangeException>(() => n.DegreesOfFreedom2 = -1.0);
         }
 
         /// <summary>

@@ -285,7 +285,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Computes the probability mass (PMF), i.e. P(X = x).
+        /// Computes the probability mass (PMF) at k, i.e. P(X = k).
         /// </summary>
         /// <param name="k">The location in the domain where we want to evaluate the probability mass function.</param>
         /// <returns>the probability mass at location <paramref name="k"/>.</returns>
@@ -305,7 +305,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Computes the log probability mass (lnPMF), i.e. ln(P(X = x)).
+        /// Computes the log probability mass (lnPMF) at k, i.e. ln(P(X = k)).
         /// </summary>
         /// <param name="k">The location in the domain where we want to evaluate the log probability mass function.</param>
         /// <returns>the log probability mass at location <paramref name="k"/>.</returns>
@@ -325,7 +325,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Computes the cumulative distribution (CDF) of the distribution, i.e. P(X &lt;= x).
+        /// Computes the cumulative distribution (CDF) of the distribution at x, i.e. P(X &lt;= x).
         /// </summary>
         /// <param name="x">The location at which to compute the cumulative distribution function.</param>
         /// <returns>the cumulative distribution at location <paramref name="x"/>.</returns>
@@ -342,6 +342,58 @@ namespace MathNet.Numerics.Distributions
             }
 
             return _cdfUnnormalized[(int) Math.Floor(x)]/_cdfUnnormalized[_cdfUnnormalized.Length - 1];
+        }
+
+        /// <summary>
+        /// Computes the inverse of the cumulative distribution function (InvCDF) for the distribution
+        /// at the given probability.
+        /// </summary>
+        /// <param name="probability">A real number between 0 and 1.</param>
+        /// <returns>An integer between 0 and the size of the categorical (exclusive), that corresponds to the inverse CDF for the given probability.</returns>
+        public int InverseCumulativeDistribution(double probability)
+        {
+            if (probability < 0.0 || probability > 1.0 || Double.IsNaN(probability))
+            {
+                throw new ArgumentOutOfRangeException("probability");
+            }
+
+            var denormalizedProbability = probability * _cdfUnnormalized[_cdfUnnormalized.Length - 1];
+            int idx = Array.BinarySearch(_cdfUnnormalized, denormalizedProbability);
+            if (idx < 0)
+            {
+                idx = ~idx;
+            }
+
+            return idx;
+        }
+
+        /// <summary>
+        /// Computes the inverse of the cumulative distribution function (InvCDF) for the distribution
+        /// at the given probability.
+        /// </summary>
+        /// <param name="cdfUnnormalized">An array corresponding to a CDF for a categorical distribution. Not assumed to be normalized.</param>
+        /// <param name="probability">A real number between 0 and 1.</param>
+        /// <returns>An integer between 0 and the size of the categorical (exclusive), that corresponds to the inverse CDF for the given probability.</returns>
+        public static int InverseCumulativeDistribution(double[] cdfUnnormalized, double probability)
+        {
+            if (Control.CheckDistributionParameters && !IsValidCumulativeDistribution(cdfUnnormalized))
+            {
+                throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
+            }
+
+            if (probability < 0.0 || probability > 1.0 || Double.IsNaN(probability))
+            {
+                throw new ArgumentOutOfRangeException("probability");
+            }
+
+            var denormalizedProbability = probability * cdfUnnormalized[cdfUnnormalized.Length - 1];
+            int idx = Array.BinarySearch(cdfUnnormalized, denormalizedProbability);
+            if (idx < 0)
+            {
+                idx = ~idx;
+            }
+
+            return idx;
         }
 
         /// <summary>
@@ -389,7 +441,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>The number of successful trials.</returns>
         public int Sample()
         {
-            return SampleUnchecked(RandomSource, _cdfUnnormalized);
+            return SampleUnchecked(_random, _cdfUnnormalized);
         }
 
         /// <summary>
@@ -400,7 +452,7 @@ namespace MathNet.Numerics.Distributions
         {
             while (true)
             {
-                yield return SampleUnchecked(RandomSource, _cdfUnnormalized);
+                yield return SampleUnchecked(_random, _cdfUnnormalized);
             }
         }
 
@@ -474,36 +526,6 @@ namespace MathNet.Numerics.Distributions
             {
                 yield return SampleUnchecked(rnd, cdf);
             }
-        }
-
-        /// <summary>
-        /// Returns the inverse of the distribution function for the categorical distribution
-        /// specified by the given normalized CDF, for the given probability.
-        /// </summary>
-        /// <param name="cdfUnnormalized">An array corresponding to a CDF for a categorical distribution. Not assumed to be normalized.</param>
-        /// <param name="probability">A real number between 0 and 1.</param>
-        /// <returns>An integer between 0 and the size of the categorical (exclusive),
-        /// that corresponds to the inverse CDF for the given probability.</returns>
-        public static int InverseCumulativeDistribution(double[] cdfUnnormalized, double probability)
-        {
-            if (Control.CheckDistributionParameters && !IsValidCumulativeDistribution(cdfUnnormalized))
-            {
-                throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
-            }
-
-            if (probability < 0.0 || probability > 1.0 || Double.IsNaN(probability))
-            {
-                throw new ArgumentOutOfRangeException("probability");
-            }
-
-            var denormalizedProbability = probability*cdfUnnormalized[cdfUnnormalized.Length - 1];
-            int idx = Array.BinarySearch(cdfUnnormalized, denormalizedProbability);
-            if (idx < 0)
-            {
-                idx = ~idx;
-            }
-
-            return idx;
         }
     }
 }

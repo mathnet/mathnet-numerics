@@ -129,7 +129,7 @@ namespace MathNet.Numerics.Distributions
         /// </param>
         /// <returns><c>true</c> when the parameters are valid, <c>false</c>
         /// otherwise.</returns>
-        public static bool IsValidParameterSet(double[] alpha)
+        static bool IsValidParameterSet(double[] alpha)
         {
             var allzero = true;
 
@@ -317,7 +317,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>A sample from this distribution.</returns>
         public double[] Sample()
         {
-            return Sample(RandomSource, _alpha);
+            return Sample(_random, _alpha);
         }
 
         /// <summary>

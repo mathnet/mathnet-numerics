@@ -1,4 +1,4 @@
-// <copyright file="StudentTTests.cs" company="Math.NET">
+﻿// <copyright file="StudentTTests.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -100,7 +100,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void ValidateToString()
         {
             var n = new StudentT(1.0, 2.0, 1.0);
-            Assert.AreEqual("StudentT(Location = 1, Scale = 2, DoF = 1)", n.ToString());
+            Assert.AreEqual("StudentT(μ = 1, σ = 2, ν = 1)", n.ToString());
         }
 
         /// <summary>

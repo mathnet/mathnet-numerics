@@ -1,4 +1,4 @@
-// <copyright file="StudentT.cs" company="Math.NET">
+﻿// <copyright file="StudentT.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -78,13 +78,13 @@ namespace MathNet.Numerics.Distributions
         /// freedom. The distribution will
         /// be initialized with the default <seealso cref="System.Random"/> random number generator.
         /// </summary>
-        /// <param name="location">The location of the Student t-distribution.</param>
-        /// <param name="scale">The scale of the Student t-distribution.</param>
-        /// <param name="dof">The degrees of freedom for the Student t-distribution.</param>
-        public StudentT(double location, double scale, double dof)
+        /// <param name="location">The location (μ) of the distribution.</param>
+        /// <param name="scale">The scale (σ) of the distribution.</param>
+        /// <param name="freedom">The degrees of freedom (ν) for the distribution.</param>
+        public StudentT(double location, double scale, double freedom)
         {
             _random = new System.Random();
-            SetParameters(location, scale, dof);
+            SetParameters(location, scale, freedom);
         }
 
         /// <summary>
@@ -92,14 +92,14 @@ namespace MathNet.Numerics.Distributions
         /// freedom. The distribution will
         /// be initialized with the default <seealso cref="System.Random"/> random number generator.
         /// </summary>
-        /// <param name="location">The location of the Student t-distribution.</param>
-        /// <param name="scale">The scale of the Student t-distribution.</param>
-        /// <param name="dof">The degrees of freedom for the Student t-distribution.</param>
+        /// <param name="location">The location (μ) of the distribution.</param>
+        /// <param name="scale">The scale (σ) of the distribution.</param>
+        /// <param name="freedom">The degrees of freedom (ν) for the distribution.</param>
         /// <param name="randomSource">The random number generator which is used to draw random samples.</param>
-        public StudentT(double location, double scale, double dof, System.Random randomSource)
+        public StudentT(double location, double scale, double freedom, System.Random randomSource)
         {
             _random = randomSource ?? new System.Random();
-            SetParameters(location, scale, dof);
+            SetParameters(location, scale, freedom);
         }
 
         /// <summary>
@@ -108,42 +108,42 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a string representation of the distribution.</returns>
         public override string ToString()
         {
-            return "StudentT(Location = " + _location + ", Scale = " + _scale + ", DoF = " + _freedom + ")";
+            return "StudentT(μ = " + _location + ", σ = " + _scale + ", ν = " + _freedom + ")";
         }
 
         /// <summary>
         /// Checks whether the parameters of the distribution are valid. 
         /// </summary>
-        /// <param name="location">The location of the Student t-distribution.</param>
-        /// <param name="scale">The scale of the Student t-distribution.</param>
-        /// <param name="dof">The degrees of freedom for the Student t-distribution.</param>
+        /// <param name="location">The location (μ) of the distribution.</param>
+        /// <param name="scale">The scale (σ) of the distribution.</param>
+        /// <param name="freedom">The degrees of freedom (ν) for the distribution.</param>
         /// <returns><c>true</c> when the parameters are valid, <c>false</c> otherwise.</returns>
-        static bool IsValidParameterSet(double location, double scale, double dof)
+        static bool IsValidParameterSet(double location, double scale, double freedom)
         {
-            return scale > 0.0 && dof > 0.0 && !Double.IsNaN(location);
+            return scale > 0.0 && freedom > 0.0 && !Double.IsNaN(location);
         }
 
         /// <summary>
         /// Sets the parameters of the distribution after checking their validity.
         /// </summary>
-        /// <param name="location">The location of the Student t-distribution.</param>
-        /// <param name="scale">The scale of the Student t-distribution.</param>
-        /// <param name="dof">The degrees of freedom for the Student t-distribution.</param>
+        /// <param name="location">The location (μ) of the distribution.</param>
+        /// <param name="scale">The scale (σ) of the distribution.</param>
+        /// <param name="freedom">The degrees of freedom (ν) for the distribution.</param>
         /// <exception cref="ArgumentOutOfRangeException">When the parameters don't pass the <see cref="IsValidParameterSet"/> function.</exception>
-        void SetParameters(double location, double scale, double dof)
+        void SetParameters(double location, double scale, double freedom)
         {
-            if (Control.CheckDistributionParameters && !IsValidParameterSet(location, scale, dof))
+            if (Control.CheckDistributionParameters && !IsValidParameterSet(location, scale, freedom))
             {
                 throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
             }
 
             _location = location;
             _scale = scale;
-            _freedom = dof;
+            _freedom = freedom;
         }
 
         /// <summary>
-        /// Gets or sets the location of the Student t-distribution.
+        /// Gets or sets the location (μ) of the Student t-distribution.
         /// </summary>
         public double Location
         {
@@ -152,7 +152,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Gets or sets the scale of the Student t-distribution.
+        /// Gets or sets the scale (σ) of the Student t-distribution.
         /// </summary>
         public double Scale
         {
@@ -161,7 +161,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Gets or sets the degrees of freedom of the Student t-distribution.
+        /// Gets or sets the degrees of freedom (ν) of the Student t-distribution.
         /// </summary>
         public double DegreesOfFreedom
         {
@@ -235,12 +235,10 @@ namespace MathNet.Numerics.Distributions
         {
             get
             {
-                if (_location != 0 || _scale != 1.0)
-                {
-                    throw new NotSupportedException();
-                }
+                if (_location != 0 || _scale != 1.0) throw new NotSupportedException();
 
-                return (((_freedom + 1.0)/2.0)*(SpecialFunctions.DiGamma((1.0 + _freedom)/2.0) - SpecialFunctions.DiGamma(_freedom/2.0))) + Math.Log(Math.Sqrt(_freedom)*SpecialFunctions.Beta(_freedom/2.0, 1.0/2.0));
+                return (((_freedom + 1.0)/2.0)*(SpecialFunctions.DiGamma((1.0 + _freedom)/2.0) - SpecialFunctions.DiGamma(_freedom/2.0)))
+                       + Math.Log(Math.Sqrt(_freedom)*SpecialFunctions.Beta(_freedom/2.0, 1.0/2.0));
             }
         }
 
@@ -251,10 +249,7 @@ namespace MathNet.Numerics.Distributions
         {
             get
             {
-                if (_freedom <= 3)
-                {
-                    throw new NotSupportedException();
-                }
+                if (_freedom <= 3) throw new NotSupportedException();
 
                 return 0.0;
             }
@@ -293,7 +288,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Computes the density of the distribution (PDF), i.e. dP(X &lt;= x)/dx.
+        /// Computes the probability density of the distribution (PDF) at x, i.e. dP(X &lt;= x)/dx.
         /// </summary>
         /// <param name="x">The location at which to compute the density.</param>
         /// <returns>the density at <paramref name="x"/>.</returns>
@@ -313,7 +308,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Computes the log density of the distribution (lnPDF), i.e. ln(dP(X &lt;= x)/dx).
+        /// Computes the log probability density of the distribution (lnPDF) at x, i.e. ln(dP(X &lt;= x)/dx).
         /// </summary>
         /// <param name="x">The location at which to compute the log density.</param>
         /// <returns>the log density at <paramref name="x"/>.</returns>
@@ -333,7 +328,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Computes the cumulative distribution (CDF) of the distribution, i.e. P(X &lt;= x).
+        /// Computes the cumulative distribution (CDF) of the distribution at x, i.e. P(X &lt;= x).
         /// </summary>
         /// <param name="x">The location at which to compute the cumulative distribution function.</param>
         /// <returns>the cumulative distribution at location <paramref name="x"/>.</returns>
@@ -357,15 +352,14 @@ namespace MathNet.Numerics.Distributions
         /// <remarks>The algorithm is method 2 in section 5, chapter 9 
         /// in L. Devroye's "Non-Uniform Random Variate Generation"</remarks>
         /// <param name="rnd">The random number generator to use.</param>
-        /// <param name="location">The location of the Student t-distribution.</param>
-        /// <param name="scale">The scale of the Student t-distribution.</param>
-        /// <param name="dof">The degrees of freedom for the standard student-t distribution.</param>
+        /// <param name="location">The location (μ) of the distribution.</param>
+        /// <param name="scale">The scale (σ) of the distribution.</param>
+        /// <param name="freedom">The degrees of freedom (ν) for the distribution.</param>
         /// <returns>a random number from the standard student-t distribution.</returns>
-        internal static double SampleUnchecked(System.Random rnd, double location, double scale, double dof)
+        static double SampleUnchecked(System.Random rnd, double location, double scale, double freedom)
         {
-            var n = Normal.SampleUncheckedBoxMuller(rnd).Item1;
-            var g = Gamma.SampleUnchecked(rnd, 0.5*dof, 0.5);
-            return location + (scale*n*Math.Sqrt(dof/g));
+            var gamma = Gamma.SampleUnchecked(rnd, 0.5*freedom, 0.5);
+            return Normal.SampleUnchecked(rnd, location, scale*Math.Sqrt(freedom/gamma));
         }
 
         /// <summary>
@@ -374,7 +368,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sample from the distribution.</returns>
         public double Sample()
         {
-            return SampleUnchecked(RandomSource, _location, _scale, _freedom);
+            return SampleUnchecked(_random, _location, _scale, _freedom);
         }
 
         /// <summary>
@@ -385,46 +379,46 @@ namespace MathNet.Numerics.Distributions
         {
             while (true)
             {
-                yield return SampleUnchecked(RandomSource, _location, _scale, _freedom);
+                yield return SampleUnchecked(_random, _location, _scale, _freedom);
             }
         }
 
         /// <summary>
         /// Generates a sample from the Student t-distribution.
         /// </summary>
-        /// <param name="rng">The random number generator to use.</param>
-        /// <param name="location">The location of the Student t-distribution.</param>
-        /// <param name="scale">The scale of the Student t-distribution.</param>
-        /// <param name="dof">The degrees of freedom for the Student t-distribution.</param>
+        /// <param name="rnd">The random number generator to use.</param>
+        /// <param name="location">The location (μ) of the distribution.</param>
+        /// <param name="scale">The scale (σ) of the distribution.</param>
+        /// <param name="freedom">The degrees of freedom (ν) for the distribution.</param>
         /// <returns>a sample from the distribution.</returns>
-        public static double Sample(System.Random rng, double location, double scale, double dof)
+        public static double Sample(System.Random rnd, double location, double scale, double freedom)
         {
-            if (Control.CheckDistributionParameters && !IsValidParameterSet(location, scale, dof))
+            if (Control.CheckDistributionParameters && !IsValidParameterSet(location, scale, freedom))
             {
                 throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
             }
 
-            return SampleUnchecked(rng, location, scale, dof);
+            return SampleUnchecked(rnd, location, scale, freedom);
         }
 
         /// <summary>
         /// Generates a sequence of samples from the Student t-distribution using the <i>Box-Muller</i> algorithm.
         /// </summary>
-        /// <param name="rng">The random number generator to use.</param>
-        /// <param name="location">The location of the Student t-distribution.</param>
-        /// <param name="scale">The scale of the Student t-distribution.</param>
-        /// <param name="dof">The degrees of freedom for the Student t-distribution.</param>
+        /// <param name="rnd">The random number generator to use.</param>
+        /// <param name="location">The location (μ) of the distribution.</param>
+        /// <param name="scale">The scale (σ) of the distribution.</param>
+        /// <param name="freedom">The degrees of freedom (ν) for the distribution.</param>
         /// <returns>a sequence of samples from the distribution.</returns>
-        public static IEnumerable<double> Samples(System.Random rng, double location, double scale, double dof)
+        public static IEnumerable<double> Samples(System.Random rnd, double location, double scale, double freedom)
         {
-            if (Control.CheckDistributionParameters && !IsValidParameterSet(location, scale, dof))
+            if (Control.CheckDistributionParameters && !IsValidParameterSet(location, scale, freedom))
             {
                 throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
             }
 
             while (true)
             {
-                yield return SampleUnchecked(rng, location, scale, dof);
+                yield return SampleUnchecked(rnd, location, scale, freedom);
             }
         }
     }

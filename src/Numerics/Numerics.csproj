@@ -92,7 +92,7 @@
     <Compile Include="Distributions\Categorical.cs" />
     <Compile Include="Distributions\Cauchy.cs" />
     <Compile Include="Distributions\Chi.cs" />
-    <Compile Include="Distributions\ChiSquare.cs" />
+    <Compile Include="Distributions\ChiSquared.cs" />
     <Compile Include="Distributions\ContinuousUniform.cs" />
     <Compile Include="Distributions\ConwayMaxwellPoisson.cs" />
     <Compile Include="Distributions\IDistribution.cs" />

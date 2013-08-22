@@ -31,8 +31,10 @@
 namespace MathNet.Numerics.Distributions
 {
     /// <summary>
-    /// The common interface for all distributions.
+    /// Probability Distribution.
     /// </summary>
+    /// <seealso cref="IContinuousDistribution"/>
+    /// <seealso cref="IDiscreteDistribution"/>
     public interface IDistribution
     {
         /// <summary>

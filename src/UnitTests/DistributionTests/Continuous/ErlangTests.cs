@@ -122,7 +122,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void ValidateToString()
         {
             var n = new Erlang(1, 2d);
-            Assert.AreEqual("Erlang(Shape = 1, λ = 2)", n.ToString());
+            Assert.AreEqual("Erlang(k = 1, λ = 2)", n.ToString());
         }
 
         /// <summary>

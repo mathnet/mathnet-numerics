@@ -65,7 +65,7 @@ namespace Examples
         public void Run()
         {
             // 1. Initialize the new instance of the ChiSquare distribution class with parameter dof = 5.
-            var chiSquare = new ChiSquare(5);
+            var chiSquare = new ChiSquared(5);
             Console.WriteLine(@"1. Initialize the new instance of the ChiSquare distribution class with parameter DegreesOfFreedom = {0}", chiSquare.DegreesOfFreedom);
             Console.WriteLine(@"{0} distributuion properties:", chiSquare);
             Console.WriteLine(@"{0} - Largest element", chiSquare.Maximum.ToString(" #0.00000;-#0.00000"));
@@ -111,7 +111,7 @@ namespace Examples
             Console.WriteLine();
 
             // Generate 1000 samples of the ChiSquare(2.5) distribution
-            var chiSquareB = new ChiSquare(2);
+            var chiSquareB = new ChiSquared(2);
             var dataB = new double[1000];
             for (var i = 0; i < data.Length; i++)
             {
