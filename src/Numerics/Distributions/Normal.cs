@@ -140,6 +140,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="samples">The samples to estimate the distribution parameters from.</param>
         /// <param name="randomSource">The random number generator which is used to draw random samples. Optional, can be null.</param>
         /// <returns>A normal distribution.</returns>
+        /// <remarks>MATLAB: normfit</remarks>
         public static Normal Estimate(IEnumerable<double> samples, System.Random randomSource = null)
         {
             var meanVariance = samples.MeanVariance();
@@ -311,7 +312,7 @@ namespace MathNet.Numerics.Distributions
 
         /// <summary>
         /// Computes the inverse of the cumulative distribution function (InvCDF) for the distribution
-        /// at the given probability. This is also known as the 'quantile function'.
+        /// at the given probability. This is also known as the quantile or percent point function.
         /// </summary>
         /// <param name="p">The location at which to compute the inverse cumulative density.</param>
         /// <returns>the inverse cumulative density at <paramref name="p"/>.</returns>
@@ -373,6 +374,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="x">The location at which to compute the density.</param>
         /// <returns>the density at <paramref name="x"/>.</returns>
         /// <seealso cref="Density"/>
+        /// <remarks>MATLAB: normpdf</remarks>
         public static double PDF(double mean, double stddev, double x)
         {
             if (stddev < 0.0) throw new ArgumentOutOfRangeException("stddev", Resources.InvalidDistributionParameters);
@@ -405,6 +407,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="stddev">The standard deviation (σ) of the normal distribution. Range: σ ≥ 0.</param>
         /// <returns>the cumulative distribution at location <paramref name="x"/>.</returns>
         /// <seealso cref="CumulativeDistribution"/>
+        /// <remarks>MATLAB: normcdf</remarks>
         public static double CDF(double mean, double stddev, double x)
         {
             if (stddev < 0.0) throw new ArgumentOutOfRangeException("stddev", Resources.InvalidDistributionParameters);
@@ -414,13 +417,14 @@ namespace MathNet.Numerics.Distributions
 
         /// <summary>
         /// Computes the inverse of the cumulative distribution function (InvCDF) for the distribution
-        /// at the given probability. This is also known as the 'quantile function'.
+        /// at the given probability. This is also known as the quantile or percent point function.
         /// </summary>
         /// <param name="p">The location at which to compute the inverse cumulative density.</param>
         /// <param name="mean">The mean (μ) of the normal distribution.</param>
         /// <param name="stddev">The standard deviation (σ) of the normal distribution. Range: σ ≥ 0.</param>
         /// <returns>the inverse cumulative density at <paramref name="p"/>.</returns>
         /// <seealso cref="InverseCumulativeDistribution"/>
+        /// <remarks>MATLAB: norminv</remarks>
         public static double InvCDF(double mean, double stddev, double p)
         {
             if (stddev < 0.0) throw new ArgumentOutOfRangeException("stddev", Resources.InvalidDistributionParameters);

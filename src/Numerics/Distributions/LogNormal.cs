@@ -111,6 +111,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="samples">The samples to estimate the distribution parameters from.</param>
         /// <param name="randomSource">The random number generator which is used to draw random samples. Optional, can be null.</param>
         /// <returns>A log-normal distribution.</returns>
+        /// <remarks>MATLAB: lognfit</remarks>
         public static LogNormal Estimate(IEnumerable<double> samples, System.Random randomSource = null)
         {
             var muSigma2 = samples.Select(s => Math.Log(s)).MeanVariance();
@@ -302,7 +303,7 @@ namespace MathNet.Numerics.Distributions
 
         /// <summary>
         /// Computes the inverse of the cumulative distribution function (InvCDF) for the distribution
-        /// at the given probability. This is also known as the 'quantile function'.
+        /// at the given probability. This is also known as the quantile or percent point function.
         /// </summary>
         /// <param name="p">The location at which to compute the inverse cumulative density.</param>
         /// <returns>the inverse cumulative density at <paramref name="p"/>.</returns>
@@ -339,6 +340,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="sigma">The shape (σ) of the distribution. Range: σ ≥ 0.</param>
         /// <returns>the density at <paramref name="x"/>.</returns>
         /// <seealso cref="Density"/>
+        /// <remarks>MATLAB: lognpdf</remarks>
         public static double PDF(double mu, double sigma, double x)
         {
             if (sigma < 0.0) throw new ArgumentOutOfRangeException("sigma", Resources.InvalidDistributionParameters);
@@ -381,6 +383,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="sigma">The shape (σ) of the distribution. Range: σ ≥ 0.</param>
         /// <returns>the cumulative distribution at location <paramref name="x"/>.</returns>
         /// <seealso cref="CumulativeDistribution"/>
+        /// <remarks>MATLAB: logncdf</remarks>
         public static double CDF(double mu, double sigma, double x)
         {
             if (sigma < 0.0) throw new ArgumentOutOfRangeException("sigma", Resources.InvalidDistributionParameters);
@@ -391,13 +394,14 @@ namespace MathNet.Numerics.Distributions
 
         /// <summary>
         /// Computes the inverse of the cumulative distribution function (InvCDF) for the distribution
-        /// at the given probability. This is also known as the 'quantile function'.
+        /// at the given probability. This is also known as the quantile or percent point function.
         /// </summary>
         /// <param name="p">The location at which to compute the inverse cumulative density.</param>
         /// <param name="mu">The log-scale (μ) of the distribution.</param>
         /// <param name="sigma">The shape (σ) of the distribution. Range: σ ≥ 0.</param>
         /// <returns>the inverse cumulative density at <paramref name="p"/>.</returns>
         /// <seealso cref="InverseCumulativeDistribution"/>
+        /// <remarks>MATLAB: logninv</remarks>
         public static double InvCDF(double mu, double sigma, double p)
         {
             if (sigma < 0.0) throw new ArgumentOutOfRangeException("sigma", Resources.InvalidDistributionParameters);
