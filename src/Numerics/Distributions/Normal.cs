@@ -279,6 +279,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         /// <param name="x">The location at which to compute the density.</param>
         /// <returns>the density at <paramref name="x"/>.</returns>
+        /// <seealso cref="PDF"/>
         public double Density(double x)
         {
             var d = (x - _mean)/_stdDev;
@@ -290,6 +291,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         /// <param name="x">The location at which to compute the log density.</param>
         /// <returns>the log density at <paramref name="x"/>.</returns>
+        /// <seealso cref="PDFLn"/>
         public double DensityLn(double x)
         {
             var d = (x - _mean)/_stdDev;
@@ -301,17 +303,19 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         /// <param name="x">The location at which to compute the cumulative distribution function.</param>
         /// <returns>the cumulative distribution at location <paramref name="x"/>.</returns>
+        /// <seealso cref="CDF"/>
         public double CumulativeDistribution(double x)
         {
-            return 0.5*(1.0 + SpecialFunctions.Erf((x - _mean)/(_stdDev*Constants.Sqrt2)));
+            return 0.5*SpecialFunctions.Erfc((_mean - x)/(_stdDev*Constants.Sqrt2));
         }
 
         /// <summary>
         /// Computes the inverse of the cumulative distribution function (InvCDF) for the distribution
-        /// at the given probability.
+        /// at the given probability. This is also known as the 'quantile function'.
         /// </summary>
         /// <param name="p">The location at which to compute the inverse cumulative density.</param>
         /// <returns>the inverse cumulative density at <paramref name="p"/>.</returns>
+        /// <seealso cref="InvCDF"/>
         public double InverseCumulativeDistribution(double p)
         {
             return _mean - (_stdDev*Constants.Sqrt2*SpecialFunctions.ErfcInv(2.0*p));
@@ -368,6 +372,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="stddev">The standard deviation (σ) of the normal distribution. Range: σ ≥ 0.</param>
         /// <param name="x">The location at which to compute the density.</param>
         /// <returns>the density at <paramref name="x"/>.</returns>
+        /// <seealso cref="Density"/>
         public static double PDF(double mean, double stddev, double x)
         {
             if (stddev < 0.0) throw new ArgumentOutOfRangeException("stddev", Resources.InvalidDistributionParameters);
@@ -383,6 +388,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="stddev">The standard deviation (σ) of the normal distribution. Range: σ ≥ 0.</param>
         /// <param name="x">The location at which to compute the density.</param>
         /// <returns>the log density at <paramref name="x"/>.</returns>
+        /// <seealso cref="DensityLn"/>
         public static double PDFLn(double mean, double stddev, double x)
         {
             if (stddev < 0.0) throw new ArgumentOutOfRangeException("stddev", Resources.InvalidDistributionParameters);
@@ -398,6 +404,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="mean">The mean (μ) of the normal distribution.</param>
         /// <param name="stddev">The standard deviation (σ) of the normal distribution. Range: σ ≥ 0.</param>
         /// <returns>the cumulative distribution at location <paramref name="x"/>.</returns>
+        /// <seealso cref="CumulativeDistribution"/>
         public static double CDF(double mean, double stddev, double x)
         {
             if (stddev < 0.0) throw new ArgumentOutOfRangeException("stddev", Resources.InvalidDistributionParameters);
@@ -407,12 +414,13 @@ namespace MathNet.Numerics.Distributions
 
         /// <summary>
         /// Computes the inverse of the cumulative distribution function (InvCDF) for the distribution
-        /// at the given probability.
+        /// at the given probability. This is also known as the 'quantile function'.
         /// </summary>
         /// <param name="p">The location at which to compute the inverse cumulative density.</param>
         /// <param name="mean">The mean (μ) of the normal distribution.</param>
         /// <param name="stddev">The standard deviation (σ) of the normal distribution. Range: σ ≥ 0.</param>
         /// <returns>the inverse cumulative density at <paramref name="p"/>.</returns>
+        /// <seealso cref="InverseCumulativeDistribution"/>
         public static double InvCDF(double mean, double stddev, double p)
         {
             if (stddev < 0.0) throw new ArgumentOutOfRangeException("stddev", Resources.InvalidDistributionParameters);

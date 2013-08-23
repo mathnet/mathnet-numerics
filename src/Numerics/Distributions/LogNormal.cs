@@ -259,6 +259,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         /// <param name="x">The location at which to compute the density.</param>
         /// <returns>the density at <paramref name="x"/>.</returns>
+        /// <seealso cref="PDF"/>
         public double Density(double x)
         {
             if (x < 0.0)
@@ -275,6 +276,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         /// <param name="x">The location at which to compute the log density.</param>
         /// <returns>the log density at <paramref name="x"/>.</returns>
+        /// <seealso cref="PDFLn"/>
         public double DensityLn(double x)
         {
             if (x < 0.0)
@@ -291,11 +293,24 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         /// <param name="x">The location at which to compute the cumulative distribution function.</param>
         /// <returns>the cumulative distribution at location <paramref name="x"/>.</returns>
+        /// <seealso cref="CDF"/>
         public double CumulativeDistribution(double x)
         {
-            return x < 0.0
-                ? 0.0
-                : 0.5*(1.0 + SpecialFunctions.Erf((Math.Log(x) - _mu)/(_sigma*Constants.Sqrt2)));
+            return x < 0.0 ? 0.0
+                : 0.5*SpecialFunctions.Erfc((_mu - Math.Log(x))/(_sigma*Constants.Sqrt2));
+        }
+
+        /// <summary>
+        /// Computes the inverse of the cumulative distribution function (InvCDF) for the distribution
+        /// at the given probability. This is also known as the 'quantile function'.
+        /// </summary>
+        /// <param name="p">The location at which to compute the inverse cumulative density.</param>
+        /// <returns>the inverse cumulative density at <paramref name="p"/>.</returns>
+        /// <seealso cref="InvCDF"/>
+        public double InverseCumulativeDistribution(double p)
+        {
+            return p <= 0.0 ? 0.0 : p >= 1.0 ? double.PositiveInfinity
+                : Math.Exp(_mu - _sigma*Constants.Sqrt2*SpecialFunctions.ErfcInv(2.0*p));
         }
 
         /// <summary>
@@ -323,9 +338,10 @@ namespace MathNet.Numerics.Distributions
         /// <param name="mu">The log-scale (μ) of the distribution.</param>
         /// <param name="sigma">The shape (σ) of the distribution. Range: σ ≥ 0.</param>
         /// <returns>the density at <paramref name="x"/>.</returns>
+        /// <seealso cref="Density"/>
         public static double PDF(double mu, double sigma, double x)
         {
-            if (sigma < 0.0) throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
+            if (sigma < 0.0) throw new ArgumentOutOfRangeException("sigma", Resources.InvalidDistributionParameters);
 
             if (x < 0.0)
             {
@@ -343,9 +359,10 @@ namespace MathNet.Numerics.Distributions
         /// <param name="mu">The log-scale (μ) of the distribution.</param>
         /// <param name="sigma">The shape (σ) of the distribution. Range: σ ≥ 0.</param>
         /// <returns>the log density at <paramref name="x"/>.</returns>
+        /// <seealso cref="DensityLn"/>
         public static double PDFLn(double mu, double sigma, double x)
         {
-            if (sigma < 0.0) throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
+            if (sigma < 0.0) throw new ArgumentOutOfRangeException("sigma", Resources.InvalidDistributionParameters);
 
             if (x < 0.0)
             {
@@ -363,13 +380,30 @@ namespace MathNet.Numerics.Distributions
         /// <param name="mu">The log-scale (μ) of the distribution.</param>
         /// <param name="sigma">The shape (σ) of the distribution. Range: σ ≥ 0.</param>
         /// <returns>the cumulative distribution at location <paramref name="x"/>.</returns>
+        /// <seealso cref="CumulativeDistribution"/>
         public static double CDF(double mu, double sigma, double x)
         {
-            if (sigma < 0.0) throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
+            if (sigma < 0.0) throw new ArgumentOutOfRangeException("sigma", Resources.InvalidDistributionParameters);
 
-            return x < 0.0
-                ? 0.0
+            return x < 0.0 ? 0.0
                 : 0.5*(1.0 + SpecialFunctions.Erf((Math.Log(x) - mu)/(sigma*Constants.Sqrt2)));
+        }
+
+        /// <summary>
+        /// Computes the inverse of the cumulative distribution function (InvCDF) for the distribution
+        /// at the given probability. This is also known as the 'quantile function'.
+        /// </summary>
+        /// <param name="p">The location at which to compute the inverse cumulative density.</param>
+        /// <param name="mu">The log-scale (μ) of the distribution.</param>
+        /// <param name="sigma">The shape (σ) of the distribution. Range: σ ≥ 0.</param>
+        /// <returns>the inverse cumulative density at <paramref name="p"/>.</returns>
+        /// <seealso cref="InverseCumulativeDistribution"/>
+        public static double InvCDF(double mu, double sigma, double p)
+        {
+            if (sigma < 0.0) throw new ArgumentOutOfRangeException("sigma", Resources.InvalidDistributionParameters);
+
+            return p <= 0.0 ? 0.0 : p >= 1.0 ? double.PositiveInfinity
+                : Math.Exp(mu - sigma*Constants.Sqrt2*SpecialFunctions.ErfcInv(2.0*p));
         }
 
         /// <summary>
