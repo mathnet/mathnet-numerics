@@ -360,7 +360,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// The p value.
         /// </param>
         /// <returns>
-        /// <c>Scalar ret = (sum(abs(this[i])^p))^(1/p)</c>
+        /// <c>Scalar ret = ( ∑|At(i)|^p )^(1/p)</c>
         /// </returns>
         public override double Norm(double p)
         {

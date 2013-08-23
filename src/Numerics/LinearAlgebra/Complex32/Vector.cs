@@ -358,7 +358,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// The p value.
         /// </param>
         /// <returns>
-        /// <c>Scalar ret = (sum(abs(At(i))^p))^(1/p)</c>
+        /// <c>Scalar ret = ( ∑|At(i)|^p )^(1/p)</c>
         /// </returns>
         public override Complex32 Norm(double p)
         {

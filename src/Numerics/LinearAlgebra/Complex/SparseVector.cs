@@ -758,7 +758,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// Computes the p-Norm.
         /// </summary>
         /// <param name="p">The p value.</param>
-        /// <returns>Scalar <c>ret = (sum(abs(this[i])^p))^(1/p)</c></returns>
+        /// <returns>Scalar <c>ret = ( ∑|this[i]|^p )^(1/p)</c></returns>
         public override Complex Norm(double p)
         {
             if (p < 0d) throw new ArgumentOutOfRangeException("p");

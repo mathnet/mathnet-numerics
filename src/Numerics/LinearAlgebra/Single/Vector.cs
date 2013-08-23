@@ -360,7 +360,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// The p value.
         /// </param>
         /// <returns>
-        /// <c>Scalar ret = (sum(abs(At(i))^p))^(1/p)</c>
+        /// <c>Scalar ret = ( ∑|At(i)|^p )^(1/p)</c>
         /// </returns>
         public override float Norm(double p)
         {
