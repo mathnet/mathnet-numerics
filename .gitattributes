@@ -7,6 +7,7 @@
 *.xml text
 *.js text
 *.ps1 text
+*.DotSettings text
 
 *.csproj text merge=union
 *.fsproj text merge=union

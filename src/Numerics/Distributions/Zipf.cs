@@ -109,6 +109,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         /// <param name="s">The s parameter of the distribution.</param>
         /// <param name="n">The n parameter of the distribution.</param>
+        /// <exception cref="ArgumentOutOfRangeException">When the parameters are out of range.</exception>
         void SetParameters(double s, int n)
         {
             if (Control.CheckDistributionParameters && !IsValidParameterSet(s, n))
@@ -267,7 +268,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Computes the cumulative distribution (CDF) of the distribution at x, i.e. P(X &lt;= x).
+        /// Computes the cumulative distribution (CDF) of the distribution at x, i.e. P(X ≤ x).
         /// </summary>
         /// <param name="x">The location at which to compute the cumulative distribution function.</param>
         /// <returns>the cumulative distribution at location <paramref name="x"/>.</returns>

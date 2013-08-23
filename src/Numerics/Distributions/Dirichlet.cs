@@ -153,7 +153,7 @@ namespace MathNet.Numerics.Distributions
         /// Sets the parameters of the distribution after checking their validity.
         /// </summary>
         /// <param name="alpha">The parameters of the Dirichlet distribution.</param>
-        /// <exception cref="ArgumentOutOfRangeException">When the parameters don't pass the <see cref="IsValidParameterSet"/> function.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">When the parameters are out of range.</exception>
         void SetParameters(double[] alpha)
         {
             if (Control.CheckDistributionParameters && !IsValidParameterSet(alpha))

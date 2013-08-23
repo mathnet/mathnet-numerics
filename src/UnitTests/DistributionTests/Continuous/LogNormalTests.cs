@@ -378,6 +378,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         {
             var n = new LogNormal(mu, sigma);
             AssertHelpers.AlmostEqual(p, n.Density(x), 14);
+            AssertHelpers.AlmostEqual(p, LogNormal.PDF(mu, sigma, x), 14);
         }
 
         /// <summary>
@@ -419,6 +420,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         {
             var n = new LogNormal(mu, sigma);
             AssertHelpers.AlmostEqual(p, n.DensityLn(x), 14);
+            AssertHelpers.AlmostEqual(p, LogNormal.PDFLn(mu, sigma, x), 14);
         }
 
         /// <summary>
@@ -518,6 +520,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         {
             var n = new LogNormal(mu, sigma);
             AssertHelpers.AlmostEqual(f, n.CumulativeDistribution(x), 8);
+            AssertHelpers.AlmostEqual(f, LogNormal.CDF(mu, sigma, x), 8);
         }
 
         /// <summary>

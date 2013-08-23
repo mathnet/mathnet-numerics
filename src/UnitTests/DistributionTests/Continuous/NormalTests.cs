@@ -368,6 +368,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
                 var d = (mean - x) / sdev;
                 var pdf = Math.Exp(-0.5 * d * d) / (sdev * Constants.Sqrt2Pi);
                 Assert.AreEqual(pdf, n.Density(x));
+                Assert.AreEqual(pdf, Normal.PDF(mean, sdev, x));
             }
         }
 
@@ -391,6 +392,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
                 var d = (mean - x) / sdev;
                 var pdfln = (-0.5 * (d * d)) - Math.Log(sdev) - Constants.LogSqrt2Pi;
                 Assert.AreEqual(pdfln, n.DensityLn(x));
+                Assert.AreEqual(pdfln, Normal.PDFLn(mean, sdev, x));
             }
         }
 
@@ -471,6 +473,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         {
             var n = Normal.WithMeanStdDev(5.0, 2.0);
             AssertHelpers.AlmostEqual(f, n.CumulativeDistribution(x), 10);
+            AssertHelpers.AlmostEqual(f, Normal.CDF(5.0, 2.0, x), 10);
         }
 
         /// <summary>
@@ -492,6 +495,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         {
             var n = Normal.WithMeanStdDev(5.0, 2.0);
             AssertHelpers.AlmostEqual(x, n.InverseCumulativeDistribution(f), 15);
+            AssertHelpers.AlmostEqual(x, Normal.InvCDF(5.0, 2.0, f), 15);
         }
 
         /// <summary>

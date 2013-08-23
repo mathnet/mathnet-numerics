@@ -129,7 +129,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="location">The location (μ) of the distribution.</param>
         /// <param name="scale">The scale (σ) of the distribution.</param>
         /// <param name="freedom">The degrees of freedom (ν) for the distribution.</param>
-        /// <exception cref="ArgumentOutOfRangeException">When the parameters don't pass the <see cref="IsValidParameterSet"/> function.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">When the parameters are out of range.</exception>
         void SetParameters(double location, double scale, double freedom)
         {
             if (Control.CheckDistributionParameters && !IsValidParameterSet(location, scale, freedom))
@@ -288,7 +288,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Computes the probability density of the distribution (PDF) at x, i.e. dP(X &lt;= x)/dx.
+        /// Computes the probability density of the distribution (PDF) at x, i.e. ∂P(X ≤ x)/∂x.
         /// </summary>
         /// <param name="x">The location at which to compute the density.</param>
         /// <returns>the density at <paramref name="x"/>.</returns>
@@ -297,7 +297,7 @@ namespace MathNet.Numerics.Distributions
             // TODO JVG we can probably do a better job for Cauchy special case
             if (_freedom >= 1e+8d)
             {
-                return Normal.Density(_location, _scale, x);
+                return Normal.PDF(_location, _scale, x);
             }
 
             var d = (x - _location)/_scale;
@@ -308,7 +308,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Computes the log probability density of the distribution (lnPDF) at x, i.e. ln(dP(X &lt;= x)/dx).
+        /// Computes the log probability density of the distribution (lnPDF) at x, i.e. ln(∂P(X ≤ x)/∂x).
         /// </summary>
         /// <param name="x">The location at which to compute the log density.</param>
         /// <returns>the log density at <paramref name="x"/>.</returns>
@@ -317,7 +317,7 @@ namespace MathNet.Numerics.Distributions
             // TODO JVG we can probably do a better job for Cauchy special case
             if (_freedom >= 1e+8d)
             {
-                return Normal.DensityLn(_location, _scale, x);
+                return Normal.PDFLn(_location, _scale, x);
             }
 
             var d = (x - _location)/_scale;
@@ -328,7 +328,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Computes the cumulative distribution (CDF) of the distribution at x, i.e. P(X &lt;= x).
+        /// Computes the cumulative distribution (CDF) of the distribution at x, i.e. P(X ≤ x).
         /// </summary>
         /// <param name="x">The location at which to compute the cumulative distribution function.</param>
         /// <returns>the cumulative distribution at location <paramref name="x"/>.</returns>
@@ -337,7 +337,7 @@ namespace MathNet.Numerics.Distributions
             // TODO JVG we can probably do a better job for Cauchy special case
             if (Double.IsPositiveInfinity(_freedom))
             {
-                return Normal.CumulativeDistribution(_location, _scale, x);
+                return Normal.CDF(_location, _scale, x);
             }
 
             var k = (x - _location)/_scale;
@@ -359,7 +359,7 @@ namespace MathNet.Numerics.Distributions
         static double SampleUnchecked(System.Random rnd, double location, double scale, double freedom)
         {
             var gamma = Gamma.SampleUnchecked(rnd, 0.5*freedom, 0.5);
-            return Normal.SampleUnchecked(rnd, location, scale*Math.Sqrt(freedom/gamma));
+            return Normal.Sample(rnd, location, scale*Math.Sqrt(freedom/gamma));
         }
 
         /// <summary>

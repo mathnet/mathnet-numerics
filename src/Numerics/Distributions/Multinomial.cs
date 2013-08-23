@@ -165,7 +165,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="p">An array of nonnegative ratios: this array does not need to be normalized 
         /// as this is often impossible using floating point arithmetic.</param>
         /// <param name="n">The number of trials.</param>
-        /// <exception cref="ArgumentOutOfRangeException">When the parameters don't pass the <see cref="IsValidParameterSet"/> function.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">When the parameters are out of range.</exception>
         void SetParameters(double[] p, int n)
         {
             if (Control.CheckDistributionParameters && !IsValidParameterSet(p, n))

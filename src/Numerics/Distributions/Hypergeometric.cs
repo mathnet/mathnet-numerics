@@ -109,6 +109,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="population">The size of the population (N).</param>
         /// <param name="success">The number successes within the population (K, M).</param>
         /// <param name="draws">The number of draws without replacement (n).</param>
+        /// <exception cref="ArgumentOutOfRangeException">When the parameters are out of range.</exception>
         void SetParameters(int population, int success, int draws)
         {
             if (Control.CheckDistributionParameters && !IsValidParameterSet(population, success, draws))
@@ -280,7 +281,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Computes the cumulative distribution (CDF) of the distribution at x, i.e. P(X &lt;= x).
+        /// Computes the cumulative distribution (CDF) of the distribution at x, i.e. P(X ≤ x).
         /// </summary>
         /// <param name="x">The location at which to compute the cumulative distribution function.</param>
         /// <returns>the cumulative distribution at location <paramref name="x"/>.</returns>

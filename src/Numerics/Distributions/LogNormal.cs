@@ -59,7 +59,7 @@ namespace MathNet.Numerics.Distributions
         /// random number generator.
         /// </summary>
         /// <param name="mu">The log-scale (μ) of the logarithm of the distribution.</param>
-        /// <param name="sigma">The shape (σ) of the logarithm of the distribution.</param>
+        /// <param name="sigma">The shape (σ) of the logarithm of the distribution. Range: σ ≥ 0.</param>
         public LogNormal(double mu, double sigma)
         {
             _random = new System.Random();
@@ -72,7 +72,7 @@ namespace MathNet.Numerics.Distributions
         /// random number generator.
         /// </summary>
         /// <param name="mu">The log-scale (μ) of the distribution.</param>
-        /// <param name="sigma">The shape (σ) of the distribution.</param>
+        /// <param name="sigma">The shape (σ) of the distribution. Range: σ ≥ 0.</param>
         /// <param name="randomSource">The random number generator which is used to draw random samples.</param>
         public LogNormal(double mu, double sigma, System.Random randomSource)
         {
@@ -81,25 +81,40 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Constructs a log-normal distribution with the desired mean and variance. The distribution will
-        /// be initialized with the default <seealso cref="System.Random"/> random number generator.
+        /// Constructs a log-normal distribution with the desired mu and sigma parameters.
+        /// </summary>
+        /// <param name="mu">The log-scale (μ) of the distribution.</param>
+        /// <param name="sigma">The shape (σ) of the distribution. Range: σ ≥ 0.</param>
+        /// <param name="randomSource">The random number generator which is used to draw random samples. Optional, can be null.</param>
+        /// <returns>A log-normal distribution.</returns>
+        public static LogNormal WithMuSigma(double mu, double sigma, System.Random randomSource = null)
+        {
+            return new LogNormal(mu, sigma, randomSource);
+        }
+
+        /// <summary>
+        /// Constructs a log-normal distribution with the desired mean and variance.
         /// </summary>
         /// <param name="mean">The mean of the log-normal distribution.</param>
         /// <param name="var">The variance of the log-normal distribution.</param>
-        /// <returns>a log-normal distribution.</returns>
-        public static LogNormal WithMeanVariance(double mean, double var)
+        /// <param name="randomSource">The random number generator which is used to draw random samples. Optional, can be null.</param>
+        /// <returns>A log-normal distribution.</returns>
+        public static LogNormal WithMeanVariance(double mean, double var, System.Random randomSource = null)
         {
             var sigma2 = Math.Log(var/(mean*mean) + 1.0);
-            return new LogNormal(Math.Log(mean) - sigma2/2.0, Math.Sqrt(sigma2));
+            return new LogNormal(Math.Log(mean) - sigma2 / 2.0, Math.Sqrt(sigma2), randomSource);
         }
 
         /// <summary>
         /// Estimates the log-normal distribution parameters from sample data with maximum-likelihood.
         /// </summary>
-        public static LogNormal Estimate(IEnumerable<double> samples)
+        /// <param name="samples">The samples to estimate the distribution parameters from.</param>
+        /// <param name="randomSource">The random number generator which is used to draw random samples. Optional, can be null.</param>
+        /// <returns>A log-normal distribution.</returns>
+        public static LogNormal Estimate(IEnumerable<double> samples, System.Random randomSource = null)
         {
             var muSigma2 = samples.Select(s => Math.Log(s)).MeanVariance();
-            return new LogNormal(muSigma2.Item1, Math.Sqrt(muSigma2.Item2));
+            return new LogNormal(muSigma2.Item1, Math.Sqrt(muSigma2.Item2), randomSource);
         }
 
         /// <summary>
@@ -112,25 +127,14 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Checks whether the parameters of the distribution are valid. 
-        /// </summary>
-        /// <param name="mu">The log-scale (μ) of the distribution.</param>
-        /// <param name="sigma">The shape (σ) of the distribution.</param>
-        /// <returns><c>true</c> when the parameters are valid, <c>false</c> otherwise.</returns>
-        static bool IsValidParameterSet(double mu, double sigma)
-        {
-            return sigma >= 0.0 && !Double.IsNaN(mu);
-        }
-
-        /// <summary>
         /// Sets the parameters of the distribution after checking their validity.
         /// </summary>
         /// <param name="mu">The log-scale (μ) of the distribution.</param>
-        /// <param name="sigma">The shape (σ) of the distribution.</param>
-        /// <exception cref="ArgumentOutOfRangeException">When the parameters don't pass the <see cref="IsValidParameterSet"/> function.</exception>
+        /// <param name="sigma">The shape (σ) of the distribution. Range: σ ≥ 0.</param>
+        /// <exception cref="ArgumentOutOfRangeException">When the parameters are out of range.</exception>
         void SetParameters(double mu, double sigma)
         {
-            if (Control.CheckDistributionParameters && !IsValidParameterSet(mu, sigma))
+            if (sigma < 0.0 || Double.IsNaN(mu) || Double.IsNaN(sigma))
             {
                 throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
             }
@@ -149,7 +153,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Gets or sets the shape (σ) (standard deviation of the logarithm) of the distribution.
+        /// Gets or sets the shape (σ) (standard deviation of the logarithm) of the distribution. Range: σ ≥ 0.
         /// </summary>
         public double Sigma
         {
@@ -251,7 +255,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Computes the probability density of the distribution (PDF) at x, i.e. dP(X &lt;= x)/dx.
+        /// Computes the probability density of the distribution (PDF) at x, i.e. ∂P(X ≤ x)/∂x.
         /// </summary>
         /// <param name="x">The location at which to compute the density.</param>
         /// <returns>the density at <paramref name="x"/>.</returns>
@@ -262,12 +266,12 @@ namespace MathNet.Numerics.Distributions
                 return 0.0;
             }
 
-            var a = (Math.Log(x) - _mu)/_sigma;
+            var a = (Math.Log(x) - _mu) / _sigma;
             return Math.Exp(-0.5*a*a)/(x*_sigma*Constants.Sqrt2Pi);
         }
 
         /// <summary>
-        /// Computes the log probability density of the distribution (lnPDF) at x, i.e. ln(dP(X &lt;= x)/dx).
+        /// Computes the log probability density of the distribution (lnPDF) at x, i.e. ln(∂P(X ≤ x)/∂x).
         /// </summary>
         /// <param name="x">The location at which to compute the log density.</param>
         /// <returns>the log density at <paramref name="x"/>.</returns>
@@ -278,23 +282,20 @@ namespace MathNet.Numerics.Distributions
                 return Double.NegativeInfinity;
             }
 
-            var a = (Math.Log(x) - _mu)/_sigma;
+            var a = (Math.Log(x) - _mu) / _sigma;
             return (-0.5*a*a) - Math.Log(x*_sigma) - Constants.LogSqrt2Pi;
         }
 
         /// <summary>
-        /// Computes the cumulative distribution (CDF) of the distribution at x, i.e. P(X &lt;= x).
+        /// Computes the cumulative distribution (CDF) of the distribution at x, i.e. P(X ≤ x).
         /// </summary>
         /// <param name="x">The location at which to compute the cumulative distribution function.</param>
         /// <returns>the cumulative distribution at location <paramref name="x"/>.</returns>
         public double CumulativeDistribution(double x)
         {
-            if (x < 0.0)
-            {
-                return 0.0;
-            }
-
-            return 0.5*(1.0 + SpecialFunctions.Erf((Math.Log(x) - _mu)/(_sigma*Constants.Sqrt2)));
+            return x < 0.0
+                ? 0.0
+                : 0.5*(1.0 + SpecialFunctions.Erf((Math.Log(x) - _mu)/(_sigma*Constants.Sqrt2)));
         }
 
         /// <summary>
@@ -303,7 +304,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sample from the distribution.</returns>
         public double Sample()
         {
-            return Math.Exp(Normal.SampleUnchecked(_random, _mu, _sigma));
+            return Math.Exp(Normal.Sample(_random, _mu, _sigma));
         }
 
         /// <summary>
@@ -312,7 +313,63 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sequence of samples from the distribution.</returns>
         public IEnumerable<double> Samples()
         {
-            return Normal.SamplesUnchecked(_random, _mu, _sigma).Select(Math.Exp);
+            return Normal.Samples(_random, _mu, _sigma).Select(Math.Exp);
+        }
+
+        /// <summary>
+        /// Computes the probability density of the distribution (PDF) at x, i.e. ∂P(X ≤ x)/∂x.
+        /// </summary>
+        /// <param name="x">The location at which to compute the density.</param>
+        /// <param name="mu">The log-scale (μ) of the distribution.</param>
+        /// <param name="sigma">The shape (σ) of the distribution. Range: σ ≥ 0.</param>
+        /// <returns>the density at <paramref name="x"/>.</returns>
+        public static double PDF(double mu, double sigma, double x)
+        {
+            if (sigma < 0.0) throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
+
+            if (x < 0.0)
+            {
+                return 0.0;
+            }
+
+            var a = (Math.Log(x) - mu) / sigma;
+            return Math.Exp(-0.5*a*a)/(x*sigma*Constants.Sqrt2Pi);
+        }
+
+        /// <summary>
+        /// Computes the log probability density of the distribution (lnPDF) at x, i.e. ln(∂P(X ≤ x)/∂x).
+        /// </summary>
+        /// <param name="x">The location at which to compute the density.</param>
+        /// <param name="mu">The log-scale (μ) of the distribution.</param>
+        /// <param name="sigma">The shape (σ) of the distribution. Range: σ ≥ 0.</param>
+        /// <returns>the log density at <paramref name="x"/>.</returns>
+        public static double PDFLn(double mu, double sigma, double x)
+        {
+            if (sigma < 0.0) throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
+
+            if (x < 0.0)
+            {
+                return Double.NegativeInfinity;
+            }
+
+            var a = (Math.Log(x) - mu) / sigma;
+            return (-0.5*a*a) - Math.Log(x*sigma) - Constants.LogSqrt2Pi;
+        }
+
+        /// <summary>
+        /// Computes the cumulative distribution (CDF) of the distribution at x, i.e. P(X ≤ x).
+        /// </summary>
+        /// <param name="x">The location at which to compute the cumulative distribution function.</param>
+        /// <param name="mu">The log-scale (μ) of the distribution.</param>
+        /// <param name="sigma">The shape (σ) of the distribution. Range: σ ≥ 0.</param>
+        /// <returns>the cumulative distribution at location <paramref name="x"/>.</returns>
+        public static double CDF(double mu, double sigma, double x)
+        {
+            if (sigma < 0.0) throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
+
+            return x < 0.0
+                ? 0.0
+                : 0.5*(1.0 + SpecialFunctions.Erf((Math.Log(x) - mu)/(sigma*Constants.Sqrt2)));
         }
 
         /// <summary>
@@ -320,7 +377,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         /// <param name="rnd">The random number generator to use.</param>
         /// <param name="mu">The log-scale (μ) of the distribution.</param>
-        /// <param name="sigma">The shape (σ) of the distribution.</param>
+        /// <param name="sigma">The shape (σ) of the distribution. Range: σ ≥ 0.</param>
         /// <returns>a sample from the distribution.</returns>
         public static double Sample(System.Random rnd, double mu, double sigma)
         {
@@ -332,7 +389,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         /// <param name="rnd">The random number generator to use.</param>
         /// <param name="mu">The log-scale (μ) of the distribution.</param>
-        /// <param name="sigma">The shape (σ) of the distribution.</param>
+        /// <param name="sigma">The shape (σ) of the distribution. Range: σ ≥ 0.</param>
         /// <returns>a sequence of samples from the distribution.</returns>
         public static IEnumerable<double> Samples(System.Random rnd, double mu, double sigma)
         {

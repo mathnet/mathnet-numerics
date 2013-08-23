@@ -150,7 +150,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="m">The mean of the matrix normal.</param>
         /// <param name="v">The covariance matrix for the rows.</param>
         /// <param name="k">The covariance matrix for the columns.</param>
-        /// <exception cref="ArgumentOutOfRangeException">When the parameters don't pass the <see cref="IsValidParameterSet"/> function.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">When the parameters are out of range.</exception>
         void SetParameters(Matrix<double> m, Matrix<double> v, Matrix<double> k)
         {
             if (Control.CheckDistributionParameters && !IsValidParameterSet(m, v, k))
