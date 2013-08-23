@@ -56,8 +56,8 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Initializes a new instance of the <see cref="Pareto"/> class. 
         /// </summary>
-        /// <param name="scale">The scale (xm) of the distribution.</param>
-        /// <param name="shape">The shape (α) of the distribution.</param>
+        /// <param name="scale">The scale (xm) of the distribution. Range: xm > 0.</param>
+        /// <param name="shape">The shape (α) of the distribution. Range: α > 0.</param>
         /// <exception cref="ArgumentException">If <paramref name="scale"/> or <paramref name="shape"/> are negative.</exception>
         public Pareto(double scale, double shape)
         {
@@ -68,8 +68,8 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Initializes a new instance of the <see cref="Pareto"/> class. 
         /// </summary>
-        /// <param name="scale">The scale (xm) of the distribution.</param>
-        /// <param name="shape">The shape (α) of the distribution.</param>
+        /// <param name="scale">The scale (xm) of the distribution. Range: xm > 0.</param>
+        /// <param name="shape">The shape (α) of the distribution. Range: α > 0.</param>
         /// <param name="randomSource">The random number generator which is used to draw random samples.</param>
         /// <exception cref="ArgumentException">If <paramref name="scale"/> or <paramref name="shape"/> are negative.</exception>
         public Pareto(double scale, double shape, System.Random randomSource)
@@ -90,8 +90,8 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Checks whether the parameters of the distribution are valid. 
         /// </summary>
-        /// <param name="scale">The scale (xm) of the distribution.</param>
-        /// <param name="shape">The shape (α) of the distribution.</param>
+        /// <param name="scale">The scale (xm) of the distribution. Range: xm > 0.</param>
+        /// <param name="shape">The shape (α) of the distribution. Range: α > 0.</param>
         /// <returns><c>true</c> when the parameters are valid, <c>false</c> otherwise.</returns>
         static bool IsValidParameterSet(double scale, double shape)
         {
@@ -101,8 +101,8 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Sets the parameters of the distribution after checking their validity.
         /// </summary>
-        /// <param name="scale">The scale (xm) of the distribution.</param>
-        /// <param name="shape">The shape (α) of the distribution.</param>
+        /// <param name="scale">The scale (xm) of the distribution. Range: xm > 0.</param>
+        /// <param name="shape">The shape (α) of the distribution. Range: α > 0.</param>
         /// <exception cref="ArgumentOutOfRangeException">When the parameters are out of range.</exception>
         void SetParameters(double scale, double shape)
         {
@@ -116,7 +116,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Gets or sets the scale (xm) of the distribution.
+        /// Gets or sets the scale (xm) of the distribution. Range: xm > 0.
         /// </summary>
         public double Scale
         {
@@ -125,7 +125,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Gets or sets the shape (α) of the distribution.
+        /// Gets or sets the shape (α) of the distribution. Range: α > 0.
         /// </summary>
         public double Shape
         {
@@ -264,8 +264,8 @@ namespace MathNet.Numerics.Distributions
         /// Generates a sample from the Pareto distribution without doing parameter checking.
         /// </summary>
         /// <param name="rnd">The random number generator to use.</param>
-        /// <param name="scale">The scale (xm) of the distribution.</param>
-        /// <param name="shape">The shape (α) of the distribution.</param>
+        /// <param name="scale">The scale (xm) of the distribution. Range: xm > 0.</param>
+        /// <param name="shape">The shape (α) of the distribution. Range: α > 0.</param>
         /// <returns>a random number from the Pareto distribution.</returns>
         static double SampleUnchecked(System.Random rnd, double scale, double shape)
         {
@@ -297,8 +297,8 @@ namespace MathNet.Numerics.Distributions
         /// Generates a sample from the distribution.
         /// </summary>
         /// <param name="rnd">The random number generator to use.</param>
-        /// <param name="scale">The scale (xm) of the distribution.</param>
-        /// <param name="shape">The shape (α) of the distribution.</param>
+        /// <param name="scale">The scale (xm) of the distribution. Range: xm > 0.</param>
+        /// <param name="shape">The shape (α) of the distribution. Range: α > 0.</param>
         /// <returns>a sample from the distribution.</returns>
         public static double Sample(System.Random rnd, double scale, double shape)
         {
@@ -314,8 +314,8 @@ namespace MathNet.Numerics.Distributions
         /// Generates a sequence of samples from the distribution.
         /// </summary>
         /// <param name="rnd">The random number generator to use.</param>
-        /// <param name="scale">The scale (xm) of the distribution.</param>
-        /// <param name="shape">The shape (α) of the distribution.</param>
+        /// <param name="scale">The scale (xm) of the distribution. Range: xm > 0.</param>
+        /// <param name="shape">The shape (α) of the distribution. Range: α > 0.</param>
         /// <returns>a sequence of samples from the distribution.</returns>
         public static IEnumerable<double> Samples(System.Random rnd, double scale, double shape)
         {

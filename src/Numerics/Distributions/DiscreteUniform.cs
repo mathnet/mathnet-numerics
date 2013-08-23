@@ -55,8 +55,8 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Initializes a new instance of the DiscreteUniform class.
         /// </summary>
-        /// <param name="lower">Lower bound.</param>
-        /// <param name="upper">Upper bound; must be at least as large as <paramref name="lower"/>.</param>
+        /// <param name="lower">Lower bound. Range: lower ≤ upper.</param>
+        /// <param name="upper">Upper bound. Range: lower ≤ upper.</param>
         public DiscreteUniform(int lower, int upper)
         {
             _random = new System.Random();
@@ -66,8 +66,8 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Initializes a new instance of the DiscreteUniform class.
         /// </summary>
-        /// <param name="lower">Lower bound.</param>
-        /// <param name="upper">Upper bound; must be at least as large as <paramref name="lower"/>.</param>
+        /// <param name="lower">Lower bound. Range: lower ≤ upper.</param>
+        /// <param name="upper">Upper bound. Range: lower ≤ upper.</param>
         /// <param name="randomSource">The random number generator which is used to draw random samples.</param>
         public DiscreteUniform(int lower, int upper, System.Random randomSource)
         {
@@ -89,8 +89,8 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Checks whether the parameters of the distribution are valid. 
         /// </summary>
-        /// <param name="lower">Lower bound.</param>
-        /// <param name="upper">Upper bound; must be at least as large as <paramref name="lower"/>.</param>
+        /// <param name="lower">Lower bound. Range: lower ≤ upper.</param>
+        /// <param name="upper">Upper bound. Range: lower ≤ upper.</param>
         /// <returns><c>true</c> when the parameters are valid, <c>false</c> otherwise.</returns>
         static bool IsValidParameterSet(int lower, int upper)
         {
@@ -100,8 +100,8 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Sets the parameters of the distribution after checking their validity.
         /// </summary>
-        /// <param name="lower">Lower bound.</param>
-        /// <param name="upper">Upper bound; must be at least as large as <paramref name="lower"/>.</param>
+        /// <param name="lower">Lower bound. Range: lower ≤ upper.</param>
+        /// <param name="upper">Upper bound. Range: lower ≤ upper.</param>
         /// <exception cref="ArgumentOutOfRangeException">When the parameters are out of range.</exception>
         void SetParameters(int lower, int upper)
         {
@@ -267,8 +267,8 @@ namespace MathNet.Numerics.Distributions
         /// Generates one sample from the discrete uniform distribution. This method does not do any parameter checking.
         /// </summary>
         /// <param name="rnd">The random source to use.</param>
-        /// <param name="lower">The lower bound of the uniform random variable.</param>
-        /// <param name="upper">The upper bound of the uniform random variable.</param>
+        /// <param name="lower">Lower bound. Range: lower ≤ upper.</param>
+        /// <param name="upper">Upper bound. Range: lower ≤ upper.</param>
         /// <returns>A random sample from the discrete uniform distribution.</returns>
         static int SampleUnchecked(System.Random rnd, int lower, int upper)
         {
@@ -300,8 +300,8 @@ namespace MathNet.Numerics.Distributions
         /// Samples a uniformly distributed random variable.
         /// </summary>
         /// <param name="rnd">The random number generator to use.</param>
-        /// <param name="lower">The lower bound of the uniform random variable.</param>
-        /// <param name="upper">The upper bound of the uniform random variable.</param>
+        /// <param name="lower">Lower bound. Range: lower ≤ upper.</param>
+        /// <param name="upper">Upper bound. Range: lower ≤ upper.</param>
         /// <returns>A sample from the discrete uniform distribution.</returns>
         public static int Sample(System.Random rnd, int lower, int upper)
         {
@@ -317,8 +317,8 @@ namespace MathNet.Numerics.Distributions
         /// Samples a sequence of uniformly distributed random variables.
         /// </summary>
         /// <param name="rnd">The random number generator to use.</param>
-        /// <param name="lower">The lower bound of the uniform random variable.</param>
-        /// <param name="upper">The upper bound of the uniform random variable.</param>
+        /// <param name="lower">Lower bound. Range: lower ≤ upper.</param>
+        /// <param name="upper">Upper bound. Range: lower ≤ upper.</param>
         /// <returns>a sequence of samples from the discrete uniform distribution.</returns>
         public static IEnumerable<int> Samples(System.Random rnd, int lower, int upper)
         {

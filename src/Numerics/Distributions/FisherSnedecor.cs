@@ -54,8 +54,8 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Initializes a new instance of the <see cref="FisherSnedecor"/> class. 
         /// </summary>
-        /// <param name="d1">The first degree of freedom (d1) of the distribution.</param>
-        /// <param name="d2">The second degree of freedom (d2) of the distribution.</param>
+        /// <param name="d1">The first degree of freedom (d1) of the distribution. Range: d1 > 0.</param>
+        /// <param name="d2">The second degree of freedom (d2) of the distribution. Range: d2 > 0.</param>
         public FisherSnedecor(double d1, double d2)
         {
             _random = new System.Random();
@@ -65,8 +65,8 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Initializes a new instance of the <see cref="FisherSnedecor"/> class. 
         /// </summary>
-        /// <param name="d1">The first degree of freedom (d1) of the distribution.</param>
-        /// <param name="d2">The second degree of freedom (d2) of the distribution.</param>
+        /// <param name="d1">The first degree of freedom (d1) of the distribution. Range: d1 > 0.</param>
+        /// <param name="d2">The second degree of freedom (d2) of the distribution. Range: d2 > 0.</param>
         /// <param name="randomSource">The random number generator which is used to draw random samples.</param>
         public FisherSnedecor(double d1, double d2, System.Random randomSource)
         {
@@ -86,8 +86,8 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Checks whether the parameters of the distribution are valid.
         /// </summary>
-        /// <param name="d1">The first degree of freedom (d1) of the distribution.</param>
-        /// <param name="d2">The second degree of freedom (d2) of the distribution.</param>
+        /// <param name="d1">The first degree of freedom (d1) of the distribution. Range: d1 > 0.</param>
+        /// <param name="d2">The second degree of freedom (d2) of the distribution. Range: d2 > 0.</param>
         /// <returns><c>true</c> when the parameters are valid, <c>false</c> otherwise.</returns>
         static bool IsValidParameterSet(double d1, double d2)
         {
@@ -97,8 +97,8 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Sets the parameters of the distribution after checking their validity.
         /// </summary>
-        /// <param name="d1">The first degree of freedom (d1) of the distribution.</param>
-        /// <param name="d2">The second degree of freedom (d2) of the distribution.</param>
+        /// <param name="d1">The first degree of freedom (d1) of the distribution. Range: d1 > 0.</param>
+        /// <param name="d2">The second degree of freedom (d2) of the distribution. Range: d2 > 0.</param>
         /// <exception cref="ArgumentOutOfRangeException">When the parameters are out of range.</exception>
         void SetParameters(double d1, double d2)
         {
@@ -112,7 +112,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Gets or sets the first parameter - degree of freedom.
+        /// Gets or sets the first degree of freedom (d1) of the distribution. Range: d1 > 0.
         /// </summary>
         public double DegreesOfFreedom1
         {
@@ -121,7 +121,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Gets or sets the second parameter - degree of freedom.
+        /// Gets or sets the second degree of freedom (d2) of the distribution. Range: d2 > 0.
         /// </summary>
         public double DegreesOfFreedom2
         {
@@ -276,8 +276,8 @@ namespace MathNet.Numerics.Distributions
         /// Generates one sample from the <c>FisherSnedecor</c> distribution without parameter checking.
         /// </summary>
         /// <param name="rnd">The random number generator to use.</param>
-        /// <param name="d1">The first degree of freedom (d1) of the distribution.</param>
-        /// <param name="d2">The second degree of freedom (d2) of the distribution.</param>
+        /// <param name="d1">The first degree of freedom (d1) of the distribution. Range: d1 > 0.</param>
+        /// <param name="d2">The second degree of freedom (d2) of the distribution. Range: d2 > 0.</param>
         /// <returns>a <c>FisherSnedecor</c> distributed random number.</returns>
         static double SampleUnchecked(System.Random rnd, double d1, double d2)
         {
@@ -309,8 +309,8 @@ namespace MathNet.Numerics.Distributions
         /// Generates a sample from the distribution.
         /// </summary>
         /// <param name="rnd">The random number generator to use.</param>
-        /// <param name="d1">The first degree of freedom (d1) of the distribution.</param>
-        /// <param name="d2">The second degree of freedom (d2) of the distribution.</param>
+        /// <param name="d1">The first degree of freedom (d1) of the distribution. Range: d1 > 0.</param>
+        /// <param name="d2">The second degree of freedom (d2) of the distribution. Range: d2 > 0.</param>
         /// <returns>a sample from the distribution.</returns>
         public static double Sample(System.Random rnd, double d1, double d2)
         {
@@ -326,8 +326,8 @@ namespace MathNet.Numerics.Distributions
         /// Generates a sequence of samples from the distribution.
         /// </summary>
         /// <param name="rnd">The random number generator to use.</param>
-        /// <param name="d1">The first degree of freedom (d1) of the distribution.</param>
-        /// <param name="d2">The second degree of freedom (d2) of the distribution.</param>
+        /// <param name="d1">The first degree of freedom (d1) of the distribution. Range: d1 > 0.</param>
+        /// <param name="d2">The second degree of freedom (d2) of the distribution. Range: d2 > 0.</param>
         /// <returns>a sequence of samples from the distribution.</returns>
         public static IEnumerable<double> Samples(System.Random rnd, double d1, double d2)
         {

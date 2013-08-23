@@ -55,8 +55,8 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Initializes a new instance of the Binomial class.
         /// </summary>
-        /// <param name="p">The success probability in each trial.</param>
-        /// <param name="n">The number of trials.</param>
+        /// <param name="p">The success probability (p) in each trial. Range: 0 ≤ p ≤ 1.</param>
+        /// <param name="n">The number of trials (n). Range: n ≥ 0.</param>
         /// <exception cref="ArgumentOutOfRangeException">If <paramref name="p"/> is not in the interval [0.0,1.0].</exception>
         /// <exception cref="ArgumentOutOfRangeException">If <paramref name="n"/> is negative.</exception>
         public Binomial(double p, int n)
@@ -68,8 +68,8 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Initializes a new instance of the Binomial class.
         /// </summary>
-        /// <param name="p">The success probability in each trial.</param>
-        /// <param name="n">The number of trials.</param>
+        /// <param name="p">The success probability (p) in each trial. Range: 0 ≤ p ≤ 1.</param>
+        /// <param name="n">The number of trials (n). Range: n ≥ 0.</param>
         /// <param name="randomSource">The random number generator which is used to draw random samples.</param>
         /// <exception cref="ArgumentOutOfRangeException">If <paramref name="p"/> is not in the interval [0.0,1.0].</exception>
         /// <exception cref="ArgumentOutOfRangeException">If <paramref name="n"/> is negative.</exception>
@@ -85,14 +85,14 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a string representation of the distribution.</returns>
         public override string ToString()
         {
-            return "Binomial(Success Probability = " + _p + ", Number of Trials = " + _trials + ")";
+            return "Binomial(p = " + _p + ", n = " + _trials + ")";
         }
 
         /// <summary>
         /// Checks whether the parameters of the distribution are valid. 
         /// </summary>
-        /// <param name="p">The success probability of a trial.</param>
-        /// <param name="n">The number of trials.</param>
+        /// <param name="p">The success probability (p) in each trial. Range: 0 ≤ p ≤ 1.</param>
+        /// <param name="n">The number of trials (n). Range: n ≥ 0.</param>
         /// <returns><c>false</c> <paramref name="p"/> is not in the interval [0.0,1.0] or <paramref name="n"/> is negative, <c>true</c> otherwise.</returns>
         static bool IsValidParameterSet(double p, int n)
         {
@@ -102,8 +102,8 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Sets the parameters of the distribution after checking their validity.
         /// </summary>
-        /// <param name="p">The success probability of a trial.</param>
-        /// <param name="n">The number of trials.</param>
+        /// <param name="p">The success probability (p) in each trial. Range: 0 ≤ p ≤ 1.</param>
+        /// <param name="n">The number of trials (n). Range: n ≥ 0.</param>
         /// <exception cref="ArgumentOutOfRangeException">If <paramref name="p"/> is not in the interval [0.0,1.0].</exception>
         /// <exception cref="ArgumentOutOfRangeException">If <paramref name="n"/> is negative.</exception>
         void SetParameters(double p, int n)
@@ -118,7 +118,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Gets or sets the success probability in each trial.
+        /// Gets or sets the success probability in each trial. Range: 0 ≤ p ≤ 1.
         /// </summary>
         public double P
         {
@@ -127,7 +127,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Gets or sets the number of trials.
+        /// Gets or sets the number of trials. Range: n ≥ 0.
         /// </summary>
         public int N
         {
@@ -175,10 +175,7 @@ namespace MathNet.Numerics.Distributions
         {
             get
             {
-                if (_p == 0.0 || _p == 1.0)
-                {
-                    return 0.0;
-                }
+                if (_p == 0.0 || _p == 1.0) return 0.0;
 
                 var e = 0.0;
                 for (var i = 0; i <= _trials; i++)
@@ -222,15 +219,8 @@ namespace MathNet.Numerics.Distributions
         {
             get
             {
-                if (_p == 1.0)
-                {
-                    return _trials;
-                }
-
-                if (_p == 0.0)
-                {
-                    return 0;
-                }
+                if (_p == 1.0) return _trials;
+                if (_p == 0.0) return 0;
 
                 return (int) Math.Floor((_trials + 1)*_p);
             }
@@ -251,35 +241,12 @@ namespace MathNet.Numerics.Distributions
         /// <returns>the probability mass at location <paramref name="k"/>.</returns>
         public double Probability(int k)
         {
-            if (k < 0)
-            {
-                return 0.0;
-            }
-
-            if (k > _trials)
-            {
-                return 0.0;
-            }
-
-            if (_p == 0.0 && k == 0)
-            {
-                return 1.0;
-            }
-
-            if (_p == 0.0)
-            {
-                return 0.0;
-            }
-
-            if (_p == 1.0 && k == _trials)
-            {
-                return 1.0;
-            }
-
-            if (_p == 1.0)
-            {
-                return 0.0;
-            }
+            if (k < 0) return 0.0;
+            if (k > _trials) return 0.0;
+            if (_p == 0.0 && k == 0) return 1.0;
+            if (_p == 0.0) return 0.0;
+            if (_p == 1.0 && k == _trials) return 1.0;
+            if (_p == 1.0) return 0.0;
 
             return SpecialFunctions.Binomial(_trials, k)*Math.Pow(_p, k)*Math.Pow(1.0 - _p, _trials - k);
         }
@@ -291,35 +258,12 @@ namespace MathNet.Numerics.Distributions
         /// <returns>the log probability mass at location <paramref name="k"/>.</returns>
         public double ProbabilityLn(int k)
         {
-            if (k < 0)
-            {
-                return Double.NegativeInfinity;
-            }
-
-            if (k > _trials)
-            {
-                return Double.NegativeInfinity;
-            }
-
-            if (_p == 0.0 && k == 0)
-            {
-                return 0.0;
-            }
-
-            if (_p == 0.0)
-            {
-                return Double.NegativeInfinity;
-            }
-
-            if (_p == 1.0 && k == _trials)
-            {
-                return 0.0;
-            }
-
-            if (_p == 1.0)
-            {
-                return Double.NegativeInfinity;
-            }
+            if (k < 0) return Double.NegativeInfinity;
+            if (k > _trials) return Double.NegativeInfinity;
+            if (_p == 0.0 && k == 0) return 0.0;
+            if (_p == 0.0) return Double.NegativeInfinity;
+            if (_p == 1.0 && k == _trials) return 0.0;
+            if (_p == 1.0) return Double.NegativeInfinity;
 
             return SpecialFunctions.BinomialLn(_trials, k) + (k*Math.Log(_p)) + ((_trials - k)*Math.Log(1.0 - _p));
         }
@@ -331,15 +275,8 @@ namespace MathNet.Numerics.Distributions
         /// <returns>the cumulative distribution at location <paramref name="x"/>.</returns>
         public double CumulativeDistribution(double x)
         {
-            if (x < 0.0)
-            {
-                return 0.0;
-            }
-
-            if (x > _trials)
-            {
-                return 1.0;
-            }
+            if (x < 0.0) return 0.0;
+            if (x > _trials) return 1.0;
 
             var cdf = 0.0;
             for (var i = 0; i <= (int) Math.Floor(x); i++)
@@ -354,8 +291,8 @@ namespace MathNet.Numerics.Distributions
         /// Generates a sample from the Binomial distribution without doing parameter checking.
         /// </summary>
         /// <param name="rnd">The random number generator to use.</param>
-        /// <param name="p">The success probability of a trial; must be in the interval [0.0, 1.0].</param>
-        /// <param name="n">The number of trials; must be positive.</param>
+        /// <param name="p">The success probability (p) in each trial. Range: 0 ≤ p ≤ 1.</param>
+        /// <param name="n">The number of trials (n). Range: n ≥ 0.</param>
         /// <returns>The number of successful trials.</returns>
         static int SampleUnchecked(System.Random rnd, double p, int n)
         {
@@ -393,8 +330,8 @@ namespace MathNet.Numerics.Distributions
         /// Samples a binomially distributed random variable.
         /// </summary>
         /// <param name="rnd">The random number generator to use.</param>
-        /// <param name="p">The success probability of a trial; must be in the interval [0.0, 1.0].</param>
-        /// <param name="n">The number of trials; must be positive.</param>
+        /// <param name="p">The success probability (p) in each trial. Range: 0 ≤ p ≤ 1.</param>
+        /// <param name="n">The number of trials (n). Range: n ≥ 0.</param>
         /// <returns>The number of successes in <paramref name="n"/> trials.</returns>
         public static int Sample(System.Random rnd, double p, int n)
         {
@@ -410,8 +347,8 @@ namespace MathNet.Numerics.Distributions
         /// Samples a sequence of binomially distributed random variable.
         /// </summary>
         /// <param name="rnd">The random number generator to use.</param>
-        /// <param name="p">The success probability of a trial; must be in the interval [0.0, 1.0].</param>
-        /// <param name="n">The number of trials; must be positive.</param>
+        /// <param name="p">The success probability (p) in each trial. Range: 0 ≤ p ≤ 1.</param>
+        /// <param name="n">The number of trials (n). Range: n ≥ 0.</param>
         /// <returns>a sequence of successes in <paramref name="n"/> trials.</returns>
         public static IEnumerable<int> Samples(System.Random rnd, double p, int n)
         {

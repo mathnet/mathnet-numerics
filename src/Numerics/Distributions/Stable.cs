@@ -59,9 +59,9 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Initializes a new instance of the <see cref="Stable"/> class. 
         /// </summary>
-        /// <param name="alpha">The stability (α) of the distribution.</param>
-        /// <param name="beta">The skewness (β) of the distribution.</param>
-        /// <param name="scale">The scale (c) of the distribution.</param>
+        /// <param name="alpha">The stability (α) of the distribution. Range: 2 ≥ α > 0.</param>
+        /// <param name="beta">The skewness (β) of the distribution. Range: 1 ≥ β ≥ -1.</param>
+        /// <param name="scale">The scale (c) of the distribution. Range: c > 0.</param>
         /// <param name="location">The location (μ) of the distribution.</param>
         public Stable(double alpha, double beta, double scale, double location)
         {
@@ -72,9 +72,9 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Initializes a new instance of the <see cref="Stable"/> class. 
         /// </summary>
-        /// <param name="alpha">The stability (α) of the distribution.</param>
-        /// <param name="beta">The skewness (β) of the distribution.</param>
-        /// <param name="scale">The scale (c) of the distribution.</param>
+        /// <param name="alpha">The stability (α) of the distribution. Range: 2 ≥ α > 0.</param>
+        /// <param name="beta">The skewness (β) of the distribution. Range: 1 ≥ β ≥ -1.</param>
+        /// <param name="scale">The scale (c) of the distribution. Range: c > 0.</param>
         /// <param name="location">The location (μ) of the distribution.</param>
         /// <param name="randomSource">The random number generator which is used to draw random samples.</param>
         public Stable(double alpha, double beta, double scale, double location, System.Random randomSource)
@@ -95,9 +95,9 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Checks whether the parameters of the distribution are valid. 
         /// </summary>
-        /// <param name="alpha">The stability (α) of the distribution.</param>
-        /// <param name="beta">The skewness (β) of the distribution.</param>
-        /// <param name="scale">The scale (c) of the distribution.</param>
+        /// <param name="alpha">The stability (α) of the distribution. Range: 2 ≥ α > 0.</param>
+        /// <param name="beta">The skewness (β) of the distribution. Range: 1 ≥ β ≥ -1.</param>
+        /// <param name="scale">The scale (c) of the distribution. Range: c > 0.</param>
         /// <param name="location">The location (μ) of the distribution.</param>
         /// <returns><c>true</c> when the parameters are valid, <c>false</c> otherwise.</returns>
         static bool IsValidParameterSet(double alpha, double beta, double scale, double location)
@@ -108,9 +108,9 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Sets the parameters of the distribution after checking their validity.
         /// </summary>
-        /// <param name="alpha">The stability (α) of the distribution.</param>
-        /// <param name="beta">The skewness (β) of the distribution.</param>
-        /// <param name="scale">The scale (c) of the distribution.</param>
+        /// <param name="alpha">The stability (α) of the distribution. Range: 2 ≥ α > 0.</param>
+        /// <param name="beta">The skewness (β) of the distribution. Range: 1 ≥ β ≥ -1.</param>
+        /// <param name="scale">The scale (c) of the distribution. Range: c > 0.</param>
         /// <param name="location">The location (μ) of the distribution.</param>
         /// <exception cref="ArgumentOutOfRangeException">When the parameters are out of range.</exception>
         void SetParameters(double alpha, double beta, double scale, double location)
@@ -127,7 +127,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Gets or sets the stability (α) of the distribution.
+        /// Gets or sets the stability (α) of the distribution. Range: 2 ≥ α > 0.
         /// </summary>
         public double Alpha
         {
@@ -136,7 +136,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Gets or sets The skewness (β) of the distribution.
+        /// Gets or sets The skewness (β) of the distribution. Range: 1 ≥ β ≥ -1.
         /// </summary>
         public double Beta
         {
@@ -145,7 +145,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Gets or sets the scale (c) of the distribution.
+        /// Gets or sets the scale (c) of the distribution. Range: c > 0.
         /// </summary>
         public double Scale
         {
@@ -399,9 +399,9 @@ namespace MathNet.Numerics.Distributions
         /// Samples the distribution.
         /// </summary>
         /// <param name="rnd">The random number generator to use.</param>
-        /// <param name="alpha">The stability (α) of the distribution.</param>
-        /// <param name="beta">The skewness (β) of the distribution.</param>
-        /// <param name="scale">The scale (c) of the distribution.</param>
+        /// <param name="alpha">The stability (α) of the distribution. Range: 2 ≥ α > 0.</param>
+        /// <param name="beta">The skewness (β) of the distribution. Range: 1 ≥ β ≥ -1.</param>
+        /// <param name="scale">The scale (c) of the distribution. Range: c > 0.</param>
         /// <param name="location">The location (μ) of the distribution.</param>
         /// <returns>a random number from the distribution.</returns>
         static double SampleUnchecked(System.Random rnd, double alpha, double beta, double scale, double location)
@@ -457,9 +457,9 @@ namespace MathNet.Numerics.Distributions
         /// Generates a sample from the distribution.
         /// </summary>
         /// <param name="rnd">The random number generator to use.</param>
-        /// <param name="alpha">The stability (α) of the distribution.</param>
-        /// <param name="beta">The skewness (β) of the distribution.</param>
-        /// <param name="scale">The scale (c) of the distribution.</param>
+        /// <param name="alpha">The stability (α) of the distribution. Range: 2 ≥ α > 0.</param>
+        /// <param name="beta">The skewness (β) of the distribution. Range: 1 ≥ β ≥ -1.</param>
+        /// <param name="scale">The scale (c) of the distribution. Range: c > 0.</param>
         /// <param name="location">The location (μ) of the distribution.</param>
         /// <returns>a sample from the distribution.</returns>
         public static double Sample(System.Random rnd, double alpha, double beta, double scale, double location)
@@ -476,9 +476,9 @@ namespace MathNet.Numerics.Distributions
         /// Generates a sequence of samples from the distribution.
         /// </summary>
         /// <param name="rnd">The random number generator to use.</param>
-        /// <param name="alpha">The stability (α) of the distribution.</param>
-        /// <param name="beta">The skewness (β) of the distribution.</param>
-        /// <param name="scale">The scale (c) of the distribution.</param>
+        /// <param name="alpha">The stability (α) of the distribution. Range: 2 ≥ α > 0.</param>
+        /// <param name="beta">The skewness (β) of the distribution. Range: 1 ≥ β ≥ -1.</param>
+        /// <param name="scale">The scale (c) of the distribution. Range: c > 0.</param>
         /// <param name="location">The location (μ) of the distribution.</param>
         /// <returns>a sequence of samples from the distribution.</returns>
         public static IEnumerable<double> Samples(System.Random rnd, double alpha, double beta, double scale, double location)

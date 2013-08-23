@@ -79,8 +79,8 @@ namespace MathNet.Numerics.Distributions
         /// be initialized with the default <seealso cref="System.Random"/> random number generator.
         /// </summary>
         /// <param name="location">The location (μ) of the distribution.</param>
-        /// <param name="scale">The scale (σ) of the distribution.</param>
-        /// <param name="freedom">The degrees of freedom (ν) for the distribution.</param>
+        /// <param name="scale">The scale (σ) of the distribution. Range: σ > 0.</param>
+        /// <param name="freedom">The degrees of freedom (ν) for the distribution. Range: ν > 0.</param>
         public StudentT(double location, double scale, double freedom)
         {
             _random = new System.Random();
@@ -93,8 +93,8 @@ namespace MathNet.Numerics.Distributions
         /// be initialized with the default <seealso cref="System.Random"/> random number generator.
         /// </summary>
         /// <param name="location">The location (μ) of the distribution.</param>
-        /// <param name="scale">The scale (σ) of the distribution.</param>
-        /// <param name="freedom">The degrees of freedom (ν) for the distribution.</param>
+        /// <param name="scale">The scale (σ) of the distribution. Range: σ > 0.</param>
+        /// <param name="freedom">The degrees of freedom (ν) for the distribution. Range: ν > 0.</param>
         /// <param name="randomSource">The random number generator which is used to draw random samples.</param>
         public StudentT(double location, double scale, double freedom, System.Random randomSource)
         {
@@ -115,8 +115,8 @@ namespace MathNet.Numerics.Distributions
         /// Checks whether the parameters of the distribution are valid. 
         /// </summary>
         /// <param name="location">The location (μ) of the distribution.</param>
-        /// <param name="scale">The scale (σ) of the distribution.</param>
-        /// <param name="freedom">The degrees of freedom (ν) for the distribution.</param>
+        /// <param name="scale">The scale (σ) of the distribution. Range: σ > 0.</param>
+        /// <param name="freedom">The degrees of freedom (ν) for the distribution. Range: ν > 0.</param>
         /// <returns><c>true</c> when the parameters are valid, <c>false</c> otherwise.</returns>
         static bool IsValidParameterSet(double location, double scale, double freedom)
         {
@@ -127,8 +127,8 @@ namespace MathNet.Numerics.Distributions
         /// Sets the parameters of the distribution after checking their validity.
         /// </summary>
         /// <param name="location">The location (μ) of the distribution.</param>
-        /// <param name="scale">The scale (σ) of the distribution.</param>
-        /// <param name="freedom">The degrees of freedom (ν) for the distribution.</param>
+        /// <param name="scale">The scale (σ) of the distribution. Range: σ > 0.</param>
+        /// <param name="freedom">The degrees of freedom (ν) for the distribution. Range: ν > 0.</param>
         /// <exception cref="ArgumentOutOfRangeException">When the parameters are out of range.</exception>
         void SetParameters(double location, double scale, double freedom)
         {
@@ -152,7 +152,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Gets or sets the scale (σ) of the Student t-distribution.
+        /// Gets or sets the scale (σ) of the Student t-distribution. Range: σ > 0.
         /// </summary>
         public double Scale
         {
@@ -161,7 +161,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Gets or sets the degrees of freedom (ν) of the Student t-distribution.
+        /// Gets or sets the degrees of freedom (ν) of the Student t-distribution. Range: ν > 0.
         /// </summary>
         public double DegreesOfFreedom
         {
@@ -353,8 +353,8 @@ namespace MathNet.Numerics.Distributions
         /// in L. Devroye's "Non-Uniform Random Variate Generation"</remarks>
         /// <param name="rnd">The random number generator to use.</param>
         /// <param name="location">The location (μ) of the distribution.</param>
-        /// <param name="scale">The scale (σ) of the distribution.</param>
-        /// <param name="freedom">The degrees of freedom (ν) for the distribution.</param>
+        /// <param name="scale">The scale (σ) of the distribution. Range: σ > 0.</param>
+        /// <param name="freedom">The degrees of freedom (ν) for the distribution. Range: ν > 0.</param>
         /// <returns>a random number from the standard student-t distribution.</returns>
         static double SampleUnchecked(System.Random rnd, double location, double scale, double freedom)
         {
@@ -388,8 +388,8 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         /// <param name="rnd">The random number generator to use.</param>
         /// <param name="location">The location (μ) of the distribution.</param>
-        /// <param name="scale">The scale (σ) of the distribution.</param>
-        /// <param name="freedom">The degrees of freedom (ν) for the distribution.</param>
+        /// <param name="scale">The scale (σ) of the distribution. Range: σ > 0.</param>
+        /// <param name="freedom">The degrees of freedom (ν) for the distribution. Range: ν > 0.</param>
         /// <returns>a sample from the distribution.</returns>
         public static double Sample(System.Random rnd, double location, double scale, double freedom)
         {
@@ -406,8 +406,8 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         /// <param name="rnd">The random number generator to use.</param>
         /// <param name="location">The location (μ) of the distribution.</param>
-        /// <param name="scale">The scale (σ) of the distribution.</param>
-        /// <param name="freedom">The degrees of freedom (ν) for the distribution.</param>
+        /// <param name="scale">The scale (σ) of the distribution. Range: σ > 0.</param>
+        /// <param name="freedom">The degrees of freedom (ν) for the distribution. Range: ν > 0.</param>
         /// <returns>a sequence of samples from the distribution.</returns>
         public static IEnumerable<double> Samples(System.Random rnd, double location, double scale, double freedom)
         {

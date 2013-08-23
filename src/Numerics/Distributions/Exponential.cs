@@ -53,7 +53,7 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Initializes a new instance of the <see cref="Exponential"/> class.
         /// </summary>
-        /// <param name="rate">The rate (λ) parameter of the Exponential distribution.</param>
+        /// <param name="rate">The rate (λ) parameter of the distribution. Range: λ ≥ 0.</param>
         public Exponential(double rate)
         {
             _random = new System.Random();
@@ -63,7 +63,7 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Initializes a new instance of the <see cref="Exponential"/> class.
         /// </summary>
-        /// <param name="rate">The rate (λ) parameter of the Exponential distribution.</param>
+        /// <param name="rate">The rate (λ) parameter of the distribution. Range: λ ≥ 0.</param>
         /// <param name="randomSource">The random number generator which is used to draw random samples.</param>
         public Exponential(double rate, System.Random randomSource)
         {
@@ -83,7 +83,7 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Checks whether the parameters of the distribution are valid. 
         /// </summary>
-        /// <param name="rate">The rate (λ) parameter of the Exponential distribution.</param>
+        /// <param name="rate">The rate (λ) parameter of the distribution. Range: λ ≥ 0.</param>
         /// <returns><c>true</c> when the parameters are valid, <c>false</c> otherwise.</returns>
         static bool IsValidParameterSet(double rate)
         {
@@ -93,7 +93,7 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Sets the parameters of the distribution after checking their validity.
         /// </summary>
-        /// <param name="rate">The rate (λ) parameter of the Exponential distribution.</param>
+        /// <param name="rate">The rate (λ) parameter of the distribution. Range: λ ≥ 0.</param>
         /// <exception cref="ArgumentOutOfRangeException">When the parameters are out of range.</exception>
         void SetParameters(double rate)
         {
@@ -106,7 +106,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Gets or sets the rate (λ) parameter of the distribution.
+        /// Gets or sets the rate (λ) parameter of the distribution. Range: λ ≥ 0.
         /// </summary>
         public double Rate
         {
@@ -239,7 +239,7 @@ namespace MathNet.Numerics.Distributions
         /// Samples the distribution.
         /// </summary>
         /// <param name="rnd">The random number generator to use.</param>
-        /// <param name="rate">The rate (λ) parameter of the Exponential distribution.</param>
+        /// <param name="rate">The rate (λ) parameter of the distribution. Range: λ ≥ 0.</param>
         /// <returns>a random number from the distribution.</returns>
         static double SampleUnchecked(System.Random rnd, double rate)
         {
@@ -277,7 +277,7 @@ namespace MathNet.Numerics.Distributions
         /// Draws a random sample from the distribution.
         /// </summary>
         /// <param name="rnd">The random number generator to use.</param>
-        /// <param name="rate">The rate (λ) parameter of the Exponential distribution.</param>
+        /// <param name="rate">The rate (λ) parameter of the distribution. Range: λ ≥ 0.</param>
         /// <returns>A random number from this distribution.</returns>
         public static double Sample(System.Random rnd, double rate)
         {
@@ -293,7 +293,7 @@ namespace MathNet.Numerics.Distributions
         /// Generates a sequence of samples from the Exponential distribution.
         /// </summary>
         /// <param name="rnd">The random number generator to use.</param>
-        /// <param name="rate">The rate (λ) parameter of the Exponential distribution.</param>
+        /// <param name="rate">The rate (λ) parameter of the distribution. Range: λ ≥ 0.</param>
         /// <returns>a sequence of samples from the distribution.</returns>
         public static IEnumerable<double> Samples(System.Random rnd, double rate)
         {

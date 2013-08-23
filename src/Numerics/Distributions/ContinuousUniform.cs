@@ -61,8 +61,8 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Initializes a new instance of the ContinuousUniform class with given lower and upper bounds.
         /// </summary>
-        /// <param name="lower">Lower bound.</param>
-        /// <param name="upper">Upper bound; must be at least as large as <paramref name="lower"/>.</param>
+        /// <param name="lower">Lower bound. Range: lower ≤ upper.</param>
+        /// <param name="upper">Upper bound. Range: lower ≤ upper.</param>
         /// <exception cref="ArgumentException">If the upper bound is smaller than the lower bound.</exception>
         public ContinuousUniform(double lower, double upper)
         {
@@ -73,8 +73,8 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Initializes a new instance of the ContinuousUniform class with given lower and upper bounds.
         /// </summary>
-        /// <param name="lower">Lower bound.</param>
-        /// <param name="upper">Upper bound; must be at least as large as lower.</param>
+        /// <param name="lower">Lower bound. Range: lower ≤ upper.</param>
+        /// <param name="upper">Upper bound. Range: lower ≤ upper.</param>
         /// <param name="randomSource">The random number generator which is used to draw random samples.</param>
         /// <exception cref="ArgumentException">If the upper bound is smaller than the lower bound.</exception>
         public ContinuousUniform(double lower, double upper, System.Random randomSource)
@@ -95,8 +95,8 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Checks whether the parameters of the distribution are valid. 
         /// </summary>
-        /// <param name="lower">Lower bound.</param>
-        /// <param name="upper">Upper bound; must be at least as large as <paramref name="lower"/>.</param>
+        /// <param name="lower">Lower bound. Range: lower ≤ upper.</param>
+        /// <param name="upper">Upper bound. Range: lower ≤ upper.</param>
         /// <returns><c>true</c> when the parameters are valid, <c>false</c> otherwise.</returns>
         static bool IsValidParameterSet(double lower, double upper)
         {
@@ -106,8 +106,8 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Sets the parameters of the distribution after checking their validity.
         /// </summary>
-        /// <param name="lower">Lower bound.</param>
-        /// <param name="upper">Upper bound; must be at least as large as <paramref name="lower"/>.</param>
+        /// <param name="lower">Lower bound. Range: lower ≤ upper.</param>
+        /// <param name="upper">Upper bound. Range: lower ≤ upper.</param>
         /// <exception cref="ArgumentOutOfRangeException">When the parameters are out of range.</exception>
         void SetParameters(double lower, double upper)
         {
@@ -276,8 +276,8 @@ namespace MathNet.Numerics.Distributions
         /// Generates one sample from the <c>ContinuousUniform</c> distribution without parameter checking.
         /// </summary>
         /// <param name="rnd">The random number generator to use.</param>
-        /// <param name="lower">The lower bound of the uniform random variable.</param>
-        /// <param name="upper">The upper bound of the uniform random variable.</param>
+        /// <param name="lower">Lower bound. Range: lower ≤ upper.</param>
+        /// <param name="upper">Upper bound. Range: lower ≤ upper.</param>
         /// <returns>a uniformly distributed random number.</returns>
         static double SampleUnchecked(System.Random rnd, double lower, double upper)
         {
@@ -309,8 +309,8 @@ namespace MathNet.Numerics.Distributions
         /// Generates a sample from the <c>ContinuousUniform</c> distribution.
         /// </summary>
         /// <param name="rnd">The random number generator to use.</param>
-        /// <param name="lower">The lower bound of the uniform random variable.</param>
-        /// <param name="upper">The upper bound of the uniform random variable.</param>
+        /// <param name="lower">Lower bound. Range: lower ≤ upper.</param>
+        /// <param name="upper">Upper bound. Range: lower ≤ upper.</param>
         /// <returns>a uniformly distributed sample.</returns>
         public static double Sample(System.Random rnd, double lower, double upper)
         {
@@ -326,8 +326,8 @@ namespace MathNet.Numerics.Distributions
         /// Generates a sequence of samples from the <c>ContinuousUniform</c> distribution.
         /// </summary>
         /// <param name="rnd">The random number generator to use.</param>
-        /// <param name="lower">The lower bound of the uniform random variable.</param>
-        /// <param name="upper">The upper bound of the uniform random variable.</param>
+        /// <param name="lower">Lower bound. Range: lower ≤ upper.</param>
+        /// <param name="upper">Upper bound. Range: lower ≤ upper.</param>
         /// <returns>a sequence of uniformly distributed samples.</returns>
         public static IEnumerable<double> Samples(System.Random rnd, double lower, double upper)
         {

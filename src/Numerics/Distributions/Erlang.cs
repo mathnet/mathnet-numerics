@@ -55,8 +55,8 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Initializes a new instance of the <see cref="Erlang"/> class. 
         /// </summary>
-        /// <param name="shape">The shape (k) of the Erlang distribution.</param>
-        /// <param name="rate">The rate or inverse scale (λ) of the Erlang distribution.</param>
+        /// <param name="shape">The shape (k) of the Erlang distribution. Range: k ≥ 0.</param>
+        /// <param name="rate">The rate or inverse scale (λ) of the Erlang distribution. Range: λ ≥ 0.</param>
         public Erlang(int shape, double rate)
         {
             _random = new System.Random();
@@ -66,8 +66,8 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Initializes a new instance of the <see cref="Erlang"/> class. 
         /// </summary>
-        /// <param name="shape">The shape (k) of the Erlang distribution.</param>
-        /// <param name="rate">The rate or inverse scale (λ) of the Erlang distribution.</param>
+        /// <param name="shape">The shape (k) of the Erlang distribution. Range: k ≥ 0.</param>
+        /// <param name="rate">The rate or inverse scale (λ) of the Erlang distribution. Range: λ ≥ 0.</param>
         /// <param name="randomSource">The random number generator which is used to draw random samples.</param>
         public Erlang(int shape, double rate, System.Random randomSource)
         {
@@ -79,9 +79,8 @@ namespace MathNet.Numerics.Distributions
         /// Constructs a Erlang distribution from a shape and scale parameter. The distribution will
         /// be initialized with the default <seealso cref="System.Random"/> random number generator.
         /// </summary>
-        /// <param name="shape">The shape (k) of the Erlang distribution.</param>
-        /// <param name="scale">The scale (mu) of the Erlang distribution.</param>
-        /// <returns>a normal distribution.</returns>
+        /// <param name="shape">The shape (k) of the Erlang distribution. Range: k ≥ 0.</param>
+        /// <param name="scale">The scale (μ) of the Erlang distribution. Range: μ ≥ 0.</param>
         public static Erlang WithShapeScale(int shape, double scale)
         {
             return new Erlang(shape, 1.0/scale);
@@ -91,9 +90,8 @@ namespace MathNet.Numerics.Distributions
         /// Constructs a Erlang distribution from a shape and inverse scale parameter. The distribution will
         /// be initialized with the default <seealso cref="System.Random"/> random number generator.
         /// </summary>
-        /// <param name="shape">The shape (k) of the Erlang distribution.</param>
-        /// <param name="rate">The rate or inverse scale (λ) of the Erlang distribution.</param>
-        /// <returns>a normal distribution.</returns>
+        /// <param name="shape">The shape (k) of the Erlang distribution. Range: k ≥ 0.</param>
+        /// <param name="rate">The rate or inverse scale (λ) of the Erlang distribution. Range: λ ≥ 0.</param>
         public static Erlang WithShapeRate(int shape, double rate)
         {
             return new Erlang(shape, rate);
@@ -111,8 +109,8 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Checks whether the parameters of the distribution are valid.
         /// </summary>
-        /// <param name="shape">The shape (k) of the Erlang distribution.</param>
-        /// <param name="rate">The rate or inverse scale (λ) of the Erlang distribution.</param>
+        /// <param name="shape">The shape (k) of the Erlang distribution. Range: k ≥ 0.</param>
+        /// <param name="rate">The rate or inverse scale (λ) of the Erlang distribution. Range: λ ≥ 0.</param>
         /// <returns><c>true</c> when the parameters are valid, <c>false</c> otherwise.</returns>
         static bool IsValidParameterSet(double shape, double rate)
         {
@@ -122,8 +120,8 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Sets the parameters of the distribution after checking their validity.
         /// </summary>
-        /// <param name="shape">The shape (k) of the Erlang distribution.</param>
-        /// <param name="rate">The rate or inverse scale (λ) of the Erlang distribution.</param>
+        /// <param name="shape">The shape (k) of the Erlang distribution. Range: k ≥ 0.</param>
+        /// <param name="rate">The rate or inverse scale (λ) of the Erlang distribution. Range: λ ≥ 0.</param>
         /// <exception cref="ArgumentOutOfRangeException">When the parameters are out of range.</exception>
         void SetParameters(double shape, double rate)
         {
@@ -137,7 +135,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Gets or sets the shape (k) of the Erlang distribution.
+        /// Gets or sets the shape (k) of the Erlang distribution. Range: k ≥ 0.
         /// </summary>
         public int Shape
         {
@@ -146,7 +144,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Gets or sets the rate or inverse scale (λ) of the Erlang distribution.
+        /// Gets or sets the rate or inverse scale (λ) of the Erlang distribution. Range: λ ≥ 0.
         /// </summary>
         public double Rate
         {
@@ -412,12 +410,12 @@ namespace MathNet.Numerics.Distributions
         /// <para>This method performs no parameter checks.</para>
         /// </summary>
         /// <param name="rnd">The random number generator to use.</param>
-        /// <param name="shape">The shape of the Gamma distribution.</param>
-        /// <param name="invScale">The inverse scale of the Gamma distribution.</param>
+        /// <param name="shape">The shape (k) of the Erlang distribution. Range: k ≥ 0.</param>
+        /// <param name="rate">The rate or inverse scale (λ) of the Erlang distribution. Range: λ ≥ 0.</param>
         /// <returns>A sample from a Erlang distributed random variable.</returns>
-        static double SampleUnchecked(System.Random rnd, double shape, double invScale)
+        static double SampleUnchecked(System.Random rnd, double shape, double rate)
         {
-            if (Double.IsPositiveInfinity(invScale))
+            if (Double.IsPositiveInfinity(rate))
             {
                 return shape;
             }
@@ -449,12 +447,12 @@ namespace MathNet.Numerics.Distributions
                 x = x*x;
                 if (u < 1.0 - (0.0331*x*x))
                 {
-                    return alphafix*d*v/invScale;
+                    return alphafix*d*v/rate;
                 }
 
                 if (Math.Log(u) < (0.5*x) + (d*(1.0 - v + Math.Log(v))))
                 {
-                    return alphafix*d*v/invScale;
+                    return alphafix*d*v/rate;
                 }
             }
         }
@@ -484,36 +482,36 @@ namespace MathNet.Numerics.Distributions
         /// Generates a sample from the distribution.
         /// </summary>
         /// <param name="rnd">The random number generator to use.</param>
-        /// <param name="shape">The shape of the Gamma distribution.</param>
-        /// <param name="invScale">The inverse scale of the Gamma distribution.</param>
+        /// <param name="shape">The shape (k) of the Erlang distribution. Range: k ≥ 0.</param>
+        /// <param name="rate">The rate or inverse scale (λ) of the Erlang distribution. Range: λ ≥ 0.</param>
         /// <returns>a sample from the distribution.</returns>
-        public static double Sample(System.Random rnd, double shape, double invScale)
+        public static double Sample(System.Random rnd, double shape, double rate)
         {
-            if (Control.CheckDistributionParameters && !IsValidParameterSet(shape, invScale))
+            if (Control.CheckDistributionParameters && !IsValidParameterSet(shape, rate))
             {
                 throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
             }
 
-            return SampleUnchecked(rnd, shape, invScale);
+            return SampleUnchecked(rnd, shape, rate);
         }
 
         /// <summary>
         /// Generates a sequence of samples from the distribution.
         /// </summary>
         /// <param name="rnd">The random number generator to use.</param>
-        /// <param name="shape">The shape of the Gamma distribution.</param>
-        /// <param name="invScale">The inverse scale of the Gamma distribution.</param>
+        /// <param name="shape">The shape (k) of the Erlang distribution. Range: k ≥ 0.</param>
+        /// <param name="rate">The rate or inverse scale (λ) of the Erlang distribution. Range: λ ≥ 0.</param>
         /// <returns>a sequence of samples from the distribution.</returns>
-        public static IEnumerable<double> Samples(System.Random rnd, double shape, double invScale)
+        public static IEnumerable<double> Samples(System.Random rnd, double shape, double rate)
         {
-            if (Control.CheckDistributionParameters && !IsValidParameterSet(shape, invScale))
+            if (Control.CheckDistributionParameters && !IsValidParameterSet(shape, rate))
             {
                 throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
             }
 
             while (true)
             {
-                yield return SampleUnchecked(rnd, shape, invScale);
+                yield return SampleUnchecked(rnd, shape, rate);
             }
         }
     }

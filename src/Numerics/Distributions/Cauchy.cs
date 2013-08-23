@@ -58,8 +58,7 @@ namespace MathNet.Numerics.Distributions
         /// Initializes a new instance of the <see cref="Cauchy"/> class. 
         /// </summary>
         /// <param name="location">The location (x0) of the distribution.</param>
-        /// <param name="scale">The scale (γ) of the distribution.</param>
-        /// <exception cref="ArgumentException">If <paramref name="scale"/> is negative.</exception>
+        /// <param name="scale">The scale (γ) of the distribution. Range: γ > 0.</param>
         public Cauchy(double location, double scale)
         {
             _random = new System.Random();
@@ -70,9 +69,8 @@ namespace MathNet.Numerics.Distributions
         /// Initializes a new instance of the <see cref="Cauchy"/> class. 
         /// </summary>
         /// <param name="location">The location (x0) of the distribution.</param>
-        /// <param name="scale">The scale (γ) of the distribution.</param>
+        /// <param name="scale">The scale (γ) of the distribution. Range: γ > 0.</param>
         /// <param name="randomSource">The random number generator which is used to draw random samples.</param>
-        /// <exception cref="ArgumentException">If <paramref name="scale"/> is negative.</exception>
         public Cauchy(double location, double scale, System.Random randomSource)
         {
             _random = randomSource ?? new System.Random();
@@ -92,7 +90,7 @@ namespace MathNet.Numerics.Distributions
         /// Checks whether the parameters of the distribution are valid. 
         /// </summary>
         /// <param name="location">The location (x0) of the distribution.</param>
-        /// <param name="scale">The scale (γ) of the distribution. Must be greater than 0.</param>
+        /// <param name="scale">The scale (γ) of the distribution. Range: γ > 0.</param>
         /// <returns>True when the parameters are valid, <c>false</c> otherwise.</returns>
         static bool IsValidParameterSet(double location, double scale)
         {
@@ -103,7 +101,7 @@ namespace MathNet.Numerics.Distributions
         /// Sets the parameters of the distribution after checking their validity.
         /// </summary>
         /// <param name="location">The location (x0) of the distribution.</param>
-        /// <param name="scale">The scale (γ) of the distribution. Must be greater than 0.</param>
+        /// <param name="scale">The scale (γ) of the distribution. Range: γ > 0.</param>
         /// <exception cref="ArgumentOutOfRangeException">When the parameters are out of range.</exception>
         void SetParameters(double location, double scale)
         {
@@ -126,7 +124,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Gets or sets the scale (γ) of the distribution.
+        /// Gets or sets the scale (γ) of the distribution. Range: γ > 0.
         /// </summary>
         public double Scale
         {
@@ -250,7 +248,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         /// <param name="rnd">The random number generator to use.</param>
         /// <param name="location">The location (x0) of the distribution.</param>
-        /// <param name="scale">The scale (γ) of the distribution.</param>
+        /// <param name="scale">The scale (γ) of the distribution. Range: γ > 0.</param>
         /// <returns>a random number from the distribution.</returns>
         static double SampleUnchecked(System.Random rnd, double location, double scale)
         {
@@ -284,7 +282,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         /// <param name="rnd">The random number generator to use.</param>
         /// <param name="location">The location (x0) of the distribution.</param>
-        /// <param name="scale">The scale (γ) of the distribution.</param>
+        /// <param name="scale">The scale (γ) of the distribution. Range: γ > 0.</param>
         /// <returns>a sample from the distribution.</returns>
         public static double Sample(System.Random rnd, double location, double scale)
         {
@@ -301,7 +299,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         /// <param name="rnd">The random number generator to use.</param>
         /// <param name="location">The location (x0) of the distribution.</param>
-        /// <param name="scale">The scale (γ) of the distribution.</param>
+        /// <param name="scale">The scale (γ) of the distribution. Range: γ > 0.</param>
         /// <returns>a sequence of samples from the distribution.</returns>
         public static IEnumerable<double> Samples(System.Random rnd, double location, double scale)
         {

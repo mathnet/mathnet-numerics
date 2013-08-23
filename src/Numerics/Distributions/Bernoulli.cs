@@ -54,7 +54,7 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Initializes a new instance of the Bernoulli class.
         /// </summary>
-        /// <param name="p">The probability of generating one.</param>
+        /// <param name="p">The probability (p) of generating one. Range: 0 ≤ p ≤ 1.</param>
         /// <exception cref="ArgumentOutOfRangeException">If the Bernoulli parameter is not in the range [0,1].</exception>
         public Bernoulli(double p)
         {
@@ -65,7 +65,7 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Initializes a new instance of the Bernoulli class.
         /// </summary>
-        /// <param name="p">The probability of generating one.</param>
+        /// <param name="p">The probability (p) of generating one. Range: 0 ≤ p ≤ 1.</param>
         /// <param name="randomSource">The random number generator which is used to draw random samples.</param>
         /// <exception cref="ArgumentOutOfRangeException">If the Bernoulli parameter is not in the range [0,1].</exception>
         public Bernoulli(double p, System.Random randomSource)
@@ -80,13 +80,13 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a string representation of the distribution.</returns>
         public override string ToString()
         {
-            return "Bernoulli(P = " + _p + ")";
+            return "Bernoulli(p = " + _p + ")";
         }
 
         /// <summary>
         /// Checks whether the parameters of the distribution are valid. 
         /// </summary>
-        /// <param name="p">The probability of generating a one.</param>
+        /// <param name="p">The probability (p) of generating one. Range: 0 ≤ p ≤ 1.</param>
         /// <returns><c>true</c> when the parameters are valid, <c>false</c> otherwise.</returns>
         static bool IsValidParameterSet(double p)
         {
@@ -96,7 +96,7 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Sets the parameters of the distribution after checking their validity.
         /// </summary>
-        /// <param name="p">The probability of generating a one.</param>
+        /// <param name="p">The probability (p) of generating one. Range: 0 ≤ p ≤ 1.</param>
         /// <exception cref="ArgumentOutOfRangeException">When the parameters are out of range.</exception>
         void SetParameters(double p)
         {
@@ -109,7 +109,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Gets or sets the probability of generating a one.
+        /// Gets or sets the probability of generating a one. Range: 0 ≤ p ≤ 1.
         /// </summary>
         public double P
         {
@@ -257,7 +257,7 @@ namespace MathNet.Numerics.Distributions
         /// Generates one sample from the Bernoulli distribution.
         /// </summary>
         /// <param name="rnd">The random source to use.</param>
-        /// <param name="p">The probability of generating a one.</param>
+        /// <param name="p">The probability (p) of generating one. Range: 0 ≤ p ≤ 1.</param>
         /// <returns>A random sample from the Bernoulli distribution.</returns>
         static int SampleUnchecked(System.Random rnd, double p)
         {
@@ -294,7 +294,7 @@ namespace MathNet.Numerics.Distributions
         /// Samples a Bernoulli distributed random variable.
         /// </summary>
         /// <param name="rnd">The random number generator to use.</param>
-        /// <param name="p">The probability of generating a 1.</param>
+        /// <param name="p">The probability (p) of generating one. Range: 0 ≤ p ≤ 1.</param>
         /// <returns>A sample from the Bernoulli distribution.</returns>
         public static int Sample(System.Random rnd, double p)
         {
@@ -310,7 +310,7 @@ namespace MathNet.Numerics.Distributions
         /// Samples a sequence of Bernoulli distributed random variables.
         /// </summary>
         /// <param name="rnd">The random number generator to use.</param>
-        /// <param name="p">The probability of generating a 1.</param>
+        /// <param name="p">The probability (p) of generating one. Range: 0 ≤ p ≤ 1.</param>
         /// <returns>a sequence of samples from the distribution.</returns>
         public static IEnumerable<int> Samples(System.Random rnd, double p)
         {

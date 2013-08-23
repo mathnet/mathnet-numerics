@@ -56,7 +56,7 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Initializes a new instance of the <see cref="Rayleigh"/> class. 
         /// </summary>
-        /// <param name="scale">The scale (σ) of the distribution.</param>
+        /// <param name="scale">The scale (σ) of the distribution. Range: σ > 0.</param>
         /// <exception cref="ArgumentException">If <paramref name="scale"/> is negative.</exception>
         public Rayleigh(double scale)
         {
@@ -67,7 +67,7 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Initializes a new instance of the <see cref="Rayleigh"/> class. 
         /// </summary>
-        /// <param name="scale">The scale (σ) of the distribution.</param>
+        /// <param name="scale">The scale (σ) of the distribution. Range: σ > 0.</param>
         /// <param name="randomSource">The random number generator which is used to draw random samples.</param>
         /// <exception cref="ArgumentException">If <paramref name="scale"/> is negative.</exception>
         public Rayleigh(double scale, System.Random randomSource)
@@ -88,7 +88,7 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Checks whether the parameters of the distribution are valid. 
         /// </summary>
-        /// <param name="scale">The scale (σ) of the distribution.</param>
+        /// <param name="scale">The scale (σ) of the distribution. Range: σ > 0.</param>
         /// <returns><c>true</c> when the parameters are valid, <c>false</c> otherwise.</returns>
         static bool IsValidParameterSet(double scale)
         {
@@ -98,7 +98,7 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Sets the parameters of the distribution after checking their validity.
         /// </summary>
-        /// <param name="scale">The scale (σ) of the distribution.</param>
+        /// <param name="scale">The scale (σ) of the distribution. Range: σ > 0.</param>
         /// <exception cref="ArgumentOutOfRangeException">When the parameters are out of range.</exception>
         void SetParameters(double scale)
         {
@@ -111,7 +111,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Gets or sets the scale (σ) of the distribution.
+        /// Gets or sets the scale (σ) of the distribution. Range: σ > 0.
         /// </summary>
         public double Scale
         {
@@ -234,7 +234,7 @@ namespace MathNet.Numerics.Distributions
         /// Generates a sample from the Rayleigh distribution without doing parameter checking.
         /// </summary>
         /// <param name="rnd">The random number generator to use.</param>
-        /// <param name="scale">The scale (σ) of the distribution.</param>
+        /// <param name="scale">The scale (σ) of the distribution. Range: σ > 0.</param>
         /// <returns>a random number from the Rayleigh distribution.</returns>
         static double SampleUnchecked(System.Random rnd, double scale)
         {
@@ -266,7 +266,7 @@ namespace MathNet.Numerics.Distributions
         /// Generates a sample from the distribution.
         /// </summary>
         /// <param name="rnd">The random number generator to use.</param>
-        /// <param name="scale">The scale (σ) of the distribution.</param>
+        /// <param name="scale">The scale (σ) of the distribution. Range: σ > 0.</param>
         /// <returns>a sample from the distribution.</returns>
         public static double Sample(System.Random rnd, double scale)
         {
@@ -282,7 +282,7 @@ namespace MathNet.Numerics.Distributions
         /// Generates a sequence of samples from the distribution.
         /// </summary>
         /// <param name="rnd">The random number generator to use.</param>
-        /// <param name="scale">The scale (σ) of the distribution.</param>
+        /// <param name="scale">The scale (σ) of the distribution. Range: σ > 0.</param>
         /// <returns>a sequence of samples from the distribution.</returns>
         public static IEnumerable<double> Samples(System.Random rnd, double scale)
         {

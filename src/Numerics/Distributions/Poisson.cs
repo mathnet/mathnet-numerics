@@ -51,7 +51,7 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Initializes a new instance of the <see cref="Poisson"/> class.
         /// </summary>
-        /// <param name="lambda">The Poisson distribution parameter λ.</param>
+        /// <param name="lambda">The lambda (λ) parameter of the Poisson distribution. Range: λ > 0.</param>
         /// <exception cref="System.ArgumentOutOfRangeException">If <paramref name="lambda"/> is equal or less then 0.0.</exception>
         public Poisson(double lambda)
         {
@@ -62,7 +62,7 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Initializes a new instance of the <see cref="Poisson"/> class.
         /// </summary>
-        /// <param name="lambda">The Poisson distribution parameter λ.</param>
+        /// <param name="lambda">The lambda (λ) parameter of the Poisson distribution. Range: λ > 0.</param>
         /// <param name="randomSource">The random number generator which is used to draw random samples.</param>
         /// <exception cref="System.ArgumentOutOfRangeException">If <paramref name="lambda"/> is equal or less then 0.0.</exception>
         public Poisson(double lambda, System.Random randomSource)
@@ -85,7 +85,7 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Checks whether the parameters of the distribution are valid. 
         /// </summary>
-        /// <param name="lambda">The mean (λ) of the distribution.</param>
+        /// <param name="lambda">The lambda (λ) parameter of the Poisson distribution. Range: λ > 0.</param>
         /// <returns><c>true</c> when the parameters are valid, <c>false</c> otherwise.</returns>
         static bool IsValidParameterSet(double lambda)
         {
@@ -95,7 +95,7 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Sets the parameters of the distribution after checking their validity.
         /// </summary>
-        /// <param name="lambda">The mean (λ) of the distribution.</param>
+        /// <param name="lambda">The lambda (λ) parameter of the Poisson distribution. Range: λ > 0.</param>
         /// <exception cref="ArgumentOutOfRangeException">When the parameters are out of range.</exception>
         void SetParameters(double lambda)
         {
@@ -108,7 +108,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Gets or sets the Poisson distribution parameter λ.
+        /// Gets or sets the Poisson distribution parameter λ. Range: λ > 0.
         /// </summary>
         public double Lambda
         {
@@ -233,7 +233,7 @@ namespace MathNet.Numerics.Distributions
         /// Generates one sample from the Poisson distribution.
         /// </summary>
         /// <param name="rnd">The random source to use.</param>
-        /// <param name="lambda">The Poisson distribution parameter λ.</param>
+        /// <param name="lambda">The lambda (λ) parameter of the Poisson distribution. Range: λ > 0.</param>
         /// <returns>A random sample from the Poisson distribution.</returns>
         static int SampleUnchecked(System.Random rnd, double lambda)
         {
@@ -244,7 +244,7 @@ namespace MathNet.Numerics.Distributions
         /// Generates one sample from the Poisson distribution by Knuth's method.
         /// </summary>
         /// <param name="rnd">The random source to use.</param>
-        /// <param name="lambda">The Poisson distribution parameter λ.</param>
+        /// <param name="lambda">The lambda (λ) parameter of the Poisson distribution. Range: λ > 0.</param>
         /// <returns>A random sample from the Poisson distribution.</returns>
         static int DoSampleShort(System.Random rnd, double lambda)
         {
@@ -262,7 +262,7 @@ namespace MathNet.Numerics.Distributions
         /// Generates one sample from the Poisson distribution by "Rejection method PA".
         /// </summary>
         /// <param name="rnd">The random source to use.</param>
-        /// <param name="lambda">The Poisson distribution parameter λ.</param>
+        /// <param name="lambda">The lambda (λ) parameter of the Poisson distribution. Range: λ > 0.</param>
         /// <returns>A random sample from the Poisson distribution.</returns>
         /// <remarks>"Rejection method PA" from "The Computer Generation of Poisson Random Variables" by A. C. Atkinson,
         /// Journal of the Royal Statistical Society Series C (Applied Statistics) Vol. 28, No. 1. (1979)
@@ -321,7 +321,7 @@ namespace MathNet.Numerics.Distributions
         /// Samples a Poisson distributed random variable.
         /// </summary>
         /// <param name="rnd">The random number generator to use.</param>
-        /// <param name="lambda">The Poisson distribution parameter λ.</param>
+        /// <param name="lambda">The lambda (λ) parameter of the Poisson distribution. Range: λ > 0.</param>
         /// <returns>A sample from the Poisson distribution.</returns>
         public static int Sample(System.Random rnd, double lambda)
         {
@@ -337,7 +337,7 @@ namespace MathNet.Numerics.Distributions
         /// Samples a sequence of Poisson distributed random variables.
         /// </summary>
         /// <param name="rnd">The random number generator to use.</param>
-        /// <param name="lambda">The Poisson distribution parameter λ.</param>
+        /// <param name="lambda">The lambda (λ) parameter of the Poisson distribution. Range: λ > 0.</param>
         /// <returns>a sequence of samples from the distribution.</returns>
         public static IEnumerable<int> Samples(System.Random rnd, double lambda)
         {

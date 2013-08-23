@@ -56,8 +56,8 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Initializes a new instance of the <see cref="NegativeBinomial"/> class. 
         /// </summary>
-        /// <param name="r">The number of failures until the experiment stopped.</param>
-        /// <param name="p">The probability of a trial resulting in success.</param>
+        /// <param name="r">The number of failures (r) until the experiment stopped. Range: r ≥ 0.</param>
+        /// <param name="p">The probability (p) of a trial resulting in success. Range: 0 ≤ p ≤ 1.</param>
         public NegativeBinomial(double r, double p)
         {
             _random = new System.Random();
@@ -67,8 +67,8 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Initializes a new instance of the <see cref="NegativeBinomial"/> class. 
         /// </summary>
-        /// <param name="r">The number of failures until the experiment stopped.</param>
-        /// <param name="p">The probability of a trial resulting in success.</param>
+        /// <param name="r">The number of failures (r) until the experiment stopped. Range: r ≥ 0.</param>
+        /// <param name="p">The probability (p) of a trial resulting in success. Range: 0 ≤ p ≤ 1.</param>
         /// <param name="randomSource">The random number generator which is used to draw random samples.</param>
         public NegativeBinomial(double r, double p, System.Random randomSource)
         {
@@ -90,8 +90,8 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Checks whether the parameters of the distribution are valid. 
         /// </summary>
-        /// <param name="r">The number of failures until the experiment stopped.</param>
-        /// <param name="p">The probability of a trial resulting in success.</param>
+        /// <param name="r">The number of failures (r) until the experiment stopped. Range: r ≥ 0.</param>
+        /// <param name="p">The probability (p) of a trial resulting in success. Range: 0 ≤ p ≤ 1.</param>
         /// <returns><c>true</c> when the parameters are valid, <c>false</c> otherwise.</returns>        
         static bool IsValidParameterSet(double r, double p)
         {
@@ -101,8 +101,8 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Sets the parameters of the distribution after checking their validity.
         /// </summary>
-        /// <param name="r">The number of failures until the experiment stopped.</param>
-        /// <param name="p">The probability of a trial resulting in success.</param>
+        /// <param name="r">The number of failures (r) until the experiment stopped. Range: r ≥ 0.</param>
+        /// <param name="p">The probability (p) of a trial resulting in success. Range: 0 ≤ p ≤ 1.</param>
         /// <exception cref="ArgumentOutOfRangeException">When the parameters are out of range.</exception>
         void SetParameters(double r, double p)
         {
@@ -116,7 +116,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Gets or sets the number of trials.
+        /// Gets or sets the number of trials. Range: r ≥ 0.
         /// </summary>
         public double R
         {
@@ -125,7 +125,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Gets or sets the probability of success.
+        /// Gets or sets the probability of success. Range: 0 ≤ p ≤ 1.
         /// </summary>
         public double P
         {
@@ -257,8 +257,8 @@ namespace MathNet.Numerics.Distributions
         /// Samples a negative binomial distributed random variable.
         /// </summary>
         /// <param name="rnd">The random number generator to use.</param>
-        /// <param name="r">The number of failures until the experiment stopped.</param>
-        /// <param name="p">The probability of a trial resulting in success.</param>
+        /// <param name="r">The number of failures (r) until the experiment stopped. Range: r ≥ 0.</param>
+        /// <param name="p">The probability (p) of a trial resulting in success. Range: 0 ≤ p ≤ 1.</param>
         /// <returns>a sample from the distribution.</returns>
         static int SampleUnchecked(System.Random rnd, double r, double p)
         {
@@ -299,8 +299,8 @@ namespace MathNet.Numerics.Distributions
         /// Samples a random variable.
         /// </summary>
         /// <param name="rnd">The random number generator to use.</param>
-        /// <param name="r">The number of failures until the experiment stopped.</param>
-        /// <param name="p">The probability of a trial resulting in success.</param>
+        /// <param name="r">The number of failures (r) until the experiment stopped. Range: r ≥ 0.</param>
+        /// <param name="p">The probability (p) of a trial resulting in success. Range: 0 ≤ p ≤ 1.</param>
         public static int Sample(System.Random rnd, double r, double p)
         {
             if (Control.CheckDistributionParameters && !IsValidParameterSet(r, p))
@@ -315,8 +315,8 @@ namespace MathNet.Numerics.Distributions
         /// Samples a sequence of this random variable.
         /// </summary>
         /// <param name="rnd">The random number generator to use.</param>
-        /// <param name="r">The number of failures until the experiment stopped.</param>
-        /// <param name="p">The probability of a trial resulting in success.</param>
+        /// <param name="r">The number of failures (r) until the experiment stopped. Range: r ≥ 0.</param>
+        /// <param name="p">The probability (p) of a trial resulting in success. Range: 0 ≤ p ≤ 1.</param>
         public static IEnumerable<int> Samples(System.Random rnd, double r, double p)
         {
             if (Control.CheckDistributionParameters && !IsValidParameterSet(r, p))

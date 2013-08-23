@@ -82,8 +82,8 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Initializes a new instance of the <see cref="ConwayMaxwellPoisson"/> class. 
         /// </summary>
-        /// <param name="lambda">The lambda (λ) parameter.</param>
-        /// <param name="nu">The rate of decay (ν) parameter.</param>
+        /// <param name="lambda">The lambda (λ) parameter. Range: λ > 0.</param>
+        /// <param name="nu">The rate of decay (ν) parameter. Range: ν ≥ 0.</param>
         public ConwayMaxwellPoisson(double lambda, double nu)
         {
             _random = new System.Random();
@@ -93,8 +93,8 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Initializes a new instance of the <see cref="ConwayMaxwellPoisson"/> class. 
         /// </summary>
-        /// <param name="lambda">The lambda (λ) parameter.</param>
-        /// <param name="nu">The rate of decay (ν) parameter.</param>
+        /// <param name="lambda">The lambda (λ) parameter. Range: λ > 0.</param>
+        /// <param name="nu">The rate of decay (ν) parameter. Range: ν ≥ 0.</param>
         /// <param name="randomSource">The random number generator which is used to draw random samples.</param>
         public ConwayMaxwellPoisson(double lambda, double nu, System.Random randomSource)
         {
@@ -114,8 +114,8 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Checks whether the parameters of the distribution are valid. 
         /// </summary>
-        /// <param name="lambda">The lambda (λ) parameter.</param>
-        /// <param name="nu">The rate of decay (ν) parameter.</param>
+        /// <param name="lambda">The lambda (λ) parameter. Range: λ > 0.</param>
+        /// <param name="nu">The rate of decay (ν) parameter. Range: ν ≥ 0.</param>
         /// <returns><c>true</c> when the parameters are valid, <c>false</c> otherwise.</returns>
         static bool IsValidParameterSet(double lambda, double nu)
         {
@@ -125,8 +125,8 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Sets the parameters of the distribution after checking their validity.
         /// </summary>
-        /// <param name="lambda">The lambda (λ) parameter.</param>
-        /// <param name="nu">The rate of decay (ν) parameter.</param>
+        /// <param name="lambda">The lambda (λ) parameter. Range: λ > 0.</param>
+        /// <param name="nu">The rate of decay (ν) parameter. Range: ν ≥ 0.</param>
         /// <exception cref="ArgumentOutOfRangeException">When the parameters are out of range.</exception>
         void SetParameters(double lambda, double nu)
         {
@@ -140,7 +140,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Gets or sets the lambda (λ) parameter.
+        /// Gets or sets the lambda (λ) parameter. Range: λ > 0.
         /// </summary>
         public double Lambda
         {
@@ -149,7 +149,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Gets or sets the rate of decay (ν) parameter.
+        /// Gets or sets the rate of decay (ν) parameter. Range: ν ≥ 0.
         /// </summary>
         public double Nu
         {
@@ -443,8 +443,8 @@ namespace MathNet.Numerics.Distributions
         /// Returns one trials from the distribution.
         /// </summary>
         /// <param name="rnd">The random number generator to use.</param>
-        /// <param name="lambda">The lambda (λ) parameter.</param>
-        /// <param name="nu">The rate of decay (ν) parameter.</param>
+        /// <param name="lambda">The lambda (λ) parameter. Range: λ > 0.</param>
+        /// <param name="nu">The rate of decay (ν) parameter. Range: ν ≥ 0.</param>
         /// <param name="z">The z parameter.</param>
         /// <returns>
         /// One sample from the distribution implied by <paramref name="lambda"/>, <paramref name="nu"/>, and <paramref name="z"/>.
@@ -493,8 +493,8 @@ namespace MathNet.Numerics.Distributions
         /// Samples a random variable.
         /// </summary>
         /// <param name="rnd">The random number generator to use.</param>
-        /// <param name="lambda">The lambda (λ) parameter.</param>
-        /// <param name="nu">The rate of decay (ν) parameter.</param>
+        /// <param name="lambda">The lambda (λ) parameter. Range: λ > 0.</param>
+        /// <param name="nu">The rate of decay (ν) parameter. Range: ν ≥ 0.</param>
         public static int Sample(System.Random rnd, double lambda, double nu)
         {
             if (Control.CheckDistributionParameters && !IsValidParameterSet(lambda, nu))
@@ -510,8 +510,8 @@ namespace MathNet.Numerics.Distributions
         /// Samples a sequence of this random variable.
         /// </summary>
         /// <param name="rnd">The random number generator to use.</param>
-        /// <param name="lambda">The lambda (λ) parameter.</param>
-        /// <param name="nu">The rate of decay (ν) parameter.</param>
+        /// <param name="lambda">The lambda (λ) parameter. Range: λ > 0.</param>
+        /// <param name="nu">The rate of decay (ν) parameter. Range: ν ≥ 0.</param>
         public static IEnumerable<int> Samples(System.Random rnd, double lambda, double nu)
         {
             if (Control.CheckDistributionParameters && !IsValidParameterSet(lambda, nu))

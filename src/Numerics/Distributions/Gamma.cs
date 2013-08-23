@@ -62,8 +62,8 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Initializes a new instance of the Gamma class.
         /// </summary>
-        /// <param name="shape">The shape (k, α) of the Gamma distribution.</param>
-        /// <param name="rate">The rate or inverse scale (β) of the Gamma distribution.</param>
+        /// <param name="shape">The shape (k, α) of the Gamma distribution. Range: α ≥ 0.</param>
+        /// <param name="rate">The rate or inverse scale (β) of the Gamma distribution. Range: β ≥ 0.</param>
         public Gamma(double shape, double rate)
         {
             _random = new System.Random();
@@ -73,8 +73,8 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Initializes a new instance of the Gamma class.
         /// </summary>
-        /// <param name="shape">The shape (k, α) of the Gamma distribution.</param>
-        /// <param name="rate">The rate or inverse scale (β) of the Gamma distribution.</param>
+        /// <param name="shape">The shape (k, α) of the Gamma distribution. Range: α ≥ 0.</param>
+        /// <param name="rate">The rate or inverse scale (β) of the Gamma distribution. Range: β ≥ 0.</param>
         /// <param name="randomSource">The random number generator which is used to draw random samples.</param>
         public Gamma(double shape, double rate, System.Random randomSource)
         {
@@ -86,8 +86,8 @@ namespace MathNet.Numerics.Distributions
         /// Constructs a Gamma distribution from a shape and scale parameter. The distribution will
         /// be initialized with the default <seealso cref="System.Random"/> random number generator.
         /// </summary>
-        /// <param name="shape">The shape (k) of the Gamma distribution.</param>
-        /// <param name="scale">The scale (θ) of the Gamma distribution.</param>
+        /// <param name="shape">The shape (k) of the Gamma distribution. Range: k ≥ 0.</param>
+        /// <param name="scale">The scale (θ) of the Gamma distribution. Range: θ ≥ 0</param>
         public static Gamma WithShapeScale(double shape, double scale)
         {
             return new Gamma(shape, 1.0/scale);
@@ -97,8 +97,8 @@ namespace MathNet.Numerics.Distributions
         /// Constructs a Gamma distribution from a shape and inverse scale parameter. The distribution will
         /// be initialized with the default <seealso cref="System.Random"/> random number generator.
         /// </summary>
-        /// <param name="shape">The shape (α) of the Gamma distribution.</param>
-        /// <param name="rate">The rate or inverse scale (β) of the Gamma distribution.</param>
+        /// <param name="shape">The shape (k, α) of the Gamma distribution. Range: α ≥ 0.</param>
+        /// <param name="rate">The rate or inverse scale (β) of the Gamma distribution. Range: β ≥ 0.</param>
         public static Gamma WithShapeRate(double shape, double rate)
         {
             return new Gamma(shape, rate);
@@ -116,8 +116,8 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Checks whether the parameters of the distribution are valid. 
         /// </summary>
-        /// <param name="shape">The shape (k, α) of the Gamma distribution.</param>
-        /// <param name="rate">The rate or inverse scale (β) of the Gamma distribution.</param>
+        /// <param name="shape">The shape (k, α) of the Gamma distribution. Range: α ≥ 0.</param>
+        /// <param name="rate">The rate or inverse scale (β) of the Gamma distribution. Range: β ≥ 0.</param>
         /// <returns><c>true</c> when the parameters are valid, <c>false</c> otherwise.</returns>
         static bool IsValidParameterSet(double shape, double rate)
         {
@@ -127,8 +127,8 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Sets the parameters of the distribution after checking their validity.
         /// </summary>
-        /// <param name="shape">The shape (k, α) of the Gamma distribution.</param>
-        /// <param name="rate">The rate or inverse scale (β) of the Gamma distribution.</param>
+        /// <param name="shape">The shape (k, α) of the Gamma distribution. Range: α ≥ 0.</param>
+        /// <param name="rate">The rate or inverse scale (β) of the Gamma distribution. Range: β ≥ 0.</param>
         /// <exception cref="ArgumentOutOfRangeException">When the parameters are out of range.</exception>
         void SetParameters(double shape, double rate)
         {
@@ -142,7 +142,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Gets or sets the shape (k, α) of the Gamma distribution.
+        /// Gets or sets the shape (k, α) of the Gamma distribution. Range: α ≥ 0.
         /// </summary>
         public double Shape
         {
@@ -151,7 +151,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Gets or sets the rate or inverse scale (β) of the Gamma distribution.
+        /// Gets or sets the rate or inverse scale (β) of the Gamma distribution. Range: β ≥ 0.
         /// </summary>
         public double Rate
         {
@@ -412,8 +412,8 @@ namespace MathNet.Numerics.Distributions
         /// <para>This method performs no parameter checks.</para>
         /// </summary>
         /// <param name="rnd">The random number generator to use.</param>
-        /// <param name="shape">The shape (k, α) of the Gamma distribution.</param>
-        /// <param name="rate">The rate or inverse scale (β) of the Gamma distribution.</param>
+        /// <param name="shape">The shape (k, α) of the Gamma distribution. Range: α ≥ 0.</param>
+        /// <param name="rate">The rate or inverse scale (β) of the Gamma distribution. Range: β ≥ 0.</param>
         /// <returns>A sample from a Gamma distributed random variable.</returns>
         internal static double SampleUnchecked(System.Random rnd, double shape, double rate)
         {
@@ -484,8 +484,8 @@ namespace MathNet.Numerics.Distributions
         /// Generates a sample from the Gamma distribution.
         /// </summary>
         /// <param name="rnd">The random number generator to use.</param>
-        /// <param name="shape">The shape (k, α) of the Gamma distribution.</param>
-        /// <param name="rate">The rate or inverse scale (β) of the Gamma distribution.</param>
+        /// <param name="shape">The shape (k, α) of the Gamma distribution. Range: α ≥ 0.</param>
+        /// <param name="rate">The rate or inverse scale (β) of the Gamma distribution. Range: β ≥ 0.</param>
         /// <returns>a sample from the distribution.</returns>
         public static double Sample(System.Random rnd, double shape, double rate)
         {
@@ -501,8 +501,8 @@ namespace MathNet.Numerics.Distributions
         /// Generates a sequence of samples from the Gamma distribution.
         /// </summary>
         /// <param name="rnd">The random number generator to use.</param>
-        /// <param name="shape">The shape (k, α) of the Gamma distribution.</param>
-        /// <param name="rate">The rate or inverse scale (β) of the Gamma distribution.</param>
+        /// <param name="shape">The shape (k, α) of the Gamma distribution. Range: α ≥ 0.</param>
+        /// <param name="rate">The rate or inverse scale (β) of the Gamma distribution. Range: β ≥ 0.</param>
         /// <returns>a sequence of samples from the distribution.</returns>
         public static IEnumerable<double> Samples(System.Random rnd, double shape, double rate)
         {
