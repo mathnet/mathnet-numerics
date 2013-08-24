@@ -241,7 +241,9 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void ValidateDensity(double dof, double x)
         {
             var n = new ChiSquared(dof);
-            Assert.AreEqual((Math.Pow(x, (dof / 2.0) - 1.0) * Math.Exp(-x / 2.0)) / (Math.Pow(2.0, dof / 2.0) * SpecialFunctions.Gamma(dof / 2.0)), n.Density(x));
+            double expected = (Math.Pow(x, (dof / 2.0) - 1.0) * Math.Exp(-x / 2.0)) / (Math.Pow(2.0, dof / 2.0) * SpecialFunctions.Gamma(dof / 2.0));
+            Assert.AreEqual(expected, n.Density(x));
+            Assert.AreEqual(expected, ChiSquared.PDF(dof, x));
         }
 
         /// <summary>
@@ -276,7 +278,9 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void ValidateDensityLn(double dof, double x)
         {
             var n = new ChiSquared(dof);
-            Assert.AreEqual((-x / 2.0) + (((dof / 2.0) - 1.0) * Math.Log(x)) - ((dof / 2.0) * Math.Log(2)) - SpecialFunctions.GammaLn(dof / 2.0), n.DensityLn(x));
+            double expected = (-x / 2.0) + (((dof / 2.0) - 1.0) * Math.Log(x)) - ((dof / 2.0) * Math.Log(2)) - SpecialFunctions.GammaLn(dof / 2.0);
+            Assert.AreEqual(expected, n.DensityLn(x));
+            Assert.AreEqual(expected, ChiSquared.PDFLn(dof, x));
         }
 
         /// <summary>
@@ -350,7 +354,9 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void ValidateCumulativeDistribution(double dof, double x)
         {
             var n = new ChiSquared(dof);
-            Assert.AreEqual(SpecialFunctions.GammaLowerIncomplete(dof / 2.0, x / 2.0) / SpecialFunctions.Gamma(dof / 2.0), n.CumulativeDistribution(x));
+            double expected = SpecialFunctions.GammaLowerIncomplete(dof / 2.0, x / 2.0) / SpecialFunctions.Gamma(dof / 2.0);
+            Assert.AreEqual(expected, n.CumulativeDistribution(x));
+            Assert.AreEqual(expected, ChiSquared.CDF(dof, x));
         }
     }
 }

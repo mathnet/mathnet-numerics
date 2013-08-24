@@ -81,23 +81,13 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Checks whether the parameters of the distribution are valid. 
-        /// </summary>
-        /// <param name="freedom">The degrees of freedom (k) of the distribution. Range: k > 0.</param>
-        /// <returns><c>true</c> when the parameters are valid, <c>false</c> otherwise.</returns>
-        static bool IsValidParameterSet(double freedom)
-        {
-            return freedom > 0;
-        }
-
-        /// <summary>
         /// Sets the parameters of the distribution after checking their validity.
         /// </summary>
         /// <param name="freedom">The degrees of freedom (k) of the distribution. Range: k > 0.</param>
         /// <exception cref="ArgumentOutOfRangeException">When the parameters are out of range.</exception>
         void SetParameters(double freedom)
         {
-            if (Control.CheckDistributionParameters && !IsValidParameterSet(freedom))
+            if (freedom <= 0.0 || Double.IsNaN(freedom))
             {
                 throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
             }
@@ -200,9 +190,10 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         /// <param name="x">The location at which to compute the density.</param>
         /// <returns>the density at <paramref name="x"/>.</returns>
+        /// <seealso cref="PDF"/>
         public double Density(double x)
         {
-            return (Math.Pow(x, (_freedom / 2.0) - 1.0) * Math.Exp(-x / 2.0)) / (Math.Pow(2.0, _freedom / 2.0) * SpecialFunctions.Gamma(_freedom / 2.0));
+            return (Math.Pow(x, (_freedom/2.0) - 1.0)*Math.Exp(-x/2.0))/(Math.Pow(2.0, _freedom/2.0)*SpecialFunctions.Gamma(_freedom/2.0));
         }
 
         /// <summary>
@@ -210,9 +201,10 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         /// <param name="x">The location at which to compute the log density.</param>
         /// <returns>the log density at <paramref name="x"/>.</returns>
+        /// <seealso cref="PDFLn"/>
         public double DensityLn(double x)
         {
-            return (-x / 2.0) + (((_freedom / 2.0) - 1.0) * Math.Log(x)) - ((_freedom / 2.0) * Math.Log(2)) - SpecialFunctions.GammaLn(_freedom / 2.0);
+            return (-x/2.0) + (((_freedom/2.0) - 1.0)*Math.Log(x)) - ((_freedom/2.0)*Math.Log(2)) - SpecialFunctions.GammaLn(_freedom/2.0);
         }
 
         /// <summary>
@@ -220,34 +212,10 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         /// <param name="x">The location at which to compute the cumulative distribution function.</param>
         /// <returns>the cumulative distribution at location <paramref name="x"/>.</returns>
+        /// <seealso cref="CDF"/>
         public double CumulativeDistribution(double x)
         {
-            return SpecialFunctions.GammaLowerIncomplete(_freedom / 2.0, x / 2.0) / SpecialFunctions.Gamma(_freedom / 2.0);
-        }
-
-        /// <summary>
-        /// Samples the distribution.
-        /// </summary>
-        /// <param name="rnd">The random number generator to use.</param>
-        /// <param name="freedom">The degrees of freedom (k) of the distribution. Range: k > 0.</param>
-        /// <returns>a random number from the distribution.</returns>
-        static double SampleUnchecked(System.Random rnd, double freedom)
-        {
-            // Use the simple method if the degrees if freedom is an integer anyway
-            if (Math.Floor(freedom) == freedom && freedom < Int32.MaxValue)
-            {
-                double sum = 0;
-                var n = (int) freedom;
-                for (var i = 0; i < n; i++)
-                {
-                    sum += Math.Pow(Normal.Sample(rnd, 0.0, 1.0), 2);
-                }
-                return sum;
-            }
-
-            //Call the gamma function (see http://en.wikipedia.org/wiki/Gamma_distribution#Specializations
-            //for a justification)
-            return Gamma.SampleUnchecked(rnd, freedom/2.0, .5);
+            return SpecialFunctions.GammaLowerIncomplete(_freedom/2.0, x/2.0)/SpecialFunctions.Gamma(_freedom/2.0);
         }
 
         /// <summary>
@@ -272,6 +240,73 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
+        /// Samples the distribution.
+        /// </summary>
+        /// <param name="rnd">The random number generator to use.</param>
+        /// <param name="freedom">The degrees of freedom (k) of the distribution. Range: k > 0.</param>
+        /// <returns>a random number from the distribution.</returns>
+        static double SampleUnchecked(System.Random rnd, double freedom)
+        {
+            // Use the simple method if the degrees if freedom is an integer anyway
+            if (Math.Floor(freedom) == freedom && freedom < Int32.MaxValue)
+            {
+                double sum = 0;
+                var n = (int)freedom;
+                for (var i = 0; i < n; i++)
+                {
+                    sum += Math.Pow(Normal.Sample(rnd, 0.0, 1.0), 2);
+                }
+                return sum;
+            }
+
+            //Call the gamma function (see http://en.wikipedia.org/wiki/Gamma_distribution#Specializations
+            //for a justification)
+            return Gamma.SampleUnchecked(rnd, freedom / 2.0, .5);
+        }
+
+        /// <summary>
+        /// Computes the probability density of the distribution (PDF) at x, i.e. ∂P(X ≤ x)/∂x.
+        /// </summary>
+        /// <param name="freedom">The degrees of freedom (k) of the distribution. Range: k > 0.</param>
+        /// <param name="x">The location at which to compute the density.</param>
+        /// <returns>the density at <paramref name="x"/>.</returns>
+        /// <seealso cref="Density"/>
+        public static double PDF(double freedom, double x)
+        {
+            if (freedom <= 0.0) throw new ArgumentOutOfRangeException("freedom", Resources.InvalidDistributionParameters);
+
+            return (Math.Pow(x, (freedom/2.0) - 1.0)*Math.Exp(-x/2.0))/(Math.Pow(2.0, freedom/2.0)*SpecialFunctions.Gamma(freedom/2.0));
+        }
+
+        /// <summary>
+        /// Computes the log probability density of the distribution (lnPDF) at x, i.e. ln(∂P(X ≤ x)/∂x).
+        /// </summary>
+        /// <param name="freedom">The degrees of freedom (k) of the distribution. Range: k > 0.</param>
+        /// <param name="x">The location at which to compute the density.</param>
+        /// <returns>the log density at <paramref name="x"/>.</returns>
+        /// <seealso cref="DensityLn"/>
+        public static double PDFLn(double freedom, double x)
+        {
+            if (freedom <= 0.0) throw new ArgumentOutOfRangeException("freedom", Resources.InvalidDistributionParameters);
+
+            return (-x/2.0) + (((freedom/2.0) - 1.0)*Math.Log(x)) - ((freedom/2.0)*Math.Log(2)) - SpecialFunctions.GammaLn(freedom/2.0);
+        }
+
+        /// <summary>
+        /// Computes the cumulative distribution (CDF) of the distribution at x, i.e. P(X ≤ x).
+        /// </summary>
+        /// <param name="x">The location at which to compute the cumulative distribution function.</param>
+        /// <param name="freedom">The degrees of freedom (k) of the distribution. Range: k > 0.</param>
+        /// <returns>the cumulative distribution at location <paramref name="x"/>.</returns>
+        /// <seealso cref="CumulativeDistribution"/>
+        public static double CDF(double freedom, double x)
+        {
+            if (freedom <= 0.0) throw new ArgumentOutOfRangeException("freedom", Resources.InvalidDistributionParameters);
+
+            return SpecialFunctions.GammaLowerIncomplete(freedom/2.0, x/2.0)/SpecialFunctions.Gamma(freedom/2.0);
+        }
+
+        /// <summary>
         /// Generates a sample from the <c>ChiSquare</c> distribution.
         /// </summary>
         /// <param name="rnd">The random number generator to use.</param>
@@ -279,10 +314,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sample from the distribution. </returns>
         public static double Sample(System.Random rnd, double freedom)
         {
-            if (Control.CheckDistributionParameters && !IsValidParameterSet(freedom))
-            {
-                throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
-            }
+            if (freedom <= 0.0) throw new ArgumentOutOfRangeException("freedom", Resources.InvalidDistributionParameters);
 
             return SampleUnchecked(rnd, freedom);
         }
@@ -295,10 +327,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sample from the distribution. </returns>
         public static IEnumerable<double> Samples(System.Random rnd, double freedom)
         {
-            if (Control.CheckDistributionParameters && !IsValidParameterSet(freedom))
-            {
-                throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
-            }
+            if (freedom <= 0.0) throw new ArgumentOutOfRangeException("freedom", Resources.InvalidDistributionParameters);
 
             while (true)
             {
