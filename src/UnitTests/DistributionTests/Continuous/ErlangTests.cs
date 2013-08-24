@@ -373,6 +373,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         {
             var n = new Erlang(shape, invScale);
             AssertHelpers.AlmostEqual(pdf, n.Density(x), 14);
+            AssertHelpers.AlmostEqual(pdf, Erlang.PDF(shape, invScale, x), 14);
         }
 
         /// <summary>
@@ -404,6 +405,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         {
             var n = new Erlang(shape, invScale);
             AssertHelpers.AlmostEqual(pdfln, n.DensityLn(x), 14);
+            AssertHelpers.AlmostEqual(pdfln, Erlang.PDFLn(shape, invScale, x), 14);
         }
 
         /// <summary>
@@ -456,6 +458,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         {
             var n = new Erlang(shape, invScale);
             AssertHelpers.AlmostEqual(cdf, n.CumulativeDistribution(x), 14);
+            AssertHelpers.AlmostEqual(cdf, Erlang.CDF(shape, invScale, x), 14);
         }
     }
 }
