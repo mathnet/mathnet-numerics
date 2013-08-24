@@ -63,7 +63,6 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         /// <param name="a">The α shape parameter of the Beta distribution. Range: α ≥ 0.</param>
         /// <param name="b">The β shape parameter of the Beta distribution. Range: β ≥ 0.</param>
-        /// <exception cref="ArgumentOutOfRangeException">If any of the Beta parameters are negative.</exception>
         public Beta(double a, double b)
         {
             _random = new System.Random();
@@ -76,7 +75,6 @@ namespace MathNet.Numerics.Distributions
         /// <param name="a">The α shape parameter of the Beta distribution. Range: α ≥ 0.</param>
         /// <param name="b">The β shape parameter of the Beta distribution. Range: β ≥ 0.</param>
         /// <param name="randomSource">The random number generator which is used to draw random samples.</param>
-        /// <exception cref="ArgumentOutOfRangeException">If any of the Beta parameters are negative.</exception>
         public Beta(double a, double b, System.Random randomSource)
         {
             _random = randomSource ?? new System.Random();
@@ -93,17 +91,6 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Checks whether the parameters of the distribution are valid. 
-        /// </summary>
-        /// <param name="a">The α shape parameter of the Beta distribution. Range: α ≥ 0.</param>
-        /// <param name="b">The β shape parameter of the Beta distribution. Range: β ≥ 0.</param>
-        /// <returns><c>true</c> when the parameters are valid, <c>false</c> otherwise.</returns>
-        static bool IsValidParameterSet(double a, double b)
-        {
-            return a >= 0.0 && b >= 0.0;
-        }
-
-        /// <summary>
         /// Sets the parameters of the distribution after checking their validity.
         /// </summary>
         /// <param name="a">The α shape parameter of the Beta distribution. Range: α ≥ 0.</param>
@@ -111,7 +98,7 @@ namespace MathNet.Numerics.Distributions
         /// <exception cref="ArgumentOutOfRangeException">When the parameters are out of range.</exception>
         void SetParameters(double a, double b)
         {
-            if (Control.CheckDistributionParameters && !IsValidParameterSet(a, b))
+            if (a < 0.0 || b < 0.0 || Double.IsNaN(a) || Double.IsNaN(b))
             {
                 throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
             }
@@ -314,41 +301,10 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         /// <param name="x">The location at which to compute the density.</param>
         /// <returns>the density at <paramref name="x"/>.</returns>
+        /// <seealso cref="PDF"/>
         public double Density(double x)
         {
-            if (x < 0.0 || x > 1.0) return 0.0;
-
-            if (Double.IsPositiveInfinity(_shapeA) && Double.IsPositiveInfinity(_shapeB))
-            {
-                return x == 0.5 ? Double.PositiveInfinity : 0.0;
-            }
-
-            if (Double.IsPositiveInfinity(_shapeA))
-            {
-                return x == 1.0 ? Double.PositiveInfinity : 0.0;
-            }
-
-            if (Double.IsPositiveInfinity(_shapeB))
-            {
-                return x == 0.0 ? Double.PositiveInfinity : 0.0;
-            }
-
-            if (_shapeA == 0.0 && _shapeB == 0.0)
-            {
-                if (x == 0.0 || x == 1.0)
-                {
-                    return Double.PositiveInfinity;
-                }
-
-                return 0.0;
-            }
-
-            if (_shapeA == 0.0) return x == 0.0 ? Double.PositiveInfinity : 0.0;
-            if (_shapeB == 0.0) return x == 1.0 ? Double.PositiveInfinity : 0.0;
-            if (_shapeA == 1.0 && _shapeB == 1.0) return 1.0;
-
-            var b = SpecialFunctions.Gamma(_shapeA + _shapeB)/(SpecialFunctions.Gamma(_shapeA)*SpecialFunctions.Gamma(_shapeB));
-            return b*Math.Pow(x, _shapeA - 1.0)*Math.Pow(1.0 - x, _shapeB - 1.0);
+            return PDF(_shapeA, _shapeB, x);
         }
 
         /// <summary>
@@ -356,44 +312,10 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         /// <param name="x">The location at which to compute the log density.</param>
         /// <returns>the log density at <paramref name="x"/>.</returns>
+        /// <seealso cref="PDFLn"/>
         public double DensityLn(double x)
         {
-            if (x < 0.0 || x > 1.0) return Double.NegativeInfinity;
-
-            if (Double.IsPositiveInfinity(_shapeA) && Double.IsPositiveInfinity(_shapeB))
-            {
-                return x == 0.5 ? Double.PositiveInfinity : Double.NegativeInfinity;
-            }
-
-            if (Double.IsPositiveInfinity(_shapeA))
-            {
-                return x == 1.0 ? Double.PositiveInfinity : Double.NegativeInfinity;
-            }
-
-            if (Double.IsPositiveInfinity(_shapeB))
-            {
-                return x == 0.0 ? Double.PositiveInfinity : Double.NegativeInfinity;
-            }
-
-            if (_shapeA == 0.0 && _shapeB == 0.0)
-            {
-                if (x == 0.0 || x == 1.0)
-                {
-                    return Double.PositiveInfinity;
-                }
-
-                return Double.NegativeInfinity;
-            }
-
-            if (_shapeA == 0.0) return x == 0.0 ? Double.PositiveInfinity : Double.NegativeInfinity;
-            if (_shapeB == 0.0) return x == 1.0 ? Double.PositiveInfinity : Double.NegativeInfinity;
-            if (_shapeA == 1.0 && _shapeB == 1.0) return 0.0;
-
-            var a = SpecialFunctions.GammaLn(_shapeA + _shapeB) - SpecialFunctions.GammaLn(_shapeA) - SpecialFunctions.GammaLn(_shapeB);
-            var b = x == 0.0 ? (_shapeA == 1.0 ? 0.0 : Double.NegativeInfinity) : (_shapeA - 1.0)*Math.Log(x);
-            var c = x == 1.0 ? (_shapeB == 1.0 ? 0.0 : Double.NegativeInfinity) : (_shapeB - 1.0)*Math.Log(1.0 - x);
-
-            return a + b + c;
+            return PDFLn(_shapeA, _shapeB, x);
         }
 
         /// <summary>
@@ -401,55 +323,10 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         /// <param name="x">The location at which to compute the cumulative distribution function.</param>
         /// <returns>the cumulative distribution at location <paramref name="x"/>.</returns>
+        /// <seealso cref="CDF"/>
         public double CumulativeDistribution(double x)
         {
-            if (x < 0.0) return 0.0;
-            if (x >= 1.0) return 1.0;
-
-            if (Double.IsPositiveInfinity(_shapeA) && Double.IsPositiveInfinity(_shapeB))
-            {
-                return x < 0.5 ? 0.0 : 1.0;
-            }
-
-            if (Double.IsPositiveInfinity(_shapeA))
-            {
-                return x < 1.0 ? 0.0 : 1.0;
-            }
-
-            if (Double.IsPositiveInfinity(_shapeB))
-            {
-                return x >= 0.0 ? 1.0 : 0.0;
-            }
-
-            if (_shapeA == 0.0 && _shapeB == 0.0)
-            {
-                if (x >= 0.0 && x < 1.0)
-                {
-                    return 0.5;
-                }
-
-                return 1.0;
-            }
-
-            if (_shapeA == 0.0) return 1.0;
-            if (_shapeB == 0.0) return x >= 1.0 ? 1.0 : 0.0;
-            if (_shapeA == 1.0 && _shapeB == 1.0) return x;
-
-            return SpecialFunctions.BetaRegularized(_shapeA, _shapeB, x);
-        }
-
-        /// <summary>
-        /// Samples Beta distributed random variables by sampling two Gamma variables and normalizing.
-        /// </summary>
-        /// <param name="rnd">The random number generator to use.</param>
-        /// <param name="a">The α shape parameter of the Beta distribution. Range: α ≥ 0.</param>
-        /// <param name="b">The β shape parameter of the Beta distribution. Range: β ≥ 0.</param>
-        /// <returns>a random number from the Beta distribution.</returns>
-        static double SampleUnchecked(System.Random rnd, double a, double b)
-        {
-            var x = Gamma.SampleUnchecked(rnd, a, 1.0);
-            var y = Gamma.SampleUnchecked(rnd, b, 1.0);
-            return x/(x + y);
+            return CDF(_shapeA, _shapeB, x);
         }
 
         /// <summary>
@@ -474,6 +351,159 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
+        /// Samples Beta distributed random variables by sampling two Gamma variables and normalizing.
+        /// </summary>
+        /// <param name="rnd">The random number generator to use.</param>
+        /// <param name="a">The α shape parameter of the Beta distribution. Range: α ≥ 0.</param>
+        /// <param name="b">The β shape parameter of the Beta distribution. Range: β ≥ 0.</param>
+        /// <returns>a random number from the Beta distribution.</returns>
+        static double SampleUnchecked(System.Random rnd, double a, double b)
+        {
+            var x = Gamma.SampleUnchecked(rnd, a, 1.0);
+            var y = Gamma.SampleUnchecked(rnd, b, 1.0);
+            return x / (x + y);
+        }
+
+        /// <summary>
+        /// Computes the probability density of the distribution (PDF) at x, i.e. ∂P(X ≤ x)/∂x.
+        /// </summary>
+        /// <param name="a">The α shape parameter of the Beta distribution. Range: α ≥ 0.</param>
+        /// <param name="b">The β shape parameter of the Beta distribution. Range: β ≥ 0.</param>
+        /// <param name="x">The location at which to compute the density.</param>
+        /// <returns>the density at <paramref name="x"/>.</returns>
+        /// <seealso cref="Density"/>
+        public static double PDF(double a, double b, double x)
+        {
+            if (a < 0.0 || b < 0.0) throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
+
+            if (x < 0.0 || x > 1.0) return 0.0;
+
+            if (Double.IsPositiveInfinity(a) && Double.IsPositiveInfinity(b))
+            {
+                return x == 0.5 ? Double.PositiveInfinity : 0.0;
+            }
+
+            if (Double.IsPositiveInfinity(a))
+            {
+                return x == 1.0 ? Double.PositiveInfinity : 0.0;
+            }
+
+            if (Double.IsPositiveInfinity(b))
+            {
+                return x == 0.0 ? Double.PositiveInfinity : 0.0;
+            }
+
+            if (a == 0.0 && b == 0.0)
+            {
+                if (x == 0.0 || x == 1.0)
+                {
+                    return Double.PositiveInfinity;
+                }
+
+                return 0.0;
+            }
+
+            if (a == 0.0) return x == 0.0 ? Double.PositiveInfinity : 0.0;
+            if (b == 0.0) return x == 1.0 ? Double.PositiveInfinity : 0.0;
+            if (a == 1.0 && b == 1.0) return 1.0;
+
+            var bb = SpecialFunctions.Gamma(a + b) / (SpecialFunctions.Gamma(a) * SpecialFunctions.Gamma(b));
+            return bb * Math.Pow(x, a - 1.0) * Math.Pow(1.0 - x, b - 1.0);
+        }
+
+        /// <summary>
+        /// Computes the log probability density of the distribution (lnPDF) at x, i.e. ln(∂P(X ≤ x)/∂x).
+        /// </summary>
+        /// <param name="a">The α shape parameter of the Beta distribution. Range: α ≥ 0.</param>
+        /// <param name="b">The β shape parameter of the Beta distribution. Range: β ≥ 0.</param>
+        /// <param name="x">The location at which to compute the density.</param>
+        /// <returns>the log density at <paramref name="x"/>.</returns>
+        /// <seealso cref="DensityLn"/>
+        public static double PDFLn(double a, double b, double x)
+        {
+            if (a < 0.0 || b < 0.0) throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
+
+            if (x < 0.0 || x > 1.0) return Double.NegativeInfinity;
+
+            if (Double.IsPositiveInfinity(a) && Double.IsPositiveInfinity(b))
+            {
+                return x == 0.5 ? Double.PositiveInfinity : Double.NegativeInfinity;
+            }
+
+            if (Double.IsPositiveInfinity(a))
+            {
+                return x == 1.0 ? Double.PositiveInfinity : Double.NegativeInfinity;
+            }
+
+            if (Double.IsPositiveInfinity(b))
+            {
+                return x == 0.0 ? Double.PositiveInfinity : Double.NegativeInfinity;
+            }
+
+            if (a == 0.0 && b == 0.0)
+            {
+                return x == 0.0 || x == 1.0 ? Double.PositiveInfinity : Double.NegativeInfinity;
+            }
+
+            if (a == 0.0) return x == 0.0 ? Double.PositiveInfinity : Double.NegativeInfinity;
+            if (b == 0.0) return x == 1.0 ? Double.PositiveInfinity : Double.NegativeInfinity;
+            if (a == 1.0 && b == 1.0) return 0.0;
+
+            var aa = SpecialFunctions.GammaLn(a + b) - SpecialFunctions.GammaLn(a) - SpecialFunctions.GammaLn(b);
+            var bb = x == 0.0 ? (a == 1.0 ? 0.0 : Double.NegativeInfinity) : (a - 1.0)*Math.Log(x);
+            var cc = x == 1.0 ? (b == 1.0 ? 0.0 : Double.NegativeInfinity) : (b - 1.0)*Math.Log(1.0 - x);
+
+            return aa + bb + cc;
+        }
+
+        /// <summary>
+        /// Computes the cumulative distribution (CDF) of the distribution at x, i.e. P(X ≤ x).
+        /// </summary>
+        /// <param name="x">The location at which to compute the cumulative distribution function.</param>
+        /// <param name="a">The α shape parameter of the Beta distribution. Range: α ≥ 0.</param>
+        /// <param name="b">The β shape parameter of the Beta distribution. Range: β ≥ 0.</param>>
+        /// <returns>the cumulative distribution at location <paramref name="x"/>.</returns>
+        /// <seealso cref="CumulativeDistribution"/>
+        public static double CDF(double a, double b, double x)
+        {
+            if (a < 0.0 || b < 0.0) throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
+
+            if (x < 0.0) return 0.0;
+            if (x >= 1.0) return 1.0;
+
+            if (Double.IsPositiveInfinity(a) && Double.IsPositiveInfinity(b))
+            {
+                return x < 0.5 ? 0.0 : 1.0;
+            }
+
+            if (Double.IsPositiveInfinity(a))
+            {
+                return x < 1.0 ? 0.0 : 1.0;
+            }
+
+            if (Double.IsPositiveInfinity(b))
+            {
+                return x >= 0.0 ? 1.0 : 0.0;
+            }
+
+            if (a == 0.0 && b == 0.0)
+            {
+                if (x >= 0.0 && x < 1.0)
+                {
+                    return 0.5;
+                }
+
+                return 1.0;
+            }
+
+            if (a == 0.0) return 1.0;
+            if (b == 0.0) return x >= 1.0 ? 1.0 : 0.0;
+            if (a == 1.0 && b == 1.0) return x;
+
+            return SpecialFunctions.BetaRegularized(a, b, x);
+        }
+
+        /// <summary>
         /// Generates a sample from the distribution.
         /// </summary>
         /// <param name="rnd">The random number generator to use.</param>
@@ -482,10 +512,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sample from the distribution.</returns>
         public static double Sample(System.Random rnd, double a, double b)
         {
-            if (Control.CheckDistributionParameters && !IsValidParameterSet(a, b))
-            {
-                throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
-            }
+            if (a < 0.0 || b < 0.0) throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
 
             return SampleUnchecked(rnd, a, b);
         }
@@ -499,10 +526,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sequence of samples from the distribution.</returns>
         public static IEnumerable<double> Samples(System.Random rnd, double a, double b)
         {
-            if (Control.CheckDistributionParameters && !IsValidParameterSet(a, b))
-            {
-                throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
-            }
+            if (a < 0.0 || b < 0.0) throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
 
             while (true)
             {

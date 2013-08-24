@@ -369,6 +369,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         {
             var n = new Beta(a, b);
             AssertHelpers.AlmostEqual(pdf, n.Density(x), 13);
+            AssertHelpers.AlmostEqual(pdf, Beta.PDF(a, b, x), 13);
         }
 
         /// <summary>
@@ -414,6 +415,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         {
             var n = new Beta(a, b);
             AssertHelpers.AlmostEqual(pdfln, n.DensityLn(x), 14);
+            AssertHelpers.AlmostEqual(pdfln, Beta.PDFLn(a, b, x), 14);
         }
 
         /// <summary>
@@ -457,6 +459,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         {
             var n = new Beta(a, b);
             AssertHelpers.AlmostEqual(cdf, n.CumulativeDistribution(x), 13);
+            AssertHelpers.AlmostEqual(cdf, Beta.CDF(a, b, x), 13);
         }
     }
 }
