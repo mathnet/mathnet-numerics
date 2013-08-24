@@ -78,7 +78,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         public void ValidateToString()
         {
             var d = new Geometric(0.3);
-            Assert.AreEqual(String.Format("Geometric(P = {0})", d.P), d.ToString());
+            Assert.AreEqual("Geometric(p = 0.3)", d.ToString());
         }
 
         /// <summary>
