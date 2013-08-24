@@ -88,11 +88,9 @@ namespace MathNet.Numerics.UnitTests.IntegrationTests
         [TestCase(1e-13)]
         public void TestDoubleExponentialTransformationAlgorithm(double targetRelativeError)
         {
-            var algorithm = new DoubleExponentialTransformation();
-
             Assert.AreEqual(
                 TargetAreaA,
-                algorithm.Integrate(TargetFunctionA, StartA, StopA, targetRelativeError),
+                DoubleExponentialTransformation.Integrate(TargetFunctionA, StartA, StopA, targetRelativeError),
                 targetRelativeError * TargetAreaA,
                 "DET Adaptive {0}",
                 targetRelativeError);
