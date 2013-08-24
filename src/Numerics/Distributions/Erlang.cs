@@ -81,9 +81,10 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         /// <param name="shape">The shape (k) of the Erlang distribution. Range: k ≥ 0.</param>
         /// <param name="scale">The scale (μ) of the Erlang distribution. Range: μ ≥ 0.</param>
-        public static Erlang WithShapeScale(int shape, double scale)
+        /// <param name="randomSource">The random number generator which is used to draw random samples. Optional, can be null.</param>
+        public static Erlang WithShapeScale(int shape, double scale, System.Random randomSource = null)
         {
-            return new Erlang(shape, 1.0/scale);
+            return new Erlang(shape, 1.0/scale, randomSource);
         }
 
         /// <summary>
@@ -92,9 +93,10 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         /// <param name="shape">The shape (k) of the Erlang distribution. Range: k ≥ 0.</param>
         /// <param name="rate">The rate or inverse scale (λ) of the Erlang distribution. Range: λ ≥ 0.</param>
-        public static Erlang WithShapeRate(int shape, double rate)
+        /// <param name="randomSource">The random number generator which is used to draw random samples. Optional, can be null.</param>
+        public static Erlang WithShapeRate(int shape, double rate, System.Random randomSource = null)
         {
-            return new Erlang(shape, rate);
+            return new Erlang(shape, rate, randomSource);
         }
 
         /// <summary>

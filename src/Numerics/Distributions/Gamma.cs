@@ -88,9 +88,10 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         /// <param name="shape">The shape (k) of the Gamma distribution. Range: k ≥ 0.</param>
         /// <param name="scale">The scale (θ) of the Gamma distribution. Range: θ ≥ 0</param>
-        public static Gamma WithShapeScale(double shape, double scale)
+        /// <param name="randomSource">The random number generator which is used to draw random samples. Optional, can be null.</param>
+        public static Gamma WithShapeScale(double shape, double scale, System.Random randomSource = null)
         {
-            return new Gamma(shape, 1.0/scale);
+            return new Gamma(shape, 1.0/scale, randomSource);
         }
 
         /// <summary>
@@ -99,9 +100,10 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         /// <param name="shape">The shape (k, α) of the Gamma distribution. Range: α ≥ 0.</param>
         /// <param name="rate">The rate or inverse scale (β) of the Gamma distribution. Range: β ≥ 0.</param>
-        public static Gamma WithShapeRate(double shape, double rate)
+        /// <param name="randomSource">The random number generator which is used to draw random samples. Optional, can be null.</param>
+        public static Gamma WithShapeRate(double shape, double rate, System.Random randomSource = null)
         {
-            return new Gamma(shape, rate);
+            return new Gamma(shape, rate, randomSource);
         }
 
         /// <summary>
