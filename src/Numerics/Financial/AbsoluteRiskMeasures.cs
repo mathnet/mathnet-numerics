@@ -28,13 +28,13 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using MathNet.Numerics.Statistics;
+
 namespace MathNet.Numerics.Financial
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using Statistics;
-
     public static class AbsoluteRiskMeasures
     {
         //Note: The following statistics would be condidered an absolute risk statistic in the finance realm as well.
@@ -56,8 +56,7 @@ namespace MathNet.Numerics.Financial
                 throw new ArgumentNullException("data");
             }
 
-            var gains = data.Where(x => x >= 0);
-            return gains.StandardDeviation();
+            return data.Where(x => x >= 0).StandardDeviation();
         }
 
         /// <summary>
@@ -72,8 +71,7 @@ namespace MathNet.Numerics.Financial
                 throw new ArgumentNullException("data");
             }
 
-            var losses = data.Where(x => x < 0);
-            return losses.StandardDeviation();
+            return data.Where(x => x < 0).StandardDeviation();
         }
 
         /// <summary>
@@ -90,8 +88,7 @@ namespace MathNet.Numerics.Financial
                 throw new ArgumentNullException("data");
             }
 
-            var belowMARData = data.Where(x => x < minimalAcceptableReturn);
-            return belowMARData.StandardDeviation();
+            return data.Where(x => x < minimalAcceptableReturn).StandardDeviation();
         }
 
         /// <summary>

@@ -28,13 +28,13 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using MathNet.Numerics.Statistics;
+
 namespace MathNet.Numerics.Financial
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using Statistics;
-
     public static class AbsoluteReturnMeasures
     {
         /// <summary>
@@ -47,16 +47,14 @@ namespace MathNet.Numerics.Financial
                 throw new ArgumentNullException("data");
             }
 
-            var samples = data.Count();
-            if (samples == 0)
-                return double.NaN;
-
+            int count = 0;
             double compoundReturn = 1.0;
             foreach (var item in data)
             {
+                count++;
                 compoundReturn *= (1 + item);
             }
-            return Math.Pow(compoundReturn, 1.0 / samples) - 1.0;
+            return count == 0 ? double.NaN : Math.Pow(compoundReturn, 1.0/count) - 1.0;
         }
 
         /// <summary>
@@ -72,8 +70,7 @@ namespace MathNet.Numerics.Financial
                 throw new ArgumentNullException("data");
             }
 
-            var gains = data.Where(x => x >= 0);
-            return gains.Mean();
+            return data.Where(x => x >= 0).Mean();
         }
 
         /// <summary>
@@ -89,8 +86,7 @@ namespace MathNet.Numerics.Financial
                 throw new ArgumentNullException("data");
             }
 
-            var losses = data.Where(x => x < 0);
-            return losses.Mean();
+            return data.Where(x => x < 0).Mean();
         }
     }
 }
