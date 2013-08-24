@@ -262,14 +262,9 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void ValidateDensity(double a, double b, double x)
         {
             var n = new InverseGamma(a, b);
-            if (x >= 0)
-            {
-                Assert.AreEqual(Math.Pow(b, a) * Math.Pow(x, -a - 1.0) * Math.Exp(-b / x) / SpecialFunctions.Gamma(a), n.Density(x));
-            }
-            else
-            {
-                Assert.AreEqual(0.0, n.Density(x));
-            }
+            double expected = Math.Pow(b, a)*Math.Pow(x, -a - 1.0)*Math.Exp(-b/x)/SpecialFunctions.Gamma(a);
+            Assert.AreEqual(expected, n.Density(x));
+            Assert.AreEqual(expected, InverseGamma.PDF(a, b, x));
         }
 
         /// <summary>
@@ -290,7 +285,9 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void ValidateDensityLn(double a, double b, double x)
         {
             var n = new InverseGamma(a, b);
-            Assert.AreEqual(Math.Log(n.Density(x)), n.DensityLn(x));
+            double expected = Math.Log(Math.Pow(b, a)*Math.Pow(x, -a - 1.0)*Math.Exp(-b/x)/SpecialFunctions.Gamma(a));
+            Assert.AreEqual(expected, n.DensityLn(x));
+            Assert.AreEqual(expected, InverseGamma.PDFLn(a, b, x));
         }
 
         /// <summary>
@@ -332,7 +329,9 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void ValidateCumulativeDistribution(double a, double b, double x)
         {
             var n = new InverseGamma(a, b);
-            Assert.AreEqual(SpecialFunctions.GammaUpperRegularized(a, b / x), n.CumulativeDistribution(x));
+            double expected = SpecialFunctions.GammaUpperRegularized(a, b/x);
+            Assert.AreEqual(expected, n.CumulativeDistribution(x));
+            Assert.AreEqual(expected, InverseGamma.CDF(a, b, x));
         }
     }
 }

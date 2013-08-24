@@ -30,6 +30,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using MathNet.Numerics.Properties;
 
 namespace MathNet.Numerics.Distributions
@@ -85,17 +86,6 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Checks whether the parameters of the distribution are valid. 
-        /// </summary>
-        /// <param name="shape">The shape (α) of the distribution. Range: α > 0.</param>
-        /// <param name="scale">The scale (β) of the distribution. Range: β > 0.</param>
-        /// <returns><c>true</c> when the parameters are valid, <c>false</c> otherwise.</returns>
-        static bool IsValidParameterSet(double shape, double scale)
-        {
-            return shape > 0.0 && scale > 0.0;
-        }
-
-        /// <summary>
         /// Sets the parameters of the distribution after checking their validity.
         /// </summary>
         /// <param name="shape">The shape (α) of the distribution. Range: α > 0.</param>
@@ -103,7 +93,7 @@ namespace MathNet.Numerics.Distributions
         /// <exception cref="ArgumentOutOfRangeException">When the parameters are out of range.</exception>
         void SetParameters(double shape, double scale)
         {
-            if (Control.CheckDistributionParameters && !IsValidParameterSet(shape, scale))
+            if (shape <= 0.0 || scale <= 0.0 || Double.IsNaN(shape) || Double.IsNaN(scale))
             {
                 throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
             }
@@ -241,14 +231,10 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         /// <param name="x">The location at which to compute the density.</param>
         /// <returns>the density at <paramref name="x"/>.</returns>
+        /// <seealso cref="PDF"/>
         public double Density(double x)
         {
-            if (x >= 0.0)
-            {
-                return Math.Pow(_scale, _shape)*Math.Pow(x, -_shape - 1.0)*Math.Exp(-_scale/x)/SpecialFunctions.Gamma(_shape);
-            }
-
-            return 0.0;
+            return x < 0.0 ? 0.0 : Math.Pow(_scale, _shape)*Math.Pow(x, -_shape - 1.0)*Math.Exp(-_scale/x)/SpecialFunctions.Gamma(_shape);
         }
 
         /// <summary>
@@ -256,6 +242,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         /// <param name="x">The location at which to compute the log density.</param>
         /// <returns>the log density at <paramref name="x"/>.</returns>
+        /// <seealso cref="PDFLn"/>
         public double DensityLn(double x)
         {
             return Math.Log(Density(x));
@@ -266,21 +253,10 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         /// <param name="x">The location at which to compute the cumulative distribution function.</param>
         /// <returns>the cumulative distribution at location <paramref name="x"/>.</returns>
+        /// <seealso cref="CDF"/>
         public double CumulativeDistribution(double x)
         {
             return SpecialFunctions.GammaUpperRegularized(_shape, _scale/x);
-        }
-
-        /// <summary>
-        /// Samples the distribution.
-        /// </summary>
-        /// <param name="rnd">The random number generator to use.</param>
-        /// <param name="shape">The shape (α) of the distribution. Range: α > 0.</param>
-        /// <param name="scale">The scale (β) of the distribution. Range: β > 0.</param>
-        /// <returns>a random number from the distribution.</returns>
-        static double SampleUnchecked(System.Random rnd, double shape, double scale)
-        {
-            return 1.0/Gamma.Sample(rnd, shape, scale);
         }
 
         /// <summary>
@@ -289,7 +265,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>A random number from this distribution.</returns>
         public double Sample()
         {
-            return SampleUnchecked(_random, _shape, _scale);
+            return 1.0/Gamma.Sample(_random, _shape, _scale);
         }
 
         /// <summary>
@@ -298,10 +274,50 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sequence of samples from the distribution.</returns>
         public IEnumerable<double> Samples()
         {
-            while (true)
-            {
-                yield return SampleUnchecked(_random, _shape, _scale);
-            }
+            return Gamma.Samples(_random, _shape, _scale).Select(z => 1.0/z);
+        }
+
+        /// <summary>
+        /// Computes the probability density of the distribution (PDF) at x, i.e. ∂P(X ≤ x)/∂x.
+        /// </summary>
+        /// <param name="shape">The shape (α) of the distribution. Range: α > 0.</param>
+        /// <param name="scale">The scale (β) of the distribution. Range: β > 0.</param>
+        /// <param name="x">The location at which to compute the density.</param>
+        /// <returns>the density at <paramref name="x"/>.</returns>
+        /// <seealso cref="Density"/>
+        public static double PDF(double shape, double scale, double x)
+        {
+            if (shape <= 0.0 || scale <= 0.0) throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
+
+            return x < 0.0 ? 0.0 : Math.Pow(scale, shape)*Math.Pow(x, -shape - 1.0)*Math.Exp(-scale/x)/SpecialFunctions.Gamma(shape);
+        }
+
+        /// <summary>
+        /// Computes the log probability density of the distribution (lnPDF) at x, i.e. ln(∂P(X ≤ x)/∂x).
+        /// </summary>
+        /// <param name="shape">The shape (α) of the distribution. Range: α > 0.</param>
+        /// <param name="scale">The scale (β) of the distribution. Range: β > 0.</param>
+        /// <param name="x">The location at which to compute the density.</param>
+        /// <returns>the log density at <paramref name="x"/>.</returns>
+        /// <seealso cref="DensityLn"/>
+        public static double PDFLn(double shape, double scale, double x)
+        {
+            return Math.Log(PDF(shape, scale, x));
+        }
+
+        /// <summary>
+        /// Computes the cumulative distribution (CDF) of the distribution at x, i.e. P(X ≤ x).
+        /// </summary>
+        /// <param name="x">The location at which to compute the cumulative distribution function.</param>
+        /// <param name="shape">The shape (α) of the distribution. Range: α > 0.</param>
+        /// <param name="scale">The scale (β) of the distribution. Range: β > 0.</param>
+        /// <returns>the cumulative distribution at location <paramref name="x"/>.</returns>
+        /// <seealso cref="CumulativeDistribution"/>
+        public static double CDF(double shape, double scale, double x)
+        {
+            if (shape <= 0.0 || scale <= 0.0) throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
+
+            return SpecialFunctions.GammaUpperRegularized(shape, scale/x);
         }
 
         /// <summary>
@@ -313,12 +329,9 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sample from the distribution.</returns>
         public static double Sample(System.Random rnd, double shape, double scale)
         {
-            if (Control.CheckDistributionParameters && !IsValidParameterSet(shape, scale))
-            {
-                throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
-            }
+            if (shape <= 0.0 || scale <= 0.0) throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
 
-            return SampleUnchecked(rnd, shape, scale);
+            return 1.0/Gamma.Sample(rnd, shape, scale);
         }
 
         /// <summary>
@@ -330,15 +343,9 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sequence of samples from the distribution.</returns>
         public static IEnumerable<double> Samples(System.Random rnd, double shape, double scale)
         {
-            if (Control.CheckDistributionParameters && !IsValidParameterSet(shape, scale))
-            {
-                throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
-            }
+            if (shape <= 0.0 || scale <= 0.0) throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
 
-            while (true)
-            {
-                yield return SampleUnchecked(rnd, shape, scale);
-            }
+            return Gamma.Samples(rnd, shape, scale).Select(z => 1.0/z);
         }
     }
 }
