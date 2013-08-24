@@ -93,17 +93,6 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Checks whether the parameters of the distribution are valid. 
-        /// </summary>
-        /// <param name="lower">Lower bound. Range: lower ≤ upper.</param>
-        /// <param name="upper">Upper bound. Range: lower ≤ upper.</param>
-        /// <returns><c>true</c> when the parameters are valid, <c>false</c> otherwise.</returns>
-        static bool IsValidParameterSet(double lower, double upper)
-        {
-            return upper >= lower && !Double.IsNaN(upper) && !Double.IsNaN(lower);
-        }
-
-        /// <summary>
         /// Sets the parameters of the distribution after checking their validity.
         /// </summary>
         /// <param name="lower">Lower bound. Range: lower ≤ upper.</param>
@@ -111,7 +100,7 @@ namespace MathNet.Numerics.Distributions
         /// <exception cref="ArgumentOutOfRangeException">When the parameters are out of range.</exception>
         void SetParameters(double lower, double upper)
         {
-            if (Control.CheckDistributionParameters && !IsValidParameterSet(lower, upper))
+            if (upper < lower || Double.IsNaN(upper) || Double.IsNaN(lower))
             {
                 throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
             }
@@ -227,14 +216,10 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         /// <param name="x">The location at which to compute the density.</param>
         /// <returns>the density at <paramref name="x"/>.</returns>
+        /// <seealso cref="PDF"/>
         public double Density(double x)
         {
-            if (x >= _lower && x <= _upper)
-            {
-                return 1.0/(_upper - _lower);
-            }
-
-            return 0.0;
+            return x < _lower || x > _upper ? 0.0 : 1.0/(_upper - _lower);
         }
 
         /// <summary>
@@ -242,14 +227,10 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         /// <param name="x">The location at which to compute the log density.</param>
         /// <returns>the log density at <paramref name="x"/>.</returns>
+        /// <seealso cref="PDFLn"/>
         public double DensityLn(double x)
         {
-            if (x >= _lower && x <= _upper)
-            {
-                return -Math.Log(_upper - _lower);
-            }
-
-            return Double.NegativeInfinity;
+            return x < _lower || x > _upper ? Double.NegativeInfinity : -Math.Log(_upper - _lower);
         }
 
         /// <summary>
@@ -257,31 +238,22 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         /// <param name="x">The location at which to compute the cumulative distribution function.</param>
         /// <returns>the cumulative distribution at location <paramref name="x"/>.</returns>
+        /// <seealso cref="CDF"/>
         public double CumulativeDistribution(double x)
         {
-            if (x <= _lower)
-            {
-                return 0.0;
-            }
-
-            if (x >= _upper)
-            {
-                return 1.0;
-            }
-
-            return (x - _lower)/(_upper - _lower);
+            return x <= _lower ? 0.0 : x >= _upper ? 1.0 : (x - _lower)/(_upper - _lower);
         }
 
         /// <summary>
-        /// Generates one sample from the <c>ContinuousUniform</c> distribution without parameter checking.
+        /// Computes the inverse of the cumulative distribution function (InvCDF) for the distribution
+        /// at the given probability. This is also known as the quantile or percent point function.
         /// </summary>
-        /// <param name="rnd">The random number generator to use.</param>
-        /// <param name="lower">Lower bound. Range: lower ≤ upper.</param>
-        /// <param name="upper">Upper bound. Range: lower ≤ upper.</param>
-        /// <returns>a uniformly distributed random number.</returns>
-        static double SampleUnchecked(System.Random rnd, double lower, double upper)
+        /// <param name="p">The location at which to compute the inverse cumulative density.</param>
+        /// <returns>the inverse cumulative density at <paramref name="p"/>.</returns>
+        /// <seealso cref="InvCDF"/>
+        public double InverseCumulativeDistribution(double p)
         {
-            return lower + (rnd.NextDouble()*(upper - lower));
+            return p <= 0.0 ? _lower : p >= 1.0 ? _upper : _lower*(1.0 - p) + _upper*p;
         }
 
         /// <summary>
@@ -290,7 +262,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sample from the distribution.</returns>
         public double Sample()
         {
-            return SampleUnchecked(_random, _lower, _upper);
+            return _lower + _random.NextDouble()*(_upper - _lower);
         }
 
         /// <summary>
@@ -301,8 +273,69 @@ namespace MathNet.Numerics.Distributions
         {
             while (true)
             {
-                yield return SampleUnchecked(_random, _lower, _upper);
+                yield return _lower + _random.NextDouble()*(_upper - _lower);
             }
+        }
+
+        /// <summary>
+        /// Computes the probability density of the distribution (PDF) at x, i.e. ∂P(X ≤ x)/∂x.
+        /// </summary>
+        /// <param name="lower">Lower bound. Range: lower ≤ upper.</param>
+        /// <param name="upper">Upper bound. Range: lower ≤ upper.</param>
+        /// <param name="x">The location at which to compute the density.</param>
+        /// <returns>the density at <paramref name="x"/>.</returns>
+        /// <seealso cref="Density"/>
+        public static double PDF(double lower, double upper, double x)
+        {
+            if (upper < lower) throw new ArgumentOutOfRangeException("upper", Resources.InvalidDistributionParameters);
+
+            return x < lower || x > upper ? 0.0 : 1.0/(upper - lower);
+        }
+
+        /// <summary>
+        /// Computes the log probability density of the distribution (lnPDF) at x, i.e. ln(∂P(X ≤ x)/∂x).
+        /// </summary>
+        /// <param name="lower">Lower bound. Range: lower ≤ upper.</param>
+        /// <param name="upper">Upper bound. Range: lower ≤ upper.</param>
+        /// <param name="x">The location at which to compute the density.</param>
+        /// <returns>the log density at <paramref name="x"/>.</returns>
+        /// <seealso cref="DensityLn"/>
+        public static double PDFLn(double lower, double upper, double x)
+        {
+            if (upper < lower) throw new ArgumentOutOfRangeException("upper", Resources.InvalidDistributionParameters);
+
+            return x < lower || x > upper ? Double.NegativeInfinity : -Math.Log(upper - lower);
+        }
+
+        /// <summary>
+        /// Computes the cumulative distribution (CDF) of the distribution at x, i.e. P(X ≤ x).
+        /// </summary>
+        /// <param name="x">The location at which to compute the cumulative distribution function.</param>
+        /// <param name="lower">Lower bound. Range: lower ≤ upper.</param>
+        /// <param name="upper">Upper bound. Range: lower ≤ upper.</param>
+        /// <returns>the cumulative distribution at location <paramref name="x"/>.</returns>
+        /// <seealso cref="CumulativeDistribution"/>
+        public static double CDF(double lower, double upper, double x)
+        {
+            if (upper < lower) throw new ArgumentOutOfRangeException("upper", Resources.InvalidDistributionParameters);
+
+            return x <= lower ? 0.0 : x >= upper ? 1.0 : (x - lower)/(upper - lower);
+        }
+
+        /// <summary>
+        /// Computes the inverse of the cumulative distribution function (InvCDF) for the distribution
+        /// at the given probability. This is also known as the quantile or percent point function.
+        /// </summary>
+        /// <param name="p">The location at which to compute the inverse cumulative density.</param>
+        /// <param name="lower">Lower bound. Range: lower ≤ upper.</param>
+        /// <param name="upper">Upper bound. Range: lower ≤ upper.</param>
+        /// <returns>the inverse cumulative density at <paramref name="p"/>.</returns>
+        /// <seealso cref="InverseCumulativeDistribution"/>
+        public static double InvCDF(double lower, double upper, double p)
+        {
+            if (upper < lower) throw new ArgumentOutOfRangeException("upper", Resources.InvalidDistributionParameters);
+
+            return p <= 0.0 ? lower : p >= 1.0 ? upper : lower*(1.0 - p) + upper*p;
         }
 
         /// <summary>
@@ -314,12 +347,9 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a uniformly distributed sample.</returns>
         public static double Sample(System.Random rnd, double lower, double upper)
         {
-            if (Control.CheckDistributionParameters && !IsValidParameterSet(lower, upper))
-            {
-                throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
-            }
+            if (upper < lower) throw new ArgumentOutOfRangeException("upper", Resources.InvalidDistributionParameters);
 
-            return SampleUnchecked(rnd, lower, upper);
+            return lower + rnd.NextDouble()*(upper - lower);
         }
 
         /// <summary>
@@ -331,14 +361,11 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sequence of uniformly distributed samples.</returns>
         public static IEnumerable<double> Samples(System.Random rnd, double lower, double upper)
         {
-            if (Control.CheckDistributionParameters && !IsValidParameterSet(lower, upper))
-            {
-                throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
-            }
+            if (upper < lower) throw new ArgumentOutOfRangeException("upper", Resources.InvalidDistributionParameters);
 
             while (true)
             {
-                yield return SampleUnchecked(rnd, lower, upper);
+                yield return lower + rnd.NextDouble()*(upper - lower);
             }
         }
     }

@@ -275,11 +275,13 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
                 var x = i - 5.0;
                 if (x >= lower && x <= upper)
                 {
-                    Assert.AreEqual(1.0 / (upper - lower), n.Density(x));
+                    Assert.AreEqual(1.0/(upper - lower), n.Density(x));
+                    Assert.AreEqual(1.0/(upper - lower), ContinuousUniform.PDF(lower, upper, x));
                 }
                 else
                 {
                     Assert.AreEqual(0.0, n.Density(x));
+                    Assert.AreEqual(0.0, ContinuousUniform.PDF(lower, upper, x));
                 }
             }
         }
@@ -304,10 +306,12 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
                 if (x >= lower && x <= upper)
                 {
                     Assert.AreEqual(-Math.Log(upper - lower), n.DensityLn(x));
+                    Assert.AreEqual(-Math.Log(upper - lower), ContinuousUniform.PDFLn(lower, upper, x));
                 }
                 else
                 {
                     Assert.AreEqual(double.NegativeInfinity, n.DensityLn(x));
+                    Assert.AreEqual(double.NegativeInfinity, ContinuousUniform.PDFLn(lower, upper, x));
                 }
             }
         }
@@ -390,14 +394,51 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
                 if (x <= lower)
                 {
                     Assert.AreEqual(0.0, n.CumulativeDistribution(x));
+                    Assert.AreEqual(0.0, ContinuousUniform.CDF(lower, upper, x));
                 }
                 else if (x >= upper)
                 {
                     Assert.AreEqual(1.0, n.CumulativeDistribution(x));
+                    Assert.AreEqual(1.0, ContinuousUniform.CDF(lower, upper, x));
                 }
                 else
                 {
-                    Assert.AreEqual((x - lower) / (upper - lower), n.CumulativeDistribution(x));
+                    Assert.AreEqual((x - lower)/(upper - lower), n.CumulativeDistribution(x));
+                    Assert.AreEqual((x - lower)/(upper - lower), ContinuousUniform.CDF(lower, upper, x));
+                }
+            }
+        }
+
+        /// <summary>
+        /// Validate inverse cumulative distribution.
+        /// </summary>
+        /// <param name="lower">Lower bound.</param>
+        /// <param name="upper">Upper bound.</param>
+        [TestCase(0.0, 0.0)]
+        [TestCase(0.0, 0.1)]
+        [TestCase(0.0, 1.0)]
+        [TestCase(0.0, 10.0)]
+        [TestCase(-5.0, 100.0)]
+        public void ValidateInverseCumulativeDistribution(double lower, double upper)
+        {
+            var n = new ContinuousUniform(lower, upper);
+            for (var i = 0; i < 11; i++)
+            {
+                var x = i - 5.0;
+                if (x <= lower)
+                {
+                    Assert.AreEqual(lower, n.InverseCumulativeDistribution(0.0), 1e-12);
+                    Assert.AreEqual(lower, ContinuousUniform.InvCDF(lower, upper, 0.0), 1e-12);
+                }
+                else if (x >= upper)
+                {
+                    Assert.AreEqual(upper, n.InverseCumulativeDistribution(1.0), 1e-12);
+                    Assert.AreEqual(upper, ContinuousUniform.InvCDF(lower, upper, 1.0), 1e-12);
+                }
+                else
+                {
+                    Assert.AreEqual(x, n.InverseCumulativeDistribution((x - lower)/(upper - lower)), 1e-12);
+                    Assert.AreEqual(x, ContinuousUniform.InvCDF(lower, upper, (x - lower)/(upper - lower)), 1e-12);
                 }
             }
         }

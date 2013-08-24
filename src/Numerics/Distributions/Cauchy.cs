@@ -258,7 +258,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>A random number from this distribution.</returns>
         public double Sample()
         {
-            return SampleUnchecked(_random, _location, _scale);
+            return _location + _scale*Math.Tan(Constants.Pi*(_random.NextDouble() - 0.5));
         }
 
         /// <summary>
@@ -269,21 +269,8 @@ namespace MathNet.Numerics.Distributions
         {
             while (true)
             {
-                yield return SampleUnchecked(_random, _location, _scale);
+                yield return _location + _scale*Math.Tan(Constants.Pi*(_random.NextDouble() - 0.5));
             }
-        }
-
-        /// <summary>
-        /// Samples the distribution.
-        /// </summary>
-        /// <param name="rnd">The random number generator to use.</param>
-        /// <param name="location">The location (x0) of the distribution.</param>
-        /// <param name="scale">The scale (γ) of the distribution. Range: γ > 0.</param>
-        /// <returns>a random number from the distribution.</returns>
-        static double SampleUnchecked(System.Random rnd, double location, double scale)
-        {
-            var u = rnd.NextDouble();
-            return location + (scale*Math.Tan(Constants.Pi*(u - 0.5)));
         }
 
         /// <summary>
@@ -359,7 +346,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (scale <= 0.0) throw new ArgumentOutOfRangeException("scale", Resources.InvalidDistributionParameters);
 
-            return SampleUnchecked(rnd, location, scale);
+            return location + scale*Math.Tan(Constants.Pi*(rnd.NextDouble() - 0.5));
         }
 
         /// <summary>
@@ -375,7 +362,7 @@ namespace MathNet.Numerics.Distributions
 
             while (true)
             {
-                yield return SampleUnchecked(rnd, location, scale);
+                yield return location + scale*Math.Tan(Constants.Pi*(rnd.NextDouble() - 0.5));
             }
         }
     }
