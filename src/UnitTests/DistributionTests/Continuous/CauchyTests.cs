@@ -3,7 +3,9 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
-// Copyright (c) 2009-2010 Math.NET
+//
+// Copyright (c) 2009-2013 Math.NET
+//
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -12,8 +14,10 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
+//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
+//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -262,7 +266,9 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
             for (var i = 0; i < 11; i++)
             {
                 var x = i - 5.0;
-                Assert.AreEqual(1.0 / ((Constants.Pi * scale) * (1.0 + (((x - location) / scale) * ((x - location) / scale)))), n.Density(x));
+                double expected = 1.0 / ((Constants.Pi * scale) * (1.0 + (((x - location) / scale) * ((x - location) / scale))));
+                Assert.AreEqual(expected, n.Density(x));
+                Assert.AreEqual(expected, Cauchy.PDF(location, scale, x));
             }
         }
 
@@ -283,7 +289,9 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
             for (var i = 0; i < 11; i++)
             {
                 var x = i - 5.0;
-                Assert.AreEqual(-Math.Log((Constants.Pi * scale) * (1.0 + (((x - location) / scale) * ((x - location) / scale)))), n.DensityLn(x));
+                double expected = -Math.Log((Constants.Pi * scale) * (1.0 + (((x - location) / scale) * ((x - location) / scale))));
+                Assert.AreEqual(expected, n.DensityLn(x));
+                Assert.AreEqual(expected, Cauchy.PDFLn(location, scale, x));
             }
         }
 
@@ -324,7 +332,30 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
             for (var i = 0; i < 11; i++)
             {
                 var x = i - 5.0;
-                Assert.AreEqual(((1.0 / Constants.Pi) * Math.Atan((x - location) / scale)) + 0.5, n.CumulativeDistribution(x));
+                double expected = (Math.Atan((x - location)/scale))/Math.PI + 0.5;
+                Assert.AreEqual(expected, n.CumulativeDistribution(x), 1e-12);
+                Assert.AreEqual(expected, Cauchy.CDF(location, scale, x), 1e-12);
+            }
+        }
+
+        /// <summary>
+        /// Validate inverse cumulative distribution.
+        /// </summary>
+        /// <param name="location">Location value.</param>
+        /// <param name="scale">Scale value.</param>
+        [TestCase(0.0, 0.1)]
+        [TestCase(0.0, 1.0)]
+        [TestCase(0.0, 10.0)]
+        [TestCase(-5.0, 100.0)]
+        public void ValidateInverseCumulativeDistribution(double location, double scale)
+        {
+            var n = new Cauchy(location, scale);
+            for (var i = 0; i < 11; i++)
+            {
+                var x = i - 5.0;
+                double expected = (Math.Atan((x - location)/scale))/Math.PI + 0.5;
+                Assert.AreEqual(x, n.InverseCumulativeDistribution(expected), 1e-12);
+                Assert.AreEqual(x, Cauchy.InvCDF(location, scale, expected), 1e-12);
             }
         }
     }

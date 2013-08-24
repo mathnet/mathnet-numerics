@@ -3,7 +3,9 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
-// Copyright (c) 2009-2010 Math.NET
+//
+// Copyright (c) 2009-2013 Math.NET
+//
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -12,8 +14,10 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
+//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
+//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -87,17 +91,6 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Checks whether the parameters of the distribution are valid. 
-        /// </summary>
-        /// <param name="location">The location (x0) of the distribution.</param>
-        /// <param name="scale">The scale (γ) of the distribution. Range: γ > 0.</param>
-        /// <returns>True when the parameters are valid, <c>false</c> otherwise.</returns>
-        static bool IsValidParameterSet(double location, double scale)
-        {
-            return scale > 0.0 && !Double.IsNaN(location);
-        }
-
-        /// <summary>
         /// Sets the parameters of the distribution after checking their validity.
         /// </summary>
         /// <param name="location">The location (x0) of the distribution.</param>
@@ -105,7 +98,7 @@ namespace MathNet.Numerics.Distributions
         /// <exception cref="ArgumentOutOfRangeException">When the parameters are out of range.</exception>
         void SetParameters(double location, double scale)
         {
-            if (Control.CheckDistributionParameters && !IsValidParameterSet(location, scale))
+            if (scale <= 0.0 || Double.IsNaN(location) || Double.IsNaN(scale))
             {
                 throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
             }
@@ -218,6 +211,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         /// <param name="x">The location at which to compute the density.</param>
         /// <returns>the density at <paramref name="x"/>.</returns>
+        /// <seealso cref="PDF"/>
         public double Density(double x)
         {
             return 1.0/(Constants.Pi*_scale*(1.0 + (((x - _location)/_scale)*((x - _location)/_scale))));
@@ -228,6 +222,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         /// <param name="x">The location at which to compute the log density.</param>
         /// <returns>the log density at <paramref name="x"/>.</returns>
+        /// <seealso cref="PDFLn"/>
         public double DensityLn(double x)
         {
             return -Math.Log(Constants.Pi*_scale*(1.0 + (((x - _location)/_scale)*((x - _location)/_scale))));
@@ -238,22 +233,23 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         /// <param name="x">The location at which to compute the cumulative distribution function.</param>
         /// <returns>the cumulative distribution at location <paramref name="x"/>.</returns>
+        /// <seealso cref="CDF"/>
         public double CumulativeDistribution(double x)
         {
             return ((1.0/Constants.Pi)*Math.Atan((x - _location)/_scale)) + 0.5;
         }
 
         /// <summary>
-        /// Samples the distribution.
+        /// Computes the inverse of the cumulative distribution function (InvCDF) for the distribution
+        /// at the given probability. This is also known as the quantile or percent point function.
         /// </summary>
-        /// <param name="rnd">The random number generator to use.</param>
-        /// <param name="location">The location (x0) of the distribution.</param>
-        /// <param name="scale">The scale (γ) of the distribution. Range: γ > 0.</param>
-        /// <returns>a random number from the distribution.</returns>
-        static double SampleUnchecked(System.Random rnd, double location, double scale)
+        /// <param name="p">The location at which to compute the inverse cumulative density.</param>
+        /// <returns>the inverse cumulative density at <paramref name="p"/>.</returns>
+        /// <seealso cref="InvCDF"/>
+        public double InverseCumulativeDistribution(double p)
         {
-            var u = rnd.NextDouble();
-            return location + (scale*Math.Tan(Constants.Pi*(u - 0.5)));
+            return p <= 0.0 ? double.NegativeInfinity : p >= 1.0 ? double.PositiveInfinity
+                : _location + _scale*Math.Tan((p - 0.5)*Constants.Pi);
         }
 
         /// <summary>
@@ -278,6 +274,81 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
+        /// Samples the distribution.
+        /// </summary>
+        /// <param name="rnd">The random number generator to use.</param>
+        /// <param name="location">The location (x0) of the distribution.</param>
+        /// <param name="scale">The scale (γ) of the distribution. Range: γ > 0.</param>
+        /// <returns>a random number from the distribution.</returns>
+        static double SampleUnchecked(System.Random rnd, double location, double scale)
+        {
+            var u = rnd.NextDouble();
+            return location + (scale*Math.Tan(Constants.Pi*(u - 0.5)));
+        }
+
+        /// <summary>
+        /// Computes the probability density of the distribution (PDF) at x, i.e. ∂P(X ≤ x)/∂x.
+        /// </summary>
+        /// <param name="location">The location (x0) of the distribution.</param>
+        /// <param name="scale">The scale (γ) of the distribution. Range: γ > 0.</param>
+        /// <param name="x">The location at which to compute the density.</param>
+        /// <returns>the density at <paramref name="x"/>.</returns>
+        /// <seealso cref="Density"/>
+        public static double PDF(double location, double scale, double x)
+        {
+            if (scale <= 0.0) throw new ArgumentOutOfRangeException("scale", Resources.InvalidDistributionParameters);
+
+            return 1.0/(Constants.Pi*scale*(1.0 + (((x - location)/scale)*((x - location)/scale))));
+        }
+
+        /// <summary>
+        /// Computes the log probability density of the distribution (lnPDF) at x, i.e. ln(∂P(X ≤ x)/∂x).
+        /// </summary>
+        /// <param name="location">The location (x0) of the distribution.</param>
+        /// <param name="scale">The scale (γ) of the distribution. Range: γ > 0.</param>
+        /// <param name="x">The location at which to compute the density.</param>
+        /// <returns>the log density at <paramref name="x"/>.</returns>
+        /// <seealso cref="DensityLn"/>
+        public static double PDFLn(double location, double scale, double x)
+        {
+            if (scale <= 0.0) throw new ArgumentOutOfRangeException("scale", Resources.InvalidDistributionParameters);
+
+            return -Math.Log(Constants.Pi*scale*(1.0 + (((x - location)/scale)*((x - location)/scale))));
+        }
+
+        /// <summary>
+        /// Computes the cumulative distribution (CDF) of the distribution at x, i.e. P(X ≤ x).
+        /// </summary>
+        /// <param name="x">The location at which to compute the cumulative distribution function.</param>
+        /// <param name="location">The location (x0) of the distribution.</param>
+        /// <param name="scale">The scale (γ) of the distribution. Range: γ > 0.</param>
+        /// <returns>the cumulative distribution at location <paramref name="x"/>.</returns>
+        /// <seealso cref="CumulativeDistribution"/>
+        public static double CDF(double location, double scale, double x)
+        {
+            if (scale <= 0.0) throw new ArgumentOutOfRangeException("scale", Resources.InvalidDistributionParameters);
+
+            return Math.Atan((x - location)/scale)/Constants.Pi + 0.5;
+        }
+
+        /// <summary>
+        /// Computes the inverse of the cumulative distribution function (InvCDF) for the distribution
+        /// at the given probability. This is also known as the quantile or percent point function.
+        /// </summary>
+        /// <param name="p">The location at which to compute the inverse cumulative density.</param>
+        /// <param name="location">The location (x0) of the distribution.</param>
+        /// <param name="scale">The scale (γ) of the distribution. Range: γ > 0.</param>
+        /// <returns>the inverse cumulative density at <paramref name="p"/>.</returns>
+        /// <seealso cref="InverseCumulativeDistribution"/>
+        public static double InvCDF(double location, double scale, double p)
+        {
+            if (scale <= 0.0) throw new ArgumentOutOfRangeException("scale", Resources.InvalidDistributionParameters);
+
+            return p <= 0.0 ? double.NegativeInfinity : p >= 1.0 ? double.PositiveInfinity
+                : location + scale*Math.Tan((p - 0.5)*Constants.Pi);
+        }
+
+        /// <summary>
         /// Generates a sample from the distribution.
         /// </summary>
         /// <param name="rnd">The random number generator to use.</param>
@@ -286,10 +357,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sample from the distribution.</returns>
         public static double Sample(System.Random rnd, double location, double scale)
         {
-            if (Control.CheckDistributionParameters && !IsValidParameterSet(location, scale))
-            {
-                throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
-            }
+            if (scale <= 0.0) throw new ArgumentOutOfRangeException("scale", Resources.InvalidDistributionParameters);
 
             return SampleUnchecked(rnd, location, scale);
         }
@@ -303,10 +371,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sequence of samples from the distribution.</returns>
         public static IEnumerable<double> Samples(System.Random rnd, double location, double scale)
         {
-            if (Control.CheckDistributionParameters && !IsValidParameterSet(location, scale))
-            {
-                throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
-            }
+            if (scale <= 0.0) throw new ArgumentOutOfRangeException("scale", Resources.InvalidDistributionParameters);
 
             while (true)
             {
