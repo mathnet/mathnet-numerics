@@ -35,7 +35,7 @@ using MathNet.Numerics.Properties;
 namespace MathNet.Numerics.Distributions
 {
     /// <summary>
-    /// Continuous Univariate FisherSnedecor distribution.
+    /// Continuous Univariate F-distribution, also known as Fisher-Snedecor distribution.
     /// For details about this distribution, see 
     /// <a href="http://en.wikipedia.org/wiki/F-distribution">Wikipedia - FisherSnedecor distribution</a>.
     /// </summary>
@@ -84,17 +84,6 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Checks whether the parameters of the distribution are valid.
-        /// </summary>
-        /// <param name="d1">The first degree of freedom (d1) of the distribution. Range: d1 > 0.</param>
-        /// <param name="d2">The second degree of freedom (d2) of the distribution. Range: d2 > 0.</param>
-        /// <returns><c>true</c> when the parameters are valid, <c>false</c> otherwise.</returns>
-        static bool IsValidParameterSet(double d1, double d2)
-        {
-            return d1 > 0.0 && d2 > 0.0;
-        }
-
-        /// <summary>
         /// Sets the parameters of the distribution after checking their validity.
         /// </summary>
         /// <param name="d1">The first degree of freedom (d1) of the distribution. Range: d1 > 0.</param>
@@ -102,7 +91,7 @@ namespace MathNet.Numerics.Distributions
         /// <exception cref="ArgumentOutOfRangeException">When the parameters are out of range.</exception>
         void SetParameters(double d1, double d2)
         {
-            if (Control.CheckDistributionParameters && !IsValidParameterSet(d1, d2))
+            if (d1 <= 0.0 || d2 <= 0.0 || Double.IsNaN(d1) || Double.IsNaN(d2))
             {
                 throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
             }
@@ -247,6 +236,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         /// <param name="x">The location at which to compute the density.</param>
         /// <returns>the density at <paramref name="x"/>.</returns>
+        /// <seealso cref="PDF"/>
         public double Density(double x)
         {
             return Math.Sqrt(Math.Pow(_freedom1*x, _freedom1)*Math.Pow(_freedom2, _freedom2)/Math.Pow((_freedom1*x) + _freedom2, _freedom1 + _freedom2))/(x*SpecialFunctions.Beta(_freedom1/2.0, _freedom2/2.0));
@@ -257,6 +247,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         /// <param name="x">The location at which to compute the log density.</param>
         /// <returns>the log density at <paramref name="x"/>.</returns>
+        /// <seealso cref="PDFLn"/>
         public double DensityLn(double x)
         {
             return Math.Log(Density(x));
@@ -267,21 +258,10 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         /// <param name="x">The location at which to compute the cumulative distribution function.</param>
         /// <returns>the cumulative distribution at location <paramref name="x"/>.</returns>
+        /// <seealso cref="CDF"/>
         public double CumulativeDistribution(double x)
         {
             return SpecialFunctions.BetaRegularized(_freedom1/2.0, _freedom2/2.0, _freedom1*x/((_freedom1*x) + _freedom2));
-        }
-
-        /// <summary>
-        /// Generates one sample from the <c>FisherSnedecor</c> distribution without parameter checking.
-        /// </summary>
-        /// <param name="rnd">The random number generator to use.</param>
-        /// <param name="d1">The first degree of freedom (d1) of the distribution. Range: d1 > 0.</param>
-        /// <param name="d2">The second degree of freedom (d2) of the distribution. Range: d2 > 0.</param>
-        /// <returns>a <c>FisherSnedecor</c> distributed random number.</returns>
-        static double SampleUnchecked(System.Random rnd, double d1, double d2)
-        {
-            return (ChiSquared.Sample(rnd, d1)/d1)/(ChiSquared.Sample(rnd, d2)/d2);
         }
 
         /// <summary>
@@ -306,6 +286,61 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
+        /// Generates one sample from the <c>FisherSnedecor</c> distribution without parameter checking.
+        /// </summary>
+        /// <param name="rnd">The random number generator to use.</param>
+        /// <param name="d1">The first degree of freedom (d1) of the distribution. Range: d1 > 0.</param>
+        /// <param name="d2">The second degree of freedom (d2) of the distribution. Range: d2 > 0.</param>
+        /// <returns>a <c>FisherSnedecor</c> distributed random number.</returns>
+        static double SampleUnchecked(System.Random rnd, double d1, double d2)
+        {
+            return (ChiSquared.Sample(rnd, d1) / d1) / (ChiSquared.Sample(rnd, d2) / d2);
+        }
+
+        /// <summary>
+        /// Computes the probability density of the distribution (PDF) at x, i.e. ∂P(X ≤ x)/∂x.
+        /// </summary>
+        /// <param name="d1">The first degree of freedom (d1) of the distribution. Range: d1 > 0.</param>
+        /// <param name="d2">The second degree of freedom (d2) of the distribution. Range: d2 > 0.</param>
+        /// <param name="x">The location at which to compute the density.</param>
+        /// <returns>the density at <paramref name="x"/>.</returns>
+        /// <seealso cref="Density"/>
+        public static double PDF(double d1, double d2, double x)
+        {
+            if (d1 <= 0.0 || d2 <= 0.0) throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
+
+            return Math.Sqrt(Math.Pow(d1*x, d1)*Math.Pow(d2, d2)/Math.Pow((d1*x) + d2, d1 + d2))/(x*SpecialFunctions.Beta(d1/2.0, d2/2.0));
+        }
+
+        /// <summary>
+        /// Computes the log probability density of the distribution (lnPDF) at x, i.e. ln(∂P(X ≤ x)/∂x).
+        /// </summary>
+        /// <param name="d1">The first degree of freedom (d1) of the distribution. Range: d1 > 0.</param>
+        /// <param name="d2">The second degree of freedom (d2) of the distribution. Range: d2 > 0.</param>
+        /// <param name="x">The location at which to compute the density.</param>
+        /// <returns>the log density at <paramref name="x"/>.</returns>
+        /// <seealso cref="DensityLn"/>
+        public static double PDFLn(double d1, double d2, double x)
+        {
+            return Math.Log(PDF(d1, d2, x));
+        }
+
+        /// <summary>
+        /// Computes the cumulative distribution (CDF) of the distribution at x, i.e. P(X ≤ x).
+        /// </summary>
+        /// <param name="x">The location at which to compute the cumulative distribution function.</param>
+        /// <param name="d1">The first degree of freedom (d1) of the distribution. Range: d1 > 0.</param>
+        /// <param name="d2">The second degree of freedom (d2) of the distribution. Range: d2 > 0.</param>
+        /// <returns>the cumulative distribution at location <paramref name="x"/>.</returns>
+        /// <seealso cref="CumulativeDistribution"/>
+        public static double CDF(double d1, double d2, double x)
+        {
+            if (d1 <= 0.0 || d2 <= 0.0) throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
+
+            return SpecialFunctions.BetaRegularized(d1/2.0, d2/2.0, d1*x/((d1*x) + d2));
+        }
+
+        /// <summary>
         /// Generates a sample from the distribution.
         /// </summary>
         /// <param name="rnd">The random number generator to use.</param>
@@ -314,10 +349,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sample from the distribution.</returns>
         public static double Sample(System.Random rnd, double d1, double d2)
         {
-            if (Control.CheckDistributionParameters && !IsValidParameterSet(d1, d2))
-            {
-                throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
-            }
+            if (d1 <= 0.0 || d2 <= 0.0) throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
 
             return SampleUnchecked(rnd, d1, d2);
         }
@@ -331,10 +363,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sequence of samples from the distribution.</returns>
         public static IEnumerable<double> Samples(System.Random rnd, double d1, double d2)
         {
-            if (Control.CheckDistributionParameters && !IsValidParameterSet(d1, d2))
-            {
-                throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
-            }
+            if (d1 <= 0.0 || d2 <= 0.0) throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
 
             while (true)
             {

@@ -361,7 +361,9 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void ValidateDensity(double d1, double d2, double x)
         {
             var n = new FisherSnedecor(d1, d2);
-            Assert.AreEqual(Math.Sqrt(Math.Pow(d1 * x, d1) * Math.Pow(d2, d2) / Math.Pow((d1 * x) + d2, d1 + d2)) / (x * SpecialFunctions.Beta(d1 / 2.0, d2 / 2.0)), n.Density(x));
+            double expected = Math.Sqrt(Math.Pow(d1*x, d1)*Math.Pow(d2, d2)/Math.Pow((d1*x) + d2, d1 + d2))/(x*SpecialFunctions.Beta(d1/2.0, d2/2.0));
+            Assert.AreEqual(expected, n.Density(x));
+            Assert.AreEqual(expected, FisherSnedecor.PDF(d1, d2, x));
         }
 
         /// <summary>
@@ -397,7 +399,9 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void ValidateDensityLn(double d1, double d2, double x)
         {
             var n = new FisherSnedecor(d1, d2);
-            Assert.AreEqual(Math.Log(n.Density(x)), n.DensityLn(x));
+            double expected = Math.Log(Math.Sqrt(Math.Pow(d1*x, d1)*Math.Pow(d2, d2)/Math.Pow((d1*x) + d2, d1 + d2))/(x*SpecialFunctions.Beta(d1/2.0, d2/2.0)));
+            Assert.AreEqual(expected, n.DensityLn(x));
+            Assert.AreEqual(expected, FisherSnedecor.PDFLn(d1, d2, x));
         }
 
         /// <summary>
@@ -442,7 +446,9 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void ValidateCumulativeDistribution(double d1, double d2, double x)
         {
             var n = new FisherSnedecor(d1, d2);
-            Assert.AreEqual(SpecialFunctions.BetaRegularized(d1 / 2.0, d2 / 2.0, d1 * x / (d2 + (x * d1))), n.CumulativeDistribution(x));
+            double expected = SpecialFunctions.BetaRegularized(d1/2.0, d2/2.0, d1*x/(d2 + (x*d1)));
+            Assert.AreEqual(expected, n.CumulativeDistribution(x));
+            Assert.AreEqual(expected, FisherSnedecor.CDF(d1, d2, x));
         }
     }
 }
