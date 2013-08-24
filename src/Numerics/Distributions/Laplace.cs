@@ -96,17 +96,6 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Checks whether the parameters of the distribution are valid. 
-        /// </summary>
-        /// <param name="location">The location (μ) of the distribution.</param>
-        /// <param name="scale">The scale (b) of the distribution. Range: b > 0.</param>
-        /// <returns><c>true</c> when the parameters are valid, <c>false</c> otherwise.</returns>
-        static bool IsValidParameterSet(double location, double scale)
-        {
-            return scale > 0.0 && !Double.IsNaN(location);
-        }
-
-        /// <summary>
         /// Sets the parameters of the distribution after checking their validity.
         /// </summary>
         /// <param name="location">The location (μ) of the distribution.</param>
@@ -114,7 +103,7 @@ namespace MathNet.Numerics.Distributions
         /// <exception cref="ArgumentOutOfRangeException">When the parameters are out of range.</exception>
         void SetParameters(double location, double scale)
         {
-            if (Control.CheckDistributionParameters && !IsValidParameterSet(location, scale))
+            if (scale <= 0.0 || Double.IsNaN(location) || Double.IsNaN(scale))
             {
                 throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
             }
@@ -227,6 +216,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         /// <param name="x">The location at which to compute the density.</param>
         /// <returns>the density at <paramref name="x"/>.</returns>
+        /// <seealso cref="PDF"/>
         public double Density(double x)
         {
             return Math.Exp(-Math.Abs(x - _location)/_scale)/(2.0*_scale);
@@ -237,9 +227,10 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         /// <param name="x">The location at which to compute the log density.</param>
         /// <returns>the log density at <paramref name="x"/>.</returns>
+        /// <seealso cref="PDFLn"/>
         public double DensityLn(double x)
         {
-            return Math.Log(Density(x));
+            return -Math.Abs(x - _location)/_scale - Math.Log(2.0*_scale);
         }
 
         /// <summary>
@@ -247,22 +238,10 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         /// <param name="x">The location at which to compute the cumulative distribution function.</param>
         /// <returns>the cumulative distribution at location <paramref name="x"/>.</returns>
+        /// <seealso cref="CDF"/>
         public double CumulativeDistribution(double x)
         {
             return 0.5*(1.0 + (Math.Sign(x - _location)*(1.0 - Math.Exp(-Math.Abs(x - _location)/_scale))));
-        }
-
-        /// <summary>
-        /// Samples the distribution.
-        /// </summary>
-        /// <param name="rnd">The random number generator to use.</param>
-        /// <param name="location">The location (μ) of the distribution.</param>
-        /// <param name="scale">The scale (b) of the distribution. Range: b > 0.</param>
-        /// <returns>a random number from the distribution.</returns>
-        static double SampleUnchecked(System.Random rnd, double location, double scale)
-        {
-            var u = rnd.NextDouble() - 0.5;
-            return location - (scale*Math.Sign(u)*Math.Log(1.0 - (2.0*Math.Abs(u))));
         }
 
         /// <summary>
@@ -287,6 +266,64 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
+        /// Samples the distribution.
+        /// </summary>
+        /// <param name="rnd">The random number generator to use.</param>
+        /// <param name="location">The location (μ) of the distribution.</param>
+        /// <param name="scale">The scale (b) of the distribution. Range: b > 0.</param>
+        /// <returns>a random number from the distribution.</returns>
+        static double SampleUnchecked(System.Random rnd, double location, double scale)
+        {
+            var u = rnd.NextDouble() - 0.5;
+            return location - (scale * Math.Sign(u) * Math.Log(1.0 - (2.0 * Math.Abs(u))));
+        }
+
+        /// <summary>
+        /// Computes the probability density of the distribution (PDF) at x, i.e. ∂P(X ≤ x)/∂x.
+        /// </summary>
+        /// <param name="location">The location (μ) of the distribution.</param>
+        /// <param name="scale">The scale (b) of the distribution. Range: b > 0.</param>
+        /// <param name="x">The location at which to compute the density.</param>
+        /// <returns>the density at <paramref name="x"/>.</returns>
+        /// <seealso cref="Density"/>
+        public static double PDF(double location, double scale, double x)
+        {
+            if (scale <= 0.0) throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
+
+            return Math.Exp(-Math.Abs(x - location)/scale)/(2.0*scale);
+        }
+
+        /// <summary>
+        /// Computes the log probability density of the distribution (lnPDF) at x, i.e. ln(∂P(X ≤ x)/∂x).
+        /// </summary>
+        /// <param name="location">The location (μ) of the distribution.</param>
+        /// <param name="scale">The scale (b) of the distribution. Range: b > 0.</param>
+        /// <param name="x">The location at which to compute the density.</param>
+        /// <returns>the log density at <paramref name="x"/>.</returns>
+        /// <seealso cref="DensityLn"/>
+        public static double PDFLn(double location, double scale, double x)
+        {
+            if (scale <= 0.0) throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
+
+            return -Math.Abs(x - location)/scale - Math.Log(2.0*scale);
+        }
+
+        /// <summary>
+        /// Computes the cumulative distribution (CDF) of the distribution at x, i.e. P(X ≤ x).
+        /// </summary>
+        /// <param name="x">The location at which to compute the cumulative distribution function.</param>
+        /// <param name="location">The location (μ) of the distribution.</param>
+        /// <param name="scale">The scale (b) of the distribution. Range: b > 0.</param>
+        /// <returns>the cumulative distribution at location <paramref name="x"/>.</returns>
+        /// <seealso cref="CumulativeDistribution"/>
+        public static double CDF(double location, double scale, double x)
+        {
+            if (scale <= 0.0) throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
+
+            return 0.5*(1.0 + (Math.Sign(x - location)*(1.0 - Math.Exp(-Math.Abs(x - location)/scale))));
+        }
+
+        /// <summary>
         /// Generates a sample from the distribution.
         /// </summary>
         /// <param name="rnd">The random number generator to use.</param>
@@ -295,10 +332,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sample from the distribution.</returns>
         public static double Sample(System.Random rnd, double location, double scale)
         {
-            if (Control.CheckDistributionParameters && !IsValidParameterSet(location, scale))
-            {
-                throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
-            }
+            if (scale <= 0.0) throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
 
             return SampleUnchecked(rnd, location, scale);
         }
@@ -312,10 +346,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sequence of samples from the distribution.</returns>
         public static IEnumerable<double> Samples(System.Random rnd, double location, double scale)
         {
-            if (Control.CheckDistributionParameters && !IsValidParameterSet(location, scale))
-            {
-                throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
-            }
+            if (scale <= 0.0) throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
 
             while (true)
             {
