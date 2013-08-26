@@ -9,7 +9,7 @@ open MathNet.Numerics.LinearAlgebra.Double
 module SparseMatrixTests =
 
     /// A small uniform matrix.
-    let smallM = DenseMatrix.init 4 6 (fun i j -> if i = 1 && j = 2 then 1.0 else 0.0) :> Matrix<float>
+    let smallM = DenseMatrix.init 4 6 (fun i j -> if i = 1 && j = 2 then 1.0 else 0.0)
 
     [<Test>]
     let ``SparseMatrix.zeroCreate`` () =
@@ -58,8 +58,8 @@ module SparseMatrixTests =
 
     [<Test>]
     let ``SparseMatrix.init_row`` () =
-        SparseMatrix.initRow 4 6 (fun i -> if i=1 then DenseVector([|0.;0.;1.;0.;0.;0.|]) else DenseVector.zeroCreate 6) |> should equal smallM
+        SparseMatrix.initRow 4 6 (fun i -> if i=1 then DenseVector.raw [|0.;0.;1.;0.;0.;0.|] else DenseVector.zeroCreate 6) |> should equal smallM
 
     [<Test>]
     let ``SparseMatrix.init_col`` () =
-        SparseMatrix.initCol 4 6 (fun j -> if j=2 then DenseVector([|0.;1.;0.;0.|]) else DenseVector.zeroCreate 4) |> should equal smallM
+        SparseMatrix.initCol 4 6 (fun j -> if j=2 then DenseVector.raw [|0.;1.;0.;0.|] else DenseVector.zeroCreate 4) |> should equal smallM

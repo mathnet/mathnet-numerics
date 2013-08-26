@@ -25,7 +25,7 @@ module DenseMatrixTests =
     [<Test>]
     let ``DenseMatrix.randomCreate`` () =
         let m = DenseMatrix.randomCreate 100 120 (Normal.WithMeanStdDev(100.0,0.1))
-        m.Values |> ArrayStatistics.Mean |> should (equalWithin 10.0) 100.0
+        (m :?> DenseMatrix).Values |> ArrayStatistics.Mean |> should (equalWithin 10.0) 100.0
         m.RowCount |> should equal 100
         m.ColumnCount |> should equal 120
 

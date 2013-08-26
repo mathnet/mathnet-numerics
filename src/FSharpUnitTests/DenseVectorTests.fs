@@ -23,7 +23,7 @@ module DenseVectorTests =
     [<Test>]
     let ``DenseVector.randomCreate`` () =
         let m = DenseVector.randomCreate 100 (Normal.WithMeanStdDev(100.0,0.1))
-        m.Values |> ArrayStatistics.Mean |> should (equalWithin 10.0) 100.0
+        (m :?> DenseVector).Values |> ArrayStatistics.Mean |> should (equalWithin 10.0) 100.0
         m.Count |> should equal 100
 
     [<Test>]

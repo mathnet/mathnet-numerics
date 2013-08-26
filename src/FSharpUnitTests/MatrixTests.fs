@@ -174,11 +174,11 @@ module MatrixTests =
 
     [<Test>]
     let ``Matrix.foldByCol`` () =
-        Matrix.foldByCol (+) 0.0 smallM |> should equal (DenseVector.ofList [0.6;0.6] :> Vector<float>)
+        Matrix.foldByCol (+) 0.0 smallM |> should equal (DenseVector.ofList [0.6;0.6])
 
     [<Test>]
     let ``Matrix.foldByRow`` () =
-        Matrix.foldByRow (+) 0.0 smallM |> should equal (DenseVector.ofList [0.6;0.6] :> Vector<float>)
+        Matrix.foldByRow (+) 0.0 smallM |> should equal (DenseVector.ofList [0.6;0.6])
 
     [<Test>]
     let ``Pointwise Multiplication using .* Operator`` () =
