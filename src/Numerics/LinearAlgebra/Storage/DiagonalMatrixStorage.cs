@@ -244,6 +244,45 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             return storage;
         }
 
+        // ENUMERATION
+
+        public override IEnumerable<T> Enumerate()
+        {
+            for (int j = 0; j < ColumnCount; j++)
+            {
+                for (int i = 0; i < RowCount; i++)
+                {
+                    // PERF: consider to break up loop to avoid branching
+                    yield return i == j ? Data[i] : Zero;
+                }
+            }
+        }
+
+        public override IEnumerable<Tuple<int, int, T>> EnumerateIndexed()
+        {
+            for (int j = 0; j < ColumnCount; j++)
+            {
+                for (int i = 0; i < RowCount; i++)
+                {
+                    // PERF: consider to break up loop to avoid branching
+                    yield return i == j
+                        ? new Tuple<int, int, T>(i, i, Data[i])
+                        : new Tuple<int, int, T>(i, j, Zero);
+                }
+            }
+        }
+
+        public override IEnumerable<Tuple<int, int, T>> EnumerateNonZero()
+        {
+            for (int i = 0; i < Data.Length; i++)
+            {
+                if (!Zero.Equals(Data[i]))
+                {
+                    yield return new Tuple<int, int, T>(i, i, Data[i]);
+                }
+            }
+        }
+
         // MATRIX COPY
 
         internal override void CopyToUnchecked(MatrixStorage<T> target, bool skipClearing = false)

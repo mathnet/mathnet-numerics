@@ -95,7 +95,7 @@ namespace Examples.LinearAlgebraExamples
 
             // 5. Normalize matrix columns
             Console.WriteLine(@"5. Normalize matrix columns: before normalize");
-            foreach (var keyValuePair in matrix.ColumnEnumerator())
+            foreach (var keyValuePair in matrix.EnumerateColumnsIndexed())
             {
                 Console.WriteLine(@"Column {0} 2-nd norm is: {1}", keyValuePair.Item1, keyValuePair.Item2.L2Norm());
             }
@@ -103,7 +103,7 @@ namespace Examples.LinearAlgebraExamples
             Console.WriteLine();
             var normalized = matrix.NormalizeColumns(2);
             Console.WriteLine(@"5. Normalize matrix columns: after normalize");
-            foreach (var keyValuePair in normalized.ColumnEnumerator())
+            foreach (var keyValuePair in normalized.EnumerateColumnsIndexed())
             {
                 Console.WriteLine(@"Column {0} 2-nd norm is: {1}", keyValuePair.Item1, keyValuePair.Item2.L2Norm());
             }
@@ -112,7 +112,7 @@ namespace Examples.LinearAlgebraExamples
 
             // 6. Normalize matrix columns
             Console.WriteLine(@"6. Normalize matrix rows: before normalize");
-            foreach (var keyValuePair in matrix.RowEnumerator())
+            foreach (var keyValuePair in matrix.EnumerateRowsIndexed())
             {
                 Console.WriteLine(@"Row {0} 2-nd norm is: {1}", keyValuePair.Item1, keyValuePair.Item2.L2Norm());
             }
@@ -120,7 +120,7 @@ namespace Examples.LinearAlgebraExamples
             Console.WriteLine();
             normalized = matrix.NormalizeRows(2);
             Console.WriteLine(@"6. Normalize matrix rows: after normalize");
-            foreach (var keyValuePair in normalized.RowEnumerator())
+            foreach (var keyValuePair in normalized.EnumerateRowsIndexed())
             {
                 Console.WriteLine(@"Row {0} 2-nd norm is: {1}", keyValuePair.Item1, keyValuePair.Item2.L2Norm());
             }

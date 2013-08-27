@@ -137,7 +137,7 @@ namespace Examples.LinearAlgebraExamples
 
             // 9. Get columns using column enumerator. If you need all columns you may use ColumnEnumerator without parameters
             Console.WriteLine(@"9. Get columns using column enumerator");
-            foreach (var keyValuePair in matrix.ColumnEnumerator(2, 4))
+            foreach (var keyValuePair in matrix.EnumerateColumnsIndexed(2, 4))
             {
                 Console.WriteLine(@"Column {0}: {1}", keyValuePair.Item1, keyValuePair.Item2.ToString("#0.00\t", formatProvider));
             }
@@ -146,7 +146,7 @@ namespace Examples.LinearAlgebraExamples
 
             // 10. Get rows using row enumerator. If you need all rows you may use RowEnumerator without parameters
             Console.WriteLine(@"10. Get rows using row enumerator");
-            foreach (var keyValuePair in matrix.RowEnumerator(4, 3))
+            foreach (var keyValuePair in matrix.EnumerateRowsIndexed(4, 3))
             {
                 Console.WriteLine(@"Row {0}: {1}", keyValuePair.Item1, keyValuePair.Item2.ToString("#0.00\t", formatProvider));
             }

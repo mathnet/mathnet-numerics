@@ -303,7 +303,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// Returns an IEnumerable that can be used to iterate through all values of the vector and their index.
         /// </summary>
         /// <remarks>
-        /// The enumerator returns a <seealso cref="Tuple{T,K}"/> with the first value being the element index
+        /// The enumerator returns a Tuple with the first value being the element index
         /// and the second value being the value of the element at that index.
         /// The enumerator will include all values, even if they are zero.
         /// </remarks>
@@ -316,7 +316,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// Returns an IEnumerable that can be used to iterate through all non-zero values of the vector and their index.
         /// </summary>
         /// <remarks>
-        /// The enumerator returns a <seealso cref="Tuple{T,K}"/> with the first value being the element index
+        /// The enumerator returns a Tuple with the first value being the element index
         /// and the second value being the value of the element at that index.
         /// The enumerator will skip all elements with a zero value.
         /// </remarks>

@@ -638,6 +638,52 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             return storage;
         }
 
+        // ENUMERATION
+
+        public override IEnumerable<T> Enumerate()
+        {
+            int k = 0;
+            for (int row = 0; row < RowCount; row++)
+            {
+                for (int col = 0; col < ColumnCount; col++)
+                {
+                    yield return k < (row < RowPointers.Length - 1 ? RowPointers[row + 1] : ValueCount) && (ColumnIndices[k]) == col
+                        ? Values[k++]
+                        : Zero;
+                }
+            }
+        }
+
+        public override IEnumerable<Tuple<int, int, T>> EnumerateIndexed()
+        {
+            int k = 0;
+            for (int row = 0; row < RowCount; row++)
+            {
+                for (int col = 0; col < ColumnCount; col++)
+                {
+                    yield return k < (row < RowPointers.Length - 1 ? RowPointers[row + 1] : ValueCount) && (ColumnIndices[k]) == col
+                        ? new Tuple<int, int, T>(row, col, Values[k++])
+                        : new Tuple<int, int, T>(row, col, Zero);
+                }
+            }
+        }
+
+        public override IEnumerable<Tuple<int, int, T>> EnumerateNonZero()
+        {
+            for (int row = 0; row < RowCount; row++)
+            {
+                var startIndex = RowPointers[row];
+                var endIndex = row < RowPointers.Length - 1 ? RowPointers[row + 1] : ValueCount;
+                for (var j = startIndex; j < endIndex; j++)
+                {
+                    if (!Zero.Equals(Values[j]))
+                    {
+                        yield return new Tuple<int, int, T>(row, ColumnIndices[j], Values[j]);
+                    }
+                }
+            }
+        }
+
         // MATRIX COPY
 
         internal override void CopyToUnchecked(MatrixStorage<T> target, bool skipClearing = false)

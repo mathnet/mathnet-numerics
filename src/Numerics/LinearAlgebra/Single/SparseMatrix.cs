@@ -1088,44 +1088,6 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         }
 
         /// <summary>
-        /// Iterates throw each element in the matrix (row-wise).
-        /// </summary>
-        /// <returns>The value at the current iteration along with its position (row, column, value).</returns>
-        public override IEnumerable<Tuple<int, int, float>> IndexedEnumerator()
-        {
-            var rowPointers = _storage.RowPointers;
-            var columnIndices = _storage.ColumnIndices;
-            var values = _storage.Values;
-            var valueCount = _storage.ValueCount;
-
-            for (var row = 0; row < RowCount - 1; row++)
-            {
-                var start = rowPointers[row];
-                var end = rowPointers[row + 1];
-
-                if (start == end)
-                {
-                    continue;
-                }
-
-                for (var index = start; index < end; index++)
-                {
-                    yield return new Tuple<int, int, float>(row, columnIndices[index], values[index]);
-                }
-            }
-
-            var lastRow = rowPointers.Length - 1;
-
-            if (rowPointers[lastRow] < valueCount)
-            {
-                for (var index = rowPointers[lastRow]; index < valueCount; index++)
-                {
-                    yield return new Tuple<int, int, float>(lastRow, columnIndices[index], values[index]);
-                }
-            }
-        }
-
-        /// <summary>
         /// Gets a value indicating whether this matrix is symmetric.
         /// </summary>
         public override bool IsSymmetric

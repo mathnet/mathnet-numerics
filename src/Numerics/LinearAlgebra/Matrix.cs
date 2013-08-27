@@ -1254,11 +1254,76 @@ namespace MathNet.Numerics.LinearAlgebra
         }
 
         /// <summary>
-        /// Returns an <see cref="IEnumerator{T}"/> that enumerates over the matrix columns.
+        /// Returns an IEnumerable that can be used to iterate through all values of the matrix.
         /// </summary>
-        /// <returns>An <see cref="IEnumerator{T}"/> that enumerates over the matrix columns</returns>
-        /// <seealso cref="IEnumerator{T}"/>
-        public virtual IEnumerable<Tuple<int, Vector<T>>> ColumnEnumerator()
+        /// <remarks>
+        /// The enumerator will include all values, even if they are zero.
+        /// The ordering of the values is unspecified (not necessarily column by column or row by row).
+        /// </remarks>
+        public IEnumerable<T> Enumerate()
+        {
+            return Storage.Enumerate();
+        }
+
+        /// <summary>
+        /// Returns an IEnumerable that can be used to iterate through all values of the matrix and their index.
+        /// </summary>
+        /// <remarks>
+        /// The enumerator returns a Tuple with the first two values being the row and column index
+        /// and the third value being the value of the element at that index.
+        /// The enumerator will include all values, even if they are zero.
+        /// </remarks>
+        public IEnumerable<Tuple<int, int, T>> EnumerateIndexed()
+        {
+            return Storage.EnumerateIndexed();
+        }
+
+        /// <summary>
+        /// Returns an IEnumerable that can be used to iterate through all non-zero values of the matrix and their index.
+        /// </summary>
+        /// <remarks>
+        /// The enumerator returns a Tuple with the first two values being the row and column index
+        /// and the third value being the value of the element at that index.
+        /// The enumerator will skip all elements with a zero value.
+        /// </remarks>
+        public IEnumerable<Tuple<int, int, T>> EnumerateNonZero()
+        {
+            return Storage.EnumerateNonZero();
+        }
+
+        /// <summary>
+        /// Returns an IEnumerable that can be used to iterate through all columns of the matrix.
+        /// </summary>
+        public IEnumerable<Vector<T>> EnumerateColumns()
+        {
+            for (var i = 0; i < ColumnCount; i++)
+            {
+                yield return Column(i);
+            }
+        }
+
+        /// <summary>
+        /// Returns an IEnumerable that can be used to iterate through a subset of all columns of the matrix.
+        /// </summary>
+        /// <param name="index">The column to start enumerating over.</param>
+        /// <param name="length">The number of columns to enumerating over.</param>
+        public IEnumerable<Vector<T>> EnumerateColumns(int index, int length)
+        {
+            var maxIndex = Math.Min(index + length, ColumnCount);
+            for (var i = Math.Max(index, 0); i < maxIndex; i++)
+            {
+                yield return Column(i);
+            }
+        }
+
+        /// <summary>
+        /// Returns an IEnumerable that can be used to iterate through all columns of the matrix and their index.
+        /// </summary>
+        /// <remarks>
+        /// The enumerator returns a Tuple with the first value being the column index
+        /// and the second value being the value of the column at that index.
+        /// </remarks>
+        public IEnumerable<Tuple<int, Vector<T>>> EnumerateColumnsIndexed()
         {
             for (var i = 0; i < ColumnCount; i++)
             {
@@ -1267,84 +1332,56 @@ namespace MathNet.Numerics.LinearAlgebra
         }
 
         /// <summary>
-        /// Returns an <see cref="IEnumerator{T}"/> that enumerates the requested matrix columns.
+        /// Returns an IEnumerable that can be used to iterate through a subset of all columns of the matrix and their index.
         /// </summary>
         /// <param name="index">The column to start enumerating over.</param>
         /// <param name="length">The number of columns to enumerating over.</param>
-        /// <returns>An <see cref="IEnumerator{T}"/> that enumerates over requested matrix columns.</returns>
-        /// <seealso cref="IEnumerator{T}"/>
-        /// <exception cref="ArgumentOutOfRangeException">If:
-        /// <list><item><paramref name="index"/> is negative,
-        /// or greater than or equal to the number of columns.</item>
-        /// <item><c>(index + length) &gt;= Columns.</c></item></list>
-        /// </exception>
-        /// <exception cref="ArgumentException">If <paramref name="length"/> is not positive.</exception>
-        public virtual IEnumerable<Tuple<int, Vector<T>>> ColumnEnumerator(int index, int length)
+        /// <remarks>
+        /// The enumerator returns a Tuple with the first value being the column index
+        /// and the second value being the value of the column at that index.
+        /// </remarks>
+        public IEnumerable<Tuple<int, Vector<T>>> EnumerateColumnsIndexed(int index, int length)
         {
-            if (index >= ColumnCount || index < 0)
-            {
-                throw new ArgumentOutOfRangeException("index");
-            }
-
-            if (index + length > ColumnCount)
-            {
-                throw new ArgumentOutOfRangeException("length");
-            }
-
-            if (length < 1)
-            {
-                throw new ArgumentException(Resources.ArgumentMustBePositive, "length");
-            }
-
-            var maxIndex = index + length;
-            for (var i = index; i < maxIndex; i++)
+            var maxIndex = Math.Min(index + length, ColumnCount);
+            for (var i = Math.Max(index, 0); i < maxIndex; i++)
             {
                 yield return new Tuple<int, Vector<T>>(i, Column(i));
             }
         }
 
         /// <summary>
-        /// Returns an <see cref="IEnumerator{T}"/> that enumerates the requested matrix rows.
+        /// Returns an IEnumerable that can be used to iterate through all rows of the matrix.
         /// </summary>
-        /// <param name="index">The row to start enumerating over.</param>
-        /// <param name="length">The number of rows to enumerating over.</param>
-        /// <returns>An <see cref="IEnumerator{T}"/> that enumerates over requested matrix rows.</returns>
-        /// <seealso cref="IEnumerator{T}"/>
-        /// <exception cref="ArgumentOutOfRangeException">If:
-        /// <list><item><paramref name="index"/> is negative,
-        /// or greater than or equal to the number of rows.</item>
-        /// <item><c>(index + length) &gt;= Rows.</c></item></list></exception>
-        /// <exception cref="ArgumentException">If <paramref name="length"/> is not positive.</exception>
-        public virtual IEnumerable<Tuple<int, Vector<T>>> RowEnumerator(int index, int length)
+        public IEnumerable<Vector<T>> EnumerateRows()
         {
-            if (index >= RowCount || index < 0)
+            for (var i = 0; i < RowCount; i++)
             {
-                throw new ArgumentOutOfRangeException("index");
-            }
-
-            if (index + length > RowCount)
-            {
-                throw new ArgumentOutOfRangeException("length");
-            }
-
-            if (length < 1)
-            {
-                throw new ArgumentException(Resources.ArgumentMustBePositive, "length");
-            }
-
-            var maxi = index + length;
-            for (var i = index; i < maxi; i++)
-            {
-                yield return new Tuple<int, Vector<T>>(i, Row(i));
+                yield return Row(i);
             }
         }
 
         /// <summary>
-        /// Returns an <see cref="IEnumerator{T}"/> that enumerates over the matrix rows.
+        /// Returns an IEnumerable that can be used to iterate through a subset of all rows of the matrix.
         /// </summary>
-        /// <returns>An <see cref="IEnumerator{T}"/> that enumerates over the matrix rows</returns>
-        /// <seealso cref="IEnumerator{T}"/>
-        public virtual IEnumerable<Tuple<int, Vector<T>>> RowEnumerator()
+        /// <param name="index">The row to start enumerating over.</param>
+        /// <param name="length">The number of rows to enumerating over.</param>
+        public IEnumerable<Vector<T>> EnumerateRows(int index, int length)
+        {
+            var maxIndex = Math.Min(index + length, RowCount);
+            for (var i = Math.Max(index, 0); i < maxIndex; i++)
+            {
+                yield return Row(i);
+            }
+        }
+
+        /// <summary>
+        /// Returns an IEnumerable that can be used to iterate through all rows of the matrix and their index.
+        /// </summary>
+        /// <remarks>
+        /// The enumerator returns a Tuple with the first value being the row index
+        /// and the second value being the value of the row at that index.
+        /// </remarks>
+        public IEnumerable<Tuple<int, Vector<T>>> EnumerateRowsIndexed()
         {
             for (var i = 0; i < RowCount; i++)
             {
@@ -1353,17 +1390,20 @@ namespace MathNet.Numerics.LinearAlgebra
         }
 
         /// <summary>
-        /// Iterates through each element in the matrix (row-wise).
+        /// Returns an IEnumerable that can be used to iterate through a subset of all rows of the matrix and their index.
         /// </summary>
-        /// <returns>The value at the current iteration along with its position (row, column, value).</returns>
-        public virtual IEnumerable<Tuple<int, int, T>> IndexedEnumerator()
+        /// <param name="index">The row to start enumerating over.</param>
+        /// <param name="length">The number of rows to enumerating over.</param>
+        /// <remarks>
+        /// The enumerator returns a Tuple with the first value being the row index
+        /// and the second value being the value of the row at that index.
+        /// </remarks>
+        public IEnumerable<Tuple<int, Vector<T>>> EnumerateRowsIndexed(int index, int length)
         {
-            for (var row = 0; row < RowCount; row++)
+            var maxIndex = Math.Min(index + length, RowCount);
+            for (var i = Math.Max(index, 0); i < maxIndex; i++)
             {
-                for (var column = 0; column < ColumnCount; column++)
-                {
-                    yield return new Tuple<int, int, T>(row, column, At(row, column));
-                }
+                yield return new Tuple<int, Vector<T>>(i, Row(i));
             }
         }
 

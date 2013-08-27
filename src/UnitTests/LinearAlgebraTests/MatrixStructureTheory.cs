@@ -365,17 +365,15 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         public void CanEnumerateWithIndex()
         {
             var dense = CreateDenseRandom(2, 3, 0);
-            using (var enumerator = dense.IndexedEnumerator().GetEnumerator())
-                for (int i = 0; i < 2; i++)
-                {
-                    for (int j = 0; j < 3; j++)
-                    {
-                        enumerator.MoveNext();
-                        Assert.AreEqual(i, enumerator.Current.Item1);
-                        Assert.AreEqual(j, enumerator.Current.Item2);
-                        Assert.AreEqual(dense[i, j], enumerator.Current.Item3);
-                    }
-                }
+            int rowIdxSum = 0, colIdxSum = 0;
+            foreach (var value in dense.EnumerateIndexed())
+            {
+                rowIdxSum += value.Item1;
+                colIdxSum += value.Item2;
+                Assert.AreEqual(dense[value.Item1, value.Item2], value.Item3);
+            }
+            Assert.AreEqual(dense.RowCount*(dense.RowCount - 1)/2*dense.ColumnCount, rowIdxSum);
+            Assert.AreEqual(dense.ColumnCount*(dense.ColumnCount - 1)/2*dense.RowCount, colIdxSum);
         }
     }
 }
