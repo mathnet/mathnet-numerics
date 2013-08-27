@@ -50,8 +50,11 @@
     <Compile Include="..\FSharp\Distributions.fs">
       <Link>Distributions.fs</Link>
     </Compile>
-    <Compile Include="..\FSharp\LinearAlgebra.fs">
-      <Link>LinearAlgebra.fs</Link>
+    <Compile Include="..\FSharp\LinearAlgebra.Matrix.fs">
+      <Link>LinearAlgebra.Matrix.fs</Link>
+    </Compile>
+    <Compile Include="..\FSharp\LinearAlgebra.Vector.fs">
+      <Link>LinearAlgebra.Vector.fs</Link>
     </Compile>
     <Compile Include="..\FSharp\LinearAlgebra.Double.Matrix.fs">
       <Link>LinearAlgebra.Double.Matrix.fs</Link>
