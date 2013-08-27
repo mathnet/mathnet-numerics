@@ -208,6 +208,14 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             }
         }
 
+        public virtual IEnumerable<Tuple<int, T>> EnumerateIndexed()
+        {
+            for (var i = 0; i < Length; i++)
+            {
+                yield return new Tuple<int, T>(i, At(i));
+            }
+        }
+
         public virtual IEnumerable<Tuple<int, T>> EnumerateNonZero()
         {
             for (var i = 0; i < Length; i++)

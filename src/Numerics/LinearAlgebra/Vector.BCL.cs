@@ -229,6 +229,17 @@ namespace MathNet.Numerics.LinearAlgebra
         }
 
         /// <summary>
+        /// Returns an enumerator that iterates through the collection.
+        /// </summary>
+        /// <returns>
+        /// A <see cref="T:System.Collections.Generic.IEnumerator`1"/> that can be used to iterate through the collection.
+        /// </returns>
+        IEnumerator<T> IEnumerable<T>.GetEnumerator()
+        {
+            return Enumerate().GetEnumerator();
+        }
+
+        /// <summary>
         /// Returns an enumerator that iterates through a collection.
         /// </summary>
         /// <returns>
@@ -236,7 +247,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// </returns>
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return Storage.Enumerate().GetEnumerator();
+            return Enumerate().GetEnumerator();
         }
 
         /// <summary>
@@ -281,7 +292,7 @@ namespace MathNet.Numerics.LinearAlgebra
 
             var stringBuilder = new StringBuilder();
 
-            var iterator = GetEnumerator();
+            var iterator = Enumerate().GetEnumerator();
             for (var line = 0; line < fullLines; line++)
             {
                 if (line > 0)

@@ -289,29 +289,38 @@ namespace MathNet.Numerics.LinearAlgebra
         }
 
         /// <summary>
-        /// Returns an enumerator that iterates through the collection.
+        /// Returns an IEnumerable that can be used to iterate through all values of the vector.
         /// </summary>
-        /// <returns>
-        /// A <see cref="T:System.Collections.Generic.IEnumerator`1"/> that can be used to iterate through the collection.
-        /// </returns>
-        public IEnumerator<T> GetEnumerator()
+        /// <remarks>
+        /// The enumerator will include all values, even if they are zero.
+        /// </remarks>
+        public IEnumerable<T> Enumerate()
         {
-            return Storage.Enumerate().GetEnumerator();
+            return Storage.Enumerate();
         }
 
         /// <summary>
-        /// Returns an <see cref="IEnumerable{T}"/> that contains the position and value of the element, for all non-zero elements.
+        /// Returns an IEnumerable that can be used to iterate through all values of the vector and their index.
         /// </summary>
-        /// <returns>
-        /// An <see cref="IEnumerable{T}"/> over this vector that contains the position and value of each element.
-        /// </returns>
         /// <remarks>
-        /// The enumerator returns a <seealso cref="Tuple{T,K}"/>
-        /// with the first value being the element index and the second value
-        /// being the value of the element at that index.
-        /// The enumerator will exclude all elements with a zero value.
+        /// The enumerator returns a <seealso cref="Tuple{T,K}"/> with the first value being the element index
+        /// and the second value being the value of the element at that index.
+        /// The enumerator will include all values, even if they are zero.
         /// </remarks>
-        public IEnumerable<Tuple<int, T>> GetIndexedEnumerator()
+        public IEnumerable<Tuple<int, T>> EnumerateIndexed()
+        {
+            return Storage.EnumerateIndexed();
+        }
+
+        /// <summary>
+        /// Returns an IEnumerable that can be used to iterate through all non-zero values of the vector and their index.
+        /// </summary>
+        /// <remarks>
+        /// The enumerator returns a <seealso cref="Tuple{T,K}"/> with the first value being the element index
+        /// and the second value being the value of the element at that index.
+        /// The enumerator will skip all elements with a zero value.
+        /// </remarks>
+        public IEnumerable<Tuple<int, T>> EnumerateNonZero()
         {
             return Storage.EnumerateNonZero();
         }

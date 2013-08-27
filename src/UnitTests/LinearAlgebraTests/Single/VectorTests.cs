@@ -242,9 +242,23 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
         public void CanEnumerateOverVectorUsingIndexedEnumerator()
         {
             var vector = CreateVector(Data);
-            foreach (var pair in vector.GetIndexedEnumerator())
+            foreach (var pair in vector.EnumerateIndexed())
             {
                 Assert.AreEqual(Data[pair.Item1], pair.Item2);
+            }
+        }
+
+        /// <summary>
+        /// Can enumerate over a vector using non-zero enumerator.
+        /// </summary>
+        [Test]
+        public void CanEnumerateOverVectorUsingNonZeroEnumerator()
+        {
+            var vector = CreateVector(Data);
+            foreach (var pair in vector.EnumerateNonZero())
+            {
+                Assert.AreEqual(Data[pair.Item1], pair.Item2);
+                Assert.AreNotEqual(0f, pair.Item2);
             }
         }
 

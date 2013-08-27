@@ -389,6 +389,17 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             }
         }
 
+        public override IEnumerable<Tuple<int, T>> EnumerateIndexed()
+        {
+            int k = 0;
+            for (int i = 0; i < Length; i++)
+            {
+                yield return k < ValueCount && Indices[k] == i
+                    ? new Tuple<int, T>(i, Values[k++])
+                    : new Tuple<int, T>(i, Zero);
+            }
+        }
+
         public override IEnumerable<Tuple<int, T>> EnumerateNonZero()
         {
             for (var i = 0; i < ValueCount; i++)

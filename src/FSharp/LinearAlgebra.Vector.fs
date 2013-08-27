@@ -68,6 +68,15 @@ module Vector =
     /// Transform a vector into a list.
     let inline toList (v: #Vector<_>) = List.init v.Count v.At
 
+    /// Transform a vector into a sequence.
+    let inline toSeq (v: #Vector<_>) = v.Enumerate()
+
+    /// Transform a vector into an indexed sequence.
+    let inline toSeqi (v: #Vector<_>) = v.EnumerateIndexed()
+
+    /// Transform a vector into an indexed sequence where zero-values may be skipped.
+    let inline toSeqinz (v: #Vector<_>) = v.EnumerateNonZero()
+
     /// In-place mutation by applying a function to every element of the vector.
     let inline mapInPlace f (v: #Vector<_>) =
         v.MapInplace((fun x -> f x), true)
@@ -119,35 +128,34 @@ module Vector =
     let inline subInPlace (v: #Vector<_>) (w: #Vector<_>) = v.Subtract(w, v)
 
     /// Applies a function to all elements of the vector.
-    let inline iter f (v: #Vector<_>) =
-        for i=0 to v.Count-1 do
-            f (v.At i)
+    let inline iter f (v: #Vector<_>) = Seq.iter f (v.Enumerate())
 
-    /// Applies a function to all elements of the vector.
-    let inline iteri f (v: #Vector<_>) =
-        for i=0 to v.Count-1 do
-            f i (v.At i)
+    /// Applies a function to all indexed elements of the vector.
+    let inline iteri f (v: #Vector<_>) = Seq.iteri f (v.Enumerate())
 
+    /// Applies a function to all non-zero elements of the vector.
+    let inline iternz f (v: #Vector<_>) = v.EnumerateNonZero() |> Seq.iter (fun (_,v) -> f v)
+
+    /// Applies a function to all non-zero indexed elements of the vector.
+    let inline iterinz f (v: #Vector<_>) = v.EnumerateNonZero() |> Seq.iter (fun (i,v) -> f i v)
 
     /// Fold all entries of a vector.
-    let inline fold f acc0 (v: #Vector<_>) =
-        let mutable acc = acc0
-        for i=0 to v.Count-1 do
-            acc <- f acc (v.At i)
-        acc
+    let inline fold f state (v: #Vector<_>) = Seq.fold f state (v.Enumerate())
+
+    /// Fold all entries of a vector using a position dependent folding function.
+    let inline foldi f acc0 (v: #Vector<_>) = v.EnumerateIndexed() |> Seq.fold (fun s (i,x) -> f i s x) acc0
+
+    /// Fold all non-zero entries of a vector.
+    let inline foldnz f acc0 (v: #Vector<_>) = v.EnumerateNonZero() |> Seq.fold (fun s (_,x) -> f s x) acc0
+
+    /// Fold all non-zero entries of a vector using a position dependent folding function.
+    let inline foldinz f acc0 (v: #Vector<_>) = v.EnumerateNonZero() |> Seq.fold (fun s (i,x) -> f i s x) acc0
 
     /// Fold all entries of a vector in reverse order.
     let inline foldBack f acc0 (v: #Vector<_>) =
         let mutable acc = acc0
         for i=2 to v.Count do
             acc <- f (v.At (v.Count - i)) acc
-        acc
-
-    /// Fold all entries of a vector using a position dependent folding function.
-    let inline foldi f acc0 (v: #Vector<_>) =
-        let mutable acc = acc0
-        for i=0 to v.Count-1 do
-            acc <- f i acc (v.At i)
         acc
 
     /// Checks whether a predicate is satisfied for every element in the vector.
@@ -159,21 +167,21 @@ module Vector =
             i <- i+1
         b
 
-    /// Checks whether there is an entry in the vector that satisfies a given predicate.
-    let inline exists p (v: #Vector<_>) =
-        let mutable b = false
-        let mutable i = 0
-        while not(b) && i < v.Count do
-            b <- b || (p (v.At i))
-            i <- i+1
-        b
-
     /// Checks whether a predicate is true for all entries in a vector.
     let inline foralli p (v: #Vector<_>) =
         let mutable b = true
         let mutable i = 0
         while b && i < v.Count do
             b <- b && (p i (v.At i))
+            i <- i+1
+        b
+
+    /// Checks whether there is an entry in the vector that satisfies a given predicate.
+    let inline exists p (v: #Vector<_>) =
+        let mutable b = false
+        let mutable i = 0
+        while not(b) && i < v.Count do
+            b <- b || (p (v.At i))
             i <- i+1
         b
 
@@ -217,4 +225,3 @@ module Vector =
         for i=2 to v.Count do
             p <- f (v.At (v.Count - i)) p
         p
-

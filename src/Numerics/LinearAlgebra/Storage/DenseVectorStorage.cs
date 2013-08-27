@@ -30,6 +30,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using MathNet.Numerics.Properties;
 using MathNet.Numerics.Threading;
 
@@ -133,7 +134,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                 return new DenseVectorStorage<T>(copy.Length, copy);
             }
 
-            var array = System.Linq.Enumerable.ToArray(data);
+            var array = Enumerable.ToArray(data);
             return new DenseVectorStorage<T>(array.Length, array);
         }
 
@@ -157,6 +158,11 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         public override IEnumerable<T> Enumerate()
         {
             return Data;
+        }
+
+        public override IEnumerable<Tuple<int, T>> EnumerateIndexed()
+        {
+            return Data.Select((t, i) => new Tuple<int, T>(i, t));
         }
 
         public override IEnumerable<Tuple<int, T>> EnumerateNonZero()
