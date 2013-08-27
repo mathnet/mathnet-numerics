@@ -36,161 +36,14 @@ open MathNet.Numerics.LinearAlgebra
 [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
 module Matrix =
 
-    /// Transform a vector into a 2D array.
-    let inline toArray2 (A: #Matrix<float>) = A.ToArray()
-
-    /// In-place map of every matrix element using a function.
-    let inline mapInPlace (f: float -> float) (A: #Matrix<float>) =
-        A.MapInplace((fun x -> f x), true)
-
-    /// In-place map of every matrix element using a position dependent function.
-    let inline mapiInPlace (f: int -> int -> float -> float) (A: #Matrix<float>) =
-        A.MapIndexedInplace((fun i j x -> f i j x), true)
-
-    /// In-place map of every matrix element using a function.
-    /// Zero-values may be skipped (relevant mostly for sparse matrices).
-    let inline mapnzInPlace (f: float -> float) (A: #Matrix<float>) =
-        A.MapInplace((fun x -> f x), false)
-
-    /// In-place map of every matrix element using a position dependent function.
-    /// Zero-values may be skipped (relevant mostly for sparse matrices).
-    let inline mapinzInPlace (f: int -> int -> float -> float) (A: #Matrix<float>) =
-        A.MapIndexedInplace((fun i j x -> f i j x), false)
-
-    /// In-place map every matrix column using the given position dependent function.
-    let inline mapColsInPlace (f: int -> Vector<float> -> Vector<float>) (A: #Matrix<float>) =
-        for j = 0 to A.ColumnCount-1 do
-            A.SetColumn(j, f j (A.Column(j)))
-
-    /// In-place map every matrix row using the given position dependent function.
-    let inline mapRowsInPlace (f: int -> Vector<float> -> Vector<float>) (A: #Matrix<float>) =
-        for i = 0 to A.RowCount-1 do
-            A.SetRow(i, f i (A.Row(i)))
-
-    /// Map every matrix element using the given function.
-    let inline map (f: float -> float) (A: #Matrix<float>) =
-        let A = A.Clone()
-        A.MapInplace((fun x -> f x), true)
-        A
-
-    /// Map every matrix element using the given function.
-    /// Zero-values may be skipped (relevant mostly for sparse matrices).
-    let inline mapnz (f: float -> float) (A: #Matrix<float>) =
-        let A = A.Clone()
-        A.MapInplace((fun x -> f x), false)
-        A
-
-    /// Map every matrix element using the given position dependent function.
-    let inline mapi (f: int -> int -> float -> float) (A: #Matrix<float>) =
-        let A = A.Clone()
-        A.MapIndexedInplace((fun i j x -> f i j x), true)
-        A
-
-    /// Map every matrix element using the given position dependent function.
-    /// Zero-values may be skipped (relevant mostly for sparse matrices).
-    let inline mapinz (f: int -> int -> float -> float) (A: #Matrix<float>) =
-        let A = A.Clone()
-        A.MapIndexedInplace((fun i j x -> f i j x), false)
-        A
-
-    /// Map every matrix column using the given position dependent function.
-    let inline mapCols (f: int -> Vector<float> -> Vector<float>) (A: #Matrix<float>) =
-        let A = A.Clone()
-        mapColsInPlace f A
-        A
-
-    /// Map every matrix row using the given position dependent function.
-    let inline mapRows (f: int -> Vector<float> -> Vector<float>) (A: #Matrix<float>) =
-        let A = A.Clone()
-        mapRowsInPlace f A
-        A
-
-    /// Fold a function over all matrix elements.
-    let inline fold (f: 'a -> float -> 'a) (acc0: 'a) (A: #Matrix<float>) =
-        let n = A.RowCount
-        let m = A.ColumnCount
-        let mutable acc = acc0
-        for i=0 to n-1 do
-            for j=0 to m-1 do
-                acc <- f acc (A.At(i,j))
-        acc
-
-    /// Fold a function over all matrix elements in reverse order.
-    let inline foldBack (f: float -> 'a -> 'a) (acc0: 'a) (A: #Matrix<float>) =
-        let n = A.RowCount
-        let m = A.ColumnCount
-        let mutable acc = acc0
-        for i in n-1 .. -1 .. 0 do
-            for j in m-1 .. -1 .. 0 do
-                acc <- f (A.At(i,j)) acc
-        acc
-
-    /// Fold a matrix by applying a given function to all matrix elements.
-    let inline foldi (f: int -> int -> 'a -> float -> 'a) (acc0: 'a) (A: #Matrix<float>) =
-        let n = A.RowCount
-        let m = A.ColumnCount
-        let mutable acc = acc0
-        for i=0 to n-1 do
-            for j=0 to m-1 do
-                acc <- f i j acc (A.At(i,j))
-        acc
-
-    /// Checks whether a predicate holds for all elements of a matrix.
-    let inline forall (p: float -> bool) (A: #Matrix<float>) =
-        let mutable b = true
-        let mutable i = 0
-        let mutable j = 0
-        while b && i < A.RowCount do
-            b <- b && (p (A.At(i,j)))
-            j <- j+1
-            if j = A.ColumnCount then i <- i+1; j <- 0
-        b
-
-    /// Chechks whether a predicate holds for at least one element of a matrix.
-    let inline exists (p: float -> bool) (A: #Matrix<float>) =
-        let mutable b = false
-        let mutable i = 0
-        let mutable j = 0
-        while not(b) && i < A.RowCount do
-            b <- b || (p (A.At(i,j)))
-            j <- j+1
-            if j = A.ColumnCount then i <- i+1; j <- 0
-        b
-
-    /// Checks whether a position dependent predicate holds for all elements of a matrix.
-    let inline foralli (p: int -> int -> float -> bool) (A: #Matrix<float>) =
-        let mutable b = true
-        let mutable i = 0
-        let mutable j = 0
-        while b && i < A.RowCount do
-            b <- b && (p i j (A.At(i,j)))
-            j <- j+1
-            if j = A.ColumnCount then i <- i+1; j <- 0
-        b
-
-    /// Checks whether a position dependent predicate holds for at least one element of a matrix.
-    let inline existsi (p: int -> int -> float -> bool) (A: #Matrix<float>) =
-        let mutable b = false
-        let mutable i = 0
-        let mutable j = 0
-        while not(b) && i < A.RowCount do
-            b <- b || (p i j (A.At(i,j)))
-            j <- j+1
-            if j = A.ColumnCount then i <- i+1; j <- 0
-        b
-
-    /// In-place assignment.
-    let inline inplaceAssign (f: int -> int -> float) (A: #Matrix<float>) =
-        A.MapIndexedInplace((fun i j x -> f i j), true)
-
     /// Creates a sequence that iterates the non-zero entries in the matrix.
-    let inline nonZeroEntries (A: #Matrix<float>) =
+    let inline nonZeroEntries (A: #Matrix<_>) =
         seq { for i in 0 .. A.RowCount-1 do
                 for j in 0 .. A.ColumnCount-1 do
                   if A.At(i,j) <> 0.0 then yield (i, j, A.At(i,j)) }
 
     /// Returns the sum of all elements of a matrix.
-    let inline sum (A: #Matrix<float>) =
+    let inline sum (A: #Matrix<_>) =
         let mutable f = 0.0
         for i=0 to A.RowCount-1 do
             for j=0 to A.ColumnCount-1 do
@@ -198,38 +51,12 @@ module Matrix =
         f
 
     /// Returns the sum of the results generated by applying a position dependent function to each column of the matrix.
-    let inline sumColsBy (f: int -> Vector<float> -> 'a) (A: #Matrix<float>) =
+    let inline sumColsBy (f: int -> Vector<float> -> 'a) (A: #Matrix<_>) =
         A.ColumnEnumerator() |> Seq.map (fun (j,col) -> f j col) |> Seq.reduce (+)
 
     /// Returns the sum of the results generated by applying a position dependent function to each row of the matrix.
-    let inline sumRowsBy (f: int -> Vector<float> -> 'a) (A: #Matrix<float>) =
+    let inline sumRowsBy (f: int -> Vector<float> -> 'a) (A: #Matrix<_>) =
         A.RowEnumerator() |> Seq.map (fun (i,row) -> f i row)  |> Seq.reduce (+)
-
-    /// Iterates over all elements of a matrix.
-    let inline iter (f: float -> unit) (A: #Matrix<float>) =
-        for i=0 to A.RowCount-1 do
-            for j=0 to A.ColumnCount-1 do
-                f (A.At(i,j))
-
-    /// Iterates over all elements of a matrix using the element indices.
-    let inline iteri (f: int -> int -> float -> unit) (A: #Matrix<float>) =
-        for i=0 to A.RowCount-1 do
-            for j=0 to A.ColumnCount-1 do
-                f i j (A.At(i,j))
-
-    /// Fold one column.
-    let inline foldCol (f: 'a -> float -> 'a) acc (A: #Matrix<float>) k =
-        let mutable macc = acc
-        for i=0 to A.RowCount-1 do
-            macc <- f macc (A.Item(i,k))
-        macc
-
-    /// Fold one row.
-    let inline foldRow (f: 'a -> float -> 'a) acc (A: #Matrix<float>) k =
-        let mutable macc = acc
-        for i=0 to A.ColumnCount-1 do
-            macc <- f macc (A.Item(k,i))
-        macc
 
     /// Fold all columns into one row vector.
     let inline foldByCol (f: float -> float -> float) acc (A: #Matrix<float>) =

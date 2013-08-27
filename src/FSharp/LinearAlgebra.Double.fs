@@ -37,7 +37,7 @@ open MathNet.Numerics.LinearAlgebra
 module Utility =
 
     /// Construct a dense matrix from a list of floating point numbers.
-    let inline matrix (lst: list<list<float>>) = DenseMatrix.ofList lst :> Matrix<float>
+    let inline matrix (lst: list<list<float>>) = DenseMatrix.ofList lst
 
     /// Construct a dense vector from a list of floating point numbers.
-    let inline vector (lst: list<float>) = DenseVector.ofList lst :> Vector<float>
+    let inline vector (lst: list<float>) = DenseVector.ofList lst
