@@ -158,7 +158,7 @@ namespace Examples.LinearAlgebraExamples
 
             // 12. Indexed non-zero enumerator usage
             Console.WriteLine(@"11. Non-Zero Enumerator usage");
-            foreach (var value in vectorA.EnumerateNonZero())
+            foreach (var value in vectorA.EnumerateNonZeroIndexed())
             {
                 Console.WriteLine(@"Index = {0}; Value = {1}", value.Item1, value.Item2.ToString("#0.00\t", formatProvider));
             }

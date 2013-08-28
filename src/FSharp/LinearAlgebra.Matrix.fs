@@ -94,8 +94,35 @@ module MatrixExtensions =
 [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
 module Matrix =
 
-    /// Transform a vector into a 2D array.
+    /// Transform a matrix into a 2D array.
     let inline toArray2 (A: #Matrix<_>) = A.ToArray()
+
+
+    /// Transform a matrix into a sequence.
+    let inline toSeq (v: #Matrix<_>) = v.Enumerate()
+
+    /// Transform a matrix into an indexed sequence.
+    let inline toSeqi (v: #Matrix<_>) = v.EnumerateIndexed()
+
+    /// Transform a matrix into a sequence where zero-values are skipped.
+    let inline toSeqnz (v: #Matrix<_>) = v.EnumerateNonZero()
+
+    /// Transform a matrix into an indexed sequence where zero-values are skipped.
+    let inline toSeqinz (v: #Matrix<_>) = v.EnumerateNonZeroIndexed()
+
+
+    /// Transform a matrix into a column sequence.
+    let inline toColSeq (v: #Matrix<_>) = v.EnumerateColumns()
+
+    /// Transform a matrix into an indexed column sequence.
+    let inline toColSeqi (v: #Matrix<_>) = v.EnumerateColumnsIndexed()
+
+    /// Transform a matrix into a row sequence.
+    let inline toRowSeq (v: #Matrix<_>) = v.EnumerateRows()
+
+    /// Transform a matrix into an indexed row sequence.
+    let inline toRowSeqi (v: #Matrix<_>) = v.EnumerateRowsIndexed()
+
 
     /// In-place map of every matrix element using a function.
     let inline mapInPlace f (A: #Matrix<_>) =
@@ -114,6 +141,7 @@ module Matrix =
     /// Zero-values may be skipped (relevant mostly for sparse matrices).
     let inline mapinzInPlace f (A: #Matrix<_>) =
         A.MapIndexedInplace((fun i j x -> f i j x), false)
+
 
     /// In-place map every matrix column using the given position dependent function.
     let inline mapColsInPlace (f: int -> Vector<'a> -> Vector<'a>) (A: #Matrix<_>) =

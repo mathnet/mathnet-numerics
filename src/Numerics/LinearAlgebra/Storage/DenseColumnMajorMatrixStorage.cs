@@ -277,43 +277,6 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             return new DenseColumnMajorMatrixStorage<T>(rows, columns, array);
         }
 
-        // ENUMERATION
-
-        public override IEnumerable<T> Enumerate()
-        {
-            return Data;
-        }
-
-        public override IEnumerable<Tuple<int, int, T>> EnumerateIndexed()
-        {
-            int index = 0;
-            for (int j = 0; j < ColumnCount; j++)
-            {
-                for (int i = 0; i < RowCount; i++)
-                {
-                    yield return new Tuple<int, int, T>(i, j, Data[index]);
-                    index++;
-                }
-            }
-        }
-
-        public override IEnumerable<Tuple<int, int, T>> EnumerateNonZero()
-        {
-            int index = 0;
-            for (int j = 0; j < ColumnCount; j++)
-            {
-                for (int i = 0; i < RowCount; i++)
-                {
-                    var x = Data[index];
-                    if (!Zero.Equals(x))
-                    {
-                        yield return new Tuple<int, int, T>(i, j, x);
-                    }
-                    index++;
-                }
-            }
-        }
-
         // MATRIX COPY
 
         internal override void CopyToUnchecked(MatrixStorage<T> target, bool skipClearing = false)
@@ -446,6 +409,48 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                 }
             }
             return ret;
+        }
+
+        // ENUMERATION
+
+        public override IEnumerable<T> Enumerate()
+        {
+            return Data;
+        }
+
+        public override IEnumerable<Tuple<int, int, T>> EnumerateIndexed()
+        {
+            int index = 0;
+            for (int j = 0; j < ColumnCount; j++)
+            {
+                for (int i = 0; i < RowCount; i++)
+                {
+                    yield return new Tuple<int, int, T>(i, j, Data[index]);
+                    index++;
+                }
+            }
+        }
+
+        public override IEnumerable<T> EnumerateNonZero()
+        {
+            return Data.Where(x => !Zero.Equals(x));
+        }
+
+        public override IEnumerable<Tuple<int, int, T>> EnumerateNonZeroIndexed()
+        {
+            int index = 0;
+            for (int j = 0; j < ColumnCount; j++)
+            {
+                for (int i = 0; i < RowCount; i++)
+                {
+                    var x = Data[index];
+                    if (!Zero.Equals(x))
+                    {
+                        yield return new Tuple<int, int, T>(i, j, x);
+                    }
+                    index++;
+                }
+            }
         }
 
         // FUNCTIONAL COMBINATORS

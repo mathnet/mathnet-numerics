@@ -313,6 +313,17 @@ namespace MathNet.Numerics.LinearAlgebra
         }
 
         /// <summary>
+        /// Returns an IEnumerable that can be used to iterate through all non-zero values of the vector.
+        /// </summary>
+        /// <remarks>
+        /// The enumerator will skip all elements with a zero value.
+        /// </remarks>
+        public IEnumerable<T> EnumerateNonZero()
+        {
+            return Storage.EnumerateNonZero();
+        }
+
+        /// <summary>
         /// Returns an IEnumerable that can be used to iterate through all non-zero values of the vector and their index.
         /// </summary>
         /// <remarks>
@@ -320,9 +331,9 @@ namespace MathNet.Numerics.LinearAlgebra
         /// and the second value being the value of the element at that index.
         /// The enumerator will skip all elements with a zero value.
         /// </remarks>
-        public IEnumerable<Tuple<int, T>> EnumerateNonZero()
+        public IEnumerable<Tuple<int, T>> EnumerateNonZeroIndexed()
         {
-            return Storage.EnumerateNonZero();
+            return Storage.EnumerateNonZeroIndexed();
         }
 
         /// <summary>

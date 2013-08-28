@@ -198,36 +198,6 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             return hash;
         }
 
-        // ENUMERATION
-
-        public virtual IEnumerable<T> Enumerate()
-        {
-            for (var i = 0; i < Length; i++)
-            {
-                yield return At(i);
-            }
-        }
-
-        public virtual IEnumerable<Tuple<int, T>> EnumerateIndexed()
-        {
-            for (var i = 0; i < Length; i++)
-            {
-                yield return new Tuple<int, T>(i, At(i));
-            }
-        }
-
-        public virtual IEnumerable<Tuple<int, T>> EnumerateNonZero()
-        {
-            for (var i = 0; i < Length; i++)
-            {
-                var x = At(i);
-                if (!Zero.Equals(x))
-                {
-                    yield return new Tuple<int, T>(i, x);
-                }
-            }
-        }
-
         // VECTOR COPY
 
         public void CopyTo(VectorStorage<T> target, bool skipClearing = false)
@@ -397,6 +367,48 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             for (int i = sourceRowIndex, ii = targetRowIndex; i < sourceRowIndex + rowCount; i++, ii++)
             {
                 target.At(ii, columnIndex, At(i));
+            }
+        }
+
+        // ENUMERATION
+
+        public virtual IEnumerable<T> Enumerate()
+        {
+            for (var i = 0; i < Length; i++)
+            {
+                yield return At(i);
+            }
+        }
+
+        public virtual IEnumerable<Tuple<int, T>> EnumerateIndexed()
+        {
+            for (var i = 0; i < Length; i++)
+            {
+                yield return new Tuple<int, T>(i, At(i));
+            }
+        }
+
+        public virtual IEnumerable<T> EnumerateNonZero()
+        {
+            for (var i = 0; i < Length; i++)
+            {
+                var x = At(i);
+                if (!Zero.Equals(x))
+                {
+                    yield return x;
+                }
+            }
+        }
+
+        public virtual IEnumerable<Tuple<int, T>> EnumerateNonZeroIndexed()
+        {
+            for (var i = 0; i < Length; i++)
+            {
+                var x = At(i);
+                if (!Zero.Equals(x))
+                {
+                    yield return new Tuple<int, T>(i, x);
+                }
             }
         }
 

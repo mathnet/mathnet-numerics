@@ -227,45 +227,6 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             return hash;
         }
 
-        // ENUMERATION
-
-        public virtual IEnumerable<T> Enumerate()
-        {
-            for (int i = 0; i < RowCount; i++)
-            {
-                for (int j = 0; j < ColumnCount; j++)
-                {
-                    yield return At(i, j);
-                }
-            }
-        }
-
-        public virtual IEnumerable<Tuple<int, int, T>> EnumerateIndexed()
-        {
-            for (int i = 0; i < RowCount; i++)
-            {
-                for (int j = 0; j < ColumnCount; j++)
-                {
-                    yield return new Tuple<int, int, T>(i, j, At(i, j));
-                }
-            }
-        }
-
-        public virtual IEnumerable<Tuple<int, int, T>> EnumerateNonZero()
-        {
-            for (int i = 0; i < RowCount; i++)
-            {
-                for (int j = 0; j < ColumnCount; j++)
-                {
-                    var x = At(i, j);
-                    if (!Zero.Equals(x))
-                    {
-                        yield return new Tuple<int, int, T>(i, j, x);
-                    }
-                }
-            }
-        }
-
         // MATRIX COPY
 
         public void CopyTo(MatrixStorage<T> target, bool skipClearing = false)
@@ -450,6 +411,60 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                 }
             }
             return ret;
+        }
+
+        // ENUMERATION
+
+        public virtual IEnumerable<T> Enumerate()
+        {
+            for (int i = 0; i < RowCount; i++)
+            {
+                for (int j = 0; j < ColumnCount; j++)
+                {
+                    yield return At(i, j);
+                }
+            }
+        }
+
+        public virtual IEnumerable<Tuple<int, int, T>> EnumerateIndexed()
+        {
+            for (int i = 0; i < RowCount; i++)
+            {
+                for (int j = 0; j < ColumnCount; j++)
+                {
+                    yield return new Tuple<int, int, T>(i, j, At(i, j));
+                }
+            }
+        }
+
+        public virtual IEnumerable<T> EnumerateNonZero()
+        {
+            for (int i = 0; i < RowCount; i++)
+            {
+                for (int j = 0; j < ColumnCount; j++)
+                {
+                    var x = At(i, j);
+                    if (!Zero.Equals(x))
+                    {
+                        yield return x;
+                    }
+                }
+            }
+        }
+
+        public virtual IEnumerable<Tuple<int, int, T>> EnumerateNonZeroIndexed()
+        {
+            for (int i = 0; i < RowCount; i++)
+            {
+                for (int j = 0; j < ColumnCount; j++)
+                {
+                    var x = At(i, j);
+                    if (!Zero.Equals(x))
+                    {
+                        yield return new Tuple<int, int, T>(i, j, x);
+                    }
+                }
+            }
         }
 
         // FUNCTIONAL COMBINATORS

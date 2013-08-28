@@ -30,6 +30,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using MathNet.Numerics.Properties;
 
 namespace MathNet.Numerics.LinearAlgebra.Storage
@@ -376,41 +377,6 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                 };
         }
 
-        // ENUMERATION
-
-        public override IEnumerable<T> Enumerate()
-        {
-            int k = 0;
-            for (int i = 0; i < Length; i++)
-            {
-                yield return k < ValueCount && Indices[k] == i
-                    ? Values[k++]
-                    : Zero;
-            }
-        }
-
-        public override IEnumerable<Tuple<int, T>> EnumerateIndexed()
-        {
-            int k = 0;
-            for (int i = 0; i < Length; i++)
-            {
-                yield return k < ValueCount && Indices[k] == i
-                    ? new Tuple<int, T>(i, Values[k++])
-                    : new Tuple<int, T>(i, Zero);
-            }
-        }
-
-        public override IEnumerable<Tuple<int, T>> EnumerateNonZero()
-        {
-            for (var i = 0; i < ValueCount; i++)
-            {
-                if (!Zero.Equals(Values[i]))
-                {
-                    yield return new Tuple<int, T>(Indices[i], Values[i]);
-                }
-            }
-        }
-
         // VECTOR COPY
 
         internal override void CopyToUnchecked(VectorStorage<T> target, bool skipClearing = false)
@@ -599,6 +565,46 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             for (int i = sourceFirst; i <= sourceLast; i++)
             {
                 target.At(Indices[i] + offset, Values[i]);
+            }
+        }
+
+        // ENUMERATION
+
+        public override IEnumerable<T> Enumerate()
+        {
+            int k = 0;
+            for (int i = 0; i < Length; i++)
+            {
+                yield return k < ValueCount && Indices[k] == i
+                    ? Values[k++]
+                    : Zero;
+            }
+        }
+
+        public override IEnumerable<Tuple<int, T>> EnumerateIndexed()
+        {
+            int k = 0;
+            for (int i = 0; i < Length; i++)
+            {
+                yield return k < ValueCount && Indices[k] == i
+                    ? new Tuple<int, T>(i, Values[k++])
+                    : new Tuple<int, T>(i, Zero);
+            }
+        }
+
+        public override IEnumerable<T> EnumerateNonZero()
+        {
+            return Values.Take(ValueCount).Where(x => !Zero.Equals(x));
+        }
+
+        public override IEnumerable<Tuple<int, T>> EnumerateNonZeroIndexed()
+        {
+            for (var i = 0; i < ValueCount; i++)
+            {
+                if (!Zero.Equals(Values[i]))
+                {
+                    yield return new Tuple<int, T>(Indices[i], Values[i]);
+                }
             }
         }
 

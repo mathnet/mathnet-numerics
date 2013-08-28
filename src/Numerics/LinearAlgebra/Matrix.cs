@@ -1254,12 +1254,55 @@ namespace MathNet.Numerics.LinearAlgebra
         }
 
         /// <summary>
+        /// Returns this matrix as a multidimensional array.
+        /// </summary>
+        /// <returns>A multidimensional containing the values of this matrix.</returns>
+        public T[,] ToArray()
+        {
+            return Storage.ToArray();
+        }
+
+        /// <summary>
+        /// Returns the matrix's elements as an array with the data laid out column-wise.
+        /// </summary>
+        /// <example><pre>
+        /// 1, 2, 3
+        /// 4, 5, 6  will be returned as  1, 4, 7, 2, 5, 8, 3, 6, 9
+        /// 7, 8, 9
+        /// </pre></example>
+        /// <returns>An array containing the matrix's elements.</returns>
+        /// <seealso cref="ToRowWiseArray"/>
+        /// <seealso cref="Enumerate"/>
+        public T[] ToColumnWiseArray()
+        {
+            return Storage.ToColumnMajorArray();
+        }
+
+        /// <summary>
+        /// Returns the matrix's elements as an array with the data laid row-wise.
+        /// </summary>
+        /// <example><pre>
+        /// 1, 2, 3
+        /// 4, 5, 6  will be returned as  1, 2, 3, 4, 5, 6, 7, 8, 9
+        /// 7, 8, 9
+        /// </pre></example>
+        /// <returns>An array containing the matrix's elements.</returns>
+        /// <seealso cref="ToColumnWiseArray"/>
+        /// <seealso cref="Enumerate"/>
+        public T[] ToRowWiseArray()
+        {
+            return Storage.ToRowMajorArray();
+        }
+
+        /// <summary>
         /// Returns an IEnumerable that can be used to iterate through all values of the matrix.
         /// </summary>
         /// <remarks>
         /// The enumerator will include all values, even if they are zero.
-        /// The ordering of the values is unspecified (not necessarily column by column or row by row).
+        /// The ordering of the values is unspecified (not necessarily column-wise or row-wise).
         /// </remarks>
+        /// <seealso cref="ToColumnWiseArray"/>
+        /// <seealso cref="ToRowWiseArray"/>
         public IEnumerable<T> Enumerate()
         {
             return Storage.Enumerate();
@@ -1279,6 +1322,17 @@ namespace MathNet.Numerics.LinearAlgebra
         }
 
         /// <summary>
+        /// Returns an IEnumerable that can be used to iterate through all non-zero values of the matrix.
+        /// </summary>
+        /// <remarks>
+        /// The enumerator will skip all elements with a zero value.
+        /// </remarks>
+        public IEnumerable<T> EnumerateNonZero()
+        {
+            return Storage.EnumerateNonZero();
+        }
+
+        /// <summary>
         /// Returns an IEnumerable that can be used to iterate through all non-zero values of the matrix and their index.
         /// </summary>
         /// <remarks>
@@ -1286,9 +1340,9 @@ namespace MathNet.Numerics.LinearAlgebra
         /// and the third value being the value of the element at that index.
         /// The enumerator will skip all elements with a zero value.
         /// </remarks>
-        public IEnumerable<Tuple<int, int, T>> EnumerateNonZero()
+        public IEnumerable<Tuple<int, int, T>> EnumerateNonZeroIndexed()
         {
-            return Storage.EnumerateNonZero();
+            return Storage.EnumerateNonZeroIndexed();
         }
 
         /// <summary>
@@ -1405,43 +1459,6 @@ namespace MathNet.Numerics.LinearAlgebra
             {
                 yield return new Tuple<int, Vector<T>>(i, Row(i));
             }
-        }
-
-        /// <summary>
-        /// Returns this matrix as a multidimensional array.
-        /// </summary>
-        /// <returns>A multidimensional containing the values of this matrix.</returns>
-        public T[,] ToArray()
-        {
-            return Storage.ToArray();
-        }
-
-        /// <summary>
-        /// Returns the matrix's elements as an array with the data laid out column-wise.
-        /// </summary>
-        /// <example><pre>
-        /// 1, 2, 3
-        /// 4, 5, 6  will be returned as  1, 4, 7, 2, 5, 8, 3, 6, 9
-        /// 7, 8, 9
-        /// </pre></example>
-        /// <returns>An array containing the matrix's elements.</returns>
-        public T[] ToColumnWiseArray()
-        {
-            return Storage.ToColumnMajorArray();
-        }
-
-        /// <summary>
-        /// Returns the matrix's elements as an array with the data laid row-wise.
-        /// </summary>
-        /// <example><pre>
-        /// 1, 2, 3
-        /// 4, 5, 6  will be returned as  1, 2, 3, 4, 5, 6, 7, 8, 9
-        /// 7, 8, 9
-        /// </pre></example>
-        /// <returns>An array containing the matrix's elements.</returns>
-        public T[] ToRowWiseArray()
-        {
-            return Storage.ToRowMajorArray();
         }
 
         /// <summary>

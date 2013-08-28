@@ -68,14 +68,19 @@ module Vector =
     /// Transform a vector into a list.
     let inline toList (v: #Vector<_>) = List.init v.Count v.At
 
+
     /// Transform a vector into a sequence.
     let inline toSeq (v: #Vector<_>) = v.Enumerate()
 
     /// Transform a vector into an indexed sequence.
     let inline toSeqi (v: #Vector<_>) = v.EnumerateIndexed()
 
-    /// Transform a vector into an indexed sequence where zero-values may be skipped.
-    let inline toSeqinz (v: #Vector<_>) = v.EnumerateNonZero()
+    /// Transform a vector into a sequence where zero-values are skipped.
+    let inline toSeqnz (v: #Vector<_>) = v.EnumerateNonZero()
+
+    /// Transform a vector into an indexed sequence where zero-values are skipped.
+    let inline toSeqinz (v: #Vector<_>) = v.EnumerateNonZeroIndexed()
+
 
     /// In-place mutation by applying a function to every element of the vector.
     let inline mapInPlace f (v: #Vector<_>) =
@@ -94,6 +99,7 @@ module Vector =
     /// Zero-values may be skipped (relevant mostly for sparse vectors).
     let inline mapinzInPlace (f: int -> float -> float) (v: #Vector<float>) =
         v.MapIndexedInplace((fun i x -> f i x), false)
+
 
     /// Maps a vector to a new vector by applying a function to every element.
     let inline map f (v: #Vector<_>) =
@@ -121,35 +127,39 @@ module Vector =
         w.MapIndexedInplace((fun i x -> f i x), false)
         w
 
+
     /// In-place vector addition.
     let inline addInPlace (v: #Vector<_>) (w: #Vector<_>) = v.Add(w, v)
 
     /// In place vector subtraction.
     let inline subInPlace (v: #Vector<_>) (w: #Vector<_>) = v.Subtract(w, v)
 
+
     /// Applies a function to all elements of the vector.
-    let inline iter f (v: #Vector<_>) = Seq.iter f (v.Enumerate())
+    let inline iter f (v: #Vector<_>) = v.Enumerate() |> Seq.iter f
 
     /// Applies a function to all indexed elements of the vector.
-    let inline iteri f (v: #Vector<_>) = Seq.iteri f (v.Enumerate())
+    let inline iteri f (v: #Vector<_>) = v.Enumerate() |> Seq.iteri f
 
     /// Applies a function to all non-zero elements of the vector.
-    let inline iternz f (v: #Vector<_>) = v.EnumerateNonZero() |> Seq.iter (fun (_,v) -> f v)
+    let inline iternz f (v: #Vector<_>) = v.EnumerateNonZero() |> Seq.iter f
 
     /// Applies a function to all non-zero indexed elements of the vector.
-    let inline iterinz f (v: #Vector<_>) = v.EnumerateNonZero() |> Seq.iter (fun (i,v) -> f i v)
+    let inline iterinz f (v: #Vector<_>) = v.EnumerateNonZeroIndexed() |> Seq.iter (fun (i,v) -> f i v)
+
 
     /// Fold all entries of a vector.
-    let inline fold f state (v: #Vector<_>) = Seq.fold f state (v.Enumerate())
+    let inline fold f state (v: #Vector<_>) = v.Enumerate() |> Seq.fold f state
 
     /// Fold all entries of a vector using a position dependent folding function.
-    let inline foldi f acc0 (v: #Vector<_>) = v.EnumerateIndexed() |> Seq.fold (fun s (i,x) -> f i s x) acc0
+    let inline foldi f state (v: #Vector<_>) = v.EnumerateIndexed() |> Seq.fold (fun s (i,x) -> f i s x) state
 
     /// Fold all non-zero entries of a vector.
-    let inline foldnz f acc0 (v: #Vector<_>) = v.EnumerateNonZero() |> Seq.fold (fun s (_,x) -> f s x) acc0
+    let inline foldnz f state (v: #Vector<_>) = v.EnumerateNonZero() |> Seq.fold f state
 
     /// Fold all non-zero entries of a vector using a position dependent folding function.
-    let inline foldinz f acc0 (v: #Vector<_>) = v.EnumerateNonZero() |> Seq.fold (fun s (i,x) -> f i s x) acc0
+    let inline foldinz f state (v: #Vector<_>) = v.EnumerateNonZeroIndexed() |> Seq.fold (fun s (i,x) -> f i s x) state
+
 
     /// Fold all entries of a vector in reverse order.
     let inline foldBack f acc0 (v: #Vector<_>) =

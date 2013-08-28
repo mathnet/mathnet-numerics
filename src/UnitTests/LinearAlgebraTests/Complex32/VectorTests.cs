@@ -258,7 +258,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
         public void CanEnumerateOverVectorUsingNonZeroEnumerator()
         {
             var vector = CreateVector(Data);
-            foreach (var pair in vector.EnumerateNonZero())
+            foreach (var pair in vector.EnumerateNonZeroIndexed())
             {
                 Assert.AreEqual(Data[pair.Item1], pair.Item2);
                 Assert.AreNotEqual(Complex32.Zero, pair.Item2);

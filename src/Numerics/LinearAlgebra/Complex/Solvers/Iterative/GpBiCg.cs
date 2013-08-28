@@ -632,7 +632,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Iterative
             for (var column = 0; column < input.ColumnCount; column++)
             {
                 var solution = Solve(matrix, (Vector) input.Column(column));
-                foreach (var element in solution.EnumerateNonZero())
+                foreach (var element in solution.EnumerateNonZeroIndexed())
                 {
                     result.At(element.Item1, column, element.Item2);
                 }
