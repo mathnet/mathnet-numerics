@@ -37,15 +37,10 @@ open MathNet.Numerics.LinearAlgebra
 module Matrix =
 
     /// Returns the sum of all elements of a matrix.
-    let inline sum (A: #Matrix<_>) =
-        let mutable f = 0.0
-        for i=0 to A.RowCount-1 do
-            for j=0 to A.ColumnCount-1 do
-                f <- f + A.At(i,j)
-        f
+    let inline sum (A: #Matrix<float>) = A |> Matrix.foldnz (+) 0.0
 
     /// Fold all columns into one row vector.
-    let inline foldByCol (f: float -> float -> float) acc (A: #Matrix<float>) =
+    let inline foldByCol f acc (A: #Matrix<float>) =
         let v = new DenseVector(A.ColumnCount)
         for k=0 to A.ColumnCount-1 do
             let mutable macc = acc
@@ -55,7 +50,7 @@ module Matrix =
         v :> _ Vector
 
     /// Fold all rows into one column vector.
-    let inline foldByRow (f: float -> float -> float) acc (A: #Matrix<float>) =
+    let inline foldByRow f acc (A: #Matrix<float>) =
         let v = new DenseVector(A.RowCount)
         for k=0 to A.RowCount-1 do
             let mutable macc = acc

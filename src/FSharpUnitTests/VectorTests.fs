@@ -11,13 +11,13 @@ module VectorTests =
     let approximately_equal tolerance = equalWithin (10.0 ** (float -tolerance))
 
     /// A small uniform vector.
-    let smallv = DenseVector([|0.3;0.3;0.3;0.3;0.3|])
+    let smallv = DenseVector.raw [|0.3;0.3;0.3;0.3;0.3|]
 
     /// A small sparse vector.
     let sparsev = SparseVector.ofListi 5 [(1,0.3)]
 
     /// A large vector with increasingly large entries
-    let largev = DenseVector(Array.init 100 (fun i -> float i / 100.0))
+    let largev = DenseVector.init 100 (fun i -> float i / 100.0)
 
     [<Test>]
     let ``Vector.GetSlice`` () =
@@ -147,11 +147,11 @@ module VectorTests =
 
     [<Test>]
     let ``Vector.scan`` () =
-        Vector.scan (fun acc x -> acc + x) smallv |> should (approximately_equal 14) (new DenseVector( [|0.3;0.6;0.9;1.2;1.5|] ) :> Vector<float>)
+        Vector.scan (fun acc x -> acc + x) 0.0 smallv |> should (approximately_equal 14) (DenseVector.raw [|0.0;0.3;0.6;0.9;1.2;1.5|])
 
     [<Test>]
     let ``Vector.scanBack`` () =
-        Vector.scanBack (fun x acc -> acc + x) smallv |> should (approximately_equal 14) (new DenseVector( [|1.5;1.2;0.9;0.6;0.3|] ) :> Vector<float>)
+        Vector.scanBack (fun x acc -> acc + x) 0.0 smallv |> should (approximately_equal 14) (DenseVector.raw [|0.0;0.3;0.6;0.9;1.2;1.5|])
 
     [<Test>]
     let ``Vector.reduce`` () =

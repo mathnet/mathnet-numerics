@@ -62,6 +62,8 @@
     <Compile Include="AssemblyInfo.fs" />
     <Compile Include="Random.fs" />
     <Compile Include="Distributions.fs" />
+    <Compile Include="LinearAlgebra.Vector.fs" />
+    <Compile Include="LinearAlgebra.Matrix.fs" />
     <Compile Include="LinearAlgebra.Double.Vector.fs" />
     <Compile Include="LinearAlgebra.Double.Matrix.fs" />
     <Compile Include="LinearAlgebra.Double.fs" />
@@ -73,8 +75,6 @@
     <Compile Include="Fit.fs" />
     <Compile Include="FindRoots.fs" />
     <Compile Include="RandomVariable.fs" />
-    <Compile Include="LinearAlgebra.Vector.fs" />
-    <Compile Include="LinearAlgebra.Matrix.fs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="FSharp.Core" />

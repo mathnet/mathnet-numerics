@@ -11,14 +11,14 @@ module MatrixTests =
     let approximately_equal tolerance = equalWithin (10.0 ** (float -tolerance))
 
     /// A small uniform matrix.
-    let smallM = DenseMatrix.OfArray( Array2D.create 2 2 0.3 )
+    let smallM = DenseMatrix.ofArray2 (Array2D.create 2 2 0.3)
     let failingFoldBackM = DenseMatrix.init 2 3 (fun i j -> 1.0)
 
     /// A small sparse matrix.
     let sparseM = SparseMatrix.ofListi 2 3 [(1,0,0.3)]
 
     /// A large matrix with increasingly large entries
-    let largeM = DenseMatrix.OfArray( Array2D.init 100 100 (fun i j -> float i * 100.0 + float j) )
+    let largeM = DenseMatrix.init 100 100 (fun i j -> float i * 100.0 + float j)
 
     [<Test>]
     let ``Matrix.GetSlice`` () =
@@ -149,8 +149,8 @@ module MatrixTests =
         N |> should equal (0.0 * smallM)
 
     [<Test>]
-    let ``Matrix.nonZeroEntries`` () =
-        Seq.length (Matrix.nonZeroEntries smallM) |> should equal 4
+    let ``Matrix.toSeqnz`` () =
+        Seq.length (Matrix.toSeqnz smallM) |> should equal 4
 
     [<Test>]
     let ``Matrix.sum`` () =

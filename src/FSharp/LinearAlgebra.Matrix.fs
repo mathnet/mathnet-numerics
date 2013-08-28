@@ -99,29 +99,167 @@ module Matrix =
 
 
     /// Transform a matrix into a sequence.
-    let inline toSeq (v: #Matrix<_>) = v.Enumerate()
+    let inline toSeq (m: #Matrix<_>) = m.Enumerate()
 
     /// Transform a matrix into an indexed sequence.
-    let inline toSeqi (v: #Matrix<_>) = v.EnumerateIndexed()
+    let inline toSeqi (m: #Matrix<_>) = m.EnumerateIndexed()
 
-    /// Transform a matrix into a sequence where zero-values are skipped.
-    let inline toSeqnz (v: #Matrix<_>) = v.EnumerateNonZero()
+    /// Transform a matrix into a sequence where zero-values are skipped. Skipping zeros is efficient on sparse data.
+    let inline toSeqnz (m: #Matrix<_>) = m.EnumerateNonZero()
 
-    /// Transform a matrix into an indexed sequence where zero-values are skipped.
-    let inline toSeqinz (v: #Matrix<_>) = v.EnumerateNonZeroIndexed()
-
+    /// Transform a matrix into an indexed sequence where zero-values are skipped. Skipping zeros is efficient on sparse data.
+    let inline toSeqinz (m: #Matrix<_>) = m.EnumerateNonZeroIndexed()
 
     /// Transform a matrix into a column sequence.
-    let inline toColSeq (v: #Matrix<_>) = v.EnumerateColumns()
+    let inline toColSeq (m: #Matrix<_>) = m.EnumerateColumns()
 
     /// Transform a matrix into an indexed column sequence.
-    let inline toColSeqi (v: #Matrix<_>) = v.EnumerateColumnsIndexed()
+    let inline toColSeqi (m: #Matrix<_>) = m.EnumerateColumnsIndexed()
 
     /// Transform a matrix into a row sequence.
-    let inline toRowSeq (v: #Matrix<_>) = v.EnumerateRows()
+    let inline toRowSeq (m: #Matrix<_>) = m.EnumerateRows()
 
     /// Transform a matrix into an indexed row sequence.
-    let inline toRowSeqi (v: #Matrix<_>) = v.EnumerateRowsIndexed()
+    let inline toRowSeqi (m: #Matrix<_>) = m.EnumerateRowsIndexed()
+
+
+    /// Applies a function to all elements of the matrix.
+    let inline iter f (m: #Matrix<_>) = m.Enumerate() |> Seq.iter f
+
+    /// Applies a function to all indexed elements of the matrix.
+    let inline iteri f (m: #Matrix<_>) = m.EnumerateIndexed() |> Seq.iter (fun (i, j, x) -> f i j x)
+
+    /// Applies a function to all non-zero elements of the matrix. Skipping zeros is efficient on sparse data.
+    let inline iternz f (m: #Matrix<_>) = m.EnumerateNonZero() |> Seq.iter f
+
+    /// Applies a function to all non-zero indexed elements of the matrix. Skipping zeros is efficient on sparse data.
+    let inline iterinz f (m: #Matrix<_>) = m.EnumerateNonZeroIndexed() |> Seq.iter (fun (i, j, x) -> f i j x)
+
+    /// Applies a function to all columns of the matrix.
+    let inline iterCols f (m: #Matrix<_>) = m.EnumerateColumns() |> Seq.iter f
+
+    /// Applies a function to all indexed columns of the matrix.
+    let inline iteriCols f (m: #Matrix<_>) = m.EnumerateColumns() |> Seq.iteri f
+
+    /// Applies a function to all rows of the matrix.
+    let inline iterRows f (m: #Matrix<_>) = m.EnumerateRows() |> Seq.iter f
+
+    /// Applies a function to all indexed rows of the matrix.
+    let inline iteriRows f (m: #Matrix<_>) = m.EnumerateRows() |> Seq.iteri f
+
+
+    /// Fold all entries of a matrix.
+    let inline fold f state (m: #Matrix<_>) = m.Enumerate() |> Seq.fold f state
+
+    /// Fold all entries of a matrix with an indexed folding function.
+    let inline foldi f state (m: #Matrix<_>) = m.EnumerateIndexed() |> Seq.fold (fun s (i,j,x) -> f i j s x) state
+
+    /// Fold all non-zero entries of a matrix. Skipping zeros is efficient on sparse data.
+    let inline foldnz f state (m: #Matrix<_>) = m.EnumerateNonZero() |> Seq.fold f state
+
+    /// Fold all non-zero entries of a matrix with an indexed folding function. Skipping zeros is efficient on sparse data.
+    let inline foldinz f state (m: #Matrix<_>) = m.EnumerateNonZeroIndexed() |> Seq.fold (fun s (i,j,x) -> f i j s x) state
+
+    /// Fold all columns of a matrix.
+    let inline foldCols f state (m: #Matrix<_>) = m.EnumerateColumns() |> Seq.fold f state
+
+    /// Fold all columns of a matrix with an indexed folding function.
+    let inline foldiCols f state (m: #Matrix<_>) = m.EnumerateColumnsIndexed() |> Seq.fold (fun s (j,x) -> f j s x) state
+
+    /// Fold all rows of a matrix.
+    let inline foldRows f state (m: #Matrix<_>) = m.EnumerateRows() |> Seq.fold f state
+
+    /// Fold all rows of a matrix with an indexed folding function.
+    let inline foldiRows f state (m: #Matrix<_>) = m.EnumerateRowsIndexed() |> Seq.fold (fun s (i,x) -> f i s x) state
+
+
+    /// Scan all entries of a matrix.
+    let inline scan f state (m: #Matrix<_>) = m.Enumerate() |> Seq.scan f state
+
+    /// Scan all entries of a matrix with an indexed folding function.
+    let inline scani f state (m: #Matrix<_>) = m.EnumerateIndexed() |> Seq.scan (fun s (i,j,x) -> f i j s x) state
+
+    /// Scan all non-zero entries of a matrix. Skipping zeros is efficient on sparse data.
+    let inline scannz f state (m: #Matrix<_>) = m.EnumerateNonZero() |> Seq.scan f state
+
+    /// Scan all non-zero entries of a matrix with an indexed folding function. Skipping zeros is efficient on sparse data.
+    let inline scaninz f state (m: #Matrix<_>) = m.EnumerateNonZeroIndexed() |> Seq.scan (fun s (i,j,x) -> f i j s x) state
+
+    /// Scan all columns of a matrix.
+    let inline scanCols f state (m: #Matrix<_>) = m.EnumerateColumns() |> Seq.scan f state
+
+    /// Scan all columns of a matrix with an indexed folding function.
+    let inline scaniCols f state (m: #Matrix<_>) = m.EnumerateColumnsIndexed() |> Seq.scan (fun s (j,x) -> f j s x) state
+
+    /// Scan all rows of a matrix.
+    let inline scanRows f state (m: #Matrix<_>) = m.EnumerateRows() |> Seq.scan f state
+
+    /// Scan all rows of a matrix with an indexed folding function.
+    let inline scaniRows f state (m: #Matrix<_>) = m.EnumerateRowsIndexed() |> Seq.scan (fun s (i,x) -> f i s x) state
+
+
+    /// Reduce all entries of a matrix.
+    let inline reduce f (m: #Matrix<_>) = m.Enumerate() |> Seq.reduce f
+
+    /// Reduce all non-zero entries of a matrix. Skipping zeros is efficient on sparse data.
+    let inline reducenz f (m: #Matrix<_>) = m.EnumerateNonZero() |> Seq.reduce f
+
+    /// Reduce all columns of a matrix.
+    let inline reduceCols f (m: #Matrix<_>) = m.EnumerateColumns() |> Seq.reduce f
+
+    /// Reduce all rows of a matrix.
+    let inline reduceRows f (m: #Matrix<_>) = m.EnumerateColumns() |> Seq.reduce f
+
+
+    /// Checks whether there is an entry in the matrix that satisfies a predicate.
+    let inline exists p (m: #Matrix<_>) = m.Enumerate() |> Seq.exists p
+
+    /// Checks whether there is an entry in the matrix that satisfies a position dependent predicate.
+    let inline existsi p (m: #Matrix<_>) = m.EnumerateIndexed() |> Seq.exists (fun (i,j,x) -> p i j x)
+
+    /// Checks whether there is a non-zero entry in the matrix that satisfies a predicate. Skipping zeros is efficient on sparse data.
+    let inline existsnz p (m: #Matrix<_>) = m.EnumerateNonZero() |> Seq.exists p
+
+    /// Checks whether there is a non-zero entry in the matrix that satisfies a position dependent predicate. Skipping zeros is efficient on sparse data.
+    let inline existsinz p (m: #Matrix<_>) = m.EnumerateNonZeroIndexed() |> Seq.exists (fun (i,j,x) -> p i j x)
+
+    /// Checks whether there is a column in the matrix that satisfies a predicate.
+    let inline existsCol p (m: #Matrix<_>) = m.EnumerateColumns() |> Seq.exists p
+    
+    /// Checks whether there is a column in the matrix that satisfies a position dependent predicate.
+    let inline existsiCol p (m: #Matrix<_>) = m.EnumerateColumnsIndexed() |> Seq.exists (fun (j,x) -> p j x)
+    
+    /// Checks whether there is a row in the matrix that satisfies a predicate.
+    let inline existsRow p (m: #Matrix<_>) = m.EnumerateRows() |> Seq.exists p
+    
+    /// Checks whether there is a row in the matrix that satisfies a position dependent predicate.
+    let inline existsiRow p (m: #Matrix<_>) = m.EnumerateRowsIndexed() |> Seq.exists (fun (i,x) -> p i x)
+
+
+    /// Checks whether all entries in the matrix that satisfies a given predicate.
+    let inline forall p (m: #Matrix<_>) = m.Enumerate() |> Seq.forall p
+
+    /// Checks whether all entries in the matrix that satisfies a given position dependent predicate.
+    let inline foralli p (m: #Matrix<_>) = m.EnumerateIndexed() |> Seq.forall (fun (i,j,x) -> p i j x)
+
+    /// Checks whether all non-zero entries in the matrix that satisfies a given predicate. Skipping zeros is efficient on sparse data.
+    let inline forallnz p (m: #Matrix<_>) = m.EnumerateNonZero() |> Seq.forall p
+
+    /// Checks whether all non-zero entries in the matrix that satisfies a given position dependent predicate. Skipping zeros is efficient on sparse data.
+    let inline forallinz p (m: #Matrix<_>) = m.EnumerateNonZeroIndexed() |> Seq.forall (fun (i,j,x) -> p i j x)
+
+    /// Checks whether all columns in the matrix that satisfy a predicate.
+    let inline forallCols p (m: #Matrix<_>) = m.EnumerateColumns() |> Seq.forall p
+    
+    /// Checks whether all columns in the matrix that satisfy a position dependent predicate.
+    let inline foralliCols p (m: #Matrix<_>) = m.EnumerateColumnsIndexed() |> Seq.forall (fun (j,x) -> p j x)
+    
+    /// Checks whether all rows in the matrix that satisfy a predicate.
+    let inline forallRows p (m: #Matrix<_>) = m.EnumerateRows() |> Seq.forall p
+    
+    /// Checks whether all rows in the matrix that satisfy a position dependent predicate.
+    let inline foralliRows p (m: #Matrix<_>) = m.EnumerateRowsIndexed() |> Seq.forall (fun (i,x) -> p i x)
+
 
 
     /// In-place map of every matrix element using a function.
@@ -142,7 +280,6 @@ module Matrix =
     let inline mapinzInPlace f (A: #Matrix<_>) =
         A.MapIndexedInplace((fun i j x -> f i j x), false)
 
-
     /// In-place map every matrix column using the given position dependent function.
     let inline mapColsInPlace (f: int -> Vector<'a> -> Vector<'a>) (A: #Matrix<_>) =
         for j = 0 to A.ColumnCount-1 do
@@ -152,6 +289,7 @@ module Matrix =
     let inline mapRowsInPlace (f: int -> Vector<'a> -> Vector<'a>) (A: #Matrix<_>) =
         for i = 0 to A.RowCount-1 do
             A.SetRow(i, f i (A.Row(i)))
+
 
     /// Map every matrix element using the given function.
     let inline map f (A: #Matrix<_>) =
@@ -191,109 +329,35 @@ module Matrix =
         mapRowsInPlace f A
         A
 
-    /// Fold a function over all matrix elements.
-    let inline fold f acc0 (A: #Matrix<_>) =
-        let n = A.RowCount
-        let m = A.ColumnCount
-        let mutable acc = acc0
-        for i=0 to n-1 do
-            for j=0 to m-1 do
-                acc <- f acc (A.At(i,j))
+
+
+    /// Fold one column.
+    let inline foldCol f state (A: #Matrix<_>) k =
+        let mutable acc = state
+        for i=0 to A.RowCount-1 do
+            acc <- f acc (A.Item(i,k))
+        acc
+
+    /// Fold one row.
+    let inline foldRow f state (A: #Matrix<_>) k =
+        let mutable acc = state
+        for i=0 to A.ColumnCount-1 do
+            acc <- f acc (A.Item(k,i))
         acc
 
     /// Fold a function over all matrix elements in reverse order.
-    let inline foldBack f acc0 (A: #Matrix<_>) =
+    let inline foldBack f state (A: #Matrix<_>) =
         let n = A.RowCount
         let m = A.ColumnCount
-        let mutable acc = acc0
+        let mutable acc = state
         for i in n-1 .. -1 .. 0 do
             for j in m-1 .. -1 .. 0 do
                 acc <- f (A.At(i,j)) acc
         acc
 
-    /// Fold a matrix by applying a given function to all matrix elements.
-    let inline foldi f acc0 (A: #Matrix<_>) =
-        let n = A.RowCount
-        let m = A.ColumnCount
-        let mutable acc = acc0
-        for i=0 to n-1 do
-            for j=0 to m-1 do
-                acc <- f i j acc (A.At(i,j))
-        acc
-
-    /// Checks whether a predicate holds for all elements of a matrix.
-    let inline forall p (A: #Matrix<_>) =
-        let mutable b = true
-        let mutable i = 0
-        let mutable j = 0
-        while b && i < A.RowCount do
-            b <- b && (p (A.At(i,j)))
-            j <- j+1
-            if j = A.ColumnCount then i <- i+1; j <- 0
-        b
-
-    /// Chechks whether a predicate holds for at least one element of a matrix.
-    let inline exists p (A: #Matrix<_>) =
-        let mutable b = false
-        let mutable i = 0
-        let mutable j = 0
-        while not(b) && i < A.RowCount do
-            b <- b || (p (A.At(i,j)))
-            j <- j+1
-            if j = A.ColumnCount then i <- i+1; j <- 0
-        b
-
-    /// Checks whether a position dependent predicate holds for all elements of a matrix.
-    let inline foralli p (A: #Matrix<_>) =
-        let mutable b = true
-        let mutable i = 0
-        let mutable j = 0
-        while b && i < A.RowCount do
-            b <- b && (p i j (A.At(i,j)))
-            j <- j+1
-            if j = A.ColumnCount then i <- i+1; j <- 0
-        b
-
-    /// Checks whether a position dependent predicate holds for at least one element of a matrix.
-    let inline existsi p (A: #Matrix<_>) =
-        let mutable b = false
-        let mutable i = 0
-        let mutable j = 0
-        while not(b) && i < A.RowCount do
-            b <- b || (p i j (A.At(i,j)))
-            j <- j+1
-            if j = A.ColumnCount then i <- i+1; j <- 0
-        b
-
     /// In-place assignment.
     let inline inplaceAssign f (A: #Matrix<_>) =
         A.MapIndexedInplace((fun i j x -> f i j), true)
-
-    /// Iterates over all elements of a matrix.
-    let inline iter f (A: #Matrix<_>) =
-        for i=0 to A.RowCount-1 do
-            for j=0 to A.ColumnCount-1 do
-                f (A.At(i,j))
-
-    /// Iterates over all elements of a matrix using the element indices.
-    let inline iteri f (A: #Matrix<_>) =
-        for i=0 to A.RowCount-1 do
-            for j=0 to A.ColumnCount-1 do
-                f i j (A.At(i,j))
-
-    /// Fold one column.
-    let inline foldCol f acc (A: #Matrix<_>) k =
-        let mutable macc = acc
-        for i=0 to A.RowCount-1 do
-            macc <- f macc (A.Item(i,k))
-        macc
-
-    /// Fold one row.
-    let inline foldRow f acc (A: #Matrix<_>) k =
-        let mutable macc = acc
-        for i=0 to A.ColumnCount-1 do
-            macc <- f macc (A.Item(k,i))
-        macc
 
     /// Returns the sum of the results generated by applying a position dependent function to each column of the matrix.
     let inline sumColsBy f (A: #Matrix<_>) =
@@ -302,6 +366,3 @@ module Matrix =
     /// Returns the sum of the results generated by applying a position dependent function to each row of the matrix.
     let inline sumRowsBy f (A: #Matrix<_>) =
         A.EnumerateRowsIndexed() |> Seq.map (fun (i,row) -> f i row)  |> Seq.reduce (+)
-
-    /// Creates a sequence that iterates the non-zero entries in the matrix.
-    let nonZeroEntries (A: #Matrix<_>) = A.EnumerateNonZero()

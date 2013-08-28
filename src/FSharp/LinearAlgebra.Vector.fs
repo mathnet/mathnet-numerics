@@ -75,11 +75,84 @@ module Vector =
     /// Transform a vector into an indexed sequence.
     let inline toSeqi (v: #Vector<_>) = v.EnumerateIndexed()
 
-    /// Transform a vector into a sequence where zero-values are skipped.
+    /// Transform a vector into a sequence where zero-values are skipped. Skipping zeros is efficient on sparse data.
     let inline toSeqnz (v: #Vector<_>) = v.EnumerateNonZero()
 
-    /// Transform a vector into an indexed sequence where zero-values are skipped.
+    /// Transform a vector into an indexed sequence where zero-values are skipped. Skipping zeros is efficient on sparse data.
     let inline toSeqinz (v: #Vector<_>) = v.EnumerateNonZeroIndexed()
+
+
+    /// Applies a function to all elements of the vector.
+    let inline iter f (v: #Vector<_>) = v.Enumerate() |> Seq.iter f
+
+    /// Applies a function to all indexed elements of the vector.
+    let inline iteri f (v: #Vector<_>) = v.Enumerate() |> Seq.iteri f
+
+    /// Applies a function to all non-zero elements of the vector. Skipping zeros is efficient on sparse data.
+    let inline iternz f (v: #Vector<_>) = v.EnumerateNonZero() |> Seq.iter f
+
+    /// Applies a function to all non-zero indexed elements of the vector. Skipping zeros is efficient on sparse data.
+    let inline iterinz f (v: #Vector<_>) = v.EnumerateNonZeroIndexed() |> Seq.iter (fun (i,x) -> f i x)
+
+
+    /// Fold all entries of a vector.
+    let inline fold f state (v: #Vector<_>) = v.Enumerate() |> Seq.fold f state
+
+    /// Fold all entries of a vector using a position dependent folding function.
+    let inline foldi f state (v: #Vector<_>) = v.EnumerateIndexed() |> Seq.fold (fun s (i,x) -> f i s x) state
+
+    /// Fold all non-zero entries of a vector. Skipping zeros is efficient on sparse data.
+    let inline foldnz f state (v: #Vector<_>) = v.EnumerateNonZero() |> Seq.fold f state
+
+    /// Fold all non-zero entries of a vector using a position dependent folding function. Skipping zeros is efficient on sparse data.
+    let inline foldinz f state (v: #Vector<_>) = v.EnumerateNonZeroIndexed() |> Seq.fold (fun s (i,x) -> f i s x) state
+
+
+    /// Scan all entries of a vector.
+    let inline scan f state (v: #Vector<_>) = v.Enumerate() |> Seq.scan f state
+
+    /// Scan all entries of a vector using a position dependent folding function.
+    let inline scani f state (v: #Vector<_>) = v.EnumerateIndexed() |> Seq.scan (fun s (i,x) -> f i s x) state
+
+    /// Scan all non-zero entries of a vector. Skipping zeros is efficient on sparse data.
+    let inline scannz f state (v: #Vector<_>) = v.EnumerateNonZero() |> Seq.scan f state
+
+    /// Scan all non-zero entries of a vector using a position dependent folding function. Skipping zeros is efficient on sparse data.
+    let inline scaninz f state (v: #Vector<_>) = v.EnumerateNonZeroIndexed() |> Seq.scan (fun s (i,x) -> f i s x) state
+
+
+    /// Reduce all entries of a vector.
+    let inline reduce f (v: #Vector<_>) = v.Enumerate() |> Seq.reduce f
+
+    /// Reduce all non-zero entries of a vector. Skipping zeros is efficient on sparse data.
+    let inline reducenz f (v: #Vector<_>) = v.EnumerateNonZero() |> Seq.reduce f
+
+
+    /// Checks whether there is an entry in the vector that satisfies a predicate.
+    let inline exists p (v: #Vector<_>) = v.Enumerate() |> Seq.exists p
+
+    /// Checks whether there is an entry in the vector that satisfies a position dependent predicate.
+    let inline existsi p (v: #Vector<_>) = v.EnumerateIndexed() |> Seq.exists (fun (i,x) -> p i x)
+
+    /// Checks whether there is a non-zero entry in the vector that satisfies a predicate. Skipping zeros is efficient on sparse data.
+    let inline existsnz p (v: #Vector<_>) = v.EnumerateNonZero() |> Seq.exists p
+
+    /// Checks whether there is a non-zero entry in the vector that satisfies a position dependent predicate. Skipping zeros is efficient on sparse data.
+    let inline existsinz p (v: #Vector<_>) = v.EnumerateNonZeroIndexed() |> Seq.exists (fun (i,x) -> p i x)
+
+
+    /// Checks whether all entries in the vector that satisfies a given predicate.
+    let inline forall p (v: #Vector<_>) = v.Enumerate() |> Seq.forall p
+
+    /// Checks whether all entries in the vector that satisfies a given position dependent predicate.
+    let inline foralli p (v: #Vector<_>) = v.EnumerateIndexed() |> Seq.forall (fun (i,x) -> p i x)
+
+    /// Checks whether all non-zero entries in the vector that satisfies a given predicate. Skipping zeros is efficient on sparse data.
+    let inline forallnz p (v: #Vector<_>) = v.EnumerateNonZero() |> Seq.forall p
+
+    /// Checks whether all non-zero entries in the vector that satisfies a given position dependent predicate. Skipping zeros is efficient on sparse data.
+    let inline forallinz p (v: #Vector<_>) = v.EnumerateNonZeroIndexed() |> Seq.forall (fun (i,x) -> p i x)
+
 
 
     /// In-place mutation by applying a function to every element of the vector.
@@ -128,106 +201,19 @@ module Vector =
         w
 
 
+
     /// In-place vector addition.
     let inline addInPlace (v: #Vector<_>) (w: #Vector<_>) = v.Add(w, v)
 
     /// In place vector subtraction.
     let inline subInPlace (v: #Vector<_>) (w: #Vector<_>) = v.Subtract(w, v)
 
-
-    /// Applies a function to all elements of the vector.
-    let inline iter f (v: #Vector<_>) = v.Enumerate() |> Seq.iter f
-
-    /// Applies a function to all indexed elements of the vector.
-    let inline iteri f (v: #Vector<_>) = v.Enumerate() |> Seq.iteri f
-
-    /// Applies a function to all non-zero elements of the vector.
-    let inline iternz f (v: #Vector<_>) = v.EnumerateNonZero() |> Seq.iter f
-
-    /// Applies a function to all non-zero indexed elements of the vector.
-    let inline iterinz f (v: #Vector<_>) = v.EnumerateNonZeroIndexed() |> Seq.iter (fun (i,v) -> f i v)
-
-
-    /// Fold all entries of a vector.
-    let inline fold f state (v: #Vector<_>) = v.Enumerate() |> Seq.fold f state
-
-    /// Fold all entries of a vector using a position dependent folding function.
-    let inline foldi f state (v: #Vector<_>) = v.EnumerateIndexed() |> Seq.fold (fun s (i,x) -> f i s x) state
-
-    /// Fold all non-zero entries of a vector.
-    let inline foldnz f state (v: #Vector<_>) = v.EnumerateNonZero() |> Seq.fold f state
-
-    /// Fold all non-zero entries of a vector using a position dependent folding function.
-    let inline foldinz f state (v: #Vector<_>) = v.EnumerateNonZeroIndexed() |> Seq.fold (fun s (i,x) -> f i s x) state
-
-
     /// Fold all entries of a vector in reverse order.
-    let inline foldBack f acc0 (v: #Vector<_>) =
-        let mutable acc = acc0
+    let inline foldBack f state (v: #Vector<_>) =
+        let mutable acc = state
         for i=2 to v.Count do
             acc <- f (v.At (v.Count - i)) acc
         acc
-
-    /// Checks whether a predicate is satisfied for every element in the vector.
-    let inline forall p (v: #Vector<_>) =
-        let mutable b = true
-        let mutable i = 0
-        while b && i < v.Count do
-            b <- b && (p (v.At i))
-            i <- i+1
-        b
-
-    /// Checks whether a predicate is true for all entries in a vector.
-    let inline foralli p (v: #Vector<_>) =
-        let mutable b = true
-        let mutable i = 0
-        while b && i < v.Count do
-            b <- b && (p i (v.At i))
-            i <- i+1
-        b
-
-    /// Checks whether there is an entry in the vector that satisfies a given predicate.
-    let inline exists p (v: #Vector<_>) =
-        let mutable b = false
-        let mutable i = 0
-        while not(b) && i < v.Count do
-            b <- b || (p (v.At i))
-            i <- i+1
-        b
-
-    /// Checks whether there is an entry in the vector that satisfies a given position dependent predicate.
-    let inline existsi p (v: #Vector<_>) =
-        let mutable b = false
-        let mutable i = 0
-        while not(b) && i < v.Count do
-            b <- b || (p i (v.At i))
-            i <- i+1
-        b
-
-    /// Scans a vector; like fold but returns the intermediate result.
-    let inline scan f (v: #Vector<_>) =
-        let w = v.Clone()
-        let mutable p = v.Item(0)
-        for i=1 to v.Count-1 do
-            p <- f p (v.At i)
-            w.At(i, p)
-        w
-
-    /// Scans a vector in reverse order; like foldBack but returns the intermediate result.
-    let inline scanBack f (v: #Vector<_>) =
-        let w = v.Clone()
-        let mutable p = v.At (v.Count-1)
-        for i=2 to v.Count do
-            p <- f (v.At (v.Count - i)) p
-            w.At(v.Count - i, p)
-        w
-
-    /// Reduces a vector: the result of this function will be f(...f(f(v[0],v[1]), v[2]),..., v[n]).
-    let inline reduce f (v: #Vector<_>) =
-        let mutable p = v.Item(0)
-        for i=1 to v.Count-1 do
-            p <- f p (v.At i)
-        p
 
     /// Reduces a vector in reverse order: the result of this function will be f(v[1], ..., f(v[n-2], f(v[n-1],v[n]))...).
     let inline reduceBack f (v: #Vector<_>) =
@@ -235,3 +221,13 @@ module Vector =
         for i=2 to v.Count do
             p <- f (v.At (v.Count - i)) p
         p
+
+    /// Scans a vector in reverse order; like foldBack but returns the intermediate result.
+    let inline scanBack f state (v: #Vector<_>) =
+        seq {
+            let rstate = ref state
+            yield !rstate
+            for i in v.Count-1..-1..0 do
+                rstate := f (v.At(i)) !rstate
+                yield !rstate
+        }
