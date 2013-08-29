@@ -36,6 +36,8 @@ open MathNet.Numerics.LinearAlgebra
 [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
 module Vector =
 
+    // TODO: generalize or reconsider
+
     /// Creates a new vector and inserts the given value at the given index.
     let inline insert index value (v: #Vector<float>) =
         let newV = new DenseVector(v.Count + 1)
@@ -77,17 +79,12 @@ module DenseVector =
     /// Create a vector with a given dimension from an indexed sequences of index, value pairs.
     let inline ofSeqi (n: int) (fs: #seq<int * float>) = DenseVector.OfIndexedEnumerable(n, fs) :> _ Vector
 
-    /// Create a vector with evenly spaced entries: e.g. rangef -1.0 0.5 1.0 = [-1.0 -0.5 0.0 0.5 1.0]
-    let inline rangef (start: float) (step: float) (stop: float) =
-        let n = (int ((stop - start) / step)) + 1
-        let v = DenseVector(n)
-        for i=0 to n-1 do
-            v.At(i, (float i) * step + start)
-        v :> _ Vector
-
     /// Create a vector with integer entries in the given range.
-    let inline range (start: int) (stop: int) =
-        DenseVector([| for i in [start .. stop] -> float i |]) :> _ Vector
+    let inline range (start: int) (step: int) (stop: int) = raw [| for i in start..step..stop -> float i |]
+
+    /// Create a vector with evenly spaced entries: e.g. rangef -1.0 0.5 1.0 = [-1.0 -0.5 0.0 0.5 1.0]
+    let inline rangef (start: float) (step: float) (stop: float) = raw [| start..step..stop |]
+
 
 /// A module which implements functional sparse vector operations.
 [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]

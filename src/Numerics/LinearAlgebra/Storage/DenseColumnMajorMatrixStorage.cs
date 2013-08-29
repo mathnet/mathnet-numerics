@@ -138,43 +138,8 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             return storage;
         }
 
-        public static DenseColumnMajorMatrixStorage<T> OfIndexedEnumerable(int rows, int columns, IEnumerable<Tuple<int, int, T>> data)
-        {
-            if (data == null)
-            {
-                throw new ArgumentNullException("data");
-            }
-
-            var array = new T[rows * columns];
-            foreach (var item in data)
-            {
-                array[(item.Item2 * rows) + item.Item1] = item.Item3;
-            }
-            return new DenseColumnMajorMatrixStorage<T>(rows, columns, array);
-        }
-
-        public static DenseColumnMajorMatrixStorage<T> OfColumnMajorEnumerable(int rows, int columns, IEnumerable<T> data)
-        {
-            if (data == null)
-            {
-                throw new ArgumentNullException("data");
-            }
-
-            var arrayData = data as T[];
-            if (arrayData != null)
-            {
-                var copy = new T[arrayData.Length];
-                Array.Copy(arrayData, copy, arrayData.Length);
-                return new DenseColumnMajorMatrixStorage<T>(rows, columns, copy);
-            }
-
-            var array = System.Linq.Enumerable.ToArray(data);
-            return new DenseColumnMajorMatrixStorage<T>(rows, columns, array);
-        }
-
         public static DenseColumnMajorMatrixStorage<T> OfColumnVectors(VectorStorage<T>[] data)
         {
-            if (data == null) throw new ArgumentNullException("data");
             int columns = data.Length;
             int rows = data[0].Length;
             var array = new T[rows * columns];
@@ -189,7 +154,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                 else
                 {
                     // FALL BACK
-                    int offset = j*rows;
+                    int offset = j * rows;
                     for (int i = 0; i < rows; i++)
                     {
                         array[offset + i] = column.At(i);
@@ -201,13 +166,12 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
         public static DenseColumnMajorMatrixStorage<T> OfRowVectors(VectorStorage<T>[] data)
         {
-            if (data == null) throw new ArgumentNullException("data");
             int rows = data.Length;
             int columns = data[0].Length;
             var array = new T[rows * columns];
             for (int j = 0; j < columns; j++)
             {
-                int offset = j*rows;
+                int offset = j * rows;
                 for (int i = 0; i < rows; i++)
                 {
                     array[offset + i] = data[i].At(j);
@@ -216,11 +180,34 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             return new DenseColumnMajorMatrixStorage<T>(rows, columns, array);
         }
 
+        public static DenseColumnMajorMatrixStorage<T> OfIndexedEnumerable(int rows, int columns, IEnumerable<Tuple<int, int, T>> data)
+        {
+            var array = new T[rows * columns];
+            foreach (var item in data)
+            {
+                array[(item.Item2 * rows) + item.Item1] = item.Item3;
+            }
+            return new DenseColumnMajorMatrixStorage<T>(rows, columns, array);
+        }
+
+        public static DenseColumnMajorMatrixStorage<T> OfColumnMajorEnumerable(int rows, int columns, IEnumerable<T> data)
+        {
+            var arrayData = data as T[];
+            if (arrayData != null)
+            {
+                var copy = new T[arrayData.Length];
+                Array.Copy(arrayData, copy, arrayData.Length);
+                return new DenseColumnMajorMatrixStorage<T>(rows, columns, copy);
+            }
+
+            var array = System.Linq.Enumerable.ToArray(data);
+            return new DenseColumnMajorMatrixStorage<T>(rows, columns, array);
+        }
+
         public static DenseColumnMajorMatrixStorage<T> OfColumnEnumerables<TColumn>(int rows, int columns, IEnumerable<TColumn> data)
             // NOTE: flexible typing to 'backport' generic covariance.
             where TColumn : IEnumerable<T>
         {
-            if (data == null) throw new ArgumentNullException("data");
             var array = new T[rows*columns];
             using (var columnIterator = data.GetEnumerator())
             {
@@ -255,7 +242,6 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             // NOTE: flexible typing to 'backport' generic covariance.
             where TRow : IEnumerable<T>
         {
-            if (data == null) throw new ArgumentNullException("data");
             var array = new T[rows*columns];
             using (var rowIterator = data.GetEnumerator())
             {

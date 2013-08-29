@@ -57,4 +57,4 @@ module DenseVectorTests =
 
     [<Test>]
     let ``DenseVector.range`` () =
-        DenseVector.range 0 99 |> should equal (new DenseVector( [| for i in 0 .. 99 -> float i |] ) )
+        DenseVector.range 0 1 99 |> should equal (new DenseVector( [| for i in 0 .. 99 -> float i |] ) )

@@ -158,6 +158,21 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         }
 
         /// <summary>
+        /// Create a new sparse matrix as a copy of the given column vectors.
+        /// This new matrix will be independent from the vectors.
+        /// A new memory block will be allocated for storing the matrix.
+        /// </summary>
+        public static SparseMatrix OfColumnVectors(params Vector<Complex32>[] columns)
+        {
+            var storage = new VectorStorage<Complex32>[columns.Length];
+            for (int i = 0; i < columns.Length; i++)
+            {
+                storage[i] = columns[i].Storage;
+            }
+            return new SparseMatrix(SparseCompressedRowMatrixStorage<Complex32>.OfColumnVectors(storage));
+        }
+
+        /// <summary>
         /// Create a new sparse matrix as a copy of the given enumerable of enumerable columns.
         /// Each enumerable in the master enumerable specifies a column.
         /// This new matrix will be independent from the enumerables.
@@ -179,6 +194,21 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         public static SparseMatrix OfRows(int rows, int columns, IEnumerable<IEnumerable<Complex32>> data)
         {
             return new SparseMatrix(SparseCompressedRowMatrixStorage<Complex32>.OfRowEnumerables(rows, columns, data));
+        }
+
+        /// <summary>
+        /// Create a new sparse matrix as a copy of the given row vectors.
+        /// This new matrix will be independent from the vectors.
+        /// A new memory block will be allocated for storing the matrix.
+        /// </summary>
+        public static SparseMatrix OfRowVectors(params Vector<Complex32>[] rows)
+        {
+            var storage = new VectorStorage<Complex32>[rows.Length];
+            for (int i = 0; i < rows.Length; i++)
+            {
+                storage[i] = rows[i].Storage;
+            }
+            return new SparseMatrix(SparseCompressedRowMatrixStorage<Complex32>.OfRowVectors(storage));
         }
 
         /// <summary>

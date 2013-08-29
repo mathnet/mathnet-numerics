@@ -36,6 +36,8 @@ open MathNet.Numerics.LinearAlgebra
 [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
 module Matrix =
 
+    // TODO: generalize or reconsider
+
     /// Returns the sum of all elements of a matrix.
     let inline sum (A: #Matrix<float>) = A |> Matrix.foldnz (+) 0.0
 
@@ -75,18 +77,27 @@ module DenseMatrix =
     /// Create a matrix with the given dimension and set all values to x.
     let inline create (rows: int) (cols: int) x = DenseMatrix.Create(rows, cols, fun i j -> x) :> _ Matrix
 
+    /// Create a matrix with the given dimension and set all diagonal values to x. All other values are zero.
+    let inline createDiag (rows: int) (cols: int) x =
+        let A = DenseMatrix(rows,cols)
+        for i=0 to min (rows-1) (cols-1) do A.At(i,i,x)
+        A :> _ Matrix
+
     /// Initialize a matrix by calling a construction function for every element.
     let inline init (rows: int) (cols: int) (f: int -> int -> float) = DenseMatrix.Create(rows, cols, fun i j -> f i j) :> _ Matrix
 
+    /// Initialize a matrix by calling a construction function for every diagonal element. All other values are zero.
+    let inline initDiag (rows: int) (cols: int) (f: int -> float) =
+        let A = DenseMatrix(rows,cols)
+        for i=0 to min (rows-1) (cols-1) do A.At(i,i,f i)
+        A :> _ Matrix
+
+    /// Create an identity matrix with the given dimension.
+    let inline identity (rows: int) (cols: int) = createDiag rows cols 1.0
+
+
     /// Create a matrix from a 2D array of floating point numbers.
     let inline ofArray2 array = DenseMatrix.OfArray(array) :> _ Matrix
-
-    /// Create a matrix from a list of sequences. Every sequence in the master sequence specifies a row.
-    /// If the dimensions are known, consider to use ofRowSeq instead to avoid multiple enumeration.
-    let inline ofSeq (fss: #seq<#seq<float>>) =
-        let n = Seq.length fss
-        let m = Seq.length (Seq.head fss)
-        DenseMatrix.OfRowsCovariant(n, m, fss) :> _ Matrix
 
     /// Create a matrix from a list of float lists. Every list in the master list specifies a row.
     /// If the dimensions are known, consider to use ofRowList instead to avoid multiple enumeration.
@@ -96,38 +107,39 @@ module DenseMatrix =
         DenseMatrix.OfRowsCovariant(n, m, fll) :> _ Matrix
 
     /// Create a matrix from a list of sequences. Every sequence in the master sequence specifies a row.
-    let inline ofRows (rows: int) (cols: int) (fss: #seq<#seq<float>>) = DenseMatrix.OfRowsCovariant(rows, cols, fss) :> _ Matrix
+    /// If the dimensions are known, consider to use ofRowSeq instead to avoid multiple enumeration.
+    let inline ofSeq (fss: #seq<#seq<float>>) =
+        let n = Seq.length fss
+        let m = Seq.length (Seq.head fss)
+        DenseMatrix.OfRowsCovariant(n, m, fss) :> _ Matrix
 
-    /// Create a matrix from a list of float lists. Every list in the master list specifies a row.
-    let inline ofRowsList (rows: int) (cols: int) (fll: float list list) = DenseMatrix.OfRowsCovariant(rows, cols, fll) :> _ Matrix
 
     /// Create a matrix from a list of row vectors.
-    let inline ofRowVectors (vectors: #Vector<float> list) = DenseMatrix.OfRowVectors(vectors |> Array.ofList |> box |> unbox) :> _ Matrix
+    let inline ofRows (vectors: #Vector<float> list) = DenseMatrix.OfRowVectors(vectors |> Array.ofList |> box |> unbox) :> _ Matrix
 
-    /// Create a matrix from a list of sequences. Every sequence in the master sequence specifies a column.
-    let inline ofColumns (rows: int) (cols: int) (fss: #seq<#seq<float>>) = DenseMatrix.OfColumnsCovariant(rows, cols, fss) :> _ Matrix
+    /// Create a matrix from a list of float lists. Every list in the master list specifies a row.
+    let inline ofRowList (rows: int) (cols: int) (fll: float list list) = DenseMatrix.OfRowsCovariant(rows, cols, fll) :> _ Matrix
 
-    /// Create a matrix from a list of float lists. Every list in the master list specifies a column.
-    let inline ofColumnsList (rows: int) (cols: int) (fll: float list list) = DenseMatrix.OfColumnsCovariant(rows, cols, fll) :> _ Matrix
+    /// Create a matrix from a list of sequences. Every sequence in the master sequence specifies a row.
+    let inline ofRowSeq (rows: int) (cols: int) (fss: #seq<#seq<float>>) = DenseMatrix.OfRowsCovariant(rows, cols, fss) :> _ Matrix
 
     /// Create a matrix from a list of column vectors.
-    let inline ofColumnVectors (vectors: #Vector<float> list) = DenseMatrix.OfColumnVectors(vectors |> Array.ofList |> box |> unbox) :> _ Matrix
+    let inline ofColumns (vectors: #Vector<float> list) = DenseMatrix.OfColumnVectors(vectors |> Array.ofList |> box |> unbox) :> _ Matrix
 
-    /// Create a matrix with a given dimension from an indexed sequences of row, column, value tuples.
-    let inline ofSeqi (rows: int) (cols: int) (fs: #seq<int * int * float>) = DenseMatrix.OfIndexed(rows, cols, fs) :> _ Matrix
+    /// Create a matrix from a list of float lists. Every list in the master list specifies a column.
+    let inline ofColumnList (rows: int) (cols: int) (fll: float list list) = DenseMatrix.OfColumnsCovariant(rows, cols, fll) :> _ Matrix
+
+    /// Create a matrix from a list of sequences. Every sequence in the master sequence specifies a column.
+    let inline ofColumnSeq (rows: int) (cols: int) (fss: #seq<#seq<float>>) = DenseMatrix.OfColumnsCovariant(rows, cols, fss) :> _ Matrix
 
     /// Create a matrix with a given dimension from an indexed list of row, column, value tuples.
     let inline ofListi (rows: int) (cols: int) (fl: list<int * int * float>) = DenseMatrix.OfIndexed(rows, cols, Seq.ofList fl) :> _ Matrix
 
-    /// Create a square matrix with constant diagonal entries.
-    let inline constDiag (n: int) (f: float) =
-        let A = DenseMatrix(n,n)
-        for i=0 to n-1 do
-            A.At(i,i,f)
-        A :> _ Matrix
+    /// Create a matrix with a given dimension from an indexed sequences of row, column, value tuples.
+    let inline ofSeqi (rows: int) (cols: int) (fs: #seq<int * int * float>) = DenseMatrix.OfIndexed(rows, cols, fs) :> _ Matrix
 
     /// Create a square matrix with the vector elements on the diagonal.
-    let inline diag (v: #Vector<float>) =
+    let inline ofDiag (v: #Vector<float>) =
         let n = v.Count
         let A = DenseMatrix(n,n)
         A.SetDiagonal(v)
@@ -152,8 +164,24 @@ module SparseMatrix =
     /// Create an all-zero matrix with the given dimension.
     let inline zeroCreate (rows: int) (cols: int) = SparseMatrix(rows, cols) :> _ Matrix
 
+    /// Create a matrix with the given dimension and set all diagonal values to x. All other values are zero.
+    let inline createDiag (rows: int) (cols: int) x =
+        let A = SparseMatrix(rows,cols)
+        for i=0 to min (rows-1) (cols-1) do A.At(i,i,x)
+        A :> _ Matrix
+
     /// Initialize a matrix by calling a construction function for every element.
     let inline init (rows: int) (cols: int) (f: int -> int -> float) = SparseMatrix.Create(rows, cols, fun n m -> f n m) :> _ Matrix
+
+    /// Initialize a matrix by calling a construction function for every diagonal element. All other values are zero.
+    let inline initDiag (rows: int) (cols: int) (f: int -> float) =
+        let A = SparseMatrix(rows,cols)
+        for i=0 to min (rows-1) (cols-1) do A.At(i,i,f i)
+        A :> _ Matrix
+
+    /// Create an identity matrix with the given dimension.
+    let inline identity (rows: int) (cols: int) = createDiag rows cols 1.0
+
 
     /// Create a matrix from a 2D array of floating point numbers.
     let inline ofArray2 array = SparseMatrix.OfArray(array) :> _ Matrix
@@ -166,33 +194,33 @@ module SparseMatrix =
     [<System.ObsoleteAttribute("Use ofListi instead. Will be changed to expect a non-indexed list in a future version.")>]
     let inline ofList (rows: int) (cols: int) (fl: list<int * int * float>) = SparseMatrix.OfIndexed(rows, cols, Seq.ofList fl) :> _ Matrix
 
-    /// Create a matrix from a list of sequences. Every sequence in the master sequence specifies a row.
-    let inline ofRows (rows: int) (cols: int) (fss: #seq<#seq<float>>) = SparseMatrix.OfRowsCovariant(rows, cols, fss) :> _ Matrix
+
+    /// Create a matrix from a list of row vectors.
+    let inline ofRows (vectors: #Vector<float> list) = SparseMatrix.OfRowVectors(vectors |> Array.ofList |> box |> unbox) :> _ Matrix
 
     /// Create a matrix from a list of float lists. Every list in the master list specifies a row.
-    let inline ofRowsList (rows: int) (cols: int) (fll: float list list) = SparseMatrix.OfRowsCovariant(rows, cols, fll) :> _ Matrix
+    let inline ofRowList (rows: int) (cols: int) (fll: float list list) = SparseMatrix.OfRowsCovariant(rows, cols, fll) :> _ Matrix
 
-    /// Create a matrix from a list of sequences. Every sequence in the master sequence specifies a column.
-    let inline ofColumns (rows: int) (cols: int) (fss: #seq<#seq<float>>) = SparseMatrix.OfColumnsCovariant(rows, cols, fss) :> _ Matrix
+    /// Create a matrix from a list of sequences. Every sequence in the master sequence specifies a row.
+    let inline ofRowSeq (rows: int) (cols: int) (fss: #seq<#seq<float>>) = SparseMatrix.OfRowsCovariant(rows, cols, fss) :> _ Matrix
+
+    /// Create a matrix from a list of column vectors.
+    let inline ofColumns (vectors: #Vector<float> list) = SparseMatrix.OfColumnVectors(vectors |> Array.ofList |> box |> unbox) :> _ Matrix
 
     /// Create a matrix from a list of float lists. Every list in the master list specifies a column.
-    let inline ofColumnsList (rows: int) (cols: int) (fll: float list list) = SparseMatrix.OfColumnsCovariant(rows, cols, fll) :> _ Matrix
+    let inline ofColumnList (rows: int) (cols: int) (fll: float list list) = SparseMatrix.OfColumnsCovariant(rows, cols, fll) :> _ Matrix
 
-    /// Create a matrix with a given dimension from an indexed sequences of row, column, value tuples.
-    let inline ofSeqi (rows: int) (cols: int) (fs: #seq<int * int * float>) = SparseMatrix.OfIndexed(rows, cols, fs) :> _ Matrix
+    /// Create a matrix from a list of sequences. Every sequence in the master sequence specifies a column.
+    let inline ofColumnSeq (rows: int) (cols: int) (fss: #seq<#seq<float>>) = SparseMatrix.OfColumnsCovariant(rows, cols, fss) :> _ Matrix
 
     /// Create a matrix with a given dimension from an indexed list of row, column, value tuples.
     let inline ofListi (rows: int) (cols: int) (fl: list<int * int * float>) = SparseMatrix.OfIndexed(rows, cols, Seq.ofList fl) :> _ Matrix
 
-    /// Create a square matrix with constant diagonal entries.
-    let inline constDiag (n: int) (f: float) =
-        let A = SparseMatrix(n,n)
-        for i=0 to n-1 do
-            A.At(i,i,f)
-        A :> _ Matrix
+    /// Create a matrix with a given dimension from an indexed sequences of row, column, value tuples.
+    let inline ofSeqi (rows: int) (cols: int) (fs: #seq<int * int * float>) = SparseMatrix.OfIndexed(rows, cols, fs) :> _ Matrix
 
     /// Create a square matrix with the vector elements on the diagonal.
-    let inline diag (v: #Vector<float>) =
+    let inline ofDiag (v: #Vector<float>) =
         let n = v.Count
         let A = SparseMatrix(n,n)
         A.SetDiagonal(v)

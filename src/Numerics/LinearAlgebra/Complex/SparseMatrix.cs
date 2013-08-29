@@ -163,6 +163,21 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         }
 
         /// <summary>
+        /// Create a new sparse matrix as a copy of the given column vectors.
+        /// This new matrix will be independent from the vectors.
+        /// A new memory block will be allocated for storing the matrix.
+        /// </summary>
+        public static SparseMatrix OfColumnVectors(params Vector<Complex>[] columns)
+        {
+            var storage = new VectorStorage<Complex>[columns.Length];
+            for (int i = 0; i < columns.Length; i++)
+            {
+                storage[i] = columns[i].Storage;
+            }
+            return new SparseMatrix(SparseCompressedRowMatrixStorage<Complex>.OfColumnVectors(storage));
+        }
+
+        /// <summary>
         /// Create a new sparse matrix as a copy of the given enumerable of enumerable columns.
         /// Each enumerable in the master enumerable specifies a column.
         /// This new matrix will be independent from the enumerables.
@@ -184,6 +199,21 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         public static SparseMatrix OfRows(int rows, int columns, IEnumerable<IEnumerable<Complex>> data)
         {
             return new SparseMatrix(SparseCompressedRowMatrixStorage<Complex>.OfRowEnumerables(rows, columns, data));
+        }
+
+        /// <summary>
+        /// Create a new sparse matrix as a copy of the given row vectors.
+        /// This new matrix will be independent from the vectors.
+        /// A new memory block will be allocated for storing the matrix.
+        /// </summary>
+        public static SparseMatrix OfRowVectors(params Vector<Complex>[] rows)
+        {
+            var storage = new VectorStorage<Complex>[rows.Length];
+            for (int i = 0; i < rows.Length; i++)
+            {
+                storage[i] = rows[i].Storage;
+            }
+            return new SparseMatrix(SparseCompressedRowMatrixStorage<Complex>.OfRowVectors(storage));
         }
 
         /// <summary>

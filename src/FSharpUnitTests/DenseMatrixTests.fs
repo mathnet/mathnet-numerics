@@ -53,28 +53,28 @@ module DenseMatrixTests =
         DenseMatrix.ofList [[0.3;0.3];[0.3;0.3];[0.3;0.3]] |> should equal smallM
 
     [<Test>]
+    let ``DenseMatrix.ofRowSeq`` () =
+        DenseMatrix.ofRowSeq 3 2 (Seq.ofList [[0.3;0.3];[0.3;0.3];[0.3;0.3]]) |> should equal smallM
+
+    [<Test>]
+    let ``DenseMatrix.ofRowList`` () =
+        DenseMatrix.ofRowList 3 2 [[0.3;0.3];[0.3;0.3];[0.3;0.3]] |> should equal smallM
+
+    [<Test>]
     let ``DenseMatrix.ofRows`` () =
-        DenseMatrix.ofRows 3 2 (Seq.ofList [[0.3;0.3];[0.3;0.3];[0.3;0.3]]) |> should equal smallM
+        DenseMatrix.ofRows [vector [0.3;0.3]; vector [0.3;0.3]; vector [0.3;0.3]] |> should equal smallM
 
     [<Test>]
-    let ``DenseMatrix.ofRowsList`` () =
-        DenseMatrix.ofRowsList 3 2 [[0.3;0.3];[0.3;0.3];[0.3;0.3]] |> should equal smallM
+    let ``DenseMatrix.ofColumnSeq`` () =
+        DenseMatrix.ofColumnSeq 3 2 (Seq.ofList [[0.3;0.3;0.3];[0.3;0.3;0.3]]) |> should equal smallM
 
     [<Test>]
-    let ``DenseMatrix.ofRowVectors`` () =
-        DenseMatrix.ofRowVectors [vector [0.3;0.3]; vector [0.3;0.3]; vector [0.3;0.3]] |> should equal smallM
+    let ``DenseMatrix.ofColumnList`` () =
+        DenseMatrix.ofColumnList 3 2 [[0.3;0.3;0.3];[0.3;0.3;0.3]] |> should equal smallM
 
     [<Test>]
-    let ``DenseMatrix.ofColumn`` () =
-        DenseMatrix.ofColumns 3 2 (Seq.ofList [[0.3;0.3;0.3];[0.3;0.3;0.3]]) |> should equal smallM
-
-    [<Test>]
-    let ``DenseMatrix.ofColumnsList`` () =
-        DenseMatrix.ofColumnsList 3 2 [[0.3;0.3;0.3];[0.3;0.3;0.3]] |> should equal smallM
-
-    [<Test>]
-    let ``DenseMatrix.ofColumnVectors`` () =
-        DenseMatrix.ofColumnVectors [vector [0.3;0.3;0.3]; vector [0.3;0.3;0.3]] |> should equal smallM
+    let ``DenseMatrix.ofColumns`` () =
+        DenseMatrix.ofColumns [vector [0.3;0.3;0.3]; vector [0.3;0.3;0.3]] |> should equal smallM
 
     [<Test>]
     let ``DenseMatrix.ofSeqi`` () =
@@ -87,17 +87,17 @@ module DenseMatrixTests =
         |> DenseMatrix.ofListi 100 120 |> should equal largeM
 
     [<Test>]
-    let ``DenseMatrix.constDiag`` () =
-        DenseMatrix.constDiag 100 2.0 |> should equal (2.0 * (DenseMatrix.Identity 100))
+    let ``DenseMatrix.createDiag`` () =
+        DenseMatrix.createDiag 100 100 2.0 |> should equal (2.0 * (DenseMatrix.Identity 100))
 
     [<Test>]
-    let ``DenseMatrix.diag`` () =
-        DenseMatrix.diag (DenseVector.Create(100, fun i -> 2.0)) |> should equal (2.0 * (DenseMatrix.Identity 100))
+    let ``DenseMatrix.ofDiag`` () =
+        DenseMatrix.ofDiag (DenseVector.Create(100, fun i -> 2.0)) |> should equal (2.0 * (DenseMatrix.Identity 100))
 
     [<Test>]
-    let ``DenseMatrix.init_row`` () =
+    let ``DenseMatrix.initRow`` () =
         DenseMatrix.initRow 100 120 (fun i -> (DenseVector.init 120 (fun j -> float i * 100.0 + float j))) |> should equal largeM
 
     [<Test>]
-    let ``DenseMatrix.init_col`` () =
+    let ``DenseMatrix.initCol`` () =
         DenseMatrix.initCol 100 120 (fun j -> (DenseVector.init 100 (fun i -> float i * 100.0 + float j))) |> should equal largeM

@@ -62,7 +62,7 @@ module Fit =
     let linear functions (x:_[]) (y:float[]) =
         functions
         |> List.map (fun f -> List.init (Array.length x) (fun i -> f x.[i]))
-        |> DenseMatrix.ofColumnsList (Array.length x) (List.length functions)
+        |> DenseMatrix.ofColumnList (Array.length x) (List.length functions)
         |> fun m -> m.QR(QRMethod.Thin).Solve(DenseVector(y)).ToArray()
         |> List.ofArray
 
