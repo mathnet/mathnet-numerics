@@ -45,20 +45,12 @@ module DenseMatrixTests =
         DenseMatrix.ofArray2 (Array2D.init 100 120 (fun i j -> float i * 100.0 + float j)) |> should equal largeM
 
     [<Test>]
-    let ``DenseMatrix.ofSeq`` () =
-        DenseMatrix.ofSeq (Seq.ofList [[0.3;0.3];[0.3;0.3];[0.3;0.3]]) |> should equal smallM
-
-    [<Test>]
-    let ``DenseMatrix.ofList`` () =
-        DenseMatrix.ofList [[0.3;0.3];[0.3;0.3];[0.3;0.3]] |> should equal smallM
-
-    [<Test>]
     let ``DenseMatrix.ofRowSeq`` () =
-        DenseMatrix.ofRowSeq 3 2 (Seq.ofList [[0.3;0.3];[0.3;0.3];[0.3;0.3]]) |> should equal smallM
+        DenseMatrix.ofRowSeq (Seq.ofList [[0.3;0.3];[0.3;0.3];[0.3;0.3]]) |> should equal smallM
 
     [<Test>]
     let ``DenseMatrix.ofRowList`` () =
-        DenseMatrix.ofRowList 3 2 [[0.3;0.3];[0.3;0.3];[0.3;0.3]] |> should equal smallM
+        DenseMatrix.ofRowList [[0.3;0.3];[0.3;0.3];[0.3;0.3]] |> should equal smallM
 
     [<Test>]
     let ``DenseMatrix.ofRows`` () =
@@ -66,11 +58,11 @@ module DenseMatrixTests =
 
     [<Test>]
     let ``DenseMatrix.ofColumnSeq`` () =
-        DenseMatrix.ofColumnSeq 3 2 (Seq.ofList [[0.3;0.3;0.3];[0.3;0.3;0.3]]) |> should equal smallM
+        DenseMatrix.ofColumnSeq (Seq.ofList [[0.3;0.3;0.3];[0.3;0.3;0.3]]) |> should equal smallM
 
     [<Test>]
     let ``DenseMatrix.ofColumnList`` () =
-        DenseMatrix.ofColumnList 3 2 [[0.3;0.3;0.3];[0.3;0.3;0.3]] |> should equal smallM
+        DenseMatrix.ofColumnList [[0.3;0.3;0.3];[0.3;0.3;0.3]] |> should equal smallM
 
     [<Test>]
     let ``DenseMatrix.ofColumns`` () =
@@ -96,8 +88,8 @@ module DenseMatrixTests =
 
     [<Test>]
     let ``DenseMatrix.initRow`` () =
-        DenseMatrix.initRow 100 120 (fun i -> (DenseVector.init 120 (fun j -> float i * 100.0 + float j))) |> should equal largeM
+        DenseMatrix.initRows 100 (fun i -> (DenseVector.init 120 (fun j -> float i * 100.0 + float j))) |> should equal largeM
 
     [<Test>]
     let ``DenseMatrix.initCol`` () =
-        DenseMatrix.initCol 100 120 (fun j -> (DenseVector.init 100 (fun i -> float i * 100.0 + float j))) |> should equal largeM
+        DenseMatrix.initColumns 120 (fun j -> (DenseVector.init 100 (fun i -> float i * 100.0 + float j))) |> should equal largeM

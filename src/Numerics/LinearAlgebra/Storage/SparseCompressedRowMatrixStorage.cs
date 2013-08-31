@@ -372,6 +372,33 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             return storage;
         }
 
+        public static SparseCompressedRowMatrixStorage<T> OfInit(int rows, int columns, Func<int, int, T> init)
+        {
+            var storage = new SparseCompressedRowMatrixStorage<T>(rows, columns);
+            var rowPointers = storage.RowPointers;
+            var columnIndices = new List<int>();
+            var values = new List<T>();
+
+            for (int row = 0; row < rows; row++)
+            {
+                rowPointers[row] = values.Count;
+                for (int col = 0; col < columns; col++)
+                {
+                    var item = init(row, col);
+                    if (!Zero.Equals(item))
+                    {
+                        values.Add(item);
+                        columnIndices.Add(col);
+                    }
+                }
+            }
+
+            storage.ColumnIndices = columnIndices.ToArray();
+            storage.Values = values.ToArray();
+            storage.ValueCount = values.Count;
+            return storage;
+        }
+
         public static SparseCompressedRowMatrixStorage<T> OfArray(T[,] array)
         {
             var storage = new SparseCompressedRowMatrixStorage<T>(array.GetLength(0), array.GetLength(1));
@@ -398,22 +425,49 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             return storage;
         }
 
-        public static SparseCompressedRowMatrixStorage<T> OfInit(int rows, int columns, Func<int, int, T> init)
+        public static SparseCompressedRowMatrixStorage<T> OfRowArrays(T[][] data)
         {
-            var storage = new SparseCompressedRowMatrixStorage<T>(rows, columns);
+            var storage = new SparseCompressedRowMatrixStorage<T>(data.Length, data[0].Length);
             var rowPointers = storage.RowPointers;
             var columnIndices = new List<int>();
             var values = new List<T>();
 
-            for (int row = 0; row < rows; row++)
+            for (int row = 0; row < storage.RowCount; row++)
             {
                 rowPointers[row] = values.Count;
-                for (int col = 0; col < columns; col++)
+                for (int col = 0; col < storage.ColumnCount; col++)
                 {
-                    var item = init(row, col);
-                    if (!Zero.Equals(item))
+                    T x = data[row][col];
+                    if (!Zero.Equals(x))
                     {
-                        values.Add(item);
+                        values.Add(x);
+                        columnIndices.Add(col);
+                    }
+                }
+            }
+
+            storage.ColumnIndices = columnIndices.ToArray();
+            storage.Values = values.ToArray();
+            storage.ValueCount = values.Count;
+            return storage;
+        }
+
+        public static SparseCompressedRowMatrixStorage<T> OfColumnArrays(T[][] data)
+        {
+            var storage = new SparseCompressedRowMatrixStorage<T>(data[0].Length, data.Length);
+            var rowPointers = storage.RowPointers;
+            var columnIndices = new List<int>();
+            var values = new List<T>();
+
+            for (int row = 0; row < storage.RowCount; row++)
+            {
+                rowPointers[row] = values.Count;
+                for (int col = 0; col < storage.ColumnCount; col++)
+                {
+                    T x = data[col][row];
+                    if (!Zero.Equals(x))
+                    {
+                        values.Add(x);
                         columnIndices.Add(col);
                     }
                 }
@@ -522,9 +576,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             return storage;
         }
 
-        public static SparseCompressedRowMatrixStorage<T> OfRowEnumerables<TRow>(int rows, int columns, IEnumerable<TRow> data)
-            // NOTE: flexible typing to 'backport' generic covariance.
-            where TRow : IEnumerable<T>
+        public static SparseCompressedRowMatrixStorage<T> OfRowEnumerables(int rows, int columns, IEnumerable<IEnumerable<T>> data)
         {
             var storage = new SparseCompressedRowMatrixStorage<T>(rows, columns);
             var rowPointers = storage.RowPointers;
@@ -559,9 +611,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             return storage;
         }
 
-        public static SparseCompressedRowMatrixStorage<T> OfColumnEnumerables<TColumn>(int rows, int columns, IEnumerable<TColumn> data)
-            // NOTE: flexible typing to 'backport' generic covariance.
-            where TColumn : IEnumerable<T>
+        public static SparseCompressedRowMatrixStorage<T> OfColumnEnumerables(int rows, int columns, IEnumerable<IEnumerable<T>> data)
         {
             var trows = new List<Tuple<int, T>>[rows];
             using (var columnIterator = data.GetEnumerator())

@@ -26,19 +26,19 @@ module SparseMatrixTests =
 
     [<Test>]
     let ``SparseMatrix.ofRowSeq`` () =
-        SparseMatrix.ofRowSeq 4 6 (Seq.ofList [[0.;0.;0.;0.;0.;0.];[0.;0.;1.;0.;0.;0.];[0.;0.;0.;0.;0.;0.];[0.;0.;0.;0.;0.;0.]]) |> should equal smallM
+        SparseMatrix.ofRowSeq (Seq.ofList [[0.;0.;0.;0.;0.;0.];[0.;0.;1.;0.;0.;0.];[0.;0.;0.;0.;0.;0.];[0.;0.;0.;0.;0.;0.]]) |> should equal smallM
 
     [<Test>]
     let ``SparseMatrix.ofRowList`` () =
-        SparseMatrix.ofRowList 4 6 [[0.;0.;0.;0.;0.;0.];[0.;0.;1.;0.;0.;0.];[0.;0.;0.;0.;0.;0.];[0.;0.;0.;0.;0.;0.]] |> should equal smallM
+        SparseMatrix.ofRowList [[0.;0.;0.;0.;0.;0.];[0.;0.;1.;0.;0.;0.];[0.;0.;0.;0.;0.;0.];[0.;0.;0.;0.;0.;0.]] |> should equal smallM
 
     [<Test>]
     let ``SparseMatrix.ofColumnSeq`` () =
-        SparseMatrix.ofColumnSeq 4 6 (Seq.ofList [[0.;0.;0.;0.];[0.;0.;0.;0.];[0.;1.;0.;0.];[0.;0.;0.;0.];[0.;0.;0.;0.];[0.;0.;0.;0.]]) |> should equal smallM
+        SparseMatrix.ofColumnSeq (Seq.ofList [[0.;0.;0.;0.];[0.;0.;0.;0.];[0.;1.;0.;0.];[0.;0.;0.;0.];[0.;0.;0.;0.];[0.;0.;0.;0.]]) |> should equal smallM
 
     [<Test>]
     let ``SparseMatrix.ofColumnList`` () =
-        SparseMatrix.ofColumnList 4 6 [[0.;0.;0.;0.];[0.;0.;0.;0.];[0.;1.;0.;0.];[0.;0.;0.;0.];[0.;0.;0.;0.];[0.;0.;0.;0.]] |> should equal smallM
+        SparseMatrix.ofColumnList [[0.;0.;0.;0.];[0.;0.;0.;0.];[0.;1.;0.;0.];[0.;0.;0.;0.];[0.;0.;0.;0.];[0.;0.;0.;0.]] |> should equal smallM
 
     [<Test>]
     let ``SparseMatrix.ofSeqi`` () =
@@ -53,13 +53,13 @@ module SparseMatrixTests =
         SparseMatrix.createDiag 100 100 2.0 |> should equal (2.0 * (SparseMatrix.Identity 100))
 
     [<Test>]
-    let ``SparseMatrix.diag`` () =
+    let ``SparseMatrix.ofDiag`` () =
         SparseMatrix.ofDiag (DenseVector.Create(100, fun i -> 2.0)) |> should equal (2.0 * (SparseMatrix.Identity 100))
 
     [<Test>]
     let ``SparseMatrix.init_row`` () =
-        SparseMatrix.initRow 4 6 (fun i -> if i=1 then DenseVector.raw [|0.;0.;1.;0.;0.;0.|] else DenseVector.zeroCreate 6) |> should equal smallM
+        SparseMatrix.initRows 4 (fun i -> if i=1 then DenseVector.raw [|0.;0.;1.;0.;0.;0.|] else DenseVector.zeroCreate 6) |> should equal smallM
 
     [<Test>]
     let ``SparseMatrix.init_col`` () =
-        SparseMatrix.initCol 4 6 (fun j -> if j=2 then DenseVector.raw [|0.;1.;0.;0.|] else DenseVector.zeroCreate 4) |> should equal smallM
+        SparseMatrix.initColumns 6 (fun j -> if j=2 then DenseVector.raw [|0.;1.;0.;0.|] else DenseVector.zeroCreate 4) |> should equal smallM

@@ -163,6 +163,16 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         }
 
         /// <summary>
+        /// Create a new sparse matrix as a copy of the given column arrays.
+        /// This new matrix will be independent from the arrays.
+        /// A new memory block will be allocated for storing the matrix.
+        /// </summary>
+        public static SparseMatrix OfColumnArrays(params Complex[][] columns)
+        {
+            return new SparseMatrix(SparseCompressedRowMatrixStorage<Complex>.OfColumnArrays(columns));
+        }
+
+        /// <summary>
         /// Create a new sparse matrix as a copy of the given column vectors.
         /// This new matrix will be independent from the vectors.
         /// A new memory block will be allocated for storing the matrix.
@@ -178,19 +188,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         }
 
         /// <summary>
-        /// Create a new sparse matrix as a copy of the given enumerable of enumerable columns.
-        /// Each enumerable in the master enumerable specifies a column.
-        /// This new matrix will be independent from the enumerables.
-        /// A new memory block will be allocated for storing the matrix.
-        /// </summary>
-        public static SparseMatrix OfColumnsCovariant<TColumn>(int rows, int columns, IEnumerable<TColumn> data)
-            // NOTE: flexible typing to 'backport' generic covariance.
-            where TColumn : IEnumerable<Complex>
-        {
-            return new SparseMatrix(SparseCompressedRowMatrixStorage<Complex>.OfColumnEnumerables(rows, columns, data));
-        }
-
-        /// <summary>
         /// Create a new sparse matrix as a copy of the given enumerable of enumerable rows.
         /// Each enumerable in the master enumerable specifies a row.
         /// This new matrix will be independent from the enumerables.
@@ -199,6 +196,16 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         public static SparseMatrix OfRows(int rows, int columns, IEnumerable<IEnumerable<Complex>> data)
         {
             return new SparseMatrix(SparseCompressedRowMatrixStorage<Complex>.OfRowEnumerables(rows, columns, data));
+        }
+
+        /// <summary>
+        /// Create a new sparse matrix as a copy of the given row arrays.
+        /// This new matrix will be independent from the arrays.
+        /// A new memory block will be allocated for storing the matrix.
+        /// </summary>
+        public static SparseMatrix OfRowArrays(params Complex[][] rows)
+        {
+            return new SparseMatrix(SparseCompressedRowMatrixStorage<Complex>.OfRowArrays(rows));
         }
 
         /// <summary>
@@ -214,19 +221,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
                 storage[i] = rows[i].Storage;
             }
             return new SparseMatrix(SparseCompressedRowMatrixStorage<Complex>.OfRowVectors(storage));
-        }
-
-        /// <summary>
-        /// Create a new sparse matrix as a copy of the given enumerable of enumerable rows.
-        /// Each enumerable in the master enumerable specifies a row.
-        /// This new matrix will be independent from the enumerables.
-        /// A new memory block will be allocated for storing the matrix.
-        /// </summary>
-        public static SparseMatrix OfRowsCovariant<TRow>(int rows, int columns, IEnumerable<TRow> data)
-            // NOTE: flexible typing to 'backport' generic covariance.
-            where TRow : IEnumerable<Complex>
-        {
-            return new SparseMatrix(SparseCompressedRowMatrixStorage<Complex>.OfRowEnumerables(rows, columns, data));
         }
 
         /// <summary>

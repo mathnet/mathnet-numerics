@@ -174,6 +174,16 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         }
 
         /// <summary>
+        /// Create a new dense matrix as a copy of the given column arrays.
+        /// This new matrix will be independent from the arrays.
+        /// A new memory block will be allocated for storing the matrix.
+        /// </summary>
+        public static DenseMatrix OfColumnArrays(params Complex[][] columns)
+        {
+            return new DenseMatrix(DenseColumnMajorMatrixStorage<Complex>.OfColumnArrays(columns));
+        }
+
+        /// <summary>
         /// Create a new dense matrix as a copy of the given column vectors.
         /// This new matrix will be independent from the vectors.
         /// A new memory block will be allocated for storing the matrix.
@@ -189,18 +199,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         }
 
         /// <summary>
-        /// Create a new dense matrix as a copy of the given enumerable of enumerable columns.
-        /// Each enumerable in the master enumerable specifies a column.
-        /// This new matrix will be independent from the enumerables.
-        /// A new memory block will be allocated for storing the matrix.
-        /// </summary>
-        public static DenseMatrix OfColumnsCovariant<TColumn>(int rows, int columns, IEnumerable<TColumn> data)
-            where TColumn : IEnumerable<Complex>
-        {
-            return new DenseMatrix(DenseColumnMajorMatrixStorage<Complex>.OfColumnEnumerables(rows, columns, data));
-        }
-
-        /// <summary>
         /// Create a new dense matrix as a copy of the given enumerable of enumerable rows.
         /// Each enumerable in the master enumerable specifies a row.
         /// This new matrix will be independent from the enumerables.
@@ -209,6 +207,16 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         public static DenseMatrix OfRows(int rows, int columns, IEnumerable<IEnumerable<Complex>> data)
         {
             return new DenseMatrix(DenseColumnMajorMatrixStorage<Complex>.OfRowEnumerables(rows, columns, data));
+        }
+
+        /// <summary>
+        /// Create a new dense matrix as a copy of the given row arrays.
+        /// This new matrix will be independent from the arrays.
+        /// A new memory block will be allocated for storing the matrix.
+        /// </summary>
+        public static DenseMatrix OfRowArrays(params Complex[][] rows)
+        {
+            return new DenseMatrix(DenseColumnMajorMatrixStorage<Complex>.OfRowArrays(rows));
         }
 
         /// <summary>
@@ -224,18 +232,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
                 storage[i] = rows[i].Storage;
             }
             return new DenseMatrix(DenseColumnMajorMatrixStorage<Complex>.OfRowVectors(storage));
-        }
-
-        /// <summary>
-        /// Create a new dense matrix as a copy of the given enumerable of enumerable rows.
-        /// Each enumerable in the master enumerable specifies a row.
-        /// This new matrix will be independent from the enumerables.
-        /// A new memory block will be allocated for storing the matrix.
-        /// </summary>
-        public static DenseMatrix OfRowsCovariant<TRow>(int rows, int columns, IEnumerable<TRow> data)
-            where TRow : IEnumerable<Complex>
-        {
-            return new DenseMatrix(DenseColumnMajorMatrixStorage<Complex>.OfRowEnumerables(rows, columns, data));
         }
 
         /// <summary>

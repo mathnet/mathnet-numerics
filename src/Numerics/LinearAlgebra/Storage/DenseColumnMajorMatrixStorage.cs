@@ -110,6 +110,20 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             return storage;
         }
 
+        public static DenseColumnMajorMatrixStorage<T> OfInit(int rows, int columns, Func<int, int, T> init)
+        {
+            var storage = new DenseColumnMajorMatrixStorage<T>(rows, columns);
+            int index = 0;
+            for (var j = 0; j < storage.ColumnCount; j++)
+            {
+                for (var i = 0; i < storage.RowCount; i++)
+                {
+                    storage.Data[index++] = init(i, j);
+                }
+            }
+            return storage;
+        }
+
         public static DenseColumnMajorMatrixStorage<T> OfArray(T[,] array)
         {
             var storage = new DenseColumnMajorMatrixStorage<T>(array.GetLength(0), array.GetLength(1));
@@ -124,18 +138,32 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             return storage;
         }
 
-        public static DenseColumnMajorMatrixStorage<T> OfInit(int rows, int columns, Func<int, int, T> init)
+        public static DenseColumnMajorMatrixStorage<T> OfColumnArrays(T[][] data)
         {
-            var storage = new DenseColumnMajorMatrixStorage<T>(rows, columns);
-            int index = 0;
-            for (var j = 0; j < storage.ColumnCount; j++)
+            int columns = data.Length;
+            int rows = data[0].Length;
+            var array = new T[rows * columns];
+            for (int j = 0; j < data.Length; j++)
             {
-                for (var i = 0; i < storage.RowCount; i++)
+                Array.Copy(data[j], 0, array, j*rows, rows);
+            }
+            return new DenseColumnMajorMatrixStorage<T>(rows, columns, array);
+        }
+
+        public static DenseColumnMajorMatrixStorage<T> OfRowArrays(T[][] data)
+        {
+            int rows = data.Length;
+            int columns = data[0].Length;
+            var array = new T[rows * columns];
+            for (int j = 0; j < columns; j++)
+            {
+                int offset = j * rows;
+                for (int i = 0; i < rows; i++)
                 {
-                    storage.Data[index++] = init(i, j);
+                    array[offset + i] = data[i][j];
                 }
             }
-            return storage;
+            return new DenseColumnMajorMatrixStorage<T>(rows, columns, array);
         }
 
         public static DenseColumnMajorMatrixStorage<T> OfColumnVectors(VectorStorage<T>[] data)
@@ -200,13 +228,10 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                 return new DenseColumnMajorMatrixStorage<T>(rows, columns, copy);
             }
 
-            var array = System.Linq.Enumerable.ToArray(data);
-            return new DenseColumnMajorMatrixStorage<T>(rows, columns, array);
+            return new DenseColumnMajorMatrixStorage<T>(rows, columns, data.ToArray());
         }
 
-        public static DenseColumnMajorMatrixStorage<T> OfColumnEnumerables<TColumn>(int rows, int columns, IEnumerable<TColumn> data)
-            // NOTE: flexible typing to 'backport' generic covariance.
-            where TColumn : IEnumerable<T>
+        public static DenseColumnMajorMatrixStorage<T> OfColumnEnumerables(int rows, int columns, IEnumerable<IEnumerable<T>> data)
         {
             var array = new T[rows*columns];
             using (var columnIterator = data.GetEnumerator())
@@ -238,9 +263,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             return new DenseColumnMajorMatrixStorage<T>(rows, columns, array);
         }
 
-        public static DenseColumnMajorMatrixStorage<T> OfRowEnumerables<TRow>(int rows, int columns, IEnumerable<TRow> data)
-            // NOTE: flexible typing to 'backport' generic covariance.
-            where TRow : IEnumerable<T>
+        public static DenseColumnMajorMatrixStorage<T> OfRowEnumerables(int rows, int columns, IEnumerable<IEnumerable<T>> data)
         {
             var array = new T[rows*columns];
             using (var rowIterator = data.GetEnumerator())

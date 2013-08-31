@@ -97,10 +97,10 @@ module SparseVector =
     let inline init (n: int) (f: int -> float) = SparseVector.Create(n, fun i -> f i) :> _ Vector
 
     /// Create a sparse vector from a float list.
-    let inline ofList (n: int) (fl: float list) = SparseVector.OfEnumerable(Seq.ofList fl) :> _ Vector
+    let inline ofList (fl: float list) = SparseVector.OfEnumerable(Seq.ofList fl) :> _ Vector
 
     /// Create a sparse vector from a float sequence.
-    let inline ofSeq (n: int) (fs: #seq<float>) = SparseVector.OfEnumerable(fs) :> _ Vector
+    let inline ofSeq (fs: #seq<float>) = SparseVector.OfEnumerable(fs) :> _ Vector
 
     /// Create a sparse vector with a given dimension from an indexed list of index, value pairs.
     let inline ofListi (n: int) (fl: list<int * float>) = SparseVector.OfIndexedEnumerable(n, Seq.ofList fl) :> _ Vector
