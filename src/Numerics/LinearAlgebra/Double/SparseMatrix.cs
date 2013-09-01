@@ -28,10 +28,11 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using MathNet.Numerics.LinearAlgebra.Storage;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
+using MathNet.Numerics.LinearAlgebra.Storage;
 
 namespace MathNet.Numerics.LinearAlgebra.Double
 {
@@ -150,6 +151,17 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// This new matrix will be independent from the enumerables.
         /// A new memory block will be allocated for storing the matrix.
         /// </summary>
+        public static SparseMatrix OfColumns(IEnumerable<IEnumerable<double>> data)
+        {
+            return OfColumnArrays(data.Select(v => v.ToArray()).ToArray());
+        }
+
+        /// <summary>
+        /// Create a new sparse matrix as a copy of the given enumerable of enumerable columns.
+        /// Each enumerable in the master enumerable specifies a column.
+        /// This new matrix will be independent from the enumerables.
+        /// A new memory block will be allocated for storing the matrix.
+        /// </summary>
         public static SparseMatrix OfColumns(int rows, int columns, IEnumerable<IEnumerable<double>> data)
         {
             return new SparseMatrix(SparseCompressedRowMatrixStorage<double>.OfColumnEnumerables(rows, columns, data));
@@ -178,6 +190,17 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 storage[i] = columns[i].Storage;
             }
             return new SparseMatrix(SparseCompressedRowMatrixStorage<double>.OfColumnVectors(storage));
+        }
+
+        /// <summary>
+        /// Create a new sparse matrix as a copy of the given enumerable of enumerable rows.
+        /// Each enumerable in the master enumerable specifies a row.
+        /// This new matrix will be independent from the enumerables.
+        /// A new memory block will be allocated for storing the matrix.
+        /// </summary>
+        public static SparseMatrix OfRows(IEnumerable<IEnumerable<double>> data)
+        {
+            return OfRowArrays(data.Select(v => v.ToArray()).ToArray());
         }
 
         /// <summary>

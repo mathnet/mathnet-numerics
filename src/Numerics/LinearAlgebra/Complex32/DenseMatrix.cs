@@ -28,14 +28,15 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 using MathNet.Numerics.Distributions;
 using MathNet.Numerics.LinearAlgebra.Storage;
 using MathNet.Numerics.Properties;
 using MathNet.Numerics.Providers.LinearAlgebra;
 using MathNet.Numerics.Threading;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 
 namespace MathNet.Numerics.LinearAlgebra.Complex32
 {
@@ -163,6 +164,17 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// This new matrix will be independent from the enumerables.
         /// A new memory block will be allocated for storing the matrix.
         /// </summary>
+        public static DenseMatrix OfColumns(IEnumerable<IEnumerable<Complex32>> data)
+        {
+            return OfColumnArrays(data.Select(v => v.ToArray()).ToArray());
+        }
+
+        /// <summary>
+        /// Create a new dense matrix as a copy of the given enumerable of enumerable columns.
+        /// Each enumerable in the master enumerable specifies a column.
+        /// This new matrix will be independent from the enumerables.
+        /// A new memory block will be allocated for storing the matrix.
+        /// </summary>
         public static DenseMatrix OfColumns(int rows, int columns, IEnumerable<IEnumerable<Complex32>> data)
         {
             return new DenseMatrix(DenseColumnMajorMatrixStorage<Complex32>.OfColumnEnumerables(rows, columns, data));
@@ -191,6 +203,17 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
                 storage[i] = columns[i].Storage;
             }
             return new DenseMatrix(DenseColumnMajorMatrixStorage<Complex32>.OfColumnVectors(storage));
+        }
+
+        /// <summary>
+        /// Create a new dense matrix as a copy of the given enumerable of enumerable rows.
+        /// Each enumerable in the master enumerable specifies a row.
+        /// This new matrix will be independent from the enumerables.
+        /// A new memory block will be allocated for storing the matrix.
+        /// </summary>
+        public static DenseMatrix OfRows(IEnumerable<IEnumerable<Complex32>> data)
+        {
+            return OfRowArrays(data.Select(v => v.ToArray()).ToArray());
         }
 
         /// <summary>
