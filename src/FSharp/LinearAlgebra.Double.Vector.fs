@@ -32,22 +32,6 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
 open MathNet.Numerics.LinearAlgebra
 
-/// A module which implements functional vector operations.
-[<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
-module Vector =
-
-    // TODO: generalize or reconsider
-
-    /// Creates a new vector and inserts the given value at the given index.
-    let inline insert index value (v: #Vector<float>) =
-        let newV = new DenseVector(v.Count + 1)
-        for i = 0 to index - 1 do
-            newV.At(i, v.At i)
-        newV.At(index, value)
-        for i = index + 1 to v.Count do
-            newV.At(i, v.At (i - 1))
-        newV
-
 /// A module which implements functional dense vector operations.
 [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
 module DenseVector =
@@ -116,3 +100,11 @@ module SparseVector =
 
     /// Create a sparse vector with a given dimension from an indexed sequence of index, value pairs.
     let inline ofSeqi (n: int) (fs: #seq<int * float>) = SparseVector.OfIndexedEnumerable(n, fs) :> _ Vector
+
+
+/// A module which implements some F# utility functions.
+[<AutoOpen>]
+module VectorUtility =
+
+    /// Construct a dense vector from a list of floating point numbers.
+    let inline vector (lst: list<float>) = DenseVector.ofList lst

@@ -50,16 +50,6 @@ namespace MathNet.Numerics.LinearAlgebra
         where T : struct, IEquatable<T>, IFormattable
     {
         /// <summary>
-        /// The zero value for type T.
-        /// </summary>
-        static readonly T Zero = Common.ZeroOf<T>();
-
-        /// <summary>
-        /// The value of 1.0 for type T.
-        /// </summary>
-        static readonly T One = Common.OneOf<T>();
-
-        /// <summary>
         /// Initializes a new instance of the Vector class.
         /// </summary>
         protected Vector(VectorStorage<T> storage)

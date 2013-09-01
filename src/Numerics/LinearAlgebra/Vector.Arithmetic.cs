@@ -36,6 +36,16 @@ namespace MathNet.Numerics.LinearAlgebra
     public abstract partial class Vector<T>
     {
         /// <summary>
+        /// The zero value for type T.
+        /// </summary>
+        public static readonly T Zero = Common.ZeroOf<T>();
+
+        /// <summary>
+        /// The value of 1.0 for type T.
+        /// </summary>
+        public static readonly T One = Common.OneOf<T>();
+
+        /// <summary>
         /// Negates vector and save result to <paramref name="result"/>
         /// </summary>
         /// <param name="result">Target vector</param>

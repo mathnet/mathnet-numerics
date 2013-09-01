@@ -202,12 +202,6 @@ module Vector =
 
 
 
-    /// In-place vector addition.
-    let inline addInPlace (v: #Vector<_>) (w: #Vector<_>) = v.Add(w, v)
-
-    /// In place vector subtraction.
-    let inline subInPlace (v: #Vector<_>) (w: #Vector<_>) = v.Subtract(w, v)
-
     /// Fold all entries of a vector in reverse order.
     let inline foldBack f state (v: #Vector<_>) =
         let mutable acc = state
@@ -231,3 +225,19 @@ module Vector =
                 rstate := f (v.At(i)) !rstate
                 yield !rstate
         }
+
+    /// Creates a new vector and inserts the given value at the given index.
+    let inline insert index value (v: #Vector<_>) =
+        let newV = v.CreateVector(v.Count + 1)
+        v.CopySubVectorTo(newV, 0, 0, index)
+        v.CopySubVectorTo(newV, index, index+1, v.Count - index)
+        newV.At(index, value)
+        newV
+
+
+
+    /// In-place vector addition.
+    let inline addInPlace (v: #Vector<_>) (w: #Vector<_>) = v.Add(w, v)
+
+    /// In place vector subtraction.
+    let inline subInPlace (v: #Vector<_>) (w: #Vector<_>) = v.Subtract(w, v)

@@ -32,36 +32,6 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
 open MathNet.Numerics.LinearAlgebra
 
-/// A module which implements functional matrix operations.
-[<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
-module Matrix =
-
-    // TODO: generalize or reconsider
-
-    /// Returns the sum of all elements of a matrix.
-    let inline sum (A: #Matrix<float>) = A |> Matrix.foldnz (+) 0.0
-
-    /// Fold all columns into one row vector.
-    let inline foldByCol f acc (A: #Matrix<float>) =
-        let v = new DenseVector(A.ColumnCount)
-        for k=0 to A.ColumnCount-1 do
-            let mutable macc = acc
-            for i=0 to A.RowCount-1 do
-                macc <- f macc (A.At(i,k))
-            v.At(k, macc)
-        v :> _ Vector
-
-    /// Fold all rows into one column vector.
-    let inline foldByRow f acc (A: #Matrix<float>) =
-        let v = new DenseVector(A.RowCount)
-        for k=0 to A.RowCount-1 do
-            let mutable macc = acc
-            for i=0 to A.ColumnCount-1 do
-                macc <- f macc (A.At(k,i))
-            v.At(k, macc)
-        v :> _ Vector
-
-
 /// A module which implements functional dense vector operations.
 [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
 module DenseMatrix =
@@ -226,3 +196,11 @@ module SparseMatrix =
 
     /// Create a matrix with the array elements on the diagonal.
     let inline ofDiagArray2 (rows: int) (cols: int) (array: float array) = SparseMatrix.OfDiagonalArray(rows, cols, array) :> _ Matrix
+
+
+/// A module which implements some F# utility functions.
+[<AutoOpen>]
+module MatrixUtility =
+
+    /// Construct a dense matrix from a nested list of floating point numbers.
+    let inline matrix (lst: list<list<float>>) = DenseMatrix.ofRowList lst
