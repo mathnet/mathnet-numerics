@@ -48,7 +48,7 @@ namespace MathNet.Numerics.Distributions
     /// <para>The statistics classes will check all the incoming parameters whether they are in the allowed
     /// range. This might involve heavy computation. Optionally, by setting Control.CheckDistributionParameters
     /// to <c>false</c>, all parameter checks can be turned off.</para></remarks>
-    public class Wishart
+    public class Wishart : IDistribution
     {
         System.Random _random;
 
