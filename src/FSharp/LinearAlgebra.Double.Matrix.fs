@@ -135,14 +135,17 @@ module DenseMatrix =
     /// Create a matrix with a given dimension from an indexed sequences of row, column, value tuples.
     let inline ofSeqi (rows: int) (cols: int) (indexed: #seq<int * int * float>) = DenseMatrix.OfIndexed(rows, cols, indexed) :> _ Matrix
 
-    /// Create a matrix with the vector elements on the diagonal.
-    let ofDiag2 (rows: int) (cols: int) (v: Vector<float>) =
-        let A = DenseMatrix(rows,cols)
-        A.SetDiagonal(v)
-        A :> _ Matrix
-
     /// Create a square matrix with the vector elements on the diagonal.
-    let inline ofDiag (v: Vector<float>) = ofDiag2 v.Count v.Count v
+    let inline ofDiag (v: Vector<float>) = DenseMatrix.OfDiagonalVector(v) :> _ Matrix
+
+    /// Create a matrix with the vector elements on the diagonal.
+    let inline ofDiag2 (rows: int) (cols: int) (v: Vector<float>) = DenseMatrix.OfDiagonalVector(rows, cols, v) :> _ Matrix
+
+    /// Create a square matrix with the array elements on the diagonal.
+    let inline ofDiagArray (array: float array) = DenseMatrix.OfDiagonalArray(array) :> _ Matrix
+
+    /// Create a matrix with the array elements on the diagonal.
+    let inline ofDiagArray2 (rows: int) (cols: int) (array: float array) = DenseMatrix.OfDiagonalArray(rows, cols, array) :> _ Matrix
 
 
 /// A module which implements functional sparse vector operations.
@@ -212,11 +215,14 @@ module SparseMatrix =
     /// Create a matrix with a given dimension from an indexed sequences of row, column, value tuples.
     let inline ofSeqi (rows: int) (cols: int) (indexed: #seq<int * int * float>) = SparseMatrix.OfIndexed(rows, cols, indexed) :> _ Matrix
 
-    /// Create a matrix with the vector elements on the diagonal.
-    let ofDiag2 (rows: int) (cols: int) (v: Vector<float>) =
-        let A = SparseMatrix(rows,cols)
-        A.SetDiagonal(v)
-        A :> _ Matrix
-
     /// Create a square matrix with the vector elements on the diagonal.
-    let inline ofDiag (v: Vector<float>) = ofDiag2 v.Count v.Count v
+    let inline ofDiag (v: Vector<float>) = SparseMatrix.OfDiagonalVector(v) :> _ Matrix
+
+    /// Create a matrix with the vector elements on the diagonal.
+    let inline ofDiag2 (rows: int) (cols: int) (v: Vector<float>) = SparseMatrix.OfDiagonalVector(rows, cols, v) :> _ Matrix
+
+    /// Create a square matrix with the array elements on the diagonal.
+    let inline ofDiagArray (array: float array) = SparseMatrix.OfDiagonalArray(array) :> _ Matrix
+
+    /// Create a matrix with the array elements on the diagonal.
+    let inline ofDiagArray2 (rows: int) (cols: int) (array: float array) = SparseMatrix.OfDiagonalArray(rows, cols, array) :> _ Matrix

@@ -228,6 +228,54 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         }
 
         /// <summary>
+        /// Create a new dense matrix with the diagonal as a copy of the given vector.
+        /// This new matrix will be independent from the vector.
+        /// A new memory block will be allocated for storing the matrix.
+        /// </summary>
+        public static DenseMatrix OfDiagonalVector(Vector<double> diagonal)
+        {
+            var m = new DenseMatrix(diagonal.Count, diagonal.Count);
+            m.SetDiagonal(diagonal);
+            return m;
+        }
+
+        /// <summary>
+        /// Create a new dense matrix with the diagonal as a copy of the given vector.
+        /// This new matrix will be independent from the vector.
+        /// A new memory block will be allocated for storing the matrix.
+        /// </summary>
+        public static DenseMatrix OfDiagonalVector(int rows, int columns, Vector<double> diagonal)
+        {
+            var m = new DenseMatrix(rows, columns);
+            m.SetDiagonal(diagonal);
+            return m;
+        }
+
+        /// <summary>
+        /// Create a new dense matrix with the diagonal as a copy of the given array.
+        /// This new matrix will be independent from the array.
+        /// A new memory block will be allocated for storing the matrix.
+        /// </summary>
+        public static DenseMatrix OfDiagonalArray(double[] diagonal)
+        {
+            var m = new DenseMatrix(diagonal.Length, diagonal.Length);
+            m.SetDiagonal(diagonal);
+            return m;
+        }
+
+        /// <summary>
+        /// Create a new dense matrix with the diagonal as a copy of the given array.
+        /// This new matrix will be independent from the array.
+        /// A new memory block will be allocated for storing the matrix.
+        /// </summary>
+        public static DenseMatrix OfDiagonalArray(int rows, int columns, double[] diagonal)
+        {
+            var m = new DenseMatrix(rows, columns);
+            m.SetDiagonal(diagonal);
+            return m;
+        }
+
+        /// <summary>
         /// Create a new dense matrix and initialize each value to the same provided value.
         /// </summary>
         public static DenseMatrix Create(int rows, int columns, double value)
