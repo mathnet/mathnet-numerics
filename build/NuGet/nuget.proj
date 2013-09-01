@@ -16,7 +16,7 @@
 	</PropertyGroup>
 	
 	<ItemGroup>
-		<NumericsNet40 Include="$(OutLib)/Net40/MathNet.Numerics.dll;$(OutLib)/Net40/MathNet.Numerics.IO.dll;$(OutLib)/Net40/MathNet.Numerics.pdb;$(OutLib)/Net40/MathNet.Numerics.IO.pdb;$(OutLib)/Net40/MathNet.Numerics.xml;$(OutLib)/Net40/MathNet.Numerics.IO.xml" />
+		<NumericsNet40 Include="$(OutLib)/Net40/MathNet.Numerics.dll;$(OutLib)/Net40/MathNet.Numerics.pdb;$(OutLib)/Net40/MathNet.Numerics.xml" />
 		<NumericsPortable Include="$(OutLib)/Portable/MathNet.Numerics.dll;$(OutLib)/Portable/MathNet.Numerics.pdb;$(OutLib)/Portable/MathNet.Numerics.xml;" />
 		<FSharpNet40 Include="$(OutLib)/Net40/MathNet.Numerics.FSharp.dll;$(OutLib)/Net40/MathNet.Numerics.FSharp.pdb;$(OutLib)/Net40/MathNet.Numerics.FSharp.xml" />
 		<FSharpPortable Include="$(OutLib)/Portable/MathNet.Numerics.FSharp.dll;$(OutLib)/Portable/MathNet.Numerics.FSharp.pdb;$(OutLib)/Portable/MathNet.Numerics.FSharp.xml;" />
