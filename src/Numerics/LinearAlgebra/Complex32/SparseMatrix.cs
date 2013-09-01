@@ -219,11 +219,37 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         }
 
         /// <summary>
+        /// Create a new sparse matrix and initialize each value to the same provided value.
+        /// </summary>
+        public static SparseMatrix Create(int rows, int columns, Complex32 value)
+        {
+            if (value == Complex32.Zero) return new SparseMatrix(rows, columns);
+            return new SparseMatrix(SparseCompressedRowMatrixStorage<Complex32>.OfInit(rows, columns, (i, j) => value));
+        }
+
+        /// <summary>
         /// Create a new sparse matrix and initialize each value using the provided init function.
         /// </summary>
         public static SparseMatrix Create(int rows, int columns, Func<int, int, Complex32> init)
         {
             return new SparseMatrix(SparseCompressedRowMatrixStorage<Complex32>.OfInit(rows, columns, init));
+        }
+
+        /// <summary>
+        /// Create a new diagonal sparse matrix and initialize each diagonal value to the same provided value.
+        /// </summary>
+        public static SparseMatrix CreateDiagonal(int rows, int columns, Complex32 value)
+        {
+            if (value == Complex32.Zero) return new SparseMatrix(rows, columns);
+            return new SparseMatrix(SparseCompressedRowMatrixStorage<Complex32>.OfDiagonalInit(rows, columns, i => value));
+        }
+
+        /// <summary>
+        /// Create a new diagonal sparse matrix and initialize each diagonal value using the provided init function.
+        /// </summary>
+        public static SparseMatrix CreateDiagonal(int rows, int columns, Func<int, Complex32> init)
+        {
+            return new SparseMatrix(SparseCompressedRowMatrixStorage<Complex32>.OfDiagonalInit(rows, columns, init));
         }
 
         /// <summary>

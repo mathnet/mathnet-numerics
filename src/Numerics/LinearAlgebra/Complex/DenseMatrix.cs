@@ -235,11 +235,37 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         }
 
         /// <summary>
+        /// Create a new dense matrix and initialize each value to the same provided value.
+        /// </summary>
+        public static DenseMatrix Create(int rows, int columns, Complex value)
+        {
+            if (value == Complex.Zero) return new DenseMatrix(rows, columns);
+            return new DenseMatrix(DenseColumnMajorMatrixStorage<Complex>.OfInit(rows, columns, (i, j) => value));
+        }
+
+        /// <summary>
         /// Create a new dense matrix and initialize each value using the provided init function.
         /// </summary>
         public static DenseMatrix Create(int rows, int columns, Func<int, int, Complex> init)
         {
             return new DenseMatrix(DenseColumnMajorMatrixStorage<Complex>.OfInit(rows, columns, init));
+        }
+
+        /// <summary>
+        /// Create a new diagonal dense matrix and initialize each diagonal value to the same provided value.
+        /// </summary>
+        public static DenseMatrix CreateDiagonal(int rows, int columns, Complex value)
+        {
+            if (value == Complex.Zero) return new DenseMatrix(rows, columns);
+            return new DenseMatrix(DenseColumnMajorMatrixStorage<Complex>.OfDiagonalInit(rows, columns, i => value));
+        }
+
+        /// <summary>
+        /// Create a new diagonal dense matrix and initialize each diagonal value using the provided init function.
+        /// </summary>
+        public static DenseMatrix CreateDiagonal(int rows, int columns, Func<int, Complex> init)
+        {
+            return new DenseMatrix(DenseColumnMajorMatrixStorage<Complex>.OfDiagonalInit(rows, columns, init));
         }
 
         /// <summary>

@@ -228,6 +228,15 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         }
 
         /// <summary>
+        /// Create a new dense matrix and initialize each value to the same provided value.
+        /// </summary>
+        public static DenseMatrix Create(int rows, int columns, float value)
+        {
+            if (value == 0f) return new DenseMatrix(rows, columns);
+            return new DenseMatrix(DenseColumnMajorMatrixStorage<float>.OfInit(rows, columns, (i, j) => value));
+        }
+
+        /// <summary>
         /// Create a new dense matrix and initialize each value using the provided init function.
         /// </summary>
         public static DenseMatrix Create(int rows, int columns, Func<int, int, float> init)
@@ -236,12 +245,28 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         }
 
         /// <summary>
+        /// Create a new diagonal dense matrix and initialize each diagonal value to the same provided value.
+        /// </summary>
+        public static DenseMatrix CreateDiagonal(int rows, int columns, float value)
+        {
+            if (value == 0f) return new DenseMatrix(rows, columns);
+            return new DenseMatrix(DenseColumnMajorMatrixStorage<float>.OfDiagonalInit(rows, columns, i => value));
+        }
+
+        /// <summary>
+        /// Create a new diagonal dense matrix and initialize each diagonal value using the provided init function.
+        /// </summary>
+        public static DenseMatrix CreateDiagonal(int rows, int columns, Func<int, float> init)
+        {
+            return new DenseMatrix(DenseColumnMajorMatrixStorage<float>.OfDiagonalInit(rows, columns, init));
+        }
+
+        /// <summary>
         /// Create a new dense matrix with values sampled from the provided random distribution.
         /// </summary>
         public static DenseMatrix CreateRandom(int rows, int columns, IContinuousDistribution distribution)
         {
-            return new DenseMatrix(DenseColumnMajorMatrixStorage<float>.OfInit(rows, columns,
-                (i, j) => (float) distribution.Sample()));
+            return new DenseMatrix(DenseColumnMajorMatrixStorage<float>.OfInit(rows, columns, (i, j) => (float) distribution.Sample()));
         }
 
         /// <summary>

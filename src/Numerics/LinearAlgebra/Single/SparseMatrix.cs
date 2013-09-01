@@ -217,11 +217,37 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         }
 
         /// <summary>
+        /// Create a new sparse matrix and initialize each value to the same provided value.
+        /// </summary>
+        public static SparseMatrix Create(int rows, int columns, float value)
+        {
+            if (value == 0f) return new SparseMatrix(rows, columns);
+            return new SparseMatrix(SparseCompressedRowMatrixStorage<float>.OfInit(rows, columns, (i, j) => value));
+        }
+
+        /// <summary>
         /// Create a new sparse matrix and initialize each value using the provided init function.
         /// </summary>
         public static SparseMatrix Create(int rows, int columns, Func<int, int, float> init)
         {
             return new SparseMatrix(SparseCompressedRowMatrixStorage<float>.OfInit(rows, columns, init));
+        }
+
+        /// <summary>
+        /// Create a new diagonal sparse matrix and initialize each diagonal value to the same provided value.
+        /// </summary>
+        public static SparseMatrix CreateDiagonal(int rows, int columns, float value)
+        {
+            if (value == 0f) return new SparseMatrix(rows, columns);
+            return new SparseMatrix(SparseCompressedRowMatrixStorage<float>.OfDiagonalInit(rows, columns, i => value));
+        }
+
+        /// <summary>
+        /// Create a new diagonal sparse matrix and initialize each diagonal value using the provided init function.
+        /// </summary>
+        public static SparseMatrix CreateDiagonal(int rows, int columns, Func<int, float> init)
+        {
+            return new SparseMatrix(SparseCompressedRowMatrixStorage<float>.OfDiagonalInit(rows, columns, init));
         }
 
         /// <summary>

@@ -76,13 +76,10 @@ module DenseMatrix =
     let inline randomCreate (rows: int) (cols: int) dist = DenseMatrix.CreateRandom(rows, cols, dist) :> _ Matrix
 
     /// Create a matrix with the given dimension and set all values to x.
-    let inline create (rows: int) (cols: int) x = DenseMatrix.Create(rows, cols, fun i j -> x) :> _ Matrix
+    let inline create (rows: int) (cols: int) (x: float) = DenseMatrix.Create(rows, cols, x) :> _ Matrix
 
     /// Create a matrix with the given dimension and set all diagonal values to x. All other values are zero.
-    let createDiag (rows: int) (cols: int) x =
-        let A = DenseMatrix(rows,cols)
-        for i=0 to min (rows-1) (cols-1) do A.At(i,i,x)
-        A :> _ Matrix
+    let inline createDiag (rows: int) (cols: int) (x: float) = DenseMatrix.CreateDiagonal(rows, cols, x) :> _ Matrix
 
     /// Initialize a matrix by calling a construction function for every element.
     let inline init (rows: int) (cols: int) (f: int -> int -> float) = DenseMatrix.Create(rows, cols, fun i j -> f i j) :> _ Matrix
@@ -94,10 +91,7 @@ module DenseMatrix =
     let inline initColumns (cols: int) (f: int -> Vector<float>) = DenseMatrix.OfColumnVectors(Array.init cols f) :> _ Matrix
 
     /// Initialize a matrix by calling a construction function for every diagonal element. All other values are zero.
-    let initDiag (rows: int) (cols: int) (f: int -> float) =
-        let A = DenseMatrix(rows,cols)
-        for i=0 to min (rows-1) (cols-1) do A.At(i,i,f i)
-        A :> _ Matrix
+    let inline initDiag (rows: int) (cols: int) (f: int -> float) = DenseMatrix.CreateDiagonal(rows, cols, f) :> _ Matrix
 
     /// Create an identity matrix with the given dimension.
     let inline identity (rows: int) (cols: int) = createDiag rows cols 1.0
@@ -158,11 +152,11 @@ module SparseMatrix =
     /// Create an all-zero matrix with the given dimension.
     let inline zeroCreate (rows: int) (cols: int) = SparseMatrix(rows, cols) :> _ Matrix
 
+    /// Create a matrix with the given dimension and set all values to x. Note that a dense matrix would likely be more appropriate.
+    let inline create (rows: int) (cols: int) (x: float) = SparseMatrix.Create(rows, cols, x) :> _ Matrix
+
     /// Create a matrix with the given dimension and set all diagonal values to x. All other values are zero.
-    let createDiag (rows: int) (cols: int) x =
-        let A = SparseMatrix(rows,cols)
-        for i=0 to min (rows-1) (cols-1) do A.At(i,i,x)
-        A :> _ Matrix
+    let inline createDiag (rows: int) (cols: int) (x: float) = SparseMatrix.CreateDiagonal(rows, cols, x) :> _ Matrix
 
     /// Initialize a matrix by calling a construction function for every element.
     let inline init (rows: int) (cols: int) (f: int -> int -> float) = SparseMatrix.Create(rows, cols, fun n m -> f n m) :> _ Matrix
@@ -174,10 +168,7 @@ module SparseMatrix =
     let inline initColumns (cols: int) (f: int -> Vector<float>) = SparseMatrix.OfColumnVectors(Array.init cols f) :> _ Matrix
 
     /// Initialize a matrix by calling a construction function for every diagonal element. All other values are zero.
-    let initDiag (rows: int) (cols: int) (f: int -> float) =
-        let A = SparseMatrix(rows,cols)
-        for i=0 to min (rows-1) (cols-1) do A.At(i,i,f i)
-        A :> _ Matrix
+    let inline initDiag (rows: int) (cols: int) (f: int -> float) = SparseMatrix.CreateDiagonal(rows, cols, f) :> _ Matrix
 
     /// Create an identity matrix with the given dimension.
     let inline identity (rows: int) (cols: int) = createDiag rows cols 1.0

@@ -114,12 +114,25 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         {
             var storage = new DenseColumnMajorMatrixStorage<T>(rows, columns);
             int index = 0;
-            for (var j = 0; j < storage.ColumnCount; j++)
+            for (var j = 0; j < columns; j++)
             {
-                for (var i = 0; i < storage.RowCount; i++)
+                for (var i = 0; i < rows; i++)
                 {
                     storage.Data[index++] = init(i, j);
                 }
+            }
+            return storage;
+        }
+
+        public static DenseColumnMajorMatrixStorage<T> OfDiagonalInit(int rows, int columns, Func<int, T> init)
+        {
+            var storage = new DenseColumnMajorMatrixStorage<T>(rows, columns);
+            int index = 0;
+            int stride = rows + 1;
+            for (var i = 0; i < Math.Min(rows, columns); i++)
+            {
+                storage.Data[index] = init(i);
+                index += stride;
             }
             return storage;
         }

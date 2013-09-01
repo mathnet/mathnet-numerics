@@ -154,7 +154,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
         [Test]
         public void CanCreateMatrixWithUniformValues()
         {
-            var matrix = DenseMatrix.Create(10, 10, (i, j) => 10.0f);
+            var matrix = DenseMatrix.Create(10, 10, 10.0f);
             for (var i = 0; i < matrix.RowCount; i++)
             {
                 for (var j = 0; j < matrix.ColumnCount; j++)

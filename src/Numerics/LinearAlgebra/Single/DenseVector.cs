@@ -122,6 +122,15 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         }
 
         /// <summary>
+        /// Create a new dense vector and initialize each value using the provided value.
+        /// </summary>
+        public static DenseVector Create(int length, float value)
+        {
+            if (value == 0f) return new DenseVector(length);
+            return new DenseVector(DenseVectorStorage<float>.OfInit(length, i => value));
+        }
+
+        /// <summary>
         /// Create a new dense vector and initialize each value using the provided init function.
         /// </summary>
         public static DenseVector Create(int length, Func<int, float> init)

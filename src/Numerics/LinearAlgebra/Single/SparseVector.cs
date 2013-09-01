@@ -112,6 +112,15 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         }
 
         /// <summary>
+        /// Create a new sparse vector and initialize each value using the provided value.
+        /// </summary>
+        public static SparseVector Create(int length, float value)
+        {
+            if (value == 0f) return new SparseVector(length);
+            return new SparseVector(SparseVectorStorage<float>.OfInit(length, i => value));
+        }
+
+        /// <summary>
         /// Create a new sparse vector and initialize each value using the provided init function.
         /// </summary>
         public static SparseVector Create(int length, Func<int, float> init)

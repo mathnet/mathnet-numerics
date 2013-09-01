@@ -62,10 +62,13 @@ module DenseVector =
     let inline randomCreate (n: int) dist = DenseVector.CreateRandom(n, dist) :> _ Vector
 
     /// Initialize an x-valued vector with the given dimension.
-    let inline create (n: int) x = DenseVector.Create(n, fun i -> x) :> _ Vector
+    let inline create (n: int) (x: float) = DenseVector.Create(n, x) :> _ Vector
 
     /// Initialize a vector by calling a construction function for every element.
-    let inline init (n: int) (f: int -> float) = DenseVector.Create(n, fun i -> f i) :> _ Vector
+    let inline init (n: int) (f: int -> float) = DenseVector.Create(n, f) :> _ Vector
+
+    /// Create a vector from a float array (by copying - use raw instead if no copy is needed).
+    let inline ofArray (fl: float array) = DenseVector(Array.copy fl) :> _ Vector
 
     /// Create a vector from a float list.
     let inline ofList (fl: float list) = DenseVector(Array.ofList fl) :> _ Vector
@@ -93,8 +96,14 @@ module SparseVector =
     /// Initialize an all-zero vector with the given dimension.
     let inline zeroCreate (n: int) = SparseVector(n) :> _ Vector
 
+    /// Initialize an x-valued vector with the given dimension.
+    let inline create (n: int) (x: float) = SparseVector.Create(n, x) :> _ Vector
+
     /// Initialize a vector by calling a construction function for every element.
-    let inline init (n: int) (f: int -> float) = SparseVector.Create(n, fun i -> f i) :> _ Vector
+    let inline init (n: int) (f: int -> float) = SparseVector.Create(n, f) :> _ Vector
+
+    /// Create a sparse vector from a float array.
+    let inline ofArray (fl: float array) = SparseVector.OfEnumerable(Seq.ofArray fl) :> _ Vector
 
     /// Create a sparse vector from a float list.
     let inline ofList (fl: float list) = SparseVector.OfEnumerable(Seq.ofList fl) :> _ Vector

@@ -117,6 +117,15 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         }
 
         /// <summary>
+        /// Create a new sparse vector and initialize each value using the provided value.
+        /// </summary>
+        public static SparseVector Create(int length, Complex value)
+        {
+            if (value == Complex.Zero) return new SparseVector(length);
+            return new SparseVector(SparseVectorStorage<Complex>.OfInit(length, i => value));
+        }
+
+        /// <summary>
         /// Create a new sparse vector and initialize each value using the provided init function.
         /// </summary>
         public static SparseVector Create(int length, Func<int, Complex> init)

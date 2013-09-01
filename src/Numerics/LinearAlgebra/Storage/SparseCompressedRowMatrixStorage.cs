@@ -384,12 +384,36 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                 rowPointers[row] = values.Count;
                 for (int col = 0; col < columns; col++)
                 {
-                    var item = init(row, col);
-                    if (!Zero.Equals(item))
+                    var x = init(row, col);
+                    if (!Zero.Equals(x))
                     {
-                        values.Add(item);
+                        values.Add(x);
                         columnIndices.Add(col);
                     }
+                }
+            }
+
+            storage.ColumnIndices = columnIndices.ToArray();
+            storage.Values = values.ToArray();
+            storage.ValueCount = values.Count;
+            return storage;
+        }
+
+        public static SparseCompressedRowMatrixStorage<T> OfDiagonalInit(int rows, int columns, Func<int, T> init)
+        {
+            var storage = new SparseCompressedRowMatrixStorage<T>(rows, columns);
+            var rowPointers = storage.RowPointers;
+            var columnIndices = new List<int>();
+            var values = new List<T>();
+
+            for (int i = 0; i < Math.Min(rows, columns); i++)
+            {
+                rowPointers[i] = values.Count;
+                var x = init(i);
+                if (!Zero.Equals(x))
+                {
+                    values.Add(x);
+                    columnIndices.Add(i);
                 }
             }
 

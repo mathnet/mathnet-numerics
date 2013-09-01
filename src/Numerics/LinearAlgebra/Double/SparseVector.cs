@@ -112,6 +112,15 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         }
 
         /// <summary>
+        /// Create a new sparse vector and initialize each value using the provided value.
+        /// </summary>
+        public static SparseVector Create(int length, double value)
+        {
+            if (value == 0d) return new SparseVector(length);
+            return new SparseVector(SparseVectorStorage<double>.OfInit(length, i => value));
+        }
+
+        /// <summary>
         /// Create a new sparse vector and initialize each value using the provided init function.
         /// </summary>
         public static SparseVector Create(int length, Func<int, double> init)

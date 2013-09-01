@@ -128,6 +128,15 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         }
 
         /// <summary>
+        /// Create a new dense vector and initialize each value using the provided value.
+        /// </summary>
+        public static DenseVector Create(int length, Complex value)
+        {
+            if (value == Complex.Zero) return new DenseVector(length);
+            return new DenseVector(DenseVectorStorage<Complex>.OfInit(length, i => value));
+        }
+
+        /// <summary>
         /// Create a new dense vector and initialize each value using the provided init function.
         /// </summary>
         public static DenseVector Create(int length, Func<int, Complex> init)

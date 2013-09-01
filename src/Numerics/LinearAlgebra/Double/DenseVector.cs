@@ -123,6 +123,15 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         }
 
         /// <summary>
+        /// Create a new dense vector and initialize each value using the provided value.
+        /// </summary>
+        public static DenseVector Create(int length, double value)
+        {
+            if (value == 0d) return new DenseVector(length);
+            return new DenseVector(DenseVectorStorage<double>.OfInit(length, i => value));
+        }
+
+        /// <summary>
         /// Create a new dense vector and initialize each value using the provided init function.
         /// </summary>
         public static DenseVector Create(int length, Func<int, double> init)
