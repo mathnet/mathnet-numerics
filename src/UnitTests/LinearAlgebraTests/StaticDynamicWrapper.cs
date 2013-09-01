@@ -30,6 +30,7 @@
 
 using System;
 using System.Dynamic;
+using System.Linq;
 using System.Reflection;
 
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
@@ -64,7 +65,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         // Handle static methods
         public override bool TryInvokeMember(InvokeMemberBinder binder, object[] args, out object result)
         {
-            MethodInfo method = _type.GetMethod(binder.Name, BindingFlags.FlattenHierarchy | BindingFlags.Static | BindingFlags.Public);
+            MethodInfo method = _type.GetMethod(binder.Name, args.Select(a => a.GetType()).ToArray());
             if (method == null)
             {
                 result = null;
