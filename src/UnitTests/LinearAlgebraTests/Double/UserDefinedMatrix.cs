@@ -51,6 +51,21 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
                 Data = data;
             }
 
+            public override bool IsDense
+            {
+                get { return true; }
+            }
+
+            public override bool IsFullyMutable
+            {
+                get { return true; }
+            }
+
+            public override bool IsMutableAt(int row, int column)
+            {
+                return true;
+            }
+
             public override double At(int row, int column)
             {
                 return Data[row, column];

@@ -51,6 +51,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
                 Data = data;
             }
 
+            public override bool IsDense
+            {
+                get { return true; }
+            }
+
             public override float At(int index)
             {
                 return Data[index];

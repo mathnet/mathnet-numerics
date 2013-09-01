@@ -65,6 +65,14 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         }
 
         /// <summary>
+        /// True if the vector storage format is dense.
+        /// </summary>
+        public override bool IsDense
+        {
+            get { return false; }
+        }
+
+        /// <summary>
         /// Retrieves the requested element without range checking.
         /// </summary>
         public override T At(int index)

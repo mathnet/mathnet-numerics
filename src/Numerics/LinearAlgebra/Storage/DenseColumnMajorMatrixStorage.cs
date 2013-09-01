@@ -67,6 +67,32 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         }
 
         /// <summary>
+        /// True if the matrix storage format is dense.
+        /// </summary>
+        public override bool IsDense
+        {
+            get { return true; }
+        }
+
+        /// <summary>
+        /// True if all fields of this matrix can be set to any value.
+        /// False if some fields are fixed, like on a diagonal matrix.
+        /// </summary>
+        public override bool IsFullyMutable
+        {
+            get { return true; }
+        }
+
+        /// <summary>
+        /// True if the specified field can be set to any value.
+        /// False if the field is fixed, like an off-diagonal field on a diagonal matrix.
+        /// </summary>
+        public override bool IsMutableAt(int row, int column)
+        {
+            return true;
+        }
+
+        /// <summary>
         /// Retrieves the requested element without range checking.
         /// </summary>
         public override T At(int row, int column)

@@ -54,6 +54,11 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         }
 
         /// <summary>
+        /// True if the vector storage format is dense.
+        /// </summary>
+        public abstract bool IsDense { get; }
+
+        /// <summary>
         /// Gets or sets the value at the given index, with range checking.
         /// </summary>
         /// <param name="index">
@@ -92,24 +97,6 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         /// <param name="value">The value to set the element to. </param>
         /// <remarks>WARNING: This method is not thread safe. Use "lock" with it and be sure to avoid deadlocks.</remarks>
         public abstract void At(int index, T value);
-
-        /// <summary>
-        /// True if all fields of this vector can be set to any value.
-        /// False if some fields are fixed.
-        /// </summary>
-        public virtual bool IsFullyMutable
-        {
-            get { return true; }
-        }
-
-        /// <summary>
-        /// True if the specified field can be set to any value.
-        /// False if the field is fixed.
-        /// </summary>
-        public virtual bool IsMutable(int index)
-        {
-            return true;
-        }
 
         public virtual void Clear()
         {

@@ -51,6 +51,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
                 Data = data;
             }
 
+            public override bool IsDense
+            {
+                get { return true; }
+            }
+
             public override double At(int index)
             {
                 return Data[index];

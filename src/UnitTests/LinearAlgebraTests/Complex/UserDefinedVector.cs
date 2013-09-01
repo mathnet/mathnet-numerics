@@ -53,6 +53,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
                 Data = data;
             }
 
+            public override bool IsDense
+            {
+                get { return true; }
+            }
+
             public override Complex At(int index)
             {
                 return Data[index];

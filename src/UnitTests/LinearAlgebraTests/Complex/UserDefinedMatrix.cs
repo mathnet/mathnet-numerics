@@ -53,6 +53,21 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
                 Data = data;
             }
 
+            public override bool IsDense
+            {
+                get { return true; }
+            }
+
+            public override bool IsFullyMutable
+            {
+                get { return true; }
+            }
+
+            public override bool IsMutableAt(int row, int column)
+            {
+                return true;
+            }
+
             public override Complex At(int row, int column)
             {
                 return Data[row, column];
