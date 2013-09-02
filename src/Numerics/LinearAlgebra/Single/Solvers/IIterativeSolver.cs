@@ -64,7 +64,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
         /// <param name="matrix">The coefficient matrix, <c>A</c>.</param>
         /// <param name="vector">The solution vector, <c>b</c>.</param>
         /// <returns>The result vector, <c>x</c>.</returns>
-        Vector Solve(Matrix matrix, Vector vector);
+        Vector<float> Solve(Matrix<float> matrix, Vector<float> vector);
 
         /// <summary>
         /// Solves the matrix equation Ax = b, where A is the coefficient matrix, b is the
@@ -73,7 +73,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
         /// <param name="matrix">The coefficient matrix, <c>A</c>.</param>
         /// <param name="input">The solution vector, <c>b</c></param>
         /// <param name="result">The result vector, <c>x</c></param>
-        void Solve(Matrix matrix, Vector input, Vector result);
+        void Solve(Matrix<float> matrix, Vector<float> input, Vector<float> result);
 
         /// <summary>
         /// Solves the matrix equation AX = B, where A is the coefficient matrix, B is the
@@ -82,7 +82,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
         /// <param name="matrix">The coefficient matrix, <c>A</c>.</param>
         /// <param name="input">The solution matrix, <c>B</c>.</param>
         /// <returns>The result matrix, <c>X</c>.</returns>
-        Matrix Solve(Matrix matrix, Matrix input);
+        Matrix<float> Solve(Matrix<float> matrix, Matrix<float> input);
 
         /// <summary>
         /// Solves the matrix equation AX = B, where A is the coefficient matrix, B is the
@@ -91,6 +91,6 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
         /// <param name="matrix">The coefficient matrix, <c>A</c>.</param>
         /// <param name="input">The solution matrix, <c>B</c>.</param>
         /// <param name="result">The result matrix, <c>X</c></param>
-        void Solve(Matrix matrix, Matrix input, Matrix result);
+        void Solve(Matrix<float> matrix, Matrix<float> input, Matrix<float> result);
     }
 }

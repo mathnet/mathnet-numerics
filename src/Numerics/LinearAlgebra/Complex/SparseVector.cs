@@ -134,39 +134,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         }
 
         /// <summary>
-        /// Creates a matrix with the given dimensions using the same storage type
-        /// as this vector.
-        /// </summary>
-        /// <param name="rows">
-        /// The number of rows.
-        /// </param>
-        /// <param name="columns">
-        /// The number of columns.
-        /// </param>
-        /// <returns>
-        /// A matrix with the given dimensions.
-        /// </returns>
-        public override Matrix<Complex> CreateMatrix(int rows, int columns)
-        {
-            return new SparseMatrix(rows, columns);
-        }
-
-        /// <summary>
-        /// Creates a <strong>Vector</strong> of the given size using the same storage type
-        /// as this vector.
-        /// </summary>
-        /// <param name="size">
-        /// The size of the <strong>Vector</strong> to create.
-        /// </param>
-        /// <returns>
-        /// The new <c>Vector</c>.
-        /// </returns>
-        public override Vector<Complex> CreateVector(int size)
-        {
-            return new SparseVector(size);
-        }
-
-        /// <summary>
         /// Conjugates vector and save result to <paramref name="result"/>
         /// </summary>
         /// <param name="result">Target vector</param>

@@ -32,6 +32,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Preconditioners
 {
     using System;
     using Properties;
+    using Numerics;
 
     /// <summary>
     /// A unit preconditioner. This preconditioner does not actually do anything
@@ -54,7 +55,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Preconditioners
         /// </param>
         /// <exception cref="ArgumentNullException">If <paramref name="matrix"/> is <see langword="null"/>. </exception>
         /// <exception cref="ArgumentException">If <paramref name="matrix"/> is not a square matrix.</exception>
-        public void Initialize(Matrix matrix)
+        public void Initialize(Matrix<Complex32> matrix)
         {
             if (matrix == null)
             {
@@ -87,7 +88,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Preconditioners
         ///     If the size of <paramref name="rhs"/> is different the number of rows of the coefficient matrix.
         ///   </para>
         /// </exception>
-        public void Approximate(Vector rhs, Vector lhs)
+        public void Approximate(Vector<Complex32> rhs, Vector<Complex32> lhs)
         {
             if (rhs == null)
             {
@@ -116,7 +117,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Preconditioners
         /// <exception cref="ArgumentException">
         /// If the size of <paramref name="rhs"/> is different the number of rows of the coefficient matrix.
         /// </exception>
-        public Vector Approximate(Vector rhs)
+        public Vector<Complex32> Approximate(Vector<Complex32> rhs)
         {
             if (rhs == null)
             {
@@ -128,7 +129,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Preconditioners
                 throw new ArgumentException(Resources.ArgumentMatrixDimensions);
             }
 
-            Vector result = new DenseVector(rhs.Count);
+            var result = new DenseVector(rhs.Count);
             Approximate(rhs, result);
             return result;
         }

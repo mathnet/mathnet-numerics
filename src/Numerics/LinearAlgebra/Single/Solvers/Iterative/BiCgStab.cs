@@ -204,14 +204,14 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Iterative
         /// <param name="matrix">The coefficient <see cref="Matrix"/>, <c>A</c>.</param>
         /// <param name="vector">The solution <see cref="Vector"/>, <c>b</c>.</param>
         /// <returns>The result <see cref="Vector"/>, <c>x</c>.</returns>
-        public Vector Solve(Matrix matrix, Vector vector)
+        public Vector<float> Solve(Matrix<float> matrix, Vector<float> vector)
         {
             if (vector == null)
             {
                 throw new ArgumentNullException();
             }
 
-            Vector result = new DenseVector(matrix.RowCount);
+            var result = new DenseVector(matrix.RowCount);
             Solve(matrix, vector, result);
             return result;
         }
@@ -223,7 +223,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Iterative
         /// <param name="matrix">The coefficient <see cref="Matrix"/>, <c>A</c>.</param>
         /// <param name="input">The solution <see cref="Vector"/>, <c>b</c>.</param>
         /// <param name="result">The result <see cref="Vector"/>, <c>x</c>.</param>
-        public void Solve(Matrix matrix, Vector input, Vector result)
+        public void Solve(Matrix<float> matrix, Vector<float> input, Vector<float> result)
         {
             // If we were stopped before, we are no longer
             // We're doing this at the start of the method to ensure
@@ -278,7 +278,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Iterative
             // Compute r_0 = b - Ax_0 for some initial guess x_0
             // In this case we take x_0 = vector
             // This is basically a SAXPY so it could be made a lot faster
-            Vector residuals = new DenseVector(matrix.RowCount);
+            var residuals = new DenseVector(matrix.RowCount);
             CalculateTrueResidual(matrix, residuals, result, input);
 
             // Choose r~ (for example, r~ = r_0)
@@ -287,13 +287,13 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Iterative
             // create seven temporary vectors needed to hold temporary
             // coefficients. All vectors are mangled in each iteration.
             // These are defined here to prevent stressing the garbage collector
-            Vector vecP = new DenseVector(residuals.Count);
-            Vector vecPdash = new DenseVector(residuals.Count);
-            Vector nu = new DenseVector(residuals.Count);
-            Vector vecS = new DenseVector(residuals.Count);
-            Vector vecSdash = new DenseVector(residuals.Count);
-            Vector temp = new DenseVector(residuals.Count);
-            Vector temp2 = new DenseVector(residuals.Count);
+            var vecP = new DenseVector(residuals.Count);
+            var vecPdash = new DenseVector(residuals.Count);
+            var nu = new DenseVector(residuals.Count);
+            var vecS = new DenseVector(residuals.Count);
+            var vecSdash = new DenseVector(residuals.Count);
+            var temp = new DenseVector(residuals.Count);
+            var temp2 = new DenseVector(residuals.Count);
 
             // create some temporary float variables that are needed
             // to hold values in between iterations
@@ -431,7 +431,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Iterative
         /// <param name="residual">Residual values in <see cref="Vector"/>.</param>
         /// <param name="x">Instance of the <see cref="Vector"/> x.</param>
         /// <param name="b">Instance of the <see cref="Vector"/> b.</param>
-        private static void CalculateTrueResidual(Matrix matrix, Vector residual, Vector x, Vector b)
+        private static void CalculateTrueResidual(Matrix<float> matrix, Vector<float> residual, Vector<float> x, Vector<float> b)
         {
             // -Ax = residual
             matrix.Multiply(x, residual);
@@ -451,7 +451,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Iterative
         /// <param name="source">Source <see cref="Vector"/>.</param>
         /// <param name="residuals">Residual <see cref="Vector"/>.</param>
         /// <returns><c>true</c> if continue, otherwise <c>false</c></returns>
-        private bool ShouldContinue(int iterationNumber, Vector result, Vector source, Vector residuals)
+        private bool ShouldContinue(int iterationNumber, Vector<float> result, Vector<float> source, Vector<float> residuals)
         {
             if (_hasBeenStopped)
             {
@@ -475,7 +475,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Iterative
         /// <param name="matrix">The coefficient <see cref="Matrix"/>, <c>A</c>.</param>
         /// <param name="input">The solution <see cref="Matrix"/>, <c>B</c>.</param>
         /// <returns>The result <see cref="Matrix"/>, <c>X</c>.</returns>
-        public Matrix Solve(Matrix matrix, Matrix input)
+        public Matrix<float> Solve(Matrix<float> matrix, Matrix<float> input)
         {
             if (matrix == null)
             {
@@ -487,7 +487,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Iterative
                 throw new ArgumentNullException("input");
             }
 
-            var result = (Matrix)matrix.CreateMatrix(input.RowCount, input.ColumnCount);
+            var result = matrix.CreateMatrix(input.RowCount, input.ColumnCount);
             Solve(matrix, input, result);
             return result;
         }
@@ -499,7 +499,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Iterative
         /// <param name="matrix">The coefficient <see cref="Matrix"/>, <c>A</c>.</param>
         /// <param name="input">The solution <see cref="Matrix"/>, <c>B</c>.</param>
         /// <param name="result">The result <see cref="Matrix"/>, <c>X</c></param>
-        public void Solve(Matrix matrix, Matrix input, Matrix result)
+        public void Solve(Matrix<float> matrix, Matrix<float> input, Matrix<float> result)
         {
             if (matrix == null)
             {
@@ -523,7 +523,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Iterative
 
             for (var column = 0; column < input.ColumnCount; column++)
             {
-                var solution = Solve(matrix, (Vector)input.Column(column));
+                var solution = Solve(matrix, input.Column(column));
                 foreach (var element in solution.EnumerateNonZeroIndexed())
                 {
                     result.At(element.Item1, column, element.Item2);

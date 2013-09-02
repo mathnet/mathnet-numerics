@@ -657,6 +657,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
                 }
             }
         }
+
         /// <summary>
         /// Can solve when using a tall matrix.
         /// </summary>
@@ -684,7 +685,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
             {
                 for (var j = 0; j < matrixX.ColumnCount; j++)
                 {
-                    AssertHelpers.AlmostEqual(test[i, j], matrixX[i, j], 4);
+                    AssertHelpers.AlmostEqualAbsolute(test[i, j], matrixX[i, j], 6);
                 }
             }
 

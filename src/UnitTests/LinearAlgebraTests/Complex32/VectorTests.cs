@@ -159,7 +159,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
         {
             var expected = CreateVector(5);
             var actual = expected.CreateVector(5);
-            Assert.AreEqual(expected.GetType(), actual.GetType(), "vectors are same type.");
+            Assert.AreEqual(expected.Storage.IsDense, actual.Storage.IsDense, "vectors are same kind.");
         }
 
         /// <summary>

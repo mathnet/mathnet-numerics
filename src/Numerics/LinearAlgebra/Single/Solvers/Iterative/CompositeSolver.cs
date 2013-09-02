@@ -413,14 +413,14 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Iterative
         /// <param name="matrix">The coefficient matrix, <c>A</c>.</param>
         /// <param name="vector">The solution vector, <c>b</c>.</param>
         /// <returns>The result vector, <c>x</c>.</returns>
-        public Vector Solve(Matrix matrix, Vector vector)
+        public Vector<float> Solve(Matrix<float> matrix, Vector<float> vector)
         {
             if (vector == null)
             {
                 throw new ArgumentNullException();
             }
 
-            Vector result = new DenseVector(matrix.RowCount);
+            var result = new DenseVector(matrix.RowCount);
             Solve(matrix, vector, result);
             return result;
         }
@@ -432,7 +432,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Iterative
         /// <param name="matrix">The coefficient matrix, <c>A</c>.</param>
         /// <param name="input">The solution vector, <c>b</c></param>
         /// <param name="result">The result vector, <c>x</c></param>
-        public void Solve(Matrix matrix, Vector input, Vector result)
+        public void Solve(Matrix<float> matrix, Vector<float> input, Vector<float> result)
         {
             // If we were stopped before, we are no longer
             // We're doing this at the start of the method to ensure
@@ -482,8 +482,8 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Iterative
 
             // Create a copy of the solution and result vectors so we can use them
             // later on
-            var internalInput = (Vector)input.Clone();
-            var internalResult = (Vector)result.Clone();
+            var internalInput = input.Clone();
+            var internalResult = result.Clone();
 
             foreach (var solver in _solvers.TakeWhile(solver => !_hasBeenStopped))
             {
@@ -574,7 +574,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Iterative
         /// <param name="matrix">The coefficient matrix, <c>A</c>.</param>
         /// <param name="input">The solution matrix, <c>B</c>.</param>
         /// <returns>The result matrix, <c>X</c>.</returns>
-        public Matrix Solve(Matrix matrix, Matrix input)
+        public Matrix<float> Solve(Matrix<float> matrix, Matrix<float> input)
         {
             if (matrix == null)
             {
@@ -586,7 +586,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Iterative
                 throw new ArgumentNullException("input");
             }
 
-            var result = (Matrix)matrix.CreateMatrix(input.RowCount, input.ColumnCount);
+            var result = matrix.CreateMatrix(input.RowCount, input.ColumnCount);
             Solve(matrix, input, result);
             return result;
         }
@@ -598,7 +598,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Iterative
         /// <param name="matrix">The coefficient matrix, <c>A</c>.</param>
         /// <param name="input">The solution matrix, <c>B</c>.</param>
         /// <param name="result">The result matrix, <c>X</c></param>
-        public void Solve(Matrix matrix, Matrix input, Matrix result)
+        public void Solve(Matrix<float> matrix, Matrix<float> input, Matrix<float> result)
         {
             if (matrix == null)
             {
@@ -622,7 +622,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Iterative
 
             for (var column = 0; column < input.ColumnCount; column++)
             {
-                var solution = Solve(matrix, (Vector)input.Column(column));
+                var solution = Solve(matrix, input.Column(column));
                 foreach (var element in solution.EnumerateNonZeroIndexed())
                 {
                     result.At(element.Item1, column, element.Item2);

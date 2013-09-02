@@ -670,7 +670,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
             {
                 for (var j = 0; j < matrixX.ColumnCount; j++)
                 {
-                    AssertHelpers.AlmostEqual(test[i, j], matrixX[i, j], 9);
+                    AssertHelpers.AlmostEqualAbsolute(test[i, j], matrixX[i, j], 12);
                 }
             }
 

@@ -36,6 +36,13 @@ using System.Diagnostics;
 
 namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.StopCriterium
 {
+
+#if NOSYSNUMERICS
+    using Complex = Numerics.Complex;
+#else
+    using Complex = System.Numerics.Complex;
+#endif
+
     /// <summary>
     /// Defines an <see cref="IIterationStopCriterium"/> that monitors residuals for NaN's.
     /// </summary>
@@ -75,7 +82,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.StopCriterium
         /// on the invocation of this method. Therefore this method should only be called if the 
         /// calculation has moved forwards at least one step.
         /// </remarks>
-        public void DetermineStatus(int iterationNumber, Vector solutionVector, Vector sourceVector, Vector residualVector)
+        public void DetermineStatus(int iterationNumber, Vector<Complex> solutionVector, Vector<Complex> sourceVector, Vector<Complex> residualVector)
         {
             if (iterationNumber < 0)
             {

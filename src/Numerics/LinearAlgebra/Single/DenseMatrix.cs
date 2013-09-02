@@ -350,33 +350,6 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         }
 
         /// <summary>
-        /// Creates a <c>DenseMatrix</c> for the given number of rows and columns.
-        /// </summary>
-        /// <param name="numberOfRows">The number of rows.</param>
-        /// <param name="numberOfColumns">The number of columns.</param>
-        /// <param name="fullyMutable">True if all fields must be mutable (e.g. not a diagonal matrix).</param>
-        /// <returns>
-        /// A <c>DenseMatrix</c> with the given dimensions.
-        /// </returns>
-        public override Matrix<float> CreateMatrix(int numberOfRows, int numberOfColumns, bool fullyMutable = false)
-        {
-            return new DenseMatrix(numberOfRows, numberOfColumns);
-        }
-
-        /// <summary>
-        /// Creates a <see cref="Vector{T}"/> with a the given dimension.
-        /// </summary>
-        /// <param name="size">The size of the vector.</param>
-        /// <param name="fullyMutable">True if all fields must be mutable.</param>
-        /// <returns>
-        /// A <see cref="Vector{T}"/> with the given dimension.
-        /// </returns>
-        public override Vector<float> CreateVector(int size, bool fullyMutable = false)
-        {
-            return new DenseVector(size);
-        }
-
-        /// <summary>
         /// Returns the transpose of this matrix.
         /// </summary>
         /// <returns>The transpose of this matrix.</returns>

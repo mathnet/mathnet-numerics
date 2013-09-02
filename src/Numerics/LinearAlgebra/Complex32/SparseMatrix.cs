@@ -324,33 +324,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         }
 
         /// <summary>
-        /// Creates a <c>SparseMatrix</c> for the given number of rows and columns.
-        /// </summary>
-        /// <param name="numberOfRows">The number of rows.</param>
-        /// <param name="numberOfColumns">The number of columns.</param>
-        /// <param name="fullyMutable">True if all fields must be mutable (e.g. not a diagonal matrix).</param>
-        /// <returns>
-        /// A <c>SparseMatrix</c> with the given dimensions.
-        /// </returns>
-        public override Matrix<Complex32> CreateMatrix(int numberOfRows, int numberOfColumns, bool fullyMutable = false)
-        {
-            return new SparseMatrix(numberOfRows, numberOfColumns);
-        }
-
-        /// <summary>
-        /// Creates a <see cref="SparseVector"/> with a the given dimension.
-        /// </summary>
-        /// <param name="size">The size of the vector.</param>
-        /// <param name="fullyMutable">True if all fields must be mutable.</param>
-        /// <returns>
-        /// A <see cref="SparseVector"/> with the given dimension.
-        /// </returns>
-        public override Vector<Complex32> CreateVector(int size, bool fullyMutable = false)
-        {
-            return new SparseVector(size);
-        }
-
-        /// <summary>
         /// Returns a new matrix containing the lower triangle of this matrix.
         /// </summary>
         /// <returns>The lower triangle of this matrix.</returns>

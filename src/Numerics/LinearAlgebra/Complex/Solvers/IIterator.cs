@@ -34,6 +34,13 @@ using System;
 
 namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
 {
+
+#if NOSYSNUMERICS
+    using Complex = Numerics.Complex;
+#else
+    using Complex = System.Numerics.Complex;
+#endif
+
     /// <summary>
     /// Defines the base interface for iterators that help control an iterative calculation.
     /// </summary>
@@ -80,7 +87,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
         /// on the invocation of this method. Therefore this method should only be called if the 
         /// calculation has moved forwards at least one step.
         /// </remarks>
-        void DetermineStatus(int iterationNumber, Vector solutionVector, Vector sourceVector, Vector residualVector);
+        void DetermineStatus(int iterationNumber, Vector<Complex> solutionVector, Vector<Complex> sourceVector, Vector<Complex> residualVector);
 
         /// <summary>
         /// Gets the current calculation status.

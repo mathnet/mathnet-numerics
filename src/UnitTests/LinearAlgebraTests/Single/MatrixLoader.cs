@@ -106,129 +106,35 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
             }
         }
 
-        /// <summary>
-        /// Creates a <c>DenseMatrix</c> with random values.
-        /// </summary>
-        /// <param name="row">The number of rows.</param>
-        /// <param name="col">The number of columns.</param>
-        /// <returns>A <c>DenseMatrix</c> with the given dimensions and random values.</returns>
-        public static Matrix GenerateRandomDenseMatrix(int row, int col)
+        public static Matrix<float> GenerateRandomDenseMatrix(int row, int col)
         {
-            // Fill a matrix with standard random numbers.
-            var normal = new Normal(new MersenneTwister(1));
-            var matrixA = new DenseMatrix(row, col);
-            for (var i = 0; i < row; i++)
-            {
-                for (var j = 0; j < col; j++)
-                {
-                    matrixA[i, j] = (float) normal.Sample();
-                }
-            }
-
-            return matrixA;
+            return DenseMatrix.CreateRandom(row, col, new Normal(new MersenneTwister(1)));
         }
 
-        /// <summary>
-        /// Creates a positive definite <c>DenseMatrix</c> with random values.
-        /// </summary>
-        /// <param name="order">The order of the matrix.</param>
-        /// <returns>A positive definite <c>DenseMatrix</c> with the given order and random values.</returns>
         public static Matrix<float> GenerateRandomPositiveDefiniteDenseMatrix(int order)
         {
-            // Fill a matrix with standard random numbers.
-            var normal = new Normal(new MersenneTwister(1));
-            var matrixA = new DenseMatrix(order);
-            for (var i = 0; i < order; i++)
-            {
-                for (var j = 0; j < order; j++)
-                {
-                    matrixA[i, j] = (float) normal.Sample();
-                }
-            }
-
-            // Generate a matrix which is positive definite.
-            return matrixA.Transpose()*matrixA;
+            var a = DenseMatrix.CreateRandom(order, order, new Normal(new MersenneTwister(1)));
+            return a.TransposeThisAndMultiply(a);
         }
 
-        /// <summary>
-        /// Creates a <c>DenseVector</c> with random values.
-        /// </summary>
-        /// <param name="order">The size of the vector.</param>
-        /// <returns>A <c>DenseVector</c> with the given dimension and random values.</returns>
-        public static Vector GenerateRandomDenseVector(int order)
+        public static Vector<float> GenerateRandomDenseVector(int order)
         {
-            // Fill a matrix with standard random numbers.
-            var normal = new Normal(new MersenneTwister(1));
-            var v = new DenseVector(order);
-            for (var i = 0; i < order; i++)
-            {
-                v[i] = (float) normal.Sample();
-            }
-
-            return v;
+            return DenseVector.CreateRandom(order, new Normal(new MersenneTwister(1)));
         }
 
-        /// <summary>
-        /// Creates a <c>UserDefinedMatrix</c> with random values.
-        /// </summary>
-        /// <param name="row">The number of rows.</param>
-        /// <param name="col">The number of columns.</param>
-        /// <returns>A <c>UserDefinedMatrix</c> with the given dimensions and random values.</returns>
-        public static Matrix GenerateRandomUserDefinedMatrix(int row, int col)
+        public static Matrix<float> GenerateRandomUserDefinedMatrix(int row, int col)
         {
-            // Fill a matrix with standard random numbers.
-            var normal = new Normal(new MersenneTwister(1));
-            var matrixA = new UserDefinedMatrix(row, col);
-            for (var i = 0; i < row; i++)
-            {
-                for (var j = 0; j < col; j++)
-                {
-                    matrixA[i, j] = (float) normal.Sample();
-                }
-            }
-
-            return matrixA;
+            return new UserDefinedMatrix(GenerateRandomDenseMatrix(row, col).ToArray());
         }
 
-        /// <summary>
-        /// Creates a positive definite <c>UserDefinedMatrix</c> with random values.
-        /// </summary>
-        /// <param name="order">The order of the matrix.</param>
-        /// <returns>A positive definite <c>UserDefinedMatrix</c> with the given order and random values.</returns>
         public static Matrix<float> GenerateRandomPositiveDefiniteUserDefinedMatrix(int order)
         {
-            // Fill a matrix with standard random numbers.
-            var normal = new Normal(new MersenneTwister(1));
-            var matrixA = new UserDefinedMatrix(order);
-            for (var i = 0; i < order; i++)
-            {
-                for (var j = 0; j < order; j++)
-                {
-                    matrixA[i, j] = (float) normal.Sample();
-                }
-            }
-
-            // Generate a matrix which is positive definite.
-            return matrixA.Transpose()*matrixA;
+            return new UserDefinedMatrix(GenerateRandomPositiveDefiniteDenseMatrix(order).ToArray());
         }
 
-        /// <summary>
-        /// Creates a <c>UserDefinedVector</c> with random values.
-        /// </summary>
-        /// <param name="order">The size of the vector.</param>
-        /// <returns>A <c>UserDefinedVector</c> with the given dimension and random values.</returns>
-        public static Vector GenerateRandomUserDefinedVector(int order)
+        public static Vector<float> GenerateRandomUserDefinedVector(int order)
         {
-            // Fill a matrix with standard random numbers.
-            var normal = new Normal(new MersenneTwister(1));
-            var v = new UserDefinedVector(order);
-            for (var i = 0; i < order; i++)
-            {
-                v[i] = (float) normal.Sample();
-            }
-
-            // Generate a matrix which is positive definite.
-            return v;
+            return new UserDefinedVector(GenerateRandomDenseVector(order).ToArray());
         }
     }
 }

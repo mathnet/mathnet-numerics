@@ -35,6 +35,8 @@ using System.Diagnostics;
 
 namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.StopCriterium
 {
+    using Numerics;
+
     /// <summary>
     /// Monitors an iterative calculation for signs of divergence.
     /// </summary>
@@ -217,7 +219,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.StopCriterium
         /// on the invocation of this method. Therefore this method should only be called if the 
         /// calculation has moved forwards at least one step.
         /// </remarks>
-        public void DetermineStatus(int iterationNumber, Vector solutionVector, Vector sourceVector, Vector residualVector)
+        public void DetermineStatus(int iterationNumber, Vector<Complex32> solutionVector, Vector<Complex32> sourceVector, Vector<Complex32> residualVector)
         {
             if (iterationNumber < 0)
             {

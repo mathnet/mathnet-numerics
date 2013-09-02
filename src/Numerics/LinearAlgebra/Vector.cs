@@ -58,6 +58,8 @@ namespace MathNet.Numerics.LinearAlgebra
             Count = storage.Length;
         }
 
+        static readonly IGenericBuilder<T> Builder = Builder<T>.Instance;
+
         /// <summary>
         /// Gets the raw vector data storage.
         /// </summary>
@@ -131,21 +133,29 @@ namespace MathNet.Numerics.LinearAlgebra
         }
 
         /// <summary>
-        /// Creates a matrix with the given dimensions using the same storage type
-        /// as this vector.
+        /// Create a matrix of the same kind with the provided number of rows and columns.
         /// </summary>
         /// <param name="rows">The number of rows.</param>
         /// <param name="columns">The number of columns.</param>
-        /// <returns>A matrix with the given dimensions.</returns>
-        public abstract Matrix<T> CreateMatrix(int rows, int columns);
+        /// <remarks>Creates a matrix of the same matrix type as the current matrix.</remarks>
+        public Matrix<T> CreateMatrix(int rows, int columns)
+        {
+            return Storage.IsDense
+                ? Builder.DenseMatrix(rows, columns)
+                : Builder.SparseMatrix(rows, columns);
+        }
 
         /// <summary>
-        /// Creates a <strong>Vector</strong> of the given size using the same storage type
-        /// as this vector.
+        /// Create a vector of the same kind with the provided dimension.
         /// </summary>
-        /// <param name="size">The size of the <strong>Vector</strong> to create.</param>
-        /// <returns>The new <c>Vector</c>.</returns>
-        public abstract Vector<T> CreateVector(int size);
+        /// <param name="size">The size of the vector.</param>
+        /// <remarks>Creates a vector of the same type as the current matrix.</remarks>
+        public Vector<T> CreateVector(int size)
+        {
+            return Storage.IsDense
+                ? Builder.DenseVector(size)
+                : Builder.SparseVector(size);
+        }
 
         /// <summary>
         /// Returns a deep-copy clone of the vector.

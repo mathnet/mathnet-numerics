@@ -1308,7 +1308,7 @@ namespace MathNet.Numerics
         /// <param name="b">The second value.</param>
         /// <param name="decimalPlaces">The number of decimal places.</param>
         /// <returns><see langword="true" /> if both doubles are equal to each other within the specified number of decimal places; otherwise <see langword="false" />.</returns>
-        private static bool AlmostEqualWithRelativeDecimalPlaces(this double a, double b, int decimalPlaces)
+        public static bool AlmostEqualWithRelativeDecimalPlaces(this double a, double b, int decimalPlaces)
         {
             // If the magnitudes of the two numbers are equal to within one magnitude the numbers could potentially be equal
             int magnitudeOfFirst = Magnitude(a);
@@ -1346,7 +1346,7 @@ namespace MathNet.Numerics
         /// <param name="b">The second value.</param>
         /// <param name="decimalPlaces">The number of decimal places.</param>
         /// <returns><see langword="true" /> if both floats are equal to each other within the specified number of decimal places; otherwise <see langword="false" />.</returns>
-        private static bool AlmostEqualWithRelativeDecimalPlaces(this float a, float b, int decimalPlaces)
+        public static bool AlmostEqualWithRelativeDecimalPlaces(this float a, float b, int decimalPlaces)
         {
             // If the magnitudes of the two numbers are equal to within one magnitude the numbers could potentially be equal
             int magnitudeOfFirst = Magnitude(a);
@@ -1385,7 +1385,7 @@ namespace MathNet.Numerics
         /// <param name="b">The second value.</param>
         /// <param name="decimalPlaces">The number of decimal places.</param>
         /// <returns><see langword="true" /> if both doubles are equal to each other within the specified number of decimal places; otherwise <see langword="false" />.</returns>
-        private static bool AlmostEqualWithAbsoluteDecimalPlaces(this double a, double b, int decimalPlaces)
+        public static bool AlmostEqualWithAbsoluteDecimalPlaces(this double a, double b, int decimalPlaces)
         {
             double decimalPlaceMagnitude = Math.Pow(10, -(decimalPlaces - 1));
             
@@ -1411,7 +1411,7 @@ namespace MathNet.Numerics
         /// <param name="b">The second value.</param>
         /// <param name="decimalPlaces">The number of decimal places.</param>
         /// <returns><see langword="true" /> if both floats are equal to each other within the specified number of decimal places; otherwise <see langword="false" />.</returns>
-        private static bool AlmostEqualWithAbsoluteDecimalPlaces(this float a, float b, int decimalPlaces)
+        public static bool AlmostEqualWithAbsoluteDecimalPlaces(this float a, float b, int decimalPlaces)
         {
             var decimalPlaceMagnitude = (float)Math.Pow(10, -(decimalPlaces - 1));
 

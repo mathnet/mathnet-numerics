@@ -28,6 +28,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Single;
 using MathNet.Numerics.LinearAlgebra.Single.Solvers;
 using MathNet.Numerics.LinearAlgebra.Single.Solvers.Iterative;
@@ -231,7 +232,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers.Iterative
                 var solver = new MlkBiCgStab(monitor);
 
                 // Solve equation Ax = y
-                Vector x;
+                Vector<float> x;
                 try
                 {
                     x = solver.Solve(matrix, y);

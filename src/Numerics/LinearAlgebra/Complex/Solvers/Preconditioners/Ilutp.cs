@@ -261,9 +261,9 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Preconditioners
         /// This method is used for debugging purposes only and should normally not be used.
         /// </remarks>
         /// <returns>A new matrix containing the upper triagonal elements.</returns>
-        internal Matrix UpperTriangle()
+        internal Matrix<Complex> UpperTriangle()
         {
-            return (Matrix)_upper.Clone();
+            return _upper.Clone();
         }
 
         /// <summary>
@@ -273,9 +273,9 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Preconditioners
         /// This method is used for debugging purposes only and should normally not be used.
         /// </remarks>
         /// <returns>A new matrix containing the lower triagonal elements.</returns>
-        internal Matrix LowerTriangle()
+        internal Matrix<Complex> LowerTriangle()
         {
-            return (Matrix)_lower.Clone();
+            return _lower.Clone();
         }
 
         /// <summary>
@@ -307,7 +307,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Preconditioners
         /// </param>
         /// <exception cref="ArgumentNullException"> If <paramref name="matrix"/> is <see langword="null" />.</exception>
         /// <exception cref="ArgumentException">If <paramref name="matrix"/> is not a square matrix.</exception>
-        public void Initialize(Matrix matrix)
+        public void Initialize(Matrix<Complex> matrix)
         {
             if (matrix == null)
             {
@@ -379,8 +379,8 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Preconditioners
                 _pivots[i] = i;
             }
 
-            Vector workVector = new DenseVector(sparseMatrix.RowCount);
-            Vector rowVector = new DenseVector(sparseMatrix.ColumnCount);
+            var workVector = new DenseVector(sparseMatrix.RowCount);
+            var rowVector = new DenseVector(sparseMatrix.ColumnCount);
             var indexSorting = new int[sparseMatrix.RowCount];
             
             // spaceLeft = lfilNnz * nnz(A)
@@ -536,7 +536,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Preconditioners
         /// Pivot elements in the <paramref name="row"/> according to internal pivot array
         /// </summary>
         /// <param name="row">Row <see cref="Vector"/> to pivot in</param>
-        private void PivotRow(Vector row)
+        private void PivotRow(Vector<Complex> row)
         {
             var knownPivots = new Dictionary<int, int>();
             
@@ -588,7 +588,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Preconditioners
         /// <param name="matrix">Source <see cref="Matrix"/>.</param>
         /// <param name="firstColumn">First column index to swap</param>
         /// <param name="secondColumn">Second column index to swap</param>
-        private static void SwapColumns(Matrix matrix, int firstColumn, int secondColumn)
+        private static void SwapColumns(Matrix<Complex> matrix, int firstColumn, int secondColumn)
         {
             for (var i = 0; i < matrix.RowCount; i++)
             {
@@ -605,7 +605,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Preconditioners
         /// <param name="upperBound">Sort till upper bound</param>
         /// <param name="sortedIndices">Array with sorted vector indicies</param>
         /// <param name="values">Source <see cref="Vector"/></param>
-        private static void FindLargestItems(int lowerBound, int upperBound, int[] sortedIndices, Vector values)
+        private static void FindLargestItems(int lowerBound, int upperBound, int[] sortedIndices, Vector<Complex> values)
         {
             // Copy the indices for the values into the array
             for (var i = 0; i < upperBound + 1 - lowerBound; i++)
@@ -630,7 +630,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Preconditioners
         /// </summary>
         /// <param name="rhs">The right hand side vector.</param>
         /// <returns>The left hand side vector.</returns>
-        public Vector Approximate(Vector rhs)
+        public Vector<Complex> Approximate(Vector<Complex> rhs)
         {
             if (rhs == null)
             {
@@ -647,7 +647,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Preconditioners
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "rhs");
             }
 
-            Vector result = new DenseVector(rhs.Count);
+            var result = new DenseVector(rhs.Count);
             Approximate(rhs, result);
             return result;
         }
@@ -657,7 +657,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Preconditioners
         /// </summary>
         /// <param name="rhs">The right hand side vector.</param>
         /// <param name="lhs">The left hand side vector. Also known as the result vector.</param>
-        public void Approximate(Vector rhs, Vector lhs)
+        public void Approximate(Vector<Complex> rhs, Vector<Complex> lhs)
         {
             if (rhs == null)
             {
@@ -682,7 +682,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Preconditioners
             // Solve equation here
             // Pivot(vector, result);
             // Solve L*Y = B(piv,:)
-            Vector rowValues = new DenseVector(_lower.RowCount);
+            var rowValues = new DenseVector(_lower.RowCount);
             for (var i = 0; i < _lower.RowCount; i++)
             {
                 _lower.Row(i, rowValues);
@@ -712,7 +712,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Preconditioners
 
             // We have a column pivot so we only need to pivot the
             // end result not the incoming right hand side vector
-            var temp = (Vector)lhs.Clone();
+            var temp = lhs.Clone();
             
             Pivot(temp, lhs);
         }
@@ -722,7 +722,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Preconditioners
         /// </summary>
         /// <param name="vector">Source <see cref="Vector"/>.</param>
         /// <param name="result">Result <see cref="Vector"/> after pivoting.</param>
-        private void Pivot(Vector vector, Vector result)
+        private void Pivot(Vector<Complex> vector, Vector<Complex> result)
         {
             for (var i = 0; i < _pivots.Length; i++)
             {

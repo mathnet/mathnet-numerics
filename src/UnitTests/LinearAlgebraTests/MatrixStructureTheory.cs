@@ -216,11 +216,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         }
 
         [Theory]
-        public void CanCreateSameType(Matrix<T> matrix)
+        public void CanCreateSameKind(Matrix<T> matrix)
         {
             var empty = matrix.CreateMatrix(5, 6);
             Assert.That(empty, Is.EqualTo(CreateDenseZero(5, 6)));
-            Assert.That(empty.GetType(), Is.EqualTo(matrix.GetType()));
+            Assert.That(empty.Storage.IsDense, Is.EqualTo(matrix.Storage.IsDense));
 
             Assert.That(() => matrix.CreateMatrix(0, 2), Throws.InstanceOf<ArgumentOutOfRangeException>());
             Assert.That(() => matrix.CreateMatrix(2, 0), Throws.InstanceOf<ArgumentOutOfRangeException>());

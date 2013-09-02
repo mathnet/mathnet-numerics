@@ -181,35 +181,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
                 i => new Complex32((float) distribution.Sample(), (float) distribution.Sample())));
         }
 
-        /// <summary>
-        /// Creates a <c>DiagonalMatrix</c> for the given number of rows and columns.
-        /// </summary>
-        /// <param name="numberOfRows">The number of rows.</param>
-        /// <param name="numberOfColumns">The number of columns.</param>
-        /// <param name="fullyMutable">True if all fields must be mutable (e.g. not a diagonal matrix).</param>
-        /// <returns>
-        /// A <c>DiagonalMatrix</c> with the given dimensions.
-        /// </returns>
-        public override Matrix<Complex32> CreateMatrix(int numberOfRows, int numberOfColumns, bool fullyMutable = false)
-        {
-            return fullyMutable
-                ? (Matrix<Complex32>) new SparseMatrix(numberOfRows, numberOfColumns)
-                : new DiagonalMatrix(numberOfRows, numberOfColumns);
-        }
-
-        /// <summary>
-        /// Creates a <see cref="Vector{T}"/> with a the given dimension.
-        /// </summary>
-        /// <param name="size">The size of the vector.</param>
-        /// <param name="fullyMutable">True if all fields must be mutable.</param>
-        /// <returns>
-        /// A <see cref="Vector{T}"/> with the given dimension.
-        /// </returns>
-        public override Vector<Complex32> CreateVector(int size, bool fullyMutable = false)
-        {
-            return new SparseVector(size);
-        }
-
         #region Elementary operations
 
         /// <summary>

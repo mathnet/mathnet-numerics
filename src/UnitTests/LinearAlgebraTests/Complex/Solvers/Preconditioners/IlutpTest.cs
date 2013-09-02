@@ -23,13 +23,22 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
+
+using System;
+using System.Reflection;
+using MathNet.Numerics.LinearAlgebra;
+using MathNet.Numerics.LinearAlgebra.Complex;
+using MathNet.Numerics.LinearAlgebra.Complex.Solvers.Preconditioners;
+using NUnit.Framework;
+
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.Preconditioners
 {
-    using System;
-    using System.Reflection;
-    using LinearAlgebra.Complex;
-    using LinearAlgebra.Complex.Solvers.Preconditioners;
-    using NUnit.Framework;
+
+#if NOSYSNUMERICS
+    using Complex = Numerics.Complex;
+#else
+    using Complex = System.Numerics.Complex;
+#endif
 
     /// <summary>
     /// Incomplete LU with tpPreconditioner test with drop tolerance and partial pivoting.
@@ -164,7 +173,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.Precondi
         /// <param name="matrix">Source matrix.</param>
         /// <param name="vector">Initial vector.</param>
         /// <param name="result">Result vector.</param>
-        protected override void CheckResult(IPreConditioner preconditioner, SparseMatrix matrix, Vector vector, Vector result)
+        protected override void CheckResult(IPreConditioner preconditioner, SparseMatrix matrix, Vector<Complex> vector, Vector<Complex> result)
         {
             Assert.AreEqual(typeof(Ilutp), preconditioner.GetType(), "#01");
 

@@ -24,11 +24,14 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using MathNet.Numerics.LinearAlgebra;
+using MathNet.Numerics.LinearAlgebra.Complex32;
+using MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Preconditioners;
+using NUnit.Framework;
+
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.Preconditioners
 {
-    using LinearAlgebra.Complex32;
-    using LinearAlgebra.Complex32.Solvers.Preconditioners;
-    using NUnit.Framework;
+    using Numerics;
 
     /// <summary>
     /// Diagonal preconditioner test.
@@ -52,7 +55,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.Precon
         /// <param name="matrix">Source matrix.</param>
         /// <param name="vector">Initial vector.</param>
         /// <param name="result">Result vector.</param>
-        protected override void CheckResult(IPreConditioner preconditioner, SparseMatrix matrix, Vector vector, Vector result)
+        protected override void CheckResult(IPreConditioner preconditioner, SparseMatrix matrix, Vector<Complex32> vector, Vector<Complex32> result)
         {
             Assert.AreEqual(typeof(Diagonal), preconditioner.GetType(), "#01");
 

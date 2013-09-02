@@ -91,7 +91,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Iterative
         /// <summary>
         /// The collection of starting vectors which are used as the basis for the Krylov sub-space.
         /// </summary>
-        IList<Vector> _startingVectors;
+        IList<Vector<Complex32>> _startingVectors;
 
         /// <summary>
         /// The number of starting vectors used by the algorithm
@@ -229,7 +229,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Iterative
         /// Gets or sets a series of orthonormal vectors which will be used as basis for the 
         /// Krylov sub-space.
         /// </summary>
-        public IList<Vector> StartingVectors
+        public IList<Vector<Complex32>> StartingVectors
         {
             [DebuggerStepThrough]
             get { return _startingVectors; }
@@ -275,14 +275,14 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Iterative
         /// <param name="matrix">The coefficient matrix, <c>A</c>.</param>
         /// <param name="vector">The solution vector, <c>b</c>.</param>
         /// <returns>The result vector, <c>x</c>.</returns>
-        public Vector Solve(Matrix matrix, Vector vector)
+        public Vector<Complex32> Solve(Matrix<Complex32> matrix, Vector<Complex32> vector)
         {
             if (vector == null)
             {
                 throw new ArgumentNullException();
             }
 
-            Vector result = new DenseVector(matrix.RowCount);
+            var result = new DenseVector(matrix.RowCount);
             Solve(matrix, vector, result);
             return result;
         }
@@ -294,7 +294,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Iterative
         /// <param name="matrix">The coefficient matrix, <c>A</c>.</param>
         /// <param name="input">The solution vector, <c>b</c></param>
         /// <param name="result">The result vector, <c>x</c></param>
-        public void Solve(Matrix matrix, Vector input, Vector result)
+        public void Solve(Matrix<Complex32> matrix, Vector<Complex32> input, Vector<Complex32> result)
         {
             // If we were stopped before, we are no longer
             // We're doing this at the start of the method to ensure
@@ -638,7 +638,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Iterative
         ///  the <paramref name="numberOfVariables"/> is smaller than 
         ///  the <paramref name="maximumNumberOfStartingVectors"/>.
         /// </returns>
-        static IList<Vector> CreateStartingVectors(int maximumNumberOfStartingVectors, int numberOfVariables)
+        static IList<Vector<Complex32>> CreateStartingVectors(int maximumNumberOfStartingVectors, int numberOfVariables)
         {
             // Create no more starting vectors than the size of the problem - 1
             // Get random values and then orthogonalize them with
@@ -649,7 +649,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Iterative
             // mean = 0 and sd = 1
             var distribution = new Normal();
 
-            Matrix matrix = new DenseMatrix(numberOfVariables, count);
+            var matrix = new DenseMatrix(numberOfVariables, count);
             for (var i = 0; i < matrix.ColumnCount; i++)
             {
                 var samples = new Complex32[matrix.RowCount];
@@ -669,10 +669,10 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Iterative
             var orthogonalMatrix = gs.Q;
 
             // Now transfer this to vectors
-            var result = new List<Vector>();
+            var result = new List<Vector<Complex32>>();
             for (var i = 0; i < orthogonalMatrix.ColumnCount; i++)
             {
-                result.Add((Vector) orthogonalMatrix.Column(i));
+                result.Add(orthogonalMatrix.Column(i));
 
                 // Normalize the result vector
                 result[i].Multiply(1/result[i].L2Norm().Real, result[i]);
@@ -687,9 +687,9 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Iterative
         /// <param name="arraySize">Number of vectors</param>
         /// <param name="vectorSize">Size of each vector</param>
         /// <returns>Array of random vectors</returns>
-        static Vector[] CreateVectorArray(int arraySize, int vectorSize)
+        static Vector<Complex32>[] CreateVectorArray(int arraySize, int vectorSize)
         {
-            var result = new Vector[arraySize];
+            var result = new Vector<Complex32>[arraySize];
             for (var i = 0; i < result.Length; i++)
             {
                 result[i] = new DenseVector(vectorSize);
@@ -705,7 +705,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Iterative
         /// <param name="residual">Residual <see cref="Vector"/> data.</param>
         /// <param name="x">x <see cref="Vector"/> data.</param>
         /// <param name="b">b <see cref="Vector"/> data.</param>
-        static void CalculateTrueResidual(Matrix matrix, Vector residual, Vector x, Vector b)
+        static void CalculateTrueResidual(Matrix<Complex32> matrix, Vector<Complex32> residual, Vector<Complex32> x, Vector<Complex32> b)
         {
             // -Ax = residual
             matrix.Multiply(x, residual);
@@ -723,7 +723,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Iterative
         /// <param name="source">Source <see cref="Vector"/>.</param>
         /// <param name="residuals">Residual <see cref="Vector"/>.</param>
         /// <returns><c>true</c> if continue, otherwise <c>false</c></returns>
-        bool ShouldContinue(int iterationNumber, Vector result, Vector source, Vector residuals)
+        bool ShouldContinue(int iterationNumber, Vector<Complex32> result, Vector<Complex32> source, Vector<Complex32> residuals)
         {
             if (_hasBeenStopped)
             {
@@ -747,7 +747,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Iterative
         /// <param name="matrix">The coefficient matrix, <c>A</c>.</param>
         /// <param name="input">The solution matrix, <c>B</c>.</param>
         /// <returns>The result matrix, <c>X</c>.</returns>
-        public Matrix Solve(Matrix matrix, Matrix input)
+        public Matrix<Complex32> Solve(Matrix<Complex32> matrix, Matrix<Complex32> input)
         {
             if (matrix == null)
             {
@@ -759,7 +759,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Iterative
                 throw new ArgumentNullException("input");
             }
 
-            var result = (Matrix) matrix.CreateMatrix(input.RowCount, input.ColumnCount);
+            var result = matrix.CreateMatrix(input.RowCount, input.ColumnCount);
             Solve(matrix, input, result);
             return result;
         }
@@ -771,7 +771,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Iterative
         /// <param name="matrix">The coefficient matrix, <c>A</c>.</param>
         /// <param name="input">The solution matrix, <c>B</c>.</param>
         /// <param name="result">The result matrix, <c>X</c></param>
-        public void Solve(Matrix matrix, Matrix input, Matrix result)
+        public void Solve(Matrix<Complex32> matrix, Matrix<Complex32> input, Matrix<Complex32> result)
         {
             if (matrix == null)
             {
@@ -795,7 +795,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Iterative
 
             for (var column = 0; column < input.ColumnCount; column++)
             {
-                var solution = Solve(matrix, (Vector) input.Column(column));
+                var solution = Solve(matrix, input.Column(column));
                 foreach (var element in solution.EnumerateNonZeroIndexed())
                 {
                     result.At(element.Item1, column, element.Item2);

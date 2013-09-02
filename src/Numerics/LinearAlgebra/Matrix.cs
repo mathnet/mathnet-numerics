@@ -59,6 +59,8 @@ namespace MathNet.Numerics.LinearAlgebra
             ColumnCount = storage.ColumnCount;
         }
 
+        static readonly IGenericBuilder<T> Builder = Builder<T>.Instance;
+
         /// <summary>
         /// Gets the raw matrix data storage.
         /// </summary>
@@ -235,31 +237,29 @@ namespace MathNet.Numerics.LinearAlgebra
         }
 
         /// <summary>
-        /// Creates a <strong>Matrix</strong> for the given number of rows and columns.
+        /// Create a matrix of the same kind for the given number of rows and columns.
         /// </summary>
-        /// <param name="numberOfRows">The number of rows.</param>
-        /// <param name="numberOfColumns">The number of columns.</param>
-        /// <param name="fullyMutable">True if all fields must be mutable (e.g. not a diagonal matrix).</param>
-        /// <returns>
-        /// A <strong>Matrix</strong> with the given dimensions.
-        /// </returns>
-        /// <remarks>
-        /// Creates a matrix of the same matrix type as the current matrix.
-        /// </remarks>
-        public abstract Matrix<T> CreateMatrix(int numberOfRows, int numberOfColumns, bool fullyMutable = false);
+        /// <param name="rows">The number of rows.</param>
+        /// <param name="columns">The number of columns.</param>
+        /// <remarks>Creates a matrix of the same matrix type as the current matrix.</remarks>
+        public Matrix<T> CreateMatrix(int rows, int columns)
+        {
+            return Storage.IsDense
+                ? Builder.DenseMatrix(rows, columns)
+                : Builder.SparseMatrix(rows, columns);
+        }
 
         /// <summary>
-        /// Creates a Vector with a the given dimension.
+        /// Create a vector of the same kind with the given size.
         /// </summary>
         /// <param name="size">The size of the vector.</param>
-        /// <param name="fullyMutable">True if all fields must be mutable.</param>
-        /// <returns>
-        /// A Vector with the given dimension.
-        /// </returns>
-        /// <remarks>
-        /// Creates a vector of the same type as the current matrix.
-        /// </remarks>
-        public abstract Vector<T> CreateVector(int size, bool fullyMutable = false);
+        /// <remarks>Creates a vector of the same type as the current matrix.</remarks>
+        public Vector<T> CreateVector(int size)
+        {
+            return Storage.IsDense
+                ? Builder.DenseVector(size)
+                : Builder.SparseVector(size);
+        }
 
         /// <summary>
         /// Copies a row into an Vector.
@@ -1060,7 +1060,7 @@ namespace MathNet.Numerics.LinearAlgebra
                 throw new ArgumentException(Resources.ArgumentMatrixSameRowDimension);
             }
 
-            var result = CreateMatrix(RowCount, ColumnCount + right.ColumnCount, fullyMutable: true);
+            var result = CreateMatrix(RowCount, ColumnCount + right.ColumnCount);
             Storage.CopySubMatrixToUnchecked(result.Storage, 0, 0, RowCount, 0, 0, ColumnCount, skipClearing: true);
             right.Storage.CopySubMatrixToUnchecked(result.Storage, 0, 0, right.RowCount, 0, ColumnCount, right.ColumnCount, skipClearing: true);
             return result;
@@ -1116,7 +1116,7 @@ namespace MathNet.Numerics.LinearAlgebra
                 throw new ArgumentException(Resources.ArgumentMatrixSameColumnDimension, "lower");
             }
 
-            var result = CreateMatrix(RowCount + lower.RowCount, ColumnCount, fullyMutable: true);
+            var result = CreateMatrix(RowCount + lower.RowCount, ColumnCount);
             Storage.CopySubMatrixToUnchecked(result.Storage, 0, 0, RowCount, 0, 0, ColumnCount, skipClearing: true);
             lower.Storage.CopySubMatrixToUnchecked(result.Storage, 0, RowCount, lower.RowCount, 0, 0, lower.ColumnCount, skipClearing: true);
             return result;
@@ -1170,7 +1170,7 @@ namespace MathNet.Numerics.LinearAlgebra
                 throw new ArgumentNullException("lower");
             }
 
-            var result = CreateMatrix(RowCount + lower.RowCount, ColumnCount + lower.ColumnCount, fullyMutable: true);
+            var result = CreateMatrix(RowCount + lower.RowCount, ColumnCount + lower.ColumnCount);
             Storage.CopySubMatrixToUnchecked(result.Storage, 0, 0, RowCount, 0, 0, ColumnCount);
             lower.Storage.CopySubMatrixToUnchecked(result.Storage, 0, RowCount, lower.RowCount, 0, ColumnCount, lower.ColumnCount);
             return result;

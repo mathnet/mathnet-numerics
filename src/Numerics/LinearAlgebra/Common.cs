@@ -36,7 +36,6 @@ namespace MathNet.Numerics.LinearAlgebra
     using Complex64 = Numerics.Complex;
 #else
     using Complex64 = System.Numerics.Complex;
-
 #endif
 
     /// <summary>

@@ -88,7 +88,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Iterative
         /// <summary>
         /// The collection of starting vectors which are used as the basis for the Krylov sub-space.
         /// </summary>
-        private IList<Vector> _startingVectors;
+        private IList<Vector<float>> _startingVectors;
 
         /// <summary>
         /// The number of starting vectors used by the algorithm
@@ -226,7 +226,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Iterative
         /// Gets or sets a series of orthonormal vectors which will be used as basis for the 
         /// Krylov sub-space.
         /// </summary>
-        public IList<Vector> StartingVectors
+        public IList<Vector<float>> StartingVectors
         {
             [DebuggerStepThrough]
             get
@@ -278,14 +278,14 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Iterative
         /// <param name="matrix">The coefficient matrix, <c>A</c>.</param>
         /// <param name="vector">The solution vector, <c>b</c>.</param>
         /// <returns>The result vector, <c>x</c>.</returns>
-        public Vector Solve(Matrix matrix, Vector vector)
+        public Vector<float> Solve(Matrix<float> matrix, Vector<float> vector)
         {
             if (vector == null)
             {
                 throw new ArgumentNullException();
             }
 
-            Vector result = new DenseVector(matrix.RowCount);
+            var result = new DenseVector(matrix.RowCount);
             Solve(matrix, vector, result);
             return result;
         }
@@ -297,7 +297,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Iterative
         /// <param name="matrix">The coefficient matrix, <c>A</c>.</param>
         /// <param name="input">The solution vector, <c>b</c></param>
         /// <param name="result">The result vector, <c>x</c></param>
-        public void Solve(Matrix matrix, Vector input, Vector result)
+        public void Solve(Matrix<float> matrix, Vector<float> input, Vector<float> result)
         {
             // If we were stopped before, we are no longer
             // We're doing this at the start of the method to ensure
@@ -641,7 +641,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Iterative
         ///  the <paramref name="numberOfVariables"/> is smaller than 
         ///  the <paramref name="maximumNumberOfStartingVectors"/>.
         /// </returns>
-        private static IList<Vector> CreateStartingVectors(int maximumNumberOfStartingVectors, int numberOfVariables)
+        private static IList<Vector<float>> CreateStartingVectors(int maximumNumberOfStartingVectors, int numberOfVariables)
         {
             // Create no more starting vectors than the size of the problem - 1
             // Get random values and then orthogonalize them with
@@ -652,7 +652,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Iterative
             // mean = 0 and sd = 1
             var distribution = new Normal();
 
-            Matrix matrix = new DenseMatrix(numberOfVariables, count);
+            var matrix = new DenseMatrix(numberOfVariables, count);
             for (var i = 0; i < matrix.ColumnCount; i++)
             {
                 var samples = new float[matrix.RowCount];
@@ -670,10 +670,10 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Iterative
             var orthogonalMatrix = gs.Q;
 
             // Now transfer this to vectors
-            var result = new List<Vector>();
+            var result = new List<Vector<float>>();
             for (var i = 0; i < orthogonalMatrix.ColumnCount; i++)
             {
-                result.Add((Vector)orthogonalMatrix.Column(i));
+                result.Add(orthogonalMatrix.Column(i));
                 
                 // Normalize the result vector
                 result[i].Multiply(1 / result[i].L2Norm(), result[i]);
@@ -688,9 +688,9 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Iterative
         /// <param name="arraySize">Number of vectors</param>
         /// <param name="vectorSize">Size of each vector</param>
         /// <returns>Array of random vectors</returns>
-        private static Vector[] CreateVectorArray(int arraySize, int vectorSize)
+        private static Vector<float>[] CreateVectorArray(int arraySize, int vectorSize)
         {
-            var result = new Vector[arraySize];
+            var result = new Vector<float>[arraySize];
             for (var i = 0; i < result.Length; i++)
             {
                 result[i] = new DenseVector(vectorSize);
@@ -706,7 +706,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Iterative
         /// <param name="residual">Residual <see cref="Vector"/> data.</param>
         /// <param name="x">x <see cref="Vector"/> data.</param>
         /// <param name="b">b <see cref="Vector"/> data.</param>
-        private static void CalculateTrueResidual(Matrix matrix, Vector residual, Vector x, Vector b)
+        private static void CalculateTrueResidual(Matrix<float> matrix, Vector<float> residual, Vector<float> x, Vector<float> b)
         {
             // -Ax = residual
             matrix.Multiply(x, residual);
@@ -724,7 +724,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Iterative
         /// <param name="source">Source <see cref="Vector"/>.</param>
         /// <param name="residuals">Residual <see cref="Vector"/>.</param>
         /// <returns><c>true</c> if continue, otherwise <c>false</c></returns>
-        private bool ShouldContinue(int iterationNumber, Vector result, Vector source, Vector residuals)
+        private bool ShouldContinue(int iterationNumber, Vector<float> result, Vector<float> source, Vector<float> residuals)
         {
             if (_hasBeenStopped)
             {
@@ -748,7 +748,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Iterative
         /// <param name="matrix">The coefficient matrix, <c>A</c>.</param>
         /// <param name="input">The solution matrix, <c>B</c>.</param>
         /// <returns>The result matrix, <c>X</c>.</returns>
-        public Matrix Solve(Matrix matrix, Matrix input)
+        public Matrix<float> Solve(Matrix<float> matrix, Matrix<float> input)
         {
             if (matrix == null)
             {
@@ -760,7 +760,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Iterative
                 throw new ArgumentNullException("input");
             }
 
-            var result = (Matrix)matrix.CreateMatrix(input.RowCount, input.ColumnCount);
+            var result = matrix.CreateMatrix(input.RowCount, input.ColumnCount);
             Solve(matrix, input, result);
             return result;
         }
@@ -772,7 +772,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Iterative
         /// <param name="matrix">The coefficient matrix, <c>A</c>.</param>
         /// <param name="input">The solution matrix, <c>B</c>.</param>
         /// <param name="result">The result matrix, <c>X</c></param>
-        public void Solve(Matrix matrix, Matrix input, Matrix result)
+        public void Solve(Matrix<float> matrix, Matrix<float> input, Matrix<float> result)
         {
             if (matrix == null)
             {
@@ -796,7 +796,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Iterative
 
             for (var column = 0; column < input.ColumnCount; column++)
             {
-                var solution = Solve(matrix, (Vector)input.Column(column));
+                var solution = Solve(matrix, input.Column(column));
                 foreach (var element in solution.EnumerateNonZeroIndexed())
                 {
                     result.At(element.Item1, column, element.Item2);

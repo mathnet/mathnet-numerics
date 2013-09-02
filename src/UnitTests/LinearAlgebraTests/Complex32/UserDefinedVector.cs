@@ -86,26 +86,5 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
             : base(new UserDefinedVectorStorage(data.Length, (Complex32[])data.Clone()))
         {
         }
-
-        /// <summary>
-        /// Creates a matrix with the given dimensions using the same storage type as this vector.
-        /// </summary>
-        /// <param name="rows">The number of rows.</param>
-        /// <param name="columns">The number of columns.</param>
-        /// <returns>A matrix with the given dimensions.</returns>
-        public override Matrix<Complex32> CreateMatrix(int rows, int columns)
-        {
-            return new UserDefinedMatrix(rows, columns);
-        }
-
-        /// <summary>
-        /// Creates a <strong>Vector</strong> of the given size using the same storage type as this vector.
-        /// </summary>
-        /// <param name="size">The size of the <strong>Vector</strong> to create.</param>
-        /// <returns>The new <c>Vector</c>.</returns>
-        public override Vector<Complex32> CreateVector(int size)
-        {
-            return new UserDefinedVector(size);
-        }
     }
 }

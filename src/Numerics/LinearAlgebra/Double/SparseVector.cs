@@ -129,39 +129,6 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         }
 
         /// <summary>
-        /// Creates a matrix with the given dimensions using the same storage type
-        /// as this vector.
-        /// </summary>
-        /// <param name="rows">
-        /// The number of rows.
-        /// </param>
-        /// <param name="columns">
-        /// The number of columns.
-        /// </param>
-        /// <returns>
-        /// A matrix with the given dimensions.
-        /// </returns>
-        public override Matrix<double> CreateMatrix(int rows, int columns)
-        {
-            return new SparseMatrix(rows, columns);
-        }
-
-        /// <summary>
-        /// Creates a <strong>Vector</strong> of the given size using the same storage type
-        /// as this vector.
-        /// </summary>
-        /// <param name="size">
-        /// The size of the <strong>Vector</strong> to create.
-        /// </param>
-        /// <returns>
-        /// The new <c>Vector</c>.
-        /// </returns>
-        public override Vector<double> CreateVector(int size)
-        {
-            return new SparseVector(size);
-        }
-
-        /// <summary>
         /// Adds a scalar to each element of the vector and stores the result in the result vector.
         /// Warning, the new 'sparse vector' with a non-zero scalar added to it will be a 100% filled
         /// sparse vector and very inefficient. Would be better to work with a dense vector instead.

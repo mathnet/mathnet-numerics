@@ -24,12 +24,13 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using MathNet.Numerics.LinearAlgebra;
+using MathNet.Numerics.LinearAlgebra.Double;
+using MathNet.Numerics.LinearAlgebra.Double.Solvers.Preconditioners;
+using NUnit.Framework;
+
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.Preconditioners
 {
-    using LinearAlgebra.Double;
-    using LinearAlgebra.Double.Solvers.Preconditioners;
-    using NUnit.Framework;
-
     /// <summary>
     /// Unit precondition tests
     /// </summary>
@@ -52,7 +53,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.Precondit
         /// <param name="matrix">Source matrix.</param>
         /// <param name="vector">Initial vector.</param>
         /// <param name="result">Result vector.</param>
-        protected override void CheckResult(IPreConditioner preconditioner, SparseMatrix matrix, Vector vector, Vector result)
+        protected override void CheckResult(IPreConditioner preconditioner, SparseMatrix matrix, Vector<double> vector, Vector<double> result)
         {
             Assert.AreEqual(typeof(UnitPreconditioner), preconditioner.GetType(), "#01");
 

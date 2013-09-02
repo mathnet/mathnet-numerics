@@ -23,12 +23,16 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
+
+using System;
+using MathNet.Numerics.LinearAlgebra;
+using MathNet.Numerics.LinearAlgebra.Complex32;
+using MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Preconditioners;
+using NUnit.Framework;
+
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.Preconditioners
 {
-    using System;
-    using LinearAlgebra.Complex32;
-    using LinearAlgebra.Complex32.Solvers.Preconditioners;
-    using NUnit.Framework;
+    using Numerics;
 
     /// <summary>
     /// Abstract class for preconditioners tests.
@@ -85,7 +89,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.Precon
         /// <param name="matrix">Source matrix.</param>
         /// <param name="vector">Initial vector.</param>
         /// <param name="result">Result vector.</param>
-        protected abstract void CheckResult(IPreConditioner preconditioner, SparseMatrix matrix, Vector vector, Vector result);
+        protected abstract void CheckResult(IPreConditioner preconditioner, SparseMatrix matrix, Vector<Complex32> vector, Vector<Complex32> result);
 
         /// <summary>
         /// Approximate with a unit matrix returning new vector.

@@ -33,6 +33,12 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Preconditioners
     using System;
     using Properties;
 
+#if NOSYSNUMERICS
+    using Complex = Numerics.Complex;
+#else
+    using Complex = System.Numerics.Complex;
+#endif
+
     /// <summary>
     /// A unit preconditioner. This preconditioner does not actually do anything
     /// it is only used when running an <see cref="IIterativeSolver"/> without
@@ -54,7 +60,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Preconditioners
         /// </param>
         /// <exception cref="ArgumentNullException">If <paramref name="matrix"/> is <see langword="null"/>. </exception>
         /// <exception cref="ArgumentException">If <paramref name="matrix"/> is not a square matrix.</exception>
-        public void Initialize(Matrix matrix)
+        public void Initialize(Matrix<Complex> matrix)
         {
             if (matrix == null)
             {
@@ -87,7 +93,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Preconditioners
         ///     If the size of <paramref name="rhs"/> is different the number of rows of the coefficient matrix.
         ///   </para>
         /// </exception>
-        public void Approximate(Vector rhs, Vector lhs)
+        public void Approximate(Vector<Complex> rhs, Vector<Complex> lhs)
         {
             if (rhs == null)
             {
@@ -116,7 +122,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Preconditioners
         /// <exception cref="ArgumentException">
         /// If the size of <paramref name="rhs"/> is different the number of rows of the coefficient matrix.
         /// </exception>
-        public Vector Approximate(Vector rhs)
+        public Vector<Complex> Approximate(Vector<Complex> rhs)
         {
             if (rhs == null)
             {
@@ -128,7 +134,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Preconditioners
                 throw new ArgumentException(Resources.ArgumentMatrixDimensions);
             }
 
-            Vector result = new DenseVector(rhs.Count);
+            var result = new DenseVector(rhs.Count);
             Approximate(rhs, result);
             return result;
         }

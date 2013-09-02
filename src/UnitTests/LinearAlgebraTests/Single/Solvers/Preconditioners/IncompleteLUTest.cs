@@ -23,14 +23,16 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
+
+using System;
+using System.Reflection;
+using MathNet.Numerics.LinearAlgebra;
+using MathNet.Numerics.LinearAlgebra.Single;
+using MathNet.Numerics.LinearAlgebra.Single.Solvers.Preconditioners;
+using NUnit.Framework;
+
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers.Preconditioners
 {
-    using System;
-    using System.Reflection;
-    using LinearAlgebra.Single;
-    using LinearAlgebra.Single.Solvers.Preconditioners;
-    using NUnit.Framework;
-
     /// <summary>
     /// Incomplete LU preconditioner test.
     /// </summary>
@@ -94,7 +96,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers.Precondit
         /// <param name="matrix">Source matrix.</param>
         /// <param name="vector">Initial vector.</param>
         /// <param name="result">Result vector.</param>
-        protected override void CheckResult(IPreConditioner preconditioner, SparseMatrix matrix, Vector vector, Vector result)
+        protected override void CheckResult(IPreConditioner preconditioner, SparseMatrix matrix, Vector<float> vector, Vector<float> result)
         {
             Assert.AreEqual(typeof(IncompleteLU), preconditioner.GetType(), "#01");
 

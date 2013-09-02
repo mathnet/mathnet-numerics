@@ -54,7 +54,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Preconditioners
         /// Returns the upper triagonal matrix that was created during the LU decomposition.
         /// </summary>
         /// <returns>A new matrix containing the upper triagonal elements.</returns>
-        internal Matrix UpperTriangle()
+        internal Matrix<float> UpperTriangle()
         {
             var result = new SparseMatrix(_decompositionLU.RowCount);
             for (var i = 0; i < _decompositionLU.RowCount; i++)
@@ -72,7 +72,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Preconditioners
         /// Returns the lower triagonal matrix that was created during the LU decomposition.
         /// </summary>
         /// <returns>A new matrix containing the lower triagonal elements.</returns>
-        internal Matrix LowerTriangle()
+        internal Matrix<float> LowerTriangle()
         {
             var result = new SparseMatrix(_decompositionLU.RowCount);
             for (var i = 0; i < _decompositionLU.RowCount; i++)
@@ -99,7 +99,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Preconditioners
         /// <param name="matrix">The matrix upon which the preconditioner is based. </param>
         /// <exception cref="ArgumentNullException">If <paramref name="matrix"/> is <see langword="null" />.</exception>
         /// <exception cref="ArgumentException">If <paramref name="matrix"/> is not a square matrix.</exception>
-        public void Initialize(Matrix matrix)
+        public void Initialize(Matrix<float> matrix)
         {
             if (matrix == null)
             {
@@ -161,7 +161,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Preconditioners
         /// </summary>
         /// <param name="rhs">The right hand side vector.</param>
         /// <returns>The left hand side vector.</returns>
-        public Vector Approximate(Vector rhs)
+        public Vector<float> Approximate(Vector<float> rhs)
         {
             if (rhs == null)
             {
@@ -178,7 +178,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Preconditioners
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "rhs");
             }
 
-            Vector result = new DenseVector(rhs.Count);
+            var result = new DenseVector(rhs.Count);
             Approximate(rhs, result);
             return result;
         }
@@ -188,7 +188,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Preconditioners
         /// </summary>
         /// <param name="rhs">The right hand side vector.</param>
         /// <param name="lhs">The left hand side vector. Also known as the result vector.</param>
-        public void Approximate(Vector rhs, Vector lhs)
+        public void Approximate(Vector<float> rhs, Vector<float> lhs)
         {
             if (rhs == null)
             {
@@ -218,7 +218,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Preconditioners
             //     z_i = l_ii^-1 * (y_i - SUM_(j<i) l_ij * z_j)
             // }
             // NOTE: l_ii should be 1 because u_ii has to be the value
-            Vector rowValues = new DenseVector(_decompositionLU.RowCount);
+            var rowValues = new DenseVector(_decompositionLU.RowCount);
             for (var i = 0; i < _decompositionLU.RowCount; i++)
             {
                 // Clear the rowValues 

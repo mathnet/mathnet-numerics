@@ -261,14 +261,14 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Iterative
         /// <param name="matrix">The coefficient matrix, <c>A</c>.</param>
         /// <param name="vector">The solution vector, <c>b</c>.</param>
         /// <returns>The result vector, <c>x</c>.</returns>
-        public Vector Solve(Matrix matrix, Vector vector)
+        public Vector<Complex> Solve(Matrix<Complex> matrix, Vector<Complex> vector)
         {
             if (vector == null)
             {
                 throw new ArgumentNullException();
             }
 
-            Vector result = new DenseVector(matrix.RowCount);
+            var result = new DenseVector(matrix.RowCount);
             Solve(matrix, vector, result);
             return result;
         }
@@ -280,7 +280,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Iterative
         /// <param name="matrix">The coefficient matrix, <c>A</c>.</param>
         /// <param name="input">The solution vector, <c>b</c></param>
         /// <param name="result">The result vector, <c>x</c></param>
-        public void Solve(Matrix matrix, Vector input, Vector result)
+        public void Solve(Matrix<Complex> matrix, Vector<Complex> input, Vector<Complex> result)
         {
             // If we were stopped before, we are no longer
             // We're doing this at the start of the method to ensure
@@ -524,7 +524,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Iterative
         /// <param name="residual">Residual values in <see cref="Vector"/>.</param>
         /// <param name="x">Instance of the <see cref="Vector"/> x.</param>
         /// <param name="b">Instance of the <see cref="Vector"/> b.</param>
-        static void CalculateTrueResidual(Matrix matrix, Vector residual, Vector x, Vector b)
+        static void CalculateTrueResidual(Matrix<Complex> matrix, Vector<Complex> residual, Vector<Complex> x, Vector<Complex> b)
         {
             // -Ax = residual
             matrix.Multiply(x, residual);
@@ -542,7 +542,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Iterative
         /// <param name="source">Source <see cref="Vector"/>.</param>
         /// <param name="residuals">Residual <see cref="Vector"/>.</param>
         /// <returns><c>true</c> if continue, otherwise <c>false</c></returns>
-        bool ShouldContinue(int iterationNumber, Vector result, Vector source, Vector residuals)
+        bool ShouldContinue(int iterationNumber, Vector<Complex> result, Vector<Complex> source, Vector<Complex> residuals)
         {
             if (_hasBeenStopped)
             {
@@ -583,7 +583,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Iterative
         /// <param name="matrix">The coefficient matrix, <c>A</c>.</param>
         /// <param name="input">The solution matrix, <c>B</c>.</param>
         /// <returns>The result matrix, <c>X</c>.</returns>
-        public Matrix Solve(Matrix matrix, Matrix input)
+        public Matrix<Complex> Solve(Matrix<Complex> matrix, Matrix<Complex> input)
         {
             if (matrix == null)
             {
@@ -595,7 +595,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Iterative
                 throw new ArgumentNullException("input");
             }
 
-            var result = (Matrix) matrix.CreateMatrix(input.RowCount, input.ColumnCount);
+            var result = matrix.CreateMatrix(input.RowCount, input.ColumnCount);
             Solve(matrix, input, result);
             return result;
         }
@@ -607,7 +607,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Iterative
         /// <param name="matrix">The coefficient matrix, <c>A</c>.</param>
         /// <param name="input">The solution matrix, <c>B</c>.</param>
         /// <param name="result">The result matrix, <c>X</c></param>
-        public void Solve(Matrix matrix, Matrix input, Matrix result)
+        public void Solve(Matrix<Complex> matrix, Matrix<Complex> input, Matrix<Complex> result)
         {
             if (matrix == null)
             {
@@ -631,7 +631,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Iterative
 
             for (var column = 0; column < input.ColumnCount; column++)
             {
-                var solution = Solve(matrix, (Vector) input.Column(column));
+                var solution = Solve(matrix, input.Column(column));
                 foreach (var element in solution.EnumerateNonZeroIndexed())
                 {
                     result.At(element.Item1, column, element.Item2);

@@ -217,7 +217,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.StopCriterium
         /// on the invocation of this method. Therefore this method should only be called if the 
         /// calculation has moved forwards at least one step.
         /// </remarks>
-        public void DetermineStatus(int iterationNumber, Vector solutionVector, Vector sourceVector, Vector residualVector)
+        public void DetermineStatus(int iterationNumber, Vector<double> solutionVector, Vector<double> sourceVector, Vector<double> residualVector)
         {
             if (iterationNumber < 0)
             {

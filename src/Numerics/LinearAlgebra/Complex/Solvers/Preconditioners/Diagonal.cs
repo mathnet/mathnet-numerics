@@ -72,7 +72,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Preconditioners
         /// The <see cref="Matrix"/> upon which this preconditioner is based.</param>
         /// <exception cref="ArgumentNullException">If <paramref name="matrix"/> is <see langword="null" />. </exception>
         /// <exception cref="ArgumentException">If <paramref name="matrix"/> is not a square matrix.</exception>
-        public void Initialize(Matrix matrix)
+        public void Initialize(Matrix<Complex> matrix)
         {
             if (matrix == null)
             {
@@ -96,7 +96,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Preconditioners
         /// </summary>
         /// <param name="rhs">The right hand side vector.</param>
         /// <returns>The left hand side vector.</returns>
-        public Vector Approximate(Vector rhs)
+        public Vector<Complex> Approximate(Vector<Complex> rhs)
         {
             if (rhs == null)
             {
@@ -113,7 +113,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Preconditioners
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "rhs");
             }
 
-            Vector result = new DenseVector(rhs.Count);
+            var result = new DenseVector(rhs.Count);
             Approximate(rhs, result);
             return result;
         }
@@ -123,7 +123,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Preconditioners
         /// </summary>
         /// <param name="rhs">The right hand side vector.</param>
         /// <param name="lhs">The left hand side vector. Also known as the result vector.</param>
-        public void Approximate(Vector rhs, Vector lhs)
+        public void Approximate(Vector<Complex> rhs, Vector<Complex> lhs)
         {
             if (rhs == null)
             {

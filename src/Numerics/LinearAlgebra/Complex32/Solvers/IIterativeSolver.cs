@@ -32,6 +32,8 @@ using MathNet.Numerics.LinearAlgebra.Solvers.Status;
 
 namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers
 {
+    using Numerics;
+
     /// <summary>
     /// Defines the interface for <see cref="IIterativeSolver"/> classes that solve the matrix equation Ax = b in
     /// an iterative manner.
@@ -64,7 +66,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers
         /// <param name="matrix">The coefficient matrix, <c>A</c>.</param>
         /// <param name="vector">The solution vector, <c>b</c>.</param>
         /// <returns>The result vector, <c>x</c>.</returns>
-        Vector Solve(Matrix matrix, Vector vector);
+        Vector<Complex32> Solve(Matrix<Complex32> matrix, Vector<Complex32> vector);
 
         /// <summary>
         /// Solves the matrix equation Ax = b, where A is the coefficient matrix, b is the
@@ -73,7 +75,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers
         /// <param name="matrix">The coefficient matrix, <c>A</c>.</param>
         /// <param name="input">The solution vector, <c>b</c></param>
         /// <param name="result">The result vector, <c>x</c></param>
-        void Solve(Matrix matrix, Vector input, Vector result);
+        void Solve(Matrix<Complex32> matrix, Vector<Complex32> input, Vector<Complex32> result);
 
         /// <summary>
         /// Solves the matrix equation AX = B, where A is the coefficient matrix, B is the
@@ -82,7 +84,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers
         /// <param name="matrix">The coefficient matrix, <c>A</c>.</param>
         /// <param name="input">The solution matrix, <c>B</c>.</param>
         /// <returns>The result matrix, <c>X</c>.</returns>
-        Matrix Solve(Matrix matrix, Matrix input);
+        Matrix<Complex32> Solve(Matrix<Complex32> matrix, Matrix<Complex32> input);
 
         /// <summary>
         /// Solves the matrix equation AX = B, where A is the coefficient matrix, B is the
@@ -91,6 +93,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers
         /// <param name="matrix">The coefficient matrix, <c>A</c>.</param>
         /// <param name="input">The solution matrix, <c>B</c>.</param>
         /// <param name="result">The result matrix, <c>X</c></param>
-        void Solve(Matrix matrix, Matrix input, Matrix result);
+        void Solve(Matrix<Complex32> matrix, Matrix<Complex32> input, Matrix<Complex32> result);
     }
 }

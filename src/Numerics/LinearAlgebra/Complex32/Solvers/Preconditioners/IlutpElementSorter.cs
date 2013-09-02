@@ -30,6 +30,8 @@
 
 namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Preconditioners
 {
+    using Numerics;
+
     /// <summary>
     /// An element sort algorithm for the <see cref="Ilutp"/> class.
     /// </summary>
@@ -47,7 +49,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Preconditioners
         /// <param name="upperBound">The stopping index.</param>
         /// <param name="sortedIndices">An array that will contain the sorted indices once the algorithm finishes.</param>
         /// <param name="values">The <see cref="Vector"/> that contains the values that need to be sorted.</param>
-        public static void SortDoubleIndicesDecreasing(int lowerBound, int upperBound, int[] sortedIndices, Vector values)
+        public static void SortDoubleIndicesDecreasing(int lowerBound, int upperBound, int[] sortedIndices, Vector<Complex32> values)
         {
             // Move all the indices that we're interested in to the beginning of the
             // array. Ignore the rest of the indices.
@@ -73,7 +75,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Preconditioners
         /// <param name="upperBound">The stopping index.</param>
         /// <param name="sortedIndices">An array that will contain the sorted indices once the algorithm finishes.</param>
         /// <param name="values">The <see cref="Vector"/> that contains the values that need to be sorted.</param>
-        private static void HeapSortDoublesIndices(int lowerBound, int upperBound, int[] sortedIndices, Vector values)
+        private static void HeapSortDoublesIndices(int lowerBound, int upperBound, int[] sortedIndices, Vector<Complex32> values)
         {
             var start = ((upperBound - lowerBound + 1) / 2) - 1 + lowerBound;
             var end = (upperBound - lowerBound + 1) - 1 + lowerBound;
@@ -95,7 +97,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Preconditioners
         /// <param name="count">Length of <paramref name="values"/></param>
         /// <param name="sortedIndices">Indicies of <paramref name="values"/></param>
         /// <param name="values">Target <see cref="Vector"/></param>
-        private static void BuildDoubleIndexHeap(int start, int count, int[] sortedIndices, Vector values)
+        private static void BuildDoubleIndexHeap(int start, int count, int[] sortedIndices, Vector<Complex32> values)
         {
             while (start >= 0)
             {
@@ -111,7 +113,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Preconditioners
         /// <param name="values">Target <see cref="Vector"/></param>
         /// <param name="begin">Root position</param>
         /// <param name="count">Length of <paramref name="values"/></param>
-        private static void SiftDoubleIndices(int[] sortedIndices, Vector values, int begin, int count)
+        private static void SiftDoubleIndices(int[] sortedIndices, Vector<Complex32> values, int begin, int count)
         {
             var root = begin;
 

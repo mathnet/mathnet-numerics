@@ -80,7 +80,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
         /// on the invocation of this method. Therefore this method should only be called if the 
         /// calculation has moved forwards at least one step.
         /// </remarks>
-        void DetermineStatus(int iterationNumber, Vector solutionVector, Vector sourceVector, Vector residualVector);
+        void DetermineStatus(int iterationNumber, Vector<float> solutionVector, Vector<float> sourceVector, Vector<float> residualVector);
 
         /// <summary>
         /// Gets the current calculation status.

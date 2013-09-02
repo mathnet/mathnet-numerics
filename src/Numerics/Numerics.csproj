@@ -121,6 +121,7 @@
     <Compile Include="Distributions\Weibull.cs" />
     <Compile Include="Distributions\Wishart.cs" />
     <Compile Include="Distributions\Zipf.cs" />
+    <Compile Include="LinearAlgebra\Builder.cs" />
     <Compile Include="Providers\LinearAlgebra\Acml\AcmlLinearAlgebraProvider.Complex.cs" />
     <Compile Include="Providers\LinearAlgebra\Acml\AcmlLinearAlgebraProvider.Complex32.cs" />
     <Compile Include="Providers\LinearAlgebra\Acml\AcmlLinearAlgebraProvider.Double.cs" />

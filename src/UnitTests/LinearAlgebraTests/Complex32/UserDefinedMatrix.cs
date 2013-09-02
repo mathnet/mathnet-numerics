@@ -108,27 +108,6 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
         }
 
         /// <summary>
-        /// Creates a matrix for the given number of rows and columns.
-        /// </summary>
-        /// <param name="numberOfRows">The number of rows.</param>
-        /// <param name="numberOfColumns">The number of columns.</param>
-        /// <returns>A matrix with the given dimensions.</returns>
-        public override Matrix<Complex32> CreateMatrix(int numberOfRows, int numberOfColumns, bool fullyMutable = false)
-        {
-            return new UserDefinedMatrix(numberOfRows, numberOfColumns);
-        }
-
-        /// <summary>
-        /// Creates a vector with a the given dimension.
-        /// </summary>
-        /// <param name="size">The size of the vector.</param>
-        /// <returns>A vector with the given dimension.</returns>
-        public override Vector<Complex32> CreateVector(int size, bool fullyMutable = false)
-        {
-            return new UserDefinedVector(size);
-        }
-
-        /// <summary>
         /// Initializes a square matrix with all zero's except for ones on the diagonal.
         /// </summary>
         /// <param name="order">the size of the square matrix.</param>
