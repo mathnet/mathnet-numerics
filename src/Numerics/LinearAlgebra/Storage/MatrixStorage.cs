@@ -40,7 +40,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
     {
         // [ruegg] public fields are OK here
 
-        protected static readonly T Zero = Common.ZeroOf<T>();
+        protected static readonly T Zero = Builder<T>.Instance.Zero;
         public readonly int RowCount;
         public readonly int ColumnCount;
 

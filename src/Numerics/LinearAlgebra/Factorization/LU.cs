@@ -51,7 +51,7 @@ namespace MathNet.Numerics.LinearAlgebra.Factorization
         /// <summary>
         /// Value of one for T.
         /// </summary>
-        private static readonly T One = Common.OneOf<T>();
+        private static readonly T One = Builder<T>.Instance.One;
 
         /// <summary>
         /// Gets or sets both the L and U factors in the same matrix.

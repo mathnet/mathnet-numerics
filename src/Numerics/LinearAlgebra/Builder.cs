@@ -30,12 +30,6 @@
 
 using System;
 
-#if NOSYSNUMERICS
-    using Complex64 = Numerics.Complex;
-#else
-    using Complex64 = System.Numerics.Complex;
-#endif
-
 namespace MathNet.Numerics.LinearAlgebra.Double
 {
     internal class GenericBuilder : IGenericBuilder<double>
@@ -110,34 +104,41 @@ namespace MathNet.Numerics.LinearAlgebra.Single
 
 namespace MathNet.Numerics.LinearAlgebra.Complex
 {
-    internal class GenericBuilder : IGenericBuilder<Complex64>
+
+#if NOSYSNUMERICS
+    using Complex = Numerics.Complex;
+#else
+    using Complex = System.Numerics.Complex;
+#endif
+
+    internal class GenericBuilder : IGenericBuilder<Complex>
     {
-        public Complex64 Zero
+        public Complex Zero
         {
-            get { return Complex64.Zero; }
+            get { return Complex.Zero; }
         }
 
-        public Complex64 One
+        public Complex One
         {
-            get { return Complex64.One; }
+            get { return Complex.One; }
         }
 
-        public Matrix<Complex64> DenseMatrix(int rows, int columns)
+        public Matrix<Complex> DenseMatrix(int rows, int columns)
         {
             return new DenseMatrix(rows, columns);
         }
 
-        public Matrix<Complex64> SparseMatrix(int rows, int columns)
+        public Matrix<Complex> SparseMatrix(int rows, int columns)
         {
             return new SparseMatrix(rows, columns);
         }
 
-        public Vector<Complex64> DenseVector(int size)
+        public Vector<Complex> DenseVector(int size)
         {
             return new DenseVector(size);
         }
 
-        public Vector<Complex64> SparseVector(int size)
+        public Vector<Complex> SparseVector(int size)
         {
             return new SparseVector(size);
         }
@@ -182,6 +183,13 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
 
 namespace MathNet.Numerics.LinearAlgebra
 {
+
+#if NOSYSNUMERICS
+    using Complex64 = Numerics.Complex;
+#else
+    using Complex64 = System.Numerics.Complex;
+#endif
+
     /// <summary>
     /// Generic linear algebra type builder, for situations where a matrix or vector
     /// must be created in a generic way. Usage of generic builders should not be
@@ -232,24 +240,24 @@ namespace MathNet.Numerics.LinearAlgebra
 
         static IGenericBuilder<T> Create()
         {
-            if (typeof(T) == typeof(Complex64))
+            if (typeof (T) == typeof (Complex64))
             {
-                return (IGenericBuilder<T>)(object)new Complex.GenericBuilder();
+                return (IGenericBuilder<T>) new Complex.GenericBuilder();
             }
 
-            if (typeof(T) == typeof(Numerics.Complex32))
+            if (typeof (T) == typeof (Numerics.Complex32))
             {
-                return (IGenericBuilder<T>)(object)new Complex32.GenericBuilder();
+                return (IGenericBuilder<T>) new Complex32.GenericBuilder();
             }
 
-            if (typeof(T) == typeof(double))
+            if (typeof (T) == typeof (double))
             {
-                return (IGenericBuilder<T>)(object)new Double.GenericBuilder();
+                return (IGenericBuilder<T>) new Double.GenericBuilder();
             }
 
-            if (typeof(T) == typeof(float))
+            if (typeof (T) == typeof (float))
             {
-                return (IGenericBuilder<T>)(object)new Single.GenericBuilder();
+                return (IGenericBuilder<T>) new Single.GenericBuilder();
             }
 
             throw new NotSupportedException();

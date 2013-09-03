@@ -233,7 +233,6 @@
     <Compile Include="LinearAlgebra\Double\Solvers\StopCriterium\IIterationStopCriterium.cs" />
     <Compile Include="LinearAlgebra\Double\SparseMatrix.cs" />
     <Compile Include="LinearAlgebra\Double\Vector.cs" />
-    <Compile Include="LinearAlgebra\Common.cs" />
     <Compile Include="LinearAlgebra\Complex32\DenseVector.cs" />
     <Compile Include="LinearAlgebra\Complex32\Factorization\DenseGramSchmidt.cs" />
     <Compile Include="LinearAlgebra\Complex32\Factorization\DenseEvd.cs" />
