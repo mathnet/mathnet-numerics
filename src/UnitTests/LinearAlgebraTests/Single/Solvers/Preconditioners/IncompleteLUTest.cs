@@ -65,9 +65,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers.Precondit
         /// </summary>
         /// <param name="ilu"><c>IncompleteLU</c> instance.</param>
         /// <returns>Upper triangle.</returns>
-        private static Matrix GetUpperTriangle(IncompleteLU ilu)
+        private static Matrix<float> GetUpperTriangle(IncompleteLU ilu)
         {
-            return GetMethod<Matrix>(ilu, "UpperTriangle");
+            return GetMethod<Matrix<float>>(ilu, "UpperTriangle");
         }
 
         /// <summary>
@@ -75,9 +75,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers.Precondit
         /// </summary>
         /// <param name="ilu"><c>IncompleteLU</c> instance.</param>
         /// <returns>Lower triangle.</returns>
-        private static Matrix GetLowerTriangle(IncompleteLU ilu)
+        private static Matrix<float> GetLowerTriangle(IncompleteLU ilu)
         {
-            return GetMethod<Matrix>(ilu, "LowerTriangle");
+            return GetMethod<Matrix<float>>(ilu, "LowerTriangle");
         }
 
         /// <summary>

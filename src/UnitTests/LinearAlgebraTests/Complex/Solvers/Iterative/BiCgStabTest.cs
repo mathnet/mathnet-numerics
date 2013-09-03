@@ -63,7 +63,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.Iterativ
         public void SolveWideMatrixThrowsArgumentException()
         {
             var matrix = new SparseMatrix(2, 3);
-            Vector input = new DenseVector(2);
+            var input = new DenseVector(2);
 
             var solver = new BiCgStab();
             Assert.Throws<ArgumentException>(() => solver.Solve(matrix, input));
@@ -76,7 +76,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.Iterativ
         public void SolveLongMatrixThrowsArgumentException()
         {
             var matrix = new SparseMatrix(3, 2);
-            Vector input = new DenseVector(3);
+            var input = new DenseVector(3);
 
             var solver = new BiCgStab();
             Assert.Throws<ArgumentException>(() => solver.Solve(matrix, input));
@@ -89,10 +89,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.Iterativ
         public void SolveUnitMatrixAndBackMultiply()
         {
             // Create the identity matrix
-            Matrix matrix = SparseMatrix.Identity(100);
+            var matrix = SparseMatrix.Identity(100);
 
             // Create the y vector
-            Vector y = DenseVector.Create(matrix.RowCount, i => Complex.One);
+            var y = DenseVector.Create(matrix.RowCount, i => Complex.One);
 
             // Create an iteration monitor which will keep track of iterative convergence
             var monitor = new Iterator(new IIterationStopCriterium[]
@@ -131,13 +131,13 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.Iterativ
         public void SolveScaledUnitMatrixAndBackMultiply()
         {
             // Create the identity matrix
-            Matrix matrix = SparseMatrix.Identity(100);
+            var matrix = SparseMatrix.Identity(100);
 
             // Scale it with a funny number
             matrix.Multiply(new Complex(Math.PI, Math.PI), matrix);
 
             // Create the y vector
-            Vector y = DenseVector.Create(matrix.RowCount, i => Complex.One);
+            var y = DenseVector.Create(matrix.RowCount, i => Complex.One);
 
             // Create an iteration monitor which will keep track of iterative convergence
             var monitor = new Iterator(new IIterationStopCriterium[]
@@ -215,7 +215,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.Iterativ
             }
 
             // Create the y vector
-            Vector y = DenseVector.Create(matrix.RowCount, i => Complex.One);
+            var y = DenseVector.Create(matrix.RowCount, i => Complex.One);
 
             // Create an iteration monitor which will keep track of iterative convergence
             var monitor = new Iterator(new IIterationStopCriterium[]

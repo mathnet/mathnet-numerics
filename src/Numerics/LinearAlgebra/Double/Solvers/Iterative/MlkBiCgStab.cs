@@ -352,7 +352,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.Iterative
 
             // Choose an initial guess x_0
             // Take x_0 = 0
-            Vector xtemp = new DenseVector(input.Count);
+            var xtemp = new DenseVector(input.Count);
 
             // Choose k vectors q_1, q_2, ..., q_k
             // Build a new set if:
@@ -381,24 +381,24 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.Iterative
 
             // r_0 = b - Ax_0
             // This is basically a SAXPY so it could be made a lot faster
-            Vector residuals = new DenseVector(matrix.RowCount);
+            var residuals = new DenseVector(matrix.RowCount);
             CalculateTrueResidual(matrix, residuals, xtemp, input);
 
             // Define the temporary scalars
             var c = new double[k];
 
             // Define the temporary vectors
-            Vector gtemp = new DenseVector(residuals.Count);
+            var gtemp = new DenseVector(residuals.Count);
 
-            Vector u = new DenseVector(residuals.Count);
-            Vector utemp = new DenseVector(residuals.Count);
-            Vector temp = new DenseVector(residuals.Count);
-            Vector temp1 = new DenseVector(residuals.Count);
-            Vector temp2 = new DenseVector(residuals.Count);
+            var u = new DenseVector(residuals.Count);
+            var utemp = new DenseVector(residuals.Count);
+            var temp = new DenseVector(residuals.Count);
+            var temp1 = new DenseVector(residuals.Count);
+            var temp2 = new DenseVector(residuals.Count);
 
-            Vector zd = new DenseVector(residuals.Count);
-            Vector zg = new DenseVector(residuals.Count);
-            Vector zw = new DenseVector(residuals.Count);
+            var zd = new DenseVector(residuals.Count);
+            var zg = new DenseVector(residuals.Count);
+            var zw = new DenseVector(residuals.Count);
 
             var d = CreateVectorArray(_startingVectors.Count, residuals.Count);
             
@@ -793,7 +793,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.Iterative
 
             for (var column = 0; column < input.ColumnCount; column++)
             {
-                var solution = Solve(matrix, (Vector)input.Column(column));
+                var solution = Solve(matrix, input.Column(column));
                 foreach (var element in solution.EnumerateNonZeroIndexed())
                 {
                     result.At(element.Item1, column, element.Item2);

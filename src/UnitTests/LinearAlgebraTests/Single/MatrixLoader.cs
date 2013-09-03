@@ -50,7 +50,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
         /// <summary>
         /// Gets or sets test matrices instances to use.
         /// </summary>
-        protected Dictionary<string, Matrix> TestMatrices { get; set; }
+        protected Dictionary<string, Matrix<float>> TestMatrices { get; set; }
 
         /// <summary>
         /// Creates a matrix for the given number of rows and columns.
@@ -58,14 +58,14 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
         /// <param name="rows">The number of rows.</param>
         /// <param name="columns">The number of columns.</param>
         /// <returns>A matrix with the given dimensions.</returns>
-        protected abstract Matrix CreateMatrix(int rows, int columns);
+        protected abstract Matrix<float> CreateMatrix(int rows, int columns);
 
         /// <summary>
         /// Creates a matrix from a 2D array.
         /// </summary>
         /// <param name="data">The 2D array to create this matrix from.</param>
         /// <returns>A matrix with the given values.</returns>
-        protected abstract Matrix CreateMatrix(float[,] data);
+        protected abstract Matrix<float> CreateMatrix(float[,] data);
 
         /// <summary>
         /// Creates a vector of the given size.
@@ -73,14 +73,14 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
         /// <param name="size">The size of the vector to create.
         /// </param>
         /// <returns>The new vector. </returns>
-        protected abstract Vector CreateVector(int size);
+        protected abstract Vector<float> CreateVector(int size);
 
         /// <summary>
         /// Creates a vector from an array.
         /// </summary>
         /// <param name="data">The array to create this vector from.</param>
         /// <returns>The new vector. </returns>
-        protected abstract Vector CreateVector(float[] data);
+        protected abstract Vector<float> CreateVector(float[] data);
 
         /// <summary>
         /// Setup test matrices.
@@ -99,7 +99,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
                     {"Symmetric3x3", new[,] {{1.0f, 2.0f, 3.0f}, {2.0f, 2.0f, 0.0f}, {3.0f, 0.0f, 3.0f}}}
                 };
 
-            TestMatrices = new Dictionary<string, Matrix>();
+            TestMatrices = new Dictionary<string, Matrix<float>>();
             foreach (var name in TestData2D.Keys)
             {
                 TestMatrices.Add(name, CreateMatrix(TestData2D[name]));

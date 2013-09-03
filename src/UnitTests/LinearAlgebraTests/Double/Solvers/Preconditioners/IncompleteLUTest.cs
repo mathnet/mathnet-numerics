@@ -65,9 +65,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.Precondit
         /// </summary>
         /// <param name="ilu"><c>IncompleteLU</c> instance.</param>
         /// <returns>Upper triangle.</returns>
-        private static Matrix GetUpperTriangle(IncompleteLU ilu)
+        private static Matrix<double> GetUpperTriangle(IncompleteLU ilu)
         {
-            return GetMethod<Matrix>(ilu, "UpperTriangle");
+            return GetMethod<Matrix<double>>(ilu, "UpperTriangle");
         }
 
         /// <summary>
@@ -75,9 +75,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.Precondit
         /// </summary>
         /// <param name="ilu"><c>IncompleteLU</c> instance.</param>
         /// <returns>Lower triangle.</returns>
-        private static Matrix GetLowerTriangle(IncompleteLU ilu)
+        private static Matrix<double> GetLowerTriangle(IncompleteLU ilu)
         {
-            return GetMethod<Matrix>(ilu, "LowerTriangle");
+            return GetMethod<Matrix<double>>(ilu, "LowerTriangle");
         }
 
         /// <summary>
@@ -102,7 +102,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.Precondit
 
             // Compute M * result = product
             // compare vector and product. Should be equal
-            Vector product = new DenseVector(result.Count);
+            var product = new DenseVector(result.Count);
             matrix.Multiply(result, product);
 
             for (var i = 0; i < product.Count; i++)

@@ -179,7 +179,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.Precondi
 
             // Compute M * result = product
             // compare vector and product. Should be equal
-            Vector product = new DenseVector(result.Count);
+            var product = new DenseVector(result.Count);
             matrix.Multiply(result, product);
             for (var i = 0; i < product.Count; i++)
             {
@@ -205,7 +205,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.Precondi
             _fillLevel = 100;
             var preconditioner = CreatePreconditioner();
             preconditioner.Initialize(newMatrix);
-            Vector result = new DenseVector(vector.Count);
+            var result = new DenseVector(vector.Count);
             preconditioner.Approximate(vector, result);
             CheckResult(preconditioner, newMatrix, vector, result);
         }
@@ -226,7 +226,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.Precondi
             _fillLevel = 100;
             var preconditioner = CreatePreconditioner();
             preconditioner.Initialize(newMatrix);
-            Vector result = new DenseVector(vector.Count);
+            var result = new DenseVector(vector.Count);
             preconditioner.Approximate(vector, result);
             CheckResult(preconditioner, newMatrix, vector, result);
         }
@@ -347,7 +347,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.Precondi
                                      FillLevel = 10
                                  };
             preconditioner.Initialize(newMatrix);
-            Vector result = new DenseVector(vector.Count);
+            var result = new DenseVector(vector.Count);
             preconditioner.Approximate(vector, result);
             CheckResult(preconditioner, newMatrix, vector, result);
         }

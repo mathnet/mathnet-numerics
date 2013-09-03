@@ -63,7 +63,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers.Precondit
         /// </summary>
         /// <param name="size">Size of the vector.</param>
         /// <returns>New vector.</returns>
-        protected Vector CreateStandardBcVector(int size)
+        protected DenseVector CreateStandardBcVector(int size)
         {
             var vector = new DenseVector(size);
             for (var i = 0; i < size; i++)
@@ -174,7 +174,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers.Precondit
             var preconditioner = CreatePreconditioner();
             preconditioner.Initialize(newMatrix);
 
-            Vector result = null;
+            Vector<float> result = null;
             Assert.Throws<ArgumentNullException>(() => preconditioner.Approximate(vector, result));
         }
 

@@ -52,7 +52,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
         /// <summary>
         /// Gets or sets test matrices instances to use.
         /// </summary>
-        protected Dictionary<string, Matrix> TestMatrices { get; set; }
+        protected Dictionary<string, Matrix<Complex32>> TestMatrices { get; set; }
 
         /// <summary>
         /// Creates a matrix for the given number of rows and columns.
@@ -60,14 +60,14 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
         /// <param name="rows">The number of rows.</param>
         /// <param name="columns">The number of columns.</param>
         /// <returns>A matrix with the given dimensions.</returns>
-        protected abstract Matrix CreateMatrix(int rows, int columns);
+        protected abstract Matrix<Complex32> CreateMatrix(int rows, int columns);
 
         /// <summary>
         /// Creates a matrix from a 2D array.
         /// </summary>
         /// <param name="data">The 2D array to create this matrix from.</param>
         /// <returns>A matrix with the given values.</returns>
-        protected abstract Matrix CreateMatrix(Complex32[,] data);
+        protected abstract Matrix<Complex32> CreateMatrix(Complex32[,] data);
 
         /// <summary>
         /// Creates a vector of the given size.
@@ -75,14 +75,14 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
         /// <param name="size">The size of the vector to create.
         /// </param>
         /// <returns>The new vector. </returns>
-        protected abstract Vector CreateVector(int size);
+        protected abstract Vector<Complex32> CreateVector(int size);
 
         /// <summary>
         /// Creates a vector from an array.
         /// </summary>
         /// <param name="data">The array to create this vector from.</param>
         /// <returns>The new vector. </returns>
-        protected abstract Vector CreateVector(Complex32[] data);
+        protected abstract Vector<Complex32> CreateVector(Complex32[] data);
 
         /// <summary>
         /// Setup test matrices.
@@ -101,7 +101,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
                     {"Symmetric3x3", new[,] {{Complex32.One, 2.0f, 3.0f}, {2.0f, 2.0f, 0.0f}, {3.0f, 0.0f, 3.0f}}}
                 };
 
-            TestMatrices = new Dictionary<string, Matrix>();
+            TestMatrices = new Dictionary<string, Matrix<Complex32>>();
             foreach (var name in TestData2D.Keys)
             {
                 TestMatrices.Add(name, CreateMatrix(TestData2D[name]));

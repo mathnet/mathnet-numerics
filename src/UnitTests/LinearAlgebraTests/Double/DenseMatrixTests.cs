@@ -28,13 +28,14 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System;
+using System.Collections.Generic;
+using MathNet.Numerics.LinearAlgebra;
+using MathNet.Numerics.LinearAlgebra.Double;
+using NUnit.Framework;
+
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
 {
-    using LinearAlgebra.Double;
-    using NUnit.Framework;
-    using System;
-    using System.Collections.Generic;
-
     /// <summary>
     /// Dense matrix tests.
     /// </summary>
@@ -46,7 +47,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         /// <param name="rows">The number of rows.</param>
         /// <param name="columns">The number of columns.</param>
         /// <returns>A matrix with the given dimensions.</returns>
-        protected override Matrix CreateMatrix(int rows, int columns)
+        protected override Matrix<double> CreateMatrix(int rows, int columns)
         {
             return new DenseMatrix(rows, columns);
         }
@@ -56,7 +57,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         /// </summary>
         /// <param name="data">The 2D array to create this matrix from.</param>
         /// <returns>A matrix with the given values.</returns>
-        protected override Matrix CreateMatrix(double[,] data)
+        protected override Matrix<double> CreateMatrix(double[,] data)
         {
             return DenseMatrix.OfArray(data);
         }
@@ -67,7 +68,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         /// <param name="size">The size of the vector to create.
         /// </param>
         /// <returns>The new vector. </returns>
-        protected override Vector CreateVector(int size)
+        protected override Vector<double> CreateVector(int size)
         {
             return new DenseVector(size);
         }
@@ -77,7 +78,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         /// </summary>
         /// <param name="data">The array to create this vector from.</param>
         /// <returns>The new vector. </returns>
-        protected override Vector CreateVector(double[] data)
+        protected override Vector<double> CreateVector(double[] data)
         {
             return new DenseVector(data);
         }
@@ -88,7 +89,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [Test]
         public void CanCreateMatrixFrom1DArray()
         {
-            var testData = new Dictionary<string, Matrix>
+            var testData = new Dictionary<string, Matrix<double>>
                 {
                     {"Singular3x3", new DenseMatrix(3, 3, new[] {1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 2.0, 2.0, 2.0})},
                     {"Square3x3", new DenseMatrix(3, 3, new[] {-1.1, 0.0, -4.4, -2.2, 1.1, 5.5, -3.3, 2.2, 6.6})},

@@ -24,10 +24,10 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using MathNet.Numerics.LinearAlgebra;
+
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
 {
-    using LinearAlgebra.Single;
-
     /// <summary>
     /// Test class for user-defined matrix.
     /// </summary>
@@ -39,7 +39,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
         /// <param name="rows">The number of rows.</param>
         /// <param name="columns">The number of columns.</param>
         /// <returns>A matrix with the given dimensions.</returns>
-        protected override Matrix CreateMatrix(int rows, int columns)
+        protected override Matrix<float> CreateMatrix(int rows, int columns)
         {
             return new UserDefinedMatrix(rows, columns);
         }
@@ -49,7 +49,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
         /// </summary>
         /// <param name="data">The 2D array to create this matrix from.</param>
         /// <returns>A matrix with the given values.</returns>
-        protected override Matrix CreateMatrix(float[,] data)
+        protected override Matrix<float> CreateMatrix(float[,] data)
         {
             return new UserDefinedMatrix(data);
         }
@@ -60,7 +60,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
         /// <param name="size">The size of the vector to create.
         /// </param>
         /// <returns>The new vector. </returns>
-        protected override Vector CreateVector(int size)
+        protected override Vector<float> CreateVector(int size)
         {
             return new UserDefinedVector(size);
         }
@@ -70,7 +70,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
         /// </summary>
         /// <param name="data">The array to create this vector from.</param>
         /// <returns>The new vector. </returns>
-        protected override Vector CreateVector(float[] data)
+        protected override Vector<float> CreateVector(float[] data)
         {
             return new UserDefinedVector(data);
         }

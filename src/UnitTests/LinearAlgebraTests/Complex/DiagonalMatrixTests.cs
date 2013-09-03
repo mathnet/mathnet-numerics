@@ -28,13 +28,15 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System;
+using System.Collections.Generic;
+using MathNet.Numerics.LinearAlgebra;
+using MathNet.Numerics.LinearAlgebra.Complex;
+using NUnit.Framework;
+
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
 {
-    using System;
-    using System.Collections.Generic;
     using System.Numerics;
-    using LinearAlgebra.Complex;
-    using NUnit.Framework;
 
     /// <summary>
     /// Diagonal matrix tests.
@@ -57,7 +59,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
                     {"Wide2x3", new[,] {{new Complex(-1.1, 1), Complex.Zero, Complex.Zero}, {Complex.Zero, new Complex(1.1, 1), Complex.Zero}}}
                 };
 
-            TestMatrices = new Dictionary<string, Matrix>();
+            TestMatrices = new Dictionary<string, Matrix<Complex>>();
             foreach (var name in TestData2D.Keys)
             {
                 TestMatrices.Add(name, CreateMatrix(TestData2D[name]));
@@ -70,7 +72,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
         /// <param name="rows">The number of rows.</param>
         /// <param name="columns">The number of columns.</param>
         /// <returns>A matrix with the given dimensions.</returns>
-        protected override Matrix CreateMatrix(int rows, int columns)
+        protected override Matrix<Complex> CreateMatrix(int rows, int columns)
         {
             return new DiagonalMatrix(rows, columns);
         }
@@ -80,7 +82,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
         /// </summary>
         /// <param name="data">The 2D array to create this matrix from.</param>
         /// <returns>A matrix with the given values.</returns>
-        protected override Matrix CreateMatrix(Complex[,] data)
+        protected override Matrix<Complex> CreateMatrix(Complex[,] data)
         {
             return DiagonalMatrix.OfArray(data);
         }
@@ -91,7 +93,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
         /// <param name="size">The size of the vector to create.
         /// </param>
         /// <returns>The new vector. </returns>
-        protected override Vector CreateVector(int size)
+        protected override Vector<Complex> CreateVector(int size)
         {
             return new SparseVector(size);
         }
@@ -101,7 +103,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
         /// </summary>
         /// <param name="data">The array to create this vector from.</param>
         /// <returns>The new vector. </returns>
-        protected override Vector CreateVector(Complex[] data)
+        protected override Vector<Complex> CreateVector(Complex[] data)
         {
             return SparseVector.OfEnumerable(data);
         }
@@ -112,7 +114,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
         [Test]
         public void CanCreateMatrixFromDiagonalArray()
         {
-            var testData = new Dictionary<string, Matrix>
+            var testData = new Dictionary<string, Matrix<Complex>>
                 {
                     {"Singular3x3", new DiagonalMatrix(3, 3, new[] {new Complex(1.0, 1), Complex.Zero, new Complex(3.0, 1)})},
                     {"Square3x3", new DiagonalMatrix(3, 3, new[] {new Complex(-1.1, 1), new Complex(1.1, 1), new Complex(6.6, 1)})},

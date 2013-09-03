@@ -56,7 +56,6 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.Precon
             {
                 matrix[i, i] = 2;
             }
-
             return matrix;
         }
 
@@ -65,14 +64,13 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.Precon
         /// </summary>
         /// <param name="size">Size of the vector.</param>
         /// <returns>New vector.</returns>
-        protected Vector CreateStandardBcVector(int size)
+        protected DenseVector CreateStandardBcVector(int size)
         {
-            Vector vector = new DenseVector(size);
+            var vector = new DenseVector(size);
             for (var i = 0; i < size; i++)
             {
                 vector[i] = i + 1;
             }
-
             return vector;
         }
 
@@ -159,7 +157,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.Precon
             var preconditioner = CreatePreconditioner();
             preconditioner.Initialize(newMatrix);
 
-            Vector result = new DenseVector(vector.Count + 10);
+            var result = new DenseVector(vector.Count + 10);
             Assert.Throws<ArgumentNullException>(() => preconditioner.Approximate(null, result));
         }
 
@@ -176,7 +174,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.Precon
             var preconditioner = CreatePreconditioner();
             preconditioner.Initialize(newMatrix);
 
-            Vector result = null;
+            Vector<Complex32> result = null;
             Assert.Throws<ArgumentNullException>(() => preconditioner.Approximate(vector, result));
         }
 

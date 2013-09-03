@@ -66,7 +66,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.Precondi
 
             // Compute M * result = product
             // compare vector and product. Should be equal
-            Vector product = new DenseVector(result.Count);
+            var product = new DenseVector(result.Count);
             matrix.Multiply(result, product);
 
             for (var i = 0; i < product.Count; i++)

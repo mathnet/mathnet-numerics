@@ -28,13 +28,14 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System;
+using System.Collections.Generic;
+using MathNet.Numerics.LinearAlgebra;
+using MathNet.Numerics.LinearAlgebra.Single;
+using NUnit.Framework;
+
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
 {
-    using LinearAlgebra.Single;
-    using NUnit.Framework;
-    using System;
-    using System.Collections.Generic;
-
     /// <summary>
     /// Sparse matrix tests.
     /// </summary>
@@ -46,7 +47,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
         /// <param name="rows">The number of rows.</param>
         /// <param name="columns">The number of columns.</param>
         /// <returns>A matrix with the given dimensions.</returns>
-        protected override Matrix CreateMatrix(int rows, int columns)
+        protected override Matrix<float> CreateMatrix(int rows, int columns)
         {
             return new SparseMatrix(rows, columns);
         }
@@ -56,7 +57,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
         /// </summary>
         /// <param name="data">The 2D array to create this matrix from.</param>
         /// <returns>A matrix with the given values.</returns>
-        protected override Matrix CreateMatrix(float[,] data)
+        protected override Matrix<float> CreateMatrix(float[,] data)
         {
             return SparseMatrix.OfArray(data);
         }
@@ -67,7 +68,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
         /// <param name="size">The size of the vector to create.
         /// </param>
         /// <returns>The new vector. </returns>
-        protected override Vector CreateVector(int size)
+        protected override Vector<float> CreateVector(int size)
         {
             return new SparseVector(size);
         }
@@ -77,7 +78,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
         /// </summary>
         /// <param name="data">The array to create this vector from.</param>
         /// <returns>The new vector. </returns>
-        protected override Vector CreateVector(float[] data)
+        protected override Vector<float> CreateVector(float[] data)
         {
             return SparseVector.OfEnumerable(data);
         }
@@ -88,7 +89,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
         [Test]
         public void CanCreateMatrixFrom1DArray()
         {
-            var testData = new Dictionary<string, Matrix>
+            var testData = new Dictionary<string, Matrix<float>>
                 {
                     {"Singular3x3", SparseMatrix.OfColumnMajor(3, 3, new float[] {1, 1, 1, 1, 1, 1, 2, 2, 2})},
                     {"Square3x3", SparseMatrix.OfColumnMajor(3, 3, new[] {-1.1f, 0.0f, -4.4f, -2.2f, 1.1f, 5.5f, -3.3f, 2.2f, 6.6f})},
@@ -184,7 +185,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
         {
             var matrix = new SparseMatrix(500, 1000);
             var nonzero = 0;
-            var rnd = new Random();
+            var rnd = new System.Random();
 
             for (var i = 0; i < matrix.RowCount; i++)
             {

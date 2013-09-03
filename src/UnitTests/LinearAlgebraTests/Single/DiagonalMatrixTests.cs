@@ -28,13 +28,14 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System;
+using System.Collections.Generic;
+using MathNet.Numerics.LinearAlgebra;
+using MathNet.Numerics.LinearAlgebra.Single;
+using NUnit.Framework;
+
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
 {
-    using LinearAlgebra.Single;
-    using NUnit.Framework;
-    using System;
-    using System.Collections.Generic;
-
     /// <summary>
     /// Diagonal matrix tests.
     /// </summary>
@@ -56,7 +57,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
                     {"Wide2x3", new[,] {{-1.1f, 0.0f, 0.0f}, {0.0f, 1.1f, 0.0f}}}
                 };
 
-            TestMatrices = new Dictionary<string, Matrix>();
+            TestMatrices = new Dictionary<string, Matrix<float>>();
             foreach (var name in TestData2D.Keys)
             {
                 TestMatrices.Add(name, CreateMatrix(TestData2D[name]));
@@ -69,7 +70,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
         /// <param name="rows">The number of rows.</param>
         /// <param name="columns">The number of columns.</param>
         /// <returns>A matrix with the given dimensions.</returns>
-        protected override Matrix CreateMatrix(int rows, int columns)
+        protected override Matrix<float> CreateMatrix(int rows, int columns)
         {
             return new DiagonalMatrix(rows, columns);
         }
@@ -79,7 +80,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
         /// </summary>
         /// <param name="data">The 2D array to create this matrix from.</param>
         /// <returns>A matrix with the given values.</returns>
-        protected override Matrix CreateMatrix(float[,] data)
+        protected override Matrix<float> CreateMatrix(float[,] data)
         {
             return DiagonalMatrix.OfArray(data);
         }
@@ -90,7 +91,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
         /// <param name="size">The size of the vector to create.
         /// </param>
         /// <returns>The new vector. </returns>
-        protected override Vector CreateVector(int size)
+        protected override Vector<float> CreateVector(int size)
         {
             return new DenseVector(size);
         }
@@ -100,7 +101,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
         /// </summary>
         /// <param name="data">The array to create this vector from.</param>
         /// <returns>The new vector. </returns>
-        protected override Vector CreateVector(float[] data)
+        protected override Vector<float> CreateVector(float[] data)
         {
             return new DenseVector(data);
         }
@@ -111,7 +112,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
         [Test]
         public void CanCreateMatrixFromDiagonalArray()
         {
-            var testData = new Dictionary<string, Matrix>
+            var testData = new Dictionary<string, Matrix<float>>
                 {
                     {"Singular3x3", new DiagonalMatrix(3, 3, new[] {1.0f, 0.0f, 3.0f})},
                     {"Square3x3", new DiagonalMatrix(3, 3, new[] {-1.1f, 1.1f, 6.6f})},

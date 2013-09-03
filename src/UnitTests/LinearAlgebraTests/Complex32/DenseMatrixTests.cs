@@ -28,13 +28,15 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System;
+using System.Collections.Generic;
+using MathNet.Numerics.LinearAlgebra;
+using MathNet.Numerics.LinearAlgebra.Complex32;
+using NUnit.Framework;
+
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
 {
-    using LinearAlgebra.Complex32;
-    using NUnit.Framework;
-    using System;
-    using System.Collections.Generic;
-    using Complex32 = Numerics.Complex32;
+    using Numerics;
 
     /// <summary>
     /// Dense matrix tests.
@@ -47,7 +49,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
         /// <param name="rows">The number of rows.</param>
         /// <param name="columns">The number of columns.</param>
         /// <returns>A matrix with the given dimensions.</returns>
-        protected override Matrix CreateMatrix(int rows, int columns)
+        protected override Matrix<Complex32> CreateMatrix(int rows, int columns)
         {
             return new DenseMatrix(rows, columns);
         }
@@ -57,7 +59,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
         /// </summary>
         /// <param name="data">The 2D array to create this matrix from.</param>
         /// <returns>A matrix with the given values.</returns>
-        protected override Matrix CreateMatrix(Complex32[,] data)
+        protected override Matrix<Complex32> CreateMatrix(Complex32[,] data)
         {
             return DenseMatrix.OfArray(data);
         }
@@ -68,7 +70,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
         /// <param name="size">The size of the vector to create.
         /// </param>
         /// <returns>The new vector. </returns>
-        protected override Vector CreateVector(int size)
+        protected override Vector<Complex32> CreateVector(int size)
         {
             return new DenseVector(size);
         }
@@ -78,7 +80,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
         /// </summary>
         /// <param name="data">The array to create this vector from.</param>
         /// <returns>The new vector. </returns>
-        protected override Vector CreateVector(Complex32[] data)
+        protected override Vector<Complex32> CreateVector(Complex32[] data)
         {
             return new DenseVector(data);
         }
@@ -89,7 +91,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
         [Test]
         public void CanCreateMatrixFrom1DArray()
         {
-            var testData = new Dictionary<string, Matrix>
+            var testData = new Dictionary<string, Matrix<Complex32>>
                 {
                     {"Singular3x3", new DenseMatrix(3, 3, new[] {new Complex32(1.0f, 1), new Complex32(1.0f, 1), new Complex32(1.0f, 1), new Complex32(1.0f, 1), new Complex32(1.0f, 1), new Complex32(1.0f, 1), new Complex32(2.0f, 1), new Complex32(2.0f, 1), new Complex32(2.0f, 1)})},
                     {"Square3x3", new DenseMatrix(3, 3, new[] {new Complex32(-1.1f, 1), Complex32.Zero, new Complex32(-4.4f, 1), new Complex32(-2.2f, 1), new Complex32(1.1f, 1), new Complex32(5.5f, 1), new Complex32(-3.3f, 1), new Complex32(2.2f, 1), new Complex32(6.6f, 1)})},

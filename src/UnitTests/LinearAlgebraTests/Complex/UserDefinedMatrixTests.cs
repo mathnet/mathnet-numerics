@@ -24,10 +24,11 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using MathNet.Numerics.LinearAlgebra;
+
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
 {
     using System.Numerics;
-    using LinearAlgebra.Complex;
 
     /// <summary>
     /// Test class for user-defined matrix.
@@ -40,7 +41,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
         /// <param name="rows">The number of rows.</param>
         /// <param name="columns">The number of columns.</param>
         /// <returns>A matrix with the given dimensions.</returns>
-        protected override Matrix CreateMatrix(int rows, int columns)
+        protected override Matrix<Complex> CreateMatrix(int rows, int columns)
         {
             return new UserDefinedMatrix(rows, columns);
         }
@@ -50,7 +51,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
         /// </summary>
         /// <param name="data">The 2D array to create this matrix from.</param>
         /// <returns>A matrix with the given values.</returns>
-        protected override Matrix CreateMatrix(Complex[,] data)
+        protected override Matrix<Complex> CreateMatrix(Complex[,] data)
         {
             return new UserDefinedMatrix(data);
         }
@@ -61,7 +62,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
         /// <param name="size">The size of the vector to create.
         /// </param>
         /// <returns>The new vector. </returns>
-        protected override Vector CreateVector(int size)
+        protected override Vector<Complex> CreateVector(int size)
         {
             return new UserDefinedVector(size);
         }
@@ -71,7 +72,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
         /// </summary>
         /// <param name="data">The array to create this vector from.</param>
         /// <returns>The new vector. </returns>
-        protected override Vector CreateVector(Complex[] data)
+        protected override Vector<Complex> CreateVector(Complex[] data)
         {
             return new UserDefinedVector(data);
         }

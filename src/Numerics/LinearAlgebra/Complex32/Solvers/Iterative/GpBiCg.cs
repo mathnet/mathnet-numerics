@@ -328,11 +328,11 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Iterative
 
             // x_0 is initial guess
             // Take x_0 = 0
-            Vector xtemp = new DenseVector(input.Count);
+            var xtemp = new DenseVector(input.Count);
 
             // r_0 = b - Ax_0
             // This is basically a SAXPY so it could be made a lot faster
-            Vector residuals = new DenseVector(matrix.RowCount);
+            var residuals = new DenseVector(matrix.RowCount);
             CalculateTrueResidual(matrix, residuals, xtemp, input);
 
             // Define the temporary scalars
@@ -340,26 +340,26 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Iterative
 
             // Define the temporary vectors
             // rDash_0 = r_0
-            Vector rdash = DenseVector.OfVector(residuals);
+            var rdash = DenseVector.OfVector(residuals);
 
             // t_-1 = 0
-            Vector t = new DenseVector(residuals.Count);
-            Vector t0 = new DenseVector(residuals.Count);
+            var t = new DenseVector(residuals.Count);
+            var t0 = new DenseVector(residuals.Count);
 
             // w_-1 = 0
-            Vector w = new DenseVector(residuals.Count);
+            var w = new DenseVector(residuals.Count);
 
             // Define the remaining temporary vectors
-            Vector c = new DenseVector(residuals.Count);
-            Vector p = new DenseVector(residuals.Count);
-            Vector s = new DenseVector(residuals.Count);
-            Vector u = new DenseVector(residuals.Count);
-            Vector y = new DenseVector(residuals.Count);
-            Vector z = new DenseVector(residuals.Count);
+            var c = new DenseVector(residuals.Count);
+            var p = new DenseVector(residuals.Count);
+            var s = new DenseVector(residuals.Count);
+            var u = new DenseVector(residuals.Count);
+            var y = new DenseVector(residuals.Count);
+            var z = new DenseVector(residuals.Count);
 
-            Vector temp = new DenseVector(residuals.Count);
-            Vector temp2 = new DenseVector(residuals.Count);
-            Vector temp3 = new DenseVector(residuals.Count);
+            var temp = new DenseVector(residuals.Count);
+            var temp2 = new DenseVector(residuals.Count);
+            var temp3 = new DenseVector(residuals.Count);
 
             // for (k = 0, 1, .... )
             var iterationNumber = 0;

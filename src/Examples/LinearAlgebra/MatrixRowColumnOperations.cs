@@ -101,7 +101,7 @@ namespace Examples.LinearAlgebraExamples
             Console.WriteLine();
 
             // 3. Set column values
-            matrix.SetColumn(2, (Vector)vector);
+            matrix.SetColumn(2, vector);
             Console.WriteLine(@"3. Set column values");
             Console.WriteLine(matrix.ToString("#0.00\t", formatProvider));
             Console.WriteLine();

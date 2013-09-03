@@ -286,7 +286,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Iterative
             // Compute r_0 = b - Ax_0 for some initial guess x_0
             // In this case we take x_0 = vector
             // This is basically a SAXPY so it could be made a lot faster
-            Vector residuals = new DenseVector(matrix.RowCount);
+            var residuals = new DenseVector(matrix.RowCount);
             CalculateTrueResidual(matrix, residuals, result, input);
 
             // Choose r~ (for example, r~ = r_0)
@@ -295,13 +295,13 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Iterative
             // create seven temporary vectors needed to hold temporary
             // coefficients. All vectors are mangled in each iteration.
             // These are defined here to prevent stressing the garbage collector
-            Vector vecP = new DenseVector(residuals.Count);
-            Vector vecPdash = new DenseVector(residuals.Count);
-            Vector nu = new DenseVector(residuals.Count);
-            Vector vecS = new DenseVector(residuals.Count);
-            Vector vecSdash = new DenseVector(residuals.Count);
-            Vector temp = new DenseVector(residuals.Count);
-            Vector temp2 = new DenseVector(residuals.Count);
+            var vecP = new DenseVector(residuals.Count);
+            var vecPdash = new DenseVector(residuals.Count);
+            var nu = new DenseVector(residuals.Count);
+            var vecS = new DenseVector(residuals.Count);
+            var vecSdash = new DenseVector(residuals.Count);
+            var temp = new DenseVector(residuals.Count);
+            var temp2 = new DenseVector(residuals.Count);
 
             // create some temporary double variables that are needed
             // to hold values in between iterations
