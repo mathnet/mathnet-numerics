@@ -31,6 +31,7 @@ using MathNet.Numerics.LinearAlgebra.Double;
 using MathNet.Numerics.LinearAlgebra.Double.Solvers;
 using MathNet.Numerics.LinearAlgebra.Double.Solvers.Iterative;
 using MathNet.Numerics.LinearAlgebra.Double.Solvers.StopCriterium;
+using MathNet.Numerics.LinearAlgebra.Solvers;
 using MathNet.Numerics.LinearAlgebra.Solvers.StopCriterium;
 
 namespace Examples.LinearAlgebra.IterativeSolversExamples
@@ -175,7 +176,7 @@ namespace Examples.LinearAlgebra.IterativeSolversExamples
         /// given by this setup.
         /// </summary>
         /// <returns>A new <see cref="IIterativeSolver"/>.</returns>
-        public IIterativeSolver CreateNew()
+        public IIterativeSolver<double> CreateNew()
         {
             return new BiCgStab();
         }

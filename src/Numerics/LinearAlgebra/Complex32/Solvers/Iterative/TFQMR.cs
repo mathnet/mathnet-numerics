@@ -55,7 +55,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Iterative
     /// solver.
     /// </para>
     /// </remarks>
-    public sealed class TFQMR : IIterativeSolver
+    public sealed class TFQMR : IIterativeSolver<Complex32>
     {
         /// <summary>
         /// The status used if there is no status, i.e. the solver hasn't run yet and there is no

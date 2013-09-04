@@ -67,7 +67,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Iterative
     /// solver.
     /// </para>
     /// </remarks>
-    public sealed class BiCgStab : IIterativeSolver
+    public sealed class BiCgStab : IIterativeSolver<Complex32>
     {
         /// <summary>
         /// The status used if there is no status, i.e. the solver hasn't run yet and there is no

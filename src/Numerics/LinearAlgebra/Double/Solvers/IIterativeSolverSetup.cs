@@ -28,6 +28,8 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using MathNet.Numerics.LinearAlgebra.Solvers;
+
 namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
 {
     using System;
@@ -54,7 +56,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
         /// given by this setup.
         /// </summary>
         /// <returns>A new <see cref="IIterativeSolver"/>.</returns>
-        IIterativeSolver CreateNew();
+        IIterativeSolver<double> CreateNew();
 
         /// <summary>
         /// Gets the relative speed of the solver. 

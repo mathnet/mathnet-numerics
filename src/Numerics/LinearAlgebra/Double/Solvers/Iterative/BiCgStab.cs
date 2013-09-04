@@ -65,7 +65,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.Iterative
     /// solver.
     /// </para>
     /// </remarks>
-    public sealed class BiCgStab : IIterativeSolver
+    public sealed class BiCgStab : IIterativeSolver<double>
     {
         /// <summary>
         /// The status used if there is no status, i.e. the solver hasn't run yet and there is no

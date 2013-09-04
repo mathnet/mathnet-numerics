@@ -54,7 +54,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Iterative
     /// Note that if an iterator is passed to this solver it will be used for all the sub-solvers.
     /// </para>
     /// </remarks>
-    public sealed class CompositeSolver : IIterativeSolver
+    public sealed class CompositeSolver : IIterativeSolver<float>
     {
         #region Internal class - DoubleComparer
         /// <summary>
@@ -333,7 +333,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Iterative
         /// <summary>
         /// The collection of solvers that will be used to 
         /// </summary>
-        private readonly List<IIterativeSolver> _solvers = new List<IIterativeSolver>();
+        private readonly List<IIterativeSolver<float>> _solvers = new List<IIterativeSolver<float>>();
 
         /// <summary>
         /// The status of the calculation.
@@ -354,7 +354,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Iterative
         /// The solver that is currently running. Reference is used to be able to stop the
         /// solver if the user cancels the solve process.
         /// </summary>
-        private IIterativeSolver _currentSolver;
+        private IIterativeSolver<float> _currentSolver;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CompositeSolver"/> class with the default iterator.

@@ -53,7 +53,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.Iterative
     /// solver.
     /// </para>
     /// </remarks>
-    public sealed class TFQMR : IIterativeSolver
+    public sealed class TFQMR : IIterativeSolver<double>
     {
         /// <summary>
         /// The status used if there is no status, i.e. the solver hasn't run yet and there is no

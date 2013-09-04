@@ -62,7 +62,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Iterative
     /// solver.
     /// </para>
     /// </remarks>
-    public sealed class MlkBiCgStab : IIterativeSolver
+    public sealed class MlkBiCgStab : IIterativeSolver<float>
     {
         /// <summary>
         /// The default number of starting vectors.

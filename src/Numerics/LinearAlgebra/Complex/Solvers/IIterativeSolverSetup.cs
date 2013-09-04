@@ -28,9 +28,17 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System;
+using MathNet.Numerics.LinearAlgebra.Solvers;
+
 namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
 {
-    using System;
+
+#if NOSYSNUMERICS
+    using Complex = Numerics.Complex;
+#else
+    using Complex = System.Numerics.Complex;
+#endif
 
     /// <summary>
     /// Defines the interface for objects that can create an iterative solver with
@@ -54,7 +62,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
         /// given by this setup.
         /// </summary>
         /// <returns>A new <see cref="IIterativeSolver"/>.</returns>
-        IIterativeSolver CreateNew();
+        IIterativeSolver<Complex> CreateNew();
 
         /// <summary>
         /// Gets the relative speed of the solver. 

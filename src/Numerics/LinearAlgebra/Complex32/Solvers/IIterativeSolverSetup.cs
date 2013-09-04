@@ -28,9 +28,12 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System;
+using MathNet.Numerics.LinearAlgebra.Solvers;
+
 namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers
 {
-    using System;
+    using Numerics;
 
     /// <summary>
     /// Defines the interface for objects that can create an iterative solver with
@@ -53,8 +56,8 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers
         /// Creates a fully functional iterative solver with the default settings
         /// given by this setup.
         /// </summary>
-        /// <returns>A new <see cref="IIterativeSolver"/>.</returns>
-        IIterativeSolver CreateNew();
+        /// <returns>A new <see cref="IIterativeSolver{T}"/>.</returns>
+        IIterativeSolver<Complex32> CreateNew();
 
         /// <summary>
         /// Gets the relative speed of the solver. 

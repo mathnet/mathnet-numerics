@@ -65,7 +65,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Iterative
     /// solver.
     /// </para>
     /// </remarks>
-    public sealed class MlkBiCgStab : IIterativeSolver
+    public sealed class MlkBiCgStab : IIterativeSolver<Complex32>
     {
         /// <summary>
         /// The default number of starting vectors.

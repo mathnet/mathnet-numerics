@@ -63,7 +63,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.Iterative
     /// solver.
     /// </para>
     /// </remarks>
-    public sealed class GpBiCg : IIterativeSolver
+    public sealed class GpBiCg : IIterativeSolver<double>
     {
         /// <summary>
         /// The status used if there is no status, i.e. the solver hasn't run yet and there is no
