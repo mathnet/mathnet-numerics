@@ -103,7 +103,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Iterative
         /// The collection of iterative solver setups. Stored based on the
         /// ratio between the relative speed and relative accuracy.
         /// </summary>
-        private static readonly SortedList<double, List<IIterativeSolverSetup>> SolverSetups = new SortedList<double, List<IIterativeSolverSetup>>(new DoubleComparer());
+        private static readonly SortedList<double, List<IIterativeSolverSetup<Complex32>>> SolverSetups = new SortedList<double, List<IIterativeSolverSetup<Complex32>>>(new DoubleComparer());
 #endif
 
         #region Solver information loading methods
@@ -268,18 +268,18 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Iterative
             {
                 interfaceTypes.Clear();
                 interfaceTypes.AddRange(type.GetInterfaces());
-                if (!interfaceTypes.Any(match => typeof(IIterativeSolverSetup).IsAssignableFrom(match)))
+                if (!interfaceTypes.Any(match => typeof(IIterativeSolverSetup<Complex32>).IsAssignableFrom(match)))
                 {
                     continue;
                 }
 
                 // See if we actually want this type of iterative solver
-                IIterativeSolverSetup setup;
+                IIterativeSolverSetup<Complex32> setup;
                 try
                 {
                     // If something goes wrong we just ignore it and move on with the next type.
                     // There should probably be a log somewhere indicating that something went wrong?
-                    setup = (IIterativeSolverSetup)Activator.CreateInstance(type);
+                    setup = (IIterativeSolverSetup<Complex32>)Activator.CreateInstance(type);
                 }
                 catch (ArgumentException)
                 {
@@ -322,7 +322,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Iterative
                 var ratio = setup.SolutionSpeed / setup.Reliability;
                 if (!SolverSetups.ContainsKey(ratio))
                 {
-                    SolverSetups.Add(ratio, new List<IIterativeSolverSetup>());
+                    SolverSetups.Add(ratio, new List<IIterativeSolverSetup<Complex32>>());
                 }
 
                 var list = SolverSetups[ratio];

@@ -190,7 +190,6 @@
     <Compile Include="LinearAlgebra\Complex32\Factorization\QR.cs" />
     <Compile Include="LinearAlgebra\Complex32\Factorization\Svd.cs" />
     <Compile Include="LinearAlgebra\Complex32\Matrix.cs" />
-    <Compile Include="LinearAlgebra\Complex32\Solvers\IIterativeSolverSetup.cs" />
     <Compile Include="LinearAlgebra\Complex32\Solvers\Preconditioners\IPreConditioner.cs" />
     <Compile Include="LinearAlgebra\Complex32\SparseMatrix.cs" />
     <Compile Include="LinearAlgebra\Complex32\Vector.cs" />
@@ -207,7 +206,6 @@
     <Compile Include="LinearAlgebra\Complex\Factorization\QR.cs" />
     <Compile Include="LinearAlgebra\Complex\Factorization\Svd.cs" />
     <Compile Include="LinearAlgebra\Complex\Matrix.cs" />
-    <Compile Include="LinearAlgebra\Complex\Solvers\IIterativeSolverSetup.cs" />
     <Compile Include="LinearAlgebra\Complex\Solvers\Preconditioners\IPreConditioner.cs" />
     <Compile Include="LinearAlgebra\Complex\SparseMatrix.cs" />
     <Compile Include="LinearAlgebra\Complex\Vector.cs" />
@@ -222,7 +220,7 @@
     <Compile Include="LinearAlgebra\Double\Factorization\LU.cs" />
     <Compile Include="LinearAlgebra\Double\Matrix.cs" />
     <Compile Include="LinearAlgebra\Solvers\IIterativeSolver.cs" />
-    <Compile Include="LinearAlgebra\Double\Solvers\IIterativeSolverSetup.cs" />
+    <Compile Include="LinearAlgebra\Solvers\IIterativeSolverSetup.cs" />
     <Compile Include="LinearAlgebra\Solvers\IIterator.cs" />
     <Compile Include="LinearAlgebra\Double\Solvers\Preconditioners\IPreConditioner.cs" />
     <Compile Include="LinearAlgebra\Solvers\StopCriterium\IIterationStopCriterium.cs" />
@@ -312,7 +310,6 @@
     <Compile Include="LinearAlgebra\Single\Factorization\UserQR.cs" />
     <Compile Include="LinearAlgebra\Single\Factorization\UserSvd.cs" />
     <Compile Include="LinearAlgebra\Single\Matrix.cs" />
-    <Compile Include="LinearAlgebra\Single\Solvers\IIterativeSolverSetup.cs" />
     <Compile Include="LinearAlgebra\Single\Solvers\Iterative\BiCgStab.cs" />
     <Compile Include="LinearAlgebra\Single\Solvers\Iterative\CompositeSolver.cs" />
     <Compile Include="LinearAlgebra\Single\Solvers\Iterative\GpBiCg.cs" />

@@ -147,7 +147,7 @@ namespace Examples.LinearAlgebra.IterativeSolversExamples
     /// <summary>
     /// Sample of user-defined solver setup
     /// </summary>
-    public class UserBiCgStab : IIterativeSolverSetup
+    public class UserBiCgStab : IIterativeSolverSetup<double>
     {
         /// <summary>
         /// Gets the type of the solver that will be created by this setup object.

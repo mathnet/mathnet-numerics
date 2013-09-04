@@ -28,18 +28,16 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using MathNet.Numerics.LinearAlgebra.Solvers;
+using System;
 
-namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
+namespace MathNet.Numerics.LinearAlgebra.Solvers
 {
-    using System;
-
     /// <summary>
     /// Defines the interface for objects that can create an iterative solver with
     /// specific settings. This interface is used to pass iterative solver creation 
     /// setup information around.
     /// </summary>
-    public interface IIterativeSolverSetup
+    public interface IIterativeSolverSetup<T> where T : struct, IEquatable<T>, IFormattable
     {
         /// <summary>
         /// Gets the type of the solver that will be created by this setup object.
@@ -55,8 +53,8 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
         /// Creates a fully functional iterative solver with the default settings
         /// given by this setup.
         /// </summary>
-        /// <returns>A new <see cref="IIterativeSolver"/>.</returns>
-        IIterativeSolver<double> CreateNew();
+        /// <returns>A new <see cref="IIterativeSolver{T}"/>.</returns>
+        IIterativeSolver<T> CreateNew();
 
         /// <summary>
         /// Gets the relative speed of the solver. 
