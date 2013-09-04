@@ -122,6 +122,7 @@
     <Compile Include="Distributions\Wishart.cs" />
     <Compile Include="Distributions\Zipf.cs" />
     <Compile Include="LinearAlgebra\Builder.cs" />
+    <Compile Include="LinearAlgebra\Solvers\Iterator.cs" />
     <Compile Include="LinearAlgebra\Solvers\StopCriterium\IterationCountStopCriterium.cs" />
     <Compile Include="Providers\LinearAlgebra\Acml\AcmlLinearAlgebraProvider.Complex.cs" />
     <Compile Include="Providers\LinearAlgebra\Acml\AcmlLinearAlgebraProvider.Complex32.cs" />

@@ -31,8 +31,8 @@
 using System;
 using System.Collections.Generic;
 using MathNet.Numerics.LinearAlgebra.Single;
-using MathNet.Numerics.LinearAlgebra.Single.Solvers;
 using MathNet.Numerics.LinearAlgebra.Single.Solvers.StopCriterium;
+using MathNet.Numerics.LinearAlgebra.Solvers;
 using MathNet.Numerics.LinearAlgebra.Solvers.Status;
 using MathNet.Numerics.LinearAlgebra.Solvers.StopCriterium;
 using NUnit.Framework;
@@ -51,7 +51,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers
         [Test]
         public void CreateWithNullCollection()
         {
-            var iterator = new Iterator(null);
+            var iterator = new Iterator<float>(null);
             Assert.IsNotNull(iterator, "Should have an iterator");
             Assert.AreEqual(0, iterator.NumberOfCriteria, "There shouldn't be any criteria");
         }
@@ -62,7 +62,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers
         [Test]
         public void CreateWithEmptyCollection()
         {
-            var iterator = new Iterator(new IIterationStopCriterium<float>[] { });
+            var iterator = new Iterator<float>(new IIterationStopCriterium<float>[] { });
             Assert.IsNotNull(iterator, "Should have an iterator");
             Assert.AreEqual(0, iterator.NumberOfCriteria, "There shouldn't be any criteria");
         }
@@ -73,7 +73,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers
         [Test]
         public void CreateWithCollectionWithNulls()
         {
-            var iterator = new Iterator(new IIterationStopCriterium<float>[] { null, null });
+            var iterator = new Iterator<float>(new IIterationStopCriterium<float>[] { null, null });
             Assert.IsNotNull(iterator, "Should have an iterator");
             Assert.AreEqual(0, iterator.NumberOfCriteria, "There shouldn't be any criteria");
         }
@@ -84,7 +84,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers
         [Test]
         public void CreateWithDuplicatesThrowsArgumentException()
         {
-            Assert.Throws<ArgumentException>(() => new Iterator(new IIterationStopCriterium<float>[]
+            Assert.Throws<ArgumentException>(() => new Iterator<float>(new IIterationStopCriterium<float>[]
                 {
                     new FailureStopCriterium(),
                     new FailureStopCriterium()
@@ -104,7 +104,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers
                     new IterationCountStopCriterium<float>(),
                     new ResidualStopCriterium()
                 };
-            var iterator = new Iterator(criteria);
+            var iterator = new Iterator<float>(criteria);
             Assert.IsNotNull(iterator, "Should have an iterator");
 
             // Check that we have all the criteria
@@ -121,7 +121,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers
         [Test]
         public void AddWithNullStopCriteriumThrowsArgumentNullException()
         {
-            var iterator = new Iterator();
+            var iterator = new Iterator<float>();
             Assert.Throws<ArgumentNullException>(() => iterator.Add(null));
         }
 
@@ -131,7 +131,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers
         [Test]
         public void AddWithExistingStopCriteriumThrowsArgumentException()
         {
-            var iterator = new Iterator();
+            var iterator = new Iterator<float>();
             iterator.Add(new FailureStopCriterium());
             Assert.AreEqual(1, iterator.NumberOfCriteria, "Incorrect criterium count");
 
@@ -151,7 +151,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers
                     new IterationCountStopCriterium<float>(),
                     new ResidualStopCriterium()
                 };
-            var iterator = new Iterator();
+            var iterator = new Iterator<float>();
             Assert.AreEqual(0, iterator.NumberOfCriteria, "Incorrect criterium count");
 
             foreach (var criterium in criteria)
@@ -181,7 +181,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers
                     new IterationCountStopCriterium<float>(),
                     new ResidualStopCriterium()
                 };
-            var iterator = new Iterator(criteria);
+            var iterator = new Iterator<float>(criteria);
             Assert.AreEqual(criteria.Count, iterator.NumberOfCriteria, "Incorrect criterium count");
 
             Assert.Throws<ArgumentNullException>(() => iterator.Remove(null));
@@ -199,7 +199,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers
                     new DivergenceStopCriterium(),
                     new IterationCountStopCriterium<float>(),
                 };
-            var iterator = new Iterator(criteria);
+            var iterator = new Iterator<float>(criteria);
             Assert.AreEqual(criteria.Count, iterator.NumberOfCriteria, "Incorrect criterium count");
 
             iterator.Remove(new ResidualStopCriterium());
@@ -219,7 +219,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers
                     new IterationCountStopCriterium<float>(),
                     new ResidualStopCriterium()
                 };
-            var iterator = new Iterator(criteria);
+            var iterator = new Iterator<float>(criteria);
             Assert.AreEqual(criteria.Count, iterator.NumberOfCriteria, "Incorrect criterium count");
 
             foreach (var criterium in criteria)
@@ -235,7 +235,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers
         [Test]
         public void DetermineStatusWithoutStopCriteriaThrowsArgumentException()
         {
-            var iterator = new Iterator();
+            var iterator = new Iterator<float>();
             Assert.Throws<ArgumentException>(() => iterator.DetermineStatus(
                 0,
                 DenseVector.Create(3, i => 4),
@@ -256,7 +256,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers
                     new IterationCountStopCriterium<float>(),
                     new ResidualStopCriterium()
                 };
-            var iterator = new Iterator(criteria);
+            var iterator = new Iterator<float>(criteria);
 
             Assert.Throws<ArgumentOutOfRangeException>(() => iterator.DetermineStatus(
                 -1,
@@ -278,7 +278,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers
                     new IterationCountStopCriterium<float>(),
                     new ResidualStopCriterium()
                 };
-            var iterator = new Iterator(criteria);
+            var iterator = new Iterator<float>(criteria);
 
             Assert.Throws<ArgumentNullException>(() => iterator.DetermineStatus(
                 1,
@@ -300,7 +300,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers
                     new IterationCountStopCriterium<float>(),
                     new ResidualStopCriterium()
                 };
-            var iterator = new Iterator(criteria);
+            var iterator = new Iterator<float>(criteria);
 
             Assert.Throws<ArgumentNullException>(() => iterator.DetermineStatus(
                 1,
@@ -322,7 +322,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers
                     new IterationCountStopCriterium<float>(),
                     new ResidualStopCriterium()
                 };
-            var iterator = new Iterator(criteria);
+            var iterator = new Iterator<float>(criteria);
 
             Assert.Throws<ArgumentNullException>(() => iterator.DetermineStatus(
                 1,
@@ -344,7 +344,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers
                     new IterationCountStopCriterium<float>(1)
                 };
 
-            var iterator = new Iterator(criteria);
+            var iterator = new Iterator<float>(criteria);
 
             // First step, nothing should happen.
             iterator.DetermineStatus(
@@ -376,7 +376,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers
                     new IterationCountStopCriterium<float>(1)
                 };
 
-            var iterator = new Iterator(criteria);
+            var iterator = new Iterator<float>(criteria);
 
             // First step, nothing should happen.
             iterator.DetermineStatus(
@@ -407,12 +407,12 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers
                     new ResidualStopCriterium()
                 };
 
-            var iterator = new Iterator(criteria);
+            var iterator = new Iterator<float>(criteria);
 
             var clonedIterator = iterator.Clone();
-            Assert.IsInstanceOf(typeof (Iterator), clonedIterator, "Incorrect type");
+            Assert.IsInstanceOf(typeof(Iterator<float>), clonedIterator, "Incorrect type");
 
-            var clone = clonedIterator as Iterator;
+            var clone = clonedIterator as Iterator<float>;
             Assert.IsNotNull(clone);
 
             // ReSharper disable PossibleNullReferenceException

@@ -30,9 +30,9 @@
 
 using System;
 using MathNet.Numerics.LinearAlgebra.Complex32;
-using MathNet.Numerics.LinearAlgebra.Complex32.Solvers;
 using MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Iterative;
 using MathNet.Numerics.LinearAlgebra.Complex32.Solvers.StopCriterium;
+using MathNet.Numerics.LinearAlgebra.Solvers;
 using MathNet.Numerics.LinearAlgebra.Solvers.Status;
 using MathNet.Numerics.LinearAlgebra.Solvers.StopCriterium;
 using NUnit.Framework;
@@ -96,7 +96,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.Iterat
             var y = DenseVector.Create(matrix.RowCount, i => 1);
 
             // Create an iteration monitor which will keep track of iterative convergence
-            var monitor = new Iterator(new IIterationStopCriterium<Complex32>[]
+            var monitor = new Iterator<Complex32>(new IIterationStopCriterium<Complex32>[]
                 {
                     new IterationCountStopCriterium<Complex32>(MaximumIterations),
                     new ResidualStopCriterium(ConvergenceBoundary),
@@ -142,7 +142,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.Iterat
             var y = DenseVector.Create(matrix.RowCount, i => 1);
 
             // Create an iteration monitor which will keep track of iterative convergence
-            var monitor = new Iterator(new IIterationStopCriterium<Complex32>[]
+            var monitor = new Iterator<Complex32>(new IIterationStopCriterium<Complex32>[]
                 {
                     new IterationCountStopCriterium<Complex32>(MaximumIterations),
                     new ResidualStopCriterium(ConvergenceBoundary),
@@ -220,7 +220,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.Iterat
             var y = DenseVector.Create(matrix.RowCount, i => 1);
 
             // Create an iteration monitor which will keep track of iterative convergence
-            var monitor = new Iterator(new IIterationStopCriterium<Complex32>[]
+            var monitor = new Iterator<Complex32>(new IIterationStopCriterium<Complex32>[]
                 {
                     new IterationCountStopCriterium<Complex32>(MaximumIterations),
                     new ResidualStopCriterium(ConvergenceBoundary),
@@ -261,7 +261,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.Iterat
                 var matrixA = MatrixLoader.GenerateRandomDenseMatrix(order, order);
                 var vectorb = MatrixLoader.GenerateRandomDenseVector(order);
 
-                var monitor = new Iterator(new IIterationStopCriterium<Complex32>[]
+                var monitor = new Iterator<Complex32>(new IIterationStopCriterium<Complex32>[]
                     {
                         new IterationCountStopCriterium<Complex32>(1000),
                         new ResidualStopCriterium((float) Math.Pow(1.0/10.0, iteration)),
@@ -304,7 +304,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.Iterat
                 var matrixA = MatrixLoader.GenerateRandomDenseMatrix(order, order);
                 var matrixB = MatrixLoader.GenerateRandomDenseMatrix(order, order);
 
-                var monitor = new Iterator(new IIterationStopCriterium<Complex32>[]
+                var monitor = new Iterator<Complex32>(new IIterationStopCriterium<Complex32>[]
                     {
                         new IterationCountStopCriterium<Complex32>(1000),
                         new ResidualStopCriterium((float) Math.Pow(1.0/10.0, iteration))
