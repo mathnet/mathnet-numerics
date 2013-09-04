@@ -28,14 +28,15 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System;
+using MathNet.Numerics.LinearAlgebra.Solvers;
+using MathNet.Numerics.Properties;
+
 namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Preconditioners
 {
-    using System;
-    using Properties;
-
     /// <summary>
     /// A unit preconditioner. This preconditioner does not actually do anything
-    /// it is only used when running an <see cref="IIterativeSolver"/> without
+    /// it is only used when running an <see cref="IIterativeSolver{T}"/> without
     /// a preconditioner.
     /// </summary>
     internal sealed class UnitPreconditioner : IPreConditioner

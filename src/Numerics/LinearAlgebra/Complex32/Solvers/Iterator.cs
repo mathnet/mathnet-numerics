@@ -52,9 +52,9 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers
         private static readonly ICalculationStatus DefaultStatus = new CalculationIndetermined();
 
         /// <summary>
-        /// Creates a default iterator with all the <see cref="IIterationStopCriterium"/> objects.
+        /// Creates a default iterator with all the <see cref="IIterationStopCriterium{T}"/> objects.
         /// </summary>
-        /// <returns>A new <see cref="IIterator"/> object.</returns>
+        /// <returns>A new <see cref="IIterator{T}"/> object.</returns>
         public static IIterator<Complex32> CreateDefault()
         {
             var iterator = new Iterator();
@@ -112,7 +112,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers
         }
 
         /// <summary>
-        /// Adds an <see cref="IIterationStopCriterium"/> to the internal collection of stop-criteria. Only a 
+        /// Adds an <see cref="IIterationStopCriterium{T}"/> to the internal collection of stop-criteria. Only a 
         /// single stop criterium of each type can be stored.
         /// </summary>
         /// <param name="stopCriterium">The stop criterium to add.</param>
@@ -138,7 +138,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers
         }
 
         /// <summary>
-        /// Removes the <see cref="IIterationStopCriterium"/> from the internal collection.
+        /// Removes the <see cref="IIterationStopCriterium{T}"/> from the internal collection.
         /// </summary>
         /// <param name="stopCriterium">The stop criterium that must be removed.</param>
         public void Remove(IIterationStopCriterium<Complex32> stopCriterium)
@@ -158,10 +158,10 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers
         }
 
         /// <summary>
-        /// Indicates if the specific stop criterium is stored by the <see cref="IIterator"/>.
+        /// Indicates if the specific stop criterium is stored by the <see cref="IIterator{T}"/>.
         /// </summary>
         /// <param name="stopCriterium">The stop criterium.</param>
-        /// <returns><c>true</c> if the <see cref="IIterator"/> contains the stop criterium; otherwise <c>false</c>.</returns>
+        /// <returns><c>true</c> if the <see cref="IIterator{T}"/> contains the stop criterium; otherwise <c>false</c>.</returns>
         public bool Contains(IIterationStopCriterium<Complex32> stopCriterium)
         {
             return stopCriterium != null && _stopCriterias.ContainsKey(stopCriterium.GetType());
@@ -288,7 +288,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers
         }
 
         /// <summary>
-        /// Resets the <see cref="IIterator"/> to the pre-calculation state.
+        /// Resets the <see cref="IIterator{T}"/> to the pre-calculation state.
         /// </summary>
         public void ResetToPrecalculationState()
         {

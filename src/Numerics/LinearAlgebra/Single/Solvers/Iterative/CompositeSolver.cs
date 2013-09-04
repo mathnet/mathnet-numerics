@@ -107,7 +107,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Iterative
         #region Solver information loading methods
 
         /// <summary>
-        /// Loads all the available <see cref="IIterativeSolverSetup"/> objects from the MathNet.Numerics assembly.
+        /// Loads all the available <see cref="IIterativeSolverSetup{T}"/> objects from the MathNet.Numerics assembly.
         /// </summary>
         public static void LoadSolverInformation()
         {
@@ -115,9 +115,9 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Iterative
         }
 
         /// <summary>
-        /// Loads the available <see cref="IIterativeSolverSetup"/> objects from the MathNet.Numerics assembly.
+        /// Loads the available <see cref="IIterativeSolverSetup{T}"/> objects from the MathNet.Numerics assembly.
         /// </summary>
-        /// <param name="typesToExclude">The <see cref="IIterativeSolver"/> types that should not be loaded.</param>
+        /// <param name="typesToExclude">The <see cref="IIterativeSolver{T}"/> types that should not be loaded.</param>
         public static void LoadSolverInformation(Type[] typesToExclude)
         {
             LoadSolverInformationFromAssembly(Assembly.GetExecutingAssembly(), typesToExclude);
@@ -125,7 +125,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Iterative
 
 #if !PORTABLE
         /// <summary>
-        /// Loads the available <see cref="IIterativeSolverSetup"/> objects from the assembly specified by the file location.
+        /// Loads the available <see cref="IIterativeSolverSetup{T}"/> objects from the assembly specified by the file location.
         /// </summary>
         /// <param name="assemblyLocation">The fully qualified path to the assembly.</param>
         public static void LoadSolverInformationFromAssembly(string assemblyLocation)
@@ -134,10 +134,10 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Iterative
         }
 
         /// <summary>
-        /// Loads the available <see cref="IIterativeSolverSetup"/> objects from the assembly specified by the file location.
+        /// Loads the available <see cref="IIterativeSolverSetup{T}"/> objects from the assembly specified by the file location.
         /// </summary>
         /// <param name="assemblyLocation">The fully qualified path to the assembly.</param>
-        /// <param name="typesToExclude">The <see cref="IIterativeSolver"/> types that should not be loaded. </param>
+        /// <param name="typesToExclude">The <see cref="IIterativeSolver{T}"/> types that should not be loaded. </param>
         public static void LoadSolverInformationFromAssembly(string assemblyLocation, params Type[] typesToExclude)
         {
             if (assemblyLocation == null)
@@ -173,7 +173,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Iterative
 #endif
 
         /// <summary>
-        /// Loads the available <see cref="IIterativeSolverSetup"/> objects from the assembly specified by the assembly name.
+        /// Loads the available <see cref="IIterativeSolverSetup{T}"/> objects from the assembly specified by the assembly name.
         /// </summary>
         /// <param name="assemblyName">The <see cref="AssemblyName"/> of the assembly that should be searched for setup objects. </param>
         public static void LoadSolverInformationFromAssembly(AssemblyName assemblyName)
@@ -182,10 +182,10 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Iterative
         }
 
         /// <summary>
-        /// Loads the available <see cref="IIterativeSolverSetup"/> objects from the assembly specified by the assembly name.
+        /// Loads the available <see cref="IIterativeSolverSetup{T}"/> objects from the assembly specified by the assembly name.
         /// </summary>
         /// <param name="assemblyName">The <see cref="AssemblyName"/> of the assembly that should be searched for setup objects.</param>
-        /// <param name="typesToExclude">The <see cref="IIterativeSolver"/> types that should not be loaded.</param>
+        /// <param name="typesToExclude">The <see cref="IIterativeSolver{T}"/> types that should not be loaded.</param>
         public static void LoadSolverInformationFromAssembly(AssemblyName assemblyName, params Type[] typesToExclude)
         {
             if (assemblyName == null)
@@ -205,7 +205,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Iterative
         }
 
         /// <summary>
-        /// Loads the available <see cref="IIterativeSolverSetup"/> objects from the assembly specified by the type.
+        /// Loads the available <see cref="IIterativeSolverSetup{T}"/> objects from the assembly specified by the type.
         /// </summary>
         /// <param name="typeInAssembly">The type in the assembly which should be searched for setup objects.</param>
         public static void LoadSolverInformationFromAssembly(Type typeInAssembly)
@@ -214,10 +214,10 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Iterative
         }
 
         /// <summary>
-        /// Loads the available <see cref="IIterativeSolverSetup"/> objects from the assembly specified by the type.
+        /// Loads the available <see cref="IIterativeSolverSetup{T}"/> objects from the assembly specified by the type.
         /// </summary>
         /// <param name="typeInAssembly">The type in the assembly which should be searched for setup objects.</param>
-        /// <param name="typesToExclude">The <see cref="IIterativeSolver"/> types that should not be loaded.</param>
+        /// <param name="typesToExclude">The <see cref="IIterativeSolver{T}"/> types that should not be loaded.</param>
         public static void LoadSolverInformationFromAssembly(Type typeInAssembly, params Type[] typesToExclude)
         {
             if (typeInAssembly == null)
@@ -229,7 +229,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Iterative
         }
 
         /// <summary>
-        /// Loads the available <see cref="IIterativeSolverSetup"/> objects from the specified assembly.
+        /// Loads the available <see cref="IIterativeSolverSetup{T}"/> objects from the specified assembly.
         /// </summary>
         /// <param name="assembly">The assembly which will be searched for setup objects.</param>
         public static void LoadSolverInformationFromAssembly(Assembly assembly)
@@ -238,10 +238,10 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Iterative
         }
 
         /// <summary>
-        /// Loads the available <see cref="IIterativeSolverSetup"/> objects from the specified assembly.
+        /// Loads the available <see cref="IIterativeSolverSetup{T}"/> objects from the specified assembly.
         /// </summary>
         /// <param name="assembly">The assembly which will be searched for setup objects.</param>
-        /// <param name="typesToExclude">The <see cref="IIterativeSolver"/> types that should not be loaded.</param>
+        /// <param name="typesToExclude">The <see cref="IIterativeSolver{T}"/> types that should not be loaded.</param>
         public static void LoadSolverInformationFromAssembly(Assembly assembly, params Type[] typesToExclude)
         {
             if (assembly == null)
@@ -373,7 +373,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Iterative
         }
 
         /// <summary>
-        /// Sets the <see cref="IIterator"/> that will be used to track the iterative process.
+        /// Sets the <see cref="IIterator{T}"/> that will be used to track the iterative process.
         /// </summary>
         /// <param name="iterator">The iterator.</param>
         public void SetIterator(IIterator<float> iterator)

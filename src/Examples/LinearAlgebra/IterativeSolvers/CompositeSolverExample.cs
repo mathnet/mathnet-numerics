@@ -175,7 +175,7 @@ namespace Examples.LinearAlgebra.IterativeSolversExamples
         /// Creates a fully functional iterative solver with the default settings
         /// given by this setup.
         /// </summary>
-        /// <returns>A new <see cref="IIterativeSolver"/>.</returns>
+        /// <returns>A new <see cref="IIterativeSolver{T}"/>.</returns>
         public IIterativeSolver<double> CreateNew()
         {
             return new BiCgStab();

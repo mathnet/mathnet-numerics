@@ -95,7 +95,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Iterative
         /// Initializes a new instance of the <see cref="BiCgStab"/> class.
         /// </summary>
         /// <remarks>
-        /// When using this constructor the solver will use the <see cref="IIterator"/> with
+        /// When using this constructor the solver will use the <see cref="IIterator{T}"/> with
         /// the standard settings and a default preconditioner.
         /// </remarks>
         public BiCgStab()
@@ -111,17 +111,17 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Iterative
         /// When using this constructor the solver will use a default preconditioner.
         /// </para>
         /// <para>
-        /// The main advantages of using a user defined <see cref="IIterator"/> are:
+        /// The main advantages of using a user defined <see cref="IIterator{T}"/> are:
         /// <list type="number">
         /// <item>It is possible to set the desired convergence limits.</item>
         /// <item>
         /// It is possible to check the reason for which the solver finished 
-        /// the iterative procedure by calling the <see cref="IIterator.Status"/> property.
+        /// the iterative procedure by calling the <see cref="IIterator{T}.Status"/> property.
         /// </item>
         /// </list>
         /// </para>
         /// </remarks>
-        /// <param name="iterator">The <see cref="IIterator"/> that will be used to monitor the iterative process. </param>
+        /// <param name="iterator">The <see cref="IIterator{T}"/> that will be used to monitor the iterative process. </param>
         public BiCgStab(IIterator<Complex32> iterator)
             : this(null, iterator)
         {
@@ -131,7 +131,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Iterative
         /// Initializes a new instance of the <see cref="BiCgStab"/> class.
         /// </summary>
         /// <remarks>
-        /// When using this constructor the solver will use the <see cref="IIterator"/> with
+        /// When using this constructor the solver will use the <see cref="IIterator{T}"/> with
         /// the standard settings.
         /// </remarks>
         /// <param name="preconditioner">The <see cref="IPreConditioner"/> that will be used to precondition the matrix equation.</param>
@@ -145,18 +145,18 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Iterative
         /// </summary>
         /// <remarks>
         /// <para>
-        /// The main advantages of using a user defined <see cref="IIterator"/> are:
+        /// The main advantages of using a user defined <see cref="IIterator{T}"/> are:
         /// <list type="number">
         /// <item>It is possible to set the desired convergence limits.</item>
         /// <item>
         /// It is possible to check the reason for which the solver finished 
-        /// the iterative procedure by calling the <see cref="IIterator.Status"/> property.
+        /// the iterative procedure by calling the <see cref="IIterator{T}.Status"/> property.
         /// </item>
         /// </list>
         /// </para>
         /// </remarks>
         /// <param name="preconditioner">The <see cref="IPreConditioner"/> that will be used to precondition the matrix equation. </param>
-        /// <param name="iterator">The <see cref="IIterator"/> that will be used to monitor the iterative process. </param>
+        /// <param name="iterator">The <see cref="IIterator{T}"/> that will be used to monitor the iterative process. </param>
         public BiCgStab(IPreConditioner preconditioner, IIterator<Complex32> iterator)
         {
             _iterator = iterator;
@@ -173,7 +173,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Iterative
         }
 
         /// <summary>
-        /// Sets the <see cref="IIterator"/> that will be used to track the iterative process.
+        /// Sets the <see cref="IIterator{T}"/> that will be used to track the iterative process.
         /// </summary>
         /// <param name="iterator">The iterator.</param>
         public void SetIterator(IIterator<Complex32> iterator)

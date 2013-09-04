@@ -52,7 +52,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
         /// <summary>
         /// Creates a default iterator with all the <see cref="IIterationStopCriterium{T}"/> objects.
         /// </summary>
-        /// <returns>A new <see cref="IIterator"/> object.</returns>
+        /// <returns>A new <see cref="IIterator{T}"/> object.</returns>
         public static IIterator<float> CreateDefault()
         {
             var iterator = new Iterator();
@@ -156,10 +156,10 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
         }
 
         /// <summary>
-        /// Indicates if the specific stop criterium is stored by the <see cref="IIterator"/>.
+        /// Indicates if the specific stop criterium is stored by the <see cref="IIterator{T}"/>.
         /// </summary>
         /// <param name="stopCriterium">The stop criterium.</param>
-        /// <returns><c>true</c> if the <see cref="IIterator"/> contains the stop criterium; otherwise <c>false</c>.</returns>
+        /// <returns><c>true</c> if the <see cref="IIterator{T}"/> contains the stop criterium; otherwise <c>false</c>.</returns>
         public bool Contains(IIterationStopCriterium<float> stopCriterium)
         {
             return stopCriterium != null && _stopCriterias.ContainsKey(stopCriterium.GetType());
@@ -203,7 +203,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
 
         /// <summary>
         /// Determines the status of the iterative calculation based on the stop criteria stored
-        /// by the current <see cref="IIterator"/>. Result is set into <c>Status</c> field.
+        /// by the current <see cref="IIterator{T}"/>. Result is set into <c>Status</c> field.
         /// </summary>
         /// <param name="iterationNumber">The number of iterations that have passed so far.</param>
         /// <param name="solutionVector">The vector containing the current solution values.</param>
@@ -286,7 +286,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
         }
 
         /// <summary>
-        /// Resets the <see cref="IIterator"/> to the pre-calculation state.
+        /// Resets the <see cref="IIterator{T}"/> to the pre-calculation state.
         /// </summary>
         public void ResetToPrecalculationState()
         {
