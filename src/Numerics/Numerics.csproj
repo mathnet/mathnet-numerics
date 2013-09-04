@@ -122,7 +122,7 @@
     <Compile Include="Distributions\Wishart.cs" />
     <Compile Include="Distributions\Zipf.cs" />
     <Compile Include="LinearAlgebra\Builder.cs" />
-    <Compile Include="LinearAlgebra\Double\Solvers\StopCriterium\IterationCountStopCriterium.cs" />
+    <Compile Include="LinearAlgebra\Solvers\StopCriterium\IterationCountStopCriterium.cs" />
     <Compile Include="Providers\LinearAlgebra\Acml\AcmlLinearAlgebraProvider.Complex.cs" />
     <Compile Include="Providers\LinearAlgebra\Acml\AcmlLinearAlgebraProvider.Complex32.cs" />
     <Compile Include="Providers\LinearAlgebra\Acml\AcmlLinearAlgebraProvider.Double.cs" />
@@ -258,7 +258,6 @@
     <Compile Include="LinearAlgebra\Complex32\Solvers\Preconditioners\UnitPreconditioner.cs" />
     <Compile Include="LinearAlgebra\Complex32\Solvers\StopCriterium\DivergenceStopCriterium.cs" />
     <Compile Include="LinearAlgebra\Complex32\Solvers\StopCriterium\FailureStopCriterium.cs" />
-    <Compile Include="LinearAlgebra\Complex32\Solvers\StopCriterium\IterationCountStopCriterium.cs" />
     <Compile Include="LinearAlgebra\Complex32\Solvers\StopCriterium\ResidualStopCriterium.cs" />
     <Compile Include="LinearAlgebra\Complex32\SparseVector.cs" />
     <Compile Include="LinearAlgebra\Complex\Factorization\DenseGramSchmidt.cs" />
@@ -286,7 +285,6 @@
     <Compile Include="LinearAlgebra\Complex\Solvers\Preconditioners\UnitPreconditioner.cs" />
     <Compile Include="LinearAlgebra\Complex\Solvers\StopCriterium\DivergenceStopCriterium.cs" />
     <Compile Include="LinearAlgebra\Complex\Solvers\StopCriterium\FailureStopCriterium.cs" />
-    <Compile Include="LinearAlgebra\Complex\Solvers\StopCriterium\IterationCountStopCriterium.cs" />
     <Compile Include="LinearAlgebra\Complex\Solvers\StopCriterium\ResidualStopCriterium.cs" />
     <Compile Include="LinearAlgebra\Complex\SparseVector.cs" />
     <Compile Include="LinearAlgebra\Double\DenseVector.cs" />
@@ -335,7 +333,6 @@
     <Compile Include="LinearAlgebra\Single\Solvers\Preconditioners\UnitPreconditioner.cs" />
     <Compile Include="LinearAlgebra\Single\Solvers\StopCriterium\DivergenceStopCriterium.cs" />
     <Compile Include="LinearAlgebra\Single\Solvers\StopCriterium\FailureStopCriterium.cs" />
-    <Compile Include="LinearAlgebra\Single\Solvers\StopCriterium\IterationCountStopCriterium.cs" />
     <Compile Include="LinearAlgebra\Single\Solvers\StopCriterium\ResidualStopCriterium.cs" />
     <Compile Include="LinearAlgebra\Single\SparseMatrix.cs" />
     <Compile Include="LinearAlgebra\Single\SparseVector.cs" />

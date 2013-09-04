@@ -28,18 +28,17 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using MathNet.Numerics.LinearAlgebra.Solvers.Status;
-using MathNet.Numerics.LinearAlgebra.Solvers.StopCriterium;
 using System;
 using System.Diagnostics;
+using MathNet.Numerics.LinearAlgebra.Solvers.Status;
 
-namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.StopCriterium
+namespace MathNet.Numerics.LinearAlgebra.Solvers.StopCriterium
 {
     /// <summary>
     /// Defines an <see cref="IIterationStopCriterium{T}"/> that monitors the numbers of iteration 
     /// steps as stop criterium.
     /// </summary>
-    public sealed class IterationCountStopCriterium : IIterationStopCriterium<float>
+    public sealed class IterationCountStopCriterium<T> : IIterationStopCriterium<T> where T : struct, IEquatable<T>, IFormattable
     {
         /// <summary>
         /// The default value for the maximum number of iterations the process is allowed
@@ -63,7 +62,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.StopCriterium
         private ICalculationStatus _status = DefaultStatus;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="IterationCountStopCriterium"/> class with the default maximum 
+        /// Initializes a new instance of the <see cref="IterationCountStopCriterium{T}"/> class with the default maximum 
         /// number of iterations.
         /// </summary>
         public IterationCountStopCriterium() : this(DefaultMaximumNumberOfIterations)
@@ -71,7 +70,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.StopCriterium
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="IterationCountStopCriterium"/> class with the specified maximum
+        /// Initializes a new instance of the <see cref="IterationCountStopCriterium{T}"/> class with the specified maximum
         /// number of iterations.
         /// </summary>
         /// <param name="maximumNumberOfIterations">The maximum number of iterations the calculation is allowed to perform.</param>
@@ -119,7 +118,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.StopCriterium
 
         /// <summary>
         /// Determines the status of the iterative calculation based on the stop criteria stored
-        /// by the current <see cref="IterationCountStopCriterium"/>. Result is set into <c>Status</c> field.
+        /// by the current <see cref="IterationCountStopCriterium{T}"/>. Result is set into <c>Status</c> field.
         /// </summary>
         /// <param name="iterationNumber">The number of iterations that have passed so far.</param>
         /// <param name="solutionVector">The vector containing the current solution values.</param>
@@ -130,7 +129,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.StopCriterium
         /// on the invocation of this method. Therefore this method should only be called if the 
         /// calculation has moved forwards at least one step.
         /// </remarks>
-        public void DetermineStatus(int iterationNumber, Vector<float> solutionVector, Vector<float> sourceVector, Vector<float> residualVector)
+        public void DetermineStatus(int iterationNumber, Vector<T> solutionVector, Vector<T> sourceVector, Vector<T> residualVector)
         {
             if (iterationNumber < 0)
             {
@@ -182,7 +181,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.StopCriterium
         }
 
         /// <summary>
-        /// Resets the <see cref="IterationCountStopCriterium"/> to the pre-calculation state.
+        /// Resets the <see cref="IterationCountStopCriterium{T}"/> to the pre-calculation state.
         /// </summary>
         public void ResetToPrecalculationState()
         {
@@ -191,7 +190,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.StopCriterium
 
         /// <summary>
         /// Gets the <see cref="StopLevel"/> which indicates what sort of stop criterium this
-        /// <see cref="IterationCountStopCriterium"/> monitors.
+        /// <see cref="IterationCountStopCriterium{T}"/> monitors.
         /// </summary>
         /// <value>Returns <see cref="StopLevel"/>.</value>
         public StopLevel StopLevel
@@ -204,13 +203,12 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.StopCriterium
         }
 
         /// <summary>
-        /// Clones the current <see cref="IterationCountStopCriterium"/> and its settings.
+        /// Clones the current <see cref="IterationCountStopCriterium{T}"/> and its settings.
         /// </summary>
-        /// <returns>A new instance of the <see cref="IterationCountStopCriterium"/> class.</returns>
-        public IIterationStopCriterium<float> Clone()
+        /// <returns>A new instance of the <see cref="IterationCountStopCriterium{T}"/> class.</returns>
+        public IIterationStopCriterium<T> Clone()
         {
-            return new IterationCountStopCriterium(_maximumNumberOfIterations);
+            return new IterationCountStopCriterium<T>(_maximumNumberOfIterations);
         }
-
     }
 }

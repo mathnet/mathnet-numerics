@@ -28,6 +28,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System;
 using MathNet.Numerics.LinearAlgebra.Double;
 using MathNet.Numerics.LinearAlgebra.Double.Solvers;
 using MathNet.Numerics.LinearAlgebra.Double.Solvers.Iterative;
@@ -35,7 +36,6 @@ using MathNet.Numerics.LinearAlgebra.Double.Solvers.StopCriterium;
 using MathNet.Numerics.LinearAlgebra.Solvers.Status;
 using MathNet.Numerics.LinearAlgebra.Solvers.StopCriterium;
 using NUnit.Framework;
-using System;
 
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.Iterative
 {
@@ -96,7 +96,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.Iterative
             // Create an iteration monitor which will keep track of iterative convergence
             var monitor = new Iterator(new IIterationStopCriterium<double>[]
                 {
-                    new IterationCountStopCriterium(MaximumIterations),
+                    new IterationCountStopCriterium<double>(MaximumIterations),
                     new ResidualStopCriterium(ConvergenceBoundary),
                     new DivergenceStopCriterium(),
                     new FailureStopCriterium()
@@ -142,7 +142,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.Iterative
             // Create an iteration monitor which will keep track of iterative convergence
             var monitor = new Iterator(new IIterationStopCriterium<double>[]
                 {
-                    new IterationCountStopCriterium(MaximumIterations),
+                    new IterationCountStopCriterium<double>(MaximumIterations),
                     new ResidualStopCriterium(ConvergenceBoundary),
                     new DivergenceStopCriterium(),
                     new FailureStopCriterium()
@@ -220,7 +220,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.Iterative
             // Create an iteration monitor which will keep track of iterative convergence
             var monitor = new Iterator(new IIterationStopCriterium<double>[]
                 {
-                    new IterationCountStopCriterium(MaximumIterations),
+                    new IterationCountStopCriterium<double>(MaximumIterations),
                     new ResidualStopCriterium(ConvergenceBoundary),
                     new DivergenceStopCriterium(),
                     new FailureStopCriterium()
@@ -261,7 +261,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.Iterative
 
             var monitor = new Iterator(new IIterationStopCriterium<double>[]
                 {
-                    new IterationCountStopCriterium(1000),
+                    new IterationCountStopCriterium<double>(1000),
                     new ResidualStopCriterium(1e-10),
                 });
             var solver = new TFQMR(monitor);
@@ -292,7 +292,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.Iterative
 
             var monitor = new Iterator(new IIterationStopCriterium<double>[]
                 {
-                    new IterationCountStopCriterium(1000),
+                    new IterationCountStopCriterium<double>(1000),
                     new ResidualStopCriterium(1e-10)
                 });
             var solver = new TFQMR(monitor);

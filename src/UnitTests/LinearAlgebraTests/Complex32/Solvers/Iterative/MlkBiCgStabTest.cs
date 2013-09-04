@@ -28,6 +28,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System;
 using MathNet.Numerics.LinearAlgebra.Complex32;
 using MathNet.Numerics.LinearAlgebra.Complex32.Solvers;
 using MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Iterative;
@@ -35,7 +36,6 @@ using MathNet.Numerics.LinearAlgebra.Complex32.Solvers.StopCriterium;
 using MathNet.Numerics.LinearAlgebra.Solvers.Status;
 using MathNet.Numerics.LinearAlgebra.Solvers.StopCriterium;
 using NUnit.Framework;
-using System;
 
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.Iterative
 {
@@ -98,7 +98,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.Iterat
             // Create an iteration monitor which will keep track of iterative convergence
             var monitor = new Iterator(new IIterationStopCriterium<Complex32>[]
                 {
-                    new IterationCountStopCriterium(MaximumIterations),
+                    new IterationCountStopCriterium<Complex32>(MaximumIterations),
                     new ResidualStopCriterium(ConvergenceBoundary),
                     new DivergenceStopCriterium(),
                     new FailureStopCriterium()
@@ -144,7 +144,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.Iterat
             // Create an iteration monitor which will keep track of iterative convergence
             var monitor = new Iterator(new IIterationStopCriterium<Complex32>[]
                 {
-                    new IterationCountStopCriterium(MaximumIterations),
+                    new IterationCountStopCriterium<Complex32>(MaximumIterations),
                     new ResidualStopCriterium(ConvergenceBoundary),
                     new DivergenceStopCriterium(),
                     new FailureStopCriterium()
@@ -222,7 +222,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.Iterat
             // Create an iteration monitor which will keep track of iterative convergence
             var monitor = new Iterator(new IIterationStopCriterium<Complex32>[]
                 {
-                    new IterationCountStopCriterium(MaximumIterations),
+                    new IterationCountStopCriterium<Complex32>(MaximumIterations),
                     new ResidualStopCriterium(ConvergenceBoundary),
                     new DivergenceStopCriterium(),
                     new FailureStopCriterium()
@@ -263,7 +263,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.Iterat
 
                 var monitor = new Iterator(new IIterationStopCriterium<Complex32>[]
                     {
-                        new IterationCountStopCriterium(1000),
+                        new IterationCountStopCriterium<Complex32>(1000),
                         new ResidualStopCriterium((float) Math.Pow(1.0/10.0, iteration)),
                     });
                 var solver = new MlkBiCgStab(monitor);
@@ -306,7 +306,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.Iterat
 
                 var monitor = new Iterator(new IIterationStopCriterium<Complex32>[]
                     {
-                        new IterationCountStopCriterium(1000),
+                        new IterationCountStopCriterium<Complex32>(1000),
                         new ResidualStopCriterium((float) Math.Pow(1.0/10.0, iteration))
                     });
                 var solver = new MlkBiCgStab(monitor);

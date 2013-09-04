@@ -28,14 +28,14 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System;
+using System.Collections.Generic;
 using MathNet.Numerics.LinearAlgebra.Single;
 using MathNet.Numerics.LinearAlgebra.Single.Solvers;
 using MathNet.Numerics.LinearAlgebra.Single.Solvers.StopCriterium;
 using MathNet.Numerics.LinearAlgebra.Solvers.Status;
 using MathNet.Numerics.LinearAlgebra.Solvers.StopCriterium;
 using NUnit.Framework;
-using System;
-using System.Collections.Generic;
 
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers
 {
@@ -101,7 +101,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers
                 {
                     new FailureStopCriterium(),
                     new DivergenceStopCriterium(),
-                    new IterationCountStopCriterium(),
+                    new IterationCountStopCriterium<float>(),
                     new ResidualStopCriterium()
                 };
             var iterator = new Iterator(criteria);
@@ -148,7 +148,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers
                 {
                     new FailureStopCriterium(),
                     new DivergenceStopCriterium(),
-                    new IterationCountStopCriterium(),
+                    new IterationCountStopCriterium<float>(),
                     new ResidualStopCriterium()
                 };
             var iterator = new Iterator();
@@ -178,7 +178,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers
                 {
                     new FailureStopCriterium(),
                     new DivergenceStopCriterium(),
-                    new IterationCountStopCriterium(),
+                    new IterationCountStopCriterium<float>(),
                     new ResidualStopCriterium()
                 };
             var iterator = new Iterator(criteria);
@@ -197,7 +197,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers
                 {
                     new FailureStopCriterium(),
                     new DivergenceStopCriterium(),
-                    new IterationCountStopCriterium(),
+                    new IterationCountStopCriterium<float>(),
                 };
             var iterator = new Iterator(criteria);
             Assert.AreEqual(criteria.Count, iterator.NumberOfCriteria, "Incorrect criterium count");
@@ -216,7 +216,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers
                 {
                     new FailureStopCriterium(),
                     new DivergenceStopCriterium(),
-                    new IterationCountStopCriterium(),
+                    new IterationCountStopCriterium<float>(),
                     new ResidualStopCriterium()
                 };
             var iterator = new Iterator(criteria);
@@ -253,7 +253,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers
                 {
                     new FailureStopCriterium(),
                     new DivergenceStopCriterium(),
-                    new IterationCountStopCriterium(),
+                    new IterationCountStopCriterium<float>(),
                     new ResidualStopCriterium()
                 };
             var iterator = new Iterator(criteria);
@@ -275,7 +275,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers
                 {
                     new FailureStopCriterium(),
                     new DivergenceStopCriterium(),
-                    new IterationCountStopCriterium(),
+                    new IterationCountStopCriterium<float>(),
                     new ResidualStopCriterium()
                 };
             var iterator = new Iterator(criteria);
@@ -297,7 +297,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers
                 {
                     new FailureStopCriterium(),
                     new DivergenceStopCriterium(),
-                    new IterationCountStopCriterium(),
+                    new IterationCountStopCriterium<float>(),
                     new ResidualStopCriterium()
                 };
             var iterator = new Iterator(criteria);
@@ -319,7 +319,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers
                 {
                     new FailureStopCriterium(),
                     new DivergenceStopCriterium(),
-                    new IterationCountStopCriterium(),
+                    new IterationCountStopCriterium<float>(),
                     new ResidualStopCriterium()
                 };
             var iterator = new Iterator(criteria);
@@ -341,7 +341,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers
                 {
                     new FailureStopCriterium(),
                     new DivergenceStopCriterium(),
-                    new IterationCountStopCriterium(1)
+                    new IterationCountStopCriterium<float>(1)
                 };
 
             var iterator = new Iterator(criteria);
@@ -373,7 +373,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers
                 {
                     new FailureStopCriterium(),
                     new DivergenceStopCriterium(),
-                    new IterationCountStopCriterium(1)
+                    new IterationCountStopCriterium<float>(1)
                 };
 
             var iterator = new Iterator(criteria);
@@ -403,7 +403,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers
                 {
                     new FailureStopCriterium(),
                     new DivergenceStopCriterium(),
-                    new IterationCountStopCriterium(),
+                    new IterationCountStopCriterium<float>(),
                     new ResidualStopCriterium()
                 };
 

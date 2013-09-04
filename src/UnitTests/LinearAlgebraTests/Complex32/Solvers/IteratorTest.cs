@@ -103,7 +103,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers
                 {
                     new FailureStopCriterium(),
                     new DivergenceStopCriterium(),
-                    new IterationCountStopCriterium(),
+                    new IterationCountStopCriterium<Complex32>(),
                     new ResidualStopCriterium()
                 };
             var iterator = new Iterator(criteria);
@@ -150,7 +150,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers
                 {
                     new FailureStopCriterium(),
                     new DivergenceStopCriterium(),
-                    new IterationCountStopCriterium(),
+                    new IterationCountStopCriterium<Complex32>(),
                     new ResidualStopCriterium()
                 };
             var iterator = new Iterator();
@@ -180,7 +180,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers
                 {
                     new FailureStopCriterium(),
                     new DivergenceStopCriterium(),
-                    new IterationCountStopCriterium(),
+                    new IterationCountStopCriterium<Complex32>(),
                     new ResidualStopCriterium()
                 };
             var iterator = new Iterator(criteria);
@@ -199,7 +199,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers
                 {
                     new FailureStopCriterium(),
                     new DivergenceStopCriterium(),
-                    new IterationCountStopCriterium(),
+                    new IterationCountStopCriterium<Complex32>(),
                 };
             var iterator = new Iterator(criteria);
             Assert.AreEqual(criteria.Count, iterator.NumberOfCriteria, "Incorrect criterium count");
@@ -218,7 +218,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers
                 {
                     new FailureStopCriterium(),
                     new DivergenceStopCriterium(),
-                    new IterationCountStopCriterium(),
+                    new IterationCountStopCriterium<Complex32>(),
                     new ResidualStopCriterium()
                 };
             var iterator = new Iterator(criteria);
@@ -255,7 +255,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers
                 {
                     new FailureStopCriterium(),
                     new DivergenceStopCriterium(),
-                    new IterationCountStopCriterium(),
+                    new IterationCountStopCriterium<Complex32>(),
                     new ResidualStopCriterium()
                 };
             var iterator = new Iterator(criteria);
@@ -277,7 +277,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers
                 {
                     new FailureStopCriterium(),
                     new DivergenceStopCriterium(),
-                    new IterationCountStopCriterium(),
+                    new IterationCountStopCriterium<Complex32>(),
                     new ResidualStopCriterium()
                 };
             var iterator = new Iterator(criteria);
@@ -299,7 +299,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers
                 {
                     new FailureStopCriterium(),
                     new DivergenceStopCriterium(),
-                    new IterationCountStopCriterium(),
+                    new IterationCountStopCriterium<Complex32>(),
                     new ResidualStopCriterium()
                 };
             var iterator = new Iterator(criteria);
@@ -321,7 +321,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers
                 {
                     new FailureStopCriterium(),
                     new DivergenceStopCriterium(),
-                    new IterationCountStopCriterium(),
+                    new IterationCountStopCriterium<Complex32>(),
                     new ResidualStopCriterium()
                 };
             var iterator = new Iterator(criteria);
@@ -343,7 +343,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers
                 {
                     new FailureStopCriterium(),
                     new DivergenceStopCriterium(),
-                    new IterationCountStopCriterium(1)
+                    new IterationCountStopCriterium<Complex32>(1)
                 };
 
             var iterator = new Iterator(criteria);
@@ -375,7 +375,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers
                 {
                     new FailureStopCriterium(),
                     new DivergenceStopCriterium(),
-                    new IterationCountStopCriterium(1)
+                    new IterationCountStopCriterium<Complex32>(1)
                 };
 
             var iterator = new Iterator(criteria);
@@ -405,7 +405,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers
                 {
                     new FailureStopCriterium(),
                     new DivergenceStopCriterium(),
-                    new IterationCountStopCriterium(),
+                    new IterationCountStopCriterium<Complex32>(),
                     new ResidualStopCriterium()
                 };
 

@@ -96,7 +96,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.Iterative
             // Create an iteration monitor which will keep track of iterative convergence
             var monitor = new Iterator(new IIterationStopCriterium<double>[]
                 {
-                    new IterationCountStopCriterium(MaximumIterations),
+                    new IterationCountStopCriterium<double>(MaximumIterations),
                     new ResidualStopCriterium(ConvergenceBoundary),
                     new DivergenceStopCriterium(),
                     new FailureStopCriterium()
@@ -141,7 +141,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.Iterative
             // Create an iteration monitor which will keep track of iterative convergence
             var monitor = new Iterator(new IIterationStopCriterium<double>[]
                 {
-                    new IterationCountStopCriterium(MaximumIterations),
+                    new IterationCountStopCriterium<double>(MaximumIterations),
                     new ResidualStopCriterium(ConvergenceBoundary),
                     new DivergenceStopCriterium(),
                     new FailureStopCriterium()
@@ -220,7 +220,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.Iterative
             // Create an iteration monitor which will keep track of iterative convergence
             var monitor = new Iterator(new IIterationStopCriterium<double>[]
                 {
-                    new IterationCountStopCriterium(MaximumIterations),
+                    new IterationCountStopCriterium<double>(MaximumIterations),
                     new ResidualStopCriterium(ConvergenceBoundary),
                     new DivergenceStopCriterium(),
                     new FailureStopCriterium()
@@ -266,7 +266,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.Iterative
 
             var monitor = new Iterator(new IIterationStopCriterium<double>[]
                 {
-                    new IterationCountStopCriterium(1000),
+                    new IterationCountStopCriterium<double>(1000),
                     new ResidualStopCriterium(1e-10),
                 });
             var solver = new GpBiCg(monitor);
@@ -297,7 +297,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.Iterative
 
             var monitor = new Iterator(new IIterationStopCriterium<double>[]
                 {
-                    new IterationCountStopCriterium(1000),
+                    new IterationCountStopCriterium<double>(1000),
                     new ResidualStopCriterium(1e-10)
                 });
             var solver = new GpBiCg(monitor);

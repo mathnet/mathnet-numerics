@@ -28,14 +28,16 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using MathNet.Numerics.LinearAlgebra.Complex;
-using MathNet.Numerics.LinearAlgebra.Complex.Solvers.StopCriterium;
-using MathNet.Numerics.LinearAlgebra.Solvers.Status;
-using NUnit.Framework;
 using System;
+using MathNet.Numerics.LinearAlgebra.Complex;
+using MathNet.Numerics.LinearAlgebra.Solvers.Status;
+using MathNet.Numerics.LinearAlgebra.Solvers.StopCriterium;
+using NUnit.Framework;
 
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.StopCriterium
 {
+    using System.Numerics;
+
     /// <summary>
     /// Iteration count stop criterium tests.
     /// </summary>
@@ -48,7 +50,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.StopCrit
         [Test]
         public void CreateWithIllegalMinimumIterationsThrowsArgumentOutOfRangeException()
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() => new IterationCountStopCriterium(-1));
+            Assert.Throws<ArgumentOutOfRangeException>(() => new IterationCountStopCriterium<Complex>(-1));
         }
 
         /// <summary>
@@ -57,7 +59,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.StopCrit
         [Test]
         public void Create()
         {
-            var criterium = new IterationCountStopCriterium(10);
+            var criterium = new IterationCountStopCriterium<Complex>(10);
             Assert.IsNotNull(criterium, "A criterium should have been created");
         }
 
@@ -67,13 +69,13 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.StopCrit
         [Test]
         public void ResetMaximumIterations()
         {
-            var criterium = new IterationCountStopCriterium(10);
+            var criterium = new IterationCountStopCriterium<Complex>(10);
             Assert.IsNotNull(criterium, "A criterium should have been created");
             Assert.AreEqual(10, criterium.MaximumNumberOfIterations, "Incorrect maximum number of iterations");
 
             criterium.ResetMaximumNumberOfIterationsToDefault();
             Assert.AreNotEqual(10, criterium.MaximumNumberOfIterations, "Should have reset");
-            Assert.AreEqual(IterationCountStopCriterium.DefaultMaximumNumberOfIterations, criterium.MaximumNumberOfIterations, "Reset to the wrong value");
+            Assert.AreEqual(IterationCountStopCriterium<Complex>.DefaultMaximumNumberOfIterations, criterium.MaximumNumberOfIterations, "Reset to the wrong value");
         }
 
         /// <summary>
@@ -82,7 +84,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.StopCrit
         [Test]
         public void DetermineStatusWithIllegalIterationNumberThrowsArgumentOutOfRangeException()
         {
-            var criterium = new IterationCountStopCriterium(10);
+            var criterium = new IterationCountStopCriterium<Complex>(10);
             Assert.IsNotNull(criterium, "A criterium should have been created");
 
             Assert.Throws<ArgumentOutOfRangeException>(() => criterium.DetermineStatus(-1, DenseVector.Create(3, i => 1), DenseVector.Create(3, i => 2), DenseVector.Create(3, i => 3)));
@@ -94,7 +96,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.StopCrit
         [Test]
         public void DetermineStatus()
         {
-            var criterium = new IterationCountStopCriterium(10);
+            var criterium = new IterationCountStopCriterium<Complex>(10);
             Assert.IsNotNull(criterium, "A criterium should have been created");
 
             criterium.DetermineStatus(5, DenseVector.Create(3, i => 1), DenseVector.Create(3, i => 2), DenseVector.Create(3, i => 3));
@@ -110,7 +112,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.StopCrit
         [Test]
         public void ResetCalculationState()
         {
-            var criterium = new IterationCountStopCriterium(10);
+            var criterium = new IterationCountStopCriterium<Complex>(10);
             Assert.IsNotNull(criterium, "A criterium should have been created");
 
             criterium.DetermineStatus(5, DenseVector.Create(3, i => 1), DenseVector.Create(3, i => 2), DenseVector.Create(3, i => 3));
@@ -126,14 +128,14 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.StopCrit
         [Test]
         public void Clone()
         {
-            var criterium = new IterationCountStopCriterium(10);
+            var criterium = new IterationCountStopCriterium<Complex>(10);
             Assert.IsNotNull(criterium, "A criterium should have been created");
             Assert.AreEqual(10, criterium.MaximumNumberOfIterations, "Incorrect maximum");
 
             var clone = criterium.Clone();
-            Assert.IsInstanceOf(typeof (IterationCountStopCriterium), clone, "Wrong criterium type");
+            Assert.IsInstanceOf(typeof(IterationCountStopCriterium<Complex>), clone, "Wrong criterium type");
 
-            var clonedCriterium = clone as IterationCountStopCriterium;
+            var clonedCriterium = clone as IterationCountStopCriterium<Complex>;
             Assert.IsNotNull(clonedCriterium);
 
             // ReSharper disable PossibleNullReferenceException

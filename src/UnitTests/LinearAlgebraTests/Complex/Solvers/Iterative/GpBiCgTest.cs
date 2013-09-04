@@ -98,7 +98,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.Iterativ
             // Create an iteration monitor which will keep track of iterative convergence
             var monitor = new Iterator(new IIterationStopCriterium<Complex>[]
                 {
-                    new IterationCountStopCriterium(MaximumIterations),
+                    new IterationCountStopCriterium<Complex>(MaximumIterations),
                     new ResidualStopCriterium(ConvergenceBoundary),
                     new DivergenceStopCriterium(),
                     new FailureStopCriterium()
@@ -143,7 +143,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.Iterativ
             // Create an iteration monitor which will keep track of iterative convergence
             var monitor = new Iterator(new IIterationStopCriterium<Complex>[]
                 {
-                    new IterationCountStopCriterium(MaximumIterations),
+                    new IterationCountStopCriterium<Complex>(MaximumIterations),
                     new ResidualStopCriterium(ConvergenceBoundary),
                     new DivergenceStopCriterium(),
                     new FailureStopCriterium()
@@ -222,7 +222,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.Iterativ
             // Create an iteration monitor which will keep track of iterative convergence
             var monitor = new Iterator(new IIterationStopCriterium<Complex>[]
                 {
-                    new IterationCountStopCriterium(MaximumIterations),
+                    new IterationCountStopCriterium<Complex>(MaximumIterations),
                     new ResidualStopCriterium(ConvergenceBoundary),
                     new DivergenceStopCriterium(),
                     new FailureStopCriterium()
@@ -264,7 +264,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.Iterativ
 
             var monitor = new Iterator(new IIterationStopCriterium<Complex>[]
                 {
-                    new IterationCountStopCriterium(1000),
+                    new IterationCountStopCriterium<Complex>(1000),
                     new ResidualStopCriterium(1e-10),
                 });
             var solver = new GpBiCg(monitor);
@@ -296,7 +296,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.Iterativ
 
             var monitor = new Iterator(new IIterationStopCriterium<Complex>[]
                 {
-                    new IterationCountStopCriterium(1000),
+                    new IterationCountStopCriterium<Complex>(1000),
                     new ResidualStopCriterium(1e-10),
                 });
             var solver = new GpBiCg(monitor);

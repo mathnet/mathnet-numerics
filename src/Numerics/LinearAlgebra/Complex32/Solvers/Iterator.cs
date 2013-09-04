@@ -59,7 +59,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers
             var iterator = new Iterator();
             iterator.Add(new FailureStopCriterium());
             iterator.Add(new DivergenceStopCriterium());
-            iterator.Add(new IterationCountStopCriterium());
+            iterator.Add(new IterationCountStopCriterium<Complex32>());
             iterator.Add(new ResidualStopCriterium());
 
             return iterator;

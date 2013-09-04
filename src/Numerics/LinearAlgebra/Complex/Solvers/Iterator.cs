@@ -28,13 +28,13 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using MathNet.Numerics.LinearAlgebra.Complex.Solvers.StopCriterium;
 using MathNet.Numerics.LinearAlgebra.Solvers.Status;
 using MathNet.Numerics.LinearAlgebra.Solvers.StopCriterium;
 using MathNet.Numerics.Properties;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
 {
@@ -64,7 +64,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
             var iterator = new Iterator();
             iterator.Add(new FailureStopCriterium());
             iterator.Add(new DivergenceStopCriterium());
-            iterator.Add(new IterationCountStopCriterium());
+            iterator.Add(new IterationCountStopCriterium<Complex>());
             iterator.Add(new ResidualStopCriterium());
 
             return iterator;
