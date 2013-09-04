@@ -28,10 +28,11 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System;
 using MathNet.Numerics.LinearAlgebra.Single.Solvers.Preconditioners;
+using MathNet.Numerics.LinearAlgebra.Solvers;
 using MathNet.Numerics.LinearAlgebra.Solvers.Status;
 using MathNet.Numerics.Properties;
-using System;
 
 namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Iterative
 {
@@ -79,7 +80,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Iterative
         /// <summary>
         /// The iterative process controller.
         /// </summary>
-        IIterator _iterator;
+        IIterator<float> _iterator;
 
         /// <summary>
         /// Indicates the number of <c>BiCGStab</c> steps should be taken 
@@ -129,7 +130,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Iterative
         /// </para>
         /// </remarks>
         /// <param name="iterator">The <see cref="IIterator"/> that will be used to monitor the iterative process.</param>
-        public GpBiCg(IIterator iterator)
+        public GpBiCg(IIterator<float> iterator)
             : this(null, iterator)
         {
         }
@@ -164,7 +165,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Iterative
         /// </remarks>
         /// <param name="preconditioner">The <see cref="IPreConditioner"/> that will be used to precondition the matrix equation.</param>
         /// <param name="iterator">The <see cref="IIterator"/> that will be used to monitor the iterative process.</param>
-        public GpBiCg(IPreConditioner preconditioner, IIterator iterator)
+        public GpBiCg(IPreConditioner preconditioner, IIterator<float> iterator)
         {
             _iterator = iterator;
             _preconditioner = preconditioner;
@@ -221,7 +222,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Iterative
         /// Sets the <see cref="IIterator"/> that will be used to track the iterative process.
         /// </summary>
         /// <param name="iterator">The iterator.</param>
-        public void SetIterator(IIterator iterator)
+        public void SetIterator(IIterator<float> iterator)
         {
             _iterator = iterator;
         }

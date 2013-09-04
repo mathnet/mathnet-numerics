@@ -28,6 +28,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using MathNet.Numerics.LinearAlgebra.Solvers;
 using MathNet.Numerics.LinearAlgebra.Solvers.Status;
 
 namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
@@ -50,7 +51,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
         /// Sets the <see cref="IIterator"/> that will be used to track the iterative process.
         /// </summary>
         /// <param name="iterator">The iterator.</param>
-        void SetIterator(IIterator iterator);
+        void SetIterator(IIterator<float> iterator);
 
         /// <summary>
         /// Gets the status of the iteration once the calculation is finished.

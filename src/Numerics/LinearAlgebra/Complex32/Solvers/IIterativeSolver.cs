@@ -28,6 +28,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using MathNet.Numerics.LinearAlgebra.Solvers;
 using MathNet.Numerics.LinearAlgebra.Solvers.Status;
 
 namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers
@@ -52,7 +53,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers
         /// Sets the <see cref="IIterator"/> that will be used to track the iterative process.
         /// </summary>
         /// <param name="iterator">The iterator.</param>
-        void SetIterator(IIterator iterator);
+        void SetIterator(IIterator<Complex32> iterator);
 
         /// <summary>
         /// Gets the status of the iteration once the calculation is finished.

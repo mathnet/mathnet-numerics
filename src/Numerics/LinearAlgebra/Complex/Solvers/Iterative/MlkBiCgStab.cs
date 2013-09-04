@@ -34,6 +34,7 @@ using System.Diagnostics;
 using System.Linq;
 using MathNet.Numerics.Distributions;
 using MathNet.Numerics.LinearAlgebra.Complex.Solvers.Preconditioners;
+using MathNet.Numerics.LinearAlgebra.Solvers;
 using MathNet.Numerics.LinearAlgebra.Solvers.Status;
 using MathNet.Numerics.Properties;
 
@@ -92,7 +93,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Iterative
         /// <summary>
         /// The iterative process controller.
         /// </summary>
-        IIterator _iterator;
+        IIterator<Complex> _iterator;
 
         /// <summary>
         /// The collection of starting vectors which are used as the basis for the Krylov sub-space.
@@ -140,7 +141,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Iterative
         /// </para>
         /// </remarks>
         /// <param name="iterator">The <see cref="IIterator"/> that will be used to monitor the iterative process.</param>
-        public MlkBiCgStab(IIterator iterator)
+        public MlkBiCgStab(IIterator<Complex> iterator)
             : this(null, iterator)
         {
         }
@@ -175,7 +176,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Iterative
         /// </remarks>
         /// <param name="preconditioner">The <see cref="IPreConditioner"/> that will be used to precondition the matrix equation.</param>
         /// <param name="iterator">The <see cref="IIterator"/> that will be used to monitor the iterative process.</param>
-        public MlkBiCgStab(IPreConditioner preconditioner, IIterator iterator)
+        public MlkBiCgStab(IPreConditioner preconditioner, IIterator<Complex> iterator)
         {
             _iterator = iterator;
             _preconditioner = preconditioner;
@@ -226,7 +227,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Iterative
         /// Sets the <see cref="IIterator"/> that will be used to track the iterative process.
         /// </summary>
         /// <param name="iterator">The iterator.</param>
-        public void SetIterator(IIterator iterator)
+        public void SetIterator(IIterator<Complex> iterator)
         {
             _iterator = iterator;
         }

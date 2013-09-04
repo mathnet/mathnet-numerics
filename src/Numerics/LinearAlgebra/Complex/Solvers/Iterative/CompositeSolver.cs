@@ -28,13 +28,14 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using MathNet.Numerics.LinearAlgebra.Solvers.Status;
-using MathNet.Numerics.Properties;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using MathNet.Numerics.LinearAlgebra.Solvers;
+using MathNet.Numerics.LinearAlgebra.Solvers.Status;
+using MathNet.Numerics.Properties;
 
 namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Iterative
 {
@@ -349,7 +350,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Iterative
         /// <summary>
         /// The iterator that is used to control the iteration process.
         /// </summary>
-        private IIterator _iterator;
+        private IIterator<Complex> _iterator;
 
         /// <summary>
         /// A flag indicating if the solver has been stopped or not.
@@ -373,7 +374,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Iterative
         /// Initializes a new instance of the <see cref="CompositeSolver"/> class with the specified iterator.
         /// </summary>
         /// <param name="iterator">The iterator that will be used to control the iteration process. </param>
-        public CompositeSolver(IIterator iterator)
+        public CompositeSolver(IIterator<Complex> iterator)
         {
             _iterator = iterator;
         }
@@ -382,7 +383,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Iterative
         /// Sets the <c>IIterator</c> that will be used to track the iterative process.
         /// </summary>
         /// <param name="iterator">The iterator.</param>
-        public void SetIterator(IIterator iterator)
+        public void SetIterator(IIterator<Complex> iterator)
         {
             _iterator = iterator;
         }

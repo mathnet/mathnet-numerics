@@ -32,6 +32,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using MathNet.Numerics.LinearAlgebra.Complex.Solvers.StopCriterium;
+using MathNet.Numerics.LinearAlgebra.Solvers;
 using MathNet.Numerics.LinearAlgebra.Solvers.Status;
 using MathNet.Numerics.LinearAlgebra.Solvers.StopCriterium;
 using MathNet.Numerics.Properties;
@@ -48,7 +49,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
     /// <summary>
     /// An iterator that is used to check if an iterative calculation should continue or stop.
     /// </summary>
-    public sealed class Iterator : IIterator
+    public sealed class Iterator : IIterator<Complex>
     {
         /// <summary>
         /// The default status for the iterator.
@@ -59,7 +60,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
         /// Creates a default iterator with all the <see cref="IIterationStopCriterium{T}"/> objects.
         /// </summary>
         /// <returns>A new <see cref="IIterator"/> object.</returns>
-        public static IIterator CreateDefault()
+        public static IIterator<Complex> CreateDefault()
         {
             var iterator = new Iterator();
             iterator.Add(new FailureStopCriterium());
@@ -313,7 +314,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
         /// Creates a deep clone of the current iterator.
         /// </summary>
         /// <returns>The deep clone of the current iterator.</returns>
-        public IIterator Clone()
+        public IIterator<Complex> Clone()
         {
             var stopCriteria = _stopCriterias.Select(pair => pair.Value).Select(stopCriterium => stopCriterium.Clone()).ToList();
             return new Iterator(stopCriteria);

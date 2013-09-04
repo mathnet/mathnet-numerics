@@ -28,10 +28,11 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System;
 using MathNet.Numerics.LinearAlgebra.Double.Solvers.Preconditioners;
+using MathNet.Numerics.LinearAlgebra.Solvers;
 using MathNet.Numerics.LinearAlgebra.Solvers.Status;
 using MathNet.Numerics.Properties;
-using System;
 
 namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.Iterative
 {
@@ -79,7 +80,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.Iterative
         /// <summary>
         /// The iterative process controller.
         /// </summary>
-        private IIterator _iterator;
+        private IIterator<double> _iterator;
 
         /// <summary>
         /// Indicates the number of <c>BiCGStab</c> steps should be taken 
@@ -128,7 +129,8 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.Iterative
         /// </para>
         /// </remarks>
         /// <param name="iterator">The <see cref="IIterator"/> that will be used to monitor the iterative process.</param>
-        public GpBiCg(IIterator iterator) : this(null, iterator)
+        public GpBiCg(IIterator<double> iterator)
+            : this(null, iterator)
         {
         }
 
@@ -161,7 +163,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.Iterative
         /// </remarks>
         /// <param name="preconditioner">The <see cref="IPreConditioner"/> that will be used to precondition the matrix equation.</param>
         /// <param name="iterator">The <see cref="IIterator"/> that will be used to monitor the iterative process.</param>
-        public GpBiCg(IPreConditioner preconditioner, IIterator iterator)
+        public GpBiCg(IPreConditioner preconditioner, IIterator<double> iterator)
         {
             _iterator = iterator;
             _preconditioner = preconditioner;
@@ -224,7 +226,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.Iterative
         /// Sets the <see cref="IIterator"/> that will be used to track the iterative process.
         /// </summary>
         /// <param name="iterator">The iterator.</param>
-        public void SetIterator(IIterator iterator)
+        public void SetIterator(IIterator<double> iterator)
         {
             _iterator = iterator;
         }

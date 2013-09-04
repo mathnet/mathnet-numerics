@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2010 Math.NET
+// Copyright (c) 2009-2013 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -32,14 +32,12 @@ using System;
 using MathNet.Numerics.LinearAlgebra.Solvers.Status;
 using MathNet.Numerics.LinearAlgebra.Solvers.StopCriterium;
 
-namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers
+namespace MathNet.Numerics.LinearAlgebra.Solvers
 {
-    using Numerics;
-
     /// <summary>
     /// Defines the base interface for iterators that help control an iterative calculation.
     /// </summary>
-    public interface IIterator
+    public interface IIterator<T> where T : struct, IEquatable<T>, IFormattable
     {
         /// <summary>
         /// Adds an <see cref="IIterationStopCriterium{T}"/> to the internal collection of stop-criteria. Only a 
@@ -48,20 +46,20 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers
         /// <param name="stopCriterium">The stop criterium to add.</param>
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="stopCriterium"/> is <see langword="null" />.</exception>
         /// <exception cref="ArgumentException">Thrown if <paramref name="stopCriterium"/> is of the same type as an already stored criterium.</exception>
-        void Add(IIterationStopCriterium<Complex32> stopCriterium);
+        void Add(IIterationStopCriterium<T> stopCriterium);
 
         /// <summary>
         /// Removes the <see cref="IIterationStopCriterium{T}"/> from the internal collection.
         /// </summary>
         /// <param name="stopCriterium">The stop criterium that must be removed.</param>
-        void Remove(IIterationStopCriterium<Complex32> stopCriterium);
+        void Remove(IIterationStopCriterium<T> stopCriterium);
 
         /// <summary>
-        /// Indicates if the specific stop criterium is stored by the <see cref="IIterator"/>.
+        /// Indicates if the specific stop criterium is stored by the <see cref="IIterator{T}"/>.
         /// </summary>
         /// <param name="stopCriterium">The stop criterium.</param>
-        /// <returns><c>true</c> if the <see cref="IIterator"/> contains the stop criterium; otherwise <c>false</c>.</returns>
-        bool Contains(IIterationStopCriterium<Complex32> stopCriterium);
+        /// <returns><c>true</c> if the <see cref="IIterator{T}"/> contains the stop criterium; otherwise <c>false</c>.</returns>
+        bool Contains(IIterationStopCriterium<T> stopCriterium);
 
         /// <summary>
         /// Indicates to the iterator that the iterative process has been cancelled.
@@ -71,7 +69,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers
 
         /// <summary>
         /// Determines the status of the iterative calculation based on the stop criteria stored
-        /// by the current <see cref="IIterator"/>.  Status is set to <c>Status</c> field of current object.
+        /// by the current <see cref="IIterator{T}"/>.  Status is set to <c>Status</c> field of current object.
         /// </summary>
         /// <param name="iterationNumber">The number of iterations that have passed so far.</param>
         /// <param name="solutionVector">The vector containing the current solution values.</param>
@@ -82,7 +80,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers
         /// on the invocation of this method. Therefore this method should only be called if the 
         /// calculation has moved forwards at least one step.
         /// </remarks>
-        void DetermineStatus(int iterationNumber, Vector<Complex32> solutionVector, Vector<Complex32> sourceVector, Vector<Complex32> residualVector);
+        void DetermineStatus(int iterationNumber, Vector<T> solutionVector, Vector<T> sourceVector, Vector<T> residualVector);
 
         /// <summary>
         /// Gets the current calculation status.
@@ -91,7 +89,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers
         ICalculationStatus Status { get; }
 
         /// <summary>
-        /// Resets the <see cref="IIterator"/> to the pre-calculation state.
+        /// Resets the <see cref="IIterator{T}"/> to the pre-calculation state.
         /// </summary>
         /// <remarks>
         /// Note to implementers: Invoking this method should not clear the user defined
@@ -100,6 +98,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers
         /// </remarks>
         void ResetToPrecalculationState();
 
-        IIterator Clone();
+        IIterator<T> Clone();
     }
 }
