@@ -92,7 +92,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.Iterative
         private static readonly ICalculationStatus RunningStatus = new CalculationRunning();
         
 #if PORTABLE
-        private static readonly Dictionary<double, List<IIterativeSolverSetup>> SolverSetups = new Dictionary<double, List<IIterativeSolverSetup>>();        
+        private static readonly Dictionary<double, List<IIterativeSolverSetup<double>>> SolverSetups = new Dictionary<double, List<IIterativeSolverSetup<double>>>();        
 #else
         /// <summary>
         /// The collection of iterative solver setups. Stored based on the
