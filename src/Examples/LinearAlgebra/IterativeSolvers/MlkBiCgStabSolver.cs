@@ -30,6 +30,7 @@ using MathNet.Numerics.LinearAlgebra.Double;
 using MathNet.Numerics.LinearAlgebra.Double.Solvers;
 using MathNet.Numerics.LinearAlgebra.Double.Solvers.Iterative;
 using MathNet.Numerics.LinearAlgebra.Double.Solvers.StopCriterium;
+using MathNet.Numerics.LinearAlgebra.Solvers.StopCriterium;
 
 namespace Examples.LinearAlgebra.IterativeSolversExamples
 {
@@ -100,7 +101,7 @@ namespace Examples.LinearAlgebra.IterativeSolversExamples
             var residualStopCriterium = new ResidualStopCriterium(1e-10);
 
             // Create monitor with defined stop criteriums
-            var monitor = new Iterator(new IIterationStopCriterium[] { iterationCountStopCriterium, residualStopCriterium });
+            var monitor = new Iterator(new IIterationStopCriterium<double>[] { iterationCountStopCriterium, residualStopCriterium });
 
             // Create Multiple-Lanczos Bi-Conjugate Gradient Stabilized solver
             var solver = new MlkBiCgStab(monitor);

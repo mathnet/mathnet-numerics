@@ -37,9 +37,9 @@ using System.Diagnostics;
 namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.StopCriterium
 {
     /// <summary>
-    /// Defines an <see cref="IIterationStopCriterium"/> that monitors residuals as stop criterium.
+    /// Defines an <see cref="IIterationStopCriterium{T}"/> that monitors residuals as stop criterium.
     /// </summary>
-    public sealed class ResidualStopCriterium : IIterationStopCriterium
+    public sealed class ResidualStopCriterium : IIterationStopCriterium<double>
     {
         /// <summary>
         /// The default value for the maximum value of the residual.
@@ -389,7 +389,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.StopCriterium
         /// Clones the current <see cref="ResidualStopCriterium"/> and its settings.
         /// </summary>
         /// <returns>A new instance of the <see cref="ResidualStopCriterium"/> class.</returns>
-        public IIterationStopCriterium Clone()
+        public IIterationStopCriterium<double> Clone()
         {
             return new ResidualStopCriterium(_maximum, _minimumIterationsBelowMaximum);
         }

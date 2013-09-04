@@ -37,9 +37,9 @@ using System.Diagnostics;
 namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.StopCriterium
 {
     /// <summary>
-    /// Defines an <see cref="IIterationStopCriterium"/> that monitors residuals for NaN's.
+    /// Defines an <see cref="IIterationStopCriterium{T}"/> that monitors residuals for NaN's.
     /// </summary>
-    public sealed class FailureStopCriterium : IIterationStopCriterium
+    public sealed class FailureStopCriterium : IIterationStopCriterium<float>
     {
         /// <summary>
         /// Defines the default last iteration number. Set to -1 because iterations normally
@@ -181,7 +181,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.StopCriterium
         /// Clones the current <see cref="FailureStopCriterium"/> and its settings.
         /// </summary>
         /// <returns>A new instance of the <see cref="FailureStopCriterium"/> class.</returns>
-        public IIterationStopCriterium Clone()
+        public IIterationStopCriterium<float> Clone()
         {
             return new FailureStopCriterium();
         }

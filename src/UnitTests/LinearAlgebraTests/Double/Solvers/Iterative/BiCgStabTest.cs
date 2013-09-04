@@ -33,6 +33,7 @@ using MathNet.Numerics.LinearAlgebra.Double.Solvers;
 using MathNet.Numerics.LinearAlgebra.Double.Solvers.Iterative;
 using MathNet.Numerics.LinearAlgebra.Double.Solvers.StopCriterium;
 using MathNet.Numerics.LinearAlgebra.Solvers.Status;
+using MathNet.Numerics.LinearAlgebra.Solvers.StopCriterium;
 using NUnit.Framework;
 using System;
 
@@ -93,7 +94,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.Iterative
             var y = DenseVector.Create(matrix.RowCount, i => 1);
 
             // Create an iteration monitor which will keep track of iterative convergence
-            var monitor = new Iterator(new IIterationStopCriterium[]
+            var monitor = new Iterator(new IIterationStopCriterium<double>[]
                 {
                     new IterationCountStopCriterium(MaximumIterations),
                     new ResidualStopCriterium(ConvergenceBoundary),
@@ -138,7 +139,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.Iterative
             var y = DenseVector.Create(matrix.RowCount, i => 1);
 
             // Create an iteration monitor which will keep track of iterative convergence
-            var monitor = new Iterator(new IIterationStopCriterium[]
+            var monitor = new Iterator(new IIterationStopCriterium<double>[]
                 {
                     new IterationCountStopCriterium(MaximumIterations),
                     new ResidualStopCriterium(ConvergenceBoundary),
@@ -216,7 +217,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.Iterative
             var y = DenseVector.Create(matrix.RowCount, i => 1);
 
             // Create an iteration monitor which will keep track of iterative convergence
-            var monitor = new Iterator(new IIterationStopCriterium[]
+            var monitor = new Iterator(new IIterationStopCriterium<double>[]
                 {
                     new IterationCountStopCriterium(MaximumIterations),
                     new ResidualStopCriterium(ConvergenceBoundary),
@@ -261,7 +262,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.Iterative
             var matrixA = MatrixLoader.GenerateRandomDenseMatrix(order, order);
             var vectorb = MatrixLoader.GenerateRandomDenseVector(order);
 
-            var monitor = new Iterator(new IIterationStopCriterium[]
+            var monitor = new Iterator(new IIterationStopCriterium<double>[]
                 {
                     new IterationCountStopCriterium(1000),
                     new ResidualStopCriterium(1e-10),
@@ -292,7 +293,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.Iterative
             var matrixA = MatrixLoader.GenerateRandomDenseMatrix(order, order);
             var matrixB = MatrixLoader.GenerateRandomDenseMatrix(order, order);
 
-            var monitor = new Iterator(new IIterationStopCriterium[]
+            var monitor = new Iterator(new IIterationStopCriterium<double>[]
                 {
                     new IterationCountStopCriterium(1000),
                     new ResidualStopCriterium(1e-10)

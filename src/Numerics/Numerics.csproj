@@ -122,6 +122,7 @@
     <Compile Include="Distributions\Wishart.cs" />
     <Compile Include="Distributions\Zipf.cs" />
     <Compile Include="LinearAlgebra\Builder.cs" />
+    <Compile Include="LinearAlgebra\Double\Solvers\StopCriterium\IterationCountStopCriterium.cs" />
     <Compile Include="Providers\LinearAlgebra\Acml\AcmlLinearAlgebraProvider.Complex.cs" />
     <Compile Include="Providers\LinearAlgebra\Acml\AcmlLinearAlgebraProvider.Complex32.cs" />
     <Compile Include="Providers\LinearAlgebra\Acml\AcmlLinearAlgebraProvider.Double.cs" />
@@ -193,7 +194,6 @@
     <Compile Include="LinearAlgebra\Complex32\Solvers\IIterativeSolverSetup.cs" />
     <Compile Include="LinearAlgebra\Complex32\Solvers\IIterator.cs" />
     <Compile Include="LinearAlgebra\Complex32\Solvers\Preconditioners\IPreConditioner.cs" />
-    <Compile Include="LinearAlgebra\Complex32\Solvers\StopCriterium\IIterationStopCriterium.cs" />
     <Compile Include="LinearAlgebra\Complex32\SparseMatrix.cs" />
     <Compile Include="LinearAlgebra\Complex32\Vector.cs" />
     <Compile Include="LinearAlgebra\Complex\DenseMatrix.cs" />
@@ -213,7 +213,6 @@
     <Compile Include="LinearAlgebra\Complex\Solvers\IIterativeSolverSetup.cs" />
     <Compile Include="LinearAlgebra\Complex\Solvers\IIterator.cs" />
     <Compile Include="LinearAlgebra\Complex\Solvers\Preconditioners\IPreConditioner.cs" />
-    <Compile Include="LinearAlgebra\Complex\Solvers\StopCriterium\IIterationStopCriterium.cs" />
     <Compile Include="LinearAlgebra\Complex\SparseMatrix.cs" />
     <Compile Include="LinearAlgebra\Complex\Vector.cs" />
     <Compile Include="LinearAlgebra\Double\ExtensionMethods.cs" />
@@ -230,7 +229,7 @@
     <Compile Include="LinearAlgebra\Double\Solvers\IIterativeSolverSetup.cs" />
     <Compile Include="LinearAlgebra\Double\Solvers\IIterator.cs" />
     <Compile Include="LinearAlgebra\Double\Solvers\Preconditioners\IPreConditioner.cs" />
-    <Compile Include="LinearAlgebra\Double\Solvers\StopCriterium\IIterationStopCriterium.cs" />
+    <Compile Include="LinearAlgebra\Solvers\StopCriterium\IIterationStopCriterium.cs" />
     <Compile Include="LinearAlgebra\Double\SparseMatrix.cs" />
     <Compile Include="LinearAlgebra\Double\Vector.cs" />
     <Compile Include="LinearAlgebra\Complex32\DenseVector.cs" />
@@ -336,7 +335,6 @@
     <Compile Include="LinearAlgebra\Single\Solvers\Preconditioners\UnitPreconditioner.cs" />
     <Compile Include="LinearAlgebra\Single\Solvers\StopCriterium\DivergenceStopCriterium.cs" />
     <Compile Include="LinearAlgebra\Single\Solvers\StopCriterium\FailureStopCriterium.cs" />
-    <Compile Include="LinearAlgebra\Single\Solvers\StopCriterium\IIterationStopCriterium.cs" />
     <Compile Include="LinearAlgebra\Single\Solvers\StopCriterium\IterationCountStopCriterium.cs" />
     <Compile Include="LinearAlgebra\Single\Solvers\StopCriterium\ResidualStopCriterium.cs" />
     <Compile Include="LinearAlgebra\Single\SparseMatrix.cs" />
@@ -354,7 +352,7 @@
     <Compile Include="LinearAlgebra\Double\Factorization\UserLU.cs" />
     <Compile Include="LinearAlgebra\Double\Factorization\UserQR.cs" />
     <Compile Include="LinearAlgebra\Double\Factorization\UserSvd.cs" />
-    <Compile Include="LinearAlgebra\ISolver.cs" />
+    <Compile Include="LinearAlgebra\Factorization\ISolver.cs" />
     <Compile Include="LinearAlgebra\Double\Solvers\Iterative\BiCgStab.cs" />
     <Compile Include="LinearAlgebra\Double\Solvers\Iterative\CompositeSolver.cs" />
     <Compile Include="LinearAlgebra\Double\Solvers\Iterative\GpBiCg.cs" />
@@ -378,7 +376,6 @@
     <Compile Include="LinearAlgebra\Solvers\Status\ICalculationStatus.cs" />
     <Compile Include="LinearAlgebra\Double\Solvers\StopCriterium\DivergenceStopCriterium.cs" />
     <Compile Include="LinearAlgebra\Double\Solvers\StopCriterium\FailureStopCriterium.cs" />
-    <Compile Include="LinearAlgebra\Double\Solvers\StopCriterium\IterationCountStopCriterium.cs" />
     <Compile Include="LinearAlgebra\Double\Solvers\StopCriterium\ResidualStopCriterium.cs" />
     <Compile Include="LinearAlgebra\Solvers\StopCriterium\StopLevel.cs" />
     <Compile Include="LinearAlgebra\Double\SparseVector.cs" />

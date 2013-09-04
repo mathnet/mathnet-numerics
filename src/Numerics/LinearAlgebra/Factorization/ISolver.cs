@@ -30,7 +30,7 @@
 
 using System;
 
-namespace MathNet.Numerics.LinearAlgebra
+namespace MathNet.Numerics.LinearAlgebra.Factorization
 {
     /// <summary>
     /// Classes that solves a system of linear equations, <c>AX = B</c>.

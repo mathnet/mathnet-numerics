@@ -38,7 +38,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.StopCriterium
     /// <summary>
     /// Monitors an iterative calculation for signs of divergence.
     /// </summary>
-    public sealed class DivergenceStopCriterium : IIterationStopCriterium
+    public sealed class DivergenceStopCriterium : IIterationStopCriterium<double>
     {
         /// <summary>
         /// Default value for the maximum relative increase that the 
@@ -373,7 +373,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.StopCriterium
         /// Clones the current <see cref="DivergenceStopCriterium"/> and its settings.
         /// </summary>
         /// <returns>A new instance of the <see cref="DivergenceStopCriterium"/> class.</returns>
-        public IIterationStopCriterium Clone()
+        public IIterationStopCriterium<double> Clone()
         {
             return new DivergenceStopCriterium(_maximumRelativeIncrease, _minimumNumberOfIterations);
         }

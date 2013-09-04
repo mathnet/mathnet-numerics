@@ -41,7 +41,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.StopCriterium
     /// <summary>
     /// Defines an <see cref="IIterationStopCriterium"/> that monitors residuals for NaN's.
     /// </summary>
-    public sealed class FailureStopCriterium : IIterationStopCriterium
+    public sealed class FailureStopCriterium : IIterationStopCriterium<Complex32>
     {
         /// <summary>
         /// Defines the default last iteration number. Set to -1 because iterations normally
@@ -167,7 +167,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.StopCriterium
 
         /// <summary>
         /// Gets the <see cref="StopLevel"/>which indicates what sort of stop criterium this
-        /// <see cref="IIterationStopCriterium"/> monitors.
+        /// <see cref="IIterationStopCriterium{T}"/> monitors.
         /// </summary>
         /// <value>Returns <see cref="CalculationFailure"/>.</value>
         public StopLevel StopLevel
@@ -183,7 +183,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.StopCriterium
         /// Clones the current <see cref="FailureStopCriterium"/> and its settings.
         /// </summary>
         /// <returns>A new instance of the <see cref="FailureStopCriterium"/> class.</returns>
-        public IIterationStopCriterium Clone()
+        public IIterationStopCriterium<Complex32> Clone()
         {
             return new FailureStopCriterium();
         }

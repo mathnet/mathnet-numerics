@@ -28,9 +28,9 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using MathNet.Numerics.LinearAlgebra.Complex.Solvers.StopCriterium;
-using MathNet.Numerics.LinearAlgebra.Solvers.Status;
 using System;
+using MathNet.Numerics.LinearAlgebra.Solvers.Status;
+using MathNet.Numerics.LinearAlgebra.Solvers.StopCriterium;
 
 namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
 {
@@ -47,26 +47,26 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
     public interface IIterator
     {
         /// <summary>
-        /// Adds an <see cref="IIterationStopCriterium"/> to the internal collection of stop-criteria. Only a 
+        /// Adds an <see cref="IIterationStopCriterium{T}"/> to the internal collection of stop-criteria. Only a 
         /// single stop criterium of each type can be stored.
         /// </summary>
         /// <param name="stopCriterium">The stop criterium to add.</param>
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="stopCriterium"/> is <see langword="null" />.</exception>
         /// <exception cref="ArgumentException">Thrown if <paramref name="stopCriterium"/> is of the same type as an already stored criterium.</exception>
-        void Add(IIterationStopCriterium stopCriterium);
+        void Add(IIterationStopCriterium<Complex> stopCriterium);
 
         /// <summary>
-        /// Removes the <see cref="IIterationStopCriterium"/> from the internal collection.
+        /// Removes the <see cref="IIterationStopCriterium{T}"/> from the internal collection.
         /// </summary>
         /// <param name="stopCriterium">The stop criterium that must be removed.</param>
-        void Remove(IIterationStopCriterium stopCriterium);
+        void Remove(IIterationStopCriterium<Complex> stopCriterium);
 
         /// <summary>
         /// Indicates if the specific stop criterium is stored by the <see cref="IIterator"/>.
         /// </summary>
         /// <param name="stopCriterium">The stop criterium.</param>
         /// <returns><c>true</c> if the <see cref="IIterator"/> contains the stop criterium; otherwise <c>false</c>.</returns>
-        bool Contains(IIterationStopCriterium stopCriterium);
+        bool Contains(IIterationStopCriterium<Complex> stopCriterium);
 
         /// <summary>
         /// Indicates to the iterator that the iterative process has been cancelled.

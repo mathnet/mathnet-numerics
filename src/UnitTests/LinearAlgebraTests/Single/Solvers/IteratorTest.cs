@@ -32,6 +32,7 @@ using MathNet.Numerics.LinearAlgebra.Single;
 using MathNet.Numerics.LinearAlgebra.Single.Solvers;
 using MathNet.Numerics.LinearAlgebra.Single.Solvers.StopCriterium;
 using MathNet.Numerics.LinearAlgebra.Solvers.Status;
+using MathNet.Numerics.LinearAlgebra.Solvers.StopCriterium;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -61,7 +62,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers
         [Test]
         public void CreateWithEmptyCollection()
         {
-            var iterator = new Iterator(new IIterationStopCriterium[] {});
+            var iterator = new Iterator(new IIterationStopCriterium<float>[] { });
             Assert.IsNotNull(iterator, "Should have an iterator");
             Assert.AreEqual(0, iterator.NumberOfCriteria, "There shouldn't be any criteria");
         }
@@ -72,7 +73,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers
         [Test]
         public void CreateWithCollectionWithNulls()
         {
-            var iterator = new Iterator(new IIterationStopCriterium[] {null, null});
+            var iterator = new Iterator(new IIterationStopCriterium<float>[] { null, null });
             Assert.IsNotNull(iterator, "Should have an iterator");
             Assert.AreEqual(0, iterator.NumberOfCriteria, "There shouldn't be any criteria");
         }
@@ -83,7 +84,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers
         [Test]
         public void CreateWithDuplicatesThrowsArgumentException()
         {
-            Assert.Throws<ArgumentException>(() => new Iterator(new IIterationStopCriterium[]
+            Assert.Throws<ArgumentException>(() => new Iterator(new IIterationStopCriterium<float>[]
                 {
                     new FailureStopCriterium(),
                     new FailureStopCriterium()
@@ -96,7 +97,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers
         [Test]
         public void CreateWithCollection()
         {
-            var criteria = new List<IIterationStopCriterium>
+            var criteria = new List<IIterationStopCriterium<float>>
                 {
                     new FailureStopCriterium(),
                     new DivergenceStopCriterium(),
@@ -143,7 +144,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers
         [Test]
         public void Add()
         {
-            var criteria = new List<IIterationStopCriterium>
+            var criteria = new List<IIterationStopCriterium<float>>
                 {
                     new FailureStopCriterium(),
                     new DivergenceStopCriterium(),
@@ -173,7 +174,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers
         [Test]
         public void RemoveWithNullStopCriteriumThrowsArgumentNullException()
         {
-            var criteria = new List<IIterationStopCriterium>
+            var criteria = new List<IIterationStopCriterium<float>>
                 {
                     new FailureStopCriterium(),
                     new DivergenceStopCriterium(),
@@ -192,7 +193,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers
         [Test]
         public void RemoveWithNonExistingStopCriterium()
         {
-            var criteria = new List<IIterationStopCriterium>
+            var criteria = new List<IIterationStopCriterium<float>>
                 {
                     new FailureStopCriterium(),
                     new DivergenceStopCriterium(),
@@ -211,7 +212,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers
         [Test]
         public void Remove()
         {
-            var criteria = new List<IIterationStopCriterium>
+            var criteria = new List<IIterationStopCriterium<float>>
                 {
                     new FailureStopCriterium(),
                     new DivergenceStopCriterium(),
@@ -248,7 +249,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers
         [Test]
         public void DetermineStatusWithNegativeIterationNumberThrowsArgumentOutOfRangeException()
         {
-            var criteria = new List<IIterationStopCriterium>
+            var criteria = new List<IIterationStopCriterium<float>>
                 {
                     new FailureStopCriterium(),
                     new DivergenceStopCriterium(),
@@ -270,7 +271,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers
         [Test]
         public void DetermineStatusWithNullSolutionVectorThrowsArgumentNullException()
         {
-            var criteria = new List<IIterationStopCriterium>
+            var criteria = new List<IIterationStopCriterium<float>>
                 {
                     new FailureStopCriterium(),
                     new DivergenceStopCriterium(),
@@ -292,7 +293,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers
         [Test]
         public void DetermineStatusWithNullSourceVectorThrowsArgumentNullException()
         {
-            var criteria = new List<IIterationStopCriterium>
+            var criteria = new List<IIterationStopCriterium<float>>
                 {
                     new FailureStopCriterium(),
                     new DivergenceStopCriterium(),
@@ -314,7 +315,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers
         [Test]
         public void DetermineStatusWithNullResidualVectorThrowsArgumentNullException()
         {
-            var criteria = new List<IIterationStopCriterium>
+            var criteria = new List<IIterationStopCriterium<float>>
                 {
                     new FailureStopCriterium(),
                     new DivergenceStopCriterium(),
@@ -336,7 +337,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers
         [Test]
         public void DetermineStatus()
         {
-            var criteria = new List<IIterationStopCriterium>
+            var criteria = new List<IIterationStopCriterium<float>>
                 {
                     new FailureStopCriterium(),
                     new DivergenceStopCriterium(),
@@ -368,7 +369,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers
         [Test]
         public void ResetToPrecalculationState()
         {
-            var criteria = new List<IIterationStopCriterium>
+            var criteria = new List<IIterationStopCriterium<float>>
                 {
                     new FailureStopCriterium(),
                     new DivergenceStopCriterium(),
@@ -398,7 +399,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers
         [Test]
         public void Clone()
         {
-            var criteria = new List<IIterationStopCriterium>
+            var criteria = new List<IIterationStopCriterium<float>>
                 {
                     new FailureStopCriterium(),
                     new DivergenceStopCriterium(),

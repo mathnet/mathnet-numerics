@@ -45,7 +45,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.StopCriterium
     /// <summary>
     /// Monitors an iterative calculation for signs of divergence.
     /// </summary>
-    public sealed class DivergenceStopCriterium : IIterationStopCriterium
+    public sealed class DivergenceStopCriterium : IIterationStopCriterium<Complex>
     {
         /// <summary>
         /// Default value for the maximum relative increase that the 
@@ -380,7 +380,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.StopCriterium
         /// Clones the current <see cref="DivergenceStopCriterium"/> and its settings.
         /// </summary>
         /// <returns>A new instance of the <see cref="DivergenceStopCriterium"/> class.</returns>
-        public IIterationStopCriterium Clone()
+        public IIterationStopCriterium<Complex> Clone()
         {
             return new DivergenceStopCriterium(_maximumRelativeIncrease, _minimumNumberOfIterations);
         }

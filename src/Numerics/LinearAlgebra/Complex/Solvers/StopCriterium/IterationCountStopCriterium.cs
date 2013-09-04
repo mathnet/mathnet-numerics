@@ -46,7 +46,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.StopCriterium
     /// Defines an <see cref="IIterationStopCriterium"/> that monitors the numbers of iteration 
     /// steps as stop criterium.
     /// </summary>
-    public sealed class IterationCountStopCriterium : IIterationStopCriterium
+    public sealed class IterationCountStopCriterium : IIterationStopCriterium<Complex>
     {
         /// <summary>
         /// The default value for the maximum number of iterations the process is allowed
@@ -214,7 +214,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.StopCriterium
         /// Clones the current <see cref="IterationCountStopCriterium"/> and its settings.
         /// </summary>
         /// <returns>A new instance of the <see cref="IterationCountStopCriterium"/> class.</returns>
-        public IIterationStopCriterium Clone()
+        public IIterationStopCriterium<Complex> Clone()
         {
             return new IterationCountStopCriterium(_maximumNumberOfIterations);
         }

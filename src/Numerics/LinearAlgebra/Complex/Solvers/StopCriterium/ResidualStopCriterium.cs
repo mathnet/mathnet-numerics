@@ -46,7 +46,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.StopCriterium
     /// <summary>
     /// Defines an <see cref="IIterationStopCriterium"/> that monitors residuals as stop criterium.
     /// </summary>
-    public sealed class ResidualStopCriterium : IIterationStopCriterium
+    public sealed class ResidualStopCriterium : IIterationStopCriterium<Complex>
     {
         /// <summary>
         /// The default value for the maximum value of the residual.
@@ -396,7 +396,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.StopCriterium
         /// Clones the current <see cref="ResidualStopCriterium"/> and its settings.
         /// </summary>
         /// <returns>A new instance of the <see cref="ResidualStopCriterium"/> class.</returns>
-        public IIterationStopCriterium Clone()
+        public IIterationStopCriterium<Complex> Clone()
         {
             return new ResidualStopCriterium(_maximum, _minimumIterationsBelowMaximum);
         }
