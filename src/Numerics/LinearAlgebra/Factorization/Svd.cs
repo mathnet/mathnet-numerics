@@ -59,17 +59,17 @@ namespace MathNet.Numerics.LinearAlgebra.Factorization
         /// <summary>
         /// Gets or sets the singular values (Σ) of matrix in ascending value.
         /// </summary>
-        protected Vector<T> VectorS { get; set; }
+        public Vector<T> S { get; protected set; }
 
         /// <summary>
         /// Gets or sets left singular vectors (U - m-by-m unitary matrix)
         /// </summary>
-        protected Matrix<T> MatrixU { get; set; }
+        public Matrix<T> U { get; protected set; }
 
         /// <summary>
         /// Gets or sets transpose right singular vectors (transpose of V, an n-by-n unitary matrix
         /// </summary>
-        protected Matrix<T> MatrixVT { get; set; }
+        public Matrix<T> VT { get; protected set; }
 
         /// <summary>
         /// Gets the effective numerical matrix rank.
@@ -94,47 +94,25 @@ namespace MathNet.Numerics.LinearAlgebra.Factorization
         /// </summary>
         public abstract T Determinant { get; }
 
-        /// <summary>Returns the left singular vectors as a <see cref="Matrix{T}"/>.</summary>
-        /// <returns>The left singular vectors. The matrix will be <c>null</c>, if <b>computeVectors</b> in the constructor is set to <c>false</c>.</returns>
-        public Matrix<T> U()
-        {
-            return ComputeVectors ? MatrixU.Clone() : null;
-        }
-
-        /// <summary>Returns the right singular vectors as a <see cref="Matrix{T}"/>.</summary>
-        /// <returns>The right singular vectors. The matrix will be <c>null</c>, if <b>computeVectors</b> in the constructor is set to <c>false</c>.</returns>
-        /// <remarks>This is the transpose of the V matrix.</remarks>
-        public Matrix<T> VT()
-        {
-            return ComputeVectors ? MatrixVT.Clone() : null;
-        }
-
         /// <summary>Returns the singular values as a diagonal <see cref="Matrix{T}"/>.</summary>
         /// <returns>The singular values as a diagonal <see cref="Matrix{T}"/>.</returns>        
         public Matrix<T> W()
         {
-            var rows = MatrixU.RowCount;
-            var columns = MatrixVT.ColumnCount;
-            var result = MatrixU.CreateMatrix(rows, columns);
+            var rows = U.RowCount;
+            var columns = VT.ColumnCount;
+            var result = U.CreateMatrix(rows, columns);
             for (var i = 0; i < rows; i++)
             {
                 for (var j = 0; j < columns; j++)
                 {
                     if (i == j)
                     {
-                        result.At(i, i, VectorS[i]);
+                        result.At(i, i, S[i]);
                     }
                 }
             }
 
             return result;
-        }
-
-        /// <summary>Returns the singular values as a <see cref="Vector{T}"/>.</summary>
-        /// <returns>the singular values as a <see cref="Vector{T}"/>.</returns>
-        public Vector<T> S()
-        {
-            return VectorS.Clone();
         }
 
         /// <summary>
@@ -155,7 +133,7 @@ namespace MathNet.Numerics.LinearAlgebra.Factorization
                 throw new InvalidOperationException(Resources.SingularVectorsNotComputed);
             }
 
-            var result = MatrixU.CreateMatrix(MatrixVT.ColumnCount, input.ColumnCount);
+            var result = U.CreateMatrix(VT.ColumnCount, input.ColumnCount);
             Solve(input, result);
             return result;
         }
@@ -185,7 +163,7 @@ namespace MathNet.Numerics.LinearAlgebra.Factorization
                 throw new InvalidOperationException(Resources.SingularVectorsNotComputed);
             }
 
-            var x = MatrixU.CreateVector(MatrixVT.ColumnCount);
+            var x = U.CreateVector(VT.ColumnCount);
             Solve(input, x);
             return x;
         }

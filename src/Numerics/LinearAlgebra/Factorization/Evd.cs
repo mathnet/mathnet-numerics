@@ -82,38 +82,17 @@ namespace MathNet.Numerics.LinearAlgebra.Factorization
         /// <summary>
         /// Gets or sets the eigen values (λ) of matrix in ascending value.
         /// </summary>
-        protected Vector<Complex> VectorEv { get; set; }
+        public Vector<Complex> EigenValues { get; protected set; }
         
         /// <summary>
         /// Gets or sets eigenvectors.
         /// </summary>
-        protected Matrix<T> MatrixEv { get; set; }
+        public Matrix<T> EigenVectors { get; protected set; }
 
         /// <summary>
         /// Gets or sets the block diagonal eigenvalue matrix.
         /// </summary>
-        protected Matrix<T> MatrixD { get; set; }
-
-        /// <summary>Returns the eigen values as a <see cref="Vector{T}"/>.</summary>
-        /// <returns>The eigen values.</returns>
-        public Vector<Complex> EigenValues()
-        {
-            return VectorEv.Clone();
-        }
-
-        /// <summary>Returns the right eigen vectors as a <see cref="Matrix{T}"/>.</summary>
-        /// <returns>The eigen vectors. </returns>
-        public Matrix<T> EigenVectors()
-        {
-            return MatrixEv.Clone();
-        }
-
-        /// <summary>Returns the block diagonal eigenvalue matrix <see cref="Matrix{T}"/>.</summary>
-        /// <returns>The block diagonal eigenvalue matrix <see cref="Matrix{T}"/>.</returns>        
-        public Matrix<T> D()
-        {
-            return MatrixD.Clone();
-        }
+        public Matrix<T> D { get; protected set; }
 
         /// <summary>
         /// Solves a system of linear equations, <b>AX = B</b>, with A SVD factorized.
@@ -128,7 +107,7 @@ namespace MathNet.Numerics.LinearAlgebra.Factorization
                 throw new ArgumentNullException("input");
             }
 
-            var result = MatrixEv.CreateMatrix(MatrixEv.ColumnCount, input.ColumnCount);
+            var result = EigenVectors.CreateMatrix(EigenVectors.ColumnCount, input.ColumnCount);
             Solve(input, result);
             return result;
         }
@@ -153,7 +132,7 @@ namespace MathNet.Numerics.LinearAlgebra.Factorization
                 throw new ArgumentNullException("input");
             }
 
-            var x = MatrixEv.CreateVector(MatrixEv.ColumnCount);
+            var x = EigenVectors.CreateVector(EigenVectors.ColumnCount);
             Solve(input, x);
             return x;
         }

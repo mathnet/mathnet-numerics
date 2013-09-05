@@ -63,7 +63,7 @@ namespace MathNet.Numerics.LinearAlgebra.Factorization
         /// <summary>
         /// Gets or sets orthogonal Q matrix
         /// </summary>
-        protected Matrix<T> MatrixQ { get; set; }
+        public Matrix<T> Q { get; protected set; }
 
         /// <summary>
         /// Gets or sets upper triangular factor R
@@ -76,25 +76,11 @@ namespace MathNet.Numerics.LinearAlgebra.Factorization
         protected QRMethod QrMethod { get; set; }
 
         /// <summary>
-        /// Gets orthogonal Q matrix
-        /// </summary>
-        public virtual Matrix<T> Q 
-        {
-            get
-            {
-                return MatrixQ.Clone();
-            }
-        }
-
-        /// <summary>
         /// Gets the upper triangular factor R.
         /// </summary>
-        public virtual Matrix<T> R
+        public Matrix<T> R
         {
-            get
-            {
-                return MatrixR.UpperTriangle();
-            }
+            get { return MatrixR.UpperTriangle(); }
         }
 
         /// <summary>

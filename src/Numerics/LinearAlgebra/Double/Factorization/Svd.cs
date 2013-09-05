@@ -59,7 +59,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
         {
             get
             {
-                return VectorS.Count(t => !Math.Abs(t).AlmostEqual(0.0));
+                return S.Count(t => !Math.Abs(t).AlmostEqual(0.0));
             }
         }
 
@@ -71,7 +71,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
         {
             get
             {
-                return Math.Abs(VectorS[0]);
+                return Math.Abs(S[0]);
             }
         }
 
@@ -83,8 +83,8 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
         {
             get
             {
-                var tmp = Math.Min(MatrixU.RowCount, MatrixVT.ColumnCount) - 1;
-                return Math.Abs(VectorS[0]) / Math.Abs(VectorS[tmp]);
+                var tmp = Math.Min(U.RowCount, VT.ColumnCount) - 1;
+                return Math.Abs(S[0]) / Math.Abs(S[tmp]);
             }
         }
 
@@ -95,13 +95,13 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
         {
             get
             {
-                if (MatrixU.RowCount != MatrixVT.ColumnCount)
+                if (U.RowCount != VT.ColumnCount)
                 {
                     throw new ArgumentException(Resources.ArgumentMatrixSquare);
                 }
 
                 var det = 1.0;
-                foreach (var value in VectorS)
+                foreach (var value in S)
                 {
                     det *= value;
                     if (Math.Abs(value).AlmostEqual(0.0))

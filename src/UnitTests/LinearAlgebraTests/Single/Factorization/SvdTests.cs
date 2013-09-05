@@ -56,8 +56,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Factorization
         {
             var matrixI = DenseMatrix.Identity(order);
             var factorSvd = matrixI.Svd(true);
-            var u = factorSvd.U();
-            var vt = factorSvd.VT();
+            var u = factorSvd.U;
+            var vt = factorSvd.VT;
             var w = factorSvd.W();
 
             Assert.AreEqual(matrixI.RowCount, u.RowCount);
@@ -93,8 +93,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Factorization
         {
             var matrixA = MatrixLoader.GenerateRandomDenseMatrix(row, column);
             var factorSvd = matrixA.Svd(true);
-            var u = factorSvd.U();
-            var vt = factorSvd.VT();
+            var u = factorSvd.U;
+            var vt = factorSvd.VT;
             var w = factorSvd.W();
 
             // Make sure the U has the right dimensions.

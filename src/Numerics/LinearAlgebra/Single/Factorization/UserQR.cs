@@ -73,11 +73,11 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
             if (method == QRMethod.Full)
             {
                 MatrixR = matrix.Clone();
-                MatrixQ = matrix.CreateMatrix(matrix.RowCount, matrix.RowCount);
+                Q = matrix.CreateMatrix(matrix.RowCount, matrix.RowCount);
 
                 for (var i = 0; i < matrix.RowCount; i++)
                 {
-                    MatrixQ.At(i, i, 1.0f);
+                    Q.At(i, i, 1.0f);
                 }
 
                 for (var i = 0; i < minmn; i++)
@@ -89,33 +89,33 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
 
                 for (var i = minmn - 1; i >= 0; i--)
                 {
-                    ComputeQR(u[i], MatrixQ, i, matrix.RowCount, i, matrix.RowCount,
+                    ComputeQR(u[i], Q, i, matrix.RowCount, i, matrix.RowCount,
                               Control.NumberOfParallelWorkerThreads);
                 }
             }
             else
             {
                 MatrixR = matrix.CreateMatrix(matrix.ColumnCount, matrix.ColumnCount);
-                MatrixQ = matrix.Clone();
+                Q = matrix.Clone();
 
                 for (var i = 0; i < minmn; i++)
                 {
-                    u[i] = GenerateColumn(MatrixQ, i, i);
-                    ComputeQR(u[i], MatrixQ, i, matrix.RowCount, i + 1, matrix.ColumnCount,
+                    u[i] = GenerateColumn(Q, i, i);
+                    ComputeQR(u[i], Q, i, matrix.RowCount, i + 1, matrix.ColumnCount,
                               Control.NumberOfParallelWorkerThreads);
                 }
 
-                MatrixR = MatrixQ.SubMatrix(0, matrix.ColumnCount, 0, matrix.ColumnCount);
-                MatrixQ.Clear();
+                MatrixR = Q.SubMatrix(0, matrix.ColumnCount, 0, matrix.ColumnCount);
+                Q.Clear();
 
                 for (var i = 0; i < matrix.ColumnCount; i++)
                 {
-                    MatrixQ.At(i, i, 1.0f);
+                    Q.At(i, i, 1.0f);
                 }
 
                 for (var i = minmn - 1; i >= 0; i--)
                 {
-                    ComputeQR(u[i], MatrixQ, i, matrix.RowCount, i, matrix.ColumnCount,
+                    ComputeQR(u[i], Q, i, matrix.RowCount, i, matrix.ColumnCount,
                               Control.NumberOfParallelWorkerThreads);
                 }
             }
@@ -271,7 +271,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
                     float s = 0;
                     for (var k = 0; k < MatrixR.RowCount; k++)
                     {
-                        s += MatrixQ.At(k, i) * column[k];
+                        s += Q.At(k, i) * column[k];
                     }
 
                     inputCopy.At(i, j, s);
@@ -348,7 +348,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
                 float s = 0;
                 for (var k = 0; k < MatrixR.RowCount; k++)
                 {
-                    s += MatrixQ.At(k, i) * column[k];
+                    s += Q.At(k, i) * column[k];
                 }
 
                 inputCopy[i] = s;

@@ -57,9 +57,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
         {
             var matrixI = DenseMatrix.Identity(order);
             var factorEvd = matrixI.Evd();
-            var eigenValues = factorEvd.EigenValues();
-            var eigenVectors = factorEvd.EigenVectors();
-            var d = factorEvd.D();
+            var eigenValues = factorEvd.EigenValues;
+            var eigenVectors = factorEvd.EigenVectors;
+            var d = factorEvd.D;
 
             Assert.AreEqual(matrixI.RowCount, eigenVectors.RowCount);
             Assert.AreEqual(matrixI.RowCount, eigenVectors.ColumnCount);
@@ -87,8 +87,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
         {
             var matrixA = MatrixLoader.GenerateRandomDenseMatrix(order, order);
             var factorEvd = matrixA.Evd();
-            var eigenVectors = factorEvd.EigenVectors();
-            var d = factorEvd.D();
+            var eigenVectors = factorEvd.EigenVectors;
+            var d = factorEvd.D;
 
             Assert.AreEqual(order, eigenVectors.RowCount);
             Assert.AreEqual(order, eigenVectors.ColumnCount);
@@ -98,7 +98,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
 
             // Make sure the A*V = λ*V 
             var matrixAv = matrixA * eigenVectors;
-            var matrixLv = eigenVectors * factorEvd.D();
+            var matrixLv = eigenVectors * factorEvd.D;
 
             for (var i = 0; i < matrixAv.RowCount; i++)
             {
@@ -124,8 +124,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
             var matrixA = MatrixLoader.GenerateRandomPositiveDefiniteDenseMatrix(order);
             MatrixHelpers.ForceSymmetric(matrixA);
             var factorEvd = matrixA.Evd();
-            var eigenVectors = factorEvd.EigenVectors();
-            var d = factorEvd.D();
+            var eigenVectors = factorEvd.EigenVectors;
+            var d = factorEvd.D;
             
             Assert.AreEqual(order, eigenVectors.RowCount);
             Assert.AreEqual(order, eigenVectors.ColumnCount);

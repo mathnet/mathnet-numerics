@@ -27,7 +27,6 @@
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
 {
     using System;
-    using LinearAlgebra.Complex32;
     using LinearAlgebra.Complex32.Factorization;
     using NUnit.Framework;
     using Complex32 = Numerics.Complex32;
@@ -57,8 +56,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
         {
             var matrixI = UserDefinedMatrix.Identity(order);
             var factorSvd = matrixI.Svd(true);
-            var u = factorSvd.U();
-            var vt = factorSvd.VT();
+            var u = factorSvd.U;
+            var vt = factorSvd.VT;
             var w = factorSvd.W();
 
             Assert.AreEqual(matrixI.RowCount, u.RowCount);
@@ -94,8 +93,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
         {
             var matrixA = MatrixLoader.GenerateRandomUserDefinedMatrix(row, column);
             var factorSvd = matrixA.Svd(true);
-            var u = factorSvd.U();
-            var vt = factorSvd.VT();
+            var u = factorSvd.U;
+            var vt = factorSvd.VT;
             var w = factorSvd.W();
 
             // Make sure the U has the right dimensions.

@@ -57,9 +57,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Factorization
         {
             var matrixI = DenseMatrix.Identity(order);
             var factorEvd = matrixI.Evd();
-            var eigenValues = factorEvd.EigenValues();
-            var eigenVectors = factorEvd.EigenVectors();
-            var d = factorEvd.D();
+            var eigenValues = factorEvd.EigenValues;
+            var eigenVectors = factorEvd.EigenVectors;
+            var d = factorEvd.D;
 
             Assert.AreEqual(matrixI.RowCount, eigenVectors.RowCount);
             Assert.AreEqual(matrixI.RowCount, eigenVectors.ColumnCount);
@@ -82,8 +82,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Factorization
         {
             var matrixA = MatrixLoader.GenerateRandomDenseMatrix(order, order);
             var factorEvd = matrixA.Evd();
-            var eigenVectors = factorEvd.EigenVectors();
-            var d = factorEvd.D();
+            var eigenVectors = factorEvd.EigenVectors;
+            var d = factorEvd.D;
 
             Assert.AreEqual(order, eigenVectors.RowCount);
             Assert.AreEqual(order, eigenVectors.ColumnCount);
@@ -114,8 +114,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Factorization
             var matrixA = MatrixLoader.GenerateRandomPositiveDefiniteDenseMatrix(order);
             MatrixHelpers.ForceSymmetric(matrixA);
             var factorEvd = matrixA.Evd();
-            var eigenVectors = factorEvd.EigenVectors();
-            var d = factorEvd.D();
+            var eigenVectors = factorEvd.EigenVectors;
+            var d = factorEvd.D;
 
             Assert.AreEqual(order, eigenVectors.RowCount);
             Assert.AreEqual(order, eigenVectors.ColumnCount);

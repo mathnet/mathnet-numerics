@@ -79,9 +79,9 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
             var order = matrix.RowCount;
 
             // Initialize matrices for eigenvalues and eigenvectors
-            MatrixEv = DenseMatrix.Identity(order);
-            MatrixD = matrix.CreateMatrix(order, order);
-            VectorEv = new DenseVector(order);
+            EigenVectors = DenseMatrix.Identity(order);
+            D = matrix.CreateMatrix(order, order);
+            EigenValues = new DenseVector(order);
 
             IsSymmetric = true;
 
@@ -93,8 +93,8 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
                 }
             }
 
-            Control.LinearAlgebraProvider.EigenDecomp(IsSymmetric, order, matrix.Values, ((DenseMatrix) MatrixEv).Values,
-                ((DenseVector) VectorEv).Values, ((DenseMatrix) MatrixD).Values);
+            Control.LinearAlgebraProvider.EigenDecomp(IsSymmetric, order, matrix.Values, ((DenseMatrix) EigenVectors).Values,
+                ((DenseVector) EigenValues).Values, ((DenseMatrix) D).Values);
         }
 
         /// <summary>
@@ -840,20 +840,20 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
             }
 
             // The dimension compatibility conditions for X = A\B require the two matrices A and B to have the same number of rows
-            if (VectorEv.Count != input.RowCount)
+            if (EigenValues.Count != input.RowCount)
             {
                 throw new ArgumentException(Resources.ArgumentMatrixSameRowDimension);
             }
 
             // The solution X row dimension is equal to the column dimension of A
-            if (VectorEv.Count != result.RowCount)
+            if (EigenValues.Count != result.RowCount)
             {
                 throw new ArgumentException(Resources.ArgumentMatrixSameColumnDimension);
             }
 
             if (IsSymmetric)
             {
-                var order = VectorEv.Count;
+                var order = EigenValues.Count;
                 var tmp = new Complex[order];
 
                 for (var k = 0; k < order; k++)
@@ -865,10 +865,10 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
                         {
                             for (var i = 0; i < order; i++)
                             {
-                                value += ((DenseMatrix) MatrixEv).Values[(j*order) + i].Conjugate()*input.At(i, k);
+                                value += ((DenseMatrix) EigenVectors).Values[(j*order) + i].Conjugate()*input.At(i, k);
                             }
 
-                            value /= VectorEv[j].Real;
+                            value /= EigenValues[j].Real;
                         }
 
                         tmp[j] = value;
@@ -879,7 +879,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
                         Complex value = 0.0;
                         for (var i = 0; i < order; i++)
                         {
-                            value += ((DenseMatrix) MatrixEv).Values[(i*order) + j]*tmp[i];
+                            value += ((DenseMatrix) EigenVectors).Values[(i*order) + j]*tmp[i];
                         }
 
                         result.At(j, k, value);
@@ -911,21 +911,21 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
 
             // Ax=b where A is an m x m matrix
             // Check that b is a column vector with m entries
-            if (VectorEv.Count != input.Count)
+            if (EigenValues.Count != input.Count)
             {
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength);
             }
 
             // Check that x is a column vector with n entries
-            if (VectorEv.Count != result.Count)
+            if (EigenValues.Count != result.Count)
             {
-                throw Matrix.DimensionsDontMatch<ArgumentException>(VectorEv, result);
+                throw Matrix.DimensionsDontMatch<ArgumentException>(EigenValues, result);
             }
 
             if (IsSymmetric)
             {
                 // Symmetric case -> x = V * inv(λ) * VH * b;
-                var order = VectorEv.Count;
+                var order = EigenValues.Count;
                 var tmp = new Complex[order];
                 Complex value;
 
@@ -936,10 +936,10 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
                     {
                         for (var i = 0; i < order; i++)
                         {
-                            value += ((DenseMatrix) MatrixEv).Values[(j*order) + i].Conjugate()*input[i];
+                            value += ((DenseMatrix) EigenVectors).Values[(j*order) + i].Conjugate()*input[i];
                         }
 
-                        value /= VectorEv[j].Real;
+                        value /= EigenValues[j].Real;
                     }
 
                     tmp[j] = value;
@@ -950,7 +950,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
                     value = 0;
                     for (var i = 0; i < order; i++)
                     {
-                        value += ((DenseMatrix) MatrixEv).Values[(i*order) + j]*tmp[i];
+                        value += ((DenseMatrix) EigenVectors).Values[(i*order) + j]*tmp[i];
                     }
 
                     result[j] = value;

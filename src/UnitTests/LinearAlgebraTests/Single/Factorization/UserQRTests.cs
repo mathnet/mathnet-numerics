@@ -25,7 +25,6 @@
 // </copyright>
 
 using MathNet.Numerics.LinearAlgebra.Factorization;
-using MathNet.Numerics.LinearAlgebra.Single;
 using MathNet.Numerics.LinearAlgebra.Single.Factorization;
 using NUnit.Framework;
 using System;

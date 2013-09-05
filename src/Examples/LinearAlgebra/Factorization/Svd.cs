@@ -87,12 +87,12 @@ namespace Examples.LinearAlgebra.FactorizationExamples
 
             // 1. Left singular vectors
             Console.WriteLine(@"1. Left singular vectors");
-            Console.WriteLine(svd.U().ToString("#0.00\t", formatProvider));
+            Console.WriteLine(svd.U.ToString("#0.00\t", formatProvider));
             Console.WriteLine();
 
             // 2. Singular values as vector
             Console.WriteLine(@"2. Singular values as vector");
-            Console.WriteLine(svd.S().ToString("#0.00\t", formatProvider));
+            Console.WriteLine(svd.S.ToString("#0.00\t", formatProvider));
             Console.WriteLine();
 
             // 3. Singular values as diagonal matrix
@@ -102,23 +102,23 @@ namespace Examples.LinearAlgebra.FactorizationExamples
 
             // 4. Right singular vectors
             Console.WriteLine(@"4. Right singular vectors");
-            Console.WriteLine(svd.VT().ToString("#0.00\t", formatProvider));
+            Console.WriteLine(svd.VT.ToString("#0.00\t", formatProvider));
             Console.WriteLine();
 
             // 5. Multiply U matrix by its transpose
-            var identinty = svd.U() * svd.U().Transpose();
+            var identinty = svd.U * svd.U.Transpose();
             Console.WriteLine(@"5. Multiply U matrix by its transpose");
             Console.WriteLine(identinty.ToString("#0.00\t", formatProvider));
             Console.WriteLine();
 
             // 6. Multiply V matrix by its transpose
-            identinty = svd.VT().TransposeAndMultiply(svd.VT());
+            identinty = svd.VT.TransposeAndMultiply(svd.VT);
             Console.WriteLine(@"6. Multiply V matrix by its transpose");
             Console.WriteLine(identinty.ToString("#0.00\t", formatProvider));
             Console.WriteLine();
 
             // 7. Reconstruct initial matrix: A = U*Σ*VT
-            var reconstruct = svd.U() * svd.W() * svd.VT();
+            var reconstruct = svd.U * svd.W() * svd.VT;
             Console.WriteLine(@"7. Reconstruct initial matrix: A = U*S*VT");
             Console.WriteLine(reconstruct.ToString("#0.00\t", formatProvider));
             Console.WriteLine();
@@ -149,7 +149,7 @@ namespace Examples.LinearAlgebra.FactorizationExamples
 
             // 12. Singular values as vector
             Console.WriteLine(@"12. Singular values as vector");
-            Console.WriteLine(svd.S().ToString("#0.00\t", formatProvider));
+            Console.WriteLine(svd.S.ToString("#0.00\t", formatProvider));
             Console.WriteLine();
 
             // 13. Singular values as diagonal matrix
@@ -161,7 +161,7 @@ namespace Examples.LinearAlgebra.FactorizationExamples
             try
             {
                 Console.WriteLine(@"14. Access to left singular vectors when partial SVD decomposition was performed");
-                Console.WriteLine(svd.U().ToString("#0.00\t", formatProvider));
+                Console.WriteLine(svd.U.ToString("#0.00\t", formatProvider));
             }
             catch (Exception ex)
             {
@@ -173,7 +173,7 @@ namespace Examples.LinearAlgebra.FactorizationExamples
             try
             {
                 Console.WriteLine(@"15. Access to right singular vectors when partial SVD decomposition was performed");
-                Console.WriteLine(svd.VT().ToString("#0.00\t", formatProvider));
+                Console.WriteLine(svd.VT.ToString("#0.00\t", formatProvider));
             }
             catch (Exception ex)
             {

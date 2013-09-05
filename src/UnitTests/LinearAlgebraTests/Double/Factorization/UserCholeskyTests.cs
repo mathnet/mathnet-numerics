@@ -27,7 +27,6 @@
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
 {
     using System;
-    using LinearAlgebra.Double;
     using NUnit.Framework;
 
     /// <summary>

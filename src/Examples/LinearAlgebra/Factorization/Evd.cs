@@ -87,27 +87,27 @@ namespace Examples.LinearAlgebra.FactorizationExamples
 
             // 1. Eigen vectors
             Console.WriteLine(@"1. Eigen vectors");
-            Console.WriteLine(evd.EigenVectors().ToString("#0.00\t", formatProvider));
+            Console.WriteLine(evd.EigenVectors.ToString("#0.00\t", formatProvider));
             Console.WriteLine();
 
             // 2. Eigen values as a complex vector
             Console.WriteLine(@"2. Eigen values as a complex vector");
-            Console.WriteLine(evd.EigenValues().ToString("N", formatProvider));
+            Console.WriteLine(evd.EigenValues.ToString("N", formatProvider));
             Console.WriteLine();
 
             // 3. Eigen values as the block diagonal matrix
             Console.WriteLine(@"3. Eigen values as the block diagonal matrix");
-            Console.WriteLine(evd.D().ToString("#0.00\t", formatProvider));
+            Console.WriteLine(evd.D.ToString("#0.00\t", formatProvider));
             Console.WriteLine();
 
             // 4. Multiply V by its transpose VT
-            var identity = evd.EigenVectors().TransposeAndMultiply(evd.EigenVectors());
+            var identity = evd.EigenVectors.TransposeAndMultiply(evd.EigenVectors);
             Console.WriteLine(@"4. Multiply V by its transpose VT: V*VT = I");
             Console.WriteLine(identity.ToString("#0.00\t", formatProvider));
             Console.WriteLine();
 
             // 5. Reconstruct initial matrix: A = V*D*V'
-            var reconstruct = evd.EigenVectors() * evd.D() * evd.EigenVectors().Transpose();
+            var reconstruct = evd.EigenVectors * evd.D * evd.EigenVectors.Transpose();
             Console.WriteLine(@"5. Reconstruct initial matrix: A = V*D*V'");
             Console.WriteLine(reconstruct.ToString("#0.00\t", formatProvider));
             Console.WriteLine();
@@ -142,33 +142,33 @@ namespace Examples.LinearAlgebra.FactorizationExamples
 
             // 8. Eigen vectors
             Console.WriteLine(@"8. Eigen vectors");
-            Console.WriteLine(evd.EigenVectors().ToString("#0.00\t", formatProvider));
+            Console.WriteLine(evd.EigenVectors.ToString("#0.00\t", formatProvider));
             Console.WriteLine();
 
             // 9. Eigen values as a complex vector
             Console.WriteLine(@"9. Eigen values as a complex vector");
-            Console.WriteLine(evd.EigenValues().ToString("N", formatProvider));
+            Console.WriteLine(evd.EigenValues.ToString("N", formatProvider));
             Console.WriteLine();
 
             // 10. Eigen values as the block diagonal matrix
             Console.WriteLine(@"10. Eigen values as the block diagonal matrix");
-            Console.WriteLine(evd.D().ToString("#0.00\t", formatProvider));
+            Console.WriteLine(evd.D.ToString("#0.00\t", formatProvider));
             Console.WriteLine();
 
             // 11. Multiply A * V
-            var av = matrix * evd.EigenVectors();
+            var av = matrix * evd.EigenVectors;
             Console.WriteLine(@"11. Multiply A * V");
             Console.WriteLine(av.ToString("#0.00\t", formatProvider));
             Console.WriteLine();
 
             // 12. Multiply V * D
-            var vd = evd.EigenVectors() * evd.D();
+            var vd = evd.EigenVectors * evd.D;
             Console.WriteLine(@"12. Multiply V * D");
             Console.WriteLine(vd.ToString("#0.00\t", formatProvider));
             Console.WriteLine();
 
             // 13. Reconstruct non-symmetriv matrix A = V * D * Vinverse
-            reconstruct = evd.EigenVectors() * evd.D() * evd.EigenVectors().Inverse();
+            reconstruct = evd.EigenVectors * evd.D * evd.EigenVectors.Inverse();
             Console.WriteLine(@"13. Reconstruct non-symmetriv matrix A = V * D * Vinverse");
             Console.WriteLine(reconstruct.ToString("#0.00\t", formatProvider));
             Console.WriteLine();

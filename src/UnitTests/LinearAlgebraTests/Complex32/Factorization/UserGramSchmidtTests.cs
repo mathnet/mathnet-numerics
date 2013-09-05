@@ -1,4 +1,4 @@
-// <copyright file="UserGramSchmidtTests.cs" company="Math.NET">
+﻿// <copyright file="UserGramSchmidtTests.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -27,7 +27,6 @@
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
 {
     using System;
-    using LinearAlgebra.Complex32;
     using LinearAlgebra.Complex32.Factorization;
     using NUnit.Framework;
     using Complex32 = Numerics.Complex32;

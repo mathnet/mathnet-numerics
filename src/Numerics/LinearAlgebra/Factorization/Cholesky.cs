@@ -46,20 +46,9 @@ namespace MathNet.Numerics.LinearAlgebra.Factorization
     where T : struct, IEquatable<T>, IFormattable
     {
         /// <summary>
-        /// Gets or sets the lower triangular form of the Cholesky matrix
-        /// </summary>
-        protected Matrix<T> CholeskyFactor { get; set; }
-
-        /// <summary>
         /// Gets the lower triangular form of the Cholesky matrix.
         /// </summary>
-        public virtual Matrix<T> Factor
-        {
-            get
-            {
-                return CholeskyFactor.Clone();
-            }
-        }
+        public Matrix<T> Factor { get; protected set; }
 
         /// <summary>
         /// Gets the determinant of the matrix for which the Cholesky matrix was computed.

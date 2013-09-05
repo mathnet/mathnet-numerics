@@ -68,9 +68,9 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
             var nm = Math.Min(matrix.RowCount + 1, matrix.ColumnCount);
             var matrixCopy = matrix.Clone();
 
-            VectorS = matrixCopy.CreateVector(nm);
-            MatrixU = matrixCopy.CreateMatrix(matrixCopy.RowCount, matrixCopy.RowCount);
-            MatrixVT = matrixCopy.CreateMatrix(matrixCopy.ColumnCount, matrixCopy.ColumnCount);
+            S = matrixCopy.CreateVector(nm);
+            U = matrixCopy.CreateMatrix(matrixCopy.RowCount, matrixCopy.RowCount);
+            VT = matrixCopy.CreateMatrix(matrixCopy.ColumnCount, matrixCopy.ColumnCount);
 
             const int maxiter = 1000;
             var e = new double[matrixCopy.ColumnCount];
@@ -94,26 +94,26 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
                 {
                     // Compute the transformation for the l-th column and place the l-th diagonal in VectorS[l].
                     var xnorm = Dnrm2Column(matrixCopy, matrixCopy.RowCount, l, l);
-                    VectorS[l] = xnorm;
-                    if (VectorS[l] != 0.0)
+                    S[l] = xnorm;
+                    if (S[l] != 0.0)
                     {
                         if (matrixCopy.At(l, l) != 0.0)
                         {
-                            VectorS[l] = Dsign(VectorS[l], matrixCopy.At(l, l));
+                            S[l] = Dsign(S[l], matrixCopy.At(l, l));
                         }
 
-                        DscalColumn(matrixCopy, matrixCopy.RowCount, l, l, 1.0 / VectorS[l]);
+                        DscalColumn(matrixCopy, matrixCopy.RowCount, l, l, 1.0 / S[l]);
                         matrixCopy.At(l, l, (1.0 + matrixCopy.At(l, l)));
                     }
 
-                    VectorS[l] = -VectorS[l];
+                    S[l] = -S[l];
                 }
 
                 for (j = lp1; j < matrixCopy.ColumnCount; j++)
                 {
                     if (l < nct)
                     {
-                        if (VectorS[l] != 0.0)
+                        if (S[l] != 0.0)
                         {
                             // Apply the transformation.
                             t = -Ddot(matrixCopy, matrixCopy.RowCount, l, j, l) / matrixCopy.At(l, l);
@@ -134,7 +134,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
                     // Place the transformation in u for subsequent back multiplication.
                     for (i = l; i < matrixCopy.RowCount; i++)
                     {
-                        MatrixU.At(i, l, matrixCopy.At(i, l));
+                        U.At(i, l, matrixCopy.At(i, l));
                     }
                 }
 
@@ -189,7 +189,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
                     // Place the transformation in v for subsequent back multiplication.
                     for (i = lp1; i < matrixCopy.ColumnCount; i++)
                     {
-                        MatrixVT.At(i, l, e[i]);
+                        VT.At(i, l, e[i]);
                     }
                 }
             }
@@ -200,12 +200,12 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
             var nrtp1 = nrt + 1;
             if (nct < matrixCopy.ColumnCount)
             {
-                VectorS[nctp1 - 1] = matrixCopy.At((nctp1 - 1), (nctp1 - 1));
+                S[nctp1 - 1] = matrixCopy.At((nctp1 - 1), (nctp1 - 1));
             }
 
             if (matrixCopy.RowCount < m)
             {
-                VectorS[m - 1] = 0.0;
+                S[m - 1] = 0.0;
             }
 
             if (nrtp1 < m)
@@ -222,40 +222,40 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
                 {
                     for (i = 0; i < matrixCopy.RowCount; i++)
                     {
-                        MatrixU.At(i, j, 0.0);
+                        U.At(i, j, 0.0);
                     }
 
-                    MatrixU.At(j, j, 1.0);
+                    U.At(j, j, 1.0);
                 }
 
                 for (l = nct - 1; l >= 0; l--)
                 {
-                    if (VectorS[l] != 0.0)
+                    if (S[l] != 0.0)
                     {
                         for (j = l + 1; j < ncu; j++)
                         {
-                            t = -Ddot(MatrixU, matrixCopy.RowCount, l, j, l) / MatrixU.At(l, l);
+                            t = -Ddot(U, matrixCopy.RowCount, l, j, l) / U.At(l, l);
                             for (var ii = l; ii < matrixCopy.RowCount; ii++)
                             {
-                                MatrixU.At(ii, j, MatrixU.At(ii, j) + (t * MatrixU.At(ii, l)));
+                                U.At(ii, j, U.At(ii, j) + (t * U.At(ii, l)));
                             }
                         }
 
-                        DscalColumn(MatrixU, matrixCopy.RowCount, l, l, -1.0);
-                        MatrixU.At(l, l, 1.0 + MatrixU.At(l, l));
+                        DscalColumn(U, matrixCopy.RowCount, l, l, -1.0);
+                        U.At(l, l, 1.0 + U.At(l, l));
                         for (i = 0; i < l; i++)
                         {
-                            MatrixU.At(i, l, 0.0);
+                            U.At(i, l, 0.0);
                         }
                     }
                     else
                     {
                         for (i = 0; i < matrixCopy.RowCount; i++)
                         {
-                            MatrixU.At(i, l, 0.0);
+                            U.At(i, l, 0.0);
                         }
 
-                        MatrixU.At(l, l, 1.0);
+                        U.At(l, l, 1.0);
                     }
                 }
             }
@@ -272,10 +272,10 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
                         {
                             for (j = lp1; j < matrixCopy.ColumnCount; j++)
                             {
-                                t = -Ddot(MatrixVT, matrixCopy.ColumnCount, l, j, lp1) / MatrixVT.At(lp1, l);
+                                t = -Ddot(VT, matrixCopy.ColumnCount, l, j, lp1) / VT.At(lp1, l);
                                 for (var ii = l; ii < matrixCopy.ColumnCount; ii++)
                                 {
-                                    MatrixVT.At(ii, j, MatrixVT.At(ii, j) + (t * MatrixVT.At(ii, l)));
+                                    VT.At(ii, j, VT.At(ii, j) + (t * VT.At(ii, l)));
                                 }
                             }
                         }
@@ -283,10 +283,10 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
 
                     for (i = 0; i < matrixCopy.ColumnCount; i++)
                     {
-                        MatrixVT.At(i, l, 0.0);
+                        VT.At(i, l, 0.0);
                     }
 
-                    MatrixVT.At(l, l, 1.0);
+                    VT.At(l, l, 1.0);
                 }
             }
 
@@ -294,11 +294,11 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
             for (i = 0; i < m; i++)
             {
                 double r;
-                if (VectorS[i] != 0.0)
+                if (S[i] != 0.0)
                 {
-                    t = VectorS[i];
-                    r = VectorS[i] / t;
-                    VectorS[i] = t;
+                    t = S[i];
+                    r = S[i] / t;
+                    S[i] = t;
                     if (i < m - 1)
                     {
                         e[i] = e[i] / r;
@@ -306,7 +306,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
 
                     if (ComputeVectors)
                     {
-                        DscalColumn(MatrixU, matrixCopy.RowCount, i, 0, r);
+                        DscalColumn(U, matrixCopy.RowCount, i, 0, r);
                     }
                 }
 
@@ -321,10 +321,10 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
                     t = e[i];
                     r = t / e[i];
                     e[i] = t;
-                    VectorS[i + 1] = VectorS[i + 1] * r;
+                    S[i + 1] = S[i + 1] * r;
                     if (ComputeVectors)
                     {
-                        DscalColumn(MatrixVT, matrixCopy.ColumnCount, i + 1, 0, r);
+                        DscalColumn(VT, matrixCopy.ColumnCount, i + 1, 0, r);
                     }
                 }
             }
@@ -352,7 +352,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
                 double test;
                 for (l = m - 2; l >= 0; l--)
                 {
-                    test = Math.Abs(VectorS[l]) + Math.Abs(VectorS[l + 1]);
+                    test = Math.Abs(S[l]) + Math.Abs(S[l + 1]);
                     ztest = test + Math.Abs(e[l]);
                     if (ztest.AlmostEqualInDecimalPlaces(test, 15))
                     {
@@ -382,10 +382,10 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
                             test = test + Math.Abs(e[ls - 1]);
                         }
 
-                        ztest = test + Math.Abs(VectorS[ls]);
+                        ztest = test + Math.Abs(S[ls]);
                         if (ztest.AlmostEqualInDecimalPlaces(test, 15))
                         {
-                            VectorS[ls] = 0.0;
+                            S[ls] = 0.0;
                             break;
                         }
                     }
@@ -422,9 +422,9 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
                         for (var kk = l; kk < m - 1; kk++)
                         {
                             k = m - 2 - kk + l;
-                            t1 = VectorS[k];
+                            t1 = S[k];
                             Drotg(ref t1, ref f, out cs, out sn);
-                            VectorS[k] = t1;
+                            S[k] = t1;
                             if (k != l)
                             {
                                 f = -sn * e[k - 1];
@@ -433,7 +433,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
 
                             if (ComputeVectors)
                             {
-                                Drot(MatrixVT, matrixCopy.ColumnCount, k, m - 1, cs, sn);
+                                Drot(VT, matrixCopy.ColumnCount, k, m - 1, cs, sn);
                             }
                         }
 
@@ -445,14 +445,14 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
                         e[l - 1] = 0.0;
                         for (k = l; k < m; k++)
                         {
-                            t1 = VectorS[k];
+                            t1 = S[k];
                             Drotg(ref t1, ref f, out cs, out sn);
-                            VectorS[k] = t1;
+                            S[k] = t1;
                             f = -sn * e[k];
                             e[k] = cs * e[k];
                             if (ComputeVectors)
                             {
-                                Drot(MatrixU, matrixCopy.RowCount, k, l - 1, cs, sn);
+                                Drot(U, matrixCopy.RowCount, k, l - 1, cs, sn);
                             }
                         }
 
@@ -462,15 +462,15 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
                     case 3:
                         // Calculate the shift.
                         var scale = 0.0;
-                        scale = Math.Max(scale, Math.Abs(VectorS[m - 1]));
-                        scale = Math.Max(scale, Math.Abs(VectorS[m - 2]));
+                        scale = Math.Max(scale, Math.Abs(S[m - 1]));
+                        scale = Math.Max(scale, Math.Abs(S[m - 2]));
                         scale = Math.Max(scale, Math.Abs(e[m - 2]));
-                        scale = Math.Max(scale, Math.Abs(VectorS[l]));
+                        scale = Math.Max(scale, Math.Abs(S[l]));
                         scale = Math.Max(scale, Math.Abs(e[l]));
-                        var sm = VectorS[m - 1] / scale;
-                        var smm1 = VectorS[m - 2] / scale;
+                        var sm = S[m - 1] / scale;
+                        var smm1 = S[m - 2] / scale;
                         var emm1 = e[m - 2] / scale;
-                        var sl = VectorS[l] / scale;
+                        var sl = S[l] / scale;
                         var el = e[l] / scale;
                         var b = (((smm1 + sm) * (smm1 - sm)) + (emm1 * emm1)) / 2.0;
                         var c = (sm * emm1) * (sm * emm1);
@@ -498,24 +498,24 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
                                 e[k - 1] = f;
                             }
 
-                            f = (cs * VectorS[k]) + (sn * e[k]);
-                            e[k] = (cs * e[k]) - (sn * VectorS[k]);
-                            g = sn * VectorS[k + 1];
-                            VectorS[k + 1] = cs * VectorS[k + 1];
+                            f = (cs * S[k]) + (sn * e[k]);
+                            e[k] = (cs * e[k]) - (sn * S[k]);
+                            g = sn * S[k + 1];
+                            S[k + 1] = cs * S[k + 1];
                             if (ComputeVectors)
                             {
-                                Drot(MatrixVT, matrixCopy.ColumnCount, k, k + 1, cs, sn);
+                                Drot(VT, matrixCopy.ColumnCount, k, k + 1, cs, sn);
                             }
 
                             Drotg(ref f, ref g, out cs, out sn);
-                            VectorS[k] = f;
-                            f = (cs * e[k]) + (sn * VectorS[k + 1]);
-                            VectorS[k + 1] = (-sn * e[k]) + (cs * VectorS[k + 1]);
+                            S[k] = f;
+                            f = (cs * e[k]) + (sn * S[k + 1]);
+                            S[k + 1] = (-sn * e[k]) + (cs * S[k + 1]);
                             g = sn * e[k + 1];
                             e[k + 1] = cs * e[k + 1];
                             if (ComputeVectors && k < matrixCopy.RowCount)
                             {
-                                Drot(MatrixU, matrixCopy.RowCount, k, k + 1, cs, sn);
+                                Drot(U, matrixCopy.RowCount, k, k + 1, cs, sn);
                             }
                         }
 
@@ -526,34 +526,34 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
                     // Convergence.
                     case 4:
                         // Make the singular value  positive
-                        if (VectorS[l] < 0.0)
+                        if (S[l] < 0.0)
                         {
-                            VectorS[l] = -VectorS[l];
+                            S[l] = -S[l];
                             if (ComputeVectors)
                             {
-                                DscalColumn(MatrixVT, matrixCopy.ColumnCount, l, 0, -1.0);
+                                DscalColumn(VT, matrixCopy.ColumnCount, l, 0, -1.0);
                             }
                         }
 
                         // Order the singular value.
                         while (l != mn - 1)
                         {
-                            if (VectorS[l] >= VectorS[l + 1])
+                            if (S[l] >= S[l + 1])
                             {
                                 break;
                             }
 
-                            t = VectorS[l];
-                            VectorS[l] = VectorS[l + 1];
-                            VectorS[l + 1] = t;
+                            t = S[l];
+                            S[l] = S[l + 1];
+                            S[l + 1] = t;
                             if (ComputeVectors && l < matrixCopy.ColumnCount)
                             {
-                                Dswap(MatrixVT, matrixCopy.ColumnCount, l, l + 1);
+                                Dswap(VT, matrixCopy.ColumnCount, l, l + 1);
                             }
 
                             if (ComputeVectors && l < matrixCopy.RowCount)
                             {
-                                Dswap(MatrixU, matrixCopy.RowCount, l, l + 1);
+                                Dswap(U, matrixCopy.RowCount, l, l + 1);
                             }
 
                             l = l + 1;
@@ -567,7 +567,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
 
             if (ComputeVectors)
             {
-                MatrixVT = MatrixVT.Transpose();
+                VT = VT.Transpose();
             }
 
             // Adjust the size of s if rows < columns. We are using ported copy of linpack's svd code and it uses
@@ -579,10 +579,10 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
                 var tmp = matrixCopy.CreateVector(nm);
                 for (i = 0; i < nm; i++)
                 {
-                    tmp[i] = VectorS[i];
+                    tmp[i] = S[i];
                 }
 
-                VectorS = tmp;
+                S = tmp;
             }
         }
 
@@ -808,46 +808,46 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
             }
 
             // The dimension compatibility conditions for X = A\B require the two matrices A and B to have the same number of rows
-            if (MatrixU.RowCount != input.RowCount)
+            if (U.RowCount != input.RowCount)
             {
                 throw new ArgumentException(Resources.ArgumentMatrixSameRowDimension);
             }
 
             // The solution X row dimension is equal to the column dimension of A
-            if (MatrixVT.ColumnCount != result.RowCount)
+            if (VT.ColumnCount != result.RowCount)
             {
                 throw new ArgumentException(Resources.ArgumentMatrixSameColumnDimension);
             }
 
-            var mn = Math.Min(MatrixU.RowCount, MatrixVT.ColumnCount);
+            var mn = Math.Min(U.RowCount, VT.ColumnCount);
             var bn = input.ColumnCount;
 
-            var tmp = new double[MatrixVT.ColumnCount];
+            var tmp = new double[VT.ColumnCount];
 
             for (var k = 0; k < bn; k++)
             {
-                for (var j = 0; j < MatrixVT.ColumnCount; j++)
+                for (var j = 0; j < VT.ColumnCount; j++)
                 {
                     double value = 0;
                     if (j < mn)
                     {
-                        for (var i = 0; i < MatrixU.RowCount; i++)
+                        for (var i = 0; i < U.RowCount; i++)
                         {
-                            value += MatrixU.At(i, j) * input.At(i, k);
+                            value += U.At(i, j) * input.At(i, k);
                         }
 
-                        value /= VectorS[j];
+                        value /= S[j];
                     }
 
                     tmp[j] = value;
                 }
 
-                for (var j = 0; j < MatrixVT.ColumnCount; j++)
+                for (var j = 0; j < VT.ColumnCount; j++)
                 {
                     double value = 0;
-                    for (var i = 0; i < MatrixVT.ColumnCount; i++)
+                    for (var i = 0; i < VT.ColumnCount; i++)
                     {
-                        value += MatrixVT.At(i, j) * tmp[i];
+                        value += VT.At(i, j) * tmp[i];
                     }
 
                     result.At(j, k, value);
@@ -879,42 +879,42 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
 
             // Ax=b where A is an m x n matrix
             // Check that b is a column vector with m entries
-            if (MatrixU.RowCount != input.Count)
+            if (U.RowCount != input.Count)
             {
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength);
             }
 
             // Check that x is a column vector with n entries
-            if (MatrixVT.ColumnCount != result.Count)
+            if (VT.ColumnCount != result.Count)
             {
-                throw Matrix.DimensionsDontMatch<ArgumentException>(MatrixVT, result);
+                throw Matrix.DimensionsDontMatch<ArgumentException>(VT, result);
             }
 
-            var mn = Math.Min(MatrixU.RowCount, MatrixVT.ColumnCount);
-            var tmp = new double[MatrixVT.ColumnCount];
+            var mn = Math.Min(U.RowCount, VT.ColumnCount);
+            var tmp = new double[VT.ColumnCount];
             double value;
-            for (var j = 0; j < MatrixVT.ColumnCount; j++)
+            for (var j = 0; j < VT.ColumnCount; j++)
             {
                 value = 0;
                 if (j < mn)
                 {
-                    for (var i = 0; i < MatrixU.RowCount; i++)
+                    for (var i = 0; i < U.RowCount; i++)
                     {
-                        value += MatrixU.At(i, j) * input[i];
+                        value += U.At(i, j) * input[i];
                     }
 
-                    value /= VectorS[j];
+                    value /= S[j];
                 }
 
                 tmp[j] = value;
             }
 
-            for (var j = 0; j < MatrixVT.ColumnCount; j++)
+            for (var j = 0; j < VT.ColumnCount; j++)
             {
                 value = 0;
-                for (int i = 0; i < MatrixVT.ColumnCount; i++)
+                for (int i = 0; i < VT.ColumnCount; i++)
                 {
-                    value += MatrixVT.At(i, j) * tmp[i];
+                    value += VT.At(i, j) * tmp[i];
                 }
 
                 result[j] = value;

@@ -53,9 +53,9 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
             get
             {
                 var det = 1.0;
-                for (var j = 0; j < CholeskyFactor.RowCount; j++)
+                for (var j = 0; j < Factor.RowCount; j++)
                 {
-                    var d = CholeskyFactor.At(j, j);
+                    var d = Factor.At(j, j);
                     det *= d * d;
                 }
 
@@ -71,9 +71,9 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
             get
             {
                 var det = 0.0;
-                for (var j = 0; j < CholeskyFactor.RowCount; j++)
+                for (var j = 0; j < Factor.RowCount; j++)
                 {
-                    det += 2 * Math.Log(CholeskyFactor.At(j, j));
+                    det += 2 * Math.Log(Factor.At(j, j));
                 }
 
                 return det;

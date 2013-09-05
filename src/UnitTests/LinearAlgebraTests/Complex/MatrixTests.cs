@@ -26,7 +26,6 @@
 
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
 {
-    using System.Numerics;
     using NUnit.Framework;
 
     /// <summary>

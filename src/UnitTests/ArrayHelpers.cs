@@ -27,8 +27,6 @@
 namespace MathNet.Numerics.UnitTests
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
 
     /// <summary>
     /// Array and List helper/extention for Silverlight

@@ -68,7 +68,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
             // Create a new matrix for the Cholesky factor, then perform factorization (while overwriting).
             var factor = (DenseMatrix)matrix.Clone();
             Control.LinearAlgebraProvider.CholeskyFactor(factor.Values, factor.RowCount);
-            CholeskyFactor = factor;
+            Factor = factor;
         }
 
         /// <summary>
@@ -100,9 +100,9 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
                 throw new ArgumentException(Resources.ArgumentMatrixSameColumnDimension);
             }
 
-            if (input.RowCount != CholeskyFactor.RowCount)
+            if (input.RowCount != Factor.RowCount)
             {
-                throw Matrix.DimensionsDontMatch<ArgumentException>(input, CholeskyFactor);
+                throw Matrix.DimensionsDontMatch<ArgumentException>(input, Factor);
             }
 
             var dinput = input as DenseMatrix;
@@ -121,7 +121,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
             Array.Copy(dinput.Values, dresult.Values, dinput.Values.Length);
 
             // Cholesky solve by overwriting result.
-            var dfactor = (DenseMatrix)CholeskyFactor;
+            var dfactor = (DenseMatrix)Factor;
             Control.LinearAlgebraProvider.CholeskySolveFactored(dfactor.Values, dfactor.RowCount, dresult.Values, dresult.ColumnCount);
         }
 
@@ -149,9 +149,9 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength);
             }
 
-            if (input.Count != CholeskyFactor.RowCount)
+            if (input.Count != Factor.RowCount)
             {
-                throw Matrix.DimensionsDontMatch<ArgumentException>(input, CholeskyFactor);
+                throw Matrix.DimensionsDontMatch<ArgumentException>(input, Factor);
             }
 
             var dinput = input as DenseVector;
@@ -170,7 +170,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
             Array.Copy(dinput.Values, dresult.Values, dinput.Values.Length);
 
             // Cholesky solve by overwriting result.
-            var dfactor = (DenseMatrix)CholeskyFactor;
+            var dfactor = (DenseMatrix)Factor;
             Control.LinearAlgebraProvider.CholeskySolveFactored(dfactor.Values, dfactor.RowCount, dresult.Values, 1);
         }
     }

@@ -66,40 +66,40 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
             }
 
             // Create a new matrix for the Cholesky factor, then perform factorization (while overwriting).
-            CholeskyFactor = matrix.Clone();
-            var tmpColumn = new float[CholeskyFactor.RowCount];
+            Factor = matrix.Clone();
+            var tmpColumn = new float[Factor.RowCount];
 
             // Main loop - along the diagonal
-            for (var ij = 0; ij < CholeskyFactor.RowCount; ij++)
+            for (var ij = 0; ij < Factor.RowCount; ij++)
             {
                 // "Pivot" element
-                var tmpVal = CholeskyFactor.At(ij, ij);
+                var tmpVal = Factor.At(ij, ij);
 
                 if (tmpVal > 0.0)
                 {
                     tmpVal = (float)Math.Sqrt(tmpVal);
-                    CholeskyFactor.At(ij, ij, tmpVal);
+                    Factor.At(ij, ij, tmpVal);
                     tmpColumn[ij] = tmpVal;
 
                     // Calculate multipliers and copy to local column
                     // Current column, below the diagonal
-                    for (var i = ij + 1; i < CholeskyFactor.RowCount; i++)
+                    for (var i = ij + 1; i < Factor.RowCount; i++)
                     {
-                        CholeskyFactor.At(i, ij, CholeskyFactor.At(i, ij) / tmpVal);
-                        tmpColumn[i] = CholeskyFactor.At(i, ij);
+                        Factor.At(i, ij, Factor.At(i, ij) / tmpVal);
+                        tmpColumn[i] = Factor.At(i, ij);
                     }
 
                     // Remaining columns, below the diagonal
-                    DoCholeskyStep(CholeskyFactor, CholeskyFactor.RowCount, ij + 1, CholeskyFactor.RowCount, tmpColumn, Control.NumberOfParallelWorkerThreads);
+                    DoCholeskyStep(Factor, Factor.RowCount, ij + 1, Factor.RowCount, tmpColumn, Control.NumberOfParallelWorkerThreads);
                 }
                 else
                 {
                     throw new ArgumentException(Resources.ArgumentMatrixPositiveDefinite);
                 }
 
-                for (var i = ij + 1; i < CholeskyFactor.RowCount; i++)
+                for (var i = ij + 1; i < Factor.RowCount; i++)
                 {
-                    CholeskyFactor.At(ij, i, 0.0f);
+                    Factor.At(ij, i, 0.0f);
                 }
             }
         }
@@ -167,13 +167,13 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
                 throw new ArgumentException(Resources.ArgumentMatrixSameColumnDimension);
             }
 
-            if (input.RowCount != CholeskyFactor.RowCount)
+            if (input.RowCount != Factor.RowCount)
             {
-                throw Matrix.DimensionsDontMatch<ArgumentException>(input, CholeskyFactor);
+                throw Matrix.DimensionsDontMatch<ArgumentException>(input, Factor);
             }
 
             input.CopyTo(result);
-            var order = CholeskyFactor.RowCount;
+            var order = Factor.RowCount;
 
             for (var c = 0; c < result.ColumnCount; c++)
             {
@@ -184,10 +184,10 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
                     sum = result.At(i, c);
                     for (var k = i - 1; k >= 0; k--)
                     {
-                        sum -= CholeskyFactor.At(i, k) * result.At(k, c);
+                        sum -= Factor.At(i, k) * result.At(k, c);
                     }
 
-                    result.At(i, c, sum / CholeskyFactor.At(i, i));
+                    result.At(i, c, sum / Factor.At(i, i));
                 }
 
                 // Solve L'*X = Y;
@@ -196,10 +196,10 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
                     sum = result.At(i, c);
                     for (var k = i + 1; k < order; k++)
                     {
-                        sum -= CholeskyFactor.At(k, i) * result.At(k, c);
+                        sum -= Factor.At(k, i) * result.At(k, c);
                     }
 
-                    result.At(i, c, sum / CholeskyFactor.At(i, i));
+                    result.At(i, c, sum / Factor.At(i, i));
                 }
             }
         }
@@ -228,13 +228,13 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength);
             }
 
-            if (input.Count != CholeskyFactor.RowCount)
+            if (input.Count != Factor.RowCount)
             {
-                throw Matrix.DimensionsDontMatch<ArgumentException>(input, CholeskyFactor);
+                throw Matrix.DimensionsDontMatch<ArgumentException>(input, Factor);
             }
 
             input.CopyTo(result);
-            var order = CholeskyFactor.RowCount;
+            var order = Factor.RowCount;
 
             // Solve L*Y = B;
             float sum;
@@ -243,10 +243,10 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
                 sum = result[i];
                 for (var k = i - 1; k >= 0; k--)
                 {
-                    sum -= CholeskyFactor.At(i, k) * result[k];
+                    sum -= Factor.At(i, k) * result[k];
                 }
 
-                result[i] = sum / CholeskyFactor.At(i, i);
+                result[i] = sum / Factor.At(i, i);
             }
 
             // Solve L'*X = Y;
@@ -255,10 +255,10 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
                 sum = result[i];
                 for (var k = i + 1; k < order; k++)
                 {
-                    sum -= CholeskyFactor.At(k, i) * result[k];
+                    sum -= Factor.At(k, i) * result[k];
                 }
 
-                result[i] = sum / CholeskyFactor.At(i, i);
+                result[i] = sum / Factor.At(i, i);
             }
         }
     }

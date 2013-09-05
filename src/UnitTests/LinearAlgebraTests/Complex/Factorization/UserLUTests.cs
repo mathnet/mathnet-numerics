@@ -28,7 +28,6 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Factorization
 {
     using System;
     using System.Numerics;
-    using LinearAlgebra.Complex;
     using NUnit.Framework;
 
     /// <summary>

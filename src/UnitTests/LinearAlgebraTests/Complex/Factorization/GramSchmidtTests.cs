@@ -1,4 +1,4 @@
-// <copyright file="GramSchmidtTests.cs" company="Math.NET">
+﻿// <copyright file="GramSchmidtTests.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics

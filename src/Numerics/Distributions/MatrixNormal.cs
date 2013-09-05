@@ -31,7 +31,6 @@
 using System;
 using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Double;
-using MathNet.Numerics.LinearAlgebra.Factorization;
 using MathNet.Numerics.Properties;
 
 namespace MathNet.Numerics.Distributions

@@ -71,9 +71,9 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
                 throw Matrix.DimensionsDontMatch<ArgumentException>(matrix);
             }
 
-            MatrixQ = matrix.Clone();
+            Q = matrix.Clone();
             MatrixR = matrix.CreateMatrix(matrix.ColumnCount, matrix.ColumnCount);
-            Factorize(((DenseMatrix)MatrixQ).Values, MatrixQ.RowCount, MatrixQ.ColumnCount, ((DenseMatrix)MatrixR).Values);
+            Factorize(((DenseMatrix)Q).Values, Q.RowCount, Q.ColumnCount, ((DenseMatrix)MatrixR).Values);
         }
 
         /// <summary>
@@ -151,13 +151,13 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
             }
 
             // The dimension compatibility conditions for X = A\B require the two matrices A and B to have the same number of rows
-            if (MatrixQ.RowCount != input.RowCount)
+            if (Q.RowCount != input.RowCount)
             {
                 throw new ArgumentException(Resources.ArgumentMatrixSameRowDimension);
             }
 
             // The solution X row dimension is equal to the column dimension of A
-            if (MatrixQ.ColumnCount != result.RowCount)
+            if (Q.ColumnCount != result.RowCount)
             {
                 throw new ArgumentException(Resources.ArgumentMatrixSameColumnDimension);
             }
@@ -174,7 +174,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
                 throw new NotSupportedException("Can only do GramSchmidt factorization for dense matrices at the moment.");
             }
 
-            _provider.QRSolveFactored(((DenseMatrix)MatrixQ).Values, ((DenseMatrix)MatrixR).Values, MatrixQ.RowCount, MatrixR.ColumnCount, null, dinput.Values, input.ColumnCount, dresult.Values, QRMethod.Thin);
+            _provider.QRSolveFactored(((DenseMatrix)Q).Values, ((DenseMatrix)MatrixR).Values, Q.RowCount, MatrixR.ColumnCount, null, dinput.Values, input.ColumnCount, dresult.Values, QRMethod.Thin);
         }
 
         /// <summary>
@@ -196,15 +196,15 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
 
             // Ax=b where A is an m x n matrix
             // Check that b is a column vector with m entries
-            if (MatrixQ.RowCount != input.Count)
+            if (Q.RowCount != input.Count)
             {
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength);
             }
 
             // Check that x is a column vector with n entries
-            if (MatrixQ.ColumnCount != result.Count)
+            if (Q.ColumnCount != result.Count)
             {
-                throw Matrix.DimensionsDontMatch<ArgumentException>(MatrixQ, result);
+                throw Matrix.DimensionsDontMatch<ArgumentException>(Q, result);
             }
 
             var dinput = input as DenseVector;
@@ -219,7 +219,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
                 throw new NotSupportedException("Can only do GramSchmidt factorization for dense vectors at the moment.");
             }
 
-            _provider.QRSolveFactored(((DenseMatrix)MatrixQ).Values, ((DenseMatrix)MatrixR).Values, MatrixQ.RowCount, MatrixR.ColumnCount, null, dinput.Values, 1, dresult.Values, QRMethod.Thin);
+            _provider.QRSolveFactored(((DenseMatrix)Q).Values, ((DenseMatrix)MatrixR).Values, Q.RowCount, MatrixR.ColumnCount, null, dinput.Values, 1, dresult.Values, QRMethod.Thin);
         }
     }
 }

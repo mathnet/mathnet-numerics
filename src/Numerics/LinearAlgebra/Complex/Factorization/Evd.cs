@@ -59,11 +59,11 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
             get
             {
                 var det = Complex.One;
-                for (var i = 0; i < VectorEv.Count; i++)
+                for (var i = 0; i < EigenValues.Count; i++)
                 {
-                    det *= VectorEv[i];
+                    det *= EigenValues[i];
 
-                    if (VectorEv[i].AlmostEqual(Complex.Zero))
+                    if (EigenValues[i].AlmostEqual(Complex.Zero))
                     {
                         return 0;
                     }
@@ -82,9 +82,9 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
             get
             {
                 var rank = 0;
-                for (var i = 0; i < VectorEv.Count; i++)
+                for (var i = 0; i < EigenValues.Count; i++)
                 {
-                    if (VectorEv[i].AlmostEqual(Complex.Zero))
+                    if (EigenValues[i].AlmostEqual(Complex.Zero))
                     {
                         continue;
                     }
@@ -104,9 +104,9 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
         {
             get
             {
-                for (var i = 0; i < VectorEv.Count; i++)
+                for (var i = 0; i < EigenValues.Count; i++)
                 {
-                    if (VectorEv[i].AlmostEqual(Complex.Zero))
+                    if (EigenValues[i].AlmostEqual(Complex.Zero))
                     {
                         return false;
                     }

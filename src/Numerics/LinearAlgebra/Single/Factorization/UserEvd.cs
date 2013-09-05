@@ -78,9 +78,9 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
             var order = matrix.RowCount;
 
             // Initialize matricies for eigenvalues and eigenvectors
-            MatrixEv = matrix.CreateMatrix(order, order);
-            MatrixD = matrix.CreateMatrix(order, order);
-            VectorEv = new LinearAlgebra.Complex.DenseVector(order);
+            EigenVectors = matrix.CreateMatrix(order, order);
+            D = matrix.CreateMatrix(order, order);
+            EigenValues = new LinearAlgebra.Complex.DenseVector(order);
            
             IsSymmetric = true;
 
@@ -97,8 +97,8 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
 
             if (IsSymmetric)
             {
-                matrix.CopyTo(MatrixEv);
-                d = MatrixEv.Row(order - 1).ToArray();
+                matrix.CopyTo(EigenVectors);
+                d = EigenVectors.Row(order - 1).ToArray();
 
                 SymmetricTridiagonalize(d, e, order);
                 SymmetricDiagonalize(d, e, order);
@@ -113,21 +113,21 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
 
             for (var i = 0; i < order; i++)
             {
-                MatrixD.At(i, i, d[i]);
+                D.At(i, i, d[i]);
 
                 if (e[i] > 0)
                 {
-                    MatrixD.At(i, i + 1, e[i]);
+                    D.At(i, i + 1, e[i]);
                 }
                 else if (e[i] < 0)
                 {
-                    MatrixD.At(i, i - 1, e[i]);
+                    D.At(i, i - 1, e[i]);
                 }
             }
 
             for (var i = 0; i < order; i++)
             {
-                VectorEv[i] = new Complex(d[i], e[i]);
+                EigenValues[i] = new Complex(d[i], e[i]);
             }
         }
 
@@ -160,9 +160,9 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
                     e[i] = d[i - 1];
                     for (var j = 0; j < i; j++)
                     {
-                        d[j] = MatrixEv.At(i - 1, j);
-                        MatrixEv.At(i, j, 0.0f);
-                        MatrixEv.At(j, i, 0.0f);
+                        d[j] = EigenVectors.At(i - 1, j);
+                        EigenVectors.At(i, j, 0.0f);
+                        EigenVectors.At(j, i, 0.0f);
                     }
                 }
                 else
@@ -194,13 +194,13 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
                     for (var j = 0; j < i; j++)
                     {
                         f = d[j];
-                        MatrixEv.At(j, i, f);
-                        g = e[j] + (MatrixEv.At(j, j) * f);
+                        EigenVectors.At(j, i, f);
+                        g = e[j] + (EigenVectors.At(j, j) * f);
 
                         for (var k = j + 1; k <= i - 1; k++)
                         {
-                            g += MatrixEv.At(k, j) * d[k];
-                            e[k] += MatrixEv.At(k, j) * f;
+                            g += EigenVectors.At(k, j) * d[k];
+                            e[k] += EigenVectors.At(k, j) * f;
                         }
 
                         e[j] = g;
@@ -228,11 +228,11 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
 
                         for (var k = j; k <= i - 1; k++)
                         {
-                            MatrixEv.At(k, j, MatrixEv.At(k, j) - (f * e[k]) - (g * d[k]));
+                            EigenVectors.At(k, j, EigenVectors.At(k, j) - (f * e[k]) - (g * d[k]));
                         }
 
-                        d[j] = MatrixEv.At(i - 1, j);
-                        MatrixEv.At(i, j, 0.0f);
+                        d[j] = EigenVectors.At(i - 1, j);
+                        EigenVectors.At(i, j, 0.0f);
                     }
                 }
 
@@ -242,14 +242,14 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
             // Accumulate transformations.
             for (var i = 0; i < order - 1; i++)
             {
-                MatrixEv.At(order - 1, i, MatrixEv.At(i, i));
-                MatrixEv.At(i, i, 1.0f);
+                EigenVectors.At(order - 1, i, EigenVectors.At(i, i));
+                EigenVectors.At(i, i, 1.0f);
                 var h = d[i + 1];
                 if (h != 0.0f)
                 {
                     for (var k = 0; k <= i; k++)
                     {
-                        d[k] = MatrixEv.At(k, i + 1) / h;
+                        d[k] = EigenVectors.At(k, i + 1) / h;
                     }
 
                     for (var j = 0; j <= i; j++)
@@ -257,29 +257,29 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
                         var g = 0.0f;
                         for (var k = 0; k <= i; k++)
                         {
-                            g += MatrixEv.At(k, i + 1) * MatrixEv.At(k, j);
+                            g += EigenVectors.At(k, i + 1) * EigenVectors.At(k, j);
                         }
 
                         for (var k = 0; k <= i; k++)
                         {
-                            MatrixEv.At(k, j, MatrixEv.At(k, j) - g * d[k]);
+                            EigenVectors.At(k, j, EigenVectors.At(k, j) - g * d[k]);
                         }
                     }
                 }
 
                 for (var k = 0; k <= i; k++)
                 {
-                    MatrixEv.At(k, i + 1, 0.0f);
+                    EigenVectors.At(k, i + 1, 0.0f);
                 }
             }
 
             for (var j = 0; j < order; j++)
             {
-                d[j] = MatrixEv.At(order - 1, j);
-                MatrixEv.At(order - 1, j, 0.0f);
+                d[j] = EigenVectors.At(order - 1, j);
+                EigenVectors.At(order - 1, j, 0.0f);
             }
 
-            MatrixEv.At(order - 1, order - 1, 1.0f);
+            EigenVectors.At(order - 1, order - 1, 1.0f);
             e[0] = 0.0f;
         }
 
@@ -378,9 +378,9 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
                             // Accumulate transformation.
                             for (var k = 0; k < order; k++)
                             {
-                                h = MatrixEv.At(k, i + 1);
-                                MatrixEv.At(k, i + 1, (s * MatrixEv.At(k, i)) + (c * h));
-                                MatrixEv.At(k, i, (c * MatrixEv.At(k, i)) - (s * h));
+                                h = EigenVectors.At(k, i + 1);
+                                EigenVectors.At(k, i + 1, (s * EigenVectors.At(k, i)) + (c * h));
+                                EigenVectors.At(k, i, (c * EigenVectors.At(k, i)) - (s * h));
                             }
                         }
 
@@ -422,9 +422,9 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
                     d[i] = p;
                     for (var j = 0; j < order; j++)
                     {
-                        p = MatrixEv.At(j, i);
-                        MatrixEv.At(j, i, MatrixEv.At(j, k));
-                        MatrixEv.At(j, k, p);
+                        p = EigenVectors.At(j, i);
+                        EigenVectors.At(j, i, EigenVectors.At(j, k));
+                        EigenVectors.At(j, k, p);
                     }
                 }
             }
@@ -513,7 +513,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
             {
                 for (var j = 0; j < order; j++)
                 {
-                    MatrixEv.At(i, j, i == j ? 1.0f : 0.0f);
+                    EigenVectors.At(i, j, i == j ? 1.0f : 0.0f);
                 }
             }
 
@@ -531,14 +531,14 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
                         var g = 0.0f;
                         for (var i = m; i < order; i++)
                         {
-                            g += ort[i] * MatrixEv.At(i, j);
+                            g += ort[i] * EigenVectors.At(i, j);
                         }
 
                         // Double division avoids possible underflow
                         g = (g / ort[m]) / matrixH[m, m - 1];
                         for (var i = m; i < order; i++)
                         {
-                            MatrixEv.At(i, j, MatrixEv.At(i, j) + g * ort[i]);
+                            EigenVectors.At(i, j, EigenVectors.At(i, j) + g * ort[i]);
                         }
                     }
                 }
@@ -668,9 +668,9 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
                         // Accumulate transformations
                         for (var i = 0; i < order; i++)
                         {
-                            z = MatrixEv.At(i, n - 1);
-                            MatrixEv.At(i, n - 1, (q * z) + (p * MatrixEv.At(i, n)));
-                            MatrixEv.At(i, n, (q * MatrixEv.At(i, n)) - (p * z));
+                            z = EigenVectors.At(i, n - 1);
+                            EigenVectors.At(i, n - 1, (q * z) + (p * EigenVectors.At(i, n)));
+                            EigenVectors.At(i, n, (q * EigenVectors.At(i, n)) - (p * z));
                         }
 
                         // Complex pair
@@ -858,16 +858,16 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
                             // Accumulate transformations
                             for (var i = 0; i < order; i++)
                             {
-                                p = (x * MatrixEv.At(i, k)) + (y * MatrixEv.At(i, k + 1));
+                                p = (x * EigenVectors.At(i, k)) + (y * EigenVectors.At(i, k + 1));
 
                                 if (notlast)
                                 {
-                                    p = p + (z * MatrixEv.At(i, k + 2));
-                                    MatrixEv.At(i, k + 2, MatrixEv.At(i, k + 2) - (p * r));
+                                    p = p + (z * EigenVectors.At(i, k + 2));
+                                    EigenVectors.At(i, k + 2, EigenVectors.At(i, k + 2) - (p * r));
                                 }
 
-                                MatrixEv.At(i, k, MatrixEv.At(i, k) - p);
-                                MatrixEv.At(i, k + 1, MatrixEv.At(i, k + 1) - (p * q));
+                                EigenVectors.At(i, k, EigenVectors.At(i, k) - p);
+                                EigenVectors.At(i, k + 1, EigenVectors.At(i, k + 1) - (p * q));
                             }
                         } // (s != 0)
                     } // k loop
@@ -1051,10 +1051,10 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
                     z = 0.0f;
                     for (var k = 0; k <= j; k++)
                     {
-                        z = z + (MatrixEv.At(i, k) * matrixH[k, j]);
+                        z = z + (EigenVectors.At(i, k) * matrixH[k, j]);
                     }
 
-                    MatrixEv.At(i, j, z);
+                    EigenVectors.At(i, j, z);
                 }
             }
         }
@@ -1102,20 +1102,20 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
             }
 
             // The dimension compatibility conditions for X = A\B require the two matrices A and B to have the same number of rows
-            if (VectorEv.Count != input.RowCount)
+            if (EigenValues.Count != input.RowCount)
             {
                 throw new ArgumentException(Resources.ArgumentMatrixSameRowDimension);
             }
 
             // The solution X row dimension is equal to the column dimension of A
-            if (VectorEv.Count != result.RowCount)
+            if (EigenValues.Count != result.RowCount)
             {
                 throw new ArgumentException(Resources.ArgumentMatrixSameColumnDimension);
             }
 
             if (IsSymmetric)
             {
-                var order = VectorEv.Count;
+                var order = EigenValues.Count;
                 var tmp = new float[order];
 
                 for (var k = 0; k < order; k++)
@@ -1127,10 +1127,10 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
                         {
                             for (var i = 0; i < order; i++)
                             {
-                                value += MatrixEv.At(i, j) * input.At(i, k);
+                                value += EigenVectors.At(i, j) * input.At(i, k);
                             }
 
-                            value /= (float)VectorEv[j].Real;
+                            value /= (float)EigenValues[j].Real;
                         }
 
                         tmp[j] = value;
@@ -1141,7 +1141,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
                         float value = 0;
                         for (var i = 0; i < order; i++)
                         {
-                            value += MatrixEv.At(j, i) * tmp[i];
+                            value += EigenVectors.At(j, i) * tmp[i];
                         }
 
                         result.At(j, k, value);
@@ -1173,13 +1173,13 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
 
             // Ax=b where A is an m x m matrix
             // Check that b is a column vector with m entries
-            if (VectorEv.Count != input.Count)
+            if (EigenValues.Count != input.Count)
             {
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength);
             }
 
             // Check that x is a column vector with n entries
-            if (VectorEv.Count != result.Count)
+            if (EigenValues.Count != result.Count)
             {
                 throw new ArgumentException(Resources.ArgumentMatrixDimensions);
             }
@@ -1187,7 +1187,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
             if (IsSymmetric)
             {
                 // Symmetric case -> x = V * inv(λ) * VT * b;
-                var order = VectorEv.Count;
+                var order = EigenValues.Count;
                 var tmp = new float[order];
                 float value;
 
@@ -1198,10 +1198,10 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
                     {
                         for (var i = 0; i < order; i++)
                         {
-                            value += MatrixEv.At(i, j) * input[i];
+                            value += EigenVectors.At(i, j) * input[i];
                         }
 
-                        value /= (float)VectorEv[j].Real;
+                        value /= (float)EigenValues[j].Real;
                     }
 
                     tmp[j] = value;
@@ -1212,7 +1212,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
                     value = 0;
                     for (int i = 0; i < order; i++)
                     {
-                        value += MatrixEv.At(j, i) * tmp[i];
+                        value += EigenVectors.At(j, i) * tmp[i];
                     }
 
                     result[j] = value;

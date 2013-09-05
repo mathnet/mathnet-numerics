@@ -62,31 +62,31 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
                 throw Matrix.DimensionsDontMatch<ArgumentException>(matrix);
             }
 
-            MatrixQ = matrix.Clone();
+            Q = matrix.Clone();
             MatrixR = matrix.CreateMatrix(matrix.ColumnCount, matrix.ColumnCount);
 
-            for (var k = 0; k < MatrixQ.ColumnCount; k++)
+            for (var k = 0; k < Q.ColumnCount; k++)
             {
-                var norm = MatrixQ.Column(k).L2Norm();
+                var norm = Q.Column(k).L2Norm();
                 if (norm == 0.0)
                 {
                     throw new ArgumentException(Resources.ArgumentMatrixNotRankDeficient);
                 }
 
                 MatrixR.At(k, k, norm);
-                for (var i = 0; i < MatrixQ.RowCount; i++)
+                for (var i = 0; i < Q.RowCount; i++)
                 {
-                    MatrixQ.At(i, k, MatrixQ.At(i, k) / norm);
+                    Q.At(i, k, Q.At(i, k) / norm);
                 }
 
-                for (var j = k + 1; j < MatrixQ.ColumnCount; j++)
+                for (var j = k + 1; j < Q.ColumnCount; j++)
                 {
-                    var dot = MatrixQ.Column(k).DotProduct(MatrixQ.Column(j));
+                    var dot = Q.Column(k).DotProduct(Q.Column(j));
                     MatrixR.At(k, j, dot);
-                    for (var i = 0; i < MatrixQ.RowCount; i++)
+                    for (var i = 0; i < Q.RowCount; i++)
                     {
-                        var value = MatrixQ.At(i, j) - (MatrixQ.At(i, k) * dot);
-                        MatrixQ.At(i, j, value);
+                        var value = Q.At(i, j) - (Q.At(i, k) * dot);
+                        Q.At(i, j, value);
                     }
                 }
             }
@@ -117,13 +117,13 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
             }
 
             // The dimension compatibility conditions for X = A\B require the two matrices A and B to have the same number of rows
-            if (MatrixQ.RowCount != input.RowCount)
+            if (Q.RowCount != input.RowCount)
             {
                 throw new ArgumentException(Resources.ArgumentMatrixSameRowDimension);
             }
 
             // The solution X row dimension is equal to the column dimension of A
-            if (MatrixQ.ColumnCount != result.RowCount)
+            if (Q.ColumnCount != result.RowCount)
             {
                 throw new ArgumentException(Resources.ArgumentMatrixSameColumnDimension);
             }
@@ -131,20 +131,20 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
             var inputCopy = input.Clone();
             
             // Compute Y = transpose(Q)*B
-            var column = new double[MatrixQ.RowCount];
+            var column = new double[Q.RowCount];
             for (var j = 0; j < input.ColumnCount; j++)
             {
-                for (var k = 0; k < MatrixQ.RowCount; k++)
+                for (var k = 0; k < Q.RowCount; k++)
                 {
                     column[k] = inputCopy.At(k, j);
                 }
 
-                for (var i = 0; i < MatrixQ.ColumnCount; i++)
+                for (var i = 0; i < Q.ColumnCount; i++)
                 {
                     double s = 0;
-                    for (var k = 0; k < MatrixQ.RowCount; k++)
+                    for (var k = 0; k < Q.RowCount; k++)
                     {
-                        s += MatrixQ.At(k, i) * column[k];
+                        s += Q.At(k, i) * column[k];
                     }
 
                     inputCopy.At(i, j, s);
@@ -152,7 +152,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
             }
 
             // Solve R*X = Y;
-            for (var k = MatrixQ.ColumnCount - 1; k >= 0; k--)
+            for (var k = Q.ColumnCount - 1; k >= 0; k--)
             {
                 for (var j = 0; j < input.ColumnCount; j++)
                 {
@@ -196,39 +196,39 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
 
             // Ax=b where A is an m x n matrix
             // Check that b is a column vector with m entries
-            if (MatrixQ.RowCount != input.Count)
+            if (Q.RowCount != input.Count)
             {
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength);
             }
 
             // Check that x is a column vector with n entries
-            if (MatrixQ.ColumnCount != result.Count)
+            if (Q.ColumnCount != result.Count)
             {
-                throw Matrix.DimensionsDontMatch<ArgumentException>(MatrixQ, result);
+                throw Matrix.DimensionsDontMatch<ArgumentException>(Q, result);
             }
 
             var inputCopy = input.Clone();
 
             // Compute Y = transpose(Q)*B
-            var column = new double[MatrixQ.RowCount];
-            for (var k = 0; k < MatrixQ.RowCount; k++)
+            var column = new double[Q.RowCount];
+            for (var k = 0; k < Q.RowCount; k++)
             {
                 column[k] = inputCopy[k];
             }
 
-            for (var i = 0; i < MatrixQ.ColumnCount; i++)
+            for (var i = 0; i < Q.ColumnCount; i++)
             {
                 double s = 0;
-                for (var k = 0; k < MatrixQ.RowCount; k++)
+                for (var k = 0; k < Q.RowCount; k++)
                 {
-                    s += MatrixQ.At(k, i) * column[k];
+                    s += Q.At(k, i) * column[k];
                 }
 
                 inputCopy[i] = s;
             }
 
             // Solve R*X = Y;
-            for (var k = MatrixQ.ColumnCount - 1; k >= 0; k--)
+            for (var k = Q.ColumnCount - 1; k >= 0; k--)
             {
                 inputCopy[k] /= MatrixR.At(k, k);
                 for (var i = 0; i < k; i++)

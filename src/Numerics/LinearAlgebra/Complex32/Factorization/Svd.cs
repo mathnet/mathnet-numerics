@@ -61,7 +61,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
         {
             get
             {
-                return VectorS.Count(t => !t.Magnitude.AlmostEqual(0.0f));
+                return S.Count(t => !t.Magnitude.AlmostEqual(0.0f));
             }
         }
 
@@ -73,7 +73,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
         {
             get
             {
-                return VectorS[0].Magnitude;
+                return S[0].Magnitude;
             }
         }
 
@@ -85,8 +85,8 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
         {
             get
             {
-                var tmp = Math.Min(MatrixU.RowCount, MatrixVT.ColumnCount) - 1;
-                return VectorS[0].Magnitude / VectorS[tmp].Magnitude;
+                var tmp = Math.Min(U.RowCount, VT.ColumnCount) - 1;
+                return S[0].Magnitude / S[tmp].Magnitude;
             }
         }
 
@@ -97,13 +97,13 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
         {
             get
             {
-                if (MatrixU.RowCount != MatrixVT.ColumnCount)
+                if (U.RowCount != VT.ColumnCount)
                 {
                     throw new ArgumentException(Resources.ArgumentMatrixSquare);
                 }
 
                 var det = Complex32.One;
-                foreach (var value in VectorS)
+                foreach (var value in S)
                 {
                     det *= value;
                     if (value.Magnitude.AlmostEqual(0.0f))

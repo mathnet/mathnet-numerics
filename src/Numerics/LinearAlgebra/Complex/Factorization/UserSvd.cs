@@ -75,9 +75,9 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
             var nm = Math.Min(matrix.RowCount + 1, matrix.ColumnCount);
             var matrixCopy = matrix.Clone();
 
-            VectorS = matrixCopy.CreateVector(nm);
-            MatrixU = matrixCopy.CreateMatrix(matrixCopy.RowCount, matrixCopy.RowCount);
-            MatrixVT = matrixCopy.CreateMatrix(matrixCopy.ColumnCount, matrixCopy.ColumnCount);
+            S = matrixCopy.CreateVector(nm);
+            U = matrixCopy.CreateMatrix(matrixCopy.RowCount, matrixCopy.RowCount);
+            VT = matrixCopy.CreateMatrix(matrixCopy.ColumnCount, matrixCopy.ColumnCount);
 
             const int maxiter = 1000;
             var e = new Complex[matrixCopy.ColumnCount];
@@ -100,26 +100,26 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
                 if (l < nct)
                 {
                     // Compute the transformation for the l-th column and place the l-th diagonal in VectorS[l].
-                    VectorS[l] = Cnrm2Column(matrixCopy, matrixCopy.RowCount, l, l);
-                    if (VectorS[l].Magnitude != 0.0)
+                    S[l] = Cnrm2Column(matrixCopy, matrixCopy.RowCount, l, l);
+                    if (S[l].Magnitude != 0.0)
                     {
                         if (matrixCopy.At(l, l).Magnitude != 0.0)
                         {
-                            VectorS[l] = Csign(VectorS[l], matrixCopy.At(l, l));
+                            S[l] = Csign(S[l], matrixCopy.At(l, l));
                         }
 
-                        CscalColumn(matrixCopy, matrixCopy.RowCount, l, l, 1.0 / VectorS[l]);
+                        CscalColumn(matrixCopy, matrixCopy.RowCount, l, l, 1.0 / S[l]);
                         matrixCopy.At(l, l, (Complex.One + matrixCopy.At(l, l)));
                     }
 
-                    VectorS[l] = -VectorS[l];
+                    S[l] = -S[l];
                 }
 
                 for (j = lp1; j < matrixCopy.ColumnCount; j++)
                 {
                     if (l < nct)
                     {
-                        if (VectorS[l].Magnitude != 0.0)
+                        if (S[l].Magnitude != 0.0)
                         {
                             // Apply the transformation.
                             t = -Cdotc(matrixCopy, matrixCopy.RowCount, l, j, l) / matrixCopy.At(l, l);
@@ -143,7 +143,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
                     // Place the transformation in u for subsequent back multiplication.
                     for (i = l; i < matrixCopy.RowCount; i++)
                     {
-                        MatrixU.At(i, l, matrixCopy.At(i, l));
+                        U.At(i, l, matrixCopy.At(i, l));
                     }
                 }
 
@@ -204,7 +204,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
                     // Place the transformation in v for subsequent back multiplication.
                     for (i = lp1; i < matrixCopy.ColumnCount; i++)
                     {
-                        MatrixVT.At(i, l, e[i]);
+                        VT.At(i, l, e[i]);
                     }
                 }
             }
@@ -215,12 +215,12 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
             var nrtp1 = nrt + 1;
             if (nct < matrixCopy.ColumnCount)
             {
-                VectorS[nctp1 - 1] = matrixCopy.At((nctp1 - 1), (nctp1 - 1));
+                S[nctp1 - 1] = matrixCopy.At((nctp1 - 1), (nctp1 - 1));
             }
 
             if (matrixCopy.RowCount < m)
             {
-                VectorS[m - 1] = Complex.Zero;
+                S[m - 1] = Complex.Zero;
             }
 
             if (nrtp1 < m)
@@ -237,43 +237,43 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
                 {
                     for (i = 0; i < matrixCopy.RowCount; i++)
                     {
-                        MatrixU.At(i, j, Complex.Zero);
+                        U.At(i, j, Complex.Zero);
                     }
 
-                    MatrixU.At(j, j, Complex.One);
+                    U.At(j, j, Complex.One);
                 }
 
                 for (l = nct - 1; l >= 0; l--)
                 {
-                    if (VectorS[l].Magnitude != 0.0)
+                    if (S[l].Magnitude != 0.0)
                     {
                         for (j = l + 1; j < ncu; j++)
                         {
-                            t = -Cdotc(MatrixU, matrixCopy.RowCount, l, j, l) / MatrixU.At(l, l);
+                            t = -Cdotc(U, matrixCopy.RowCount, l, j, l) / U.At(l, l);
                             if (t != Complex.Zero)
                             {
                                 for (var ii = l; ii < matrixCopy.RowCount; ii++)
                                 {
-                                    MatrixU.At(ii, j, MatrixU.At(ii, j) + (t * MatrixU.At(ii, l)));
+                                    U.At(ii, j, U.At(ii, j) + (t * U.At(ii, l)));
                                 }
                             }
                         }
 
-                        CscalColumn(MatrixU, matrixCopy.RowCount, l, l, -1.0);
-                        MatrixU.At(l, l, Complex.One + MatrixU.At(l, l));
+                        CscalColumn(U, matrixCopy.RowCount, l, l, -1.0);
+                        U.At(l, l, Complex.One + U.At(l, l));
                         for (i = 0; i < l; i++)
                         {
-                            MatrixU.At(i, l, Complex.Zero);
+                            U.At(i, l, Complex.Zero);
                         }
                     }
                     else
                     {
                         for (i = 0; i < matrixCopy.RowCount; i++)
                         {
-                            MatrixU.At(i, l, Complex.Zero);
+                            U.At(i, l, Complex.Zero);
                         }
 
-                        MatrixU.At(l, l, Complex.One);
+                        U.At(l, l, Complex.One);
                     }
                 }
             }
@@ -290,12 +290,12 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
                         {
                             for (j = lp1; j < matrixCopy.ColumnCount; j++)
                             {
-                                t = -Cdotc(MatrixVT, matrixCopy.ColumnCount, l, j, lp1) / MatrixVT.At(lp1, l);
+                                t = -Cdotc(VT, matrixCopy.ColumnCount, l, j, lp1) / VT.At(lp1, l);
                                 if (t != Complex.Zero)
                                 {
                                     for (var ii = l; ii < matrixCopy.ColumnCount; ii++)
                                     {
-                                        MatrixVT.At(ii, j, MatrixVT.At(ii, j) + (t * MatrixVT.At(ii, l)));
+                                        VT.At(ii, j, VT.At(ii, j) + (t * VT.At(ii, l)));
                                     }
                                 }
                             }
@@ -304,10 +304,10 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
 
                     for (i = 0; i < matrixCopy.ColumnCount; i++)
                     {
-                        MatrixVT.At(i, l, Complex.Zero);
+                        VT.At(i, l, Complex.Zero);
                     }
 
-                    MatrixVT.At(l, l, Complex.One);
+                    VT.At(l, l, Complex.One);
                 }
             }
 
@@ -315,11 +315,11 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
             for (i = 0; i < m; i++)
             {
                 Complex r;
-                if (VectorS[i].Magnitude != 0.0)
+                if (S[i].Magnitude != 0.0)
                 {
-                    t = VectorS[i].Magnitude;
-                    r = VectorS[i] / t;
-                    VectorS[i] = t;
+                    t = S[i].Magnitude;
+                    r = S[i] / t;
+                    S[i] = t;
                     if (i < m - 1)
                     {
                         e[i] = e[i] / r;
@@ -327,7 +327,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
 
                     if (ComputeVectors)
                     {
-                        CscalColumn(MatrixU, matrixCopy.RowCount, i, 0, r);
+                        CscalColumn(U, matrixCopy.RowCount, i, 0, r);
                     }
                 }
 
@@ -342,10 +342,10 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
                     t = e[i].Magnitude;
                     r = t / e[i];
                     e[i] = t;
-                    VectorS[i + 1] = VectorS[i + 1] * r;
+                    S[i + 1] = S[i + 1] * r;
                     if (ComputeVectors)
                     {
-                        CscalColumn(MatrixVT, matrixCopy.ColumnCount, i + 1, 0, r);
+                        CscalColumn(VT, matrixCopy.ColumnCount, i + 1, 0, r);
                     }
                 }
             }
@@ -373,7 +373,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
                 double test;
                 for (l = m - 2; l >= 0; l--)
                 {
-                    test = VectorS[l].Magnitude + VectorS[l + 1].Magnitude;
+                    test = S[l].Magnitude + S[l + 1].Magnitude;
                     ztest = test + e[l].Magnitude;
                     if (ztest.AlmostEqualInDecimalPlaces(test, 15))
                     {
@@ -403,10 +403,10 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
                             test = test + e[ls - 1].Magnitude;
                         }
 
-                        ztest = test + VectorS[ls].Magnitude;
+                        ztest = test + S[ls].Magnitude;
                         if (ztest.AlmostEqualInDecimalPlaces(test, 15))
                         {
-                            VectorS[ls] = Complex.Zero;
+                            S[ls] = Complex.Zero;
                             break;
                         }
                     }
@@ -443,9 +443,9 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
                         for (var kk = l; kk < m - 1; kk++)
                         {
                             k = m - 2 - kk + l;
-                            t1 = VectorS[k].Real;
+                            t1 = S[k].Real;
                             Srotg(ref t1, ref f, out cs, out sn);
-                            VectorS[k] = t1;
+                            S[k] = t1;
                             if (k != l)
                             {
                                 f = -sn * e[k - 1].Real;
@@ -454,7 +454,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
 
                             if (ComputeVectors)
                             {
-                                Csrot(MatrixVT, matrixCopy.ColumnCount, k, m - 1, cs, sn);
+                                Csrot(VT, matrixCopy.ColumnCount, k, m - 1, cs, sn);
                             }
                         }
 
@@ -466,14 +466,14 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
                         e[l - 1] = Complex.Zero;
                         for (k = l; k < m; k++)
                         {
-                            t1 = VectorS[k].Real;
+                            t1 = S[k].Real;
                             Srotg(ref t1, ref f, out cs, out sn);
-                            VectorS[k] = t1;
+                            S[k] = t1;
                             f = -sn * e[k].Real;
                             e[k] = cs * e[k];
                             if (ComputeVectors)
                             {
-                                Csrot(MatrixU, matrixCopy.RowCount, k, l - 1, cs, sn);
+                                Csrot(U, matrixCopy.RowCount, k, l - 1, cs, sn);
                             }
                         }
 
@@ -483,15 +483,15 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
                     case 3:
                         // Calculate the shift.
                         var scale = 0.0;
-                        scale = Math.Max(scale, VectorS[m - 1].Magnitude);
-                        scale = Math.Max(scale, VectorS[m - 2].Magnitude);
+                        scale = Math.Max(scale, S[m - 1].Magnitude);
+                        scale = Math.Max(scale, S[m - 2].Magnitude);
                         scale = Math.Max(scale, e[m - 2].Magnitude);
-                        scale = Math.Max(scale, VectorS[l].Magnitude);
+                        scale = Math.Max(scale, S[l].Magnitude);
                         scale = Math.Max(scale, e[l].Magnitude);
-                        var sm = VectorS[m - 1].Real / scale;
-                        var smm1 = VectorS[m - 2].Real / scale;
+                        var sm = S[m - 1].Real / scale;
+                        var smm1 = S[m - 2].Real / scale;
                         var emm1 = e[m - 2].Real / scale;
-                        var sl = VectorS[l].Real / scale;
+                        var sl = S[l].Real / scale;
                         var el = e[l].Real / scale;
                         var b = (((smm1 + sm) * (smm1 - sm)) + (emm1 * emm1)) / 2.0;
                         var c = (sm * emm1) * (sm * emm1);
@@ -520,24 +520,24 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
                                 e[k - 1] = f;
                             }
 
-                            f = (cs * VectorS[k].Real) + (sn * e[k].Real);
-                            e[k] = (cs * e[k]) - (sn * VectorS[k]);
-                            g = sn * VectorS[k + 1].Real;
-                            VectorS[k + 1] = cs * VectorS[k + 1];
+                            f = (cs * S[k].Real) + (sn * e[k].Real);
+                            e[k] = (cs * e[k]) - (sn * S[k]);
+                            g = sn * S[k + 1].Real;
+                            S[k + 1] = cs * S[k + 1];
                             if (ComputeVectors)
                             {
-                                Csrot(MatrixVT, matrixCopy.ColumnCount, k, k + 1, cs, sn);
+                                Csrot(VT, matrixCopy.ColumnCount, k, k + 1, cs, sn);
                             }
 
                             Srotg(ref f, ref g, out cs, out sn);
-                            VectorS[k] = f;
-                            f = (cs * e[k].Real) + (sn * VectorS[k + 1].Real);
-                            VectorS[k + 1] = (-sn * e[k]) + (cs * VectorS[k + 1]);
+                            S[k] = f;
+                            f = (cs * e[k].Real) + (sn * S[k + 1].Real);
+                            S[k + 1] = (-sn * e[k]) + (cs * S[k + 1]);
                             g = sn * e[k + 1].Real;
                             e[k + 1] = cs * e[k + 1];
                             if (ComputeVectors && k < matrixCopy.RowCount)
                             {
-                                Csrot(MatrixU, matrixCopy.RowCount, k, k + 1, cs, sn);
+                                Csrot(U, matrixCopy.RowCount, k, k + 1, cs, sn);
                             }
                         }
 
@@ -548,34 +548,34 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
                     // Convergence.
                     case 4:
                         // Make the singular value  positive
-                        if (VectorS[l].Real < 0.0)
+                        if (S[l].Real < 0.0)
                         {
-                            VectorS[l] = -VectorS[l];
+                            S[l] = -S[l];
                             if (ComputeVectors)
                             {
-                                CscalColumn(MatrixVT, matrixCopy.ColumnCount, l, 0, -1.0);
+                                CscalColumn(VT, matrixCopy.ColumnCount, l, 0, -1.0);
                             }
                         }
 
                         // Order the singular value.
                         while (l != mn - 1)
                         {
-                            if (VectorS[l].Real >= VectorS[l + 1].Real)
+                            if (S[l].Real >= S[l + 1].Real)
                             {
                                 break;
                             }
 
-                            t = VectorS[l];
-                            VectorS[l] = VectorS[l + 1];
-                            VectorS[l + 1] = t;
+                            t = S[l];
+                            S[l] = S[l + 1];
+                            S[l + 1] = t;
                             if (ComputeVectors && l < matrixCopy.ColumnCount)
                             {
-                                Swap(MatrixVT, matrixCopy.ColumnCount, l, l + 1);
+                                Swap(VT, matrixCopy.ColumnCount, l, l + 1);
                             }
 
                             if (ComputeVectors && l < matrixCopy.RowCount)
                             {
-                                Swap(MatrixU, matrixCopy.RowCount, l, l + 1);
+                                Swap(U, matrixCopy.RowCount, l, l + 1);
                             }
 
                             l = l + 1;
@@ -589,7 +589,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
 
             if (ComputeVectors)
             {
-                MatrixVT = MatrixVT.ConjugateTranspose();
+                VT = VT.ConjugateTranspose();
             }
 
             // Adjust the size of s if rows < columns. We are using ported copy of linpack's svd code and it uses
@@ -601,10 +601,10 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
                 var tmp = matrixCopy.CreateVector(nm);
                 for (i = 0; i < nm; i++)
                 {
-                    tmp[i] = VectorS[i];
+                    tmp[i] = S[i];
                 }
 
-                VectorS = tmp;
+                S = tmp;
             }
         }
 
@@ -830,46 +830,46 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
             }
 
             // The dimension compatibility conditions for X = A\B require the two matrices A and B to have the same number of rows
-            if (MatrixU.RowCount != input.RowCount)
+            if (U.RowCount != input.RowCount)
             {
                 throw new ArgumentException(Resources.ArgumentMatrixSameRowDimension);
             }
 
             // The solution X row dimension is equal to the column dimension of A
-            if (MatrixVT.ColumnCount != result.RowCount)
+            if (VT.ColumnCount != result.RowCount)
             {
                 throw new ArgumentException(Resources.ArgumentMatrixSameColumnDimension);
             }
 
-            var mn = Math.Min(MatrixU.RowCount, MatrixVT.ColumnCount);
+            var mn = Math.Min(U.RowCount, VT.ColumnCount);
             var bn = input.ColumnCount;
 
-            var tmp = new Complex[MatrixVT.ColumnCount];
+            var tmp = new Complex[VT.ColumnCount];
 
             for (var k = 0; k < bn; k++)
             {
-                for (var j = 0; j < MatrixVT.ColumnCount; j++)
+                for (var j = 0; j < VT.ColumnCount; j++)
                 {
                     var value = Complex.Zero;
                     if (j < mn)
                     {
-                        for (var i = 0; i < MatrixU.RowCount; i++)
+                        for (var i = 0; i < U.RowCount; i++)
                         {
-                            value += MatrixU.At(i, j).Conjugate() * input.At(i, k);
+                            value += U.At(i, j).Conjugate() * input.At(i, k);
                         }
 
-                        value /= VectorS[j];
+                        value /= S[j];
                     }
 
                     tmp[j] = value;
                 }
 
-                for (var j = 0; j < MatrixVT.ColumnCount; j++)
+                for (var j = 0; j < VT.ColumnCount; j++)
                 {
                     var value = Complex.Zero;
-                    for (var i = 0; i < MatrixVT.ColumnCount; i++)
+                    for (var i = 0; i < VT.ColumnCount; i++)
                     {
-                        value += MatrixVT.At(i, j).Conjugate() * tmp[i];
+                        value += VT.At(i, j).Conjugate() * tmp[i];
                     }
 
                     result.At(j, k, value);
@@ -901,41 +901,41 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
 
             // Ax=b where A is an m x n matrix
             // Check that b is a column vector with m entries
-            if (MatrixU.RowCount != input.Count)
+            if (U.RowCount != input.Count)
             {
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength);
             }
 
             // Check that x is a column vector with n entries
-            if (MatrixVT.ColumnCount != result.Count)
+            if (VT.ColumnCount != result.Count)
             {
-                throw Matrix.DimensionsDontMatch<ArgumentException>(MatrixVT, result);
+                throw Matrix.DimensionsDontMatch<ArgumentException>(VT, result);
             }
 
-            var mn = Math.Min(MatrixU.RowCount, MatrixVT.ColumnCount);
-            var tmp = new Complex[MatrixVT.ColumnCount];
-            for (var j = 0; j < MatrixVT.ColumnCount; j++)
+            var mn = Math.Min(U.RowCount, VT.ColumnCount);
+            var tmp = new Complex[VT.ColumnCount];
+            for (var j = 0; j < VT.ColumnCount; j++)
             {
                 var value = Complex.Zero;
                 if (j < mn)
                 {
-                    for (var i = 0; i < MatrixU.RowCount; i++)
+                    for (var i = 0; i < U.RowCount; i++)
                     {
-                        value += MatrixU.At(i, j).Conjugate() * input[i];
+                        value += U.At(i, j).Conjugate() * input[i];
                     }
 
-                    value /= VectorS[j];
+                    value /= S[j];
                 }
 
                 tmp[j] = value;
             }
 
-            for (var j = 0; j < MatrixVT.ColumnCount; j++)
+            for (var j = 0; j < VT.ColumnCount; j++)
             {
                 var value = Complex.Zero;
-                for (var i = 0; i < MatrixVT.ColumnCount; i++)
+                for (var i = 0; i < VT.ColumnCount; i++)
                 {
-                    value += MatrixVT.At(i, j).Conjugate() * tmp[i];
+                    value += VT.At(i, j).Conjugate() * tmp[i];
                 }
 
                 result[j] = value;
