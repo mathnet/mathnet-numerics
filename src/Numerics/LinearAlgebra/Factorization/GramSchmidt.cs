@@ -28,12 +28,6 @@ using System;
 
 namespace MathNet.Numerics.LinearAlgebra.Factorization
 {
-    using Numerics;
-
-#if !NOSYSNUMERICS
-    using System.Numerics;
-#endif
-
     /// <summary>
     /// <para>A class which encapsulates the functionality of the QR decomposition Modified Gram-Schmidt Orthogonalization.</para>
     /// <para>Any real square matrix A may be decomposed as A = QR where Q is an orthogonal mxn matrix and R is an nxn upper triangular matrix.</para>
@@ -45,58 +39,5 @@ namespace MathNet.Numerics.LinearAlgebra.Factorization
     public abstract class GramSchmidt<T> : QR<T>
     where T : struct, IEquatable<T>, IFormattable
     {
-        /// <summary>
-        /// Internal method which routes the call to perform the QR factorization to the appropriate class.
-        /// </summary>
-        /// <param name="matrix">The matrix to factor.</param>
-        /// <returns>A QR factorization object.</returns>
-        internal static GramSchmidt<T> Create(Matrix<T> matrix)
-        {
-            if (typeof(T) == typeof(double))
-            {
-                var dense = matrix as Double.DenseMatrix;
-                if (dense != null)
-                {
-                    return new Double.Factorization.DenseGramSchmidt(dense) as GramSchmidt<T>;
-                }
-
-                return new Double.Factorization.UserGramSchmidt(matrix as Matrix<double>) as GramSchmidt<T>;
-            }
-
-            if (typeof(T) == typeof(float))
-            {
-                var dense = matrix as Single.DenseMatrix;
-                if (dense != null)
-                {
-                    return new Single.Factorization.DenseGramSchmidt(dense) as GramSchmidt<T>;
-                }
-
-                return new Single.Factorization.UserGramSchmidt(matrix as Matrix<float>) as GramSchmidt<T>;
-            }
-
-            if (typeof(T) == typeof(Complex))
-            {
-                var dense = matrix as LinearAlgebra.Complex.DenseMatrix;
-                if (dense != null)
-                {
-                    return new LinearAlgebra.Complex.Factorization.DenseGramSchmidt(dense) as GramSchmidt<T>;
-                }
-
-                return new LinearAlgebra.Complex.Factorization.UserGramSchmidt(matrix as Matrix<Complex>) as GramSchmidt<T>;
-            }
-
-            if (typeof(T) == typeof(Complex32))
-            {
-                var dense = matrix as LinearAlgebra.Complex32.DenseMatrix;
-                if (dense != null)
-                {
-                    return new LinearAlgebra.Complex32.Factorization.DenseGramSchmidt(dense) as GramSchmidt<T>;
-                }
-
-                return new LinearAlgebra.Complex32.Factorization.UserGramSchmidt(matrix as Matrix<Complex32>) as GramSchmidt<T>;
-            }
-
-            throw new NotSupportedException();
-        }
     }
 }

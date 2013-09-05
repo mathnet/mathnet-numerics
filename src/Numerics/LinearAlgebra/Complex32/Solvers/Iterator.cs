@@ -41,6 +41,9 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers
     /// </summary>
     public static class Iterator
     {
+
+        // TODO: Refactor
+
         /// <summary>
         /// Creates a default iterator with all the <see cref="IIterationStopCriterium{T}"/> objects.
         /// </summary>

@@ -60,118 +60,39 @@ namespace MathNet.Numerics.LinearAlgebra.Factorization
         /// <summary>
         /// Gets or sets a value indicating whether matrix is symmetric or not
         /// </summary>
-        public bool IsSymmetric
-        {
-            get;
-            protected set;
-        }
+        public bool IsSymmetric { get; protected set; }
 
         /// <summary>
         /// Gets the absolute value of determinant of the square matrix for which the EVD was computed.
         /// </summary>
-        public abstract T Determinant
-        {
-            get;
-        }
+        public abstract T Determinant { get; }
 
         /// <summary>
         /// Gets the effective numerical matrix rank.
         /// </summary>
         /// <value>The number of non-negligible singular values.</value>
-        public abstract int Rank
-        {
-            get;
-        }
+        public abstract int Rank { get; }
 
         /// <summary>
         /// Gets a value indicating whether the matrix is full rank or not.
         /// </summary>
         /// <value><c>true</c> if the matrix is full rank; otherwise <c>false</c>.</value>
-        public abstract bool IsFullRank
-        {
-            get;
-        }
+        public abstract bool IsFullRank { get; }
 
         /// <summary>
         /// Gets or sets the eigen values (λ) of matrix in ascending value.
         /// </summary>
-        protected Vector<Complex> VectorEv
-        {
-            get;
-            set;
-        }
+        protected Vector<Complex> VectorEv { get; set; }
         
         /// <summary>
         /// Gets or sets eigenvectors.
         /// </summary>
-        protected Matrix<T> MatrixEv
-        {
-            get;
-            set;
-        }
+        protected Matrix<T> MatrixEv { get; set; }
 
         /// <summary>
         /// Gets or sets the block diagonal eigenvalue matrix.
         /// </summary>
-        protected Matrix<T> MatrixD
-        {
-            get;
-            set;
-        }
-
-        /// <summary>
-        /// Internal method which routes the call to perform the singular value decomposition to the appropriate class.
-        /// </summary>
-        /// <param name="matrix">The matrix to factor.</param>
-        /// <returns>An EVD object.</returns>
-        internal static Evd<T> Create(Matrix<T> matrix)
-        {
-            if (typeof(T) == typeof(double))
-            {
-                var dense = matrix as Double.DenseMatrix;
-                if (dense != null)
-                {
-                    return new Double.Factorization.DenseEvd(dense) as Evd<T>;
-                }
-
-                return new Double.Factorization.UserEvd(matrix as Matrix<double>) as Evd<T>;
-            }
-
-            if (typeof(T) == typeof(float))
-            {
-                var dense = matrix as Single.DenseMatrix;
-                if (dense != null)
-                {
-                    return new Single.Factorization.DenseEvd(dense) as Evd<T>;
-                }
-
-                return new Single.Factorization.UserEvd(matrix as Matrix<float>) as Evd<T>;
-            }
-
-            if (typeof(T) == typeof(Complex))
-            {
-                var dense = matrix as LinearAlgebra.Complex.DenseMatrix;
-                if (dense != null)
-                {
-                    return new LinearAlgebra.Complex.Factorization.DenseEvd(dense) as Evd<T>;
-                }
-
-                return new LinearAlgebra.Complex.Factorization.UserEvd(matrix as Matrix<Complex>) as Evd<T>;
-            }
-
-            if (typeof(T) == typeof(Complex32))
-            {
-                var dense = matrix as LinearAlgebra.Complex32.DenseMatrix;
-                if (dense != null)
-                {
-                    return new LinearAlgebra.Complex32.Factorization.DenseEvd(dense) as Evd<T>;
-                }
-
-                return new LinearAlgebra.Complex32.Factorization.UserEvd(matrix as Matrix<Complex32>) as Evd<T>;
-            }
-
-            throw new NotSupportedException();
-        }
+        protected Matrix<T> MatrixD { get; set; }
 
         /// <summary>Returns the eigen values as a <see cref="Vector{T}"/>.</summary>
         /// <returns>The eigen values.</returns>

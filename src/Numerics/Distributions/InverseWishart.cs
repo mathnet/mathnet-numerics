@@ -129,7 +129,7 @@ namespace MathNet.Numerics.Distributions
 
             _freedom = degreesOfFreedom;
             _scale = scale;
-            _chol = Cholesky<double>.Create(_scale);
+            _chol = _scale.Cholesky();
         }
 
         /// <summary>
@@ -217,7 +217,7 @@ namespace MathNet.Numerics.Distributions
                 throw new ArgumentOutOfRangeException("x", Resources.ArgumentMatrixDimensions);
             }
 
-            var chol = Cholesky<double>.Create(x);
+            var chol = x.Cholesky();
             var dX = chol.Determinant;
             var sXi = chol.Solve(Scale);
 

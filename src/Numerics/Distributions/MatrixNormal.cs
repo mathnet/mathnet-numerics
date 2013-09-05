@@ -216,8 +216,8 @@ namespace MathNet.Numerics.Distributions
             }
 
             var a = x - _m;
-            var cholV = Cholesky<double>.Create(_v);
-            var cholK = Cholesky<double>.Create(_k);
+            var cholV = _v.Cholesky();
+            var cholK = _k.Cholesky();
 
             return Math.Exp(-0.5*cholV.Solve(a.Transpose()*cholK.Solve(a)).Trace())
                    /Math.Pow(2.0*Constants.Pi, x.RowCount*x.ColumnCount/2.0)
@@ -281,7 +281,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sequence of samples from defined distribution.</returns>
         static Vector<double> SampleVectorNormal(System.Random rnd, Vector<double> mean, Matrix<double> covariance)
         {
-            var chol = Cholesky<double>.Create(covariance);
+            var chol = covariance.Cholesky();
 
             // Sample a standard normal variable.
             var v = DenseVector.CreateRandom(mean.Count, new Normal(rnd));

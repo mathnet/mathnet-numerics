@@ -29,6 +29,8 @@
 // </copyright>
 
 using System;
+using MathNet.Numerics.LinearAlgebra.Complex.Factorization;
+using MathNet.Numerics.LinearAlgebra.Factorization;
 using MathNet.Numerics.LinearAlgebra.Storage;
 using MathNet.Numerics.Properties;
 
@@ -454,6 +456,36 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
             }
 
             return sum;
+        }
+
+        public override Cholesky<Complex> Cholesky()
+        {
+            return new UserCholesky(this);
+        }
+
+        public override LU<Complex> LU()
+        {
+            return new UserLU(this);
+        }
+
+        public override QR<Complex> QR(QRMethod method = QRMethod.Thin)
+        {
+            return new UserQR(this, method);
+        }
+
+        public override GramSchmidt<Complex> GramSchmidt()
+        {
+            return new UserGramSchmidt(this);
+        }
+
+        public override Svd<Complex> Svd(bool computeVectors)
+        {
+            return new UserSvd(this, computeVectors);
+        }
+
+        public override Evd<Complex> Evd()
+        {
+            return new UserEvd(this);
         }
     }
 }

@@ -39,6 +39,9 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
     /// </summary>
     public static class Iterator
     {
+
+        // TODO: Refactor
+
         /// <summary>
         /// Creates a default iterator with all the <see cref="IIterationStopCriterium{T}"/> objects.
         /// </summary>

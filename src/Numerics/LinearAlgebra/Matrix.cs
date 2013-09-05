@@ -1215,7 +1215,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// In a later release, it will be replaced with a sparse implementation.</remarks>
         public virtual T L2Norm()
         {
-            return Svd<T>.Create(this, false).Norm2;
+            return Svd(false).Norm2;
         }
 
         /// <summary>Calculates the Frobenius norm of this matrix.</summary>

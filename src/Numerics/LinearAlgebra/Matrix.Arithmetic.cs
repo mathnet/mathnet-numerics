@@ -1032,7 +1032,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <returns>effective numerical rank, obtained from SVD</returns>
         public virtual int Rank()
         {
-            return Svd<T>.Create(this, false).Rank;
+            return Svd(false).Rank;
         }
 
         /// <summary>Calculates the condition number of this matrix.</summary>
@@ -1040,7 +1040,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <remarks>The condition number is calculated using singular value decomposition.</remarks>
         public virtual T ConditionNumber()
         {
-            return Svd<T>.Create(this, false).ConditionNumber;
+            return Svd(false).ConditionNumber;
         }
 
         /// <summary>Computes the determinant of this matrix.</summary>
@@ -1052,7 +1052,7 @@ namespace MathNet.Numerics.LinearAlgebra
                 throw new ArgumentException(Resources.ArgumentMatrixSquare);
             }
 
-            return LU<T>.Create(this).Determinant;
+            return LU().Determinant;
         }
 
         /// <summary>Computes the inverse of this matrix.</summary>
@@ -1064,7 +1064,7 @@ namespace MathNet.Numerics.LinearAlgebra
                 throw new ArgumentException(Resources.ArgumentMatrixSquare);
             }
 
-            return LU<T>.Create(this).Inverse();
+            return LU().Inverse();
         }
 
         /// <summary>

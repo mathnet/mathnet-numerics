@@ -29,6 +29,8 @@
 // </copyright>
 
 using System;
+using MathNet.Numerics.LinearAlgebra.Single.Factorization;
+using MathNet.Numerics.LinearAlgebra.Factorization;
 using MathNet.Numerics.LinearAlgebra.Storage;
 using MathNet.Numerics.Properties;
 
@@ -455,6 +457,36 @@ namespace MathNet.Numerics.LinearAlgebra.Single
             }
 
             return sum;
+        }
+
+        public override Cholesky<float> Cholesky()
+        {
+            return new UserCholesky(this);
+        }
+
+        public override LU<float> LU()
+        {
+            return new UserLU(this);
+        }
+
+        public override QR<float> QR(QRMethod method = QRMethod.Thin)
+        {
+            return new UserQR(this, method);
+        }
+
+        public override GramSchmidt<float> GramSchmidt()
+        {
+            return new UserGramSchmidt(this);
+        }
+
+        public override Svd<float> Svd(bool computeVectors)
+        {
+            return new UserSvd(this, computeVectors);
+        }
+
+        public override Evd<float> Evd()
+        {
+            return new UserEvd(this);
         }
     }
 }

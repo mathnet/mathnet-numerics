@@ -28,17 +28,11 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using MathNet.Numerics.Properties;
 using System;
+using MathNet.Numerics.Properties;
 
 namespace MathNet.Numerics.LinearAlgebra.Factorization
 {
-    using Numerics;
-
-#if !NOSYSNUMERICS
-    using System.Numerics;
-#endif
-
     /// <summary>
     /// <para>A class which encapsulates the functionality of the singular value decomposition (SVD).</para>
     /// <para>Suppose M is an m-by-n matrix whose entries are real numbers. 
@@ -60,128 +54,45 @@ namespace MathNet.Numerics.LinearAlgebra.Factorization
         /// <summary>
         /// Gets or sets a value indicating whether to compute U and VT matrices during SVD factorization or not
         /// </summary>
-        protected bool ComputeVectors
-        {
-            get;
-            set;
-        }
+        protected bool ComputeVectors { get; set; }
 
         /// <summary>
         /// Gets or sets the singular values (Σ) of matrix in ascending value.
         /// </summary>
-        protected Vector<T> VectorS
-        {
-            get;
-            set;
-        }
+        protected Vector<T> VectorS { get; set; }
 
         /// <summary>
         /// Gets or sets left singular vectors (U - m-by-m unitary matrix)
         /// </summary>
-        protected Matrix<T> MatrixU
-        {
-            get;
-            set;
-        }
+        protected Matrix<T> MatrixU { get; set; }
 
         /// <summary>
         /// Gets or sets transpose right singular vectors (transpose of V, an n-by-n unitary matrix
         /// </summary>
-        protected Matrix<T> MatrixVT
-        {
-            get;
-            set;
-        }
+        protected Matrix<T> MatrixVT { get; set; }
 
         /// <summary>
         /// Gets the effective numerical matrix rank.
         /// </summary>
         /// <value>The number of non-negligible singular values.</value>
-        public abstract int Rank
-        {
-            get;
-        }
-
-        /// <summary>
-        /// Internal method which routes the call to perform the singular value decomposition to the appropriate class.
-        /// </summary>
-        /// <param name="matrix">The matrix to factor.</param>
-        /// <param name="computeVectors">Compute the singular U and VT vectors or not.</param>
-        /// <returns>An SVD object.</returns>
-        internal static Svd<T> Create(Matrix<T> matrix, bool computeVectors)
-        {
-            if (typeof(T) == typeof(double))
-            {
-                var dense = matrix as Double.DenseMatrix;
-                if (dense != null)
-                {
-                    return new Double.Factorization.DenseSvd(dense, computeVectors) as Svd<T>;
-                }
-
-                return new Double.Factorization.UserSvd(matrix as Matrix<double>, computeVectors) as Svd<T>;
-            }
-
-            if (typeof(T) == typeof(float))
-            {
-                var dense = matrix as Single.DenseMatrix;
-                if (dense != null)
-                {
-                    return new Single.Factorization.DenseSvd(dense, computeVectors) as Svd<T>;
-                }
-
-                return new Single.Factorization.UserSvd(matrix as Matrix<float>, computeVectors) as Svd<T>;
-            }
-
-            if (typeof(T) == typeof(Complex))
-            {
-                var dense = matrix as LinearAlgebra.Complex.DenseMatrix;
-                if (dense != null)
-                {
-                    return new LinearAlgebra.Complex.Factorization.DenseSvd(dense, computeVectors) as Svd<T>;
-                }
-
-                return new LinearAlgebra.Complex.Factorization.UserSvd(matrix as Matrix<Complex>, computeVectors) as Svd<T>;
-            }
-
-            if (typeof(T) == typeof(Complex32))
-            {
-                var dense = matrix as LinearAlgebra.Complex32.DenseMatrix;
-                if (dense != null)
-                {
-                    return new LinearAlgebra.Complex32.Factorization.DenseSvd(dense, computeVectors) as Svd<T>;
-                }
-
-                return new LinearAlgebra.Complex32.Factorization.UserSvd(matrix as Matrix<Complex32>, computeVectors) as Svd<T>;
-            }
-
-            throw new NotSupportedException();
-        }
+        public abstract int Rank { get; }
 
         /// <summary>
         /// Gets the two norm of the <see cref="Matrix{T}"/>.
         /// </summary>
         /// <returns>The 2-norm of the <see cref="Matrix{T}"/>.</returns>
-        public abstract T Norm2
-        {
-            get;
-        }
+        public abstract T Norm2 { get; }
 
         /// <summary>
         /// Gets the condition number <b>max(S) / min(S)</b>
         /// </summary>
         /// <returns>The condition number.</returns>
-        public abstract T ConditionNumber
-        {
-            get;
-        }
+        public abstract T ConditionNumber { get; }
 
         /// <summary>
         /// Gets the determinant of the square matrix for which the SVD was computed.
         /// </summary>
-        public abstract T Determinant
-        {
-            get;
-        }
+        public abstract T Determinant { get; }
 
         /// <summary>Returns the left singular vectors as a <see cref="Matrix{T}"/>.</summary>
         /// <returns>The left singular vectors. The matrix will be <c>null</c>, if <b>computeVectors</b> in the constructor is set to <c>false</c>.</returns>

@@ -1,9 +1,11 @@
-﻿// <copyright file="ExtensionMethods.cs" company="Math.NET">
+﻿// <copyright file="Matrix.Factorization.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
-// Copyright (c) 2009-2010 Math.NET
+//
+// Copyright (c) 2009-2013 Math.NET
+//
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -12,8 +14,10 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
+//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
+//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -25,75 +29,50 @@
 // </copyright>
 
 using MathNet.Numerics.LinearAlgebra.Factorization;
-using MathNet.Numerics.LinearAlgebra.Single.Factorization;
 
-namespace MathNet.Numerics.LinearAlgebra.Single
+namespace MathNet.Numerics.LinearAlgebra
 {
     /// <summary>
-    /// Extension methods which return factorizations for the various matrix classes.
+    /// Defines the base class for <c>Matrix</c> classes.
     /// </summary>
-    public static class ExtensionMethods
+    public abstract partial class Matrix<T>
     {
         /// <summary>
         /// Computes the Cholesky decomposition for a matrix.
         /// </summary>
-        /// <param name="matrix">The matrix to factor.</param>
         /// <returns>The Cholesky decomposition object.</returns>
-        public static Cholesky Cholesky(this Matrix<float> matrix)
-        {
-            return (Cholesky)Cholesky<float>.Create(matrix);
-        }
+        public abstract Cholesky<T> Cholesky();
 
         /// <summary>
         /// Computes the LU decomposition for a matrix.
         /// </summary>
-        /// <param name="matrix">The matrix to factor.</param>
         /// <returns>The LU decomposition object.</returns>
-        public static LU LU(this Matrix<float> matrix)
-        {
-            return (LU)LU<float>.Create(matrix);
-        }
+        public abstract LU<T> LU();
 
         /// <summary>
         /// Computes the QR decomposition for a matrix.
         /// </summary>
-        /// <param name="matrix">The matrix to factor.</param>
         /// <param name="method">The type of QR factorization to perform.</param>
         /// <returns>The QR decomposition object.</returns>
-        public static QR QR(this Matrix<float> matrix, QRMethod method = QRMethod.Full)
-        {
-            return (QR)QR<float>.Create(matrix, method);
-        }
+        public abstract QR<T> QR(QRMethod method = QRMethod.Thin);
 
         /// <summary>
         /// Computes the QR decomposition for a matrix using Modified Gram-Schmidt Orthogonalization.
         /// </summary>
-        /// <param name="matrix">The matrix to factor.</param>
         /// <returns>The QR decomposition object.</returns>
-        public static GramSchmidt GramSchmidt(this Matrix<float> matrix)
-        {
-            return (GramSchmidt)GramSchmidt<float>.Create(matrix);
-        }
+        public abstract GramSchmidt<T> GramSchmidt();
 
         /// <summary>
         /// Computes the SVD decomposition for a matrix.
         /// </summary>
-        /// <param name="matrix">The matrix to factor.</param>
         /// <param name="computeVectors">Compute the singular U and VT vectors or not.</param>
         /// <returns>The SVD decomposition object.</returns>
-        public static Svd Svd(this Matrix<float> matrix, bool computeVectors)
-        {
-            return (Svd)Svd<float>.Create(matrix, computeVectors);
-        }
+        public abstract Svd<T> Svd(bool computeVectors);
 
         /// <summary>
         /// Computes the EVD decomposition for a matrix.
         /// </summary>
-        /// <param name="matrix">The matrix to factor.</param>
         /// <returns>The EVD decomposition object.</returns>
-        public static Evd Evd(this Matrix<float> matrix)
-        {
-            return (Evd)Evd<float>.Create(matrix);
-        }
+        public abstract Evd<T> Evd();
     }
 }

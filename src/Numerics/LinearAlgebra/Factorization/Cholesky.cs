@@ -32,12 +32,6 @@ using System;
 
 namespace MathNet.Numerics.LinearAlgebra.Factorization
 {
-    using Numerics;
-
-#if !NOSYSNUMERICS
-    using System.Numerics;
-#endif
-
     /// <summary>
     /// <para>A class which encapsulates the functionality of a Cholesky factorization.</para>
     /// <para>For a symmetric, positive definite matrix A, the Cholesky factorization
@@ -52,67 +46,9 @@ namespace MathNet.Numerics.LinearAlgebra.Factorization
     where T : struct, IEquatable<T>, IFormattable
     {
         /// <summary>
-        /// Internal method which routes the call to perform the Cholesky factorization to the appropriate class.
-        /// </summary>
-        /// <param name="matrix">The matrix to factor.</param>
-        /// <returns>A cholesky factorization object.</returns>
-        internal static Cholesky<T> Create(Matrix<T> matrix)
-        {
-            if (typeof(T) == typeof(double))
-            {
-                var dense = matrix as Double.DenseMatrix;
-                if (dense != null)
-                {
-                    return new Double.Factorization.DenseCholesky(dense) as Cholesky<T>;
-                }
-
-                return new Double.Factorization.UserCholesky(matrix as Matrix<double>) as Cholesky<T>;
-            }
-
-            if (typeof(T) == typeof(float))
-            {
-                var dense = matrix as Single.DenseMatrix;
-                if (dense != null)
-                {
-                    return new Single.Factorization.DenseCholesky(dense) as Cholesky<T>;
-                }
-
-                return new Single.Factorization.UserCholesky(matrix as Matrix<float>) as Cholesky<T>;
-            }
-
-            if (typeof(T) == typeof(Complex))
-            {
-                var dense = matrix as LinearAlgebra.Complex.DenseMatrix;
-                if (dense != null)
-                {
-                    return new LinearAlgebra.Complex.Factorization.DenseCholesky(dense) as Cholesky<T>;
-                }
-
-                return new LinearAlgebra.Complex.Factorization.UserCholesky(matrix as Matrix<Complex>) as Cholesky<T>;
-            }
-
-            if (typeof(T) == typeof(Complex32))
-            {
-                var dense = matrix as LinearAlgebra.Complex32.DenseMatrix;
-                if (dense != null)
-                {
-                    return new LinearAlgebra.Complex32.Factorization.DenseCholesky(dense) as Cholesky<T>;
-                }
-
-                return new LinearAlgebra.Complex32.Factorization.UserCholesky(matrix as Matrix<Complex32>) as Cholesky<T>;
-            }
-
-            throw new NotSupportedException();
-        }
-
-        /// <summary>
         /// Gets or sets the lower triangular form of the Cholesky matrix
         /// </summary>
-        protected Matrix<T> CholeskyFactor
-        {
-            get;
-            set;
-        }
+        protected Matrix<T> CholeskyFactor { get; set; }
 
         /// <summary>
         /// Gets the lower triangular form of the Cholesky matrix.
@@ -128,18 +64,12 @@ namespace MathNet.Numerics.LinearAlgebra.Factorization
         /// <summary>
         /// Gets the determinant of the matrix for which the Cholesky matrix was computed.
         /// </summary>
-        public abstract T Determinant
-        {
-            get;
-        }
+        public abstract T Determinant { get; }
 
         /// <summary>
         /// Gets the log determinant of the matrix for which the Cholesky matrix was computed.
         /// </summary>
-        public abstract T DeterminantLn
-        {
-            get;
-        }
+        public abstract T DeterminantLn { get; }
 
         /// <summary>
         /// Solves a system of linear equations, <b>AX = B</b>, with A Cholesky factorized.

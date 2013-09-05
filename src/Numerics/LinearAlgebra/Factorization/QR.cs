@@ -28,12 +28,6 @@ using System;
 
 namespace MathNet.Numerics.LinearAlgebra.Factorization
 {
-    using Numerics;
-
-#if !NOSYSNUMERICS
-    using System.Numerics;
-#endif
-
     /// <summary>
     /// The type of QR factorization go perform.
     /// </summary>
@@ -69,85 +63,17 @@ namespace MathNet.Numerics.LinearAlgebra.Factorization
         /// <summary>
         /// Gets or sets orthogonal Q matrix
         /// </summary>
-        protected Matrix<T> MatrixQ
-        {
-            get;
-            set;
-        }
+        protected Matrix<T> MatrixQ { get; set; }
 
         /// <summary>
         /// Gets or sets upper triangular factor R
         /// </summary>
-        protected Matrix<T> MatrixR
-        {
-            get;
-            set;
-        }
+        protected Matrix<T> MatrixR { get; set; }
 
         /// <summary>
         /// The QR factorization method.
         /// </summary>
-        protected QRMethod QrMethod 
-        { 
-            get; 
-            set; 
-        }
-
-        /// <summary>
-        /// Internal method which routes the call to perform the QR factorization to the appropriate class.
-        /// </summary>
-        /// <param name="matrix">The matrix to factor.</param>
-        /// <param name="method">The type of QR factorization to perform.</param>
-        /// <returns>A QR factorization object.</returns>
-        internal static QR<T> Create(Matrix<T> matrix, QRMethod method = QRMethod.Full)
-        {
-
-            if (typeof(T) == typeof(double))
-            {
-                var dense = matrix as Double.DenseMatrix;
-                if (dense != null)
-                {
-                    return new Double.Factorization.DenseQR(dense, method) as QR<T>;
-                }
-
-                return new Double.Factorization.UserQR(matrix as Matrix<double>, method) as QR<T>;
-            }
-
-            if (typeof(T) == typeof(float))
-            {
-                var dense = matrix as Single.DenseMatrix;
-                if (dense != null)
-                {
-                    return new Single.Factorization.DenseQR(dense, method) as QR<T>;
-                }
-
-                return new Single.Factorization.UserQR(matrix as Matrix<float>, method) as QR<T>;
-            }
-
-            if (typeof(T) == typeof(Complex))
-            {
-                var dense = matrix as LinearAlgebra.Complex.DenseMatrix;
-                if (dense != null)
-                {
-                    return new LinearAlgebra.Complex.Factorization.DenseQR(dense, method) as QR<T>;
-                }
-
-                return new LinearAlgebra.Complex.Factorization.UserQR(matrix as Matrix<Complex>, method) as QR<T>;
-            }
-
-            if (typeof(T) == typeof(Complex32))
-            {
-                var dense = matrix as LinearAlgebra.Complex32.DenseMatrix;
-                if (dense != null)
-                {
-                    return new LinearAlgebra.Complex32.Factorization.DenseQR(dense, method) as QR<T>;
-                }
-
-                return new LinearAlgebra.Complex32.Factorization.UserQR(matrix as Matrix<Complex32>, method) as QR<T>;
-            }
-
-            throw new NotSupportedException();
-        }
+        protected QRMethod QrMethod { get; set; }
 
         /// <summary>
         /// Gets orthogonal Q matrix
@@ -174,19 +100,13 @@ namespace MathNet.Numerics.LinearAlgebra.Factorization
         /// <summary>
         /// Gets the absolute determinant value of the matrix for which the QR matrix was computed.
         /// </summary>
-        public abstract T Determinant
-        {
-            get;
-        }
+        public abstract T Determinant { get; }
 
         /// <summary>
         /// Gets a value indicating whether the matrix is full rank or not.
         /// </summary>
         /// <value><c>true</c> if the matrix is full rank; otherwise <c>false</c>.</value>
-        public abstract bool IsFullRank
-        {
-            get;
-        }
+        public abstract bool IsFullRank { get; }
 
         /// <summary>
         /// Solves a system of linear equations, <b>AX = B</b>, with A QR factorized.

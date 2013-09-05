@@ -105,7 +105,7 @@ namespace MathNet.Numerics.Distributions
 
             _degreesOfFreedom = degreesOfFreedom;
             _scale = scale;
-            _chol = Cholesky<double>.Create(_scale);
+            _chol = _scale.Cholesky();
         }
 
         /// <summary>
@@ -281,7 +281,7 @@ namespace MathNet.Numerics.Distributions
                 throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
             }
 
-            return DoSample(rnd, degreesOfFreedom, scale, Cholesky<double>.Create(scale));
+            return DoSample(rnd, degreesOfFreedom, scale, scale.Cholesky());
         }
 
         /// <summary>

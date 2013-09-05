@@ -28,6 +28,8 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using MathNet.Numerics.LinearAlgebra.Complex32.Factorization;
+using MathNet.Numerics.LinearAlgebra.Factorization;
 using MathNet.Numerics.LinearAlgebra.Storage;
 using MathNet.Numerics.Properties;
 using System;
@@ -449,6 +451,36 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
             }
 
             return sum;
+        }
+
+        public override Cholesky<Complex32> Cholesky()
+        {
+            return new UserCholesky(this);
+        }
+
+        public override LU<Complex32> LU()
+        {
+            return new UserLU(this);
+        }
+
+        public override QR<Complex32> QR(QRMethod method = QRMethod.Thin)
+        {
+            return new UserQR(this, method);
+        }
+
+        public override GramSchmidt<Complex32> GramSchmidt()
+        {
+            return new UserGramSchmidt(this);
+        }
+
+        public override Svd<Complex32> Svd(bool computeVectors)
+        {
+            return new UserSvd(this, computeVectors);
+        }
+
+        public override Evd<Complex32> Evd()
+        {
+            return new UserEvd(this);
         }
     }
 }

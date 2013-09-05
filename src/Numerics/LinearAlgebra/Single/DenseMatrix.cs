@@ -33,6 +33,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using MathNet.Numerics.Distributions;
+using MathNet.Numerics.LinearAlgebra.Factorization;
+using MathNet.Numerics.LinearAlgebra.Single.Factorization;
 using MathNet.Numerics.LinearAlgebra.Storage;
 using MathNet.Numerics.Properties;
 using MathNet.Numerics.Providers.LinearAlgebra;
@@ -1031,6 +1033,36 @@ namespace MathNet.Numerics.LinearAlgebra.Single
             }
 
             return (DenseMatrix)leftSide.Modulus(rightSide);
+        }
+
+        public override Cholesky<float> Cholesky()
+        {
+            return new DenseCholesky(this);
+        }
+
+        public override LU<float> LU()
+        {
+            return new DenseLU(this);
+        }
+
+        public override QR<float> QR(QRMethod method = QRMethod.Thin)
+        {
+            return new DenseQR(this, method);
+        }
+
+        public override GramSchmidt<float> GramSchmidt()
+        {
+            return new DenseGramSchmidt(this);
+        }
+
+        public override Svd<float> Svd(bool computeVectors)
+        {
+            return new DenseSvd(this, computeVectors);
+        }
+
+        public override Evd<float> Evd()
+        {
+            return new DenseEvd(this);
         }
     }
 }

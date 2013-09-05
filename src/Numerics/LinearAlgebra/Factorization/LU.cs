@@ -28,12 +28,6 @@ using System;
 
 namespace MathNet.Numerics.LinearAlgebra.Factorization
 {
-    using Numerics;
-
-#if !NOSYSNUMERICS
-    using System.Numerics;
-#endif
-
     /// <summary>
     /// <para>A class which encapsulates the functionality of an LU factorization.</para>
     /// <para>For a matrix A, the LU factorization is a pair of lower triangular matrix L and
@@ -56,74 +50,12 @@ namespace MathNet.Numerics.LinearAlgebra.Factorization
         /// <summary>
         /// Gets or sets both the L and U factors in the same matrix.
         /// </summary>
-        protected Matrix<T> Factors
-        {
-            get;
-            set;
-        }
+        protected Matrix<T> Factors { get; set; }
 
         /// <summary>
         /// Gets or sets the pivot indices of the LU factorization.
         /// </summary>
-        protected int[] Pivots
-        {
-            get;
-            set;
-        }
-
-        /// <summary>
-        /// Internal method which routes the call to perform the LU factorization to the appropriate class.
-        /// </summary>
-        /// <param name="matrix">The matrix to factor.</param>
-        /// <returns>An LU factorization object.</returns>
-        internal static LU<T> Create(Matrix<T> matrix)
-        {
-            if (typeof(T) == typeof(double))
-            {
-                var dense = matrix as Double.DenseMatrix;
-                if (dense != null)
-                {
-                    return new Double.Factorization.DenseLU(dense) as LU<T>;
-                }
-
-                return new Double.Factorization.UserLU(matrix as Matrix<double>) as LU<T>;
-            }
-
-            if (typeof(T) == typeof(float))
-            {
-                var dense = matrix as Single.DenseMatrix;
-                if (dense != null)
-                {
-                    return new Single.Factorization.DenseLU(dense) as LU<T>;
-                }
-
-                return new Single.Factorization.UserLU(matrix as Matrix<float>) as LU<T>;
-            }
-
-            if (typeof(T) == typeof(Complex))
-            {
-                var dense = matrix as LinearAlgebra.Complex.DenseMatrix;
-                if (dense != null)
-                {
-                    return new LinearAlgebra.Complex.Factorization.DenseLU(dense) as LU<T>;
-                }
-
-                return new LinearAlgebra.Complex.Factorization.UserLU(matrix as Matrix<Complex>) as LU<T>;
-            }
-
-            if (typeof(T) == typeof(Complex32))
-            {
-                var dense = matrix as LinearAlgebra.Complex32.DenseMatrix;
-                if (dense != null)
-                {
-                    return new LinearAlgebra.Complex32.Factorization.DenseLU(dense) as LU<T>;
-                }
-
-                return new LinearAlgebra.Complex32.Factorization.UserLU(matrix as Matrix<Complex32>) as LU<T>;
-            }
-
-            throw new NotSupportedException();
-        }
+        protected int[] Pivots { get; set; }
 
         /// <summary>
         /// Gets the lower triangular factor.
@@ -167,10 +99,7 @@ namespace MathNet.Numerics.LinearAlgebra.Factorization
         /// <summary>
         /// Gets the determinant of the matrix for which the LU factorization was computed.
         /// </summary>
-        public abstract T Determinant
-        {
-            get;
-        }
+        public abstract T Determinant { get; }
 
         /// <summary>
         /// Solves a system of linear equations, <b>AX = B</b>, with A LU factorized.
