@@ -185,5 +185,155 @@ namespace MathNet.Numerics
         {
             return SSD(a, b)/a.Length;
         }
+
+        /// <summary>
+        /// Euclidean Distance, i.e. the L2-norm of the difference.
+        /// </summary>
+        public static double Euclidean(Vector<double> a, Vector<double> b)
+        {
+            return (a - b).L2Norm();
+        }
+
+        /// <summary>
+        /// Euclidean Distance, i.e. the L2-norm of the difference.
+        /// </summary>
+        public static float Euclidean(Vector<float> a, Vector<float> b)
+        {
+            return (a - b).L2Norm();
+        }
+
+        /// <summary>
+        /// Euclidean Distance, i.e. the L2-norm of the difference.
+        /// </summary>
+        public static double Euclidean(double[] a, double[] b)
+        {
+            return Math.Sqrt(SSD(a, b));
+        }
+
+        /// <summary>
+        /// Euclidean Distance, i.e. the L2-norm of the difference.
+        /// </summary>
+        public static float Euclidean(float[] a, float[] b)
+        {
+            return (float) Math.Sqrt(SSD(a, b));
+        }
+
+        /// <summary>
+        /// Manhattan Distance, i.e. the L1-norm of the difference.
+        /// </summary>
+        public static double Manhattan(Vector<double> a, Vector<double> b)
+        {
+            return (a - b).L1Norm();
+        }
+
+        /// <summary>
+        /// Manhattan Distance, i.e. the L1-norm of the difference.
+        /// </summary>
+        public static float Manhattan(Vector<float> a, Vector<float> b)
+        {
+            return (a - b).L1Norm();
+        }
+
+        /// <summary>
+        /// Manhattan Distance, i.e. the L1-norm of the difference.
+        /// </summary>
+        public static double Manhattan(double[] a, double[] b)
+        {
+            return SAD(a, b);
+        }
+
+        /// <summary>
+        /// Manhattan Distance, i.e. the L1-norm of the difference.
+        /// </summary>
+        public static float Manhattan(float[] a, float[] b)
+        {
+            return SAD(a, b);
+        }
+
+        /// <summary>
+        /// Chebyshev Distance, i.e. the Infinity-norm of the difference.
+        /// </summary>
+        public static double Chebyshev(Vector<double> a, Vector<double> b)
+        {
+            return (a - b).InfinityNorm();
+        }
+
+        /// <summary>
+        /// Chebyshev Distance, i.e. the Infinity-norm of the difference.
+        /// </summary>
+        public static float Chebyshev(Vector<float> a, Vector<float> b)
+        {
+            return (a - b).InfinityNorm();
+        }
+
+        /// <summary>
+        /// Chebyshev Distance, i.e. the Infinity-norm of the difference.
+        /// </summary>
+        public static double Chebyshev(double[] a, double[] b)
+        {
+            if (a.Length != b.Length) throw new ArgumentOutOfRangeException("b");
+            var max = Math.Abs(a[0] - b[0]);
+            for (int i = 1; i < a.Length; i++)
+            {
+                var next = Math.Abs(a[i] - b[i]);
+                if (next > max)
+                {
+                    max = next;
+                }
+            }
+            return max;
+        }
+
+        /// <summary>
+        /// Chebyshev Distance, i.e. the Infinity-norm of the difference.
+        /// </summary>
+        public static float Chebyshev(float[] a, float[] b)
+        {
+            if (a.Length != b.Length) throw new ArgumentOutOfRangeException("b");
+            var max = Math.Abs(a[0] - b[0]);
+            for (int i = 1; i < a.Length; i++)
+            {
+                var next = Math.Abs(a[i] - b[i]);
+                if (next > max)
+                {
+                    max = next;
+                }
+            }
+            return max;
+        }
+
+        /// <summary>
+        /// Hamming Distance, i.e. the number of positions that have different values in the vectors.
+        /// </summary>
+        public static double Hamming(double[] a, double[] b)
+        {
+            if (a.Length != b.Length) throw new ArgumentOutOfRangeException("b");
+            int count = 0;
+            for (int i = 1; i < a.Length; i++)
+            {
+                if (a[i] != b[i])
+                {
+                    count++;
+                }
+            }
+            return count;
+        }
+
+        /// <summary>
+        /// Hamming Distance, i.e. the number of positions that have different values in the vectors.
+        /// </summary>
+        public static float Hamming(float[] a, float[] b)
+        {
+            if (a.Length != b.Length) throw new ArgumentOutOfRangeException("b");
+            int count = 0;
+            for (int i = 1; i < a.Length; i++)
+            {
+                if (a[i] != b[i])
+                {
+                    count++;
+                }
+            }
+            return count;
+        }
     }
 }
