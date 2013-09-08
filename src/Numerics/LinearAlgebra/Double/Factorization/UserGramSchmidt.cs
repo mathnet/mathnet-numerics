@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2010 Math.NET
+// Copyright (c) 2009-2013 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -28,8 +28,8 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using MathNet.Numerics.Properties;
 using System;
+using MathNet.Numerics.Properties;
 
 namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
 {
@@ -40,7 +40,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
     /// <remarks>
     /// The computation of the QR decomposition is done at construction time by modified Gram-Schmidt Orthogonalization.
     /// </remarks>
-    public class UserGramSchmidt : GramSchmidt
+    public sealed class UserGramSchmidt : GramSchmidt
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="UserGramSchmidt"/> class. This object creates an orthogonal matrix 
@@ -50,46 +50,48 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
         /// <exception cref="ArgumentNullException">If <paramref name="matrix"/> is <c>null</c>.</exception>
         /// <exception cref="ArgumentException">If <paramref name="matrix"/> row count is less then column count</exception>
         /// <exception cref="ArgumentException">If <paramref name="matrix"/> is rank deficient</exception>
-        public UserGramSchmidt(Matrix<double> matrix)
+        public static UserGramSchmidt Create(Matrix<double> matrix)
         {
-            if (matrix == null)
-            {
-                throw new ArgumentNullException("matrix");
-            }
-
             if (matrix.RowCount < matrix.ColumnCount)
             {
                 throw Matrix.DimensionsDontMatch<ArgumentException>(matrix);
             }
 
-            Q = matrix.Clone();
-            MatrixR = matrix.CreateMatrix(matrix.ColumnCount, matrix.ColumnCount);
+            var q = matrix.Clone();
+            var r = matrix.CreateMatrix(matrix.ColumnCount, matrix.ColumnCount);
 
-            for (var k = 0; k < Q.ColumnCount; k++)
+            for (var k = 0; k < q.ColumnCount; k++)
             {
-                var norm = Q.Column(k).L2Norm();
+                var norm = q.Column(k).L2Norm();
                 if (norm == 0.0)
                 {
                     throw new ArgumentException(Resources.ArgumentMatrixNotRankDeficient);
                 }
 
-                MatrixR.At(k, k, norm);
-                for (var i = 0; i < Q.RowCount; i++)
+                r.At(k, k, norm);
+                for (var i = 0; i < q.RowCount; i++)
                 {
-                    Q.At(i, k, Q.At(i, k) / norm);
+                    q.At(i, k, q.At(i, k) / norm);
                 }
 
-                for (var j = k + 1; j < Q.ColumnCount; j++)
+                for (var j = k + 1; j < q.ColumnCount; j++)
                 {
-                    var dot = Q.Column(k).DotProduct(Q.Column(j));
-                    MatrixR.At(k, j, dot);
-                    for (var i = 0; i < Q.RowCount; i++)
+                    var dot = q.Column(k).DotProduct(q.Column(j));
+                    r.At(k, j, dot);
+                    for (var i = 0; i < q.RowCount; i++)
                     {
-                        var value = Q.At(i, j) - (Q.At(i, k) * dot);
-                        Q.At(i, j, value);
+                        var value = q.At(i, j) - (q.At(i, k) * dot);
+                        q.At(i, j, value);
                     }
                 }
             }
+
+            return new UserGramSchmidt(q, r);
+        }
+
+        UserGramSchmidt(Matrix<double> q, Matrix<double> rFull)
+            : base(q, rFull)
+        {
         }
 
         /// <summary>
@@ -99,17 +101,6 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
         /// <param name="result">The left hand side <see cref="Matrix{T}"/>, <b>X</b>.</param>
         public override void Solve(Matrix<double> input, Matrix<double> result)
         {
-            // Check for proper arguments.
-            if (input == null)
-            {
-                throw new ArgumentNullException("input");
-            }
-
-            if (result == null)
-            {
-                throw new ArgumentNullException("result");
-            }
-
             // The solution X should have the same number of columns as B
             if (input.ColumnCount != result.ColumnCount)
             {
@@ -184,16 +175,6 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
         /// <param name="result">The left hand side <see cref="Matrix{T}"/>, <b>x</b>.</param>
         public override void Solve(Vector<double> input, Vector<double> result)
         {
-            if (input == null)
-            {
-                throw new ArgumentNullException("input");
-            }
-
-            if (result == null)
-            {
-                throw new ArgumentNullException("result");
-            }
-
             // Ax=b where A is an m x n matrix
             // Check that b is a column vector with m entries
             if (Q.RowCount != input.Count)

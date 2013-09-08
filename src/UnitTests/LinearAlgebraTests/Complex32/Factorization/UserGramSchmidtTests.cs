@@ -24,12 +24,13 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System;
+using MathNet.Numerics.LinearAlgebra.Complex32.Factorization;
+using NUnit.Framework;
+
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
 {
-    using System;
-    using LinearAlgebra.Complex32.Factorization;
-    using NUnit.Framework;
-    using Complex32 = Numerics.Complex32;
+    using Numerics;
 
     /// <summary>
     /// GramSchmidt factorization tests for a user matrix.
@@ -37,20 +38,12 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
     public class UserGramSchmidtTests
     {
         /// <summary>
-        /// Constructor with <c>null</c> throws <c>ArgumentNullException</c>.
-        /// </summary>
-        public void ConstructorNullThrowsArgumentNullException()
-        {
-            Assert.Throws<ArgumentNullException>(() => new UserGramSchmidt(null));
-        }
-
-        /// <summary>
         /// Constructor with wide matrix throws <c>ArgumentException</c>.
         /// </summary>
         [Test]
         public void ConstructorWideMatrixThrowsInvalidMatrixOperationException()
         {
-            Assert.Throws<ArgumentException>(() => new UserGramSchmidt(new UserDefinedMatrix(3, 4)));
+            Assert.Throws<ArgumentException>(() => UserGramSchmidt.Create(new UserDefinedMatrix(3, 4)));
         }
 
         /// <summary>

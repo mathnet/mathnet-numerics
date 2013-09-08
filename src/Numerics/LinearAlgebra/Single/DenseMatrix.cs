@@ -1052,7 +1052,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
 
         public override GramSchmidt<float> GramSchmidt()
         {
-            return new DenseGramSchmidt(this);
+            return DenseGramSchmidt.Create(this);
         }
 
         public override Svd<float> Svd(bool computeVectors)

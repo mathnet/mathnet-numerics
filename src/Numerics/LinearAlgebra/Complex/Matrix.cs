@@ -475,7 +475,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
 
         public override GramSchmidt<Complex> GramSchmidt()
         {
-            return new UserGramSchmidt(this);
+            return UserGramSchmidt.Create(this);
         }
 
         public override Svd<Complex> Svd(bool computeVectors)

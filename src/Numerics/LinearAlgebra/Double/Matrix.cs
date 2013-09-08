@@ -476,7 +476,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
         public override GramSchmidt<double> GramSchmidt()
         {
-            return new UserGramSchmidt(this);
+            return UserGramSchmidt.Create(this);
         }
 
         public override Svd<double> Svd(bool computeVectors)

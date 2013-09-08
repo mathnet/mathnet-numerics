@@ -470,7 +470,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
 
         public override GramSchmidt<Complex32> GramSchmidt()
         {
-            return new UserGramSchmidt(this);
+            return UserGramSchmidt.Create(this);
         }
 
         public override Svd<Complex32> Svd(bool computeVectors)

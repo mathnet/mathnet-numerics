@@ -24,10 +24,10 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System;
 using MathNet.Numerics.LinearAlgebra.Single;
 using MathNet.Numerics.LinearAlgebra.Single.Factorization;
 using NUnit.Framework;
-using System;
 
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Factorization
 {
@@ -37,21 +37,12 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Factorization
     public class GramSchmidtTests
     {
         /// <summary>
-        /// Constructor with <c>null</c> throws <c>ArgumentNullException</c>.
-        /// </summary>
-        [Test]
-        public void ConstructorNullThrowsArgumentNullException()
-        {
-            Assert.Throws<ArgumentNullException>(() => new DenseGramSchmidt(null));
-        }
-
-        /// <summary>
         /// Constructor with wide matrix throws <c>ArgumentException</c>.
         /// </summary>
         [Test]
         public void ConstructorWideMatrixThrowsInvalidMatrixOperationException()
         {
-            Assert.Throws<ArgumentException>(() => new DenseGramSchmidt(new DenseMatrix(3, 4)));
+            Assert.Throws<ArgumentException>(() => DenseGramSchmidt.Create(new DenseMatrix(3, 4)));
         }
 
         /// <summary>
