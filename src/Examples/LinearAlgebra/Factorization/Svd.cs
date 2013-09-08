@@ -26,6 +26,7 @@
 
 using System;
 using System.Globalization;
+using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Double;
 
 namespace Examples.LinearAlgebra.FactorizationExamples
@@ -97,7 +98,7 @@ namespace Examples.LinearAlgebra.FactorizationExamples
 
             // 3. Singular values as diagonal matrix
             Console.WriteLine(@"3. Singular values as diagonal matrix");
-            Console.WriteLine(svd.W().ToString("#0.00\t", formatProvider));
+            Console.WriteLine(svd.W.ToString("#0.00\t", formatProvider));
             Console.WriteLine();
 
             // 4. Right singular vectors
@@ -118,7 +119,7 @@ namespace Examples.LinearAlgebra.FactorizationExamples
             Console.WriteLine();
 
             // 7. Reconstruct initial matrix: A = U*Σ*VT
-            var reconstruct = svd.U * svd.W() * svd.VT;
+            var reconstruct = svd.U * svd.W * svd.VT;
             Console.WriteLine(@"7. Reconstruct initial matrix: A = U*S*VT");
             Console.WriteLine(reconstruct.ToString("#0.00\t", formatProvider));
             Console.WriteLine();
@@ -154,7 +155,7 @@ namespace Examples.LinearAlgebra.FactorizationExamples
 
             // 13. Singular values as diagonal matrix
             Console.WriteLine(@"13. Singular values as diagonal matrix");
-            Console.WriteLine(svd.W().ToString("#0.00\t", formatProvider));
+            Console.WriteLine(svd.W.ToString("#0.00\t", formatProvider));
             Console.WriteLine();
 
             // 14. Access to left singular vectors when partial SVD decomposition was performed

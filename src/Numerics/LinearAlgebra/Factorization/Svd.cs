@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2010 Math.NET
+// Copyright (c) 2009-2013 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -49,27 +49,66 @@ namespace MathNet.Numerics.LinearAlgebra.Factorization
     /// </remarks>
     /// <typeparam name="T">Supported data types are double, single, <see cref="Complex"/>, and <see cref="Complex32"/>.</typeparam>
     public abstract class Svd<T> : ISolver<T>
-    where T : struct, IEquatable<T>, IFormattable
+        where T : struct, IEquatable<T>, IFormattable
     {
-        /// <summary>
-        /// Gets or sets a value indicating whether to compute U and VT matrices during SVD factorization or not
-        /// </summary>
-        protected bool ComputeVectors { get; set; }
+        readonly Lazy<Matrix<T>> _lazyW;
+
+        /// <summary>Indicating whether U and VT matrices have been computed during SVD factorization.</summary>
+        protected readonly bool VectorsComputed;
+
+        protected Svd(Vector<T> s, Matrix<T> u, Matrix<T> vt, bool vectorsComputed)
+        {
+            S = s;
+            U = u;
+            VT = vt;
+
+            VectorsComputed = vectorsComputed;
+
+            _lazyW = new Lazy<Matrix<T>>(ComputeW);
+        }
+
+        Matrix<T> ComputeW()
+        {
+            var rows = U.RowCount;
+            var columns = VT.ColumnCount;
+            var result = U.CreateMatrix(rows, columns);
+            for (var i = 0; i < rows; i++)
+            {
+                for (var j = 0; j < columns; j++)
+                {
+                    if (i == j)
+                    {
+                        result.At(i, i, S[i]);
+                    }
+                }
+            }
+
+            return result;
+        }
 
         /// <summary>
-        /// Gets or sets the singular values (Σ) of matrix in ascending value.
+        /// Gets the singular values (Σ) of matrix in ascending value.
         /// </summary>
-        public Vector<T> S { get; protected set; }
+        public Vector<T> S { get; private set; }
 
         /// <summary>
-        /// Gets or sets left singular vectors (U - m-by-m unitary matrix)
+        /// Gets the left singular vectors (U - m-by-m unitary matrix)
         /// </summary>
-        public Matrix<T> U { get; protected set; }
+        public Matrix<T> U { get; private set; }
 
         /// <summary>
-        /// Gets or sets transpose right singular vectors (transpose of V, an n-by-n unitary matrix
+        /// Gets the transpose right singular vectors (transpose of V, an n-by-n unitary matrix)
         /// </summary>
-        public Matrix<T> VT { get; protected set; }
+        public Matrix<T> VT { get; private set; }
+
+        /// <summary>
+        /// Returns the singular values as a diagonal <see cref="Matrix{T}"/>.
+        /// </summary>
+        /// <returns>The singular values as a diagonal <see cref="Matrix{T}"/>.</returns>
+        public Matrix<T> W
+        {
+            get { return _lazyW.Value; }
+        }
 
         /// <summary>
         /// Gets the effective numerical matrix rank.
@@ -94,27 +133,6 @@ namespace MathNet.Numerics.LinearAlgebra.Factorization
         /// </summary>
         public abstract T Determinant { get; }
 
-        /// <summary>Returns the singular values as a diagonal <see cref="Matrix{T}"/>.</summary>
-        /// <returns>The singular values as a diagonal <see cref="Matrix{T}"/>.</returns>        
-        public Matrix<T> W()
-        {
-            var rows = U.RowCount;
-            var columns = VT.ColumnCount;
-            var result = U.CreateMatrix(rows, columns);
-            for (var i = 0; i < rows; i++)
-            {
-                for (var j = 0; j < columns; j++)
-                {
-                    if (i == j)
-                    {
-                        result.At(i, i, S[i]);
-                    }
-                }
-            }
-
-            return result;
-        }
-
         /// <summary>
         /// Solves a system of linear equations, <b>AX = B</b>, with A SVD factorized.
         /// </summary>
@@ -122,13 +140,7 @@ namespace MathNet.Numerics.LinearAlgebra.Factorization
         /// <returns>The left hand side <see cref="Matrix{T}"/>, <b>X</b>.</returns>
         public virtual Matrix<T> Solve(Matrix<T> input)
         {
-            // Check for proper arguments.
-            if (input == null)
-            {
-                throw new ArgumentNullException("input");
-            }
-
-            if (!ComputeVectors)
+            if (!VectorsComputed)
             {
                 throw new InvalidOperationException(Resources.SingularVectorsNotComputed);
             }
@@ -152,13 +164,7 @@ namespace MathNet.Numerics.LinearAlgebra.Factorization
         /// <returns>The left hand side <see cref="Vector{T}"/>, <b>x</b>.</returns>
         public virtual Vector<T> Solve(Vector<T> input)
         {
-            // Check for proper arguments.
-            if (input == null)
-            {
-                throw new ArgumentNullException("input");
-            }
-
-            if (!ComputeVectors)
+            if (!VectorsComputed)
             {
                 throw new InvalidOperationException(Resources.SingularVectorsNotComputed);
             }

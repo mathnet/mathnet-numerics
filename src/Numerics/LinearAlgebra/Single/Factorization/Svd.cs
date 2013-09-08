@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2010 Math.NET
+// Copyright (c) 2009-2013 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -28,10 +28,10 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using MathNet.Numerics.LinearAlgebra.Factorization;
-using MathNet.Numerics.Properties;
 using System;
 using System.Linq;
+using MathNet.Numerics.LinearAlgebra.Factorization;
+using MathNet.Numerics.Properties;
 
 namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
 {
@@ -51,6 +51,11 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
     /// </remarks>
     public abstract class Svd : Svd<float>
     {
+        protected Svd(Vector<float> s, Matrix<float> u, Matrix<float> vt, bool vectorsComputed)
+            : base(s, u, vt, vectorsComputed)
+        {
+        }
+
         /// <summary>
         /// Gets the effective numerical matrix rank.
         /// </summary>

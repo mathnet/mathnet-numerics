@@ -1057,7 +1057,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
 
         public override Svd<float> Svd(bool computeVectors)
         {
-            return new DenseSvd(this, computeVectors);
+            return DenseSvd.Create(this, computeVectors);
         }
 
         public override Evd<float> Evd()

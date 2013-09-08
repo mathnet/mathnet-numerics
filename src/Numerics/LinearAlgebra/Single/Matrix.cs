@@ -481,7 +481,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
 
         public override Svd<float> Svd(bool computeVectors)
         {
-            return new UserSvd(this, computeVectors);
+            return UserSvd.Create(this, computeVectors);
         }
 
         public override Evd<float> Evd()

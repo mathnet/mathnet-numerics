@@ -24,26 +24,17 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System;
+using MathNet.Numerics.LinearAlgebra;
+using NUnit.Framework;
+
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Factorization
 {
-    using System;
-    using LinearAlgebra.Single.Factorization;
-    using NUnit.Framework;
-
     /// <summary>
     /// Svd factorization tests for a user matrix.
     /// </summary>
     public class UserSvdTests
     {
-        /// <summary>
-        /// Constructor with <c>null</c> throws <c>ArgumentNullException</c>.
-        /// </summary>
-        [Test]
-        public void ConstructorNull()
-        {
-            Assert.Throws<ArgumentNullException>(() => new UserSvd(null, true));
-        }
-
         /// <summary>
         /// Can factorize identity matrix.
         /// </summary>
@@ -57,7 +48,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Factorization
             var factorSvd = matrixI.Svd(true);
             var u = factorSvd.U;
             var vt = factorSvd.VT;
-            var w = factorSvd.W();
+            var w = factorSvd.W;
 
             Assert.AreEqual(matrixI.RowCount, u.RowCount);
             Assert.AreEqual(matrixI.RowCount, u.ColumnCount);
@@ -94,7 +85,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Factorization
             var factorSvd = matrixA.Svd(true);
             var u = factorSvd.U;
             var vt = factorSvd.VT;
-            var w = factorSvd.W();
+            var w = factorSvd.W;
 
             // Make sure the U has the right dimensions.
             Assert.AreEqual(row, u.RowCount);

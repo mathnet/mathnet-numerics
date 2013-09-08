@@ -480,7 +480,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
 
         public override Svd<Complex> Svd(bool computeVectors)
         {
-            return new UserSvd(this, computeVectors);
+            return UserSvd.Create(this, computeVectors);
         }
 
         public override Evd<Complex> Evd()

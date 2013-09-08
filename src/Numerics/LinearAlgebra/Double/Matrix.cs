@@ -481,7 +481,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
         public override Svd<double> Svd(bool computeVectors)
         {
-            return new UserSvd(this, computeVectors);
+            return UserSvd.Create(this, computeVectors);
         }
 
         public override Evd<double> Evd()

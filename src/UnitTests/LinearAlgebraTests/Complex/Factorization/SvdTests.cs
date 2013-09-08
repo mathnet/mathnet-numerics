@@ -24,10 +24,10 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using MathNet.Numerics.LinearAlgebra.Complex;
-using MathNet.Numerics.LinearAlgebra.Complex.Factorization;
-using NUnit.Framework;
 using System;
+using MathNet.Numerics.LinearAlgebra;
+using MathNet.Numerics.LinearAlgebra.Complex;
+using NUnit.Framework;
 
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Factorization
 {
@@ -38,15 +38,6 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Factorization
     /// </summary>
     public class SvdTests
     {
-        /// <summary>
-        /// Constructor with <c>null</c> throws <c>ArgumentNullException</c>.
-        /// </summary>
-        [Test]
-        public void ConstructorNull()
-        {
-            Assert.Throws<ArgumentNullException>(() => new DenseSvd(null, true));
-        }
-
         /// <summary>
         /// Can factorize identity matrix.
         /// </summary>
@@ -60,7 +51,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Factorization
             var factorSvd = matrixI.Svd(true);
             var u = factorSvd.U;
             var vt = factorSvd.VT;
-            var w = factorSvd.W();
+            var w = factorSvd.W;
 
             Assert.AreEqual(matrixI.RowCount, u.RowCount);
             Assert.AreEqual(matrixI.RowCount, u.ColumnCount);
@@ -97,7 +88,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Factorization
             var factorSvd = matrixA.Svd(true);
             var u = factorSvd.U;
             var vt = factorSvd.VT;
-            var w = factorSvd.W();
+            var w = factorSvd.W;
 
             // Make sure the U has the right dimensions.
             Assert.AreEqual(row, u.RowCount);

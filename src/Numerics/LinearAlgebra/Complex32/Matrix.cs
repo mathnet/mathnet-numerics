@@ -475,7 +475,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
 
         public override Svd<Complex32> Svd(bool computeVectors)
         {
-            return new UserSvd(this, computeVectors);
+            return UserSvd.Create(this, computeVectors);
         }
 
         public override Evd<Complex32> Evd()

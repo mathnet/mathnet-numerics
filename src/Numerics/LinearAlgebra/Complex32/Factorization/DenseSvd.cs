@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2010 Math.NET
+// Copyright (c) 2009-2013 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -28,8 +28,8 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using MathNet.Numerics.Properties;
 using System;
+using MathNet.Numerics.Properties;
 
 namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
 {
@@ -49,7 +49,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
     /// <remarks>
     /// The computation of the singular value decomposition is done at construction time.
     /// </remarks>
-    public class DenseSvd : Svd
+    public sealed class DenseSvd : Svd
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="DenseSvd"/> class. This object will compute the
@@ -59,19 +59,20 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
         /// <param name="computeVectors">Compute the singular U and VT vectors or not.</param>
         /// <exception cref="ArgumentNullException">If <paramref name="matrix"/> is <c>null</c>.</exception>
         /// <exception cref="ArgumentException">If SVD algorithm failed to converge with matrix <paramref name="matrix"/>.</exception>
-        public DenseSvd(DenseMatrix matrix, bool computeVectors)
+        public static DenseSvd Create(DenseMatrix matrix, bool computeVectors)
         {
-            if (matrix == null)
-            {
-                throw new ArgumentNullException("matrix");
-            }
-
-            ComputeVectors = computeVectors;
             var nm = Math.Min(matrix.RowCount, matrix.ColumnCount);
-            S = new DenseVector(nm);
-            U = new DenseMatrix(matrix.RowCount);
-            VT = new DenseMatrix(matrix.ColumnCount);
-            Control.LinearAlgebraProvider.SingularValueDecomposition(computeVectors, ((DenseMatrix)matrix.Clone()).Values, matrix.RowCount, matrix.ColumnCount, ((DenseVector)S).Values, ((DenseMatrix)U).Values, ((DenseMatrix)VT).Values);
+            var s = new DenseVector(nm);
+            var u = new DenseMatrix(matrix.RowCount);
+            var vt = new DenseMatrix(matrix.ColumnCount);
+            Control.LinearAlgebraProvider.SingularValueDecomposition(computeVectors, ((DenseMatrix) matrix.Clone()).Values, matrix.RowCount, matrix.ColumnCount, s.Values, u.Values, vt.Values);
+
+            return new DenseSvd(s, u, vt, computeVectors);
+        }
+
+        DenseSvd(Vector<Complex32> s, Matrix<Complex32> u, Matrix<Complex32> vt, bool vectorsComputed)
+            : base(s, u, vt, vectorsComputed)
+        {
         }
 
         /// <summary>
@@ -81,18 +82,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
         /// <param name="result">The left hand side <see cref="Matrix{T}"/>, <b>X</b>.</param>
         public override void Solve(Matrix<Complex32> input, Matrix<Complex32> result)
         {
-            // Check for proper arguments.
-            if (input == null)
-            {
-                throw new ArgumentNullException("input");
-            }
-
-            if (result == null)
-            {
-                throw new ArgumentNullException("result");
-            }
-
-            if (!ComputeVectors)
+            if (!VectorsComputed)
             {
                 throw new InvalidOperationException(Resources.SingularVectorsNotComputed);
             }
@@ -127,7 +117,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
                 throw new NotSupportedException("Can only do SVD factorization for dense matrices at the moment.");
             }
 
-            Control.LinearAlgebraProvider.SvdSolveFactored(U.RowCount, VT.ColumnCount, ((DenseVector)S).Values, ((DenseMatrix)U).Values, ((DenseMatrix)VT).Values, dinput.Values, input.ColumnCount, dresult.Values);
+            Control.LinearAlgebraProvider.SvdSolveFactored(U.RowCount, VT.ColumnCount, ((DenseVector) S).Values, ((DenseMatrix) U).Values, ((DenseMatrix) VT).Values, dinput.Values, input.ColumnCount, dresult.Values);
         }
 
         /// <summary>
@@ -137,17 +127,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
         /// <param name="result">The left hand side <see cref="Matrix{T}"/>, <b>x</b>.</param>
         public override void Solve(Vector<Complex32> input, Vector<Complex32> result)
         {
-            if (input == null)
-            {
-                throw new ArgumentNullException("input");
-            }
-
-            if (result == null)
-            {
-                throw new ArgumentNullException("result");
-            }
-
-            if (!ComputeVectors)
+            if (!VectorsComputed)
             {
                 throw new InvalidOperationException(Resources.SingularVectorsNotComputed);
             }
@@ -177,7 +157,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
                 throw new NotSupportedException("Can only do SVD factorization for dense vectors at the moment.");
             }
 
-            Control.LinearAlgebraProvider.SvdSolveFactored(U.RowCount, VT.ColumnCount, ((DenseVector)S).Values, ((DenseMatrix)U).Values, ((DenseMatrix)VT).Values, dinput.Values, 1, dresult.Values);
+            Control.LinearAlgebraProvider.SvdSolveFactored(U.RowCount, VT.ColumnCount, ((DenseVector) S).Values, ((DenseMatrix) U).Values, ((DenseMatrix) VT).Values, dinput.Values, 1, dresult.Values);
         }
     }
 }
