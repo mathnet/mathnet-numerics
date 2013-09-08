@@ -65,24 +65,24 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
                 throw Matrix.DimensionsDontMatch<ArgumentException>(matrix);
             }
 
-            var Tau = new float[Math.Min(matrix.RowCount, matrix.ColumnCount)];
-            Matrix<float> Q;
-            Matrix<float> MatrixR;
+            var tau = new float[Math.Min(matrix.RowCount, matrix.ColumnCount)];
+            Matrix<float> q;
+            Matrix<float> r;
 
             if (method == QRMethod.Full)
             {
-                MatrixR = matrix.Clone();
-                Q = new DenseMatrix(matrix.RowCount);
-                Control.LinearAlgebraProvider.QRFactor(((DenseMatrix) MatrixR).Values, matrix.RowCount, matrix.ColumnCount, ((DenseMatrix) Q).Values, Tau);
+                r = matrix.Clone();
+                q = new DenseMatrix(matrix.RowCount);
+                Control.LinearAlgebraProvider.QRFactor(((DenseMatrix) r).Values, matrix.RowCount, matrix.ColumnCount, ((DenseMatrix) q).Values, tau);
             }
             else
             {
-                Q = matrix.Clone();
-                MatrixR = new DenseMatrix(matrix.ColumnCount);
-                Control.LinearAlgebraProvider.ThinQRFactor(((DenseMatrix) Q).Values, matrix.RowCount, matrix.ColumnCount, ((DenseMatrix) MatrixR).Values, Tau);
+                q = matrix.Clone();
+                r = new DenseMatrix(matrix.ColumnCount);
+                Control.LinearAlgebraProvider.ThinQRFactor(((DenseMatrix) q).Values, matrix.RowCount, matrix.ColumnCount, ((DenseMatrix) r).Values, tau);
             }
 
-            return new DenseQR(Q, MatrixR, method, Tau);
+            return new DenseQR(q, r, method, tau);
         }
 
         DenseQR(Matrix<float> q, Matrix<float> rFull, QRMethod method, float[] tau)
