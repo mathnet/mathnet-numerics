@@ -44,7 +44,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
     /// <remarks>
     /// The computation of the LU factorization is done at construction time.
     /// </remarks>
-    public abstract class LU : LU<Complex32>
+    internal abstract class LU : LU<Complex32>
     {
         protected LU(Matrix<Complex32> factors, int[] pivots)
             : base(factors, pivots)

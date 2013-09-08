@@ -41,7 +41,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
     /// <remarks>
     /// The computation of the QR decomposition is done at construction time by modified Gram-Schmidt Orthogonalization.
     /// </remarks>
-    public sealed class DenseGramSchmidt : GramSchmidt
+    internal sealed class DenseGramSchmidt : GramSchmidt
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="DenseGramSchmidt"/> class. This object creates an orthogonal matrix 

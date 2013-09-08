@@ -43,7 +43,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
     /// <remarks>
     /// The computation of the QR decomposition is done at construction time by Householder transformation.
     /// </remarks>
-    public sealed class DenseQR : QR
+    internal sealed class DenseQR : QR
     {
         /// <summary>
         ///  Gets or sets Tau vector. Contains additional information on Q - used for native solver.

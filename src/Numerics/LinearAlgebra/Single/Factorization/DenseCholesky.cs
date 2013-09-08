@@ -42,7 +42,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
     /// The computation of the Cholesky factorization is done at construction time. If the matrix is not symmetric
     /// or positive definite, the constructor will throw an exception.
     /// </remarks>
-    public sealed class DenseCholesky : Cholesky
+    internal sealed class DenseCholesky : Cholesky
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="DenseCholesky"/> class. This object will compute the

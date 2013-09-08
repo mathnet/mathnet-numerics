@@ -42,7 +42,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
     /// <remarks>
     /// The computation of the LU factorization is done at construction time.
     /// </remarks>
-    public abstract class LU : LU<float>
+    internal abstract class LU : LU<float>
     {
         protected LU(Matrix<float> factors, int[] pivots)
             : base(factors, pivots)

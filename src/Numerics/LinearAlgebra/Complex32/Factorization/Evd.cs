@@ -56,7 +56,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
     /// conditioned, or even singular, so the validity of the equation
     /// A = V*D*Inverse(V) depends upon V.Condition().
     /// </remarks>
-    public abstract class Evd : Evd<Complex32>
+    internal abstract class Evd : Evd<Complex32>
     {
         protected Evd(Matrix<Complex32> eigenVectors, Vector<Complex> eigenValues, Matrix<Complex32> blockDiagonal, bool isSymmetric)
             : base(eigenVectors, eigenValues, blockDiagonal, isSymmetric)

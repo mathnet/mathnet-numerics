@@ -54,7 +54,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
     /// conditioned, or even singular, so the validity of the equation
     /// A = V*D*Inverse(V) depends upon V.Condition().
     /// </remarks>
-    public sealed class UserEvd : Evd
+    internal sealed class UserEvd : Evd
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="UserEvd"/> class. This object will compute the

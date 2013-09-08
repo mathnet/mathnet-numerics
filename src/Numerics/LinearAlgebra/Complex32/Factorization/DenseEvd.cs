@@ -56,7 +56,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
     /// conditioned, or even singular, so the validity of the equation
     /// A = V*D*Inverse(V) depends upon V.Condition().
     /// </remarks>
-    public sealed class DenseEvd : Evd
+    internal sealed class DenseEvd : Evd
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="DenseEvd"/> class. This object will compute the

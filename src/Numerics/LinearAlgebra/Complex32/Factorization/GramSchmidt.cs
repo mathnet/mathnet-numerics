@@ -43,7 +43,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
     /// <remarks>
     /// The computation of the QR decomposition is done at construction time by modified Gram-Schmidt Orthogonalization.
     /// </remarks>
-    public abstract class GramSchmidt : GramSchmidt<Complex32>
+    internal abstract class GramSchmidt : GramSchmidt<Complex32>
     {
         protected GramSchmidt(Matrix<Complex32> q, Matrix<Complex32> rFull)
             : base(q, rFull)

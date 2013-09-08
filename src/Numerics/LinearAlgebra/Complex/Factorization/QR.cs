@@ -39,7 +39,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
     using Complex = Numerics.Complex;
 #else
     using Complex = System.Numerics.Complex;
-
 #endif
 
     /// <summary>
@@ -54,7 +53,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
     /// and the R matrix is an m x n matrix. If a <seealso cref="QRMethod.Thin"/> factorization is performed, the 
     /// resulting Q matrix is an m x n matrix and the R matrix is an n x n matrix.     
     /// </remarks>
-    public abstract class QR : QR<Complex>
+    internal abstract class QR : QR<Complex>
     {
         protected QR(Matrix<Complex> q, Matrix<Complex> rFull, QRMethod method)
             : base(q, rFull, method)

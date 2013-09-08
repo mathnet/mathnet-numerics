@@ -51,7 +51,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
     /// <remarks>
     /// The computation of the singular value decomposition is done at construction time.
     /// </remarks>
-    public abstract class Svd : Svd<Complex32>
+    internal abstract class Svd : Svd<Complex32>
     {
         protected Svd(Vector<Complex32> s, Matrix<Complex32> u, Matrix<Complex32> vt, bool vectorsComputed)
             : base(s, u, vt, vectorsComputed)

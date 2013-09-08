@@ -32,11 +32,11 @@ using MathNet.Numerics.LinearAlgebra.Factorization;
 
 namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
 {
+
 #if NOSYSNUMERICS
     using Complex = Numerics.Complex;
 #else
     using Complex = System.Numerics.Complex;
-
 #endif
 
     /// <summary>
@@ -48,7 +48,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
     /// The computation of the Cholesky factorization is done at construction time. If the matrix is not symmetric
     /// or positive definite, the constructor will throw an exception.
     /// </remarks>
-    public abstract class Cholesky : Cholesky<Complex>
+    internal abstract class Cholesky : Cholesky<Complex>
     {
         protected Cholesky(Matrix<Complex> factor)
             : base(factor)

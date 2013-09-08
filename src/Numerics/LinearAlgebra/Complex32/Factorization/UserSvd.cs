@@ -49,7 +49,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
     /// <remarks>
     /// The computation of the singular value decomposition is done at construction time.
     /// </remarks>
-    public sealed class UserSvd : Svd
+    internal sealed class UserSvd : Svd
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="UserSvd"/> class. This object will compute the

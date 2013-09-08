@@ -38,7 +38,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
     using Numerics;
 #else
     using System.Numerics;
-
 #endif
 
     /// <summary>
@@ -55,7 +54,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
     /// <remarks>
     /// The computation of the singular value decomposition is done at construction time.
     /// </remarks>
-    public sealed class UserSvd : Svd
+    internal sealed class UserSvd : Svd
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="UserSvd"/> class. This object will compute the

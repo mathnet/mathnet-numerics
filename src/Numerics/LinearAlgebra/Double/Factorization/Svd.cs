@@ -49,7 +49,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
     /// <remarks>
     /// The computation of the singular value decomposition is done at construction time.
     /// </remarks>
-    public abstract class Svd : Svd<double>
+    internal abstract class Svd : Svd<double>
     {
         protected Svd(Vector<double> s, Matrix<double> u, Matrix<double> vt, bool vectorsComputed)
             : base(s, u, vt, vectorsComputed)

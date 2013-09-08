@@ -32,7 +32,8 @@ using MathNet.Numerics.LinearAlgebra.Factorization;
 
 namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
 {
-    #if NOSYSNUMERICS
+
+#if NOSYSNUMERICS
     using Complex = Numerics.Complex;
 #else
     using Complex = System.Numerics.Complex;
@@ -48,7 +49,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
     /// <remarks>
     /// The computation of the LU factorization is done at construction time.
     /// </remarks>
-    public abstract class LU : LU<Complex>
+    internal abstract class LU : LU<Complex>
     {
         protected LU(Matrix<Complex> factors, int[] pivots)
             : base(factors, pivots)

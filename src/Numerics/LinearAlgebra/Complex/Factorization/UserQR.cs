@@ -41,7 +41,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
     using Numerics;
 #else
     using System.Numerics;
-
 #endif
 
     /// <summary>
@@ -53,7 +52,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
     /// <remarks>
     /// The computation of the QR decomposition is done at construction time by Householder transformation.
     /// </remarks>
-    public sealed class UserQR : QR
+    internal sealed class UserQR : QR
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="UserQR"/> class. This object will compute the

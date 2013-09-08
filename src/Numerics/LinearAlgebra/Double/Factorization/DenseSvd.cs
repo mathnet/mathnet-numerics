@@ -47,7 +47,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
     /// <remarks>
     /// The computation of the singular value decomposition is done at construction time.
     /// </remarks>
-    public sealed class DenseSvd : Svd
+    internal sealed class DenseSvd : Svd
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="DenseSvd"/> class. This object will compute the

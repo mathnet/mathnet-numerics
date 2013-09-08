@@ -38,7 +38,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
     using Numerics;
 #else
     using System.Numerics;
-
 #endif
 
     /// <summary>
@@ -49,7 +48,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
     /// <remarks>
     /// The computation of the LU factorization is done at construction time.
     /// </remarks>
-    public sealed class DenseLU : LU
+    internal sealed class DenseLU : LU
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="DenseLU"/> class. This object will compute the

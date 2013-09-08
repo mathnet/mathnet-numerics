@@ -39,7 +39,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
     using Numerics;
 #else
     using System.Numerics;
-
 #endif
 
     /// <summary>
@@ -51,7 +50,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
     /// The computation of the Cholesky factorization is done at construction time. If the matrix is not symmetric
     /// or positive definite, the constructor will throw an exception.
     /// </remarks>
-    public sealed class UserCholesky : Cholesky
+    internal sealed class UserCholesky : Cholesky
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="UserCholesky"/> class. This object will compute the

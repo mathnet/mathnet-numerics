@@ -43,7 +43,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
     /// The computation of the Cholesky factorization is done at construction time. If the matrix is not symmetric
     /// or positive definite, the constructor will throw an exception.
     /// </remarks>
-    public abstract class Cholesky : Cholesky<float>
+    internal abstract class Cholesky : Cholesky<float>
     {
         protected Cholesky(Matrix<float> factor)
             : base(factor)

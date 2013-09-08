@@ -43,7 +43,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
     /// The computation of the Cholesky factorization is done at construction time. If the matrix is not symmetric
     /// or positive definite, the constructor will throw an exception.
     /// </remarks>
-    public abstract class Cholesky : Cholesky<double>
+    internal abstract class Cholesky : Cholesky<double>
     {
         protected Cholesky(Matrix<double> factor)
             : base(factor)

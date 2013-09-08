@@ -46,7 +46,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
     /// and the R matrix is an m x n matrix. If a <seealso cref="QRMethod.Thin"/> factorization is performed, the 
     /// resulting Q matrix is an m x n matrix and the R matrix is an n x n matrix.     
     /// </remarks>
-    public abstract class QR : QR<double>
+    internal abstract class QR : QR<double>
     {
         protected QR(Matrix<double> q, Matrix<double> rFull, QRMethod method)
             : base(q, rFull, method)
