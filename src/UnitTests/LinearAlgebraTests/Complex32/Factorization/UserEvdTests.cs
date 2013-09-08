@@ -24,12 +24,11 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using NUnit.Framework;
+
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
 {
-    using System;
     using System.Numerics;
-    using LinearAlgebra.Complex32.Factorization;
-    using NUnit.Framework;
     using Complex32 = Numerics.Complex32;
 
     /// <summary>
@@ -37,15 +36,6 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
     /// </summary>
     public class UserEvdTests
     {
-        /// <summary>
-        /// Constructor <c>null</c> throws <c>ArgumentNullException</c>.
-        /// </summary>
-        [Test]
-        public void ConstructorNull()
-        {
-            Assert.Throws<ArgumentNullException>(() => new UserEvd(null));
-        }
-
         /// <summary>
         /// Can factorize identity matrix.
         /// </summary>

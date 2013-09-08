@@ -24,13 +24,12 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using MathNet.Numerics.LinearAlgebra.Complex32;
+using NUnit.Framework;
+
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
 {
-    using System;
     using System.Numerics;
-    using LinearAlgebra.Complex32;
-    using LinearAlgebra.Complex32.Factorization;
-    using NUnit.Framework;
     using Complex32 = Numerics.Complex32;
 
     /// <summary>
@@ -38,15 +37,6 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
     /// </summary>
     public class EvdTests
     {
-        /// <summary>
-        /// Constructor <c>null</c> throws <c>ArgumentNullException</c>.
-        /// </summary>
-        [Test]
-        public void ConstructorNullThrowsArgumentNullException()
-        {
-            Assert.Throws<ArgumentNullException>(() => new DenseEvd(null));
-        }
-
         /// <summary>
         /// Can factorize identity matrix.
         /// </summary>

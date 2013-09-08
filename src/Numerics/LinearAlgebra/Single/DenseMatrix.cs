@@ -1062,7 +1062,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
 
         public override Evd<float> Evd()
         {
-            return new DenseEvd(this);
+            return DenseEvd.Create(this);
         }
     }
 }

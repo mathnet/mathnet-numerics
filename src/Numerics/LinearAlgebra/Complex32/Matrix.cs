@@ -480,7 +480,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
 
         public override Evd<Complex32> Evd()
         {
-            return new UserEvd(this);
+            return UserEvd.Create(this);
         }
     }
 }

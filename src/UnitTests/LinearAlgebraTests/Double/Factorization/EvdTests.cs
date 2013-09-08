@@ -24,28 +24,18 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using MathNet.Numerics.LinearAlgebra.Double;
+using NUnit.Framework;
+
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
 {
-    using System;
     using System.Numerics;
-    using LinearAlgebra.Double;
-    using LinearAlgebra.Double.Factorization;
-    using NUnit.Framework;
 
     /// <summary>
     /// Eigenvalues factorization tests for a dense matrix.
     /// </summary>
     public class EvdTests
     {
-        /// <summary>
-        /// Constructor <c>null</c> throws <c>ArgumentNullException</c>.
-        /// </summary>
-        [Test]
-        public void ConstructorNullThrowsArgumentNullException()
-        {
-            Assert.Throws<ArgumentNullException>(() => new DenseEvd(null));
-        }
-
         /// <summary>
         /// Can factorize identity matrix.
         /// </summary>

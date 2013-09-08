@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2010 Math.NET
+// Copyright (c) 2009-2013 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -57,10 +57,18 @@ namespace MathNet.Numerics.LinearAlgebra.Factorization
     public abstract class Evd<T> : ISolver<T>
     where T : struct, IEquatable<T>, IFormattable
     {
+        protected Evd(Matrix<T> eigenVectors, Vector<Complex> eigenValues, Matrix<T> blockDiagonal, bool isSymmetric)
+        {
+            EigenVectors = eigenVectors;
+            EigenValues = eigenValues;
+            D = blockDiagonal;
+            IsSymmetric = isSymmetric;
+        }
+
         /// <summary>
         /// Gets or sets a value indicating whether matrix is symmetric or not
         /// </summary>
-        public bool IsSymmetric { get; protected set; }
+        public bool IsSymmetric { get; private set; }
 
         /// <summary>
         /// Gets the absolute value of determinant of the square matrix for which the EVD was computed.
@@ -82,17 +90,17 @@ namespace MathNet.Numerics.LinearAlgebra.Factorization
         /// <summary>
         /// Gets or sets the eigen values (λ) of matrix in ascending value.
         /// </summary>
-        public Vector<Complex> EigenValues { get; protected set; }
+        public Vector<Complex> EigenValues { get; private set; }
         
         /// <summary>
         /// Gets or sets eigenvectors.
         /// </summary>
-        public Matrix<T> EigenVectors { get; protected set; }
+        public Matrix<T> EigenVectors { get; private set; }
 
         /// <summary>
         /// Gets or sets the block diagonal eigenvalue matrix.
         /// </summary>
-        public Matrix<T> D { get; protected set; }
+        public Matrix<T> D { get; private set; }
 
         /// <summary>
         /// Solves a system of linear equations, <b>AX = B</b>, with A SVD factorized.
@@ -101,12 +109,6 @@ namespace MathNet.Numerics.LinearAlgebra.Factorization
         /// <returns>The left hand side <see cref="Matrix{T}"/>, <b>X</b>.</returns>
         public virtual Matrix<T> Solve(Matrix<T> input)
         {
-            // Check for proper arguments.
-            if (input == null)
-            {
-                throw new ArgumentNullException("input");
-            }
-
             var result = EigenVectors.CreateMatrix(EigenVectors.ColumnCount, input.ColumnCount);
             Solve(input, result);
             return result;
@@ -126,12 +128,6 @@ namespace MathNet.Numerics.LinearAlgebra.Factorization
         /// <returns>The left hand side <see cref="Vector{T}"/>, <b>x</b>.</returns>
         public virtual Vector<T> Solve(Vector<T> input)
         {
-            // Check for proper arguments.
-            if (input == null)
-            {
-                throw new ArgumentNullException("input");
-            }
-
             var x = EigenVectors.CreateVector(EigenVectors.ColumnCount);
             Solve(input, x);
             return x;

@@ -486,7 +486,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
 
         public override Evd<float> Evd()
         {
-            return new UserEvd(this);
+            return UserEvd.Create(this);
         }
     }
 }

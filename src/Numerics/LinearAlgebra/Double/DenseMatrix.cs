@@ -1062,7 +1062,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
         public override Evd<double> Evd()
         {
-            return new DenseEvd(this);
+            return DenseEvd.Create(this);
         }
     }
 }

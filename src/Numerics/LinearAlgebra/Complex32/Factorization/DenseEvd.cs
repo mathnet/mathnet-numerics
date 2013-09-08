@@ -28,11 +28,19 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using MathNet.Numerics.Properties;
 using System;
+using MathNet.Numerics.Properties;
 
 namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
 {
+    using Numerics;
+
+#if NOSYSNUMERICS
+    using Complex = Numerics.Complex;
+#else
+    using Complex = System.Numerics.Complex;
+#endif
+
     /// <summary>
     /// Eigenvalues and eigenvectors of a complex matrix.
     /// </summary>
@@ -48,7 +56,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
     /// conditioned, or even singular, so the validity of the equation
     /// A = V*D*Inverse(V) depends upon V.Condition().
     /// </remarks>
-    public class DenseEvd : Evd
+    public sealed class DenseEvd : Evd
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="DenseEvd"/> class. This object will compute the
@@ -57,13 +65,8 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
         /// <param name="matrix">The matrix to factor.</param>
         /// <exception cref="ArgumentNullException">If <paramref name="matrix"/> is <c>null</c>.</exception>
         /// <exception cref="ArgumentException">If EVD algorithm failed to converge with matrix <paramref name="matrix"/>.</exception>
-        public DenseEvd(DenseMatrix matrix)
+        public static DenseEvd Create(DenseMatrix matrix)
         {
-            if (matrix == null)
-            {
-                throw new ArgumentNullException("matrix");
-            }
-
             if (matrix.RowCount != matrix.ColumnCount)
             {
                 throw new ArgumentException(Resources.ArgumentMatrixSquare);
@@ -72,22 +75,28 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
             var order = matrix.RowCount;
 
             // Initialize matrices for eigenvalues and eigenvectors
-            EigenVectors = DenseMatrix.Identity(order);
-            D = matrix.CreateMatrix(order, order);
-            EigenValues = new Complex.DenseVector(order);
+            var eigenVectors = DenseMatrix.Identity(order);
+            var blockDiagonal = new DenseMatrix(order);
+            var eigenValues = new LinearAlgebra.Complex.DenseVector(order);
 
-            IsSymmetric = true;
+            var isSymmetric = true;
 
-            for (var i = 0; IsSymmetric && i < order; i++)
+            for (var i = 0; isSymmetric && i < order; i++)
             {
-                for (var j = 0; IsSymmetric && j < order; j++)
+                for (var j = 0; isSymmetric && j < order; j++)
                 {
-                    IsSymmetric &= matrix.At(i, j) == matrix.At(j, i).Conjugate();
+                    isSymmetric &= matrix.At(i, j) == matrix.At(j, i).Conjugate();
                 }
             }
 
-            Control.LinearAlgebraProvider.EigenDecomp(IsSymmetric, order, matrix.Values, ((DenseMatrix) EigenVectors).Values,
-                ((Complex.DenseVector)EigenValues).Values, ((DenseMatrix)D).Values);
+            Control.LinearAlgebraProvider.EigenDecomp(isSymmetric, order, matrix.Values, eigenVectors.Values, eigenValues.Values, blockDiagonal.Values);
+
+            return new DenseEvd(eigenVectors, eigenValues, blockDiagonal, isSymmetric);
+        }
+
+        DenseEvd(Matrix<Complex32> eigenVectors, Vector<Complex> eigenValues, Matrix<Complex32> blockDiagonal, bool isSymmetric)
+            : base(eigenVectors, eigenValues, blockDiagonal, isSymmetric)
+        {
         }
 
         /// <summary>
@@ -815,17 +824,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
         /// <param name="result">The left hand side <see cref="Matrix{T}"/>, <b>X</b>.</param>
         public override void Solve(Matrix<Numerics.Complex32> input, Matrix<Numerics.Complex32> result)
         {
-            // Check for proper arguments.
-            if (input == null)
-            {
-                throw new ArgumentNullException("input");
-            }
-
-            if (result == null)
-            {
-                throw new ArgumentNullException("result");
-            }
-
             // The solution X should have the same number of columns as B
             if (input.ColumnCount != result.ColumnCount)
             {
@@ -861,7 +859,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
                                 value += ((DenseMatrix) EigenVectors).Values[(j*order) + i].Conjugate()*input.At(i, k);
                             }
 
-                            value /= (float)EigenValues[j].Real;
+                            value /= (float) EigenValues[j].Real;
                         }
 
                         tmp[j] = value;
@@ -892,16 +890,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
         /// <param name="result">The left hand side <see cref="Matrix{T}"/>, <b>x</b>.</param>
         public override void Solve(Vector<Numerics.Complex32> input, Vector<Numerics.Complex32> result)
         {
-            if (input == null)
-            {
-                throw new ArgumentNullException("input");
-            }
-
-            if (result == null)
-            {
-                throw new ArgumentNullException("result");
-            }
-
             // Ax=b where A is an m x m matrix
             // Check that b is a column vector with m entries
             if (EigenValues.Count != input.Count)
@@ -932,7 +920,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
                             value += ((DenseMatrix) EigenVectors).Values[(j*order) + i].Conjugate()*input[i];
                         }
 
-                        value /= (float)EigenValues[j].Real;
+                        value /= (float) EigenValues[j].Real;
                     }
 
                     tmp[j] = value;

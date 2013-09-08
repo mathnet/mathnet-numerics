@@ -1036,7 +1036,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
 
         public override Evd<Complex> Evd()
         {
-            return new DenseEvd(this);
+            return DenseEvd.Create(this);
         }
     }
 }

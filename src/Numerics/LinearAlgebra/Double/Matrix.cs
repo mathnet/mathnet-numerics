@@ -486,7 +486,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
         public override Evd<double> Evd()
         {
-            return new UserEvd(this);
+            return UserEvd.Create(this);
         }
     }
 }

@@ -24,27 +24,17 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using NUnit.Framework;
+
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Factorization
 {
-    using System;
     using System.Numerics;
-    using LinearAlgebra.Single.Factorization;
-    using NUnit.Framework;
 
     /// <summary>
     /// Eigenvalues factorization tests for an user matrix.
     /// </summary>
     public class UserEvdTests
     {
-        /// <summary>
-        /// Constructor <c>null</c> throws <c>ArgumentNullException</c>.
-        /// </summary>
-        [Test]
-        public void ConstructorNull()
-        {
-            Assert.Throws<ArgumentNullException>(() => new UserEvd(null));
-        }
-
         /// <summary>
         /// Can factorize identity matrix.
         /// </summary>
