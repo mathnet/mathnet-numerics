@@ -44,9 +44,8 @@ namespace MathNet.Numerics.LinearAlgebra.Factorization
     where T : struct, IEquatable<T>, IFormattable
     {
         protected GramSchmidt(Matrix<T> q, Matrix<T> rFull)
+            : base(q, rFull, QRMethod.Full)
         {
-            Q = q;
-            MatrixR = rFull;
         }
     }
 }

@@ -3,7 +3,9 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
-// Copyright (c) 2009-2010 Math.NET
+//
+// Copyright (c) 2009-2013 Math.NET
+//
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -12,8 +14,10 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
+//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
+//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -58,29 +62,26 @@ namespace MathNet.Numerics.LinearAlgebra.Factorization
     /// </remarks>
     /// <typeparam name="T">Supported data types are double, single, <see cref="Complex"/>, and <see cref="Complex32"/>.</typeparam>
     public abstract class QR<T> : ISolver<T>
-    where T : struct, IEquatable<T>, IFormattable
+        where T : struct, IEquatable<T>, IFormattable
     {
         readonly Lazy<Matrix<T>> _lazyR;
 
-        protected QR()
+        protected readonly Matrix<T> FullR;
+        protected readonly QRMethod Method;
+
+        protected QR(Matrix<T> q, Matrix<T> rFull, QRMethod method)
         {
-            _lazyR = new Lazy<Matrix<T>>(ComputeR);
+            Q = q;
+            FullR = rFull;
+            Method = method;
+
+            _lazyR = new Lazy<Matrix<T>>(FullR.UpperTriangle);
         }
 
         /// <summary>
         /// Gets or sets orthogonal Q matrix
         /// </summary>
-        public Matrix<T> Q { get; protected set; }
-
-        /// <summary>
-        /// Gets or sets upper triangular factor R
-        /// </summary>
-        protected Matrix<T> MatrixR { get; set; }
-
-        /// <summary>
-        /// The QR factorization method.
-        /// </summary>
-        protected QRMethod QrMethod { get; set; }
+        public Matrix<T> Q { get; private set; }
 
         /// <summary>
         /// Gets the upper triangular factor R.
@@ -101,11 +102,6 @@ namespace MathNet.Numerics.LinearAlgebra.Factorization
         /// <value><c>true</c> if the matrix is full rank; otherwise <c>false</c>.</value>
         public abstract bool IsFullRank { get; }
 
-        private Matrix<T> ComputeR()
-        {
-            return MatrixR.UpperTriangle();
-        }
-
         /// <summary>
         /// Solves a system of linear equations, <b>AX = B</b>, with A QR factorized.
         /// </summary>
@@ -113,13 +109,7 @@ namespace MathNet.Numerics.LinearAlgebra.Factorization
         /// <returns>The left hand side <see cref="Matrix{T}"/>, <b>X</b>.</returns>
         public virtual Matrix<T> Solve(Matrix<T> input)
         {
-            // Check for proper arguments.
-            if (input == null)
-            {
-                throw new ArgumentNullException("input");
-            }
-
-            var matrixX = input.CreateMatrix(MatrixR.ColumnCount, input.ColumnCount);
+            var matrixX = input.CreateMatrix(FullR.ColumnCount, input.ColumnCount);
             Solve(input, matrixX);
             return matrixX;
         }
@@ -138,13 +128,7 @@ namespace MathNet.Numerics.LinearAlgebra.Factorization
         /// <returns>The left hand side <see cref="Vector{T}"/>, <b>x</b>.</returns>
         public virtual Vector<T> Solve(Vector<T> input)
         {
-            // Check for proper arguments.
-            if (input == null)
-            {
-                throw new ArgumentNullException("input");
-            }
-
-            var x = input.CreateVector(MatrixR.ColumnCount);
+            var x = input.CreateVector(FullR.ColumnCount);
             Solve(input, x);
             return x;
         }

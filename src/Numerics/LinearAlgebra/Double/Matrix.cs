@@ -471,7 +471,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
         public override QR<double> QR(QRMethod method = QRMethod.Thin)
         {
-            return new UserQR(this, method);
+            return UserQR.Create(this, method);
         }
 
         public override GramSchmidt<double> GramSchmidt()

@@ -147,19 +147,19 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
             {
                 for (var j = 0; j < input.ColumnCount; j++)
                 {
-                    inputCopy.At(k, j, inputCopy.At(k, j) / MatrixR.At(k, k));
+                    inputCopy.At(k, j, inputCopy.At(k, j) / FullR.At(k, k));
                 }
 
                 for (var i = 0; i < k; i++)
                 {
                     for (var j = 0; j < input.ColumnCount; j++)
                     {
-                        inputCopy.At(i, j, inputCopy.At(i, j) - (inputCopy.At(k, j) * MatrixR.At(i, k)));
+                        inputCopy.At(i, j, inputCopy.At(i, j) - (inputCopy.At(k, j) * FullR.At(i, k)));
                     }
                 }
             }
 
-            for (var i = 0; i < MatrixR.ColumnCount; i++)
+            for (var i = 0; i < FullR.ColumnCount; i++)
             {
                 for (var j = 0; j < input.ColumnCount; j++)
                 {
@@ -211,14 +211,14 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
             // Solve R*X = Y;
             for (var k = Q.ColumnCount - 1; k >= 0; k--)
             {
-                inputCopy[k] /= MatrixR.At(k, k);
+                inputCopy[k] /= FullR.At(k, k);
                 for (var i = 0; i < k; i++)
                 {
-                    inputCopy[i] -= inputCopy[k] * MatrixR.At(i, k);
+                    inputCopy[i] -= inputCopy[k] * FullR.At(i, k);
                 }
             }
 
-            for (var i = 0; i < MatrixR.ColumnCount; i++)
+            for (var i = 0; i < FullR.ColumnCount; i++)
             {
                 result[i] = inputCopy[i];
             }

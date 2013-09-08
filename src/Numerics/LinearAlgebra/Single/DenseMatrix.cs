@@ -1047,7 +1047,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
 
         public override QR<float> QR(QRMethod method = QRMethod.Thin)
         {
-            return new DenseQR(this, method);
+            return DenseQR.Create(this, method);
         }
 
         public override GramSchmidt<float> GramSchmidt()

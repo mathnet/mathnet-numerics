@@ -55,16 +55,16 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
         {
             get
             {
-                if (MatrixR.RowCount != MatrixR.ColumnCount)
+                if (FullR.RowCount != FullR.ColumnCount)
                 {
                     throw new ArgumentException(Resources.ArgumentMatrixSquare);
                 }
 
                 var det = 1.0;
-                for (var i = 0; i < MatrixR.ColumnCount; i++)
+                for (var i = 0; i < FullR.ColumnCount; i++)
                 {
-                    det *= MatrixR.At(i, i);
-                    if (Math.Abs(MatrixR.At(i, i)).AlmostEqual(0.0f))
+                    det *= FullR.At(i, i);
+                    if (Math.Abs(FullR.At(i, i)).AlmostEqual(0.0f))
                     {
                         return 0;
                     }
@@ -82,9 +82,9 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
         {
             get
             {
-                for (var i = 0; i < MatrixR.ColumnCount; i++)
+                for (var i = 0; i < FullR.ColumnCount; i++)
                 {
-                    if (Math.Abs(MatrixR.At(i, i)).AlmostEqual(0.0f))
+                    if (Math.Abs(FullR.At(i, i)).AlmostEqual(0.0f))
                     {
                         return false;
                     }

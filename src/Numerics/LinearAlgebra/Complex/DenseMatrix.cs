@@ -1021,7 +1021,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
 
         public override QR<Complex> QR(QRMethod method = QRMethod.Thin)
         {
-            return new DenseQR(this, method);
+            return DenseQR.Create(this, method);
         }
 
         public override GramSchmidt<Complex> GramSchmidt()

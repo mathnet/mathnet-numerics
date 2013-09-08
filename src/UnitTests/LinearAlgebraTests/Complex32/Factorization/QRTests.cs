@@ -24,11 +24,11 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System;
 using MathNet.Numerics.LinearAlgebra.Complex32;
 using MathNet.Numerics.LinearAlgebra.Complex32.Factorization;
 using MathNet.Numerics.LinearAlgebra.Factorization;
 using NUnit.Framework;
-using System;
 
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
 {
@@ -40,21 +40,12 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
     public class QRTests
     {
         /// <summary>
-        /// Constructor with <c>null</c> throws <c>ArgumentNullException</c>.
-        /// </summary>
-        [Test]
-        public void ConstructorNull()
-        {
-            Assert.Throws<ArgumentNullException>(() => new DenseQR(null));
-        }
-
-        /// <summary>
         /// Constructor with wide matrix throws <c>ArgumentException</c>.
         /// </summary>
         [Test]
         public void ConstructorWideMatrixThrowsInvalidMatrixOperationException()
         {
-            Assert.Throws<ArgumentException>(() => new DenseQR(new DenseMatrix(3, 4)));
+            Assert.Throws<ArgumentException>(() => UserQR.Create(new DenseMatrix(3, 4)));
         }
 
         /// <summary>

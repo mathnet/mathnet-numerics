@@ -62,16 +62,16 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
         {
             get
             {
-                if (MatrixR.RowCount != MatrixR.ColumnCount)
+                if (FullR.RowCount != FullR.ColumnCount)
                 {
                     throw new ArgumentException(Resources.ArgumentMatrixSquare);
                 }
 
                 var det = Complex.One;
-                for (var i = 0; i < MatrixR.ColumnCount; i++)
+                for (var i = 0; i < FullR.ColumnCount; i++)
                 {
-                    det *= MatrixR.At(i, i);
-                    if (MatrixR.At(i, i).Magnitude.AlmostEqual(0.0))
+                    det *= FullR.At(i, i);
+                    if (FullR.At(i, i).Magnitude.AlmostEqual(0.0))
                     {
                         return 0;
                     }
@@ -89,9 +89,9 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
         {
             get
             {
-                for (var i = 0; i < MatrixR.ColumnCount; i++)
+                for (var i = 0; i < FullR.ColumnCount; i++)
                 {
-                    if (MatrixR.At(i, i).Magnitude.AlmostEqual(0.0))
+                    if (FullR.At(i, i).Magnitude.AlmostEqual(0.0))
                     {
                         return false;
                     }

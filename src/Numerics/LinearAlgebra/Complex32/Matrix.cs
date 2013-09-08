@@ -465,7 +465,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
 
         public override QR<Complex32> QR(QRMethod method = QRMethod.Thin)
         {
-            return new UserQR(this, method);
+            return UserQR.Create(this, method);
         }
 
         public override GramSchmidt<Complex32> GramSchmidt()
