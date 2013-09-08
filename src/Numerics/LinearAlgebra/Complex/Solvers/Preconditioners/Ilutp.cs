@@ -28,11 +28,13 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System;
+using System.Collections.Generic;
+using MathNet.Numerics.LinearAlgebra.Solvers;
+using MathNet.Numerics.Properties;
+
 namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Preconditioners
 {
-    using System;
-    using System.Collections.Generic;
-    using Properties;
 
 #if NOSYSNUMERICS
     using Complex = Numerics.Complex;
@@ -57,7 +59,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Preconditioners
     /// pp. 20 - 28 <br/>
     /// Algorithm is described in Section 2, page 22
     /// </remarks>
-    public sealed class Ilutp : IPreConditioner
+    public sealed class Ilutp : IPreConditioner<Complex>
     {
         /// <summary>
         /// The default fill level.

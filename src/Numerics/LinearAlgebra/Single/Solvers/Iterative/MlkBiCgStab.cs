@@ -79,7 +79,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Iterative
         /// The preconditioner that will be used. Can be set to <see langword="null" />, in which case the default
         /// pre-conditioner will be used.
         /// </summary>
-        private IPreConditioner _preconditioner;
+        private IPreConditioner<float> _preconditioner;
 
         /// <summary>
         /// The iterative process controller.
@@ -144,7 +144,8 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Iterative
         /// the standard settings.
         /// </remarks>
         /// <param name="preconditioner">The <see cref="IPreConditioner"/> that will be used to precondition the matrix equation.</param>
-        public MlkBiCgStab(IPreConditioner preconditioner) : this(preconditioner, null)
+        public MlkBiCgStab(IPreConditioner<float> preconditioner)
+            : this(preconditioner, null)
         {
         }
 
@@ -165,7 +166,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Iterative
         /// </remarks>
         /// <param name="preconditioner">The <see cref="IPreConditioner"/> that will be used to precondition the matrix equation.</param>
         /// <param name="iterator">The <see cref="IIterator{T}"/> that will be used to monitor the iterative process.</param>
-        public MlkBiCgStab(IPreConditioner preconditioner, IIterator<float> iterator)
+        public MlkBiCgStab(IPreConditioner<float> preconditioner, IIterator<float> iterator)
         {
             _iterator = iterator;
             _preconditioner = preconditioner;
@@ -210,7 +211,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Iterative
         /// Sets the <see cref="IPreConditioner"/> that will be used to precondition the iterative process.
         /// </summary>
         /// <param name="preconditioner">The preconditioner.</param>
-        public void SetPreconditioner(IPreConditioner preconditioner)
+        public void SetPreconditioner(IPreConditioner<float> preconditioner)
         {
             _preconditioner = preconditioner;
         }

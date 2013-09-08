@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2010 Math.NET
+// Copyright (c) 2009-2013 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -39,7 +39,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.Preconditioners
     /// it is only used when running an <see cref="IIterativeSolver{T}"/> without
     /// a preconditioner.
     /// </summary>
-    internal sealed class UnitPreconditioner : IPreConditioner
+    internal sealed class UnitPreconditioner : IPreConditioner<double>
     {
         /// <summary>
         /// The coefficient matrix on which this preconditioner operates.

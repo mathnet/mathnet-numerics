@@ -28,10 +28,12 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System;
+using MathNet.Numerics.LinearAlgebra.Solvers;
+using MathNet.Numerics.Properties;
+
 namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Preconditioners
 {
-    using System;
-    using Properties;
 
 #if NOSYSNUMERICS
     using Complex = Numerics.Complex;
@@ -43,7 +45,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Preconditioners
     /// A diagonal preconditioner. The preconditioner uses the inverse
     /// of the matrix diagonal as preconditioning values.
     /// </summary>
-    public sealed class Diagonal : IPreConditioner
+    public sealed class Diagonal : IPreConditioner<Complex>
     {
         /// <summary>
         /// The inverse of the matrix diagonal.

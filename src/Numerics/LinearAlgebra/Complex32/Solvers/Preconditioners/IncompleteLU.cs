@@ -28,11 +28,13 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System;
+using MathNet.Numerics.LinearAlgebra.Solvers;
+using MathNet.Numerics.Properties;
+
 namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Preconditioners
 {
-    using System;
     using Numerics;
-    using Properties;
 
     /// <summary>
     /// An incomplete, level 0, LU factorization preconditioner.
@@ -43,7 +45,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Preconditioners
     /// Yousef Saad <br/>
     /// Algorithm is described in Chapter 10, section 10.3.2, page 275 <br/>
     /// </remarks>
-    public sealed class IncompleteLU : IPreConditioner
+    public sealed class IncompleteLU : IPreConditioner<Complex32>
     {
         /// <summary>
         /// The matrix holding the lower (L) and upper (U) matrices. The

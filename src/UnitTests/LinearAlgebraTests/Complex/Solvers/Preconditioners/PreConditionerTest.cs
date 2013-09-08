@@ -27,7 +27,7 @@
 using System;
 using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Complex;
-using MathNet.Numerics.LinearAlgebra.Complex.Solvers.Preconditioners;
+using MathNet.Numerics.LinearAlgebra.Solvers;
 using NUnit.Framework;
 
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.Preconditioners
@@ -85,7 +85,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.Precondi
         /// Create preconditioner.
         /// </summary>
         /// <returns>New preconditioner instance.</returns>
-        internal abstract IPreConditioner CreatePreconditioner();
+        internal abstract IPreConditioner<Complex> CreatePreconditioner();
 
         /// <summary>
         /// Check the result.
@@ -94,7 +94,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.Precondi
         /// <param name="matrix">Source matrix.</param>
         /// <param name="vector">Initial vector.</param>
         /// <param name="result">Result vector.</param>
-        protected abstract void CheckResult(IPreConditioner preconditioner, SparseMatrix matrix, Vector<Complex> vector, Vector<Complex> result);
+        protected abstract void CheckResult(IPreConditioner<Complex> preconditioner, SparseMatrix matrix, Vector<Complex> vector, Vector<Complex> result);
 
         /// <summary>
         /// Approximate with a unit matrix returning new vector.

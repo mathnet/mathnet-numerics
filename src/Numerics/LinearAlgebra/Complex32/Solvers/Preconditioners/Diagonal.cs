@@ -28,17 +28,19 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System;
+using MathNet.Numerics.LinearAlgebra.Solvers;
+using MathNet.Numerics.Properties;
+
 namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Preconditioners
 {
-    using System;
     using Numerics;
-    using Properties;
 
     /// <summary>
     /// A diagonal preconditioner. The preconditioner uses the inverse
     /// of the matrix diagonal as preconditioning values.
     /// </summary>
-    public sealed class Diagonal : IPreConditioner
+    public sealed class Diagonal : IPreConditioner<Complex32>
     {
         /// <summary>
         /// The inverse of the matrix diagonal.

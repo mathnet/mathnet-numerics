@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2010 Math.NET
+// Copyright (c) 2009-2013 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -28,12 +28,13 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System;
+using System.Collections.Generic;
+using MathNet.Numerics.LinearAlgebra.Solvers;
+using MathNet.Numerics.Properties;
+
 namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.Preconditioners
 {
-    using System;
-    using System.Collections.Generic;
-    using Properties;
-
     /// <summary>
     /// This class performs an Incomplete LU factorization with drop tolerance
     /// and partial pivoting. The drop tolerance indicates which additional entries
@@ -51,7 +52,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.Preconditioners
     /// pp. 20 - 28 <br/>
     /// Algorithm is described in Section 2, page 22
     /// </remarks>
-    public sealed class Ilutp : IPreConditioner
+    public sealed class Ilutp : IPreConditioner<double>
     {
         /// <summary>
         /// The default fill level.

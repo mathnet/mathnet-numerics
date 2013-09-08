@@ -41,7 +41,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Preconditioners
     /// it is only used when running an <see cref="IIterativeSolver{T}"/> without
     /// a preconditioner.
     /// </summary>
-    internal sealed class UnitPreconditioner : IPreConditioner
+    internal sealed class UnitPreconditioner : IPreConditioner<Complex32>
     {
         /// <summary>
         /// The coefficient matrix on which this preconditioner operates.

@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2010 Math.NET
+// Copyright (c) 2009-2013 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -28,11 +28,12 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System;
+using MathNet.Numerics.LinearAlgebra.Solvers;
+using MathNet.Numerics.Properties;
+
 namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.Preconditioners
 {
-    using System;
-    using Properties;
-
     /// <summary>
     /// An incomplete, level 0, LU factorization preconditioner.
     /// </summary>
@@ -42,7 +43,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.Preconditioners
     /// Yousef Saad <br/>
     /// Algorithm is described in Chapter 10, section 10.3.2, page 275 <br/>
     /// </remarks>
-    public sealed class IncompleteLU : IPreConditioner
+    public sealed class IncompleteLU : IPreConditioner<double>
     {
         /// <summary>
         /// The matrix holding the lower (L) and upper (U) matrices. The

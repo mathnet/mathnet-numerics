@@ -28,12 +28,14 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System;
+using System.Collections.Generic;
+using MathNet.Numerics.LinearAlgebra.Solvers;
+using MathNet.Numerics.Properties;
+
 namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Preconditioners
 {
-    using System;
-    using System.Collections.Generic;
     using Numerics;
-    using Properties;
 
     /// <summary>
     /// This class performs an Incomplete LU factorization with drop tolerance
@@ -52,7 +54,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Preconditioners
     /// pp. 20 - 28 <br/>
     /// Algorithm is described in Section 2, page 22
     /// </remarks>
-    public sealed class Ilutp : IPreConditioner
+    public sealed class Ilutp : IPreConditioner<Complex32>
     {
         /// <summary>
         /// The default fill level.

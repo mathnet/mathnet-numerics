@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2010 Math.NET
+// Copyright (c) 2009-2013 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -28,7 +28,9 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Preconditioners
+using System;
+
+namespace MathNet.Numerics.LinearAlgebra.Solvers
 {
     /// <summary>
     /// The base interface for preconditioner classes.
@@ -48,26 +50,26 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Preconditioners
     /// if the changes occur after creating the preconditioner.
     /// </para>
     /// </remarks>
-    public interface IPreConditioner
+    public interface IPreConditioner<T> where T : struct, IEquatable<T>, IFormattable
     {
         /// <summary>
         /// Initializes the preconditioner and loads the internal data structures.
         /// </summary>
         /// <param name="matrix">The matrix on which the preconditioner is based.</param>
-        void Initialize(Matrix<float> matrix);
+        void Initialize(Matrix<T> matrix);
 
         /// <summary>
         /// Approximates the solution to the matrix equation <b>Mx = b</b>.
         /// </summary>
         /// <param name="rhs">The right hand side vector.</param>
         /// <returns>The left hand side vector.</returns>
-        Vector<float> Approximate(Vector<float> rhs);
+        Vector<T> Approximate(Vector<T> rhs);
 
         /// <summary>
         /// Approximates the solution to the matrix equation <b>Mx = b</b>.
         /// </summary>
         /// <param name="rhs">The right hand side vector.</param>
         /// <param name="lhs">The left hand side vector. Also known as the result vector.</param>
-        void Approximate(Vector<float> rhs, Vector<float> lhs);
+        void Approximate(Vector<T> rhs, Vector<T> lhs);
     }
 }
