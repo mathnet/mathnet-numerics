@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2010 Math.NET
+// Copyright (c) 2009-2013 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -28,11 +28,12 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System;
+using MathNet.Numerics.Properties;
+
 namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
 {
-    using System;
     using Numerics;
-    using Properties;
 
     /// <summary>
     /// <para>A class which encapsulates the functionality of a Cholesky factorization for dense matrices.</para>
@@ -43,7 +44,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
     /// The computation of the Cholesky factorization is done at construction time. If the matrix is not symmetric
     /// or positive definite, the constructor will throw an exception.
     /// </remarks>
-    public class DenseCholesky : Cholesky
+    public sealed class DenseCholesky : Cholesky
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="DenseCholesky"/> class. This object will compute the
@@ -53,22 +54,22 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
         /// <exception cref="ArgumentNullException">If <paramref name="matrix"/> is <c>null</c>.</exception>
         /// <exception cref="ArgumentException">If <paramref name="matrix"/> is not a square matrix.</exception>
         /// <exception cref="ArgumentException">If <paramref name="matrix"/> is not positive definite.</exception>
-        public DenseCholesky(DenseMatrix matrix)
+        public static DenseCholesky Create(DenseMatrix matrix)
         {
-            if (matrix == null)
-            {
-                throw new ArgumentNullException("matrix");
-            }
-
             if (matrix.RowCount != matrix.ColumnCount)
             {
                 throw new ArgumentException(Resources.ArgumentMatrixSquare);
             }
 
             // Create a new matrix for the Cholesky factor, then perform factorization (while overwriting).
-            var factor = (DenseMatrix)matrix.Clone();
+            var factor = (DenseMatrix) matrix.Clone();
             Control.LinearAlgebraProvider.CholeskyFactor(factor.Values, factor.RowCount);
-            Factor = factor;
+            return new DenseCholesky(factor);
+        }
+
+        DenseCholesky(Matrix<Complex32> factor)
+            : base(factor)
+        {
         }
 
         /// <summary>
@@ -78,18 +79,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
         /// <param name="result">The left hand side <see cref="Matrix{T}"/>, <b>X</b>.</param>
         public override void Solve(Matrix<Complex32> input, Matrix<Complex32> result)
         {
-            // Check for proper arguments.
-            if (input == null)
-            {
-                throw new ArgumentNullException("input");
-            }
-
-            if (result == null)
-            {
-                throw new ArgumentNullException("result");
-            }
-
-            // Check for proper dimensions.
             if (result.RowCount != input.RowCount)
             {
                 throw new ArgumentException(Resources.ArgumentMatrixSameRowDimension);
@@ -121,7 +110,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
             Array.Copy(dinput.Values, dresult.Values, dinput.Values.Length);
 
             // Cholesky solve by overwriting result.
-            var dfactor = (DenseMatrix)Factor;
+            var dfactor = (DenseMatrix) Factor;
             Control.LinearAlgebraProvider.CholeskySolveFactored(dfactor.Values, dfactor.RowCount, dresult.Values, dresult.ColumnCount);
         }
 
@@ -132,18 +121,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
         /// <param name="result">The left hand side <see cref="Matrix{T}"/>, <b>x</b>.</param>
         public override void Solve(Vector<Complex32> input, Vector<Complex32> result)
         {
-            // Check for proper arguments.
-            if (input == null)
-            {
-                throw new ArgumentNullException("input");
-            }
-
-            if (result == null)
-            {
-                throw new ArgumentNullException("result");
-            }
-
-            // Check for proper dimensions.
             if (input.Count != result.Count)
             {
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength);
@@ -170,7 +147,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
             Array.Copy(dinput.Values, dresult.Values, dinput.Values.Length);
 
             // Cholesky solve by overwriting result.
-            var dfactor = (DenseMatrix)Factor;
+            var dfactor = (DenseMatrix) Factor;
             Control.LinearAlgebraProvider.CholeskySolveFactored(dfactor.Values, dfactor.RowCount, dresult.Values, 1);
         }
     }

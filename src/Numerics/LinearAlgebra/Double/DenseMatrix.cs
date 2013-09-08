@@ -1037,7 +1037,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
         public override Cholesky<double> Cholesky()
         {
-            return new DenseCholesky(this);
+            return DenseCholesky.Create(this);
         }
 
         public override LU<double> LU()

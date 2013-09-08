@@ -1037,7 +1037,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
 
         public override Cholesky<float> Cholesky()
         {
-            return new DenseCholesky(this);
+            return DenseCholesky.Create(this);
         }
 
         public override LU<float> LU()

@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2010 Math.NET
+// Copyright (c) 2009-2013 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -43,12 +43,17 @@ namespace MathNet.Numerics.LinearAlgebra.Factorization
     /// </remarks>
     /// <typeparam name="T">Supported data types are double, single, <see cref="Complex"/>, and <see cref="Complex32"/>.</typeparam>
     public abstract class Cholesky<T> : ISolver<T>
-    where T : struct, IEquatable<T>, IFormattable
+        where T : struct, IEquatable<T>, IFormattable
     {
+        protected Cholesky(Matrix<T> factor)
+        {
+            Factor = factor;
+        }
+
         /// <summary>
         /// Gets the lower triangular form of the Cholesky matrix.
         /// </summary>
-        public Matrix<T> Factor { get; protected set; }
+        public Matrix<T> Factor { get; private set; }
 
         /// <summary>
         /// Gets the determinant of the matrix for which the Cholesky matrix was computed.
@@ -67,12 +72,6 @@ namespace MathNet.Numerics.LinearAlgebra.Factorization
         /// <returns>The left hand side <see cref="Matrix{T}"/>, <b>X</b>.</returns>
         public virtual Matrix<T> Solve(Matrix<T> input)
         {
-            // Check for proper arguments.
-            if (input == null)
-            {
-                throw new ArgumentNullException("input");
-            }
-
             var x = input.CreateMatrix(input.RowCount, input.ColumnCount);
             Solve(input, x);
             return x;
@@ -92,12 +91,6 @@ namespace MathNet.Numerics.LinearAlgebra.Factorization
         /// <returns>The left hand side <see cref="Vector{T}"/>, <b>x</b>.</returns>
         public virtual Vector<T> Solve(Vector<T> input)
         {
-            // Check for proper arguments.
-            if (input == null)
-            {
-                throw new ArgumentNullException("input");
-            }
-
             var x = input.CreateVector(input.Count);
             Solve(input, x);
             return x;

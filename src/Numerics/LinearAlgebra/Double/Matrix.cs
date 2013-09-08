@@ -461,7 +461,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
         public override Cholesky<double> Cholesky()
         {
-            return new UserCholesky(this);
+            return UserCholesky.Create(this);
         }
 
         public override LU<double> LU()

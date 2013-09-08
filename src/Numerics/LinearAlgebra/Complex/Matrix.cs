@@ -460,7 +460,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
 
         public override Cholesky<Complex> Cholesky()
         {
-            return new UserCholesky(this);
+            return UserCholesky.Create(this);
         }
 
         public override LU<Complex> LU()
