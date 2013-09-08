@@ -28,8 +28,8 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using MathNet.Numerics.LinearAlgebra.Solvers;
 using MathNet.Numerics.LinearAlgebra.Solvers.Status;
-using MathNet.Numerics.LinearAlgebra.Solvers.StopCriterium;
 using System;
 using System.Diagnostics;
 
@@ -366,7 +366,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.StopCriterium
         /// Gets the <see cref="StopLevel"/> which indicates what sort of stop criterium this
         /// <see cref="IIterationStopCriterium{T}"/> monitors.
         /// </summary>
-        /// <value>Returns <see cref="LinearAlgebra.Solvers.StopCriterium.StopLevel.Divergence"/>.</value>
+        /// <value>Returns <see cref="LinearAlgebra.Solvers.StopLevel.Divergence"/>.</value>
         public StopLevel StopLevel
         {
             [DebuggerStepThrough]

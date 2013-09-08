@@ -124,7 +124,7 @@
     <Compile Include="LinearAlgebra\Builder.cs" />
     <Compile Include="LinearAlgebra\Matrix.Factorization.cs" />
     <Compile Include="LinearAlgebra\Solvers\Iterator.cs" />
-    <Compile Include="LinearAlgebra\Solvers\StopCriterium\IterationCountStopCriterium.cs" />
+    <Compile Include="LinearAlgebra\Solvers\IterationCountStopCriterium.cs" />
     <Compile Include="Providers\LinearAlgebra\Acml\AcmlLinearAlgebraProvider.Complex.cs" />
     <Compile Include="Providers\LinearAlgebra\Acml\AcmlLinearAlgebraProvider.Complex32.cs" />
     <Compile Include="Providers\LinearAlgebra\Acml\AcmlLinearAlgebraProvider.Double.cs" />
@@ -220,7 +220,7 @@
     <Compile Include="LinearAlgebra\Solvers\IIterativeSolverSetup.cs" />
     <Compile Include="LinearAlgebra\Solvers\IIterator.cs" />
     <Compile Include="LinearAlgebra\Solvers\IPreConditioner.cs" />
-    <Compile Include="LinearAlgebra\Solvers\StopCriterium\IIterationStopCriterium.cs" />
+    <Compile Include="LinearAlgebra\Solvers\IIterationStopCriterium.cs" />
     <Compile Include="LinearAlgebra\Double\SparseMatrix.cs" />
     <Compile Include="LinearAlgebra\Double\Vector.cs" />
     <Compile Include="LinearAlgebra\Complex32\DenseVector.cs" />
@@ -360,7 +360,7 @@
     <Compile Include="LinearAlgebra\Double\Solvers\StopCriterium\DivergenceStopCriterium.cs" />
     <Compile Include="LinearAlgebra\Double\Solvers\StopCriterium\FailureStopCriterium.cs" />
     <Compile Include="LinearAlgebra\Double\Solvers\StopCriterium\ResidualStopCriterium.cs" />
-    <Compile Include="LinearAlgebra\Solvers\StopCriterium\StopLevel.cs" />
+    <Compile Include="LinearAlgebra\Solvers\StopLevel.cs" />
     <Compile Include="LinearAlgebra\Double\SparseVector.cs" />
     <Compile Include="LinearAlgebra\Matrix.Arithmetic.cs" />
     <Compile Include="LinearAlgebra\Matrix.cs" />

@@ -28,7 +28,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-namespace MathNet.Numerics.LinearAlgebra.Solvers.StopCriterium
+namespace MathNet.Numerics.LinearAlgebra.Solvers
 {
     /// <summary>
     /// Iteration stop criteria. 

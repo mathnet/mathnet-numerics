@@ -31,7 +31,7 @@
 using System;
 using MathNet.Numerics.LinearAlgebra.Solvers.Status;
 
-namespace MathNet.Numerics.LinearAlgebra.Solvers.StopCriterium
+namespace MathNet.Numerics.LinearAlgebra.Solvers
 {
     /// <summary>
     /// The base interface for classes that provide stop criteria for iterative calculations. 
