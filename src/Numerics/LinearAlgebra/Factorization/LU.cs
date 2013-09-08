@@ -3,7 +3,9 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
-// Copyright (c) 2009-2010 Math.NET
+//
+// Copyright (c) 2009-2013 Math.NET
+//
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -12,8 +14,10 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
+//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
+//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -40,60 +44,59 @@ namespace MathNet.Numerics.LinearAlgebra.Factorization
     /// </remarks>
     /// <typeparam name="T">Supported data types are double, single, <see cref="Complex"/>, and <see cref="Complex32"/>.</typeparam>
     public abstract class LU<T> : ISolver<T>
-    where T : struct, IEquatable<T>, IFormattable
+        where T : struct, IEquatable<T>, IFormattable
     {
-        /// <summary>
-        /// Value of one for T.
-        /// </summary>
-        private static readonly T One = Builder<T>.Instance.One;
+        static readonly T One = Builder<T>.Instance.One;
 
-        /// <summary>
-        /// Gets or sets both the L and U factors in the same matrix.
-        /// </summary>
-        protected Matrix<T> Factors { get; set; }
+        readonly Lazy<Matrix<T>> _lazyL;
+        readonly Lazy<Matrix<T>> _lazyU;
+        readonly Lazy<Permutation> _lazyP;
 
-        /// <summary>
-        /// Gets or sets the pivot indices of the LU factorization.
-        /// </summary>
-        protected int[] Pivots { get; set; }
+        protected readonly Matrix<T> Factors;
+        protected readonly int[] Pivots;
+
+        protected LU(Matrix<T> factors, int[] pivots)
+        {
+            Factors = factors;
+            Pivots = pivots;
+
+            _lazyL = new Lazy<Matrix<T>>(ComputeL);
+            _lazyU = new Lazy<Matrix<T>>(Factors.UpperTriangle);
+            _lazyP = new Lazy<Permutation>(() => Permutation.FromInversions(Pivots));
+        }
+
+        Matrix<T> ComputeL()
+        {
+            var result = Factors.LowerTriangle();
+            for (var i = 0; i < result.RowCount; i++)
+            {
+                result.At(i, i, One);
+            }
+            return result;
+        }
 
         /// <summary>
         /// Gets the lower triangular factor.
         /// </summary>
-        public virtual Matrix<T> L
+        public Matrix<T> L
         {
-            get
-            {
-                var result = Factors.LowerTriangle();
-                for (var i = 0; i < result.RowCount; i++)
-                {
-                    result.At(i, i, One);
-                }
-
-                return result;
-            }
+            get { return _lazyL.Value; }
         }
 
         /// <summary>
         /// Gets the upper triangular factor.
         /// </summary>
-        public virtual Matrix<T> U
+        public Matrix<T> U
         {
-            get
-            {
-                return Factors.UpperTriangle();
-            }
+            get { return _lazyU.Value; }
         }
 
         /// <summary>
         /// Gets the permutation applied to LU factorization.
         /// </summary>
-        public virtual Permutation P
+        public Permutation P
         {
-            get
-            {
-                return Permutation.FromInversions(Pivots);
-            }
+            get { return _lazyP.Value; }
         }
 
         /// <summary>
@@ -108,12 +111,6 @@ namespace MathNet.Numerics.LinearAlgebra.Factorization
         /// <returns>The left hand side <see cref="Matrix{T}"/>, <b>X</b>.</returns>
         public virtual Matrix<T> Solve(Matrix<T> input)
         {
-            // Check for proper arguments.
-            if (input == null)
-            {
-                throw new ArgumentNullException("input");
-            }
-
             var x = input.CreateMatrix(input.RowCount, input.ColumnCount);
             Solve(input, x);
             return x;
@@ -133,12 +130,6 @@ namespace MathNet.Numerics.LinearAlgebra.Factorization
         /// <returns>The left hand side <see cref="Vector{T}"/>, <b>x</b>.</returns>
         public virtual Vector<T> Solve(Vector<T> input)
         {
-            // Check for proper arguments.
-            if (input == null)
-            {
-                throw new ArgumentNullException("input");
-            }
-
             var x = input.CreateVector(input.Count);
             Solve(input, x);
             return x;

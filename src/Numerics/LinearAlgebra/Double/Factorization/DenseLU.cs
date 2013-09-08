@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2010 Math.NET
+// Copyright (c) 2009-2013 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -28,8 +28,8 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using MathNet.Numerics.Properties;
 using System;
+using MathNet.Numerics.Properties;
 
 namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
 {
@@ -41,7 +41,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
     /// <remarks>
     /// The computation of the LU factorization is done at construction time.
     /// </remarks>
-    public class DenseLU : LU
+    public sealed class DenseLU : LU
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="DenseLU"/> class. This object will compute the
@@ -50,7 +50,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
         /// <param name="matrix">The matrix to factor.</param>
         /// <exception cref="ArgumentNullException">If <paramref name="matrix"/> is <c>null</c>.</exception>
         /// <exception cref="ArgumentException">If <paramref name="matrix"/> is not a square matrix.</exception>
-        public DenseLU(DenseMatrix matrix)
+        public static DenseLU Create(DenseMatrix matrix)
         {
             if (matrix == null)
             {
@@ -63,12 +63,18 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
             }
 
             // Create an array for the pivot indices.
-            Pivots = new int[matrix.RowCount];
+            var pivots = new int[matrix.RowCount];
 
             // Create a new matrix for the LU factors, then perform factorization (while overwriting).
-            var factors = (DenseMatrix)matrix.Clone();
-            Control.LinearAlgebraProvider.LUFactor(factors.Values, factors.RowCount, Pivots);
-            Factors = factors;
+            var factors = (DenseMatrix) matrix.Clone();
+            Control.LinearAlgebraProvider.LUFactor(factors.Values, factors.RowCount, pivots);
+
+            return new DenseLU(factors, pivots);
+        }
+
+        DenseLU(Matrix<double> factors, int[] pivots)
+            : base(factors, pivots)
+        {
         }
 
         /// <summary>
@@ -118,11 +124,11 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
             }
 
             // Copy the contents of input to result.
-            Buffer.BlockCopy(dinput.Values, 0, dresult.Values, 0, dinput.Values.Length * Constants.SizeOfDouble);
+            Buffer.BlockCopy(dinput.Values, 0, dresult.Values, 0, dinput.Values.Length*Constants.SizeOfDouble);
 
             // LU solve by overwriting result.
-            var dfactors = (DenseMatrix)Factors;
-            Control.LinearAlgebraProvider.LUSolveFactored(input.ColumnCount, dfactors.Values, dfactors.RowCount, Pivots,  dresult.Values);
+            var dfactors = (DenseMatrix) Factors;
+            Control.LinearAlgebraProvider.LUSolveFactored(input.ColumnCount, dfactors.Values, dfactors.RowCount, Pivots, dresult.Values);
         }
 
         /// <summary>
@@ -167,10 +173,10 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
             }
 
             // Copy the contents of input to result.
-            Buffer.BlockCopy(dinput.Values, 0, dresult.Values, 0, dinput.Values.Length * Constants.SizeOfDouble);
+            Buffer.BlockCopy(dinput.Values, 0, dresult.Values, 0, dinput.Values.Length*Constants.SizeOfDouble);
 
             // LU solve by overwriting result.
-            var dfactors = (DenseMatrix)Factors;
+            var dfactors = (DenseMatrix) Factors;
             Control.LinearAlgebraProvider.LUSolveFactored(1, dfactors.Values, dfactors.RowCount, Pivots, dresult.Values);
         }
 
@@ -180,7 +186,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
         /// <returns>The inverse of this matrix.</returns>
         public override Matrix<double> Inverse()
         {
-            var result = (DenseMatrix)Factors.Clone();
+            var result = (DenseMatrix) Factors.Clone();
             Control.LinearAlgebraProvider.LUInverseFactored(result.Values, result.RowCount, Pivots);
             return result;
         }

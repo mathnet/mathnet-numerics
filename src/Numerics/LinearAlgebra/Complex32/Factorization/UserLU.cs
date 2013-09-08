@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2010 Math.NET
+// Copyright (c) 2009-2013 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -28,8 +28,8 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using MathNet.Numerics.Properties;
 using System;
+using MathNet.Numerics.Properties;
 
 namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
 {
@@ -43,7 +43,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
     /// <remarks>
     /// The computation of the LU factorization is done at construction time.
     /// </remarks>
-    public class UserLU : LU
+    public sealed class UserLU : LU
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="UserLU"/> class. This object will compute the
@@ -52,7 +52,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
         /// <param name="matrix">The matrix to factor.</param>
         /// <exception cref="ArgumentNullException">If <paramref name="matrix"/> is <c>null</c>.</exception>
         /// <exception cref="ArgumentException">If <paramref name="matrix"/> is not a square matrix.</exception>
-        public UserLU(Matrix<Complex32> matrix)
+        public static UserLU Create(Matrix<Complex32> matrix)
         {
             if (matrix == null)
             {
@@ -66,13 +66,13 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
 
             // Create an array for the pivot indices.
             var order = matrix.RowCount;
-            Factors = matrix.Clone();
-            Pivots = new int[order];
-            
+            var factors = matrix.Clone();
+            var pivots = new int[order];
+
             // Initialize the pivot matrix to the identity permutation.
             for (var i = 0; i < order; i++)
             {
-                Pivots[i] = i;
+                pivots[i] = i;
             }
 
             var vectorLUcolj = new Complex32[order];
@@ -81,7 +81,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
                 // Make a copy of the j-th column to localize references.
                 for (var i = 0; i < order; i++)
                 {
-                    vectorLUcolj[i] = Factors.At(i, j);
+                    vectorLUcolj[i] = factors.At(i, j);
                 }
 
                 // Apply previous transformations.
@@ -91,11 +91,11 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
                     var s = Complex32.Zero;
                     for (var k = 0; k < kmax; k++)
                     {
-                        s += Factors.At(i, k) * vectorLUcolj[k];
+                        s += factors.At(i, k)*vectorLUcolj[k];
                     }
 
                     vectorLUcolj[i] -= s;
-                    Factors.At(i, j, vectorLUcolj[i]);
+                    factors.At(i, j, vectorLUcolj[i]);
                 }
 
                 // Find pivot and exchange if necessary.
@@ -112,23 +112,30 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
                 {
                     for (var k = 0; k < order; k++)
                     {
-                        var temp = Factors.At(p, k);
-                        Factors.At(p, k, Factors.At(j, k));
-                        Factors.At(j, k, temp);
+                        var temp = factors.At(p, k);
+                        factors.At(p, k, factors.At(j, k));
+                        factors.At(j, k, temp);
                     }
 
-                    Pivots[j] = p;
+                    pivots[j] = p;
                 }
 
                 // Compute multipliers.
-                if (j < order & Factors.At(j, j) != 0.0f)
+                if (j < order & factors.At(j, j) != 0.0f)
                 {
                     for (var i = j + 1; i < order; i++)
                     {
-                        Factors.At(i, j, (Factors.At(i, j) / Factors.At(j, j)));
+                        factors.At(i, j, (factors.At(i, j)/factors.At(j, j)));
                     }
                 }
             }
+
+            return new UserLU(factors, pivots);
+        }
+
+        UserLU(Matrix<Complex32> factors, int[] pivots)
+            : base(factors, pivots)
+        {
         }
 
         /// <summary>
@@ -184,7 +191,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
             }
 
             var order = Factors.RowCount;
-            
+
             // Solve L*Y = P*B
             for (var k = 0; k < order; k++)
             {
@@ -192,7 +199,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
                 {
                     for (var j = 0; j < result.ColumnCount; j++)
                     {
-                        var temp = result.At(k, j) * Factors.At(i, k);
+                        var temp = result.At(k, j)*Factors.At(i, k);
                         result.At(i, j, result.At(i, j) - temp);
                     }
                 }
@@ -203,14 +210,14 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
             {
                 for (var j = 0; j < result.ColumnCount; j++)
                 {
-                    result.At(k, j, (result.At(k, j) / Factors.At(k, k)));
+                    result.At(k, j, (result.At(k, j)/Factors.At(k, k)));
                 }
 
                 for (var i = 0; i < k; i++)
                 {
                     for (var j = 0; j < result.ColumnCount; j++)
                     {
-                        var temp = result.At(k, j) * Factors.At(i, k);
+                        var temp = result.At(k, j)*Factors.At(i, k);
                         result.At(i, j, result.At(i, j) - temp);
                     }
                 }
@@ -260,7 +267,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
                 result[p] = result[i];
                 result[i] = temp;
             }
-            
+
             var order = Factors.RowCount;
 
             // Solve L*Y = P*B
@@ -268,7 +275,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
             {
                 for (var i = k + 1; i < order; i++)
                 {
-                    result[i] -= result[k] * Factors.At(i, k);
+                    result[i] -= result[k]*Factors.At(i, k);
                 }
             }
 
@@ -278,7 +285,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
                 result[k] /= Factors.At(k, k);
                 for (var i = 0; i < k; i++)
                 {
-                    result[i] -= result[k] * Factors.At(i, k);
+                    result[i] -= result[k]*Factors.At(i, k);
                 }
             }
         }

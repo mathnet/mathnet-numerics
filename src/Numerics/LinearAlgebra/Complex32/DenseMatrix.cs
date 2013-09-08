@@ -1011,7 +1011,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
 
         public override LU<Complex32> LU()
         {
-            return new DenseLU(this);
+            return DenseLU.Create(this);
         }
 
         public override QR<Complex32> QR(QRMethod method = QRMethod.Thin)

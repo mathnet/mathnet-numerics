@@ -1042,7 +1042,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
 
         public override LU<float> LU()
         {
-            return new DenseLU(this);
+            return DenseLU.Create(this);
         }
 
         public override QR<float> QR(QRMethod method = QRMethod.Thin)

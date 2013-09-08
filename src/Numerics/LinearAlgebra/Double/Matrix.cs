@@ -466,7 +466,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
         public override LU<double> LU()
         {
-            return new UserLU(this);
+            return UserLU.Create(this);
         }
 
         public override QR<double> QR(QRMethod method = QRMethod.Thin)

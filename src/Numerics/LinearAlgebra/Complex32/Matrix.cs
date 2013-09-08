@@ -460,7 +460,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
 
         public override LU<Complex32> LU()
         {
-            return new UserLU(this);
+            return UserLU.Create(this);
         }
 
         public override QR<Complex32> QR(QRMethod method = QRMethod.Thin)

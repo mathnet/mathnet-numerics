@@ -60,6 +60,13 @@ namespace MathNet.Numerics.LinearAlgebra.Factorization
     public abstract class QR<T> : ISolver<T>
     where T : struct, IEquatable<T>, IFormattable
     {
+        readonly Lazy<Matrix<T>> _lazyR;
+
+        protected QR()
+        {
+            _lazyR = new Lazy<Matrix<T>>(ComputeR);
+        }
+
         /// <summary>
         /// Gets or sets orthogonal Q matrix
         /// </summary>
@@ -80,7 +87,7 @@ namespace MathNet.Numerics.LinearAlgebra.Factorization
         /// </summary>
         public Matrix<T> R
         {
-            get { return MatrixR.UpperTriangle(); }
+            get { return _lazyR.Value; }
         }
 
         /// <summary>
@@ -93,6 +100,11 @@ namespace MathNet.Numerics.LinearAlgebra.Factorization
         /// </summary>
         /// <value><c>true</c> if the matrix is full rank; otherwise <c>false</c>.</value>
         public abstract bool IsFullRank { get; }
+
+        private Matrix<T> ComputeR()
+        {
+            return MatrixR.UpperTriangle();
+        }
 
         /// <summary>
         /// Solves a system of linear equations, <b>AX = B</b>, with A QR factorized.
