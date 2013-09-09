@@ -132,7 +132,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers
         /// When using this constructor the solver will use the <see cref="IIterator{T}"/> with
         /// the standard settings.
         /// </remarks>
-        /// <param name="preconditioner">The <see cref="IPreConditioner"/> that will be used to precondition the matrix equation.</param>
+        /// <param name="preconditioner">The <see cref="IPreConditioner{T}"/> that will be used to precondition the matrix equation.</param>
         public BiCgStab(IPreConditioner<Numerics.Complex32> preconditioner)
             : this(preconditioner, null)
         {
@@ -153,7 +153,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers
         /// </list>
         /// </para>
         /// </remarks>
-        /// <param name="preconditioner">The <see cref="IPreConditioner"/> that will be used to precondition the matrix equation. </param>
+        /// <param name="preconditioner">The <see cref="IPreConditioner{T}"/> that will be used to precondition the matrix equation. </param>
         /// <param name="iterator">The <see cref="IIterator{T}"/> that will be used to monitor the iterative process. </param>
         public BiCgStab(IPreConditioner<Numerics.Complex32> preconditioner, IIterator<Numerics.Complex32> iterator)
         {
@@ -162,7 +162,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers
         }
 
         /// <summary>
-        /// Sets the <see cref="IPreConditioner"/> that will be used to precondition the iterative process.
+        /// Sets the <see cref="IPreConditioner{T}"/> that will be used to precondition the iterative process.
         /// </summary>
         /// <param name="preconditioner">The preconditioner.</param>
         public void SetPreconditioner(IPreConditioner<Numerics.Complex32> preconditioner)
