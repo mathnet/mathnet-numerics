@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2010 Math.NET
+// Copyright (c) 2009-2013 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -37,7 +37,7 @@ using MathNet.Numerics.LinearAlgebra.Solvers;
 using MathNet.Numerics.LinearAlgebra.Solvers.Status;
 using MathNet.Numerics.Properties;
 
-namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Iterative
+namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
 {
     /// <summary>
     /// A Multiple-Lanczos Bi-Conjugate Gradient stabilized iterative matrix solver.

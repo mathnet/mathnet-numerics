@@ -1,10 +1,10 @@
-// <copyright file="BiCgStab.cs" company="Math.NET">
+// <copyright file="TFQMR.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2010 Math.NET
+// Copyright (c) 2009-2013 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -29,88 +29,67 @@
 // </copyright>
 
 using System;
-using MathNet.Numerics.LinearAlgebra.Complex.Solvers.Preconditioners;
+using MathNet.Numerics.LinearAlgebra.Double.Solvers.Preconditioners;
 using MathNet.Numerics.LinearAlgebra.Solvers;
 using MathNet.Numerics.LinearAlgebra.Solvers.Status;
 using MathNet.Numerics.Properties;
 
-namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Iterative
+namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
 {
-
-#if NOSYSNUMERICS
-    using Complex = Numerics.Complex;
-#else
-    using Complex = System.Numerics.Complex;
-
-#endif
-
     /// <summary>
-    /// A Bi-Conjugate Gradient stabilized iterative matrix solver.
+    /// A Transpose Free Quasi-Minimal Residual (TFQMR) iterative matrix solver.
     /// </summary>
     /// <remarks>
     /// <para>
-    /// The Bi-Conjugate Gradient Stabilized (BiCGStab) solver is an 'improvement'
-    /// of the standard Conjugate Gradient (CG) solver. Unlike the CG solver the
-    /// BiCGStab can be used on non-symmetric matrices. <br/>
-    /// Note that much of the success of the solver depends on the selection of the
-    /// proper preconditioner.
-    /// </para>
-    /// <para>
-    /// The Bi-CGSTAB algorithm was taken from: <br/>
-    /// Templates for the solution of linear systems: Building blocks
-    /// for iterative methods
+    /// The TFQMR algorithm was taken from: <br/>
+    /// Iterative methods for sparse linear systems.
     /// <br/>
-    /// Richard Barrett, Michael Berry, Tony F. Chan, James Demmel,
-    /// June M. Donato, Jack Dongarra, Victor Eijkhout, Roldan Pozo,
-    /// Charles Romine and Henk van der Vorst
+    /// Yousef Saad
     /// <br/>
-    /// Url: <a href="http://www.netlib.org/templates/Templates.html">http://www.netlib.org/templates/Templates.html</a>
-    /// <br/>
-    /// Algorithm is described in Chapter 2, section 2.3.8, page 27
+    /// Algorithm is described in Chapter 7, section 7.4.3, page 219
     /// </para>
     /// <para>
     /// The example code below provides an indication of the possible use of the
     /// solver.
     /// </para>
     /// </remarks>
-    public sealed class BiCgStab : IIterativeSolver<Complex>
+    public sealed class TFQMR : IIterativeSolver<double>
     {
         /// <summary>
         /// The status used if there is no status, i.e. the solver hasn't run yet and there is no
         /// iterator.
         /// </summary>
-        static readonly ICalculationStatus DefaultStatus = new CalculationIndetermined();
+        private static readonly ICalculationStatus DefaultStatus = new CalculationIndetermined();
 
         /// <summary>
         /// The preconditioner that will be used. Can be set to <see langword="null" />, in which case the default
         /// pre-conditioner will be used.
         /// </summary>
-        IPreConditioner<Complex> _preconditioner;
+        private IPreConditioner<double> _preconditioner;
 
         /// <summary>
         /// The iterative process controller.
         /// </summary>
-        IIterator<Complex> _iterator;
+        private IIterator<double> _iterator;
 
         /// <summary>
         /// Indicates if the user has stopped the solver.
         /// </summary>
-        bool _hasBeenStopped;
+        private bool _hasBeenStopped;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="BiCgStab"/> class.
+        /// Initializes a new instance of the <see cref="TFQMR"/> class.
         /// </summary>
         /// <remarks>
         /// When using this constructor the solver will use the <see cref="IIterator{T}"/> with
         /// the standard settings and a default preconditioner.
         /// </remarks>
-        public BiCgStab()
-            : this(null, null)
+        public TFQMR() : this(null, null)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="BiCgStab"/> class.
+        /// Initializes a new instance of the <see cref="TFQMR"/> class.
         /// </summary>
         /// <remarks>
         /// <para>
@@ -127,27 +106,27 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Iterative
         /// </list>
         /// </para>
         /// </remarks>
-        /// <param name="iterator">The <see cref="IIterator{T}"/> that will be used to monitor the iterative process. </param>
-        public BiCgStab(IIterator<Complex> iterator)
+        /// <param name="iterator">The <see cref="IIterator{T}"/> that will be used to monitor the iterative process.</param>
+        public TFQMR(IIterator<double> iterator)
             : this(null, iterator)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="BiCgStab"/> class.
+        /// Initializes a new instance of the <see cref="TFQMR"/> class.
         /// </summary>
         /// <remarks>
         /// When using this constructor the solver will use the <see cref="IIterator{T}"/> with
         /// the standard settings.
         /// </remarks>
         /// <param name="preconditioner">The <see cref="IPreConditioner"/> that will be used to precondition the matrix equation.</param>
-        public BiCgStab(IPreConditioner<Complex> preconditioner)
+        public TFQMR(IPreConditioner<double> preconditioner)
             : this(preconditioner, null)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="BiCgStab"/> class.
+        /// Initializes a new instance of the <see cref="TFQMR"/> class.
         /// </summary>
         /// <remarks>
         /// <para>
@@ -161,9 +140,9 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Iterative
         /// </list>
         /// </para>
         /// </remarks>
-        /// <param name="preconditioner">The <see cref="IPreConditioner"/> that will be used to precondition the matrix equation. </param>
-        /// <param name="iterator">The <see cref="IIterator{T}"/> that will be used to monitor the iterative process. </param>
-        public BiCgStab(IPreConditioner<Complex> preconditioner, IIterator<Complex> iterator)
+        /// <param name="preconditioner">The <see cref="IPreConditioner"/> that will be used to precondition the matrix equation.</param>
+        /// <param name="iterator">The <see cref="IIterator{T}"/> that will be used to monitor the iterative process.</param>
+        public TFQMR(IPreConditioner<double> preconditioner, IIterator<double> iterator)
         {
             _iterator = iterator;
             _preconditioner = preconditioner;
@@ -173,7 +152,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Iterative
         /// Sets the <see cref="IPreConditioner"/> that will be used to precondition the iterative process.
         /// </summary>
         /// <param name="preconditioner">The preconditioner.</param>
-        public void SetPreconditioner(IPreConditioner<Complex> preconditioner)
+        public void SetPreconditioner(IPreConditioner<double> preconditioner)
         {
             _preconditioner = preconditioner;
         }
@@ -182,7 +161,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Iterative
         /// Sets the <see cref="IIterator{T}"/> that will be used to track the iterative process.
         /// </summary>
         /// <param name="iterator">The iterator.</param>
-        public void SetIterator(IIterator<Complex> iterator)
+        public void SetIterator(IIterator<double> iterator)
         {
             _iterator = iterator;
         }
@@ -192,7 +171,10 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Iterative
         /// </summary>
         public ICalculationStatus IterationResult
         {
-            get { return (_iterator != null) ? _iterator.Status : DefaultStatus; }
+            get 
+            { 
+                return (_iterator != null) ? _iterator.Status : DefaultStatus; 
+            }
         }
 
         /// <summary>
@@ -210,10 +192,10 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Iterative
         /// Solves the matrix equation Ax = b, where A is the coefficient matrix, b is the
         /// solution vector and x is the unknown vector.
         /// </summary>
-        /// <param name="matrix">The coefficient <see cref="Matrix"/>, <c>A</c>.</param>
-        /// <param name="vector">The solution <see cref="Vector"/>, <c>b</c>.</param>
-        /// <returns>The result <see cref="Vector"/>, <c>x</c>.</returns>
-        public Vector<Complex> Solve(Matrix<Complex> matrix, Vector<Complex> vector)
+        /// <param name="matrix">The coefficient matrix, <c>A</c>.</param>
+        /// <param name="vector">The solution vector, <c>b</c>.</param>
+        /// <returns>The result vector, <c>x</c>.</returns>
+        public Vector<double> Solve(Matrix<double> matrix, Vector<double> vector)
         {
             if (vector == null)
             {
@@ -229,17 +211,17 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Iterative
         /// Solves the matrix equation Ax = b, where A is the coefficient matrix, b is the
         /// solution vector and x is the unknown vector.
         /// </summary>
-        /// <param name="matrix">The coefficient <see cref="Matrix"/>, <c>A</c>.</param>
-        /// <param name="input">The solution <see cref="Vector"/>, <c>b</c>.</param>
-        /// <param name="result">The result <see cref="Vector"/>, <c>x</c>.</param>
-        public void Solve(Matrix<Complex> matrix, Vector<Complex> input, Vector<Complex> result)
+        /// <param name="matrix">The coefficient matrix, <c>A</c>.</param>
+        /// <param name="input">The solution vector, <c>b</c></param>
+        /// <param name="result">The result vector, <c>x</c></param>
+        public void Solve(Matrix<double> matrix, Vector<double> input, Vector<double> result)
         {
             // If we were stopped before, we are no longer
             // We're doing this at the start of the method to ensure
             // that we can use these fields immediately.
             _hasBeenStopped = false;
 
-            // Parameters checks
+            // Error checks
             if (matrix == null)
             {
                 throw new ArgumentNullException("matrix");
@@ -267,7 +249,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Iterative
 
             if (input.Count != matrix.RowCount)
             {
-                throw Matrix.DimensionsDontMatch<ArgumentException>(input, result);
+                throw Matrix.DimensionsDontMatch<ArgumentException>(input, matrix);
             }
 
             // Initialize the solver fields
@@ -284,150 +266,158 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Iterative
 
             _preconditioner.Initialize(matrix);
 
-            // Compute r_0 = b - Ax_0 for some initial guess x_0
-            // In this case we take x_0 = vector
-            // This is basically a SAXPY so it could be made a lot faster
-            var residuals = new DenseVector(matrix.RowCount);
-            CalculateTrueResidual(matrix, residuals, result, input);
+            var d = new DenseVector(input.Count);
+            var r = DenseVector.OfVector(input);
 
-            // Choose r~ (for example, r~ = r_0)
-            var tempResiduals = residuals.Clone();
+            var uodd = new DenseVector(input.Count);
+            var ueven = new DenseVector(input.Count);
 
-            // create seven temporary vectors needed to hold temporary
-            // coefficients. All vectors are mangled in each iteration.
-            // These are defined here to prevent stressing the garbage collector
-            var vecP = new DenseVector(residuals.Count);
-            var vecPdash = new DenseVector(residuals.Count);
-            var nu = new DenseVector(residuals.Count);
-            var vecS = new DenseVector(residuals.Count);
-            var vecSdash = new DenseVector(residuals.Count);
-            var temp = new DenseVector(residuals.Count);
-            var temp2 = new DenseVector(residuals.Count);
+            var v = new DenseVector(input.Count);
+            var pseudoResiduals = DenseVector.OfVector(input);
 
-            // create some temporary double variables that are needed
-            // to hold values in between iterations
-            Complex currentRho = 0;
-            Complex alpha = 0;
-            Complex omega = 0;
+            var x = new DenseVector(input.Count);
+            var yodd = new DenseVector(input.Count);
+            var yeven = DenseVector.OfVector(input);
 
+            // Temp vectors
+            var temp = new DenseVector(input.Count);
+            var temp1 = new DenseVector(input.Count);
+            var temp2 = new DenseVector(input.Count);
+
+            // Define the scalars
+            double alpha = 0;
+            double eta = 0;
+            double theta = 0;
+
+            // Initialize
+            var tau = input.L2Norm();
+            var rho = tau*tau;
+
+            // Calculate the initial values for v
+            // M temp = yEven
+            _preconditioner.Approximate(yeven, temp);
+            
+            // v = A temp
+            matrix.Multiply(temp, v);
+
+            // Set uOdd
+            v.CopyTo(ueven);
+
+            // Start the iteration
             var iterationNumber = 0;
-            while (ShouldContinue(iterationNumber, result, input, residuals))
+            while (ShouldContinue(iterationNumber, result, input, pseudoResiduals))
             {
-                // rho_(i-1) = r~^T r_(i-1) // dotproduct r~ and r_(i-1)
-                var oldRho = currentRho;
-                currentRho = tempResiduals.ConjugateDotProduct(residuals);
-
-                // if (rho_(i-1) == 0) // METHOD FAILS
-                // If rho is only 1 ULP from zero then we fail.
-                if (currentRho.Real.AlmostEqual(0, 1) && currentRho.Imaginary.AlmostEqual(0, 1))
+                // First part of the step, the even bit
+                if (IsEven(iterationNumber))
                 {
-                    // Rho-type breakdown
-                    throw new Exception("Iterative solver experience a numerical break down");
+                    // sigma = (v, r)
+                    var sigma = v.DotProduct(r);
+                    if (sigma.AlmostEqual(0, 1))
+                    {
+                        // FAIL HERE
+                        _iterator.IterationCancelled();
+                        break;
+                    }
+
+                    // alpha = rho / sigma
+                    alpha = rho / sigma;
+
+                    // yOdd = yEven - alpha * v
+                    v.Multiply(-alpha, temp1);
+                    yeven.Add(temp1, yodd);
+
+                    // Solve M temp = yOdd
+                    _preconditioner.Approximate(yodd, temp);
+
+                    // uOdd = A temp
+                    matrix.Multiply(temp, uodd);
                 }
 
-                if (iterationNumber != 0)
+                // The intermediate step which is equal for both even and
+                // odd iteration steps.
+                // Select the correct vector
+                var uinternal = IsEven(iterationNumber) ? ueven : uodd;
+                var yinternal = IsEven(iterationNumber) ? yeven : yodd;
+
+                // pseudoResiduals = pseudoResiduals - alpha * uOdd
+                uinternal.Multiply(-alpha, temp1);
+                pseudoResiduals.Add(temp1, temp2);
+                temp2.CopyTo(pseudoResiduals);
+
+                // d = yOdd + theta * theta * eta / alpha * d
+                d.Multiply(theta * theta * eta / alpha, temp);
+                yinternal.Add(temp, d);
+
+                // theta = ||pseudoResiduals||_2 / tau
+                theta = pseudoResiduals.L2Norm() / tau;
+                var c = 1 / Math.Sqrt(1 + (theta * theta));
+
+                // tau = tau * theta * c
+                tau *= theta * c;
+
+                // eta = c^2 * alpha
+                eta = c * c * alpha;
+
+                // x = x + eta * d
+                d.Multiply(eta, temp1);
+                x.Add(temp1, temp2);
+                temp2.CopyTo(x);
+
+                // Check convergence and see if we can bail
+                if (!ShouldContinue(iterationNumber, result, input, pseudoResiduals))
                 {
-                    // beta_(i-1) = (rho_(i-1)/rho_(i-2))(alpha_(i-1)/omega(i-1))
-                    var beta = (currentRho/oldRho)*(alpha/omega);
+                    // Calculate the real values
+                    _preconditioner.Approximate(x, result);
 
-                    // p_i = r_(i-1) + beta_(i-1)(p_(i-1) - omega_(i-1) * nu_(i-1))
-                    nu.Multiply(-omega, temp);
-                    vecP.Add(temp, temp2);
-                    temp2.CopyTo(vecP);
-
-                    vecP.Multiply(beta, vecP);
-                    vecP.Add(residuals, temp2);
-                    temp2.CopyTo(vecP);
-                }
-                else
-                {
-                    // p_i = r_(i-1)
-                    residuals.CopyTo(vecP);
-                }
-
-                // SOLVE Mp~ = p_i // M = preconditioner
-                _preconditioner.Approximate(vecP, vecPdash);
-
-                // nu_i = Ap~
-                matrix.Multiply(vecPdash, nu);
-
-                // alpha_i = rho_(i-1)/ (r~^T nu_i) = rho / dotproduct(r~ and nu_i)
-                alpha = currentRho*1/tempResiduals.ConjugateDotProduct(nu);
-
-                // s = r_(i-1) - alpha_i nu_i
-                nu.Multiply(-alpha, temp);
-                residuals.Add(temp, vecS);
-
-                // Check if we're converged. If so then stop. Otherwise continue;
-                // Calculate the temporary result. 
-                // Be careful not to change any of the temp vectors, except for
-                // temp. Others will be used in the calculation later on.
-                // x_i = x_(i-1) + alpha_i * p^_i + s^_i
-                vecPdash.Multiply(alpha, temp);
-                temp.Add(vecSdash, temp2);
-                temp2.CopyTo(temp);
-                temp.Add(result, temp2);
-                temp2.CopyTo(temp);
-
-                // Check convergence and stop if we are converged.
-                if (!ShouldContinue(iterationNumber, temp, input, vecS))
-                {
-                    temp.CopyTo(result);
-
-                    // Calculate the true residual
-                    CalculateTrueResidual(matrix, residuals, result, input);
+                    // Calculate the true residual. Use the temp vector for that
+                    // so that we don't pollute the pseudoResidual vector for no
+                    // good reason.
+                    CalculateTrueResidual(matrix, temp, result, input);
 
                     // Now recheck the convergence
-                    if (!ShouldContinue(iterationNumber, result, input, residuals))
+                    if (!ShouldContinue(iterationNumber, result, input, temp))
                     {
                         // We're all good now.
                         return;
                     }
-
-                    // Continue the calculation
-                    iterationNumber++;
-                    continue;
                 }
 
-                // SOLVE Ms~ = s
-                _preconditioner.Approximate(vecS, vecSdash);
-
-                // temp = As~
-                matrix.Multiply(vecSdash, temp);
-
-                // omega_i = temp^T s / temp^T temp
-                omega = temp.ConjugateDotProduct(vecS)/temp.ConjugateDotProduct(temp);
-
-                // x_i = x_(i-1) + alpha_i p^ + omega_i s^
-                temp.Multiply(-omega, residuals);
-                residuals.Add(vecS, temp2);
-                temp2.CopyTo(residuals);
-
-                vecSdash.Multiply(omega, temp);
-                result.Add(temp, temp2);
-                temp2.CopyTo(result);
-
-                vecPdash.Multiply(alpha, temp);
-                result.Add(temp, temp2);
-                temp2.CopyTo(result);
-
-                // for continuation it is necessary that omega_i != 0.0
-                // If omega is only 1 ULP from zero then we fail.
-                if (omega.Real.AlmostEqual(0, 1) && omega.Imaginary.AlmostEqual(0, 1))
+                // The odd step
+                if (!IsEven(iterationNumber))
                 {
-                    // Omega-type breakdown
-                    throw new Exception("Iterative solver experience a numerical break down");
+                    if (rho.AlmostEqual(0, 1))
+                    {
+                        // FAIL HERE
+                        _iterator.IterationCancelled();
+                        break;
+                    }
+
+                    var rhoNew = pseudoResiduals.DotProduct(r);
+                    var beta = rhoNew / rho;
+
+                    // Update rho for the next loop
+                    rho = rhoNew;
+
+                    // yOdd = pseudoResiduals + beta * yOdd
+                    yodd.Multiply(beta, temp1);
+                    pseudoResiduals.Add(temp1, yeven);
+
+                    // Solve M temp = yOdd
+                    _preconditioner.Approximate(yeven, temp);
+
+                    // uOdd = A temp
+                    matrix.Multiply(temp, ueven);
+
+                    // v = uEven + beta * (uOdd + beta * v)
+                    v.Multiply(beta, temp1);
+                    uodd.Add(temp1, temp);
+
+                    temp.Multiply(beta, temp1);
+                    ueven.Add(temp1, v);
                 }
 
-                if (!ShouldContinue(iterationNumber, result, input, residuals))
-                {
-                    // Recalculate the residuals and go round again. This is done to ensure that
-                    // we have the proper residuals.
-                    // The residual calculation based on omega_i * s can be off by a factor 10. So here
-                    // we calculate the real residual (which can be expensive) but we only do it if we're
-                    // sufficiently close to the finish.
-                    CalculateTrueResidual(matrix, residuals, result, input);
-                }
+                // Calculate the real values
+                _preconditioner.Approximate(x, result);
 
                 iterationNumber++;
             }
@@ -440,12 +430,10 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Iterative
         /// <param name="residual">Residual values in <see cref="Vector"/>.</param>
         /// <param name="x">Instance of the <see cref="Vector"/> x.</param>
         /// <param name="b">Instance of the <see cref="Vector"/> b.</param>
-        static void CalculateTrueResidual(Matrix<Complex> matrix, Vector<Complex> residual, Vector<Complex> x, Vector<Complex> b)
+        private static void CalculateTrueResidual(Matrix<double> matrix, Vector<double> residual, Vector<double> x, Vector<double> b)
         {
             // -Ax = residual
             matrix.Multiply(x, residual);
-
-            // Do not use residual = residual.Negate() because it creates another object
             residual.Multiply(-1, residual);
 
             // residual + b
@@ -460,7 +448,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Iterative
         /// <param name="source">Source <see cref="Vector"/>.</param>
         /// <param name="residuals">Residual <see cref="Vector"/>.</param>
         /// <returns><c>true</c> if continue, otherwise <c>false</c></returns>
-        bool ShouldContinue(int iterationNumber, Vector<Complex> result, Vector<Complex> source, Vector<Complex> residuals)
+        private bool ShouldContinue(int iterationNumber, Vector<double> result, Vector<double> source, Vector<double> residuals)
         {
             if (_hasBeenStopped)
             {
@@ -478,13 +466,23 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Iterative
         }
 
         /// <summary>
+        /// Is <paramref name="number"/> even?
+        /// </summary>
+        /// <param name="number">Number to check</param>
+        /// <returns><c>true</c> if <paramref name="number"/> even, otherwise <c>false</c></returns>
+        private static bool IsEven(int number)
+        {
+            return number % 2 == 0;
+        }
+
+        /// <summary>
         /// Solves the matrix equation AX = B, where A is the coefficient matrix, B is the
         /// solution matrix and X is the unknown matrix.
         /// </summary>
-        /// <param name="matrix">The coefficient <see cref="Matrix"/>, <c>A</c>.</param>
-        /// <param name="input">The solution <see cref="Matrix"/>, <c>B</c>.</param>
-        /// <returns>The result <see cref="Matrix"/>, <c>X</c>.</returns>
-        public Matrix<Complex> Solve(Matrix<Complex> matrix, Matrix<Complex> input)
+        /// <param name="matrix">The coefficient matrix, <c>A</c>.</param>
+        /// <param name="input">The solution matrix, <c>B</c>.</param>
+        /// <returns>The result matrix, <c>X</c>.</returns>
+        public Matrix<double> Solve(Matrix<double> matrix, Matrix<double> input)
         {
             if (matrix == null)
             {
@@ -505,10 +503,10 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Iterative
         /// Solves the matrix equation AX = B, where A is the coefficient matrix, B is the
         /// solution matrix and X is the unknown matrix.
         /// </summary>
-        /// <param name="matrix">The coefficient <see cref="Matrix"/>, <c>A</c>.</param>
-        /// <param name="input">The solution <see cref="Matrix"/>, <c>B</c>.</param>
-        /// <param name="result">The result <see cref="Matrix"/>, <c>X</c></param>
-        public void Solve(Matrix<Complex> matrix, Matrix<Complex> input, Matrix<Complex> result)
+        /// <param name="matrix">The coefficient matrix, <c>A</c>.</param>
+        /// <param name="input">The solution matrix, <c>B</c>.</param>
+        /// <param name="result">The result matrix, <c>X</c></param>
+        public void Solve(Matrix<double> matrix, Matrix<double> input, Matrix<double> result)
         {
             if (matrix == null)
             {

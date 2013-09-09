@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2010 Math.NET
+// Copyright (c) 2009-2013 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -29,15 +29,13 @@
 // </copyright>
 
 using System;
-using MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Preconditioners;
+using MathNet.Numerics.LinearAlgebra.Double.Solvers.Preconditioners;
 using MathNet.Numerics.LinearAlgebra.Solvers;
 using MathNet.Numerics.LinearAlgebra.Solvers.Status;
 using MathNet.Numerics.Properties;
 
-namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Iterative
+namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
 {
-    using Complex32 = Numerics.Complex32;
-
     /// <summary>
     /// A Bi-Conjugate Gradient stabilized iterative matrix solver.
     /// </summary>
@@ -67,30 +65,30 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Iterative
     /// solver.
     /// </para>
     /// </remarks>
-    public sealed class BiCgStab : IIterativeSolver<Complex32>
+    public sealed class BiCgStab : IIterativeSolver<double>
     {
         /// <summary>
         /// The status used if there is no status, i.e. the solver hasn't run yet and there is no
         /// iterator.
         /// </summary>
-        static readonly ICalculationStatus DefaultStatus = new CalculationIndetermined();
+        private static readonly ICalculationStatus DefaultStatus = new CalculationIndetermined();
 
         /// <summary>
         /// The preconditioner that will be used. Can be set to <see langword="null" />, in which case the default
         /// pre-conditioner will be used.
         /// </summary>
-        IPreConditioner<Complex32> _preconditioner;
+        private IPreConditioner<double> _preconditioner;
 
         /// <summary>
         /// The iterative process controller.
         /// </summary>
-        IIterator<Complex32> _iterator;
+        private IIterator<double> _iterator;
 
         /// <summary>
         /// Indicates if the user has stopped the solver.
         /// </summary>
-        bool _hasBeenStopped;
-
+        private bool _hasBeenStopped;
+        
         /// <summary>
         /// Initializes a new instance of the <see cref="BiCgStab"/> class.
         /// </summary>
@@ -98,8 +96,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Iterative
         /// When using this constructor the solver will use the <see cref="IIterator{T}"/> with
         /// the standard settings and a default preconditioner.
         /// </remarks>
-        public BiCgStab()
-            : this(null, null)
+        public BiCgStab() : this(null, null)
         {
         }
 
@@ -122,7 +119,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Iterative
         /// </para>
         /// </remarks>
         /// <param name="iterator">The <see cref="IIterator{T}"/> that will be used to monitor the iterative process. </param>
-        public BiCgStab(IIterator<Complex32> iterator)
+        public BiCgStab(IIterator<double> iterator)
             : this(null, iterator)
         {
         }
@@ -135,7 +132,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Iterative
         /// the standard settings.
         /// </remarks>
         /// <param name="preconditioner">The <see cref="IPreConditioner"/> that will be used to precondition the matrix equation.</param>
-        public BiCgStab(IPreConditioner<Complex32> preconditioner)
+        public BiCgStab(IPreConditioner<double> preconditioner)
             : this(preconditioner, null)
         {
         }
@@ -157,7 +154,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Iterative
         /// </remarks>
         /// <param name="preconditioner">The <see cref="IPreConditioner"/> that will be used to precondition the matrix equation. </param>
         /// <param name="iterator">The <see cref="IIterator{T}"/> that will be used to monitor the iterative process. </param>
-        public BiCgStab(IPreConditioner<Complex32> preconditioner, IIterator<Complex32> iterator)
+        public BiCgStab(IPreConditioner<double> preconditioner, IIterator<double> iterator)
         {
             _iterator = iterator;
             _preconditioner = preconditioner;
@@ -167,7 +164,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Iterative
         /// Sets the <see cref="IPreConditioner"/> that will be used to precondition the iterative process.
         /// </summary>
         /// <param name="preconditioner">The preconditioner.</param>
-        public void SetPreconditioner(IPreConditioner<Complex32> preconditioner)
+        public void SetPreconditioner(IPreConditioner<double> preconditioner)
         {
             _preconditioner = preconditioner;
         }
@@ -176,7 +173,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Iterative
         /// Sets the <see cref="IIterator{T}"/> that will be used to track the iterative process.
         /// </summary>
         /// <param name="iterator">The iterator.</param>
-        public void SetIterator(IIterator<Complex32> iterator)
+        public void SetIterator(IIterator<double> iterator)
         {
             _iterator = iterator;
         }
@@ -186,14 +183,17 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Iterative
         /// </summary>
         public ICalculationStatus IterationResult
         {
-            get { return (_iterator != null) ? _iterator.Status : DefaultStatus; }
+            get 
+            { 
+                return (_iterator != null) ? _iterator.Status : DefaultStatus; 
+            }
         }
 
         /// <summary>
         /// Stops the solve process. 
         /// </summary>
         /// <remarks>
-        /// Note that it may take an indetermined amount of time for the solver to actually stop the process.
+        /// It may take an indetermined amount of time for the solver to actually stop the process.
         /// </remarks>
         public void StopSolve()
         {
@@ -207,7 +207,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Iterative
         /// <param name="matrix">The coefficient <see cref="Matrix"/>, <c>A</c>.</param>
         /// <param name="vector">The solution <see cref="Vector"/>, <c>b</c>.</param>
         /// <returns>The result <see cref="Vector"/>, <c>x</c>.</returns>
-        public Vector<Complex32> Solve(Matrix<Complex32> matrix, Vector<Complex32> vector)
+        public Vector<double> Solve(Matrix<double> matrix, Vector<double> vector)
         {
             if (vector == null)
             {
@@ -226,7 +226,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Iterative
         /// <param name="matrix">The coefficient <see cref="Matrix"/>, <c>A</c>.</param>
         /// <param name="input">The solution <see cref="Vector"/>, <c>b</c>.</param>
         /// <param name="result">The result <see cref="Vector"/>, <c>x</c>.</param>
-        public void Solve(Matrix<Complex32> matrix, Vector<Complex32> input, Vector<Complex32> result)
+        public void Solve(Matrix<double> matrix, Vector<double> input, Vector<double> result)
         {
             // If we were stopped before, we are no longer
             // We're doing this at the start of the method to ensure
@@ -275,9 +275,9 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Iterative
             {
                 _preconditioner = new UnitPreconditioner();
             }
-
+            
             _preconditioner.Initialize(matrix);
-
+            
             // Compute r_0 = b - Ax_0 for some initial guess x_0
             // In this case we take x_0 = vector
             // This is basically a SAXPY so it could be made a lot faster
@@ -286,7 +286,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Iterative
 
             // Choose r~ (for example, r~ = r_0)
             var tempResiduals = residuals.Clone();
-
+            
             // create seven temporary vectors needed to hold temporary
             // coefficients. All vectors are mangled in each iteration.
             // These are defined here to prevent stressing the garbage collector
@@ -298,22 +298,22 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Iterative
             var temp = new DenseVector(residuals.Count);
             var temp2 = new DenseVector(residuals.Count);
 
-            // create some temporary float variables that are needed
+            // create some temporary double variables that are needed
             // to hold values in between iterations
-            Complex32 currentRho = 0;
-            Complex32 alpha = 0;
-            Complex32 omega = 0;
+            double currentRho = 0;
+            double alpha = 0;
+            double omega = 0;
 
             var iterationNumber = 0;
             while (ShouldContinue(iterationNumber, result, input, residuals))
             {
                 // rho_(i-1) = r~^T r_(i-1) // dotproduct r~ and r_(i-1)
                 var oldRho = currentRho;
-                currentRho = tempResiduals.ConjugateDotProduct(residuals);
+                currentRho = tempResiduals.DotProduct(residuals);
 
                 // if (rho_(i-1) == 0) // METHOD FAILS
                 // If rho is only 1 ULP from zero then we fail.
-                if (currentRho.Real.AlmostEqual(0, 1) && currentRho.Imaginary.AlmostEqual(0, 1))
+                if (currentRho.AlmostEqual(0, 1))
                 {
                     // Rho-type breakdown
                     throw new Exception("Iterative solver experience a numerical break down");
@@ -322,7 +322,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Iterative
                 if (iterationNumber != 0)
                 {
                     // beta_(i-1) = (rho_(i-1)/rho_(i-2))(alpha_(i-1)/omega(i-1))
-                    var beta = (currentRho/oldRho)*(alpha/omega);
+                    var beta = (currentRho / oldRho) * (alpha / omega);
 
                     // p_i = r_(i-1) + beta_(i-1)(p_(i-1) - omega_(i-1) * nu_(i-1))
                     nu.Multiply(-omega, temp);
@@ -341,12 +341,12 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Iterative
 
                 // SOLVE Mp~ = p_i // M = preconditioner
                 _preconditioner.Approximate(vecP, vecPdash);
-
+                
                 // nu_i = Ap~
                 matrix.Multiply(vecPdash, nu);
 
                 // alpha_i = rho_(i-1)/ (r~^T nu_i) = rho / dotproduct(r~ and nu_i)
-                alpha = currentRho*1/tempResiduals.ConjugateDotProduct(nu);
+                alpha = currentRho * 1 / tempResiduals.DotProduct(nu);
 
                 // s = r_(i-1) - alpha_i nu_i
                 nu.Multiply(-alpha, temp);
@@ -390,7 +390,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Iterative
                 matrix.Multiply(vecSdash, temp);
 
                 // omega_i = temp^T s / temp^T temp
-                omega = temp.ConjugateDotProduct(vecS)/temp.ConjugateDotProduct(temp);
+                omega = temp.DotProduct(vecS) / temp.DotProduct(temp);
 
                 // x_i = x_(i-1) + alpha_i p^ + omega_i s^
                 temp.Multiply(-omega, residuals);
@@ -404,10 +404,10 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Iterative
                 vecPdash.Multiply(alpha, temp);
                 result.Add(temp, temp2);
                 temp2.CopyTo(result);
-
-                // for continuation it is necessary that omega_i != 0.0f
+                
+                // for continuation it is necessary that omega_i != 0.0
                 // If omega is only 1 ULP from zero then we fail.
-                if (omega.Real.AlmostEqual(0, 1) && omega.Imaginary.AlmostEqual(0, 1))
+                if (omega.AlmostEqual(0, 1))
                 {
                     // Omega-type breakdown
                     throw new Exception("Iterative solver experience a numerical break down");
@@ -434,11 +434,11 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Iterative
         /// <param name="residual">Residual values in <see cref="Vector"/>.</param>
         /// <param name="x">Instance of the <see cref="Vector"/> x.</param>
         /// <param name="b">Instance of the <see cref="Vector"/> b.</param>
-        static void CalculateTrueResidual(Matrix<Complex32> matrix, Vector<Complex32> residual, Vector<Complex32> x, Vector<Complex32> b)
+        private static void CalculateTrueResidual(Matrix<double> matrix, Vector<double> residual, Vector<double> x, Vector<double> b)
         {
             // -Ax = residual
             matrix.Multiply(x, residual);
-
+            
             // Do not use residual = residual.Negate() because it creates another object
             residual.Multiply(-1, residual);
 
@@ -454,7 +454,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Iterative
         /// <param name="source">Source <see cref="Vector"/>.</param>
         /// <param name="residuals">Residual <see cref="Vector"/>.</param>
         /// <returns><c>true</c> if continue, otherwise <c>false</c></returns>
-        bool ShouldContinue(int iterationNumber, Vector<Complex32> result, Vector<Complex32> source, Vector<Complex32> residuals)
+        private bool ShouldContinue(int iterationNumber, Vector<double> result, Vector<double> source, Vector<double> residuals)
         {
             if (_hasBeenStopped)
             {
@@ -478,7 +478,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Iterative
         /// <param name="matrix">The coefficient <see cref="Matrix"/>, <c>A</c>.</param>
         /// <param name="input">The solution <see cref="Matrix"/>, <c>B</c>.</param>
         /// <returns>The result <see cref="Matrix"/>, <c>X</c>.</returns>
-        public Matrix<Complex32> Solve(Matrix<Complex32> matrix, Matrix<Complex32> input)
+        public Matrix<double> Solve(Matrix<double> matrix, Matrix<double> input)
         {
             if (matrix == null)
             {
@@ -502,7 +502,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Iterative
         /// <param name="matrix">The coefficient <see cref="Matrix"/>, <c>A</c>.</param>
         /// <param name="input">The solution <see cref="Matrix"/>, <c>B</c>.</param>
         /// <param name="result">The result <see cref="Matrix"/>, <c>X</c></param>
-        public void Solve(Matrix<Complex32> matrix, Matrix<Complex32> input, Matrix<Complex32> result)
+        public void Solve(Matrix<double> matrix, Matrix<double> input, Matrix<double> result)
         {
             if (matrix == null)
             {

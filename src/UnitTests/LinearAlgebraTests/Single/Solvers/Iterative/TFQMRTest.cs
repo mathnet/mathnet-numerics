@@ -30,7 +30,7 @@
 
 using System;
 using MathNet.Numerics.LinearAlgebra.Single;
-using MathNet.Numerics.LinearAlgebra.Single.Solvers.Iterative;
+using MathNet.Numerics.LinearAlgebra.Single.Solvers;
 using MathNet.Numerics.LinearAlgebra.Single.Solvers.StopCriterium;
 using MathNet.Numerics.LinearAlgebra.Solvers;
 using MathNet.Numerics.LinearAlgebra.Solvers.Status;

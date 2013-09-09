@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2010 Math.NET
+// Copyright (c) 2009-2013 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -29,12 +29,12 @@
 // </copyright>
 
 using System;
-using MathNet.Numerics.LinearAlgebra.Double.Solvers.Preconditioners;
+using MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Preconditioners;
 using MathNet.Numerics.LinearAlgebra.Solvers;
 using MathNet.Numerics.LinearAlgebra.Solvers.Status;
 using MathNet.Numerics.Properties;
 
-namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.Iterative
+namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers
 {
     /// <summary>
     /// A Generalized Product Bi-Conjugate Gradient iterative matrix solver.
@@ -63,41 +63,41 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.Iterative
     /// solver.
     /// </para>
     /// </remarks>
-    public sealed class GpBiCg : IIterativeSolver<double>
+    public sealed class GpBiCg : IIterativeSolver<Numerics.Complex32>
     {
         /// <summary>
         /// The status used if there is no status, i.e. the solver hasn't run yet and there is no
         /// iterator.
         /// </summary>
-        private static readonly ICalculationStatus DefaultStatus = new CalculationIndetermined();
+        static readonly ICalculationStatus DefaultStatus = new CalculationIndetermined();
 
         /// <summary>
         /// The preconditioner that will be used. Can be set to <c>null</c>, in which case the default
         /// pre-conditioner will be used.
         /// </summary>
-        private IPreConditioner<double> _preconditioner;
+        IPreConditioner<Numerics.Complex32> _preconditioner;
 
         /// <summary>
         /// The iterative process controller.
         /// </summary>
-        private IIterator<double> _iterator;
+        IIterator<Numerics.Complex32> _iterator;
 
         /// <summary>
         /// Indicates the number of <c>BiCGStab</c> steps should be taken 
         /// before switching.
         /// </summary>
-        private int _numberOfBiCgStabSteps = 1;
+        int _numberOfBiCgStabSteps = 1;
 
         /// <summary>
         /// Indicates the number of <c>GPBiCG</c> steps should be taken 
         /// before switching.
         /// </summary>
-        private int _numberOfGpbiCgSteps = 4;
+        int _numberOfGpbiCgSteps = 4;
 
         /// <summary>
         /// Indicates if the user has stopped the solver.
         /// </summary>
-        private bool _hasBeenStopped;
+        bool _hasBeenStopped;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GpBiCg"/> class.
@@ -106,7 +106,8 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.Iterative
         /// When using this constructor the solver will use the <see cref="IIterator{T}"/> with
         /// the standard settings and a default preconditioner.
         /// </remarks>
-        public GpBiCg() : this(null, null)
+        public GpBiCg()
+            : this(null, null)
         {
         }
 
@@ -129,7 +130,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.Iterative
         /// </para>
         /// </remarks>
         /// <param name="iterator">The <see cref="IIterator{T}"/> that will be used to monitor the iterative process.</param>
-        public GpBiCg(IIterator<double> iterator)
+        public GpBiCg(IIterator<Numerics.Complex32> iterator)
             : this(null, iterator)
         {
         }
@@ -142,7 +143,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.Iterative
         /// the standard settings.
         /// </remarks>
         /// <param name="preconditioner">The <see cref="IPreConditioner"/> that will be used to precondition the matrix equation.</param>
-        public GpBiCg(IPreConditioner<double> preconditioner)
+        public GpBiCg(IPreConditioner<Numerics.Complex32> preconditioner)
             : this(preconditioner, null)
         {
         }
@@ -164,7 +165,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.Iterative
         /// </remarks>
         /// <param name="preconditioner">The <see cref="IPreConditioner"/> that will be used to precondition the matrix equation.</param>
         /// <param name="iterator">The <see cref="IIterator{T}"/> that will be used to monitor the iterative process.</param>
-        public GpBiCg(IPreConditioner<double> preconditioner, IIterator<double> iterator)
+        public GpBiCg(IPreConditioner<Numerics.Complex32> preconditioner, IIterator<Numerics.Complex32> iterator)
         {
             _iterator = iterator;
             _preconditioner = preconditioner;
@@ -176,10 +177,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.Iterative
         /// </summary>
         public int NumberOfBiCgStabSteps
         {
-            get
-            {
-                return _numberOfBiCgStabSteps;
-            }
+            get { return _numberOfBiCgStabSteps; }
 
             set
             {
@@ -188,7 +186,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.Iterative
                     throw new ArgumentOutOfRangeException("value");
                 }
 
-                _numberOfBiCgStabSteps = value;     
+                _numberOfBiCgStabSteps = value;
             }
         }
 
@@ -198,10 +196,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.Iterative
         /// </summary>
         public int NumberOfGpBiCgSteps
         {
-            get
-            {
-                return _numberOfGpbiCgSteps;
-            }
+            get { return _numberOfGpbiCgSteps; }
 
             set
             {
@@ -218,7 +213,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.Iterative
         /// Sets the <see cref="IPreConditioner"/> that will be used to precondition the iterative process.
         /// </summary>
         /// <param name="preconditioner">The preconditioner.</param>
-        public void SetPreconditioner(IPreConditioner<double> preconditioner)
+        public void SetPreconditioner(IPreConditioner<Numerics.Complex32> preconditioner)
         {
             _preconditioner = preconditioner;
         }
@@ -227,7 +222,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.Iterative
         /// Sets the <see cref="IIterator{T}"/> that will be used to track the iterative process.
         /// </summary>
         /// <param name="iterator">The iterator.</param>
-        public void SetIterator(IIterator<double> iterator)
+        public void SetIterator(IIterator<Numerics.Complex32> iterator)
         {
             _iterator = iterator;
         }
@@ -237,10 +232,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.Iterative
         /// </summary>
         public ICalculationStatus IterationResult
         {
-            get 
-            {
-                return (_iterator != null) ? _iterator.Status : DefaultStatus;
-            }
+            get { return (_iterator != null) ? _iterator.Status : DefaultStatus; }
         }
 
         /// <summary>
@@ -262,7 +254,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.Iterative
         /// <param name="matrix">The coefficient matrix, <c>A</c>.</param>
         /// <param name="vector">The solution vector, <c>b</c>.</param>
         /// <returns>The result vector, <c>x</c>.</returns>
-        public Vector<double> Solve(Matrix<double> matrix, Vector<double> vector)
+        public Vector<Numerics.Complex32> Solve(Matrix<Numerics.Complex32> matrix, Vector<Numerics.Complex32> vector)
         {
             if (vector == null)
             {
@@ -281,7 +273,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.Iterative
         /// <param name="matrix">The coefficient matrix, <c>A</c>.</param>
         /// <param name="input">The solution vector, <c>b</c></param>
         /// <param name="result">The result vector, <c>x</c></param>
-        public void Solve(Matrix<double> matrix, Vector<double> input, Vector<double> result)
+        public void Solve(Matrix<Numerics.Complex32> matrix, Vector<Numerics.Complex32> input, Vector<Numerics.Complex32> result)
         {
             // If we were stopped before, we are no longer
             // We're doing this at the start of the method to ensure
@@ -330,7 +322,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.Iterative
             {
                 _preconditioner = new UnitPreconditioner();
             }
-         
+
             _preconditioner.Initialize(matrix);
 
             // x_0 is initial guess
@@ -343,7 +335,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.Iterative
             CalculateTrueResidual(matrix, residuals, xtemp, input);
 
             // Define the temporary scalars
-            double beta = 0;
+            Numerics.Complex32 beta = 0;
 
             // Define the temporary vectors
             // rDash_0 = r_0
@@ -385,7 +377,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.Iterative
                 matrix.Multiply(temp, s);
 
                 // alpha_k = (r*_0 * r_k) / (r*_0 * s_k)
-                var alpha = rdash.DotProduct(residuals) / rdash.DotProduct(s);
+                var alpha = rdash.ConjugateDotProduct(residuals)/rdash.ConjugateDotProduct(s);
 
                 // y_k = t_(k-1) - r_k - alpha_k * w_(k-1) + alpha_k s_k
                 s.Subtract(w, temp);
@@ -401,61 +393,61 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.Iterative
                 // t_k = r_k - alpha_k s_k
                 s.Multiply(-alpha, temp2);
                 residuals.Add(temp2, t);
-                
+
                 // Solve M d_k = t_k
                 _preconditioner.Approximate(t, temp);
 
                 // c_k = A d_k
                 matrix.Multiply(temp, c);
-                var cdot = c.DotProduct(c);
-                
+                var cdot = c.ConjugateDotProduct(c);
+
                 // cDot can only be zero if c is a zero vector
                 // We'll set cDot to 1 if it is zero to prevent NaN's
                 // Note that the calculation should continue fine because
                 // c.DotProduct(t) will be zero and so will c.DotProduct(y)
-                if (cdot.AlmostEqual(0, 1))
+                if (cdot.Real.AlmostEqual(0, 1) && cdot.Imaginary.AlmostEqual(0, 1))
                 {
-                    cdot = 1.0;
+                    cdot = 1.0f;
                 }
 
                 // Even if we don't want to do any BiCGStab steps we'll still have
                 // to do at least one at the start to initialize the
                 // system, but we'll only have to take special measures
                 // if we don't do any so ...
-                var ctdot = c.DotProduct(t);
-                double eta;
-                double sigma;
+                var ctdot = c.ConjugateDotProduct(t);
+                Numerics.Complex32 eta;
+                Numerics.Complex32 sigma;
                 if (((_numberOfBiCgStabSteps == 0) && (iterationNumber == 0)) || ShouldRunBiCgStabSteps(iterationNumber))
                 {
                     // sigma_k = (c_k * t_k) / (c_k * c_k)
-                    sigma = ctdot / cdot;
+                    sigma = ctdot/cdot;
 
                     // eta_k = 0
                     eta = 0;
                 }
                 else
                 {
-                    var ydot = y.DotProduct(y);
+                    var ydot = y.ConjugateDotProduct(y);
 
                     // yDot can only be zero if y is a zero vector
                     // We'll set yDot to 1 if it is zero to prevent NaN's
                     // Note that the calculation should continue fine because
                     // y.DotProduct(t) will be zero and so will c.DotProduct(y)
-                    if (ydot.AlmostEqual(0, 1))
+                    if (ydot.Real.AlmostEqual(0, 1) && ydot.Imaginary.AlmostEqual(0, 1))
                     {
-                        ydot = 1.0;
+                        ydot = 1.0f;
                     }
 
-                    var ytdot = y.DotProduct(t);
-                    var cydot = c.DotProduct(y);
+                    var ytdot = y.ConjugateDotProduct(t);
+                    var cydot = c.ConjugateDotProduct(y);
 
-                    var denom = (cdot * ydot) - (cydot * cydot);
+                    var denom = (cdot*ydot) - (cydot*cydot);
 
                     // sigma_k = ((y_k * y_k)(c_k * t_k) - (y_k * t_k)(c_k * y_k)) / ((c_k * c_k)(y_k * y_k) - (y_k * c_k)(c_k * y_k))
-                    sigma = ((ydot * ctdot) - (ytdot * cydot)) / denom;
+                    sigma = ((ydot*ctdot) - (ytdot*cydot))/denom;
 
                     // eta_k = ((c_k * c_k)(y_k * t_k) - (y_k * c_k)(c_k * t_k)) / ((c_k * c_k)(y_k * y_k) - (y_k * c_k)(c_k * y_k))
-                    eta = ((cdot * ytdot) - (cydot * ctdot)) / denom;
+                    eta = ((cdot*ytdot) - (cydot*ctdot))/denom;
                 }
 
                 // u_k = sigma_k s_k + eta_k (t_(k-1) - r_k + beta_(k-1) u_(k-1))
@@ -483,7 +475,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.Iterative
                 p.Multiply(alpha, temp2);
                 xtemp.Add(temp2, temp3);
                 temp3.CopyTo(xtemp);
-                
+
                 xtemp.Add(z, temp3);
                 temp3.CopyTo(xtemp);
 
@@ -501,7 +493,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.Iterative
 
                 // beta_k = alpha_k / sigma_k * (r*_0 * r_(k+1)) / (r*_0 * r_k)
                 // But first we check if there is a possible NaN. If so just reset beta to zero.
-                beta = (!sigma.AlmostEqual(0, 1)) ? alpha / sigma * rdash.DotProduct(residuals) / rdash.DotProduct(t0) : 0;
+                beta = (!sigma.Real.AlmostEqual(0, 1) || !sigma.Imaginary.AlmostEqual(0, 1)) ? alpha/sigma*rdash.ConjugateDotProduct(residuals)/rdash.ConjugateDotProduct(t0) : 0;
 
                 // w_k = c_k + beta_k s_k
                 s.Multiply(beta, temp2);
@@ -524,13 +516,13 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.Iterative
         }
 
         /// <summary>
-        /// Calculates the true residual of the matrix equation Ax = b according to: residual = b - Ax
+        /// Calculates the <c>true</c> residual of the matrix equation Ax = b according to: residual = b - Ax
         /// </summary>
         /// <param name="matrix">Instance of the <see cref="Matrix"/> A.</param>
         /// <param name="residual">Residual values in <see cref="Vector"/>.</param>
         /// <param name="x">Instance of the <see cref="Vector"/> x.</param>
         /// <param name="b">Instance of the <see cref="Vector"/> b.</param>
-        private static void CalculateTrueResidual(Matrix<double> matrix, Vector<double> residual, Vector<double> x, Vector<double> b)
+        static void CalculateTrueResidual(Matrix<Numerics.Complex32> matrix, Vector<Numerics.Complex32> residual, Vector<Numerics.Complex32> x, Vector<Numerics.Complex32> b)
         {
             // -Ax = residual
             matrix.Multiply(x, residual);
@@ -548,7 +540,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.Iterative
         /// <param name="source">Source <see cref="Vector"/>.</param>
         /// <param name="residuals">Residual <see cref="Vector"/>.</param>
         /// <returns><c>true</c> if continue, otherwise <c>false</c></returns>
-        private bool ShouldContinue(int iterationNumber, Vector<double> result, Vector<double> source, Vector<double> residuals)
+        bool ShouldContinue(int iterationNumber, Vector<Numerics.Complex32> result, Vector<Numerics.Complex32> source, Vector<Numerics.Complex32> residuals)
         {
             if (_hasBeenStopped)
             {
@@ -564,17 +556,17 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.Iterative
             // - the calculation needs to be stopped from a numerical point of view (divergence, convergence etc.)
             return (!status.TerminatesCalculation) && (!_hasBeenStopped);
         }
-        
+
         /// <summary>
         /// Decide if to do steps with BiCgStab
         /// </summary>
         /// <param name="iterationNumber">Number of iteration</param>
         /// <returns><c>true</c> if yes, otherwise <c>false</c></returns>
-        private bool ShouldRunBiCgStabSteps(int iterationNumber)
+        bool ShouldRunBiCgStabSteps(int iterationNumber)
         {
             // Run the first steps as BiCGStab
             // The number of steps past a whole iteration set
-            var difference = iterationNumber % (_numberOfBiCgStabSteps + _numberOfGpbiCgSteps);
+            var difference = iterationNumber%(_numberOfBiCgStabSteps + _numberOfGpbiCgSteps);
 
             // Do steps with BiCGStab if:
             // - The difference is zero or more (i.e. we have done zero or more complete cycles)
@@ -589,7 +581,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.Iterative
         /// <param name="matrix">The coefficient matrix, <c>A</c>.</param>
         /// <param name="input">The solution matrix, <c>B</c>.</param>
         /// <returns>The result matrix, <c>X</c>.</returns>
-        public Matrix<double> Solve(Matrix<double> matrix, Matrix<double> input)
+        public Matrix<Numerics.Complex32> Solve(Matrix<Numerics.Complex32> matrix, Matrix<Numerics.Complex32> input)
         {
             if (matrix == null)
             {
@@ -613,7 +605,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.Iterative
         /// <param name="matrix">The coefficient matrix, <c>A</c>.</param>
         /// <param name="input">The solution matrix, <c>B</c>.</param>
         /// <param name="result">The result matrix, <c>X</c></param>
-        public void Solve(Matrix<double> matrix, Matrix<double> input, Matrix<double> result)
+        public void Solve(Matrix<Numerics.Complex32> matrix, Matrix<Numerics.Complex32> input, Matrix<Numerics.Complex32> result)
         {
             if (matrix == null)
             {

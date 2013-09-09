@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2010 Math.NET
+// Copyright (c) 2009-2013 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -37,7 +37,7 @@ using MathNet.Numerics.LinearAlgebra.Solvers;
 using MathNet.Numerics.LinearAlgebra.Solvers.Status;
 using MathNet.Numerics.Properties;
 
-namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Iterative
+namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers
 {
     /// <summary>
     /// A composite matrix solver. The actual solver is made by a sequence of
@@ -54,7 +54,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Iterative
     /// Note that if an iterator is passed to this solver it will be used for all the sub-solvers.
     /// </para>
     /// </remarks>
-    public sealed class CompositeSolver : IIterativeSolver<float>
+    public sealed class CompositeSolver : IIterativeSolver<Numerics.Complex32>
     {
         #region Internal class - DoubleComparer
         /// <summary>
@@ -95,13 +95,13 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Iterative
         private static readonly ICalculationStatus RunningStatus = new CalculationRunning();
         
 #if PORTABLE
-        private static readonly Dictionary<double, List<IIterativeSolverSetup<float>>> SolverSetups = new Dictionary<double, List<IIterativeSolverSetup<float>>>();        
+        private static readonly Dictionary<double, List<IIterativeSolverSetup<Complex32>>> SolverSetups = new Dictionary<double, List<IIterativeSolverSetup<Complex32>>>();        
 #else
         /// <summary>
         /// The collection of iterative solver setups. Stored based on the
         /// ratio between the relative speed and relative accuracy.
         /// </summary>
-        private static readonly SortedList<double, List<IIterativeSolverSetup<float>>> SolverSetups = new SortedList<double, List<IIterativeSolverSetup<float>>>(new DoubleComparer());
+        private static readonly SortedList<double, List<IIterativeSolverSetup<Numerics.Complex32>>> SolverSetups = new SortedList<double, List<IIterativeSolverSetup<Numerics.Complex32>>>(new DoubleComparer());
 #endif
 
         #region Solver information loading methods
@@ -266,18 +266,18 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Iterative
             {
                 interfaceTypes.Clear();
                 interfaceTypes.AddRange(type.GetInterfaces());
-                if (!interfaceTypes.Any(match => typeof(IIterativeSolverSetup<float>).IsAssignableFrom(match)))
+                if (!interfaceTypes.Any(match => typeof(IIterativeSolverSetup<Numerics.Complex32>).IsAssignableFrom(match)))
                 {
                     continue;
                 }
 
                 // See if we actually want this type of iterative solver
-                IIterativeSolverSetup<float> setup;
+                IIterativeSolverSetup<Numerics.Complex32> setup;
                 try
                 {
                     // If something goes wrong we just ignore it and move on with the next type.
                     // There should probably be a log somewhere indicating that something went wrong?
-                    setup = (IIterativeSolverSetup<float>)Activator.CreateInstance(type);
+                    setup = (IIterativeSolverSetup<Numerics.Complex32>)Activator.CreateInstance(type);
                 }
                 catch (ArgumentException)
                 {
@@ -320,7 +320,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Iterative
                 var ratio = setup.SolutionSpeed / setup.Reliability;
                 if (!SolverSetups.ContainsKey(ratio))
                 {
-                    SolverSetups.Add(ratio, new List<IIterativeSolverSetup<float>>());
+                    SolverSetups.Add(ratio, new List<IIterativeSolverSetup<Numerics.Complex32>>());
                 }
 
                 var list = SolverSetups[ratio];
@@ -333,7 +333,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Iterative
         /// <summary>
         /// The collection of solvers that will be used to 
         /// </summary>
-        private readonly List<IIterativeSolver<float>> _solvers = new List<IIterativeSolver<float>>();
+        private readonly List<IIterativeSolver<Numerics.Complex32>> _solvers = new List<IIterativeSolver<Numerics.Complex32>>();
 
         /// <summary>
         /// The status of the calculation.
@@ -343,7 +343,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Iterative
         /// <summary>
         /// The iterator that is used to control the iteration process.
         /// </summary>
-        private IIterator<float> _iterator;
+        private IIterator<Numerics.Complex32> _iterator;
 
         /// <summary>
         /// A flag indicating if the solver has been stopped or not.
@@ -354,7 +354,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Iterative
         /// The solver that is currently running. Reference is used to be able to stop the
         /// solver if the user cancels the solve process.
         /// </summary>
-        private IIterativeSolver<float> _currentSolver;
+        private IIterativeSolver<Numerics.Complex32> _currentSolver;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CompositeSolver"/> class with the default iterator.
@@ -367,16 +367,16 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Iterative
         /// Initializes a new instance of the <see cref="CompositeSolver"/> class with the specified iterator.
         /// </summary>
         /// <param name="iterator">The iterator that will be used to control the iteration process. </param>
-        public CompositeSolver(IIterator<float> iterator)
+        public CompositeSolver(IIterator<Numerics.Complex32> iterator)
         {
             _iterator = iterator;
         }
 
         /// <summary>
-        /// Sets the <see cref="IIterator{T}"/> that will be used to track the iterative process.
+        /// Sets the <c>IIterator</c> that will be used to track the iterative process.
         /// </summary>
         /// <param name="iterator">The iterator.</param>
-        public void SetIterator(IIterator<float> iterator)
+        public void SetIterator(IIterator<Numerics.Complex32> iterator)
         {
             _iterator = iterator;
         }
@@ -414,7 +414,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Iterative
         /// <param name="matrix">The coefficient matrix, <c>A</c>.</param>
         /// <param name="vector">The solution vector, <c>b</c>.</param>
         /// <returns>The result vector, <c>x</c>.</returns>
-        public Vector<float> Solve(Matrix<float> matrix, Vector<float> vector)
+        public Vector<Numerics.Complex32> Solve(Matrix<Numerics.Complex32> matrix, Vector<Numerics.Complex32> vector)
         {
             if (vector == null)
             {
@@ -433,7 +433,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Iterative
         /// <param name="matrix">The coefficient matrix, <c>A</c>.</param>
         /// <param name="input">The solution vector, <c>b</c></param>
         /// <param name="result">The result vector, <c>x</c></param>
-        public void Solve(Matrix<float> matrix, Vector<float> input, Vector<float> result)
+        public void Solve(Matrix<Numerics.Complex32> matrix, Vector<Numerics.Complex32> input, Vector<Numerics.Complex32> result)
         {
             // If we were stopped before, we are no longer
             // We're doing this at the start of the method to ensure
@@ -575,7 +575,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Iterative
         /// <param name="matrix">The coefficient matrix, <c>A</c>.</param>
         /// <param name="input">The solution matrix, <c>B</c>.</param>
         /// <returns>The result matrix, <c>X</c>.</returns>
-        public Matrix<float> Solve(Matrix<float> matrix, Matrix<float> input)
+        public Matrix<Numerics.Complex32> Solve(Matrix<Numerics.Complex32> matrix, Matrix<Numerics.Complex32> input)
         {
             if (matrix == null)
             {
@@ -599,7 +599,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Iterative
         /// <param name="matrix">The coefficient matrix, <c>A</c>.</param>
         /// <param name="input">The solution matrix, <c>B</c>.</param>
         /// <param name="result">The result matrix, <c>X</c></param>
-        public void Solve(Matrix<float> matrix, Matrix<float> input, Matrix<float> result)
+        public void Solve(Matrix<Numerics.Complex32> matrix, Matrix<Numerics.Complex32> input, Matrix<Numerics.Complex32> result)
         {
             if (matrix == null)
             {
