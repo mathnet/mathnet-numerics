@@ -26,7 +26,6 @@
 
 using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Complex32;
-using MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Preconditioners;
 using MathNet.Numerics.LinearAlgebra.Solvers;
 using NUnit.Framework;
 
@@ -46,7 +45,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.Precon
         /// <returns>New preconditioner instance.</returns>
         internal override IPreConditioner<Complex32> CreatePreconditioner()
         {
-            return new UnitPreconditioner();
+            return new UnitPreconditioner<Complex32>();
         }
 
         /// <summary>
@@ -58,7 +57,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.Precon
         /// <param name="result">Result vector.</param>
         protected override void CheckResult(IPreConditioner<Complex32> preconditioner, SparseMatrix matrix, Vector<Complex32> vector, Vector<Complex32> result)
         {
-            Assert.AreEqual(typeof(UnitPreconditioner), preconditioner.GetType(), "#01");
+            Assert.AreEqual(typeof(UnitPreconditioner<Complex32>), preconditioner.GetType(), "#01");
 
             // Unit preconditioner is doing nothing. Vector and result should be equal
             for (var i = 0; i < vector.Count; i++)

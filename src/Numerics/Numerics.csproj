@@ -246,7 +246,6 @@
     <Compile Include="LinearAlgebra\Complex32\Solvers\Preconditioners\Ilutp.cs" />
     <Compile Include="LinearAlgebra\Complex32\Solvers\Preconditioners\IlutpElementSorter.cs" />
     <Compile Include="LinearAlgebra\Complex32\Solvers\Preconditioners\IncompleteLU.cs" />
-    <Compile Include="LinearAlgebra\Complex32\Solvers\Preconditioners\UnitPreconditioner.cs" />
     <Compile Include="LinearAlgebra\Complex32\Solvers\StopCriterium\DivergenceStopCriterium.cs" />
     <Compile Include="LinearAlgebra\Complex32\Solvers\StopCriterium\FailureStopCriterium.cs" />
     <Compile Include="LinearAlgebra\Complex32\Solvers\StopCriterium\ResidualStopCriterium.cs" />
@@ -273,7 +272,6 @@
     <Compile Include="LinearAlgebra\Complex\Solvers\Preconditioners\Ilutp.cs" />
     <Compile Include="LinearAlgebra\Complex\Solvers\Preconditioners\IlutpElementSorter.cs" />
     <Compile Include="LinearAlgebra\Complex\Solvers\Preconditioners\IncompleteLU.cs" />
-    <Compile Include="LinearAlgebra\Complex\Solvers\Preconditioners\UnitPreconditioner.cs" />
     <Compile Include="LinearAlgebra\Complex\Solvers\StopCriterium\DivergenceStopCriterium.cs" />
     <Compile Include="LinearAlgebra\Complex\Solvers\StopCriterium\FailureStopCriterium.cs" />
     <Compile Include="LinearAlgebra\Complex\Solvers\StopCriterium\ResidualStopCriterium.cs" />
@@ -316,7 +314,6 @@
     <Compile Include="LinearAlgebra\Single\Solvers\Preconditioners\Ilutp.cs" />
     <Compile Include="LinearAlgebra\Single\Solvers\Preconditioners\IlutpElementSorter.cs" />
     <Compile Include="LinearAlgebra\Single\Solvers\Preconditioners\IncompleteLU.cs" />
-    <Compile Include="LinearAlgebra\Single\Solvers\Preconditioners\UnitPreconditioner.cs" />
     <Compile Include="LinearAlgebra\Single\Solvers\StopCriterium\DivergenceStopCriterium.cs" />
     <Compile Include="LinearAlgebra\Single\Solvers\StopCriterium\FailureStopCriterium.cs" />
     <Compile Include="LinearAlgebra\Single\Solvers\StopCriterium\ResidualStopCriterium.cs" />
@@ -348,7 +345,7 @@
     <Compile Include="LinearAlgebra\Double\Solvers\Preconditioners\IncompleteLU.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="LinearAlgebra\Double\Solvers\Preconditioners\UnitPreconditioner.cs" />
+    <Compile Include="LinearAlgebra\Solvers\UnitPreconditioner.cs" />
     <Compile Include="LinearAlgebra\Solvers\Status\CalculationCancelled.cs" />
     <Compile Include="LinearAlgebra\Solvers\Status\CalculationConverged.cs" />
     <Compile Include="LinearAlgebra\Solvers\Status\CalculationDiverged.cs" />

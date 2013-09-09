@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2010 Math.NET
+// Copyright (c) 2009-2013 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -29,24 +29,16 @@
 // </copyright>
 
 using System;
-using MathNet.Numerics.LinearAlgebra.Solvers;
 using MathNet.Numerics.Properties;
 
-namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Preconditioners
+namespace MathNet.Numerics.LinearAlgebra.Solvers
 {
-
-#if NOSYSNUMERICS
-    using Complex = Numerics.Complex;
-#else
-    using Complex = System.Numerics.Complex;
-#endif
-
     /// <summary>
     /// A unit preconditioner. This preconditioner does not actually do anything
     /// it is only used when running an <see cref="IIterativeSolver{T}"/> without
     /// a preconditioner.
     /// </summary>
-    internal sealed class UnitPreconditioner : IPreConditioner<Complex>
+    internal sealed class UnitPreconditioner<T> : IPreConditioner<T> where T : struct, IEquatable<T>, IFormattable
     {
         /// <summary>
         /// The coefficient matrix on which this preconditioner operates.
@@ -62,7 +54,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Preconditioners
         /// </param>
         /// <exception cref="ArgumentNullException">If <paramref name="matrix"/> is <see langword="null"/>. </exception>
         /// <exception cref="ArgumentException">If <paramref name="matrix"/> is not a square matrix.</exception>
-        public void Initialize(Matrix<Complex> matrix)
+        public void Initialize(Matrix<T> matrix)
         {
             if (matrix == null)
             {
@@ -95,7 +87,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Preconditioners
         ///     If the size of <paramref name="rhs"/> is different the number of rows of the coefficient matrix.
         ///   </para>
         /// </exception>
-        public void Approximate(Vector<Complex> rhs, Vector<Complex> lhs)
+        public void Approximate(Vector<T> rhs, Vector<T> lhs)
         {
             if (rhs == null)
             {
@@ -124,7 +116,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Preconditioners
         /// <exception cref="ArgumentException">
         /// If the size of <paramref name="rhs"/> is different the number of rows of the coefficient matrix.
         /// </exception>
-        public Vector<Complex> Approximate(Vector<Complex> rhs)
+        public Vector<T> Approximate(Vector<T> rhs)
         {
             if (rhs == null)
             {
@@ -136,7 +128,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Preconditioners
                 throw new ArgumentException(Resources.ArgumentMatrixDimensions);
             }
 
-            var result = new DenseVector(rhs.Count);
+            var result = Vector<T>.Builder.DenseVector(rhs.Count);
             Approximate(rhs, result);
             return result;
         }

@@ -29,7 +29,6 @@
 // </copyright>
 
 using System;
-using MathNet.Numerics.LinearAlgebra.Complex.Solvers.Preconditioners;
 using MathNet.Numerics.LinearAlgebra.Solvers;
 using MathNet.Numerics.LinearAlgebra.Solvers.Status;
 using MathNet.Numerics.Properties;
@@ -278,7 +277,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
 
             if (_preconditioner == null)
             {
-                _preconditioner = new UnitPreconditioner();
+                _preconditioner = new UnitPreconditioner<Complex>();
             }
 
             _preconditioner.Initialize(matrix);

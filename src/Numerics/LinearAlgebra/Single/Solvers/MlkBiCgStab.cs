@@ -32,7 +32,6 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using MathNet.Numerics.Distributions;
-using MathNet.Numerics.LinearAlgebra.Single.Solvers.Preconditioners;
 using MathNet.Numerics.LinearAlgebra.Solvers;
 using MathNet.Numerics.LinearAlgebra.Solvers.Status;
 using MathNet.Numerics.Properties;
@@ -347,7 +346,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
 
             if (_preconditioner == null)
             {
-                _preconditioner = new UnitPreconditioner();
+                _preconditioner = new UnitPreconditioner<float>();
             }
          
             _preconditioner.Initialize(matrix);
