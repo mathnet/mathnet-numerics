@@ -34,7 +34,6 @@ using MathNet.Numerics.LinearAlgebra.Complex32;
 using MathNet.Numerics.LinearAlgebra.Complex32.Solvers.StopCriterium;
 using MathNet.Numerics.LinearAlgebra.Solvers;
 using MathNet.Numerics.LinearAlgebra.Solvers.Status;
-using MathNet.Numerics.LinearAlgebra.Solvers.StopCriterium;
 using NUnit.Framework;
 
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers
@@ -81,19 +80,6 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers
         }
 
         /// <summary>
-        /// Create with duplicates throws <c>ArgumentException</c>.
-        /// </summary>
-        [Test]
-        public void CreateWithDuplicatesThrowsArgumentException()
-        {
-            Assert.Throws<ArgumentException>(() => new Iterator<Complex32>(new IIterationStopCriterium<Complex32>[]
-                {
-                    new FailureStopCriterium(),
-                    new FailureStopCriterium()
-                }));
-        }
-
-        /// <summary>
         /// Can create with collection.
         /// </summary>
         [Test]
@@ -115,29 +101,6 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers
             {
                 Assert.IsTrue(criteria.Exists(c => ReferenceEquals(c, criterium)), "Criterium missing");
             }
-        }
-
-        /// <summary>
-        /// Add with <c>null</c> stop criterium throws <c>ArgumentNullException</c>.
-        /// </summary>
-        [Test]
-        public void AddWithNullStopCriteriumThrowsArgumentNullException()
-        {
-            var iterator = new Iterator<Complex32>();
-            Assert.Throws<ArgumentNullException>(() => iterator.Add(null));
-        }
-
-        /// <summary>
-        /// Add with existing stop criterium throws <c>ArgumentException</c>.
-        /// </summary>
-        [Test]
-        public void AddWithExistingStopCriteriumThrowsArgumentException()
-        {
-            var iterator = new Iterator<Complex32>();
-            iterator.Add(new FailureStopCriterium());
-            Assert.AreEqual(1, iterator.NumberOfCriteria, "Incorrect criterium count");
-
-            Assert.Throws<ArgumentException>(() => iterator.Add(new FailureStopCriterium()));
         }
 
         /// <summary>
@@ -168,25 +131,6 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers
             {
                 Assert.IsTrue(criteria.Exists(c => ReferenceEquals(c, criterium)), "Criterium missing");
             }
-        }
-
-        /// <summary>
-        /// Remove with <c>null</c> stop criterium throws <c>ArgumentNullException</c>.
-        /// </summary>
-        [Test]
-        public void RemoveWithNullStopCriteriumThrowsArgumentNullException()
-        {
-            var criteria = new List<IIterationStopCriterium<Complex32>>
-                {
-                    new FailureStopCriterium(),
-                    new DivergenceStopCriterium(),
-                    new IterationCountStopCriterium<Complex32>(),
-                    new ResidualStopCriterium()
-                };
-            var iterator = new Iterator<Complex32>(criteria);
-            Assert.AreEqual(criteria.Count, iterator.NumberOfCriteria, "Incorrect criterium count");
-
-            Assert.Throws<ArgumentNullException>(() => iterator.Remove(null));
         }
 
         /// <summary>

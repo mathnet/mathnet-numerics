@@ -353,7 +353,7 @@
     <Compile Include="LinearAlgebra\Solvers\Status\CalculationIndetermined.cs" />
     <Compile Include="LinearAlgebra\Solvers\Status\CalculationRunning.cs" />
     <Compile Include="LinearAlgebra\Solvers\Status\CalculationStoppedWithoutConvergence.cs" />
-    <Compile Include="LinearAlgebra\Solvers\Status\ICalculationStatus.cs" />
+    <Compile Include="LinearAlgebra\Solvers\ICalculationStatus.cs" />
     <Compile Include="LinearAlgebra\Double\Solvers\StopCriterium\DivergenceStopCriterium.cs" />
     <Compile Include="LinearAlgebra\Double\Solvers\StopCriterium\FailureStopCriterium.cs" />
     <Compile Include="LinearAlgebra\Double\Solvers\StopCriterium\ResidualStopCriterium.cs" />

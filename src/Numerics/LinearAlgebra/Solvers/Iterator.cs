@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2010 Math.NET
+// Copyright (c) 2009-2013 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -32,7 +32,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using MathNet.Numerics.LinearAlgebra.Solvers.Status;
-using MathNet.Numerics.LinearAlgebra.Solvers.StopCriterium;
 using MathNet.Numerics.Properties;
 
 namespace MathNet.Numerics.LinearAlgebra.Solvers
@@ -45,23 +44,23 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
         /// <summary>
         /// The default status for the iterator.
         /// </summary>
-        private static readonly ICalculationStatus DefaultStatus = new CalculationIndetermined();
+        static readonly ICalculationStatus DefaultStatus = new CalculationIndetermined();
 
         /// <summary>
         /// The collection that holds all the stop criteria and the flag indicating if they should be added
         /// to the child iterators.
         /// </summary>
-        private readonly Dictionary<Type, IIterationStopCriterium<T>> _stopCriterias = new Dictionary<Type, IIterationStopCriterium<T>>();
+        readonly Dictionary<Type, IIterationStopCriterium<T>> _stopCriterias = new Dictionary<Type, IIterationStopCriterium<T>>();
 
         /// <summary>
         /// The status of the iterator.
         /// </summary>
-        private ICalculationStatus _status = DefaultStatus;
+        ICalculationStatus _status = DefaultStatus;
 
         /// <summary>
         /// Indicates if the iteration was canceled.
         /// </summary>
-        private bool _wasIterationCancelled;
+        bool _wasIterationCancelled;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Iterator{T}"/> class.
@@ -97,25 +96,9 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
         /// single stop criterium of each type can be stored.
         /// </summary>
         /// <param name="stopCriterium">The stop criterium to add.</param>
-        /// <exception cref="ArgumentNullException">Thrown if <paramref name="stopCriterium"/> is <see langword="null" />.</exception>
-        /// <exception cref="ArgumentException">
-        /// Thrown if <paramref name="stopCriterium"/> is of the same type as an already 
-        /// stored criterium.
-        /// </exception>
         public void Add(IIterationStopCriterium<T> stopCriterium)
         {
-            if (stopCriterium == null)
-            {
-                throw new ArgumentNullException("stopCriterium");
-            }
-
-            if (_stopCriterias.ContainsKey(stopCriterium.GetType()))
-            {
-                throw new ArgumentException(Resources.StopCriteriumDuplicate);
-            }
-
-            // Store the stop criterium.
-            _stopCriterias.Add(stopCriterium.GetType(), stopCriterium);
+            _stopCriterias[stopCriterium.GetType()] = stopCriterium;
         }
 
         /// <summary>
@@ -124,17 +107,6 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
         /// <param name="stopCriterium">The stop criterium that must be removed.</param>
         public void Remove(IIterationStopCriterium<T> stopCriterium)
         {
-            if (stopCriterium == null)
-            {
-                throw new ArgumentNullException("stopCriterium");
-            }
-
-            if (!_stopCriterias.ContainsKey(stopCriterium.GetType()))
-            {
-                return;
-            }
-
-            // Remove from the collection
             _stopCriterias.Remove(stopCriterium.GetType());
         }
 
@@ -145,7 +117,7 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
         /// <returns><c>true</c> if the <see cref="IIterator{T}"/> contains the stop criterium; otherwise <c>false</c>.</returns>
         public bool Contains(IIterationStopCriterium<T> stopCriterium)
         {
-            return stopCriterium != null && _stopCriterias.ContainsKey(stopCriterium.GetType());
+            return _stopCriterias.ContainsKey(stopCriterium.GetType());
         }
 
         /// <summary>
@@ -154,10 +126,7 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
         /// <remarks>Used for testing only.</remarks>
         internal int NumberOfCriteria
         {
-            get
-            {
-                return _stopCriterias.Count;
-            }
+            get { return _stopCriterias.Count; }
         }
 
         /// <summary>
@@ -166,10 +135,7 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
         /// <remarks>Used for testing only.</remarks>
         internal IEnumerable<IIterationStopCriterium<T>> StoredStopCriteria
         {
-            get
-            {
-                return _stopCriterias.Select(criterium => criterium.Value);
-            }
+            get { return _stopCriterias.Select(criterium => criterium.Value); }
         }
 
         /// <summary>
@@ -209,21 +175,6 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
                 throw new ArgumentOutOfRangeException("iterationNumber");
             }
 
-            if (solutionVector == null)
-            {
-                throw new ArgumentNullException("solutionVector");
-            }
-
-            if (sourceVector == null)
-            {
-                throw new ArgumentNullException("sourceVector");
-            }
-
-            if (residualVector == null)
-            {
-                throw new ArgumentNullException("residualVector");
-            }
-
             // While we're cancelled we don't call on the stop-criteria.
             if (_wasIterationCancelled)
             {
@@ -260,12 +211,9 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
         /// <summary>
         /// Gets the current calculation status.
         /// </summary>
-        public ICalculationStatus Status 
-        { 
-            get 
-            { 
-                return _status; 
-            } 
+        public ICalculationStatus Status
+        {
+            get { return _status; }
         }
 
         /// <summary>

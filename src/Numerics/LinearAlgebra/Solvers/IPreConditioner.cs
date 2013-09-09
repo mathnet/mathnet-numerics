@@ -62,13 +62,6 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
         /// Approximates the solution to the matrix equation <b>Mx = b</b>.
         /// </summary>
         /// <param name="rhs">The right hand side vector.</param>
-        /// <returns>The left hand side vector.</returns>
-        Vector<T> Approximate(Vector<T> rhs);
-
-        /// <summary>
-        /// Approximates the solution to the matrix equation <b>Mx = b</b>.
-        /// </summary>
-        /// <param name="rhs">The right hand side vector.</param>
         /// <param name="lhs">The left hand side vector. Also known as the result vector.</param>
         void Approximate(Vector<T> rhs, Vector<T> lhs);
     }

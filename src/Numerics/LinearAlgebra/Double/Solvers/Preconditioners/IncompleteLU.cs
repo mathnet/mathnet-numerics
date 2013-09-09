@@ -49,7 +49,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.Preconditioners
         /// The matrix holding the lower (L) and upper (U) matrices. The
         /// decomposition matrices are combined to reduce storage.
         /// </summary>
-        private SparseMatrix _decompositionLU;
+        SparseMatrix _decompositionLU;
 
         /// <summary>
         /// Returns the upper triagonal matrix that was created during the LU decomposition.
@@ -84,7 +84,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.Preconditioners
                     {
                         result[i, j] = 1.0;
                     }
-                    else 
+                    else
                     {
                         result[i, j] = _decompositionLU[i, j];
                     }
@@ -133,11 +133,11 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.Preconditioners
                 {
                     if (_decompositionLU[i, k] != 0.0)
                     {
-                        var t = _decompositionLU[i, k] / _decompositionLU[k, k];
+                        var t = _decompositionLU[i, k]/_decompositionLU[k, k];
                         _decompositionLU[i, k] = t;
                         if (_decompositionLU[k, i] != 0.0)
                         {
-                            _decompositionLU[i, i] = _decompositionLU[i, i] - (t * _decompositionLU[k, i]);
+                            _decompositionLU[i, i] = _decompositionLU[i, i] - (t*_decompositionLU[k, i]);
                         }
 
                         for (var j = k + 1; j < _decompositionLU.RowCount; j++)
@@ -149,7 +149,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.Preconditioners
 
                             if (_decompositionLU[i, j] != 0.0)
                             {
-                                _decompositionLU[i, j] = _decompositionLU[i, j] - (t * _decompositionLU[k, j]);
+                                _decompositionLU[i, j] = _decompositionLU[i, j] - (t*_decompositionLU[k, j]);
                             }
                         }
                     }
@@ -161,46 +161,9 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.Preconditioners
         /// Approximates the solution to the matrix equation <b>Ax = b</b>.
         /// </summary>
         /// <param name="rhs">The right hand side vector.</param>
-        /// <returns>The left hand side vector.</returns>
-        public Vector<double> Approximate(Vector<double> rhs)
-        {
-            if (rhs == null)
-            {
-                throw new ArgumentNullException("rhs");
-            }
-
-            if (_decompositionLU == null)
-            {
-                throw new ArgumentException(Resources.ArgumentMatrixDoesNotExist);
-            }
-
-            if (rhs.Count != _decompositionLU.ColumnCount)
-            {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "rhs");
-            }
-
-            var result = new DenseVector(rhs.Count);
-            Approximate(rhs, result);
-            return result;
-        }
-
-        /// <summary>
-        /// Approximates the solution to the matrix equation <b>Ax = b</b>.
-        /// </summary>
-        /// <param name="rhs">The right hand side vector.</param>
         /// <param name="lhs">The left hand side vector. Also known as the result vector.</param>
         public void Approximate(Vector<double> rhs, Vector<double> lhs)
         {
-            if (rhs == null)
-            {
-                throw new ArgumentNullException("rhs");
-            }
-
-            if (lhs == null)
-            {
-                throw new ArgumentNullException("lhs");
-            }
-
             if (_decompositionLU == null)
             {
                 throw new ArgumentException(Resources.ArgumentMatrixDoesNotExist);
@@ -229,7 +192,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.Preconditioners
                 var sum = 0.0;
                 for (var j = 0; j < i; j++)
                 {
-                    sum += rowValues[j] * lhs[j];
+                    sum += rowValues[j]*lhs[j];
                 }
 
                 lhs[i] = rhs[i] - sum;
@@ -249,10 +212,10 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.Preconditioners
                 var sum = 0.0;
                 for (var j = _decompositionLU.RowCount - 1; j > i; j--)
                 {
-                    sum += rowValues[j] * lhs[j];
+                    sum += rowValues[j]*lhs[j];
                 }
 
-                lhs[i] = 1 / rowValues[i] * (lhs[i] - sum);
+                lhs[i] = 1/rowValues[i]*(lhs[i] - sum);
             }
         }
     }

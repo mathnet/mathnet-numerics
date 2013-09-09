@@ -28,7 +28,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-namespace MathNet.Numerics.LinearAlgebra.Solvers.Status
+namespace MathNet.Numerics.LinearAlgebra.Solvers
 {
     /// <summary>
     /// Defines the base interface for calculation status objects.

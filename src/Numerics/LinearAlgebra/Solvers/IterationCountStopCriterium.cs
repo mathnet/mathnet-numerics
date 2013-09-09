@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2010 Math.NET
+// Copyright (c) 2009-2013 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -32,7 +32,7 @@ using System;
 using System.Diagnostics;
 using MathNet.Numerics.LinearAlgebra.Solvers.Status;
 
-namespace MathNet.Numerics.LinearAlgebra.Solvers.StopCriterium
+namespace MathNet.Numerics.LinearAlgebra.Solvers
 {
     /// <summary>
     /// Defines an <see cref="IIterationStopCriterium{T}"/> that monitors the numbers of iteration 
@@ -49,17 +49,17 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers.StopCriterium
         /// <summary>
         /// The default status.
         /// </summary>
-        private static readonly ICalculationStatus DefaultStatus = new CalculationIndetermined();
+        static readonly ICalculationStatus DefaultStatus = new CalculationIndetermined();
 
         /// <summary>
         /// The maximum number of iterations the calculation is allowed to perform.
         /// </summary>
-        private int _maximumNumberOfIterations;
+        int _maximumNumberOfIterations;
 
         /// <summary>
         /// The status of the calculation
         /// </summary>
-        private ICalculationStatus _status = DefaultStatus;
+        ICalculationStatus _status = DefaultStatus;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="IterationCountStopCriterium{T}"/> class with the default maximum 
@@ -91,10 +91,7 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers.StopCriterium
         public int MaximumNumberOfIterations
         {
             [DebuggerStepThrough]
-            get
-            {
-                return _maximumNumberOfIterations;
-            }
+            get { return _maximumNumberOfIterations; }
 
             [DebuggerStepThrough]
             set
@@ -149,7 +146,7 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers.StopCriterium
         /// <summary>
         /// Set status to <see cref="CalculationFailure"/>
         /// </summary>
-        private void SetStatusToFinished()
+        void SetStatusToFinished()
         {
             if (!(_status is CalculationStoppedWithoutConvergence))
             {
@@ -160,7 +157,7 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers.StopCriterium
         /// <summary>
         /// Set status to <see cref="CalculationRunning"/>
         /// </summary>
-        private void SetStatusToRunning()
+        void SetStatusToRunning()
         {
             if (!(_status is CalculationRunning))
             {
@@ -174,10 +171,7 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers.StopCriterium
         public ICalculationStatus Status
         {
             [DebuggerStepThrough]
-            get
-            {
-                return _status;
-            }
+            get { return _status; }
         }
 
         /// <summary>
@@ -196,10 +190,7 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers.StopCriterium
         public StopLevel StopLevel
         {
             [DebuggerStepThrough]
-            get
-            {
-                return StopLevel.StoppedWithoutConvergence;
-            }
+            get { return StopLevel.StoppedWithoutConvergence; }
         }
 
         /// <summary>

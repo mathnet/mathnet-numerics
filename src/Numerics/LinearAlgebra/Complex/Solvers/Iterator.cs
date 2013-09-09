@@ -30,7 +30,6 @@
 
 using MathNet.Numerics.LinearAlgebra.Complex.Solvers.StopCriterium;
 using MathNet.Numerics.LinearAlgebra.Solvers;
-using MathNet.Numerics.LinearAlgebra.Solvers.StopCriterium;
 
 namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
 {

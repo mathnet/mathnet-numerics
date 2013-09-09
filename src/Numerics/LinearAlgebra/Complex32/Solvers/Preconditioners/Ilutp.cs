@@ -65,36 +65,36 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Preconditioners
         /// The default drop tolerance.
         /// </summary>
         public const double DefaultDropTolerance = 0.0001;
-        
+
         /// <summary>
         /// The decomposed upper triangular matrix.
         /// </summary>
-        private SparseMatrix _upper;
+        SparseMatrix _upper;
 
         /// <summary>
         /// The decomposed lower triangular matrix.
         /// </summary>
-        private SparseMatrix _lower;
-        
+        SparseMatrix _lower;
+
         /// <summary>
         /// The array containing the pivot values.
         /// </summary>
-        private int[] _pivots;
+        int[] _pivots;
 
         /// <summary>
         /// The fill level.
         /// </summary>
-        private double _fillLevel = DefaultFillLevel;
-        
+        double _fillLevel = DefaultFillLevel;
+
         /// <summary>
         /// The drop tolerance.
         /// </summary>
-        private double _dropTolerance = DefaultDropTolerance;
-        
+        double _dropTolerance = DefaultDropTolerance;
+
         /// <summary>
         /// The pivot tolerance.
         /// </summary>
-        private double _pivotTolerance;
+        double _pivotTolerance;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Ilutp"/> class with the default settings.
@@ -140,7 +140,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Preconditioners
             _dropTolerance = dropTolerance;
             _pivotTolerance = pivotTolerance;
         }
-                        
+
         /// <summary>
         /// Gets or sets the amount of fill that is allowed in the matrix. The
         /// value is a fraction of the number of non-zero entries in the original
@@ -163,11 +163,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Preconditioners
         /// <exception cref="ArgumentOutOfRangeException">Thrown if a negative value is provided.</exception>
         public double FillLevel
         {
-            get
-            {
-                return _fillLevel;
-            }
-
+            get { return _fillLevel; }
             set
             {
                 if (value < 0)
@@ -198,11 +194,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Preconditioners
         /// <exception cref="ArgumentOutOfRangeException">Thrown if a negative value is provided.</exception>
         public double DropTolerance
         {
-            get
-            {
-                return _dropTolerance;
-            }
-
+            get { return _dropTolerance; }
             set
             {
                 if (value < 0)
@@ -235,11 +227,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Preconditioners
         /// <exception cref="ArgumentOutOfRangeException">Thrown if a negative value is provided.</exception>
         public double PivotTolerance
         {
-            get
-            {
-                return _pivotTolerance;
-            }
-
+            get { return _pivotTolerance; }
             set
             {
                 if (value < 0)
@@ -250,7 +238,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Preconditioners
                 _pivotTolerance = value;
             }
         }
-        
+
         /// <summary>
         /// Returns the upper triagonal matrix that was created during the LU decomposition.
         /// </summary>
@@ -368,7 +356,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Preconditioners
 
             // Create the upper triangular matrix and copy the values
             _upper = new SparseMatrix(sparseMatrix.RowCount);
-            
+
             // Create the pivot array
             _pivots = new int[sparseMatrix.RowCount];
             for (var i = 0; i < _pivots.Length; i++)
@@ -379,20 +367,20 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Preconditioners
             var workVector = new DenseVector(sparseMatrix.RowCount);
             var rowVector = new DenseVector(sparseMatrix.ColumnCount);
             var indexSorting = new int[sparseMatrix.RowCount];
-            
+
             // spaceLeft = lfilNnz * nnz(A)
-            var spaceLeft = (int)_fillLevel * sparseMatrix.NonZerosCount;
-            
+            var spaceLeft = (int) _fillLevel*sparseMatrix.NonZerosCount;
+
             // for i = 1, .. , n
             for (var i = 0; i < sparseMatrix.RowCount; i++)
             {
                 // w = a(i,*)
                 sparseMatrix.Row(i, workVector);
-                
+
                 // pivot the row
                 PivotRow(workVector);
                 var vectorNorm = workVector.InfinityNorm();
-                
+
                 // for j = 1, .. , i - 1)
                 for (var j = 0; j < i; j++)
                 {
@@ -410,7 +398,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Preconditioners
                     if (workVector[j] != 0.0f)
                     {
                         // Calculate the multiplication factors that go into the L matrix
-                        workVector[j] = workVector[j] / _upper[j, j];
+                        workVector[j] = workVector[j]/_upper[j, j];
                         if (workVector[j].Magnitude < _dropTolerance)
                         {
                             workVector[j] = 0.0f;
@@ -442,19 +430,19 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Preconditioners
                     // {
                     //     w(j) = 0
                     // }
-                    if (workVector[j].Magnitude <= _dropTolerance * vectorNorm.Real)
+                    if (workVector[j].Magnitude <= _dropTolerance*vectorNorm.Real)
                     {
                         workVector[j] = 0.0f;
                     }
                 }
 
                 // spaceRow = spaceLeft / (n - i + 1) // Determine the space for this row
-                var spaceRow = spaceLeft / (sparseMatrix.RowCount - i + 1);
+                var spaceRow = spaceLeft/(sparseMatrix.RowCount - i + 1);
 
                 // lfil = spaceRow / 2  // space for this row of L
-                var fillLevel = spaceRow / 2;
+                var fillLevel = spaceRow/2;
                 FindLargestItems(0, i - 1, indexSorting, workVector);
-                
+
                 // l(i,j) = w(j) for j = 1, .. , i -1 // only the largest lfil elements
                 var lowerNonZeroCount = 0;
                 var count = 0;
@@ -471,10 +459,10 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Preconditioners
                 }
 
                 FindLargestItems(i + 1, sparseMatrix.RowCount - 1, indexSorting, workVector);
-                
+
                 // lfil = spaceRow - nnz(L(i,:))  // space for this row of U
                 fillLevel = spaceRow - lowerNonZeroCount;
-                
+
                 // u(i,j) = w(j) for j = i + 1, .. , n // only the largest lfil - 1 elements
                 var upperNonZeroCount = 0;
                 count = 0;
@@ -506,12 +494,12 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Preconditioners
                 // -1 values.
                 if ((i + 1) < (sparseMatrix.RowCount - 1))
                 {
-                    if (workVector[i].Magnitude < _pivotTolerance * workVector[indexSorting[0]].Magnitude)
+                    if (workVector[i].Magnitude < _pivotTolerance*workVector[indexSorting[0]].Magnitude)
                     {
                         // swap columns of u (which holds the values of A in the
                         // sections that haven't been partitioned yet.
                         SwapColumns(_upper, i, indexSorting[0]);
-                        
+
                         // Update P
                         var temp = _pivots[i];
                         _pivots[i] = _pivots[indexSorting[0]];
@@ -533,10 +521,10 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Preconditioners
         /// Pivot elements in the <paramref name="row"/> according to internal pivot array
         /// </summary>
         /// <param name="row">Row <see cref="Vector"/> to pivot in</param>
-        private void PivotRow(Vector<Complex32> row)
+        void PivotRow(Vector<Complex32> row)
         {
             var knownPivots = new Dictionary<int, int>();
-            
+
             // pivot the row
             for (var i = 0; i < row.Count; i++)
             {
@@ -558,7 +546,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Preconditioners
         /// <param name="knownPivots">Pivots already done</param>
         /// <param name="currentItem">Current item to pivot</param>
         /// <returns><c>true</c> if performed, otherwise <c>false</c></returns>
-        private bool PivotMapFound(Dictionary<int, int> knownPivots, int currentItem)
+        bool PivotMapFound(Dictionary<int, int> knownPivots, int currentItem)
         {
             if (knownPivots.ContainsKey(_pivots[currentItem]))
             {
@@ -585,7 +573,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Preconditioners
         /// <param name="matrix">Source <see cref="Matrix"/>.</param>
         /// <param name="firstColumn">First column index to swap</param>
         /// <param name="secondColumn">Second column index to swap</param>
-        private static void SwapColumns(Matrix<Complex32> matrix, int firstColumn, int secondColumn)
+        static void SwapColumns(Matrix<Complex32> matrix, int firstColumn, int secondColumn)
         {
             for (var i = 0; i < matrix.RowCount; i++)
             {
@@ -602,7 +590,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Preconditioners
         /// <param name="upperBound">Sort till upper bound</param>
         /// <param name="sortedIndices">Array with sorted vector indicies</param>
         /// <param name="values">Source <see cref="Vector"/></param>
-        private static void FindLargestItems(int lowerBound, int upperBound, int[] sortedIndices, Vector<Complex32> values)
+        static void FindLargestItems(int lowerBound, int upperBound, int[] sortedIndices, Vector<Complex32> values)
         {
             // Copy the indices for the values into the array
             for (var i = 0; i < upperBound + 1 - lowerBound; i++)
@@ -626,46 +614,9 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Preconditioners
         /// Approximates the solution to the matrix equation <b>Ax = b</b>.
         /// </summary>
         /// <param name="rhs">The right hand side vector.</param>
-        /// <returns>The left hand side vector.</returns>
-        public Vector<Complex32> Approximate(Vector<Complex32> rhs)
-        {
-            if (rhs == null)
-            {
-                throw new ArgumentNullException("rhs");
-            }
-
-            if (_upper == null)
-            {
-                throw new ArgumentException(Resources.ArgumentMatrixDoesNotExist);
-            }
-
-            if (rhs.Count != _upper.ColumnCount)
-            {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "rhs");
-            }
-
-            var result = new DenseVector(rhs.Count);
-            Approximate(rhs, result);
-            return result;
-        }
-
-        /// <summary>
-        /// Approximates the solution to the matrix equation <b>Ax = b</b>.
-        /// </summary>
-        /// <param name="rhs">The right hand side vector.</param>
         /// <param name="lhs">The left hand side vector. Also known as the result vector.</param>
         public void Approximate(Vector<Complex32> rhs, Vector<Complex32> lhs)
         {
-            if (rhs == null)
-            {
-                throw new ArgumentNullException("rhs");
-            }
-
-            if (lhs == null)
-            {
-                throw new ArgumentNullException("lhs");
-            }
-
             if (_upper == null)
             {
                 throw new ArgumentException(Resources.ArgumentMatrixDoesNotExist);
@@ -675,7 +626,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Preconditioners
             {
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "rhs");
             }
-            
+
             // Solve equation here
             // Pivot(vector, result);
             // Solve L*Y = B(piv,:)
@@ -687,7 +638,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Preconditioners
                 var sum = Complex32.Zero;
                 for (var j = 0; j < i; j++)
                 {
-                    sum += rowValues[j] * lhs[j];
+                    sum += rowValues[j]*lhs[j];
                 }
 
                 lhs[i] = rhs[i] - sum;
@@ -701,16 +652,16 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Preconditioners
                 var sum = Complex32.Zero;
                 for (var j = _upper.RowCount - 1; j > i; j--)
                 {
-                    sum += rowValues[j] * lhs[j];
+                    sum += rowValues[j]*lhs[j];
                 }
 
-                lhs[i] = 1 / rowValues[i] * (lhs[i] - sum);
+                lhs[i] = 1/rowValues[i]*(lhs[i] - sum);
             }
 
             // We have a column pivot so we only need to pivot the
             // end result not the incoming right hand side vector
             var temp = lhs.Clone();
-            
+
             Pivot(temp, lhs);
         }
 
@@ -719,7 +670,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Preconditioners
         /// </summary>
         /// <param name="vector">Source <see cref="Vector"/>.</param>
         /// <param name="result">Result <see cref="Vector"/> after pivoting.</param>
-        private void Pivot(Vector<Complex32> vector, Vector<Complex32> result)
+        void Pivot(Vector<Complex32> vector, Vector<Complex32> result)
         {
             for (var i = 0; i < _pivots.Length; i++)
             {

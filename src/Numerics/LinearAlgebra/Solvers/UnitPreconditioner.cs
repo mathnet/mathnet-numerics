@@ -44,23 +44,17 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
         /// The coefficient matrix on which this preconditioner operates.
         /// Is used to check dimensions on the different vectors that are processed.
         /// </summary>
-        private int _size;
-        
+        int _size;
+
         /// <summary>
         /// Initializes the preconditioner and loads the internal data structures.
         /// </summary>
         /// <param name="matrix">
         /// The matrix upon which the preconditioner is based.
         /// </param>
-        /// <exception cref="ArgumentNullException">If <paramref name="matrix"/> is <see langword="null"/>. </exception>
         /// <exception cref="ArgumentException">If <paramref name="matrix"/> is not a square matrix.</exception>
         public void Initialize(Matrix<T> matrix)
         {
-            if (matrix == null)
-            {
-                throw new ArgumentNullException("matrix");
-            }
-
             if (matrix.RowCount != matrix.ColumnCount)
             {
                 throw new ArgumentException(Resources.ArgumentMatrixSquare, "matrix");
@@ -74,8 +68,6 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
         /// </summary>
         /// <param name="rhs">The right hand side vector.</param>
         /// <param name="lhs">The left hand side vector. Also known as the result vector.</param>
-        /// <exception cref="ArgumentNullException">If <paramref name="rhs"/> is <see langword="null"/>.</exception>
-        /// <exception cref="ArgumentNullException">If <paramref name="lhs"/> is <see langword="null"/>. </exception>
         /// <exception cref="ArgumentException">
         ///   <para>
         ///     If <paramref name="rhs"/> and <paramref name="lhs"/> do not have the same size.
@@ -89,48 +81,12 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
         /// </exception>
         public void Approximate(Vector<T> rhs, Vector<T> lhs)
         {
-            if (rhs == null)
-            {
-                throw new ArgumentNullException("rhs");
-            }
-
-            if (lhs == null)
-            {
-                throw new ArgumentNullException("lhs");
-            }
-
             if ((lhs.Count != rhs.Count) || (lhs.Count != _size))
             {
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength);
             }
 
             rhs.CopyTo(lhs);
-        }
-
-        /// <summary>
-        /// Approximates the solution to the matrix equation <b>Ax = b</b>.
-        /// </summary>
-        /// <param name="rhs">The right hand side vector.</param>
-        /// <returns>The left hand side vector.</returns>
-        /// <exception cref="ArgumentNullException">If <paramref name="rhs"/> is <see langword="null"/>. </exception>
-        /// <exception cref="ArgumentException">
-        /// If the size of <paramref name="rhs"/> is different the number of rows of the coefficient matrix.
-        /// </exception>
-        public Vector<T> Approximate(Vector<T> rhs)
-        {
-            if (rhs == null)
-            {
-                throw new ArgumentNullException("rhs");
-            }
-
-            if (rhs.Count != _size)
-            {
-                throw new ArgumentException(Resources.ArgumentMatrixDimensions);
-            }
-
-            var result = Vector<T>.Builder.DenseVector(rhs.Count);
-            Approximate(rhs, result);
-            return result;
         }
     }
 }

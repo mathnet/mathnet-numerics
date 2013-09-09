@@ -90,25 +90,6 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.Precon
         protected abstract void CheckResult(IPreConditioner<Complex32> preconditioner, SparseMatrix matrix, Vector<Complex32> vector, Vector<Complex32> result);
 
         /// <summary>
-        /// Approximate with a unit matrix returning new vector.
-        /// </summary>
-        [Test]
-        public void ApproximateWithUnitMatrixReturningNewVector()
-        {
-            const int Size = 10;
-
-            var newMatrix = CreateUnitMatrix(Size);
-            var vector = CreateStandardBcVector(Size);
-
-            var preconditioner = CreatePreconditioner();
-            preconditioner.Initialize(newMatrix);
-
-            var result = preconditioner.Approximate(vector);
-
-            CheckResult(preconditioner, newMatrix, vector, result);
-        }
-
-        /// <summary>
         /// Approximate returning old vector.
         /// </summary>
         [Test]
@@ -145,40 +126,6 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.Precon
         }
 
         /// <summary>
-        /// Approximate with <c>null</c> vector throws <c>ArgumentNullException</c>.
-        /// </summary>
-        [Test]
-        public void ApproximateWithNullVectorThrowsArgumentNullException()
-        {
-            const int Size = 10;
-            var newMatrix = CreateUnitMatrix(Size);
-            var vector = CreateStandardBcVector(Size);
-
-            var preconditioner = CreatePreconditioner();
-            preconditioner.Initialize(newMatrix);
-
-            var result = new DenseVector(vector.Count + 10);
-            Assert.Throws<ArgumentNullException>(() => preconditioner.Approximate(null, result));
-        }
-
-        /// <summary>
-        /// Approximate with <c>null</c> result vector throws <c>ArgumentNullException</c>.
-        /// </summary>
-        [Test]
-        public void ApproximateWithNullResultVectorThrowsArgumentNullException()
-        {
-            const int Size = 10;
-            var newMatrix = CreateUnitMatrix(Size);
-            var vector = CreateStandardBcVector(Size);
-
-            var preconditioner = CreatePreconditioner();
-            preconditioner.Initialize(newMatrix);
-
-            Vector<Complex32> result = null;
-            Assert.Throws<ArgumentNullException>(() => preconditioner.Approximate(vector, result));
-        }
-
-        /// <summary>
         /// Approximate with non initialized preconditioner throws <c>ArgumentException</c>.
         /// </summary>
         [Test]
@@ -187,7 +134,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.Precon
             const int Size = 10;
             var vector = CreateStandardBcVector(Size);
             var preconditioner = CreatePreconditioner();
-            Assert.Throws<ArgumentException>(() => preconditioner.Approximate(vector));
+            var result = new DenseVector(vector.Count);
+            Assert.Throws<ArgumentException>(() => preconditioner.Approximate(vector, result));
         }
     }
 }

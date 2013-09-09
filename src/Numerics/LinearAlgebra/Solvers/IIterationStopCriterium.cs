@@ -29,7 +29,6 @@
 // </copyright>
 
 using System;
-using MathNet.Numerics.LinearAlgebra.Solvers.Status;
 
 namespace MathNet.Numerics.LinearAlgebra.Solvers
 {

@@ -39,6 +39,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Preconditioners
     using Complex = Numerics.Complex;
 #else
     using Complex = System.Numerics.Complex;
+
 #endif
 
     /// <summary>
@@ -50,7 +51,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Preconditioners
         /// <summary>
         /// The inverse of the matrix diagonal.
         /// </summary>
-        private Complex[] _inverseDiagonals;
+        Complex[] _inverseDiagonals;
 
         /// <summary>
         /// Returns the decomposed matrix diagonal.
@@ -61,7 +62,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Preconditioners
             var result = new DiagonalMatrix(_inverseDiagonals.Length);
             for (var i = 0; i < _inverseDiagonals.Length; i++)
             {
-                result.At(i, i, 1 / _inverseDiagonals[i]);
+                result.At(i, i, 1/_inverseDiagonals[i]);
             }
 
             return result;
@@ -76,11 +77,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Preconditioners
         /// <exception cref="ArgumentException">If <paramref name="matrix"/> is not a square matrix.</exception>
         public void Initialize(Matrix<Complex> matrix)
         {
-            if (matrix == null)
-            {
-                throw new ArgumentNullException("matrix");
-            }
-
             if (matrix.RowCount != matrix.ColumnCount)
             {
                 throw new ArgumentException(Resources.ArgumentMatrixSquare, "matrix");
@@ -89,35 +85,8 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Preconditioners
             _inverseDiagonals = new Complex[matrix.RowCount];
             for (var i = 0; i < matrix.RowCount; i++)
             {
-                _inverseDiagonals[i] = 1 / matrix.At(i, i);
+                _inverseDiagonals[i] = 1/matrix.At(i, i);
             }
-        }
-
-        /// <summary>
-        /// Approximates the solution to the matrix equation <b>Ax = b</b>.
-        /// </summary>
-        /// <param name="rhs">The right hand side vector.</param>
-        /// <returns>The left hand side vector.</returns>
-        public Vector<Complex> Approximate(Vector<Complex> rhs)
-        {
-            if (rhs == null)
-            {
-                throw new ArgumentNullException("rhs");
-            }
-
-            if (_inverseDiagonals == null)
-            {
-                throw new ArgumentException(Resources.ArgumentMatrixDoesNotExist);
-            }
-
-            if (rhs.Count != _inverseDiagonals.Length)
-            {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "rhs");
-            }
-
-            var result = new DenseVector(rhs.Count);
-            Approximate(rhs, result);
-            return result;
         }
 
         /// <summary>
@@ -127,16 +96,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Preconditioners
         /// <param name="lhs">The left hand side vector. Also known as the result vector.</param>
         public void Approximate(Vector<Complex> rhs, Vector<Complex> lhs)
         {
-            if (rhs == null)
-            {
-                throw new ArgumentNullException("rhs");
-            }
-
-            if (lhs == null)
-            {
-                throw new ArgumentNullException("lhs");
-            }
-
             if (_inverseDiagonals == null)
             {
                 throw new ArgumentException(Resources.ArgumentMatrixDoesNotExist);
@@ -149,7 +108,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Preconditioners
 
             for (var i = 0; i < _inverseDiagonals.Length; i++)
             {
-                lhs[i] = rhs[i] * _inverseDiagonals[i];
+                lhs[i] = rhs[i]*_inverseDiagonals[i];
             }
         }
     }
