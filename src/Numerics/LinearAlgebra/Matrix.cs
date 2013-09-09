@@ -58,7 +58,7 @@ namespace MathNet.Numerics.LinearAlgebra
             ColumnCount = storage.ColumnCount;
         }
 
-        static readonly IGenericBuilder<T> Builder = Builder<T>.Instance;
+        public static readonly IGenericBuilder<T> Builder = Builder<T>.Instance;
 
         /// <summary>
         /// Gets the raw matrix data storage.

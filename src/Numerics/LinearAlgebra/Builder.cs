@@ -234,7 +234,7 @@ namespace MathNet.Numerics.LinearAlgebra
         Vector<T> SparseVector(int size);
     }
 
-    public static class Builder<T> where T : struct, IEquatable<T>, IFormattable
+    internal static class Builder<T> where T : struct, IEquatable<T>, IFormattable
     {
         static Lazy<IGenericBuilder<T>> _singleton = new Lazy<IGenericBuilder<T>>(Create);
 
