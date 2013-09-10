@@ -28,11 +28,11 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System;
 using MathNet.Numerics.LinearAlgebra.Complex32;
 using MathNet.Numerics.LinearAlgebra.Complex32.Solvers.StopCriterium;
-using MathNet.Numerics.LinearAlgebra.Solvers.Status;
+using MathNet.Numerics.LinearAlgebra.Solvers;
 using NUnit.Framework;
-using System;
 
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.StopCriterium
 {
@@ -120,20 +120,6 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.StopCr
         }
 
         /// <summary>
-        /// Determine status with <c>null</c> residual vector throws <c>ArgumentNullException</c>.
-        /// </summary>
-        [Test]
-        public void DetermineStatusWithNullResidualVectorThrowsArgumentNullException()
-        {
-            var criterium = new DivergenceStopCriterium(0.5, 15);
-            Assert.Throws<ArgumentNullException>(() => criterium.DetermineStatus(
-                1,
-                DenseVector.Create(3, i => 4),
-                DenseVector.Create(3, i => 5),
-                null));
-        }
-
-        /// <summary>
         /// Can determine status with too few iterations.
         /// </summary>
         [Test]
@@ -152,7 +138,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.StopCr
                     new DenseVector(new[] {new Complex32(1.0f, 0)}),
                     new DenseVector(new[] {new Complex32(1.0f, 0)}),
                     new DenseVector(new[] {new Complex32((i + 1)*(Increase + 0.1f), 0)}));
-                Assert.IsInstanceOf(typeof (CalculationRunning), status, "Status check fail.");
+                Assert.AreEqual(IterationStatus.Running, status, "Status check fail.");
             }
         }
 
@@ -176,7 +162,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.StopCr
                     new DenseVector(new[] {new Complex32(1.0f, 0)}),
                     new DenseVector(new[] {new Complex32((i + 1)*(Increase - 0.01f), 0)}));
 
-                Assert.IsInstanceOf(typeof (CalculationRunning), status, "Status check fail.");
+                Assert.AreEqual(IterationStatus.Running, status, "Status check fail.");
             }
         }
 
@@ -200,7 +186,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.StopCr
                     new DenseVector(new[] {new Complex32(1.0f, 0)}),
                     new DenseVector(new[] {new Complex32((i + 1)*(Increase - 0.01f), 0)}));
 
-                Assert.IsInstanceOf(typeof (CalculationRunning), status, "Status check fail.");
+                Assert.AreEqual(IterationStatus.Running, status, "Status check fail.");
             }
 
             // Now make it fail by throwing in a NaN
@@ -210,7 +196,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.StopCr
                 new DenseVector(new[] {new Complex32(1.0f, 0)}),
                 new DenseVector(new[] {new Complex32(float.NaN, 0)}));
 
-            Assert.IsInstanceOf(typeof (CalculationDiverged), status2, "Status check fail.");
+            Assert.AreEqual(IterationStatus.Diverged, status2, "Status check fail.");
         }
 
         /// <summary>
@@ -235,7 +221,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.StopCr
                     new DenseVector(new[] {new Complex32(1.0f, 0)}),
                     new DenseVector(new[] {new Complex32(previous, 0)}));
 
-                Assert.IsInstanceOf(typeof (CalculationRunning), status, "Status check fail.");
+                Assert.AreEqual(IterationStatus.Running, status, "Status check fail.");
             }
 
             // Add the final residual. Now we should have divergence
@@ -246,7 +232,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.StopCr
                 new DenseVector(new[] {new Complex32(1.0f, 0)}),
                 new DenseVector(new[] {new Complex32(previous, 0)}));
 
-            Assert.IsInstanceOf(typeof (CalculationDiverged), status2, "Status check fail.");
+            Assert.AreEqual(IterationStatus.Diverged, status2, "Status check fail.");
         }
 
         /// <summary>
@@ -267,14 +253,14 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.StopCr
                 new DenseVector(new[] {new Complex32(1.0f, 0)}),
                 new DenseVector(new[] {new Complex32(float.NaN, 0)}));
 
-            Assert.IsInstanceOf(typeof (CalculationDiverged), status, "Status check fail.");
+            Assert.AreEqual(IterationStatus.Diverged, status, "Status check fail.");
 
             // Reset the state
             criterium.ResetToPrecalculationState();
 
             Assert.AreEqual(Increase, criterium.MaximumRelativeIncrease, "Incorrect maximum");
             Assert.AreEqual(Iterations, criterium.MinimumNumberOfIterations, "Incorrect iteration count");
-            Assert.IsInstanceOf(typeof (CalculationIndetermined), criterium.Status, "Status check fail.");
+            Assert.AreEqual(IterationStatus.Indetermined, criterium.Status, "Status check fail.");
         }
 
         /// <summary>

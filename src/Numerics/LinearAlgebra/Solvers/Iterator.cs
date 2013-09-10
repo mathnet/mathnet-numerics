@@ -31,7 +31,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using MathNet.Numerics.LinearAlgebra.Solvers.Status;
 using MathNet.Numerics.Properties;
 
 namespace MathNet.Numerics.LinearAlgebra.Solvers
@@ -50,7 +49,7 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
         /// <summary>
         /// The status of the iterator.
         /// </summary>
-        ICalculationStatus _status = new CalculationIndetermined();
+        IterationStatus _status = IterationStatus.Indetermined;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Iterator{T}"/> class with the specified stop criteria.
@@ -79,7 +78,7 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
         /// <summary>
         /// Gets the current calculation status.
         /// </summary>
-        public ICalculationStatus Status
+        public IterationStatus Status
         {
             get { return _status; }
         }
@@ -89,7 +88,7 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
         /// </summary>
         public bool HasConverged
         {
-            get { return _status is CalculationConverged; }
+            get { return _status == IterationStatus.Converged; }
         }
 
         /// <summary>
@@ -97,7 +96,7 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
         /// </summary>
         public bool HasStoppedWithoutConvergence
         {
-            get { return _status is CalculationStoppedWithoutConvergence; }
+            get { return _status == IterationStatus.StoppedWithoutConvergence; }
         }
 
         /// <summary>
@@ -113,7 +112,7 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
         /// on the invocation of this method. Therefore this method should only be called if the 
         /// calculation has moved forwards at least one step.
         /// </remarks>
-        public ICalculationStatus DetermineStatus(int iterationNumber, Vector<T> solutionVector, Vector<T> sourceVector, Vector<T> residualVector)
+        public IterationStatus DetermineStatus(int iterationNumber, Vector<T> solutionVector, Vector<T> sourceVector, Vector<T> residualVector)
         {
             if (_stopCriteria.Count == 0)
             {
@@ -126,7 +125,7 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
             }
 
             // While we're cancelled we don't call on the stop-criteria.
-            if (_status is CalculationCancelled)
+            if (_status == IterationStatus.Cancelled)
             {
                 return _status;
             }
@@ -140,7 +139,7 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
                 // - Indetermined --> keep going
                 // Anything else:
                 // Stop looping and set that status
-                if ((status is CalculationRunning) || (status is CalculationIndetermined))
+                if ((status == IterationStatus.Running) || (status == IterationStatus.Indetermined))
                 {
                     continue;
                 }
@@ -151,10 +150,7 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
 
             // Got all the way through
             // So we're running because we had vectors passed to us.
-            if (!(_status is CalculationRunning))
-            {
-                _status = new CalculationRunning();
-            }
+            _status = IterationStatus.Running;
 
             return _status;
         }
@@ -167,7 +163,7 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
         /// </remarks>
         public void Cancel()
         {
-            _status = new CalculationCancelled();
+            _status = IterationStatus.Cancelled;
         }
 
         /// <summary>
@@ -175,10 +171,8 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
         /// </summary>
         public void Reset()
         {
-            // Reset the status.
-            _status = new CalculationIndetermined();
+            _status = IterationStatus.Indetermined;
 
-            // Reset the stop-criteria
             foreach (var stopCriterium in _stopCriteria)
             {
                 stopCriterium.ResetToPrecalculationState();

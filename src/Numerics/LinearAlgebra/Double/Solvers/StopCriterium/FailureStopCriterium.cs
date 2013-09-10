@@ -28,11 +28,10 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using MathNet.Numerics.LinearAlgebra.Solvers;
-using MathNet.Numerics.LinearAlgebra.Solvers.Status;
-using MathNet.Numerics.Properties;
 using System;
 using System.Diagnostics;
+using MathNet.Numerics.LinearAlgebra.Solvers;
+using MathNet.Numerics.Properties;
 
 namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.StopCriterium
 {
@@ -45,22 +44,17 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.StopCriterium
         /// Defines the default last iteration number. Set to -1 because iterations normally
         /// start at 0.
         /// </summary>
-        private const int DefaultLastIterationNumber = -1;
-
-        /// <summary>
-        /// The default status.
-        /// </summary>
-        private static readonly ICalculationStatus DefaultStatus = new CalculationIndetermined();
+        const int DefaultLastIterationNumber = -1;
 
         /// <summary>
         /// The status of the calculation
         /// </summary>
-        private ICalculationStatus _status = DefaultStatus;
+        IterationStatus _status = IterationStatus.Indetermined;
 
         /// <summary>
         /// The iteration number of the last iteration.
         /// </summary>
-        private int _lastIteration = DefaultLastIterationNumber;
+        int _lastIteration = DefaultLastIterationNumber;
 
         /// <summary>
         /// Determines the status of the iterative calculation based on the stop criteria stored
@@ -75,21 +69,11 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.StopCriterium
         /// on the invocation of this method. Therefore this method should only be called if the 
         /// calculation has moved forwards at least one step.
         /// </remarks>
-        public ICalculationStatus DetermineStatus(int iterationNumber, Vector<double> solutionVector, Vector<double> sourceVector, Vector<double> residualVector)
+        public IterationStatus DetermineStatus(int iterationNumber, Vector<double> solutionVector, Vector<double> sourceVector, Vector<double> residualVector)
         {
             if (iterationNumber < 0)
             {
                 throw new ArgumentOutOfRangeException("iterationNumber");
-            }
-
-            if (solutionVector == null)
-            {
-                throw new ArgumentNullException("solutionVector");
-            }
-
-            if (residualVector == null)
-            {
-                throw new ArgumentNullException("residualVector");
             }
 
             if (solutionVector.Count != residualVector.Count)
@@ -108,45 +92,16 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.StopCriterium
             var residualNorm = residualVector.InfinityNorm();
             var solutionNorm = solutionVector.InfinityNorm();
 
-            if (double.IsNaN(solutionNorm) || double.IsNaN(residualNorm))
-            {
-                SetStatusToFailed();
-            }
-            else
-            {
-                SetStatusToRunning();
-            }
+            _status = double.IsNaN(solutionNorm) || double.IsNaN(residualNorm) ? IterationStatus.Failure : IterationStatus.Running;
 
             _lastIteration = iterationNumber;
             return _status;
         }
 
         /// <summary>
-        /// Set status to <see cref="CalculationFailure"/>
-        /// </summary>
-        private void SetStatusToFailed()
-        {
-            if (!(_status is CalculationFailure))
-            {
-                _status = new CalculationFailure();
-            }
-        }
-
-        /// <summary>
-        /// Set status to <see cref="CalculationRunning"/>
-        /// </summary>
-        private void SetStatusToRunning()
-        {
-            if (!(_status is CalculationRunning))
-            {
-                _status = new CalculationRunning();
-            }
-        }
-
-        /// <summary>
         /// Gets the current calculation status.
         /// </summary>
-        public ICalculationStatus Status
+        public IterationStatus Status
         {
             [DebuggerStepThrough]
             get
@@ -160,7 +115,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.StopCriterium
         /// </summary>
         public void ResetToPrecalculationState()
         {
-            _status = DefaultStatus;
+            _status = IterationStatus.Indetermined;
             _lastIteration = DefaultLastIterationNumber;
         }
 

@@ -28,11 +28,10 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using MathNet.Numerics.LinearAlgebra.Solvers;
-using MathNet.Numerics.LinearAlgebra.Solvers.Status;
-using MathNet.Numerics.Properties;
 using System;
 using System.Diagnostics;
+using MathNet.Numerics.LinearAlgebra.Solvers;
+using MathNet.Numerics.Properties;
 
 namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.StopCriterium
 {
@@ -48,14 +47,9 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.StopCriterium
         private const int DefaultLastIterationNumber = -1;
 
         /// <summary>
-        /// The default status.
-        /// </summary>
-        private static readonly ICalculationStatus DefaultStatus = new CalculationIndetermined();
-
-        /// <summary>
         /// The status of the calculation
         /// </summary>
-        private ICalculationStatus _status = DefaultStatus;
+        private IterationStatus _status = IterationStatus.Indetermined;
 
         /// <summary>
         /// The iteration number of the last iteration.
@@ -75,21 +69,11 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.StopCriterium
         /// on the invocation of this method. Therefore this method should only be called if the 
         /// calculation has moved forwards at least one step.
         /// </remarks>
-        public ICalculationStatus DetermineStatus(int iterationNumber, Vector<float> solutionVector, Vector<float> sourceVector, Vector<float> residualVector)
+        public IterationStatus DetermineStatus(int iterationNumber, Vector<float> solutionVector, Vector<float> sourceVector, Vector<float> residualVector)
         {
             if (iterationNumber < 0)
             {
                 throw new ArgumentOutOfRangeException("iterationNumber");
-            }
-
-            if (solutionVector == null)
-            {
-                throw new ArgumentNullException("solutionVector");
-            }
-
-            if (residualVector == null)
-            {
-                throw new ArgumentNullException("residualVector");
             }
 
             if (solutionVector.Count != residualVector.Count)
@@ -108,45 +92,16 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.StopCriterium
             var residualNorm = residualVector.InfinityNorm();
             var solutionNorm = solutionVector.InfinityNorm();
 
-            if (float.IsNaN(solutionNorm) || float.IsNaN(residualNorm))
-            {
-                SetStatusToFailed();
-            }
-            else
-            {
-                SetStatusToRunning();
-            }
+            _status = float.IsNaN(solutionNorm) || float.IsNaN(residualNorm) ? IterationStatus.Failure : IterationStatus.Running;
 
             _lastIteration = iterationNumber;
             return _status;
         }
 
         /// <summary>
-        /// Set status to <see cref="CalculationFailure"/>
-        /// </summary>
-        private void SetStatusToFailed()
-        {
-            if (!(_status is CalculationFailure))
-            {
-                _status = new CalculationFailure();
-            }
-        }
-
-        /// <summary>
-        /// Set status to <see cref="CalculationRunning"/>
-        /// </summary>
-        private void SetStatusToRunning()
-        {
-            if (!(_status is CalculationRunning))
-            {
-                _status = new CalculationRunning();
-            }
-        }
-
-        /// <summary>
         /// Gets the current calculation status.
         /// </summary>
-        public ICalculationStatus Status
+        public IterationStatus Status
         {
             [DebuggerStepThrough]
             get
@@ -160,7 +115,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.StopCriterium
         /// </summary>
         public void ResetToPrecalculationState()
         {
-            _status = DefaultStatus;
+            _status = IterationStatus.Indetermined;
             _lastIteration = DefaultLastIterationNumber;
         }
 

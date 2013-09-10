@@ -29,7 +29,6 @@
 // </copyright>
 
 using MathNet.Numerics.LinearAlgebra.Solvers;
-using MathNet.Numerics.LinearAlgebra.Solvers.Status;
 using System;
 using System.Diagnostics;
 
@@ -59,11 +58,6 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.StopCriterium
         private const int DefaultLastIterationNumber = -1;
 
         /// <summary>
-        /// The default status.
-        /// </summary>
-        private static readonly ICalculationStatus DefaultStatus = new CalculationIndetermined();
-        
-        /// <summary>
         /// The maximum relative increase the residual may experience without triggering a divergence warning.
         /// </summary>
         private double _maximumRelativeIncrease;
@@ -76,7 +70,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.StopCriterium
         /// <summary>
         /// The status of the calculation
         /// </summary>
-        private ICalculationStatus _status = DefaultStatus;
+        private IterationStatus _status = IterationStatus.Indetermined;
 
         /// <summary>
         /// The array that holds the tracking information.
@@ -217,16 +211,11 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.StopCriterium
         /// on the invocation of this method. Therefore this method should only be called if the 
         /// calculation has moved forwards at least one step.
         /// </remarks>
-        public ICalculationStatus DetermineStatus(int iterationNumber, Vector<float> solutionVector, Vector<float> sourceVector, Vector<float> residualVector)
+        public IterationStatus DetermineStatus(int iterationNumber, Vector<float> solutionVector, Vector<float> sourceVector, Vector<float> residualVector)
         {
             if (iterationNumber < 0)
             {
                 throw new ArgumentOutOfRangeException("iterationNumber");
-            }
-
-            if (residualVector == null)
-            {
-                throw new ArgumentNullException("residualVector");
             }
 
             if (_lastIteration >= iterationNumber)
@@ -256,19 +245,12 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.StopCriterium
             // Stop the iteration.
             if (double.IsNaN(_residualHistory[_residualHistory.Length - 1]))
             {
-                SetStatusToDiverged();
+                _status = IterationStatus.Diverged;
                 return _status;
             }
 
             // Check if we are diverging and if so set the status
-            if (IsDiverging())
-            {
-                SetStatusToDiverged();
-            }
-            else
-            {
-                SetStatusToRunning();
-            }
+            _status = IsDiverging() ? IterationStatus.Diverged : IterationStatus.Running;
 
             _lastIteration = iterationNumber;
             return _status;
@@ -313,31 +295,9 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.StopCriterium
         }
 
         /// <summary>
-        /// Set status to <see cref="CalculationDiverged"/>
-        /// </summary>
-        private void SetStatusToDiverged()
-        {
-            if (!(_status is CalculationDiverged))
-            {
-                _status = new CalculationDiverged();
-            }
-        }
-
-        /// <summary>
-        /// Set status to <see cref="CalculationRunning"/>
-        /// </summary>
-        private void SetStatusToRunning()
-        {
-            if (!(_status is CalculationRunning))
-            {
-                _status = new CalculationRunning();
-            }
-        }
-
-        /// <summary>
         /// Gets the current calculation status.
         /// </summary>
-        public ICalculationStatus Status
+        public IterationStatus Status
         {
             [DebuggerStepThrough]
             get
@@ -351,7 +311,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.StopCriterium
         /// </summary>
         public void ResetToPrecalculationState()
         {
-            _status = DefaultStatus;
+            _status = IterationStatus.Indetermined;
             _lastIteration = DefaultLastIterationNumber;
             _residualHistory = null;
         }

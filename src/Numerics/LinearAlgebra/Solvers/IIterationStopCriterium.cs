@@ -50,13 +50,13 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
         /// on the invocation of this method. Therefore this method should only be called if the 
         /// calculation has moved forwards at least one step.
         /// </remarks>
-        ICalculationStatus DetermineStatus(int iterationNumber, Vector<T> solutionVector, Vector<T> sourceVector, Vector<T> residualVector);
+        IterationStatus DetermineStatus(int iterationNumber, Vector<T> solutionVector, Vector<T> sourceVector, Vector<T> residualVector);
 
         /// <summary>
         /// Gets the current calculation status.
         /// </summary>
         /// <remarks><see langword="null" /> is not a legal value. Status should be set in <see cref="DetermineStatus"/> implementation.</remarks>
-        ICalculationStatus Status { get; }
+        IterationStatus Status { get; }
 
         /// <summary>
         /// Resets the IIterationStopCriterium to the pre-calculation state.

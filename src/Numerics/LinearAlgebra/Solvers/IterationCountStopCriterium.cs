@@ -30,7 +30,6 @@
 
 using System;
 using System.Diagnostics;
-using MathNet.Numerics.LinearAlgebra.Solvers.Status;
 
 namespace MathNet.Numerics.LinearAlgebra.Solvers
 {
@@ -47,11 +46,6 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
         public const int DefaultMaximumNumberOfIterations = 1000;
 
         /// <summary>
-        /// The default status.
-        /// </summary>
-        static readonly ICalculationStatus DefaultStatus = new CalculationIndetermined();
-
-        /// <summary>
         /// The maximum number of iterations the calculation is allowed to perform.
         /// </summary>
         int _maximumNumberOfIterations;
@@ -59,7 +53,7 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
         /// <summary>
         /// The status of the calculation
         /// </summary>
-        ICalculationStatus _status = DefaultStatus;
+        IterationStatus _status = IterationStatus.Indetermined;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="IterationCountStopCriterium{T}"/> class with the default maximum 
@@ -91,7 +85,10 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
         public int MaximumNumberOfIterations
         {
             [DebuggerStepThrough]
-            get { return _maximumNumberOfIterations; }
+            get
+            {
+                return _maximumNumberOfIterations;
+            }
 
             [DebuggerStepThrough]
             set
@@ -126,53 +123,28 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
         /// on the invocation of this method. Therefore this method should only be called if the 
         /// calculation has moved forwards at least one step.
         /// </remarks>
-        public ICalculationStatus DetermineStatus(int iterationNumber, Vector<T> solutionVector, Vector<T> sourceVector, Vector<T> residualVector)
+        public IterationStatus DetermineStatus(int iterationNumber, Vector<T> solutionVector, Vector<T> sourceVector, Vector<T> residualVector)
         {
             if (iterationNumber < 0)
             {
                 throw new ArgumentOutOfRangeException("iterationNumber");
             }
 
-            if (iterationNumber >= _maximumNumberOfIterations)
-            {
-                SetStatusToFinished();
-            }
-            else
-            {
-                SetStatusToRunning();
-            }
+            _status = iterationNumber >= _maximumNumberOfIterations ? IterationStatus.StoppedWithoutConvergence : IterationStatus.Running;
+
             return _status;
-        }
-
-        /// <summary>
-        /// Set status to <see cref="CalculationFailure"/>
-        /// </summary>
-        void SetStatusToFinished()
-        {
-            if (!(_status is CalculationStoppedWithoutConvergence))
-            {
-                _status = new CalculationStoppedWithoutConvergence();
-            }
-        }
-
-        /// <summary>
-        /// Set status to <see cref="CalculationRunning"/>
-        /// </summary>
-        void SetStatusToRunning()
-        {
-            if (!(_status is CalculationRunning))
-            {
-                _status = new CalculationRunning();
-            }
         }
 
         /// <summary>
         /// Gets the current calculation status.
         /// </summary>
-        public ICalculationStatus Status
+        public IterationStatus Status
         {
             [DebuggerStepThrough]
-            get { return _status; }
+            get
+            {
+                return _status;
+            }
         }
 
         /// <summary>
@@ -180,7 +152,7 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
         /// </summary>
         public void ResetToPrecalculationState()
         {
-            _status = DefaultStatus;
+            _status = IterationStatus.Indetermined;
         }
 
         /// <summary>

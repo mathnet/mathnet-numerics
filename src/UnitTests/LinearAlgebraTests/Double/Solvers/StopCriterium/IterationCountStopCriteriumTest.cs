@@ -31,7 +31,6 @@
 using System;
 using MathNet.Numerics.LinearAlgebra.Double;
 using MathNet.Numerics.LinearAlgebra.Solvers;
-using MathNet.Numerics.LinearAlgebra.Solvers.Status;
 using NUnit.Framework;
 
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.StopCriterium
@@ -98,10 +97,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.StopCrite
             Assert.IsNotNull(criterium, "A criterium should have been created");
 
             var status = criterium.DetermineStatus(5, DenseVector.Create(3, i => 1), DenseVector.Create(3, i => 2), DenseVector.Create(3, i => 3));
-            Assert.IsInstanceOf(typeof (CalculationRunning), status, "Should be running");
+            Assert.AreEqual(IterationStatus.Running, status, "Should be running");
 
             var status2 = criterium.DetermineStatus(10, DenseVector.Create(3, i => 1), DenseVector.Create(3, i => 2), DenseVector.Create(3, i => 3));
-            Assert.IsInstanceOf(typeof (CalculationStoppedWithoutConvergence), status2, "Should be finished");
+            Assert.AreEqual(IterationStatus.StoppedWithoutConvergence, status2, "Should be finished");
         }
 
         /// <summary>
@@ -114,10 +113,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.StopCrite
             Assert.IsNotNull(criterium, "A criterium should have been created");
 
             var status = criterium.DetermineStatus(5, DenseVector.Create(3, i => 1), DenseVector.Create(3, i => 2), DenseVector.Create(3, i => 3));
-            Assert.IsInstanceOf(typeof (CalculationRunning), status, "Should be running");
+            Assert.AreEqual(IterationStatus.Running, status, "Should be running");
 
             criterium.ResetToPrecalculationState();
-            Assert.IsInstanceOf(typeof (CalculationIndetermined), criterium.Status, "Should not have started");
+            Assert.AreEqual(IterationStatus.Indetermined, criterium.Status, "Should not have started");
         }
 
         /// <summary>

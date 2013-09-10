@@ -34,7 +34,6 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using MathNet.Numerics.LinearAlgebra.Solvers;
-using MathNet.Numerics.LinearAlgebra.Solvers.Status;
 using MathNet.Numerics.Properties;
 
 namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
@@ -93,16 +92,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
         }
 
         #endregion
-
-        /// <summary>
-        /// The default status used if the solver is not running.
-        /// </summary>
-        static readonly ICalculationStatus NonRunningStatus = new CalculationIndetermined();
-
-        /// <summary>
-        /// The default status used if the solver is running.
-        /// </summary>
-        static readonly ICalculationStatus RunningStatus = new CalculationRunning();
 
 #if PORTABLE
         private static readonly Dictionary<double, List<IIterativeSolverSetup<Complex>>> SolverSetups = new Dictionary<double, List<IIterativeSolverSetup<Complex>>>();        
@@ -348,7 +337,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
         /// <summary>
         /// The status of the calculation.
         /// </summary>
-        ICalculationStatus _status = NonRunningStatus;
+        IterationStatus _status = IterationStatus.Indetermined;
 
         /// <summary>
         /// The iterator that is used to control the iteration process.
@@ -394,7 +383,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
         /// <summary>
         /// Gets the status of the iteration once the calculation is finished.
         /// </summary>
-        public ICalculationStatus IterationResult
+        public IterationStatus IterationResult
         {
             get
             {
@@ -517,7 +506,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
                     // Switch to the next preconditioner. 
                     // Reset the solution vector to the previous solution
                     input.CopyTo(internalInput);
-                    _status = RunningStatus;
+                    _status = IterationStatus.Running;
                     continue;
                 }
 

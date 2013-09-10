@@ -55,7 +55,7 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
         /// <summary>
         /// Gets the status of the iteration once the calculation is finished.
         /// </summary>
-        ICalculationStatus IterationResult { get; }
+        IterationStatus IterationResult { get; }
 
         /// <summary>
         /// Solves the matrix equation Ax = b, where A is the coefficient matrix, b is the

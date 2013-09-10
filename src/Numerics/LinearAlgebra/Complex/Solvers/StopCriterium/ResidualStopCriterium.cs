@@ -28,11 +28,10 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using MathNet.Numerics.LinearAlgebra.Solvers;
-using MathNet.Numerics.LinearAlgebra.Solvers.Status;
-using MathNet.Numerics.Properties;
 using System;
 using System.Diagnostics;
+using MathNet.Numerics.LinearAlgebra.Solvers;
+using MathNet.Numerics.Properties;
 
 namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.StopCriterium
 {
@@ -61,38 +60,33 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.StopCriterium
         /// <summary>
         /// Defines the default last iteration number. Set to -1 because iterations normally start at 0.
         /// </summary>
-        private const int DefaultLastIterationNumber = -1;
-
-        /// <summary>
-        /// The default status.
-        /// </summary>
-        private static readonly ICalculationStatus DefaultStatus = new CalculationIndetermined();
+        const int DefaultLastIterationNumber = -1;
 
         /// <summary>
         /// The maximum value for the residual below which the calculation is considered converged.
         /// </summary>
-        private double _maximum;
+        double _maximum;
 
         /// <summary>
         /// The minimum number of iterations for which the residual has to be below the maximum before
         /// the calculation is considered converged.
         /// </summary>
-        private int _minimumIterationsBelowMaximum;
+        int _minimumIterationsBelowMaximum;
 
         /// <summary>
         /// The status of the calculation
         /// </summary>
-        private ICalculationStatus _status = DefaultStatus;
+        IterationStatus _status = IterationStatus.Indetermined;
 
         /// <summary>
         /// The number of iterations since the residuals got below the maximum.
         /// </summary>
-        private int _iterationCount;
+        int _iterationCount;
 
         /// <summary>
         /// The iteration number of the last iteration.
         /// </summary>
-        private int _lastIteration = DefaultLastIterationNumber;
+        int _lastIteration = DefaultLastIterationNumber;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ResidualStopCriterium"/> class with the default maximum 
@@ -229,26 +223,11 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.StopCriterium
         /// on the invocation of this method. Therefore this method should only be called if the 
         /// calculation has moved forwards at least one step.
         /// </remarks>
-        public ICalculationStatus DetermineStatus(int iterationNumber, Vector<Complex> solutionVector, Vector<Complex> sourceVector, Vector<Complex> residualVector)
+        public IterationStatus DetermineStatus(int iterationNumber, Vector<Complex> solutionVector, Vector<Complex> sourceVector, Vector<Complex> residualVector)
         {
             if (iterationNumber < 0)
             {
                 throw new ArgumentOutOfRangeException("iterationNumber");
-            }
-
-            if (solutionVector == null)
-            {
-                throw new ArgumentNullException("solutionVector");
-            }
-
-            if (sourceVector == null)
-            {
-                throw new ArgumentNullException("sourceVector");
-            }
-            
-            if (residualVector == null)
-            {
-                throw new ArgumentNullException("residualVector");
             }
 
             if (solutionVector.Count != sourceVector.Count)
@@ -265,7 +244,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.StopCriterium
             // These values will be used to calculate the relative drop in residuals
             // later on.
             var residualNorm = residualVector.InfinityNorm();
-            
+
             // Check the residuals by calculating:
             // ||r_i|| <= stop_tol * ||b||
             var stopCriterium = ComputeStopCriterium(sourceVector.InfinityNorm().Real);
@@ -276,7 +255,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.StopCriterium
             if (double.IsNaN(stopCriterium) || double.IsNaN(residualNorm.Real))
             {
                 _iterationCount = 0;
-                SetStatusToDiverged();
+                _status = IterationStatus.Diverged;
                 return _status;
             }
 
@@ -288,20 +267,13 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.StopCriterium
                 if (_lastIteration <= iterationNumber)
                 {
                     _iterationCount = iterationNumber - _lastIteration;
-                    if (_iterationCount >= _minimumIterationsBelowMaximum)
-                    {
-                        SetStatusToConverged();
-                    }
-                    else
-                    {
-                        SetStatusToRunning();
-                    }
+                    _status = _iterationCount >= _minimumIterationsBelowMaximum ? IterationStatus.Converged : IterationStatus.Running;
                 }
             }
             else
             {
                 _iterationCount = 0;
-                SetStatusToRunning();
+                _status = IterationStatus.Running;
             }
 
             _lastIteration = iterationNumber;
@@ -313,7 +285,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.StopCriterium
         /// </summary>
         /// <param name="solutionNorm">Solution vector norm</param>
         /// <returns>Criterium value</returns>
-        private double ComputeStopCriterium(double solutionNorm)
+        double ComputeStopCriterium(double solutionNorm)
         {
             // This is criterium 1 from Templates for the solution of linear systems.
             // The problem with this criterium is that it's not limiting enough. For now 
@@ -321,46 +293,13 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.StopCriterium
             // return mMaximumResidual * (System.Math.Abs(mMatrixNorm) * System.Math.Abs(solutionNorm) + System.Math.Abs(mVectorNorm));
 
             // For now use criterium 2 from Templates for the solution of linear systems. See page 60.
-            return _maximum * Math.Abs(solutionNorm);
-        }
-
-        /// <summary>
-        /// Set status to <see cref="CalculationDiverged"/>
-        /// </summary>
-        private void SetStatusToDiverged()
-        {
-            if (!(_status is CalculationDiverged))
-            {
-                _status = new CalculationDiverged();
-            }
-        }
-
-        /// <summary>
-        /// Set status to <see cref="CalculationConverged"/>
-        /// </summary>
-        private void SetStatusToConverged()
-        {
-            if (!(_status is CalculationConverged))
-            {
-                _status = new CalculationConverged();
-            }
-        }
-
-        /// <summary>
-        /// Set status to <see cref="CalculationRunning"/>
-        /// </summary>
-        private void SetStatusToRunning()
-        {
-            if (!(_status is CalculationRunning))
-            {
-                _status = new CalculationRunning();
-            }
+            return _maximum*Math.Abs(solutionNorm);
         }
 
         /// <summary>
         /// Gets the current calculation status.
         /// </summary>
-        public ICalculationStatus Status
+        public IterationStatus Status
         {
             [DebuggerStepThrough]
             get
@@ -374,7 +313,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.StopCriterium
         /// </summary>
         public void ResetToPrecalculationState()
         {
-            _status = DefaultStatus;
+            _status = IterationStatus.Indetermined;
             _iterationCount = 0;
             _lastIteration = DefaultLastIterationNumber;
         }

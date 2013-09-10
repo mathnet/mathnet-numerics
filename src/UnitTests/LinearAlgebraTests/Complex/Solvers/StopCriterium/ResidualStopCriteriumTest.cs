@@ -28,11 +28,11 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System;
 using MathNet.Numerics.LinearAlgebra.Complex;
 using MathNet.Numerics.LinearAlgebra.Complex.Solvers.StopCriterium;
-using MathNet.Numerics.LinearAlgebra.Solvers.Status;
+using MathNet.Numerics.LinearAlgebra.Solvers;
 using NUnit.Framework;
-using System;
 
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.StopCriterium
 {
@@ -118,54 +118,6 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.StopCrit
         }
 
         /// <summary>
-        /// Determine status with <c>null</c> solution vector throws <c>ArgumentNullException</c>.
-        /// </summary>
-        [Test]
-        public void DetermineStatusWithNullSolutionVectorThrowsArgumentNullException()
-        {
-            var criterium = new ResidualStopCriterium(1e-8, 50);
-            Assert.IsNotNull(criterium, "There should be a criterium");
-
-            Assert.Throws<ArgumentNullException>(() => criterium.DetermineStatus(
-                1,
-                null,
-                DenseVector.Create(3, i => 5),
-                DenseVector.Create(3, i => 6)));
-        }
-
-        /// <summary>
-        /// Determine status with <c>null</c> source vector throws <c>ArgumentNullException</c>.
-        /// </summary>
-        [Test]
-        public void DetermineStatusWithNullSourceVectorThrowsArgumentNullException()
-        {
-            var criterium = new ResidualStopCriterium(1e-8, 50);
-            Assert.IsNotNull(criterium, "There should be a criterium");
-
-            Assert.Throws<ArgumentNullException>(() => criterium.DetermineStatus(
-                1,
-                DenseVector.Create(3, i => 4),
-                null,
-                DenseVector.Create(3, i => 6)));
-        }
-
-        /// <summary>
-        /// Determine status with <c>null</c> residual vector throws <c>ArgumentNullException</c>.
-        /// </summary>
-        [Test]
-        public void DetermineStatusWithNullResidualVectorThrowsArgumentNullException()
-        {
-            var criterium = new ResidualStopCriterium(1e-8, 50);
-            Assert.IsNotNull(criterium, "There should be a criterium");
-
-            Assert.Throws<ArgumentNullException>(() => criterium.DetermineStatus(
-                1,
-                DenseVector.Create(3, i => 4),
-                DenseVector.Create(3, i => 5),
-                null));
-        }
-
-        /// <summary>
         /// Determine status with non-matching solution vector throws <c>ArgumentException</c>.
         /// </summary>
         [Test]
@@ -227,7 +179,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.StopCrit
             var residual = new DenseVector(new[] {new Complex(1000.0, 1), new Complex(1000.0, 1), new Complex(2001.0, 1)});
 
             var status = criterium.DetermineStatus(5, solution, source, residual);
-            Assert.IsInstanceOf(typeof (CalculationDiverged), status, "Should be diverged");
+            Assert.AreEqual(IterationStatus.Diverged, status, "Should be diverged");
         }
 
         /// <summary>
@@ -244,7 +196,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.StopCrit
             var residual = new DenseVector(new[] {new Complex(1000.0, 1), new Complex(double.NaN, 1), new Complex(2001.0, 1)});
 
             var status = criterium.DetermineStatus(5, solution, source, residual);
-            Assert.IsInstanceOf(typeof (CalculationDiverged), status, "Should be diverged");
+            Assert.AreEqual(IterationStatus.Diverged, status, "Should be diverged");
         }
 
         /// <summary>
@@ -265,7 +217,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.StopCrit
             var residual = new DenseVector(new[] {Complex.Zero, Complex.Zero, Complex.Zero});
 
             var status = criterium.DetermineStatus(0, solution, source, residual);
-            Assert.IsInstanceOf(typeof (CalculationConverged), status, "Should be done");
+            Assert.AreEqual(IterationStatus.Converged, status, "Should be done");
         }
 
         /// <summary>
@@ -287,10 +239,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.StopCrit
             var residual = new DenseVector(new[] {new Complex(0.001, 0), new Complex(0.001, 0), new Complex(0.002, 0)});
 
             var status = criterium.DetermineStatus(5, solution, source, residual);
-            Assert.IsInstanceOf(typeof (CalculationRunning), status, "Should still be running");
+            Assert.AreEqual(IterationStatus.Running, status, "Should still be running");
 
             var status2 = criterium.DetermineStatus(16, solution, source, residual);
-            Assert.IsInstanceOf(typeof (CalculationConverged), status2, "Should be done");
+            Assert.AreEqual(IterationStatus.Converged, status2, "Should be done");
         }
 
         /// <summary>
@@ -307,10 +259,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.StopCrit
             var residual = new DenseVector(new[] {new Complex(1.000, 0), new Complex(1.000, 0), new Complex(2.001, 0)});
 
             var status = criterium.DetermineStatus(5, solution, source, residual);
-            Assert.IsInstanceOf(typeof (CalculationRunning), status, "Should be running");
+            Assert.AreEqual(IterationStatus.Running, status, "Should be running");
 
             criterium.ResetToPrecalculationState();
-            Assert.IsInstanceOf(typeof (CalculationIndetermined), criterium.Status, "Should not have started");
+            Assert.AreEqual(IterationStatus.Indetermined, criterium.Status, "Should not have started");
         }
 
         /// <summary>

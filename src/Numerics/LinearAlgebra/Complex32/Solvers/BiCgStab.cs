@@ -30,7 +30,6 @@
 
 using System;
 using MathNet.Numerics.LinearAlgebra.Solvers;
-using MathNet.Numerics.LinearAlgebra.Solvers.Status;
 using MathNet.Numerics.Properties;
 
 namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers
@@ -66,12 +65,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers
     /// </remarks>
     public sealed class BiCgStab : IIterativeSolver<Numerics.Complex32>
     {
-        /// <summary>
-        /// The status used if there is no status, i.e. the solver hasn't run yet and there is no
-        /// iterator.
-        /// </summary>
-        static readonly ICalculationStatus DefaultStatus = new CalculationIndetermined();
-
         /// <summary>
         /// The preconditioner that will be used. Can be set to <see langword="null" />, in which case the default
         /// pre-conditioner will be used.
@@ -181,9 +174,9 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers
         /// <summary>
         /// Gets the status of the iteration once the calculation is finished.
         /// </summary>
-        public ICalculationStatus IterationResult
+        public IterationStatus IterationResult
         {
-            get { return (_iterator != null) ? _iterator.Status : DefaultStatus; }
+            get { return (_iterator != null) ? _iterator.Status : IterationStatus.Indetermined; }
         }
 
         /// <summary>
@@ -463,7 +456,8 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers
                 return true;
             }
 
-            return !_iterator.DetermineStatus(iterationNumber, result, source, residuals).TerminatesCalculation;
+            var status = _iterator.DetermineStatus(iterationNumber, result, source, residuals);
+            return status == IterationStatus.Running || status == IterationStatus.Indetermined;
         }
 
         /// <summary>

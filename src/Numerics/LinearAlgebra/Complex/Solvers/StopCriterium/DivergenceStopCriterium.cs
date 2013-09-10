@@ -29,7 +29,6 @@
 // </copyright>
 
 using MathNet.Numerics.LinearAlgebra.Solvers;
-using MathNet.Numerics.LinearAlgebra.Solvers.Status;
 using System;
 using System.Diagnostics;
 
@@ -52,7 +51,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.StopCriterium
         /// residual may experience before a divergence warning is issued.
         /// </summary>
         public const double DefaultMaximumRelativeIncrease = 0.08;
-        
+
         /// <summary>
         /// Default value for the minimum number of iterations over which 
         /// the residual must grow before a divergence warning is issued.
@@ -63,37 +62,32 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.StopCriterium
         /// Defines the default last iteration number. Set to -1 because iterations normally
         /// start at 0.
         /// </summary>
-        private const int DefaultLastIterationNumber = -1;
+        const int DefaultLastIterationNumber = -1;
 
-        /// <summary>
-        /// The default status.
-        /// </summary>
-        private static readonly ICalculationStatus DefaultStatus = new CalculationIndetermined();
-        
         /// <summary>
         /// The maximum relative increase the residual may experience without triggering a divergence warning.
         /// </summary>
-        private double _maximumRelativeIncrease;
+        double _maximumRelativeIncrease;
 
         /// <summary>
         /// The number of iterations over which a residual increase should be tracked before issuing a divergence warning.
         /// </summary>
-        private int _minimumNumberOfIterations;
+        int _minimumNumberOfIterations;
 
         /// <summary>
         /// The status of the calculation
         /// </summary>
-        private ICalculationStatus _status = DefaultStatus;
+        IterationStatus _status = IterationStatus.Indetermined;
 
         /// <summary>
         /// The array that holds the tracking information.
         /// </summary>
-        private double[] _residualHistory;
+        double[] _residualHistory;
 
         /// <summary>
         /// The iteration number of the last iteration.
         /// </summary>
-        private int _lastIteration = DefaultLastIterationNumber;
+        int _lastIteration = DefaultLastIterationNumber;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DivergenceStopCriterium"/> class with the default maximum 
@@ -117,7 +111,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.StopCriterium
         /// relative increase and the specified minimum number of tracking iterations.
         /// </summary>
         /// <param name="minimumIterations">The minimum number of iterations over which the residual must grow before a divergence warning is issued. </param>
-        public DivergenceStopCriterium(int minimumIterations) : this(DefaultMinimumNumberOfIterations,  minimumIterations)
+        public DivergenceStopCriterium(int minimumIterations) : this(DefaultMinimumNumberOfIterations, minimumIterations)
         {
         }
 
@@ -224,16 +218,11 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.StopCriterium
         /// on the invocation of this method. Therefore this method should only be called if the 
         /// calculation has moved forwards at least one step.
         /// </remarks>
-        public ICalculationStatus DetermineStatus(int iterationNumber, Vector<Complex> solutionVector, Vector<Complex> sourceVector, Vector<Complex> residualVector)
+        public IterationStatus DetermineStatus(int iterationNumber, Vector<Complex> solutionVector, Vector<Complex> sourceVector, Vector<Complex> residualVector)
         {
             if (iterationNumber < 0)
             {
                 throw new ArgumentOutOfRangeException("iterationNumber");
-            }
-
-            if (residualVector == null)
-            {
-                throw new ArgumentNullException("residualVector");
             }
 
             if (_lastIteration >= iterationNumber)
@@ -263,19 +252,12 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.StopCriterium
             // Stop the iteration.
             if (double.IsNaN(_residualHistory[_residualHistory.Length - 1]))
             {
-                SetStatusToDiverged();
+                _status = IterationStatus.Diverged;
                 return _status;
             }
 
             // Check if we are diverging and if so set the status
-            if (IsDiverging())
-            {
-                SetStatusToDiverged();
-            }
-            else
-            {
-                SetStatusToRunning();
-            }
+            _status = IsDiverging() ? IterationStatus.Diverged : IterationStatus.Running;
 
             _lastIteration = iterationNumber;
             return _status;
@@ -285,7 +267,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.StopCriterium
         /// Detect if solution is diverging
         /// </summary>
         /// <returns><c>true</c> if diverging, otherwise <c>false</c></returns>
-        private bool IsDiverging()
+        bool IsDiverging()
         {
             // Run for each variable
             for (var i = 1; i < _residualHistory.Length; i++)
@@ -295,7 +277,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.StopCriterium
                 // Divergence is occurring if:
                 // - the last residual is larger than the previous one
                 // - the relative increase of the residual is larger than the setting allows
-                if ((difference < 0) || (_residualHistory[i - 1] * (1 + _maximumRelativeIncrease) >= _residualHistory[i]))
+                if ((difference < 0) || (_residualHistory[i - 1]*(1 + _maximumRelativeIncrease) >= _residualHistory[i]))
                 {
                     // No divergence taking place within the required number of iterations
                     // So reset and stop the iteration. There is no way we can get to the
@@ -310,7 +292,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.StopCriterium
         /// <summary>
         /// Gets required history Length
         /// </summary>
-        private int RequiredHistoryLength
+        int RequiredHistoryLength
         {
             [DebuggerStepThrough]
             get
@@ -320,31 +302,9 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.StopCriterium
         }
 
         /// <summary>
-        /// Set status to <see cref="CalculationDiverged"/>
-        /// </summary>
-        private void SetStatusToDiverged()
-        {
-            if (!(_status is CalculationDiverged))
-            {
-                _status = new CalculationDiverged();
-            }
-        }
-
-        /// <summary>
-        /// Set status to <see cref="CalculationRunning"/>
-        /// </summary>
-        private void SetStatusToRunning()
-        {
-            if (!(_status is CalculationRunning))
-            {
-                _status = new CalculationRunning();
-            }
-        }
-
-        /// <summary>
         /// Gets the current calculation status.
         /// </summary>
-        public ICalculationStatus Status
+        public IterationStatus Status
         {
             [DebuggerStepThrough]
             get
@@ -358,7 +318,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.StopCriterium
         /// </summary>
         public void ResetToPrecalculationState()
         {
-            _status = DefaultStatus;
+            _status = IterationStatus.Indetermined;
             _lastIteration = DefaultLastIterationNumber;
             _residualHistory = null;
         }

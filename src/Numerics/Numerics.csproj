@@ -123,6 +123,7 @@
     <Compile Include="Distributions\Zipf.cs" />
     <Compile Include="LinearAlgebra\Builder.cs" />
     <Compile Include="LinearAlgebra\Matrix.Factorization.cs" />
+    <Compile Include="LinearAlgebra\Solvers\IterationStatus.cs" />
     <Compile Include="LinearAlgebra\Solvers\Iterator.cs" />
     <Compile Include="LinearAlgebra\Solvers\IterationCountStopCriterium.cs" />
     <Compile Include="Providers\LinearAlgebra\Acml\AcmlLinearAlgebraProvider.Complex.cs" />
@@ -345,14 +346,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="LinearAlgebra\Solvers\UnitPreconditioner.cs" />
-    <Compile Include="LinearAlgebra\Solvers\Status\CalculationCancelled.cs" />
-    <Compile Include="LinearAlgebra\Solvers\Status\CalculationConverged.cs" />
-    <Compile Include="LinearAlgebra\Solvers\Status\CalculationDiverged.cs" />
-    <Compile Include="LinearAlgebra\Solvers\Status\CalculationFailure.cs" />
-    <Compile Include="LinearAlgebra\Solvers\Status\CalculationIndetermined.cs" />
-    <Compile Include="LinearAlgebra\Solvers\Status\CalculationRunning.cs" />
-    <Compile Include="LinearAlgebra\Solvers\Status\CalculationStoppedWithoutConvergence.cs" />
-    <Compile Include="LinearAlgebra\Solvers\ICalculationStatus.cs" />
     <Compile Include="LinearAlgebra\Double\Solvers\StopCriterium\DivergenceStopCriterium.cs" />
     <Compile Include="LinearAlgebra\Double\Solvers\StopCriterium\FailureStopCriterium.cs" />
     <Compile Include="LinearAlgebra\Double\Solvers\StopCriterium\ResidualStopCriterium.cs" />

@@ -33,7 +33,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using MathNet.Numerics.Distributions;
 using MathNet.Numerics.LinearAlgebra.Solvers;
-using MathNet.Numerics.LinearAlgebra.Solvers.Status;
 using MathNet.Numerics.Properties;
 
 namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
@@ -67,12 +66,6 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
         /// The default number of starting vectors.
         /// </summary>
         const int DefaultNumberOfStartingVectors = 50;
-
-        /// <summary>
-        /// The status used if there is no status, i.e. the solver hasn't run yet and there is no
-        /// iterator.
-        /// </summary>
-        static readonly ICalculationStatus DefaultStatus = new CalculationIndetermined();
 
         /// <summary>
         /// The preconditioner that will be used. Can be set to <see langword="null" />, in which case the default
@@ -253,12 +246,12 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
         /// <summary>
         /// Gets the status of the iteration once the calculation is finished.
         /// </summary>
-        public ICalculationStatus IterationResult
+        public IterationStatus IterationResult
         {
             [DebuggerStepThrough]
             get
             {
-                return (_iterator != null) ? _iterator.Status : DefaultStatus;
+                return (_iterator != null) ? _iterator.Status : IterationStatus.Indetermined;
             }
         }
 
@@ -738,7 +731,8 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
                 return true;
             }
 
-            return !_iterator.DetermineStatus(iterationNumber, result, source, residuals).TerminatesCalculation;
+            var status = _iterator.DetermineStatus(iterationNumber, result, source, residuals);
+            return status == IterationStatus.Running || status == IterationStatus.Indetermined;
         }
 
         /// <summary>

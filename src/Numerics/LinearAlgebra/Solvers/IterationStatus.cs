@@ -1,4 +1,4 @@
-// <copyright file="CalculationConverged.cs" company="Math.NET">
+﻿// <copyright file="IterationStatus.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -28,24 +28,19 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-namespace MathNet.Numerics.LinearAlgebra.Solvers.Status
+namespace MathNet.Numerics.LinearAlgebra.Solvers
 {
     /// <summary>
-    /// Indicates that a calculation has converged to the desired convergence levels.
+    /// Iterative Calculation Status
     /// </summary>
-    public struct CalculationConverged : ICalculationStatus
+    public enum IterationStatus
     {
-        /// <summary>
-        /// Gets a value indicating whether current status warrants stopping the calculation.
-        /// </summary>
-        public bool TerminatesCalculation
-        {
-            get
-            {
-                return true;
-            }
-        }
-
-        // TODO: CalculationConverged: Should we put the achieved residuals and convergence levels on here?
+        Indetermined = 0,
+        Running,
+        Converged,
+        Diverged,
+        StoppedWithoutConvergence,
+        Cancelled,
+        Failure
     }
 }
