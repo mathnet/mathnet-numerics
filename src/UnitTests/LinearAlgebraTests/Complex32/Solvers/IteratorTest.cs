@@ -47,135 +47,6 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers
     public class IteratorTest
     {
         /// <summary>
-        /// Can create with <c>null</c> collection.
-        /// </summary>
-        [Test]
-        public void CreateWithNullCollection()
-        {
-            var iterator = new Iterator<Complex32>(null);
-            Assert.IsNotNull(iterator, "Should have an iterator");
-            Assert.AreEqual(0, iterator.NumberOfCriteria, "There shouldn't be any criteria");
-        }
-
-        /// <summary>
-        /// Can create with empty collection.
-        /// </summary>
-        [Test]
-        public void CreateWithEmptyCollection()
-        {
-            var iterator = new Iterator<Complex32>(new IIterationStopCriterium<Complex32>[] { });
-            Assert.IsNotNull(iterator, "Should have an iterator");
-            Assert.AreEqual(0, iterator.NumberOfCriteria, "There shouldn't be any criteria");
-        }
-
-        /// <summary>
-        /// Can create with collection with <c>nulls</c>.
-        /// </summary>
-        [Test]
-        public void CreateWithCollectionWithNulls()
-        {
-            var iterator = new Iterator<Complex32>(new IIterationStopCriterium<Complex32>[] { null, null });
-            Assert.IsNotNull(iterator, "Should have an iterator");
-            Assert.AreEqual(0, iterator.NumberOfCriteria, "There shouldn't be any criteria");
-        }
-
-        /// <summary>
-        /// Can create with collection.
-        /// </summary>
-        [Test]
-        public void CreateWithCollection()
-        {
-            var criteria = new List<IIterationStopCriterium<Complex32>>
-                {
-                    new FailureStopCriterium(),
-                    new DivergenceStopCriterium(),
-                    new IterationCountStopCriterium<Complex32>(),
-                    new ResidualStopCriterium()
-                };
-            var iterator = new Iterator<Complex32>(criteria);
-            Assert.IsNotNull(iterator, "Should have an iterator");
-
-            // Check that we have all the criteria
-            Assert.AreEqual(criteria.Count, iterator.NumberOfCriteria, "Incorrect criterium count");
-            foreach (var criterium in iterator.StoredStopCriteria)
-            {
-                Assert.IsTrue(criteria.Exists(c => ReferenceEquals(c, criterium)), "Criterium missing");
-            }
-        }
-
-        /// <summary>
-        /// Can add criterium.
-        /// </summary>
-        [Test]
-        public void Add()
-        {
-            var criteria = new List<IIterationStopCriterium<Complex32>>
-                {
-                    new FailureStopCriterium(),
-                    new DivergenceStopCriterium(),
-                    new IterationCountStopCriterium<Complex32>(),
-                    new ResidualStopCriterium()
-                };
-            var iterator = new Iterator<Complex32>();
-            Assert.AreEqual(0, iterator.NumberOfCriteria, "Incorrect criterium count");
-
-            foreach (var criterium in criteria)
-            {
-                iterator.Add(criterium);
-                Assert.IsTrue(iterator.Contains(criterium), "Missing criterium");
-            }
-
-            // Check that we have all the criteria
-            Assert.AreEqual(criteria.Count, iterator.NumberOfCriteria, "Incorrect criterium count");
-            foreach (var criterium in iterator.StoredStopCriteria)
-            {
-                Assert.IsTrue(criteria.Exists(c => ReferenceEquals(c, criterium)), "Criterium missing");
-            }
-        }
-
-        /// <summary>
-        /// Can remove with non-existing stop criterium.
-        /// </summary>
-        [Test]
-        public void RemoveWithNonExistingStopCriterium()
-        {
-            var criteria = new List<IIterationStopCriterium<Complex32>>
-                {
-                    new FailureStopCriterium(),
-                    new DivergenceStopCriterium(),
-                    new IterationCountStopCriterium<Complex32>(),
-                };
-            var iterator = new Iterator<Complex32>(criteria);
-            Assert.AreEqual(criteria.Count, iterator.NumberOfCriteria, "Incorrect criterium count");
-
-            iterator.Remove(new ResidualStopCriterium());
-            Assert.AreEqual(criteria.Count, iterator.NumberOfCriteria, "Incorrect criterium count");
-        }
-
-        /// <summary>
-        /// Can remove.
-        /// </summary>
-        [Test]
-        public void Remove()
-        {
-            var criteria = new List<IIterationStopCriterium<Complex32>>
-                {
-                    new FailureStopCriterium(),
-                    new DivergenceStopCriterium(),
-                    new IterationCountStopCriterium<Complex32>(),
-                    new ResidualStopCriterium()
-                };
-            var iterator = new Iterator<Complex32>(criteria);
-            Assert.AreEqual(criteria.Count, iterator.NumberOfCriteria, "Incorrect criterium count");
-
-            foreach (var criterium in criteria)
-            {
-                iterator.Remove(criterium);
-                Assert.IsFalse(iterator.Contains(criterium), "Did not remove the criterium");
-            }
-        }
-
-        /// <summary>
         /// Determine status without stop criteria throws <c>ArgumentException</c>.
         /// </summary>
         [Test]
@@ -332,43 +203,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers
                 DenseVector.Create(3, i => 4));
             Assert.IsInstanceOf(typeof (CalculationRunning), iterator.Status, "Incorrect status");
 
-            iterator.ResetToPrecalculationState();
+            iterator.Reset();
             Assert.IsInstanceOf(typeof (CalculationIndetermined), iterator.Status, "Incorrect status");
             Assert.IsInstanceOf(typeof (CalculationIndetermined), criteria[0].Status, "Incorrect status");
             Assert.IsInstanceOf(typeof (CalculationIndetermined), criteria[1].Status, "Incorrect status");
             Assert.IsInstanceOf(typeof (CalculationIndetermined), criteria[2].Status, "Incorrect status");
-        }
-
-        /// <summary>
-        /// Can clone.
-        /// </summary>
-        [Test]
-        public void Clone()
-        {
-            var criteria = new List<IIterationStopCriterium<Complex32>>
-                {
-                    new FailureStopCriterium(),
-                    new DivergenceStopCriterium(),
-                    new IterationCountStopCriterium<Complex32>(),
-                    new ResidualStopCriterium()
-                };
-
-            var iterator = new Iterator<Complex32>(criteria);
-
-            var clonedIterator = iterator.Clone();
-            Assert.IsInstanceOf(typeof(Iterator<Complex32>), clonedIterator, "Incorrect type");
-
-            var clone = clonedIterator as Iterator<Complex32>;
-            Assert.IsNotNull(clone);
-
-            // ReSharper disable PossibleNullReferenceException
-            Assert.AreEqual(iterator.NumberOfCriteria, clone.NumberOfCriteria, "Incorrect criterium count");
-
-            // ReSharper restore PossibleNullReferenceException
-            foreach (var criterium in clone.StoredStopCriteria)
-            {
-                Assert.IsTrue(criteria.Exists(c => c.GetType() == criterium.GetType()), "Criterium missing");
-            }
         }
     }
 }

@@ -29,7 +29,6 @@
 // </copyright>
 
 using System;
-using MathNet.Numerics.LinearAlgebra.Double.Solvers.Preconditioners;
 using MathNet.Numerics.LinearAlgebra.Solvers;
 using MathNet.Numerics.LinearAlgebra.Solvers.Status;
 using MathNet.Numerics.Properties;
@@ -59,29 +58,29 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
         /// The status used if there is no status, i.e. the solver hasn't run yet and there is no
         /// iterator.
         /// </summary>
-        private static readonly ICalculationStatus DefaultStatus = new CalculationIndetermined();
+        static readonly ICalculationStatus DefaultStatus = new CalculationIndetermined();
 
         /// <summary>
         /// The preconditioner that will be used. Can be set to <see langword="null" />, in which case the default
         /// pre-conditioner will be used.
         /// </summary>
-        private IPreConditioner<double> _preconditioner;
+        IPreConditioner<double> _preconditioner;
 
         /// <summary>
         /// The iterative process controller.
         /// </summary>
-        private IIterator<double> _iterator;
+        Iterator<double> _iterator;
 
         /// <summary>
         /// Indicates if the user has stopped the solver.
         /// </summary>
-        private bool _hasBeenStopped;
+        bool _hasBeenStopped;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TFQMR"/> class.
         /// </summary>
         /// <remarks>
-        /// When using this constructor the solver will use the <see cref="IIterator{T}"/> with
+        /// When using this constructor the solver will use the <see cref="Iterator{T}"/> with
         /// the standard settings and a default preconditioner.
         /// </remarks>
         public TFQMR() : this(null, null)
@@ -96,18 +95,18 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
         /// When using this constructor the solver will use a default preconditioner.
         /// </para>
         /// <para>
-        /// The main advantages of using a user defined <see cref="IIterator{T}"/> are:
+        /// The main advantages of using a user defined <see cref="Iterator{T}"/> are:
         /// <list type="number">
         /// <item>It is possible to set the desired convergence limits.</item>
         /// <item>
         /// It is possible to check the reason for which the solver finished 
-        /// the iterative procedure by calling the <see cref="IIterator{T}.Status"/> property.
+        /// the iterative procedure by calling the <see cref="Iterator{T}.Status"/> property.
         /// </item>
         /// </list>
         /// </para>
         /// </remarks>
-        /// <param name="iterator">The <see cref="IIterator{T}"/> that will be used to monitor the iterative process.</param>
-        public TFQMR(IIterator<double> iterator)
+        /// <param name="iterator">The <see cref="Iterator{T}"/> that will be used to monitor the iterative process.</param>
+        public TFQMR(Iterator<double> iterator)
             : this(null, iterator)
         {
         }
@@ -116,7 +115,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
         /// Initializes a new instance of the <see cref="TFQMR"/> class.
         /// </summary>
         /// <remarks>
-        /// When using this constructor the solver will use the <see cref="IIterator{T}"/> with
+        /// When using this constructor the solver will use the <see cref="Iterator{T}"/> with
         /// the standard settings.
         /// </remarks>
         /// <param name="preconditioner">The <see cref="IPreConditioner{T}"/> that will be used to precondition the matrix equation.</param>
@@ -130,19 +129,19 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
         /// </summary>
         /// <remarks>
         /// <para>
-        /// The main advantages of using a user defined <see cref="IIterator{T}"/> are:
+        /// The main advantages of using a user defined <see cref="Iterator{T}"/> are:
         /// <list type="number">
         /// <item>It is possible to set the desired convergence limits.</item>
         /// <item>
         /// It is possible to check the reason for which the solver finished 
-        /// the iterative procedure by calling the <see cref="IIterator{T}.Status"/> property.
+        /// the iterative procedure by calling the <see cref="Iterator{T}.Status"/> property.
         /// </item>
         /// </list>
         /// </para>
         /// </remarks>
         /// <param name="preconditioner">The <see cref="IPreConditioner{T}"/> that will be used to precondition the matrix equation.</param>
-        /// <param name="iterator">The <see cref="IIterator{T}"/> that will be used to monitor the iterative process.</param>
-        public TFQMR(IPreConditioner<double> preconditioner, IIterator<double> iterator)
+        /// <param name="iterator">The <see cref="Iterator{T}"/> that will be used to monitor the iterative process.</param>
+        public TFQMR(IPreConditioner<double> preconditioner, Iterator<double> iterator)
         {
             _iterator = iterator;
             _preconditioner = preconditioner;
@@ -158,10 +157,10 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
         }
 
         /// <summary>
-        /// Sets the <see cref="IIterator{T}"/> that will be used to track the iterative process.
+        /// Sets the <see cref="Iterator{T}"/> that will be used to track the iterative process.
         /// </summary>
         /// <param name="iterator">The iterator.</param>
-        public void SetIterator(IIterator<double> iterator)
+        public void SetIterator(Iterator<double> iterator)
         {
             _iterator = iterator;
         }
@@ -171,9 +170,9 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
         /// </summary>
         public ICalculationStatus IterationResult
         {
-            get 
-            { 
-                return (_iterator != null) ? _iterator.Status : DefaultStatus; 
+            get
+            {
+                return (_iterator != null) ? _iterator.Status : DefaultStatus;
             }
         }
 
@@ -296,7 +295,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
             // Calculate the initial values for v
             // M temp = yEven
             _preconditioner.Approximate(yeven, temp);
-            
+
             // v = A temp
             matrix.Multiply(temp, v);
 
@@ -315,12 +314,12 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
                     if (sigma.AlmostEqual(0, 1))
                     {
                         // FAIL HERE
-                        _iterator.IterationCancelled();
+                        _iterator.Cancel();
                         break;
                     }
 
                     // alpha = rho / sigma
-                    alpha = rho / sigma;
+                    alpha = rho/sigma;
 
                     // yOdd = yEven - alpha * v
                     v.Multiply(-alpha, temp1);
@@ -345,18 +344,18 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
                 temp2.CopyTo(pseudoResiduals);
 
                 // d = yOdd + theta * theta * eta / alpha * d
-                d.Multiply(theta * theta * eta / alpha, temp);
+                d.Multiply(theta*theta*eta/alpha, temp);
                 yinternal.Add(temp, d);
 
                 // theta = ||pseudoResiduals||_2 / tau
-                theta = pseudoResiduals.L2Norm() / tau;
-                var c = 1 / Math.Sqrt(1 + (theta * theta));
+                theta = pseudoResiduals.L2Norm()/tau;
+                var c = 1/Math.Sqrt(1 + (theta*theta));
 
                 // tau = tau * theta * c
-                tau *= theta * c;
+                tau *= theta*c;
 
                 // eta = c^2 * alpha
-                eta = c * c * alpha;
+                eta = c*c*alpha;
 
                 // x = x + eta * d
                 d.Multiply(eta, temp1);
@@ -388,12 +387,12 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
                     if (rho.AlmostEqual(0, 1))
                     {
                         // FAIL HERE
-                        _iterator.IterationCancelled();
+                        _iterator.Cancel();
                         break;
                     }
 
                     var rhoNew = pseudoResiduals.DotProduct(r);
-                    var beta = rhoNew / rho;
+                    var beta = rhoNew/rho;
 
                     // Update rho for the next loop
                     rho = rhoNew;
@@ -430,7 +429,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
         /// <param name="residual">Residual values in <see cref="Vector"/>.</param>
         /// <param name="x">Instance of the <see cref="Vector"/> x.</param>
         /// <param name="b">Instance of the <see cref="Vector"/> b.</param>
-        private static void CalculateTrueResidual(Matrix<double> matrix, Vector<double> residual, Vector<double> x, Vector<double> b)
+        static void CalculateTrueResidual(Matrix<double> matrix, Vector<double> residual, Vector<double> x, Vector<double> b)
         {
             // -Ax = residual
             matrix.Multiply(x, residual);
@@ -448,21 +447,19 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
         /// <param name="source">Source <see cref="Vector"/>.</param>
         /// <param name="residuals">Residual <see cref="Vector"/>.</param>
         /// <returns><c>true</c> if continue, otherwise <c>false</c></returns>
-        private bool ShouldContinue(int iterationNumber, Vector<double> result, Vector<double> source, Vector<double> residuals)
+        bool ShouldContinue(int iterationNumber, Vector<double> result, Vector<double> source, Vector<double> residuals)
         {
-            if (_hasBeenStopped)
-            {
-                _iterator.IterationCancelled();
-                return true;
-            }
-
-            _iterator.DetermineStatus(iterationNumber, result, source, residuals);
-            var status = _iterator.Status;
-
             // We stop if either:
             // - the user has stopped the calculation
             // - the calculation needs to be stopped from a numerical point of view (divergence, convergence etc.)
-            return (!status.TerminatesCalculation) && (!_hasBeenStopped);
+
+            if (_hasBeenStopped)
+            {
+                _iterator.Cancel();
+                return true;
+            }
+
+            return !_iterator.DetermineStatus(iterationNumber, result, source, residuals).TerminatesCalculation;
         }
 
         /// <summary>
@@ -470,9 +467,9 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
         /// </summary>
         /// <param name="number">Number to check</param>
         /// <returns><c>true</c> if <paramref name="number"/> even, otherwise <c>false</c></returns>
-        private static bool IsEven(int number)
+        static bool IsEven(int number)
         {
-            return number % 2 == 0;
+            return number%2 == 0;
         }
 
         /// <summary>

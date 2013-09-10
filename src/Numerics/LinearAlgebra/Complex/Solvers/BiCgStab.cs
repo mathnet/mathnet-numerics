@@ -88,7 +88,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
         /// <summary>
         /// The iterative process controller.
         /// </summary>
-        IIterator<Complex> _iterator;
+        Iterator<Complex> _iterator;
 
         /// <summary>
         /// Indicates if the user has stopped the solver.
@@ -99,7 +99,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
         /// Initializes a new instance of the <see cref="BiCgStab"/> class.
         /// </summary>
         /// <remarks>
-        /// When using this constructor the solver will use the <see cref="IIterator{T}"/> with
+        /// When using this constructor the solver will use the <see cref="Iterator{T}"/> with
         /// the standard settings and a default preconditioner.
         /// </remarks>
         public BiCgStab()
@@ -115,18 +115,18 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
         /// When using this constructor the solver will use a default preconditioner.
         /// </para>
         /// <para>
-        /// The main advantages of using a user defined <see cref="IIterator{T}"/> are:
+        /// The main advantages of using a user defined <see cref="Iterator{T}"/> are:
         /// <list type="number">
         /// <item>It is possible to set the desired convergence limits.</item>
         /// <item>
         /// It is possible to check the reason for which the solver finished 
-        /// the iterative procedure by calling the <see cref="IIterator{T}.Status"/> property.
+        /// the iterative procedure by calling the <see cref="Iterator{T}.Status"/> property.
         /// </item>
         /// </list>
         /// </para>
         /// </remarks>
-        /// <param name="iterator">The <see cref="IIterator{T}"/> that will be used to monitor the iterative process. </param>
-        public BiCgStab(IIterator<Complex> iterator)
+        /// <param name="iterator">The <see cref="Iterator{T}"/> that will be used to monitor the iterative process. </param>
+        public BiCgStab(Iterator<Complex> iterator)
             : this(null, iterator)
         {
         }
@@ -135,7 +135,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
         /// Initializes a new instance of the <see cref="BiCgStab"/> class.
         /// </summary>
         /// <remarks>
-        /// When using this constructor the solver will use the <see cref="IIterator{T}"/> with
+        /// When using this constructor the solver will use the <see cref="Iterator{T}"/> with
         /// the standard settings.
         /// </remarks>
         /// <param name="preconditioner">The <see cref="IPreConditioner{T}"/> that will be used to precondition the matrix equation.</param>
@@ -149,19 +149,19 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
         /// </summary>
         /// <remarks>
         /// <para>
-        /// The main advantages of using a user defined <see cref="IIterator{T}"/> are:
+        /// The main advantages of using a user defined <see cref="Iterator{T}"/> are:
         /// <list type="number">
         /// <item>It is possible to set the desired convergence limits.</item>
         /// <item>
         /// It is possible to check the reason for which the solver finished 
-        /// the iterative procedure by calling the <see cref="IIterator{T}.Status"/> property.
+        /// the iterative procedure by calling the <see cref="Iterator{T}.Status"/> property.
         /// </item>
         /// </list>
         /// </para>
         /// </remarks>
         /// <param name="preconditioner">The <see cref="IPreConditioner{T}"/> that will be used to precondition the matrix equation. </param>
-        /// <param name="iterator">The <see cref="IIterator{T}"/> that will be used to monitor the iterative process. </param>
-        public BiCgStab(IPreConditioner<Complex> preconditioner, IIterator<Complex> iterator)
+        /// <param name="iterator">The <see cref="Iterator{T}"/> that will be used to monitor the iterative process. </param>
+        public BiCgStab(IPreConditioner<Complex> preconditioner, Iterator<Complex> iterator)
         {
             _iterator = iterator;
             _preconditioner = preconditioner;
@@ -177,10 +177,10 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
         }
 
         /// <summary>
-        /// Sets the <see cref="IIterator{T}"/> that will be used to track the iterative process.
+        /// Sets the <see cref="Iterator{T}"/> that will be used to track the iterative process.
         /// </summary>
         /// <param name="iterator">The iterator.</param>
-        public void SetIterator(IIterator<Complex> iterator)
+        public void SetIterator(Iterator<Complex> iterator)
         {
             _iterator = iterator;
         }
@@ -460,19 +460,17 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
         /// <returns><c>true</c> if continue, otherwise <c>false</c></returns>
         bool ShouldContinue(int iterationNumber, Vector<Complex> result, Vector<Complex> source, Vector<Complex> residuals)
         {
-            if (_hasBeenStopped)
-            {
-                _iterator.IterationCancelled();
-                return true;
-            }
-
-            _iterator.DetermineStatus(iterationNumber, result, source, residuals);
-            var status = _iterator.Status;
-
             // We stop if either:
             // - the user has stopped the calculation
             // - the calculation needs to be stopped from a numerical point of view (divergence, convergence etc.)
-            return (!status.TerminatesCalculation) && (!_hasBeenStopped);
+
+            if (_hasBeenStopped)
+            {
+                _iterator.Cancel();
+                return true;
+            }
+
+            return !_iterator.DetermineStatus(iterationNumber, result, source, residuals).TerminatesCalculation;
         }
 
         /// <summary>

@@ -33,7 +33,6 @@ using MathNet.Numerics.LinearAlgebra.Complex32;
 using MathNet.Numerics.LinearAlgebra.Complex32.Solvers;
 using MathNet.Numerics.LinearAlgebra.Complex32.Solvers.StopCriterium;
 using MathNet.Numerics.LinearAlgebra.Solvers;
-using MathNet.Numerics.LinearAlgebra.Solvers.Status;
 using NUnit.Framework;
 
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.Iterative
@@ -115,7 +114,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.Iterat
             var z = matrix.Multiply(x);
 
             // Check that the solution converged
-            Assert.IsTrue(monitor.Status is CalculationConverged, "#04");
+            Assert.IsTrue(monitor.HasConverged, "#04");
 
             // Now compare the vectors
             for (var i = 0; i < y.Count; i++)
@@ -160,7 +159,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.Iterat
             var z = matrix.Multiply(x);
 
             // Check that the solution converged
-            Assert.IsTrue(monitor.Status is CalculationConverged, "#04");
+            Assert.IsTrue(monitor.HasConverged, "#04");
 
             // Now compare the vectors
             for (var i = 0; i < y.Count; i++)
@@ -238,7 +237,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.Iterat
             var z = matrix.Multiply(x);
 
             // Check that the solution converged
-            Assert.IsTrue(monitor.Status is CalculationConverged, "#04");
+            Assert.IsTrue(monitor.HasConverged, "#04");
 
             // Now compare the vectors
             for (var i = 0; i < y.Count; i++)
@@ -266,13 +265,13 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.Iterat
                 var monitor = new Iterator<Complex32>(new IIterationStopCriterium<Complex32>[]
                     {
                         new IterationCountStopCriterium<Complex32>(1000),
-                        new ResidualStopCriterium((float) Math.Pow(1.0/10.0, iteration)),
+                        new ResidualStopCriterium((float) Math.Pow(1.0/10.0, iteration))
                     });
                 var solver = new BiCgStab(monitor);
 
                 var resultx = solver.Solve(matrixA, vectorb);
 
-                if (!(monitor.Status is CalculationConverged))
+                if (!monitor.HasConverged)
                 {
                     // Solution was not found, try again downgrading convergence boundary
                     continue;
@@ -314,7 +313,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.Iterat
                 var solver = new BiCgStab(monitor);
                 var matrixX = solver.Solve(matrixA, matrixB);
 
-                if (!(monitor.Status is CalculationConverged))
+                if (!monitor.HasConverged)
                 {
                     // Solution was not found, try again downgrading convergence boundary
                     continue;

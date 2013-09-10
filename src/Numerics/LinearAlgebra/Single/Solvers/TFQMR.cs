@@ -69,7 +69,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
         /// <summary>
         /// The iterative process controller.
         /// </summary>
-        IIterator<float> _iterator;
+        Iterator<float> _iterator;
 
         /// <summary>
         /// Indicates if the user has stopped the solver.
@@ -80,7 +80,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
         /// Initializes a new instance of the <see cref="TFQMR"/> class.
         /// </summary>
         /// <remarks>
-        /// When using this constructor the solver will use the <see cref="IIterator{T}"/> with
+        /// When using this constructor the solver will use the <see cref="Iterator{T}"/> with
         /// the standard settings and a default preconditioner.
         /// </remarks>
         public TFQMR()
@@ -96,18 +96,18 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
         /// When using this constructor the solver will use a default preconditioner.
         /// </para>
         /// <para>
-        /// The main advantages of using a user defined <see cref="IIterator{T}"/> are:
+        /// The main advantages of using a user defined <see cref="Iterator{T}"/> are:
         /// <list type="number">
         /// <item>It is possible to set the desired convergence limits.</item>
         /// <item>
         /// It is possible to check the reason for which the solver finished 
-        /// the iterative procedure by calling the <see cref="IIterator{T}.Status"/> property.
+        /// the iterative procedure by calling the <see cref="Iterator{T}.Status"/> property.
         /// </item>
         /// </list>
         /// </para>
         /// </remarks>
-        /// <param name="iterator">The <see cref="IIterator{T}"/> that will be used to monitor the iterative process.</param>
-        public TFQMR(IIterator<float> iterator)
+        /// <param name="iterator">The <see cref="Iterator{T}"/> that will be used to monitor the iterative process.</param>
+        public TFQMR(Iterator<float> iterator)
             : this(null, iterator)
         {
         }
@@ -116,7 +116,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
         /// Initializes a new instance of the <see cref="TFQMR"/> class.
         /// </summary>
         /// <remarks>
-        /// When using this constructor the solver will use the <see cref="IIterator{T}"/> with
+        /// When using this constructor the solver will use the <see cref="Iterator{T}"/> with
         /// the standard settings.
         /// </remarks>
         /// <param name="preconditioner">The <see cref="IPreConditioner{T}"/> that will be used to precondition the matrix equation.</param>
@@ -130,19 +130,19 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
         /// </summary>
         /// <remarks>
         /// <para>
-        /// The main advantages of using a user defined <see cref="IIterator{T}"/> are:
+        /// The main advantages of using a user defined <see cref="Iterator{T}"/> are:
         /// <list type="number">
         /// <item>It is possible to set the desired convergence limits.</item>
         /// <item>
         /// It is possible to check the reason for which the solver finished 
-        /// the iterative procedure by calling the <see cref="IIterator{T}.Status"/> property.
+        /// the iterative procedure by calling the <see cref="Iterator{T}.Status"/> property.
         /// </item>
         /// </list>
         /// </para>
         /// </remarks>
         /// <param name="preconditioner">The <see cref="IPreConditioner{T}"/> that will be used to precondition the matrix equation.</param>
-        /// <param name="iterator">The <see cref="IIterator{T}"/> that will be used to monitor the iterative process.</param>
-        public TFQMR(IPreConditioner<float> preconditioner, IIterator<float> iterator)
+        /// <param name="iterator">The <see cref="Iterator{T}"/> that will be used to monitor the iterative process.</param>
+        public TFQMR(IPreConditioner<float> preconditioner, Iterator<float> iterator)
         {
             _iterator = iterator;
             _preconditioner = preconditioner;
@@ -158,10 +158,10 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
         }
 
         /// <summary>
-        /// Sets the <see cref="IIterator{T}"/> that will be used to track the iterative process.
+        /// Sets the <see cref="Iterator{T}"/> that will be used to track the iterative process.
         /// </summary>
         /// <param name="iterator">The iterator.</param>
-        public void SetIterator(IIterator<float> iterator)
+        public void SetIterator(Iterator<float> iterator)
         {
             _iterator = iterator;
         }
@@ -312,7 +312,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
                     if (sigma.AlmostEqual(0, 1))
                     {
                         // FAIL HERE
-                        _iterator.IterationCancelled();
+                        _iterator.Cancel();
                         break;
                     }
 
@@ -385,7 +385,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
                     if (rho.AlmostEqual(0, 1))
                     {
                         // FAIL HERE
-                        _iterator.IterationCancelled();
+                        _iterator.Cancel();
                         break;
                     }
 
@@ -447,19 +447,17 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
         /// <returns><c>true</c> if continue, otherwise <c>false</c></returns>
         bool ShouldContinue(int iterationNumber, Vector<float> result, Vector<float> source, Vector<float> residuals)
         {
-            if (_hasBeenStopped)
-            {
-                _iterator.IterationCancelled();
-                return true;
-            }
-
-            _iterator.DetermineStatus(iterationNumber, result, source, residuals);
-            var status = _iterator.Status;
-
             // We stop if either:
             // - the user has stopped the calculation
             // - the calculation needs to be stopped from a numerical point of view (divergence, convergence etc.)
-            return (!status.TerminatesCalculation) && (!_hasBeenStopped);
+
+            if (_hasBeenStopped)
+            {
+                _iterator.Cancel();
+                return true;
+            }
+
+            return !_iterator.DetermineStatus(iterationNumber, result, source, residuals).TerminatesCalculation;
         }
 
         /// <summary>

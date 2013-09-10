@@ -44,16 +44,14 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
         /// <summary>
         /// Creates a default iterator with all the <see cref="IIterationStopCriterium{T}"/> objects.
         /// </summary>
-        /// <returns>A new <see cref="IIterator{T}"/> object.</returns>
-        public static IIterator<float> CreateDefault()
+        /// <returns>A new <see cref="Iterator{T}"/> object.</returns>
+        public static Iterator<float> CreateDefault()
         {
-            var iterator = new Iterator<float>();
-            iterator.Add(new FailureStopCriterium());
-            iterator.Add(new DivergenceStopCriterium());
-            iterator.Add(new IterationCountStopCriterium<float>());
-            iterator.Add(new ResidualStopCriterium());
-
-            return iterator;
+            return new Iterator<float>(
+                new FailureStopCriterium(),
+                new DivergenceStopCriterium(),
+                new IterationCountStopCriterium<float>(),
+                new ResidualStopCriterium());
         }
     }
 }

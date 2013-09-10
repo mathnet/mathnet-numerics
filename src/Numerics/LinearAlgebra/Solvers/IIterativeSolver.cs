@@ -47,10 +47,10 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
         void StopSolve();
 
         /// <summary>
-        /// Sets the <see cref="IIterator{T}"/> that will be used to track the iterative process.
+        /// Sets the <see cref="Iterator{T}"/> that will be used to track the iterative process.
         /// </summary>
         /// <param name="iterator">The iterator.</param>
-        void SetIterator(IIterator<T> iterator);
+        void SetIterator(Iterator<T> iterator);
 
         /// <summary>
         /// Gets the status of the iteration once the calculation is finished.

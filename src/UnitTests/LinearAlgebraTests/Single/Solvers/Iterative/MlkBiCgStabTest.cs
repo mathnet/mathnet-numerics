@@ -34,7 +34,6 @@ using MathNet.Numerics.LinearAlgebra.Single;
 using MathNet.Numerics.LinearAlgebra.Single.Solvers;
 using MathNet.Numerics.LinearAlgebra.Single.Solvers.StopCriterium;
 using MathNet.Numerics.LinearAlgebra.Solvers;
-using MathNet.Numerics.LinearAlgebra.Solvers.Status;
 using NUnit.Framework;
 
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers.Iterative
@@ -115,7 +114,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers.Iterative
             var z = matrix.Multiply(x);
 
             // Check that the solution converged
-            Assert.IsTrue(monitor.Status is CalculationConverged, "#04");
+            Assert.IsTrue(monitor.HasConverged, "#04");
 
             // Now compare the vectors
             for (var i = 0; i < y.Count; i++)
@@ -160,7 +159,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers.Iterative
             var z = matrix.Multiply(x);
 
             // Check that the solution converged
-            Assert.IsTrue(monitor.Status is CalculationConverged, "#04");
+            Assert.IsTrue(monitor.HasConverged, "#04");
 
             // Now compare the vectors
             for (var i = 0; i < y.Count; i++)
@@ -242,7 +241,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers.Iterative
                     continue;
                 }
 
-                if (!(monitor.Status is CalculationConverged))
+                if (!(monitor.HasConverged))
                 {
                     continue;
                 }
@@ -281,12 +280,12 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers.Iterative
                 var monitor = new Iterator<float>(new IIterationStopCriterium<float>[]
                     {
                         new IterationCountStopCriterium<float>(MaximumIterations),
-                        new ResidualStopCriterium((float) Math.Pow(1.0/10.0, iteration)),
+                        new ResidualStopCriterium((float) Math.Pow(1.0/10.0, iteration))
                     });
                 var solver = new MlkBiCgStab(monitor);
                 var resultx = solver.Solve(matrixA, vectorb);
 
-                if (!(monitor.Status is CalculationConverged))
+                if (!monitor.HasConverged)
                 {
                     // Solution was not found, try again downgrading convergence boundary
                     continue;
@@ -329,7 +328,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers.Iterative
                 var solver = new MlkBiCgStab(monitor);
                 var matrixX = solver.Solve(matrixA, matrixB);
 
-                if (!(monitor.Status is CalculationConverged))
+                if (!monitor.HasConverged)
                 {
                     // Solution was not found, try again downgrading convergence boundary
                     continue;

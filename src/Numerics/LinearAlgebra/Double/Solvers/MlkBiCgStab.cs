@@ -67,45 +67,45 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
         /// <summary>
         /// The default number of starting vectors.
         /// </summary>
-        private const int DefaultNumberOfStartingVectors = 50;
-        
+        const int DefaultNumberOfStartingVectors = 50;
+
         /// <summary>
         /// The status used if there is no status, i.e. the solver hasn't run yet and there is no
         /// iterator.
         /// </summary>
-        private static readonly ICalculationStatus DefaultStatus = new CalculationIndetermined();
+        static readonly ICalculationStatus DefaultStatus = new CalculationIndetermined();
 
         /// <summary>
         /// The preconditioner that will be used. Can be set to <see langword="null" />, in which case the default
         /// pre-conditioner will be used.
         /// </summary>
-        private IPreConditioner<double> _preconditioner;
+        IPreConditioner<double> _preconditioner;
 
         /// <summary>
         /// The iterative process controller.
         /// </summary>
-        private IIterator<double> _iterator;
+        Iterator<double> _iterator;
 
         /// <summary>
         /// The collection of starting vectors which are used as the basis for the Krylov sub-space.
         /// </summary>
-        private IList<Vector<double>> _startingVectors;
+        IList<Vector<double>> _startingVectors;
 
         /// <summary>
         /// The number of starting vectors used by the algorithm
         /// </summary>
-        private int _numberOfStartingVectors = DefaultNumberOfStartingVectors;
+        int _numberOfStartingVectors = DefaultNumberOfStartingVectors;
 
         /// <summary>
         /// Indicates if the user has stopped the solver.
         /// </summary>
-        private bool _hasBeenStopped;
+        bool _hasBeenStopped;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MlkBiCgStab"/> class.
         /// </summary>
         /// <remarks>
-        /// When using this constructor the solver will use the <see cref="IIterator{T}"/> with
+        /// When using this constructor the solver will use the <see cref="Iterator{T}"/> with
         /// the standard settings and a default preconditioner.
         /// </remarks>
         public MlkBiCgStab() : this(null, null)
@@ -120,18 +120,18 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
         /// When using this constructor the solver will use a default preconditioner.
         /// </para>
         /// <para>
-        /// The main advantages of using a user defined <see cref="IIterator{T}"/> are:
+        /// The main advantages of using a user defined <see cref="Iterator{T}"/> are:
         /// <list type="number">
         /// <item>It is possible to set the desired convergence limits.</item>
         /// <item>
         /// It is possible to check the reason for which the solver finished 
-        /// the iterative procedure by calling the <see cref="IIterator{T}.Status"/> property.
+        /// the iterative procedure by calling the <see cref="Iterator{T}.Status"/> property.
         /// </item>
         /// </list>
         /// </para>
         /// </remarks>
-        /// <param name="iterator">The <see cref="IIterator{T}"/> that will be used to monitor the iterative process.</param>
-        public MlkBiCgStab(IIterator<double> iterator)
+        /// <param name="iterator">The <see cref="Iterator{T}"/> that will be used to monitor the iterative process.</param>
+        public MlkBiCgStab(Iterator<double> iterator)
             : this(null, iterator)
         {
         }
@@ -140,7 +140,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
         /// Initializes a new instance of the <see cref="MlkBiCgStab"/> class.
         /// </summary>
         /// <remarks>
-        /// When using this constructor the solver will use the <see cref="IIterator{T}"/> with
+        /// When using this constructor the solver will use the <see cref="Iterator{T}"/> with
         /// the standard settings.
         /// </remarks>
         /// <param name="preconditioner">The <see cref="IPreConditioner{T}"/> that will be used to precondition the matrix equation.</param>
@@ -154,19 +154,19 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
         /// </summary>
         /// <remarks>
         /// <para>
-        /// The main advantages of using a user defined <see cref="IIterator{T}"/> are:
+        /// The main advantages of using a user defined <see cref="Iterator{T}"/> are:
         /// <list type="number">
         /// <item>It is possible to set the desired convergence limits.</item>
         /// <item>
         /// It is possible to check the reason for which the solver finished 
-        /// the iterative procedure by calling the <see cref="IIterator{T}.Status"/> property.
+        /// the iterative procedure by calling the <see cref="Iterator{T}.Status"/> property.
         /// </item>
         /// </list>
         /// </para>
         /// </remarks>
         /// <param name="preconditioner">The <see cref="IPreConditioner{T}"/> that will be used to precondition the matrix equation.</param>
-        /// <param name="iterator">The <see cref="IIterator{T}"/> that will be used to monitor the iterative process.</param>
-        public MlkBiCgStab(IPreConditioner<double> preconditioner, IIterator<double> iterator)
+        /// <param name="iterator">The <see cref="Iterator{T}"/> that will be used to monitor the iterative process.</param>
+        public MlkBiCgStab(IPreConditioner<double> preconditioner, Iterator<double> iterator)
         {
             _iterator = iterator;
             _preconditioner = preconditioner;
@@ -217,10 +217,10 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
         }
 
         /// <summary>
-        /// Sets the <see cref="IIterator{T}"/> that will be used to track the iterative process.
+        /// Sets the <see cref="Iterator{T}"/> that will be used to track the iterative process.
         /// </summary>
         /// <param name="iterator">The iterator.</param>
-        public void SetIterator(IIterator<double> iterator)
+        public void SetIterator(Iterator<double> iterator)
         {
             _iterator = iterator;
         }
@@ -349,7 +349,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
             {
                 _preconditioner = new UnitPreconditioner<double>();
             }
-         
+
             _preconditioner.Initialize(matrix);
 
             // Choose an initial guess x_0
@@ -403,7 +403,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
             var zw = new DenseVector(residuals.Count);
 
             var d = CreateVectorArray(_startingVectors.Count, residuals.Count);
-            
+
             // g_0 = r_0
             var g = CreateVectorArray(_startingVectors.Count, residuals.Count);
             residuals.CopyTo(g[k - 1]);
@@ -428,7 +428,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
                 }
 
                 // alpha_(jk+1) = q^T_1 r_((j-1)k+k) / c_((j-1)k+k)
-                var alpha = _startingVectors[0].DotProduct(residuals) / c[k - 1];
+                var alpha = _startingVectors[0].DotProduct(residuals)/c[k - 1];
 
                 // u_(jk+1) = r_((j-1)k+k) - alpha_(jk+1) w_((j-1)k+k)
                 w[k - 1].Multiply(-alpha, temp);
@@ -450,7 +450,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
                     rho = 1.0;
                 }
 
-                rho = -u.DotProduct(temp) / rho;
+                rho = -u.DotProduct(temp)/rho;
 
                 // r_(jk+1) = rho_(j+1) A u~_(jk+1) + u_(jk+1)
                 u.CopyTo(residuals);
@@ -468,7 +468,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
                 gtemp.Multiply(alpha, gtemp);
                 xtemp.Add(gtemp, temp2);
                 temp2.CopyTo(xtemp);
-                
+
                 // Check convergence and stop if we are converged.
                 if (!ShouldContinue(iterationNumber, xtemp, input, residuals))
                 {
@@ -503,7 +503,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
                         for (var s = i; s < k - 1; s++)
                         {
                             // beta^(jk+i)_((j-1)k+s) = -q^t_(s+1) z_d / c_((j-1)k+s)
-                            beta = -_startingVectors[s + 1].DotProduct(zd) / c[s];
+                            beta = -_startingVectors[s + 1].DotProduct(zd)/c[s];
 
                             // z_d = z_d + beta^(jk+i)_((j-1)k+s) d_((j-1)k+s)
                             d[s].Multiply(beta, temp);
@@ -522,7 +522,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
                         }
                     }
 
-                    beta = rho * c[k - 1];
+                    beta = rho*c[k - 1];
                     if (beta.AlmostEqual(0, 1))
                     {
                         throw new Exception("Iterative solver experience a numerical break down");
@@ -531,7 +531,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
                     // beta^(jk+i)_((j-1)k+k) = -(q^T_1 (r_(jk+1) + rho_(j+1) z_w)) / (rho_(j+1) c_((j-1)k+k))
                     zw.Multiply(rho, temp2);
                     residuals.Add(temp2, temp);
-                    beta = -_startingVectors[0].DotProduct(temp) / beta;
+                    beta = -_startingVectors[0].DotProduct(temp)/beta;
 
                     // z_g = z_g + beta^(jk+i)_((j-1)k+k) g_((j-1)k+k)
                     g[k - 1].Multiply(beta, temp);
@@ -551,7 +551,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
                     for (var s = 0; s < i - 1; s++)
                     {
                         // beta^(jk+i)_(jk+s) = -q^T_s+1 z_d / c_(jk+s)
-                        beta = -_startingVectors[s + 1].DotProduct(zd) / c[s];
+                        beta = -_startingVectors[s + 1].DotProduct(zd)/c[s];
 
                         // z_d = z_d + beta^(jk+i)_(jk+s) * d_(jk+s)
                         d[s].Multiply(beta, temp);
@@ -581,7 +581,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
                         }
 
                         // alpha_(jk+i+1) = q^T_(i+1) u_(jk+i) / c_(jk+i)
-                        alpha = _startingVectors[i + 1].DotProduct(u) / c[i];
+                        alpha = _startingVectors[i + 1].DotProduct(u)/c[i];
 
                         // u_(jk+i+1) = u_(jk+i) - alpha_(jk+i+1) d_(jk+i)
                         d[i].Multiply(-alpha, temp);
@@ -592,7 +592,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
                         _preconditioner.Approximate(g[i], gtemp);
 
                         // x_(jk+i+1) = x_(jk+i) + rho_(j+1) alpha_(jk+i+1) g~_(jk+i)
-                        gtemp.Multiply(rho * alpha, temp);
+                        gtemp.Multiply(rho*alpha, temp);
                         xtemp.Add(temp, temp2);
                         temp2.CopyTo(xtemp);
 
@@ -600,7 +600,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
                         matrix.Multiply(gtemp, w[i]);
 
                         // r_(jk+i+1) = r_(jk+i) - rho_(j+1) alpha_(jk+i+1) w_(jk+i)
-                        w[i].Multiply(-rho * alpha, temp);
+                        w[i].Multiply(-rho*alpha, temp);
                         residuals.Add(temp, temp2);
                         temp2.CopyTo(residuals);
 
@@ -627,7 +627,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
         /// <param name="maximumNumberOfStartingVectors">Maximum number</param>
         /// <param name="numberOfVariables">Number of variables</param>
         /// <returns>Number of starting vectors to create</returns>
-        private static int NumberOfStartingVectorsToCreate(int maximumNumberOfStartingVectors, int numberOfVariables)
+        static int NumberOfStartingVectorsToCreate(int maximumNumberOfStartingVectors, int numberOfVariables)
         {
             // Create no more starting vectors than the size of the problem - 1
             return Math.Min(maximumNumberOfStartingVectors, (numberOfVariables - 1));
@@ -644,7 +644,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
         ///  the <paramref name="numberOfVariables"/> is smaller than 
         ///  the <paramref name="maximumNumberOfStartingVectors"/>.
         /// </returns>
-        private static IList<Vector<double>> CreateStartingVectors(int maximumNumberOfStartingVectors, int numberOfVariables)
+        static IList<Vector<double>> CreateStartingVectors(int maximumNumberOfStartingVectors, int numberOfVariables)
         {
             // Create no more starting vectors than the size of the problem - 1
             // Get random values and then orthogonalize them with
@@ -659,7 +659,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
             for (var i = 0; i < matrix.ColumnCount; i++)
             {
                 var samples = distribution.Samples().Take(matrix.RowCount).ToArray();
-                
+
                 // Set the column
                 matrix.SetColumn(i, samples);
             }
@@ -673,9 +673,9 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
             for (var i = 0; i < orthogonalMatrix.ColumnCount; i++)
             {
                 result.Add(orthogonalMatrix.Column(i));
-                
+
                 // Normalize the result vector
-                result[i].Multiply(1 / result[i].L2Norm(), result[i]);
+                result[i].Multiply(1/result[i].L2Norm(), result[i]);
             }
 
             return result;
@@ -687,7 +687,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
         /// <param name="arraySize">Number of vectors</param>
         /// <param name="vectorSize">Size of each vector</param>
         /// <returns>Array of random vectors</returns>
-        private static Vector<double>[] CreateVectorArray(int arraySize, int vectorSize)
+        static Vector<double>[] CreateVectorArray(int arraySize, int vectorSize)
         {
             var result = new Vector<double>[arraySize];
             for (var i = 0; i < result.Length; i++)
@@ -705,7 +705,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
         /// <param name="residual">Residual <see cref="Vector"/> data.</param>
         /// <param name="x">x <see cref="Vector"/> data.</param>
         /// <param name="b">b <see cref="Vector"/> data.</param>
-        private static void CalculateTrueResidual(Matrix<double> matrix, Vector<double> residual, Vector<double> x, Vector<double> b)
+        static void CalculateTrueResidual(Matrix<double> matrix, Vector<double> residual, Vector<double> x, Vector<double> b)
         {
             // -Ax = residual
             matrix.Multiply(x, residual);
@@ -723,21 +723,19 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
         /// <param name="source">Source <see cref="Vector"/>.</param>
         /// <param name="residuals">Residual <see cref="Vector"/>.</param>
         /// <returns><c>true</c> if continue, otherwise <c>false</c></returns>
-        private bool ShouldContinue(int iterationNumber, Vector<double> result, Vector<double> source, Vector<double> residuals)
+        bool ShouldContinue(int iterationNumber, Vector<double> result, Vector<double> source, Vector<double> residuals)
         {
-            if (_hasBeenStopped)
-            {
-                _iterator.IterationCancelled();
-                return true;
-            }
-
-            _iterator.DetermineStatus(iterationNumber, result, source, residuals);
-            var status = _iterator.Status;
-
             // We stop if either:
             // - the user has stopped the calculation
             // - the calculation needs to be stopped from a numerical point of view (divergence, convergence etc.)
-            return (!status.TerminatesCalculation) && (!_hasBeenStopped);
+
+            if (_hasBeenStopped)
+            {
+                _iterator.Cancel();
+                return true;
+            }
+
+            return !_iterator.DetermineStatus(iterationNumber, result, source, residuals).TerminatesCalculation;
         }
 
         /// <summary>

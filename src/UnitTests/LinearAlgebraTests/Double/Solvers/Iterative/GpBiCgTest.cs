@@ -33,7 +33,6 @@ using MathNet.Numerics.LinearAlgebra.Double;
 using MathNet.Numerics.LinearAlgebra.Double.Solvers;
 using MathNet.Numerics.LinearAlgebra.Double.Solvers.StopCriterium;
 using MathNet.Numerics.LinearAlgebra.Solvers;
-using MathNet.Numerics.LinearAlgebra.Solvers.Status;
 using NUnit.Framework;
 
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.Iterative
@@ -113,7 +112,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.Iterative
             var z = matrix.Multiply(x);
 
             // Check that the solution converged
-            Assert.IsTrue(monitor.Status is CalculationConverged, "#04");
+            Assert.IsTrue(monitor.HasConverged, "#04");
 
             // Now compare the vectors
             for (var i = 0; i < y.Count; i++)
@@ -159,7 +158,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.Iterative
             var z = matrix.Multiply(x);
 
             // Check that the solution converged
-            Assert.IsTrue(monitor.Status is CalculationConverged, "#04");
+            Assert.IsTrue(monitor.HasConverged, "#04");
 
             // Now compare the vectors
             for (var i = 0; i < y.Count; i++)
@@ -238,7 +237,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.Iterative
             var z = matrix.Multiply(x);
 
             // Check that the solution converged
-            Assert.IsTrue(monitor.Status is CalculationConverged, "#04");
+            Assert.IsTrue(monitor.HasConverged, "#04");
 
             // Now compare the vectors
             for (var i = 0; i < y.Count; i++)

@@ -218,7 +218,6 @@
     <Compile Include="LinearAlgebra\Double\Matrix.cs" />
     <Compile Include="LinearAlgebra\Solvers\IIterativeSolver.cs" />
     <Compile Include="LinearAlgebra\Solvers\IIterativeSolverSetup.cs" />
-    <Compile Include="LinearAlgebra\Solvers\IIterator.cs" />
     <Compile Include="LinearAlgebra\Solvers\IPreConditioner.cs" />
     <Compile Include="LinearAlgebra\Solvers\IIterationStopCriterium.cs" />
     <Compile Include="LinearAlgebra\Double\SparseMatrix.cs" />

@@ -68,41 +68,41 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
         /// The status used if there is no status, i.e. the solver hasn't run yet and there is no
         /// iterator.
         /// </summary>
-        private static readonly ICalculationStatus DefaultStatus = new CalculationIndetermined();
+        static readonly ICalculationStatus DefaultStatus = new CalculationIndetermined();
 
         /// <summary>
         /// The preconditioner that will be used. Can be set to <c>null</c>, in which case the default
         /// pre-conditioner will be used.
         /// </summary>
-        private IPreConditioner<double> _preconditioner;
+        IPreConditioner<double> _preconditioner;
 
         /// <summary>
         /// The iterative process controller.
         /// </summary>
-        private IIterator<double> _iterator;
+        Iterator<double> _iterator;
 
         /// <summary>
         /// Indicates the number of <c>BiCGStab</c> steps should be taken 
         /// before switching.
         /// </summary>
-        private int _numberOfBiCgStabSteps = 1;
+        int _numberOfBiCgStabSteps = 1;
 
         /// <summary>
         /// Indicates the number of <c>GPBiCG</c> steps should be taken 
         /// before switching.
         /// </summary>
-        private int _numberOfGpbiCgSteps = 4;
+        int _numberOfGpbiCgSteps = 4;
 
         /// <summary>
         /// Indicates if the user has stopped the solver.
         /// </summary>
-        private bool _hasBeenStopped;
+        bool _hasBeenStopped;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GpBiCg"/> class.
         /// </summary>
         /// <remarks>
-        /// When using this constructor the solver will use the <see cref="IIterator{T}"/> with
+        /// When using this constructor the solver will use the <see cref="Iterator{T}"/> with
         /// the standard settings and a default preconditioner.
         /// </remarks>
         public GpBiCg() : this(null, null)
@@ -117,18 +117,18 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
         /// When using this constructor the solver will use a default preconditioner.
         /// </para>
         /// <para>
-        /// The main advantages of using a user defined <see cref="IIterator{T}"/> are:
+        /// The main advantages of using a user defined <see cref="Iterator{T}"/> are:
         /// <list type="number">
         /// <item>It is possible to set the desired convergence limits.</item>
         /// <item>
         /// It is possible to check the reason for which the solver finished 
-        /// the iterative procedure by calling the <see cref="IIterator{T}.Status"/> property.
+        /// the iterative procedure by calling the <see cref="Iterator{T}.Status"/> property.
         /// </item>
         /// </list>
         /// </para>
         /// </remarks>
-        /// <param name="iterator">The <see cref="IIterator{T}"/> that will be used to monitor the iterative process.</param>
-        public GpBiCg(IIterator<double> iterator)
+        /// <param name="iterator">The <see cref="Iterator{T}"/> that will be used to monitor the iterative process.</param>
+        public GpBiCg(Iterator<double> iterator)
             : this(null, iterator)
         {
         }
@@ -137,7 +137,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
         /// Initializes a new instance of the <see cref="GpBiCg"/> class.
         /// </summary>
         /// <remarks>
-        /// When using this constructor the solver will use the <see cref="IIterator{T}"/> with
+        /// When using this constructor the solver will use the <see cref="Iterator{T}"/> with
         /// the standard settings.
         /// </remarks>
         /// <param name="preconditioner">The <see cref="IPreConditioner{T}"/> that will be used to precondition the matrix equation.</param>
@@ -151,19 +151,19 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
         /// </summary>
         /// <remarks>
         /// <para>
-        /// The main advantages of using a user defined <see cref="IIterator{T}"/> are:
+        /// The main advantages of using a user defined <see cref="Iterator{T}"/> are:
         /// <list type="number">
         /// <item>It is possible to set the desired convergence limits.</item>
         /// <item>
         /// It is possible to check the reason for which the solver finished 
-        /// the iterative procedure by calling the <see cref="IIterator{T}.Status"/> property.
+        /// the iterative procedure by calling the <see cref="Iterator{T}.Status"/> property.
         /// </item>
         /// </list>
         /// </para>
         /// </remarks>
         /// <param name="preconditioner">The <see cref="IPreConditioner{T}"/> that will be used to precondition the matrix equation.</param>
-        /// <param name="iterator">The <see cref="IIterator{T}"/> that will be used to monitor the iterative process.</param>
-        public GpBiCg(IPreConditioner<double> preconditioner, IIterator<double> iterator)
+        /// <param name="iterator">The <see cref="Iterator{T}"/> that will be used to monitor the iterative process.</param>
+        public GpBiCg(IPreConditioner<double> preconditioner, Iterator<double> iterator)
         {
             _iterator = iterator;
             _preconditioner = preconditioner;
@@ -187,7 +187,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
                     throw new ArgumentOutOfRangeException("value");
                 }
 
-                _numberOfBiCgStabSteps = value;     
+                _numberOfBiCgStabSteps = value;
             }
         }
 
@@ -223,10 +223,10 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
         }
 
         /// <summary>
-        /// Sets the <see cref="IIterator{T}"/> that will be used to track the iterative process.
+        /// Sets the <see cref="Iterator{T}"/> that will be used to track the iterative process.
         /// </summary>
         /// <param name="iterator">The iterator.</param>
-        public void SetIterator(IIterator<double> iterator)
+        public void SetIterator(Iterator<double> iterator)
         {
             _iterator = iterator;
         }
@@ -236,7 +236,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
         /// </summary>
         public ICalculationStatus IterationResult
         {
-            get 
+            get
             {
                 return (_iterator != null) ? _iterator.Status : DefaultStatus;
             }
@@ -329,7 +329,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
             {
                 _preconditioner = new UnitPreconditioner<double>();
             }
-         
+
             _preconditioner.Initialize(matrix);
 
             // x_0 is initial guess
@@ -384,7 +384,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
                 matrix.Multiply(temp, s);
 
                 // alpha_k = (r*_0 * r_k) / (r*_0 * s_k)
-                var alpha = rdash.DotProduct(residuals) / rdash.DotProduct(s);
+                var alpha = rdash.DotProduct(residuals)/rdash.DotProduct(s);
 
                 // y_k = t_(k-1) - r_k - alpha_k * w_(k-1) + alpha_k s_k
                 s.Subtract(w, temp);
@@ -400,14 +400,14 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
                 // t_k = r_k - alpha_k s_k
                 s.Multiply(-alpha, temp2);
                 residuals.Add(temp2, t);
-                
+
                 // Solve M d_k = t_k
                 _preconditioner.Approximate(t, temp);
 
                 // c_k = A d_k
                 matrix.Multiply(temp, c);
                 var cdot = c.DotProduct(c);
-                
+
                 // cDot can only be zero if c is a zero vector
                 // We'll set cDot to 1 if it is zero to prevent NaN's
                 // Note that the calculation should continue fine because
@@ -427,7 +427,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
                 if (((_numberOfBiCgStabSteps == 0) && (iterationNumber == 0)) || ShouldRunBiCgStabSteps(iterationNumber))
                 {
                     // sigma_k = (c_k * t_k) / (c_k * c_k)
-                    sigma = ctdot / cdot;
+                    sigma = ctdot/cdot;
 
                     // eta_k = 0
                     eta = 0;
@@ -448,13 +448,13 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
                     var ytdot = y.DotProduct(t);
                     var cydot = c.DotProduct(y);
 
-                    var denom = (cdot * ydot) - (cydot * cydot);
+                    var denom = (cdot*ydot) - (cydot*cydot);
 
                     // sigma_k = ((y_k * y_k)(c_k * t_k) - (y_k * t_k)(c_k * y_k)) / ((c_k * c_k)(y_k * y_k) - (y_k * c_k)(c_k * y_k))
-                    sigma = ((ydot * ctdot) - (ytdot * cydot)) / denom;
+                    sigma = ((ydot*ctdot) - (ytdot*cydot))/denom;
 
                     // eta_k = ((c_k * c_k)(y_k * t_k) - (y_k * c_k)(c_k * t_k)) / ((c_k * c_k)(y_k * y_k) - (y_k * c_k)(c_k * y_k))
-                    eta = ((cdot * ytdot) - (cydot * ctdot)) / denom;
+                    eta = ((cdot*ytdot) - (cydot*ctdot))/denom;
                 }
 
                 // u_k = sigma_k s_k + eta_k (t_(k-1) - r_k + beta_(k-1) u_(k-1))
@@ -482,7 +482,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
                 p.Multiply(alpha, temp2);
                 xtemp.Add(temp2, temp3);
                 temp3.CopyTo(xtemp);
-                
+
                 xtemp.Add(z, temp3);
                 temp3.CopyTo(xtemp);
 
@@ -500,7 +500,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
 
                 // beta_k = alpha_k / sigma_k * (r*_0 * r_(k+1)) / (r*_0 * r_k)
                 // But first we check if there is a possible NaN. If so just reset beta to zero.
-                beta = (!sigma.AlmostEqual(0, 1)) ? alpha / sigma * rdash.DotProduct(residuals) / rdash.DotProduct(t0) : 0;
+                beta = (!sigma.AlmostEqual(0, 1)) ? alpha/sigma*rdash.DotProduct(residuals)/rdash.DotProduct(t0) : 0;
 
                 // w_k = c_k + beta_k s_k
                 s.Multiply(beta, temp2);
@@ -529,7 +529,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
         /// <param name="residual">Residual values in <see cref="Vector"/>.</param>
         /// <param name="x">Instance of the <see cref="Vector"/> x.</param>
         /// <param name="b">Instance of the <see cref="Vector"/> b.</param>
-        private static void CalculateTrueResidual(Matrix<double> matrix, Vector<double> residual, Vector<double> x, Vector<double> b)
+        static void CalculateTrueResidual(Matrix<double> matrix, Vector<double> residual, Vector<double> x, Vector<double> b)
         {
             // -Ax = residual
             matrix.Multiply(x, residual);
@@ -547,33 +547,31 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
         /// <param name="source">Source <see cref="Vector"/>.</param>
         /// <param name="residuals">Residual <see cref="Vector"/>.</param>
         /// <returns><c>true</c> if continue, otherwise <c>false</c></returns>
-        private bool ShouldContinue(int iterationNumber, Vector<double> result, Vector<double> source, Vector<double> residuals)
+        bool ShouldContinue(int iterationNumber, Vector<double> result, Vector<double> source, Vector<double> residuals)
         {
-            if (_hasBeenStopped)
-            {
-                _iterator.IterationCancelled();
-                return true;
-            }
-
-            _iterator.DetermineStatus(iterationNumber, result, source, residuals);
-            var status = _iterator.Status;
-
             // We stop if either:
             // - the user has stopped the calculation
             // - the calculation needs to be stopped from a numerical point of view (divergence, convergence etc.)
-            return (!status.TerminatesCalculation) && (!_hasBeenStopped);
+
+            if (_hasBeenStopped)
+            {
+                _iterator.Cancel();
+                return true;
+            }
+
+            return !_iterator.DetermineStatus(iterationNumber, result, source, residuals).TerminatesCalculation;
         }
-        
+
         /// <summary>
         /// Decide if to do steps with BiCgStab
         /// </summary>
         /// <param name="iterationNumber">Number of iteration</param>
         /// <returns><c>true</c> if yes, otherwise <c>false</c></returns>
-        private bool ShouldRunBiCgStabSteps(int iterationNumber)
+        bool ShouldRunBiCgStabSteps(int iterationNumber)
         {
             // Run the first steps as BiCGStab
             // The number of steps past a whole iteration set
-            var difference = iterationNumber % (_numberOfBiCgStabSteps + _numberOfGpbiCgSteps);
+            var difference = iterationNumber%(_numberOfBiCgStabSteps + _numberOfGpbiCgSteps);
 
             // Do steps with BiCGStab if:
             // - The difference is zero or more (i.e. we have done zero or more complete cycles)

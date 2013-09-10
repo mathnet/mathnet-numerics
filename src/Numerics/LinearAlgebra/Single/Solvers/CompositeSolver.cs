@@ -57,6 +57,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
     public sealed class CompositeSolver : IIterativeSolver<float>
     {
         #region Internal class - DoubleComparer
+
         /// <summary>
         /// An <c>IComparer</c> used to compare double precision floating points.
         /// </summary>
@@ -81,19 +82,20 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
             {
                 return x.CompareTo(y, 1);
             }
-        } 
+        }
+
         #endregion
 
         /// <summary>
         /// The default status used if the solver is not running.
         /// </summary>
-        private static readonly ICalculationStatus NonRunningStatus = new CalculationIndetermined();
+        static readonly ICalculationStatus NonRunningStatus = new CalculationIndetermined();
 
         /// <summary>
         /// The default status used if the solver is running.
         /// </summary>
-        private static readonly ICalculationStatus RunningStatus = new CalculationRunning();
-        
+        static readonly ICalculationStatus RunningStatus = new CalculationRunning();
+
 #if PORTABLE
         private static readonly Dictionary<double, List<IIterativeSolverSetup<float>>> SolverSetups = new Dictionary<double, List<IIterativeSolverSetup<float>>>();        
 #else
@@ -101,7 +103,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
         /// The collection of iterative solver setups. Stored based on the
         /// ratio between the relative speed and relative accuracy.
         /// </summary>
-        private static readonly SortedList<double, List<IIterativeSolverSetup<float>>> SolverSetups = new SortedList<double, List<IIterativeSolverSetup<float>>>(new DoubleComparer());
+        static readonly SortedList<double, List<IIterativeSolverSetup<float>>> SolverSetups = new SortedList<double, List<IIterativeSolverSetup<float>>>(new DoubleComparer());
 #endif
 
         #region Solver information loading methods
@@ -161,7 +163,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
             // Now load the assembly with an AssemblyName
             var assemblyName = new AssemblyName(assemblyFileName);
             var assembly = Assembly.Load(assemblyName.FullName);
-            
+
             // <ay throws:
             // ArgumentNullException --> Can't get this because we checked that the file exists.
             // FileNotFoundException --> Can't get this because we checked that the file exists.
@@ -266,7 +268,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
             {
                 interfaceTypes.Clear();
                 interfaceTypes.AddRange(type.GetInterfaces());
-                if (!interfaceTypes.Any(match => typeof(IIterativeSolverSetup<float>).IsAssignableFrom(match)))
+                if (!interfaceTypes.Any(match => typeof (IIterativeSolverSetup<float>).IsAssignableFrom(match)))
                 {
                     continue;
                 }
@@ -277,7 +279,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
                 {
                     // If something goes wrong we just ignore it and move on with the next type.
                     // There should probably be a log somewhere indicating that something went wrong?
-                    setup = (IIterativeSolverSetup<float>)Activator.CreateInstance(type);
+                    setup = (IIterativeSolverSetup<float>) Activator.CreateInstance(type);
                 }
                 catch (ArgumentException)
                 {
@@ -317,7 +319,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
                 }
 
                 // Ok we want the solver, so store the object
-                var ratio = setup.SolutionSpeed / setup.Reliability;
+                var ratio = setup.SolutionSpeed/setup.Reliability;
                 if (!SolverSetups.ContainsKey(ratio))
                 {
                     SolverSetups.Add(ratio, new List<IIterativeSolverSetup<float>>());
@@ -326,35 +328,35 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
                 var list = SolverSetups[ratio];
                 list.Add(setup);
             }
-        } 
+        }
 
         #endregion
 
         /// <summary>
         /// The collection of solvers that will be used to 
         /// </summary>
-        private readonly List<IIterativeSolver<float>> _solvers = new List<IIterativeSolver<float>>();
+        readonly List<IIterativeSolver<float>> _solvers = new List<IIterativeSolver<float>>();
 
         /// <summary>
         /// The status of the calculation.
         /// </summary>
-        private ICalculationStatus _status = NonRunningStatus;
+        ICalculationStatus _status = NonRunningStatus;
 
         /// <summary>
         /// The iterator that is used to control the iteration process.
         /// </summary>
-        private IIterator<float> _iterator;
+        Iterator<float> _iterator;
 
         /// <summary>
         /// A flag indicating if the solver has been stopped or not.
         /// </summary>
-        private bool _hasBeenStopped;
+        bool _hasBeenStopped;
 
         /// <summary>
         /// The solver that is currently running. Reference is used to be able to stop the
         /// solver if the user cancels the solve process.
         /// </summary>
-        private IIterativeSolver<float> _currentSolver;
+        IIterativeSolver<float> _currentSolver;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CompositeSolver"/> class with the default iterator.
@@ -367,16 +369,16 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
         /// Initializes a new instance of the <see cref="CompositeSolver"/> class with the specified iterator.
         /// </summary>
         /// <param name="iterator">The iterator that will be used to control the iteration process. </param>
-        public CompositeSolver(IIterator<float> iterator)
+        public CompositeSolver(Iterator<float> iterator)
         {
             _iterator = iterator;
         }
 
         /// <summary>
-        /// Sets the <see cref="IIterator{T}"/> that will be used to track the iterative process.
+        /// Sets the <see cref="Iterator{T}"/> that will be used to track the iterative process.
         /// </summary>
         /// <param name="iterator">The iterator.</param>
-        public void SetIterator(IIterator<float> iterator)
+        public void SetIterator(Iterator<float> iterator)
         {
             _iterator = iterator;
         }
@@ -386,9 +388,9 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
         /// </summary>
         public ICalculationStatus IterationResult
         {
-            get 
-            { 
-                return _status; 
+            get
+            {
+                return _status;
             }
         }
 
@@ -402,7 +404,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
         {
             _hasBeenStopped = true;
             if (_currentSolver != null)
-            { 
+            {
                 _currentSolver.StopSolve();
             }
         }
@@ -494,7 +496,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
                 try
                 {
                     // Reset the iterator and pass it to the solver
-                    _iterator.ResetToPrecalculationState();
+                    _iterator.Reset();
                     solver.SetIterator(_iterator);
 
                     // Start the solver
@@ -512,7 +514,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
                 }
 
                 // There was no fatal breakdown so check the status
-                if (_iterator.Status is CalculationConverged)
+                if (_iterator.HasConverged)
                 {
                     // We're done
                     internalResult.CopyTo(result);
@@ -522,7 +524,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
                 // We're not done
                 // Either:
                 // - calculation finished without convergence
-                if (_iterator.Status is CalculationStoppedWithoutConvergence)
+                if (_iterator.HasStoppedWithoutConvergence)
                 {
                     // Copy the internal result to the result vector and
                     // continue with the calculation.
@@ -551,7 +553,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
         /// <summary>
         /// Load solvers
         /// </summary>
-        private void LoadSolvers()
+        void LoadSolvers()
         {
             if (SolverSetups.Count == 0)
             {
