@@ -224,8 +224,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.StopCrite
             var source = new DenseVector(new[] {1.0, 1.0, double.NaN});
             var residual = new DenseVector(new[] {1000.0, 1000.0, 2001.0});
 
-            criterium.DetermineStatus(5, solution, source, residual);
-            Assert.IsInstanceOf(typeof (CalculationDiverged), criterium.Status, "Should be diverged");
+            var status = criterium.DetermineStatus(5, solution, source, residual);
+            Assert.IsInstanceOf(typeof (CalculationDiverged), status, "Should be diverged");
         }
 
         /// <summary>
@@ -241,8 +241,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.StopCrite
             var source = new DenseVector(new[] {1.0, 1.0, 2.0});
             var residual = new DenseVector(new[] {1000.0, double.NaN, 2001.0});
 
-            criterium.DetermineStatus(5, solution, source, residual);
-            Assert.IsInstanceOf(typeof (CalculationDiverged), criterium.Status, "Should be diverged");
+            var status = criterium.DetermineStatus(5, solution, source, residual);
+            Assert.IsInstanceOf(typeof (CalculationDiverged), status, "Should be diverged");
         }
 
         /// <summary>
@@ -258,8 +258,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.StopCrite
             var source = new DenseVector(new[] {1.0, 1.0, 1.0});
             var residual = new DenseVector(new[] {0.0, 0.0, 0.0});
 
-            criterium.DetermineStatus(0, solution, source, residual);
-            Assert.IsInstanceOf(typeof (CalculationConverged), criterium.Status, "Should be done");
+            var status = criterium.DetermineStatus(0, solution, source, residual);
+            Assert.IsInstanceOf(typeof (CalculationConverged), status, "Should be done");
         }
 
         /// <summary>
@@ -280,11 +280,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.StopCrite
             // Set the residual values
             var residual = new DenseVector(new[] {0.001, 0.001, 0.002});
 
-            criterium.DetermineStatus(5, solution, source, residual);
-            Assert.IsInstanceOf(typeof (CalculationRunning), criterium.Status, "Should still be running");
+            var status = criterium.DetermineStatus(5, solution, source, residual);
+            Assert.IsInstanceOf(typeof (CalculationRunning), status, "Should still be running");
 
-            criterium.DetermineStatus(16, solution, source, residual);
-            Assert.IsInstanceOf(typeof (CalculationConverged), criterium.Status, "Should be done");
+            var status2 = criterium.DetermineStatus(16, solution, source, residual);
+            Assert.IsInstanceOf(typeof (CalculationConverged), status2, "Should be done");
         }
 
         /// <summary>
@@ -300,8 +300,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.StopCrite
             var source = new DenseVector(new[] {0.001, 0.001, 0.002});
             var residual = new DenseVector(new[] {1.000, 1.000, 2.001});
 
-            criterium.DetermineStatus(5, solution, source, residual);
-            Assert.IsInstanceOf(typeof (CalculationRunning), criterium.Status, "Should be running");
+            var status = criterium.DetermineStatus(5, solution, source, residual);
+            Assert.IsInstanceOf(typeof (CalculationRunning), status, "Should be running");
 
             criterium.ResetToPrecalculationState();
             Assert.IsInstanceOf(typeof (CalculationIndetermined), criterium.Status, "Should not have started");

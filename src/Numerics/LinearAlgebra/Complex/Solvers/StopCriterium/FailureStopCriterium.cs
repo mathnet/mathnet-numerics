@@ -82,7 +82,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.StopCriterium
         /// on the invocation of this method. Therefore this method should only be called if the 
         /// calculation has moved forwards at least one step.
         /// </remarks>
-        public void DetermineStatus(int iterationNumber, Vector<Complex> solutionVector, Vector<Complex> sourceVector, Vector<Complex> residualVector)
+        public ICalculationStatus DetermineStatus(int iterationNumber, Vector<Complex> solutionVector, Vector<Complex> sourceVector, Vector<Complex> residualVector)
         {
             if (iterationNumber < 0)
             {
@@ -108,7 +108,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.StopCriterium
             {
                 // We have already stored the actual last iteration number
                 // For now do nothing. We only care about the next step.
-                return;
+                return _status;
             }
 
             // Store the infinity norms of both the solution and residual vectors
@@ -125,6 +125,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.StopCriterium
             }
 
             _lastIteration = iterationNumber;
+            return _status;
         }
 
         /// <summary>
@@ -168,20 +169,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.StopCriterium
         {
             _status = DefaultStatus;
             _lastIteration = DefaultLastIterationNumber;
-        }
-
-        /// <summary>
-        /// Gets the <see cref="StopLevel"/>which indicates what sort of stop criterium this
-        /// <see cref="IIterationStopCriterium{T}"/> monitors.
-        /// </summary>
-        /// <value>Returns <see cref="CalculationFailure"/>.</value>
-        public StopLevel StopLevel
-        {
-            [DebuggerStepThrough]
-            get
-            {
-                return StopLevel.CalculationFailure;
-            }
         }
 
         /// <summary>

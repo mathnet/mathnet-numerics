@@ -126,7 +126,7 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
         /// on the invocation of this method. Therefore this method should only be called if the 
         /// calculation has moved forwards at least one step.
         /// </remarks>
-        public void DetermineStatus(int iterationNumber, Vector<T> solutionVector, Vector<T> sourceVector, Vector<T> residualVector)
+        public ICalculationStatus DetermineStatus(int iterationNumber, Vector<T> solutionVector, Vector<T> sourceVector, Vector<T> residualVector)
         {
             if (iterationNumber < 0)
             {
@@ -141,6 +141,7 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
             {
                 SetStatusToRunning();
             }
+            return _status;
         }
 
         /// <summary>
@@ -180,17 +181,6 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
         public void ResetToPrecalculationState()
         {
             _status = DefaultStatus;
-        }
-
-        /// <summary>
-        /// Gets the <see cref="StopLevel"/> which indicates what sort of stop criterium this
-        /// <see cref="IterationCountStopCriterium{T}"/> monitors.
-        /// </summary>
-        /// <value>Returns <see cref="StopLevel"/>.</value>
-        public StopLevel StopLevel
-        {
-            [DebuggerStepThrough]
-            get { return StopLevel.StoppedWithoutConvergence; }
         }
 
         /// <summary>

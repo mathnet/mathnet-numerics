@@ -357,7 +357,6 @@
     <Compile Include="LinearAlgebra\Double\Solvers\StopCriterium\DivergenceStopCriterium.cs" />
     <Compile Include="LinearAlgebra\Double\Solvers\StopCriterium\FailureStopCriterium.cs" />
     <Compile Include="LinearAlgebra\Double\Solvers\StopCriterium\ResidualStopCriterium.cs" />
-    <Compile Include="LinearAlgebra\Solvers\StopLevel.cs" />
     <Compile Include="LinearAlgebra\Double\SparseVector.cs" />
     <Compile Include="LinearAlgebra\Matrix.Arithmetic.cs" />
     <Compile Include="LinearAlgebra\Matrix.cs" />

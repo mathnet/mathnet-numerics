@@ -115,8 +115,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.StopCrit
             var source = new DenseVector(new[] {new Complex(1001.0, 0), Complex.Zero, new Complex(2003.0, 0)});
             var residual = new DenseVector(new[] {new Complex(1000, 0), new Complex(double.NaN, 0), new Complex(2001, 0)});
 
-            criterium.DetermineStatus(5, solution, source, residual);
-            Assert.IsInstanceOf(typeof (CalculationFailure), criterium.Status, "Should be failed");
+            var status = criterium.DetermineStatus(5, solution, source, residual);
+            Assert.IsInstanceOf(typeof (CalculationFailure), status, "Should be failed");
         }
 
         /// <summary>
@@ -132,8 +132,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.StopCrit
             var source = new DenseVector(new[] {new Complex(1001.0, 0), Complex.Zero, new Complex(2003.0, 0)});
             var residual = new DenseVector(new[] {new Complex(1000, 0), new Complex(1000, 0), new Complex(2001, 0)});
 
-            criterium.DetermineStatus(5, solution, source, residual);
-            Assert.IsInstanceOf(typeof (CalculationFailure), criterium.Status, "Should be failed");
+            var status = criterium.DetermineStatus(5, solution, source, residual);
+            Assert.IsInstanceOf(typeof (CalculationFailure), status, "Should be failed");
         }
 
         /// <summary>
@@ -149,8 +149,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.StopCrit
             var source = new DenseVector(new[] {new Complex(1001.0, 0), Complex.Zero, new Complex(2003.0, 0)});
             var residual = new DenseVector(new[] {new Complex(1.0, 0), new Complex(2.0, 0), new Complex(3, 0)});
 
-            criterium.DetermineStatus(5, solution, source, residual);
-            Assert.IsInstanceOf(typeof (CalculationRunning), criterium.Status, "Should be running");
+            var status = criterium.DetermineStatus(5, solution, source, residual);
+            Assert.IsInstanceOf(typeof (CalculationRunning), status, "Should be running");
         }
 
         /// <summary>
@@ -166,8 +166,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.StopCrit
             var source = new DenseVector(new[] {new Complex(1001.0, 0), Complex.Zero, new Complex(2003.0, 0)});
             var residual = new DenseVector(new[] {new Complex(1000, 0), new Complex(1000, 0), new Complex(2001, 0)});
 
-            criterium.DetermineStatus(5, solution, source, residual);
-            Assert.IsInstanceOf(typeof (CalculationRunning), criterium.Status, "Should be running");
+            var status = criterium.DetermineStatus(5, solution, source, residual);
+            Assert.IsInstanceOf(typeof (CalculationRunning), status, "Should be running");
 
             criterium.ResetToPrecalculationState();
             Assert.IsInstanceOf(typeof (CalculationIndetermined), criterium.Status, "Should not have started");

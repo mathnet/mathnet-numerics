@@ -113,8 +113,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.StopCrite
             var source = new DenseVector(new[] { 1001.0, 0, 2003.0 });
             var residual = new DenseVector(new[] { 1000, double.NaN, 2001 });
 
-            criterium.DetermineStatus(5, solution, source, residual);
-            Assert.IsInstanceOf(typeof(CalculationFailure), criterium.Status, "Should be failed");
+            var status = criterium.DetermineStatus(5, solution, source, residual);
+            Assert.IsInstanceOf(typeof(CalculationFailure), status, "Should be failed");
         }
 
         /// <summary>
@@ -130,8 +130,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.StopCrite
             var source = new DenseVector(new[] { 1001.0, 0.0, 2003.0 });
             var residual = new DenseVector(new[] { 1000.0, 1000.0, 2001.0 });
 
-            criterium.DetermineStatus(5, solution, source, residual);
-            Assert.IsInstanceOf(typeof(CalculationFailure), criterium.Status, "Should be failed");
+            var status = criterium.DetermineStatus(5, solution, source, residual);
+            Assert.IsInstanceOf(typeof(CalculationFailure), status, "Should be failed");
         }
 
         /// <summary>
@@ -147,8 +147,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.StopCrite
             var source = new DenseVector(new[] { 1001.0, 0.0, 2003.0 });
             var residual = new DenseVector(new[] { 1.0, 2.0, 3.0 });
 
-            criterium.DetermineStatus(5, solution, source, residual);
-            Assert.IsInstanceOf(typeof(CalculationRunning), criterium.Status, "Should be running");
+            var status = criterium.DetermineStatus(5, solution, source, residual);
+            Assert.IsInstanceOf(typeof(CalculationRunning), status, "Should be running");
         }
 
         /// <summary>
@@ -164,8 +164,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.StopCrite
             var source = new DenseVector(new[] { 1001.0, 0.0, 2003.0 });
             var residual = new DenseVector(new[] { 1000.0, 1000.0, 2001.0 });
 
-            criterium.DetermineStatus(5, solution, source, residual);
-            Assert.IsInstanceOf(typeof(CalculationRunning), criterium.Status, "Should be running");
+            var status = criterium.DetermineStatus(5, solution, source, residual);
+            Assert.IsInstanceOf(typeof(CalculationRunning), status, "Should be running");
 
             criterium.ResetToPrecalculationState();
             Assert.IsInstanceOf(typeof(CalculationIndetermined), criterium.Status, "Should not have started");

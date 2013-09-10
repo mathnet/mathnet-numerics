@@ -50,7 +50,7 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
         /// on the invocation of this method. Therefore this method should only be called if the 
         /// calculation has moved forwards at least one step.
         /// </remarks>
-        void DetermineStatus(int iterationNumber, Vector<T> solutionVector, Vector<T> sourceVector, Vector<T> residualVector);
+        ICalculationStatus DetermineStatus(int iterationNumber, Vector<T> solutionVector, Vector<T> sourceVector, Vector<T> residualVector);
 
         /// <summary>
         /// Gets the current calculation status.
@@ -65,12 +65,6 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
         /// property values, only the state that is used to track the progress of the 
         /// calculation.</remarks>
         void ResetToPrecalculationState();
-
-        /// <summary>
-        /// Gets the <see cref="StopLevel"/> which indicates what sort of stop criterium this
-        /// IIterationStopCriterium monitors.
-        /// </summary>
-        StopLevel StopLevel { get; }
 
         IIterationStopCriterium<T> Clone();
     }

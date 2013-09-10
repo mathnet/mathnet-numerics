@@ -97,11 +97,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers.StopCrite
             var criterium = new IterationCountStopCriterium<float>(10);
             Assert.IsNotNull(criterium, "A criterium should have been created");
 
-            criterium.DetermineStatus(5, DenseVector.Create(3, i => 1), DenseVector.Create(3, i => 2), DenseVector.Create(3, i => 3));
-            Assert.IsInstanceOf(typeof (CalculationRunning), criterium.Status, "Should be running");
+            var status = criterium.DetermineStatus(5, DenseVector.Create(3, i => 1), DenseVector.Create(3, i => 2), DenseVector.Create(3, i => 3));
+            Assert.IsInstanceOf(typeof (CalculationRunning), status, "Should be running");
 
-            criterium.DetermineStatus(10, DenseVector.Create(3, i => 1), DenseVector.Create(3, i => 2), DenseVector.Create(3, i => 3));
-            Assert.IsInstanceOf(typeof (CalculationStoppedWithoutConvergence), criterium.Status, "Should be finished");
+            var status2 = criterium.DetermineStatus(10, DenseVector.Create(3, i => 1), DenseVector.Create(3, i => 2), DenseVector.Create(3, i => 3));
+            Assert.IsInstanceOf(typeof (CalculationStoppedWithoutConvergence), status2, "Should be finished");
         }
 
         /// <summary>
@@ -113,8 +113,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers.StopCrite
             var criterium = new IterationCountStopCriterium<float>(10);
             Assert.IsNotNull(criterium, "A criterium should have been created");
 
-            criterium.DetermineStatus(5, DenseVector.Create(3, i => 1), DenseVector.Create(3, i => 2), DenseVector.Create(3, i => 3));
-            Assert.IsInstanceOf(typeof (CalculationRunning), criterium.Status, "Should be running");
+            var status = criterium.DetermineStatus(5, DenseVector.Create(3, i => 1), DenseVector.Create(3, i => 2), DenseVector.Create(3, i => 3));
+            Assert.IsInstanceOf(typeof (CalculationRunning), status, "Should be running");
 
             criterium.ResetToPrecalculationState();
             Assert.IsInstanceOf(typeof (CalculationIndetermined), criterium.Status, "Should not have started");

@@ -224,7 +224,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.StopCriterium
         /// on the invocation of this method. Therefore this method should only be called if the 
         /// calculation has moved forwards at least one step.
         /// </remarks>
-        public void DetermineStatus(int iterationNumber, Vector<Complex32> solutionVector, Vector<Complex32> sourceVector, Vector<Complex32> residualVector)
+        public ICalculationStatus DetermineStatus(int iterationNumber, Vector<Complex32> solutionVector, Vector<Complex32> sourceVector, Vector<Complex32> residualVector)
         {
             if (iterationNumber < 0)
             {
@@ -272,7 +272,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.StopCriterium
             {
                 _iterationCount = 0;
                 SetStatusToDiverged();
-                return;
+                return _status;
             }
 
             // ||r_i|| <= stop_tol * ||b||
@@ -300,6 +300,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.StopCriterium
             }
 
             _lastIteration = iterationNumber;
+            return _status;
         }
 
         /// <summary>
@@ -371,20 +372,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.StopCriterium
             _status = DefaultStatus;
             _iterationCount = 0;
             _lastIteration = DefaultLastIterationNumber;
-        }
-
-        /// <summary>
-        /// Gets the <see cref="StopLevel"/> which indicates what sort of stop criterium this
-        /// <see cref="IIterationStopCriterium{T}"/> monitors.
-        /// </summary>
-        /// <value>Returns <see cref="StopLevel"/>.</value>
-        public StopLevel StopLevel
-        {
-            [DebuggerStepThrough]
-            get
-            {
-                return StopLevel.Convergence;
-            }
         }
 
         /// <summary>

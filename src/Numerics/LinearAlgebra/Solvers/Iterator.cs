@@ -50,7 +50,7 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
         /// The collection that holds all the stop criteria and the flag indicating if they should be added
         /// to the child iterators.
         /// </summary>
-        readonly Dictionary<Type, IIterationStopCriterium<T>> _stopCriterias = new Dictionary<Type, IIterationStopCriterium<T>>();
+        readonly List<IIterationStopCriterium<T>> _stopCriterias = new List<IIterationStopCriterium<T>>();
 
         /// <summary>
         /// The status of the iterator.
@@ -98,7 +98,7 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
         /// <param name="stopCriterium">The stop criterium to add.</param>
         public void Add(IIterationStopCriterium<T> stopCriterium)
         {
-            _stopCriterias[stopCriterium.GetType()] = stopCriterium;
+            _stopCriterias.Add(stopCriterium);
         }
 
         /// <summary>
@@ -107,7 +107,7 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
         /// <param name="stopCriterium">The stop criterium that must be removed.</param>
         public void Remove(IIterationStopCriterium<T> stopCriterium)
         {
-            _stopCriterias.Remove(stopCriterium.GetType());
+            _stopCriterias.Remove(stopCriterium);
         }
 
         /// <summary>
@@ -117,7 +117,7 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
         /// <returns><c>true</c> if the <see cref="IIterator{T}"/> contains the stop criterium; otherwise <c>false</c>.</returns>
         public bool Contains(IIterationStopCriterium<T> stopCriterium)
         {
-            return _stopCriterias.ContainsKey(stopCriterium.GetType());
+            return _stopCriterias.Contains(stopCriterium);
         }
 
         /// <summary>
@@ -135,7 +135,7 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
         /// <remarks>Used for testing only.</remarks>
         internal IEnumerable<IIterationStopCriterium<T>> StoredStopCriteria
         {
-            get { return _stopCriterias.Select(criterium => criterium.Value); }
+            get { return _stopCriterias; }
         }
 
         /// <summary>
@@ -181,10 +181,9 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
                 return;
             }
 
-            foreach (var stopCriterium in _stopCriterias.Select(pair => pair.Value))
+            foreach (var stopCriterium in _stopCriterias)
             {
-                stopCriterium.DetermineStatus(iterationNumber, solutionVector, sourceVector, residualVector);
-                var status = stopCriterium.Status;
+                var status = stopCriterium.DetermineStatus(iterationNumber, solutionVector, sourceVector, residualVector);
 
                 // Check if the status is:
                 // - Running --> keep going
@@ -228,7 +227,7 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
             _status = DefaultStatus;
 
             // Reset the stop-criteria
-            foreach (var stopCriterium in _stopCriterias.Select(pair => pair.Value))
+            foreach (var stopCriterium in _stopCriterias)
             {
                 stopCriterium.ResetToPrecalculationState();
             }
@@ -240,7 +239,7 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
         /// <returns>The deep clone of the current iterator.</returns>
         public IIterator<T> Clone()
         {
-            var stopCriteria = _stopCriterias.Select(pair => pair.Value).Select(stopCriterium => stopCriterium.Clone()).ToList();
+            var stopCriteria = _stopCriterias.Select(stopCriterium => stopCriterium.Clone()).ToList();
             return new Iterator<T>(stopCriteria);
         }
     }
