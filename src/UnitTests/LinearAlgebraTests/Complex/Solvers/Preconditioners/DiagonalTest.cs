@@ -49,7 +49,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.Precondi
         /// Create preconditioner.
         /// </summary>
         /// <returns>New preconditioner instance.</returns>
-        internal override IPreConditioner<Complex> CreatePreconditioner()
+        internal override IPreconditioner<Complex> CreatePreconditioner()
         {
             return new Diagonal();
         }
@@ -61,7 +61,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.Precondi
         /// <param name="matrix">Source matrix.</param>
         /// <param name="vector">Initial vector.</param>
         /// <param name="result">Result vector.</param>
-        protected override void CheckResult(IPreConditioner<Complex> preconditioner, SparseMatrix matrix, Vector<Complex> vector, Vector<Complex> result)
+        protected override void CheckResult(IPreconditioner<Complex> preconditioner, SparseMatrix matrix, Vector<Complex> vector, Vector<Complex> result)
         {
             Assert.AreEqual(typeof(Diagonal), preconditioner.GetType(), "#01");
 

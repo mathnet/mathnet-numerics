@@ -56,7 +56,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
         /// <summary>
         /// The collection of solvers that will be used
         /// </summary>
-        readonly List<Tuple<IIterativeSolver<float>, IPreConditioner<float>>> _solvers;
+        readonly List<Tuple<IIterativeSolver<float>, IPreconditioner<float>>> _solvers;
 
         /// <summary>
         /// The status of the calculation.
@@ -76,7 +76,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
 
         public CompositeSolver(IEnumerable<IIterativeSolverSetup<float>> solvers)
         {
-            _solvers = solvers.Select(setup => new Tuple<IIterativeSolver<float>, IPreConditioner<float>>(setup.CreateSolver(), setup.CreatePreconditioner() ?? new UnitPreconditioner<float>())).ToList();
+            _solvers = solvers.Select(setup => new Tuple<IIterativeSolver<float>, IPreconditioner<float>>(setup.CreateSolver(), setup.CreatePreconditioner() ?? new UnitPreconditioner<float>())).ToList();
         }
 
         /// <summary>
@@ -102,7 +102,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
         /// <param name="matrix">The coefficient matrix, <c>A</c>.</param>
         /// <param name="vector">The solution vector, <c>b</c>.</param>
         /// <returns>The result vector, <c>x</c>.</returns>
-        public Vector<float> Solve(Matrix<float> matrix, Vector<float> vector, Iterator<float> iterator = null, IPreConditioner<float> preconditioner = null)
+        public Vector<float> Solve(Matrix<float> matrix, Vector<float> vector, Iterator<float> iterator = null, IPreconditioner<float> preconditioner = null)
         {
             var result = new DenseVector(matrix.RowCount);
             Solve(matrix, vector, result, iterator, preconditioner);
@@ -116,7 +116,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
         /// <param name="matrix">The coefficient matrix, <c>A</c>.</param>
         /// <param name="input">The solution vector, <c>b</c></param>
         /// <param name="result">The result vector, <c>x</c></param>
-        public void Solve(Matrix<float> matrix, Vector<float> input, Vector<float> result, Iterator<float> iterator = null, IPreConditioner<float> preconditioner = null)
+        public void Solve(Matrix<float> matrix, Vector<float> input, Vector<float> result, Iterator<float> iterator = null, IPreconditioner<float> preconditioner = null)
         {
             // If we were stopped before, we are no longer
             // We're doing this at the start of the method to ensure
@@ -212,7 +212,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
         /// <param name="matrix">The coefficient matrix, <c>A</c>.</param>
         /// <param name="input">The solution matrix, <c>B</c>.</param>
         /// <returns>The result matrix, <c>X</c>.</returns>
-        public Matrix<float> Solve(Matrix<float> matrix, Matrix<float> input, Iterator<float> iterator = null, IPreConditioner<float> preconditioner = null)
+        public Matrix<float> Solve(Matrix<float> matrix, Matrix<float> input, Iterator<float> iterator = null, IPreconditioner<float> preconditioner = null)
         {
             var result = matrix.CreateMatrix(input.RowCount, input.ColumnCount);
             Solve(matrix, input, result, iterator, preconditioner);
@@ -226,7 +226,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
         /// <param name="matrix">The coefficient matrix, <c>A</c>.</param>
         /// <param name="input">The solution matrix, <c>B</c>.</param>
         /// <param name="result">The result matrix, <c>X</c></param>
-        public void Solve(Matrix<float> matrix, Matrix<float> input, Matrix<float> result, Iterator<float> iterator = null, IPreConditioner<float> preconditioner = null)
+        public void Solve(Matrix<float> matrix, Matrix<float> input, Matrix<float> result, Iterator<float> iterator = null, IPreconditioner<float> preconditioner = null)
         {
             if (matrix.RowCount != input.RowCount || input.RowCount != result.RowCount || input.ColumnCount != result.ColumnCount)
             {

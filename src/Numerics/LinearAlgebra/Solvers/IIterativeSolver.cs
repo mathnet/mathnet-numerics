@@ -53,7 +53,7 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
         /// <param name="matrix">The coefficient matrix, <c>A</c>.</param>
         /// <param name="vector">The solution vector, <c>b</c>.</param>
         /// <returns>The result vector, <c>x</c>.</returns>
-        Vector<T> Solve(Matrix<T> matrix, Vector<T> vector, Iterator<T> iterator = null, IPreConditioner<T> preconditioner = null);
+        Vector<T> Solve(Matrix<T> matrix, Vector<T> vector, Iterator<T> iterator = null, IPreconditioner<T> preconditioner = null);
 
         /// <summary>
         /// Solves the matrix equation Ax = b, where A is the coefficient matrix, b is the
@@ -62,7 +62,7 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
         /// <param name="matrix">The coefficient matrix, <c>A</c>.</param>
         /// <param name="input">The solution vector, <c>b</c></param>
         /// <param name="result">The result vector, <c>x</c></param>
-        void Solve(Matrix<T> matrix, Vector<T> input, Vector<T> result, Iterator<T> iterator = null, IPreConditioner<T> preconditioner = null);
+        void Solve(Matrix<T> matrix, Vector<T> input, Vector<T> result, Iterator<T> iterator = null, IPreconditioner<T> preconditioner = null);
 
         /// <summary>
         /// Solves the matrix equation AX = B, where A is the coefficient matrix, B is the
@@ -71,7 +71,7 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
         /// <param name="matrix">The coefficient matrix, <c>A</c>.</param>
         /// <param name="input">The solution matrix, <c>B</c>.</param>
         /// <returns>The result matrix, <c>X</c>.</returns>
-        Matrix<T> Solve(Matrix<T> matrix, Matrix<T> input, Iterator<T> iterator = null, IPreConditioner<T> preconditioner = null);
+        Matrix<T> Solve(Matrix<T> matrix, Matrix<T> input, Iterator<T> iterator = null, IPreconditioner<T> preconditioner = null);
 
         /// <summary>
         /// Solves the matrix equation AX = B, where A is the coefficient matrix, B is the
@@ -80,6 +80,6 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
         /// <param name="matrix">The coefficient matrix, <c>A</c>.</param>
         /// <param name="input">The solution matrix, <c>B</c>.</param>
         /// <param name="result">The result matrix, <c>X</c></param>
-        void Solve(Matrix<T> matrix, Matrix<T> input, Matrix<T> result, Iterator<T> iterator = null, IPreConditioner<T> preconditioner = null);
+        void Solve(Matrix<T> matrix, Matrix<T> input, Matrix<T> result, Iterator<T> iterator = null, IPreconditioner<T> preconditioner = null);
     }
 }

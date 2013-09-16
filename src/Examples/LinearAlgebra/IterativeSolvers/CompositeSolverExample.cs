@@ -180,7 +180,7 @@ namespace Examples.LinearAlgebra.IterativeSolversExamples
             return new BiCgStab();
         }
 
-        public IPreConditioner<double> CreatePreconditioner()
+        public IPreconditioner<double> CreatePreconditioner()
         {
             return null;
         }

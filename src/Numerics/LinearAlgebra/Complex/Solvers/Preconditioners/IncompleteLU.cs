@@ -51,7 +51,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Preconditioners
     /// Yousef Saad <br/>
     /// Algorithm is described in Chapter 10, section 10.3.2, page 275 <br/>
     /// </remarks>
-    public sealed class IncompleteLU : IPreConditioner<Complex>
+    public sealed class IncompleteLU : IPreconditioner<Complex>
     {
         /// <summary>
         /// The matrix holding the lower (L) and upper (U) matrices. The

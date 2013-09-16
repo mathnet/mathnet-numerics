@@ -38,7 +38,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Preconditioners
     /// A diagonal preconditioner. The preconditioner uses the inverse
     /// of the matrix diagonal as preconditioning values.
     /// </summary>
-    public sealed class Diagonal : IPreConditioner<float>
+    public sealed class Diagonal : IPreconditioner<float>
     {
         /// <summary>
         /// The inverse of the matrix diagonal.

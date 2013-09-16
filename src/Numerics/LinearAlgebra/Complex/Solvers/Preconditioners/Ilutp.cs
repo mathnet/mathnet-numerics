@@ -60,7 +60,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Preconditioners
     /// pp. 20 - 28 <br/>
     /// Algorithm is described in Section 2, page 22
     /// </remarks>
-    public sealed class Ilutp : IPreConditioner<Complex>
+    public sealed class Ilutp : IPreconditioner<Complex>
     {
         /// <summary>
         /// The default fill level.

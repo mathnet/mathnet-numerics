@@ -43,7 +43,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Preconditioners
     /// Yousef Saad <br/>
     /// Algorithm is described in Chapter 10, section 10.3.2, page 275 <br/>
     /// </remarks>
-    public sealed class IncompleteLU : IPreConditioner<float>
+    public sealed class IncompleteLU : IPreconditioner<float>
     {
         /// <summary>
         /// The matrix holding the lower (L) and upper (U) matrices. The

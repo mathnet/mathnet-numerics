@@ -99,7 +99,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
         /// <param name="matrix">The coefficient <see cref="Matrix"/>, <c>A</c>.</param>
         /// <param name="vector">The solution <see cref="Vector"/>, <c>b</c>.</param>
         /// <returns>The result <see cref="Vector"/>, <c>x</c>.</returns>
-        public Vector<float> Solve(Matrix<float> matrix, Vector<float> vector, Iterator<float> iterator = null, IPreConditioner<float> preconditioner = null)
+        public Vector<float> Solve(Matrix<float> matrix, Vector<float> vector, Iterator<float> iterator = null, IPreconditioner<float> preconditioner = null)
         {
             var result = new DenseVector(matrix.RowCount);
             Solve(matrix, vector, result, iterator, preconditioner);
@@ -113,7 +113,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
         /// <param name="matrix">The coefficient <see cref="Matrix"/>, <c>A</c>.</param>
         /// <param name="input">The solution <see cref="Vector"/>, <c>b</c>.</param>
         /// <param name="result">The result <see cref="Vector"/>, <c>x</c>.</param>
-        public void Solve(Matrix<float> matrix, Vector<float> input, Vector<float> result, Iterator<float> iterator = null, IPreConditioner<float> preconditioner = null)
+        public void Solve(Matrix<float> matrix, Vector<float> input, Vector<float> result, Iterator<float> iterator = null, IPreconditioner<float> preconditioner = null)
         {
             // If we were stopped before, we are no longer
             // We're doing this at the start of the method to ensure
@@ -364,7 +364,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
         /// <param name="matrix">The coefficient <see cref="Matrix"/>, <c>A</c>.</param>
         /// <param name="input">The solution <see cref="Matrix"/>, <c>B</c>.</param>
         /// <returns>The result <see cref="Matrix"/>, <c>X</c>.</returns>
-        public Matrix<float> Solve(Matrix<float> matrix, Matrix<float> input, Iterator<float> iterator = null, IPreConditioner<float> preconditioner = null)
+        public Matrix<float> Solve(Matrix<float> matrix, Matrix<float> input, Iterator<float> iterator = null, IPreconditioner<float> preconditioner = null)
         {
             var result = matrix.CreateMatrix(input.RowCount, input.ColumnCount);
             Solve(matrix, input, result, iterator, preconditioner);
@@ -378,7 +378,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
         /// <param name="matrix">The coefficient <see cref="Matrix"/>, <c>A</c>.</param>
         /// <param name="input">The solution <see cref="Matrix"/>, <c>B</c>.</param>
         /// <param name="result">The result <see cref="Matrix"/>, <c>X</c></param>
-        public void Solve(Matrix<float> matrix, Matrix<float> input, Matrix<float> result, Iterator<float> iterator = null, IPreConditioner<float> preconditioner = null)
+        public void Solve(Matrix<float> matrix, Matrix<float> input, Matrix<float> result, Iterator<float> iterator = null, IPreconditioner<float> preconditioner = null)
         {
             if (matrix.RowCount != input.RowCount || input.RowCount != result.RowCount || input.ColumnCount != result.ColumnCount)
             {

@@ -52,7 +52,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Preconditioners
     /// pp. 20 - 28 <br/>
     /// Algorithm is described in Section 2, page 22
     /// </remarks>
-    public sealed class Ilutp : IPreConditioner<float>
+    public sealed class Ilutp : IPreconditioner<float>
     {
         /// <summary>
         /// The default fill level.

@@ -57,7 +57,7 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
         /// <summary>
         /// Creates the preconditioner to be used by default (can be overwritten).
         /// </summary>
-        IPreConditioner<T> CreatePreconditioner();
+        IPreconditioner<T> CreatePreconditioner();
 
         /// <summary>
         /// Gets the relative speed of the solver. 

@@ -54,7 +54,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Preconditioners
     /// pp. 20 - 28 <br/>
     /// Algorithm is described in Section 2, page 22
     /// </remarks>
-    public sealed class Ilutp : IPreConditioner<Complex32>
+    public sealed class Ilutp : IPreconditioner<Complex32>
     {
         /// <summary>
         /// The default fill level.

@@ -50,7 +50,7 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
     /// if the changes occur after creating the preconditioner.
     /// </para>
     /// </remarks>
-    public interface IPreConditioner<T> where T : struct, IEquatable<T>, IFormattable
+    public interface IPreconditioner<T> where T : struct, IEquatable<T>, IFormattable
     {
         /// <summary>
         /// Initializes the preconditioner and loads the internal data structures.
