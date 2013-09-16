@@ -400,9 +400,10 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
         public void StopSolve()
         {
             _hasBeenStopped = true;
-            if (_currentSolver != null)
+            var currentSolver = _currentSolver;
+            if (currentSolver != null)
             {
-                _currentSolver.StopSolve();
+                currentSolver.StopSolve();
             }
         }
 
@@ -415,11 +416,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
         /// <returns>The result vector, <c>x</c>.</returns>
         public Vector<Complex> Solve(Matrix<Complex> matrix, Vector<Complex> vector)
         {
-            if (vector == null)
-            {
-                throw new ArgumentNullException();
-            }
-
             var result = new DenseVector(matrix.RowCount);
             Solve(matrix, vector, result);
             return result;
@@ -440,25 +436,9 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
             _hasBeenStopped = false;
             _currentSolver = null;
 
-            // Error checks
-            if (matrix == null)
-            {
-                throw new ArgumentNullException("matrix");
-            }
-
             if (matrix.RowCount != matrix.ColumnCount)
             {
                 throw new ArgumentException(Resources.ArgumentMatrixSquare, "matrix");
-            }
-
-            if (input == null)
-            {
-                throw new ArgumentNullException("input");
-            }
-
-            if (result == null)
-            {
-                throw new ArgumentNullException("result");
             }
 
             if (result.Count != input.Count)
@@ -576,16 +556,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
         /// <returns>The result matrix, <c>X</c>.</returns>
         public Matrix<Complex> Solve(Matrix<Complex> matrix, Matrix<Complex> input)
         {
-            if (matrix == null)
-            {
-                throw new ArgumentNullException("matrix");
-            }
-
-            if (input == null)
-            {
-                throw new ArgumentNullException("input");
-            }
-
             var result = matrix.CreateMatrix(input.RowCount, input.ColumnCount);
             Solve(matrix, input, result);
             return result;
@@ -600,21 +570,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
         /// <param name="result">The result matrix, <c>X</c></param>
         public void Solve(Matrix<Complex> matrix, Matrix<Complex> input, Matrix<Complex> result)
         {
-            if (matrix == null)
-            {
-                throw new ArgumentNullException("matrix");
-            }
-
-            if (input == null)
-            {
-                throw new ArgumentNullException("input");
-            }
-
-            if (result == null)
-            {
-                throw new ArgumentNullException("result");
-            }
-
             if (matrix.RowCount != input.RowCount || input.RowCount != result.RowCount || input.ColumnCount != result.ColumnCount)
             {
                 throw Matrix.DimensionsDontMatch<ArgumentException>(matrix, input, result);

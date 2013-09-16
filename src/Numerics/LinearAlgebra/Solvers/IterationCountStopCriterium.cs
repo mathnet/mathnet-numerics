@@ -150,7 +150,7 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
         /// <summary>
         /// Resets the <see cref="IterationCountStopCriterium{T}"/> to the pre-calculation state.
         /// </summary>
-        public void ResetToPrecalculationState()
+        public void Reset()
         {
             _status = IterationStatus.Indetermined;
         }

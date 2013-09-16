@@ -256,7 +256,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.StopCr
             Assert.AreEqual(IterationStatus.Diverged, status, "Status check fail.");
 
             // Reset the state
-            criterium.ResetToPrecalculationState();
+            criterium.Reset();
 
             Assert.AreEqual(Increase, criterium.MaximumRelativeIncrease, "Incorrect maximum");
             Assert.AreEqual(Iterations, criterium.MinimumNumberOfIterations, "Incorrect iteration count");

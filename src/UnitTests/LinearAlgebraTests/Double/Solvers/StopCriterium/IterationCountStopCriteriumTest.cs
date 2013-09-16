@@ -115,7 +115,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.StopCrite
             var status = criterium.DetermineStatus(5, DenseVector.Create(3, i => 1), DenseVector.Create(3, i => 2), DenseVector.Create(3, i => 3));
             Assert.AreEqual(IterationStatus.Running, status, "Should be running");
 
-            criterium.ResetToPrecalculationState();
+            criterium.Reset();
             Assert.AreEqual(IterationStatus.Indetermined, criterium.Status, "Should not have started");
         }
 

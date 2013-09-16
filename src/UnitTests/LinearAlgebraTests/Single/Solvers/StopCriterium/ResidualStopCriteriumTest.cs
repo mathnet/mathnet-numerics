@@ -255,7 +255,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers.StopCrite
             var status = criterium.DetermineStatus(5, solution, source, residual);
             Assert.AreEqual(IterationStatus.Running, status, "Should be running");
 
-            criterium.ResetToPrecalculationState();
+            criterium.Reset();
             Assert.AreEqual(IterationStatus.Indetermined, criterium.Status, "Should not have started");
         }
 

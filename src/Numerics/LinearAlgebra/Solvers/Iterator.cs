@@ -175,7 +175,7 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
 
             foreach (var stopCriterium in _stopCriteria)
             {
-                stopCriterium.ResetToPrecalculationState();
+                stopCriterium.Reset();
             }
         }
 

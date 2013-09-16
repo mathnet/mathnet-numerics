@@ -64,7 +64,7 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
         /// <remarks>To implementers: Invoking this method should not clear the user defined
         /// property values, only the state that is used to track the progress of the 
         /// calculation.</remarks>
-        void ResetToPrecalculationState();
+        void Reset();
 
         IIterationStopCriterium<T> Clone();
     }

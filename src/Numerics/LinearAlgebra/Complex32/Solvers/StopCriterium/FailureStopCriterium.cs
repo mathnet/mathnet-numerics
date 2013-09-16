@@ -115,7 +115,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.StopCriterium
         /// <summary>
         /// Resets the <see cref="IIterationStopCriterium{T}"/> to the pre-calculation state.
         /// </summary>
-        public void ResetToPrecalculationState()
+        public void Reset()
         {
             _status = IterationStatus.Indetermined;
             _lastIteration = DefaultLastIterationNumber;

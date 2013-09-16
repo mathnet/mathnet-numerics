@@ -304,7 +304,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.StopCriterium
         /// <summary>
         /// Resets the <see cref="IIterationStopCriterium{T}"/> to the pre-calculation state.
         /// </summary>
-        public void ResetToPrecalculationState()
+        public void Reset()
         {
             _status = IterationStatus.Indetermined;
             _iterationCount = 0;
