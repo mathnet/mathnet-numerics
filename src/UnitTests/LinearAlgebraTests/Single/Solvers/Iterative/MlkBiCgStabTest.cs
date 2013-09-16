@@ -101,10 +101,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers.Iterative
                     new FailureStopCriterium()
                 });
 
-            var solver = new MlkBiCgStab(monitor);
+            var solver = new MlkBiCgStab();
 
             // Solve equation Ax = y
-            var x = solver.Solve(matrix, y);
+            var x = solver.Solve(matrix, y, monitor);
 
             // Now compare the results
             Assert.IsNotNull(x, "#02");
@@ -146,10 +146,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers.Iterative
                     new DivergenceStopCriterium(),
                     new FailureStopCriterium()
                 });
-            var solver = new MlkBiCgStab(monitor);
+            var solver = new MlkBiCgStab();
 
             // Solve equation Ax = y
-            var x = solver.Solve(matrix, y);
+            var x = solver.Solve(matrix, y, monitor);
 
             // Now compare the results
             Assert.IsNotNull(x, "#02");
@@ -228,13 +228,13 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers.Iterative
                         new DivergenceStopCriterium(),
                         new FailureStopCriterium()
                     });
-                var solver = new MlkBiCgStab(monitor);
+                var solver = new MlkBiCgStab();
 
                 // Solve equation Ax = y
                 Vector<float> x;
                 try
                 {
-                    x = solver.Solve(matrix, y);
+                    x = solver.Solve(matrix, y, monitor);
                 }
                 catch (Exception)
                 {
@@ -282,8 +282,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers.Iterative
                         new IterationCountStopCriterium<float>(MaximumIterations),
                         new ResidualStopCriterium((float) Math.Pow(1.0/10.0, iteration))
                     });
-                var solver = new MlkBiCgStab(monitor);
-                var resultx = solver.Solve(matrixA, vectorb);
+                var solver = new MlkBiCgStab();
+                var resultx = solver.Solve(matrixA, vectorb, monitor);
 
                 if (!monitor.HasConverged)
                 {
@@ -325,8 +325,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers.Iterative
                         new IterationCountStopCriterium<float>(MaximumIterations),
                         new ResidualStopCriterium((float) Math.Pow(1.0/10.0, iteration))
                     });
-                var solver = new MlkBiCgStab(monitor);
-                var matrixX = solver.Solve(matrixA, matrixB);
+                var solver = new MlkBiCgStab();
+                var matrixX = solver.Solve(matrixA, matrixB, monitor);
 
                 if (!monitor.HasConverged)
                 {

@@ -44,16 +44,25 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers
         // TODO: Refactor
 
         /// <summary>
-        /// Creates a default iterator with all the <see cref="IIterationStopCriterium{T}"/> objects.
+        /// Creates the default stop criteria.
         /// </summary>
-        /// <returns>A new <see cref="Iterator{T}"/> object.</returns>
-        public static Iterator<Complex32> CreateDefault()
+        public static IIterationStopCriterium<Complex32>[] CreateDefaultStopCriteria()
         {
-            return new Iterator<Complex32>(
+            return new IIterationStopCriterium<Complex32>[]
+            {
                 new FailureStopCriterium(),
                 new DivergenceStopCriterium(),
                 new IterationCountStopCriterium<Complex32>(),
-                new ResidualStopCriterium());
+                new ResidualStopCriterium()
+            };
+        }
+
+        /// <summary>
+        /// Creates a default iterator with all the default stop criteria.
+        /// </summary>
+        public static Iterator<Complex32> CreateDefault()
+        {
+            return new Iterator<Complex32>(CreateDefaultStopCriteria());
         }
     }
 }

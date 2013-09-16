@@ -42,16 +42,25 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
         // TODO: Refactor
 
         /// <summary>
-        /// Creates a default iterator with all the <see cref="IIterationStopCriterium{T}"/> objects.
+        /// Creates the default stop criteria.
         /// </summary>
-        /// <returns>A new <see cref="Iterator{T}"/> object.</returns>
-        public static Iterator<double> CreateDefault()
+        public static IIterationStopCriterium<double>[] CreateDefaultStopCriteria()
         {
-            return new Iterator<double>(
+            return new IIterationStopCriterium<double>[]
+            {
                 new FailureStopCriterium(),
                 new DivergenceStopCriterium(),
                 new IterationCountStopCriterium<double>(),
-                new ResidualStopCriterium());
+                new ResidualStopCriterium()
+            };
+        }
+
+        /// <summary>
+        /// Creates a default iterator with all the default stop criteria.
+        /// </summary>
+        public static Iterator<double> CreateDefault()
+        {
+            return new Iterator<double>(CreateDefaultStopCriteria());
         }
     }
 }

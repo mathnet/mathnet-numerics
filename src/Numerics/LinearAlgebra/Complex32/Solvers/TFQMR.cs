@@ -60,11 +60,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers
         IPreConditioner<Numerics.Complex32> _preconditioner;
 
         /// <summary>
-        /// The iterative process controller.
-        /// </summary>
-        Iterator<Numerics.Complex32> _iterator;
-
-        /// <summary>
         /// Indicates if the user has stopped the solver.
         /// </summary>
         bool _hasBeenStopped;
@@ -77,7 +72,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers
         /// the standard settings and a default preconditioner.
         /// </remarks>
         public TFQMR()
-            : this(null, null)
         {
         }
 
@@ -85,9 +79,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers
         /// Initializes a new instance of the <see cref="TFQMR"/> class.
         /// </summary>
         /// <remarks>
-        /// <para>
-        /// When using this constructor the solver will use a default preconditioner.
-        /// </para>
         /// <para>
         /// The main advantages of using a user defined <see cref="Iterator{T}"/> are:
         /// <list type="number">
@@ -98,46 +89,10 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers
         /// </item>
         /// </list>
         /// </para>
-        /// </remarks>
-        /// <param name="iterator">The <see cref="Iterator{T}"/> that will be used to monitor the iterative process.</param>
-        public TFQMR(Iterator<Numerics.Complex32> iterator)
-            : this(null, iterator)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="TFQMR"/> class.
-        /// </summary>
-        /// <remarks>
-        /// When using this constructor the solver will use the <see cref="Iterator{T}"/> with
-        /// the standard settings.
         /// </remarks>
         /// <param name="preconditioner">The <see cref="IPreConditioner{T}"/> that will be used to precondition the matrix equation.</param>
         public TFQMR(IPreConditioner<Numerics.Complex32> preconditioner)
-            : this(preconditioner, null)
         {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="TFQMR"/> class.
-        /// </summary>
-        /// <remarks>
-        /// <para>
-        /// The main advantages of using a user defined <see cref="Iterator{T}"/> are:
-        /// <list type="number">
-        /// <item>It is possible to set the desired convergence limits.</item>
-        /// <item>
-        /// It is possible to check the reason for which the solver finished 
-        /// the iterative procedure by calling the <see cref="Iterator{T}.Status"/> property.
-        /// </item>
-        /// </list>
-        /// </para>
-        /// </remarks>
-        /// <param name="preconditioner">The <see cref="IPreConditioner{T}"/> that will be used to precondition the matrix equation.</param>
-        /// <param name="iterator">The <see cref="Iterator{T}"/> that will be used to monitor the iterative process.</param>
-        public TFQMR(IPreConditioner<Numerics.Complex32> preconditioner, Iterator<Numerics.Complex32> iterator)
-        {
-            _iterator = iterator;
             _preconditioner = preconditioner;
         }
 
@@ -148,23 +103,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers
         public void SetPreconditioner(IPreConditioner<Numerics.Complex32> preconditioner)
         {
             _preconditioner = preconditioner;
-        }
-
-        /// <summary>
-        /// Sets the <see cref="Iterator{T}"/> that will be used to track the iterative process.
-        /// </summary>
-        /// <param name="iterator">The iterator.</param>
-        public void SetIterator(Iterator<Numerics.Complex32> iterator)
-        {
-            _iterator = iterator;
-        }
-
-        /// <summary>
-        /// Gets the status of the iteration once the calculation is finished.
-        /// </summary>
-        public IterationStatus IterationResult
-        {
-            get { return (_iterator != null) ? _iterator.Status : IterationStatus.Indetermined; }
         }
 
         /// <summary>
@@ -185,15 +123,10 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers
         /// <param name="matrix">The coefficient matrix, <c>A</c>.</param>
         /// <param name="vector">The solution vector, <c>b</c>.</param>
         /// <returns>The result vector, <c>x</c>.</returns>
-        public Vector<Numerics.Complex32> Solve(Matrix<Numerics.Complex32> matrix, Vector<Numerics.Complex32> vector)
+        public Vector<Numerics.Complex32> Solve(Matrix<Numerics.Complex32> matrix, Vector<Numerics.Complex32> vector, Iterator<Numerics.Complex32> iterator = null)
         {
-            if (vector == null)
-            {
-                throw new ArgumentNullException();
-            }
-
             var result = new DenseVector(matrix.RowCount);
-            Solve(matrix, vector, result);
+            Solve(matrix, vector, result, iterator);
             return result;
         }
 
@@ -204,7 +137,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers
         /// <param name="matrix">The coefficient matrix, <c>A</c>.</param>
         /// <param name="input">The solution vector, <c>b</c></param>
         /// <param name="result">The result vector, <c>x</c></param>
-        public void Solve(Matrix<Numerics.Complex32> matrix, Vector<Numerics.Complex32> input, Vector<Numerics.Complex32> result)
+        public void Solve(Matrix<Numerics.Complex32> matrix, Vector<Numerics.Complex32> input, Vector<Numerics.Complex32> result, Iterator<Numerics.Complex32> iterator = null)
         {
             // If we were stopped before, we are no longer
             // We're doing this at the start of the method to ensure
@@ -244,9 +177,9 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers
 
             // Initialize the solver fields
             // Set the convergence monitor
-            if (_iterator == null)
+            if (iterator == null)
             {
-                _iterator = Iterator.CreateDefault();
+                iterator = new Iterator<Numerics.Complex32>(Iterator.CreateDefaultStopCriteria());
             }
 
             if (_preconditioner == null)
@@ -295,7 +228,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers
 
             // Start the iteration
             var iterationNumber = 0;
-            while (ShouldContinue(iterationNumber, result, input, pseudoResiduals))
+            while (ShouldContinue(iterator, iterationNumber, result, input, pseudoResiduals))
             {
                 // First part of the step, the even bit
                 if (IsEven(iterationNumber))
@@ -305,7 +238,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers
                     if (sigma.Real.AlmostEqual(0, 1) && sigma.Imaginary.AlmostEqual(0, 1))
                     {
                         // FAIL HERE
-                        _iterator.Cancel();
+                        iterator.Cancel();
                         break;
                     }
 
@@ -354,7 +287,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers
                 temp2.CopyTo(x);
 
                 // Check convergence and see if we can bail
-                if (!ShouldContinue(iterationNumber, result, input, pseudoResiduals))
+                if (!ShouldContinue(iterator, iterationNumber, result, input, pseudoResiduals))
                 {
                     // Calculate the real values
                     _preconditioner.Approximate(x, result);
@@ -365,7 +298,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers
                     CalculateTrueResidual(matrix, temp, result, input);
 
                     // Now recheck the convergence
-                    if (!ShouldContinue(iterationNumber, result, input, temp))
+                    if (!ShouldContinue(iterator, iterationNumber, result, input, temp))
                     {
                         // We're all good now.
                         return;
@@ -378,7 +311,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers
                     if (rho.Real.AlmostEqual(0, 1) && rho.Imaginary.AlmostEqual(0, 1))
                     {
                         // FAIL HERE
-                        _iterator.Cancel();
+                        iterator.Cancel();
                         break;
                     }
 
@@ -438,7 +371,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers
         /// <param name="source">Source <see cref="Vector"/>.</param>
         /// <param name="residuals">Residual <see cref="Vector"/>.</param>
         /// <returns><c>true</c> if continue, otherwise <c>false</c></returns>
-        bool ShouldContinue(int iterationNumber, Vector<Numerics.Complex32> result, Vector<Numerics.Complex32> source, Vector<Numerics.Complex32> residuals)
+        bool ShouldContinue(Iterator<Numerics.Complex32> iterator, int iterationNumber, Vector<Numerics.Complex32> result, Vector<Numerics.Complex32> source, Vector<Numerics.Complex32> residuals)
         {
             // We stop if either:
             // - the user has stopped the calculation
@@ -446,11 +379,11 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers
 
             if (_hasBeenStopped)
             {
-                _iterator.Cancel();
+                iterator.Cancel();
                 return true;
             }
 
-            var status = _iterator.DetermineStatus(iterationNumber, result, source, residuals);
+            var status = iterator.DetermineStatus(iterationNumber, result, source, residuals);
             return status == IterationStatus.Running || status == IterationStatus.Indetermined;
         }
 
@@ -471,20 +404,10 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers
         /// <param name="matrix">The coefficient matrix, <c>A</c>.</param>
         /// <param name="input">The solution matrix, <c>B</c>.</param>
         /// <returns>The result matrix, <c>X</c>.</returns>
-        public Matrix<Numerics.Complex32> Solve(Matrix<Numerics.Complex32> matrix, Matrix<Numerics.Complex32> input)
+        public Matrix<Numerics.Complex32> Solve(Matrix<Numerics.Complex32> matrix, Matrix<Numerics.Complex32> input, Iterator<Numerics.Complex32> iterator = null)
         {
-            if (matrix == null)
-            {
-                throw new ArgumentNullException("matrix");
-            }
-
-            if (input == null)
-            {
-                throw new ArgumentNullException("input");
-            }
-
             var result = matrix.CreateMatrix(input.RowCount, input.ColumnCount);
-            Solve(matrix, input, result);
+            Solve(matrix, input, result, iterator);
             return result;
         }
 
@@ -495,31 +418,21 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers
         /// <param name="matrix">The coefficient matrix, <c>A</c>.</param>
         /// <param name="input">The solution matrix, <c>B</c>.</param>
         /// <param name="result">The result matrix, <c>X</c></param>
-        public void Solve(Matrix<Numerics.Complex32> matrix, Matrix<Numerics.Complex32> input, Matrix<Numerics.Complex32> result)
+        public void Solve(Matrix<Numerics.Complex32> matrix, Matrix<Numerics.Complex32> input, Matrix<Numerics.Complex32> result, Iterator<Numerics.Complex32> iterator = null)
         {
-            if (matrix == null)
-            {
-                throw new ArgumentNullException("matrix");
-            }
-
-            if (input == null)
-            {
-                throw new ArgumentNullException("input");
-            }
-
-            if (result == null)
-            {
-                throw new ArgumentNullException("result");
-            }
-
             if (matrix.RowCount != input.RowCount || input.RowCount != result.RowCount || input.ColumnCount != result.ColumnCount)
             {
                 throw Matrix.DimensionsDontMatch<ArgumentException>(input, matrix, result);
             }
 
+            if (iterator == null)
+            {
+                iterator = new Iterator<Numerics.Complex32>(Iterator.CreateDefaultStopCriteria());
+            }
+
             for (var column = 0; column < input.ColumnCount; column++)
             {
-                var solution = Solve(matrix, input.Column(column));
+                var solution = Solve(matrix, input.Column(column), iterator);
                 foreach (var element in solution.EnumerateNonZeroIndexed())
                 {
                     result.At(element.Item1, column, element.Item2);

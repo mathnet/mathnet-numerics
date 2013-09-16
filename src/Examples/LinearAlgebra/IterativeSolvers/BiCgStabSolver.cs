@@ -108,10 +108,10 @@ namespace Examples.LinearAlgebra.IterativeSolversExamples
             var monitor = new Iterator<double>(new IIterationStopCriterium<double>[] { iterationCountStopCriterium, residualStopCriterium });
 
             // Create Bi-Conjugate Gradient Stabilized solver
-            var solver = new BiCgStab(monitor);
+            var solver = new BiCgStab();
 
             // 1. Solve the matrix equation
-            var resultX = solver.Solve(matrixA, vectorB);
+            var resultX = solver.Solve(matrixA, vectorB, monitor);
             Console.WriteLine(@"1. Solve the matrix equation");
             Console.WriteLine();
 
@@ -126,7 +126,7 @@ namespace Examples.LinearAlgebra.IterativeSolversExamples
             // - CalculationRunning: calculation is running and no results are yet known;
             // - CalculationStoppedWithoutConvergence: calculation has been stopped due to reaching the stopping limits, but that convergence was not achieved;
             Console.WriteLine(@"2. Solver status of the iterations");
-            Console.WriteLine(solver.IterationResult);
+            Console.WriteLine(monitor.Status);
             Console.WriteLine();
 
             // 3. Solution result vector of the matrix equation

@@ -70,11 +70,6 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
         IPreConditioner<float> _preconditioner;
 
         /// <summary>
-        /// The iterative process controller.
-        /// </summary>
-        Iterator<float> _iterator;
-
-        /// <summary>
         /// Indicates the number of <c>BiCGStab</c> steps should be taken 
         /// before switching.
         /// </summary>
@@ -99,7 +94,6 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
         /// the standard settings and a default preconditioner.
         /// </remarks>
         public GpBiCg()
-            : this(null, null)
         {
         }
 
@@ -107,9 +101,6 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
         /// Initializes a new instance of the <see cref="GpBiCg"/> class.
         /// </summary>
         /// <remarks>
-        /// <para>
-        /// When using this constructor the solver will use a default preconditioner.
-        /// </para>
         /// <para>
         /// The main advantages of using a user defined <see cref="Iterator{T}"/> are:
         /// <list type="number">
@@ -120,46 +111,10 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
         /// </item>
         /// </list>
         /// </para>
-        /// </remarks>
-        /// <param name="iterator">The <see cref="Iterator{T}"/> that will be used to monitor the iterative process.</param>
-        public GpBiCg(Iterator<float> iterator)
-            : this(null, iterator)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="GpBiCg"/> class.
-        /// </summary>
-        /// <remarks>
-        /// When using this constructor the solver will use the <see cref="Iterator{T}"/> with
-        /// the standard settings.
         /// </remarks>
         /// <param name="preconditioner">The <see cref="IPreConditioner{T}"/> that will be used to precondition the matrix equation.</param>
         public GpBiCg(IPreConditioner<float> preconditioner)
-            : this(preconditioner, null)
         {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="GpBiCg"/> class.
-        /// </summary>
-        /// <remarks>
-        /// <para>
-        /// The main advantages of using a user defined <see cref="Iterator{T}"/> are:
-        /// <list type="number">
-        /// <item>It is possible to set the desired convergence limits.</item>
-        /// <item>
-        /// It is possible to check the reason for which the solver finished 
-        /// the iterative procedure by calling the <see cref="Iterator{T}.Status"/> property.
-        /// </item>
-        /// </list>
-        /// </para>
-        /// </remarks>
-        /// <param name="preconditioner">The <see cref="IPreConditioner{T}"/> that will be used to precondition the matrix equation.</param>
-        /// <param name="iterator">The <see cref="Iterator{T}"/> that will be used to monitor the iterative process.</param>
-        public GpBiCg(IPreConditioner<float> preconditioner, Iterator<float> iterator)
-        {
-            _iterator = iterator;
             _preconditioner = preconditioner;
         }
 
@@ -211,23 +166,6 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
         }
 
         /// <summary>
-        /// Sets the <see cref="Iterator{T}"/> that will be used to track the iterative process.
-        /// </summary>
-        /// <param name="iterator">The iterator.</param>
-        public void SetIterator(Iterator<float> iterator)
-        {
-            _iterator = iterator;
-        }
-
-        /// <summary>
-        /// Gets the status of the iteration once the calculation is finished.
-        /// </summary>
-        public IterationStatus IterationResult
-        {
-            get { return (_iterator != null) ? _iterator.Status : IterationStatus.Indetermined; }
-        }
-
-        /// <summary>
         /// Stops the solve process. 
         /// </summary>
         /// <remarks>
@@ -246,15 +184,10 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
         /// <param name="matrix">The coefficient matrix, <c>A</c>.</param>
         /// <param name="vector">The solution vector, <c>b</c>.</param>
         /// <returns>The result vector, <c>x</c>.</returns>
-        public Vector<float> Solve(Matrix<float> matrix, Vector<float> vector)
+        public Vector<float> Solve(Matrix<float> matrix, Vector<float> vector, Iterator<float> iterator = null)
         {
-            if (vector == null)
-            {
-                throw new ArgumentNullException();
-            }
-
             var result = new DenseVector(matrix.RowCount);
-            Solve(matrix, vector, result);
+            Solve(matrix, vector, result, iterator);
             return result;
         }
 
@@ -265,7 +198,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
         /// <param name="matrix">The coefficient matrix, <c>A</c>.</param>
         /// <param name="input">The solution vector, <c>b</c></param>
         /// <param name="result">The result vector, <c>x</c></param>
-        public void Solve(Matrix<float> matrix, Vector<float> input, Vector<float> result)
+        public void Solve(Matrix<float> matrix, Vector<float> input, Vector<float> result, Iterator<float> iterator = null)
         {
             // If we were stopped before, we are no longer
             // We're doing this at the start of the method to ensure
@@ -305,9 +238,9 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
 
             // Initialize the solver fields
             // Set the convergence monitor
-            if (_iterator == null)
+            if (iterator == null)
             {
-                _iterator = Iterator.CreateDefault();
+                iterator = new Iterator<float>(Iterator.CreateDefaultStopCriteria());
             }
 
             if (_preconditioner == null)
@@ -354,7 +287,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
 
             // for (k = 0, 1, .... )
             var iterationNumber = 0;
-            while (ShouldContinue(iterationNumber, xtemp, input, residuals))
+            while (ShouldContinue(iterator, iterationNumber, xtemp, input, residuals))
             {
                 // p_k = r_k + beta_(k-1) * (p_(k-1) - u_(k-1))
                 p.Subtract(u, temp);
@@ -495,7 +428,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
                 _preconditioner.Approximate(xtemp, result);
 
                 // Now check for convergence
-                if (!ShouldContinue(iterationNumber, result, input, residuals))
+                if (!ShouldContinue(iterator, iterationNumber, result, input, residuals))
                 {
                     // Recalculate the residuals and go round again. This is done to ensure that
                     // we have the proper residuals.
@@ -532,7 +465,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
         /// <param name="source">Source <see cref="Vector"/>.</param>
         /// <param name="residuals">Residual <see cref="Vector"/>.</param>
         /// <returns><c>true</c> if continue, otherwise <c>false</c></returns>
-        bool ShouldContinue(int iterationNumber, Vector<float> result, Vector<float> source, Vector<float> residuals)
+        bool ShouldContinue(Iterator<float> iterator, int iterationNumber, Vector<float> result, Vector<float> source, Vector<float> residuals)
         {
             // We stop if either:
             // - the user has stopped the calculation
@@ -540,11 +473,11 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
 
             if (_hasBeenStopped)
             {
-                _iterator.Cancel();
+                iterator.Cancel();
                 return true;
             }
 
-            var status = _iterator.DetermineStatus(iterationNumber, result, source, residuals);
+            var status = iterator.DetermineStatus(iterationNumber, result, source, residuals);
             return status == IterationStatus.Running || status == IterationStatus.Indetermined;
         }
 
@@ -572,20 +505,10 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
         /// <param name="matrix">The coefficient matrix, <c>A</c>.</param>
         /// <param name="input">The solution matrix, <c>B</c>.</param>
         /// <returns>The result matrix, <c>X</c>.</returns>
-        public Matrix<float> Solve(Matrix<float> matrix, Matrix<float> input)
+        public Matrix<float> Solve(Matrix<float> matrix, Matrix<float> input, Iterator<float> iterator = null)
         {
-            if (matrix == null)
-            {
-                throw new ArgumentNullException("matrix");
-            }
-
-            if (input == null)
-            {
-                throw new ArgumentNullException("input");
-            }
-
             var result = matrix.CreateMatrix(input.RowCount, input.ColumnCount);
-            Solve(matrix, input, result);
+            Solve(matrix, input, result, iterator);
             return result;
         }
 
@@ -596,31 +519,21 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
         /// <param name="matrix">The coefficient matrix, <c>A</c>.</param>
         /// <param name="input">The solution matrix, <c>B</c>.</param>
         /// <param name="result">The result matrix, <c>X</c></param>
-        public void Solve(Matrix<float> matrix, Matrix<float> input, Matrix<float> result)
+        public void Solve(Matrix<float> matrix, Matrix<float> input, Matrix<float> result, Iterator<float> iterator = null)
         {
-            if (matrix == null)
-            {
-                throw new ArgumentNullException("matrix");
-            }
-
-            if (input == null)
-            {
-                throw new ArgumentNullException("input");
-            }
-
-            if (result == null)
-            {
-                throw new ArgumentNullException("result");
-            }
-
             if (matrix.RowCount != input.RowCount || input.RowCount != result.RowCount || input.ColumnCount != result.ColumnCount)
             {
                 throw Matrix.DimensionsDontMatch<ArgumentException>(matrix, input, result);
             }
 
+            if (iterator == null)
+            {
+                iterator = new Iterator<float>(Iterator.CreateDefaultStopCriteria());
+            }
+
             for (var column = 0; column < input.ColumnCount; column++)
             {
-                var solution = Solve(matrix, input.Column(column));
+                var solution = Solve(matrix, input.Column(column), iterator);
                 foreach (var element in solution.EnumerateNonZeroIndexed())
                 {
                     result.At(element.Item1, column, element.Item2);

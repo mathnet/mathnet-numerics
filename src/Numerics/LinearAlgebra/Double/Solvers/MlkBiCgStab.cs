@@ -75,11 +75,6 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
         IPreConditioner<double> _preconditioner;
 
         /// <summary>
-        /// The iterative process controller.
-        /// </summary>
-        Iterator<double> _iterator;
-
-        /// <summary>
         /// The collection of starting vectors which are used as the basis for the Krylov sub-space.
         /// </summary>
         IList<Vector<double>> _startingVectors;
@@ -101,7 +96,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
         /// When using this constructor the solver will use the <see cref="Iterator{T}"/> with
         /// the standard settings and a default preconditioner.
         /// </remarks>
-        public MlkBiCgStab() : this(null, null)
+        public MlkBiCgStab()
         {
         }
 
@@ -109,9 +104,6 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
         /// Initializes a new instance of the <see cref="MlkBiCgStab"/> class.
         /// </summary>
         /// <remarks>
-        /// <para>
-        /// When using this constructor the solver will use a default preconditioner.
-        /// </para>
         /// <para>
         /// The main advantages of using a user defined <see cref="Iterator{T}"/> are:
         /// <list type="number">
@@ -122,46 +114,10 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
         /// </item>
         /// </list>
         /// </para>
-        /// </remarks>
-        /// <param name="iterator">The <see cref="Iterator{T}"/> that will be used to monitor the iterative process.</param>
-        public MlkBiCgStab(Iterator<double> iterator)
-            : this(null, iterator)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="MlkBiCgStab"/> class.
-        /// </summary>
-        /// <remarks>
-        /// When using this constructor the solver will use the <see cref="Iterator{T}"/> with
-        /// the standard settings.
         /// </remarks>
         /// <param name="preconditioner">The <see cref="IPreConditioner{T}"/> that will be used to precondition the matrix equation.</param>
         public MlkBiCgStab(IPreConditioner<double> preconditioner)
-            : this(preconditioner, null)
         {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="MlkBiCgStab"/> class.
-        /// </summary>
-        /// <remarks>
-        /// <para>
-        /// The main advantages of using a user defined <see cref="Iterator{T}"/> are:
-        /// <list type="number">
-        /// <item>It is possible to set the desired convergence limits.</item>
-        /// <item>
-        /// It is possible to check the reason for which the solver finished 
-        /// the iterative procedure by calling the <see cref="Iterator{T}.Status"/> property.
-        /// </item>
-        /// </list>
-        /// </para>
-        /// </remarks>
-        /// <param name="preconditioner">The <see cref="IPreConditioner{T}"/> that will be used to precondition the matrix equation.</param>
-        /// <param name="iterator">The <see cref="Iterator{T}"/> that will be used to monitor the iterative process.</param>
-        public MlkBiCgStab(IPreConditioner<double> preconditioner, Iterator<double> iterator)
-        {
-            _iterator = iterator;
             _preconditioner = preconditioner;
         }
 
@@ -210,15 +166,6 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
         }
 
         /// <summary>
-        /// Sets the <see cref="Iterator{T}"/> that will be used to track the iterative process.
-        /// </summary>
-        /// <param name="iterator">The iterator.</param>
-        public void SetIterator(Iterator<double> iterator)
-        {
-            _iterator = iterator;
-        }
-
-        /// <summary>
         /// Gets or sets a series of orthonormal vectors which will be used as basis for the 
         /// Krylov sub-space.
         /// </summary>
@@ -245,18 +192,6 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
         }
 
         /// <summary>
-        /// Gets the status of the iteration once the calculation is finished.
-        /// </summary>
-        public IterationStatus IterationResult
-        {
-            [DebuggerStepThrough]
-            get
-            {
-                return (_iterator != null) ? _iterator.Status : IterationStatus.Indetermined;
-            }
-        }
-
-        /// <summary>
         /// Stops the solve process. 
         /// </summary>
         /// <remarks>
@@ -274,15 +209,10 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
         /// <param name="matrix">The coefficient matrix, <c>A</c>.</param>
         /// <param name="vector">The solution vector, <c>b</c>.</param>
         /// <returns>The result vector, <c>x</c>.</returns>
-        public Vector<double> Solve(Matrix<double> matrix, Vector<double> vector)
+        public Vector<double> Solve(Matrix<double> matrix, Vector<double> vector, Iterator<double> iterator = null)
         {
-            if (vector == null)
-            {
-                throw new ArgumentNullException();
-            }
-
             var result = new DenseVector(matrix.RowCount);
-            Solve(matrix, vector, result);
+            Solve(matrix, vector, result, iterator);
             return result;
         }
 
@@ -293,7 +223,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
         /// <param name="matrix">The coefficient matrix, <c>A</c>.</param>
         /// <param name="input">The solution vector, <c>b</c></param>
         /// <param name="result">The result vector, <c>x</c></param>
-        public void Solve(Matrix<double> matrix, Vector<double> input, Vector<double> result)
+        public void Solve(Matrix<double> matrix, Vector<double> input, Vector<double> result, Iterator<double> iterator = null)
         {
             // If we were stopped before, we are no longer
             // We're doing this at the start of the method to ensure
@@ -333,9 +263,9 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
 
             // Initialize the solver fields
             // Set the convergence monitor
-            if (_iterator == null)
+            if (iterator == null)
             {
-                _iterator = Iterator.CreateDefault();
+                iterator = new Iterator<double>(Iterator.CreateDefaultStopCriteria());
             }
 
             if (_preconditioner == null)
@@ -405,7 +335,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
 
             // FOR (j = 0, 1, 2 ....)
             var iterationNumber = 0;
-            while (ShouldContinue(iterationNumber, xtemp, input, residuals))
+            while (ShouldContinue(iterator, iterationNumber, xtemp, input, residuals))
             {
                 // SOLVE M g~_((j-1)k+k) = g_((j-1)k+k)
                 _preconditioner.Approximate(g[k - 1], gtemp);
@@ -463,13 +393,13 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
                 temp2.CopyTo(xtemp);
 
                 // Check convergence and stop if we are converged.
-                if (!ShouldContinue(iterationNumber, xtemp, input, residuals))
+                if (!ShouldContinue(iterator, iterationNumber, xtemp, input, residuals))
                 {
                     // Calculate the true residual
                     CalculateTrueResidual(matrix, residuals, xtemp, input);
 
                     // Now recheck the convergence
-                    if (!ShouldContinue(iterationNumber, xtemp, input, residuals))
+                    if (!ShouldContinue(iterator, iterationNumber, xtemp, input, residuals))
                     {
                         // We're all good now.
                         // Exit from the while loop.
@@ -598,7 +528,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
                         temp2.CopyTo(residuals);
 
                         // We can check the residuals here if they're close
-                        if (!ShouldContinue(iterationNumber, xtemp, input, residuals))
+                        if (!ShouldContinue(iterator, iterationNumber, xtemp, input, residuals))
                         {
                             // Recalculate the residuals and go round again. This is done to ensure that
                             // we have the proper residuals.
@@ -716,7 +646,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
         /// <param name="source">Source <see cref="Vector"/>.</param>
         /// <param name="residuals">Residual <see cref="Vector"/>.</param>
         /// <returns><c>true</c> if continue, otherwise <c>false</c></returns>
-        bool ShouldContinue(int iterationNumber, Vector<double> result, Vector<double> source, Vector<double> residuals)
+        bool ShouldContinue(Iterator<double> iterator, int iterationNumber, Vector<double> result, Vector<double> source, Vector<double> residuals)
         {
             // We stop if either:
             // - the user has stopped the calculation
@@ -724,11 +654,11 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
 
             if (_hasBeenStopped)
             {
-                _iterator.Cancel();
+                iterator.Cancel();
                 return true;
             }
 
-            var status = _iterator.DetermineStatus(iterationNumber, result, source, residuals);
+            var status = iterator.DetermineStatus(iterationNumber, result, source, residuals);
             return status == IterationStatus.Running || status == IterationStatus.Indetermined;
         }
 
@@ -739,20 +669,10 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
         /// <param name="matrix">The coefficient matrix, <c>A</c>.</param>
         /// <param name="input">The solution matrix, <c>B</c>.</param>
         /// <returns>The result matrix, <c>X</c>.</returns>
-        public Matrix<double> Solve(Matrix<double> matrix, Matrix<double> input)
+        public Matrix<double> Solve(Matrix<double> matrix, Matrix<double> input, Iterator<double> iterator = null)
         {
-            if (matrix == null)
-            {
-                throw new ArgumentNullException("matrix");
-            }
-
-            if (input == null)
-            {
-                throw new ArgumentNullException("input");
-            }
-
             var result = matrix.CreateMatrix(input.RowCount, input.ColumnCount);
-            Solve(matrix, input, result);
+            Solve(matrix, input, result, iterator);
             return result;
         }
 
@@ -763,31 +683,21 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
         /// <param name="matrix">The coefficient matrix, <c>A</c>.</param>
         /// <param name="input">The solution matrix, <c>B</c>.</param>
         /// <param name="result">The result matrix, <c>X</c></param>
-        public void Solve(Matrix<double> matrix, Matrix<double> input, Matrix<double> result)
+        public void Solve(Matrix<double> matrix, Matrix<double> input, Matrix<double> result, Iterator<double> iterator = null)
         {
-            if (matrix == null)
-            {
-                throw new ArgumentNullException("matrix");
-            }
-
-            if (input == null)
-            {
-                throw new ArgumentNullException("input");
-            }
-
-            if (result == null)
-            {
-                throw new ArgumentNullException("result");
-            }
-
             if (matrix.RowCount != input.RowCount || input.RowCount != result.RowCount || input.ColumnCount != result.ColumnCount)
             {
                 throw Matrix.DimensionsDontMatch<ArgumentException>(matrix, input, result);
             }
 
+            if (iterator == null)
+            {
+                iterator = new Iterator<double>(Iterator.CreateDefaultStopCriteria());
+            }
+
             for (var column = 0; column < input.ColumnCount; column++)
             {
-                var solution = Solve(matrix, input.Column(column));
+                var solution = Solve(matrix, input.Column(column), iterator);
                 foreach (var element in solution.EnumerateNonZeroIndexed())
                 {
                     result.At(element.Item1, column, element.Item2);

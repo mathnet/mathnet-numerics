@@ -101,10 +101,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.Iterativ
                     new DivergenceStopCriterium(),
                     new FailureStopCriterium()
                 });
-            var solver = new GpBiCg(monitor);
+            var solver = new GpBiCg();
 
             // Solve equation Ax = y
-            var x = solver.Solve(matrix, y);
+            var x = solver.Solve(matrix, y, monitor);
 
             // Now compare the results
             Assert.IsNotNull(x, "#02");
@@ -147,10 +147,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.Iterativ
                     new FailureStopCriterium()
                 });
 
-            var solver = new GpBiCg(monitor);
+            var solver = new GpBiCg();
 
             // Solve equation Ax = y
-            var x = solver.Solve(matrix, y);
+            var x = solver.Solve(matrix, y, monitor);
 
             // Now compare the results
             Assert.IsNotNull(x, "#02");
@@ -226,10 +226,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.Iterativ
                     new FailureStopCriterium()
                 });
 
-            var solver = new GpBiCg(monitor);
+            var solver = new GpBiCg();
 
             // Solve equation Ax = y
-            var x = solver.Solve(matrix, y);
+            var x = solver.Solve(matrix, y, monitor);
 
             // Now compare the results
             Assert.IsNotNull(x, "#02");
@@ -265,9 +265,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.Iterativ
                     new IterationCountStopCriterium<Complex>(1000),
                     new ResidualStopCriterium(1e-10),
                 });
-            var solver = new GpBiCg(monitor);
+            var solver = new GpBiCg();
 
-            var resultx = solver.Solve(matrixA, vectorb);
+            var resultx = solver.Solve(matrixA, vectorb, monitor);
             Assert.AreEqual(matrixA.ColumnCount, resultx.Count);
 
             var matrixBReconstruct = matrixA*resultx;
@@ -297,8 +297,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.Iterativ
                     new IterationCountStopCriterium<Complex>(1000),
                     new ResidualStopCriterium(1e-10),
                 });
-            var solver = new GpBiCg(monitor);
-            var matrixX = solver.Solve(matrixA, matrixB);
+            var solver = new GpBiCg();
+            var matrixX = solver.Solve(matrixA, matrixB, monitor);
 
             // The solution X row dimension is equal to the column dimension of A
             Assert.AreEqual(matrixA.ColumnCount, matrixX.RowCount);

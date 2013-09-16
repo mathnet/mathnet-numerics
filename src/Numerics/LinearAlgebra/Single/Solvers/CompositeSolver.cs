@@ -332,11 +332,6 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
         IterationStatus _status = IterationStatus.Indetermined;
 
         /// <summary>
-        /// The iterator that is used to control the iteration process.
-        /// </summary>
-        Iterator<float> _iterator;
-
-        /// <summary>
         /// A flag indicating if the solver has been stopped or not.
         /// </summary>
         bool _hasBeenStopped;
@@ -350,37 +345,8 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
         /// <summary>
         /// Initializes a new instance of the <see cref="CompositeSolver"/> class with the default iterator.
         /// </summary>
-        public CompositeSolver() : this(null)
+        public CompositeSolver()
         {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="CompositeSolver"/> class with the specified iterator.
-        /// </summary>
-        /// <param name="iterator">The iterator that will be used to control the iteration process. </param>
-        public CompositeSolver(Iterator<float> iterator)
-        {
-            _iterator = iterator;
-        }
-
-        /// <summary>
-        /// Sets the <see cref="Iterator{T}"/> that will be used to track the iterative process.
-        /// </summary>
-        /// <param name="iterator">The iterator.</param>
-        public void SetIterator(Iterator<float> iterator)
-        {
-            _iterator = iterator;
-        }
-
-        /// <summary>
-        /// Gets the status of the iteration once the calculation is finished.
-        /// </summary>
-        public IterationStatus IterationResult
-        {
-            get
-            {
-                return _status;
-            }
         }
 
         /// <summary>
@@ -406,10 +372,10 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
         /// <param name="matrix">The coefficient matrix, <c>A</c>.</param>
         /// <param name="vector">The solution vector, <c>b</c>.</param>
         /// <returns>The result vector, <c>x</c>.</returns>
-        public Vector<float> Solve(Matrix<float> matrix, Vector<float> vector)
+        public Vector<float> Solve(Matrix<float> matrix, Vector<float> vector, Iterator<float> iterator = null)
         {
             var result = new DenseVector(matrix.RowCount);
-            Solve(matrix, vector, result);
+            Solve(matrix, vector, result, iterator);
             return result;
         }
 
@@ -420,7 +386,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
         /// <param name="matrix">The coefficient matrix, <c>A</c>.</param>
         /// <param name="input">The solution vector, <c>b</c></param>
         /// <param name="result">The result vector, <c>x</c></param>
-        public void Solve(Matrix<float> matrix, Vector<float> input, Vector<float> result)
+        public void Solve(Matrix<float> matrix, Vector<float> input, Vector<float> result, Iterator<float> iterator = null)
         {
             // If we were stopped before, we are no longer
             // We're doing this at the start of the method to ensure
@@ -440,9 +406,9 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
 
             // Initialize the solver fields
             // Set the convergence monitor
-            if (_iterator == null)
+            if (iterator == null)
             {
-                _iterator = Iterator.CreateDefault();
+                iterator = new Iterator<float>(Iterator.CreateDefaultStopCriteria());
             }
 
             // Load the solvers into our own internal data structure
@@ -465,11 +431,11 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
                 try
                 {
                     // Reset the iterator and pass it to the solver
-                    _iterator.Reset();
-                    solver.SetIterator(_iterator);
+                    iterator.Reset();
 
                     // Start the solver
-                    solver.Solve(matrix, internalInput, internalResult);
+                    solver.Solve(matrix, internalInput, internalResult, iterator);
+                    _status = iterator.Status;
                 }
                 catch (Exception)
                 {
@@ -483,7 +449,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
                 }
 
                 // There was no fatal breakdown so check the status
-                if (_iterator.HasConverged)
+                if (_status == IterationStatus.Converged)
                 {
                     // We're done
                     internalResult.CopyTo(result);
@@ -493,7 +459,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
                 // We're not done
                 // Either:
                 // - calculation finished without convergence
-                if (_iterator.HasStoppedWithoutConvergence)
+                if (_status == IterationStatus.StoppedWithoutConvergence)
                 {
                     // Copy the internal result to the result vector and
                     // continue with the calculation.
@@ -514,9 +480,6 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
             // Clean up
             // No longer need the current solver
             _currentSolver = null;
-
-            // Set the final status
-            _status = _iterator.Status;
         }
 
         /// <summary>
@@ -546,10 +509,10 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
         /// <param name="matrix">The coefficient matrix, <c>A</c>.</param>
         /// <param name="input">The solution matrix, <c>B</c>.</param>
         /// <returns>The result matrix, <c>X</c>.</returns>
-        public Matrix<float> Solve(Matrix<float> matrix, Matrix<float> input)
+        public Matrix<float> Solve(Matrix<float> matrix, Matrix<float> input, Iterator<float> iterator = null)
         {
             var result = matrix.CreateMatrix(input.RowCount, input.ColumnCount);
-            Solve(matrix, input, result);
+            Solve(matrix, input, result, iterator);
             return result;
         }
 
@@ -560,16 +523,21 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
         /// <param name="matrix">The coefficient matrix, <c>A</c>.</param>
         /// <param name="input">The solution matrix, <c>B</c>.</param>
         /// <param name="result">The result matrix, <c>X</c></param>
-        public void Solve(Matrix<float> matrix, Matrix<float> input, Matrix<float> result)
+        public void Solve(Matrix<float> matrix, Matrix<float> input, Matrix<float> result, Iterator<float> iterator = null)
         {
             if (matrix.RowCount != input.RowCount || input.RowCount != result.RowCount || input.ColumnCount != result.ColumnCount)
             {
                 throw Matrix.DimensionsDontMatch<ArgumentException>(matrix, input, result);
             }
 
+            if (iterator == null)
+            {
+                iterator = new Iterator<float>(Iterator.CreateDefaultStopCriteria());
+            }
+
             for (var column = 0; column < input.ColumnCount; column++)
             {
-                var solution = Solve(matrix, input.Column(column));
+                var solution = Solve(matrix, input.Column(column), iterator);
                 foreach (var element in solution.EnumerateNonZeroIndexed())
                 {
                     result.At(element.Item1, column, element.Item2);
