@@ -54,44 +54,44 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
     public sealed class TFQMR : IIterativeSolver<double>
     {
         /// <summary>
-        /// Indicates if the user has stopped the solver.
+        /// Calculates the <c>true</c> residual of the matrix equation Ax = b according to: residual = b - Ax
         /// </summary>
-        bool _hasBeenStopped;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="TFQMR"/> class.
-        /// </summary>
-        /// <remarks>
-        /// When using this constructor the solver will use the <see cref="Iterator{T}"/> with
-        /// the standard settings and a default preconditioner.
-        /// </remarks>
-        public TFQMR()
+        /// <param name="matrix">Instance of the <see cref="Matrix"/> A.</param>
+        /// <param name="residual">Residual values in <see cref="Vector"/>.</param>
+        /// <param name="x">Instance of the <see cref="Vector"/> x.</param>
+        /// <param name="b">Instance of the <see cref="Vector"/> b.</param>
+        static void CalculateTrueResidual(Matrix<double> matrix, Vector<double> residual, Vector<double> x, Vector<double> b)
         {
+            // -Ax = residual
+            matrix.Multiply(x, residual);
+            residual.Multiply(-1, residual);
+
+            // residual + b
+            residual.Add(b, residual);
         }
 
         /// <summary>
-        /// Stops the solve process. 
+        /// Determine if calculation should continue
         /// </summary>
-        /// <remarks>
-        /// Note that it may take an indetermined amount of time for the solver to actually stop the process.
-        /// </remarks>
-        public void StopSolve()
+        /// <param name="iterationNumber">Number of iterations passed</param>
+        /// <param name="result">Result <see cref="Vector"/>.</param>
+        /// <param name="source">Source <see cref="Vector"/>.</param>
+        /// <param name="residuals">Residual <see cref="Vector"/>.</param>
+        /// <returns><c>true</c> if continue, otherwise <c>false</c></returns>
+        static bool ShouldContinue(Iterator<double> iterator, int iterationNumber, Vector<double> result, Vector<double> source, Vector<double> residuals)
         {
-            _hasBeenStopped = true;
+            var status = iterator.DetermineStatus(iterationNumber, result, source, residuals);
+            return status == IterationStatus.Running || status == IterationStatus.Indetermined;
         }
 
         /// <summary>
-        /// Solves the matrix equation Ax = b, where A is the coefficient matrix, b is the
-        /// solution vector and x is the unknown vector.
+        /// Is <paramref name="number"/> even?
         /// </summary>
-        /// <param name="matrix">The coefficient matrix, <c>A</c>.</param>
-        /// <param name="vector">The solution vector, <c>b</c>.</param>
-        /// <returns>The result vector, <c>x</c>.</returns>
-        public Vector<double> Solve(Matrix<double> matrix, Vector<double> vector, Iterator<double> iterator = null, IPreconditioner<double> preconditioner = null)
+        /// <param name="number">Number to check</param>
+        /// <returns><c>true</c> if <paramref name="number"/> even, otherwise <c>false</c></returns>
+        static bool IsEven(int number)
         {
-            var result = new DenseVector(matrix.RowCount);
-            Solve(matrix, vector, result, iterator, preconditioner);
-            return result;
+            return number % 2 == 0;
         }
 
         /// <summary>
@@ -103,30 +103,9 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
         /// <param name="result">The result vector, <c>x</c></param>
         public void Solve(Matrix<double> matrix, Vector<double> input, Vector<double> result, Iterator<double> iterator = null, IPreconditioner<double> preconditioner = null)
         {
-            // If we were stopped before, we are no longer
-            // We're doing this at the start of the method to ensure
-            // that we can use these fields immediately.
-            _hasBeenStopped = false;
-
-            // Error checks
-            if (matrix == null)
-            {
-                throw new ArgumentNullException("matrix");
-            }
-
             if (matrix.RowCount != matrix.ColumnCount)
             {
                 throw new ArgumentException(Resources.ArgumentMatrixSquare, "matrix");
-            }
-
-            if (input == null)
-            {
-                throw new ArgumentNullException("input");
-            }
-
-            if (result == null)
-            {
-                throw new ArgumentNullException("result");
             }
 
             if (result.Count != input.Count)
@@ -311,71 +290,6 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
         }
 
         /// <summary>
-        /// Calculates the <c>true</c> residual of the matrix equation Ax = b according to: residual = b - Ax
-        /// </summary>
-        /// <param name="matrix">Instance of the <see cref="Matrix"/> A.</param>
-        /// <param name="residual">Residual values in <see cref="Vector"/>.</param>
-        /// <param name="x">Instance of the <see cref="Vector"/> x.</param>
-        /// <param name="b">Instance of the <see cref="Vector"/> b.</param>
-        static void CalculateTrueResidual(Matrix<double> matrix, Vector<double> residual, Vector<double> x, Vector<double> b)
-        {
-            // -Ax = residual
-            matrix.Multiply(x, residual);
-            residual.Multiply(-1, residual);
-
-            // residual + b
-            residual.Add(b, residual);
-        }
-
-        /// <summary>
-        /// Determine if calculation should continue
-        /// </summary>
-        /// <param name="iterationNumber">Number of iterations passed</param>
-        /// <param name="result">Result <see cref="Vector"/>.</param>
-        /// <param name="source">Source <see cref="Vector"/>.</param>
-        /// <param name="residuals">Residual <see cref="Vector"/>.</param>
-        /// <returns><c>true</c> if continue, otherwise <c>false</c></returns>
-        bool ShouldContinue(Iterator<double> iterator, int iterationNumber, Vector<double> result, Vector<double> source, Vector<double> residuals)
-        {
-            // We stop if either:
-            // - the user has stopped the calculation
-            // - the calculation needs to be stopped from a numerical point of view (divergence, convergence etc.)
-
-            if (_hasBeenStopped)
-            {
-                iterator.Cancel();
-                return true;
-            }
-
-            var status = iterator.DetermineStatus(iterationNumber, result, source, residuals);
-            return status == IterationStatus.Running || status == IterationStatus.Indetermined;
-        }
-
-        /// <summary>
-        /// Is <paramref name="number"/> even?
-        /// </summary>
-        /// <param name="number">Number to check</param>
-        /// <returns><c>true</c> if <paramref name="number"/> even, otherwise <c>false</c></returns>
-        static bool IsEven(int number)
-        {
-            return number%2 == 0;
-        }
-
-        /// <summary>
-        /// Solves the matrix equation AX = B, where A is the coefficient matrix, B is the
-        /// solution matrix and X is the unknown matrix.
-        /// </summary>
-        /// <param name="matrix">The coefficient matrix, <c>A</c>.</param>
-        /// <param name="input">The solution matrix, <c>B</c>.</param>
-        /// <returns>The result matrix, <c>X</c>.</returns>
-        public Matrix<double> Solve(Matrix<double> matrix, Matrix<double> input, Iterator<double> iterator = null, IPreconditioner<double> preconditioner = null)
-        {
-            var result = matrix.CreateMatrix(input.RowCount, input.ColumnCount);
-            Solve(matrix, input, result, iterator, preconditioner);
-            return result;
-        }
-
-        /// <summary>
         /// Solves the matrix equation AX = B, where A is the coefficient matrix, B is the
         /// solution matrix and X is the unknown matrix.
         /// </summary>
@@ -407,6 +321,34 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
                     result.At(element.Item1, column, element.Item2);
                 }
             }
+        }
+
+        /// <summary>
+        /// Solves the matrix equation Ax = b, where A is the coefficient matrix, b is the
+        /// solution vector and x is the unknown vector.
+        /// </summary>
+        /// <param name="matrix">The coefficient matrix, <c>A</c>.</param>
+        /// <param name="vector">The solution vector, <c>b</c>.</param>
+        /// <returns>The result vector, <c>x</c>.</returns>
+        public Vector<double> Solve(Matrix<double> matrix, Vector<double> vector, Iterator<double> iterator = null, IPreconditioner<double> preconditioner = null)
+        {
+            var result = new DenseVector(matrix.RowCount);
+            Solve(matrix, vector, result, iterator, preconditioner);
+            return result;
+        }
+
+        /// <summary>
+        /// Solves the matrix equation AX = B, where A is the coefficient matrix, B is the
+        /// solution matrix and X is the unknown matrix.
+        /// </summary>
+        /// <param name="matrix">The coefficient matrix, <c>A</c>.</param>
+        /// <param name="input">The solution matrix, <c>B</c>.</param>
+        /// <returns>The result matrix, <c>X</c>.</returns>
+        public Matrix<double> Solve(Matrix<double> matrix, Matrix<double> input, Iterator<double> iterator = null, IPreconditioner<double> preconditioner = null)
+        {
+            var result = matrix.CreateMatrix(input.RowCount, input.ColumnCount);
+            Solve(matrix, input, result, iterator, preconditioner);
+            return result;
         }
     }
 }

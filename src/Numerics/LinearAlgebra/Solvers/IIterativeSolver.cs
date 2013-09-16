@@ -39,14 +39,6 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
     public interface IIterativeSolver<T> where T : struct, IEquatable<T>, IFormattable
     {
         /// <summary>
-        /// Stops the solve process. 
-        /// </summary>
-        /// <remarks>
-        /// Note that it may take an indetermined amount of time for the solver to actually stop the process.
-        /// </remarks>
-        void StopSolve();
-
-        /// <summary>
         /// Solves the matrix equation Ax = b, where A is the coefficient matrix, b is the
         /// solution vector and x is the unknown vector.
         /// </summary>

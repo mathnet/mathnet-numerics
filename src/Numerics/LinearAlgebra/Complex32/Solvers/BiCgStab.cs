@@ -67,44 +67,36 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers
     public sealed class BiCgStab : IIterativeSolver<Numerics.Complex32>
     {
         /// <summary>
-        /// Indicates if the user has stopped the solver.
+        /// Calculates the <c>true</c> residual of the matrix equation Ax = b according to: residual = b - Ax
         /// </summary>
-        bool _hasBeenStopped;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="BiCgStab"/> class.
-        /// </summary>
-        /// <remarks>
-        /// When using this constructor the solver will use the <see cref="Iterator{T}"/> with
-        /// the standard settings and a default preconditioner.
-        /// </remarks>
-        public BiCgStab()
+        /// <param name="matrix">Instance of the <see cref="Matrix"/> A.</param>
+        /// <param name="residual">Residual values in <see cref="Vector"/>.</param>
+        /// <param name="x">Instance of the <see cref="Vector"/> x.</param>
+        /// <param name="b">Instance of the <see cref="Vector"/> b.</param>
+        static void CalculateTrueResidual(Matrix<Numerics.Complex32> matrix, Vector<Numerics.Complex32> residual, Vector<Numerics.Complex32> x, Vector<Numerics.Complex32> b)
         {
+            // -Ax = residual
+            matrix.Multiply(x, residual);
+
+            // Do not use residual = residual.Negate() because it creates another object
+            residual.Multiply(-1, residual);
+
+            // residual + b
+            residual.Add(b, residual);
         }
 
         /// <summary>
-        /// Stops the solve process. 
+        /// Determine if calculation should continue
         /// </summary>
-        /// <remarks>
-        /// Note that it may take an indetermined amount of time for the solver to actually stop the process.
-        /// </remarks>
-        public void StopSolve()
+        /// <param name="iterationNumber">Number of iterations passed</param>
+        /// <param name="result">Result <see cref="Vector"/>.</param>
+        /// <param name="source">Source <see cref="Vector"/>.</param>
+        /// <param name="residuals">Residual <see cref="Vector"/>.</param>
+        /// <returns><c>true</c> if continue, otherwise <c>false</c></returns>
+        static bool ShouldContinue(Iterator<Numerics.Complex32> iterator, int iterationNumber, Vector<Numerics.Complex32> result, Vector<Numerics.Complex32> source, Vector<Numerics.Complex32> residuals)
         {
-            _hasBeenStopped = true;
-        }
-
-        /// <summary>
-        /// Solves the matrix equation Ax = b, where A is the coefficient matrix, b is the
-        /// solution vector and x is the unknown vector.
-        /// </summary>
-        /// <param name="matrix">The coefficient <see cref="Matrix"/>, <c>A</c>.</param>
-        /// <param name="vector">The solution <see cref="Vector"/>, <c>b</c>.</param>
-        /// <returns>The result <see cref="Vector"/>, <c>x</c>.</returns>
-        public Vector<Numerics.Complex32> Solve(Matrix<Numerics.Complex32> matrix, Vector<Numerics.Complex32> vector, Iterator<Numerics.Complex32> iterator = null, IPreconditioner<Numerics.Complex32> preconditioner = null)
-        {
-            var result = new DenseVector(matrix.RowCount);
-            Solve(matrix, vector, result, iterator, preconditioner);
-            return result;
+            var status = iterator.DetermineStatus(iterationNumber, result, source, residuals);
+            return status == IterationStatus.Running || status == IterationStatus.Indetermined;
         }
 
         /// <summary>
@@ -116,30 +108,9 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers
         /// <param name="result">The result <see cref="Vector"/>, <c>x</c>.</param>
         public void Solve(Matrix<Numerics.Complex32> matrix, Vector<Numerics.Complex32> input, Vector<Numerics.Complex32> result, Iterator<Numerics.Complex32> iterator = null, IPreconditioner<Numerics.Complex32> preconditioner = null)
         {
-            // If we were stopped before, we are no longer
-            // We're doing this at the start of the method to ensure
-            // that we can use these fields immediately.
-            _hasBeenStopped = false;
-
-            // Parameters checks
-            if (matrix == null)
-            {
-                throw new ArgumentNullException("matrix");
-            }
-
             if (matrix.RowCount != matrix.ColumnCount)
             {
                 throw new ArgumentException(Resources.ArgumentMatrixSquare, "matrix");
-            }
-
-            if (input == null)
-            {
-                throw new ArgumentNullException("input");
-            }
-
-            if (result == null)
-            {
-                throw new ArgumentNullException("result");
             }
 
             if (result.Count != input.Count)
@@ -316,63 +287,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers
         }
 
         /// <summary>
-        /// Calculates the <c>true</c> residual of the matrix equation Ax = b according to: residual = b - Ax
-        /// </summary>
-        /// <param name="matrix">Instance of the <see cref="Matrix"/> A.</param>
-        /// <param name="residual">Residual values in <see cref="Vector"/>.</param>
-        /// <param name="x">Instance of the <see cref="Vector"/> x.</param>
-        /// <param name="b">Instance of the <see cref="Vector"/> b.</param>
-        static void CalculateTrueResidual(Matrix<Numerics.Complex32> matrix, Vector<Numerics.Complex32> residual, Vector<Numerics.Complex32> x, Vector<Numerics.Complex32> b)
-        {
-            // -Ax = residual
-            matrix.Multiply(x, residual);
-
-            // Do not use residual = residual.Negate() because it creates another object
-            residual.Multiply(-1, residual);
-
-            // residual + b
-            residual.Add(b, residual);
-        }
-
-        /// <summary>
-        /// Determine if calculation should continue
-        /// </summary>
-        /// <param name="iterationNumber">Number of iterations passed</param>
-        /// <param name="result">Result <see cref="Vector"/>.</param>
-        /// <param name="source">Source <see cref="Vector"/>.</param>
-        /// <param name="residuals">Residual <see cref="Vector"/>.</param>
-        /// <returns><c>true</c> if continue, otherwise <c>false</c></returns>
-        bool ShouldContinue(Iterator<Numerics.Complex32> iterator, int iterationNumber, Vector<Numerics.Complex32> result, Vector<Numerics.Complex32> source, Vector<Numerics.Complex32> residuals)
-        {
-            // We stop if either:
-            // - the user has stopped the calculation
-            // - the calculation needs to be stopped from a numerical point of view (divergence, convergence etc.)
-
-            if (_hasBeenStopped)
-            {
-                iterator.Cancel();
-                return true;
-            }
-
-            var status = iterator.DetermineStatus(iterationNumber, result, source, residuals);
-            return status == IterationStatus.Running || status == IterationStatus.Indetermined;
-        }
-
-        /// <summary>
-        /// Solves the matrix equation AX = B, where A is the coefficient matrix, B is the
-        /// solution matrix and X is the unknown matrix.
-        /// </summary>
-        /// <param name="matrix">The coefficient <see cref="Matrix"/>, <c>A</c>.</param>
-        /// <param name="input">The solution <see cref="Matrix"/>, <c>B</c>.</param>
-        /// <returns>The result <see cref="Matrix"/>, <c>X</c>.</returns>
-        public Matrix<Numerics.Complex32> Solve(Matrix<Numerics.Complex32> matrix, Matrix<Numerics.Complex32> input, Iterator<Numerics.Complex32> iterator = null, IPreconditioner<Numerics.Complex32> preconditioner = null)
-        {
-            var result = matrix.CreateMatrix(input.RowCount, input.ColumnCount);
-            Solve(matrix, input, result, iterator, preconditioner);
-            return result;
-        }
-
-        /// <summary>
         /// Solves the matrix equation AX = B, where A is the coefficient matrix, B is the
         /// solution matrix and X is the unknown matrix.
         /// </summary>
@@ -404,6 +318,34 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers
                     result.At(element.Item1, column, element.Item2);
                 }
             }
+        }
+
+        /// <summary>
+        /// Solves the matrix equation Ax = b, where A is the coefficient matrix, b is the
+        /// solution vector and x is the unknown vector.
+        /// </summary>
+        /// <param name="matrix">The coefficient <see cref="Matrix"/>, <c>A</c>.</param>
+        /// <param name="vector">The solution <see cref="Vector"/>, <c>b</c>.</param>
+        /// <returns>The result <see cref="Vector"/>, <c>x</c>.</returns>
+        public Vector<Numerics.Complex32> Solve(Matrix<Numerics.Complex32> matrix, Vector<Numerics.Complex32> vector, Iterator<Numerics.Complex32> iterator = null, IPreconditioner<Numerics.Complex32> preconditioner = null)
+        {
+            var result = new DenseVector(matrix.RowCount);
+            Solve(matrix, vector, result, iterator, preconditioner);
+            return result;
+        }
+
+        /// <summary>
+        /// Solves the matrix equation AX = B, where A is the coefficient matrix, B is the
+        /// solution matrix and X is the unknown matrix.
+        /// </summary>
+        /// <param name="matrix">The coefficient <see cref="Matrix"/>, <c>A</c>.</param>
+        /// <param name="input">The solution <see cref="Matrix"/>, <c>B</c>.</param>
+        /// <returns>The result <see cref="Matrix"/>, <c>X</c>.</returns>
+        public Matrix<Numerics.Complex32> Solve(Matrix<Numerics.Complex32> matrix, Matrix<Numerics.Complex32> input, Iterator<Numerics.Complex32> iterator = null, IPreconditioner<Numerics.Complex32> preconditioner = null)
+        {
+            var result = matrix.CreateMatrix(input.RowCount, input.ColumnCount);
+            Solve(matrix, input, result, iterator, preconditioner);
+            return result;
         }
     }
 }

@@ -33,7 +33,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using MathNet.Numerics.Distributions;
-using MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Preconditioners;
 using MathNet.Numerics.LinearAlgebra.Solvers;
 using MathNet.Numerics.Properties;
 
@@ -78,22 +77,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers
         /// The number of starting vectors used by the algorithm
         /// </summary>
         int _numberOfStartingVectors = DefaultNumberOfStartingVectors;
-
-        /// <summary>
-        /// Indicates if the user has stopped the solver.
-        /// </summary>
-        bool _hasBeenStopped;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="MlkBiCgStab"/> class.
-        /// </summary>
-        /// <remarks>
-        /// When using this constructor the solver will use the <see cref="Iterator{T}"/> with
-        /// the standard settings and a default preconditioner.
-        /// </remarks>
-        public MlkBiCgStab()
-        {
-        }
 
         /// <summary>
         /// Gets or sets the number of starting vectors.
@@ -151,28 +134,117 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers
         }
 
         /// <summary>
-        /// Stops the solve process. 
+        /// Gets the number of starting vectors to create
         /// </summary>
-        /// <remarks>
-        /// Note that it may take an indetermined amount of time for the solver to actually stop the process.
-        /// </remarks>
-        public void StopSolve()
+        /// <param name="maximumNumberOfStartingVectors">Maximum number</param>
+        /// <param name="numberOfVariables">Number of variables</param>
+        /// <returns>Number of starting vectors to create</returns>
+        static int NumberOfStartingVectorsToCreate(int maximumNumberOfStartingVectors, int numberOfVariables)
         {
-            _hasBeenStopped = true;
+            // Create no more starting vectors than the size of the problem - 1
+            return Math.Min(maximumNumberOfStartingVectors, (numberOfVariables - 1));
         }
 
         /// <summary>
-        /// Solves the matrix equation Ax = b, where A is the coefficient matrix, b is the
-        /// solution vector and x is the unknown vector.
+        /// Returns an array of starting vectors.
         /// </summary>
-        /// <param name="matrix">The coefficient matrix, <c>A</c>.</param>
-        /// <param name="vector">The solution vector, <c>b</c>.</param>
-        /// <returns>The result vector, <c>x</c>.</returns>
-        public Vector<Numerics.Complex32> Solve(Matrix<Numerics.Complex32> matrix, Vector<Numerics.Complex32> vector, Iterator<Numerics.Complex32> iterator = null, IPreconditioner<Numerics.Complex32> preconditioner = null)
+        /// <param name="maximumNumberOfStartingVectors">The maximum number of starting vectors that should be created.</param>
+        /// <param name="numberOfVariables">The number of variables.</param>
+        /// <returns>
+        ///  An array with starting vectors. The array will never be larger than the
+        ///  <paramref name="maximumNumberOfStartingVectors"/> but it may be smaller if
+        ///  the <paramref name="numberOfVariables"/> is smaller than 
+        ///  the <paramref name="maximumNumberOfStartingVectors"/>.
+        /// </returns>
+        static IList<Vector<Numerics.Complex32>> CreateStartingVectors(int maximumNumberOfStartingVectors, int numberOfVariables)
         {
-            var result = new DenseVector(matrix.RowCount);
-            Solve(matrix, vector, result, iterator, preconditioner);
+            // Create no more starting vectors than the size of the problem - 1
+            // Get random values and then orthogonalize them with
+            // modified Gramm - Schmidt
+            var count = NumberOfStartingVectorsToCreate(maximumNumberOfStartingVectors, numberOfVariables);
+
+            // Get a random set of samples based on the standard normal distribution with
+            // mean = 0 and sd = 1
+            var distribution = new Normal();
+
+            var matrix = new DenseMatrix(numberOfVariables, count);
+            for (var i = 0; i < matrix.ColumnCount; i++)
+            {
+                var samples = new Numerics.Complex32[matrix.RowCount];
+                var samplesRe = distribution.Samples().Take(matrix.RowCount).ToArray();
+                var samplesIm = distribution.Samples().Take(matrix.RowCount).ToArray();
+                for (int j = 0; j < matrix.RowCount; j++)
+                {
+                    samples[j] = new Numerics.Complex32((float)samplesRe[j], (float)samplesIm[j]);
+                }
+
+                // Set the column
+                matrix.SetColumn(i, samples);
+            }
+
+            // Compute the orthogonalization.
+            var gs = matrix.GramSchmidt();
+            var orthogonalMatrix = gs.Q;
+
+            // Now transfer this to vectors
+            var result = new List<Vector<Numerics.Complex32>>();
+            for (var i = 0; i < orthogonalMatrix.ColumnCount; i++)
+            {
+                result.Add(orthogonalMatrix.Column(i));
+
+                // Normalize the result vector
+                result[i].Multiply(1 / result[i].L2Norm().Real, result[i]);
+            }
+
             return result;
+        }
+
+        /// <summary>
+        /// Create random vectors array
+        /// </summary>
+        /// <param name="arraySize">Number of vectors</param>
+        /// <param name="vectorSize">Size of each vector</param>
+        /// <returns>Array of random vectors</returns>
+        static Vector<Numerics.Complex32>[] CreateVectorArray(int arraySize, int vectorSize)
+        {
+            var result = new Vector<Numerics.Complex32>[arraySize];
+            for (var i = 0; i < result.Length; i++)
+            {
+                result[i] = new DenseVector(vectorSize);
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Calculates the <c>true</c> residual of the matrix equation Ax = b according to: residual = b - Ax
+        /// </summary>
+        /// <param name="matrix">Source <see cref="Matrix"/>A.</param>
+        /// <param name="residual">Residual <see cref="Vector"/> data.</param>
+        /// <param name="x">x <see cref="Vector"/> data.</param>
+        /// <param name="b">b <see cref="Vector"/> data.</param>
+        static void CalculateTrueResidual(Matrix<Numerics.Complex32> matrix, Vector<Numerics.Complex32> residual, Vector<Numerics.Complex32> x, Vector<Numerics.Complex32> b)
+        {
+            // -Ax = residual
+            matrix.Multiply(x, residual);
+            residual.Multiply(-1, residual);
+
+            // residual + b
+            residual.Add(b, residual);
+        }
+
+        /// <summary>
+        /// Determine if calculation should continue
+        /// </summary>
+        /// <param name="iterationNumber">Number of iterations passed</param>
+        /// <param name="result">Result <see cref="Vector"/>.</param>
+        /// <param name="source">Source <see cref="Vector"/>.</param>
+        /// <param name="residuals">Residual <see cref="Vector"/>.</param>
+        /// <returns><c>true</c> if continue, otherwise <c>false</c></returns>
+        static bool ShouldContinue(Iterator<Numerics.Complex32> iterator, int iterationNumber, Vector<Numerics.Complex32> result, Vector<Numerics.Complex32> source, Vector<Numerics.Complex32> residuals)
+        {
+            var status = iterator.DetermineStatus(iterationNumber, result, source, residuals);
+            return status == IterationStatus.Running || status == IterationStatus.Indetermined;
         }
 
         /// <summary>
@@ -184,30 +256,9 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers
         /// <param name="result">The result vector, <c>x</c></param>
         public void Solve(Matrix<Numerics.Complex32> matrix, Vector<Numerics.Complex32> input, Vector<Numerics.Complex32> result, Iterator<Numerics.Complex32> iterator = null, IPreconditioner<Numerics.Complex32> preconditioner = null)
         {
-            // If we were stopped before, we are no longer
-            // We're doing this at the start of the method to ensure
-            // that we can use these fields immediately.
-            _hasBeenStopped = false;
-
-            // Error checks
-            if (matrix == null)
-            {
-                throw new ArgumentNullException("matrix");
-            }
-
             if (matrix.RowCount != matrix.ColumnCount)
             {
                 throw new ArgumentException(Resources.ArgumentMatrixSquare, "matrix");
-            }
-
-            if (input == null)
-            {
-                throw new ArgumentNullException("input");
-            }
-
-            if (result == null)
-            {
-                throw new ArgumentNullException("result");
             }
 
             if (result.Count != input.Count)
@@ -504,144 +555,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers
         }
 
         /// <summary>
-        /// Gets the number of starting vectors to create
-        /// </summary>
-        /// <param name="maximumNumberOfStartingVectors">Maximum number</param>
-        /// <param name="numberOfVariables">Number of variables</param>
-        /// <returns>Number of starting vectors to create</returns>
-        static int NumberOfStartingVectorsToCreate(int maximumNumberOfStartingVectors, int numberOfVariables)
-        {
-            // Create no more starting vectors than the size of the problem - 1
-            return Math.Min(maximumNumberOfStartingVectors, (numberOfVariables - 1));
-        }
-
-        /// <summary>
-        /// Returns an array of starting vectors.
-        /// </summary>
-        /// <param name="maximumNumberOfStartingVectors">The maximum number of starting vectors that should be created.</param>
-        /// <param name="numberOfVariables">The number of variables.</param>
-        /// <returns>
-        ///  An array with starting vectors. The array will never be larger than the
-        ///  <paramref name="maximumNumberOfStartingVectors"/> but it may be smaller if
-        ///  the <paramref name="numberOfVariables"/> is smaller than 
-        ///  the <paramref name="maximumNumberOfStartingVectors"/>.
-        /// </returns>
-        static IList<Vector<Numerics.Complex32>> CreateStartingVectors(int maximumNumberOfStartingVectors, int numberOfVariables)
-        {
-            // Create no more starting vectors than the size of the problem - 1
-            // Get random values and then orthogonalize them with
-            // modified Gramm - Schmidt
-            var count = NumberOfStartingVectorsToCreate(maximumNumberOfStartingVectors, numberOfVariables);
-
-            // Get a random set of samples based on the standard normal distribution with
-            // mean = 0 and sd = 1
-            var distribution = new Normal();
-
-            var matrix = new DenseMatrix(numberOfVariables, count);
-            for (var i = 0; i < matrix.ColumnCount; i++)
-            {
-                var samples = new Numerics.Complex32[matrix.RowCount];
-                var samplesRe = distribution.Samples().Take(matrix.RowCount).ToArray();
-                var samplesIm = distribution.Samples().Take(matrix.RowCount).ToArray();
-                for (int j = 0; j < matrix.RowCount; j++)
-                {
-                    samples[j] = new Numerics.Complex32((float) samplesRe[j], (float) samplesIm[j]);
-                }
-
-                // Set the column
-                matrix.SetColumn(i, samples);
-            }
-
-            // Compute the orthogonalization.
-            var gs = matrix.GramSchmidt();
-            var orthogonalMatrix = gs.Q;
-
-            // Now transfer this to vectors
-            var result = new List<Vector<Numerics.Complex32>>();
-            for (var i = 0; i < orthogonalMatrix.ColumnCount; i++)
-            {
-                result.Add(orthogonalMatrix.Column(i));
-
-                // Normalize the result vector
-                result[i].Multiply(1/result[i].L2Norm().Real, result[i]);
-            }
-
-            return result;
-        }
-
-        /// <summary>
-        /// Create random vectors array
-        /// </summary>
-        /// <param name="arraySize">Number of vectors</param>
-        /// <param name="vectorSize">Size of each vector</param>
-        /// <returns>Array of random vectors</returns>
-        static Vector<Numerics.Complex32>[] CreateVectorArray(int arraySize, int vectorSize)
-        {
-            var result = new Vector<Numerics.Complex32>[arraySize];
-            for (var i = 0; i < result.Length; i++)
-            {
-                result[i] = new DenseVector(vectorSize);
-            }
-
-            return result;
-        }
-
-        /// <summary>
-        /// Calculates the <c>true</c> residual of the matrix equation Ax = b according to: residual = b - Ax
-        /// </summary>
-        /// <param name="matrix">Source <see cref="Matrix"/>A.</param>
-        /// <param name="residual">Residual <see cref="Vector"/> data.</param>
-        /// <param name="x">x <see cref="Vector"/> data.</param>
-        /// <param name="b">b <see cref="Vector"/> data.</param>
-        static void CalculateTrueResidual(Matrix<Numerics.Complex32> matrix, Vector<Numerics.Complex32> residual, Vector<Numerics.Complex32> x, Vector<Numerics.Complex32> b)
-        {
-            // -Ax = residual
-            matrix.Multiply(x, residual);
-            residual.Multiply(-1, residual);
-
-            // residual + b
-            residual.Add(b, residual);
-        }
-
-        /// <summary>
-        /// Determine if calculation should continue
-        /// </summary>
-        /// <param name="iterationNumber">Number of iterations passed</param>
-        /// <param name="result">Result <see cref="Vector"/>.</param>
-        /// <param name="source">Source <see cref="Vector"/>.</param>
-        /// <param name="residuals">Residual <see cref="Vector"/>.</param>
-        /// <returns><c>true</c> if continue, otherwise <c>false</c></returns>
-        bool ShouldContinue(Iterator<Numerics.Complex32> iterator, int iterationNumber, Vector<Numerics.Complex32> result, Vector<Numerics.Complex32> source, Vector<Numerics.Complex32> residuals)
-        {
-            // We stop if either:
-            // - the user has stopped the calculation
-            // - the calculation needs to be stopped from a numerical point of view (divergence, convergence etc.)
-
-            if (_hasBeenStopped)
-            {
-                iterator.Cancel();
-                return true;
-            }
-
-            var status = iterator.DetermineStatus(iterationNumber, result, source, residuals);
-            return status == IterationStatus.Running || status == IterationStatus.Indetermined;
-        }
-
-        /// <summary>
-        /// Solves the matrix equation AX = B, where A is the coefficient matrix, B is the
-        /// solution matrix and X is the unknown matrix.
-        /// </summary>
-        /// <param name="matrix">The coefficient matrix, <c>A</c>.</param>
-        /// <param name="input">The solution matrix, <c>B</c>.</param>
-        /// <returns>The result matrix, <c>X</c>.</returns>
-        public Matrix<Numerics.Complex32> Solve(Matrix<Numerics.Complex32> matrix, Matrix<Numerics.Complex32> input, Iterator<Numerics.Complex32> iterator = null, IPreconditioner<Numerics.Complex32> preconditioner = null)
-        {
-            var result = matrix.CreateMatrix(input.RowCount, input.ColumnCount);
-            Solve(matrix, input, result, iterator, preconditioner);
-            return result;
-        }
-
-        /// <summary>
         /// Solves the matrix equation AX = B, where A is the coefficient matrix, B is the
         /// solution matrix and X is the unknown matrix.
         /// </summary>
@@ -673,6 +586,34 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers
                     result.At(element.Item1, column, element.Item2);
                 }
             }
+        }
+
+        /// <summary>
+        /// Solves the matrix equation Ax = b, where A is the coefficient matrix, b is the
+        /// solution vector and x is the unknown vector.
+        /// </summary>
+        /// <param name="matrix">The coefficient matrix, <c>A</c>.</param>
+        /// <param name="vector">The solution vector, <c>b</c>.</param>
+        /// <returns>The result vector, <c>x</c>.</returns>
+        public Vector<Numerics.Complex32> Solve(Matrix<Numerics.Complex32> matrix, Vector<Numerics.Complex32> vector, Iterator<Numerics.Complex32> iterator = null, IPreconditioner<Numerics.Complex32> preconditioner = null)
+        {
+            var result = new DenseVector(matrix.RowCount);
+            Solve(matrix, vector, result, iterator, preconditioner);
+            return result;
+        }
+
+        /// <summary>
+        /// Solves the matrix equation AX = B, where A is the coefficient matrix, B is the
+        /// solution matrix and X is the unknown matrix.
+        /// </summary>
+        /// <param name="matrix">The coefficient matrix, <c>A</c>.</param>
+        /// <param name="input">The solution matrix, <c>B</c>.</param>
+        /// <returns>The result matrix, <c>X</c>.</returns>
+        public Matrix<Numerics.Complex32> Solve(Matrix<Numerics.Complex32> matrix, Matrix<Numerics.Complex32> input, Iterator<Numerics.Complex32> iterator = null, IPreconditioner<Numerics.Complex32> preconditioner = null)
+        {
+            var result = matrix.CreateMatrix(input.RowCount, input.ColumnCount);
+            Solve(matrix, input, result, iterator, preconditioner);
+            return result;
         }
     }
 }

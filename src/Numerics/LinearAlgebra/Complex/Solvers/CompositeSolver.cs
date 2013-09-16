@@ -65,55 +65,9 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
         /// </summary>
         readonly List<Tuple<IIterativeSolver<Complex>, IPreconditioner<Complex>>> _solvers;
 
-        /// <summary>
-        /// The status of the calculation.
-        /// </summary>
-        IterationStatus _status = IterationStatus.Indetermined;
-
-        /// <summary>
-        /// A flag indicating if the solver has been stopped or not.
-        /// </summary>
-        bool _hasBeenStopped;
-
-        /// <summary>
-        /// The solver that is currently running. Reference is used to be able to stop the
-        /// solver if the user cancels the solve process.
-        /// </summary>
-        IIterativeSolver<Complex> _currentSolver;
-
         public CompositeSolver(IEnumerable<IIterativeSolverSetup<Complex>> solvers)
         {
             _solvers = solvers.Select(setup => new Tuple<IIterativeSolver<Complex>, IPreconditioner<Complex>>(setup.CreateSolver(), setup.CreatePreconditioner() ?? new UnitPreconditioner<Complex>())).ToList();
-        }
-
-        /// <summary>
-        /// Stops the solve process. 
-        /// </summary>
-        /// <remarks>
-        /// Note that it may take an indetermined amount of time for the solver to actually stop the process.
-        /// </remarks>
-        public void StopSolve()
-        {
-            _hasBeenStopped = true;
-            var currentSolver = _currentSolver;
-            if (currentSolver != null)
-            {
-                currentSolver.StopSolve();
-            }
-        }
-
-        /// <summary>
-        /// Solves the matrix equation Ax = b, where A is the coefficient matrix, b is the
-        /// solution vector and x is the unknown vector.
-        /// </summary>
-        /// <param name="matrix">The coefficient matrix, <c>A</c>.</param>
-        /// <param name="vector">The solution vector, <c>b</c>.</param>
-        /// <returns>The result vector, <c>x</c>.</returns>
-        public Vector<Complex> Solve(Matrix<Complex> matrix, Vector<Complex> vector, Iterator<Complex> iterator = null, IPreconditioner<Complex> preconditioner = null)
-        {
-            var result = new DenseVector(matrix.RowCount);
-            Solve(matrix, vector, result, iterator, preconditioner);
-            return result;
         }
 
         /// <summary>
@@ -125,12 +79,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
         /// <param name="result">The result vector, <c>x</c></param>
         public void Solve(Matrix<Complex> matrix, Vector<Complex> input, Vector<Complex> result, Iterator<Complex> iterator = null, IPreconditioner<Complex> preconditioner = null)
         {
-            // If we were stopped before, we are no longer
-            // We're doing this at the start of the method to ensure
-            // that we can use these fields immediately.
-            _hasBeenStopped = false;
-            _currentSolver = null;
-
             if (matrix.RowCount != matrix.ColumnCount)
             {
                 throw new ArgumentException(Resources.ArgumentMatrixSquare, "matrix");
@@ -153,11 +101,11 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
             var internalInput = input.Clone();
             var internalResult = result.Clone();
 
-            foreach (var solver in _solvers.TakeWhile(solver => !_hasBeenStopped))
+            foreach (var solver in _solvers)
             {
                 // Store a reference to the solver so we can stop it.
-                _currentSolver = solver.Item1;
 
+                IterationStatus status;
                 try
                 {
                     // Reset the iterator and pass it to the solver
@@ -165,7 +113,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
 
                     // Start the solver
                     solver.Item1.Solve(matrix, internalInput, internalResult, iterator, solver.Item2);
-                    _status = iterator.Status;
+                    status = iterator.Status;
                 }
                 catch (Exception)
                 {
@@ -174,12 +122,11 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
                     // Switch to the next preconditioner. 
                     // Reset the solution vector to the previous solution
                     input.CopyTo(internalInput);
-                    _status = IterationStatus.Running;
                     continue;
                 }
 
                 // There was no fatal breakdown so check the status
-                if (_status == IterationStatus.Converged)
+                if (status == IterationStatus.Converged)
                 {
                     // We're done
                     internalResult.CopyTo(result);
@@ -189,7 +136,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
                 // We're not done
                 // Either:
                 // - calculation finished without convergence
-                if (_status == IterationStatus.StoppedWithoutConvergence)
+                if (status == IterationStatus.StoppedWithoutConvergence)
                 {
                     // Copy the internal result to the result vector and
                     // continue with the calculation.
@@ -203,27 +150,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
                     input.CopyTo(internalInput);
                 }
             }
-
-            // Inside the loop we already copied the final results (if there are any)
-            // So no need to do that again.
-
-            // Clean up
-            // No longer need the current solver
-            _currentSolver = null;
-        }
-
-        /// <summary>
-        /// Solves the matrix equation AX = B, where A is the coefficient matrix, B is the
-        /// solution matrix and X is the unknown matrix.
-        /// </summary>
-        /// <param name="matrix">The coefficient matrix, <c>A</c>.</param>
-        /// <param name="input">The solution matrix, <c>B</c>.</param>
-        /// <returns>The result matrix, <c>X</c>.</returns>
-        public Matrix<Complex> Solve(Matrix<Complex> matrix, Matrix<Complex> input, Iterator<Complex> iterator = null, IPreconditioner<Complex> preconditioner = null)
-        {
-            var result = matrix.CreateMatrix(input.RowCount, input.ColumnCount);
-            Solve(matrix, input, result, iterator, preconditioner);
-            return result;
         }
 
         /// <summary>
@@ -258,6 +184,34 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
                     result.At(element.Item1, column, element.Item2);
                 }
             }
+        }
+
+        /// <summary>
+        /// Solves the matrix equation Ax = b, where A is the coefficient matrix, b is the
+        /// solution vector and x is the unknown vector.
+        /// </summary>
+        /// <param name="matrix">The coefficient matrix, <c>A</c>.</param>
+        /// <param name="vector">The solution vector, <c>b</c>.</param>
+        /// <returns>The result vector, <c>x</c>.</returns>
+        public Vector<Complex> Solve(Matrix<Complex> matrix, Vector<Complex> vector, Iterator<Complex> iterator = null, IPreconditioner<Complex> preconditioner = null)
+        {
+            var result = new DenseVector(matrix.RowCount);
+            Solve(matrix, vector, result, iterator, preconditioner);
+            return result;
+        }
+
+        /// <summary>
+        /// Solves the matrix equation AX = B, where A is the coefficient matrix, B is the
+        /// solution matrix and X is the unknown matrix.
+        /// </summary>
+        /// <param name="matrix">The coefficient matrix, <c>A</c>.</param>
+        /// <param name="input">The solution matrix, <c>B</c>.</param>
+        /// <returns>The result matrix, <c>X</c>.</returns>
+        public Matrix<Complex> Solve(Matrix<Complex> matrix, Matrix<Complex> input, Iterator<Complex> iterator = null, IPreconditioner<Complex> preconditioner = null)
+        {
+            var result = matrix.CreateMatrix(input.RowCount, input.ColumnCount);
+            Solve(matrix, input, result, iterator, preconditioner);
+            return result;
         }
     }
 }
