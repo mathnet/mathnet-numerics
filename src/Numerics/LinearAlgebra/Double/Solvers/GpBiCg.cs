@@ -64,12 +64,6 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
     public sealed class GpBiCg : IIterativeSolver<double>
     {
         /// <summary>
-        /// The preconditioner that will be used. Can be set to <c>null</c>, in which case the default
-        /// pre-conditioner will be used.
-        /// </summary>
-        IPreConditioner<double> _preconditioner;
-
-        /// <summary>
         /// Indicates the number of <c>BiCGStab</c> steps should be taken 
         /// before switching.
         /// </summary>
@@ -95,27 +89,6 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
         /// </remarks>
         public GpBiCg()
         {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="GpBiCg"/> class.
-        /// </summary>
-        /// <remarks>
-        /// <para>
-        /// The main advantages of using a user defined <see cref="Iterator{T}"/> are:
-        /// <list type="number">
-        /// <item>It is possible to set the desired convergence limits.</item>
-        /// <item>
-        /// It is possible to check the reason for which the solver finished 
-        /// the iterative procedure by calling the <see cref="Iterator{T}.Status"/> property.
-        /// </item>
-        /// </list>
-        /// </para>
-        /// </remarks>
-        /// <param name="preconditioner">The <see cref="IPreConditioner{T}"/> that will be used to precondition the matrix equation.</param>
-        public GpBiCg(IPreConditioner<double> preconditioner)
-        {
-            _preconditioner = preconditioner;
         }
 
         /// <summary>
@@ -163,15 +136,6 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
         }
 
         /// <summary>
-        /// Sets the <see cref="IPreConditioner{T}"/> that will be used to precondition the iterative process.
-        /// </summary>
-        /// <param name="preconditioner">The preconditioner.</param>
-        public void SetPreconditioner(IPreConditioner<double> preconditioner)
-        {
-            _preconditioner = preconditioner;
-        }
-
-        /// <summary>
         /// Stops the solve process. 
         /// </summary>
         /// <remarks>
@@ -190,10 +154,10 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
         /// <param name="matrix">The coefficient matrix, <c>A</c>.</param>
         /// <param name="vector">The solution vector, <c>b</c>.</param>
         /// <returns>The result vector, <c>x</c>.</returns>
-        public Vector<double> Solve(Matrix<double> matrix, Vector<double> vector, Iterator<double> iterator = null)
+        public Vector<double> Solve(Matrix<double> matrix, Vector<double> vector, Iterator<double> iterator = null, IPreConditioner<double> preconditioner = null)
         {
             var result = new DenseVector(matrix.RowCount);
-            Solve(matrix, vector, result, iterator);
+            Solve(matrix, vector, result, iterator, preconditioner);
             return result;
         }
 
@@ -204,7 +168,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
         /// <param name="matrix">The coefficient matrix, <c>A</c>.</param>
         /// <param name="input">The solution vector, <c>b</c></param>
         /// <param name="result">The result vector, <c>x</c></param>
-        public void Solve(Matrix<double> matrix, Vector<double> input, Vector<double> result, Iterator<double> iterator = null)
+        public void Solve(Matrix<double> matrix, Vector<double> input, Vector<double> result, Iterator<double> iterator = null, IPreConditioner<double> preconditioner = null)
         {
             // If we were stopped before, we are no longer
             // We're doing this at the start of the method to ensure
@@ -249,12 +213,12 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
                 iterator = new Iterator<double>(Iterator.CreateDefaultStopCriteria());
             }
 
-            if (_preconditioner == null)
+            if (preconditioner == null)
             {
-                _preconditioner = new UnitPreconditioner<double>();
+                preconditioner = new UnitPreconditioner<double>();
             }
 
-            _preconditioner.Initialize(matrix);
+            preconditioner.Initialize(matrix);
 
             // x_0 is initial guess
             // Take x_0 = 0
@@ -302,7 +266,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
                 residuals.Add(temp2, p);
 
                 // Solve M b_k = p_k
-                _preconditioner.Approximate(p, temp);
+                preconditioner.Approximate(p, temp);
 
                 // s_k = A b_k
                 matrix.Multiply(temp, s);
@@ -326,7 +290,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
                 residuals.Add(temp2, t);
 
                 // Solve M d_k = t_k
-                _preconditioner.Approximate(t, temp);
+                preconditioner.Approximate(t, temp);
 
                 // c_k = A d_k
                 matrix.Multiply(temp, c);
@@ -431,7 +395,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
                 c.Add(temp2, w);
 
                 // Get the real value
-                _preconditioner.Approximate(xtemp, result);
+                preconditioner.Approximate(xtemp, result);
 
                 // Now check for convergence
                 if (!ShouldContinue(iterator, iterationNumber, result, input, residuals))
@@ -511,10 +475,10 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
         /// <param name="matrix">The coefficient matrix, <c>A</c>.</param>
         /// <param name="input">The solution matrix, <c>B</c>.</param>
         /// <returns>The result matrix, <c>X</c>.</returns>
-        public Matrix<double> Solve(Matrix<double> matrix, Matrix<double> input, Iterator<double> iterator = null)
+        public Matrix<double> Solve(Matrix<double> matrix, Matrix<double> input, Iterator<double> iterator = null, IPreConditioner<double> preconditioner = null)
         {
             var result = matrix.CreateMatrix(input.RowCount, input.ColumnCount);
-            Solve(matrix, input, result, iterator);
+            Solve(matrix, input, result, iterator, preconditioner);
             return result;
         }
 
@@ -525,7 +489,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
         /// <param name="matrix">The coefficient matrix, <c>A</c>.</param>
         /// <param name="input">The solution matrix, <c>B</c>.</param>
         /// <param name="result">The result matrix, <c>X</c></param>
-        public void Solve(Matrix<double> matrix, Matrix<double> input, Matrix<double> result, Iterator<double> iterator = null)
+        public void Solve(Matrix<double> matrix, Matrix<double> input, Matrix<double> result, Iterator<double> iterator = null, IPreConditioner<double> preconditioner = null)
         {
             if (matrix.RowCount != input.RowCount || input.RowCount != result.RowCount || input.ColumnCount != result.ColumnCount)
             {
@@ -537,9 +501,14 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
                 iterator = new Iterator<double>(Iterator.CreateDefaultStopCriteria());
             }
 
+            if (preconditioner == null)
+            {
+                preconditioner = new UnitPreconditioner<double>();
+            }
+
             for (var column = 0; column < input.ColumnCount; column++)
             {
-                var solution = Solve(matrix, input.Column(column), iterator);
+                var solution = Solve(matrix, input.Column(column), iterator, preconditioner);
                 foreach (var element in solution.EnumerateNonZeroIndexed())
                 {
                     result.At(element.Item1, column, element.Item2);

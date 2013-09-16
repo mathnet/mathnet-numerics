@@ -50,11 +50,14 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
         Type PreconditionerType { get; }
 
         /// <summary>
-        /// Creates a fully functional iterative solver with the default settings
-        /// given by this setup.
+        /// Creates the iterative solver to be used.
         /// </summary>
-        /// <returns>A new <see cref="IIterativeSolver{T}"/>.</returns>
-        IIterativeSolver<T> CreateNew();
+        IIterativeSolver<T> CreateSolver();
+
+        /// <summary>
+        /// Creates the preconditioner to be used by default (can be overwritten).
+        /// </summary>
+        IPreConditioner<T> CreatePreconditioner();
 
         /// <summary>
         /// Gets the relative speed of the solver. 

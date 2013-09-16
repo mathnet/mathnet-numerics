@@ -73,12 +73,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
     public sealed class BiCgStab : IIterativeSolver<Complex>
     {
         /// <summary>
-        /// The preconditioner that will be used. Can be set to <see langword="null" />, in which case the default
-        /// pre-conditioner will be used.
-        /// </summary>
-        IPreConditioner<Complex> _preconditioner;
-
-        /// <summary>
         /// Indicates if the user has stopped the solver.
         /// </summary>
         bool _hasBeenStopped;
@@ -92,36 +86,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
         /// </remarks>
         public BiCgStab()
         {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="BiCgStab"/> class.
-        /// </summary>
-        /// <remarks>
-        /// <para>
-        /// The main advantages of using a user defined <see cref="Iterator{T}"/> are:
-        /// <list type="number">
-        /// <item>It is possible to set the desired convergence limits.</item>
-        /// <item>
-        /// It is possible to check the reason for which the solver finished 
-        /// the iterative procedure by calling the <see cref="Iterator{T}.Status"/> property.
-        /// </item>
-        /// </list>
-        /// </para>
-        /// </remarks>
-        /// <param name="preconditioner">The <see cref="IPreConditioner{T}"/> that will be used to precondition the matrix equation. </param>
-        public BiCgStab(IPreConditioner<Complex> preconditioner)
-        {
-            _preconditioner = preconditioner;
-        }
-
-        /// <summary>
-        /// Sets the <see cref="IPreConditioner{T}"/> that will be used to precondition the iterative process.
-        /// </summary>
-        /// <param name="preconditioner">The preconditioner.</param>
-        public void SetPreconditioner(IPreConditioner<Complex> preconditioner)
-        {
-            _preconditioner = preconditioner;
         }
 
         /// <summary>
@@ -142,10 +106,10 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
         /// <param name="matrix">The coefficient <see cref="Matrix"/>, <c>A</c>.</param>
         /// <param name="vector">The solution <see cref="Vector"/>, <c>b</c>.</param>
         /// <returns>The result <see cref="Vector"/>, <c>x</c>.</returns>
-        public Vector<Complex> Solve(Matrix<Complex> matrix, Vector<Complex> vector, Iterator<Complex> iterator = null)
+        public Vector<Complex> Solve(Matrix<Complex> matrix, Vector<Complex> vector, Iterator<Complex> iterator = null, IPreConditioner<Complex> preconditioner = null)
         {
             var result = new DenseVector(matrix.RowCount);
-            Solve(matrix, vector, result, iterator);
+            Solve(matrix, vector, result, iterator, preconditioner);
             return result;
         }
 
@@ -156,7 +120,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
         /// <param name="matrix">The coefficient <see cref="Matrix"/>, <c>A</c>.</param>
         /// <param name="input">The solution <see cref="Vector"/>, <c>b</c>.</param>
         /// <param name="result">The result <see cref="Vector"/>, <c>x</c>.</param>
-        public void Solve(Matrix<Complex> matrix, Vector<Complex> input, Vector<Complex> result, Iterator<Complex> iterator = null)
+        public void Solve(Matrix<Complex> matrix, Vector<Complex> input, Vector<Complex> result, Iterator<Complex> iterator = null, IPreConditioner<Complex> preconditioner = null)
         {
             // If we were stopped before, we are no longer
             // We're doing this at the start of the method to ensure
@@ -201,12 +165,12 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
                 iterator = new Iterator<Complex>(Iterator.CreateDefaultStopCriteria());
             }
 
-            if (_preconditioner == null)
+            if (preconditioner == null)
             {
-                _preconditioner = new UnitPreconditioner<Complex>();
+                preconditioner = new UnitPreconditioner<Complex>();
             }
 
-            _preconditioner.Initialize(matrix);
+            preconditioner.Initialize(matrix);
 
             // Compute r_0 = b - Ax_0 for some initial guess x_0
             // In this case we take x_0 = vector
@@ -270,7 +234,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
                 }
 
                 // SOLVE Mp~ = p_i // M = preconditioner
-                _preconditioner.Approximate(vecP, vecPdash);
+                preconditioner.Approximate(vecP, vecPdash);
 
                 // nu_i = Ap~
                 matrix.Multiply(vecPdash, nu);
@@ -314,7 +278,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
                 }
 
                 // SOLVE Ms~ = s
-                _preconditioner.Approximate(vecS, vecSdash);
+                preconditioner.Approximate(vecS, vecSdash);
 
                 // temp = As~
                 matrix.Multiply(vecSdash, temp);
@@ -407,10 +371,10 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
         /// <param name="matrix">The coefficient <see cref="Matrix"/>, <c>A</c>.</param>
         /// <param name="input">The solution <see cref="Matrix"/>, <c>B</c>.</param>
         /// <returns>The result <see cref="Matrix"/>, <c>X</c>.</returns>
-        public Matrix<Complex> Solve(Matrix<Complex> matrix, Matrix<Complex> input, Iterator<Complex> iterator = null)
+        public Matrix<Complex> Solve(Matrix<Complex> matrix, Matrix<Complex> input, Iterator<Complex> iterator = null, IPreConditioner<Complex> preconditioner = null)
         {
             var result = matrix.CreateMatrix(input.RowCount, input.ColumnCount);
-            Solve(matrix, input, result, iterator);
+            Solve(matrix, input, result, iterator, preconditioner);
             return result;
         }
 
@@ -421,7 +385,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
         /// <param name="matrix">The coefficient <see cref="Matrix"/>, <c>A</c>.</param>
         /// <param name="input">The solution <see cref="Matrix"/>, <c>B</c>.</param>
         /// <param name="result">The result <see cref="Matrix"/>, <c>X</c></param>
-        public void Solve(Matrix<Complex> matrix, Matrix<Complex> input, Matrix<Complex> result, Iterator<Complex> iterator = null)
+        public void Solve(Matrix<Complex> matrix, Matrix<Complex> input, Matrix<Complex> result, Iterator<Complex> iterator = null, IPreConditioner<Complex> preconditioner = null)
         {
             if (matrix.RowCount != input.RowCount || input.RowCount != result.RowCount || input.ColumnCount != result.ColumnCount)
             {
@@ -433,9 +397,14 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
                 iterator = new Iterator<Complex>(Iterator.CreateDefaultStopCriteria());
             }
 
+            if (preconditioner == null)
+            {
+                preconditioner = new UnitPreconditioner<Complex>();
+            }
+
             for (var column = 0; column < input.ColumnCount; column++)
             {
-                var solution = Solve(matrix, input.Column(column), iterator);
+                var solution = Solve(matrix, input.Column(column), iterator, preconditioner);
                 foreach (var element in solution.EnumerateNonZeroIndexed())
                 {
                     result.At(element.Item1, column, element.Item2);

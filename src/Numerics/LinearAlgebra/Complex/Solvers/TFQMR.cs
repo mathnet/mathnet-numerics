@@ -62,12 +62,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
     public sealed class TFQMR : IIterativeSolver<Complex>
     {
         /// <summary>
-        /// The preconditioner that will be used. Can be set to <see langword="null" />, in which case the default
-        /// pre-conditioner will be used.
-        /// </summary>
-        IPreConditioner<Complex> _preconditioner;
-
-        /// <summary>
         /// Indicates if the user has stopped the solver.
         /// </summary>
         bool _hasBeenStopped;
@@ -81,36 +75,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
         /// </remarks>
         public TFQMR()
         {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="TFQMR"/> class.
-        /// </summary>
-        /// <remarks>
-        /// <para>
-        /// The main advantages of using a user defined <see cref="Iterator{T}"/> are:
-        /// <list type="number">
-        /// <item>It is possible to set the desired convergence limits.</item>
-        /// <item>
-        /// It is possible to check the reason for which the solver finished 
-        /// the iterative procedure by calling the <see cref="Iterator{T}.Status"/> property.
-        /// </item>
-        /// </list>
-        /// </para>
-        /// </remarks>
-        /// <param name="preconditioner">The <see cref="IPreConditioner{T}"/> that will be used to precondition the matrix equation.</param>
-        public TFQMR(IPreConditioner<Complex> preconditioner)
-        {
-            _preconditioner = preconditioner;
-        }
-
-        /// <summary>
-        /// Sets the <see cref="IPreConditioner{T}"/> that will be used to precondition the iterative process.
-        /// </summary>
-        /// <param name="preconditioner">The preconditioner.</param>
-        public void SetPreconditioner(IPreConditioner<Complex> preconditioner)
-        {
-            _preconditioner = preconditioner;
         }
 
         /// <summary>
@@ -131,10 +95,10 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
         /// <param name="matrix">The coefficient matrix, <c>A</c>.</param>
         /// <param name="vector">The solution vector, <c>b</c>.</param>
         /// <returns>The result vector, <c>x</c>.</returns>
-        public Vector<Complex> Solve(Matrix<Complex> matrix, Vector<Complex> vector, Iterator<Complex> iterator = null)
+        public Vector<Complex> Solve(Matrix<Complex> matrix, Vector<Complex> vector, Iterator<Complex> iterator = null, IPreConditioner<Complex> preconditioner = null)
         {
             var result = new DenseVector(matrix.RowCount);
-            Solve(matrix, vector, result, iterator);
+            Solve(matrix, vector, result, iterator, preconditioner);
             return result;
         }
 
@@ -145,7 +109,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
         /// <param name="matrix">The coefficient matrix, <c>A</c>.</param>
         /// <param name="input">The solution vector, <c>b</c></param>
         /// <param name="result">The result vector, <c>x</c></param>
-        public void Solve(Matrix<Complex> matrix, Vector<Complex> input, Vector<Complex> result, Iterator<Complex> iterator = null)
+        public void Solve(Matrix<Complex> matrix, Vector<Complex> input, Vector<Complex> result, Iterator<Complex> iterator = null, IPreConditioner<Complex> preconditioner = null)
         {
             // If we were stopped before, we are no longer
             // We're doing this at the start of the method to ensure
@@ -185,12 +149,12 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
                 iterator = new Iterator<Complex>(Iterator.CreateDefaultStopCriteria());
             }
 
-            if (_preconditioner == null)
+            if (preconditioner == null)
             {
-                _preconditioner = new UnitPreconditioner<Complex>();
+                preconditioner = new UnitPreconditioner<Complex>();
             }
 
-            _preconditioner.Initialize(matrix);
+            preconditioner.Initialize(matrix);
 
             var d = new DenseVector(input.Count);
             var r = DenseVector.OfVector(input);
@@ -221,7 +185,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
 
             // Calculate the initial values for v
             // M temp = yEven
-            _preconditioner.Approximate(yeven, temp);
+            preconditioner.Approximate(yeven, temp);
 
             // v = A temp
             matrix.Multiply(temp, v);
@@ -253,7 +217,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
                     yeven.Add(temp1, yodd);
 
                     // Solve M temp = yOdd
-                    _preconditioner.Approximate(yodd, temp);
+                    preconditioner.Approximate(yodd, temp);
 
                     // uOdd = A temp
                     matrix.Multiply(temp, uodd);
@@ -293,7 +257,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
                 if (!ShouldContinue(iterator, iterationNumber, result, input, pseudoResiduals))
                 {
                     // Calculate the real values
-                    _preconditioner.Approximate(x, result);
+                    preconditioner.Approximate(x, result);
 
                     // Calculate the true residual. Use the temp vector for that
                     // so that we don't pollute the pseudoResidual vector for no
@@ -329,7 +293,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
                     pseudoResiduals.Add(temp1, yeven);
 
                     // Solve M temp = yOdd
-                    _preconditioner.Approximate(yeven, temp);
+                    preconditioner.Approximate(yeven, temp);
 
                     // uOdd = A temp
                     matrix.Multiply(temp, ueven);
@@ -343,7 +307,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
                 }
 
                 // Calculate the real values
-                _preconditioner.Approximate(x, result);
+                preconditioner.Approximate(x, result);
 
                 iterationNumber++;
             }
@@ -407,10 +371,10 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
         /// <param name="matrix">The coefficient matrix, <c>A</c>.</param>
         /// <param name="input">The solution matrix, <c>B</c>.</param>
         /// <returns>The result matrix, <c>X</c>.</returns>
-        public Matrix<Complex> Solve(Matrix<Complex> matrix, Matrix<Complex> input, Iterator<Complex> iterator = null)
+        public Matrix<Complex> Solve(Matrix<Complex> matrix, Matrix<Complex> input, Iterator<Complex> iterator = null, IPreConditioner<Complex> preconditioner = null)
         {
             var result = matrix.CreateMatrix(input.RowCount, input.ColumnCount);
-            Solve(matrix, input, result, iterator);
+            Solve(matrix, input, result, iterator, preconditioner);
             return result;
         }
 
@@ -421,7 +385,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
         /// <param name="matrix">The coefficient matrix, <c>A</c>.</param>
         /// <param name="input">The solution matrix, <c>B</c>.</param>
         /// <param name="result">The result matrix, <c>X</c></param>
-        public void Solve(Matrix<Complex> matrix, Matrix<Complex> input, Matrix<Complex> result, Iterator<Complex> iterator = null)
+        public void Solve(Matrix<Complex> matrix, Matrix<Complex> input, Matrix<Complex> result, Iterator<Complex> iterator = null, IPreConditioner<Complex> preconditioner = null)
         {
             if (matrix.RowCount != input.RowCount || input.RowCount != result.RowCount || input.ColumnCount != result.ColumnCount)
             {
@@ -433,9 +397,14 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
                 iterator = new Iterator<Complex>(Iterator.CreateDefaultStopCriteria());
             }
 
+            if (preconditioner == null)
+            {
+                preconditioner = new UnitPreconditioner<Complex>();
+            }
+
             for (var column = 0; column < input.ColumnCount; column++)
             {
-                var solution = Solve(matrix, input.Column(column), iterator);
+                var solution = Solve(matrix, input.Column(column), iterator, preconditioner);
                 foreach (var element in solution.EnumerateNonZeroIndexed())
                 {
                     result.At(element.Item1, column, element.Item2);

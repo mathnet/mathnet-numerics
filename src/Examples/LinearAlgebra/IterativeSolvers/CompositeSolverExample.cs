@@ -109,10 +109,7 @@ namespace Examples.LinearAlgebra.IterativeSolversExamples
             // Load all suitable solvers from current assembly. Below in this example, there is user-defined solver
             // "class UserBiCgStab : IIterativeSolverSetup<double>" which uses regular BiCgStab solver. But user may create any other solver 
             // and solver setup classes which implement IIterativeSolverSetup<T> and pass assembly to next function:
-            CompositeSolver.LoadSolverInformationFromAssembly(Assembly.GetExecutingAssembly());
-
-            // Create composite solver
-            var solver = new CompositeSolver();
+            var solver = new CompositeSolver(SolverSetup<double>.LoadFromAssembly(Assembly.GetExecutingAssembly()));
             
             // 1. Solve the matrix equation
             var resultX = solver.Solve(matrixA, vectorB, monitor);
@@ -178,9 +175,14 @@ namespace Examples.LinearAlgebra.IterativeSolversExamples
         /// given by this setup.
         /// </summary>
         /// <returns>A new <see cref="IIterativeSolver{T}"/>.</returns>
-        public IIterativeSolver<double> CreateNew()
+        public IIterativeSolver<double> CreateSolver()
         {
             return new BiCgStab();
+        }
+
+        public IPreConditioner<double> CreatePreconditioner()
+        {
+            return null;
         }
 
         /// <summary>

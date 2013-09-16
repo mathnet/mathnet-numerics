@@ -126,6 +126,7 @@
     <Compile Include="LinearAlgebra\Solvers\IterationStatus.cs" />
     <Compile Include="LinearAlgebra\Solvers\Iterator.cs" />
     <Compile Include="LinearAlgebra\Solvers\IterationCountStopCriterium.cs" />
+    <Compile Include="LinearAlgebra\Solvers\SolverSetup.cs" />
     <Compile Include="Providers\LinearAlgebra\Acml\AcmlLinearAlgebraProvider.Complex.cs" />
     <Compile Include="Providers\LinearAlgebra\Acml\AcmlLinearAlgebraProvider.Complex32.cs" />
     <Compile Include="Providers\LinearAlgebra\Acml\AcmlLinearAlgebraProvider.Double.cs" />
