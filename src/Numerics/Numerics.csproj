@@ -123,6 +123,7 @@
     <Compile Include="Distributions\Zipf.cs" />
     <Compile Include="LinearAlgebra\Builder.cs" />
     <Compile Include="LinearAlgebra\Matrix.Factorization.cs" />
+    <Compile Include="LinearAlgebra\Solvers\CancellationStopCriterium.cs" />
     <Compile Include="LinearAlgebra\Solvers\IterationStatus.cs" />
     <Compile Include="LinearAlgebra\Solvers\Iterator.cs" />
     <Compile Include="LinearAlgebra\Solvers\IterationCountStopCriterium.cs" />
