@@ -105,7 +105,7 @@ namespace Examples.LinearAlgebra.IterativeSolversExamples
             var residualStopCriterium = new ResidualStopCriterium(1e-10);
  
             // Create monitor with defined stop criteriums
-            var monitor = new Iterator<double>(new IIterationStopCriterium<double>[] { iterationCountStopCriterium, residualStopCriterium });
+            var monitor = new Iterator<double>(iterationCountStopCriterium, residualStopCriterium);
 
             // Create Bi-Conjugate Gradient Stabilized solver
             var solver = new BiCgStab();

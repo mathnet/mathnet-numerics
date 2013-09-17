@@ -94,13 +94,12 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.Iterativ
             var y = DenseVector.Create(matrix.RowCount, i => 1);
 
             // Create an iteration monitor which will keep track of iterative convergence
-            var monitor = new Iterator<Complex>(new IIterationStopCriterium<Complex>[]
-                {
-                    new IterationCountStopCriterium<Complex>(MaximumIterations),
-                    new ResidualStopCriterium(ConvergenceBoundary),
-                    new DivergenceStopCriterium(),
-                    new FailureStopCriterium()
-                });
+            var monitor = new Iterator<Complex>(
+                new IterationCountStopCriterium<Complex>(MaximumIterations),
+                new ResidualStopCriterium(ConvergenceBoundary),
+                new DivergenceStopCriterium(),
+                new FailureStopCriterium());
+
             var solver = new GpBiCg();
 
             // Solve equation Ax = y
@@ -139,13 +138,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.Iterativ
             var y = DenseVector.Create(matrix.RowCount, i => 1);
 
             // Create an iteration monitor which will keep track of iterative convergence
-            var monitor = new Iterator<Complex>(new IIterationStopCriterium<Complex>[]
-                {
-                    new IterationCountStopCriterium<Complex>(MaximumIterations),
-                    new ResidualStopCriterium(ConvergenceBoundary),
-                    new DivergenceStopCriterium(),
-                    new FailureStopCriterium()
-                });
+            var monitor = new Iterator<Complex>(
+                new IterationCountStopCriterium<Complex>(MaximumIterations),
+                new ResidualStopCriterium(ConvergenceBoundary),
+                new DivergenceStopCriterium(),
+                new FailureStopCriterium());
 
             var solver = new GpBiCg();
 
@@ -218,13 +215,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.Iterativ
             var y = DenseVector.Create(matrix.RowCount, i => 1);
 
             // Create an iteration monitor which will keep track of iterative convergence
-            var monitor = new Iterator<Complex>(new IIterationStopCriterium<Complex>[]
-                {
-                    new IterationCountStopCriterium<Complex>(MaximumIterations),
-                    new ResidualStopCriterium(ConvergenceBoundary),
-                    new DivergenceStopCriterium(),
-                    new FailureStopCriterium()
-                });
+            var monitor = new Iterator<Complex>(
+                new IterationCountStopCriterium<Complex>(MaximumIterations),
+                new ResidualStopCriterium(ConvergenceBoundary),
+                new DivergenceStopCriterium(),
+                new FailureStopCriterium());
 
             var solver = new GpBiCg();
 
@@ -260,11 +255,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.Iterativ
             var matrixA = MatrixLoader.GenerateRandomDenseMatrix(order, order);
             var vectorb = MatrixLoader.GenerateRandomDenseVector(order);
 
-            var monitor = new Iterator<Complex>(new IIterationStopCriterium<Complex>[]
-                {
-                    new IterationCountStopCriterium<Complex>(1000),
-                    new ResidualStopCriterium(1e-10),
-                });
+            var monitor = new Iterator<Complex>(
+                new IterationCountStopCriterium<Complex>(1000),
+                new ResidualStopCriterium(1e-10));
+
             var solver = new GpBiCg();
 
             var resultx = matrixA.SolveIterative(vectorb, solver, monitor);
@@ -292,11 +286,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.Iterativ
             var matrixA = MatrixLoader.GenerateRandomDenseMatrix(order, order);
             var matrixB = MatrixLoader.GenerateRandomDenseMatrix(order, order);
 
-            var monitor = new Iterator<Complex>(new IIterationStopCriterium<Complex>[]
-                {
-                    new IterationCountStopCriterium<Complex>(1000),
-                    new ResidualStopCriterium(1e-10),
-                });
+            var monitor = new Iterator<Complex>(
+                new IterationCountStopCriterium<Complex>(1000),
+                new ResidualStopCriterium(1e-10));
+
             var solver = new GpBiCg();
             var matrixX = matrixA.SolveIterative(matrixB, solver, monitor);
 

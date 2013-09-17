@@ -92,13 +92,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.Iterative
             var y = DenseVector.Create(matrix.RowCount, i => 1);
 
             // Create an iteration monitor which will keep track of iterative convergence
-            var monitor = new Iterator<double>(new IIterationStopCriterium<double>[]
-                {
-                    new IterationCountStopCriterium<double>(MaximumIterations),
-                    new ResidualStopCriterium(ConvergenceBoundary),
-                    new DivergenceStopCriterium(),
-                    new FailureStopCriterium()
-                });
+            var monitor = new Iterator<double>(
+                new IterationCountStopCriterium<double>(MaximumIterations),
+                new ResidualStopCriterium(ConvergenceBoundary),
+                new DivergenceStopCriterium(),
+                new FailureStopCriterium());
 
             var solver = new TFQMR();
 
@@ -138,13 +136,12 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.Iterative
             var y = DenseVector.Create(matrix.RowCount, i => 1);
 
             // Create an iteration monitor which will keep track of iterative convergence
-            var monitor = new Iterator<double>(new IIterationStopCriterium<double>[]
-                {
-                    new IterationCountStopCriterium<double>(MaximumIterations),
-                    new ResidualStopCriterium(ConvergenceBoundary),
-                    new DivergenceStopCriterium(),
-                    new FailureStopCriterium()
-                });
+            var monitor = new Iterator<double>(
+                new IterationCountStopCriterium<double>(MaximumIterations),
+                new ResidualStopCriterium(ConvergenceBoundary),
+                new DivergenceStopCriterium(),
+                new FailureStopCriterium());
+
             var solver = new TFQMR();
 
             // Solve equation Ax = y
@@ -216,13 +213,12 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.Iterative
             var y = DenseVector.Create(matrix.RowCount, i => 1);
 
             // Create an iteration monitor which will keep track of iterative convergence
-            var monitor = new Iterator<double>(new IIterationStopCriterium<double>[]
-                {
-                    new IterationCountStopCriterium<double>(MaximumIterations),
-                    new ResidualStopCriterium(ConvergenceBoundary),
-                    new DivergenceStopCriterium(),
-                    new FailureStopCriterium()
-                });
+            var monitor = new Iterator<double>(
+                new IterationCountStopCriterium<double>(MaximumIterations),
+                new ResidualStopCriterium(ConvergenceBoundary),
+                new DivergenceStopCriterium(),
+                new FailureStopCriterium());
+
             var solver = new TFQMR();
 
             // Solve equation Ax = y
@@ -257,11 +253,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.Iterative
             var matrixA = MatrixLoader.GenerateRandomDenseMatrix(order, order);
             var vectorb = MatrixLoader.GenerateRandomDenseVector(order);
 
-            var monitor = new Iterator<double>(new IIterationStopCriterium<double>[]
-                {
-                    new IterationCountStopCriterium<double>(1000),
-                    new ResidualStopCriterium(1e-10),
-                });
+            var monitor = new Iterator<double>(
+                new IterationCountStopCriterium<double>(1000),
+                new ResidualStopCriterium(1e-10));
+
             var solver = new TFQMR();
 
             var resultx = matrixA.SolveIterative(vectorb, solver, monitor);
@@ -288,11 +283,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.Iterative
             var matrixA = MatrixLoader.GenerateRandomDenseMatrix(order, order);
             var matrixB = MatrixLoader.GenerateRandomDenseMatrix(order, order);
 
-            var monitor = new Iterator<double>(new IIterationStopCriterium<double>[]
-                {
-                    new IterationCountStopCriterium<double>(1000),
-                    new ResidualStopCriterium(1e-10)
-                });
+            var monitor = new Iterator<double>(
+                new IterationCountStopCriterium<double>(1000),
+                new ResidualStopCriterium(1e-10));
+
             var solver = new TFQMR();
             var matrixX = matrixA.SolveIterative(matrixB, solver, monitor);
 
