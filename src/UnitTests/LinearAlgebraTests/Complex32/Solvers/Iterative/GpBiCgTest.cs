@@ -114,7 +114,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.Iterat
             var z = matrix.Multiply(x);
 
             // Check that the solution converged
-            Assert.IsTrue(monitor.HasConverged, "#04");
+            Assert.IsTrue(monitor.Status == IterationStatus.Converged, "#04");
 
             // Now compare the vectors
             for (var i = 0; i < y.Count; i++)
@@ -160,7 +160,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.Iterat
             var z = matrix.Multiply(x);
 
             // Check that the solution converged
-            Assert.IsTrue(monitor.HasConverged, "#04");
+            Assert.IsTrue(monitor.Status == IterationStatus.Converged, "#04");
 
             // Now compare the vectors
             for (var i = 0; i < y.Count; i++)
@@ -239,7 +239,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.Iterat
             var z = matrix.Multiply(x);
 
             // Check that the solution converged
-            Assert.IsTrue(monitor.HasConverged, "#04");
+            Assert.IsTrue(monitor.Status == IterationStatus.Converged, "#04");
 
             // Now compare the vectors
             for (var i = 0; i < y.Count; i++)
@@ -269,7 +269,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.Iterat
 
                 var resultx = solver.Solve(matrixA, vectorb, monitor);
 
-                if (!monitor.HasConverged)
+                if (!(monitor.Status == IterationStatus.Converged))
                 {
                     // Solution was not found, try again downgrading convergence boundary
                     continue;

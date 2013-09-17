@@ -114,7 +114,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers.Iterative
             var z = matrix.Multiply(x);
 
             // Check that the solution converged
-            Assert.IsTrue(monitor.HasConverged, "#04");
+            Assert.IsTrue(monitor.Status == IterationStatus.Converged, "#04");
 
             // Now compare the vectors
             for (var i = 0; i < y.Count; i++)
@@ -159,7 +159,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers.Iterative
             var z = matrix.Multiply(x);
 
             // Check that the solution converged
-            Assert.IsTrue(monitor.HasConverged, "#04");
+            Assert.IsTrue(monitor.Status == IterationStatus.Converged, "#04");
 
             // Now compare the vectors
             for (var i = 0; i < y.Count; i++)
@@ -241,7 +241,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers.Iterative
                     continue;
                 }
 
-                if (!(monitor.HasConverged))
+                if (!(monitor.Status == IterationStatus.Converged))
                 {
                     continue;
                 }
@@ -285,7 +285,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers.Iterative
                 var solver = new MlkBiCgStab();
                 var resultx = solver.Solve(matrixA, vectorb, monitor);
 
-                if (!monitor.HasConverged)
+                if (!(monitor.Status == IterationStatus.Converged))
                 {
                     // Solution was not found, try again downgrading convergence boundary
                     continue;
@@ -328,7 +328,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers.Iterative
                 var solver = new MlkBiCgStab();
                 var matrixX = solver.Solve(matrixA, matrixB, monitor);
 
-                if (!monitor.HasConverged)
+                if (!(monitor.Status == IterationStatus.Converged))
                 {
                     // Solution was not found, try again downgrading convergence boundary
                     continue;

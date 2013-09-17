@@ -84,22 +84,6 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
         }
 
         /// <summary>
-        /// True if the calculation has converged to the desired convergence levels.
-        /// </summary>
-        public bool HasConverged
-        {
-            get { return _status == IterationStatus.Converged; }
-        }
-
-        /// <summary>
-        /// True if the calculation has been stopped due to reaching the stopping limits but that convergence was not achieved.
-        /// </summary>
-        public bool HasStoppedWithoutConvergence
-        {
-            get { return _status == IterationStatus.StoppedWithoutConvergence; }
-        }
-
-        /// <summary>
         /// Determines the status of the iterative calculation based on the stop criteria stored
         /// by the current <see cref="Iterator{T}"/>. Result is set into <c>Status</c> field.
         /// </summary>
