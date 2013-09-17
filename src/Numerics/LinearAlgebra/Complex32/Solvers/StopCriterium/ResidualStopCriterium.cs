@@ -71,7 +71,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.StopCriterium
         /// <summary>
         /// The status of the calculation
         /// </summary>
-        IterationStatus _status = IterationStatus.Indetermined;
+        IterationStatus _status = IterationStatus.Continue;
 
         /// <summary>
         /// The number of iterations since the residuals got below the maximum.
@@ -262,13 +262,13 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.StopCriterium
                 if (_lastIteration <= iterationNumber)
                 {
                     _iterationCount = iterationNumber - _lastIteration;
-                    _status = _iterationCount >= _minimumIterationsBelowMaximum ? IterationStatus.Converged : IterationStatus.Running;
+                    _status = _iterationCount >= _minimumIterationsBelowMaximum ? IterationStatus.Converged : IterationStatus.Continue;
                 }
             }
             else
             {
                 _iterationCount = 0;
-                _status = IterationStatus.Running;
+                _status = IterationStatus.Continue;
             }
 
             _lastIteration = iterationNumber;
@@ -308,7 +308,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.StopCriterium
         /// </summary>
         public void Reset()
         {
-            _status = IterationStatus.Indetermined;
+            _status = IterationStatus.Continue;
             _iterationCount = 0;
             _lastIteration = DefaultLastIterationNumber;
         }

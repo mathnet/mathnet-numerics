@@ -99,7 +99,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.StopCrit
             Assert.IsNotNull(criterium, "A criterium should have been created");
 
             var status = criterium.DetermineStatus(5, DenseVector.Create(3, i => 1), DenseVector.Create(3, i => 2), DenseVector.Create(3, i => 3));
-            Assert.AreEqual(IterationStatus.Running, status, "Should be running");
+            Assert.AreEqual(IterationStatus.Continue, status, "Should be running");
 
             var status2 = criterium.DetermineStatus(10, DenseVector.Create(3, i => 1), DenseVector.Create(3, i => 2), DenseVector.Create(3, i => 3));
             Assert.AreEqual(IterationStatus.StoppedWithoutConvergence, status2, "Should be finished");
@@ -115,10 +115,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.StopCrit
             Assert.IsNotNull(criterium, "A criterium should have been created");
 
             var status = criterium.DetermineStatus(5, DenseVector.Create(3, i => 1), DenseVector.Create(3, i => 2), DenseVector.Create(3, i => 3));
-            Assert.AreEqual(IterationStatus.Running, status, "Should be running");
+            Assert.AreEqual(IterationStatus.Continue, status, "Should be running");
 
             criterium.Reset();
-            Assert.AreEqual(IterationStatus.Indetermined, criterium.Status, "Should not have started");
+            Assert.AreEqual(IterationStatus.Continue, criterium.Status, "Should not have started");
         }
 
         /// <summary>

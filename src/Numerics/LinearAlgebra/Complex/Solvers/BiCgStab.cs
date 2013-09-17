@@ -92,20 +92,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
         }
 
         /// <summary>
-        /// Determine if calculation should continue
-        /// </summary>
-        /// <param name="iterationNumber">Number of iterations passed</param>
-        /// <param name="result">Result <see cref="Vector"/>.</param>
-        /// <param name="source">Source <see cref="Vector"/>.</param>
-        /// <param name="residuals">Residual <see cref="Vector"/>.</param>
-        /// <returns><c>true</c> if continue, otherwise <c>false</c></returns>
-        static bool ShouldContinue(Iterator<Complex> iterator, int iterationNumber, Vector<Complex> result, Vector<Complex> source, Vector<Complex> residuals)
-        {
-            var status = iterator.DetermineStatus(iterationNumber, result, source, residuals);
-            return status == IterationStatus.Running || status == IterationStatus.Indetermined;
-        }
-
-        /// <summary>
         /// Solves the matrix equation Ax = b, where A is the coefficient matrix, b is the
         /// solution vector and x is the unknown vector.
         /// </summary>
@@ -170,7 +156,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
             Complex omega = 0;
 
             var iterationNumber = 0;
-            while (ShouldContinue(iterator, iterationNumber, result, input, residuals))
+            while (iterator.DetermineStatus(iterationNumber, result, input, residuals) == IterationStatus.Continue)
             {
                 // rho_(i-1) = r~^T r_(i-1) // dotproduct r~ and r_(i-1)
                 var oldRho = currentRho;
@@ -229,7 +215,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
                 temp2.CopyTo(temp);
 
                 // Check convergence and stop if we are converged.
-                if (!ShouldContinue(iterator, iterationNumber, temp, input, vecS))
+                if (iterator.DetermineStatus(iterationNumber, temp, input, vecS) != IterationStatus.Continue)
                 {
                     temp.CopyTo(result);
 
@@ -237,7 +223,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
                     CalculateTrueResidual(matrix, residuals, result, input);
 
                     // Now recheck the convergence
-                    if (!ShouldContinue(iterator, iterationNumber, result, input, residuals))
+                    if (iterator.DetermineStatus(iterationNumber, result, input, residuals) != IterationStatus.Continue)
                     {
                         // We're all good now.
                         return;
@@ -278,7 +264,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
                     throw new Exception("Iterative solver experience a numerical break down");
                 }
 
-                if (!ShouldContinue(iterator, iterationNumber, result, input, residuals))
+                if (iterator.DetermineStatus(iterationNumber, result, input, residuals) != IterationStatus.Continue)
                 {
                     // Recalculate the residuals and go round again. This is done to ensure that
                     // we have the proper residuals.

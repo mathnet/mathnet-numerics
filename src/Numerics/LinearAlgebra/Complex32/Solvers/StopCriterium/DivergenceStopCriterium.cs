@@ -72,7 +72,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.StopCriterium
         /// <summary>
         /// The status of the calculation
         /// </summary>
-        IterationStatus _status = IterationStatus.Indetermined;
+        IterationStatus _status = IterationStatus.Continue;
 
         /// <summary>
         /// The array that holds the tracking information.
@@ -252,7 +252,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.StopCriterium
             }
 
             // Check if we are diverging and if so set the status
-            _status = IsDiverging() ? IterationStatus.Diverged : IterationStatus.Running;
+            _status = IsDiverging() ? IterationStatus.Diverged : IterationStatus.Continue;
 
             _lastIteration = iterationNumber;
             return _status;
@@ -313,7 +313,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.StopCriterium
         /// </summary>
         public void Reset()
         {
-            _status = IterationStatus.Indetermined;
+            _status = IterationStatus.Continue;
             _lastIteration = DefaultLastIterationNumber;
             _residualHistory = null;
         }

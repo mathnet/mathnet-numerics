@@ -102,7 +102,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers
                 DenseVector.Create(3, i => 4),
                 DenseVector.Create(3, i => 4),
                 DenseVector.Create(3, i => 4));
-            Assert.AreEqual(IterationStatus.Running, iterator.Status, "Incorrect status");
+            Assert.AreEqual(IterationStatus.Continue, iterator.Status, "Incorrect status");
 
             // Second step, should run out of iterations.
             iterator.DetermineStatus(
@@ -134,13 +134,13 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers
                 DenseVector.Create(3, i => 4),
                 DenseVector.Create(3, i => 4),
                 DenseVector.Create(3, i => 4));
-            Assert.AreEqual(IterationStatus.Running, iterator.Status, "Incorrect status");
+            Assert.AreEqual(IterationStatus.Continue, iterator.Status, "Incorrect status");
 
             iterator.Reset();
-            Assert.AreEqual(IterationStatus.Indetermined, iterator.Status, "Incorrect status");
-            Assert.AreEqual(IterationStatus.Indetermined, criteria[0].Status, "Incorrect status");
-            Assert.AreEqual(IterationStatus.Indetermined, criteria[1].Status, "Incorrect status");
-            Assert.AreEqual(IterationStatus.Indetermined, criteria[2].Status, "Incorrect status");
+            Assert.AreEqual(IterationStatus.Continue, iterator.Status, "Incorrect status");
+            Assert.AreEqual(IterationStatus.Continue, criteria[0].Status, "Incorrect status");
+            Assert.AreEqual(IterationStatus.Continue, criteria[1].Status, "Incorrect status");
+            Assert.AreEqual(IterationStatus.Continue, criteria[2].Status, "Incorrect status");
         }
     }
 }

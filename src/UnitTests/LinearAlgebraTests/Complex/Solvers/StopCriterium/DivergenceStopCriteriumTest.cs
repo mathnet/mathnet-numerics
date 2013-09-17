@@ -139,7 +139,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.StopCrit
                     new DenseVector(new[] {new Complex(1.0, 0)}),
                     new DenseVector(new[] {new Complex((i + 1)*(Increase + 0.1), 0)}));
 
-                Assert.AreEqual(IterationStatus.Running, status, "Status check fail.");
+                Assert.AreEqual(IterationStatus.Continue, status, "Status check fail.");
             }
         }
 
@@ -163,7 +163,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.StopCrit
                     new DenseVector(new[] {new Complex(1.0, 0)}),
                     new DenseVector(new[] {new Complex((i + 1)*(Increase - 0.01), 0)}));
 
-                Assert.AreEqual(IterationStatus.Running, status, "Status check fail.");
+                Assert.AreEqual(IterationStatus.Continue, status, "Status check fail.");
             }
         }
 
@@ -187,7 +187,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.StopCrit
                     new DenseVector(new[] {new Complex(1.0, 0)}),
                     new DenseVector(new[] {new Complex((i + 1)*(Increase - 0.01), 0)}));
 
-                Assert.AreEqual(IterationStatus.Running, status, "Status check fail.");
+                Assert.AreEqual(IterationStatus.Continue, status, "Status check fail.");
             }
 
             // Now make it fail by throwing in a NaN
@@ -222,7 +222,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.StopCrit
                     new DenseVector(new[] {new Complex(1.0, 0)}),
                     new DenseVector(new[] {new Complex(previous, 0)}));
 
-                Assert.AreEqual(IterationStatus.Running, status, "Status check fail.");
+                Assert.AreEqual(IterationStatus.Continue, status, "Status check fail.");
             }
 
             // Add the final residual. Now we should have divergence
@@ -261,7 +261,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.StopCrit
 
             Assert.AreEqual(Increase, criterium.MaximumRelativeIncrease, "Incorrect maximum");
             Assert.AreEqual(Iterations, criterium.MinimumNumberOfIterations, "Incorrect iteration count");
-            Assert.AreEqual(IterationStatus.Indetermined, criterium.Status, "Status check fail.");
+            Assert.AreEqual(IterationStatus.Continue, criterium.Status, "Status check fail.");
         }
 
         /// <summary>
@@ -282,11 +282,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.StopCrit
             var clonedCriterium = clone as DivergenceStopCriterium;
             Assert.IsNotNull(clonedCriterium);
 
-            // ReSharper disable PossibleNullReferenceException
             Assert.AreEqual(criterium.MaximumRelativeIncrease, clonedCriterium.MaximumRelativeIncrease, "Incorrect maximum");
             Assert.AreEqual(criterium.MinimumNumberOfIterations, clonedCriterium.MinimumNumberOfIterations, "Incorrect iteration count");
-
-            // ReSharper restore PossibleNullReferenceException
         }
     }
 }

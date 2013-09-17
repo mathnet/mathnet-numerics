@@ -35,8 +35,7 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
     /// </summary>
     public enum IterationStatus
     {
-        Indetermined = 0,
-        Running,
+        Continue = 0,
         Converged,
         Diverged,
         StoppedWithoutConvergence,

@@ -126,7 +126,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.StopCr
             var residual = new DenseVector(new[] {new Complex32(1.0f, 0), new Complex32(2.0f, 0), new Complex32(3, 0)});
 
             var status = criterium.DetermineStatus(5, solution, source, residual);
-            Assert.AreEqual(IterationStatus.Running, status, "Should be running");
+            Assert.AreEqual(IterationStatus.Continue, status, "Should be running");
         }
 
         /// <summary>
@@ -143,10 +143,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.StopCr
             var residual = new DenseVector(new[] {new Complex32(1000, 0), new Complex32(1000, 0), new Complex32(2001, 0)});
 
             var status = criterium.DetermineStatus(5, solution, source, residual);
-            Assert.AreEqual(IterationStatus.Running, status, "Should be running");
+            Assert.AreEqual(IterationStatus.Continue, status, "Should be running");
 
             criterium.Reset();
-            Assert.AreEqual(IterationStatus.Indetermined, criterium.Status, "Should not have started");
+            Assert.AreEqual(IterationStatus.Continue, criterium.Status, "Should not have started");
         }
 
         /// <summary>

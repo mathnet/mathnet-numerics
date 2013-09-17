@@ -49,7 +49,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.StopCriterium
         /// <summary>
         /// The status of the calculation
         /// </summary>
-        IterationStatus _status = IterationStatus.Indetermined;
+        IterationStatus _status = IterationStatus.Continue;
 
         /// <summary>
         /// The iteration number of the last iteration.
@@ -92,7 +92,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.StopCriterium
             var residualNorm = residualVector.InfinityNorm();
             var solutionNorm = solutionVector.InfinityNorm();
 
-            _status = double.IsNaN(solutionNorm) || double.IsNaN(residualNorm) ? IterationStatus.Failure : IterationStatus.Running;
+            _status = double.IsNaN(solutionNorm) || double.IsNaN(residualNorm) ? IterationStatus.Failure : IterationStatus.Continue;
 
             _lastIteration = iterationNumber;
             return _status;
@@ -115,7 +115,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.StopCriterium
         /// </summary>
         public void Reset()
         {
-            _status = IterationStatus.Indetermined;
+            _status = IterationStatus.Continue;
             _lastIteration = DefaultLastIterationNumber;
         }
 

@@ -71,20 +71,6 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
         }
 
         /// <summary>
-        /// Determine if calculation should continue
-        /// </summary>
-        /// <param name="iterationNumber">Number of iterations passed</param>
-        /// <param name="result">Result <see cref="Vector"/>.</param>
-        /// <param name="source">Source <see cref="Vector"/>.</param>
-        /// <param name="residuals">Residual <see cref="Vector"/>.</param>
-        /// <returns><c>true</c> if continue, otherwise <c>false</c></returns>
-        static bool ShouldContinue(Iterator<double> iterator, int iterationNumber, Vector<double> result, Vector<double> source, Vector<double> residuals)
-        {
-            var status = iterator.DetermineStatus(iterationNumber, result, source, residuals);
-            return status == IterationStatus.Running || status == IterationStatus.Indetermined;
-        }
-
-        /// <summary>
         /// Is <paramref name="number"/> even?
         /// </summary>
         /// <param name="number">Number to check</param>
@@ -171,7 +157,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
 
             // Start the iteration
             var iterationNumber = 0;
-            while (ShouldContinue(iterator, iterationNumber, result, input, pseudoResiduals))
+            while (iterator.DetermineStatus(iterationNumber, result, input, pseudoResiduals) == IterationStatus.Continue)
             {
                 // First part of the step, the even bit
                 if (IsEven(iterationNumber))
@@ -230,7 +216,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
                 temp2.CopyTo(x);
 
                 // Check convergence and see if we can bail
-                if (!ShouldContinue(iterator, iterationNumber, result, input, pseudoResiduals))
+                if (iterator.DetermineStatus(iterationNumber, result, input, pseudoResiduals) != IterationStatus.Continue)
                 {
                     // Calculate the real values
                     preconditioner.Approximate(x, result);
@@ -241,7 +227,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
                     CalculateTrueResidual(matrix, temp, result, input);
 
                     // Now recheck the convergence
-                    if (!ShouldContinue(iterator, iterationNumber, result, input, temp))
+                    if (iterator.DetermineStatus(iterationNumber, result, input, temp) != IterationStatus.Continue)
                     {
                         // We're all good now.
                         return;

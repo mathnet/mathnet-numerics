@@ -49,7 +49,7 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
         /// <summary>
         /// The status of the iterator.
         /// </summary>
-        IterationStatus _status = IterationStatus.Indetermined;
+        IterationStatus _status = IterationStatus.Continue;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Iterator{T}"/> class with the specified stop criteria.
@@ -133,13 +133,7 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
             foreach (var stopCriterium in _stopCriteria)
             {
                 var status = stopCriterium.DetermineStatus(iterationNumber, solutionVector, sourceVector, residualVector);
-
-                // Check if the status is:
-                // - Running --> keep going
-                // - Indetermined --> keep going
-                // Anything else:
-                // Stop looping and set that status
-                if ((status == IterationStatus.Running) || (status == IterationStatus.Indetermined))
+                if (status == IterationStatus.Continue)
                 {
                     continue;
                 }
@@ -150,7 +144,7 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
 
             // Got all the way through
             // So we're running because we had vectors passed to us.
-            _status = IterationStatus.Running;
+            _status = IterationStatus.Continue;
 
             return _status;
         }
@@ -171,7 +165,7 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
         /// </summary>
         public void Reset()
         {
-            _status = IterationStatus.Indetermined;
+            _status = IterationStatus.Continue;
 
             foreach (var stopCriterium in _stopCriteria)
             {

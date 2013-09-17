@@ -53,7 +53,7 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
         /// <summary>
         /// The status of the calculation
         /// </summary>
-        IterationStatus _status = IterationStatus.Indetermined;
+        IterationStatus _status = IterationStatus.Continue;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="IterationCountStopCriterium{T}"/> class with the default maximum 
@@ -130,7 +130,7 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
                 throw new ArgumentOutOfRangeException("iterationNumber");
             }
 
-            _status = iterationNumber >= _maximumNumberOfIterations ? IterationStatus.StoppedWithoutConvergence : IterationStatus.Running;
+            _status = iterationNumber >= _maximumNumberOfIterations ? IterationStatus.StoppedWithoutConvergence : IterationStatus.Continue;
 
             return _status;
         }
@@ -152,7 +152,7 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
         /// </summary>
         public void Reset()
         {
-            _status = IterationStatus.Indetermined;
+            _status = IterationStatus.Continue;
         }
 
         /// <summary>

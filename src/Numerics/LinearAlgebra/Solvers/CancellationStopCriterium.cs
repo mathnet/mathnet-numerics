@@ -75,7 +75,7 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
         /// </remarks>
         public IterationStatus DetermineStatus(int iterationNumber, Vector<T> solutionVector, Vector<T> sourceVector, Vector<T> residualVector)
         {
-            return _currentTcs.Token.IsCancellationRequested ? IterationStatus.Cancelled : IterationStatus.Running;
+            return _currentTcs.Token.IsCancellationRequested ? IterationStatus.Cancelled : IterationStatus.Continue;
         }
 
         /// <summary>
@@ -86,7 +86,7 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
             [DebuggerStepThrough]
             get
             {
-                return _currentTcs.Token.IsCancellationRequested ? IterationStatus.Cancelled : IterationStatus.Running;
+                return _currentTcs.Token.IsCancellationRequested ? IterationStatus.Cancelled : IterationStatus.Continue;
             }
         }
 

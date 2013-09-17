@@ -44,17 +44,17 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.StopCriterium
         /// Defines the default last iteration number. Set to -1 because iterations normally
         /// start at 0.
         /// </summary>
-        private const int DefaultLastIterationNumber = -1;
+        const int DefaultLastIterationNumber = -1;
 
         /// <summary>
         /// The status of the calculation
         /// </summary>
-        private IterationStatus _status = IterationStatus.Indetermined;
+        IterationStatus _status = IterationStatus.Continue;
 
         /// <summary>
         /// The iteration number of the last iteration.
         /// </summary>
-        private int _lastIteration = DefaultLastIterationNumber;
+        int _lastIteration = DefaultLastIterationNumber;
 
         /// <summary>
         /// Determines the status of the iterative calculation based on the stop criteria stored
@@ -92,7 +92,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.StopCriterium
             var residualNorm = residualVector.InfinityNorm();
             var solutionNorm = solutionVector.InfinityNorm();
 
-            _status = float.IsNaN(solutionNorm) || float.IsNaN(residualNorm) ? IterationStatus.Failure : IterationStatus.Running;
+            _status = float.IsNaN(solutionNorm) || float.IsNaN(residualNorm) ? IterationStatus.Failure : IterationStatus.Continue;
 
             _lastIteration = iterationNumber;
             return _status;
@@ -115,7 +115,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.StopCriterium
         /// </summary>
         public void Reset()
         {
-            _status = IterationStatus.Indetermined;
+            _status = IterationStatus.Continue;
             _lastIteration = DefaultLastIterationNumber;
         }
 

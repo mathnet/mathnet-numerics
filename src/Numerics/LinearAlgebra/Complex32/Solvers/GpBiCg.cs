@@ -131,20 +131,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers
         }
 
         /// <summary>
-        /// Determine if calculation should continue
-        /// </summary>
-        /// <param name="iterationNumber">Number of iterations passed</param>
-        /// <param name="result">Result <see cref="Vector"/>.</param>
-        /// <param name="source">Source <see cref="Vector"/>.</param>
-        /// <param name="residuals">Residual <see cref="Vector"/>.</param>
-        /// <returns><c>true</c> if continue, otherwise <c>false</c></returns>
-        static bool ShouldContinue(Iterator<Numerics.Complex32> iterator, int iterationNumber, Vector<Numerics.Complex32> result, Vector<Numerics.Complex32> source, Vector<Numerics.Complex32> residuals)
-        {
-            var status = iterator.DetermineStatus(iterationNumber, result, source, residuals);
-            return status == IterationStatus.Running || status == IterationStatus.Indetermined;
-        }
-
-        /// <summary>
         /// Decide if to do steps with BiCgStab
         /// </summary>
         /// <param name="iterationNumber">Number of iteration</param>
@@ -236,7 +222,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers
 
             // for (k = 0, 1, .... )
             var iterationNumber = 0;
-            while (ShouldContinue(iterator, iterationNumber, xtemp, input, residuals))
+            while (iterator.DetermineStatus(iterationNumber, xtemp, input, residuals) == IterationStatus.Continue)
             {
                 // p_k = r_k + beta_(k-1) * (p_(k-1) - u_(k-1))
                 p.Subtract(u, temp);
@@ -377,7 +363,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers
                 preconditioner.Approximate(xtemp, result);
 
                 // Now check for convergence
-                if (!ShouldContinue(iterator, iterationNumber, result, input, residuals))
+                if (iterator.DetermineStatus(iterationNumber, result, input, residuals) != IterationStatus.Continue)
                 {
                     // Recalculate the residuals and go round again. This is done to ensure that
                     // we have the proper residuals.

@@ -234,20 +234,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers
         }
 
         /// <summary>
-        /// Determine if calculation should continue
-        /// </summary>
-        /// <param name="iterationNumber">Number of iterations passed</param>
-        /// <param name="result">Result <see cref="Vector"/>.</param>
-        /// <param name="source">Source <see cref="Vector"/>.</param>
-        /// <param name="residuals">Residual <see cref="Vector"/>.</param>
-        /// <returns><c>true</c> if continue, otherwise <c>false</c></returns>
-        static bool ShouldContinue(Iterator<Numerics.Complex32> iterator, int iterationNumber, Vector<Numerics.Complex32> result, Vector<Numerics.Complex32> source, Vector<Numerics.Complex32> residuals)
-        {
-            var status = iterator.DetermineStatus(iterationNumber, result, source, residuals);
-            return status == IterationStatus.Running || status == IterationStatus.Indetermined;
-        }
-
-        /// <summary>
         /// Solves the matrix equation Ax = b, where A is the coefficient matrix, b is the
         /// solution vector and x is the unknown vector.
         /// </summary>
@@ -345,7 +331,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers
 
             // FOR (j = 0, 1, 2 ....)
             var iterationNumber = 0;
-            while (ShouldContinue(iterator, iterationNumber, xtemp, input, residuals))
+            while (iterator.DetermineStatus(iterationNumber, xtemp, input, residuals) == IterationStatus.Continue)
             {
                 // SOLVE M g~_((j-1)k+k) = g_((j-1)k+k)
                 preconditioner.Approximate(g[k - 1], gtemp);
@@ -403,13 +389,13 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers
                 temp2.CopyTo(xtemp);
 
                 // Check convergence and stop if we are converged.
-                if (!ShouldContinue(iterator, iterationNumber, xtemp, input, residuals))
+                if (iterator.DetermineStatus(iterationNumber, xtemp, input, residuals) != IterationStatus.Continue)
                 {
                     // Calculate the true residual
                     CalculateTrueResidual(matrix, residuals, xtemp, input);
 
                     // Now recheck the convergence
-                    if (!ShouldContinue(iterator, iterationNumber, xtemp, input, residuals))
+                    if (iterator.DetermineStatus(iterationNumber, xtemp, input, residuals) != IterationStatus.Continue)
                     {
                         // We're all good now.
                         // Exit from the while loop.
@@ -538,7 +524,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers
                         temp2.CopyTo(residuals);
 
                         // We can check the residuals here if they're close
-                        if (!ShouldContinue(iterator, iterationNumber, xtemp, input, residuals))
+                        if (iterator.DetermineStatus(iterationNumber, xtemp, input, residuals) != IterationStatus.Continue)
                         {
                             // Recalculate the residuals and go round again. This is done to ensure that
                             // we have the proper residuals.
