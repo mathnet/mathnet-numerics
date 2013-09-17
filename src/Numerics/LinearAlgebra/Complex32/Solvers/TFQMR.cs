@@ -87,7 +87,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers
         /// <param name="matrix">The coefficient matrix, <c>A</c>.</param>
         /// <param name="input">The solution vector, <c>b</c></param>
         /// <param name="result">The result vector, <c>x</c></param>
-        public void Solve(Matrix<Numerics.Complex32> matrix, Vector<Numerics.Complex32> input, Vector<Numerics.Complex32> result, Iterator<Numerics.Complex32> iterator = null, IPreconditioner<Numerics.Complex32> preconditioner = null)
+        public void Solve(Matrix<Numerics.Complex32> matrix, Vector<Numerics.Complex32> input, Vector<Numerics.Complex32> result, Iterator<Numerics.Complex32> iterator, IPreconditioner<Numerics.Complex32> preconditioner)
         {
             if (matrix.RowCount != matrix.ColumnCount)
             {
@@ -104,11 +104,9 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers
                 throw Matrix.DimensionsDontMatch<ArgumentException>(input, matrix);
             }
 
-            // Initialize the solver fields
-            // Set the convergence monitor
             if (iterator == null)
             {
-                iterator = new Iterator<Numerics.Complex32>(Iterator.CreateDefaultStopCriteria());
+                iterator = new Iterator<Numerics.Complex32>();
             }
 
             if (preconditioner == null)
@@ -273,68 +271,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers
 
                 iterationNumber++;
             }
-        }
-
-        /// <summary>
-        /// Solves the matrix equation AX = B, where A is the coefficient matrix, B is the
-        /// solution matrix and X is the unknown matrix.
-        /// </summary>
-        /// <param name="matrix">The coefficient matrix, <c>A</c>.</param>
-        /// <param name="input">The solution matrix, <c>B</c>.</param>
-        /// <param name="result">The result matrix, <c>X</c></param>
-        public void Solve(Matrix<Numerics.Complex32> matrix, Matrix<Numerics.Complex32> input, Matrix<Numerics.Complex32> result, Iterator<Numerics.Complex32> iterator = null, IPreconditioner<Numerics.Complex32> preconditioner = null)
-        {
-            if (matrix.RowCount != input.RowCount || input.RowCount != result.RowCount || input.ColumnCount != result.ColumnCount)
-            {
-                throw Matrix.DimensionsDontMatch<ArgumentException>(input, matrix, result);
-            }
-
-            if (iterator == null)
-            {
-                iterator = new Iterator<Numerics.Complex32>(Iterator.CreateDefaultStopCriteria());
-            }
-
-            if (preconditioner == null)
-            {
-                preconditioner = new UnitPreconditioner<Numerics.Complex32>();
-            }
-
-            for (var column = 0; column < input.ColumnCount; column++)
-            {
-                var solution = Solve(matrix, input.Column(column), iterator, preconditioner);
-                foreach (var element in solution.EnumerateNonZeroIndexed())
-                {
-                    result.At(element.Item1, column, element.Item2);
-                }
-            }
-        }
-
-        /// <summary>
-        /// Solves the matrix equation Ax = b, where A is the coefficient matrix, b is the
-        /// solution vector and x is the unknown vector.
-        /// </summary>
-        /// <param name="matrix">The coefficient matrix, <c>A</c>.</param>
-        /// <param name="vector">The solution vector, <c>b</c>.</param>
-        /// <returns>The result vector, <c>x</c>.</returns>
-        public Vector<Numerics.Complex32> Solve(Matrix<Numerics.Complex32> matrix, Vector<Numerics.Complex32> vector, Iterator<Numerics.Complex32> iterator = null, IPreconditioner<Numerics.Complex32> preconditioner = null)
-        {
-            var result = new DenseVector(matrix.RowCount);
-            Solve(matrix, vector, result, iterator, preconditioner);
-            return result;
-        }
-
-        /// <summary>
-        /// Solves the matrix equation AX = B, where A is the coefficient matrix, B is the
-        /// solution matrix and X is the unknown matrix.
-        /// </summary>
-        /// <param name="matrix">The coefficient matrix, <c>A</c>.</param>
-        /// <param name="input">The solution matrix, <c>B</c>.</param>
-        /// <returns>The result matrix, <c>X</c>.</returns>
-        public Matrix<Numerics.Complex32> Solve(Matrix<Numerics.Complex32> matrix, Matrix<Numerics.Complex32> input, Iterator<Numerics.Complex32> iterator = null, IPreconditioner<Numerics.Complex32> preconditioner = null)
-        {
-            var result = matrix.CreateMatrix(input.RowCount, input.ColumnCount);
-            Solve(matrix, input, result, iterator, preconditioner);
-            return result;
         }
     }
 }

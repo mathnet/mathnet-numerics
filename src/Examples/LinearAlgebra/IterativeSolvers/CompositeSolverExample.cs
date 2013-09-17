@@ -112,7 +112,7 @@ namespace Examples.LinearAlgebra.IterativeSolversExamples
             var solver = new CompositeSolver(SolverSetup<double>.LoadFromAssembly(Assembly.GetExecutingAssembly()));
             
             // 1. Solve the matrix equation
-            var resultX = solver.Solve(matrixA, vectorB, monitor);
+            var resultX = matrixA.SolveIterative(vectorB, solver, monitor);
             Console.WriteLine(@"1. Solve the matrix equation");
             Console.WriteLine();
 

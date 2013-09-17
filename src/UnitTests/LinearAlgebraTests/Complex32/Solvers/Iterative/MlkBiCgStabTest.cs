@@ -65,7 +65,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.Iterat
             var input = new DenseVector(2);
 
             var solver = new MlkBiCgStab();
-            Assert.Throws<ArgumentException>(() => solver.Solve(matrix, input));
+            Assert.Throws<ArgumentException>(() => matrix.SolveIterative(input, solver));
         }
 
         /// <summary>
@@ -78,7 +78,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.Iterat
             var input = new DenseVector(3);
 
             var solver = new MlkBiCgStab();
-            Assert.Throws<ArgumentException>(() => solver.Solve(matrix, input));
+            Assert.Throws<ArgumentException>(() => matrix.SolveIterative(input, solver));
         }
 
         /// <summary>
@@ -105,7 +105,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.Iterat
             var solver = new MlkBiCgStab();
 
             // Solve equation Ax = y
-            var x = solver.Solve(matrix, y, monitor);
+            var x = matrix.SolveIterative(y, solver, monitor);
 
             // Now compare the results
             Assert.IsNotNull(x, "#02");
@@ -150,7 +150,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.Iterat
             var solver = new MlkBiCgStab();
 
             // Solve equation Ax = y
-            var x = solver.Solve(matrix, y, monitor);
+            var x = matrix.SolveIterative(y, solver, monitor);
 
             // Now compare the results
             Assert.IsNotNull(x, "#02");
@@ -228,7 +228,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.Iterat
             var solver = new MlkBiCgStab();
 
             // Solve equation Ax = y
-            var x = solver.Solve(matrix, y, monitor);
+            var x = matrix.SolveIterative(y, solver, monitor);
 
             // Now compare the results
             Assert.IsNotNull(x, "#02");
@@ -266,9 +266,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.Iterat
                     });
                 var solver = new MlkBiCgStab();
 
-                var resultx = solver.Solve(matrixA, vectorb, monitor);
+                var resultx = matrixA.SolveIterative(vectorb, solver, monitor);
 
-                if (!(monitor.Status == IterationStatus.Converged))
+                if (monitor.Status != IterationStatus.Converged)
                 {
                     // Solution was not found, try again downgrading convergence boundary
                     continue;
@@ -308,9 +308,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.Iterat
                         new ResidualStopCriterium((float) Math.Pow(1.0/10.0, iteration))
                     });
                 var solver = new MlkBiCgStab();
-                var matrixX = solver.Solve(matrixA, matrixB, monitor);
+                var matrixX = matrixA.SolveIterative(matrixB, solver, monitor);
 
-                if (!(monitor.Status == IterationStatus.Converged))
+                if (monitor.Status != IterationStatus.Converged)
                 {
                     // Solution was not found, try again downgrading convergence boundary
                     continue;

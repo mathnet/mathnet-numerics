@@ -122,7 +122,7 @@
     <Compile Include="Distributions\Wishart.cs" />
     <Compile Include="Distributions\Zipf.cs" />
     <Compile Include="LinearAlgebra\Builder.cs" />
-    <Compile Include="LinearAlgebra\Matrix.Factorization.cs" />
+    <Compile Include="LinearAlgebra\Matrix.Solve.cs" />
     <Compile Include="LinearAlgebra\Solvers\CancellationStopCriterium.cs" />
     <Compile Include="LinearAlgebra\Solvers\IterationStatus.cs" />
     <Compile Include="LinearAlgebra\Solvers\Iterator.cs" />
@@ -243,7 +243,6 @@
     <Compile Include="LinearAlgebra\Complex32\Solvers\GpBiCg.cs" />
     <Compile Include="LinearAlgebra\Complex32\Solvers\MlkBiCgStab.cs" />
     <Compile Include="LinearAlgebra\Complex32\Solvers\TFQMR.cs" />
-    <Compile Include="LinearAlgebra\Complex32\Solvers\Iterator.cs" />
     <Compile Include="LinearAlgebra\Complex32\Solvers\Preconditioners\Diagonal.cs" />
     <Compile Include="LinearAlgebra\Complex32\Solvers\Preconditioners\Ilutp.cs" />
     <Compile Include="LinearAlgebra\Complex32\Solvers\Preconditioners\IlutpElementSorter.cs" />
@@ -269,7 +268,6 @@
     <Compile Include="LinearAlgebra\Complex\Solvers\GpBiCg.cs" />
     <Compile Include="LinearAlgebra\Complex\Solvers\MlkBiCgStab.cs" />
     <Compile Include="LinearAlgebra\Complex\Solvers\TFQMR.cs" />
-    <Compile Include="LinearAlgebra\Complex\Solvers\Iterator.cs" />
     <Compile Include="LinearAlgebra\Complex\Solvers\Preconditioners\Diagonal.cs" />
     <Compile Include="LinearAlgebra\Complex\Solvers\Preconditioners\Ilutp.cs" />
     <Compile Include="LinearAlgebra\Complex\Solvers\Preconditioners\IlutpElementSorter.cs" />
@@ -311,7 +309,6 @@
     <Compile Include="LinearAlgebra\Single\Solvers\GpBiCg.cs" />
     <Compile Include="LinearAlgebra\Single\Solvers\MlkBiCgStab.cs" />
     <Compile Include="LinearAlgebra\Single\Solvers\TFQMR.cs" />
-    <Compile Include="LinearAlgebra\Single\Solvers\Iterator.cs" />
     <Compile Include="LinearAlgebra\Single\Solvers\Preconditioners\Diagonal.cs" />
     <Compile Include="LinearAlgebra\Single\Solvers\Preconditioners\Ilutp.cs" />
     <Compile Include="LinearAlgebra\Single\Solvers\Preconditioners\IlutpElementSorter.cs" />
@@ -340,7 +337,6 @@
     <Compile Include="LinearAlgebra\Double\Solvers\GpBiCg.cs" />
     <Compile Include="LinearAlgebra\Double\Solvers\MlkBiCgStab.cs" />
     <Compile Include="LinearAlgebra\Double\Solvers\TFQMR.cs" />
-    <Compile Include="LinearAlgebra\Double\Solvers\Iterator.cs" />
     <Compile Include="LinearAlgebra\Double\Solvers\Preconditioners\Diagonal.cs" />
     <Compile Include="LinearAlgebra\Double\Solvers\Preconditioners\Ilutp.cs" />
     <Compile Include="LinearAlgebra\Double\Solvers\Preconditioners\IlutpElementSorter.cs" />

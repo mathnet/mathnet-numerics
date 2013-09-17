@@ -29,9 +29,12 @@
 // </copyright>
 
 using System;
+using MathNet.Numerics.LinearAlgebra.Solvers;
 
 namespace MathNet.Numerics.LinearAlgebra.Double
 {
+    using Solvers.StopCriterium;
+
     internal class GenericBuilder : IGenericBuilder<double>
     {
         public double Zero
@@ -63,11 +66,24 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         {
             return new SparseVector(size);
         }
+
+        public IIterationStopCriterium<double>[] IterativeSolverStopCriteria(int maxIterations)
+        {
+            return new IIterationStopCriterium<double>[]
+            {
+                new FailureStopCriterium(),
+                new DivergenceStopCriterium(),
+                new IterationCountStopCriterium<double>(maxIterations),
+                new ResidualStopCriterium()
+            };
+        }
     }
 }
 
 namespace MathNet.Numerics.LinearAlgebra.Single
 {
+    using Solvers.StopCriterium;
+
     internal class GenericBuilder : IGenericBuilder<float>
     {
         public float Zero
@@ -99,11 +115,23 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         {
             return new SparseVector(size);
         }
+
+        public IIterationStopCriterium<float>[] IterativeSolverStopCriteria(int maxIterations)
+        {
+            return new IIterationStopCriterium<float>[]
+            {
+                new FailureStopCriterium(),
+                new DivergenceStopCriterium(),
+                new IterationCountStopCriterium<float>(maxIterations),
+                new ResidualStopCriterium()
+            };
+        }
     }
 }
 
 namespace MathNet.Numerics.LinearAlgebra.Complex
 {
+    using Solvers.StopCriterium;
 
 #if NOSYSNUMERICS
     using Complex = Numerics.Complex;
@@ -142,11 +170,24 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         {
             return new SparseVector(size);
         }
+
+        public IIterationStopCriterium<Complex>[] IterativeSolverStopCriteria(int maxIterations)
+        {
+            return new IIterationStopCriterium<Complex>[]
+            {
+                new FailureStopCriterium(),
+                new DivergenceStopCriterium(),
+                new IterationCountStopCriterium<Complex>(maxIterations),
+                new ResidualStopCriterium()
+            };
+        }
     }
 }
 
 namespace MathNet.Numerics.LinearAlgebra.Complex32
 {
+    using Solvers.StopCriterium;
+
     internal class GenericBuilder : IGenericBuilder<Numerics.Complex32>
     {
         public Numerics.Complex32 Zero
@@ -177,6 +218,17 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         public Vector<Numerics.Complex32> SparseVector(int size)
         {
             return new SparseVector(size);
+        }
+
+        public IIterationStopCriterium<Numerics.Complex32>[] IterativeSolverStopCriteria(int maxIterations)
+        {
+            return new IIterationStopCriterium<Numerics.Complex32>[]
+            {
+                new FailureStopCriterium(),
+                new DivergenceStopCriterium(),
+                new IterationCountStopCriterium<Numerics.Complex32>(maxIterations),
+                new ResidualStopCriterium()
+            };
         }
     }
 }
@@ -232,6 +284,8 @@ namespace MathNet.Numerics.LinearAlgebra
         /// </summary>
         /// <param name="size">The size of the vector.</param>
         Vector<T> SparseVector(int size);
+
+        IIterationStopCriterium<T>[] IterativeSolverStopCriteria(int maxIterations = 1000);
     }
 
     internal static class Builder<T> where T : struct, IEquatable<T>, IFormattable

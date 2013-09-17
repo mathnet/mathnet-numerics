@@ -63,7 +63,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.Iterative
             var input = new DenseVector(2);
 
             var solver = new TFQMR();
-            Assert.Throws<ArgumentException>(() => solver.Solve(matrix, input));
+            Assert.Throws<ArgumentException>(() => matrix.SolveIterative(input, solver));
         }
 
         /// <summary>
@@ -76,7 +76,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.Iterative
             var input = new DenseVector(3);
 
             var solver = new TFQMR();
-            Assert.Throws<ArgumentException>(() => solver.Solve(matrix, input));
+            Assert.Throws<ArgumentException>(() => matrix.SolveIterative(input, solver));
         }
 
         /// <summary>
@@ -103,7 +103,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.Iterative
             var solver = new TFQMR();
 
             // Solve equation Ax = y
-            var x = solver.Solve(matrix, y, monitor);
+            var x = matrix.SolveIterative(y, solver, monitor);
 
             // Now compare the results
             Assert.IsNotNull(x, "#02");
@@ -148,7 +148,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.Iterative
             var solver = new TFQMR();
 
             // Solve equation Ax = y
-            var x = solver.Solve(matrix, y, monitor);
+            var x = matrix.SolveIterative(y, solver, monitor);
 
             // Now compare the results
             Assert.IsNotNull(x, "#02");
@@ -226,7 +226,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.Iterative
             var solver = new TFQMR();
 
             // Solve equation Ax = y
-            var x = solver.Solve(matrix, y, monitor);
+            var x = matrix.SolveIterative(y, solver, monitor);
 
             // Now compare the results
             Assert.IsNotNull(x, "#02");
@@ -264,7 +264,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.Iterative
                 });
             var solver = new TFQMR();
 
-            var resultx = solver.Solve(matrixA, vectorb, monitor);
+            var resultx = matrixA.SolveIterative(vectorb, solver, monitor);
             Assert.AreEqual(matrixA.ColumnCount, resultx.Count);
 
             var matrixBReconstruct = matrixA*resultx;
@@ -294,7 +294,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.Iterative
                     new ResidualStopCriterium(1e-10)
                 });
             var solver = new TFQMR();
-            var matrixX = solver.Solve(matrixA, matrixB, monitor);
+            var matrixX = matrixA.SolveIterative(matrixB, solver, monitor);
 
             // The solution X row dimension is equal to the column dimension of A
             Assert.AreEqual(matrixA.ColumnCount, matrixX.RowCount);

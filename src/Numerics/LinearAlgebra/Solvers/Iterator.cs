@@ -52,6 +52,14 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
         IterationStatus _status = IterationStatus.Continue;
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="Iterator{T}"/> class with the default stop criteria.
+        /// </summary>
+        public Iterator()
+        {
+            _stopCriteria = new List<IIterationStopCriterium<T>>(Matrix<T>.Builder.IterativeSolverStopCriteria());
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="Iterator{T}"/> class with the specified stop criteria.
         /// </summary>
         /// <param name="stopCriteria">
