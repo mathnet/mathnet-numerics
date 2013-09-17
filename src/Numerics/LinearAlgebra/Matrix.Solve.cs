@@ -81,7 +81,73 @@ namespace MathNet.Numerics.LinearAlgebra
         public abstract Evd<T> Evd();
 
 
-        // Iterative Solvers: Try
+
+        // Direct Solvers: Full
+
+        /// <summary>
+        /// Solves a system of linear equations, <b>Ax = b</b>, with A QR factorized.
+        /// </summary>
+        /// <param name="input">The right hand side vector, <b>b</b>.</param>
+        /// <param name="result">The left hand side <see cref="Matrix{T}"/>, <b>x</b>.</param>
+        public void Solve(Vector<T> input, Vector<T> result)
+        {
+            if (ColumnCount == RowCount)
+            {
+                LU().Solve(input, result);
+                return;
+            }
+
+            QR().Solve(input, result);
+        }
+
+        /// <summary>
+        /// Solves a system of linear equations, <b>AX = B</b>, with A QR factorized.
+        /// </summary>
+        /// <param name="input">The right hand side <see cref="Matrix{T}"/>, <b>B</b>.</param>
+        /// <param name="result">The left hand side <see cref="Matrix{T}"/>, <b>X</b>.</param>
+        public void Solve(Matrix<T> input, Matrix<T> result)
+        {
+            if (ColumnCount == RowCount)
+            {
+                LU().Solve(input, result);
+                return;
+            }
+
+            QR().Solve(input, result);
+        }
+
+
+
+        // Direct Solvers: Simple
+
+        /// <summary>
+        /// Solves a system of linear equations, <b>AX = B</b>, with A QR factorized.
+        /// </summary>
+        /// <param name="input">The right hand side <see cref="Matrix{T}"/>, <b>B</b>.</param>
+        /// <returns>The left hand side <see cref="Matrix{T}"/>, <b>X</b>.</returns>
+        public Matrix<T> Solve(Matrix<T> input)
+        {
+            var matrixX = CreateMatrix(ColumnCount, input.ColumnCount);
+            Solve(input, matrixX);
+            return matrixX;
+        }
+
+
+        /// <summary>
+        /// Solves a system of linear equations, <b>Ax = b</b>, with A QR factorized.
+        /// </summary>
+        /// <param name="input">The right hand side vector, <b>b</b>.</param>
+        /// <returns>The left hand side <see cref="Vector{T}"/>, <b>x</b>.</returns>
+        public Vector<T> Solve(Vector<T> input)
+        {
+            var x = CreateVector(ColumnCount);
+            Solve(input, x);
+            return x;
+        }
+
+
+
+        // Iterative Solvers: Full
 
         /// <summary>
         /// Solves the matrix equation Ax = b, where A is the coefficient matrix (this matrix), b is the solution vector and x is the unknown vector.
@@ -195,6 +261,7 @@ namespace MathNet.Numerics.LinearAlgebra
             var iterator = new Iterator<T>(stopCriteria.Length == 0 ? Builder.IterativeSolverStopCriteria() : stopCriteria);
             return TrySolveIterative(input, result, solver, preconditioner, iterator);
         }
+
 
 
         // Iterative Solvers: Simple
