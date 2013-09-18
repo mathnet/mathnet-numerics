@@ -694,21 +694,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
 
         /// <summary>
         /// Creates a Complex dense vector based on a string. The string can be in the following formats (without the
-        /// quotes): 'n', 'n;n;..', '(n;n;..)', '[n;n;...]', where n is a Complex.
-        /// </summary>
-        /// <returns>
-        /// A Complex dense vector containing the values specified by the given string.
-        /// </returns>
-        /// <param name="value">
-        /// The string to parse.
-        /// </param>
-        public static DenseVector Parse(string value)
-        {
-            return Parse(value, null);
-        }
-
-        /// <summary>
-        /// Creates a Complex dense vector based on a string. The string can be in the following formats (without the
         /// quotes): 'n', 'n;n;..', '(n;n;..)', '[n;n;...]', where n is a double.
         /// </summary>
         /// <returns>
@@ -720,7 +705,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// <param name="formatProvider">
         /// An <see cref="IFormatProvider"/> that supplies culture-specific formatting information.
         /// </param>
-        public static DenseVector Parse(string value, IFormatProvider formatProvider)
+        public static DenseVector Parse(string value, IFormatProvider formatProvider = null)
         {
             if (value == null)
             {

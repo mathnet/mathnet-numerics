@@ -111,10 +111,10 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
         /// Smith, Boyle, Dongarra, Garbow, Ikebe, Klema, Moler, and Wilkinson, Handbook for 
         /// Auto. Comp., Vol.ii-Linear Algebra, and the corresponding 
         /// Fortran subroutine in EISPACK.</remarks>
-        internal static void SymmetricTridiagonalize(Numerics.Complex32[] matrixA, float[] d, float[] e, Numerics.Complex32[] tau, int order)
+        internal static void SymmetricTridiagonalize(Complex32[] matrixA, float[] d, float[] e, Complex32[] tau, int order)
         {
             float hh;
-            tau[order - 1] = Numerics.Complex32.One;
+            tau[order - 1] = Complex32.One;
 
             for (var i = 0; i < order; i++)
             {
@@ -135,7 +135,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
 
                 if (scale == 0.0f)
                 {
-                    tau[i - 1] = Numerics.Complex32.One;
+                    tau[i - 1] = Complex32.One;
                     e[i] = 0.0f;
                 }
                 else
@@ -146,10 +146,10 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
                         h += matrixA[k*order + i].MagnitudeSquared;
                     }
 
-                    Numerics.Complex32 g = (float) Math.Sqrt(h);
+                    Complex32 g = (float) Math.Sqrt(h);
                     e[i] = scale*g.Real;
 
-                    Numerics.Complex32 temp;
+                    Complex32 temp;
                     var im1Oi = (i - 1)*order + i;
                     var f = matrixA[im1Oi];
                     if (f.Magnitude != 0.0f)
@@ -167,10 +167,10 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
 
                     if ((f.Magnitude == 0.0f) || (i != 1))
                     {
-                        f = Numerics.Complex32.Zero;
+                        f = Complex32.Zero;
                         for (var j = 0; j < i; j++)
                         {
-                            var tmp = Numerics.Complex32.Zero;
+                            var tmp = Complex32.Zero;
                             var jO = j*order;
                             // Form element of A*U.
                             for (var k = 0; k <= j; k++)
@@ -214,7 +214,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
 
                 hh = d[i];
                 d[i] = matrixA[i*order + i].Real;
-                matrixA[i*order + i] = new Numerics.Complex32(hh, scale*(float) Math.Sqrt(h));
+                matrixA[i*order + i] = new Complex32(hh, scale*(float) Math.Sqrt(h));
             }
 
             hh = d[0];
@@ -235,7 +235,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
         /// Auto. Comp., Vol.ii-Linear Algebra, and the corresponding
         /// Fortran subroutine in EISPACK.</remarks>
         /// <exception cref="NonConvergenceException"></exception>
-        internal static void SymmetricDiagonalize(Numerics.Complex32[] dataEv, float[] d, float[] e, int order)
+        internal static void SymmetricDiagonalize(Complex32[] dataEv, float[] d, float[] e, int order)
         {
             const int maxiter = 1000;
 
@@ -381,7 +381,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
         /// by Smith, Boyle, Dongarra, Garbow, Ikebe, Klema, Moler, and Wilkinson, Handbook for
         /// Auto. Comp., Vol.ii-Linear Algebra, and the corresponding
         /// Fortran subroutine in EISPACK.</remarks>
-        internal static void SymmetricUntridiagonalize(Numerics.Complex32[] dataEv, Numerics.Complex32[] matrixA, Numerics.Complex32[] tau, int order)
+        internal static void SymmetricUntridiagonalize(Complex32[] dataEv, Complex32[] matrixA, Complex32[] tau, int order)
         {
             for (var i = 0; i < order; i++)
             {
@@ -399,7 +399,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
                 {
                     for (var j = 0; j < order; j++)
                     {
-                        var s = Numerics.Complex32.Zero;
+                        var s = Complex32.Zero;
                         for (var k = 0; k < i; k++)
                         {
                             s += dataEv[(j*order) + k]*matrixA[k*order + i];
@@ -426,9 +426,9 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
         /// by Martin and Wilkinson, Handbook for Auto. Comp.,
         /// Vol.ii-Linear Algebra, and the corresponding
         /// Fortran subroutines in EISPACK.</remarks>
-        internal static void NonsymmetricReduceToHessenberg(Numerics.Complex32[] dataEv, Numerics.Complex32[] matrixH, int order)
+        internal static void NonsymmetricReduceToHessenberg(Complex32[] dataEv, Complex32[] matrixH, int order)
         {
-            var ort = new Numerics.Complex32[order];
+            var ort = new Complex32[order];
 
             for (var m = 1; m < order - 1; m++)
             {
@@ -467,7 +467,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
                     // H = (I-u*u'/h)*H*(I-u*u')/h)
                     for (var j = m; j < order; j++)
                     {
-                        var f = Numerics.Complex32.Zero;
+                        var f = Complex32.Zero;
                         var jO = j*order;
                         for (var i = order - 1; i >= m; i--)
                         {
@@ -483,7 +483,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
 
                     for (var i = 0; i < order; i++)
                     {
-                        var f = Numerics.Complex32.Zero;
+                        var f = Complex32.Zero;
                         for (var j = order - 1; j >= m; j--)
                         {
                             f += ort[j]*matrixH[j*order + i];
@@ -506,7 +506,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
             {
                 for (var j = 0; j < order; j++)
                 {
-                    dataEv[(j*order) + i] = i == j ? Numerics.Complex32.One : Numerics.Complex32.Zero;
+                    dataEv[(j*order) + i] = i == j ? Complex32.One : Complex32.Zero;
                 }
             }
 
@@ -514,7 +514,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
             {
                 var mm1O = (m - 1)*order;
                 var mm1Om = mm1O + m;
-                if (matrixH[mm1Om] != Numerics.Complex32.Zero && ort[m] != Numerics.Complex32.Zero)
+                if (matrixH[mm1Om] != Complex32.Zero && ort[m] != Complex32.Zero)
                 {
                     var norm = (matrixH[mm1Om].Real*ort[m].Real) + (matrixH[mm1Om].Imaginary*ort[m].Imaginary);
 
@@ -525,7 +525,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
 
                     for (var j = m; j < order; j++)
                     {
-                        var g = Numerics.Complex32.Zero;
+                        var g = Complex32.Zero;
                         for (var i = m; i < order; i++)
                         {
                             g += ort[i].Conjugate()*dataEv[(j*order) + i];
@@ -581,14 +581,14 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
         /// by Martin and Wilkinson, Handbook for Auto. Comp.,
         /// Vol.ii-Linear Algebra, and the corresponding
         /// Fortran subroutine in EISPACK.</remarks>
-        internal static void NonsymmetricReduceHessenberToRealSchur(Numerics.Complex32[] vectorV, Numerics.Complex32[] dataEv, Numerics.Complex32[] matrixH, int order)
+        internal static void NonsymmetricReduceHessenberToRealSchur(Complex32[] vectorV, Complex32[] dataEv, Complex32[] matrixH, int order)
         {
             // Initialize
             var n = order - 1;
             var eps = (float) Precision.SingleMachinePrecision;
 
             float norm;
-            Numerics.Complex32 x, y, z, exshift = Numerics.Complex32.Zero;
+            Complex32 x, y, z, exshift = Complex32.Zero;
 
             // Outer loop over eigenvalue index
             var iter = 0;
@@ -626,7 +626,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
                 else
                 {
                     // Form shift
-                    Numerics.Complex32 s;
+                    Complex32 s;
                     if (iter != 10 && iter != 20)
                     {
                         s = matrixH[nOn];
@@ -670,7 +670,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
                         x = matrixH[im1Oim1]/norm;
                         vectorV[i - 1] = x;
                         matrixH[im1Oim1] = norm;
-                        matrixH[im1O + i] = new Numerics.Complex32(0.0f, s.Real/norm);
+                        matrixH[im1O + i] = new Complex32(0.0f, s.Real/norm);
 
                         for (var j = i; j < order; j++)
                         {
@@ -714,7 +714,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
                             else
                             {
                                 y = matrixH[jm1Oi].Real;
-                                matrixH[jm1Oi] = new Numerics.Complex32((x.Real*y.Real) - (x.Imaginary*y.Imaginary) + (matrixH[jm1O + j].Imaginary*z.Real), matrixH[jm1Oi].Imaginary);
+                                matrixH[jm1Oi] = new Complex32((x.Real*y.Real) - (x.Imaginary*y.Imaginary) + (matrixH[jm1O + j].Imaginary*z.Real), matrixH[jm1Oi].Imaginary);
                             }
 
                             matrixH[jO + i] = (x.Conjugate()*z) - (matrixH[jm1O + j].Imaginary*y);
@@ -806,7 +806,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
                 var jO = j*order;
                 for (var i = 0; i < order; i++)
                 {
-                    z = Numerics.Complex32.Zero;
+                    z = Complex32.Zero;
                     for (var k = 0; k <= j; k++)
                     {
                         z += dataEv[(k*order) + i]*matrixH[jO + k];
@@ -822,7 +822,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
         /// </summary>
         /// <param name="input">The right hand side <see cref="Matrix{T}"/>, <b>B</b>.</param>
         /// <param name="result">The left hand side <see cref="Matrix{T}"/>, <b>X</b>.</param>
-        public override void Solve(Matrix<Numerics.Complex32> input, Matrix<Numerics.Complex32> result)
+        public override void Solve(Matrix<Complex32> input, Matrix<Complex32> result)
         {
             // The solution X should have the same number of columns as B
             if (input.ColumnCount != result.ColumnCount)
@@ -845,13 +845,13 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
             if (IsSymmetric)
             {
                 var order = EigenValues.Count;
-                var tmp = new Numerics.Complex32[order];
+                var tmp = new Complex32[order];
 
                 for (var k = 0; k < order; k++)
                 {
                     for (var j = 0; j < order; j++)
                     {
-                        Numerics.Complex32 value = 0.0f;
+                        Complex32 value = 0.0f;
                         if (j < order)
                         {
                             for (var i = 0; i < order; i++)
@@ -867,7 +867,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
 
                     for (var j = 0; j < order; j++)
                     {
-                        Numerics.Complex32 value = 0.0f;
+                        Complex32 value = 0.0f;
                         for (var i = 0; i < order; i++)
                         {
                             value += ((DenseMatrix) EigenVectors).Values[(i*order) + j]*tmp[i];
@@ -888,7 +888,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
         /// </summary>
         /// <param name="input">The right hand side vector, <b>b</b>.</param>
         /// <param name="result">The left hand side <see cref="Matrix{T}"/>, <b>x</b>.</param>
-        public override void Solve(Vector<Numerics.Complex32> input, Vector<Numerics.Complex32> result)
+        public override void Solve(Vector<Complex32> input, Vector<Complex32> result)
         {
             // Ax=b where A is an m x m matrix
             // Check that b is a column vector with m entries
@@ -907,8 +907,8 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
             {
                 // Symmetric case -> x = V * inv(λ) * VH * b;
                 var order = EigenValues.Count;
-                var tmp = new Numerics.Complex32[order];
-                Numerics.Complex32 value;
+                var tmp = new Complex32[order];
+                Complex32 value;
 
                 for (var j = 0; j < order; j++)
                 {

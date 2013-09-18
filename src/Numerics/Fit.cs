@@ -31,7 +31,6 @@
 using System;
 using System.Linq;
 using MathNet.Numerics.LinearAlgebra.Double;
-using MathNet.Numerics.LinearAlgebra.Factorization;
 using MathNet.Numerics.Properties;
 
 namespace MathNet.Numerics
@@ -102,7 +101,7 @@ namespace MathNet.Numerics
         {
             return DenseMatrix
                 .OfColumns(x.Length, order + 1, Enumerable.Range(0, order + 1).Select(j => DenseVector.Create(x.Length, i => Math.Pow(x[i], j))))
-                .QR(QRMethod.Thin).Solve(new DenseVector(y))
+                .QR().Solve(new DenseVector(y))
                 .ToArray();
         }
 
@@ -124,7 +123,7 @@ namespace MathNet.Numerics
         {
             return DenseMatrix
                 .OfColumns(x.Length, functions.Length, functions.Select(f => DenseVector.Create(x.Length, i => f(x[i]))))
-                .QR(QRMethod.Thin).Solve(new DenseVector(y))
+                .QR().Solve(new DenseVector(y))
                 .ToArray();
         }
 
@@ -146,7 +145,7 @@ namespace MathNet.Numerics
         {
             return DenseMatrix
                 .OfRows(x.Length, functions.Length, x.Select(xi => functions.Select(f => f(xi))))
-                .QR(QRMethod.Thin).Solve(new DenseVector(y))
+                .QR().Solve(new DenseVector(y))
                 .ToArray();
         }
 
@@ -168,7 +167,7 @@ namespace MathNet.Numerics
         {
             return DenseMatrix
                 .OfRows(x.Length, functions.Length, x.Select(xi => functions.Select(f => f(xi))))
-                .QR(QRMethod.Thin).Solve(new DenseVector(y))
+                .QR().Solve(new DenseVector(y))
                 .ToArray();
         }
 

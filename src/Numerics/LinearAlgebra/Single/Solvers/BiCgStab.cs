@@ -91,6 +91,8 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
         /// <param name="matrix">The coefficient <see cref="Matrix"/>, <c>A</c>.</param>
         /// <param name="input">The solution <see cref="Vector"/>, <c>b</c>.</param>
         /// <param name="result">The result <see cref="Vector"/>, <c>x</c>.</param>
+        /// <param name="iterator">The iterator to use to control when to stop iterating.</param>
+        /// <param name="preconditioner">The preconditioner to use for approximations.</param>
         public void Solve(Matrix<float> matrix, Vector<float> input, Vector<float> result, Iterator<float> iterator, IPreconditioner<float> preconditioner)
         {
             if (matrix.RowCount != matrix.ColumnCount)

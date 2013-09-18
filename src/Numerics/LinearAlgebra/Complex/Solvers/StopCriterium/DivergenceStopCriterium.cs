@@ -90,38 +90,12 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.StopCriterium
         int _lastIteration = DefaultLastIterationNumber;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="DivergenceStopCriterium"/> class with the default maximum 
-        /// relative increase and the default minimum number of tracking iterations.
-        /// </summary>
-        public DivergenceStopCriterium() : this(DefaultMaximumRelativeIncrease, DefaultMinimumNumberOfIterations)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="DivergenceStopCriterium"/> class with the specified maximum 
-        /// relative increase and the default minimum number of tracking iterations.
-        /// </summary>
-        /// <param name="maximumRelativeIncrease">The maximum relative increase that the residual may experience before a divergence warning is issued.</param>
-        public DivergenceStopCriterium(double maximumRelativeIncrease) : this(maximumRelativeIncrease, DefaultMinimumNumberOfIterations)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="DivergenceStopCriterium"/> class with the default maximum 
-        /// relative increase and the specified minimum number of tracking iterations.
-        /// </summary>
-        /// <param name="minimumIterations">The minimum number of iterations over which the residual must grow before a divergence warning is issued. </param>
-        public DivergenceStopCriterium(int minimumIterations) : this(DefaultMinimumNumberOfIterations, minimumIterations)
-        {
-        }
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="DivergenceStopCriterium"/> class with the specified maximum 
         /// relative increase and the specified minimum number of tracking iterations.
         /// </summary>
         /// <param name="maximumRelativeIncrease">The maximum relative increase that the residual may experience before a divergence warning is issued. </param>
         /// <param name="minimumIterations">The minimum number of iterations over which the residual must grow before a divergence warning is issued.</param>
-        public DivergenceStopCriterium(double maximumRelativeIncrease, int minimumIterations)
+        public DivergenceStopCriterium(double maximumRelativeIncrease = DefaultMaximumRelativeIncrease, int minimumIterations = DefaultMinimumNumberOfIterations)
         {
             if (maximumRelativeIncrease <= 0)
             {

@@ -84,35 +84,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.StopCriterium
         int _lastIteration = DefaultLastIterationNumber;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ResidualStopCriterium"/> class with the default maximum 
-        /// residual and the default minimum number of iterations.
-        /// </summary>
-        public ResidualStopCriterium() : this(DefaultMaximumResidual, DefaultMinimumIterationsBelowMaximum)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ResidualStopCriterium"/> class with the specified 
-        /// maximum residual and the default minimum number of iterations.
-        /// </summary>
-        /// <param name="maximum">The maximum value for the residual below which the calculation is considered converged.</param>
-        public ResidualStopCriterium(float maximum) : this(maximum, DefaultMinimumIterationsBelowMaximum)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ResidualStopCriterium"/> class with the default maximum residual
-        /// and specified minimum number of iterations.
-        /// </summary>
-        /// <param name="minimumIterationsBelowMaximum">
-        /// The minimum number of iterations for which the residual has to be below the maximum before
-        /// the calculation is considered converged.
-        /// </param>
-        public ResidualStopCriterium(int minimumIterationsBelowMaximum) : this(DefaultMaximumResidual, minimumIterationsBelowMaximum)
-        {
-        }
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="ResidualStopCriterium"/> class with the specified 
         /// maximum residual and minimum number of iterations.
         /// </summary>
@@ -123,7 +94,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.StopCriterium
         /// The minimum number of iterations for which the residual has to be below the maximum before
         /// the calculation is considered converged.
         /// </param>
-        public ResidualStopCriterium(float maximum, int minimumIterationsBelowMaximum)
+        public ResidualStopCriterium(float maximum = DefaultMaximumResidual, int minimumIterationsBelowMaximum = DefaultMinimumIterationsBelowMaximum)
         {
             if (maximum < 0)
             {

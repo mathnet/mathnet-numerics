@@ -342,27 +342,13 @@ namespace MathNet.Numerics
         /// Increments a floating point number to the next bigger number representable by the data type.
         /// </summary>
         /// <param name="value">The value which needs to be incremented.</param>
-        /// <remarks>
-        /// The incrementation step length depends on the provided value.
-        /// Increment(double.MaxValue) will return positive infinity.
-        /// </remarks>
-        /// <returns>The next larger floating point value.</returns>
-        public static double Increment(this double value)
-        {
-            return Increment(value, 1);
-        }
-
-        /// <summary>
-        /// Increments a floating point number to the next bigger number representable by the data type.
-        /// </summary>
-        /// <param name="value">The value which needs to be incremented.</param>
         /// <param name="count">How many times the number should be incremented.</param>
         /// <remarks>
         /// The incrementation step length depends on the provided value.
         /// Increment(double.MaxValue) will return positive infinity.
         /// </remarks>
         /// <returns>The next larger floating point value.</returns>
-        public static double Increment(this double value, int count)
+        public static double Increment(this double value, int count = 1)
         {
             if (double.IsInfinity(value) || double.IsNaN(value) || count == 0)
             {
@@ -409,27 +395,13 @@ namespace MathNet.Numerics
         /// Decrements a floating point number to the next smaller number representable by the data type.
         /// </summary>
         /// <param name="value">The value which should be decremented.</param>
-        /// <remarks>
-        /// The decrementation step length depends on the provided value.
-        /// Decrement(double.MinValue) will return negative infinity.
-        /// </remarks>
-        /// <returns>The next smaller floating point value.</returns>
-        public static double Decrement(this double value)
-        {
-            return Decrement(value, 1);
-        }
-
-        /// <summary>
-        /// Decrements a floating point number to the next smaller number representable by the data type.
-        /// </summary>
-        /// <param name="value">The value which should be decremented.</param>
         /// <param name="count">How many times the number should be decremented.</param>
         /// <remarks>
         /// The decrementation step length depends on the provided value.
         /// Decrement(double.MinValue) will return negative infinity.
         /// </remarks>
         /// <returns>The next smaller floating point value.</returns>
-        public static double Decrement(this double value, int count)
+        public static double Decrement(this double value, int count = 1)
         {
             if (double.IsInfinity(value) || double.IsNaN(value) || count == 0)
             {

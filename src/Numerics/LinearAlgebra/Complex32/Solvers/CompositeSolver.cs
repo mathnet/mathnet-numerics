@@ -70,6 +70,8 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers
         /// <param name="matrix">The coefficient matrix, <c>A</c>.</param>
         /// <param name="input">The solution vector, <c>b</c></param>
         /// <param name="result">The result vector, <c>x</c></param>
+        /// <param name="iterator">The iterator to use to control when to stop iterating.</param>
+        /// <param name="preconditioner">The preconditioner to use for approximations.</param>
         public void Solve(Matrix<Numerics.Complex32> matrix, Vector<Numerics.Complex32> input, Vector<Numerics.Complex32> result, Iterator<Numerics.Complex32> iterator, IPreconditioner<Numerics.Complex32> preconditioner)
         {
             if (matrix.RowCount != matrix.ColumnCount)

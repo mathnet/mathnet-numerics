@@ -41,8 +41,9 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
         /// Loads the available <see cref="IIterativeSolverSetup{T}"/> objects from the specified assembly.
         /// </summary>
         /// <param name="assembly">The assembly which will be searched for setup objects.</param>
+        /// <param name="ignoreFailed">If true, types that fail to load are simply ignored. Otherwise the exception is rethrown.</param>
         /// <param name="typesToExclude">The <see cref="IIterativeSolver{T}"/> types that should not be loaded.</param>
-        public static IEnumerable<IIterativeSolverSetup<T>> LoadFromAssembly(Assembly assembly, bool ignoreFailed, params Type[] typesToExclude)
+        public static IEnumerable<IIterativeSolverSetup<T>> LoadFromAssembly(Assembly assembly, bool ignoreFailed = true, params Type[] typesToExclude)
         {
             var excludedTypes = new List<Type>(typesToExclude);
             var setupInterfaceType = typeof (IIterativeSolverSetup<T>);
@@ -74,18 +75,10 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
         /// <summary>
         /// Loads the available <see cref="IIterativeSolverSetup{T}"/> objects from the specified assembly.
         /// </summary>
-        /// <param name="assembly">The assembly which will be searched for setup objects.</param>
-        public static IEnumerable<IIterativeSolverSetup<T>> LoadFromAssembly(Assembly assembly)
-        {
-            return LoadFromAssembly(assembly, true);
-        }
-
-        /// <summary>
-        /// Loads the available <see cref="IIterativeSolverSetup{T}"/> objects from the specified assembly.
-        /// </summary>
         /// <param name="typeInAssembly">The type in the assembly which should be searched for setup objects.</param>
+        /// <param name="ignoreFailed">If true, types that fail to load are simply ignored. Otherwise the exception is rethrown.</param>
         /// <param name="typesToExclude">The <see cref="IIterativeSolver{T}"/> types that should not be loaded.</param>
-        public static IEnumerable<IIterativeSolverSetup<T>> LoadFromAssembly(Type typeInAssembly, bool ignoreFailed, params Type[] typesToExclude)
+        public static IEnumerable<IIterativeSolverSetup<T>> LoadFromAssembly(Type typeInAssembly, bool ignoreFailed = true, params Type[] typesToExclude)
         {
             return LoadFromAssembly(typeInAssembly.Assembly, ignoreFailed, typesToExclude);
         }
@@ -93,29 +86,12 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
         /// <summary>
         /// Loads the available <see cref="IIterativeSolverSetup{T}"/> objects from the specified assembly.
         /// </summary>
-        /// <param name="typeInAssembly">The type in the assembly which should be searched for setup objects.</param>
-        public static IEnumerable<IIterativeSolverSetup<T>> LoadFromAssembly(Type typeInAssembly)
-        {
-            return LoadFromAssembly(typeInAssembly.Assembly, true);
-        }
-
-        /// <summary>
-        /// Loads the available <see cref="IIterativeSolverSetup{T}"/> objects from the specified assembly.
-        /// </summary>
         /// <param name="assemblyName">The <see cref="AssemblyName"/> of the assembly that should be searched for setup objects.</param>
+        /// <param name="ignoreFailed">If true, types that fail to load are simply ignored. Otherwise the exception is rethrown.</param>
         /// <param name="typesToExclude">The <see cref="IIterativeSolver{T}"/> types that should not be loaded.</param>
-        public static IEnumerable<IIterativeSolverSetup<T>> LoadFromAssembly(AssemblyName assemblyName, bool ignoreFailed, params Type[] typesToExclude)
+        public static IEnumerable<IIterativeSolverSetup<T>> LoadFromAssembly(AssemblyName assemblyName, bool ignoreFailed = true, params Type[] typesToExclude)
         {
             return LoadFromAssembly(Assembly.Load(assemblyName.FullName), ignoreFailed, typesToExclude);
-        }
-
-        /// <summary>
-        /// Loads the available <see cref="IIterativeSolverSetup{T}"/> objects from the specified assembly.
-        /// </summary>
-        /// <param name="assemblyName">The <see cref="AssemblyName"/> of the assembly that should be searched for setup objects.</param>
-        public static IEnumerable<IIterativeSolverSetup<T>> LoadFromAssembly(AssemblyName assemblyName)
-        {
-            return LoadFromAssembly(Assembly.Load(assemblyName.FullName), true);
         }
 
         /// <summary>

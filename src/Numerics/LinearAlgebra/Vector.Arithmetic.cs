@@ -83,7 +83,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// </summary>
         /// <param name="scalar">The scalar to subtract from.</param>
         /// <param name="result">The vector to store the result of the subtraction.</param>
-        protected virtual void DoSubtractFrom(T scalar, Vector<T> result)
+        protected void DoSubtractFrom(T scalar, Vector<T> result)
         {
             DoNegate(result);
             result.DoAdd(scalar, result);

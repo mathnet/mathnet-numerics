@@ -833,29 +833,13 @@ namespace MathNet.Numerics
         /// A complex number containing the value specified by the given string.
         /// </returns>
         /// <param name="value">
-        /// The string to parse.
-        /// </param>
-        public static Complex32 Parse(string value)
-        {
-            return Parse(value, null);
-        }
-
-        /// <summary>
-        /// Creates a complex number based on a string. The string can be in the
-        /// following formats (without the quotes): 'n', 'ni', 'n +/- ni',
-        /// 'ni +/- n', 'n,n', 'n,ni,' '(n,n)', or '(n,ni)', where n is a float.
-        /// </summary>
-        /// <returns>
-        /// A complex number containing the value specified by the given string.
-        /// </returns>
-        /// <param name="value">
         /// the string to parse.
         /// </param>
         /// <param name="formatProvider">
         /// An <see cref="IFormatProvider"/> that supplies culture-specific
         /// formatting information.
         /// </param>
-        public static Complex32 Parse(string value, IFormatProvider formatProvider)
+        public static Complex32 Parse(string value, IFormatProvider formatProvider = null)
         {
             if (value == null)
             {

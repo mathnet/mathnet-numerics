@@ -249,6 +249,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
         /// <summary>
         /// Symmetric tridiagonal QL algorithm.
         /// </summary>
+        /// <param name="eigenVectors">The eigen vectors to work on.</param>
         /// <param name="d">Arrays for internal storage of real parts of eigenvalues</param>
         /// <param name="e">Arrays for internal storage of imaginary parts of eigenvalues</param>
         /// <param name="order">Order of initial matrix</param>
@@ -395,6 +396,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
         /// <summary>
         /// Determines eigenvectors by undoing the symmetric tridiagonalize transformation
         /// </summary>
+        /// <param name="eigenVectors">The eigen vectors to work on.</param>
         /// <param name="matrixA">Previously tridiagonalized matrix by <see cref="SymmetricTridiagonalize"/>.</param>
         /// <param name="tau">Contains further information about the transformations</param>
         /// <param name="order">Input matrix order</param>
@@ -440,6 +442,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
         /// <summary>
         /// Nonsymmetric reduction to Hessenberg form.
         /// </summary>
+        /// <param name="eigenVectors">The eigen vectors to work on.</param>
         /// <param name="matrixH">Array for internal storage of nonsymmetric Hessenberg form.</param>
         /// <param name="order">Order of initial matrix</param>
         /// <remarks>This is derived from the Algol procedures orthes and ortran,
@@ -585,6 +588,8 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
         /// <summary>
         /// Nonsymmetric reduction from Hessenberg to real Schur form.
         /// </summary>
+        /// <param name="eigenVectors">The eigen vectors to work on.</param>
+        /// <param name="eigenValues">The eigen values to work on.</param>
         /// <param name="matrixH">Array for internal storage of nonsymmetric Hessenberg form.</param>
         /// <param name="order">Order of initial matrix</param>
         /// <remarks>This is derived from the Algol procedure hqr2,

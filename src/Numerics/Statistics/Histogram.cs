@@ -86,14 +86,7 @@ namespace MathNet.Numerics.Statistics
         /// <summary>
         /// Initializes a new instance of the Bucket class.
         /// </summary>
-        public Bucket(double lowerBound, double upperBound) : this(lowerBound, upperBound, 0.0)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the Bucket class.
-        /// </summary>
-        public Bucket(double lowerBound, double upperBound, double count)
+        public Bucket(double lowerBound, double upperBound, double count = 0.0)
         {
             if (lowerBound > upperBound)
             {

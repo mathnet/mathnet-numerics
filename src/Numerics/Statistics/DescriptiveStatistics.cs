@@ -42,24 +42,6 @@ namespace MathNet.Numerics.Statistics
     public class DescriptiveStatistics
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="DescriptiveStatistics"/> class.
-        /// </summary>
-        /// <param name="data">The sample data.</param>
-        public DescriptiveStatistics(IEnumerable<double> data)
-            : this(data, false)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="DescriptiveStatistics"/> class.
-        /// </summary>
-        /// <param name="data">The sample data.</param>
-        public DescriptiveStatistics(IEnumerable<double?> data)
-            : this(data, false)
-        {
-        }
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="DescriptiveStatistics"/> class. 
         /// </summary>
         /// <param name="data">The sample data.</param>
@@ -71,7 +53,7 @@ namespace MathNet.Numerics.Statistics
         /// Don't use increased accuracy for data sets containing large values (in absolute value).
         /// This may cause the calculations to overflow.
         /// </remarks>
-        public DescriptiveStatistics(IEnumerable<double> data, bool increasedAccuracy)
+        public DescriptiveStatistics(IEnumerable<double> data, bool increasedAccuracy = false)
         {
             if (data == null)
             {
@@ -100,7 +82,7 @@ namespace MathNet.Numerics.Statistics
         /// Don't use increased accuracy for data sets containing large values (in absolute value).
         /// This may cause the calculations to overflow.
         /// </remarks>
-        public DescriptiveStatistics(IEnumerable<double?> data, bool increasedAccuracy)
+        public DescriptiveStatistics(IEnumerable<double?> data, bool increasedAccuracy = false)
         {
             if (data == null)
             {

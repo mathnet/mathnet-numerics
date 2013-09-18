@@ -868,27 +868,12 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// A float sparse vector containing the values specified by the given string.
         /// </returns>
         /// <param name="value">
-        /// The string to parse.
-        /// </param>
-        public static SparseVector Parse(string value)
-        {
-            return Parse(value, null);
-        }
-
-        /// <summary>
-        /// Creates a float sparse vector based on a string. The string can be in the following formats (without the
-        /// quotes): 'n', 'n,n,..', '(n,n,..)', '[n,n,...]', where n is a float.
-        /// </summary>
-        /// <returns>
-        /// A float sparse vector containing the values specified by the given string.
-        /// </returns>
-        /// <param name="value">
         /// the string to parse.
         /// </param>
         /// <param name="formatProvider">
         /// An <see cref="IFormatProvider"/> that supplies culture-specific formatting information.
         /// </param>
-        public static SparseVector Parse(string value, IFormatProvider formatProvider)
+        public static SparseVector Parse(string value, IFormatProvider formatProvider = null)
         {
             if (value == null)
             {

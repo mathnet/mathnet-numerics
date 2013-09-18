@@ -77,19 +77,6 @@ namespace MathNet.Numerics.Statistics.Mcmc
         private int _burnInterval;
 
         /// <summary>
-        /// Constructs a new Metropolis-Hastings sampler using the default <see cref="System.Random"/> random
-        /// number generator. The burn interval will be set to 0.
-        /// </summary>
-        /// <param name="x0">The initial sample.</param>
-        /// <param name="pdfLnP">The log density of the distribution we want to sample from.</param>
-        /// <param name="krnlQ">The log transition probability for the proposal distribution.</param>
-        /// <param name="proposal">A method that samples from the proposal distribution.</param>
-        public MetropolisHastingsSampler(T x0, DensityLn<T> pdfLnP, TransitionKernelLn<T> krnlQ, LocalProposalSampler<T> proposal)
-            : this(x0, pdfLnP, krnlQ, proposal, 0)
-        {
-        }
-
-        /// <summary>
         /// Constructs a new Metropolis-Hastings sampler using the default <see cref="System.Random"/> random number generator. This
         /// constructor will set the burn interval.
         /// </summary>
@@ -99,7 +86,7 @@ namespace MathNet.Numerics.Statistics.Mcmc
         /// <param name="proposal">A method that samples from the proposal distribution.</param>
         /// <param name="burnInterval">The number of iterations in between returning samples.</param>
         /// <exception cref="ArgumentOutOfRangeException">When the number of burnInterval iteration is negative.</exception>
-        public MetropolisHastingsSampler(T x0, DensityLn<T> pdfLnP, TransitionKernelLn<T> krnlQ, LocalProposalSampler<T> proposal, int burnInterval)
+        public MetropolisHastingsSampler(T x0, DensityLn<T> pdfLnP, TransitionKernelLn<T> krnlQ, LocalProposalSampler<T> proposal, int burnInterval = 0)
         {
             _current = x0;
             _currentDensityLn = pdfLnP(x0);

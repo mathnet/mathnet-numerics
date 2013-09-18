@@ -142,7 +142,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                 return new DenseVectorStorage<T>(copy.Length, copy);
             }
 
-            var array = Enumerable.ToArray(data);
+            var array = data.ToArray();
             return new DenseVectorStorage<T>(array.Length, array);
         }
 

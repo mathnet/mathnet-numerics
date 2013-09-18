@@ -74,22 +74,6 @@ namespace MathNet.Numerics.Statistics.Mcmc
 
         /// <summary>
         /// Constructs a new Hybrid Monte Carlo sampler for a multivariate probability distribution.
-        /// The burn interval will be set to 0.
-        /// The components of the momentum will be sampled from a normal distribution with standard deviation
-        /// 1 using the default <see cref="System.Random"/> random
-        /// number generator. A three point estimation will be used for differentiation.
-        /// </summary>
-        /// <param name="x0">The initial sample.</param>
-        /// <param name="pdfLnP">The log density of the distribution we want to sample from.</param>
-        /// <param name="frogLeapSteps">Number frogleap simulation steps.</param>
-        /// <param name="stepSize">Size of the frogleap simulation steps.</param>
-        public HybridMC(double[] x0, DensityLn<double[]> pdfLnP, int frogLeapSteps, double stepSize)
-            : this(x0, pdfLnP, frogLeapSteps, stepSize, 0)
-        {
-        }
-
-        /// <summary>
-        /// Constructs a new Hybrid Monte Carlo sampler for a multivariate probability distribution.
         /// The components of the momentum will be sampled from a normal distribution with standard deviation
         /// 1 using the default <see cref="System.Random"/> random
         /// number generator. A three point estimation will be used for differentiation.
@@ -101,7 +85,7 @@ namespace MathNet.Numerics.Statistics.Mcmc
         /// <param name="stepSize">Size of the frogleap simulation steps.</param>
         /// <param name="burnInterval">The number of iterations in between returning samples.</param>
         /// <exception cref="ArgumentOutOfRangeException">When the number of burnInterval iteration is negative.</exception>
-        public HybridMC(double[] x0, DensityLn<double[]> pdfLnP, int frogLeapSteps, double stepSize, int burnInterval)
+        public HybridMC(double[] x0, DensityLn<double[]> pdfLnP, int frogLeapSteps, double stepSize, int burnInterval = 0)
             : this(x0, pdfLnP, frogLeapSteps, stepSize, burnInterval, new double[x0.Count()], new Random(), Grad)
         {
             for (int i = 0; i < _length; i++)

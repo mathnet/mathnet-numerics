@@ -43,7 +43,7 @@ namespace MathNet.Numerics.LinearAlgebra
     /// <typeparam name="T">Supported data types are double, single, <see cref="Complex"/>, and <see cref="Complex32"/>.</typeparam>
     [Serializable]
     public abstract partial class Vector<T> :
-        IFormattable, IEnumerable<T>, IEquatable<Vector<T>>, IList, IList<T>
+        IFormattable, IEquatable<Vector<T>>, IList, IList<T>
 #if !PORTABLE
         , ICloneable
 #endif

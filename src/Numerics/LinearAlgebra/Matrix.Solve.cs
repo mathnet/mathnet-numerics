@@ -155,7 +155,9 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <param name="input">The solution vector <c>b</c>.</param>
         /// <param name="result">The result vector <c>x</c>.</param>
         /// <param name="solver">The iterative solver to use.</param>
-        public IterationStatus TrySolveIterative(Vector<T> input, Vector<T> result, IIterativeSolver<T> solver, IPreconditioner<T> preconditioner, Iterator<T> iterator = null)
+        /// <param name="iterator">The iterator to use to control when to stop iterating.</param>
+        /// <param name="preconditioner">The preconditioner to use for approximations.</param>
+        public IterationStatus TrySolveIterative(Vector<T> input, Vector<T> result, IIterativeSolver<T> solver, Iterator<T> iterator = null, IPreconditioner<T> preconditioner = null)
         {
             if (iterator == null)
             {
@@ -178,7 +180,9 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <param name="input">The solution matrix <c>B</c>.</param>
         /// <param name="result">The result matrix <c>X</c></param>
         /// <param name="solver">The iterative solver to use.</param>
-        public IterationStatus TrySolveIterative(Matrix<T> input, Matrix<T> result, IIterativeSolver<T> solver, IPreconditioner<T> preconditioner, Iterator<T> iterator = null)
+        /// <param name="iterator">The iterator to use to control when to stop iterating.</param>
+        /// <param name="preconditioner">The preconditioner to use for approximations.</param>
+        public IterationStatus TrySolveIterative(Matrix<T> input, Matrix<T> result, IIterativeSolver<T> solver, Iterator<T> iterator = null, IPreconditioner<T> preconditioner = null)
         {
             if (RowCount != input.RowCount || input.RowCount != result.RowCount || input.ColumnCount != result.ColumnCount)
             {
@@ -210,100 +214,46 @@ namespace MathNet.Numerics.LinearAlgebra
             return iterator.Status;
         }
 
-        public IterationStatus TrySolveIterative(Vector<T> input, Vector<T> result, IIterativeSolver<T> solver, Iterator<T> iterator)
-        {
-            var preconditioner = new UnitPreconditioner<T>();
-            return TrySolveIterative(input, result, solver, preconditioner, iterator);
-        }
-
-        public IterationStatus TrySolveIterative(Matrix<T> input, Matrix<T> result, IIterativeSolver<T> solver, Iterator<T> iterator)
-        {
-            var preconditioner = new UnitPreconditioner<T>();
-            return TrySolveIterative(input, result, solver, preconditioner, iterator);
-        }
-
-        public IterationStatus TrySolveIterative(Vector<T> input, Vector<T> result, IIterativeSolver<T> solver)
-        {
-            var preconditioner = new UnitPreconditioner<T>();
-            var iterator = new Iterator<T>(Builder.IterativeSolverStopCriteria());
-            return TrySolveIterative(input, result, solver, preconditioner, iterator);
-        }
-
-        public IterationStatus TrySolveIterative(Matrix<T> input, Matrix<T> result, IIterativeSolver<T> solver)
-        {
-            var preconditioner = new UnitPreconditioner<T>();
-            var iterator = new Iterator<T>(Builder.IterativeSolverStopCriteria());
-            return TrySolveIterative(input, result, solver, preconditioner, iterator);
-        }
-
         public IterationStatus TrySolveIterative(Vector<T> input, Vector<T> result, IIterativeSolver<T> solver, IPreconditioner<T> preconditioner, params IIterationStopCriterium<T>[] stopCriteria)
         {
             var iterator = new Iterator<T>(stopCriteria.Length == 0 ? Builder.IterativeSolverStopCriteria() : stopCriteria);
-            return TrySolveIterative(input, result, solver, preconditioner, iterator);
+            return TrySolveIterative(input, result, solver, iterator, preconditioner);
         }
 
         public IterationStatus TrySolveIterative(Matrix<T> input, Matrix<T> result, IIterativeSolver<T> solver, IPreconditioner<T> preconditioner, params IIterationStopCriterium<T>[] stopCriteria)
         {
             var iterator = new Iterator<T>(stopCriteria.Length == 0 ? Builder.IterativeSolverStopCriteria() : stopCriteria);
-            return TrySolveIterative(input, result, solver, preconditioner, iterator);
+            return TrySolveIterative(input, result, solver, iterator, preconditioner);
         }
 
         public IterationStatus TrySolveIterative(Vector<T> input, Vector<T> result, IIterativeSolver<T> solver, params IIterationStopCriterium<T>[] stopCriteria)
         {
-            var preconditioner = new UnitPreconditioner<T>();
             var iterator = new Iterator<T>(stopCriteria.Length == 0 ? Builder.IterativeSolverStopCriteria() : stopCriteria);
-            return TrySolveIterative(input, result, solver, preconditioner, iterator);
+            return TrySolveIterative(input, result, solver, iterator);
         }
 
         public IterationStatus TrySolveIterative(Matrix<T> input, Matrix<T> result, IIterativeSolver<T> solver, params IIterationStopCriterium<T>[] stopCriteria)
         {
-            var preconditioner = new UnitPreconditioner<T>();
             var iterator = new Iterator<T>(stopCriteria.Length == 0 ? Builder.IterativeSolverStopCriteria() : stopCriteria);
-            return TrySolveIterative(input, result, solver, preconditioner, iterator);
+            return TrySolveIterative(input, result, solver, iterator);
         }
 
 
 
         // Iterative Solvers: Simple
 
-        public Vector<T> SolveIterative(Vector<T> input, IIterativeSolver<T> solver, IPreconditioner<T> preconditioner, Iterator<T> iterator)
-        {
-            var result = Builder.DenseVector(RowCount);
-            TrySolveIterative(input, result, solver, preconditioner, iterator);
-            return result;
-        }
-
-        public Matrix<T> SolveIterative(Matrix<T> input, IIterativeSolver<T> solver, IPreconditioner<T> preconditioner, Iterator<T> iterator)
-        {
-            var result = Builder.DenseMatrix(input.RowCount, input.ColumnCount);
-            TrySolveIterative(input, result, solver, preconditioner, iterator);
-            return result;
-        }
-
-        public Vector<T> SolveIterative(Vector<T> input, IIterativeSolver<T> solver, Iterator<T> iterator)
-        {
-            var result = Builder.DenseVector(RowCount);
-            TrySolveIterative(input, result, solver, iterator);
-            return result;
-        }
-
-        public Matrix<T> SolveIterative(Matrix<T> input, IIterativeSolver<T> solver, Iterator<T> iterator)
-        {
-            var result = Builder.DenseMatrix(input.RowCount, input.ColumnCount);
-            TrySolveIterative(input, result, solver, iterator);
-            return result;
-        }
-
         /// <summary>
         /// Solves the matrix equation Ax = b, where A is the coefficient matrix (this matrix), b is the solution vector and x is the unknown vector.
         /// </summary>
         /// <param name="input">The solution vector <c>b</c>.</param>
         /// <param name="solver">The iterative solver to use.</param>
+        /// <param name="iterator">The iterator to use to control when to stop iterating.</param>
+        /// <param name="preconditioner">The preconditioner to use for approximations.</param>
         /// <returns>The result vector <c>x</c>.</returns>
-        public Vector<T> SolveIterative(Vector<T> input, IIterativeSolver<T> solver)
+        public Vector<T> SolveIterative(Vector<T> input, IIterativeSolver<T> solver, Iterator<T> iterator = null, IPreconditioner<T> preconditioner = null)
         {
             var result = Builder.DenseVector(RowCount);
-            TrySolveIterative(input, result, solver);
+            TrySolveIterative(input, result, solver, iterator, preconditioner);
             return result;
         }
 
@@ -312,11 +262,13 @@ namespace MathNet.Numerics.LinearAlgebra
         /// </summary>
         /// <param name="input">The solution matrix <c>B</c>.</param>
         /// <param name="solver">The iterative solver to use.</param>
+        /// <param name="iterator">The iterator to use to control when to stop iterating.</param>
+        /// <param name="preconditioner">The preconditioner to use for approximations.</param>
         /// <returns>The result matrix <c>X</c>.</returns>
-        public Matrix<T> SolveIterative(Matrix<T> input, IIterativeSolver<T> solver)
+        public Matrix<T> SolveIterative(Matrix<T> input, IIterativeSolver<T> solver, Iterator<T> iterator = null, IPreconditioner<T> preconditioner = null)
         {
             var result = Builder.DenseMatrix(input.RowCount, input.ColumnCount);
-            TrySolveIterative(input, result, solver);
+            TrySolveIterative(input, result, solver, iterator, preconditioner);
             return result;
         }
 

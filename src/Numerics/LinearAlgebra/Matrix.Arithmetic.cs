@@ -87,7 +87,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// </summary>
         /// <param name="scalar">The scalar to subtract from.</param>
         /// <param name="result">The matrix to store the result of the subtraction.</param>
-        protected virtual void DoSubtractFrom(T scalar, Matrix<T> result)
+        protected void DoSubtractFrom(T scalar, Matrix<T> result)
         {
             DoNegate(result);
             result.DoAdd(scalar, result);
@@ -1072,7 +1072,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// </summary>
         /// <param name="other">The other matrix.</param>
         /// <returns>The kronecker product of the two matrices.</returns>
-        public virtual Matrix<T> KroneckerProduct(Matrix<T> other)
+        public Matrix<T> KroneckerProduct(Matrix<T> other)
         {
             var result = CreateMatrix(RowCount*other.RowCount, ColumnCount*other.ColumnCount);
             KroneckerProduct(other, result);
@@ -1108,14 +1108,14 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <param name="p">The norm under which to normalize the columns under.</param>
         /// <returns>A normalized version of the matrix.</returns>
         /// <exception cref="ArgumentOutOfRangeException">If the parameter p is not positive.</exception>
-        public virtual Matrix<T> NormalizeColumns(int p)
+        public Matrix<T> NormalizeColumns(int p)
         {
             if (p < 1)
             {
                 throw new ArgumentOutOfRangeException("p", Resources.ArgumentMustBePositive);
             }
 
-            var ret = Clone();
+            var ret = CreateMatrix(RowCount, ColumnCount);
 
             for (var index = 0; index < ColumnCount; index++)
             {
@@ -1131,14 +1131,14 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <param name="p">The norm under which to normalize the rows under.</param>
         /// <returns>A normalized version of the matrix.</returns>
         /// <exception cref="ArgumentOutOfRangeException">If the parameter p is not positive.</exception>
-        public virtual Matrix<T> NormalizeRows(int p)
+        public Matrix<T> NormalizeRows(int p)
         {
             if (p < 1)
             {
                 throw new ArgumentOutOfRangeException("p", Resources.ArgumentMustBePositive);
             }
 
-            var ret = Clone();
+            var ret = CreateMatrix(RowCount, ColumnCount);
 
             for (var index = 0; index < RowCount; index++)
             {
@@ -1150,46 +1150,46 @@ namespace MathNet.Numerics.LinearAlgebra
 
         #region Exceptions - possibly move elsewhere?
 
-        public static Exception DimensionsDontMatch<TException>(Matrix<T> left, Matrix<T> right, Matrix<T> result, string paramName = null)
+        internal static Exception DimensionsDontMatch<TException>(Matrix<T> left, Matrix<T> right, Matrix<T> result, string paramName = null)
             where TException : Exception
         {
             var message = string.Format(Resources.ArgumentMatrixDimensions3, left.RowCount + "x" + left.ColumnCount, right.RowCount + "x" + right.ColumnCount, result.RowCount + "x" + result.ColumnCount);
             return CreateException<TException>(message, paramName);
         }
 
-        public static Exception DimensionsDontMatch<TException>(Matrix<T> left, Matrix<T> right, string paramName = null)
+        internal static Exception DimensionsDontMatch<TException>(Matrix<T> left, Matrix<T> right, string paramName = null)
             where TException : Exception
         {
             var message = string.Format(Resources.ArgumentMatrixDimensions2, left.RowCount + "x" + left.ColumnCount, right.RowCount + "x" + right.ColumnCount);
             return CreateException<TException>(message, paramName);
         }
 
-        public static Exception DimensionsDontMatch<TException>(Matrix<T> matrix)
+        internal static Exception DimensionsDontMatch<TException>(Matrix<T> matrix)
             where TException : Exception
         {
             var message = string.Format(Resources.ArgumentMatrixDimensions1, matrix.RowCount + "x" + matrix.ColumnCount);
             return CreateException<TException>(message);
         }
 
-        public static Exception DimensionsDontMatch<TException>(Matrix<T> left, Vector<T> right, Vector<T> result, string paramName = null)
+        internal static Exception DimensionsDontMatch<TException>(Matrix<T> left, Vector<T> right, Vector<T> result, string paramName = null)
             where TException : Exception
         {
             return DimensionsDontMatch<TException>(left, right.ToColumnMatrix(), result.ToColumnMatrix(), paramName);
         }
 
-        public static Exception DimensionsDontMatch<TException>(Matrix<T> left, Vector<T> right, string paramName = null)
+        internal static Exception DimensionsDontMatch<TException>(Matrix<T> left, Vector<T> right, string paramName = null)
             where TException : Exception
         {
             return DimensionsDontMatch<TException>(left, right.ToColumnMatrix(), paramName);
         }
 
-        public static Exception DimensionsDontMatch<TException>(Vector<T> left, Matrix<T> right, string paramName = null)
+        internal static Exception DimensionsDontMatch<TException>(Vector<T> left, Matrix<T> right, string paramName = null)
             where TException : Exception
         {
             return DimensionsDontMatch<TException>(left.ToColumnMatrix(), right, paramName);
         }
 
-        public static Exception DimensionsDontMatch<TException>(Vector<T> left, Vector<T> right, string paramName = null)
+        internal static Exception DimensionsDontMatch<TException>(Vector<T> left, Vector<T> right, string paramName = null)
             where TException : Exception
         {
             return DimensionsDontMatch<TException>(left.ToColumnMatrix(), right.ToColumnMatrix(), paramName);

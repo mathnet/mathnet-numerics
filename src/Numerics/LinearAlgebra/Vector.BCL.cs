@@ -129,7 +129,7 @@ namespace MathNet.Numerics.LinearAlgebra
 
         bool ICollection<T>.Contains(T item)
         {
-            // Do NOT convert this loop to LINQ (since LINQ would redirect to this very method)!
+            // ReSharper disable once LoopCanBeConvertedToQuery
             foreach (var x in this)
             {
                 if (x.Equals(item))
@@ -211,7 +211,7 @@ namespace MathNet.Numerics.LinearAlgebra
 
         object ICollection.SyncRoot
         {
-            get { return null; }
+            get { return Storage; }
         }
 
         void ICollection.CopyTo(Array array, int index)
