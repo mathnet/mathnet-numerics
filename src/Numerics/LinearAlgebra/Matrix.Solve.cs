@@ -72,7 +72,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// </summary>
         /// <param name="computeVectors">Compute the singular U and VT vectors or not.</param>
         /// <returns>The SVD decomposition object.</returns>
-        public abstract Svd<T> Svd(bool computeVectors);
+        public abstract Svd<T> Svd(bool computeVectors = true);
 
         /// <summary>
         /// Computes the EVD decomposition for a matrix.
@@ -214,24 +214,55 @@ namespace MathNet.Numerics.LinearAlgebra
             return iterator.Status;
         }
 
+
+        /// <summary>
+        /// Solves the matrix equation Ax = b, where A is the coefficient matrix (this matrix), b is the solution vector and x is the unknown vector.
+        /// </summary>
+        /// <param name="input">The solution vector <c>b</c>.</param>
+        /// <param name="result">The result vector <c>x</c>.</param>
+        /// <param name="solver">The iterative solver to use.</param>
+        /// <param name="stopCriteria">Criteria to control when to stop iterating.</param>
+        /// <param name="preconditioner">The preconditioner to use for approximations.</param>
         public IterationStatus TrySolveIterative(Vector<T> input, Vector<T> result, IIterativeSolver<T> solver, IPreconditioner<T> preconditioner, params IIterationStopCriterium<T>[] stopCriteria)
         {
             var iterator = new Iterator<T>(stopCriteria.Length == 0 ? Builder.IterativeSolverStopCriteria() : stopCriteria);
             return TrySolveIterative(input, result, solver, iterator, preconditioner);
         }
 
+        /// <summary>
+        /// Solves the matrix equation AX = B, where A is the coefficient matrix (this matrix), B is the solution matrix and X is the unknown matrix.
+        /// </summary>
+        /// <param name="input">The solution matrix <c>B</c>.</param>
+        /// <param name="result">The result matrix <c>X</c></param>
+        /// <param name="solver">The iterative solver to use.</param>
+        /// <param name="stopCriteria">Criteria to control when to stop iterating.</param>
+        /// <param name="preconditioner">The preconditioner to use for approximations.</param>
         public IterationStatus TrySolveIterative(Matrix<T> input, Matrix<T> result, IIterativeSolver<T> solver, IPreconditioner<T> preconditioner, params IIterationStopCriterium<T>[] stopCriteria)
         {
             var iterator = new Iterator<T>(stopCriteria.Length == 0 ? Builder.IterativeSolverStopCriteria() : stopCriteria);
             return TrySolveIterative(input, result, solver, iterator, preconditioner);
         }
 
+        /// <summary>
+        /// Solves the matrix equation Ax = b, where A is the coefficient matrix (this matrix), b is the solution vector and x is the unknown vector.
+        /// </summary>
+        /// <param name="input">The solution vector <c>b</c>.</param>
+        /// <param name="result">The result vector <c>x</c>.</param>
+        /// <param name="solver">The iterative solver to use.</param>
+        /// <param name="stopCriteria">Criteria to control when to stop iterating.</param>
         public IterationStatus TrySolveIterative(Vector<T> input, Vector<T> result, IIterativeSolver<T> solver, params IIterationStopCriterium<T>[] stopCriteria)
         {
             var iterator = new Iterator<T>(stopCriteria.Length == 0 ? Builder.IterativeSolverStopCriteria() : stopCriteria);
             return TrySolveIterative(input, result, solver, iterator);
         }
 
+        /// <summary>
+        /// Solves the matrix equation AX = B, where A is the coefficient matrix (this matrix), B is the solution matrix and X is the unknown matrix.
+        /// </summary>
+        /// <param name="input">The solution matrix <c>B</c>.</param>
+        /// <param name="result">The result matrix <c>X</c></param>
+        /// <param name="solver">The iterative solver to use.</param>
+        /// <param name="stopCriteria">Criteria to control when to stop iterating.</param>
         public IterationStatus TrySolveIterative(Matrix<T> input, Matrix<T> result, IIterativeSolver<T> solver, params IIterationStopCriterium<T>[] stopCriteria)
         {
             var iterator = new Iterator<T>(stopCriteria.Length == 0 ? Builder.IterativeSolverStopCriteria() : stopCriteria);
@@ -272,6 +303,14 @@ namespace MathNet.Numerics.LinearAlgebra
             return result;
         }
 
+        /// <summary>
+        /// Solves the matrix equation Ax = b, where A is the coefficient matrix (this matrix), b is the solution vector and x is the unknown vector.
+        /// </summary>
+        /// <param name="input">The solution vector <c>b</c>.</param>
+        /// <param name="solver">The iterative solver to use.</param>
+        /// <param name="stopCriteria">Criteria to control when to stop iterating.</param>
+        /// <param name="preconditioner">The preconditioner to use for approximations.</param>
+        /// <returns>The result vector <c>x</c>.</returns>
         public Vector<T> SolveIterative(Vector<T> input, IIterativeSolver<T> solver, IPreconditioner<T> preconditioner, params IIterationStopCriterium<T>[] stopCriteria)
         {
             var result = Builder.DenseVector(RowCount);
@@ -279,6 +318,14 @@ namespace MathNet.Numerics.LinearAlgebra
             return result;
         }
 
+        /// <summary>
+        /// Solves the matrix equation AX = B, where A is the coefficient matrix (this matrix), B is the solution matrix and X is the unknown matrix.
+        /// </summary>
+        /// <param name="input">The solution matrix <c>B</c>.</param>
+        /// <param name="solver">The iterative solver to use.</param>
+        /// <param name="stopCriteria">Criteria to control when to stop iterating.</param>
+        /// <param name="preconditioner">The preconditioner to use for approximations.</param>
+        /// <returns>The result matrix <c>X</c>.</returns>
         public Matrix<T> SolveIterative(Matrix<T> input, IIterativeSolver<T> solver, IPreconditioner<T> preconditioner, params IIterationStopCriterium<T>[] stopCriteria)
         {
             var result = Builder.DenseMatrix(input.RowCount, input.ColumnCount);
@@ -286,6 +333,13 @@ namespace MathNet.Numerics.LinearAlgebra
             return result;
         }
 
+        /// <summary>
+        /// Solves the matrix equation Ax = b, where A is the coefficient matrix (this matrix), b is the solution vector and x is the unknown vector.
+        /// </summary>
+        /// <param name="input">The solution vector <c>b</c>.</param>
+        /// <param name="solver">The iterative solver to use.</param>
+        /// <param name="stopCriteria">Criteria to control when to stop iterating.</param>
+        /// <returns>The result vector <c>x</c>.</returns>
         public Vector<T> SolveIterative(Vector<T> input, IIterativeSolver<T> solver, params IIterationStopCriterium<T>[] stopCriteria)
         {
             var result = Builder.DenseVector(RowCount);
@@ -293,6 +347,13 @@ namespace MathNet.Numerics.LinearAlgebra
             return result;
         }
 
+        /// <summary>
+        /// Solves the matrix equation AX = B, where A is the coefficient matrix (this matrix), B is the solution matrix and X is the unknown matrix.
+        /// </summary>
+        /// <param name="input">The solution matrix <c>B</c>.</param>
+        /// <param name="solver">The iterative solver to use.</param>
+        /// <param name="stopCriteria">Criteria to control when to stop iterating.</param>
+        /// <returns>The result matrix <c>X</c>.</returns>
         public Matrix<T> SolveIterative(Matrix<T> input, IIterativeSolver<T> solver, params IIterationStopCriterium<T>[] stopCriteria)
         {
             var result = Builder.DenseMatrix(input.RowCount, input.ColumnCount);

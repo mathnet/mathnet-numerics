@@ -26,7 +26,6 @@
 
 using System;
 using System.Globalization;
-using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Double;
 
 namespace Examples.LinearAlgebra.FactorizationExamples
@@ -73,17 +72,17 @@ namespace Examples.LinearAlgebra.FactorizationExamples
         public void Run()
         {
             // Format matrix output to console
-            var formatProvider = (CultureInfo)CultureInfo.InvariantCulture.Clone();
+            var formatProvider = (CultureInfo) CultureInfo.InvariantCulture.Clone();
             formatProvider.TextInfo.ListSeparator = " ";
 
             // Create square matrix
-            var matrix = DenseMatrix.OfArray(new[,] { { 4.0, 1.0 }, { 3.0, 2.0 } });
+            var matrix = DenseMatrix.OfArray(new[,] {{4.0, 1.0}, {3.0, 2.0}});
             Console.WriteLine(@"Initial square matrix");
             Console.WriteLine(matrix.ToString("#0.00\t", formatProvider));
             Console.WriteLine();
 
             // Perform full SVD decomposition
-            var svd = matrix.Svd(true);
+            var svd = matrix.Svd();
             Console.WriteLine(@"Perform full SVD decomposition");
 
             // 1. Left singular vectors
@@ -107,7 +106,7 @@ namespace Examples.LinearAlgebra.FactorizationExamples
             Console.WriteLine();
 
             // 5. Multiply U matrix by its transpose
-            var identinty = svd.U * svd.U.Transpose();
+            var identinty = svd.U*svd.U.Transpose();
             Console.WriteLine(@"5. Multiply U matrix by its transpose");
             Console.WriteLine(identinty.ToString("#0.00\t", formatProvider));
             Console.WriteLine();
@@ -119,7 +118,7 @@ namespace Examples.LinearAlgebra.FactorizationExamples
             Console.WriteLine();
 
             // 7. Reconstruct initial matrix: A = U*Σ*VT
-            var reconstruct = svd.U * svd.W * svd.VT;
+            var reconstruct = svd.U*svd.W*svd.VT;
             Console.WriteLine(@"7. Reconstruct initial matrix: A = U*S*VT");
             Console.WriteLine(reconstruct.ToString("#0.00\t", formatProvider));
             Console.WriteLine();

@@ -479,7 +479,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             return UserGramSchmidt.Create(this);
         }
 
-        public override Svd<double> Svd(bool computeVectors)
+        public override Svd<double> Svd(bool computeVectors = true)
         {
             return UserSvd.Create(this, computeVectors);
         }

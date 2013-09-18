@@ -473,7 +473,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
             return UserGramSchmidt.Create(this);
         }
 
-        public override Svd<Complex32> Svd(bool computeVectors)
+        public override Svd<Complex32> Svd(bool computeVectors = true)
         {
             return UserSvd.Create(this, computeVectors);
         }

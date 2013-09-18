@@ -1024,7 +1024,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
             return DenseGramSchmidt.Create(this);
         }
 
-        public override Svd<Complex32> Svd(bool computeVectors)
+        public override Svd<Complex32> Svd(bool computeVectors = true)
         {
             return DenseSvd.Create(this, computeVectors);
         }

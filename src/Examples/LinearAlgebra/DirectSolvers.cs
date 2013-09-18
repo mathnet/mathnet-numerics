@@ -64,7 +64,7 @@ namespace Examples.LinearAlgebraExamples
         public void Run()
         {
             // Format matrix output to console
-            var formatProvider = (CultureInfo)CultureInfo.InvariantCulture.Clone();
+            var formatProvider = (CultureInfo) CultureInfo.InvariantCulture.Clone();
             formatProvider.TextInfo.ListSeparator = " ";
 
             // Solve next system of linear equations (Ax=b):
@@ -73,13 +73,13 @@ namespace Examples.LinearAlgebraExamples
             // 4*x + 1*y + 5*z = 43
 
             // Create matrix "A" with coefficients 
-            var matrixA = DenseMatrix.OfArray(new[,] { { 5.00, 2.00, -4.00 }, { 3.00, -7.00, 6.00 }, { 4.00, 1.00, 5.00 } });
+            var matrixA = DenseMatrix.OfArray(new[,] {{5.00, 2.00, -4.00}, {3.00, -7.00, 6.00}, {4.00, 1.00, 5.00}});
             Console.WriteLine(@"Matrix 'A' with coefficients");
             Console.WriteLine(matrixA.ToString("#0.00\t", formatProvider));
             Console.WriteLine();
 
             // Create vector "b" with the constant terms.
-            var vectorB = new DenseVector(new[] { -7.0, 38.0, 43.0 });
+            var vectorB = new DenseVector(new[] {-7.0, 38.0, 43.0});
             Console.WriteLine(@"Vector 'b' with the constant terms");
             Console.WriteLine(vectorB.ToString("#0.00\t", formatProvider));
             Console.WriteLine();
@@ -97,7 +97,7 @@ namespace Examples.LinearAlgebraExamples
             Console.WriteLine();
 
             // 3. Solve linear equations using SVD decomposition
-            matrixA.Svd(true).Solve(vectorB, resultX);
+            matrixA.Svd().Solve(vectorB, resultX);
             Console.WriteLine(@"3. Solution using SVD decomposition");
             Console.WriteLine(resultX.ToString("#0.00\t", formatProvider));
             Console.WriteLine();
@@ -109,7 +109,7 @@ namespace Examples.LinearAlgebraExamples
             Console.WriteLine();
 
             // 5. Verify result. Multiply coefficient matrix "A" by result vector "x"
-            var reconstructVecorB = matrixA * resultX;
+            var reconstructVecorB = matrixA*resultX;
             Console.WriteLine(@"5. Multiply coefficient matrix 'A' by result vector 'x'");
             Console.WriteLine(reconstructVecorB.ToString("#0.00\t", formatProvider));
             Console.WriteLine();
@@ -135,7 +135,7 @@ namespace Examples.LinearAlgebraExamples
             Console.WriteLine();
 
             // 8. Verify result. Multiply new coefficient matrix "A" by result vector "x"
-            reconstructVecorB = newMatrixA * resultX;
+            reconstructVecorB = newMatrixA*resultX;
             Console.WriteLine(@"8. Multiply new coefficient matrix 'A' by result vector 'x'");
             Console.WriteLine(reconstructVecorB.ToString("#0.00\t", formatProvider));
             Console.WriteLine();
