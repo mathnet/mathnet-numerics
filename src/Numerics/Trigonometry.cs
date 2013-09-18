@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2010 Math.NET
+// Copyright (c) 2009-2013 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -49,12 +49,8 @@ namespace MathNet.Numerics
         /// <summary>
         /// Converts a degree (360-periodic) angle to a grad (400-periodic) angle.
         /// </summary>
-        /// <param name="degree">
-        /// The degree to convert.
-        /// </param>
-        /// <returns>
-        /// The converted grad angle.
-        /// </returns>
+        /// <param name="degree">The degree to convert.</param>
+        /// <returns>The converted grad angle.</returns>
         public static double DegreeToGrad(double degree)
         {
             return degree * DegreeToGradConstant;
@@ -63,12 +59,8 @@ namespace MathNet.Numerics
         /// <summary>
         /// Converts a degree (360-periodic) angle to a radian (2*Pi-periodic) angle.
         /// </summary>
-        /// <param name="degree">
-        /// The degree to convert.
-        /// </param>
-        /// <returns>
-        /// The converted radian angle.
-        /// </returns>
+        /// <param name="degree">The degree to convert.</param>
+        /// <returns>The converted radian angle.</returns>
         public static double DegreeToRadian(double degree)
         {
             return degree * Constants.Degree;
@@ -77,12 +69,8 @@ namespace MathNet.Numerics
         /// <summary>
         /// Converts a grad (400-periodic) angle to a degree (360-periodic) angle.
         /// </summary>
-        /// <param name="grad">
-        /// The grad to convert.
-        /// </param>
-        /// <returns>
-        /// The converted degree.
-        /// </returns>
+        /// <param name="grad">The grad to convert.</param>
+        /// <returns>The converted degree.</returns>
         public static double GradToDegree(double grad)
         {
             return grad * 0.9;
@@ -91,12 +79,8 @@ namespace MathNet.Numerics
         /// <summary>
         /// Converts a grad (400-periodic) angle to a radian (2*Pi-periodic) angle.
         /// </summary>
-        /// <param name="grad">
-        /// The grad to convert.
-        /// </param>
-        /// <returns>
-        /// The converted radian.
-        /// </returns>
+        /// <param name="grad">The grad to convert.</param>
+        /// <returns>The converted radian.</returns>
         public static double GradToRadian(double grad)
         {
             return grad * Constants.Grad;
@@ -105,12 +89,8 @@ namespace MathNet.Numerics
         /// <summary>
         /// Converts a radian (2*Pi-periodic) angle to a degree (360-periodic) angle.
         /// </summary>
-        /// <param name="radian">
-        /// The radian to convert.
-        /// </param>
-        /// <returns>
-        /// The converted degree.
-        /// </returns>
+        /// <param name="radian">The radian to convert.</param>
+        /// <returns>The converted degree.</returns>
         public static double RadianToDegree(double radian)
         {
             return radian / Constants.Degree;
@@ -119,26 +99,19 @@ namespace MathNet.Numerics
         /// <summary>
         /// Converts a radian (2*Pi-periodic) angle to a grad (400-periodic) angle.
         /// </summary>
-        /// <param name="radian">
-        /// The radian to convert.
-        /// </param>
-        /// <returns>
-        /// The converted grad.
-        /// </returns>
+        /// <param name="radian">The radian to convert.</param>
+        /// <returns>The converted grad.</returns>
         public static double RadianToGrad(double radian)
         {
             return radian / Constants.Grad;
         }
 
+
         /// <summary>
-        /// Trigonometric Sine of an angle in radian
+        /// Trigonometric Sine of an angle in radian, or opposite / hypotenuse.
         /// </summary>
-        /// <param name="radian">
-        /// The angle in radian.
-        /// </param>
-        /// <returns>
-        /// The sine of the radian angle.
-        /// </returns>
+        /// <param name="radian">The angle in radian.</param>
+        /// <returns>The sine of the radian angle.</returns>
         public static double Sin(double radian)
         {
             return Math.Sin(radian);
@@ -147,12 +120,8 @@ namespace MathNet.Numerics
         /// <summary>
         /// Trigonometric Sine of a <c>Complex</c> number.
         /// </summary>
-        /// <param name="value">
-        /// The complex value.
-        /// </param>
-        /// <returns>
-        /// The sine of the complex number.
-        /// </returns>
+        /// <param name="value">The complex value.</param>
+        /// <returns>The sine of the complex number.</returns>
         public static Complex Sin(this Complex value)
         {
             if (value.IsReal())
@@ -166,14 +135,10 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
-        /// Trigonometric Cosine of an angle in radian.
+        /// Trigonometric Cosine of an angle in radian, or adjacent / hypotenuse.
         /// </summary>
-        /// <param name="radian">
-        /// The angle in radian.
-        /// </param>
-        /// <returns>
-        /// The cosine of an angle in radian.
-        /// </returns>
+        /// <param name="radian">The angle in radian.</param>
+        /// <returns>The cosine of an angle in radian.</returns>
         public static double Cos(double radian)
         {
             return Math.Cos(radian);
@@ -182,12 +147,8 @@ namespace MathNet.Numerics
         /// <summary>
         /// Trigonometric Cosine of a <c>Complex</c> number.
         /// </summary>
-        /// <param name="value">
-        /// The complex value.
-        /// </param>
-        /// <returns>
-        /// The cosine of a complex number.
-        /// </returns>
+        /// <param name="value">The complex value.</param>
+        /// <returns>The cosine of a complex number.</returns>
         public static Complex Cos(this Complex value)
         {
             if (value.IsReal())
@@ -201,14 +162,10 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
-        /// Trigonometric Tangent of an angle in radian
+        /// Trigonometric Tangent of an angle in radian, or opposite / adjacent.
         /// </summary>
-        /// <param name="radian">
-        /// The angle in radian.
-        /// </param>
-        /// <returns>
-        /// The tangent of the radian angle.
-        /// </returns>
+        /// <param name="radian">The angle in radian.</param>
+        /// <returns>The tangent of the radian angle.</returns>
         public static double Tan(double radian)
         {
             return Math.Tan(radian);
@@ -217,12 +174,8 @@ namespace MathNet.Numerics
         /// <summary>
         /// Trigonometric Tangent of a <c>Complex</c> number.
         /// </summary>
-        /// <param name="value">
-        /// The complex value.
-        /// </param>
-        /// <returns>
-        /// The tangent of the complex number.
-        /// </returns>
+        /// <param name="value">The complex value.</param>
+        /// <returns>The tangent of the complex number.</returns>
         public static Complex Tan(this Complex value)
         {
             if (value.IsReal())
@@ -238,14 +191,10 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
-        /// Trigonometric Cotangent of an angle in radian.
+        /// Trigonometric Cotangent of an angle in radian, or adjacent / opposite. Reciprocal of the tangent.
         /// </summary>
-        /// <param name="radian">
-        /// The angle in radian.
-        /// </param>
-        /// <returns>
-        /// The cotangent of an angle in radian.
-        /// </returns>
+        /// <param name="radian">The angle in radian.</param>
+        /// <returns>The cotangent of an angle in radian.</returns>
         public static double Cot(double radian)
         {
             return 1 / Math.Tan(radian);
@@ -254,12 +203,8 @@ namespace MathNet.Numerics
         /// <summary>
         /// Trigonometric Cotangent of a <c>Complex</c> number.
         /// </summary>
-        /// <param name="value">
-        /// The complex value.
-        /// </param>
-        /// <returns>
-        /// The cotangent of the complex number.
-        /// </returns>
+        /// <param name="value">The complex value.</param>
+        /// <returns>The cotangent of the complex number.</returns>
         public static Complex Cot(this Complex value)
         {
             if (value.IsReal())
@@ -275,14 +220,10 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
-        /// Trigonometric Secant of an angle in radian
+        /// Trigonometric Secant of an angle in radian, or hypotenuse / adjacent. Reciprocal of the cosine.
         /// </summary>
-        /// <param name="radian">
-        /// The angle in radian.
-        /// </param>
-        /// <returns>
-        /// The secant of the radian angle.
-        /// </returns>
+        /// <param name="radian">The angle in radian.</param>
+        /// <returns>The secant of the radian angle.</returns>
         public static double Sec(double radian)
         {
             return 1 / Math.Cos(radian);
@@ -291,12 +232,8 @@ namespace MathNet.Numerics
         /// <summary>
         /// Trigonometric Secant of a <c>Complex</c> number.
         /// </summary>
-        /// <param name="value">
-        /// The complex value.
-        /// </param>
-        /// <returns>
-        /// The secant of the complex number.
-        /// </returns>
+        /// <param name="value">The complex value.</param>
+        /// <returns>The secant of the complex number.</returns>
         public static Complex Sec(this Complex value)
         {
             if (value.IsReal())
@@ -312,14 +249,10 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
-        /// Trigonometric Cosecant of an angle in radian.
+        /// Trigonometric Cosecant of an angle in radian, or hypotenuse / opposite. Reciprocal of the sine.
         /// </summary>
-        /// <param name="radian">
-        /// The angle in radian.
-        /// </param>
-        /// <returns>
-        /// Cosecant of an angle in radian.
-        /// </returns>
+        /// <param name="radian">The angle in radian.</param>
+        /// <returns>Cosecant of an angle in radian.</returns>
         public static double Csc(double radian)
         {
             return 1 / Math.Sin(radian);
@@ -328,12 +261,8 @@ namespace MathNet.Numerics
         /// <summary>
         /// Trigonometric Cosecant of a <c>Complex</c> number.
         /// </summary>
-        /// <param name="value">
-        /// The complex value.
-        /// </param>
-        /// <returns>
-        /// The cosecant of a complex number.
-        /// </returns>
+        /// <param name="value">The complex value.</param>
+        /// <returns>The cosecant of a complex number.</returns>
         public static Complex Csc(this Complex value)
         {
             if (value.IsReal())
@@ -348,29 +277,22 @@ namespace MathNet.Numerics
             return new Complex(sinr * Cosh(value.Imaginary) / denom, -Cos(value.Real) * sinhi / denom);
         }
 
+
         /// <summary>
-        /// Trigonometric Arc Sine in radian
+        /// Trigonometric principal Arc Sine in radian
         /// </summary>
-        /// <param name="radian">
-        /// The angle in radian angle.
-        /// </param>
-        /// <returns>
-        /// The inverse sine of the radian angle.
-        /// </returns>
-        public static double Asin(double radian)
+        /// <param name="opposite">The opposite for a unit hypotenuse (i.e. opposite / hyptenuse).</param>
+        /// <returns>The angle in radian.</returns>
+        public static double Asin(double opposite)
         {
-            return Math.Asin(radian);
+            return Math.Asin(opposite);
         }
 
         /// <summary>
-        /// Trigonometric Arc Sine of this <c>Complex</c> number.
+        /// Trigonometric principal Arc Sine of this <c>Complex</c> number.
         /// </summary>
-        /// <param name="value">
-        /// The complex value.
-        /// </param>
-        /// <returns>
-        /// The arc sine of a complex number.
-        /// </returns>
+        /// <param name="value">The complex value.</param>
+        /// <returns>The arc sine of a complex number.</returns>
         public static Complex Asin(this Complex value)
         {
             if (value.Imaginary > 0 || value.Imaginary == 0d && value.Real < 0)
@@ -382,31 +304,20 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
-        /// Trigonometric Arc Cosine in radian
+        /// Trigonometric principal Arc Cosine in radian
         /// </summary>
-        /// <param name="radian">
-        /// The angle in radian angle.
-        /// </param>
-        /// <returns>
-        /// The inverse cosine of the radian angle.
-        /// </returns>
-        /// <exception cref="ArgumentOutOfRangeException">
-        /// if 1 &lt; <paramref name="radian"/>  or  <paramref name="radian"/> &lt; -1.
-        /// </exception>
-        public static double Acos(double radian)
+        /// <param name="adjacent">The adjacent for a unit hypotenuse (i.e. adjacent / hypotenuse).</param>
+        /// <returns>The angle in radian.</returns>
+        public static double Acos(double adjacent)
         {
-            return Math.Acos(radian);
+            return Math.Acos(adjacent);
         }
 
         /// <summary>
-        /// Trigonometric Arc Cosine of this <c>Complex</c> number.
+        /// Trigonometric principal Arc Cosine of this <c>Complex</c> number.
         /// </summary>
-        /// <param name="value">
-        /// The complex value.
-        /// </param>
-        /// <returns>
-        /// The arc cosine of a complex number.
-        /// </returns>
+        /// <param name="value">The complex value.</param>
+        /// <returns>The arc cosine of a complex number.</returns>
         public static Complex Acos(this Complex value)
         {
             if (value.Imaginary < 0 || value.Imaginary == 0d && value.Real > 0)
@@ -418,28 +329,20 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
-        /// Trigonometric Arc Tangent  in radian
+        /// Trigonometric principal Arc Tangent  in radian
         /// </summary>
-        /// <param name="radian">
-        /// The angle in radian angle.
-        /// </param>
-        /// <returns>
-        /// The inverse tangent of the radian angle.
-        /// </returns>
-        public static double Atan(double radian)
+        /// <param name="opposite">The opposite for a unit adjacent (i.e. opposite / adjacent).</param>
+        /// <returns>The angle in radian.</returns>
+        public static double Atan(double opposite)
         {
-            return Math.Atan(radian);
+            return Math.Atan(opposite);
         }
 
         /// <summary>
-        /// Trigonometric Arc Tangent of this <c>Complex</c> number.
+        /// Trigonometric principal Arc Tangent of this <c>Complex</c> number.
         /// </summary>
-        /// <param name="value">
-        /// The complex value.
-        /// </param>
-        /// <returns>
-        /// The arc tangent of a complex number.
-        /// </returns>
+        /// <param name="value">The complex value.</param>
+        /// <returns>The arc tangent of a complex number.</returns>
         public static Complex Atan(this Complex value)
         {
             var iz = new Complex(-value.Imaginary, value.Real); // I*this
@@ -447,28 +350,20 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
-        /// Trigonometric Arc Cotangent in radian
+        /// Trigonometric principal Arc Cotangent in radian
         /// </summary>
-        /// <param name="radian">
-        /// The angle in radian angle.
-        /// </param>
-        /// <returns>
-        /// The inverse cotangent of the radian angle.
-        /// </returns>
-        public static double Acot(double radian)
+        /// <param name="adjacent">The adjacent for a unit opposite (i.e. adjacent / opposite).</param>
+        /// <returns>The angle in radian.</returns>
+        public static double Acot(double adjacent)
         {
-            return Math.Atan(1 / radian);
+            return Math.Atan(1 / adjacent);
         }
 
         /// <summary>
-        /// Trigonometric Arc Cotangent of this <c>Complex</c> number.
+        /// Trigonometric principal Arc Cotangent of this <c>Complex</c> number.
         /// </summary>
-        /// <param name="value">
-        /// The complex value.
-        /// </param>
-        /// <returns>
-        /// The arc cotangent of a complex number.
-        /// </returns>
+        /// <param name="value">The complex value.</param>
+        /// <returns>The arc cotangent of a complex number.</returns>
         public static Complex Acot(this Complex value)
         {
             if (value.IsZero())
@@ -481,28 +376,20 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
-        /// Trigonometric Arc Secant in radian
+        /// Trigonometric principal Arc Secant in radian
         /// </summary>
-        /// <param name="radian">
-        /// The angle in radian angle.
-        /// </param>
-        /// <returns>
-        /// The inverse secant of the radian angle.
-        /// </returns>
-        public static double Asec(double radian)
+        /// <param name="hypotenuse">The hypotenuse for a unit adjacent (i.e. hypotenuse / adjacent).</param>
+        /// <returns>The angle in radian.</returns>
+        public static double Asec(double hypotenuse)
         {
-            return Math.Acos(1 / radian);
+            return Math.Acos(1 / hypotenuse);
         }
 
         /// <summary>
-        /// Trigonometric Arc Secant of this <c>Complex</c> number.
+        /// Trigonometric principal Arc Secant of this <c>Complex</c> number.
         /// </summary>
-        /// <param name="value">
-        /// The complex value.
-        /// </param>
-        /// <returns>
-        /// The arc secant of a complex number.
-        /// </returns>
+        /// <param name="value">The complex value.</param>
+        /// <returns>The arc secant of a complex number.</returns>
         public static Complex Asec(this Complex value)
         {
             var inv = 1 / value;
@@ -510,60 +397,42 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
-        /// Trigonometric Arc Cosecant in radian
+        /// Trigonometric principal Arc Cosecant in radian
         /// </summary>
-        /// <param name="radian">
-        /// The angle in radian angle.
-        /// </param>
-        /// <returns>
-        /// The inverse cosecant of the radian angle.
-        /// </returns>
-        /// <exception cref="ArgumentOutOfRangeException">
-        /// if -1 &lt; <paramref name="radian"/> &lt; 1.
-        /// </exception>
-        public static double Acsc(double radian)
+        /// <param name="hypotenuse">The hypotenuse for a unit opposite (i.e. hypotenuse / opposite).</param>
+        /// <returns>The angle in radian.</returns>
+        public static double Acsc(double hypotenuse)
         {
-            return Math.Asin(1 / radian);
+            return Math.Asin(1 / hypotenuse);
         }
 
         /// <summary>
-        /// Trigonometric Arc Cosecant of this <c>Complex</c> number.
+        /// Trigonometric principal Arc Cosecant of this <c>Complex</c> number.
         /// </summary>
-        /// <param name="value">
-        /// The complex value.
-        /// </param>
-        /// <returns>
-        /// The arc cosecant of a complex number.
-        /// </returns>
+        /// <param name="value">The complex value.</param>
+        /// <returns>The arc cosecant of a complex number.</returns>
         public static Complex Acsc(this Complex value)
         {
             var inv = 1 / value;
             return -Complex.ImaginaryOne * ((Complex.ImaginaryOne * inv) + (1 - inv.Square()).SquareRoot()).Ln();
         }
 
+
         /// <summary>
-        /// Trigonometric Hyperbolic Sine
+        /// Hyperbolic Sine
         /// </summary>
-        /// <param name="radian">
-        /// The angle in radian angle.
-        /// </param>
-        /// <returns>
-        /// The hyperbolic sine of the radian angle.
-        /// </returns>
-        public static double Sinh(double radian)
+        /// <param name="angle">The hyperbolic angle, i.e. the area of the hyperbolic sector.</param>
+        /// <returns>The hyperbolic sine of the angle.</returns>
+        public static double Sinh(double angle)
         {
-            return (Math.Exp(radian) - Math.Exp(-radian)) / 2;
+            return (Math.Exp(angle) - Math.Exp(-angle)) / 2;
         }
 
         /// <summary>
-        /// Trigonometric Hyperbolic Sine of a <c>Complex</c> number.
+        /// Hyperbolic Sine of a <c>Complex</c> number.
         /// </summary>
-        /// <param name="value">
-        /// The complex value.
-        /// </param>
-        /// <returns>
-        /// The hyperbolic sine of a complex number.
-        /// </returns>
+        /// <param name="value">The complex value.</param>
+        /// <returns>The hyperbolic sine of a complex number.</returns>
         public static Complex Sinh(this Complex value)
         {
             if (value.IsReal())
@@ -577,28 +446,20 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
-        /// Trigonometric Hyperbolic Cosine
+        /// Hyperbolic Cosine
         /// </summary>
-        /// <param name="radian">
-        /// The angle in radian.
-        /// </param>
-        /// <returns>
-        /// The hyperbolic Cosine of the radian angle.
-        /// </returns>
-        public static double Cosh(double radian)
+        /// <param name="angle">The hyperbolic angle, i.e. the area of the hyperbolic sector.</param>
+        /// <returns>The hyperbolic Cosine of the angle.</returns>
+        public static double Cosh(double angle)
         {
-            return (Math.Exp(radian) + Math.Exp(-radian)) / 2;
+            return (Math.Exp(angle) + Math.Exp(-angle)) / 2;
         }
 
         /// <summary>
-        /// Trigonometric Hyperbolic Cosine of a <c>Complex</c> number.
+        /// Hyperbolic Cosine of a <c>Complex</c> number.
         /// </summary>
-        /// <param name="value">
-        /// The complex value.
-        /// </param>
-        /// <returns>
-        /// The hyperbolic cosine of a complex number.
-        /// </returns>
+        /// <param name="value">The complex value.</param>
+        /// <returns>The hyperbolic cosine of a complex number.</returns>
         public static Complex Cosh(this Complex value)
         {
             if (value.IsReal())
@@ -612,40 +473,32 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
-        /// Trigonometric Hyperbolic Tangent in radian
+        /// Hyperbolic Tangent in radian
         /// </summary>
-        /// <param name="radian">
-        /// The angle in radian angle.
-        /// </param>
-        /// <returns>
-        /// The hyperbolic tangent of the radian angle.
-        /// </returns>
-        public static double Tanh(double radian)
+        /// <param name="angle">The hyperbolic angle, i.e. the area of the hyperbolic sector.</param>
+        /// <returns>The hyperbolic tangent of the angle.</returns>
+        public static double Tanh(double angle)
         {
-            if (radian > 19.1)
+            if (angle > 19.1)
             {
                 return 1.0;
             }
 
-            if (radian < -19.1)
+            if (angle < -19.1)
             {
                 return -1;
             }
 
-            var e1 = Math.Exp(radian);
-            var e2 = Math.Exp(-radian);
+            var e1 = Math.Exp(angle);
+            var e2 = Math.Exp(-angle);
             return (e1 - e2) / (e1 + e2);
         }
 
         /// <summary>
-        /// Trigonometric Hyperbolic Tangent of a <c>Complex</c> number.
+        /// Hyperbolic Tangent of a <c>Complex</c> number.
         /// </summary>
-        /// <param name="value">
-        /// The complex value.
-        /// </param>
-        /// <returns>
-        /// The hyperbolic tangent of a complex number.
-        /// </returns>
+        /// <param name="value">The complex value.</param>
+        /// <returns>The hyperbolic tangent of a complex number.</returns>
         public static Complex Tanh(this Complex value)
         {
             if (value.IsReal())
@@ -667,40 +520,32 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
-        /// Trigonometric Hyperbolic Cotangent
+        /// Hyperbolic Cotangent
         /// </summary>
-        /// <param name="radian">
-        /// The angle in radian angle.
-        /// </param>
-        /// <returns>
-        /// The hyperbolic cotangent of the radian angle.
-        /// </returns>
-        public static double Coth(double radian)
+        /// <param name="angle">The hyperbolic angle, i.e. the area of the hyperbolic sector.</param>
+        /// <returns>The hyperbolic cotangent of the angle.</returns>
+        public static double Coth(double angle)
         {
-            if (radian > 19.115)
+            if (angle > 19.115)
             {
                 return 1.0;
             }
 
-            if (radian < -19.115)
+            if (angle < -19.115)
             {
                 return -1;
             }
 
-            var e1 = Math.Exp(radian);
-            var e2 = Math.Exp(-radian);
+            var e1 = Math.Exp(angle);
+            var e2 = Math.Exp(-angle);
             return (e1 + e2) / (e1 - e2);
         }
 
         /// <summary>
-        /// Trigonometric Hyperbolic Cotangent of a <c>Complex</c> number.
+        /// Hyperbolic Cotangent of a <c>Complex</c> number.
         /// </summary>
-        /// <param name="value">
-        /// The complex value.
-        /// </param>
-        /// <returns>
-        /// The hyperbolic cotangent of a complex number.
-        /// </returns>
+        /// <param name="value">The complex value.</param>
+        /// <returns>The hyperbolic cotangent of a complex number.</returns>
         public static Complex Coth(this Complex value)
         {
             if (value.IsReal())
@@ -722,28 +567,20 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
-        /// Trigonometric Hyperbolic Secant
+        /// Hyperbolic Secant
         /// </summary>
-        /// <param name="radian">
-        /// The angle in radian angle.
-        /// </param>
-        /// <returns>
-        /// The hyperbolic secant of the radian angle.
-        /// </returns>
-        public static double Sech(double radian)
+        /// <param name="angle">The hyperbolic angle, i.e. the area of the hyperbolic sector.</param>
+        /// <returns>The hyperbolic secant of the angle.</returns>
+        public static double Sech(double angle)
         {
-            return 1 / Cosh(radian);
+            return 1 / Cosh(angle);
         }
 
         /// <summary>
-        /// Trigonometric Hyperbolic Secant of a <c>Complex</c> number.
+        /// Hyperbolic Secant of a <c>Complex</c> number.
         /// </summary>
-        /// <param name="value">
-        /// The complex value.
-        /// </param>
-        /// <returns>
-        /// The hyperbolic secant of a complex number.
-        /// </returns>
+        /// <param name="value">The complex value.</param>
+        /// <returns>The hyperbolic secant of a complex number.</returns>
         public static Complex Sech(this Complex value)
         {
             if (value.IsReal())
@@ -762,28 +599,20 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
-        /// Trigonometric Hyperbolic Cosecant
+        /// Hyperbolic Cosecant
         /// </summary>
-        /// <param name="radian">
-        /// The angle in radian.
-        /// </param>
-        /// <returns>
-        /// The hyperbolic cosecant of the radian angle.
-        /// </returns>
-        public static double Csch(double radian)
+        /// <param name="angle">The hyperbolic angle, i.e. the area of the hyperbolic sector.</param>
+        /// <returns>The hyperbolic cosecant of the angle.</returns>
+        public static double Csch(double angle)
         {
-            return 1 / Sinh(radian);
+            return 1 / Sinh(angle);
         }
 
         /// <summary>
-        /// Trigonometric Hyperbolic Cosecant of a <c>Complex</c> number.
+        /// Hyperbolic Cosecant of a <c>Complex</c> number.
         /// </summary>
-        /// <param name="value">
-        /// The complex value.
-        /// </param>
-        /// <returns>
-        /// The hyperbolic cosecant of a complex number.
-        /// </returns>
+        /// <param name="value">The complex value.</param>
+        /// <returns>The hyperbolic cosecant of a complex number.</returns>
         public static Complex Csch(this Complex value)
         {
             if (value.IsReal())
@@ -801,113 +630,82 @@ namespace MathNet.Numerics
             return 2 * exp / (exp.Square() - 1);
         }
 
+
         /// <summary>
-        /// Trigonometric Hyperbolic Area Sine
+        /// Hyperbolic Area Sine
         /// </summary>
-        /// <param name="radian">
-        /// The angle in radian angle.
-        /// </param>
-        /// <returns>
-        /// The inverse hyperbolic sine of the radian angle.
-        /// </returns>
-        public static double Asinh(double radian)
+        /// <param name="value">The real value.</param>
+        /// <returns>The hyperbolic angle, i.e. the area of its hyperbolic sector.</returns>
+        public static double Asinh(double value)
         {
-            return Math.Log(radian + Math.Sqrt((radian * radian) + 1), Math.E);
+            return Math.Log(value + Math.Sqrt((value * value) + 1), Math.E);
         }
 
         /// <summary>
-        /// Trigonometric Hyperbolic Arc Sine of this <c>Complex</c> number.
+        /// Hyperbolic Area Sine of this <c>Complex</c> number.
         /// </summary>
-        /// <param name="value">
-        /// The complex value.
-        /// </param>
-        /// <returns>
-        /// The hyperbolic arc sine of a complex number.
-        /// </returns>
+        /// <param name="value">The complex value.</param>
+        /// <returns>The hyperbolic arc sine of a complex number.</returns>
         public static Complex Asinh(this Complex value)
         {
             return (value + (value.Square() + 1).SquareRoot()).Ln();
         }
 
         /// <summary>
-        /// Trigonometric Hyperbolic Area Cosine
+        /// Hyperbolic Area Cosine
         /// </summary>
-        /// <param name="radian">
-        /// The angle in radian angle.
-        /// </param>
-        /// <returns>
-        /// The inverse hyperbolic cosine of the radian angle.
-        /// </returns>
-        public static double Acosh(double radian)
+        /// <param name="value">The real value.</param>
+        /// <returns>The hyperbolic angle, i.e. the area of its hyperbolic sector.</returns>
+        public static double Acosh(double value)
         {
-            return Math.Log(radian + (Math.Sqrt(radian - 1) * Math.Sqrt(radian + 1)), Math.E);
+            return Math.Log(value + (Math.Sqrt(value - 1) * Math.Sqrt(value + 1)), Math.E);
         }
 
         /// <summary>
-        /// Trigonometric Hyperbolic Arc Cosine of this <c>Complex</c> number.
+        /// Hyperbolic Area Cosine of this <c>Complex</c> number.
         /// </summary>
-        /// <param name="value">
-        /// The complex value.
-        /// </param>
-        /// <returns>
-        /// The hyperbolic arc cosine of a complex number.
-        /// </returns>
+        /// <param name="value">The complex value.</param>
+        /// <returns>The hyperbolic arc cosine of a complex number.</returns>
         public static Complex Acosh(this Complex value)
         {
             return (value + ((value - 1).SquareRoot() * (value + 1).SquareRoot())).Ln();
         }
 
         /// <summary>
-        /// Trigonometric Hyperbolic Area Tangent
+        /// Hyperbolic Area Tangent
         /// </summary>
-        /// <param name="radian">
-        /// The angle in radian angle.
-        /// </param>
-        /// <returns>
-        /// The inverse hyperbolic tangent of the radian angle.
-        /// </returns>
-        public static double Atanh(double radian)
+        /// <param name="value">The real value.</param>
+        /// <returns>The hyperbolic angle, i.e. the area of its hyperbolic sector.</returns>
+        public static double Atanh(double value)
         {
-            return 0.5 * Math.Log((1 + radian) / (1 - radian), Math.E);
+            return 0.5 * Math.Log((1 + value) / (1 - value), Math.E);
         }
 
         /// <summary>
-        /// Trigonometric Hyperbolic Arc Tangent of this <c>Complex</c> number.
+        /// Hyperbolic Area Tangent of this <c>Complex</c> number.
         /// </summary>
-        /// <param name="value">
-        /// The complex value.
-        /// </param>
-        /// <returns>
-        /// The hyperbolic arc tangent of a complex number.
-        /// </returns>
+        /// <param name="value">The complex value.</param>
+        /// <returns>The hyperbolic arc tangent of a complex number.</returns>
         public static Complex Atanh(this Complex value)
         {
             return 0.5 * ((1 + value).Ln() - (1 - value).Ln());
         }
 
         /// <summary>
-        /// Trigonometric Hyperbolic Arc Cotangent
+        /// Hyperbolic Area Cotangent
         /// </summary>
-        /// <param name="radian">
-        /// The angle in radian angle.
-        /// </param>
-        /// <returns>
-        /// The inverse hyperbolic cotangent of the radian angle.
-        /// </returns>
-        public static double Acoth(double radian)
+        /// <param name="value">The real value.</param>
+        /// <returns>The hyperbolic angle, i.e. the area of its hyperbolic sector.</returns>
+        public static double Acoth(double value)
         {
-            return 0.5 * Math.Log((radian + 1) / (radian - 1), Math.E);
+            return 0.5 * Math.Log((value + 1) / (value - 1), Math.E);
         }
 
         /// <summary>
-        /// Trigonometric Hyperbolic Arc Cotangent of this <c>Complex</c> number.
+        /// Hyperbolic Area Cotangent of this <c>Complex</c> number.
         /// </summary>
-        /// <param name="value">
-        /// The complex value.
-        /// </param>
-        /// <returns>
-        /// The hyperbolic arc cotangent of a complex number.
-        /// </returns>
+        /// <param name="value">The complex value.</param>
+        /// <returns>The hyperbolic arc cotangent of a complex number.</returns>
         public static Complex Acoth(this Complex value)
         {
             var inv = 1.0 / value;
@@ -915,28 +713,20 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
-        /// Trigonometric Hyperbolic Area Secant
+        /// Hyperbolic Area Secant
         /// </summary>
-        /// <param name="radian">
-        /// The angle in radian angle.
-        /// </param>
-        /// <returns>
-        /// The inverse hyperbolic secant of the radian angle.
-        /// </returns>
-        public static double Asech(double radian)
+        /// <param name="value">The real value.</param>
+        /// <returns>The hyperbolic angle, i.e. the area of its hyperbolic sector.</returns>
+        public static double Asech(double value)
         {
-            return Acosh(1 / radian);
+            return Acosh(1 / value);
         }
 
         /// <summary>
-        /// Trigonometric Hyperbolic Arc Secant of this <c>Complex</c> number.
+        /// Hyperbolic Area Secant of this <c>Complex</c> number.
         /// </summary>
-        /// <param name="value">
-        /// The complex value.
-        /// </param>
-        /// <returns>
-        /// The hyperbolic arc secant of a complex number.
-        /// </returns>
+        /// <param name="value">The complex value.</param>
+        /// <returns>The hyperbolic arc secant of a complex number.</returns>
         public static Complex Asech(this Complex value)
         {
             var inv = 1 / value;
@@ -944,28 +734,20 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
-        /// Trigonometric Hyperbolic Arc Cosecant
+        /// Hyperbolic Area Cosecant
         /// </summary>
-        /// <param name="radian">
-        /// The angle in radian angle.
-        /// </param>
-        /// <returns>
-        /// The inverse hyperbolic cosecant of the radian angle.
-        /// </returns>
-        public static double Acsch(double radian)
+        /// <param name="value">The real value.</param>
+        /// <returns>The hyperbolic angle, i.e. the area of its hyperbolic sector.</returns>
+        public static double Acsch(double value)
         {
-            return Asinh(1 / radian);
+            return Asinh(1 / value);
         }
 
         /// <summary>
-        /// Trigonometric Hyperbolic Arc Cosecant of this <c>Complex</c> number.
+        /// Hyperbolic Area Cosecant of this <c>Complex</c> number.
         /// </summary>
-        /// <param name="value">
-        /// The complex value.
-        /// </param>
-        /// <returns>
-        /// The hyperbolic arc cosecant of a complex number.
-        /// </returns>
+        /// <param name="value">The complex value.</param>
+        /// <returns>The hyperbolic arc cosecant of a complex number.</returns>
         public static Complex Acsch(this Complex value)
         {
             var inv = 1 / value;
