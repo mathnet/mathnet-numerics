@@ -59,7 +59,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.StopCrit
         [Test]
         public void CreateWithIllegalMinimumIterationsThrowsArgumentOutOfRangeException()
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() => new DivergenceStopCriterium(2));
+            Assert.Throws<ArgumentOutOfRangeException>(() => new DivergenceStopCriterium(minimumIterations: 2));
         }
 
         /// <summary>
