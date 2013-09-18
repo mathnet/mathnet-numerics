@@ -47,10 +47,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers
         /// Determine status without stop criteria throws <c>ArgumentException</c>.
         /// </summary>
         [Test]
-        public void DetermineStatusWithoutStopCriteriaThrowsArgumentException()
+        public void DetermineStatusWithoutStopCriteriaDoesNotThrow()
         {
             var iterator = new Iterator<double>();
-            Assert.Throws<ArgumentException>(() => iterator.DetermineStatus(
+            Assert.DoesNotThrow(() => iterator.DetermineStatus(
                 0,
                 DenseVector.Create(3, i => 4),
                 DenseVector.Create(3, i => 5),
