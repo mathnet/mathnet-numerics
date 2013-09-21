@@ -32,18 +32,18 @@ using System;
 using MathNet.Numerics.LinearAlgebra.Solvers;
 using MathNet.Numerics.Properties;
 
-namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.Preconditioners
+namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
 {
     /// <summary>
     /// A diagonal preconditioner. The preconditioner uses the inverse
     /// of the matrix diagonal as preconditioning values.
     /// </summary>
-    public sealed class DiagonalPreconditioner : IPreconditioner<double>
+    public sealed class DiagonalPreconditioner : IPreconditioner<float>
     {
         /// <summary>
         /// The inverse of the matrix diagonal.
         /// </summary>
-        double[] _inverseDiagonals;
+        float[] _inverseDiagonals;
 
         /// <summary>
         /// Returns the decomposed matrix diagonal.
@@ -67,14 +67,14 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.Preconditioners
         /// The <see cref="Matrix"/> upon which this preconditioner is based.</param>
         /// <exception cref="ArgumentNullException">If <paramref name="matrix"/> is <see langword="null" />. </exception>
         /// <exception cref="ArgumentException">If <paramref name="matrix"/> is not a square matrix.</exception>
-        public void Initialize(Matrix<double> matrix)
+        public void Initialize(Matrix<float> matrix)
         {
             if (matrix.RowCount != matrix.ColumnCount)
             {
                 throw new ArgumentException(Resources.ArgumentMatrixSquare, "matrix");
             }
 
-            _inverseDiagonals = new double[matrix.RowCount];
+            _inverseDiagonals = new float[matrix.RowCount];
             for (var i = 0; i < matrix.RowCount; i++)
             {
                 _inverseDiagonals[i] = 1/matrix[i, i];
@@ -86,7 +86,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.Preconditioners
         /// </summary>
         /// <param name="rhs">The right hand side vector.</param>
         /// <param name="lhs">The left hand side vector. Also known as the result vector.</param>
-        public void Approximate(Vector<double> rhs, Vector<double> lhs)
+        public void Approximate(Vector<float> rhs, Vector<float> lhs)
         {
             if (_inverseDiagonals == null)
             {

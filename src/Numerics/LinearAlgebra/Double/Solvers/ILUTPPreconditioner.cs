@@ -33,7 +33,7 @@ using System.Collections.Generic;
 using MathNet.Numerics.LinearAlgebra.Solvers;
 using MathNet.Numerics.Properties;
 
-namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.Preconditioners
+namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
 {
     /// <summary>
     /// This class performs an Incomplete LU factorization with drop tolerance

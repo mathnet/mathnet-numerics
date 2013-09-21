@@ -32,12 +32,12 @@ using MathNet.Numerics.LinearAlgebra.Solvers;
 using System;
 using System.Diagnostics;
 
-namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.StopCriterium
+namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
 {
     /// <summary>
     /// Monitors an iterative calculation for signs of divergence.
     /// </summary>
-    public sealed class DivergenceStopCriterium : IIterationStopCriterium<float>
+    public sealed class DivergenceStopCriterium : IIterationStopCriterium<double>
     {
         /// <summary>
         /// Default value for the maximum relative increase that the 
@@ -185,7 +185,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.StopCriterium
         /// on the invocation of this method. Therefore this method should only be called if the 
         /// calculation has moved forwards at least one step.
         /// </remarks>
-        public IterationStatus DetermineStatus(int iterationNumber, Vector<float> solutionVector, Vector<float> sourceVector, Vector<float> residualVector)
+        public IterationStatus DetermineStatus(int iterationNumber, Vector<double> solutionVector, Vector<double> sourceVector, Vector<double> residualVector)
         {
             if (iterationNumber < 0)
             {
@@ -294,7 +294,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.StopCriterium
         /// Clones the current <see cref="DivergenceStopCriterium"/> and its settings.
         /// </summary>
         /// <returns>A new instance of the <see cref="DivergenceStopCriterium"/> class.</returns>
-        public IIterationStopCriterium<float> Clone()
+        public IIterationStopCriterium<double> Clone()
         {
             return new DivergenceStopCriterium(_maximumRelativeIncrease, _minimumNumberOfIterations);
         }

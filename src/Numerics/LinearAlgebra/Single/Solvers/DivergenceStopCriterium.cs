@@ -32,14 +32,12 @@ using MathNet.Numerics.LinearAlgebra.Solvers;
 using System;
 using System.Diagnostics;
 
-namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.StopCriterium
+namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
 {
-    using Numerics;
-
     /// <summary>
     /// Monitors an iterative calculation for signs of divergence.
     /// </summary>
-    public sealed class DivergenceStopCriterium : IIterationStopCriterium<Complex32>
+    public sealed class DivergenceStopCriterium : IIterationStopCriterium<float>
     {
         /// <summary>
         /// Default value for the maximum relative increase that the 
@@ -187,7 +185,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.StopCriterium
         /// on the invocation of this method. Therefore this method should only be called if the 
         /// calculation has moved forwards at least one step.
         /// </remarks>
-        public IterationStatus DetermineStatus(int iterationNumber, Vector<Complex32> solutionVector, Vector<Complex32> sourceVector, Vector<Complex32> residualVector)
+        public IterationStatus DetermineStatus(int iterationNumber, Vector<float> solutionVector, Vector<float> sourceVector, Vector<float> residualVector)
         {
             if (iterationNumber < 0)
             {
@@ -215,7 +213,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.StopCriterium
 
             // Store the infinity norms of both the solution and residual vectors
             // These values will be used to calculate the relative drop in residuals later on.
-            _residualHistory[_residualHistory.Length - 1] = residualVector.InfinityNorm().Real;
+            _residualHistory[_residualHistory.Length - 1] = residualVector.InfinityNorm();
 
             // Check if we have NaN's. If so we've gone way beyond normal divergence.
             // Stop the iteration.
@@ -296,7 +294,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.StopCriterium
         /// Clones the current <see cref="DivergenceStopCriterium"/> and its settings.
         /// </summary>
         /// <returns>A new instance of the <see cref="DivergenceStopCriterium"/> class.</returns>
-        public IIterationStopCriterium<Complex32> Clone()
+        public IIterationStopCriterium<float> Clone()
         {
             return new DivergenceStopCriterium(_maximumRelativeIncrease, _minimumNumberOfIterations);
         }

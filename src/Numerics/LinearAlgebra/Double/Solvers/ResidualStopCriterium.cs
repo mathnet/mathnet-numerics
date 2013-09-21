@@ -33,7 +33,7 @@ using System.Diagnostics;
 using MathNet.Numerics.LinearAlgebra.Solvers;
 using MathNet.Numerics.Properties;
 
-namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.StopCriterium
+namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
 {
     /// <summary>
     /// Defines an <see cref="IIterationStopCriterium{T}"/> that monitors residuals as stop criterium.

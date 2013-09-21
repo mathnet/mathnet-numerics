@@ -3,7 +3,9 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
-// Copyright (c) 2009-2010 Math.NET
+//
+// Copyright (c) 2009-2013 Math.NET
+//
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -12,8 +14,10 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
+//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
+//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -26,12 +30,17 @@
 
 using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Complex;
-using MathNet.Numerics.LinearAlgebra.Complex.Solvers.Preconditioners;
+using MathNet.Numerics.LinearAlgebra.Complex.Solvers;
 using NUnit.Framework;
 
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.Preconditioners
 {
-    using System.Numerics;
+
+#if NOSYSNUMERICS
+    using Complex = Numerics.Complex;
+#else
+    using Complex = System.Numerics.Complex;
+#endif
 
     /// <summary>
     /// Test for element sort algorithm of Ilupt class.
@@ -45,7 +54,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.Precondi
         [Test]
         public void HeapSortWithIncreasingIntegerArray()
         {
-            var sortedIndices = new[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+            var sortedIndices = new[] {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
             ILUTPElementSorter.SortIntegersDecreasing(sortedIndices);
             for (var i = 0; i < sortedIndices.Length; i++)
             {
@@ -59,7 +68,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.Precondi
         [Test]
         public void HeapSortWithDecreasingIntegerArray()
         {
-            var sortedIndices = new[] { 9, 8, 7, 6, 5, 4, 3, 2, 1, 0 };
+            var sortedIndices = new[] {9, 8, 7, 6, 5, 4, 3, 2, 1, 0};
             ILUTPElementSorter.SortIntegersDecreasing(sortedIndices);
             for (var i = 0; i < sortedIndices.Length; i++)
             {
@@ -73,7 +82,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.Precondi
         [Test]
         public void HeapSortWithRandomIntegerArray()
         {
-            var sortedIndices = new[] { 5, 2, 8, 6, 0, 4, 1, 7, 3, 9 };
+            var sortedIndices = new[] {5, 2, 8, 6, 0, 4, 1, 7, 3, 9};
             ILUTPElementSorter.SortIntegersDecreasing(sortedIndices);
             for (var i = 0; i < sortedIndices.Length; i++)
             {
@@ -87,7 +96,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.Precondi
         [Test]
         public void HeapSortWithDuplicateEntries()
         {
-            var sortedIndices = new[] { 1, 1, 1, 1, 2, 2, 2, 2, 3, 4 };
+            var sortedIndices = new[] {1, 1, 1, 1, 2, 2, 2, 2, 3, 4};
             ILUTPElementSorter.SortIntegersDecreasing(sortedIndices);
             for (var i = 0; i < sortedIndices.Length; i++)
             {
@@ -128,7 +137,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.Precondi
         [Test]
         public void HeapSortWithSpecialConstructedIntegerArray()
         {
-            var sortedIndices = new[] { 0, 0, 0, 0, 0, 1, 0, 0, 0, 0 };
+            var sortedIndices = new[] {0, 0, 0, 0, 0, 1, 0, 0, 0, 0};
             ILUTPElementSorter.SortIntegersDecreasing(sortedIndices);
             for (var i = 0; i < sortedIndices.Length; i++)
             {
@@ -139,7 +148,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.Precondi
                 }
             }
 
-            sortedIndices = new[] { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+            sortedIndices = new[] {1, 0, 0, 0, 0, 0, 0, 0, 0, 0};
             ILUTPElementSorter.SortIntegersDecreasing(sortedIndices);
             for (var i = 0; i < sortedIndices.Length; i++)
             {
@@ -150,7 +159,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.Precondi
                 }
             }
 
-            sortedIndices = new[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 };
+            sortedIndices = new[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 1};
             ILUTPElementSorter.SortIntegersDecreasing(sortedIndices);
             for (var i = 0; i < sortedIndices.Length; i++)
             {
@@ -161,7 +170,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.Precondi
                 }
             }
 
-            sortedIndices = new[] { 1, 1, 1, 0, 1, 1, 1, 1, 1, 1 };
+            sortedIndices = new[] {1, 1, 1, 0, 1, 1, 1, 1, 1, 1};
             ILUTPElementSorter.SortIntegersDecreasing(sortedIndices);
             for (var i = 0; i < sortedIndices.Length; i++)
             {

@@ -30,7 +30,7 @@
 
 using System;
 using MathNet.Numerics.LinearAlgebra.Complex32;
-using MathNet.Numerics.LinearAlgebra.Complex32.Solvers.StopCriterium;
+using MathNet.Numerics.LinearAlgebra.Complex32.Solvers;
 using MathNet.Numerics.LinearAlgebra.Solvers;
 using NUnit.Framework;
 

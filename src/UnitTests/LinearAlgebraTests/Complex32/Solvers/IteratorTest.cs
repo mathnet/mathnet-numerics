@@ -31,7 +31,7 @@
 using System;
 using System.Collections.Generic;
 using MathNet.Numerics.LinearAlgebra.Complex32;
-using MathNet.Numerics.LinearAlgebra.Complex32.Solvers.StopCriterium;
+using MathNet.Numerics.LinearAlgebra.Complex32.Solvers;
 using MathNet.Numerics.LinearAlgebra.Solvers;
 using NUnit.Framework;
 
@@ -66,12 +66,12 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers
         public void DetermineStatusWithNegativeIterationNumberThrowsArgumentOutOfRangeException()
         {
             var criteria = new List<IIterationStopCriterium<Complex32>>
-                {
-                    new FailureStopCriterium(),
-                    new DivergenceStopCriterium(),
-                    new IterationCountStopCriterium<Complex32>(),
-                    new ResidualStopCriterium()
-                };
+            {
+                new FailureStopCriterium(),
+                new DivergenceStopCriterium(),
+                new IterationCountStopCriterium<Complex32>(),
+                new ResidualStopCriterium()
+            };
             var iterator = new Iterator<Complex32>(criteria);
 
             Assert.Throws<ArgumentOutOfRangeException>(() => iterator.DetermineStatus(
@@ -88,11 +88,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers
         public void DetermineStatus()
         {
             var criteria = new List<IIterationStopCriterium<Complex32>>
-                {
-                    new FailureStopCriterium(),
-                    new DivergenceStopCriterium(),
-                    new IterationCountStopCriterium<Complex32>(1)
-                };
+            {
+                new FailureStopCriterium(),
+                new DivergenceStopCriterium(),
+                new IterationCountStopCriterium<Complex32>(1)
+            };
 
             var iterator = new Iterator<Complex32>(criteria);
 
@@ -120,11 +120,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers
         public void ResetToPrecalculationState()
         {
             var criteria = new List<IIterationStopCriterium<Complex32>>
-                {
-                    new FailureStopCriterium(),
-                    new DivergenceStopCriterium(),
-                    new IterationCountStopCriterium<Complex32>(1)
-                };
+            {
+                new FailureStopCriterium(),
+                new DivergenceStopCriterium(),
+                new IterationCountStopCriterium<Complex32>(1)
+            };
 
             var iterator = new Iterator<Complex32>(criteria);
 

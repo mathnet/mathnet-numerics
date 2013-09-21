@@ -28,11 +28,11 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System;
 using MathNet.Numerics.LinearAlgebra.Single;
-using MathNet.Numerics.LinearAlgebra.Single.Solvers.StopCriterium;
+using MathNet.Numerics.LinearAlgebra.Single.Solvers;
 using MathNet.Numerics.LinearAlgebra.Solvers;
 using NUnit.Framework;
-using System;
 
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers.StopCriterium
 {

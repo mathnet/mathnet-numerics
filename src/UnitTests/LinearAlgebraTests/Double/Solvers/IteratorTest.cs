@@ -31,7 +31,7 @@
 using System;
 using System.Collections.Generic;
 using MathNet.Numerics.LinearAlgebra.Double;
-using MathNet.Numerics.LinearAlgebra.Double.Solvers.StopCriterium;
+using MathNet.Numerics.LinearAlgebra.Double.Solvers;
 using MathNet.Numerics.LinearAlgebra.Solvers;
 using NUnit.Framework;
 
@@ -64,12 +64,12 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers
         public void DetermineStatusWithNegativeIterationNumberThrowsArgumentOutOfRangeException()
         {
             var criteria = new List<IIterationStopCriterium<double>>
-                {
-                    new FailureStopCriterium(),
-                    new DivergenceStopCriterium(),
-                    new IterationCountStopCriterium<double>(),
-                    new ResidualStopCriterium()
-                };
+            {
+                new FailureStopCriterium(),
+                new DivergenceStopCriterium(),
+                new IterationCountStopCriterium<double>(),
+                new ResidualStopCriterium()
+            };
             var iterator = new Iterator<double>(criteria);
 
             Assert.Throws<ArgumentOutOfRangeException>(() => iterator.DetermineStatus(
@@ -86,11 +86,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers
         public void DetermineStatus()
         {
             var criteria = new List<IIterationStopCriterium<double>>
-                {
-                    new FailureStopCriterium(),
-                    new DivergenceStopCriterium(),
-                    new IterationCountStopCriterium<double>(1)
-                };
+            {
+                new FailureStopCriterium(),
+                new DivergenceStopCriterium(),
+                new IterationCountStopCriterium<double>(1)
+            };
 
             var iterator = new Iterator<double>(criteria);
 
@@ -118,11 +118,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers
         public void ResetToPrecalculationState()
         {
             var criteria = new List<IIterationStopCriterium<double>>
-                {
-                    new FailureStopCriterium(),
-                    new DivergenceStopCriterium(),
-                    new IterationCountStopCriterium<double>(1)
-                };
+            {
+                new FailureStopCriterium(),
+                new DivergenceStopCriterium(),
+                new IterationCountStopCriterium<double>(1)
+            };
 
             var iterator = new Iterator<double>(criteria);
 

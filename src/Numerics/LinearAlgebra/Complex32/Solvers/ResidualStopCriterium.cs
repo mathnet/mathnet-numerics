@@ -33,24 +33,19 @@ using System.Diagnostics;
 using MathNet.Numerics.LinearAlgebra.Solvers;
 using MathNet.Numerics.Properties;
 
-namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.StopCriterium
+namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers
 {
-
-#if NOSYSNUMERICS
-    using Complex = Numerics.Complex;
-#else
-    using Complex = System.Numerics.Complex;
-#endif
+    using Numerics;
 
     /// <summary>
     /// Defines an <see cref="IIterationStopCriterium{T}"/> that monitors residuals as stop criterium.
     /// </summary>
-    public sealed class ResidualStopCriterium : IIterationStopCriterium<Complex>
+    public sealed class ResidualStopCriterium : IIterationStopCriterium<Complex32>
     {
         /// <summary>
         /// The default value for the maximum value of the residual.
         /// </summary>
-        public const double DefaultMaximumResidual = 1e-12;
+        public const float DefaultMaximumResidual = 1e-6f;
 
         /// <summary>
         /// The default value for the minimum number of iterations.
@@ -65,7 +60,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.StopCriterium
         /// <summary>
         /// The maximum value for the residual below which the calculation is considered converged.
         /// </summary>
-        double _maximum;
+        float _maximum;
 
         /// <summary>
         /// The minimum number of iterations for which the residual has to be below the maximum before
@@ -99,7 +94,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.StopCriterium
         /// The minimum number of iterations for which the residual has to be below the maximum before
         /// the calculation is considered converged.
         /// </param>
-        public ResidualStopCriterium(double maximum = DefaultMaximumResidual, int minimumIterationsBelowMaximum = DefaultMinimumIterationsBelowMaximum)
+        public ResidualStopCriterium(float maximum = DefaultMaximumResidual, int minimumIterationsBelowMaximum = DefaultMinimumIterationsBelowMaximum)
         {
             if (maximum < 0)
             {
@@ -120,7 +115,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.StopCriterium
         /// converged.
         /// </summary>
         /// <exception cref="ArgumentOutOfRangeException">Thrown if the <c>Maximum</c> is set to a negative value.</exception>
-        public double Maximum
+        public float Maximum
         {
             [DebuggerStepThrough]
             get
@@ -194,7 +189,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.StopCriterium
         /// on the invocation of this method. Therefore this method should only be called if the 
         /// calculation has moved forwards at least one step.
         /// </remarks>
-        public IterationStatus DetermineStatus(int iterationNumber, Vector<Complex> solutionVector, Vector<Complex> sourceVector, Vector<Complex> residualVector)
+        public IterationStatus DetermineStatus(int iterationNumber, Vector<Complex32> solutionVector, Vector<Complex32> sourceVector, Vector<Complex32> residualVector)
         {
             if (iterationNumber < 0)
             {
@@ -223,7 +218,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.StopCriterium
             // First check that we have real numbers not NaN's.
             // NaN's can occur when the iterative process diverges so we
             // stop if that is the case.
-            if (double.IsNaN(stopCriterium) || double.IsNaN(residualNorm.Real))
+            if (float.IsNaN(stopCriterium) || float.IsNaN(residualNorm.Real))
             {
                 _iterationCount = 0;
                 _status = IterationStatus.Diverged;
@@ -256,7 +251,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.StopCriterium
         /// </summary>
         /// <param name="solutionNorm">Solution vector norm</param>
         /// <returns>Criterium value</returns>
-        double ComputeStopCriterium(double solutionNorm)
+        float ComputeStopCriterium(float solutionNorm)
         {
             // This is criterium 1 from Templates for the solution of linear systems.
             // The problem with this criterium is that it's not limiting enough. For now 
@@ -293,7 +288,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.StopCriterium
         /// Clones the current <see cref="ResidualStopCriterium"/> and its settings.
         /// </summary>
         /// <returns>A new instance of the <see cref="ResidualStopCriterium"/> class.</returns>
-        public IIterationStopCriterium<Complex> Clone()
+        public IIterationStopCriterium<Complex32> Clone()
         {
             return new ResidualStopCriterium(_maximum, _minimumIterationsBelowMaximum);
         }

@@ -33,7 +33,7 @@ using MathNet.Numerics.LinearAlgebra.Solvers;
 using MathNet.Numerics.LinearAlgebra.Storage;
 using MathNet.Numerics.Properties;
 
-namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.Preconditioners
+namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
 {
     /// <summary>
     /// Milu0 is a simple milu(0) preconditioner.

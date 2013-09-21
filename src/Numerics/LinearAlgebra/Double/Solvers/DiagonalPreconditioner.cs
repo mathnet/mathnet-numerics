@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2010 Math.NET
+// Copyright (c) 2009-2013 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -32,20 +32,18 @@ using System;
 using MathNet.Numerics.LinearAlgebra.Solvers;
 using MathNet.Numerics.Properties;
 
-namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Preconditioners
+namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
 {
-    using Numerics;
-
     /// <summary>
     /// A diagonal preconditioner. The preconditioner uses the inverse
     /// of the matrix diagonal as preconditioning values.
     /// </summary>
-    public sealed class DiagonalPreconditioner : IPreconditioner<Complex32>
+    public sealed class DiagonalPreconditioner : IPreconditioner<double>
     {
         /// <summary>
         /// The inverse of the matrix diagonal.
         /// </summary>
-        Complex32[] _inverseDiagonals;
+        double[] _inverseDiagonals;
 
         /// <summary>
         /// Returns the decomposed matrix diagonal.
@@ -69,14 +67,14 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Preconditioners
         /// The <see cref="Matrix"/> upon which this preconditioner is based.</param>
         /// <exception cref="ArgumentNullException">If <paramref name="matrix"/> is <see langword="null" />. </exception>
         /// <exception cref="ArgumentException">If <paramref name="matrix"/> is not a square matrix.</exception>
-        public void Initialize(Matrix<Complex32> matrix)
+        public void Initialize(Matrix<double> matrix)
         {
             if (matrix.RowCount != matrix.ColumnCount)
             {
                 throw new ArgumentException(Resources.ArgumentMatrixSquare, "matrix");
             }
 
-            _inverseDiagonals = new Complex32[matrix.RowCount];
+            _inverseDiagonals = new double[matrix.RowCount];
             for (var i = 0; i < matrix.RowCount; i++)
             {
                 _inverseDiagonals[i] = 1/matrix[i, i];
@@ -88,7 +86,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Preconditioners
         /// </summary>
         /// <param name="rhs">The right hand side vector.</param>
         /// <param name="lhs">The left hand side vector. Also known as the result vector.</param>
-        public void Approximate(Vector<Complex32> rhs, Vector<Complex32> lhs)
+        public void Approximate(Vector<double> rhs, Vector<double> lhs)
         {
             if (_inverseDiagonals == null)
             {

@@ -32,7 +32,7 @@ using System;
 using MathNet.Numerics.LinearAlgebra.Solvers;
 using MathNet.Numerics.Properties;
 
-namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Preconditioners
+namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers
 {
     using Numerics;
 

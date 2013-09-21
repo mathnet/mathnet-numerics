@@ -3,7 +3,9 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
-// Copyright (c) 2009-2010 Math.NET
+//
+// Copyright (c) 2009-2013 Math.NET
+//
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -12,8 +14,10 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
+//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
+//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -26,7 +30,7 @@
 
 using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Complex32;
-using MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Preconditioners;
+using MathNet.Numerics.LinearAlgebra.Complex32.Solvers;
 using MathNet.Numerics.LinearAlgebra.Solvers;
 using NUnit.Framework;
 
@@ -58,7 +62,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.Precon
         /// <param name="result">Result vector.</param>
         protected override void CheckResult(IPreconditioner<Complex32> preconditioner, SparseMatrix matrix, Vector<Complex32> vector, Vector<Complex32> result)
         {
-            Assert.AreEqual(typeof(DiagonalPreconditioner), preconditioner.GetType(), "#01");
+            Assert.AreEqual(typeof (DiagonalPreconditioner), preconditioner.GetType(), "#01");
 
             // Compute M * result = product
             // compare vector and product. Should be equal

@@ -32,7 +32,7 @@ using System;
 using MathNet.Numerics.LinearAlgebra.Solvers;
 using MathNet.Numerics.Properties;
 
-namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Preconditioners
+namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
 {
     /// <summary>
     /// An incomplete, level 0, LU factorization preconditioner.
@@ -43,7 +43,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Preconditioners
     /// Yousef Saad <br/>
     /// Algorithm is described in Chapter 10, section 10.3.2, page 275 <br/>
     /// </remarks>
-    public sealed class ILU0Preconditioner : IPreconditioner<float>
+    public sealed class ILU0Preconditioner : IPreconditioner<double>
     {
         /// <summary>
         /// The matrix holding the lower (L) and upper (U) matrices. The
@@ -55,7 +55,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Preconditioners
         /// Returns the upper triagonal matrix that was created during the LU decomposition.
         /// </summary>
         /// <returns>A new matrix containing the upper triagonal elements.</returns>
-        internal Matrix<float> UpperTriangle()
+        internal Matrix<double> UpperTriangle()
         {
             var result = new SparseMatrix(_decompositionLU.RowCount);
             for (var i = 0; i < _decompositionLU.RowCount; i++)
@@ -73,7 +73,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Preconditioners
         /// Returns the lower triagonal matrix that was created during the LU decomposition.
         /// </summary>
         /// <returns>A new matrix containing the lower triagonal elements.</returns>
-        internal Matrix<float> LowerTriangle()
+        internal Matrix<double> LowerTriangle()
         {
             var result = new SparseMatrix(_decompositionLU.RowCount);
             for (var i = 0; i < _decompositionLU.RowCount; i++)
@@ -82,7 +82,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Preconditioners
                 {
                     if (i == j)
                     {
-                        result[i, j] = 1.0f;
+                        result[i, j] = 1.0;
                     }
                     else
                     {
@@ -100,7 +100,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Preconditioners
         /// <param name="matrix">The matrix upon which the preconditioner is based. </param>
         /// <exception cref="ArgumentNullException">If <paramref name="matrix"/> is <see langword="null" />.</exception>
         /// <exception cref="ArgumentException">If <paramref name="matrix"/> is not a square matrix.</exception>
-        public void Initialize(Matrix<float> matrix)
+        public void Initialize(Matrix<double> matrix)
         {
             if (matrix == null)
             {
@@ -162,7 +162,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Preconditioners
         /// </summary>
         /// <param name="rhs">The right hand side vector.</param>
         /// <param name="lhs">The left hand side vector. Also known as the result vector.</param>
-        public void Approximate(Vector<float> rhs, Vector<float> lhs)
+        public void Approximate(Vector<double> rhs, Vector<double> lhs)
         {
             if (_decompositionLU == null)
             {
@@ -189,7 +189,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Preconditioners
                 rowValues.Clear();
                 _decompositionLU.Row(i, rowValues);
 
-                var sum = 0.0f;
+                var sum = 0.0;
                 for (var j = 0; j < i; j++)
                 {
                     sum += rowValues[j]*lhs[j];
@@ -209,7 +209,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Preconditioners
             {
                 _decompositionLU.Row(i, rowValues);
 
-                var sum = 0.0f;
+                var sum = 0.0;
                 for (var j = _decompositionLU.RowCount - 1; j > i; j--)
                 {
                     sum += rowValues[j]*lhs[j];

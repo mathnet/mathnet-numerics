@@ -26,7 +26,6 @@
 
 using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Double;
-using MathNet.Numerics.LinearAlgebra.Double.Solvers.Preconditioners;
 using MathNet.Numerics.LinearAlgebra.Solvers;
 using NUnit.Framework;
 
@@ -56,7 +55,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.Precondit
         /// <param name="result">Result vector.</param>
         protected override void CheckResult(IPreconditioner<double> preconditioner, SparseMatrix matrix, Vector<double> vector, Vector<double> result)
         {
-            Assert.AreEqual(typeof(UnitPreconditioner<double>), preconditioner.GetType(), "#01");
+            Assert.AreEqual(typeof (UnitPreconditioner<double>), preconditioner.GetType(), "#01");
 
             // Unit preconditioner is doing nothing. Vector and result should be equal
             for (var i = 0; i < vector.Count; i++)

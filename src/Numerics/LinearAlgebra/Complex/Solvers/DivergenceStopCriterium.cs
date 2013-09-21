@@ -32,7 +32,7 @@ using MathNet.Numerics.LinearAlgebra.Solvers;
 using System;
 using System.Diagnostics;
 
-namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.StopCriterium
+namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
 {
 
 #if NOSYSNUMERICS

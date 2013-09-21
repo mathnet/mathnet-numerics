@@ -31,7 +31,7 @@
 using System;
 using System.Collections.Generic;
 using MathNet.Numerics.LinearAlgebra.Complex;
-using MathNet.Numerics.LinearAlgebra.Complex.Solvers.StopCriterium;
+using MathNet.Numerics.LinearAlgebra.Complex.Solvers;
 using MathNet.Numerics.LinearAlgebra.Solvers;
 using NUnit.Framework;
 
@@ -66,12 +66,12 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers
         public void DetermineStatusWithNegativeIterationNumberThrowsArgumentOutOfRangeException()
         {
             var criteria = new List<IIterationStopCriterium<Complex>>
-                {
-                    new FailureStopCriterium(),
-                    new DivergenceStopCriterium(),
-                    new IterationCountStopCriterium<Complex>(),
-                    new ResidualStopCriterium()
-                };
+            {
+                new FailureStopCriterium(),
+                new DivergenceStopCriterium(),
+                new IterationCountStopCriterium<Complex>(),
+                new ResidualStopCriterium()
+            };
             var iterator = new Iterator<Complex>(criteria);
 
             Assert.Throws<ArgumentOutOfRangeException>(() => iterator.DetermineStatus(
@@ -88,11 +88,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers
         public void DetermineStatus()
         {
             var criteria = new List<IIterationStopCriterium<Complex>>
-                {
-                    new FailureStopCriterium(),
-                    new DivergenceStopCriterium(),
-                    new IterationCountStopCriterium<Complex>(1)
-                };
+            {
+                new FailureStopCriterium(),
+                new DivergenceStopCriterium(),
+                new IterationCountStopCriterium<Complex>(1)
+            };
 
             var iterator = new Iterator<Complex>(criteria);
 
@@ -120,11 +120,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers
         public void ResetToPrecalculationState()
         {
             var criteria = new List<IIterationStopCriterium<Complex>>
-                {
-                    new FailureStopCriterium(),
-                    new DivergenceStopCriterium(),
-                    new IterationCountStopCriterium<Complex>(1)
-                };
+            {
+                new FailureStopCriterium(),
+                new DivergenceStopCriterium(),
+                new IterationCountStopCriterium<Complex>(1)
+            };
 
             var iterator = new Iterator<Complex>(criteria);
 

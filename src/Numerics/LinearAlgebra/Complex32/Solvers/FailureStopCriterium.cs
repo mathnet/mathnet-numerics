@@ -33,12 +33,14 @@ using System.Diagnostics;
 using MathNet.Numerics.LinearAlgebra.Solvers;
 using MathNet.Numerics.Properties;
 
-namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.StopCriterium
+namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers
 {
+    using Numerics;
+
     /// <summary>
     /// Defines an <see cref="IIterationStopCriterium{T}"/> that monitors residuals for NaN's.
     /// </summary>
-    public sealed class FailureStopCriterium : IIterationStopCriterium<double>
+    public sealed class FailureStopCriterium : IIterationStopCriterium<Complex32>
     {
         /// <summary>
         /// Defines the default last iteration number. Set to -1 because iterations normally
@@ -69,7 +71,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.StopCriterium
         /// on the invocation of this method. Therefore this method should only be called if the 
         /// calculation has moved forwards at least one step.
         /// </remarks>
-        public IterationStatus DetermineStatus(int iterationNumber, Vector<double> solutionVector, Vector<double> sourceVector, Vector<double> residualVector)
+        public IterationStatus DetermineStatus(int iterationNumber, Vector<Complex32> solutionVector, Vector<Complex32> sourceVector, Vector<Complex32> residualVector)
         {
             if (iterationNumber < 0)
             {
@@ -92,7 +94,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.StopCriterium
             var residualNorm = residualVector.InfinityNorm();
             var solutionNorm = solutionVector.InfinityNorm();
 
-            _status = double.IsNaN(solutionNorm) || double.IsNaN(residualNorm) ? IterationStatus.Failure : IterationStatus.Continue;
+            _status = float.IsNaN(solutionNorm.Real) || float.IsNaN(residualNorm.Real) ? IterationStatus.Failure : IterationStatus.Continue;
 
             _lastIteration = iterationNumber;
             return _status;
@@ -123,7 +125,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.StopCriterium
         /// Clones the current <see cref="FailureStopCriterium"/> and its settings.
         /// </summary>
         /// <returns>A new instance of the <see cref="FailureStopCriterium"/> class.</returns>
-        public IIterationStopCriterium<double> Clone()
+        public IIterationStopCriterium<Complex32> Clone()
         {
             return new FailureStopCriterium();
         }

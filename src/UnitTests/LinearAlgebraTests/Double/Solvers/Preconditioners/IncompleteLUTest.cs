@@ -3,7 +3,9 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
-// Copyright (c) 2009-2010 Math.NET
+//
+// Copyright (c) 2009-2013 Math.NET
+//
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -12,8 +14,10 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
+//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
+//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -28,7 +32,7 @@ using System;
 using System.Reflection;
 using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Double;
-using MathNet.Numerics.LinearAlgebra.Double.Solvers.Preconditioners;
+using MathNet.Numerics.LinearAlgebra.Double.Solvers;
 using MathNet.Numerics.LinearAlgebra.Solvers;
 using NUnit.Framework;
 
@@ -47,7 +51,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.Precondit
         /// <param name="ilu"><c>IncompleteLU</c> instance.</param>
         /// <param name="methodName">Method name.</param>
         /// <returns>Result of the method invocation.</returns>
-        private static T GetMethod<T>(ILU0Preconditioner ilu, string methodName)
+        static T GetMethod<T>(ILU0Preconditioner ilu, string methodName)
         {
             var type = ilu.GetType();
             var methodInfo = type.GetMethod(
@@ -58,7 +62,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.Precondit
                 new Type[0],
                 null);
             var obj = methodInfo.Invoke(ilu, null);
-            return (T)obj;
+            return (T) obj;
         }
 
         /// <summary>
@@ -66,7 +70,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.Precondit
         /// </summary>
         /// <param name="ilu"><c>IncompleteLU</c> instance.</param>
         /// <returns>Upper triangle.</returns>
-        private static Matrix<double> GetUpperTriangle(ILU0Preconditioner ilu)
+        static Matrix<double> GetUpperTriangle(ILU0Preconditioner ilu)
         {
             return GetMethod<Matrix<double>>(ilu, "UpperTriangle");
         }
@@ -76,7 +80,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.Precondit
         /// </summary>
         /// <param name="ilu"><c>IncompleteLU</c> instance.</param>
         /// <returns>Lower triangle.</returns>
-        private static Matrix<double> GetLowerTriangle(ILU0Preconditioner ilu)
+        static Matrix<double> GetLowerTriangle(ILU0Preconditioner ilu)
         {
             return GetMethod<Matrix<double>>(ilu, "LowerTriangle");
         }
@@ -99,7 +103,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.Precondit
         /// <param name="result">Result vector.</param>
         protected override void CheckResult(IPreconditioner<double> preconditioner, SparseMatrix matrix, Vector<double> vector, Vector<double> result)
         {
-            Assert.AreEqual(typeof(ILU0Preconditioner), preconditioner.GetType(), "#01");
+            Assert.AreEqual(typeof (ILU0Preconditioner), preconditioner.GetType(), "#01");
 
             // Compute M * result = product
             // compare vector and product. Should be equal

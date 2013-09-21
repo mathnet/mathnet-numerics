@@ -33,7 +33,7 @@ using MathNet.Numerics.LinearAlgebra.Solvers;
 
 namespace MathNet.Numerics.LinearAlgebra.Double
 {
-    using Solvers.StopCriterium;
+    using Solvers;
 
     internal class GenericBuilder : IGenericBuilder<double>
     {
@@ -82,7 +82,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
 namespace MathNet.Numerics.LinearAlgebra.Single
 {
-    using Solvers.StopCriterium;
+    using Solvers;
 
     internal class GenericBuilder : IGenericBuilder<float>
     {
@@ -131,7 +131,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
 
 namespace MathNet.Numerics.LinearAlgebra.Complex
 {
-    using Solvers.StopCriterium;
+    using Solvers;
 
 #if NOSYSNUMERICS
     using Complex = Numerics.Complex;
@@ -186,7 +186,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
 
 namespace MathNet.Numerics.LinearAlgebra.Complex32
 {
-    using Solvers.StopCriterium;
+    using Solvers;
 
     internal class GenericBuilder : IGenericBuilder<Numerics.Complex32>
     {

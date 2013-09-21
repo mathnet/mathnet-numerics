@@ -31,7 +31,6 @@
 using System;
 using MathNet.Numerics.LinearAlgebra.Single;
 using MathNet.Numerics.LinearAlgebra.Single.Solvers;
-using MathNet.Numerics.LinearAlgebra.Single.Solvers.StopCriterium;
 using MathNet.Numerics.LinearAlgebra.Solvers;
 using NUnit.Framework;
 

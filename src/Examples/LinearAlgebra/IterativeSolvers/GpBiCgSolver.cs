@@ -32,7 +32,6 @@ using System;
 using System.Globalization;
 using MathNet.Numerics.LinearAlgebra.Double;
 using MathNet.Numerics.LinearAlgebra.Double.Solvers;
-using MathNet.Numerics.LinearAlgebra.Double.Solvers.StopCriterium;
 using MathNet.Numerics.LinearAlgebra.Solvers;
 
 namespace Examples.LinearAlgebra.IterativeSolversExamples

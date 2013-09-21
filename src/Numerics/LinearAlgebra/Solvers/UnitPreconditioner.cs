@@ -38,7 +38,7 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
     /// it is only used when running an <see cref="IIterativeSolver{T}"/> without
     /// a preconditioner.
     /// </summary>
-    internal sealed class UnitPreconditioner<T> : IPreconditioner<T> where T : struct, IEquatable<T>, IFormattable
+    public sealed class UnitPreconditioner<T> : IPreconditioner<T> where T : struct, IEquatable<T>, IFormattable
     {
         /// <summary>
         /// The coefficient matrix on which this preconditioner operates.

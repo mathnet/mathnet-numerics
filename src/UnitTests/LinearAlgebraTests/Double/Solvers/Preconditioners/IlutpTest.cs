@@ -3,7 +3,9 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
-// Copyright (c) 2009-2010 Math.NET
+//
+// Copyright (c) 2009-2013 Math.NET
+//
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -12,8 +14,10 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
+//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
+//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -28,7 +32,7 @@ using System;
 using System.Reflection;
 using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Double;
-using MathNet.Numerics.LinearAlgebra.Double.Solvers.Preconditioners;
+using MathNet.Numerics.LinearAlgebra.Double.Solvers;
 using MathNet.Numerics.LinearAlgebra.Solvers;
 using NUnit.Framework;
 
@@ -43,17 +47,17 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.Precondit
         /// <summary>
         /// The drop tolerance.
         /// </summary>
-        private double _dropTolerance = 0.1;
+        double _dropTolerance = 0.1;
 
         /// <summary>
         /// The fill level.
         /// </summary>
-        private double _fillLevel = 1.0;
+        double _fillLevel = 1.0;
 
         /// <summary>
         /// The pivot tolerance.
         /// </summary>
-        private double _pivotTolerance = 1.0;
+        double _pivotTolerance = 1.0;
 
         /// <summary>
         /// Setup default parameters.
@@ -73,7 +77,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.Precondit
         /// <param name="ilutp">Ilutp instance.</param>
         /// <param name="methodName">Method name.</param>
         /// <returns>Result of the method invocation.</returns>
-        private static T GetMethod<T>(ILUTPPreconditioner ilutp, string methodName)
+        static T GetMethod<T>(ILUTPPreconditioner ilutp, string methodName)
         {
             var type = ilutp.GetType();
             var methodInfo = type.GetMethod(
@@ -84,7 +88,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.Precondit
                 new Type[0],
                 null);
             var obj = methodInfo.Invoke(ilutp, null);
-            return (T)obj;
+            return (T) obj;
         }
 
         /// <summary>
@@ -92,7 +96,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.Precondit
         /// </summary>
         /// <param name="ilutp">Ilutp instance.</param>
         /// <returns>Upper triangle.</returns>
-        private static SparseMatrix GetUpperTriangle(ILUTPPreconditioner ilutp)
+        static SparseMatrix GetUpperTriangle(ILUTPPreconditioner ilutp)
         {
             return GetMethod<SparseMatrix>(ilutp, "UpperTriangle");
         }
@@ -102,7 +106,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.Precondit
         /// </summary>
         /// <param name="ilutp">Ilutp instance.</param>
         /// <returns>Lower triangle.</returns>
-        private static SparseMatrix GetLowerTriangle(ILUTPPreconditioner ilutp)
+        static SparseMatrix GetLowerTriangle(ILUTPPreconditioner ilutp)
         {
             return GetMethod<SparseMatrix>(ilutp, "LowerTriangle");
         }
@@ -112,7 +116,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.Precondit
         /// </summary>
         /// <param name="ilutp">Ilutp instance.</param>
         /// <returns>Pivots array.</returns>
-        private static int[] GetPivots(ILUTPPreconditioner ilutp)
+        static int[] GetPivots(ILUTPPreconditioner ilutp)
         {
             return GetMethod<int[]>(ilutp, "Pivots");
         }
@@ -122,7 +126,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.Precondit
         /// </summary>
         /// <param name="size">Matrix order.</param>
         /// <returns>Reverse Unit matrix.</returns>
-        private static SparseMatrix CreateReverseUnitMatrix(int size)
+        static SparseMatrix CreateReverseUnitMatrix(int size)
         {
             var matrix = new SparseMatrix(size);
             for (var i = 0; i < size; i++)
@@ -137,14 +141,14 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.Precondit
         /// Create preconditioner (internal)
         /// </summary>
         /// <returns>Ilutp instance.</returns>
-        private ILUTPPreconditioner InternalCreatePreconditioner()
+        ILUTPPreconditioner InternalCreatePreconditioner()
         {
             var result = new ILUTPPreconditioner
-                         {
-                             DropTolerance = _dropTolerance,
-                             FillLevel = _fillLevel,
-                             PivotTolerance = _pivotTolerance
-                         };
+            {
+                DropTolerance = _dropTolerance,
+                FillLevel = _fillLevel,
+                PivotTolerance = _pivotTolerance
+            };
             return result;
         }
 
@@ -169,7 +173,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.Precondit
         /// <param name="result">Result vector.</param>
         protected override void CheckResult(IPreconditioner<double> preconditioner, SparseMatrix matrix, Vector<double> vector, Vector<double> result)
         {
-            Assert.AreEqual(typeof(ILUTPPreconditioner), preconditioner.GetType(), "#01");
+            Assert.AreEqual(typeof (ILUTPPreconditioner), preconditioner.GetType(), "#01");
 
             // Compute M * result = product
             // compare vector and product. Should be equal
@@ -241,11 +245,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.Precondit
             sparseMatrix[2, 1] = 8;
             sparseMatrix[2, 2] = 9;
             var ilu = new ILUTPPreconditioner
-                      {
-                          PivotTolerance = 0.0,
-                          DropTolerance = 0,
-                          FillLevel = 10
-                      };
+            {
+                PivotTolerance = 0.0,
+                DropTolerance = 0,
+                FillLevel = 10
+            };
             ilu.Initialize(sparseMatrix);
             var l = GetLowerTriangle(ilu);
 
@@ -296,11 +300,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.Precondit
             sparseMatrix[2, 1] = 8;
             sparseMatrix[2, 2] = 9;
             var ilu = new ILUTPPreconditioner
-                      {
-                          PivotTolerance = 1.0,
-                          DropTolerance = 0,
-                          FillLevel = 10
-                      };
+            {
+                PivotTolerance = 1.0,
+                DropTolerance = 0,
+                FillLevel = 10
+            };
             ilu.Initialize(sparseMatrix);
             var l = GetLowerTriangle(ilu);
             var u = GetUpperTriangle(ilu);
@@ -332,11 +336,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.Precondit
             var newMatrix = CreateReverseUnitMatrix(Size);
             var vector = CreateStandardBcVector(Size);
             var preconditioner = new ILUTPPreconditioner
-                                 {
-                                     PivotTolerance = 1.0,
-                                     DropTolerance = 0,
-                                     FillLevel = 10
-                                 };
+            {
+                PivotTolerance = 1.0,
+                DropTolerance = 0,
+                FillLevel = 10
+            };
             preconditioner.Initialize(newMatrix);
             var result = new DenseVector(vector.Count);
             preconditioner.Approximate(vector, result);
