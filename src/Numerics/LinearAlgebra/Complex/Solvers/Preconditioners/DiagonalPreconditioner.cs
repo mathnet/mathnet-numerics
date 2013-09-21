@@ -32,20 +32,25 @@ using System;
 using MathNet.Numerics.LinearAlgebra.Solvers;
 using MathNet.Numerics.Properties;
 
-namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Preconditioners
+namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Preconditioners
 {
-    using Numerics;
+
+#if NOSYSNUMERICS
+    using Complex = Numerics.Complex;
+#else
+    using Complex = System.Numerics.Complex;
+#endif
 
     /// <summary>
     /// A diagonal preconditioner. The preconditioner uses the inverse
     /// of the matrix diagonal as preconditioning values.
     /// </summary>
-    public sealed class Diagonal : IPreconditioner<Complex32>
+    public sealed class DiagonalPreconditioner : IPreconditioner<Complex>
     {
         /// <summary>
         /// The inverse of the matrix diagonal.
         /// </summary>
-        Complex32[] _inverseDiagonals;
+        Complex[] _inverseDiagonals;
 
         /// <summary>
         /// Returns the decomposed matrix diagonal.
@@ -56,7 +61,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Preconditioners
             var result = new DiagonalMatrix(_inverseDiagonals.Length);
             for (var i = 0; i < _inverseDiagonals.Length; i++)
             {
-                result[i, i] = 1/_inverseDiagonals[i];
+                result.At(i, i, 1/_inverseDiagonals[i]);
             }
 
             return result;
@@ -69,17 +74,17 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Preconditioners
         /// The <see cref="Matrix"/> upon which this preconditioner is based.</param>
         /// <exception cref="ArgumentNullException">If <paramref name="matrix"/> is <see langword="null" />. </exception>
         /// <exception cref="ArgumentException">If <paramref name="matrix"/> is not a square matrix.</exception>
-        public void Initialize(Matrix<Complex32> matrix)
+        public void Initialize(Matrix<Complex> matrix)
         {
             if (matrix.RowCount != matrix.ColumnCount)
             {
                 throw new ArgumentException(Resources.ArgumentMatrixSquare, "matrix");
             }
 
-            _inverseDiagonals = new Complex32[matrix.RowCount];
+            _inverseDiagonals = new Complex[matrix.RowCount];
             for (var i = 0; i < matrix.RowCount; i++)
             {
-                _inverseDiagonals[i] = 1/matrix[i, i];
+                _inverseDiagonals[i] = 1/matrix.At(i, i);
             }
         }
 
@@ -88,7 +93,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Preconditioners
         /// </summary>
         /// <param name="rhs">The right hand side vector.</param>
         /// <param name="lhs">The left hand side vector. Also known as the result vector.</param>
-        public void Approximate(Vector<Complex32> rhs, Vector<Complex32> lhs)
+        public void Approximate(Vector<Complex> rhs, Vector<Complex> lhs)
         {
             if (_inverseDiagonals == null)
             {

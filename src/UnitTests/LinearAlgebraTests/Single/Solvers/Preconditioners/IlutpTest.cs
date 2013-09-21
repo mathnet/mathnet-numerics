@@ -73,7 +73,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers.Precondit
         /// <param name="ilutp">Ilutp instance.</param>
         /// <param name="methodName">Method name.</param>
         /// <returns>Result of the method invocation.</returns>
-        private static T GetMethod<T>(Ilutp ilutp, string methodName)
+        private static T GetMethod<T>(ILUTPPreconditioner ilutp, string methodName)
         {
             var type = ilutp.GetType();
             var methodInfo = type.GetMethod(
@@ -92,7 +92,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers.Precondit
         /// </summary>
         /// <param name="ilutp">Ilutp instance.</param>
         /// <returns>Upper triangle.</returns>
-        private static SparseMatrix GetUpperTriangle(Ilutp ilutp)
+        private static SparseMatrix GetUpperTriangle(ILUTPPreconditioner ilutp)
         {
             return GetMethod<SparseMatrix>(ilutp, "UpperTriangle");
         }
@@ -102,7 +102,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers.Precondit
         /// </summary>
         /// <param name="ilutp">Ilutp instance.</param>
         /// <returns>Lower triangle.</returns>
-        private static SparseMatrix GetLowerTriangle(Ilutp ilutp)
+        private static SparseMatrix GetLowerTriangle(ILUTPPreconditioner ilutp)
         {
             return GetMethod<SparseMatrix>(ilutp, "LowerTriangle");
         }
@@ -112,7 +112,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers.Precondit
         /// </summary>
         /// <param name="ilutp">Ilutp instance.</param>
         /// <returns>Pivots array.</returns>
-        private static int[] GetPivots(Ilutp ilutp)
+        private static int[] GetPivots(ILUTPPreconditioner ilutp)
         {
             return GetMethod<int[]>(ilutp, "Pivots");
         }
@@ -137,9 +137,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers.Precondit
         /// Create preconditioner (internal)
         /// </summary>
         /// <returns>Ilutp instance.</returns>
-        private Ilutp InternalCreatePreconditioner()
+        private ILUTPPreconditioner InternalCreatePreconditioner()
         {
-            var result = new Ilutp
+            var result = new ILUTPPreconditioner
                          {
                              DropTolerance = _dropTolerance,
                              FillLevel = _fillLevel,
@@ -169,7 +169,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers.Precondit
         /// <param name="result">Result vector.</param>
         protected override void CheckResult(IPreconditioner<float> preconditioner, SparseMatrix matrix, Vector<float> vector, Vector<float> result)
         {
-            Assert.AreEqual(typeof(Ilutp), preconditioner.GetType(), "#01");
+            Assert.AreEqual(typeof(ILUTPPreconditioner), preconditioner.GetType(), "#01");
 
             // Compute M * result = product
             // compare vector and product. Should be equal
@@ -240,7 +240,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers.Precondit
             sparseMatrix[2, 0] = 6;
             sparseMatrix[2, 1] = 8;
             sparseMatrix[2, 2] = 9;
-            var ilu = new Ilutp
+            var ilu = new ILUTPPreconditioner
                       {
                           PivotTolerance = 0.0,
                           DropTolerance = 0,
@@ -295,7 +295,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers.Precondit
             sparseMatrix[2, 0] = 6;
             sparseMatrix[2, 1] = 8;
             sparseMatrix[2, 2] = 9;
-            var ilu = new Ilutp
+            var ilu = new ILUTPPreconditioner
                       {
                           PivotTolerance = 1.0,
                           DropTolerance = 0,
@@ -331,7 +331,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers.Precondit
             const int Size = 10;
             var newMatrix = CreateReverseUnitMatrix(Size);
             var vector = CreateStandardBcVector(Size);
-            var preconditioner = new Ilutp
+            var preconditioner = new ILUTPPreconditioner
                                  {
                                      PivotTolerance = 1.0,
                                      DropTolerance = 0,

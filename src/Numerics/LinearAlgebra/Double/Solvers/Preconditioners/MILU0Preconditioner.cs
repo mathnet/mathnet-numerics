@@ -48,7 +48,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.Preconditioners
     /// 
     /// Original Fortran code by Youcef Saad (07 January 2004)
     /// </remarks>
-    public sealed class Milu0 : IPreconditioner<double>
+    public sealed class MILU0Preconditioner : IPreconditioner<double>
     {
         // Matrix stored in Modified Sparse Row (MSR) format containing the L and U
         // factors together.

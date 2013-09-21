@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2010 Math.NET
+// Copyright (c) 2009-2013 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -32,10 +32,8 @@ using System;
 using MathNet.Numerics.LinearAlgebra.Solvers;
 using MathNet.Numerics.Properties;
 
-namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Preconditioners
+namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.Preconditioners
 {
-    using Numerics;
-
     /// <summary>
     /// An incomplete, level 0, LU factorization preconditioner.
     /// </summary>
@@ -45,7 +43,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Preconditioners
     /// Yousef Saad <br/>
     /// Algorithm is described in Chapter 10, section 10.3.2, page 275 <br/>
     /// </remarks>
-    public sealed class IncompleteLU : IPreconditioner<Complex32>
+    public sealed class ILU0Preconditioner : IPreconditioner<double>
     {
         /// <summary>
         /// The matrix holding the lower (L) and upper (U) matrices. The
@@ -57,7 +55,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Preconditioners
         /// Returns the upper triagonal matrix that was created during the LU decomposition.
         /// </summary>
         /// <returns>A new matrix containing the upper triagonal elements.</returns>
-        internal Matrix<Complex32> UpperTriangle()
+        internal Matrix<double> UpperTriangle()
         {
             var result = new SparseMatrix(_decompositionLU.RowCount);
             for (var i = 0; i < _decompositionLU.RowCount; i++)
@@ -75,7 +73,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Preconditioners
         /// Returns the lower triagonal matrix that was created during the LU decomposition.
         /// </summary>
         /// <returns>A new matrix containing the lower triagonal elements.</returns>
-        internal Matrix<Complex32> LowerTriangle()
+        internal Matrix<double> LowerTriangle()
         {
             var result = new SparseMatrix(_decompositionLU.RowCount);
             for (var i = 0; i < _decompositionLU.RowCount; i++)
@@ -84,7 +82,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Preconditioners
                 {
                     if (i == j)
                     {
-                        result[i, j] = 1.0f;
+                        result[i, j] = 1.0;
                     }
                     else
                     {
@@ -102,7 +100,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Preconditioners
         /// <param name="matrix">The matrix upon which the preconditioner is based. </param>
         /// <exception cref="ArgumentNullException">If <paramref name="matrix"/> is <see langword="null" />.</exception>
         /// <exception cref="ArgumentException">If <paramref name="matrix"/> is not a square matrix.</exception>
-        public void Initialize(Matrix<Complex32> matrix)
+        public void Initialize(Matrix<double> matrix)
         {
             if (matrix == null)
             {
@@ -133,11 +131,11 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Preconditioners
             {
                 for (var k = 0; k < i; k++)
                 {
-                    if (_decompositionLU[i, k] != 0.0f)
+                    if (_decompositionLU[i, k] != 0.0)
                     {
                         var t = _decompositionLU[i, k]/_decompositionLU[k, k];
                         _decompositionLU[i, k] = t;
-                        if (_decompositionLU[k, i] != 0.0f)
+                        if (_decompositionLU[k, i] != 0.0)
                         {
                             _decompositionLU[i, i] = _decompositionLU[i, i] - (t*_decompositionLU[k, i]);
                         }
@@ -149,7 +147,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Preconditioners
                                 continue;
                             }
 
-                            if (_decompositionLU[i, j] != 0.0f)
+                            if (_decompositionLU[i, j] != 0.0)
                             {
                                 _decompositionLU[i, j] = _decompositionLU[i, j] - (t*_decompositionLU[k, j]);
                             }
@@ -164,7 +162,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Preconditioners
         /// </summary>
         /// <param name="rhs">The right hand side vector.</param>
         /// <param name="lhs">The left hand side vector. Also known as the result vector.</param>
-        public void Approximate(Vector<Complex32> rhs, Vector<Complex32> lhs)
+        public void Approximate(Vector<double> rhs, Vector<double> lhs)
         {
             if (_decompositionLU == null)
             {
@@ -191,7 +189,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Preconditioners
                 rowValues.Clear();
                 _decompositionLU.Row(i, rowValues);
 
-                var sum = Complex32.Zero;
+                var sum = 0.0;
                 for (var j = 0; j < i; j++)
                 {
                     sum += rowValues[j]*lhs[j];
@@ -211,7 +209,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Preconditioners
             {
                 _decompositionLU.Row(i, rowValues);
 
-                var sum = Complex32.Zero;
+                var sum = 0.0;
                 for (var j = _decompositionLU.RowCount - 1; j > i; j--)
                 {
                     sum += rowValues[j]*lhs[j];

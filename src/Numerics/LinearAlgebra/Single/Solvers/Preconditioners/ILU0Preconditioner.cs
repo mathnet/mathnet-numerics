@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2010 Math.NET
+// Copyright (c) 2009-2013 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -32,16 +32,8 @@ using System;
 using MathNet.Numerics.LinearAlgebra.Solvers;
 using MathNet.Numerics.Properties;
 
-namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Preconditioners
+namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Preconditioners
 {
-
-#if NOSYSNUMERICS
-    using Complex = Numerics.Complex;
-#else
-    using Complex = System.Numerics.Complex;
-
-#endif
-
     /// <summary>
     /// An incomplete, level 0, LU factorization preconditioner.
     /// </summary>
@@ -51,7 +43,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Preconditioners
     /// Yousef Saad <br/>
     /// Algorithm is described in Chapter 10, section 10.3.2, page 275 <br/>
     /// </remarks>
-    public sealed class IncompleteLU : IPreconditioner<Complex>
+    public sealed class ILU0Preconditioner : IPreconditioner<float>
     {
         /// <summary>
         /// The matrix holding the lower (L) and upper (U) matrices. The
@@ -63,7 +55,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Preconditioners
         /// Returns the upper triagonal matrix that was created during the LU decomposition.
         /// </summary>
         /// <returns>A new matrix containing the upper triagonal elements.</returns>
-        internal Matrix<Complex> UpperTriangle()
+        internal Matrix<float> UpperTriangle()
         {
             var result = new SparseMatrix(_decompositionLU.RowCount);
             for (var i = 0; i < _decompositionLU.RowCount; i++)
@@ -81,7 +73,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Preconditioners
         /// Returns the lower triagonal matrix that was created during the LU decomposition.
         /// </summary>
         /// <returns>A new matrix containing the lower triagonal elements.</returns>
-        internal Matrix<Complex> LowerTriangle()
+        internal Matrix<float> LowerTriangle()
         {
             var result = new SparseMatrix(_decompositionLU.RowCount);
             for (var i = 0; i < _decompositionLU.RowCount; i++)
@@ -90,7 +82,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Preconditioners
                 {
                     if (i == j)
                     {
-                        result[i, j] = 1.0;
+                        result[i, j] = 1.0f;
                     }
                     else
                     {
@@ -108,7 +100,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Preconditioners
         /// <param name="matrix">The matrix upon which the preconditioner is based. </param>
         /// <exception cref="ArgumentNullException">If <paramref name="matrix"/> is <see langword="null" />.</exception>
         /// <exception cref="ArgumentException">If <paramref name="matrix"/> is not a square matrix.</exception>
-        public void Initialize(Matrix<Complex> matrix)
+        public void Initialize(Matrix<float> matrix)
         {
             if (matrix == null)
             {
@@ -170,7 +162,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Preconditioners
         /// </summary>
         /// <param name="rhs">The right hand side vector.</param>
         /// <param name="lhs">The left hand side vector. Also known as the result vector.</param>
-        public void Approximate(Vector<Complex> rhs, Vector<Complex> lhs)
+        public void Approximate(Vector<float> rhs, Vector<float> lhs)
         {
             if (_decompositionLU == null)
             {
@@ -197,7 +189,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Preconditioners
                 rowValues.Clear();
                 _decompositionLU.Row(i, rowValues);
 
-                var sum = Complex.Zero;
+                var sum = 0.0f;
                 for (var j = 0; j < i; j++)
                 {
                     sum += rowValues[j]*lhs[j];
@@ -217,7 +209,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Preconditioners
             {
                 _decompositionLU.Row(i, rowValues);
 
-                var sum = Complex.Zero;
+                var sum = 0.0f;
                 for (var j = _decompositionLU.RowCount - 1; j > i; j--)
                 {
                     sum += rowValues[j]*lhs[j];

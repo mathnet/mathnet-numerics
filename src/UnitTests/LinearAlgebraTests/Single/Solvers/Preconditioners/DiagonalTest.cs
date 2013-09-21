@@ -44,7 +44,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers.Precondit
         /// <returns>New preconditioner instance.</returns>
         internal override IPreconditioner<float> CreatePreconditioner()
         {
-            return new Diagonal();
+            return new DiagonalPreconditioner();
         }
 
         /// <summary>
@@ -56,7 +56,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers.Precondit
         /// <param name="result">Result vector.</param>
         protected override void CheckResult(IPreconditioner<float> preconditioner, SparseMatrix matrix, Vector<float> vector, Vector<float> result)
         {
-            Assert.AreEqual(typeof(Diagonal), preconditioner.GetType(), "#01");
+            Assert.AreEqual(typeof(DiagonalPreconditioner), preconditioner.GetType(), "#01");
 
             // Compute M * result = product
             // compare vector and product. Should be equal

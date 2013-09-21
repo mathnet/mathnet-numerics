@@ -49,7 +49,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.Precon
         /// <param name="ilu"><c>IncompleteLU</c> instance.</param>
         /// <param name="methodName">Method name.</param>
         /// <returns>Result of the method invocation.</returns>
-        private static T GetMethod<T>(IncompleteLU ilu, string methodName)
+        private static T GetMethod<T>(ILU0Preconditioner ilu, string methodName)
         {
             var type = ilu.GetType();
             var methodInfo = type.GetMethod(
@@ -68,7 +68,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.Precon
         /// </summary>
         /// <param name="ilu"><c>IncompleteLU</c> instance.</param>
         /// <returns>Upper triangle.</returns>
-        private static Matrix<Complex32> GetUpperTriangle(IncompleteLU ilu)
+        private static Matrix<Complex32> GetUpperTriangle(ILU0Preconditioner ilu)
         {
             return GetMethod<Matrix<Complex32>>(ilu, "UpperTriangle");
         }
@@ -78,7 +78,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.Precon
         /// </summary>
         /// <param name="ilu"><c>IncompleteLU</c> instance.</param>
         /// <returns>Lower triangle.</returns>
-        private static Matrix<Complex32> GetLowerTriangle(IncompleteLU ilu)
+        private static Matrix<Complex32> GetLowerTriangle(ILU0Preconditioner ilu)
         {
             return GetMethod<Matrix<Complex32>>(ilu, "LowerTriangle");
         }
@@ -89,7 +89,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.Precon
         /// <returns>New preconditioner instance.</returns>
         internal override IPreconditioner<Complex32> CreatePreconditioner()
         {
-            return new IncompleteLU();
+            return new ILU0Preconditioner();
         }
 
         /// <summary>
@@ -101,7 +101,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.Precon
         /// <param name="result">Result vector.</param>
         protected override void CheckResult(IPreconditioner<Complex32> preconditioner, SparseMatrix matrix, Vector<Complex32> vector, Vector<Complex32> result)
         {
-            Assert.AreEqual(typeof(IncompleteLU), preconditioner.GetType(), "#01");
+            Assert.AreEqual(typeof(ILU0Preconditioner), preconditioner.GetType(), "#01");
 
             // Compute M * result = product
             // compare vector and product. Should be equal
@@ -131,7 +131,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.Precon
             sparseMatrix[2, 0] = 6;
             sparseMatrix[2, 1] = 8;
             sparseMatrix[2, 2] = 9;
-            var ilu = new IncompleteLU();
+            var ilu = new ILU0Preconditioner();
             ilu.Initialize(sparseMatrix);
             var original = GetLowerTriangle(ilu).Multiply(GetUpperTriangle(ilu));
             for (var i = 0; i < sparseMatrix.RowCount; i++)

@@ -54,7 +54,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Preconditioners
     /// pp. 20 - 28 <br/>
     /// Algorithm is described in Section 2, page 22
     /// </remarks>
-    public sealed class Ilutp : IPreconditioner<Complex32>
+    public sealed class ILUTPPreconditioner : IPreconditioner<Complex32>
     {
         /// <summary>
         /// The default fill level.
@@ -97,14 +97,14 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Preconditioners
         double _pivotTolerance;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Ilutp"/> class with the default settings.
+        /// Initializes a new instance of the <see cref="ILUTPPreconditioner"/> class with the default settings.
         /// </summary>
-        public Ilutp()
+        public ILUTPPreconditioner()
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Ilutp"/> class with the specified settings.
+        /// Initializes a new instance of the <see cref="ILUTPPreconditioner"/> class with the specified settings.
         /// </summary>
         /// <param name="fillLevel">
         /// The amount of fill that is allowed in the matrix. The value is a fraction of 
@@ -119,7 +119,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Preconditioners
         /// The pivot tolerance which indicates at what level pivoting will take place. A
         /// value of 0.0 means that no pivoting will take place.
         /// </param>
-        public Ilutp(double fillLevel, double dropTolerance, double pivotTolerance)
+        public ILUTPPreconditioner(double fillLevel, double dropTolerance, double pivotTolerance)
         {
             if (fillLevel < 0)
             {
@@ -607,7 +607,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Preconditioners
             // Sorting starts at index 0 because the index array
             // starts at zero
             // and ends at index upperBound - lowerBound
-            IlutpElementSorter.SortDoubleIndicesDecreasing(0, upperBound - lowerBound, sortedIndices, values);
+            ILUTPElementSorter.SortDoubleIndicesDecreasing(0, upperBound - lowerBound, sortedIndices, values);
         }
 
         /// <summary>
@@ -676,6 +676,197 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Preconditioners
             {
                 result[i] = vector[_pivots[i]];
             }
+        }
+    }
+
+    /// <summary>
+    /// An element sort algorithm for the <see cref="ILUTPPreconditioner"/> class.
+    /// </summary>
+    /// <remarks>
+    /// This sort algorithm is used to sort the columns in a sparse matrix based on
+    /// the value of the element on the diagonal of the matrix.
+    /// </remarks>
+    internal static class ILUTPElementSorter
+    {
+        /// <summary>
+        /// Sorts the elements of the <paramref name="values"/> vector in decreasing
+        /// fashion. The vector itself is not affected.
+        /// </summary>
+        /// <param name="lowerBound">The starting index.</param>
+        /// <param name="upperBound">The stopping index.</param>
+        /// <param name="sortedIndices">An array that will contain the sorted indices once the algorithm finishes.</param>
+        /// <param name="values">The <see cref="Vector"/> that contains the values that need to be sorted.</param>
+        public static void SortDoubleIndicesDecreasing(int lowerBound, int upperBound, int[] sortedIndices, Vector<Complex32> values)
+        {
+            // Move all the indices that we're interested in to the beginning of the
+            // array. Ignore the rest of the indices.
+            if (lowerBound > 0)
+            {
+                for (var i = 0; i < (upperBound - lowerBound + 1); i++)
+                {
+                    Exchange(sortedIndices, i, i + lowerBound);
+                }
+
+                upperBound -= lowerBound;
+                lowerBound = 0;
+            }
+
+            HeapSortDoublesIndices(lowerBound, upperBound, sortedIndices, values);
+        }
+
+        /// <summary>
+        /// Sorts the elements of the <paramref name="values"/> vector in decreasing
+        /// fashion using heap sort algorithm. The vector itself is not affected.
+        /// </summary>
+        /// <param name="lowerBound">The starting index.</param>
+        /// <param name="upperBound">The stopping index.</param>
+        /// <param name="sortedIndices">An array that will contain the sorted indices once the algorithm finishes.</param>
+        /// <param name="values">The <see cref="Vector"/> that contains the values that need to be sorted.</param>
+        private static void HeapSortDoublesIndices(int lowerBound, int upperBound, int[] sortedIndices, Vector<Complex32> values)
+        {
+            var start = ((upperBound - lowerBound + 1) / 2) - 1 + lowerBound;
+            var end = (upperBound - lowerBound + 1) - 1 + lowerBound;
+
+            BuildDoubleIndexHeap(start, upperBound - lowerBound + 1, sortedIndices, values);
+
+            while (end >= lowerBound)
+            {
+                Exchange(sortedIndices, end, lowerBound);
+                SiftDoubleIndices(sortedIndices, values, lowerBound, end);
+                end -= 1;
+            }
+        }
+
+        /// <summary>
+        /// Build heap for double indicies
+        /// </summary>
+        /// <param name="start">Root position</param>
+        /// <param name="count">Length of <paramref name="values"/></param>
+        /// <param name="sortedIndices">Indicies of <paramref name="values"/></param>
+        /// <param name="values">Target <see cref="Vector"/></param>
+        private static void BuildDoubleIndexHeap(int start, int count, int[] sortedIndices, Vector<Complex32> values)
+        {
+            while (start >= 0)
+            {
+                SiftDoubleIndices(sortedIndices, values, start, count);
+                start -= 1;
+            }
+        }
+
+        /// <summary>
+        /// Sift double indicies
+        /// </summary>
+        /// <param name="sortedIndices">Indicies of <paramref name="values"/></param>
+        /// <param name="values">Target <see cref="Vector"/></param>
+        /// <param name="begin">Root position</param>
+        /// <param name="count">Length of <paramref name="values"/></param>
+        private static void SiftDoubleIndices(int[] sortedIndices, Vector<Complex32> values, int begin, int count)
+        {
+            var root = begin;
+
+            while (root * 2 < count)
+            {
+                var child = root * 2;
+                if ((child < count - 1) && (values[sortedIndices[child]].Magnitude > values[sortedIndices[child + 1]].Magnitude))
+                {
+                    child += 1;
+                }
+
+                if (values[sortedIndices[root]].Magnitude <= values[sortedIndices[child]].Magnitude)
+                {
+                    return;
+                }
+
+                Exchange(sortedIndices, root, child);
+                root = child;
+            }
+        }
+
+        /// <summary>
+        /// Sorts the given integers in a decreasing fashion.
+        /// </summary>
+        /// <param name="values">The values.</param>
+        public static void SortIntegersDecreasing(int[] values)
+        {
+            HeapSortIntegers(values, values.Length);
+        }
+
+        /// <summary>
+        /// Sort the given integers in a decreasing fashion using heapsort algorithm 
+        /// </summary>
+        /// <param name="values">Array of values to sort</param>
+        /// <param name="count">Length of <paramref name="values"/></param>
+        private static void HeapSortIntegers(int[] values, int count)
+        {
+            var start = (count / 2) - 1;
+            var end = count - 1;
+
+            BuildHeap(values, start, count);
+
+            while (end >= 0)
+            {
+                Exchange(values, end, 0);
+                Sift(values, 0, end);
+                end -= 1;
+            }
+        }
+
+        /// <summary>
+        /// Build heap
+        /// </summary>
+        /// <param name="values">Target values array</param>
+        /// <param name="start">Root position</param>
+        /// <param name="count">Length of <paramref name="values"/></param>
+        private static void BuildHeap(int[] values, int start, int count)
+        {
+            while (start >= 0)
+            {
+                Sift(values, start, count);
+                start -= 1;
+            }
+        }
+
+        /// <summary>
+        /// Sift values
+        /// </summary>
+        /// <param name="values">Target value array</param>
+        /// <param name="start">Root position</param>
+        /// <param name="count">Length of <paramref name="values"/></param>
+        private static void Sift(int[] values, int start, int count)
+        {
+            var root = start;
+
+            while (root * 2 < count)
+            {
+                var child = root * 2;
+                if ((child < count - 1) && (values[child] > values[child + 1]))
+                {
+                    child += 1;
+                }
+
+                if (values[root] > values[child])
+                {
+                    Exchange(values, root, child);
+                    root = child;
+                }
+                else
+                {
+                    return;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Exchange values in array
+        /// </summary>
+        /// <param name="values">Target values array</param>
+        /// <param name="first">First value to exchange</param>
+        /// <param name="second">Second value to exchange</param>
+        private static void Exchange(int[] values, int first, int second)
+        {
+            var t = values[first];
+            values[first] = values[second];
+            values[second] = t;
         }
     }
 }
