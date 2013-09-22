@@ -1005,7 +1005,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// This new vector will be independent from the enumerable.
         /// A new memory block will be allocated for storing the vector.
         /// </summary>
-        public Vector<T> SparseVectorOfIndexedEnumerable(int length, IEnumerable<Tuple<int, T>> enumerable)
+        public Vector<T> SparseVectorOfIndexed(int length, IEnumerable<Tuple<int, T>> enumerable)
         {
             return SparseVector(SparseVectorStorage<T>.OfIndexedEnumerable(length, enumerable));
         }
