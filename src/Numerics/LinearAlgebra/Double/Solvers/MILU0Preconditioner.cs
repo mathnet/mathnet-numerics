@@ -116,15 +116,10 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
             // Original matrix compressed sparse row storage.
             int[] ja = csr.ColumnIndices;
             double[] a = csr.Values;
+            int[] ia = csr.RowPointers;
 
-            // Make row pointers conform to standard CSR definition (ie. length n+1)
-            // TODO: We plan to migrate to this definition everywhere
-            var ia = new int[n + 1];
-            Array.Copy(csr.RowPointers, ia, n);
-            ia[n] = csr.ValueCount;
-
-            _alu = new double[csr.ValueCount + 1];
-            _jlu = new int[csr.ValueCount + 1];
+            _alu = new double[ia.Length];
+            _jlu = new int[ia.Length];
             _diag = new int[n];
 
             int code = Compute(n, a, ja, ia, _alu, _jlu, _diag, UseModified);

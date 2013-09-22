@@ -372,13 +372,11 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             var rowPointers = _storage.RowPointers;
             var columnIndices = _storage.ColumnIndices;
             var values = _storage.Values;
-            var valueCount = _storage.ValueCount;
 
             for (var row = 0; row < result.RowCount; row++)
             {
-                var startIndex = rowPointers[row];
-                var endIndex = row < rowPointers.Length - 1 ? rowPointers[row + 1] : valueCount;
-                for (var j = startIndex; j < endIndex; j++)
+                var endIndex = rowPointers[row + 1];
+                for (var j = rowPointers[row]; j < endIndex; j++)
                 {
                     if (row >= columnIndices[j])
                     {
@@ -439,13 +437,11 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             var rowPointers = _storage.RowPointers;
             var columnIndices = _storage.ColumnIndices;
             var values = _storage.Values;
-            var valueCount = _storage.ValueCount;
 
             for (var row = 0; row < result.RowCount; row++)
             {
-                var startIndex = rowPointers[row];
-                var endIndex = row < rowPointers.Length - 1 ? rowPointers[row + 1] : valueCount;
-                for (var j = startIndex; j < endIndex; j++)
+                var endIndex = rowPointers[row + 1];
+                for (var j = rowPointers[row]; j < endIndex; j++)
                 {
                     if (row <= columnIndices[j])
                     {
@@ -507,13 +503,11 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             var rowPointers = _storage.RowPointers;
             var columnIndices = _storage.ColumnIndices;
             var values = _storage.Values;
-            var valueCount = _storage.ValueCount;
 
             for (var row = 0; row < result.RowCount; row++)
             {
-                var startIndex = rowPointers[row];
-                var endIndex = row < rowPointers.Length - 1 ? rowPointers[row + 1] : valueCount;
-                for (var j = startIndex; j < endIndex; j++)
+                var endIndex = rowPointers[row + 1];
+                for (var j = rowPointers[row]; j < endIndex; j++)
                 {
                     if (row > columnIndices[j])
                     {
@@ -575,13 +569,11 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             var rowPointers = _storage.RowPointers;
             var columnIndices = _storage.ColumnIndices;
             var values = _storage.Values;
-            var valueCount = _storage.ValueCount;
 
             for (var row = 0; row < result.RowCount; row++)
             {
-                var startIndex = rowPointers[row];
-                var endIndex = row < rowPointers.Length - 1 ? rowPointers[row + 1] : valueCount;
-                for (var j = startIndex; j < endIndex; j++)
+                var endIndex = rowPointers[row + 1];
+                for (var j = rowPointers[row]; j < endIndex; j++)
                 {
                     if (row < columnIndices[j])
                     {
@@ -600,22 +592,19 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             var rowPointers = _storage.RowPointers;
             var columnIndices = _storage.ColumnIndices;
             var values = _storage.Values;
-            var valueCount = _storage.ValueCount;
 
             var ret = new SparseCompressedRowMatrixStorage<double>(ColumnCount, RowCount)
                 {
-                    ColumnIndices = new int[valueCount],
-                    Values = new double[valueCount]
+                    ColumnIndices = new int[_storage.ValueCount],
+                    Values = new double[_storage.ValueCount]
                 };
 
             // Do an 'inverse' CopyTo iterate over the rows
-            for (var i = 0; i < rowPointers.Length; i++)
+            for (var i = 0; i < RowCount; i++)
             {
-                // Get the begin / end index for the current row
                 var startIndex = rowPointers[i];
-                var endIndex = i < rowPointers.Length - 1 ? rowPointers[i + 1] : valueCount;
+                var endIndex = rowPointers[i + 1];
 
-                // Get the values for the current row
                 if (startIndex == endIndex)
                 {
                     // Begin and end are equal. There are no values in the row, Move to the next row
@@ -638,13 +627,11 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             var aat = (SparseCompressedRowMatrixStorage<double>) (this*Transpose()).Storage;
             var norm = 0d;
 
-            for (var i = 0; i < aat.RowPointers.Length; i++)
+            for (var i = 0; i < aat.RowCount; i++)
             {
-                // Get the begin / end index for the current row
                 var startIndex = aat.RowPointers[i];
-                var endIndex = i < aat.RowPointers.Length - 1 ? aat.RowPointers[i + 1] : aat.ValueCount;
+                var endIndex = aat.RowPointers[i + 1];
 
-                // Get the values for the current row
                 if (startIndex == endIndex)
                 {
                     // Begin and end are equal. There are no values in the row, Move to the next row
@@ -669,16 +656,13 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         {
             var rowPointers = _storage.RowPointers;
             var values = _storage.Values;
-            var valueCount = _storage.ValueCount;
 
             var norm = 0d;
-            for (var i = 0; i < rowPointers.Length; i++)
+            for (var i = 0; i < RowCount; i++)
             {
-                // Get the begin / end index for the current row
                 var startIndex = rowPointers[i];
-                var endIndex = i < rowPointers.Length - 1 ? rowPointers[i + 1] : valueCount;
+                var endIndex = rowPointers[i + 1];
 
-                // Get the values for the current row
                 if (startIndex == endIndex)
                 {
                     // Begin and end are equal. There are no values in the row, Move to the next row
@@ -708,21 +692,22 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// </exception>
         public static SparseMatrix Identity(int order)
         {
-            var m = new SparseCompressedRowMatrixStorage<double>(order, order)
+            var storage = new SparseCompressedRowMatrixStorage<double>(order, order)
                 {
-                    ValueCount = order,
                     Values = new double[order],
                     ColumnIndices = new int[order]
                 };
 
             for (var i = 0; i < order; i++)
             {
-                m.Values[i] = 1d;
-                m.ColumnIndices[i] = i;
-                m.RowPointers[i] = i;
+                storage.Values[i] = 1d;
+                storage.ColumnIndices[i] = i;
+                storage.RowPointers[i] = i;
             }
 
-            return new SparseMatrix(m);
+            storage.RowPointers[order] = order;
+
+            return new SparseMatrix(storage);
         }
         #endregion
 
@@ -773,11 +758,8 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             var leftStorage = left._storage;
             for (var i = 0; i < leftStorage.RowCount; i++)
             {
-                // Get the begin / end index for the current row
-                var startIndex = leftStorage.RowPointers[i];
-                var endIndex = i < leftStorage.RowPointers.Length - 1 ? leftStorage.RowPointers[i + 1] : leftStorage.ValueCount;
-
-                for (var j = startIndex; j < endIndex; j++)
+                var endIndex = leftStorage.RowPointers[i + 1];
+                for (var j = leftStorage.RowPointers[i]; j < endIndex; j++)
                 {
                     var columnIndex = leftStorage.ColumnIndices[j];
                     var resVal = leftStorage.Values[j] + result.At(i, columnIndex);
@@ -816,11 +798,8 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             {
                 for (var i = 0; i < otherStorage.RowCount; i++)
                 {
-                    // Get the begin / end index for the current row
-                    var startIndex = otherStorage.RowPointers[i];
-                    var endIndex = i < otherStorage.RowPointers.Length - 1 ? otherStorage.RowPointers[i + 1] : otherStorage.ValueCount;
-
-                    for (var j = startIndex; j < endIndex; j++)
+                    var endIndex = otherStorage.RowPointers[i + 1];
+                    for (var j = otherStorage.RowPointers[i]; j < endIndex; j++)
                     {
                         var columnIndex = otherStorage.ColumnIndices[j];
                         var resVal = sparseResult.At(i, columnIndex) - otherStorage.Values[j];
@@ -840,15 +819,11 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 var rowPointers = _storage.RowPointers;
                 var columnIndices = _storage.ColumnIndices;
                 var values = _storage.Values;
-                var valueCount = _storage.ValueCount;
 
                 for (var i = 0; i < RowCount; i++)
                 {
-                    // Get the begin / end index for the current row
-                    var startIndex = rowPointers[i];
-                    var endIndex = i < rowPointers.Length - 1 ? rowPointers[i + 1] : valueCount;
-
-                    for (var j = startIndex; j < endIndex; j++)
+                    var endIndex = rowPointers[i + 1];
+                    for (var j = rowPointers[i]; j < endIndex; j++)
                     {
                         var columnIndex = columnIndices[j];
                         var resVal = sparseResult.At(i, columnIndex) + values[j];
@@ -871,7 +846,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 return;
             }
 
-            if (scalar == 0.0 || _storage.ValueCount == 0)
+            if (scalar == 0.0 || NonZerosCount == 0)
             {
                 result.Clear();
                 return;
@@ -927,13 +902,12 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             var rowPointers = _storage.RowPointers;
             var columnIndices = _storage.ColumnIndices;
             var values = _storage.Values;
-            var valueCount = _storage.ValueCount;
 
             for (var row = 0; row < RowCount; row++)
             {
-                // Get the begin / end index for the current row
                 var startIndex = rowPointers[row];
-                var endIndex = row < rowPointers.Length - 1 ? rowPointers[row + 1] : valueCount;
+                var endIndex = rowPointers[row + 1];
+
                 if (startIndex == endIndex)
                 {
                     continue;
@@ -965,13 +939,12 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             var rowPointers = _storage.RowPointers;
             var columnIndices = _storage.ColumnIndices;
             var values = _storage.Values;
-            var valueCount = _storage.ValueCount;
 
             for (var row = 0; row < RowCount; row++)
             {
-                // Get the begin / end index for the current row
                 var startIndex = rowPointers[row];
-                var endIndex = row < rowPointers.Length - 1 ? rowPointers[row + 1] : valueCount;
+                var endIndex = rowPointers[row + 1];
+
                 if (startIndex == endIndex)
                 {
                     continue;
@@ -1007,15 +980,14 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
             var rowPointers = _storage.RowPointers;
             var values = _storage.Values;
-            var valueCount = _storage.ValueCount;
 
             var otherStorage = otherSparse._storage;
 
             for (var j = 0; j < RowCount; j++)
             {
-                // Get the begin / end index for the row
                 var startIndexOther = otherStorage.RowPointers[j];
-                var endIndexOther = j < otherStorage.RowPointers.Length - 1 ? otherStorage.RowPointers[j + 1] : otherStorage.ValueCount;
+                var endIndexOther = otherStorage.RowPointers[j + 1];
+
                 if (startIndexOther == endIndexOther)
                 {
                     continue;
@@ -1023,10 +995,9 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
                 for (var i = 0; i < RowCount; i++)
                 {
-                    // Multiply row of matrix A on row of matrix B
-                    // Get the begin / end index for the row
                     var startIndexThis = rowPointers[i];
-                    var endIndexThis = i < rowPointers.Length - 1 ? rowPointers[i + 1] : valueCount;
+                    var endIndexThis = rowPointers[i + 1];
+
                     if (startIndexThis == endIndexThis)
                     {
                         continue;
@@ -1069,15 +1040,11 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             var rowPointers = _storage.RowPointers;
             var columnIndices = _storage.ColumnIndices;
             var values = _storage.Values;
-            var valueCount = _storage.ValueCount;
 
             for (var i = 0; i < RowCount; i++)
             {
-                // Get the begin / end index for the current row
-                var startIndex = rowPointers[i];
-                var endIndex = i < rowPointers.Length - 1 ? rowPointers[i + 1] : valueCount;
-
-                for (var j = startIndex; j < endIndex; j++)
+                var endIndex = rowPointers[i + 1];
+                for (var j = rowPointers[i]; j < endIndex; j++)
                 {
                     var resVal = values[j]*other.At(i, columnIndices[j]);
                     if (resVal != 0d)
@@ -1100,15 +1067,11 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             var rowPointers = _storage.RowPointers;
             var columnIndices = _storage.ColumnIndices;
             var values = _storage.Values;
-            var valueCount = _storage.ValueCount;
 
             for (var i = 0; i < RowCount; i++)
             {
-                // Get the begin / end index for the current row
-                var startIndex = rowPointers[i];
-                var endIndex = i < rowPointers.Length - 1 ? rowPointers[i + 1] : valueCount;
-
-                for (var j = startIndex; j < endIndex; j++)
+                var endIndex = rowPointers[i + 1];
+                for (var j = rowPointers[i]; j < endIndex; j++)
                 {
                     if (values[j] != 0d)
                     {
@@ -1138,15 +1101,11 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             var rowPointers = _storage.RowPointers;
             var columnIndices = _storage.ColumnIndices;
             var values = _storage.Values;
-            var valueCount = _storage.ValueCount;
 
             for (var i = 0; i < RowCount; i++)
             {
-                // Get the begin / end index for the current row
-                var startIndex = rowPointers[i];
-                var endIndex = i < rowPointers.Length - 1 ? rowPointers[i + 1] : valueCount;
-
-                for (var j = startIndex; j < endIndex; j++)
+                var endIndex = rowPointers[i + 1];
+                for (var j = rowPointers[i]; j < endIndex; j++)
                 {
                     if (values[j] != 0d)
                     {
@@ -1196,7 +1155,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
                 // todo: we might be able to speed this up by caching one half of the matrix
                 var rowPointers = _storage.RowPointers;
-                for (var row = 0; row < RowCount - 1; row++)
+                for (var row = 0; row < RowCount; row++)
                 {
                     var start = rowPointers[row];
                     var end = rowPointers[row + 1];
@@ -1207,16 +1166,6 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                     }
 
                     if (!CheckIfOppositesAreEqual(start, end, row))
-                    {
-                        return false;
-                    }
-                }
-
-                var lastRow = rowPointers.Length - 1;
-
-                if (rowPointers[lastRow] < _storage.ValueCount)
-                {
-                    if (!CheckIfOppositesAreEqual(rowPointers[lastRow], _storage.ValueCount, lastRow))
                     {
                         return false;
                     }
