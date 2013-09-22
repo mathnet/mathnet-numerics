@@ -41,12 +41,12 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <summary>
         /// The value of 1.0.
         /// </summary>
-        public static readonly T One = Builder<T>.Instance.One;
+        public static readonly T One = BuilderInstance<T>.Instance.One;
 
         /// <summary>
         /// The value of 0.0.
         /// </summary>
-        public static readonly T Zero = Builder<T>.Instance.Zero;
+        public static readonly T Zero = BuilderInstance<T>.Instance.Zero;
 
         /// <summary>
         /// Negate each element of this matrix and place the results into the result matrix.

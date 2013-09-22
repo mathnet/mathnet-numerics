@@ -46,7 +46,7 @@ namespace MathNet.Numerics.LinearAlgebra.Factorization
     public abstract class LU<T> : ISolver<T>
         where T : struct, IEquatable<T>, IFormattable
     {
-        static readonly T One = Builder<T>.Instance.One;
+        static readonly T One = BuilderInstance<T>.Instance.One;
 
         readonly Lazy<Matrix<T>> _lazyL;
         readonly Lazy<Matrix<T>> _lazyU;

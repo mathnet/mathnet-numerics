@@ -58,7 +58,7 @@ namespace MathNet.Numerics.LinearAlgebra
             Count = storage.Length;
         }
 
-        public static readonly IGenericBuilder<T> Builder = Builder<T>.Instance;
+        public static readonly Builder<T> Builder = BuilderInstance<T>.Instance;
 
         /// <summary>
         /// Gets the raw vector data storage.

@@ -56,7 +56,7 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
         /// </summary>
         public Iterator()
         {
-            _stopCriteria = new List<IIterationStopCriterium<T>>(Matrix<T>.Builder.IterativeSolverStopCriteria());
+            _stopCriteria = new List<IIterationStopCriterium<T>>(Matrix<T>.Build.IterativeSolverStopCriteria());
         }
 
         /// <summary>
