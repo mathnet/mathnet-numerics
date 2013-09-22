@@ -36,16 +36,9 @@ using MathNet.Numerics.Properties;
 namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
 {
     /// <summary>
-    /// Milu0 is a simple milu(0) preconditioner.
+    /// A simple milu(0) preconditioner.
     /// </summary>
     /// <remarks>
-    /// It is assumed that the the elements in the input matrix are ordered
-    /// in such a way that in each row the lower part comes first and then
-    /// the upper part. To get the correct ILU factorization, it is also
-    /// necessary to have the elements of L ordered by increasing column 
-    /// number. It may therefore be necessary to sort the elements prior
-    /// to calling milu0.
-    /// 
     /// Original Fortran code by Youcef Saad (07 January 2004)
     /// </remarks>
     public sealed class MILU0Preconditioner : IPreconditioner<double>
@@ -78,11 +71,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
         /// <summary>
         /// Gets a value indicating whether the preconditioner is initialized.
         /// </summary>
-        public bool IsInitialized
-        {
-            get;
-            private set;
-        }
+        public bool IsInitialized { get; private set; }
 
         /// <summary>
         /// Initializes the preconditioner and loads the internal data structures.
@@ -93,13 +82,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
         /// instance of SparseCompressedRowMatrixStorage.</exception>
         public void Initialize(Matrix<double> matrix)
         {
-            if (matrix == null)
-            {
-                throw new ArgumentNullException("matrix");
-            }
-
             var csr = matrix.Storage as SparseCompressedRowMatrixStorage<double>;
-
             if (csr == null)
             {
                 throw new ArgumentException("Matrix must be in sparse storage format", "matrix");
@@ -107,15 +90,14 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
 
             // Dimension of matrix
             int n = csr.RowCount;
-
             if (n != csr.ColumnCount)
             {
                 throw new ArgumentException(Resources.ArgumentMatrixSquare, "matrix");
             }
 
             // Original matrix compressed sparse row storage.
-            int[] ja = csr.ColumnIndices;
             double[] a = csr.Values;
+            int[] ja = csr.ColumnIndices;
             int[] ia = csr.RowPointers;
 
             _alu = new double[ia.Length];
@@ -123,7 +105,6 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
             _diag = new int[n];
 
             int code = Compute(n, a, ja, ia, _alu, _jlu, _diag, UseModified);
-
             if (code > -1)
             {
                 throw new Exception("Zero pivot encountered on row " + code + " during ILU process");
