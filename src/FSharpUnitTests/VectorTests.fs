@@ -65,9 +65,9 @@ module VectorTests =
         w |> should equal (2.0 * sparsev)
 
     [<Test>]
-    let ``Vector.mapnzInPlace.Sparse`` () =
+    let ``Vector.mapSkipZerosInPlace.Sparse`` () =
         let w = sparsev.Clone()
-        w |> Vector.mapnzInPlace (fun x -> 2.0 * x)
+        w |> Vector.mapSkipZerosInPlace (fun x -> 2.0 * x)
         w |> should equal (2.0 * sparsev)
 
     [<Test>]
@@ -83,9 +83,9 @@ module VectorTests =
         w |> should equal (2.0 * sparsev)
 
     [<Test>]
-    let ``Vector.mapinzInPlace.Sparse`` () =
+    let ``Vector.mapiSkipZerosInPlace.Sparse`` () =
         let w = sparsev.Clone()
-        w |> Vector.mapinzInPlace (fun i x -> 2.0 * float i * x)
+        w |> Vector.mapiSkipZerosInPlace (fun i x -> 2.0 * float i * x)
         w |> should equal (2.0 * sparsev)
 
     [<Test>]
@@ -105,16 +105,16 @@ module VectorTests =
         Vector.map (fun x -> 2.0 * x) largev |> should equal (2.0 * largev)
 
     [<Test>]
-    let ``Vector.mapnz`` () =
-        Vector.mapnz (fun x -> 2.0 * x) largev |> should equal (2.0 * largev)
+    let ``Vector.mapSkipZeros`` () =
+        Vector.mapSkipZeros (fun x -> 2.0 * x) largev |> should equal (2.0 * largev)
 
     [<Test>]
     let ``Vector.mapi`` () =
         Vector.mapi (fun i x -> float i / 100.0) largev |> should equal largev
 
     [<Test>]
-    let ``Vector.mapinz`` () =
-        Vector.mapinz (fun i x -> float i / 100.0) largev |> should equal largev
+    let ``Vector.mapiSkipZeros`` () =
+        Vector.mapiSkipZeros (fun i x -> float i / 100.0) largev |> should equal largev
 
     [<Test>]
     let ``Vector.fold`` () =

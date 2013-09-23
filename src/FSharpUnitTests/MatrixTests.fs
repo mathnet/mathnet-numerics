@@ -62,9 +62,9 @@ module MatrixTests =
         M |> should equal (3.0 * sparseM)
 
     [<Test>]
-    let ``Matrix.mapnzInPlace.Sparse`` () =
+    let ``Matrix.mapSkipZerosInPlace.Sparse`` () =
         let M = sparseM.Clone()
-        M |> Matrix.mapnzInPlace (fun x -> 3.0 * x)
+        M |> Matrix.mapSkipZerosInPlace (fun x -> 3.0 * x)
         M |> should equal (3.0 * sparseM)
 
     [<Test>]
@@ -80,9 +80,9 @@ module MatrixTests =
         M |> should equal (2.0 * sparseM + SparseMatrix.init 2 3 (fun i j -> if i=j then 1.0 else 0.0))
 
     [<Test>]
-    let ``Matrix.mapinzInPlace.Sparse`` () =
+    let ``Matrix.mapiSkipZerosInPlace.Sparse`` () =
         let M = sparseM.Clone()
-        M |> Matrix.mapinzInPlace (fun i j x -> 2.0*x)
+        M |> Matrix.mapiSkipZerosInPlace (fun i j x -> 2.0*x)
         M |> should equal (2.0 * sparseM)
 
     [<Test>]
@@ -90,16 +90,16 @@ module MatrixTests =
         Matrix.map (fun x -> 2.0 * x) smallM |> should equal (2.0 * smallM)
 
     [<Test>]
-    let ``Matrix.mapnz`` () =
-        Matrix.mapnz (fun x -> 2.0 * x) smallM |> should equal (2.0 * smallM)
+    let ``Matrix.mapSkipZeros`` () =
+        Matrix.mapSkipZeros (fun x -> 2.0 * x) smallM |> should equal (2.0 * smallM)
 
     [<Test>]
     let ``Matrix.mapi`` () =
         Matrix.mapi (fun i j x -> float i * 100.0 + float j + x) largeM |> should equal (2.0 * largeM)
 
     [<Test>]
-    let ``Matrix.mapinz`` () =
-        Matrix.mapinz (fun i j x -> float i * 100.0 + float j + x) largeM |> should equal (2.0 * largeM)
+    let ``Matrix.mapiSkipZeros`` () =
+        Matrix.mapiSkipZeros (fun i j x -> float i * 100.0 + float j + x) largeM |> should equal (2.0 * largeM)
 
     [<Test>]
     let ``Matrix.mapCols`` () =
@@ -148,8 +148,8 @@ module MatrixTests =
         N |> should equal (0.0 * smallM)
 
     [<Test>]
-    let ``Matrix.toSeqnz`` () =
-        Seq.length (Matrix.toSeqnz smallM) |> should equal 4
+    let ``Matrix.toSeqSkipZeros`` () =
+        Seq.length (Matrix.toSeqSkipZeros smallM) |> should equal 4
 
     [<Test>]
     let ``Matrix.sum`` () =

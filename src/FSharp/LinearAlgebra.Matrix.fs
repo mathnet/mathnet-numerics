@@ -49,10 +49,10 @@ module Matrix =
     let inline toSeqi (m: #Matrix<_>) = m.EnumerateIndexed()
 
     /// Transform a matrix into a sequence where zero-values are skipped. Skipping zeros is efficient on sparse data.
-    let inline toSeqnz (m: #Matrix<_>) = m.EnumerateNonZero()
+    let inline toSeqSkipZeros (m: #Matrix<_>) = m.EnumerateNonZero()
 
     /// Transform a matrix into an indexed sequence where zero-values are skipped. Skipping zeros is efficient on sparse data.
-    let inline toSeqinz (m: #Matrix<_>) = m.EnumerateNonZeroIndexed()
+    let inline toSeqiSkipZeros (m: #Matrix<_>) = m.EnumerateNonZeroIndexed()
 
     /// Transform a matrix into a column sequence.
     let inline toColSeq (m: #Matrix<_>) = m.EnumerateColumns()
@@ -74,10 +74,10 @@ module Matrix =
     let inline iteri f (m: #Matrix<_>) = m.EnumerateIndexed() |> Seq.iter (fun (i, j, x) -> f i j x)
 
     /// Applies a function to all non-zero elements of the matrix. Skipping zeros is efficient on sparse data.
-    let inline iternz f (m: #Matrix<_>) = m.EnumerateNonZero() |> Seq.iter f
+    let inline iterSkipZerosnz f (m: #Matrix<_>) = m.EnumerateNonZero() |> Seq.iter f
 
     /// Applies a function to all non-zero indexed elements of the matrix. Skipping zeros is efficient on sparse data.
-    let inline iterinz f (m: #Matrix<_>) = m.EnumerateNonZeroIndexed() |> Seq.iter (fun (i, j, x) -> f i j x)
+    let inline iteriSkipZeros f (m: #Matrix<_>) = m.EnumerateNonZeroIndexed() |> Seq.iter (fun (i, j, x) -> f i j x)
 
     /// Applies a function to all columns of the matrix.
     let inline iterCols f (m: #Matrix<_>) = m.EnumerateColumns() |> Seq.iter f
@@ -99,10 +99,10 @@ module Matrix =
     let inline foldi f state (m: #Matrix<_>) = m.EnumerateIndexed() |> Seq.fold (fun s (i,j,x) -> f i j s x) state
 
     /// Fold all non-zero entries of a matrix. Skipping zeros is efficient on sparse data.
-    let inline foldnz f state (m: #Matrix<_>) = m.EnumerateNonZero() |> Seq.fold f state
+    let inline foldSkipZeros f state (m: #Matrix<_>) = m.EnumerateNonZero() |> Seq.fold f state
 
     /// Fold all non-zero entries of a matrix with an indexed folding function. Skipping zeros is efficient on sparse data.
-    let inline foldinz f state (m: #Matrix<_>) = m.EnumerateNonZeroIndexed() |> Seq.fold (fun s (i,j,x) -> f i j s x) state
+    let inline foldiSkipZeros f state (m: #Matrix<_>) = m.EnumerateNonZeroIndexed() |> Seq.fold (fun s (i,j,x) -> f i j s x) state
 
     /// Fold all columns of a matrix.
     let inline foldCols f state (m: #Matrix<_>) = m.EnumerateColumns() |> Seq.fold f state
@@ -124,10 +124,10 @@ module Matrix =
     let inline scani f state (m: #Matrix<_>) = m.EnumerateIndexed() |> Seq.scan (fun s (i,j,x) -> f i j s x) state
 
     /// Scan all non-zero entries of a matrix. Skipping zeros is efficient on sparse data.
-    let inline scannz f state (m: #Matrix<_>) = m.EnumerateNonZero() |> Seq.scan f state
+    let inline scanSkipZeros f state (m: #Matrix<_>) = m.EnumerateNonZero() |> Seq.scan f state
 
     /// Scan all non-zero entries of a matrix with an indexed folding function. Skipping zeros is efficient on sparse data.
-    let inline scaninz f state (m: #Matrix<_>) = m.EnumerateNonZeroIndexed() |> Seq.scan (fun s (i,j,x) -> f i j s x) state
+    let inline scaniSkipZeros f state (m: #Matrix<_>) = m.EnumerateNonZeroIndexed() |> Seq.scan (fun s (i,j,x) -> f i j s x) state
 
     /// Scan all columns of a matrix.
     let inline scanCols f state (m: #Matrix<_>) = m.EnumerateColumns() |> Seq.scan f state
@@ -146,7 +146,7 @@ module Matrix =
     let inline reduce f (m: #Matrix<_>) = m.Enumerate() |> Seq.reduce f
 
     /// Reduce all non-zero entries of a matrix. Skipping zeros is efficient on sparse data.
-    let inline reducenz f (m: #Matrix<_>) = m.EnumerateNonZero() |> Seq.reduce f
+    let inline reduceSkipZeros f (m: #Matrix<_>) = m.EnumerateNonZero() |> Seq.reduce f
 
     /// Reduce all columns of a matrix.
     let inline reduceCols f (m: #Matrix<_>) = m.EnumerateColumns() |> Seq.reduce f
@@ -162,10 +162,10 @@ module Matrix =
     let inline existsi p (m: #Matrix<_>) = m.EnumerateIndexed() |> Seq.exists (fun (i,j,x) -> p i j x)
 
     /// Checks whether there is a non-zero entry in the matrix that satisfies a predicate. Skipping zeros is efficient on sparse data.
-    let inline existsnz p (m: #Matrix<_>) = m.EnumerateNonZero() |> Seq.exists p
+    let inline existsSkipZeros p (m: #Matrix<_>) = m.EnumerateNonZero() |> Seq.exists p
 
     /// Checks whether there is a non-zero entry in the matrix that satisfies a position dependent predicate. Skipping zeros is efficient on sparse data.
-    let inline existsinz p (m: #Matrix<_>) = m.EnumerateNonZeroIndexed() |> Seq.exists (fun (i,j,x) -> p i j x)
+    let inline existsiSkipZeros p (m: #Matrix<_>) = m.EnumerateNonZeroIndexed() |> Seq.exists (fun (i,j,x) -> p i j x)
 
     /// Checks whether there is a column in the matrix that satisfies a predicate.
     let inline existsCol p (m: #Matrix<_>) = m.EnumerateColumns() |> Seq.exists p
@@ -187,10 +187,10 @@ module Matrix =
     let inline foralli p (m: #Matrix<_>) = m.EnumerateIndexed() |> Seq.forall (fun (i,j,x) -> p i j x)
 
     /// Checks whether all non-zero entries in the matrix that satisfies a given predicate. Skipping zeros is efficient on sparse data.
-    let inline forallnz p (m: #Matrix<_>) = m.EnumerateNonZero() |> Seq.forall p
+    let inline forallSkipZeros p (m: #Matrix<_>) = m.EnumerateNonZero() |> Seq.forall p
 
     /// Checks whether all non-zero entries in the matrix that satisfies a given position dependent predicate. Skipping zeros is efficient on sparse data.
-    let inline forallinz p (m: #Matrix<_>) = m.EnumerateNonZeroIndexed() |> Seq.forall (fun (i,j,x) -> p i j x)
+    let inline foralliSkipZeros p (m: #Matrix<_>) = m.EnumerateNonZeroIndexed() |> Seq.forall (fun (i,j,x) -> p i j x)
 
     /// Checks whether all columns in the matrix that satisfy a predicate.
     let inline forallCols p (m: #Matrix<_>) = m.EnumerateColumns() |> Seq.forall p
@@ -216,12 +216,12 @@ module Matrix =
 
     /// In-place map of every matrix element using a function.
     /// Zero-values may be skipped (relevant mostly for sparse matrices).
-    let inline mapnzInPlace f (A: #Matrix<_>) =
+    let inline mapSkipZerosInPlace f (A: #Matrix<_>) =
         A.MapInplace((fun x -> f x), false)
 
     /// In-place map of every matrix element using a position dependent function.
     /// Zero-values may be skipped (relevant mostly for sparse matrices).
-    let inline mapinzInPlace f (A: #Matrix<_>) =
+    let inline mapiSkipZerosInPlace f (A: #Matrix<_>) =
         A.MapIndexedInplace((fun i j x -> f i j x), false)
 
     /// In-place map every matrix column using the given position dependent function.
@@ -243,7 +243,7 @@ module Matrix =
 
     /// Map every matrix element using the given function.
     /// Zero-values may be skipped (relevant mostly for sparse matrices).
-    let inline mapnz f (A: #Matrix<_>) =
+    let inline mapSkipZeros f (A: #Matrix<_>) =
         let A = A.Clone()
         A.MapInplace((fun x -> f x), false)
         A
@@ -256,7 +256,7 @@ module Matrix =
 
     /// Map every matrix element using the given position dependent function.
     /// Zero-values may be skipped (relevant mostly for sparse matrices).
-    let inline mapinz f (A: #Matrix<_>) =
+    let inline mapiSkipZeros f (A: #Matrix<_>) =
         let A = A.Clone()
         A.MapIndexedInplace((fun i j x -> f i j x), false)
         A
@@ -334,7 +334,7 @@ module Matrix =
 
 
     /// Returns the sum of all elements of a matrix.
-    let inline sum (A: #Matrix<'a>) = A |> foldnz (+) Matrix<'a>.Zero
+    let inline sum (A: #Matrix<'a>) = A |> foldSkipZeros (+) Matrix<'a>.Zero
 
     /// Returns the sum of the results generated by applying a position dependent function to each column of the matrix.
     let inline sumColsBy f (A: #Matrix<_>) =
