@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ArgumentHistogramContainsNot" xml:space="preserve">
-    <value>The histogram does not contains the value.</value>
+    <value>The histogram does not contain the value.</value>
   </data>
   <data name="ArgumentInIntervalXYInclusive" xml:space="preserve">
     <value>Value is expected to be between {0} and {1} (including {0} and {1}).</value>

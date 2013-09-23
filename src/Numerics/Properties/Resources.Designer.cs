@@ -115,7 +115,7 @@ namespace MathNet.Numerics.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The histogram does not contains the value..
+        ///   Looks up a localized string similar to The histogram does not contain the value..
         /// </summary>
         public static string ArgumentHistogramContainsNot {
             get {
