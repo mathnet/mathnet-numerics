@@ -3,7 +3,6 @@
 open NUnit.Framework
 open FsUnit
 open MathNet.Numerics.LinearAlgebra
-open MathNet.Numerics.LinearAlgebra.Double
 
 /// Unit tests for the matrix type.
 module MatrixTests =
@@ -24,27 +23,27 @@ module MatrixTests =
     let ``Matrix.GetSlice`` () =
         largeM.[*,*] |> should equal largeM
         largeM.[0..99,0..99]  |> should equal largeM
-        largeM.[1..2,1..2]  |> should equal (DenseMatrix(2,2,[|101.;201.;102.;202.|]))
-        largeM.[98..,98..]  |> should equal (DenseMatrix(2,2,[|9898.;9998.;9899.;9999.|]))
-        largeM.[..1,..1]  |> should equal (DenseMatrix(2,2,[|0.;100.;1.;101.|]))
+        largeM.[1..2,1..2]  |> should equal (DenseMatrix.raw 2 2 [|101.;201.;102.;202.|])
+        largeM.[98..,98..]  |> should equal (DenseMatrix.raw 2 2 [|9898.;9998.;9899.;9999.|])
+        largeM.[..1,..1]  |> should equal (DenseMatrix.raw 2 2 [|0.;100.;1.;101.|])
 
     [<Test>]
     let ``Matrix.SetSlice`` () =
         let m = DenseMatrix.init 2 2 (fun i j -> float i * 100.0 + float j) in
-            m.[*,*] <- DenseMatrix(2,2,[|5.;6.;7.;8.|]);
-            m |> should equal (DenseMatrix(2,2,[|5.;6.;7.;8.|]))
+            m.[*,*] <- matrix [[5.;7.];[6.;8.]];
+            m |> should equal (DenseMatrix.raw 2 2 [|5.;6.;7.;8.|])
         let m = DenseMatrix.init 2 2 (fun i j -> float i * 100.0 + float j) in
-            m.[0..1,0..1] <- DenseMatrix(2,2,[|5.;6.;7.;8.|]);
-            m |> should equal (DenseMatrix(2,2,[|5.;6.;7.;8.|]))
+            m.[0..1,0..1] <-matrix [[5.;7.];[6.;8.]];
+            m |> should equal (DenseMatrix.raw 2 2 [|5.;6.;7.;8.|])
         let m = DenseMatrix.init 4 4 (fun i j -> float i * 100.0 + float j) in
-            m.[1..2,1..2] <- DenseMatrix(2,2,[|5.;6.;7.;8.|]);
-            m |> should equal (DenseMatrix(4,4,[|0.;100.;200.;300.;1.;5.;6.;301.;2.;7.;8.;302.;3.;103.;203.;303.|]))
+            m.[1..2,1..2] <- matrix [[5.;7.];[6.;8.]];
+            m |> should equal (DenseMatrix.raw 4 4 [|0.;100.;200.;300.;1.;5.;6.;301.;2.;7.;8.;302.;3.;103.;203.;303.|])
         let m = DenseMatrix.init 4 4 (fun i j -> float i * 100.0 + float j) in
-            m.[2..,..1] <- DenseMatrix(2,2,[|5.;6.;7.;8.|]);
-            m |> should equal (DenseMatrix(4,4,[|0.;100.;5.;6.;1.;101.;7.;8.;2.;102.;202.;302.;3.;103.;203.;303.|]))
+            m.[2..,..1] <- matrix [[5.;7.];[6.;8.]];
+            m |> should equal (DenseMatrix.raw 4 4 [|0.;100.;5.;6.;1.;101.;7.;8.;2.;102.;202.;302.;3.;103.;203.;303.|])
         let m = DenseMatrix.init 4 4 (fun i j -> float i * 100.0 + float j) in
-            m.[..1,2..] <- DenseMatrix(2,2,[|5.;6.;7.;8.|]);
-            m |> should equal (DenseMatrix(4,4,[|0.;100.;200.;300.;1.;101.;201.;301.;5.;6.;202.;302.;7.;8.;203.;303.|]))
+            m.[..1,2..] <- matrix [[5.;7.];[6.;8.]];
+            m |> should equal (DenseMatrix.raw 4 4 [|0.;100.;200.;300.;1.;101.;201.;301.;5.;6.;202.;302.;7.;8.;203.;303.|])
 
     [<Test>]
     let ``Matrix.toArray2`` () =

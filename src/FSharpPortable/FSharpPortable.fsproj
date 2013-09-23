@@ -56,12 +56,6 @@
     <Compile Include="..\FSharp\LinearAlgebra.Vector.fs">
       <Link>LinearAlgebra.Vector.fs</Link>
     </Compile>
-    <Compile Include="..\FSharp\LinearAlgebra.Double.Matrix.fs">
-      <Link>LinearAlgebra.Double.Matrix.fs</Link>
-    </Compile>
-    <Compile Include="..\FSharp\LinearAlgebra.Double.Vector.fs">
-      <Link>LinearAlgebra.Double.Vector.fs</Link>
-    </Compile>
     <Compile Include="..\FSharp\Complex.fsi">
       <Link>Complex.fsi</Link>
     </Compile>

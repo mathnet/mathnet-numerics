@@ -3,7 +3,6 @@
 open NUnit.Framework
 open FsUnit
 open MathNet.Numerics.LinearAlgebra
-open MathNet.Numerics.LinearAlgebra.Double
 open MathNet.Numerics.Distributions
 open MathNet.Numerics.Statistics
 
@@ -25,7 +24,7 @@ module DenseMatrixTests =
     [<Test>]
     let ``DenseMatrix.randomCreate`` () =
         let m = DenseMatrix.randomCreate 100 120 (Normal.WithMeanStdDev(100.0,0.1))
-        (m :?> DenseMatrix).Values |> ArrayStatistics.Mean |> should (equalWithin 10.0) 100.0
+        (m :?> Double.DenseMatrix).Values |> ArrayStatistics.Mean |> should (equalWithin 10.0) 100.0
         m.RowCount |> should equal 100
         m.ColumnCount |> should equal 120
 
@@ -80,11 +79,11 @@ module DenseMatrixTests =
 
     [<Test>]
     let ``DenseMatrix.createDiag`` () =
-        DenseMatrix.createDiag 100 100 2.0 |> should equal (2.0 * (DenseMatrix.Identity 100))
+        DenseMatrix.createDiag 100 100 2.0 |> should equal (2.0 * (DenseMatrix.identity 100 100))
 
     [<Test>]
     let ``DenseMatrix.ofDiag`` () =
-        DenseMatrix.ofDiag (DenseVector.Create(100, fun i -> 2.0)) |> should equal (2.0 * (DenseMatrix.Identity 100))
+        DenseMatrix.ofDiag (DenseVector.init 100 (fun i -> 2.0)) |> should equal (2.0 * (DenseMatrix.identity 100 100))
 
     [<Test>]
     let ``DenseMatrix.initRow`` () =

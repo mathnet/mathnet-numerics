@@ -940,7 +940,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// This new vector will be independent from the enumerable.
         /// A new memory block will be allocated for storing the vector.
         /// </summary>
-        public Vector<T> DenseVectorOfIndexedEnumerable(int length, IEnumerable<Tuple<int, T>> enumerable)
+        public Vector<T> DenseVectorOfIndexed(int length, IEnumerable<Tuple<int, T>> enumerable)
         {
             return DenseVector(DenseVectorStorage<T>.OfIndexedEnumerable(length, enumerable));
         }

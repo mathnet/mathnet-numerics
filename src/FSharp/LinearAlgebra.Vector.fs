@@ -30,33 +30,6 @@
 
 namespace MathNet.Numerics.LinearAlgebra
 
-/// Module that contains implementation of useful F#-specific extension members for generic vectors
-[<AutoOpen>]
-module VectorExtensions =
-
-  // A type extension for the generic vector type that
-  // adds the 'GetSlice' method to allow vec.[a .. b] syntax
-  type MathNet.Numerics.LinearAlgebra.
-      Vector<'T when 'T : struct and 'T : (new : unit -> 'T)
-                 and 'T :> System.IEquatable<'T> and 'T :> System.IFormattable
-                 and 'T :> System.ValueType> with
-
-    /// Gets a slice of a vector starting at a specified index
-    /// and ending at a specified index (both indices are optional)
-    /// This method can be used via the x.[start .. finish] syntax
-    member x.GetSlice(start, finish) =
-      let start = defaultArg start 0
-      let finish = defaultArg finish (x.Count - 1)
-      x.SubVector(start, finish - start + 1)
-
-    /// Sets a slice of a vector starting at a specified index
-    /// and ending at a specified index (both indices are optional)
-    /// This method can be used via the x.[start .. finish] <- v syntax
-    member x.SetSlice(start, finish, values) =
-      let start = defaultArg start 0
-      let finish = defaultArg finish (x.Count - 1)
-      x.SetSubVector(start, finish - start + 1, values)
-
 
 /// A module which implements functional vector operations.
 [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
@@ -241,3 +214,105 @@ module Vector =
 
     /// In place vector subtraction.
     let inline subInPlace (v: #Vector<_>) (w: #Vector<_>) = v.Subtract(w, v)
+
+
+
+/// A module which helps constructing generic dense vectors.
+[<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
+module DenseVector =
+
+    /// Create a vector that directly binds to a raw storage array, without copying.
+    let inline raw (raw: 'T[]) = Vector<'T>.Build.DenseVector(raw)
+
+    /// Initialize an all-zero vector with the given dimension.
+    let inline zeroCreate (n: int) = Vector<'T>.Build.DenseVector(n)
+
+    /// Initialize a random vector with the given dimension and distribution.
+    let inline randomCreate (n: int) dist = Vector<'T>.Build.DenseVectorRandom(n, dist)
+
+    /// Initialize an x-valued vector with the given dimension.
+    let inline create (n: int) (x: 'T) = Vector<'T>.Build.DenseVector(n, x)
+
+    /// Initialize a vector by calling a construction function for every element.
+    let inline init (n: int) (f: int -> 'T) = Vector<'T>.Build.DenseVector(n, f)
+
+    /// Create a vector from a float array (by copying - use raw instead if no copy is needed).
+    let inline ofArray (fl: 'T array) = Vector<'T>.Build.DenseVector(Array.copy fl)
+
+    /// Create a vector from a float list.
+    let inline ofList (fl: 'T list) = Vector<'T>.Build.DenseVector(Array.ofList fl)
+
+    /// Create a vector from a float sequence.
+    let inline ofSeq (fs: #seq<'T>) = Vector<'T>.Build.DenseVectorOfEnumerable(fs)
+
+    /// Create a vector with a given dimension from an indexed list of index, value pairs.
+    let inline ofListi (n: int) (fl: list<int * 'T>) = Vector<'T>.Build.DenseVectorOfIndexed(n, Seq.ofList fl)
+
+    /// Create a vector with a given dimension from an indexed sequences of index, value pairs.
+    let inline ofSeqi (n: int) (fs: #seq<int * 'T>) = Vector<'T>.Build.DenseVectorOfIndexed(n, fs)
+
+    /// Create a vector with integer entries in the given range.
+    let inline range (start: int) (step: int) (stop: int) = raw [| for i in start..step..stop -> float i |]
+
+    /// Create a vector with evenly spaced entries: e.g. rangef -1.0 0.5 1.0 = [-1.0 -0.5 0.0 0.5 1.0]
+    let inline rangef (start: float) (step: float) (stop: float) = raw [| start..step..stop |]
+
+
+/// A module which helps constructing generic sparse vectors.
+[<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
+module SparseVector =
+
+    /// Initialize an all-zero vector with the given dimension.
+    let inline zeroCreate (n: int) = Vector<'T>.Build.SparseVector(n)
+
+    /// Initialize an x-valued vector with the given dimension.
+    let inline create (n: int) (x: 'T) = Vector<'T>.Build.SparseVector(n, x)
+
+    /// Initialize a vector by calling a construction function for every element.
+    let inline init (n: int) (f: int -> 'T) = Vector<'T>.Build.SparseVector(n, f)
+
+    /// Create a sparse vector from a float array.
+    let inline ofArray (fl: 'T array) = Vector<'T>.Build.SparseVectorOfEnumerable(Seq.ofArray fl)
+
+    /// Create a sparse vector from a float list.
+    let inline ofList (fl: 'T list) = Vector<'T>.Build.SparseVectorOfEnumerable(Seq.ofList fl)
+
+    /// Create a sparse vector from a float sequence.
+    let inline ofSeq (fs: #seq<'T>) = Vector<'T>.Build.SparseVectorOfEnumerable(fs)
+
+    /// Create a sparse vector with a given dimension from an indexed list of index, value pairs.
+    let inline ofListi (n: int) (fl: list<int * 'T>) = Vector<'T>.Build.SparseVectorOfIndexed(n, Seq.ofList fl)
+
+    /// Create a sparse vector with a given dimension from an indexed sequence of index, value pairs.
+    let inline ofSeqi (n: int) (fs: #seq<int * 'T>) = Vector<'T>.Build.SparseVectorOfIndexed(n, fs)
+
+
+/// Module that contains implementation of useful F#-specific extension members for generic vectors
+[<AutoOpen>]
+module VectorExtensions =
+
+    /// Construct a dense vector from a list of floating point numbers.
+    let inline vector (lst: list<'T>) = DenseVector.ofList lst
+
+    // A type extension for the generic vector type that
+    // adds the 'GetSlice' method to allow vec.[a .. b] syntax
+    type MathNet.Numerics.LinearAlgebra.
+        Vector<'T when 'T : struct and 'T : (new : unit -> 'T)
+                    and 'T :> System.IEquatable<'T> and 'T :> System.IFormattable
+                    and 'T :> System.ValueType> with
+
+        /// Gets a slice of a vector starting at a specified index
+        /// and ending at a specified index (both indices are optional)
+        /// This method can be used via the x.[start .. finish] syntax
+        member x.GetSlice(start, finish) =
+            let start = defaultArg start 0
+            let finish = defaultArg finish (x.Count - 1)
+            x.SubVector(start, finish - start + 1)
+
+        /// Sets a slice of a vector starting at a specified index
+        /// and ending at a specified index (both indices are optional)
+        /// This method can be used via the x.[start .. finish] <- v syntax
+        member x.SetSlice(start, finish, values) =
+            let start = defaultArg start 0
+            let finish = defaultArg finish (x.Count - 1)
+            x.SetSubVector(start, finish - start + 1, values)

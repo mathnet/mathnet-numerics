@@ -31,7 +31,7 @@
 namespace MathNet.Numerics
 
 open System
-open MathNet.Numerics.LinearAlgebra.Double
+open MathNet.Numerics.LinearAlgebra
 open MathNet.Numerics.LinearAlgebra.Factorization
 
 [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
@@ -63,7 +63,7 @@ module Fit =
         functions
         |> List.map (fun f -> List.init (Array.length x) (fun i -> f x.[i]))
         |> DenseMatrix.ofColumnList
-        |> fun m -> m.QR(QRMethod.Thin).Solve(DenseVector(y)).ToArray()
+        |> fun m -> m.QR(QRMethod.Thin).Solve(DenseVector.raw y).ToArray()
         |> List.ofArray
 
     /// Least-Squares fitting the points (x,y) to an arbitrary linear combination y : x -> p0*f0(x) + p1*f1(x) + ... + pk*fk(x),

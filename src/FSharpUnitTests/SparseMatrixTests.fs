@@ -3,7 +3,6 @@
 open NUnit.Framework
 open FsUnit
 open MathNet.Numerics.LinearAlgebra
-open MathNet.Numerics.LinearAlgebra.Double
 
 /// Unit tests for the sparse matrix type.
 module SparseMatrixTests =
@@ -50,11 +49,11 @@ module SparseMatrixTests =
 
     [<Test>]
     let ``SparseMatrix.constDiag`` () =
-        SparseMatrix.createDiag 100 100 2.0 |> should equal (2.0 * (SparseMatrix.Identity 100))
+        SparseMatrix.createDiag 100 100 2.0 |> should equal (2.0 * (SparseMatrix.identity 100 100))
 
     [<Test>]
     let ``SparseMatrix.ofDiag`` () =
-        SparseMatrix.ofDiag (DenseVector.Create(100, fun i -> 2.0)) |> should equal (2.0 * (SparseMatrix.Identity 100))
+        SparseMatrix.ofDiag (DenseVector.init 100 (fun i -> 2.0)) |> should equal (2.0 * (SparseMatrix.identity 100 100))
 
     [<Test>]
     let ``SparseMatrix.init_row`` () =

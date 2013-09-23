@@ -3,7 +3,6 @@
 open NUnit.Framework
 open FsUnit
 open MathNet.Numerics.LinearAlgebra
-open MathNet.Numerics.LinearAlgebra.Double
 open MathNet.Numerics.Distributions
 open MathNet.Numerics.Statistics
 
@@ -11,10 +10,10 @@ open MathNet.Numerics.Statistics
 module DenseVectorTests =
 
     /// A small uniform vector.
-    let smallv = DenseVector.Create(5, fun i -> 0.3)
+    let smallv = Double.DenseVector.Create(5, fun i -> 0.3)
 
     /// A large vector with increasingly large entries
-    let largev = new DenseVector( Array.init 100 (fun i -> float i / 100.0) )
+    let largev = new Double.DenseVector( Array.init 100 (fun i -> float i / 100.0) )
 
     [<Test>]
     let ``DenseVector.zeroCreate`` () =
@@ -23,7 +22,7 @@ module DenseVectorTests =
     [<Test>]
     let ``DenseVector.randomCreate`` () =
         let m = DenseVector.randomCreate 100 (Normal.WithMeanStdDev(100.0,0.1))
-        (m :?> DenseVector).Values |> ArrayStatistics.Mean |> should (equalWithin 10.0) 100.0
+        (m :?> Double.DenseVector).Values |> ArrayStatistics.Mean |> should (equalWithin 10.0) 100.0
         m.Count |> should equal 100
 
     [<Test>]
@@ -53,8 +52,8 @@ module DenseVectorTests =
 
     [<Test>]
     let ``DenseVector.rangef`` () =
-        DenseVector.rangef 0.0 0.01 0.99 |> should equal (new DenseVector( [| for i in 0 .. 99 -> 0.01 * float i |] ) )
+        DenseVector.rangef 0.0 0.01 0.99 |> should equal (DenseVector.raw [| for i in 0 .. 99 -> 0.01 * float i |])
 
     [<Test>]
     let ``DenseVector.range`` () =
-        DenseVector.range 0 1 99 |> should equal (new DenseVector( [| for i in 0 .. 99 -> float i |] ) )
+        DenseVector.range 0 1 99 |> should equal (DenseVector.raw [| for i in 0 .. 99 -> float i |])

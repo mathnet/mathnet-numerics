@@ -3,7 +3,6 @@
 open NUnit.Framework
 open FsUnit
 open MathNet.Numerics.LinearAlgebra
-open MathNet.Numerics.LinearAlgebra.Double
 
 /// Unit tests for the vector type.
 module VectorTests =
@@ -23,27 +22,27 @@ module VectorTests =
     let ``Vector.GetSlice`` () =
         largev.[*] |> should equal largev
         largev.[0..99]  |> should equal largev
-        largev.[1..3]  |> should equal (DenseVector([|0.01;0.02;0.03|]))
-        largev.[97..]  |> should equal (DenseVector([|0.97;0.98;0.99|]))
-        largev.[..4]  |> should equal (DenseVector([|0.00;0.01;0.02;0.03;0.04|]))
+        largev.[1..3]  |> should equal (DenseVector.raw [|0.01;0.02;0.03|])
+        largev.[97..]  |> should equal (DenseVector.raw [|0.97;0.98;0.99|])
+        largev.[..4]  |> should equal (DenseVector.raw [|0.00;0.01;0.02;0.03;0.04|])
 
     [<Test>]
     let ``Vector.SetSlice`` () =
         let v = smallv.Clone() in
-            v.[*] <- DenseVector([|0.1;0.2;0.3;0.4;0.5|]);
-            v |> should equal (DenseVector([|0.1;0.2;0.3;0.4;0.5|]))
+            v.[*] <- vector [0.1;0.2;0.3;0.4;0.5];
+            v |> should equal (DenseVector.raw [|0.1;0.2;0.3;0.4;0.5|])
         let v = smallv.Clone() in
-            v.[0..4] <- DenseVector([|0.1;0.2;0.3;0.4;0.5|]);
-            v |> should equal (DenseVector([|0.1;0.2;0.3;0.4;0.5|]))
+            v.[0..4] <- vector [0.1;0.2;0.3;0.4;0.5];
+            v |> should equal (DenseVector.raw [|0.1;0.2;0.3;0.4;0.5|])
         let v = smallv.Clone() in
-            v.[1..3] <- DenseVector([|7.0;8.0;9.0|]);
-            v |> should equal (DenseVector([|0.3;7.0;8.0;9.0;0.3|]))
+            v.[1..3] <- vector [7.0;8.0;9.0];
+            v |> should equal (DenseVector.raw [|0.3;7.0;8.0;9.0;0.3|])
         let v = smallv.Clone() in
-            v.[2..] <- DenseVector([|7.0;8.0;9.0|]);
-            v |> should equal (DenseVector([|0.3;0.3;7.0;8.0;9.0|]))
+            v.[2..] <- vector [7.0;8.0;9.0];
+            v |> should equal (DenseVector.raw [|0.3;0.3;7.0;8.0;9.0|])
         let v = smallv.Clone() in
-            v.[..2] <- DenseVector([|7.0;8.0;9.0|]);
-            v |> should equal (DenseVector([|7.0;8.0;9.0;0.3;0.3|]))
+            v.[..2] <- vector [7.0;8.0;9.0];
+            v |> should equal (DenseVector.raw [|7.0;8.0;9.0;0.3;0.3|])
 
     [<Test>]
     let ``Vector.toArray`` () =
@@ -163,7 +162,7 @@ module VectorTests =
 
     [<Test>]
     let ``Vector.insert`` () =
-        Vector.insert 2 0.5 smallv |> should (approximately_equal 14) (new DenseVector ( [|0.3;0.3;0.5;0.3;0.3;0.3|] ) :> Vector<float>)
+        Vector.insert 2 0.5 smallv |> should (approximately_equal 14) (DenseVector.raw [|0.3;0.3;0.5;0.3;0.3;0.3|])
 
     [<Test>]
     let ``Pointwise Multiplication using .* Operator`` () =
