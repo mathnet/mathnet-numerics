@@ -122,8 +122,11 @@
     <Compile Include="Distributions\Wishart.cs" />
     <Compile Include="Distributions\Zipf.cs" />
     <Compile Include="LinearAlgebra\Builder.cs" />
+    <Compile Include="LinearAlgebra\Complex32\Solvers\MILU0Preconditioner.cs" />
+    <Compile Include="LinearAlgebra\Complex\Solvers\MILU0Preconditioner.cs" />
     <Compile Include="LinearAlgebra\Double\Solvers\MILU0Preconditioner.cs" />
     <Compile Include="LinearAlgebra\Matrix.Solve.cs" />
+    <Compile Include="LinearAlgebra\Single\Solvers\MILU0Preconditioner.cs" />
     <Compile Include="LinearAlgebra\Solvers\CancellationStopCriterium.cs" />
     <Compile Include="LinearAlgebra\Solvers\IterationStatus.cs" />
     <Compile Include="LinearAlgebra\Solvers\Iterator.cs" />
