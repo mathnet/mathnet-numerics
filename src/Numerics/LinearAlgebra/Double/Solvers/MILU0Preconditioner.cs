@@ -100,8 +100,8 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
             int[] ja = csr.ColumnIndices;
             int[] ia = csr.RowPointers;
 
-            _alu = new double[ia.Length];
-            _jlu = new int[ia.Length];
+            _alu = new double[ia[n] + 1];
+            _jlu = new int[ia[n] + 1];
             _diag = new int[n];
 
             int code = Compute(n, a, ja, ia, _alu, _jlu, _diag, UseModified);
