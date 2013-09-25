@@ -48,6 +48,14 @@ namespace MathNet.Numerics.LinearRegression
         /// <summary>
         /// Weighted Linear Regression using normal equations.
         /// </summary>
+        public static Matrix<T> Weighted<T>(Matrix<T> x, Matrix<T> y, Matrix<T> w) where T : struct, IEquatable<T>, IFormattable
+        {
+            return x.TransposeThisAndMultiply(w * x).Cholesky().Solve(x.Transpose() * (w * y));
+        }
+
+        /// <summary>
+        /// Weighted Linear Regression using normal equations.
+        /// </summary>
         /// <param name="intercept">True if an intercept should be added as first artificial perdictor value. Default = false.</param>
         public static T[] Weighted<T>(T[][] x, T[] y, T[] w, bool intercept = false) where T : struct, IEquatable<T>, IFormattable
         {
@@ -75,6 +83,22 @@ namespace MathNet.Numerics.LinearRegression
         /// Locally-Weighted Linear Regression using normal equations.
         /// </summary>
         public static Vector<T> Local<T>(Matrix<T> x, Vector<T> y, Vector<T> t, Func<Vector<T>, Vector<T>, T> kernel) where T : struct, IEquatable<T>, IFormattable
+        {
+            // TODO: Kernel definition is a bit weird as it includes computing the difference norm
+            // We can make this more common once we change the norm to always be of type double around LA.
+
+            var w = Matrix<T>.Build.DenseMatrix(x.RowCount, x.RowCount);
+            for (int i = 0; i < x.RowCount; i++)
+            {
+                w.At(i, i, kernel(t, x.Row(i)));
+            }
+            return Weighted(x, y, w);
+        }
+
+        /// <summary>
+        /// Locally-Weighted Linear Regression using normal equations.
+        /// </summary>
+        public static Matrix<T> Local<T>(Matrix<T> x, Matrix<T> y, Vector<T> t, Func<Vector<T>, Vector<T>, T> kernel) where T : struct, IEquatable<T>, IFormattable
         {
             // TODO: Kernel definition is a bit weird as it includes computing the difference norm
             // We can make this more common once we change the norm to always be of type double around LA.

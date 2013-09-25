@@ -49,6 +49,18 @@ namespace MathNet.Numerics.LinearRegression
         }
 
         /// <summary>
+        /// Find the model parameters β such that X*β with predictor X becomes as close to response Y as possible, with least squares residuals.
+        /// Uses the cholesky decomposition of the normal equations.
+        /// </summary>
+        /// <param name="x">Predictor matrix X</param>
+        /// <param name="y">Response vector Y</param>
+        /// <returns>Best fitting vector for model parameters β</returns>
+        public static Matrix<T> NormalEquations<T>(Matrix<T> x, Matrix<T> y) where T : struct, IEquatable<T>, IFormattable
+        {
+            return x.TransposeThisAndMultiply(x).Cholesky().Solve(x.Transpose() * y);
+        }
+
+        /// <summary>
         /// Find the model parameters β such that their linear combination with all predictor-arrays in X become as close to their response in Y as possible, with least squares residuals.
         /// Uses the cholesky decomposition of the normal equations.
         /// </summary>
@@ -93,6 +105,18 @@ namespace MathNet.Numerics.LinearRegression
         }
 
         /// <summary>
+        /// Find the model parameters β such that X*β with predictor X becomes as close to response Y as possible, with least squares residuals.
+        /// Uses an orthogonal decomposition and is therefore more numerically stable than the normal equations but also slower.
+        /// </summary>
+        /// <param name="x">Predictor matrix X</param>
+        /// <param name="y">Response vector Y</param>
+        /// <returns>Best fitting vector for model parameters β</returns>
+        public static Matrix<T> QR<T>(Matrix<T> x, Matrix<T> y) where T : struct, IEquatable<T>, IFormattable
+        {
+            return x.QR().Solve(y);
+        }
+
+        /// <summary>
         /// Find the model parameters β such that their linear combination with all predictor-arrays in X become as close to their response in Y as possible, with least squares residuals.
         /// Uses an orthogonal decomposition and is therefore more numerically stable than the normal equations but also slower.
         /// </summary>
@@ -131,6 +155,18 @@ namespace MathNet.Numerics.LinearRegression
         /// <param name="y">Response vector Y</param>
         /// <returns>Best fitting vector for model parameters β</returns>
         public static Vector<T> Svd<T>(Matrix<T> x, Vector<T> y) where T : struct, IEquatable<T>, IFormattable
+        {
+            return x.Svd().Solve(y);
+        }
+
+        /// <summary>
+        /// Find the model parameters β such that X*β with predictor X becomes as close to response Y as possible, with least squares residuals.
+        /// Uses a singular value decomposition and is therefore more numerically stable (especially if ill-conditioned) than the normal equations or QR but also slower.
+        /// </summary>
+        /// <param name="x">Predictor matrix X</param>
+        /// <param name="y">Response vector Y</param>
+        /// <returns>Best fitting vector for model parameters β</returns>
+        public static Matrix<T> Svd<T>(Matrix<T> x, Matrix<T> y) where T : struct, IEquatable<T>, IFormattable
         {
             return x.Svd().Solve(y);
         }
