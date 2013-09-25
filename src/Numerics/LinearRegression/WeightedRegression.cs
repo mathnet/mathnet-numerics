@@ -42,7 +42,7 @@ namespace MathNet.Numerics.LinearRegression
         /// </summary>
         public static Vector<T> Weighted<T>(Matrix<T> x, Vector<T> y, Matrix<T> w) where T : struct, IEquatable<T>, IFormattable
         {
-            return x.TransposeThisAndMultiply(w * x).Cholesky().Solve(x.Transpose() * (w * y));
+            return x.TransposeThisAndMultiply(w*x).Cholesky().Solve(x.Transpose()*(w*y));
         }
 
         /// <summary>
@@ -50,7 +50,7 @@ namespace MathNet.Numerics.LinearRegression
         /// </summary>
         public static Matrix<T> Weighted<T>(Matrix<T> x, Matrix<T> y, Matrix<T> w) where T : struct, IEquatable<T>, IFormattable
         {
-            return x.TransposeThisAndMultiply(w * x).Cholesky().Solve(x.Transpose() * (w * y));
+            return x.TransposeThisAndMultiply(w*x).Cholesky().Solve(x.Transpose()*(w*y));
         }
 
         /// <summary>
@@ -66,7 +66,7 @@ namespace MathNet.Numerics.LinearRegression
             }
             var response = Matrix<T>.Build.DenseVector(y);
             var weights = Matrix<T>.Build.DiagonalMatrix(new DiagonalMatrixStorage<T>(predictor.RowCount, predictor.RowCount, w));
-            return predictor.TransposeThisAndMultiply(weights * predictor).Cholesky().Solve(predictor.Transpose() * (weights * response)).ToArray();
+            return predictor.TransposeThisAndMultiply(weights*predictor).Cholesky().Solve(predictor.Transpose()*(weights*response)).ToArray();
         }
 
         /// <summary>
@@ -82,15 +82,13 @@ namespace MathNet.Numerics.LinearRegression
         /// <summary>
         /// Locally-Weighted Linear Regression using normal equations.
         /// </summary>
-        public static Vector<T> Local<T>(Matrix<T> x, Vector<T> y, Vector<T> t, Func<Vector<T>, Vector<T>, T> kernel) where T : struct, IEquatable<T>, IFormattable
+        public static Vector<T> Local<T>(Matrix<T> x, Vector<T> y, Vector<T> t, double radius, Func<double, T> kernel) where T : struct, IEquatable<T>, IFormattable
         {
-            // TODO: Kernel definition is a bit weird as it includes computing the difference norm
-            // We can make this more common once we change the norm to always be of type double around LA.
-
+            // TODO: Weird kernel definition
             var w = Matrix<T>.Build.DenseMatrix(x.RowCount, x.RowCount);
             for (int i = 0; i < x.RowCount; i++)
             {
-                w.At(i, i, kernel(t, x.Row(i)));
+                w.At(i, i, kernel(Distance.Euclidean(t, x.Row(i))/radius));
             }
             return Weighted(x, y, w);
         }
@@ -98,24 +96,20 @@ namespace MathNet.Numerics.LinearRegression
         /// <summary>
         /// Locally-Weighted Linear Regression using normal equations.
         /// </summary>
-        public static Matrix<T> Local<T>(Matrix<T> x, Matrix<T> y, Vector<T> t, Func<Vector<T>, Vector<T>, T> kernel) where T : struct, IEquatable<T>, IFormattable
+        public static Matrix<T> Local<T>(Matrix<T> x, Matrix<T> y, Vector<T> t, double radius, Func<double, T> kernel) where T : struct, IEquatable<T>, IFormattable
         {
-            // TODO: Kernel definition is a bit weird as it includes computing the difference norm
-            // We can make this more common once we change the norm to always be of type double around LA.
-
+            // TODO: Weird kernel definition
             var w = Matrix<T>.Build.DenseMatrix(x.RowCount, x.RowCount);
             for (int i = 0; i < x.RowCount; i++)
             {
-                w.At(i, i, kernel(t, x.Row(i)));
+                w.At(i, i, kernel(Distance.Euclidean(t, x.Row(i))/radius));
             }
             return Weighted(x, y, w);
         }
 
-        public static Func<Vector<double>, Vector<double>, double> GaussianKernel(double radius)
+        public static double GaussianKernel(double normalizedDistance)
         {
-            // TODO: see above...
-            var d = -2.0*radius*radius;
-            return (t, x) => Math.Exp(Distance.SSD(x, t)/d);
+            return Math.Exp(-0.5*normalizedDistance*normalizedDistance);
         }
     }
 }
