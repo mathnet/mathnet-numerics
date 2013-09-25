@@ -40,8 +40,8 @@ module Fit =
     let private tofs (f:Func<_,_>) = fun a -> f.Invoke(a)
 
     /// Least-Squares fitting the points (x,y) to a line y : x -> a+b*x,
-    /// returning its best fitting parameters as [a, b] array.
-    let line x y = let p = Fit.Line(x,y) in (p.[0],p.[1])
+    /// returning its best fitting parameters as (a, b) tuple.
+    let line x y = Fit.Line(x,y)
 
     /// Least-Squares fitting the points (x,y) to a line y : x -> a+b*x,
     /// returning a function y' for the best fitting line.

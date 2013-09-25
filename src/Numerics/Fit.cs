@@ -31,7 +31,7 @@
 using System;
 using System.Linq;
 using MathNet.Numerics.LinearAlgebra.Double;
-using MathNet.Numerics.Properties;
+using MathNet.Numerics.LinearRegression;
 
 namespace MathNet.Numerics
 {
@@ -42,44 +42,12 @@ namespace MathNet.Numerics
     {
         /// <summary>
         /// Least-Squares fitting the points (x,y) to a line y : x -> a+b*x,
-        /// returning its best fitting parameters as [a, b] array.
+        /// returning its best fitting parameters as [a, b] array,
+        /// where a is the intercept and b the slope.
         /// </summary>
-        public static double[] Line(double[] x, double[] y)
+        public static Tuple<double, double> Line(double[] x, double[] y)
         {
-            if (x == null) throw new ArgumentNullException("x");
-            if (y == null) throw new ArgumentNullException("y");
-            if (x.Length != y.Length) throw new ArgumentException(Resources.ArgumentVectorsSameLength);
-            if (x.Length <= 1) throw new ArgumentException(string.Format(Resources.ArrayTooSmall, 2));
-
-            // First Pass: Mean (Less robust but faster than ArrayStatistics.Mean)
-            double mx = 0.0;
-            double my = 0.0;
-            for (int i = 0; i < x.Length; i++)
-            {
-                mx += x[i];
-                my += y[i];
-            }
-            mx /= x.Length;
-            my /= y.Length;
-
-            // Second Pass: Covariance/Variance
-            double covariance = 0.0;
-            double variance = 0.0;
-            for (int i = 0; i < x.Length; i++)
-            {
-                double diff = x[i] - mx;
-                covariance += diff*(y[i] - my);
-                variance += diff*diff;
-            }
-
-            var b = covariance/variance;
-            return new[] {my - b*mx, b};
-
-            // General Solution:
-            //return DenseMatrix
-            //    .OfColumns(x.Length, 2, new[] {DenseVector.Create(x.Length, i => 1.0), new DenseVector(x)})
-            //    .QR(QRMethod.Thin).Solve(new DenseVector(y))
-            //    .ToArray();
+            return SimpleRegression.Fit(x, y);
         }
 
         /// <summary>
@@ -88,9 +56,9 @@ namespace MathNet.Numerics
         /// </summary>
         public static Func<double, double> LineFunc(double[] x, double[] y)
         {
-            var parameters = Line(x, y);
-            double a = parameters[0], b = parameters[1];
-            return z => a + b*z;
+            var parameters = SimpleRegression.Fit(x, y);
+            double intercept = parameters.Item1, slope = parameters.Item2;
+            return z => intercept + slope*z;
         }
 
         /// <summary>
@@ -99,10 +67,8 @@ namespace MathNet.Numerics
         /// </summary>
         public static double[] Polynomial(double[] x, double[] y, int order)
         {
-            return DenseMatrix
-                .OfColumns(x.Length, order + 1, Enumerable.Range(0, order + 1).Select(j => DenseVector.Create(x.Length, i => Math.Pow(x[i], j))))
-                .QR().Solve(new DenseVector(y))
-                .ToArray();
+            var design = DenseMatrix.OfColumns(x.Length, order + 1, Enumerable.Range(0, order + 1).Select(j => DenseVector.Create(x.Length, i => Math.Pow(x[i], j))));
+            return MultipleRegression.QR(design, new DenseVector(y)).ToArray();
         }
 
         /// <summary>
@@ -121,10 +87,8 @@ namespace MathNet.Numerics
         /// </summary>
         public static double[] LinearCombination(double[] x, double[] y, params Func<double,double>[] functions)
         {
-            return DenseMatrix
-                .OfColumns(x.Length, functions.Length, functions.Select(f => DenseVector.Create(x.Length, i => f(x[i]))))
-                .QR().Solve(new DenseVector(y))
-                .ToArray();
+            var design = DenseMatrix.OfColumns(x.Length, functions.Length, functions.Select(f => DenseVector.Create(x.Length, i => f(x[i]))));
+            return MultipleRegression.QR(design, new DenseVector(y)).ToArray();
         }
 
         /// <summary>
@@ -143,10 +107,7 @@ namespace MathNet.Numerics
         /// </summary>
         public static double[] LinearMultiDim(double[][] x, double[] y, params Func<double[], double>[] functions)
         {
-            return DenseMatrix
-                .OfRows(x.Length, functions.Length, x.Select(xi => functions.Select(f => f(xi))))
-                .QR().Solve(new DenseVector(y))
-                .ToArray();
+            return MultipleRegression.QR(x.Select(xi => functions.Select(f => f(xi)).ToArray()).ToArray(), y);
         }
 
         /// <summary>
@@ -165,10 +126,7 @@ namespace MathNet.Numerics
         /// </summary>
         public static double[] LinearGeneric<T>(T[] x, double[] y, params Func<T, double>[] functions)
         {
-            return DenseMatrix
-                .OfRows(x.Length, functions.Length, x.Select(xi => functions.Select(f => f(xi))))
-                .QR().Solve(new DenseVector(y))
-                .ToArray();
+            return MultipleRegression.QR(x.Select(xi => functions.Select(f => f(xi)).ToArray()).ToArray(), y);
         }
 
         /// <summary>

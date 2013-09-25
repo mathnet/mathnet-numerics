@@ -45,9 +45,8 @@ namespace MathNet.Numerics.UnitTests
             var y = x.Select(z => 4.0 - 1.5*z).ToArray();
 
             var resp = Fit.Line(x, y);
-            Assert.AreEqual(2, resp.Length);
-            Assert.AreEqual(4.0, resp[0], 1e-12);
-            Assert.AreEqual(-1.5, resp[1], 1e-12);
+            Assert.AreEqual(4.0, resp.Item1, 1e-12);
+            Assert.AreEqual(-1.5, resp.Item2, 1e-12);
 
             var resf = Fit.LineFunc(x, y);
             foreach (var z in Enumerable.Range(-3, 10))
@@ -66,9 +65,8 @@ namespace MathNet.Numerics.UnitTests
             var y = new[] {4.986, 2.347, 2.061, -2.995, -2.352, -5.782};
 
             var resp = Fit.Line(x, y);
-            Assert.AreEqual(2, resp.Length);
-            Assert.AreEqual(7.01013, resp[0], 1e-4);
-            Assert.AreEqual(-2.08551, resp[1], 1e-4);
+            Assert.AreEqual(7.01013, resp.Item1, 1e-4);
+            Assert.AreEqual(-2.08551, resp.Item2, 1e-4);
 
             var resf = Fit.LineFunc(x, y);
             foreach (var z in Enumerable.Range(-3, 10))
