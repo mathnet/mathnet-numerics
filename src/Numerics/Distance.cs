@@ -39,15 +39,7 @@ namespace MathNet.Numerics
         /// <summary>
         /// Sum of Absolute Difference (SAD), i.e. the L1-norm (Manhattan) of the difference.
         /// </summary>
-        public static double SAD(Vector<double> a, Vector<double> b)
-        {
-            return (a - b).L1Norm();
-        }
-
-        /// <summary>
-        /// Sum of Absolute Difference (SAD), i.e. the L1-norm (Manhattan) of the difference.
-        /// </summary>
-        public static double SAD(Vector<float> a, Vector<float> b)
+        public static double SAD<T>(Vector<T> a, Vector<T> b) where T : struct, IEquatable<T>, IFormattable
         {
             return (a - b).L1Norm();
         }
@@ -85,15 +77,7 @@ namespace MathNet.Numerics
         /// <summary>
         /// Mean-Absolute Error (MAE), i.e. the normalized L1-norm (Manhattan) of the difference.
         /// </summary>
-        public static double MAE(Vector<double> a, Vector<double> b)
-        {
-            return (a - b).L1Norm()/a.Count;
-        }
-
-        /// <summary>
-        /// Mean-Absolute Error (MAE), i.e. the normalized L1-norm (Manhattan) of the difference.
-        /// </summary>
-        public static double MAE(Vector<float> a, Vector<float> b)
+        public static double MAE<T>(Vector<T> a, Vector<T> b) where T : struct, IEquatable<T>, IFormattable
         {
             return (a - b).L1Norm()/a.Count;
         }
@@ -117,16 +101,7 @@ namespace MathNet.Numerics
         /// <summary>
         /// Sum of Squared Difference (SSD), i.e. the squared L2-norm (Euclidean) of the difference.
         /// </summary>
-        public static double SSD(Vector<double> a, Vector<double> b)
-        {
-            var norm = (a - b).L2Norm();
-            return norm*norm;
-        }
-
-        /// <summary>
-        /// Sum of Squared Difference (SSD), i.e. the squared L2-norm (Euclidean) of the difference.
-        /// </summary>
-        public static double SSD(Vector<float> a, Vector<float> b)
+        public static double SSD<T>(Vector<T> a, Vector<T> b) where T : struct, IEquatable<T>, IFormattable
         {
             var norm = (a - b).L2Norm();
             return norm*norm;
@@ -155,16 +130,7 @@ namespace MathNet.Numerics
         /// <summary>
         /// Mean-Squared Error (MSE), i.e. the normalized squared L2-norm (Euclidean) of the difference.
         /// </summary>
-        public static double MSE(Vector<double> a, Vector<double> b)
-        {
-            var norm = (a - b).L2Norm();
-            return norm*norm/a.Count;
-        }
-
-        /// <summary>
-        /// Mean-Squared Error (MSE), i.e. the normalized squared L2-norm (Euclidean) of the difference.
-        /// </summary>
-        public static double MSE(Vector<float> a, Vector<float> b)
+        public static double MSE<T>(Vector<T> a, Vector<T> b) where T : struct, IEquatable<T>, IFormattable
         {
             var norm = (a - b).L2Norm();
             return norm*norm/a.Count;
@@ -189,15 +155,7 @@ namespace MathNet.Numerics
         /// <summary>
         /// Euclidean Distance, i.e. the L2-norm of the difference.
         /// </summary>
-        public static double Euclidean(Vector<double> a, Vector<double> b)
-        {
-            return (a - b).L2Norm();
-        }
-
-        /// <summary>
-        /// Euclidean Distance, i.e. the L2-norm of the difference.
-        /// </summary>
-        public static double Euclidean(Vector<float> a, Vector<float> b)
+        public static double Euclidean<T>(Vector<T> a, Vector<T> b) where T : struct, IEquatable<T>, IFormattable
         {
             return (a - b).L2Norm();
         }
@@ -221,15 +179,7 @@ namespace MathNet.Numerics
         /// <summary>
         /// Manhattan Distance, i.e. the L1-norm of the difference.
         /// </summary>
-        public static double Manhattan(Vector<double> a, Vector<double> b)
-        {
-            return (a - b).L1Norm();
-        }
-
-        /// <summary>
-        /// Manhattan Distance, i.e. the L1-norm of the difference.
-        /// </summary>
-        public static double Manhattan(Vector<float> a, Vector<float> b)
+        public static double Manhattan<T>(Vector<T> a, Vector<T> b) where T : struct, IEquatable<T>, IFormattable
         {
             return (a - b).L1Norm();
         }
@@ -253,15 +203,7 @@ namespace MathNet.Numerics
         /// <summary>
         /// Chebyshev Distance, i.e. the Infinity-norm of the difference.
         /// </summary>
-        public static double Chebyshev(Vector<double> a, Vector<double> b)
-        {
-            return (a - b).InfinityNorm();
-        }
-
-        /// <summary>
-        /// Chebyshev Distance, i.e. the Infinity-norm of the difference.
-        /// </summary>
-        public static double Chebyshev(Vector<float> a, Vector<float> b)
+        public static double Chebyshev<T>(Vector<T> a, Vector<T> b) where T : struct, IEquatable<T>, IFormattable
         {
             return (a - b).InfinityNorm();
         }
