@@ -145,7 +145,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
             double theta = 0;
 
             // Initialize
-            var tau = input.L2Norm().Real;
+            var tau = input.L2Norm();
             Complex rho = tau*tau;
 
             // Calculate the initial values for v
@@ -204,7 +204,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
                 yinternal.Add(temp, d);
 
                 // theta = ||pseudoResiduals||_2 / tau
-                theta = pseudoResiduals.L2Norm().Real/tau;
+                theta = pseudoResiduals.L2Norm()/tau;
                 var c = 1/Math.Sqrt(1 + (theta*theta));
 
                 // tau = tau * theta * c

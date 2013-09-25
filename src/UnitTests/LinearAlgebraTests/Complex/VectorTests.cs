@@ -466,7 +466,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
             var vector = CreateVector(testData);
             var actual = vector.SumMagnitudes();
             var expected = testData.Sum(complex => complex.Magnitude);
-            Assert.AreEqual(expected, actual.Real);
+            Assert.AreEqual(expected, actual);
         }
 
         /// <summary>

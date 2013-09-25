@@ -142,7 +142,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
             float theta = 0;
 
             // Initialize
-            var tau = input.L2Norm();
+            var tau = (float) input.L2Norm();
             var rho = tau*tau;
 
             // Calculate the initial values for v
@@ -201,7 +201,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
                 yinternal.Add(temp, d);
 
                 // theta = ||pseudoResiduals||_2 / tau
-                theta = pseudoResiduals.L2Norm()/tau;
+                theta = (float) pseudoResiduals.L2Norm()/tau;
                 var c = 1/(float) Math.Sqrt(1 + (theta*theta));
 
                 // tau = tau * theta * c

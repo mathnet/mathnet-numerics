@@ -215,7 +215,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers
 
             // Store the infinity norms of both the solution and residual vectors
             // These values will be used to calculate the relative drop in residuals later on.
-            _residualHistory[_residualHistory.Length - 1] = residualVector.InfinityNorm().Real;
+            _residualHistory[_residualHistory.Length - 1] = residualVector.InfinityNorm();
 
             // Check if we have NaN's. If so we've gone way beyond normal divergence.
             // Stop the iteration.

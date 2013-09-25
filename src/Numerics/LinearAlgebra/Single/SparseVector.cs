@@ -718,9 +718,9 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// Calculates the L1 norm of the vector, also known as Manhattan norm.
         /// </summary>
         /// <returns>The sum of the absolute values.</returns>
-        public override float L1Norm()
+        public override double L1Norm()
         {
-            var result = 0f;
+            double result = 0d;
             for (var i = 0; i < _storage.ValueCount; i++)
             {
                 result += Math.Abs(_storage.Values[i]);
@@ -732,7 +732,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// Calculates the infinity norm of the vector.
         /// </summary>
         /// <returns>The square root of the sum of the squared values.</returns>
-        public override float InfinityNorm()
+        public override double InfinityNorm()
         {
             return CommonParallel.Aggregate(0, _storage.ValueCount, i => Math.Abs(_storage.Values[i]), Math.Max, 0f);
         }
@@ -742,25 +742,25 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// </summary>
         /// <param name="p">The p value.</param>
         /// <returns>Scalar <c>ret = ( ∑|this[i]|^p )^(1/p)</c></returns>
-        public override float Norm(double p)
+        public override double Norm(double p)
         {
             if (p < 0d) throw new ArgumentOutOfRangeException("p");
 
             if (_storage.ValueCount == 0)
             {
-                return 0f;
+                return 0d;
             }
 
             if (p == 1d) return L1Norm();
             if (p == 2d) return L2Norm();
             if (double.IsPositiveInfinity(p)) return InfinityNorm();
 
-            var sum = 0d;
+            double sum = 0d;
             for (var index = 0; index < _storage.ValueCount; index++)
             {
                 sum += Math.Pow(Math.Abs(_storage.Values[index]), p);
             }
-            return (float)Math.Pow(sum, 1.0 / p);
+            return Math.Pow(sum, 1.0 / p);
         }
 
         /// <summary>

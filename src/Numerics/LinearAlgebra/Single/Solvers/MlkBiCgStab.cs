@@ -196,7 +196,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
                 result.Add(orthogonalMatrix.Column(i));
 
                 // Normalize the result vector
-                result[i].Multiply(1 / result[i].L2Norm(), result[i]);
+                result[i].Multiply(1/(float) result[i].L2Norm(), result[i]);
             }
 
             return result;

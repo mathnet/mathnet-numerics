@@ -91,10 +91,10 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers
             }
 
             // Store the infinity norms of both the solution and residual vectors
-            var residualNorm = residualVector.InfinityNorm();
-            var solutionNorm = solutionVector.InfinityNorm();
+            double residualNorm = residualVector.InfinityNorm();
+            double solutionNorm = solutionVector.InfinityNorm();
 
-            _status = float.IsNaN(solutionNorm.Real) || float.IsNaN(residualNorm.Real) ? IterationStatus.Failure : IterationStatus.Continue;
+            _status = double.IsNaN(solutionNorm) || double.IsNaN(residualNorm) ? IterationStatus.Failure : IterationStatus.Continue;
 
             _lastIteration = iterationNumber;
             return _status;

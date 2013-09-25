@@ -62,8 +62,8 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
 
             for (var k = 0; k < q.ColumnCount; k++)
             {
-                var norm = q.Column(k).L2Norm();
-                if (norm == 0.0)
+                var norm = (float) q.Column(k).L2Norm();
+                if (norm == 0f)
                 {
                     throw new ArgumentException(Resources.ArgumentMatrixNotRankDeficient);
                 }

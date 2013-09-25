@@ -457,19 +457,19 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// </returns>
         public override Vector<double> Normalize(double p)
         {
-            if (p < 0.0)
+            if (p < 0d)
             {
                 throw new ArgumentOutOfRangeException("p");
             }
 
-            var norm = Norm(p);
+            double norm = Norm(p);
             var clone = Clone();
-            if (norm == 0.0)
+            if (norm == 0d)
             {
                 return clone;
             }
 
-            clone.Multiply(1.0 / norm, clone);
+            clone.Multiply(1d / norm, clone);
 
             return clone;
         }

@@ -209,16 +209,16 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers
             // Store the infinity norms of both the solution and residual vectors
             // These values will be used to calculate the relative drop in residuals
             // later on.
-            var residualNorm = residualVector.InfinityNorm();
+            var residualNorm = (float) residualVector.InfinityNorm();
 
             // Check the residuals by calculating:
             // ||r_i|| <= stop_tol * ||b||
-            var stopCriterium = ComputeStopCriterium(sourceVector.InfinityNorm().Real);
+            var stopCriterium = ComputeStopCriterium((float) sourceVector.InfinityNorm());
 
             // First check that we have real numbers not NaN's.
             // NaN's can occur when the iterative process diverges so we
             // stop if that is the case.
-            if (float.IsNaN(stopCriterium) || float.IsNaN(residualNorm.Real))
+            if (float.IsNaN(stopCriterium) || float.IsNaN(residualNorm))
             {
                 _iterationCount = 0;
                 _status = IterationStatus.Diverged;
@@ -228,7 +228,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers
             // ||r_i|| <= stop_tol * ||b||
             // Stop the calculation if it's clearly smaller than the tolerance
             var decimalMagnitude = Math.Abs(stopCriterium.Magnitude()) + 1;
-            if (residualNorm.Real.IsSmallerWithDecimalPlaces(stopCriterium, decimalMagnitude))
+            if (residualNorm.IsSmallerWithDecimalPlaces(stopCriterium, decimalMagnitude))
             {
                 if (_lastIteration <= iterationNumber)
                 {

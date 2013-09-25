@@ -323,9 +323,9 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// Calculates the L1 norm of the vector, also known as Manhattan norm.
         /// </summary>
         /// <returns>The sum of the absolute values.</returns>
-        public override Complex32 L1Norm()
+        public override double L1Norm()
         {
-            var sum = Complex32.Zero;
+            double sum = 0d;
             for (var i = 0; i < Count; i++)
             {
                 sum += At(i).Magnitude;
@@ -337,16 +337,16 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// Calculates the L2 norm of the vector, also known as Euclidean norm.
         /// </summary>
         /// <returns>The square root of the sum of the squared values.</returns>
-        public override Complex32 L2Norm()
+        public override double L2Norm()
         {
-            return DoConjugateDotProduct(this).SquareRoot();
+            return DoConjugateDotProduct(this).SquareRoot().Real;
         }
 
         /// <summary>
         /// Calculates the infinity norm of the vector.
         /// </summary>
         /// <returns>The square root of the sum of the squared values.</returns>
-        public override Complex32 InfinityNorm()
+        public override double InfinityNorm()
         {
             return CommonParallel.Aggregate(0, Count, i => At(i).Magnitude, Math.Max, 0f);
         }
@@ -360,7 +360,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// <returns>
         /// <c>Scalar ret = ( ∑|At(i)|^p )^(1/p)</c>
         /// </returns>
-        public override Complex32 Norm(double p)
+        public override double Norm(double p)
         {
             if (p < 0d) throw new ArgumentOutOfRangeException("p");
 
@@ -368,12 +368,12 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
             if (p == 2d) return L2Norm();
             if (double.IsPositiveInfinity(p)) return InfinityNorm();
 
-            var sum = 0d;
+            double sum = 0d;
             for (var index = 0; index < Count; index++)
             {
                 sum += Math.Pow(At(index).Magnitude, p);
             }
-            return (float) Math.Pow(sum, 1.0/p);
+            return Math.Pow(sum, 1.0/p);
         }
 
         /// <summary>
@@ -429,19 +429,19 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// </returns>
         public override Vector<Complex32> Normalize(double p)
         {
-            if (p < 0.0)
+            if (p < 0d)
             {
                 throw new ArgumentOutOfRangeException("p");
             }
 
-            var norm = Norm(p);
+            double norm = Norm(p);
             var clone = Clone();
-            if (norm.Real == 0.0f)
+            if (norm == 0d)
             {
                 return clone;
             }
 
-            clone.Multiply(1.0f / norm, clone);
+            clone.Multiply((float)(1d / norm), clone);
 
             return clone;
         }

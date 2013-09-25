@@ -430,7 +430,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers
                     // {
                     //     w(j) = 0
                     // }
-                    if (workVector[j].Magnitude <= _dropTolerance*vectorNorm.Real)
+                    if (workVector[j].Magnitude <= _dropTolerance*vectorNorm)
                     {
                         workVector[j] = 0.0f;
                     }

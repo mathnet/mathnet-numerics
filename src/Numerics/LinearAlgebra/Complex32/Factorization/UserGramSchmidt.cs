@@ -64,8 +64,8 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
 
             for (var k = 0; k < q.ColumnCount; k++)
             {
-                var norm = q.Column(k).L2Norm().Real;
-                if (norm == 0.0f)
+                var norm = (float) q.Column(k).L2Norm();
+                if (norm == 0f)
                 {
                     throw new ArgumentException(Resources.ArgumentMatrixNotRankDeficient);
                 }
@@ -73,7 +73,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
                 r.At(k, k, norm);
                 for (var i = 0; i < q.RowCount; i++)
                 {
-                    q.At(i, k, q.At(i, k) / norm);
+                    q.At(i, k, (q.At(i, k) / norm));
                 }
 
                 for (var j = k + 1; j < q.ColumnCount; j++)

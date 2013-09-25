@@ -608,9 +608,9 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// Calculates the L1 norm of the vector, also known as Manhattan norm.
         /// </summary>
         /// <returns>The sum of the absolute values.</returns>
-        public override float L1Norm()
+        public override double L1Norm()
         {
-            var sum = 0f;
+            double sum = 0d;
             for (var i = 0; i < _length; i++)
             {
                 sum += Math.Abs(_values[i]);
@@ -622,7 +622,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// Calculates the L2 norm of the vector, also known as Euclidean norm.
         /// </summary>
         /// <returns>The square root of the sum of the squared values.</returns>
-        public override float L2Norm()
+        public override double L2Norm()
         {
             // TODO: native provider
             return _values.Aggregate(0f, SpecialFunctions.Hypotenuse);
@@ -632,7 +632,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// Calculates the infinity norm of the vector.
         /// </summary>
         /// <returns>The square root of the sum of the squared values.</returns>
-        public override float InfinityNorm()
+        public override double InfinityNorm()
         {
             return CommonParallel.Aggregate(_values, (i, v) => Math.Abs(v), Math.Max, 0f);
         }
@@ -642,7 +642,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// </summary>
         /// <param name="p">The p value.</param>
         /// <returns>Scalar <c>ret = ( ∑|this[i]|^p )^(1/p)</c></returns>
-        public override float Norm(double p)
+        public override double Norm(double p)
         {
             if (p < 0d) throw new ArgumentOutOfRangeException("p");
 
@@ -650,12 +650,12 @@ namespace MathNet.Numerics.LinearAlgebra.Single
             if (p == 2d) return L2Norm();
             if (double.IsPositiveInfinity(p)) return InfinityNorm();
 
-            var sum = 0d;
+            double sum = 0d;
             for (var index = 0; index < _length; index++)
             {
                 sum += Math.Pow(Math.Abs(_values[index]), p);
             }
-            return (float)Math.Pow(sum, 1.0 / p);
+            return Math.Pow(sum, 1.0 / p);
         }
 
         /// <summary>

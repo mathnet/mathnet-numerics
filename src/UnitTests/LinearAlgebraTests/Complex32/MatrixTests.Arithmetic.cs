@@ -839,7 +839,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
             for (var j = 0; j < result.ColumnCount; j++)
             {
                 var col = result.Column(j);
-                AssertHelpers.AlmostEqual(Complex32.One, col.Norm(p), 6);
+                AssertHelpers.AlmostEqual(1d, col.Norm(p), 6);
             }
         }
 
@@ -864,7 +864,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
             for (var i = 0; i < matrix.RowCount; i++)
             {
                 var row = matrix.Row(i);
-                AssertHelpers.AlmostEqual(Complex32.One, row.Norm(p), 6);
+                AssertHelpers.AlmostEqual(1d, row.Norm(p), 6);
             }
         }
 

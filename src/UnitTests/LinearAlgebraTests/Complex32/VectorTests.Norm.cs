@@ -80,7 +80,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
         public void CanComputeNormP(int p, float expected)
         {
             var vector = CreateVector(Data);
-            AssertHelpers.AlmostEqual(expected, vector.Norm(p).Real, 5);
+            AssertHelpers.AlmostEqual(expected, (float) vector.Norm(p), 5);
         }
 
         /// <summary>
@@ -90,8 +90,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
         public void CanComputeNormInfinity()
         {
             var vector = CreateVector(Data);
-            AssertHelpers.AlmostEqual(5.0990195, vector.InfinityNorm().Real, 7);
-            AssertHelpers.AlmostEqual(5.0990195, vector.Norm(Single.PositiveInfinity).Real, 7);
+            AssertHelpers.AlmostEqual(5.0990195, vector.InfinityNorm(), 7);
+            AssertHelpers.AlmostEqual(5.0990195, vector.Norm(Single.PositiveInfinity), 7);
         }
 
         /// <summary>

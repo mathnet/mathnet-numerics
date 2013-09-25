@@ -552,9 +552,9 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// Calculates the L1 norm of the vector, also known as Manhattan norm.
         /// </summary>
         /// <returns>The sum of the absolute values.</returns>
-        public override Complex L1Norm()
+        public override double L1Norm()
         {
-            var sum = Complex.Zero;
+            double sum = 0d;
             for (var i = 0; i < _length; i++)
             {
                 sum += _values[i].Magnitude;
@@ -566,7 +566,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// Calculates the L2 norm of the vector, also known as Euclidean norm.
         /// </summary>
         /// <returns>The square root of the sum of the squared values.</returns>
-        public override Complex L2Norm()
+        public override double L2Norm()
         {
             // TODO: native provider
             return _values.Aggregate(Complex.Zero, SpecialFunctions.Hypotenuse).Magnitude;
@@ -576,7 +576,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// Calculates the infinity norm of the vector.
         /// </summary>
         /// <returns>The square root of the sum of the squared values.</returns>
-        public override Complex InfinityNorm()
+        public override double InfinityNorm()
         {
             return CommonParallel.Aggregate(_values, (i, v) => v.Magnitude, Math.Max, 0d);
         }
@@ -586,7 +586,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// </summary>
         /// <param name="p">The p value.</param>
         /// <returns>Scalar <c>ret = ( ∑|this[i]|^p )^(1/p)</c></returns>
-        public override Complex Norm(double p)
+        public override double Norm(double p)
         {
             if (p < 0d) throw new ArgumentOutOfRangeException("p");
 
@@ -594,7 +594,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
             if (p == 2d) return L2Norm();
             if (double.IsPositiveInfinity(p)) return InfinityNorm();
 
-            var sum = 0d;
+            double sum = 0d;
             for (var i = 0; i < _length; i++)
             {
                 sum += Math.Pow(_values[i].Magnitude, p);

@@ -47,7 +47,7 @@ namespace MathNet.Numerics
         /// <summary>
         /// Sum of Absolute Difference (SAD), i.e. the L1-norm (Manhattan) of the difference.
         /// </summary>
-        public static float SAD(Vector<float> a, Vector<float> b)
+        public static double SAD(Vector<float> a, Vector<float> b)
         {
             return (a - b).L1Norm();
         }
@@ -59,7 +59,7 @@ namespace MathNet.Numerics
         {
             if (a.Length != b.Length) throw new ArgumentException(Resources.ArgumentVectorsSameLength);
 
-            var sum = 0d;
+            double sum = 0d;
             for (var i = 0; i < a.Length; i++)
             {
                 sum += Math.Abs(a[i] - b[i]);
@@ -74,7 +74,7 @@ namespace MathNet.Numerics
         {
             if (a.Length != b.Length) throw new ArgumentException(Resources.ArgumentVectorsSameLength);
 
-            var sum = 0f;
+            float sum = 0f;
             for (var i = 0; i < a.Length; i++)
             {
                 sum += Math.Abs(a[i] - b[i]);
@@ -93,7 +93,7 @@ namespace MathNet.Numerics
         /// <summary>
         /// Mean-Absolute Error (MAE), i.e. the normalized L1-norm (Manhattan) of the difference.
         /// </summary>
-        public static float MAE(Vector<float> a, Vector<float> b)
+        public static double MAE(Vector<float> a, Vector<float> b)
         {
             return (a - b).L1Norm()/a.Count;
         }
@@ -126,7 +126,7 @@ namespace MathNet.Numerics
         /// <summary>
         /// Sum of Squared Difference (SSD), i.e. the squared L2-norm (Euclidean) of the difference.
         /// </summary>
-        public static float SSD(Vector<float> a, Vector<float> b)
+        public static double SSD(Vector<float> a, Vector<float> b)
         {
             var norm = (a - b).L2Norm();
             return norm*norm;
@@ -164,7 +164,7 @@ namespace MathNet.Numerics
         /// <summary>
         /// Mean-Squared Error (MSE), i.e. the normalized squared L2-norm (Euclidean) of the difference.
         /// </summary>
-        public static float MSE(Vector<float> a, Vector<float> b)
+        public static double MSE(Vector<float> a, Vector<float> b)
         {
             var norm = (a - b).L2Norm();
             return norm*norm/a.Count;
@@ -197,7 +197,7 @@ namespace MathNet.Numerics
         /// <summary>
         /// Euclidean Distance, i.e. the L2-norm of the difference.
         /// </summary>
-        public static float Euclidean(Vector<float> a, Vector<float> b)
+        public static double Euclidean(Vector<float> a, Vector<float> b)
         {
             return (a - b).L2Norm();
         }
@@ -229,7 +229,7 @@ namespace MathNet.Numerics
         /// <summary>
         /// Manhattan Distance, i.e. the L1-norm of the difference.
         /// </summary>
-        public static float Manhattan(Vector<float> a, Vector<float> b)
+        public static double Manhattan(Vector<float> a, Vector<float> b)
         {
             return (a - b).L1Norm();
         }
@@ -261,7 +261,7 @@ namespace MathNet.Numerics
         /// <summary>
         /// Chebyshev Distance, i.e. the Infinity-norm of the difference.
         /// </summary>
-        public static float Chebyshev(Vector<float> a, Vector<float> b)
+        public static double Chebyshev(Vector<float> a, Vector<float> b)
         {
             return (a - b).InfinityNorm();
         }
@@ -272,7 +272,7 @@ namespace MathNet.Numerics
         public static double Chebyshev(double[] a, double[] b)
         {
             if (a.Length != b.Length) throw new ArgumentOutOfRangeException("b");
-            var max = Math.Abs(a[0] - b[0]);
+            double max = Math.Abs(a[0] - b[0]);
             for (int i = 1; i < a.Length; i++)
             {
                 var next = Math.Abs(a[i] - b[i]);
@@ -290,7 +290,7 @@ namespace MathNet.Numerics
         public static float Chebyshev(float[] a, float[] b)
         {
             if (a.Length != b.Length) throw new ArgumentOutOfRangeException("b");
-            var max = Math.Abs(a[0] - b[0]);
+            float max = Math.Abs(a[0] - b[0]);
             for (int i = 1; i < a.Length; i++)
             {
                 var next = Math.Abs(a[i] - b[i]);

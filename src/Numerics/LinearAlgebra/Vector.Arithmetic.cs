@@ -748,26 +748,26 @@ namespace MathNet.Numerics.LinearAlgebra
         /// Calculates the L1 norm of the vector, also known as Manhattan norm.
         /// </summary>
         /// <returns>The sum of the absolute values.</returns>
-        public abstract T L1Norm();
+        public abstract double L1Norm();
 
         /// <summary>
         /// Calculates the L2 norm of the vector, also known as Euclidean norm.
         /// </summary>
         /// <returns>The square root of the sum of the squared values.</returns>
-        public abstract T L2Norm();
+        public abstract double L2Norm();
 
         /// <summary>
         /// Calculates the infinity norm of the vector.
         /// </summary>
         /// <returns>The square root of the sum of the squared values.</returns>
-        public abstract T InfinityNorm();
+        public abstract double InfinityNorm();
 
         /// <summary>
         /// Computes the p-Norm.
         /// </summary>
         /// <param name="p">The p value.</param>
         /// <returns><c>Scalar ret = (sum(abs(this[i])^p))^(1/p)</c></returns>
-        public abstract T Norm(double p);
+        public abstract double Norm(double p);
 
         /// <summary>
         /// Normalizes this vector to a unit vector with respect to the p-norm.
@@ -840,7 +840,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// Computes the sum of the absolute value of the vector's elements.
         /// </summary>
         /// <returns>The sum of the absolute value of the vector's elements.</returns>
-        public T SumMagnitudes()
+        public double SumMagnitudes()
         {
             return L1Norm();
         }
