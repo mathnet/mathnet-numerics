@@ -272,7 +272,7 @@ module SparseVector =
     let inline init (n: int) (f: int -> 'T) = Vector<'T>.Build.SparseVector(n, f)
 
     /// Create a sparse vector from a float array.
-    let inline ofArray (fl: 'T array) = Vector<'T>.Build.SparseVectorOfEnumerable(Seq.ofArray fl)
+    let inline ofArray (fl: 'T array) = Vector<'T>.Build.SparseVectorOfEnumerable(fl :> seq<'T>)
 
     /// Create a sparse vector from a float list.
     let inline ofList (fl: 'T list) = Vector<'T>.Build.SparseVectorOfEnumerable(Seq.ofList fl)

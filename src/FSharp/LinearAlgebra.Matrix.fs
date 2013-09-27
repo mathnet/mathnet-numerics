@@ -346,19 +346,6 @@ module Matrix =
 
 
 
-// Workaround an issue when passing generic arguments to a params-array. Get rid of this once we're on F# > 3.1.
-type internal ParamsInvokeWorkaround<'T when 'T : (new: unit -> 'T) and 'T: struct and 'T :> ValueType and 'T :> IEquatable<'T> and 'T :> IFormattable> private ()=
-    static let build = Matrix<'T>.Build
-    static let dr = Delegate.CreateDelegate(typeof<Func<'T[][],Matrix<'T>>>, build, typeof<Builder<'T>>.GetMethod("DenseMatrixOfRowArrays")) :?> Func<'T[][],Matrix<'T>>
-    static let dc = Delegate.CreateDelegate(typeof<Func<'T[][],Matrix<'T>>>, build, typeof<Builder<'T>>.GetMethod("DenseMatrixOfColumnArrays")) :?> Func<'T[][],Matrix<'T>>
-    static let sr = Delegate.CreateDelegate(typeof<Func<'T[][],Matrix<'T>>>, build, typeof<Builder<'T>>.GetMethod("SparseMatrixOfRowArrays")) :?> Func<'T[][],Matrix<'T>>
-    static let sc = Delegate.CreateDelegate(typeof<Func<'T[][],Matrix<'T>>>, build, typeof<Builder<'T>>.GetMethod("SparseMatrixOfColumnArrays")) :?> Func<'T[][],Matrix<'T>>
-    static member DenseMatrixOfRowArrays(array) = dr.Invoke array
-    static member DenseMatrixOfColumnArrays(array) = dc.Invoke array
-    static member SparseMatrixOfRowArrays(array) = sr.Invoke array
-    static member SparseMatrixOfColumnArrays(array) = sc.Invoke array
-
-
 /// A module which helps constructing generic dense matrices.
 [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
 module DenseMatrix =
@@ -400,7 +387,7 @@ module DenseMatrix =
     let inline ofRows (rows: Vector<'T> list) = Matrix<'T>.Build.DenseMatrixOfRowVectors(Array.ofList rows)
 
     /// Create a matrix from a list of row arrays.
-    let ofRowArrays (rows: 'T[][]) = ParamsInvokeWorkaround<'T>.DenseMatrixOfRowArrays(rows)
+    let inline ofRowArrays (rows: 'T[][]) = Matrix<'T>.Build.DenseMatrixOfRowArrays(rows :> seq<'T[]>) // workaround params issue - impl detects it's actually an array
 
     /// Create a matrix from a list of float lists. Every list in the master list specifies a row.
     let inline ofRowList (rows: 'T list list) = rows |> List.map List.toArray |> List.toArray |> ofRowArrays
@@ -415,7 +402,7 @@ module DenseMatrix =
     let inline ofColumns (columns: Vector<'T> list) = Matrix<'T>.Build.DenseMatrixOfColumnVectors(Array.ofList columns)
 
     /// Create a matrix from a list of column arrays.
-    let ofColumnArrays (columns: 'T[][]) = ParamsInvokeWorkaround<'T>.DenseMatrixOfColumnArrays(columns)
+    let inline ofColumnArrays (columns: 'T[][]) = Matrix<'T>.Build.DenseMatrixOfColumnArrays(columns :> seq<'T[]>) // workaround params issue - impl detects it's actually an array
 
     /// Create a matrix from a list of float lists. Every list in the master list specifies a column.
     let inline ofColumnList (columns: 'T list list) = columns |> List.map List.toArray |> List.toArray |> ofColumnArrays
@@ -480,7 +467,7 @@ module SparseMatrix =
     let inline ofRows (rows: Vector<'T> list) = Matrix<'T>.Build.SparseMatrixOfRowVectors(Array.ofList rows)
 
     /// Create a matrix from a list of row arrays.
-    let ofRowArrays (rows: 'T[][]) = ParamsInvokeWorkaround<'T>.SparseMatrixOfRowArrays(rows)
+    let inline ofRowArrays (rows: 'T[][]) = Matrix<'T>.Build.SparseMatrixOfRowArrays(rows :> seq<'T[]>) // workaround params issue - impl detects it's actually an array
 
     /// Create a matrix from a list of float lists. Every list in the master list specifies a row.
     let inline ofRowList (rows: 'T list list) = rows |> List.map List.toArray |> List.toArray |> ofRowArrays
@@ -495,7 +482,7 @@ module SparseMatrix =
     let inline ofColumns (columns: Vector<'T> list) = Matrix<'T>.Build.SparseMatrixOfColumnVectors(Array.ofList columns)
 
     /// Create a matrix from a list of column arrays.
-    let ofColumnArrays (columns: 'T[][]) = ParamsInvokeWorkaround<'T>.SparseMatrixOfColumnArrays(columns)
+    let inline ofColumnArrays (columns: 'T[][]) = Matrix<'T>.Build.SparseMatrixOfColumnArrays(columns :> seq<'T[]>) // workaround params issue - impl detects it's actually an array
 
     /// Create a matrix from a list of float lists. Every list in the master list specifies a column.
     let inline ofColumnList (columns: 'T list list) = columns |> List.map List.toArray |> List.toArray |> ofColumnArrays

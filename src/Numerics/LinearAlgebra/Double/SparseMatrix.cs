@@ -178,6 +178,16 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         }
 
         /// <summary>
+        /// Create a new sparse matrix as a copy of the given column arrays.
+        /// This new matrix will be independent from the arrays.
+        /// A new memory block will be allocated for storing the matrix.
+        /// </summary>
+        public static SparseMatrix OfColumnArrays(IEnumerable<double[]> columns)
+        {
+            return new SparseMatrix(SparseCompressedRowMatrixStorage<double>.OfColumnArrays((columns as double[][]) ?? columns.ToArray()));
+        }
+
+        /// <summary>
         /// Create a new sparse matrix as a copy of the given column vectors.
         /// This new matrix will be independent from the vectors.
         /// A new memory block will be allocated for storing the matrix.
@@ -190,6 +200,16 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 storage[i] = columns[i].Storage;
             }
             return new SparseMatrix(SparseCompressedRowMatrixStorage<double>.OfColumnVectors(storage));
+        }
+
+        /// <summary>
+        /// Create a new sparse matrix as a copy of the given column vectors.
+        /// This new matrix will be independent from the vectors.
+        /// A new memory block will be allocated for storing the matrix.
+        /// </summary>
+        public static SparseMatrix OfColumnVectors(IEnumerable<Vector<double>> columns)
+        {
+            return new SparseMatrix(SparseCompressedRowMatrixStorage<double>.OfColumnVectors(columns.Select(c => c.Storage).ToArray()));
         }
 
         /// <summary>
@@ -225,6 +245,16 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         }
 
         /// <summary>
+        /// Create a new sparse matrix as a copy of the given row arrays.
+        /// This new matrix will be independent from the arrays.
+        /// A new memory block will be allocated for storing the matrix.
+        /// </summary>
+        public static SparseMatrix OfRowArrays(IEnumerable<double[]> rows)
+        {
+            return new SparseMatrix(SparseCompressedRowMatrixStorage<double>.OfRowArrays((rows as double[][]) ?? rows.ToArray()));
+        }
+
+        /// <summary>
         /// Create a new sparse matrix as a copy of the given row vectors.
         /// This new matrix will be independent from the vectors.
         /// A new memory block will be allocated for storing the matrix.
@@ -237,6 +267,16 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 storage[i] = rows[i].Storage;
             }
             return new SparseMatrix(SparseCompressedRowMatrixStorage<double>.OfRowVectors(storage));
+        }
+
+        /// <summary>
+        /// Create a new sparse matrix as a copy of the given row vectors.
+        /// This new matrix will be independent from the vectors.
+        /// A new memory block will be allocated for storing the matrix.
+        /// </summary>
+        public static SparseMatrix OfRowVectors(IEnumerable<Vector<double>> rows)
+        {
+            return new SparseMatrix(SparseCompressedRowMatrixStorage<double>.OfRowVectors(rows.Select(r => r.Storage).ToArray()));
         }
 
         /// <summary>

@@ -501,6 +501,16 @@ namespace MathNet.Numerics.LinearAlgebra
         }
 
         /// <summary>
+        /// Create a new dense matrix of T as a copy of the given column arrays.
+        /// This new matrix will be independent from the arrays.
+        /// A new memory block will be allocated for storing the matrix.
+        /// </summary>
+        public Matrix<T> DenseMatrixOfColumnArrays(IEnumerable<T[]> columns)
+        {
+            return DenseMatrix(DenseColumnMajorMatrixStorage<T>.OfColumnArrays((columns as T[][]) ?? columns.ToArray()));
+        }
+
+        /// <summary>
         /// Create a new dense matrix as a copy of the given column vectors.
         /// This new matrix will be independent from the vectors.
         /// A new memory block will be allocated for storing the matrix.
@@ -513,6 +523,16 @@ namespace MathNet.Numerics.LinearAlgebra
                 storage[i] = columns[i].Storage;
             }
             return DenseMatrix(DenseColumnMajorMatrixStorage<T>.OfColumnVectors(storage));
+        }
+
+        /// <summary>
+        /// Create a new dense matrix as a copy of the given column vectors.
+        /// This new matrix will be independent from the vectors.
+        /// A new memory block will be allocated for storing the matrix.
+        /// </summary>
+        public Matrix<T> DenseMatrixOfColumnVectors(IEnumerable<Vector<T>> columns)
+        {
+            return DenseMatrix(DenseColumnMajorMatrixStorage<T>.OfColumnVectors(columns.Select(c => c.Storage).ToArray()));
         }
 
         /// <summary>
@@ -548,6 +568,16 @@ namespace MathNet.Numerics.LinearAlgebra
         }
 
         /// <summary>
+        /// Create a new dense matrix of T as a copy of the given row arrays.
+        /// This new matrix will be independent from the arrays.
+        /// A new memory block will be allocated for storing the matrix.
+        /// </summary>
+        public Matrix<T> DenseMatrixOfRowArrays(IEnumerable<T[]> rows)
+        {
+            return DenseMatrix(DenseColumnMajorMatrixStorage<T>.OfRowArrays((rows as T[][]) ?? rows.ToArray()));
+        }
+
+        /// <summary>
         /// Create a new dense matrix as a copy of the given row vectors.
         /// This new matrix will be independent from the vectors.
         /// A new memory block will be allocated for storing the matrix.
@@ -560,6 +590,16 @@ namespace MathNet.Numerics.LinearAlgebra
                 storage[i] = rows[i].Storage;
             }
             return DenseMatrix(DenseColumnMajorMatrixStorage<T>.OfRowVectors(storage));
+        }
+
+        /// <summary>
+        /// Create a new dense matrix as a copy of the given row vectors.
+        /// This new matrix will be independent from the vectors.
+        /// A new memory block will be allocated for storing the matrix.
+        /// </summary>
+        public Matrix<T> DenseMatrixOfRowVectors(IEnumerable<Vector<T>> rows)
+        {
+            return DenseMatrix(DenseColumnMajorMatrixStorage<T>.OfRowVectors(rows.Select(r => r.Storage).ToArray()));
         }
 
         /// <summary>
@@ -750,6 +790,16 @@ namespace MathNet.Numerics.LinearAlgebra
         }
 
         /// <summary>
+        /// Create a new sparse matrix as a copy of the given column arrays.
+        /// This new matrix will be independent from the arrays.
+        /// A new memory block will be allocated for storing the matrix.
+        /// </summary>
+        public Matrix<T> SparseMatrixOfColumnArrays(IEnumerable<T[]> columns)
+        {
+            return SparseMatrix(SparseCompressedRowMatrixStorage<T>.OfColumnArrays((columns as T[][]) ?? columns.ToArray()));
+        }
+
+        /// <summary>
         /// Create a new sparse matrix as a copy of the given column vectors.
         /// This new matrix will be independent from the vectors.
         /// A new memory block will be allocated for storing the matrix.
@@ -762,6 +812,16 @@ namespace MathNet.Numerics.LinearAlgebra
                 storage[i] = columns[i].Storage;
             }
             return SparseMatrix(SparseCompressedRowMatrixStorage<T>.OfColumnVectors(storage));
+        }
+
+        /// <summary>
+        /// Create a new sparse matrix as a copy of the given column vectors.
+        /// This new matrix will be independent from the vectors.
+        /// A new memory block will be allocated for storing the matrix.
+        /// </summary>
+        public Matrix<T> SparseMatrixOfColumnVectors(IEnumerable<Vector<T>> columns)
+        {
+            return SparseMatrix(SparseCompressedRowMatrixStorage<T>.OfColumnVectors(columns.Select(c => c.Storage).ToArray()));
         }
 
         /// <summary>
@@ -797,6 +857,16 @@ namespace MathNet.Numerics.LinearAlgebra
         }
 
         /// <summary>
+        /// Create a new sparse matrix as a copy of the given row arrays.
+        /// This new matrix will be independent from the arrays.
+        /// A new memory block will be allocated for storing the matrix.
+        /// </summary>
+        public Matrix<T> SparseMatrixOfRowArrays(IEnumerable<T[]> rows)
+        {
+            return SparseMatrix(SparseCompressedRowMatrixStorage<T>.OfRowArrays((rows as T[][]) ?? rows.ToArray()));
+        }
+
+        /// <summary>
         /// Create a new sparse matrix as a copy of the given row vectors.
         /// This new matrix will be independent from the vectors.
         /// A new memory block will be allocated for storing the matrix.
@@ -809,6 +879,16 @@ namespace MathNet.Numerics.LinearAlgebra
                 storage[i] = rows[i].Storage;
             }
             return SparseMatrix(SparseCompressedRowMatrixStorage<T>.OfRowVectors(storage));
+        }
+
+        /// <summary>
+        /// Create a new sparse matrix as a copy of the given row vectors.
+        /// This new matrix will be independent from the vectors.
+        /// A new memory block will be allocated for storing the matrix.
+        /// </summary>
+        public Matrix<T> SparseMatrixOfRowVectors(IEnumerable<Vector<T>> rows)
+        {
+            return SparseMatrix(SparseCompressedRowMatrixStorage<T>.OfRowVectors(rows.Select(r => r.Storage).ToArray()));
         }
 
         /// <summary>
