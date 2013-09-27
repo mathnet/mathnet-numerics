@@ -70,12 +70,12 @@ namespace MathNet.Numerics.LinearRegression
         /// <returns>Best fitting list of model parameters β for each element in the predictor-arrays.</returns>
         public static T[] NormalEquations<T>(T[][] x, T[] y, bool intercept = false) where T : struct, IEquatable<T>, IFormattable
         {
-            var predictor = Matrix<T>.Build.DenseMatrixOfRowArrays(x);
+            var predictor = Matrix<T>.Build.DenseOfRowArrays(x);
             if (intercept)
             {
-                predictor = predictor.InsertColumn(0, Vector<T>.Build.DenseVector(predictor.RowCount, Vector<T>.One));
+                predictor = predictor.InsertColumn(0, Vector<T>.Build.Dense(predictor.RowCount, Vector<T>.One));
             }
-            var response = Matrix<T>.Build.DenseVector(y);
+            var response = Vector<T>.Build.Dense(y);
             return predictor.TransposeThisAndMultiply(predictor).Cholesky().Solve(predictor.Transpose()*response).ToArray();
         }
 
@@ -126,12 +126,12 @@ namespace MathNet.Numerics.LinearRegression
         /// <returns>Best fitting list of model parameters β for each element in the predictor-arrays.</returns>
         public static T[] QR<T>(T[][] x, T[] y, bool intercept = false) where T : struct, IEquatable<T>, IFormattable
         {
-            var predictor = Matrix<T>.Build.DenseMatrixOfRowArrays(x);
+            var predictor = Matrix<T>.Build.DenseOfRowArrays(x);
             if (intercept)
             {
-                predictor = predictor.InsertColumn(0, Vector<T>.Build.DenseVector(predictor.RowCount, Vector<T>.One));
+                predictor = predictor.InsertColumn(0, Vector<T>.Build.Dense(predictor.RowCount, Vector<T>.One));
             }
-            return predictor.QR().Solve(Matrix<T>.Build.DenseVector(y)).ToArray();
+            return predictor.QR().Solve(Vector<T>.Build.Dense(y)).ToArray();
         }
 
         /// <summary>
@@ -181,12 +181,12 @@ namespace MathNet.Numerics.LinearRegression
         /// <returns>Best fitting list of model parameters β for each element in the predictor-arrays.</returns>
         public static T[] Svd<T>(T[][] x, T[] y, bool intercept = false) where T : struct, IEquatable<T>, IFormattable
         {
-            var predictor = Matrix<T>.Build.DenseMatrixOfRowArrays(x);
+            var predictor = Matrix<T>.Build.DenseOfRowArrays(x);
             if (intercept)
             {
-                predictor = predictor.InsertColumn(0, Vector<T>.Build.DenseVector(predictor.RowCount, Vector<T>.One));
+                predictor = predictor.InsertColumn(0, Vector<T>.Build.Dense(predictor.RowCount, Vector<T>.One));
             }
-            return predictor.Svd().Solve(Matrix<T>.Build.DenseVector(y)).ToArray();
+            return predictor.Svd().Solve(Vector<T>.Build.Dense(y)).ToArray();
         }
 
         /// <summary>

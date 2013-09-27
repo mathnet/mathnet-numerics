@@ -351,43 +351,43 @@ module Matrix =
 module DenseMatrix =
 
     /// Create a matrix that directly binds to a raw storage array in column-major (column by column) format, without copying.
-    let inline raw (rows: int) (cols: int) (columnMajor: 'T[]) = Matrix<'T>.Build.DenseMatrix(rows, cols, columnMajor)
+    let inline raw (rows: int) (cols: int) (columnMajor: 'T[]) = Matrix<'T>.Build.Dense(rows, cols, columnMajor)
 
     /// Create an all-zero matrix with the given dimension.
-    let inline zeroCreate (rows: int) (cols: int) = Matrix<'T>.Build.DenseMatrix(rows, cols)
+    let inline zeroCreate (rows: int) (cols: int) = Matrix<'T>.Build.Dense(rows, cols)
 
     /// Create a random matrix with the given dimension and value distribution.
-    let inline randomCreate (rows: int) (cols: int) dist = Matrix<'T>.Build.DenseMatrixRandom(rows, cols, dist)
+    let inline randomCreate (rows: int) (cols: int) dist = Matrix<'T>.Build.DenseRandom(rows, cols, dist)
 
     /// Create a matrix with the given dimension and set all values to x.
-    let inline create (rows: int) (cols: int) (x: 'T) = Matrix<'T>.Build.DenseMatrix(rows, cols, x)
+    let inline create (rows: int) (cols: int) (x: 'T) = Matrix<'T>.Build.Dense(rows, cols, x)
 
     /// Create a matrix with the given dimension and set all diagonal values to x. All other values are zero.
-    let inline createDiag (rows: int) (cols: int) (x: 'T) = Matrix<'T>.Build.DenseMatrixDiagonal(rows, cols, x)
+    let inline createDiag (rows: int) (cols: int) (x: 'T) = Matrix<'T>.Build.DenseDiagonal(rows, cols, x)
 
     /// Initialize a matrix by calling a construction function for every element.
-    let inline init (rows: int) (cols: int) (f: int -> int -> 'T) = Matrix<'T>.Build.DenseMatrix(rows, cols, fun i j -> f i j)
+    let inline init (rows: int) (cols: int) (f: int -> int -> 'T) = Matrix<'T>.Build.Dense(rows, cols, fun i j -> f i j)
 
     /// Initialize a matrix by calling a construction function for every row.
-    let inline initRows (rows: int) (f: int -> Vector<'T>) = Matrix<'T>.Build.DenseMatrixOfRowVectors(Array.init rows f)
+    let inline initRows (rows: int) (f: int -> Vector<'T>) = Matrix<'T>.Build.DenseOfRowVectors(Array.init rows f)
 
     /// Initialize a matrix by calling a construction function for every column.
-    let inline initColumns (cols: int) (f: int -> Vector<'T>) = Matrix<'T>.Build.DenseMatrixOfColumnVectors(Array.init cols f)
+    let inline initColumns (cols: int) (f: int -> Vector<'T>) = Matrix<'T>.Build.DenseOfColumnVectors(Array.init cols f)
 
     /// Initialize a matrix by calling a construction function for every diagonal element. All other values are zero.
-    let inline initDiag (rows: int) (cols: int) (f: int -> 'T) = Matrix<'T>.Build.DenseMatrixDiagonal(rows, cols, f)
+    let inline initDiag (rows: int) (cols: int) (f: int -> 'T) = Matrix<'T>.Build.DenseDiagonal(rows, cols, f)
 
     /// Create an identity matrix with the given dimension.
     let inline identity (rows: int) (cols: int) = createDiag rows cols Matrix<'T>.Build.One
 
     /// Create a matrix from a 2D array of floating point numbers.
-    let inline ofArray2 array = Matrix<'T>.Build.DenseMatrixOfArray(array)
+    let inline ofArray2 array = Matrix<'T>.Build.DenseOfArray(array)
 
     /// Create a matrix from a list of row vectors.
-    let inline ofRows (rows: Vector<'T> list) = Matrix<'T>.Build.DenseMatrixOfRowVectors(Array.ofList rows)
+    let inline ofRows (rows: Vector<'T> list) = Matrix<'T>.Build.DenseOfRowVectors(Array.ofList rows)
 
     /// Create a matrix from a list of row arrays.
-    let inline ofRowArrays (rows: 'T[][]) = Matrix<'T>.Build.DenseMatrixOfRowArrays(rows :> seq<'T[]>) // workaround params issue - impl detects it's actually an array
+    let inline ofRowArrays (rows: 'T[][]) = Matrix<'T>.Build.DenseOfRowArrays(rows :> seq<'T[]>) // workaround params issue - impl detects it's actually an array
 
     /// Create a matrix from a list of float lists. Every list in the master list specifies a row.
     let inline ofRowList (rows: 'T list list) = rows |> List.map List.toArray |> List.toArray |> ofRowArrays
@@ -396,13 +396,13 @@ module DenseMatrix =
     let inline ofRowSeq (rows: #seq<#seq<'T>>) = rows |> Seq.map Seq.toArray |> Seq.toArray |> ofRowArrays
 
     /// Create a matrix from a list of sequences. Every sequence in the master sequence specifies a row.
-    let inline ofRowSeq2 (rows: int) (cols: int) (seqOfRows: #seq<seq<'T>>) = Matrix<'T>.Build.DenseMatrixOfRows(rows, cols, seqOfRows)
+    let inline ofRowSeq2 (rows: int) (cols: int) (seqOfRows: #seq<seq<'T>>) = Matrix<'T>.Build.DenseOfRows(rows, cols, seqOfRows)
 
     /// Create a matrix from a list of column vectors.
-    let inline ofColumns (columns: Vector<'T> list) = Matrix<'T>.Build.DenseMatrixOfColumnVectors(Array.ofList columns)
+    let inline ofColumns (columns: Vector<'T> list) = Matrix<'T>.Build.DenseOfColumnVectors(Array.ofList columns)
 
     /// Create a matrix from a list of column arrays.
-    let inline ofColumnArrays (columns: 'T[][]) = Matrix<'T>.Build.DenseMatrixOfColumnArrays(columns :> seq<'T[]>) // workaround params issue - impl detects it's actually an array
+    let inline ofColumnArrays (columns: 'T[][]) = Matrix<'T>.Build.DenseOfColumnArrays(columns :> seq<'T[]>) // workaround params issue - impl detects it's actually an array
 
     /// Create a matrix from a list of float lists. Every list in the master list specifies a column.
     let inline ofColumnList (columns: 'T list list) = columns |> List.map List.toArray |> List.toArray |> ofColumnArrays
@@ -411,25 +411,25 @@ module DenseMatrix =
     let inline ofColumnSeq (columns: #seq<#seq<'T>>) = columns |> Seq.map Seq.toArray |> Seq.toArray |> ofColumnArrays
 
     /// Create a matrix from a list of sequences. Every sequence in the master sequence specifies a column.
-    let inline ofColumnSeq2 (rows: int) (cols: int) (seqOfCols: #seq<seq<'T>>) = Matrix<'T>.Build.DenseMatrixOfColumns(rows, cols, seqOfCols)
+    let inline ofColumnSeq2 (rows: int) (cols: int) (seqOfCols: #seq<seq<'T>>) = Matrix<'T>.Build.DenseOfColumns(rows, cols, seqOfCols)
 
     /// Create a matrix with a given dimension from an indexed list of row, column, value tuples.
-    let inline ofListi (rows: int) (cols: int) (indexed: list<int * int * 'T>) = Matrix<'T>.Build.DenseMatrixOfIndexed(rows, cols, Seq.ofList indexed)
+    let inline ofListi (rows: int) (cols: int) (indexed: list<int * int * 'T>) = Matrix<'T>.Build.DenseOfIndexed(rows, cols, Seq.ofList indexed)
 
     /// Create a matrix with a given dimension from an indexed sequences of row, column, value tuples.
-    let inline ofSeqi (rows: int) (cols: int) (indexed: #seq<int * int * 'T>) = Matrix<'T>.Build.DenseMatrixOfIndexed(rows, cols, indexed)
+    let inline ofSeqi (rows: int) (cols: int) (indexed: #seq<int * int * 'T>) = Matrix<'T>.Build.DenseOfIndexed(rows, cols, indexed)
 
     /// Create a square matrix with the vector elements on the diagonal.
-    let inline ofDiag (v: Vector<'T>) = Matrix<'T>.Build.DenseMatrixOfDiagonalVector(v)
+    let inline ofDiag (v: Vector<'T>) = Matrix<'T>.Build.DenseOfDiagonalVector(v)
 
     /// Create a matrix with the vector elements on the diagonal.
-    let inline ofDiag2 (rows: int) (cols: int) (v: Vector<'T>) = Matrix<'T>.Build.DenseMatrixOfDiagonalVector(rows, cols, v)
+    let inline ofDiag2 (rows: int) (cols: int) (v: Vector<'T>) = Matrix<'T>.Build.DenseOfDiagonalVector(rows, cols, v)
 
     /// Create a square matrix with the array elements on the diagonal.
-    let inline ofDiagArray (array: 'T array) = Matrix<'T>.Build.DenseMatrixOfDiagonalArray(array)
+    let inline ofDiagArray (array: 'T array) = Matrix<'T>.Build.DenseOfDiagonalArray(array)
 
     /// Create a matrix with the array elements on the diagonal.
-    let inline ofDiagArray2 (rows: int) (cols: int) (array: 'T array) = Matrix<'T>.Build.DenseMatrixOfDiagonalArray(rows, cols, array)
+    let inline ofDiagArray2 (rows: int) (cols: int) (array: 'T array) = Matrix<'T>.Build.DenseOfDiagonalArray(rows, cols, array)
 
 
 /// A module which helps constructing generic sparse matrices.
@@ -437,37 +437,37 @@ module DenseMatrix =
 module SparseMatrix =
 
     /// Create an all-zero matrix with the given dimension.
-    let inline zeroCreate (rows: int) (cols: int) = Matrix<'T>.Build.SparseMatrix(rows, cols)
+    let inline zeroCreate (rows: int) (cols: int) = Matrix<'T>.Build.Sparse(rows, cols)
 
     /// Create a matrix with the given dimension and set all values to x. Note that a dense matrix would likely be more appropriate.
-    let inline create (rows: int) (cols: int) (x: 'T) = Matrix<'T>.Build.SparseMatrix(rows, cols, x)
+    let inline create (rows: int) (cols: int) (x: 'T) = Matrix<'T>.Build.Sparse(rows, cols, x)
 
     /// Create a matrix with the given dimension and set all diagonal values to x. All other values are zero.
-    let inline createDiag (rows: int) (cols: int) (x: 'T) = Matrix<'T>.Build.SparseMatrixDiagonal(rows, cols, x)
+    let inline createDiag (rows: int) (cols: int) (x: 'T) = Matrix<'T>.Build.SparseDiagonal(rows, cols, x)
 
     /// Initialize a matrix by calling a construction function for every element.
-    let inline init (rows: int) (cols: int) (f: int -> int -> 'T) = Matrix<'T>.Build.SparseMatrix(rows, cols, fun n m -> f n m)
+    let inline init (rows: int) (cols: int) (f: int -> int -> 'T) = Matrix<'T>.Build.Sparse(rows, cols, fun n m -> f n m)
 
     /// Initialize a matrix by calling a construction function for every row.
-    let inline initRows (rows: int) (f: int -> Vector<'T>) = Matrix<'T>.Build.SparseMatrixOfRowVectors(Array.init rows f)
+    let inline initRows (rows: int) (f: int -> Vector<'T>) = Matrix<'T>.Build.SparseOfRowVectors(Array.init rows f)
 
     /// Initialize a matrix by calling a construction function for every column.
-    let inline initColumns (cols: int) (f: int -> Vector<'T>) = Matrix<'T>.Build.SparseMatrixOfColumnVectors(Array.init cols f)
+    let inline initColumns (cols: int) (f: int -> Vector<'T>) = Matrix<'T>.Build.SparseOfColumnVectors(Array.init cols f)
 
     /// Initialize a matrix by calling a construction function for every diagonal element. All other values are zero.
-    let inline initDiag (rows: int) (cols: int) (f: int -> 'T) = Matrix<'T>.Build.SparseMatrixDiagonal(rows, cols, f)
+    let inline initDiag (rows: int) (cols: int) (f: int -> 'T) = Matrix<'T>.Build.SparseDiagonal(rows, cols, f)
 
     /// Create an identity matrix with the given dimension.
     let inline identity (rows: int) (cols: int) = createDiag rows cols Matrix<'T>.Build.One
 
     /// Create a matrix from a 2D array of floating point numbers.
-    let inline ofArray2 array = Matrix<'T>.Build.SparseMatrixOfArray(array)
+    let inline ofArray2 array = Matrix<'T>.Build.SparseOfArray(array)
 
     /// Create a matrix from a list of row vectors.
-    let inline ofRows (rows: Vector<'T> list) = Matrix<'T>.Build.SparseMatrixOfRowVectors(Array.ofList rows)
+    let inline ofRows (rows: Vector<'T> list) = Matrix<'T>.Build.SparseOfRowVectors(Array.ofList rows)
 
     /// Create a matrix from a list of row arrays.
-    let inline ofRowArrays (rows: 'T[][]) = Matrix<'T>.Build.SparseMatrixOfRowArrays(rows :> seq<'T[]>) // workaround params issue - impl detects it's actually an array
+    let inline ofRowArrays (rows: 'T[][]) = Matrix<'T>.Build.SparseOfRowArrays(rows :> seq<'T[]>) // workaround params issue - impl detects it's actually an array
 
     /// Create a matrix from a list of float lists. Every list in the master list specifies a row.
     let inline ofRowList (rows: 'T list list) = rows |> List.map List.toArray |> List.toArray |> ofRowArrays
@@ -476,13 +476,13 @@ module SparseMatrix =
     let inline ofRowSeq (rows: #seq<#seq<'T>>) = rows |> Seq.map Seq.toArray |> Seq.toArray |> ofRowArrays
 
     /// Create a matrix from a list of sequences. Every sequence in the master sequence specifies a row.
-    let inline ofRowSeq2 (rows: int) (cols: int) (seqOfRows: #seq<seq<'T>>) = Matrix<'T>.Build.SparseMatrixOfRows(rows, cols, seqOfRows)
+    let inline ofRowSeq2 (rows: int) (cols: int) (seqOfRows: #seq<seq<'T>>) = Matrix<'T>.Build.SparseOfRows(rows, cols, seqOfRows)
 
     /// Create a matrix from a list of column vectors.
-    let inline ofColumns (columns: Vector<'T> list) = Matrix<'T>.Build.SparseMatrixOfColumnVectors(Array.ofList columns)
+    let inline ofColumns (columns: Vector<'T> list) = Matrix<'T>.Build.SparseOfColumnVectors(Array.ofList columns)
 
     /// Create a matrix from a list of column arrays.
-    let inline ofColumnArrays (columns: 'T[][]) = Matrix<'T>.Build.SparseMatrixOfColumnArrays(columns :> seq<'T[]>) // workaround params issue - impl detects it's actually an array
+    let inline ofColumnArrays (columns: 'T[][]) = Matrix<'T>.Build.SparseOfColumnArrays(columns :> seq<'T[]>) // workaround params issue - impl detects it's actually an array
 
     /// Create a matrix from a list of float lists. Every list in the master list specifies a column.
     let inline ofColumnList (columns: 'T list list) = columns |> List.map List.toArray |> List.toArray |> ofColumnArrays
@@ -491,25 +491,25 @@ module SparseMatrix =
     let inline ofColumnSeq (columns: #seq<#seq<'T>>) = columns |> Seq.map Seq.toArray |> Seq.toArray |> ofColumnArrays
 
     /// Create a matrix from a list of sequences. Every sequence in the master sequence specifies a column.
-    let inline ofColumnSeq2 (rows: int) (cols: int) (seqOfCols: #seq<seq<'T>>) = Matrix<'T>.Build.SparseMatrixOfColumns(rows, cols, seqOfCols)
+    let inline ofColumnSeq2 (rows: int) (cols: int) (seqOfCols: #seq<seq<'T>>) = Matrix<'T>.Build.SparseOfColumns(rows, cols, seqOfCols)
 
     /// Create a matrix with a given dimension from an indexed list of row, column, value tuples.
-    let inline ofListi (rows: int) (cols: int) (indexed: list<int * int * 'T>) = Matrix<'T>.Build.SparseMatrixOfIndexed(rows, cols, Seq.ofList indexed)
+    let inline ofListi (rows: int) (cols: int) (indexed: list<int * int * 'T>) = Matrix<'T>.Build.SparseOfIndexed(rows, cols, Seq.ofList indexed)
 
     /// Create a matrix with a given dimension from an indexed sequences of row, column, value tuples.
-    let inline ofSeqi (rows: int) (cols: int) (indexed: #seq<int * int * 'T>) = Matrix<'T>.Build.SparseMatrixOfIndexed(rows, cols, indexed)
+    let inline ofSeqi (rows: int) (cols: int) (indexed: #seq<int * int * 'T>) = Matrix<'T>.Build.SparseOfIndexed(rows, cols, indexed)
 
     /// Create a square matrix with the vector elements on the diagonal.
-    let inline ofDiag (v: Vector<'T>) = Matrix<'T>.Build.SparseMatrixOfDiagonalVector(v)
+    let inline ofDiag (v: Vector<'T>) = Matrix<'T>.Build.SparseOfDiagonalVector(v)
 
     /// Create a matrix with the vector elements on the diagonal.
-    let inline ofDiag2 (rows: int) (cols: int) (v: Vector<'T>) = Matrix<'T>.Build.SparseMatrixOfDiagonalVector(rows, cols, v)
+    let inline ofDiag2 (rows: int) (cols: int) (v: Vector<'T>) = Matrix<'T>.Build.SparseOfDiagonalVector(rows, cols, v)
 
     /// Create a square matrix with the array elements on the diagonal.
-    let inline ofDiagArray (array: 'T array) = Matrix<'T>.Build.SparseMatrixOfDiagonalArray(array)
+    let inline ofDiagArray (array: 'T array) = Matrix<'T>.Build.SparseOfDiagonalArray(array)
 
     /// Create a matrix with the array elements on the diagonal.
-    let inline ofDiagArray2 (rows: int) (cols: int) (array: 'T array) = Matrix<'T>.Build.SparseMatrixOfDiagonalArray(rows, cols, array)
+    let inline ofDiagArray2 (rows: int) (cols: int) (array: 'T array) = Matrix<'T>.Build.SparseOfDiagonalArray(rows, cols, array)
 
 
 /// Module that contains implementation of useful F#-specific extension members for generic matrices

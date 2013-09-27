@@ -59,13 +59,13 @@ namespace MathNet.Numerics.LinearRegression
         /// <param name="intercept">True if an intercept should be added as first artificial perdictor value. Default = false.</param>
         public static T[] Weighted<T>(T[][] x, T[] y, T[] w, bool intercept = false) where T : struct, IEquatable<T>, IFormattable
         {
-            var predictor = Matrix<T>.Build.DenseMatrixOfRowArrays(x);
+            var predictor = Matrix<T>.Build.DenseOfRowArrays(x);
             if (intercept)
             {
-                predictor = predictor.InsertColumn(0, Vector<T>.Build.DenseVector(predictor.RowCount, Vector<T>.One));
+                predictor = predictor.InsertColumn(0, Vector<T>.Build.Dense(predictor.RowCount, Vector<T>.One));
             }
-            var response = Matrix<T>.Build.DenseVector(y);
-            var weights = Matrix<T>.Build.DiagonalMatrix(new DiagonalMatrixStorage<T>(predictor.RowCount, predictor.RowCount, w));
+            var response = Vector<T>.Build.Dense(y);
+            var weights = Matrix<T>.Build.Diagonal(new DiagonalMatrixStorage<T>(predictor.RowCount, predictor.RowCount, w));
             return predictor.TransposeThisAndMultiply(weights*predictor).Cholesky().Solve(predictor.Transpose()*(weights*response)).ToArray();
         }
 
@@ -85,7 +85,7 @@ namespace MathNet.Numerics.LinearRegression
         public static Vector<T> Local<T>(Matrix<T> x, Vector<T> y, Vector<T> t, double radius, Func<double, T> kernel) where T : struct, IEquatable<T>, IFormattable
         {
             // TODO: Weird kernel definition
-            var w = Matrix<T>.Build.DenseMatrix(x.RowCount, x.RowCount);
+            var w = Matrix<T>.Build.Dense(x.RowCount, x.RowCount);
             for (int i = 0; i < x.RowCount; i++)
             {
                 w.At(i, i, kernel(Distance.Euclidean(t, x.Row(i))/radius));
@@ -99,7 +99,7 @@ namespace MathNet.Numerics.LinearRegression
         public static Matrix<T> Local<T>(Matrix<T> x, Matrix<T> y, Vector<T> t, double radius, Func<double, T> kernel) where T : struct, IEquatable<T>, IFormattable
         {
             // TODO: Weird kernel definition
-            var w = Matrix<T>.Build.DenseMatrix(x.RowCount, x.RowCount);
+            var w = Matrix<T>.Build.Dense(x.RowCount, x.RowCount);
             for (int i = 0; i < x.RowCount; i++)
             {
                 w.At(i, i, kernel(Distance.Euclidean(t, x.Row(i))/radius));

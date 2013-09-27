@@ -38,12 +38,12 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <summary>
         /// The zero value for type T.
         /// </summary>
-        public static readonly T Zero = BuilderInstance<T>.Instance.Zero;
+        public static readonly T Zero = BuilderInstance<T>.Vector.Zero;
 
         /// <summary>
         /// The value of 1.0 for type T.
         /// </summary>
-        public static readonly T One = BuilderInstance<T>.Instance.One;
+        public static readonly T One = BuilderInstance<T>.Vector.One;
 
         /// <summary>
         /// Negates vector and save result to <paramref name="result"/>

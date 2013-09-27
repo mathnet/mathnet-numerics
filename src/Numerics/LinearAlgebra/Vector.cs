@@ -58,7 +58,7 @@ namespace MathNet.Numerics.LinearAlgebra
             Count = storage.Length;
         }
 
-        public static readonly Builder<T> Build = BuilderInstance<T>.Instance;
+        public static readonly VectorBuilder<T> Build = BuilderInstance<T>.Vector;
 
         /// <summary>
         /// Gets the raw vector data storage.
@@ -141,8 +141,8 @@ namespace MathNet.Numerics.LinearAlgebra
         public Matrix<T> CreateMatrix(int rows, int columns)
         {
             return Storage.IsDense
-                ? Build.DenseMatrix(rows, columns)
-                : Build.SparseMatrix(rows, columns);
+                ? Matrix<T>.Build.Dense(rows, columns)
+                : Matrix<T>.Build.Sparse(rows, columns);
         }
 
         /// <summary>
@@ -153,8 +153,8 @@ namespace MathNet.Numerics.LinearAlgebra
         public Vector<T> CreateVector(int size)
         {
             return Storage.IsDense
-                ? Build.DenseVector(size)
-                : Build.SparseVector(size);
+                ? Build.Dense(size)
+                : Build.Sparse(size);
         }
 
         /// <summary>

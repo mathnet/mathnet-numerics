@@ -35,11 +35,13 @@ using MathNet.Numerics.Distributions;
 using MathNet.Numerics.LinearAlgebra.Solvers;
 using MathNet.Numerics.LinearAlgebra.Storage;
 
+// TODO: split up and move to proper folders
+
 namespace MathNet.Numerics.LinearAlgebra.Double
 {
     using Solvers;
 
-    internal class Builder : Builder<double>
+    internal class MatrixBuilder : MatrixBuilder<double>
     {
         public override double Zero
         {
@@ -51,39 +53,24 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             get { return 1d; }
         }
 
-        public override Matrix<double> DenseMatrix(DenseColumnMajorMatrixStorage<double> storage)
+        public override Matrix<double> Dense(DenseColumnMajorMatrixStorage<double> storage)
         {
             return new DenseMatrix(storage);
         }
 
-        public override Matrix<double> SparseMatrix(SparseCompressedRowMatrixStorage<double> storage)
+        public override Matrix<double> Sparse(SparseCompressedRowMatrixStorage<double> storage)
         {
             return new SparseMatrix(storage);
         }
 
-        public override Matrix<double> DiagonalMatrix(DiagonalMatrixStorage<double> storage)
+        public override Matrix<double> Diagonal(DiagonalMatrixStorage<double> storage)
         {
             return new DiagonalMatrix(storage);
         }
 
-        public override Vector<double> DenseVector(DenseVectorStorage<double> storage)
+        public override Matrix<double> DenseRandom(int rows, int columns, IContinuousDistribution distribution)
         {
-            return new DenseVector(storage);
-        }
-
-        public override Vector<double> SparseVector(SparseVectorStorage<double> storage)
-        {
-            return new SparseVector(storage);
-        }
-
-        public override Matrix<double> DenseMatrixRandom(int rows, int columns, IContinuousDistribution distribution)
-        {
-            return Double.DenseMatrix.CreateRandom(rows, columns, distribution);
-        }
-
-        public override Vector<double> DenseVectorRandom(int length, IContinuousDistribution distribution)
-        {
-            return new DenseVector(DenseVectorStorage<double>.OfInit(length, i => distribution.Sample()));
+            return DenseMatrix.CreateRandom(rows, columns, distribution);
         }
 
         public override IIterationStopCriterium<double>[] IterativeSolverStopCriteria(int maxIterations = 1000)
@@ -97,13 +84,41 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             };
         }
     }
+
+    internal class VectorBuilder : VectorBuilder<double>
+    {
+        public override double Zero
+        {
+            get { return 0d; }
+        }
+
+        public override double One
+        {
+            get { return 1d; }
+        }
+
+        public override Vector<double> Dense(DenseVectorStorage<double> storage)
+        {
+            return new DenseVector(storage);
+        }
+
+        public override Vector<double> Sparse(SparseVectorStorage<double> storage)
+        {
+            return new SparseVector(storage);
+        }
+
+        public override Vector<double> DenseRandom(int length, IContinuousDistribution distribution)
+        {
+            return new DenseVector(DenseVectorStorage<double>.OfInit(length, i => distribution.Sample()));
+        }
+    }
 }
 
 namespace MathNet.Numerics.LinearAlgebra.Single
 {
     using Solvers;
 
-    internal class Builder : Builder<float>
+    internal class MatrixBuilder : MatrixBuilder<float>
     {
         public override float Zero
         {
@@ -115,39 +130,24 @@ namespace MathNet.Numerics.LinearAlgebra.Single
             get { return 1f; }
         }
 
-        public override Matrix<float> DenseMatrix(DenseColumnMajorMatrixStorage<float> storage)
+        public override Matrix<float> Dense(DenseColumnMajorMatrixStorage<float> storage)
         {
             return new DenseMatrix(storage);
         }
 
-        public override Matrix<float> SparseMatrix(SparseCompressedRowMatrixStorage<float> storage)
+        public override Matrix<float> Sparse(SparseCompressedRowMatrixStorage<float> storage)
         {
             return new SparseMatrix(storage);
         }
 
-        public override Matrix<float> DiagonalMatrix(DiagonalMatrixStorage<float> storage)
+        public override Matrix<float> Diagonal(DiagonalMatrixStorage<float> storage)
         {
             return new DiagonalMatrix(storage);
         }
 
-        public override Vector<float> DenseVector(DenseVectorStorage<float> storage)
+        public override Matrix<float> DenseRandom(int rows, int columns, IContinuousDistribution distribution)
         {
-            return new DenseVector(storage);
-        }
-
-        public override Vector<float> SparseVector(SparseVectorStorage<float> storage)
-        {
-            return new SparseVector(storage);
-        }
-
-        public override Matrix<float> DenseMatrixRandom(int rows, int columns, IContinuousDistribution distribution)
-        {
-            return Single.DenseMatrix.CreateRandom(rows, columns, distribution);
-        }
-
-        public override Vector<float> DenseVectorRandom(int length, IContinuousDistribution distribution)
-        {
-            return new DenseVector(DenseVectorStorage<float>.OfInit(length, i => (float)distribution.Sample()));
+            return DenseMatrix.CreateRandom(rows, columns, distribution);
         }
 
         public override IIterationStopCriterium<float>[] IterativeSolverStopCriteria(int maxIterations = 1000)
@@ -161,6 +161,34 @@ namespace MathNet.Numerics.LinearAlgebra.Single
             };
         }
     }
+
+    internal class VectorBuilder : VectorBuilder<float>
+    {
+        public override float Zero
+        {
+            get { return 0f; }
+        }
+
+        public override float One
+        {
+            get { return 1f; }
+        }
+
+        public override Vector<float> Dense(DenseVectorStorage<float> storage)
+        {
+            return new DenseVector(storage);
+        }
+
+        public override Vector<float> Sparse(SparseVectorStorage<float> storage)
+        {
+            return new SparseVector(storage);
+        }
+
+        public override Vector<float> DenseRandom(int length, IContinuousDistribution distribution)
+        {
+            return new DenseVector(DenseVectorStorage<float>.OfInit(length, i => (float)distribution.Sample()));
+        }
+    }
 }
 
 namespace MathNet.Numerics.LinearAlgebra.Complex
@@ -171,10 +199,9 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
     using Complex = Numerics.Complex;
 #else
     using Complex = System.Numerics.Complex;
-
 #endif
 
-    internal class Builder : Builder<Complex>
+    internal class MatrixBuilder : MatrixBuilder<Complex>
     {
         public override Complex Zero
         {
@@ -186,39 +213,24 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
             get { return Complex.One; }
         }
 
-        public override Matrix<Complex> DenseMatrix(DenseColumnMajorMatrixStorage<Complex> storage)
+        public override Matrix<Complex> Dense(DenseColumnMajorMatrixStorage<Complex> storage)
         {
             return new DenseMatrix(storage);
         }
 
-        public override Matrix<Complex> SparseMatrix(SparseCompressedRowMatrixStorage<Complex> storage)
+        public override Matrix<Complex> Sparse(SparseCompressedRowMatrixStorage<Complex> storage)
         {
             return new SparseMatrix(storage);
         }
 
-        public override Matrix<Complex> DiagonalMatrix(DiagonalMatrixStorage<Complex> storage)
+        public override Matrix<Complex> Diagonal(DiagonalMatrixStorage<Complex> storage)
         {
             return new DiagonalMatrix(storage);
         }
 
-        public override Vector<Complex> DenseVector(DenseVectorStorage<Complex> storage)
+        public override Matrix<Complex> DenseRandom(int rows, int columns, IContinuousDistribution distribution)
         {
-            return new DenseVector(storage);
-        }
-
-        public override Vector<Complex> SparseVector(SparseVectorStorage<Complex> storage)
-        {
-            return new SparseVector(storage);
-        }
-
-        public override Matrix<Complex> DenseMatrixRandom(int rows, int columns, IContinuousDistribution distribution)
-        {
-            return LinearAlgebra.Complex.DenseMatrix.CreateRandom(rows, columns, distribution);
-        }
-
-        public override Vector<Complex> DenseVectorRandom(int length, IContinuousDistribution distribution)
-        {
-            return new DenseVector(DenseVectorStorage<Complex>.OfInit(length, i => new Complex(distribution.Sample(), distribution.Sample())));
+            return DenseMatrix.CreateRandom(rows, columns, distribution);
         }
 
         public override IIterationStopCriterium<Complex>[] IterativeSolverStopCriteria(int maxIterations = 1000)
@@ -232,13 +244,41 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
             };
         }
     }
+
+    internal class VectorBuilder : VectorBuilder<Complex>
+    {
+        public override Complex Zero
+        {
+            get { return Complex.Zero; }
+        }
+
+        public override Complex One
+        {
+            get { return Complex.One; }
+        }
+
+        public override Vector<Complex> Dense(DenseVectorStorage<Complex> storage)
+        {
+            return new DenseVector(storage);
+        }
+
+        public override Vector<Complex> Sparse(SparseVectorStorage<Complex> storage)
+        {
+            return new SparseVector(storage);
+        }
+
+        public override Vector<Complex> DenseRandom(int length, IContinuousDistribution distribution)
+        {
+            return new DenseVector(DenseVectorStorage<Complex>.OfInit(length, i => new Complex(distribution.Sample(), distribution.Sample())));
+        }
+    }
 }
 
 namespace MathNet.Numerics.LinearAlgebra.Complex32
 {
     using Solvers;
 
-    internal class Builder : Builder<Numerics.Complex32>
+    internal class MatrixBuilder : MatrixBuilder<Numerics.Complex32>
     {
         public override Numerics.Complex32 Zero
         {
@@ -250,39 +290,24 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
             get { return Numerics.Complex32.One; }
         }
 
-        public override Matrix<Numerics.Complex32> DenseMatrix(DenseColumnMajorMatrixStorage<Numerics.Complex32> storage)
+        public override Matrix<Numerics.Complex32> Dense(DenseColumnMajorMatrixStorage<Numerics.Complex32> storage)
         {
             return new DenseMatrix(storage);
         }
 
-        public override Matrix<Numerics.Complex32> SparseMatrix(SparseCompressedRowMatrixStorage<Numerics.Complex32> storage)
+        public override Matrix<Numerics.Complex32> Sparse(SparseCompressedRowMatrixStorage<Numerics.Complex32> storage)
         {
             return new SparseMatrix(storage);
         }
 
-        public override Matrix<Numerics.Complex32> DiagonalMatrix(DiagonalMatrixStorage<Numerics.Complex32> storage)
+        public override Matrix<Numerics.Complex32> Diagonal(DiagonalMatrixStorage<Numerics.Complex32> storage)
         {
             return new DiagonalMatrix(storage);
         }
 
-        public override Vector<Numerics.Complex32> DenseVector(DenseVectorStorage<Numerics.Complex32> storage)
+        public override Matrix<Numerics.Complex32> DenseRandom(int rows, int columns, IContinuousDistribution distribution)
         {
-            return new DenseVector(storage);
-        }
-
-        public override Vector<Numerics.Complex32> SparseVector(SparseVectorStorage<Numerics.Complex32> storage)
-        {
-            return new SparseVector(storage);
-        }
-
-        public override Matrix<Numerics.Complex32> DenseMatrixRandom(int rows, int columns, IContinuousDistribution distribution)
-        {
-            return Complex32.DenseMatrix.CreateRandom(rows, columns, distribution);
-        }
-
-        public override Vector<Numerics.Complex32> DenseVectorRandom(int length, IContinuousDistribution distribution)
-        {
-            return new DenseVector(DenseVectorStorage<Numerics.Complex32>.OfInit(length, i => new Numerics.Complex32((float)distribution.Sample(), (float)distribution.Sample())));
+            return DenseMatrix.CreateRandom(rows, columns, distribution);
         }
 
         public override IIterationStopCriterium<Numerics.Complex32>[] IterativeSolverStopCriteria(int maxIterations = 1000)
@@ -294,6 +319,34 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
                 new IterationCountStopCriterium<Numerics.Complex32>(maxIterations),
                 new ResidualStopCriterium()
             };
+        }
+    }
+
+    internal class VectorBuilder : VectorBuilder<Numerics.Complex32>
+    {
+        public override Numerics.Complex32 Zero
+        {
+            get { return Numerics.Complex32.Zero; }
+        }
+
+        public override Numerics.Complex32 One
+        {
+            get { return Numerics.Complex32.One; }
+        }
+
+        public override Vector<Numerics.Complex32> Dense(DenseVectorStorage<Numerics.Complex32> storage)
+        {
+            return new DenseVector(storage);
+        }
+
+        public override Vector<Numerics.Complex32> Sparse(SparseVectorStorage<Numerics.Complex32> storage)
+        {
+            return new SparseVector(storage);
+        }
+
+        public override Vector<Numerics.Complex32> DenseRandom(int length, IContinuousDistribution distribution)
+        {
+            return new DenseVector(DenseVectorStorage<Numerics.Complex32>.OfInit(length, i => new Numerics.Complex32((float)distribution.Sample(), (float)distribution.Sample())));
         }
     }
 }
@@ -313,7 +366,7 @@ namespace MathNet.Numerics.LinearAlgebra
     /// must be created in a generic way. Usage of generic builders should not be
     /// required in normal user code.
     /// </summary>
-    public abstract class Builder<T> where T : struct, IEquatable<T>, IFormattable
+    public abstract class MatrixBuilder<T> where T : struct, IEquatable<T>, IFormattable
     {
         /// <summary>
         /// Gets the value of <c>0.0</c> for type T.
@@ -329,31 +382,16 @@ namespace MathNet.Numerics.LinearAlgebra
         /// Create a new matrix straight from an initialized matrix storage instance.
         /// If you have an instance of a discrete storage type instead, use their direct methods instead.
         /// </summary>
-        public Matrix<T> Matrix(MatrixStorage<T> storage)
+        public Matrix<T> Storage(MatrixStorage<T> storage)
         {
             var dense = storage as DenseColumnMajorMatrixStorage<T>;
-            if (dense != null) return DenseMatrix(dense);
+            if (dense != null) return Dense(dense);
 
             var sparse = storage as SparseCompressedRowMatrixStorage<T>;
-            if (sparse != null) return SparseMatrix(sparse);
+            if (sparse != null) return Sparse(sparse);
 
             var diagonal = storage as DiagonalMatrixStorage<T>;
-            if (diagonal != null) return DiagonalMatrix(diagonal);
-
-            throw new NotSupportedException();
-        }
-
-        /// <summary>
-        /// Create a new vector straight from an initialized matrix storage instance.
-        /// If you have an instance of a discrete storage type instead, use their direct methods instead.
-        /// </summary>
-        public Vector<T> Vector(VectorStorage<T> storage)
-        {
-            var dense = storage as DenseVectorStorage<T>;
-            if (dense != null) return DenseVector(dense);
-
-            var sparse = storage as SparseVectorStorage<T>;
-            if (sparse != null) return SparseVector(sparse);
+            if (diagonal != null) return Diagonal(diagonal);
 
             throw new NotSupportedException();
         }
@@ -364,16 +402,16 @@ namespace MathNet.Numerics.LinearAlgebra
         /// Intended for advanced scenarios where you're working directly with
         /// storage for performance or interop reasons.
         /// </summary>
-        public abstract Matrix<T> DenseMatrix(DenseColumnMajorMatrixStorage<T> storage);
+        public abstract Matrix<T> Dense(DenseColumnMajorMatrixStorage<T> storage);
 
         /// <summary>
         /// Create a new dense matrix with the given number of rows and columns.
         /// All cells of the matrix will be initialized to zero.
         /// Zero-length matrices are not supported.
         /// </summary>
-        public Matrix<T> DenseMatrix(int rows, int columns)
+        public Matrix<T> Dense(int rows, int columns)
         {
-            return DenseMatrix(new DenseColumnMajorMatrixStorage<T>(rows, columns));
+            return Dense(new DenseColumnMajorMatrixStorage<T>(rows, columns));
         }
 
         /// <summary>
@@ -382,58 +420,58 @@ namespace MathNet.Numerics.LinearAlgebra
         /// Very efficient, but changes to the array and the matrix will affect each other.
         /// </summary>
         /// <seealso href="http://en.wikipedia.org/wiki/Row-major_order"/>
-        public Matrix<T> DenseMatrix(int rows, int columns, T[] storage)
+        public Matrix<T> Dense(int rows, int columns, T[] storage)
         {
-            return DenseMatrix(new DenseColumnMajorMatrixStorage<T>(rows, columns, storage));
+            return Dense(new DenseColumnMajorMatrixStorage<T>(rows, columns, storage));
         }
 
         /// <summary>
         /// Create a new dense matrix and initialize each value to the same provided value.
         /// </summary>
-        public Matrix<T> DenseMatrix(int rows, int columns, T value)
+        public Matrix<T> Dense(int rows, int columns, T value)
         {
-            if (Zero.Equals(value)) return DenseMatrix(rows, columns);
-            return DenseMatrix(DenseColumnMajorMatrixStorage<T>.OfInit(rows, columns, (i, j) => value));
+            if (Zero.Equals(value)) return Dense(rows, columns);
+            return Dense(DenseColumnMajorMatrixStorage<T>.OfInit(rows, columns, (i, j) => value));
         }
 
         /// <summary>
         /// Create a new dense matrix and initialize each value using the provided init function.
         /// </summary>
-        public Matrix<T> DenseMatrix(int rows, int columns, Func<int, int, T> init)
+        public Matrix<T> Dense(int rows, int columns, Func<int, int, T> init)
         {
-            return DenseMatrix(DenseColumnMajorMatrixStorage<T>.OfInit(rows, columns, init));
+            return Dense(DenseColumnMajorMatrixStorage<T>.OfInit(rows, columns, init));
         }
 
         /// <summary>
         /// Create a new diagonal dense matrix and initialize each diagonal value to the same provided value.
         /// </summary>
-        public Matrix<T> DenseMatrixDiagonal(int rows, int columns, T value)
+        public Matrix<T> DenseDiagonal(int rows, int columns, T value)
         {
-            if (Zero.Equals(value)) return DenseMatrix(rows, columns);
-            return DenseMatrix(DenseColumnMajorMatrixStorage<T>.OfDiagonalInit(rows, columns, i => value));
+            if (Zero.Equals(value)) return Dense(rows, columns);
+            return Dense(DenseColumnMajorMatrixStorage<T>.OfDiagonalInit(rows, columns, i => value));
         }
 
         /// <summary>
         /// Create a new diagonal dense matrix and initialize each diagonal value using the provided init function.
         /// </summary>
-        public Matrix<T> DenseMatrixDiagonal(int rows, int columns, Func<int, T> init)
+        public Matrix<T> DenseDiagonal(int rows, int columns, Func<int, T> init)
         {
-            return DenseMatrix(DenseColumnMajorMatrixStorage<T>.OfDiagonalInit(rows, columns, init));
+            return Dense(DenseColumnMajorMatrixStorage<T>.OfDiagonalInit(rows, columns, init));
         }
 
         /// <summary>
         /// Create a new dense matrix with values sampled from the provided random distribution.
         /// </summary>
-        public abstract Matrix<T> DenseMatrixRandom(int rows, int columns, IContinuousDistribution distribution);
+        public abstract Matrix<T> DenseRandom(int rows, int columns, IContinuousDistribution distribution);
 
         /// <summary>
         /// Create a new dense matrix as a copy of the given other matrix.
         /// This new matrix will be independent from the other matrix.
         /// A new memory block will be allocated for storing the matrix.
         /// </summary>
-        public Matrix<T> DenseMatrixOfMatrix(Matrix<T> matrix)
+        public Matrix<T> DenseOfMatrix(Matrix<T> matrix)
         {
-            return DenseMatrix(DenseColumnMajorMatrixStorage<T>.OfMatrix(matrix.Storage));
+            return Dense(DenseColumnMajorMatrixStorage<T>.OfMatrix(matrix.Storage));
         }
 
         /// <summary>
@@ -441,9 +479,9 @@ namespace MathNet.Numerics.LinearAlgebra
         /// This new matrix will be independent from the provided array.
         /// A new memory block will be allocated for storing the matrix.
         /// </summary>
-        public Matrix<T> DenseMatrixOfArray(T[,] array)
+        public Matrix<T> DenseOfArray(T[,] array)
         {
-            return DenseMatrix(DenseColumnMajorMatrixStorage<T>.OfArray(array));
+            return Dense(DenseColumnMajorMatrixStorage<T>.OfArray(array));
         }
 
         /// <summary>
@@ -452,9 +490,9 @@ namespace MathNet.Numerics.LinearAlgebra
         /// This new matrix will be independent from the enumerable.
         /// A new memory block will be allocated for storing the matrix.
         /// </summary>
-        public Matrix<T> DenseMatrixOfIndexed(int rows, int columns, IEnumerable<Tuple<int, int, T>> enumerable)
+        public Matrix<T> DenseOfIndexed(int rows, int columns, IEnumerable<Tuple<int, int, T>> enumerable)
         {
-            return DenseMatrix(DenseColumnMajorMatrixStorage<T>.OfIndexedEnumerable(rows, columns, enumerable));
+            return Dense(DenseColumnMajorMatrixStorage<T>.OfIndexedEnumerable(rows, columns, enumerable));
         }
 
         /// <summary>
@@ -463,9 +501,9 @@ namespace MathNet.Numerics.LinearAlgebra
         /// This new matrix will be independent from the enumerable.
         /// A new memory block will be allocated for storing the matrix.
         /// </summary>
-        public Matrix<T> DenseMatrixOfColumnMajor(int rows, int columns, IEnumerable<T> columnMajor)
+        public Matrix<T> DenseOfColumnMajor(int rows, int columns, IEnumerable<T> columnMajor)
         {
-            return DenseMatrix(DenseColumnMajorMatrixStorage<T>.OfColumnMajorEnumerable(rows, columns, columnMajor));
+            return Dense(DenseColumnMajorMatrixStorage<T>.OfColumnMajorEnumerable(rows, columns, columnMajor));
         }
 
         /// <summary>
@@ -474,9 +512,9 @@ namespace MathNet.Numerics.LinearAlgebra
         /// This new matrix will be independent from the enumerables.
         /// A new memory block will be allocated for storing the matrix.
         /// </summary>
-        public Matrix<T> DenseMatrixOfColumns(IEnumerable<IEnumerable<T>> data)
+        public Matrix<T> DenseOfColumns(IEnumerable<IEnumerable<T>> data)
         {
-            return DenseMatrix(DenseColumnMajorMatrixStorage<T>.OfColumnArrays(data.Select(v => v.ToArray()).ToArray()));
+            return Dense(DenseColumnMajorMatrixStorage<T>.OfColumnArrays(data.Select(v => v.ToArray()).ToArray()));
         }
 
         /// <summary>
@@ -485,9 +523,9 @@ namespace MathNet.Numerics.LinearAlgebra
         /// This new matrix will be independent from the enumerables.
         /// A new memory block will be allocated for storing the matrix.
         /// </summary>
-        public Matrix<T> DenseMatrixOfColumns(int rows, int columns, IEnumerable<IEnumerable<T>> data)
+        public Matrix<T> DenseOfColumns(int rows, int columns, IEnumerable<IEnumerable<T>> data)
         {
-            return DenseMatrix(DenseColumnMajorMatrixStorage<T>.OfColumnEnumerables(rows, columns, data));
+            return Dense(DenseColumnMajorMatrixStorage<T>.OfColumnEnumerables(rows, columns, data));
         }
 
         /// <summary>
@@ -495,9 +533,9 @@ namespace MathNet.Numerics.LinearAlgebra
         /// This new matrix will be independent from the arrays.
         /// A new memory block will be allocated for storing the matrix.
         /// </summary>
-        public Matrix<T> DenseMatrixOfColumnArrays(params T[][] columns)
+        public Matrix<T> DenseOfColumnArrays(params T[][] columns)
         {
-            return DenseMatrix(DenseColumnMajorMatrixStorage<T>.OfColumnArrays(columns));
+            return Dense(DenseColumnMajorMatrixStorage<T>.OfColumnArrays(columns));
         }
 
         /// <summary>
@@ -505,9 +543,9 @@ namespace MathNet.Numerics.LinearAlgebra
         /// This new matrix will be independent from the arrays.
         /// A new memory block will be allocated for storing the matrix.
         /// </summary>
-        public Matrix<T> DenseMatrixOfColumnArrays(IEnumerable<T[]> columns)
+        public Matrix<T> DenseOfColumnArrays(IEnumerable<T[]> columns)
         {
-            return DenseMatrix(DenseColumnMajorMatrixStorage<T>.OfColumnArrays((columns as T[][]) ?? columns.ToArray()));
+            return Dense(DenseColumnMajorMatrixStorage<T>.OfColumnArrays((columns as T[][]) ?? columns.ToArray()));
         }
 
         /// <summary>
@@ -515,14 +553,14 @@ namespace MathNet.Numerics.LinearAlgebra
         /// This new matrix will be independent from the vectors.
         /// A new memory block will be allocated for storing the matrix.
         /// </summary>
-        public Matrix<T> DenseMatrixOfColumnVectors(params Vector<T>[] columns)
+        public Matrix<T> DenseOfColumnVectors(params Vector<T>[] columns)
         {
             var storage = new VectorStorage<T>[columns.Length];
             for (int i = 0; i < columns.Length; i++)
             {
                 storage[i] = columns[i].Storage;
             }
-            return DenseMatrix(DenseColumnMajorMatrixStorage<T>.OfColumnVectors(storage));
+            return Dense(DenseColumnMajorMatrixStorage<T>.OfColumnVectors(storage));
         }
 
         /// <summary>
@@ -530,9 +568,9 @@ namespace MathNet.Numerics.LinearAlgebra
         /// This new matrix will be independent from the vectors.
         /// A new memory block will be allocated for storing the matrix.
         /// </summary>
-        public Matrix<T> DenseMatrixOfColumnVectors(IEnumerable<Vector<T>> columns)
+        public Matrix<T> DenseOfColumnVectors(IEnumerable<Vector<T>> columns)
         {
-            return DenseMatrix(DenseColumnMajorMatrixStorage<T>.OfColumnVectors(columns.Select(c => c.Storage).ToArray()));
+            return Dense(DenseColumnMajorMatrixStorage<T>.OfColumnVectors(columns.Select(c => c.Storage).ToArray()));
         }
 
         /// <summary>
@@ -541,9 +579,9 @@ namespace MathNet.Numerics.LinearAlgebra
         /// This new matrix will be independent from the enumerables.
         /// A new memory block will be allocated for storing the matrix.
         /// </summary>
-        public Matrix<T> DenseMatrixOfRows(IEnumerable<IEnumerable<T>> data)
+        public Matrix<T> DenseOfRows(IEnumerable<IEnumerable<T>> data)
         {
-            return DenseMatrix(DenseColumnMajorMatrixStorage<T>.OfRowArrays(data.Select(v => v.ToArray()).ToArray()));
+            return Dense(DenseColumnMajorMatrixStorage<T>.OfRowArrays(data.Select(v => v.ToArray()).ToArray()));
         }
 
         /// <summary>
@@ -552,9 +590,9 @@ namespace MathNet.Numerics.LinearAlgebra
         /// This new matrix will be independent from the enumerables.
         /// A new memory block will be allocated for storing the matrix.
         /// </summary>
-        public Matrix<T> DenseMatrixOfRows(int rows, int columns, IEnumerable<IEnumerable<T>> data)
+        public Matrix<T> DenseOfRows(int rows, int columns, IEnumerable<IEnumerable<T>> data)
         {
-            return DenseMatrix(DenseColumnMajorMatrixStorage<T>.OfRowEnumerables(rows, columns, data));
+            return Dense(DenseColumnMajorMatrixStorage<T>.OfRowEnumerables(rows, columns, data));
         }
 
         /// <summary>
@@ -562,9 +600,9 @@ namespace MathNet.Numerics.LinearAlgebra
         /// This new matrix will be independent from the arrays.
         /// A new memory block will be allocated for storing the matrix.
         /// </summary>
-        public Matrix<T> DenseMatrixOfRowArrays(params T[][] rows)
+        public Matrix<T> DenseOfRowArrays(params T[][] rows)
         {
-            return DenseMatrix(DenseColumnMajorMatrixStorage<T>.OfRowArrays(rows));
+            return Dense(DenseColumnMajorMatrixStorage<T>.OfRowArrays(rows));
         }
 
         /// <summary>
@@ -572,9 +610,9 @@ namespace MathNet.Numerics.LinearAlgebra
         /// This new matrix will be independent from the arrays.
         /// A new memory block will be allocated for storing the matrix.
         /// </summary>
-        public Matrix<T> DenseMatrixOfRowArrays(IEnumerable<T[]> rows)
+        public Matrix<T> DenseOfRowArrays(IEnumerable<T[]> rows)
         {
-            return DenseMatrix(DenseColumnMajorMatrixStorage<T>.OfRowArrays((rows as T[][]) ?? rows.ToArray()));
+            return Dense(DenseColumnMajorMatrixStorage<T>.OfRowArrays((rows as T[][]) ?? rows.ToArray()));
         }
 
         /// <summary>
@@ -582,14 +620,14 @@ namespace MathNet.Numerics.LinearAlgebra
         /// This new matrix will be independent from the vectors.
         /// A new memory block will be allocated for storing the matrix.
         /// </summary>
-        public Matrix<T> DenseMatrixOfRowVectors(params Vector<T>[] rows)
+        public Matrix<T> DenseOfRowVectors(params Vector<T>[] rows)
         {
             var storage = new VectorStorage<T>[rows.Length];
             for (int i = 0; i < rows.Length; i++)
             {
                 storage[i] = rows[i].Storage;
             }
-            return DenseMatrix(DenseColumnMajorMatrixStorage<T>.OfRowVectors(storage));
+            return Dense(DenseColumnMajorMatrixStorage<T>.OfRowVectors(storage));
         }
 
         /// <summary>
@@ -597,9 +635,9 @@ namespace MathNet.Numerics.LinearAlgebra
         /// This new matrix will be independent from the vectors.
         /// A new memory block will be allocated for storing the matrix.
         /// </summary>
-        public Matrix<T> DenseMatrixOfRowVectors(IEnumerable<Vector<T>> rows)
+        public Matrix<T> DenseOfRowVectors(IEnumerable<Vector<T>> rows)
         {
-            return DenseMatrix(DenseColumnMajorMatrixStorage<T>.OfRowVectors(rows.Select(r => r.Storage).ToArray()));
+            return Dense(DenseColumnMajorMatrixStorage<T>.OfRowVectors(rows.Select(r => r.Storage).ToArray()));
         }
 
         /// <summary>
@@ -607,9 +645,9 @@ namespace MathNet.Numerics.LinearAlgebra
         /// This new matrix will be independent from the vector.
         /// A new memory block will be allocated for storing the matrix.
         /// </summary>
-        public Matrix<T> DenseMatrixOfDiagonalVector(Vector<T> diagonal)
+        public Matrix<T> DenseOfDiagonalVector(Vector<T> diagonal)
         {
-            var m = DenseMatrix(diagonal.Count, diagonal.Count);
+            var m = Dense(diagonal.Count, diagonal.Count);
             m.SetDiagonal(diagonal);
             return m;
         }
@@ -619,9 +657,9 @@ namespace MathNet.Numerics.LinearAlgebra
         /// This new matrix will be independent from the vector.
         /// A new memory block will be allocated for storing the matrix.
         /// </summary>
-        public Matrix<T> DenseMatrixOfDiagonalVector(int rows, int columns, Vector<T> diagonal)
+        public Matrix<T> DenseOfDiagonalVector(int rows, int columns, Vector<T> diagonal)
         {
-            var m = DenseMatrix(rows, columns);
+            var m = Dense(rows, columns);
             m.SetDiagonal(diagonal);
             return m;
         }
@@ -631,9 +669,9 @@ namespace MathNet.Numerics.LinearAlgebra
         /// This new matrix will be independent from the array.
         /// A new memory block will be allocated for storing the matrix.
         /// </summary>
-        public Matrix<T> DenseMatrixOfDiagonalArray(T[] diagonal)
+        public Matrix<T> DenseOfDiagonalArray(T[] diagonal)
         {
-            var m = DenseMatrix(diagonal.Length, diagonal.Length);
+            var m = Dense(diagonal.Length, diagonal.Length);
             m.SetDiagonal(diagonal);
             return m;
         }
@@ -643,9 +681,9 @@ namespace MathNet.Numerics.LinearAlgebra
         /// This new matrix will be independent from the array.
         /// A new memory block will be allocated for storing the matrix.
         /// </summary>
-        public Matrix<T> DenseMatrixOfDiagonalArray(int rows, int columns, T[] diagonal)
+        public Matrix<T> DenseOfDiagonalArray(int rows, int columns, T[] diagonal)
         {
-            var m = DenseMatrix(rows, columns);
+            var m = Dense(rows, columns);
             m.SetDiagonal(diagonal);
             return m;
         }
@@ -656,50 +694,50 @@ namespace MathNet.Numerics.LinearAlgebra
         /// Intended for advanced scenarios where you're working directly with
         /// storage for performance or interop reasons.
         /// </summary>
-        public abstract Matrix<T> SparseMatrix(SparseCompressedRowMatrixStorage<T> storage);
+        public abstract Matrix<T> Sparse(SparseCompressedRowMatrixStorage<T> storage);
 
         /// <summary>
         /// Create a sparse matrix of T with the given number of rows and columns.
         /// </summary>
         /// <param name="rows">The number of rows.</param>
         /// <param name="columns">The number of columns.</param>
-        public Matrix<T> SparseMatrix(int rows, int columns)
+        public Matrix<T> Sparse(int rows, int columns)
         {
-            return SparseMatrix(new SparseCompressedRowMatrixStorage<T>(rows, columns));
+            return Sparse(new SparseCompressedRowMatrixStorage<T>(rows, columns));
         }
 
         /// <summary>
         /// Create a new sparse matrix and initialize each value to the same provided value.
         /// </summary>
-        public Matrix<T> SparseMatrix(int rows, int columns, T value)
+        public Matrix<T> Sparse(int rows, int columns, T value)
         {
-            if (Zero.Equals(value)) return SparseMatrix(rows, columns);
-            return SparseMatrix(SparseCompressedRowMatrixStorage<T>.OfInit(rows, columns, (i, j) => value));
+            if (Zero.Equals(value)) return Sparse(rows, columns);
+            return Sparse(SparseCompressedRowMatrixStorage<T>.OfInit(rows, columns, (i, j) => value));
         }
 
         /// <summary>
         /// Create a new sparse matrix and initialize each value using the provided init function.
         /// </summary>
-        public Matrix<T> SparseMatrix(int rows, int columns, Func<int, int, T> init)
+        public Matrix<T> Sparse(int rows, int columns, Func<int, int, T> init)
         {
-            return SparseMatrix(SparseCompressedRowMatrixStorage<T>.OfInit(rows, columns, init));
+            return Sparse(SparseCompressedRowMatrixStorage<T>.OfInit(rows, columns, init));
         }
 
         /// <summary>
         /// Create a new diagonal sparse matrix and initialize each diagonal value to the same provided value.
         /// </summary>
-        public Matrix<T> SparseMatrixDiagonal(int rows, int columns, T value)
+        public Matrix<T> SparseDiagonal(int rows, int columns, T value)
         {
-            if (Zero.Equals(value)) return SparseMatrix(rows, columns);
-            return SparseMatrix(SparseCompressedRowMatrixStorage<T>.OfDiagonalInit(rows, columns, i => value));
+            if (Zero.Equals(value)) return Sparse(rows, columns);
+            return Sparse(SparseCompressedRowMatrixStorage<T>.OfDiagonalInit(rows, columns, i => value));
         }
 
         /// <summary>
         /// Create a new diagonal sparse matrix and initialize each diagonal value using the provided init function.
         /// </summary>
-        public Matrix<T> SparseMatrixDiagonal(int rows, int columns, Func<int, T> init)
+        public Matrix<T> SparseDiagonal(int rows, int columns, Func<int, T> init)
         {
-            return SparseMatrix(SparseCompressedRowMatrixStorage<T>.OfDiagonalInit(rows, columns, init));
+            return Sparse(SparseCompressedRowMatrixStorage<T>.OfDiagonalInit(rows, columns, init));
         }
 
         /// <summary>
@@ -707,9 +745,9 @@ namespace MathNet.Numerics.LinearAlgebra
         /// This new matrix will be independent from the other matrix.
         /// A new memory block will be allocated for storing the matrix.
         /// </summary>
-        public Matrix<T> SparseMatrixOfMatrix(Matrix<T> matrix)
+        public Matrix<T> SparseOfMatrix(Matrix<T> matrix)
         {
-            return SparseMatrix(SparseCompressedRowMatrixStorage<T>.OfMatrix(matrix.Storage));
+            return Sparse(SparseCompressedRowMatrixStorage<T>.OfMatrix(matrix.Storage));
         }
 
         /// <summary>
@@ -717,9 +755,9 @@ namespace MathNet.Numerics.LinearAlgebra
         /// This new matrix will be independent from the provided array.
         /// A new memory block will be allocated for storing the matrix.
         /// </summary>
-        public Matrix<T> SparseMatrixOfArray(T[,] array)
+        public Matrix<T> SparseOfArray(T[,] array)
         {
-            return SparseMatrix(SparseCompressedRowMatrixStorage<T>.OfArray(array));
+            return Sparse(SparseCompressedRowMatrixStorage<T>.OfArray(array));
         }
 
         /// <summary>
@@ -728,9 +766,9 @@ namespace MathNet.Numerics.LinearAlgebra
         /// This new matrix will be independent from the enumerable.
         /// A new memory block will be allocated for storing the matrix.
         /// </summary>
-        public Matrix<T> SparseMatrixOfIndexed(int rows, int columns, IEnumerable<Tuple<int, int, T>> enumerable)
+        public Matrix<T> SparseOfIndexed(int rows, int columns, IEnumerable<Tuple<int, int, T>> enumerable)
         {
-            return SparseMatrix(SparseCompressedRowMatrixStorage<T>.OfIndexedEnumerable(rows, columns, enumerable));
+            return Sparse(SparseCompressedRowMatrixStorage<T>.OfIndexedEnumerable(rows, columns, enumerable));
         }
 
         /// <summary>
@@ -740,9 +778,9 @@ namespace MathNet.Numerics.LinearAlgebra
         /// A new memory block will be allocated for storing the vector.
         /// </summary>
         /// <seealso href="http://en.wikipedia.org/wiki/Row-major_order"/>
-        public Matrix<T> SparseMatrixOfRowMajor(int rows, int columns, IEnumerable<T> rowMajor)
+        public Matrix<T> SparseOfRowMajor(int rows, int columns, IEnumerable<T> rowMajor)
         {
-            return SparseMatrix(SparseCompressedRowMatrixStorage<T>.OfRowMajorEnumerable(rows, columns, rowMajor));
+            return Sparse(SparseCompressedRowMatrixStorage<T>.OfRowMajorEnumerable(rows, columns, rowMajor));
         }
 
         /// <summary>
@@ -752,9 +790,9 @@ namespace MathNet.Numerics.LinearAlgebra
         /// A new memory block will be allocated for storing the matrix.
         /// </summary>
         /// <seealso href="http://en.wikipedia.org/wiki/Row-major_order"/>
-        public Matrix<T> SparseMatrixOfColumnMajor(int rows, int columns, IList<T> columnMajor)
+        public Matrix<T> SparseOfColumnMajor(int rows, int columns, IList<T> columnMajor)
         {
-            return SparseMatrix(SparseCompressedRowMatrixStorage<T>.OfColumnMajorList(rows, columns, columnMajor));
+            return Sparse(SparseCompressedRowMatrixStorage<T>.OfColumnMajorList(rows, columns, columnMajor));
         }
 
         /// <summary>
@@ -763,9 +801,9 @@ namespace MathNet.Numerics.LinearAlgebra
         /// This new matrix will be independent from the enumerables.
         /// A new memory block will be allocated for storing the matrix.
         /// </summary>
-        public Matrix<T> SparseMatrixOfColumns(IEnumerable<IEnumerable<T>> data)
+        public Matrix<T> SparseOfColumns(IEnumerable<IEnumerable<T>> data)
         {
-            return SparseMatrix(SparseCompressedRowMatrixStorage<T>.OfColumnArrays(data.Select(v => v.ToArray()).ToArray()));
+            return Sparse(SparseCompressedRowMatrixStorage<T>.OfColumnArrays(data.Select(v => v.ToArray()).ToArray()));
         }
 
         /// <summary>
@@ -774,9 +812,9 @@ namespace MathNet.Numerics.LinearAlgebra
         /// This new matrix will be independent from the enumerables.
         /// A new memory block will be allocated for storing the matrix.
         /// </summary>
-        public Matrix<T> SparseMatrixOfColumns(int rows, int columns, IEnumerable<IEnumerable<T>> data)
+        public Matrix<T> SparseOfColumns(int rows, int columns, IEnumerable<IEnumerable<T>> data)
         {
-            return SparseMatrix(SparseCompressedRowMatrixStorage<T>.OfColumnEnumerables(rows, columns, data));
+            return Sparse(SparseCompressedRowMatrixStorage<T>.OfColumnEnumerables(rows, columns, data));
         }
 
         /// <summary>
@@ -784,9 +822,9 @@ namespace MathNet.Numerics.LinearAlgebra
         /// This new matrix will be independent from the arrays.
         /// A new memory block will be allocated for storing the matrix.
         /// </summary>
-        public Matrix<T> SparseMatrixOfColumnArrays(params T[][] columns)
+        public Matrix<T> SparseOfColumnArrays(params T[][] columns)
         {
-            return SparseMatrix(SparseCompressedRowMatrixStorage<T>.OfColumnArrays(columns));
+            return Sparse(SparseCompressedRowMatrixStorage<T>.OfColumnArrays(columns));
         }
 
         /// <summary>
@@ -794,9 +832,9 @@ namespace MathNet.Numerics.LinearAlgebra
         /// This new matrix will be independent from the arrays.
         /// A new memory block will be allocated for storing the matrix.
         /// </summary>
-        public Matrix<T> SparseMatrixOfColumnArrays(IEnumerable<T[]> columns)
+        public Matrix<T> SparseOfColumnArrays(IEnumerable<T[]> columns)
         {
-            return SparseMatrix(SparseCompressedRowMatrixStorage<T>.OfColumnArrays((columns as T[][]) ?? columns.ToArray()));
+            return Sparse(SparseCompressedRowMatrixStorage<T>.OfColumnArrays((columns as T[][]) ?? columns.ToArray()));
         }
 
         /// <summary>
@@ -804,14 +842,14 @@ namespace MathNet.Numerics.LinearAlgebra
         /// This new matrix will be independent from the vectors.
         /// A new memory block will be allocated for storing the matrix.
         /// </summary>
-        public Matrix<T> SparseMatrixOfColumnVectors(params Vector<T>[] columns)
+        public Matrix<T> SparseOfColumnVectors(params Vector<T>[] columns)
         {
             var storage = new VectorStorage<T>[columns.Length];
             for (int i = 0; i < columns.Length; i++)
             {
                 storage[i] = columns[i].Storage;
             }
-            return SparseMatrix(SparseCompressedRowMatrixStorage<T>.OfColumnVectors(storage));
+            return Sparse(SparseCompressedRowMatrixStorage<T>.OfColumnVectors(storage));
         }
 
         /// <summary>
@@ -819,9 +857,9 @@ namespace MathNet.Numerics.LinearAlgebra
         /// This new matrix will be independent from the vectors.
         /// A new memory block will be allocated for storing the matrix.
         /// </summary>
-        public Matrix<T> SparseMatrixOfColumnVectors(IEnumerable<Vector<T>> columns)
+        public Matrix<T> SparseOfColumnVectors(IEnumerable<Vector<T>> columns)
         {
-            return SparseMatrix(SparseCompressedRowMatrixStorage<T>.OfColumnVectors(columns.Select(c => c.Storage).ToArray()));
+            return Sparse(SparseCompressedRowMatrixStorage<T>.OfColumnVectors(columns.Select(c => c.Storage).ToArray()));
         }
 
         /// <summary>
@@ -830,9 +868,9 @@ namespace MathNet.Numerics.LinearAlgebra
         /// This new matrix will be independent from the enumerables.
         /// A new memory block will be allocated for storing the matrix.
         /// </summary>
-        public Matrix<T> SparseMatrixOfRows(IEnumerable<IEnumerable<T>> data)
+        public Matrix<T> SparseOfRows(IEnumerable<IEnumerable<T>> data)
         {
-            return SparseMatrix(SparseCompressedRowMatrixStorage<T>.OfRowArrays(data.Select(v => v.ToArray()).ToArray()));
+            return Sparse(SparseCompressedRowMatrixStorage<T>.OfRowArrays(data.Select(v => v.ToArray()).ToArray()));
         }
 
         /// <summary>
@@ -841,9 +879,9 @@ namespace MathNet.Numerics.LinearAlgebra
         /// This new matrix will be independent from the enumerables.
         /// A new memory block will be allocated for storing the matrix.
         /// </summary>
-        public Matrix<T> SparseMatrixOfRows(int rows, int columns, IEnumerable<IEnumerable<T>> data)
+        public Matrix<T> SparseOfRows(int rows, int columns, IEnumerable<IEnumerable<T>> data)
         {
-            return SparseMatrix(SparseCompressedRowMatrixStorage<T>.OfRowEnumerables(rows, columns, data));
+            return Sparse(SparseCompressedRowMatrixStorage<T>.OfRowEnumerables(rows, columns, data));
         }
 
         /// <summary>
@@ -851,9 +889,9 @@ namespace MathNet.Numerics.LinearAlgebra
         /// This new matrix will be independent from the arrays.
         /// A new memory block will be allocated for storing the matrix.
         /// </summary>
-        public Matrix<T> SparseMatrixOfRowArrays(params T[][] rows)
+        public Matrix<T> SparseOfRowArrays(params T[][] rows)
         {
-            return SparseMatrix(SparseCompressedRowMatrixStorage<T>.OfRowArrays(rows));
+            return Sparse(SparseCompressedRowMatrixStorage<T>.OfRowArrays(rows));
         }
 
         /// <summary>
@@ -861,9 +899,9 @@ namespace MathNet.Numerics.LinearAlgebra
         /// This new matrix will be independent from the arrays.
         /// A new memory block will be allocated for storing the matrix.
         /// </summary>
-        public Matrix<T> SparseMatrixOfRowArrays(IEnumerable<T[]> rows)
+        public Matrix<T> SparseOfRowArrays(IEnumerable<T[]> rows)
         {
-            return SparseMatrix(SparseCompressedRowMatrixStorage<T>.OfRowArrays((rows as T[][]) ?? rows.ToArray()));
+            return Sparse(SparseCompressedRowMatrixStorage<T>.OfRowArrays((rows as T[][]) ?? rows.ToArray()));
         }
 
         /// <summary>
@@ -871,14 +909,14 @@ namespace MathNet.Numerics.LinearAlgebra
         /// This new matrix will be independent from the vectors.
         /// A new memory block will be allocated for storing the matrix.
         /// </summary>
-        public Matrix<T> SparseMatrixOfRowVectors(params Vector<T>[] rows)
+        public Matrix<T> SparseOfRowVectors(params Vector<T>[] rows)
         {
             var storage = new VectorStorage<T>[rows.Length];
             for (int i = 0; i < rows.Length; i++)
             {
                 storage[i] = rows[i].Storage;
             }
-            return SparseMatrix(SparseCompressedRowMatrixStorage<T>.OfRowVectors(storage));
+            return Sparse(SparseCompressedRowMatrixStorage<T>.OfRowVectors(storage));
         }
 
         /// <summary>
@@ -886,9 +924,9 @@ namespace MathNet.Numerics.LinearAlgebra
         /// This new matrix will be independent from the vectors.
         /// A new memory block will be allocated for storing the matrix.
         /// </summary>
-        public Matrix<T> SparseMatrixOfRowVectors(IEnumerable<Vector<T>> rows)
+        public Matrix<T> SparseOfRowVectors(IEnumerable<Vector<T>> rows)
         {
-            return SparseMatrix(SparseCompressedRowMatrixStorage<T>.OfRowVectors(rows.Select(r => r.Storage).ToArray()));
+            return Sparse(SparseCompressedRowMatrixStorage<T>.OfRowVectors(rows.Select(r => r.Storage).ToArray()));
         }
 
         /// <summary>
@@ -896,9 +934,9 @@ namespace MathNet.Numerics.LinearAlgebra
         /// This new matrix will be independent from the vector.
         /// A new memory block will be allocated for storing the matrix.
         /// </summary>
-        public Matrix<T> SparseMatrixOfDiagonalVector(Vector<T> diagonal)
+        public Matrix<T> SparseOfDiagonalVector(Vector<T> diagonal)
         {
-            var m = SparseMatrix(diagonal.Count, diagonal.Count);
+            var m = Sparse(diagonal.Count, diagonal.Count);
             m.SetDiagonal(diagonal);
             return m;
         }
@@ -908,9 +946,9 @@ namespace MathNet.Numerics.LinearAlgebra
         /// This new matrix will be independent from the vector.
         /// A new memory block will be allocated for storing the matrix.
         /// </summary>
-        public Matrix<T> SparseMatrixOfDiagonalVector(int rows, int columns, Vector<T> diagonal)
+        public Matrix<T> SparseOfDiagonalVector(int rows, int columns, Vector<T> diagonal)
         {
-            var m = SparseMatrix(rows, columns);
+            var m = Sparse(rows, columns);
             m.SetDiagonal(diagonal);
             return m;
         }
@@ -920,9 +958,9 @@ namespace MathNet.Numerics.LinearAlgebra
         /// This new matrix will be independent from the array.
         /// A new memory block will be allocated for storing the matrix.
         /// </summary>
-        public Matrix<T> SparseMatrixOfDiagonalArray(T[] diagonal)
+        public Matrix<T> SparseOfDiagonalArray(T[] diagonal)
         {
-            var m = SparseMatrix(diagonal.Length, diagonal.Length);
+            var m = Sparse(diagonal.Length, diagonal.Length);
             m.SetDiagonal(diagonal);
             return m;
         }
@@ -932,9 +970,9 @@ namespace MathNet.Numerics.LinearAlgebra
         /// This new matrix will be independent from the array.
         /// A new memory block will be allocated for storing the matrix.
         /// </summary>
-        public Matrix<T> SparseMatrixOfDiagonalArray(int rows, int columns, T[] diagonal)
+        public Matrix<T> SparseOfDiagonalArray(int rows, int columns, T[] diagonal)
         {
-            var m = SparseMatrix(rows, columns);
+            var m = Sparse(rows, columns);
             m.SetDiagonal(diagonal);
             return m;
         }
@@ -945,7 +983,42 @@ namespace MathNet.Numerics.LinearAlgebra
         /// Intended for advanced scenarios where you're working directly with
         /// storage for performance or interop reasons.
         /// </summary>
-        public abstract Matrix<T> DiagonalMatrix(DiagonalMatrixStorage<T> storage);
+        public abstract Matrix<T> Diagonal(DiagonalMatrixStorage<T> storage);
+
+        public abstract IIterationStopCriterium<T>[] IterativeSolverStopCriteria(int maxIterations = 1000);
+    }
+
+    /// <summary>
+    /// Generic linear algebra type builder, for situations where a matrix or vector
+    /// must be created in a generic way. Usage of generic builders should not be
+    /// required in normal user code.
+    /// </summary>
+    public abstract class VectorBuilder<T> where T : struct, IEquatable<T>, IFormattable
+    {
+        /// <summary>
+        /// Gets the value of <c>0.0</c> for type T.
+        /// </summary>
+        public abstract T Zero { get; }
+
+        /// <summary>
+        /// Gets the value of <c>1.0</c> for type T.
+        /// </summary>
+        public abstract T One { get; }
+
+        /// <summary>
+        /// Create a new vector straight from an initialized matrix storage instance.
+        /// If you have an instance of a discrete storage type instead, use their direct methods instead.
+        /// </summary>
+        public Vector<T> Storage(VectorStorage<T> storage)
+        {
+            var dense = storage as DenseVectorStorage<T>;
+            if (dense != null) return Dense(dense);
+
+            var sparse = storage as SparseVectorStorage<T>;
+            if (sparse != null) return Sparse(sparse);
+
+            throw new NotSupportedException();
+        }
 
         /// <summary>
         /// Create a new dense vector straight from an initialized vector storage instance.
@@ -953,55 +1026,55 @@ namespace MathNet.Numerics.LinearAlgebra
         /// Intended for advanced scenarios where you're working directly with
         /// storage for performance or interop reasons.
         /// </summary>
-        public abstract Vector<T> DenseVector(DenseVectorStorage<T> storage);
+        public abstract Vector<T> Dense(DenseVectorStorage<T> storage);
 
         /// <summary>
         /// Create a dense vector of T with the given size.
         /// </summary>
         /// <param name="size">The size of the vector.</param>
-        public Vector<T> DenseVector(int size)
+        public Vector<T> Dense(int size)
         {
-            return DenseVector(new DenseVectorStorage<T>(size));
+            return Dense(new DenseVectorStorage<T>(size));
         }
 
         /// <summary>
         /// Create a dense vector of T that is directly bound to the specified array.
         /// </summary>
-        public Vector<T> DenseVector(T[] array)
+        public Vector<T> Dense(T[] array)
         {
-            return DenseVector(new DenseVectorStorage<T>(array.Length, array));
+            return Dense(new DenseVectorStorage<T>(array.Length, array));
         }
 
         /// <summary>
         /// Create a new dense vector and initialize each value using the provided value.
         /// </summary>
-        public Vector<T> DenseVector(int length, T value)
+        public Vector<T> Dense(int length, T value)
         {
-            if (Zero.Equals(value)) return DenseVector(length);
-            return DenseVector(DenseVectorStorage<T>.OfInit(length, i => value));
+            if (Zero.Equals(value)) return Dense(length);
+            return Dense(DenseVectorStorage<T>.OfInit(length, i => value));
         }
 
         /// <summary>
         /// Create a new dense vector and initialize each value using the provided init function.
         /// </summary>
-        public Vector<T> DenseVector(int length, Func<int, T> init)
+        public Vector<T> Dense(int length, Func<int, T> init)
         {
-            return DenseVector(DenseVectorStorage<T>.OfInit(length, init));
+            return Dense(DenseVectorStorage<T>.OfInit(length, init));
         }
 
         /// <summary>
         /// Create a new dense vector with values sampled from the provided random distribution.
         /// </summary>
-        public abstract Vector<T> DenseVectorRandom(int length, IContinuousDistribution distribution);
+        public abstract Vector<T> DenseRandom(int length, IContinuousDistribution distribution);
 
         /// <summary>
         /// Create a new dense vector as a copy of the given other vector.
         /// This new vector will be independent from the other vector.
         /// A new memory block will be allocated for storing the vector.
         /// </summary>
-        public  Vector<T> DenseVectorOfVector(Vector<T> vector)
+        public Vector<T> DenseOfVector(Vector<T> vector)
         {
-            return DenseVector(DenseVectorStorage<T>.OfVector(vector.Storage));
+            return Dense(DenseVectorStorage<T>.OfVector(vector.Storage));
         }
 
         /// <summary>
@@ -1009,9 +1082,9 @@ namespace MathNet.Numerics.LinearAlgebra
         /// This new vector will be independent from the enumerable.
         /// A new memory block will be allocated for storing the vector.
         /// </summary>
-        public  Vector<T> DenseVectorOfEnumerable(IEnumerable<T> enumerable)
+        public Vector<T> DenseOfEnumerable(IEnumerable<T> enumerable)
         {
-            return DenseVector(DenseVectorStorage<T>.OfEnumerable(enumerable));
+            return Dense(DenseVectorStorage<T>.OfEnumerable(enumerable));
         }
 
         /// <summary>
@@ -1020,9 +1093,9 @@ namespace MathNet.Numerics.LinearAlgebra
         /// This new vector will be independent from the enumerable.
         /// A new memory block will be allocated for storing the vector.
         /// </summary>
-        public Vector<T> DenseVectorOfIndexed(int length, IEnumerable<Tuple<int, T>> enumerable)
+        public Vector<T> DenseOfIndexed(int length, IEnumerable<Tuple<int, T>> enumerable)
         {
-            return DenseVector(DenseVectorStorage<T>.OfIndexedEnumerable(length, enumerable));
+            return Dense(DenseVectorStorage<T>.OfIndexedEnumerable(length, enumerable));
         }
 
         /// <summary>
@@ -1031,32 +1104,32 @@ namespace MathNet.Numerics.LinearAlgebra
         /// Intended for advanced scenarios where you're working directly with
         /// storage for performance or interop reasons.
         /// </summary>
-        public abstract Vector<T> SparseVector(SparseVectorStorage<T> storage);
+        public abstract Vector<T> Sparse(SparseVectorStorage<T> storage);
 
         /// <summary>
         /// Create a sparse vector of T with the given size.
         /// </summary>
         /// <param name="size">The size of the vector.</param>
-        public Vector<T> SparseVector(int size)
+        public Vector<T> Sparse(int size)
         {
-            return SparseVector(new SparseVectorStorage<T>(size));
+            return Sparse(new SparseVectorStorage<T>(size));
         }
 
         /// <summary>
         /// Create a new sparse vector and initialize each value using the provided value.
         /// </summary>
-        public Vector<T> SparseVector(int length, T value)
+        public Vector<T> Sparse(int length, T value)
         {
-            if (Zero.Equals(value)) return SparseVector(length);
-            return SparseVector(SparseVectorStorage<T>.OfInit(length, i => value));
+            if (Zero.Equals(value)) return Sparse(length);
+            return Sparse(SparseVectorStorage<T>.OfInit(length, i => value));
         }
 
         /// <summary>
         /// Create a new sparse vector and initialize each value using the provided init function.
         /// </summary>
-        public Vector<T> SparseVector(int length, Func<int, T> init)
+        public Vector<T> Sparse(int length, Func<int, T> init)
         {
-            return SparseVector(SparseVectorStorage<T>.OfInit(length, init));
+            return Sparse(SparseVectorStorage<T>.OfInit(length, init));
         }
 
         /// <summary>
@@ -1064,9 +1137,9 @@ namespace MathNet.Numerics.LinearAlgebra
         /// This new vector will be independent from the other vector.
         /// A new memory block will be allocated for storing the vector.
         /// </summary>
-        public Vector<T> SparseVectorOfVector(Vector<T> vector)
+        public Vector<T> SparseOfVector(Vector<T> vector)
         {
-            return SparseVector(SparseVectorStorage<T>.OfVector(vector.Storage));
+            return Sparse(SparseVectorStorage<T>.OfVector(vector.Storage));
         }
 
         /// <summary>
@@ -1074,9 +1147,9 @@ namespace MathNet.Numerics.LinearAlgebra
         /// This new vector will be independent from the enumerable.
         /// A new memory block will be allocated for storing the vector.
         /// </summary>
-        public Vector<T> SparseVectorOfEnumerable(IEnumerable<T> enumerable)
+        public Vector<T> SparseOfEnumerable(IEnumerable<T> enumerable)
         {
-            return SparseVector(SparseVectorStorage<T>.OfEnumerable(enumerable));
+            return Sparse(SparseVectorStorage<T>.OfEnumerable(enumerable));
         }
 
         /// <summary>
@@ -1085,51 +1158,62 @@ namespace MathNet.Numerics.LinearAlgebra
         /// This new vector will be independent from the enumerable.
         /// A new memory block will be allocated for storing the vector.
         /// </summary>
-        public Vector<T> SparseVectorOfIndexed(int length, IEnumerable<Tuple<int, T>> enumerable)
+        public Vector<T> SparseOfIndexed(int length, IEnumerable<Tuple<int, T>> enumerable)
         {
-            return SparseVector(SparseVectorStorage<T>.OfIndexedEnumerable(length, enumerable));
+            return Sparse(SparseVectorStorage<T>.OfIndexedEnumerable(length, enumerable));
         }
-
-        public abstract IIterationStopCriterium<T>[] IterativeSolverStopCriteria(int maxIterations = 1000);
     }
 
     internal static class BuilderInstance<T> where T : struct, IEquatable<T>, IFormattable
     {
-        static Lazy<Builder<T>> _singleton = new Lazy<Builder<T>>(Create);
+        static Lazy<Tuple<MatrixBuilder<T>, VectorBuilder<T>>> _singleton = new Lazy<Tuple<MatrixBuilder<T>, VectorBuilder<T>>>(Create);
 
-        static Builder<T> Create()
+        static Tuple<MatrixBuilder<T>, VectorBuilder<T>> Create()
         {
             if (typeof (T) == typeof (Complex64))
             {
-                return (Builder<T>) (object) new Complex.Builder();
+                return new Tuple<MatrixBuilder<T>, VectorBuilder<T>>(
+                    (MatrixBuilder<T>) (object) new Complex.MatrixBuilder(),
+                    (VectorBuilder<T>) (object) new Complex.VectorBuilder());
             }
 
             if (typeof (T) == typeof (Numerics.Complex32))
             {
-                return (Builder<T>) (object) new Complex32.Builder();
+                return new Tuple<MatrixBuilder<T>, VectorBuilder<T>>(
+                    (MatrixBuilder<T>) (object) new Complex32.MatrixBuilder(),
+                    (VectorBuilder<T>) (object) new Complex32.VectorBuilder());
             }
 
             if (typeof (T) == typeof (double))
             {
-                return (Builder<T>) (object) new Double.Builder();
+                return new Tuple<MatrixBuilder<T>, VectorBuilder<T>>(
+                    (MatrixBuilder<T>) (object) new Double.MatrixBuilder(),
+                    (VectorBuilder<T>) (object) new Double.VectorBuilder());
             }
 
             if (typeof (T) == typeof (float))
             {
-                return (Builder<T>) (object) new Single.Builder();
+                return new Tuple<MatrixBuilder<T>, VectorBuilder<T>>(
+                    (MatrixBuilder<T>) (object) new Single.MatrixBuilder(),
+                    (VectorBuilder<T>) (object) new Single.VectorBuilder());
             }
 
             throw new NotSupportedException();
         }
 
-        public static void Register(Builder<T> builder)
+        public static void Register(MatrixBuilder<T> matrixBuilder, VectorBuilder<T> vectorBuilder)
         {
-            _singleton = new Lazy<Builder<T>>(() => builder);
+            _singleton = new Lazy<Tuple<MatrixBuilder<T>, VectorBuilder<T>>>(() => new Tuple<MatrixBuilder<T>, VectorBuilder<T>>(matrixBuilder, vectorBuilder));
         }
 
-        public static Builder<T> Instance
+        public static MatrixBuilder<T> Matrix
         {
-            get { return _singleton.Value; }
+            get { return _singleton.Value.Item1; }
+        }
+
+        public static VectorBuilder<T> Vector
+        {
+            get { return _singleton.Value.Item2; }
         }
     }
 }

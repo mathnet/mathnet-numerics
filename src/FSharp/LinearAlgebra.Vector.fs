@@ -222,34 +222,34 @@ module Vector =
 module DenseVector =
 
     /// Create a vector that directly binds to a raw storage array, without copying.
-    let inline raw (raw: 'T[]) = Vector<'T>.Build.DenseVector(raw)
+    let inline raw (raw: 'T[]) = Vector<'T>.Build.Dense(raw)
 
     /// Initialize an all-zero vector with the given dimension.
-    let inline zeroCreate (n: int) = Vector<'T>.Build.DenseVector(n)
+    let inline zeroCreate (n: int) = Vector<'T>.Build.Dense(n)
 
     /// Initialize a random vector with the given dimension and distribution.
-    let inline randomCreate (n: int) dist = Vector<'T>.Build.DenseVectorRandom(n, dist)
+    let inline randomCreate (n: int) dist = Vector<'T>.Build.DenseRandom(n, dist)
 
     /// Initialize an x-valued vector with the given dimension.
-    let inline create (n: int) (x: 'T) = Vector<'T>.Build.DenseVector(n, x)
+    let inline create (n: int) (x: 'T) = Vector<'T>.Build.Dense(n, x)
 
     /// Initialize a vector by calling a construction function for every element.
-    let inline init (n: int) (f: int -> 'T) = Vector<'T>.Build.DenseVector(n, f)
+    let inline init (n: int) (f: int -> 'T) = Vector<'T>.Build.Dense(n, f)
 
     /// Create a vector from a float array (by copying - use raw instead if no copy is needed).
-    let inline ofArray (fl: 'T array) = Vector<'T>.Build.DenseVector(Array.copy fl)
+    let inline ofArray (fl: 'T array) = Vector<'T>.Build.Dense(Array.copy fl)
 
     /// Create a vector from a float list.
-    let inline ofList (fl: 'T list) = Vector<'T>.Build.DenseVector(Array.ofList fl)
+    let inline ofList (fl: 'T list) = Vector<'T>.Build.Dense(Array.ofList fl)
 
     /// Create a vector from a float sequence.
-    let inline ofSeq (fs: #seq<'T>) = Vector<'T>.Build.DenseVectorOfEnumerable(fs)
+    let inline ofSeq (fs: #seq<'T>) = Vector<'T>.Build.DenseOfEnumerable(fs)
 
     /// Create a vector with a given dimension from an indexed list of index, value pairs.
-    let inline ofListi (n: int) (fl: list<int * 'T>) = Vector<'T>.Build.DenseVectorOfIndexed(n, Seq.ofList fl)
+    let inline ofListi (n: int) (fl: list<int * 'T>) = Vector<'T>.Build.DenseOfIndexed(n, Seq.ofList fl)
 
     /// Create a vector with a given dimension from an indexed sequences of index, value pairs.
-    let inline ofSeqi (n: int) (fs: #seq<int * 'T>) = Vector<'T>.Build.DenseVectorOfIndexed(n, fs)
+    let inline ofSeqi (n: int) (fs: #seq<int * 'T>) = Vector<'T>.Build.DenseOfIndexed(n, fs)
 
     /// Create a vector with integer entries in the given range.
     let inline range (start: int) (step: int) (stop: int) = raw [| for i in start..step..stop -> float i |]
@@ -263,28 +263,28 @@ module DenseVector =
 module SparseVector =
 
     /// Initialize an all-zero vector with the given dimension.
-    let inline zeroCreate (n: int) = Vector<'T>.Build.SparseVector(n)
+    let inline zeroCreate (n: int) = Vector<'T>.Build.Sparse(n)
 
     /// Initialize an x-valued vector with the given dimension.
-    let inline create (n: int) (x: 'T) = Vector<'T>.Build.SparseVector(n, x)
+    let inline create (n: int) (x: 'T) = Vector<'T>.Build.Sparse(n, x)
 
     /// Initialize a vector by calling a construction function for every element.
-    let inline init (n: int) (f: int -> 'T) = Vector<'T>.Build.SparseVector(n, f)
+    let inline init (n: int) (f: int -> 'T) = Vector<'T>.Build.Sparse(n, f)
 
     /// Create a sparse vector from a float array.
-    let inline ofArray (fl: 'T array) = Vector<'T>.Build.SparseVectorOfEnumerable(fl :> seq<'T>)
+    let inline ofArray (fl: 'T array) = Vector<'T>.Build.SparseOfEnumerable(fl :> seq<'T>)
 
     /// Create a sparse vector from a float list.
-    let inline ofList (fl: 'T list) = Vector<'T>.Build.SparseVectorOfEnumerable(Seq.ofList fl)
+    let inline ofList (fl: 'T list) = Vector<'T>.Build.SparseOfEnumerable(Seq.ofList fl)
 
     /// Create a sparse vector from a float sequence.
-    let inline ofSeq (fs: #seq<'T>) = Vector<'T>.Build.SparseVectorOfEnumerable(fs)
+    let inline ofSeq (fs: #seq<'T>) = Vector<'T>.Build.SparseOfEnumerable(fs)
 
     /// Create a sparse vector with a given dimension from an indexed list of index, value pairs.
-    let inline ofListi (n: int) (fl: list<int * 'T>) = Vector<'T>.Build.SparseVectorOfIndexed(n, Seq.ofList fl)
+    let inline ofListi (n: int) (fl: list<int * 'T>) = Vector<'T>.Build.SparseOfIndexed(n, Seq.ofList fl)
 
     /// Create a sparse vector with a given dimension from an indexed sequence of index, value pairs.
-    let inline ofSeqi (n: int) (fs: #seq<int * 'T>) = Vector<'T>.Build.SparseVectorOfIndexed(n, fs)
+    let inline ofSeqi (n: int) (fs: #seq<int * 'T>) = Vector<'T>.Build.SparseOfIndexed(n, fs)
 
 
 /// Module that contains implementation of useful F#-specific extension members for generic vectors
