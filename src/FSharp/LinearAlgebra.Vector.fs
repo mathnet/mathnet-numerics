@@ -221,14 +221,17 @@ module Vector =
 [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
 module DenseVector =
 
+    /// Create a vector that directly binds to a storage object.
+    let inline ofStorage (storage: Storage.DenseVectorStorage<'T>) = Vector<'T>.Build.Dense(storage)
+
     /// Create a vector that directly binds to a raw storage array, without copying.
     let inline raw (raw: 'T[]) = Vector<'T>.Build.Dense(raw)
 
     /// Initialize an all-zero vector with the given dimension.
-    let inline zeroCreate (n: int) = Vector<'T>.Build.Dense(n)
+    let inline zero (n: int) = Vector<'T>.Build.Dense(n)
 
     /// Initialize a random vector with the given dimension and distribution.
-    let inline randomCreate (n: int) dist = Vector<'T>.Build.DenseRandom(n, dist)
+    let inline random (n: int) dist = Vector<'T>.Build.Random(n, dist)
 
     /// Initialize an x-valued vector with the given dimension.
     let inline create (n: int) (x: 'T) = Vector<'T>.Build.Dense(n, x)
@@ -262,8 +265,11 @@ module DenseVector =
 [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
 module SparseVector =
 
+    /// Create a vector that directly binds to a storage object.
+    let inline ofStorage (storage: Storage.SparseVectorStorage<'T>) = Vector<'T>.Build.Sparse(storage)
+
     /// Initialize an all-zero vector with the given dimension.
-    let inline zeroCreate (n: int) = Vector<'T>.Build.Sparse(n)
+    let inline zero (n: int) = Vector<'T>.Build.Sparse(n)
 
     /// Initialize an x-valued vector with the given dimension.
     let inline create (n: int) (x: 'T) = Vector<'T>.Build.Sparse(n, x)

@@ -350,20 +350,32 @@ module Matrix =
 [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
 module DenseMatrix =
 
+    /// Create a matrix that directly binds to a storage object.
+    let inline ofStorage storage = Matrix<'T>.Build.Dense(storage)
+
     /// Create a matrix that directly binds to a raw storage array in column-major (column by column) format, without copying.
     let inline raw (rows: int) (cols: int) (columnMajor: 'T[]) = Matrix<'T>.Build.Dense(rows, cols, columnMajor)
 
     /// Create an all-zero matrix with the given dimension.
-    let inline zeroCreate (rows: int) (cols: int) = Matrix<'T>.Build.Dense(rows, cols)
+    let inline zero (rows: int) (cols: int) = Matrix<'T>.Build.Dense(rows, cols)
 
     /// Create a random matrix with the given dimension and value distribution.
-    let inline randomCreate (rows: int) (cols: int) dist = Matrix<'T>.Build.DenseRandom(rows, cols, dist)
+    let inline random (rows: int) (cols: int) dist = Matrix<'T>.Build.Random(rows, cols, dist)
 
     /// Create a matrix with the given dimension and set all values to x.
     let inline create (rows: int) (cols: int) (x: 'T) = Matrix<'T>.Build.Dense(rows, cols, x)
 
     /// Create a matrix with the given dimension and set all diagonal values to x. All other values are zero.
-    let inline createDiag (rows: int) (cols: int) (x: 'T) = Matrix<'T>.Build.DenseDiagonal(rows, cols, x)
+    let inline diag (order: int) (x: 'T) = Matrix<'T>.Build.DenseDiagonal(order, x)
+    
+    /// Create a matrix with the given dimension and set all diagonal values to x. All other values are zero.
+    let inline diag2 (rows: int) (cols: int) (x: 'T) = Matrix<'T>.Build.DenseDiagonal(rows, cols, x)
+
+    /// Create an identity matrix with the given dimension.
+    let inline identity (order: int) = Matrix<'T>.Build.DenseIdentity(order)
+
+    /// Create an identity matrix with the given dimension.
+    let inline identity2 (rows: int) (cols: int) = Matrix<'T>.Build.DenseIdentity(rows, cols)
 
     /// Initialize a matrix by calling a construction function for every element.
     let inline init (rows: int) (cols: int) (f: int -> int -> 'T) = Matrix<'T>.Build.Dense(rows, cols, fun i j -> f i j)
@@ -376,9 +388,6 @@ module DenseMatrix =
 
     /// Initialize a matrix by calling a construction function for every diagonal element. All other values are zero.
     let inline initDiag (rows: int) (cols: int) (f: int -> 'T) = Matrix<'T>.Build.DenseDiagonal(rows, cols, f)
-
-    /// Create an identity matrix with the given dimension.
-    let inline identity (rows: int) (cols: int) = createDiag rows cols Matrix<'T>.Build.One
 
     /// Create a matrix from a 2D array of floating point numbers.
     let inline ofArray2 array = Matrix<'T>.Build.DenseOfArray(array)
@@ -436,14 +445,26 @@ module DenseMatrix =
 [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
 module SparseMatrix =
 
+    /// Create a matrix that directly binds to a storage object.
+    let inline ofStorage storage = Matrix<'T>.Build.Sparse(storage)
+
     /// Create an all-zero matrix with the given dimension.
-    let inline zeroCreate (rows: int) (cols: int) = Matrix<'T>.Build.Sparse(rows, cols)
+    let inline zero (rows: int) (cols: int) = Matrix<'T>.Build.Sparse(rows, cols)
 
     /// Create a matrix with the given dimension and set all values to x. Note that a dense matrix would likely be more appropriate.
     let inline create (rows: int) (cols: int) (x: 'T) = Matrix<'T>.Build.Sparse(rows, cols, x)
 
     /// Create a matrix with the given dimension and set all diagonal values to x. All other values are zero.
-    let inline createDiag (rows: int) (cols: int) (x: 'T) = Matrix<'T>.Build.SparseDiagonal(rows, cols, x)
+    let inline diag (order: int) (x: 'T) = Matrix<'T>.Build.SparseDiagonal(order, x)
+    
+    /// Create a matrix with the given dimension and set all diagonal values to x. All other values are zero.
+    let inline diag2 (rows: int) (cols: int) (x: 'T) = Matrix<'T>.Build.SparseDiagonal(rows, cols, x)
+
+    /// Create an identity matrix with the given dimension.
+    let inline identity (order: int) = Matrix<'T>.Build.SparseIdentity(order)
+
+    /// Create an identity matrix with the given dimension.
+    let inline identity2 (rows: int) (cols: int) = Matrix<'T>.Build.SparseIdentity(rows, cols)
 
     /// Initialize a matrix by calling a construction function for every element.
     let inline init (rows: int) (cols: int) (f: int -> int -> 'T) = Matrix<'T>.Build.Sparse(rows, cols, fun n m -> f n m)
@@ -456,9 +477,6 @@ module SparseMatrix =
 
     /// Initialize a matrix by calling a construction function for every diagonal element. All other values are zero.
     let inline initDiag (rows: int) (cols: int) (f: int -> 'T) = Matrix<'T>.Build.SparseDiagonal(rows, cols, f)
-
-    /// Create an identity matrix with the given dimension.
-    let inline identity (rows: int) (cols: int) = createDiag rows cols Matrix<'T>.Build.One
 
     /// Create a matrix from a 2D array of floating point numbers.
     let inline ofArray2 array = Matrix<'T>.Build.SparseOfArray(array)

@@ -16,12 +16,12 @@ module DenseVectorTests =
     let largev = new Double.DenseVector( Array.init 100 (fun i -> float i / 100.0) )
 
     [<Test>]
-    let ``DenseVector.zeroCreate`` () =
-        (DenseVector.zeroCreate 100) + largev |> should equal largev
+    let ``DenseVector.zero`` () =
+        (DenseVector.zero 100) + largev |> should equal largev
         
     [<Test>]
-    let ``DenseVector.randomCreate`` () =
-        let m = DenseVector.randomCreate 100 (Normal.WithMeanStdDev(100.0,0.1))
+    let ``DenseVector.random`` () =
+        let m = DenseVector.random 100 (Normal.WithMeanStdDev(100.0,0.1))
         (m :?> Double.DenseVector).Values |> ArrayStatistics.Mean |> should (equalWithin 10.0) 100.0
         m.Count |> should equal 100
 
