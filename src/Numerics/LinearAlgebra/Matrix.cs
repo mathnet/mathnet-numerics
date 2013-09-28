@@ -1047,6 +1047,8 @@ namespace MathNet.Numerics.LinearAlgebra
         /// </summary>
         /// <param name="right">The matrix to concatenate.</param>
         /// <returns>The combined matrix.</returns>
+        /// <seealso cref="Stack(Matrix{T})"/>
+        /// <seealso cref="DiagonalStack(Matrix{T})"/>
         public Matrix<T> Append(Matrix<T> right)
         {
             if (right == null)
@@ -1070,6 +1072,8 @@ namespace MathNet.Numerics.LinearAlgebra
         /// </summary>
         /// <param name="right">The matrix to concatenate.</param>
         /// <param name="result">The combined matrix.</param>
+        /// <seealso cref="Stack(Matrix{T}, Matrix{T})"/>
+        /// <seealso cref="DiagonalStack(Matrix{T}, Matrix{T})"/>
         public void Append(Matrix<T> right, Matrix<T> result)
         {
             if (right == null)
@@ -1103,6 +1107,8 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <returns>The combined matrix.</returns>
         /// <exception cref="ArgumentNullException">If lower is <see langword="null" />.</exception>
         /// <exception cref="ArgumentException">If <strong>upper.Columns != lower.Columns</strong>.</exception>
+        /// <seealso cref="Append(Matrix{T})"/>
+        /// <seealso cref="DiagonalStack(Matrix{T})"/>
         public Matrix<T> Stack(Matrix<T> lower)
         {
             if (lower == null)
@@ -1128,6 +1134,8 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <param name="result">The combined matrix.</param>
         /// <exception cref="ArgumentNullException">If lower is <see langword="null" />.</exception>
         /// <exception cref="ArgumentException">If <strong>upper.Columns != lower.Columns</strong>.</exception>
+        /// <seealso cref="Append(Matrix{T}, Matrix{T})"/>
+        /// <seealso cref="DiagonalStack(Matrix{T}, Matrix{T})"/>
         public void Stack(Matrix<T> lower, Matrix<T> result)
         {
             if (lower == null)
@@ -1162,6 +1170,8 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <param name="lower">The lower, right matrix.</param>
         /// <exception cref="ArgumentNullException">If lower is <see langword="null" />.</exception>
         /// <returns>the combined matrix</returns>
+        /// <seealso cref="Stack(Matrix{T})"/>
+        /// <seealso cref="Append(Matrix{T})"/>
         public Matrix<T> DiagonalStack(Matrix<T> lower)
         {
             if (lower == null)
@@ -1183,6 +1193,8 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <exception cref="ArgumentNullException">If lower is <see langword="null" />.</exception>
         /// <exception cref="ArgumentNullException">If the result matrix is <see langword="null" />.</exception>
         /// <exception cref="ArgumentException">If the result matrix's dimensions are not (this.Rows + lower.rows) x (this.Columns + lower.Columns).</exception>
+        /// <seealso cref="Stack(Matrix{T}, Matrix{T})"/>
+        /// <seealso cref="Append(Matrix{T}, Matrix{T})"/>
         public void DiagonalStack(Matrix<T> lower, Matrix<T> result)
         {
             if (lower == null)
