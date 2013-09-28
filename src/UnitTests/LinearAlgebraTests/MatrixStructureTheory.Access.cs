@@ -653,7 +653,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
 
             // Invalid
             m = matrix.Clone();
-            Assert.That(() => m.SetSubMatrix(0, 1, 0, 1, default(Matrix<T>)), Throws.InstanceOf<ArgumentNullException>());
+            Assert.That(() => m.SetSubMatrix(0, 1, 0, 1, default(Matrix<T>)), Throws.InstanceOf<NullReferenceException>());
             Assert.That(() => m.SetSubMatrix(-1, 1, 0, 1, CreateDenseZero(1,1)), Throws.InstanceOf<ArgumentOutOfRangeException>());
             Assert.That(() => m.SetSubMatrix(matrix.RowCount, 1, 0, 1, CreateDenseZero(1, 1)), Throws.InstanceOf<ArgumentOutOfRangeException>());
             Assert.That(() => m.SetSubMatrix(0, 0, 0, 1, CreateDenseZero(1, 1)), Throws.InstanceOf<ArgumentOutOfRangeException>());

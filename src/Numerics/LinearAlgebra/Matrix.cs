@@ -876,6 +876,23 @@ namespace MathNet.Numerics.LinearAlgebra
         /// Copies the values of a given matrix into a region in this matrix.
         /// </summary>
         /// <param name="rowIndex">The row to start copying to.</param>
+        /// <param name="columnIndex">The column to start copying to.</param>
+        /// <param name="subMatrix">The sub-matrix to copy from.</param>
+        /// <exception cref="ArgumentOutOfRangeException">If: <list><item><paramref name="rowIndex"/> is
+        /// negative, or greater than or equal to the number of rows.</item>
+        /// <item><paramref name="columnIndex"/> is negative, or greater than or equal to the number
+        /// of columns.</item>
+        /// <item><c>(columnIndex + columnLength) &gt;= Columns</c></item>
+        /// <item><c>(rowIndex + rowLength) &gt;= Rows</c></item></list></exception>
+        public void SetSubMatrix(int rowIndex, int columnIndex, Matrix<T> subMatrix)
+        {
+            subMatrix.Storage.CopySubMatrixTo(Storage, 0, rowIndex, subMatrix.RowCount, 0, columnIndex, subMatrix.ColumnCount);
+        }
+
+        /// <summary>
+        /// Copies the values of a given matrix into a region in this matrix.
+        /// </summary>
+        /// <param name="rowIndex">The row to start copying to.</param>
         /// <param name="rowCount">The number of rows to copy. Must be positive.</param>
         /// <param name="columnIndex">The column to start copying to.</param>
         /// <param name="columnCount">The number of columns to copy. Must be positive.</param>
@@ -886,18 +903,36 @@ namespace MathNet.Numerics.LinearAlgebra
         /// of columns.</item>
         /// <item><c>(columnIndex + columnLength) &gt;= Columns</c></item>
         /// <item><c>(rowIndex + rowLength) &gt;= Rows</c></item></list></exception>
-        /// <exception cref="ArgumentNullException">If <paramref name="subMatrix"/> is <see langword="null" /></exception>
         /// <item>the size of <paramref name="subMatrix"/> is not at least <paramref name="rowCount"/> x <paramref name="columnCount"/>.</item>
         /// <exception cref="ArgumentOutOfRangeException">If <paramref name="rowCount"/> or <paramref name="columnCount"/>
         /// is not positive.</exception>
         public void SetSubMatrix(int rowIndex, int rowCount, int columnIndex, int columnCount, Matrix<T> subMatrix)
         {
-            if (subMatrix == null)
-            {
-                throw new ArgumentNullException("subMatrix");
-            }
-
             subMatrix.Storage.CopySubMatrixTo(Storage, 0, rowIndex, rowCount, 0, columnIndex, columnCount);
+        }
+
+        /// <summary>
+        /// Copies the values of a given matrix into a region in this matrix.
+        /// </summary>
+        /// <param name="rowIndex">The row to start copying to.</param>
+        /// <param name="sorceRowIndex">The row of the sub-matrix to start copying from.</param>
+        /// <param name="rowCount">The number of rows to copy. Must be positive.</param>
+        /// <param name="columnIndex">The column to start copying to.</param>
+        /// <param name="sourceColumnIndex">The column of the sub-matrix to start copying from.</param>
+        /// <param name="columnCount">The number of columns to copy. Must be positive.</param>
+        /// <param name="subMatrix">The sub-matrix to copy from.</param>
+        /// <exception cref="ArgumentOutOfRangeException">If: <list><item><paramref name="rowIndex"/> is
+        /// negative, or greater than or equal to the number of rows.</item>
+        /// <item><paramref name="columnIndex"/> is negative, or greater than or equal to the number
+        /// of columns.</item>
+        /// <item><c>(columnIndex + columnLength) &gt;= Columns</c></item>
+        /// <item><c>(rowIndex + rowLength) &gt;= Rows</c></item></list></exception>
+        /// <item>the size of <paramref name="subMatrix"/> is not at least <paramref name="rowCount"/> x <paramref name="columnCount"/>.</item>
+        /// <exception cref="ArgumentOutOfRangeException">If <paramref name="rowCount"/> or <paramref name="columnCount"/>
+        /// is not positive.</exception>
+        public void SetSubMatrix(int rowIndex, int sorceRowIndex, int rowCount, int columnIndex, int sourceColumnIndex, int columnCount, Matrix<T> subMatrix)
+        {
+            subMatrix.Storage.CopySubMatrixTo(Storage, sorceRowIndex, rowIndex, rowCount, sourceColumnIndex, columnIndex, columnCount);
         }
 
         /// <summary>
