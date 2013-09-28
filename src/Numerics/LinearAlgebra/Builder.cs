@@ -1128,6 +1128,16 @@ namespace MathNet.Numerics.LinearAlgebra
         }
 
         /// <summary>
+        /// Create a new dense vector as a copy of the given array.
+        /// This new vector will be independent from the array.
+        /// A new memory block will be allocated for storing the vector.
+        /// </summary>
+        public Vector<T> DenseOfArray(T[] array)
+        {
+            return Dense(DenseVectorStorage<T>.OfVector(new DenseVectorStorage<T>(array.Length, array)));
+        }
+
+        /// <summary>
         /// Create a new dense vector as a copy of the given enumerable.
         /// This new vector will be independent from the enumerable.
         /// A new memory block will be allocated for storing the vector.
@@ -1190,6 +1200,16 @@ namespace MathNet.Numerics.LinearAlgebra
         public Vector<T> SparseOfVector(Vector<T> vector)
         {
             return Sparse(SparseVectorStorage<T>.OfVector(vector.Storage));
+        }
+
+        /// <summary>
+        /// Create a new sparse vector as a copy of the given array.
+        /// This new vector will be independent from the array.
+        /// A new memory block will be allocated for storing the vector.
+        /// </summary>
+        public Vector<T> SparseOfArray(T[] array)
+        {
+            return Sparse(SparseVectorStorage<T>.OfEnumerable(array));
         }
 
         /// <summary>

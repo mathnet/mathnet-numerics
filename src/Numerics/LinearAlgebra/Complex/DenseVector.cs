@@ -107,6 +107,16 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         }
 
         /// <summary>
+        /// Create a new dense vector as a copy of the given array.
+        /// This new vector will be independent from the array.
+        /// A new memory block will be allocated for storing the vector.
+        /// </summary>
+        public static DenseVector OfArray(Complex[] array)
+        {
+            return new DenseVector(DenseVectorStorage<Complex>.OfVector(new DenseVectorStorage<Complex>(array.Length, array)));
+        }
+
+        /// <summary>
         /// Create a new dense vector as a copy of the given enumerable.
         /// This new vector will be independent from the enumerable.
         /// A new memory block will be allocated for storing the vector.

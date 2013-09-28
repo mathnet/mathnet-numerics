@@ -102,6 +102,16 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         }
 
         /// <summary>
+        /// Create a new dense vector as a copy of the given array.
+        /// This new vector will be independent from the array.
+        /// A new memory block will be allocated for storing the vector.
+        /// </summary>
+        public static DenseVector OfArray(double[] array)
+        {
+            return new DenseVector(DenseVectorStorage<double>.OfVector(new DenseVectorStorage<double>(array.Length, array)));
+        }
+
+        /// <summary>
         /// Create a new dense vector as a copy of the given enumerable.
         /// This new vector will be independent from the enumerable.
         /// A new memory block will be allocated for storing the vector.

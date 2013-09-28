@@ -240,7 +240,7 @@ module DenseVector =
     let inline init (n: int) (f: int -> 'T) = Vector<'T>.Build.Dense(n, f)
 
     /// Create a vector from a float array (by copying - use raw instead if no copy is needed).
-    let inline ofArray (fl: 'T array) = Vector<'T>.Build.Dense(Array.copy fl)
+    let inline ofArray (fa: 'T array) = Vector<'T>.Build.Dense(Array.copy fa)
 
     /// Create a vector from a float list.
     let inline ofList (fl: 'T list) = Vector<'T>.Build.Dense(Array.ofList fl)
@@ -278,7 +278,7 @@ module SparseVector =
     let inline init (n: int) (f: int -> 'T) = Vector<'T>.Build.Sparse(n, f)
 
     /// Create a sparse vector from a float array.
-    let inline ofArray (fl: 'T array) = Vector<'T>.Build.SparseOfEnumerable(fl :> seq<'T>)
+    let inline ofArray (fa: 'T array) = Vector<'T>.Build.SparseOfArray(fa)
 
     /// Create a sparse vector from a float list.
     let inline ofList (fl: 'T list) = Vector<'T>.Build.SparseOfEnumerable(Seq.ofList fl)
