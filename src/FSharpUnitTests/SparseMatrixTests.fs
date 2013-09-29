@@ -24,6 +24,13 @@ module SparseMatrixTests =
         SparseMatrix.ofArray2 (Array2D.init 4 6 (fun i j -> if i = 1 && j = 2 then 1.0 else 0.0)) |> should equal smallM
 
     [<Test>]
+    let ``SparseMatrix.ofMatrixArray2`` () =
+        let a = SparseMatrix.ofMatrixArray2 (array2D [[smallM;smallM];[smallM;smallM];[smallM;smallM]])
+        a.[0..3,0..5] |> should equal smallM
+        a.[4..7,6..11] |> should equal smallM
+        a.[8..11,0..5] |> should equal smallM
+
+    [<Test>]
     let ``SparseMatrix.ofRowSeq`` () =
         SparseMatrix.ofRowSeq (Seq.ofList [[0.;0.;0.;0.;0.;0.];[0.;0.;1.;0.;0.;0.];[0.;0.;0.;0.;0.;0.];[0.;0.;0.;0.;0.;0.]]) |> should equal smallM
 

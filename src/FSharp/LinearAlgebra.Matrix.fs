@@ -392,6 +392,9 @@ module DenseMatrix =
     /// Create a matrix from a 2D array of floating point numbers.
     let inline ofArray2 array = Matrix<'T>.Build.DenseOfArray(array)
 
+    /// Create a matrix from a 2D array of matrices.
+    let inline ofMatrixArray2 array = Matrix<'T>.Build.DenseOfMatrixArray(array)
+
     /// Create a matrix from a list of row vectors.
     let inline ofRows (rows: Vector<'T> list) = Matrix<'T>.Build.DenseOfRowVectors(Array.ofList rows)
 
@@ -480,6 +483,9 @@ module SparseMatrix =
 
     /// Create a matrix from a 2D array of floating point numbers.
     let inline ofArray2 array = Matrix<'T>.Build.SparseOfArray(array)
+
+    /// Create a matrix from a 2D array of matrices.
+    let inline ofMatrixArray2 array = Matrix<'T>.Build.SparseOfMatrixArray(array)
 
     /// Create a matrix from a list of row vectors.
     let inline ofRows (rows: Vector<'T> list) = Matrix<'T>.Build.SparseOfRowVectors(Array.ofList rows)

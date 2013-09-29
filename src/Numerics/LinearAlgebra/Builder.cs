@@ -714,6 +714,39 @@ namespace MathNet.Numerics.LinearAlgebra
         }
 
         /// <summary>
+        /// Create a new dense matrix from a 2D array of existing matrices.
+        /// The matrices in the array are not required to be dense already.
+        /// If the matrices do not align properly, they are placed on the top left
+        /// corner of their cell with the remaining fields left zero.
+        /// </summary>
+        public Matrix<T> DenseOfMatrixArray(Matrix<T>[,] matrices)
+        {
+            var rowspans = new int[matrices.GetLength(0)];
+            var colspans = new int[matrices.GetLength(1)];
+            for (int i = 0; i < rowspans.Length; i++)
+            {
+                for (int j = 0; j < colspans.Length; j++)
+                {
+                    rowspans[i] = Math.Max(rowspans[i], matrices[i, j].RowCount);
+                    colspans[j] = Math.Max(colspans[j], matrices[i, j].ColumnCount);
+                }
+            }
+            var m = Dense(rowspans.Sum(), colspans.Sum());
+            int rowoffset = 0;
+            for (int i = 0; i < rowspans.Length; i++)
+            {
+                int coloffset = 0;
+                for (int j = 0; j < colspans.Length; j++)
+                {
+                    m.SetSubMatrix(rowoffset, coloffset, matrices[i,j]);
+                    coloffset += colspans[j];
+                }
+                rowoffset += rowspans[i];
+            }
+            return m;
+        }
+
+        /// <summary>
         /// Create a new sparse matrix straight from an initialized matrix storage instance.
         /// The storage is used directly without copying.
         /// Intended for advanced scenarios where you're working directly with
@@ -1024,6 +1057,39 @@ namespace MathNet.Numerics.LinearAlgebra
         {
             var m = Sparse(rows, columns);
             m.SetDiagonal(diagonal);
+            return m;
+        }
+
+        /// <summary>
+        /// Create a new sparse matrix from a 2D array of existing matrices.
+        /// The matrices in the array are not required to be sparse already.
+        /// If the matrices do not align properly, they are placed on the top left
+        /// corner of their cell with the remaining fields left zero.
+        /// </summary>
+        public Matrix<T> SparseOfMatrixArray(Matrix<T>[,] matrices)
+        {
+            var rowspans = new int[matrices.GetLength(0)];
+            var colspans = new int[matrices.GetLength(1)];
+            for (int i = 0; i < rowspans.Length; i++)
+            {
+                for (int j = 0; j < colspans.Length; j++)
+                {
+                    rowspans[i] = Math.Max(rowspans[i], matrices[i, j].RowCount);
+                    colspans[j] = Math.Max(colspans[j], matrices[i, j].ColumnCount);
+                }
+            }
+            var m = Sparse(rowspans.Sum(), colspans.Sum());
+            int rowoffset = 0;
+            for (int i = 0; i < rowspans.Length; i++)
+            {
+                int coloffset = 0;
+                for (int j = 0; j < colspans.Length; j++)
+                {
+                    m.SetSubMatrix(rowoffset, coloffset, matrices[i, j]);
+                    coloffset += colspans[j];
+                }
+                rowoffset += rowspans[i];
+            }
             return m;
         }
 
