@@ -180,7 +180,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [Test]
         public void CanCreateIdentity()
         {
-            var matrix = DiagonalMatrix.Identity(5);
+            var matrix = DiagonalMatrix.CreateIdentity(5);
             for (var i = 0; i < matrix.RowCount; i++)
             {
                 for (var j = 0; j < matrix.ColumnCount; j++)
@@ -198,7 +198,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [TestCase(-1)]
         public void IdentityWithWrongOrderThrowsArgumentOutOfRangeException(int order)
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() => DiagonalMatrix.Identity(order));
+            Assert.Throws<ArgumentOutOfRangeException>(() => DiagonalMatrix.CreateIdentity(order));
         }
 
         /// <summary>
@@ -405,7 +405,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [Test]
         public void DiagonalDenseMatrixMultiplication_IssueCP5706()
         {
-            Matrix<double> diagonal = DiagonalMatrix.Identity(3);
+            Matrix<double> diagonal = DiagonalMatrix.CreateIdentity(3);
             Matrix<double> dense = DenseMatrix.OfArray(new double[,] {{1, 2, 3}, {1, 2, 3}, {1, 2, 3}});
             var test = diagonal*dense;
             var test2 = dense*diagonal;

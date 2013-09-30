@@ -364,6 +364,14 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         }
 
         /// <summary>
+        /// Create a new square sparse identity matrix where each diagonal value is set to One.
+        /// </summary>
+        public static SparseMatrix CreateIdentity(int order)
+        {
+            return new SparseMatrix(SparseCompressedRowMatrixStorage<Complex32>.OfDiagonalInit(order, order, i => One));
+        }
+
+        /// <summary>
         /// Returns a new matrix containing the lower triangle of this matrix.
         /// </summary>
         /// <returns>The lower triangle of this matrix.</returns>
@@ -720,36 +728,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
 
             return norm;
         }
-
-        #region Static constructors for special matrices.
-        /// <summary>
-        /// Initializes a square <see cref="SparseMatrix"/> with all zero's except for ones on the diagonal.
-        /// </summary>
-        /// <param name="order">the size of the square matrix.</param>
-        /// <returns>Identity <c>SparseMatrix</c></returns>
-        /// <exception cref="ArgumentException">
-        /// If <paramref name="order"/> is less than one.
-        /// </exception>
-        public static SparseMatrix Identity(int order)
-        {
-            var storage = new SparseCompressedRowMatrixStorage<Complex32>(order, order)
-                {
-                    Values = new Complex32[order],
-                    ColumnIndices = new int[order]
-                };
-
-            for (var i = 0; i < order; i++)
-            {
-                storage.Values[i] = 1f;
-                storage.ColumnIndices[i] = i;
-                storage.RowPointers[i] = i;
-            }
-
-            storage.RowPointers[order] = order;
-
-            return new SparseMatrix(storage);
-        }
-        #endregion
 
         /// <summary>
         /// Adds another matrix to this matrix.

@@ -86,7 +86,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers.Iterative
         public void SolveUnitMatrixAndBackMultiply()
         {
             // Create the identity matrix
-            var matrix = SparseMatrix.Identity(100);
+            var matrix = SparseMatrix.CreateIdentity(100);
 
             // Create the y vector
             var y = DenseVector.Create(matrix.RowCount, i => 1);
@@ -127,7 +127,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers.Iterative
         public void SolveScaledUnitMatrixAndBackMultiply()
         {
             // Create the identity matrix
-            var matrix = SparseMatrix.Identity(100);
+            var matrix = SparseMatrix.CreateIdentity(100);
 
             // Scale it with a funny number
             matrix.Multiply((float) Math.PI, matrix);

@@ -119,7 +119,7 @@ namespace Examples.LinearAlgebraExamples
             Console.WriteLine();
 
             // 6. Set submatrix values
-            matrix.SetSubMatrix(1, 3, 1, 3, DenseMatrix.Identity(3));
+            matrix.SetSubMatrix(1, 3, 1, 3, DenseMatrix.CreateIdentity(3));
             Console.WriteLine(@"6. Set submatrix values");
             Console.WriteLine(matrix.ToString("#0.00\t", formatProvider));
             Console.WriteLine();

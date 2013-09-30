@@ -57,7 +57,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
         [TestCase(100)]
         public void CanFactorizeIdentity(int order)
         {
-            var matrixI = DenseMatrix.Identity(order);
+            var matrixI = DenseMatrix.CreateIdentity(order);
             var factorQR = matrixI.QR();
             var r = factorQR.R;
 
@@ -89,7 +89,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
         [TestCase(100)]
         public void CanFactorizeIdentityUsingThinQR(int order)
         {
-            var matrixI = DenseMatrix.Identity(order);
+            var matrixI = DenseMatrix.CreateIdentity(order);
             var factorQR = matrixI.QR(QRMethod.Thin);
             var r = factorQR.R;
 
@@ -122,7 +122,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
         [TestCase(100)]
         public void IdentityDeterminantIsOne(int order)
         {
-            var matrixI = DenseMatrix.Identity(order);
+            var matrixI = DenseMatrix.CreateIdentity(order);
             var factorQR = matrixI.QR();
             Assert.AreEqual(Complex32.One, factorQR.Determinant);
         }

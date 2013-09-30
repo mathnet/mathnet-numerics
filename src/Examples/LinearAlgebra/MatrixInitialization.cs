@@ -78,7 +78,7 @@ namespace Examples.LinearAlgebraExamples
             var matrix5 = new DenseMatrix(2, 3, new[] { 1.0, 4.0, 2.0, 5.0, 3.0, 6.0 });
 
             // 5. Initialize a square matrix with all zero's except for ones on the diagonal. Identity matrix (http://en.wikipedia.org/wiki/Identity_matrix).
-            var matrixI = DenseMatrix.Identity(5);
+            var matrixI = DenseMatrix.CreateIdentity(5);
 
             // Format matrix output to console
             var formatProvider = (CultureInfo)CultureInfo.InvariantCulture.Clone();

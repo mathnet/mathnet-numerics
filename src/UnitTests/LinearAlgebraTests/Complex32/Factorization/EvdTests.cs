@@ -1,4 +1,4 @@
-// <copyright file="EvdTests.cs" company="Math.NET">
+﻿// <copyright file="EvdTests.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -46,7 +46,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
         [TestCase(100)]
         public void CanFactorizeIdentity(int order)
         {
-            var matrixI = DenseMatrix.Identity(order);
+            var matrixI = DenseMatrix.CreateIdentity(order);
             var factorEvd = matrixI.Evd();
             var eigenValues = factorEvd.EigenValues;
             var eigenVectors = factorEvd.EigenVectors;
@@ -181,7 +181,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
         [TestCase(100)]
         public void IdentityDeterminantIsOne(int order)
         {
-            var matrixI = DenseMatrix.Identity(order);
+            var matrixI = DenseMatrix.CreateIdentity(order);
             var factorEvd = matrixI.Evd();
             Assert.AreEqual(Complex32.One, factorEvd.Determinant);
         }

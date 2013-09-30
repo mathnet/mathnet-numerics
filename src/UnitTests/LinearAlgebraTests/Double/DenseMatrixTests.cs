@@ -171,7 +171,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [Test]
         public void CanCreateIdentity()
         {
-            var matrix = DenseMatrix.Identity(5);
+            var matrix = DenseMatrix.CreateIdentity(5);
             for (var i = 0; i < matrix.RowCount; i++)
             {
                 for (var j = 0; j < matrix.ColumnCount; j++)
@@ -189,7 +189,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [TestCase(-1)]
         public void IdentityWithWrongOrderThrowsArgumentOutOfRangeException(int order)
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() => DenseMatrix.Identity(order));
+            Assert.Throws<ArgumentOutOfRangeException>(() => DenseMatrix.CreateIdentity(order));
         }
     }
 }

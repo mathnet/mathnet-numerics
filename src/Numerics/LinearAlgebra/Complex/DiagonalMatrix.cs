@@ -178,6 +178,14 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         }
 
         /// <summary>
+        /// Create a new square sparse identity matrix where each diagonal value is set to One.
+        /// </summary>
+        public static DiagonalMatrix CreateIdentity(int order)
+        {
+            return new DiagonalMatrix(DiagonalMatrixStorage<Complex>.OfInit(order, order, i => One));
+        }
+
+        /// <summary>
         /// Create a new diagonal matrix with diagonal values sampled from the provided random distribution.
         /// </summary>
         public static DiagonalMatrix CreateRandom(int rows, int columns, IContinuousDistribution distribution)
@@ -185,8 +193,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
             return new DiagonalMatrix(DiagonalMatrixStorage<Complex>.OfInit(rows, columns,
                 i => new Complex(distribution.Sample(), distribution.Sample())));
         }
-
-        #region Elementary operations
 
         /// <summary>
         /// Adds another matrix to this matrix.
@@ -635,8 +641,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
             return result;
         }
 
-        #endregion
-
         /// <summary>
         /// Returns the transpose of this matrix.
         /// </summary>
@@ -998,28 +1002,5 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
                 return true;
             }
         }
-
-        #region Static constructors for special matrices.
-
-        /// <summary>
-        /// Initializes a square <see cref="DiagonalMatrix"/> with all zero's except for ones on the diagonal.
-        /// </summary>
-        /// <param name="order">the size of the square matrix.</param>
-        /// <returns>A diagonal identity matrix.</returns>
-        /// <exception cref="ArgumentException">
-        /// If <paramref name="order"/> is less than one.
-        /// </exception>
-        public static DiagonalMatrix Identity(int order)
-        {
-            var m = new DiagonalMatrix(order);
-            for (var i = 0; i < order; i++)
-            {
-                m._data[i] = 1.0;
-            }
-
-            return m;
-        }
-
-        #endregion
     }
 }

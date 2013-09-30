@@ -74,7 +74,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
             var order = matrix.RowCount;
 
             // Initialize matrices for eigenvalues and eigenvectors
-            var eigenVectors = DenseMatrix.Identity(order);
+            var eigenVectors = DenseMatrix.CreateIdentity(order);
             var blockDiagonal = new DenseMatrix(order);
             var eigenValues = new DenseVector(order);
 

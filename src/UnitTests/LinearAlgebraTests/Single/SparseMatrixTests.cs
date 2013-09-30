@@ -156,7 +156,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
         [Test]
         public void CanCreateIdentity()
         {
-            var matrix = SparseMatrix.Identity(5);
+            var matrix = SparseMatrix.CreateIdentity(5);
             for (var i = 0; i < matrix.RowCount; i++)
             {
                 for (var j = 0; j < matrix.ColumnCount; j++)
@@ -174,7 +174,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
         [TestCase(-1)]
         public void IdentityWithWrongOrderThrowsArgumentOutOfRangeException(int order)
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() => SparseMatrix.Identity(order));
+            Assert.Throws<ArgumentOutOfRangeException>(() => SparseMatrix.CreateIdentity(order));
         }
 
         /// <summary>

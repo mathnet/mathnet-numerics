@@ -45,7 +45,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
         [TestCase(100)]
         public void CanFactorizeIdentity(int order)
         {
-            var matrixI = DenseMatrix.Identity(order);
+            var matrixI = DenseMatrix.CreateIdentity(order);
             var factorC = matrixI.Cholesky().Factor;
 
             Assert.AreEqual(matrixI.RowCount, factorC.RowCount);
@@ -66,7 +66,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
         [Test]
         public void CholeskyFailsWithDiagonalNonPositiveDefiniteMatrix()
         {
-            var matrixI = DenseMatrix.Identity(10);
+            var matrixI = DenseMatrix.CreateIdentity(10);
             matrixI[3, 3] = -4.0f;
             Assert.Throws<ArgumentException>(() => matrixI.Cholesky());
         }
@@ -90,7 +90,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
         [TestCase(100)]
         public void IdentityDeterminantIsOne(int order)
         {
-            var matrixI = DenseMatrix.Identity(order);
+            var matrixI = DenseMatrix.CreateIdentity(order);
             var factorC = matrixI.Cholesky();
             Assert.AreEqual(Complex32.One, factorC.Determinant);
             Assert.AreEqual(Complex32.Zero, factorC.DeterminantLn);

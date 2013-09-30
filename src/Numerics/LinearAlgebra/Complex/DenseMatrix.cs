@@ -382,6 +382,14 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         }
 
         /// <summary>
+        /// Create a new square sparse identity matrix where each diagonal value is set to One.
+        /// </summary>
+        public static DenseMatrix CreateIdentity(int order)
+        {
+            return new DenseMatrix(DenseColumnMajorMatrixStorage<Complex>.OfDiagonalInit(order, order, i => One));
+        }
+
+        /// <summary>
         /// Create a new dense matrix with values sampled from the provided random distribution.
         /// </summary>
         public static DenseMatrix CreateRandom(int rows, int columns, IContinuousDistribution distribution)
@@ -438,29 +446,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         {
             return Control.LinearAlgebraProvider.MatrixNorm(Norm.InfinityNorm, _rowCount, _columnCount, _values);
         }
-
-        #region Static constructors for special matrices.
-
-        /// <summary>
-        /// Initializes a square <see cref="DenseMatrix"/> with all zero's except for ones on the diagonal.
-        /// </summary>
-        /// <param name="order">the size of the square matrix.</param>
-        /// <returns>A dense identity matrix.</returns>
-        /// <exception cref="ArgumentException">
-        /// If <paramref name="order"/> is less than one.
-        /// </exception>
-        public static DenseMatrix Identity(int order)
-        {
-            var m = new DenseMatrix(order);
-            for (var i = 0; i < order; i++)
-            {
-                m._values[(i * order) + i] = 1.0;
-            }
-
-            return m;
-        }
-
-        #endregion
 
         /// <summary>
         /// Multiplies each element of the matrix by a scalar and places results into the result matrix.

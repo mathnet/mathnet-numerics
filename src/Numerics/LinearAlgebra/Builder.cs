@@ -70,7 +70,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
         public override Matrix<double> Random(int rows, int columns, IContinuousDistribution distribution)
         {
-            return DenseMatrix.CreateRandom(rows, columns, distribution);
+            return Dense(rows, columns, (i, j) => distribution.Sample());
         }
 
         public override IIterationStopCriterium<double>[] IterativeSolverStopCriteria(int maxIterations = 1000)
@@ -109,7 +109,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
         public override Vector<double> Random(int length, IContinuousDistribution distribution)
         {
-            return new DenseVector(DenseVectorStorage<double>.OfInit(length, i => distribution.Sample()));
+            return Dense(length, i => distribution.Sample());
         }
     }
 }
@@ -147,7 +147,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
 
         public override Matrix<float> Random(int rows, int columns, IContinuousDistribution distribution)
         {
-            return DenseMatrix.CreateRandom(rows, columns, distribution);
+            return Dense(rows, columns, (i, j) => (float) distribution.Sample());
         }
 
         public override IIterationStopCriterium<float>[] IterativeSolverStopCriteria(int maxIterations = 1000)
@@ -186,7 +186,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
 
         public override Vector<float> Random(int length, IContinuousDistribution distribution)
         {
-            return new DenseVector(DenseVectorStorage<float>.OfInit(length, i => (float)distribution.Sample()));
+            return Dense(length, i => (float) distribution.Sample());
         }
     }
 }
@@ -230,7 +230,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
 
         public override Matrix<Complex> Random(int rows, int columns, IContinuousDistribution distribution)
         {
-            return DenseMatrix.CreateRandom(rows, columns, distribution);
+            return Dense(rows, columns, (i, j) => new Complex(distribution.Sample(), distribution.Sample()));
         }
 
         public override IIterationStopCriterium<Complex>[] IterativeSolverStopCriteria(int maxIterations = 1000)
@@ -269,7 +269,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
 
         public override Vector<Complex> Random(int length, IContinuousDistribution distribution)
         {
-            return new DenseVector(DenseVectorStorage<Complex>.OfInit(length, i => new Complex(distribution.Sample(), distribution.Sample())));
+            return Dense(length, i => new Complex(distribution.Sample(), distribution.Sample()));
         }
     }
 }
@@ -307,7 +307,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
 
         public override Matrix<Numerics.Complex32> Random(int rows, int columns, IContinuousDistribution distribution)
         {
-            return DenseMatrix.CreateRandom(rows, columns, distribution);
+            return Dense(rows, columns, (i, j) => new Numerics.Complex32((float) distribution.Sample(), (float) distribution.Sample()));
         }
 
         public override IIterationStopCriterium<Numerics.Complex32>[] IterativeSolverStopCriteria(int maxIterations = 1000)
@@ -346,7 +346,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
 
         public override Vector<Numerics.Complex32> Random(int length, IContinuousDistribution distribution)
         {
-            return new DenseVector(DenseVectorStorage<Numerics.Complex32>.OfInit(length, i => new Numerics.Complex32((float)distribution.Sample(), (float)distribution.Sample())));
+            return Dense(length, i => new Numerics.Complex32((float) distribution.Sample(), (float) distribution.Sample()));
         }
     }
 }

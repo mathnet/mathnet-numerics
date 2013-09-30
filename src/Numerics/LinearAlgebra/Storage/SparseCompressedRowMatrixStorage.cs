@@ -429,12 +429,13 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
         public static SparseCompressedRowMatrixStorage<T> OfDiagonalInit(int rows, int columns, Func<int, T> init)
         {
+            int diagonalLength = Math.Min(rows, columns);
             var storage = new SparseCompressedRowMatrixStorage<T>(rows, columns);
             var rowPointers = storage.RowPointers;
-            var columnIndices = new List<int>();
-            var values = new List<T>();
+            var columnIndices = new List<int>(diagonalLength);
+            var values = new List<T>(diagonalLength);
 
-            for (int i = 0; i < Math.Min(rows, columns); i++)
+            for (int i = 0; i < diagonalLength; i++)
             {
                 rowPointers[i] = values.Count;
                 var x = init(i);
