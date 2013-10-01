@@ -36,7 +36,7 @@
     <Tailcalls>true</Tailcalls>
     <DefineConstants>TRACE</DefineConstants>
     <WarningLevel>3</WarningLevel>
-    <OutputPath>bin\Release-Signed\</OutputPath>
+    <OutputPath>..\..\out\test\signed\Net40\</OutputPath>
   </PropertyGroup>
   <PropertyGroup>
     <MinimumVisualStudioVersion Condition="'$(MinimumVisualStudioVersion)' == ''">11</MinimumVisualStudioVersion>

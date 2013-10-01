@@ -64,8 +64,8 @@
     <NoWarn>1591</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release-Signed|AnyCPU'">
-    <OutputPath>..\..\out\lib\Net40\</OutputPath>
-    <DocumentationFile>..\..\out\lib\Net40\MathNet.Numerics.xml</DocumentationFile>
+    <OutputPath>..\..\out\signed\Net40\</OutputPath>
+    <DocumentationFile>..\..\out\signed\Net40\MathNet.Numerics.xml</DocumentationFile>
     <!-- Conditional Strong Name: YES -->
     <SignAssembly>true</SignAssembly>
     <DebugType>pdbonly</DebugType>
@@ -75,6 +75,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <NoWarn>1591</NoWarn>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -205,9 +206,7 @@
     <Compile Include="LinearAlgebra\Complex32\SparseMatrix.cs" />
     <Compile Include="LinearAlgebra\Complex32\Vector.cs" />
     <Compile Include="LinearAlgebra\Complex\DenseMatrix.cs" />
-    <Compile Include="LinearAlgebra\Complex\DenseVector.cs">
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="LinearAlgebra\Complex\DenseVector.cs" />
     <Compile Include="LinearAlgebra\Complex\DiagonalMatrix.cs" />
     <Compile Include="LinearAlgebra\Complex\Factorization\Cholesky.cs" />
     <Compile Include="LinearAlgebra\Complex\Factorization\Evd.cs" />
@@ -344,9 +343,7 @@
     <Compile Include="LinearAlgebra\Double\Solvers\TFQMR.cs" />
     <Compile Include="LinearAlgebra\Double\Solvers\DiagonalPreconditioner.cs" />
     <Compile Include="LinearAlgebra\Double\Solvers\ILUTPPreconditioner.cs" />
-    <Compile Include="LinearAlgebra\Double\Solvers\ILU0Preconditioner.cs">
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="LinearAlgebra\Double\Solvers\ILU0Preconditioner.cs" />
     <Compile Include="LinearAlgebra\Solvers\UnitPreconditioner.cs" />
     <Compile Include="LinearAlgebra\Double\Solvers\DivergenceStopCriterium.cs" />
     <Compile Include="LinearAlgebra\Double\Solvers\FailureStopCriterium.cs" />

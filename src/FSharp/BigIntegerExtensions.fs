@@ -1,6 +1,8 @@
 ﻿namespace System.Numerics
 
 #if PORTABLE
+#if NOSYSNUMERICS
+#else
 
 open System
 
@@ -31,4 +33,5 @@ module BigIntegerExtensions =
             else
                 parse text
 
+#endif
 #endif

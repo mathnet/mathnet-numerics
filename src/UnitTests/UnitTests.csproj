@@ -40,7 +40,7 @@
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release-Signed|AnyCPU'">
-    <OutputPath>..\..\out\test\Net40\</OutputPath>
+    <OutputPath>..\..\out\test\signed\Net40\</OutputPath>
     <!-- Conditional Strong Name: YES -->
     <SignAssembly>true</SignAssembly>
     <DebugType>pdbonly</DebugType>

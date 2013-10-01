@@ -47,8 +47,8 @@
     <Tailcalls>true</Tailcalls>
     <DefineConstants>TRACE;STRONGNAME</DefineConstants>
     <WarningLevel>3</WarningLevel>
-    <DocumentationFile>..\..\out\lib\Net40\MathNet.Numerics.FSharp.xml</DocumentationFile>
-    <OutputPath>..\..\out\lib\Net40\</OutputPath>
+    <DocumentationFile>..\..\out\signed\Net40\MathNet.Numerics.FSharp.xml</DocumentationFile>
+    <OutputPath>..\..\out\signed\Net40\</OutputPath>
     <!-- Conditional Strong Name: YES -->
     <SignAssembly>true</SignAssembly>
   </PropertyGroup>

@@ -4,6 +4,9 @@
 
 namespace MathNet.Numerics
 
+#if NOSYSNUMERICS
+#else
+
     open System
     open System.Numerics
 
@@ -92,3 +95,5 @@ namespace MathNet.Numerics
         val FromInt32 : int32 -> BigRational
         val FromInt64 : int64 -> BigRational
         val FromString : string -> BigRational
+
+#endif

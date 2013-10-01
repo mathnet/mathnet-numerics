@@ -1,5 +1,8 @@
 ﻿module MathNet.Numerics.Tests.PokerTests
 
+#if NOSYSNUMERICS
+#else
+
 open MathNet.Numerics
 open MathNet.Numerics.Probability
 open NUnit.Framework
@@ -96,3 +99,5 @@ let ``When holding 3 Spades after the flop, than the probability for drawing a f
     |> RandomVariable.filter (fun (c1::c2::_) -> suit c1 = Spades && suit c2 = Spades)
     |> RandomVariable.probability
     |> should equal (10N/47N*9N/46N)
+
+#endif

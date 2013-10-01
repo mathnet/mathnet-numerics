@@ -7,6 +7,9 @@
 
 namespace MathNet.Numerics
 
+#if NOSYSNUMERICS
+#else
+
     open System
     open System.Numerics
     open System.Globalization
@@ -305,3 +308,5 @@ namespace MathNet.Numerics
         let FromInt32 i = BigRational.FromInt i
         let FromInt64 (i64:int64) = BigRational.FromBigInt (new BigInteger(i64))
         let FromString s = BigRational.Parse s
+
+#endif

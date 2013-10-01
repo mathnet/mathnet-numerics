@@ -1,5 +1,8 @@
 ﻿module MathNet.Numerics.Tests.RandomVariableTests
 
+#if NOSYSNUMERICS
+#else
+
 open MathNet.Numerics
 open MathNet.Numerics.Probability
 open NUnit.Framework
@@ -77,3 +80,5 @@ let ``When switching in a MontyHall situation, the chances to win should be 2/3`
     |> RandomVariable.filter ((=) Car)
     |> RandomVariable.probability
     |> should equal (2N/3N)
+
+#endif
