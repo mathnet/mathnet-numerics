@@ -17,16 +17,17 @@
     <SignAssembly Condition=" '$(SignAssembly)' == '' ">false</SignAssembly>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
     <OutputPath>..\..\out\test\debug\Net40\</OutputPath>
     <!-- Conditional Strong Name: NO -->
     <SignAssembly>false</SignAssembly>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <DefineConstants>DEBUG;TRACE;SYSNUMERICS</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>AnyCPU</PlatformTarget>
+    <NoWarn>1591</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <OutputPath>..\..\out\test\Net40\</OutputPath>
@@ -34,10 +35,11 @@
     <SignAssembly>false</SignAssembly>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <DefineConstants>TRACE;SYSNUMERICS</DefineConstants>
+    <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <NoWarn>1591</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release-Signed|AnyCPU'">
     <OutputPath>..\..\out\test\signed\Net40\</OutputPath>
@@ -45,10 +47,11 @@
     <SignAssembly>true</SignAssembly>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <DefineConstants>TRACE;SYSNUMERICS;STRONGNAME</DefineConstants>
+    <DefineConstants>TRACE;STRONGNAME</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <NoWarn>1591</NoWarn>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="nunit.framework, Version=2.6.2.12296, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
@@ -66,36 +69,20 @@
   <ItemGroup>
     <Compile Include="ArrayHelpers.cs" />
     <Compile Include="AssertHelpers.cs" />
-    <Compile Include="CombinatoricsTests\CombinatoricsCountingTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="ComplexTests\Complex32Test.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="ComplexTests\Complex32Test.TextHandling.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="ComplexTests\ComplexTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="ComplexTests\ComplexTest.TextHandling.cs">
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="CombinatoricsTests\CombinatoricsCountingTest.cs" />
+    <Compile Include="ComplexTests\Complex32Test.cs" />
+    <Compile Include="ComplexTests\Complex32Test.TextHandling.cs" />
+    <Compile Include="ComplexTests\ComplexTest.cs" />
+    <Compile Include="ComplexTests\ComplexTest.TextHandling.cs" />
     <Compile Include="DistributionTests\CommonDistributionTests.cs" />
     <Compile Include="DistributionTests\Continuous\BetaTests.cs" />
     <Compile Include="DistributionTests\Continuous\CauchyTests.cs" />
     <Compile Include="DistributionTests\Continuous\ChiSquareTests.cs" />
     <Compile Include="DistributionTests\Continuous\ChiTests.cs" />
     <Compile Include="DistributionTests\Continuous\ContinuousUniformTests.cs" />
-    <Compile Include="DistributionTests\Continuous\ErlangTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="DistributionTests\Continuous\ExponentialTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="DistributionTests\Continuous\FisherSnedecorTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="DistributionTests\Continuous\ErlangTests.cs" />
+    <Compile Include="DistributionTests\Continuous\ExponentialTests.cs" />
+    <Compile Include="DistributionTests\Continuous\FisherSnedecorTests.cs" />
     <Compile Include="DistributionTests\Continuous\GammaTests.cs" />
     <Compile Include="DistributionTests\Continuous\InverseGammaTests.cs" />
     <Compile Include="DistributionTests\Continuous\LaplaceTests.cs" />
@@ -147,556 +134,202 @@
     <Compile Include="FitTests.cs" />
     <Compile Include="LinearAlgebraProviderTests\Complex32\LinearAlgebraProviderTests.cs" />
     <Compile Include="LinearAlgebraProviderTests\Complex\LinearAlgebraProviderTests.cs" />
-    <Compile Include="LinearAlgebraProviderTests\Double\LinearAlgebraProviderTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="LinearAlgebraProviderTests\Double\LinearAlgebraProviderTests.cs" />
     <Compile Include="LinearAlgebraProviderTests\Single\LinearAlgebraProviderTests.cs" />
-    <Compile Include="LinearAlgebraTests\Complex32\DenseMatrixTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="LinearAlgebraTests\Complex32\DenseMatrixTests.cs" />
     <Compile Include="LinearAlgebraTests\Complex32\DenseVectorArithmeticTheory.cs" />
-    <Compile Include="LinearAlgebraTests\Complex32\DenseVectorTest.TextHandling.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Complex32\DenseVectorTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Complex32\DiagonalMatrixTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Complex32\Factorization\CholeskyTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Complex32\Factorization\EvdTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Complex32\Factorization\GramSchmidtTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Complex32\Factorization\LUTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Complex32\Factorization\QRTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Complex32\Factorization\SvdTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Complex32\Factorization\UserCholeskyTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Complex32\Factorization\UserEvdTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Complex32\Factorization\UserGramSchmidtTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Complex32\Factorization\UserLUTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Complex32\Factorization\UserQRTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Complex32\Factorization\UserSvdTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Complex32\MatrixLoader.cs">
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="LinearAlgebraTests\Complex32\DenseVectorTest.TextHandling.cs" />
+    <Compile Include="LinearAlgebraTests\Complex32\DenseVectorTests.cs" />
+    <Compile Include="LinearAlgebraTests\Complex32\DiagonalMatrixTests.cs" />
+    <Compile Include="LinearAlgebraTests\Complex32\Factorization\CholeskyTests.cs" />
+    <Compile Include="LinearAlgebraTests\Complex32\Factorization\EvdTests.cs" />
+    <Compile Include="LinearAlgebraTests\Complex32\Factorization\GramSchmidtTests.cs" />
+    <Compile Include="LinearAlgebraTests\Complex32\Factorization\LUTests.cs" />
+    <Compile Include="LinearAlgebraTests\Complex32\Factorization\QRTests.cs" />
+    <Compile Include="LinearAlgebraTests\Complex32\Factorization\SvdTests.cs" />
+    <Compile Include="LinearAlgebraTests\Complex32\Factorization\UserCholeskyTests.cs" />
+    <Compile Include="LinearAlgebraTests\Complex32\Factorization\UserEvdTests.cs" />
+    <Compile Include="LinearAlgebraTests\Complex32\Factorization\UserGramSchmidtTests.cs" />
+    <Compile Include="LinearAlgebraTests\Complex32\Factorization\UserLUTests.cs" />
+    <Compile Include="LinearAlgebraTests\Complex32\Factorization\UserQRTests.cs" />
+    <Compile Include="LinearAlgebraTests\Complex32\Factorization\UserSvdTests.cs" />
+    <Compile Include="LinearAlgebraTests\Complex32\MatrixLoader.cs" />
     <Compile Include="LinearAlgebraTests\Complex32\MatrixStructureTheory.cs" />
-    <Compile Include="LinearAlgebraTests\Complex32\MatrixTests.Arithmetic.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Complex32\MatrixTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Complex32\Solvers\Iterative\BiCgStabTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Complex32\Solvers\Iterative\GpBiCgTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Complex32\Solvers\Iterative\MlkBiCgStabTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Complex32\Solvers\Iterative\TFQMRTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Complex32\Solvers\IteratorTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Complex32\Solvers\Preconditioners\DiagonalTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Complex32\Solvers\Preconditioners\IluptElementSorterTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Complex32\Solvers\Preconditioners\IlutpTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Complex32\Solvers\Preconditioners\IncompleteLUTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Complex32\Solvers\Preconditioners\PreConditionerTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Complex32\Solvers\Preconditioners\UnitPreconditionerTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Complex32\Solvers\StopCriterium\DivergenceStopCriteriumTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Complex32\Solvers\StopCriterium\FailureStopCriteriumTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Complex32\Solvers\StopCriterium\IterationCountStopCriteriumTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Complex32\Solvers\StopCriterium\ResidualStopCriteriumTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Complex32\SparseMatrixTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="LinearAlgebraTests\Complex32\MatrixTests.Arithmetic.cs" />
+    <Compile Include="LinearAlgebraTests\Complex32\MatrixTests.cs" />
+    <Compile Include="LinearAlgebraTests\Complex32\Solvers\Iterative\BiCgStabTest.cs" />
+    <Compile Include="LinearAlgebraTests\Complex32\Solvers\Iterative\GpBiCgTest.cs" />
+    <Compile Include="LinearAlgebraTests\Complex32\Solvers\Iterative\MlkBiCgStabTest.cs" />
+    <Compile Include="LinearAlgebraTests\Complex32\Solvers\Iterative\TFQMRTest.cs" />
+    <Compile Include="LinearAlgebraTests\Complex32\Solvers\IteratorTest.cs" />
+    <Compile Include="LinearAlgebraTests\Complex32\Solvers\Preconditioners\DiagonalTest.cs" />
+    <Compile Include="LinearAlgebraTests\Complex32\Solvers\Preconditioners\IluptElementSorterTest.cs" />
+    <Compile Include="LinearAlgebraTests\Complex32\Solvers\Preconditioners\IlutpTest.cs" />
+    <Compile Include="LinearAlgebraTests\Complex32\Solvers\Preconditioners\IncompleteLUTest.cs" />
+    <Compile Include="LinearAlgebraTests\Complex32\Solvers\Preconditioners\PreConditionerTest.cs" />
+    <Compile Include="LinearAlgebraTests\Complex32\Solvers\Preconditioners\UnitPreconditionerTest.cs" />
+    <Compile Include="LinearAlgebraTests\Complex32\Solvers\StopCriterium\DivergenceStopCriteriumTest.cs" />
+    <Compile Include="LinearAlgebraTests\Complex32\Solvers\StopCriterium\FailureStopCriteriumTest.cs" />
+    <Compile Include="LinearAlgebraTests\Complex32\Solvers\StopCriterium\IterationCountStopCriteriumTest.cs" />
+    <Compile Include="LinearAlgebraTests\Complex32\Solvers\StopCriterium\ResidualStopCriteriumTest.cs" />
+    <Compile Include="LinearAlgebraTests\Complex32\SparseMatrixTests.cs" />
     <Compile Include="LinearAlgebraTests\Complex32\SparseVectorArithmeticTheory.cs" />
-    <Compile Include="LinearAlgebraTests\Complex32\SparseVectorTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Complex32\SparseVectorTest.TextHandling.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Complex32\UserDefinedMatrix.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Complex32\UserDefinedMatrixTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Complex32\UserDefinedVector.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Complex32\UserDefinedVectorTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="LinearAlgebraTests\Complex32\SparseVectorTest.cs" />
+    <Compile Include="LinearAlgebraTests\Complex32\SparseVectorTest.TextHandling.cs" />
+    <Compile Include="LinearAlgebraTests\Complex32\UserDefinedMatrix.cs" />
+    <Compile Include="LinearAlgebraTests\Complex32\UserDefinedMatrixTests.cs" />
+    <Compile Include="LinearAlgebraTests\Complex32\UserDefinedVector.cs" />
+    <Compile Include="LinearAlgebraTests\Complex32\UserDefinedVectorTests.cs" />
     <Compile Include="LinearAlgebraTests\Complex32\VectorArithmeticTheory.cs" />
-    <Compile Include="LinearAlgebraTests\Complex32\VectorTests.Arithmetic.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Complex32\VectorTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Complex32\VectorTests.Norm.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Complex\DenseMatrixTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="LinearAlgebraTests\Complex32\VectorTests.Arithmetic.cs" />
+    <Compile Include="LinearAlgebraTests\Complex32\VectorTests.cs" />
+    <Compile Include="LinearAlgebraTests\Complex32\VectorTests.Norm.cs" />
+    <Compile Include="LinearAlgebraTests\Complex\DenseMatrixTests.cs" />
     <Compile Include="LinearAlgebraTests\Complex\DenseVectorArithmeticTheory.cs" />
-    <Compile Include="LinearAlgebraTests\Complex\DenseVectorTest.TextHandling.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Complex\DenseVectorTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Complex\DiagonalMatrixTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Complex\Factorization\CholeskyTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Complex\Factorization\EvdTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Complex\Factorization\GramSchmidtTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Complex\Factorization\LUTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Complex\Factorization\QRTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Complex\Factorization\SvdTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Complex\Factorization\UserCholeskyTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Complex\Factorization\UserEvdTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Complex\Factorization\UserGramSchmidtTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Complex\Factorization\UserLUTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Complex\Factorization\UserQRTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Complex\Factorization\UserSvdTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Complex\MatrixLoader.cs">
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="LinearAlgebraTests\Complex\DenseVectorTest.TextHandling.cs" />
+    <Compile Include="LinearAlgebraTests\Complex\DenseVectorTests.cs" />
+    <Compile Include="LinearAlgebraTests\Complex\DiagonalMatrixTests.cs" />
+    <Compile Include="LinearAlgebraTests\Complex\Factorization\CholeskyTests.cs" />
+    <Compile Include="LinearAlgebraTests\Complex\Factorization\EvdTests.cs" />
+    <Compile Include="LinearAlgebraTests\Complex\Factorization\GramSchmidtTests.cs" />
+    <Compile Include="LinearAlgebraTests\Complex\Factorization\LUTests.cs" />
+    <Compile Include="LinearAlgebraTests\Complex\Factorization\QRTests.cs" />
+    <Compile Include="LinearAlgebraTests\Complex\Factorization\SvdTests.cs" />
+    <Compile Include="LinearAlgebraTests\Complex\Factorization\UserCholeskyTests.cs" />
+    <Compile Include="LinearAlgebraTests\Complex\Factorization\UserEvdTests.cs" />
+    <Compile Include="LinearAlgebraTests\Complex\Factorization\UserGramSchmidtTests.cs" />
+    <Compile Include="LinearAlgebraTests\Complex\Factorization\UserLUTests.cs" />
+    <Compile Include="LinearAlgebraTests\Complex\Factorization\UserQRTests.cs" />
+    <Compile Include="LinearAlgebraTests\Complex\Factorization\UserSvdTests.cs" />
+    <Compile Include="LinearAlgebraTests\Complex\MatrixLoader.cs" />
     <Compile Include="LinearAlgebraTests\Complex\MatrixStructureTheory.cs" />
-    <Compile Include="LinearAlgebraTests\Complex\MatrixTests.Arithmetic.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Complex\MatrixTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Complex\Solvers\Iterative\BiCgStabTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Complex\Solvers\Iterative\GpBiCgTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Complex\Solvers\Iterative\MlkBiCgStabTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Complex\Solvers\Iterative\TFQMRTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Complex\Solvers\IteratorTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Complex\Solvers\Preconditioners\DiagonalTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Complex\Solvers\Preconditioners\IluptElementSorterTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Complex\Solvers\Preconditioners\IlutpTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Complex\Solvers\Preconditioners\IncompleteLUTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Complex\Solvers\Preconditioners\PreConditionerTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Complex\Solvers\Preconditioners\UnitPreconditionerTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Complex\Solvers\StopCriterium\DivergenceStopCriteriumTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Complex\Solvers\StopCriterium\FailureStopCriteriumTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Complex\Solvers\StopCriterium\IterationCountStopCriteriumTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Complex\Solvers\StopCriterium\ResidualStopCriteriumTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Complex\SparseMatrixTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="LinearAlgebraTests\Complex\MatrixTests.Arithmetic.cs" />
+    <Compile Include="LinearAlgebraTests\Complex\MatrixTests.cs" />
+    <Compile Include="LinearAlgebraTests\Complex\Solvers\Iterative\BiCgStabTest.cs" />
+    <Compile Include="LinearAlgebraTests\Complex\Solvers\Iterative\GpBiCgTest.cs" />
+    <Compile Include="LinearAlgebraTests\Complex\Solvers\Iterative\MlkBiCgStabTest.cs" />
+    <Compile Include="LinearAlgebraTests\Complex\Solvers\Iterative\TFQMRTest.cs" />
+    <Compile Include="LinearAlgebraTests\Complex\Solvers\IteratorTest.cs" />
+    <Compile Include="LinearAlgebraTests\Complex\Solvers\Preconditioners\DiagonalTest.cs" />
+    <Compile Include="LinearAlgebraTests\Complex\Solvers\Preconditioners\IluptElementSorterTest.cs" />
+    <Compile Include="LinearAlgebraTests\Complex\Solvers\Preconditioners\IlutpTest.cs" />
+    <Compile Include="LinearAlgebraTests\Complex\Solvers\Preconditioners\IncompleteLUTest.cs" />
+    <Compile Include="LinearAlgebraTests\Complex\Solvers\Preconditioners\PreConditionerTest.cs" />
+    <Compile Include="LinearAlgebraTests\Complex\Solvers\Preconditioners\UnitPreconditionerTest.cs" />
+    <Compile Include="LinearAlgebraTests\Complex\Solvers\StopCriterium\DivergenceStopCriteriumTest.cs" />
+    <Compile Include="LinearAlgebraTests\Complex\Solvers\StopCriterium\FailureStopCriteriumTest.cs" />
+    <Compile Include="LinearAlgebraTests\Complex\Solvers\StopCriterium\IterationCountStopCriteriumTest.cs" />
+    <Compile Include="LinearAlgebraTests\Complex\Solvers\StopCriterium\ResidualStopCriteriumTest.cs" />
+    <Compile Include="LinearAlgebraTests\Complex\SparseMatrixTests.cs" />
     <Compile Include="LinearAlgebraTests\Complex\SparseVectorArithmeticTheory.cs" />
-    <Compile Include="LinearAlgebraTests\Complex\SparseVectorTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Complex\SparseVectorTest.TextHandling.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Complex\UserDefinedMatrix.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Complex\UserDefinedMatrixTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Complex\UserDefinedVector.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Complex\UserDefinedVectorTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="LinearAlgebraTests\Complex\SparseVectorTest.cs" />
+    <Compile Include="LinearAlgebraTests\Complex\SparseVectorTest.TextHandling.cs" />
+    <Compile Include="LinearAlgebraTests\Complex\UserDefinedMatrix.cs" />
+    <Compile Include="LinearAlgebraTests\Complex\UserDefinedMatrixTests.cs" />
+    <Compile Include="LinearAlgebraTests\Complex\UserDefinedVector.cs" />
+    <Compile Include="LinearAlgebraTests\Complex\UserDefinedVectorTests.cs" />
     <Compile Include="LinearAlgebraTests\Complex\VectorArithmeticTheory.cs" />
-    <Compile Include="LinearAlgebraTests\Complex\VectorTests.Arithmetic.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Complex\VectorTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Complex\VectorTests.Norm.cs">
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="LinearAlgebraTests\Complex\VectorTests.Arithmetic.cs" />
+    <Compile Include="LinearAlgebraTests\Complex\VectorTests.cs" />
+    <Compile Include="LinearAlgebraTests\Complex\VectorTests.Norm.cs" />
     <Compile Include="LinearAlgebraTests\Double\MatrixStructureTheory.cs" />
     <Compile Include="LinearAlgebraTests\Double\SparseVectorArithmeticTheory.cs" />
-    <Compile Include="LinearAlgebraTests\Double\DenseMatrixTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Double\DenseVectorTest.TextHandling.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Double\DenseVectorTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="LinearAlgebraTests\Double\DenseMatrixTests.cs" />
+    <Compile Include="LinearAlgebraTests\Double\DenseVectorTest.TextHandling.cs" />
+    <Compile Include="LinearAlgebraTests\Double\DenseVectorTests.cs" />
     <Compile Include="LinearAlgebraTests\Double\DenseVectorArithmeticTheory.cs" />
-    <Compile Include="LinearAlgebraTests\Double\DiagonalMatrixTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Double\Factorization\CholeskyTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Double\Factorization\EvdTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Double\Factorization\GramSchmidtTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Double\Factorization\LUTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Double\Factorization\QRTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Double\Factorization\SvdTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Double\Factorization\UserCholeskyTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Double\Factorization\UserEvdTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Double\Factorization\UserGramSchmidtTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Double\Factorization\UserLUTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Double\Factorization\UserQRTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Double\Factorization\UserSvdTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Double\MatrixLoader.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Double\MatrixTests.Arithmetic.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Double\MatrixTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Double\Solvers\Iterative\BiCgStabTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Double\Solvers\Iterative\GpBiCgTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Double\Solvers\Iterative\MlkBiCgStabTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Double\Solvers\Iterative\TFQMRTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Double\Solvers\IteratorTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Double\Solvers\Preconditioners\DiagonalTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Double\Solvers\Preconditioners\IluptElementSorterTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Double\Solvers\Preconditioners\IlutpTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Double\Solvers\Preconditioners\IncompleteLUTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Double\Solvers\Preconditioners\PreConditionerTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Double\Solvers\Preconditioners\UnitPreconditionerTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Double\Solvers\StopCriterium\DivergenceStopCriteriumTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Double\Solvers\StopCriterium\FailureStopCriteriumTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Double\Solvers\StopCriterium\IterationCountStopCriteriumTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Double\Solvers\StopCriterium\ResidualStopCriteriumTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Double\SparseMatrixTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Double\SparseVectorTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Double\SparseVectorTest.TextHandling.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Double\UserDefinedMatrix.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Double\UserDefinedMatrixTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Double\UserDefinedVector.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Double\UserDefinedVectorTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Double\VectorTests.Arithmetic.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Double\VectorTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Double\VectorTests.Norm.cs">
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="LinearAlgebraTests\Double\DiagonalMatrixTests.cs" />
+    <Compile Include="LinearAlgebraTests\Double\Factorization\CholeskyTests.cs" />
+    <Compile Include="LinearAlgebraTests\Double\Factorization\EvdTests.cs" />
+    <Compile Include="LinearAlgebraTests\Double\Factorization\GramSchmidtTests.cs" />
+    <Compile Include="LinearAlgebraTests\Double\Factorization\LUTests.cs" />
+    <Compile Include="LinearAlgebraTests\Double\Factorization\QRTests.cs" />
+    <Compile Include="LinearAlgebraTests\Double\Factorization\SvdTests.cs" />
+    <Compile Include="LinearAlgebraTests\Double\Factorization\UserCholeskyTests.cs" />
+    <Compile Include="LinearAlgebraTests\Double\Factorization\UserEvdTests.cs" />
+    <Compile Include="LinearAlgebraTests\Double\Factorization\UserGramSchmidtTests.cs" />
+    <Compile Include="LinearAlgebraTests\Double\Factorization\UserLUTests.cs" />
+    <Compile Include="LinearAlgebraTests\Double\Factorization\UserQRTests.cs" />
+    <Compile Include="LinearAlgebraTests\Double\Factorization\UserSvdTests.cs" />
+    <Compile Include="LinearAlgebraTests\Double\MatrixLoader.cs" />
+    <Compile Include="LinearAlgebraTests\Double\MatrixTests.Arithmetic.cs" />
+    <Compile Include="LinearAlgebraTests\Double\MatrixTests.cs" />
+    <Compile Include="LinearAlgebraTests\Double\Solvers\Iterative\BiCgStabTest.cs" />
+    <Compile Include="LinearAlgebraTests\Double\Solvers\Iterative\GpBiCgTest.cs" />
+    <Compile Include="LinearAlgebraTests\Double\Solvers\Iterative\MlkBiCgStabTest.cs" />
+    <Compile Include="LinearAlgebraTests\Double\Solvers\Iterative\TFQMRTest.cs" />
+    <Compile Include="LinearAlgebraTests\Double\Solvers\IteratorTest.cs" />
+    <Compile Include="LinearAlgebraTests\Double\Solvers\Preconditioners\DiagonalTest.cs" />
+    <Compile Include="LinearAlgebraTests\Double\Solvers\Preconditioners\IluptElementSorterTest.cs" />
+    <Compile Include="LinearAlgebraTests\Double\Solvers\Preconditioners\IlutpTest.cs" />
+    <Compile Include="LinearAlgebraTests\Double\Solvers\Preconditioners\IncompleteLUTest.cs" />
+    <Compile Include="LinearAlgebraTests\Double\Solvers\Preconditioners\PreConditionerTest.cs" />
+    <Compile Include="LinearAlgebraTests\Double\Solvers\Preconditioners\UnitPreconditionerTest.cs" />
+    <Compile Include="LinearAlgebraTests\Double\Solvers\StopCriterium\DivergenceStopCriteriumTest.cs" />
+    <Compile Include="LinearAlgebraTests\Double\Solvers\StopCriterium\FailureStopCriteriumTest.cs" />
+    <Compile Include="LinearAlgebraTests\Double\Solvers\StopCriterium\IterationCountStopCriteriumTest.cs" />
+    <Compile Include="LinearAlgebraTests\Double\Solvers\StopCriterium\ResidualStopCriteriumTest.cs" />
+    <Compile Include="LinearAlgebraTests\Double\SparseMatrixTests.cs" />
+    <Compile Include="LinearAlgebraTests\Double\SparseVectorTest.cs" />
+    <Compile Include="LinearAlgebraTests\Double\SparseVectorTest.TextHandling.cs" />
+    <Compile Include="LinearAlgebraTests\Double\UserDefinedMatrix.cs" />
+    <Compile Include="LinearAlgebraTests\Double\UserDefinedMatrixTests.cs" />
+    <Compile Include="LinearAlgebraTests\Double\UserDefinedVector.cs" />
+    <Compile Include="LinearAlgebraTests\Double\UserDefinedVectorTests.cs" />
+    <Compile Include="LinearAlgebraTests\Double\VectorTests.Arithmetic.cs" />
+    <Compile Include="LinearAlgebraTests\Double\VectorTests.cs" />
+    <Compile Include="LinearAlgebraTests\Double\VectorTests.Norm.cs" />
     <Compile Include="LinearAlgebraTests\MatrixStructureTheory.Access.cs" />
     <Compile Include="LinearAlgebraTests\MatrixStructureTheory.cs" />
     <Compile Include="LinearAlgebraTests\MatrixStructureTheory.Reform.cs" />
-    <Compile Include="LinearAlgebraTests\Single\DenseMatrixTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="LinearAlgebraTests\Single\DenseMatrixTests.cs" />
     <Compile Include="LinearAlgebraTests\Single\DenseVectorArithmeticTheory.cs" />
-    <Compile Include="LinearAlgebraTests\Single\DenseVectorTest.TextHandling.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Single\DenseVectorTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Single\DiagonalMatrixTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Single\Factorization\CholeskyTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Single\Factorization\EvdTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Single\Factorization\GramSchmidtTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Single\Factorization\LUTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Single\Factorization\QRTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Single\Factorization\SvdTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Single\Factorization\UserCholeskyTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Single\Factorization\UserEvdTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Single\Factorization\UserGramSchmidtTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Single\Factorization\UserLUTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Single\Factorization\UserQRTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Single\Factorization\UserSvdTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Single\MatrixLoader.cs">
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="LinearAlgebraTests\Single\DenseVectorTest.TextHandling.cs" />
+    <Compile Include="LinearAlgebraTests\Single\DenseVectorTests.cs" />
+    <Compile Include="LinearAlgebraTests\Single\DiagonalMatrixTests.cs" />
+    <Compile Include="LinearAlgebraTests\Single\Factorization\CholeskyTests.cs" />
+    <Compile Include="LinearAlgebraTests\Single\Factorization\EvdTests.cs" />
+    <Compile Include="LinearAlgebraTests\Single\Factorization\GramSchmidtTests.cs" />
+    <Compile Include="LinearAlgebraTests\Single\Factorization\LUTests.cs" />
+    <Compile Include="LinearAlgebraTests\Single\Factorization\QRTests.cs" />
+    <Compile Include="LinearAlgebraTests\Single\Factorization\SvdTests.cs" />
+    <Compile Include="LinearAlgebraTests\Single\Factorization\UserCholeskyTests.cs" />
+    <Compile Include="LinearAlgebraTests\Single\Factorization\UserEvdTests.cs" />
+    <Compile Include="LinearAlgebraTests\Single\Factorization\UserGramSchmidtTests.cs" />
+    <Compile Include="LinearAlgebraTests\Single\Factorization\UserLUTests.cs" />
+    <Compile Include="LinearAlgebraTests\Single\Factorization\UserQRTests.cs" />
+    <Compile Include="LinearAlgebraTests\Single\Factorization\UserSvdTests.cs" />
+    <Compile Include="LinearAlgebraTests\Single\MatrixLoader.cs" />
     <Compile Include="LinearAlgebraTests\Single\MatrixStructureTheory.cs" />
-    <Compile Include="LinearAlgebraTests\Single\MatrixTests.Arithmetic.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Single\MatrixTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Single\Solvers\Iterative\BiCgStabTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Single\Solvers\Iterative\GpBiCgTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Single\Solvers\Iterative\MlkBiCgStabTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Single\Solvers\Iterative\TFQMRTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Single\Solvers\IteratorTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Single\Solvers\Preconditioners\DiagonalTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Single\Solvers\Preconditioners\IluptElementSorterTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Single\Solvers\Preconditioners\IlutpTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Single\Solvers\Preconditioners\IncompleteLUTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Single\Solvers\Preconditioners\PreConditionerTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Single\Solvers\Preconditioners\UnitPreconditionerTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Single\Solvers\StopCriterium\DivergenceStopCriteriumTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Single\Solvers\StopCriterium\FailureStopCriteriumTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Single\Solvers\StopCriterium\IterationCountStopCriteriumTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Single\Solvers\StopCriterium\ResidualStopCriteriumTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Single\SparseMatrixTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="LinearAlgebraTests\Single\MatrixTests.Arithmetic.cs" />
+    <Compile Include="LinearAlgebraTests\Single\MatrixTests.cs" />
+    <Compile Include="LinearAlgebraTests\Single\Solvers\Iterative\BiCgStabTest.cs" />
+    <Compile Include="LinearAlgebraTests\Single\Solvers\Iterative\GpBiCgTest.cs" />
+    <Compile Include="LinearAlgebraTests\Single\Solvers\Iterative\MlkBiCgStabTest.cs" />
+    <Compile Include="LinearAlgebraTests\Single\Solvers\Iterative\TFQMRTest.cs" />
+    <Compile Include="LinearAlgebraTests\Single\Solvers\IteratorTest.cs" />
+    <Compile Include="LinearAlgebraTests\Single\Solvers\Preconditioners\DiagonalTest.cs" />
+    <Compile Include="LinearAlgebraTests\Single\Solvers\Preconditioners\IluptElementSorterTest.cs" />
+    <Compile Include="LinearAlgebraTests\Single\Solvers\Preconditioners\IlutpTest.cs" />
+    <Compile Include="LinearAlgebraTests\Single\Solvers\Preconditioners\IncompleteLUTest.cs" />
+    <Compile Include="LinearAlgebraTests\Single\Solvers\Preconditioners\PreConditionerTest.cs" />
+    <Compile Include="LinearAlgebraTests\Single\Solvers\Preconditioners\UnitPreconditionerTest.cs" />
+    <Compile Include="LinearAlgebraTests\Single\Solvers\StopCriterium\DivergenceStopCriteriumTest.cs" />
+    <Compile Include="LinearAlgebraTests\Single\Solvers\StopCriterium\FailureStopCriteriumTest.cs" />
+    <Compile Include="LinearAlgebraTests\Single\Solvers\StopCriterium\IterationCountStopCriteriumTest.cs" />
+    <Compile Include="LinearAlgebraTests\Single\Solvers\StopCriterium\ResidualStopCriteriumTest.cs" />
+    <Compile Include="LinearAlgebraTests\Single\SparseMatrixTests.cs" />
     <Compile Include="LinearAlgebraTests\Single\SparseVectorArithmeticTheory.cs" />
-    <Compile Include="LinearAlgebraTests\Single\SparseVectorTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Single\SparseVectorTest.TextHandling.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Single\UserDefinedMatrix.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Single\UserDefinedMatrixTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Single\UserDefinedVector.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Single\UserDefinedVectorTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="LinearAlgebraTests\Single\SparseVectorTest.cs" />
+    <Compile Include="LinearAlgebraTests\Single\SparseVectorTest.TextHandling.cs" />
+    <Compile Include="LinearAlgebraTests\Single\UserDefinedMatrix.cs" />
+    <Compile Include="LinearAlgebraTests\Single\UserDefinedMatrixTests.cs" />
+    <Compile Include="LinearAlgebraTests\Single\UserDefinedVector.cs" />
+    <Compile Include="LinearAlgebraTests\Single\UserDefinedVectorTests.cs" />
     <Compile Include="LinearAlgebraTests\Single\VectorArithmeticTheory.cs" />
-    <Compile Include="LinearAlgebraTests\Single\VectorTests.Arithmetic.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Single\VectorTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LinearAlgebraTests\Single\VectorTests.Norm.cs">
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="LinearAlgebraTests\Single\VectorTests.Arithmetic.cs" />
+    <Compile Include="LinearAlgebraTests\Single\VectorTests.cs" />
+    <Compile Include="LinearAlgebraTests\Single\VectorTests.Norm.cs" />
     <Compile Include="LinearAlgebraTests\Double\VectorArithmeticTheory.cs" />
     <Compile Include="LinearAlgebraTests\StaticDynamicWrapper.cs" />
     <Compile Include="LinearAlgebraTests\VectorArithmeticTheory.cs" />
@@ -1041,13 +674,5 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>

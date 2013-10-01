@@ -24,11 +24,16 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System.Collections.Generic;
+using NUnit.Framework;
+
 namespace MathNet.Numerics.UnitTests
 {
-    using System.Collections.Generic;
-    using System.Numerics;
-    using NUnit.Framework;
+#if NOSYSNUMERICS
+    using Complex = Numerics.Complex;
+#else
+    using Complex = System.Numerics.Complex;
+#endif
 
     /// <summary>
     /// A class which includes some assertion helper methods particularly for numerical code.

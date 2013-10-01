@@ -118,8 +118,8 @@ namespace MathNet.Numerics.NumberTheory
             {
                 long rem;
 #if PORTABLE
-                rem = a / b;
-                var quot = a % b;
+                rem = a % b;
+                var quot = a / b;
 #else
                 long quot = Math.DivRem(a, b, out rem);
 #endif

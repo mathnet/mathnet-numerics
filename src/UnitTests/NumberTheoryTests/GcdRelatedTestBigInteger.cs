@@ -24,13 +24,15 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+#if !NOSYSNUMERICS
+
+using System;
+using System.Numerics;
+using MathNet.Numerics.NumberTheory;
+using NUnit.Framework;
+
 namespace MathNet.Numerics.UnitTests.NumberTheoryTests
 {
-    using System;
-    using System.Numerics;
-    using NumberTheory;
-    using NUnit.Framework;
-
     /// <summary>
     /// GreatestCommonDivisor related test for <c>BigInteger</c>.
     /// </summary>
@@ -217,3 +219,4 @@ namespace MathNet.Numerics.UnitTests.NumberTheoryTests
         }
     }
 }
+#endif

@@ -24,6 +24,11 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+#if PORTABLE
+using System.Collections.Generic;
+using System.Linq;
+#endif
+
 namespace MathNet.Numerics.UnitTests
 {
     using System;
@@ -59,7 +64,7 @@ namespace MathNet.Numerics.UnitTests
     /// </summary>
     /// <typeparam name="T">The type of the elements of the array.</typeparam>
     /// <param name="list">The one-dimensional, zero-based Array to search.</param>
-    /// <param name="match">The Predicate<> that defines the conditions of the elements to search for.</param>
+    /// <param name="match">The Predicate that defines the conditions of the elements to search for.</param>
     /// <returns>true if array contains one or more elements that match the conditions defined by the specified predicate; otherwise, false.</returns>
         public static bool Exists<T>(this List<T> list, Predicate<T> match)
         {

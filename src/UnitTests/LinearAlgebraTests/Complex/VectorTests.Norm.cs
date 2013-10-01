@@ -24,11 +24,15 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using NUnit.Framework;
+
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
 {
-    using System;
-    using System.Numerics;
-    using NUnit.Framework;
+#if NOSYSNUMERICS
+    using Complex = Numerics.Complex;
+#else
+    using Complex = System.Numerics.Complex;
+#endif
 
     /// <summary>
     /// Abstract class with the norms set of vector tests.
@@ -91,7 +95,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
         {
             var vector = CreateVector(Data);
             AssertHelpers.AlmostEqual(5.09901951359279, vector.InfinityNorm(), 14);
-            AssertHelpers.AlmostEqual(5.09901951359279, vector.Norm(Double.PositiveInfinity), 14);
+            AssertHelpers.AlmostEqual(5.09901951359279, vector.Norm(double.PositiveInfinity), 14);
         }
 
         /// <summary>

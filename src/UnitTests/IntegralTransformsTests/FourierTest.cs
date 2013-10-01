@@ -25,7 +25,6 @@
 // </copyright>
 
 using System;
-using System.Numerics;
 using MathNet.Numerics.Distributions;
 using MathNet.Numerics.IntegralTransforms;
 using MathNet.Numerics.IntegralTransforms.Algorithms;
@@ -35,6 +34,12 @@ using NUnit.Framework;
 namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
 {
     using Random = System.Random;
+
+#if NOSYSNUMERICS
+    using Complex = Numerics.Complex;
+#else
+    using Complex = System.Numerics.Complex;
+#endif
 
     /// <summary>
     /// Fourier test.

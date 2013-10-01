@@ -24,6 +24,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+#if !PORTABLE
 namespace MathNet.Numerics.UnitTests.Random
 {
     using Numerics.Random;
@@ -44,3 +45,4 @@ namespace MathNet.Numerics.UnitTests.Random
         }
     }
 }
+#endif

@@ -24,12 +24,17 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using MathNet.Numerics.LinearAlgebra;
 using System;
-using System.Numerics;
+using MathNet.Numerics.LinearAlgebra;
 
 namespace MathNet.Numerics.UnitTests
 {
+#if NOSYSNUMERICS
+    using Complex = Numerics.Complex;
+#else
+    using Complex = System.Numerics.Complex;
+#endif
+
     /// <summary>
     /// Matrix utility functions to simplify tests.
     /// </summary>

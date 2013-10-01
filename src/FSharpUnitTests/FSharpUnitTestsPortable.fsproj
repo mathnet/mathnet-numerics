@@ -8,13 +8,14 @@
     <ProjectGuid>90ce8e32-354e-4728-8fe6-87342f469321</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>FSharpPortableUnitTests</RootNamespace>
-    <AssemblyName>FSharpPortableUnitTests</AssemblyName>
+    <AssemblyName>MathNet.Numerics.FSharp.UnitTests</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <Name>FSharpPortableUnitTests</Name>
     <MinimumVisualStudioVersion Condition="'$(MinimumVisualStudioVersion)' == ''">11</MinimumVisualStudioVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug47|AnyCPU' ">
     <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <AssemblyName>MathNet.Numerics.FSharp.UnitTests47</AssemblyName>
     <OutputPath>..\..\out\test\debug\Portable47\</OutputPath>
     <Optimize>false</Optimize>
     <Tailcalls>false</Tailcalls>
@@ -25,6 +26,7 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release47|AnyCPU' ">
     <DefineConstants>TRACE</DefineConstants>
+    <AssemblyName>MathNet.Numerics.FSharp.UnitTests47</AssemblyName>
     <OutputPath>..\..\out\test\Portable47\</OutputPath>
     <Optimize>true</Optimize>
     <Tailcalls>true</Tailcalls>
@@ -34,6 +36,7 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release136|AnyCPU' ">
     <DefineConstants>TRACE;NOSYSNUMERICS</DefineConstants>
+    <AssemblyName>MathNet.Numerics.FSharp.UnitTests136</AssemblyName>
     <OutputPath>..\..\out\test\Portable136\</OutputPath>
     <Optimize>true</Optimize>
     <Tailcalls>true</Tailcalls>

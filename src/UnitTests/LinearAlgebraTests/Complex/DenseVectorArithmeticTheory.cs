@@ -28,12 +28,17 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using MathNet.Numerics.LinearAlgebra;
+using MathNet.Numerics.LinearAlgebra.Complex;
+using NUnit.Framework;
+
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
 {
-    using LinearAlgebra;
-    using LinearAlgebra.Complex;
-    using NUnit.Framework;
-    using System.Numerics;
+#if NOSYSNUMERICS
+    using Complex = Numerics.Complex;
+#else
+    using Complex = System.Numerics.Complex;
+#endif
 
     [TestFixture]
     public class DenseVectorArithmeticTheory : VectorArithmeticTheory

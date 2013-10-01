@@ -1,16 +1,18 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Portable47", "src\Numerics\Portable.csproj", "{49205185-621E-FFB9-2104-887C9F1BBD13}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Portable", "src\Numerics\Portable.csproj", "{49205185-621E-FFB9-2104-887C9F1BBD13}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "FSharpPortable47", "src\FSharp\FSharpPortable.fsproj", "{F5F14D76-428D-43D7-8431-5B885F1BA419}"
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "FSharpPortable", "src\FSharp\FSharpPortable.fsproj", "{F5F14D76-428D-43D7-8431-5B885F1BA419}"
 	ProjectSection(ProjectDependencies) = postProject
 		{49205185-621E-FFB9-2104-887C9F1BBD13} = {49205185-621E-FFB9-2104-887C9F1BBD13}
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{81D2CBEF-1C80-4389-A341-F010E8F86CDB}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "FSharpUnitTestsPortable47", "src\FSharpUnitTests\FSharpUnitTestsPortable.fsproj", "{90CE8E32-354E-4728-8FE6-87342F469321}"
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "FSharpUnitTestsPortable", "src\FSharpUnitTests\FSharpUnitTestsPortable.fsproj", "{90CE8E32-354E-4728-8FE6-87342F469321}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestsPortable", "src\UnitTests\UnitTestsPortable.csproj", "{0672ED13-CE61-4D3C-B879-282472817235}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -37,11 +39,18 @@ Global
 		{90CE8E32-354E-4728-8FE6-87342F469321}.Release136|Any CPU.Build.0 = Release136|Any CPU
 		{90CE8E32-354E-4728-8FE6-87342F469321}.Release47|Any CPU.ActiveCfg = Release47|Any CPU
 		{90CE8E32-354E-4728-8FE6-87342F469321}.Release47|Any CPU.Build.0 = Release47|Any CPU
+		{0672ED13-CE61-4D3C-B879-282472817235}.Debug47|Any CPU.ActiveCfg = Debug47|Any CPU
+		{0672ED13-CE61-4D3C-B879-282472817235}.Debug47|Any CPU.Build.0 = Debug47|Any CPU
+		{0672ED13-CE61-4D3C-B879-282472817235}.Release136|Any CPU.ActiveCfg = Release136|Any CPU
+		{0672ED13-CE61-4D3C-B879-282472817235}.Release136|Any CPU.Build.0 = Release136|Any CPU
+		{0672ED13-CE61-4D3C-B879-282472817235}.Release47|Any CPU.ActiveCfg = Release47|Any CPU
+		{0672ED13-CE61-4D3C-B879-282472817235}.Release47|Any CPU.Build.0 = Release47|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{90CE8E32-354E-4728-8FE6-87342F469321} = {81D2CBEF-1C80-4389-A341-F010E8F86CDB}
+		{0672ED13-CE61-4D3C-B879-282472817235} = {81D2CBEF-1C80-4389-A341-F010E8F86CDB}
 	EndGlobalSection
 EndGlobal

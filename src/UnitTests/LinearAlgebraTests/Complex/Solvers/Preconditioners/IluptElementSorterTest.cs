@@ -35,7 +35,6 @@ using NUnit.Framework;
 
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.Preconditioners
 {
-
 #if NOSYSNUMERICS
     using Complex = Numerics.Complex;
 #else

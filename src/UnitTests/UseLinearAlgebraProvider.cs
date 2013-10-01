@@ -38,11 +38,13 @@ namespace MathNet.Numerics.UnitTests
     {
         public void BeforeTest(TestDetails testDetails)
         {
+#if NATIVEMKL
             var provider = Properties.Settings.Default.LinearAlgebraProvider.ToLowerInvariant();
             if (provider.Contains("mkl"))
             {
                 Control.LinearAlgebraProvider = new Providers.LinearAlgebra.Mkl.MklLinearAlgebraProvider();
             }
+#endif
         }
 
         public void AfterTest(TestDetails details)

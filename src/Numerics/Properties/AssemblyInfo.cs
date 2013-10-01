@@ -29,9 +29,9 @@
 using System;
 using System.Reflection;
 using System.Resources;
+using System.Runtime.CompilerServices;
 
 #if !PORTABLE
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 #endif
 
@@ -50,6 +50,9 @@ using System.Runtime.InteropServices;
 #if PORTABLE
 
 [assembly: AssemblyTitle("Math.NET Numerics - Portable Edition")]
+[assembly: InternalsVisibleTo("MathNet.Numerics.UnitTests")]
+[assembly: InternalsVisibleTo("MathNet.Numerics.UnitTests47")]
+[assembly: InternalsVisibleTo("MathNet.Numerics.UnitTests136")]
 
 #else
 

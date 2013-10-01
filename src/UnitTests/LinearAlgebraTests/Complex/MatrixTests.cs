@@ -24,10 +24,10 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using NUnit.Framework;
+
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
 {
-    using NUnit.Framework;
-
     /// <summary>
     /// Abstract class with the common set of matrix tests
     /// </summary>
