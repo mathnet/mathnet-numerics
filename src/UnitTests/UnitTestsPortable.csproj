@@ -16,7 +16,6 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug47|AnyCPU' ">
     <DefineConstants>TRACE;DEBUG;PORTABLE</DefineConstants>
-    <AssemblyName>MathNet.Numerics.UnitTests47</AssemblyName>
     <OutputPath>..\..\out\test\debug\Portable47\</OutputPath>
     <Optimize>false</Optimize>
     <DebugType>full</DebugType>
@@ -27,7 +26,6 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release47|AnyCPU' ">
     <DefineConstants>TRACE;PORTABLE</DefineConstants>
-    <AssemblyName>MathNet.Numerics.UnitTests47</AssemblyName>
     <OutputPath>..\..\out\test\Portable47\</OutputPath>
     <DocumentationFile>..\..\out\test\Portable47\MathNet.Numerics.XML</DocumentationFile>
     <Optimize>true</Optimize>
@@ -38,7 +36,6 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release136|AnyCPU' ">
     <DefineConstants>TRACE;PORTABLE;NOSYSNUMERICS</DefineConstants>
-    <AssemblyName>MathNet.Numerics.UnitTests136</AssemblyName>
     <OutputPath>..\..\out\test\Portable136\</OutputPath>
     <DocumentationFile>..\..\out\test\Portable136\MathNet.Numerics.XML</DocumentationFile>
     <Optimize>true</Optimize>
