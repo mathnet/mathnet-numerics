@@ -70,9 +70,13 @@
         </PropertyGroup>
 
         <!-- Package Versions (skip 4th part/build number, for semvar compliance) -->
-        <PropertyGroup>
+        <PropertyGroup Condition="'$(semverPackage)' == ''">
             <NumericsPackVersion>$(NumericsAssemblyVersion.Substring(0, $(NumericsAssemblyVersion.LastIndexOf('.'))))</NumericsPackVersion>
             <FSharpPackVersion>$(FSharpAssemblyVersion.Substring(0, $(FSharpAssemblyVersion.LastIndexOf('.'))))</FSharpPackVersion>
+        </PropertyGroup>
+        <PropertyGroup Condition="'$(semverPackage)' != ''">
+            <NumericsPackVersion>$(semverPackage)</NumericsPackVersion>
+            <FSharpPackVersion>$(semverPackage)</FSharpPackVersion>
         </PropertyGroup>
 
         <XmlUpdate
