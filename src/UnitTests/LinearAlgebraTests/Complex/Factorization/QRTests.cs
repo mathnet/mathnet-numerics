@@ -707,7 +707,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Factorization
 
             for (var i = 0; i < vectorX.Count; i++)
             {
-                AssertHelpers.AlmostEqual(test[i], vectorX[i], 9);
+                AssertHelpers.AlmostEqualAbsolute(test[i], vectorX[i], 9);
             }
 
             // Make sure A didn't change.

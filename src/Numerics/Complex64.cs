@@ -162,8 +162,9 @@ namespace MathNet.Numerics
         /// <returns>The phase or argument of this <c>Complex</c></returns>
         public double Phase
         {
+            // NOTE: the special case for negative real numbers fixes negative-zero value behavior. Do not remove.
             [TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")]
-            get { return Math.Atan2(_imag, _real); }
+            get { return _imag == 0d && _real < 0d ? Constants.Pi : Math.Atan2(_imag, _real); }
         }
 
         /// <summary>

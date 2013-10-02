@@ -169,8 +169,9 @@ namespace MathNet.Numerics
         /// <returns>The phase or argument of this <c>Complex32</c></returns>
         public float Phase
         {
+            // NOTE: the special case for negative real numbers fixes negative-zero value behavior. Do not remove.
             [TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")]
-            get { return (float)Math.Atan2(_imag, _real); }
+            get { return _imag == 0f && _real < 0f ? (float)Constants.Pi : (float)Math.Atan2(_imag, _real); }
         }
 
         /// <summary>
