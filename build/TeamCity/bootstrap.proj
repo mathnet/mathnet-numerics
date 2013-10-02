@@ -11,6 +11,6 @@
 		<FileUpdate
 			Files="@(FSharpAssemblyInfoFiles)"
 			Regex="(Version\(&quot;[^&quot;]*&quot;\))"
-			ReplacementText="Version(&quot;$(BUILD_NUMBER)&quot;)"/>
+			ReplacementText="Version(&quot;$(semverAssembly)&quot;)"/>
 	</Target>
 </Project>
