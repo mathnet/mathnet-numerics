@@ -71,7 +71,7 @@ boolean argument at creation, or by setting `Control.ThreadSafeRandomNumberGener
 *)
 
 let a = Random.system ()
-let b = Random.systemSeed (Random.timeSeed())
+let b = Random.systemSeed (RandomSeed.Time())
 let b2 = Random.systemSeed someGuidSeed
 let c = Random.crypto ()
 let d = Random.mersenneTwister ()
@@ -131,6 +131,41 @@ let u = Normal.Sample(Random.system(), 2.0, 4.0)
 let v = Laplace.Samples(Random.mersenneTwister(), 1.0, 3.0) |> Seq.take 100 |> List.ofSeq
 let w = Rayleigh.Sample(c, 1.5)
 let x = Hypergeometric.Sample(h, 100, 20, 5)
+
+(**
+
+Specifically for F# there is also a `Sample` module that allow a somewhat
+more functional view on the distributions by allowing them to be curried such that
+the random source is passed in as last arguments. This way distributions can
+be combined and transformed arbitrarily:
+
+*)
+
+/// Transform a sample distribution
+let s1 rng = tanh (Sample.normal 2.0 0.5 rng)
+
+/// Alternative way where we transform the function instead of its result
+let s1alt rng = Sample.transform tanh (Sample.normal 2.0 0.5) rng
+
+/// Alternative way that works exactly the same but operates on functions generating sequences
+let s1seq rng = Sample.transformSeq tanh (Sample.normalSeq 2.0 0.5) rng
+
+/// The same with multiple distributions:
+let s2 rng = (Sample.normal 2.0 1.5 rng) * (Sample.cauchy 2.0 0.5 rng)
+let s2alt rng = Sample.transform2 (*) (Sample.normal 2.0 1.5) (Sample.cauchy 2.0 0.5) rng
+let s2seq rng = Sample.transformSeq2 (*) (Sample.normalSeq 2.0 1.5) (Sample.cauchySeq 2.0 0.5) rng
+
+Seq.take 10 (s2seq (Random.system())) |> Seq.toArray
+
+(**
+
+Let's do some random walks, using distributions and random sources defined above:
+
+*)
+
+Seq.scan (+) 0.0 (normal.Samples()) |> Seq.take 10 |> Seq.toArray
+Seq.scan (+) 0.0 (Sample.normalSeq 0.0 0.5 a) |> Seq.take 10 |> Seq.toArray
+Seq.scan (+) 0.0 (s1seq a) |> Seq.take 10 |> Seq.toArray
 
 (**
 
