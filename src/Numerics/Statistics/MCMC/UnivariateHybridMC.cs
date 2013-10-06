@@ -33,8 +33,6 @@ using MathNet.Numerics.Distributions;
 
 namespace MathNet.Numerics.Statistics.Mcmc
 {
-    using Random = System.Random;
-
     /// <summary>
     /// A hybrid Monte Carlo sampler for univariate distributions.
     /// </summary>
@@ -84,7 +82,7 @@ namespace MathNet.Numerics.Statistics.Mcmc
         /// the momentum.</param>
         /// <exception cref="ArgumentOutOfRangeException">When the number of burnInterval iteration is negative.</exception>
         public UnivariateHybridMC(double x0, DensityLn<double> pdfLnP, int frogLeapSteps, double stepSize, int burnInterval = 0, double pSdv = 1)
-            : this(x0, pdfLnP, frogLeapSteps, stepSize, burnInterval, pSdv, new Random())
+            : this(x0, pdfLnP, frogLeapSteps, stepSize, burnInterval, pSdv, new System.Random(Random.RandomSeed.Guid()))
         {
         }
 
@@ -104,7 +102,7 @@ namespace MathNet.Numerics.Statistics.Mcmc
         /// the momentum.</param>
         /// <param name="randomSource">Random number generator used to sample the momentum.</param>
         /// <exception cref="ArgumentOutOfRangeException">When the number of burnInterval iteration is negative.</exception>
-        public UnivariateHybridMC(double x0, DensityLn<double> pdfLnP, int frogLeapSteps, double stepSize, int burnInterval, double pSdv, Random randomSource)
+        public UnivariateHybridMC(double x0, DensityLn<double> pdfLnP, int frogLeapSteps, double stepSize, int burnInterval, double pSdv, System.Random randomSource)
             : this(x0, pdfLnP, frogLeapSteps, stepSize, burnInterval, pSdv, randomSource, Grad)
         {
         }
@@ -126,7 +124,7 @@ namespace MathNet.Numerics.Statistics.Mcmc
         /// <param name="diff">The method used for numerical differentiation.</param>
         /// <param name="randomSource">Random number generator used for sampling the momentum.</param>
         /// <exception cref="ArgumentOutOfRangeException">When the number of burnInterval iteration is negative.</exception>
-        public UnivariateHybridMC(double x0, DensityLn<double> pdfLnP, int frogLeapSteps, double stepSize, int burnInterval, double pSdv, Random randomSource, DiffMethod diff)
+        public UnivariateHybridMC(double x0, DensityLn<double> pdfLnP, int frogLeapSteps, double stepSize, int burnInterval, double pSdv, System.Random randomSource, DiffMethod diff)
             : base(x0, pdfLnP, frogLeapSteps, stepSize, burnInterval, randomSource, diff)
         {
             MomentumStdDev = pSdv;

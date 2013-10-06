@@ -74,7 +74,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="scale">The scale matrix (V) for the Wishart distribution.</param>
         public Wishart(double degreesOfFreedom, Matrix<double> scale)
         {
-            _random = new System.Random();
+            _random = new System.Random(Random.RandomSeed.Guid());
             SetParameters(degreesOfFreedom, scale);
         }
 
@@ -86,7 +86,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="randomSource">The random number generator which is used to draw random samples.</param>
         public Wishart(double degreesOfFreedom, Matrix<double> scale, System.Random randomSource)
         {
-            _random = randomSource ?? new System.Random();
+            _random = randomSource ?? new System.Random(Random.RandomSeed.Guid());
             SetParameters(degreesOfFreedom, scale);
         }
 

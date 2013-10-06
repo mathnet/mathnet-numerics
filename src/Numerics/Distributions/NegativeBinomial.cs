@@ -60,7 +60,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="p">The probability (p) of a trial resulting in success. Range: 0 ≤ p ≤ 1.</param>
         public NegativeBinomial(double r, double p)
         {
-            _random = new System.Random();
+            _random = new System.Random(Random.RandomSeed.Guid());
             SetParameters(r, p);
         }
 
@@ -72,7 +72,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="randomSource">The random number generator which is used to draw random samples.</param>
         public NegativeBinomial(double r, double p, System.Random randomSource)
         {
-            _random = randomSource ?? new System.Random();
+            _random = randomSource ?? new System.Random(Random.RandomSeed.Guid());
             SetParameters(r, p);
         }
 
@@ -139,7 +139,7 @@ namespace MathNet.Numerics.Distributions
         public System.Random RandomSource
         {
             get { return _random; }
-            set { _random = value ?? new System.Random(); }
+            set { _random = value ?? new System.Random(Random.RandomSeed.Guid()); }
         }
         /// <summary>
         /// Gets the mean of the distribution.

@@ -118,7 +118,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="precisionInverseScale">The inverse scale of the precision.</param>
         public NormalGamma(double meanLocation, double meanScale, double precisionShape, double precisionInverseScale)
         {
-            _random = new System.Random();
+            _random = new System.Random(Random.RandomSeed.Guid());
             SetParameters(meanLocation, meanScale, precisionShape, precisionInverseScale);
         }
 
@@ -132,7 +132,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="randomSource">The random number generator which is used to draw random samples.</param>
         public NormalGamma(double meanLocation, double meanScale, double precisionShape, double precisionInverseScale, System.Random randomSource)
         {
-            _random = randomSource ?? new System.Random();
+            _random = randomSource ?? new System.Random(Random.RandomSeed.Guid());
             SetParameters(meanLocation, meanScale, precisionShape, precisionInverseScale);
         }
 
@@ -222,7 +222,7 @@ namespace MathNet.Numerics.Distributions
         public System.Random RandomSource
         {
             get { return _random; }
-            set { _random = value ?? new System.Random(); }
+            set { _random = value ?? new System.Random(Random.RandomSeed.Guid()); }
         }
 
         /// <summary>

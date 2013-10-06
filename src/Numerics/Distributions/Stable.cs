@@ -65,7 +65,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="location">The location (μ) of the distribution.</param>
         public Stable(double alpha, double beta, double scale, double location)
         {
-            _random = new System.Random();
+            _random = new System.Random(Random.RandomSeed.Guid());
             SetParameters(alpha, beta, scale, location);
         }
 
@@ -79,7 +79,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="randomSource">The random number generator which is used to draw random samples.</param>
         public Stable(double alpha, double beta, double scale, double location, System.Random randomSource)
         {
-            _random = randomSource ?? new System.Random();
+            _random = randomSource ?? new System.Random(Random.RandomSeed.Guid());
             SetParameters(alpha, beta, scale, location);
         }
 
@@ -168,7 +168,7 @@ namespace MathNet.Numerics.Distributions
         public System.Random RandomSource
         {
             get { return _random; }
-            set { _random = value ?? new System.Random(); }
+            set { _random = value ?? new System.Random(Random.RandomSeed.Guid()); }
         }
 
         /// <summary>

@@ -34,8 +34,6 @@ using MathNet.Numerics.Distributions;
 
 namespace MathNet.Numerics.Statistics.Mcmc
 {
-    using Random = System.Random;
-
     /// <summary>
     /// A hybrid Monte Carlo sampler for multivariate distributions.
     /// </summary>
@@ -86,7 +84,7 @@ namespace MathNet.Numerics.Statistics.Mcmc
         /// <param name="burnInterval">The number of iterations in between returning samples.</param>
         /// <exception cref="ArgumentOutOfRangeException">When the number of burnInterval iteration is negative.</exception>
         public HybridMC(double[] x0, DensityLn<double[]> pdfLnP, int frogLeapSteps, double stepSize, int burnInterval = 0)
-            : this(x0, pdfLnP, frogLeapSteps, stepSize, burnInterval, new double[x0.Count()], new Random(), Grad)
+            : this(x0, pdfLnP, frogLeapSteps, stepSize, burnInterval, new double[x0.Count()], new System.Random(Random.RandomSeed.Guid()), Grad)
         {
             for (int i = 0; i < _length; i++)
             {
@@ -110,7 +108,7 @@ namespace MathNet.Numerics.Statistics.Mcmc
         /// the components of the momentum.</param>
         /// <exception cref="ArgumentOutOfRangeException">When the number of burnInterval iteration is negative.</exception>
         public HybridMC(double[] x0, DensityLn<double[]> pdfLnP, int frogLeapSteps, double stepSize, int burnInterval, double[] pSdv)
-            : this(x0, pdfLnP, frogLeapSteps, stepSize, burnInterval, pSdv, new Random())
+            : this(x0, pdfLnP, frogLeapSteps, stepSize, burnInterval, pSdv, new System.Random(Random.RandomSeed.Guid()))
         {
         }
 
@@ -130,7 +128,7 @@ namespace MathNet.Numerics.Statistics.Mcmc
         /// the components of the momentum.</param>
         /// <param name="randomSource">Random number generator used for sampling the momentum.</param>
         /// <exception cref="ArgumentOutOfRangeException">When the number of burnInterval iteration is negative.</exception>
-        public HybridMC(double[] x0, DensityLn<double[]> pdfLnP, int frogLeapSteps, double stepSize, int burnInterval, double[] pSdv, Random randomSource)
+        public HybridMC(double[] x0, DensityLn<double[]> pdfLnP, int frogLeapSteps, double stepSize, int burnInterval, double[] pSdv, System.Random randomSource)
             : this(x0, pdfLnP, frogLeapSteps, stepSize, burnInterval, pSdv, randomSource, Grad)
         {
         }
@@ -152,7 +150,7 @@ namespace MathNet.Numerics.Statistics.Mcmc
         /// <param name="diff">The method used for numerical differentiation.</param>
         /// <exception cref="ArgumentOutOfRangeException">When the number of burnInterval iteration is negative.</exception>
         /// <exception cref="ArgumentOutOfRangeException">When the length of pSdv is not the same as x0.</exception>
-        public HybridMC(double[] x0, DensityLn<double[]> pdfLnP, int frogLeapSteps, double stepSize, int burnInterval, double[] pSdv, Random randomSource, DiffMethod diff)
+        public HybridMC(double[] x0, DensityLn<double[]> pdfLnP, int frogLeapSteps, double stepSize, int burnInterval, double[] pSdv, System.Random randomSource, DiffMethod diff)
             : base(x0, pdfLnP, frogLeapSteps, stepSize, burnInterval, randomSource, diff)
         {
             _length = x0.Count();

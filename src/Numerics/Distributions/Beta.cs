@@ -65,7 +65,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="b">The β shape parameter of the Beta distribution. Range: β ≥ 0.</param>
         public Beta(double a, double b)
         {
-            _random = new System.Random();
+            _random = new System.Random(Random.RandomSeed.Guid());
             SetParameters(a, b);
         }
 
@@ -77,7 +77,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="randomSource">The random number generator which is used to draw random samples.</param>
         public Beta(double a, double b, System.Random randomSource)
         {
-            _random = randomSource ?? new System.Random();
+            _random = randomSource ?? new System.Random(Random.RandomSeed.Guid());
             SetParameters(a, b);
         }
 
@@ -131,7 +131,7 @@ namespace MathNet.Numerics.Distributions
         public System.Random RandomSource
         {
             get { return _random; }
-            set { _random = value ?? new System.Random(); }
+            set { _random = value ?? new System.Random(Random.RandomSeed.Guid()); }
         }
 
         /// <summary>

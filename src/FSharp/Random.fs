@@ -33,11 +33,15 @@ namespace MathNet.Numerics.Random
 [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
 module Random =
 
-    /// Provides a seed based on unique GUIDs
-    let seed () = System.Guid.NewGuid().GetHashCode()
+    /// Provides a time-dependent seed value (default behavior of System.Random)
+    /// WARNING: There is no randomness in this seed and quick repeated calls can cause
+    /// the same seed value. Do not use for cryptography!
+    let timeSeed () = RandomSeed.Time()
 
-    /// Provides a time-dependent seed value (caution, can produce the same value on quick repeated execution)
-    let timeSeed () = System.Environment.TickCount
+    /// Provides a seed based on unique GUIDs
+    /// WARNING: There is only low randomness in this seed, but at least quick repeated
+    /// calls will result in different seed values. Do not use for cryptography!
+    let seed () = RandomSeed.Guid()
 
     /// Creates a default .Net system pRNG with a custom seed based on uinque GUIDs
     let system () = new System.Random(seed())

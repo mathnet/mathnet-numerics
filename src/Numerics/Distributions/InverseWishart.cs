@@ -65,7 +65,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="scale">The scale matrix (Ψ) for the inverse Wishart distribution.</param>
         public InverseWishart(double degreesOfFreedom, Matrix<double> scale)
         {
-            _random = new System.Random();
+            _random = new System.Random(Random.RandomSeed.Guid());
             SetParameters(degreesOfFreedom, scale);
         }
 
@@ -77,7 +77,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="randomSource">The random number generator which is used to draw random samples.</param>
         public InverseWishart(double degreesOfFreedom, Matrix<double> scale, System.Random randomSource)
         {
-            _random = randomSource ?? new System.Random();
+            _random = randomSource ?? new System.Random(Random.RandomSeed.Guid());
             SetParameters(degreesOfFreedom, scale);
         }
 
@@ -156,7 +156,7 @@ namespace MathNet.Numerics.Distributions
         public System.Random RandomSource
         {
             get { return _random; }
-            set { _random = value ?? new System.Random(); }
+            set { _random = value ?? new System.Random(Random.RandomSeed.Guid()); }
         }
 
         /// <summary>

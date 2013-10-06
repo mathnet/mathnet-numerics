@@ -61,7 +61,7 @@ namespace MathNet.Numerics.Distributions
         /// <exception cref="ArgumentException">If <paramref name="scale"/> or <paramref name="shape"/> are negative.</exception>
         public Pareto(double scale, double shape)
         {
-            _random = new System.Random();
+            _random = new System.Random(Random.RandomSeed.Guid());
             SetParameters(scale, shape);
         }
 
@@ -74,7 +74,7 @@ namespace MathNet.Numerics.Distributions
         /// <exception cref="ArgumentException">If <paramref name="scale"/> or <paramref name="shape"/> are negative.</exception>
         public Pareto(double scale, double shape, System.Random randomSource)
         {
-            _random = randomSource ?? new System.Random();
+            _random = randomSource ?? new System.Random(Random.RandomSeed.Guid());
             SetParameters(scale, shape);
         }
 
@@ -128,7 +128,7 @@ namespace MathNet.Numerics.Distributions
         public System.Random RandomSource
         {
             get { return _random; }
-            set { _random = value ?? new System.Random(); }
+            set { _random = value ?? new System.Random(Random.RandomSeed.Guid()); }
         }
 
         /// <summary>
