@@ -66,16 +66,17 @@ namespace MathNet.Numerics
             _parallelizeElements = 300;
 
             // Linear Algebra Provider
-#if NATIVEMKL
             try
             {
                 const string name = "MathNetNumericsLAProvider";
                 var value = Environment.GetEnvironmentVariable(name);
                 switch (value != null ? value.ToUpperInvariant() : string.Empty)
                 {
+#if NATIVEMKL
                     case "MKL":
                         LinearAlgebraProvider = new Providers.LinearAlgebra.Mkl.MklLinearAlgebraProvider();
                         break;
+#endif
                     default:
                         LinearAlgebraProvider = new ManagedLinearAlgebraProvider();
                         break;
@@ -86,17 +87,26 @@ namespace MathNet.Numerics
                 // We don't care about any failures here at all
                 LinearAlgebraProvider = new ManagedLinearAlgebraProvider();
             }
-#else
-            LinearAlgebraProvider = new ManagedLinearAlgebraProvider();
-#endif
         }
 
-        public static void ConfigureSingleThread()
+        public static void UseSingleThread()
         {
             _numberOfThreads = 1;
             DisableParallelization = true;
             ThreadSafeRandomNumberGenerators = false;
         }
+
+        public static void UseManaged()
+        {
+            LinearAlgebraProvider = new ManagedLinearAlgebraProvider();
+        }
+
+#if NATIVEMKL
+        public static void UseNativeMKL()
+        {
+            LinearAlgebraProvider = new Providers.LinearAlgebra.Mkl.MklLinearAlgebraProvider();
+        }
+#endif
 
         /// <summary>
         /// Gets or sets a value indicating whether the distribution classes check validate each parameter.
