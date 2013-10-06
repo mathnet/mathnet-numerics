@@ -34,13 +34,13 @@
 open MathNet.Numerics.Random
 open MathNet.Numerics.Distributions
 
-// generate some seeds for random values
+// generate some seeds for random values (NOT intended for cryptography!)
 let someGuidSeed = Random.seed ()
 let someTimeSeed = Random.timeSeed ()
 
-// generate some pseudo random number generators (listing incomplete; all of them are cast to the common base type, System.Random)
+// some pseudo random number generators (listing incomplete; all of them are cast to the common base type, System.Random)
 let a = Random.system ()
-let b = Random.systemWith (Random.timeSeed())
+let b = Random.systemSeed (Random.timeSeed())
 let c = Random.crypto ()
 let d = Random.mersenneTwister ()
 let e = Random.mersenneTwisterWith 1000 true (* thread-safe *)
@@ -59,13 +59,13 @@ let values = (
         f.NextDecimal()
     )
 
-// generate some probability distributions
-let normal = Normal.WithMeanVariance(3.0, 1.5) |> withRandom g
-let exponential = new Exponential(2.4)
-let gamma = new Gamma(2.0, 1.5) |> withCryptoRandom
-let cauchy = new Cauchy() |> withRandom (Random.mrg32k3aWith 10 false)
-let poisson = new Poisson(3.0)
-let geometric = new Geometric(0.8) |> withSystemRandom
+// some probability distributions
+let normal = Normal.WithMeanVariance(3.0, 1.5, g)
+let exponential = Exponential(2.4)
+let gamma = Gamma(2.0, 1.5, Random.crypto())
+let cauchy = Cauchy(0.0, 1.0, Random.mrg32k3aWith 10 false)
+let poisson = Poisson(3.0)
+let geometric = Geometric(0.8, Random.system())
 
 // generate some random samples from these distributions
 let continuous = [

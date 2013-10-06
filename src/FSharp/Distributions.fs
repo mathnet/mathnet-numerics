@@ -32,23 +32,6 @@ namespace MathNet.Numerics.Distributions
 
 open MathNet.Numerics.Random
 
-[<AutoOpen>]
-[<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
-module Distributions =
-
-    let withRandom random (dist:#IUnivariateDistribution) =
-        dist.RandomSource <- random
-        dist
-
-    let withSystemRandom dist = dist |> withRandom (Random.system())
-    let withMersenneTwister dist = dist |> withRandom (Random.mersenneTwister())
-
-#if PORTABLE
-#else
-    let withCryptoRandom dist = dist |> withRandom (Random.crypto())
-#endif
-
-
 [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
 module Sample =
 

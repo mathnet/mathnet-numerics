@@ -45,7 +45,7 @@ module Random =
 
     /// Creates a default .Net system pRNG with a custom seed based on uinque GUIDs
     let system () = new System.Random(seed())
-    let systemWith seed = new System.Random(seed)
+    let systemSeed seed = new System.Random(seed)
 
 #if PORTABLE
 #else
@@ -56,34 +56,42 @@ module Random =
 
     /// Creates a Mersenne Twister 19937 pRNG with a custom seed based on uinque GUIDs
     let mersenneTwister () = new MersenneTwister(seed()) :> System.Random
+    let mersenneTwisterSeed (seed:int) = new MersenneTwister(seed) :> System.Random
     let mersenneTwisterWith seed threadSafe = new MersenneTwister(seed, threadSafe) :> System.Random
 
     /// Creates a multiply-with-carry Xorshift (Xn = a * Xn−3 + c mod 2^32) pRNG with a custom seed based on uinque GUIDs
     let xorshift () = new Xorshift(seed()) :> System.Random
+    let xorshiftSeed (seed:int) = new Xorshift(seed) :> System.Random
     let xorshiftWith seed threadSafe = new Xorshift(seed, threadSafe) :> System.Random
     let xorshiftCustom seed threadSafe a c x1 x2 = new Xorshift(seed, threadSafe, a, c, x1, x2) :> System.Random
 
     /// Creates a Wichmann-Hill’s 1982 combined multiplicative congruential pRNG with a custom seed based on uinque GUIDs
     let wh1982 () = new WH1982(seed()) :> System.Random
+    let wh1982Seed (seed:int) = new WH1982(seed) :> System.Random
     let wh1982With seed threadSafe = new WH1982(seed, threadSafe) :> System.Random
 
     /// Creates a Wichmann-Hill’s 2006 combined multiplicative congruential pRNG with a custom seed based on uinque GUIDs
     let wh2006 () = new WH2006(seed()) :> System.Random
+    let wh2006Seed (seed:int) = new WH2006(seed) :> System.Random
     let wh2006With seed threadSafe = new WH2006(seed, threadSafe) :> System.Random
 
     /// Creates a Parallel Additive Lagged Fibonacci pRNG with a custom seed based on uinque GUIDs
     let palf () = new Palf(seed()) :> System.Random
+    let palfSeed (seed:int) = new Palf(seed) :> System.Random
     let palfWith seed threadSafe = new Palf(seed, threadSafe, 418, 1279) :> System.Random
     let palfCustom seed threadSafe shortLag longLag = new Palf(seed, threadSafe, shortLag, longLag) :> System.Random
 
     /// Creates a Multiplicative congruential generator using a modulus of 2^59 and a multiplier of 13^13 pRNG with a custom seed based on uinque GUIDs
     let mcg59 () = new Mcg59(seed()) :> System.Random
+    let mcg59Seed (seed:int) = new Mcg59(seed) :> System.Random
     let mcg59With seed threadSafe = new Mcg59(seed, threadSafe) :> System.Random
 
     /// Creates a Multiplicative congruential generator using a modulus of 2^31-1 and a multiplier of 1132489760 pRNG with a custom seed based on uinque GUIDs
     let mcg31m1 () = new Mcg31m1(seed()) :> System.Random
+    let mcg31m1Seed (seed:int) = new Mcg31m1(seed) :> System.Random
     let mcg31m1With seed threadSafe = new Mcg31m1(seed, threadSafe) :> System.Random
 
     /// Creates a 32-bit combined multiple recursive generator with 2 components of order 3 pRNG with a custom seed based on uinque GUIDs
     let mrg32k3a () = new Mrg32k3a(seed()) :> System.Random
+    let mrg32k3aSeed (seed:int) = new Mrg32k3a(seed) :> System.Random
     let mrg32k3aWith seed threadSafe = new Mrg32k3a(seed, threadSafe) :> System.Random
