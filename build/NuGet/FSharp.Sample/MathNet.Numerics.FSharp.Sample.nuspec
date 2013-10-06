@@ -12,7 +12,7 @@
     <iconUrl>http://www.mathdotnet.com/images/MathNet128.png</iconUrl>
     <licenseUrl>http://mathnetnumerics.codeplex.com/license</licenseUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <tags>math numeric statistics probability integration interpolation linear algebra matrix fft</tags>
+    <tags>sample code math fsharp numeric statistics probability integration interpolation regression solve fit linear algebra matrix fft example tutorial</tags>
     <dependencies>
       <dependency id="MathNet.Numerics.FSharp" version="1.0.0" />
     </dependencies>

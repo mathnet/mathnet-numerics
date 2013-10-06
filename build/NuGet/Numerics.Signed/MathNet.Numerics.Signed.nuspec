@@ -4,7 +4,7 @@
     <id>MathNet.Numerics.Signed</id>
     <version>1.0.0</version>
     <title>Math.NET Numerics - Signed Edition</title>
-    <summary>Math.NET Numerics, signed and thus with a strong name. We discourage using this package and recommend using MathNet.Numerics instead, which is unsigned and weakly named.</summary>
+    <summary>Math.NET Numerics, signed and thus with a strong name. We recommend to use MathNet.Numerics instead, which is unsigned and weakly named.</summary>
     <description>Math.NET Numerics, signed and thus with a strong name. We discourage using this package and recommend using MathNet.Numerics instead, which is unsigned and weakly named.</description>
     <authors>Christoph Ruegg, Marcus Cuda, Jurgen Van Gael</authors>
     <owners>Christoph Ruegg</owners>
@@ -12,7 +12,7 @@
     <iconUrl>http://www.mathdotnet.com/images/MathNet128.png</iconUrl>
     <licenseUrl>http://mathnetnumerics.codeplex.com/license</licenseUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <tags>math numeric statistics probability integration interpolation linear algebra matrix fft signed strongname</tags>
+    <tags>math numeric statistics probability integration interpolation regression solve fit linear algebra matrix fft signed strongname</tags>
     <frameworkAssemblies>
       <frameworkAssembly assemblyName="System.Numerics" targetFramework="net40, net45, windows8, sl5" />
     </frameworkAssemblies>
