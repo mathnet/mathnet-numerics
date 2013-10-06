@@ -66,6 +66,10 @@ namespace MathNet.Numerics
             _parallelizeElements = 300;
 
             // Linear Algebra Provider
+#if PORTABLE
+            // GetEnvironmentVariable is not available in portable!
+            LinearAlgebraProvider = new ManagedLinearAlgebraProvider();
+#else
             try
             {
                 const string name = "MathNetNumericsLAProvider";
@@ -87,6 +91,7 @@ namespace MathNet.Numerics
                 // We don't care about any failures here at all
                 LinearAlgebraProvider = new ManagedLinearAlgebraProvider();
             }
+#endif
         }
 
         public static void UseSingleThread()
