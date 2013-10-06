@@ -1,32 +1,29 @@
-﻿// <copyright file="RandomAndDistributions.fsx" company="Math.NET">
-// Math.NET Numerics, part of the Math.NET Project
-// http://numerics.mathdotnet.com
-// http://github.com/mathnet/mathnet-numerics
-// http://mathnetnumerics.codeplex.com
-//
-// Copyright (c) 2009-2013 Math.NET
-//
-// Permission is hereby granted, free of charge, to any person
-// obtaining a copy of this software and associated documentation
-// files (the "Software"), to deal in the Software without
-// restriction, including without limitation the rights to use,
-// copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the
-// Software is furnished to do so, subject to the following
-// conditions:
-//
-// The above copyright notice and this permission notice shall be
-// included in all copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
-// OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
-// HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
-// WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-// FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
-// OTHER DEALINGS IN THE SOFTWARE.
-// </copyright>
+﻿(**
+
+Math.NET Numerics: Random Numbers and Probability Distributions
+===============================================================
+
+The .Net base class library provides a pseudo-random number generator
+for non-cryptography use in the form of the `System.Numerics` class.
+Math.NET Numerics provides a few alternatives with different characteristics
+in randomness, bias, sequence length and performance. All these classes
+inherit from System.Random so you can use them as a replacement for
+System.Random even in third-party code.
+
+All random number generators generate numbers in a more-or-less uniform
+distribution. Often you need to sample random numbers with a different
+distribution, e.g. a Gaussian. You can do that with one of the distribution
+classes, or in F# also using the `Sample` module. The distribution classes
+also provide a lot of other functionality around probability distributions,
+like parameter estimation or evaluating the commulative distribution function.
+
+Initializtation
+---------------
+
+We need to reference Math.NET Numerics and the F# modules, and open
+the namespaces for random numbers and probability distributions:
+
+*)
 
 #r "../../out/lib/Net40/MathNet.Numerics.dll"
 #r "../../out/lib/Net40/MathNet.Numerics.FSharp.dll"
@@ -34,13 +31,48 @@
 open MathNet.Numerics.Random
 open MathNet.Numerics.Distributions
 
-// generate some seeds for random values (NOT intended for cryptography!)
-let someGuidSeed = Random.seed ()
-let someTimeSeed = Random.timeSeed ()
+(**
 
-// some pseudo random number generators (listing incomplete; all of them are cast to the common base type, System.Random)
+Random Number Generators
+------------------------
+
+Other than for cryptographic random numbers where you'd never want to provide
+a seed, all pseudo-random numbers can be initialized with a custom seed.
+The same seed causes the same number sequence to be generated, which can be
+very useful if you need results to be reproducible, e.g. in testing/verification.
+
+If no seed is provided, System.Random uses a time based seed equivalent to the
+one below. This means that all instances created within a short timeframe
+(which typically spans around a thousand CPU clock cycles) will generate
+exactly the same sequence. This can happen easily e.g. in parallel computing
+and is often unwanted. That's why all number generators created using
+Math.NET Numerics routines are by default initialized with a seed that combines
+the time with a Guid (which are supposed to be generated uniquely, worldwide).
+
+*)
+
+let someTimeSeed = RandomSeed.Time()
+let someGuidSeed = RandomSeed.Guid()
+
+(**
+
+Random number generators can be created using the `Random` module. Most functions
+optionally accept a manual seed when using the variant with the Seed-suffix.
+Some of them, like xor-shift, also have a variant with a Custom-suffix that
+allow to pass additional parameters specific to that generator.
+
+Note that the generators should be reused when generating multiple numbers.
+If you'd create a new generator each time, the numbers it generates would be
+exactly as random as your seed - and thus not very random at all.
+However, generators are not automatically thread-safe. They *are* thread-safe
+in Math.NET Numerics by default, but that can be disabled either using a
+boolean argument at creation, or by setting `Control.ThreadSafeRandomNumberGenerators`.
+
+*)
+
 let a = Random.system ()
 let b = Random.systemSeed (Random.timeSeed())
+let b2 = Random.systemSeed someGuidSeed
 let c = Random.crypto ()
 let d = Random.mersenneTwister ()
 let e = Random.mersenneTwisterWith 1000 true (* thread-safe *)
@@ -49,7 +81,7 @@ let g = Random.xorshiftCustom someTimeSeed false 916905990L 13579L 362436069L 77
 let h = Random.wh2006 ()
 let i = Random.palf ()
 
-// generate some uniform random values
+// Generate some uniform random values
 let values = (
         a.Next(),
         b.NextFullRangeInt32(),
@@ -59,6 +91,20 @@ let values = (
         f.NextDecimal()
     )
 
+(**
+
+Probability Distributions
+-------------------------
+
+Non-uniform probability distributions can be created using their normal constructor,
+some also offer static functions if there are multiple ways to parametrize them.
+
+Since probability distributions can also be sampled to generate random numbers
+with the configured distribution, all constructors optionally accept a random generator
+as last argument.
+
+*)
+
 // some probability distributions
 let normal = Normal.WithMeanVariance(3.0, 1.5, g)
 let exponential = Exponential(2.4)
@@ -67,7 +113,7 @@ let cauchy = Cauchy(0.0, 1.0, Random.mrg32k3aWith 10 false)
 let poisson = Poisson(3.0)
 let geometric = Geometric(0.8, Random.system())
 
-// generate some random samples from these distributions
+// sample some random rumbers from these distributions
 let continuous = [
         yield normal.Sample()
         yield exponential.Sample()
@@ -79,17 +125,20 @@ let discrete = [
         geometric.Sample()
     ]
 
-// direct sampling (without creating a configurable distribution object)
+
+// direct sampling (without creating a distribution object)
 let u = Normal.Sample(Random.system(), 2.0, 4.0)
 let v = Laplace.Samples(Random.mersenneTwister(), 1.0, 3.0) |> Seq.take 100 |> List.ofSeq
 let w = Rayleigh.Sample(c, 1.5)
 let x = Hypergeometric.Sample(h, 100, 20, 5)
 
-// probability distribution functions of the normal dist we configured above
-let nd = normal.Density(4.0) (* pdf *)
-let ndLn = normal.DensityLn(4.0) (* ln(pdf) *)
-let nc = normal.CumulativeDistribution(4.0) (* cdf *)
-let nic = normal.InverseCumulativeDistribution(0.7) (* invcdf *)
+(**
+
+Distributions can not just be used to generate random samples.
+You can use them to evaluate distribution properties or functions
+with the given parametrization.
+
+*)
 
 // distribution properties of the gamma dist we configured above
 let gammaStats = (
@@ -100,3 +149,27 @@ let gammaStats = (
         gamma.Skewness,
         gamma.Mode
     )
+
+// probability distribution functions of the normal dist we configured above
+let nd = normal.Density(4.0) (* pdf *)
+let ndLn = normal.DensityLn(4.0) (* ln(pdf) *)
+let nc = normal.CumulativeDistribution(4.0) (* cdf *)
+let nic = normal.InverseCumulativeDistribution(0.7) (* invcdf *)
+
+// Distribution functions can also be evaluated without creating an object,
+// but then you have to pass in the distribution parameters as first arguments:
+let nd2 = Normal.PDF(3.0, sqrt 1.5, 4.0)
+let ndLn2 = Normal.PDFLn(3.0, sqrt 1.5, 4.0)
+let nc2 = Normal.CDF(3.0, sqrt 1.5, 4.0)
+let nic2 = Normal.InvCDF(3.0, sqrt 1.5, 0.7)
+
+(**
+
+Some of the distributions also have routines for maximum-likelihood parameter
+estimation from a set of samples:
+
+*)
+
+let estimation = LogNormal.Estimate([| 2.0; 1.5; 2.1; 1.2; 3.0; 2.4; 1.8 |])
+let mean, variance = estimation.Mean, estimation.Variance
+let moreSamples = estimation.Samples() |> Seq.take 10 |> Seq.toArray
