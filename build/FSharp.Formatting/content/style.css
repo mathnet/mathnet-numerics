@@ -1,0 +1,243 @@
+@import url(http://fonts.googleapis.com/css?family=Ovo);
+@import url(http://fonts.googleapis.com/css?family=Droid+Sans+Mono);
+
+/*--------------------------------------------------------------------------
+  Formatting for F# code snippets
+/*--------------------------------------------------------------------------*/
+
+/* identifier */
+span.i { color:#000000; }
+/* string */
+span.s { color:#ce4415; }
+/* keywords */
+span.k { color:#0000fe; }
+/* comment */
+span.c { color:#008000; }
+/* operators */
+span.o { color:#800080; }
+/* numbers */
+span.n { color:#cd8300; }
+/* line number */
+span.l { color:#80b0b0; }
+
+/* inactive code */
+span.inactive { color:#808080; }
+/* preprocessor */
+span.prep { color:#800080; }
+/* fsi output */
+span.fsi { font-style:italic; color:#808080; }
+
+/* omitted */
+span.omitted {
+    color: #808080;
+    background: #fafafa;
+    border: solid 1px #d8d8d8;
+    border-radius: 5px;
+    padding: 0px 0px 1px 0px;
+}
+
+/* tool tip */
+div.tip {
+    display: none;
+    font: 10pt Consolas, Calibri, sans-serif;
+    color: #d1d1d1;
+    background: #475b5f;
+    border: 1px solid #606060;
+    border-radius: 4px;
+    padding: 3px;
+}
+
+/* Optionally, also configure how the PRE element and TABLE.PRE look */
+table.pre pre {
+    padding: 0;
+    margin: 0;
+    border-style: none;
+    border-radius:0;
+    width: 100%;
+}
+
+pre {
+    margin:10px 20px 20px 10px;
+    white-space:pre;
+}
+
+code {
+    font: 9pt "Droid Sans Mono", Consolas, sans-serif;
+    color: #7d0a26;
+    background-color: inherit;
+    border: 1px solid #e8e8e8;
+    padding: 1px 3px;
+}
+
+pre code {
+    width: 95%;
+}
+
+table.pre {
+    width: 95%;
+    margin:10px 20px 20px 10px;
+    padding: 10px;
+}
+
+table.pre, pre.fssnip, pre {
+    font: 9pt "Droid Sans Mono", Consolas, sans-serif;
+    color:#404040;
+    background: #f5f5f5;
+    border:1px solid #e0e0e0;
+    border-radius:5px;
+    border-collapse:separate;
+    line-height: 13pt;
+    margin:10px 20px 20px 10px;
+    padding:10px;
+}
+
+/*pre, table.pre td {
+    padding: 9.5px;
+    background: #f5f5f5;
+    border: solid 1px black;
+    border-radius: 4px;
+    border-color: rgba(0,0,0,0.15);
+    margin: 0 0 10px 0;
+}*/
+
+table.pre td {
+    padding: 0;
+    white-space: normal;
+    margin: 0;
+}
+
+table.pre td.lines {
+    width: 30px;
+}
+
+/*table.pre td.lines {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border-right-style: none;
+    padding-right: 0;
+}
+table.pre td.snippet {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    border-left-style: none;
+    padding-left: 4px;
+}*/
+
+
+
+/*-------------------------------------------------------------------------- 
+  Formatting for page & standard document content
+/*--------------------------------------------------------------------------*/
+
+body {
+    font-family: Ovo, serif;
+    padding-top: 0;
+    padding-bottom: 40px;
+}
+
+a, a:visited {
+    color: #1BA1E2;
+    text-decoration: none;
+}
+
+a:hover {
+    color: white;
+    background: #1BA1E2;
+}
+
+.nav {
+    font-family: "Segoe UI", "Segoe WP", "Helvetica Neue", 'RobotoRegular', "Trebuchet MS", sans-serif;
+}
+
+.nav li a:hover {
+    color: white;
+    background: #1BA1E2;
+}
+
+/* Format the heading - nicer spacing etc. */
+.masthead {
+    overflow: hidden;
+}
+.masthead ul, .masthead li {
+    margin-bottom: 0;
+}
+.masthead .nav li {
+    margin-top: 15px;
+    font-size: 110%;
+}
+.masthead h3 {
+    font-family: "Segoe UI", "Segoe WP", "Helvetica Neue", 'RobotoRegular', "Trebuchet MS", sans-serif;
+    font-weight: normal;
+    color: #1BA1E2;
+    margin-bottom: 5px;
+    font-size: 170%;
+}
+hr {
+    margin: 0 0 20px 0;
+}
+
+/* Format the right-side menu */
+#menu {
+    margin-top: 50px;
+    font-size: 11pt;
+    padding-left: 20px;
+}
+
+#menu .nav-header {
+    font-size: 12pt;
+    color: #606060;
+    margin-top: 20px;
+}
+
+#menu li {
+    line-height: 25px;
+}
+
+/* Change font sizes for headings etc. */
+#main h1 { font-size: 26pt; margin:10px 0 15px 0; }
+#main h2 { font-size: 20pt; margin:20px 0 0 0; }
+#main h3 { font-size: 14pt; margin:15px 0 0 0; }
+#main p  { font-size: 12pt; margin:5px 0 15px 0; }
+#main ul { font-size: 12pt; margin-top:10px; }
+#main li { font-size: 12pt; margin: 5px 0 5px 0; }
+
+/*-------------------------------------------------------------------------- 
+  Additional formatting for the homepage 
+/*--------------------------------------------------------------------------*/
+
+#nuget {
+    margin-top: 20px;
+    font-size: 11pt;
+    padding: 20px;
+}
+
+#nuget pre {
+    font-size: 11pt;
+    -moz-border-radius: 0;
+    -webkit-border-radius: 0;
+    border-radius: 0;
+    background: #404040;
+    border-style: none;
+    color: #e0e0e0;
+    margin-top: 15px;
+}
+
+
+#hp-snippet td.lines {
+    display: none;
+}
+#hp-snippet .table {
+    width: 80%;
+    margin-left: 30px;
+}
+#hp-snippet thead, #hp-snippet .title {
+    font-weight: bold;
+}
+
+
+#menu li.generatedBy {
+    margin-top: 40px;
+    font-size: 0.8em;
+    line-height: normal;
+    color: #808080;
+}

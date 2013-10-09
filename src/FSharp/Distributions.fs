@@ -35,13 +35,13 @@ open MathNet.Numerics.Random
 [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
 module Sample =
 
-    let transform f dist : System.Random -> 'T = fun rng -> f (dist rng)
-    let transform2 f dist1 dist2 : System.Random -> 'T = fun rng -> f (dist1 rng) (dist2 rng)
-    let transform3 f dist1 dist2 dist3 : System.Random -> 'T = fun rng -> f (dist1 rng) (dist2 rng) (dist3 rng)
+    let map f dist : System.Random -> 'T = fun rng -> f (dist rng)
+    let map2 f dist1 dist2 : System.Random -> 'T = fun rng -> f (dist1 rng) (dist2 rng)
+    let map3 f dist1 dist2 dist3 : System.Random -> 'T = fun rng -> f (dist1 rng) (dist2 rng) (dist3 rng)
 
-    let transformSeq f dist : System.Random -> 'T seq = fun rng -> dist rng |> Seq.map f
-    let transformSeq2 f dist1 dist2 : System.Random -> 'T seq = fun rng -> Seq.zip (dist1 rng) (dist2 rng) |> Seq.map (fun (d1, d2) -> f d1 d2)
-    let transformSeq3 f dist1 dist2 dist3 : System.Random -> 'T seq = fun rng -> Seq.zip3 (dist1 rng) (dist2 rng) (dist3 rng) |> Seq.map (fun (d1, d2, d3) -> f d1 d2 d3)
+    let mapSeq f dist : System.Random -> 'T seq = fun rng -> dist rng |> Seq.map f
+    let mapSeq2 f dist1 dist2 : System.Random -> 'T seq = fun rng -> Seq.zip (dist1 rng) (dist2 rng) |> Seq.map (fun (d1, d2) -> f d1 d2)
+    let mapSeq3 f dist1 dist2 dist3 : System.Random -> 'T seq = fun rng -> Seq.zip3 (dist1 rng) (dist2 rng) (dist3 rng) |> Seq.map (fun (d1, d2, d3) -> f d1 d2 d3)
 
     /// Bernoulli with probability (p).
     let bernoulli p rng = Bernoulli.Sample(rng, p)

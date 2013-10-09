@@ -41,12 +41,12 @@ let a1 = DenseMatrix(2, 3, [| 1.0; 2.0; 10.0; 20.0; 100.0; 300.0 |])
 let a2 = DenseMatrix.raw 2 3 [| 1.0; 2.0; 10.0; 20.0; 100.0; 300.0 |]
 
 // Create a matrix of size 3x4 (3 rows, 4 columns) with a given number for each value
-let b1 = DenseMatrix.zeroCreate 3 4
+let b1 : float Matrix = DenseMatrix.zero 3 4
 let b2 = DenseMatrix.create 3 4 20.5
-let b3 = SparseMatrix.zeroCreate 3 4
+let b3 : float Matrix = SparseMatrix.zero 3 4
 
 // Create a matrix of size 3x4 with random values sampled from a distribution
-let c = DenseMatrix.randomCreate 3 4 (Normal.WithMeanStdDev(2.0, 0.5))
+let c : float Matrix = DenseMatrix.random 3 4 (Normal.WithMeanStdDev(2.0, 0.5))
 
 // Create a matrix of size 3x4 with each value initialized by a lambda function
 let d1 = DenseMatrix.init 3 4 (fun i j -> float i / 100.0 + float j)

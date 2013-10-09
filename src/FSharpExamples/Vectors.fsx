@@ -40,12 +40,12 @@ let a1 = DenseVector [| 1.0; 2.0; 3.0 |]
 let a2 = DenseVector.raw [| 1.0; 2.0; 3.0 |]
 
 // Create a vector of length 100 with a given number for each value
-let b1 = DenseVector.zeroCreate 100
+let b1 : float Vector = DenseVector.zero 100
 let b2 = DenseVector.create 100 20.5
-let b3 = SparseVector.zeroCreate 100
+let b3 : float Vector = SparseVector.zero 100
 
 // Create a vector of length 100 with random values sampled from a distribution
-let c = DenseVector.randomCreate 100 (Normal.WithMeanStdDev(2.0, 0.5))
+let c : float Vector = DenseVector.random 100 (Normal.WithMeanStdDev(2.0, 0.5))
 
 // Create a vector of length 100 with each value initialized by a lambda function
 let d1 = DenseVector.init 100 (fun i -> float i / 100.0)
