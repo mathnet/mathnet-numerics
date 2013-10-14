@@ -68,6 +68,13 @@ namespace MathNet.Numerics.UnitTests
             Assert.AreEqual(11, 1e11.Magnitude());
             Assert.AreEqual(12, 1e12.Magnitude());
 
+            Assert.AreEqual(-7, 1e-7.Magnitude());
+            Assert.AreEqual(-8, 1e-8.Magnitude());
+            Assert.AreEqual(-9, 1e-9.Magnitude());
+            Assert.AreEqual(-10, 1e-10.Magnitude());
+            Assert.AreEqual(-11, 1e-11.Magnitude());
+            Assert.AreEqual(-12, 1e-12.Magnitude());
+
             Assert.AreEqual(5, 1.1e5.Magnitude());
             Assert.AreEqual(-5, 2.2e-5.Magnitude());
             Assert.AreEqual(9, 3.3e9.Magnitude());
@@ -94,6 +101,13 @@ namespace MathNet.Numerics.UnitTests
             Assert.AreEqual(10, (-1e10).Magnitude());
             Assert.AreEqual(11, (-1e11).Magnitude());
             Assert.AreEqual(12, (-1e12).Magnitude());
+
+            Assert.AreEqual(-7, (-1e-7).Magnitude());
+            Assert.AreEqual(-8, (-1e-8).Magnitude());
+            Assert.AreEqual(-9, (-1e-9).Magnitude());
+            Assert.AreEqual(-10, (-1e-10).Magnitude());
+            Assert.AreEqual(-11, (-1e-11).Magnitude());
+            Assert.AreEqual(-12, (-1e-12).Magnitude());
 
             Assert.AreEqual(5, (-1.1e5).Magnitude());
             Assert.AreEqual(-5, (-2.2e-5).Magnitude());
@@ -686,50 +700,141 @@ namespace MathNet.Numerics.UnitTests
         }
 
         /// <summary>
-        /// <c>AlmostEqual</c> within decimal places with decimal places less than one throws <c>ArgumentOutOfRangeException</c>.
+        /// <c>AlmostEqual</c> within absolute decimal places.
         /// </summary>
         [Test]
-        public void AlmostEqualWithinDecimalPlacesWithDecimalPlacesLessThanOneThrowsArgumentOutOfRangeException()
+        public void AlmostEqualInAbsoluteDecimalPlaces()
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() => Precision.AlmostEqualInDecimalPlaces(1, 2, 0));
+            Assert.IsFalse(1d.AlmostEqualInAbsoluteDecimalPlaces(double.NaN, 2));
+            Assert.IsFalse(double.NaN.AlmostEqualInAbsoluteDecimalPlaces(2d, 2));
+            Assert.IsFalse(double.NaN.AlmostEqualInAbsoluteDecimalPlaces(double.NaN, 2));
+
+            Assert.IsFalse(double.NegativeInfinity.AlmostEqualInAbsoluteDecimalPlaces(2, 2));
+            Assert.IsFalse(1d.AlmostEqualInAbsoluteDecimalPlaces(double.NegativeInfinity, 2));
+            Assert.IsFalse(double.PositiveInfinity.AlmostEqualInAbsoluteDecimalPlaces(2, 2));
+            Assert.IsFalse(1d.AlmostEqualInAbsoluteDecimalPlaces(double.PositiveInfinity, 2));
+            Assert.IsFalse(double.NegativeInfinity.AlmostEqualInAbsoluteDecimalPlaces(double.PositiveInfinity, 2));
+            Assert.IsFalse(double.PositiveInfinity.AlmostEqualInAbsoluteDecimalPlaces(double.NegativeInfinity, 2));
+            Assert.IsTrue(double.PositiveInfinity.AlmostEqualInAbsoluteDecimalPlaces(double.PositiveInfinity, 2));
+            Assert.IsTrue(double.NegativeInfinity.AlmostEqualInAbsoluteDecimalPlaces(double.NegativeInfinity, 2));
+
+            // 1 -> +/- 0.05 (0.5e-1)
+            Assert.IsFalse(1d.AlmostEqualInAbsoluteDecimalPlaces(1.06, 1));
+            Assert.IsTrue(1d.AlmostEqualInAbsoluteDecimalPlaces(1.04, 1));
+            Assert.IsTrue(1d.AlmostEqualInAbsoluteDecimalPlaces(1.00, 1));
+            Assert.IsTrue(1d.AlmostEqualInAbsoluteDecimalPlaces(0.96, 1));
+            Assert.IsFalse(1d.AlmostEqualInAbsoluteDecimalPlaces(0.94, 1));
+            Assert.IsFalse(1d.AlmostEqualInAbsoluteDecimalPlaces(0.0, 1));
+
+            // -1 -> +/- 5 (0.5e+1)
+            Assert.IsFalse(100d.AlmostEqualInAbsoluteDecimalPlaces(106.0, -1));
+            Assert.IsTrue(100d.AlmostEqualInAbsoluteDecimalPlaces(104.0, -1));
+            Assert.IsTrue(100d.AlmostEqualInAbsoluteDecimalPlaces(100.0, -1));
+            Assert.IsTrue(100d.AlmostEqualInAbsoluteDecimalPlaces(96.0, -1));
+            Assert.IsFalse(100d.AlmostEqualInAbsoluteDecimalPlaces(94.0, -1));
+            Assert.IsFalse(100d.AlmostEqualInAbsoluteDecimalPlaces(0.0, -1));
+
+            // 3 -> +/- 0.0005 (0.5e-3)
+            Assert.IsFalse(0.01.AlmostEqualInAbsoluteDecimalPlaces(0.0106, 3));
+            Assert.IsTrue(0.01.AlmostEqualInAbsoluteDecimalPlaces(0.0104, 3));
+            Assert.IsTrue(0.01.AlmostEqualInAbsoluteDecimalPlaces(0.0100, 3));
+            Assert.IsTrue(0.01.AlmostEqualInAbsoluteDecimalPlaces(0.0096, 3));
+            Assert.IsFalse(0.01.AlmostEqualInAbsoluteDecimalPlaces(0.0094, 3));
+            Assert.IsFalse(0.01.AlmostEqualInAbsoluteDecimalPlaces(0.0, 3));
+
+            // 12 -> +/- 0.5e-12
+            Assert.IsTrue(0d.AlmostEqualInAbsoluteDecimalPlaces(4 * _doublePrecision, 12));
+            Assert.IsTrue(0d.AlmostEqualInAbsoluteDecimalPlaces(-4 * _doublePrecision, 12));
+        }
+
+        /// <summary>
+        /// <c>AlmostEqual</c> within relative decimal places.
+        /// </summary>
+        [Test]
+        public void AlmostEqualInRelativeDecimalPlaces()
+        {
+            Assert.IsFalse(1d.AlmostEqualInRelativeDecimalPlaces(double.NaN, 2));
+            Assert.IsFalse(double.NaN.AlmostEqualInRelativeDecimalPlaces(2d, 2));
+            Assert.IsFalse(double.NaN.AlmostEqualInRelativeDecimalPlaces(double.NaN, 2));
+
+            Assert.IsFalse(double.NegativeInfinity.AlmostEqualInRelativeDecimalPlaces(2, 2));
+            Assert.IsFalse(1d.AlmostEqualInRelativeDecimalPlaces(double.NegativeInfinity, 2));
+            Assert.IsFalse(double.PositiveInfinity.AlmostEqualInRelativeDecimalPlaces(2, 2));
+            Assert.IsFalse(1d.AlmostEqualInRelativeDecimalPlaces(double.PositiveInfinity, 2));
+            Assert.IsFalse(double.NegativeInfinity.AlmostEqualInRelativeDecimalPlaces(double.PositiveInfinity, 2));
+            Assert.IsFalse(double.PositiveInfinity.AlmostEqualInRelativeDecimalPlaces(double.NegativeInfinity, 2));
+            Assert.IsTrue(double.PositiveInfinity.AlmostEqualInRelativeDecimalPlaces(double.PositiveInfinity, 2));
+            Assert.IsTrue(double.NegativeInfinity.AlmostEqualInRelativeDecimalPlaces(double.NegativeInfinity, 2));
+
+            // 1 -> +/- max * 0.05 (0.5e-1)
+            Assert.IsTrue(1d.AlmostEqualInRelativeDecimalPlaces(1.04, 1));
+            Assert.IsFalse(1d.AlmostEqualInRelativeDecimalPlaces(1.06, 1));
+            Assert.IsTrue(1d.AlmostEqualInRelativeDecimalPlaces(0.96, 1));
+            Assert.IsFalse(1d.AlmostEqualInRelativeDecimalPlaces(0.94, 1));
+
+            // 1 -> +/- max * 0.05 (0.5e-1)
+            Assert.IsTrue(100d.AlmostEqualInRelativeDecimalPlaces(104.00, 1));
+            Assert.IsFalse(100d.AlmostEqualInRelativeDecimalPlaces(106.00, 1));
+            Assert.IsTrue(100d.AlmostEqualInRelativeDecimalPlaces(96.000, 1));
+            Assert.IsFalse(100d.AlmostEqualInRelativeDecimalPlaces(94.000, 1));
+
+            // 0 -> +/- max * 0.5 (0.5e-0)
+            Assert.IsTrue(0.01.AlmostEqualInRelativeDecimalPlaces(0.014, 0));
+            Assert.IsFalse(0.01.AlmostEqualInRelativeDecimalPlaces(0.016, 0));
+            Assert.IsTrue(0.01.AlmostEqualInRelativeDecimalPlaces(0.006, 0));
+            Assert.IsFalse(0.01.AlmostEqualInRelativeDecimalPlaces(0.004, 0));
+        }
+
+        /// <summary>
+        /// <c>AlmostEqual</c> within decimal places with negative decimal places throws <c>ArgumentOutOfRangeException</c>.
+        /// </summary>
+        [Test]
+        public void AlmostEqualInRelativeDecimalPlacesWithNegativeDecimalPlacesThrowsArgumentOutOfRangeException()
+        {
+            Assert.Throws<ArgumentOutOfRangeException>(() => Precision.AlmostEqualInDecimalPlaces(1, 2, -1));
+            Assert.Throws<ArgumentOutOfRangeException>(() => Precision.AlmostEqualInRelativeDecimalPlaces(1, 2, -1));
+            Assert.DoesNotThrow(() => Precision.AlmostEqualInAbsoluteDecimalPlaces(1, 2, -1));
         }
 
         /// <summary>
         /// <c>AlmostEqual</c> within decimal places.
         /// </summary>
         [Test]
-        public void AlmostEqualWithinDecimalPlaces()
+        public void AlmostEqualInDecimalPlaces()
         {
-            Assert.IsFalse(Precision.AlmostEqualInDecimalPlaces(1, double.NaN, 2));
+            Assert.IsFalse(1d.AlmostEqualInDecimalPlaces(double.NaN, 2));
             Assert.IsFalse(double.NaN.AlmostEqualInDecimalPlaces(2, 2));
             Assert.IsFalse(double.NaN.AlmostEqualInDecimalPlaces(double.NaN, 2));
 
             Assert.IsFalse(double.NegativeInfinity.AlmostEqualInDecimalPlaces(2, 2));
-            Assert.IsFalse(Precision.AlmostEqualInDecimalPlaces(1, double.NegativeInfinity, 2));
-
+            Assert.IsFalse(1d.AlmostEqualInDecimalPlaces(double.NegativeInfinity, 2));
             Assert.IsFalse(double.PositiveInfinity.AlmostEqualInDecimalPlaces(2, 2));
-            Assert.IsFalse(Precision.AlmostEqualInDecimalPlaces(1, double.PositiveInfinity, 2));
-
+            Assert.IsFalse(1d.AlmostEqualInDecimalPlaces(double.PositiveInfinity, 2));
             Assert.IsFalse(double.NegativeInfinity.AlmostEqualInDecimalPlaces(double.PositiveInfinity, 2));
             Assert.IsFalse(double.PositiveInfinity.AlmostEqualInDecimalPlaces(double.NegativeInfinity, 2));
-
             Assert.IsTrue(double.PositiveInfinity.AlmostEqualInDecimalPlaces(double.PositiveInfinity, 2));
             Assert.IsTrue(double.NegativeInfinity.AlmostEqualInDecimalPlaces(double.NegativeInfinity, 2));
 
-            Assert.IsTrue(1.0.AlmostEqualInDecimalPlaces(1.04, 2));
-            Assert.IsTrue(1.0.AlmostEqualInDecimalPlaces(0.96, 2));
+            // 1 -> +/- max * 0.05 (0.5e-1)
+            Assert.IsTrue(1d.AlmostEqualInDecimalPlaces(1.04, 1));
+            Assert.IsFalse(1d.AlmostEqualInDecimalPlaces(1.06, 1));
+            Assert.IsTrue(1d.AlmostEqualInDecimalPlaces(0.96, 1));
+            Assert.IsFalse(1d.AlmostEqualInDecimalPlaces(0.94, 1));
 
-            Assert.IsFalse(1.0.AlmostEqualInDecimalPlaces(1.06, 2));
-            Assert.IsFalse(1.0.AlmostEqualInDecimalPlaces(0.94, 2));
+            // 1 -> +/- max * 0.05 (0.5e-1)
+            Assert.IsTrue(100d.AlmostEqualInDecimalPlaces(104.00, 1));
+            Assert.IsFalse(100d.AlmostEqualInDecimalPlaces(106.00, 1));
+            Assert.IsTrue(100d.AlmostEqualInDecimalPlaces(96.000, 1));
+            Assert.IsFalse(100d.AlmostEqualInDecimalPlaces(94.000, 1));
 
-            Assert.IsTrue(100.0.AlmostEqualInDecimalPlaces(104.00, 2));
-            Assert.IsTrue(100.0.AlmostEqualInDecimalPlaces(96.000, 2));
+            // 0 -> +/- max * 0.5 (0.5e-0)
+            Assert.IsTrue(0.01.AlmostEqualInDecimalPlaces(0.014, 0));
+            Assert.IsFalse(0.01.AlmostEqualInDecimalPlaces(0.016, 0));
+            Assert.IsTrue(0.01.AlmostEqualInDecimalPlaces(0.006, 0));
+            Assert.IsFalse(0.01.AlmostEqualInDecimalPlaces(0.004, 0));
 
-            Assert.IsFalse(100.0.AlmostEqualInDecimalPlaces(106.00, 2));
-            Assert.IsFalse(100.0.AlmostEqualInDecimalPlaces(94.000, 2));
-
-            Assert.IsTrue(0.0.AlmostEqualInDecimalPlaces(4 * _doublePrecision, 12));
-            Assert.IsTrue(0.0.AlmostEqualInDecimalPlaces(-4 * _doublePrecision, 12));
+            Assert.IsTrue(0d.AlmostEqualInDecimalPlaces(4 * _doublePrecision, 12));
+            Assert.IsTrue(0d.AlmostEqualInDecimalPlaces(-4 * _doublePrecision, 12));
         }
 
         /// <summary>
@@ -835,23 +940,21 @@ namespace MathNet.Numerics.UnitTests
             Assert.IsFalse(double.PositiveInfinity.IsLargerWithDecimalPlaces(double.PositiveInfinity, 2));
             Assert.IsFalse(double.NegativeInfinity.IsLargerWithDecimalPlaces(double.NegativeInfinity, 2));
 
-            Assert.IsFalse(1.0.IsLargerWithDecimalPlaces(1.04, 2));
-            Assert.IsFalse(1.0.IsLargerWithDecimalPlaces(0.96, 2));
+            Assert.IsFalse(1.0.IsLargerWithDecimalPlaces(1.006, 2));
+            Assert.IsFalse(1.0.IsLargerWithDecimalPlaces(1.004, 2));
+            Assert.IsFalse(1.0.IsLargerWithDecimalPlaces(0.996, 2));
+            Assert.IsTrue(1.0.IsLargerWithDecimalPlaces(0.994, 2));
 
-            Assert.IsFalse(1.0.IsLargerWithDecimalPlaces(1.06, 2));
-            Assert.IsTrue(1.0.IsLargerWithDecimalPlaces(0.94, 2));
+            Assert.IsFalse(100.0.IsLargerWithDecimalPlaces(100.6, 2));
+            Assert.IsFalse(100.0.IsLargerWithDecimalPlaces(100.4, 2));
+            Assert.IsFalse(100.0.IsLargerWithDecimalPlaces(99.6, 2));
+            Assert.IsTrue(100.0.IsLargerWithDecimalPlaces(99.4, 2));
 
-            Assert.IsFalse(100.0.IsLargerWithDecimalPlaces(104.00, 2));
-            Assert.IsFalse(100.0.IsLargerWithDecimalPlaces(96.000, 2));
-
-            Assert.IsFalse(100.0.IsLargerWithDecimalPlaces(106.00, 2));
-            Assert.IsTrue(100.0.IsLargerWithDecimalPlaces(94.000, 2));
-
-            var max = 4 * Math.Pow(10, _doublePrecision.Magnitude());
+            var max = 0.4 * Math.Pow(10, _doublePrecision.Magnitude());
             Assert.IsFalse(0.0.IsLargerWithDecimalPlaces(max, -_doublePrecision.Magnitude()));
             Assert.IsFalse(0.0.IsLargerWithDecimalPlaces(-max, -_doublePrecision.Magnitude()));
 
-            max = 6 * Math.Pow(10, _doublePrecision.Magnitude());
+            max = 0.6 * Math.Pow(10, _doublePrecision.Magnitude());
             Assert.IsFalse(0.0.IsLargerWithDecimalPlaces(max, -_doublePrecision.Magnitude()));
             Assert.IsTrue(0.0.IsLargerWithDecimalPlaces(-max, -_doublePrecision.Magnitude()));
         }
@@ -934,23 +1037,21 @@ namespace MathNet.Numerics.UnitTests
             Assert.IsFalse(double.PositiveInfinity.IsSmallerWithDecimalPlaces(double.PositiveInfinity, 2));
             Assert.IsFalse(double.NegativeInfinity.IsSmallerWithDecimalPlaces(double.NegativeInfinity, 2));
 
-            Assert.IsFalse(1.0.IsSmallerWithDecimalPlaces(1.04, 2));
-            Assert.IsFalse(1.0.IsSmallerWithDecimalPlaces(0.96, 2));
+            Assert.IsTrue(1.0.IsSmallerWithDecimalPlaces(1.006, 2));
+            Assert.IsFalse(1.0.IsSmallerWithDecimalPlaces(1.004, 2));
+            Assert.IsFalse(1.0.IsSmallerWithDecimalPlaces(0.996, 2));
+            Assert.IsFalse(1.0.IsSmallerWithDecimalPlaces(0.994, 2));
 
-            Assert.IsTrue(1.0.IsSmallerWithDecimalPlaces(1.06, 2));
-            Assert.IsFalse(1.0.IsSmallerWithDecimalPlaces(0.94, 2));
+            Assert.IsTrue(100.0.IsSmallerWithDecimalPlaces(100.6, 2));
+            Assert.IsFalse(100.0.IsSmallerWithDecimalPlaces(100.4, 2));
+            Assert.IsFalse(100.0.IsSmallerWithDecimalPlaces(99.6, 2));
+            Assert.IsFalse(100.0.IsSmallerWithDecimalPlaces(99.4, 2));
 
-            Assert.IsFalse(100.0.IsSmallerWithDecimalPlaces(104.00, 2));
-            Assert.IsFalse(100.0.IsSmallerWithDecimalPlaces(96.000, 2));
-
-            Assert.IsTrue(100.0.IsSmallerWithDecimalPlaces(106.00, 2));
-            Assert.IsFalse(100.0.IsSmallerWithDecimalPlaces(94.000, 2));
-
-            var max = 4 * Math.Pow(10, _doublePrecision.Magnitude());
+            var max = 0.4 * Math.Pow(10, _doublePrecision.Magnitude());
             Assert.IsFalse(0.0.IsSmallerWithDecimalPlaces(max, -_doublePrecision.Magnitude()));
             Assert.IsFalse(0.0.IsSmallerWithDecimalPlaces(-max, -_doublePrecision.Magnitude()));
 
-            max = 6 * Math.Pow(10, _doublePrecision.Magnitude());
+            max = 0.6 * Math.Pow(10, _doublePrecision.Magnitude());
             Assert.IsTrue(0.0.IsSmallerWithDecimalPlaces(max, -_doublePrecision.Magnitude()));
             Assert.IsFalse(0.0.IsSmallerWithDecimalPlaces(-max, -_doublePrecision.Magnitude()));
         }
@@ -1084,22 +1185,22 @@ namespace MathNet.Numerics.UnitTests
             Assert.AreEqual(0, Precision.CompareToInDecimalPlaces(0, -0, Precision.NumberOfDecimalPlacesForFloats));
 
             // compare two nearby numbers
-            Assert.AreEqual(-1, 1.0.CompareToInDecimalPlaces(1.0 + (10 * _doublePrecision), Precision.NumberOfDecimalPlacesForDoubles));
+            Assert.AreEqual(-1, 1.0.CompareToInDecimalPlaces(1.0 + 10*_doublePrecision, Precision.NumberOfDecimalPlacesForDoubles));
             Assert.AreEqual(0, 1.0.CompareToInDecimalPlaces(1.0 + _doublePrecision, Precision.NumberOfDecimalPlacesForDoubles));
             Assert.AreEqual(0, 1.0.CompareToInDecimalPlaces(1.0 - _doublePrecision, Precision.NumberOfDecimalPlacesForDoubles));
-            Assert.AreEqual(1, 1.0.CompareToInDecimalPlaces(1.0 - (10 * _doublePrecision), Precision.NumberOfDecimalPlacesForDoubles));
+            Assert.AreEqual(1, 1.0.CompareToInDecimalPlaces(1.0 - 10*_doublePrecision, Precision.NumberOfDecimalPlacesForDoubles));
 
             // compare with the two numbers reversed in compare order
-            Assert.AreEqual(1, (1.0 + (10 * _doublePrecision)).CompareToInDecimalPlaces(1.0, Precision.NumberOfDecimalPlacesForDoubles));
+            Assert.AreEqual(1, (1.0 + 10*_doublePrecision).CompareToInDecimalPlaces(1.0, Precision.NumberOfDecimalPlacesForDoubles));
             Assert.AreEqual(0, (1.0 + _doublePrecision).CompareToInDecimalPlaces(1.0, Precision.NumberOfDecimalPlacesForDoubles));
             Assert.AreEqual(0, (1.0 - _doublePrecision).CompareToInDecimalPlaces(1.0, Precision.NumberOfDecimalPlacesForDoubles));
-            Assert.AreEqual(-1, (1.0 - (10 * _doublePrecision)).CompareToInDecimalPlaces(1.0, Precision.NumberOfDecimalPlacesForDoubles));
+            Assert.AreEqual(-1, (1.0 - 10*_doublePrecision).CompareToInDecimalPlaces(1.0, Precision.NumberOfDecimalPlacesForDoubles));
 
             // compare two slightly more different numbers
-            Assert.AreEqual(-1, 1.0.CompareToInDecimalPlaces(1.0 + (50 * _doublePrecision), Precision.NumberOfDecimalPlacesForDoubles));
-            Assert.AreEqual(0, 1.0.CompareToInDecimalPlaces(1.0 + (50 * _doublePrecision), Precision.NumberOfDecimalPlacesForDoubles - 2));
-            Assert.AreEqual(0, 1.0.CompareToInDecimalPlaces(1.0 - (50 * _doublePrecision), Precision.NumberOfDecimalPlacesForDoubles - 2));
-            Assert.AreEqual(1, 1.0.CompareToInDecimalPlaces(1.0 - (50 * _doublePrecision), Precision.NumberOfDecimalPlacesForDoubles));
+            Assert.AreEqual(-1, 1.0.CompareToInDecimalPlaces(1.0 + (50*_doublePrecision), Precision.NumberOfDecimalPlacesForDoubles));
+            Assert.AreEqual(0, 1.0.CompareToInDecimalPlaces(1.0 + (50*_doublePrecision), Precision.NumberOfDecimalPlacesForDoubles - 2));
+            Assert.AreEqual(0, 1.0.CompareToInDecimalPlaces(1.0 - (50*_doublePrecision), Precision.NumberOfDecimalPlacesForDoubles - 2));
+            Assert.AreEqual(1, 1.0.CompareToInDecimalPlaces(1.0 - (50*_doublePrecision), Precision.NumberOfDecimalPlacesForDoubles));
 
             // compare different numbers
             Assert.AreEqual(1, 2.0.CompareToInDecimalPlaces(1.0, Precision.NumberOfDecimalPlacesForDoubles));

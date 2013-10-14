@@ -165,12 +165,12 @@ namespace MathNet.Numerics
         /// </summary>
         static Precision()
         {
-            _numberOfDecimalPlacesForFloats = (int)Math.Ceiling(Math.Abs(Math.Log10(_singleMachinePrecision)));
-            _numberOfDecimalPlacesForDoubles = (int)Math.Ceiling(Math.Abs(Math.Log10(_doubleMachinePrecision)));
+            _numberOfDecimalPlacesForFloats = (int)Math.Floor(Math.Abs(Math.Log10(_singleMachinePrecision)));
+            _numberOfDecimalPlacesForDoubles = (int)Math.Floor(Math.Abs(Math.Log10(_doubleMachinePrecision)));
         }
 
         /// <summary>
-        /// Gets the number of decimal places for floats.
+        /// Gets the number of fully significant decimal places for floats.
         /// </summary>
         /// <value>The number of decimal places for floats.</value>
         public static int NumberOfDecimalPlacesForFloats
@@ -182,7 +182,7 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
-        /// Gets the number of decimal places for doubles.
+        /// Gets the number of fully significant decimal places for doubles.
         /// </summary>
         /// <value>The number of decimal places for doubles.</value>
         public static int NumberOfDecimalPlacesForDoubles
@@ -211,27 +211,18 @@ namespace MathNet.Numerics
             double magnitude = Math.Log10(Math.Abs(value));
 
 #if PORTABLE
-            // To get the right number we need to know if the value is negative or positive
-            // truncating a positive number will always give use the correct magnitude
-            // truncating a negative number will give us a magnitude that is off by 1
-            if (magnitude < 0)
-            {
-
-                return (int)Truncate(magnitude - 1);
-            }
-
-            return (int)Truncate(magnitude);
+            var truncated = (int)Truncate(magnitude);
 #else
+
+            var truncated = (int)Math.Truncate(magnitude);
+#endif
+
             // To get the right number we need to know if the value is negative or positive
             // truncating a positive number will always give use the correct magnitude
-            // truncating a negative number will give us a magnitude that is off by 1
-            if (magnitude < 0)
-            {
-                return (int)Math.Truncate(magnitude - 1);
-            }
-
-            return (int)Math.Truncate(magnitude);
-#endif
+            // truncating a negative number will give us a magnitude that is off by 1 (unless integer)
+            return magnitude < 0d && truncated != magnitude
+                ? truncated - 1
+                : truncated;
         }
 
 
@@ -252,24 +243,21 @@ namespace MathNet.Numerics
             // work for negative numbers (obviously).
             var magnitude = Convert.ToSingle(Math.Log10(Math.Abs(value)));
 
+#if PORTABLE
+            var truncated = (int)Truncate(magnitude);
+#else
+
+            var truncated = (int)Math.Truncate(magnitude);
+#endif
+
             // To get the right number we need to know if the value is negative or positive
             // truncating a positive number will always give use the correct magnitude
-            // truncating a negative number will give us a magnitude that is off by 1
-            if (magnitude < 0)
-            {
-#if PORTABLE
-                return (int)Truncate(magnitude - 1);
-#else
-                return (int)Math.Truncate(magnitude - 1);
-#endif
-            }
-
-#if PORTABLE
-            return (int)Truncate(magnitude);
-#else
-            return (int)Math.Truncate(magnitude);
-#endif
+            // truncating a negative number will give us a magnitude that is off by 1 (unless integer)
+            return magnitude < 0f && truncated != magnitude
+                ? truncated - 1
+                : truncated;
         }
+
         /// <summary>
         /// Returns the number divided by it's magnitude, effectively returning a number between -10 and 10.
         /// </summary>
@@ -1174,7 +1162,7 @@ namespace MathNet.Numerics
         /// </exception>
         public static bool AlmostEqualInDecimalPlaces(this double a, double b, int decimalPlaces)
         {
-            if (decimalPlaces <= 0)
+            if (decimalPlaces < 0)
             {
                 // Can't have a negative number of decimal places
                 throw new ArgumentOutOfRangeException("decimalPlaces");
@@ -1197,7 +1185,7 @@ namespace MathNet.Numerics
 
             if (Math.Abs(a) < _doubleMachinePrecision || Math.Abs(b) < _doubleMachinePrecision)
             {
-                return AlmostEqualWithAbsoluteDecimalPlaces(a, b, decimalPlaces);
+                return AlmostEqualInAbsoluteDecimalPlaces(a, b, decimalPlaces);
             }
             
             // If both numbers are equal, get out now. This should remove the possibility of both numbers being zero
@@ -1207,7 +1195,7 @@ namespace MathNet.Numerics
                 return true;
             }
 
-            return AlmostEqualWithRelativeDecimalPlaces(a, b, decimalPlaces);
+            return AlmostEqualInRelativeDecimalPlaces(a, b, decimalPlaces);
         }
 
         /// <summary>
@@ -1230,7 +1218,7 @@ namespace MathNet.Numerics
         /// </exception>
         public static bool AlmostEqualInDecimalPlaces(this float a, float b, int decimalPlaces)
         {
-            if (decimalPlaces <= 0)
+            if (decimalPlaces < 0)
             {
                 // Can't have a negative number of decimal places
                 throw new ArgumentOutOfRangeException("decimalPlaces");
@@ -1253,7 +1241,7 @@ namespace MathNet.Numerics
 
             if (Math.Abs(a) < _singleMachinePrecision || Math.Abs(b) < _singleMachinePrecision)
             {
-                return AlmostEqualWithAbsoluteDecimalPlaces(a, b, decimalPlaces);
+                return AlmostEqualInAbsoluteDecimalPlaces(a, b, decimalPlaces);
             }
 
             // If both numbers are equal, get out now. This should remove the possibility of both numbers being zero
@@ -1263,7 +1251,7 @@ namespace MathNet.Numerics
                 return true;
             }
 
-            return AlmostEqualWithRelativeDecimalPlaces(a, b, decimalPlaces);
+            return AlmostEqualInRelativeDecimalPlaces(a, b, decimalPlaces);
         }
 
         /// <summary>
@@ -1280,28 +1268,44 @@ namespace MathNet.Numerics
         /// <param name="b">The second value.</param>
         /// <param name="decimalPlaces">The number of decimal places.</param>
         /// <returns><see langword="true" /> if both doubles are equal to each other within the specified number of decimal places; otherwise <see langword="false" />.</returns>
-        public static bool AlmostEqualWithRelativeDecimalPlaces(this double a, double b, int decimalPlaces)
+        public static bool AlmostEqualInRelativeDecimalPlaces(this double a, double b, int decimalPlaces)
         {
-            // If the magnitudes of the two numbers are equal to within one magnitude the numbers could potentially be equal
-            int magnitudeOfFirst = Magnitude(a);
-            int magnitudeOfSecond = Magnitude(b);
-            if (Math.Max(magnitudeOfFirst, magnitudeOfSecond) > (Math.Min(magnitudeOfFirst, magnitudeOfSecond) + 1))
+            if (decimalPlaces < 0)
+            {
+                // Can't have a negative number of decimal places
+                throw new ArgumentOutOfRangeException("decimalPlaces");
+            }
+
+            // If A or B are a NAN, return false. NANs are equal to nothing,
+            // not even themselves.
+            if (double.IsNaN(a) || double.IsNaN(b))
             {
                 return false;
             }
 
-            // Get the power of the number of decimalPlaces
-            double decimalPlaceMagnitude = Math.Pow(10, -(decimalPlaces - 1));
+            // If A or B are infinity (positive or negative) then
+            // only return true if they are exactly equal to each other -
+            // that is, if they are both infinities of the same sign.
+            if (double.IsInfinity(a) || double.IsInfinity(b))
+            {
+                return a == b;
+            }
+
+            // If the magnitudes of the two numbers are equal to within one magnitude the numbers could potentially be equal
+            int magnitudeOfFirst = Magnitude(a);
+            int magnitudeOfSecond = Magnitude(b);
+            int magnitudeOfMax = Math.Max(magnitudeOfFirst, magnitudeOfSecond);
+            if (magnitudeOfMax > (Math.Min(magnitudeOfFirst, magnitudeOfSecond) + 1))
+            {
+                return false;
+            }
 
             // The values are equal if the difference between the two numbers is smaller than
             // 10^(-numberOfDecimalPlaces). We divide by two so that we have half the range
             // on each side of the numbers, e.g. if decimalPlaces == 2, 
-            // then 0.01 will equal between 0.005 and 0.015, but not 0.02 and not 0.00
-            double maxDifference = decimalPlaceMagnitude / 2.0;
-
-            return a > b
-                ? (a*Math.Pow(10, -magnitudeOfFirst)) - maxDifference < (b*Math.Pow(10, -magnitudeOfFirst))
-                : (b*Math.Pow(10, -magnitudeOfSecond)) - maxDifference < (a*Math.Pow(10, -magnitudeOfSecond));
+            // then 0.01 will equal between 0.00995 and 0.01005, but not 0.0015 and not 0.0095
+            double decimalPlaceMagnitude = Math.Pow(10, magnitudeOfMax - decimalPlaces)/2d;
+            return Math.Abs((a - b)) < decimalPlaceMagnitude;
         }
 
         /// <summary>
@@ -1318,28 +1322,44 @@ namespace MathNet.Numerics
         /// <param name="b">The second value.</param>
         /// <param name="decimalPlaces">The number of decimal places.</param>
         /// <returns><see langword="true" /> if both floats are equal to each other within the specified number of decimal places; otherwise <see langword="false" />.</returns>
-        public static bool AlmostEqualWithRelativeDecimalPlaces(this float a, float b, int decimalPlaces)
+        public static bool AlmostEqualInRelativeDecimalPlaces(this float a, float b, int decimalPlaces)
         {
-            // If the magnitudes of the two numbers are equal to within one magnitude the numbers could potentially be equal
-            int magnitudeOfFirst = Magnitude(a);
-            int magnitudeOfSecond = Magnitude(b);
-            if (Math.Max(magnitudeOfFirst, magnitudeOfSecond) > (Math.Min(magnitudeOfFirst, magnitudeOfSecond) + 1))
+            if (decimalPlaces < 0)
+            {
+                // Can't have a negative number of decimal places
+                throw new ArgumentOutOfRangeException("decimalPlaces");
+            }
+
+            // If A or B are a NAN, return false. NANs are equal to nothing,
+            // not even themselves.
+            if (float.IsNaN(a) || float.IsNaN(b))
             {
                 return false;
             }
 
-            // Get the power of the number of decimalPlaces
-            var decimalPlaceMagnitude = (float)Math.Pow(10, -(decimalPlaces - 1));
+            // If A or B are infinity (positive or negative) then
+            // only return true if they are exactly equal to each other -
+            // that is, if they are both infinities of the same sign.
+            if (float.IsInfinity(a) || float.IsInfinity(b))
+            {
+                return a == b;
+            }
+
+            // If the magnitudes of the two numbers are equal to within one magnitude the numbers could potentially be equal
+            int magnitudeOfFirst = Magnitude(a);
+            int magnitudeOfSecond = Magnitude(b);
+            int magnitudeOfMax = Math.Max(magnitudeOfFirst, magnitudeOfSecond);
+            if (magnitudeOfMax > (Math.Min(magnitudeOfFirst, magnitudeOfSecond) + 1))
+            {
+                return false;
+            }
 
             // The values are equal if the difference between the two numbers is smaller than
             // 10^(-numberOfDecimalPlaces). We divide by two so that we have half the range
             // on each side of the numbers, e.g. if decimalPlaces == 2, 
-            // then 0.01 will equal between 0.005 and 0.015, but not 0.02 and not 0.00
-            float maxDifference = decimalPlaceMagnitude / 2.0f;
-
-            return a > b
-                ? (a*(float) Math.Pow(10, -magnitudeOfFirst)) - maxDifference < (b*(float) Math.Pow(10, -magnitudeOfFirst))
-                : (b*(float) Math.Pow(10, -magnitudeOfSecond)) - maxDifference < (a*(float) Math.Pow(10, -magnitudeOfSecond));
+            // then 0.01 will equal between 0.00995 and 0.01005, but not 0.0015 and not 0.0095
+            var decimalPlaceMagnitude = (float) Math.Pow(10, magnitudeOfMax - decimalPlaces)/2d;
+            return Math.Abs((a - b)) < decimalPlaceMagnitude;
         }
 
         /// <summary>
@@ -1348,7 +1368,7 @@ namespace MathNet.Numerics
         /// </summary>
         /// <remarks>
         /// <para>
-        /// The values are equal if the difference between the two numbers is smaller than 10^(-numberOfDecimalPlaces). We divide by 
+        /// The values are equal if the difference between the two numbers is smaller than 0.5e-decimalPlaces. We divide by 
         /// two so that we have half the range on each side of the numbers, e.g. if <paramref name="decimalPlaces"/> == 2, then 0.01 will equal between 
         /// 0.005 and 0.015, but not 0.02 and not 0.00
         /// </para>
@@ -1357,15 +1377,29 @@ namespace MathNet.Numerics
         /// <param name="b">The second value.</param>
         /// <param name="decimalPlaces">The number of decimal places.</param>
         /// <returns><see langword="true" /> if both doubles are equal to each other within the specified number of decimal places; otherwise <see langword="false" />.</returns>
-        public static bool AlmostEqualWithAbsoluteDecimalPlaces(this double a, double b, int decimalPlaces)
+        public static bool AlmostEqualInAbsoluteDecimalPlaces(this double a, double b, int decimalPlaces)
         {
-            double decimalPlaceMagnitude = Math.Pow(10, -(decimalPlaces - 1));
-            
+            // If A or B are a NAN, return false. NANs are equal to nothing,
+            // not even themselves.
+            if (double.IsNaN(a) || double.IsNaN(b))
+            {
+                return false;
+            }
+
+            // If A or B are infinity (positive or negative) then
+            // only return true if they are exactly equal to each other -
+            // that is, if they are both infinities of the same sign.
+            if (double.IsInfinity(a) || double.IsInfinity(b))
+            {
+                return a == b;
+            }
+
             // The values are equal if the difference between the two numbers is smaller than
             // 10^(-numberOfDecimalPlaces). We divide by two so that we have half the range
             // on each side of the numbers, e.g. if decimalPlaces == 2, 
             // then 0.01 will equal between 0.005 and 0.015, but not 0.02 and not 0.00
-            return Math.Abs((a - b)) < decimalPlaceMagnitude / 2.0;
+            double decimalPlaceMagnitude = Math.Pow(10, -decimalPlaces)/2d;
+            return Math.Abs((a - b)) < decimalPlaceMagnitude;
         }
 
         /// <summary>
@@ -1383,15 +1417,29 @@ namespace MathNet.Numerics
         /// <param name="b">The second value.</param>
         /// <param name="decimalPlaces">The number of decimal places.</param>
         /// <returns><see langword="true" /> if both floats are equal to each other within the specified number of decimal places; otherwise <see langword="false" />.</returns>
-        public static bool AlmostEqualWithAbsoluteDecimalPlaces(this float a, float b, int decimalPlaces)
+        public static bool AlmostEqualInAbsoluteDecimalPlaces(this float a, float b, int decimalPlaces)
         {
-            var decimalPlaceMagnitude = (float)Math.Pow(10, -(decimalPlaces - 1));
+            // If A or B are a NAN, return false. NANs are equal to nothing,
+            // not even themselves.
+            if (float.IsNaN(a) || float.IsNaN(b))
+            {
+                return false;
+            }
+
+            // If A or B are infinity (positive or negative) then
+            // only return true if they are exactly equal to each other -
+            // that is, if they are both infinities of the same sign.
+            if (float.IsInfinity(a) || float.IsInfinity(b))
+            {
+                return a == b;
+            }
 
             // The values are equal if the difference between the two numbers is smaller than
             // 10^(-numberOfDecimalPlaces). We divide by two so that we have half the range
             // on each side of the numbers, e.g. if decimalPlaces == 2, 
             // then 0.01 will equal between 0.005 and 0.015, but not 0.02 and not 0.00
-            return Math.Abs((a - b)) < decimalPlaceMagnitude / 2.0f;
+            var decimalPlaceMagnitude = (float) Math.Pow(10, -decimalPlaces)/2f;
+            return Math.Abs((a - b)) < decimalPlaceMagnitude;
         }
 
         /// <summary>

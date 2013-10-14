@@ -159,7 +159,7 @@ namespace MathNet.Numerics.UnitTests
                 return;
             }
 
-            if (!expected.AlmostEqualWithAbsoluteDecimalPlaces(actual, decimalPlaces))
+            if (!expected.AlmostEqualInAbsoluteDecimalPlaces(actual, decimalPlaces))
             {
                 Assert.Fail("Not equal within {0} places. Expected:{1}; Actual:{2}", decimalPlaces, expected, actual);
             }
@@ -176,7 +176,7 @@ namespace MathNet.Numerics.UnitTests
                 return;
             }
 
-            if (!expected.AlmostEqualWithAbsoluteDecimalPlaces(actual, decimalPlaces))
+            if (!expected.AlmostEqualInAbsoluteDecimalPlaces(actual, decimalPlaces))
             {
                 Assert.Fail("Not equal within {0} places. Expected:{1}; Actual:{2}", decimalPlaces, expected, actual);
             }
@@ -187,12 +187,12 @@ namespace MathNet.Numerics.UnitTests
         /// </summary>
         public static void AlmostEqualAbsolute(Complex expected, Complex actual, int decimalPlaces)
         {
-            if (!expected.Real.AlmostEqualWithAbsoluteDecimalPlaces(actual.Real, decimalPlaces))
+            if (!expected.Real.AlmostEqualInAbsoluteDecimalPlaces(actual.Real, decimalPlaces))
             {
                 Assert.Fail("Real components are not equal within {0} places. Expected:{1}; Actual:{2}", decimalPlaces, expected.Real, actual.Real);
             }
 
-            if (!expected.Imaginary.AlmostEqualWithAbsoluteDecimalPlaces(actual.Imaginary, decimalPlaces))
+            if (!expected.Imaginary.AlmostEqualInAbsoluteDecimalPlaces(actual.Imaginary, decimalPlaces))
             {
                 Assert.Fail("Imaginary components are not equal within {0} places. Expected:{1}; Actual:{2}", decimalPlaces, expected.Imaginary, actual.Imaginary);
             }
@@ -203,12 +203,12 @@ namespace MathNet.Numerics.UnitTests
         /// </summary>
         public static void AlmostEqualAbsolute(Complex32 expected, Complex32 actual, int decimalPlaces)
         {
-            if (!expected.Real.AlmostEqualWithAbsoluteDecimalPlaces(actual.Real, decimalPlaces))
+            if (!expected.Real.AlmostEqualInAbsoluteDecimalPlaces(actual.Real, decimalPlaces))
             {
                 Assert.Fail("Real components are not equal within {0} places. Expected:{1}; Actual:{2}", decimalPlaces, expected.Real, actual.Real);
             }
 
-            if (!expected.Imaginary.AlmostEqualWithAbsoluteDecimalPlaces(actual.Imaginary, decimalPlaces))
+            if (!expected.Imaginary.AlmostEqualInAbsoluteDecimalPlaces(actual.Imaginary, decimalPlaces))
             {
                 Assert.Fail("Imaginary components are not equal within {0} places. Expected:{1}; Actual:{2}", decimalPlaces, expected.Imaginary, actual.Imaginary);
             }
