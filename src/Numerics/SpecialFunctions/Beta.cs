@@ -122,7 +122,7 @@ namespace MathNet.Numerics
 
             /* Continued fraction representation */
             const int maxIterations = 100;
-            var eps = Precision.DoubleMachinePrecision;
+            var eps = Precision.DoublePrecision;
             var fpmin = 0.0.Increment() / eps;
 
             if (symmetryTransformation)

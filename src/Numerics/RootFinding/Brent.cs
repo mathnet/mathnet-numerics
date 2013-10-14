@@ -96,7 +96,7 @@ namespace MathNet.Numerics.RootFinding
                 }
 
                 // convergence check
-                double xAcc1 = 2.0*Precision.DoubleMachinePrecision*Math.Abs(root) + 0.5*accuracy;
+                double xAcc1 = 2.0*Precision.DoublePrecision*Math.Abs(root) + 0.5*accuracy;
                 double xMidOld = xMid;
                 xMid = (upperBound - root)/2.0;
 

@@ -248,7 +248,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
 
             var f = 0.0f;
             var tst1 = 0.0f;
-            var eps = Precision.DoubleMachinePrecision;
+            var eps = Precision.DoublePrecision;
             for (var l = 0; l < order; l++)
             {
                 // Find small subdiagonal element
@@ -585,7 +585,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
         {
             // Initialize
             var n = order - 1;
-            var eps = (float) Precision.SingleMachinePrecision;
+            var eps = (float) Precision.SinglePrecision;
 
             float norm;
             Complex32 x, y, z, exshift = Complex32.Zero;

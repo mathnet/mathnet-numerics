@@ -269,7 +269,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
 
             var f = 0.0;
             var tst1 = 0.0;
-            var eps = Precision.DoubleMachinePrecision;
+            var eps = Precision.DoublePrecision;
             for (var l = 0; l < order; l++)
             {
                 // Find small subdiagonal element
@@ -598,7 +598,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
         {
             // Initialize
             var n = order - 1;
-            var eps = Precision.DoubleMachinePrecision;
+            var eps = Precision.DoublePrecision;
 
             double norm;
             Complex x, y, z, exshift = Complex.Zero;

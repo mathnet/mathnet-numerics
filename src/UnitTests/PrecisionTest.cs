@@ -1181,49 +1181,49 @@ namespace MathNet.Numerics.UnitTests
         {
             // compare zero and negative zero
             Assert.AreEqual(0, Precision.CompareToInDecimalPlaces(0, -0, 1));
-            Assert.AreEqual(0, Precision.CompareToInDecimalPlaces(0, -0, Precision.NumberOfDecimalPlacesForDoubles));
-            Assert.AreEqual(0, Precision.CompareToInDecimalPlaces(0, -0, Precision.NumberOfDecimalPlacesForFloats));
+            Assert.AreEqual(0, Precision.CompareToInDecimalPlaces(0, -0, Precision.DoubleDecimalPlaces));
+            Assert.AreEqual(0, Precision.CompareToInDecimalPlaces(0, -0, Precision.SingleDecimalPlaces));
 
             // compare two nearby numbers
-            Assert.AreEqual(-1, 1.0.CompareToInDecimalPlaces(1.0 + 10*_doublePrecision, Precision.NumberOfDecimalPlacesForDoubles));
-            Assert.AreEqual(0, 1.0.CompareToInDecimalPlaces(1.0 + _doublePrecision, Precision.NumberOfDecimalPlacesForDoubles));
-            Assert.AreEqual(0, 1.0.CompareToInDecimalPlaces(1.0 - _doublePrecision, Precision.NumberOfDecimalPlacesForDoubles));
-            Assert.AreEqual(1, 1.0.CompareToInDecimalPlaces(1.0 - 10*_doublePrecision, Precision.NumberOfDecimalPlacesForDoubles));
+            Assert.AreEqual(-1, 1.0.CompareToInDecimalPlaces(1.0 + 10*_doublePrecision, Precision.DoubleDecimalPlaces));
+            Assert.AreEqual(0, 1.0.CompareToInDecimalPlaces(1.0 + _doublePrecision, Precision.DoubleDecimalPlaces));
+            Assert.AreEqual(0, 1.0.CompareToInDecimalPlaces(1.0 - _doublePrecision, Precision.DoubleDecimalPlaces));
+            Assert.AreEqual(1, 1.0.CompareToInDecimalPlaces(1.0 - 10*_doublePrecision, Precision.DoubleDecimalPlaces));
 
             // compare with the two numbers reversed in compare order
-            Assert.AreEqual(1, (1.0 + 10*_doublePrecision).CompareToInDecimalPlaces(1.0, Precision.NumberOfDecimalPlacesForDoubles));
-            Assert.AreEqual(0, (1.0 + _doublePrecision).CompareToInDecimalPlaces(1.0, Precision.NumberOfDecimalPlacesForDoubles));
-            Assert.AreEqual(0, (1.0 - _doublePrecision).CompareToInDecimalPlaces(1.0, Precision.NumberOfDecimalPlacesForDoubles));
-            Assert.AreEqual(-1, (1.0 - 10*_doublePrecision).CompareToInDecimalPlaces(1.0, Precision.NumberOfDecimalPlacesForDoubles));
+            Assert.AreEqual(1, (1.0 + 10*_doublePrecision).CompareToInDecimalPlaces(1.0, Precision.DoubleDecimalPlaces));
+            Assert.AreEqual(0, (1.0 + _doublePrecision).CompareToInDecimalPlaces(1.0, Precision.DoubleDecimalPlaces));
+            Assert.AreEqual(0, (1.0 - _doublePrecision).CompareToInDecimalPlaces(1.0, Precision.DoubleDecimalPlaces));
+            Assert.AreEqual(-1, (1.0 - 10*_doublePrecision).CompareToInDecimalPlaces(1.0, Precision.DoubleDecimalPlaces));
 
             // compare two slightly more different numbers
-            Assert.AreEqual(-1, 1.0.CompareToInDecimalPlaces(1.0 + (50*_doublePrecision), Precision.NumberOfDecimalPlacesForDoubles));
-            Assert.AreEqual(0, 1.0.CompareToInDecimalPlaces(1.0 + (50*_doublePrecision), Precision.NumberOfDecimalPlacesForDoubles - 2));
-            Assert.AreEqual(0, 1.0.CompareToInDecimalPlaces(1.0 - (50*_doublePrecision), Precision.NumberOfDecimalPlacesForDoubles - 2));
-            Assert.AreEqual(1, 1.0.CompareToInDecimalPlaces(1.0 - (50*_doublePrecision), Precision.NumberOfDecimalPlacesForDoubles));
+            Assert.AreEqual(-1, 1.0.CompareToInDecimalPlaces(1.0 + (50*_doublePrecision), Precision.DoubleDecimalPlaces));
+            Assert.AreEqual(0, 1.0.CompareToInDecimalPlaces(1.0 + (50*_doublePrecision), Precision.DoubleDecimalPlaces - 2));
+            Assert.AreEqual(0, 1.0.CompareToInDecimalPlaces(1.0 - (50*_doublePrecision), Precision.DoubleDecimalPlaces - 2));
+            Assert.AreEqual(1, 1.0.CompareToInDecimalPlaces(1.0 - (50*_doublePrecision), Precision.DoubleDecimalPlaces));
 
             // compare different numbers
-            Assert.AreEqual(1, 2.0.CompareToInDecimalPlaces(1.0, Precision.NumberOfDecimalPlacesForDoubles));
-            Assert.AreEqual(-1, 1.0.CompareToInDecimalPlaces(2.0, Precision.NumberOfDecimalPlacesForDoubles));
+            Assert.AreEqual(1, 2.0.CompareToInDecimalPlaces(1.0, Precision.DoubleDecimalPlaces));
+            Assert.AreEqual(-1, 1.0.CompareToInDecimalPlaces(2.0, Precision.DoubleDecimalPlaces));
 
             // compare different numbers with large tolerance
-            Assert.AreEqual(-1, 1.0.CompareToInDecimalPlaces(1.0 + (1e5 * _doublePrecision), Precision.NumberOfDecimalPlacesForDoubles));
+            Assert.AreEqual(-1, 1.0.CompareToInDecimalPlaces(1.0 + (1e5 * _doublePrecision), Precision.DoubleDecimalPlaces));
             Assert.AreEqual(0, 1.0.CompareToInDecimalPlaces(1.0 - (1e5 * _doublePrecision), 10));
-            Assert.AreEqual(1, 1.0.CompareToInDecimalPlaces(1.0 - (1e5 * _doublePrecision), Precision.NumberOfDecimalPlacesForDoubles));
+            Assert.AreEqual(1, 1.0.CompareToInDecimalPlaces(1.0 - (1e5 * _doublePrecision), Precision.DoubleDecimalPlaces));
 
             // compare inf & inf
-            Assert.AreEqual(0, double.PositiveInfinity.CompareToInDecimalPlaces(double.PositiveInfinity, Precision.NumberOfDecimalPlacesForDoubles));
-            Assert.AreEqual(0, double.NegativeInfinity.CompareToInDecimalPlaces(double.NegativeInfinity, Precision.NumberOfDecimalPlacesForDoubles));
+            Assert.AreEqual(0, double.PositiveInfinity.CompareToInDecimalPlaces(double.PositiveInfinity, Precision.DoubleDecimalPlaces));
+            Assert.AreEqual(0, double.NegativeInfinity.CompareToInDecimalPlaces(double.NegativeInfinity, Precision.DoubleDecimalPlaces));
 
             // compare -inf and inf
-            Assert.AreEqual(1, double.PositiveInfinity.CompareToInDecimalPlaces(double.NegativeInfinity, Precision.NumberOfDecimalPlacesForDoubles));
-            Assert.AreEqual(-1, double.NegativeInfinity.CompareToInDecimalPlaces(double.PositiveInfinity, Precision.NumberOfDecimalPlacesForDoubles));
+            Assert.AreEqual(1, double.PositiveInfinity.CompareToInDecimalPlaces(double.NegativeInfinity, Precision.DoubleDecimalPlaces));
+            Assert.AreEqual(-1, double.NegativeInfinity.CompareToInDecimalPlaces(double.PositiveInfinity, Precision.DoubleDecimalPlaces));
 
             // compare inf and non-inf
-            Assert.AreEqual(1, double.PositiveInfinity.CompareToInDecimalPlaces(1.0, Precision.NumberOfDecimalPlacesForDoubles));
-            Assert.AreEqual(-1, 1.0.CompareToInDecimalPlaces(double.PositiveInfinity, Precision.NumberOfDecimalPlacesForDoubles));
-            Assert.AreEqual(-1, double.NegativeInfinity.CompareToInDecimalPlaces(1.0, Precision.NumberOfDecimalPlacesForDoubles));
-            Assert.AreEqual(1, 1.0.CompareToInDecimalPlaces(double.NegativeInfinity, Precision.NumberOfDecimalPlacesForDoubles));
+            Assert.AreEqual(1, double.PositiveInfinity.CompareToInDecimalPlaces(1.0, Precision.DoubleDecimalPlaces));
+            Assert.AreEqual(-1, 1.0.CompareToInDecimalPlaces(double.PositiveInfinity, Precision.DoubleDecimalPlaces));
+            Assert.AreEqual(-1, double.NegativeInfinity.CompareToInDecimalPlaces(1.0, Precision.DoubleDecimalPlaces));
+            Assert.AreEqual(1, 1.0.CompareToInDecimalPlaces(double.NegativeInfinity, Precision.DoubleDecimalPlaces));
         }
     }
 }

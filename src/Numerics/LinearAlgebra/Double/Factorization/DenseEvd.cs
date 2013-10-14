@@ -276,7 +276,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
 
             var f = 0.0;
             var tst1 = 0.0;
-            var eps = Precision.DoubleMachinePrecision;
+            var eps = Precision.DoublePrecision;
             for (var l = 0; l < order; l++)
             {
                 // Find small subdiagonal element

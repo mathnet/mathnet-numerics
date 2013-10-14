@@ -312,7 +312,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
 
             var f = 0.0;
             var tst1 = 0.0;
-            var eps = Precision.DoubleMachinePrecision;
+            var eps = Precision.DoublePrecision;
             for (var l = 0; l < order; l++)
             {
                 // Find small subdiagonal element
@@ -566,7 +566,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
         {
             // Initialize
             var n = order - 1;
-            var eps = Precision.DoubleMachinePrecision;
+            var eps = Precision.DoublePrecision;
             var exshift = 0.0;
             double p = 0, q = 0, r = 0, s = 0, z = 0, w, x, y;
 

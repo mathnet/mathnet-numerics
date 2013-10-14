@@ -81,117 +81,49 @@ namespace MathNet.Numerics
     /// </remarks>
     public static class Precision
     {
-        #region Constants
-
-        /// <summary>
-        /// The base number for binary values
-        /// </summary>
-        private const int BinaryBaseNumber = 2;
-
         /// <summary>
         /// The number of binary digits used to represent the binary number for a double precision floating
         /// point value. i.e. there are this many digits used to represent the
         /// actual number, where in a number as: 0.134556 * 10^5 the digits are 0.134556 and the exponent is 5.
         /// </summary>
-        private const int DoublePrecision = 53;
+        private const int DoubleWidth = 53;
 
         /// <summary>
         /// The number of binary digits used to represent the binary number for a single precision floating
         /// point value. i.e. there are this many digits used to represent the
         /// actual number, where in a number as: 0.134556 * 10^5 the digits are 0.134556 and the exponent is 5.
         /// </summary>
-        private const int SinglePrecision = 24;
-
-        #endregion
- 
-        #region Fields
+        private const int SingleWidth = 24;
 
         /// <summary>
-        /// The maximum relative precision of a double
+        /// The maximum relative precision of of double-precision floating numbers (64 bit)
         /// </summary>
-        private static readonly double _doubleMachinePrecision = Math.Pow(BinaryBaseNumber, -DoublePrecision);
+        public static readonly double DoublePrecision = Math.Pow(2, -DoubleWidth);
 
         /// <summary>
-        /// The maximum relative precision of a single
+        /// The maximum relative precision of of single-precision floating numbers (32 bit)
         /// </summary>
-        private static readonly double _singleMachinePrecision = Math.Pow(BinaryBaseNumber, -SinglePrecision);
+        public static readonly double SinglePrecision = Math.Pow(2, -SingleWidth);
 
         /// <summary>
-        /// The number of significant figures that a double-precision floating point has.
+        /// The number of significant decimal places of double-precision floating numbers (64 bit).
         /// </summary>
-        private static readonly int _numberOfDecimalPlacesForDoubles;
+        public static readonly int DoubleDecimalPlaces = (int) Math.Floor(Math.Abs(Math.Log10(DoublePrecision)));
 
         /// <summary>
-        /// The number of significant figures that a single-precision floating point has.
+        /// The number of significant decimal places of single-precision floating numbers (32 bit).
         /// </summary>
-        private static readonly int _numberOfDecimalPlacesForFloats;
-
-        /// <summary>Value representing 10 * 2^(-52)</summary>
-        private static readonly double _defaultDoubleRelativeAccuracy = _doubleMachinePrecision * 10;
-
-        /// <summary>Value representing 10 * 2^(-52)</summary>
-        private static readonly float _defaultSingleRelativeAccuracy = (float)(_singleMachinePrecision * 10);
-
-        #endregion
-
-        #region Properties
-        /// <summary>
-        /// Gets the maximum relative precision of a double.
-        /// </summary>
-        /// <value>The maximum relative precision of a double.</value>
-        public static double DoubleMachinePrecision
-        {
-            get
-            {
-                return _doubleMachinePrecision;
-            }
-        }
+        public static readonly int SingleDecimalPlaces = (int) Math.Floor(Math.Abs(Math.Log10(SinglePrecision)));
 
         /// <summary>
-        /// Gets the maximum relative precision of a single.
+        /// Value representing 10 * 2^(-52)
         /// </summary>
-        /// <value>The maximum relative precision of a single.</value>
-        public static double SingleMachinePrecision
-        {
-            get
-            {
-                return _singleMachinePrecision;
-            }
-        }
-        #endregion
+        private static readonly double DefaultDoubleRelativeAccuracy = DoublePrecision * 10;
 
         /// <summary>
-        /// Initializes static members of the Precision class.
+        /// Value representing 10 * 2^(-24)
         /// </summary>
-        static Precision()
-        {
-            _numberOfDecimalPlacesForFloats = (int)Math.Floor(Math.Abs(Math.Log10(_singleMachinePrecision)));
-            _numberOfDecimalPlacesForDoubles = (int)Math.Floor(Math.Abs(Math.Log10(_doubleMachinePrecision)));
-        }
-
-        /// <summary>
-        /// Gets the number of fully significant decimal places for floats.
-        /// </summary>
-        /// <value>The number of decimal places for floats.</value>
-        public static int NumberOfDecimalPlacesForFloats
-        {
-            get
-            {
-                return _numberOfDecimalPlacesForFloats;
-            }
-        }
-
-        /// <summary>
-        /// Gets the number of fully significant decimal places for doubles.
-        /// </summary>
-        /// <value>The number of decimal places for doubles.</value>
-        public static int NumberOfDecimalPlacesForDoubles
-        {
-            get
-            {
-                return _numberOfDecimalPlacesForDoubles;
-            }
-        }
+        private static readonly float DefaultSingleRelativeAccuracy = (float)(SinglePrecision * 10);
 
         /// <summary>
         /// Returns the magnitude of the number.
@@ -213,7 +145,6 @@ namespace MathNet.Numerics
 #if PORTABLE
             var truncated = (int)Truncate(magnitude);
 #else
-
             var truncated = (int)Math.Truncate(magnitude);
 #endif
 
@@ -246,7 +177,6 @@ namespace MathNet.Numerics
 #if PORTABLE
             var truncated = (int)Truncate(magnitude);
 #else
-
             var truncated = (int)Math.Truncate(magnitude);
 #endif
 
@@ -263,7 +193,7 @@ namespace MathNet.Numerics
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns>The value of the number.</returns>
-        public static double GetMagnitudeScaledValue(this double value)
+        public static double ScaleUnitMagnitude(this double value)
         {
             if (value.Equals(0.0))
             {
@@ -281,7 +211,7 @@ namespace MathNet.Numerics
         /// <returns>
         /// The resulting <c>long</c> value.
         /// </returns>
-        private static long GetLongFromDouble(double value)
+        private static long AsInt64(double value)
         {
 #if PORTABLE
             return DoubleToInt64Bits(value);
@@ -297,10 +227,10 @@ namespace MathNet.Numerics
         /// </summary>
         /// <param name="value">The input double value.</param>
         /// <returns>A long value which is roughly the equivalent of the double value.</returns>
-        private static long GetDirectionalLongFromDouble(double value)
+        private static long AsDirectionalInt64(double value)
         {
             // Convert in the normal way.
-            long result = GetLongFromDouble(value);
+            long result = AsInt64(value);
             
             // Now find out where we're at in the range
             // If the value is larger/equal to zero then we can just return the value
@@ -315,7 +245,7 @@ namespace MathNet.Numerics
         /// </summary>
         /// <param name="value">The input float value.</param>
         /// <returns>An int value which is roughly the equivalent of the double value.</returns>
-        private static int GetDirectionalIntFromFloat(float value)
+        private static int AsDirectionalInt32(float value)
         {
             // Convert in the normal way.
             int result = FloatToInt32Bits(value);
@@ -354,7 +284,7 @@ namespace MathNet.Numerics
             // double < 0 --> long < 0, increasing in absolute magnitude as the double 
             //                          gets closer to zero!
             //                          i.e. 0 - double.epsilon will give the largest long value!
-            long intValue = GetLongFromDouble(value);
+            long intValue = AsInt64(value);
             if (intValue < 0)
             {
                 intValue -= count;
@@ -407,7 +337,7 @@ namespace MathNet.Numerics
             // double < 0 --> long < 0, increasing in absolute magnitude as the double 
             //                          gets closer to zero!
             //                          i.e. 0 - double.epsilon will give the largest long value!
-            long intValue = GetLongFromDouble(value);
+            long intValue = AsInt64(value);
 
             // If the value is zero then we'd really like the value to be -0. So we'll make it -0 
             // and then everything else should work out.
@@ -517,7 +447,7 @@ namespace MathNet.Numerics
         /// <returns>Zero if |<paramref name="a"/>| is smaller than 2^(-53) = 1.11e-16, <paramref name="a"/> otherwise.</returns>
         public static double CoerceZero(this double a)
         {
-            return CoerceZero(a, _doubleMachinePrecision);
+            return CoerceZero(a, DoublePrecision);
         }
 
         /// <summary>
@@ -561,7 +491,7 @@ namespace MathNet.Numerics
             // double < 0 --> long < 0, increasing in absolute magnitude as the double 
             //                          gets closer to zero!
             //                          i.e. 0 - double.epsilon will give the largest long value!
-            long intValue = GetLongFromDouble(value);
+            long intValue = AsInt64(value);
 
 #if PORTABLE
             // We need to protect against over- and under-flow of the intValue when
@@ -721,18 +651,18 @@ namespace MathNet.Numerics
             // so return the ulps counts for the difference.
             if (value.Equals(0))
             {
-                topRangeEnd = GetLongFromDouble(relativeDifference);
+                topRangeEnd = AsInt64(relativeDifference);
                 bottomRangeEnd = topRangeEnd;
                 return;
             }
 
             // Calculate the ulps for the maximum and minimum values
             // Note that these can overflow
-            long max = GetDirectionalLongFromDouble(value + (relativeDifference * Math.Abs(value)));
-            long min = GetDirectionalLongFromDouble(value - (relativeDifference * Math.Abs(value)));
+            long max = AsDirectionalInt64(value + (relativeDifference * Math.Abs(value)));
+            long min = AsDirectionalInt64(value - (relativeDifference * Math.Abs(value)));
 
             // Calculate the ulps from the value
-            long intValue = GetDirectionalLongFromDouble(value);
+            long intValue = AsDirectionalInt64(value);
 
             // Determine the ranges
             topRangeEnd = Math.Abs(max - intValue);
@@ -773,8 +703,8 @@ namespace MathNet.Numerics
 
             // Calculate the ulps for the maximum and minimum values
             // Note that these can overflow
-            long intA = GetDirectionalLongFromDouble(a);
-            long intB = GetDirectionalLongFromDouble(b);
+            long intA = AsDirectionalInt64(a);
+            long intB = AsDirectionalInt64(b);
 
             // Now find the number of values between the two doubles. This should not overflow
             // given that there are more long values than there are double values
@@ -790,7 +720,7 @@ namespace MathNet.Numerics
         public static bool AlmostEqual(this double a, double b)
         {
             double diff = a - b;
-            return AlmostEqualWithError(a, b, diff, _defaultDoubleRelativeAccuracy);
+            return AlmostEqualWithError(a, b, diff, DefaultDoubleRelativeAccuracy);
         }
 
         /// <summary>
@@ -802,7 +732,7 @@ namespace MathNet.Numerics
         public static bool AlmostEqual(this float a, float b)
         {
             double diff = a - b;
-            return AlmostEqualWithError(a, b, diff, _defaultSingleRelativeAccuracy);
+            return AlmostEqualWithError(a, b, diff, DefaultSingleRelativeAccuracy);
         }
 
         /// <summary>
@@ -814,7 +744,7 @@ namespace MathNet.Numerics
         public static bool AlmostEqual(this Complex a, Complex b)
         {
             double diff = a.NormOfDifference(b);
-            return AlmostEqualWithError(a.Norm(), b.Norm(), diff, _defaultDoubleRelativeAccuracy);
+            return AlmostEqualWithError(a.Norm(), b.Norm(), diff, DefaultDoubleRelativeAccuracy);
         }
 
         /// <summary>
@@ -826,7 +756,7 @@ namespace MathNet.Numerics
         public static bool AlmostEqual(this Complex32 a, Complex32 b)
         {
             double diff = ((IPrecisionSupport<Complex32>)a).NormOfDifference(b);
-            return AlmostEqualWithError(((IPrecisionSupport<Complex32>)a).Norm(), ((IPrecisionSupport<Complex32>)b).Norm(), diff, _defaultSingleRelativeAccuracy);
+            return AlmostEqualWithError(((IPrecisionSupport<Complex32>)a).Norm(), ((IPrecisionSupport<Complex32>)b).Norm(), diff, DefaultSingleRelativeAccuracy);
         }
         /// <summary>
         /// Checks whether two structures with precision support are almost equal. 
@@ -839,7 +769,7 @@ namespace MathNet.Numerics
             where T : IPrecisionSupport<T>
         {
             double diff = a.NormOfDifference(b);
-            return AlmostEqualWithError(a.Norm(), b.Norm(), diff, _defaultDoubleRelativeAccuracy);
+            return AlmostEqualWithError(a.Norm(), b.Norm(), diff, DefaultDoubleRelativeAccuracy);
         }
 
         /// <summary>
@@ -1058,7 +988,7 @@ namespace MathNet.Numerics
                 return false;
             }
 
-            if (Math.Abs(a) < _doubleMachinePrecision || Math.Abs(b) < _doubleMachinePrecision)
+            if (Math.Abs(a) < DoublePrecision || Math.Abs(b) < DoublePrecision)
             {
                 return AlmostEqualWithAbsoluteError(a, b, diff, maximumError);
             }
@@ -1183,7 +1113,7 @@ namespace MathNet.Numerics
                 return a == b;
             }
 
-            if (Math.Abs(a) < _doubleMachinePrecision || Math.Abs(b) < _doubleMachinePrecision)
+            if (Math.Abs(a) < DoublePrecision || Math.Abs(b) < DoublePrecision)
             {
                 return AlmostEqualInAbsoluteDecimalPlaces(a, b, decimalPlaces);
             }
@@ -1239,7 +1169,7 @@ namespace MathNet.Numerics
                 return a == b;
             }
 
-            if (Math.Abs(a) < _singleMachinePrecision || Math.Abs(b) < _singleMachinePrecision)
+            if (Math.Abs(a) < SinglePrecision || Math.Abs(b) < SinglePrecision)
             {
                 return AlmostEqualInAbsoluteDecimalPlaces(a, b, decimalPlaces);
             }
@@ -1490,10 +1420,10 @@ namespace MathNet.Numerics
             }
 
             // Get the first double and convert it to an integer value (by using the binary representation)
-            long firstUlong = GetDirectionalLongFromDouble(a);
+            long firstUlong = AsDirectionalInt64(a);
 
             // Get the second double and convert it to an integer value (by using the binary representation)
-            long secondUlong = GetDirectionalLongFromDouble(b);
+            long secondUlong = AsDirectionalInt64(b);
 
             // Now compare the values. 
             // Note that this comparison can overflow so we'll approach this differently
@@ -1536,10 +1466,10 @@ namespace MathNet.Numerics
             }
 
             // Get the first float and convert it to an integer value (by using the binary representation)
-            int firstUlong = GetDirectionalIntFromFloat(a);
+            int firstUlong = AsDirectionalInt32(a);
 
             // Get the second float and convert it to an integer value (by using the binary representation)
-            int secondUlong = GetDirectionalIntFromFloat(b);
+            int secondUlong = AsDirectionalInt32(b);
 
             // Now compare the values. 
             // Note that this comparison can overflow so we'll approach this differently
