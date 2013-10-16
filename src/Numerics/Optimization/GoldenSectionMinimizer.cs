@@ -16,7 +16,7 @@ namespace MathNet.Numerics.Optimization
             this.MaximumIterations = max_iterations;
         }
 
-        public MinimizationOutput FindMinimum(IObjectiveFunction1D objective, double lower_bound, double upper_bound)
+        public MinimizationOutput1D FindMinimum(IObjectiveFunction1D objective, double lower_bound, double upper_bound)
         {
             if (!(objective is ObjectiveChecker1D))
                 objective = new ObjectiveChecker1D(objective, this.ValueChecker, null, null);
@@ -38,19 +38,29 @@ namespace MathNet.Numerics.Optimization
                 double test_x = lower.Point + (upper.Point - middle.Point);
                 var test = objective.Evaluate(test_x);
 
-                if (test.Value > middle.Value)
+                if (test.Point < middle.Point)
                 {
-                    if (test.Point < middle.Point)
+                    if (test.Value > middle.Value)
+                    {
                         lower = test;
+                    }
                     else
-                        upper = test;
+                    {
+                        upper = middle;
+                        middle = test;
+                    }
                 }
                 else
                 {
-                    if (test.Point < middle.Point)
-                        upper = middle;
+                    if (test.Value > middle.Value)
+                    {
+                        upper = test;
+                    }
                     else
+                    {
                         lower = middle;
+                        middle = test;
+                    }
                 }
 
                 iterations += 1;
@@ -59,7 +69,7 @@ namespace MathNet.Numerics.Optimization
             if (iterations == this.MaximumIterations)
                 throw new MaximumIterationsException("Max iterations reached.");
             else
-                return null;
+                return new MinimizationOutput1D(middle, iterations, ExitCondition.BoundTolerance);
             
         }
 

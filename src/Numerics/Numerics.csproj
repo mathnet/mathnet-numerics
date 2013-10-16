@@ -203,6 +203,7 @@
     <Compile Include="Optimization\LineSearchingMinimizerOutput.cs" />
     <Compile Include="Optimization\LineSearchOutput.cs" />
     <Compile Include="Optimization\MinimizationOutput.cs" />
+    <Compile Include="Optimization\MinimizationOutput1D.cs" />
     <Compile Include="Optimization\NewtonMinimizer.cs" />
     <Compile Include="Optimization\ObjectiveChecker.cs" />
     <Compile Include="Optimization\ObjectiveChecker1D.cs" />
