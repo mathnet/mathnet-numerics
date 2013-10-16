@@ -368,6 +368,7 @@
     <Compile Include="Random\RandomSerializationTests.cs" />
     <Compile Include="OptimizationTests\RosenbrockFunction.cs" />
     <Compile Include="OptimizationTests\TestNewtonMinimizer.cs" />
+    <Compile Include="OptimizationTests\TestGoldenSectionMinimizer.cs" />
     <Compile Include="Random\SystemRandomSourceTests.cs" />
     <Compile Include="OptimizationTests\BfgsTest.cs" />
     <Compile Include="RootFindingTests\BisectionTest.cs" />

@@ -8,7 +8,6 @@ namespace MathNet.Numerics.UnitTests.OptimizationTests
     [TestFixture]
     public class TestConjugateGradientMinimizer
     {
-
         [Test]
         public void FindMinimum_Rosenbrock_Easy()
         {

@@ -264,6 +264,7 @@
     <Compile Include="Optimization\BfgsMinimizer.cs" />
     <Compile Include="Optimization\ConjugateGradientMinimizer.cs" />
     <Compile Include="Optimization\GoldenSectionMinimizer.cs" />
+    <Compile Include="Optimization\MinimizationResult1D.cs" />
     <Compile Include="Optimization\NewtonMinimizer.cs" />
     <Compile Include="Optimization\ObjectiveFunction.cs" />
     <Compile Include="Optimization\ObjectiveFunction1D.cs" />

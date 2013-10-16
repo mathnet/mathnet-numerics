@@ -13,7 +13,7 @@ namespace MathNet.Numerics.Optimization
             MaximumIterations = maxIterations;
         }
 
-        public MinimizationResult FindMinimum(IObjectiveFunction1D objective, double lowerBound, double upperBound)
+        public MinimizationResult1D FindMinimum(IObjectiveFunction1D objective, double lowerBound, double upperBound)
         {
             double middlePointX = lowerBound + (upperBound - lowerBound) / (1 + Constants.GoldenRatio);
             IEvaluation1D lower = objective.Evaluate(lowerBound);
@@ -37,19 +37,29 @@ namespace MathNet.Numerics.Optimization
                 var test = objective.Evaluate(testX);
                 ValueChecker(test.Value, testX);
 
-                if (test.Value > middle.Value)
+                if (test.Point < middle.Point)
                 {
-                    if (test.Point < middle.Point)
+                    if (test.Value > middle.Value)
+                    {
                         lower = test;
+                    }
                     else
-                        upper = test;
+                    {
+                        upper = middle;
+                        middle = test;
+                    }
                 }
                 else
                 {
-                    if (test.Point < middle.Point)
-                        upper = middle;
+                    if (test.Value > middle.Value)
+                    {
+                        upper = test;
+                    }
                     else
+                    {
                         lower = middle;
+                        middle = test;
+                    }
                 }
 
                 iterations += 1;
@@ -58,7 +68,7 @@ namespace MathNet.Numerics.Optimization
             if (iterations == MaximumIterations)
                 throw new MaximumIterationsException("Max iterations reached.");
 
-            return null;
+            return new MinimizationResult1D(middle, iterations, MinimizationResult.ExitCondition.BoundTolerance);
         }
 
         private void ValueChecker(double value, double point)
