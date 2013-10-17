@@ -43,6 +43,14 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
     public partial class MklLinearAlgebraProvider : ManagedLinearAlgebraProvider
     {
         /// <summary>
+        /// Improves MKL Consistency to get bit consistent results on repeated identical calculations
+        /// </summary>
+        public MklLinearAlgebraProvider()
+        {
+            SafeNativeMethods.SetImprovedConsistency();
+        }
+
+        /// <summary>
         /// Computes the requested <see cref="Norm"/> of the matrix.
         /// </summary>
         /// <param name="norm">The type of norm to compute.</param>

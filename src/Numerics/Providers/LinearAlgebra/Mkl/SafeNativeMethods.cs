@@ -101,6 +101,9 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
         #region LAPACK
 
         [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
+        internal static extern void SetImprovedConsistency();
+
+        [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
         internal static extern float s_matrix_norm(byte norm, int rows, int columns, [In] float[] a, [In, Out] float[] work);
 
         [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
