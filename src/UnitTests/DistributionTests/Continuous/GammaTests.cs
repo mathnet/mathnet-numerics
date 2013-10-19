@@ -244,7 +244,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void ValidateVariance(double shape, double invScale, double var)
         {
             var n = new Gamma(shape, invScale);
-            AssertHelpers.AlmostEqual(var, n.Variance, 15);
+            AssertHelpers.AlmostEqualRelative(var, n.Variance, 15);
         }
 
         /// <summary>
@@ -262,7 +262,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void ValidateStdDev(double shape, double invScale, double sdev)
         {
             var n = new Gamma(shape, invScale);
-            AssertHelpers.AlmostEqual(sdev, n.StdDev, 15);
+            AssertHelpers.AlmostEqualRelative(sdev, n.StdDev, 15);
         }
 
         /// <summary>
@@ -280,7 +280,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void ValidateEntropy(double shape, double invScale, double entropy)
         {
             var n = new Gamma(shape, invScale);
-            AssertHelpers.AlmostEqual(entropy, n.Entropy, 13);
+            AssertHelpers.AlmostEqualRelative(entropy, n.Entropy, 12);
         }
 
         /// <summary>
@@ -298,7 +298,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void ValidateSkewness(double shape, double invScale, double skewness)
         {
             var n = new Gamma(shape, invScale);
-            AssertHelpers.AlmostEqual(skewness, n.Skewness, 15);
+            AssertHelpers.AlmostEqualRelative(skewness, n.Skewness, 15);
         }
 
         /// <summary>
@@ -377,8 +377,8 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void ValidateDensity(int shape, double invScale, double x, double pdf)
         {
             var n = new Gamma(shape, invScale);
-            AssertHelpers.AlmostEqual(pdf, n.Density(x), 14);
-            AssertHelpers.AlmostEqual(pdf, Gamma.PDF(shape, invScale, x), 14);
+            AssertHelpers.AlmostEqualRelative(pdf, n.Density(x), 13);
+            AssertHelpers.AlmostEqualRelative(pdf, Gamma.PDF(shape, invScale, x), 13);
         }
 
         /// <summary>
@@ -409,8 +409,8 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void ValidateDensityLn(int shape, double invScale, double x, double pdfln)
         {
             var n = new Gamma(shape, invScale);
-            AssertHelpers.AlmostEqual(pdfln, n.DensityLn(x), 14);
-            AssertHelpers.AlmostEqual(pdfln, Gamma.PDFLn(shape, invScale, x), 14);
+            AssertHelpers.AlmostEqualRelative(pdfln, n.DensityLn(x), 13);
+            AssertHelpers.AlmostEqualRelative(pdfln, Gamma.PDFLn(shape, invScale, x), 13);
         }
 
         /// <summary>
@@ -499,8 +499,8 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void ValidateCumulativeDistribution(int shape, double invScale, double x, double cdf)
         {
             var n = new Gamma(shape, invScale);
-            AssertHelpers.AlmostEqual(cdf, n.CumulativeDistribution(x), 14);
-            AssertHelpers.AlmostEqual(cdf, Gamma.CDF(shape, invScale, x), 14);
+            AssertHelpers.AlmostEqualRelative(cdf, n.CumulativeDistribution(x), 13);
+            AssertHelpers.AlmostEqualRelative(cdf, Gamma.CDF(shape, invScale, x), 13);
         }
     }
 }

@@ -376,23 +376,36 @@ namespace MathNet.Numerics
         /// Returns a Norm of a value of this type, which is appropriate for measuring how
         /// close this value is to zero.
         /// </summary>
-        /// <param name="complex">The <see cref="Complex"/> number to perfom this operation on.</param>
-        /// <returns>A norm of this value.</returns>
         public static double Norm(this Complex complex)
         {
             return complex.MagnitudeSquared();
         }
 
         /// <summary>
+        /// Returns a Norm of a value of this type, which is appropriate for measuring how
+        /// close this value is to zero.
+        /// </summary>
+        public static double Norm(this Complex32 complex)
+        {
+            return complex.MagnitudeSquared;
+        }
+
+        /// <summary>
         /// Returns a Norm of the difference of two values of this type, which is
         /// appropriate for measuring how close together these two values are.
         /// </summary>
-        /// <param name="complex">The <see cref="Complex"/> number to perfom this operation on.</param>
-        /// <param name="otherValue">The value to compare with.</param>
-        /// <returns>A norm of the difference between this and the other value.</returns>
         public static double NormOfDifference(this Complex complex, Complex otherValue)
         {
             return (complex - otherValue).MagnitudeSquared();
+        }
+
+        /// <summary>
+        /// Returns a Norm of the difference of two values of this type, which is
+        /// appropriate for measuring how close together these two values are.
+        /// </summary>
+        public static double NormOfDifference(this Complex32 complex, Complex32 otherValue)
+        {
+            return (complex - otherValue).MagnitudeSquared;
         }
 
         /// <summary>

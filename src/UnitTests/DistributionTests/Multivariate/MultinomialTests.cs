@@ -149,7 +149,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
             var b = new Multinomial(p, n);
             for (var i = 0; i < b.P.Length; i++)
             {
-                AssertHelpers.AlmostEqual(res[i], b.Skewness[i], 12);
+                AssertHelpers.AlmostEqualRelative(res[i], b.Skewness[i], 12);
             }
         }
 
@@ -167,7 +167,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
             var b = new Multinomial(p, n);
             for (var i = 0; i < b.P.Length; i++)
             {
-                AssertHelpers.AlmostEqual(res[i], b.Variance[i], 12);
+                AssertHelpers.AlmostEqualRelative(res[i], b.Variance[i], 12);
             }
         }
 
@@ -185,7 +185,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
             var b = new Multinomial(p, n);
             for (var i = 0; i < b.P.Length; i++)
             {
-                AssertHelpers.AlmostEqual(res[i], b.Mean[i], 12);
+                AssertHelpers.AlmostEqualRelative(res[i], b.Mean[i], 12);
             }
         }
 
@@ -201,7 +201,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         public void ValidateProbability(double[] p, int[] x, double res)
         {
             var b = new Multinomial(p, x.Sum());
-            AssertHelpers.AlmostEqual(b.Probability(x), res, 12);
+            AssertHelpers.AlmostEqualRelative(b.Probability(x), res, 12);
         }
 
         /// <summary>
@@ -214,7 +214,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         public void ValidateProbabilityLn(int[] x)
         {
             var b = new Multinomial(_largeP, x.Sum());
-            AssertHelpers.AlmostEqual(b.ProbabilityLn(x), Math.Log(b.Probability(x)), 12);
+            AssertHelpers.AlmostEqualRelative(b.ProbabilityLn(x), Math.Log(b.Probability(x)), 12);
         }
 
         /// <summary>

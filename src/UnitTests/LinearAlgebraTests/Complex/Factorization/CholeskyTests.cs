@@ -136,7 +136,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Factorization
             {
                 for (var j = 0; j < matrixXfromC.ColumnCount; j++)
                 {
-                    AssertHelpers.AlmostEqual(matrixX[i, j], matrixXfromC[i, j], 8);
+                    AssertHelpers.AlmostEqualRelative(matrixX[i, j], matrixXfromC[i, j], 8);
                 }
             }
         }
@@ -166,7 +166,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Factorization
             // Check the reconstruction.
             for (var i = 0; i < order; i++)
             {
-                AssertHelpers.AlmostEqual(matrixB[i], matrixBReconstruct[i], 8);
+                AssertHelpers.AlmostEqual(matrixB[i], matrixBReconstruct[i], 10);
             }
 
             // Make sure A didn't change.
@@ -208,7 +208,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Factorization
             {
                 for (var j = 0; j < matrixB.ColumnCount; j++)
                 {
-                    AssertHelpers.AlmostEqual(matrixB[i, j], matrixBReconstruct[i, j], 7);
+                    AssertHelpers.AlmostEqual(matrixB[i, j], matrixBReconstruct[i, j], 10);
                 }
             }
 
@@ -249,7 +249,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Factorization
             // Check the reconstruction.
             for (var i = 0; i < order; i++)
             {
-                AssertHelpers.AlmostEqual(matrixB[i], matrixBReconstruct[i], 8);
+                AssertHelpers.AlmostEqual(matrixB[i], matrixBReconstruct[i], 10);
             }
 
             // Make sure A didn't change.
@@ -299,7 +299,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Factorization
             {
                 for (var j = 0; j < matrixB.ColumnCount; j++)
                 {
-                    AssertHelpers.AlmostEqual(matrixB[i, j], matrixBReconstruct[i, j], 7);
+                    AssertHelpers.AlmostEqual(matrixB[i, j], matrixBReconstruct[i, j], 10);
                 }
             }
 

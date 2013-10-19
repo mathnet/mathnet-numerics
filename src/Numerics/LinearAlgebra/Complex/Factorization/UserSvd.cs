@@ -369,7 +369,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
                 {
                     test = s[l].Magnitude + s[l + 1].Magnitude;
                     ztest = test + e[l].Magnitude;
-                    if (ztest.AlmostEqualInDecimalPlaces(test, 15))
+                    if (ztest.AlmostEqualRelative(test, 15))
                     {
                         e[l] = Complex.Zero;
                         break;
@@ -398,7 +398,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
                         }
 
                         ztest = test + s[ls].Magnitude;
-                        if (ztest.AlmostEqualInDecimalPlaces(test, 15))
+                        if (ztest.AlmostEqualRelative(test, 15))
                         {
                             s[ls] = Complex.Zero;
                             break;

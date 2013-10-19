@@ -72,7 +72,7 @@ namespace MathNet.Numerics
     /// </remarks>
     [Serializable]
     [StructLayout(LayoutKind.Sequential)]
-    public struct Complex32 : IFormattable, IEquatable<Complex32>, IPrecisionSupport<Complex32>
+    public struct Complex32 : IFormattable, IEquatable<Complex32>
     {
         /// <summary>
         /// The real component of the complex number.
@@ -788,37 +788,6 @@ namespace MathNet.Numerics
         public override bool Equals(object obj)
         {
             return (obj is Complex32) && Equals((Complex32)obj);
-        }
-
-        #endregion
-
-        #region IPrecisionSupport<Complex32>
-
-        /// <summary>
-        /// Returns a Norm of a value of this type, which is appropriate for measuring how
-        /// close this value is to zero.
-        /// </summary>
-        /// <returns>
-        /// A norm of this value.
-        /// </returns>
-        double IPrecisionSupport<Complex32>.Norm()
-        {
-            return MagnitudeSquared;
-        }
-
-        /// <summary>
-        /// Returns a Norm of the difference of two values of this type, which is
-        /// appropriate for measuring how close together these two values are.
-        /// </summary>
-        /// <param name="otherValue">
-        /// The value to compare with.
-        /// </param>
-        /// <returns>
-        /// A norm of the difference between this and the other value.
-        /// </returns>
-        double IPrecisionSupport<Complex32>.NormOfDifference(Complex32 otherValue)
-        {
-            return (this - otherValue).MagnitudeSquared;
         }
 
         #endregion

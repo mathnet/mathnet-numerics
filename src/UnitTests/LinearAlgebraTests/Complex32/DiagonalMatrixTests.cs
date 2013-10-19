@@ -222,7 +222,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
             {
                 for (var j = 0; j < matrixC.ColumnCount; j++)
                 {
-                    AssertHelpers.AlmostEqual(matrixA.Row(i)*matrixB.Column(j), matrixC[i, j], 15);
+                    AssertHelpers.AlmostEqualRelative(matrixA.Row(i)*matrixB.Column(j), matrixC[i, j], 15);
                 }
             }
         }
@@ -280,15 +280,15 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
         {
             var matrix = TestMatrices["Square3x3"];
             var denseMatrix = DenseMatrix.OfArray(TestData2D["Square3x3"]);
-            AssertHelpers.AlmostEqual(denseMatrix.FrobeniusNorm(), matrix.FrobeniusNorm(), 14);
+            AssertHelpers.AlmostEqualRelative(denseMatrix.FrobeniusNorm(), matrix.FrobeniusNorm(), 14);
 
             matrix = TestMatrices["Wide2x3"];
             denseMatrix = DenseMatrix.OfArray(TestData2D["Wide2x3"]);
-            AssertHelpers.AlmostEqual(denseMatrix.FrobeniusNorm(), matrix.FrobeniusNorm(), 14);
+            AssertHelpers.AlmostEqualRelative(denseMatrix.FrobeniusNorm(), matrix.FrobeniusNorm(), 14);
 
             matrix = TestMatrices["Tall3x2"];
             denseMatrix = DenseMatrix.OfArray(TestData2D["Tall3x2"]);
-            AssertHelpers.AlmostEqual(denseMatrix.FrobeniusNorm(), matrix.FrobeniusNorm(), 14);
+            AssertHelpers.AlmostEqualRelative(denseMatrix.FrobeniusNorm(), matrix.FrobeniusNorm(), 14);
         }
 
         /// <summary>
@@ -298,15 +298,15 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
         {
             var matrix = TestMatrices["Square3x3"];
             var denseMatrix = DenseMatrix.OfArray(TestData2D["Square3x3"]);
-            AssertHelpers.AlmostEqual(denseMatrix.InfinityNorm(), matrix.InfinityNorm(), 14);
+            AssertHelpers.AlmostEqualRelative(denseMatrix.InfinityNorm(), matrix.InfinityNorm(), 14);
 
             matrix = TestMatrices["Wide2x3"];
             denseMatrix = DenseMatrix.OfArray(TestData2D["Wide2x3"]);
-            AssertHelpers.AlmostEqual(denseMatrix.InfinityNorm(), matrix.InfinityNorm(), 14);
+            AssertHelpers.AlmostEqualRelative(denseMatrix.InfinityNorm(), matrix.InfinityNorm(), 14);
 
             matrix = TestMatrices["Tall3x2"];
             denseMatrix = DenseMatrix.OfArray(TestData2D["Tall3x2"]);
-            AssertHelpers.AlmostEqual(denseMatrix.InfinityNorm(), matrix.InfinityNorm(), 14);
+            AssertHelpers.AlmostEqualRelative(denseMatrix.InfinityNorm(), matrix.InfinityNorm(), 14);
         }
 
         /// <summary>
@@ -316,15 +316,15 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
         {
             var matrix = TestMatrices["Square3x3"];
             var denseMatrix = DenseMatrix.OfArray(TestData2D["Square3x3"]);
-            AssertHelpers.AlmostEqual(denseMatrix.L1Norm(), matrix.L1Norm(), 14);
+            AssertHelpers.AlmostEqualRelative(denseMatrix.L1Norm(), matrix.L1Norm(), 14);
 
             matrix = TestMatrices["Wide2x3"];
             denseMatrix = DenseMatrix.OfArray(TestData2D["Wide2x3"]);
-            AssertHelpers.AlmostEqual(denseMatrix.L1Norm(), matrix.L1Norm(), 14);
+            AssertHelpers.AlmostEqualRelative(denseMatrix.L1Norm(), matrix.L1Norm(), 14);
 
             matrix = TestMatrices["Tall3x2"];
             denseMatrix = DenseMatrix.OfArray(TestData2D["Tall3x2"]);
-            AssertHelpers.AlmostEqual(denseMatrix.L1Norm(), matrix.L1Norm(), 14);
+            AssertHelpers.AlmostEqualRelative(denseMatrix.L1Norm(), matrix.L1Norm(), 14);
         }
 
         /// <summary>
@@ -334,15 +334,15 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
         {
             var matrix = TestMatrices["Square3x3"];
             var denseMatrix = DenseMatrix.OfArray(TestData2D["Square3x3"]);
-            AssertHelpers.AlmostEqual(denseMatrix.L2Norm(), matrix.L2Norm(), 14);
+            AssertHelpers.AlmostEqualRelative(denseMatrix.L2Norm(), matrix.L2Norm(), 14);
 
             matrix = TestMatrices["Wide2x3"];
             denseMatrix = DenseMatrix.OfArray(TestData2D["Wide2x3"]);
-            AssertHelpers.AlmostEqual(denseMatrix.L2Norm(), matrix.L2Norm(), 14);
+            AssertHelpers.AlmostEqualRelative(denseMatrix.L2Norm(), matrix.L2Norm(), 14);
 
             matrix = TestMatrices["Tall3x2"];
             denseMatrix = DenseMatrix.OfArray(TestData2D["Tall3x2"]);
-            AssertHelpers.AlmostEqual(denseMatrix.L2Norm(), matrix.L2Norm(), 14);
+            AssertHelpers.AlmostEqualRelative(denseMatrix.L2Norm(), matrix.L2Norm(), 14);
         }
 
         /// <summary>
@@ -353,11 +353,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
         {
             var matrix = TestMatrices["Square3x3"];
             var denseMatrix = DenseMatrix.OfArray(TestData2D["Square3x3"]);
-            AssertHelpers.AlmostEqual(denseMatrix.Determinant(), matrix.Determinant(), 14);
+            AssertHelpers.AlmostEqualRelative(denseMatrix.Determinant(), matrix.Determinant(), 14);
 
             matrix = TestMatrices["Square4x4"];
             denseMatrix = DenseMatrix.OfArray(TestData2D["Square4x4"]);
-            AssertHelpers.AlmostEqual(denseMatrix.Determinant(), matrix.Determinant(), 14);
+            AssertHelpers.AlmostEqualRelative(denseMatrix.Determinant(), matrix.Determinant(), 14);
         }
 
         /// <summary>

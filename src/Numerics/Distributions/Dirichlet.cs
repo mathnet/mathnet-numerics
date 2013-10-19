@@ -303,7 +303,7 @@ namespace MathNet.Numerics.Distributions
                 term += (_alpha[_alpha.Length - 1] - 1.0)*Math.Log(1.0 - sumxi) - SpecialFunctions.GammaLn(_alpha[_alpha.Length - 1]);
                 sumalpha += _alpha[_alpha.Length - 1];
             }
-            else if (!sumxi.AlmostEqualInDecimalPlaces(1.0, 8))
+            else if (!sumxi.AlmostEqualRelative(1.0, 8))
             {
                 return 0.0;
             }

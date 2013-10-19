@@ -123,8 +123,8 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void CanCreateNormalFromMeanAndVariance(double mean, double var)
         {
             var n = Normal.WithMeanVariance(mean, var);
-            AssertHelpers.AlmostEqual(mean, n.Mean, 16);
-            AssertHelpers.AlmostEqual(var, n.Variance, 16);
+            AssertHelpers.AlmostEqualRelative(mean, n.Mean, 15);
+            AssertHelpers.AlmostEqualRelative(var, n.Variance, 15);
         }
 
         /// <summary>
@@ -141,8 +141,8 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void CanCreateNormalFromMeanAndPrecision(double mean, double prec)
         {
             var n = Normal.WithMeanPrecision(mean, prec);
-            AssertHelpers.AlmostEqual(mean, n.Mean, 15);
-            AssertHelpers.AlmostEqual(prec, n.Precision, 15);
+            AssertHelpers.AlmostEqualRelative(mean, n.Mean, 15);
+            AssertHelpers.AlmostEqualRelative(prec, n.Precision, 15);
         }
 
         /// <summary>
@@ -472,8 +472,8 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void ValidateCumulativeDistribution(double x, double f)
         {
             var n = Normal.WithMeanStdDev(5.0, 2.0);
-            AssertHelpers.AlmostEqual(f, n.CumulativeDistribution(x), 10);
-            AssertHelpers.AlmostEqual(f, Normal.CDF(5.0, 2.0, x), 10);
+            AssertHelpers.AlmostEqualRelative(f, n.CumulativeDistribution(x), 9);
+            AssertHelpers.AlmostEqualRelative(f, Normal.CDF(5.0, 2.0, x), 9);
         }
 
         /// <summary>
@@ -494,8 +494,8 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void ValidateInverseCumulativeDistribution(double x, double f)
         {
             var n = Normal.WithMeanStdDev(5.0, 2.0);
-            AssertHelpers.AlmostEqual(x, n.InverseCumulativeDistribution(f), 15);
-            AssertHelpers.AlmostEqual(x, Normal.InvCDF(5.0, 2.0, f), 15);
+            AssertHelpers.AlmostEqualRelative(x, n.InverseCumulativeDistribution(f), 14);
+            AssertHelpers.AlmostEqualRelative(x, Normal.InvCDF(5.0, 2.0, f), 14);
         }
 
         /// <summary>
@@ -511,8 +511,8 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
             var original = new Normal(mean, stddev, new Random(100));
             var estimated = Normal.Estimate(original.Samples().Take(10000));
 
-            AssertHelpers.AlmostEqual(mean, estimated.Mean, 2);
-            AssertHelpers.AlmostEqual(stddev, estimated.StdDev, 2);
+            AssertHelpers.AlmostEqualRelative(mean, estimated.Mean, 1);
+            AssertHelpers.AlmostEqualRelative(stddev, estimated.StdDev, 1);
         }
     }
 }

@@ -59,7 +59,7 @@ namespace MathNet.Numerics.UnitTests
         {
             var actual = new Complex(real, imag).Cos();
             var expected = new Complex(expectedReal, expectedImag);
-            AssertHelpers.AlmostEqual(expected, actual, 13);
+            AssertHelpers.AlmostEqualRelative(expected, actual, 12);
         }
 
         /// <summary>
@@ -80,7 +80,7 @@ namespace MathNet.Numerics.UnitTests
         {
             var actual = new Complex(real, imag).Sin();
             var expected = new Complex(expectedReal, expectedImag);
-            AssertHelpers.AlmostEqual(expected, actual, 13);
+            AssertHelpers.AlmostEqualRelative(expected, actual, 12);
         }
 
         /// <summary>
@@ -101,7 +101,7 @@ namespace MathNet.Numerics.UnitTests
         {
             var actual = new Complex(real, imag).Tan();
             var expected = new Complex(expectedReal, expectedImag);
-            AssertHelpers.AlmostEqual(expected, actual, 13);
+            AssertHelpers.AlmostEqualRelative(expected, actual, 12);
         }
 
         /// <summary>
@@ -117,7 +117,7 @@ namespace MathNet.Numerics.UnitTests
         public void CanComputeCosecant(double value, double expected)
         {
             var actual = Trig.Csc(value);
-            AssertHelpers.AlmostEqual(expected, actual, 13);
+            AssertHelpers.AlmostEqualRelative(expected, actual, 12);
         }
 
         /// <summary>
@@ -133,7 +133,7 @@ namespace MathNet.Numerics.UnitTests
         public void CanComputeCosine(double value, double expected)
         {
             var actual = Trig.Cos(value);
-            AssertHelpers.AlmostEqual(expected, actual, 14);
+            AssertHelpers.AlmostEqualRelative(expected, actual, 13);
         }
 
         /// <summary>
@@ -149,7 +149,7 @@ namespace MathNet.Numerics.UnitTests
         public void CanComputeCotangent(double value, double expected)
         {
             var actual = Trig.Cot(value);
-            AssertHelpers.AlmostEqual(expected, actual, 13);
+            AssertHelpers.AlmostEqualRelative(expected, actual, 12);
         }
 
         /// <summary>
@@ -165,7 +165,7 @@ namespace MathNet.Numerics.UnitTests
         public void CanComputeHyperbolicCosecant(double value, double expected)
         {
             var actual = Trig.Csch(value);
-            AssertHelpers.AlmostEqual(expected, actual, 15);
+            AssertHelpers.AlmostEqualRelative(expected, actual, 14);
         }
 
         /// <summary>
@@ -181,7 +181,7 @@ namespace MathNet.Numerics.UnitTests
         public void CanComputeHyperbolicCosine(double value, double expected)
         {
             var actual = Trig.Cosh(value);
-            AssertHelpers.AlmostEqual(expected, actual, 15);
+            AssertHelpers.AlmostEqualRelative(expected, actual, 15);
         }
 
         /// <summary>
@@ -197,7 +197,7 @@ namespace MathNet.Numerics.UnitTests
         public void CanComputeHyperbolicCotangent(double value, double expected)
         {
             var actual = Trig.Coth(value);
-            AssertHelpers.AlmostEqual(expected, actual, 15);
+            AssertHelpers.AlmostEqualRelative(expected, actual, 14);
         }
 
         /// <summary>
@@ -213,7 +213,7 @@ namespace MathNet.Numerics.UnitTests
         public void CanComputeHyperbolicSecant(double value, double expected)
         {
             var actual = Trig.Sech(value);
-            AssertHelpers.AlmostEqual(expected, actual, 15);
+            AssertHelpers.AlmostEqualRelative(expected, actual, 15);
         }
 
         /// <summary>
@@ -228,7 +228,7 @@ namespace MathNet.Numerics.UnitTests
         public void CanComputeHyperbolicSine(double value, double expected)
         {
             var actual = Trig.Sinh(value);
-            AssertHelpers.AlmostEqual(expected, actual, 15);
+            AssertHelpers.AlmostEqualRelative(expected, actual, 15);
         }
 
         /// <summary>
@@ -244,7 +244,7 @@ namespace MathNet.Numerics.UnitTests
         public void CanComputeHyperbolicTangent(double value, double expected)
         {
             var actual = Trig.Tanh(value);
-            AssertHelpers.AlmostEqual(expected, actual, 15);
+            AssertHelpers.AlmostEqualRelative(expected, actual, 15);
         }
 
         /// <summary>
@@ -259,7 +259,7 @@ namespace MathNet.Numerics.UnitTests
         public void CanComputeInverseCosecant(double value, double expected)
         {
             var actual = Trig.Acsc(value);
-            AssertHelpers.AlmostEqual(expected, actual, 14);
+            AssertHelpers.AlmostEqualRelative(expected, actual, 13);
         }
 
         /// <summary>
@@ -274,7 +274,7 @@ namespace MathNet.Numerics.UnitTests
         public void CanComputeInverseCosine(double value, double expected)
         {
             var actual = Trig.Acos(value);
-            AssertHelpers.AlmostEqual(expected, actual, 15);
+            AssertHelpers.AlmostEqualRelative(expected, actual, 15);
         }
 
         /// <summary>
@@ -290,7 +290,7 @@ namespace MathNet.Numerics.UnitTests
         public void CanComputeInverseCotangent(double value, double expected)
         {
             var actual = Trig.Acot(value);
-            AssertHelpers.AlmostEqual(expected, actual, 14);
+            AssertHelpers.AlmostEqualRelative(expected, actual, 14);
         }
 
         /// <summary>
@@ -306,7 +306,7 @@ namespace MathNet.Numerics.UnitTests
         public void CanComputeInverseHyperbolicCosecant(double value, double expected)
         {
             var actual = Trig.Acsch(value);
-            AssertHelpers.AlmostEqual(expected, actual, 14);
+            AssertHelpers.AlmostEqualRelative(expected, actual, 14);
         }
 
         /// <summary>
@@ -319,7 +319,7 @@ namespace MathNet.Numerics.UnitTests
         public void CanComputeInverseHyperbolicCosine(double value, double expected)
         {
             var actual = Trig.Acosh(value);
-            AssertHelpers.AlmostEqual(expected, actual, 14);
+            AssertHelpers.AlmostEqualRelative(expected, actual, 14);
         }
 
         /// <summary>
@@ -334,7 +334,7 @@ namespace MathNet.Numerics.UnitTests
         public void CanComputeInverseHyperbolicCotangent(double value, double expected)
         {
             var actual = Trig.Acoth(value);
-            AssertHelpers.AlmostEqual(expected, actual, 14);
+            AssertHelpers.AlmostEqualRelative(expected, actual, 13);
         }
 
         /// <summary>
@@ -348,7 +348,7 @@ namespace MathNet.Numerics.UnitTests
         public void CanComputeInverseHyperbolicSecant(double value, double expected)
         {
             var actual = Trig.Asech(value);
-            AssertHelpers.AlmostEqual(expected, actual, 14);
+            AssertHelpers.AlmostEqualRelative(expected, actual, 14);
         }
 
         /// <summary>
@@ -364,7 +364,7 @@ namespace MathNet.Numerics.UnitTests
         public void CanComputeInverseHyperbolicSine(double value, double expected)
         {
             var actual = Trig.Asinh(value);
-            AssertHelpers.AlmostEqual(expected, actual, 14);
+            AssertHelpers.AlmostEqualRelative(expected, actual, 14);
         }
 
         /// <summary>
@@ -380,7 +380,7 @@ namespace MathNet.Numerics.UnitTests
         public void CanComputeInverseHyperbolicTangent(double value, double expected)
         {
             var actual = Trig.Atanh(value);
-            AssertHelpers.AlmostEqual(expected, actual, 14);
+            AssertHelpers.AlmostEqualRelative(expected, actual, 13);
         }
 
         /// <summary>
@@ -395,7 +395,7 @@ namespace MathNet.Numerics.UnitTests
         public void CanComputeInverseSecant(double value, double expected)
         {
             var actual = Trig.Asec(value);
-            AssertHelpers.AlmostEqual(expected, actual, 14);
+            AssertHelpers.AlmostEqualRelative(expected, actual, 14);
         }
 
         /// <summary>
@@ -411,7 +411,7 @@ namespace MathNet.Numerics.UnitTests
         public void CanComputeInverseSine(double value, double expected)
         {
             var actual = Trig.Asin(value);
-            AssertHelpers.AlmostEqual(expected, actual, 14);
+            AssertHelpers.AlmostEqualRelative(expected, actual, 14);
         }
 
         /// <summary>
@@ -427,7 +427,7 @@ namespace MathNet.Numerics.UnitTests
         public void CanComputeInverseTangent(double value, double expected)
         {
             var actual = Trig.Atan(value);
-            AssertHelpers.AlmostEqual(expected, actual, 14);
+            AssertHelpers.AlmostEqualRelative(expected, actual, 13);
         }
 
         /// <summary>
@@ -443,7 +443,7 @@ namespace MathNet.Numerics.UnitTests
         public void CanComputeSecant(double value, double expected)
         {
             var actual = Trig.Sec(value);
-            AssertHelpers.AlmostEqual(expected, actual, 14);
+            AssertHelpers.AlmostEqualRelative(expected, actual, 13);
         }
 
         /// <summary>
@@ -459,7 +459,7 @@ namespace MathNet.Numerics.UnitTests
         public void CanComputeSine(double value, double expected)
         {
             var actual = Trig.Sin(value);
-            AssertHelpers.AlmostEqual(expected, actual, 13);
+            AssertHelpers.AlmostEqualRelative(expected, actual, 12);
         }
 
         /// <summary>
@@ -475,7 +475,7 @@ namespace MathNet.Numerics.UnitTests
         public void CanComputeTangent(double value, double expected)
         {
             var actual = Trig.Tan(value);
-            AssertHelpers.AlmostEqual(expected, actual, 13);
+            AssertHelpers.AlmostEqualRelative(expected, actual, 12);
         }
 
         /// <summary>
@@ -484,7 +484,7 @@ namespace MathNet.Numerics.UnitTests
         [Test]
         public void CanConvertDegreeToGrad()
         {
-            AssertHelpers.AlmostEqual(90 / .9, Trig.DegreeToGrad(90), 15);
+            AssertHelpers.AlmostEqualRelative(90 / .9, Trig.DegreeToGrad(90), 15);
         }
 
         /// <summary>
@@ -493,7 +493,7 @@ namespace MathNet.Numerics.UnitTests
         [Test]
         public void CanConvertDegreeToRadian()
         {
-            AssertHelpers.AlmostEqual(Math.PI / 2, Trig.DegreeToRadian(90), 15);
+            AssertHelpers.AlmostEqualRelative(Math.PI / 2, Trig.DegreeToRadian(90), 15);
         }
 
         /// <summary>
@@ -502,7 +502,7 @@ namespace MathNet.Numerics.UnitTests
         [Test]
         public void CanConvertGradToDegree()
         {
-            AssertHelpers.AlmostEqual(180, Trig.GradToDegree(200), 15);
+            AssertHelpers.AlmostEqualRelative(180, Trig.GradToDegree(200), 15);
         }
 
         /// <summary>
@@ -511,7 +511,7 @@ namespace MathNet.Numerics.UnitTests
         [Test]
         public void CanConvertGradToRadian()
         {
-            AssertHelpers.AlmostEqual(Math.PI, Trig.GradToRadian(200), 15);
+            AssertHelpers.AlmostEqualRelative(Math.PI, Trig.GradToRadian(200), 15);
         }
 
         /// <summary>
@@ -520,7 +520,7 @@ namespace MathNet.Numerics.UnitTests
         [Test]
         public void CanConvertRadianToDegree()
         {
-            AssertHelpers.AlmostEqual(60.0, Trig.RadianToDegree(Math.PI / 3.0), 15);
+            AssertHelpers.AlmostEqualRelative(60.0, Trig.RadianToDegree(Math.PI / 3.0), 14);
         }
 
         /// <summary>
@@ -529,7 +529,7 @@ namespace MathNet.Numerics.UnitTests
         [Test]
         public void CanConvertRadianToGrad()
         {
-            AssertHelpers.AlmostEqual(200.0 / 3.0, Trig.RadianToGrad(Math.PI / 3.0), 15);
+            AssertHelpers.AlmostEqualRelative(200.0 / 3.0, Trig.RadianToGrad(Math.PI / 3.0), 14);
         }
 
         /// <summary>
@@ -550,7 +550,7 @@ namespace MathNet.Numerics.UnitTests
         {
             var actual = new Complex(real, imag).Cot();
             var expected = new Complex(expectedReal, expectedImag);
-            AssertHelpers.AlmostEqual(expected, actual, 13);
+            AssertHelpers.AlmostEqualRelative(expected, actual, 12);
         }
 
         /// <summary>
@@ -571,7 +571,7 @@ namespace MathNet.Numerics.UnitTests
         {
             var actual = new Complex(real, imag).Sec();
             var expected = new Complex(expectedReal, expectedImag);
-            AssertHelpers.AlmostEqual(expected, actual, 13);
+            AssertHelpers.AlmostEqualRelative(expected, actual, 12);
         }
 
         /// <summary>
@@ -592,7 +592,7 @@ namespace MathNet.Numerics.UnitTests
         {
             var actual = new Complex(real, imag).Csc();
             var expected = new Complex(expectedReal, expectedImag);
-            AssertHelpers.AlmostEqual(expected, actual, 13);
+            AssertHelpers.AlmostEqualRelative(expected, actual, 12);
         }
 
         /// <summary>
@@ -614,7 +614,7 @@ namespace MathNet.Numerics.UnitTests
         {
             var actual = new Complex(real, imag).Sinh();
             var expected = new Complex(expectedReal, expectedImag);
-            AssertHelpers.AlmostEqual(expected, actual, 14);
+            AssertHelpers.AlmostEqualRelative(expected, actual, 14);
         }
 
         /// <summary>
@@ -636,7 +636,7 @@ namespace MathNet.Numerics.UnitTests
         {
             var actual = new Complex(real, imag).Cosh();
             var expected = new Complex(expectedReal, expectedImag);
-            AssertHelpers.AlmostEqual(expected, actual, 14);
+            AssertHelpers.AlmostEqualRelative(expected, actual, 14);
         }
 
         /// <summary>
@@ -658,7 +658,7 @@ namespace MathNet.Numerics.UnitTests
         {
             var actual = new Complex(real, imag).Tanh();
             var expected = new Complex(expectedReal, expectedImag);
-            AssertHelpers.AlmostEqual(expected, actual, 14);
+            AssertHelpers.AlmostEqualRelative(expected, actual, 14);
         }
 
         /// <summary>
@@ -680,7 +680,7 @@ namespace MathNet.Numerics.UnitTests
         {
             var actual = new Complex(real, imag).Coth();
             var expected = new Complex(expectedReal, expectedImag);
-            AssertHelpers.AlmostEqual(expected, actual, 14);
+            AssertHelpers.AlmostEqualRelative(expected, actual, 14);
         }
 
         /// <summary>
@@ -702,7 +702,7 @@ namespace MathNet.Numerics.UnitTests
         {
             var actual = new Complex(real, imag).Sech();
             var expected = new Complex(expectedReal, expectedImag);
-            AssertHelpers.AlmostEqual(expected, actual, 14);
+            AssertHelpers.AlmostEqualRelative(expected, actual, 14);
         }
 
         /// <summary>
@@ -724,7 +724,7 @@ namespace MathNet.Numerics.UnitTests
         {
             var actual = new Complex(real, imag).Csch();
             var expected = new Complex(expectedReal, expectedImag);
-            AssertHelpers.AlmostEqual(expected, actual, 14);
+            AssertHelpers.AlmostEqualRelative(expected, actual, 14);
         }
 
         /// <summary>
@@ -748,7 +748,7 @@ namespace MathNet.Numerics.UnitTests
         {
             var actual = new Complex(real, imag).Asin();
             var expected = new Complex(expectedReal, expectedImag);
-            AssertHelpers.AlmostEqual(expected, actual, 14);
+            AssertHelpers.AlmostEqualRelative(expected, actual, 13);
         }
 
         /// <summary>
@@ -772,7 +772,7 @@ namespace MathNet.Numerics.UnitTests
         {
             var actual = new Complex(real, imag).Acos();
             var expected = new Complex(expectedReal, expectedImag);
-            AssertHelpers.AlmostEqual(expected, actual, 14);
+            AssertHelpers.AlmostEqualRelative(expected, actual, 14);
         }
 
         /// <summary>
@@ -794,7 +794,7 @@ namespace MathNet.Numerics.UnitTests
         {
             var actual = new Complex(real, imag).Atan();
             var expected = new Complex(expectedReal, expectedImag);
-            AssertHelpers.AlmostEqual(expected, actual, 14);
+            AssertHelpers.AlmostEqualRelative(expected, actual, 14);
         }
 
         /// <summary>
@@ -816,7 +816,7 @@ namespace MathNet.Numerics.UnitTests
         {
             var actual = new Complex(real, imag).Acot();
             var expected = new Complex(expectedReal, expectedImag);
-            AssertHelpers.AlmostEqual(expected, actual, 14);
+            AssertHelpers.AlmostEqualRelative(expected, actual, 14);
         }
 
         /// <summary>
@@ -837,7 +837,7 @@ namespace MathNet.Numerics.UnitTests
         {
             var actual = new Complex(real, imag).Asec();
             var expected = new Complex(expectedReal, expectedImag);
-            AssertHelpers.AlmostEqual(expected, actual, 14);
+            AssertHelpers.AlmostEqualRelative(expected, actual, 14);
         }
 
         /// <summary>
@@ -858,7 +858,7 @@ namespace MathNet.Numerics.UnitTests
         {
             var actual = new Complex(real, imag).Acsc();
             var expected = new Complex(expectedReal, expectedImag);
-            AssertHelpers.AlmostEqual(expected, actual, 14);
+            AssertHelpers.AlmostEqualRelative(expected, actual, 14);
         }
 
         /// <summary>
@@ -879,7 +879,7 @@ namespace MathNet.Numerics.UnitTests
         {
             var actual = new Complex(real, imag).Asinh();
             var expected = new Complex(expectedReal, expectedImag);
-            AssertHelpers.AlmostEqual(expected, actual, 14);
+            AssertHelpers.AlmostEqualRelative(expected, actual, 12);
         }
 
         /// <summary>
@@ -900,7 +900,7 @@ namespace MathNet.Numerics.UnitTests
         {
             var actual = new Complex(real, imag).Acosh();
             var expected = new Complex(expectedReal, expectedImag);
-            AssertHelpers.AlmostEqual(expected, actual, 14);
+            AssertHelpers.AlmostEqualRelative(expected, actual, 14);
         }
 
         /// <summary>
@@ -921,7 +921,7 @@ namespace MathNet.Numerics.UnitTests
         {
             var actual = new Complex(real, imag).Atanh();
             var expected = new Complex(expectedReal, expectedImag);
-            AssertHelpers.AlmostEqual(expected, actual, 14);
+            AssertHelpers.AlmostEqualRelative(expected, actual, 14);
         }
 
         /// <summary>
@@ -942,7 +942,7 @@ namespace MathNet.Numerics.UnitTests
         {
             var actual = new Complex(real, imag).Acoth();
             var expected = new Complex(expectedReal, expectedImag);
-            AssertHelpers.AlmostEqual(expected, actual, 14);
+            AssertHelpers.AlmostEqualRelative(expected, actual, 14);
         }
 
         /// <summary>
@@ -963,7 +963,7 @@ namespace MathNet.Numerics.UnitTests
         {
             var actual = new Complex(real, imag).Asech();
             var expected = new Complex(expectedReal, expectedImag);
-            AssertHelpers.AlmostEqual(expected, actual, 14);
+            AssertHelpers.AlmostEqualRelative(expected, actual, 14);
         }
 
         /// <summary>
@@ -984,7 +984,7 @@ namespace MathNet.Numerics.UnitTests
         {
             var actual = new Complex(real, imag).Acsch();
             var expected = new Complex(expectedReal, expectedImag);
-            AssertHelpers.AlmostEqual(expected, actual, 14);
+            AssertHelpers.AlmostEqualRelative(expected, actual, 13);
         }
     }
 }

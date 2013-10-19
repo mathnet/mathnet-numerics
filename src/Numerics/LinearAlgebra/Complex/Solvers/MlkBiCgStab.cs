@@ -343,7 +343,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
 
                 // c_((j-1)k+k) = q^T_1 w_((j-1)k+k)
                 c[k - 1] = _startingVectors[0].ConjugateDotProduct(w[k - 1]);
-                if (c[k - 1].Real.AlmostEqual(0, 1) && c[k - 1].Imaginary.AlmostEqual(0, 1))
+                if (c[k - 1].Real.AlmostEqualNumbersBetween(0, 1) && c[k - 1].Imaginary.AlmostEqualNumbersBetween(0, 1))
                 {
                     throw new Exception("Iterative solver experience a numerical break down");
                 }
@@ -366,7 +366,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
                 // If rho is zero then temp is a zero vector and we're probably
                 // about to have zero residuals (i.e. an exact solution).
                 // So set rho to 1.0 because in the next step it will turn to zero.
-                if (rho.Real.AlmostEqual(0, 1) && rho.Imaginary.AlmostEqual(0, 1))
+                if (rho.Real.AlmostEqualNumbersBetween(0, 1) && rho.Imaginary.AlmostEqualNumbersBetween(0, 1))
                 {
                     rho = 1.0;
                 }
@@ -444,7 +444,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
                     }
 
                     beta = rho*c[k - 1];
-                    if (beta.Real.AlmostEqual(0, 1) && beta.Imaginary.AlmostEqual(0, 1))
+                    if (beta.Real.AlmostEqualNumbersBetween(0, 1) && beta.Imaginary.AlmostEqualNumbersBetween(0, 1))
                     {
                         throw new Exception("Iterative solver experience a numerical break down");
                     }
@@ -496,7 +496,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
                     {
                         // c_(jk+1) = q^T_i+1 d_(jk+i)
                         c[i] = _startingVectors[i + 1].ConjugateDotProduct(d[i]);
-                        if (c[i].Real.AlmostEqual(0, 1) && c[i].Imaginary.AlmostEqual(0, 1))
+                        if (c[i].Real.AlmostEqualNumbersBetween(0, 1) && c[i].Imaginary.AlmostEqualNumbersBetween(0, 1))
                         {
                             throw new Exception("Iterative solver experience a numerical break down");
                         }

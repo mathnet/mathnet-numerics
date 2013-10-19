@@ -121,7 +121,7 @@ namespace MathNet.Numerics.UnitTests.ComplexTests
         {
             var value = new Complex32(real, imag);
             var expected = new Complex32(expectedReal, expectedImag);
-            AssertHelpers.AlmostEqual(expected, value.Exponential(), 7);
+            AssertHelpers.AlmostEqualRelative(expected, value.Exponential(), 6);
         }
 
         /// <summary>
@@ -140,7 +140,7 @@ namespace MathNet.Numerics.UnitTests.ComplexTests
         {
             var value = new Complex32(real, imag);
             var expected = new Complex32(expectedReal, expectedImag);
-            AssertHelpers.AlmostEqual(expected, value.NaturalLogarithm(), 7);
+            AssertHelpers.AlmostEqualRelative(expected, value.NaturalLogarithm(), 7);
         }
 
         /// <summary>
@@ -151,38 +151,38 @@ namespace MathNet.Numerics.UnitTests.ComplexTests
         {
             var a = new Complex32(1.19209289550780998537e-7f, 1.19209289550780998537e-7f);
             var b = new Complex32(1.19209289550780998537e-7f, 1.19209289550780998537e-7f);
-            AssertHelpers.AlmostEqual(
-                new Complex32(9.99998047207974718744e-1f, -1.76553541154378695012e-6f), a.Power(b), 7);
+            AssertHelpers.AlmostEqualRelative(
+                new Complex32(9.99998047207974718744e-1f, -1.76553541154378695012e-6f), a.Power(b), 6);
             a = new Complex32(0.0f, 1.19209289550780998537e-7f);
             b = new Complex32(0.0f, -1.19209289550780998537e-7f);
-            AssertHelpers.AlmostEqual(new Complex32(1.00000018725172576491f, 1.90048076369011843105e-6f), a.Power(b), 7);
+            AssertHelpers.AlmostEqualRelative(new Complex32(1.00000018725172576491f, 1.90048076369011843105e-6f), a.Power(b), 6);
             a = new Complex32(0.0f, -1.19209289550780998537e-7f);
             b = new Complex32(0.0f, 0.5f);
-            AssertHelpers.AlmostEqual(new Complex32(-2.56488189382693049636e-1f, -2.17823120666116144959f), a.Power(b), 5);
+            AssertHelpers.AlmostEqualRelative(new Complex32(-2.56488189382693049636e-1f, -2.17823120666116144959f), a.Power(b), 4);
             a = new Complex32(0.0f, 0.5f);
             b = new Complex32(0.0f, -0.5f);
-            AssertHelpers.AlmostEqual(new Complex32(2.06287223508090495171f, 7.45007062179724087859e-1f), a.Power(b), 7);
+            AssertHelpers.AlmostEqualRelative(new Complex32(2.06287223508090495171f, 7.45007062179724087859e-1f), a.Power(b), 6);
             a = new Complex32(0.0f, -0.5f);
             b = new Complex32(0.0f, 1.0f);
-            AssertHelpers.AlmostEqual(new Complex32(3.70040633557002510874f, -3.07370876701949232239f), a.Power(b), 7);
+            AssertHelpers.AlmostEqualRelative(new Complex32(3.70040633557002510874f, -3.07370876701949232239f), a.Power(b), 6);
             a = new Complex32(0.0f, 2.0f);
             b = new Complex32(0.0f, -2.0f);
-            AssertHelpers.AlmostEqual(new Complex32(4.24532146387429353891f, -2.27479427903521192648e1f), a.Power(b), 6);
+            AssertHelpers.AlmostEqualRelative(new Complex32(4.24532146387429353891f, -2.27479427903521192648e1f), a.Power(b), 5);
             a = new Complex32(0.0f, -8.388608e6f);
             b = new Complex32(1.19209289550780998537e-7f, 0.0f);
-            AssertHelpers.AlmostEqual(new Complex32(1.00000190048219620166f, -1.87253870018168043834e-7f), a.Power(b), 7);
+            AssertHelpers.AlmostEqualRelative(new Complex32(1.00000190048219620166f, -1.87253870018168043834e-7f), a.Power(b), 6);
             a = new Complex32(0.0f, 0.0f);
             b = new Complex32(0.0f, 0.0f);
-            AssertHelpers.AlmostEqual(new Complex32(1.0f, 0.0f), a.Power(b), 7);
+            AssertHelpers.AlmostEqualRelative(new Complex32(1.0f, 0.0f), a.Power(b), 6);
             a = new Complex32(0.0f, 0.0f);
             b = new Complex32(1.0f, 0.0f);
-            AssertHelpers.AlmostEqual(new Complex32(0.0f, 0.0f), a.Power(b), 7);
+            AssertHelpers.AlmostEqualRelative(new Complex32(0.0f, 0.0f), a.Power(b), 6);
             a = new Complex32(0.0f, 0.0f);
             b = new Complex32(-1.0f, 0.0f);
-            AssertHelpers.AlmostEqual(new Complex32(float.PositiveInfinity, 0.0f), a.Power(b), 7);
+            AssertHelpers.AlmostEqualRelative(new Complex32(float.PositiveInfinity, 0.0f), a.Power(b), 6);
             a = new Complex32(0.0f, 0.0f);
             b = new Complex32(-1.0f, 1.0f);
-            AssertHelpers.AlmostEqual(new Complex32(float.PositiveInfinity, float.PositiveInfinity), a.Power(b), 7);
+            AssertHelpers.AlmostEqualRelative(new Complex32(float.PositiveInfinity, float.PositiveInfinity), a.Power(b), 6);
             a = new Complex32(0.0f, 0.0f);
             b = new Complex32(0.0f, 1.0f);
             Assert.That(a.Power(b).IsNaN());
@@ -196,22 +196,22 @@ namespace MathNet.Numerics.UnitTests.ComplexTests
         {
             var a = new Complex32(1.19209289550780998537e-7f, 1.19209289550780998537e-7f);
             var b = new Complex32(1.19209289550780998537e-7f, 1.19209289550780998537e-7f);
-            AssertHelpers.AlmostEqual(new Complex32(0.0f, 0.0f), a.Root(b), 7);
+            AssertHelpers.AlmostEqualRelative(new Complex32(0.0f, 0.0f), a.Root(b), 6);
             a = new Complex32(0.0f, -1.19209289550780998537e-7f);
             b = new Complex32(0.0f, 0.5f);
-            AssertHelpers.AlmostEqual(new Complex32(0.038550761943650161f, 0.019526430428319544f), a.Root(b), 6);
+            AssertHelpers.AlmostEqualRelative(new Complex32(0.038550761943650161f, 0.019526430428319544f), a.Root(b), 5);
             a = new Complex32(0.0f, 0.5f);
             b = new Complex32(0.0f, -0.5f);
-            AssertHelpers.AlmostEqual(new Complex32(0.007927894711475968f, -0.042480480425152213f), a.Root(b), 6);
+            AssertHelpers.AlmostEqualRelative(new Complex32(0.007927894711475968f, -0.042480480425152213f), a.Root(b), 5);
             a = new Complex32(0.0f, -0.5f);
             b = new Complex32(0.0f, 1.0f);
-            AssertHelpers.AlmostEqual(new Complex32(0.15990905692806806f, 0.13282699942462053f), a.Root(b), 7);
+            AssertHelpers.AlmostEqualRelative(new Complex32(0.15990905692806806f, 0.13282699942462053f), a.Root(b), 6);
             a = new Complex32(0.0f, 2.0f);
             b = new Complex32(0.0f, -2.0f);
-            AssertHelpers.AlmostEqual(new Complex32(0.42882900629436788f, 0.15487175246424678f), a.Root(b), 7);
+            AssertHelpers.AlmostEqualRelative(new Complex32(0.42882900629436788f, 0.15487175246424678f), a.Root(b), 6);
             a = new Complex32(0.0f, -8.388608e6f);
             b = new Complex32(1.19209289550780998537e-7f, 0.0f);
-            AssertHelpers.AlmostEqual(new Complex32(float.PositiveInfinity, float.NegativeInfinity), a.Root(b), 7);
+            AssertHelpers.AlmostEqualRelative(new Complex32(float.PositiveInfinity, float.NegativeInfinity), a.Root(b), 6);
         }
 
         /// <summary>
@@ -221,17 +221,17 @@ namespace MathNet.Numerics.UnitTests.ComplexTests
         public void CanComputeSquare()
         {
             var complex = new Complex32(1.19209289550780998537e-7f, 1.19209289550780998537e-7f);
-            AssertHelpers.AlmostEqual(new Complex32(0, 2.8421709430403888e-14f), complex.Square(), 7);
+            AssertHelpers.AlmostEqualRelative(new Complex32(0, 2.8421709430403888e-14f), complex.Square(), 7);
             complex = new Complex32(0.0f, 1.19209289550780998537e-7f);
-            AssertHelpers.AlmostEqual(new Complex32(-1.4210854715201944e-14f, 0.0f), complex.Square(), 7);
+            AssertHelpers.AlmostEqualRelative(new Complex32(-1.4210854715201944e-14f, 0.0f), complex.Square(), 7);
             complex = new Complex32(0.0f, -1.19209289550780998537e-7f);
-            AssertHelpers.AlmostEqual(new Complex32(-1.4210854715201944e-14f, 0.0f), complex.Square(), 7);
+            AssertHelpers.AlmostEqualRelative(new Complex32(-1.4210854715201944e-14f, 0.0f), complex.Square(), 7);
             complex = new Complex32(0.0f, 0.5f);
-            AssertHelpers.AlmostEqual(new Complex32(-0.25f, 0.0f), complex.Square(), 7);
+            AssertHelpers.AlmostEqualRelative(new Complex32(-0.25f, 0.0f), complex.Square(), 7);
             complex = new Complex32(0.0f, -0.5f);
-            AssertHelpers.AlmostEqual(new Complex32(-0.25f, 0.0f), complex.Square(), 7);
+            AssertHelpers.AlmostEqualRelative(new Complex32(-0.25f, 0.0f), complex.Square(), 7);
             complex = new Complex32(0.0f, -8.388608e6f);
-            AssertHelpers.AlmostEqual(new Complex32(-70368744177664.0f, 0.0f), complex.Square(), 7);
+            AssertHelpers.AlmostEqualRelative(new Complex32(-70368744177664.0f, 0.0f), complex.Square(), 7);
         }
 
         /// <summary>
@@ -241,24 +241,24 @@ namespace MathNet.Numerics.UnitTests.ComplexTests
         public void CanComputeSquareRoot()
         {
             var complex = new Complex32(1.19209289550780998537e-7f, 1.19209289550780998537e-7f);
-            AssertHelpers.AlmostEqual(
+            AssertHelpers.AlmostEqualRelative(
                 new Complex32(0.00037933934912842666f, 0.00015712750315077684f), complex.SquareRoot(), 7);
             complex = new Complex32(0.0f, 1.19209289550780998537e-7f);
-            AssertHelpers.AlmostEqual(
+            AssertHelpers.AlmostEqualRelative(
                 new Complex32(0.00024414062499999973f, 0.00024414062499999976f), complex.SquareRoot(), 7);
             complex = new Complex32(0.0f, -1.19209289550780998537e-7f);
-            AssertHelpers.AlmostEqual(
+            AssertHelpers.AlmostEqualRelative(
                 new Complex32(0.00024414062499999973f, -0.00024414062499999976f), complex.SquareRoot(), 7);
             complex = new Complex32(0.0f, 0.5f);
-            AssertHelpers.AlmostEqual(new Complex32(0.5f, 0.5f), complex.SquareRoot(), 7);
+            AssertHelpers.AlmostEqualRelative(new Complex32(0.5f, 0.5f), complex.SquareRoot(), 7);
             complex = new Complex32(0.0f, -0.5f);
-            AssertHelpers.AlmostEqual(new Complex32(0.5f, -0.5f), complex.SquareRoot(), 7);
+            AssertHelpers.AlmostEqualRelative(new Complex32(0.5f, -0.5f), complex.SquareRoot(), 7);
             complex = new Complex32(0.0f, -8.388608e6f);
-            AssertHelpers.AlmostEqual(new Complex32(2048.0f, -2048.0f), complex.SquareRoot(), 7);
+            AssertHelpers.AlmostEqualRelative(new Complex32(2048.0f, -2048.0f), complex.SquareRoot(), 7);
             complex = new Complex32(8.388608e6f, 1.19209289550780998537e-7f);
-            AssertHelpers.AlmostEqual(new Complex32(2896.3093757400989f, 2.0579515874459933e-11f), complex.SquareRoot(), 7);
+            AssertHelpers.AlmostEqualRelative(new Complex32(2896.3093757400989f, 2.0579515874459933e-11f), complex.SquareRoot(), 7);
             complex = new Complex32(0.0f, 0.0f);
-            AssertHelpers.AlmostEqual(Complex32.Zero, complex.SquareRoot(), 7);
+            AssertHelpers.AlmostEqualRelative(Complex32.Zero, complex.SquareRoot(), 7);
         }
 
         /// <summary>

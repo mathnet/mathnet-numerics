@@ -341,7 +341,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void ValidateDensity(double alpha, double beta, double scale, double location, double x, double d)
         {
             var n = new Stable(alpha, beta, scale, location);
-            AssertHelpers.AlmostEqual(d, n.Density(x), 15);
+            AssertHelpers.AlmostEqualRelative(d, n.Density(x), 15);
         }
 
         /// <summary>
@@ -365,7 +365,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void ValidateDensityLn(double alpha, double beta, double scale, double location, double x, double dln)
         {
             var n = new Stable(alpha, beta, scale, location);
-            AssertHelpers.AlmostEqual(dln, n.DensityLn(x), 15);
+            AssertHelpers.AlmostEqualRelative(dln, n.DensityLn(x), 15);
         }
 
         /// <summary>
@@ -410,7 +410,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void ValidateCumulativeDistribution(double alpha, double beta, double scale, double location, double x, double cdf)
         {
             var n = new Stable(alpha, beta, scale, location);
-            AssertHelpers.AlmostEqual(cdf, n.CumulativeDistribution(x), 15);
+            AssertHelpers.AlmostEqualRelative(cdf, n.CumulativeDistribution(x), 15);
         }
     }
 }

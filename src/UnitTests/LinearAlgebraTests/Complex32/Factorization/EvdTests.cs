@@ -131,7 +131,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
             {
                 for (var j = 0; j < matrix.ColumnCount; j++)
                 {
-                    AssertHelpers.AlmostEqual(matrix[i, j], matrixA[i, j], 3);
+                    AssertHelpers.AlmostEqualRelative(matrix[i, j], matrixA[i, j], 3);
                 }
             }
         }

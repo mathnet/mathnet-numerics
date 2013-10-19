@@ -101,20 +101,10 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
 
             var dft = new DiscreteFourierTransform();
 
-            Assert.Throws(
-                typeof (ArgumentException),
-                () => dft.Radix2Forward(samples, FourierOptions.Default));
-
-            Assert.Throws(
-                typeof (ArgumentException),
-                () => dft.Radix2Inverse(samples, FourierOptions.Default));
-
-            Assert.Throws(
-                typeof (ArgumentException),
-                () => DiscreteFourierTransform.Radix2(samples, -1));
-            Assert.Throws(
-                typeof (ArgumentException),
-                () => DiscreteFourierTransform.Radix2Parallel(samples, -1));
+            Assert.Throws(typeof (ArgumentException), () => dft.Radix2Forward(samples, FourierOptions.Default));
+            Assert.Throws(typeof (ArgumentException), () => dft.Radix2Inverse(samples, FourierOptions.Default));
+            Assert.Throws(typeof (ArgumentException), () => DiscreteFourierTransform.Radix2(samples, -1));
+            Assert.Throws(typeof (ArgumentException), () => DiscreteFourierTransform.Radix2Parallel(samples, -1));
         }
     }
 }

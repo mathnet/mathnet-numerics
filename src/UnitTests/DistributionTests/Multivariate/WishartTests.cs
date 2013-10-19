@@ -286,7 +286,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
             x[0, 0] = 5;
 
             var d = new Wishart(nu, matrix);
-            AssertHelpers.AlmostEqual(density, d.Density(x), 16);
+            AssertHelpers.AlmostEqualRelative(density, d.Density(x), 16);
         }
 
         /// <summary>

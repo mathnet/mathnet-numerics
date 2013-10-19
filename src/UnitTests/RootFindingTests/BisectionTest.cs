@@ -201,7 +201,7 @@ namespace MathNet.Numerics.UnitTests.RootFindingTests
 
             double x = Bisection.FindRoot(f1, 0.1, 1);
             Assert.AreEqual(0.174749531708621, x, 1e-5);
-            Assert.AreEqual(0, f1(x), 1e-13);
+            Assert.AreEqual(0, f1(x), 1e-12);
         }    
 
         [Test]
@@ -255,7 +255,7 @@ namespace MathNet.Numerics.UnitTests.RootFindingTests
 
             double x = Bisection.FindRoot(f1, 0.01, 1);
             Assert.AreEqual(0.842524411168525, x, 1e-2);
-            Assert.AreEqual(0, f1(x), 1e-13);
+            Assert.AreEqual(0, f1(x), 1e-12);
         }
 
         [Test]
@@ -416,13 +416,13 @@ namespace MathNet.Numerics.UnitTests.RootFindingTests
 
             double x = Bisection.FindRoot(f1, -2, 0);
             Assert.AreEqual(-0.795219754733581, x, 1e-5);
-            Assert.AreEqual(0, f1(x), 1e-14);
+            Assert.AreEqual(0, f1(x), 1e-13);
             x = Bisection.FindRoot(f1, 0, 2);
             Assert.AreEqual(1.13413784566692, x, 1e-5);
-            Assert.AreEqual(0, f1(x), 1e-14);
+            Assert.AreEqual(0, f1(x), 1e-13);
             x = Bisection.FindRoot(f1, 2, 5);
             Assert.AreEqual(2.66108192383197, x, 1e-5);
-            Assert.AreEqual(0, f1(x), 1e-14);
+            Assert.AreEqual(0, f1(x), 1e-13);
         }
 
         [Test]

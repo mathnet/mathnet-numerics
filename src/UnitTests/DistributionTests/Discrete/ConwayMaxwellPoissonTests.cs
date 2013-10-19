@@ -197,7 +197,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         public void ValidateMean(int lambda, int nu, double mean)
         {
             var d = new ConwayMaxwellPoisson(lambda, nu);
-            AssertHelpers.AlmostEqual(mean, d.Mean, 10);
+            AssertHelpers.AlmostEqualRelative(mean, d.Mean, 10);
         }
 
         /// <summary>
@@ -236,7 +236,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         public void ValidateProbability(double lambda, double nu, int x, double p)
         {
             var d = new ConwayMaxwellPoisson(lambda, nu);
-            AssertHelpers.AlmostEqual(p, d.Probability(x), 13);
+            AssertHelpers.AlmostEqualRelative(p, d.Probability(x), 12);
         }
 
         /// <summary>
@@ -255,7 +255,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         public void ValidateProbabilityLn(double lambda, double nu, int x, double pln)
         {
             var d = new ConwayMaxwellPoisson(lambda, nu);
-            AssertHelpers.AlmostEqual(pln, d.ProbabilityLn(x), 13);
+            AssertHelpers.AlmostEqualRelative(pln, d.ProbabilityLn(x), 12);
         }
 
         /// <summary>
@@ -295,7 +295,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         public void ValidateCumulativeDistribution(double lambda, double nu, int x, double cdf)
         {
             var d = new ConwayMaxwellPoisson(lambda, nu);
-            AssertHelpers.AlmostEqual(cdf, d.CumulativeDistribution(x), 13);
+            AssertHelpers.AlmostEqualRelative(cdf, d.CumulativeDistribution(x), 12);
         }
     }
 }

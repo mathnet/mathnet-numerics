@@ -62,7 +62,7 @@ namespace MathNet.Numerics.UnitTests.SpecialFunctionsTests
         [TestCase(10.1, 2.2622143570941481235561593642219403924532310597356171)]
         public void DiGamma(double x, double f)
         {
-            AssertHelpers.AlmostEqual(f, SpecialFunctions.DiGamma(x), 13);
+            AssertHelpers.AlmostEqualRelative(f, SpecialFunctions.DiGamma(x), 12);
         }
 
         /// <summary>
@@ -88,7 +88,7 @@ namespace MathNet.Numerics.UnitTests.SpecialFunctionsTests
         [TestCase(10.1, 2.2622143570941481235561593642219403924532310597356171)]
         public void DiGammaInv(double x, double f)
         {
-            AssertHelpers.AlmostEqual(x, SpecialFunctions.DiGammaInv(f), 13);
+            AssertHelpers.AlmostEqualRelative(x, SpecialFunctions.DiGammaInv(f), 13);
         }
 
         /// <summary>
@@ -123,7 +123,7 @@ namespace MathNet.Numerics.UnitTests.SpecialFunctionsTests
         [TestCase(1000000)]
         public void Harmonic(int i)
         {
-            AssertHelpers.AlmostEqual(ExactHarmonic(i), SpecialFunctions.Harmonic(i), 13);
+            AssertHelpers.AlmostEqualRelative(ExactHarmonic(i), SpecialFunctions.Harmonic(i), 12);
         }
 
         /// <summary>
@@ -132,8 +132,8 @@ namespace MathNet.Numerics.UnitTests.SpecialFunctionsTests
         [Test]
         public void BetaLn()
         {
-            AssertHelpers.AlmostEqual(Math.Log(0.5), SpecialFunctions.BetaLn(1.0, 2.0), 14);
-            AssertHelpers.AlmostEqual(Math.Log(1.0), SpecialFunctions.BetaLn(1.0, 1.0), 14);
+            AssertHelpers.AlmostEqualRelative(Math.Log(0.5), SpecialFunctions.BetaLn(1.0, 2.0), 13);
+            AssertHelpers.AlmostEqualRelative(Math.Log(1.0), SpecialFunctions.BetaLn(1.0, 1.0), 13);
         }
 
         /// <summary>
@@ -142,8 +142,8 @@ namespace MathNet.Numerics.UnitTests.SpecialFunctionsTests
         [Test]
         public void Beta()
         {
-            AssertHelpers.AlmostEqual(0.5, SpecialFunctions.Beta(1.0, 2.0), 14);
-            AssertHelpers.AlmostEqual(1.0, SpecialFunctions.Beta(1.0, 1.0), 14);
+            AssertHelpers.AlmostEqualRelative(0.5, SpecialFunctions.Beta(1.0, 2.0), 13);
+            AssertHelpers.AlmostEqualRelative(1.0, SpecialFunctions.Beta(1.0, 1.0), 13);
         }
 
         /// <summary>
@@ -203,7 +203,7 @@ namespace MathNet.Numerics.UnitTests.SpecialFunctionsTests
         [TestCase(5.500000, 5.500000, 0.800000, 0.00074361660080007708142054771607396897718180545812717)]
         public void BetaIncomplete(double a, double b, double x, double f)
         {
-            AssertHelpers.AlmostEqual(f, SpecialFunctions.BetaIncomplete(a, b, x), 12);
+            AssertHelpers.AlmostEqualRelative(f, SpecialFunctions.BetaIncomplete(a, b, x), 11);
         }
 
         /// <summary>
@@ -263,7 +263,7 @@ namespace MathNet.Numerics.UnitTests.SpecialFunctionsTests
         [TestCase(5.500000, 5.500000, 0.800000, 0.98491460241721309518021565227501009891015897915977)]
         public void BetaRegularized(double a, double b, double x, double f)
         {
-            AssertHelpers.AlmostEqual(f, SpecialFunctions.BetaRegularized(a, b, x), 12);
+            AssertHelpers.AlmostEqualRelative(f, SpecialFunctions.BetaRegularized(a, b, x), 11);
         }
 
         /// <summary>
@@ -282,7 +282,7 @@ namespace MathNet.Numerics.UnitTests.SpecialFunctionsTests
         [TestCase(1.000000, Double.PositiveInfinity)]
         public void Logit(double p, double x)
         {
-            AssertHelpers.AlmostEqual(x, SpecialFunctions.Logit(p), 15);
+            AssertHelpers.AlmostEqualRelative(x, SpecialFunctions.Logit(p), 15);
         }
 
         /// <summary>
@@ -301,7 +301,7 @@ namespace MathNet.Numerics.UnitTests.SpecialFunctionsTests
         [TestCase(Double.PositiveInfinity, 1.000000)]
         public void Logistic(double p, double x)
         {
-            AssertHelpers.AlmostEqual(x, SpecialFunctions.Logistic(p), 15);
+            AssertHelpers.AlmostEqualRelative(x, SpecialFunctions.Logistic(p), 14);
         }
     }
 }

@@ -370,7 +370,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
             {
                 for (var j = 0; j < matrixX.ColumnCount; j++)
                 {
-                    AssertHelpers.AlmostEqualAbsolute(test[i, j], matrixX[i, j], 12);
+                    AssertHelpers.AlmostEqual(test[i, j], matrixX[i, j], 12);
                 }
             }
 
@@ -404,7 +404,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
 
             for (var i = 0; i < vectorX.Count; i++)
             {
-                AssertHelpers.AlmostEqualAbsolute(test[i], vectorX[i], 12);
+                AssertHelpers.AlmostEqual(test[i], vectorX[i], 12);
             }
 
             // Make sure A didn't change.

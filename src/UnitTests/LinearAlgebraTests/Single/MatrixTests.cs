@@ -66,13 +66,13 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
         public virtual void CanComputeFrobeniusNorm()
         {
             var matrix = TestMatrices["Square3x3"];
-            AssertHelpers.AlmostEqual(10.77775486824598f, matrix.FrobeniusNorm(), 7);
+            AssertHelpers.AlmostEqualRelative(10.77775486824598f, matrix.FrobeniusNorm(), 7);
 
             matrix = TestMatrices["Wide2x3"];
-            AssertHelpers.AlmostEqual(4.79478883789474f, matrix.FrobeniusNorm(), 7);
+            AssertHelpers.AlmostEqualRelative(4.79478883789474f, matrix.FrobeniusNorm(), 7);
 
             matrix = TestMatrices["Tall3x2"];
-            AssertHelpers.AlmostEqual(7.54122006044115f, matrix.FrobeniusNorm(), 7);
+            AssertHelpers.AlmostEqualRelative(7.54122006044115f, matrix.FrobeniusNorm(), 7);
         }
 
         /// <summary>
@@ -82,13 +82,13 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
         public virtual void CanComputeInfinityNorm()
         {
             var matrix = TestMatrices["Square3x3"];
-            AssertHelpers.AlmostEqual(16.5f, matrix.InfinityNorm(), 6);
+            AssertHelpers.AlmostEqualRelative(16.5f, matrix.InfinityNorm(), 6);
 
             matrix = TestMatrices["Wide2x3"];
-            AssertHelpers.AlmostEqual(6.6f, matrix.InfinityNorm(), 6);
+            AssertHelpers.AlmostEqualRelative(6.6f, matrix.InfinityNorm(), 6);
 
             matrix = TestMatrices["Tall3x2"];
-            AssertHelpers.AlmostEqual(9.9f, matrix.InfinityNorm(), 6);
+            AssertHelpers.AlmostEqualRelative(9.9f, matrix.InfinityNorm(), 6);
         }
 
         /// <summary>
@@ -114,12 +114,12 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
         public virtual void CanComputeL2Norm()
         {
             var matrix = TestMatrices["Square3x3"];
-            AssertHelpers.AlmostEqual(10.391347375312632f, matrix.L2Norm(), 6);
+            AssertHelpers.AlmostEqualRelative(10.391347375312632f, matrix.L2Norm(), 6);
 
             matrix = TestMatrices["Wide2x3"];
-            AssertHelpers.AlmostEqual(4.7540849434107635f, matrix.L2Norm(), 6);
+            AssertHelpers.AlmostEqualRelative(4.7540849434107635f, matrix.L2Norm(), 6);
             matrix = TestMatrices["Tall3x2"];
-            AssertHelpers.AlmostEqual(7.182727033856683f, matrix.L2Norm(), 5);
+            AssertHelpers.AlmostEqualRelative(7.182727033856683f, matrix.L2Norm(), 5);
         }
 
         /// <summary>

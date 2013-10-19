@@ -164,7 +164,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void ValidateMean(double shape, double scale, double mean)
         {
             var n = new Weibull(shape, scale);
-            AssertHelpers.AlmostEqual(mean, n.Mean, 13);
+            AssertHelpers.AlmostEqualRelative(mean, n.Mean, 13);
         }
 
         /// <summary>
@@ -180,7 +180,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void ValidateVariance(double shape, double scale, double var)
         {
             var n = new Weibull(shape, scale);
-            AssertHelpers.AlmostEqual(var, n.Variance, 13);
+            AssertHelpers.AlmostEqualRelative(var, n.Variance, 12);
         }
 
         /// <summary>
@@ -196,7 +196,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void ValidateStdDev(double shape, double scale, double sdev)
         {
             var n = new Weibull(shape, scale);
-            AssertHelpers.AlmostEqual(sdev, n.StdDev, 13);
+            AssertHelpers.AlmostEqualRelative(sdev, n.StdDev, 12);
         }
 
         /// <summary>
@@ -212,7 +212,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void ValidateSkewness(double shape, double scale, double skewness)
         {
             var n = new Weibull(shape, scale);
-            AssertHelpers.AlmostEqual(skewness, n.Skewness, 11);
+            AssertHelpers.AlmostEqualRelative(skewness, n.Skewness, 10);
         }
 
         /// <summary>
@@ -244,7 +244,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void ValidateMedian(double shape, double scale, double median)
         {
             var n = new Weibull(shape, scale);
-            AssertHelpers.AlmostEqual(median, n.Median, 13);
+            AssertHelpers.AlmostEqualRelative(median, n.Median, 13);
         }
 
         /// <summary>
@@ -289,7 +289,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void ValidateDensity(double shape, double scale, double x, double pdf)
         {
             var n = new Weibull(shape, scale);
-            AssertHelpers.AlmostEqual(pdf, n.Density(x), 14);
+            AssertHelpers.AlmostEqualRelative(pdf, n.Density(x), 13);
         }
 
         /// <summary>
@@ -314,7 +314,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void ValidateDensityLn(double shape, double scale, double x, double pdfln)
         {
             var n = new Weibull(shape, scale);
-            AssertHelpers.AlmostEqual(pdfln, n.DensityLn(x), 14);
+            AssertHelpers.AlmostEqualRelative(pdfln, n.DensityLn(x), 14);
         }
 
         /// <summary>
@@ -397,7 +397,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void ValidateCumulativeDistribution(double shape, double scale, double x, double cdf)
         {
             var n = new Weibull(shape, scale);
-            AssertHelpers.AlmostEqual(cdf, n.CumulativeDistribution(x), 15);
+            AssertHelpers.AlmostEqualRelative(cdf, n.CumulativeDistribution(x), 14);
         }
     }
 }

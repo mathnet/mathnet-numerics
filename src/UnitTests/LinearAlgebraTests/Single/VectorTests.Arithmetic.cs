@@ -800,7 +800,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
             var mod = vector.Modulus(3.2f);
             for (var index = 0; index < Data.Length; index++)
             {
-                AssertHelpers.AlmostEqual(Data[index] % 3.2, mod[index], 7);
+                AssertHelpers.AlmostEqual(Data[index] % 3.2, mod[index], 6);
             }
         }
 
@@ -816,7 +816,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
 
             for (var index = 0; index < Data.Length; index++)
             {
-                AssertHelpers.AlmostEqual(Data[index] % 3.2, mod[index], 7);
+                AssertHelpers.AlmostEqual(Data[index] % 3.2, mod[index], 6);
             }
         }
 
@@ -831,7 +831,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
 
             for (var index = 0; index < Data.Length; index++)
             {
-                AssertHelpers.AlmostEqual(Data[index] % 3.2, vector[index], 7);
+                AssertHelpers.AlmostEqual(Data[index] % 3.2, vector[index], 6);
             }
         }
 
@@ -845,7 +845,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
             var mod = vector % 4.5f;
             for (var index = 0; index < Data.Length; index++)
             {
-                AssertHelpers.AlmostEqual(Data[index] % 4.5, mod[index], 7);
+                AssertHelpers.AlmostEqual(Data[index] % 4.5, mod[index], 6);
             }
         }
     }

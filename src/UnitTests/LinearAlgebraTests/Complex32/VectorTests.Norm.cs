@@ -42,8 +42,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
         public void CanComputeNorm()
         {
             var vector = CreateVector(Data);
-            AssertHelpers.AlmostEqual(7.745966692414833770f, vector.L2Norm(), 6);
-            AssertHelpers.AlmostEqual(7.745966692414833770f, vector.Norm(2), 6);
+            AssertHelpers.AlmostEqualRelative(7.745966692414833770f, vector.L2Norm(), 6);
+            AssertHelpers.AlmostEqualRelative(7.745966692414833770f, vector.Norm(2), 6);
         }
 
         /// <summary>
@@ -53,8 +53,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
         public void CanComputeNorm1()
         {
             var vector = CreateVector(Data);
-            AssertHelpers.AlmostEqual(16.0346843392517094570f, vector.L1Norm(), 7);
-            AssertHelpers.AlmostEqual(16.0346843392517094570f, vector.Norm(1), 7);
+            AssertHelpers.AlmostEqualRelative(16.0346843392517094570f, vector.L1Norm(), 6);
+            AssertHelpers.AlmostEqualRelative(16.0346843392517094570f, vector.Norm(1), 6);
         }
 
         /// <summary>
@@ -64,8 +64,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
         public void CanComputeSquareNorm()
         {
             var vector = CreateVector(Data);
-            AssertHelpers.AlmostEqual(60f, vector.L2Norm() * vector.L2Norm(), 6);
-            AssertHelpers.AlmostEqual(60f, vector.Norm(2) * vector.Norm(2), 6);
+            AssertHelpers.AlmostEqualRelative(60f, vector.L2Norm() * vector.L2Norm(), 6);
+            AssertHelpers.AlmostEqualRelative(60f, vector.Norm(2) * vector.Norm(2), 6);
         }
 
         /// <summary>
@@ -80,7 +80,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
         public void CanComputeNormP(int p, float expected)
         {
             var vector = CreateVector(Data);
-            AssertHelpers.AlmostEqual(expected, (float) vector.Norm(p), 5);
+            AssertHelpers.AlmostEqualRelative(expected, (float) vector.Norm(p), 5);
         }
 
         /// <summary>
@@ -90,8 +90,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
         public void CanComputeNormInfinity()
         {
             var vector = CreateVector(Data);
-            AssertHelpers.AlmostEqual(5.0990195, vector.InfinityNorm(), 7);
-            AssertHelpers.AlmostEqual(5.0990195, vector.Norm(Single.PositiveInfinity), 7);
+            AssertHelpers.AlmostEqualRelative(5.0990195, vector.InfinityNorm(), 6);
+            AssertHelpers.AlmostEqualRelative(5.0990195, vector.Norm(Single.PositiveInfinity), 6);
         }
 
         /// <summary>
@@ -102,11 +102,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
         {
             var vector = CreateVector(Data);
             var result = vector.Normalize(2);
-            AssertHelpers.AlmostEqual(new Complex32(0.12909944f, 0.12909944f), result[0], 7);
-            AssertHelpers.AlmostEqual(new Complex32(0.25819888f, 0.12909944f), result[1], 7);
-            AssertHelpers.AlmostEqual(new Complex32(0.38729833f, 0.12909944f), result[2], 7);
-            AssertHelpers.AlmostEqual(new Complex32(0.51639777f, 0.12909944f), result[3], 7);
-            AssertHelpers.AlmostEqual(new Complex32(0.64549722f, 0.12909944f), result[4], 7);
+            AssertHelpers.AlmostEqualRelative(new Complex32(0.12909944f, 0.12909944f), result[0], 6);
+            AssertHelpers.AlmostEqualRelative(new Complex32(0.25819888f, 0.12909944f), result[1], 6);
+            AssertHelpers.AlmostEqualRelative(new Complex32(0.38729833f, 0.12909944f), result[2], 6);
+            AssertHelpers.AlmostEqualRelative(new Complex32(0.51639777f, 0.12909944f), result[3], 6);
+            AssertHelpers.AlmostEqualRelative(new Complex32(0.64549722f, 0.12909944f), result[4], 6);
         }
     }
 }

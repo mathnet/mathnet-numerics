@@ -28,14 +28,14 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-namespace MathNet.Numerics
-{
-    using System;
-    using System.Collections.Generic;
+using System;
 
 #if PORTABLE
-    using System.Runtime.InteropServices;
+using System.Runtime.InteropServices;
 #endif
+
+namespace MathNet.Numerics
+{
 
 #if !NOSYSNUMERICS
     using Complex = System.Numerics.Complex;
@@ -79,21 +79,21 @@ namespace MathNet.Numerics
     /// </list>
     /// </para>
     /// </remarks>
-    public static class Precision
+    public static partial class Precision
     {
         /// <summary>
         /// The number of binary digits used to represent the binary number for a double precision floating
         /// point value. i.e. there are this many digits used to represent the
         /// actual number, where in a number as: 0.134556 * 10^5 the digits are 0.134556 and the exponent is 5.
         /// </summary>
-        private const int DoubleWidth = 53;
+        const int DoubleWidth = 53;
 
         /// <summary>
         /// The number of binary digits used to represent the binary number for a single precision floating
         /// point value. i.e. there are this many digits used to represent the
         /// actual number, where in a number as: 0.134556 * 10^5 the digits are 0.134556 and the exponent is 5.
         /// </summary>
-        private const int SingleWidth = 24;
+        const int SingleWidth = 24;
 
         /// <summary>
         /// The maximum relative precision of of double-precision floating numbers (64 bit)
@@ -116,14 +116,14 @@ namespace MathNet.Numerics
         public static readonly int SingleDecimalPlaces = (int) Math.Floor(Math.Abs(Math.Log10(SinglePrecision)));
 
         /// <summary>
-        /// Value representing 10 * 2^(-52)
+        /// Value representing 10 * 2^(-53) = 1.11022302462516E-15
         /// </summary>
-        private static readonly double DefaultDoubleRelativeAccuracy = DoublePrecision * 10;
+        static readonly double DefaultDoubleAccuracy = DoublePrecision*10;
 
         /// <summary>
-        /// Value representing 10 * 2^(-24)
+        /// Value representing 10 * 2^(-24) = 5.96046447753906E-07
         /// </summary>
-        private static readonly float DefaultSingleRelativeAccuracy = (float)(SinglePrecision * 10);
+        static readonly float DefaultSingleAccuracy = (float) (SinglePrecision*10);
 
         /// <summary>
         /// Returns the magnitude of the number.
@@ -145,7 +145,7 @@ namespace MathNet.Numerics
 #if PORTABLE
             var truncated = (int)Truncate(magnitude);
 #else
-            var truncated = (int)Math.Truncate(magnitude);
+            var truncated = (int) Math.Truncate(magnitude);
 #endif
 
             // To get the right number we need to know if the value is negative or positive
@@ -177,7 +177,7 @@ namespace MathNet.Numerics
 #if PORTABLE
             var truncated = (int)Truncate(magnitude);
 #else
-            var truncated = (int)Math.Truncate(magnitude);
+            var truncated = (int) Math.Truncate(magnitude);
 #endif
 
             // To get the right number we need to know if the value is negative or positive
@@ -201,7 +201,7 @@ namespace MathNet.Numerics
             }
 
             int magnitude = Magnitude(value);
-            return value * Math.Pow(10, -magnitude);
+            return value*Math.Pow(10, -magnitude);
         }
 
         /// <summary>
@@ -211,7 +211,7 @@ namespace MathNet.Numerics
         /// <returns>
         /// The resulting <c>long</c> value.
         /// </returns>
-        private static long AsInt64(double value)
+        static long AsInt64(double value)
         {
 #if PORTABLE
             return DoubleToInt64Bits(value);
@@ -227,11 +227,11 @@ namespace MathNet.Numerics
         /// </summary>
         /// <param name="value">The input double value.</param>
         /// <returns>A long value which is roughly the equivalent of the double value.</returns>
-        private static long AsDirectionalInt64(double value)
+        static long AsDirectionalInt64(double value)
         {
             // Convert in the normal way.
             long result = AsInt64(value);
-            
+
             // Now find out where we're at in the range
             // If the value is larger/equal to zero then we can just return the value
             // if the value is negative we subtract long.MinValue from it.
@@ -245,7 +245,7 @@ namespace MathNet.Numerics
         /// </summary>
         /// <param name="value">The input float value.</param>
         /// <returns>An int value which is roughly the equivalent of the double value.</returns>
-        private static int AsDirectionalInt32(float value)
+        static int AsDirectionalInt32(float value)
         {
             // Convert in the normal way.
             int result = FloatToInt32Bits(value);
@@ -306,7 +306,7 @@ namespace MathNet.Numerics
             return Int64BitsToDouble(intValue);
 #else
             return BitConverter.Int64BitsToDouble(intValue);
-#endif        
+#endif
         }
 
         /// <summary>
@@ -362,7 +362,7 @@ namespace MathNet.Numerics
             return Int64BitsToDouble(intValue);
 #else
             return BitConverter.Int64BitsToDouble(intValue);
-#endif   
+#endif
         }
 
         /// <summary>
@@ -375,7 +375,7 @@ namespace MathNet.Numerics
         /// </returns>
         public static double CoerceZero(this double a, int maxNumbersBetween)
         {
-            return CoerceZero(a, (long)maxNumbersBetween);
+            return CoerceZero(a, (long) maxNumbersBetween);
         }
 
         /// <summary>
@@ -403,7 +403,7 @@ namespace MathNet.Numerics
 
             // We allow maxNumbersBetween between 0 and the number so
             // we need to check if there a
-            if (NumbersBetween(0.0, a) <= (ulong)maxNumbersBetween)
+            if (NumbersBetween(0.0, a) <= (ulong) maxNumbersBetween)
             {
                 return 0.0;
             }
@@ -426,7 +426,7 @@ namespace MathNet.Numerics
             {
                 throw new ArgumentOutOfRangeException("maximumAbsoluteError");
             }
-            
+
             if (double.IsInfinity(a) || double.IsNaN(a))
             {
                 return a;
@@ -455,12 +455,11 @@ namespace MathNet.Numerics
         /// </summary>
         /// <param name="value">The value.</param>
         /// <param name="maxNumbersBetween">The <c>ulps</c> difference.</param>
-        /// <param name="bottomRangeEnd">The bottom range end.</param>
-        /// <param name="topRangeEnd">The top range end.</param>
         /// <exception cref="ArgumentOutOfRangeException">
         ///     Thrown if <paramref name="maxNumbersBetween"/> is smaller than zero.
         /// </exception>
-        public static void RangeOfMatchingFloatingPointNumbers(this double value, long maxNumbersBetween, out double bottomRangeEnd, out double topRangeEnd)
+        /// <returns>Tuple of the bottom and top range ends.</returns>
+        public static Tuple<double, double> RangeOfMatchingFloatingPointNumbers(this double value, long maxNumbersBetween)
         {
             // Make sure ulpDifference is non-negative
             if (maxNumbersBetween < 1)
@@ -472,17 +471,13 @@ namespace MathNet.Numerics
             // return the same infinity for the range.
             if (double.IsInfinity(value))
             {
-                topRangeEnd = value;
-                bottomRangeEnd = value;
-                return;
+                return new Tuple<double, double>(value, value);
             }
 
             // If the value is a NaN then the range is a NaN too.
             if (double.IsNaN(value))
             {
-                topRangeEnd = double.NaN;
-                bottomRangeEnd = double.NaN;
-                return;
+                return new Tuple<double, double>(double.NaN, double.NaN);
             }
 
             // Translate the bit pattern of the double to an integer.
@@ -494,14 +489,14 @@ namespace MathNet.Numerics
             long intValue = AsInt64(value);
 
 #if PORTABLE
-            // We need to protect against over- and under-flow of the intValue when
-            // we start to add the ulpsDifference.
+    // We need to protect against over- and under-flow of the intValue when
+    // we start to add the ulpsDifference.
             if (intValue < 0)
             {
                 // Note that long.MinValue has the same bit pattern as
                 // -0.0. Therefore we're working in opposite direction (i.e. add if we want to
                 // go more negative and subtract if we want to go less negative)
-                topRangeEnd = Math.Abs(long.MinValue - intValue) < maxNumbersBetween
+                var topRangeEnd = Math.Abs(long.MinValue - intValue) < maxNumbersBetween
                     // Got underflow, which can be fixed by splitting the calculation into two bits
                     // first get the remainder of the intValue after subtracting it from the long.MinValue
                     // and add that to the ulpsDifference. That way we'll turn positive without underflow
@@ -509,18 +504,20 @@ namespace MathNet.Numerics
                     // No problems here, move along.
                     : Int64BitsToDouble(intValue - maxNumbersBetween);
 
-                bottomRangeEnd = Math.Abs(intValue) < maxNumbersBetween
+                var bottomRangeEnd = Math.Abs(intValue) < maxNumbersBetween
                     // Underflow, which means we'd have to go further than a long would allow us.
                     // Also we couldn't translate it back to a double, so we'll return -Double.MaxValue
                     ? -double.MaxValue
                     // intValue is negative. Adding the positive ulpsDifference means that it gets less negative.
                     // However due to the conversion way this means that the actual double value gets more negative :-S
                     : Int64BitsToDouble(intValue + maxNumbersBetween);
+
+                return new Tuple<double, double>(bottomRangeEnd, topRangeEnd);
             }
             else
             {
                 // IntValue is positive
-                topRangeEnd = long.MaxValue - intValue < maxNumbersBetween
+                var topRangeEnd = long.MaxValue - intValue < maxNumbersBetween
                     // Overflow, which means we'd have to go further than a long would allow us.
                     // Also we couldn't translate it back to a double, so we'll return Double.MaxValue 
                     ? double.MaxValue
@@ -528,13 +525,15 @@ namespace MathNet.Numerics
                     : Int64BitsToDouble(intValue + maxNumbersBetween);
 
                 // Check the bottom range end for underflows
-                bottomRangeEnd = intValue > maxNumbersBetween
+                var bottomRangeEnd = intValue > maxNumbersBetween
                     // No problems here. IntValue is larger than ulpsDifference so we'll end up with a
                     // positive number.
                     ? Int64BitsToDouble(intValue - maxNumbersBetween)
                     // Int value is bigger than zero but smaller than the ulpsDifference. So we'll need to deal with
                     // the reversal at the negative end
                     : Int64BitsToDouble(long.MinValue + (maxNumbersBetween - intValue));
+
+                return new Tuple<double, double>(bottomRangeEnd, topRangeEnd);
             }
 #else
             // We need to protect against over- and under-flow of the intValue when
@@ -544,7 +543,7 @@ namespace MathNet.Numerics
                 // Note that long.MinValue has the same bit pattern as
                 // -0.0. Therefore we're working in opposite direction (i.e. add if we want to
                 // go more negative and subtract if we want to go less negative)
-                topRangeEnd = Math.Abs(long.MinValue - intValue) < maxNumbersBetween
+                var topRangeEnd = Math.Abs(long.MinValue - intValue) < maxNumbersBetween
                     // Got underflow, which can be fixed by splitting the calculation into two bits
                     // first get the remainder of the intValue after subtracting it from the long.MinValue
                     // and add that to the ulpsDifference. That way we'll turn positive without underflow
@@ -552,18 +551,20 @@ namespace MathNet.Numerics
                     // No problems here, move along.
                     : BitConverter.Int64BitsToDouble(intValue - maxNumbersBetween);
 
-                bottomRangeEnd = Math.Abs(intValue) < maxNumbersBetween
+                var bottomRangeEnd = Math.Abs(intValue) < maxNumbersBetween
                     // Underflow, which means we'd have to go further than a long would allow us.
                     // Also we couldn't translate it back to a double, so we'll return -Double.MaxValue
                     ? -double.MaxValue
                     // intValue is negative. Adding the positive ulpsDifference means that it gets less negative.
                     // However due to the conversion way this means that the actual double value gets more negative :-S
                     : BitConverter.Int64BitsToDouble(intValue + maxNumbersBetween);
+
+                return new Tuple<double, double>(bottomRangeEnd, topRangeEnd);
             }
             else
             {
                 // IntValue is positive
-                topRangeEnd = long.MaxValue - intValue < maxNumbersBetween
+                var topRangeEnd = long.MaxValue - intValue < maxNumbersBetween
                     // Overflow, which means we'd have to go further than a long would allow us.
                     // Also we couldn't translate it back to a double, so we'll return Double.MaxValue
                     ? double.MaxValue
@@ -571,13 +572,15 @@ namespace MathNet.Numerics
                     : BitConverter.Int64BitsToDouble(intValue + maxNumbersBetween);
 
                 // Check the bottom range end for underflows
-                bottomRangeEnd = intValue > maxNumbersBetween
+                var bottomRangeEnd = intValue > maxNumbersBetween
                     // No problems here. IntValue is larger than ulpsDifference so we'll end up with a
                     // positive number.
                     ? BitConverter.Int64BitsToDouble(intValue - maxNumbersBetween)
                     // Int value is bigger than zero but smaller than the ulpsDifference. So we'll need to deal with
                     // the reversal at the negative end
                     : BitConverter.Int64BitsToDouble(long.MinValue + (maxNumbersBetween - intValue));
+
+                return new Tuple<double, double>(bottomRangeEnd, topRangeEnd);
             }
 #endif
         }
@@ -591,9 +594,7 @@ namespace MathNet.Numerics
         /// <returns>The maximum floating point number which is <paramref name="maxNumbersBetween"/> larger than the given <paramref name="value"/>.</returns>
         public static double MaximumMatchingFloatingPointNumber(this double value, long maxNumbersBetween)
         {
-            double topRangeEnd, bottomRangeEnd;
-            RangeOfMatchingFloatingPointNumbers(value, maxNumbersBetween, out bottomRangeEnd, out topRangeEnd);
-            return topRangeEnd;
+            return RangeOfMatchingFloatingPointNumbers(value, maxNumbersBetween).Item2;
         }
 
         /// <summary>
@@ -605,9 +606,7 @@ namespace MathNet.Numerics
         /// <returns>The minimum floating point number which is <paramref name="maxNumbersBetween"/> smaller than the given <paramref name="value"/>.</returns>
         public static double MinimumMatchingFloatingPointNumber(this double value, long maxNumbersBetween)
         {
-            double topRangeEnd, bottomRangeEnd;
-            RangeOfMatchingFloatingPointNumbers(value, maxNumbersBetween, out bottomRangeEnd, out topRangeEnd);
-            return bottomRangeEnd;
+            return RangeOfMatchingFloatingPointNumbers(value, maxNumbersBetween).Item1;
         }
 
         /// <summary>
@@ -615,8 +614,6 @@ namespace MathNet.Numerics
         /// </summary>
         /// <param name="value">The value.</param>
         /// <param name="relativeDifference">The relative difference.</param>
-        /// <param name="bottomRangeEnd">The number of ULPS between the <c>value</c> and the <c>value - relativeDifference</c>.</param>
-        /// <param name="topRangeEnd">The number of ULPS between the <c>value</c> and the <c>value + relativeDifference</c>.</param>
         /// <exception cref="ArgumentOutOfRangeException">
         ///     Thrown if <paramref name="relativeDifference"/> is smaller than zero.
         /// </exception>
@@ -626,7 +623,11 @@ namespace MathNet.Numerics
         /// <exception cref="ArgumentOutOfRangeException">
         ///     Thrown if <paramref name="value"/> is <c>double.NaN</c>.
         /// </exception>
-        public static void RangeOfMatchingNumbers(this double value, double relativeDifference, out long bottomRangeEnd, out long topRangeEnd)
+        /// <returns>
+        /// Tuple with the number of ULPS between the <c>value</c> and the <c>value - relativeDifference</c> as first,
+        /// and the number of ULPS between the <c>value</c> and the <c>value + relativeDifference</c> as second value.
+        /// </returns>
+        public static Tuple<long, long> RangeOfMatchingNumbers(this double value, double relativeDifference)
         {
             // Make sure the relative is non-negative 
             if (relativeDifference < 0)
@@ -651,22 +652,20 @@ namespace MathNet.Numerics
             // so return the ulps counts for the difference.
             if (value.Equals(0))
             {
-                topRangeEnd = AsInt64(relativeDifference);
-                bottomRangeEnd = topRangeEnd;
-                return;
+                var v = AsInt64(relativeDifference);
+                return new Tuple<long, long>(v, v);
             }
 
             // Calculate the ulps for the maximum and minimum values
             // Note that these can overflow
-            long max = AsDirectionalInt64(value + (relativeDifference * Math.Abs(value)));
-            long min = AsDirectionalInt64(value - (relativeDifference * Math.Abs(value)));
+            long max = AsDirectionalInt64(value + (relativeDifference*Math.Abs(value)));
+            long min = AsDirectionalInt64(value - (relativeDifference*Math.Abs(value)));
 
             // Calculate the ulps from the value
             long intValue = AsDirectionalInt64(value);
 
             // Determine the ranges
-            topRangeEnd = Math.Abs(max - intValue);
-            bottomRangeEnd = Math.Abs(intValue - min);
+            return new Tuple<long, long>(Math.Abs(intValue - min), Math.Abs(max - intValue));
         }
 
         /// <summary>
@@ -708,773 +707,7 @@ namespace MathNet.Numerics
 
             // Now find the number of values between the two doubles. This should not overflow
             // given that there are more long values than there are double values
-            return (a >= b) ? (ulong)(intA - intB) : (ulong)(intB - intA);
-        }
-
-        /// <summary>
-        /// Checks whether two real numbers are almost equal.
-        /// </summary>
-        /// <param name="a">The first number</param>
-        /// <param name="b">The second number</param>
-        /// <returns>true if the two values differ by no more than 10 * 2^(-52); false otherwise.</returns>
-        public static bool AlmostEqual(this double a, double b)
-        {
-            double diff = a - b;
-            return AlmostEqualWithError(a, b, diff, DefaultDoubleRelativeAccuracy);
-        }
-
-        /// <summary>
-        /// Checks whether two real numbers are almost equal.
-        /// </summary>
-        /// <param name="a">The first number</param>
-        /// <param name="b">The second number</param>
-        /// <returns>true if the two values differ by no more than 10 * 2^(-52); false otherwise.</returns>
-        public static bool AlmostEqual(this float a, float b)
-        {
-            double diff = a - b;
-            return AlmostEqualWithError(a, b, diff, DefaultSingleRelativeAccuracy);
-        }
-
-        /// <summary>
-        /// Checks whether two Compex numbers are almost equal.
-        /// </summary>
-        /// <param name="a">The first number</param>
-        /// <param name="b">The second number</param>
-        /// <returns>true if the two values differ by no more than 10 * 2^(-52); false otherwise.</returns>
-        public static bool AlmostEqual(this Complex a, Complex b)
-        {
-            double diff = a.NormOfDifference(b);
-            return AlmostEqualWithError(a.Norm(), b.Norm(), diff, DefaultDoubleRelativeAccuracy);
-        }
-
-        /// <summary>
-        /// Checks whether two Compex numbers are almost equal.
-        /// </summary>
-        /// <param name="a">The first number</param>
-        /// <param name="b">The second number</param>
-        /// <returns>true if the two values differ by no more than 10 * 2^(-52); false otherwise.</returns>
-        public static bool AlmostEqual(this Complex32 a, Complex32 b)
-        {
-            double diff = ((IPrecisionSupport<Complex32>)a).NormOfDifference(b);
-            return AlmostEqualWithError(((IPrecisionSupport<Complex32>)a).Norm(), ((IPrecisionSupport<Complex32>)b).Norm(), diff, DefaultSingleRelativeAccuracy);
-        }
-        /// <summary>
-        /// Checks whether two structures with precision support are almost equal. 
-        /// </summary>
-        /// <typeparam name="T">The type of the structures. Must implement <see cref="IPrecisionSupport{T}"/>.</typeparam>
-        /// <param name="a">The first structure</param>
-        /// <param name="b">The second structure</param>
-        /// <returns>true if the two values differ by no more than 10 * 2^(-52); false otherwise.</returns>
-        public static bool AlmostEqual<T>(this T a, T b)
-            where T : IPrecisionSupport<T>
-        {
-            double diff = a.NormOfDifference(b);
-            return AlmostEqualWithError(a.Norm(), b.Norm(), diff, DefaultDoubleRelativeAccuracy);
-        }
-
-        /// <summary>
-        /// Compares two complex and determines if they are equal within
-        /// the specified maximum error.
-        /// </summary>
-        /// <param name="a">The first value.</param>
-        /// <param name="b">The second value.</param>
-        /// <param name="maximumError">The accuracy required for being almost equal.</param>
-        /// <returns>
-        /// <see langword="true" /> if both complex are almost equal up to the
-        /// specified maximum error, <see langword="false" /> otherwise.
-        /// </returns>
-        public static bool AlmostEqualWithError(this Complex a, Complex b, double maximumError)
-        {
-            double diff = a.NormOfDifference(b);
-            return AlmostEqualWithError(a.Norm(), b.Norm(), diff, maximumError);
-        }
-
-        /// <summary>
-        /// Compares two complex and determines if they are equal within
-        /// the specified maximum error.
-        /// </summary>
-        /// <param name="a">The first value.</param>
-        /// <param name="b">The second value.</param>
-        /// <param name="maximumError">The accuracy required for being almost equal.</param>
-        /// <returns>
-        /// <see langword="true" /> if both complex are almost equal up to the
-        /// specified maximum error, <see langword="false" /> otherwise.
-        /// </returns>
-        public static bool AlmostEqualWithError(this float a, float b, double maximumError)
-        {
-            return AlmostEqualWithError(a, b, a - b, maximumError);
-        }
-
-        /// <summary>
-        /// Compares two doubles and determines if they are equal within
-        /// the specified maximum error.
-        /// </summary>
-        /// <param name="a">The first value.</param>
-        /// <param name="b">The second value.</param>
-        /// <param name="maximumError">The accuracy required for being almost equal.</param>
-        /// <returns>
-        /// <see langword="true" /> if both doubles are almost equal up to the
-        /// specified maximum error, <see langword="false" /> otherwise.
-        /// </returns>
-        public static bool AlmostEqualWithError(this double a, double b, double maximumError)
-        {
-            return AlmostEqualWithError(a, b, a - b, maximumError);
-        }
-
-        /// <summary>
-        /// Compares two lists of doubles and determines if they are equal within the
-        /// specified maximum error.
-        /// </summary>
-        /// <param name="a">The first value list.</param>
-        /// <param name="b">The second value list.</param>
-        /// <param name="maximumError">
-        /// The accuracy required for being almost equal.
-        /// </param>
-        /// <returns>
-        /// <see langword="true" /> if both doubles are almost equal up to the specified
-        /// maximum error, <see langword="false" /> otherwise.
-        /// </returns>
-        public static bool AlmostEqualListWithError(this IList<double> a, IList<double> b, double maximumError)
-        {
-            if (a == null && b == null)
-            {
-                return true;
-            }
-
-            if (a == null || b == null || a.Count != b.Count)
-            {
-                return false;
-            }
-
-            for (int i = 0; i < a.Count; i++)
-            {
-                if (!AlmostEqualWithError(a[i], b[i], a[i] - b[i], maximumError))
-                {
-                    return false;
-                }
-            }
-
-            return true;
-        }
-
-        /// <summary>
-        /// Compares two lists of doubles and determines if they are equal within the
-        /// specified maximum error.
-        /// </summary>
-        /// <param name="a">The first value list.</param>
-        /// <param name="b">The second value list.</param>
-        /// <param name="maximumError">
-        /// The accuracy required for being almost equal.
-        /// </param>
-        /// <returns>
-        /// <see langword="true" /> if both doubles are almost equal up to the specified
-        /// maximum error, <see langword="false" /> otherwise.
-        /// </returns>
-        public static bool AlmostEqualListWithError(this IList<Complex> a, IList<Complex> b, double maximumError)
-        {
-            if (a == null && b == null)
-            {
-                return true;
-            }
-
-            if (a == null || b == null || a.Count != b.Count)
-            {
-                return false;
-            }
-
-            for (int i = 0; i < a.Count; i++)
-            {
-                if (!AlmostEqualWithError(a[i].Norm(), b[i].Norm(), a[i].NormOfDifference(b[i]), maximumError))
-                {
-                    return false;
-                }
-            }
-
-            return true;
-        }
-
-        /// <summary>
-        /// Compares two structure with precision support and determines if they are equal
-        /// within the specified maximum relative error.
-        /// </summary>
-        /// <typeparam name="T">
-        /// The type of the structures. Must implement <see cref="IPrecisionSupport{T}"/>.
-        /// </typeparam>
-        /// <param name="a">The first structure.</param>
-        /// <param name="b">The second structure.</param>
-        /// <param name="maximumError">
-        /// The accuracy required for being almost equal.
-        /// </param>
-        /// <returns>
-        /// <see langword="true" /> if both doubles are almost equal up to the specified
-        /// maximum relative error, <see langword="false" /> otherwise.
-        /// </returns>
-        public static bool AlmostEqualWithError<T>(this T a, T b, double maximumError)
-            where T : IPrecisionSupport<T>
-        {
-            return AlmostEqualWithError(a.Norm(), b.Norm(), a.NormOfDifference(b), maximumError);
-        }
-
-        /// <summary>
-        /// Compares two lists of structures with precision support and determines if they
-        /// are equal within the specified maximum error.
-        /// </summary>
-        /// <typeparam name="T">
-        /// The type of the structures. Must implement <see cref="IPrecisionSupport{T}"/>.
-        /// </typeparam>
-        /// <param name="a">The first structure list.</param>
-        /// <param name="b">The second structure list.</param>
-        /// <param name="maximumError">
-        /// The accuracy required for being almost equal.
-        /// </param>
-        /// <returns>
-        /// <see langword="true" /> if both doubles are almost equal up to the specified
-        /// maximum error, <see langword="false" /> otherwise.
-        /// </returns>
-        public static bool AlmostEqualListWithError<T>(this IList<T> a, IList<T> b, double maximumError)
-            where T : IPrecisionSupport<T>
-        {
-            if (a == null && b == null)
-            {
-                return true;
-            }
-
-            if (a == null || b == null || a.Count != b.Count)
-            {
-                return false;
-            }
-
-            for (int i = 0; i < a.Count; i++)
-            {
-                if (!AlmostEqualWithError(a[i].Norm(), b[i].Norm(), a[i].NormOfDifference(b[i]), maximumError))
-                {
-                    return false;
-                }
-            }
-
-            return true;
-        }
-
-        /// <summary>
-        /// Compares two doubles and determines if they are equal within the specified
-        /// maximum error.
-        /// </summary>
-        /// <param name="a">The first value.</param>
-        /// <param name="b">The second value.</param>
-        /// <param name="diff">
-        /// The difference of the two values (according to some norm).
-        /// </param>
-        /// <param name="maximumError">
-        /// The accuracy required for being almost equal.
-        /// </param>
-        /// <returns>
-        /// <see langword="true" /> if both doubles are almost equal up to the specified
-        /// maximum error, <see langword="false" /> otherwise.
-        /// </returns>
-        public static bool AlmostEqualWithError(this double a, double b, double diff, double maximumError)
-        {
-            // If A or B are infinity (positive or negative) then
-            // only return true if they are exactly equal to each other -
-            // that is, if they are both infinities of the same sign.
-            if (double.IsInfinity(a) || double.IsInfinity(b))
-            {
-                return a == b;
-            }
-
-            // If A or B are a NAN, return false. NANs are equal to nothing,
-            // not even themselves.
-            if (double.IsNaN(a) || double.IsNaN(b))
-            {
-                return false;
-            }
-
-            if (Math.Abs(a) < DoublePrecision || Math.Abs(b) < DoublePrecision)
-            {
-                return AlmostEqualWithAbsoluteError(a, b, diff, maximumError);
-            }
-
-            return AlmostEqualWithRelativeError(a, b, diff, maximumError);
-        }
-
-        /// <summary>
-        /// Compares two doubles and determines if they are equal within the specified
-        /// maximum absolute error.
-        /// </summary>
-        /// <param name="a">The first value.</param>
-        /// <param name="b">The second value.</param>
-        /// <param name="diff">
-        /// The difference of the two values (according to some norm).
-        /// </param>
-        /// <param name="maximumAbsoluteError">
-        /// The absolute accuracy required for being almost equal.
-        /// </param>
-        /// <returns>
-        /// <see langword="true" /> if both doubles are almost equal up to the specified
-        /// maximum absolute error, <see langword="false" /> otherwise.
-        /// </returns>
-        public static bool AlmostEqualWithAbsoluteError(this double a, double b, double diff, double maximumAbsoluteError)
-        {
-            // If A or B are infinity (positive or negative) then
-            // only return true if they are exactly equal to each other -
-            // that is, if they are both infinities of the same sign.
-            if (double.IsInfinity(a) || double.IsInfinity(b))
-            {
-                return a == b;
-            }
-
-            // If A or B are a NAN, return false. NANs are equal to nothing,
-            // not even themselves.
-            if (double.IsNaN(a) || double.IsNaN(b))
-            {
-                return false;
-            }
-
-            return Math.Abs(diff) < maximumAbsoluteError;
-        }
-
-        /// <summary>
-        /// Compares two doubles and determines if they are equal within the specified
-        /// maximum relative error.
-        /// </summary>
-        /// <param name="a">The first value.</param>
-        /// <param name="b">The second value.</param>
-        /// <param name="diff">The difference of the two values (according to some norm).
-        /// </param>
-        /// <param name="maximumRelativeError">The relative accuracy required for being
-        /// almost equal.</param>
-        /// <returns>
-        /// <see langword="true" /> if both doubles are almost equal up to the specified
-        /// maximum relative error, <see langword="false" /> otherwise.
-        /// </returns>
-        public static bool AlmostEqualWithRelativeError(this double a, double b, double diff, double maximumRelativeError)
-        {
-            // If A or B are infinity (positive or negative) then
-            // only return true if they are exactly equal to each other -
-            // that is, if they are both infinities of the same sign.
-            if (double.IsInfinity(a) || double.IsInfinity(b))
-            {
-                return a == b;
-            }
-
-            // If A or B are a NAN, return false. NANs are equal to nothing,
-            // not even themselves.
-            if (double.IsNaN(a) || double.IsNaN(b))
-            {
-                return false;
-            }
-
-            if ((a == 0 && Math.Abs(b) < maximumRelativeError)
-                || (b == 0 && Math.Abs(a) < maximumRelativeError))
-            {
-                return true;
-            }
-
-            return Math.Abs(diff) < maximumRelativeError * Math.Max(Math.Abs(a), Math.Abs(b));
-        }
-
-        /// <summary>
-        /// Compares two doubles and determines if they are equal to within the specified number of decimal places or not. If the numbers
-        /// are very close to zero an absolute difference is compared, otherwise the relative difference is compared.
-        /// </summary>
-        /// <remarks>
-        /// <para>
-        /// The values are equal if the difference between the two numbers is smaller than 10^(-numberOfDecimalPlaces). We divide by 
-        /// two so that we have half the range on each side of the numbers, e.g. if <paramref name="decimalPlaces"/> == 2, then 0.01 will equal between 
-        /// 0.005 and 0.015, but not 0.02 and not 0.00
-        /// </para>
-        /// </remarks>
-        /// <param name="a">The first value.</param>
-        /// <param name="b">The second value.</param>
-        /// <param name="decimalPlaces">The number of decimal places.</param>
-        /// <returns><see langword="true" /> if both doubles are equal to each other within the specified number of decimal places; otherwise <see langword="false" />.</returns>
-        /// <exception cref="ArgumentOutOfRangeException">
-        ///     Thrown if <paramref name="decimalPlaces"/> is smaller than zero.
-        /// </exception>
-        public static bool AlmostEqualInDecimalPlaces(this double a, double b, int decimalPlaces)
-        {
-            if (decimalPlaces < 0)
-            {
-                // Can't have a negative number of decimal places
-                throw new ArgumentOutOfRangeException("decimalPlaces");
-            }
-            
-            // If A or B are a NAN, return false. NANs are equal to nothing,
-            // not even themselves.
-            if (double.IsNaN(a) || double.IsNaN(b))
-            {
-                return false;
-            }
-
-            // If A or B are infinity (positive or negative) then
-            // only return true if they are exactly equal to each other -
-            // that is, if they are both infinities of the same sign.
-            if (double.IsInfinity(a) || double.IsInfinity(b))
-            {
-                return a == b;
-            }
-
-            if (Math.Abs(a) < DoublePrecision || Math.Abs(b) < DoublePrecision)
-            {
-                return AlmostEqualInAbsoluteDecimalPlaces(a, b, decimalPlaces);
-            }
-            
-            // If both numbers are equal, get out now. This should remove the possibility of both numbers being zero
-            // and any problems associated with that.
-            if (a.Equals(b))
-            {
-                return true;
-            }
-
-            return AlmostEqualInRelativeDecimalPlaces(a, b, decimalPlaces);
-        }
-
-        /// <summary>
-        /// Compares two floats and determines if they are equal to within the specified number of decimal places or not. If the numbers
-        /// are very close to zero an absolute difference is compared, otherwise the relative difference is compared.
-        /// </summary>
-        /// <remarks>
-        /// <para>
-        /// The values are equal if the difference between the two numbers is smaller than 10^(-numberOfDecimalPlaces). We divide by 
-        /// two so that we have half the range on each side of the numbers, e.g. if <paramref name="decimalPlaces"/> == 2, then 0.01 will equal between 
-        /// 0.005 and 0.015, but not 0.02 and not 0.00
-        /// </para>
-        /// </remarks>
-        /// <param name="a">The first value.</param>
-        /// <param name="b">The second value.</param>
-        /// <param name="decimalPlaces">The number of decimal places.</param>
-        /// <returns><see langword="true" /> if both doubles are equal to each other within the specified number of decimal places; otherwise <see langword="false" />.</returns>
-        /// <exception cref="ArgumentOutOfRangeException">
-        ///     Thrown if <paramref name="decimalPlaces"/> is smaller than zero.
-        /// </exception>
-        public static bool AlmostEqualInDecimalPlaces(this float a, float b, int decimalPlaces)
-        {
-            if (decimalPlaces < 0)
-            {
-                // Can't have a negative number of decimal places
-                throw new ArgumentOutOfRangeException("decimalPlaces");
-            }
-
-            // If A or B are a NAN, return false. NANs are equal to nothing,
-            // not even themselves.
-            if (float.IsNaN(a) || float.IsNaN(b))
-            {
-                return false;
-            }
-
-            // If A or B are infinity (positive or negative) then
-            // only return true if they are exactly equal to each other -
-            // that is, if they are both infinities of the same sign.
-            if (float.IsInfinity(a) || float.IsInfinity(b))
-            {
-                return a == b;
-            }
-
-            if (Math.Abs(a) < SinglePrecision || Math.Abs(b) < SinglePrecision)
-            {
-                return AlmostEqualInAbsoluteDecimalPlaces(a, b, decimalPlaces);
-            }
-
-            // If both numbers are equal, get out now. This should remove the possibility of both numbers being zero
-            // and any problems associated with that.
-            if (a.Equals(b))
-            {
-                return true;
-            }
-
-            return AlmostEqualInRelativeDecimalPlaces(a, b, decimalPlaces);
-        }
-
-        /// <summary>
-        /// Compares two doubles and determines if they are equal to within the specified number of decimal places or not. 
-        /// </summary>
-        /// <remarks>
-        /// <para>
-        /// The values are equal if the difference between the two numbers is smaller than 10^(-numberOfDecimalPlaces). We divide by 
-        /// two so that we have half the range on each side of the numbers, e.g. if <paramref name="decimalPlaces"/> == 2, then 0.01 will equal between 
-        /// 0.005 and 0.015, but not 0.02 and not 0.00
-        /// </para>
-        /// </remarks>
-        /// <param name="a">The first value.</param>
-        /// <param name="b">The second value.</param>
-        /// <param name="decimalPlaces">The number of decimal places.</param>
-        /// <returns><see langword="true" /> if both doubles are equal to each other within the specified number of decimal places; otherwise <see langword="false" />.</returns>
-        public static bool AlmostEqualInRelativeDecimalPlaces(this double a, double b, int decimalPlaces)
-        {
-            if (decimalPlaces < 0)
-            {
-                // Can't have a negative number of decimal places
-                throw new ArgumentOutOfRangeException("decimalPlaces");
-            }
-
-            // If A or B are a NAN, return false. NANs are equal to nothing,
-            // not even themselves.
-            if (double.IsNaN(a) || double.IsNaN(b))
-            {
-                return false;
-            }
-
-            // If A or B are infinity (positive or negative) then
-            // only return true if they are exactly equal to each other -
-            // that is, if they are both infinities of the same sign.
-            if (double.IsInfinity(a) || double.IsInfinity(b))
-            {
-                return a == b;
-            }
-
-            // If the magnitudes of the two numbers are equal to within one magnitude the numbers could potentially be equal
-            int magnitudeOfFirst = Magnitude(a);
-            int magnitudeOfSecond = Magnitude(b);
-            int magnitudeOfMax = Math.Max(magnitudeOfFirst, magnitudeOfSecond);
-            if (magnitudeOfMax > (Math.Min(magnitudeOfFirst, magnitudeOfSecond) + 1))
-            {
-                return false;
-            }
-
-            // The values are equal if the difference between the two numbers is smaller than
-            // 10^(-numberOfDecimalPlaces). We divide by two so that we have half the range
-            // on each side of the numbers, e.g. if decimalPlaces == 2, 
-            // then 0.01 will equal between 0.00995 and 0.01005, but not 0.0015 and not 0.0095
-            double decimalPlaceMagnitude = Math.Pow(10, magnitudeOfMax - decimalPlaces)/2d;
-            return Math.Abs((a - b)) < decimalPlaceMagnitude;
-        }
-
-        /// <summary>
-        /// Compares two floats and determines if they are equal to within the specified number of decimal places or not. 
-        /// </summary>
-        /// <remarks>
-        /// <para>
-        /// The values are equal if the difference between the two numbers is smaller than 10^(-numberOfDecimalPlaces). We divide by 
-        /// two so that we have half the range on each side of the numbers, e.g. if <paramref name="decimalPlaces"/> == 2, then 0.01 will equal between 
-        /// 0.005 and 0.015, but not 0.02 and not 0.00
-        /// </para>
-        /// </remarks>
-        /// <param name="a">The first value.</param>
-        /// <param name="b">The second value.</param>
-        /// <param name="decimalPlaces">The number of decimal places.</param>
-        /// <returns><see langword="true" /> if both floats are equal to each other within the specified number of decimal places; otherwise <see langword="false" />.</returns>
-        public static bool AlmostEqualInRelativeDecimalPlaces(this float a, float b, int decimalPlaces)
-        {
-            if (decimalPlaces < 0)
-            {
-                // Can't have a negative number of decimal places
-                throw new ArgumentOutOfRangeException("decimalPlaces");
-            }
-
-            // If A or B are a NAN, return false. NANs are equal to nothing,
-            // not even themselves.
-            if (float.IsNaN(a) || float.IsNaN(b))
-            {
-                return false;
-            }
-
-            // If A or B are infinity (positive or negative) then
-            // only return true if they are exactly equal to each other -
-            // that is, if they are both infinities of the same sign.
-            if (float.IsInfinity(a) || float.IsInfinity(b))
-            {
-                return a == b;
-            }
-
-            // If the magnitudes of the two numbers are equal to within one magnitude the numbers could potentially be equal
-            int magnitudeOfFirst = Magnitude(a);
-            int magnitudeOfSecond = Magnitude(b);
-            int magnitudeOfMax = Math.Max(magnitudeOfFirst, magnitudeOfSecond);
-            if (magnitudeOfMax > (Math.Min(magnitudeOfFirst, magnitudeOfSecond) + 1))
-            {
-                return false;
-            }
-
-            // The values are equal if the difference between the two numbers is smaller than
-            // 10^(-numberOfDecimalPlaces). We divide by two so that we have half the range
-            // on each side of the numbers, e.g. if decimalPlaces == 2, 
-            // then 0.01 will equal between 0.00995 and 0.01005, but not 0.0015 and not 0.0095
-            var decimalPlaceMagnitude = (float) Math.Pow(10, magnitudeOfMax - decimalPlaces)/2d;
-            return Math.Abs((a - b)) < decimalPlaceMagnitude;
-        }
-
-        /// <summary>
-        /// Compares two doubles and determines if they are equal to within the specified number of decimal places or not, using the 
-        /// number of decimal places as an absolute measure.
-        /// </summary>
-        /// <remarks>
-        /// <para>
-        /// The values are equal if the difference between the two numbers is smaller than 0.5e-decimalPlaces. We divide by 
-        /// two so that we have half the range on each side of the numbers, e.g. if <paramref name="decimalPlaces"/> == 2, then 0.01 will equal between 
-        /// 0.005 and 0.015, but not 0.02 and not 0.00
-        /// </para>
-        /// </remarks>
-        /// <param name="a">The first value.</param>
-        /// <param name="b">The second value.</param>
-        /// <param name="decimalPlaces">The number of decimal places.</param>
-        /// <returns><see langword="true" /> if both doubles are equal to each other within the specified number of decimal places; otherwise <see langword="false" />.</returns>
-        public static bool AlmostEqualInAbsoluteDecimalPlaces(this double a, double b, int decimalPlaces)
-        {
-            // If A or B are a NAN, return false. NANs are equal to nothing,
-            // not even themselves.
-            if (double.IsNaN(a) || double.IsNaN(b))
-            {
-                return false;
-            }
-
-            // If A or B are infinity (positive or negative) then
-            // only return true if they are exactly equal to each other -
-            // that is, if they are both infinities of the same sign.
-            if (double.IsInfinity(a) || double.IsInfinity(b))
-            {
-                return a == b;
-            }
-
-            // The values are equal if the difference between the two numbers is smaller than
-            // 10^(-numberOfDecimalPlaces). We divide by two so that we have half the range
-            // on each side of the numbers, e.g. if decimalPlaces == 2, 
-            // then 0.01 will equal between 0.005 and 0.015, but not 0.02 and not 0.00
-            double decimalPlaceMagnitude = Math.Pow(10, -decimalPlaces)/2d;
-            return Math.Abs((a - b)) < decimalPlaceMagnitude;
-        }
-
-        /// <summary>
-        /// Compares two floats and determines if they are equal to within the specified number of decimal places or not, using the 
-        /// number of decimal places as an absolute measure.
-        /// </summary>
-        /// <remarks>
-        /// <para>
-        /// The values are equal if the difference between the two numbers is smaller than 10^(-numberOfDecimalPlaces). We divide by 
-        /// two so that we have half the range on each side of the numbers, e.g. if <paramref name="decimalPlaces"/> == 2, then 0.01 will equal between 
-        /// 0.005 and 0.015, but not 0.02 and not 0.00
-        /// </para>
-        /// </remarks>
-        /// <param name="a">The first value.</param>
-        /// <param name="b">The second value.</param>
-        /// <param name="decimalPlaces">The number of decimal places.</param>
-        /// <returns><see langword="true" /> if both floats are equal to each other within the specified number of decimal places; otherwise <see langword="false" />.</returns>
-        public static bool AlmostEqualInAbsoluteDecimalPlaces(this float a, float b, int decimalPlaces)
-        {
-            // If A or B are a NAN, return false. NANs are equal to nothing,
-            // not even themselves.
-            if (float.IsNaN(a) || float.IsNaN(b))
-            {
-                return false;
-            }
-
-            // If A or B are infinity (positive or negative) then
-            // only return true if they are exactly equal to each other -
-            // that is, if they are both infinities of the same sign.
-            if (float.IsInfinity(a) || float.IsInfinity(b))
-            {
-                return a == b;
-            }
-
-            // The values are equal if the difference between the two numbers is smaller than
-            // 10^(-numberOfDecimalPlaces). We divide by two so that we have half the range
-            // on each side of the numbers, e.g. if decimalPlaces == 2, 
-            // then 0.01 will equal between 0.005 and 0.015, but not 0.02 and not 0.00
-            var decimalPlaceMagnitude = (float) Math.Pow(10, -decimalPlaces)/2f;
-            return Math.Abs((a - b)) < decimalPlaceMagnitude;
-        }
-
-        /// <summary>
-        /// Compares two doubles and determines if they are equal to within the tolerance or not. Equality comparison is based on the binary representation.
-        /// </summary>
-        /// <remarks>
-        /// <para>
-        /// Determines the 'number' of floating point numbers between two values (i.e. the number of discrete steps 
-        /// between the two numbers) and then checks if that is within the specified tolerance. So if a tolerance 
-        /// of 1 is passed then the result will be true only if the two numbers have the same binary representation 
-        /// OR if they are two adjacent numbers that only differ by one step.
-        /// </para>
-        /// <para>
-        /// The comparison method used is explained in http://www.cygnus-software.com/papers/comparingfloats/comparingfloats.htm . The article
-        /// at http://www.extremeoptimization.com/resources/Articles/FPDotNetConceptsAndFormats.aspx explains how to transform the C code to 
-        /// .NET enabled code without using pointers and unsafe code.
-        /// </para>
-        /// </remarks>
-        /// <param name="a">The first value.</param>
-        /// <param name="b">The second value.</param>
-        /// <param name="maxNumbersBetween">The maximum number of floating point values between the two values. Must be 1 or larger.</param>
-        /// <returns><see langword="true" /> if both doubles are equal to each other within the specified tolerance; otherwise <see langword="false" />.</returns>
-        /// <exception cref="ArgumentOutOfRangeException">
-        ///     Thrown if <paramref name="maxNumbersBetween"/> is smaller than one.
-        /// </exception>
-        public static bool AlmostEqual(this double a, double b, long maxNumbersBetween)
-        {
-            // Make sure maxNumbersBetween is non-negative and small enough that the
-            // default NAN won't compare as equal to anything.
-            if (maxNumbersBetween < 1)
-            {
-                throw new ArgumentOutOfRangeException("maxNumbersBetween");
-            }
-
-            // If A or B are infinity (positive or negative) then
-            // only return true if they are exactly equal to each other -
-            // that is, if they are both infinities of the same sign.
-            if (double.IsInfinity(a) || double.IsInfinity(b))
-            {
-                return a == b;
-            }
-
-            // If A or B are a NAN, return false. NANs are equal to nothing,
-            // not even themselves.
-            if (double.IsNaN(a) || double.IsNaN(b))
-            {
-                return false;
-            }
-
-            // Get the first double and convert it to an integer value (by using the binary representation)
-            long firstUlong = AsDirectionalInt64(a);
-
-            // Get the second double and convert it to an integer value (by using the binary representation)
-            long secondUlong = AsDirectionalInt64(b);
-
-            // Now compare the values. 
-            // Note that this comparison can overflow so we'll approach this differently
-            // Do note that we could overflow this way too. We should probably check that we don't.
-            return (a > b) ? (secondUlong + maxNumbersBetween >= firstUlong) : (firstUlong + maxNumbersBetween >= secondUlong);
-        }
-
-        /// <summary>
-        /// Compares two floats and determines if they are equal to within the tolerance or not. Equality comparison is based on the binary representation.
-        /// </summary>
-        /// <param name="a">The first value.</param>
-        /// <param name="b">The second value.</param>
-        /// <param name="maxNumbersBetween">The maximum number of floating point values between the two values. Must be 1 or larger.</param>
-        /// <returns><see langword="true" /> if both floats are equal to each other within the specified tolerance; otherwise <see langword="false" />.</returns>
-        /// <exception cref="ArgumentOutOfRangeException">
-        ///     Thrown if <paramref name="maxNumbersBetween"/> is smaller than one.
-        /// </exception>
-        public static bool AlmostEqual(this float a, float b, int maxNumbersBetween)
-        {
-            // Make sure maxNumbersBetween is non-negative and small enough that the
-            // default NAN won't compare as equal to anything.
-            if (maxNumbersBetween < 1)
-            {
-                throw new ArgumentOutOfRangeException("maxNumbersBetween");
-            }
-
-            // If A or B are infinity (positive or negative) then
-            // only return true if they are exactly equal to each other -
-            // that is, if they are both infinities of the same sign.
-            if (float.IsInfinity(a) || float.IsInfinity(b))
-            {
-                return a == b;
-            }
-
-            // If A or B are a NAN, return false. NANs are equal to nothing,
-            // not even themselves.
-            if (float.IsNaN(a) || float.IsNaN(b))
-            {
-                return false;
-            }
-
-            // Get the first float and convert it to an integer value (by using the binary representation)
-            int firstUlong = AsDirectionalInt32(a);
-
-            // Get the second float and convert it to an integer value (by using the binary representation)
-            int secondUlong = AsDirectionalInt32(b);
-
-            // Now compare the values. 
-            // Note that this comparison can overflow so we'll approach this differently
-            // Do note that we could overflow this way too. We should probably check that we don't.
-            return (a > b) ? (secondUlong + maxNumbersBetween >= firstUlong) : (firstUlong + maxNumbersBetween >= secondUlong);
+            return (a >= b) ? (ulong) (intA - intB) : (ulong) (intB - intA);
         }
 
         /// <summary>
@@ -1500,6 +733,27 @@ namespace MathNet.Numerics
 
         /// <summary>
         /// Compares two doubles and determines if the <c>first</c> value is larger than the <c>second</c>
+        /// value to within the tolerance or not. Equality comparison is based on the binary representation.
+        /// </summary>
+        /// <param name="a">The first value.</param>
+        /// <param name="b">The second value.</param>
+        /// <param name="maxNumbersBetween">The maximum number of floating point values for which the two values are considered equal. Must be 1 or larger.</param>
+        /// <returns><c>true</c> if the first value is larger than the second value; otherwise <c>false</c>.</returns>
+        public static bool IsLarger(this float a, float b, long maxNumbersBetween)
+        {
+            // If A or B are a NAN, return false. NANs are equal to nothing,
+            // not even themselves, and thus they're not bigger or
+            // smaller than anything either
+            if (float.IsNaN(a) || float.IsNaN(b))
+            {
+                return false;
+            }
+
+            return CompareTo(a, b, maxNumbersBetween) > 0;
+        }
+
+        /// <summary>
+        /// Compares two doubles and determines if the <c>first</c> value is larger than the <c>second</c>
         /// value to within the specified number of decimal places or not.
         /// </summary>
         /// <remarks>
@@ -1513,7 +767,7 @@ namespace MathNet.Numerics
         /// <param name="b">The second value.</param>
         /// <param name="decimalPlaces">The number of decimal places.</param>
         /// <returns><c>true</c> if the first value is larger than the second value; otherwise <c>false</c>.</returns>
-        public static bool IsLargerWithDecimalPlaces(this double a, double b, int decimalPlaces)
+        public static bool IsLargerDecimal(this double a, double b, int decimalPlaces)
         {
             // If A or B are a NAN, return false. NANs are equal to nothing,
             // not even themselves, and thus they're not bigger or
@@ -1523,7 +777,35 @@ namespace MathNet.Numerics
                 return false;
             }
 
-            return CompareToInDecimalPlaces(a, b, decimalPlaces) > 0;
+            return CompareToDecimal(a, b, decimalPlaces) > 0;
+        }
+
+        /// <summary>
+        /// Compares two doubles and determines if the <c>first</c> value is larger than the <c>second</c>
+        /// value to within the specified number of decimal places or not.
+        /// </summary>
+        /// <remarks>
+        /// <para>
+        /// The values are equal if the difference between the two numbers is smaller than 10^(-numberOfDecimalPlaces). We divide by 
+        /// two so that we have half the range on each side of the numbers, e.g. if <paramref name="decimalPlaces"/> == 2, then 0.01 will equal between 
+        /// 0.005 and 0.015, but not 0.02 and not 0.00
+        /// </para>
+        /// </remarks>
+        /// <param name="a">The first value.</param>
+        /// <param name="b">The second value.</param>
+        /// <param name="decimalPlaces">The number of decimal places.</param>
+        /// <returns><c>true</c> if the first value is larger than the second value; otherwise <c>false</c>.</returns>
+        public static bool IsLargerDecimal(this float a, float b, int decimalPlaces)
+        {
+            // If A or B are a NAN, return false. NANs are equal to nothing,
+            // not even themselves, and thus they're not bigger or
+            // smaller than anything either
+            if (float.IsNaN(a) || float.IsNaN(b))
+            {
+                return false;
+            }
+
+            return CompareToDecimal(a, b, decimalPlaces) > 0;
         }
 
         /// <summary>
@@ -1583,7 +865,7 @@ namespace MathNet.Numerics
         /// <param name="b">The second value.</param>
         /// <param name="decimalPlaces">The number of decimal places.</param>
         /// <returns><c>true</c> if the first value is smaller than the second value; otherwise <c>false</c>.</returns>
-        public static bool IsSmallerWithDecimalPlaces(this double a, double b, int decimalPlaces)
+        public static bool IsSmallerDecimal(this double a, double b, int decimalPlaces)
         {
             // If A or B are a NAN, return false. NANs are equal to nothing,
             // not even themselves, and thus they're not bigger or
@@ -1593,9 +875,9 @@ namespace MathNet.Numerics
                 return false;
             }
 
-            return CompareToInDecimalPlaces(a, b, decimalPlaces) < 0;
+            return CompareToDecimal(a, b, decimalPlaces) < 0;
         }
-        
+
         ///<summary>
         /// Compares two floats and determines if the <c>first</c> value is smaller than the <c>second</c>
         /// value to within the specified number of decimal places or not.
@@ -1611,17 +893,17 @@ namespace MathNet.Numerics
         /// <param name="b">The second value.</param>
         /// <param name="decimalPlaces">The number of decimal places.</param>
         /// <returns><c>true</c> if the first value is smaller than the second value; otherwise <c>false</c>.</returns>
-        public static bool IsSmallerWithDecimalPlaces(this float a, float b, int decimalPlaces)
+        public static bool IsSmallerDecimal(this float a, float b, int decimalPlaces)
         {
             // If A or B are a NAN, return false. NANs are equal to nothing,
             // not even themselves, and thus they're not bigger or
             // smaller than anything either
-            if (double.IsNaN(a) || double.IsNaN(b))
+            if (float.IsNaN(a) || float.IsNaN(b))
             {
                 return false;
             }
 
-            return CompareToInDecimalPlaces(a, b, decimalPlaces) < 0;
+            return CompareToDecimal(a, b, decimalPlaces) < 0;
         }
 
         /// <summary>
@@ -1669,7 +951,7 @@ namespace MathNet.Numerics
 
             // If the numbers are equal to within the tolerance then
             // there's technically no difference
-            if (AlmostEqual(a, b, maxNumbersBetween))
+            if (AlmostEqualNumbersBetween(a, b, maxNumbersBetween))
             {
                 return 0;
             }
@@ -1703,7 +985,7 @@ namespace MathNet.Numerics
         ///     </item>
         /// </list>
         /// </returns>
-        public static int CompareToInDecimalPlaces(this double a, double b, int decimalPlaces)
+        public static int CompareToDecimal(this double a, double b, int decimalPlaces)
         {
             // If A or B are a NAN, return false. NANs are equal to nothing,
             // not even themselves, and thus they're not bigger or
@@ -1722,7 +1004,7 @@ namespace MathNet.Numerics
 
             // If the numbers are equal to within the number of decimal places
             // then there's technically no difference
-            if (AlmostEqualInDecimalPlaces(a, b, decimalPlaces))
+            if (AlmostEqualRelative(a, b, decimalPlaces))
             {
                 return 0;
             }
@@ -1785,7 +1067,7 @@ namespace MathNet.Numerics
         /// <seealso cref="EpsilonOf(double)"/>
         public static double PositiveEpsilonOf(this double value)
         {
-            return 2 * EpsilonOf(value);
+            return 2*EpsilonOf(value);
         }
 
         /// <summary>

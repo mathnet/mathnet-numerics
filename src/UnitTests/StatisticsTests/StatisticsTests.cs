@@ -177,12 +177,12 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
         public void MeanConsistentWithNistData(string dataSet)
         {
             var data = _data[dataSet];
-            AssertHelpers.AlmostEqual(data.Mean, Statistics.Mean(data.Data), 15);
-            AssertHelpers.AlmostEqual(data.Mean, ArrayStatistics.Mean(data.Data), 15);
-            AssertHelpers.AlmostEqual(data.Mean, StreamingStatistics.Mean(data.Data), 15);
-            AssertHelpers.AlmostEqual(data.Mean, Statistics.MeanVariance(data.Data).Item1, 15);
-            AssertHelpers.AlmostEqual(data.Mean, ArrayStatistics.MeanVariance(data.Data).Item1, 15);
-            AssertHelpers.AlmostEqual(data.Mean, StreamingStatistics.MeanVariance(data.Data).Item1, 15);
+            AssertHelpers.AlmostEqualRelative(data.Mean, Statistics.Mean(data.Data), 14);
+            AssertHelpers.AlmostEqualRelative(data.Mean, ArrayStatistics.Mean(data.Data), 14);
+            AssertHelpers.AlmostEqualRelative(data.Mean, StreamingStatistics.Mean(data.Data), 14);
+            AssertHelpers.AlmostEqualRelative(data.Mean, Statistics.MeanVariance(data.Data).Item1, 14);
+            AssertHelpers.AlmostEqualRelative(data.Mean, ArrayStatistics.MeanVariance(data.Data).Item1, 14);
+            AssertHelpers.AlmostEqualRelative(data.Mean, StreamingStatistics.MeanVariance(data.Data).Item1, 14);
         }
 
         [TestCase("lottery")]
@@ -196,40 +196,40 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
         public void NullableMeanConsistentWithNistData(string dataSet)
         {
             var data = _data[dataSet];
-            AssertHelpers.AlmostEqual(data.Mean, Statistics.Mean(data.DataWithNulls), 15);
+            AssertHelpers.AlmostEqualRelative(data.Mean, Statistics.Mean(data.DataWithNulls), 14);
         }
 
-        [TestCase("lottery", 15)]
-        [TestCase("lew", 15)]
-        [TestCase("mavro", 12)]
-        [TestCase("michelso", 12)]
+        [TestCase("lottery", 14)]
+        [TestCase("lew", 14)]
+        [TestCase("mavro", 11)]
+        [TestCase("michelso", 11)]
         [TestCase("numacc1", 15)]
         [TestCase("numacc2", 13)]
         [TestCase("numacc3", 9)]
-        [TestCase("numacc4", 8)]
+        [TestCase("numacc4", 7)]
         public void StandardDeviationConsistentWithNistData(string dataSet, int digits)
         {
             var data = _data[dataSet];
-            AssertHelpers.AlmostEqual(data.StandardDeviation, Statistics.StandardDeviation(data.Data), digits);
-            AssertHelpers.AlmostEqual(data.StandardDeviation, ArrayStatistics.StandardDeviation(data.Data), digits);
-            AssertHelpers.AlmostEqual(data.StandardDeviation, StreamingStatistics.StandardDeviation(data.Data), digits);
-            AssertHelpers.AlmostEqual(data.StandardDeviation, Math.Sqrt(Statistics.MeanVariance(data.Data).Item2), digits);
-            AssertHelpers.AlmostEqual(data.StandardDeviation, Math.Sqrt(ArrayStatistics.MeanVariance(data.Data).Item2), digits);
-            AssertHelpers.AlmostEqual(data.StandardDeviation, Math.Sqrt(StreamingStatistics.MeanVariance(data.Data).Item2), digits);
+            AssertHelpers.AlmostEqualRelative(data.StandardDeviation, Statistics.StandardDeviation(data.Data), digits);
+            AssertHelpers.AlmostEqualRelative(data.StandardDeviation, ArrayStatistics.StandardDeviation(data.Data), digits);
+            AssertHelpers.AlmostEqualRelative(data.StandardDeviation, StreamingStatistics.StandardDeviation(data.Data), digits);
+            AssertHelpers.AlmostEqualRelative(data.StandardDeviation, Math.Sqrt(Statistics.MeanVariance(data.Data).Item2), digits);
+            AssertHelpers.AlmostEqualRelative(data.StandardDeviation, Math.Sqrt(ArrayStatistics.MeanVariance(data.Data).Item2), digits);
+            AssertHelpers.AlmostEqualRelative(data.StandardDeviation, Math.Sqrt(StreamingStatistics.MeanVariance(data.Data).Item2), digits);
         }
 
-        [TestCase("lottery", 15)]
-        [TestCase("lew", 15)]
-        [TestCase("mavro", 12)]
-        [TestCase("michelso", 12)]
+        [TestCase("lottery", 14)]
+        [TestCase("lew", 14)]
+        [TestCase("mavro", 11)]
+        [TestCase("michelso", 11)]
         [TestCase("numacc1", 15)]
         [TestCase("numacc2", 13)]
         [TestCase("numacc3", 9)]
-        [TestCase("numacc4", 8)]
+        [TestCase("numacc4", 7)]
         public void NullableStandardDeviationConsistentWithNistData(string dataSet, int digits)
         {
             var data = _data[dataSet];
-            AssertHelpers.AlmostEqual(data.StandardDeviation, Statistics.StandardDeviation(data.DataWithNulls), digits);
+            AssertHelpers.AlmostEqualRelative(data.StandardDeviation, Statistics.StandardDeviation(data.DataWithNulls), digits);
         }
 
         [Test]
@@ -568,17 +568,17 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
             // Test around 10^9, potential stability issues
             var gaussian = new Normal(1e+9, 2, new MersenneTwister(100));
 
-            AssertHelpers.AlmostEqual(1e+9, Statistics.Mean(gaussian.Samples().Take(10000)), 11);
-            AssertHelpers.AlmostEqual(4d, Statistics.Variance(gaussian.Samples().Take(10000)), 1);
-            AssertHelpers.AlmostEqual(2d, Statistics.StandardDeviation(gaussian.Samples().Take(10000)), 2);
+            AssertHelpers.AlmostEqualRelative(1e+9, Statistics.Mean(gaussian.Samples().Take(10000)), 10);
+            AssertHelpers.AlmostEqualRelative(4d, Statistics.Variance(gaussian.Samples().Take(10000)), 0);
+            AssertHelpers.AlmostEqualRelative(2d, Statistics.StandardDeviation(gaussian.Samples().Take(10000)), 1);
 
-            AssertHelpers.AlmostEqual(1e+9, ArrayStatistics.Mean(gaussian.Samples().Take(10000).ToArray()), 11);
-            AssertHelpers.AlmostEqual(4d, ArrayStatistics.Variance(gaussian.Samples().Take(10000).ToArray()), 1);
-            AssertHelpers.AlmostEqual(2d, ArrayStatistics.StandardDeviation(gaussian.Samples().Take(10000).ToArray()), 2);
+            AssertHelpers.AlmostEqualRelative(1e+9, ArrayStatistics.Mean(gaussian.Samples().Take(10000).ToArray()), 10);
+            AssertHelpers.AlmostEqualRelative(4d, ArrayStatistics.Variance(gaussian.Samples().Take(10000).ToArray()), 0);
+            AssertHelpers.AlmostEqualRelative(2d, ArrayStatistics.StandardDeviation(gaussian.Samples().Take(10000).ToArray()), 1);
 
-            AssertHelpers.AlmostEqual(1e+9, StreamingStatistics.Mean(gaussian.Samples().Take(10000)), 11);
-            AssertHelpers.AlmostEqual(4d, StreamingStatistics.Variance(gaussian.Samples().Take(10000)), 1);
-            AssertHelpers.AlmostEqual(2d, StreamingStatistics.StandardDeviation(gaussian.Samples().Take(10000)), 2);
+            AssertHelpers.AlmostEqualRelative(1e+9, StreamingStatistics.Mean(gaussian.Samples().Take(10000)), 10);
+            AssertHelpers.AlmostEqualRelative(4d, StreamingStatistics.Variance(gaussian.Samples().Take(10000)), 0);
+            AssertHelpers.AlmostEqualRelative(2d, StreamingStatistics.StandardDeviation(gaussian.Samples().Take(10000)), 1);
         }
 
         [TestCase("lottery")]
@@ -589,9 +589,9 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
         public void CovarianceConsistentWithVariance(string dataSet)
         {
             var data = _data[dataSet];
-            AssertHelpers.AlmostEqual(Statistics.Variance(data.Data), Statistics.Covariance(data.Data, data.Data), 10);
-            AssertHelpers.AlmostEqual(ArrayStatistics.Variance(data.Data), ArrayStatistics.Covariance(data.Data, data.Data), 10);
-            AssertHelpers.AlmostEqual(StreamingStatistics.Variance(data.Data), StreamingStatistics.Covariance(data.Data, data.Data), 10);
+            AssertHelpers.AlmostEqualRelative(Statistics.Variance(data.Data), Statistics.Covariance(data.Data, data.Data), 10);
+            AssertHelpers.AlmostEqualRelative(ArrayStatistics.Variance(data.Data), ArrayStatistics.Covariance(data.Data, data.Data), 10);
+            AssertHelpers.AlmostEqualRelative(StreamingStatistics.Variance(data.Data), StreamingStatistics.Covariance(data.Data, data.Data), 10);
         }
 
         [TestCase("lottery")]
@@ -602,9 +602,9 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
         public void PopulationCovarianceConsistentWithPopulationVariance(string dataSet)
         {
             var data = _data[dataSet];
-            AssertHelpers.AlmostEqual(Statistics.PopulationVariance(data.Data), Statistics.PopulationCovariance(data.Data, data.Data), 10);
-            AssertHelpers.AlmostEqual(ArrayStatistics.PopulationVariance(data.Data), ArrayStatistics.PopulationCovariance(data.Data, data.Data), 10);
-            AssertHelpers.AlmostEqual(StreamingStatistics.PopulationVariance(data.Data), StreamingStatistics.PopulationCovariance(data.Data, data.Data), 10);
+            AssertHelpers.AlmostEqualRelative(Statistics.PopulationVariance(data.Data), Statistics.PopulationCovariance(data.Data, data.Data), 10);
+            AssertHelpers.AlmostEqualRelative(ArrayStatistics.PopulationVariance(data.Data), ArrayStatistics.PopulationCovariance(data.Data, data.Data), 10);
+            AssertHelpers.AlmostEqualRelative(StreamingStatistics.PopulationVariance(data.Data), StreamingStatistics.PopulationCovariance(data.Data, data.Data), 10);
         }
 
         [Test]
@@ -613,13 +613,13 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
             var dataA = _data["lottery"].Data.Take(200);
             var dataB = _data["lew"].Data.Take(200);
 
-            AssertHelpers.AlmostEqual(Statistics.Covariance(dataA, dataB), Statistics.Covariance(dataB, dataA), 12);
-            AssertHelpers.AlmostEqual(StreamingStatistics.Covariance(dataA, dataB), StreamingStatistics.Covariance(dataB, dataA), 12);
-            AssertHelpers.AlmostEqual(ArrayStatistics.Covariance(dataA.ToArray(), dataB.ToArray()), ArrayStatistics.Covariance(dataB.ToArray(), dataA.ToArray()), 12);
+            AssertHelpers.AlmostEqualRelative(Statistics.Covariance(dataA, dataB), Statistics.Covariance(dataB, dataA), 12);
+            AssertHelpers.AlmostEqualRelative(StreamingStatistics.Covariance(dataA, dataB), StreamingStatistics.Covariance(dataB, dataA), 12);
+            AssertHelpers.AlmostEqualRelative(ArrayStatistics.Covariance(dataA.ToArray(), dataB.ToArray()), ArrayStatistics.Covariance(dataB.ToArray(), dataA.ToArray()), 12);
 
-            AssertHelpers.AlmostEqual(Statistics.PopulationCovariance(dataA, dataB), Statistics.PopulationCovariance(dataB, dataA), 12);
-            AssertHelpers.AlmostEqual(StreamingStatistics.PopulationCovariance(dataA, dataB), StreamingStatistics.PopulationCovariance(dataB, dataA), 12);
-            AssertHelpers.AlmostEqual(ArrayStatistics.PopulationCovariance(dataA.ToArray(), dataB.ToArray()), ArrayStatistics.PopulationCovariance(dataB.ToArray(), dataA.ToArray()), 12);
+            AssertHelpers.AlmostEqualRelative(Statistics.PopulationCovariance(dataA, dataB), Statistics.PopulationCovariance(dataB, dataA), 12);
+            AssertHelpers.AlmostEqualRelative(StreamingStatistics.PopulationCovariance(dataA, dataB), StreamingStatistics.PopulationCovariance(dataB, dataA), 12);
+            AssertHelpers.AlmostEqualRelative(ArrayStatistics.PopulationCovariance(dataA.ToArray(), dataB.ToArray()), ArrayStatistics.PopulationCovariance(dataB.ToArray(), dataA.ToArray()), 12);
         }
 
         [TestCase("lottery")]
@@ -630,13 +630,13 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
         public void ArrayStatisticsConsistentWithStreamimgStatistics(string dataSet)
         {
             var data = _data[dataSet];
-            AssertHelpers.AlmostEqual(ArrayStatistics.Mean(data.Data), StreamingStatistics.Mean(data.Data), 10);
-            AssertHelpers.AlmostEqual(ArrayStatistics.Variance(data.Data), StreamingStatistics.Variance(data.Data), 10);
-            AssertHelpers.AlmostEqual(ArrayStatistics.StandardDeviation(data.Data), StreamingStatistics.StandardDeviation(data.Data), 10);
-            AssertHelpers.AlmostEqual(ArrayStatistics.PopulationVariance(data.Data), StreamingStatistics.PopulationVariance(data.Data), 10);
-            AssertHelpers.AlmostEqual(ArrayStatistics.PopulationStandardDeviation(data.Data), StreamingStatistics.PopulationStandardDeviation(data.Data), 10);
-            AssertHelpers.AlmostEqual(ArrayStatistics.Covariance(data.Data, data.Data), StreamingStatistics.Covariance(data.Data, data.Data), 10);
-            AssertHelpers.AlmostEqual(ArrayStatistics.PopulationCovariance(data.Data, data.Data), StreamingStatistics.PopulationCovariance(data.Data, data.Data), 10);
+            AssertHelpers.AlmostEqualRelative(ArrayStatistics.Mean(data.Data), StreamingStatistics.Mean(data.Data), 10);
+            AssertHelpers.AlmostEqualRelative(ArrayStatistics.Variance(data.Data), StreamingStatistics.Variance(data.Data), 10);
+            AssertHelpers.AlmostEqualRelative(ArrayStatistics.StandardDeviation(data.Data), StreamingStatistics.StandardDeviation(data.Data), 10);
+            AssertHelpers.AlmostEqualRelative(ArrayStatistics.PopulationVariance(data.Data), StreamingStatistics.PopulationVariance(data.Data), 10);
+            AssertHelpers.AlmostEqualRelative(ArrayStatistics.PopulationStandardDeviation(data.Data), StreamingStatistics.PopulationStandardDeviation(data.Data), 10);
+            AssertHelpers.AlmostEqualRelative(ArrayStatistics.Covariance(data.Data, data.Data), StreamingStatistics.Covariance(data.Data, data.Data), 10);
+            AssertHelpers.AlmostEqualRelative(ArrayStatistics.PopulationCovariance(data.Data, data.Data), StreamingStatistics.PopulationCovariance(data.Data, data.Data), 10);
         }
 
         [Test]

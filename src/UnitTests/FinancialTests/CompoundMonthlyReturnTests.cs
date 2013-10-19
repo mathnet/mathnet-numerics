@@ -68,7 +68,7 @@ namespace MathNet.Numerics.UnitTests.FinancialTests
             //act
             var cmpdReturn = inputData.CompoundMonthlyReturn();
             //assert
-            AssertHelpers.AlmostEqual(0.0870999982199265, cmpdReturn, 15);
+            AssertHelpers.AlmostEqualRelative(0.0870999982199265, cmpdReturn, 14);
         }
 
         //Definitly need more tests here.  Would love to find test data for these stats similar to the .dat files used for other tests.

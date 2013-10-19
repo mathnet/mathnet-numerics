@@ -191,7 +191,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void ValidateEntropy(double a, double b, double entropy)
         {
             var n = new Beta(a, b);
-            AssertHelpers.AlmostEqual(entropy, n.Entropy, 14);
+            AssertHelpers.AlmostEqualRelative(entropy, n.Entropy, 13);
         }
 
         /// <summary>
@@ -213,7 +213,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void ValidateSkewness(double a, double b, double skewness)
         {
             var n = new Beta(a, b);
-            AssertHelpers.AlmostEqual(skewness, n.Skewness, 15);
+            AssertHelpers.AlmostEqualRelative(skewness, n.Skewness, 14);
         }
 
         /// <summary>
@@ -368,8 +368,8 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void ValidateDensity(double a, double b, double x, double pdf)
         {
             var n = new Beta(a, b);
-            AssertHelpers.AlmostEqual(pdf, n.Density(x), 13);
-            AssertHelpers.AlmostEqual(pdf, Beta.PDF(a, b, x), 13);
+            AssertHelpers.AlmostEqualRelative(pdf, n.Density(x), 12);
+            AssertHelpers.AlmostEqualRelative(pdf, Beta.PDF(a, b, x), 12);
         }
 
         /// <summary>
@@ -414,8 +414,8 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void ValidateDensityLn(double a, double b, double x, double pdfln)
         {
             var n = new Beta(a, b);
-            AssertHelpers.AlmostEqual(pdfln, n.DensityLn(x), 14);
-            AssertHelpers.AlmostEqual(pdfln, Beta.PDFLn(a, b, x), 14);
+            AssertHelpers.AlmostEqualRelative(pdfln, n.DensityLn(x), 13);
+            AssertHelpers.AlmostEqualRelative(pdfln, Beta.PDFLn(a, b, x), 13);
         }
 
         /// <summary>
@@ -458,8 +458,8 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void ValidateCumulativeDistribution(double a, double b, double x, double cdf)
         {
             var n = new Beta(a, b);
-            AssertHelpers.AlmostEqual(cdf, n.CumulativeDistribution(x), 13);
-            AssertHelpers.AlmostEqual(cdf, Beta.CDF(a, b, x), 13);
+            AssertHelpers.AlmostEqualRelative(cdf, n.CumulativeDistribution(x), 13);
+            AssertHelpers.AlmostEqualRelative(cdf, Beta.CDF(a, b, x), 13);
         }
     }
 }

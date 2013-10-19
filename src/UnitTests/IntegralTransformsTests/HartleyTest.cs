@@ -58,14 +58,9 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         /// <summary>
         /// Verify if matches DFT.
         /// </summary>
-        /// <param name="samples">Samples array.</param>
-        /// <param name="maximumError">Maximum error value.</param>
-        /// <param name="inverse">Is inverse.</param>
-        /// <param name="dft">DFT function delegate.</param>
-        /// <param name="hartley">Hartley transform delegate.</param>
         static void VerifyMatchesDft(
             double[] samples,
-            double maximumError,
+            int maximumErrorDecimalPlaces,
             bool inverse,
             Action<Complex[]> dft,
             Func<double[], double[]> hartley)
@@ -76,7 +71,7 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
             dft(fourierComplex);
             var fourierReal = ArrayHelpers.ConvertAll(fourierComplex, s => s.Real);
 
-            AssertHelpers.AlmostEqualList(fourierReal, hartleyReal, maximumError);
+            AssertHelpers.ListAlmostEqual(fourierReal, hartleyReal, maximumErrorDecimalPlaces);
         }
 
         /// <summary>
@@ -94,13 +89,13 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
 
             VerifyMatchesDft(
                 samples,
-                1e-5,
+                5,
                 false,
                 s => Transform.FourierForward(s, fourierOptions),
                 s => dht.NaiveForward(s, hartleyOptions));
             VerifyMatchesDft(
                 samples,
-                1e-5,
+                5,
                 true,
                 s => Transform.FourierInverse(s, fourierOptions),
                 s => dht.NaiveInverse(s, hartleyOptions));

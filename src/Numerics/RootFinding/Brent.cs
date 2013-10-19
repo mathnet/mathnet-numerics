@@ -100,7 +100,7 @@ namespace MathNet.Numerics.RootFinding
                 double xMidOld = xMid;
                 xMid = (upperBound - root)/2.0;
 
-                if (Math.Abs(xMid) <= xAcc1 && froot.AlmostEqualWithAbsoluteError(0, froot, accuracy))
+                if (Math.Abs(xMid) <= xAcc1 && froot.AlmostEqualNormRelative(0, froot, accuracy))
                 {
                     return true;
                 }
@@ -117,7 +117,7 @@ namespace MathNet.Numerics.RootFinding
                     double s = froot/fmin;
                     double p;
                     double q;
-                    if (lowerBound.AlmostEqual(upperBound))
+                    if (lowerBound.AlmostEqualRelative(upperBound))
                     {
                         p = 2.0*xMid*s;
                         q = 1.0 - s;

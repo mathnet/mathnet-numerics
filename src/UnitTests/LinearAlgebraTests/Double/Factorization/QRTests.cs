@@ -471,7 +471,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
             // Check the reconstruction.
             for (var i = 0; i < order; i++)
             {
-                AssertHelpers.AlmostEqual(vectorb[i], matrixBReconstruct[i], 9);
+                AssertHelpers.AlmostEqualRelative(vectorb[i], matrixBReconstruct[i], 9);
             }
 
             // Make sure A didn't change.
@@ -516,7 +516,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
             {
                 for (var j = 0; j < matrixB.ColumnCount; j++)
                 {
-                    AssertHelpers.AlmostEqual(matrixB[i, j], matrixBReconstruct[i, j], 9);
+                    AssertHelpers.AlmostEqualRelative(matrixB[i, j], matrixBReconstruct[i, j], 9);
                 }
             }
 
@@ -557,7 +557,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
             // Check the reconstruction.
             for (var i = 0; i < vectorb.Count; i++)
             {
-                AssertHelpers.AlmostEqual(vectorb[i], matrixBReconstruct[i], 9);
+                AssertHelpers.AlmostEqualRelative(vectorb[i], matrixBReconstruct[i], 9);
             }
 
             // Make sure A didn't change.
@@ -611,7 +611,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
             {
                 for (var j = 0; j < matrixB.ColumnCount; j++)
                 {
-                    AssertHelpers.AlmostEqual(matrixB[i, j], matrixBReconstruct[i, j], 9);
+                    AssertHelpers.AlmostEqualRelative(matrixB[i, j], matrixBReconstruct[i, j], 9);
                 }
             }
 
@@ -661,7 +661,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
             {
                 for (var j = 0; j < matrixX.ColumnCount; j++)
                 {
-                    AssertHelpers.AlmostEqualAbsolute(test[i, j], matrixX[i, j], 12);
+                    AssertHelpers.AlmostEqual(test[i, j], matrixX[i, j], 12);
                 }
             }
 
@@ -697,7 +697,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
 
             for (var i = 0; i < vectorX.Count; i++)
             {
-                AssertHelpers.AlmostEqual(test[i], vectorX[i], 9);
+                AssertHelpers.AlmostEqualRelative(test[i], vectorX[i], 9);
             }
 
             // Make sure A didn't change.

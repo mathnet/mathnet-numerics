@@ -98,7 +98,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Single
             Control.LinearAlgebraProvider.AddVectorToScaledVector(result, (float) Math.PI, _x, result);
             for (var i = 0; i < _y.Length; i++)
             {
-                AssertHelpers.AlmostEqual(_y[i] + ((float) Math.PI*_x[i]), result[i], 6);
+                AssertHelpers.AlmostEqualRelative(_y[i] + ((float) Math.PI*_x[i]), result[i], 5);
             }
         }
 
@@ -120,7 +120,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Single
             Control.LinearAlgebraProvider.ScaleArray((float) Math.PI, result, result);
             for (var i = 0; i < _y.Length; i++)
             {
-                AssertHelpers.AlmostEqual(_y[i]*(float) Math.PI, result[i], 6);
+                AssertHelpers.AlmostEqualRelative(_y[i]*(float) Math.PI, result[i], 5);
             }
         }
 
@@ -131,7 +131,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Single
         public void CanComputeDotProduct()
         {
             var result = Control.LinearAlgebraProvider.DotProduct(_x, _y);
-            AssertHelpers.AlmostEqual(152.35, result, 6);
+            AssertHelpers.AlmostEqualRelative(152.35, result, 5);
         }
 
         /// <summary>
@@ -199,7 +199,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Single
             var matrix = _matrices["Square3x3"];
             var work = new float[matrix.RowCount];
             var norm = Control.LinearAlgebraProvider.MatrixNorm(Norm.OneNorm, matrix.RowCount, matrix.ColumnCount, matrix.Values, work);
-            AssertHelpers.AlmostEqual(12.1, norm, 6);
+            AssertHelpers.AlmostEqualRelative(12.1, norm, 5);
         }
 
         /// <summary>
@@ -211,7 +211,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Single
             var matrix = _matrices["Square3x3"];
             var work = new float[matrix.RowCount];
             var norm = Control.LinearAlgebraProvider.MatrixNorm(Norm.FrobeniusNorm, matrix.RowCount, matrix.ColumnCount, matrix.Values, work);
-            AssertHelpers.AlmostEqual(10.777754868246, norm, 8);
+            AssertHelpers.AlmostEqual(10.777754868246, norm, 5);
         }
 
         /// <summary>
@@ -235,7 +235,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Single
             var matrix = _matrices["Square3x3"];
             var work = new float[18];
             var norm = Control.LinearAlgebraProvider.MatrixNorm(Norm.OneNorm, matrix.RowCount, matrix.ColumnCount, matrix.Values, work);
-            AssertHelpers.AlmostEqual(12.1, norm, 6);
+            AssertHelpers.AlmostEqualRelative(12.1, norm, 5);
         }
 
         /// <summary>
@@ -247,7 +247,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Single
             var matrix = _matrices["Square3x3"];
             var work = new float[18];
             var norm = Control.LinearAlgebraProvider.MatrixNorm(Norm.FrobeniusNorm, matrix.RowCount, matrix.ColumnCount, matrix.Values, work);
-            AssertHelpers.AlmostEqual(10.777754868246, norm, 8);
+            AssertHelpers.AlmostEqual(10.777754868246, norm, 5);
         }
 
         /// <summary>
@@ -278,7 +278,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Single
             {
                 for (var j = 0; j < c.ColumnCount; j++)
                 {
-                    AssertHelpers.AlmostEqual(x.Row(i)*y.Column(j), c[i, j], 6);
+                    AssertHelpers.AlmostEqualRelative(x.Row(i)*y.Column(j), c[i, j], 5);
                 }
             }
         }
@@ -299,7 +299,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Single
             {
                 for (var j = 0; j < c.ColumnCount; j++)
                 {
-                    AssertHelpers.AlmostEqual(x.Row(i)*y.Column(j), c[i, j], 6);
+                    AssertHelpers.AlmostEqualRelative(x.Row(i)*y.Column(j), c[i, j], 5);
                 }
             }
         }
@@ -320,7 +320,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Single
             {
                 for (var j = 0; j < c.ColumnCount; j++)
                 {
-                    AssertHelpers.AlmostEqual(x.Row(i)*y.Column(j), c[i, j], 6);
+                    AssertHelpers.AlmostEqualRelative(x.Row(i)*y.Column(j), c[i, j], 5);
                 }
             }
         }
@@ -341,7 +341,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Single
             {
                 for (var j = 0; j < c.ColumnCount; j++)
                 {
-                    AssertHelpers.AlmostEqual(2.2f*x.Row(i)*y.Column(j), c[i, j], 6);
+                    AssertHelpers.AlmostEqualRelative(2.2f*x.Row(i)*y.Column(j), c[i, j], 5);
                 }
             }
         }
@@ -362,7 +362,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Single
             {
                 for (var j = 0; j < c.ColumnCount; j++)
                 {
-                    AssertHelpers.AlmostEqual(2.2f*x.Row(i)*y.Column(j), c[i, j], 6);
+                    AssertHelpers.AlmostEqualRelative(2.2f*x.Row(i)*y.Column(j), c[i, j], 5);
                 }
             }
         }
@@ -391,7 +391,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Single
                         continue;
                     }
 
-                    AssertHelpers.AlmostEqual(2.2f*x.Row(i)*y.Column(j), c[i, j], 6);
+                    AssertHelpers.AlmostEqualRelative(2.2f*x.Row(i)*y.Column(j), c[i, j], 5);
                 }
             }
         }
@@ -410,15 +410,15 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Single
 
             Control.LinearAlgebraProvider.LUFactor(a, matrix.RowCount, ipiv);
 
-            AssertHelpers.AlmostEqual(a[0], -4.4, 6);
-            AssertHelpers.AlmostEqual(a[1], 0.25, 6);
-            AssertHelpers.AlmostEqual(a[2], 0, 6);
-            AssertHelpers.AlmostEqual(a[3], 5.5, 6);
-            AssertHelpers.AlmostEqual(a[4], -3.575, 6);
-            AssertHelpers.AlmostEqual(a[5], -0.307692307692308, 6);
-            AssertHelpers.AlmostEqual(a[6], 6.6, 6);
-            AssertHelpers.AlmostEqual(a[7], -4.95, 6);
-            AssertHelpers.AlmostEqual(a[8], 0.676923076923077, 6);
+            AssertHelpers.AlmostEqual(a[0], -4.4, 5);
+            AssertHelpers.AlmostEqual(a[1], 0.25, 5);
+            AssertHelpers.AlmostEqual(a[2], 0, 5);
+            AssertHelpers.AlmostEqual(a[3], 5.5, 5);
+            AssertHelpers.AlmostEqual(a[4], -3.575, 5);
+            AssertHelpers.AlmostEqual(a[5], -0.307692307692308, 5);
+            AssertHelpers.AlmostEqual(a[6], 6.6, 5);
+            AssertHelpers.AlmostEqual(a[7], -4.95, 5);
+            AssertHelpers.AlmostEqual(a[8], 0.676923076923077, 5);
             Assert.AreEqual(ipiv[0], 2);
             Assert.AreEqual(ipiv[1], 2);
             Assert.AreEqual(ipiv[2], 2);
@@ -436,15 +436,15 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Single
 
             Control.LinearAlgebraProvider.LUInverse(a, matrix.RowCount);
 
-            AssertHelpers.AlmostEqual(a[0], -0.454545454545454, 6);
-            AssertHelpers.AlmostEqual(a[1], -0.909090909090908, 6);
-            AssertHelpers.AlmostEqual(a[2], 0.454545454545454, 6);
-            AssertHelpers.AlmostEqual(a[3], -0.340909090909090, 6);
-            AssertHelpers.AlmostEqual(a[4], -2.045454545454543, 6);
-            AssertHelpers.AlmostEqual(a[5], 1.477272727272726, 6);
-            AssertHelpers.AlmostEqual(a[6], -0.113636363636364, 6);
-            AssertHelpers.AlmostEqual(a[7], 0.227272727272727, 6);
-            AssertHelpers.AlmostEqual(a[8], -0.113636363636364, 6);
+            AssertHelpers.AlmostEqual(a[0], -0.454545454545454, 5);
+            AssertHelpers.AlmostEqual(a[1], -0.909090909090908, 5);
+            AssertHelpers.AlmostEqual(a[2], 0.454545454545454, 5);
+            AssertHelpers.AlmostEqual(a[3], -0.340909090909090, 5);
+            AssertHelpers.AlmostEqual(a[4], -2.045454545454543, 5);
+            AssertHelpers.AlmostEqual(a[5], 1.477272727272726, 5);
+            AssertHelpers.AlmostEqual(a[6], -0.113636363636364, 5);
+            AssertHelpers.AlmostEqual(a[7], 0.227272727272727, 5);
+            AssertHelpers.AlmostEqual(a[8], -0.113636363636364, 5);
         }
 
         /// <summary>
@@ -463,15 +463,15 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Single
             Control.LinearAlgebraProvider.LUFactor(a, matrix.RowCount, ipiv);
             Control.LinearAlgebraProvider.LUInverseFactored(a, matrix.RowCount, ipiv);
 
-            AssertHelpers.AlmostEqual(a[0], -0.454545454545454, 6);
-            AssertHelpers.AlmostEqual(a[1], -0.909090909090908, 6);
-            AssertHelpers.AlmostEqual(a[2], 0.454545454545454, 6);
-            AssertHelpers.AlmostEqual(a[3], -0.340909090909090, 6);
-            AssertHelpers.AlmostEqual(a[4], -2.045454545454543, 6);
-            AssertHelpers.AlmostEqual(a[5], 1.477272727272726, 6);
-            AssertHelpers.AlmostEqual(a[6], -0.113636363636364, 6);
-            AssertHelpers.AlmostEqual(a[7], 0.227272727272727, 6);
-            AssertHelpers.AlmostEqual(a[8], -0.113636363636364, 6);
+            AssertHelpers.AlmostEqual(a[0], -0.454545454545454, 5);
+            AssertHelpers.AlmostEqual(a[1], -0.909090909090908, 5);
+            AssertHelpers.AlmostEqual(a[2], 0.454545454545454, 5);
+            AssertHelpers.AlmostEqual(a[3], -0.340909090909090, 5);
+            AssertHelpers.AlmostEqual(a[4], -2.045454545454543, 5);
+            AssertHelpers.AlmostEqual(a[5], 1.477272727272726, 5);
+            AssertHelpers.AlmostEqual(a[6], -0.113636363636364, 5);
+            AssertHelpers.AlmostEqual(a[7], 0.227272727272727, 5);
+            AssertHelpers.AlmostEqual(a[8], -0.113636363636364, 5);
         }
 
         /// <summary>
@@ -488,15 +488,15 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Single
             var work = new float[matrix.RowCount];
             Control.LinearAlgebraProvider.LUInverse(a, matrix.RowCount, work);
 
-            AssertHelpers.AlmostEqual(a[0], -0.454545454545454, 6);
-            AssertHelpers.AlmostEqual(a[1], -0.909090909090908, 6);
-            AssertHelpers.AlmostEqual(a[2], 0.454545454545454, 6);
-            AssertHelpers.AlmostEqual(a[3], -0.340909090909090, 6);
-            AssertHelpers.AlmostEqual(a[4], -2.045454545454543, 6);
-            AssertHelpers.AlmostEqual(a[5], 1.477272727272726, 6);
-            AssertHelpers.AlmostEqual(a[6], -0.113636363636364, 6);
-            AssertHelpers.AlmostEqual(a[7], 0.227272727272727, 6);
-            AssertHelpers.AlmostEqual(a[8], -0.113636363636364, 6);
+            AssertHelpers.AlmostEqual(a[0], -0.454545454545454, 5);
+            AssertHelpers.AlmostEqual(a[1], -0.909090909090908, 5);
+            AssertHelpers.AlmostEqual(a[2], 0.454545454545454, 5);
+            AssertHelpers.AlmostEqual(a[3], -0.340909090909090, 5);
+            AssertHelpers.AlmostEqual(a[4], -2.045454545454543, 5);
+            AssertHelpers.AlmostEqual(a[5], 1.477272727272726, 5);
+            AssertHelpers.AlmostEqual(a[6], -0.113636363636364, 5);
+            AssertHelpers.AlmostEqual(a[7], 0.227272727272727, 5);
+            AssertHelpers.AlmostEqual(a[8], -0.113636363636364, 5);
         }
 
         /// <summary>
@@ -517,15 +517,15 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Single
             var work = new float[matrix.RowCount];
             Control.LinearAlgebraProvider.LUInverseFactored(a, matrix.RowCount, ipiv, work);
 
-            AssertHelpers.AlmostEqual(a[0], -0.454545454545454, 6);
-            AssertHelpers.AlmostEqual(a[1], -0.909090909090908, 6);
-            AssertHelpers.AlmostEqual(a[2], 0.454545454545454, 6);
-            AssertHelpers.AlmostEqual(a[3], -0.340909090909090, 6);
-            AssertHelpers.AlmostEqual(a[4], -2.045454545454543, 6);
-            AssertHelpers.AlmostEqual(a[5], 1.477272727272726, 6);
-            AssertHelpers.AlmostEqual(a[6], -0.113636363636364, 6);
-            AssertHelpers.AlmostEqual(a[7], 0.227272727272727, 6);
-            AssertHelpers.AlmostEqual(a[8], -0.113636363636364, 6);
+            AssertHelpers.AlmostEqual(a[0], -0.454545454545454, 5);
+            AssertHelpers.AlmostEqual(a[1], -0.909090909090908, 5);
+            AssertHelpers.AlmostEqual(a[2], 0.454545454545454, 5);
+            AssertHelpers.AlmostEqual(a[3], -0.340909090909090, 5);
+            AssertHelpers.AlmostEqual(a[4], -2.045454545454543, 5);
+            AssertHelpers.AlmostEqual(a[5], 1.477272727272726, 5);
+            AssertHelpers.AlmostEqual(a[6], -0.113636363636364, 5);
+            AssertHelpers.AlmostEqual(a[7], 0.227272727272727, 5);
+            AssertHelpers.AlmostEqual(a[8], -0.113636363636364, 5);
         }
 
         /// <summary>
@@ -541,12 +541,12 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Single
             var b = new[] {1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f};
             Control.LinearAlgebraProvider.LUSolve(2, a, matrix.RowCount, b);
 
-            AssertHelpers.AlmostEqual(b[0], -1.477272727272726, 6);
-            AssertHelpers.AlmostEqual(b[1], -4.318181818181815, 6);
-            AssertHelpers.AlmostEqual(b[2], 3.068181818181816, 6);
-            AssertHelpers.AlmostEqual(b[3], -4.204545454545451, 6);
-            AssertHelpers.AlmostEqual(b[4], -12.499999999999989, 6);
-            AssertHelpers.AlmostEqual(b[5], 8.522727272727266, 6);
+            AssertHelpers.AlmostEqualRelative(b[0], -1.477272727272726, 5);
+            AssertHelpers.AlmostEqualRelative(b[1], -4.318181818181815, 5);
+            AssertHelpers.AlmostEqualRelative(b[2], 3.068181818181816, 5);
+            AssertHelpers.AlmostEqualRelative(b[3], -4.204545454545451, 5);
+            AssertHelpers.AlmostEqualRelative(b[4], -12.499999999999989, 5);
+            AssertHelpers.AlmostEqualRelative(b[5], 8.522727272727266, 5);
 
             NotModified(matrix.RowCount, matrix.ColumnCount, a, matrix);
         }
@@ -567,12 +567,12 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Single
             var b = new[] {1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f};
             Control.LinearAlgebraProvider.LUSolveFactored(2, a, matrix.RowCount, ipiv, b);
 
-            AssertHelpers.AlmostEqual(b[0], -1.477272727272726, 6);
-            AssertHelpers.AlmostEqual(b[1], -4.318181818181815, 6);
-            AssertHelpers.AlmostEqual(b[2], 3.068181818181816, 6);
-            AssertHelpers.AlmostEqual(b[3], -4.204545454545451, 6);
-            AssertHelpers.AlmostEqual(b[4], -12.499999999999989, 6);
-            AssertHelpers.AlmostEqual(b[5], 8.522727272727266, 6);
+            AssertHelpers.AlmostEqualRelative(b[0], -1.477272727272726, 5);
+            AssertHelpers.AlmostEqualRelative(b[1], -4.318181818181815, 5);
+            AssertHelpers.AlmostEqualRelative(b[2], 3.068181818181816, 5);
+            AssertHelpers.AlmostEqualRelative(b[3], -4.204545454545451, 5);
+            AssertHelpers.AlmostEqualRelative(b[4], -12.499999999999989, 5);
+            AssertHelpers.AlmostEqualRelative(b[5], 8.522727272727266, 5);
         }
 
         /// <summary>
@@ -613,12 +613,12 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Single
             var b = new[] {1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f};
             Control.LinearAlgebraProvider.CholeskySolve(a, 3, b, 2);
 
-            AssertHelpers.AlmostEqual(b[0], 0, 6);
-            AssertHelpers.AlmostEqual(b[1], 1, 6);
-            AssertHelpers.AlmostEqual(b[2], 0, 6);
-            AssertHelpers.AlmostEqual(b[3], 3, 6);
-            AssertHelpers.AlmostEqual(b[4], 1, 6);
-            AssertHelpers.AlmostEqual(b[5], 0, 6);
+            AssertHelpers.AlmostEqualRelative(b[0], 0, 5);
+            AssertHelpers.AlmostEqualRelative(b[1], 1, 5);
+            AssertHelpers.AlmostEqualRelative(b[2], 0, 5);
+            AssertHelpers.AlmostEqualRelative(b[3], 3, 5);
+            AssertHelpers.AlmostEqualRelative(b[4], 1, 5);
+            AssertHelpers.AlmostEqualRelative(b[5], 0, 5);
 
             NotModified(3, 3, a, matrix);
         }
@@ -636,12 +636,12 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Single
             var b = new[] {1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f};
             Control.LinearAlgebraProvider.CholeskySolveFactored(a, 3, b, 2);
 
-            AssertHelpers.AlmostEqual(b[0], 0, 6);
-            AssertHelpers.AlmostEqual(b[1], 1, 6);
-            AssertHelpers.AlmostEqual(b[2], 0, 6);
-            AssertHelpers.AlmostEqual(b[3], 3, 6);
-            AssertHelpers.AlmostEqual(b[4], 1, 6);
-            AssertHelpers.AlmostEqual(b[5], 0, 6);
+            AssertHelpers.AlmostEqualRelative(b[0], 0, 5);
+            AssertHelpers.AlmostEqualRelative(b[1], 1, 5);
+            AssertHelpers.AlmostEqualRelative(b[2], 0, 5);
+            AssertHelpers.AlmostEqualRelative(b[3], 3, 5);
+            AssertHelpers.AlmostEqualRelative(b[4], 1, 5);
+            AssertHelpers.AlmostEqualRelative(b[5], 0, 5);
         }
 
         /// <summary>
@@ -666,7 +666,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Single
             {
                 for (var col = 0; col < matrix.ColumnCount; col++)
                 {
-                    AssertHelpers.AlmostEqual(matrix[row, col], a[row, col], 6);
+                    AssertHelpers.AlmostEqualRelative(matrix[row, col], a[row, col], 5);
                 }
             }
         }
@@ -693,7 +693,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Single
             {
                 for (var col = 0; col < matrix.ColumnCount; col++)
                 {
-                    AssertHelpers.AlmostEqual(matrix[row, col], a[row, col], 6);
+                    AssertHelpers.AlmostEqualRelative(matrix[row, col], a[row, col], 5);
                 }
             }
         }
@@ -720,7 +720,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Single
             {
                 for (var col = 0; col < matrix.ColumnCount; col++)
                 {
-                    AssertHelpers.AlmostEqual(matrix[row, col], a[row, col], 6);
+                    AssertHelpers.AlmostEqualRelative(matrix[row, col], a[row, col], 5);
                 }
             }
         }
@@ -748,7 +748,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Single
             {
                 for (var col = 0; col < matrix.ColumnCount; col++)
                 {
-                    AssertHelpers.AlmostEqual(matrix[row, col], a[row, col], 6);
+                    AssertHelpers.AlmostEqualRelative(matrix[row, col], a[row, col], 5);
                 }
             }
         }
@@ -776,7 +776,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Single
             {
                 for (var col = 0; col < matrix.ColumnCount; col++)
                 {
-                    AssertHelpers.AlmostEqual(matrix[row, col], a[row, col], 6);
+                    AssertHelpers.AlmostEqualRelative(matrix[row, col], a[row, col], 5);
                 }
             }
         }
@@ -804,7 +804,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Single
             {
                 for (var col = 0; col < matrix.ColumnCount; col++)
                 {
-                    AssertHelpers.AlmostEqual(matrix[row, col], a[row, col], 6);
+                    AssertHelpers.AlmostEqualRelative(matrix[row, col], a[row, col], 5);
                 }
             }
         }
@@ -831,7 +831,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Single
             {
                 for (var col = 0; col < matrix.ColumnCount; col++)
                 {
-                    AssertHelpers.AlmostEqual(matrix[row, col], a[row, col], 6);
+                    AssertHelpers.AlmostEqualRelative(matrix[row, col], a[row, col], 5);
                 }
             }
         }
@@ -858,7 +858,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Single
             {
                 for (var col = 0; col < matrix.ColumnCount; col++)
                 {
-                    AssertHelpers.AlmostEqual(matrix[row, col], a[row, col], 6);
+                    AssertHelpers.AlmostEqualRelative(matrix[row, col], a[row, col], 5);
                 }
             }
         }
@@ -886,7 +886,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Single
             {
                 for (var col = 0; col < matrix.ColumnCount; col++)
                 {
-                    AssertHelpers.AlmostEqual(matrix[row, col], a[row, col], 6);
+                    AssertHelpers.AlmostEqualRelative(matrix[row, col], a[row, col], 5);
                 }
             }
         }
@@ -913,7 +913,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Single
             {
                 for (var col = 0; col < matrix.ColumnCount; col++)
                 {
-                    AssertHelpers.AlmostEqual(matrix[row, col], a[row, col], 6);
+                    AssertHelpers.AlmostEqualRelative(matrix[row, col], a[row, col], 5);
                 }
             }
         }
@@ -937,12 +937,12 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Single
             var mx = new DenseMatrix(matrix.ColumnCount, 2, x);
             var mb = matrix*mx;
 
-            AssertHelpers.AlmostEqual(mb[0, 0], b[0], 5);
-            AssertHelpers.AlmostEqual(mb[1, 0], b[1], 5);
-            AssertHelpers.AlmostEqual(mb[2, 0], b[2], 5);
-            AssertHelpers.AlmostEqual(mb[0, 1], b[3], 5);
-            AssertHelpers.AlmostEqual(mb[1, 1], b[4], 5);
-            AssertHelpers.AlmostEqual(mb[2, 1], b[5], 5);
+            AssertHelpers.AlmostEqualRelative(mb[0, 0], b[0], 5);
+            AssertHelpers.AlmostEqualRelative(mb[1, 0], b[1], 5);
+            AssertHelpers.AlmostEqualRelative(mb[2, 0], b[2], 5);
+            AssertHelpers.AlmostEqualRelative(mb[0, 1], b[3], 5);
+            AssertHelpers.AlmostEqualRelative(mb[1, 1], b[4], 4);
+            AssertHelpers.AlmostEqualRelative(mb[2, 1], b[5], 4);
         }
 
         /// <summary>
@@ -964,10 +964,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Single
             var mb = new DenseMatrix(matrix.RowCount, 2, b);
             var test = (matrix.Transpose()*matrix).Inverse()*matrix.Transpose()*mb;
 
-            AssertHelpers.AlmostEqual(test[0, 0], x[0], 6);
-            AssertHelpers.AlmostEqual(test[1, 0], x[1], 6);
-            AssertHelpers.AlmostEqual(test[0, 1], x[2], 6);
-            AssertHelpers.AlmostEqual(test[1, 1], x[3], 6);
+            AssertHelpers.AlmostEqualRelative(test[0, 0], x[0], 5);
+            AssertHelpers.AlmostEqualRelative(test[1, 0], x[1], 5);
+            AssertHelpers.AlmostEqualRelative(test[0, 1], x[2], 5);
+            AssertHelpers.AlmostEqualRelative(test[1, 1], x[3], 5);
         }
 
         /// <summary>
@@ -991,12 +991,12 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Single
             var mx = new DenseMatrix(matrix.ColumnCount, 2, x);
             var mb = matrix*mx;
 
-            AssertHelpers.AlmostEqual(mb[0, 0], b[0], 5);
-            AssertHelpers.AlmostEqual(mb[1, 0], b[1], 5);
-            AssertHelpers.AlmostEqual(mb[2, 0], b[2], 5);
-            AssertHelpers.AlmostEqual(mb[0, 1], b[3], 5);
-            AssertHelpers.AlmostEqual(mb[1, 1], b[4], 5);
-            AssertHelpers.AlmostEqual(mb[2, 1], b[5], 5);
+            AssertHelpers.AlmostEqualRelative(mb[0, 0], b[0], 5);
+            AssertHelpers.AlmostEqualRelative(mb[1, 0], b[1], 5);
+            AssertHelpers.AlmostEqualRelative(mb[2, 0], b[2], 5);
+            AssertHelpers.AlmostEqualRelative(mb[0, 1], b[3], 5);
+            AssertHelpers.AlmostEqualRelative(mb[1, 1], b[4], 4);
+            AssertHelpers.AlmostEqualRelative(mb[2, 1], b[5], 4);
         }
 
         /// <summary>
@@ -1020,10 +1020,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Single
             var mb = new DenseMatrix(matrix.RowCount, 2, b);
             var test = (matrix.Transpose()*matrix).Inverse()*matrix.Transpose()*mb;
 
-            AssertHelpers.AlmostEqual(test[0, 0], x[0], 6);
-            AssertHelpers.AlmostEqual(test[1, 0], x[1], 6);
-            AssertHelpers.AlmostEqual(test[0, 1], x[2], 6);
-            AssertHelpers.AlmostEqual(test[1, 1], x[3], 6);
+            AssertHelpers.AlmostEqualRelative(test[0, 0], x[0], 5);
+            AssertHelpers.AlmostEqualRelative(test[1, 0], x[1], 5);
+            AssertHelpers.AlmostEqualRelative(test[0, 1], x[2], 5);
+            AssertHelpers.AlmostEqualRelative(test[1, 1], x[3], 5);
         }
 
         /// <summary>
@@ -1048,12 +1048,12 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Single
             var mx = new DenseMatrix(matrix.ColumnCount, 2, x);
             var mb = matrix*mx;
 
-            AssertHelpers.AlmostEqual(mb[0, 0], b[0], 5);
-            AssertHelpers.AlmostEqual(mb[1, 0], b[1], 5);
-            AssertHelpers.AlmostEqual(mb[2, 0], b[2], 5);
-            AssertHelpers.AlmostEqual(mb[0, 1], b[3], 5);
-            AssertHelpers.AlmostEqual(mb[1, 1], b[4], 5);
-            AssertHelpers.AlmostEqual(mb[2, 1], b[5], 5);
+            AssertHelpers.AlmostEqualRelative(mb[0, 0], b[0], 5);
+            AssertHelpers.AlmostEqualRelative(mb[1, 0], b[1], 5);
+            AssertHelpers.AlmostEqualRelative(mb[2, 0], b[2], 5);
+            AssertHelpers.AlmostEqualRelative(mb[0, 1], b[3], 5);
+            AssertHelpers.AlmostEqualRelative(mb[1, 1], b[4], 4);
+            AssertHelpers.AlmostEqualRelative(mb[2, 1], b[5], 4);
         }
 
         /// <summary>
@@ -1078,10 +1078,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Single
             var mb = new DenseMatrix(matrix.RowCount, 2, b);
             var test = (matrix.Transpose()*matrix).Inverse()*matrix.Transpose()*mb;
 
-            AssertHelpers.AlmostEqual(test[0, 0], x[0], 6);
-            AssertHelpers.AlmostEqual(test[1, 0], x[1], 6);
-            AssertHelpers.AlmostEqual(test[0, 1], x[2], 6);
-            AssertHelpers.AlmostEqual(test[1, 1], x[3], 6);
+            AssertHelpers.AlmostEqualRelative(test[0, 0], x[0], 5);
+            AssertHelpers.AlmostEqualRelative(test[1, 0], x[1], 5);
+            AssertHelpers.AlmostEqualRelative(test[0, 1], x[2], 5);
+            AssertHelpers.AlmostEqualRelative(test[1, 1], x[3], 5);
         }
 
         /// <summary>
@@ -1107,12 +1107,12 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Single
             var mx = new DenseMatrix(matrix.ColumnCount, 2, x);
             var mb = matrix*mx;
 
-            AssertHelpers.AlmostEqual(mb[0, 0], b[0], 5);
-            AssertHelpers.AlmostEqual(mb[1, 0], b[1], 5);
-            AssertHelpers.AlmostEqual(mb[2, 0], b[2], 5);
-            AssertHelpers.AlmostEqual(mb[0, 1], b[3], 5);
-            AssertHelpers.AlmostEqual(mb[1, 1], b[4], 5);
-            AssertHelpers.AlmostEqual(mb[2, 1], b[5], 5);
+            AssertHelpers.AlmostEqualRelative(mb[0, 0], b[0], 5);
+            AssertHelpers.AlmostEqualRelative(mb[1, 0], b[1], 5);
+            AssertHelpers.AlmostEqualRelative(mb[2, 0], b[2], 5);
+            AssertHelpers.AlmostEqualRelative(mb[0, 1], b[3], 5);
+            AssertHelpers.AlmostEqualRelative(mb[1, 1], b[4], 4);
+            AssertHelpers.AlmostEqualRelative(mb[2, 1], b[5], 4);
         }
 
         /// <summary>
@@ -1138,10 +1138,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Single
             var mb = new DenseMatrix(matrix.RowCount, 2, b);
             var test = (matrix.Transpose()*matrix).Inverse()*matrix.Transpose()*mb;
 
-            AssertHelpers.AlmostEqual(test[0, 0], x[0], 6);
-            AssertHelpers.AlmostEqual(test[1, 0], x[1], 6);
-            AssertHelpers.AlmostEqual(test[0, 1], x[2], 6);
-            AssertHelpers.AlmostEqual(test[1, 1], x[3], 6);
+            AssertHelpers.AlmostEqualRelative(test[0, 0], x[0], 5);
+            AssertHelpers.AlmostEqualRelative(test[1, 0], x[1], 5);
+            AssertHelpers.AlmostEqualRelative(test[0, 1], x[2], 5);
+            AssertHelpers.AlmostEqualRelative(test[1, 1], x[3], 5);
         }
 
         /// <summary>
@@ -1163,12 +1163,12 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Single
             var mx = new DenseMatrix(matrix.ColumnCount, 2, x);
             var mb = matrix*mx;
 
-            AssertHelpers.AlmostEqual(mb[0, 0], b[0], 5);
-            AssertHelpers.AlmostEqual(mb[1, 0], b[1], 5);
-            AssertHelpers.AlmostEqual(mb[2, 0], b[2], 5);
-            AssertHelpers.AlmostEqual(mb[0, 1], b[3], 5);
-            AssertHelpers.AlmostEqual(mb[1, 1], b[4], 5);
-            AssertHelpers.AlmostEqual(mb[2, 1], b[5], 5);
+            AssertHelpers.AlmostEqualRelative(mb[0, 0], b[0], 5);
+            AssertHelpers.AlmostEqualRelative(mb[1, 0], b[1], 5);
+            AssertHelpers.AlmostEqualRelative(mb[2, 0], b[2], 5);
+            AssertHelpers.AlmostEqualRelative(mb[0, 1], b[3], 5);
+            AssertHelpers.AlmostEqualRelative(mb[1, 1], b[4], 4);
+            AssertHelpers.AlmostEqualRelative(mb[2, 1], b[5], 4);
         }
 
         /// <summary>
@@ -1190,10 +1190,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Single
             var mb = new DenseMatrix(matrix.RowCount, 2, b);
             var test = (matrix.Transpose()*matrix).Inverse()*matrix.Transpose()*mb;
 
-            AssertHelpers.AlmostEqual(test[0, 0], x[0], 6);
-            AssertHelpers.AlmostEqual(test[1, 0], x[1], 6);
-            AssertHelpers.AlmostEqual(test[0, 1], x[2], 6);
-            AssertHelpers.AlmostEqual(test[1, 1], x[3], 6);
+            AssertHelpers.AlmostEqualRelative(test[0, 0], x[0], 5);
+            AssertHelpers.AlmostEqualRelative(test[1, 0], x[1], 5);
+            AssertHelpers.AlmostEqualRelative(test[0, 1], x[2], 5);
+            AssertHelpers.AlmostEqualRelative(test[1, 1], x[3], 5);
         }
 
         /// <summary>
@@ -1217,12 +1217,12 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Single
             var mx = new DenseMatrix(matrix.ColumnCount, 2, x);
             var mb = matrix*mx;
 
-            AssertHelpers.AlmostEqual(mb[0, 0], b[0], 5);
-            AssertHelpers.AlmostEqual(mb[1, 0], b[1], 5);
-            AssertHelpers.AlmostEqual(mb[2, 0], b[2], 5);
-            AssertHelpers.AlmostEqual(mb[0, 1], b[3], 5);
-            AssertHelpers.AlmostEqual(mb[1, 1], b[4], 5);
-            AssertHelpers.AlmostEqual(mb[2, 1], b[5], 5);
+            AssertHelpers.AlmostEqualRelative(mb[0, 0], b[0], 5);
+            AssertHelpers.AlmostEqualRelative(mb[1, 0], b[1], 5);
+            AssertHelpers.AlmostEqualRelative(mb[2, 0], b[2], 5);
+            AssertHelpers.AlmostEqualRelative(mb[0, 1], b[3], 5);
+            AssertHelpers.AlmostEqualRelative(mb[1, 1], b[4], 4);
+            AssertHelpers.AlmostEqualRelative(mb[2, 1], b[5], 4);
         }
 
         /// <summary>
@@ -1246,10 +1246,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Single
             var mb = new DenseMatrix(matrix.RowCount, 2, b);
             var test = (matrix.Transpose()*matrix).Inverse()*matrix.Transpose()*mb;
 
-            AssertHelpers.AlmostEqual(test[0, 0], x[0], 6);
-            AssertHelpers.AlmostEqual(test[1, 0], x[1], 6);
-            AssertHelpers.AlmostEqual(test[0, 1], x[2], 6);
-            AssertHelpers.AlmostEqual(test[1, 1], x[3], 6);
+            AssertHelpers.AlmostEqualRelative(test[0, 0], x[0], 5);
+            AssertHelpers.AlmostEqualRelative(test[1, 0], x[1], 5);
+            AssertHelpers.AlmostEqualRelative(test[0, 1], x[2], 5);
+            AssertHelpers.AlmostEqualRelative(test[1, 1], x[3], 5);
         }
 
         /// <summary>
@@ -1274,12 +1274,12 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Single
             var mx = new DenseMatrix(matrix.ColumnCount, 2, x);
             var mb = matrix*mx;
 
-            AssertHelpers.AlmostEqual(mb[0, 0], b[0], 5);
-            AssertHelpers.AlmostEqual(mb[1, 0], b[1], 5);
-            AssertHelpers.AlmostEqual(mb[2, 0], b[2], 5);
-            AssertHelpers.AlmostEqual(mb[0, 1], b[3], 5);
-            AssertHelpers.AlmostEqual(mb[1, 1], b[4], 5);
-            AssertHelpers.AlmostEqual(mb[2, 1], b[5], 5);
+            AssertHelpers.AlmostEqualRelative(mb[0, 0], b[0], 5);
+            AssertHelpers.AlmostEqualRelative(mb[1, 0], b[1], 5);
+            AssertHelpers.AlmostEqualRelative(mb[2, 0], b[2], 5);
+            AssertHelpers.AlmostEqualRelative(mb[0, 1], b[3], 5);
+            AssertHelpers.AlmostEqualRelative(mb[1, 1], b[4], 4);
+            AssertHelpers.AlmostEqualRelative(mb[2, 1], b[5], 4);
         }
 
         /// <summary>
@@ -1304,10 +1304,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Single
             var mb = new DenseMatrix(matrix.RowCount, 2, b);
             var test = (matrix.Transpose()*matrix).Inverse()*matrix.Transpose()*mb;
 
-            AssertHelpers.AlmostEqual(test[0, 0], x[0], 6);
-            AssertHelpers.AlmostEqual(test[1, 0], x[1], 6);
-            AssertHelpers.AlmostEqual(test[0, 1], x[2], 6);
-            AssertHelpers.AlmostEqual(test[1, 1], x[3], 6);
+            AssertHelpers.AlmostEqualRelative(test[0, 0], x[0], 5);
+            AssertHelpers.AlmostEqualRelative(test[1, 0], x[1], 5);
+            AssertHelpers.AlmostEqualRelative(test[0, 1], x[2], 5);
+            AssertHelpers.AlmostEqualRelative(test[1, 1], x[3], 5);
         }
 
         /// <summary>
@@ -1333,12 +1333,12 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Single
             var mx = new DenseMatrix(matrix.ColumnCount, 2, x);
             var mb = matrix*mx;
 
-            AssertHelpers.AlmostEqual(mb[0, 0], b[0], 5);
-            AssertHelpers.AlmostEqual(mb[1, 0], b[1], 5);
-            AssertHelpers.AlmostEqual(mb[2, 0], b[2], 5);
-            AssertHelpers.AlmostEqual(mb[0, 1], b[3], 5);
-            AssertHelpers.AlmostEqual(mb[1, 1], b[4], 5);
-            AssertHelpers.AlmostEqual(mb[2, 1], b[5], 5);
+            AssertHelpers.AlmostEqualRelative(mb[0, 0], b[0], 5);
+            AssertHelpers.AlmostEqualRelative(mb[1, 0], b[1], 5);
+            AssertHelpers.AlmostEqualRelative(mb[2, 0], b[2], 5);
+            AssertHelpers.AlmostEqualRelative(mb[0, 1], b[3], 5);
+            AssertHelpers.AlmostEqualRelative(mb[1, 1], b[4], 4);
+            AssertHelpers.AlmostEqualRelative(mb[2, 1], b[5], 4);
         }
 
         /// <summary>
@@ -1364,10 +1364,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Single
             var mb = new DenseMatrix(matrix.RowCount, 2, b);
             var test = (matrix.Transpose()*matrix).Inverse()*matrix.Transpose()*mb;
 
-            AssertHelpers.AlmostEqual(test[0, 0], x[0], 6);
-            AssertHelpers.AlmostEqual(test[1, 0], x[1], 6);
-            AssertHelpers.AlmostEqual(test[0, 1], x[2], 6);
-            AssertHelpers.AlmostEqual(test[1, 1], x[3], 6);
+            AssertHelpers.AlmostEqualRelative(test[0, 0], x[0], 5);
+            AssertHelpers.AlmostEqualRelative(test[1, 0], x[1], 5);
+            AssertHelpers.AlmostEqualRelative(test[0, 1], x[2], 5);
+            AssertHelpers.AlmostEqualRelative(test[1, 1], x[3], 5);
         }
 
         /// <summary>
@@ -1396,15 +1396,15 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Single
             var mV = new DenseMatrix(matrix.ColumnCount, matrix.ColumnCount, vt);
             var result = mU*w*mV;
 
-            AssertHelpers.AlmostEqual(matrix[0, 0], result[0, 0], 6);
-            AssertHelpers.AlmostEqual(matrix[1, 0], result[1, 0], 6);
-            AssertHelpers.AlmostEqual(matrix[2, 0], result[2, 0], 6);
-            AssertHelpers.AlmostEqual(matrix[0, 1], result[0, 1], 6);
-            AssertHelpers.AlmostEqual(matrix[1, 1], result[1, 1], 6);
-            AssertHelpers.AlmostEqual(matrix[2, 1], result[2, 1], 6);
-            AssertHelpers.AlmostEqual(matrix[0, 2], result[0, 2], 6);
-            AssertHelpers.AlmostEqual(matrix[1, 2], result[1, 2], 6);
-            AssertHelpers.AlmostEqual(matrix[2, 2], result[2, 2], 6);
+            AssertHelpers.AlmostEqualRelative(matrix[0, 0], result[0, 0], 5);
+            AssertHelpers.AlmostEqualRelative(matrix[1, 0], result[1, 0], 5);
+            AssertHelpers.AlmostEqualRelative(matrix[2, 0], result[2, 0], 5);
+            AssertHelpers.AlmostEqualRelative(matrix[0, 1], result[0, 1], 5);
+            AssertHelpers.AlmostEqualRelative(matrix[1, 1], result[1, 1], 5);
+            AssertHelpers.AlmostEqualRelative(matrix[2, 1], result[2, 1], 5);
+            AssertHelpers.AlmostEqualRelative(matrix[0, 2], result[0, 2], 5);
+            AssertHelpers.AlmostEqualRelative(matrix[1, 2], result[1, 2], 5);
+            AssertHelpers.AlmostEqualRelative(matrix[2, 2], result[2, 2], 5);
         }
 
         /// <summary>
@@ -1433,12 +1433,12 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Single
             var mV = new DenseMatrix(matrix.ColumnCount, matrix.ColumnCount, vt);
             var result = mU*w*mV;
 
-            AssertHelpers.AlmostEqual(matrix[0, 0], result[0, 0], 6);
-            AssertHelpers.AlmostEqual(matrix[1, 0], result[1, 0], 6);
-            AssertHelpers.AlmostEqual(matrix[2, 0], result[2, 0], 6);
-            AssertHelpers.AlmostEqual(matrix[0, 1], result[0, 1], 6);
-            AssertHelpers.AlmostEqual(matrix[1, 1], result[1, 1], 6);
-            AssertHelpers.AlmostEqual(matrix[2, 1], result[2, 1], 5);
+            AssertHelpers.AlmostEqualRelative(matrix[0, 0], result[0, 0], 5);
+            AssertHelpers.AlmostEqualRelative(matrix[1, 0], result[1, 0], 5);
+            AssertHelpers.AlmostEqualRelative(matrix[2, 0], result[2, 0], 5);
+            AssertHelpers.AlmostEqualRelative(matrix[0, 1], result[0, 1], 5);
+            AssertHelpers.AlmostEqualRelative(matrix[1, 1], result[1, 1], 5);
+            AssertHelpers.AlmostEqualRelative(matrix[2, 1], result[2, 1], 5);
         }
 
         /// <summary>
@@ -1467,12 +1467,12 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Single
             var mV = new DenseMatrix(matrix.ColumnCount, matrix.ColumnCount, vt);
             var result = mU*w*mV;
 
-            AssertHelpers.AlmostEqual(matrix[0, 0], result[0, 0], 6);
-            AssertHelpers.AlmostEqual(matrix[1, 0], result[1, 0], 6);
-            AssertHelpers.AlmostEqual(matrix[0, 1], result[0, 1], 6);
-            AssertHelpers.AlmostEqual(matrix[1, 1], result[1, 1], 6);
-            AssertHelpers.AlmostEqual(matrix[0, 2], result[0, 2], 6);
-            AssertHelpers.AlmostEqual(matrix[1, 2], result[1, 2], 5);
+            AssertHelpers.AlmostEqualRelative(matrix[0, 0], result[0, 0], 5);
+            AssertHelpers.AlmostEqualRelative(matrix[1, 0], result[1, 0], 5);
+            AssertHelpers.AlmostEqualRelative(matrix[0, 1], result[0, 1], 5);
+            AssertHelpers.AlmostEqualRelative(matrix[1, 1], result[1, 1], 5);
+            AssertHelpers.AlmostEqualRelative(matrix[0, 2], result[0, 2], 5);
+            AssertHelpers.AlmostEqualRelative(matrix[1, 2], result[1, 2], 5);
         }
 
         /// <summary>
@@ -1503,15 +1503,15 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Single
             var mV = new DenseMatrix(matrix.ColumnCount, matrix.ColumnCount, vt);
             var result = mU*w*mV;
 
-            AssertHelpers.AlmostEqual(matrix[0, 0], result[0, 0], 6);
-            AssertHelpers.AlmostEqual(matrix[1, 0], result[1, 0], 6);
-            AssertHelpers.AlmostEqual(matrix[2, 0], result[2, 0], 6);
-            AssertHelpers.AlmostEqual(matrix[0, 1], result[0, 1], 6);
-            AssertHelpers.AlmostEqual(matrix[1, 1], result[1, 1], 6);
-            AssertHelpers.AlmostEqual(matrix[2, 1], result[2, 1], 6);
-            AssertHelpers.AlmostEqual(matrix[0, 2], result[0, 2], 6);
-            AssertHelpers.AlmostEqual(matrix[1, 2], result[1, 2], 6);
-            AssertHelpers.AlmostEqual(matrix[2, 2], result[2, 2], 6);
+            AssertHelpers.AlmostEqualRelative(matrix[0, 0], result[0, 0], 5);
+            AssertHelpers.AlmostEqualRelative(matrix[1, 0], result[1, 0], 5);
+            AssertHelpers.AlmostEqualRelative(matrix[2, 0], result[2, 0], 5);
+            AssertHelpers.AlmostEqualRelative(matrix[0, 1], result[0, 1], 5);
+            AssertHelpers.AlmostEqualRelative(matrix[1, 1], result[1, 1], 5);
+            AssertHelpers.AlmostEqualRelative(matrix[2, 1], result[2, 1], 5);
+            AssertHelpers.AlmostEqualRelative(matrix[0, 2], result[0, 2], 5);
+            AssertHelpers.AlmostEqualRelative(matrix[1, 2], result[1, 2], 5);
+            AssertHelpers.AlmostEqualRelative(matrix[2, 2], result[2, 2], 5);
         }
 
         /// <summary>
@@ -1542,12 +1542,12 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Single
             var mV = new DenseMatrix(matrix.ColumnCount, matrix.ColumnCount, vt);
             var result = mU*w*mV;
 
-            AssertHelpers.AlmostEqual(matrix[0, 0], result[0, 0], 6);
-            AssertHelpers.AlmostEqual(matrix[1, 0], result[1, 0], 6);
-            AssertHelpers.AlmostEqual(matrix[2, 0], result[2, 0], 6);
-            AssertHelpers.AlmostEqual(matrix[0, 1], result[0, 1], 6);
-            AssertHelpers.AlmostEqual(matrix[1, 1], result[1, 1], 6);
-            AssertHelpers.AlmostEqual(matrix[2, 1], result[2, 1], 5);
+            AssertHelpers.AlmostEqualRelative(matrix[0, 0], result[0, 0], 5);
+            AssertHelpers.AlmostEqualRelative(matrix[1, 0], result[1, 0], 5);
+            AssertHelpers.AlmostEqualRelative(matrix[2, 0], result[2, 0], 5);
+            AssertHelpers.AlmostEqualRelative(matrix[0, 1], result[0, 1], 5);
+            AssertHelpers.AlmostEqualRelative(matrix[1, 1], result[1, 1], 5);
+            AssertHelpers.AlmostEqualRelative(matrix[2, 1], result[2, 1], 5);
         }
 
         /// <summary>
@@ -1578,12 +1578,12 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Single
             var mV = new DenseMatrix(matrix.ColumnCount, matrix.ColumnCount, vt);
             var result = mU*w*mV;
 
-            AssertHelpers.AlmostEqual(matrix[0, 0], result[0, 0], 6);
-            AssertHelpers.AlmostEqual(matrix[1, 0], result[1, 0], 6);
-            AssertHelpers.AlmostEqual(matrix[0, 1], result[0, 1], 6);
-            AssertHelpers.AlmostEqual(matrix[1, 1], result[1, 1], 6);
-            AssertHelpers.AlmostEqual(matrix[0, 2], result[0, 2], 6);
-            AssertHelpers.AlmostEqual(matrix[1, 2], result[1, 2], 5);
+            AssertHelpers.AlmostEqualRelative(matrix[0, 0], result[0, 0], 5);
+            AssertHelpers.AlmostEqualRelative(matrix[1, 0], result[1, 0], 5);
+            AssertHelpers.AlmostEqualRelative(matrix[0, 1], result[0, 1], 5);
+            AssertHelpers.AlmostEqualRelative(matrix[1, 1], result[1, 1], 5);
+            AssertHelpers.AlmostEqualRelative(matrix[0, 2], result[0, 2], 5);
+            AssertHelpers.AlmostEqualRelative(matrix[1, 2], result[1, 2], 5);
         }
 
         /// <summary>
@@ -1605,12 +1605,12 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Single
             var mx = new DenseMatrix(matrix.ColumnCount, 2, x);
             var mb = matrix*mx;
 
-            AssertHelpers.AlmostEqual(mb[0, 0], b[0], 6);
-            AssertHelpers.AlmostEqual(mb[1, 0], b[1], 6);
-            AssertHelpers.AlmostEqual(mb[2, 0], b[2], 5);
-            AssertHelpers.AlmostEqual(mb[0, 1], b[3], 5);
-            AssertHelpers.AlmostEqual(mb[1, 1], b[4], 5);
-            AssertHelpers.AlmostEqual(mb[2, 1], b[5], 5);
+            AssertHelpers.AlmostEqualRelative(mb[0, 0], b[0], 5);
+            AssertHelpers.AlmostEqualRelative(mb[1, 0], b[1], 5);
+            AssertHelpers.AlmostEqualRelative(mb[2, 0], b[2], 4);
+            AssertHelpers.AlmostEqualRelative(mb[0, 1], b[3], 4);
+            AssertHelpers.AlmostEqualRelative(mb[1, 1], b[4], 5);
+            AssertHelpers.AlmostEqualRelative(mb[2, 1], b[5], 5);
         }
 
         /// <summary>
@@ -1632,10 +1632,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Single
             var mb = new DenseMatrix(matrix.RowCount, 2, b);
             var test = (matrix.Transpose()*matrix).Inverse()*matrix.Transpose()*mb;
 
-            AssertHelpers.AlmostEqual(test[0, 0], x[0], 6);
-            AssertHelpers.AlmostEqual(test[1, 0], x[1], 6);
-            AssertHelpers.AlmostEqual(test[0, 1], x[2], 6);
-            AssertHelpers.AlmostEqual(test[1, 1], x[3], 6);
+            AssertHelpers.AlmostEqualRelative(test[0, 0], x[0], 5);
+            AssertHelpers.AlmostEqualRelative(test[1, 0], x[1], 5);
+            AssertHelpers.AlmostEqualRelative(test[0, 1], x[2], 5);
+            AssertHelpers.AlmostEqualRelative(test[1, 1], x[3], 5);
         }
 
         /// <summary>
@@ -1662,12 +1662,12 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Single
             var mx = new DenseMatrix(matrix.ColumnCount, 2, x);
             var mb = matrix*mx;
 
-            AssertHelpers.AlmostEqual(mb[0, 0], b[0], 6);
-            AssertHelpers.AlmostEqual(mb[1, 0], b[1], 6);
-            AssertHelpers.AlmostEqual(mb[2, 0], b[2], 5);
-            AssertHelpers.AlmostEqual(mb[0, 1], b[3], 5);
-            AssertHelpers.AlmostEqual(mb[1, 1], b[4], 5);
-            AssertHelpers.AlmostEqual(mb[2, 1], b[5], 5);
+            AssertHelpers.AlmostEqualRelative(mb[0, 0], b[0], 5);
+            AssertHelpers.AlmostEqualRelative(mb[1, 0], b[1], 5);
+            AssertHelpers.AlmostEqualRelative(mb[2, 0], b[2], 4);
+            AssertHelpers.AlmostEqualRelative(mb[0, 1], b[3], 4);
+            AssertHelpers.AlmostEqualRelative(mb[1, 1], b[4], 5);
+            AssertHelpers.AlmostEqualRelative(mb[2, 1], b[5], 5);
         }
 
         /// <summary>
@@ -1694,10 +1694,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Single
             var mb = new DenseMatrix(matrix.RowCount, 2, b);
             var test = (matrix.Transpose()*matrix).Inverse()*matrix.Transpose()*mb;
 
-            AssertHelpers.AlmostEqual(test[0, 0], x[0], 6);
-            AssertHelpers.AlmostEqual(test[1, 0], x[1], 6);
-            AssertHelpers.AlmostEqual(test[0, 1], x[2], 6);
-            AssertHelpers.AlmostEqual(test[1, 1], x[3], 6);
+            AssertHelpers.AlmostEqualRelative(test[0, 0], x[0], 5);
+            AssertHelpers.AlmostEqualRelative(test[1, 0], x[1], 5);
+            AssertHelpers.AlmostEqualRelative(test[0, 1], x[2], 5);
+            AssertHelpers.AlmostEqualRelative(test[1, 1], x[3], 5);
         }
 
         [TestCase("Wide10x50000", "Tall50000x10")]

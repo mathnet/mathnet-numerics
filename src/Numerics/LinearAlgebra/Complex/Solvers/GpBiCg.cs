@@ -267,7 +267,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
                 // We'll set cDot to 1 if it is zero to prevent NaN's
                 // Note that the calculation should continue fine because
                 // c.DotProduct(t) will be zero and so will c.DotProduct(y)
-                if (cdot.Real.AlmostEqual(0, 1) && cdot.Imaginary.AlmostEqual(0, 1))
+                if (cdot.Real.AlmostEqualNumbersBetween(0, 1) && cdot.Imaginary.AlmostEqualNumbersBetween(0, 1))
                 {
                     cdot = 1.0;
                 }
@@ -295,7 +295,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
                     // We'll set yDot to 1 if it is zero to prevent NaN's
                     // Note that the calculation should continue fine because
                     // y.DotProduct(t) will be zero and so will c.DotProduct(y)
-                    if (ydot.Real.AlmostEqual(0, 1) && ydot.Imaginary.AlmostEqual(0, 1))
+                    if (ydot.Real.AlmostEqualNumbersBetween(0, 1) && ydot.Imaginary.AlmostEqualNumbersBetween(0, 1))
                     {
                         ydot = 1.0;
                     }
@@ -355,7 +355,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
 
                 // beta_k = alpha_k / sigma_k * (r*_0 * r_(k+1)) / (r*_0 * r_k)
                 // But first we check if there is a possible NaN. If so just reset beta to zero.
-                beta = (!sigma.Real.AlmostEqual(0, 1) || !sigma.Imaginary.AlmostEqual(0, 1)) ? alpha/sigma*rdash.ConjugateDotProduct(residuals)/rdash.ConjugateDotProduct(t0) : 0;
+                beta = (!sigma.Real.AlmostEqualNumbersBetween(0, 1) || !sigma.Imaginary.AlmostEqualNumbersBetween(0, 1)) ? alpha/sigma*rdash.ConjugateDotProduct(residuals)/rdash.ConjugateDotProduct(t0) : 0;
 
                 // w_k = c_k + beta_k s_k
                 s.Multiply(beta, temp2);

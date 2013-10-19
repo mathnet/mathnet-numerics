@@ -58,13 +58,9 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         /// <summary>
         /// Verify matches naive complex.
         /// </summary>
-        /// <param name="samples">Samples count.</param>
-        /// <param name="maximumError">Maximum error.</param>
-        /// <param name="naive">Naive transform.</param>
-        /// <param name="fast">Fast delegate.</param>
         static void VerifyMatchesNaiveComplex(
             Complex[] samples,
-            double maximumError,
+            int maximumErrorDecimalPlaces,
             Func<Complex[], Complex[]> naive,
             Action<Complex[]> fast)
         {
@@ -74,7 +70,7 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
             samples.CopyTo(spectrumFast, 0);
             fast(spectrumFast);
 
-            AssertHelpers.AlmostEqualList(spectrumNaive, spectrumFast, maximumError);
+            AssertHelpers.ListAlmostEqual(spectrumNaive, spectrumFast, maximumErrorDecimalPlaces);
         }
 
         /// <summary>
@@ -91,13 +87,13 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
 
             VerifyMatchesNaiveComplex(
                 samples,
-                1e-12,
+                12,
                 s => dft.NaiveForward(s, options),
                 s => dft.Radix2Forward(s, options));
 
             VerifyMatchesNaiveComplex(
                 samples,
-                1e-12,
+                12,
                 s => dft.NaiveInverse(s, options),
                 s => dft.Radix2Inverse(s, options));
         }
@@ -116,13 +112,13 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
 
             VerifyMatchesNaiveComplex(
                 samples,
-                1e-12,
+                10,
                 s => dft.NaiveForward(s, options),
                 s => dft.Radix2Forward(s, options));
 
             VerifyMatchesNaiveComplex(
                 samples,
-                1e-12,
+                10,
                 s => dft.NaiveInverse(s, options),
                 s => dft.Radix2Inverse(s, options));
         }
@@ -141,13 +137,13 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
 
             VerifyMatchesNaiveComplex(
                 samples,
-                1e-12,
+                12,
                 s => dft.NaiveForward(s, options),
                 s => dft.BluesteinForward(s, options));
 
             VerifyMatchesNaiveComplex(
                 samples,
-                1e-12,
+                12,
                 s => dft.NaiveInverse(s, options),
                 s => dft.BluesteinInverse(s, options));
         }
@@ -166,13 +162,13 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
 
             VerifyMatchesNaiveComplex(
                 samples,
-                1e-12,
+                10,
                 s => dft.NaiveForward(s, options),
                 s => dft.BluesteinForward(s, options));
 
             VerifyMatchesNaiveComplex(
                 samples,
-                1e-12,
+                10,
                 s => dft.NaiveInverse(s, options),
                 s => dft.BluesteinInverse(s, options));
         }
@@ -191,12 +187,12 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
 
             VerifyMatchesNaiveComplex(
                 samples,
-                1e-12,
+                10,
                 s => dft.NaiveForward(s, options),
                 s => dft.BluesteinForward(s, options));
             VerifyMatchesNaiveComplex(
                 samples,
-                1e-12,
+                10,
                 s => dft.NaiveInverse(s, options),
                 s => dft.BluesteinInverse(s, options));
         }

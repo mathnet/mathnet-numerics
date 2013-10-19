@@ -119,7 +119,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         public void ValidateEntropy(double p)
         {
             var b = new Bernoulli(p);
-            AssertHelpers.AlmostEqual(-((1.0 - p) * Math.Log(1.0 - p)) - (p * Math.Log(p)), b.Entropy, 14);
+            AssertHelpers.AlmostEqualRelative(-((1.0 - p) * Math.Log(1.0 - p)) - (p * Math.Log(p)), b.Entropy, 14);
         }
 
         /// <summary>

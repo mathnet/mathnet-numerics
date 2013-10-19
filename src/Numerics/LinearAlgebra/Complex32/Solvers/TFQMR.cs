@@ -164,7 +164,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers
                 {
                     // sigma = (v, r)
                     var sigma = r.ConjugateDotProduct(v);
-                    if (sigma.Real.AlmostEqual(0, 1) && sigma.Imaginary.AlmostEqual(0, 1))
+                    if (sigma.Real.AlmostEqualNumbersBetween(0, 1) && sigma.Imaginary.AlmostEqualNumbersBetween(0, 1))
                     {
                         // FAIL HERE
                         iterator.Cancel();
@@ -237,7 +237,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers
                 // The odd step
                 if (!IsEven(iterationNumber))
                 {
-                    if (rho.Real.AlmostEqual(0, 1) && rho.Imaginary.AlmostEqual(0, 1))
+                    if (rho.Real.AlmostEqualNumbersBetween(0, 1) && rho.Imaginary.AlmostEqualNumbersBetween(0, 1))
                     {
                         // FAIL HERE
                         iterator.Cancel();

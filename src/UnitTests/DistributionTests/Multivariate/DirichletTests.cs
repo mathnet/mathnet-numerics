@@ -172,7 +172,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
 
             for (var i = 0; i < 5; i++)
             {
-                AssertHelpers.AlmostEqual(0.3 / 1.5, d.Mean[i], 15);
+                AssertHelpers.AlmostEqualRelative(0.3 / 1.5, d.Mean[i], 15);
             }
         }
 
@@ -193,7 +193,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
             var d = new Dirichlet(alpha);
             for (var i = 0; i < 10; i++)
             {
-                AssertHelpers.AlmostEqual(i * (sum - i) / (sum * sum * (sum + 1.0)), d.Variance[i], 15);
+                AssertHelpers.AlmostEqualRelative(i * (sum - i) / (sum * sum * (sum + 1.0)), d.Variance[i], 15);
             }
         }
 
@@ -210,7 +210,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         public void ValidateDensity(double[] x, double res)
         {
             var d = new Dirichlet(new[] { 0.1, 0.3, 0.5, 0.8 });
-            AssertHelpers.AlmostEqual(res, d.Density(x), 12);
+            AssertHelpers.AlmostEqualRelative(res, d.Density(x), 12);
         }
 
         /// <summary>
@@ -222,7 +222,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         public void ValidateDensityLn(double[] x)
         {
             var d = new Dirichlet(new[] { 0.1, 0.3, 0.5, 0.8 });
-            AssertHelpers.AlmostEqual(d.DensityLn(x), Math.Log(d.Density(x)), 12);
+            AssertHelpers.AlmostEqualRelative(d.DensityLn(x), Math.Log(d.Density(x)), 12);
         }
 
         /// <summary>
@@ -237,7 +237,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         {
             var d = new Dirichlet(new[] { 0.1, 0.3 });
             var beta = new Beta(0.1, 0.3);
-            AssertHelpers.AlmostEqual(d.DensityLn(new[] { x }), beta.DensityLn(x), 10);
+            AssertHelpers.AlmostEqualRelative(d.DensityLn(new[] { x }), beta.DensityLn(x), 10);
         }
 
         /// <summary>
@@ -252,7 +252,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
 
             var sum = x.Sum(t => (t - 1) * SpecialFunctions.DiGamma(t));
             var res = SpecialFunctions.GammaLn(x.Sum()) + ((x.Sum() - x.Length) * SpecialFunctions.DiGamma(x.Sum())) - sum;
-            AssertHelpers.AlmostEqual(res, d.Entropy, 12);
+            AssertHelpers.AlmostEqualRelative(res, d.Entropy, 12);
         }
 
         /// <summary>

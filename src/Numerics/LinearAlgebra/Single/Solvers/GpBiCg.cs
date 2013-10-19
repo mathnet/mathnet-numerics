@@ -265,7 +265,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
                 // We'll set cDot to 1 if it is zero to prevent NaN's
                 // Note that the calculation should continue fine because
                 // c.DotProduct(t) will be zero and so will c.DotProduct(y)
-                if (cdot.AlmostEqual(0, 1))
+                if (cdot.AlmostEqualNumbersBetween(0, 1))
                 {
                     cdot = 1.0f;
                 }
@@ -293,7 +293,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
                     // We'll set yDot to 1 if it is zero to prevent NaN's
                     // Note that the calculation should continue fine because
                     // y.DotProduct(t) will be zero and so will c.DotProduct(y)
-                    if (ydot.AlmostEqual(0, 1))
+                    if (ydot.AlmostEqualNumbersBetween(0, 1))
                     {
                         ydot = 1.0f;
                     }
@@ -353,7 +353,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
 
                 // beta_k = alpha_k / sigma_k * (r*_0 * r_(k+1)) / (r*_0 * r_k)
                 // But first we check if there is a possible NaN. If so just reset beta to zero.
-                beta = (!sigma.AlmostEqual(0, 1)) ? alpha/sigma*rdash.DotProduct(residuals)/rdash.DotProduct(t0) : 0;
+                beta = (!sigma.AlmostEqualNumbersBetween(0, 1)) ? alpha/sigma*rdash.DotProduct(residuals)/rdash.DotProduct(t0) : 0;
 
                 // w_k = c_k + beta_k s_k
                 s.Multiply(beta, temp2);

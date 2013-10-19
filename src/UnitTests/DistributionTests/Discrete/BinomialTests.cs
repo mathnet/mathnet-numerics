@@ -125,7 +125,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         public void ValidateEntropy(double p, int n, double e)
         {
             var b = new Binomial(p, n);
-            AssertHelpers.AlmostEqual(e, b.Entropy, 14);
+            AssertHelpers.AlmostEqualRelative(e, b.Entropy, 14);
         }
 
         /// <summary>
@@ -211,7 +211,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         public void ValidateProbability(double p, int n, int x, double d)
         {
             var b = new Binomial(p, n);
-            AssertHelpers.AlmostEqual(d, b.Probability(x), 14);
+            AssertHelpers.AlmostEqualRelative(d, b.Probability(x), 14);
         }
 
         /// <summary>
@@ -248,7 +248,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         public void ValidateProbabilityLn(double p, int n, int x, double dln)
         {
             var b = new Binomial(p, n);
-            AssertHelpers.AlmostEqual(dln, b.ProbabilityLn(x), 14);
+            AssertHelpers.AlmostEqualRelative(dln, b.ProbabilityLn(x), 14);
         }
 
         /// <summary>

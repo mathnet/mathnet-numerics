@@ -188,8 +188,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.Precondi
             matrix.Multiply(result, product);
             for (var i = 0; i < product.Count; i++)
             {
-                Assert.IsTrue(vector[i].Real.AlmostEqual(product[i].Real, -Epsilon.Magnitude()), "#02-" + i);
-                Assert.IsTrue(vector[i].Imaginary.AlmostEqual(product[i].Imaginary, -Epsilon.Magnitude()), "#03-" + i);
+                Assert.IsTrue(vector[i].Real.AlmostEqualNumbersBetween(product[i].Real, -Epsilon.Magnitude()), "#02-" + i);
+                Assert.IsTrue(vector[i].Imaginary.AlmostEqualNumbersBetween(product[i].Imaginary, -Epsilon.Magnitude()), "#03-" + i);
             }
         }
 
@@ -266,7 +266,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.Precondi
             {
                 for (var j = i + 1; j < l.RowCount; j++)
                 {
-                    Assert.IsTrue(0.0.AlmostEqual(l[i, j].Magnitude, -Epsilon.Magnitude()), "#01-" + i + "-" + j);
+                    Assert.IsTrue(0.0.AlmostEqualNumbersBetween(l[i, j].Magnitude, -Epsilon.Magnitude()), "#01-" + i + "-" + j);
                 }
             }
 
@@ -277,7 +277,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.Precondi
             {
                 for (var j = 0; j < i; j++)
                 {
-                    Assert.IsTrue(0.0.AlmostEqual(u[i, j].Magnitude, -Epsilon.Magnitude()), "#02-" + i + "-" + j);
+                    Assert.IsTrue(0.0.AlmostEqualNumbersBetween(u[i, j].Magnitude, -Epsilon.Magnitude()), "#02-" + i + "-" + j);
                 }
             }
 
@@ -286,8 +286,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.Precondi
             {
                 for (var j = 0; j < sparseMatrix.ColumnCount; j++)
                 {
-                    Assert.IsTrue(sparseMatrix[i, j].Real.AlmostEqual(original[i, j].Real, -Epsilon.Magnitude()), "#03-" + i + "-" + j);
-                    Assert.IsTrue(sparseMatrix[i, j].Imaginary.AlmostEqual(original[i, j].Imaginary, -Epsilon.Magnitude()), "#04-" + i + "-" + j);
+                    Assert.IsTrue(sparseMatrix[i, j].Real.AlmostEqualNumbersBetween(original[i, j].Real, -Epsilon.Magnitude()), "#03-" + i + "-" + j);
+                    Assert.IsTrue(sparseMatrix[i, j].Imaginary.AlmostEqualNumbersBetween(original[i, j].Imaginary, -Epsilon.Magnitude()), "#04-" + i + "-" + j);
                 }
             }
         }
@@ -330,8 +330,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.Precondi
             {
                 for (var j = 0; j < sparseMatrix.ColumnCount; j++)
                 {
-                    Assert.IsTrue(sparseMatrix[i, j].Real.AlmostEqual(original[i, j].Real, -Epsilon.Magnitude()), "#01-" + i + "-" + j);
-                    Assert.IsTrue(sparseMatrix[i, j].Imaginary.AlmostEqual(original[i, j].Imaginary, -Epsilon.Magnitude()), "#02-" + i + "-" + j);
+                    Assert.IsTrue(sparseMatrix[i, j].Real.AlmostEqualNumbersBetween(original[i, j].Real, -Epsilon.Magnitude()), "#01-" + i + "-" + j);
+                    Assert.IsTrue(sparseMatrix[i, j].Imaginary.AlmostEqualNumbersBetween(original[i, j].Imaginary, -Epsilon.Magnitude()), "#02-" + i + "-" + j);
                 }
             }
         }

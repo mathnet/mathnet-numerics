@@ -425,7 +425,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
             {
                 for (var j = 0; j < matrixC.ColumnCount; j++)
                 {
-                    AssertHelpers.AlmostEqual(matrixA.Row(i) * matrixB.Column(j), matrixC[i, j], 6);
+                    AssertHelpers.AlmostEqualRelative(matrixA.Row(i) * matrixB.Column(j), matrixC[i, j], 6);
                 }
             }
         }
@@ -451,7 +451,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
             {
                 for (var j = 0; j < matrixC.ColumnCount; j++)
                 {
-                    AssertHelpers.AlmostEqual(matrixA.Row(i) * matrixB.Row(j), matrixC[i, j], 6);
+                    AssertHelpers.AlmostEqualRelative(matrixA.Row(i) * matrixB.Row(j), matrixC[i, j], 6);
                 }
             }
         }
@@ -485,7 +485,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
             {
                 for (var j = 0; j < matrixC.ColumnCount; j++)
                 {
-                    AssertHelpers.AlmostEqual(matrixA.Row(i) * matrixB.Row(j), matrixC[i, j], 6);
+                    AssertHelpers.AlmostEqualRelative(matrixA.Row(i) * matrixB.Row(j), matrixC[i, j], 6);
                 }
             }
         }
@@ -523,7 +523,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
             {
                 for (var j = 0; j < matrixC.ColumnCount; j++)
                 {
-                    AssertHelpers.AlmostEqual(matrixA.Row(i) * matrixB.Row(j), matrixC[i, j], 6);
+                    AssertHelpers.AlmostEqualRelative(matrixA.Row(i) * matrixB.Row(j), matrixC[i, j], 6);
                 }
             }
         }
@@ -563,7 +563,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
             {
                 for (var j = 0; j < matrixC.ColumnCount; j++)
                 {
-                    AssertHelpers.AlmostEqual(matrixA.Row(i) * matrixB.Column(j), matrixC[i, j], 6);
+                    AssertHelpers.AlmostEqualRelative(matrixA.Row(i) * matrixB.Column(j), matrixC[i, j], 6);
                 }
             }
         }
@@ -584,7 +584,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
             {
                 var ar = matrix.Column(j);
                 var dot = ar * x;
-                AssertHelpers.AlmostEqual(dot, y[j], 6);
+                AssertHelpers.AlmostEqualRelative(dot, y[j], 6);
             }
         }
 
@@ -603,7 +603,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
             {
                 var ar = matrix.Column(j);
                 var dot = ar * x;
-                AssertHelpers.AlmostEqual(dot, y[j], 6);
+                AssertHelpers.AlmostEqualRelative(dot, y[j], 6);
             }
         }
 
@@ -625,7 +625,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
             {
                 var ar = matrix.Column(j);
                 var dot = ar * y;
-                AssertHelpers.AlmostEqual(dot, x[j], 6);
+                AssertHelpers.AlmostEqualRelative(dot, x[j], 6);
             }
         }
 
@@ -662,7 +662,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
             {
                 for (var j = 0; j < matrixC.ColumnCount; j++)
                 {
-                    AssertHelpers.AlmostEqual(matrixA.Column(i) * matrixB.Column(j), matrixC[i, j], 6);
+                    AssertHelpers.AlmostEqualRelative(matrixA.Column(i) * matrixB.Column(j), matrixC[i, j], 6);
                 }
             }
         }
@@ -700,7 +700,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
             {
                 for (var j = 0; j < matrixC.ColumnCount; j++)
                 {
-                    AssertHelpers.AlmostEqual(matrixA.Column(i) * matrixB.Column(j), matrixC[i, j], 6);
+                    AssertHelpers.AlmostEqualRelative(matrixA.Column(i) * matrixB.Column(j), matrixC[i, j], 6);
                 }
             }
         }
@@ -839,7 +839,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
             for (var j = 0; j < result.ColumnCount; j++)
             {
                 var col = result.Column(j);
-                AssertHelpers.AlmostEqual(1d, col.Norm(p), 6);
+                AssertHelpers.AlmostEqualRelative(1d, col.Norm(p), 6);
             }
         }
 
@@ -864,7 +864,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
             for (var i = 0; i < matrix.RowCount; i++)
             {
                 var row = matrix.Row(i);
-                AssertHelpers.AlmostEqual(1d, row.Norm(p), 6);
+                AssertHelpers.AlmostEqualRelative(1d, row.Norm(p), 6);
             }
         }
 

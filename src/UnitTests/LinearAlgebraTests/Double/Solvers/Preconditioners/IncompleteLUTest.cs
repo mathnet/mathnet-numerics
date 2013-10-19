@@ -112,7 +112,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.Precondit
 
             for (var i = 0; i < product.Count; i++)
             {
-                Assert.IsTrue(vector[i].AlmostEqual(product[i], -Epsilon.Magnitude()), "#02-" + i);
+                Assert.IsTrue(vector[i].AlmostEqualNumbersBetween(product[i], -Epsilon.Magnitude()), "#02-" + i);
             }
         }
 
@@ -139,7 +139,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.Precondit
             {
                 for (var j = 0; j < sparseMatrix.ColumnCount; j++)
                 {
-                    Assert.IsTrue(sparseMatrix[i, j].AlmostEqual(original[i, j], -Epsilon.Magnitude()), "#01-" + i + "-" + j);
+                    Assert.IsTrue(sparseMatrix[i, j].AlmostEqualNumbersBetween(original[i, j], -Epsilon.Magnitude()), "#01-" + i + "-" + j);
                 }
             }
         }

@@ -355,7 +355,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         public void ValidateCumulativeDistribution(int population, int success, int draws, double x, double cdf)
         {
             var d = new Hypergeometric(population, success, draws);
-            AssertHelpers.AlmostEqual(cdf, d.CumulativeDistribution(x), 10);
+            AssertHelpers.AlmostEqualRelative(cdf, d.CumulativeDistribution(x), 9);
         }
 
         [Test]

@@ -298,13 +298,13 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
 
             for (var i = 0; i < Data.Length; i++)
             {
-                AssertHelpers.AlmostEqual(Data[i]/new Complex(2.0, 1), vector[i], 14);
+                AssertHelpers.AlmostEqualRelative(Data[i]/new Complex(2.0, 1), vector[i], 14);
             }
 
             vector = vector/1.0;
             for (var i = 0; i < Data.Length; i++)
             {
-                AssertHelpers.AlmostEqual(Data[i]/new Complex(2.0, 1), vector[i], 14);
+                AssertHelpers.AlmostEqualRelative(Data[i]/new Complex(2.0, 1), vector[i], 14);
             }
         }
 

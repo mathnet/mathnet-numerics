@@ -182,7 +182,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void ValidateSkewness(double scale, double skn)
         {
             var n = new Rayleigh(scale);
-            AssertHelpers.AlmostEqual(skn, n.Skewness, 17);
+            AssertHelpers.AlmostEqualRelative(skn, n.Skewness, 17);
         }
 
         /// <summary>

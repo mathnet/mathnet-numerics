@@ -151,7 +151,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         public void ValidateEntropy(int l, int u, double e)
         {
             var du = new DiscreteUniform(l, u);
-            AssertHelpers.AlmostEqual(e, du.Entropy, 14);
+            AssertHelpers.AlmostEqualRelative(e, du.Entropy, 14);
         }
 
         /// <summary>

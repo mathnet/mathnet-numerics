@@ -153,7 +153,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         public void ValidateEntropy(double s, int n, double e)
         {
             var d = new Zipf(s, n);
-            AssertHelpers.AlmostEqual(e, d.Entropy, 15);
+            AssertHelpers.AlmostEqualRelative(e, d.Entropy, 15);
         }
 
         /// <summary>
@@ -292,7 +292,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         {
             var d = new Zipf(s, n);
             var cdf = SpecialFunctions.GeneralHarmonic(x, s) / SpecialFunctions.GeneralHarmonic(n, s);
-            AssertHelpers.AlmostEqual(cdf, d.CumulativeDistribution(x), 14);
+            AssertHelpers.AlmostEqualRelative(cdf, d.CumulativeDistribution(x), 14);
         }
     }
 }

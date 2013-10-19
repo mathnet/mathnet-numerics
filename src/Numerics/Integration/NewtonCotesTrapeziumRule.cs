@@ -124,7 +124,7 @@ namespace MathNet.Numerics.Integration
                 step *= 0.5;
                 numberOfPartitions *= 2;
 
-                if (sum.AlmostEqualWithError(midpointsum, targetError))
+                if (sum.AlmostEqualRelative(midpointsum, targetError))
                 {
                     break;
                 }
@@ -222,7 +222,7 @@ namespace MathNet.Numerics.Integration
                         delta = Math.Sqrt(delta);
                     }
 
-                    if (sum.AlmostEqualWithRelativeError(midpointsum, delta, targetRelativeError))
+                    if (sum.AlmostEqualNormRelative(midpointsum, delta, targetRelativeError))
                     {
                         break;
                     }

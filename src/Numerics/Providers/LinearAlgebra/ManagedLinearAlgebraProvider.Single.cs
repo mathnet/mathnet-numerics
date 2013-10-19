@@ -2471,7 +2471,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                 {
                     test = Math.Abs(stemp[l]) + Math.Abs(stemp[l + 1]);
                     ztest = test + Math.Abs(e[l]);
-                    if (ztest.AlmostEqualInDecimalPlaces(test, 7))
+                    if (ztest.AlmostEqualRelative(test, 7))
                     {
                         e[l] = 0.0f;
                         break;
@@ -2500,7 +2500,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                         }
 
                         ztest = test + Math.Abs(stemp[ls]);
-                        if (ztest.AlmostEqualInDecimalPlaces(test, 7))
+                        if (ztest.AlmostEqualRelative(test, 7))
                         {
                             stemp[ls] = 0.0f;
                             break;

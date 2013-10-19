@@ -120,11 +120,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             SparseVector vector;
             var ret = SparseVector.TryParse(text, out vector);
             Assert.IsTrue(ret);
-            AssertHelpers.AlmostEqualList(data, vector.ToArray(), 1e-15);
+            AssertHelpers.ListAlmostEqualRelative(data, vector.ToArray(), 14);
 
             ret = SparseVector.TryParse(text, CultureInfo.CurrentCulture, out vector);
             Assert.IsTrue(ret);
-            AssertHelpers.AlmostEqualList(data, vector.ToArray(), 1e-15);
+            AssertHelpers.ListAlmostEqualRelative(data, vector.ToArray(), 14);
         }
 
         /// <summary>

@@ -2581,7 +2581,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                 {
                     test = stemp[l].Magnitude + stemp[l + 1].Magnitude;
                     ztest = test + e[l].Magnitude;
-                    if (ztest.AlmostEqualInDecimalPlaces(test, 15))
+                    if (ztest.AlmostEqualRelative(test, 15))
                     {
                         e[l] = 0.0;
                         break;
@@ -2610,7 +2610,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                         }
 
                         ztest = test + stemp[ls].Magnitude;
-                        if (ztest.AlmostEqualInDecimalPlaces(test, 15))
+                        if (ztest.AlmostEqualRelative(test, 15))
                         {
                             stemp[ls] = 0.0;
                             break;

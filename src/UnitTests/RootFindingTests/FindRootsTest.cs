@@ -129,8 +129,8 @@ namespace MathNet.Numerics.UnitTests.RootFindingTests
 
             double x = FindRoots.OfFunction(f1, 0.1, 1);
             Assert.AreEqual(0.174749531708621, x, 1e-5);
-            Assert.AreEqual(0, f1(x), 1e-13);
-        }    
+            Assert.AreEqual(0, f1(x), 1e-12);
+        }
  
         [Test]
         public void Oneeq7()
@@ -157,7 +157,7 @@ namespace MathNet.Numerics.UnitTests.RootFindingTests
 
             double x = FindRoots.OfFunction(f1, 0.01, 1);
             Assert.AreEqual(0.842524411168525, x, 1e-2);
-            Assert.AreEqual(0, f1(x), 1e-13);
+            Assert.AreEqual(0, f1(x), 1e-12);
         }
 
         private void AssertComplexEqual(Complex expected, Complex actual, double delta)
@@ -179,8 +179,8 @@ namespace MathNet.Numerics.UnitTests.RootFindingTests
 
             // Expected Roots: -u, -v
             Complex r1 = new Complex(-u, 0d), r2 = new Complex(-v, 0d);
-            Assert.IsTrue(x1.AlmostEqualWithError(r1, 1e-14) && x2.AlmostEqualWithError(r2, 1e-14)
-                || x1.AlmostEqualWithError(r2, 1e-14) && x2.AlmostEqualWithError(r1, 1e-14));
+            Assert.IsTrue(x1.AlmostEqualRelative(r1, 1e-14) && x2.AlmostEqualRelative(r2, 1e-14)
+                || x1.AlmostEqualRelative(r2, 1e-14) && x2.AlmostEqualRelative(r1, 1e-14));
 
             // Verify they really are roots
             AssertComplexEqual(Complex.Zero, c + b*x1 + a*x1*x1, 1e-14);
@@ -199,8 +199,8 @@ namespace MathNet.Numerics.UnitTests.RootFindingTests
 
             // Expected roots?
             Complex r1 = new Complex(x1R, x1I), r2 = new Complex(x2R, x2I);
-            Assert.IsTrue(x1.AlmostEqualWithError(r1, 1e-14) && x2.AlmostEqualWithError(r2, 1e-14)
-                || x1.AlmostEqualWithError(r2, 1e-14) && x2.AlmostEqualWithError(r1, 1e-14));
+            Assert.IsTrue(x1.AlmostEqualRelative(r1, 1e-14) && x2.AlmostEqualRelative(r2, 1e-14)
+                || x1.AlmostEqualRelative(r2, 1e-14) && x2.AlmostEqualRelative(r1, 1e-14));
 
             // Verify they really are roots
             AssertComplexEqual(Complex.Zero, c + b*x1 + a*x1*x1, 1e-14);

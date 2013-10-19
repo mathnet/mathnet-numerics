@@ -24,7 +24,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using System;
 using MathNet.Numerics.Distributions;
 using MathNet.Numerics.IntegralTransforms;
 using MathNet.Numerics.IntegralTransforms.Algorithms;
@@ -56,58 +55,6 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         }
 
         /// <summary>
-        /// Verify if is reversible complex.
-        /// </summary>
-        /// <param name="count">Samples count.</param>
-        /// <param name="maximumError">Maximum error value.</param>
-        /// <param name="forward">Forward delegate.</param>
-        /// <param name="inverse">Inverse delegate.</param>
-        void VerifyIsReversibleComplex(
-            int count,
-            double maximumError,
-            Func<Complex[], Complex[]> forward,
-            Func<Complex[], Complex[]> inverse)
-        {
-            var samples = SignalGenerator.Random((u, v) => new Complex(u, v), GetUniform(1), count);
-            var work = new Complex[samples.Length];
-            samples.CopyTo(work, 0);
-
-            work = forward(work);
-
-            Assert.IsFalse(work.AlmostEqualListWithError(samples, maximumError));
-
-            work = inverse(work);
-
-            AssertHelpers.AlmostEqualList(samples, work, maximumError);
-        }
-
-        /// <summary>
-        /// Verify if is reversible real.
-        /// </summary>
-        /// <param name="count">Samples count.</param>
-        /// <param name="maximumError">Maximum error value.</param>
-        /// <param name="forward">Forward delegate.</param>
-        /// <param name="inverse">Inverse delegate.</param>
-        void VerifyIsReversibleReal(
-            int count,
-            double maximumError,
-            Func<double[], double[]> forward,
-            Func<double[], double[]> inverse)
-        {
-            var samples = SignalGenerator.Random(x => x, GetUniform(1), count);
-            var work = new double[samples.Length];
-            samples.CopyTo(work, 0);
-
-            work = forward(work);
-
-            Assert.IsFalse(work.AlmostEqualListWithError(samples, maximumError));
-
-            work = inverse(work);
-
-            AssertHelpers.AlmostEqualList(samples, work, maximumError);
-        }
-
-        /// <summary>
         /// Fourier naive is reversible.
         /// </summary>
         /// <param name="options">Fourier options.</param>
@@ -117,11 +64,15 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         {
             var dft = new DiscreteFourierTransform();
 
-            VerifyIsReversibleComplex(
-                0x80,
-                1e-12,
-                s => dft.NaiveForward(s, options),
-                s => dft.NaiveInverse(s, options));
+            var samples = SignalGenerator.Random((u, v) => new Complex(u, v), GetUniform(1), 0x80);
+            var work = new Complex[samples.Length];
+            samples.CopyTo(work, 0);
+
+            work = dft.NaiveForward(work, options);
+            Assert.IsFalse(work.ListAlmostEqual(samples, 6));
+
+            work = dft.NaiveInverse(work, options);
+            AssertHelpers.ListAlmostEqual(samples, work, 12);
         }
 
         /// <summary>
@@ -134,19 +85,15 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         {
             var dft = new DiscreteFourierTransform();
 
-            VerifyIsReversibleComplex(
-                0x8000,
-                1e-12,
-                s =>
-                    {
-                        dft.Radix2Forward(s, options);
-                        return s;
-                    },
-                s =>
-                    {
-                        dft.Radix2Inverse(s, options);
-                        return s;
-                    });
+            var samples = SignalGenerator.Random((u, v) => new Complex(u, v), GetUniform(1), 0x8000);
+            var work = new Complex[samples.Length];
+            samples.CopyTo(work, 0);
+
+            dft.Radix2Forward(work, options);
+            Assert.IsFalse(work.ListAlmostEqual(samples, 6));
+
+            dft.Radix2Inverse(work, options);
+            AssertHelpers.ListAlmostEqual(samples, work, 12);
         }
 
         /// <summary>
@@ -159,19 +106,15 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         {
             var dft = new DiscreteFourierTransform();
 
-            VerifyIsReversibleComplex(
-                0x7FFF,
-                1e-12,
-                s =>
-                    {
-                        dft.BluesteinForward(s, options);
-                        return s;
-                    },
-                s =>
-                    {
-                        dft.BluesteinInverse(s, options);
-                        return s;
-                    });
+            var samples = SignalGenerator.Random((u, v) => new Complex(u, v), GetUniform(1), 0x7FFF);
+            var work = new Complex[samples.Length];
+            samples.CopyTo(work, 0);
+
+            dft.BluesteinForward(work, options);
+            Assert.IsFalse(work.ListAlmostEqual(samples, 6));
+
+            dft.BluesteinInverse(work, options);
+            AssertHelpers.ListAlmostEqual(samples, work, 10);
         }
 
         /// <summary>
@@ -184,11 +127,15 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         {
             var dht = new DiscreteHartleyTransform();
 
-            VerifyIsReversibleReal(
-                0x80,
-                1e-9,
-                s => dht.NaiveForward(s, options),
-                s => dht.NaiveInverse(s, options));
+            var samples = SignalGenerator.Random(x => x, GetUniform(1), 0x80);
+            var work = new double[samples.Length];
+            samples.CopyTo(work, 0);
+
+            work = dht.NaiveForward(work, options);
+            Assert.IsFalse(work.ListAlmostEqual(samples, 6));
+
+            work = dht.NaiveInverse(work, options);
+            AssertHelpers.ListAlmostEqual(samples, work, 12);
         }
 
         /// <summary>
@@ -202,19 +149,16 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
             samples.CopyTo(work, 0);
 
             Transform.FourierForward(work);
-
-            Assert.IsFalse(work.AlmostEqualListWithError(samples, 1e-12));
+            Assert.IsFalse(work.ListAlmostEqual(samples, 6));
 
             Transform.FourierInverse(work);
-
-            AssertHelpers.AlmostEqualList(samples, work, 1e-12);
+            AssertHelpers.ListAlmostEqual(samples, work, 10);
 
             Transform.FourierInverse(work, FourierOptions.Default);
-
-            Assert.IsFalse(work.AlmostEqualListWithError(samples, 1e-12));
+            Assert.IsFalse(work.ListAlmostEqual(samples, 6));
 
             Transform.FourierForward(work, FourierOptions.Default);
-            AssertHelpers.AlmostEqualList(samples, work, 1e-12);
+            AssertHelpers.ListAlmostEqual(samples, work, 10);
         }
     }
 }

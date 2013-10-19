@@ -181,7 +181,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers.Precondit
             matrix.Multiply(result, product);
             for (var i = 0; i < product.Count; i++)
             {
-                Assert.IsTrue(((double) vector[i]).AlmostEqual(product[i], -Epsilon.Magnitude()), "#02-" + i);
+                Assert.IsTrue(((double) vector[i]).AlmostEqualNumbersBetween(product[i], -Epsilon.Magnitude()), "#02-" + i);
             }
         }
 
@@ -258,7 +258,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers.Precondit
             {
                 for (var j = i + 1; j < l.RowCount; j++)
                 {
-                    Assert.IsTrue(0.0.AlmostEqual(l[i, j], -Epsilon.Magnitude()), "#01-" + i + "-" + j);
+                    Assert.IsTrue(0.0.AlmostEqualNumbersBetween(l[i, j], -Epsilon.Magnitude()), "#01-" + i + "-" + j);
                 }
             }
 
@@ -269,7 +269,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers.Precondit
             {
                 for (var j = 0; j < i; j++)
                 {
-                    Assert.IsTrue(0.0.AlmostEqual(u[i, j], -Epsilon.Magnitude()), "#02-" + i + "-" + j);
+                    Assert.IsTrue(0.0.AlmostEqualNumbersBetween(u[i, j], -Epsilon.Magnitude()), "#02-" + i + "-" + j);
                 }
             }
 
@@ -278,7 +278,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers.Precondit
             {
                 for (var j = 0; j < sparseMatrix.ColumnCount; j++)
                 {
-                    Assert.IsTrue(((double) sparseMatrix[i, j]).AlmostEqualInDecimalPlaces(original[i, j], 5), "#03-" + i + "-" + j);
+                    Assert.IsTrue(((double) sparseMatrix[i, j]).AlmostEqualRelative(original[i, j], 5), "#03-" + i + "-" + j);
                 }
             }
         }
@@ -321,7 +321,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers.Precondit
             {
                 for (var j = 0; j < sparseMatrix.ColumnCount; j++)
                 {
-                    Assert.IsTrue(((double) sparseMatrix[i, j]).AlmostEqual(original[i, j], -Epsilon.Magnitude()), "#01-" + i + "-" + j);
+                    Assert.IsTrue(((double) sparseMatrix[i, j]).AlmostEqualNumbersBetween(original[i, j], -Epsilon.Magnitude()), "#01-" + i + "-" + j);
                 }
             }
         }

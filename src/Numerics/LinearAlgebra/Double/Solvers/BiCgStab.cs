@@ -157,7 +157,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
 
                 // if (rho_(i-1) == 0) // METHOD FAILS
                 // If rho is only 1 ULP from zero then we fail.
-                if (currentRho.AlmostEqual(0, 1))
+                if (currentRho.AlmostEqualNumbersBetween(0, 1))
                 {
                     // Rho-type breakdown
                     throw new Exception("Iterative solver experience a numerical break down");
@@ -251,7 +251,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
 
                 // for continuation it is necessary that omega_i != 0.0
                 // If omega is only 1 ULP from zero then we fail.
-                if (omega.AlmostEqual(0, 1))
+                if (omega.AlmostEqualNumbersBetween(0, 1))
                 {
                     // Omega-type breakdown
                     throw new Exception("Iterative solver experience a numerical break down");

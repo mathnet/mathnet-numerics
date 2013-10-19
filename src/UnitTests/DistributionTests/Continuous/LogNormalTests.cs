@@ -172,7 +172,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void ValidateEntropy(double mu, double sigma, double entropy)
         {
             var n = new LogNormal(mu, sigma);
-            AssertHelpers.AlmostEqual(entropy, n.Entropy, 14);
+            AssertHelpers.AlmostEqualRelative(entropy, n.Entropy, 14);
         }
 
         /// <summary>
@@ -208,7 +208,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void ValidateSkewness(double mu, double sigma, double skewness)
         {
             var n = new LogNormal(mu, sigma);
-            AssertHelpers.AlmostEqual(skewness, n.Skewness, 14);
+            AssertHelpers.AlmostEqualRelative(skewness, n.Skewness, 13);
         }
 
         /// <summary>
@@ -316,7 +316,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void ValidateMean(double mu, double sigma, double mean)
         {
             var n = new LogNormal(mu, sigma);
-            AssertHelpers.AlmostEqual(mean, n.Mean, 14);
+            AssertHelpers.AlmostEqualRelative(mean, n.Mean, 14);
         }
 
         /// <summary>
@@ -377,8 +377,8 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void ValidateDensity(double mu, double sigma, double x, double p)
         {
             var n = new LogNormal(mu, sigma);
-            AssertHelpers.AlmostEqual(p, n.Density(x), 14);
-            AssertHelpers.AlmostEqual(p, LogNormal.PDF(mu, sigma, x), 14);
+            AssertHelpers.AlmostEqualRelative(p, n.Density(x), 13);
+            AssertHelpers.AlmostEqualRelative(p, LogNormal.PDF(mu, sigma, x), 13);
         }
 
         /// <summary>
@@ -419,8 +419,8 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void ValidateDensityLn(double mu, double sigma, double x, double p)
         {
             var n = new LogNormal(mu, sigma);
-            AssertHelpers.AlmostEqual(p, n.DensityLn(x), 14);
-            AssertHelpers.AlmostEqual(p, LogNormal.PDFLn(mu, sigma, x), 14);
+            AssertHelpers.AlmostEqualRelative(p, n.DensityLn(x), 13);
+            AssertHelpers.AlmostEqualRelative(p, LogNormal.PDFLn(mu, sigma, x), 13);
         }
 
         /// <summary>
@@ -519,8 +519,8 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void ValidateCumulativeDistribution(double mu, double sigma, double x, double f)
         {
             var n = new LogNormal(mu, sigma);
-            AssertHelpers.AlmostEqual(f, n.CumulativeDistribution(x), 8);
-            AssertHelpers.AlmostEqual(f, LogNormal.CDF(mu, sigma, x), 8);
+            AssertHelpers.AlmostEqualRelative(f, n.CumulativeDistribution(x), 7);
+            AssertHelpers.AlmostEqualRelative(f, LogNormal.CDF(mu, sigma, x), 7);
         }
 
         /// <summary>
@@ -553,8 +553,8 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void ValidateInverseCumulativeDistribution(double mu, double sigma, double x, double f)
         {
             var n = new LogNormal(mu, sigma);
-            AssertHelpers.AlmostEqual(x, n.InverseCumulativeDistribution(f), 8);
-            AssertHelpers.AlmostEqual(x, LogNormal.InvCDF(mu, sigma, f), 8);
+            AssertHelpers.AlmostEqualRelative(x, n.InverseCumulativeDistribution(f), 8);
+            AssertHelpers.AlmostEqualRelative(x, LogNormal.InvCDF(mu, sigma, f), 8);
         }
 
         /// <summary>
@@ -570,8 +570,8 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
             var original = new LogNormal(mu, sigma, new Random(100));
             var estimated = LogNormal.Estimate(original.Samples().Take(10000));
 
-            AssertHelpers.AlmostEqual(mu, estimated.Mu, 2);
-            AssertHelpers.AlmostEqual(sigma, estimated.Sigma, 2);
+            AssertHelpers.AlmostEqualRelative(mu, estimated.Mu, 1);
+            AssertHelpers.AlmostEqualRelative(sigma, estimated.Sigma, 1);
         }
     }
 }

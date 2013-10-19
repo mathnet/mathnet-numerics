@@ -56,7 +56,7 @@ namespace MathNet.Numerics.UnitTests.SpecialFunctionsTests
         [TestCase(-10.0, 2815.716628466254)]
         public void BesselI0Exact(double x, double expected)
         {
-            AssertHelpers.AlmostEqual(expected, SpecialFunctions.BesselI0(x), 14);
+            AssertHelpers.AlmostEqualRelative(expected, SpecialFunctions.BesselI0(x), 14);
         }
 
         [Test]
@@ -76,7 +76,7 @@ namespace MathNet.Numerics.UnitTests.SpecialFunctionsTests
         [TestCase(-10.0, -2670.988303701255)]
         public void BesselI1Exact(double x, double expected)
         {
-            AssertHelpers.AlmostEqual(expected, SpecialFunctions.BesselI1(x), 14);
+            AssertHelpers.AlmostEqualRelative(expected, SpecialFunctions.BesselI1(x), 14);
         }
 
         [Test]
@@ -95,7 +95,7 @@ namespace MathNet.Numerics.UnitTests.SpecialFunctionsTests
         [TestCase(100.0, 4.656628229175902e-45)]
         public void BesselK0Exact(double x, double expected)
         {
-            AssertHelpers.AlmostEqual(expected, SpecialFunctions.BesselK0(x), 14);
+            AssertHelpers.AlmostEqualRelative(expected, SpecialFunctions.BesselK0(x), 14);
         }
 
         [Test]
@@ -114,7 +114,7 @@ namespace MathNet.Numerics.UnitTests.SpecialFunctionsTests
         [TestCase(100.0, 4.679853735636909e-45)]
         public void BesselK1Exact(double x, double expected)
         {
-            AssertHelpers.AlmostEqual(expected, SpecialFunctions.BesselK1(x), 14);
+            AssertHelpers.AlmostEqualRelative(expected, SpecialFunctions.BesselK1(x), 14);
         }
     }
 }

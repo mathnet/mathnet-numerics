@@ -64,7 +64,7 @@ namespace MathNet.Numerics.UnitTests.SpecialFunctionsTests
         [TestCase(double.NegativeInfinity, -1.0)]
         public void ErfCanMatchLargePrecision(double x, double f)
         {
-            AssertHelpers.AlmostEqual(f, SpecialFunctions.Erf(x), 15);
+            AssertHelpers.AlmostEqualRelative(f, SpecialFunctions.Erf(x), 15);
         }
 
         /// <summary>
@@ -98,7 +98,7 @@ namespace MathNet.Numerics.UnitTests.SpecialFunctionsTests
         [TestCase(double.NegativeInfinity, 2.0)]
         public void ErfcCanMatchLargePrecision(double x, double f)
         {
-            AssertHelpers.AlmostEqual(f, SpecialFunctions.Erfc(x), 13);
+            AssertHelpers.AlmostEqualRelative(f, SpecialFunctions.Erfc(x), 13);
         }
 
         /// <summary>
@@ -120,7 +120,7 @@ namespace MathNet.Numerics.UnitTests.SpecialFunctionsTests
         [TestCase(2.0, double.NegativeInfinity)]
         public void ErfcInvCanMatchLargePrecision(double x, double f)
         {
-            AssertHelpers.AlmostEqual(f, SpecialFunctions.ErfcInv(x), 8);
+            AssertHelpers.AlmostEqualRelative(f, SpecialFunctions.ErfcInv(x), 7);
         }
 
         /// <summary>
@@ -148,7 +148,7 @@ namespace MathNet.Numerics.UnitTests.SpecialFunctionsTests
         [TestCase(double.NegativeInfinity, -1.0)]
         public void ErfInv(double x, double f)
         {
-            AssertHelpers.AlmostEqual(x, SpecialFunctions.ErfInv(f), 6);
+            AssertHelpers.AlmostEqualRelative(x, SpecialFunctions.ErfInv(f), 5);
         }
     }
 }

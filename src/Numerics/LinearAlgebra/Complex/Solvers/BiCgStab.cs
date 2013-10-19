@@ -164,7 +164,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
 
                 // if (rho_(i-1) == 0) // METHOD FAILS
                 // If rho is only 1 ULP from zero then we fail.
-                if (currentRho.Real.AlmostEqual(0, 1) && currentRho.Imaginary.AlmostEqual(0, 1))
+                if (currentRho.Real.AlmostEqualNumbersBetween(0, 1) && currentRho.Imaginary.AlmostEqualNumbersBetween(0, 1))
                 {
                     // Rho-type breakdown
                     throw new Exception("Iterative solver experience a numerical break down");
@@ -258,7 +258,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
 
                 // for continuation it is necessary that omega_i != 0.0
                 // If omega is only 1 ULP from zero then we fail.
-                if (omega.Real.AlmostEqual(0, 1) && omega.Imaginary.AlmostEqual(0, 1))
+                if (omega.Real.AlmostEqualNumbersBetween(0, 1) && omega.Imaginary.AlmostEqualNumbersBetween(0, 1))
                 {
                     // Omega-type breakdown
                     throw new Exception("Iterative solver experience a numerical break down");

@@ -48,7 +48,7 @@ namespace MathNet.Numerics.UnitTests.SpecialFunctionsTests
         [TestCase(-10.0, -2815.652249374595)]
         public void StruveL0Exact(double x, double expected)
         {
-            AssertHelpers.AlmostEqual(expected, SpecialFunctions.StruveL0(x), 14);
+            AssertHelpers.AlmostEqualRelative(expected, SpecialFunctions.StruveL0(x), 13);
         }
 
         [TestCase(0.0, 0.0)]
@@ -61,7 +61,7 @@ namespace MathNet.Numerics.UnitTests.SpecialFunctionsTests
         [TestCase(-10.0, 2670.358285208483)]
         public void StruveL1Exact(double x, double expected)
         {
-            AssertHelpers.AlmostEqual(expected, SpecialFunctions.StruveL1(x), 14);
+            AssertHelpers.AlmostEqualRelative(expected, SpecialFunctions.StruveL1(x), 14);
         }
 
         [TestCase(0.0, 1.0)]
@@ -77,7 +77,7 @@ namespace MathNet.Numerics.UnitTests.SpecialFunctionsTests
         public void BesselI0MStruveL0Exact(double x, double expected)
         {
             // Abramowitz/Stegun Table 12.1, 12.2
-            AssertHelpers.AlmostEqual(expected, SpecialFunctions.BesselI0MStruveL0(x), 5);
+            AssertHelpers.AlmostEqualRelative(expected, SpecialFunctions.BesselI0MStruveL0(x), 4);
         }
 
         [TestCase(0.0, 0.0)]
@@ -93,7 +93,7 @@ namespace MathNet.Numerics.UnitTests.SpecialFunctionsTests
         public void BesselI1MStruveL1Exact(double x, double expected)
         {
             // Abramowitz/Stegun Table 12.1, 12.2
-            AssertHelpers.AlmostEqual(expected, SpecialFunctions.BesselI1MStruveL1(x), 5);
+            AssertHelpers.AlmostEqualRelative(expected, SpecialFunctions.BesselI1MStruveL1(x), 5);
         }
     }
 }

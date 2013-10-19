@@ -71,7 +71,7 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
             var dataB = _data["lew"].Data.Take(200);
 
             var corr = Correlation.Pearson(dataA, dataB);
-            AssertHelpers.AlmostEqual(-0.029470861580726, corr, 13);
+            AssertHelpers.AlmostEqual(-0.029470861580726, corr, 14);
         }
 
         /// <summary>
@@ -86,7 +86,7 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
             var direct = Correlation.Pearson(dataA, dataB);
             var covariance = dataA.Covariance(dataB)/(dataA.StandardDeviation()*dataB.StandardDeviation());
 
-            AssertHelpers.AlmostEqual(covariance, direct, 13);
+            AssertHelpers.AlmostEqual(covariance, direct, 14);
         }
 
         /// <summary>
@@ -110,7 +110,7 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
             var dataB = _data["lew"].Data.Take(200);
 
             var corr = Correlation.Spearman(dataA, dataB);
-            AssertHelpers.AlmostEqual(-0.0382856977898528, corr, 13);
+            AssertHelpers.AlmostEqual(-0.0382856977898528, corr, 14);
         }
 
         /// <summary>

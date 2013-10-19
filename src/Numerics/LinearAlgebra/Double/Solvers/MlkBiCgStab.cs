@@ -341,7 +341,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
 
                 // c_((j-1)k+k) = q^T_1 w_((j-1)k+k)
                 c[k - 1] = _startingVectors[0].DotProduct(w[k - 1]);
-                if (c[k - 1].AlmostEqual(0, 1))
+                if (c[k - 1].AlmostEqualNumbersBetween(0, 1))
                 {
                     throw new Exception("Iterative solver experience a numerical break down");
                 }
@@ -364,7 +364,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
                 // If rho is zero then temp is a zero vector and we're probably
                 // about to have zero residuals (i.e. an exact solution).
                 // So set rho to 1.0 because in the next step it will turn to zero.
-                if (rho.AlmostEqual(0, 1))
+                if (rho.AlmostEqualNumbersBetween(0, 1))
                 {
                     rho = 1.0;
                 }
@@ -442,7 +442,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
                     }
 
                     beta = rho*c[k - 1];
-                    if (beta.AlmostEqual(0, 1))
+                    if (beta.AlmostEqualNumbersBetween(0, 1))
                     {
                         throw new Exception("Iterative solver experience a numerical break down");
                     }
@@ -494,7 +494,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
                     {
                         // c_(jk+1) = q^T_i+1 d_(jk+i)
                         c[i] = _startingVectors[i + 1].DotProduct(d[i]);
-                        if (c[i].AlmostEqual(0, 1))
+                        if (c[i].AlmostEqualNumbersBetween(0, 1))
                         {
                             throw new Exception("Iterative solver experience a numerical break down");
                         }

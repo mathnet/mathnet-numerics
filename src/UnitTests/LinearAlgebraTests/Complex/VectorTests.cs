@@ -107,11 +107,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
 
             vector.CopySubVectorTo(other, 2, 2, 2);
 
-            AssertHelpers.AreEqual(Complex.Zero, other[0]);
-            AssertHelpers.AreEqual(Complex.Zero, other[1]);
-            AssertHelpers.AreEqual(new Complex(3, 1), other[2]);
-            AssertHelpers.AreEqual(new Complex(4, 1), other[3]);
-            AssertHelpers.AreEqual(Complex.Zero, other[4]);
+            AssertHelpers.AlmostEqual(Complex.Zero, other[0]);
+            AssertHelpers.AlmostEqual(Complex.Zero, other[1]);
+            AssertHelpers.AlmostEqual(new Complex(3, 1), other[2]);
+            AssertHelpers.AlmostEqual(new Complex(4, 1), other[3]);
+            AssertHelpers.AlmostEqual(Complex.Zero, other[4]);
         }
 
         /// <summary>
@@ -123,11 +123,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
             var vector = CreateVector(Data);
             vector.CopySubVectorTo(vector, 0, 2, 2);
 
-            AssertHelpers.AreEqual(new Complex(1, 1), vector[0]);
-            AssertHelpers.AreEqual(new Complex(2, 1), vector[1]);
-            AssertHelpers.AreEqual(new Complex(1, 1), vector[2]);
-            AssertHelpers.AreEqual(new Complex(2, 1), vector[3]);
-            AssertHelpers.AreEqual(new Complex(5, 1), vector[4]);
+            AssertHelpers.AlmostEqual(new Complex(1, 1), vector[0]);
+            AssertHelpers.AlmostEqual(new Complex(2, 1), vector[1]);
+            AssertHelpers.AlmostEqual(new Complex(1, 1), vector[2]);
+            AssertHelpers.AlmostEqual(new Complex(2, 1), vector[3]);
+            AssertHelpers.AlmostEqual(new Complex(5, 1), vector[4]);
         }
 
         /// <summary>

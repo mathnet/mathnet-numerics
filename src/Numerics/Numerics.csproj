@@ -86,6 +86,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Precision.Equality.cs" />
     <Compile Include="Distributions\Bernoulli.cs" />
     <Compile Include="Distributions\Beta.cs" />
     <Compile Include="Distributions\Binomial.cs" />

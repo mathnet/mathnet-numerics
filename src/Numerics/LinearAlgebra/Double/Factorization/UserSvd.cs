@@ -348,7 +348,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
                 {
                     test = Math.Abs(s[l]) + Math.Abs(s[l + 1]);
                     ztest = test + Math.Abs(e[l]);
-                    if (ztest.AlmostEqualInDecimalPlaces(test, 15))
+                    if (ztest.AlmostEqualRelative(test, 15))
                     {
                         e[l] = 0.0;
                         break;
@@ -377,7 +377,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
                         }
 
                         ztest = test + Math.Abs(s[ls]);
-                        if (ztest.AlmostEqualInDecimalPlaces(test, 15))
+                        if (ztest.AlmostEqualRelative(test, 15))
                         {
                             s[ls] = 0.0;
                             break;

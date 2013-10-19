@@ -164,7 +164,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
                 {
                     // sigma = (v, r)
                     var sigma = v.DotProduct(r);
-                    if (sigma.AlmostEqual(0, 1))
+                    if (sigma.AlmostEqualNumbersBetween(0, 1))
                     {
                         // FAIL HERE
                         iterator.Cancel();
@@ -237,7 +237,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
                 // The odd step
                 if (!IsEven(iterationNumber))
                 {
-                    if (rho.AlmostEqual(0, 1))
+                    if (rho.AlmostEqualNumbersBetween(0, 1))
                     {
                         // FAIL HERE
                         iterator.Cancel();

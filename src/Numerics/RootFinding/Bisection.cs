@@ -107,7 +107,7 @@ namespace MathNet.Numerics.RootFinding
 
             for (int i = 0; i <= maxIterations; i++)
             {
-                if (Math.Abs(fmax - fmin) < 0.5*accuracy && upperBound.AlmostEqual(lowerBound))
+                if (Math.Abs(fmax - fmin) < 0.5*accuracy && upperBound.AlmostEqualRelative(lowerBound))
                 {
                     return true;
                 }

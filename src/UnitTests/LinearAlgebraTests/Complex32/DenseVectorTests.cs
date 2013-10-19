@@ -294,13 +294,13 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
 
             for (var i = 0; i < Data.Length; i++)
             {
-                AssertHelpers.AlmostEqual(Data[i]/new Complex32(2.0f, 1), vector[i], 7);
+                AssertHelpers.AlmostEqualRelative(Data[i]/new Complex32(2.0f, 1), vector[i], 6);
             }
 
             vector = vector/1.0f;
             for (var i = 0; i < Data.Length; i++)
             {
-                AssertHelpers.AlmostEqual(Data[i]/new Complex32(2.0f, 1), vector[i], 7);
+                AssertHelpers.AlmostEqualRelative(Data[i]/new Complex32(2.0f, 1), vector[i], 6);
             }
         }
 

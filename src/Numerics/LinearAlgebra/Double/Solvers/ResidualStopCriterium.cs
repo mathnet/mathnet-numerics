@@ -226,7 +226,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
             // ||r_i|| <= stop_tol * ||b||
             // Stop the calculation if it's clearly smaller than the tolerance
             var decimalMagnitude = Math.Abs(stopCriterium.Magnitude()) + 1;
-            if (residualNorm.IsSmallerWithDecimalPlaces(stopCriterium, decimalMagnitude))
+            if (residualNorm.IsSmallerDecimal(stopCriterium, decimalMagnitude))
             {
                 if (_lastIteration <= iterationNumber)
                 {
