@@ -62,12 +62,31 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
+        /// Least-Squares fitting the points (X,y) = ((x0,x1,..,xk),y) to a linear surface y : X -> p0*x0 + p1*x1 + ... + pk*xk,
+        /// returning its best fitting parameters as [p0, p1, p2, ..., pk] array.
+        /// </summary>
+        public static double[] MultiDim(double[][] x, double[] y)
+        {
+            return MultipleRegression.NormalEquations(x, y);
+        }
+
+        /// <summary>
+        /// Least-Squares fitting the points (X,y) = ((x0,x1,..,xk),y) to a linear surface y : X -> p0*x0 + p1*x1 + ... + pk*xk,
+        /// returning a function y' for the best fitting combination.
+        /// </summary>
+        public static Func<double[], double> MultiDimFunc(double[][] x, double[] y)
+        {
+            var parameters = MultipleRegression.NormalEquations(x, y);
+            return z => Control.LinearAlgebraProvider.DotProduct(parameters, z);
+        }
+
+        /// <summary>
         /// Least-Squares fitting the points (x,y) to a k-order polynomial y : x -> p0 + p1*x + p2*x^2 + ... + pk*x^k,
         /// returning its best fitting parameters as [p0, p1, p2, ..., pk] array, compatible with Evaluate.Polynomial.
         /// </summary>
         public static double[] Polynomial(double[] x, double[] y, int order)
         {
-            var design = Matrix<double>.Build.DenseOfColumns(x.Length, order + 1, Enumerable.Range(0, order + 1).Select(j => x.Select(xi => Math.Pow(xi, j))));
+            var design = Matrix<double>.Build.Dense(x.Length, order + 1, (i, j) => Math.Pow(x[i], j));
             return MultipleRegression.QR(design, Vector<double>.Build.Dense(y)).ToArray();
         }
 
@@ -87,7 +106,7 @@ namespace MathNet.Numerics
         /// </summary>
         public static double[] LinearCombination(double[] x, double[] y, params Func<double,double>[] functions)
         {
-            var design = Matrix<double>.Build.DenseOfColumns(x.Length, functions.Length, functions.Select(f => x.Select(xi => f(xi))));
+            var design = Matrix<double>.Build.Dense(x.Length, functions.Length, (i, j) => functions[j](x[i]));
             return MultipleRegression.QR(design, Vector<double>.Build.Dense(y)).ToArray();
         }
 
@@ -107,7 +126,7 @@ namespace MathNet.Numerics
         /// </summary>
         public static double[] LinearMultiDim(double[][] x, double[] y, params Func<double[], double>[] functions)
         {
-            var design = Matrix<double>.Build.DenseOfRows(x.Select(xi => functions.Select(f => f(xi))));
+            var design = Matrix<double>.Build.Dense(x.Length, functions.Length, (i, j) => functions[j](x[i]));
             return MultipleRegression.QR(design, Vector<double>.Build.Dense(y)).ToArray();
         }
 
@@ -127,7 +146,7 @@ namespace MathNet.Numerics
         /// </summary>
         public static double[] LinearGeneric<T>(T[] x, double[] y, params Func<T, double>[] functions)
         {
-            var design = Matrix<double>.Build.DenseOfRows(x.Select(xi => functions.Select(f => f(xi))));
+            var design = Matrix<double>.Build.Dense(x.Length, functions.Length, (i, j) => functions[j](x[i]));
             return MultipleRegression.QR(design, Vector<double>.Build.Dense(y)).ToArray();
         }
 
