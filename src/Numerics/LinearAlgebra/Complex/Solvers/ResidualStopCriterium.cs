@@ -211,14 +211,24 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "residualVector");
             }
 
+
             // Store the infinity norms of both the solution and residual vectors
             // These values will be used to calculate the relative drop in residuals
             // later on.
             var residualNorm = residualVector.InfinityNorm();
 
+
+            // This is criterium 1 from Templates for the solution of linear systems.
+            // The problem with this criterium is that it's not limiting enough. For now 
+            // we won't use it. Later on we might get back to it.
+            // return mMaximumResidual * (System.Math.Abs(mMatrixNorm) * System.Math.Abs(solutionNorm) + System.Math.Abs(mVectorNorm));
+
+            // For now use criterium 2 from Templates for the solution of linear systems. See page 60.
+
             // Check the residuals by calculating:
             // ||r_i|| <= stop_tol * ||b||
-            var stopCriterium = ComputeStopCriterium(sourceVector.InfinityNorm());
+            var stopCriterium = _maximum * sourceVector.InfinityNorm();
+
 
             // First check that we have real numbers not NaN's.
             // NaN's can occur when the iterative process diverges so we
@@ -232,8 +242,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
 
             // ||r_i|| <= stop_tol * ||b||
             // Stop the calculation if it's clearly smaller than the tolerance
-            var decimalMagnitude = Math.Abs(stopCriterium.Magnitude()) + 1;
-            if (residualNorm.IsSmallerDecimal(stopCriterium, decimalMagnitude))
+            if (residualNorm < stopCriterium)
             {
                 if (_lastIteration <= iterationNumber)
                 {
@@ -249,22 +258,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
 
             _lastIteration = iterationNumber;
             return _status;
-        }
-
-        /// <summary>
-        /// Calculate stop criterium
-        /// </summary>
-        /// <param name="solutionNorm">Solution vector norm</param>
-        /// <returns>Criterium value</returns>
-        double ComputeStopCriterium(double solutionNorm)
-        {
-            // This is criterium 1 from Templates for the solution of linear systems.
-            // The problem with this criterium is that it's not limiting enough. For now 
-            // we won't use it. Later on we might get back to it.
-            // return mMaximumResidual * (System.Math.Abs(mMatrixNorm) * System.Math.Abs(solutionNorm) + System.Math.Abs(mVectorNorm));
-
-            // For now use criterium 2 from Templates for the solution of linear systems. See page 60.
-            return _maximum*Math.Abs(solutionNorm);
         }
 
         /// <summary>

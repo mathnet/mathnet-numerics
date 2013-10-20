@@ -121,7 +121,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.Iterativ
             // Now compare the vectors
             for (var i = 0; i < y.Count; i++)
             {
-                Assert.IsTrue((y[i] - z[i]).Magnitude.IsSmaller(ConvergenceBoundary, 1), "#05-" + i);
+                Assert.GreaterOrEqual(ConvergenceBoundary, (y[i] - z[i]).Magnitude, "#05-" + i);
             }
         }
 
@@ -165,7 +165,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.Iterativ
             // Now compare the vectors
             for (var i = 0; i < y.Count; i++)
             {
-                Assert.IsTrue((y[i] - z[i]).Magnitude.IsSmaller(ConvergenceBoundary, 1), "#05-" + i);
+                Assert.GreaterOrEqual(ConvergenceBoundary, (y[i] - z[i]).Magnitude, "#05-" + i);
             }
         }
 
@@ -242,7 +242,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.Iterativ
             // Now compare the vectors
             for (var i = 0; i < y.Count; i++)
             {
-                Assert.IsTrue((y[i] - z[i]).Magnitude.IsSmaller(ConvergenceBoundary, 1), "#05-" + i);
+                Assert.GreaterOrEqual(ConvergenceBoundary, (y[i] - z[i]).Magnitude, "#05-" + i);
             }
         }
 
