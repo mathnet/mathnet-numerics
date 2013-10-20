@@ -94,7 +94,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers.Iterative
             var monitor = new Iterator<float>(
                 new IterationCountStopCriterium<float>(MaximumIterations),
                 new ResidualStopCriterium<float>(ConvergenceBoundary),
-                new DivergenceStopCriterium(),
+                new DivergenceStopCriterium<float>(),
                 new FailureStopCriterium());
 
             var solver = new BiCgStab();
@@ -138,7 +138,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers.Iterative
             var monitor = new Iterator<float>(
                 new IterationCountStopCriterium<float>(MaximumIterations),
                 new ResidualStopCriterium<float>(ConvergenceBoundary),
-                new DivergenceStopCriterium(),
+                new DivergenceStopCriterium<float>(),
                 new FailureStopCriterium());
 
             var solver = new BiCgStab();
@@ -215,7 +215,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers.Iterative
             var monitor = new Iterator<float>(
                 new IterationCountStopCriterium<float>(MaximumIterations),
                 new ResidualStopCriterium<float>(ConvergenceBoundary),
-                new DivergenceStopCriterium(),
+                new DivergenceStopCriterium<float>(),
                 new FailureStopCriterium());
 
             var solver = new BiCgStab();

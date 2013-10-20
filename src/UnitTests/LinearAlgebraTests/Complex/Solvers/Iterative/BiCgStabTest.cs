@@ -100,7 +100,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.Iterativ
             var monitor = new Iterator<Complex>(
                 new IterationCountStopCriterium<Complex>(MaximumIterations),
                 new ResidualStopCriterium<Complex>(ConvergenceBoundary),
-                new DivergenceStopCriterium(),
+                new DivergenceStopCriterium<Complex>(),
                 new FailureStopCriterium());
 
             var solver = new BiCgStab();
@@ -143,7 +143,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.Iterativ
             // Create an iteration monitor which will keep track of iterative convergence
             var monitor = new Iterator<Complex>(new IterationCountStopCriterium<Complex>(MaximumIterations),
                 new ResidualStopCriterium<Complex>(ConvergenceBoundary),
-                new DivergenceStopCriterium(),
+                new DivergenceStopCriterium<Complex>(),
                 new FailureStopCriterium());
 
             var solver = new BiCgStab();
@@ -219,7 +219,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.Iterativ
             // Create an iteration monitor which will keep track of iterative convergence
             var monitor = new Iterator<Complex>(new IterationCountStopCriterium<Complex>(MaximumIterations),
                 new ResidualStopCriterium<Complex>(ConvergenceBoundary),
-                new DivergenceStopCriterium(),
+                new DivergenceStopCriterium<Complex>(),
                 new FailureStopCriterium());
 
             var solver = new BiCgStab();

@@ -100,7 +100,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.Iterativ
             var monitor = new Iterator<Complex>(
                 new IterationCountStopCriterium<Complex>(MaximumIterations),
                 new ResidualStopCriterium<Complex>(ConvergenceBoundary),
-                new DivergenceStopCriterium(),
+                new DivergenceStopCriterium<Complex>(),
                 new FailureStopCriterium());
 
             var solver = new TFQMR();
@@ -144,7 +144,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.Iterativ
             var monitor = new Iterator<Complex>(
                 new IterationCountStopCriterium<Complex>(MaximumIterations),
                 new ResidualStopCriterium<Complex>(ConvergenceBoundary),
-                new DivergenceStopCriterium(),
+                new DivergenceStopCriterium<Complex>(),
                 new FailureStopCriterium());
 
             var solver = new TFQMR();
@@ -221,7 +221,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.Iterativ
             var monitor = new Iterator<Complex>(
                 new IterationCountStopCriterium<Complex>(MaximumIterations),
                 new ResidualStopCriterium<Complex>(ConvergenceBoundary),
-                new DivergenceStopCriterium(),
+                new DivergenceStopCriterium<Complex>(),
                 new FailureStopCriterium());
 
             var solver = new TFQMR();

@@ -66,7 +66,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers
             var criteria = new List<IIterationStopCriterium<float>>
             {
                 new FailureStopCriterium(),
-                new DivergenceStopCriterium(),
+                new DivergenceStopCriterium<float>(),
                 new IterationCountStopCriterium<float>(),
                 new ResidualStopCriterium<float>(1e-6)
             };
@@ -88,7 +88,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers
             var criteria = new List<IIterationStopCriterium<float>>
             {
                 new FailureStopCriterium(),
-                new DivergenceStopCriterium(),
+                new DivergenceStopCriterium<float>(),
                 new IterationCountStopCriterium<float>(1)
             };
 
@@ -120,7 +120,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers
             var criteria = new List<IIterationStopCriterium<float>>
             {
                 new FailureStopCriterium(),
-                new DivergenceStopCriterium(),
+                new DivergenceStopCriterium<float>(),
                 new IterationCountStopCriterium<float>(1)
             };
 

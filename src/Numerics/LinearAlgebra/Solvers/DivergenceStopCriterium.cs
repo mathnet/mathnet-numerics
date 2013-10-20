@@ -28,35 +28,16 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using MathNet.Numerics.LinearAlgebra.Solvers;
 using System;
 using System.Diagnostics;
 
-namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
+namespace MathNet.Numerics.LinearAlgebra.Solvers
 {
     /// <summary>
     /// Monitors an iterative calculation for signs of divergence.
     /// </summary>
-    public sealed class DivergenceStopCriterium : IIterationStopCriterium<double>
+    public sealed class DivergenceStopCriterium<T> : IIterationStopCriterium<T> where T : struct, IEquatable<T>, IFormattable
     {
-        /// <summary>
-        /// Default value for the maximum relative increase that the 
-        /// residual may experience before a divergence warning is issued.
-        /// </summary>
-        public const double DefaultMaximumRelativeIncrease = 0.08;
-
-        /// <summary>
-        /// Default value for the minimum number of iterations over which 
-        /// the residual must grow before a divergence warning is issued.
-        /// </summary>
-        public const int DefaultMinimumNumberOfIterations = 10;
-
-        /// <summary>
-        /// Defines the default last iteration number. Set to -1 because iterations normally
-        /// start at 0.
-        /// </summary>
-        const int DefaultLastIterationNumber = -1;
-
         /// <summary>
         /// The maximum relative increase the residual may experience without triggering a divergence warning.
         /// </summary>
@@ -80,15 +61,15 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
         /// <summary>
         /// The iteration number of the last iteration.
         /// </summary>
-        int _lastIteration = DefaultLastIterationNumber;
+        int _lastIteration = -1;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="DivergenceStopCriterium"/> class with the specified maximum 
+        /// Initializes a new instance of the <see cref="DivergenceStopCriterium{T}"/> class with the specified maximum 
         /// relative increase and the specified minimum number of tracking iterations.
         /// </summary>
         /// <param name="maximumRelativeIncrease">The maximum relative increase that the residual may experience before a divergence warning is issued. </param>
         /// <param name="minimumIterations">The minimum number of iterations over which the residual must grow before a divergence warning is issued.</param>
-        public DivergenceStopCriterium(double maximumRelativeIncrease = DefaultMaximumRelativeIncrease, int minimumIterations = DefaultMinimumNumberOfIterations)
+        public DivergenceStopCriterium(double maximumRelativeIncrease = 0.08, int minimumIterations = 10)
         {
             if (maximumRelativeIncrease <= 0)
             {
@@ -130,14 +111,6 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
         }
 
         /// <summary>
-        /// Returns the maximum relative increase to the default.
-        /// </summary>
-        public void ResetMaximumRelativeIncreaseToDefault()
-        {
-            _maximumRelativeIncrease = DefaultMaximumRelativeIncrease;
-        }
-
-        /// <summary>
         /// Gets or sets the minimum number of iterations over which the residual must grow before
         /// issuing a divergence warning.
         /// </summary>
@@ -165,14 +138,6 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
         }
 
         /// <summary>
-        /// Returns the minimum number of iterations to the default.
-        /// </summary>
-        public void ResetNumberOfIterationsToDefault()
-        {
-            _minimumNumberOfIterations = DefaultMinimumNumberOfIterations;
-        }
-
-        /// <summary>
         /// Determines the status of the iterative calculation based on the stop criteria stored
         /// by the current <see cref="IIterationStopCriterium{T}"/>. Result is set into <c>Status</c> field.
         /// </summary>
@@ -185,7 +150,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
         /// on the invocation of this method. Therefore this method should only be called if the 
         /// calculation has moved forwards at least one step.
         /// </remarks>
-        public IterationStatus DetermineStatus(int iterationNumber, Vector<double> solutionVector, Vector<double> sourceVector, Vector<double> residualVector)
+        public IterationStatus DetermineStatus(int iterationNumber, Vector<T> solutionVector, Vector<T> sourceVector, Vector<T> residualVector)
         {
             if (iterationNumber < 0)
             {
@@ -286,17 +251,17 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
         public void Reset()
         {
             _status = IterationStatus.Continue;
-            _lastIteration = DefaultLastIterationNumber;
+            _lastIteration = -1;
             _residualHistory = null;
         }
 
         /// <summary>
-        /// Clones the current <see cref="DivergenceStopCriterium"/> and its settings.
+        /// Clones the current <see cref="DivergenceStopCriterium{T}"/> and its settings.
         /// </summary>
-        /// <returns>A new instance of the <see cref="DivergenceStopCriterium"/> class.</returns>
-        public IIterationStopCriterium<double> Clone()
+        /// <returns>A new instance of the <see cref="DivergenceStopCriterium{T}"/> class.</returns>
+        public IIterationStopCriterium<T> Clone()
         {
-            return new DivergenceStopCriterium(_maximumRelativeIncrease, _minimumNumberOfIterations);
+            return new DivergenceStopCriterium<T>(_maximumRelativeIncrease, _minimumNumberOfIterations);
         }
     }
 }

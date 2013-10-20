@@ -96,7 +96,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.Iterat
             var monitor = new Iterator<Complex32>(
                 new IterationCountStopCriterium<Complex32>(MaximumIterations),
                 new ResidualStopCriterium<Complex32>(ConvergenceBoundary),
-                new DivergenceStopCriterium(),
+                new DivergenceStopCriterium<Complex32>(),
                 new FailureStopCriterium());
 
             var solver = new TFQMR();
@@ -140,7 +140,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.Iterat
             var monitor = new Iterator<Complex32>(
                 new IterationCountStopCriterium<Complex32>(MaximumIterations),
                 new ResidualStopCriterium<Complex32>(ConvergenceBoundary),
-                new DivergenceStopCriterium(),
+                new DivergenceStopCriterium<Complex32>(),
                 new FailureStopCriterium());
 
             var solver = new TFQMR();
@@ -217,7 +217,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.Iterat
             var monitor = new Iterator<Complex32>(
                 new IterationCountStopCriterium<Complex32>(MaximumIterations),
                 new ResidualStopCriterium<Complex32>(ConvergenceBoundary),
-                new DivergenceStopCriterium(),
+                new DivergenceStopCriterium<Complex32>(),
                 new FailureStopCriterium());
 
             var solver = new TFQMR();

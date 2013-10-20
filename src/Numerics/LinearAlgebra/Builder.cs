@@ -78,7 +78,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             return new IIterationStopCriterium<double>[]
             {
                 new FailureStopCriterium(),
-                new DivergenceStopCriterium(),
+                new DivergenceStopCriterium<double>(),
                 new IterationCountStopCriterium<double>(maxIterations),
                 new ResidualStopCriterium<double>(1e-12)
             };
@@ -155,7 +155,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
             return new IIterationStopCriterium<float>[]
             {
                 new FailureStopCriterium(),
-                new DivergenceStopCriterium(),
+                new DivergenceStopCriterium<float>(),
                 new IterationCountStopCriterium<float>(maxIterations),
                 new ResidualStopCriterium<float>(1e-6)
             };
@@ -238,7 +238,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
             return new IIterationStopCriterium<Complex>[]
             {
                 new FailureStopCriterium(),
-                new DivergenceStopCriterium(),
+                new DivergenceStopCriterium<Complex>(),
                 new IterationCountStopCriterium<Complex>(maxIterations),
                 new ResidualStopCriterium<Complex>(1e-12)
             };
@@ -315,7 +315,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
             return new IIterationStopCriterium<Numerics.Complex32>[]
             {
                 new FailureStopCriterium(),
-                new DivergenceStopCriterium(),
+                new DivergenceStopCriterium<Numerics.Complex32>(),
                 new IterationCountStopCriterium<Numerics.Complex32>(maxIterations),
                 new ResidualStopCriterium<Numerics.Complex32>(1e-6)
             };

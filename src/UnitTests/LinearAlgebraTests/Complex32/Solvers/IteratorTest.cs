@@ -68,7 +68,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers
             var criteria = new List<IIterationStopCriterium<Complex32>>
             {
                 new FailureStopCriterium(),
-                new DivergenceStopCriterium(),
+                new DivergenceStopCriterium<Complex32>(),
                 new IterationCountStopCriterium<Complex32>(),
                 new ResidualStopCriterium<Complex32>(1e-6)
             };
@@ -90,7 +90,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers
             var criteria = new List<IIterationStopCriterium<Complex32>>
             {
                 new FailureStopCriterium(),
-                new DivergenceStopCriterium(),
+                new DivergenceStopCriterium<Complex32>(),
                 new IterationCountStopCriterium<Complex32>(1)
             };
 
@@ -122,7 +122,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers
             var criteria = new List<IIterationStopCriterium<Complex32>>
             {
                 new FailureStopCriterium(),
-                new DivergenceStopCriterium(),
+                new DivergenceStopCriterium<Complex32>(),
                 new IterationCountStopCriterium<Complex32>(1)
             };
 
