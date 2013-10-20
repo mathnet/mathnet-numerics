@@ -30,7 +30,6 @@
 
 using System;
 using MathNet.Numerics.LinearAlgebra.Complex32;
-using MathNet.Numerics.LinearAlgebra.Complex32.Solvers;
 using MathNet.Numerics.LinearAlgebra.Solvers;
 using NUnit.Framework;
 
@@ -50,7 +49,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.StopCr
         [Test]
         public void Create()
         {
-            var criterium = new FailureStopCriterium();
+            var criterium = new FailureStopCriterium<Complex32>();
             Assert.IsNotNull(criterium, "Should have a criterium now");
         }
 
@@ -60,7 +59,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.StopCr
         [Test]
         public void DetermineStatusWithIllegalIterationNumberThrowsArgumentOutOfRangeException()
         {
-            var criterium = new FailureStopCriterium();
+            var criterium = new FailureStopCriterium<Complex32>();
             Assert.IsNotNull(criterium, "There should be a criterium");
 
             Assert.Throws<ArgumentOutOfRangeException>(() => criterium.DetermineStatus(-1, DenseVector.Create(3, i => 4), DenseVector.Create(3, i => 5), DenseVector.Create(3, i => 6)));
@@ -72,7 +71,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.StopCr
         [Test]
         public void DetermineStatusWithNonMatchingVectorsThrowsArgumentException()
         {
-            var criterium = new FailureStopCriterium();
+            var criterium = new FailureStopCriterium<Complex32>();
             Assert.IsNotNull(criterium, "There should be a criterium");
 
             Assert.Throws<ArgumentException>(() => criterium.DetermineStatus(1, DenseVector.Create(3, i => 4), DenseVector.Create(3, i => 6), DenseVector.Create(4, i => 4)));
@@ -84,7 +83,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.StopCr
         [Test]
         public void DetermineStatusWithResidualNaN()
         {
-            var criterium = new FailureStopCriterium();
+            var criterium = new FailureStopCriterium<Complex32>();
             Assert.IsNotNull(criterium, "There should be a criterium");
 
             var solution = new DenseVector(new[] {new Complex32(1.0f, 0), new Complex32(1.0f, 0), new Complex32(2.0f, 0)});
@@ -101,7 +100,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.StopCr
         [Test]
         public void DetermineStatusWithSolutionNaN()
         {
-            var criterium = new FailureStopCriterium();
+            var criterium = new FailureStopCriterium<Complex32>();
             Assert.IsNotNull(criterium, "There should be a criterium");
 
             var solution = new DenseVector(new[] {new Complex32(1.0f, 0), new Complex32(1.0f, 0), new Complex32(float.NaN, 0)});
@@ -118,7 +117,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.StopCr
         [Test]
         public void DetermineStatus()
         {
-            var criterium = new FailureStopCriterium();
+            var criterium = new FailureStopCriterium<Complex32>();
             Assert.IsNotNull(criterium, "There should be a criterium");
 
             var solution = new DenseVector(new[] {new Complex32(3.0f, 0), new Complex32(2.0f, 0), new Complex32(1, 0)});
@@ -135,7 +134,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.StopCr
         [Test]
         public void ResetCalculationState()
         {
-            var criterium = new FailureStopCriterium();
+            var criterium = new FailureStopCriterium<Complex32>();
             Assert.IsNotNull(criterium, "There should be a criterium");
 
             var solution = new DenseVector(new[] {new Complex32(1.0f, 0), new Complex32(1.0f, 0), new Complex32(2, 0)});
@@ -155,11 +154,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.StopCr
         [Test]
         public void Clone()
         {
-            var criterium = new FailureStopCriterium();
+            var criterium = new FailureStopCriterium<Complex32>();
             Assert.IsNotNull(criterium, "There should be a criterium");
 
             var clone = criterium.Clone();
-            Assert.IsInstanceOf(typeof (FailureStopCriterium), clone, "Wrong criterium type");
+            Assert.IsInstanceOf(typeof(FailureStopCriterium<Complex32>), clone, "Wrong criterium type");
         }
     }
 }

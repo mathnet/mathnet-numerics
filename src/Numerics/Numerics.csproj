@@ -255,7 +255,6 @@
     <Compile Include="LinearAlgebra\Complex32\Solvers\DiagonalPreconditioner.cs" />
     <Compile Include="LinearAlgebra\Complex32\Solvers\ILUTPPreconditioner.cs" />
     <Compile Include="LinearAlgebra\Complex32\Solvers\ILU0Preconditioner.cs" />
-    <Compile Include="LinearAlgebra\Complex32\Solvers\FailureStopCriterium.cs" />
     <Compile Include="LinearAlgebra\Complex32\SparseVector.cs" />
     <Compile Include="LinearAlgebra\Complex\Factorization\DenseGramSchmidt.cs" />
     <Compile Include="LinearAlgebra\Complex\Factorization\DenseEvd.cs" />
@@ -277,7 +276,6 @@
     <Compile Include="LinearAlgebra\Complex\Solvers\DiagonalPreconditioner.cs" />
     <Compile Include="LinearAlgebra\Complex\Solvers\ILUTPPreconditioner.cs" />
     <Compile Include="LinearAlgebra\Complex\Solvers\ILU0Preconditioner.cs" />
-    <Compile Include="LinearAlgebra\Complex\Solvers\FailureStopCriterium.cs" />
     <Compile Include="LinearAlgebra\Complex\SparseVector.cs" />
     <Compile Include="LinearAlgebra\Double\DenseVector.cs" />
     <Compile Include="LinearAlgebra\Double\Factorization\DenseGramSchmidt.cs" />
@@ -316,7 +314,7 @@
     <Compile Include="LinearAlgebra\Single\Solvers\ILUTPPreconditioner.cs" />
     <Compile Include="LinearAlgebra\Single\Solvers\ILU0Preconditioner.cs" />
     <Compile Include="LinearAlgebra\Solvers\DivergenceStopCriterium.cs" />
-    <Compile Include="LinearAlgebra\Single\Solvers\FailureStopCriterium.cs" />
+    <Compile Include="LinearAlgebra\Solvers\FailureStopCriterium.cs" />
     <Compile Include="LinearAlgebra\Single\SparseMatrix.cs" />
     <Compile Include="LinearAlgebra\Single\SparseVector.cs" />
     <Compile Include="LinearAlgebra\Factorization\Cholesky.cs" />
@@ -342,7 +340,6 @@
     <Compile Include="LinearAlgebra\Double\Solvers\ILUTPPreconditioner.cs" />
     <Compile Include="LinearAlgebra\Double\Solvers\ILU0Preconditioner.cs" />
     <Compile Include="LinearAlgebra\Solvers\UnitPreconditioner.cs" />
-    <Compile Include="LinearAlgebra\Double\Solvers\FailureStopCriterium.cs" />
     <Compile Include="LinearAlgebra\Solvers\ResidualStopCriterium.cs" />
     <Compile Include="LinearAlgebra\Double\SparseVector.cs" />
     <Compile Include="LinearAlgebra\Matrix.Arithmetic.cs" />

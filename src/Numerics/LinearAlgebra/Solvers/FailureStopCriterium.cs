@@ -30,22 +30,15 @@
 
 using System;
 using System.Diagnostics;
-using MathNet.Numerics.LinearAlgebra.Solvers;
 using MathNet.Numerics.Properties;
 
-namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
+namespace MathNet.Numerics.LinearAlgebra.Solvers
 {
     /// <summary>
     /// Defines an <see cref="IIterationStopCriterium{T}"/> that monitors residuals for NaN's.
     /// </summary>
-    public sealed class FailureStopCriterium : IIterationStopCriterium<double>
+    public sealed class FailureStopCriterium<T> : IIterationStopCriterium<T> where T : struct, IEquatable<T>, IFormattable
     {
-        /// <summary>
-        /// Defines the default last iteration number. Set to -1 because iterations normally
-        /// start at 0.
-        /// </summary>
-        const int DefaultLastIterationNumber = -1;
-
         /// <summary>
         /// The status of the calculation
         /// </summary>
@@ -54,7 +47,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
         /// <summary>
         /// The iteration number of the last iteration.
         /// </summary>
-        int _lastIteration = DefaultLastIterationNumber;
+        int _lastIteration = -1;
 
         /// <summary>
         /// Determines the status of the iterative calculation based on the stop criteria stored
@@ -69,7 +62,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
         /// on the invocation of this method. Therefore this method should only be called if the 
         /// calculation has moved forwards at least one step.
         /// </remarks>
-        public IterationStatus DetermineStatus(int iterationNumber, Vector<double> solutionVector, Vector<double> sourceVector, Vector<double> residualVector)
+        public IterationStatus DetermineStatus(int iterationNumber, Vector<T> solutionVector, Vector<T> sourceVector, Vector<T> residualVector)
         {
             if (iterationNumber < 0)
             {
@@ -116,16 +109,16 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
         public void Reset()
         {
             _status = IterationStatus.Continue;
-            _lastIteration = DefaultLastIterationNumber;
+            _lastIteration = -1;
         }
 
         /// <summary>
-        /// Clones the current <see cref="FailureStopCriterium"/> and its settings.
+        /// Clones the current <see cref="FailureStopCriterium{T}"/> and its settings.
         /// </summary>
-        /// <returns>A new instance of the <see cref="FailureStopCriterium"/> class.</returns>
-        public IIterationStopCriterium<double> Clone()
+        /// <returns>A new instance of the <see cref="FailureStopCriterium{T}"/> class.</returns>
+        public IIterationStopCriterium<T> Clone()
         {
-            return new FailureStopCriterium();
+            return new FailureStopCriterium<T>();
         }
     }
 }

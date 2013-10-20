@@ -31,7 +31,6 @@
 using System;
 using System.Collections.Generic;
 using MathNet.Numerics.LinearAlgebra.Complex;
-using MathNet.Numerics.LinearAlgebra.Complex.Solvers;
 using MathNet.Numerics.LinearAlgebra.Solvers;
 using NUnit.Framework;
 
@@ -71,7 +70,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers
         {
             var criteria = new List<IIterationStopCriterium<Complex>>
             {
-                new FailureStopCriterium(),
+                new FailureStopCriterium<Complex>(),
                 new DivergenceStopCriterium<Complex>(),
                 new IterationCountStopCriterium<Complex>(),
                 new ResidualStopCriterium<Complex>(1e-12)
@@ -93,7 +92,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers
         {
             var criteria = new List<IIterationStopCriterium<Complex>>
             {
-                new FailureStopCriterium(),
+                new FailureStopCriterium<Complex>(),
                 new DivergenceStopCriterium<Complex>(),
                 new IterationCountStopCriterium<Complex>(1)
             };
@@ -125,7 +124,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers
         {
             var criteria = new List<IIterationStopCriterium<Complex>>
             {
-                new FailureStopCriterium(),
+                new FailureStopCriterium<Complex>(),
                 new DivergenceStopCriterium<Complex>(),
                 new IterationCountStopCriterium<Complex>(1)
             };

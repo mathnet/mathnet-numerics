@@ -31,7 +31,6 @@
 using System;
 using System.Collections.Generic;
 using MathNet.Numerics.LinearAlgebra.Double;
-using MathNet.Numerics.LinearAlgebra.Double.Solvers;
 using MathNet.Numerics.LinearAlgebra.Solvers;
 using NUnit.Framework;
 
@@ -65,7 +64,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers
         {
             var criteria = new List<IIterationStopCriterium<double>>
             {
-                new FailureStopCriterium(),
+                new FailureStopCriterium<double>(),
                 new DivergenceStopCriterium<double>(),
                 new IterationCountStopCriterium<double>(),
                 new ResidualStopCriterium<double>(1e-12)
@@ -87,7 +86,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers
         {
             var criteria = new List<IIterationStopCriterium<double>>
             {
-                new FailureStopCriterium(),
+                new FailureStopCriterium<double>(),
                 new DivergenceStopCriterium<double>(),
                 new IterationCountStopCriterium<double>(1)
             };
@@ -119,7 +118,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers
         {
             var criteria = new List<IIterationStopCriterium<double>>
             {
-                new FailureStopCriterium(),
+                new FailureStopCriterium<double>(),
                 new DivergenceStopCriterium<double>(),
                 new IterationCountStopCriterium<double>(1)
             };

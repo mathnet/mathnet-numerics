@@ -101,7 +101,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.Iterativ
                 new IterationCountStopCriterium<Complex>(MaximumIterations),
                 new ResidualStopCriterium<Complex>(ConvergenceBoundary),
                 new DivergenceStopCriterium<Complex>(),
-                new FailureStopCriterium());
+                new FailureStopCriterium<Complex>());
 
             var solver = new GpBiCg();
 
@@ -145,7 +145,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.Iterativ
                 new IterationCountStopCriterium<Complex>(MaximumIterations),
                 new ResidualStopCriterium<Complex>(ConvergenceBoundary),
                 new DivergenceStopCriterium<Complex>(),
-                new FailureStopCriterium());
+                new FailureStopCriterium<Complex>());
 
             var solver = new GpBiCg();
 
@@ -222,7 +222,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.Iterativ
                 new IterationCountStopCriterium<Complex>(MaximumIterations),
                 new ResidualStopCriterium<Complex>(ConvergenceBoundary),
                 new DivergenceStopCriterium<Complex>(),
-                new FailureStopCriterium());
+                new FailureStopCriterium<Complex>());
 
             var solver = new GpBiCg();
 

@@ -95,7 +95,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.Iterative
                 new IterationCountStopCriterium<double>(MaximumIterations),
                 new ResidualStopCriterium<double>(ConvergenceBoundary),
                 new DivergenceStopCriterium<double>(),
-                new FailureStopCriterium());
+                new FailureStopCriterium<double>());
 
             var solver = new TFQMR();
 
@@ -139,7 +139,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.Iterative
                 new IterationCountStopCriterium<double>(MaximumIterations),
                 new ResidualStopCriterium<double>(ConvergenceBoundary),
                 new DivergenceStopCriterium<double>(),
-                new FailureStopCriterium());
+                new FailureStopCriterium<double>());
 
             var solver = new TFQMR();
 
@@ -216,7 +216,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.Iterative
                 new IterationCountStopCriterium<double>(MaximumIterations),
                 new ResidualStopCriterium<double>(ConvergenceBoundary),
                 new DivergenceStopCriterium<double>(),
-                new FailureStopCriterium());
+                new FailureStopCriterium<double>());
 
             var solver = new TFQMR();
 

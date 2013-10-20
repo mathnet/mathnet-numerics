@@ -30,7 +30,6 @@
 
 using System;
 using MathNet.Numerics.LinearAlgebra.Double;
-using MathNet.Numerics.LinearAlgebra.Double.Solvers;
 using MathNet.Numerics.LinearAlgebra.Solvers;
 using NUnit.Framework;
 
@@ -48,7 +47,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.StopCrite
         [Test]
         public void Create()
         {
-            var criterium = new FailureStopCriterium();
+            var criterium = new FailureStopCriterium<double>();
             Assert.IsNotNull(criterium, "Should have a criterium now");
         }
 
@@ -58,7 +57,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.StopCrite
         [Test]
         public void DetermineStatusWithIllegalIterationNumberThrowsArgumentOutOfRangeException()
         {
-            var criterium = new FailureStopCriterium();
+            var criterium = new FailureStopCriterium<double>();
             Assert.IsNotNull(criterium, "There should be a criterium");
 
             Assert.Throws<ArgumentOutOfRangeException>(() => criterium.DetermineStatus(-1, DenseVector.Create(3, i => 4), DenseVector.Create(3, i => 5), DenseVector.Create(3, i => 6)));
@@ -70,7 +69,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.StopCrite
         [Test]
         public void DetermineStatusWithNonMatchingVectorsThrowsArgumentException()
         {
-            var criterium = new FailureStopCriterium();
+            var criterium = new FailureStopCriterium<double>();
             Assert.IsNotNull(criterium, "There should be a criterium");
 
             Assert.Throws<ArgumentException>(() => criterium.DetermineStatus(1, DenseVector.Create(3, i => 4), DenseVector.Create(3, i => 6), DenseVector.Create(4, i => 4)));
@@ -82,7 +81,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.StopCrite
         [Test]
         public void DetermineStatusWithResidualNaN()
         {
-            var criterium = new FailureStopCriterium();
+            var criterium = new FailureStopCriterium<double>();
             Assert.IsNotNull(criterium, "There should be a criterium");
 
             var solution = new DenseVector(new[] {1.0, 1.0, 2.0});
@@ -99,7 +98,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.StopCrite
         [Test]
         public void DetermineStatusWithSolutionNaN()
         {
-            var criterium = new FailureStopCriterium();
+            var criterium = new FailureStopCriterium<double>();
             Assert.IsNotNull(criterium, "There should be a criterium");
 
             var solution = new DenseVector(new[] {1.0, 1.0, double.NaN});
@@ -116,7 +115,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.StopCrite
         [Test]
         public void DetermineStatus()
         {
-            var criterium = new FailureStopCriterium();
+            var criterium = new FailureStopCriterium<double>();
             Assert.IsNotNull(criterium, "There should be a criterium");
 
             var solution = new DenseVector(new[] {3.0, 2.0, 1.0});
@@ -133,7 +132,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.StopCrite
         [Test]
         public void ResetCalculationState()
         {
-            var criterium = new FailureStopCriterium();
+            var criterium = new FailureStopCriterium<double>();
             Assert.IsNotNull(criterium, "There should be a criterium");
 
             var solution = new DenseVector(new[] {1.0, 1.0, 2.0});
@@ -153,10 +152,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.StopCrite
         [Test]
         public void Clone()
         {
-            var criterium = new FailureStopCriterium();
+            var criterium = new FailureStopCriterium<double>();
             Assert.IsNotNull(criterium, "There should be a criterium");
             var clone = criterium.Clone();
-            Assert.IsInstanceOf(typeof (FailureStopCriterium), clone, "Wrong criterium type");
+            Assert.IsInstanceOf(typeof(FailureStopCriterium<double>), clone, "Wrong criterium type");
         }
     }
 }
