@@ -410,10 +410,10 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
         /// </returns>
         public virtual double MatrixNorm(Norm norm, int rows, int columns, double[] matrix)
         {
-            var ret = 0.0;
             switch (norm)
             {
                 case Norm.OneNorm:
+                    var norm1 = 0d;
                     for (var j = 0; j < columns; j++)
                     {
                         var s = 0.0;
@@ -421,23 +421,21 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                         {
                             s += Math.Abs(matrix[(j*rows) + i]);
                         }
-
-                        ret = Math.Max(ret, s);
+                        norm1 = Math.Max(norm1, s);
                     }
-
-                    break;
+                    return norm1;
                 case Norm.LargestAbsoluteValue:
-
+                    var normMax = 0d;
                     for (var i = 0; i < rows; i++)
                     {
                         for (var j = 0; j < columns; j++)
                         {
-                            ret = Math.Max(Math.Abs(matrix[(j*rows) + i]), ret);
+                            normMax = Math.Max(Math.Abs(matrix[(j * rows) + i]), normMax);
                         }
                     }
-
-                    break;
+                    return normMax;
                 case Norm.InfinityNorm:
+                    var normInf = 0d;
                     for (var i = 0; i < rows; i++)
                     {
                         var s = 0.0;
@@ -445,25 +443,21 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                         {
                             s += Math.Abs(matrix[(j*rows) + i]);
                         }
-
-                        ret = Math.Max(ret, s);
+                        normInf = Math.Max(normInf, s);
                     }
-
-                    break;
+                    return normInf;
                 case Norm.FrobeniusNorm:
                     var aat = new double[rows*rows];
                     MatrixMultiplyWithUpdate(Transpose.DontTranspose, Transpose.Transpose, 1.0, matrix, rows, columns, matrix, rows, columns, 0.0, aat);
-
+                    var normF = 0d;
                     for (var i = 0; i < rows; i++)
                     {
-                        ret += Math.Abs(aat[(i*rows) + i]);
+                        normF += Math.Abs(aat[(i * rows) + i]);
                     }
-
-                    ret = Math.Sqrt(ret);
-                    break;
+                    return Math.Sqrt(normF);
+                default:
+                    throw new NotSupportedException();
             }
-
-            return ret;
         }
 
         /// <summary>

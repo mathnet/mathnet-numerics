@@ -201,7 +201,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
         /// <returns>
         /// The requested <see cref="Norm"/> of the matrix.
         /// </returns>
-        T MatrixNorm(Norm norm, int rows, int columns, T[] matrix);
+        double MatrixNorm(Norm norm, int rows, int columns, T[] matrix);
 
         /// <summary>
         /// Computes the requested <see cref="Norm"/> of the matrix.
@@ -215,7 +215,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
         /// <returns>
         /// The requested <see cref="Norm"/> of the matrix.
         /// </returns>
-        T MatrixNorm(Norm norm, int rows, int columns, T[] matrix, TNorm[] work);
+        double MatrixNorm(Norm norm, int rows, int columns, T[] matrix, TNorm[] work);
 
         /// <summary>
         /// Multiples two matrices. <c>result = x * y</c>

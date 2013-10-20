@@ -229,7 +229,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Complex
             var matrix = _matrices["Square3x3"];
             var work = new double[matrix.RowCount];
             var norm = Control.LinearAlgebraProvider.MatrixNorm(Norm.InfinityNorm, matrix.RowCount, matrix.ColumnCount, matrix.Values, work);
-            Assert.AreEqual(16.5, norm.Real);
+            Assert.AreEqual(16.5, norm);
         }
 
         /// <summary>
@@ -265,7 +265,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Complex
             var matrix = _matrices["Square3x3"];
             var work = new double[18];
             var norm = Control.LinearAlgebraProvider.MatrixNorm(Norm.InfinityNorm, matrix.RowCount, matrix.ColumnCount, matrix.Values, work);
-            Assert.AreEqual(16.5, norm.Real);
+            Assert.AreEqual(16.5, norm);
         }
 
         /// <summary>

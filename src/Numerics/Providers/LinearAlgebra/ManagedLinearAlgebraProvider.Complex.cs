@@ -413,12 +413,12 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
         /// <returns>
         /// The requested <see cref="Norm"/> of the matrix.
         /// </returns>
-        public virtual Complex MatrixNorm(Norm norm, int rows, int columns, Complex[] matrix)
+        public virtual double MatrixNorm(Norm norm, int rows, int columns, Complex[] matrix)
         {
-            var ret = 0.0;
             switch (norm)
             {
                 case Norm.OneNorm:
+                    var norm1 = 0d;
                     for (var j = 0; j < columns; j++)
                     {
                         var s = 0.0;
@@ -426,23 +426,21 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                         {
                             s += matrix[(j*rows) + i].Magnitude;
                         }
-
-                        ret = Math.Max(ret, s);
+                        norm1 = Math.Max(norm1, s);
                     }
-
-                    break;
+                    return norm1;
                 case Norm.LargestAbsoluteValue:
-
+                    var normMax = 0d;
                     for (var i = 0; i < rows; i++)
                     {
                         for (var j = 0; j < columns; j++)
                         {
-                            ret = Math.Max(matrix[(j*rows) + i].Magnitude, ret);
+                            normMax = Math.Max(matrix[(j * rows) + i].Magnitude, normMax);
                         }
                     }
-
-                    break;
+                    return normMax;
                 case Norm.InfinityNorm:
+                    var normInf = 0d;
                     for (var i = 0; i < rows; i++)
                     {
                         var s = 0.0;
@@ -450,25 +448,21 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                         {
                             s += matrix[(j*rows) + i].Magnitude;
                         }
-
-                        ret = Math.Max(ret, s);
+                        normInf = Math.Max(normInf, s);
                     }
-
-                    break;
+                    return normInf;
                 case Norm.FrobeniusNorm:
                     var aat = new Complex[rows*rows];
                     MatrixMultiplyWithUpdate(Transpose.DontTranspose, Transpose.ConjugateTranspose, 1.0, matrix, rows, columns, matrix, rows, columns, 0.0, aat);
-
+                    var normF = 0d;
                     for (var i = 0; i < rows; i++)
                     {
-                        ret += aat[(i*rows) + i].Magnitude;
+                        normF += aat[(i * rows) + i].Magnitude;
                     }
-
-                    ret = Math.Sqrt(ret);
-                    break;
+                    return Math.Sqrt(normF);
+                default:
+                    throw new NotSupportedException();
             }
-
-            return ret;
         }
 
         /// <summary>
@@ -483,7 +477,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
         /// <returns>
         /// The requested <see cref="Norm"/> of the matrix.
         /// </returns>
-        public virtual Complex MatrixNorm(Norm norm, int rows, int columns, Complex[] matrix, double[] work)
+        public virtual double MatrixNorm(Norm norm, int rows, int columns, Complex[] matrix, double[] work)
         {
             return MatrixNorm(norm, rows, columns, matrix);
         }

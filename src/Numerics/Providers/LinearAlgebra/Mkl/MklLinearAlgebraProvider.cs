@@ -53,7 +53,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
         /// The requested <see cref="Norm"/> of the matrix.
         /// </returns>
         [SecuritySafeCritical]
-        public override float MatrixNorm(Norm norm, int rows, int columns, float[] matrix)
+        public override double MatrixNorm(Norm norm, int rows, int columns, float[] matrix)
         {
             if (matrix == null)
             {
@@ -92,7 +92,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
         /// The requested <see cref="Norm"/> of the matrix.
         /// </returns>
         [SecuritySafeCritical]
-        public override float MatrixNorm(Norm norm, int rows, int columns, float[] matrix, float[] work)
+        public override double MatrixNorm(Norm norm, int rows, int columns, float[] matrix, float[] work)
         {
             if (matrix == null)
             {
@@ -213,7 +213,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
         /// The requested <see cref="Norm"/> of the matrix.
         /// </returns>
         [SecuritySafeCritical]
-        public override Complex32 MatrixNorm(Norm norm, int rows, int columns, Complex32[] matrix)
+        public override double MatrixNorm(Norm norm, int rows, int columns, Complex32[] matrix)
         {
             if (matrix == null)
             {
@@ -252,7 +252,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
         /// The requested <see cref="Norm"/> of the matrix.
         /// </returns>
         [SecuritySafeCritical]
-        public override Complex32 MatrixNorm(Norm norm, int rows, int columns, Complex32[] matrix, float[] work)
+        public override double MatrixNorm(Norm norm, int rows, int columns, Complex32[] matrix, float[] work)
         {
             if (matrix == null)
             {
@@ -293,7 +293,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
         /// The requested <see cref="Norm"/> of the matrix.
         /// </returns>
         [SecuritySafeCritical]
-        public override Complex MatrixNorm(Norm norm, int rows, int columns, Complex[] matrix)
+        public override double MatrixNorm(Norm norm, int rows, int columns, Complex[] matrix)
         {
             if (matrix == null)
             {
@@ -332,7 +332,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
         /// The requested <see cref="Norm"/> of the matrix.
         /// </returns>
         [SecuritySafeCritical]
-        public override Complex MatrixNorm(Norm norm, int rows, int columns, Complex[] matrix, double[] work)
+        public override double MatrixNorm(Norm norm, int rows, int columns, Complex[] matrix, double[] work)
         {
             if (matrix == null)
             {

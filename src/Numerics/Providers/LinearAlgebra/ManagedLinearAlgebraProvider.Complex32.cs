@@ -408,65 +408,58 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
         /// <param name="rows">The number of rows.</param>
         /// <param name="columns">The number of columns.</param>
         /// <param name="matrix">The matrix to compute the norm from.</param>
-        /// <returns>
-        /// The requested <see cref="Norm"/> of the matrix.
-        /// </returns>
-        public virtual Complex32 MatrixNorm(Norm norm, int rows, int columns, Complex32[] matrix)
+        /// <returns>The requested <see cref="Norm"/> of the matrix.</returns>
+        public virtual double MatrixNorm(Norm norm, int rows, int columns, Complex32[] matrix)
         {
-            var ret = 0.0;
             switch (norm)
             {
                 case Norm.OneNorm:
+                    var norm1 = 0d;
                     for (var j = 0; j < columns; j++)
                     {
-                        var s = 0.0;
+                        var s = 0d;
                         for (var i = 0; i < rows; i++)
                         {
                             s += matrix[(j*rows) + i].Magnitude;
                         }
 
-                        ret = Math.Max(ret, s);
+                        norm1 = Math.Max(norm1, s);
                     }
-
-                    break;
+                    return norm1;
                 case Norm.LargestAbsoluteValue:
-
+                    var normMax = 0d;
                     for (var i = 0; i < rows; i++)
                     {
                         for (var j = 0; j < columns; j++)
                         {
-                            ret = Math.Max(matrix[(j*rows) + i].Magnitude, ret);
+                            normMax = Math.Max(matrix[(j * rows) + i].Magnitude, normMax);
                         }
                     }
-
-                    break;
+                    return normMax;
                 case Norm.InfinityNorm:
+                    var normInf = 0d;
                     for (var i = 0; i < rows; i++)
                     {
-                        var s = 0.0;
+                        var s = 0d;
                         for (var j = 0; j < columns; j++)
                         {
                             s += matrix[(j*rows) + i].Magnitude;
                         }
-
-                        ret = Math.Max(ret, s);
+                        normInf = Math.Max(normInf, s);
                     }
-
-                    break;
+                    return normInf;
                 case Norm.FrobeniusNorm:
                     var aat = new Complex32[rows*rows];
                     MatrixMultiplyWithUpdate(Transpose.DontTranspose, Transpose.ConjugateTranspose, 1.0f, matrix, rows, columns, matrix, rows, columns, 0.0f, aat);
-
+                    var normF = 0d;
                     for (var i = 0; i < rows; i++)
                     {
-                        ret += aat[(i*rows) + i].Magnitude;
+                        normF += aat[(i * rows) + i].Magnitude;
                     }
-
-                    ret = Math.Sqrt(ret);
-                    break;
+                    return Math.Sqrt(normF);
+                default:
+                    throw new NotSupportedException();
             }
-
-            return Convert.ToSingle(ret);
         }
 
         /// <summary>
@@ -478,10 +471,8 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
         /// <param name="matrix">The matrix to compute the norm from.</param>
         /// <param name="work">The work array. Only used when <see cref="Norm.InfinityNorm"/>
         /// and needs to be have a length of at least M (number of rows of <paramref name="matrix"/>.</param>
-        /// <returns>
-        /// The requested <see cref="Norm"/> of the matrix.
-        /// </returns>
-        public virtual Complex32 MatrixNorm(Norm norm, int rows, int columns, Complex32[] matrix, float[] work)
+        /// <returns>The requested <see cref="Norm"/> of the matrix.</returns>
+        public virtual double MatrixNorm(Norm norm, int rows, int columns, Complex32[] matrix, float[] work)
         {
             return MatrixNorm(norm, rows, columns, matrix);
         }
