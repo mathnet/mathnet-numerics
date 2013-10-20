@@ -72,7 +72,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
         /// Gets the two norm of the <see cref="Matrix{T}"/>.
         /// </summary>
         /// <returns>The 2-norm of the <see cref="Matrix{T}"/>.</returns>
-        public override float Norm2
+        public override double L2Norm
         {
             get
             {

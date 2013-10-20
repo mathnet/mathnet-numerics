@@ -92,13 +92,13 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
         public virtual void CanComputeFrobeniusNorm()
         {
             var matrix = TestMatrices["Square3x3"];
-            AssertHelpers.AlmostEqualRelative(11.1427106217473f, matrix.FrobeniusNorm().Real, 6);
+            AssertHelpers.AlmostEqualRelative(11.1427106217473f, matrix.FrobeniusNorm(), 6);
 
             matrix = TestMatrices["Wide2x3"];
-            AssertHelpers.AlmostEqualRelative(5.29055762656452f, matrix.FrobeniusNorm().Real, 6);
+            AssertHelpers.AlmostEqualRelative(5.29055762656452f, matrix.FrobeniusNorm(), 6);
 
             matrix = TestMatrices["Tall3x2"];
-            AssertHelpers.AlmostEqualRelative(7.86574853399217, matrix.FrobeniusNorm().Real, 6);
+            AssertHelpers.AlmostEqualRelative(7.86574853399217, matrix.FrobeniusNorm(), 6);
         }
 
         /// <summary>
@@ -108,13 +108,13 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
         public virtual void CanComputeInfinityNorm()
         {
             var matrix = TestMatrices["Square3x3"];
-            AssertHelpers.AlmostEqualRelative(16.7777033f, matrix.InfinityNorm().Real, 6);
+            AssertHelpers.AlmostEqualRelative(16.7777033f, matrix.InfinityNorm(), 6);
 
             matrix = TestMatrices["Wide2x3"];
-            AssertHelpers.AlmostEqualRelative(7.3514039f, matrix.InfinityNorm().Real, 6);
+            AssertHelpers.AlmostEqualRelative(7.3514039f, matrix.InfinityNorm(), 6);
 
             matrix = TestMatrices["Tall3x2"];
-            AssertHelpers.AlmostEqualRelative(10.1023756f, matrix.InfinityNorm().Real, 6);
+            AssertHelpers.AlmostEqualRelative(10.1023756f, matrix.InfinityNorm(), 6);
         }
 
         /// <summary>
@@ -124,13 +124,13 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
         public virtual void CanComputeL1Norm()
         {
             var matrix = TestMatrices["Square3x3"];
-            AssertHelpers.AlmostEqualRelative(12.5401248f, matrix.L1Norm().Real, 7);
+            AssertHelpers.AlmostEqualRelative(12.5401248f, matrix.L1Norm(), 7);
 
             matrix = TestMatrices["Wide2x3"];
-            AssertHelpers.AlmostEqualRelative(5.8647971f, matrix.L1Norm().Real, 7);
+            AssertHelpers.AlmostEqualRelative(5.8647971f, matrix.L1Norm(), 7);
 
             matrix = TestMatrices["Tall3x2"];
-            AssertHelpers.AlmostEqualRelative(9.4933860f, matrix.L1Norm().Real, 7);
+            AssertHelpers.AlmostEqualRelative(9.4933860f, matrix.L1Norm(), 7);
         }
 
         /// <summary>
@@ -140,12 +140,13 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
         public virtual void CanComputeL2Norm()
         {
             var matrix = TestMatrices["Square3x3"];
-            AssertHelpers.AlmostEqualRelative(10.6381752f, matrix.L2Norm().Real, 6);
+            AssertHelpers.AlmostEqualRelative(10.6381752f, matrix.L2Norm(), 6);
 
             matrix = TestMatrices["Wide2x3"];
-            AssertHelpers.AlmostEqualRelative(5.2058554f, matrix.L2Norm().Real, 6);
+            AssertHelpers.AlmostEqualRelative(5.2058554f, matrix.L2Norm(), 6);
+
             matrix = TestMatrices["Tall3x2"];
-            AssertHelpers.AlmostEqualRelative(7.3582664f, matrix.L2Norm().Real, 6);
+            AssertHelpers.AlmostEqualRelative(7.3582664f, matrix.L2Norm(), 6);
         }
 
         /// <summary>

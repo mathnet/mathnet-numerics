@@ -1251,27 +1251,6 @@ namespace MathNet.Numerics.LinearAlgebra
             lower.Storage.CopySubMatrixToUnchecked(result.Storage, 0, RowCount, lower.RowCount, 0, ColumnCount, lower.ColumnCount);
         }
 
-        /// <summary>Calculates the L1 norm.</summary>
-        /// <returns>The L1 norm of the matrix.</returns>
-        public abstract T L1Norm();
-
-        /// <summary>Calculates the L2 norm.</summary>
-        /// <returns>The L2 norm of the matrix.</returns>
-        /// <remarks>For sparse matrices, the L2 norm is computed using a dense implementation of singular value decomposition.
-        /// In a later release, it will be replaced with a sparse implementation.</remarks>
-        public virtual T L2Norm()
-        {
-            return Svd(false).Norm2;
-        }
-
-        /// <summary>Calculates the Frobenius norm of this matrix.</summary>
-        /// <returns>The Frobenius norm of this matrix.</returns>
-        public abstract T FrobeniusNorm();
-
-        /// <summary>Calculates the infinity norm of this matrix.</summary>
-        /// <returns>The infinity norm of this matrix.</returns>
-        public abstract T InfinityNorm();
-
         /// <summary>
         /// Gets a value indicating whether this matrix is symmetric.
         /// </summary>

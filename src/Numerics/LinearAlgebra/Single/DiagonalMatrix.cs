@@ -643,31 +643,30 @@ namespace MathNet.Numerics.LinearAlgebra.Single
 
         /// <summary>Calculates the L1 norm.</summary>
         /// <returns>The L1 norm of the matrix.</returns>
-        public override float L1Norm()
+        public override double L1Norm()
         {
             return _data.Aggregate(float.NegativeInfinity, (current, t) => Math.Max(current, Math.Abs(t)));
         }
 
         /// <summary>Calculates the L2 norm.</summary>
         /// <returns>The L2 norm of the matrix.</returns>
-        public override float L2Norm()
+        public override double L2Norm()
         {
             return _data.Aggregate(float.NegativeInfinity, (current, t) => Math.Max(current, Math.Abs(t)));
         }
 
-        /// <summary>Calculates the Frobenius norm of this matrix.</summary>
-        /// <returns>The Frobenius norm of this matrix.</returns>
-        public override float FrobeniusNorm()
-        {
-            var norm = _data.Sum(t => t * t);
-            return Convert.ToSingle(Math.Sqrt(norm));
-        }
-
         /// <summary>Calculates the infinity norm of this matrix.</summary>
         /// <returns>The infinity norm of this matrix.</returns>
-        public override float InfinityNorm()
+        public override double InfinityNorm()
         {
             return L1Norm();
+        }
+
+        /// <summary>Calculates the Frobenius norm of this matrix.</summary>
+        /// <returns>The Frobenius norm of this matrix.</returns>
+        public override double FrobeniusNorm()
+        {
+            return Math.Sqrt(_data.Sum(t => t * t));
         }
 
         /// <summary>Calculates the condition number of this matrix.</summary>

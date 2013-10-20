@@ -120,7 +120,7 @@ namespace MathNet.Numerics.LinearAlgebra.Factorization
         /// Gets the two norm of the <see cref="Matrix{T}"/>.
         /// </summary>
         /// <returns>The 2-norm of the <see cref="Matrix{T}"/>.</returns>
-        public abstract T Norm2 { get; }
+        public abstract double L2Norm { get; }
 
         /// <summary>
         /// Gets the condition number <b>max(S) / min(S)</b>

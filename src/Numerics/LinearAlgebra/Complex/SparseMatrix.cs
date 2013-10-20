@@ -674,13 +674,39 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
             return new SparseMatrix(ret);
         }
 
+        /// <summary>Calculates the infinity norm of this matrix.</summary>
+        /// <returns>The infinity norm of this matrix.</returns>
+        public override double InfinityNorm()
+        {
+            var rowPointers = _storage.RowPointers;
+            var values = _storage.Values;
+            var norm = 0d;
+            for (var i = 0; i < RowCount; i++)
+            {
+                var startIndex = rowPointers[i];
+                var endIndex = rowPointers[i + 1];
+
+                if (startIndex == endIndex)
+                {
+                    continue;
+                }
+
+                var s = 0d;
+                for (var j = startIndex; j < endIndex; j++)
+                {
+                    s += values[j].Magnitude;
+                }
+                norm = Math.Max(norm, s);
+            }
+            return norm;
+        }
+
         /// <summary>Calculates the Frobenius norm of this matrix.</summary>
         /// <returns>The Frobenius norm of this matrix.</returns>
-        public override Complex FrobeniusNorm()
+        public override double FrobeniusNorm()
         {
             var aat = (SparseCompressedRowMatrixStorage<Complex>) (this*ConjugateTranspose()).Storage;
             var norm = 0d;
-
             for (var i = 0; i < aat.RowCount; i++)
             {
                 var startIndex = aat.RowPointers[i];
@@ -699,39 +725,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
                     }
                 }
             }
-
-            norm = Math.Sqrt(norm);
-            return norm;
-        }
-
-        /// <summary>Calculates the infinity norm of this matrix.</summary>
-        /// <returns>The infinity norm of this matrix.</returns>
-        public override Complex InfinityNorm()
-        {
-            var rowPointers = _storage.RowPointers;
-            var values = _storage.Values;
-
-            var norm = 0d;
-            for (var i = 0; i < RowCount; i++)
-            {
-                var startIndex = rowPointers[i];
-                var endIndex = rowPointers[i + 1];
-
-                if (startIndex == endIndex)
-                {
-                    continue;
-                }
-
-                var s = 0.0;
-                for (var j = startIndex; j < endIndex; j++)
-                {
-                    s += values[j].Magnitude;
-                }
-
-                norm = Math.Max(norm, s);
-            }
-
-            return norm;
+            return Math.Sqrt(norm);
         }
 
         /// <summary>

@@ -670,13 +670,42 @@ namespace MathNet.Numerics.LinearAlgebra.Single
             return new SparseMatrix(ret);
         }
 
+        /// <summary>Calculates the infinity norm of this matrix.</summary>
+        /// <returns>The infinity norm of this matrix.</returns>
+        public override double InfinityNorm()
+        {
+            var rowPointers = _storage.RowPointers;
+            var values = _storage.Values;
+            var norm = 0d;
+            for (var i = 0; i < RowCount; i++)
+            {
+                // Get the begin / end index for the current row
+                var startIndex = rowPointers[i];
+                var endIndex = rowPointers[i + 1];
+
+                // Get the values for the current row
+                if (startIndex == endIndex)
+                {
+                    // Begin and end are equal. There are no values in the row, Move to the next row
+                    continue;
+                }
+
+                var s = 0d;
+                for (var j = startIndex; j < endIndex; j++)
+                {
+                    s += Math.Abs(values[j]);
+                }
+                norm = Math.Max(norm, s);
+            }
+            return norm;
+        }
+
         /// <summary>Calculates the Frobenius norm of this matrix.</summary>
         /// <returns>The Frobenius norm of this matrix.</returns>
-        public override float FrobeniusNorm()
+        public override double FrobeniusNorm()
         {
             var aat = (SparseCompressedRowMatrixStorage<float>) (this*Transpose()).Storage;
-            var norm = 0f;
-
+            var norm = 0d;
             for (var i = 0; i < aat.RowCount; i++)
             {
                 // Get the begin / end index for the current row
@@ -698,41 +727,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
                     }
                 }
             }
-
-            return Convert.ToSingle(Math.Sqrt(norm));
-        }
-
-        /// <summary>Calculates the infinity norm of this matrix.</summary>
-        /// <returns>The infinity norm of this matrix.</returns>
-        public override float InfinityNorm()
-        {
-            var rowPointers = _storage.RowPointers;
-            var values = _storage.Values;
-
-            var norm = 0f;
-            for (var i = 0; i < RowCount; i++)
-            {
-                // Get the begin / end index for the current row
-                var startIndex = rowPointers[i];
-                var endIndex = rowPointers[i + 1];
-
-                // Get the values for the current row
-                if (startIndex == endIndex)
-                {
-                    // Begin and end are equal. There are no values in the row, Move to the next row
-                    continue;
-                }
-
-                var s = 0f;
-                for (var j = startIndex; j < endIndex; j++)
-                {
-                    s += Math.Abs(values[j]);
-                }
-
-                norm = Math.Max(norm, s);
-            }
-
-            return norm;
+            return Math.Sqrt(norm);
         }
 
         /// <summary>

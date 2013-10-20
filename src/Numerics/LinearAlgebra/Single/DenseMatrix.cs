@@ -420,23 +420,23 @@ namespace MathNet.Numerics.LinearAlgebra.Single
 
         /// <summary>Calculates the L1 norm.</summary>
         /// <returns>The L1 norm of the matrix.</returns>
-        public override float L1Norm()
+        public override double L1Norm()
         {
             return Control.LinearAlgebraProvider.MatrixNorm(Norm.OneNorm, _rowCount, _columnCount, _values);
         }
 
-        /// <summary>Calculates the Frobenius norm of this matrix.</summary>
-        /// <returns>The Frobenius norm of this matrix.</returns>
-        public override float FrobeniusNorm()
-        {
-            return Control.LinearAlgebraProvider.MatrixNorm(Norm.FrobeniusNorm, _rowCount, _columnCount, _values);
-        }
-
         /// <summary>Calculates the infinity norm of this matrix.</summary>
         /// <returns>The infinity norm of this matrix.</returns>
-        public override float InfinityNorm()
+        public override double InfinityNorm()
         {
             return Control.LinearAlgebraProvider.MatrixNorm(Norm.InfinityNorm, _rowCount, _columnCount, _values);
+        }
+
+        /// <summary>Calculates the Frobenius norm of this matrix.</summary>
+        /// <returns>The Frobenius norm of this matrix.</returns>
+        public override double FrobeniusNorm()
+        {
+            return Control.LinearAlgebraProvider.MatrixNorm(Norm.FrobeniusNorm, _rowCount, _columnCount, _values);
         }
 
         /// <summary>

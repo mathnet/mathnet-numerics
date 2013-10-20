@@ -649,31 +649,30 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
 
         /// <summary>Calculates the L1 norm.</summary>
         /// <returns>The L1 norm of the matrix.</returns>
-        public override Complex32 L1Norm()
+        public override double L1Norm()
         {
             return _data.Aggregate(float.NegativeInfinity, (current, t) => Math.Max(current, t.Magnitude));
         }
 
         /// <summary>Calculates the L2 norm.</summary>
         /// <returns>The L2 norm of the matrix.</returns>
-        public override Complex32 L2Norm()
+        public override double L2Norm()
         {
             return _data.Aggregate(float.NegativeInfinity, (current, t) => Math.Max(current, t.Magnitude));
         }
 
-        /// <summary>Calculates the Frobenius norm of this matrix.</summary>
-        /// <returns>The Frobenius norm of this matrix.</returns>
-        public override Complex32 FrobeniusNorm()
-        {
-            var norm = _data.Sum(t => t.Magnitude * t.Magnitude);
-            return Convert.ToSingle(Math.Sqrt(norm));
-        }
-
         /// <summary>Calculates the infinity norm of this matrix.</summary>
         /// <returns>The infinity norm of this matrix.</returns>
-        public override Complex32 InfinityNorm()
+        public override double InfinityNorm()
         {
             return L1Norm();
+        }
+
+        /// <summary>Calculates the Frobenius norm of this matrix.</summary>
+        /// <returns>The Frobenius norm of this matrix.</returns>
+        public override double FrobeniusNorm()
+        {
+            return Math.Sqrt(_data.Sum(t => t.Magnitude * t.Magnitude));
         }
 
         /// <summary>Calculates the condition number of this matrix.</summary>

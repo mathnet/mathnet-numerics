@@ -425,18 +425,18 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             return Control.LinearAlgebraProvider.MatrixNorm(Norm.OneNorm, _rowCount, _columnCount, _values);
         }
 
-        /// <summary>Calculates the Frobenius norm of this matrix.</summary>
-        /// <returns>The Frobenius norm of this matrix.</returns>
-        public override double FrobeniusNorm()
-        {
-            return Control.LinearAlgebraProvider.MatrixNorm(Norm.FrobeniusNorm, _rowCount, _columnCount, _values);
-        }
-
         /// <summary>Calculates the infinity norm of this matrix.</summary>
         /// <returns>The infinity norm of this matrix.</returns>
         public override double InfinityNorm()
         {
             return Control.LinearAlgebraProvider.MatrixNorm(Norm.InfinityNorm, _rowCount, _columnCount, _values);
+        }
+
+        /// <summary>Calculates the Frobenius norm of this matrix.</summary>
+        /// <returns>The Frobenius norm of this matrix.</returns>
+        public override double FrobeniusNorm()
+        {
+            return Control.LinearAlgebraProvider.MatrixNorm(Norm.FrobeniusNorm, _rowCount, _columnCount, _values);
         }
 
         /// <summary>

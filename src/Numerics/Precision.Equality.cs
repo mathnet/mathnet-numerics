@@ -30,10 +30,11 @@
 
 using System;
 using System.Collections.Generic;
+using MathNet.Numerics.LinearAlgebra;
+
 #if PORTABLE
 using System.Runtime.InteropServices;
 #endif
-using MathNet.Numerics.LinearAlgebra;
 
 namespace MathNet.Numerics
 {
@@ -41,6 +42,8 @@ namespace MathNet.Numerics
 #if !NOSYSNUMERICS
     using Complex = System.Numerics.Complex;
 #endif
+
+    // TODO PERF: Cache/Precompute 10^x terms
 
     public static partial class Precision
     {
@@ -116,7 +119,7 @@ namespace MathNet.Numerics
             // If one is almost zero, fall back to absolute equality
             if (Math.Abs(a) < DoublePrecision || Math.Abs(b) < DoublePrecision)
             {
-                return AlmostEqualNorm(a, b, diff, maximumError);
+                return Math.Abs(diff) < maximumError;
             }
 
             if ((a == 0 && Math.Abs(b) < maximumError) || (b == 0 && Math.Abs(a) < maximumError))
@@ -361,8 +364,7 @@ namespace MathNet.Numerics
             // 10^(-numberOfDecimalPlaces). We divide by two so that we have half the range
             // on each side of the numbers, e.g. if decimalPlaces == 2, 
             // then 0.01 will equal between 0.005 and 0.015, but not 0.02 and not 0.00
-            double decimalPlaceMagnitude = Math.Pow(10, -decimalPlaces) / 2d;
-            return Math.Abs(diff) < decimalPlaceMagnitude;
+            return Math.Abs(diff) < Math.Pow(10, -decimalPlaces) / 2d;
         }
 
         /// <summary>
@@ -437,8 +439,7 @@ namespace MathNet.Numerics
                 // 10^(-numberOfDecimalPlaces). We divide by two so that we have half the range
                 // on each side of the numbers, e.g. if decimalPlaces == 2, 
                 // then 0.01 will equal between 0.005 and 0.015, but not 0.02 and not 0.00
-                double decimalPlaceMagnitude = Math.Pow(10, -decimalPlaces) / 2d;
-                return Math.Abs(diff) < decimalPlaceMagnitude;
+                return Math.Abs(diff) < Math.Pow(10, -decimalPlaces) / 2d;
             }
 
             // If the magnitudes of the two numbers are equal to within one magnitude the numbers could potentially be equal
@@ -454,8 +455,7 @@ namespace MathNet.Numerics
             // 10^(-numberOfDecimalPlaces). We divide by two so that we have half the range
             // on each side of the numbers, e.g. if decimalPlaces == 2, 
             // then 0.01 will equal between 0.00995 and 0.01005, but not 0.0015 and not 0.0095
-            double decimalPlaceMagnitude1 = Math.Pow(10, magnitudeOfMax - decimalPlaces) / 2d;
-            return Math.Abs(diff) < decimalPlaceMagnitude1;
+            return Math.Abs(diff) < Math.Pow(10, magnitudeOfMax - decimalPlaces) / 2d;
         }
 
         /// <summary>
@@ -775,6 +775,7 @@ namespace MathNet.Numerics
         /// </summary>
         /// <param name="a">The first value list.</param>
         /// <param name="b">The second value list.</param>
+        /// <param name="decimalPlaces">The number of decimal places.</param>
         public static bool ListAlmostEqual(this IList<double> a, IList<double> b, int decimalPlaces)
         {
             return ListForAll(a, b, AlmostEqual, decimalPlaces);
@@ -786,6 +787,7 @@ namespace MathNet.Numerics
         /// </summary>
         /// <param name="a">The first value list.</param>
         /// <param name="b">The second value list.</param>
+        /// <param name="decimalPlaces">The number of decimal places.</param>
         public static bool ListAlmostEqual(this IList<float> a, IList<float> b, int decimalPlaces)
         {
             return ListForAll(a, b, AlmostEqual, decimalPlaces);
@@ -797,6 +799,7 @@ namespace MathNet.Numerics
         /// </summary>
         /// <param name="a">The first value list.</param>
         /// <param name="b">The second value list.</param>
+        /// <param name="decimalPlaces">The number of decimal places.</param>
         public static bool ListAlmostEqual(this IList<Complex> a, IList<Complex> b, int decimalPlaces)
         {
             return ListForAll(a, b, AlmostEqual, decimalPlaces);
@@ -808,6 +811,7 @@ namespace MathNet.Numerics
         /// </summary>
         /// <param name="a">The first value list.</param>
         /// <param name="b">The second value list.</param>
+        /// <param name="decimalPlaces">The number of decimal places.</param>
         public static bool ListAlmostEqual(this IList<Complex32> a, IList<Complex32> b, int decimalPlaces)
         {
             return ListForAll(a, b, AlmostEqual, decimalPlaces);
@@ -819,6 +823,7 @@ namespace MathNet.Numerics
         /// </summary>
         /// <param name="a">The first value list.</param>
         /// <param name="b">The second value list.</param>
+        /// <param name="decimalPlaces">The number of decimal places.</param>
         public static bool ListAlmostEqualRelative(this IList<double> a, IList<double> b, int decimalPlaces)
         {
             return ListForAll(a, b, AlmostEqualRelative, decimalPlaces);
@@ -830,6 +835,7 @@ namespace MathNet.Numerics
         /// </summary>
         /// <param name="a">The first value list.</param>
         /// <param name="b">The second value list.</param>
+        /// <param name="decimalPlaces">The number of decimal places.</param>
         public static bool ListAlmostEqualRelative(this IList<float> a, IList<float> b, int decimalPlaces)
         {
             return ListForAll(a, b, AlmostEqualRelative, decimalPlaces);
@@ -841,6 +847,7 @@ namespace MathNet.Numerics
         /// </summary>
         /// <param name="a">The first value list.</param>
         /// <param name="b">The second value list.</param>
+        /// <param name="decimalPlaces">The number of decimal places.</param>
         public static bool ListAlmostEqualRelative(this IList<Complex> a, IList<Complex> b, int decimalPlaces)
         {
             return ListForAll(a, b, AlmostEqualRelative, decimalPlaces);
@@ -852,6 +859,7 @@ namespace MathNet.Numerics
         /// </summary>
         /// <param name="a">The first value list.</param>
         /// <param name="b">The second value list.</param>
+        /// <param name="decimalPlaces">The number of decimal places.</param>
         public static bool ListAlmostEqualRelative(this IList<Complex32> a, IList<Complex32> b, int decimalPlaces)
         {
             return ListForAll(a, b, AlmostEqualRelative, decimalPlaces);
@@ -943,8 +951,7 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
-        /// Compares two complex and determines if they are equal within
-        /// the specified maximum error.
+        /// Compares two vectors and determines if they are equal within the specified maximum error.
         /// </summary>
         /// <param name="a">The first value.</param>
         /// <param name="b">The second value.</param>
@@ -956,8 +963,7 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
-        /// Compares two doubles and determines if they are equal within
-        /// the specified maximum error.
+        /// Compares two vectors and determines if they are equal within the specified maximum error.
         /// </summary>
         /// <param name="a">The first value.</param>
         /// <param name="b">The second value.</param>
@@ -969,8 +975,8 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
-        /// Compares two doubles and determines if they are equal to within the specified number of decimal places or not, using the 
-        /// number of decimal places as an absolute measure.
+        /// Compares two vectors and determines if they are equal to within the specified number
+        /// of decimal places or not, using the number of decimal places as an absolute measure.
         /// </summary>
         /// <param name="a">The first value.</param>
         /// <param name="b">The second value.</param>
@@ -982,8 +988,8 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
-        /// Compares two doubles and determines if they are equal to within the specified number of decimal places or not. If the numbers
-        /// are very close to zero an absolute difference is compared, otherwise the relative difference is compared.
+        /// Compares two vectors and determines if they are equal to within the specified number of decimal places or not.
+        /// If the numbers are very close to zero an absolute difference is compared, otherwise the relative difference is compared.
         /// </summary>
         /// <param name="a">The first value.</param>
         /// <param name="b">The second value.</param>
@@ -994,56 +1000,54 @@ namespace MathNet.Numerics
             return AlmostEqualNormRelative(a.L2Norm(), b.L2Norm(), (a - b).L2Norm(), decimalPlaces);
         }
 
-        ///// <summary>
-        ///// Compares two complex and determines if they are equal within
-        ///// the specified maximum error.
-        ///// </summary>
-        ///// <param name="a">The first value.</param>
-        ///// <param name="b">The second value.</param>
-        ///// <param name="maximumAbsoluteError">The accuracy required for being almost equal.</param>
-        //public static bool AlmostEqual<T>(this Matrix<T> a, Matrix<T> b, double maximumAbsoluteError)
-        //    where T : struct, IEquatable<T>, IFormattable
-        //{
-        //    return AlmostEqualNorm(a.L2Norm(), b.L2Norm(), (a - b).L2Norm(), maximumAbsoluteError);
-        //}
+        /// <summary>
+        /// Compares two matrices and determines if they are equal within the specified maximum error.
+        /// </summary>
+        /// <param name="a">The first value.</param>
+        /// <param name="b">The second value.</param>
+        /// <param name="maximumAbsoluteError">The accuracy required for being almost equal.</param>
+        public static bool AlmostEqual<T>(this Matrix<T> a, Matrix<T> b, double maximumAbsoluteError)
+            where T : struct, IEquatable<T>, IFormattable
+        {
+            return AlmostEqualNorm(a.L2Norm(), b.L2Norm(), (a - b).L2Norm(), maximumAbsoluteError);
+        }
 
-        ///// <summary>
-        ///// Compares two doubles and determines if they are equal within
-        ///// the specified maximum error.
-        ///// </summary>
-        ///// <param name="a">The first value.</param>
-        ///// <param name="b">The second value.</param>
-        ///// <param name="maximumError">The accuracy required for being almost equal.</param>
-        //public static bool AlmostEqualRelative<T>(this Matrix<T> a, Matrix<T> b, double maximumError)
-        //    where T : struct, IEquatable<T>, IFormattable
-        //{
-        //    return AlmostEqualNormRelative(a.L2Norm(), b.L2Norm(), (a - b).L2Norm(), maximumError);
-        //}
+        /// <summary>
+        /// Compares two matrices and determines if they are equal within the specified maximum error.
+        /// </summary>
+        /// <param name="a">The first value.</param>
+        /// <param name="b">The second value.</param>
+        /// <param name="maximumError">The accuracy required for being almost equal.</param>
+        public static bool AlmostEqualRelative<T>(this Matrix<T> a, Matrix<T> b, double maximumError)
+            where T : struct, IEquatable<T>, IFormattable
+        {
+            return AlmostEqualNormRelative(a.L2Norm(), b.L2Norm(), (a - b).L2Norm(), maximumError);
+        }
 
-        ///// <summary>
-        ///// Compares two doubles and determines if they are equal to within the specified number of decimal places or not, using the 
-        ///// number of decimal places as an absolute measure.
-        ///// </summary>
-        ///// <param name="a">The first value.</param>
-        ///// <param name="b">The second value.</param>
-        ///// <param name="decimalPlaces">The number of decimal places.</param>
-        //public static bool AlmostEqual<T>(this Matrix<T> a, Matrix<T> b, int decimalPlaces)
-        //    where T : struct, IEquatable<T>, IFormattable
-        //{
-        //    return AlmostEqualNorm(a.L2Norm(), b.L2Norm(), (a - b).L2Norm(), decimalPlaces);
-        //}
+        /// <summary>
+        /// Compares two matrices and determines if they are equal to within the specified number
+        /// of decimal places or not, using the number of decimal places as an absolute measure.
+        /// </summary>
+        /// <param name="a">The first value.</param>
+        /// <param name="b">The second value.</param>
+        /// <param name="decimalPlaces">The number of decimal places.</param>
+        public static bool AlmostEqual<T>(this Matrix<T> a, Matrix<T> b, int decimalPlaces)
+            where T : struct, IEquatable<T>, IFormattable
+        {
+            return AlmostEqualNorm(a.L2Norm(), b.L2Norm(), (a - b).L2Norm(), decimalPlaces);
+        }
 
-        ///// <summary>
-        ///// Compares two doubles and determines if they are equal to within the specified number of decimal places or not. If the numbers
-        ///// are very close to zero an absolute difference is compared, otherwise the relative difference is compared.
-        ///// </summary>
-        ///// <param name="a">The first value.</param>
-        ///// <param name="b">The second value.</param>
-        ///// <param name="decimalPlaces">The number of decimal places.</param>
-        //public static bool AlmostEqualRelative<T>(this Matrix<T> a, Matrix<T> b, int decimalPlaces)
-        //    where T : struct, IEquatable<T>, IFormattable
-        //{
-        //    return AlmostEqualNormRelative(a.L2Norm(), b.L2Norm(), (a - b).L2Norm(), decimalPlaces);
-        //}
+        /// <summary>
+        /// Compares two matrices and determines if they are equal to within the specified number of decimal places or not.
+        /// If the numbers are very close to zero an absolute difference is compared, otherwise the relative difference is compared.
+        /// </summary>
+        /// <param name="a">The first value.</param>
+        /// <param name="b">The second value.</param>
+        /// <param name="decimalPlaces">The number of decimal places.</param>
+        public static bool AlmostEqualRelative<T>(this Matrix<T> a, Matrix<T> b, int decimalPlaces)
+            where T : struct, IEquatable<T>, IFormattable
+        {
+            return AlmostEqualNormRelative(a.L2Norm(), b.L2Norm(), (a - b).L2Norm(), decimalPlaces);
+        }
     }
 }

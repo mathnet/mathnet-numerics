@@ -74,7 +74,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
         /// Gets the two norm of the <see cref="Matrix{T}"/>.
         /// </summary>
         /// <returns>The 2-norm of the <see cref="Matrix{T}"/>.</returns>
-        public override Complex32 Norm2
+        public override double L2Norm
         {
             get
             {

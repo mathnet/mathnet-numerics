@@ -135,7 +135,7 @@ namespace Examples.LinearAlgebra.FactorizationExamples
 
             // 10. 2-norm of the matrix
             Console.WriteLine(@"10. 2-norm of the matrix");
-            Console.WriteLine(svd.Norm2);
+            Console.WriteLine(svd.L2Norm);
             Console.WriteLine();
 
             // 11. Rank of the matrix

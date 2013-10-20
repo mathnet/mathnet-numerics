@@ -52,21 +52,50 @@ namespace MathNet.Numerics.LinearAlgebra.Single
 
         /// <summary>Calculates the L1 norm.</summary>
         /// <returns>The L1 norm of the matrix.</returns>
-        public override float L1Norm()
+        public override double L1Norm()
         {
-            var norm = 0.0f;
+            var norm = 0d;
             for (var j = 0; j < ColumnCount; j++)
             {
-                var s = 0.0f;
+                var s = 0d;
                 for (var i = 0; i < RowCount; i++)
                 {
                     s += Math.Abs(At(i, j));
                 }
-
                 norm = Math.Max(norm, s);
             }
-
             return norm;
+        }
+
+        /// <summary>Calculates the infinity norm of this matrix.</summary>
+        /// <returns>The infinity norm of this matrix.</returns>   
+        public override double InfinityNorm()
+        {
+            var norm = 0d;
+            for (var i = 0; i < RowCount; i++)
+            {
+                var s = 0d;
+                for (var j = 0; j < ColumnCount; j++)
+                {
+                    s += Math.Abs(At(i, j));
+                }
+                norm = Math.Max(norm, s);
+            }
+            return norm;
+        }
+
+        /// <summary>Calculates the Frobenius norm of this matrix.</summary>
+        /// <returns>The Frobenius norm of this matrix.</returns>
+        public override double FrobeniusNorm()
+        {
+            var transpose = Transpose();
+            var aat = this * transpose;
+            var norm = 0d;
+            for (var i = 0; i < RowCount; i++)
+            {
+                norm += aat.At(i, i);
+            }
+            return Math.Sqrt(norm);
         }
 
         /// <summary>
@@ -76,43 +105,6 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         public override sealed Matrix<float> ConjugateTranspose()
         {
             return Transpose();
-        }
-
-        /// <summary>Calculates the Frobenius norm of this matrix.</summary>
-        /// <returns>The Frobenius norm of this matrix.</returns>
-        public override float FrobeniusNorm()
-        {
-            var transpose = Transpose();
-            var aat = this * transpose;
-
-            var norm = 0.0f;
-            for (var i = 0; i < RowCount; i++)
-            {
-                norm += aat.At(i, i);
-            }
-
-            norm = Convert.ToSingle(Math.Sqrt(norm));
-
-            return norm;
-        }
-
-        /// <summary>Calculates the infinity norm of this matrix.</summary>
-        /// <returns>The infinity norm of this matrix.</returns>   
-        public override float InfinityNorm()
-        {
-            var norm = 0.0f;
-            for (var i = 0; i < RowCount; i++)
-            {
-                var s = 0.0f;
-                for (var j = 0; j < ColumnCount; j++)
-                {
-                    s += Math.Abs(At(i, j));
-                }
-
-                norm = Math.Max(norm, s);
-            }
-
-            return norm;
         }
 
         /// <summary>

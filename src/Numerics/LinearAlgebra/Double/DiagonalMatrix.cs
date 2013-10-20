@@ -655,19 +655,18 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             return _data.Aggregate(double.NegativeInfinity, (current, t) => Math.Max(current, Math.Abs(t)));
         }
 
-        /// <summary>Calculates the Frobenius norm of this matrix.</summary>
-        /// <returns>The Frobenius norm of this matrix.</returns>
-        public override double FrobeniusNorm()
-        {
-            var norm = _data.Sum(t => t * t);
-            return Math.Sqrt(norm);
-        }
-
         /// <summary>Calculates the infinity norm of this matrix.</summary>
         /// <returns>The infinity norm of this matrix.</returns>
         public override double InfinityNorm()
         {
             return L1Norm();
+        }
+
+        /// <summary>Calculates the Frobenius norm of this matrix.</summary>
+        /// <returns>The Frobenius norm of this matrix.</returns>
+        public override double FrobeniusNorm()
+        {
+            return Math.Sqrt(_data.Sum(t => t * t));
         }
 
         /// <summary>Calculates the condition number of this matrix.</summary>

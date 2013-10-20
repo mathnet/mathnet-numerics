@@ -668,13 +668,40 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             return new SparseMatrix(ret);
         }
 
+        /// <summary>Calculates the infinity norm of this matrix.</summary>
+        /// <returns>The infinity norm of this matrix.</returns>
+        public override double InfinityNorm()
+        {
+            var rowPointers = _storage.RowPointers;
+            var values = _storage.Values;
+            var norm = 0d;
+            for (var i = 0; i < RowCount; i++)
+            {
+                var startIndex = rowPointers[i];
+                var endIndex = rowPointers[i + 1];
+
+                if (startIndex == endIndex)
+                {
+                    // Begin and end are equal. There are no values in the row, Move to the next row
+                    continue;
+                }
+
+                var s = 0d;
+                for (var j = startIndex; j < endIndex; j++)
+                {
+                    s += Math.Abs(values[j]);
+                }
+                norm = Math.Max(norm, s);
+            }
+            return norm;
+        }
+
         /// <summary>Calculates the Frobenius norm of this matrix.</summary>
         /// <returns>The Frobenius norm of this matrix.</returns>
         public override double FrobeniusNorm()
         {
             var aat = (SparseCompressedRowMatrixStorage<double>) (this*Transpose()).Storage;
             var norm = 0d;
-
             for (var i = 0; i < aat.RowCount; i++)
             {
                 var startIndex = aat.RowPointers[i];
@@ -694,39 +721,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                     }
                 }
             }
-
             return Math.Sqrt(norm);
-        }
-
-        /// <summary>Calculates the infinity norm of this matrix.</summary>
-        /// <returns>The infinity norm of this matrix.</returns>
-        public override double InfinityNorm()
-        {
-            var rowPointers = _storage.RowPointers;
-            var values = _storage.Values;
-
-            var norm = 0d;
-            for (var i = 0; i < RowCount; i++)
-            {
-                var startIndex = rowPointers[i];
-                var endIndex = rowPointers[i + 1];
-
-                if (startIndex == endIndex)
-                {
-                    // Begin and end are equal. There are no values in the row, Move to the next row
-                    continue;
-                }
-
-                var s = 0d;
-                for (var j = startIndex; j < endIndex; j++)
-                {
-                    s += Math.Abs(values[j]);
-                }
-
-                norm = Math.Max(norm, s);
-            }
-
-            return norm;
         }
 
         /// <summary>
