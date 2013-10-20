@@ -70,7 +70,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers
                 new FailureStopCriterium(),
                 new DivergenceStopCriterium(),
                 new IterationCountStopCriterium<Complex32>(),
-                new ResidualStopCriterium()
+                new ResidualStopCriterium<Complex32>(1e-6)
             };
             var iterator = new Iterator<Complex32>(criteria);
 

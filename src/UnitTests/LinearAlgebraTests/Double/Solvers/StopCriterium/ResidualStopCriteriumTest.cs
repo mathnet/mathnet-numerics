@@ -48,7 +48,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.StopCrite
         [Test]
         public void CreateWithNegativeMaximumThrowsArgumentOutOfRangeException()
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() => new ResidualStopCriterium(-0.1));
+            Assert.Throws<ArgumentOutOfRangeException>(() => new ResidualStopCriterium<double>(-0.1));
         }
 
         /// <summary>
@@ -57,7 +57,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.StopCrite
         [Test]
         public void CreateWithIllegalMinimumIterationsThrowsArgumentOutOfRangeException()
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() => new ResidualStopCriterium(-1));
+            Assert.Throws<ArgumentOutOfRangeException>(() => new ResidualStopCriterium<double>(-1));
         }
 
         /// <summary>
@@ -66,37 +66,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.StopCrite
         [Test]
         public void Create()
         {
-            var criterium = new ResidualStopCriterium(1e-8, 50);
-            Assert.IsNotNull(criterium, "There should be a criterium");
+            var criterium = new ResidualStopCriterium<double>(1e-8, 50);
 
             Assert.AreEqual(1e-8, criterium.Maximum, "Incorrect maximum");
             Assert.AreEqual(50, criterium.MinimumIterationsBelowMaximum, "Incorrect iteration count");
-        }
-
-        /// <summary>
-        /// Can reset maximum.
-        /// </summary>
-        [Test]
-        public void ResetMaximum()
-        {
-            var criterium = new ResidualStopCriterium(1e-8, 50);
-            Assert.IsNotNull(criterium, "There should be a criterium");
-
-            criterium.ResetMaximumResidualToDefault();
-            Assert.AreEqual(ResidualStopCriterium.DefaultMaximumResidual, criterium.Maximum, "Incorrect maximum");
-        }
-
-        /// <summary>
-        /// Can reset minimum iterations below maximum.
-        /// </summary>
-        [Test]
-        public void ResetMinimumIterationsBelowMaximum()
-        {
-            var criterium = new ResidualStopCriterium(1e-8, 50);
-            Assert.IsNotNull(criterium, "There should be a criterium");
-
-            criterium.ResetMinimumIterationsBelowMaximumToDefault();
-            Assert.AreEqual(ResidualStopCriterium.DefaultMinimumIterationsBelowMaximum, criterium.MinimumIterationsBelowMaximum, "Incorrect iteration count");
         }
 
         /// <summary>
@@ -105,8 +78,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.StopCrite
         [Test]
         public void DetermineStatusWithIllegalIterationNumberThrowsArgumentOutOfRangeException()
         {
-            var criterium = new ResidualStopCriterium(1e-8, 50);
-            Assert.IsNotNull(criterium, "There should be a criterium");
+            var criterium = new ResidualStopCriterium<double>(1e-8, 50);
 
             Assert.Throws<ArgumentOutOfRangeException>(() => criterium.DetermineStatus(
                 -1,
@@ -121,8 +93,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.StopCrite
         [Test]
         public void DetermineStatusWithNonMatchingSolutionVectorThrowsArgumentException()
         {
-            var criterium = new ResidualStopCriterium(1e-8, 50);
-            Assert.IsNotNull(criterium, "There should be a criterium");
+            var criterium = new ResidualStopCriterium<double>(1e-8, 50);
 
             Assert.Throws<ArgumentException>(() => criterium.DetermineStatus(
                 1,
@@ -137,8 +108,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.StopCrite
         [Test]
         public void DetermineStatusWithNonMatchingSourceVectorThrowsArgumentException()
         {
-            var criterium = new ResidualStopCriterium(1e-8, 50);
-            Assert.IsNotNull(criterium, "There should be a criterium");
+            var criterium = new ResidualStopCriterium<double>(1e-8, 50);
 
             Assert.Throws<ArgumentException>(() => criterium.DetermineStatus(
                 1,
@@ -153,8 +123,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.StopCrite
         [Test]
         public void DetermineStatusWithNonMatchingResidualVectorThrowsArgumentException()
         {
-            var criterium = new ResidualStopCriterium(1e-8, 50);
-            Assert.IsNotNull(criterium, "There should be a criterium");
+            var criterium = new ResidualStopCriterium<double>(1e-8, 50);
 
             Assert.Throws<ArgumentException>(() => criterium.DetermineStatus(
                 1,
@@ -169,9 +138,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.StopCrite
         [Test]
         public void DetermineStatusWithSourceNaN()
         {
-            var criterium = new ResidualStopCriterium(1e-3, 10);
-            Assert.IsNotNull(criterium, "There should be a criterium");
-
+            var criterium = new ResidualStopCriterium<double>(1e-3, 10);
             var solution = new DenseVector(new[] {1.0, 1.0, 2.0});
             var source = new DenseVector(new[] {1.0, 1.0, double.NaN});
             var residual = new DenseVector(new[] {1000.0, 1000.0, 2001.0});
@@ -186,9 +153,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.StopCrite
         [Test]
         public void DetermineStatusWithResidualNaN()
         {
-            var criterium = new ResidualStopCriterium(1e-3, 10);
-            Assert.IsNotNull(criterium, "There should be a criterium");
-
+            var criterium = new ResidualStopCriterium<double>(1e-3, 10);
             var solution = new DenseVector(new[] {1.0, 1.0, 2.0});
             var source = new DenseVector(new[] {1.0, 1.0, 2.0});
             var residual = new DenseVector(new[] {1000.0, double.NaN, 2001.0});
@@ -203,9 +168,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.StopCrite
         [Test]
         public void DetermineStatusWithConvergenceAtFirstIteration()
         {
-            var criterium = new ResidualStopCriterium();
-            Assert.IsNotNull(criterium, "There should be a criterium");
-
+            var criterium = new ResidualStopCriterium<double>(1e-12);
             var solution = new DenseVector(new[] {1.0, 1.0, 1.0});
             var source = new DenseVector(new[] {1.0, 1.0, 1.0});
             var residual = new DenseVector(new[] {0.0, 0.0, 0.0});
@@ -220,8 +183,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.StopCrite
         [Test]
         public void DetermineStatus()
         {
-            var criterium = new ResidualStopCriterium(1e-3, 10);
-            Assert.IsNotNull(criterium, "There should be a criterium");
+            var criterium = new ResidualStopCriterium<double>(1e-3, 10);
 
             // the solution vector isn't actually being used so ...
             var solution = new DenseVector(new[] {double.NaN, double.NaN, double.NaN});
@@ -245,8 +207,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.StopCrite
         [Test]
         public void ResetCalculationState()
         {
-            var criterium = new ResidualStopCriterium(1e-3, 10);
-            Assert.IsNotNull(criterium, "There should be a criterium");
+            var criterium = new ResidualStopCriterium<double>(1e-3, 10);
 
             var solution = new DenseVector(new[] {0.001, 0.001, 0.002});
             var source = new DenseVector(new[] {0.001, 0.001, 0.002});
@@ -265,13 +226,12 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.StopCrite
         [Test]
         public void Clone()
         {
-            var criterium = new ResidualStopCriterium(1e-3, 10);
-            Assert.IsNotNull(criterium, "There should be a criterium");
+            var criterium = new ResidualStopCriterium<double>(1e-3, 10);
 
             var clone = criterium.Clone();
-            Assert.IsInstanceOf(typeof (ResidualStopCriterium), clone, "Wrong criterium type");
+            Assert.IsInstanceOf(typeof(ResidualStopCriterium<double>), clone, "Wrong criterium type");
 
-            var clonedCriterium = clone as ResidualStopCriterium;
+            var clonedCriterium = clone as ResidualStopCriterium<double>;
             Assert.IsNotNull(clonedCriterium);
 
             // ReSharper disable PossibleNullReferenceException

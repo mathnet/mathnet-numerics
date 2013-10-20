@@ -68,7 +68,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers
                 new FailureStopCriterium(),
                 new DivergenceStopCriterium(),
                 new IterationCountStopCriterium<float>(),
-                new ResidualStopCriterium()
+                new ResidualStopCriterium<float>(1e-6)
             };
             var iterator = new Iterator<float>(criteria);
 

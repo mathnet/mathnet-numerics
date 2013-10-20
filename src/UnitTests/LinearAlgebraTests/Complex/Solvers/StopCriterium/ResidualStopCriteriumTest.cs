@@ -54,7 +54,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.StopCrit
         [Test]
         public void CreateWithNegativeMaximumThrowsArgumentOutOfRangeException()
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() => new ResidualStopCriterium(-0.1));
+            Assert.Throws<ArgumentOutOfRangeException>(() => new ResidualStopCriterium<Complex>(-0.1));
         }
 
         /// <summary>
@@ -63,7 +63,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.StopCrit
         [Test]
         public void CreateWithIllegalMinimumIterationsThrowsArgumentOutOfRangeException()
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() => new ResidualStopCriterium(-1));
+            Assert.Throws<ArgumentOutOfRangeException>(() => new ResidualStopCriterium<Complex>(-1));
         }
 
         /// <summary>
@@ -72,37 +72,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.StopCrit
         [Test]
         public void Create()
         {
-            var criterium = new ResidualStopCriterium(1e-8, 50);
-            Assert.IsNotNull(criterium, "There should be a criterium");
+            var criterium = new ResidualStopCriterium<Complex>(1e-8, 50);
 
             Assert.AreEqual(1e-8, criterium.Maximum, "Incorrect maximum");
             Assert.AreEqual(50, criterium.MinimumIterationsBelowMaximum, "Incorrect iteration count");
-        }
-
-        /// <summary>
-        /// Can reset maximum.
-        /// </summary>
-        [Test]
-        public void ResetMaximum()
-        {
-            var criterium = new ResidualStopCriterium(1e-8, 50);
-            Assert.IsNotNull(criterium, "There should be a criterium");
-
-            criterium.ResetMaximumResidualToDefault();
-            Assert.AreEqual(ResidualStopCriterium.DefaultMaximumResidual, criterium.Maximum, "Incorrect maximum");
-        }
-
-        /// <summary>
-        /// Can reset minimum iterations below maximum.
-        /// </summary>
-        [Test]
-        public void ResetMinimumIterationsBelowMaximum()
-        {
-            var criterium = new ResidualStopCriterium(1e-8, 50);
-            Assert.IsNotNull(criterium, "There should be a criterium");
-
-            criterium.ResetMinimumIterationsBelowMaximumToDefault();
-            Assert.AreEqual(ResidualStopCriterium.DefaultMinimumIterationsBelowMaximum, criterium.MinimumIterationsBelowMaximum, "Incorrect iteration count");
         }
 
         /// <summary>
@@ -111,8 +84,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.StopCrit
         [Test]
         public void DetermineStatusWithIllegalIterationNumberThrowsArgumentOutOfRangeException()
         {
-            var criterium = new ResidualStopCriterium(1e-8, 50);
-            Assert.IsNotNull(criterium, "There should be a criterium");
+            var criterium = new ResidualStopCriterium<Complex>(1e-8, 50);
 
             Assert.Throws<ArgumentOutOfRangeException>(() => criterium.DetermineStatus(
                 -1,
@@ -127,8 +99,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.StopCrit
         [Test]
         public void DetermineStatusWithNonMatchingSolutionVectorThrowsArgumentException()
         {
-            var criterium = new ResidualStopCriterium(1e-8, 50);
-            Assert.IsNotNull(criterium, "There should be a criterium");
+            var criterium = new ResidualStopCriterium<Complex>(1e-8, 50);
 
             Assert.Throws<ArgumentException>(() => criterium.DetermineStatus(
                 1,
@@ -143,8 +114,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.StopCrit
         [Test]
         public void DetermineStatusWithNonMatchingSourceVectorThrowsArgumentException()
         {
-            var criterium = new ResidualStopCriterium(1e-8, 50);
-            Assert.IsNotNull(criterium, "There should be a criterium");
+            var criterium = new ResidualStopCriterium<Complex>(1e-8, 50);
 
             Assert.Throws<ArgumentException>(() => criterium.DetermineStatus(
                 1,
@@ -159,8 +129,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.StopCrit
         [Test]
         public void DetermineStatusWithNonMatchingResidualVectorThrowsArgumentException()
         {
-            var criterium = new ResidualStopCriterium(1e-8, 50);
-            Assert.IsNotNull(criterium, "There should be a criterium");
+            var criterium = new ResidualStopCriterium<Complex>(1e-8, 50);
 
             Assert.Throws<ArgumentException>(() => criterium.DetermineStatus(
                 1,
@@ -175,8 +144,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.StopCrit
         [Test]
         public void DetermineStatusWithSourceNaN()
         {
-            var criterium = new ResidualStopCriterium(1e-3, 10);
-            Assert.IsNotNull(criterium, "There should be a criterium");
+            var criterium = new ResidualStopCriterium<Complex>(1e-3, 10);
 
             var solution = new DenseVector(new[] {new Complex(1.0, 1), new Complex(1.0, 1), new Complex(2.0, 1)});
             var source = new DenseVector(new[] {new Complex(1.0, 1), new Complex(1.0, 1), new Complex(double.NaN, 1)});
@@ -192,8 +160,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.StopCrit
         [Test]
         public void DetermineStatusWithResidualNaN()
         {
-            var criterium = new ResidualStopCriterium(1e-3, 10);
-            Assert.IsNotNull(criterium, "There should be a criterium");
+            var criterium = new ResidualStopCriterium<Complex>(1e-3, 10);
 
             var solution = new DenseVector(new[] {new Complex(1.0, 1), new Complex(1.0, 1), new Complex(2.0, 1)});
             var source = new DenseVector(new[] {new Complex(1.0, 1), new Complex(1.0, 1), new Complex(2.0, 1)});
@@ -213,8 +180,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.StopCrit
         [Test]
         public void DetermineStatusWithConvergenceAtFirstIteration()
         {
-            var criterium = new ResidualStopCriterium();
-            Assert.IsNotNull(criterium, "There should be a criterium");
+            var criterium = new ResidualStopCriterium<Complex>(1e-12);
 
             var solution = new DenseVector(new[] {Complex.One, Complex.One, Complex.One});
             var source = new DenseVector(new[] {Complex.One, Complex.One, Complex.One});
@@ -230,8 +196,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.StopCrit
         [Test]
         public void DetermineStatus()
         {
-            var criterium = new ResidualStopCriterium(1e-3, 10);
-            Assert.IsNotNull(criterium, "There should be a criterium");
+            var criterium = new ResidualStopCriterium<Complex>(1e-3, 10);
 
             // the solution vector isn't actually being used so ...
             var solution = new DenseVector(new[] {new Complex(double.NaN, double.NaN), new Complex(double.NaN, double.NaN), new Complex(double.NaN, double.NaN)});
@@ -255,8 +220,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.StopCrit
         [Test]
         public void ResetCalculationState()
         {
-            var criterium = new ResidualStopCriterium(1e-3, 10);
-            Assert.IsNotNull(criterium, "There should be a criterium");
+            var criterium = new ResidualStopCriterium<Complex>(1e-3, 10);
 
             var solution = new DenseVector(new[] {new Complex(0.001, 1), new Complex(0.001, 1), new Complex(0.002, 1)});
             var source = new DenseVector(new[] {new Complex(0.001, 1), new Complex(0.001, 1), new Complex(0.002, 1)});
@@ -275,13 +239,12 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.StopCrit
         [Test]
         public void Clone()
         {
-            var criterium = new ResidualStopCriterium(1e-3, 10);
-            Assert.IsNotNull(criterium, "There should be a criterium");
+            var criterium = new ResidualStopCriterium<Complex>(1e-3, 10);
 
             var clone = criterium.Clone();
-            Assert.IsInstanceOf(typeof (ResidualStopCriterium), clone, "Wrong criterium type");
+            Assert.IsInstanceOf(typeof(ResidualStopCriterium<Complex>), clone, "Wrong criterium type");
 
-            var clonedCriterium = clone as ResidualStopCriterium;
+            var clonedCriterium = clone as ResidualStopCriterium<Complex>;
             Assert.IsNotNull(clonedCriterium);
 
             // ReSharper disable PossibleNullReferenceException

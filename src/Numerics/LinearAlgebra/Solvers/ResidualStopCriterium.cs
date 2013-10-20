@@ -30,31 +30,15 @@
 
 using System;
 using System.Diagnostics;
-using MathNet.Numerics.LinearAlgebra.Solvers;
 using MathNet.Numerics.Properties;
 
-namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
+namespace MathNet.Numerics.LinearAlgebra.Solvers
 {
     /// <summary>
     /// Defines an <see cref="IIterationStopCriterium{T}"/> that monitors residuals as stop criterium.
     /// </summary>
-    public sealed class ResidualStopCriterium : IIterationStopCriterium<double>
+    public sealed class ResidualStopCriterium<T> : IIterationStopCriterium<T> where T : struct, IEquatable<T>, IFormattable
     {
-        /// <summary>
-        /// The default value for the maximum value of the residual.
-        /// </summary>
-        public const double DefaultMaximumResidual = 1e-12;
-
-        /// <summary>
-        /// The default value for the minimum number of iterations.
-        /// </summary>
-        public const int DefaultMinimumIterationsBelowMaximum = 0;
-
-        /// <summary>
-        /// Defines the default last iteration number. Set to -1 because iterations normally start at 0.
-        /// </summary>
-        const int DefaultLastIterationNumber = -1;
-
         /// <summary>
         /// The maximum value for the residual below which the calculation is considered converged.
         /// </summary>
@@ -79,10 +63,10 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
         /// <summary>
         /// The iteration number of the last iteration.
         /// </summary>
-        int _lastIteration = DefaultLastIterationNumber;
+        int _lastIteration = -1;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ResidualStopCriterium"/> class with the specified 
+        /// Initializes a new instance of the <see cref="ResidualStopCriterium{T}"/> class with the specified 
         /// maximum residual and minimum number of iterations.
         /// </summary>
         /// <param name="maximum">
@@ -92,7 +76,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
         /// The minimum number of iterations for which the residual has to be below the maximum before
         /// the calculation is considered converged.
         /// </param>
-        public ResidualStopCriterium(double maximum = DefaultMaximumResidual, int minimumIterationsBelowMaximum = DefaultMinimumIterationsBelowMaximum)
+        public ResidualStopCriterium(double maximum, int minimumIterationsBelowMaximum = 0)
         {
             if (maximum < 0)
             {
@@ -134,14 +118,6 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
         }
 
         /// <summary>
-        /// Returns the maximum residual to the default.
-        /// </summary>
-        public void ResetMaximumResidualToDefault()
-        {
-            _maximum = DefaultMaximumResidual;
-        }
-
-        /// <summary>
         /// Gets or sets the minimum number of iterations for which the residual has to be
         /// below the maximum before the calculation is considered converged.
         /// </summary>
@@ -167,14 +143,6 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
         }
 
         /// <summary>
-        /// Returns the minimum number of iterations to the default.
-        /// </summary>
-        public void ResetMinimumIterationsBelowMaximumToDefault()
-        {
-            _minimumIterationsBelowMaximum = DefaultMinimumIterationsBelowMaximum;
-        }
-
-        /// <summary>
         /// Determines the status of the iterative calculation based on the stop criteria stored
         /// by the current <see cref="IIterationStopCriterium{T}"/>. Result is set into <c>Status</c> field.
         /// </summary>
@@ -187,7 +155,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
         /// on the invocation of this method. Therefore this method should only be called if the 
         /// calculation has moved forwards at least one step.
         /// </remarks>
-        public IterationStatus DetermineStatus(int iterationNumber, Vector<double> solutionVector, Vector<double> sourceVector, Vector<double> residualVector)
+        public IterationStatus DetermineStatus(int iterationNumber, Vector<T> solutionVector, Vector<T> sourceVector, Vector<T> residualVector)
         {
             if (iterationNumber < 0)
             {
@@ -272,16 +240,16 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
         {
             _status = IterationStatus.Continue;
             _iterationCount = 0;
-            _lastIteration = DefaultLastIterationNumber;
+            _lastIteration = -1;
         }
 
         /// <summary>
-        /// Clones the current <see cref="ResidualStopCriterium"/> and its settings.
+        /// Clones the current <see cref="ResidualStopCriterium{T}"/> and its settings.
         /// </summary>
-        /// <returns>A new instance of the <see cref="ResidualStopCriterium"/> class.</returns>
-        public IIterationStopCriterium<double> Clone()
+        /// <returns>A new instance of the <see cref="ResidualStopCriterium{T}"/> class.</returns>
+        public IIterationStopCriterium<T> Clone()
         {
-            return new ResidualStopCriterium(_maximum, _minimumIterationsBelowMaximum);
+            return new ResidualStopCriterium<T>(_maximum, _minimumIterationsBelowMaximum);
         }
     }
 }

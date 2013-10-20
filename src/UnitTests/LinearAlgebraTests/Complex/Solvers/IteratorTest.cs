@@ -74,7 +74,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers
                 new FailureStopCriterium(),
                 new DivergenceStopCriterium(),
                 new IterationCountStopCriterium<Complex>(),
-                new ResidualStopCriterium()
+                new ResidualStopCriterium<Complex>(1e-12)
             };
             var iterator = new Iterator<Complex>(criteria);
 

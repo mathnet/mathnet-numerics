@@ -95,7 +95,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.Iterat
             // Create an iteration monitor which will keep track of iterative convergence
             var monitor = new Iterator<Complex32>(
                 new IterationCountStopCriterium<Complex32>(MaximumIterations),
-                new ResidualStopCriterium(ConvergenceBoundary),
+                new ResidualStopCriterium<Complex32>(ConvergenceBoundary),
                 new DivergenceStopCriterium(),
                 new FailureStopCriterium());
 
@@ -139,7 +139,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.Iterat
             // Create an iteration monitor which will keep track of iterative convergence
             var monitor = new Iterator<Complex32>(
                 new IterationCountStopCriterium<Complex32>(MaximumIterations),
-                new ResidualStopCriterium(ConvergenceBoundary),
+                new ResidualStopCriterium<Complex32>(ConvergenceBoundary),
                 new DivergenceStopCriterium(),
                 new FailureStopCriterium());
 
@@ -216,7 +216,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.Iterat
             // Create an iteration monitor which will keep track of iterative convergence
             var monitor = new Iterator<Complex32>(
                 new IterationCountStopCriterium<Complex32>(MaximumIterations),
-                new ResidualStopCriterium(ConvergenceBoundary),
+                new ResidualStopCriterium<Complex32>(ConvergenceBoundary),
                 new DivergenceStopCriterium(),
                 new FailureStopCriterium());
 
@@ -256,7 +256,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.Iterat
 
                 var monitor = new Iterator<Complex32>(
                     new IterationCountStopCriterium<Complex32>(1000),
-                    new ResidualStopCriterium((float) Math.Pow(1.0/10.0, iteration)));
+                    new ResidualStopCriterium<Complex32>(Math.Pow(1.0 / 10.0, iteration)));
 
                 var solver = new TFQMR();
 
@@ -298,7 +298,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.Iterat
 
                 var monitor = new Iterator<Complex32>(
                     new IterationCountStopCriterium<Complex32>(1000),
-                    new ResidualStopCriterium((float) Math.Pow(1.0/10.0, iteration)));
+                    new ResidualStopCriterium<Complex32>(Math.Pow(1.0 / 10.0, iteration)));
 
                 var solver = new TFQMR();
                 var matrixX = matrixA.SolveIterative(matrixB, solver, monitor);

@@ -94,7 +94,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers.Iterative
             // Create an iteration monitor which will keep track of iterative convergence
             var monitor = new Iterator<float>(
                 new IterationCountStopCriterium<float>(MaximumIterations),
-                new ResidualStopCriterium(ConvergenceBoundary),
+                new ResidualStopCriterium<float>(ConvergenceBoundary),
                 new DivergenceStopCriterium(),
                 new FailureStopCriterium());
 
@@ -138,7 +138,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers.Iterative
             // Create an iteration monitor which will keep track of iterative convergence
             var monitor = new Iterator<float>(
                 new IterationCountStopCriterium<float>(MaximumIterations),
-                new ResidualStopCriterium(ConvergenceBoundary),
+                new ResidualStopCriterium<float>(ConvergenceBoundary),
                 new DivergenceStopCriterium(),
                 new FailureStopCriterium());
 
@@ -219,7 +219,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers.Iterative
                 // Create an iteration monitor which will keep track of iterative convergence
                 var monitor = new Iterator<float>(
                     new IterationCountStopCriterium<float>(MaximumIterations),
-                    new ResidualStopCriterium(ConvergenceBoundary),
+                    new ResidualStopCriterium<float>(ConvergenceBoundary),
                     new DivergenceStopCriterium(),
                     new FailureStopCriterium());
 
@@ -274,7 +274,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers.Iterative
 
                 var monitor = new Iterator<float>(
                     new IterationCountStopCriterium<float>(MaximumIterations),
-                    new ResidualStopCriterium((float) Math.Pow(1.0/10.0, iteration)));
+                    new ResidualStopCriterium<float>(Math.Pow(1.0 / 10.0, iteration)));
 
                 var solver = new MlkBiCgStab();
                 var resultx = matrixA.SolveIterative(vectorb, solver, monitor);
@@ -316,7 +316,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers.Iterative
 
                 var monitor = new Iterator<float>(
                     new IterationCountStopCriterium<float>(MaximumIterations),
-                    new ResidualStopCriterium((float) Math.Pow(1.0/10.0, iteration)));
+                    new ResidualStopCriterium<float>(Math.Pow(1.0 / 10.0, iteration)));
 
                 var solver = new MlkBiCgStab();
                 var matrixX = matrixA.SolveIterative(matrixB, solver, monitor);

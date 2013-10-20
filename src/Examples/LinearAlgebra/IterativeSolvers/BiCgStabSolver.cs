@@ -101,7 +101,7 @@ namespace Examples.LinearAlgebra.IterativeSolversExamples
             var iterationCountStopCriterium = new IterationCountStopCriterium<double>(1000);
 
             // Stop calculation if residuals are below 1E-10 --> the calculation is considered converged
-            var residualStopCriterium = new ResidualStopCriterium(1e-10);
+            var residualStopCriterium = new ResidualStopCriterium<double>(1e-10);
  
             // Create monitor with defined stop criteriums
             var monitor = new Iterator<double>(iterationCountStopCriterium, residualStopCriterium);
