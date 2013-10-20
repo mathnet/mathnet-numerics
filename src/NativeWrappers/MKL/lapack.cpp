@@ -8,6 +8,8 @@
 #include "lapack_common.h"
 #include "wrapper_common.h"
 #include "mkl_lapacke.h"
+#include "mkl.h"
+#include "mkl_trans.h"
 
 template<typename T>
 inline MKL_INT lu_factor(MKL_INT m, T a[], MKL_INT ipiv[],
@@ -747,5 +749,12 @@ extern "C" {
 		{
 			return eigen_complex_factor<MKL_Complex16>(n, a, vectors, values, d, LAPACKE_zgees, LAPACKE_ztrevc);
 		}
+    }
+
+    DLLEXPORT void SetImprovedConsistency(void)
+    {
+        // set improved consistency for mkl and vector functions
+        mkl_cbwr_set(MKL_CBWR_COMPATIBLE);
+        vmlSetMode(VML_HA|VML_DOUBLE_CONSISTENT);
     }
 }
