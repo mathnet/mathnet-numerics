@@ -42,12 +42,13 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
     /// </summary>
     public partial class MklLinearAlgebraProvider : ManagedLinearAlgebraProvider
     {
-        /// <summary>
-        /// Improves MKL Consistency to get bit consistent results on repeated identical calculations
-        /// </summary>
-        public MklLinearAlgebraProvider()
+        /// <param name="bitConsistent">If true improves MKL Consistency to get bit consistent results on repeated identical calculations</param>
+        public MklLinearAlgebraProvider(bool bitConsistent = false)
         {
-            SafeNativeMethods.SetImprovedConsistency();
+            if (bitConsistent)
+            {
+                SafeNativeMethods.SetImprovedConsistency();
+            }
         }
 
         /// <summary>
