@@ -41,8 +41,45 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
     /// <summary>
     /// Intel's Math Kernel Library (MKL) linear algebra provider.
     /// </summary>
-    public partial class MklLinearAlgebraProvider
+    public partial class MklLinearAlgebraProvider : ManagedLinearAlgebraProvider
     {
+        /// <summary>
+        /// Computes the requested <see cref="Norm"/> of the matrix.
+        /// </summary>
+        /// <param name="norm">The type of norm to compute.</param>
+        /// <param name="rows">The number of rows in the matrix.</param>
+        /// <param name="columns">The number of columns in the matrix.</param>
+        /// <param name="matrix">The matrix to compute the norm from.</param>
+        /// <returns>
+        /// The requested <see cref="Norm"/> of the matrix.
+        /// </returns>
+        [SecuritySafeCritical]
+        public override double MatrixNorm(Norm norm, int rows, int columns, Complex[] matrix)
+        {
+            if (matrix == null)
+            {
+                throw new ArgumentNullException("matrix");
+            }
+
+            if (rows <= 0)
+            {
+                throw new ArgumentException(Resources.ArgumentMustBePositive, "rows");
+            }
+
+            if (columns <= 0)
+            {
+                throw new ArgumentException(Resources.ArgumentMustBePositive, "columns");
+            }
+
+            if (matrix.Length < rows * columns)
+            {
+                throw new ArgumentException(string.Format(Resources.ArrayTooSmall, rows * columns), "matrix");
+            }
+
+            var work = new double[rows];
+            return SafeNativeMethods.z_matrix_norm((byte)norm, rows, columns, matrix, work);
+        }
+
         /// <summary>
         /// Computes the dot product of x and y.
         /// </summary>

@@ -461,23 +461,6 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
         }
 
         /// <summary>
-        /// Computes the requested <see cref="Norm"/> of the matrix.
-        /// </summary>
-        /// <param name="norm">The type of norm to compute.</param>
-        /// <param name="rows">The number of rows.</param>
-        /// <param name="columns">The number of columns.</param>
-        /// <param name="matrix">The matrix to compute the norm from.</param>
-        /// <param name="work">The work array. Only used when <see cref="Norm.InfinityNorm"/>
-        /// and needs to be have a length of at least M (number of rows of <paramref name="matrix"/>.</param>
-        /// <returns>
-        /// The requested <see cref="Norm"/> of the matrix.
-        /// </returns>
-        public virtual double MatrixNorm(Norm norm, int rows, int columns, float[] matrix, float[] work)
-        {
-            return MatrixNorm(norm, rows, columns, matrix);
-        }
-
-        /// <summary>
         /// Multiples two matrices. <c>result = x * y</c>
         /// </summary>
         /// <param name="x">The x matrix.</param>

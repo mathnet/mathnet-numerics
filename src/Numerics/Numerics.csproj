@@ -154,7 +154,6 @@
     <Compile Include="Providers\LinearAlgebra\ManagedLinearAlgebraProvider.Single.cs" />
     <Compile Include="Providers\LinearAlgebra\ILinearAlgebraProvider.cs" />
     <Compile Include="Providers\LinearAlgebra\ManagedLinearAlgebraProvider.Double.cs" />
-    <Compile Include="Providers\LinearAlgebra\Mkl\MklLinearAlgebraProvider.cs" />
     <Compile Include="Providers\LinearAlgebra\Mkl\MklLinearAlgebraProvider.Complex.cs" />
     <Compile Include="Providers\LinearAlgebra\Mkl\MklLinearAlgebraProvider.Complex32.cs" />
     <Compile Include="Providers\LinearAlgebra\Mkl\MklLinearAlgebraProvider.Double.cs" />

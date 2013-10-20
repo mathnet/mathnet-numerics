@@ -35,7 +35,6 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
 
 #if !NOSYSNUMERICS
     using Complex = System.Numerics.Complex;
-
 #endif
 
     /// <summary>
@@ -90,10 +89,10 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
     /// Interface to linear algebra algorithms that work off 1-D arrays.
     /// </summary>
     public interface ILinearAlgebraProvider :
-        ILinearAlgebraProvider<double, double>,
-        ILinearAlgebraProvider<float, float>,
-        ILinearAlgebraProvider<Complex, double>,
-        ILinearAlgebraProvider<Complex32, float>
+        ILinearAlgebraProvider<double>,
+        ILinearAlgebraProvider<float>,
+        ILinearAlgebraProvider<Complex>,
+        ILinearAlgebraProvider<Complex32>
     {
     }
 
@@ -101,10 +100,8 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
     /// Interface to linear algebra algorithms that work off 1-D arrays.
     /// </summary>
     /// <typeparam name="T">Supported data types are Double, Single, Complex, and Complex32.</typeparam>
-    /// <typeparam name="TNorm">Supported data types are Double and Single, must correspond to T.</typeparam>
-    public interface ILinearAlgebraProvider<T, TNorm>
+    public interface ILinearAlgebraProvider<T>
         where T : struct
-        where TNorm : struct
     {
         /*/// <summary>
         /// Queries the provider for the optimal, workspace block size
@@ -202,20 +199,6 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
         /// The requested <see cref="Norm"/> of the matrix.
         /// </returns>
         double MatrixNorm(Norm norm, int rows, int columns, T[] matrix);
-
-        /// <summary>
-        /// Computes the requested <see cref="Norm"/> of the matrix.
-        /// </summary>
-        /// <param name="norm">The type of norm to compute.</param>
-        /// <param name="rows">The number of rows.</param>
-        /// <param name="columns">The number of columns.</param>
-        /// <param name="matrix">The matrix to compute the norm from.</param>
-        /// <param name="work">The work array. Only used when <see cref="Norm.InfinityNorm"/>
-        /// and needs to be have a length of at least M (number of rows of <paramref name="matrix"/>.</param>
-        /// <returns>
-        /// The requested <see cref="Norm"/> of the matrix.
-        /// </returns>
-        double MatrixNorm(Norm norm, int rows, int columns, T[] matrix, TNorm[] work);
 
         /// <summary>
         /// Multiples two matrices. <c>result = x * y</c>
