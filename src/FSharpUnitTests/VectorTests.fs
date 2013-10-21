@@ -26,6 +26,9 @@ module VectorTests =
         largev.[97..]  |> should equal (DenseVector.raw [|0.97;0.98;0.99|])
         largev.[..4]  |> should equal (DenseVector.raw [|0.00;0.01;0.02;0.03;0.04|])
 
+#if NOFSSLICESET1D
+#else
+// Vector SetSlice does not work properly in VisualStudio 2013 RTM
     [<Test>]
     let ``Vector.SetSlice`` () =
         let v = smallv.Clone() in
@@ -43,6 +46,7 @@ module VectorTests =
         let v = smallv.Clone() in
             v.[..2] <- vector [7.0;8.0;9.0];
             v |> should equal (DenseVector.raw [|7.0;8.0;9.0;0.3;0.3|])
+#endif
 
     [<Test>]
     let ``Vector.toArray`` () =

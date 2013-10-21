@@ -1,56 +1,45 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{f2f8032b-a31d-4e33-a05e-f2cdcbfaa75d}</ProjectGuid>
+    <ProjectGuid>{1a8315ac-bcda-4294-b994-fdc4fed45bee}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>FSharpUnitTests</RootNamespace>
-    <AssemblyName>MathNet.Numerics.FSharp.UnitTests</AssemblyName>
+    <RootNamespace>FSharpPortableUnitTests</RootNamespace>
+    <AssemblyName>MathNet.Numerics.FSharp.UnitTests136</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <Name>FSharpUnitTests</Name>
-    <TargetFrameworkProfile />
+    <Name>FSharpUnitTests-Portable136</Name>
+    <MinimumVisualStudioVersion Condition="'$(MinimumVisualStudioVersion)' == ''">11</MinimumVisualStudioVersion>
     <TargetFSharpCoreVersion>4.3.0.0</TargetFSharpCoreVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
+    <DefineConstants>TRACE;PORTABLE;NOSYSNUMERICS</DefineConstants>
+    <OutputPath>..\..\out\test\Profile136\</OutputPath>
+    <IntermediateOutputPath>..\..\obj\test\Profile136\</IntermediateOutputPath>
+    <BaseIntermediateOutputPath>..\..\obj\test\Profile136\</BaseIntermediateOutputPath>
     <Optimize>true</Optimize>
     <Tailcalls>true</Tailcalls>
-    <OutputPath>..\..\out\test\Net40\</OutputPath>
-    <IntermediateOutputPath>..\..\obj\test\Net40\</IntermediateOutputPath>
-    <BaseIntermediateOutputPath>..\..\obj\test\Net40\</BaseIntermediateOutputPath>
-    <DefineConstants>TRACE</DefineConstants>
+    <DebugType>pdbonly</DebugType>
     <WarningLevel>3</WarningLevel>
+    <DocumentationFile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
+    <DefineConstants>DEBUG;TRACE;PORTABLE;NOSYSNUMERICS</DefineConstants>
+    <OutputPath>..\..\out\test-debug\Profile136\</OutputPath>
+    <IntermediateOutputPath>..\..\obj\test-debug\Profile136\</IntermediateOutputPath>
+    <BaseIntermediateOutputPath>..\..\obj\test-debug\Profile136\</BaseIntermediateOutputPath>
     <Optimize>false</Optimize>
     <Tailcalls>false</Tailcalls>
-    <OutputPath>..\..\out\test-debug\Net40\</OutputPath>
-    <IntermediateOutputPath>..\..\obj\test-debug\Net40\</IntermediateOutputPath>
-    <BaseIntermediateOutputPath>..\..\obj\test-debug\Net40\</BaseIntermediateOutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
     <WarningLevel>3</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release-Signed|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <Tailcalls>true</Tailcalls>
-    <DefineConstants>TRACE</DefineConstants>
-    <WarningLevel>3</WarningLevel>
-    <OutputPath>..\..\out\test-signed\Net40\</OutputPath>
-    <IntermediateOutputPath>..\..\obj\test-signed\Net40\</IntermediateOutputPath>
-    <BaseIntermediateOutputPath>..\..\obj\test-signed\Net40\</BaseIntermediateOutputPath>
+    <DocumentationFile />
   </PropertyGroup>
   <PropertyGroup Condition="'$(VisualStudioVersion)' == '12.0' ">
     <!-- Workaround - remove once no longer needed! -->
     <DefineConstants>$(DefineConstants);NOFSSLICESET1D</DefineConstants>
-  </PropertyGroup>
-  <PropertyGroup>
-    <MinimumVisualStudioVersion Condition="'$(MinimumVisualStudioVersion)' == ''">11</MinimumVisualStudioVersion>
   </PropertyGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '11.0'">
@@ -72,7 +61,6 @@
     <Reference Include="mscorlib" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Numerics" />
     <Reference Include="nunit.framework">
       <HintPath>..\..\packages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
       <SpecificVersion>False</SpecificVersion>
@@ -83,14 +71,14 @@
       <SpecificVersion>False</SpecificVersion>
       <Private>True</Private>
     </Reference>
-    <ProjectReference Include="..\FSharp\FSharp.fsproj">
-      <Name>FSharp</Name>
-      <Project>{37e8e802-a354-4114-bfc1-6e1357da605b}</Project>
+    <ProjectReference Include="..\FSharp\FSharp-Portable136.fsproj">
+      <Name>FSharp-Portable136</Name>
+      <Project>{d178918b-6ac0-4624-a515-4b99147b9ffd}</Project>
       <Private>True</Private>
     </ProjectReference>
-    <ProjectReference Include="..\Numerics\Numerics.csproj">
-      <Name>Numerics</Name>
-      <Project>{b7cae5f4-a23f-4438-b5be-41226618b695}</Project>
+    <ProjectReference Include="..\Numerics\Numerics-Portable136.csproj">
+      <Name>Numerics-Portable136</Name>
+      <Project>{c2581199-28c4-41aa-a26a-f0c076ea2a67}</Project>
       <Private>True</Private>
     </ProjectReference>
   </ItemGroup>

@@ -10,13 +10,26 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>MathNet.Numerics.UnitTests</RootNamespace>
-    <AssemblyName>MathNet.Numerics.UnitTests</AssemblyName>
+    <AssemblyName>MathNet.Numerics.UnitTests47</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug47|AnyCPU' ">
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DefineConstants>TRACE;PORTABLE</DefineConstants>
+    <OutputPath>..\..\out\test\Profile47\</OutputPath>
+    <IntermediateOutputPath>..\..\obj\test\Profile47\</IntermediateOutputPath>
+    <BaseIntermediateOutputPath>..\..\obj\test\Profile47\</BaseIntermediateOutputPath>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <NoWarn>1591</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DefineConstants>TRACE;DEBUG;PORTABLE</DefineConstants>
-    <OutputPath>..\..\out\test\debug\Portable47\</OutputPath>
+    <OutputPath>..\..\out\test-debug\Profile47\</OutputPath>
+    <IntermediateOutputPath>..\..\obj\test-debug\Profile47\</IntermediateOutputPath>
+    <BaseIntermediateOutputPath>..\..\obj\test-debug\Profile47\</BaseIntermediateOutputPath>
     <Optimize>false</Optimize>
     <DebugType>full</DebugType>
     <DebugSymbols>true</DebugSymbols>
@@ -24,41 +37,8 @@
     <WarningLevel>4</WarningLevel>
     <NoWarn>1591</NoWarn>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release47|AnyCPU' ">
-    <DefineConstants>TRACE;PORTABLE</DefineConstants>
-    <OutputPath>..\..\out\test\Portable47\</OutputPath>
-    <DocumentationFile>..\..\out\test\Portable47\MathNet.Numerics.XML</DocumentationFile>
-    <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <NoWarn>1591</NoWarn>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release136|AnyCPU' ">
-    <DefineConstants>TRACE;PORTABLE;NOSYSNUMERICS</DefineConstants>
-    <OutputPath>..\..\out\test\Portable136\</OutputPath>
-    <DocumentationFile>..\..\out\test\Portable136\MathNet.Numerics.XML</DocumentationFile>
-    <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <NoWarn>1591</NoWarn>
-  </PropertyGroup>
-  <ItemGroup>
-    <Compile Include="**\*.cs" Exclude="Properties\Settings.Designer.cs">
-    </Compile>
-    <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-      <DependentUpon>Settings.settings</DependentUpon>
-    </Compile>
-  </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="nunit.framework, Version=2.6.2.12296, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\NUnit.2.6.2\lib\nunit.framework.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Numerics" />
@@ -67,12 +47,24 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="nunit.framework">
+      <HintPath>..\..\packages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+      <Private>True</Private>
+    </Reference>
+    <ProjectReference Include="..\Numerics\Numerics-Portable47.csproj">
+      <Project>{49205185-621e-ffb9-2104-887c9f1bbd13}</Project>
+      <Name>Numerics-Portable47</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Numerics\Portable.csproj">
-      <Project>{49205185-621e-ffb9-2104-887c9f1bbd13}</Project>
-      <Name>Portable</Name>
-    </ProjectReference>
+    <Compile Include="**\*.cs" Exclude="Properties\Settings.Designer.cs">
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\data\Codeplex-5667.csv">

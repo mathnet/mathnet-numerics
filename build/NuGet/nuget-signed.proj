@@ -5,7 +5,7 @@
     <PropertyGroup>
         <NuGetExe>$(MSBuildProjectDirectory)/../../tools/NuGet/nuget.exe</NuGetExe>
         <Root>$(MSBuildProjectDirectory)/../..</Root>
-        <OutLib>$(MSBuildProjectDirectory)/../../out/signed</OutLib>
+        <OutLib>$(MSBuildProjectDirectory)/../../out/lib-signed</OutLib>
         <OutNuGetPackages>$(MSBuildProjectDirectory)/../../out/packages/NuGet</OutNuGetPackages>
         <NumericsPack>$(MSBuildProjectDirectory)/Numerics.Signed</NumericsPack>
         <FSharpPack>$(MSBuildProjectDirectory)/FSharp.Signed</FSharpPack>

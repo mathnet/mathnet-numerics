@@ -5,19 +5,34 @@
     <MinimumVisualStudioVersion>10.0</MinimumVisualStudioVersion>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{49205185-621E-FFB9-2104-887C9F1BBD13}</ProjectGuid>
+    <ProjectGuid>{C2581199-28C4-41AA-A26A-F0C076EA2A67}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>MathNet.Numerics</RootNamespace>
     <AssemblyName>MathNet.Numerics</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Profile136</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug47|AnyCPU' ">
-    <TargetFrameworkProfile>Profile47</TargetFrameworkProfile>
-    <DefineConstants>TRACE;DEBUG;PORTABLE</DefineConstants>
-    <OutputPath>..\..\out\debug\Portable47\</OutputPath>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DefineConstants>TRACE;PORTABLE;NOSYSNUMERICS</DefineConstants>
+    <OutputPath>..\..\out\lib\Profile136\</OutputPath>
+    <IntermediateOutputPath>..\..\obj\lib\Profile136\</IntermediateOutputPath>
+    <BaseIntermediateOutputPath>..\..\obj\lib\Profile136\</BaseIntermediateOutputPath>
+    <DocumentationFile>..\..\out\lib\Profile136\MathNet.Numerics.XML</DocumentationFile>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <NoWarn>1591</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DefineConstants>TRACE;DEBUG;PORTABLE;NOSYSNUMERICS</DefineConstants>
+    <OutputPath>..\..\out\lib-debug\Profile136\</OutputPath>
+    <IntermediateOutputPath>..\..\obj\lib-debug\Profile136\</IntermediateOutputPath>
+    <BaseIntermediateOutputPath>..\..\obj\lib-debug\Profile136\</BaseIntermediateOutputPath>
     <Optimize>false</Optimize>
     <DebugType>full</DebugType>
     <DebugSymbols>true</DebugSymbols>
@@ -26,33 +41,7 @@
     <DocumentationFile />
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release47|AnyCPU' ">
-    <TargetFrameworkProfile>Profile47</TargetFrameworkProfile>
-    <DefineConstants>TRACE;PORTABLE</DefineConstants>
-    <OutputPath>..\..\out\lib\Portable47\</OutputPath>
-    <DocumentationFile>..\..\out\lib\Portable47\MathNet.Numerics.XML</DocumentationFile>
-    <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
-    <NoWarn>1591</NoWarn>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release136|AnyCPU' ">
-    <TargetFrameworkProfile>Profile136</TargetFrameworkProfile>
-    <DefineConstants>TRACE;PORTABLE;NOSYSNUMERICS</DefineConstants>
-    <OutputPath>..\..\out\lib\Portable136\</OutputPath>
-    <DocumentationFile>..\..\out\lib\Portable136\MathNet.Numerics.XML</DocumentationFile>
-    <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
-    <NoWarn>1591</NoWarn>
-  </PropertyGroup>
   <ItemGroup>
-    <!-- A reference to the entire .NET Framework is automatically included -->
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
