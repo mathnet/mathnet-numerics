@@ -41,12 +41,13 @@ namespace MathNet.Numerics.Filtering.IIR
     /// Filter implements the canonic Direct Form II structure.
     /// </summary>
     /// <remarks>
-    /// System Descripton: H(z) = (a0 + a1*z^-1 + a2*z^-2) / (1 + b1*z^-1 + b2*z^-2)
+    /// System Descripton: H(z) = (b0 + b1*z^-1 + b2*z^-2) / (1 + a1*z^-1 + a2*z^-2)
     /// </remarks>
     public class OnlineIirFilter : OnlineFilter
     {
-        double[] _leftCoefficients, _rightCoefficients;
-        double[] _buffer;
+        double[] _bCoefficients, _aCoefficients;
+        double[] _bufferX;
+        double[] _bufferY;
         readonly int _size, _halfSize;
         int _offset;
 
@@ -58,23 +59,23 @@ namespace MathNet.Numerics.Filtering.IIR
             double[] coefficients
             )
         {
-            if(null == coefficients)
+            if (null == coefficients)
                 throw new ArgumentNullException("coefficients");
-            if((coefficients.Length & 1) != 0)
+            if ((coefficients.Length & 1) != 0)
                 throw new ArgumentException(Resources.ArgumentEvenNumberOfCoefficients, "coefficients");
 
             _size = coefficients.Length;
             _halfSize = _size >> 1;
-            _leftCoefficients = new double[_size];
-            _rightCoefficients = new double[_size];
-            for(int i = 0; i < _halfSize; i++)
+            _bCoefficients = new double[_size];
+            _aCoefficients = new double[_size];
+            for (int i = 0; i < _halfSize; i++)
             {
-                _leftCoefficients[i] = _leftCoefficients[_halfSize + i] = coefficients[i];
-                _rightCoefficients[i] = _rightCoefficients[_halfSize + i] = coefficients[_halfSize + i];
+                _bCoefficients[i] = _bCoefficients[_halfSize + i] = coefficients[i];
+                _aCoefficients[i] = _aCoefficients[_halfSize + i] = coefficients[_halfSize + i];
             }
-            _buffer = new double[_size];
+            _bufferX = new double[_size];
+            _bufferY = new double[_size];
         }
-
         /// <summary>
         /// Process a single sample.
         /// </summary>
@@ -84,21 +85,19 @@ namespace MathNet.Numerics.Filtering.IIR
             double sample
             )
         {
-            double un = _leftCoefficients[0] * sample;
-            for(int i = 0, j = _halfSize - _offset + 1; i < _halfSize - 1; i++, j++)
-            {
-                un += _buffer[i] * _leftCoefficients[j];
-            }
-
             _offset = (_offset != 0) ? _offset - 1 : _halfSize - 1;
-            _buffer[_offset] = un - _buffer[_offset] * _leftCoefficients[1];
-
+            _bufferX[_offset] = sample;
+            _bufferY[_offset] = 0d;
             double yn = 0d;
-            for(int i = 0, j = _halfSize - _offset; i < _halfSize; i++, j++)
+            for (int i = 0, j = _halfSize - _offset; i < _halfSize; i++, j++)
             {
-                yn += _buffer[i] * _rightCoefficients[j];
+                yn += _bufferX[i] * _bCoefficients[j];
             }
-
+            for (int i = 0, j = _halfSize - _offset; i < _halfSize; i++, j++)
+            {
+                yn -= _bufferY[i] * _aCoefficients[j];
+            }
+            _bufferY[_offset] = yn;
             return yn;
         }
 
@@ -109,9 +108,10 @@ namespace MathNet.Numerics.Filtering.IIR
         void
         Reset()
         {
-            for(int i = 0; i < _buffer.Length; i++)
+            for (int i = 0; i < _bufferX.Length; i++)
             {
-                _buffer[i] = 0d;
+                _bufferX[i] = 0d;
+                _bufferY[i] = 0d;
             }
         }
     }
