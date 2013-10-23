@@ -11,24 +11,114 @@ NuGet Packages, available in the [NuGet Gallery](https://nuget.org/profiles/math
 - `MathNet.Numerics` - core package, including both .Net 4 and portable builds
 - `MathNet.Numerics.FSharp` - optional extensions for a better F# experience
 - `MathNet.Numerics.Data.Text` - NEW: optional extensions for text-based matrix input/output (CSV for now)
-- `MathNet.Numerics.Data.Matlab` - NEW: optional extensions for Matlab matrix file input/output
+- `MathNet.Numerics.Data.Matlab` - NEW: optional extensions for MATLAB matrix file input/output
 - `MathNet.Numerics.MKL.Win-x86` - optional Linear Algebra MKL native provider
 - `MathNet.Numerics.MKL.Win-x64` - optional Linear Algebra MKL native provider
 - `MathNet.Numerics.MKL.Linux-x86` - optional Linear Algebra MKL native provider
 - `MathNet.Numerics.MKL.Linux-x64` - optional Linear Algebra MKL native provider
-- `MathNet.Numerics.Signed` - strong-named version of the core package (not recommended)
+- `MathNet.Numerics.Signed` - strong-named version of the core package *(not recommended)*
+- `MathNet.Numerics.FSharp.Signed` - strong-named version of the F# package *(not recommended)*
 - `MathNet.Numerics.Sample` - code samples in C#
 - `MathNet.Numerics.FSharp.Sample` - code samples in F#
 
 Zip Packages, available on [CodePlex](http://mathnetnumerics.codeplex.com/releases):
 
 - Binaries - core package and F# extensions, including both .Net 4 and portable builds
-- Signed Binaries - strong-named version of the core package (not recommended)
+- Signed Binaries - strong-named version of the core package *(not recommended)*
 
 Over time some members and classes have been replaced with more suitable alternatives. In order to maintain compatibility, such parts are not removed immediately but instead marked with the **Obsolete**-attribute. We strongly recommend to follow the instructions in the attribute text whenever you find any code calling an obsolete member, since we *do* intend to remove them at the next *major* release, v3.0.
 
+v3.0.0 - To Be Announced
+------------------------
+
+See also: [Towards Math.NET Numerics Version 3](http://christoph.ruegg.name/blog/towards-mathnet-numerics-v3.html).
+
+Multiple alpha builds have been made available as NuGet pre-release packages. There are likely more to come as we still have a lot to do; and at least a beta before the final release. All information provided here regarding v3 is preliminary and incomplete.
+
+### Linear Algebra
+
+- Favoring and optimized for the generic types, e.g. `Vector<double>`.
+- Dropped the `.Generic` in the namespaces and flattened solver namespaces.
+- Adds missing scalar-matrix routines.
+- Point-wise infix operators where supported (F#)
+- Matrix Factorization types fully generic, easily accessed by new `Matrix<T>` member methods (replacing the extension methods). Discrete implementations no longer visible.
+- All norms now return the result as double (instead of the specific value type of the matrix/vector).
+- QR factorization is now thin by default.
+- Matrix factorizations no longer clone their results at point of access.
+- Matrix class now with direct factorization-based `Solve` methods.
+- Massive iterative solver implementation/design simplification, now mostly generic and functional.
+- New MILU(0) iterative solver preconditioner that is much more efficient and fully leverages sparse data.
+- Vectors now have a `ConjugateDotProduct` in addition to `DotProduct`.
+- Vectors now explicitly provide proper L1, L2 and infinity norms.
+- Matrices/Vectors now have consistent enumerators, with a variant that skips zeros (useful if sparse).
+- Matrix/Vector creation routines have been simplified and usually no longer require explicit dimensions. New variants to create diagonal matrices, or such where all fields have the same value.
+- Generic Matrix/Vector creating using new builders, e.g. `Matrix<double>.Build.DenseOfEnumerable(...)`
+- Create a matrix from a 2D-array of matrices (top-left aligned within the grid).
+- Matrix.CreateIdentity; OfColumnArrays and OfColumnVectors now with an IEnumerable overload.
+- Vector.OfArray (copying the array, consistent with Matrix.OfArray).
+- More convenient and one more powerful overload of `Matrix.SetSubMatrix`.
+- Matrices/Vectors expose whether storage is dense with a new IsDense property.
+- Sparse matrix CSR storage format now uses the much more common row pointer convention.
+- Providers have been moved to a `Providers` namespace and are fully generic again.
+- Simpler provider usage: `Control.UseNativeMKL()`, `Control.UseManaged()`.
+- F#: all functions in the modules now fully generic, including the `matrix` function.
+- F#: `SkipZeros` instead of the cryptic `nz` suffix for clarity.
+- Various minor performance work.
+- BUG: Fix bug in routine to copy a vector into a sub-row of a matrix.
+
+### Statistics
+
+- Pearson and Spearman correlation matrix of a set of arrays.
+- Single-pass `MeanVariance` method (as used often together).
+
+### Probability Distributions
+
+- Major cleanup, including xml docs.
+- Direct exposure of distributions functions (PDF, CDF, sometimes also InvCDF).
+- Maximum-likelihood parameter estimation for a couple distributions.
+- Use less problematic RNG-seeds by default, if no random source is provided.
+- Simpler and more composeable random sampling from distributions.
+- BUG: Fix hyper-geometric CDF semantics, clarify distribution parameters.
+
+### Linear Regression
+
+- Reworked `Fit` class, supporting more simple scenarios.
+- More specialized scenarios: `.LinearRegression` namespace.
+- Better support for simple regression in multiple dimensions.
+
+### Build & Packages
+
+- NuGet packages now also include PCL portable profiles 47 (.Net 4.5, Silverlight 5, Windows 8) in addition to the normal .Net 4.0 build and PCL profile 136 (.Net 4.0, WindowsPhone 8, Silverlight 5, Windows 8) as before. Profile 47 uses `System.Numerics` for complex numbers, among others, which is not available in profile 136.
+- IO libraries have been removed, replaced with new `.Data` packages (see list on top).
+- Strong-named version for more packages (mostly the F# extensions for now), with the `.Signed` prefix in the NuGet package name.
+- Reworked solution structure so it works in both Visual Studio 11 (2012) and 12 (2013).
+- We can now run the full unit test suite against the portable builds as well.
+
+### Misc
+
+- Namespace simplifications, dropping idea of `.Algorithms` namespaces
+- Interpolation: return tuple instead of out parameter
+- Integration: simplification of the double-exponential transformation api design
+- New distance functions in `Distance`: euclidean, manhattan, chebychev distance of arrays or generic vectors. SAD, MAE, SSD, MSE metrics. Hamming distance.
+- More robust complex Asin/Acos for large real numbers.
+- Complex: common short names for Exp, Ln, Log10, Log.
+- Complex: fix issue where negative zeros caused results of opposite sign in some cases.
+- Trig functions: common short names instead of very long names.
+- Precision: reworked, now much more consistent.
+- Much less null checks, code generally only throws `ArgumentNullException` if an unexpected null argument would *not* have caused an immediate `NullReferenceException`.
+
+v2.6.2 - October 21, 2013
+-------------------------
+
+Patch release, fixing the NuGet package to work better in WindowsPhone 8 projects. Assemblies are not changed.
+
+v2.6.1 - August 13, 2013
+------------------------
+
+Patch release, fixing a bug in `ArrayStatistics.Variance` on arrays longer than 46341 entries.
+
 v2.6.0 - July 26, 2013
-------------------------------
+----------------------
 
 See also: [What's New in Math.NET Numerics 2.6](http://christoph.ruegg.name/blog/new-in-mathnet-numerics-2-6.html): Announcement, Explanations and Sample Code.
 
