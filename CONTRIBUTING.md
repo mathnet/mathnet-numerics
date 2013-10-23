@@ -14,7 +14,7 @@ Math.NET Numerics is driven by the community and contributors like you. I'm exci
 We use the [Fork & Pull Model](https://help.github.com/articles/using-pull-requests/), as common for GitHub projects. If you've already contributed to another GitHub project then you're all set. If not, [here is another  introduction](https://gun.io/blog/how-to-github-fork-branch-and-pull-request/).
 
 **New Files:**
-When adding or renaming files in the F# projects, please make sure you also add them *as links* to the Portable project. This is a bit tedious but we have not found a better solution yet.
+When adding or renaming files in the F# projects, please make sure you also add them to the Portable projects in the same order (See the MathNet.Numerics.Portable.sln solution). This is a bit tedious but we have not found a better solution yet.
 
 **Separate Branch per Pull Request:**
 We recommend that you create a separate branch for each pull request, as opposed to using master. This makes it much easier to continue working on a pull request even after it has been opened on GitHub. Remember that GitHub automatically includes all future commits of the same branch to the pull request.
