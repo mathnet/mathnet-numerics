@@ -652,22 +652,22 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
             return ret;
         }
 
-        /// <summary>Calculates the L1 norm.</summary>
-        /// <returns>The L1 norm of the matrix.</returns>
+        /// <summary>Calculates the induced L1 norm of this matrix.</summary>
+        /// <returns>The maximum absolute column sum of the matrix.</returns>
         public override double L1Norm()
         {
-            return _data.Aggregate(double.NegativeInfinity, (current, t) => Math.Max(current, t.Magnitude));
+            return _data.Aggregate(0d, (current, t) => Math.Max(current, t.Magnitude));
         }
 
-        /// <summary>Calculates the L2 norm.</summary>
-        /// <returns>The L2 norm of the matrix.</returns>
+        /// <summary>Calculates the induced L2 norm of the matrix.</summary>
+        /// <returns>The largest singular value of the matrix.</returns>
         public override double L2Norm()
         {
-            return _data.Aggregate(double.NegativeInfinity, (current, t) => Math.Max(current, t.Magnitude));
+            return _data.Aggregate(0d, (current, t) => Math.Max(current, t.Magnitude));
         }
 
-        /// <summary>Calculates the infinity norm of this matrix.</summary>
-        /// <returns>The infinity norm of this matrix.</returns>
+        /// <summary>Calculates the induced infinity norm of this matrix.</summary>
+        /// <returns>The maximum absolute row sum of the matrix.</returns>
         public override double InfinityNorm()
         {
             return L1Norm();

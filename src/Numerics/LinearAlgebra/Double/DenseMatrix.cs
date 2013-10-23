@@ -418,22 +418,22 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             return ret;
         }
 
-        /// <summary>Calculates the L1 norm.</summary>
-        /// <returns>The L1 norm of the matrix.</returns>
+        /// <summary>Calculates the induced L1 norm of this matrix.</summary>
+        /// <returns>The maximum absolute column sum of the matrix.</returns>
         public override double L1Norm()
         {
             return Control.LinearAlgebraProvider.MatrixNorm(Norm.OneNorm, _rowCount, _columnCount, _values);
         }
 
-        /// <summary>Calculates the infinity norm of this matrix.</summary>
-        /// <returns>The infinity norm of this matrix.</returns>
+        /// <summary>Calculates the induced infinity norm of this matrix.</summary>
+        /// <returns>The maximum absolute row sum of the matrix.</returns>
         public override double InfinityNorm()
         {
             return Control.LinearAlgebraProvider.MatrixNorm(Norm.InfinityNorm, _rowCount, _columnCount, _values);
         }
 
-        /// <summary>Calculates the Frobenius norm of this matrix.</summary>
-        /// <returns>The Frobenius norm of this matrix.</returns>
+        /// <summary>Calculates the entry-wise Frobenius norm of this matrix.</summary>
+        /// <returns>The square root of the sum of the squared values.</returns>
         public override double FrobeniusNorm()
         {
             return Control.LinearAlgebraProvider.MatrixNorm(Norm.FrobeniusNorm, _rowCount, _columnCount, _values);

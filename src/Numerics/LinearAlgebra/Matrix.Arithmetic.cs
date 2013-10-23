@@ -1148,26 +1148,30 @@ namespace MathNet.Numerics.LinearAlgebra
             return ret;
         }
 
-        /// <summary>Calculates the L1 norm.</summary>
-        /// <returns>The L1 norm of the matrix.</returns>
+        /// <summary>Calculates the induced L1 norm of this matrix.</summary>
+        /// <returns>The maximum absolute column sum of the matrix.</returns>
         public abstract double L1Norm();
 
-        /// <summary>Calculates the L2 norm.</summary>
-        /// <returns>The L2 norm of the matrix.</returns>
-        /// <remarks>For sparse matrices, the L2 norm is computed using a dense implementation of singular value decomposition.
-        /// In a later release, it will be replaced with a sparse implementation.</remarks>
+        /// <summary>Calculates the induced L2 norm of the matrix.</summary>
+        /// <returns>The largest singular value of the matrix.</returns>
+        /// <remarks>
+        /// For sparse matrices, the L2 norm is computed using a dense implementation of singular value decomposition.
+        /// In a later release, it will be replaced with a sparse implementation.
+        /// </remarks>
         public virtual double L2Norm()
         {
             return Svd(false).L2Norm;
         }
 
-        /// <summary>Calculates the infinity norm of this matrix.</summary>
-        /// <returns>The infinity norm of this matrix.</returns>
+        /// <summary>Calculates the induced infinity norm of this matrix.</summary>
+        /// <returns>The maximum absolute row sum of the matrix.</returns>
         public abstract double InfinityNorm();
 
-        /// <summary>Calculates the Frobenius norm of this matrix.</summary>
-        /// <returns>The Frobenius norm of this matrix.</returns>
+        /// <summary>Calculates the entry-wise Frobenius norm of this matrix.</summary>
+        /// <returns>The square root of the sum of the squared values.</returns>
         public abstract double FrobeniusNorm();
+
+
 
         #region Exceptions - possibly move elsewhere?
 

@@ -668,8 +668,8 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             return new SparseMatrix(ret);
         }
 
-        /// <summary>Calculates the infinity norm of this matrix.</summary>
-        /// <returns>The infinity norm of this matrix.</returns>
+        /// <summary>Calculates the induced infinity norm of this matrix.</summary>
+        /// <returns>The maximum absolute row sum of the matrix.</returns>
         public override double InfinityNorm()
         {
             var rowPointers = _storage.RowPointers;
@@ -696,8 +696,8 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             return norm;
         }
 
-        /// <summary>Calculates the Frobenius norm of this matrix.</summary>
-        /// <returns>The Frobenius norm of this matrix.</returns>
+        /// <summary>Calculates the entry-wise Frobenius norm of this matrix.</summary>
+        /// <returns>The square root of the sum of the squared values.</returns>
         public override double FrobeniusNorm()
         {
             var aat = (SparseCompressedRowMatrixStorage<double>) (this*Transpose()).Storage;

@@ -641,29 +641,29 @@ namespace MathNet.Numerics.LinearAlgebra.Single
             return ret;
         }
 
-        /// <summary>Calculates the L1 norm.</summary>
-        /// <returns>The L1 norm of the matrix.</returns>
+        /// <summary>Calculates the induced L1 norm of this matrix.</summary>
+        /// <returns>The maximum absolute column sum of the matrix.</returns>
         public override double L1Norm()
         {
-            return _data.Aggregate(float.NegativeInfinity, (current, t) => Math.Max(current, Math.Abs(t)));
+            return _data.Aggregate(0f, (current, t) => Math.Max(current, Math.Abs(t)));
         }
 
-        /// <summary>Calculates the L2 norm.</summary>
-        /// <returns>The L2 norm of the matrix.</returns>
+        /// <summary>Calculates the induced L2 norm of the matrix.</summary>
+        /// <returns>The largest singular value of the matrix.</returns>
         public override double L2Norm()
         {
-            return _data.Aggregate(float.NegativeInfinity, (current, t) => Math.Max(current, Math.Abs(t)));
+            return _data.Aggregate(0f, (current, t) => Math.Max(current, Math.Abs(t)));
         }
 
-        /// <summary>Calculates the infinity norm of this matrix.</summary>
-        /// <returns>The infinity norm of this matrix.</returns>
+        /// <summary>Calculates the induced infinity norm of this matrix.</summary>
+        /// <returns>The maximum absolute row sum of the matrix.</returns>
         public override double InfinityNorm()
         {
             return L1Norm();
         }
 
-        /// <summary>Calculates the Frobenius norm of this matrix.</summary>
-        /// <returns>The Frobenius norm of this matrix.</returns>
+        /// <summary>Calculates the entry-wise Frobenius norm of this matrix.</summary>
+        /// <returns>The square root of the sum of the squared values.</returns>
         public override double FrobeniusNorm()
         {
             return Math.Sqrt(_data.Sum(t => t * t));
