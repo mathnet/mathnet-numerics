@@ -66,12 +66,10 @@ Changes as of now:
 - Providers have been moved to a `Providers` namespace and are fully generic again.
 - Simpler provider usage: `Control.UseNativeMKL()`, `Control.UseManaged()`.
 - Matrices/Vectors now have more consistent enumerators, with a variant that skips zeros (useful if sparse).
-- Matrix/Vector creation routines have been simplified and usually no longer require explicit dimensions. New variants to create diagonal matrices, or such where all fields have the same value.
+- Matrix/Vector creation routines have been simplified and usually no longer require explicit dimensions. New variants to create diagonal matrices, or such where all fields have the same value. All functions that take a params array now have an overload accepting an enumerable (e.g. `OfColumnVectors`).
 - Generic Matrix/Vector creating using new builders, e.g. `Matrix<double>.Build.DenseOfEnumerable(...)`
 - Create a matrix from a 2D-array of matrices (top-left aligned within the grid).
-- Matrix.CreateIdentity
-- Matrix.OfColumnArrays and .OfColumnVectors got an IEnumerable overload (in addition to params-array).
-- Add Vector.OfArray (copying the array, consistent with Matrix.OfArray).
+- Add Vector.OfArray (copying the array, consistent with Matrix.OfArray - you can still use the dense vector constructor if you want to use the array directly without copying).
 - More convenient and one more powerful overload of `Matrix.SetSubMatrix`.
 - Matrices/Vectors expose whether storage is dense with a new IsDense property.
 - Various minor performance work.
