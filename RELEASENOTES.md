@@ -35,34 +35,45 @@ See also: [Towards Math.NET Numerics Version 3](http://christoph.ruegg.name/blog
 
 Multiple alpha builds have been made available as NuGet pre-release packages. There are likely more to come as we still have a lot to do; and at least a beta before the final release. All information provided here regarding v3 is preliminary and incomplete.
 
+- All obsolete code has been removed (-4% LoC despite new features).
+- Reworked redundancies, inconsistencies and unfortunate past design choices.
+- Significant namespace simplifications (-30%).
+
+Known Issues:
+
+- F# vector slice setters do not work in VisualStudio 2013 (2012 is fine). Use `SetSubVector` or `SetSlice` instead. Slice getters are fine and matrices are not affected.
+
+Changes as of now:
+
 ### Linear Algebra
 
-- Favoring and optimized for the generic types, e.g. `Vector<double>`.
-- Dropped the `.Generic` in the namespaces and flattened solver namespaces.
-- Adds missing scalar-matrix routines.
-- Point-wise infix operators where supported (F#)
+- Favor and optimize for generic types, e.g. `Vector<double>`.
+- Drop the `.Generic` in the namespaces and flattened solver namespaces.
+- F#: all functions in the modules now fully generic, including the `matrix` function.
+- F#: `SkipZeros` instead of the cryptic `nz` suffix for clarity.
+- Add missing scalar-matrix routines.
+- Add point-wise infix operators `.*`, `./`, `.%` where supported (F#)
+- Vectors explicitly provide proper L1, L2 and L-infinity norms.
+- All norms return the result as double (instead of the specific value type of the matrix/vector).
+- Vectors have a `ConjugateDotProduct` in addition to `DotProduct`.
 - Matrix Factorization types fully generic, easily accessed by new `Matrix<T>` member methods (replacing the extension methods). Discrete implementations no longer visible.
-- All norms now return the result as double (instead of the specific value type of the matrix/vector).
-- QR factorization is now thin by default.
+- QR factorization is thin by default.
 - Matrix factorizations no longer clone their results at point of access.
-- Matrix class now with direct factorization-based `Solve` methods.
+- Add direct factorization-based `Solve` methods to matrix type.
 - Massive iterative solver implementation/design simplification, now mostly generic and functional.
-- New MILU(0) iterative solver preconditioner that is much more efficient and fully leverages sparse data.
-- Vectors now have a `ConjugateDotProduct` in addition to `DotProduct`.
-- Vectors now explicitly provide proper L1, L2 and infinity norms.
-- Matrices/Vectors now have consistent enumerators, with a variant that skips zeros (useful if sparse).
+- New MILU(0) iterative solver preconditioner that is much more efficient and fully leverages sparse data. *~Christian Woltering*
+- Sparse matrix CSR storage format now uses the much more common row pointer convention and is fully compatible with MKL (so there is nothing in the way to add native provider support).
+- Providers have been moved to a `Providers` namespace and are fully generic again.
+- Simpler provider usage: `Control.UseNativeMKL()`, `Control.UseManaged()`.
+- Matrices/Vectors now have more consistent enumerators, with a variant that skips zeros (useful if sparse).
 - Matrix/Vector creation routines have been simplified and usually no longer require explicit dimensions. New variants to create diagonal matrices, or such where all fields have the same value.
 - Generic Matrix/Vector creating using new builders, e.g. `Matrix<double>.Build.DenseOfEnumerable(...)`
 - Create a matrix from a 2D-array of matrices (top-left aligned within the grid).
-- Matrix.CreateIdentity; OfColumnArrays and OfColumnVectors now with an IEnumerable overload.
-- Vector.OfArray (copying the array, consistent with Matrix.OfArray).
+- Matrix.CreateIdentity
+- Matrix.OfColumnArrays and .OfColumnVectors got an IEnumerable overload (in addition to params-array).
+- Add Vector.OfArray (copying the array, consistent with Matrix.OfArray).
 - More convenient and one more powerful overload of `Matrix.SetSubMatrix`.
 - Matrices/Vectors expose whether storage is dense with a new IsDense property.
-- Sparse matrix CSR storage format now uses the much more common row pointer convention.
-- Providers have been moved to a `Providers` namespace and are fully generic again.
-- Simpler provider usage: `Control.UseNativeMKL()`, `Control.UseManaged()`.
-- F#: all functions in the modules now fully generic, including the `matrix` function.
-- F#: `SkipZeros` instead of the cryptic `nz` suffix for clarity.
 - Various minor performance work.
 - BUG: Fix bug in routine to copy a vector into a sub-row of a matrix.
 
@@ -73,39 +84,40 @@ Multiple alpha builds have been made available as NuGet pre-release packages. Th
 
 ### Probability Distributions
 
-- Major cleanup, including xml docs.
-- Direct exposure of distributions functions (PDF, CDF, sometimes also InvCDF).
+- Major API cleanup, including xml docs
+- Xml doc and ToString now use well-known symbols for the parameters.
+- Direct static exposure of distributions functions (PDF, CDF, sometimes also InvCDF).
 - Maximum-likelihood parameter estimation for a couple distributions.
+- All constructors now optionally accept a random source as last argument.
 - Use less problematic RNG-seeds by default, if no random source is provided.
-- Simpler and more composeable random sampling from distributions.
+- Simpler and more composable random sampling from distributions.
 - BUG: Fix hyper-geometric CDF semantics, clarify distribution parameters.
 
 ### Linear Regression
 
 - Reworked `Fit` class, supporting more simple scenarios.
-- More specialized scenarios: `.LinearRegression` namespace.
+- New `.LinearRegression` namespace with more options.
 - Better support for simple regression in multiple dimensions.
 
 ### Build & Packages
 
-- NuGet packages now also include PCL portable profiles 47 (.Net 4.5, Silverlight 5, Windows 8) in addition to the normal .Net 4.0 build and PCL profile 136 (.Net 4.0, WindowsPhone 8, Silverlight 5, Windows 8) as before. Profile 47 uses `System.Numerics` for complex numbers, among others, which is not available in profile 136.
+- NuGet packages now also include the PCL portable profile 47 (.Net 4.5, Silverlight 5, Windows 8) in addition to the normal .Net 4.0 build and PCL profile 136 (.Net 4.0, WindowsPhone 8, Silverlight 5, Windows 8) as before. Profile 47 uses `System.Numerics` for complex numbers, among others, which is not available in profile 136.
 - IO libraries have been removed, replaced with new `.Data` packages (see list on top).
-- Strong-named version for more packages (mostly the F# extensions for now), with the `.Signed` prefix in the NuGet package name.
+- Alternative strong-named versions of more NuGet packages (mostly the F# extensions for now), with the `.Signed` suffix.
 - Reworked solution structure so it works in both Visual Studio 11 (2012) and 12 (2013).
 - We can now run the full unit test suite against the portable builds as well.
 
 ### Misc
 
-- Namespace simplifications, dropping idea of `.Algorithms` namespaces
-- Interpolation: return tuple instead of out parameter
-- Integration: simplification of the double-exponential transformation api design
 - New distance functions in `Distance`: euclidean, manhattan, chebychev distance of arrays or generic vectors. SAD, MAE, SSD, MSE metrics. Hamming distance.
+- Interpolation: return tuple instead of out parameter
+- Integration: simplification of the double-exponential transformation api design.
 - More robust complex Asin/Acos for large real numbers.
 - Complex: common short names for Exp, Ln, Log10, Log.
-- Complex: fix issue where negative zeros caused results of opposite sign in some cases.
+- Complex: fix issue where a *negative zero* may flip the sign in special cases (like `Atanh(2)`, where incidentally MATLAB and Mathematica do not agree on the sign either).
 - Trig functions: common short names instead of very long names.
-- Precision: reworked, now much more consistent.
-- Much less null checks, code generally only throws `ArgumentNullException` if an unexpected null argument would *not* have caused an immediate `NullReferenceException`.
+- Precision: reworked, now much more consistent. **If you use `AlmostEqual` with numbers-between/ULP semantics, please do review your code to make sure you're still using the expected variant!**. If you use the decimal-places semantics, you may need to decrement the digits argument to get the same behavior as before.
+- Much less null checks, our code generally only throws `ArgumentNullException` if an unexpected null argument would *not* have caused an immediate `NullReferenceException`.
 
 v2.6.2 - October 21, 2013
 -------------------------
