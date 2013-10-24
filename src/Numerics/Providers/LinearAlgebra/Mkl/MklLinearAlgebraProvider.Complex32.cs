@@ -697,6 +697,108 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
         }
 
         /// <summary>
+        /// Computes the thin QR factorization of A where M &gt; N.
+        /// </summary>
+        /// <param name="q">On entry, it is the M by N A matrix to factor. On exit,
+        /// it is overwritten with the Q matrix of the QR factorization.</param>
+        /// <param name="rowsA">The number of rows in the A matrix.</param>
+        /// <param name="columnsA">The number of columns in the A matrix.</param>
+        /// <param name="r">On exit, A N by N matrix that holds the R matrix of the
+        /// QR factorization.</param>
+        /// <param name="tau">A min(m,n) vector. On exit, contains additional information
+        /// to be used by the QR solve routine.</param>
+        /// <remarks>This is similar to the GEQRF and ORGQR LAPACK routines.</remarks>
+        [SecuritySafeCritical]
+        public override void ThinQRFactor(Complex32[] q, int rowsA, int columnsA, Complex32[] r, Complex32[] tau)
+        {
+            if (r == null)
+            {
+                throw new ArgumentNullException("r");
+            }
+
+            if (q == null)
+            {
+                throw new ArgumentNullException("q");
+            }
+
+            if (q.Length != rowsA * columnsA)
+            {
+                throw new ArgumentException(string.Format(Resources.ArgumentArrayWrongLength, "rowsR * columnsR"), "q");
+            }
+
+            if (tau.Length < Math.Min(rowsA, columnsA))
+            {
+                throw new ArgumentException(string.Format(Resources.ArrayTooSmall, "min(m,n)"), "tau");
+            }
+
+            if (r.Length != columnsA * columnsA)
+            {
+                throw new ArgumentException(string.Format(Resources.ArgumentArrayWrongLength, "columnsA * columnsA"), "r");
+            }
+
+            var work = new Complex32[columnsA * Control.BlockSize];
+            SafeNativeMethods.c_qr_thin_factor(rowsA, columnsA, q, tau, r, work, work.Length);
+        }
+
+        /// <summary>
+        /// Computes the thin QR factorization of A where M &gt; N.
+        /// </summary>
+        /// <param name="q">On entry, it is the M by N A matrix to factor. On exit,
+        /// it is overwritten with the Q matrix of the QR factorization.</param>
+        /// <param name="rowsA">The number of rows in the A matrix.</param>
+        /// <param name="columnsA">The number of columns in the A matrix.</param>
+        /// <param name="r">On exit, A N by N matrix that holds the R matrix of the
+        /// QR factorization.</param>
+        /// <param name="tau">A min(m,n) vector. On exit, contains additional information
+        /// to be used by the QR solve routine.</param>
+        /// <param name="work">The work array. The array must have a length of at least N,
+        /// but should be N*blocksize. The blocksize is machine dependent. On exit, work[0] contains the optimal
+        /// work size value.</param>
+        /// <remarks>This is similar to the GEQRF and ORGQR LAPACK routines.</remarks>
+        [SecuritySafeCritical]
+        public override void ThinQRFactor(Complex32[] q, int rowsA, int columnsA, Complex32[] r, Complex32[] tau, Complex32[] work)
+        {
+            if (r == null)
+            {
+                throw new ArgumentNullException("r");
+            }
+
+            if (q == null)
+            {
+                throw new ArgumentNullException("q");
+            }
+
+            if (work == null)
+            {
+                throw new ArgumentNullException("q");
+            }
+
+            if (q.Length != rowsA * columnsA)
+            {
+                throw new ArgumentException(string.Format(Resources.ArgumentArrayWrongLength, "rowsR * columnsR"), "q");
+            }
+
+            if (tau.Length < Math.Min(rowsA, columnsA))
+            {
+                throw new ArgumentException(string.Format(Resources.ArrayTooSmall, "min(m,n)"), "tau");
+            }
+
+            if (r.Length != columnsA * columnsA)
+            {
+                throw new ArgumentException(
+                    string.Format(Resources.ArgumentArrayWrongLength, "columnsA * columnsA"), "r");
+            }
+
+            if (work.Length < columnsA * Control.BlockSize)
+            {
+                work[0] = columnsA * Control.BlockSize;
+                throw new ArgumentException(Resources.WorkArrayTooSmall, "work");
+            }
+
+            SafeNativeMethods.c_qr_thin_factor(rowsA, columnsA, q, tau, r, work, work.Length);
+        }
+
+        /// <summary>
         /// Solves A*X=B for X using QR factorization of A.
         /// </summary>
         /// <param name="a">The A matrix.</param>

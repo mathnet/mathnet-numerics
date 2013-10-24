@@ -741,7 +741,6 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
             SafeNativeMethods.d_qr_thin_factor(rowsA, columnsA, q, tau, r, work, work.Length);
         }
 
-
         /// <summary>
         /// Computes the thin QR factorization of A where M &gt; N.
         /// </summary>
