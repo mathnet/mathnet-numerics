@@ -70,6 +70,26 @@ namespace MathNet.Numerics.Statistics
         /// Returns NaN if data is empty or any entry is NaN.
         /// </summary>
         /// <param name="data">Sample array, no sorting is assumed.</param>
+        public static float Minimum(float[] data)
+        {
+            if (data.Length == 0) return float.NaN;
+
+            var min = float.PositiveInfinity;
+            for (int i = 0; i < data.Length; i++)
+            {
+                if (data[i] < min || float.IsNaN(data[i]))
+                {
+                    min = data[i];
+                }
+            }
+            return min;
+        }
+
+        /// <summary>
+        /// Returns the smallest value from the unsorted data array.
+        /// Returns NaN if data is empty or any entry is NaN.
+        /// </summary>
+        /// <param name="data">Sample array, no sorting is assumed.</param>
         public static double Maximum(double[] data)
         {
             if (data.Length == 0) return double.NaN;
@@ -78,6 +98,26 @@ namespace MathNet.Numerics.Statistics
             for (int i = 0; i < data.Length; i++)
             {
                 if (data[i] > max || double.IsNaN(data[i]))
+                {
+                    max = data[i];
+                }
+            }
+            return max;
+        }
+
+        /// <summary>
+        /// Returns the smallest value from the unsorted data array.
+        /// Returns NaN if data is empty or any entry is NaN.
+        /// </summary>
+        /// <param name="data">Sample array, no sorting is assumed.</param>
+        public static float Maximum(float[] data)
+        {
+            if (data.Length == 0) return float.NaN;
+
+            var max = float.NegativeInfinity;
+            for (int i = 0; i < data.Length; i++)
+            {
+                if (data[i] > max || float.IsNaN(data[i]))
                 {
                     max = data[i];
                 }
