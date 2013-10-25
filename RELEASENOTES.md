@@ -58,16 +58,17 @@ Changes as of now:
 - Vectors have a `ConjugateDotProduct` in addition to `DotProduct`.
 - Matrix Factorization types fully generic, easily accessed by new `Matrix<T>` member methods (replacing the extension methods). Discrete implementations no longer visible.
 - QR factorization is thin by default.
+- Thin QR factorization uses MKL if enabled for all types (previously just `double`)
 - Matrix factorizations no longer clone their results at point of access.
 - Add direct factorization-based `Solve` methods to matrix type.
-- Massive iterative solver implementation/design simplification, now mostly generic and functional.
+- Massive iterative solver implementation/design simplification, now mostly generic and a bit more functional-style.
 - New MILU(0) iterative solver preconditioner that is much more efficient and fully leverages sparse data. *~Christian Woltering*
 - Sparse matrix CSR storage format now uses the much more common row pointer convention and is fully compatible with MKL (so there is nothing in the way to add native provider support).
 - Providers have been moved to a `Providers` namespace and are fully generic again.
 - Simpler provider usage: `Control.UseNativeMKL()`, `Control.UseManaged()`.
 - Matrices/Vectors now have more consistent enumerators, with a variant that skips zeros (useful if sparse).
 - Matrix/Vector creation routines have been simplified and usually no longer require explicit dimensions. New variants to create diagonal matrices, or such where all fields have the same value. All functions that take a params array now have an overload accepting an enumerable (e.g. `OfColumnVectors`).
-- Generic Matrix/Vector creating using new builders, e.g. `Matrix<double>.Build.DenseOfEnumerable(...)`
+- Generic Matrix/Vector creation using builders, e.g. `Matrix<double>.Build.DenseOfEnumerable(...)`
 - Create a matrix from a 2D-array of matrices (top-left aligned within the grid).
 - Add Vector.OfArray (copying the array, consistent with Matrix.OfArray - you can still use the dense vector constructor if you want to use the array directly without copying).
 - More convenient and one more powerful overload of `Matrix.SetSubMatrix`.
