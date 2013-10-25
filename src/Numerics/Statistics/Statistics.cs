@@ -61,7 +61,6 @@ namespace MathNet.Numerics.Statistics
         /// <returns>The minimum value in the sample data.</returns>
         public static double Minimum(this IEnumerable<double?> data)
         {
-            if (data == null) throw new ArgumentNullException("data");
             return StreamingStatistics.Minimum(data.Where(d => d.HasValue).Select(d => d.Value));
         }
 
@@ -88,7 +87,6 @@ namespace MathNet.Numerics.Statistics
         /// <returns>The maximum value in the sample data.</returns>
         public static double Maximum(this IEnumerable<double?> data)
         {
-            if (data == null) throw new ArgumentNullException("data");
             return StreamingStatistics.Maximum(data.Where(d => d.HasValue).Select(d => d.Value));
         }
 
@@ -115,7 +113,6 @@ namespace MathNet.Numerics.Statistics
         /// <returns>The mean of the sample.</returns>
         public static double Mean(this IEnumerable<double?> data)
         {
-            if (data == null) throw new ArgumentNullException("data");
             return StreamingStatistics.Mean(data.Where(d => d.HasValue).Select(d => d.Value));
         }
 
@@ -142,7 +139,6 @@ namespace MathNet.Numerics.Statistics
         /// <param name="samples">A subset of samples, sampled from the full population.</param>
         public static double Variance(this IEnumerable<double?> samples)
         {
-            if (samples == null) throw new ArgumentNullException("samples");
             return StreamingStatistics.Variance(samples.Where(d => d.HasValue).Select(d => d.Value));
         }
 
@@ -169,7 +165,6 @@ namespace MathNet.Numerics.Statistics
         /// <param name="population">The full population data.</param>
         public static double PopulationVariance(this IEnumerable<double?> population)
         {
-            if (population == null) throw new ArgumentNullException("population");
             return StreamingStatistics.PopulationVariance(population.Where(d => d.HasValue).Select(d => d.Value));
         }
 
@@ -196,7 +191,6 @@ namespace MathNet.Numerics.Statistics
         /// <param name="samples">A subset of samples, sampled from the full population.</param>
         public static double StandardDeviation(this IEnumerable<double?> samples)
         {
-            if (samples == null) throw new ArgumentNullException("samples");
             return StreamingStatistics.StandardDeviation(samples.Where(d => d.HasValue).Select(d => d.Value));
         }
 
@@ -223,7 +217,6 @@ namespace MathNet.Numerics.Statistics
         /// <param name="population">The full population data.</param>
         public static double PopulationStandardDeviation(this IEnumerable<double?> population)
         {
-            if (population == null) throw new ArgumentNullException("population");
             return StreamingStatistics.PopulationStandardDeviation(population.Where(d => d.HasValue).Select(d => d.Value));
         }
 
@@ -268,8 +261,6 @@ namespace MathNet.Numerics.Statistics
         /// <param name="samples2">A subset of samples, sampled from the full population.</param>
         public static double Covariance(this IEnumerable<double?> samples1, IEnumerable<double?> samples2)
         {
-            if (samples1 == null) throw new ArgumentNullException("samples1");
-            if (samples2 == null) throw new ArgumentNullException("samples2");
             return StreamingStatistics.Covariance(samples1.Where(d => d.HasValue).Select(d => d.Value), samples2.Where(d => d.HasValue).Select(d => d.Value));
         }
 
@@ -299,8 +290,6 @@ namespace MathNet.Numerics.Statistics
         /// <param name="population2">The full population data.</param>
         public static double PopulationCovariance(this IEnumerable<double?> population1, IEnumerable<double?> population2)
         {
-            if (population1 == null) throw new ArgumentNullException("population1");
-            if (population2 == null) throw new ArgumentNullException("population2");
             return StreamingStatistics.PopulationCovariance(population1.Where(d => d.HasValue).Select(d => d.Value), population2.Where(d => d.HasValue).Select(d => d.Value));
         }
 
@@ -310,7 +299,6 @@ namespace MathNet.Numerics.Statistics
         /// <param name="data">The data sample sequence.</param>
         public static double Median(this IEnumerable<double> data)
         {
-            if (data == null) throw new ArgumentNullException("data");
             var array = data.ToArray();
             return ArrayStatistics.MedianInplace(array);
         }
@@ -321,7 +309,6 @@ namespace MathNet.Numerics.Statistics
         /// <param name="data">The data sample sequence.</param>
         public static double Median(this IEnumerable<double?> data)
         {
-            if (data == null) throw new ArgumentNullException("data");
             var array = data.Where(d => d.HasValue).Select(d => d.Value).ToArray();
             return ArrayStatistics.MedianInplace(array);
         }
@@ -336,7 +323,6 @@ namespace MathNet.Numerics.Statistics
         /// <param name="tau">Quantile selector, between 0.0 and 1.0 (inclusive).</param>
         public static double Quantile(this IEnumerable<double> data, double tau)
         {
-            if (data == null) throw new ArgumentNullException("data");
             var array = data.ToArray();
             return ArrayStatistics.QuantileInplace(array, tau);
         }
@@ -351,7 +337,6 @@ namespace MathNet.Numerics.Statistics
         /// <param name="tau">Quantile selector, between 0.0 and 1.0 (inclusive).</param>
         public static double Quantile(this IEnumerable<double?> data, double tau)
         {
-            if (data == null) throw new ArgumentNullException("data");
             var array = data.Where(d => d.HasValue).Select(d => d.Value).ToArray();
             return ArrayStatistics.QuantileInplace(array, tau);
         }
@@ -365,7 +350,6 @@ namespace MathNet.Numerics.Statistics
         /// <param name="data">The data sample sequence.</param>
         public static Func<double,double> QuantileFunc(this IEnumerable<double> data)
         {
-            if (data == null) throw new ArgumentNullException("data");
             var array = data.ToArray();
             Array.Sort(array);
             return tau => SortedArrayStatistics.Quantile(array, tau);
@@ -380,7 +364,6 @@ namespace MathNet.Numerics.Statistics
         /// <param name="data">The data sample sequence.</param>
         public static Func<double, double> QuantileFunc(this IEnumerable<double?> data)
         {
-            if (data == null) throw new ArgumentNullException("data");
             var array = data.Where(d => d.HasValue).Select(d => d.Value).ToArray();
             Array.Sort(array);
             return tau => SortedArrayStatistics.Quantile(array, tau);
@@ -393,7 +376,6 @@ namespace MathNet.Numerics.Statistics
         /// <param name="tau">Quantile selector, between 0.0 and 1.0 (inclusive).</param>
         public static double InverseCDF(this IEnumerable<double> data, double tau)
         {
-            if (data == null) throw new ArgumentNullException("data");
             var array = data.ToArray();
             return ArrayStatistics.QuantileCustomInplace(array, tau, QuantileDefinition.InverseCDF);
         }
@@ -405,7 +387,6 @@ namespace MathNet.Numerics.Statistics
         /// <param name="tau">Quantile selector, between 0.0 and 1.0 (inclusive).</param>
         public static double InverseCDF(this IEnumerable<double?> data, double tau)
         {
-            if (data == null) throw new ArgumentNullException("data");
             var array = data.Where(d => d.HasValue).Select(d => d.Value).ToArray();
             return ArrayStatistics.QuantileCustomInplace(array, tau, QuantileDefinition.InverseCDF);
         }
@@ -416,7 +397,6 @@ namespace MathNet.Numerics.Statistics
         /// <param name="data">The data sample sequence.</param>
         public static Func<double, double> InverseCDFFunc(this IEnumerable<double> data)
         {
-            if (data == null) throw new ArgumentNullException("data");
             var array = data.ToArray();
             Array.Sort(array);
             return tau => SortedArrayStatistics.QuantileCustom(array, tau, QuantileDefinition.InverseCDF);
@@ -428,7 +408,6 @@ namespace MathNet.Numerics.Statistics
         /// <param name="data">The data sample sequence.</param>
         public static Func<double, double> InverseCDFFunc(this IEnumerable<double?> data)
         {
-            if (data == null) throw new ArgumentNullException("data");
             var array = data.Where(d => d.HasValue).Select(d => d.Value).ToArray();
             Array.Sort(array);
             return tau => SortedArrayStatistics.QuantileCustom(array, tau, QuantileDefinition.InverseCDF);
@@ -445,7 +424,6 @@ namespace MathNet.Numerics.Statistics
         /// <param name="definition">Quantile definition, to choose what product/definition it should be consistent with</param>
         public static double QuantileCustom(this IEnumerable<double> data, double tau, QuantileDefinition definition)
         {
-            if (data == null) throw new ArgumentNullException("data");
             var array = data.ToArray();
             return ArrayStatistics.QuantileCustomInplace(array, tau, definition);
         }
@@ -461,7 +439,6 @@ namespace MathNet.Numerics.Statistics
         /// <param name="definition">Quantile definition, to choose what product/definition it should be consistent with</param>
         public static double QuantileCustom(this IEnumerable<double?> data, double tau, QuantileDefinition definition)
         {
-            if (data == null) throw new ArgumentNullException("data");
             var array = data.Where(d => d.HasValue).Select(d => d.Value).ToArray();
             return ArrayStatistics.QuantileCustomInplace(array, tau, definition);
         }
@@ -476,7 +453,6 @@ namespace MathNet.Numerics.Statistics
         /// <param name="definition">Quantile definition, to choose what product/definition it should be consistent with</param>
         public static Func<double, double> QuantileCustomFunc(this IEnumerable<double> data, QuantileDefinition definition)
         {
-            if (data == null) throw new ArgumentNullException("data");
             var array = data.ToArray();
             Array.Sort(array);
             return tau => SortedArrayStatistics.QuantileCustom(array, tau, definition);
@@ -492,7 +468,6 @@ namespace MathNet.Numerics.Statistics
         /// <param name="definition">Quantile definition, to choose what product/definition it should be consistent with</param>
         public static Func<double, double> QuantileCustomFunc(this IEnumerable<double?> data, QuantileDefinition definition)
         {
-            if (data == null) throw new ArgumentNullException("data");
             var array = data.Where(d => d.HasValue).Select(d => d.Value).ToArray();
             Array.Sort(array);
             return tau => SortedArrayStatistics.QuantileCustom(array, tau, definition);
@@ -507,7 +482,6 @@ namespace MathNet.Numerics.Statistics
         /// <param name="p">Percentile selector, between 0 and 100 (inclusive).</param>
         public static double Percentile(this IEnumerable<double> data, int p)
         {
-            if (data == null) throw new ArgumentNullException("data");
             var array = data.ToArray();
             return ArrayStatistics.PercentileInplace(array, p);
         }
@@ -521,7 +495,6 @@ namespace MathNet.Numerics.Statistics
         /// <param name="p">Percentile selector, between 0 and 100 (inclusive).</param>
         public static double Percentile(this IEnumerable<double?> data, int p)
         {
-            if (data == null) throw new ArgumentNullException("data");
             var array = data.Where(d => d.HasValue).Select(d => d.Value).ToArray();
             return ArrayStatistics.PercentileInplace(array, p);
         }
@@ -534,7 +507,6 @@ namespace MathNet.Numerics.Statistics
         /// <param name="data">The data sample sequence.</param>
         public static Func<int, double> PercentileFunc(this IEnumerable<double> data)
         {
-            if (data == null) throw new ArgumentNullException("data");
             var array = data.ToArray();
             Array.Sort(array);
             return p => SortedArrayStatistics.Percentile(array, p);
@@ -548,7 +520,6 @@ namespace MathNet.Numerics.Statistics
         /// <param name="data">The data sample sequence.</param>
         public static Func<int, double> PercentileFunc(this IEnumerable<double?> data)
         {
-            if (data == null) throw new ArgumentNullException("data");
             var array = data.Where(d => d.HasValue).Select(d => d.Value).ToArray();
             Array.Sort(array);
             return p => SortedArrayStatistics.Percentile(array, p);
@@ -561,7 +532,6 @@ namespace MathNet.Numerics.Statistics
         /// <param name="data">The data sample sequence.</param>
         public static double LowerQuartile(this IEnumerable<double> data)
         {
-            if (data == null) throw new ArgumentNullException("data");
             var array = data.ToArray();
             return ArrayStatistics.LowerQuartileInplace(array);
         }
@@ -573,7 +543,6 @@ namespace MathNet.Numerics.Statistics
         /// <param name="data">The data sample sequence.</param>
         public static double LowerQuartile(this IEnumerable<double?> data)
         {
-            if (data == null) throw new ArgumentNullException("data");
             var array = data.Where(d => d.HasValue).Select(d => d.Value).ToArray();
             return ArrayStatistics.LowerQuartileInplace(array);
         }
@@ -585,7 +554,6 @@ namespace MathNet.Numerics.Statistics
         /// <param name="data">The data sample sequence.</param>
         public static double UpperQuartile(this IEnumerable<double> data)
         {
-            if (data == null) throw new ArgumentNullException("data");
             var array = data.ToArray();
             return ArrayStatistics.UpperQuartileInplace(array);
         }
@@ -597,7 +565,6 @@ namespace MathNet.Numerics.Statistics
         /// <param name="data">The data sample sequence.</param>
         public static double UpperQuartile(this IEnumerable<double?> data)
         {
-            if (data == null) throw new ArgumentNullException("data");
             var array = data.Where(d => d.HasValue).Select(d => d.Value).ToArray();
             return ArrayStatistics.UpperQuartileInplace(array);
         }
@@ -609,7 +576,6 @@ namespace MathNet.Numerics.Statistics
         /// <param name="data">The data sample sequence.</param>
         public static double InterquartileRange(this IEnumerable<double> data)
         {
-            if (data == null) throw new ArgumentNullException("data");
             var array = data.ToArray();
             return ArrayStatistics.InterquartileRangeInplace(array);
         }
@@ -621,7 +587,6 @@ namespace MathNet.Numerics.Statistics
         /// <param name="data">The data sample sequence.</param>
         public static double InterquartileRange(this IEnumerable<double?> data)
         {
-            if (data == null) throw new ArgumentNullException("data");
             var array = data.Where(d => d.HasValue).Select(d => d.Value).ToArray();
             return ArrayStatistics.InterquartileRangeInplace(array);
         }
@@ -633,7 +598,6 @@ namespace MathNet.Numerics.Statistics
         /// <param name="data">The data sample sequence.</param>
         public static double[] FiveNumberSummary(this IEnumerable<double> data)
         {
-            if (data == null) throw new ArgumentNullException("data");
             var array = data.ToArray();
             return ArrayStatistics.FiveNumberSummaryInplace(array);
         }
@@ -645,7 +609,6 @@ namespace MathNet.Numerics.Statistics
         /// <param name="data">The data sample sequence.</param>
         public static double[] FiveNumberSummary(this IEnumerable<double?> data)
         {
-            if (data == null) throw new ArgumentNullException("data");
             var array = data.Where(d => d.HasValue).Select(d => d.Value).ToArray();
             return ArrayStatistics.FiveNumberSummaryInplace(array);
         }
@@ -657,7 +620,6 @@ namespace MathNet.Numerics.Statistics
         /// <param name="order">One-based order of the statistic, must be between 1 and N (inclusive).</param>
         public static double OrderStatistic(IEnumerable<double> data, int order)
         {
-            if (data == null) throw new ArgumentNullException("data");
             var array = data.ToArray();
             return ArrayStatistics.OrderStatisticInplace(array, order);
         }
@@ -668,7 +630,6 @@ namespace MathNet.Numerics.Statistics
         /// <param name="data">The data sample sequence.</param>
         public static Func<int, double> OrderStatisticFunc(IEnumerable<double> data)
         {
-            if (data == null) throw new ArgumentNullException("data");
             var array = data.ToArray();
             Array.Sort(array);
             return order => SortedArrayStatistics.OrderStatistic(array, order);

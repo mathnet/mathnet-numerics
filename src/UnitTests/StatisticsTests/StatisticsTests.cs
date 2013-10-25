@@ -63,53 +63,56 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
         {
             double[] data = null;
 
-            Assert.Throws<ArgumentNullException>(() => Statistics.Minimum(data));
-            Assert.Throws<ArgumentNullException>(() => Statistics.Maximum(data));
-            Assert.Throws<ArgumentNullException>(() => Statistics.Mean(data));
-            Assert.Throws<ArgumentNullException>(() => Statistics.Median(data));
-            Assert.Throws<ArgumentNullException>(() => Statistics.Quantile(data, 0.3));
-            Assert.Throws<ArgumentNullException>(() => Statistics.Variance(data));
-            Assert.Throws<ArgumentNullException>(() => Statistics.StandardDeviation(data));
-            Assert.Throws<ArgumentNullException>(() => Statistics.PopulationVariance(data));
-            Assert.Throws<ArgumentNullException>(() => Statistics.PopulationStandardDeviation(data));
-            Assert.Throws<ArgumentNullException>(() => Statistics.Covariance(data, data));
-            Assert.Throws<ArgumentNullException>(() => Statistics.PopulationCovariance(data, data));
+            // ReSharper disable InvokeAsExtensionMethod
+            Assert.That(() => Statistics.Minimum(data), Throws.Exception);
+            Assert.That(() => Statistics.Maximum(data), Throws.Exception);
+            Assert.That(() => Statistics.Mean(data), Throws.Exception);
+            Assert.That(() => Statistics.Median(data), Throws.Exception);
+            Assert.That(() => Statistics.Quantile(data, 0.3), Throws.Exception);
+            Assert.That(() => Statistics.Variance(data), Throws.Exception);
+            Assert.That(() => Statistics.StandardDeviation(data), Throws.Exception);
+            Assert.That(() => Statistics.PopulationVariance(data), Throws.Exception);
+            Assert.That(() => Statistics.PopulationStandardDeviation(data), Throws.Exception);
+            Assert.That(() => Statistics.Covariance(data, data), Throws.Exception);
+            Assert.That(() => Statistics.PopulationCovariance(data, data), Throws.Exception);
+            // ReSharper restore InvokeAsExtensionMethod
 
-            Assert.Throws<ArgumentNullException>(() => SortedArrayStatistics.Minimum(data));
-            Assert.Throws<ArgumentNullException>(() => SortedArrayStatistics.Maximum(data));
-            Assert.Throws<ArgumentNullException>(() => SortedArrayStatistics.OrderStatistic(data, 1));
-            Assert.Throws<ArgumentNullException>(() => SortedArrayStatistics.Median(data));
-            Assert.Throws<ArgumentNullException>(() => SortedArrayStatistics.LowerQuartile(data));
-            Assert.Throws<ArgumentNullException>(() => SortedArrayStatistics.UpperQuartile(data));
-            Assert.Throws<ArgumentNullException>(() => SortedArrayStatistics.Percentile(data, 30));
-            Assert.Throws<ArgumentNullException>(() => SortedArrayStatistics.Quantile(data, 0.3));
-            Assert.Throws<ArgumentNullException>(() => SortedArrayStatistics.QuantileCustom(data, 0.3, 0, 0, 1, 0));
-            Assert.Throws<ArgumentNullException>(() => SortedArrayStatistics.QuantileCustom(data, 0.3, QuantileDefinition.Nearest));
-            Assert.Throws<ArgumentNullException>(() => SortedArrayStatistics.InterquartileRange(data));
-            Assert.Throws<ArgumentNullException>(() => SortedArrayStatistics.FiveNumberSummary(data));
+            Assert.That(() => SortedArrayStatistics.Minimum(data), Throws.Exception.TypeOf<NullReferenceException>());
+            Assert.That(() => SortedArrayStatistics.Minimum(data), Throws.Exception.TypeOf<NullReferenceException>());
+            Assert.That(() => SortedArrayStatistics.Maximum(data), Throws.Exception.TypeOf<NullReferenceException>());
+            Assert.That(() => SortedArrayStatistics.OrderStatistic(data, 1), Throws.Exception.TypeOf<NullReferenceException>());
+            Assert.That(() => SortedArrayStatistics.Median(data), Throws.Exception.TypeOf<NullReferenceException>());
+            Assert.That(() => SortedArrayStatistics.LowerQuartile(data), Throws.Exception.TypeOf<NullReferenceException>());
+            Assert.That(() => SortedArrayStatistics.UpperQuartile(data), Throws.Exception.TypeOf<NullReferenceException>());
+            Assert.That(() => SortedArrayStatistics.Percentile(data, 30), Throws.Exception.TypeOf<NullReferenceException>());
+            Assert.That(() => SortedArrayStatistics.Quantile(data, 0.3), Throws.Exception.TypeOf<NullReferenceException>());
+            Assert.That(() => SortedArrayStatistics.QuantileCustom(data, 0.3, 0, 0, 1, 0), Throws.Exception.TypeOf<NullReferenceException>());
+            Assert.That(() => SortedArrayStatistics.QuantileCustom(data, 0.3, QuantileDefinition.Nearest), Throws.Exception.TypeOf<NullReferenceException>());
+            Assert.That(() => SortedArrayStatistics.InterquartileRange(data), Throws.Exception.TypeOf<NullReferenceException>());
+            Assert.That(() => SortedArrayStatistics.FiveNumberSummary(data), Throws.Exception.TypeOf<NullReferenceException>());
 
-            Assert.Throws<ArgumentNullException>(() => ArrayStatistics.Minimum(data));
-            Assert.Throws<ArgumentNullException>(() => ArrayStatistics.Maximum(data));
-            Assert.Throws<ArgumentNullException>(() => ArrayStatistics.OrderStatisticInplace(data, 1));
-            Assert.Throws<ArgumentNullException>(() => ArrayStatistics.Mean(data));
-            Assert.Throws<ArgumentNullException>(() => ArrayStatistics.Variance(data));
-            Assert.Throws<ArgumentNullException>(() => ArrayStatistics.StandardDeviation(data));
-            Assert.Throws<ArgumentNullException>(() => ArrayStatistics.PopulationVariance(data));
-            Assert.Throws<ArgumentNullException>(() => ArrayStatistics.PopulationStandardDeviation(data));
-            Assert.Throws<ArgumentNullException>(() => ArrayStatistics.Covariance(data, data));
-            Assert.Throws<ArgumentNullException>(() => ArrayStatistics.PopulationCovariance(data, data));
-            Assert.Throws<ArgumentNullException>(() => ArrayStatistics.MedianInplace(data));
-            Assert.Throws<ArgumentNullException>(() => ArrayStatistics.QuantileInplace(data, 0.3));
+            Assert.That(() => ArrayStatistics.Minimum(data), Throws.Exception.TypeOf<NullReferenceException>());
+            Assert.That(() => ArrayStatistics.Maximum(data), Throws.Exception.TypeOf<NullReferenceException>());
+            Assert.That(() => ArrayStatistics.OrderStatisticInplace(data, 1), Throws.Exception.TypeOf<NullReferenceException>());
+            Assert.That(() => ArrayStatistics.Mean(data), Throws.Exception.TypeOf<NullReferenceException>());
+            Assert.That(() => ArrayStatistics.Variance(data), Throws.Exception.TypeOf<NullReferenceException>());
+            Assert.That(() => ArrayStatistics.StandardDeviation(data), Throws.Exception.TypeOf<NullReferenceException>());
+            Assert.That(() => ArrayStatistics.PopulationVariance(data), Throws.Exception.TypeOf<NullReferenceException>());
+            Assert.That(() => ArrayStatistics.PopulationStandardDeviation(data), Throws.Exception.TypeOf<NullReferenceException>());
+            Assert.That(() => ArrayStatistics.Covariance(data, data), Throws.Exception.TypeOf<NullReferenceException>());
+            Assert.That(() => ArrayStatistics.PopulationCovariance(data, data), Throws.Exception.TypeOf<NullReferenceException>());
+            Assert.That(() => ArrayStatistics.MedianInplace(data), Throws.Exception.TypeOf<NullReferenceException>());
+            Assert.That(() => ArrayStatistics.QuantileInplace(data, 0.3), Throws.Exception.TypeOf<NullReferenceException>());
 
-            Assert.Throws<ArgumentNullException>(() => StreamingStatistics.Minimum(data));
-            Assert.Throws<ArgumentNullException>(() => StreamingStatistics.Maximum(data));
-            Assert.Throws<ArgumentNullException>(() => StreamingStatistics.Mean(data));
-            Assert.Throws<ArgumentNullException>(() => StreamingStatistics.Variance(data));
-            Assert.Throws<ArgumentNullException>(() => StreamingStatistics.StandardDeviation(data));
-            Assert.Throws<ArgumentNullException>(() => StreamingStatistics.PopulationVariance(data));
-            Assert.Throws<ArgumentNullException>(() => StreamingStatistics.PopulationStandardDeviation(data));
-            Assert.Throws<ArgumentNullException>(() => StreamingStatistics.Covariance(data, data));
-            Assert.Throws<ArgumentNullException>(() => StreamingStatistics.PopulationCovariance(data, data));
+            Assert.That(() => StreamingStatistics.Minimum(data), Throws.Exception.TypeOf<NullReferenceException>());
+            Assert.That(() => StreamingStatistics.Maximum(data), Throws.Exception.TypeOf<NullReferenceException>());
+            Assert.That(() => StreamingStatistics.Mean(data), Throws.Exception.TypeOf<NullReferenceException>());
+            Assert.That(() => StreamingStatistics.Variance(data), Throws.Exception.TypeOf<NullReferenceException>());
+            Assert.That(() => StreamingStatistics.StandardDeviation(data), Throws.Exception.TypeOf<NullReferenceException>());
+            Assert.That(() => StreamingStatistics.PopulationVariance(data), Throws.Exception.TypeOf<NullReferenceException>());
+            Assert.That(() => StreamingStatistics.PopulationStandardDeviation(data), Throws.Exception.TypeOf<NullReferenceException>());
+            Assert.That(() => StreamingStatistics.Covariance(data, data), Throws.Exception.TypeOf<NullReferenceException>());
+            Assert.That(() => StreamingStatistics.PopulationCovariance(data, data), Throws.Exception.TypeOf<NullReferenceException>());
         }
 
         [Test]

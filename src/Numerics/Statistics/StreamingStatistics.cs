@@ -50,8 +50,6 @@ namespace MathNet.Numerics.Statistics
         /// <param name="stream">Sample stream, no sorting is assumed.</param>
         public static double Minimum(IEnumerable<double> stream)
         {
-            if (stream == null) throw new ArgumentNullException("stream");
-
             var min = double.PositiveInfinity;
             bool any = false;
             foreach (var d in stream)
@@ -72,8 +70,6 @@ namespace MathNet.Numerics.Statistics
         /// <param name="stream">Sample stream, no sorting is assumed.</param>
         public static double Maximum(IEnumerable<double> stream)
         {
-            if (stream == null) throw new ArgumentNullException("stream");
-
             var max = double.NegativeInfinity;
             bool any = false;
             foreach (var d in stream)
@@ -94,8 +90,6 @@ namespace MathNet.Numerics.Statistics
         /// <param name="stream">Sample stream, no sorting is assumed.</param>
         public static double Mean(IEnumerable<double> stream)
         {
-            if (stream == null) throw new ArgumentNullException("stream");
-
             double mean = 0;
             ulong m = 0;
             bool any = false;
@@ -115,12 +109,9 @@ namespace MathNet.Numerics.Statistics
         /// <param name="samples">Sample stream, no sorting is assumed.</param>
         public static double Variance(IEnumerable<double> samples)
         {
-            if (samples == null) throw new ArgumentNullException("samples");
-
             double variance = 0;
             double sum = 0;
             ulong count = 0;
-
             using (var iterator = samples.GetEnumerator())
             {
                 if (iterator.MoveNext())
@@ -138,7 +129,6 @@ namespace MathNet.Numerics.Statistics
                     variance += (diff*diff)/(count*(count - 1));
                 }
             }
-
             return count > 1 ? variance/(count - 1) : double.NaN;
         }
 
@@ -150,12 +140,9 @@ namespace MathNet.Numerics.Statistics
         /// <param name="population">Sample stream, no sorting is assumed.</param>
         public static double PopulationVariance(IEnumerable<double> population)
         {
-            if (population == null) throw new ArgumentNullException("population");
-
             double variance = 0;
             double sum = 0;
             ulong count = 0;
-
             using (var iterator = population.GetEnumerator())
             {
                 if (iterator.MoveNext())
@@ -173,7 +160,6 @@ namespace MathNet.Numerics.Statistics
                     variance += (diff*diff)/(count*(count - 1));
                 }
             }
-
             return variance/count;
         }
 
@@ -207,13 +193,10 @@ namespace MathNet.Numerics.Statistics
         /// <param name="samples">Sample stream, no sorting is assumed.</param>
         public static Tuple<double, double> MeanVariance(IEnumerable<double> samples)
         {
-            if (samples == null) throw new ArgumentNullException("samples");
-
             double mean = 0;
             double variance = 0;
             double sum = 0;
             ulong count = 0;
-
             using (var iterator = samples.GetEnumerator())
             {
                 if (iterator.MoveNext())
@@ -232,7 +215,6 @@ namespace MathNet.Numerics.Statistics
                     mean += (xi - mean) / count;
                 }
             }
-
             return new Tuple<double, double>(
                 count > 0 ? mean : double.NaN,
                 count > 1 ? variance/(count - 1) : double.NaN);
@@ -247,16 +229,11 @@ namespace MathNet.Numerics.Statistics
         /// <param name="samples2">Second sample stream.</param>
         public static double Covariance(IEnumerable<double> samples1, IEnumerable<double> samples2)
         {
-            if (samples1 == null) throw new ArgumentNullException("samples1");
-            if (samples2 == null) throw new ArgumentNullException("samples2");
-
             // https://en.wikipedia.org/wiki/Algorithms_for_calculating_variance
-
             var n = 0;
             var mean1 = 0.0;
             var mean2 = 0.0;
             var comoment = 0.0;
-
             using (var s1 = samples1.GetEnumerator())
             using (var s2 = samples2.GetEnumerator())
             {
@@ -279,7 +256,6 @@ namespace MathNet.Numerics.Statistics
                     throw new ArgumentException(Resources.ArgumentVectorsSameLength);
                 }
             }
-
             return n > 1 ? comoment/(n - 1) : double.NaN;
         }
 
@@ -292,16 +268,11 @@ namespace MathNet.Numerics.Statistics
         /// <param name="population2">Second population stream.</param>
         public static double PopulationCovariance(IEnumerable<double> population1, IEnumerable<double> population2)
         {
-            if (population1 == null) throw new ArgumentNullException("population1");
-            if (population2 == null) throw new ArgumentNullException("population2");
-
             // https://en.wikipedia.org/wiki/Algorithms_for_calculating_variance
-
             var n = 0;
             var mean1 = 0.0;
             var mean2 = 0.0;
             var comoment = 0.0;
-
             using (var p1 = population1.GetEnumerator())
             using (var p2 = population2.GetEnumerator())
             {
@@ -324,7 +295,6 @@ namespace MathNet.Numerics.Statistics
                     throw new ArgumentException(Resources.ArgumentVectorsSameLength);
                 }
             }
-
             return comoment/n;
         }
     }

@@ -52,7 +52,6 @@ namespace MathNet.Numerics.Statistics
         /// <param name="data">Sample array, no sorting is assumed.</param>
         public static double Minimum(double[] data)
         {
-            if (data == null) throw new ArgumentNullException("data");
             if (data.Length == 0) return double.NaN;
 
             var min = double.PositiveInfinity;
@@ -73,7 +72,6 @@ namespace MathNet.Numerics.Statistics
         /// <param name="data">Sample array, no sorting is assumed.</param>
         public static double Maximum(double[] data)
         {
-            if (data == null) throw new ArgumentNullException("data");
             if (data.Length == 0) return double.NaN;
 
             var max = double.NegativeInfinity;
@@ -94,7 +92,6 @@ namespace MathNet.Numerics.Statistics
         /// <param name="data">Sample array, no sorting is assumed.</param>
         public static double Mean(double[] data)
         {
-            if (data == null) throw new ArgumentNullException("data");
             if (data.Length == 0) return double.NaN;
 
             double mean = 0;
@@ -114,7 +111,6 @@ namespace MathNet.Numerics.Statistics
         /// <param name="samples">Sample array, no sorting is assumed.</param>
         public static double Variance(double[] samples)
         {
-            if (samples == null) throw new ArgumentNullException("samples");
             if (samples.Length <= 1) return double.NaN;
 
             double variance = 0;
@@ -136,7 +132,6 @@ namespace MathNet.Numerics.Statistics
         /// <param name="population">Sample array, no sorting is assumed.</param>
         public static double PopulationVariance(double[] population)
         {
-            if (population == null) throw new ArgumentNullException("population");
             if (population.Length == 0) return double.NaN;
 
             double variance = 0;
@@ -180,7 +175,6 @@ namespace MathNet.Numerics.Statistics
         /// <param name="samples">Sample array, no sorting is assumed.</param>
         public static Tuple<double, double> MeanVariance(double[] samples)
         {
-            if (samples == null) throw new ArgumentNullException("samples");
             return new Tuple<double, double>(Mean(samples), Variance(samples));
         }
 
@@ -193,14 +187,11 @@ namespace MathNet.Numerics.Statistics
         /// <param name="samples2">Second sample array.</param>
         public static double Covariance(double[] samples1, double[] samples2)
         {
-            if (samples1 == null) throw new ArgumentNullException("samples1");
-            if (samples2 == null) throw new ArgumentNullException("samples2");
             if (samples1.Length != samples2.Length) throw new ArgumentException(Resources.ArgumentVectorsSameLength);
             if (samples1.Length <= 1) return double.NaN;
 
             var mean1 = Mean(samples1);
             var mean2 = Mean(samples2);
-
             var covariance = 0.0;
             for (int i = 0; i < samples1.Length; i++)
             {
@@ -218,14 +209,11 @@ namespace MathNet.Numerics.Statistics
         /// <param name="population2">Second population array.</param>
         public static double PopulationCovariance(double[] population1, double[] population2)
         {
-            if (population1 == null) throw new ArgumentNullException("population1");
-            if (population2 == null) throw new ArgumentNullException("population2");
             if (population1.Length != population2.Length) throw new ArgumentException(Resources.ArgumentVectorsSameLength);
             if (population1.Length == 0) return double.NaN;
 
             var mean1 = Mean(population1);
             var mean2 = Mean(population2);
-
             var covariance = 0.0;
             for (int i = 0; i < population1.Length; i++)
             {
@@ -242,7 +230,6 @@ namespace MathNet.Numerics.Statistics
         /// <param name="order">One-based order of the statistic, must be between 1 and N (inclusive).</param>
         public static double OrderStatisticInplace(double[] data, int order)
         {
-            if (data == null) throw new ArgumentNullException("data");
             if (order < 1 || order > data.Length) return double.NaN;
 
             if (order == 1) return Minimum(data);
@@ -316,7 +303,6 @@ namespace MathNet.Numerics.Statistics
         /// <param name="data">Sample array, no sorting is assumed. Will be reordered.</param>
         public static double[] FiveNumberSummaryInplace(double[] data)
         {
-            if (data == null) throw new ArgumentNullException("data");
             if (data.Length == 0) return new[] { double.NaN, double.NaN, double.NaN, double.NaN, double.NaN };
 
             // TODO: Benchmark: is this still faster than sorting the array then using SortedArrayStatistics instead?
@@ -339,7 +325,6 @@ namespace MathNet.Numerics.Statistics
         /// </remarks>
         public static double QuantileInplace(double[] data, double tau)
         {
-            if (data == null) throw new ArgumentNullException("data");
             if (tau < 0d || tau > 1d || data.Length == 0) return double.NaN;
 
             double h = (data.Length + 1d/3d)*tau + 1d/3d;
@@ -374,7 +359,6 @@ namespace MathNet.Numerics.Statistics
         /// <param name="d">d-parameter</param>
         public static double QuantileCustomInplace(double[] data, double tau, double a, double b, double c, double d)
         {
-            if (data == null) throw new ArgumentNullException("data");
             if (tau < 0d || tau > 1d || data.Length == 0) return double.NaN;
 
             var x = a + (data.Length + b) * tau - 1;
@@ -407,7 +391,6 @@ namespace MathNet.Numerics.Statistics
         /// <param name="definition">Quantile definition, to choose what product/definition it should be consistent with</param>
         public static double QuantileCustomInplace(double[] data, double tau, QuantileDefinition definition)
         {
-            if (data == null) throw new ArgumentNullException("data");
             if (tau < 0d || tau > 1d || data.Length == 0) return double.NaN;
             if (tau == 0d || data.Length == 1) return Minimum(data);
             if (tau == 1d) return Maximum(data);

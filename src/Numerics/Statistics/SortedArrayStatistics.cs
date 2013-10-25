@@ -46,7 +46,6 @@ namespace MathNet.Numerics.Statistics
         /// <param name="data">Sample array, must be sorted ascendingly.</param>
         public static double Minimum(double[] data)
         {
-            if (data == null) throw new ArgumentNullException("data");
             if (data.Length == 0) return double.NaN;
 
             return data[0];
@@ -58,7 +57,6 @@ namespace MathNet.Numerics.Statistics
         /// <param name="data">Sample array, must be sorted ascendingly.</param>
         public static double Maximum(double[] data)
         {
-            if (data == null) throw new ArgumentNullException("data");
             if (data.Length == 0) return double.NaN;
 
             return data[data.Length - 1];
@@ -71,7 +69,6 @@ namespace MathNet.Numerics.Statistics
         /// <param name="order">One-based order of the statistic, must be between 1 and N (inclusive).</param>
         public static double OrderStatistic(double[] data, int order)
         {
-            if (data == null) throw new ArgumentNullException("data");
             if (order < 1 || order > data.Length) return double.NaN;
 
             return data[order - 1];
@@ -136,7 +133,6 @@ namespace MathNet.Numerics.Statistics
         /// <param name="data">Sample array, must be sorted ascendingly.</param>
         public static double[] FiveNumberSummary(double[] data)
         {
-            if (data == null) throw new ArgumentNullException("data");
             if (data.Length == 0) return new[] {double.NaN, double.NaN, double.NaN, double.NaN, double.NaN};
             return new[] {data[0], Quantile(data, 0.25), Quantile(data, 0.50), Quantile(data, 0.75), data[data.Length - 1]};
         }
@@ -156,7 +152,6 @@ namespace MathNet.Numerics.Statistics
         /// </remarks>
         public static double Quantile(double[] data, double tau)
         {
-            if (data == null) throw new ArgumentNullException("data");
             if (tau < 0d || tau > 1d || data.Length == 0) return double.NaN;
             if (tau == 0d || data.Length == 1) return data[0];
             if (tau == 1d) return data[data.Length - 1];
@@ -182,7 +177,6 @@ namespace MathNet.Numerics.Statistics
         /// <param name="d">d-parameter</param>
         public static double QuantileCustom(double[] data, double tau, double a, double b, double c, double d)
         {
-            if (data == null) throw new ArgumentNullException("data");
             if (tau < 0d || tau > 1d || data.Length == 0) return double.NaN;
 
             var x = a + (data.Length + b)*tau - 1;
@@ -214,7 +208,6 @@ namespace MathNet.Numerics.Statistics
         /// <param name="definition">Quantile definition, to choose what product/definition it should be consistent with</param>
         public static double QuantileCustom(double[] data, double tau, QuantileDefinition definition)
         {
-            if (data == null) throw new ArgumentNullException("data");
             if (tau < 0d || tau > 1d || data.Length == 0) return double.NaN;
             if (tau == 0d || data.Length == 1) return data[0];
             if (tau == 1d) return data[data.Length - 1];
