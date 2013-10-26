@@ -3,9 +3,9 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
-// 
+//
 // Copyright (c) 2009-2013 Math.NET
-// 
+//
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -14,10 +14,10 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
-// 
+//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
-// 
+//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -195,7 +195,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
         }
 
         /// <summary>
-        /// Does a point wise add of two arrays <c>z = x + y</c>. This can be used 
+        /// Does a point wise add of two arrays <c>z = x + y</c>. This can be used
         /// to add vectors or matrices.
         /// </summary>
         /// <param name="x">The array x.</param>
@@ -246,7 +246,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
         }
 
         /// <summary>
-        /// Does a point wise subtraction of two arrays <c>z = x - y</c>. This can be used 
+        /// Does a point wise subtraction of two arrays <c>z = x - y</c>. This can be used
         /// to subtract vectors or matrices.
         /// </summary>
         /// <param name="x">The array x.</param>
@@ -426,26 +426,33 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                     return norm1;
                 case Norm.LargestAbsoluteValue:
                     var normMax = 0d;
-                    for (var i = 0; i < rows; i++)
+                    for (var j = 0; j < columns; j++)
                     {
-                        for (var j = 0; j < columns; j++)
+                        for (var i = 0; i < rows; i++)
                         {
                             normMax = Math.Max(Math.Abs(matrix[(j * rows) + i]), normMax);
                         }
                     }
                     return normMax;
                 case Norm.InfinityNorm:
-                    var normInf = 0d;
-                    for (var i = 0; i < rows; i++)
-                    {
-                        var s = 0.0;
-                        for (var j = 0; j < columns; j++)
-                        {
-                            s += Math.Abs(matrix[(j*rows) + i]);
-                        }
-                        normInf = Math.Max(normInf, s);
-                    }
-                    return normInf;
+                    var r = new double[rows];
+	                for (var j = 0; j < columns; j++)
+	                {
+		                for (var i = 0; i < rows; i++)
+		                {
+                            r[i] += Math.Abs(matrix[(j * rows) + i]);
+		                }
+	                }
+                    // TODO: reuse
+                    var max = r[0];
+	                for (int i = 0; i < r.Length; i++)
+	                {
+		                if (r[i] > max)
+		                {
+			                max = r[i];
+		                }
+	                }
+	                return max;
                 case Norm.FrobeniusNorm:
                     var aat = new double[rows*rows];
                     MatrixMultiplyWithUpdate(Transpose.DontTranspose, Transpose.Transpose, 1.0, matrix, rows, columns, matrix, rows, columns, 0.0, aat);
@@ -554,7 +561,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
         {
             int m; // The number of rows of matrix op(A) and of the matrix C.
             int n; // The number of columns of matrix op(B) and of the matrix C.
-            int k; // The number of columns of matrix op(A) and the rows of the matrix op(B). 
+            int k; // The number of columns of matrix op(A) and the rows of the matrix op(B).
 
             // First check some basic requirement on the parameters of the matrix multiplication.
             if (a == null)
@@ -1406,7 +1413,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
         /// it is overwritten with the R matrix of the QR factorization. </param>
         /// <param name="rowsR">The number of rows in the A matrix.</param>
         /// <param name="columnsR">The number of columns in the A matrix.</param>
-        /// <param name="q">On exit, A M by M matrix that holds the Q matrix of the 
+        /// <param name="q">On exit, A M by M matrix that holds the Q matrix of the
         /// QR factorization.</param>
         /// <param name="tau">A min(m,n) vector. On exit, contains additional information
         /// to be used by the QR solve routine.</param>
@@ -1589,7 +1596,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                 ComputeQR(work, i, a, i, rowsA, i + 1, columnsA, Control.NumberOfParallelWorkerThreads);
             }
 
-            //copy R 
+            //copy R
             for (var j = 0; j < columnsA; j++)
             {
                 var rIndex = j*columnsA;
@@ -2435,7 +2442,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                     throw new NonConvergenceException();
                 }
 
-                // This section of the program inspects for negligible elements in the s and e arrays,  
+                // This section of the program inspects for negligible elements in the s and e arrays,
                 // on completion the variables kase and l are set as follows:
                 // kase = 1: if mS[m] and e[l-1] are negligible and l < m
                 // kase = 2: if mS[l] is negligible and l < m
@@ -2701,7 +2708,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
 
             if (computeVectors)
             {
-                // Finally transpose "v" to get "vt" matrix 
+                // Finally transpose "v" to get "vt" matrix
                 for (i = 0; i < columnsA; i++)
                 {
                     for (j = 0; j < columnsA; j++)
@@ -2722,7 +2729,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
         }
 
         /// <summary>
-        /// Given the Cartesian coordinates (da, db) of a point p, these function return the parameters da, db, c, and s 
+        /// Given the Cartesian coordinates (da, db) of a point p, these function return the parameters da, db, c, and s
         /// associated with the Givens rotation that zeros the y-coordinate of the point.
         /// </summary>
         /// <param name="da">Provides the x-coordinate of the point p. On exit contains the parameter r associated with the Givens rotation</param>
