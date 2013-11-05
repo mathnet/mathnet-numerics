@@ -133,6 +133,7 @@
     <Compile Include="FinancialTests\GainMeanTests.cs" />
     <Compile Include="FinancialTests\LossStandardDeviationTests.cs" />
     <Compile Include="FinancialTests\SemiDeviationTests.cs" />
+    <Compile Include="GoodnessOfFit\RSquaredTest.cs" />
     <Compile Include="IntegralTransformsTests\FourierTest.cs" />
     <Compile Include="IntegralTransformsTests\HartleyTest.cs" />
     <Compile Include="IntegralTransformsTests\InverseTransformTest.cs" />
