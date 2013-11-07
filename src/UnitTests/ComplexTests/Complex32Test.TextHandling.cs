@@ -79,9 +79,10 @@ namespace MathNet.Numerics.UnitTests.ComplexTests
         /// <param name="infinity">Infinity name.</param>
         /// <param name="number">Complex Number.</param>
         [TestCase("en-US", "1.1")]
+        [TestCase("en-GB", "1.1")]
         [TestCase("tr-TR", "1,1")]
         [TestCase("de-DE", "1,1")]
-        [TestCase("de-CH", "1.1")]
+        [TestCase("de-CH", "1,1")]
         [TestCase("he-IL", "1.1")]
         public void CanFormatComplexToStringWithCulture(string cultureName, string number)
         {
