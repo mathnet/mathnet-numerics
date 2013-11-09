@@ -87,6 +87,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Optimization\BrentMinimizer.cs" />
+    <Compile Include="Optimization\NonLinearLeastSquaresMinimizer.cs" />
+    <Compile Include="Optimization\PowellMinimizer.cs" />
     <Compile Include="Precision.Comparison.cs" />
     <Compile Include="Precision.Equality.cs" />
     <Compile Include="Distributions\Bernoulli.cs" />
@@ -178,6 +181,9 @@
     <Compile Include="LinearAlgebra\Vector.BCL.cs" />
     <Compile Include="LinearAlgebra\Vector.Operators.cs" />
     <Compile Include="NonConvergenceException.cs" />
+    <Compile Include="Providers\Optimization\IOptimizationProvider.cs" />
+    <Compile Include="Providers\Optimization\Mkl\MklOptimizationProvider.cs" />
+    <Compile Include="Providers\Optimization\Mkl\SafeNativeMethods.cs" />
     <Compile Include="Random\RandomSeed.cs" />
     <Compile Include="RootFinding\Broyden.cs" />
     <Compile Include="RootFinding\NewtonRaphson.cs" />
