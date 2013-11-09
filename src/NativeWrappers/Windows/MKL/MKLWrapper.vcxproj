@@ -292,8 +292,8 @@
     <ClCompile Include="..\..\Common\WindowsDLL.cpp" />
     <ClCompile Include="..\..\MKL\blas.c" />
     <ClCompile Include="..\..\MKL\lapack.cpp" />
+    <ClCompile Include="..\..\MKL\optimization.cpp" />
     <ClCompile Include="..\..\MKL\vector_functions.c" />
-	<ClCompile Include="..\..\MKL\optimisation.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="..\..\Common\resource.rc" />
