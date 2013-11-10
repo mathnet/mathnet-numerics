@@ -1,4 +1,4 @@
-﻿// <copyright file="NonLinearLeastSquaresTest.cs" company="Math.NET">
+﻿// <copyright file="FunctionMinimizationTests.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -35,31 +35,27 @@ using NUnit.Framework;
 namespace MathNet.Numerics.UnitTests.OptimizationTests
 {
     [TestFixture]
-    public class NonLinearLeastSquaresTest
+    public class FunctionMinimizationTests
     {
         [Test]
-        public void CurveFit()
+        public void PowellCurveFit()
         {
-            var minimizer = new NonLinearLeastSquaresMinimizer();
-            minimizer.Options.MaximumIterations = 1010;
-            minimizer.Options.Criterion4 = 1e-8;
             // y = b1*(1-exp[-b2*x])  +  e
             var xin = new double[] { 1, 2, 3, 5, 7, 10 };
             var yin = new double[] { 109, 149, 149, 191, 213, 224 };
-            var popt = minimizer.CurveFit(xin, yin, (x, p) => p[0] * (1 - Math.Exp(-p[1] * x)), new double[] { 1, 1 });
 
             Func<double, double[], double> function = (x, p) => p[0] * (1 - Math.Exp(-p[1] * x));
-            Func<double, double[], double[]> jacobian = (x, p) => new double[] { 
-                1 - Math.Exp(-p[1] * x), 
-                p[0] * x * Math.Exp(-p[1] * x) };
 
-            popt = minimizer.CurveFit(xin, yin, function, new double[] { 1, 1 }, jacobian); // 100, 0.75
+            var minimizer = new PowellMinimizer();
+
+            var popt = minimizer.CurveFit(xin, yin, function, new double[] { 1, 1 }); // 100, 0.75
 
             double[] expected = new double[] { 2.1380940889E+02, 5.4723748542E-01 };
 
             double residual = 0;
-            for (int i = 0; i < yin.Length; ++i) residual += (yin[i] - function(xin[i], popt)) * (yin[i] - function(xin[i], popt)); 
+            for (int i = 0; i < yin.Length; ++i) residual += (yin[i] - function(xin[i], popt)) * (yin[i] - function(xin[i], popt));
             //Assert.AreEqual(3, Brent.FindRoot(f2, 2.1, 3.4, 0.001, 50), 0.001);
         }
+
     }
 }

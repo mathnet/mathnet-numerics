@@ -353,6 +353,7 @@
     <Compile Include="NumberTheoryTests\GcdRelatedTest.cs" />
     <Compile Include="NumberTheoryTests\GcdRelatedTestBigInteger.cs" />
     <Compile Include="NumberTheoryTests\IntegerTheoryTest.cs" />
+    <Compile Include="OptimizationTests\FunctionMinimizationTests.cs" />
     <Compile Include="OptimizationTests\NonLinearLeastSquaresTest.cs" />
     <Compile Include="RootFindingTests\BisectionTest.cs" />
     <Compile Include="PermutationTest.cs" />
