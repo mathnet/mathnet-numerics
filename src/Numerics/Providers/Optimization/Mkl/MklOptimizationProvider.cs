@@ -42,8 +42,9 @@ namespace MathNet.Numerics.Providers.Optimization.Mkl
     {
         const int TR_SUCCESS = 1501;
 
-        public NonLinearLeastSquaresMinimizer.Result NonLinearLeastSquaresUnboundedMinimize(int residualsLength, double[] initialGuess, LeastSquaresForwardModel function, out double[] parameters, Jacobian jacobianFunction = null)
+        public NonLinearLeastSquaresMinimizer.Result NonLinearLeastSquaresUnboundedMinimize(int residualsLength, double[] initialGuess, LeastSquaresForwardModel function, out double[] parameters, Jacobian jacobianFunction = null, NonLinearLeastSquaresMinimizer.Options options = null)
         {
+            if (options == null) options = new NonLinearLeastSquaresMinimizer.Options();
             bool analyticJacobian = jacobianFunction != null;
             double[] residuals = new double[residualsLength];
             double[] residualsMinus = new double[residualsLength];
@@ -53,15 +54,15 @@ namespace MathNet.Numerics.Providers.Optimization.Mkl
 
             double[] eps = new double[6]; // stop criteria
             int i;
-            for (i = 0; i < 6; i++)
-                eps[i] = 1e-8;
+            eps[0] = options.Criterion0; eps[1] = options.Criterion1; eps[2] = options.Criterion2;
+            eps[3] = options.Criterion3; eps[4] = options.Criterion4; eps[5] = options.TrialStepPrecision;
 
             for (i = 0; i < initialGuess.Length; i++)
                 parameters[i] = initialGuess[i];
 
             int successful;
 
-            int maxIterations = 1000, maxTrialStepIterations = 100;
+            int maxIterations = options.MaximumIterations, maxTrialStepIterations = options.MaximumTrialStepIterations;
 
             IntPtr solverHandle = IntPtr.Zero;
             IntPtr jacobianHandle = IntPtr.Zero;
@@ -70,7 +71,7 @@ namespace MathNet.Numerics.Providers.Optimization.Mkl
 
             double initialStepBound = 0.0;
 
-            double jacobianPrecision = 1e-8;
+            double jacobianPrecision = options.JacobianPrecision;
 
             // zero initial values:
             for (i = 0; i < residuals.Length; i++)
@@ -185,7 +186,7 @@ namespace MathNet.Numerics.Providers.Optimization.Mkl
                 case -3:
                     convergenceType = NonLinearLeastSquaresMinimizer.ConvergenceType.Criterion1; break;
                 case -4:
-                    convergenceType = NonLinearLeastSquaresMinimizer.ConvergenceType.SingularJacobian; break;
+                    convergenceType = NonLinearLeastSquaresMinimizer.ConvergenceType.Criterion2; break;
                 case -5:
                     convergenceType = NonLinearLeastSquaresMinimizer.ConvergenceType.Criterion3; break;
                 case -6:
@@ -193,7 +194,7 @@ namespace MathNet.Numerics.Providers.Optimization.Mkl
             }
 
             // no errors, find reason for stopping;
-            return new NonLinearLeastSquaresMinimizer.Result() { ConvergenceType = convergenceType };
+            return new NonLinearLeastSquaresMinimizer.Result() { ConvergenceType = convergenceType, NumberOfIterations = iterations };
         }
 
         public static NonLinearLeastSquaresMinimizer.Result ErrorResult()

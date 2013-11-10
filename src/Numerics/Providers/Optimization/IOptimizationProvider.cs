@@ -57,7 +57,7 @@ namespace MathNet.Numerics.Providers.Optimization
         where T : struct
     {
         NonLinearLeastSquaresMinimizer.Result NonLinearLeastSquaresUnboundedMinimize(
-            int residualsLength, T[] initialGuess, LeastSquaresForwardModel function, 
-            out T[] parameters, Jacobian jacobianFunction = null);
+            int residualsLength, T[] initialGuess, LeastSquaresForwardModel function,
+            out T[] parameters, Jacobian jacobianFunction = null, NonLinearLeastSquaresMinimizer.Options options = null);
     }
 }

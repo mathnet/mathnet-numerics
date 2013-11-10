@@ -13,14 +13,51 @@ namespace MathNet.Numerics.Optimization
     /// </summary>
     public class NonLinearLeastSquaresMinimizer
     {
+        public class Options
+        {
+            public int MaximumIterations = 1000;
+
+            public int MaximumTrialStepIterations = 100;
+
+            public ConvergenceType ConvergenceType;
+
+            /// <summary>
+            ///  Convergence if Δ &lt; Criterion0, Δ is trust region size. 
+            /// </summary>
+            public double Criterion0 = 1e-7;
+
+            /// <summary>
+            /// Convergence if |r|2 &lt; Criterion1, r is residuals vector.
+            /// </summary>
+            public double Criterion1 = 1e-7;
+
+            /// <summary>
+            /// Jacobian considered singular if |J(:,j)|2 &lt; Criterion2 for any j.
+            /// </summary>
+            public double Criterion2 = 1e-7;
+
+            /// <summary>
+            /// Jacobian considered singular if |s|2 &lt; Criterion3. s is trial step.
+            /// </summary>
+            public double Criterion3 = 1e-7;
+
+            /// <summary>
+            /// |r|2 - |r - Js|2 &lt; Criterion4
+            /// </summary>
+            public double Criterion4 = 1e-7;
+
+            public double TrialStepPrecision = 1e-10;
+
+            /// <summary>
+            /// Only if Jacobian calculated by central differences.
+            /// </summary>
+            public double JacobianPrecision = 1e-8;
+        }
+        
         /// <summary>
-        /// Criterion0: Δ &lt; eps(0) (trust region solvers only)
-        /// Criterion1: ||F(x)||2 &lt; eps(1)
-        /// Criterion2: The Jacobian matrix is singular.||J(x)(1:m,j)||2 &lt; eps(2), j = 1, ..., n
-        /// Criterion3: ||s||2 &lt; eps(3)
-        /// Criterion4: ||F(x)||2 - ||F(x) - J(x)s||2 &lt; eps(4)
+        /// For details of convergence criteria, see Options.
         /// </summary>
-        public enum ConvergenceType { NoneMaxIterationExceeded, Criterion0, Criterion1, Criterion2, Criterion3, Criterion4, SingularJacobian, Error };
+        public enum ConvergenceType { NoneMaxIterationExceeded, Criterion0, Criterion1, Criterion2, Criterion3, Criterion4, Error };
         
         public class Result
         {
@@ -36,7 +73,7 @@ namespace MathNet.Numerics.Optimization
         /// <param name="x"></param>
         /// <param name="y"></param>
         /// <param name="f"></param>
-        /// <param name="pStart"></param>
+        /// <param name="pStart">Initial guess of parameters, p.</param>
         /// <param name="jacobian">jac_j(x, p) = df / dp_j</param>
         /// <returns></returns>
         public static double[] CurveFit(double[] x, double[] y, Func<double, double[], double> f,
