@@ -42,9 +42,9 @@ namespace MathNet.Numerics.Providers.Optimization.Mkl
     {
         const int TR_SUCCESS = 1501;
 
-        public NonLinearLeastSquaresMinimizer.Result NonLinearLeastSquaresUnboundedMinimize(int residualsLength, double[] initialGuess, LeastSquaresForwardModel function, out double[] parameters, Jacobian jacobianFunction = null, NonLinearLeastSquaresMinimizer.Options options = null)
+        public NonLinearLeastSquaresResult NonLinearLeastSquaresUnboundedMinimize(int residualsLength, double[] initialGuess, LeastSquaresForwardModel function, out double[] parameters, Jacobian jacobianFunction = null, NonLinearLeastSquaresOptions options = null)
         {
-            if (options == null) options = new NonLinearLeastSquaresMinimizer.Options();
+            if (options == null) options = new NonLinearLeastSquaresOptions();
             bool analyticJacobian = jacobianFunction != null;
             double[] residuals = new double[residualsLength];
             double[] residualsMinus = new double[residualsLength];
@@ -176,30 +176,30 @@ namespace MathNet.Numerics.Providers.Optimization.Mkl
 
             SafeNativeMethods.FreeBuffers();
             
-            NonLinearLeastSquaresMinimizer.ConvergenceType convergenceType = NonLinearLeastSquaresMinimizer.ConvergenceType.Error;
+            NonLinearLeastSquaresConvergenceType convergenceType = NonLinearLeastSquaresConvergenceType.Error;
             switch (rciRequest)
             {
                 case -1:
-                    convergenceType = NonLinearLeastSquaresMinimizer.ConvergenceType.NoneMaxIterationExceeded; break;
+                    convergenceType = NonLinearLeastSquaresConvergenceType.NoneMaxIterationExceeded; break;
                 case -2:
-                    convergenceType = NonLinearLeastSquaresMinimizer.ConvergenceType.Criterion0; break;
+                    convergenceType = NonLinearLeastSquaresConvergenceType.Criterion0; break;
                 case -3:
-                    convergenceType = NonLinearLeastSquaresMinimizer.ConvergenceType.Criterion1; break;
+                    convergenceType = NonLinearLeastSquaresConvergenceType.Criterion1; break;
                 case -4:
-                    convergenceType = NonLinearLeastSquaresMinimizer.ConvergenceType.Criterion2; break;
+                    convergenceType = NonLinearLeastSquaresConvergenceType.Criterion2; break;
                 case -5:
-                    convergenceType = NonLinearLeastSquaresMinimizer.ConvergenceType.Criterion3; break;
+                    convergenceType = NonLinearLeastSquaresConvergenceType.Criterion3; break;
                 case -6:
-                    convergenceType = NonLinearLeastSquaresMinimizer.ConvergenceType.Criterion4; break;
+                    convergenceType = NonLinearLeastSquaresConvergenceType.Criterion4; break;
             }
 
             // no errors, find reason for stopping;
-            return new NonLinearLeastSquaresMinimizer.Result() { ConvergenceType = convergenceType, NumberOfIterations = iterations };
+            return new NonLinearLeastSquaresResult() { ConvergenceType = convergenceType, NumberOfIterations = iterations };
         }
 
-        public static NonLinearLeastSquaresMinimizer.Result ErrorResult()
+        public static NonLinearLeastSquaresResult ErrorResult()
         {
-            return new NonLinearLeastSquaresMinimizer.Result() { ConvergenceType = NonLinearLeastSquaresMinimizer.ConvergenceType.Error };
+            return new NonLinearLeastSquaresResult() { ConvergenceType = NonLinearLeastSquaresConvergenceType.Error };
         }
     }
 }

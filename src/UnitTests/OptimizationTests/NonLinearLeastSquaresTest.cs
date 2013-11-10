@@ -40,17 +40,20 @@ namespace MathNet.Numerics.UnitTests.OptimizationTests
         [Test]
         public void CurveFit()
         {
+            var minimizer = new NonLinearLeastSquaresMinimizer();
+            minimizer.Options.MaximumIterations = 1010;
+            minimizer.Options.Criterion4 = 1e-8;
             // y = b1*(1-exp[-b2*x])  +  e
             var xin = new double[] { 1, 2, 3, 5, 7, 10 };
             var yin = new double[] { 109, 149, 149, 191, 213, 224 };
-            var popt = NonLinearLeastSquaresMinimizer.CurveFit(xin, yin, (x, p) => p[0] * (1 - Math.Exp(-p[1] * x)), new double[] { 1, 1 });
+            var popt = minimizer.CurveFit(xin, yin, (x, p) => p[0] * (1 - Math.Exp(-p[1] * x)), new double[] { 1, 1 });
 
             Func<double, double[], double> function = (x, p) => p[0] * (1 - Math.Exp(-p[1] * x));
             Func<double, double[], double[]> jacobian = (x, p) => new double[] { 
                 1 - Math.Exp(-p[1] * x), 
                 p[0] * x * Math.Exp(-p[1] * x) };
 
-            popt = NonLinearLeastSquaresMinimizer.CurveFit(xin, yin, function, new double[] { 1, 1 }, jacobian); // 100, 0.75
+            popt = minimizer.CurveFit(xin, yin, function, new double[] { 1, 1 }, jacobian); // 100, 0.75
 
             double[] expected = new double[] { 2.1380940889E+02, 5.4723748542E-01 };
 
