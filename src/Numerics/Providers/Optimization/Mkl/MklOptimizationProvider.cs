@@ -180,7 +180,7 @@ namespace MathNet.Numerics.Providers.Optimization.Mkl
             switch (rciRequest)
             {
                 case -1:
-                    convergenceType = NonLinearLeastSquaresConvergenceType.NoneMaxIterationExceeded; break;
+                    convergenceType = NonLinearLeastSquaresConvergenceType.MaxIterationsExceeded; break;
                 case -2:
                     convergenceType = NonLinearLeastSquaresConvergenceType.Criterion0; break;
                 case -3:

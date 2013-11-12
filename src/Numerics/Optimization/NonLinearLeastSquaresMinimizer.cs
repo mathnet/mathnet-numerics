@@ -13,9 +13,7 @@ namespace MathNet.Numerics.Optimization
     public class NonLinearLeastSquaresOptions
     {
         public int MaximumIterations = 1000;
-
         public int MaximumTrialStepIterations = 100;
-
         public NonLinearLeastSquaresConvergenceType ConvergenceType;
 
         /// <summary>
@@ -54,7 +52,7 @@ namespace MathNet.Numerics.Optimization
     /// <summary>
     /// For details of convergence criteria, see Options.
     /// </summary>
-    public enum NonLinearLeastSquaresConvergenceType { NoneMaxIterationExceeded, Criterion0, Criterion1, Criterion2, Criterion3, Criterion4, Error };
+    public enum NonLinearLeastSquaresConvergenceType { MaxIterationsExceeded, Criterion0, Criterion1, Criterion2, Criterion3, Criterion4, Error };
 
     /// <summary>
     /// Result of Non-Linear Least Squares Minimization.
@@ -62,7 +60,6 @@ namespace MathNet.Numerics.Optimization
     public class NonLinearLeastSquaresResult
     {
         public int NumberOfIterations;
-
         public NonLinearLeastSquaresConvergenceType ConvergenceType;
     }
 

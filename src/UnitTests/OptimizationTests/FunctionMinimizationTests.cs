@@ -48,14 +48,22 @@ namespace MathNet.Numerics.UnitTests.OptimizationTests
 
             var minimizer = new PowellMinimizer();
 
-            var popt = minimizer.CurveFit(xin, yin, function, new double[] { 1, 1 }); // 100, 0.75
+            var watch = new System.Diagnostics.Stopwatch(); watch.Start();
+            double[] popt = null;
+            for (int i = 0; i < 1000; ++i)
+            {
+                popt = minimizer.CurveFit(xin, yin, function, new double[] { 1, 1 }); // 100, 0.75
+            }
+            watch.Stop();
+            double elapsed = watch.ElapsedMilliseconds;
 
             double[] expected = new double[] { 2.1380940889E+02, 5.4723748542E-01 };
 
             double residual = 0;
             for (int i = 0; i < yin.Length; ++i) residual += (yin[i] - function(xin[i], popt)) * (yin[i] - function(xin[i], popt));
-            //Assert.AreEqual(3, Brent.FindRoot(f2, 2.1, 3.4, 0.001, 50), 0.001);
-        }
 
+            Assert.AreEqual(expected[0], popt[0], 1e-4);
+            Assert.AreEqual(expected[1], popt[1], 1e-4);
+        }
     }
 }
