@@ -59,7 +59,7 @@ namespace MathNet.Numerics.Optimization
                 expansion_steps += 1;
             }
 
-            if (expansion_steps == this.MaxExpansionSteps)
+            if (Math.Sign(lower_val) == Math.Sign(upper_val) && expansion_steps == this.MaxExpansionSteps)
                 throw new MaximumIterationsException("Could not bound root in maximum expansion iterations.");
 
             while (Math.Abs(upper_val - lower_val) > 0.5 * this.ObjectiveTolerance || Math.Abs(upper_bound - lower_bound) > 0.5 * this.XTolerance)
