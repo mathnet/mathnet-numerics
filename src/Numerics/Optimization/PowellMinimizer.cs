@@ -39,6 +39,15 @@ namespace MathNet.Numerics.Optimization
 
         public readonly PowellOptions Options = new PowellOptions();
 
+        /// <summary>
+        /// Non-Linear Least-Squares fitting the points (x,y) to a specified function of y : x -> f(x, p), p being a vector of parameters.
+        /// returning its best fitting parameters p.
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="f"></param>
+        /// <param name="pStart">Initial guess of parameters, p.</param>
+        /// <returns></returns>
         public double[] CurveFit(double[] x, double[] y, Func<double, double[], double> f,
             double[] pStart)
         {
@@ -56,25 +65,31 @@ namespace MathNet.Numerics.Optimization
             return Minimize(function, pStart);
         }
 
-        public double[] Minimize(Func<double[], double> function, double[] p)
+        /// <summary>
+        /// Find the minimum of the supplied function using the Powell method.
+        /// </summary>
+        /// <param name="function"></param>
+        /// <param name="pInitialGuess"></param>
+        /// <returns></returns>
+        public double[] Minimize(Func<double[], double> function, double[] pInitialGuess)
         {
             BrentMinimizer brentMinimizer = new BrentMinimizer();
+            int n = pInitialGuess.Length; // number of dimensions 
             // used in closure:
-            double[] point = new double[p.Length];
-            double[] startingPoint = new double[p.Length];
-            double[] direction = new double[p.Length];
+            double[] point = new double[n];
+            double[] startingPoint = new double[n];
+            double[] direction = new double[n];
             double lineMiniumum = 0;
             int functionCalls = 0;
-            Func<double, double> functionAlongLine = (u) =>
+            Func<double, double> functionAlongLine = (p) =>
             {
                 for (int i = 0; i < point.Length; ++i)
-                    point[i] = startingPoint[i] + direction[i] * u;
+                    point[i] = startingPoint[i] + direction[i] * p;
                 lineMiniumum = function(point);
                 functionCalls++;
                 return lineMiniumum;
             };
 
-            int n = p.Length; // number of dimensions 
             double fval;
 
             int iterations = 0;
@@ -88,7 +103,7 @@ namespace MathNet.Numerics.Optimization
                 direc[i] = new double[n];
                 direc[i][i] = 1.0;
             }
-            double[] x = p;
+            double[] x = pInitialGuess;
             double[] x1 = (double[])x.Clone(); 
             
             brentMinimizer.Options.FunctionTolerance = Options.PointTolerance * 100;
