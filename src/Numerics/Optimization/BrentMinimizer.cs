@@ -11,7 +11,7 @@ namespace MathNet.Numerics.Optimization
     public class BrentOptions
     {
         public int MaximumIterations = 1000;
-        public double FunctionTolerance = 1e-4;
+        public double Tolerance = 1e-4;
     }
 
     /// <summary>
@@ -77,7 +77,7 @@ namespace MathNet.Numerics.Optimization
                 double tol1, tol2, xmid;
                 double temp1, temp2, p;
                 double u, fu, dx_temp;
-                tol1 = Options.FunctionTolerance * Math.Abs(x) + minimumTolerance;
+                tol1 = Options.Tolerance * Math.Abs(x) + minimumTolerance;
                 tol2 = 2.0 * tol1;
                 xmid = 0.5 * (a + b);
                 if (Math.Abs(x - xmid) < (tol2 - 0.5 * (b - a))) // check for convergence 

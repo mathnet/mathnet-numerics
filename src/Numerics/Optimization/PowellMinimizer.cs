@@ -12,8 +12,8 @@ namespace MathNet.Numerics.Optimization
     {
         public int? MaximumIterations = null;
         public int? MaximumFunctionCalls = null;
-        public double PointTolerance = 1e-4;
-        public double FunctionTolerance = 1e-4;
+        public double PointTolerance = 1e-4; // absolute
+        public double FunctionTolerance = 1e-4; // relative
     }
 
     public enum PowellConvergenceType { Success, MaxIterationsExceeded, MaxFunctionCallsExceeded };
@@ -97,47 +97,46 @@ namespace MathNet.Numerics.Optimization
             int maxFunctionCalls = (Options.MaximumFunctionCalls == null) ? n * 1000 : (int)Options.MaximumFunctionCalls;
 
             // An array of n directions:
-            double[][] direc = new double[n][];
+            double[][] directionSet = new double[n][];
             for (int i = 0; i < n; ++i)
             {
-                direc[i] = new double[n];
-                direc[i][i] = 1.0;
+                directionSet[i] = new double[n];
+                directionSet[i][i] = 1.0;
             }
             double[] x = pInitialGuess;
-            double[] x1 = (double[])x.Clone(); 
-            
-            brentMinimizer.Options.FunctionTolerance = Options.PointTolerance * 100;
+            double[] x1 = (double[])x.Clone();
+            double[] x2 = new double[n];
+            double[] direction1 = new double[n];
+
+            brentMinimizer.Options.Tolerance = Options.PointTolerance * 100;
 
             fval = function(x);
 
-            double[] x2 = new double[n];
             double fx;
-            double[] direc1 = new double[n];
-            double[] xnew;
+
             while (true)
             {
                 fx = fval;
-                int bigind = 0;
+                int bigIndex = 0;
                 double delta = 0.0;
                 double fx2;
+                // loop over all directions:
                 for (int i = 0; i < n; ++i)
                 {
-                    direc1 = direc[i];
                     fx2 = fval;
 
-                    // Do a linesearch with specified starting point and direction.
-                    direction = direc1;
+                    // Do a linesearch along direction
+                    direction = directionSet[i];
                     startingPoint = x;
                     double u = brentMinimizer.Minimize(functionAlongLine);
-                    fval = functionAlongLine(u);
-                    xnew = point; 
+                    fval = functionAlongLine(u); // updates point
 
-                    for (int j = 0; j < n; ++j) x[j] = xnew[j];
+                    for (int j = 0; j < n; ++j) x[j] = point[j];
 
                     if ((fx2 - fval) > delta)
                     {
                         delta = fx2 - fval;
-                        bigind = i;
+                        bigIndex = i; // record direction index of the largest decrease seen
                     }
                 }
                 iterations++;
@@ -145,11 +144,10 @@ namespace MathNet.Numerics.Optimization
                 if (functionCalls >= maxFunctionCalls) break;
                 if (iterations >= maxIterations) break;
 
-                // Construct the extrapolated point  
-                direc1 = new double[n];
+                // Construct the extrapolated point 
                 for (int i = 0; i < n; ++i)
                 {
-                    direc1[i] = x[i] - x1[i];
+                    direction1[i] = x[i] - x1[i];
                     x2[i] = 2.0 * x[i] - x1[i];
                     x1[i] = x[i];
                 }
@@ -164,21 +162,18 @@ namespace MathNet.Numerics.Optimization
                     t -= delta * temp * temp;
                     if (t < 0.0)
                     {
-                        direction = direc1;
+                        // Do a linesearch along direction
+                        direction = direction1;
                         startingPoint = x;
                         double u = brentMinimizer.Minimize(functionAlongLine);
-                        fval = functionAlongLine(u);
-                        xnew = point;
+                        fval = functionAlongLine(u); // updates point
 
-                        direc1 = new double[n];
                         for (int i = 0; i < n; ++i)
                         {
-                            direc1[i] = xnew[i] - x[i];
-                            x[i] = xnew[i];
+                            directionSet[bigIndex][i] = directionSet[n - 1][i];
+                            directionSet[n - 1][i] = point[i] - x[i];
+                            x[i] = point[i];
                         }
-
-                        direc[bigind] = direc[n - 1];
-                        direc[n - 1] = direc1;
                     }
                 }
             }

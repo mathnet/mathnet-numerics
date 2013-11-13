@@ -50,6 +50,8 @@ namespace MathNet.Numerics.UnitTests.OptimizationTests
 
             var watch = new System.Diagnostics.Stopwatch(); watch.Start();
             double[] popt = null;
+            minimizer.Options.PointTolerance = 1e-8;
+
             for (int i = 0; i < 1000; ++i)
             {
                 popt = minimizer.CurveFit(xin, yin, function, new double[] { 1, 1 }); // 100, 0.75
