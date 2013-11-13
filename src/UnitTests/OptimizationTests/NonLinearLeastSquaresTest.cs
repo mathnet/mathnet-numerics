@@ -62,8 +62,8 @@ namespace MathNet.Numerics.UnitTests.OptimizationTests
             double residual = 0;
             for (int i = 0; i < yin.Length; ++i) residual += (yin[i] - function(xin[i], popt)) * (yin[i] - function(xin[i], popt));
 
-            Assert.AreEqual(expected[0], popt[0], 1e-6);
-            Assert.AreEqual(expected[1], popt[1], 1e-6);
+            Assert.AreEqual(expected[0], popt[0], 1e-3);
+            Assert.AreEqual(expected[1], popt[1], 1e-3);
         }
     }
 }
