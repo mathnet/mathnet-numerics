@@ -1,9 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MathNet.Numerics.GoodnessOfFit;
 using NUnit.Framework;
 
 namespace MathNet.Numerics.UnitTests.GoodnessOfFit
@@ -21,11 +17,11 @@ namespace MathNet.Numerics.UnitTests.GoodnessOfFit
             for (int i = 1; i <= 10; i++)
                 data.Add(i);
 
-            Assert.That(RSquared.RSqr(data, data), Is.EqualTo(1));
+            Assert.That(Numerics.GoodnessOfFit.RSquared(data, data), Is.EqualTo(1));
         }
 
         [Test]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void WhenGivenTwoDatasetsOfDifferentSizeThenThrowsArgumentException()
         {
             var observedData = new List<double>()
@@ -49,7 +45,7 @@ namespace MathNet.Numerics.UnitTests.GoodnessOfFit
                 ,10
             };
 
-            RSquared.RSqr(modelledData, observedData);
+            Numerics.GoodnessOfFit.RSquared(modelledData, observedData);
 
             Assert.Fail("Expected ArgumentException exception wasn't thrown");
         }
@@ -67,7 +63,7 @@ namespace MathNet.Numerics.UnitTests.GoodnessOfFit
                 2.6, 2.8, 3.1, 4.7, 5.1, 5.3
             };
 
-            Assert.That(Math.Round(RSquared.RSqr(modelledData, observedData), 11), Is.EqualTo(Math.Round(0.94878520708673d, 11)));
+            Assert.That(Math.Round(Numerics.GoodnessOfFit.RSquared(modelledData, observedData), 11), Is.EqualTo(Math.Round(0.94878520708673d, 11)));
         }
     }
 }
