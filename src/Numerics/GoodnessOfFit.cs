@@ -34,15 +34,28 @@ namespace MathNet.Numerics
     public static class GoodnessOfFit
     {
         /// <summary>
-        /// Calculated the R-Squared value given modelled and observed values
+        /// Calculated the R-Squared value, also known as coefficient of determination,
+        /// given modelled and observed values
         /// </summary>
         /// <param name="modelledValues">The values expected from the modelled</param>
         /// <param name="observedValues">The actual data set values obtained</param>
-        /// <returns></returns>
+        /// <returns>Squared Person product-momentum correlation coefficient.</returns>
         public static double RSquared(IEnumerable<double> modelledValues, IEnumerable<double> observedValues)
         {
             var corr = Correlation.Pearson(modelledValues, observedValues);
             return corr * corr;
+        }
+
+        /// <summary>
+        /// Calculated the R value, also known as linear correlation coefficient,
+        /// given modelled and observed values
+        /// </summary>
+        /// <param name="modelledValues">The values expected from the modelled</param>
+        /// <param name="observedValues">The actual data set values obtained</param>
+        /// <returns>Person product-momentum correlation coefficient.</returns>
+        public static double R(IEnumerable<double> modelledValues, IEnumerable<double> observedValues)
+        {
+            return Correlation.Pearson(modelledValues, observedValues);
         }
     }
 }
