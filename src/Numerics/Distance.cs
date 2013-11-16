@@ -29,8 +29,10 @@
 // </copyright>
 
 using System;
+using System.Collections.Generic;
 using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.Properties;
+using MathNet.Numerics.Statistics;
 
 namespace MathNet.Numerics
 {
@@ -276,6 +278,14 @@ namespace MathNet.Numerics
                 }
             }
             return count;
+        }
+
+        /// <summary>
+        /// Pearson's distance, i.e. 1 - the person correlation coefficient.
+        /// </summary>
+        public static double Pearson(IEnumerable<double> a, IEnumerable<double> b)
+        {
+            return 1.0 - Correlation.Pearson(a, b);
         }
     }
 }
