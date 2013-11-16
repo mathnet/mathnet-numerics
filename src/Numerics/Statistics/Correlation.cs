@@ -160,37 +160,39 @@ namespace MathNet.Numerics.Statistics
                 return new double[0];
             }
 
-            var rankedSamples = series.Select((sample, index) => new {Sample = sample, RankIndex = index}).OrderBy(s => s.Sample).ToArray();
-            if (rankedSamples.Length == 0)
+            // WARNING: do not try to cast series to an array and use it directly,
+            // as we need to sort it (and thus modify id)
+
+            double[] samples = series.ToArray();
+            int[] index = new int[samples.Length];
+            for (int i = 0; i < index.Length; i++)
             {
-                return new double[0];
+                index[i] = i;
             }
+            Sorting.Sort(samples, index);
 
-            var rankedArray = new double[rankedSamples.Length];
-
-            var previousSample = rankedSamples.Select((sampleIndex, index) => new { SampleIndex = sampleIndex, LoopIndex = index }).First();
-            foreach (var rankedSampleIndex in rankedSamples.Select((sampleIndex, index) => new { SampleIndex = sampleIndex, LoopIndex = index }))
+            double[] rankedArray = new double[samples.Length];
+            int previousIndex = 0;
+            for (int i = 1; i < samples.Length; i++)
             {
-                var currentSample = rankedSampleIndex;
-
-                if (Math.Abs(currentSample.SampleIndex.Sample - previousSample.SampleIndex.Sample) <= 0)
+                if (Math.Abs(samples[i] - samples[previousIndex]) <= 0d)
                 {
                     continue;
                 }
 
-                var rankedValue = (currentSample.LoopIndex + previousSample.LoopIndex - 1) / 2d + 1;
-                foreach (var index in Enumerable.Range(previousSample.LoopIndex, currentSample.LoopIndex - previousSample.LoopIndex))
+                var rankedValue = (i + previousIndex - 1) / 2d + 1;
+                for (int k = previousIndex; k < i; k++)
                 {
-                    rankedArray[rankedSamples[index].RankIndex] = rankedValue;
+                    rankedArray[index[k]] = rankedValue;
                 }
 
-                previousSample = currentSample;
+                previousIndex = i;
             }
 
-            var finalValue = (rankedSamples.Length + previousSample.LoopIndex - 1) / 2d + 1;
-            foreach (var index in Enumerable.Range(previousSample.LoopIndex, rankedSamples.Length - previousSample.LoopIndex))
+            var finalValue = (samples.Length + previousIndex - 1) / 2d + 1;
+            for (int k = previousIndex; k < index.Length; k++)
             {
-                rankedArray[rankedSamples[index].RankIndex] = finalValue;
+                rankedArray[index[k]] = finalValue;
             }
 
             return rankedArray;
