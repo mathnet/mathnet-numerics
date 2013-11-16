@@ -57,6 +57,9 @@ namespace MathNet.Numerics.Statistics
             double varA = 0;
             double varB = 0;
 
+            // WARNING: do not try to "optimize" by summing up products instead of using differences.
+            // It would indeed be faster, but numerically much less robust if large mean + low variance.
+
             using (IEnumerator<double> ieA = dataA.GetEnumerator())
             using (IEnumerator<double> ieB = dataB.GetEnumerator())
             {
