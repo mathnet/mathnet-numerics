@@ -88,6 +88,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Optimization\BrentMinimizer.cs" />
+    <Compile Include="Optimization\IMinimizer.cs" />
     <Compile Include="Optimization\NonLinearLeastSquaresMinimizer.cs" />
     <Compile Include="Optimization\PowellMinimizer.cs" />
     <Compile Include="Precision.Comparison.cs" />

@@ -28,12 +28,12 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using System;
-using MathNet.Numerics.Optimization;
-using NUnit.Framework;
-
 namespace MathNet.Numerics.UnitTests.OptimizationTests
 {
+    using System;
+    using MathNet.Numerics.Optimization;
+    using NUnit.Framework;
+    
     [TestFixture]
     public class FunctionMinimizationTests
     {
