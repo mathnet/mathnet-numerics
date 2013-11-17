@@ -203,6 +203,36 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
+        /// Canberra Distance, a weighted version of the L1-norm of the difference.
+        /// </summary>
+        public static double Canberra(double[] a, double[] b)
+        {
+            if (a.Length != b.Length) throw new ArgumentException(Resources.ArgumentVectorsSameLength);
+
+            double sum = 0d;
+            for (var i = 0; i < a.Length; i++)
+            {
+                sum += Math.Abs(a[i] - b[i])/(Math.Abs(a[i]) + Math.Abs(b[i]));
+            }
+            return sum;
+        }
+
+        /// <summary>
+        /// Canberra Distance, a weighted version of the L1-norm of the difference.
+        /// </summary>
+        public static double Canberra(float[] a, float[] b)
+        {
+            if (a.Length != b.Length) throw new ArgumentException(Resources.ArgumentVectorsSameLength);
+
+            float sum = 0f;
+            for (var i = 0; i < a.Length; i++)
+            {
+                sum += Math.Abs(a[i] - b[i]) / (Math.Abs(a[i]) + Math.Abs(b[i]));
+            }
+            return sum;
+        }
+
+        /// <summary>
         /// Chebyshev Distance, i.e. the Infinity-norm of the difference.
         /// </summary>
         public static double Chebyshev<T>(Vector<T> a, Vector<T> b) where T : struct, IEquatable<T>, IFormattable
