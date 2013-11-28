@@ -45,7 +45,7 @@ namespace MathNet.Numerics.LinearRegression
         /// <returns>Best fitting vector for model parameters β</returns>
         public static Vector<T> NormalEquations<T>(Matrix<T> x, Vector<T> y) where T : struct, IEquatable<T>, IFormattable
         {
-            return x.TransposeThisAndMultiply(x).Cholesky().Solve(x.Transpose()*y);
+            return x.TransposeThisAndMultiply(x).Cholesky().Solve(x.TransposeThisAndMultiply(y));
         }
 
         /// <summary>
@@ -57,7 +57,7 @@ namespace MathNet.Numerics.LinearRegression
         /// <returns>Best fitting vector for model parameters β</returns>
         public static Matrix<T> NormalEquations<T>(Matrix<T> x, Matrix<T> y) where T : struct, IEquatable<T>, IFormattable
         {
-            return x.TransposeThisAndMultiply(x).Cholesky().Solve(x.Transpose() * y);
+            return x.TransposeThisAndMultiply(x).Cholesky().Solve(x.TransposeThisAndMultiply(y));
         }
 
         /// <summary>
@@ -76,7 +76,7 @@ namespace MathNet.Numerics.LinearRegression
                 predictor = predictor.InsertColumn(0, Vector<T>.Build.Dense(predictor.RowCount, Vector<T>.One));
             }
             var response = Vector<T>.Build.Dense(y);
-            return predictor.TransposeThisAndMultiply(predictor).Cholesky().Solve(predictor.Transpose()*response).ToArray();
+            return predictor.TransposeThisAndMultiply(predictor).Cholesky().Solve(predictor.TransposeThisAndMultiply(response)).ToArray();
         }
 
         /// <summary>

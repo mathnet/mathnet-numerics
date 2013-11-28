@@ -42,7 +42,7 @@ namespace MathNet.Numerics.LinearRegression
         /// </summary>
         public static Vector<T> Weighted<T>(Matrix<T> x, Vector<T> y, Matrix<T> w) where T : struct, IEquatable<T>, IFormattable
         {
-            return x.TransposeThisAndMultiply(w*x).Cholesky().Solve(x.Transpose()*(w*y));
+            return x.TransposeThisAndMultiply(w*x).Cholesky().Solve(x.TransposeThisAndMultiply(w*y));
         }
 
         /// <summary>
@@ -50,7 +50,7 @@ namespace MathNet.Numerics.LinearRegression
         /// </summary>
         public static Matrix<T> Weighted<T>(Matrix<T> x, Matrix<T> y, Matrix<T> w) where T : struct, IEquatable<T>, IFormattable
         {
-            return x.TransposeThisAndMultiply(w*x).Cholesky().Solve(x.Transpose()*(w*y));
+            return x.TransposeThisAndMultiply(w*x).Cholesky().Solve(x.TransposeThisAndMultiply(w*y));
         }
 
         /// <summary>
@@ -65,8 +65,8 @@ namespace MathNet.Numerics.LinearRegression
                 predictor = predictor.InsertColumn(0, Vector<T>.Build.Dense(predictor.RowCount, Vector<T>.One));
             }
             var response = Vector<T>.Build.Dense(y);
-            var weights = Matrix<T>.Build.Diagonal(new DiagonalMatrixStorage<T>(predictor.RowCount, predictor.RowCount, w));
-            return predictor.TransposeThisAndMultiply(weights*predictor).Cholesky().Solve(predictor.Transpose()*(weights*response)).ToArray();
+            var weights = Matrix<T>.Build.DenseOfDiagonalArray(w);
+            return predictor.TransposeThisAndMultiply(weights*predictor).Cholesky().Solve(predictor.TransposeThisAndMultiply(weights*response)).ToArray();
         }
 
         /// <summary>
