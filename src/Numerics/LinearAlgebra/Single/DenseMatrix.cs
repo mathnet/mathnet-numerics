@@ -742,12 +742,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         {
             var denseOther = other as DenseMatrix;
             var denseResult = result as DenseMatrix;
-
-            if (denseOther == null || denseResult == null)
-            {
-                base.DoTransposeThisAndMultiply(other, result);
-            }
-            else
+            if (denseOther != null && denseResult != null)
             {
                 Control.LinearAlgebraProvider.MatrixMultiplyWithUpdate(
                     Providers.LinearAlgebra.Transpose.Transpose,
@@ -761,7 +756,32 @@ namespace MathNet.Numerics.LinearAlgebra.Single
                     denseOther._columnCount,
                     0.0f,
                     denseResult._values);
+                return;
             }
+
+            var diagonalOther = other.Storage as DiagonalMatrixStorage<float>;
+            if (diagonalOther != null)
+            {
+                var diagonal = diagonalOther.Data;
+                var d = Math.Min(RowCount, other.ColumnCount);
+                if (d < other.ColumnCount)
+                {
+                    result.ClearSubMatrix(0, ColumnCount, RowCount, other.ColumnCount - RowCount);
+                }
+                int index = 0;
+                for (int i = 0; i < ColumnCount; i++)
+                {
+                    for (int j = 0; j < d; j++)
+                    {
+                        result.At(i, j, _values[index]*diagonal[j]);
+                        index++;
+                    }
+                    index += (RowCount - d);
+                }
+                return;
+            }
+
+            base.DoTransposeThisAndMultiply(other, result);
         }
 
         /// <summary>
