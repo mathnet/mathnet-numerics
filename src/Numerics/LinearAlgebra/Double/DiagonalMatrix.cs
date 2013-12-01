@@ -192,39 +192,6 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// Adds another matrix to this matrix.
         /// </summary>
         /// <param name="other">The matrix to add to this matrix.</param>
-        /// <returns>The result of the addition.</returns>
-        /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null"/>.</exception>
-        /// <exception cref="ArgumentOutOfRangeException">If the two matrices don't have the same dimensions.</exception>
-        public override Matrix<double> Add(Matrix<double> other)
-        {
-            if (other == null)
-            {
-                throw new ArgumentNullException("other");
-            }
-
-            if (other.RowCount != RowCount || other.ColumnCount != ColumnCount)
-            {
-                throw DimensionsDontMatch<ArgumentOutOfRangeException>(this, other, "other");
-            }
-
-            Matrix<double> result;
-            if (other is DiagonalMatrix)
-            {
-                result = new DiagonalMatrix(RowCount, ColumnCount);
-            }
-            else
-            {
-                result = new DenseMatrix(RowCount, ColumnCount);
-            }
-
-            Add(other, result);
-            return result;
-        }
-
-        /// <summary>
-        /// Adds another matrix to this matrix.
-        /// </summary>
-        /// <param name="other">The matrix to add to this matrix.</param>
         /// <param name="result">The matrix to store the result of the addition.</param>
         /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null"/>.</exception>
         /// <exception cref="ArgumentOutOfRangeException">If the two matrices don't have the same dimensions.</exception>
@@ -241,39 +208,6 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             {
                 Control.LinearAlgebraProvider.AddArrays(_data, diagOther._data, diagResult._data);
             }
-        }
-
-        /// <summary>
-        /// Subtracts another matrix from this matrix.
-        /// </summary>
-        /// <param name="other">The matrix to subtract.</param>
-        /// <returns>The result of the subtraction.</returns>
-        /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null"/>.</exception>
-        /// <exception cref="ArgumentOutOfRangeException">If the two matrices don't have the same dimensions.</exception>
-        public override Matrix<double> Subtract(Matrix<double> other)
-        {
-            if (other == null)
-            {
-                throw new ArgumentNullException("other");
-            }
-
-            if (other.RowCount != RowCount || other.ColumnCount != ColumnCount)
-            {
-                throw DimensionsDontMatch<ArgumentOutOfRangeException>(this, other, "other");
-            }
-
-            Matrix<double> result;
-            if (other is DiagonalMatrix)
-            {
-                result = new DiagonalMatrix(RowCount, ColumnCount);
-            }
-            else
-            {
-                result = new DenseMatrix(RowCount, ColumnCount);
-            }
-
-            Subtract(other, result);
-            return result;
         }
 
         /// <summary>
@@ -392,67 +326,44 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// </summary>
         /// <param name="other">The matrix to multiply with.</param>
         /// <param name="result">The result of the multiplication.</param>
-        /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null" />.</exception>
-        /// <exception cref="ArgumentNullException">If the result matrix is <see langword="null" />.</exception>
-        /// <exception cref="ArgumentException">If <strong>this.Columns != other.Rows</strong>.</exception>
-        /// <exception cref="ArgumentException">If the result matrix's dimensions are not the this.Rows x other.Columns.</exception>
-        public override void Multiply(Matrix<double> other, Matrix<double> result)
+        protected override void DoMultiply(Matrix<double> other, Matrix<double> result)
         {
-            if (other == null)
+            var diagonalOther = other as DiagonalMatrix;
+            var diagonalResult = result as DiagonalMatrix;
+            if (diagonalOther != null && diagonalResult != null)
             {
-                throw new ArgumentNullException("other");
+                var thisDataCopy = new double[diagonalResult._data.Length];
+                var otherDataCopy = new double[diagonalResult._data.Length];
+                Array.Copy(_data, thisDataCopy, (diagonalResult._data.Length > _data.Length) ? _data.Length : diagonalResult._data.Length);
+                Array.Copy(diagonalOther._data, otherDataCopy, (diagonalResult._data.Length > diagonalOther._data.Length) ? diagonalOther._data.Length : diagonalResult._data.Length);
+                Control.LinearAlgebraProvider.PointWiseMultiplyArrays(thisDataCopy, otherDataCopy, diagonalResult._data);
+                return;
             }
 
-            if (result == null)
+            var denseOther = other.Storage as DenseColumnMajorMatrixStorage<double>;
+            if (denseOther != null)
             {
-                throw new ArgumentNullException("result");
+                var dense = denseOther.Data;
+                var diagonal = _data;
+                var d = Math.Min(denseOther.RowCount, RowCount);
+                if (d < RowCount)
+                {
+                    result.ClearSubMatrix(denseOther.RowCount, RowCount - denseOther.RowCount, 0, denseOther.ColumnCount);
+                }
+                int index = 0;
+                for (int i = 0; i < denseOther.ColumnCount; i++)
+                {
+                    for (int j = 0; j < d; j++)
+                    {
+                        result.At(j, i, dense[index]*diagonal[j]);
+                        index++;
+                    }
+                    index += (denseOther.RowCount - d);
+                }
+                return;
             }
 
-            if (ColumnCount != other.RowCount || result.RowCount != RowCount || result.ColumnCount != other.ColumnCount)
-            {
-                throw DimensionsDontMatch<ArgumentException>(this, other, result);
-            }
-
-            var m = other as DiagonalMatrix;
-            var r = result as DiagonalMatrix;
-
-            if (m == null || r == null)
-            {
-                base.Multiply(other, result);
-            }
-            else
-            {
-                var thisDataCopy = new double[r._data.Length];
-                var otherDataCopy = new double[r._data.Length];
-                Buffer.BlockCopy(_data, 0, thisDataCopy, 0, (r._data.Length > _data.Length) ? _data.Length * Constants.SizeOfDouble : r._data.Length * Constants.SizeOfDouble);
-                Buffer.BlockCopy(m._data, 0, otherDataCopy, 0, (r._data.Length > m._data.Length) ? m._data.Length * Constants.SizeOfDouble : r._data.Length * Constants.SizeOfDouble);
-
-                Control.LinearAlgebraProvider.PointWiseMultiplyArrays(thisDataCopy, otherDataCopy, r._data);
-            }
-        }
-
-        /// <summary>
-        /// Multiplies this matrix with another matrix and returns the result.
-        /// </summary>
-        /// <param name="other">The matrix to multiply with.</param>
-        /// <exception cref="ArgumentException">If <strong>this.Columns != other.Rows</strong>.</exception>
-        /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null" />.</exception>
-        /// <returns>The result of multiplication.</returns>
-        public override Matrix<double> Multiply(Matrix<double> other)
-        {
-            if (other == null)
-            {
-                throw new ArgumentNullException("other");
-            }
-
-            if (ColumnCount != other.RowCount)
-            {
-                throw DimensionsDontMatch<ArgumentException>(this, other);
-            }
-
-            var result = other.CreateMatrix(RowCount, other.ColumnCount);
-            Multiply(other, result);
-            return result;
+            base.DoMultiply(other, result);
         }
 
         /// <summary>
@@ -585,22 +496,88 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// </summary>
         /// <param name="other">The matrix to multiply with.</param>
         /// <param name="result">The result of the multiplication.</param>
-        /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null" />.</exception>
-        /// <exception cref="ArgumentNullException">If the result matrix is <see langword="null" />.</exception>
-        /// <exception cref="ArgumentException">If <strong>this.Columns != other.Rows</strong>.</exception>
-        /// <exception cref="ArgumentException">If the result matrix's dimensions are not the this.Rows x other.Columns.</exception>
-        public override void TransposeAndMultiply(Matrix<double> other, Matrix<double> result)
+        protected override void DoTransposeAndMultiply(Matrix<double> other, Matrix<double> result)
         {
-            var otherDiagonal = other as DiagonalMatrix;
-            var resultDiagonal = result as DiagonalMatrix;
-
-            if (otherDiagonal == null || resultDiagonal == null)
+            var diagonalOther = other as DiagonalMatrix;
+            var diagonalResult = result as DiagonalMatrix;
+            if (diagonalOther != null && diagonalResult != null)
             {
-                base.TransposeAndMultiply(other, result);
+                var thisDataCopy = new double[diagonalResult._data.Length];
+                var otherDataCopy = new double[diagonalResult._data.Length];
+                Array.Copy(_data, thisDataCopy, (diagonalResult._data.Length > _data.Length) ? _data.Length : diagonalResult._data.Length);
+                Array.Copy(diagonalOther._data, otherDataCopy, (diagonalResult._data.Length > diagonalOther._data.Length) ? diagonalOther._data.Length : diagonalResult._data.Length);
+                Control.LinearAlgebraProvider.PointWiseMultiplyArrays(thisDataCopy, otherDataCopy, diagonalResult._data);
                 return;
             }
 
-            Multiply(otherDiagonal.Transpose(), result);
+            var denseOther = other.Storage as DenseColumnMajorMatrixStorage<double>;
+            if (denseOther != null)
+            {
+                var dense = denseOther.Data;
+                var diagonal = _data;
+                var d = Math.Min(denseOther.ColumnCount, RowCount);
+                if (d < RowCount)
+                {
+                    result.ClearSubMatrix(denseOther.ColumnCount, RowCount - denseOther.ColumnCount, 0, denseOther.RowCount);
+                }
+                int index = 0;
+                for (int j = 0; j < d; j++)
+                {
+                    for (int i = 0; i < denseOther.RowCount; i++)
+                    {
+                        result.At(j, i, dense[index]*diagonal[j]);
+                        index++;
+                    }
+                }
+                return;
+            }
+
+            base.DoTransposeAndMultiply(other, result);
+        }
+
+        /// <summary>
+        /// Multiplies the transpose of this matrix with another matrix and places the results into the result matrix.
+        /// </summary>
+        /// <param name="other">The matrix to multiply with.</param>
+        /// <param name="result">The result of the multiplication.</param>
+        protected override void DoTransposeThisAndMultiply(Matrix<double> other, Matrix<double> result)
+        {
+            var diagonalOther = other as DiagonalMatrix;
+            var diagonalResult = result as DiagonalMatrix;
+            if (diagonalOther != null && diagonalResult != null)
+            {
+                var thisDataCopy = new double[diagonalResult._data.Length];
+                var otherDataCopy = new double[diagonalResult._data.Length];
+                Array.Copy(_data, thisDataCopy, (diagonalResult._data.Length > _data.Length) ? _data.Length : diagonalResult._data.Length);
+                Array.Copy(diagonalOther._data, otherDataCopy, (diagonalResult._data.Length > diagonalOther._data.Length) ? diagonalOther._data.Length : diagonalResult._data.Length);
+                Control.LinearAlgebraProvider.PointWiseMultiplyArrays(thisDataCopy, otherDataCopy, diagonalResult._data);
+                return;
+            }
+
+            var denseOther = other.Storage as DenseColumnMajorMatrixStorage<double>;
+            if (denseOther != null)
+            {
+                var dense = denseOther.Data;
+                var diagonal = _data;
+                var d = Math.Min(denseOther.RowCount, ColumnCount);
+                if (d < ColumnCount)
+                {
+                    result.ClearSubMatrix(denseOther.RowCount, ColumnCount - denseOther.RowCount, 0, denseOther.ColumnCount);
+                }
+                int index = 0;
+                for (int i = 0; i < denseOther.ColumnCount; i++)
+                {
+                    for (int j = 0; j < d; j++)
+                    {
+                        result.At(j, i, dense[index]*diagonal[j]);
+                        index++;
+                    }
+                    index += (denseOther.RowCount - d);
+                }
+                return;
+            }
+
+            base.DoTransposeThisAndMultiply(other, result);
         }
 
         /// <summary>

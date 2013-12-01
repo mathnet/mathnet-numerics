@@ -204,7 +204,7 @@ namespace MathNet.Numerics.LinearAlgebra
                 return Clone();
             }
 
-            var result = CreateMatrix(RowCount, ColumnCount);
+            var result = Build.SameType(this, RowCount, ColumnCount);
             DoAdd(scalar, result);
             return result;
         }
@@ -237,14 +237,14 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <param name="other">The matrix to add to this matrix.</param>
         /// <returns>The result of the addition.</returns>
         /// <exception cref="ArgumentOutOfRangeException">If the two matrices don't have the same dimensions.</exception>
-        public virtual Matrix<T> Add(Matrix<T> other)
+        public Matrix<T> Add(Matrix<T> other)
         {
             if (other.RowCount != RowCount || other.ColumnCount != ColumnCount)
             {
                 throw DimensionsDontMatch<ArgumentOutOfRangeException>(this, other);
             }
 
-            var result = CreateMatrix(RowCount, ColumnCount);
+            var result = Build.SameType(this, other, RowCount, ColumnCount);
             DoAdd(other, result);
             return result;
         }
@@ -282,7 +282,7 @@ namespace MathNet.Numerics.LinearAlgebra
                 return Clone();
             }
 
-            var result = CreateMatrix(RowCount, ColumnCount);
+            var result = Build.SameType(this, RowCount, ColumnCount);
             DoSubtract(scalar, result);
             return result;
         }
@@ -316,7 +316,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <returns>A new matrix containing the subtraction of the scalar and this matrix.</returns>
         public Matrix<T> SubtractFrom(T scalar)
         {
-            var result = CreateMatrix(RowCount, ColumnCount);
+            var result = Build.SameType(this, RowCount, ColumnCount);
             DoSubtractFrom(scalar, result);
             return result;
         }
@@ -343,14 +343,14 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <param name="other">The matrix to subtract.</param>
         /// <returns>The result of the subtraction.</returns>
         /// <exception cref="ArgumentOutOfRangeException">If the two matrices don't have the same dimensions.</exception>
-        public virtual Matrix<T> Subtract(Matrix<T> other)
+        public Matrix<T> Subtract(Matrix<T> other)
         {
             if (other.RowCount != RowCount || other.ColumnCount != ColumnCount)
             {
                 throw DimensionsDontMatch<ArgumentOutOfRangeException>(this, other);
             }
 
-            var result = CreateMatrix(RowCount, ColumnCount);
+            var result = Build.SameType(this, other, RowCount, ColumnCount);
             DoSubtract(other, result);
             return result;
         }
@@ -633,7 +633,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <param name="result">The result of the multiplication.</param>
         /// <exception cref="ArgumentException">If <strong>this.Columns != other.Rows</strong>.</exception>
         /// <exception cref="ArgumentException">If the result matrix's dimensions are not the this.Rows x other.Columns.</exception>
-        public virtual void Multiply(Matrix<T> other, Matrix<T> result)
+        public void Multiply(Matrix<T> other, Matrix<T> result)
         {
             if (ColumnCount != other.RowCount || result.RowCount != RowCount || result.ColumnCount != other.ColumnCount)
             {
@@ -642,7 +642,7 @@ namespace MathNet.Numerics.LinearAlgebra
 
             if (ReferenceEquals(this, result) || ReferenceEquals(other, result))
             {
-                var tmp = result.CreateMatrix(result.RowCount, result.ColumnCount);
+                var tmp = Build.SameType(result, result.RowCount, result.ColumnCount);
                 DoMultiply(other, tmp);
                 tmp.CopyTo(result);
             }
@@ -658,14 +658,14 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <param name="other">The matrix to multiply with.</param>
         /// <exception cref="ArgumentException">If <strong>this.Columns != other.Rows</strong>.</exception>
         /// <returns>The result of the multiplication.</returns>
-        public virtual Matrix<T> Multiply(Matrix<T> other)
+        public Matrix<T> Multiply(Matrix<T> other)
         {
             if (ColumnCount != other.RowCount)
             {
                 throw DimensionsDontMatch<ArgumentException>(this, other);
             }
 
-            var result = CreateMatrix(RowCount, other.ColumnCount);
+            var result = Build.SameType(this, other, RowCount, other.ColumnCount);
             DoMultiply(other, result);
             return result;
         }
@@ -686,7 +686,7 @@ namespace MathNet.Numerics.LinearAlgebra
 
             if (ReferenceEquals(this, result) || ReferenceEquals(other, result))
             {
-                var tmp = result.CreateMatrix(result.RowCount, result.ColumnCount);
+                var tmp = Build.SameType(result, result.RowCount, result.ColumnCount);
                 DoTransposeAndMultiply(other, tmp);
                 tmp.CopyTo(result);
             }
@@ -709,7 +709,7 @@ namespace MathNet.Numerics.LinearAlgebra
                 throw DimensionsDontMatch<ArgumentException>(this, other);
             }
 
-            var result = CreateMatrix(RowCount, other.RowCount);
+            var result = Build.SameType(this, other, RowCount, other.RowCount);
             DoTransposeAndMultiply(other, result);
             return result;
         }
@@ -727,9 +727,9 @@ namespace MathNet.Numerics.LinearAlgebra
                 throw DimensionsDontMatch<ArgumentException>(this, rightSide, "rightSide");
             }
 
-            var ret = CreateVector(ColumnCount);
-            DoTransposeThisAndMultiply(rightSide, ret);
-            return ret;
+            var result = CreateVector(ColumnCount);
+            DoTransposeThisAndMultiply(rightSide, result);
+            return result;
         }
 
         /// <summary>
@@ -779,7 +779,7 @@ namespace MathNet.Numerics.LinearAlgebra
 
             if (ReferenceEquals(this, result) || ReferenceEquals(other, result))
             {
-                var tmp = result.CreateMatrix(result.RowCount, result.ColumnCount);
+                var tmp = Build.SameType(result, result.RowCount, result.ColumnCount);
                 DoTransposeThisAndMultiply(other, tmp);
                 tmp.CopyTo(result);
             }
@@ -802,7 +802,7 @@ namespace MathNet.Numerics.LinearAlgebra
                 throw DimensionsDontMatch<ArgumentException>(this, other);
             }
 
-            var result = CreateMatrix(ColumnCount, other.ColumnCount);
+            var result = Build.SameType(this, other, ColumnCount, other.ColumnCount);
             DoTransposeThisAndMultiply(other, result);
             return result;
         }

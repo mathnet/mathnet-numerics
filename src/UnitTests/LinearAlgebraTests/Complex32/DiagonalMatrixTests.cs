@@ -432,5 +432,56 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
             Assert.IsTrue(tall.TransposeThisAndMultiply(Matrix<Complex32>.Build.Diagonal(8, 10, 2f)).Equals(tall.Transpose().Multiply(2f).Append(Matrix<Complex32>.Build.Dense(3, 2))));
             Assert.IsTrue(tall.TransposeThisAndMultiply(Matrix<Complex32>.Build.Diagonal(8, 2, 2f)).Equals(tall.Transpose().Multiply(2f).SubMatrix(0, 3, 0, 2)));
         }
+
+        [Test]
+        public void DiagonalDenseMatrixMultiply()
+        {
+            var dist = new ContinuousUniform(-1.0, 1.0, new MersenneTwister());
+            Assert.IsInstanceOf<DiagonalMatrix>(Matrix<Complex32>.Build.DiagonalIdentity(3, 3));
+
+            var wide = Matrix<Complex32>.Build.Random(3, 8, dist);
+            Assert.IsTrue((Matrix<Complex32>.Build.DiagonalIdentity(3).Multiply(2f)*wide).Equals(wide.Multiply(2f)));
+            Assert.IsTrue((Matrix<Complex32>.Build.Diagonal(5, 3, 2f)*wide).Equals(wide.Multiply(2f).Stack(Matrix<Complex32>.Build.Dense(2, 8))));
+            Assert.IsTrue((Matrix<Complex32>.Build.Diagonal(2, 3, 2f)*wide).Equals(wide.Multiply(2f).SubMatrix(0, 2, 0, 8)));
+
+            var tall = Matrix<Complex32>.Build.Random(8, 3, dist);
+            Assert.IsTrue((Matrix<Complex32>.Build.DiagonalIdentity(8).Multiply(2f)*tall).Equals(tall.Multiply(2f)));
+            Assert.IsTrue((Matrix<Complex32>.Build.Diagonal(10, 8, 2f)*tall).Equals(tall.Multiply(2f).Stack(Matrix<Complex32>.Build.Dense(2, 3))));
+            Assert.IsTrue((Matrix<Complex32>.Build.Diagonal(2, 8, 2f)*tall).Equals(tall.Multiply(2f).SubMatrix(0, 2, 0, 3)));
+        }
+
+        [Test]
+        public void DiagonalDenseMatrixTransposeAndMultiply()
+        {
+            var dist = new ContinuousUniform(-1.0, 1.0, new MersenneTwister());
+            Assert.IsInstanceOf<DiagonalMatrix>(Matrix<Complex32>.Build.DiagonalIdentity(3, 3));
+
+            var tall = Matrix<Complex32>.Build.Random(8, 3, dist);
+            Assert.IsTrue(Matrix<Complex32>.Build.DiagonalIdentity(3).Multiply(2f).TransposeAndMultiply(tall).Equals(tall.Multiply(2f).Transpose()));
+            Assert.IsTrue(Matrix<Complex32>.Build.Diagonal(5, 3, 2f).TransposeAndMultiply(tall).Equals(tall.Multiply(2f).Append(Matrix<Complex32>.Build.Dense(8, 2)).Transpose()));
+            Assert.IsTrue(Matrix<Complex32>.Build.Diagonal(2, 3, 2f).TransposeAndMultiply(tall).Equals(tall.Multiply(2f).SubMatrix(0, 8, 0, 2).Transpose()));
+
+            var wide = Matrix<Complex32>.Build.Random(3, 8, dist);
+            Assert.IsTrue(Matrix<Complex32>.Build.DiagonalIdentity(8).Multiply(2f).TransposeAndMultiply(wide).Equals(wide.Multiply(2f).Transpose()));
+            Assert.IsTrue(Matrix<Complex32>.Build.Diagonal(10, 8, 2f).TransposeAndMultiply(wide).Equals(wide.Multiply(2f).Append(Matrix<Complex32>.Build.Dense(3, 2)).Transpose()));
+            Assert.IsTrue(Matrix<Complex32>.Build.Diagonal(2, 8, 2f).TransposeAndMultiply(wide).Equals(wide.Multiply(2f).SubMatrix(0, 3, 0, 2).Transpose()));
+        }
+
+        [Test]
+        public void DiagonalDenseMatrixTransposeThisAndMultiply()
+        {
+            var dist = new ContinuousUniform(-1.0, 1.0, new MersenneTwister());
+            Assert.IsInstanceOf<DiagonalMatrix>(Matrix<Complex32>.Build.DiagonalIdentity(3, 3));
+
+            var wide = Matrix<Complex32>.Build.Random(3, 8, dist);
+            Assert.IsTrue((Matrix<Complex32>.Build.DiagonalIdentity(3).Multiply(2f).TransposeThisAndMultiply(wide)).Equals(wide.Multiply(2f)));
+            Assert.IsTrue((Matrix<Complex32>.Build.Diagonal(3, 5, 2f).TransposeThisAndMultiply(wide)).Equals(wide.Multiply(2f).Stack(Matrix<Complex32>.Build.Dense(2, 8))));
+            Assert.IsTrue((Matrix<Complex32>.Build.Diagonal(3, 2, 2f).TransposeThisAndMultiply(wide)).Equals(wide.Multiply(2f).SubMatrix(0, 2, 0, 8)));
+
+            var tall = Matrix<Complex32>.Build.Random(8, 3, dist);
+            Assert.IsTrue((Matrix<Complex32>.Build.DiagonalIdentity(8).Multiply(2f).TransposeThisAndMultiply(tall)).Equals(tall.Multiply(2f)));
+            Assert.IsTrue((Matrix<Complex32>.Build.Diagonal(8, 10, 2f).TransposeThisAndMultiply(tall)).Equals(tall.Multiply(2f).Stack(Matrix<Complex32>.Build.Dense(2, 3))));
+            Assert.IsTrue((Matrix<Complex32>.Build.Diagonal(8, 2, 2f).TransposeThisAndMultiply(tall)).Equals(tall.Multiply(2f).SubMatrix(0, 2, 0, 3)));
+        }
     }
 }
