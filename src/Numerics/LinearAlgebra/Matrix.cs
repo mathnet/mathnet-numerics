@@ -177,14 +177,10 @@ namespace MathNet.Numerics.LinearAlgebra
         /// </summary>
         public void ClearSubMatrix(int rowIndex, int rowCount, int columnIndex, int columnCount)
         {
-            if (rowCount < 1)
+            if (rowCount < 1 || columnCount < 1)
             {
-                throw new ArgumentOutOfRangeException("rowCount", Resources.ArgumentMustBePositive);
-            }
-
-            if (columnCount < 1)
-            {
-                throw new ArgumentOutOfRangeException("columnCount", Resources.ArgumentMustBePositive);
+                // nothing to do (but no need to fail either)
+                return;
             }
 
             if (rowIndex + rowCount > RowCount || rowIndex < 0)
