@@ -1101,6 +1101,60 @@ namespace MathNet.Numerics.LinearAlgebra
         /// </summary>
         public abstract Matrix<T> Diagonal(DiagonalMatrixStorage<T> storage);
 
+        /// <summary>
+        /// Create a new diagonal matrix with the given number of rows and columns.
+        /// All cells of the matrix will be initialized to zero.
+        /// Zero-length matrices are not supported.
+        /// </summary>
+        public Matrix<T> Diagonal(int rows, int columns)
+        {
+            return Diagonal(new DiagonalMatrixStorage<T>(rows, columns));
+        }
+
+        /// <summary>
+        /// Create a new diagonal matrix with the given number of rows and columns directly binding to a raw array.
+        /// The array is assumed to represent the diagonal values and is used directly without copying.
+        /// Very efficient, but changes to the array and the matrix will affect each other.
+        /// </summary>
+        /// <seealso href="http://en.wikipedia.org/wiki/Row-major_order"/>
+        public Matrix<T> Diagonal(int rows, int columns, T[] storage)
+        {
+            return Diagonal(new DiagonalMatrixStorage<T>(rows, columns, storage));
+        }
+
+        /// <summary>
+        /// Create a new diagonal matrix and initialize each diagonal value to the same provided value.
+        /// </summary>
+        public Matrix<T> Diagonal(int rows, int columns, T value)
+        {
+            if (Zero.Equals(value)) return Diagonal(rows, columns);
+            return Diagonal(DiagonalMatrixStorage<T>.OfInit(rows, columns, i => value));
+        }
+
+        /// <summary>
+        /// Create a new diagonal matrix and initialize each diagonal value using the provided init function.
+        /// </summary>
+        public Matrix<T> Diagonal(int rows, int columns, Func<int, T> init)
+        {
+            return Diagonal(DiagonalMatrixStorage<T>.OfInit(rows, columns, init));
+        }
+
+        /// <summary>
+        /// Create a new diagonal identity matrix with a one-diagonal.
+        /// </summary>
+        public Matrix<T> DiagonalIdentity(int rows, int columns)
+        {
+            return Diagonal(DiagonalMatrixStorage<T>.OfInit(rows, columns, i => One));
+        }
+
+        /// <summary>
+        /// Create a new diagonal identity matrix with a one-diagonal.
+        /// </summary>
+        public Matrix<T> DiagonalIdentity(int order)
+        {
+            return Diagonal(DiagonalMatrixStorage<T>.OfInit(order, order, i => One));
+        }
+
         public abstract IIterationStopCriterium<T>[] IterativeSolverStopCriteria(int maxIterations = 1000);
     }
 
