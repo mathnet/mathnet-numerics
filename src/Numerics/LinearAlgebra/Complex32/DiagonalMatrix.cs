@@ -321,6 +321,36 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         }
 
         /// <summary>
+        /// Multiplies this matrix with a vector and places the results into the result vector.
+        /// </summary>
+        /// <param name="rightSide">The vector to multiply with.</param>
+        /// <param name="result">The result of the multiplication.</param>
+        protected override void DoMultiply(Vector<Complex32> rightSide, Vector<Complex32> result)
+        {
+            var d = Math.Min(ColumnCount, RowCount);
+            if (d < RowCount)
+            {
+                result.ClearSubVector(ColumnCount, RowCount - ColumnCount);
+            }
+
+            if (d == ColumnCount)
+            {
+                var denseOther = rightSide.Storage as DenseVectorStorage<Complex32>;
+                var denseResult = result.Storage as DenseVectorStorage<Complex32>;
+                if (denseOther != null && denseResult != null)
+                {
+                    Control.LinearAlgebraProvider.PointWiseMultiplyArrays(_data, denseOther.Data, denseResult.Data);
+                    return;
+                }
+            }
+
+            for (var i = 0; i < d; i++)
+            {
+                result.At(i, _data[i]*rightSide.At(i));
+            }
+        }
+
+        /// <summary>
         /// Multiplies this matrix with another matrix and places the results into the result matrix.
         /// </summary>
         /// <param name="other">The matrix to multiply with.</param>
@@ -363,131 +393,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
             }
 
             base.DoMultiply(other, result);
-        }
-
-        /// <summary>
-        /// Multiplies this matrix with a vector and places the results into the result matrix.
-        /// </summary>
-        /// <param name="rightSide">The vector to multiply with.</param>
-        /// <param name="result">The result of the multiplication.</param>
-        /// <exception cref="ArgumentNullException">If <paramref name="rightSide"/> is <see langword="null" />.</exception>
-        /// <exception cref="ArgumentNullException">If <paramref name="result"/> is <see langword="null" />.</exception>
-        /// <exception cref="ArgumentException">If <strong>result.Count != this.RowCount</strong>.</exception>
-        /// <exception cref="ArgumentException">If <strong>this.ColumnCount != <paramref name="rightSide"/>.Count</strong>.</exception>
-        public override void Multiply(Vector<Complex32> rightSide, Vector<Complex32> result)
-        {
-            if (rightSide == null)
-            {
-                throw new ArgumentNullException("rightSide");
-            }
-
-            if (ColumnCount != rightSide.Count)
-            {
-                throw DimensionsDontMatch<ArgumentException>(this, rightSide, "rightSide");
-            }
-
-            if (result == null)
-            {
-                throw new ArgumentNullException("result");
-            }
-
-            if (RowCount != result.Count)
-            {
-                throw DimensionsDontMatch<ArgumentException>(this, result, "result");
-            }
-
-            if (ReferenceEquals(rightSide, result))
-            {
-                var tmp = result.CreateVector(result.Count);
-                Multiply(rightSide, tmp);
-                tmp.CopyTo(result);
-            }
-            else
-            {
-                // Clear the result vector
-                result.Clear();
-
-                // Multiply the elements in the vector with the corresponding diagonal element in this.
-                for (var r = 0; r < _data.Length; r++)
-                {
-                    result[r] = _data[r] * rightSide[r];
-                }
-            }
-        }
-
-        /// <summary>
-        /// Left multiply a matrix with a vector ( = vector * matrix ) and place the result in the result vector.
-        /// </summary>
-        /// <param name="leftSide">The vector to multiply with.</param>
-        /// <param name="result">The result of the multiplication.</param>
-        /// <exception cref="ArgumentNullException">If <paramref name="leftSide"/> is <see langword="null" />.</exception>
-        /// <exception cref="ArgumentNullException">If the result matrix is <see langword="null" />.</exception>
-        /// <exception cref="ArgumentException">If <strong>result.Count != this.ColumnCount</strong>.</exception>
-        /// <exception cref="ArgumentException">If <strong>this.RowCount != <paramref name="leftSide"/>.Count</strong>.</exception>
-        public override void LeftMultiply(Vector<Complex32> leftSide, Vector<Complex32> result)
-        {
-            if (leftSide == null)
-            {
-                throw new ArgumentNullException("leftSide");
-            }
-
-            if (RowCount != leftSide.Count)
-            {
-                throw DimensionsDontMatch<ArgumentException>(this, leftSide, "leftSide");
-            }
-
-            if (result == null)
-            {
-                throw new ArgumentNullException("result");
-            }
-
-            if (ColumnCount != result.Count)
-            {
-                throw DimensionsDontMatch<ArgumentException>(this, result, "result");
-            }
-
-            if (ReferenceEquals(leftSide, result))
-            {
-                var tmp = result.CreateVector(result.Count);
-                LeftMultiply(leftSide, tmp);
-                tmp.CopyTo(result);
-            }
-            else
-            {
-                // Clear the result vector
-                result.Clear();
-
-                // Multiply the elements in the vector with the corresponding diagonal element in this.
-                for (var r = 0; r < _data.Length; r++)
-                {
-                    result[r] = _data[r] * leftSide[r];
-                }
-            }
-        }
-
-        /// <summary>
-        /// Computes the determinant of this matrix.
-        /// </summary>
-        /// <returns>The determinant of this matrix.</returns>
-        public override Complex32 Determinant()
-        {
-            if (RowCount != ColumnCount)
-            {
-                throw new ArgumentException(Resources.ArgumentMatrixSquare);
-            }
-
-            return _data.Aggregate(Complex32.One, (current, t) => current * t);
-        }
-
-        /// <summary>
-        /// Returns the elements of the diagonal in a <see cref="DenseVector"/>.
-        /// </summary>
-        /// <returns>The elements of the diagonal.</returns>
-        /// <remarks>For non-square matrices, the method returns Min(Rows, Columns) elements where
-        /// i == j (i is the row index, and j is the column index).</remarks>
-        public override Vector<Complex32> Diagonal()
-        {
-            return new DenseVector(_data).Clone();
         }
 
         /// <summary>
@@ -577,6 +482,61 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
             }
 
             base.DoTransposeThisAndMultiply(other, result);
+        }
+
+        /// <summary>
+        /// Multiplies the transpose of this matrix with a vector and places the results into the result vector.
+        /// </summary>
+        /// <param name="rightSide">The vector to multiply with.</param>
+        /// <param name="result">The result of the multiplication.</param>
+        protected override void DoTransposeThisAndMultiply(Vector<Complex32> rightSide, Vector<Complex32> result)
+        {
+            var d = Math.Min(ColumnCount, RowCount);
+            if (d < ColumnCount)
+            {
+                result.ClearSubVector(RowCount, ColumnCount - RowCount);
+            }
+
+            if (d == RowCount)
+            {
+                var denseOther = rightSide.Storage as DenseVectorStorage<Complex32>;
+                var denseResult = result.Storage as DenseVectorStorage<Complex32>;
+                if (denseOther != null && denseResult != null)
+                {
+                    Control.LinearAlgebraProvider.PointWiseMultiplyArrays(_data, denseOther.Data, denseResult.Data);
+                    return;
+                }
+            }
+
+            for (var i = 0; i < d; i++)
+            {
+                result.At(i, _data[i]*rightSide.At(i));
+            }
+        }
+
+        /// <summary>
+        /// Computes the determinant of this matrix.
+        /// </summary>
+        /// <returns>The determinant of this matrix.</returns>
+        public override Complex32 Determinant()
+        {
+            if (RowCount != ColumnCount)
+            {
+                throw new ArgumentException(Resources.ArgumentMatrixSquare);
+            }
+
+            return _data.Aggregate(Complex32.One, (current, t) => current * t);
+        }
+
+        /// <summary>
+        /// Returns the elements of the diagonal in a <see cref="DenseVector"/>.
+        /// </summary>
+        /// <returns>The elements of the diagonal.</returns>
+        /// <remarks>For non-square matrices, the method returns Min(Rows, Columns) elements where
+        /// i == j (i is the row index, and j is the column index).</remarks>
+        public override Vector<Complex32> Diagonal()
+        {
+            return new DenseVector(_data).Clone();
         }
 
         /// <summary>

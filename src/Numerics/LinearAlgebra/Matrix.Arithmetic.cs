@@ -543,7 +543,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <param name="result">The result of the multiplication.</param>
         /// <exception cref="ArgumentException">If <strong>result.Count != this.RowCount</strong>.</exception>
         /// <exception cref="ArgumentException">If <strong>this.ColumnCount != <paramref name="rightSide"/>.Count</strong>.</exception>
-        public virtual void Multiply(Vector<T> rightSide, Vector<T> result)
+        public void Multiply(Vector<T> rightSide, Vector<T> result)
         {
             if (ColumnCount != rightSide.Count)
             {
@@ -592,7 +592,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <param name="result">The result of the multiplication.</param>
         /// <exception cref="ArgumentException">If <strong>result.Count != this.ColumnCount</strong>.</exception>
         /// <exception cref="ArgumentException">If <strong>this.RowCount != <paramref name="leftSide"/>.Count</strong>.</exception>
-        public virtual void LeftMultiply(Vector<T> leftSide, Vector<T> result)
+        public void LeftMultiply(Vector<T> leftSide, Vector<T> result)
         {
             if (RowCount != leftSide.Count)
             {
