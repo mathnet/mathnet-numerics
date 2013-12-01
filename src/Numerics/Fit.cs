@@ -106,7 +106,7 @@ namespace MathNet.Numerics
         public static double[] PolynomialWeighted(double[] x, double[] y, double[] w, int order)
         {
             var design = Matrix<double>.Build.Dense(x.Length, order + 1, (i, j) => Math.Pow(x[i], j));
-            return WeightedRegression.Weighted(design, Vector<double>.Build.Dense(y), Matrix<double>.Build.DenseOfDiagonalArray(w)).ToArray();
+            return WeightedRegression.Weighted(design, Vector<double>.Build.Dense(y), Matrix<double>.Build.Diagonal(w.Length, w.Length, w)).ToArray();
         }
 
         /// <summary>
