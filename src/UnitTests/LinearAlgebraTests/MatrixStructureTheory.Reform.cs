@@ -124,7 +124,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
             }
 
             // Invalid
-            Assert.That(() => matrix.InsertRow(0, default(Vector<T>)), Throws.InstanceOf<ArgumentNullException>());
+            Assert.That(() => matrix.InsertRow(0, default(Vector<T>)), Throws.Exception);
             Assert.That(() => matrix.InsertRow(-1, CreateVectorZero(matrix.ColumnCount)), Throws.InstanceOf<ArgumentOutOfRangeException>());
             Assert.That(() => matrix.InsertRow(matrix.RowCount + 1, CreateVectorZero(matrix.ColumnCount)), Throws.InstanceOf<ArgumentOutOfRangeException>());
             Assert.That(() => matrix.InsertRow(0, CreateVectorZero(matrix.ColumnCount - 1)), Throws.ArgumentException);
@@ -160,7 +160,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
             }
 
             // Invalid
-            Assert.That(() => matrix.InsertColumn(0, default(Vector<T>)), Throws.InstanceOf<ArgumentNullException>());
+            Assert.That(() => matrix.InsertColumn(0, default(Vector<T>)), Throws.Exception);
             Assert.That(() => matrix.InsertColumn(-1, CreateVectorZero(matrix.RowCount)), Throws.InstanceOf<ArgumentOutOfRangeException>());
             Assert.That(() => matrix.InsertColumn(matrix.ColumnCount + 1, CreateVectorZero(matrix.RowCount)), Throws.InstanceOf<ArgumentOutOfRangeException>());
             Assert.That(() => matrix.InsertColumn(0, CreateVectorZero(matrix.RowCount - 1)), Throws.ArgumentException);

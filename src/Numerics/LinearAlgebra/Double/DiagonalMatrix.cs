@@ -193,7 +193,6 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// </summary>
         /// <param name="other">The matrix to add to this matrix.</param>
         /// <param name="result">The matrix to store the result of the addition.</param>
-        /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null"/>.</exception>
         /// <exception cref="ArgumentOutOfRangeException">If the two matrices don't have the same dimensions.</exception>
         protected override void DoAdd(Matrix<double> other, Matrix<double> result)
         {
@@ -215,7 +214,6 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// </summary>
         /// <param name="other">The matrix to subtract.</param>
         /// <param name="result">The matrix to store the result of the subtraction.</param>
-        /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null"/>.</exception>
         /// <exception cref="ArgumentOutOfRangeException">If the two matrices don't have the same dimensions.</exception>
         protected override void DoSubtract(Matrix<double> other, Matrix<double> result)
         {
@@ -237,18 +235,12 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// </summary>
         /// <param name="source">The array to copy the values from. The length of the vector should be
         /// Min(Rows, Columns).</param>
-        /// <exception cref="ArgumentNullException">If <paramref name="source"/> is <see langword="null" />.</exception>
         /// <exception cref="ArgumentException">If the length of <paramref name="source"/> does not
         /// equal Min(Rows, Columns).</exception>
         /// <remarks>For non-square matrices, the elements of <paramref name="source"/> are copied to
         /// this[i,i].</remarks>
         public override void SetDiagonal(double[] source)
         {
-            if (source == null)
-            {
-                throw new ArgumentNullException("source");
-            }
-
             if (source.Length != _data.Length)
             {
                 throw new ArgumentException(Resources.ArgumentArraysSameLength, "source");
@@ -262,7 +254,6 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// </summary>
         /// <param name="source">The vector to copy the values from. The length of the vector should be
         /// Min(Rows, Columns).</param>
-        /// <exception cref="ArgumentNullException">If <paramref name="source"/> is <see langword="null" />.</exception>
         /// <exception cref="ArgumentException">If the length of <paramref name="source"/> does not
         /// equal Min(Rows, Columns).</exception>
         /// <remarks>For non-square matrices, the elements of <paramref name="source"/> are copied to
@@ -289,7 +280,6 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// </summary>
         /// <param name="scalar">The scalar to multiply the matrix with.</param>
         /// <param name="result">The matrix to store the result of the multiplication.</param>
-        /// <exception cref="ArgumentNullException">If the result matrix is <see langword="null" />.</exception>
         /// <exception cref="ArgumentException">If the result matrix's dimensions are not the same as this matrix.</exception>
         protected override void DoMultiply(double scalar, Matrix<double> result)
         {
@@ -634,15 +624,9 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// Puts the lower triangle of this matrix into the result matrix.
         /// </summary>
         /// <param name="result">Where to store the lower triangle.</param>
-        /// <exception cref="ArgumentNullException">If <paramref name="result"/> is <see langword="null" />.</exception>
         /// <exception cref="ArgumentException">If the result matrix's dimensions are not the same as this matrix.</exception>
         public override void LowerTriangle(Matrix<double> result)
         {
-            if (result == null)
-            {
-                throw new ArgumentNullException("result");
-            }
-
             if (result.RowCount != RowCount || result.ColumnCount != ColumnCount)
             {
                 throw DimensionsDontMatch<ArgumentException>(this, result, "result");
@@ -674,15 +658,9 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// Puts the strictly lower triangle of this matrix into the result matrix.
         /// </summary>
         /// <param name="result">Where to store the lower triangle.</param>
-        /// <exception cref="ArgumentNullException">If <paramref name="result"/> is <see langword="null" />.</exception>
         /// <exception cref="ArgumentException">If the result matrix's dimensions are not the same as this matrix.</exception>
         public override void StrictlyLowerTriangle(Matrix<double> result)
         {
-            if (result == null)
-            {
-                throw new ArgumentNullException("result");
-            }
-
             if (result.RowCount != RowCount || result.ColumnCount != ColumnCount)
             {
                 throw DimensionsDontMatch<ArgumentException>(this, result, "result");
@@ -704,15 +682,9 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// Puts the upper triangle of this matrix into the result matrix.
         /// </summary>
         /// <param name="result">Where to store the lower triangle.</param>
-        /// <exception cref="ArgumentNullException">If <paramref name="result"/> is <see langword="null" />.</exception>
         /// <exception cref="ArgumentException">If the result matrix's dimensions are not the same as this matrix.</exception>
         public override void UpperTriangle(Matrix<double> result)
         {
-            if (result == null)
-            {
-                throw new ArgumentNullException("result");
-            }
-
             if (result.RowCount != RowCount || result.ColumnCount != ColumnCount)
             {
                 throw DimensionsDontMatch<ArgumentException>(this, result, "result");
@@ -739,15 +711,9 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// Puts the strictly upper triangle of this matrix into the result matrix.
         /// </summary>
         /// <param name="result">Where to store the lower triangle.</param>
-        /// <exception cref="ArgumentNullException">If <paramref name="result"/> is <see langword="null" />.</exception>
         /// <exception cref="ArgumentException">If the result matrix's dimensions are not the same as this matrix.</exception>
         public override void StrictlyUpperTriangle(Matrix<double> result)
         {
-            if (result == null)
-            {
-                throw new ArgumentNullException("result");
-            }
-
             if (result.RowCount != RowCount || result.ColumnCount != ColumnCount)
             {
                 throw DimensionsDontMatch<ArgumentException>(this, result, "result");
@@ -788,16 +754,10 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="columnIndex">The index of where to insert the column.</param>
         /// <param name="column">The column to insert.</param>
         /// <returns>A new <see cref="SparseMatrix"/> with the inserted column.</returns>
-        /// <exception cref="ArgumentNullException">If <paramref name="column "/> is <see langword="null" />. </exception>
         /// <exception cref="ArgumentOutOfRangeException">If <paramref name="columnIndex"/> is &lt; zero or &gt; the number of columns.</exception>
         /// <exception cref="ArgumentException">If the size of <paramref name="column"/> != the number of rows.</exception>
         public override Matrix<double> InsertColumn(int columnIndex, Vector<double> column)
         {
-            if (column == null)
-            {
-                throw new ArgumentNullException("column");
-            }
-
             if (columnIndex < 0 || columnIndex > ColumnCount)
             {
                 throw new ArgumentOutOfRangeException("columnIndex");
@@ -831,16 +791,10 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="rowIndex">The index of where to insert the row.</param>
         /// <param name="row">The row to insert.</param>
         /// <returns>A new  <see cref="SparseMatrix"/> with the inserted column.</returns>
-        /// <exception cref="ArgumentNullException">If <paramref name="row"/> is <see langword="null" />. </exception>
         /// <exception cref="ArgumentOutOfRangeException">If <paramref name="rowIndex"/> is &lt; zero or &gt; the number of rows.</exception>
         /// <exception cref="ArgumentException">If the size of <paramref name="row"/> != the number of columns.</exception>
         public override Matrix<double> InsertRow(int rowIndex, Vector<double> row)
         {
-            if (row == null)
-            {
-                throw new ArgumentNullException("row");
-            }
-
             if (rowIndex < 0 || rowIndex > RowCount)
             {
                 throw new ArgumentOutOfRangeException("rowIndex");

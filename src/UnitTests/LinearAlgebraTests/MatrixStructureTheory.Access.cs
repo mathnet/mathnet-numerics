@@ -404,7 +404,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
                 }
             }
 
-            Assert.That(() => matrix.UpperTriangle(null), Throws.InstanceOf<ArgumentNullException>());
+            Assert.That(() => matrix.UpperTriangle(null), Throws.Exception);
             Assert.That(() => matrix.UpperTriangle(CreateSparseZero(matrix.RowCount + 1, matrix.ColumnCount)), Throws.ArgumentException);
             Assert.That(() => matrix.UpperTriangle(CreateDenseZero(matrix.RowCount, matrix.ColumnCount + 1)), Throws.ArgumentException);
         }
@@ -445,7 +445,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
                 }
             }
 
-            Assert.That(() => matrix.LowerTriangle(null), Throws.InstanceOf<ArgumentNullException>());
+            Assert.That(() => matrix.LowerTriangle(null), Throws.Exception);
             Assert.That(() => matrix.LowerTriangle(CreateSparseZero(matrix.RowCount + 1, matrix.ColumnCount)), Throws.ArgumentException);
             Assert.That(() => matrix.LowerTriangle(CreateDenseZero(matrix.RowCount, matrix.ColumnCount + 1)), Throws.ArgumentException);
         }
@@ -486,7 +486,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
                 }
             }
 
-            Assert.That(() => matrix.StrictlyUpperTriangle(null), Throws.InstanceOf<ArgumentNullException>());
+            Assert.That(() => matrix.StrictlyUpperTriangle(null), Throws.Exception);
             Assert.That(() => matrix.StrictlyUpperTriangle(CreateSparseZero(matrix.RowCount + 1, matrix.ColumnCount)), Throws.ArgumentException);
             Assert.That(() => matrix.StrictlyUpperTriangle(CreateDenseZero(matrix.RowCount, matrix.ColumnCount + 1)), Throws.ArgumentException);
         }
@@ -527,7 +527,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
                 }
             }
 
-            Assert.That(() => matrix.StrictlyLowerTriangle(null), Throws.InstanceOf<ArgumentNullException>());
+            Assert.That(() => matrix.StrictlyLowerTriangle(null), Throws.Exception);
             Assert.That(() => matrix.StrictlyLowerTriangle(CreateSparseZero(matrix.RowCount + 1, matrix.ColumnCount)), Throws.ArgumentException);
             Assert.That(() => matrix.StrictlyLowerTriangle(CreateDenseZero(matrix.RowCount, matrix.ColumnCount + 1)), Throws.ArgumentException);
         }
@@ -577,7 +577,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
             }
 
             // Invalid
-            Assert.That(() => matrix.SetDiagonal(default(T[])), Throws.InstanceOf<ArgumentNullException>());
+            Assert.That(() => matrix.SetDiagonal(default(T[])), Throws.Exception);
             Assert.That(() => matrix.SetDiagonal(new T[Math.Min(matrix.RowCount, matrix.ColumnCount) - 1]), Throws.ArgumentException);
             Assert.That(() => matrix.SetDiagonal(new T[Math.Min(matrix.RowCount, matrix.ColumnCount) + 1]), Throws.ArgumentException);
         }
