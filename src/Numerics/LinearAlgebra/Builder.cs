@@ -397,6 +397,31 @@ namespace MathNet.Numerics.LinearAlgebra
         }
 
         /// <summary>
+        /// Create a new matrix with the same kind of the provided example.
+        /// </summary>
+        public Matrix<T> SameType(Matrix<T> example, int rows, int columns)
+        {
+            var storage = example.Storage;
+            if (storage is DenseColumnMajorMatrixStorage<T>) return Dense(rows, columns);
+            if (storage is DiagonalMatrixStorage<T>) return Diagonal(rows, columns);
+            if (storage is SparseCompressedRowMatrixStorage<T>) return Sparse(rows, columns);
+            return Dense(rows, columns);
+        }
+
+        /// <summary>
+        /// Create a new matrix with a type that can represent and is closest to both provided samples.
+        /// </summary>
+        public Matrix<T> SameType(Matrix<T> example1, Matrix<T> example2 , int rows, int columns)
+        {
+            var storage1 = example1.Storage;
+            var storage2 = example2.Storage;
+            if (storage1 is DenseColumnMajorMatrixStorage<T> || storage2 is DenseColumnMajorMatrixStorage<T>) return Dense(rows, columns);
+            if (storage1 is DiagonalMatrixStorage<T> && storage2 is DiagonalMatrixStorage<T>) return Diagonal(rows, columns);
+            if (storage1 is SparseCompressedRowMatrixStorage<T> || storage2 is SparseCompressedRowMatrixStorage<T>) return Sparse(rows, columns);
+            return Dense(rows, columns);
+        }
+
+        /// <summary>
         /// Create a new dense matrix with values sampled from the provided random distribution.
         /// </summary>
         public abstract Matrix<T> Random(int rows, int columns, IContinuousDistribution distribution);
@@ -1188,6 +1213,22 @@ namespace MathNet.Numerics.LinearAlgebra
             if (sparse != null) return Sparse(sparse);
 
             throw new NotSupportedException();
+        }
+
+        /// <summary>
+        /// Create a new vector with the same kind of the provided example.
+        /// </summary>
+        public Vector<T> SameType(Vector<T> example, int length)
+        {
+            return example.Storage.IsDense ? Dense(length) : Sparse(length);
+        }
+
+        /// <summary>
+        /// Create a new vector with a type that can represent and is closest to both provided samples.
+        /// </summary>
+        public Vector<T> SameType(Vector<T> example1, Vector<T> example2, int length)
+        {
+            return example1.Storage.IsDense || example2.Storage.IsDense ? Dense(length) : Sparse(length);
         }
 
         /// <summary>
