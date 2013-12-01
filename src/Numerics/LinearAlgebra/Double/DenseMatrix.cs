@@ -481,11 +481,11 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 return;
             }
 
-            // dense + diagonal = matrix
+            // dense + diagonal = any
             var diagonalOther = other.Storage as DiagonalMatrixStorage<double>;
             if (diagonalOther != null)
             {
-                CopyTo(result);
+                Storage.CopyToUnchecked(result.Storage);
                 var diagonal = diagonalOther.Data;
                 for (int i = 0; i < diagonal.Length; i++)
                 {

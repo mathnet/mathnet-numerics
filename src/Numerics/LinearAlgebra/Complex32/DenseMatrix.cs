@@ -501,11 +501,11 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
                 return;
             }
 
-            // dense + diagonal = matrix
+            // dense + diagonal = any
             var diagonalOther = other.Storage as DiagonalMatrixStorage<Complex32>;
             if (diagonalOther != null)
             {
-                CopyTo(result);
+                Storage.CopyToUnchecked(result.Storage);
                 var diagonal = diagonalOther.Data;
                 for (int i = 0; i < diagonal.Length; i++)
                 {

@@ -506,11 +506,11 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
                 return;
             }
 
-            // dense + diagonal = matrix
+            // dense + diagonal = any
             var diagonalOther = other.Storage as DiagonalMatrixStorage<Complex>;
             if (diagonalOther != null)
             {
-                CopyTo(result);
+                Storage.CopyToUnchecked(result.Storage);
                 var diagonal = diagonalOther.Data;
                 for (int i = 0; i < diagonal.Length; i++)
                 {

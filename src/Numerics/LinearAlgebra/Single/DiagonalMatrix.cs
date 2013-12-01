@@ -196,16 +196,19 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// <exception cref="ArgumentOutOfRangeException">If the two matrices don't have the same dimensions.</exception>
         protected override void DoAdd(Matrix<float> other, Matrix<float> result)
         {
+            // diagonal + diagonal = diagonal
             var diagOther = other as DiagonalMatrix;
             var diagResult = result as DiagonalMatrix;
-
-            if (diagOther == null || diagResult == null)
-            {
-                base.DoAdd(other, result);
-            }
-            else
+            if (diagOther != null && diagResult != null)
             {
                 Control.LinearAlgebraProvider.AddArrays(_data, diagOther._data, diagResult._data);
+                return;
+            }
+
+            other.CopyTo(result);
+            for (int i = 0; i < _data.Length; i++)
+            {
+                result.At(i, i, result.At(i, i) + _data[i]);
             }
         }
 
@@ -217,16 +220,19 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// <exception cref="ArgumentOutOfRangeException">If the two matrices don't have the same dimensions.</exception>
         protected override void DoSubtract(Matrix<float> other, Matrix<float> result)
         {
+            // diagonal - diagonal = diagonal
             var diagOther = other as DiagonalMatrix;
             var diagResult = result as DiagonalMatrix;
-
-            if (diagOther == null || diagResult == null)
-            {
-                base.DoSubtract(other, result);
-            }
-            else
+            if (diagOther != null && diagResult != null)
             {
                 Control.LinearAlgebraProvider.SubtractArrays(_data, diagOther._data, diagResult._data);
+                return;
+            }
+
+            other.Negate(result);
+            for (int i = 0; i < _data.Length; i++)
+            {
+                result.At(i, i, result.At(i, i) + _data[i]);
             }
         }
 
