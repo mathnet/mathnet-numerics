@@ -10,7 +10,7 @@ namespace MathNet.Numerics.Optimization
 		public double ParameterTolerance { get; set; }
         public int MaximumIterations { get; set; }
 
-        public BfgsMinimizer(double gradientTolerance, double parameterTolerance, int maximumIterations)
+        public BfgsMinimizer(double gradientTolerance, double parameterTolerance, int maximumIterations=1000)
         {
             GradientTolerance = gradientTolerance;
 			ParameterTolerance = parameterTolerance;
