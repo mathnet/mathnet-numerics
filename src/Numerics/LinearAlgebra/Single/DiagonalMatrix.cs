@@ -577,9 +577,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// i == j (i is the row index, and j is the column index).</remarks>
         public override Vector<float> Diagonal()
         {
-            // TODO: Should we return reference to array? In current implementation we return copy of array, so changes in DenseVector will
-            // not influence onto diagonal elements
-            return new DenseVector((float[])_data.Clone());
+            return new DenseVector(_data).Clone();
         }
 
         /// <summary>
@@ -603,31 +601,6 @@ namespace MathNet.Numerics.LinearAlgebra.Single
             }
 
             Multiply(otherDiagonal.Transpose(), result);
-        }
-
-        /// <summary>
-        /// Multiplies this matrix with transpose of another matrix and returns the result.
-        /// </summary>
-        /// <param name="other">The matrix to multiply with.</param>
-        /// <exception cref="ArgumentException">If <strong>this.Columns != other.Rows</strong>.</exception>
-        /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null" />.</exception>
-        /// <returns>The result of multiplication.</returns>
-        public override Matrix<float> TransposeAndMultiply(Matrix<float> other)
-        {
-            var otherDiagonal = other as DiagonalMatrix;
-            if (otherDiagonal == null)
-            {
-                return base.TransposeAndMultiply(other);
-            }
-
-            if (ColumnCount != otherDiagonal.ColumnCount)
-            {
-                throw DimensionsDontMatch<ArgumentException>(this, otherDiagonal);
-            }
-
-            var result = other.CreateMatrix(RowCount, other.RowCount);
-            TransposeAndMultiply(other, result);
-            return result;
         }
 
         /// <summary>

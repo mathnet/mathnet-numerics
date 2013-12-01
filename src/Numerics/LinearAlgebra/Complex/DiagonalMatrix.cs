@@ -588,9 +588,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// i == j (i is the row index, and j is the column index).</remarks>
         public override Vector<Complex> Diagonal()
         {
-            // TODO: Should we return reference to array? In current implementation we return copy of array, so changes in DenseVector will
-            // not influence onto diagonal elements
-            return new DenseVector((Complex[])_data.Clone());
+            return new DenseVector(_data).Clone();
         }
 
         /// <summary>
@@ -614,31 +612,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
             }
 
             Multiply(otherDiagonal.Transpose(), result);
-        }
-
-        /// <summary>
-        /// Multiplies this matrix with transpose of another matrix and returns the result.
-        /// </summary>
-        /// <param name="other">The matrix to multiply with.</param>
-        /// <exception cref="ArgumentException">If <strong>this.Columns != other.Rows</strong>.</exception>
-        /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null" />.</exception>
-        /// <returns>The result of multiplication.</returns>
-        public override Matrix<Complex> TransposeAndMultiply(Matrix<Complex> other)
-        {
-            var otherDiagonal = other as DiagonalMatrix;
-            if (otherDiagonal == null)
-            {
-                return base.TransposeAndMultiply(other);
-            }
-
-            if (ColumnCount != otherDiagonal.ColumnCount)
-            {
-                throw DimensionsDontMatch<ArgumentException>(this, otherDiagonal);
-            }
-
-            var result = other.CreateMatrix(RowCount, other.RowCount);
-            TransposeAndMultiply(other, result);
-            return result;
         }
 
         /// <summary>
@@ -703,7 +676,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         {
             if (RowCount != ColumnCount)
             {
-                    throw new ArgumentException(Resources.ArgumentMatrixSquare);
+                throw new ArgumentException(Resources.ArgumentMatrixSquare);
             }
 
             var inverse = (DiagonalMatrix)Clone();

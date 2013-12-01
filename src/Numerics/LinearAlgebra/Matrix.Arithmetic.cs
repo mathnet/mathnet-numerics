@@ -702,7 +702,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <param name="other">The matrix to multiply with.</param>
         /// <exception cref="ArgumentException">If <strong>this.Columns != other.ColumnCount</strong>.</exception>
         /// <returns>The result of the multiplication.</returns>
-        public virtual Matrix<T> TransposeAndMultiply(Matrix<T> other)
+        public Matrix<T> TransposeAndMultiply(Matrix<T> other)
         {
             if (ColumnCount != other.ColumnCount)
             {

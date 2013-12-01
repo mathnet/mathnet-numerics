@@ -583,9 +583,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// i == j (i is the row index, and j is the column index).</remarks>
         public override Vector<Complex32> Diagonal()
         {
-            // TODO: Should we return reference to array? In current implementation we return copy of array, so changes in DenseVector will
-            // not influence onto diagonal elements
-            return new DenseVector((Complex32[])_data.Clone());
+            return new DenseVector(_data).Clone();
         }
 
         /// <summary>
@@ -609,31 +607,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
             }
 
             Multiply(otherDiagonal.Transpose(), result);
-        }
-
-        /// <summary>
-        /// Multiplies this matrix with transpose of another matrix and returns the result.
-        /// </summary>
-        /// <param name="other">The matrix to multiply with.</param>
-        /// <exception cref="ArgumentException">If <strong>this.Columns != other.Rows</strong>.</exception>
-        /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null" />.</exception>
-        /// <returns>The result of multiplication.</returns>
-        public override Matrix<Complex32> TransposeAndMultiply(Matrix<Complex32> other)
-        {
-            var otherDiagonal = other as DiagonalMatrix;
-            if (otherDiagonal == null)
-            {
-                return base.TransposeAndMultiply(other);
-            }
-
-            if (ColumnCount != otherDiagonal.ColumnCount)
-            {
-                throw DimensionsDontMatch<ArgumentException>(this, otherDiagonal);
-            }
-
-            var result = other.CreateMatrix(RowCount, other.RowCount);
-            TransposeAndMultiply(other, result);
-            return result;
         }
 
         /// <summary>

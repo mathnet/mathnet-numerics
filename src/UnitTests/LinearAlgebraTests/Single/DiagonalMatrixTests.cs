@@ -30,8 +30,10 @@
 
 using System;
 using System.Collections.Generic;
+using MathNet.Numerics.Distributions;
 using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Single;
+using MathNet.Numerics.Random;
 using NUnit.Framework;
 
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
@@ -376,6 +378,24 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
         {
             var matrix = TestMatrices["Square3x3"];
             Assert.IsTrue(matrix.IsSymmetric);
+        }
+
+        [Test]
+        public void DenseDiagonalMatrixMultiplication()
+        {
+            var dist = new ContinuousUniform(-1.0, 1.0, new MersenneTwister());
+
+            Assert.IsInstanceOf<DiagonalMatrix>(Matrix<float>.Build.DiagonalIdentity(3, 3));
+
+            var tall = Matrix<float>.Build.Random(8, 3, dist);
+            Assert.IsTrue((tall*Matrix<float>.Build.DiagonalIdentity(3).Multiply(2f)).Equals(tall.Multiply(2f)));
+            Assert.IsTrue((tall*Matrix<float>.Build.Diagonal(3, 5, 2f)).Equals(tall.Multiply(2f).Append(Matrix<float>.Build.Dense(8, 2))));
+            Assert.IsTrue((tall*Matrix<float>.Build.Diagonal(3, 2, 2f)).Equals(tall.Multiply(2f).SubMatrix(0, 8, 0, 2)));
+
+            var wide = Matrix<float>.Build.Random(3, 8, dist);
+            Assert.IsTrue((wide*Matrix<float>.Build.DiagonalIdentity(8).Multiply(2f)).Equals(wide.Multiply(2f)));
+            Assert.IsTrue((wide*Matrix<float>.Build.Diagonal(8, 10, 2f)).Equals(wide.Multiply(2f).Append(Matrix<float>.Build.Dense(3, 2))));
+            Assert.IsTrue((wide*Matrix<float>.Build.Diagonal(8, 2, 2f)).Equals(wide.Multiply(2f).SubMatrix(0, 3, 0, 2)));
         }
     }
 }
