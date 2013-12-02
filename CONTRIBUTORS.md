@@ -32,6 +32,7 @@ Feel free to add a link to your personal site/blog and/or twitter handle.*
 - Robin Neatherway
 - Anders Gustafsson (cureos)
 - Andrew Kazyrevich
+- Ethar Alali
 - Iain McDonald (lifebeyondfife)
 - Candy Chiu
 - Gauthier Segay

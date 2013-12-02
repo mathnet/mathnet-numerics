@@ -52,9 +52,11 @@ Changes as of now:
 - F#: all functions in the modules now fully generic, including the `matrix` function.
 - F#: `SkipZeros` instead of the cryptic `nz` suffix for clarity.
 - Add missing scalar-matrix routines.
+- Optimized mixed dense-diagonal and diagonal-dense operations (500x faster on 250k set).
 - Add point-wise infix operators `.*`, `./`, `.%` where supported (F#)
 - Vectors explicitly provide proper L1, L2 and L-infinity norms.
 - All norms return the result as double (instead of the specific value type of the matrix/vector).
+- Matrix L-infinity norm now cache-optimized (8-10x faster).
 - Vectors have a `ConjugateDotProduct` in addition to `DotProduct`.
 - Matrix Factorization types fully generic, easily accessed by new `Matrix<T>` member methods (replacing the extension methods). Discrete implementations no longer visible.
 - QR factorization is thin by default.
@@ -70,16 +72,21 @@ Changes as of now:
 - Matrix/Vector creation routines have been simplified and usually no longer require explicit dimensions. New variants to create diagonal matrices, or such where all fields have the same value. All functions that take a params array now have an overload accepting an enumerable (e.g. `OfColumnVectors`).
 - Generic Matrix/Vector creation using builders, e.g. `Matrix<double>.Build.DenseOfEnumerable(...)`
 - Create a matrix from a 2D-array of matrices (top-left aligned within the grid).
+- Create a matrix or vector with the same structural type as an example (`.Build.SameAs(...)`)
+- Removed non-static Matrix/Vector.CreateMatrix/CreateVector routines (no longer needed)
 - Add Vector.OfArray (copying the array, consistent with Matrix.OfArray - you can still use the dense vector constructor if you want to use the array directly without copying).
 - More convenient and one more powerful overload of `Matrix.SetSubMatrix`.
 - Matrices/Vectors expose whether storage is dense with a new IsDense property.
 - Various minor performance work.
+- Matrix.ClearSubMatrix no longer throws on 0 or negative col/row count (nop)
 - BUG: Fix bug in routine to copy a vector into a sub-row of a matrix.
 
 ### Statistics
 
 - Pearson and Spearman correlation matrix of a set of arrays.
+- Spearman ranked correlation optimized (4x faster on 100k set)
 - Single-pass `MeanVariance` method (as used often together).
+- Some overloads for single-precision values.
 
 ### Probability Distributions
 
@@ -97,6 +104,9 @@ Changes as of now:
 - Reworked `Fit` class, supporting more simple scenarios.
 - New `.LinearRegression` namespace with more options.
 - Better support for simple regression in multiple dimensions.
+- Goodness of Fit: R, RSquared *~Ethar Alali*
+- Weighted polynomial and multi-dim fitting.
+- Use more efficient LA routines *~Thomas Ibel*
 
 ### Build & Packages
 
@@ -108,7 +118,7 @@ Changes as of now:
 
 ### Misc
 
-- New distance functions in `Distance`: euclidean, manhattan, chebychev distance of arrays or generic vectors. SAD, MAE, SSD, MSE metrics. Hamming distance.
+- New distance functions in `Distance`: euclidean, manhattan, chebychev distance of arrays or generic vectors. SAD, MAE, SSD, MSE metrics. Pearson's, Canberra and Minkowski distance. Hamming distance.
 - Interpolation: return tuple instead of out parameter
 - Integration: simplification of the double-exponential transformation api design.
 - More robust complex Asin/Acos for large real numbers.
