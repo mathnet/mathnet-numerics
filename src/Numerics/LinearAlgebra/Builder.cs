@@ -1148,6 +1148,17 @@ namespace MathNet.Numerics.LinearAlgebra
         }
 
         /// <summary>
+        /// Create a new square diagonal matrix directly binding to a raw array.
+        /// The array is assumed to represent the diagonal values and is used directly without copying.
+        /// Very efficient, but changes to the array and the matrix will affect each other.
+        /// </summary>
+        /// <seealso href="http://en.wikipedia.org/wiki/Row-major_order"/>
+        public Matrix<T> Diagonal(T[] storage)
+        {
+            return Diagonal(new DiagonalMatrixStorage<T>(storage.Length, storage.Length, storage));
+        }
+
+        /// <summary>
         /// Create a new diagonal matrix and initialize each diagonal value to the same provided value.
         /// </summary>
         public Matrix<T> Diagonal(int rows, int columns, T value)
@@ -1178,6 +1189,55 @@ namespace MathNet.Numerics.LinearAlgebra
         public Matrix<T> DiagonalIdentity(int order)
         {
             return Diagonal(DiagonalMatrixStorage<T>.OfInit(order, order, i => One));
+        }
+
+
+        /// <summary>
+        /// Create a new diagonal matrix with the diagonal as a copy of the given vector.
+        /// This new matrix will be independent from the vector.
+        /// A new memory block will be allocated for storing the matrix.
+        /// </summary>
+        public Matrix<T> DiagonalOfDiagonalVector(Vector<T> diagonal)
+        {
+            var m = Diagonal(diagonal.Count, diagonal.Count);
+            m.SetDiagonal(diagonal);
+            return m;
+        }
+
+        /// <summary>
+        /// Create a new diagonal matrix with the diagonal as a copy of the given vector.
+        /// This new matrix will be independent from the vector.
+        /// A new memory block will be allocated for storing the matrix.
+        /// </summary>
+        public Matrix<T> DiagonalOfDiagonalVector(int rows, int columns, Vector<T> diagonal)
+        {
+            var m = Diagonal(rows, columns);
+            m.SetDiagonal(diagonal);
+            return m;
+        }
+
+        /// <summary>
+        /// Create a new diagonal matrix with the diagonal as a copy of the given array.
+        /// This new matrix will be independent from the array.
+        /// A new memory block will be allocated for storing the matrix.
+        /// </summary>
+        public Matrix<T> DiagonalOfDiagonalArray(T[] diagonal)
+        {
+            var m = Diagonal(diagonal.Length, diagonal.Length);
+            m.SetDiagonal(diagonal);
+            return m;
+        }
+
+        /// <summary>
+        /// Create a new diagonal matrix with the diagonal as a copy of the given array.
+        /// This new matrix will be independent from the array.
+        /// A new memory block will be allocated for storing the matrix.
+        /// </summary>
+        public Matrix<T> DiagonalOfDiagonalArray(int rows, int columns, T[] diagonal)
+        {
+            var m = Diagonal(rows, columns);
+            m.SetDiagonal(diagonal);
+            return m;
         }
 
         public abstract IIterationStopCriterium<T>[] IterativeSolverStopCriteria(int maxIterations = 1000);
