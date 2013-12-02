@@ -109,9 +109,9 @@ namespace MathNet.Numerics.LinearAlgebra.Factorization
         /// <returns>The left hand side <see cref="Matrix{T}"/>, <b>X</b>.</returns>
         public virtual Matrix<T> Solve(Matrix<T> input)
         {
-            var matrixX = input.CreateMatrix(FullR.ColumnCount, input.ColumnCount);
-            Solve(input, matrixX);
-            return matrixX;
+            var x = Matrix<T>.Build.SameAs(input, FullR.ColumnCount, input.ColumnCount);
+            Solve(input, x);
+            return x;
         }
 
         /// <summary>
@@ -128,7 +128,7 @@ namespace MathNet.Numerics.LinearAlgebra.Factorization
         /// <returns>The left hand side <see cref="Vector{T}"/>, <b>x</b>.</returns>
         public virtual Vector<T> Solve(Vector<T> input)
         {
-            var x = input.CreateVector(FullR.ColumnCount);
+            var x = Vector<T>.Build.SameAs(input, FullR.ColumnCount);
             Solve(input, x);
             return x;
         }

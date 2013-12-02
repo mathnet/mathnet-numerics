@@ -39,8 +39,6 @@ using MathNet.Numerics.LinearAlgebra.Storage;
 
 namespace MathNet.Numerics.LinearAlgebra.Double
 {
-    using Solvers;
-
     internal class MatrixBuilder : MatrixBuilder<double>
     {
         public override double Zero
@@ -116,8 +114,6 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
 namespace MathNet.Numerics.LinearAlgebra.Single
 {
-    using Solvers;
-
     internal class MatrixBuilder : MatrixBuilder<float>
     {
         public override float Zero
@@ -193,8 +189,6 @@ namespace MathNet.Numerics.LinearAlgebra.Single
 
 namespace MathNet.Numerics.LinearAlgebra.Complex
 {
-    using Solvers;
-
 #if NOSYSNUMERICS
     using Complex = Numerics.Complex;
 #else
@@ -276,8 +270,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
 
 namespace MathNet.Numerics.LinearAlgebra.Complex32
 {
-    using Solvers;
-
     internal class MatrixBuilder : MatrixBuilder<Numerics.Complex32>
     {
         public override Numerics.Complex32 Zero
@@ -399,26 +391,50 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <summary>
         /// Create a new matrix with the same kind of the provided example.
         /// </summary>
-        public Matrix<T> SameType(Matrix<T> example, int rows, int columns)
+        public Matrix<T> SameAs(Matrix<T> example, int rows, int columns, bool fullyMutable = false)
         {
             var storage = example.Storage;
             if (storage is DenseColumnMajorMatrixStorage<T>) return Dense(rows, columns);
-            if (storage is DiagonalMatrixStorage<T>) return Diagonal(rows, columns);
+            if (!fullyMutable && storage is DiagonalMatrixStorage<T>) return Diagonal(rows, columns);
             if (storage is SparseCompressedRowMatrixStorage<T>) return Sparse(rows, columns);
             return Dense(rows, columns);
         }
 
         /// <summary>
+        /// Create a new matrix with the same kind and dimensions of the provided example.
+        /// </summary>
+        public Matrix<T> SameAs(Matrix<T> example)
+        {
+            return SameAs(example, example.RowCount, example.ColumnCount);
+        }
+
+        /// <summary>
+        /// Create a new matrix with the same kind of the provided example.
+        /// </summary>
+        public Matrix<T> SameAs(Vector<T> example, int rows, int columns)
+        {
+            return example.Storage.IsDense ? Dense(rows, columns) : Sparse(rows, columns);
+        }
+
+        /// <summary>
         /// Create a new matrix with a type that can represent and is closest to both provided samples.
         /// </summary>
-        public Matrix<T> SameType(Matrix<T> example1, Matrix<T> example2 , int rows, int columns)
+        public Matrix<T> SameAs(Matrix<T> example, Matrix<T> otherExample, int rows, int columns, bool fullyMutable = false)
         {
-            var storage1 = example1.Storage;
-            var storage2 = example2.Storage;
+            var storage1 = example.Storage;
+            var storage2 = otherExample.Storage;
             if (storage1 is DenseColumnMajorMatrixStorage<T> || storage2 is DenseColumnMajorMatrixStorage<T>) return Dense(rows, columns);
-            if (storage1 is DiagonalMatrixStorage<T> && storage2 is DiagonalMatrixStorage<T>) return Diagonal(rows, columns);
+            if (!fullyMutable && storage1 is DiagonalMatrixStorage<T> && storage2 is DiagonalMatrixStorage<T>) return Diagonal(rows, columns);
             if (storage1 is SparseCompressedRowMatrixStorage<T> || storage2 is SparseCompressedRowMatrixStorage<T>) return Sparse(rows, columns);
             return Dense(rows, columns);
+        }
+
+        /// <summary>
+        /// Create a new matrix with a type that can represent and is closest to both provided samples and the dimensions of example.
+        /// </summary>
+        public Matrix<T> SameAs(Matrix<T> example, Matrix<T> otherExample)
+        {
+            return SameAs(example, otherExample, example.RowCount, example.ColumnCount);
         }
 
         /// <summary>
@@ -1278,7 +1294,23 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <summary>
         /// Create a new vector with the same kind of the provided example.
         /// </summary>
-        public Vector<T> SameType(Vector<T> example, int length)
+        public Vector<T> SameAs(Vector<T> example, int length)
+        {
+            return example.Storage.IsDense ? Dense(length) : Sparse(length);
+        }
+
+        /// <summary>
+        /// Create a new vector with the same kind and dimension of the provided example.
+        /// </summary>
+        public Vector<T> SameAs(Vector<T> example)
+        {
+            return example.Storage.IsDense ? Dense(example.Count) : Sparse(example.Count);
+        }
+
+        /// <summary>
+        /// Create a new vector with the same kind of the provided example.
+        /// </summary>
+        public Vector<T> SameAs(Matrix<T> example, int length)
         {
             return example.Storage.IsDense ? Dense(length) : Sparse(length);
         }
@@ -1286,9 +1318,17 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <summary>
         /// Create a new vector with a type that can represent and is closest to both provided samples.
         /// </summary>
-        public Vector<T> SameType(Vector<T> example1, Vector<T> example2, int length)
+        public Vector<T> SameAs(Vector<T> example, Vector<T> otherExample, int length)
         {
-            return example1.Storage.IsDense || example2.Storage.IsDense ? Dense(length) : Sparse(length);
+            return example.Storage.IsDense || otherExample.Storage.IsDense ? Dense(length) : Sparse(length);
+        }
+
+        /// <summary>
+        /// Create a new vector with a type that can represent and is closest to both provided samples and the dimensions of example.
+        /// </summary>
+        public Vector<T> SameAs(Vector<T> example, Vector<T> otherExample)
+        {
+            return example.Storage.IsDense || otherExample.Storage.IsDense ? Dense(example.Count) : Sparse(example.Count);
         }
 
         /// <summary>

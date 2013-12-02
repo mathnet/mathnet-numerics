@@ -204,7 +204,7 @@ namespace MathNet.Numerics.LinearAlgebra
                 return Clone();
             }
 
-            var result = Build.SameType(this, RowCount, ColumnCount);
+            var result = Build.SameAs(this);
             DoAdd(scalar, result);
             return result;
         }
@@ -244,7 +244,7 @@ namespace MathNet.Numerics.LinearAlgebra
                 throw DimensionsDontMatch<ArgumentOutOfRangeException>(this, other);
             }
 
-            var result = Build.SameType(this, other, RowCount, ColumnCount);
+            var result = Build.SameAs(this, other, RowCount, ColumnCount);
             DoAdd(other, result);
             return result;
         }
@@ -282,7 +282,7 @@ namespace MathNet.Numerics.LinearAlgebra
                 return Clone();
             }
 
-            var result = Build.SameType(this, RowCount, ColumnCount);
+            var result = Build.SameAs(this);
             DoSubtract(scalar, result);
             return result;
         }
@@ -316,7 +316,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <returns>A new matrix containing the subtraction of the scalar and this matrix.</returns>
         public Matrix<T> SubtractFrom(T scalar)
         {
-            var result = Build.SameType(this, RowCount, ColumnCount);
+            var result = Build.SameAs(this);
             DoSubtractFrom(scalar, result);
             return result;
         }
@@ -350,7 +350,7 @@ namespace MathNet.Numerics.LinearAlgebra
                 throw DimensionsDontMatch<ArgumentOutOfRangeException>(this, other);
             }
 
-            var result = Build.SameType(this, other, RowCount, ColumnCount);
+            var result = Build.SameAs(this, other, RowCount, ColumnCount);
             DoSubtract(other, result);
             return result;
         }
@@ -390,10 +390,10 @@ namespace MathNet.Numerics.LinearAlgebra
 
             if (scalar.Equals(Zero))
             {
-                return CreateMatrix(RowCount, ColumnCount);
+                return Build.SameAs(this);
             }
 
-            var result = CreateMatrix(RowCount, ColumnCount);
+            var result = Build.SameAs(this);
             DoMultiply(scalar, result);
             return result;
         }
@@ -448,7 +448,7 @@ namespace MathNet.Numerics.LinearAlgebra
                 throw new DivideByZeroException();
             }
 
-            var result = CreateMatrix(RowCount, ColumnCount);
+            var result = Build.SameAs(this);
             DoDivide(scalar, result);
             return result;
         }
@@ -492,7 +492,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <returns>The result of the division.</returns>
         public Matrix<T> DivideByThis(T scalar)
         {
-            var result = CreateMatrix(RowCount, ColumnCount);
+            var result = Build.SameAs(this);
             DoDivideByThis(scalar, result);
             return result;
         }
@@ -531,7 +531,7 @@ namespace MathNet.Numerics.LinearAlgebra
                 throw DimensionsDontMatch<ArgumentException>(this, rightSide, "rightSide");
             }
 
-            var ret = CreateVector(RowCount);
+            var ret = Vector<T>.Build.SameAs(this, RowCount);
             DoMultiply(rightSide, ret);
             return ret;
         }
@@ -580,7 +580,7 @@ namespace MathNet.Numerics.LinearAlgebra
                 throw DimensionsDontMatch<ArgumentException>(this, leftSide, "leftSide");
             }
 
-            var ret = CreateVector(ColumnCount);
+            var ret = Vector<T>.Build.SameAs(this, ColumnCount);
             DoLeftMultiply(leftSide, ret);
             return ret;
         }
@@ -642,7 +642,7 @@ namespace MathNet.Numerics.LinearAlgebra
 
             if (ReferenceEquals(this, result) || ReferenceEquals(other, result))
             {
-                var tmp = Build.SameType(result, result.RowCount, result.ColumnCount);
+                var tmp = Build.SameAs(result);
                 DoMultiply(other, tmp);
                 tmp.CopyTo(result);
             }
@@ -665,7 +665,7 @@ namespace MathNet.Numerics.LinearAlgebra
                 throw DimensionsDontMatch<ArgumentException>(this, other);
             }
 
-            var result = Build.SameType(this, other, RowCount, other.ColumnCount);
+            var result = Build.SameAs(this, other, RowCount, other.ColumnCount);
             DoMultiply(other, result);
             return result;
         }
@@ -686,7 +686,7 @@ namespace MathNet.Numerics.LinearAlgebra
 
             if (ReferenceEquals(this, result) || ReferenceEquals(other, result))
             {
-                var tmp = Build.SameType(result, result.RowCount, result.ColumnCount);
+                var tmp = Build.SameAs(result);
                 DoTransposeAndMultiply(other, tmp);
                 tmp.CopyTo(result);
             }
@@ -709,7 +709,7 @@ namespace MathNet.Numerics.LinearAlgebra
                 throw DimensionsDontMatch<ArgumentException>(this, other);
             }
 
-            var result = Build.SameType(this, other, RowCount, other.RowCount);
+            var result = Build.SameAs(this, other, RowCount, other.RowCount);
             DoTransposeAndMultiply(other, result);
             return result;
         }
@@ -727,7 +727,7 @@ namespace MathNet.Numerics.LinearAlgebra
                 throw DimensionsDontMatch<ArgumentException>(this, rightSide, "rightSide");
             }
 
-            var result = CreateVector(ColumnCount);
+            var result = Vector<T>.Build.SameAs(this, ColumnCount);
             DoTransposeThisAndMultiply(rightSide, result);
             return result;
         }
@@ -779,7 +779,7 @@ namespace MathNet.Numerics.LinearAlgebra
 
             if (ReferenceEquals(this, result) || ReferenceEquals(other, result))
             {
-                var tmp = Build.SameType(result, result.RowCount, result.ColumnCount);
+                var tmp = Build.SameAs(result);
                 DoTransposeThisAndMultiply(other, tmp);
                 tmp.CopyTo(result);
             }
@@ -802,7 +802,7 @@ namespace MathNet.Numerics.LinearAlgebra
                 throw DimensionsDontMatch<ArgumentException>(this, other);
             }
 
-            var result = Build.SameType(this, other, ColumnCount, other.ColumnCount);
+            var result = Build.SameAs(this, other, ColumnCount, other.ColumnCount);
             DoTransposeThisAndMultiply(other, result);
             return result;
         }
@@ -813,7 +813,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <returns>A matrix containing the negated values.</returns>
         public Matrix<T> Negate()
         {
-            var result = CreateMatrix(RowCount, ColumnCount);
+            var result = Build.SameAs(this);
             DoNegate(result);
             return result;
         }
@@ -839,7 +839,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <returns>A matrix containing the conjugated values.</returns>
         public Matrix<T> Conjugate()
         {
-            var result = CreateMatrix(RowCount, ColumnCount);
+            var result = Build.SameAs(this);
             DoConjugate(result);
             return result;
         }
@@ -866,7 +866,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <returns>A matrix containing the results.</returns>
         public Matrix<T> Modulus(T divisor)
         {
-            var result = CreateMatrix(RowCount, ColumnCount);
+            var result = Build.SameAs(this);
             DoModulus(divisor, result);
             return result;
         }
@@ -893,7 +893,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <returns>A matrix containing the results.</returns>
         public Matrix<T> ModulusByThis(T dividend)
         {
-            var result = CreateMatrix(RowCount, ColumnCount);
+            var result = Build.SameAs(this);
             DoModulusByThis(dividend, result);
             return result;
         }
@@ -926,7 +926,7 @@ namespace MathNet.Numerics.LinearAlgebra
                 throw DimensionsDontMatch<ArgumentException>(this, other, "other");
             }
 
-            var result = CreateMatrix(RowCount, ColumnCount);
+            var result = Build.SameAs(this);
             DoPointwiseMultiply(other, result);
             return result;
         }
@@ -961,7 +961,7 @@ namespace MathNet.Numerics.LinearAlgebra
                 throw DimensionsDontMatch<ArgumentException>(this, divisor);
             }
 
-            var result = CreateMatrix(RowCount, ColumnCount);
+            var result = Build.SameAs(this);
             DoPointwiseDivide(divisor, result);
             return result;
         }
@@ -996,7 +996,7 @@ namespace MathNet.Numerics.LinearAlgebra
                 throw DimensionsDontMatch<ArgumentException>(this, divisor);
             }
 
-            var result = CreateMatrix(RowCount, ColumnCount);
+            var result = Build.SameAs(this);
             DoPointwiseModulus(divisor, result);
             return result;
         }
@@ -1074,7 +1074,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <returns>The kronecker product of the two matrices.</returns>
         public Matrix<T> KroneckerProduct(Matrix<T> other)
         {
-            var result = CreateMatrix(RowCount*other.RowCount, ColumnCount*other.ColumnCount);
+            var result = Build.SameAs(this, RowCount*other.RowCount, ColumnCount*other.ColumnCount);
             KroneckerProduct(other, result);
             return result;
         }
@@ -1115,14 +1115,13 @@ namespace MathNet.Numerics.LinearAlgebra
                 throw new ArgumentOutOfRangeException("p", Resources.ArgumentMustBePositive);
             }
 
-            var ret = CreateMatrix(RowCount, ColumnCount);
-
+            var result = Build.SameAs(this);
             for (var index = 0; index < ColumnCount; index++)
             {
-                ret.SetColumn(index, Column(index).Normalize(p));
+                result.SetColumn(index, Column(index).Normalize(p));
             }
 
-            return ret;
+            return result;
         }
 
         /// <summary>
@@ -1138,8 +1137,7 @@ namespace MathNet.Numerics.LinearAlgebra
                 throw new ArgumentOutOfRangeException("p", Resources.ArgumentMustBePositive);
             }
 
-            var ret = CreateMatrix(RowCount, ColumnCount);
-
+            var ret = Build.SameAs(this);
             for (var index = 0; index < RowCount; index++)
             {
                 ret.SetRow(index, Row(index).Normalize(p));

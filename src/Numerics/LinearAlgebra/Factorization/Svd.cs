@@ -71,7 +71,7 @@ namespace MathNet.Numerics.LinearAlgebra.Factorization
         {
             var rows = U.RowCount;
             var columns = VT.ColumnCount;
-            var result = U.CreateMatrix(rows, columns);
+            var result = Matrix<T>.Build.SameAs(U, rows, columns);
             for (var i = 0; i < rows; i++)
             {
                 for (var j = 0; j < columns; j++)
@@ -145,9 +145,9 @@ namespace MathNet.Numerics.LinearAlgebra.Factorization
                 throw new InvalidOperationException(Resources.SingularVectorsNotComputed);
             }
 
-            var result = U.CreateMatrix(VT.ColumnCount, input.ColumnCount);
-            Solve(input, result);
-            return result;
+            var x = Matrix<T>.Build.SameAs(U, VT.ColumnCount, input.ColumnCount);
+            Solve(input, x);
+            return x;
         }
 
         /// <summary>
@@ -169,7 +169,7 @@ namespace MathNet.Numerics.LinearAlgebra.Factorization
                 throw new InvalidOperationException(Resources.SingularVectorsNotComputed);
             }
 
-            var x = U.CreateVector(VT.ColumnCount);
+            var x = Vector<T>.Build.SameAs(U, VT.ColumnCount);
             Solve(input, x);
             return x;
         }

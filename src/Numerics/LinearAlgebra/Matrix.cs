@@ -204,7 +204,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// </returns>
         public Matrix<T> Clone()
         {
-            var result = CreateMatrix(RowCount, ColumnCount);
+            var result = Build.SameAs(this);
             Storage.CopyToUnchecked(result.Storage, skipClearing: true);
             return result;
         }
@@ -232,31 +232,6 @@ namespace MathNet.Numerics.LinearAlgebra
         }
 
         /// <summary>
-        /// Create a matrix of the same kind for the given number of rows and columns.
-        /// </summary>
-        /// <param name="rows">The number of rows.</param>
-        /// <param name="columns">The number of columns.</param>
-        /// <remarks>Creates a matrix of the same matrix type as the current matrix.</remarks>
-        public Matrix<T> CreateMatrix(int rows, int columns)
-        {
-            return Storage.IsDense
-                ? Build.Dense(rows, columns)
-                : Build.Sparse(rows, columns);
-        }
-
-        /// <summary>
-        /// Create a vector of the same kind with the given size.
-        /// </summary>
-        /// <param name="size">The size of the vector.</param>
-        /// <remarks>Creates a vector of the same type as the current matrix.</remarks>
-        public Vector<T> CreateVector(int size)
-        {
-            return Storage.IsDense
-                ? Vector<T>.Build.Dense(size)
-                : Vector<T>.Build.Sparse(size);
-        }
-
-        /// <summary>
         /// Copies a row into an Vector.
         /// </summary>
         /// <param name="index">The row to copy.</param>
@@ -270,7 +245,7 @@ namespace MathNet.Numerics.LinearAlgebra
                 throw new ArgumentOutOfRangeException("index");
             }
 
-            var ret = CreateVector(ColumnCount);
+            var ret = Vector<T>.Build.SameAs(this, ColumnCount);
             Storage.CopySubRowToUnchecked(ret.Storage, index, 0, 0, ColumnCount);
             return ret;
         }
@@ -310,7 +285,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <exception cref="ArgumentOutOfRangeException">If <paramref name="length"/> is not positive.</exception>
         public Vector<T> Row(int rowIndex, int columnIndex, int length)
         {
-            var ret = CreateVector(length);
+            var ret = Vector<T>.Build.SameAs(this, length);
             Storage.CopySubRowTo(ret.Storage, rowIndex, columnIndex, 0, length);
             return ret;
         }
@@ -355,7 +330,7 @@ namespace MathNet.Numerics.LinearAlgebra
                 throw new ArgumentOutOfRangeException("index");
             }
 
-            var ret = CreateVector(RowCount);
+            var ret = Vector<T>.Build.SameAs(this, RowCount);
             Storage.CopySubColumnToUnchecked(ret.Storage, index, 0, 0, RowCount);
             return ret;
         }
@@ -396,7 +371,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <exception cref="ArgumentOutOfRangeException">If <paramref name="length"/> is not positive.</exception>
         public Vector<T> Column(int columnIndex, int rowIndex, int length)
         {
-            var ret = CreateVector(length);
+            var ret = Vector<T>.Build.SameAs(this, length);
             Storage.CopySubColumnTo(ret.Storage, columnIndex, rowIndex, 0, length);
             return ret;
         }
@@ -433,17 +408,15 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <returns>The upper triangle of this matrix.</returns>
         public virtual Matrix<T> UpperTriangle()
         {
-            var ret = CreateMatrix(RowCount, ColumnCount);
-
+            var result = Build.SameAs(this);
             for (var row = 0; row < RowCount; row++)
             {
                 for (var column = row; column < ColumnCount; column++)
                 {
-                    ret.At(row, column, At(row, column));
+                    result.At(row, column, At(row, column));
                 }
             }
-
-            return ret;
+            return result;
         }
 
         /// <summary>
@@ -452,17 +425,15 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <returns>The lower triangle of this matrix.</returns>
         public virtual Matrix<T> LowerTriangle()
         {
-            var ret = CreateMatrix(RowCount, ColumnCount);
-
+            var result = Build.SameAs(this);
             for (var row = 0; row < RowCount; row++)
             {
                 for (var column = 0; column <= row && column < ColumnCount; column++)
                 {
-                    ret.At(row, column, At(row, column));
+                    result.At(row, column, At(row, column));
                 }
             }
-
-            return ret;
+            return result;
         }
 
         /// <summary>
@@ -537,9 +508,9 @@ namespace MathNet.Numerics.LinearAlgebra
         /// is not positive.</exception>
         public virtual Matrix<T> SubMatrix(int rowIndex, int rowCount, int columnIndex, int columnCount)
         {
-            var target = CreateMatrix(rowCount, columnCount);
-            Storage.CopySubMatrixTo(target.Storage, rowIndex, 0, rowCount, columnIndex, 0, columnCount, skipClearing: true);
-            return target;
+            var result = Build.SameAs(this, rowCount, columnCount);
+            Storage.CopySubMatrixTo(result.Storage, rowIndex, 0, rowCount, columnIndex, 0, columnCount, skipClearing: true);
+            return result;
         }
 
         /// <summary>
@@ -551,7 +522,7 @@ namespace MathNet.Numerics.LinearAlgebra
         public virtual Vector<T> Diagonal()
         {
             var min = Math.Min(RowCount, ColumnCount);
-            var diagonal = CreateVector(min);
+            var diagonal = Vector<T>.Build.SameAs(this, min);
 
             for (var i = 0; i < min; i++)
             {
@@ -568,8 +539,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <returns>The lower triangle of this matrix.</returns>
         public virtual Matrix<T> StrictlyLowerTriangle()
         {
-            var result = CreateMatrix(RowCount, ColumnCount);
-
+            var result = Build.SameAs(this);
             for (var row = 0; row < RowCount; row++)
             {
                 for (var column = 0; column < row; column++)
@@ -577,7 +547,6 @@ namespace MathNet.Numerics.LinearAlgebra
                     result.At(row, column, At(row, column));
                 }
             }
-
             return result;
         }
 
@@ -615,8 +584,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <returns>The upper triangle of this matrix.</returns>
         public virtual Matrix<T> StrictlyUpperTriangle()
         {
-            var result = CreateMatrix(RowCount, ColumnCount);
-
+            var result = Build.SameAs(this);
             for (var row = 0; row < RowCount; row++)
             {
                 for (var column = row + 1; column < ColumnCount; column++)
@@ -624,7 +592,6 @@ namespace MathNet.Numerics.LinearAlgebra
                     result.At(row, column, At(row, column));
                 }
             }
-
             return result;
         }
 
@@ -681,7 +648,7 @@ namespace MathNet.Numerics.LinearAlgebra
                 throw new ArgumentException(Resources.ArgumentMatrixSameRowDimension, "column");
             }
 
-            var result = CreateMatrix(RowCount, ColumnCount + 1);
+            var result = Build.SameAs(this, RowCount, ColumnCount + 1);
 
             for (var i = 0; i < columnIndex; i++)
             {
@@ -788,7 +755,7 @@ namespace MathNet.Numerics.LinearAlgebra
                 throw new ArgumentException(Resources.ArgumentMatrixSameRowDimension, "row");
             }
 
-            var result = CreateMatrix(RowCount + 1, ColumnCount);
+            var result = Build.SameAs(this, RowCount + 1, ColumnCount);
 
             for (var i = 0; i < rowIndex; i++)
             {
@@ -997,16 +964,15 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <returns>The transpose of this matrix.</returns>
         public virtual Matrix<T> Transpose()
         {
-            var ret = CreateMatrix(ColumnCount, RowCount);
+            var result = Build.SameAs(this, ColumnCount, RowCount);
             for (var j = 0; j < ColumnCount; j++)
             {
                 for (var i = 0; i < RowCount; i++)
                 {
-                    ret.At(j, i, At(i, j));
+                    result.At(j, i, At(i, j));
                 }
             }
-
-            return ret;
+            return result;
         }
 
         /// <summary>
@@ -1092,7 +1058,7 @@ namespace MathNet.Numerics.LinearAlgebra
                 throw new ArgumentException(Resources.ArgumentMatrixSameRowDimension);
             }
 
-            var result = CreateMatrix(RowCount, ColumnCount + right.ColumnCount);
+            var result = Build.SameAs(this, right, RowCount, ColumnCount + right.ColumnCount, fullyMutable: true);
             Storage.CopySubMatrixToUnchecked(result.Storage, 0, 0, RowCount, 0, 0, ColumnCount, skipClearing: true);
             right.Storage.CopySubMatrixToUnchecked(result.Storage, 0, 0, right.RowCount, 0, ColumnCount, right.ColumnCount, skipClearing: true);
             return result;
@@ -1152,7 +1118,7 @@ namespace MathNet.Numerics.LinearAlgebra
                 throw new ArgumentException(Resources.ArgumentMatrixSameColumnDimension, "lower");
             }
 
-            var result = CreateMatrix(RowCount + lower.RowCount, ColumnCount);
+            var result = Build.SameAs(this, lower, RowCount + lower.RowCount, ColumnCount, fullyMutable: true);
             Storage.CopySubMatrixToUnchecked(result.Storage, 0, 0, RowCount, 0, 0, ColumnCount, skipClearing: true);
             lower.Storage.CopySubMatrixToUnchecked(result.Storage, 0, RowCount, lower.RowCount, 0, 0, lower.ColumnCount, skipClearing: true);
             return result;
@@ -1210,7 +1176,7 @@ namespace MathNet.Numerics.LinearAlgebra
                 throw new ArgumentNullException("lower");
             }
 
-            var result = CreateMatrix(RowCount + lower.RowCount, ColumnCount + lower.ColumnCount);
+            var result = Build.SameAs(this, lower, RowCount + lower.RowCount, ColumnCount + lower.ColumnCount);
             Storage.CopySubMatrixToUnchecked(result.Storage, 0, 0, RowCount, 0, 0, ColumnCount);
             lower.Storage.CopySubMatrixToUnchecked(result.Storage, 0, RowCount, lower.RowCount, 0, ColumnCount, lower.ColumnCount);
             return result;

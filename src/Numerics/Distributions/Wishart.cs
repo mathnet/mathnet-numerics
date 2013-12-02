@@ -207,16 +207,8 @@ namespace MathNet.Numerics.Distributions
         {
             get
             {
-                var res = _scale.CreateMatrix(_scale.RowCount, _scale.ColumnCount);
-                for (var i = 0; i < res.RowCount; i++)
-                {
-                    for (var j = 0; j < res.ColumnCount; j++)
-                    {
-                        res.At(i, j, _degreesOfFreedom*((_scale.At(i, j)*_scale.At(i, j)) + (_scale.At(i, i)*_scale.At(j, j))));
-                    }
-                }
-
-                return res;
+                return Matrix<double>.Build.Dense(_scale.RowCount, _scale.ColumnCount,
+                    (i, j) => _degreesOfFreedom*((_scale.At(i, j)*_scale.At(i, j)) + (_scale.At(i, i)*_scale.At(j, j))));
             }
         }
 

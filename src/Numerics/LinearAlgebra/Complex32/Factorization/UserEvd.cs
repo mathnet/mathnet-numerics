@@ -74,7 +74,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
 
             // Initialize matricies for eigenvalues and eigenvectors
             var eigenVectors = DenseMatrix.CreateIdentity(order);
-            var blockDiagonal = matrix.CreateMatrix(order, order);
+            var blockDiagonal = Matrix<Complex32>.Build.SameAs(matrix, order, order);
             var eigenValues = new LinearAlgebra.Complex.DenseVector(order);
 
             var isSymmetric = true;

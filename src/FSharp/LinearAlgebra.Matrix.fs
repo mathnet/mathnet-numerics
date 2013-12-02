@@ -304,8 +304,8 @@ module Matrix =
         A.MapIndexedInplace((fun i j x -> f i j), true)
 
         /// Fold all columns into one row vector.
-    let inline foldByCol f acc (A: #Matrix<_>) =
-        let v = A.CreateVector(A.ColumnCount)
+    let inline foldByCol f acc (A: #Matrix<'T>) =
+        let v = Vector<'T>.Build.SameAs(A, A.ColumnCount)
         for k=0 to A.ColumnCount-1 do
             let mutable macc = acc
             for i=0 to A.RowCount-1 do
@@ -314,8 +314,8 @@ module Matrix =
         v :> _ Vector
 
     /// Fold all rows into one column vector.
-    let inline foldByRow f acc (A: #Matrix<_>) =
-        let v = A.CreateVector(A.RowCount)
+    let inline foldByRow f acc (A: #Matrix<'T>) =
+        let v = Vector<'T>.Build.SameAs(A, A.RowCount)
         for k=0 to A.RowCount-1 do
             let mutable macc = acc
             for i=0 to A.ColumnCount-1 do

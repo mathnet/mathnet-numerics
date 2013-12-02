@@ -377,7 +377,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// <returns>The lower triangle of this matrix.</returns>
         public override Matrix<Complex32> LowerTriangle()
         {
-            var result = CreateMatrix(RowCount, ColumnCount);
+            var result = Build.SameAs(this);
             LowerTriangleImpl(result);
             return result;
         }
@@ -402,7 +402,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
 
             if (ReferenceEquals(this, result))
             {
-                var tmp = result.CreateMatrix(result.RowCount, result.ColumnCount);
+                var tmp = Build.SameAs(result);
                 LowerTriangle(tmp);
                 tmp.CopyTo(result);
             }
@@ -442,7 +442,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// <returns>The upper triangle of this matrix.</returns>
         public override Matrix<Complex32> UpperTriangle()
         {
-            var result = CreateMatrix(RowCount, ColumnCount);
+            var result = Build.SameAs(this);
             UpperTriangleImpl(result);
             return result;
         }
@@ -467,7 +467,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
 
             if (ReferenceEquals(this, result))
             {
-                var tmp = result.CreateMatrix(result.RowCount, result.ColumnCount);
+                var tmp = Build.SameAs(result);
                 UpperTriangle(tmp);
                 tmp.CopyTo(result);
             }
@@ -508,7 +508,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// <returns>The lower triangle of this matrix.</returns>
         public override Matrix<Complex32> StrictlyLowerTriangle()
         {
-            var result = CreateMatrix(RowCount, ColumnCount);
+            var result = Build.SameAs(this);
             StrictlyLowerTriangleImpl(result);
             return result;
         }
@@ -533,7 +533,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
 
             if (ReferenceEquals(this, result))
             {
-                var tmp = result.CreateMatrix(result.RowCount, result.ColumnCount);
+                var tmp = Build.SameAs(result);
                 StrictlyLowerTriangle(tmp);
                 tmp.CopyTo(result);
             }
@@ -574,7 +574,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// <returns>The upper triangle of this matrix.</returns>
         public override Matrix<Complex32> StrictlyUpperTriangle()
         {
-            var result = CreateMatrix(RowCount, ColumnCount);
+            var result = Build.SameAs(this);
             StrictlyUpperTriangleImpl(result);
             return result;
         }
@@ -599,7 +599,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
 
             if (ReferenceEquals(this, result))
             {
-                var tmp = result.CreateMatrix(result.RowCount, result.ColumnCount);
+                var tmp = Build.SameAs(result);
                 StrictlyUpperTriangle(tmp);
                 tmp.CopyTo(result);
             }

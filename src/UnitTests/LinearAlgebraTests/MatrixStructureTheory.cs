@@ -155,7 +155,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         [Theory]
         public void CanGetHashCode(Matrix<T> matrix)
         {
-            Assert.That(matrix.GetHashCode(), Is.Not.EqualTo(matrix.CreateMatrix(matrix.RowCount, matrix.ColumnCount).GetHashCode()));
+            Assert.That(matrix.GetHashCode(), Is.Not.EqualTo(Matrix<T>.Build.SameAs(matrix).GetHashCode()));
         }
 
         [Theory]
@@ -163,7 +163,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         {
             var cleared = matrix.Clone();
             cleared.Clear();
-            Assert.That(cleared, Is.EqualTo(matrix.CreateMatrix(matrix.RowCount, matrix.ColumnCount)));
+            Assert.That(cleared, Is.EqualTo(Matrix<T>.Build.SameAs(matrix)));
         }
 
         [Theory]
@@ -220,13 +220,13 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         [Theory]
         public void CanCreateSameKind(Matrix<T> matrix)
         {
-            var empty = matrix.CreateMatrix(5, 6);
+            var empty = Matrix<T>.Build.SameAs(matrix, 5, 6);
             Assert.That(empty, Is.EqualTo(CreateDenseZero(5, 6)));
             Assert.That(empty.Storage.IsDense, Is.EqualTo(matrix.Storage.IsDense));
 
-            Assert.That(() => matrix.CreateMatrix(0, 2), Throws.InstanceOf<ArgumentOutOfRangeException>());
-            Assert.That(() => matrix.CreateMatrix(2, 0), Throws.InstanceOf<ArgumentOutOfRangeException>());
-            Assert.That(() => matrix.CreateMatrix(-1, -1), Throws.InstanceOf<ArgumentOutOfRangeException>());
+            Assert.That(() => Matrix<T>.Build.SameAs(matrix, 0, 2), Throws.InstanceOf<ArgumentOutOfRangeException>());
+            Assert.That(() => Matrix<T>.Build.SameAs(matrix, 2, 0), Throws.InstanceOf<ArgumentOutOfRangeException>());
+            Assert.That(() => Matrix<T>.Build.SameAs(matrix, -1, -1), Throws.InstanceOf<ArgumentOutOfRangeException>());
         }
 
         [Test]

@@ -106,7 +106,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// <returns>The conjugate transpose of this matrix.</returns>
         public override Matrix<Complex32> ConjugateTranspose()
         {
-            var ret = CreateMatrix(ColumnCount, RowCount);
+            var ret = Build.SameAs(this, ColumnCount, RowCount);
             for (var j = 0; j < ColumnCount; j++)
             {
                 for (var i = 0; i < RowCount; i++)

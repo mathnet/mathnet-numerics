@@ -295,7 +295,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
         public override Matrix<double> Inverse()
         {
             var order = Factors.RowCount;
-            var inverse = Factors.CreateMatrix(order, order);
+            var inverse = Matrix<double>.Build.SameAs(Factors, order, order);
             for (var i = 0; i < order; i++)
             {
                 inverse.At(i, i, 1.0);

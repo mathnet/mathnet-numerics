@@ -70,7 +70,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
             if (method == QRMethod.Full)
             {
                 r = matrix.Clone();
-                q = matrix.CreateMatrix(matrix.RowCount, matrix.RowCount);
+                q = Matrix<double>.Build.SameAs(matrix, matrix.RowCount, matrix.RowCount);
 
                 for (var i = 0; i < matrix.RowCount; i++)
                 {
