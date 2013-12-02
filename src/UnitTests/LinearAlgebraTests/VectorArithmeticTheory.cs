@@ -72,7 +72,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
 
             var c = vector.Clone();
             c.Subtract(vector, c);
-            Assert.That(c.Equals(vector.CreateVector(vector.Count)));
+            Assert.That(c.Equals(Vector<T>.Build.SameAs(vector)));
         }
 
         [Theory, Timeout(200)]

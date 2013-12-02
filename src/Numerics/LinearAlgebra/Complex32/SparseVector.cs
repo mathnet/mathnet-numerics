@@ -136,7 +136,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         {
             if (ReferenceEquals(this, result))
             {
-                var tmp = CreateVector(Count);
+                var tmp = Build.SameAs(this);
                 DoConjugate(tmp);
                 tmp.CopyTo(result);
             }

@@ -200,8 +200,8 @@ module Vector =
         }
 
     /// Creates a new vector and inserts the given value at the given index.
-    let inline insert index value (v: #Vector<_>) =
-        let newV = v.CreateVector(v.Count + 1)
+    let inline insert index value (v: #Vector<'T>) =
+        let newV = Vector<'T>.Build.SameAs(v, v.Count + 1)
         v.CopySubVectorTo(newV, 0, 0, index)
         v.CopySubVectorTo(newV, index, index+1, v.Count - index)
         newV.At(index, value)

@@ -133,37 +133,12 @@ namespace MathNet.Numerics.LinearAlgebra
         }
 
         /// <summary>
-        /// Create a matrix of the same kind with the provided number of rows and columns.
-        /// </summary>
-        /// <param name="rows">The number of rows.</param>
-        /// <param name="columns">The number of columns.</param>
-        /// <remarks>Creates a matrix of the same matrix type as the current matrix.</remarks>
-        public Matrix<T> CreateMatrix(int rows, int columns)
-        {
-            return Storage.IsDense
-                ? Matrix<T>.Build.Dense(rows, columns)
-                : Matrix<T>.Build.Sparse(rows, columns);
-        }
-
-        /// <summary>
-        /// Create a vector of the same kind with the provided dimension.
-        /// </summary>
-        /// <param name="size">The size of the vector.</param>
-        /// <remarks>Creates a vector of the same type as the current matrix.</remarks>
-        public Vector<T> CreateVector(int size)
-        {
-            return Storage.IsDense
-                ? Build.Dense(size)
-                : Build.Sparse(size);
-        }
-
-        /// <summary>
         /// Returns a deep-copy clone of the vector.
         /// </summary>
         /// <returns>A deep-copy clone of the vector.</returns>
         public Vector<T> Clone()
         {
-            var result = CreateVector(Count);
+            var result = Build.SameAs(this);
             Storage.CopyToUnchecked(result.Storage, skipClearing: true);
             return result;
         }
@@ -209,7 +184,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <exception cref="ArgumentException">If <paramref name="count"/> is not positive.</exception>
         public Vector<T> SubVector(int index, int count)
         {
-            var target = CreateVector(count);
+            var target = Build.SameAs(this, count);
             Storage.CopySubVectorTo(target.Storage, index, 0, count, skipClearing: true);
             return target;
         }
@@ -270,7 +245,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// </returns>
         public Matrix<T> ToColumnMatrix()
         {
-            var result = CreateMatrix(Count, 1);
+            var result = Matrix<T>.Build.SameAs(this, Count, 1);
             Storage.CopyToColumnUnchecked(result.Storage, 0, skipClearing: true);
             return result;
         }
@@ -283,7 +258,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// </returns>
         public Matrix<T> ToRowMatrix()
         {
-            var result = CreateMatrix(1, Count);
+            var result = Matrix<T>.Build.SameAs(this, 1, Count);
             Storage.CopyToRowUnchecked(result.Storage, 0, skipClearing: true);
             return result;
         }

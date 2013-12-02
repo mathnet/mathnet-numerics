@@ -146,7 +146,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
         public void CanCreateMatrix()
         {
             var vector = CreateVector(Data);
-            var matrix = vector.CreateMatrix(10, 10);
+            var matrix = Matrix<Complex32>.Build.SameAs(vector, 10, 10);
             Assert.AreEqual(matrix.RowCount, 10);
             Assert.AreEqual(matrix.ColumnCount, 10);
         }
@@ -158,7 +158,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
         public void CanCreateVector()
         {
             var expected = CreateVector(5);
-            var actual = expected.CreateVector(5);
+            var actual = Vector<Complex32>.Build.SameAs(expected, 5);
             Assert.AreEqual(expected.Storage.IsDense, actual.Storage.IsDense, "vectors are same kind.");
         }
 

@@ -153,7 +153,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         public void CanCreateDenseMatrix()
         {
             var vector = new DenseVector(3);
-            var matrix = vector.CreateMatrix(2, 3);
+            var matrix = Matrix<double>.Build.SameAs(vector, 2, 3);
+            Assert.IsInstanceOf<DenseMatrix>(matrix);
             Assert.AreEqual(2, matrix.RowCount);
             Assert.AreEqual(3, matrix.ColumnCount);
         }

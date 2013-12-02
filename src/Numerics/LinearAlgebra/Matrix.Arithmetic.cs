@@ -557,7 +557,7 @@ namespace MathNet.Numerics.LinearAlgebra
 
             if (ReferenceEquals(rightSide, result))
             {
-                var tmp = result.CreateVector(result.Count);
+                var tmp = Vector<T>.Build.SameAs(result);
                 DoMultiply(rightSide, tmp);
                 tmp.CopyTo(result);
             }
@@ -606,7 +606,7 @@ namespace MathNet.Numerics.LinearAlgebra
 
             if (ReferenceEquals(leftSide, result))
             {
-                var tmp = result.CreateVector(result.Count);
+                var tmp = Vector<T>.Build.SameAs(result);
                 DoLeftMultiply(leftSide, tmp);
                 tmp.CopyTo(result);
             }
@@ -753,7 +753,7 @@ namespace MathNet.Numerics.LinearAlgebra
 
             if (ReferenceEquals(rightSide, result))
             {
-                var tmp = result.CreateVector(result.Count);
+                var tmp = Vector<T>.Build.SameAs(result);
                 DoTransposeThisAndMultiply(rightSide, tmp);
                 tmp.CopyTo(result);
             }
