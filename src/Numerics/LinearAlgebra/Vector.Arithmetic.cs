@@ -218,7 +218,7 @@ namespace MathNet.Numerics.LinearAlgebra
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
             }
 
-            var result = Build.SameAs(this);
+            var result = Build.SameAs(this, other);
             DoAdd(other, result);
             return result;
         }
@@ -346,7 +346,7 @@ namespace MathNet.Numerics.LinearAlgebra
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
             }
 
-            var result = Build.SameAs(this);
+            var result = Build.SameAs(this, other);
             DoSubtract(other, result);
             return result;
         }
@@ -606,7 +606,7 @@ namespace MathNet.Numerics.LinearAlgebra
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
             }
 
-            var result = Build.SameAs(this);
+            var result = Build.SameAs(this, other);
             DoPointwiseMultiply(other, result);
             return result;
         }
@@ -646,7 +646,7 @@ namespace MathNet.Numerics.LinearAlgebra
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "divisor");
             }
 
-            var result = Build.SameAs(this);
+            var result = Build.SameAs(this, divisor);
             DoPointwiseDivide(divisor, result);
             return result;
         }
@@ -686,7 +686,7 @@ namespace MathNet.Numerics.LinearAlgebra
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "divisor");
             }
 
-            var result = Build.SameAs(this);
+            var result = Build.SameAs(this, divisor);
             DoPointwiseModulus(divisor, result);
             return result;
         }

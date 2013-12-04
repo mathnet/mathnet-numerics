@@ -395,7 +395,7 @@ namespace MathNet.Numerics.LinearAlgebra
         {
             var storage = example.Storage;
             if (storage is DenseColumnMajorMatrixStorage<T>) return Dense(rows, columns);
-            if (!fullyMutable && storage is DiagonalMatrixStorage<T>) return Diagonal(rows, columns);
+            if (storage is DiagonalMatrixStorage<T>) return fullyMutable ? Sparse(rows, columns) : Diagonal(rows, columns);
             if (storage is SparseCompressedRowMatrixStorage<T>) return Sparse(rows, columns);
             return Dense(rows, columns);
         }
@@ -424,7 +424,7 @@ namespace MathNet.Numerics.LinearAlgebra
             var storage1 = example.Storage;
             var storage2 = otherExample.Storage;
             if (storage1 is DenseColumnMajorMatrixStorage<T> || storage2 is DenseColumnMajorMatrixStorage<T>) return Dense(rows, columns);
-            if (!fullyMutable && storage1 is DiagonalMatrixStorage<T> && storage2 is DiagonalMatrixStorage<T>) return Diagonal(rows, columns);
+            if (storage1 is DiagonalMatrixStorage<T> && storage2 is DiagonalMatrixStorage<T>) return fullyMutable ? Sparse(rows, columns) : Diagonal(rows, columns);
             if (storage1 is SparseCompressedRowMatrixStorage<T> || storage2 is SparseCompressedRowMatrixStorage<T>) return Sparse(rows, columns);
             return Dense(rows, columns);
         }
@@ -1329,6 +1329,14 @@ namespace MathNet.Numerics.LinearAlgebra
         public Vector<T> SameAs(Vector<T> example, Vector<T> otherExample)
         {
             return example.Storage.IsDense || otherExample.Storage.IsDense ? Dense(example.Count) : Sparse(example.Count);
+        }
+
+        /// <summary>
+        /// Create a new vector with a type that can represent and is closest to both provided samples.
+        /// </summary>
+        public Vector<T> SameAs(Matrix<T> matrix, Vector<T> vector, int length)
+        {
+            return matrix.Storage.IsDense || vector.Storage.IsDense ? Dense(length) : Sparse(length);
         }
 
         /// <summary>

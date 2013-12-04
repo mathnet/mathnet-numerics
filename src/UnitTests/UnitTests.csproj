@@ -174,6 +174,7 @@
     <Compile Include="LinearAlgebraTests\Complex32\MatrixStructureTheory.cs" />
     <Compile Include="LinearAlgebraTests\Complex32\MatrixTests.Arithmetic.cs" />
     <Compile Include="LinearAlgebraTests\Complex32\MatrixTests.cs" />
+    <Compile Include="LinearAlgebraTests\Complex32\ReturnTypeTests.cs" />
     <Compile Include="LinearAlgebraTests\Complex32\Solvers\Iterative\BiCgStabTest.cs" />
     <Compile Include="LinearAlgebraTests\Complex32\Solvers\Iterative\GpBiCgTest.cs" />
     <Compile Include="LinearAlgebraTests\Complex32\Solvers\Iterative\MlkBiCgStabTest.cs" />
@@ -222,6 +223,7 @@
     <Compile Include="LinearAlgebraTests\Complex\MatrixStructureTheory.cs" />
     <Compile Include="LinearAlgebraTests\Complex\MatrixTests.Arithmetic.cs" />
     <Compile Include="LinearAlgebraTests\Complex\MatrixTests.cs" />
+    <Compile Include="LinearAlgebraTests\Complex\ReturnTypeTests.cs" />
     <Compile Include="LinearAlgebraTests\Complex\Solvers\Iterative\BiCgStabTest.cs" />
     <Compile Include="LinearAlgebraTests\Complex\Solvers\Iterative\GpBiCgTest.cs" />
     <Compile Include="LinearAlgebraTests\Complex\Solvers\Iterative\MlkBiCgStabTest.cs" />
@@ -250,6 +252,7 @@
     <Compile Include="LinearAlgebraTests\Complex\VectorTests.cs" />
     <Compile Include="LinearAlgebraTests\Complex\VectorTests.Norm.cs" />
     <Compile Include="LinearAlgebraTests\Double\MatrixStructureTheory.cs" />
+    <Compile Include="LinearAlgebraTests\Double\ReturnTypeTests.cs" />
     <Compile Include="LinearAlgebraTests\Double\SparseVectorArithmeticTheory.cs" />
     <Compile Include="LinearAlgebraTests\Double\DenseMatrixTests.cs" />
     <Compile Include="LinearAlgebraTests\Double\DenseVectorTest.TextHandling.cs" />
@@ -320,6 +323,7 @@
     <Compile Include="LinearAlgebraTests\Single\MatrixStructureTheory.cs" />
     <Compile Include="LinearAlgebraTests\Single\MatrixTests.Arithmetic.cs" />
     <Compile Include="LinearAlgebraTests\Single\MatrixTests.cs" />
+    <Compile Include="LinearAlgebraTests\Single\ReturnTypeTests.cs" />
     <Compile Include="LinearAlgebraTests\Single\Solvers\Iterative\BiCgStabTest.cs" />
     <Compile Include="LinearAlgebraTests\Single\Solvers\Iterative\GpBiCgTest.cs" />
     <Compile Include="LinearAlgebraTests\Single\Solvers\Iterative\MlkBiCgStabTest.cs" />

@@ -531,7 +531,7 @@ namespace MathNet.Numerics.LinearAlgebra
                 throw DimensionsDontMatch<ArgumentException>(this, rightSide, "rightSide");
             }
 
-            var ret = Vector<T>.Build.SameAs(this, RowCount);
+            var ret = Vector<T>.Build.SameAs(this, rightSide, RowCount);
             DoMultiply(rightSide, ret);
             return ret;
         }
@@ -580,7 +580,7 @@ namespace MathNet.Numerics.LinearAlgebra
                 throw DimensionsDontMatch<ArgumentException>(this, leftSide, "leftSide");
             }
 
-            var ret = Vector<T>.Build.SameAs(this, ColumnCount);
+            var ret = Vector<T>.Build.SameAs(this, leftSide, ColumnCount);
             DoLeftMultiply(leftSide, ret);
             return ret;
         }
@@ -727,7 +727,7 @@ namespace MathNet.Numerics.LinearAlgebra
                 throw DimensionsDontMatch<ArgumentException>(this, rightSide, "rightSide");
             }
 
-            var result = Vector<T>.Build.SameAs(this, ColumnCount);
+            var result = Vector<T>.Build.SameAs(this, rightSide, ColumnCount);
             DoTransposeThisAndMultiply(rightSide, result);
             return result;
         }
@@ -926,7 +926,7 @@ namespace MathNet.Numerics.LinearAlgebra
                 throw DimensionsDontMatch<ArgumentException>(this, other, "other");
             }
 
-            var result = Build.SameAs(this);
+            var result = Build.SameAs(this, other);
             DoPointwiseMultiply(other, result);
             return result;
         }
@@ -961,7 +961,7 @@ namespace MathNet.Numerics.LinearAlgebra
                 throw DimensionsDontMatch<ArgumentException>(this, divisor);
             }
 
-            var result = Build.SameAs(this);
+            var result = Build.SameAs(this, divisor);
             DoPointwiseDivide(divisor, result);
             return result;
         }
@@ -996,7 +996,7 @@ namespace MathNet.Numerics.LinearAlgebra
                 throw DimensionsDontMatch<ArgumentException>(this, divisor);
             }
 
-            var result = Build.SameAs(this);
+            var result = Build.SameAs(this, divisor);
             DoPointwiseModulus(divisor, result);
             return result;
         }
@@ -1074,7 +1074,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <returns>The kronecker product of the two matrices.</returns>
         public Matrix<T> KroneckerProduct(Matrix<T> other)
         {
-            var result = Build.SameAs(this, RowCount*other.RowCount, ColumnCount*other.ColumnCount);
+            var result = Build.SameAs(this, other, RowCount*other.RowCount, ColumnCount*other.ColumnCount);
             KroneckerProduct(other, result);
             return result;
         }
