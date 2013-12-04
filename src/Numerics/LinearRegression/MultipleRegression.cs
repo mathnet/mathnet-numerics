@@ -53,7 +53,7 @@ namespace MathNet.Numerics.LinearRegression
         /// Uses the cholesky decomposition of the normal equations.
         /// </summary>
         /// <param name="x">Predictor matrix X</param>
-        /// <param name="y">Response vector Y</param>
+        /// <param name="y">Response matrix Y</param>
         /// <returns>Best fitting vector for model parameters β</returns>
         public static Matrix<T> NormalEquations<T>(Matrix<T> x, Matrix<T> y) where T : struct, IEquatable<T>, IFormattable
         {
@@ -109,7 +109,7 @@ namespace MathNet.Numerics.LinearRegression
         /// Uses an orthogonal decomposition and is therefore more numerically stable than the normal equations but also slower.
         /// </summary>
         /// <param name="x">Predictor matrix X</param>
-        /// <param name="y">Response vector Y</param>
+        /// <param name="y">Response matrix Y</param>
         /// <returns>Best fitting vector for model parameters β</returns>
         public static Matrix<T> QR<T>(Matrix<T> x, Matrix<T> y) where T : struct, IEquatable<T>, IFormattable
         {
@@ -164,7 +164,7 @@ namespace MathNet.Numerics.LinearRegression
         /// Uses a singular value decomposition and is therefore more numerically stable (especially if ill-conditioned) than the normal equations or QR but also slower.
         /// </summary>
         /// <param name="x">Predictor matrix X</param>
-        /// <param name="y">Response vector Y</param>
+        /// <param name="y">Response matrix Y</param>
         /// <returns>Best fitting vector for model parameters β</returns>
         public static Matrix<T> Svd<T>(Matrix<T> x, Matrix<T> y) where T : struct, IEquatable<T>, IFormattable
         {

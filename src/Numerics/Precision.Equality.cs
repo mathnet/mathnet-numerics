@@ -397,6 +397,7 @@ namespace MathNet.Numerics
         /// <param name="a">The norm of the first value (can be negative).</param>
         /// <param name="b">The norm of the second value (can be negative).</param>
         /// <param name="diff">The norm of the difference of the two values (can be negative).</param>
+        /// <param name="decimalPlaces">The number of decimal places.</param>
         /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="decimalPlaces"/> is smaller than zero.</exception>
         public static bool AlmostEqualNormRelative(this double a, double b, double diff, int decimalPlaces)
         {
