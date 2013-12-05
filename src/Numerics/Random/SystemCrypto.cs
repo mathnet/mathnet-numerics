@@ -101,7 +101,9 @@ namespace MathNet.Numerics.Random
 
         public void Dispose()
         {
+#if !NET35
             _random.Dispose();
+#endif
         }
     }
 }

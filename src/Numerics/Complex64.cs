@@ -698,7 +698,11 @@ namespace MathNet.Numerics
                 }
             }
 
-            var value = GlobalizationHelper.ParseSingle(ref token);
+#if PORTABLE
+            var value = GlobalizationHelper.ParseDouble(ref token);
+#else
+            var value = GlobalizationHelper.ParseDouble(ref token, format.GetCultureInfo());
+#endif
 
             // handle suffix imaginary symbol
             if (token != null && (String.Compare(token.Value, "i", StringComparison.OrdinalIgnoreCase) == 0

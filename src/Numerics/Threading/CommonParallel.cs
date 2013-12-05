@@ -33,12 +33,12 @@ namespace MathNet.Numerics.Threading
     using System;
     using System.Threading.Tasks;
 
-#if !PORTABLE
-    using System.Collections.Concurrent;
-    using System.Collections.Generic;
-#else
+#if (PORTABLE || NET35)
     using System.Linq;
     using Properties;
+#else
+    using System.Collections.Concurrent;
+    using System.Collections.Generic;
 #endif
 
     /// <summary>
@@ -88,7 +88,7 @@ namespace MathNet.Numerics.Threading
                 return;
             }
 
-#if PORTABLE
+#if (PORTABLE || NET35)
             var tasks = new Task[Math.Min(maxDegreeOfParallelism, length/rangeSize)];
             rangeSize = (toExclusive - fromInclusive)/tasks.Length;
 
@@ -146,7 +146,7 @@ namespace MathNet.Numerics.Threading
             }
 
             // Common case
-#if PORTABLE
+#if (PORTABLE || NET35)
             var tasks = new Task[actions.Length];
             for (var i = 0; i < tasks.Length; i++)
             {
@@ -211,7 +211,7 @@ namespace MathNet.Numerics.Threading
                 return reduce(mapped);
             }
 
-#if PORTABLE
+#if (PORTABLE || NET35)
             var tasks = new Task<T>[Control.NumberOfParallelWorkerThreads];
             var size = (toExclusive - fromInclusive) / tasks.Length;
 
@@ -317,7 +317,7 @@ namespace MathNet.Numerics.Threading
                 return reduce(mapped);
             }
 
-#if PORTABLE
+#if (PORTABLE || NET35)
             var tasks = new Task<TOut>[Control.NumberOfParallelWorkerThreads];
             var size = array.Length / tasks.Length;
 

@@ -406,7 +406,7 @@
     <Compile Include="Random\WH1982.cs" />
     <Compile Include="Random\WH2006.cs" />
     <Compile Include="Random\Xorshift.cs" />
-    <Compile Include="PortableAttributes.cs" />
+    <Compile Include="Compatibility.cs" />
     <Compile Include="Signals\SignalGenerator.Random.cs" />
     <Compile Include="Signals\SignalGenerator.Chebyshev.cs" />
     <Compile Include="Signals\SignalGenerator.Equidistant.cs" />

@@ -48,6 +48,8 @@ Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "FSharpUnitTests-Portable47"
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "FSharpUnitTests-Portable136", "src\FSharpUnitTests\FSharpUnitTests-Portable136.fsproj", "{1A8315AC-BCDA-4294-B994-FDC4FED45BEE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Numerics-Net35", "src\Numerics\Numerics-Net35.csproj", "{E54E712D-EB6B-4FBF-B29A-6BB95E719BAC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -129,6 +131,12 @@ Global
 		{1A8315AC-BCDA-4294-B994-FDC4FED45BEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1A8315AC-BCDA-4294-B994-FDC4FED45BEE}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1A8315AC-BCDA-4294-B994-FDC4FED45BEE}.Release-Signed|Any CPU.ActiveCfg = Release|Any CPU
+		{E54E712D-EB6B-4FBF-B29A-6BB95E719BAC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E54E712D-EB6B-4FBF-B29A-6BB95E719BAC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E54E712D-EB6B-4FBF-B29A-6BB95E719BAC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E54E712D-EB6B-4FBF-B29A-6BB95E719BAC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E54E712D-EB6B-4FBF-B29A-6BB95E719BAC}.Release-Signed|Any CPU.ActiveCfg = Release-Signed|Any CPU
+		{E54E712D-EB6B-4FBF-B29A-6BB95E719BAC}.Release-Signed|Any CPU.Build.0 = Release-Signed|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
