@@ -54,6 +54,12 @@ using System.Runtime.InteropServices;
 [assembly: InternalsVisibleTo("MathNet.Numerics.UnitTests47")]
 [assembly: InternalsVisibleTo("MathNet.Numerics.UnitTests136")]
 
+#elif NET35
+
+[assembly: AssemblyTitle("Math.NET Numerics - .Net 3.5 Edition")]
+[assembly: InternalsVisibleTo("MathNet.Numerics.UnitTests")]
+[assembly: InternalsVisibleTo("MathNet.Numerics.UnitTestsNet35")]
+
 #else
 
 [assembly: AssemblyTitle("Math.NET Numerics")]
