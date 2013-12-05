@@ -39,29 +39,72 @@ namespace MathNet.Numerics
     using System;
     using System.Collections.Generic;
 
-    public class Tuple<T1, T2>
+    internal static class ObjectComparer
+    {
+        internal static int Compare<T>(T a, T b)
+        {
+            if (ReferenceEquals(a, null)) return -1;
+            if (ReferenceEquals(b, null)) return 1;
+            if (Equals(a, b)) return 0;
+            return Comparer<T>.Default.Compare(a, b);
+        }
+    }
+
+    public class Tuple<T1, T2> : IComparable, IComparable<Tuple<T1, T2>>
     {
         public T1 Item1 { get; set; }
         public T2 Item2 { get; set; }
 
-        public Tuple(T1 Item1, T2 Item2)
+        public Tuple(T1 item1, T2 item2)
         {
-            this.Item1 = Item1;
-            this.Item2 = Item2;
+            Item1 = item1;
+            Item2 = item2;
+        }
+
+        public int CompareTo(object obj)
+        {
+            if (obj == null) return 1;
+            var other = obj as Tuple<T1, T2>;
+            if (other == null) throw new ArgumentException();
+            return CompareTo(other);
+        }
+
+        public int CompareTo(Tuple<T1, T2> other)
+        {
+            if (other == null) return 1;
+            int a = ObjectComparer.Compare(Item1, other.Item1);
+            return a != 0 ? a : ObjectComparer.Compare(Item2, other.Item2);
         }
     }
 
-    public class Tuple<T1, T2, T3>
+    public class Tuple<T1, T2, T3> : IComparable, IComparable<Tuple<T1, T2, T3>>
     {
         public T1 Item1 { get; set; }
         public T2 Item2 { get; set; }
         public T3 Item3 { get; set; }
 
-        public Tuple(T1 Item1, T2 Item2, T3 Item3)
+        public Tuple(T1 item1, T2 item2, T3 item3)
         {
-            this.Item1 = Item1;
-            this.Item2 = Item2;
-            this.Item3 = Item3;
+            Item1 = item1;
+            Item2 = item2;
+            Item3 = item3;
+        }
+
+        public int CompareTo(object obj)
+        {
+            if (obj == null) return 1;
+            var other = obj as Tuple<T1, T2, T3>;
+            if (other == null) throw new ArgumentException();
+            return CompareTo(other);
+        }
+
+        public int CompareTo(Tuple<T1, T2, T3> other)
+        {
+            if (other == null) return 1;
+            int a = ObjectComparer.Compare(Item1, other.Item1);
+            if (a != 0) return a;
+            int b = ObjectComparer.Compare(Item2, other.Item2);
+            return b != 0 ? b : ObjectComparer.Compare(Item3, other.Item3);
         }
     }
 
