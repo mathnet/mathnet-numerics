@@ -3,11 +3,11 @@ Math.NET Numerics
 
 Math.NET Numerics is an opensource **numerical library for .Net, Silverlight and Mono**.
 
-Math.NET Numerics is the numerical foundation of the Math.NET project, aiming to provide methods and algorithms for numerical computations in science, engineering and every day use. Covered topics include special functions, linear algebra, probability models, random numbers, statistics, interpolation, integration, curve fitting, integral transforms (FFT) and more.
+Math.NET Numerics is the numerical foundation of the Math.NET initiative, aiming to provide methods and algorithms for numerical computations in science, engineering and every day use. Covered topics include special functions, linear algebra, probability models, random numbers, statistics, interpolation, integration, regression, curve fitting, integral transforms (FFT) and more.
 
-In addition to the core .NET package (which is written entirely in C#), Numerics specifically supports F# 3.0 with idiomatic extension modules and maintains mathematical data structures like BigRational that originated in the F# PowerPack. If a performance boost is needed, the managed-code provider backing its linear algebra routines and decompositions can be exchanged with wrappers for optimized native implementations such as Intel MKL.
+In addition to the core .NET package (which is written entirely in C#), Numerics specifically supports F# 3.0 and 3.1 with idiomatic extension modules and maintains mathematical data structures like BigRational that originated in the F# PowerPack. If a performance boost is needed, the managed-code provider backing its linear algebra routines and decompositions can be exchanged with wrappers for optimized native implementations such as Intel MKL.
 
-Supports Mono and .NET 4.0 on Linux, Mac and Windows, the portable version also Silverlight 5, WindowsPhone 8 and .NET for Windows Store apps.
+Supports Mono and .NET 4.0 and 3.5 on Linux, Mac and Windows, the portable build (PCL) also Silverlight 5, Windows Phone 8, .NET for Windows Store apps and Xamarin Android/iOS.
 
 Math.NET Numerics is covered under the terms of the [MIT/X11](http://mathnetnumerics.codeplex.com/license) license. You may therefore link to it and use it in both opensource and proprietary software projects. See also the [license](LICENSE.md) file in the root folder.
 
