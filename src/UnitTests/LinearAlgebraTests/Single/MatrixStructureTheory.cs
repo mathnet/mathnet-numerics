@@ -40,11 +40,6 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
     [TestFixture]
     public class MatrixStructureTheory : MatrixStructureTheory<float>
     {
-        public MatrixStructureTheory()
-            : base(0f, typeof(DenseMatrix), typeof(SparseMatrix), typeof(DiagonalMatrix), typeof(DenseVector), typeof(SparseVector))
-        {
-        }
-
         [Datapoints]
         Matrix<float>[] _matrices = new Matrix<float>[]
             {

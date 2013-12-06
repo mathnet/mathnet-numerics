@@ -45,20 +45,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         protected abstract Vector<T> CreateVectorRandom(int size, int seed);
 
         protected readonly T Zero;
-        protected readonly dynamic Dense;
-        protected readonly dynamic Sparse;
-        protected readonly dynamic Diagonal;
-        protected readonly dynamic DenseVector;
-        protected readonly dynamic SparseVector;
 
-        protected MatrixStructureTheory(T zero, Type dense, Type sparse, Type diagonal, Type denseVector, Type sparseVector)
+        protected MatrixStructureTheory()
         {
-            Zero = zero;
-            Dense = new StaticDynamicWrapper(dense);
-            Sparse = new StaticDynamicWrapper(sparse);
-            Diagonal = new StaticDynamicWrapper(diagonal);
-            DenseVector = new StaticDynamicWrapper(denseVector);
-            SparseVector = new StaticDynamicWrapper(sparseVector);
+            Zero = Matrix<T>.Build.Zero;
         }
 
         protected Matrix<T> CreateDenseFor(Matrix<T> m, int rows = -1, int columns = -1, int seed = 1)
@@ -233,7 +223,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         public void CanCreateDenseFromMultiDimArray()
         {
             T[,] array = CreateDenseRandom(4, 3, 0).ToArray();
-            var matrix = Dense.OfArray(array);
+            var matrix = Matrix<T>.Build.DenseOfArray(array);
             Assert.That(matrix.GetType().Name, Is.EqualTo("DenseMatrix"));
             Assert.That(matrix.RowCount, Is.EqualTo(4));
             Assert.That(matrix.ColumnCount, Is.EqualTo(3));
@@ -246,7 +236,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         public void CanCreateSparseFromMultiDimArray()
         {
             T[,] array = CreateDenseRandom(4, 3, 0).ToArray();
-            var matrix = Sparse.OfArray(array);
+            var matrix = Matrix<T>.Build.SparseOfArray(array);
             Assert.That(matrix.GetType().Name, Is.EqualTo("SparseMatrix"));
             Assert.That(matrix.RowCount, Is.EqualTo(4));
             Assert.That(matrix.ColumnCount, Is.EqualTo(3));
@@ -264,7 +254,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
                     CreateVectorRandom(4, 1).ToArray(),
                     CreateVectorRandom(4, 3).ToArray()
                 };
-            var matrix = Dense.OfRows(3, 4, array);
+            var matrix = Matrix<T>.Build.DenseOfRows(3, 4, array);
             Assert.That(matrix.GetType().Name, Is.EqualTo("DenseMatrix"));
             Assert.That(matrix.RowCount, Is.EqualTo(3));
             Assert.That(matrix.ColumnCount, Is.EqualTo(4));
@@ -282,7 +272,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
                     CreateVectorRandom(4, 1).ToArray(),
                     CreateVectorRandom(4, 3).ToArray()
                 };
-            var matrix = Sparse.OfRows(3, 4, array);
+            var matrix = Matrix<T>.Build.SparseOfRows(3, 4, array);
             Assert.That(matrix.GetType().Name, Is.EqualTo("SparseMatrix"));
             Assert.That(matrix.RowCount, Is.EqualTo(3));
             Assert.That(matrix.ColumnCount, Is.EqualTo(4));
@@ -300,7 +290,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
                     CreateVectorRandom(4, 1),
                     CreateVectorRandom(4, 3)
                 };
-            var matrix = Dense.OfColumns(4, 3, columns);
+            var matrix = Matrix<T>.Build.DenseOfColumns(4, 3, columns);
             Assert.That(matrix.GetType().Name, Is.EqualTo("DenseMatrix"));
             Assert.That(matrix.RowCount, Is.EqualTo(4));
             Assert.That(matrix.ColumnCount, Is.EqualTo(3));
@@ -318,7 +308,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
                     CreateVectorRandom(4, 1),
                     CreateVectorRandom(4, 3)
                 };
-            var matrix = Sparse.OfColumns(4, 3, columns);
+            var matrix = Matrix<T>.Build.SparseOfColumns(4, 3, columns);
             Assert.That(matrix.GetType().Name, Is.EqualTo("SparseMatrix"));
             Assert.That(matrix.RowCount, Is.EqualTo(4));
             Assert.That(matrix.ColumnCount, Is.EqualTo(3));
@@ -336,7 +326,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
                     CreateVectorRandom(4, 1),
                     CreateVectorRandom(4, 3)
                 };
-            var matrix = Dense.OfRows(3, 4, rows);
+            var matrix = Matrix<T>.Build.DenseOfRows(3, 4, rows);
             Assert.That(matrix.GetType().Name, Is.EqualTo("DenseMatrix"));
             Assert.That(matrix.RowCount, Is.EqualTo(3));
             Assert.That(matrix.ColumnCount, Is.EqualTo(4));
@@ -354,7 +344,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
                     CreateVectorRandom(4, 1),
                     CreateVectorRandom(4, 3)
                 };
-            var matrix = Sparse.OfRows(3, 4, rows);
+            var matrix = Matrix<T>.Build.SparseOfRows(3, 4, rows);
             Assert.That(matrix.GetType().Name, Is.EqualTo("SparseMatrix"));
             Assert.That(matrix.RowCount, Is.EqualTo(3));
             Assert.That(matrix.ColumnCount, Is.EqualTo(4));

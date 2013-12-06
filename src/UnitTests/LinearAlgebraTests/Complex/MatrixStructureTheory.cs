@@ -46,11 +46,6 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
     [TestFixture]
     public class MatrixStructureTheory : MatrixStructureTheory<Complex>
     {
-        public MatrixStructureTheory()
-            : base(Complex.Zero, typeof(DenseMatrix), typeof(SparseMatrix), typeof(DiagonalMatrix), typeof(DenseVector), typeof(SparseVector))
-        {
-        }
-
         [Datapoints]
         Matrix<Complex>[] _matrices = new Matrix<Complex>[]
             {
