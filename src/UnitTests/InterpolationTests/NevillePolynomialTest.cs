@@ -139,11 +139,11 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
         public void Interpolate_LogLogAttenuationData_InterpolationShouldNotYieldNaN(
             [Values(0.0025, 0.035, 0.45, 5.5, 18.5, 35.0)] double value)
         {
-            var data = File.ReadLines(@"./data/Github-Cureos-1.csv").
+            var data = File.ReadAllLines(@"./data/Github-Cureos-1.csv").
                 Select(line =>
                 {
                     var vals = line.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-                    return Tuple.Create(vals[2], vals[3]);
+                    return new Tuple<string, string>(vals[2], vals[3]);
                 }).ToArray();
             var x = data.Select(tuple => Double.Parse(tuple.Item1, CultureInfo.InvariantCulture)).ToArray();
             var y = data.Select(tuple => Double.Parse(tuple.Item2, CultureInfo.InvariantCulture)).ToArray();

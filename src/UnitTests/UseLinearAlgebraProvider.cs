@@ -38,7 +38,7 @@ namespace MathNet.Numerics.UnitTests
     {
         public void BeforeTest(TestDetails testDetails)
         {
-#if NATIVEMKL
+#if !NET35 && NATIVEMKL
             var provider = Properties.Settings.Default.LinearAlgebraProvider.ToLowerInvariant();
             if (provider.Contains("mkl"))
             {
