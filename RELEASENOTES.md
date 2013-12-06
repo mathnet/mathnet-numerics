@@ -8,7 +8,7 @@ Math.NET Numerics Release Notes
 
 NuGet Packages, available in the [NuGet Gallery](https://nuget.org/profiles/mathnet/):
 
-- `MathNet.Numerics` - core package, including both .Net 4 and portable builds
+- `MathNet.Numerics` - core package, including .Net 4, .Net 3.5 and portable/PCL builds
 - `MathNet.Numerics.FSharp` - optional extensions for a better F# experience
 - `MathNet.Numerics.Data.Text` - NEW: optional extensions for text-based matrix input/output (CSV for now)
 - `MathNet.Numerics.Data.Matlab` - NEW: optional extensions for MATLAB matrix file input/output
@@ -111,6 +111,7 @@ Changes as of now:
 ### Build & Packages
 
 - NuGet packages now also include the PCL portable profile 47 (.Net 4.5, Silverlight 5, Windows 8) in addition to the normal .Net 4.0 build and PCL profile 136 (.Net 4.0, WindowsPhone 8, Silverlight 5, Windows 8) as before. Profile 47 uses `System.Numerics` for complex numbers, among others, which is not available in profile 136.
+- NuGet packages now also include a .Net 3.5 build of the core library.
 - IO libraries have been removed, replaced with new `.Data` packages (see list on top).
 - Alternative strong-named versions of more NuGet packages (mostly the F# extensions for now), with the `.Signed` suffix.
 - Reworked solution structure so it works in both Visual Studio 11 (2012) and 12 (2013).
