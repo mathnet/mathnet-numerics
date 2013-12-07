@@ -465,7 +465,7 @@ namespace MathNet.Numerics.LinearAlgebra
         public Matrix<T> RandomPositiveDefinite(int order, IContinuousDistribution distribution)
         {
             var a = Random(order, order, distribution);
-            return a.TransposeThisAndMultiply(a);
+            return a.ConjugateTransposeThisAndMultiply(a);
         }
 
         /// <summary>
@@ -475,7 +475,7 @@ namespace MathNet.Numerics.LinearAlgebra
         public Matrix<T> RandomPositiveDefinite(int order)
         {
             var a = Random(order, order, new Normal(MersenneTwister.Default));
-            return a.TransposeThisAndMultiply(a);
+            return a.ConjugateTransposeThisAndMultiply(a);
         }
 
         /// <summary>
@@ -485,7 +485,7 @@ namespace MathNet.Numerics.LinearAlgebra
         public Matrix<T> RandomPositiveDefinite(int order, int seed)
         {
             var a = Random(order, order, new Normal(new MersenneTwister(seed, true)));
-            return a.TransposeThisAndMultiply(a);
+            return a.ConjugateTransposeThisAndMultiply(a);
         }
 
         /// <summary>

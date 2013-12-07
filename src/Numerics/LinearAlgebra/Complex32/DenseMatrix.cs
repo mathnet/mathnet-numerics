@@ -723,6 +723,62 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         }
 
         /// <summary>
+        /// Multiplies this matrix with the conjugate transpose of another matrix and places the results into the result matrix.
+        /// </summary>
+        /// <param name="other">The matrix to multiply with.</param>
+        /// <param name="result">The result of the multiplication.</param>
+        protected override void DoConjugateTransposeAndMultiply(Matrix<Complex32> other, Matrix<Complex32> result)
+        {
+            var denseOther = other as DenseMatrix;
+            var denseResult = result as DenseMatrix;
+            if (denseOther != null && denseResult != null)
+            {
+                Control.LinearAlgebraProvider.MatrixMultiplyWithUpdate(
+                    Providers.LinearAlgebra.Transpose.DontTranspose,
+                    Providers.LinearAlgebra.Transpose.ConjugateTranspose,
+                    1.0f,
+                    _values,
+                    _rowCount,
+                    _columnCount,
+                    denseOther._values,
+                    denseOther._rowCount,
+                    denseOther._columnCount,
+                    0.0f,
+                    denseResult._values);
+                return;
+            }
+
+            var diagonalOther = other.Storage as DiagonalMatrixStorage<Complex32>;
+            if (diagonalOther != null)
+            {
+                var diagonal = diagonalOther.Data;
+                var conjugateDiagonal = new Complex32[diagonal.Length];
+                for (int i = 0; i < diagonal.Length; i++)
+                {
+                    conjugateDiagonal[i] = diagonal[i].Conjugate();
+                }
+
+                var d = Math.Min(ColumnCount, other.RowCount);
+                if (d < other.RowCount)
+                {
+                    result.ClearSubMatrix(0, RowCount, ColumnCount, other.RowCount - ColumnCount);
+                }
+                int index = 0;
+                for (int j = 0; j < d; j++)
+                {
+                    for (int i = 0; i < RowCount; i++)
+                    {
+                        result.At(i, j, _values[index]*conjugateDiagonal[j]);
+                        index++;
+                    }
+                }
+                return;
+            }
+
+            base.DoConjugateTransposeAndMultiply(other, result);
+        }
+
+        /// <summary>
         /// Multiplies the transpose of this matrix with a vector and places the results into the result vector.
         /// </summary>
         /// <param name="rightSide">The vector to multiply with.</param>
@@ -751,6 +807,35 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
                     0.0f,
                     denseResult.Values);
             }
+        }
+
+        /// <summary>
+        /// Multiplies the conjugate transpose of this matrix with a vector and places the results into the result vector.
+        /// </summary>
+        /// <param name="rightSide">The vector to multiply with.</param>
+        /// <param name="result">The result of the multiplication.</param>
+        protected override void DoConjugateTransposeThisAndMultiply(Vector<Complex32> rightSide, Vector<Complex32> result)
+        {
+            var denseRight = rightSide as DenseVector;
+            var denseResult = result as DenseVector;
+            if (denseRight != null && denseResult != null)
+            {
+                Control.LinearAlgebraProvider.MatrixMultiplyWithUpdate(
+                    Providers.LinearAlgebra.Transpose.ConjugateTranspose,
+                    Providers.LinearAlgebra.Transpose.DontTranspose,
+                    1.0f,
+                    _values,
+                    _rowCount,
+                    _columnCount,
+                    denseRight.Values,
+                    denseRight.Count,
+                    1,
+                    0.0f,
+                    denseResult.Values);
+                return;
+            }
+
+            base.DoConjugateTransposeThisAndMultiply(rightSide, result);
         }
 
         /// <summary>
@@ -802,6 +887,57 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
             }
 
             base.DoTransposeThisAndMultiply(other, result);
+        }
+
+        /// <summary>
+        /// Multiplies the transpose of this matrix with another matrix and places the results into the result matrix.
+        /// </summary>
+        /// <param name="other">The matrix to multiply with.</param>
+        /// <param name="result">The result of the multiplication.</param>
+        protected override void DoConjugateTransposeThisAndMultiply(Matrix<Complex32> other, Matrix<Complex32> result)
+        {
+            var denseOther = other as DenseMatrix;
+            var denseResult = result as DenseMatrix;
+            if (denseOther != null && denseResult != null)
+            {
+                Control.LinearAlgebraProvider.MatrixMultiplyWithUpdate(
+                    Providers.LinearAlgebra.Transpose.ConjugateTranspose,
+                    Providers.LinearAlgebra.Transpose.DontTranspose,
+                    1.0f,
+                    _values,
+                    _rowCount,
+                    _columnCount,
+                    denseOther._values,
+                    denseOther._rowCount,
+                    denseOther._columnCount,
+                    0.0f,
+                    denseResult._values);
+                return;
+            }
+
+            var diagonalOther = other.Storage as DiagonalMatrixStorage<Complex32>;
+            if (diagonalOther != null)
+            {
+                var diagonal = diagonalOther.Data;
+                var d = Math.Min(RowCount, other.ColumnCount);
+                if (d < other.ColumnCount)
+                {
+                    result.ClearSubMatrix(0, ColumnCount, RowCount, other.ColumnCount - RowCount);
+                }
+                int index = 0;
+                for (int i = 0; i < ColumnCount; i++)
+                {
+                    for (int j = 0; j < d; j++)
+                    {
+                        result.At(i, j, _values[index].Conjugate()*diagonal[j]);
+                        index++;
+                    }
+                    index += (RowCount - d);
+                }
+                return;
+            }
+
+            base.DoConjugateTransposeThisAndMultiply(other, result);
         }
 
         /// <summary>

@@ -278,6 +278,16 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         }
 
         /// <summary>
+        /// Multiplies this matrix with the conjugate transpose of another matrix and places the results into the result matrix.
+        /// </summary>
+        /// <param name="other">The matrix to multiply with.</param>
+        /// <param name="result">The result of the multiplication.</param>
+        protected override sealed void DoConjugateTransposeAndMultiply(Matrix<float> other, Matrix<float> result)
+        {
+            DoTransposeAndMultiply(other, result);
+        }
+
+        /// <summary>
         /// Multiplies the transpose of this matrix with another matrix and places the results into the result matrix.
         /// </summary>
         /// <param name="other">The matrix to multiply with.</param>
@@ -299,6 +309,16 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         }
 
         /// <summary>
+        /// Multiplies the transpose of this matrix with another matrix and places the results into the result matrix.
+        /// </summary>
+        /// <param name="other">The matrix to multiply with.</param>
+        /// <param name="result">The result of the multiplication.</param>
+        protected override sealed void DoConjugateTransposeThisAndMultiply(Matrix<float> other, Matrix<float> result)
+        {
+            DoTransposeThisAndMultiply(other, result);
+        }
+
+        /// <summary>
         /// Multiplies the transpose of this matrix with a vector and places the results into the result vector.
         /// </summary>
         /// <param name="rightSide">The vector to multiply with.</param>
@@ -314,6 +334,16 @@ namespace MathNet.Numerics.LinearAlgebra.Single
                 }
                 result[i] = s;
             }
+        }
+
+        /// <summary>
+        /// Multiplies the conjugate transpose of this matrix with a vector and places the results into the result vector.
+        /// </summary>
+        /// <param name="rightSide">The vector to multiply with.</param>
+        /// <param name="result">The result of the multiplication.</param>
+        protected override void DoConjugateTransposeThisAndMultiply(Vector<float> rightSide, Vector<float> result)
+        {
+            DoTransposeThisAndMultiply(rightSide, result);
         }
 
         /// <summary>

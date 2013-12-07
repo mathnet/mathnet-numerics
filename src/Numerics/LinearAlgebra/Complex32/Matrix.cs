@@ -288,6 +288,27 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         }
 
         /// <summary>
+        /// Multiplies this matrix with the conjugate transpose of another matrix and places the results into the result matrix.
+        /// </summary>
+        /// <param name="other">The matrix to multiply with.</param>
+        /// <param name="result">The result of the multiplication.</param>
+        protected override void DoConjugateTransposeAndMultiply(Matrix<Complex32> other, Matrix<Complex32> result)
+        {
+            for (var j = 0; j < other.RowCount; j++)
+            {
+                for (var i = 0; i < RowCount; i++)
+                {
+                    var s = Complex32.Zero;
+                    for (var l = 0; l < ColumnCount; l++)
+                    {
+                        s += At(i, l)*other.At(j, l).Conjugate();
+                    }
+                    result.At(i, j, s);
+                }
+            }
+        }
+
+        /// <summary>
         /// Multiplies the transpose of this matrix with another matrix and places the results into the result matrix.
         /// </summary>
         /// <param name="other">The matrix to multiply with.</param>
@@ -309,6 +330,27 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         }
 
         /// <summary>
+        /// Multiplies the transpose of this matrix with another matrix and places the results into the result matrix.
+        /// </summary>
+        /// <param name="other">The matrix to multiply with.</param>
+        /// <param name="result">The result of the multiplication.</param>
+        protected override void DoConjugateTransposeThisAndMultiply(Matrix<Complex32> other, Matrix<Complex32> result)
+        {
+            for (var j = 0; j < other.ColumnCount; j++)
+            {
+                for (var i = 0; i < ColumnCount; i++)
+                {
+                    var s = Complex32.Zero;
+                    for (var l = 0; l < RowCount; l++)
+                    {
+                        s += At(l, i).Conjugate()*other.At(l, j);
+                    }
+                    result.At(i, j, s);
+                }
+            }
+        }
+
+        /// <summary>
         /// Multiplies the transpose of this matrix with a vector and places the results into the result vector.
         /// </summary>
         /// <param name="rightSide">The vector to multiply with.</param>
@@ -321,6 +363,24 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
                 for (var j = 0; j < RowCount; j++)
                 {
                     s += At(j, i)*rightSide[j];
+                }
+                result[i] = s;
+            }
+        }
+
+        /// <summary>
+        /// Multiplies the conjugate transpose of this matrix with a vector and places the results into the result vector.
+        /// </summary>
+        /// <param name="rightSide">The vector to multiply with.</param>
+        /// <param name="result">The result of the multiplication.</param>
+        protected override void DoConjugateTransposeThisAndMultiply(Vector<Complex32> rightSide, Vector<Complex32> result)
+        {
+            for (var i = 0; i < ColumnCount; i++)
+            {
+                var s = Complex32.Zero;
+                for (var j = 0; j < RowCount; j++)
+                {
+                    s += At(j, i).Conjugate()*rightSide[j];
                 }
                 result[i] = s;
             }
