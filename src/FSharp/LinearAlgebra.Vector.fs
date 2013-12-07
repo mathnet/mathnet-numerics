@@ -221,6 +221,8 @@ module Vector =
 [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
 module DenseVector =
 
+    open MathNet.Numerics.Distributions
+
     /// Create a vector that directly binds to a storage object.
     let inline ofStorage (storage: Storage.DenseVectorStorage<'T>) = Vector<'T>.Build.Dense(storage)
 
@@ -231,7 +233,13 @@ module DenseVector =
     let inline zero (n: int) = Vector<'T>.Build.Dense(n)
 
     /// Initialize a random vector with the given dimension and distribution.
-    let inline random (n: int) dist = Vector<'T>.Build.Random(n, dist)
+    let inline random (n: int) (dist: IContinuousDistribution) = Vector<'T>.Build.Random(n, dist)
+
+    /// Initialize a random vector with the given dimension and standard distributed values.
+    let inline randomStandard (n: int) = Vector<'T>.Build.Random(n)
+
+    /// Initialize a random vector with the given dimension and standard distributed values using the provided seed.
+    let inline randomSeed (n: int) (seed: int) = Vector<'T>.Build.Random(n, seed)
 
     /// Initialize an x-valued vector with the given dimension.
     let inline create (n: int) (x: 'T) = Vector<'T>.Build.Dense(n, x)

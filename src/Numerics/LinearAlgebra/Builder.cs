@@ -451,6 +451,14 @@ namespace MathNet.Numerics.LinearAlgebra
         }
 
         /// <summary>
+        /// Create a new dense matrix with values sampled from the standard distribution with a mersenne twister random source.
+        /// </summary>
+        public Matrix<T> Random(int rows, int columns, int seed)
+        {
+            return Random(rows, columns, new Normal(new MersenneTwister(seed, true)));
+        }
+
+        /// <summary>
         /// Create a new positive definite dense matrix where each value is the product
         /// of two samples from the provided random distribution.
         /// </summary>
@@ -1378,6 +1386,14 @@ namespace MathNet.Numerics.LinearAlgebra
         public Vector<T> Random(int length)
         {
             return Random(length, new Normal(MersenneTwister.Default));
+        }
+
+        /// <summary>
+        /// Create a new dense vector with values sampled from the standard distribution with a mersenne twister random source.
+        /// </summary>
+        public Vector<T> Random(int length, int seed)
+        {
+            return Random(length, new Normal(new MersenneTwister(seed, true)));
         }
 
         /// <summary>

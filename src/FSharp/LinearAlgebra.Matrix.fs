@@ -350,6 +350,8 @@ module Matrix =
 [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
 module DenseMatrix =
 
+    open MathNet.Numerics.Distributions
+
     /// Create a matrix that directly binds to a storage object.
     let inline ofStorage storage = Matrix<'T>.Build.Dense(storage)
 
@@ -360,7 +362,13 @@ module DenseMatrix =
     let inline zero (rows: int) (cols: int) = Matrix<'T>.Build.Dense(rows, cols)
 
     /// Create a random matrix with the given dimension and value distribution.
-    let inline random (rows: int) (cols: int) dist = Matrix<'T>.Build.Random(rows, cols, dist)
+    let inline random (rows: int) (cols: int) (dist: IContinuousDistribution) = Matrix<'T>.Build.Random(rows, cols, dist)
+    
+    /// Create a random matrix with the given dimension and standard distributed values.
+    let inline randomStandard (rows: int) (cols: int) = Matrix<'T>.Build.Random(rows, cols)
+
+    /// Create a random matrix with the given dimension and standard distributed values using the provided seed.
+    let inline randomSeed (rows: int) (cols: int) (seed: int) = Matrix<'T>.Build.Random(rows, cols, seed)
 
     /// Create a matrix with the given dimension and set all values to x.
     let inline create (rows: int) (cols: int) (x: 'T) = Matrix<'T>.Build.Dense(rows, cols, x)
