@@ -25,6 +25,7 @@
 // </copyright>
 
 using System;
+using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Complex32;
 using NUnit.Framework;
 
@@ -83,7 +84,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
         [TestCase(100, 98)]
         public void CanFactorizeRandomMatrix(int row, int column)
         {
-            var matrixA = MatrixLoader.GenerateRandomDenseMatrix(row, column);
+            var matrixA = Matrix<Complex32>.Build.Random(row, column, 1);
             var factorSvd = matrixA.Svd();
             var u = factorSvd.U;
             var vt = factorSvd.VT;
@@ -123,7 +124,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
         [TestCase(100, 93)]
         public void CanCheckRankOfNonSquare(int row, int column)
         {
-            var matrixA = MatrixLoader.GenerateRandomDenseMatrix(row, column);
+            var matrixA = Matrix<Complex32>.Build.Random(row, column, 1);
             var factorSvd = matrixA.Svd();
 
             var mn = Math.Min(row, column);
@@ -142,7 +143,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
         [TestCase(90)]
         public void CanCheckRankSquare(int order)
         {
-            var matrixA = MatrixLoader.GenerateRandomDenseMatrix(order, order);
+            var matrixA = Matrix<Complex32>.Build.Random(order, order, 1);
             var factorSvd = matrixA.Svd();
 
             if (factorSvd.Determinant != 0)
@@ -187,10 +188,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
         [Test]
         public void SolveMatrixIfVectorsNotComputedThrowsInvalidOperationException()
         {
-            var matrixA = MatrixLoader.GenerateRandomDenseMatrix(10, 3);
+            var matrixA = Matrix<Complex32>.Build.Random(10, 3, 1);
             var factorSvd = matrixA.Svd(false);
 
-            var matrixB = MatrixLoader.GenerateRandomDenseMatrix(10, 3);
+            var matrixB = Matrix<Complex32>.Build.Random(10, 3, 1);
             Assert.Throws<InvalidOperationException>(() => factorSvd.Solve(matrixB));
         }
 
@@ -200,10 +201,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
         [Test]
         public void SolveVectorIfVectorsNotComputedThrowsInvalidOperationException()
         {
-            var matrixA = MatrixLoader.GenerateRandomDenseMatrix(10, 3);
+            var matrixA = Matrix<Complex32>.Build.Random(10, 3, 1);
             var factorSvd = matrixA.Svd(false);
 
-            var vectorb = MatrixLoader.GenerateRandomDenseVector(3);
+            var vectorb = Vector<Complex32>.Build.Random(3, 1);
             Assert.Throws<InvalidOperationException>(() => factorSvd.Solve(vectorb));
         }
 
@@ -220,11 +221,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
         [TestCase(90, 100)]
         public void CanSolveForRandomVector(int row, int column)
         {
-            var matrixA = MatrixLoader.GenerateRandomDenseMatrix(row, column);
+            var matrixA = Matrix<Complex32>.Build.Random(row, column, 1);
             var matrixACopy = matrixA.Clone();
             var factorSvd = matrixA.Svd();
 
-            var vectorb = MatrixLoader.GenerateRandomDenseVector(row);
+            var vectorb = Vector<Complex32>.Build.Random(row, 1);
             var resultx = factorSvd.Solve(vectorb);
 
             Assert.AreEqual(matrixA.ColumnCount, resultx.Count);
@@ -261,11 +262,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
         [TestCase(80, 100)]
         public void CanSolveForRandomMatrix(int row, int column)
         {
-            var matrixA = MatrixLoader.GenerateRandomDenseMatrix(row, column);
+            var matrixA = Matrix<Complex32>.Build.Random(row, column, 1);
             var matrixACopy = matrixA.Clone();
             var factorSvd = matrixA.Svd();
 
-            var matrixB = MatrixLoader.GenerateRandomDenseMatrix(row, column);
+            var matrixB = Matrix<Complex32>.Build.Random(row, column, 1);
             var matrixX = factorSvd.Solve(matrixB);
 
             // The solution X row dimension is equal to the column dimension of A
@@ -309,10 +310,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
         [TestCase(90, 100)]
         public void CanSolveForRandomVectorWhenResultVectorGiven(int row, int column)
         {
-            var matrixA = MatrixLoader.GenerateRandomDenseMatrix(row, column);
+            var matrixA = Matrix<Complex32>.Build.Random(row, column, 1);
             var matrixACopy = matrixA.Clone();
             var factorSvd = matrixA.Svd();
-            var vectorb = MatrixLoader.GenerateRandomDenseVector(row);
+            var vectorb = Vector<Complex32>.Build.Random(row, 1);
             var vectorbCopy = vectorb.Clone();
             var resultx = new DenseVector(column);
             factorSvd.Solve(vectorb, resultx);
@@ -355,11 +356,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
         [TestCase(80, 100)]
         public void CanSolveForRandomMatrixWhenResultMatrixGiven(int row, int column)
         {
-            var matrixA = MatrixLoader.GenerateRandomDenseMatrix(row, column);
+            var matrixA = Matrix<Complex32>.Build.Random(row, column, 1);
             var matrixACopy = matrixA.Clone();
             var factorSvd = matrixA.Svd();
 
-            var matrixB = MatrixLoader.GenerateRandomDenseMatrix(row, column);
+            var matrixB = Matrix<Complex32>.Build.Random(row, column, 1);
             var matrixBCopy = matrixB.Clone();
 
             var matrixX = new DenseMatrix(column, column);

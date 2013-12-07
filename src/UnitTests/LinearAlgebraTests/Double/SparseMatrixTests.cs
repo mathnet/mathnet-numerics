@@ -63,27 +63,6 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         }
 
         /// <summary>
-        /// Creates a vector of the given size.
-        /// </summary>
-        /// <param name="size">The size of the vector to create.
-        /// </param>
-        /// <returns>The new vector. </returns>
-        protected override Vector<double> CreateVector(int size)
-        {
-            return Vector<double>.Build.Sparse(size);
-        }
-
-        /// <summary>
-        /// Creates a vector from an array.
-        /// </summary>
-        /// <param name="data">The array to create this vector from.</param>
-        /// <returns>The new vector. </returns>
-        protected override Vector<double> CreateVector(double[] data)
-        {
-            return Vector<double>.Build.SparseOfEnumerable(data);
-        }
-
-        /// <summary>
         /// Can create a matrix form array.
         /// </summary>
         [Test]

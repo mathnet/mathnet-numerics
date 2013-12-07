@@ -24,14 +24,14 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System;
+using MathNet.Numerics.Distributions;
+using MathNet.Numerics.LinearAlgebra;
+using MathNet.Numerics.LinearAlgebra.Double;
+using NUnit.Framework;
+
 namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
 {
-    using System;
-    using Distributions;
-    using LinearAlgebra.Double;
-    using LinearAlgebraTests.Double;
-    using NUnit.Framework;
-
     /// <summary>
     /// Matrix Normal tests.
     /// </summary>
@@ -48,9 +48,9 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         [TestCase(10, 10)]
         public void CanCreateMatrixNormal(int n, int p)
         {
-            var matrixM = MatrixLoader.GenerateRandomDenseMatrix(n, p);
-            var matrixV = MatrixLoader.GenerateRandomPositiveDefiniteDenseMatrix(n);
-            var matrixK = MatrixLoader.GenerateRandomPositiveDefiniteDenseMatrix(p);
+            var matrixM = Matrix<double>.Build.Random(n, p, 1);
+            var matrixV = Matrix<double>.Build.RandomPositiveDefinite(n, 1);
+            var matrixK = Matrix<double>.Build.RandomPositiveDefinite(p, 1);
             var d = new MatrixNormal(matrixM, matrixV, matrixK);
 
             for (var i = 0; i < matrixM.RowCount; i++)
@@ -97,9 +97,9 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         [TestCase(5, 2, 5, 5, 2, 3)]
         public void FailCreateMatrixNormal(int rowsOfM, int columnsOfM, int rowsOfV, int columnsOfV, int rowsOfK, int columnsOfK)
         {
-            var matrixM = MatrixLoader.GenerateRandomDenseMatrix(rowsOfM, columnsOfM);
-            var matrixV = MatrixLoader.GenerateRandomDenseMatrix(rowsOfV, columnsOfV);
-            var matrixK = MatrixLoader.GenerateRandomDenseMatrix(rowsOfK, columnsOfK);
+            var matrixM = Matrix<double>.Build.Random(rowsOfM, columnsOfM, 1);
+            var matrixV = Matrix<double>.Build.Random(rowsOfV, columnsOfV, 1);
+            var matrixK = Matrix<double>.Build.Random(rowsOfK, columnsOfK, 1);
 
             Assert.Throws<ArgumentOutOfRangeException>(() => new MatrixNormal(matrixM, matrixV, matrixK));
         }
@@ -112,7 +112,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         {
             const int N = 2;
             const int P = 3;
-            var d = new MatrixNormal(MatrixLoader.GenerateRandomDenseMatrix(N, P), MatrixLoader.GenerateRandomPositiveDefiniteDenseMatrix(N), MatrixLoader.GenerateRandomPositiveDefiniteDenseMatrix(P));
+            var d = new MatrixNormal(Matrix<double>.Build.Random(N, P, 1), Matrix<double>.Build.RandomPositiveDefinite(N, 1), Matrix<double>.Build.RandomPositiveDefinite(P, 1));
             Assert.IsNotNull(d.RandomSource);
         }
 
@@ -124,9 +124,9 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         {
             const int N = 2;
             const int P = 3;
-            new MatrixNormal(MatrixLoader.GenerateRandomDenseMatrix(N, P), MatrixLoader.GenerateRandomPositiveDefiniteDenseMatrix(N), MatrixLoader.GenerateRandomPositiveDefiniteDenseMatrix(P))
+            new MatrixNormal(Matrix<double>.Build.Random(N, P, 1), Matrix<double>.Build.RandomPositiveDefinite(N, 1), Matrix<double>.Build.RandomPositiveDefinite(P, 1))
             {
-                RandomSource = new Random(0)
+                RandomSource = new System.Random(0)
             };
         }
 
@@ -135,7 +135,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         {
             const int N = 2;
             const int P = 3;
-            var d = new MatrixNormal(MatrixLoader.GenerateRandomDenseMatrix(N, P), MatrixLoader.GenerateRandomPositiveDefiniteDenseMatrix(N), MatrixLoader.GenerateRandomPositiveDefiniteDenseMatrix(P));
+            var d = new MatrixNormal(Matrix<double>.Build.Random(N, P, 1), Matrix<double>.Build.RandomPositiveDefinite(N, 1), Matrix<double>.Build.RandomPositiveDefinite(P, 1));
             Assert.DoesNotThrow(() => d.RandomSource = null);
             Assert.IsNotNull(d.RandomSource);
         }
@@ -148,7 +148,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         {
             const int N = 2;
             const int P = 5;
-            var d = new MatrixNormal(MatrixLoader.GenerateRandomDenseMatrix(N, P), MatrixLoader.GenerateRandomPositiveDefiniteDenseMatrix(N), MatrixLoader.GenerateRandomPositiveDefiniteDenseMatrix(P));
+            var d = new MatrixNormal(Matrix<double>.Build.Random(N, P, 1), Matrix<double>.Build.RandomPositiveDefinite(N, 1), Matrix<double>.Build.RandomPositiveDefinite(P, 1));
             Assert.AreEqual("MatrixNormal(Rows = 2, Columns = 5)", d.ToString());
         }
 
@@ -162,8 +162,8 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         [TestCase(10, 10)]
         public void CanGetM(int n, int p)
         {
-            var matrixM = MatrixLoader.GenerateRandomDenseMatrix(n, p);
-            var d = new MatrixNormal(matrixM, MatrixLoader.GenerateRandomPositiveDefiniteDenseMatrix(n), MatrixLoader.GenerateRandomPositiveDefiniteDenseMatrix(p));
+            var matrixM = Matrix<double>.Build.Random(n, p, 1);
+            var d = new MatrixNormal(matrixM, Matrix<double>.Build.RandomPositiveDefinite(n, 1), Matrix<double>.Build.RandomPositiveDefinite(p, 1));
             for (var i = 0; i < matrixM.RowCount; i++)
             {
                 for (var j = 0; j < matrixM.ColumnCount; j++)
@@ -183,9 +183,9 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         [TestCase(10, 10)]
         public void CanSetM(int n, int p)
         {
-            new MatrixNormal(MatrixLoader.GenerateRandomDenseMatrix(n, p), MatrixLoader.GenerateRandomPositiveDefiniteDenseMatrix(n), MatrixLoader.GenerateRandomPositiveDefiniteDenseMatrix(p))
+            new MatrixNormal(Matrix<double>.Build.Random(n, p, 1), Matrix<double>.Build.RandomPositiveDefinite(n, 1), Matrix<double>.Build.RandomPositiveDefinite(p, 1))
             {
-                Mean = MatrixLoader.GenerateRandomDenseMatrix(n, p)
+                Mean = Matrix<double>.Build.Random(n, p, 1)
             };
         }
 
@@ -199,8 +199,8 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         [TestCase(10, 10)]
         public void CanGetV(int n, int p)
         {
-            var matrixV = MatrixLoader.GenerateRandomPositiveDefiniteDenseMatrix(n);
-            var d = new MatrixNormal(MatrixLoader.GenerateRandomDenseMatrix(n, p), matrixV, MatrixLoader.GenerateRandomPositiveDefiniteDenseMatrix(p));
+            var matrixV = Matrix<double>.Build.RandomPositiveDefinite(n, 1);
+            var d = new MatrixNormal(Matrix<double>.Build.Random(n, p, 1), matrixV, Matrix<double>.Build.RandomPositiveDefinite(p, 1));
             for (var i = 0; i < matrixV.RowCount; i++)
             {
                 for (var j = 0; j < matrixV.ColumnCount; j++)
@@ -220,9 +220,9 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         [TestCase(10, 10)]
         public void CanSetV(int n, int p)
         {
-            new MatrixNormal(MatrixLoader.GenerateRandomDenseMatrix(n, p), MatrixLoader.GenerateRandomPositiveDefiniteDenseMatrix(n), MatrixLoader.GenerateRandomPositiveDefiniteDenseMatrix(p))
+            new MatrixNormal(Matrix<double>.Build.Random(n, p, 1), Matrix<double>.Build.RandomPositiveDefinite(n, 1), Matrix<double>.Build.RandomPositiveDefinite(p, 1))
             {
-                RowCovariance = MatrixLoader.GenerateRandomPositiveDefiniteDenseMatrix(n)
+                RowCovariance = Matrix<double>.Build.RandomPositiveDefinite(n, 1)
             };
         }
 
@@ -236,8 +236,8 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         [TestCase(10, 10)]
         public void CanGetK(int n, int p)
         {
-            var matrixK = MatrixLoader.GenerateRandomPositiveDefiniteDenseMatrix(p);
-            var d = new MatrixNormal(MatrixLoader.GenerateRandomDenseMatrix(n, p), MatrixLoader.GenerateRandomPositiveDefiniteDenseMatrix(n), matrixK);
+            var matrixK = Matrix<double>.Build.RandomPositiveDefinite(p, 1);
+            var d = new MatrixNormal(Matrix<double>.Build.Random(n, p, 1), Matrix<double>.Build.RandomPositiveDefinite(n, 1), matrixK);
             for (var i = 0; i < matrixK.RowCount; i++)
             {
                 for (var j = 0; j < matrixK.ColumnCount; j++)
@@ -257,9 +257,9 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         [TestCase(10, 10)]
         public void CanSetK(int n, int p)
         {
-            new MatrixNormal(MatrixLoader.GenerateRandomDenseMatrix(n, p), MatrixLoader.GenerateRandomPositiveDefiniteDenseMatrix(n), MatrixLoader.GenerateRandomPositiveDefiniteDenseMatrix(p))
+            new MatrixNormal(Matrix<double>.Build.Random(n, p, 1), Matrix<double>.Build.RandomPositiveDefinite(n, 1), Matrix<double>.Build.RandomPositiveDefinite(p, 1))
             {
-                ColumnCovariance = MatrixLoader.GenerateRandomPositiveDefiniteDenseMatrix(p)
+                ColumnCovariance = Matrix<double>.Build.RandomPositiveDefinite(p, 1)
             };
         }
 
@@ -307,7 +307,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         [TestCase(10, 10)]
         public void CanSample(int n, int p)
         {
-            var d = new MatrixNormal(MatrixLoader.GenerateRandomDenseMatrix(n, p), MatrixLoader.GenerateRandomPositiveDefiniteDenseMatrix(n), MatrixLoader.GenerateRandomPositiveDefiniteDenseMatrix(p));
+            var d = new MatrixNormal(Matrix<double>.Build.Random(n, p, 1), Matrix<double>.Build.RandomPositiveDefinite(n, 1), Matrix<double>.Build.RandomPositiveDefinite(p, 1));
             d.Sample();
         }
 
@@ -321,7 +321,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         [TestCase(10, 10)]
         public void CanSampleStatic(int n, int p)
         {
-            MatrixNormal.Sample(new Random(0), MatrixLoader.GenerateRandomDenseMatrix(n, p), MatrixLoader.GenerateRandomPositiveDefiniteDenseMatrix(n), MatrixLoader.GenerateRandomPositiveDefiniteDenseMatrix(p));
+            MatrixNormal.Sample(new System.Random(0), Matrix<double>.Build.Random(n, p, 1), Matrix<double>.Build.RandomPositiveDefinite(n, 1), Matrix<double>.Build.RandomPositiveDefinite(p, 1));
         }
 
         /// <summary>
@@ -343,7 +343,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         [TestCase(5, 2, 5, 5, 2, 3)]
         public void FailSampleStatic(int rowsOfM, int columnsOfM, int rowsOfV, int columnsOfV, int rowsOfK, int columnsOfK)
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() => MatrixNormal.Sample(new Random(0), MatrixLoader.GenerateRandomDenseMatrix(rowsOfM, columnsOfM), MatrixLoader.GenerateRandomDenseMatrix(rowsOfV, columnsOfV), MatrixLoader.GenerateRandomDenseMatrix(rowsOfK, columnsOfK)));
+            Assert.Throws<ArgumentOutOfRangeException>(() => MatrixNormal.Sample(new System.Random(0), Matrix<double>.Build.Random(rowsOfM, columnsOfM, 1), Matrix<double>.Build.Random(rowsOfV, columnsOfV, 1), Matrix<double>.Build.Random(rowsOfK, columnsOfK, 1)));
         }
     }
 }

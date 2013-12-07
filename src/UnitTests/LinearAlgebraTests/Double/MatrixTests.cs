@@ -44,7 +44,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [TestCase("Wide2x3")]
         public void CanTransposeMatrix(string name)
         {
-            var matrix = CreateMatrix(TestData2D[name]);
+            var matrix = TestMatrices[name];
             var transpose = matrix.Transpose();
 
             Assert.AreNotSame(matrix, transpose);

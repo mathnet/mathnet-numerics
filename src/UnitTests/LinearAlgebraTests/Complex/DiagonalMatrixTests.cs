@@ -68,7 +68,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
             TestMatrices = new Dictionary<string, Matrix<Complex>>();
             foreach (var name in TestData2D.Keys)
             {
-                TestMatrices.Add(name, CreateMatrix(TestData2D[name]));
+                TestMatrices.Add(name, DiagonalMatrix.OfArray(TestData2D[name]));
             }
         }
 
@@ -91,27 +91,6 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
         protected override Matrix<Complex> CreateMatrix(Complex[,] data)
         {
             return DiagonalMatrix.OfArray(data);
-        }
-
-        /// <summary>
-        /// Creates a vector of the given size.
-        /// </summary>
-        /// <param name="size">The size of the vector to create.
-        /// </param>
-        /// <returns>The new vector. </returns>
-        protected override Vector<Complex> CreateVector(int size)
-        {
-            return new SparseVector(size);
-        }
-
-        /// <summary>
-        /// Creates a vector from an array.
-        /// </summary>
-        /// <param name="data">The array to create this vector from.</param>
-        /// <returns>The new vector. </returns>
-        protected override Vector<Complex> CreateVector(Complex[] data)
-        {
-            return SparseVector.OfEnumerable(data);
         }
 
         /// <summary>
@@ -239,7 +218,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
         [Test]
         public void PermuteMatrixRowsThrowsInvalidOperationException()
         {
-            var matrixp = CreateMatrix(TestData2D["Singular3x3"]);
+            var matrixp = DiagonalMatrix.OfArray(TestData2D["Singular3x3"]);
             var permutation = new Permutation(new[] {2, 0, 1});
             Assert.Throws<InvalidOperationException>(() => matrixp.PermuteRows(permutation));
         }
@@ -250,7 +229,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
         [Test]
         public void PermuteMatrixColumnsThrowsInvalidOperationException()
         {
-            var matrixp = CreateMatrix(TestData2D["Singular3x3"]);
+            var matrixp = DiagonalMatrix.OfArray(TestData2D["Singular3x3"]);
             var permutation = new Permutation(new[] {2, 0, 1});
             Assert.Throws<InvalidOperationException>(() => matrixp.PermuteColumns(permutation));
         }

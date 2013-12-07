@@ -108,7 +108,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
         [TestCase(100)]
         public void CanFactorizeRandomMatrix(int order)
         {
-            var matrixX = MatrixLoader.GenerateRandomPositiveDefiniteDenseMatrix(order);
+            var matrixX = Matrix<double>.Build.RandomPositiveDefinite(order, 1);
             var chol = matrixX.Cholesky();
             var factorC = chol.Factor;
 
@@ -148,10 +148,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
         [TestCase(100)]
         public void CanSolveForRandomVector(int order)
         {
-            var matrixA = MatrixLoader.GenerateRandomPositiveDefiniteDenseMatrix(order);
+            var matrixA = Matrix<double>.Build.RandomPositiveDefinite(order, 1);
             var matrixACopy = matrixA.Clone();
             var chol = matrixA.Cholesky();
-            var matrixB = MatrixLoader.GenerateRandomDenseVector(order);
+            var matrixB = Vector<double>.Build.Random(order, 1);
             var x = chol.Solve(matrixB);
 
             Assert.AreEqual(matrixB.Count, x.Count);
@@ -187,10 +187,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
         [TestCase(100, 100)]
         public void CanSolveForRandomMatrix(int row, int col)
         {
-            var matrixA = MatrixLoader.GenerateRandomPositiveDefiniteDenseMatrix(row);
+            var matrixA = Matrix<double>.Build.RandomPositiveDefinite(row, 1);
             var matrixACopy = matrixA.Clone();
             var chol = matrixA.Cholesky();
-            var matrixB = MatrixLoader.GenerateRandomDenseMatrix(row, col);
+            var matrixB = Matrix<double>.Build.Random(row, col, 1);
             var matrixX = chol.Solve(matrixB);
 
             Assert.AreEqual(matrixB.RowCount, matrixX.RowCount);
@@ -229,10 +229,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
         [TestCase(100)]
         public void CanSolveForRandomVectorWhenResultVectorGiven(int order)
         {
-            var matrixA = MatrixLoader.GenerateRandomPositiveDefiniteDenseMatrix(order);
+            var matrixA = Matrix<double>.Build.RandomPositiveDefinite(order, 1);
             var matrixACopy = matrixA.Clone();
             var chol = matrixA.Cholesky();
-            var matrixB = MatrixLoader.GenerateRandomDenseVector(order);
+            var matrixB = Vector<double>.Build.Random(order, 1);
             var matrixBCopy = matrixB.Clone();
             var x = new DenseVector(order);
             chol.Solve(matrixB, x);
@@ -276,10 +276,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
         [TestCase(100, 100)]
         public void CanSolveForRandomMatrixWhenResultMatrixGiven(int row, int col)
         {
-            var matrixA = MatrixLoader.GenerateRandomPositiveDefiniteDenseMatrix(row);
+            var matrixA = Matrix<double>.Build.RandomPositiveDefinite(row, 1);
             var matrixACopy = matrixA.Clone();
             var chol = matrixA.Cholesky();
-            var matrixB = MatrixLoader.GenerateRandomDenseMatrix(row, col);
+            var matrixB = Matrix<double>.Build.Random(row, col, 1);
             var matrixBCopy = matrixB.Clone();
             var matrixX = new DenseMatrix(row, col);
             chol.Solve(matrixB, matrixX);

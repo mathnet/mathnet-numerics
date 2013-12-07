@@ -67,21 +67,6 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
         protected abstract Matrix<Complex32> CreateMatrix(Complex32[,] data);
 
         /// <summary>
-        /// Creates a vector of the given size.
-        /// </summary>
-        /// <param name="size">The size of the vector to create.
-        /// </param>
-        /// <returns>The new vector. </returns>
-        protected abstract Vector<Complex32> CreateVector(int size);
-
-        /// <summary>
-        /// Creates a vector from an array.
-        /// </summary>
-        /// <param name="data">The array to create this vector from.</param>
-        /// <returns>The new vector. </returns>
-        protected abstract Vector<Complex32> CreateVector(Complex32[] data);
-
-        /// <summary>
         /// Setup test matrices.
         /// </summary>
         [SetUp]
@@ -103,36 +88,6 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
             {
                 TestMatrices.Add(name, CreateMatrix(TestData2D[name]));
             }
-        }
-
-        public static Matrix<Complex32> GenerateRandomDenseMatrix(int row, int col)
-        {
-            return Matrix<Complex32>.Build.Random(row, col, 1);
-        }
-
-        public static Matrix<Complex32> GenerateRandomPositiveDefiniteHermitianDenseMatrix(int order)
-        {
-            return Matrix<Complex32>.Build.RandomPositiveDefinite(order, 1);
-        }
-
-        public static Vector<Complex32> GenerateRandomDenseVector(int order)
-        {
-            return Vector<Complex32>.Build.Random(order, 1);
-        }
-
-        public static Matrix<Complex32> GenerateRandomUserDefinedMatrix(int row, int col)
-        {
-            return new UserDefinedMatrix(GenerateRandomDenseMatrix(row, col).ToArray());
-        }
-
-        public static Matrix<Complex32> GenerateRandomPositiveDefiniteHermitianUserDefinedMatrix(int order)
-        {
-            return new UserDefinedMatrix(GenerateRandomPositiveDefiniteHermitianDenseMatrix(order).ToArray());
-        }
-
-        public static Vector<Complex32> GenerateRandomUserDefinedVector(int order)
-        {
-            return new UserDefinedVector(GenerateRandomDenseVector(order).ToArray());
         }
     }
 }

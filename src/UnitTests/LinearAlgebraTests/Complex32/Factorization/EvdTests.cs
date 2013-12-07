@@ -24,6 +24,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Complex32;
 using NUnit.Framework;
 
@@ -81,7 +82,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
         [TestCase(100)]
         public void CanFactorizeRandomMatrix(int order)
         {
-            var matrixA = MatrixLoader.GenerateRandomDenseMatrix(order, order);
+            var matrixA = Matrix<Complex32>.Build.Random(order, order, 1);
             var factorEvd = matrixA.Evd();
             var eigenVectors = factorEvd.EigenVectors;
             var d = factorEvd.D;
@@ -112,7 +113,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
         [Test]
         public void CanFactorizeRandomSymmetricMatrix([Values(1, 2, 5, 10)] int order)
         {
-            var matrixA = MatrixLoader.GenerateRandomPositiveDefiniteHermitianDenseMatrix(order);
+            var matrixA = Matrix<Complex32>.Build.RandomPositiveDefinite(order, 1);
             MatrixHelpers.ForceConjugateSymmetric(matrixA);
             var factorEvd = matrixA.Evd();
             var eigenVectors = factorEvd.EigenVectors;
@@ -145,7 +146,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
         [TestCase(100)]
         public void CanCheckRankSquare(int order)
         {
-            var matrixA = MatrixLoader.GenerateRandomDenseMatrix(order, order);
+            var matrixA = Matrix<Complex32>.Build.Random(order, order, 1);
             var factorEvd = matrixA.Evd();
 
             Assert.AreEqual(factorEvd.Rank, order);
@@ -203,12 +204,12 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
         [TestCase(50)]
         public void CanSolveForRandomVectorAndSymmetricMatrix(int order)
         {
-            var matrixA = MatrixLoader.GenerateRandomPositiveDefiniteHermitianDenseMatrix(order);
+            var matrixA = Matrix<Complex32>.Build.RandomPositiveDefinite(order, 1);
             MatrixHelpers.ForceConjugateSymmetric(matrixA);
             var matrixACopy = matrixA.Clone();
             var factorEvd = matrixA.Evd();
 
-            var vectorb = MatrixLoader.GenerateRandomDenseVector(order);
+            var vectorb = Vector<Complex32>.Build.Random(order, 1);
             var resultx = factorEvd.Solve(vectorb);
 
             Assert.AreEqual(matrixA.ColumnCount, resultx.Count);
@@ -244,12 +245,12 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
         [TestCase(50)]
         public void CanSolveForRandomMatrixAndSymmetricMatrix(int order)
         {
-            var matrixA = MatrixLoader.GenerateRandomPositiveDefiniteHermitianDenseMatrix(order);
+            var matrixA = Matrix<Complex32>.Build.RandomPositiveDefinite(order, 1);
             MatrixHelpers.ForceConjugateSymmetric(matrixA);
             var matrixACopy = matrixA.Clone();
             var factorEvd = matrixA.Evd();
 
-            var matrixB = MatrixLoader.GenerateRandomDenseMatrix(order, order);
+            var matrixB = Matrix<Complex32>.Build.Random(order, order, 1);
             var matrixX = factorEvd.Solve(matrixB);
 
             // The solution X row dimension is equal to the column dimension of A
@@ -292,11 +293,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
         [TestCase(50)]
         public void CanSolveForRandomVectorAndSymmetricMatrixWhenResultVectorGiven(int order)
         {
-            var matrixA = MatrixLoader.GenerateRandomPositiveDefiniteHermitianDenseMatrix(order);
+            var matrixA = Matrix<Complex32>.Build.RandomPositiveDefinite(order, 1);
             MatrixHelpers.ForceConjugateSymmetric(matrixA);
             var matrixACopy = matrixA.Clone();
             var factorEvd = matrixA.Evd();
-            var vectorb = MatrixLoader.GenerateRandomDenseVector(order);
+            var vectorb = Vector<Complex32>.Build.Random(order, 1);
             var vectorbCopy = vectorb.Clone();
             var resultx = new DenseVector(order);
             factorEvd.Solve(vectorb, resultx);
@@ -339,12 +340,12 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
         [TestCase(100)]
         public void CanSolveForRandomMatrixAndSymmetricMatrixWhenResultMatrixGiven(int order)
         {
-            var matrixA = MatrixLoader.GenerateRandomPositiveDefiniteHermitianDenseMatrix(order);
+            var matrixA = Matrix<Complex32>.Build.RandomPositiveDefinite(order, 1);
             MatrixHelpers.ForceConjugateSymmetric(matrixA);
             var matrixACopy = matrixA.Clone();
             var factorEvd = matrixA.Evd();
 
-            var matrixB = MatrixLoader.GenerateRandomDenseMatrix(order, order);
+            var matrixB = Matrix<Complex32>.Build.Random(order, order, 1);
             var matrixBCopy = matrixB.Clone();
 
             var matrixX = new DenseMatrix(order, order);

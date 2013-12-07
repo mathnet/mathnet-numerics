@@ -44,7 +44,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
         [TestCase("Wide2x3")]
         public void CanTransposeMatrix(string name)
         {
-            var matrix = CreateMatrix(TestData2D[name]);
+            var matrix = TestMatrices[name];
             var transpose = matrix.Transpose();
 
             Assert.AreNotSame(matrix, transpose);
@@ -70,7 +70,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
         [TestCase("Wide2x3")]
         public void CanConjugateTransposeMatrix(string name)
         {
-            var matrix = CreateMatrix(TestData2D[name]);
+            var matrix = TestMatrices[name];
             var transpose = matrix.ConjugateTranspose();
 
             Assert.AreNotSame(matrix, transpose);

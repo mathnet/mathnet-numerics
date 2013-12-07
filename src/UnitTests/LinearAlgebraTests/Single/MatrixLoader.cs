@@ -65,21 +65,6 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
         protected abstract Matrix<float> CreateMatrix(float[,] data);
 
         /// <summary>
-        /// Creates a vector of the given size.
-        /// </summary>
-        /// <param name="size">The size of the vector to create.
-        /// </param>
-        /// <returns>The new vector. </returns>
-        protected abstract Vector<float> CreateVector(int size);
-
-        /// <summary>
-        /// Creates a vector from an array.
-        /// </summary>
-        /// <param name="data">The array to create this vector from.</param>
-        /// <returns>The new vector. </returns>
-        protected abstract Vector<float> CreateVector(float[] data);
-
-        /// <summary>
         /// Setup test matrices.
         /// </summary>
         [SetUp]
@@ -101,36 +86,6 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
             {
                 TestMatrices.Add(name, CreateMatrix(TestData2D[name]));
             }
-        }
-
-        public static Matrix<float> GenerateRandomDenseMatrix(int row, int col)
-        {
-            return Matrix<float>.Build.Random(row, col, 1);
-        }
-
-        public static Matrix<float> GenerateRandomPositiveDefiniteDenseMatrix(int order)
-        {
-            return Matrix<float>.Build.RandomPositiveDefinite(order, 1);
-        }
-
-        public static Vector<float> GenerateRandomDenseVector(int order)
-        {
-            return Vector<float>.Build.Random(order, 1);
-        }
-
-        public static Matrix<float> GenerateRandomUserDefinedMatrix(int row, int col)
-        {
-            return new UserDefinedMatrix(GenerateRandomDenseMatrix(row, col).ToArray());
-        }
-
-        public static Matrix<float> GenerateRandomPositiveDefiniteUserDefinedMatrix(int order)
-        {
-            return new UserDefinedMatrix(GenerateRandomPositiveDefiniteDenseMatrix(order).ToArray());
-        }
-
-        public static Vector<float> GenerateRandomUserDefinedVector(int order)
-        {
-            return new UserDefinedVector(GenerateRandomDenseVector(order).ToArray());
         }
     }
 }

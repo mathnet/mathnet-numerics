@@ -24,11 +24,13 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System;
+using MathNet.Numerics.LinearAlgebra;
+using NUnit.Framework;
+
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
 {
-    using System;
-    using NUnit.Framework;
-    using Complex32 = Numerics.Complex32;
+    using Numerics;
 
     /// <summary>
     /// Cholesky factorization tests for a user matrix.
@@ -107,7 +109,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
         [TestCase(100)]
         public void CanFactorizeRandomMatrix(int order)
         {
-            var matrixX = MatrixLoader.GenerateRandomPositiveDefiniteHermitianUserDefinedMatrix(order);
+            var matrixX = new UserDefinedMatrix(Matrix<Complex32>.Build.RandomPositiveDefinite(order, 1).ToArray());
             var chol = matrixX.Cholesky();
             var factorC = chol.Factor;
 
@@ -148,10 +150,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
         [TestCase(100)]
         public void CanSolveForRandomVector(int order)
         {
-            var matrixA = MatrixLoader.GenerateRandomPositiveDefiniteHermitianUserDefinedMatrix(order);
+            var matrixA = new UserDefinedMatrix(Matrix<Complex32>.Build.RandomPositiveDefinite(order, 1).ToArray());
             var matrixACopy = matrixA.Clone();
             var chol = matrixA.Cholesky();
-            var b = MatrixLoader.GenerateRandomUserDefinedVector(order);
+            var b = new UserDefinedVector(Vector<Complex32>.Build.Random(order, 1).ToArray());
             var x = chol.Solve(b);
 
             Assert.AreEqual(b.Count, x.Count);
@@ -188,10 +190,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
         [TestCase(100, 100)]
         public void CanSolveForRandomMatrix(int row, int col)
         {
-            var matrixA = MatrixLoader.GenerateRandomPositiveDefiniteHermitianUserDefinedMatrix(row);
+            var matrixA = new UserDefinedMatrix(Matrix<Complex32>.Build.RandomPositiveDefinite(row, 1).ToArray());
             var matrixACopy = matrixA.Clone();
             var chol = matrixA.Cholesky();
-            var matrixB = MatrixLoader.GenerateRandomUserDefinedMatrix(row, col);
+            var matrixB = new UserDefinedMatrix(Matrix<Complex32>.Build.Random(row, col, 1).ToArray());
             var matrixX = chol.Solve(matrixB);
 
             Assert.AreEqual(matrixB.RowCount, matrixX.RowCount);
@@ -231,10 +233,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
         [TestCase(100)]
         public void CanSolveForRandomVectorWhenResultVectorGiven(int order)
         {
-            var matrixA = MatrixLoader.GenerateRandomPositiveDefiniteHermitianUserDefinedMatrix(order);
+            var matrixA = new UserDefinedMatrix(Matrix<Complex32>.Build.RandomPositiveDefinite(order, 1).ToArray());
             var matrixACopy = matrixA.Clone();
             var chol = matrixA.Cholesky();
-            var b = MatrixLoader.GenerateRandomUserDefinedVector(order);
+            var b = new UserDefinedVector(Vector<Complex32>.Build.Random(order, 1).ToArray());
             var matrixBCopy = b.Clone();
             var x = new UserDefinedVector(order);
             chol.Solve(b, x);
@@ -279,10 +281,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
         [TestCase(100, 100)]
         public void CanSolveForRandomMatrixWhenResultMatrixGiven(int row, int col)
         {
-            var matrixA = MatrixLoader.GenerateRandomPositiveDefiniteHermitianUserDefinedMatrix(row);
+            var matrixA = new UserDefinedMatrix(Matrix<Complex32>.Build.RandomPositiveDefinite(row, 1).ToArray());
             var matrixACopy = matrixA.Clone();
             var chol = matrixA.Cholesky();
-            var matrixB = MatrixLoader.GenerateRandomUserDefinedMatrix(row, col);
+            var matrixB = new UserDefinedMatrix(Matrix<Complex32>.Build.Random(row, col, 1).ToArray());
             var matrixBCopy = matrixB.Clone();
             var matrixX = new UserDefinedMatrix(row, col);
             chol.Solve(matrixB, matrixX);

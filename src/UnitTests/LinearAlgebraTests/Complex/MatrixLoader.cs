@@ -71,21 +71,6 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
         protected abstract Matrix<Complex> CreateMatrix(Complex[,] data);
 
         /// <summary>
-        /// Creates a vector of the given size.
-        /// </summary>
-        /// <param name="size">The size of the vector to create.
-        /// </param>
-        /// <returns>The new vector. </returns>
-        protected abstract Vector<Complex> CreateVector(int size);
-
-        /// <summary>
-        /// Creates a vector from an array.
-        /// </summary>
-        /// <param name="data">The array to create this vector from.</param>
-        /// <returns>The new vector. </returns>
-        protected abstract Vector<Complex> CreateVector(Complex[] data);
-
-        /// <summary>
         /// Setup test matrices.
         /// </summary>
         [SetUp]
@@ -107,36 +92,6 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
             {
                 TestMatrices.Add(name, CreateMatrix(TestData2D[name]));
             }
-        }
-
-        public static Matrix<Complex> GenerateRandomDenseMatrix(int row, int col)
-        {
-            return Matrix<Complex>.Build.Random(row, col, 1);
-        }
-
-        public static Matrix<Complex> GenerateRandomPositiveDefiniteHermitianDenseMatrix(int order)
-        {
-            return Matrix<Complex>.Build.RandomPositiveDefinite(order, 1);
-        }
-
-        public static Vector<Complex> GenerateRandomDenseVector(int order)
-        {
-            return Vector<Complex>.Build.Random(order, 1);
-        }
-
-        public static Matrix<Complex> GenerateRandomUserDefinedMatrix(int row, int col)
-        {
-            return new UserDefinedMatrix(GenerateRandomDenseMatrix(row, col).ToArray());
-        }
-
-        public static Matrix<Complex> GenerateRandomPositiveDefiniteHermitianUserDefinedMatrix(int order)
-        {
-            return new UserDefinedMatrix(GenerateRandomPositiveDefiniteHermitianDenseMatrix(order).ToArray());
-        }
-
-        public static Vector<Complex> GenerateRandomUserDefinedVector(int order)
-        {
-            return new UserDefinedVector(GenerateRandomDenseVector(order).ToArray());
         }
     }
 }

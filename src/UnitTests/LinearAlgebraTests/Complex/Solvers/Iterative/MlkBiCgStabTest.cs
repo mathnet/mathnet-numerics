@@ -256,8 +256,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.Iterativ
         [TestCase(10)]
         public void CanSolveForRandomVector(int order)
         {
-            var matrixA = MatrixLoader.GenerateRandomDenseMatrix(order, order);
-            var vectorb = MatrixLoader.GenerateRandomDenseVector(order);
+            var matrixA = Matrix<Complex>.Build.Random(order, order, 1);
+            var vectorb = Vector<Complex>.Build.Random(order, 1);
 
             var monitor = new Iterator<Complex>(
                 new IterationCountStopCriterium<Complex>(1000),
@@ -287,8 +287,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.Iterativ
         [TestCase(10)]
         public void CanSolveForRandomMatrix(int order)
         {
-            var matrixA = MatrixLoader.GenerateRandomDenseMatrix(order, order);
-            var matrixB = MatrixLoader.GenerateRandomDenseMatrix(order, order);
+            var matrixA = Matrix<Complex>.Build.Random(order, order, 1);
+            var matrixB = Matrix<Complex>.Build.Random(order, order, 1);
 
             var monitor = new Iterator<Complex>(
                 new IterationCountStopCriterium<Complex>(1000),

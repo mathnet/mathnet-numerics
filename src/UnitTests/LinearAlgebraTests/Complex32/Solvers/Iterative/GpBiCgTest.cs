@@ -252,8 +252,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.Iterat
         {
             for (var iteration = 5; iteration > 3; iteration--)
             {
-                var matrixA = MatrixLoader.GenerateRandomDenseMatrix(order, order);
-                var vectorb = MatrixLoader.GenerateRandomDenseVector(order);
+                var matrixA = Matrix<Complex32>.Build.Random(order, order, 1);
+                var vectorb = Vector<Complex32>.Build.Random(order, 1);
 
                 var monitor = new Iterator<Complex32>(
                     new IterationCountStopCriterium<Complex32>(1000),

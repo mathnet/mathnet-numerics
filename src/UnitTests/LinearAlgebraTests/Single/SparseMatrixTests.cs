@@ -68,7 +68,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
         /// <param name="size">The size of the vector to create.
         /// </param>
         /// <returns>The new vector. </returns>
-        protected override Vector<float> CreateVector(int size)
+        protected virtual Vector<float> CreateVector(int size)
         {
             return new SparseVector(size);
         }
@@ -78,7 +78,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
         /// </summary>
         /// <param name="data">The array to create this vector from.</param>
         /// <returns>The new vector. </returns>
-        protected override Vector<float> CreateVector(float[] data)
+        protected virtual Vector<float> CreateVector(float[] data)
         {
             return SparseVector.OfEnumerable(data);
         }
