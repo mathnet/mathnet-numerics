@@ -634,6 +634,16 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         }
 
         /// <summary>
+        /// Negate each element of this matrix and place the results into the result matrix.
+        /// </summary>
+        /// <param name="result">The result of the negation.</param>
+        protected override void DoNegate(Matrix<Complex32> result)
+        {
+            CopyTo(result);
+            DoMultiply(-1, result);
+        }
+
+        /// <summary>
         /// Returns the transpose of this matrix.
         /// </summary>
         /// <returns>The transpose of this matrix.</returns>
@@ -1029,16 +1039,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
                     resultSparse._storage.At(i, j, sum + result.At(i, j));
                 }
             }
-        }
-
-        /// <summary>
-        /// Negate each element of this matrix and place the results into the result matrix.
-        /// </summary>
-        /// <param name="result">The result of the negation.</param>
-        protected override void DoNegate(Matrix<Complex32> result)
-        {
-            CopyTo(result);
-            DoMultiply(-1, result);
         }
 
         /// <summary>

@@ -195,6 +195,46 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         }
 
         /// <summary>
+        /// Negate each element of this matrix and place the results into the result matrix.
+        /// </summary>
+        /// <param name="result">The result of the negation.</param>
+        protected override void DoNegate(Matrix<Complex> result)
+        {
+            var diagResult = result as DiagonalMatrix;
+            if (diagResult != null)
+            {
+                Control.LinearAlgebraProvider.ScaleArray(-1, _data, diagResult._data);
+                return;
+            }
+
+            result.Clear();
+            for (var i = 0; i < _data.Length; i++)
+            {
+                result.At(i, i, -_data[i]);
+            }
+        }
+
+        /// <summary>
+        /// Complex conjugates each element of this matrix and place the results into the result matrix.
+        /// </summary>
+        /// <param name="result">The result of the conjugation.</param>
+        protected override void DoConjugate(Matrix<Complex> result)
+        {
+            var diagResult = result as DiagonalMatrix;
+            if (diagResult != null)
+            {
+                Control.LinearAlgebraProvider.ConjugateArray(_data, diagResult._data);
+                return;
+            }
+
+            result.Clear();
+            for (var i = 0; i < _data.Length; i++)
+            {
+                result.At(i, i, _data[i].Conjugate());
+            }
+        }
+
+        /// <summary>
         /// Adds another matrix to this matrix.
         /// </summary>
         /// <param name="other">The matrix to add to this matrix.</param>
@@ -443,6 +483,52 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         }
 
         /// <summary>
+        /// Multiplies this matrix with the conjugate transpose of another matrix and places the results into the result matrix.
+        /// </summary>
+        /// <param name="other">The matrix to multiply with.</param>
+        /// <param name="result">The result of the multiplication.</param>
+        protected override void DoConjugateTransposeAndMultiply(Matrix<Complex> other, Matrix<Complex> result)
+        {
+            var diagonalOther = other as DiagonalMatrix;
+            var diagonalResult = result as DiagonalMatrix;
+            if (diagonalOther != null && diagonalResult != null)
+            {
+                var thisDataCopy = new Complex[diagonalResult._data.Length];
+                var otherDataCopy = new Complex[diagonalResult._data.Length];
+                Array.Copy(_data, thisDataCopy, (diagonalResult._data.Length > _data.Length) ? _data.Length : diagonalResult._data.Length);
+                Array.Copy(diagonalOther._data, otherDataCopy, (diagonalResult._data.Length > diagonalOther._data.Length) ? diagonalOther._data.Length : diagonalResult._data.Length);
+                // TODO: merge/MulByConj
+                Control.LinearAlgebraProvider.ConjugateArray(otherDataCopy, otherDataCopy);
+                Control.LinearAlgebraProvider.PointWiseMultiplyArrays(thisDataCopy, otherDataCopy, diagonalResult._data);
+                return;
+            }
+
+            var denseOther = other.Storage as DenseColumnMajorMatrixStorage<Complex>;
+            if (denseOther != null)
+            {
+                var dense = denseOther.Data;
+                var diagonal = _data;
+                var d = Math.Min(denseOther.ColumnCount, RowCount);
+                if (d < RowCount)
+                {
+                    result.ClearSubMatrix(denseOther.ColumnCount, RowCount - denseOther.ColumnCount, 0, denseOther.RowCount);
+                }
+                int index = 0;
+                for (int j = 0; j < d; j++)
+                {
+                    for (int i = 0; i < denseOther.RowCount; i++)
+                    {
+                        result.At(j, i, dense[index].Conjugate()*diagonal[j]);
+                        index++;
+                    }
+                }
+                return;
+            }
+
+            base.DoConjugateTransposeAndMultiply(other, result);
+        }
+
+        /// <summary>
         /// Multiplies the transpose of this matrix with another matrix and places the results into the result matrix.
         /// </summary>
         /// <param name="other">The matrix to multiply with.</param>
@@ -488,6 +574,58 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         }
 
         /// <summary>
+        /// Multiplies the transpose of this matrix with another matrix and places the results into the result matrix.
+        /// </summary>
+        /// <param name="other">The matrix to multiply with.</param>
+        /// <param name="result">The result of the multiplication.</param>
+        protected override void DoConjugateTransposeThisAndMultiply(Matrix<Complex> other, Matrix<Complex> result)
+        {
+            var diagonalOther = other as DiagonalMatrix;
+            var diagonalResult = result as DiagonalMatrix;
+            if (diagonalOther != null && diagonalResult != null)
+            {
+                var thisDataCopy = new Complex[diagonalResult._data.Length];
+                var otherDataCopy = new Complex[diagonalResult._data.Length];
+                Array.Copy(_data, thisDataCopy, (diagonalResult._data.Length > _data.Length) ? _data.Length : diagonalResult._data.Length);
+                Array.Copy(diagonalOther._data, otherDataCopy, (diagonalResult._data.Length > diagonalOther._data.Length) ? diagonalOther._data.Length : diagonalResult._data.Length);
+                // TODO: merge/MulByConj
+                Control.LinearAlgebraProvider.ConjugateArray(thisDataCopy, thisDataCopy);
+                Control.LinearAlgebraProvider.PointWiseMultiplyArrays(thisDataCopy, otherDataCopy, diagonalResult._data);
+                return;
+            }
+
+            var denseOther = other.Storage as DenseColumnMajorMatrixStorage<Complex>;
+            if (denseOther != null)
+            {
+                var dense = denseOther.Data;
+                var conjugateDiagonal = new Complex[_data.Length];
+                for (int i = 0; i < _data.Length; i++)
+                {
+                    conjugateDiagonal[i] = _data[i].Conjugate();
+                }
+
+                var d = Math.Min(denseOther.RowCount, ColumnCount);
+                if (d < ColumnCount)
+                {
+                    result.ClearSubMatrix(denseOther.RowCount, ColumnCount - denseOther.RowCount, 0, denseOther.ColumnCount);
+                }
+                int index = 0;
+                for (int i = 0; i < denseOther.ColumnCount; i++)
+                {
+                    for (int j = 0; j < d; j++)
+                    {
+                        result.At(j, i, dense[index]*conjugateDiagonal[j]);
+                        index++;
+                    }
+                    index += (denseOther.RowCount - d);
+                }
+                return;
+            }
+
+            base.DoConjugateTransposeThisAndMultiply(other, result);
+        }
+
+        /// <summary>
         /// Multiplies the transpose of this matrix with a vector and places the results into the result vector.
         /// </summary>
         /// <param name="rightSide">The vector to multiply with.</param>
@@ -514,6 +652,38 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
             for (var i = 0; i < d; i++)
             {
                 result.At(i, _data[i]*rightSide.At(i));
+            }
+        }
+
+        /// <summary>
+        /// Multiplies the conjugate transpose of this matrix with a vector and places the results into the result vector.
+        /// </summary>
+        /// <param name="rightSide">The vector to multiply with.</param>
+        /// <param name="result">The result of the multiplication.</param>
+        protected override void DoConjugateTransposeThisAndMultiply(Vector<Complex> rightSide, Vector<Complex> result)
+        {
+            var d = Math.Min(ColumnCount, RowCount);
+            if (d < ColumnCount)
+            {
+                result.ClearSubVector(RowCount, ColumnCount - RowCount);
+            }
+
+            if (d == RowCount)
+            {
+                var denseOther = rightSide.Storage as DenseVectorStorage<Complex>;
+                var denseResult = result.Storage as DenseVectorStorage<Complex>;
+                if (denseOther != null && denseResult != null)
+                {
+                    // TODO: merge/MulByConj
+                    Control.LinearAlgebraProvider.ConjugateArray(_data, denseResult.Data);
+                    Control.LinearAlgebraProvider.PointWiseMultiplyArrays(denseResult.Data, denseOther.Data, denseResult.Data);
+                    return;
+                }
+            }
+
+            for (var i = 0; i < d; i++)
+            {
+                result.At(i, _data[i].Conjugate()*rightSide.At(i));
             }
         }
 

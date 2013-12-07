@@ -161,6 +161,24 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
         }
 
         /// <summary>
+        /// Conjugates an array. Can be used to conjugate a vector and a matrix.
+        /// </summary>
+        /// <param name="x">The values to conjugate.</param>
+        /// <param name="result">This result of the conjugation.</param>
+        public virtual void ConjugateArray(double[] x, double[] result)
+        {
+            if (x == null)
+            {
+                throw new ArgumentNullException("x");
+            }
+
+            if (!ReferenceEquals(x, result))
+            {
+                x.CopyTo(result, 0);
+            }
+        }
+
+        /// <summary>
         /// Computes the dot product of x and y.
         /// </summary>
         /// <param name="x">The vector x.</param>

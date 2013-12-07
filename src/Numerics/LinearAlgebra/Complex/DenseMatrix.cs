@@ -465,6 +465,38 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         }
 
         /// <summary>
+        /// Negate each element of this matrix and place the results into the result matrix.
+        /// </summary>
+        /// <param name="result">The result of the negation.</param>
+        protected override void DoNegate(Matrix<Complex> result)
+        {
+            var denseResult = result as DenseMatrix;
+            if (denseResult != null)
+            {
+                Control.LinearAlgebraProvider.ScaleArray(-1, _values, denseResult._values);
+                return;
+            }
+
+            base.DoNegate(result);
+        }
+
+        /// <summary>
+        /// Complex conjugates each element of this matrix and place the results into the result matrix.
+        /// </summary>
+        /// <param name="result">The result of the conjugation.</param>
+        protected override void DoConjugate(Matrix<Complex> result)
+        {
+            var denseResult = result as DenseMatrix;
+            if (denseResult != null)
+            {
+                Control.LinearAlgebraProvider.ConjugateArray(_values, denseResult._values);
+                return;
+            }
+
+            base.DoConjugate(result);
+        }
+
+        /// <summary>
         /// Add a scalar to each element of the matrix and stores the result in the result vector.
         /// </summary>
         /// <param name="scalar">The scalar to add.</param>
@@ -941,24 +973,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
             }
 
             base.DoConjugateTransposeThisAndMultiply(other, result);
-        }
-
-        /// <summary>
-        /// Negate each element of this matrix and place the results into the result matrix.
-        /// </summary>
-        /// <param name="result">The result of the negation.</param>
-        protected override void DoNegate(Matrix<Complex> result)
-        {
-            var denseResult = result as DenseMatrix;
-
-            if (denseResult == null)
-            {
-                base.DoNegate(result);
-            }
-            else
-            {
-                Control.LinearAlgebraProvider.ScaleArray(-1, _values, denseResult._values);
-            }
         }
 
         /// <summary>

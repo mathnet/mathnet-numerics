@@ -357,11 +357,26 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
             if (denseResult == null)
             {
                 base.DoNegate(result);
+                return;
             }
-            else
+
+            Control.LinearAlgebraProvider.ScaleArray(-Complex.One, _values, denseResult.Values);
+        }
+
+        /// <summary>
+        /// Conjugates vector and save result to <paramref name="result"/>
+        /// </summary>
+        /// <param name="result">Target vector</param>
+        protected override void DoConjugate(Vector<Complex> result)
+        {
+            var resultDense = result as DenseVector;
+            if (resultDense == null)
             {
-                Control.LinearAlgebraProvider.ScaleArray(-Complex.One, _values, denseResult.Values);
+                base.DoConjugate(result);
+                return;
             }
+
+            Control.LinearAlgebraProvider.ConjugateArray(_values, resultDense._values);
         }
 
         /// <summary>
@@ -376,11 +391,10 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
             if (denseResult == null)
             {
                 base.DoMultiply(scalar, result);
+                return;
             }
-            else
-            {
-                Control.LinearAlgebraProvider.ScaleArray(scalar, _values, denseResult.Values);
-            }
+
+            Control.LinearAlgebraProvider.ScaleArray(scalar, _values, denseResult.Values);
         }
 
         /// <summary>
@@ -842,27 +856,5 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         }
 
         #endregion
-
-        /// <summary>
-        /// Conjugates vector and save result to <paramref name="result"/>
-        /// </summary>
-        /// <param name="result">Target vector</param>
-        protected override void DoConjugate(Vector<Complex> result)
-        {
-            var resultDense = result as DenseVector;
-            if (resultDense == null)
-            {
-                base.DoConjugate(result);
-                return;
-            }
-
-            CommonParallel.For(0, _length, 4096, (a, b) =>
-                {
-                    for (int i = a; i < b; i++)
-                    {
-                        resultDense._values[i] = _values[i].Conjugate();
-                    }
-                });
-        }
     }
 }

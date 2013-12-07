@@ -421,6 +421,22 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         }
 
         /// <summary>
+        /// Negate each element of this matrix and place the results into the result matrix.
+        /// </summary>
+        /// <param name="result">The result of the negation.</param>
+        protected override void DoNegate(Matrix<float> result)
+        {
+            var denseResult = result as DenseMatrix;
+            if (denseResult != null)
+            {
+                Control.LinearAlgebraProvider.ScaleArray(-1, _values, denseResult._values);
+                return;
+            }
+
+            base.DoNegate(result);
+        }
+
+        /// <summary>
         /// Returns the transpose of this matrix.
         /// </summary>
         /// <returns>The transpose of this matrix.</returns>
@@ -782,24 +798,6 @@ namespace MathNet.Numerics.LinearAlgebra.Single
             }
 
             base.DoTransposeThisAndMultiply(other, result);
-        }
-
-        /// <summary>
-        /// Negate each element of this matrix and place the results into the result matrix.
-        /// </summary>
-        /// <param name="result">The result of the negation.</param>
-        protected override void DoNegate(Matrix<float> result)
-        {
-            var denseResult = result as DenseMatrix;
-
-            if (denseResult == null)
-            {
-                base.DoNegate(result);
-            }
-            else
-            {
-                Control.LinearAlgebraProvider.ScaleArray(-1, _values, denseResult._values);
-            }
         }
 
         /// <summary>

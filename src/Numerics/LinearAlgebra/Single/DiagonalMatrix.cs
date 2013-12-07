@@ -189,6 +189,26 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         }
 
         /// <summary>
+        /// Negate each element of this matrix and place the results into the result matrix.
+        /// </summary>
+        /// <param name="result">The result of the negation.</param>
+        protected override void DoNegate(Matrix<float> result)
+        {
+            var diagResult = result as DiagonalMatrix;
+            if (diagResult != null)
+            {
+                Control.LinearAlgebraProvider.ScaleArray(-1, _data, diagResult._data);
+                return;
+            }
+
+            result.Clear();
+            for (var i = 0; i < _data.Length; i++)
+            {
+                result.At(i, i, -_data[i]);
+            }
+        }
+
+        /// <summary>
         /// Adds another matrix to this matrix.
         /// </summary>
         /// <param name="other">The matrix to add to this matrix.</param>

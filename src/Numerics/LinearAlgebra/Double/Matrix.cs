@@ -365,7 +365,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// Complex conjugates each element of this matrix and place the results into the result matrix.
         /// </summary>
         /// <param name="result">The result of the conjugation.</param>
-        protected override void DoConjugate(Matrix<double> result)
+        protected override sealed void DoConjugate(Matrix<double> result)
         {
             if (ReferenceEquals(this, result))
             {
