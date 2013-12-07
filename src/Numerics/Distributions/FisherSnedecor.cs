@@ -31,6 +31,7 @@
 using System;
 using System.Collections.Generic;
 using MathNet.Numerics.Properties;
+using MathNet.Numerics.Random;
 
 namespace MathNet.Numerics.Distributions
 {
@@ -58,7 +59,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="d2">The second degree of freedom (d2) of the distribution. Range: d2 > 0.</param>
         public FisherSnedecor(double d1, double d2)
         {
-            _random = new System.Random(Random.RandomSeed.Guid());
+            _random = MersenneTwister.Default;
             SetParameters(d1, d2);
         }
 
@@ -70,7 +71,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="randomSource">The random number generator which is used to draw random samples.</param>
         public FisherSnedecor(double d1, double d2, System.Random randomSource)
         {
-            _random = randomSource ?? new System.Random(Random.RandomSeed.Guid());
+            _random = randomSource ?? MersenneTwister.Default;
             SetParameters(d1, d2);
         }
 
@@ -124,7 +125,7 @@ namespace MathNet.Numerics.Distributions
         public System.Random RandomSource
         {
             get { return _random; }
-            set { _random = value ?? new System.Random(Random.RandomSeed.Guid()); }
+            set { _random = value ?? MersenneTwister.Default; }
         }
 
         /// <summary>

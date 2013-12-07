@@ -32,6 +32,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using MathNet.Numerics.Properties;
+using MathNet.Numerics.Random;
 using MathNet.Numerics.Statistics;
 
 namespace MathNet.Numerics.Distributions
@@ -65,7 +66,7 @@ namespace MathNet.Numerics.Distributions
         /// <exception cref="ArgumentException">If any of the probabilities are negative or do not sum to one.</exception>
         public Categorical(double[] probabilityMass)
         {
-            _random = new System.Random(Random.RandomSeed.Guid());
+            _random = MersenneTwister.Default;
             SetParameters(probabilityMass);
         }
 
@@ -78,7 +79,7 @@ namespace MathNet.Numerics.Distributions
         /// <exception cref="ArgumentException">If any of the probabilities are negative or do not sum to one.</exception>
         public Categorical(double[] probabilityMass, System.Random randomSource)
         {
-            _random = randomSource ?? new System.Random(Random.RandomSeed.Guid());
+            _random = randomSource ?? MersenneTwister.Default;
             SetParameters(probabilityMass);
         }
 
@@ -104,7 +105,7 @@ namespace MathNet.Numerics.Distributions
                 p[i] = histogram[i].Count;
             }
 
-            _random = new System.Random(Random.RandomSeed.Guid());
+            _random = MersenneTwister.Default;
             SetParameters(p);
         }
 
@@ -207,7 +208,7 @@ namespace MathNet.Numerics.Distributions
         public System.Random RandomSource
         {
             get { return _random; }
-            set { _random = value ?? new System.Random(Random.RandomSeed.Guid()); }
+            set { _random = value ?? MersenneTwister.Default; }
         }
 
         /// <summary>

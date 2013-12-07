@@ -31,6 +31,7 @@
 using System;
 using System.Collections.Generic;
 using MathNet.Numerics.Properties;
+using MathNet.Numerics.Random;
 
 namespace MathNet.Numerics.Distributions
 {
@@ -61,7 +62,7 @@ namespace MathNet.Numerics.Distributions
         /// <exception cref="ArgumentException">If <paramref name="scale"/> or <paramref name="shape"/> are negative.</exception>
         public Pareto(double scale, double shape)
         {
-            _random = new System.Random(Random.RandomSeed.Guid());
+            _random = MersenneTwister.Default;
             SetParameters(scale, shape);
         }
 
@@ -74,7 +75,7 @@ namespace MathNet.Numerics.Distributions
         /// <exception cref="ArgumentException">If <paramref name="scale"/> or <paramref name="shape"/> are negative.</exception>
         public Pareto(double scale, double shape, System.Random randomSource)
         {
-            _random = randomSource ?? new System.Random(Random.RandomSeed.Guid());
+            _random = randomSource ?? MersenneTwister.Default;
             SetParameters(scale, shape);
         }
 
@@ -128,7 +129,7 @@ namespace MathNet.Numerics.Distributions
         public System.Random RandomSource
         {
             get { return _random; }
-            set { _random = value ?? new System.Random(Random.RandomSeed.Guid()); }
+            set { _random = value ?? MersenneTwister.Default; }
         }
 
         /// <summary>

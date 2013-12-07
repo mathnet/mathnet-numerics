@@ -34,6 +34,7 @@ using System.Linq;
 using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Double;
 using MathNet.Numerics.Properties;
+using MathNet.Numerics.Random;
 using MathNet.Numerics.Statistics;
 
 namespace MathNet.Numerics.Distributions
@@ -74,7 +75,7 @@ namespace MathNet.Numerics.Distributions
         /// <exception cref="ArgumentOutOfRangeException">If <paramref name="n"/> is negative.</exception>
         public Multinomial(double[] p, int n)
         {
-            _random = new System.Random(Random.RandomSeed.Guid());
+            _random = MersenneTwister.Default;
             SetParameters(p, n);
         }
 
@@ -89,7 +90,7 @@ namespace MathNet.Numerics.Distributions
         /// <exception cref="ArgumentOutOfRangeException">If <paramref name="n"/> is negative.</exception>
         public Multinomial(double[] p, int n, System.Random randomSource)
         {
-            _random = randomSource ?? new System.Random(Random.RandomSeed.Guid());
+            _random = randomSource ?? MersenneTwister.Default;
             SetParameters(p, n);
         }
 
@@ -118,7 +119,7 @@ namespace MathNet.Numerics.Distributions
             }
 
             SetParameters(p, n);
-            RandomSource = new System.Random(Random.RandomSeed.Guid());
+            RandomSource = MersenneTwister.Default;
         }
 
         /// <summary>
@@ -201,7 +202,7 @@ namespace MathNet.Numerics.Distributions
         public System.Random RandomSource
         {
             get { return _random; }
-            set { _random = value ?? new System.Random(Random.RandomSeed.Guid()); }
+            set { _random = value ?? MersenneTwister.Default; }
         }
 
         /// <summary>

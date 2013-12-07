@@ -31,6 +31,7 @@
 using System;
 using System.Collections.Generic;
 using MathNet.Numerics.Properties;
+using MathNet.Numerics.Random;
 
 namespace MathNet.Numerics.Distributions
 {
@@ -56,7 +57,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="freedom">The degrees of freedom (k) of the distribution. Range: k > 0.</param>
         public ChiSquared(double freedom)
         {
-            _random = new System.Random(Random.RandomSeed.Guid());
+            _random = MersenneTwister.Default;
             SetParameters(freedom);
         }
 
@@ -67,7 +68,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="randomSource">The random number generator which is used to draw random samples.</param>
         public ChiSquared(double freedom, System.Random randomSource)
         {
-            _random = randomSource ?? new System.Random(Random.RandomSeed.Guid());
+            _random = randomSource ?? MersenneTwister.Default;
             SetParameters(freedom);
         }
 
@@ -110,7 +111,7 @@ namespace MathNet.Numerics.Distributions
         public System.Random RandomSource
         {
             get { return _random; }
-            set { _random = value ?? new System.Random(Random.RandomSeed.Guid()); }
+            set { _random = value ?? MersenneTwister.Default; }
         }
 
         /// <summary>

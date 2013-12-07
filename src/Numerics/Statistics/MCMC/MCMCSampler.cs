@@ -29,6 +29,7 @@
 // </copyright>
 
 using System;
+using MathNet.Numerics.Random;
 
 namespace MathNet.Numerics.Statistics.Mcmc
 {
@@ -106,7 +107,7 @@ namespace MathNet.Numerics.Statistics.Mcmc
         {
             Accepts = 0;
             Samples = 0;
-            RandomSource = new System.Random(Random.RandomSeed.Guid());
+            RandomSource = MersenneTwister.Default;
         }
 
         /// <summary>

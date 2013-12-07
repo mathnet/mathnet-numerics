@@ -31,6 +31,7 @@
 using System;
 using System.Collections.Generic;
 using MathNet.Numerics.Properties;
+using MathNet.Numerics.Random;
 
 namespace MathNet.Numerics.Distributions
 {
@@ -69,7 +70,7 @@ namespace MathNet.Numerics.Distributions
         /// <exception cref="ArgumentException">If <paramref name="scale"/> is negative.</exception>
         public Laplace(double location, double scale)
         {
-            _random = new System.Random(Random.RandomSeed.Guid());
+            _random = MersenneTwister.Default;
             SetParameters(location, scale);
         }
 
@@ -82,7 +83,7 @@ namespace MathNet.Numerics.Distributions
         /// <exception cref="ArgumentException">If <paramref name="scale"/> is negative.</exception>
         public Laplace(double location, double scale, System.Random randomSource)
         {
-            _random = randomSource ?? new System.Random(Random.RandomSeed.Guid());
+            _random = randomSource ?? MersenneTwister.Default;
             SetParameters(location, scale);
         }
 
@@ -136,7 +137,7 @@ namespace MathNet.Numerics.Distributions
         public System.Random RandomSource
         {
             get { return _random; }
-            set { _random = value ?? new System.Random(Random.RandomSeed.Guid()); }
+            set { _random = value ?? MersenneTwister.Default; }
         }
 
         /// <summary>

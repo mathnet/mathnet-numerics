@@ -33,6 +33,9 @@ namespace MathNet.Numerics.Random
 [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
 module Random =
 
+    /// Returns the default mersenne twister, thread-safe and also thread-locally shared
+    let shared = MersenneTwister.Default :> System.Random
+
     /// Creates a default .Net system pRNG with a custom seed based on uinque GUIDs
     let system () = new System.Random(RandomSeed.Guid())
     let systemSeed seed = new System.Random(seed)

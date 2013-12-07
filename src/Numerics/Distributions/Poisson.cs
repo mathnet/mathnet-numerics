@@ -31,6 +31,7 @@
 using System;
 using System.Collections.Generic;
 using MathNet.Numerics.Properties;
+using MathNet.Numerics.Random;
 
 namespace MathNet.Numerics.Distributions
 {
@@ -55,7 +56,7 @@ namespace MathNet.Numerics.Distributions
         /// <exception cref="System.ArgumentOutOfRangeException">If <paramref name="lambda"/> is equal or less then 0.0.</exception>
         public Poisson(double lambda)
         {
-            _random = new System.Random(Random.RandomSeed.Guid());
+            _random = MersenneTwister.Default;
             SetParameters(lambda);
         }
 
@@ -67,7 +68,7 @@ namespace MathNet.Numerics.Distributions
         /// <exception cref="System.ArgumentOutOfRangeException">If <paramref name="lambda"/> is equal or less then 0.0.</exception>
         public Poisson(double lambda, System.Random randomSource)
         {
-            _random = randomSource ?? new System.Random(Random.RandomSeed.Guid());
+            _random = randomSource ?? MersenneTwister.Default;
             SetParameters(lambda);
         }
 
@@ -122,7 +123,7 @@ namespace MathNet.Numerics.Distributions
         public System.Random RandomSource
         {
             get { return _random; }
-            set { _random = value ?? new System.Random(Random.RandomSeed.Guid()); }
+            set { _random = value ?? MersenneTwister.Default; }
         }
 
         /// <summary>
