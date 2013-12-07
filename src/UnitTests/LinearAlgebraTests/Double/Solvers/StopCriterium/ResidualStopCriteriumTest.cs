@@ -29,8 +29,7 @@
 // </copyright>
 
 using System;
-using MathNet.Numerics.LinearAlgebra.Double;
-using MathNet.Numerics.LinearAlgebra.Double.Solvers;
+using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Solvers;
 using NUnit.Framework;
 
@@ -82,9 +81,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.StopCrite
 
             Assert.Throws<ArgumentOutOfRangeException>(() => criterium.DetermineStatus(
                 -1,
-                DenseVector.Create(3, i => 4),
-                DenseVector.Create(3, i => 5),
-                DenseVector.Create(3, i => 6)));
+                Vector<double>.Build.Dense(3, 4),
+                Vector<double>.Build.Dense(3, 5),
+                Vector<double>.Build.Dense(3, 6)));
         }
 
         /// <summary>
@@ -97,9 +96,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.StopCrite
 
             Assert.Throws<ArgumentException>(() => criterium.DetermineStatus(
                 1,
-                DenseVector.Create(4, i => 4),
-                DenseVector.Create(3, i => 4),
-                DenseVector.Create(3, i => 4)));
+                Vector<double>.Build.Dense(4, 4),
+                Vector<double>.Build.Dense(3, 4),
+                Vector<double>.Build.Dense(3, 4)));
         }
 
         /// <summary>
@@ -112,9 +111,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.StopCrite
 
             Assert.Throws<ArgumentException>(() => criterium.DetermineStatus(
                 1,
-                DenseVector.Create(3, i => 4),
-                DenseVector.Create(4, i => 4),
-                DenseVector.Create(3, i => 4)));
+                Vector<double>.Build.Dense(3, 4),
+                Vector<double>.Build.Dense(4, 4),
+                Vector<double>.Build.Dense(3, 4)));
         }
 
         /// <summary>
@@ -127,9 +126,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.StopCrite
 
             Assert.Throws<ArgumentException>(() => criterium.DetermineStatus(
                 1,
-                DenseVector.Create(3, i => 4),
-                DenseVector.Create(3, i => 4),
-                DenseVector.Create(4, i => 4)));
+                Vector<double>.Build.Dense(3, 4),
+                Vector<double>.Build.Dense(3, 4),
+                Vector<double>.Build.Dense(4, 4)));
         }
 
         /// <summary>
@@ -139,9 +138,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.StopCrite
         public void DetermineStatusWithSourceNaN()
         {
             var criterium = new ResidualStopCriterium<double>(1e-3, 10);
-            var solution = new DenseVector(new[] {1.0, 1.0, 2.0});
-            var source = new DenseVector(new[] {1.0, 1.0, double.NaN});
-            var residual = new DenseVector(new[] {1000.0, 1000.0, 2001.0});
+            var solution = Vector<double>.Build.Dense(new[] { 1.0, 1.0, 2.0 });
+            var source = Vector<double>.Build.Dense(new[] { 1.0, 1.0, double.NaN });
+            var residual = Vector<double>.Build.Dense(new[] { 1000.0, 1000.0, 2001.0 });
 
             var status = criterium.DetermineStatus(5, solution, source, residual);
             Assert.AreEqual(IterationStatus.Diverged, status, "Should be diverged");
@@ -154,9 +153,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.StopCrite
         public void DetermineStatusWithResidualNaN()
         {
             var criterium = new ResidualStopCriterium<double>(1e-3, 10);
-            var solution = new DenseVector(new[] {1.0, 1.0, 2.0});
-            var source = new DenseVector(new[] {1.0, 1.0, 2.0});
-            var residual = new DenseVector(new[] {1000.0, double.NaN, 2001.0});
+            var solution = Vector<double>.Build.Dense(new[] { 1.0, 1.0, 2.0 });
+            var source = Vector<double>.Build.Dense(new[] { 1.0, 1.0, 2.0 });
+            var residual = Vector<double>.Build.Dense(new[] { 1000.0, double.NaN, 2001.0 });
 
             var status = criterium.DetermineStatus(5, solution, source, residual);
             Assert.AreEqual(IterationStatus.Diverged, status, "Should be diverged");
@@ -169,9 +168,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.StopCrite
         public void DetermineStatusWithConvergenceAtFirstIteration()
         {
             var criterium = new ResidualStopCriterium<double>(1e-12);
-            var solution = new DenseVector(new[] {1.0, 1.0, 1.0});
-            var source = new DenseVector(new[] {1.0, 1.0, 1.0});
-            var residual = new DenseVector(new[] {0.0, 0.0, 0.0});
+            var solution = Vector<double>.Build.Dense(new[] { 1.0, 1.0, 1.0 });
+            var source = Vector<double>.Build.Dense(new[] { 1.0, 1.0, 1.0 });
+            var residual = Vector<double>.Build.Dense(new[] { 0.0, 0.0, 0.0 });
 
             var status = criterium.DetermineStatus(0, solution, source, residual);
             Assert.AreEqual(IterationStatus.Converged, status, "Should be done");
@@ -186,13 +185,13 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.StopCrite
             var criterium = new ResidualStopCriterium<double>(1e-3, 10);
 
             // the solution vector isn't actually being used so ...
-            var solution = new DenseVector(new[] {double.NaN, double.NaN, double.NaN});
+            var solution = Vector<double>.Build.Dense(new[] { double.NaN, double.NaN, double.NaN });
 
             // Set the source values
-            var source = new DenseVector(new[] {1.000, 1.000, 2.001});
+            var source = Vector<double>.Build.Dense(new[] { 1.000, 1.000, 2.001 });
 
             // Set the residual values
-            var residual = new DenseVector(new[] {0.001, 0.001, 0.002});
+            var residual = Vector<double>.Build.Dense(new[] { 0.001, 0.001, 0.002 });
 
             var status = criterium.DetermineStatus(5, solution, source, residual);
             Assert.AreEqual(IterationStatus.Continue, status, "Should still be running");
@@ -209,9 +208,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.StopCrite
         {
             var criterium = new ResidualStopCriterium<double>(1e-3, 10);
 
-            var solution = new DenseVector(new[] {0.001, 0.001, 0.002});
-            var source = new DenseVector(new[] {0.001, 0.001, 0.002});
-            var residual = new DenseVector(new[] {1.000, 1.000, 2.001});
+            var solution = Vector<double>.Build.Dense(new[] { 0.001, 0.001, 0.002 });
+            var source = Vector<double>.Build.Dense(new[] { 0.001, 0.001, 0.002 });
+            var residual = Vector<double>.Build.Dense(new[] { 1.000, 1.000, 2.001 });
 
             var status = criterium.DetermineStatus(5, solution, source, residual);
             Assert.AreEqual(IterationStatus.Continue, status, "Should be running");

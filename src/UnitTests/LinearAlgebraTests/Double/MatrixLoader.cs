@@ -29,10 +29,7 @@
 // </copyright>
 
 using System.Collections.Generic;
-using MathNet.Numerics.Distributions;
 using MathNet.Numerics.LinearAlgebra;
-using MathNet.Numerics.LinearAlgebra.Double;
-using MathNet.Numerics.Random;
 using NUnit.Framework;
 
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
@@ -89,15 +86,15 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         public virtual void SetupMatrices()
         {
             TestData2D = new Dictionary<string, double[,]>
-                {
-                    {"Singular3x3", new[,] {{1.0, 1.0, 2.0}, {1.0, 1.0, 2.0}, {1.0, 1.0, 2.0}}},
-                    {"Square3x3", new[,] {{-1.1, -2.2, -3.3}, {0.0, 1.1, 2.2}, {-4.4, 5.5, 6.6}}},
-                    {"Square4x4", new[,] {{-1.1, -2.2, -3.3, -4.4}, {0.0, 1.1, 2.2, 3.3}, {1.0, 2.1, 6.2, 4.3}, {-4.4, 5.5, 6.6, -7.7}}},
-                    {"Singular4x4", new[,] {{-1.1, -2.2, -3.3, -4.4}, {-1.1, -2.2, -3.3, -4.4}, {-1.1, -2.2, -3.3, -4.4}, {-1.1, -2.2, -3.3, -4.4}}},
-                    {"Tall3x2", new[,] {{-1.1, -2.2}, {0.0, 1.1}, {-4.4, 5.5}}},
-                    {"Wide2x3", new[,] {{-1.1, -2.2, -3.3}, {0.0, 1.1, 2.2}}},
-                    {"Symmetric3x3", new[,] {{1.0, 2.0, 3.0}, {2.0, 2.0, 0.0}, {3.0, 0.0, 3.0}}}
-                };
+            {
+                { "Singular3x3", new[,] { { 1.0, 1.0, 2.0 }, { 1.0, 1.0, 2.0 }, { 1.0, 1.0, 2.0 } } },
+                { "Square3x3", new[,] { { -1.1, -2.2, -3.3 }, { 0.0, 1.1, 2.2 }, { -4.4, 5.5, 6.6 } } },
+                { "Square4x4", new[,] { { -1.1, -2.2, -3.3, -4.4 }, { 0.0, 1.1, 2.2, 3.3 }, { 1.0, 2.1, 6.2, 4.3 }, { -4.4, 5.5, 6.6, -7.7 } } },
+                { "Singular4x4", new[,] { { -1.1, -2.2, -3.3, -4.4 }, { -1.1, -2.2, -3.3, -4.4 }, { -1.1, -2.2, -3.3, -4.4 }, { -1.1, -2.2, -3.3, -4.4 } } },
+                { "Tall3x2", new[,] { { -1.1, -2.2 }, { 0.0, 1.1 }, { -4.4, 5.5 } } },
+                { "Wide2x3", new[,] { { -1.1, -2.2, -3.3 }, { 0.0, 1.1, 2.2 } } },
+                { "Symmetric3x3", new[,] { { 1.0, 2.0, 3.0 }, { 2.0, 2.0, 0.0 }, { 3.0, 0.0, 3.0 } } }
+            };
 
             TestMatrices = new Dictionary<string, Matrix<double>>();
             foreach (var name in TestData2D.Keys)
@@ -108,18 +105,17 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
 
         public static Matrix<double> GenerateRandomDenseMatrix(int row, int col)
         {
-            return DenseMatrix.CreateRandom(row, col, new Normal(new MersenneTwister(1)));
+            return Matrix<double>.Build.Random(row, col, 1);
         }
 
         public static Matrix<double> GenerateRandomPositiveDefiniteDenseMatrix(int order)
         {
-            var a = DenseMatrix.CreateRandom(order, order, new Normal(new MersenneTwister(1)));
-            return a.TransposeThisAndMultiply(a);
+            return Matrix<double>.Build.RandomPositiveDefinite(order, 1);
         }
 
         public static Vector<double> GenerateRandomDenseVector(int order)
         {
-            return DenseVector.CreateRandom(order, new Normal(new MersenneTwister(1)));
+            return Vector<double>.Build.Random(order, 1);
         }
 
         public static Matrix<double> GenerateRandomUserDefinedMatrix(int row, int col)

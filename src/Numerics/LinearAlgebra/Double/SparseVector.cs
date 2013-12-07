@@ -116,7 +116,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// </summary>
         public static SparseVector Create(int length, double value)
         {
-            if (value == 0d) return new SparseVector(length);
+            if (value == 0d) return new SparseVector(new SparseVectorStorage<double>(length));
             return new SparseVector(SparseVectorStorage<double>.OfInit(length, i => value));
         }
 
@@ -907,7 +907,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             var tokens = value.Split(new[] { formatProvider.GetTextInfo().ListSeparator, " ", "\t" }, StringSplitOptions.RemoveEmptyEntries);
             var data = tokens.Select(t => double.Parse(t, NumberStyles.Any, formatProvider)).ToList();
             if (data.Count == 0) throw new FormatException();
-            return OfEnumerable(data);
+            return new SparseVector(SparseVectorStorage<double>.OfEnumerable(data));
         }
 
         /// <summary>

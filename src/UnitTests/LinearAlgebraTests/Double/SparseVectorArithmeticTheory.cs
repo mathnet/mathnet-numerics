@@ -29,7 +29,6 @@
 // </copyright>
 
 using MathNet.Numerics.LinearAlgebra;
-using MathNet.Numerics.LinearAlgebra.Double;
 using NUnit.Framework;
 
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
@@ -38,16 +37,15 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
     public class SparseVectorArithmeticTheory : VectorArithmeticTheory
     {
         [Datapoints]
-        Vector<double>[] denseVectors = new Vector<double>[]
-            {
-                SparseVector.OfEnumerable(new double[] {1, 2, 3, 4, 5}),
-                SparseVector.OfEnumerable(new double[] {2, 0, 0, -5, 0}),
-                new SparseVector(5),
-                new SparseVector(int.MaxValue)
-            };
+        Vector<double>[] denseVectors =
+        {
+            Vector<double>.Build.SparseOfEnumerable(new double[] { 1, 2, 3, 4, 5 }),
+            Vector<double>.Build.SparseOfEnumerable(new double[] { 2, 0, 0, -5, 0 }),
+            Vector<double>.Build.Sparse(5),
+            Vector<double>.Build.Sparse(int.MaxValue)
+        };
 
         [Datapoints]
-        double[] scalars = new[] {2d};
-
+        double[] scalars = { 2d };
     }
 }

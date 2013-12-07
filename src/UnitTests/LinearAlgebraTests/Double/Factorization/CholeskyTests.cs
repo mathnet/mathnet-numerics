@@ -24,12 +24,13 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System;
+using MathNet.Numerics.LinearAlgebra;
+using MathNet.Numerics.LinearAlgebra.Double;
+using NUnit.Framework;
+
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
 {
-    using System;
-    using LinearAlgebra.Double;
-    using NUnit.Framework;
-
     /// <summary>
     /// Cholesky factorization tests for a dense matrix.
     /// </summary>
@@ -44,7 +45,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
         [TestCase(100)]
         public void CanFactorizeIdentity(int order)
         {
-            var matrixI = DenseMatrix.CreateIdentity(order);
+            var matrixI = Matrix<double>.Build.DenseIdentity(order);
             var factorC = matrixI.Cholesky().Factor;
 
             Assert.AreEqual(matrixI.RowCount, factorC.RowCount);
@@ -65,7 +66,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
         [Test]
         public void CholeskyFailsWithDiagonalNonPositiveDefiniteMatrix()
         {
-            var matrixI = DenseMatrix.CreateIdentity(10);
+            var matrixI = Matrix<double>.Build.DenseIdentity(10);
             matrixI[3, 3] = -4.0;
             Assert.Throws<ArgumentException>(() => matrixI.Cholesky());
         }
@@ -89,7 +90,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
         [TestCase(100)]
         public void IdentityDeterminantIsOne(int order)
         {
-            var matrixI = DenseMatrix.CreateIdentity(order);
+            var matrixI = Matrix<double>.Build.DenseIdentity(order);
             var factorC = matrixI.Cholesky();
             Assert.AreEqual(1.0, factorC.Determinant);
             Assert.AreEqual(0.0, factorC.DeterminantLn);

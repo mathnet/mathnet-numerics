@@ -29,6 +29,7 @@
 // </copyright>
 
 using System;
+using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Double;
 using MathNet.Numerics.LinearAlgebra.Solvers;
 using NUnit.Framework;
@@ -60,7 +61,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.StopCrite
             var criterium = new FailureStopCriterium<double>();
             Assert.IsNotNull(criterium, "There should be a criterium");
 
-            Assert.Throws<ArgumentOutOfRangeException>(() => criterium.DetermineStatus(-1, DenseVector.Create(3, i => 4), DenseVector.Create(3, i => 5), DenseVector.Create(3, i => 6)));
+            Assert.Throws<ArgumentOutOfRangeException>(() => criterium.DetermineStatus(-1, Vector<double>.Build.Dense(3, 4), Vector<double>.Build.Dense(3, 5), Vector<double>.Build.Dense(3, 6)));
         }
 
         /// <summary>
@@ -72,7 +73,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.StopCrite
             var criterium = new FailureStopCriterium<double>();
             Assert.IsNotNull(criterium, "There should be a criterium");
 
-            Assert.Throws<ArgumentException>(() => criterium.DetermineStatus(1, DenseVector.Create(3, i => 4), DenseVector.Create(3, i => 6), DenseVector.Create(4, i => 4)));
+            Assert.Throws<ArgumentException>(() => criterium.DetermineStatus(1, Vector<double>.Build.Dense(3, 4), Vector<double>.Build.Dense(3, 6), Vector<double>.Build.Dense(4, 4)));
         }
 
         /// <summary>

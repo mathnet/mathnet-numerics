@@ -284,7 +284,7 @@ namespace MathNet.Numerics.Distributions
             var chol = covariance.Cholesky();
 
             // Sample a standard normal variable.
-            var v = DenseVector.CreateRandom(mean.Count, new Normal(rnd));
+            var v = Vector<double>.Build.Random(mean.Count, new Normal(rnd));
 
             // Return the transformed variable.
             return mean + (chol.Factor*v);

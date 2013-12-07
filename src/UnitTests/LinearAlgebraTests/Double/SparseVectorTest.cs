@@ -49,7 +49,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         /// <returns>The new <c>Vector</c>.</returns>
         protected override Vector<double> CreateVector(int size)
         {
-            return new SparseVector(size);
+            return Vector<double>.Build.Sparse(size);
         }
 
         /// <summary>
@@ -59,7 +59,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         /// <returns>The new <c>Vector</c>.</returns>
         protected override Vector<double> CreateVector(IList<double> data)
         {
-            var vector = new SparseVector(data.Count);
+            var vector = Vector<double>.Build.Sparse(data.Count);
             for (var index = 0; index < data.Count; index++)
             {
                 vector[index] = data[index];
@@ -76,7 +76,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         {
             var data = new double[Data.Length];
             Array.Copy(Data, data, Data.Length);
-            var vector = SparseVector.OfEnumerable(data);
+            var vector = Vector<double>.Build.SparseOfEnumerable(data);
 
             for (var i = 0; i < data.Length; i++)
             {
@@ -90,8 +90,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [Test]
         public void CanCreateSparseVectorFromAnotherSparseVector()
         {
-            var vector = SparseVector.OfEnumerable(Data);
-            var other = SparseVector.OfVector(vector);
+            var vector = Vector<double>.Build.SparseOfEnumerable(Data);
+            var other = Vector<double>.Build.SparseOfVector(vector);
 
             Assert.AreNotSame(vector, other);
             for (var i = 0; i < Data.Length; i++)
@@ -106,8 +106,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [Test]
         public void CanCreateSparseVectorFromAnotherVector()
         {
-            var vector = (Vector<double>)SparseVector.OfEnumerable(Data);
-            var other = SparseVector.OfVector(vector);
+            var vector = Vector<double>.Build.SparseOfEnumerable(Data);
+            var other = Vector<double>.Build.SparseOfVector(vector);
 
             Assert.AreNotSame(vector, other);
             for (var i = 0; i < Data.Length; i++)
@@ -123,7 +123,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         public void CanCreateSparseVectorFromUserDefinedVector()
         {
             var vector = new UserDefinedVector(Data);
-            var other = SparseVector.OfVector(vector);
+            var other = Vector<double>.Build.SparseOfVector(vector);
 
             for (var i = 0; i < Data.Length; i++)
             {
@@ -137,7 +137,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [Test]
         public void CanCreateSparseMatrix()
         {
-            var vector = new SparseVector(3);
+            var vector = Vector<double>.Build.Sparse(3);
             var matrix = Matrix<double>.Build.SameAs(vector, 2, 3);
             Assert.IsInstanceOf<SparseMatrix>(matrix);
             Assert.AreEqual(2, matrix.RowCount);
@@ -150,7 +150,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [Test]
         public void CanConvertSparseVectorToArray()
         {
-            var vector = SparseVector.OfEnumerable(Data);
+            var vector = Vector<double>.Build.SparseOfEnumerable(Data);
             var array = vector.ToArray();
             Assert.IsInstanceOf(typeof (double[]), array);
             CollectionAssert.AreEqual(vector, array);
@@ -163,7 +163,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         public void CanConvertArrayToSparseVector()
         {
             var array = new[] {0.0, 1.0, 2.0, 3.0, 4.0};
-            var vector = SparseVector.OfEnumerable(array);
+            var vector = Vector<double>.Build.SparseOfEnumerable(array);
             Assert.IsInstanceOf(typeof (SparseVector), vector);
             CollectionAssert.AreEqual(array, array);
         }
@@ -174,7 +174,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [Test]
         public void CanMultiplySparseVectorByScalarUsingOperators()
         {
-            var vector = SparseVector.OfEnumerable(Data);
+            var vector = Vector<double>.Build.SparseOfEnumerable(Data);
             vector = vector*2.0;
 
             for (var i = 0; i < Data.Length; i++)
@@ -188,7 +188,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
                 Assert.AreEqual(Data[i]*2.0, vector[i]);
             }
 
-            vector = SparseVector.OfEnumerable(Data);
+            vector = Vector<double>.Build.SparseOfEnumerable(Data);
             vector = 2.0*vector;
 
             for (var i = 0; i < Data.Length; i++)
@@ -209,7 +209,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [Test]
         public void CanDivideSparseVectorByScalarUsingOperators()
         {
-            var vector = SparseVector.OfEnumerable(Data);
+            var vector = Vector<double>.Build.SparseOfEnumerable(Data);
             vector = vector/2.0;
 
             for (var i = 0; i < Data.Length; i++)
@@ -248,7 +248,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [Test]
         public void CheckSparseMechanismBySettingValues()
         {
-            var vector = new SparseVector(10000);
+            var vector = Vector<double>.Build.Sparse(10000);
             var storage = (SparseVectorStorage<double>) vector.Storage;
 
             // Add non-zero elements
@@ -292,7 +292,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [Test]
         public void CheckSparseMechanismByZeroMultiply()
         {
-            var vector = new SparseVector(10000);
+            var vector = Vector<double>.Build.Sparse(10000);
 
             // Add non-zero elements
             vector[200] = 1.5;
@@ -317,14 +317,14 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [Test]
         public void CanDotProductOfTwoSparseVectors()
         {
-            var vectorA = new SparseVector(10000);
+            var vectorA = Vector<double>.Build.Sparse(10000);
             vectorA[200] = 1;
             vectorA[500] = 3;
             vectorA[800] = 5;
             vectorA[100] = 7;
             vectorA[900] = 9;
 
-            var vectorB = new SparseVector(10000);
+            var vectorB = Vector<double>.Build.Sparse(10000);
             vectorB[300] = 3;
             vectorB[500] = 5;
             vectorB[800] = 7;
@@ -339,9 +339,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         public void CanPointwiseMultiplySparseVector()
         {
             var zeroArray = new[] {0.0, 1.0, 0.0, 1.0, 0.0};
-            var vector1 = SparseVector.OfEnumerable(Data);
-            var vector2 = SparseVector.OfEnumerable(zeroArray);
-            var result = new SparseVector(vector1.Count);
+            var vector1 = Vector<double>.Build.SparseOfEnumerable(Data);
+            var vector2 = Vector<double>.Build.SparseOfEnumerable(zeroArray);
+            var result = Vector<double>.Build.Sparse(vector1.Count);
 
             vector1.PointwiseMultiply(vector2, result);
 
@@ -360,8 +360,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [Test]
         public void CanOuterMultiplySparseVectors()
         {
-            var vector1 = SparseVector.OfEnumerable(new[] { 2.0, 2.0, 0.0, 0.0 });
-            var vector2 = SparseVector.OfEnumerable(new[] { 2.0, 2.0, 0.0, 0.0 });
+            var vector1 = Vector<double>.Build.SparseOfEnumerable(new[] { 2.0, 2.0, 0.0, 0.0 });
+            var vector2 = Vector<double>.Build.SparseOfEnumerable(new[] { 2.0, 2.0, 0.0, 0.0 });
             var result = vector1.OuterProduct(vector2);
 
             Assert.AreEqual(4.0, result[0, 0]);
@@ -389,12 +389,12 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [Test]
         public void CanScaleAVectorWhenSettingPreviousNonzeroElementsToZero()
         {
-            var vector = new SparseVector(20);
+            var vector = Vector<double>.Build.Sparse(20);
             vector[10] = 1.0;
             vector[11] = 2.0;
             vector[11] = 0.0;
 
-            var scaled = new SparseVector(20);
+            var scaled = Vector<double>.Build.Sparse(20);
             vector.Multiply(3.0, scaled);
 
             Assert.AreEqual(3.0, scaled[10]);

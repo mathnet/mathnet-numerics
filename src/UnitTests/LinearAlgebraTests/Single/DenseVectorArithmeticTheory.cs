@@ -29,7 +29,6 @@
 // </copyright>
 
 using MathNet.Numerics.LinearAlgebra;
-using MathNet.Numerics.LinearAlgebra.Single;
 using NUnit.Framework;
 
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
@@ -38,13 +37,13 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
     public class DenseVectorArithmeticTheory : VectorArithmeticTheory
     {
         [Datapoints]
-        Vector<float>[] denseVectors = new Vector<float>[]
-            {
-                new DenseVector(new float[] { 1, 2, 3, 4, 5 }),
-                new DenseVector(new float[] { 2, 0, 0, -5, 0 }),
-            };
+        Vector<float>[] denseVectors =
+        {
+            Vector<float>.Build.Dense(new float[] { 1, 2, 3, 4, 5 }),
+            Vector<float>.Build.Dense(new float[] { 2, 0, 0, -5, 0 }),
+        };
 
         [Datapoints]
-        private float[] scalars = new[] { 2f };
+        float[] scalars = { 2f };
     }
 }

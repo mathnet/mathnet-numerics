@@ -29,8 +29,8 @@
 // </copyright>
 
 using System;
+using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Complex32;
-using MathNet.Numerics.LinearAlgebra.Complex32.Solvers;
 using MathNet.Numerics.LinearAlgebra.Solvers;
 using NUnit.Framework;
 
@@ -84,9 +84,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.StopCr
             var criterium = new DivergenceStopCriterium<Complex32>(0.5, 15);
             Assert.Throws<ArgumentOutOfRangeException>(() => criterium.DetermineStatus(
                 -1,
-                DenseVector.Create(3, i => 4),
-                DenseVector.Create(3, i => 5),
-                DenseVector.Create(3, i => 6)));
+                Vector<Complex32>.Build.Dense(3, 4),
+                Vector<Complex32>.Build.Dense(3, 5),
+                Vector<Complex32>.Build.Dense(3, 6)));
         }
 
         /// <summary>

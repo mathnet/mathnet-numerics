@@ -29,7 +29,6 @@
 // </copyright>
 
 using MathNet.Numerics.LinearAlgebra;
-using MathNet.Numerics.LinearAlgebra.Complex32;
 using NUnit.Framework;
 
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
@@ -40,15 +39,15 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
     public class SparseVectorArithmeticTheory : VectorArithmeticTheory
     {
         [Datapoints]
-        Vector<Complex32>[] denseVectors = new Vector<Complex32>[]
-            {
-                SparseVector.OfEnumerable(new[] {new Complex32(1, 1), new Complex32(2, 1), new Complex32(3, 1), new Complex32(4, 1), new Complex32(5, 1)}),
-                SparseVector.OfEnumerable(new[] {new Complex32(2, -1), new Complex32(0, 0), new Complex32(0, 2), new Complex32(-5, 1), new Complex32(0, 0)}),
-                new SparseVector(5),
-                new SparseVector(int.MaxValue)
-            };
+        Vector<Complex32>[] denseVectors =
+        {
+            Vector<Complex32>.Build.SparseOfEnumerable(new[] { new Complex32(1, 1), new Complex32(2, 1), new Complex32(3, 1), new Complex32(4, 1), new Complex32(5, 1) }),
+            Vector<Complex32>.Build.SparseOfEnumerable(new[] { new Complex32(2, -1), new Complex32(0, 0), new Complex32(0, 2), new Complex32(-5, 1), new Complex32(0, 0) }),
+            Vector<Complex32>.Build.Sparse(5),
+            Vector<Complex32>.Build.Sparse(int.MaxValue)
+        };
 
         [Datapoints]
-        Complex32[] scalars = new[] {new Complex32(2f, -1f)};
+        Complex32[] scalars = { new Complex32(2f, -1f) };
     }
 }

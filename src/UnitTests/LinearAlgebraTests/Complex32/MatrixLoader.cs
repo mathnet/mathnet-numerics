@@ -29,10 +29,7 @@
 // </copyright>
 
 using System.Collections.Generic;
-using MathNet.Numerics.Distributions;
 using MathNet.Numerics.LinearAlgebra;
-using MathNet.Numerics.LinearAlgebra.Complex32;
-using MathNet.Numerics.Random;
 using NUnit.Framework;
 
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
@@ -91,15 +88,15 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
         public virtual void SetupMatrices()
         {
             TestData2D = new Dictionary<string, Complex32[,]>
-                {
-                    {"Singular3x3", new[,] {{new Complex32(1.0f, 1), new Complex32(1.0f, 1), new Complex32(2.0f, 1)}, {new Complex32(1.0f, 1), new Complex32(1.0f, 1), new Complex32(2.0f, 1)}, {new Complex32(1.0f, 1), new Complex32(1.0f, 1), new Complex32(2.0f, 1)}}},
-                    {"Square3x3", new[,] {{new Complex32(-1.1f, 1), new Complex32(-2.2f, 1), new Complex32(-3.3f, 1)}, {Complex32.Zero, new Complex32(1.1f, 1), new Complex32(2.2f, 1)}, {new Complex32(-4.4f, 1), new Complex32(5.5f, 1), new Complex32(6.6f, 1)}}},
-                    {"Square4x4", new[,] {{new Complex32(-1.1f, 1), new Complex32(-2.2f, 1), new Complex32(-3.3f, 1), new Complex32(-4.4f, 1)}, {Complex32.Zero, new Complex32(1.1f, 1), new Complex32(2.2f, 1), new Complex32(3.3f, 1)}, {new Complex32(1.0f, 1), new Complex32(2.1f, 1), new Complex32(6.2f, 1), new Complex32(4.3f, 1)}, {new Complex32(-4.4f, 1), new Complex32(5.5f, 1), new Complex32(6.6f, 1), new Complex32(-7.7f, 1)}}},
-                    {"Singular4x4", new[,] {{new Complex32(-1.1f, 1), new Complex32(-2.2f, 1), new Complex32(-3.3f, 1), new Complex32(-4.4f, 1)}, {new Complex32(-1.1f, 1), new Complex32(-2.2f, 1), new Complex32(-3.3f, 1), new Complex32(-4.4f, 1)}, {new Complex32(-1.1f, 1), new Complex32(-2.2f, 1), new Complex32(-3.3f, 1), new Complex32(-4.4f, 1)}, {new Complex32(-1.1f, 1), new Complex32(-2.2f, 1), new Complex32(-3.3f, 1), new Complex32(-4.4f, 1)}}},
-                    {"Tall3x2", new[,] {{new Complex32(-1.1f, 1), new Complex32(-2.2f, 1)}, {Complex32.Zero, new Complex32(1.1f, 1)}, {new Complex32(-4.4f, 1), new Complex32(5.5f, 1)}}},
-                    {"Wide2x3", new[,] {{new Complex32(-1.1f, 1), new Complex32(-2.2f, 1), new Complex32(-3.3f, 1)}, {Complex32.Zero, new Complex32(1.1f, 1), new Complex32(2.2f, 1)}}},
-                    {"Symmetric3x3", new[,] {{Complex32.One, 2.0f, 3.0f}, {2.0f, 2.0f, 0.0f}, {3.0f, 0.0f, 3.0f}}}
-                };
+            {
+                { "Singular3x3", new[,] { { new Complex32(1.0f, 1), new Complex32(1.0f, 1), new Complex32(2.0f, 1) }, { new Complex32(1.0f, 1), new Complex32(1.0f, 1), new Complex32(2.0f, 1) }, { new Complex32(1.0f, 1), new Complex32(1.0f, 1), new Complex32(2.0f, 1) } } },
+                { "Square3x3", new[,] { { new Complex32(-1.1f, 1), new Complex32(-2.2f, 1), new Complex32(-3.3f, 1) }, { Complex32.Zero, new Complex32(1.1f, 1), new Complex32(2.2f, 1) }, { new Complex32(-4.4f, 1), new Complex32(5.5f, 1), new Complex32(6.6f, 1) } } },
+                { "Square4x4", new[,] { { new Complex32(-1.1f, 1), new Complex32(-2.2f, 1), new Complex32(-3.3f, 1), new Complex32(-4.4f, 1) }, { Complex32.Zero, new Complex32(1.1f, 1), new Complex32(2.2f, 1), new Complex32(3.3f, 1) }, { new Complex32(1.0f, 1), new Complex32(2.1f, 1), new Complex32(6.2f, 1), new Complex32(4.3f, 1) }, { new Complex32(-4.4f, 1), new Complex32(5.5f, 1), new Complex32(6.6f, 1), new Complex32(-7.7f, 1) } } },
+                { "Singular4x4", new[,] { { new Complex32(-1.1f, 1), new Complex32(-2.2f, 1), new Complex32(-3.3f, 1), new Complex32(-4.4f, 1) }, { new Complex32(-1.1f, 1), new Complex32(-2.2f, 1), new Complex32(-3.3f, 1), new Complex32(-4.4f, 1) }, { new Complex32(-1.1f, 1), new Complex32(-2.2f, 1), new Complex32(-3.3f, 1), new Complex32(-4.4f, 1) }, { new Complex32(-1.1f, 1), new Complex32(-2.2f, 1), new Complex32(-3.3f, 1), new Complex32(-4.4f, 1) } } },
+                { "Tall3x2", new[,] { { new Complex32(-1.1f, 1), new Complex32(-2.2f, 1) }, { Complex32.Zero, new Complex32(1.1f, 1) }, { new Complex32(-4.4f, 1), new Complex32(5.5f, 1) } } },
+                { "Wide2x3", new[,] { { new Complex32(-1.1f, 1), new Complex32(-2.2f, 1), new Complex32(-3.3f, 1) }, { Complex32.Zero, new Complex32(1.1f, 1), new Complex32(2.2f, 1) } } },
+                { "Symmetric3x3", new[,] { { Complex32.One, 2.0f, 3.0f }, { 2.0f, 2.0f, 0.0f }, { 3.0f, 0.0f, 3.0f } } }
+            };
 
             TestMatrices = new Dictionary<string, Matrix<Complex32>>();
             foreach (var name in TestData2D.Keys)
@@ -110,18 +107,17 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
 
         public static Matrix<Complex32> GenerateRandomDenseMatrix(int row, int col)
         {
-            return DenseMatrix.CreateRandom(row, col, new Normal(new MersenneTwister(1)));
+            return Matrix<Complex32>.Build.Random(row, col, 1);
         }
 
         public static Matrix<Complex32> GenerateRandomPositiveDefiniteHermitianDenseMatrix(int order)
         {
-            var a = DenseMatrix.CreateRandom(order, order, new Normal(new MersenneTwister(1)));
-            return a.ConjugateTranspose()*a;
+            return Matrix<Complex32>.Build.RandomPositiveDefinite(order, 1);
         }
 
         public static Vector<Complex32> GenerateRandomDenseVector(int order)
         {
-            return DenseVector.CreateRandom(order, new Normal(new MersenneTwister(1)));
+            return Vector<Complex32>.Build.Random(order, 1);
         }
 
         public static Matrix<Complex32> GenerateRandomUserDefinedMatrix(int row, int col)

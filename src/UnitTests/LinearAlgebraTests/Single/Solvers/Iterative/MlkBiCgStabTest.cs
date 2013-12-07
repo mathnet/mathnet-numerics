@@ -89,7 +89,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers.Iterative
             var matrix = SparseMatrix.CreateIdentity(100);
 
             // Create the y vector
-            var y = DenseVector.Create(matrix.RowCount, i => 1);
+            var y = Vector<float>.Build.Dense(matrix.RowCount, 1);
 
             // Create an iteration monitor which will keep track of iterative convergence
             var monitor = new Iterator<float>(
@@ -133,7 +133,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers.Iterative
             matrix.Multiply((float) Math.PI, matrix);
 
             // Create the y vector
-            var y = DenseVector.Create(matrix.RowCount, i => 1);
+            var y = Vector<float>.Build.Dense(matrix.RowCount, 1);
 
             // Create an iteration monitor which will keep track of iterative convergence
             var monitor = new Iterator<float>(
@@ -210,7 +210,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers.Iterative
             }
 
             // Create the y vector
-            var y = DenseVector.Create(matrix.RowCount, i => 1);
+            var y = Vector<float>.Build.Dense(matrix.RowCount, 1);
 
             // Due to datatype "float" it can happen that solution will not converge for specific random starting vectors
             // That's why we will do 3 tries

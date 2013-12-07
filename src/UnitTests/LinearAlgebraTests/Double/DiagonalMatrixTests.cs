@@ -74,7 +74,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         /// <returns>A matrix with the given dimensions.</returns>
         protected override Matrix<double> CreateMatrix(int rows, int columns)
         {
-            return new DiagonalMatrix(rows, columns);
+            return Matrix<double>.Build.Diagonal(rows, columns);
         }
 
         /// <summary>
@@ -95,7 +95,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         /// <returns>The new vector. </returns>
         protected override Vector<double> CreateVector(int size)
         {
-            return new DenseVector(size);
+            return Vector<double>.Build.Dense(size);
         }
 
         /// <summary>
@@ -105,7 +105,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         /// <returns>The new vector. </returns>
         protected override Vector<double> CreateVector(double[] data)
         {
-            return new DenseVector(data);
+            return Vector<double>.Build.Dense(data);
         }
 
         /// <summary>
@@ -182,7 +182,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [Test]
         public void CanCreateIdentity()
         {
-            var matrix = DiagonalMatrix.CreateIdentity(5);
+            var matrix = Matrix<double>.Build.DiagonalIdentity(5);
+            Assert.That(matrix, Is.TypeOf<DiagonalMatrix>());
             for (var i = 0; i < matrix.RowCount; i++)
             {
                 for (var j = 0; j < matrix.ColumnCount; j++)
@@ -200,7 +201,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [TestCase(-1)]
         public void IdentityWithWrongOrderThrowsArgumentOutOfRangeException(int order)
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() => DiagonalMatrix.CreateIdentity(order));
+            Assert.Throws<ArgumentOutOfRangeException>(() => Matrix<double>.Build.DiagonalIdentity(order));
         }
 
         /// <summary>
@@ -212,7 +213,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         {
             var matrixA = TestMatrices[nameA];
             var matrixB = TestMatrices[nameB];
-            var matrixC = new SparseMatrix(matrixA.RowCount, matrixB.ColumnCount);
+            var matrixC = Matrix<double>.Build.Sparse(matrixA.RowCount, matrixB.ColumnCount);
             matrixA.Multiply(matrixB, matrixC);
 
             Assert.AreEqual(matrixC.RowCount, matrixA.RowCount);
@@ -279,15 +280,15 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         public override void CanComputeFrobeniusNorm()
         {
             var matrix = TestMatrices["Square3x3"];
-            var denseMatrix = DenseMatrix.OfArray(TestData2D["Square3x3"]);
+            var denseMatrix = Matrix<double>.Build.DenseOfArray(TestData2D["Square3x3"]);
             AssertHelpers.AlmostEqualRelative(denseMatrix.FrobeniusNorm(), matrix.FrobeniusNorm(), 14);
 
             matrix = TestMatrices["Wide2x3"];
-            denseMatrix = DenseMatrix.OfArray(TestData2D["Wide2x3"]);
+            denseMatrix = Matrix<double>.Build.DenseOfArray(TestData2D["Wide2x3"]);
             AssertHelpers.AlmostEqualRelative(denseMatrix.FrobeniusNorm(), matrix.FrobeniusNorm(), 14);
 
             matrix = TestMatrices["Tall3x2"];
-            denseMatrix = DenseMatrix.OfArray(TestData2D["Tall3x2"]);
+            denseMatrix = Matrix<double>.Build.DenseOfArray(TestData2D["Tall3x2"]);
             AssertHelpers.AlmostEqualRelative(denseMatrix.FrobeniusNorm(), matrix.FrobeniusNorm(), 14);
         }
 
@@ -297,15 +298,15 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         public override void CanComputeInfinityNorm()
         {
             var matrix = TestMatrices["Square3x3"];
-            var denseMatrix = DenseMatrix.OfArray(TestData2D["Square3x3"]);
+            var denseMatrix = Matrix<double>.Build.DenseOfArray(TestData2D["Square3x3"]);
             AssertHelpers.AlmostEqualRelative(denseMatrix.InfinityNorm(), matrix.InfinityNorm(), 14);
 
             matrix = TestMatrices["Wide2x3"];
-            denseMatrix = DenseMatrix.OfArray(TestData2D["Wide2x3"]);
+            denseMatrix = Matrix<double>.Build.DenseOfArray(TestData2D["Wide2x3"]);
             AssertHelpers.AlmostEqualRelative(denseMatrix.InfinityNorm(), matrix.InfinityNorm(), 14);
 
             matrix = TestMatrices["Tall3x2"];
-            denseMatrix = DenseMatrix.OfArray(TestData2D["Tall3x2"]);
+            denseMatrix = Matrix<double>.Build.DenseOfArray(TestData2D["Tall3x2"]);
             AssertHelpers.AlmostEqualRelative(denseMatrix.InfinityNorm(), matrix.InfinityNorm(), 14);
         }
 
@@ -315,15 +316,15 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         public override void CanComputeL1Norm()
         {
             var matrix = TestMatrices["Square3x3"];
-            var denseMatrix = DenseMatrix.OfArray(TestData2D["Square3x3"]);
+            var denseMatrix = Matrix<double>.Build.DenseOfArray(TestData2D["Square3x3"]);
             AssertHelpers.AlmostEqualRelative(denseMatrix.L1Norm(), matrix.L1Norm(), 14);
 
             matrix = TestMatrices["Wide2x3"];
-            denseMatrix = DenseMatrix.OfArray(TestData2D["Wide2x3"]);
+            denseMatrix = Matrix<double>.Build.DenseOfArray(TestData2D["Wide2x3"]);
             AssertHelpers.AlmostEqualRelative(denseMatrix.L1Norm(), matrix.L1Norm(), 14);
 
             matrix = TestMatrices["Tall3x2"];
-            denseMatrix = DenseMatrix.OfArray(TestData2D["Tall3x2"]);
+            denseMatrix = Matrix<double>.Build.DenseOfArray(TestData2D["Tall3x2"]);
             AssertHelpers.AlmostEqualRelative(denseMatrix.L1Norm(), matrix.L1Norm(), 14);
         }
 
@@ -333,15 +334,15 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         public override void CanComputeL2Norm()
         {
             var matrix = TestMatrices["Square3x3"];
-            var denseMatrix = DenseMatrix.OfArray(TestData2D["Square3x3"]);
+            var denseMatrix = Matrix<double>.Build.DenseOfArray(TestData2D["Square3x3"]);
             AssertHelpers.AlmostEqualRelative(denseMatrix.L2Norm(), matrix.L2Norm(), 14);
 
             matrix = TestMatrices["Wide2x3"];
-            denseMatrix = DenseMatrix.OfArray(TestData2D["Wide2x3"]);
+            denseMatrix = Matrix<double>.Build.DenseOfArray(TestData2D["Wide2x3"]);
             AssertHelpers.AlmostEqualRelative(denseMatrix.L2Norm(), matrix.L2Norm(), 14);
 
             matrix = TestMatrices["Tall3x2"];
-            denseMatrix = DenseMatrix.OfArray(TestData2D["Tall3x2"]);
+            denseMatrix = Matrix<double>.Build.DenseOfArray(TestData2D["Tall3x2"]);
             AssertHelpers.AlmostEqualRelative(denseMatrix.L2Norm(), matrix.L2Norm(), 14);
         }
 
@@ -352,11 +353,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         public void CanComputeDeterminant()
         {
             var matrix = TestMatrices["Square3x3"];
-            var denseMatrix = DenseMatrix.OfArray(TestData2D["Square3x3"]);
+            var denseMatrix = Matrix<double>.Build.DenseOfArray(TestData2D["Square3x3"]);
             AssertHelpers.AlmostEqualRelative(denseMatrix.Determinant(), matrix.Determinant(), 14);
 
             matrix = TestMatrices["Square4x4"];
-            denseMatrix = DenseMatrix.OfArray(TestData2D["Square4x4"]);
+            denseMatrix = Matrix<double>.Build.DenseOfArray(TestData2D["Square4x4"]);
             AssertHelpers.AlmostEqualRelative(denseMatrix.Determinant(), matrix.Determinant(), 14);
         }
 
@@ -407,8 +408,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [Test]
         public void DiagonalDenseMatrixMultiplication_IssueCP5706()
         {
-            Matrix<double> diagonal = DiagonalMatrix.CreateIdentity(3);
-            Matrix<double> dense = DenseMatrix.OfArray(new double[,] {{1, 2, 3}, {1, 2, 3}, {1, 2, 3}});
+            Matrix<double> diagonal = Matrix<double>.Build.DiagonalIdentity(3);
+            Matrix<double> dense = Matrix<double>.Build.DenseOfArray(new double[,] { { 1, 2, 3 }, { 1, 2, 3 }, { 1, 2, 3 } });
             var test = diagonal*dense;
             var test2 = dense*diagonal;
         }

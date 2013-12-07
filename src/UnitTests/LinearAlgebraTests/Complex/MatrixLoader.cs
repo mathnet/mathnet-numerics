@@ -29,10 +29,7 @@
 // </copyright>
 
 using System.Collections.Generic;
-using MathNet.Numerics.Distributions;
 using MathNet.Numerics.LinearAlgebra;
-using MathNet.Numerics.LinearAlgebra.Complex;
-using MathNet.Numerics.Random;
 using NUnit.Framework;
 
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
@@ -95,15 +92,15 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
         public virtual void SetupMatrices()
         {
             TestData2D = new Dictionary<string, Complex[,]>
-                {
-                    {"Singular3x3", new[,] {{new Complex(1.0, 1), new Complex(1.0, 1), new Complex(2.0, 1)}, {new Complex(1.0, 1), new Complex(1.0, 1), new Complex(2.0, 1)}, {new Complex(1.0, 1), new Complex(1.0, 1), new Complex(2.0, 1)}}},
-                    {"Square3x3", new[,] {{new Complex(-1.1, 1), new Complex(-2.2, 1), new Complex(-3.3, 1)}, {Complex.Zero, new Complex(1.1, 1), new Complex(2.2, 1)}, {new Complex(-4.4, 1), new Complex(5.5, 1), new Complex(6.6, 1)}}},
-                    {"Square4x4", new[,] {{new Complex(-1.1, 1), new Complex(-2.2, 1), new Complex(-3.3, 1), new Complex(-4.4, 1)}, {Complex.Zero, new Complex(1.1, 1), new Complex(2.2, 1), new Complex(3.3, 1)}, {new Complex(1.0, 1), new Complex(2.1, 1), new Complex(6.2, 1), new Complex(4.3, 1)}, {new Complex(-4.4, 1), new Complex(5.5, 1), new Complex(6.6, 1), new Complex(-7.7, 1)}}},
-                    {"Singular4x4", new[,] {{new Complex(-1.1, 1), new Complex(-2.2, 1), new Complex(-3.3, 1), new Complex(-4.4, 1)}, {new Complex(-1.1, 1), new Complex(-2.2, 1), new Complex(-3.3, 1), new Complex(-4.4, 1)}, {new Complex(-1.1, 1), new Complex(-2.2, 1), new Complex(-3.3, 1), new Complex(-4.4, 1)}, {new Complex(-1.1, 1), new Complex(-2.2, 1), new Complex(-3.3, 1), new Complex(-4.4, 1)}}},
-                    {"Tall3x2", new[,] {{new Complex(-1.1, 1), new Complex(-2.2, 1)}, {Complex.Zero, new Complex(1.1, 1)}, {new Complex(-4.4, 1), new Complex(5.5, 1)}}},
-                    {"Wide2x3", new[,] {{new Complex(-1.1, 1), new Complex(-2.2, 1), new Complex(-3.3, 1)}, {Complex.Zero, new Complex(1.1, 1), new Complex(2.2, 1)}}},
-                    {"Symmetric3x3", new[,] {{Complex.One, 2.0, 3.0}, {2.0, 2.0, 0.0}, {3.0, 0.0, 3.0}}}
-                };
+            {
+                { "Singular3x3", new[,] { { new Complex(1.0, 1), new Complex(1.0, 1), new Complex(2.0, 1) }, { new Complex(1.0, 1), new Complex(1.0, 1), new Complex(2.0, 1) }, { new Complex(1.0, 1), new Complex(1.0, 1), new Complex(2.0, 1) } } },
+                { "Square3x3", new[,] { { new Complex(-1.1, 1), new Complex(-2.2, 1), new Complex(-3.3, 1) }, { Complex.Zero, new Complex(1.1, 1), new Complex(2.2, 1) }, { new Complex(-4.4, 1), new Complex(5.5, 1), new Complex(6.6, 1) } } },
+                { "Square4x4", new[,] { { new Complex(-1.1, 1), new Complex(-2.2, 1), new Complex(-3.3, 1), new Complex(-4.4, 1) }, { Complex.Zero, new Complex(1.1, 1), new Complex(2.2, 1), new Complex(3.3, 1) }, { new Complex(1.0, 1), new Complex(2.1, 1), new Complex(6.2, 1), new Complex(4.3, 1) }, { new Complex(-4.4, 1), new Complex(5.5, 1), new Complex(6.6, 1), new Complex(-7.7, 1) } } },
+                { "Singular4x4", new[,] { { new Complex(-1.1, 1), new Complex(-2.2, 1), new Complex(-3.3, 1), new Complex(-4.4, 1) }, { new Complex(-1.1, 1), new Complex(-2.2, 1), new Complex(-3.3, 1), new Complex(-4.4, 1) }, { new Complex(-1.1, 1), new Complex(-2.2, 1), new Complex(-3.3, 1), new Complex(-4.4, 1) }, { new Complex(-1.1, 1), new Complex(-2.2, 1), new Complex(-3.3, 1), new Complex(-4.4, 1) } } },
+                { "Tall3x2", new[,] { { new Complex(-1.1, 1), new Complex(-2.2, 1) }, { Complex.Zero, new Complex(1.1, 1) }, { new Complex(-4.4, 1), new Complex(5.5, 1) } } },
+                { "Wide2x3", new[,] { { new Complex(-1.1, 1), new Complex(-2.2, 1), new Complex(-3.3, 1) }, { Complex.Zero, new Complex(1.1, 1), new Complex(2.2, 1) } } },
+                { "Symmetric3x3", new[,] { { Complex.One, 2.0, 3.0 }, { 2.0, 2.0, 0.0 }, { 3.0, 0.0, 3.0 } } }
+            };
 
             TestMatrices = new Dictionary<string, Matrix<Complex>>();
             foreach (var name in TestData2D.Keys)
@@ -114,18 +111,17 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
 
         public static Matrix<Complex> GenerateRandomDenseMatrix(int row, int col)
         {
-            return DenseMatrix.CreateRandom(row, col, new Normal(new MersenneTwister(1)));
+            return Matrix<Complex>.Build.Random(row, col, 1);
         }
 
         public static Matrix<Complex> GenerateRandomPositiveDefiniteHermitianDenseMatrix(int order)
         {
-            var a = DenseMatrix.CreateRandom(order, order, new Normal(new MersenneTwister(1)));
-            return a.ConjugateTranspose()*a;
+            return Matrix<Complex>.Build.RandomPositiveDefinite(order, 1);
         }
 
         public static Vector<Complex> GenerateRandomDenseVector(int order)
         {
-            return DenseVector.CreateRandom(order, new Normal(new MersenneTwister(1)));
+            return Vector<Complex>.Build.Random(order, 1);
         }
 
         public static Matrix<Complex> GenerateRandomUserDefinedMatrix(int row, int col)

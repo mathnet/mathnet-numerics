@@ -29,7 +29,6 @@
 // </copyright>
 
 using MathNet.Numerics.LinearAlgebra;
-using MathNet.Numerics.LinearAlgebra.Complex;
 using NUnit.Framework;
 
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
@@ -44,13 +43,13 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
     public class DenseVectorArithmeticTheory : VectorArithmeticTheory
     {
         [Datapoints]
-        Vector<Complex>[] denseVectors = new Vector<Complex>[]
-            {
-                new DenseVector(new[] { new Complex(1, 1), new Complex(2, 1), new Complex(3, 1), new Complex(4, 1), new Complex(5, 1) }),
-                new DenseVector(new[] { new Complex(2, -1), new Complex(0, 0), new Complex(0, 2), new Complex(-5, 1), new Complex(0, 0) })
-            };
+        Vector<Complex>[] denseVectors =
+        {
+            Vector<Complex>.Build.Dense(new[] { new Complex(1, 1), new Complex(2, 1), new Complex(3, 1), new Complex(4, 1), new Complex(5, 1) }),
+            Vector<Complex>.Build.Dense(new[] { new Complex(2, -1), new Complex(0, 0), new Complex(0, 2), new Complex(-5, 1), new Complex(0, 0) })
+        };
 
         [Datapoints]
-        private Complex[] scalars = new[] { new Complex(2d, -1d) };
+        Complex[] scalars = { new Complex(2d, -1d) };
     }
 }

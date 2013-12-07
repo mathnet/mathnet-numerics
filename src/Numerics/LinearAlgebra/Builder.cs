@@ -479,6 +479,16 @@ namespace MathNet.Numerics.LinearAlgebra
         }
 
         /// <summary>
+        /// Create a new positive definite dense matrix where each value is the product
+        /// of two samples from the provided random distribution.
+        /// </summary>
+        public Matrix<T> RandomPositiveDefinite(int order, int seed)
+        {
+            var a = Random(order, order, new Normal(new MersenneTwister(seed, true)));
+            return a.TransposeThisAndMultiply(a);
+        }
+
+        /// <summary>
         /// Create a new dense matrix straight from an initialized matrix storage instance.
         /// The storage is used directly without copying.
         /// Intended for advanced scenarios where you're working directly with

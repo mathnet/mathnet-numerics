@@ -29,6 +29,7 @@
 // </copyright>
 
 using System;
+using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Complex32;
 using MathNet.Numerics.LinearAlgebra.Solvers;
 using NUnit.Framework;
@@ -62,7 +63,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.StopCr
             var criterium = new FailureStopCriterium<Complex32>();
             Assert.IsNotNull(criterium, "There should be a criterium");
 
-            Assert.Throws<ArgumentOutOfRangeException>(() => criterium.DetermineStatus(-1, DenseVector.Create(3, i => 4), DenseVector.Create(3, i => 5), DenseVector.Create(3, i => 6)));
+            Assert.Throws<ArgumentOutOfRangeException>(() => criterium.DetermineStatus(-1, Vector<Complex32>.Build.Dense(3, 4), Vector<Complex32>.Build.Dense(3, 5), Vector<Complex32>.Build.Dense(3, 6)));
         }
 
         /// <summary>
@@ -74,7 +75,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.StopCr
             var criterium = new FailureStopCriterium<Complex32>();
             Assert.IsNotNull(criterium, "There should be a criterium");
 
-            Assert.Throws<ArgumentException>(() => criterium.DetermineStatus(1, DenseVector.Create(3, i => 4), DenseVector.Create(3, i => 6), DenseVector.Create(4, i => 4)));
+            Assert.Throws<ArgumentException>(() => criterium.DetermineStatus(1, Vector<Complex32>.Build.Dense(3, 4), Vector<Complex32>.Build.Dense(3, 6), Vector<Complex32>.Build.Dense(4, 4)));
         }
 
         /// <summary>

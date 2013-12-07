@@ -508,7 +508,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [Test]
         public void RandomWithNumberOfElementsLessThanZeroThrowsArgumentException()
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() => DenseVector.CreateRandom(-2, new ContinuousUniform()));
+            Assert.Throws<ArgumentOutOfRangeException>(() => Vector<double>.Build.Random(-2, new ContinuousUniform()));
         }
 
         /// <summary>
