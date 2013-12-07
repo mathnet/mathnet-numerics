@@ -28,9 +28,9 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System;
 using MathNet.Numerics.LinearAlgebra;
 using NUnit.Framework;
-using System;
 
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
 {
@@ -38,31 +38,20 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
     public abstract partial class MatrixStructureTheory<T>
         where T : struct, IEquatable<T>, IFormattable
     {
-        protected abstract Matrix<T> CreateDenseZero(int rows, int columns);
-        protected abstract Matrix<T> CreateDenseRandom(int rows, int columns, int seed);
-        protected abstract Matrix<T> CreateSparseZero(int rows, int columns);
-        protected abstract Vector<T> CreateVectorZero(int size);
-        protected abstract Vector<T> CreateVectorRandom(int size, int seed);
-
-        protected readonly T Zero;
-
-        protected MatrixStructureTheory()
-        {
-            Zero = Matrix<T>.Build.Zero;
-        }
+        protected readonly T Zero = Matrix<T>.Build.Zero;
 
         protected Matrix<T> CreateDenseFor(Matrix<T> m, int rows = -1, int columns = -1, int seed = 1)
         {
             return m.Storage.IsFullyMutable
-                ? CreateDenseRandom(rows >= 0 ? rows : m.RowCount, columns >= 0 ? columns : m.ColumnCount, seed)
-                : CreateDenseZero(rows >= 0 ? rows : m.RowCount, columns >= 0 ? columns : m.ColumnCount);
+                ? Matrix<T>.Build.Random(rows >= 0 ? rows : m.RowCount, columns >= 0 ? columns : m.ColumnCount, seed)
+                : Matrix<T>.Build.Dense(rows >= 0 ? rows : m.RowCount, columns >= 0 ? columns : m.ColumnCount);
         }
 
         protected Vector<T> CreateVectorFor(Matrix<T> m, int size, int seed = 1)
         {
             return m.Storage.IsFullyMutable
-                ? CreateVectorRandom(size, seed)
-                : CreateVectorZero(size);
+                ? Vector<T>.Build.Random(size, seed)
+                : Vector<T>.Build.Dense(size);
         }
 
         [Theory]
@@ -126,11 +115,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         [Theory]
         public void CanCopyTo(Matrix<T> matrix)
         {
-            var dense = CreateDenseZero(matrix.RowCount, matrix.ColumnCount);
+            var dense = Matrix<T>.Build.Dense(matrix.RowCount, matrix.ColumnCount);
             matrix.CopyTo(dense);
             Assert.That(dense, Is.EqualTo(matrix));
 
-            var sparse = CreateSparseZero(matrix.RowCount, matrix.ColumnCount);
+            var sparse = Matrix<T>.Build.Sparse(matrix.RowCount, matrix.ColumnCount);
             matrix.CopyTo(sparse);
             Assert.That(sparse, Is.EqualTo(matrix));
 
@@ -138,8 +127,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
             Assert.That(() => matrix.CopyTo(null), Throws.InstanceOf<ArgumentNullException>());
 
             // bad arg
-            Assert.That(() => matrix.CopyTo(CreateDenseZero(matrix.RowCount + 1, matrix.ColumnCount)), Throws.ArgumentException);
-            Assert.That(() => matrix.CopyTo(CreateDenseZero(matrix.RowCount, matrix.ColumnCount + 1)), Throws.ArgumentException);
+            Assert.That(() => matrix.CopyTo(Matrix<T>.Build.Dense(matrix.RowCount + 1, matrix.ColumnCount)), Throws.ArgumentException);
+            Assert.That(() => matrix.CopyTo(Matrix<T>.Build.Dense(matrix.RowCount, matrix.ColumnCount + 1)), Throws.ArgumentException);
         }
 
         [Theory]
@@ -211,7 +200,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         public void CanCreateSameKind(Matrix<T> matrix)
         {
             var empty = Matrix<T>.Build.SameAs(matrix, 5, 6);
-            Assert.That(empty, Is.EqualTo(CreateDenseZero(5, 6)));
+            Assert.That(empty, Is.EqualTo(Matrix<T>.Build.Dense(5, 6)));
             Assert.That(empty.Storage.IsDense, Is.EqualTo(matrix.Storage.IsDense));
 
             Assert.That(() => Matrix<T>.Build.SameAs(matrix, 0, 2), Throws.InstanceOf<ArgumentOutOfRangeException>());
@@ -222,7 +211,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         [Test]
         public void CanCreateDenseFromMultiDimArray()
         {
-            T[,] array = CreateDenseRandom(4, 3, 0).ToArray();
+            T[,] array = Matrix<T>.Build.Random(4, 3, 0).ToArray();
             var matrix = Matrix<T>.Build.DenseOfArray(array);
             Assert.That(matrix.GetType().Name, Is.EqualTo("DenseMatrix"));
             Assert.That(matrix.RowCount, Is.EqualTo(4));
@@ -235,7 +224,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         [Test]
         public void CanCreateSparseFromMultiDimArray()
         {
-            T[,] array = CreateDenseRandom(4, 3, 0).ToArray();
+            T[,] array = Matrix<T>.Build.Random(4, 3, 0).ToArray();
             var matrix = Matrix<T>.Build.SparseOfArray(array);
             Assert.That(matrix.GetType().Name, Is.EqualTo("SparseMatrix"));
             Assert.That(matrix.RowCount, Is.EqualTo(4));
@@ -250,9 +239,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         {
             T[][] array = new[]
                 {
-                    CreateVectorRandom(4, 0).ToArray(),
-                    CreateVectorRandom(4, 1).ToArray(),
-                    CreateVectorRandom(4, 3).ToArray()
+                    Vector<T>.Build.Random(4, 0).ToArray(),
+                    Vector<T>.Build.Random(4, 1).ToArray(),
+                    Vector<T>.Build.Random(4, 3).ToArray()
                 };
             var matrix = Matrix<T>.Build.DenseOfRows(3, 4, array);
             Assert.That(matrix.GetType().Name, Is.EqualTo("DenseMatrix"));
@@ -268,9 +257,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         {
             T[][] array = new[]
                 {
-                    CreateVectorRandom(4, 0).ToArray(),
-                    CreateVectorRandom(4, 1).ToArray(),
-                    CreateVectorRandom(4, 3).ToArray()
+                    Vector<T>.Build.Random(4, 0).ToArray(),
+                    Vector<T>.Build.Random(4, 1).ToArray(),
+                    Vector<T>.Build.Random(4, 3).ToArray()
                 };
             var matrix = Matrix<T>.Build.SparseOfRows(3, 4, array);
             Assert.That(matrix.GetType().Name, Is.EqualTo("SparseMatrix"));
@@ -286,9 +275,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         {
             var columns = new[]
                 {
-                    CreateVectorRandom(4, 0),
-                    CreateVectorRandom(4, 1),
-                    CreateVectorRandom(4, 3)
+                    Vector<T>.Build.Random(4, 0),
+                    Vector<T>.Build.Random(4, 1),
+                    Vector<T>.Build.Random(4, 3)
                 };
             var matrix = Matrix<T>.Build.DenseOfColumns(4, 3, columns);
             Assert.That(matrix.GetType().Name, Is.EqualTo("DenseMatrix"));
@@ -304,9 +293,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         {
             var columns = new[]
                 {
-                    CreateVectorRandom(4, 0),
-                    CreateVectorRandom(4, 1),
-                    CreateVectorRandom(4, 3)
+                    Vector<T>.Build.Random(4, 0),
+                    Vector<T>.Build.Random(4, 1),
+                    Vector<T>.Build.Random(4, 3)
                 };
             var matrix = Matrix<T>.Build.SparseOfColumns(4, 3, columns);
             Assert.That(matrix.GetType().Name, Is.EqualTo("SparseMatrix"));
@@ -322,9 +311,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         {
             var rows = new[]
                 {
-                    CreateVectorRandom(4, 0),
-                    CreateVectorRandom(4, 1),
-                    CreateVectorRandom(4, 3)
+                    Vector<T>.Build.Random(4, 0),
+                    Vector<T>.Build.Random(4, 1),
+                    Vector<T>.Build.Random(4, 3)
                 };
             var matrix = Matrix<T>.Build.DenseOfRows(3, 4, rows);
             Assert.That(matrix.GetType().Name, Is.EqualTo("DenseMatrix"));
@@ -340,9 +329,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         {
             var rows = new[]
                 {
-                    CreateVectorRandom(4, 0),
-                    CreateVectorRandom(4, 1),
-                    CreateVectorRandom(4, 3)
+                    Vector<T>.Build.Random(4, 0),
+                    Vector<T>.Build.Random(4, 1),
+                    Vector<T>.Build.Random(4, 3)
                 };
             var matrix = Matrix<T>.Build.SparseOfRows(3, 4, rows);
             Assert.That(matrix.GetType().Name, Is.EqualTo("SparseMatrix"));
@@ -356,7 +345,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         [Test]
         public void CanEnumerateWithIndex()
         {
-            var dense = CreateDenseRandom(2, 3, 0);
+            var dense = Matrix<T>.Build.Random(2, 3, 0);
             int rowIdxSum = 0, colIdxSum = 0;
             foreach (var value in dense.EnumerateIndexed())
             {

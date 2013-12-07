@@ -28,11 +28,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using System.Linq;
-using MathNet.Numerics.Distributions;
 using MathNet.Numerics.LinearAlgebra;
-using MathNet.Numerics.LinearAlgebra.Double;
-using MathNet.Numerics.Random;
 using NUnit.Framework;
 
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
@@ -42,53 +38,26 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
     {
         [Datapoints]
         Matrix<double>[] _matrices = new Matrix<double>[]
-            {
-                DenseMatrix.OfArray(new[,] {{1d, 1d, 2d}, {1d, 1d, 2d}, {1d, 1d, 2d}}),
-                DenseMatrix.OfArray(new[,] {{-1.1d, -2.2d, -3.3d}, {0d, 1.1d, 2.2d}, {-4.4d, 5.5d, 6.6d}}),
-                DenseMatrix.OfArray(new[,] {{-1.1d, -2.2d, -3.3d, -4.4d}, {0d, 1.1d, 2.2d, 3.3d}, {1d, 2.1d, 6.2d, 4.3d}, {-4.4d, 5.5d, 6.6d, -7.7d}}),
-                DenseMatrix.OfArray(new[,] {{-1.1d, -2.2d, -3.3d, -4.4d}, {-1.1d, -2.2d, -3.3d, -4.4d}, {-1.1d, -2.2d, -3.3d, -4.4d}, {-1.1d, -2.2d, -3.3d, -4.4d}}),
-                DenseMatrix.OfArray(new[,] {{-1.1d, -2.2d}, {0d, 1.1d}, {-4.4d, 5.5d}}),
-                DenseMatrix.OfArray(new[,] {{-1.1d, -2.2d, -3.3d}, {0d, 1.1d, 2.2d}}),
-                DenseMatrix.OfArray(new[,] {{1d, 2d, 3d}, {2d, 2d, 0d}, {3d, 0d, 3d}}),
+        {
+            Matrix<double>.Build.DenseOfArray(new[,] { { 1d, 1d, 2d }, { 1d, 1d, 2d }, { 1d, 1d, 2d } }),
+            Matrix<double>.Build.DenseOfArray(new[,] { { -1.1d, -2.2d, -3.3d }, { 0d, 1.1d, 2.2d }, { -4.4d, 5.5d, 6.6d } }),
+            Matrix<double>.Build.DenseOfArray(new[,] { { -1.1d, -2.2d, -3.3d, -4.4d }, { 0d, 1.1d, 2.2d, 3.3d }, { 1d, 2.1d, 6.2d, 4.3d }, { -4.4d, 5.5d, 6.6d, -7.7d } }),
+            Matrix<double>.Build.DenseOfArray(new[,] { { -1.1d, -2.2d, -3.3d, -4.4d }, { -1.1d, -2.2d, -3.3d, -4.4d }, { -1.1d, -2.2d, -3.3d, -4.4d }, { -1.1d, -2.2d, -3.3d, -4.4d } }),
+            Matrix<double>.Build.DenseOfArray(new[,] { { -1.1d, -2.2d }, { 0d, 1.1d }, { -4.4d, 5.5d } }),
+            Matrix<double>.Build.DenseOfArray(new[,] { { -1.1d, -2.2d, -3.3d }, { 0d, 1.1d, 2.2d } }),
+            Matrix<double>.Build.DenseOfArray(new[,] { { 1d, 2d, 3d }, { 2d, 2d, 0d }, { 3d, 0d, 3d } }),
 
-                SparseMatrix.OfArray(new[,] {{7d, 1d, 2d}, {1d, 1d, 2d}, {1d, 1d, 2d}}),
-                SparseMatrix.OfArray(new[,] {{7d, 1d, 2d}, {1d, 0d, 0d}, {-2d, 0d, 0d}}),
-                SparseMatrix.OfArray(new[,] {{-1.1d, 0d, 0d}, {0d, 1.1d, 2.2d}}),
+            Matrix<double>.Build.SparseOfArray(new[,] { { 7d, 1d, 2d }, { 1d, 1d, 2d }, { 1d, 1d, 2d } }),
+            Matrix<double>.Build.SparseOfArray(new[,] { { 7d, 1d, 2d }, { 1d, 0d, 0d }, { -2d, 0d, 0d } }),
+            Matrix<double>.Build.SparseOfArray(new[,] { { -1.1d, 0d, 0d }, { 0d, 1.1d, 2.2d } }),
 
-                new DiagonalMatrix(3, 3, new[] {1d, -2d, 1.5d}),
-                new DiagonalMatrix(3, 3, new[] {1d, 0d, -1.5d}),
+            Matrix<double>.Build.Diagonal(3, 3, new[] { 1d, -2d, 1.5d }),
+            Matrix<double>.Build.Diagonal(3, 3, new[] { 1d, 0d, -1.5d }),
 
-                new UserDefinedMatrix(new[,] {{0d, 1d, 2d}, {-1d, 7.7d, 0d}, {-2d, 0d, 0d}})
-            };
+            new UserDefinedMatrix(new[,] { { 0d, 1d, 2d }, { -1d, 7.7d, 0d }, { -2d, 0d, 0d } })
+        };
 
         [Datapoints]
-        double[] _scalars = new[] {2d, -1.5d, 0d};
-
-        protected override Matrix<double> CreateDenseZero(int rows, int columns)
-        {
-            return new DenseMatrix(rows, columns);
-        }
-
-        protected override Matrix<double> CreateDenseRandom(int rows, int columns, int seed)
-        {
-            var dist = new Normal(new MersenneTwister(seed));
-            return new DenseMatrix(rows, columns, dist.Samples().Take(rows*columns).ToArray());
-        }
-
-        protected override Matrix<double> CreateSparseZero(int rows, int columns)
-        {
-            return new SparseMatrix(rows, columns);
-        }
-
-        protected override Vector<double> CreateVectorZero(int size)
-        {
-            return new DenseVector(size);
-        }
-
-        protected override Vector<double> CreateVectorRandom(int size, int seed)
-        {
-            var dist = new Normal(new MersenneTwister(seed));
-            return new DenseVector(dist.Samples().Take(size).ToArray());
-        }
+        double[] _scalars = new[] { 2d, -1.5d, 0d };
     }
 }
