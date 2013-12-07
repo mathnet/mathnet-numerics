@@ -117,7 +117,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         {
             new InverseWishart(1.0, MatrixLoader.GenerateRandomPositiveDefiniteDenseMatrix(2))
             {
-                RandomSource = new Random()
+                RandomSource = new Random(0)
             };
         }
 
@@ -303,7 +303,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         [Test]
         public void CanSampleStatic()
         {
-            InverseWishart.Sample(new Random(), 1.0, MatrixLoader.GenerateRandomPositiveDefiniteDenseMatrix(2));
+            InverseWishart.Sample(new Random(0), 1.0, MatrixLoader.GenerateRandomPositiveDefiniteDenseMatrix(2));
         }
 
         /// <summary>
@@ -312,7 +312,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         [Test]
         public void FailSampleStatic()
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() => InverseWishart.Sample(new Random(), -1.0, MatrixLoader.GenerateRandomPositiveDefiniteDenseMatrix(2)));
+            Assert.Throws<ArgumentOutOfRangeException>(() => InverseWishart.Sample(new Random(0), -1.0, MatrixLoader.GenerateRandomPositiveDefiniteDenseMatrix(2)));
         }
     }
 }

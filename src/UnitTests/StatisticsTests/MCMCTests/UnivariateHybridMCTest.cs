@@ -58,7 +58,7 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests.McmcTests
             var hybrid = new UnivariateHybridMC(0, _normal.DensityLn, 10, 0.1);
             Assert.IsNotNull(hybrid.RandomSource);
 
-            hybrid.RandomSource = new System.Random();
+            hybrid.RandomSource = new System.Random(0);
             Assert.IsNotNull(hybrid.RandomSource);
         }
 

@@ -126,7 +126,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
             const int P = 3;
             new MatrixNormal(MatrixLoader.GenerateRandomDenseMatrix(N, P), MatrixLoader.GenerateRandomPositiveDefiniteDenseMatrix(N), MatrixLoader.GenerateRandomPositiveDefiniteDenseMatrix(P))
             {
-                RandomSource = new Random()
+                RandomSource = new Random(0)
             };
         }
 
@@ -321,7 +321,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         [TestCase(10, 10)]
         public void CanSampleStatic(int n, int p)
         {
-            MatrixNormal.Sample(new Random(), MatrixLoader.GenerateRandomDenseMatrix(n, p), MatrixLoader.GenerateRandomPositiveDefiniteDenseMatrix(n), MatrixLoader.GenerateRandomPositiveDefiniteDenseMatrix(p));
+            MatrixNormal.Sample(new Random(0), MatrixLoader.GenerateRandomDenseMatrix(n, p), MatrixLoader.GenerateRandomPositiveDefiniteDenseMatrix(n), MatrixLoader.GenerateRandomPositiveDefiniteDenseMatrix(p));
         }
 
         /// <summary>
@@ -343,7 +343,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         [TestCase(5, 2, 5, 5, 2, 3)]
         public void FailSampleStatic(int rowsOfM, int columnsOfM, int rowsOfV, int columnsOfV, int rowsOfK, int columnsOfK)
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() => MatrixNormal.Sample(new Random(), MatrixLoader.GenerateRandomDenseMatrix(rowsOfM, columnsOfM), MatrixLoader.GenerateRandomDenseMatrix(rowsOfV, columnsOfV), MatrixLoader.GenerateRandomDenseMatrix(rowsOfK, columnsOfK)));
+            Assert.Throws<ArgumentOutOfRangeException>(() => MatrixNormal.Sample(new Random(0), MatrixLoader.GenerateRandomDenseMatrix(rowsOfM, columnsOfM), MatrixLoader.GenerateRandomDenseMatrix(rowsOfV, columnsOfV), MatrixLoader.GenerateRandomDenseMatrix(rowsOfK, columnsOfK)));
         }
     }
 }

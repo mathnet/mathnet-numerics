@@ -119,7 +119,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         {
             new Wishart(1.0, MatrixLoader.GenerateRandomPositiveDefiniteDenseMatrix(2))
             {
-                RandomSource = new Random()
+                RandomSource = new Random(0)
             };
         }
 
@@ -305,7 +305,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         [Test]
         public void CanSampleStatic()
         {
-            Wishart.Sample(new Random(), 1.0, MatrixLoader.GenerateRandomPositiveDefiniteDenseMatrix(2));
+            Wishart.Sample(new Random(0), 1.0, MatrixLoader.GenerateRandomPositiveDefiniteDenseMatrix(2));
         }
 
         /// <summary>
@@ -314,7 +314,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         [Test]
         public void FailSampleStatic()
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() => Wishart.Sample(new Random(), -1.0, MatrixLoader.GenerateRandomPositiveDefiniteDenseMatrix(2)));
+            Assert.Throws<ArgumentOutOfRangeException>(() => Wishart.Sample(new Random(0), -1.0, MatrixLoader.GenerateRandomPositiveDefiniteDenseMatrix(2)));
         }
     }
 }

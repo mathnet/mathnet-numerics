@@ -151,12 +151,12 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
         {
             foreach (var dd in _discreteDistributions)
             {
-                dd.RandomSource = new Random();
+                dd.RandomSource = MersenneTwister.Default;
             }
 
             foreach (var cd in _continuousDistributions)
             {
-                cd.RandomSource = new Random();
+                cd.RandomSource = MersenneTwister.Default;
             }
         }
 

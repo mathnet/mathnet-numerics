@@ -45,7 +45,7 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests.McmcTests
         /// <summary>
         /// For generation of a random series to test the methods.
         /// </summary>
-        private readonly System.Random _rnd = new System.Random();
+        private readonly System.Random _rnd = new System.Random(0);
         /// <summary>
         /// Distribution to sample the entries of the random series from.
         /// </summary>

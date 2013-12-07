@@ -257,7 +257,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         [Test]
         public void CanSampleStatic()
         {
-            Binomial.Sample(new Random(), 0.3, 5);
+            Binomial.Sample(new Random(0), 0.3, 5);
         }
 
         /// <summary>
@@ -266,7 +266,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         [Test]
         public void CanSampleSequenceStatic()
         {
-            var ied = Binomial.Samples(new Random(), 0.3, 5);
+            var ied = Binomial.Samples(new Random(0), 0.3, 5);
             ied.Take(5).ToArray();
         }
 
@@ -276,7 +276,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         [Test]
         public void FailSampleStatic()
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() => Binomial.Sample(new Random(), -1.0, 5));
+            Assert.Throws<ArgumentOutOfRangeException>(() => Binomial.Sample(new Random(0), -1.0, 5));
         }
 
         /// <summary>
@@ -285,7 +285,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         [Test]
         public void FailSampleSequenceStatic()
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() => Binomial.Samples(new Random(), -1.0, 5).First());
+            Assert.Throws<ArgumentOutOfRangeException>(() => Binomial.Samples(new Random(0), -1.0, 5).First());
         }
 
         /// <summary>

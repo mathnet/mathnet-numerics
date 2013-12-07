@@ -187,7 +187,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
         {
             var matrix = new SparseMatrix(500, 1000);
             var nonzero = 0;
-            var rnd = new System.Random();
+            var rnd = new System.Random(0);
 
             for (var i = 0; i < matrix.RowCount; i++)
             {

@@ -42,7 +42,7 @@ namespace MathNet.Numerics.UnitTests.Random
         [Test]
         public void CanSampleInt64()
         {
-            var rnd = new Random();
+            var rnd = new Random(0);
             rnd.NextInt64();
         }
 
@@ -52,7 +52,7 @@ namespace MathNet.Numerics.UnitTests.Random
         [Test]
         public void CanSampleFullRangeInt32()
         {
-            var rnd = new Random();
+            var rnd = new Random(0);
             rnd.NextFullRangeInt32();
         }
 
@@ -62,7 +62,7 @@ namespace MathNet.Numerics.UnitTests.Random
         [Test]
         public void CanSampleFullRangeInt64()
         {
-            var rnd = new Random();
+            var rnd = new Random(0);
             rnd.NextFullRangeInt64();
         }
 
@@ -72,7 +72,7 @@ namespace MathNet.Numerics.UnitTests.Random
         [Test]
         public void CanSampleDecimal()
         {
-            var rnd = new Random();
+            var rnd = new Random(0);
             rnd.NextDecimal();
         }
     }

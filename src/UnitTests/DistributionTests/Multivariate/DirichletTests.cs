@@ -110,7 +110,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         {
             new Dirichlet(0.3, 5)
             {
-                RandomSource = new Random()
+                RandomSource = new Random(0)
             };
         }
 

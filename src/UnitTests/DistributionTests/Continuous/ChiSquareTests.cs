@@ -289,7 +289,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [Test]
         public void CanSampleStatic()
         {
-            ChiSquared.Sample(new Random(), 2.0);
+            ChiSquared.Sample(new Random(0), 2.0);
         }
 
         /// <summary>
@@ -298,7 +298,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [Test]
         public void FailSampleStatic()
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() => ChiSquared.Sample(new Random(), -1.0));
+            Assert.Throws<ArgumentOutOfRangeException>(() => ChiSquared.Sample(new Random(0), -1.0));
         }
 
         /// <summary>

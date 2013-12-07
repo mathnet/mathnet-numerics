@@ -245,7 +245,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         [Test]
         public void CanSampleStatic()
         {
-            Multinomial.Sample(new Random(), _largeP, 4);
+            Multinomial.Sample(new Random(0), _largeP, 4);
         }
 
         /// <summary>
@@ -254,7 +254,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         [Test]
         public void FailSampleStatic()
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() => Multinomial.Sample(new Random(), _badP, 4));
+            Assert.Throws<ArgumentOutOfRangeException>(() => Multinomial.Sample(new Random(0), _badP, 4));
         }
 
         /// <summary>

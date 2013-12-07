@@ -304,7 +304,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         {
             new NormalGamma(0.0, 1.0, 1.0, 1.0)
             {
-                RandomSource = new Random()
+                RandomSource = new Random(0)
             };
         }
 

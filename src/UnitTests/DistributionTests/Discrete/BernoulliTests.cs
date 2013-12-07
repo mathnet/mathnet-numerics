@@ -233,7 +233,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         [Test]
         public void CanSampleStatic()
         {
-            Bernoulli.Sample(new Random(), 0.3);
+            Bernoulli.Sample(new Random(0), 0.3);
         }
 
         /// <summary>
@@ -242,7 +242,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         [Test]
         public void CanSampleSequenceStatic()
         {
-            var ied = Bernoulli.Samples(new Random(), 0.3);
+            var ied = Bernoulli.Samples(new Random(0), 0.3);
             ied.Take(5).ToArray();
         }
 
@@ -252,7 +252,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         [Test]
         public void FailSampleStatic()
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() => Bernoulli.Sample(new Random(), -1.0));
+            Assert.Throws<ArgumentOutOfRangeException>(() => Bernoulli.Sample(new Random(0), -1.0));
         }
 
         /// <summary>
@@ -261,7 +261,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         [Test]
         public void FailSampleSequenceStatic()
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() => Bernoulli.Samples(new Random(), -1.0).First());
+            Assert.Throws<ArgumentOutOfRangeException>(() => Bernoulli.Samples(new Random(0), -1.0).First());
         }
 
         /// <summary>

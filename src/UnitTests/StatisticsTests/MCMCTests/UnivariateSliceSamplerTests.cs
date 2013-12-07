@@ -78,7 +78,7 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests.McmcTests
             var ss = new UnivariateSliceSampler(0.1, x => -0.5*x*x, 5, 1.0);
 
             Assert.IsNotNull(ss.RandomSource);
-            ss.RandomSource = new Random();
+            ss.RandomSource = new Random(0);
             Assert.IsNotNull(ss.RandomSource);
         }
 
