@@ -34,8 +34,8 @@ using System.Linq;
 using MathNet.Numerics.Distributions;
 using MathNet.Numerics.LinearAlgebra.Solvers;
 using MathNet.Numerics.LinearAlgebra.Storage;
-
 // TODO: split up and move to proper folders
+using MathNet.Numerics.Random;
 
 namespace MathNet.Numerics.LinearAlgebra.Double
 {
@@ -441,6 +441,34 @@ namespace MathNet.Numerics.LinearAlgebra
         /// Create a new dense matrix with values sampled from the provided random distribution.
         /// </summary>
         public abstract Matrix<T> Random(int rows, int columns, IContinuousDistribution distribution);
+
+        /// <summary>
+        /// Create a new dense matrix with values sampled from the standard distribution with a mersenne twister random source.
+        /// </summary>
+        public Matrix<T> Random(int rows, int columns)
+        {
+            return Random(rows, columns, new Normal(MersenneTwister.Default));
+        }
+
+        /// <summary>
+        /// Create a new positive definite dense matrix where each value is the product
+        /// of two samples from the provided random distribution.
+        /// </summary>
+        public Matrix<T> RandomPositiveDefinite(int order, IContinuousDistribution distribution)
+        {
+            var a = Random(order, order, distribution);
+            return a.TransposeThisAndMultiply(a);
+        }
+
+        /// <summary>
+        /// Create a new positive definite dense matrix where each value is the product
+        /// of two samples from the standard distribution with a mersenne twister random source.
+        /// </summary>
+        public Matrix<T> RandomPositiveDefinite(int order)
+        {
+            var a = Random(order, order, new Normal(MersenneTwister.Default));
+            return a.TransposeThisAndMultiply(a);
+        }
 
         /// <summary>
         /// Create a new dense matrix straight from an initialized matrix storage instance.
@@ -1343,6 +1371,14 @@ namespace MathNet.Numerics.LinearAlgebra
         /// Create a new dense vector with values sampled from the provided random distribution.
         /// </summary>
         public abstract Vector<T> Random(int length, IContinuousDistribution distribution);
+
+        /// <summary>
+        /// Create a new dense vector with values sampled from the standard distribution with a mersenne twister random source.
+        /// </summary>
+        public Vector<T> Random(int length)
+        {
+            return Random(length, new Normal(MersenneTwister.Default));
+        }
 
         /// <summary>
         /// Create a new dense vector straight from an initialized vector storage instance.
