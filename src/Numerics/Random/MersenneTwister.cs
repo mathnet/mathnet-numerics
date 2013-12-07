@@ -67,6 +67,7 @@
 */
 
 using System;
+using System.Threading;
 
 namespace MathNet.Numerics.Random
 {
@@ -159,6 +160,36 @@ namespace MathNet.Numerics.Random
         {
             init_genrand((uint)seed);
         }
+
+#if PORTABLE
+        [ThreadStatic]
+        static MersenneTwister DefaultInstance;
+
+        /// <summary>
+        /// Default instance, thread-safe.
+        /// </summary>
+        public static MersenneTwister Default
+        {
+            get
+            {
+                if (DefaultInstance == null)
+                {
+                    DefaultInstance = new MersenneTwister(RandomSeed.Guid(), true);
+                }
+                return DefaultInstance;
+            }
+        }
+#else
+        static readonly ThreadLocal<MersenneTwister> DefaultInstance = new ThreadLocal<MersenneTwister>(() => new MersenneTwister(RandomSeed.Guid(), true));
+
+        /// <summary>
+        /// Default instance, thread-safe.
+        /// </summary>
+        public static MersenneTwister Default
+        {
+            get { return DefaultInstance.Value; }
+        }
+#endif
         
         /*/// <summary>
         /// Initializes a new instance of the <see cref="MersenneTwister"/> class.
