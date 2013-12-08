@@ -29,6 +29,7 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{C0B0DBA9-7FB0-4C87-BDB1-3EED19DC2B8F}</ProjectGuid>
     <RootNamespace>MKLWrapper</RootNamespace>
+    <ProjectName>MKL</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
@@ -95,32 +96,32 @@
     <_ProjectFileVersion>11.0.50727.1</_ProjectFileVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <OutDir>$(SolutionDir)..\..\..\..\MKL\Windows\x86\</OutDir>
+    <OutDir>$(ProjectDir)..\..\..\..\out\MKL\Windows\x86\</OutDir>
     <IntDir>$(Platform)\$(Configuration)\</IntDir>
     <TargetName>MathNet.Numerics.MKL</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Intel_SSA|Win32'">
-    <OutDir>$(SolutionDir)..\..\..\..\MKL\Windows\x86\</OutDir>
+    <OutDir>$(ProjectDir)..\..\..\..\out\MKL\Windows\x86\</OutDir>
     <IntDir>$(Platform)\$(Configuration)\</IntDir>
     <TargetName>MathNet.Numerics.MKL</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <OutDir>$(SolutionDir)..\..\..\..\MKL\Windows\x64\</OutDir>
+    <OutDir>$(ProjectDir)..\..\..\..\out\MKL\Windows\x64\</OutDir>
     <IntDir>$(Platform)\$(Configuration)\</IntDir>
     <TargetName>MathNet.Numerics.MKL</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Intel_SSA|x64'">
-    <OutDir>$(SolutionDir)..\..\..\..\MKL\Windows\x64\</OutDir>
+    <OutDir>$(ProjectDir)..\..\..\..\out\MKL\Windows\x64\</OutDir>
     <IntDir>$(Platform)\$(Configuration)\</IntDir>
     <TargetName>MathNet.Numerics.MKL</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <OutDir>$(SolutionDir)..\..\..\..\MKL\Windows\x86\</OutDir>
+    <OutDir>$(ProjectDir)..\..\..\..\out\MKL\Windows\x86\</OutDir>
     <IntDir>$(Platform)\$(Configuration)\</IntDir>
     <TargetName>MathNet.Numerics.MKL</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <OutDir>$(SolutionDir)..\..\..\..\MKL\Windows\x64\</OutDir>
+    <OutDir>$(ProjectDir)..\..\..\..\out\MKL\Windows\x64\</OutDir>
     <IntDir>$(Platform)\$(Configuration)\</IntDir>
     <TargetName>MathNet.Numerics.MKL</TargetName>
   </PropertyGroup>
@@ -145,7 +146,7 @@
       <ImportLibrary>$(OutDir)$(TargetName).lib</ImportLibrary>
     </Link>
     <PostBuildEvent>
-      <Command>copy "$(CompilerPathForVC)\libiomp5md.dll" $(OutputPath)</Command>
+      <Command>copy "$(INTEL_DEV_REDIST)redist\ia32\compiler\libiomp5md.dll" $(OutputPath)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Intel_SSA|Win32'">
@@ -171,7 +172,7 @@
       <ImportLibrary>$(OutDir)$(TargetName).lib</ImportLibrary>
     </Link>
     <PostBuildEvent>
-      <Command>copy "$(CompilerPathForVC)\libiomp5md.dll" $(OutputPath)</Command>
+      <Command>copy "$(INTEL_DEV_REDIST)redist\ia32\compiler\libiomp5md.dll" $(OutputPath)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -198,7 +199,7 @@
       <ImportLibrary>$(OutDir)$(TargetName).lib</ImportLibrary>
     </Link>
     <PostBuildEvent>
-      <Command>copy "$(CompilerPathForVC)\libiomp5md.dll" $(OutputPath)</Command>
+      <Command>copy "$(INTEL_DEV_REDIST)redist\intel64\compiler\libiomp5md.dll" $(OutputPath)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Intel_SSA|x64'">
@@ -227,7 +228,7 @@
       <ImportLibrary>$(OutDir)$(TargetName).lib</ImportLibrary>
     </Link>
     <PostBuildEvent>
-      <Command>copy "$(CompilerPathForVC)\libiomp5md.dll" $(OutputPath)</Command>
+      <Command>copy "$(INTEL_DEV_REDIST)redist\intel64\compiler\libiomp5md.dll" $(OutputPath)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -253,9 +254,8 @@
       <TargetMachine>MachineX86</TargetMachine>
       <ImportLibrary>$(OutDir)$(TargetName).lib</ImportLibrary>
     </Link>
-    <PostBuildEvent />
     <PostBuildEvent>
-      <Command>copy "$(CompilerPathForVC)\libiomp5md.dll" $(OutputPath)</Command>
+      <Command>copy "$(INTEL_DEV_REDIST)redist\ia32\compiler\libiomp5md.dll" $(OutputPath)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -285,7 +285,7 @@
       <ImportLibrary>$(OutDir)$(TargetName).lib</ImportLibrary>
     </Link>
     <PostBuildEvent>
-      <Command>copy "$(CompilerPathForVC)\libiomp5md.dll" $(OutputPath)</Command>
+      <Command>copy "$(INTEL_DEV_REDIST)redist\intel64\compiler\libiomp5md.dll" $(OutputPath)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

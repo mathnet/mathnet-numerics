@@ -22,6 +22,7 @@
     <ProjectGuid>{2362B8AC-C52B-45E4-A1BF-C682A4DB4220}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>ATLASWrapper</RootNamespace>
+    <ProjectName>ATLAS</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -69,22 +70,22 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
     <IncludePath>D:\Source\ATLAS\include;..\..\Common;$(IncludePath)</IncludePath>
-    <OutDir>$(SolutionDir)..\..\..\..\ATLAS\Windows\x86\</OutDir>
+    <OutDir>$(ProjectDir)..\..\..\..\out\ATLAS\Windows\x86\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
     <IncludePath>D:\Source\ATLAS\include;..\..\Common;$(IncludePath)</IncludePath>
-    <OutDir>$(SolutionDir)..\..\..\..\ATLAS\Windows\x64\</OutDir>
+    <OutDir>$(ProjectDir)..\..\..\..\out\ATLAS\Windows\x64\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
     <IncludePath>D:\Source\ATLAS\include;..\..\Common;$(IncludePath)</IncludePath>
-    <OutDir>$(SolutionDir)..\..\..\..\ATLAS\Windows\x86\</OutDir>
+    <OutDir>$(ProjectDir)..\..\..\..\out\ATLAS\Windows\x86\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
     <IncludePath>D:\Source\ATLAS\include;..\..\Common;$(IncludePath)</IncludePath>
-    <OutDir>$(SolutionDir)..\..\..\..\ATLAS\Windows\x64\</OutDir>
+    <OutDir>$(ProjectDir)..\..\..\..\out\ATLAS\Windows\x64\</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

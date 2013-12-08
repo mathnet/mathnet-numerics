@@ -22,3 +22,5 @@ UpgradeLog.htm
 *.vsdoc
 *.XML
 *.so
+*.sdf
+*.opensdf

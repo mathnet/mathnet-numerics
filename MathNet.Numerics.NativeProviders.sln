@@ -1,18 +1,20 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{5A0892FF-82CE-40FC-BCE1-73810C615F52}"
 	ProjectSection(SolutionItems) = preProject
-		..\Common\lapack_common.h = ..\Common\lapack_common.h
-		..\Common\resource.h = ..\Common\resource.h
-		..\Common\resource.rc = ..\Common\resource.rc
-		..\Common\WindowsDLL.cpp = ..\Common\WindowsDLL.cpp
-		..\Common\wrapper_common.h = ..\Common\wrapper_common.h
+		src\NativeProviders\Common\lapack_common.h = src\NativeProviders\Common\lapack_common.h
+		src\NativeProviders\Common\resource.h = src\NativeProviders\Common\resource.h
+		src\NativeProviders\Common\resource.rc = src\NativeProviders\Common\resource.rc
+		src\NativeProviders\Common\WindowsDLL.cpp = src\NativeProviders\Common\WindowsDLL.cpp
+		src\NativeProviders\Common\wrapper_common.h = src\NativeProviders\Common\wrapper_common.h
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MKLWrapper", "MKL\MKLWrapper.vcxproj", "{C0B0DBA9-7FB0-4C87-BDB1-3EED19DC2B8F}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MKLWrapper", "src\NativeProviders\Windows\MKL\MKLWrapper.vcxproj", "{C0B0DBA9-7FB0-4C87-BDB1-3EED19DC2B8F}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ATLASWrapper", "ATLASWrapper\ATLASWrapper.vcxproj", "{2362B8AC-C52B-45E4-A1BF-C682A4DB4220}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ATLASWrapper", "src\NativeProviders\Windows\ATLAS\ATLASWrapper.vcxproj", "{2362B8AC-C52B-45E4-A1BF-C682A4DB4220}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -40,11 +42,9 @@ Global
 		{2362B8AC-C52B-45E4-A1BF-C682A4DB4220}.Debug|Mixed Platforms.Build.0 = Debug|Win32
 		{2362B8AC-C52B-45E4-A1BF-C682A4DB4220}.Debug|Win32.ActiveCfg = Debug|Win32
 		{2362B8AC-C52B-45E4-A1BF-C682A4DB4220}.Debug|Win32.Build.0 = Debug|Win32
-		{2362B8AC-C52B-45E4-A1BF-C682A4DB4220}.Debug|x64.ActiveCfg = Debug|Win32
+		{2362B8AC-C52B-45E4-A1BF-C682A4DB4220}.Debug|x64.ActiveCfg = Debug|x64
 		{2362B8AC-C52B-45E4-A1BF-C682A4DB4220}.Release|Mixed Platforms.ActiveCfg = Release|Win32
-		{2362B8AC-C52B-45E4-A1BF-C682A4DB4220}.Release|Mixed Platforms.Build.0 = Release|Win32
 		{2362B8AC-C52B-45E4-A1BF-C682A4DB4220}.Release|Win32.ActiveCfg = Release|Win32
-		{2362B8AC-C52B-45E4-A1BF-C682A4DB4220}.Release|Win32.Build.0 = Release|Win32
 		{2362B8AC-C52B-45E4-A1BF-C682A4DB4220}.Release|x64.ActiveCfg = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
