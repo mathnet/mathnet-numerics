@@ -6,41 +6,92 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{104E9129-FDC3-43CF-8687-9774C6D8C6C2}</ProjectGuid>
+    <ProjectGuid>{3515A344-AB5F-41C7-A14C-04A79B3FFAB1}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>MathNet.Numerics.UnitTests</RootNamespace>
-    <AssemblyName>MathNet.Numerics.UnitTests136</AssemblyName>
+    <AssemblyName>MathNet.Numerics.UnitTestsMKL</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DefineConstants>TRACE;PORTABLE;NOSYSNUMERICS</DefineConstants>
-    <OutputPath>..\..\out\test\Profile136\</OutputPath>
-    <IntermediateOutputPath>..\..\obj\test\Profile136\</IntermediateOutputPath>
-    <BaseIntermediateOutputPath>..\..\obj\test\Profile136\</BaseIntermediateOutputPath>
+    <DefineConstants>TRACE;NATIVEMKL</DefineConstants>
+    <OutputPath>..\..\out\MKL\Windows\x86\</OutputPath>
+    <IntermediateOutputPath>..\..\obj\MKL\Windows\x86\</IntermediateOutputPath>
+    <BaseIntermediateOutputPath>..\..\obj\MKL\Windows\x86\</BaseIntermediateOutputPath>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <NoWarn>1591</NoWarn>
+    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DefineConstants>TRACE;DEBUG;PORTABLE;NOSYSNUMERICS</DefineConstants>
-    <OutputPath>..\..\out\test-debug\Profile136\</OutputPath>
-    <IntermediateOutputPath>..\..\obj\test-debug\Profile136\</IntermediateOutputPath>
-    <BaseIntermediateOutputPath>..\..\obj\test-debug\Profile136\</BaseIntermediateOutputPath>
+    <DefineConstants>TRACE;DEBUG;NATIVEMKL</DefineConstants>
+    <OutputPath>..\..\out\MKL\Windows\x86\</OutputPath>
+    <IntermediateOutputPath>..\..\obj\MKL\Windows\x86\</IntermediateOutputPath>
+    <BaseIntermediateOutputPath>..\..\obj\MKL\Windows\x86\</BaseIntermediateOutputPath>
     <Optimize>false</Optimize>
     <DebugType>full</DebugType>
     <DebugSymbols>true</DebugSymbols>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <NoWarn>1591</NoWarn>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>..\..\out\MKL\Windows\x86\</OutputPath>
+    <IntermediateOutputPath>..\..\obj\MKL\Windows\x86\</IntermediateOutputPath>
+    <BaseIntermediateOutputPath>..\..\obj\MKL\Windows\x86\</BaseIntermediateOutputPath>
+    <DefineConstants>TRACE;NATIVEMKL</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>1591</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>..\..\out\MKL\Windows\x86\</OutputPath>
+    <IntermediateOutputPath>..\..\obj\MKL\Windows\x86\</IntermediateOutputPath>
+    <BaseIntermediateOutputPath>..\..\obj\MKL\Windows\x86\</BaseIntermediateOutputPath>
+    <DefineConstants>TRACE;DEBUG;NATIVEMKL</DefineConstants>
+    <NoWarn>1591</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>..\..\out\MKL\Windows\x64\</OutputPath>
+    <IntermediateOutputPath>..\..\obj\MKL\Windows\x64\</IntermediateOutputPath>
+    <BaseIntermediateOutputPath>..\..\obj\MKL\Windows\x64\</BaseIntermediateOutputPath>
+    <DefineConstants>TRACE;NATIVEMKL</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>1591</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>..\..\out\MKL\Windows\x64\</OutputPath>
+    <IntermediateOutputPath>..\..\obj\MKL\Windows\x64\</IntermediateOutputPath>
+    <BaseIntermediateOutputPath>..\..\obj\MKL\Windows\x64\</BaseIntermediateOutputPath>
+    <DefineConstants>TRACE;DEBUG;NATIVEMKL</DefineConstants>
+    <NoWarn>1591</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Numerics" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -51,10 +102,6 @@
       <SpecificVersion>False</SpecificVersion>
       <Private>True</Private>
     </Reference>
-    <ProjectReference Include="..\Numerics\Numerics-Portable136.csproj">
-      <Project>{c2581199-28c4-41aa-a26a-f0c076ea2a67}</Project>
-      <Name>Numerics-Portable136</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="**\*.cs" Exclude="Properties\Settings.Designer.cs">
@@ -335,6 +382,12 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Numerics\Numerics.csproj">
+      <Project>{b7cae5f4-a23f-4438-b5be-41226618b695}</Project>
+      <Name>Numerics</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
