@@ -12,9 +12,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{5A0892
 		src\NativeProviders\Common\wrapper_common.h = src\NativeProviders\Common\wrapper_common.h
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MKLWrapper", "src\NativeProviders\Windows\MKL\MKLWrapper.vcxproj", "{C0B0DBA9-7FB0-4C87-BDB1-3EED19DC2B8F}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MKL", "src\NativeProviders\Windows\MKL\MKLWrapper.vcxproj", "{C0B0DBA9-7FB0-4C87-BDB1-3EED19DC2B8F}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ATLASWrapper", "src\NativeProviders\Windows\ATLAS\ATLASWrapper.vcxproj", "{2362B8AC-C52B-45E4-A1BF-C682A4DB4220}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ATLAS", "src\NativeProviders\Windows\ATLAS\ATLASWrapper.vcxproj", "{2362B8AC-C52B-45E4-A1BF-C682A4DB4220}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

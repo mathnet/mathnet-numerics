@@ -38,10 +38,11 @@ namespace MathNet.Numerics
     /// </summary>
     public static class Control
     {
-        private static int _numberOfThreads;
-        private static int _blockSize;
-        private static int _parallelizeOrder;
-        private static int _parallelizeElements;
+        static int _numberOfThreads;
+        static int _blockSize;
+        static int _parallelizeOrder;
+        static int _parallelizeElements;
+        static ILinearAlgebraProvider _linearAlgebraProvider;
 
         static Control()
         {
@@ -66,10 +67,8 @@ namespace MathNet.Numerics
             _parallelizeElements = 300;
 
             // Linear Algebra Provider
-#if PORTABLE
-            // GetEnvironmentVariable is not available in portable!
             LinearAlgebraProvider = new ManagedLinearAlgebraProvider();
-#else
+#if !PORTABLE
             try
             {
                 const string name = "MathNetNumericsLAProvider";
@@ -81,14 +80,11 @@ namespace MathNet.Numerics
                         LinearAlgebraProvider = new Providers.LinearAlgebra.Mkl.MklLinearAlgebraProvider();
                         break;
 #endif
-                    default:
-                        LinearAlgebraProvider = new ManagedLinearAlgebraProvider();
-                        break;
                 }
             }
             catch
             {
-                // We don't care about any failures here at all
+                // We don't care about any failures here at all (because "auto")
                 LinearAlgebraProvider = new ManagedLinearAlgebraProvider();
             }
 #endif
@@ -135,10 +131,20 @@ namespace MathNet.Numerics
         public static bool DisableParallelization { get; set; }
 
         /// <summary>
-        /// Gets or sets the linear algebra provider.
+        /// Gets or sets the linear algebra provider. Consider to use UseNativeMKL or UseManaged instead.
         /// </summary>
         /// <value>The linear algebra provider.</value>
-        public static ILinearAlgebraProvider LinearAlgebraProvider { get; set; }
+        public static ILinearAlgebraProvider LinearAlgebraProvider
+        {
+            get { return _linearAlgebraProvider; }
+            set
+            {
+                value.InitializeVerify();
+
+                // only actually set if verification did not throw
+                _linearAlgebraProvider = value;
+            }
+        }
 
         /// <summary>
         /// Gets or sets a value indicating how many parallel worker threads shall be used

@@ -1,4 +1,4 @@
-﻿// <copyright file="MklLinearAlgebraProvider.cs" company="Math.NET">
+﻿// <copyright file="ManagedLinearAlgebraProvider.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -28,39 +28,23 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-#if NATIVEMKL
-
-namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
+namespace MathNet.Numerics.Providers.LinearAlgebra
 {
     /// <summary>
-    /// Intel's Math Kernel Library (MKL) linear algebra provider.
+    /// The managed linear algebra provider.
     /// </summary>
-    public partial class MklLinearAlgebraProvider : ManagedLinearAlgebraProvider
+    public partial class ManagedLinearAlgebraProvider : ILinearAlgebraProvider
     {
-        /// <param name="bitConsistent">If true improves MKL Consistency to get bit consistent results on repeated identical calculations</param>
-        public MklLinearAlgebraProvider(bool bitConsistent = false)
-        {
-            if (bitConsistent)
-            {
-                SafeNativeMethods.SetImprovedConsistency();
-            }
-        }
-
         /// <summary>
         /// Initialize and verify that the provided is indeed available. If not, fall back to alernatives like the managed provider
         /// </summary>
-        public override void InitializeVerify()
+        public virtual void InitializeVerify()
         {
-            // TODO: Choose x86 or x64 based on Environment.Is64BitProcess
-            // TODO: call into MKL to verify
         }
 
         public override string ToString()
         {
-            // TODO: query version and platform and add to string
-            return "Intel MKL";
+            return "Managed";
         }
     }
 }
-
-#endif

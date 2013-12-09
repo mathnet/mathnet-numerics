@@ -94,6 +94,10 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
         ILinearAlgebraProvider<Complex>,
         ILinearAlgebraProvider<Complex32>
     {
+        /// <summary>
+        /// Initialize and verify that the provided is indeed available. If not, fall back to alernatives like the managed provider
+        /// </summary>
+        void InitializeVerify();
     }
 
     /// <summary>

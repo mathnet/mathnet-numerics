@@ -28,10 +28,10 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System;
 using MathNet.Numerics.LinearAlgebra.Factorization;
 using MathNet.Numerics.Properties;
 using MathNet.Numerics.Threading;
-using System;
 
 namespace MathNet.Numerics.Providers.LinearAlgebra
 {
@@ -43,7 +43,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
     /// <summary>
     /// The managed linear algebra provider.
     /// </summary>
-    public partial class ManagedLinearAlgebraProvider : ILinearAlgebraProvider
+    public partial class ManagedLinearAlgebraProvider
     {
         /// <summary>
         /// Adds a scaled vector to another: <c>result = y + alpha*x</c>.
