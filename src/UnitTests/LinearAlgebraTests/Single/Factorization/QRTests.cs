@@ -474,7 +474,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Factorization
             // Check the reconstruction.
             for (var i = 0; i < order; i++)
             {
-                AssertHelpers.AlmostEqualRelative(vectorb[i], matrixBReconstruct[i], 3);
+                AssertHelpers.AlmostEqual(vectorb[i], matrixBReconstruct[i], 3);
             }
 
             // Make sure A didn't change.
@@ -560,7 +560,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Factorization
             // Check the reconstruction.
             for (var i = 0; i < vectorb.Count; i++)
             {
-                AssertHelpers.AlmostEqualRelative(vectorb[i], matrixBReconstruct[i], 3);
+                AssertHelpers.AlmostEqual(vectorb[i], matrixBReconstruct[i], 3);
             }
 
             // Make sure A didn't change.
@@ -664,7 +664,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Factorization
             {
                 for (var j = 0; j < matrixX.ColumnCount; j++)
                 {
-                    AssertHelpers.AlmostEqual(test[i, j], matrixX[i, j], 6);
+                    AssertHelpers.AlmostEqual(test[i, j], matrixX[i, j], 5);
                 }
             }
 
@@ -700,7 +700,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Factorization
 
             for (var i = 0; i < vectorX.Count; i++)
             {
-                AssertHelpers.AlmostEqual(test[i], vectorX[i], 6);
+                AssertHelpers.AlmostEqual(test[i], vectorX[i], 5);
             }
 
             // Make sure A didn't change.

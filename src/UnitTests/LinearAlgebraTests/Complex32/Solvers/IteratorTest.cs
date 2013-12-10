@@ -31,7 +31,6 @@
 using System;
 using System.Collections.Generic;
 using MathNet.Numerics.LinearAlgebra;
-using MathNet.Numerics.LinearAlgebra.Complex32;
 using MathNet.Numerics.LinearAlgebra.Solvers;
 using NUnit.Framework;
 

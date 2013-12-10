@@ -120,10 +120,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.Iterativ
             Assert.IsTrue(monitor.Status == IterationStatus.Converged, "#04");
 
             // Now compare the vectors
-            for (var i = 0; i < y.Count; i++)
-            {
-                Assert.GreaterOrEqual(ConvergenceBoundary, (y[i] - z[i]).Magnitude, "#05-" + i);
-            }
+            Assert.LessOrEqual(Distance.Chebyshev(y, z), 2*ConvergenceBoundary);
         }
 
         /// <summary>
@@ -164,10 +161,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.Iterativ
             Assert.IsTrue(monitor.Status == IterationStatus.Converged, "#04");
 
             // Now compare the vectors
-            for (var i = 0; i < y.Count; i++)
-            {
-                Assert.GreaterOrEqual(ConvergenceBoundary, (y[i] - z[i]).Magnitude, "#05-" + i);
-            }
+            Assert.LessOrEqual(Distance.Chebyshev(y, z), 2*ConvergenceBoundary);
         }
 
         /// <summary>
@@ -241,10 +235,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.Iterativ
             Assert.IsTrue(monitor.Status == IterationStatus.Converged, "#04");
 
             // Now compare the vectors
-            for (var i = 0; i < y.Count; i++)
-            {
-                Assert.GreaterOrEqual(ConvergenceBoundary, (y[i] - z[i]).Magnitude, "#05-" + i);
-            }
+            Assert.LessOrEqual(Distance.Chebyshev(y, z), 2*ConvergenceBoundary);
         }
 
         /// <summary>

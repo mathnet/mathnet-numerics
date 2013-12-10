@@ -30,7 +30,6 @@
 
 using System;
 using MathNet.Numerics.LinearAlgebra;
-using MathNet.Numerics.LinearAlgebra.Single;
 using MathNet.Numerics.LinearAlgebra.Solvers;
 using NUnit.Framework;
 

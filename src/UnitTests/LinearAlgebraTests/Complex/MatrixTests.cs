@@ -140,12 +140,13 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
         public virtual void CanComputeL2Norm()
         {
             var matrix = TestMatrices["Square3x3"];
-            AssertHelpers.AlmostEqualRelative(10.638175225153, matrix.L2Norm(), 14);
+            AssertHelpers.AlmostEqualRelative(10.638175225153, matrix.L2Norm(), 12);
 
             matrix = TestMatrices["Wide2x3"];
-            AssertHelpers.AlmostEqualRelative(5.2058554445283, matrix.L2Norm(), 14);
+            AssertHelpers.AlmostEqualRelative(5.2058554445283, matrix.L2Norm(), 12);
+
             matrix = TestMatrices["Tall3x2"];
-            AssertHelpers.AlmostEqualRelative(7.35826643761172, matrix.L2Norm(), 14);
+            AssertHelpers.AlmostEqualRelative(7.35826643761172, matrix.L2Norm(), 12);
         }
 
         /// <summary>
