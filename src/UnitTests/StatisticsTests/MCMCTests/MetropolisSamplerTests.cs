@@ -41,7 +41,7 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests.McmcTests
     /// <summary>
     /// Metropolis sampler tests.
     /// </summary>
-    [TestFixture]
+    [TestFixture, Category("Statistics")]
     public class MetropolisSamplerTests
     {
         /// <summary>

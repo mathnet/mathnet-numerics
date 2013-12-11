@@ -36,7 +36,7 @@ namespace MathNet.Numerics.UnitTests.NumberTheoryTests
     /// <summary>
     /// GreatestCommonDivisor related test for <c>BigInteger</c>.
     /// </summary>
-    [TestFixture]
+    [TestFixture, Category("Functions")]
     public class GcdRelatedTestBigInteger
     {
         /// <summary>

@@ -33,7 +33,7 @@ namespace MathNet.Numerics.UnitTests.Random
     /// <summary>
     /// Tests for extension methods of the System.Random.
     /// </summary>
-    [TestFixture]
+    [TestFixture, Category("Random")]
     public class SystemRandomExtensionTests
     {
         /// <summary>

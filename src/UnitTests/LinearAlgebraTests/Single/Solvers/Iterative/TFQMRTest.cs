@@ -40,7 +40,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers.Iterative
     /// <summary>
     /// Tests of Transpose Free Quasi-Minimal Residual iterative matrix solver.
     /// </summary>
-    [TestFixture]
+    [TestFixture, Category("LASolver")]
     public class TFQMRTest
     {
         /// <summary>

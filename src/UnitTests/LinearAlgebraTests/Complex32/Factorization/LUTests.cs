@@ -36,6 +36,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
     /// <summary>
     /// LU factorization tests for a dense matrix.
     /// </summary>
+    [TestFixture, Category("LAFactorization")]
     public class LUTests
     {
         /// <summary>

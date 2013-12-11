@@ -36,7 +36,7 @@ namespace MathNet.Numerics.UnitTests.SpecialFunctionsTests
     /// <summary>
     /// Modified Bessel functions tests.
     /// </summary>
-    [TestFixture]
+    [TestFixture, Category("Functions")]
     public class BodifiedBesselTests
     {
         [Test]

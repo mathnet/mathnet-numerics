@@ -38,7 +38,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
     /// <summary>
     /// Dense vector text handling tests.
     /// </summary>
-    [TestFixture]
+    [TestFixture, Category("LA")]
     public class DenseVectorTextHandlingTest
     {
         /// <summary>

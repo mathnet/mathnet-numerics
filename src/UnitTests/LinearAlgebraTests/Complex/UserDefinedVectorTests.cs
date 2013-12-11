@@ -39,7 +39,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
     /// <summary>
     /// Test class for user-defined vector.
     /// </summary>
-    [TestFixture]
+    [TestFixture, Category("LA")]
     public class UserDefinedVectorTests : VectorTests
     {
         /// <summary>

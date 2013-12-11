@@ -39,6 +39,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
     /// <summary>
     /// Eigenvalues factorization tests for a dense matrix.
     /// </summary>
+    [TestFixture, Category("LAFactorization")]
     public class EvdTests
     {
         /// <summary>

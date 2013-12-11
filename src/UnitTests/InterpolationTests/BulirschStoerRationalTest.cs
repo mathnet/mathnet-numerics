@@ -36,7 +36,7 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
     /// <summary>
     /// BulirschStoerRational test case.
     /// </summary>
-    [TestFixture]
+    [TestFixture, Category("Interpolation")]
     public class BulirschStoerRationalTest
     {
         /// <summary>

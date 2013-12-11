@@ -32,7 +32,7 @@ namespace MathNet.Numerics.UnitTests.Random
     /// <summary>
     /// Tests for a 32-bit combined multiple recursive generator with 2 components of order 3.
     /// </summary>
-    [TestFixture]
+    [TestFixture, Category("Random")]
     public class Mrg32K3ATests : RandomTests
     {
         /// <summary>

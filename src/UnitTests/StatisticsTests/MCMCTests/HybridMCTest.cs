@@ -40,7 +40,7 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests.McmcTests
     /// <summary>
     /// Tests for the HybridMC class.
     /// </summary>
-    [TestFixture]
+    [TestFixture, Category("Statistics")]
     public class HybridMCTest
     {
         private readonly Normal _normal = new Normal(0, 1);

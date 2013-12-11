@@ -44,7 +44,7 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
     /// <summary>
     /// Hartley tests.
     /// </summary>
-    [TestFixture]
+    [TestFixture, Category("FFT")]
     public class HartleyTest
     {
         /// <summary>

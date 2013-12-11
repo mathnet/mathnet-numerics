@@ -4,7 +4,7 @@ using NUnit.Framework;
 
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
 {
-    [TestFixture]
+    [TestFixture, Category("LA")]
     public class ReturnTypeTests
     {
         readonly Vector<double> _vectorDense = Vector<double>.Build.Dense(3);

@@ -42,7 +42,7 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
     /// </summary>
     /// <remarks>NOTE: this class is not included into Silverlight version, because it uses data from local files. 
     /// In Silverlight access to local files is forbidden, except several cases.</remarks>
-    [TestFixture]
+    [TestFixture, Category("Statistics")]
     public class CorrelationTests
     {
         /// <summary>

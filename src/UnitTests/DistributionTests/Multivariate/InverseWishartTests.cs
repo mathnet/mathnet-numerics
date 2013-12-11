@@ -36,7 +36,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
     /// <summary>
     /// Inverse Wishart tests.
     /// </summary>
-    [TestFixture]
+    [TestFixture, Category("Distributions")]
     public class InverseWishartTests
     {
         /// <summary>

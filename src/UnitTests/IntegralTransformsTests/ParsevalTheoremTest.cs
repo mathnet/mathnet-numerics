@@ -45,7 +45,7 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
     /// <summary>
     /// Parseval theorem verification tests.
     /// </summary>
-    [TestFixture]
+    [TestFixture, Category("FFT")]
     public class ParsevalTheoremTest
     {
         /// <summary>

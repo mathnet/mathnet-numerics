@@ -43,7 +43,7 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
     /// <summary>
     /// Statistics Tests
     /// </summary>
-    [TestFixture]
+    [TestFixture, Category("Statistics")]
     public class StatisticsTests
     {
         readonly IDictionary<string, StatTestData> _data = new Dictionary<string, StatTestData>

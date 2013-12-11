@@ -36,7 +36,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
     /// <summary>
     /// Weibull distribution tests.
     /// </summary>
-    [TestFixture]
+    [TestFixture, Category("Distributions")]
     public class WeibullTests
     {
         /// <summary>

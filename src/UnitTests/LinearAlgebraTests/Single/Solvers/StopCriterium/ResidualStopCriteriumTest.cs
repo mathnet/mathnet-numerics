@@ -39,7 +39,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers.StopCrite
     /// <summary>
     /// Residual stop criterium tests.
     /// </summary>
-    [TestFixture]
+    [TestFixture, Category("LASolver")]
     public sealed class ResidualStopCriteriumTest
     {
         /// <summary>

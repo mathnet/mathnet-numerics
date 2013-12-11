@@ -33,6 +33,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Factorization
     /// <summary>
     /// Svd factorization tests for a user matrix.
     /// </summary>
+    [TestFixture, Category("LAFactorization")]
     public class UserSvdTests
     {
         /// <summary>

@@ -39,7 +39,7 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests.McmcTests
     /// <summary>
     /// Rejection sampler tests.
     /// </summary>
-    [TestFixture]
+    [TestFixture, Category("Statistics")]
     public class RejectionSamplerTests
     {
         /// <summary>

@@ -34,7 +34,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
     /// <summary>
     /// Exponential distribution tests.
     /// </summary>
-    [TestFixture]
+    [TestFixture, Category("Distributions")]
     public class ExponentialTests
     {
         /// <summary>

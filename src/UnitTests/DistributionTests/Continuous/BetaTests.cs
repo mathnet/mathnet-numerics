@@ -36,7 +36,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
     /// <summary>
     /// Beta distribution tests.
     /// </summary>
-    [TestFixture]
+    [TestFixture, Category("Distributions")]
     public class BetaTests
     {
         /// <summary>

@@ -36,7 +36,7 @@ namespace MathNet.Numerics.UnitTests.SpecialFunctionsTests
     /// <summary>
     /// Gamma functions tests.
     /// </summary>
-    [TestFixture]
+    [TestFixture, Category("Functions")]
     public class GammaTests
     {
         /// <summary>

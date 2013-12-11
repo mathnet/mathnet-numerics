@@ -33,7 +33,7 @@ namespace MathNet.Numerics.UnitTests.NumberTheoryTests
     /// <summary>
     /// GreatestCommonDivisor related test.
     /// </summary>
-    [TestFixture]
+    [TestFixture, Category("Functions")]
     public class GcdRelatedTest
     {
         /// <summary>

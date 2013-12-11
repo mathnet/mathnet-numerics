@@ -34,7 +34,7 @@ using System;
 
 namespace MathNet.Numerics.UnitTests.RootFindingTests
 {
-    [TestFixture]
+    [TestFixture, Category("RootFinding")]
     internal class BroydenTest
     {
         [Test]

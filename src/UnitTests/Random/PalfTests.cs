@@ -33,7 +33,7 @@ namespace MathNet.Numerics.UnitTests.Random
     /// <summary>
     /// Tests for a Parallel Additive Lagged Fibonacci pseudo-random number generator.
     /// </summary>
-    [TestFixture]
+    [TestFixture, Category("Random")]
     public class PalfTests : RandomTests
     {
         /// <summary>

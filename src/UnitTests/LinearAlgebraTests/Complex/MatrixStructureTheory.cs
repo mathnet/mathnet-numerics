@@ -39,7 +39,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
     using Complex = System.Numerics.Complex;
 #endif
 
-    [TestFixture]
+    [TestFixture, Category("LA")]
     public class MatrixStructureTheory : MatrixStructureTheory<Complex>
     {
         [Datapoints]

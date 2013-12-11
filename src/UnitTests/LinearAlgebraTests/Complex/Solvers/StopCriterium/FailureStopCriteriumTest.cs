@@ -45,7 +45,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.StopCrit
     /// <summary>
     /// Failure stop criterium tests.
     /// </summary>
-    [TestFixture]
+    [TestFixture, Category("LASolver")]
     public sealed class FailureStopCriteriumTest
     {
         /// <summary>

@@ -35,7 +35,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
     /// <summary>
     /// Multinomial distribution tests.
     /// </summary>
-    [TestFixture]
+    [TestFixture, Category("Distributions")]
     public class MultinomialTests
     {
         /// <summary>

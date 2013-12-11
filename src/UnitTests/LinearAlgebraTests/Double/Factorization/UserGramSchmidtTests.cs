@@ -34,6 +34,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
     /// <summary>
     /// GramSchmidt factorization tests for a user matrix.
     /// </summary>
+    [TestFixture, Category("LAFactorization")]
     public class UserGramSchmidtTests
     {
         /// <summary>

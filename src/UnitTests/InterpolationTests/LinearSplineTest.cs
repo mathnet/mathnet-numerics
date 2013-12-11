@@ -37,7 +37,7 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
     /// <summary>
     /// LinearSpline test case
     /// </summary>
-    [TestFixture]
+    [TestFixture, Category("Interpolation")]
     public class LinearSplineTest
     {
         /// <summary>

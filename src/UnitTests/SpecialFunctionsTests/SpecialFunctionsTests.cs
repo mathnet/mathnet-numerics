@@ -36,6 +36,7 @@ namespace MathNet.Numerics.UnitTests.SpecialFunctionsTests
     /// <summary>
     /// Special functions tests.
     /// </summary>
+    [TestFixture, Category("Functions")]
     public class SpecialFunctionsTests
     {
         /// <summary>

@@ -35,7 +35,7 @@ namespace MathNet.Numerics.UnitTests.SpecialFunctionsTests
     /// <summary>
     /// Modified Struve functions tests.
     /// </summary>
-    [TestFixture]
+    [TestFixture, Category("Functions")]
     public class ModifiedStruveTests
     {
         [TestCase(0.0, 0.0)]

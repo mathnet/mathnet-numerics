@@ -4,7 +4,7 @@ using NUnit.Framework;
 
 namespace MathNet.Numerics.UnitTests.GoodnessOfFit
 {
-    [TestFixture]
+    [TestFixture, Category("Regression")]
     public class RSquaredTest
     {
         /// <summary>

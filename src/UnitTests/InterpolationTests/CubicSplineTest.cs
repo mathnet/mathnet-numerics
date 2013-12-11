@@ -37,7 +37,7 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
     /// <summary>
     /// CubicSpline Test case.
     /// </summary>
-    [TestFixture]
+    [TestFixture, Category("Interpolation")]
     public class CubicSplineTest
     {
         /// <summary>

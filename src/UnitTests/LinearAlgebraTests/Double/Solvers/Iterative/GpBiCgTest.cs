@@ -40,7 +40,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.Iterative
     /// <summary>
     /// Tests for Generalized Product Bi-Conjugate Gradient iterative matrix solver.
     /// </summary>
-    [TestFixture]
+    [TestFixture, Category("LASolver")]
     public class GpBiCgTest
     {
         /// <summary>

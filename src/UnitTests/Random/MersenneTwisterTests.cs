@@ -32,7 +32,7 @@ namespace MathNet.Numerics.UnitTests.Random
     /// <summary>
     /// Tests for random number generator using Mersenne Twister 19937 algorithm.
     /// </summary>
-    [TestFixture]
+    [TestFixture, Category("Random")]
     public class MersenneTwisterTests : RandomTests
     {
         /// <summary>

@@ -32,7 +32,7 @@ namespace MathNet.Numerics.UnitTests.Random
     /// <summary>
     /// Tests for Multiplicative congruential generator using a modulus of 2^31-1 and a multiplier of 1132489760.
     /// </summary>
-    [TestFixture]
+    [TestFixture, Category("Random")]
     public class Mcg31M1Tests : RandomTests
     {
         /// <summary>

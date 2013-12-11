@@ -36,7 +36,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
     /// <summary>
     /// Continuous uniform tests.
     /// </summary>
-    [TestFixture]
+    [TestFixture, Category("Distributions")]
     public class ContinuousUniformTests
     {
         /// <summary>

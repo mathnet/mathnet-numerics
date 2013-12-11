@@ -34,7 +34,7 @@ using System;
 
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
 {
-    [TestFixture]
+    [TestFixture, Category("LA")]
     public abstract class VectorArithmeticTheory<T>
         where T : struct, IEquatable<T>, IFormattable
     {

@@ -32,7 +32,7 @@ namespace MathNet.Numerics.UnitTests.Random
     /// <summary>
     /// Tests for multiplicative congruential generator using a modulus of 2^59 and a multiplier of 13^13.
     /// </summary>
-    [TestFixture]
+    [TestFixture, Category("Random")]
     public class Mcg59Tests : RandomTests
     {
         /// <summary>

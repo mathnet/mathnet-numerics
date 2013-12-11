@@ -35,6 +35,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
     /// <summary>
     /// Svd factorization tests for a user matrix.
     /// </summary>
+    [TestFixture, Category("LAFactorization")]
     public class UserSvdTests
     {
         /// <summary>

@@ -43,7 +43,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.Precon
     /// <summary>
     /// Incomplete LU preconditioner test.
     /// </summary>
-    [TestFixture]
+    [TestFixture, Category("LASolver")]
     public sealed class IncompleteLUFactorizationTest : PreconditionerTest
     {
         /// <summary>

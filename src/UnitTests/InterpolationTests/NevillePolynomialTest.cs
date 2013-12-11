@@ -40,7 +40,7 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
     /// <summary>
     /// NevillePolynomial test case.
     /// </summary>
-    [TestFixture]
+    [TestFixture, Category("Interpolation")]
     public class NevillePolynomialTest
     {
         /// <summary>

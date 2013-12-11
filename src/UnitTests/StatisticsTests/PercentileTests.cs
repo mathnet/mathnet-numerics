@@ -36,7 +36,7 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
     /// <summary>
     /// Percentile tests.
     /// </summary>
-    [TestFixture]
+    [TestFixture, Category("Statistics")]
     public class PercentileTests
     {
         /// <summary>

@@ -41,6 +41,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Factorization
     /// <summary>
     /// GramSchmidt factorization tests for a dense matrix.
     /// </summary>
+    [TestFixture, Category("LAFactorization")]
     public class GramSchmidtTests
     {
         /// <summary>

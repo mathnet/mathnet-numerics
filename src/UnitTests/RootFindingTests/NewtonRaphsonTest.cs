@@ -34,7 +34,7 @@ using NUnit.Framework;
 
 namespace MathNet.Numerics.UnitTests.RootFindingTests
 {
-    [TestFixture]
+    [TestFixture, Category("RootFinding")]
     public class NewtonRaphsonTest
     {
         [Test]

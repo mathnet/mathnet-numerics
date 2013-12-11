@@ -34,7 +34,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
     /// <summary>
     /// Binomial distribution tests.
     /// </summary>
-    [TestFixture]
+    [TestFixture, Category("Distributions")]
     public class BinomialTests
     {
         /// <summary>

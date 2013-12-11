@@ -32,7 +32,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
 {
     using NUnit.Framework;
 
-    [TestFixture]
+    [TestFixture, Category("LA")]
     public abstract class VectorArithmeticTheory : VectorArithmeticTheory<double>
     {
         protected override double Minus(double value) { return -value; }

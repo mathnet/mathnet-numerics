@@ -36,7 +36,7 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
     /// <summary>
     /// AkimaSpline test case.
     /// </summary>
-    [TestFixture]
+    [TestFixture, Category("Interpolation")]
     public class AkimaSplineTest
     {
         /// <summary>

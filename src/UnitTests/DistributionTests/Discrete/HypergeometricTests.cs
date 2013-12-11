@@ -34,7 +34,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
     /// <summary>
     /// Hypergeometric tests.
     /// </summary>
-    [TestFixture]
+    [TestFixture, Category("Distributions")]
     public class HypergeometricTests
     {
         /// <summary>

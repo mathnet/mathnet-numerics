@@ -40,6 +40,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Factorization
     /// <summary>
     /// Cholesky factorization tests for a dense matrix.
     /// </summary>
+    [TestFixture, Category("LAFactorization")]
     public class CholeskyTests
     {
         /// <summary>

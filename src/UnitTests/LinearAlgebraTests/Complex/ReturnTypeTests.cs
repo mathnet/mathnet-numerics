@@ -10,7 +10,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
     using Complex = System.Numerics.Complex;
 #endif
 
-    [TestFixture]
+    [TestFixture, Category("LA")]
     public class ReturnTypeTests
     {
         readonly Vector<Complex> _vectorDense = Vector<Complex>.Build.Dense(3);

@@ -35,6 +35,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
     /// <summary>
     /// QR factorization tests for a user matrix.
     /// </summary>
+    [TestFixture, Category("LAFactorization")]
     public class UserQRTests
     {
         /// <summary>

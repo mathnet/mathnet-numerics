@@ -42,7 +42,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.Iterat
     /// <summary>
     /// Tests for Generalized Product Bi-Conjugate Gradient iterative matrix solver.
     /// </summary>
-    [TestFixture]
+    [TestFixture, Category("LASolver")]
     public class GpBiCgTest
     {
         /// <summary>

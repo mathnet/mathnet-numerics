@@ -39,7 +39,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.StopCrite
     /// <summary>
     /// Iteration count stop criterium tests.
     /// </summary>
-    [TestFixture]
+    [TestFixture, Category("LASolver")]
     public sealed class IterationCountStopCriteriumTest
     {
         /// <summary>

@@ -41,7 +41,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.Precondit
     /// <summary>
     /// Incomplete LU preconditioner test.
     /// </summary>
-    [TestFixture]
+    [TestFixture, Category("LASolver")]
     public sealed class IncompleteLUFactorizationTest : PreconditionerTest
     {
         /// <summary>

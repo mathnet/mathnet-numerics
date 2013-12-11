@@ -36,7 +36,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
     /// <summary>
     /// Chi square distribution test
     /// </summary>
-    [TestFixture]
+    [TestFixture, Category("Distributions")]
     public class ChiSquareTests
     {
         /// <summary>

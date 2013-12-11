@@ -42,7 +42,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers
     /// <summary>
     /// Iterator tests
     /// </summary>
-    [TestFixture]
+    [TestFixture, Category("LASolver")]
     public class IteratorTest
     {
         /// <summary>

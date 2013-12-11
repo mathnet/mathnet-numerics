@@ -35,7 +35,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
 {
     using Numerics;
 
-    [TestFixture]
+    [TestFixture, Category("LA")]
     public class MatrixStructureTheory : MatrixStructureTheory<Complex32>
     {
         [Datapoints]

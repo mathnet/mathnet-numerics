@@ -40,6 +40,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Factorization
     /// <summary>
     /// GramSchmidt factorization tests for a user matrix.
     /// </summary>
+    [TestFixture, Category("LAFactorization")]
     public class UserGramSchmidtTests
     {
         /// <summary>

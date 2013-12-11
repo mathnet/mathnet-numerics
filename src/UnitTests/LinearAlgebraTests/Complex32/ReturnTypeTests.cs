@@ -6,7 +6,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
 {
     using Numerics;
 
-    [TestFixture]
+    [TestFixture, Category("LA")]
     public class ReturnTypeTests
     {
         readonly Vector<Complex32> _vectorDense = Vector<Complex32>.Build.Dense(3);

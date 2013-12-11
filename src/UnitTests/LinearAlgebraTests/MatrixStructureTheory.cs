@@ -34,7 +34,7 @@ using NUnit.Framework;
 
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
 {
-    [TestFixture]
+    [TestFixture, Category("LA")]
     public abstract partial class MatrixStructureTheory<T>
         where T : struct, IEquatable<T>, IFormattable
     {

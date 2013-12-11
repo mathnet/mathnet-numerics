@@ -44,7 +44,7 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
     /// <summary>
     /// Fourier test.
     /// </summary>
-    [TestFixture]
+    [TestFixture, Category("FFT")]
     public class FourierTest
     {
         /// <summary>

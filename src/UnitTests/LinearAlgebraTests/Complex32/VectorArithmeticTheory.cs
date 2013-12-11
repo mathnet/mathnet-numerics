@@ -33,7 +33,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
     using Numerics;
     using NUnit.Framework;
 
-    [TestFixture]
+    [TestFixture, Category("LA")]
     public abstract class VectorArithmeticTheory : VectorArithmeticTheory<Complex32>
     {
         protected override Complex32 Minus(Complex32 value) { return -value; }

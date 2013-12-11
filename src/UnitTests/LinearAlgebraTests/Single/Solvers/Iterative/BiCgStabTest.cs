@@ -40,7 +40,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers.Iterative
     /// <summary>
     /// Tests of Bi-Conjugate Gradient stabilized iterative matrix solver.
     /// </summary>
-    [TestFixture]
+    [TestFixture, Category("LASolver")]
     public class BiCgStabTest
     {
         /// <summary>

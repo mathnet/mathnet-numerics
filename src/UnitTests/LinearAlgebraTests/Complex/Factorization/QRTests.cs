@@ -42,6 +42,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Factorization
     /// <summary>
     /// QR factorization tests for a dense matrix.
     /// </summary>
+    [TestFixture, Category("LAFactorization")]
     public class QRTests
     {
         /// <summary>

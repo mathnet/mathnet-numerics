@@ -41,7 +41,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.Precon
     /// <summary>
     /// Diagonal preconditioner test.
     /// </summary>
-    [TestFixture]
+    [TestFixture, Category("LASolver")]
     public sealed class DiagonalTest : PreconditionerTest
     {
         /// <summary>

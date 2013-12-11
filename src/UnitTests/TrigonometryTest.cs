@@ -38,7 +38,7 @@ namespace MathNet.Numerics.UnitTests
     /// <summary>
     /// Trigonometry tests.
     /// </summary>
-    [TestFixture]
+    [TestFixture, Category("Functions")]
     public class TrigonometryTest
     {
         /// <summary>

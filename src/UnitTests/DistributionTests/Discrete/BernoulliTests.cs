@@ -34,7 +34,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
     /// <summary>
     /// Bernoulli distribution tests.
     /// </summary>
-    [TestFixture]
+    [TestFixture, Category("Distributions")]
     public class BernoulliTests
     {
         /// <summary>

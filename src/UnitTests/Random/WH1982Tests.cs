@@ -32,7 +32,7 @@ namespace MathNet.Numerics.UnitTests.Random
     /// <summary>
     /// Tests for a Wichmann-Hill’s 1982 combined multiplicative congruential generator. 
     /// </summary>
-    [TestFixture]
+    [TestFixture, Category("Random")]
     public class Wh1982Tests : RandomTests
     {
         /// <summary>

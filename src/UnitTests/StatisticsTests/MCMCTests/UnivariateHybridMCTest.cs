@@ -40,7 +40,7 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests.McmcTests
     /// <summary>
     /// Test for the UnivariateHybridMC.
     /// </summary>
-    [TestFixture]
+    [TestFixture, Category("Statistics")]
     public class UnivariateHybridMCTest
     {
         /// <summary>

@@ -39,7 +39,7 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests.McmcTests
     /// <summary>
     /// MCMCDiagonistics testing.
     /// </summary>
-    [TestFixture]
+    [TestFixture, Category("Statistics")]
     public class MCMCDiagnosticsTest
     {
         /// <summary>

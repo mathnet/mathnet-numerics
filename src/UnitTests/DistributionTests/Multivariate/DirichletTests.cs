@@ -36,7 +36,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
     /// <summary>
     /// Dirichlet distribution tests
     /// </summary>
-    [TestFixture]
+    [TestFixture, Category("Distributions")]
     public class DirichletTests
     {
         /// <summary>

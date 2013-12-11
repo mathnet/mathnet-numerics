@@ -43,7 +43,7 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
     /// <summary>
     /// Inverse Transform test.
     /// </summary>
-    [TestFixture]
+    [TestFixture, Category("FFT")]
     public class InverseTransformTest
     {
         /// <summary>

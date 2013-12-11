@@ -34,7 +34,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
     /// <summary>
     /// Geometric distribution tests.
     /// </summary>
-    [TestFixture]
+    [TestFixture, Category("Distributions")]
     public class GeometricTests
     {
         /// <summary>

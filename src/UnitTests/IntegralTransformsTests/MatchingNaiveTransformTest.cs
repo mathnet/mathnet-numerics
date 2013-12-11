@@ -44,7 +44,7 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
     /// <summary>
     /// Matching Naive transform tests.
     /// </summary>
-    [TestFixture]
+    [TestFixture, Category("FFT")]
     public class MatchingNaiveTransformTest
     {
         /// <summary>

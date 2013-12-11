@@ -33,7 +33,7 @@ namespace MathNet.Numerics.UnitTests.Random
     /// <summary>
     /// Tests for a random number generator based on the <see cref="System.Security.Cryptography.RandomNumberGenerator"/> class in the .NET library
     /// </summary>
-    [TestFixture]
+    [TestFixture, Category("Random")]
     public class SystemCryptoRandomNumberGeneratorTests : RandomTests
     {
         /// <summary>

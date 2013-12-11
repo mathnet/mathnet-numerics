@@ -37,7 +37,7 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests.McmcTests
     /// <summary>
     /// Univariate slice sampler tests.
     /// </summary>
-    [TestFixture]
+    [TestFixture, Category("Statistics")]
     public class UnivariateSliceSamplerTests
     {
         /// <summary>

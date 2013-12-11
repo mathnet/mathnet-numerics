@@ -33,7 +33,7 @@ using NUnit.Framework;
 
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
 {
-    [TestFixture]
+    [TestFixture, Category("LA")]
     public class SparseVectorArithmeticTheory : VectorArithmeticTheory
     {
         [Datapoints]

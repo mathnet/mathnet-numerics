@@ -34,7 +34,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
     /// <summary>
     /// Discrete uniform tests.
     /// </summary>
-    [TestFixture]
+    [TestFixture, Category("Distributions")]
     public class DiscreteUniformTests
     {
         /// <summary>

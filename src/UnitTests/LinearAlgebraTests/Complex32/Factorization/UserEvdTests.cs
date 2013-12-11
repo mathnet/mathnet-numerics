@@ -40,6 +40,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
     /// <summary>
     /// Eigenvalues factorization tests for an user matrix.
     /// </summary>
+    [TestFixture, Category("LAFactorization")]
     public class UserEvdTests
     {
         /// <summary>

@@ -35,7 +35,7 @@ using NUnit.Framework;
 
 namespace MathNet.Numerics.UnitTests
 {
-    [TestFixture]
+    [TestFixture, Category("Regression")]
     public class FitTests
     {
         [Test]

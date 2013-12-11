@@ -36,7 +36,7 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
     /// <summary>
     /// EquidistantPolynomial Test case.
     /// </summary>
-    [TestFixture]
+    [TestFixture, Category("Interpolation")]
     public class EquidistantPolynomialTest
     {
         /// <summary>

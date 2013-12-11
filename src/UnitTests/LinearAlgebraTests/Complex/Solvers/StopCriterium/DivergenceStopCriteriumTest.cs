@@ -45,7 +45,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.StopCrit
     /// <summary>
     /// Divergence stop criterium test.
     /// </summary>
-    [TestFixture]
+    [TestFixture, Category("LASolver")]
     public sealed class DivergenceStopCriteriumTest
     {
         /// <summary>

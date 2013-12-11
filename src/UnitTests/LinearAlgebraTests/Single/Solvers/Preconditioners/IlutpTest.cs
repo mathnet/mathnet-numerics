@@ -41,7 +41,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers.Precondit
     /// <summary>
     /// Incomplete LU with IlutpPreconditioner test with drop tolerance and partial pivoting.
     /// </summary>
-    [TestFixture]
+    [TestFixture, Category("LASolver")]
     public sealed class IlutpPreconditionerTest : PreconditionerTest
     {
         /// <summary>

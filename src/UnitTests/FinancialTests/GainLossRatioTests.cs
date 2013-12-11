@@ -37,8 +37,7 @@ using NUnit.Framework;
 
 namespace MathNet.Numerics.UnitTests.FinancialTests
 {
-    [TestFixture]
-    [Category("FinancialTests")]
+    [TestFixture, Category("Financial")]
     public class GainLossRatioTests
     {
         [Test]

@@ -43,7 +43,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.Precon
     /// <summary>
     /// Incomplete LU with tpPreconditioner test with drop tolerance and partial pivoting.
     /// </summary>
-    [TestFixture]
+    [TestFixture, Category("LASolver")]
     public sealed class IlutpPreconditionerTest : PreconditionerTest
     {
         /// <summary>

@@ -33,7 +33,7 @@ namespace MathNet.Numerics.UnitTests.NumberTheoryTests
     /// <summary>
     /// Integer theory tests.
     /// </summary>
-    [TestFixture]
+    [TestFixture, Category("Functions")]
     public class IntegerTheoryTest
     {
         /// <summary>

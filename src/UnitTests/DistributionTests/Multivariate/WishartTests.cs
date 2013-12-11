@@ -35,7 +35,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
     /// <summary>
     /// <c>Wishart</c> distribution tests.
     /// </summary>
-    [TestFixture]
+    [TestFixture, Category("Distributions")]
     public class WishartTests
     {
         /// <summary>

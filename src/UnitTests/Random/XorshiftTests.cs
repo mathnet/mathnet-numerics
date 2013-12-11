@@ -32,7 +32,7 @@ namespace MathNet.Numerics.UnitTests.Random
     /// <summary>
     /// Tests for a multiply-with-carry Xorshift pseudo random number generator (RNG) specified in Marsaglia, George. (2003). Xorshift RNGs.
     /// </summary>
-    [TestFixture]
+    [TestFixture, Category("Random")]
     public class XorshiftTests : RandomTests
     {
         /// <summary>

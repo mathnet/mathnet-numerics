@@ -35,7 +35,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
     /// <summary>
     /// Matrix Normal tests.
     /// </summary>
-    [TestFixture]
+    [TestFixture, Category("Distributions")]
     public class MatrixNormalTests
     {
         /// <summary>
