@@ -108,6 +108,16 @@ namespace MathNet.Numerics
 
 
         /// <summary>
+        /// Normalized Sinc function. sinc(x) = sin(pi*x)/(pi*x).
+        /// </summary>
+        public static double Sinc(double x)
+        {
+            double z = Math.PI*x;
+            return z.AlmostEqual(0.0, 15) ? 1.0 : Math.Sin(z)/z;
+        }
+
+
+        /// <summary>
         /// Trigonometric Sine of an angle in radian, or opposite / hypotenuse.
         /// </summary>
         /// <param name="radian">The angle in radian.</param>

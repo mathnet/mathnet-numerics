@@ -69,7 +69,7 @@ BEGIN
         BEGIN
             VALUE "Comments", "http://numerics.mathdotnet.com/"
             VALUE "CompanyName", "Math.NET"
-            VALUE "FileDescription", "MathNET Numerics Native Wrapper"
+            VALUE "FileDescription", "MathNET Numerics Native Provider"
             VALUE "FileVersion", "1.3.0.0"
             VALUE "InternalName", "Math.NET"
             VALUE "LegalCopyright", "Copyright (C) Math.NET 2009-2013"
