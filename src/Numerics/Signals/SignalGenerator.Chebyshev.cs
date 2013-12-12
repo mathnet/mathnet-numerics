@@ -48,36 +48,19 @@ namespace MathNet.Numerics.Signals
         /// <returns>Vector of the function sampled in [a,b] at (b+a)/2+(b-1)/2*cos(pi*(2i-1)/(2n))</returns>
         /// <exception cref="ArgumentNullException" />
         /// <exception cref="ArgumentOutOfRangeException" />
+        [Obsolete]
         public static T[] ChebyshevNodesFirstKind<T>(
             Func<double, T> function,
             double intervalBegin,
             double intervalEnd,
             int sampleCount)
         {
-            if (ReferenceEquals(function, null))
-            {
-                throw new ArgumentNullException("function");
-            }
-
-            if (sampleCount < 1)
-            {
-                throw new ArgumentOutOfRangeException("sampleCount");
-            }
-
-            // transform to map to [-1..1] interval
-            double transformSummand = 0.5 * (intervalBegin + intervalEnd);
-            double transformFactor = 0.5 * (intervalEnd - intervalBegin);
-
-            // evaluate first kind chebyshev nodes
-            double angleFactor = Constants.Pi / (2 * sampleCount);
-
-            var samples = new T[sampleCount];
-
+            var roots = FindRoots.ChebychevPolynomialFirstKind(sampleCount, intervalBegin, intervalEnd);
+            var samples = new T[roots.Length];
             for (int i = 0; i < samples.Length; i++)
             {
-                samples[i] = function(transformSummand + transformFactor * Math.Cos(((2 * i) + 1) * angleFactor));
+                samples[i] = function(roots[i]);
             }
-
             return samples;
         }
 
@@ -92,36 +75,19 @@ namespace MathNet.Numerics.Signals
         /// <returns>Vector of the function sampled in [a,b] at (b+a)/2+(b-1)/2*cos(pi*i/(n-1))</returns>
         /// <exception cref="ArgumentNullException" />
         /// <exception cref="ArgumentOutOfRangeException" />
+        [Obsolete]
         public static T[] ChebyshevNodesSecondKind<T>(
             Func<double, T> function,
             double intervalBegin,
             double intervalEnd,
             int sampleCount)
         {
-            if (ReferenceEquals(function, null))
-            {
-                throw new ArgumentNullException("function");
-            }
-
-            if (sampleCount < 1)
-            {
-                throw new ArgumentOutOfRangeException("sampleCount");
-            }
-
-            // transform to map to [-1..1] interval
-            double transformSummand = 0.5 * (intervalBegin + intervalEnd);
-            double transformFactor = 0.5 * (intervalEnd - intervalBegin);
-
-            // evaluate second kind chebyshev nodes
-            double angleFactor = Constants.Pi / (sampleCount + 1);
-
-            var samples = new T[sampleCount];
-
+            var roots = FindRoots.ChebychevPolynomialSecondKind(sampleCount, intervalBegin, intervalEnd);
+            var samples = new T[roots.Length];
             for (int i = 0; i < samples.Length; i++)
             {
-                samples[i] = function(transformSummand + transformFactor * Math.Cos((i + 1) * angleFactor));
+                samples[i] = function(roots[i]);
             }
-
             return samples;
         }
     }
