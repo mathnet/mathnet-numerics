@@ -357,5 +357,26 @@ namespace MathNet.Numerics
         {
             return Stable.Samples(MersenneTwister.Default, alpha, beta, scale, location);
         }
+
+        /// <summary>
+        /// Generate sample by sampling a function at the provided points.
+        /// </summary>
+        public static TV[] Map<TU, TV>(TU[] points, Func<TU, TV> map)
+        {
+            var res = new TV[points.Length];
+            for (int i = 0; i < points.Length; i++)
+            {
+                res[i] = map(points[i]);
+            }
+            return res;
+        }
+
+        /// <summary>
+        /// Generate a sample sequence by sampling a function at the provided point sequence.
+        /// </summary>
+        public static IEnumerable<TV> MapSequence<TU, TV>(IEnumerable<TU> points, Func<TU, TV> map)
+        {
+            return points.Select(map);
+        }
     }
 }

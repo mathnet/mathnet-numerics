@@ -24,18 +24,112 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-namespace MathNet.Numerics.UnitTests.NumberTheoryTests
-{
-    using System;
-    using NumberTheory;
-    using NUnit.Framework;
+using System;
+using NUnit.Framework;
 
+namespace MathNet.Numerics.UnitTests.EuclidTests
+{
     /// <summary>
     /// Integer theory tests.
     /// </summary>
     [TestFixture, Category("Functions")]
     public class IntegerTheoryTest
     {
+        [Test]
+        public void TestModulus()
+        {
+            Assert.That(Euclid.Modulus(0, 3), Is.EqualTo(0));
+            Assert.That(Euclid.Modulus(2, 3), Is.EqualTo(2));
+            Assert.That(Euclid.Modulus(3, 3), Is.EqualTo(0));
+            Assert.That(Euclid.Modulus(4, 3), Is.EqualTo(1));
+            Assert.That(Euclid.Modulus(6, 3), Is.EqualTo(0));
+            Assert.That(Euclid.Modulus(-1, 3), Is.EqualTo(2));
+            Assert.That(Euclid.Modulus(-2, 3), Is.EqualTo(1));
+            Assert.That(Euclid.Modulus(-3, 3), Is.EqualTo(0));
+            Assert.That(Euclid.Modulus(-4, 3), Is.EqualTo(2));
+
+            Assert.That(Euclid.Modulus(0, -3), Is.EqualTo(0));
+            Assert.That(Euclid.Modulus(2, -3), Is.EqualTo(-1));
+            Assert.That(Euclid.Modulus(3, -3), Is.EqualTo(0));
+            Assert.That(Euclid.Modulus(4, -3), Is.EqualTo(-2));
+            Assert.That(Euclid.Modulus(6, -3), Is.EqualTo(0));
+            Assert.That(Euclid.Modulus(-1, -3), Is.EqualTo(-1));
+            Assert.That(Euclid.Modulus(-2, -3), Is.EqualTo(-2));
+            Assert.That(Euclid.Modulus(-3, -3), Is.EqualTo(0));
+            Assert.That(Euclid.Modulus(-4, -3), Is.EqualTo(-1));
+        }
+
+        [Test]
+        public void TestModulusFloatingPoint()
+        {
+            Assert.That(Euclid.Modulus(0.2, 3), Is.EqualTo(0.2).Within(1e-12));
+            Assert.That(Euclid.Modulus(2.2, 3), Is.EqualTo(2.2).Within(1e-12));
+            Assert.That(Euclid.Modulus(3.2, 3), Is.EqualTo(0.2).Within(1e-12));
+            Assert.That(Euclid.Modulus(4.2, 3), Is.EqualTo(1.2).Within(1e-12));
+            Assert.That(Euclid.Modulus(6.2, 3), Is.EqualTo(0.2).Within(1e-12));
+            Assert.That(Euclid.Modulus(-1.2, 3), Is.EqualTo(1.8).Within(1e-12));
+            Assert.That(Euclid.Modulus(-2.2, 3), Is.EqualTo(0.8).Within(1e-12));
+            Assert.That(Euclid.Modulus(-3.2, 3), Is.EqualTo(2.8).Within(1e-12));
+            Assert.That(Euclid.Modulus(-4.2, 3), Is.EqualTo(1.8).Within(1e-12));
+
+            Assert.That(Euclid.Modulus(0.2, -3), Is.EqualTo(-2.8).Within(1e-12));
+            Assert.That(Euclid.Modulus(2.2, -3), Is.EqualTo(-0.8).Within(1e-12));
+            Assert.That(Euclid.Modulus(3.2, -3), Is.EqualTo(-2.8).Within(1e-12));
+            Assert.That(Euclid.Modulus(4.2, -3), Is.EqualTo(-1.8).Within(1e-12));
+            Assert.That(Euclid.Modulus(6.2, -3), Is.EqualTo(-2.8).Within(1e-12));
+            Assert.That(Euclid.Modulus(-1.2, -3), Is.EqualTo(-1.2).Within(1e-12));
+            Assert.That(Euclid.Modulus(-2.2, -3), Is.EqualTo(-2.2).Within(1e-12));
+            Assert.That(Euclid.Modulus(-3.2, -3), Is.EqualTo(-0.2).Within(1e-12));
+            Assert.That(Euclid.Modulus(-4.2, -3), Is.EqualTo(-1.2).Within(1e-12));
+        }
+
+        [Test]
+        public void TestRemainder()
+        {
+            Assert.That(Euclid.Remainder(0, 3), Is.EqualTo(0));
+            Assert.That(Euclid.Remainder(2, 3), Is.EqualTo(2));
+            Assert.That(Euclid.Remainder(3, 3), Is.EqualTo(0));
+            Assert.That(Euclid.Remainder(4, 3), Is.EqualTo(1));
+            Assert.That(Euclid.Remainder(6, 3), Is.EqualTo(0));
+            Assert.That(Euclid.Remainder(-1, 3), Is.EqualTo(-1));
+            Assert.That(Euclid.Remainder(-2, 3), Is.EqualTo(-2));
+            Assert.That(Euclid.Remainder(-3, 3), Is.EqualTo(0));
+            Assert.That(Euclid.Remainder(-4, 3), Is.EqualTo(-1));
+
+            Assert.That(Euclid.Remainder(0, -3), Is.EqualTo(0));
+            Assert.That(Euclid.Remainder(2, -3), Is.EqualTo(2));
+            Assert.That(Euclid.Remainder(3, -3), Is.EqualTo(0));
+            Assert.That(Euclid.Remainder(4, -3), Is.EqualTo(1));
+            Assert.That(Euclid.Remainder(6, -3), Is.EqualTo(0));
+            Assert.That(Euclid.Remainder(-1, -3), Is.EqualTo(-1));
+            Assert.That(Euclid.Remainder(-2, -3), Is.EqualTo(-2));
+            Assert.That(Euclid.Remainder(-3, -3), Is.EqualTo(0));
+            Assert.That(Euclid.Remainder(-4, -3), Is.EqualTo(-1));
+        }
+        [Test]
+        public void TestRemainderFloatingPoint()
+        {
+            Assert.That(Euclid.Remainder(0.2, 3), Is.EqualTo(0.2).Within(1e-12));
+            Assert.That(Euclid.Remainder(2.2, 3), Is.EqualTo(2.2).Within(1e-12));
+            Assert.That(Euclid.Remainder(3.2, 3), Is.EqualTo(0.2).Within(1e-12));
+            Assert.That(Euclid.Remainder(4.2, 3), Is.EqualTo(1.2).Within(1e-12));
+            Assert.That(Euclid.Remainder(6.2, 3), Is.EqualTo(0.2).Within(1e-12));
+            Assert.That(Euclid.Remainder(-1.2, 3), Is.EqualTo(-1.2).Within(1e-12));
+            Assert.That(Euclid.Remainder(-2.2, 3), Is.EqualTo(-2.2).Within(1e-12));
+            Assert.That(Euclid.Remainder(-3.2, 3), Is.EqualTo(-0.2).Within(1e-12));
+            Assert.That(Euclid.Remainder(-4.2, 3), Is.EqualTo(-1.2).Within(1e-12));
+
+            Assert.That(Euclid.Remainder(0.2, -3), Is.EqualTo(0.2).Within(1e-12));
+            Assert.That(Euclid.Remainder(2.2, -3), Is.EqualTo(2.2).Within(1e-12));
+            Assert.That(Euclid.Remainder(3.2, -3), Is.EqualTo(0.2).Within(1e-12));
+            Assert.That(Euclid.Remainder(4.2, -3), Is.EqualTo(1.2).Within(1e-12));
+            Assert.That(Euclid.Remainder(6.2, -3), Is.EqualTo(0.2).Within(1e-12));
+            Assert.That(Euclid.Remainder(-1.2, -3), Is.EqualTo(-1.2).Within(1e-12));
+            Assert.That(Euclid.Remainder(-2.2, -3), Is.EqualTo(-2.2).Within(1e-12));
+            Assert.That(Euclid.Remainder(-3.2, -3), Is.EqualTo(-0.2).Within(1e-12));
+            Assert.That(Euclid.Remainder(-4.2, -3), Is.EqualTo(-1.2).Within(1e-12));
+        }
+
         /// <summary>
         /// Test even/odd int32.
         /// </summary>

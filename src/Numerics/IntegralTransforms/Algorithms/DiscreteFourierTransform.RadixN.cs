@@ -28,15 +28,15 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System;
+using MathNet.Numerics.Properties;
+using MathNet.Numerics.Threading;
+
 namespace MathNet.Numerics.IntegralTransforms.Algorithms
 {
-    using System;
-    using NumberTheory;
-    using Properties;
-    using Threading;
 
 #if !NOSYSNUMERICS
-    using Complex = System.Numerics.Complex;
+    using System.Numerics;
 #endif
 
     /// <summary>

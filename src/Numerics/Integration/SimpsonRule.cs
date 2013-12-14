@@ -29,7 +29,6 @@
 // </copyright>
 
 using System;
-using MathNet.Numerics.NumberTheory;
 using MathNet.Numerics.Properties;
 
 namespace MathNet.Numerics.Integration

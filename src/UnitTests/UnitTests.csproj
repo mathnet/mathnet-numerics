@@ -355,9 +355,9 @@
     <Compile Include="LinearAlgebraTests\Double\VectorArithmeticTheory.cs" />
     <Compile Include="LinearAlgebraTests\VectorArithmeticTheory.cs" />
     <Compile Include="MatrixHelpers.cs" />
-    <Compile Include="NumberTheoryTests\GcdRelatedTest.cs" />
-    <Compile Include="NumberTheoryTests\GcdRelatedTestBigInteger.cs" />
-    <Compile Include="NumberTheoryTests\IntegerTheoryTest.cs" />
+    <Compile Include="EuclidTests\GcdRelatedTest.cs" />
+    <Compile Include="EuclidTests\GcdRelatedTestBigInteger.cs" />
+    <Compile Include="EuclidTests\IntegerTheoryTest.cs" />
     <Compile Include="RootFindingTests\BisectionTest.cs" />
     <Compile Include="PermutationTest.cs" />
     <Compile Include="PrecisionTest.cs" />
