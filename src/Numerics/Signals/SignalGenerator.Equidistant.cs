@@ -49,6 +49,7 @@ namespace MathNet.Numerics.Signals
         /// <returns>The generated sample vector.</returns>
         /// <exception cref="ArgumentNullException" />
         /// <exception cref="ArgumentOutOfRangeException" />
+        [Obsolete]
         public static T[] EquidistantInterval<T>(
             Func<double, T> function,
             double intervalBegin,
@@ -102,6 +103,7 @@ namespace MathNet.Numerics.Signals
         /// <returns>The generated sample vector.</returns>
         /// <exception cref="ArgumentNullException" />
         /// <exception cref="ArgumentOutOfRangeException" />
+        [Obsolete]
         public static T[] EquidistantInterval<T>(
             Func<double, T> function,
             double intervalBegin,
@@ -161,6 +163,7 @@ namespace MathNet.Numerics.Signals
         /// <returns>The generated sample vector.</returns>
         /// <exception cref="ArgumentNullException" />
         /// <exception cref="ArgumentOutOfRangeException"/>
+        [Obsolete]
         public static T[] EquidistantPeriodic<T>(
             Func<double, T> function,
             double periodLength,
@@ -203,6 +206,7 @@ namespace MathNet.Numerics.Signals
         /// <returns>The generated sample vector.</returns>
         /// <exception cref="ArgumentNullException" />
         /// <exception cref="ArgumentOutOfRangeException"/>
+        [Obsolete]
         public static T[] EquidistantPeriodic<T>(
             Func<double, T> function,
             double periodLength,
@@ -246,6 +250,7 @@ namespace MathNet.Numerics.Signals
         /// <returns>The generated sample vector.</returns>
         /// <exception cref="ArgumentNullException" />
         /// <exception cref="ArgumentOutOfRangeException"/>
+        [Obsolete]
         public static T[] EquidistantStartingAt<T>(
             Func<double, T> function,
             double start,
@@ -286,6 +291,7 @@ namespace MathNet.Numerics.Signals
         /// <returns>The generated sample vector.</returns>
         /// <exception cref="ArgumentNullException" />
         /// <exception cref="ArgumentOutOfRangeException"/>
+        [Obsolete]
         public static T[] EquidistantStartingAt<T>(
             Func<double, T> function,
             double start,
@@ -326,6 +332,7 @@ namespace MathNet.Numerics.Signals
         /// <typeparam name="T">The value type of the function to sample.</typeparam>
         /// <returns>The generated sample enumerator.</returns>
         /// <exception cref="ArgumentNullException" />
+        [Obsolete]
         public static IEnumerable<T> EquidistantContinuous<T>(
             Func<double, T> function,
             double start,
@@ -354,6 +361,7 @@ namespace MathNet.Numerics.Signals
         /// <typeparam name="T">The value type of the function to sample.</typeparam>
         /// <returns>The generated samples integer-domain function.</returns>
         /// <exception cref="ArgumentNullException" />
+        [Obsolete]
         public static Func<int, T> EquidistantToFunction<T>(
             Func<double, T> function,
             double start,

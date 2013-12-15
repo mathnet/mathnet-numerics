@@ -28,18 +28,14 @@ using System.Linq;
 using MathNet.Numerics.Distributions;
 using MathNet.Numerics.IntegralTransforms;
 using MathNet.Numerics.IntegralTransforms.Algorithms;
-using MathNet.Numerics.Signals;
 using MathNet.Numerics.Statistics;
 using NUnit.Framework;
 
 namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
 {
-    using Random = System.Random;
 
-#if NOSYSNUMERICS
-    using Complex = Numerics.Complex;
-#else
-    using Complex = System.Numerics.Complex;
+#if !NOSYSNUMERICS
+    using System.Numerics;
 #endif
 
     /// <summary>
@@ -53,7 +49,7 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         /// </summary>
         IContinuousDistribution GetUniform(int seed)
         {
-            return new ContinuousUniform(-1, 1, new Random(seed));
+            return new ContinuousUniform(-1, 1, new System.Random(seed));
         }
 
         /// <summary>
@@ -64,7 +60,7 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         [TestCase(0x7FF)]
         public void FourierDefaultTransformSatisfiesParsevalsTheorem(int count)
         {
-            var samples = SignalGenerator.Random((u, v) => new Complex(u, v), GetUniform(1), count);
+            var samples = Generate.RandomComplex(count, GetUniform(1));
 
             var timeSpaceEnergy = (from s in samples select s.MagnitudeSquared()).Mean();
 
@@ -87,7 +83,7 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         [TestCase(0x1F)]
         public void HartleyDefaultNaiveSatisfiesParsevalsTheorem(int count)
         {
-            var samples = SignalGenerator.Random(x => x, GetUniform(1), count);
+            var samples = Generate.Random(count, GetUniform(1));
 
             var timeSpaceEnergy = (from s in samples select s*s).Mean();
 

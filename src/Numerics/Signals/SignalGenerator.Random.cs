@@ -48,34 +48,13 @@ namespace MathNet.Numerics.Signals
         /// <returns>The generated sample vector.</returns>
         /// <exception cref="ArgumentNullException" />
         /// <exception cref="ArgumentOutOfRangeException" />
+        [Obsolete]
         public static T[] Random<T>(
             Func<double, T> function,
             IContinuousDistribution distribution,
             int sampleCount)
         {
-            if (ReferenceEquals(function, null))
-            {
-                throw new ArgumentNullException("function");
-            }
-
-            if (ReferenceEquals(distribution, null))
-            {
-                throw new ArgumentNullException("distribution");
-            }
-
-            if (sampleCount < 0)
-            {
-                throw new ArgumentOutOfRangeException("sampleCount");
-            }
-
-            var samples = new T[sampleCount];
-
-            for (int i = 0; i < samples.Length; i++)
-            {
-                samples[i] = function(distribution.Sample());
-            }
-
-            return samples;
+            return Generate.RandomMap(sampleCount, distribution, function);
         }
 
         /// <summary>
@@ -89,38 +68,15 @@ namespace MathNet.Numerics.Signals
         /// <returns>The generated sample vector.</returns>
         /// <exception cref="ArgumentNullException" />
         /// <exception cref="ArgumentOutOfRangeException" />
+        [Obsolete]
         public static T[] Random<T>(
             Func<double, T> function,
             IContinuousDistribution distribution,
             int sampleCount,
             out double[] samplePoints)
         {
-            if (ReferenceEquals(function, null))
-            {
-                throw new ArgumentNullException("function");
-            }
-
-            if (ReferenceEquals(distribution, null))
-            {
-                throw new ArgumentNullException("distribution");
-            }
-
-            if (sampleCount < 0)
-            {
-                throw new ArgumentOutOfRangeException("sampleCount");
-            }
-
-            var samples = new T[sampleCount];
-            samplePoints = new double[sampleCount];
-
-            for (int i = 0; i < samples.Length; i++)
-            {
-                double current = distribution.Sample();
-                samplePoints[i] = current;
-                samples[i] = function(current);
-            }
-
-            return samples;
+            samplePoints = Generate.Random(sampleCount, distribution);
+            return Generate.Map(samplePoints, function);
         }
 
         /// <summary>
@@ -133,34 +89,13 @@ namespace MathNet.Numerics.Signals
         /// <returns>The generated sample vector.</returns>
         /// <exception cref="ArgumentNullException" />
         /// <exception cref="ArgumentOutOfRangeException" />
+        [Obsolete]
         public static T[] Random<T>(
             Func<double, double, T> function,
             IContinuousDistribution distribution,
             int sampleCount)
         {
-            if (ReferenceEquals(function, null))
-            {
-                throw new ArgumentNullException("function");
-            }
-
-            if (ReferenceEquals(distribution, null))
-            {
-                throw new ArgumentNullException("distribution");
-            }
-
-            if (sampleCount < 0)
-            {
-                throw new ArgumentOutOfRangeException("sampleCount");
-            }
-
-            var samples = new T[sampleCount];
-
-            for (int i = 0; i < samples.Length; i++)
-            {
-                samples[i] = function(distribution.Sample(), distribution.Sample());
-            }
-
-            return samples;
+            return Generate.RandomMap2(sampleCount, distribution, function);
         }
     }
 }

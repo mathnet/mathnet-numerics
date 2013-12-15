@@ -25,6 +25,7 @@
 // </copyright>
 
 using System;
+using MathNet.Numerics;
 using MathNet.Numerics.Distributions;
 using MathNet.Numerics.Signals;
 
@@ -64,7 +65,7 @@ namespace Examples.SignalsExamples
         {
             // 1. Get 10 random samples of f(x) = (x * x) / 2 using continuous uniform distribution on [-10, 10]
             var uniform = new ContinuousUniform(-10, 10);
-            var result = SignalGenerator.Random(Function, uniform, 10);
+            var result = Generate.RandomMap(10, uniform, Function);
             Console.WriteLine(@" 1. Get 10 random samples of f(x) = (x * x) / 2 using continuous uniform distribution on [-10, 10]");
             for (var i = 0; i < result.Length; i++)
             {
@@ -76,8 +77,8 @@ namespace Examples.SignalsExamples
 
             // 2. Get 10 random samples of f(x) = (x * x) / 2 using Exponential(1) distribution and retrieve sample points
             var exponential = new Exponential(1);
-            double[] samplePoints;
-            result = SignalGenerator.Random(Function, exponential, 10, out samplePoints);
+            double[] samplePoints = Generate.Random(10, exponential);
+            result = Generate.Map(samplePoints, Function);
             Console.WriteLine(@"2. Get 10 random samples of f(x) = (x * x) / 2 using Exponential(1) distribution and retrieve sample points");
             Console.Write(@"Points: ");
             for (var i = 0; i < samplePoints.Length; i++)
@@ -97,7 +98,7 @@ namespace Examples.SignalsExamples
 
             // 3. Get 10 random samples of f(x, y) = (x * y) / 2 using ChiSquare(10) distribution
             var chiSquare = new ChiSquared(10);
-            result = SignalGenerator.Random(TwoDomainFunction, chiSquare, 10);
+            result = Generate.RandomMap2(10, chiSquare, TwoDomainFunction);
             Console.WriteLine(@" 3. Get 10 random samples of f(x, y) = (x * y) / 2 using ChiSquare(10) distribution");
             for (var i = 0; i < result.Length; i++)
             {

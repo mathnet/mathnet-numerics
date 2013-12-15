@@ -56,12 +56,7 @@ namespace MathNet.Numerics.Signals
             int sampleCount)
         {
             var roots = FindRoots.ChebychevPolynomialFirstKind(sampleCount, intervalBegin, intervalEnd);
-            var samples = new T[roots.Length];
-            for (int i = 0; i < samples.Length; i++)
-            {
-                samples[i] = function(roots[i]);
-            }
-            return samples;
+            return Generate.Map(roots, function);
         }
 
         /// <summary>
@@ -83,12 +78,7 @@ namespace MathNet.Numerics.Signals
             int sampleCount)
         {
             var roots = FindRoots.ChebychevPolynomialSecondKind(sampleCount, intervalBegin, intervalEnd);
-            var samples = new T[roots.Length];
-            for (int i = 0; i < samples.Length; i++)
-            {
-                samples[i] = function(roots[i]);
-            }
-            return samples;
+            return Generate.Map(roots, function);
         }
     }
 }

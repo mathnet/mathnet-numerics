@@ -32,10 +32,15 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using MathNet.Numerics.Distributions;
+using MathNet.Numerics.Properties;
 using MathNet.Numerics.Random;
 
 namespace MathNet.Numerics
 {
+#if !NOSYSNUMERICS
+    using System.Numerics;
+#endif
+
     public static class Generate
     {
         /// <summary>
@@ -302,6 +307,95 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
+        /// Generate samples by sampling a function at the provided points.
+        /// </summary>
+        public static TR[] Map<T, TR>(T[] points, Func<T, TR> map)
+        {
+            var res = new TR[points.Length];
+            for (int i = 0; i < points.Length; i++)
+            {
+                res[i] = map(points[i]);
+            }
+            return res;
+        }
+
+        /// <summary>
+        /// Generate a sample sequence by sampling a function at the provided point sequence.
+        /// </summary>
+        public static IEnumerable<TR> MapSequence<T, TR>(IEnumerable<T> points, Func<T, TR> map)
+        {
+            return points.Select(map);
+        }
+
+        /// <summary>
+        /// Generate samples by sampling a function at the provided points.
+        /// </summary>
+        public static TR[] Map2<TA, TB, TR>(TA[] pointsA, TB[] pointsB, Func<TA, TB, TR> map)
+        {
+            if (pointsA.Length != pointsB.Length)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "pointsB");
+            }
+
+            var res = new TR[pointsA.Length];
+            for (int i = 0; i < res.Length; i++)
+            {
+                res[i] = map(pointsA[i], pointsB[i]);
+            }
+            return res;
+        }
+
+        /// <summary>
+        /// Generate a sample sequence by sampling a function at the provided point sequence.
+        /// </summary>
+        public static IEnumerable<TR> Map2Sequence<TA, TB, TR>(IEnumerable<TA> pointsA, IEnumerable<TB> pointsB, Func<TA, TB, TR> map)
+        {
+            return pointsA.Zip(pointsB, map);
+        }
+
+        /// <summary>
+        /// Generate samples by sampling a function at samples from a probability distribution.
+        /// </summary>
+        public static T[] RandomMap<T>(int length, IContinuousDistribution distribution, Func<double, T> map)
+        {
+            var res = new T[length];
+            for (int i = 0; i < res.Length; i++)
+            {
+                res[i] = map(distribution.Sample());
+            }
+            return res;
+        }
+
+        /// <summary>
+        /// Generate a sample sequence by sampling a function at samples from a probability distribution.
+        /// </summary>
+        public static IEnumerable<T> RandomMapSequence<T>(IContinuousDistribution distribution, Func<double, T> map)
+        {
+            return distribution.Samples().Select(map);
+        }
+
+        /// <summary>
+        /// Generate samples by sampling a function at sample pairs from a probability distribution.
+        /// </summary>
+        public static T[] RandomMap2<T>(int length, IContinuousDistribution distribution, Func<double, double, T> map)
+        {
+            var res = new T[length];
+            for (int i = 0; i < res.Length; i++)
+            {
+                res[i] = map(distribution.Sample(), distribution.Sample());
+            }
+            return res;
+        }
+
+        /// <summary>
+        /// Generate a sample sequence by sampling a function at sample pairs from a probability distribution.
+        /// </summary>
+        public static IEnumerable<T> RandomMap2Sequence<T>(IContinuousDistribution distribution, Func<double, double, T> map)
+        {
+            return distribution.Samples().Zip(distribution.Samples(), map);
+        }
+
+        /// <summary>
         /// Create random samples.
         /// </summary>
         public static double[] Random(int length, IContinuousDistribution distribution)
@@ -315,6 +409,22 @@ namespace MathNet.Numerics
         public static IEnumerable<double> Random(IContinuousDistribution distribution)
         {
             return distribution.Samples();
+        }
+
+        /// <summary>
+        /// Create random samples.
+        /// </summary>
+        public static Complex[] RandomComplex(int length, IContinuousDistribution distribution)
+        {
+            return RandomMap2(length, distribution, (r, i) => new Complex(r, i));
+        }
+
+        /// <summary>
+        /// Create an infinite random sample sequence.
+        /// </summary>
+        public static IEnumerable<Complex> RandomComplex(IContinuousDistribution distribution)
+        {
+            return RandomMap2Sequence(distribution, (r, i) => new Complex(r, i));
         }
 
         /// <summary>
@@ -356,27 +466,6 @@ namespace MathNet.Numerics
         public static IEnumerable<double> StableNoiseSequence(double alpha, double beta, double scale, double location)
         {
             return Stable.Samples(MersenneTwister.Default, alpha, beta, scale, location);
-        }
-
-        /// <summary>
-        /// Generate sample by sampling a function at the provided points.
-        /// </summary>
-        public static TV[] Map<TU, TV>(TU[] points, Func<TU, TV> map)
-        {
-            var res = new TV[points.Length];
-            for (int i = 0; i < points.Length; i++)
-            {
-                res[i] = map(points[i]);
-            }
-            return res;
-        }
-
-        /// <summary>
-        /// Generate a sample sequence by sampling a function at the provided point sequence.
-        /// </summary>
-        public static IEnumerable<TV> MapSequence<TU, TV>(IEnumerable<TU> points, Func<TU, TV> map)
-        {
-            return points.Select(map);
         }
     }
 }
