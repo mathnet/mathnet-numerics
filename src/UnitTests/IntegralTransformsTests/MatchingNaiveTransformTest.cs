@@ -28,7 +28,6 @@ using System;
 using MathNet.Numerics.Distributions;
 using MathNet.Numerics.IntegralTransforms;
 using MathNet.Numerics.IntegralTransforms.Algorithms;
-using MathNet.Numerics.Signals;
 using NUnit.Framework;
 
 namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
@@ -80,7 +79,7 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         public void FourierRadix2MatchesNaiveOnRealSine(FourierOptions options)
         {
             var dft = new DiscreteFourierTransform();
-            var samples = SignalGenerator.EquidistantPeriodic(w => new Complex(Math.Sin(w), 0), Constants.Pi2, 0, 16);
+            var samples = Generate.PeriodicMap(16, w => new Complex(Math.Sin(w), 0), 16, 1.0, Constants.Pi2);
 
             VerifyMatchesNaiveComplex(
                 samples,
@@ -130,7 +129,7 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         public void FourierBluesteinMatchesNaiveOnRealSineNonPowerOfTwo(FourierOptions options)
         {
             var dft = new DiscreteFourierTransform();
-            var samples = SignalGenerator.EquidistantPeriodic(w => new Complex(Math.Sin(w), 0), Constants.Pi2, 0, 14);
+            var samples = Generate.PeriodicMap(14, w => new Complex(Math.Sin(w), 0), 14, 1.0, Constants.Pi2);
 
             VerifyMatchesNaiveComplex(
                 samples,

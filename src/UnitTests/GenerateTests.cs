@@ -131,6 +131,32 @@ namespace MathNet.Numerics.UnitTests
         }
 
         [Test]
+        public void Periodic()
+        {
+            Assert.That(Generate.Periodic(8, 2.0, 0.5), Is.EqualTo(new[] { 0.0, 0.25, 0.5, 0.75, 0.0, 0.25, 0.5, 0.75 }).Within(1e-12).AsCollection);
+            Assert.That(Generate.Periodic(8, 2.0, 0.5, 1.0, delay: 1), Is.EqualTo(new[] { 0.75, 0.0, 0.25, 0.5, 0.75, 0.0, 0.25, 0.5 }).Within(1e-12).AsCollection);
+            Assert.That(Generate.Periodic(8, 2.0, 0.5, 1.0, delay: -1), Is.EqualTo(new[] { 0.25, 0.5, 0.75, 0.0, 0.25, 0.5, 0.75, 0.0 }).Within(1e-12).AsCollection);
+            Assert.That(Generate.Periodic(8, 2.0, 0.5, 1.0, phase: 0.7), Is.EqualTo(new[] { 0.7, 0.95, 0.2, 0.45, 0.7, 0.95, 0.2, 0.45 }).Within(1e-12).AsCollection);
+            Assert.That(Generate.Periodic(8, 2.0, 0.5, 1.0, phase: -0.3), Is.EqualTo(new[] { 0.7, 0.95, 0.2, 0.45, 0.7, 0.95, 0.2, 0.45 }).Within(1e-12).AsCollection);
+            Assert.That(Generate.Periodic(8, 2.0, 0.5, 2.0), Is.EqualTo(new[] { 0.0, 0.5, 1.0, 1.5, 0.0, 0.5, 1.0, 1.5 }).Within(1e-12).AsCollection);
+            Assert.That(Generate.Periodic(8, 2.0, 0.5, 2.0, phase: 1.9), Is.EqualTo(new[] { 1.9, 0.4, 0.9, 1.4, 1.9, 0.4, 0.9, 1.4 }).Within(1e-12).AsCollection);
+            Assert.That(Generate.Periodic(8, 8.0, 1.0), Is.EqualTo(new[] { 0.0, 0.125, 0.25, 0.375, 0.5, 0.625, 0.75, 0.875 }).Within(1e-12).AsCollection);
+
+            // Angular over a full circle:
+            const double isq2 = Constants.Sqrt1Over2;
+            Assert.That(Generate.Periodic(8, 2.0, 0.5, Constants.Pi2).Select(Math.Sin), Is.EqualTo(new[] { 0.0, 1.0, 0.0, -1.0, 0.0, 1.0, 0.0, -1.0 }).Within(1e-12).AsCollection);
+            Assert.That(Generate.Periodic(8, 2.0, 0.25, Constants.Pi2).Select(Math.Sin), Is.EqualTo(new[] { 0.0, isq2, 1.0, isq2, 0.0, -isq2, -1.0, -isq2 }).Within(1e-12).AsCollection);
+        }
+
+        [Test]
+        public void PreiodicConsistentWithSequence()
+        {
+            Assert.That(
+                Generate.PeriodicSequence(16.0, 2.0, Constants.Pi2, Constants.PiOver4, 2).Take(1000).ToArray(),
+                Is.EqualTo(Generate.Periodic(1000, 16.0, 2.0, Constants.Pi2, Constants.PiOver4, 2)).Within(1e-12).AsCollection);
+        }
+
+        [Test]
         public void SinusoidalConsistentWithSequence()
         {
             Assert.That(

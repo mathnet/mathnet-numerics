@@ -44,6 +44,53 @@ namespace MathNet.Numerics
     public static class Generate
     {
         /// <summary>
+        /// Generate samples by sampling a function at the provided points.
+        /// </summary>
+        public static T[] Map<TA, T>(TA[] points, Func<TA, T> map)
+        {
+            var res = new T[points.Length];
+            for (int i = 0; i < points.Length; i++)
+            {
+                res[i] = map(points[i]);
+            }
+            return res;
+        }
+
+        /// <summary>
+        /// Generate a sample sequence by sampling a function at the provided point sequence.
+        /// </summary>
+        public static IEnumerable<T> MapSequence<TA, T>(IEnumerable<TA> points, Func<TA, T> map)
+        {
+            return points.Select(map);
+        }
+
+        /// <summary>
+        /// Generate samples by sampling a function at the provided points.
+        /// </summary>
+        public static T[] Map2<TA, TB, T>(TA[] pointsA, TB[] pointsB, Func<TA, TB, T> map)
+        {
+            if (pointsA.Length != pointsB.Length)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "pointsB");
+            }
+
+            var res = new T[pointsA.Length];
+            for (int i = 0; i < res.Length; i++)
+            {
+                res[i] = map(pointsA[i], pointsB[i]);
+            }
+            return res;
+        }
+
+        /// <summary>
+        /// Generate a sample sequence by sampling a function at the provided point sequence.
+        /// </summary>
+        public static IEnumerable<T> Map2Sequence<TA, TB, T>(IEnumerable<TA> pointsA, IEnumerable<TB> pointsB, Func<TA, TB, T> map)
+        {
+            return pointsA.Zip(pointsB, map);
+        }
+
+        /// <summary>
         /// Generate a linearly spaced sample vector of the given length between the specified values (inclusive).
         /// Equivalent to MATLAB linspace but with the length as first instead of last argument.
         /// </summary>
@@ -60,6 +107,25 @@ namespace MathNet.Numerics
                 data[i] = start + i*step;
             }
             data[data.Length - 1] = stop;
+            return data;
+        }
+
+        /// <summary>
+        /// Generate samples by sampling a function at linearly spaced points between the specified values (inclusive).
+        /// </summary>
+        public static T[] LinearSpacedMap<T>(int length, double start, double stop, Func<double, T> map)
+        {
+            if (length <= 0) return new T[0];
+            if (length == 1) return new[] { map(stop) };
+
+            double step = (stop - start)/(length - 1);
+
+            var data = new T[length];
+            for (int i = 0; i < data.Length; i++)
+            {
+                data[i] = map(start + i*step);
+            }
+            data[data.Length - 1] = map(stop);
             return data;
         }
 
@@ -153,11 +219,148 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
+        /// Generate samples by sampling a function at linearly spaced points within the inclusive interval (start, stop) and the provide step.
+        /// The start value is aways included as first value, but stop is only included if it stop-start is a multiple of step.
+        /// </summary>
+        public static T[] LinearRangeMap<T>(double start, double step, double stop, Func<double, T> map)
+        {
+            if (start == stop) return new T[] { map(start) };
+            if (start < stop && step < 0 || start > stop && step > 0 || step == 0d)
+            {
+                return new T[0];
+            }
+
+            var data = new T[(int)Math.Floor((stop - start)/step + 1d)];
+            for (int i = 0; i < data.Length; i++)
+            {
+                data[i] = map(start + i*step);
+            }
+            return data;
+        }
+
+        /// <summary>
+        /// Create a periodic sample vector.
+        /// </summary>
+        /// <param name="length">The number of samples to generate.</param>
+        /// <param name="samplingRate">Samples per time unit (Hz). Must be larger than twice the frequency to satisfy the Nyquist criterion.</param>
+        /// <param name="frequency">Frequency in periods per time unit (Hz).</param>
+        /// <param name="amplitude">The lenght of the period when sampled at one sample per time unit. This is the interval of the periodic domain, a typical value is 1.0, or 2*Pi for angular functions.</param>
+        /// <param name="phase">Optional phase offset.</param>
+        /// <param name="delay">Optional delay, relative to the phase.</param>
+        public static double[] Periodic(int length, double samplingRate, double frequency, double amplitude = 1.0, double phase = 0.0, int delay = 0)
+        {
+            double step = frequency/samplingRate*amplitude;
+            phase = Euclid.Modulus(phase - delay*step, amplitude);
+
+            var data = new double[length];
+            for (int i = 0, k = 0; i < data.Length; i++, k++)
+            {
+                var x = phase + k*step;
+                if (x >= amplitude)
+                {
+                    x %= amplitude;
+                    phase = x;
+                    k = 0;
+                }
+
+                data[i] = x;
+            }
+            return data;
+        }
+
+        /// <summary>
+        /// Create a periodic sample vector.
+        /// </summary>
+        /// <param name="length">The number of samples to generate.</param>
+        /// <param name="map"></param>
+        /// <param name="samplingRate">Samples per time unit (Hz). Must be larger than twice the frequency to satisfy the Nyquist criterion.</param>
+        /// <param name="frequency">Frequency in periods per time unit (Hz).</param>
+        /// <param name="amplitude">The lenght of the period when sampled at one sample per time unit. This is the interval of the periodic domain, a typical value is 1.0, or 2*Pi for angular functions.</param>
+        /// <param name="phase">Optional phase offset.</param>
+        /// <param name="delay">Optional delay, relative to the phase.</param>
+        public static T[] PeriodicMap<T>(int length, Func<double, T> map, double samplingRate, double frequency, double amplitude = 1.0, double phase = 0.0, int delay = 0)
+        {
+            double step = frequency/samplingRate*amplitude;
+            phase = Euclid.Modulus(phase - delay*step, amplitude);
+
+            var data = new T[length];
+            for (int i = 0, k = 0; i < data.Length; i++, k++)
+            {
+                var x = phase + k*step;
+                if (x >= amplitude)
+                {
+                    x %= amplitude;
+                    phase = x;
+                    k = 0;
+                }
+
+                data[i] = map(x);
+            }
+            return data;
+        }
+
+        /// <summary>
+        /// Create an infinite periodic sample sequence.
+        /// </summary>
+        /// <param name="samplingRate">Samples per time unit (Hz). Must be larger than twice the frequency to satisfy the Nyquist criterion.</param>
+        /// <param name="frequency">Frequency in periods per time unit (Hz).</param>
+        /// <param name="amplitude">The lenght of the period when sampled at one sample per time unit. This is the interval of the periodic domain, a typical value is 1.0, or 2*Pi for angular functions.</param>
+        /// <param name="phase">Optional phase offset.</param>
+        /// <param name="delay">Optional delay, relative to the phase.</param>
+        public static IEnumerable<double> PeriodicSequence(double samplingRate, double frequency, double amplitude = 1.0, double phase = 0.0, int delay = 0)
+        {
+            double step = frequency/samplingRate*amplitude;
+            phase = Euclid.Modulus(phase - delay*step, amplitude);
+
+            int k = 0;
+            while (true)
+            {
+                var x = phase + (k++)*step;
+                if (x >= amplitude)
+                {
+                    x %= amplitude;
+                    phase = x;
+                    k = 1;
+                }
+
+                yield return x;
+            }
+        }
+
+        /// <summary>
+        /// Create an infinite periodic sample sequence.
+        /// </summary>
+        /// <param name="samplingRate">Samples per time unit (Hz). Must be larger than twice the frequency to satisfy the Nyquist criterion.</param>
+        /// <param name="frequency">Frequency in periods per time unit (Hz).</param>
+        /// <param name="amplitude">The lenght of the period when sampled at one sample per time unit. This is the interval of the periodic domain, a typical value is 1.0, or 2*Pi for angular functions.</param>
+        /// <param name="phase">Optional phase offset.</param>
+        /// <param name="delay">Optional delay, relative to the phase.</param>
+        public static IEnumerable<T> PeriodicMapSequence<T>(Func<double, T> map, double samplingRate, double frequency, double amplitude = 1.0, double phase = 0.0, int delay = 0)
+        {
+            double step = frequency/samplingRate*amplitude;
+            phase = Euclid.Modulus(phase - delay*step, amplitude);
+
+            int k = 0;
+            while (true)
+            {
+                var x = phase + (k++)*step;
+                if (x >= amplitude)
+                {
+                    x %= amplitude;
+                    phase = x;
+                    k = 0;
+                }
+
+                yield return map(x);
+            }
+        }
+
+        /// <summary>
         /// Create a Sine sample vector.
         /// </summary>
         /// <param name="length">The number of samples to generate.</param>
-        /// <param name="samplingRate">Samples per unit.</param>
-        /// <param name="frequency">Frequency in samples per unit.</param>
+        /// <param name="samplingRate">Samples per time unit (Hz). Must be larger than twice the frequency to satisfy the Nyquist criterion.</param>
+        /// <param name="frequency">Frequency in periods per time unit (Hz).</param>
         /// <param name="amplitude">The maximal reached peak.</param>
         /// <param name="mean">The mean, or dc part, of the signal.</param>
         /// <param name="phase">Optional phase offset.</param>
@@ -168,7 +371,7 @@ namespace MathNet.Numerics
             phase = (phase - delay*step)%Constants.Pi2;
 
             var data = new double[length];
-            for (int i = 0; i < length; i++)
+            for (int i = 0; i < data.Length; i++)
             {
                 data[i] = mean + amplitude*Math.Sin(phase + i*step);
             }
@@ -307,63 +510,16 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
-        /// Generate samples by sampling a function at the provided points.
-        /// </summary>
-        public static TR[] Map<T, TR>(T[] points, Func<T, TR> map)
-        {
-            var res = new TR[points.Length];
-            for (int i = 0; i < points.Length; i++)
-            {
-                res[i] = map(points[i]);
-            }
-            return res;
-        }
-
-        /// <summary>
-        /// Generate a sample sequence by sampling a function at the provided point sequence.
-        /// </summary>
-        public static IEnumerable<TR> MapSequence<T, TR>(IEnumerable<T> points, Func<T, TR> map)
-        {
-            return points.Select(map);
-        }
-
-        /// <summary>
-        /// Generate samples by sampling a function at the provided points.
-        /// </summary>
-        public static TR[] Map2<TA, TB, TR>(TA[] pointsA, TB[] pointsB, Func<TA, TB, TR> map)
-        {
-            if (pointsA.Length != pointsB.Length)
-            {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, "pointsB");
-            }
-
-            var res = new TR[pointsA.Length];
-            for (int i = 0; i < res.Length; i++)
-            {
-                res[i] = map(pointsA[i], pointsB[i]);
-            }
-            return res;
-        }
-
-        /// <summary>
-        /// Generate a sample sequence by sampling a function at the provided point sequence.
-        /// </summary>
-        public static IEnumerable<TR> Map2Sequence<TA, TB, TR>(IEnumerable<TA> pointsA, IEnumerable<TB> pointsB, Func<TA, TB, TR> map)
-        {
-            return pointsA.Zip(pointsB, map);
-        }
-
-        /// <summary>
         /// Generate samples by sampling a function at samples from a probability distribution.
         /// </summary>
         public static T[] RandomMap<T>(int length, IContinuousDistribution distribution, Func<double, T> map)
         {
-            var res = new T[length];
-            for (int i = 0; i < res.Length; i++)
+            var data = new T[length];
+            for (int i = 0; i < data.Length; i++)
             {
-                res[i] = map(distribution.Sample());
+                data[i] = map(distribution.Sample());
             }
-            return res;
+            return data;
         }
 
         /// <summary>
@@ -379,12 +535,12 @@ namespace MathNet.Numerics
         /// </summary>
         public static T[] RandomMap2<T>(int length, IContinuousDistribution distribution, Func<double, double, T> map)
         {
-            var res = new T[length];
-            for (int i = 0; i < res.Length; i++)
+            var data = new T[length];
+            for (int i = 0; i < data.Length; i++)
             {
-                res[i] = map(distribution.Sample(), distribution.Sample());
+                data[i] = map(distribution.Sample(), distribution.Sample());
             }
-            return res;
+            return data;
         }
 
         /// <summary>

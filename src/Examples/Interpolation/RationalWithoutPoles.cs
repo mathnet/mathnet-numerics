@@ -67,8 +67,8 @@ namespace Examples.InterpolationExamples
         {
             // 1. Generate 10 samples of the function 1/(1+x*x) on interval [-5, 5]
             Console.WriteLine(@"1. Generate 10 samples of the function 1/(1+x*x) on interval [-5, 5]");
-            double[] points;
-            var values = SignalGenerator.EquidistantInterval(TargetFunction, -5, 5, 10, out points);
+            double[] points = Generate.LinearSpaced(10, -5, 5);
+            var values = Generate.Map(points, TargetFunction);
             Console.WriteLine();
             
             // 2. Create a floater hormann rational pole-free interpolation based on arbitrary points

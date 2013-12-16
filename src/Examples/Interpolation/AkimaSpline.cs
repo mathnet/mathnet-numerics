@@ -25,6 +25,7 @@
 // </copyright>
 
 using System;
+using MathNet.Numerics;
 using MathNet.Numerics.Interpolation;
 using MathNet.Numerics.Random;
 using MathNet.Numerics.Signals;
@@ -67,8 +68,8 @@ namespace Examples.InterpolationExamples
         {
             // 1. Generate 10 samples of the function x*x-2*x on interval [0, 10]
             Console.WriteLine(@"1. Generate 10 samples of the function x*x-2*x on interval [0, 10]");
-            double[] points;
-            var values = SignalGenerator.EquidistantInterval(TargetFunction, 0, 10, 10, out points);
+            double[] points = Generate.LinearSpaced(10, 0, 10);
+            var values = Generate.Map(points, TargetFunction);
             Console.WriteLine();
 
             // 2. Create akima spline interpolation 

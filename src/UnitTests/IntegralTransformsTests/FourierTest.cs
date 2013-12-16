@@ -28,7 +28,6 @@ using System;
 using MathNet.Numerics.Distributions;
 using MathNet.Numerics.IntegralTransforms;
 using MathNet.Numerics.IntegralTransforms.Algorithms;
-using MathNet.Numerics.Signals;
 using NUnit.Framework;
 
 namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
@@ -58,7 +57,7 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         [Test]
         public void NaiveTransformsRealSineCorrectly()
         {
-            var samples = SignalGenerator.EquidistantPeriodic(w => new Complex(Math.Sin(w), 0), Constants.Pi2, 0, 16);
+            var samples = Generate.PeriodicMap(16, w => new Complex(Math.Sin(w), 0), 16, 1.0, Constants.Pi2);
 
             // real-odd transforms to imaginary odd
             var dft = new DiscreteFourierTransform();

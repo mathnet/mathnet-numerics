@@ -56,39 +56,7 @@ namespace MathNet.Numerics.Signals
             double intervalEnd,
             int sampleCount)
         {
-            if (ReferenceEquals(function, null))
-            {
-                throw new ArgumentNullException("function");
-            }
-
-            if (sampleCount < 0)
-            {
-                throw new ArgumentOutOfRangeException("sampleCount");
-            }
-
-            if (sampleCount == 0)
-            {
-                return new T[0];
-            }
-
-            if (sampleCount == 1)
-            {
-                return new[] { function(0.5 * (intervalBegin + intervalEnd)) };
-            }
-
-            var samples = new T[sampleCount];
-            var step = (intervalEnd - intervalBegin) / (sampleCount - 1);
-            var current = intervalBegin;
-
-            for (int i = 0; i < samples.Length - 1; i++)
-            {
-                samples[i] = function(current);
-                current += step;
-            }
-
-            samples[samples.Length - 1] = function(intervalEnd);
-
-            return samples;
+            return Generate.LinearSpacedMap(sampleCount, intervalBegin, intervalEnd, function);
         }
 
         /// <summary>
@@ -111,44 +79,8 @@ namespace MathNet.Numerics.Signals
             int sampleCount,
             out double[] samplePoints)
         {
-            if (ReferenceEquals(function, null))
-            {
-                throw new ArgumentNullException("function");
-            }
-
-            if (sampleCount < 0)
-            {
-                throw new ArgumentOutOfRangeException("sampleCount");
-            }
-            
-            if (sampleCount == 0)
-            {
-                samplePoints = new double[0];
-                return new T[0];
-            }
-
-            if (sampleCount == 1)
-            {
-                samplePoints = new[] { 0.5 * (intervalBegin + intervalEnd) };
-                return new[] { function(samplePoints[0]) };
-            }
-
-            var samples = new T[sampleCount];
-            samplePoints = new double[sampleCount];
-            var step = (intervalEnd - intervalBegin) / (sampleCount - 1);
-            var current = intervalBegin;
-
-            for (int i = 0; i < samples.Length - 1; i++)
-            {
-                samplePoints[i] = current;
-                samples[i] = function(current);
-                current += step;
-            }
-
-            samplePoints[samplePoints.Length - 1] = intervalEnd;
-            samples[samples.Length - 1] = function(intervalEnd);
-
-            return samples;
+            samplePoints = Generate.LinearSpaced(sampleCount, intervalBegin, intervalEnd);
+            return Generate.Map(samplePoints, function);
         }
 
         /// <summary>
@@ -170,27 +102,7 @@ namespace MathNet.Numerics.Signals
             double periodOffset,
             int sampleCount)
         {
-            if (ReferenceEquals(function, null))
-            {
-                throw new ArgumentNullException("function");
-            }
-
-            if (sampleCount < 1)
-            {
-                throw new ArgumentOutOfRangeException("sampleCount");
-            }
-
-            var samples = new T[sampleCount];
-            var step = periodLength / sampleCount;
-            var current = periodOffset;
-
-            for (int i = 0; i < samples.Length; i++)
-            {
-                samples[i] = function(current);
-                current += step;
-            }
-
-            return samples;
+            return Generate.PeriodicMap(sampleCount, function, sampleCount, 1.0, periodLength, periodOffset);
         }
 
         /// <summary>
@@ -214,29 +126,8 @@ namespace MathNet.Numerics.Signals
             int sampleCount,
             out double[] samplePoints)
         {
-            if (ReferenceEquals(function, null))
-            {
-                throw new ArgumentNullException("function");
-            }
-
-            if (sampleCount < 1)
-            {
-                throw new ArgumentOutOfRangeException("sampleCount");
-            }
-
-            var samples = new T[sampleCount];
-            samplePoints = new double[sampleCount];
-            var step = periodLength / sampleCount;
-            var current = periodOffset;
-
-            for (int i = 0; i < samples.Length; i++)
-            {
-                samplePoints[i] = current;
-                samples[i] = function(current);
-                current += step;
-            }
-
-            return samples;
+            samplePoints = Generate.Periodic(sampleCount, sampleCount, 1.0, periodLength, periodOffset);
+            return Generate.Map(samplePoints, function);
         }
 
         /// <summary>
@@ -257,26 +148,7 @@ namespace MathNet.Numerics.Signals
             double step,
             int sampleCount)
         {
-            if (ReferenceEquals(function, null))
-            {
-                throw new ArgumentNullException("function");
-            }
-
-            if (sampleCount < 0)
-            {
-                throw new ArgumentOutOfRangeException("sampleCount");
-            }
-
-            var samples = new T[sampleCount];
-            var current = start;
-
-            for (int i = 0; i < samples.Length; i++)
-            {
-                samples[i] = function(current);
-                current += step;
-            }
-
-            return samples;
+            return Generate.LinearSpacedMap(sampleCount, start, start + (sampleCount - 1)*step, function);
         }
 
         /// <summary>
@@ -299,28 +171,8 @@ namespace MathNet.Numerics.Signals
             int sampleCount,
             out double[] samplePoints)
         {
-            if (ReferenceEquals(function, null))
-            {
-                throw new ArgumentNullException("function");
-            }
-
-            if (sampleCount < 0)
-            {
-                throw new ArgumentOutOfRangeException("sampleCount");
-            }
-
-            var samples = new T[sampleCount];
-            samplePoints = new double[sampleCount];
-            var current = start;
-
-            for (int i = 0; i < samples.Length; i++)
-            {
-                samplePoints[i] = current;
-                samples[i] = function(current);
-                current += step;
-            }
-
-            return samples;
+            samplePoints = Generate.LinearSpaced(sampleCount, start, start + (sampleCount - 1)*step);
+            return Generate.Map(samplePoints, function);
         }
 
         /// <summary>

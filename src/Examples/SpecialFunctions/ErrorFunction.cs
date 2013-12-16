@@ -26,7 +26,6 @@
 
 using System;
 using MathNet.Numerics;
-using MathNet.Numerics.Signals;
 
 namespace Examples.SpecialFunctionsExamples
 {
@@ -70,7 +69,7 @@ namespace Examples.SpecialFunctionsExamples
 
             // 2. Sample 10 values of the error function in [-1.0; 1.0]
             Console.WriteLine(@"2. Sample 10 values of the error function in [-1.0; 1.0]");
-            var data = SignalGenerator.EquidistantInterval(SpecialFunctions.Erf, -1.0, 1.0, 10);
+            var data = Generate.LinearSpacedMap(10, -1.0, 1.0, SpecialFunctions.Erf);
             for (var i = 0; i < data.Length; i++)
             {
                 Console.Write(data[i].ToString("N") + @" ");
@@ -86,7 +85,7 @@ namespace Examples.SpecialFunctionsExamples
 
             // 4. Sample 10 values of the complementary error function in [-1.0; 1.0]
             Console.WriteLine(@"4. Sample 10 values of the complementary error function in [-1.0; 1.0]");
-            data = SignalGenerator.EquidistantInterval(SpecialFunctions.Erfc, -1.0, 1.0, 10);
+            data = Generate.LinearSpacedMap(10, -1.0, 1.0, SpecialFunctions.Erfc);
             for (var i = 0; i < data.Length; i++)
             {
                 Console.Write(data[i].ToString("N") + @" ");
@@ -102,7 +101,7 @@ namespace Examples.SpecialFunctionsExamples
 
             // 6. Sample 10 values of the inverse error function in [-1.0; 1.0]
             Console.WriteLine(@"6. Sample 10 values of the inverse error function in [-1.0; 1.0]");
-            data = SignalGenerator.EquidistantInterval(SpecialFunctions.ErfInv, -1.0, 1.0, 10);
+            data = Generate.LinearSpacedMap(10, -1.0, 1.0, SpecialFunctions.ErfInv);
             for (var i = 0; i < data.Length; i++)
             {
                 Console.Write(data[i].ToString("N") + @" ");
@@ -118,7 +117,7 @@ namespace Examples.SpecialFunctionsExamples
 
             // 8. Sample 10 values of the complementary inverse error function in [-1.0; 1.0]
             Console.WriteLine(@"8. Sample 10 values of the complementary inverse error function in [-1.0; 1.0]");
-            data = SignalGenerator.EquidistantInterval(SpecialFunctions.ErfcInv, -1.0, 1.0, 10);
+            data = Generate.LinearSpacedMap(10, -1.0, 1.0, SpecialFunctions.ErfcInv);
             for (var i = 0; i < data.Length; i++)
             {
                 Console.Write(data[i].ToString("N") + @" ");
