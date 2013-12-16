@@ -27,7 +27,6 @@
 using System;
 using MathNet.Numerics;
 using MathNet.Numerics.Random;
-using MathNet.Numerics.Signals;
 
 namespace Examples.InterpolationExamples
 {

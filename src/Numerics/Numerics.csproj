@@ -407,9 +407,6 @@
     <Compile Include="Random\WH2006.cs" />
     <Compile Include="Random\Xorshift.cs" />
     <Compile Include="Compatibility.cs" />
-    <Compile Include="Signals\SignalGenerator.Random.cs" />
-    <Compile Include="Signals\SignalGenerator.Chebyshev.cs" />
-    <Compile Include="Signals\SignalGenerator.Equidistant.cs" />
     <Compile Include="Sorting.cs" />
     <Compile Include="SpecialFunctions\Harmonic.cs" />
     <Compile Include="SpecialFunctions\Beta.cs" />

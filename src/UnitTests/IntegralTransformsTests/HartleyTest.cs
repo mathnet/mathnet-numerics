@@ -28,7 +28,6 @@ using System;
 using MathNet.Numerics.Distributions;
 using MathNet.Numerics.IntegralTransforms;
 using MathNet.Numerics.IntegralTransforms.Algorithms;
-using MathNet.Numerics.Signals;
 using NUnit.Framework;
 
 namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
