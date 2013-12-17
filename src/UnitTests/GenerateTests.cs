@@ -149,6 +149,18 @@ namespace MathNet.Numerics.UnitTests
         }
 
         [Test]
+        public void PeriodicConsistentWithSinusoidal()
+        {
+            Assert.That(
+                Generate.PeriodicMap(100, Math.Sin, 16.0, 2.0, Constants.Pi2),
+                Is.EqualTo(Generate.Sinusoidal(100, 16.0, 2.0, 1.0)).Within(1e-12).AsCollection);
+
+            Assert.That(
+                Generate.PeriodicMapSequence(Math.Sin, 16.0, 2.0, Constants.Pi2).Take(100).ToArray(),
+                Is.EqualTo(Generate.SinusoidalSequence(16.0, 2.0, 1.0).Take(100).ToArray()).Within(1e-12).AsCollection);
+        }
+
+        [Test]
         public void PreiodicConsistentWithSequence()
         {
             Assert.That(

@@ -348,7 +348,7 @@ namespace MathNet.Numerics
                 {
                     x %= amplitude;
                     phase = x;
-                    k = 0;
+                    k = 1;
                 }
 
                 yield return map(x);
