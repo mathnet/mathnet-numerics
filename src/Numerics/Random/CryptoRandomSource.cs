@@ -28,6 +28,8 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System.Collections.Generic;
+
 #if !PORTABLE
 
 using System;
@@ -102,6 +104,40 @@ namespace MathNet.Numerics.Random
 #if !NET35
             _crypto.Dispose();
 #endif
+        }
+
+        /// <summary>
+        /// Returns an array of random numbers greater than or equal to 0.0 and less than 1.0.
+        /// </summary>
+        public static double[] Samples(int length)
+        {
+            var rnd = new RNGCryptoServiceProvider();
+            var bytes = new byte[length*4];
+            rnd.GetBytes(bytes);
+            var data = new double[length];
+            for (int i = 0; i < data.Length; i++)
+            {
+                data[i] = BitConverter.ToUInt32(bytes, i*4)*Reciprocal;
+            }
+            return data;
+        }
+
+        /// <summary>
+        /// Returns an infinite sequence of random numbers greater than or equal to 0.0 and less than 1.0.
+        /// </summary>
+        public static IEnumerable<double> SampleSequence()
+        {
+            var rnd = new RNGCryptoServiceProvider();
+            var buffer = new byte[1024*4];
+
+            while (true)
+            {
+                rnd.GetBytes(buffer);
+                for (int i = 0; i < buffer.Length; i += 4)
+                {
+                    yield return BitConverter.ToUInt32(buffer, i)*Reciprocal;
+                }
+            }
         }
     }
 }

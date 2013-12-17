@@ -29,6 +29,7 @@
 // </copyright>
 
 using System;
+using System.Collections.Generic;
 using MathNet.Numerics.Properties;
 
 namespace MathNet.Numerics.Random
@@ -261,6 +262,34 @@ namespace MathNet.Numerics.Random
         protected virtual double DoSample()
         {
             return base.Sample();
+        }
+
+        /// <summary>
+        /// Returns an array of random numbers greater than or equal to 0.0 and less than 1.0.
+        /// </summary>
+        public static double[] Samples(int length, int systemRandomSeed)
+        {
+            var rnd = new System.Random(systemRandomSeed);
+
+            var data = new double[length];
+            for (int i = 0; i < data.Length; i++)
+            {
+                data[i] = rnd.NextDouble();
+            }
+            return data;
+        }
+
+        /// <summary>
+        /// Returns an infinite sequence of random numbers greater than or equal to 0.0 and less than 1.0.
+        /// </summary>
+        public static IEnumerable<double> SampleSequence(int systemRandomSeed)
+        {
+            var rnd = new System.Random(systemRandomSeed);
+
+            while (true)
+            {
+                yield return rnd.NextDouble();
+            }
         }
     }
 }

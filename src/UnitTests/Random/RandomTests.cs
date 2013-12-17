@@ -78,9 +78,11 @@ namespace MathNet.Numerics.UnitTests.Random
             // make sure are within 10% of the expected sum.
             Assert.IsTrue(sum >= (N/2.0) - (.05*N));
             Assert.IsTrue(sum <= (N/2.0) + (.05*N));
-            if (random is IDisposable)
+
+            var disposable = random as IDisposable;
+            if (disposable != null)
             {
-                ((IDisposable)random).Dispose();
+                disposable.Dispose();
             }
         }
 

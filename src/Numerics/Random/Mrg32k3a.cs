@@ -28,6 +28,8 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System.Collections.Generic;
+
 namespace MathNet.Numerics.Random
 {
     /// <summary>
@@ -179,6 +181,46 @@ namespace MathNet.Numerics.Random
                 data[i] = xn <= yn ? (xn - yn + Modulus1)*Reciprocal : (xn - yn)*Reciprocal;
             }
             return data;
+        }
+
+        /// <summary>
+        /// Returns an infinite sequence of random numbers greater than or equal to 0.0 and less than 1.0.
+        /// </summary>
+        public static IEnumerable<double> SampleSequence(int seed)
+        {
+            double x1 = 1;
+            double x2 = 1;
+            double x3 = (uint)seed;
+            double y1 = 1;
+            double y2 = 1;
+            double y3 = 1;
+
+            while (true)
+            {
+                double xn = A12*x2 - A13*x3;
+                double k = (long)(xn/Modulus1);
+                xn -= k*Modulus1;
+                if (xn < 0)
+                {
+                    xn += Modulus1;
+                }
+
+                double yn = A21*y1 - A23*y3;
+                k = (long)(yn/Modulus2);
+                yn -= k*Modulus2;
+                if (yn < 0)
+                {
+                    yn += Modulus2;
+                }
+                x3 = x2;
+                x2 = x1;
+                x1 = xn;
+                y3 = y2;
+                y2 = y1;
+                y1 = yn;
+
+                yield return xn <= yn ? (xn - yn + Modulus1)*Reciprocal : (xn - yn)*Reciprocal;
+            }
         }
     }
 }

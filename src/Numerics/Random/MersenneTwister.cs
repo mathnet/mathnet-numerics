@@ -67,6 +67,7 @@
 */
 
 using System;
+using System.Collections.Generic;
 using System.Threading;
 
 namespace MathNet.Numerics.Random
@@ -382,6 +383,57 @@ namespace MathNet.Numerics.Random
                 data[i] = y*Reciprocal;
             }
             return data;
+        }
+
+        /// <summary>
+        /// Returns an infinite sequence of random numbers greater than or equal to 0.0 and less than 1.0.
+        /// </summary>
+        public static IEnumerable<double> SampleSequence(int seed)
+        {
+            uint[] t = new uint[624];
+            int k;
+            uint s = (uint)seed;
+
+            t[0] = s & 0xffffffff;
+            for (k = 1; k < N; k++)
+            {
+                t[k] = (1812433253*(t[k - 1] ^ (t[k - 1] >> 30)) + (uint)k);
+                t[k] &= 0xffffffff;
+            }
+
+            while (true)
+            {
+                uint y;
+
+                if (k >= N)
+                {
+                    int kk;
+                    for (kk = 0; kk < N - M; kk++)
+                    {
+                        y = (t[kk] & UpperMask) | (t[kk + 1] & LowerMask);
+                        t[kk] = t[kk + M] ^ (y >> 1) ^ Mag01[y & 0x1];
+                    }
+                    for (; kk < N - 1; kk++)
+                    {
+                        y = (t[kk] & UpperMask) | (t[kk + 1] & LowerMask);
+                        t[kk] = t[kk + (M - N)] ^ (y >> 1) ^ Mag01[y & 0x1];
+                    }
+                    y = (t[N - 1] & UpperMask) | (t[0] & LowerMask);
+                    t[N - 1] = t[M - 1] ^ (y >> 1) ^ Mag01[y & 0x1];
+
+                    k = 0;
+                }
+
+                y = t[k++];
+
+                /* Tempering */
+                y ^= (y >> 11);
+                y ^= (y << 7) & 0x9d2c5680;
+                y ^= (y << 15) & 0xefc60000;
+                y ^= (y >> 18);
+
+                yield return y*Reciprocal;
+            }
         }
     }
 }

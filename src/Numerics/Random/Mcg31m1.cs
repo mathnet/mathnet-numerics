@@ -28,6 +28,8 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System.Collections.Generic;
+
 namespace MathNet.Numerics.Random
 {
     /// <summary>
@@ -118,6 +120,24 @@ namespace MathNet.Numerics.Random
                 xn = (xn*Multiplier)%Modulus;
             }
             return data;
+        }
+
+        /// <summary>
+        /// Returns an infinite sequence of random numbers greater than or equal to 0.0 and less than 1.0.
+        /// </summary>
+        public static IEnumerable<double> SampleSequence(int seed)
+        {
+            if (seed == 0)
+            {
+                seed = 1;
+            }
+            ulong xn = (uint)seed%Modulus;
+
+            while (true)
+            {
+                yield return xn*Reciprocal;
+                xn = (xn*Multiplier)%Modulus;
+            }
         }
     }
 }

@@ -28,6 +28,8 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System.Collections.Generic;
+
 namespace MathNet.Numerics.Random
 {
     /// <summary>
@@ -138,6 +140,30 @@ namespace MathNet.Numerics.Random
                 data[i] = w - (int)w;
             }
             return data;
+        }
+
+        /// <summary>
+        /// Returns an infinite sequence of random numbers greater than or equal to 0.0 and less than 1.0.
+        /// </summary>
+        public static IEnumerable<double> SampleSequence(int seed)
+        {
+            if (seed == 0)
+            {
+                seed = 1;
+            }
+            uint xn = (uint)seed%Modx;
+            uint yn = 1;
+            uint zn = 1;
+
+            while (true)
+            {
+                xn = (171*xn)%Modx;
+                yn = (172*yn)%Mody;
+                zn = (170*zn)%Modz;
+
+                double w = xn*ModxRecip + yn*ModyRecip + zn*ModzRecip;
+                yield return w - (int)w;
+            }
         }
     }
 }

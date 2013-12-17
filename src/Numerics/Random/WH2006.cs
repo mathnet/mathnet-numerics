@@ -28,10 +28,12 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System.Collections.Generic;
+
 namespace MathNet.Numerics.Random
 {
     /// <summary>
-    /// Wichmann-Hill’s 2006 combined multiplicative congruential generator. 
+    /// Wichmann-Hill’s 2006 combined multiplicative congruential generator.
     /// </summary>
     /// <remarks>See: Wichmann, B. A. &amp; Hill, I. D. (2006), "Generating good pseudo-random numbers".
     /// Computational Statistics &amp; Data Analysis 51:3 (2006) 1614-1622
@@ -143,6 +145,32 @@ namespace MathNet.Numerics.Random
                 data[i] = u - (int)u;
             }
             return data;
+        }
+
+        /// <summary>
+        /// Returns an infinite sequence of random numbers greater than or equal to 0.0 and less than 1.0.
+        /// </summary>
+        public static IEnumerable<double> SampleSequence(int seed)
+        {
+            if (seed == 0)
+            {
+                seed = 1;
+            }
+            ulong wn = 1;
+            ulong xn = (uint)seed%Modx;
+            ulong yn = 1;
+            ulong zn = 1;
+
+            while (true)
+            {
+                xn = 11600*xn%Modx;
+                yn = 47003*yn%Mody;
+                zn = 23000*zn%Modz;
+                wn = 33000*wn%Modw;
+
+                double u = xn*ModxRecip + yn*ModyRecip + zn*ModzRecip + wn*ModwRecip;
+                yield return u - (int)u;
+            }
         }
     }
 }

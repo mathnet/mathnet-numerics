@@ -29,6 +29,7 @@
 // </copyright>
 
 using System;
+using System.Collections.Generic;
 using MathNet.Numerics.Properties;
 
 namespace MathNet.Numerics.Random
@@ -269,6 +270,53 @@ namespace MathNet.Numerics.Random
                 data[i] = (int)(x[k++] >> 1)*IntToDoubleMultiplier;
             }
             return data;
+        }
+
+        /// <summary>
+        /// Returns an infinite sequence of random numbers greater than or equal to 0.0 and less than 1.0.
+        /// </summary>
+        public static IEnumerable<double> SampleSequence(int seed)
+        {
+            if (seed == 0)
+            {
+                seed = 1;
+            }
+
+            int threads = Control.NumberOfParallelWorkerThreads;
+            const int shortLag = DefaultShortLag;
+            var longLag = DefaultLongLag;
+
+            // Align LongLag to number of worker threads.
+            if (longLag%threads != 0)
+            {
+                longLag = ((longLag/threads) + 1)*threads;
+            }
+
+            var x = Generate.Map(MersenneTwister.Samples(longLag, seed), uniform => (uint)(uniform*uint.MaxValue));
+            var k = longLag;
+
+            while (true)
+            {
+                if (k >= longLag)
+                {
+                    for (int index = 0; index < threads; index++)
+                    {
+                        // Two loops to avoid costly modulo operations
+                        for (var j = index; j < shortLag; j = j + threads)
+                        {
+                            x[j] += x[j + (longLag - shortLag)];
+                        }
+
+                        for (var j = shortLag + index; j < longLag; j = j + threads)
+                        {
+                            x[j] += x[j - shortLag - index];
+                        }
+                    }
+                    k = 0;
+                }
+
+                yield return (int)(x[k++] >> 1)*IntToDoubleMultiplier;
+            }
         }
     }
 }

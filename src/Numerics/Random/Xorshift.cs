@@ -29,6 +29,7 @@
 // </copyright>
 
 using System;
+using System.Collections.Generic;
 using MathNet.Numerics.Properties;
 
 namespace MathNet.Numerics.Random
@@ -66,22 +67,22 @@ namespace MathNet.Numerics.Random
         const double UlongToDoubleMultiplier = 1.0/(uint.MaxValue + 1.0);
 
         /// <summary>
-        /// Seed or last but three unsigned random number. 
+        /// Seed or last but three unsigned random number.
         /// </summary>
         ulong _x;
 
         /// <summary>
-        /// Last but two unsigned random number. 
+        /// Last but two unsigned random number.
         /// </summary>
         ulong _y;
 
         /// <summary>
-        /// Last but one unsigned random number. 
+        /// Last but one unsigned random number.
         /// </summary>
         ulong _z;
 
         /// <summary>
-        /// The value of the carry over. 
+        /// The value of the carry over.
         /// </summary>
         ulong _c;
 
@@ -289,6 +290,33 @@ namespace MathNet.Numerics.Random
                 data[i] = x2*UlongToDoubleMultiplier;
             }
             return data;
+        }
+
+        /// <summary>
+        /// Returns an infinite sequence of random numbers greater than or equal to 0.0 and less than 1.0.
+        /// </summary>
+        public static IEnumerable<double> SampleSequence(int seed, ulong a = ASeed, ulong c = CSeed, ulong x1 = YSeed, ulong x2 = ZSeed)
+        {
+            if (a <= c)
+            {
+                throw new ArgumentException(string.Format(Resources.ArgumentOutOfRangeGreater, "a", "c"), "a");
+            }
+
+            if (seed == 0)
+            {
+                seed = 1;
+            }
+            ulong x = (uint)seed;
+
+            while (true)
+            {
+                var t = (a*x) + c;
+                x = x1;
+                x1 = x2;
+                c = t >> 32;
+                x2 = t & 0xffffffff;
+                yield return x2*UlongToDoubleMultiplier;
+            }
         }
     }
 }
