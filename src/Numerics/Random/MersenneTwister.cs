@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2010 Math.NET
+// Copyright (c) 2009-2013 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -66,7 +66,6 @@
    email: m-mat @ math.sci.hiroshima-u.ac.jp (remove space)
 */
 
-using System;
 using System.Threading;
 
 namespace MathNet.Numerics.Random
@@ -74,70 +73,70 @@ namespace MathNet.Numerics.Random
     /// <summary>
     /// Random number generator using Mersenne Twister 19937 algorithm.
     /// </summary>
-    public class MersenneTwister : AbstractRandomNumberGenerator, IDisposable
+    public class MersenneTwister : RandomSource
     {
         /// <summary>
         /// Mersenne twister constant.
         /// </summary>
-        private const uint LowerMask = 0x7fffffff;
+        const uint LowerMask = 0x7fffffff;
 
         /// <summary>
         /// Mersenne twister constant.
         /// </summary>
-        private const int M = 397;
+        const int M = 397;
 
         /// <summary>
         /// Mersenne twister constant.
         /// </summary>
-        private const uint MatrixA = 0x9908b0df;
+        const uint MatrixA = 0x9908b0df;
 
         /// <summary>
         /// Mersenne twister constant.
         /// </summary>
-        private const int N = 624;
+        const int N = 624;
 
         /// <summary>
         /// Mersenne twister constant.
         /// </summary>
-        private const double Reciprocal = 1.0/4294967296.0;
+        const double Reciprocal = 1.0/4294967296.0;
 
         /// <summary>
         /// Mersenne twister constant.
         /// </summary>
-        private const uint UpperMask = 0x80000000;
+        const uint UpperMask = 0x80000000;
 
         /// <summary>
         /// Mersenne twister constant.
         /// </summary>
-        private static readonly uint[] Mag01 = {0x0U, MatrixA};
+        static readonly uint[] Mag01 = { 0x0U, MatrixA };
 
         /// <summary>
         /// Mersenne twister constant.
         /// </summary>
-        private readonly uint[] _mt = new uint[624];
+        readonly uint[] _mt = new uint[624];
 
         /// <summary>
         /// Mersenne twister constant.
         /// </summary>
-        private int _mti = N + 1;
+        int _mti = N + 1;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MersenneTwister"/> class using
-        /// the current time as the seed.
+        /// a seed based on time and unique GUIDs.
         /// </summary>
         /// <remarks>If the seed value is zero, it is set to one. Uses the
         /// value of <see cref="Control.ThreadSafeRandomNumberGenerators"/> to
         /// set whether the instance is thread safe.</remarks>
-        public MersenneTwister() : this((int) DateTime.Now.Ticks)
+        public MersenneTwister() : this(RandomSeed.Guid())
         {
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MersenneTwister"/> class using
-        /// the current time as the seed.
+        /// a seed based on time and unique GUIDs.
         /// </summary>
         /// <param name="threadSafe">if set to <c>true</c> , the class is thread safe.</param>
-        public MersenneTwister(bool threadSafe) : this((int) DateTime.Now.Ticks, threadSafe)
+        public MersenneTwister(bool threadSafe) : this(RandomSeed.Guid(), threadSafe)
         {
         }
 
@@ -147,8 +146,9 @@ namespace MathNet.Numerics.Random
         /// <param name="seed">The seed value.</param>
         /// <remarks>Uses the value of <see cref="Control.ThreadSafeRandomNumberGenerators"/> to
         /// set whether the instance is thread safe.</remarks>        
-        public MersenneTwister(int seed) : this(seed, Control.ThreadSafeRandomNumberGenerators)
+        public MersenneTwister(int seed)
         {
+            init_genrand((uint)seed);
         }
 
         /// <summary>
@@ -190,7 +190,7 @@ namespace MathNet.Numerics.Random
             get { return DefaultInstance.Value; }
         }
 #endif
-        
+
         /*/// <summary>
         /// Initializes a new instance of the <see cref="MersenneTwister"/> class.
         /// </summary>
@@ -211,12 +211,12 @@ namespace MathNet.Numerics.Random
         */
         /* initializes _mt[_n] with a seed */
 
-        private void init_genrand(uint s)
+        void init_genrand(uint s)
         {
             _mt[0] = s & 0xffffffff;
             for (_mti = 1; _mti < N; _mti++)
             {
-                _mt[_mti] = (1812433253*(_mt[_mti - 1] ^ (_mt[_mti - 1] >> 30)) + (uint) _mti);
+                _mt[_mti] = (1812433253*(_mt[_mti - 1] ^ (_mt[_mti - 1] >> 30)) + (uint)_mti);
                 /* See Knuth TAOCP Vol2. 3rd Ed. P.106 for multiplier. */
                 /* In the previous versions, MSBs of the seed affect   */
                 /* only MSBs of the array _mt[].                        */
@@ -231,7 +231,7 @@ namespace MathNet.Numerics.Random
         /* init_key is the array for initializing keys */
         /* slight change for C++, 2004/2/26 */
 
-       /* private void init_by_array(uint[] init_key)
+        /* private void init_by_array(uint[] init_key)
         {
             uint key_length = (uint) init_key.Length;
             init_genrand(19650218);
@@ -268,7 +268,7 @@ namespace MathNet.Numerics.Random
 
         /* generates a random number on [0,0xffffffff]-interval */
 
-        private uint genrand_int32()
+        uint genrand_int32()
         {
             uint y;
 
@@ -317,10 +317,10 @@ namespace MathNet.Numerics.Random
         /// </returns>
         protected override double DoSample()
         {
-            return genrand_int32() * Reciprocal;
+            return genrand_int32()*Reciprocal;
         }
 
-       /* /// <summary>
+        /* /// <summary>
         /// Generates a random number on [0,1) with 53-bit resolution.
         /// </summary>
         /// <returns>A random number on [0,1) with 53-bit resolution.</returns>
@@ -329,17 +329,5 @@ namespace MathNet.Numerics.Random
             ulong a = genrand_int32() >> 5, b = genrand_int32() >> 6;
             return (a * 67108864.0 + b) * (1.0 / 9007199254740992.0);
         }*/
-
-        #region IDisposable Members
-
-        /// <summary>
-        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
-        /// </summary>
-        public void Dispose()
-        {
-            //do nothing in the managed version.
-        }
-
-        #endregion
     }
 }

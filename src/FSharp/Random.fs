@@ -43,8 +43,8 @@ module Random =
 #if PORTABLE
 #else
     /// Creates a default .Net cryptographic system pRNG
-    let crypto () = new SystemCryptoRandomNumberGenerator() :> System.Random
-    let cryptoWith (threadSafe:bool) = new SystemCryptoRandomNumberGenerator(threadSafe) :> System.Random
+    let crypto () = new CryptoRandomSource() :> System.Random
+    let cryptoWith (threadSafe:bool) = new CryptoRandomSource(threadSafe) :> System.Random
 #endif
 
     /// Creates a Mersenne Twister 19937 pRNG with a custom seed based on uinque GUIDs

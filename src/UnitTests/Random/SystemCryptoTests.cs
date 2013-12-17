@@ -34,13 +34,13 @@ namespace MathNet.Numerics.UnitTests.Random
     /// Tests for a random number generator based on the <see cref="System.Security.Cryptography.RandomNumberGenerator"/> class in the .NET library
     /// </summary>
     [TestFixture, Category("Random")]
-    public class SystemCryptoRandomNumberGeneratorTests : RandomTests
+    public class CryptoRandomSourceTests : RandomTests
     {
         /// <summary>
         /// Initializes a new instance of the SystemCryptoRandomNumberGeneratorTests class.
         /// </summary>
-        public SystemCryptoRandomNumberGeneratorTests()
-            : base(typeof(SystemCryptoRandomNumberGenerator))
+        public CryptoRandomSourceTests()
+            : base(typeof(CryptoRandomSource))
         {
         }
     }

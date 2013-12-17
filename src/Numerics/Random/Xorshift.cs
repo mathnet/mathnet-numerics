@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2010 Math.NET
+// Copyright (c) 2009-2013 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -28,8 +28,8 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using MathNet.Numerics.Properties;
 using System;
+using MathNet.Numerics.Properties;
 
 namespace MathNet.Numerics.Random
 {
@@ -38,61 +38,61 @@ namespace MathNet.Numerics.Random
     /// <code>Xn = a * Xn−3 + c mod 2^32</code>
     /// http://www.jstatsoft.org/v08/i14/paper
     /// </summary>
-    public class Xorshift : AbstractRandomNumberGenerator
+    public class Xorshift : RandomSource
     {
         /// <summary>
         /// The default value for X1.
         /// </summary>
-        private const uint YSeed = 362436069;
+        const uint YSeed = 362436069;
 
         /// <summary>
         /// The default value for X2.
         /// </summary>
-        private const uint ZSeed = 77465321;
+        const uint ZSeed = 77465321;
 
         /// <summary>
         /// The default value for the multiplier.
         /// </summary>
-        private const uint ASeed = 916905990;
+        const uint ASeed = 916905990;
 
         /// <summary>
         /// The default value for the carry over.
         /// </summary>
-        private const uint CSeed = 13579;
+        const uint CSeed = 13579;
 
         /// <summary>
         /// The multiplier to compute a double-precision floating point number [0, 1)
         /// </summary>
-        private const double UlongToDoubleMultiplier = 1.0 / (uint.MaxValue + 1.0);
+        const double UlongToDoubleMultiplier = 1.0/(uint.MaxValue + 1.0);
 
         /// <summary>
         /// Seed or last but three unsigned random number. 
         /// </summary>
-        private ulong _x;
+        ulong _x;
 
         /// <summary>
         /// Last but two unsigned random number. 
         /// </summary>
-        private ulong _y;
+        ulong _y;
 
         /// <summary>
         /// Last but one unsigned random number. 
         /// </summary>
-        private ulong _z;
+        ulong _z;
 
         /// <summary>
         /// The value of the carry over. 
         /// </summary>
-        private ulong _c;
+        ulong _c;
 
         /// <summary>
         /// The multiplier.
         /// </summary>
-        private readonly ulong _a;
+        readonly ulong _a;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Xorshift"/> class using
-        /// the current time as the seed.
+        /// a seed based on time and unique GUIDs.
         /// </summary>
         /// <remarks>If the seed value is zero, it is set to one. Uses the
         /// value of <see cref="Control.ThreadSafeRandomNumberGenerators"/> to
@@ -104,13 +104,13 @@ namespace MathNet.Numerics.Random
         /// <item>X1 = 77465321</item>
         /// <item>X2 = 362436069</item>
         /// </list></remarks>
-        public Xorshift() : this((int)DateTime.Now.Ticks)
+        public Xorshift() : this(RandomSeed.Guid())
         {
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Xorshift"/> class using
-        /// the current time as the seed.
+        /// a seed based on time and unique GUIDs.
         /// </summary>
         /// <param name="a">The multiply value</param>
         /// <param name="c">The initial carry value.</param>
@@ -121,14 +121,13 @@ namespace MathNet.Numerics.Random
         /// set whether the instance is thread safe.
         /// Note: <paramref name="c"/> must be less than <paramref name="a"/>.
         /// </remarks>
-        public Xorshift(long a, long c, long x1, long x2)
-            : this((int)DateTime.Now.Ticks, a, c, x1, x2)
+        public Xorshift(long a, long c, long x1, long x2) : this(RandomSeed.Guid(), a, c, x1, x2)
         {
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Xorshift"/> class using
-        /// the current time as the seed.
+        /// a seed based on time and unique GUIDs.
         /// </summary>
         /// <param name="threadSafe">if set to <c>true</c> , the class is thread safe.</param>
         /// <remarks>
@@ -139,14 +138,13 @@ namespace MathNet.Numerics.Random
         /// <item>X1 = 77465321</item>
         /// <item>X2 = 362436069</item>
         /// </list></remarks>
-        public Xorshift(bool threadSafe)
-            : this((int)DateTime.Now.Ticks, threadSafe)
+        public Xorshift(bool threadSafe) : this(RandomSeed.Guid(), threadSafe)
         {
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Xorshift"/> class using
-        /// the current time as the seed.
+        /// a seed based on time and unique GUIDs.
         /// </summary>
         /// <param name="threadSafe">if set to <c>true</c> , the class is thread safe.</param>
         /// <param name="a">The multiply value</param>
@@ -154,11 +152,10 @@ namespace MathNet.Numerics.Random
         /// <param name="x1">The initial value if X1.</param>
         /// <param name="x2">The initial value if X2.</param>
         /// <remarks><paramref name="c"/> must be less than <paramref name="a"/>.</remarks>
-        public Xorshift(bool threadSafe, long a, long c, long x1, long x2)
-            : this((int)DateTime.Now.Ticks, threadSafe, a, c, x1, x2)
+        public Xorshift(bool threadSafe, long a, long c, long x1, long x2) : this(RandomSeed.Guid(), threadSafe, a, c, x1, x2)
         {
         }
-         
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Xorshift"/> class.
         /// </summary>
@@ -189,8 +186,7 @@ namespace MathNet.Numerics.Random
         /// <param name="x1">The initial value if X1.</param>
         /// <param name="x2">The initial value if X2.</param>
         /// <remarks><paramref name="c"/> must be less than <paramref name="a"/>.</remarks>
-        public Xorshift(int seed, long a, long c, long x1, long x2)
-            : this(seed, Control.ThreadSafeRandomNumberGenerators, a, c, x1, x2)
+        public Xorshift(int seed, long a, long c, long x1, long x2) : this(seed, Control.ThreadSafeRandomNumberGenerators, a, c, x1, x2)
         {
         }
 
@@ -231,8 +227,7 @@ namespace MathNet.Numerics.Random
         /// <param name="x1">The initial value if X1.</param>
         /// <param name="x2">The initial value if X2.</param>
         /// <remarks><paramref name="c"/> must be less than <paramref name="a"/>.</remarks>
-        public Xorshift(int seed, bool threadSafe, long a, long c, long x1, long x2)
-            : base(threadSafe)
+        public Xorshift(int seed, bool threadSafe, long a, long c, long x1, long x2) : base(threadSafe)
         {
             if (seed == 0)
             {
@@ -259,12 +254,12 @@ namespace MathNet.Numerics.Random
         /// </returns>
         protected override double DoSample()
         {
-            var t = (_a * _x) + _c;
+            var t = (_a*_x) + _c;
             _x = _y;
             _y = _z;
             _c = t >> 32;
             _z = t & 0xffffffff;
-            return _z * UlongToDoubleMultiplier;
+            return _z*UlongToDoubleMultiplier;
         }
     }
 }

@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2010 Math.NET
+// Copyright (c) 2009-2013 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -36,40 +36,40 @@ namespace MathNet.Numerics.Random
     /// A 32-bit combined multiple recursive generator with 2 components of order 3.
     /// </summary>
     ///<remarks>Based off of P. L'Ecuyer, "Combined Multiple Recursive Random Number Generators," Operations Research, 44, 5 (1996), 816--822. </remarks>
-    public class Mrg32k3a : AbstractRandomNumberGenerator
+    public class Mrg32k3a : RandomSource
     {
-        private const double A12 = 1403580;
-        private const double A13 = 810728;
-        private const double A21 = 527612;
-        private const double A23 = 1370589;
-        private const double Modulus1 = 4294967087;
-        private const double Modulus2 = 4294944443;
+        const double A12 = 1403580;
+        const double A13 = 810728;
+        const double A21 = 527612;
+        const double A23 = 1370589;
+        const double Modulus1 = 4294967087;
+        const double Modulus2 = 4294944443;
 
-        private const double Reciprocal = 1.0 / Modulus1;
-        private double _xn1 = 1;
-        private double _xn2 = 1;
-        private double _xn3;
-        private double _yn1 = 1;
-        private double _yn2 = 1;
-        private double _yn3 = 1;
+        const double Reciprocal = 1.0/Modulus1;
+        double _xn1 = 1;
+        double _xn2 = 1;
+        double _xn3;
+        double _yn1 = 1;
+        double _yn2 = 1;
+        double _yn3 = 1;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Mcg31m1"/> class using
-        /// the current time as the seed.
+        /// a seed based on time and unique GUIDs.
         /// </summary>
         /// <remarks>If the seed value is zero, it is set to one. Uses the
         /// value of <see cref="Control.ThreadSafeRandomNumberGenerators"/> to
         /// set whether the instance is thread safe.</remarks>
-        public Mrg32k3a() : this((int)DateTime.Now.Ticks)
+        public Mrg32k3a() : this(RandomSeed.Guid())
         {
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Mcg31m1"/> class using
-        /// the current time as the seed.
+        /// a seed based on time and unique GUIDs.
         /// </summary>
         /// <param name="threadSafe">if set to <c>true</c> , the class is thread safe.</param>
-        public Mrg32k3a(bool threadSafe) : this((int)DateTime.Now.Ticks, threadSafe)
+        public Mrg32k3a(bool threadSafe) : this(RandomSeed.Guid(), threadSafe)
         {
         }
 
@@ -80,8 +80,13 @@ namespace MathNet.Numerics.Random
         /// <remarks>If the seed value is zero, it is set to one. Uses the
         /// value of <see cref="Control.ThreadSafeRandomNumberGenerators"/> to
         /// set whether the instance is thread safe.</remarks>
-        public Mrg32k3a(int seed) : this(seed, Control.ThreadSafeRandomNumberGenerators)
+        public Mrg32k3a(int seed)
         {
+            if (seed == 0)
+            {
+                seed = 1;
+            }
+            _xn3 = (uint)seed;
         }
 
         /// <summary>
@@ -108,7 +113,7 @@ namespace MathNet.Numerics.Random
         protected override double DoSample()
         {
             double xn = A12*_xn2 - A13*_xn3;
-            double k = (long) (xn/Modulus1);
+            double k = (long)(xn/Modulus1);
             xn -= k*Modulus1;
             if (xn < 0)
             {
@@ -116,7 +121,7 @@ namespace MathNet.Numerics.Random
             }
 
             double yn = A21*_yn1 - A23*_yn3;
-            k = (long) (yn/Modulus2);
+            k = (long)(yn/Modulus2);
             yn -= k*Modulus2;
             if (yn < 0)
             {

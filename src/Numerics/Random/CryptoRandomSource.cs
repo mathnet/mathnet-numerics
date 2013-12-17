@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2012 Math.NET
+// Copyright (c) 2009-2013 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -38,19 +38,19 @@ namespace MathNet.Numerics.Random
     /// <summary>
     /// A random number generator based on the <see cref="System.Security.Cryptography.RandomNumberGenerator"/> class in the .NET library.
     /// </summary>
-    public class SystemCryptoRandomNumberGenerator : AbstractRandomNumberGenerator, IDisposable
+    public class CryptoRandomSource : RandomSource, IDisposable
     {
-        private const double Reciprocal = 1.0 / uint.MaxValue;
-        private readonly RandomNumberGenerator _random;
+        const double Reciprocal = 1.0/uint.MaxValue;
+        readonly RandomNumberGenerator _crypto;
 
         /// <summary>
         /// Construct a new random number generator with a random seed.
         /// </summary>
         /// <remarks>Uses <see cref="System.Security.Cryptography.RNGCryptoServiceProvider"/> and uses the value of 
         /// <see cref="Control.ThreadSafeRandomNumberGenerators"/> to set whether the instance is thread safe.</remarks>
-        public SystemCryptoRandomNumberGenerator(): this(new RNGCryptoServiceProvider(), Control.ThreadSafeRandomNumberGenerators)
+        public CryptoRandomSource()
         {
-            _random = new RNGCryptoServiceProvider();
+            _crypto = new RNGCryptoServiceProvider();
         }
 
         /// <summary>
@@ -58,8 +58,9 @@ namespace MathNet.Numerics.Random
         /// </summary>
         /// <param name="rng">The <see cref="RandomNumberGenerator"/> to use.</param>
         /// <remarks>Uses the value of  <see cref="Control.ThreadSafeRandomNumberGenerators"/> to set whether the instance is thread safe.</remarks>
-        public SystemCryptoRandomNumberGenerator(RandomNumberGenerator rng) : this(rng, Control.ThreadSafeRandomNumberGenerators)
+        public CryptoRandomSource(RandomNumberGenerator rng)
         {
+            _crypto = rng;
         }
 
         /// <summary>
@@ -67,8 +68,9 @@ namespace MathNet.Numerics.Random
         /// </summary>
         /// <remarks>Uses <see cref="System.Security.Cryptography.RNGCryptoServiceProvider"/></remarks>
         /// <param name="threadSafe">if set to <c>true</c> , the class is thread safe.</param>
-        public SystemCryptoRandomNumberGenerator(bool threadSafe): this(new RNGCryptoServiceProvider(), threadSafe)
+        public CryptoRandomSource(bool threadSafe) : base(threadSafe)
         {
+            _crypto = new RNGCryptoServiceProvider();
         }
 
         /// <summary>
@@ -76,13 +78,9 @@ namespace MathNet.Numerics.Random
         /// </summary>
         /// <param name="rng">The <see cref="RandomNumberGenerator"/> to use.</param>
         /// <param name="threadSafe">if set to <c>true</c> , the class is thread safe.</param>
-        public SystemCryptoRandomNumberGenerator(RandomNumberGenerator rng, bool threadSafe) : base(threadSafe)
+        public CryptoRandomSource(RandomNumberGenerator rng, bool threadSafe) : base(threadSafe)
         {
-            if (rng == null)
-            {
-                throw new ArgumentNullException("rng");
-            }
-            _random = rng;
+            _crypto = rng;
         }
 
 
@@ -95,14 +93,14 @@ namespace MathNet.Numerics.Random
         protected override double DoSample()
         {
             var bytes = new byte[4];
-            _random.GetBytes(bytes);
-            return BitConverter.ToUInt32(bytes, 0) * Reciprocal;
+            _crypto.GetBytes(bytes);
+            return BitConverter.ToUInt32(bytes, 0)*Reciprocal;
         }
 
         public void Dispose()
         {
 #if !NET35
-            _random.Dispose();
+            _crypto.Dispose();
 #endif
         }
     }

@@ -36,7 +36,7 @@ namespace MathNet.Numerics.Random
     /// This class implements extension methods for the System.Random class. The extension methods generate
     /// pseudo-random distributed numbers for types other than double and int32.
     /// </summary>
-    public static class SystemRandomExtensions
+    public static class RandomExtensions
     {
         /// <summary>
         /// Returns a nonnegative random number less than <see cref="Int64.MaxValue"/>.

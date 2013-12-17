@@ -43,7 +43,7 @@ namespace MathNet.Numerics.Random
     /// It uses the modulus 2<sup>32</sup> and by default the "lags" 418 and 1279. Some popular pairs are presented on 
     /// <a href="http://en.wikipedia.org/wiki/Lagged_Fibonacci_generator">Wikipedia - Lagged Fibonacci generator</a>.
     /// </remarks>
-    public class Palf : AbstractRandomNumberGenerator
+    public class Palf : RandomSource
     {
         /// <summary>
         /// Default value for the ShortLag
@@ -62,23 +62,21 @@ namespace MathNet.Numerics.Random
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Palf"/> class using
-        /// the current time as the seed.
+        /// a seed based on time and unique GUIDs.
         /// </summary>
         /// <remarks>If the seed value is zero, it is set to one. Uses the
         /// value of <see cref="Control.ThreadSafeRandomNumberGenerators"/> to
         /// set whether the instance is thread safe.</remarks>
-        public Palf()
-            : this((int) DateTime.Now.Ticks)
+        public Palf() : this(RandomSeed.Guid(), Control.ThreadSafeRandomNumberGenerators, DefaultShortLag, DefaultLongLag)
         {
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Palf"/> class using
-        /// the current time as the seed.
+        /// a seed based on time and unique GUIDs.
         /// </summary>
         /// <param name="threadSafe">if set to <c>true</c> , the class is thread safe.</param>
-        public Palf(bool threadSafe)
-            : this((int) DateTime.Now.Ticks, threadSafe, DefaultShortLag, DefaultLongLag)
+        public Palf(bool threadSafe) : this(RandomSeed.Guid(), threadSafe, DefaultShortLag, DefaultLongLag)
         {
         }
 
@@ -89,8 +87,7 @@ namespace MathNet.Numerics.Random
         /// <remarks>If the seed value is zero, it is set to one. Uses the
         /// value of <see cref="Control.ThreadSafeRandomNumberGenerators"/> to
         /// set whether the instance is thread safe.</remarks>
-        public Palf(int seed)
-            : this(seed, Control.ThreadSafeRandomNumberGenerators, DefaultShortLag, DefaultLongLag)
+        public Palf(int seed) : this(seed, Control.ThreadSafeRandomNumberGenerators, DefaultShortLag, DefaultLongLag)
         {
         }
 
@@ -101,8 +98,7 @@ namespace MathNet.Numerics.Random
         /// <param name="threadSafe">if set to <c>true</c>, the class is thread safe.</param>
         /// <param name="shortLag">The ShortLag value</param>
         /// <param name="longLag">TheLongLag value</param>
-        public Palf(int seed, bool threadSafe, int shortLag, int longLag)
-            : base(threadSafe)
+        public Palf(int seed, bool threadSafe, int shortLag, int longLag) : base(threadSafe)
         {
             if (shortLag < 1)
             {
@@ -135,7 +131,7 @@ namespace MathNet.Numerics.Random
             var gen = new MersenneTwister(seed, threadSafe);
             for (var j = 0; j < LongLag; ++j)
             {
-                _x[j] = (uint) (gen.NextDouble()*uint.MaxValue);
+                _x[j] = (uint)(gen.NextDouble()*uint.MaxValue);
             }
 
             _i = LongLag;
@@ -171,21 +167,21 @@ namespace MathNet.Numerics.Random
         void Fill()
         {
             CommonParallel.For(0, Control.NumberOfParallelWorkerThreads, (u, v) =>
+            {
+                for (int index = u; index < v; index++)
                 {
-                    for (int index = u; index < v; index++)
+                    // Two loops to avoid costly modulo operations
+                    for (var j = index; j < ShortLag; j = j + Control.NumberOfParallelWorkerThreads)
                     {
-                        // Two loops to avoid costly modulo operations
-                        for (var j = index; j < ShortLag; j = j + Control.NumberOfParallelWorkerThreads)
-                        {
-                            _x[j] += _x[j + (LongLag - ShortLag)];
-                        }
-
-                        for (var j = ShortLag + index; j < LongLag; j = j + Control.NumberOfParallelWorkerThreads)
-                        {
-                            _x[j] += _x[j - ShortLag - index];
-                        }
+                        _x[j] += _x[j + (LongLag - ShortLag)];
                     }
-                });
+
+                    for (var j = ShortLag + index; j < LongLag; j = j + Control.NumberOfParallelWorkerThreads)
+                    {
+                        _x[j] += _x[j - ShortLag - index];
+                    }
+                }
+            });
             _i = 0;
         }
 
@@ -203,7 +199,7 @@ namespace MathNet.Numerics.Random
             }
 
             var x = _x[_i++];
-            return (int) (x >> 1)*IntToDoubleMultiplier;
+            return (int)(x >> 1)*IntToDoubleMultiplier;
         }
     }
 }

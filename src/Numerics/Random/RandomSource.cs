@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 // 
-// Copyright (c) 2009-2010 Math.NET
+// Copyright (c) 2009-2013 Math.NET
 // 
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -28,52 +28,63 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System;
 using MathNet.Numerics.Properties;
 
 namespace MathNet.Numerics.Random
 {
-    using System;
-
     /// <summary>
-    /// Abstract class for random number generators. This class introduces a layer between <see cref="System.Random"/>
+    /// Base class for random number generators. This class introduces a layer between <see cref="System.Random"/>
     /// and the Math.Net Numerics random number generators to provide thread safety.
+    /// When used directly it use the System.Random as random number source.
     /// </summary>
-    public abstract class AbstractRandomNumberGenerator : Random
+    public class RandomSource : System.Random
     {
-        /// <summary>
-        /// A delegate type that represents a method that generates random numbers.
-        /// </summary>
-        /// <returns>Randomly distributed numbers.</returns>
-        private delegate double SampleMethod();
+        readonly bool _threadSafe;
+        readonly object _lock = new object();
 
         /// <summary>
-        /// The method that actually generates samples.
-        /// </summary>
-        private readonly SampleMethod _sampleMethod;
-
-        /// <summary>
-        /// The object that will be locked for thread safety.
-        /// </summary>
-        private readonly object _lock = new object();
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="AbstractRandomNumberGenerator"/> class using
+        /// Initializes a new instance of the <see cref="RandomSource"/> class using
         /// the value of <see cref="Control.ThreadSafeRandomNumberGenerators"/> to set whether
         /// the instance is thread safe or not.
         /// </summary>
-        protected AbstractRandomNumberGenerator() : this(Control.ThreadSafeRandomNumberGenerators)
+        public RandomSource() : base(RandomSeed.Guid())
         {
+            _threadSafe = Control.ThreadSafeRandomNumberGenerators;
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="AbstractRandomNumberGenerator"/> class.
+        /// Initializes a new instance of the <see cref="RandomSource"/> class.
         /// </summary>
         /// <param name="threadSafe">if set to <c>true</c> , the class is thread safe.</param>
         /// <remarks>Thread safe instances are two and half times slower than non-thread
         /// safe classes.</remarks>
-        protected AbstractRandomNumberGenerator(bool threadSafe)
+        public RandomSource(bool threadSafe) : base(RandomSeed.Guid())
         {
-            _sampleMethod = threadSafe ? (SampleMethod)ThreadSafeSample : DoSample;
+            _threadSafe = threadSafe;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RandomSource"/> class using
+        /// the value of <see cref="Control.ThreadSafeRandomNumberGenerators"/> to set whether
+        /// the instance is thread safe or not.
+        /// </summary>
+        /// <param name="systemRandomSeed">The seed value.</param>
+        public RandomSource(int systemRandomSeed) : base(systemRandomSeed)
+        {
+            _threadSafe = Control.ThreadSafeRandomNumberGenerators;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RandomSource"/> class.
+        /// </summary>
+        /// <param name="systemRandomSeed">The seed value.</param>
+        /// <param name="threadSafe">if set to <c>true</c> , the class is thread safe.</param>
+        /// <remarks>Thread safe instances are two and half times slower than non-thread
+        /// safe classes.</remarks>
+        public RandomSource(int systemRandomSeed, bool threadSafe) : base(systemRandomSeed)
+        {
+            _threadSafe = threadSafe;
         }
 
         /// <summary>
@@ -84,7 +95,7 @@ namespace MathNet.Numerics.Random
         /// An array of uniformly distributed random doubles in the interval [0.0,1.0].
         /// </returns>
         /// <exception cref="ArgumentException">if n is not greater than 0.</exception>
-        public double[] NextDouble(int n)
+        public double[] NextDoubles(int n)
         {
             if (n < 1)
             {
@@ -92,11 +103,23 @@ namespace MathNet.Numerics.Random
             }
 
             var ret = new double[n];
-            for (var i = 0; i < ret.Length; i++)
+            if (_threadSafe)
             {
-                ret[i] = Sample();
+                lock (_lock)
+                {
+                    for (var i = 0; i < ret.Length; i++)
+                    {
+                        ret[i] = DoSample();
+                    }
+                }
             }
-
+            else
+            {
+                for (var i = 0; i < ret.Length; i++)
+                {
+                    ret[i] = DoSample();
+                }
+            }
             return ret;
         }
 
@@ -106,9 +129,17 @@ namespace MathNet.Numerics.Random
         /// <returns>
         /// A 32-bit signed integer greater than or equal to zero and less than <see cref="F:System.Int32.MaxValue"/>.
         /// </returns>
-        public override int Next()
+        public override sealed int Next()
         {
-            return (int)(Sample() * int.MaxValue);
+            if (_threadSafe)
+            {
+                lock (_lock)
+                {
+                    return (int)(DoSample()*int.MaxValue);
+                }
+            }
+
+            return (int)(DoSample()*int.MaxValue);
         }
 
         /// <summary>
@@ -117,14 +148,22 @@ namespace MathNet.Numerics.Random
         /// <param name="maxValue">The exclusive upper bound of the random number returned.</param>
         /// <returns>A 32-bit signed integer less than <paramref name="maxValue"/>.</returns>
         /// <exception cref="T:System.ArgumentOutOfRangeException"><paramref name="maxValue"/> is negative. </exception>
-        public override int Next(int maxValue)
+        public override sealed int Next(int maxValue)
         {
             if (maxValue <= 0)
             {
                 throw new ArgumentOutOfRangeException(Resources.ArgumentMustBePositive);
             }
 
-            return (int)(Sample() * maxValue);
+            if (_threadSafe)
+            {
+                lock (_lock)
+                {
+                    return (int)(DoSample()*maxValue);
+                }
+            }
+
+            return (int)(DoSample()*maxValue);
         }
 
         /// <summary>
@@ -136,14 +175,22 @@ namespace MathNet.Numerics.Random
         /// A 32-bit signed integer greater than or equal to <paramref name="minValue"/> and less than <paramref name="maxValue"/>; that is, the range of return values includes <paramref name="minValue"/> but not <paramref name="maxValue"/>. If <paramref name="minValue"/> equals <paramref name="maxValue"/>, <paramref name="minValue"/> is returned.
         /// </returns>
         /// <exception cref="T:System.ArgumentOutOfRangeException"><paramref name="minValue"/> is greater than <paramref name="maxValue"/>. </exception>
-        public override int Next(int minValue, int maxValue)
+        public override sealed int Next(int minValue, int maxValue)
         {
             if (minValue > maxValue)
             {
                 throw new ArgumentOutOfRangeException(Resources.ArgumentMinValueGreaterThanMaxValue);
             }
 
-            return (int)(Sample() * (maxValue - minValue)) + minValue;
+            if (_threadSafe)
+            {
+                lock (_lock)
+                {
+                    return (int)(DoSample()*(maxValue - minValue)) + minValue;
+                }
+            }
+
+            return (int)(DoSample()*(maxValue - minValue)) + minValue;
         }
 
         /// <summary>
@@ -158,9 +205,21 @@ namespace MathNet.Numerics.Random
                 throw new ArgumentNullException("buffer");
             }
 
+            if (_threadSafe)
+            {
+                lock (_lock)
+                {
+                    for (var i = 0; i < buffer.Length; i++)
+                    {
+                        buffer[i] = (byte)(((int)(DoSample()*int.MaxValue))%256);
+                    }
+                }
+                return;
+            }
+
             for (var i = 0; i < buffer.Length; i++)
             {
-                buffer[i] = (byte)(Next() % 256);
+                buffer[i] = (byte)(((int)(DoSample()*int.MaxValue))%256);
             }
         }
 
@@ -170,14 +229,22 @@ namespace MathNet.Numerics.Random
         /// <returns>A double-precision floating point number greater than or equal to 0.0, and less than 1.0.</returns>
         protected override double Sample()
         {
-            return _sampleMethod();
+            if (_threadSafe)
+            {
+                lock (_lock)
+                {
+                    return DoSample();
+                }
+            }
+
+            return DoSample();
         }
 
         /// <summary>
         /// Thread safe version of <seealso cref="DoSample"/> which returns a random number between 0.0 and 1.0.
         /// </summary>
         /// <returns>A double-precision floating point number greater than or equal to 0.0, and less than 1.0</returns>
-        private double ThreadSafeSample()
+        double ThreadSafeSample()
         {
             lock (_lock)
             {
@@ -191,6 +258,9 @@ namespace MathNet.Numerics.Random
         /// <returns>
         /// A double-precision floating point number greater than or equal to 0.0, and less than 1.0.
         /// </returns>
-        protected abstract double DoSample();
+        protected virtual double DoSample()
+        {
+            return base.Sample();
+        }
     }
 }
