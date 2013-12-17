@@ -29,7 +29,6 @@
 // </copyright>
 
 using System;
-using System.Collections.Generic;
 using MathNet.Numerics.Properties;
 
 namespace MathNet.Numerics.Random
@@ -39,7 +38,7 @@ namespace MathNet.Numerics.Random
     /// and the Math.Net Numerics random number generators to provide thread safety.
     /// When used directly it use the System.Random as random number source.
     /// </summary>
-    public class RandomSource : System.Random
+    public abstract class RandomSource : System.Random
     {
         readonly bool _threadSafe;
         readonly object _lock = new object();
@@ -49,7 +48,7 @@ namespace MathNet.Numerics.Random
         /// the value of <see cref="Control.ThreadSafeRandomNumberGenerators"/> to set whether
         /// the instance is thread safe or not.
         /// </summary>
-        public RandomSource() : base(RandomSeed.Guid())
+        protected RandomSource() : base(RandomSeed.Guid())
         {
             _threadSafe = Control.ThreadSafeRandomNumberGenerators;
         }
@@ -60,30 +59,7 @@ namespace MathNet.Numerics.Random
         /// <param name="threadSafe">if set to <c>true</c> , the class is thread safe.</param>
         /// <remarks>Thread safe instances are two and half times slower than non-thread
         /// safe classes.</remarks>
-        public RandomSource(bool threadSafe) : base(RandomSeed.Guid())
-        {
-            _threadSafe = threadSafe;
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="RandomSource"/> class using
-        /// the value of <see cref="Control.ThreadSafeRandomNumberGenerators"/> to set whether
-        /// the instance is thread safe or not.
-        /// </summary>
-        /// <param name="systemRandomSeed">The seed value.</param>
-        public RandomSource(int systemRandomSeed) : base(systemRandomSeed)
-        {
-            _threadSafe = Control.ThreadSafeRandomNumberGenerators;
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="RandomSource"/> class.
-        /// </summary>
-        /// <param name="systemRandomSeed">The seed value.</param>
-        /// <param name="threadSafe">if set to <c>true</c> , the class is thread safe.</param>
-        /// <remarks>Thread safe instances are two and half times slower than non-thread
-        /// safe classes.</remarks>
-        public RandomSource(int systemRandomSeed, bool threadSafe) : base(systemRandomSeed)
+        protected RandomSource(bool threadSafe) : base(RandomSeed.Guid())
         {
             _threadSafe = threadSafe;
         }
@@ -242,54 +218,11 @@ namespace MathNet.Numerics.Random
         }
 
         /// <summary>
-        /// Thread safe version of <seealso cref="DoSample"/> which returns a random number between 0.0 and 1.0.
-        /// </summary>
-        /// <returns>A double-precision floating point number greater than or equal to 0.0, and less than 1.0</returns>
-        double ThreadSafeSample()
-        {
-            lock (_lock)
-            {
-                return DoSample();
-            }
-        }
-
-        /// <summary>
         /// Returns a random number between 0.0 and 1.0.
         /// </summary>
         /// <returns>
         /// A double-precision floating point number greater than or equal to 0.0, and less than 1.0.
         /// </returns>
-        protected virtual double DoSample()
-        {
-            return base.Sample();
-        }
-
-        /// <summary>
-        /// Returns an array of random numbers greater than or equal to 0.0 and less than 1.0.
-        /// </summary>
-        public static double[] Samples(int length, int systemRandomSeed)
-        {
-            var rnd = new System.Random(systemRandomSeed);
-
-            var data = new double[length];
-            for (int i = 0; i < data.Length; i++)
-            {
-                data[i] = rnd.NextDouble();
-            }
-            return data;
-        }
-
-        /// <summary>
-        /// Returns an infinite sequence of random numbers greater than or equal to 0.0 and less than 1.0.
-        /// </summary>
-        public static IEnumerable<double> SampleSequence(int systemRandomSeed)
-        {
-            var rnd = new System.Random(systemRandomSeed);
-
-            while (true)
-            {
-                yield return rnd.NextDouble();
-            }
-        }
+        protected abstract double DoSample();
     }
 }

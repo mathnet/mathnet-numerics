@@ -37,8 +37,8 @@ module Random =
     let shared = MersenneTwister.Default :> System.Random
 
     /// Creates a default .Net system pRNG with a custom seed based on uinque GUIDs
-    let system () = new System.Random(RandomSeed.Guid())
-    let systemSeed seed = new System.Random(seed)
+    let system () = new SystemRandomSource() :> System.Random
+    let systemSeed (seed:int) = new SystemRandomSource(seed) :> System.Random
 
 #if PORTABLE
 #else
