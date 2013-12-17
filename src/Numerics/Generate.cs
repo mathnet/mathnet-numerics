@@ -272,7 +272,7 @@ namespace MathNet.Numerics
         /// Create a periodic sample vector.
         /// </summary>
         /// <param name="length">The number of samples to generate.</param>
-        /// <param name="map"></param>
+        /// <param name="map">The function to apply to each of the values and evaluate the resulting sample.</param>
         /// <param name="samplingRate">Samples per time unit (Hz). Must be larger than twice the frequency to satisfy the Nyquist criterion.</param>
         /// <param name="frequency">Frequency in periods per time unit (Hz).</param>
         /// <param name="amplitude">The lenght of the period when sampled at one sample per time unit. This is the interval of the periodic domain, a typical value is 1.0, or 2*Pi for angular functions.</param>
@@ -330,6 +330,7 @@ namespace MathNet.Numerics
         /// <summary>
         /// Create an infinite periodic sample sequence.
         /// </summary>
+        /// <param name="map">The function to apply to each of the values and evaluate the resulting sample.</param>
         /// <param name="samplingRate">Samples per time unit (Hz). Must be larger than twice the frequency to satisfy the Nyquist criterion.</param>
         /// <param name="frequency">Frequency in periods per time unit (Hz).</param>
         /// <param name="amplitude">The lenght of the period when sampled at one sample per time unit. This is the interval of the periodic domain, a typical value is 1.0, or 2*Pi for angular functions.</param>

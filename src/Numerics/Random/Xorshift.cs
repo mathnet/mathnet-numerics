@@ -266,6 +266,7 @@ namespace MathNet.Numerics.Random
         /// <summary>
         /// Returns an array of random numbers greater than or equal to 0.0 and less than 1.0.
         /// </summary>
+        [CLSCompliant(false)]
         public static double[] Samples(int length, int seed, ulong a = ASeed, ulong c = CSeed, ulong x1 = YSeed, ulong x2 = ZSeed)
         {
             if (a <= c)
@@ -295,6 +296,7 @@ namespace MathNet.Numerics.Random
         /// <summary>
         /// Returns an infinite sequence of random numbers greater than or equal to 0.0 and less than 1.0.
         /// </summary>
+        [CLSCompliant(false)]
         public static IEnumerable<double> SampleSequence(int seed, ulong a = ASeed, ulong c = CSeed, ulong x1 = YSeed, ulong x2 = ZSeed)
         {
             if (a <= c)
