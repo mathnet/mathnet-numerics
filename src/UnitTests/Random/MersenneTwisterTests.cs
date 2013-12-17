@@ -3,7 +3,9 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
-// Copyright (c) 2009-2010 Math.NET
+//
+// Copyright (c) 2009-2013 Math.NET
+//
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -12,8 +14,10 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
+//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
+//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -24,11 +28,11 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using MathNet.Numerics.Random;
+using NUnit.Framework;
+
 namespace MathNet.Numerics.UnitTests.Random
 {
-    using Numerics.Random;
-    using NUnit.Framework;
-
     /// <summary>
     /// Tests for random number generator using Mersenne Twister 19937 algorithm.
     /// </summary>
@@ -38,7 +42,7 @@ namespace MathNet.Numerics.UnitTests.Random
         /// <summary>
         /// Initializes a new instance of the MersenneTwisterTests class.
         /// </summary>
-        public MersenneTwisterTests() : base(typeof(MersenneTwister))
+        public MersenneTwisterTests() : base(typeof (MersenneTwister))
         {
         }
 
@@ -53,6 +57,12 @@ namespace MathNet.Numerics.UnitTests.Random
             Assert.AreEqual(mt.NextDouble(), 0.5928446163889021);
             Assert.AreEqual(mt.NextDouble(), 0.7151893649715930);
             Assert.AreEqual(mt.NextDouble(), 0.8442657440900803);
+        }
+
+        [Test]
+        public void StaticSamplesConsistent()
+        {
+            Assert.That(MersenneTwister.Samples(1000, 1), Is.EqualTo(new MersenneTwister(1).NextDoubles(1000)).Within(1e-12).AsCollection);
         }
     }
 }

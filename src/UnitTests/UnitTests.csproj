@@ -368,8 +368,8 @@
     <Compile Include="Random\Mrg32k3aTests.cs" />
     <Compile Include="Random\PalfTests.cs" />
     <Compile Include="Random\RandomTests.cs" />
-    <Compile Include="Random\SystemCryptoTests.cs" />
-    <Compile Include="Random\SystemRandomExtensionTests.cs" />
+    <Compile Include="Random\CryptoRandomSourceTests.cs" />
+    <Compile Include="Random\RandomExtensionTests.cs" />
     <Compile Include="Random\WH1982Tests.cs" />
     <Compile Include="Random\WH2006Tests.cs" />
     <Compile Include="Random\XorshiftTests.cs" />

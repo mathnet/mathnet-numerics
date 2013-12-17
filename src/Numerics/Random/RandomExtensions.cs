@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2010 Math.NET
+// Copyright (c) 2009-2013 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -28,9 +28,10 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System;
+
 namespace MathNet.Numerics.Random
 {
-    using System;
 
     /// <summary>
     /// This class implements extension methods for the System.Random class. The extension methods generate
@@ -49,9 +50,9 @@ namespace MathNet.Numerics.Random
         /// the range of return values includes 0 but not <see cref="Int64.MaxValue"/>.
         /// </returns>
         /// <seealso cref="NextFullRangeInt64"/>
-        public static long NextInt64(this Random rnd)
+        public static long NextInt64(this System.Random rnd)
         {
-            var buffer = new byte[sizeof(long)];
+            var buffer = new byte[sizeof (long)];
 
             rnd.NextBytes(buffer);
             var candidate = BitConverter.ToInt64(buffer, 0);
@@ -75,9 +76,9 @@ namespace MathNet.Numerics.Random
         /// <see cref="Int32.MaxValue"/> and <see cref="Int32.MinValue"/>.
         /// </returns>
         /// <seealso cref="System.Random.Next()"/>
-        public static int NextFullRangeInt32(this Random rnd)
+        public static int NextFullRangeInt32(this System.Random rnd)
         {
-            var buffer = new byte[sizeof(int)];
+            var buffer = new byte[sizeof (int)];
             rnd.NextBytes(buffer);
             return BitConverter.ToInt32(buffer, 0);
         }
@@ -93,9 +94,9 @@ namespace MathNet.Numerics.Random
         /// <see cref="Int64.MaxValue"/> and <see cref="Int64.MinValue"/>.
         /// </returns>
         /// <seealso cref="NextInt64"/>
-        public static long NextFullRangeInt64(this Random rnd)
+        public static long NextFullRangeInt64(this System.Random rnd)
         {
-            var buffer = new byte[sizeof(long)];
+            var buffer = new byte[sizeof (long)];
             rnd.NextBytes(buffer);
             return BitConverter.ToInt64(buffer, 0);
         }
@@ -110,7 +111,7 @@ namespace MathNet.Numerics.Random
         /// A decimal floating point number greater than or equal to 0.0, and less than 1.0; that is, 
         /// the range of return values includes 0.0 but not 1.0.
         /// </returns>
-        public static decimal NextDecimal(this Random rnd)
+        public static decimal NextDecimal(this System.Random rnd)
         {
             decimal candidate;
 
@@ -125,8 +126,7 @@ namespace MathNet.Numerics.Random
                     rnd.NextFullRangeInt32(),
                     false,
                     28);
-            }
-            while (candidate >= 1.0m);
+            } while (candidate >= 1.0m);
 
             return candidate;
         }

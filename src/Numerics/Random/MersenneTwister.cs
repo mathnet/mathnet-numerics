@@ -66,6 +66,7 @@
    email: m-mat @ math.sci.hiroshima-u.ac.jp (remove space)
 */
 
+using System;
 using System.Threading;
 
 namespace MathNet.Numerics.Random
@@ -113,7 +114,7 @@ namespace MathNet.Numerics.Random
         /// <summary>
         /// Mersenne twister constant.
         /// </summary>
-        readonly uint[] _mt = new uint[624];
+        readonly uint[] _mt = new uint[N];
 
         /// <summary>
         /// Mersenne twister constant.
@@ -329,5 +330,58 @@ namespace MathNet.Numerics.Random
             ulong a = genrand_int32() >> 5, b = genrand_int32() >> 6;
             return (a * 67108864.0 + b) * (1.0 / 9007199254740992.0);
         }*/
+
+        /// <summary>
+        /// Returns an array of random numbers greater than or equal to 0.0 and less than 1.0.
+        /// </summary>
+        public static double[] Samples(int length, int seed)
+        {
+            uint[] t = new uint[624];
+            int k;
+            uint s = (uint)seed;
+
+            t[0] = s & 0xffffffff;
+            for (k = 1; k < N; k++)
+            {
+                t[k] = (1812433253*(t[k - 1] ^ (t[k - 1] >> 30)) + (uint)k);
+                t[k] &= 0xffffffff;
+            }
+
+            var data = new double[length];
+            for (int i = 0; i < data.Length; i++)
+            {
+                uint y;
+
+                if (k >= N)
+                {
+                    int kk;
+                    for (kk = 0; kk < N - M; kk++)
+                    {
+                        y = (t[kk] & UpperMask) | (t[kk + 1] & LowerMask);
+                        t[kk] = t[kk + M] ^ (y >> 1) ^ Mag01[y & 0x1];
+                    }
+                    for (; kk < N - 1; kk++)
+                    {
+                        y = (t[kk] & UpperMask) | (t[kk + 1] & LowerMask);
+                        t[kk] = t[kk + (M - N)] ^ (y >> 1) ^ Mag01[y & 0x1];
+                    }
+                    y = (t[N - 1] & UpperMask) | (t[0] & LowerMask);
+                    t[N - 1] = t[M - 1] ^ (y >> 1) ^ Mag01[y & 0x1];
+
+                    k = 0;
+                }
+
+                y = t[k++];
+
+                /* Tempering */
+                y ^= (y >> 11);
+                y ^= (y << 7) & 0x9d2c5680;
+                y ^= (y << 15) & 0xefc60000;
+                y ^= (y >> 18);
+
+                data[i] = y*Reciprocal;
+            }
+            return data;
+        }
     }
 }

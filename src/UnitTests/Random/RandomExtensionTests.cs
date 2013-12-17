@@ -1,9 +1,11 @@
-// <copyright file="SystemCryptoTests.cs" company="Math.NET">
+// <copyright file="SystemRandomExtensionTests.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
-// Copyright (c) 2009-2010 Math.NET
+//
+// Copyright (c) 2009-2013 Math.NET
+//
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -12,8 +14,10 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
+//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
+//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -24,25 +28,55 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-#if !PORTABLE
+using MathNet.Numerics.Random;
+using NUnit.Framework;
+
 namespace MathNet.Numerics.UnitTests.Random
 {
-    using Numerics.Random;
-    using NUnit.Framework;
-
     /// <summary>
-    /// Tests for a random number generator based on the <see cref="System.Security.Cryptography.RandomNumberGenerator"/> class in the .NET library
+    /// Tests for extension methods of the System.Random.
     /// </summary>
     [TestFixture, Category("Random")]
-    public class CryptoRandomSourceTests : RandomTests
+    public class RandomExtensionTests
     {
         /// <summary>
-        /// Initializes a new instance of the SystemCryptoRandomNumberGeneratorTests class.
+        /// Can sample int64.
         /// </summary>
-        public CryptoRandomSourceTests()
-            : base(typeof(CryptoRandomSource))
+        [Test]
+        public void CanSampleInt64()
         {
+            var rnd = new System.Random(0);
+            rnd.NextInt64();
+        }
+
+        /// <summary>
+        /// Can sample full range int32.
+        /// </summary>
+        [Test]
+        public void CanSampleFullRangeInt32()
+        {
+            var rnd = new System.Random(0);
+            rnd.NextFullRangeInt32();
+        }
+
+        /// <summary>
+        /// Can sample full range int64.
+        /// </summary>
+        [Test]
+        public void CanSampleFullRangeInt64()
+        {
+            var rnd = new System.Random(0);
+            rnd.NextFullRangeInt64();
+        }
+
+        /// <summary>
+        /// Can sample decimal.
+        /// </summary>
+        [Test]
+        public void CanSampleDecimal()
+        {
+            var rnd = new System.Random(0);
+            rnd.NextDecimal();
         }
     }
 }
-#endif

@@ -116,5 +116,33 @@ namespace MathNet.Numerics.Random
             u -= (int)u;
             return u;
         }
+
+        /// <summary>
+        /// Returns an array of random numbers greater than or equal to 0.0 and less than 1.0.
+        /// </summary>
+        public static double[] Samples(int length, int seed)
+        {
+            if (seed == 0)
+            {
+                seed = 1;
+            }
+            ulong wn = 1;
+            ulong xn = (uint)seed%Modx;
+            ulong yn = 1;
+            ulong zn = 1;
+
+            var data = new double[length];
+            for (int i = 0; i < data.Length; i++)
+            {
+                xn = 11600*xn%Modx;
+                yn = 47003*yn%Mody;
+                zn = 23000*zn%Modz;
+                wn = 33000*wn%Modw;
+
+                double u = xn*ModxRecip + yn*ModyRecip + zn*ModzRecip + wn*ModwRecip;
+                data[i] = u - (int)u;
+            }
+            return data;
+        }
     }
 }

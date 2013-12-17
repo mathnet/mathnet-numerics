@@ -99,5 +99,25 @@ namespace MathNet.Numerics.Random
             _xn = (_xn*Multiplier)%Modulus;
             return ret;
         }
+
+        /// <summary>
+        /// Returns an array of random numbers greater than or equal to 0.0 and less than 1.0.
+        /// </summary>
+        public static double[] Samples(int length, int seed)
+        {
+            if (seed == 0)
+            {
+                seed = 1;
+            }
+            ulong xn = (uint)seed%Modulus;
+
+            var data = new double[length];
+            for (int i = 0; i < data.Length; i++)
+            {
+                data[i] = xn*Reciprocal;
+                xn = (xn*Multiplier)%Modulus;
+            }
+            return data;
+        }
     }
 }

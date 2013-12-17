@@ -261,5 +261,34 @@ namespace MathNet.Numerics.Random
             _z = t & 0xffffffff;
             return _z*UlongToDoubleMultiplier;
         }
+
+        /// <summary>
+        /// Returns an array of random numbers greater than or equal to 0.0 and less than 1.0.
+        /// </summary>
+        public static double[] Samples(int length, int seed, ulong a = ASeed, ulong c = CSeed, ulong x1 = YSeed, ulong x2 = ZSeed)
+        {
+            if (a <= c)
+            {
+                throw new ArgumentException(string.Format(Resources.ArgumentOutOfRangeGreater, "a", "c"), "a");
+            }
+
+            if (seed == 0)
+            {
+                seed = 1;
+            }
+            ulong x = (uint)seed;
+
+            var data = new double[length];
+            for (int i = 0; i < data.Length; i++)
+            {
+                var t = (a*x) + c;
+                x = x1;
+                x1 = x2;
+                c = t >> 32;
+                x2 = t & 0xffffffff;
+                data[i] = x2*UlongToDoubleMultiplier;
+            }
+            return data;
+        }
     }
 }
