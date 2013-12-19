@@ -67,7 +67,7 @@ namespace MathNet.Numerics.Random
         /// <remarks>If the seed value is zero, it is set to one. Uses the
         /// value of <see cref="Control.ThreadSafeRandomNumberGenerators"/> to
         /// set whether the instance is thread safe.</remarks>
-        public Palf() : this(RandomSeed.Guid(), Control.ThreadSafeRandomNumberGenerators, DefaultShortLag, DefaultLongLag)
+        public Palf() : this(RandomSeed.Robust(), Control.ThreadSafeRandomNumberGenerators, DefaultShortLag, DefaultLongLag)
         {
         }
 
@@ -76,7 +76,7 @@ namespace MathNet.Numerics.Random
         /// a seed based on time and unique GUIDs.
         /// </summary>
         /// <param name="threadSafe">if set to <c>true</c> , the class is thread safe.</param>
-        public Palf(bool threadSafe) : this(RandomSeed.Guid(), threadSafe, DefaultShortLag, DefaultLongLag)
+        public Palf(bool threadSafe) : this(RandomSeed.Robust(), threadSafe, DefaultShortLag, DefaultLongLag)
         {
         }
 
@@ -226,6 +226,7 @@ namespace MathNet.Numerics.Random
         /// <summary>
         /// Returns an array of random numbers greater than or equal to 0.0 and less than 1.0.
         /// </summary>
+        /// <remarks>Supports being called in parallel from multiple threads.</remarks>
         public static double[] Samples(int length, int seed)
         {
             if (seed == 0)
@@ -275,6 +276,7 @@ namespace MathNet.Numerics.Random
         /// <summary>
         /// Returns an infinite sequence of random numbers greater than or equal to 0.0 and less than 1.0.
         /// </summary>
+        /// <remarks>Supports being called in parallel from multiple threads, but the result must be enumerated from a single thread each.</remarks>
         public static IEnumerable<double> SampleSequence(int seed)
         {
             if (seed == 0)

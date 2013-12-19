@@ -29,6 +29,8 @@
 // </copyright>
 
 using System.Collections.Generic;
+using System.Threading;
+using MathNet.Numerics.Threading;
 
 namespace MathNet.Numerics.Random
 {
@@ -42,7 +44,7 @@ namespace MathNet.Numerics.Random
         /// <summary>
         /// Construct a new random number generator with a random seed.
         /// </summary>
-        public SystemRandomSource() : this(RandomSeed.Guid())
+        public SystemRandomSource() : this(RandomSeed.Robust())
         {
         }
 
@@ -50,7 +52,7 @@ namespace MathNet.Numerics.Random
         /// Construct a new random number generator with random seed.
         /// </summary>
         /// <param name="threadSafe">if set to <c>true</c> , the class is thread safe.</param>
-        public SystemRandomSource(bool threadSafe) : this(RandomSeed.Guid(), threadSafe)
+        public SystemRandomSource(bool threadSafe) : this(RandomSeed.Robust(), threadSafe)
         {
         }
 
@@ -73,6 +75,36 @@ namespace MathNet.Numerics.Random
             _random = new System.Random(seed);
         }
 
+#if PORTABLE
+        [ThreadStatic]
+        static SystemRandomSource DefaultInstance;
+
+        /// <summary>
+        /// Default instance, thread-safe.
+        /// </summary>
+        public static SystemRandomSource Default
+        {
+            get
+            {
+                if (DefaultInstance == null)
+                {
+                    DefaultInstance = new SystemRandomSource(RandomSeed.Robust(), true);
+                }
+                return DefaultInstance;
+            }
+        }
+#else
+        static readonly ThreadLocal<SystemRandomSource> DefaultInstance = new ThreadLocal<SystemRandomSource>(() => new SystemRandomSource(RandomSeed.Robust(), true));
+
+        /// <summary>
+        /// Default instance, thread-safe.
+        /// </summary>
+        public static SystemRandomSource Default
+        {
+            get { return DefaultInstance.Value; }
+        }
+#endif
+
         /// <summary>
         /// Returns a random number between 0.0 and 1.0.
         /// </summary>
@@ -85,8 +117,51 @@ namespace MathNet.Numerics.Random
         }
 
         /// <summary>
+        /// Returns an array of uniform random numbers greater than or equal to 0.0 and less than 1.0.
+        /// </summary>
+        /// <remarks>Parallelized on large length, but also supports being called in parallel from multiple threads</remarks>
+        public static double[] Samples(int length)
+        {
+            if (length < 2048)
+            {
+                return Default.NextDoubles(length);
+            }
+
+            var data = new double[length];
+            CommonParallel.For(0, length, length >= 65536 ? 8192 : length >= 16384 ? 2048 : 1024, (a, b) =>
+            {
+                var rnd = new System.Random(RandomSeed.Robust());
+                for (int i = a; i < b; i++)
+                {
+                    data[i] = rnd.NextDouble();
+                }
+            });
+            return data;
+        }
+
+        /// <summary>
+        /// Returns an infinite sequence of uniform random numbers greater than or equal to 0.0 and less than 1.0.
+        /// </summary>
+        /// <remarks>Supports being called in parallel from multiple threads, but the result must be enumerated from a single thread each.</remarks>
+        public static IEnumerable<double> SampleSequence()
+        {
+            var rnd1 = Default;
+            for (int i = 0; i < 128; i++)
+            {
+                yield return rnd1.NextDouble();
+            }
+
+            var rnd2 = new System.Random(RandomSeed.Robust());
+            while (true)
+            {
+                yield return rnd2.NextDouble();
+            }
+        }
+
+        /// <summary>
         /// Returns an array of random numbers greater than or equal to 0.0 and less than 1.0.
         /// </summary>
+        /// <remarks>Supports being called in parallel from multiple threads.</remarks>
         public static double[] Samples(int length, int seed)
         {
             var rnd = new System.Random(seed);
@@ -102,6 +177,7 @@ namespace MathNet.Numerics.Random
         /// <summary>
         /// Returns an infinite sequence of random numbers greater than or equal to 0.0 and less than 1.0.
         /// </summary>
+        /// <remarks>Supports being called in parallel from multiple threads, but the result must be enumerated from a single thread each.</remarks>
         public static IEnumerable<double> SampleSequence(int seed)
         {
             var rnd = new System.Random(seed);

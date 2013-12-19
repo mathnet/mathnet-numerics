@@ -105,7 +105,7 @@ namespace MathNet.Numerics.Random
         /// <item>X1 = 77465321</item>
         /// <item>X2 = 362436069</item>
         /// </list></remarks>
-        public Xorshift() : this(RandomSeed.Guid())
+        public Xorshift() : this(RandomSeed.Robust())
         {
         }
 
@@ -122,7 +122,7 @@ namespace MathNet.Numerics.Random
         /// set whether the instance is thread safe.
         /// Note: <paramref name="c"/> must be less than <paramref name="a"/>.
         /// </remarks>
-        public Xorshift(long a, long c, long x1, long x2) : this(RandomSeed.Guid(), a, c, x1, x2)
+        public Xorshift(long a, long c, long x1, long x2) : this(RandomSeed.Robust(), a, c, x1, x2)
         {
         }
 
@@ -139,7 +139,7 @@ namespace MathNet.Numerics.Random
         /// <item>X1 = 77465321</item>
         /// <item>X2 = 362436069</item>
         /// </list></remarks>
-        public Xorshift(bool threadSafe) : this(RandomSeed.Guid(), threadSafe)
+        public Xorshift(bool threadSafe) : this(RandomSeed.Robust(), threadSafe)
         {
         }
 
@@ -153,7 +153,7 @@ namespace MathNet.Numerics.Random
         /// <param name="x1">The initial value if X1.</param>
         /// <param name="x2">The initial value if X2.</param>
         /// <remarks><paramref name="c"/> must be less than <paramref name="a"/>.</remarks>
-        public Xorshift(bool threadSafe, long a, long c, long x1, long x2) : this(RandomSeed.Guid(), threadSafe, a, c, x1, x2)
+        public Xorshift(bool threadSafe, long a, long c, long x1, long x2) : this(RandomSeed.Robust(), threadSafe, a, c, x1, x2)
         {
         }
 
@@ -266,6 +266,7 @@ namespace MathNet.Numerics.Random
         /// <summary>
         /// Returns an array of random numbers greater than or equal to 0.0 and less than 1.0.
         /// </summary>
+        /// <remarks>Supports being called in parallel from multiple threads.</remarks>
         [CLSCompliant(false)]
         public static double[] Samples(int length, int seed, ulong a = ASeed, ulong c = CSeed, ulong x1 = YSeed, ulong x2 = ZSeed)
         {
@@ -296,6 +297,7 @@ namespace MathNet.Numerics.Random
         /// <summary>
         /// Returns an infinite sequence of random numbers greater than or equal to 0.0 and less than 1.0.
         /// </summary>
+        /// <remarks>Supports being called in parallel from multiple threads, but the result must be enumerated from a single thread each.</remarks>
         [CLSCompliant(false)]
         public static IEnumerable<double> SampleSequence(int seed, ulong a = ASeed, ulong c = CSeed, ulong x1 = YSeed, ulong x2 = ZSeed)
         {

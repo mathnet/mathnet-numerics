@@ -66,7 +66,6 @@
    email: m-mat @ math.sci.hiroshima-u.ac.jp (remove space)
 */
 
-using System;
 using System.Collections.Generic;
 using System.Threading;
 
@@ -129,7 +128,7 @@ namespace MathNet.Numerics.Random
         /// <remarks>If the seed value is zero, it is set to one. Uses the
         /// value of <see cref="Control.ThreadSafeRandomNumberGenerators"/> to
         /// set whether the instance is thread safe.</remarks>
-        public MersenneTwister() : this(RandomSeed.Guid())
+        public MersenneTwister() : this(RandomSeed.Robust())
         {
         }
 
@@ -138,7 +137,7 @@ namespace MathNet.Numerics.Random
         /// a seed based on time and unique GUIDs.
         /// </summary>
         /// <param name="threadSafe">if set to <c>true</c> , the class is thread safe.</param>
-        public MersenneTwister(bool threadSafe) : this(RandomSeed.Guid(), threadSafe)
+        public MersenneTwister(bool threadSafe) : this(RandomSeed.Robust(), threadSafe)
         {
         }
 
@@ -176,13 +175,13 @@ namespace MathNet.Numerics.Random
             {
                 if (DefaultInstance == null)
                 {
-                    DefaultInstance = new MersenneTwister(RandomSeed.Guid(), true);
+                    DefaultInstance = new MersenneTwister(RandomSeed.Robust(), true);
                 }
                 return DefaultInstance;
             }
         }
 #else
-        static readonly ThreadLocal<MersenneTwister> DefaultInstance = new ThreadLocal<MersenneTwister>(() => new MersenneTwister(RandomSeed.Guid(), true));
+        static readonly ThreadLocal<MersenneTwister> DefaultInstance = new ThreadLocal<MersenneTwister>(() => new MersenneTwister(RandomSeed.Robust(), true));
 
         /// <summary>
         /// Default instance, thread-safe.
@@ -335,6 +334,7 @@ namespace MathNet.Numerics.Random
         /// <summary>
         /// Returns an array of random numbers greater than or equal to 0.0 and less than 1.0.
         /// </summary>
+        /// <remarks>Supports being called in parallel from multiple threads.</remarks>
         public static double[] Samples(int length, int seed)
         {
             uint[] t = new uint[624];
@@ -388,6 +388,7 @@ namespace MathNet.Numerics.Random
         /// <summary>
         /// Returns an infinite sequence of random numbers greater than or equal to 0.0 and less than 1.0.
         /// </summary>
+        /// <remarks>Supports being called in parallel from multiple threads, but the result must be enumerated from a single thread each.</remarks>
         public static IEnumerable<double> SampleSequence(int seed)
         {
             uint[] t = new uint[624];

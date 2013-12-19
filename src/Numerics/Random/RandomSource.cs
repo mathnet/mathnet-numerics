@@ -29,6 +29,7 @@
 // </copyright>
 
 using System;
+using System.Collections.Generic;
 using MathNet.Numerics.Properties;
 
 namespace MathNet.Numerics.Random
@@ -48,7 +49,7 @@ namespace MathNet.Numerics.Random
         /// the value of <see cref="Control.ThreadSafeRandomNumberGenerators"/> to set whether
         /// the instance is thread safe or not.
         /// </summary>
-        protected RandomSource() : base(RandomSeed.Guid())
+        protected RandomSource() : base(RandomSeed.Robust())
         {
             _threadSafe = Control.ThreadSafeRandomNumberGenerators;
         }
@@ -59,18 +60,15 @@ namespace MathNet.Numerics.Random
         /// <param name="threadSafe">if set to <c>true</c> , the class is thread safe.</param>
         /// <remarks>Thread safe instances are two and half times slower than non-thread
         /// safe classes.</remarks>
-        protected RandomSource(bool threadSafe) : base(RandomSeed.Guid())
+        protected RandomSource(bool threadSafe) : base(RandomSeed.Robust())
         {
             _threadSafe = threadSafe;
         }
 
         /// <summary>
-        /// Returns an array of uniformly distributed random doubles in the interval [0.0,1.0].
+        /// Returns an array of uniform random numbers greater than or equal to 0.0 and less than 1.0.
         /// </summary>
         /// <param name="n">The size of the array.</param>
-        /// <returns>
-        /// An array of uniformly distributed random doubles in the interval [0.0,1.0].
-        /// </returns>
         /// <exception cref="ArgumentException">if n is not greater than 0.</exception>
         public double[] NextDoubles(int n)
         {
@@ -98,6 +96,26 @@ namespace MathNet.Numerics.Random
                 }
             }
             return ret;
+        }
+
+        /// <summary>
+        /// Returns an infinite sequence of uniform random numbers greater than or equal to 0.0 and less than 1.0.
+        /// </summary>
+        public IEnumerable<double> NextDoubleSequence()
+        {
+            for (int i = 0; i < 64; i++)
+            {
+                yield return NextDouble();
+            }
+
+            while (true)
+            {
+                var buffer = NextDoubles(64);
+                for (int i = 0; i < buffer.Length; i++)
+                {
+                    yield return buffer[i];
+                }
+            }
         }
 
         /// <summary>

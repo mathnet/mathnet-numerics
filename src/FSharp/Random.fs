@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2012 Math.NET
+// Copyright (c) 2009-2013 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -33,10 +33,12 @@ namespace MathNet.Numerics.Random
 [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
 module Random =
 
-    /// Returns the default mersenne twister, thread-safe and also thread-locally shared
-    let shared = MersenneTwister.Default :> System.Random
-    let samples length = MersenneTwister.Samples(length, RandomSeed.Guid())
-    let sampleSeq () = MersenneTwister.SampleSequence(RandomSeed.Guid())
+    /// Returns the default random source, thread-safe and also thread-locally shared
+    let shared = SystemRandomSource.Default :> System.Random
+
+    /// Default sampling, efficient but without custom seed (uses robust seeds internally)
+    let samples length = SystemRandomSource.Samples(length)
+    let sampleSeq () = SystemRandomSource.SampleSequence()
 
     /// Creates a default .Net system pRNG with a custom seed based on uinque GUIDs
     let system () = new SystemRandomSource() :> System.Random
