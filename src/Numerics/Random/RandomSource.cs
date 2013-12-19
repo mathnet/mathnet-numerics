@@ -66,36 +66,28 @@ namespace MathNet.Numerics.Random
         }
 
         /// <summary>
-        /// Returns an array of uniform random numbers greater than or equal to 0.0 and less than 1.0.
+        /// Fills an array with uniform random numbers greater than or equal to 0.0 and less than 1.0.
         /// </summary>
-        /// <param name="n">The size of the array.</param>
-        /// <exception cref="ArgumentException">if n is not greater than 0.</exception>
-        public double[] NextDoubles(int n)
+        /// <param name="values">The array to fill with random values.</param>
+        public void NextDoubles(double[] values)
         {
-            if (n < 1)
-            {
-                throw new ArgumentException(Resources.ArgumentMustBePositive);
-            }
-
-            var ret = new double[n];
             if (_threadSafe)
             {
                 lock (_lock)
                 {
-                    for (var i = 0; i < ret.Length; i++)
+                    for (var i = 0; i < values.Length; i++)
                     {
-                        ret[i] = DoSample();
+                        values[i] = DoSample();
                     }
                 }
             }
             else
             {
-                for (var i = 0; i < ret.Length; i++)
+                for (var i = 0; i < values.Length; i++)
                 {
-                    ret[i] = DoSample();
+                    values[i] = DoSample();
                 }
             }
-            return ret;
         }
 
         /// <summary>
@@ -108,9 +100,10 @@ namespace MathNet.Numerics.Random
                 yield return NextDouble();
             }
 
+            var buffer = new double[64];
             while (true)
             {
-                var buffer = NextDoubles(64);
+                NextDoubles(buffer);
                 for (int i = 0; i < buffer.Length; i++)
                 {
                     yield return buffer[i];
@@ -222,7 +215,7 @@ namespace MathNet.Numerics.Random
         /// Returns a random number between 0.0 and 1.0.
         /// </summary>
         /// <returns>A double-precision floating point number greater than or equal to 0.0, and less than 1.0.</returns>
-        protected override double Sample()
+        protected override sealed double Sample()
         {
             if (_threadSafe)
             {

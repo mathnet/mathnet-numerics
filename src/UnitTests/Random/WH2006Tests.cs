@@ -49,7 +49,7 @@ namespace MathNet.Numerics.UnitTests.Random
         [Test]
         public void StaticSamplesConsistent()
         {
-            Assert.That(WH2006.Samples(1000, 1), Is.EqualTo(new WH2006(1).NextDoubles(1000)).Within(1e-12).AsCollection);
+            Assert.That(WH2006.Doubles(1000, 1), Is.EqualTo(new WH2006(1).NextDoubles(1000)).Within(1e-12).AsCollection);
         }
     }
 }

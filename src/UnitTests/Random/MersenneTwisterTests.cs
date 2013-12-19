@@ -62,7 +62,7 @@ namespace MathNet.Numerics.UnitTests.Random
         [Test]
         public void StaticSamplesConsistent()
         {
-            Assert.That(MersenneTwister.Samples(1000, 1), Is.EqualTo(new MersenneTwister(1).NextDoubles(1000)).Within(1e-12).AsCollection);
+            Assert.That(MersenneTwister.Doubles(1000, 1), Is.EqualTo(new MersenneTwister(1).NextDoubles(1000)).Within(1e-12).AsCollection);
         }
     }
 }

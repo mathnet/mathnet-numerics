@@ -37,78 +37,67 @@ module Random =
     let shared = SystemRandomSource.Default :> System.Random
 
     /// Default sampling, efficient but without custom seed (uses robust seeds internally)
-    let samples length = SystemRandomSource.Samples(length)
-    let sampleSeq () = SystemRandomSource.SampleSequence()
+    let inline doubles (length:int) = SystemRandomSource.Doubles(length)
+    let inline doubleSeq () = SystemRandomSource.DoubleSequence()
+    let inline doubleFill (values:double[]) = SystemRandomSource.Doubles(values)
 
-    /// Creates a default .Net system pRNG with a custom seed based on uinque GUIDs
-    let system () = new SystemRandomSource() :> System.Random
-    let systemSeed (seed:int) = new SystemRandomSource(seed) :> System.Random
-    let systemSamples (seed:int) length = SystemRandomSource.Samples(length, seed)
-    let systemSampleSeq (seed:int) = SystemRandomSource.SampleSequence(seed)
+    let inline doublesSeed (seed:int) (length:int) = SystemRandomSource.Doubles(length, seed)
+    let inline doubleSeqSeed (seed:int) = SystemRandomSource.DoubleSequence(seed)
+    let inline doubleFillSeed (seed:int) (values:double[]) = SystemRandomSource.Doubles(values, seed)
+
+    /// Creates a default .Net system pRNG with a robust seed
+    let systemShared = shared
+    let inline system () = SystemRandomSource() :> System.Random
+    let inline systemSeed (seed:int) = SystemRandomSource(seed) :> System.Random
 
 #if PORTABLE
 #else
     /// Creates a default .Net cryptographic system pRNG
-    let crypto () = new CryptoRandomSource() :> System.Random
-    let cryptoWith (threadSafe:bool) = new CryptoRandomSource(threadSafe) :> System.Random
-    let cryptoSamples length = CryptoRandomSource.Samples(length)
-    let cryptoSampleSeq () = CryptoRandomSource.SampleSequence()
+    let inline crypto () = new CryptoRandomSource() :> System.Random
+    let inline cryptoWith (threadSafe:bool) = new CryptoRandomSource(threadSafe) :> System.Random
+    let inline cryptoDoubles length = CryptoRandomSource.Doubles(length)
+    let inline cryptoDoubleSeq () = CryptoRandomSource.DoubleSequence()
 #endif
 
-    /// Creates a Mersenne Twister 19937 pRNG with a custom seed based on uinque GUIDs
-    let mersenneTwister () = new MersenneTwister() :> System.Random
-    let mersenneTwisterSeed (seed:int) = new MersenneTwister(seed) :> System.Random
-    let mersenneTwisterWith seed threadSafe = new MersenneTwister(seed, threadSafe) :> System.Random
-    let mersenneTwisterSamples (seed:int) length = MersenneTwister.Samples(length, seed)
-    let mersenneTwisterSampleSeq (seed:int) = MersenneTwister.SampleSequence(seed)
+    /// Creates a Mersenne Twister 19937 pRNG with a robust seed
+    let mersenneTwisterShared = MersenneTwister.Default :> System.Random
+    let inline mersenneTwister () = MersenneTwister() :> System.Random
+    let inline mersenneTwisterSeed (seed:int) = MersenneTwister(seed) :> System.Random
+    let inline mersenneTwisterWith (seed:int) threadSafe = MersenneTwister(seed, threadSafe) :> System.Random
 
-    /// Creates a multiply-with-carry Xorshift (Xn = a * Xn−3 + c mod 2^32) pRNG with a custom seed based on uinque GUIDs
-    let xorshift () = new Xorshift() :> System.Random
-    let xorshiftSeed (seed:int) = new Xorshift(seed) :> System.Random
-    let xorshiftWith seed threadSafe = new Xorshift(seed, threadSafe) :> System.Random
-    let xorshiftCustom seed threadSafe a c x1 x2 = new Xorshift(seed, threadSafe, a, c, x1, x2) :> System.Random
-    let xorshiftSamples (seed:int) length = Xorshift.Samples(length, seed)
-    let xorshiftSampleSeq (seed:int) = Xorshift.SampleSequence(seed)
+    /// Creates a multiply-with-carry Xorshift (Xn = a * Xn−3 + c mod 2^32) pRNG with a robust seed
+    let inline xorshift () = Xorshift() :> System.Random
+    let inline xorshiftSeed (seed:int) = Xorshift(seed) :> System.Random
+    let inline xorshiftWith (seed:int) threadSafe = Xorshift(seed, threadSafe) :> System.Random
+    let inline xorshiftCustom (seed:int) threadSafe a c x1 x2 = Xorshift(seed, threadSafe, a, c, x1, x2) :> System.Random
 
-    /// Creates a Wichmann-Hill’s 1982 combined multiplicative congruential pRNG with a custom seed based on uinque GUIDs
-    let wh1982 () = new WH1982() :> System.Random
-    let wh1982Seed (seed:int) = new WH1982(seed) :> System.Random
-    let wh1982With seed threadSafe = new WH1982(seed, threadSafe) :> System.Random
-    let wh1982Samples (seed:int) length = WH1982.Samples(length, seed)
-    let wh1982SampleSeq (seed:int) = WH1982.SampleSequence(seed)
+    /// Creates a Wichmann-Hill’s 1982 combined multiplicative congruential pRNG with a robust seed
+    let inline wh1982 () = WH1982() :> System.Random
+    let inline wh1982Seed (seed:int) = WH1982(seed) :> System.Random
+    let inline wh1982With (seed:int) threadSafe = WH1982(seed, threadSafe) :> System.Random
 
-    /// Creates a Wichmann-Hill’s 2006 combined multiplicative congruential pRNG with a custom seed based on uinque GUIDs
-    let wh2006 () = new WH2006() :> System.Random
-    let wh2006Seed (seed:int) = new WH2006(seed) :> System.Random
-    let wh2006With seed threadSafe = new WH2006(seed, threadSafe) :> System.Random
-    let wh2006Samples (seed:int) length = WH2006.Samples(length, seed)
-    let wh2006SampleSeq (seed:int) = WH2006.SampleSequence(seed)
+    /// Creates a Wichmann-Hill’s 2006 combined multiplicative congruential pRNG with a robust seed
+    let inline wh2006 () = WH2006() :> System.Random
+    let inline wh2006Seed (seed:int) = WH2006(seed) :> System.Random
+    let inline wh2006With (seed:int) threadSafe = WH2006(seed, threadSafe) :> System.Random
 
-    /// Creates a Parallel Additive Lagged Fibonacci pRNG with a custom seed based on uinque GUIDs
-    let palf () = new Palf() :> System.Random
-    let palfSeed (seed:int) = new Palf(seed) :> System.Random
-    let palfWith seed threadSafe = new Palf(seed, threadSafe, 418, 1279) :> System.Random
-    let palfCustom seed threadSafe shortLag longLag = new Palf(seed, threadSafe, shortLag, longLag) :> System.Random
-    let palfSamples (seed:int) length = Palf.Samples(length, seed)
-    let palfSampleSeq (seed:int) = Palf.SampleSequence(seed)
+    /// Creates a Parallel Additive Lagged Fibonacci pRNG with a robust seed
+    let inline palf () = Palf() :> System.Random
+    let inline palfSeed (seed:int) = Palf(seed) :> System.Random
+    let inline palfWith (seed:int) threadSafe = Palf(seed, threadSafe, 418, 1279) :> System.Random
+    let inline palfCustom (seed:int) threadSafe shortLag longLag = Palf(seed, threadSafe, shortLag, longLag) :> System.Random
 
-    /// Creates a Multiplicative congruential generator using a modulus of 2^59 and a multiplier of 13^13 pRNG with a custom seed based on uinque GUIDs
-    let mcg59 () = new Mcg59() :> System.Random
-    let mcg59Seed (seed:int) = new Mcg59(seed) :> System.Random
-    let mcg59With seed threadSafe = new Mcg59(seed, threadSafe) :> System.Random
-    let mcg59Samples (seed:int) length = Mcg59.Samples(length, seed)
-    let mcg59SampleSeq (seed:int) = Mcg59.SampleSequence(seed)
+    /// Creates a Multiplicative congruential generator using a modulus of 2^59 and a multiplier of 13^13 pRNG with a robust seed
+    let inline mcg59 () = Mcg59() :> System.Random
+    let inline mcg59Seed (seed:int) = Mcg59(seed) :> System.Random
+    let inline mcg59With (seed:int) threadSafe = Mcg59(seed, threadSafe) :> System.Random
 
-    /// Creates a Multiplicative congruential generator using a modulus of 2^31-1 and a multiplier of 1132489760 pRNG with a custom seed based on uinque GUIDs
-    let mcg31m1 () = new Mcg31m1() :> System.Random
-    let mcg31m1Seed (seed:int) = new Mcg31m1(seed) :> System.Random
-    let mcg31m1With seed threadSafe = new Mcg31m1(seed, threadSafe) :> System.Random
-    let mcg31m1Samples (seed:int) length = Mcg31m1.Samples(length, seed)
-    let mcg31m1SampleSeq (seed:int) = Mcg31m1.SampleSequence(seed)
+    /// Creates a Multiplicative congruential generator using a modulus of 2^31-1 and a multiplier of 1132489760 pRNG with a robust seed
+    let inline mcg31m1 () = Mcg31m1() :> System.Random
+    let inline mcg31m1Seed (seed:int) = Mcg31m1(seed) :> System.Random
+    let inline mcg31m1With (seed:int) threadSafe = Mcg31m1(seed, threadSafe) :> System.Random
 
-    /// Creates a 32-bit combined multiple recursive generator with 2 components of order 3 pRNG with a custom seed based on uinque GUIDs
-    let mrg32k3a () = new Mrg32k3a() :> System.Random
-    let mrg32k3aSeed (seed:int) = new Mrg32k3a(seed) :> System.Random
-    let mrg32k3aWith seed threadSafe = new Mrg32k3a(seed, threadSafe) :> System.Random
-    let mrg32k3aSamples (seed:int) length = Mrg32k3a.Samples(length, seed)
-    let mrg32k3aSampleSeq (seed:int) = Mrg32k3a.SampleSequence(seed)
+    /// Creates a 32-bit combined multiple recursive generator with 2 components of order 3 pRNG with a robust seed
+    let inline mrg32k3a () = Mrg32k3a() :> System.Random
+    let inline mrg32k3aSeed (seed:int) = Mrg32k3a(seed) :> System.Random
+    let inline mrg32k3aWith (seed:int) threadSafe = Mrg32k3a(seed, threadSafe) :> System.Random

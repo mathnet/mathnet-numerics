@@ -46,7 +46,7 @@ namespace MathNet.Numerics.UnitTests.Random
         [Test]
         public void StaticSamplesConsistent()
         {
-            Assert.That(SystemRandomSource.Samples(1000, 1), Is.EqualTo(new SystemRandomSource(1).NextDoubles(1000)).Within(1e-12).AsCollection);
+            Assert.That(SystemRandomSource.Doubles(1000, 1), Is.EqualTo(new SystemRandomSource(1).NextDoubles(1000)).Within(1e-12).AsCollection);
         }
     }
 }

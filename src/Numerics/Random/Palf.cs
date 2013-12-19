@@ -137,7 +137,7 @@ namespace MathNet.Numerics.Random
                 LongLag = ((longLag/_threads) + 1)*_threads;
             }
 
-            _x = Generate.Map(MersenneTwister.Samples(LongLag, seed), uniform => (uint)(uniform*uint.MaxValue));
+            _x = Generate.Map(MersenneTwister.Doubles(LongLag, seed), uniform => (uint)(uniform*uint.MaxValue));
             _k = LongLag;
         }
 
@@ -212,7 +212,7 @@ namespace MathNet.Numerics.Random
         /// <returns>
         /// A double-precision floating point number greater than or equal to 0.0, and less than 1.0.
         /// </returns>
-        protected override double DoSample()
+        protected override sealed double DoSample()
         {
             if (_k >= LongLag)
             {
@@ -227,7 +227,7 @@ namespace MathNet.Numerics.Random
         /// Returns an array of random numbers greater than or equal to 0.0 and less than 1.0.
         /// </summary>
         /// <remarks>Supports being called in parallel from multiple threads.</remarks>
-        public static double[] Samples(int length, int seed)
+        public static double[] Doubles(int length, int seed)
         {
             if (seed == 0)
             {
@@ -244,7 +244,7 @@ namespace MathNet.Numerics.Random
                 longLag = ((longLag/threads) + 1)*threads;
             }
 
-            var x = Generate.Map(MersenneTwister.Samples(longLag, seed), uniform => (uint)(uniform*uint.MaxValue));
+            var x = Generate.Map(MersenneTwister.Doubles(longLag, seed), uniform => (uint)(uniform*uint.MaxValue));
             var k = longLag;
 
             var data = new double[length];
@@ -277,7 +277,7 @@ namespace MathNet.Numerics.Random
         /// Returns an infinite sequence of random numbers greater than or equal to 0.0 and less than 1.0.
         /// </summary>
         /// <remarks>Supports being called in parallel from multiple threads, but the result must be enumerated from a single thread each.</remarks>
-        public static IEnumerable<double> SampleSequence(int seed)
+        public static IEnumerable<double> DoubleSequence(int seed)
         {
             if (seed == 0)
             {
@@ -294,7 +294,7 @@ namespace MathNet.Numerics.Random
                 longLag = ((longLag/threads) + 1)*threads;
             }
 
-            var x = Generate.Map(MersenneTwister.Samples(longLag, seed), uniform => (uint)(uniform*uint.MaxValue));
+            var x = Generate.Map(MersenneTwister.Doubles(longLag, seed), uniform => (uint)(uniform*uint.MaxValue));
             var k = longLag;
 
             while (true)

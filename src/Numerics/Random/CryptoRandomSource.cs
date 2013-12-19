@@ -92,7 +92,7 @@ namespace MathNet.Numerics.Random
         /// <returns>
         /// A double-precision floating point number greater than or equal to 0.0, and less than 1.0.
         /// </returns>
-        protected override double DoSample()
+        protected override sealed double DoSample()
         {
             var bytes = new byte[4];
             _crypto.GetBytes(bytes);
@@ -109,7 +109,7 @@ namespace MathNet.Numerics.Random
         /// <summary>
         /// Returns an array of random numbers greater than or equal to 0.0 and less than 1.0.
         /// </summary>
-        public static double[] Samples(int length)
+        public static double[] Doubles(int length)
         {
             var rnd = new RNGCryptoServiceProvider();
             var bytes = new byte[length*4];
@@ -125,7 +125,7 @@ namespace MathNet.Numerics.Random
         /// <summary>
         /// Returns an infinite sequence of random numbers greater than or equal to 0.0 and less than 1.0.
         /// </summary>
-        public static IEnumerable<double> SampleSequence()
+        public static IEnumerable<double> DoubleSequence()
         {
             var rnd = new RNGCryptoServiceProvider();
             var buffer = new byte[1024*4];

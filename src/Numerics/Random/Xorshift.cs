@@ -253,7 +253,7 @@ namespace MathNet.Numerics.Random
         /// <returns>
         /// A double-precision floating point number greater than or equal to 0.0, and less than 1.0.
         /// </returns>
-        protected override double DoSample()
+        protected override sealed double DoSample()
         {
             var t = (_a*_x) + _c;
             _x = _y;
@@ -268,7 +268,7 @@ namespace MathNet.Numerics.Random
         /// </summary>
         /// <remarks>Supports being called in parallel from multiple threads.</remarks>
         [CLSCompliant(false)]
-        public static double[] Samples(int length, int seed, ulong a = ASeed, ulong c = CSeed, ulong x1 = YSeed, ulong x2 = ZSeed)
+        public static double[] Doubles(int length, int seed, ulong a = ASeed, ulong c = CSeed, ulong x1 = YSeed, ulong x2 = ZSeed)
         {
             if (a <= c)
             {
@@ -299,7 +299,7 @@ namespace MathNet.Numerics.Random
         /// </summary>
         /// <remarks>Supports being called in parallel from multiple threads, but the result must be enumerated from a single thread each.</remarks>
         [CLSCompliant(false)]
-        public static IEnumerable<double> SampleSequence(int seed, ulong a = ASeed, ulong c = CSeed, ulong x1 = YSeed, ulong x2 = ZSeed)
+        public static IEnumerable<double> DoubleSequence(int seed, ulong a = ASeed, ulong c = CSeed, ulong x1 = YSeed, ulong x2 = ZSeed)
         {
             if (a <= c)
             {

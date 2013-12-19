@@ -37,9 +37,9 @@ namespace MathNet.Numerics.Random
     /// </summary>
     public class Mcg59 : RandomSource
     {
-        const double Reciprocal = 1.0/Modulus;
         const ulong Modulus = 576460752303423488;
         const ulong Multiplier = 302875106592253;
+        const double Reciprocal = 1.0/Modulus;
         ulong _xn;
 
         /// <summary>
@@ -97,7 +97,7 @@ namespace MathNet.Numerics.Random
         /// <returns>
         /// A double-precision floating point number greater than or equal to 0.0, and less than 1.0.
         /// </returns>
-        protected override double DoSample()
+        protected override sealed double DoSample()
         {
             double ret = _xn*Reciprocal;
             _xn = (_xn*Multiplier)%Modulus;
@@ -108,7 +108,7 @@ namespace MathNet.Numerics.Random
         /// Returns an array of random numbers greater than or equal to 0.0 and less than 1.0.
         /// </summary>
         /// <remarks>Supports being called in parallel from multiple threads.</remarks>
-        public static double[] Samples(int length, int seed)
+        public static double[] Doubles(int length, int seed)
         {
             if (seed == 0)
             {
@@ -129,7 +129,7 @@ namespace MathNet.Numerics.Random
         /// Returns an infinite sequence of random numbers greater than or equal to 0.0 and less than 1.0.
         /// </summary>
         /// <remarks>Supports being called in parallel from multiple threads, but the result must be enumerated from a single thread each.</remarks>
-        public static IEnumerable<double> SampleSequence(int seed)
+        public static IEnumerable<double> DoubleSequence(int seed)
         {
             if (seed == 0)
             {

@@ -29,8 +29,14 @@
 // </copyright>
 
 using System.Collections.Generic;
-using System.Threading;
 using MathNet.Numerics.Threading;
+
+#if PORTABLE
+using System;
+#else
+using System.Runtime;
+using System.Threading;
+#endif
 
 namespace MathNet.Numerics.Random
 {
@@ -111,31 +117,42 @@ namespace MathNet.Numerics.Random
         /// <returns>
         /// A double-precision floating point number greater than or equal to 0.0, and less than 1.0.
         /// </returns>
-        protected override double DoSample()
+        protected override sealed double DoSample()
         {
             return _random.NextDouble();
+        }
+
+        /// <summary>
+        /// Fill an array with uniform random numbers greater than or equal to 0.0 and less than 1.0.
+        /// </summary>
+        /// <remarks>Parallelized on large length, but also supports being called in parallel from multiple threads</remarks>
+        public static void Doubles(double[] values)
+        {
+            if (values.Length < 2048)
+            {
+                Default.NextDoubles(values);
+                return;
+            }
+
+            CommonParallel.For(0, values.Length, values.Length >= 65536 ? 8192 : values.Length >= 16384 ? 2048 : 1024, (a, b) =>
+            {
+                var rnd = new System.Random(RandomSeed.Robust());
+                for (int i = a; i < b; i++)
+                {
+                    values[i] = rnd.NextDouble();
+                }
+            });
         }
 
         /// <summary>
         /// Returns an array of uniform random numbers greater than or equal to 0.0 and less than 1.0.
         /// </summary>
         /// <remarks>Parallelized on large length, but also supports being called in parallel from multiple threads</remarks>
-        public static double[] Samples(int length)
+        [TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")]
+        public static double[] Doubles(int length)
         {
-            if (length < 2048)
-            {
-                return Default.NextDoubles(length);
-            }
-
             var data = new double[length];
-            CommonParallel.For(0, length, length >= 65536 ? 8192 : length >= 16384 ? 2048 : 1024, (a, b) =>
-            {
-                var rnd = new System.Random(RandomSeed.Robust());
-                for (int i = a; i < b; i++)
-                {
-                    data[i] = rnd.NextDouble();
-                }
-            });
+            Doubles(data);
             return data;
         }
 
@@ -143,7 +160,7 @@ namespace MathNet.Numerics.Random
         /// Returns an infinite sequence of uniform random numbers greater than or equal to 0.0 and less than 1.0.
         /// </summary>
         /// <remarks>Supports being called in parallel from multiple threads, but the result must be enumerated from a single thread each.</remarks>
-        public static IEnumerable<double> SampleSequence()
+        public static IEnumerable<double> DoubleSequence()
         {
             var rnd1 = Default;
             for (int i = 0; i < 128; i++)
@@ -159,18 +176,28 @@ namespace MathNet.Numerics.Random
         }
 
         /// <summary>
-        /// Returns an array of random numbers greater than or equal to 0.0 and less than 1.0.
+        /// Fills an array with random numbers greater than or equal to 0.0 and less than 1.0.
         /// </summary>
         /// <remarks>Supports being called in parallel from multiple threads.</remarks>
-        public static double[] Samples(int length, int seed)
+        public static void Doubles(double[] values, int seed)
         {
             var rnd = new System.Random(seed);
 
-            var data = new double[length];
-            for (int i = 0; i < data.Length; i++)
+            for (int i = 0; i < values.Length; i++)
             {
-                data[i] = rnd.NextDouble();
+                values[i] = rnd.NextDouble();
             }
+        }
+
+        /// <summary>
+        /// Returns an array of random numbers greater than or equal to 0.0 and less than 1.0.
+        /// </summary>
+        /// <remarks>Supports being called in parallel from multiple threads.</remarks>
+        [TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")]
+        public static double[] Doubles(int length, int seed)
+        {
+            var data = new double[length];
+            Doubles(data, seed);
             return data;
         }
 
@@ -178,7 +205,7 @@ namespace MathNet.Numerics.Random
         /// Returns an infinite sequence of random numbers greater than or equal to 0.0 and less than 1.0.
         /// </summary>
         /// <remarks>Supports being called in parallel from multiple threads, but the result must be enumerated from a single thread each.</remarks>
-        public static IEnumerable<double> SampleSequence(int seed)
+        public static IEnumerable<double> DoubleSequence(int seed)
         {
             var rnd = new System.Random(seed);
 

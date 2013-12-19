@@ -49,7 +49,7 @@ namespace MathNet.Numerics.UnitTests.Random
         [Test]
         public void StaticSamplesConsistent()
         {
-            Assert.That(Xorshift.Samples(1000, 1), Is.EqualTo(new Xorshift(1).NextDoubles(1000)).Within(1e-12).AsCollection);
+            Assert.That(Xorshift.Doubles(1000, 1), Is.EqualTo(new Xorshift(1).NextDoubles(1000)).Within(1e-12).AsCollection);
         }
     }
 }

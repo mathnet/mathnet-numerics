@@ -110,7 +110,7 @@ namespace MathNet.Numerics.Random
         /// <returns>
         /// A double-precision floating point number greater than or equal to 0.0, and less than 1.0.
         /// </returns>
-        protected override double DoSample()
+        protected override sealed double DoSample()
         {
             double xn = A12*_xn2 - A13*_xn3;
             double k = (long)(xn/Modulus1);
@@ -145,7 +145,7 @@ namespace MathNet.Numerics.Random
         /// Returns an array of random numbers greater than or equal to 0.0 and less than 1.0.
         /// </summary>
         /// <remarks>Supports being called in parallel from multiple threads.</remarks>
-        public static double[] Samples(int length, int seed)
+        public static double[] Doubles(int length, int seed)
         {
             double x1 = 1;
             double x2 = 1;
@@ -188,7 +188,7 @@ namespace MathNet.Numerics.Random
         /// Returns an infinite sequence of random numbers greater than or equal to 0.0 and less than 1.0.
         /// </summary>
         /// <remarks>Supports being called in parallel from multiple threads, but the result must be enumerated from a single thread each.</remarks>
-        public static IEnumerable<double> SampleSequence(int seed)
+        public static IEnumerable<double> DoubleSequence(int seed)
         {
             double x1 = 1;
             double x2 = 1;

@@ -68,7 +68,7 @@ namespace MathNet.Numerics.UnitTests.Random
         [Test]
         public void StaticSamplesConsistent()
         {
-            Assert.That(Palf.Samples(1000, 1), Is.EqualTo(new Palf(1).NextDoubles(1000)).Within(1e-12).AsCollection);
+            Assert.That(Palf.Doubles(1000, 1), Is.EqualTo(new Palf(1).NextDoubles(1000)).Within(1e-12).AsCollection);
         }
     }
 }
