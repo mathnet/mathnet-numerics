@@ -44,6 +44,7 @@ namespace MathNet.Numerics.Interpolation
         readonly double[] _x;
         readonly double[] _c0;
         readonly double[] _c1;
+        readonly Lazy<double[]> _indefiniteIntegral;
 
         /// <param name="x">Sample points (N+1), sorted ascending</param>
         /// <param name="c0">Sample values (N or N+1) at the corresponding points; intercept, zero order coefficients</param>
@@ -53,6 +54,7 @@ namespace MathNet.Numerics.Interpolation
             _x = x;
             _c0 = c0;
             _c1 = c1;
+            _indefiniteIntegral = new Lazy<double[]>(ComputeIndefiniteIntegral);
         }
 
         /// <summary>
@@ -132,27 +134,35 @@ namespace MathNet.Numerics.Interpolation
         }
 
         /// <summary>
-        /// Integrate up to point t.
+        /// Indefinite integral at point t.
         /// </summary>
-        /// <param name="t">Right bound of the integration interval [a,t].</param>
-        /// <returns>Interpolated definite integral over the interval [a,t].</returns>
+        /// <param name="t">Point t to integrate at.</param>
         public double Integrate(double t)
         {
             int k = LeftBracketIndex(t);
             var x = (t - _x[k]);
-            return x*(_c0[k] + x*0.5*_c1[k]);
+            return _indefiniteIntegral.Value[k] + x*(_c0[k] + x*_c1[k]/2);
         }
 
         /// <summary>
-        /// Interpolate, differentiate and 2nd differentiate at point t.
+        /// Definite integral between points a and b.
         /// </summary>
-        /// <param name="t">Point t to interpolate at.</param>
-        /// <returns>Interpolated first derivative at point t.</returns>
-        public Tuple<double, double, double> DifferentiateAll(double t)
+        /// <param name="a">Left bound of the integration interval [a,b].</param>
+        /// <param name="b">Right bound of the integration interval [a,b].</param>
+        public double Integrate(double a, double b)
         {
-            int k = LeftBracketIndex(t);
-            var x = (t - _x[k]);
-            return new Tuple<double, double, double>(_c0[k] + x*_c1[k], _c1[k], 0d);
+            return Integrate(b) - Integrate(a);
+        }
+
+        double[] ComputeIndefiniteIntegral()
+        {
+            var integral = new double[_c1.Length];
+            for (int i = 0; i < integral.Length - 1; i++)
+            {
+                double w = _x[i + 1] - _x[i];
+                integral[i + 1] = integral[i] + w*(_c0[i] + w*_c1[i]/2);
+            }
+            return integral;
         }
 
         /// <summary>

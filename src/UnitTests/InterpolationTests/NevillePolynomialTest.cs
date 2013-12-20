@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2002-2011 Math.NET
+// Copyright (c) 2002-2013 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -28,15 +28,15 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System;
+using System.Globalization;
+using System.IO;
+using System.Linq;
+using MathNet.Numerics.Interpolation;
+using NUnit.Framework;
+
 namespace MathNet.Numerics.UnitTests.InterpolationTests
 {
-    using System;
-    using System.Globalization;
-    using System.IO;
-    using System.Linq;
-    using Interpolation;
-    using NUnit.Framework;
-
     /// <summary>
     /// NevillePolynomial test case.
     /// </summary>
@@ -46,12 +46,12 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
         /// <summary>
         /// Sample points.
         /// </summary>
-        private readonly double[] _t = new[] { 0.0, 1.0, 3.0, 4.0 };
+        readonly double[] _t = { 0.0, 1.0, 3.0, 4.0 };
 
         /// <summary>
         /// Sample values.
         /// </summary>
-        private readonly double[] _x = new[] { 0.0, 3.0, 1.0, 3.0 };
+        readonly double[] _x = { 0.0, 3.0, 1.0, 3.0 };
 
         /// <summary>
         /// Verifies that the interpolation matches the given value at all the provided sample points.
@@ -64,9 +64,6 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
             for (int i = 0; i < _x.Length; i++)
             {
                 Assert.AreEqual(_x[i], interpolation.Interpolate(_t[i]), "A Exact Point " + i);
-
-                var actual = interpolation.DifferentiateAll(_t[i]);
-                Assert.AreEqual(_x[i], actual.Item1, "B Exact Point " + i);
             }
         }
 
@@ -93,9 +90,6 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
             IInterpolation interpolation = new NevillePolynomialInterpolation(_t, _x);
 
             Assert.AreEqual(x, interpolation.Interpolate(t), maxAbsoluteError, "Interpolation at {0}", t);
-
-            var actual = interpolation.DifferentiateAll(t);
-            Assert.AreEqual(x, actual.Item1, maxAbsoluteError, "Interpolation as by-product of differentiation at {0}", t);
         }
 
         /// <summary>
@@ -120,7 +114,7 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
         /// Verifies that all sample points must be unique.
         /// </summary>
         [Test]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof (ArgumentException))]
         public void Constructor_SamplePointsNotUnique_Throws()
         {
             var x = new[] { -1.0, 0.0, 1.5, 1.5, 2.5, 4.0 };

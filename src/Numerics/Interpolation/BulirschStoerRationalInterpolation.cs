@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2010 Math.NET
+// Copyright (c) 2009-2013 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -73,8 +73,6 @@ namespace MathNet.Numerics.Interpolation
         /// <summary>
         /// Gets a value indicating whether the algorithm supports differentiation (interpolated derivative).
         /// </summary>
-        /// <seealso cref="IInterpolation.Differentiate(double)"/>
-        /// <seealso cref="IInterpolation.DifferentiateAll(double)"/>
         bool IInterpolation.SupportsDifferentiation
         {
             get { return false; }
@@ -83,7 +81,6 @@ namespace MathNet.Numerics.Interpolation
         /// <summary>
         /// Gets a value indicating whether the algorithm supports integration (interpolated quadrature).
         /// </summary>
-        /// <seealso cref="IInterpolation.Integrate"/>
         bool IInterpolation.SupportsIntegration
         {
             get { return false; }
@@ -187,32 +184,36 @@ namespace MathNet.Numerics.Interpolation
         /// </summary>
         /// <param name="t">Point t to interpolate at.</param>
         /// <returns>Interpolated first derivative at point t.</returns>
-        /// <seealso cref="IInterpolation.SupportsDifferentiation"/>
-        /// <seealso cref="IInterpolation.DifferentiateAll(double)"/>
         double IInterpolation.Differentiate(double t)
         {
             throw new NotSupportedException();
         }
 
         /// <summary>
-        /// Interpolate, differentiate and 2nd differentiate at point t. NOT SUPPORTED.
+        /// Differentiate twice at point t. NOT SUPPORTED.
         /// </summary>
         /// <param name="t">Point t to interpolate at.</param>
-        /// <returns>Interpolated first derivative at point t.</returns>
-        /// <seealso cref="IInterpolation.SupportsDifferentiation"/>
-        /// <seealso cref="IInterpolation.Differentiate(double)"/>
-        Tuple<double, double, double> IInterpolation.DifferentiateAll(double t)
+        /// <returns>Interpolated second derivative at point t.</returns>
+        double IInterpolation.Differentiate2(double t)
         {
             throw new NotSupportedException();
         }
 
         /// <summary>
-        /// Integrate up to point t. NOT SUPPORTED.
+        /// Indefinite integral at point t. NOT SUPPORTED.
         /// </summary>
-        /// <param name="t">Right bound of the integration interval [a,t].</param>
-        /// <returns>Interpolated definite integral over the interval [a,t].</returns>
-        /// <seealso cref="IInterpolation.SupportsIntegration"/>
+        /// <param name="t">Point t to integrate at.</param>
         double IInterpolation.Integrate(double t)
+        {
+            throw new NotSupportedException();
+        }
+
+        /// <summary>
+        /// Definite integral between points a and b. NOT SUPPORTED.
+        /// </summary>
+        /// <param name="a">Left bound of the integration interval [a,b].</param>
+        /// <param name="b">Right bound of the integration interval [a,b].</param>
+        double IInterpolation.Integrate(double a, double b)
         {
             throw new NotSupportedException();
         }

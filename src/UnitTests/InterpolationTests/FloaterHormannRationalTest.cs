@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2002-2011 Math.NET
+// Copyright (c) 2002-2013 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -28,11 +28,11 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using MathNet.Numerics.Interpolation;
+using NUnit.Framework;
+
 namespace MathNet.Numerics.UnitTests.InterpolationTests
 {
-    using Interpolation;
-    using NUnit.Framework;
-
     /// <summary>
     /// FloaterHormannRational test case.
     /// </summary>
@@ -42,12 +42,12 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
         /// <summary>
         /// Sample points.
         /// </summary>
-        private readonly double[] _t = new[] { -2.0, -1.0, 0.0, 1.0, 2.0 };
+        readonly double[] _t = { -2.0, -1.0, 0.0, 1.0, 2.0 };
 
         /// <summary>
         /// Sample values.
         /// </summary>
-        private readonly double[] _x = new[] { 1.0, 2.0, -1.0, 0.0, 1.0 };
+        readonly double[] _x = { 1.0, 2.0, -1.0, 0.0, 1.0 };
 
         /// <summary>
         /// Verifies that the interpolation matches the given value at all the provided polynomial sample points.
@@ -99,12 +99,12 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
             var t = new double[40];
             var x = new double[40];
 
-            const double Step = 10.0 / 39.0;
+            const double Step = 10.0/39.0;
             for (int i = 0; i < t.Length; i++)
             {
-                double tt = -5 + (i * Step);
+                double tt = -5 + (i*Step);
                 t[i] = tt;
-                x[i] = 1.0 / (1.0 + (tt * tt));
+                x[i] = 1.0/(1.0 + (tt*tt));
             }
 
             IInterpolation interpolation = new FloaterHormannRationalInterpolation(t, x);

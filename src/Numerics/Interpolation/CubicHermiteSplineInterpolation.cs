@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2010 Math.NET
+// Copyright (c) 2009-2013 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -70,8 +70,6 @@ namespace MathNet.Numerics.Interpolation
         /// <summary>
         /// Gets a value indicating whether the algorithm supports differentiation (interpolated derivative).
         /// </summary>
-        /// <seealso cref="Differentiate(double)"/>
-        /// <seealso cref="DifferentiateAll(double)"/>
         bool IInterpolation.SupportsDifferentiation
         {
             get { return true; }
@@ -80,7 +78,6 @@ namespace MathNet.Numerics.Interpolation
         /// <summary>
         /// Gets a value indicating whether the algorithm supports integration (interpolated quadrature).
         /// </summary>
-        /// <seealso cref="Integrate"/>
         bool IInterpolation.SupportsIntegration
         {
             get { return true; }
@@ -169,34 +166,38 @@ namespace MathNet.Numerics.Interpolation
         /// </summary>
         /// <param name="t">Point t to interpolate at.</param>
         /// <returns>Interpolated first derivative at point t.</returns>
-        /// <seealso cref="IInterpolation.SupportsDifferentiation"/>
-        /// <seealso cref="DifferentiateAll(double)"/>
         public double Differentiate(double t)
         {
             return _spline.Differentiate(t);
         }
 
         /// <summary>
-        /// Interpolate, differentiate and 2nd differentiate at point t.
+        /// Differentiate twice at point t.
         /// </summary>
         /// <param name="t">Point t to interpolate at.</param>
-        /// <returns>Interpolated first derivative at point t.</returns>
-        /// <seealso cref="IInterpolation.SupportsDifferentiation"/>
-        /// <seealso cref="Differentiate(double)"/>
-        public Tuple<double, double, double> DifferentiateAll(double t)
+        /// <returns>Interpolated second derivative at point t.</returns>
+        public double Differentiate2(double t)
         {
-            return _spline.DifferentiateAll(t);
+            return _spline.Differentiate2(t);
         }
 
         /// <summary>
-        /// Integrate up to point t.
+        /// Indefinite integral at point t.
         /// </summary>
-        /// <param name="t">Right bound of the integration interval [a,t].</param>
-        /// <returns>Interpolated definite integral over the interval [a,t].</returns>
-        /// <seealso cref="IInterpolation.SupportsIntegration"/>
+        /// <param name="t">Point t to integrate at.</param>
         public double Integrate(double t)
         {
             return _spline.Integrate(t);
+        }
+
+        /// <summary>
+        /// Definite integral between points a and b.
+        /// </summary>
+        /// <param name="a">Left bound of the integration interval [a,b].</param>
+        /// <param name="b">Right bound of the integration interval [a,b].</param>
+        public double Integrate(double a, double b)
+        {
+            return _spline.Integrate(a, b);
         }
     }
 }

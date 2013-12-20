@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2002-2011 Math.NET
+// Copyright (c) 2002-2013 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -28,11 +28,11 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using MathNet.Numerics.Interpolation;
+using NUnit.Framework;
+
 namespace MathNet.Numerics.UnitTests.InterpolationTests
 {
-    using Interpolation;
-    using NUnit.Framework;
-
     /// <summary>
     /// EquidistantPolynomial Test case.
     /// </summary>
@@ -42,17 +42,17 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
         /// <summary>
         /// Left bound;
         /// </summary>
-        private const double Tmin = 0.0;
+        const double Tmin = 0.0;
 
         /// <summary>
         /// Right bound.
         /// </summary>
-        private const double Tmax = 4.0;
+        const double Tmax = 4.0;
 
         /// <summary>
         /// Sample values.
         /// </summary>
-        private readonly double[] _x = new[] { 0.0, 3.0, 2.5, 1.0, 3.0 };
+        readonly double[] _x = { 0.0, 3.0, 2.5, 1.0, 3.0 };
 
         /// <summary>
         /// Verifies that the interpolation matches the given value at all the provided sample points.

@@ -28,11 +28,11 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using MathNet.Numerics.Interpolation;
+using NUnit.Framework;
+
 namespace MathNet.Numerics.UnitTests.InterpolationTests
 {
-    using Interpolation;
-    using NUnit.Framework;
-
     /// <summary>
     /// AkimaSpline test case.
     /// </summary>
@@ -42,12 +42,12 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
         /// <summary>
         /// Sample points.
         /// </summary>
-        private readonly double[] _t = new[] { -2.0, -1.0, 0.0, 1.0, 2.0 };
+        readonly double[] _t = { -2.0, -1.0, 0.0, 1.0, 2.0 };
 
         /// <summary>
         /// Sample values.
         /// </summary>
-        private readonly double[] _x = new[] { 1.0, 2.0, -1.0, 0.0, 1.0 };
+        readonly double[] _x = { 1.0, 2.0, -1.0, 0.0, 1.0 };
 
         /// <summary>
         /// Verifies that the interpolation matches the given value at all the provided sample points.
@@ -60,9 +60,6 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
             for (int i = 0; i < _x.Length; i++)
             {
                 Assert.AreEqual(_x[i], interpolation.Interpolate(_t[i]), "A Exact Point " + i);
-
-                var actual = interpolation.DifferentiateAll(_t[i]);
-                Assert.AreEqual(_x[i], actual.Item1, "B Exact Point " + i);
             }
         }
 
@@ -87,9 +84,6 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
 
             // TODO: Verify the expected values (that they are really the expected ones)
             Assert.AreEqual(x, interpolation.Interpolate(t), maxAbsoluteError, "Interpolation at {0}", t);
-
-            var actual = interpolation.DifferentiateAll(t);
-            Assert.AreEqual(x, actual.Item1, maxAbsoluteError, "Interpolation as by-product of differentiation at {0}", t);
         }
 
         /// <summary>
