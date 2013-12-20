@@ -383,7 +383,7 @@
     <Compile Include="Interpolation\CubicSplineInterpolation.cs" />
     <Compile Include="Interpolation\CubicHermiteSplineInterpolation.cs" />
     <Compile Include="Interpolation\FloaterHormannRationalInterpolation.cs" />
-    <Compile Include="Interpolation\LinearSplineInterpolation.cs" />
+    <Compile Include="Interpolation\LinearSpline.cs" />
     <Compile Include="Interpolation\NevillePolynomialInterpolation.cs" />
     <Compile Include="Interpolation\SplineInterpolation.cs" />
     <Compile Include="Interpolation\IInterpolation.cs" />

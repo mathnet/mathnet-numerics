@@ -28,12 +28,11 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using MathNet.Numerics.Interpolation;
+using NUnit.Framework;
+
 namespace MathNet.Numerics.UnitTests.InterpolationTests
 {
-    using System;
-    using Interpolation;
-    using NUnit.Framework;
-
     /// <summary>
     /// LinearSpline test case
     /// </summary>
@@ -43,12 +42,12 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
         /// <summary>
         /// Sample points.
         /// </summary>
-        private readonly double[] _t = new[] { -2.0, -1.0, 0.0, 1.0, 2.0 };
+        readonly double[] _t = { -2.0, -1.0, 0.0, 1.0, 2.0 };
 
         /// <summary>
         /// Sample values.
         /// </summary>
-        private readonly double[] _x = new[] { 1.0, 2.0, -1.0, 0.0, 1.0 };
+        readonly double[] _x = { 1.0, 2.0, -1.0, 0.0, 1.0 };
 
         /// <summary>
         /// Verifies that the interpolation matches the given value at all the provided sample points.
@@ -56,7 +55,7 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
         [Test]
         public void FitsAtSamplePoints()
         {
-            IInterpolation interpolation = new LinearSplineInterpolation(_t, _x);
+            IInterpolation interpolation = LinearSpline.Interpolate(_t, _x);
 
             for (int i = 0; i < _x.Length; i++)
             {
@@ -89,7 +88,7 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
         [TestCase(-10.0, -7.0, 1e-15)]
         public void FitsAtArbitraryPointsWithMaple(double t, double x, double maxAbsoluteError)
         {
-            IInterpolation interpolation = new LinearSplineInterpolation(_t, _x);
+            IInterpolation interpolation = LinearSpline.Interpolate(_t, _x);
 
             Assert.AreEqual(x, interpolation.Interpolate(t), maxAbsoluteError, "Interpolation at {0}", t);
 
@@ -108,23 +107,11 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
         {
             double[] x, y, xtest, ytest;
             LinearInterpolationCase.Build(out x, out y, out xtest, out ytest, samples);
-            IInterpolation interpolation = new LinearSplineInterpolation(x, y);
+            IInterpolation interpolation = LinearSpline.Interpolate(x, y);
             for (int i = 0; i < xtest.Length; i++)
             {
                 Assert.AreEqual(ytest[i], interpolation.Interpolate(xtest[i]), 1e-15, "Linear with {0} samples, sample {1}", samples, i);
             }
-        }
-
-        /// <summary>
-        /// Verifies that sample points are required to be sorted in strictly monotonically ascending order.
-        /// </summary>
-        [Test]
-        [ExpectedException(typeof(ArgumentException))]
-        public void Constructor_SamplePointsNotStrictlyAscending_Throws()
-        {
-            var x = new[] { -1.0, 0.0, 1.5, 1.5, 2.5, 4.0 };
-            var y = new[] { 1.0, 0.3, -0.7, -0.6, -0.1, 0.4 };
-            var interpolation = new LinearSplineInterpolation(x, y);
         }
     }
 }
