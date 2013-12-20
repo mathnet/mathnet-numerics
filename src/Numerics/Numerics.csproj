@@ -90,6 +90,7 @@
     <Compile Include="Euclid.cs" />
     <Compile Include="Generate.cs" />
     <Compile Include="GoodnessOfFit.cs" />
+    <Compile Include="Interpolation\QuadraticSpline.cs" />
     <Compile Include="Precision.Comparison.cs" />
     <Compile Include="Precision.Equality.cs" />
     <Compile Include="Distributions\Bernoulli.cs" />
