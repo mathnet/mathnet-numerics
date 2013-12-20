@@ -267,6 +267,14 @@ namespace MathNet.Numerics.UnitTests.SpecialFunctionsTests
             AssertHelpers.AlmostEqualRelative(f, SpecialFunctions.BetaRegularized(a, b, x), 11);
         }
 
+        [Test]
+        public void BetaRegularizedLargeArguments()
+        {
+            Assert.That(
+                SpecialFunctions.BetaRegularized(3846.2382301675848, 738420369.64263761, 0.0000052331266889206809),
+                Is.EqualTo(0.61624368331298802128).Within(1e-5));
+        }
+
         /// <summary>
         /// Logit function.
         /// </summary>

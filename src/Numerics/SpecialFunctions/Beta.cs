@@ -121,7 +121,7 @@ namespace MathNet.Numerics
             var symmetryTransformation = x >= (a + 1.0) / (a + b + 2.0);
 
             /* Continued fraction representation */
-            const int maxIterations = 100;
+            const int maxIterations = 120;
             var eps = Precision.DoublePrecision;
             var fpmin = 0.0.Increment() / eps;
 
