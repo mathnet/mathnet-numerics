@@ -71,7 +71,7 @@ namespace Examples.InterpolationExamples
             Console.WriteLine();
 
             // 2. Create a linear spline interpolation based on arbitrary points 
-            var method = Interpolate.LinearBetweenPoints(points, values);
+            var method = Interpolate.LinearSpline(points, values);
             Console.WriteLine(@"2. Create a linear spline interpolation based on arbitrary points");
             Console.WriteLine();
 
