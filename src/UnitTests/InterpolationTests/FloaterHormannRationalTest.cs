@@ -81,11 +81,11 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
         [TestCase(0.1, -1.10805, 1e-15)]
         [TestCase(0.4, -1.1248, 1e-15)]
         [TestCase(1.2, 0.5392, 1e-15)]
-        [TestCase(10.0, -4431.0, 1e-9)]
-        [TestCase(-10.0, -5071.0, 1e-9)]
+        [TestCase(10.0, -4431.0, 1e-8)]
+        [TestCase(-10.0, -5071.0, 1e-8)]
         public void PolynomialFitsAtArbitraryPointsWithMaple(double t, double x, double maxAbsoluteError)
         {
-            IInterpolation interpolation = new EquidistantPolynomialInterpolation(_t, _x);
+            IInterpolation interpolation = new FloaterHormannRationalInterpolation(_t, _x);
 
             Assert.AreEqual(x, interpolation.Interpolate(t), maxAbsoluteError, "Interpolation at {0}", t);
         }

@@ -33,26 +33,12 @@ using NUnit.Framework;
 
 namespace MathNet.Numerics.UnitTests.InterpolationTests
 {
-    /// <summary>
-    /// EquidistantPolynomial Test case.
-    /// </summary>
     [TestFixture, Category("Interpolation")]
     public class EquidistantPolynomialTest
     {
-        /// <summary>
-        /// Left bound;
-        /// </summary>
         const double Tmin = 0.0;
-
-        /// <summary>
-        /// Right bound.
-        /// </summary>
         const double Tmax = 4.0;
-
-        /// <summary>
-        /// Sample values.
-        /// </summary>
-        readonly double[] _x = { 0.0, 3.0, 2.5, 1.0, 3.0 };
+        readonly double[] _y = { 0.0, 3.0, 2.5, 1.0, 3.0 };
 
         /// <summary>
         /// Verifies that the interpolation matches the given value at all the provided sample points.
@@ -60,11 +46,10 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
         [Test]
         public void FitsAtSamplePoints()
         {
-            IInterpolation interpolation = new EquidistantPolynomialInterpolation(Tmin, Tmax, _x);
-
-            for (int i = 0; i < _x.Length; i++)
+            IInterpolation it = Barycentric.InterpolatePolynomialEquidistant(Tmin, Tmax, _y);
+            for (int i = 0; i < _y.Length; i++)
             {
-                Assert.AreEqual(_x[i], interpolation.Interpolate(i), "A Exact Point " + i);
+                Assert.AreEqual(_y[i], it.Interpolate(i), "A Exact Point " + i);
             }
         }
 
@@ -86,11 +71,10 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
         [TestCase(4.5, 7.265625, 1e-14)]
         [TestCase(10.0, 592.5, 1e-10)]
         [TestCase(-10.0, 657.5, 1e-9)]
-        public void FitsAtArbitraryPointsWithMaple(double t, double x, double maxAbsoluteError)
+        public void FitsAtArbitraryPoints(double t, double x, double maxAbsoluteError)
         {
-            IInterpolation interpolation = new EquidistantPolynomialInterpolation(Tmin, Tmax, _x);
-
-            Assert.AreEqual(x, interpolation.Interpolate(t), maxAbsoluteError, "Interpolation at {0}", t);
+            IInterpolation it = Barycentric.InterpolatePolynomialEquidistant(Tmin, Tmax, _y);
+            Assert.AreEqual(x, it.Interpolate(t), maxAbsoluteError, "Interpolation at {0}", t);
         }
 
         /// <summary>
@@ -104,10 +88,10 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
         {
             double[] x, y, xtest, ytest;
             LinearInterpolationCase.Build(out x, out y, out xtest, out ytest, samples);
-            IInterpolation interpolation = new EquidistantPolynomialInterpolation(x, y);
+            IInterpolation it = Barycentric.InterpolatePolynomialEquidistant(x, y);
             for (int i = 0; i < xtest.Length; i++)
             {
-                Assert.AreEqual(ytest[i], interpolation.Interpolate(xtest[i]), 1e-12, "Linear with {0} samples, sample {1}", samples, i);
+                Assert.AreEqual(ytest[i], it.Interpolate(xtest[i]), 1e-12, "Linear with {0} samples, sample {1}", samples, i);
             }
         }
     }
