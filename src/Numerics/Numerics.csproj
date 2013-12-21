@@ -379,15 +379,11 @@
     <Compile Include="Integration\SimpsonRule.cs" />
     <Compile Include="Integration\NewtonCotesTrapeziumRule.cs" />
     <Compile Include="Integrate.cs" />
-    <Compile Include="Interpolation\AkimaSplineInterpolation.cs" />
     <Compile Include="Interpolation\BarycentricInterpolation.cs" />
     <Compile Include="Interpolation\BulirschStoerRationalInterpolation.cs" />
-    <Compile Include="Interpolation\CubicSplineInterpolation.cs" />
-    <Compile Include="Interpolation\CubicHermiteSplineInterpolation.cs" />
     <Compile Include="Interpolation\FloaterHormannRationalInterpolation.cs" />
     <Compile Include="Interpolation\LinearSpline.cs" />
     <Compile Include="Interpolation\NevillePolynomialInterpolation.cs" />
-    <Compile Include="Interpolation\SplineInterpolation.cs" />
     <Compile Include="Interpolation\IInterpolation.cs" />
     <Compile Include="Interpolate.cs" />
     <Compile Include="Interpolation\SplineBoundaryCondition.cs" />
