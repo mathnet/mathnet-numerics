@@ -114,6 +114,82 @@ namespace MathNet.Numerics.Interpolation
         }
 
         /// <summary>
+        /// Create a barycentric rational interpolation without poles, using Mike Floater and Kai Hormann's Algorithm.
+        /// </summary>
+        /// <param name="x">Sample points (N), no sorting assumed. Optimized for arrays.</param>
+        /// <param name="y">Sample values (N). Optimized for arrays.</param>
+        /// <param name="order">
+        /// Order of the interpolation scheme, 0 &lt;= order &lt;= N.
+        /// In most cases a value between 3 and 8 gives good results.
+        /// </param>
+        /// <remarks>
+        /// The value pairs do not have to be sorted, but if they are not sorted ascendingly
+        /// and the passed x and y arguments are arrays, they will be sorted inplace and thus modified.
+        /// </remarks>
+        public static Barycentric InterpolateRationalFloaterHormann(IEnumerable<double> x, IEnumerable<double> y, int order)
+        {
+            var xx = (x as double[]) ?? x.ToArray();
+            var yy = (y as double[]) ?? y.ToArray();
+
+            if (xx.Length != yy.Length)
+            {
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength);
+            }
+
+            if (0 > order || xx.Length <= order)
+            {
+                throw new ArgumentOutOfRangeException("order");
+            }
+
+            Sorting.Sort(xx, yy);
+
+            var weights = new double[xx.Length];
+
+            // order: odd -> negative, even -> positive
+            double sign = ((order & 0x1) == 0x1) ? -1.0 : 1.0;
+
+            // compute barycentric weights
+            for (int k = 0; k < xx.Length; k++)
+            {
+                double s = 0;
+                for (int i = Math.Max(k - order, 0); i <= Math.Min(k, weights.Length - 1 - order); i++)
+                {
+                    double v = 1;
+                    for (int j = i; j <= i + order; j++)
+                    {
+                        if (j != k)
+                        {
+                            v = v/Math.Abs(xx[k] - xx[j]);
+                        }
+                    }
+
+                    s = s + v;
+                }
+
+                weights[k] = sign*s;
+                sign = -sign;
+            }
+
+            return new Barycentric(xx, yy, weights);
+        }
+
+        /// <summary>
+        /// Create a barycentric rational interpolation without poles, using Mike Floater and Kai Hormann's Algorithm.
+        /// </summary>
+        /// <param name="x">Sample points (N), no sorting assumed. Optimized for arrays.</param>
+        /// <param name="y">Sample values (N). Optimized for arrays.</param>
+        /// <remarks>
+        /// The value pairs do not have to be sorted, but if they are not sorted ascendingly
+        /// and the passed x and y arguments are arrays, they will be sorted inplace and thus modified.
+        /// </remarks>
+        public static Barycentric InterpolateRationalFloaterHormann(IEnumerable<double> x, IEnumerable<double> y)
+        {
+            var xx = (x as double[]) ?? x.ToArray();
+            var order = Math.Min(3, xx.Length - 1);
+            return InterpolateRationalFloaterHormann(xx, y, order);
+        }
+
+        /// <summary>
         /// Gets a value indicating whether the algorithm supports differentiation (interpolated derivative).
         /// </summary>
         bool IInterpolation.SupportsDifferentiation
@@ -152,7 +228,7 @@ namespace MathNet.Numerics.Interpolation
             // trivial case: on a known sample point?
             if (offset == 0.0)
             {
-                // NOTE (cdrnet, 200908) not offset.AlmostZero() by design
+                // NOTE (cdrnet, 2009-08) not offset.AlmostZero() by design
                 return _y[closestPoint];
             }
 

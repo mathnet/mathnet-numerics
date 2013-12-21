@@ -48,9 +48,9 @@ namespace MathNet.Numerics
         /// which can then be used to compute interpolations and extrapolations
         /// on arbitrary points.
         /// </returns>
-        public static IInterpolation Common(IList<double> points, IList<double> values)
+        public static IInterpolation Common(IEnumerable<double> points, IEnumerable<double> values)
         {
-            return new FloaterHormannRationalInterpolation(points, values);
+            return Interpolation.Barycentric.InterpolateRationalFloaterHormann(points, values);
         }
 
         /// <summary>
@@ -63,9 +63,9 @@ namespace MathNet.Numerics
         /// which can then be used to compute interpolations and extrapolations
         /// on arbitrary points.
         /// </returns>
-        public static IInterpolation RationalWithoutPoles(IList<double> points, IList<double> values)
+        public static IInterpolation RationalWithoutPoles(IEnumerable<double> points, IEnumerable<double> values)
         {
-            return new FloaterHormannRationalInterpolation(points, values);
+            return Interpolation.Barycentric.InterpolateRationalFloaterHormann(points, values);
         }
 
         /// <summary>
