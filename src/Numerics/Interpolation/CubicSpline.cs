@@ -86,6 +86,11 @@ namespace MathNet.Numerics.Interpolation
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength);
             }
 
+            if (xx.Length < 2)
+            {
+                throw new ArgumentOutOfRangeException("x");
+            }
+
             Sorting.Sort(xx, yy, dd);
 
             var c0 = new double[xx.Length - 1];
@@ -120,6 +125,11 @@ namespace MathNet.Numerics.Interpolation
             if (xx.Length != yy.Length)
             {
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength);
+            }
+
+            if (xx.Length < 5)
+            {
+                throw new ArgumentOutOfRangeException("x");
             }
 
             Sorting.Sort(xx, yy);
@@ -160,6 +170,124 @@ namespace MathNet.Numerics.Interpolation
             return InterpolateHermite(xx, yy, dd);
         }
 
+        public static CubicSpline Interpolate(IEnumerable<double> x, IEnumerable<double> y)
+        {
+            return InterpolateBoundaries(x, y, SplineBoundaryCondition.SecondDerivative, 0.0, SplineBoundaryCondition.SecondDerivative, 0.0);
+        }
+
+        public static CubicSpline InterpolateBoundaries(IEnumerable<double> x, IEnumerable<double> y,
+            SplineBoundaryCondition leftBoundaryCondition, double leftBoundary,
+            SplineBoundaryCondition rightBoundaryCondition, double rightBoundary)
+        {
+            var xx = (x as double[]) ?? x.ToArray();
+            var yy = (y as double[]) ?? y.ToArray();
+
+            if (xx.Length != yy.Length)
+            {
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength);
+            }
+
+            if (xx.Length < 2)
+            {
+                throw new ArgumentOutOfRangeException("x");
+            }
+
+            Sorting.Sort(xx, yy);
+
+            int n = xx.Length;
+
+            // normalize special cases
+            if ((n == 2)
+                && (leftBoundaryCondition == SplineBoundaryCondition.ParabolicallyTerminated)
+                && (rightBoundaryCondition == SplineBoundaryCondition.ParabolicallyTerminated))
+            {
+                leftBoundaryCondition = SplineBoundaryCondition.SecondDerivative;
+                leftBoundary = 0d;
+                rightBoundaryCondition = SplineBoundaryCondition.SecondDerivative;
+                rightBoundary = 0d;
+            }
+
+            if (leftBoundaryCondition == SplineBoundaryCondition.Natural)
+            {
+                leftBoundaryCondition = SplineBoundaryCondition.SecondDerivative;
+                leftBoundary = 0d;
+            }
+
+            if (rightBoundaryCondition == SplineBoundaryCondition.Natural)
+            {
+                rightBoundaryCondition = SplineBoundaryCondition.SecondDerivative;
+                rightBoundary = 0d;
+            }
+
+            var a1 = new double[n];
+            var a2 = new double[n];
+            var a3 = new double[n];
+            var b = new double[n];
+
+            // Left Boundary
+            switch (leftBoundaryCondition)
+            {
+                case SplineBoundaryCondition.ParabolicallyTerminated:
+                    a1[0] = 0;
+                    a2[0] = 1;
+                    a3[0] = 1;
+                    b[0] = 2*(yy[1] - yy[0])/(xx[1] - xx[0]);
+                    break;
+                case SplineBoundaryCondition.FirstDerivative:
+                    a1[0] = 0;
+                    a2[0] = 1;
+                    a3[0] = 0;
+                    b[0] = leftBoundary;
+                    break;
+                case SplineBoundaryCondition.SecondDerivative:
+                    a1[0] = 0;
+                    a2[0] = 2;
+                    a3[0] = 1;
+                    b[0] = (3*((yy[1] - yy[0])/(xx[1] - xx[0]))) - (0.5*leftBoundary*(xx[1] - xx[0]));
+                    break;
+                default:
+                    throw new NotSupportedException(Resources.InvalidLeftBoundaryCondition);
+            }
+
+            // Central Conditions
+            for (int i = 1; i < xx.Length - 1; i++)
+            {
+                a1[i] = xx[i + 1] - xx[i];
+                a2[i] = 2*(xx[i + 1] - xx[i - 1]);
+                a3[i] = xx[i] - xx[i - 1];
+                b[i] = (3*(yy[i] - yy[i - 1])/(xx[i] - xx[i - 1])*(xx[i + 1] - xx[i])) + (3*(yy[i + 1] - yy[i])/(xx[i + 1] - xx[i])*(xx[i] - xx[i - 1]));
+            }
+
+            // Right Boundary
+            switch (rightBoundaryCondition)
+            {
+                case SplineBoundaryCondition.ParabolicallyTerminated:
+                    a1[n - 1] = 1;
+                    a2[n - 1] = 1;
+                    a3[n - 1] = 0;
+                    b[n - 1] = 2*(yy[n - 1] - yy[n - 2])/(xx[n - 1] - xx[n - 2]);
+                    break;
+                case SplineBoundaryCondition.FirstDerivative:
+                    a1[n - 1] = 0;
+                    a2[n - 1] = 1;
+                    a3[n - 1] = 0;
+                    b[n - 1] = rightBoundary;
+                    break;
+                case SplineBoundaryCondition.SecondDerivative:
+                    a1[n - 1] = 1;
+                    a2[n - 1] = 2;
+                    a3[n - 1] = 0;
+                    b[n - 1] = (3*(yy[n - 1] - yy[n - 2])/(xx[n - 1] - xx[n - 2])) + (0.5*rightBoundary*(xx[n - 1] - xx[n - 2]));
+                    break;
+                default:
+                    throw new NotSupportedException(Resources.InvalidRightBoundaryCondition);
+            }
+
+            // Build Spline
+            double[] dd = SolveTridiagonal(a1, a2, a3, b);
+            return InterpolateHermite(xx, yy, dd);
+        }
+
         /// <summary>
         /// Three-Point Differentiation Helper.
         /// </summary>
@@ -183,6 +311,33 @@ namespace MathNet.Numerics.Interpolation
             double a = (x2 - x0 - (t2/t1*(x1 - x0)))/(t2*t2 - t1*t2);
             double b = (x1 - x0 - a*t1*t1)/t1;
             return (2*a*t) + b;
+        }
+
+        /// <summary>
+        /// Tridiagonal Solve Helper.
+        /// </summary>
+        /// <param name="a">The a-vector[n].</param>
+        /// <param name="b">The b-vector[n], will be modified by this function.</param>
+        /// <param name="c">The c-vector[n].</param>
+        /// <param name="d">The d-vector[n], will be modified by this function.</param>
+        /// <returns>The x-vector[n]</returns>
+        static double[] SolveTridiagonal(double[] a, double[] b, double[] c, double[] d)
+        {
+            for (int k = 1; k < a.Length; k++)
+            {
+                double t = a[k]/b[k - 1];
+                b[k] = b[k] - (t*c[k - 1]);
+                d[k] = d[k] - (t*d[k - 1]);
+            }
+
+            var x = new double[a.Length];
+            x[x.Length - 1] = d[d.Length - 1]/b[b.Length - 1];
+            for (int k = x.Length - 2; k >= 0; k--)
+            {
+                x[k] = (d[k] - (c[k]*x[k + 1]))/b[k];
+            }
+
+            return x;
         }
 
         /// <summary>
