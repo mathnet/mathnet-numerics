@@ -72,7 +72,7 @@ namespace Examples.InterpolationExamples
             Console.WriteLine();
 
             // 2. Create akima spline interpolation 
-            var method = new AkimaSplineInterpolation(points, values);
+            var method = CubicSpline.InterpolateAkima(points, values);
             Console.WriteLine(@"2. Create akima spline interpolation based on arbitrary points");
             Console.WriteLine();
 

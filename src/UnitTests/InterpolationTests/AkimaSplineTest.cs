@@ -33,21 +33,11 @@ using NUnit.Framework;
 
 namespace MathNet.Numerics.UnitTests.InterpolationTests
 {
-    /// <summary>
-    /// AkimaSpline test case.
-    /// </summary>
     [TestFixture, Category("Interpolation")]
     public class AkimaSplineTest
     {
-        /// <summary>
-        /// Sample points.
-        /// </summary>
         readonly double[] _t = { -2.0, -1.0, 0.0, 1.0, 2.0 };
-
-        /// <summary>
-        /// Sample values.
-        /// </summary>
-        readonly double[] _x = { 1.0, 2.0, -1.0, 0.0, 1.0 };
+        readonly double[] _y = { 1.0, 2.0, -1.0, 0.0, 1.0 };
 
         /// <summary>
         /// Verifies that the interpolation matches the given value at all the provided sample points.
@@ -55,11 +45,10 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
         [Test]
         public void FitsAtSamplePoints()
         {
-            IInterpolation interpolation = new AkimaSplineInterpolation(_t, _x);
-
-            for (int i = 0; i < _x.Length; i++)
+            IInterpolation it = CubicSpline.InterpolateAkima(_t, _y);
+            for (int i = 0; i < _y.Length; i++)
             {
-                Assert.AreEqual(_x[i], interpolation.Interpolate(_t[i]), "A Exact Point " + i);
+                Assert.AreEqual(_y[i], it.Interpolate(_t[i]), "A Exact Point " + i);
             }
         }
 
@@ -78,12 +67,12 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
         [TestCase(1.2, 0.2, 1e-15)]
         [TestCase(10.0, 9, 1e-15)]
         [TestCase(-10.0, -151, 1e-15)]
-        public void FitsAtArbitraryPointsWithMaple(double t, double x, double maxAbsoluteError)
+        public void FitsAtArbitraryPoints(double t, double x, double maxAbsoluteError)
         {
-            IInterpolation interpolation = new AkimaSplineInterpolation(_t, _x);
+            IInterpolation it = CubicSpline.InterpolateAkima(_t, _y);
 
             // TODO: Verify the expected values (that they are really the expected ones)
-            Assert.AreEqual(x, interpolation.Interpolate(t), maxAbsoluteError, "Interpolation at {0}", t);
+            Assert.AreEqual(x, it.Interpolate(t), maxAbsoluteError, "Interpolation at {0}", t);
         }
 
         /// <summary>
@@ -97,10 +86,10 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
         {
             double[] x, y, xtest, ytest;
             LinearInterpolationCase.Build(out x, out y, out xtest, out ytest, samples);
-            IInterpolation interpolation = new AkimaSplineInterpolation(x, y);
+            IInterpolation it = CubicSpline.InterpolateAkima(x, y);
             for (int i = 0; i < xtest.Length; i++)
             {
-                Assert.AreEqual(ytest[i], interpolation.Interpolate(xtest[i]), 1e-15, "Linear with {0} samples, sample {1}", samples, i);
+                Assert.AreEqual(ytest[i], it.Interpolate(xtest[i]), 1e-15, "Linear with {0} samples, sample {1}", samples, i);
             }
         }
     }

@@ -29,6 +29,7 @@
 // </copyright>
 
 using System;
+using MathNet.Numerics.Properties;
 
 namespace MathNet.Numerics.Interpolation
 {
@@ -50,6 +51,11 @@ namespace MathNet.Numerics.Interpolation
         /// <param name="c2">second order spline coefficients (N)</param>
         public QuadraticSpline(double[] x, double[] c0, double[] c1, double[] c2)
         {
+            if (x.Length != c0.Length + 1 || x.Length != c1.Length + 1 || x.Length != c2.Length + 1)
+            {
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength);
+            }
+
             _x = x;
             _c0 = c0;
             _c1 = c1;

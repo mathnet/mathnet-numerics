@@ -51,6 +51,11 @@ namespace MathNet.Numerics.Interpolation
         /// <param name="c1">Slopes (N) at the sample points (first order coefficients): N</param>
         public LinearSpline(double[] x, double[] c0, double[] c1)
         {
+            if (x.Length != c0.Length + 1 && x.Length != c0.Length || x.Length != c1.Length + 1)
+            {
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength);
+            }
+
             _x = x;
             _c0 = c0;
             _c1 = c1;

@@ -29,6 +29,9 @@
 // </copyright>
 
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using MathNet.Numerics.Properties;
 
 namespace MathNet.Numerics.Interpolation
 {
@@ -52,12 +55,134 @@ namespace MathNet.Numerics.Interpolation
         /// <param name="c3">third order spline coefficients (N)</param>
         public CubicSpline(double[] x, double[] c0, double[] c1, double[] c2, double[] c3)
         {
+            if (x.Length != c0.Length + 1 || x.Length != c1.Length + 1 || x.Length != c2.Length + 1 || x.Length != c3.Length + 1)
+            {
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength);
+            }
+
             _x = x;
             _c0 = c0;
             _c1 = c1;
             _c2 = c2;
             _c3 = c3;
             _indefiniteIntegral = new Lazy<double[]>(ComputeIndefiniteIntegral);
+        }
+
+        /// <summary>
+        /// Create a hermite cubic spline interpolation from a set of (x,y) value pairs and their slope (first derivative).
+        /// </summary>
+        /// <remarks>
+        /// The value pairs do not have to be sorted, but if they are not sorted ascendingly
+        /// and the passed x and y arguments are arrays, they will be sorted inplace and thus modified.
+        /// </remarks>
+        public static CubicSpline InterpolateHermite(IEnumerable<double> x, IEnumerable<double> y, IEnumerable<double> firstDerivatives)
+        {
+            var xx = (x as double[]) ?? x.ToArray();
+            var yy = (y as double[]) ?? y.ToArray();
+            var dd = (firstDerivatives as double[]) ?? firstDerivatives.ToArray();
+
+            if (xx.Length != yy.Length || xx.Length != dd.Length)
+            {
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength);
+            }
+
+            Sorting.Sort(xx, yy, dd);
+
+            var c0 = new double[xx.Length - 1];
+            var c1 = new double[xx.Length - 1];
+            var c2 = new double[xx.Length - 1];
+            var c3 = new double[xx.Length - 1];
+            for (int i = 0; i < c1.Length; i++)
+            {
+                double w = xx[i + 1] - xx[i];
+                double w2 = w*w;
+                c0[i] = yy[i];
+                c1[i] = dd[i];
+                c2[i] = (3*(yy[i + 1] - yy[i])/w - 2*dd[i] - dd[i + 1])/w;
+                c3[i] = (2*(yy[i] - yy[i + 1])/w + dd[i] + dd[i + 1])/w2;
+            }
+
+            return new CubicSpline(xx, c0, c1, c2, c3);
+        }
+
+        /// <summary>
+        /// Create an Akima cubic spline interpolation from a set of (x,y) value pairs. Akima splines are robust to outliers.
+        /// </summary>
+        /// <remarks>
+        /// The value pairs do not have to be sorted, but if they are not sorted ascendingly
+        /// and the passed x and y arguments are arrays, they will be sorted inplace and thus modified.
+        /// </remarks>
+        public static CubicSpline InterpolateAkima(IEnumerable<double> x, IEnumerable<double> y)
+        {
+            var xx = (x as double[]) ?? x.ToArray();
+            var yy = (y as double[]) ?? y.ToArray();
+
+            if (xx.Length != yy.Length)
+            {
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength);
+            }
+
+            Sorting.Sort(xx, yy);
+
+            /* Prepare divided differences (diff) and weights (w) */
+
+            var diff = new double[xx.Length - 1];
+            var weights = new double[xx.Length - 1];
+
+            for (int i = 0; i < diff.Length; i++)
+            {
+                diff[i] = (yy[i + 1] - yy[i])/(xx[i + 1] - xx[i]);
+            }
+
+            for (int i = 1; i < weights.Length; i++)
+            {
+                weights[i] = Math.Abs(diff[i] - diff[i - 1]);
+            }
+
+            /* Prepare Hermite interpolation scheme */
+
+            var dd = new double[xx.Length];
+
+            for (int i = 2; i < dd.Length - 2; i++)
+            {
+                dd[i] = weights[i - 1].AlmostEqual(0.0) && weights[i + 1].AlmostEqual(0.0)
+                    ? (((xx[i + 1] - xx[i])*diff[i - 1]) + ((xx[i] - xx[i - 1])*diff[i]))/(xx[i + 1] - xx[i - 1])
+                    : ((weights[i + 1]*diff[i - 1]) + (weights[i - 1]*diff[i]))/(weights[i + 1] + weights[i - 1]);
+            }
+
+            dd[0] = DifferentiateThreePoint(xx, yy, 0, 0, 1, 2);
+            dd[1] = DifferentiateThreePoint(xx, yy, 1, 0, 1, 2);
+            dd[xx.Length - 2] = DifferentiateThreePoint(xx, yy, xx.Length - 2, xx.Length - 3, xx.Length - 2, xx.Length - 1);
+            dd[xx.Length - 1] = DifferentiateThreePoint(xx, yy, xx.Length - 1, xx.Length - 3, xx.Length - 2, xx.Length - 1);
+
+            /* Build Akima spline using Hermite interpolation scheme */
+
+            return InterpolateHermite(xx, yy, dd);
+        }
+
+        /// <summary>
+        /// Three-Point Differentiation Helper.
+        /// </summary>
+        /// <param name="xx">Sample Points t.</param>
+        /// <param name="yy">Sample Values x(t).</param>
+        /// <param name="indexT">Index of the point of the differentiation.</param>
+        /// <param name="index0">Index of the first sample.</param>
+        /// <param name="index1">Index of the second sample.</param>
+        /// <param name="index2">Index of the third sample.</param>
+        /// <returns>The derivative approximation.</returns>
+        static double DifferentiateThreePoint(double[] xx, double[] yy, int indexT, int index0, int index1, int index2)
+        {
+            double x0 = yy[index0];
+            double x1 = yy[index1];
+            double x2 = yy[index2];
+
+            double t = xx[indexT] - xx[index0];
+            double t1 = xx[index1] - xx[index0];
+            double t2 = xx[index2] - xx[index0];
+
+            double a = (x2 - x0 - (t2/t1*(x1 - x0)))/(t2*t2 - t1*t2);
+            double b = (x1 - x0 - a*t1*t1)/t1;
+            return (2*a*t) + b;
         }
 
         /// <summary>
