@@ -93,7 +93,7 @@ namespace MathNet.Numerics.Interpolation
         /// <summary>
         /// Gets a value indicating whether the algorithm supports differentiation (interpolated derivative).
         /// </summary>
-        public bool SupportsDifferentiation
+        bool IInterpolation.SupportsDifferentiation
         {
             get { return true; }
         }
@@ -101,7 +101,7 @@ namespace MathNet.Numerics.Interpolation
         /// <summary>
         /// Gets a value indicating whether the algorithm supports integration (interpolated quadrature).
         /// </summary>
-        public bool SupportsIntegration
+        bool IInterpolation.SupportsIntegration
         {
             get { return true; }
         }
