@@ -30,6 +30,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using MathNet.Numerics.Properties;
 
 namespace MathNet.Numerics.Interpolation
@@ -49,31 +50,41 @@ namespace MathNet.Numerics.Interpolation
     /// </remarks>
     public class NevillePolynomialInterpolation : IInterpolation
     {
-        /// <summary>
-        /// Sample Points t.
-        /// </summary>
-        IList<double> _points;
-
-        /// <summary>
-        /// Spline Values x(t).
-        /// </summary>
-        IList<double> _values;
+        readonly double[] _x;
+        readonly double[] _y;
 
         /// <summary>
         /// Initializes a new instance of the NevillePolynomialInterpolation class.
         /// </summary>
-        public NevillePolynomialInterpolation()
+        /// <param name="x">Sample Points t. Optimized for arrays.</param>
+        /// <param name="y">Sample Values x(t). Optimized for arrays.</param>
+        public NevillePolynomialInterpolation(IEnumerable<double> x, IEnumerable<double> y)
         {
-        }
+            var xx = (x as double[]) ?? x.ToArray();
+            var yy = (y as double[]) ?? y.ToArray();
 
-        /// <summary>
-        /// Initializes a new instance of the NevillePolynomialInterpolation class.
-        /// </summary>
-        /// <param name="samplePoints">Sample Points t</param>
-        /// <param name="sampleValues">Sample Values x(t)</param>
-        public NevillePolynomialInterpolation(IList<double> samplePoints, IList<double> sampleValues)
-        {
-            Initialize(samplePoints, sampleValues);
+            if (xx.Length != yy.Length)
+            {
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength);
+            }
+
+            if (xx.Length < 1)
+            {
+                throw new ArgumentOutOfRangeException("x");
+            }
+
+            Sorting.Sort(xx, yy);
+
+            for (var i = 1; i < xx.Length; ++i)
+            {
+                if (xx[i] == xx[i - 1])
+                {
+                    throw new ArgumentException(Resources.Interpolation_Initialize_SamplePointsNotUnique, "x");
+                }
+            }
+
+            _x = xx;
+            _y = yy;
         }
 
         /// <summary>
@@ -93,57 +104,22 @@ namespace MathNet.Numerics.Interpolation
         }
 
         /// <summary>
-        /// Initialize the interpolation method with the given sample pairs.
-        /// </summary>
-        /// <param name="samplePoints">Sample Points t</param>
-        /// <param name="sampleValues">Sample Values x(t)</param>
-        public void Initialize(IList<double> samplePoints, IList<double> sampleValues)
-        {
-            if (null == samplePoints)
-            {
-                throw new ArgumentNullException("samplePoints");
-            }
-
-            if (null == sampleValues)
-            {
-                throw new ArgumentNullException("sampleValues");
-            }
-
-            if (samplePoints.Count < 1)
-            {
-                throw new ArgumentOutOfRangeException("samplePoints");
-            }
-
-            if (samplePoints.Count != sampleValues.Count)
-            {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength);
-            }
-
-            for (var i = 1; i < samplePoints.Count; ++i)
-                if (samplePoints[i] == samplePoints[i - 1])
-                    throw new ArgumentException(Resources.Interpolation_Initialize_SamplePointsNotUnique, "samplePoints");
-
-            _points = samplePoints;
-            _values = sampleValues;
-        }
-
-        /// <summary>
         /// Interpolate at point t.
         /// </summary>
         /// <param name="t">Point t to interpolate at.</param>
         /// <returns>Interpolated value x(t).</returns>
         public double Interpolate(double t)
         {
-            var x = new double[_values.Count];
-            _values.CopyTo(x, 0);
+            var x = new double[_y.Length];
+            _y.CopyTo(x, 0);
 
             for (int level = 1; level < x.Length; level++)
             {
                 for (int i = 0; i < x.Length - level; i++)
                 {
-                    double hp = t - _points[i + level];
-                    double ho = _points[i] - t;
-                    double den = _points[i] - _points[i + level];
+                    double hp = t - _x[i + level];
+                    double ho = _x[i] - t;
+                    double den = _x[i] - _x[i + level];
                     x[i] = ((hp*x[i]) + (ho*x[i + 1]))/den;
                 }
             }
@@ -158,17 +134,17 @@ namespace MathNet.Numerics.Interpolation
         /// <returns>Interpolated first derivative at point t.</returns>
         public double Differentiate(double t)
         {
-            var x = new double[_values.Count];
-            var dx = new double[_values.Count];
-            _values.CopyTo(x, 0);
+            var x = new double[_y.Length];
+            var dx = new double[_y.Length];
+            _y.CopyTo(x, 0);
 
             for (int level = 1; level < x.Length; level++)
             {
                 for (int i = 0; i < x.Length - level; i++)
                 {
-                    double hp = t - _points[i + level];
-                    double ho = _points[i] - t;
-                    double den = _points[i] - _points[i + level];
+                    double hp = t - _x[i + level];
+                    double ho = _x[i] - t;
+                    double den = _x[i] - _x[i + level];
                     dx[i] = ((hp*dx[i]) + x[i] + (ho*dx[i + 1]) - x[i + 1])/den;
                     x[i] = ((hp*x[i]) + (ho*x[i + 1]))/den;
                 }
@@ -184,18 +160,18 @@ namespace MathNet.Numerics.Interpolation
         /// <returns>Interpolated second derivative at point t.</returns>
         public double Differentiate2(double t)
         {
-            var x = new double[_values.Count];
-            var dx = new double[_values.Count];
-            var ddx = new double[_values.Count];
-            _values.CopyTo(x, 0);
+            var x = new double[_y.Length];
+            var dx = new double[_y.Length];
+            var ddx = new double[_y.Length];
+            _y.CopyTo(x, 0);
 
             for (int level = 1; level < x.Length; level++)
             {
                 for (int i = 0; i < x.Length - level; i++)
                 {
-                    double hp = t - _points[i + level];
-                    double ho = _points[i] - t;
-                    double den = _points[i] - _points[i + level];
+                    double hp = t - _x[i + level];
+                    double ho = _x[i] - t;
+                    double den = _x[i] - _x[i + level];
                     ddx[i] = ((hp*ddx[i]) + (ho*ddx[i + 1]) + (2*dx[i]) - (2*dx[i + 1]))/den;
                     dx[i] = ((hp*dx[i]) + x[i] + (ho*dx[i + 1]) - x[i + 1])/den;
                     x[i] = ((hp*x[i]) + (ho*x[i + 1]))/den;
