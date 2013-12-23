@@ -45,7 +45,7 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
         [Test]
         public void NaturalFitsAtSamplePoints()
         {
-            IInterpolation it = CubicSpline.Interpolate(_t, _y);
+            IInterpolation it = CubicSpline.InterpolateNatural(_t, _y);
             for (int i = 0; i < _y.Length; i++)
             {
                 Assert.AreEqual(_y[i], it.Interpolate(_t[i]), "A Exact Point " + i);
@@ -72,9 +72,9 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
         [TestCase(1.2, .30285714285714285716, 1e-15)]
         [TestCase(10.0, 189, 1e-15)]
         [TestCase(-10.0, 677, 1e-12)]
-        public void NaturalFitsAtArbitraryPointsWithMaple(double t, double x, double maxAbsoluteError)
+        public void NaturalFitsAtArbitraryPoints(double t, double x, double maxAbsoluteError)
         {
-            IInterpolation it = CubicSpline.Interpolate(_t, _y);
+            IInterpolation it = CubicSpline.InterpolateNatural(_t, _y);
             Assert.AreEqual(x, it.Interpolate(t), maxAbsoluteError, "Interpolation at {0}", t);
         }
 
@@ -111,7 +111,7 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
         [TestCase(1.2, .4148571428571428571, 1e-15)]
         [TestCase(10.0, -608.14285714285714286, 1e-12)]
         [TestCase(-10.0, 1330.1428571428571429, 1e-12)]
-        public void FixedFirstDerivativeFitsAtArbitraryPointsWithMaple(double t, double x, double maxAbsoluteError)
+        public void FixedFirstDerivativeFitsAtArbitraryPoints(double t, double x, double maxAbsoluteError)
         {
             IInterpolation it = CubicSpline.InterpolateBoundaries(_t, _y, SplineBoundaryCondition.FirstDerivative, 1.0, SplineBoundaryCondition.FirstDerivative, -1.0);
             Assert.AreEqual(x, it.Interpolate(t), maxAbsoluteError, "Interpolation at {0}", t);
@@ -150,7 +150,7 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
         [TestCase(1.2, .31771428571428571421, 1e-15)]
         [TestCase(10.0, 39, 1e-13)]
         [TestCase(-10.0, -37, 1e-12)]
-        public void FixedSecondDerivativeFitsAtArbitraryPointsWithMaple(double t, double x, double maxAbsoluteError)
+        public void FixedSecondDerivativeFitsAtArbitraryPoints(double t, double x, double maxAbsoluteError)
         {
             IInterpolation it = CubicSpline.InterpolateBoundaries(_t, _y, SplineBoundaryCondition.SecondDerivative, -5.0, SplineBoundaryCondition.SecondDerivative, -1.0);
             Assert.AreEqual(x, it.Interpolate(t), maxAbsoluteError, "Interpolation at {0}", t);
@@ -167,7 +167,7 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
         {
             double[] x, y, xtest, ytest;
             LinearInterpolationCase.Build(out x, out y, out xtest, out ytest, samples);
-            IInterpolation it = CubicSpline.Interpolate(x, y);
+            IInterpolation it = CubicSpline.InterpolateNatural(x, y);
             for (int i = 0; i < xtest.Length; i++)
             {
                 Assert.AreEqual(ytest[i], it.Interpolate(xtest[i]), 1e-15, "Linear with {0} samples, sample {1}", samples, i);

@@ -170,11 +170,25 @@ namespace MathNet.Numerics.Interpolation
             return InterpolateHermite(xx, yy, dd);
         }
 
-        public static CubicSpline Interpolate(IEnumerable<double> x, IEnumerable<double> y)
+        /// <summary>
+        /// Create a natural cubic spline interpolation from a set of (x,y) value pairs and zero second derivatives at the two boundaries.
+        /// </summary>
+        /// <remarks>
+        /// The value pairs do not have to be sorted, but if they are not sorted ascendingly
+        /// and the passed x and y arguments are arrays, they will be sorted inplace and thus modified.
+        /// </remarks>
+        public static CubicSpline InterpolateNatural(IEnumerable<double> x, IEnumerable<double> y)
         {
             return InterpolateBoundaries(x, y, SplineBoundaryCondition.SecondDerivative, 0.0, SplineBoundaryCondition.SecondDerivative, 0.0);
         }
 
+        /// <summary>
+        /// Create a cubic spline interpolation from a set of (x,y) value pairs and custom boundary/termination conditions.
+        /// </summary>
+        /// <remarks>
+        /// The value pairs do not have to be sorted, but if they are not sorted ascendingly
+        /// and the passed x and y arguments are arrays, they will be sorted inplace and thus modified.
+        /// </remarks>
         public static CubicSpline InterpolateBoundaries(IEnumerable<double> x, IEnumerable<double> y,
             SplineBoundaryCondition leftBoundaryCondition, double leftBoundary,
             SplineBoundaryCondition rightBoundaryCondition, double rightBoundary)

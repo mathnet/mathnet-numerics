@@ -71,14 +71,14 @@ namespace MathNet.Numerics
         /// <summary>
         /// Create a burlisch stoer rational interpolation based on arbitrary points.
         /// </summary>
-        /// <param name="points">The sample points t. Supports both lists and arrays.</param>
-        /// <param name="values">The sample point values x(t). Supports both lists and arrays.</param>
+        /// <param name="points">The sample points t.  Optimized for arrays..</param>
+        /// <param name="values">The sample point values x(t).  Optimized for arrays.</param>
         /// <returns>
         /// An interpolation scheme optimized for the given sample points and values,
         /// which can then be used to compute interpolations and extrapolations
         /// on arbitrary points.
         /// </returns>
-        public static IInterpolation RationalWithPoles(IList<double> points, IList<double> values)
+        public static IInterpolation RationalWithPoles(IEnumerable<double> points, IEnumerable<double> values)
         {
             return new BulirschStoerRationalInterpolation(points, values);
         }
@@ -107,14 +107,14 @@ namespace MathNet.Numerics
         /// If the points happen to be equidistant, consider to use the much more robust PolynomialEquidistant instead.
         /// Otherwise, consider whether RationalWithoutPoles would not be a more robust alternative.
         /// </summary>
-        /// <param name="points">The sample points t. Supports both lists and arrays.</param>
-        /// <param name="values">The sample point values x(t). Supports both lists and arrays.</param>
+        /// <param name="points">The sample points t.  Optimized for arrays.</param>
+        /// <param name="values">The sample point values x(t).  Optimized for arrays.</param>
         /// <returns>
         /// An interpolation scheme optimized for the given sample points and values,
         /// which can then be used to compute interpolations and extrapolations
         /// on arbitrary points.
         /// </returns>
-        public static IInterpolation Polynomial(IList<double> points, IList<double> values)
+        public static IInterpolation Polynomial(IEnumerable<double> points, IEnumerable<double> values)
         {
             return new NevillePolynomialInterpolation(points, values);
         }
@@ -139,7 +139,7 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
-        /// Create an piecewise cubic spline interpolation based on arbitrary points, with zero secondary derivatives at the boundaries.
+        /// Create an piecewise natural cubic spline interpolation based on arbitrary points, with zero secondary derivatives at the boundaries.
         /// </summary>
         /// <param name="points">The sample points t. Optimized for arrays.</param>
         /// <param name="values">The sample point values x(t). Optimized for arrays.</param>
@@ -154,7 +154,7 @@ namespace MathNet.Numerics
         /// </remarks>
         public static IInterpolation CubicSpline(IEnumerable<double> points, IEnumerable<double> values)
         {
-            return Interpolation.CubicSpline.Interpolate(points, values);
+            return Interpolation.CubicSpline.InterpolateNatural(points, values);
         }
 
         /// <summary>
