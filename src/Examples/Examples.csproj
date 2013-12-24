@@ -88,6 +88,7 @@
     <Compile Include="ContinuousDistributions\CauchyDistribution.cs" />
     <Compile Include="ContinuousDistributions\ChiDistribution.cs" />
     <Compile Include="ContinuousDistributions\ChiSquareDistribution.cs" />
+    <Compile Include="ContinuousDistributions\TriangularDistribution.cs" />
     <Compile Include="ContinuousDistributions\ContinuousUniformDistribution.cs" />
     <Compile Include="ContinuousDistributions\WeibullDistribution.cs" />
     <Compile Include="ContinuousDistributions\StudentTDistribution.cs" />
