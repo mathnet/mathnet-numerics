@@ -156,6 +156,22 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         }
 
         /// <summary>
+        /// Validate mean.
+        /// </summary>
+        /// <param name="p">An array of nonnegative ratios.</param>
+        /// <param name="mean">Expected value.</param>
+        [TestCase(new double[] { 0, 0.25, 0.5, 0.25 }, 2)]
+        [TestCase(new double[] { 0, 1, 2, 1 }, 2)]
+        [TestCase(new double[] { 0, 0.5, 0.5 }, 1.5)]
+        [TestCase(new double[] { 0.75, 0.25 }, 0.25)]
+        [TestCase(new double[] { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 }, 5)]
+        public void ValidateMean(double[] p, double mean)
+        {
+            var n = new Categorical(p);
+            AssertHelpers.AlmostEqual(mean, n.Mean, 14);
+        }
+
+        /// <summary>
         /// Can sample static.
         /// </summary>
         [Test]
