@@ -87,6 +87,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Distributions\Triangular.cs" />
     <Compile Include="Euclid.cs" />
     <Compile Include="Generate.cs" />
     <Compile Include="GoodnessOfFit.cs" />

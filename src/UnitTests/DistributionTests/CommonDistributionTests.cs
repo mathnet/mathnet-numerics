@@ -122,6 +122,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
                                            new Normal(0.0, 1.0),
                                            new Weibull(1.0, 1.0),
                                            new LogNormal(1.0, 1.0),
+                                           new Triangular(0, 1, 0.7),
                                            new StudentT(0.0, 1.0, 5.0)
                                        };
         }
