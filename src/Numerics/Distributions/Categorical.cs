@@ -216,7 +216,18 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Mean
         {
-            get { return _pmfNormalized.Mean(); }
+            get
+            {
+                var sum = 0.0;
+                // Mean = Sum(x * f(x), x=0..N)
+                // where f(x) is the probability mass function, and N is the maximum value.
+                for (int i = 0; i < _pmfNormalized.Length; i++)
+                {
+                    sum += i * _pmfNormalized[i];
+                }
+
+                return sum;
+            }
         }
 
         /// <summary>
