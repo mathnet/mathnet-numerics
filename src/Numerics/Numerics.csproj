@@ -196,6 +196,7 @@
     <Compile Include="FindRoots.cs" />
     <Compile Include="RootFinding\Bisection.cs" />
     <Compile Include="SpecialFunctions\Evaluate.cs" />
+    <Compile Include="ExcelFunctions.cs" />
     <Compile Include="SpecialFunctions\ModifiedStruve.cs" />
     <Compile Include="SpecialFunctions\ModifiedBessel.cs" />
     <Compile Include="SpecialFunctions\Logistic.cs" />
