@@ -361,6 +361,18 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
+        /// Computes the inverse of the cumulative distribution function (InvCDF) for the distribution
+        /// at the given probability. This is also known as the quantile or percent point function.
+        /// </summary>
+        /// <param name="p">The location at which to compute the inverse cumulative density.</param>
+        /// <returns>the inverse cumulative density at <paramref name="p"/>.</returns>
+        /// <seealso cref="InvCDF"/>
+        public double InverseCumulativeDistribution(double p)
+        {
+            return InvCDF(_shape, _rate, p);
+        }
+
+        /// <summary>
         /// Generates a sample from the Gamma distribution.
         /// </summary>
         /// <returns>a sample from the distribution.</returns>
@@ -489,6 +501,22 @@ namespace MathNet.Numerics.Distributions
             if (shape == 0.0 && rate == 0.0) return 0.0;
 
             return SpecialFunctions.GammaLowerRegularized(shape, x*rate);
+        }
+
+        /// <summary>
+        /// Computes the inverse of the cumulative distribution function (InvCDF) for the distribution
+        /// at the given probability. This is also known as the quantile or percent point function.
+        /// </summary>
+        /// <param name="p">The location at which to compute the inverse cumulative density.</param>
+        /// <param name="shape">The shape (k, α) of the Gamma distribution. Range: α ≥ 0.</param>
+        /// <param name="rate">The rate or inverse scale (β) of the Gamma distribution. Range: β ≥ 0.</param>
+        /// <returns>the inverse cumulative density at <paramref name="p"/>.</returns>
+        /// <seealso cref="InverseCumulativeDistribution"/>
+        public static double InvCDF(double shape, double rate, double p)
+        {
+            if (shape < 0.0 || rate < 0.0) throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
+
+            return SpecialFunctions.GammaLowerRegularizedInv(shape, p)/rate;
         }
 
         /// <summary>
