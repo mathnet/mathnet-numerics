@@ -1,4 +1,4 @@
-﻿// <copyright file="TriangularUniform.cs" company="Math.NET">
+﻿// <copyright file="Triangular.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -39,7 +39,7 @@ namespace MathNet.Numerics.Distributions
     /// Triangular distribution.
     /// For details, see <a href="https://en.wikipedia.org/wiki/Triangular_distribution">Wikipedia - Triangular distribution</a>.
     /// </summary>
-    /// <remarks><para>The distribution will use the <see cref="System.Random"/> by default. 
+    /// <remarks><para>The distribution will use the <see cref="System.Random"/> by default.
     /// Users can get/set the random number generator by using the <see cref="RandomSource"/> property.</para>
     /// <para>The statistics classes will check whether all the incoming parameters are in the allowed range. This might involve heavy computation. Optionally, by setting Control.CheckDistributionParameters
     /// to <c>false</c>, all parameter checks can be turned off.</para></remarks>

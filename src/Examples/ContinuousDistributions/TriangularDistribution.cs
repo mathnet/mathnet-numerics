@@ -1,4 +1,4 @@
-﻿// <copyright file="ContinuousUniformDistribution.cs" company="Math.NET">
+﻿// <copyright file="TriangularDistribution.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -27,7 +27,7 @@
 using System;
 using MathNet.Numerics.Distributions;
 
-namespace Examples.TriangularExamples
+namespace Examples.ContinuousDistributionsExamples
 {
     /// <summary>
     /// ContinuousUniform distribution example
