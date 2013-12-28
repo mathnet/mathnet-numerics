@@ -70,7 +70,7 @@ namespace MathNet.Numerics
         };
 
         /// <summary>
-        /// Computes the logarithm of the Gamma function. 
+        /// Computes the logarithm of the Gamma function.
         /// </summary>
         /// <param name="z">The argument of the gamma function.</param>
         /// <returns>The logarithm of the gamma function.</returns>
@@ -112,7 +112,7 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
-        /// Computes the Gamma function. 
+        /// Computes the Gamma function.
         /// </summary>
         /// <param name="z">The argument of the gamma function.</param>
         /// <returns>The logarithm of the gamma function.</returns>
@@ -151,7 +151,7 @@ namespace MathNet.Numerics
                 return s * Constants.TwoSqrtEOverPi * Math.Pow((z - 0.5 + GammaR) / Math.E, z - 0.5);
             }
         }
-    
+
         /// <summary>
         /// Returns the upper incomplete regularized gamma function
         /// Q(a,x) = 1/Gamma(a) * int(exp(-t)t^(a-1),t=0..x) for real a &gt; 0, x &gt; 0.
@@ -164,7 +164,7 @@ namespace MathNet.Numerics
             const double epsilon = 0.000000000000001;
             const double big = 4503599627370496.0;
             const double bigInv = 2.22044604925031308085e-16;
-            
+
             if (x <= 0d || a <= 0d)
             {
                 return 1d;
@@ -227,7 +227,7 @@ namespace MathNet.Numerics
 
             return ans * ax;
         }
-    
+
         /// <summary>
         /// Returns the upper incomplete gamma function
         /// Gamma(a,x) = 1/Gamma(a) * int(exp(-t)t^(a-1),t=0..x) for real a &gt; 0, x &gt; 0.
@@ -239,7 +239,7 @@ namespace MathNet.Numerics
         {
             return GammaUpperRegularized(a, x) * Gamma(a);
         }
-    
+
         /// <summary>
         /// Returns the lower incomplete gamma function
         /// gamma(a,x) = int(exp(-t)t^(a-1),t=0..x) for real a &gt; 0, x &gt; 0.
@@ -361,6 +361,195 @@ namespace MathNet.Numerics
             while (error > epsilon);
 
             return 1d - (Math.Exp(ax) * ans);
+        }
+
+        /// <summary>
+        /// Returns the inverse P^(-1) of the regularized lower incomplete gamma function
+        /// P(a,x) = 1/Gamma(a) * int(exp(-t)t^(a-1),t=0..x) for real a &gt; 0, x &gt; 0,
+        /// such that P^(-1)(a,P(a,x)) == x.
+        /// </summary>
+        public static double GammaLowerRegularizedInv(double a, double y0)
+        {
+            const double epsilon = 0.000000000000001;
+            const double big = 4503599627370496.0;
+            const double threshold = 5*epsilon;
+
+            if (double.IsNaN(a) || double.IsNaN(y0))
+            {
+                return double.NaN;
+            }
+
+            if (a < 0 || a.AlmostEqual(0.0) || y0 < 0 || y0 > 1)
+            {
+                throw new ArgumentOutOfRangeException("a,y0", Properties.Resources.ArgumentNotNegative);
+            }
+
+            if (y0.AlmostEqual(0.0))
+            {
+                return 0d;
+            }
+
+            if (y0.AlmostEqual(1.0))
+            {
+                return Double.PositiveInfinity;
+            }
+
+            y0 = 1 - y0;
+
+            double xUpper = big;
+            double xLower = 0;
+            double yUpper = 1;
+            double yLower = 0;
+
+            // Initial Guess
+            double d = 1/(9*a);
+            double y = 1 - d - (0.98*Constants.Sqrt2*ErfInv((2.0*y0) - 1.0)*Math.Sqrt(d));
+            double x = a*y*y*y;
+            double lgm = GammaLn(a);
+
+            for (int i = 0; i < 10; i++)
+            {
+                if (x < xLower || x > xUpper)
+                {
+                    d = 0.0625;
+                    break;
+                }
+
+                y = 1 - GammaLowerRegularized(a, x);
+                if (y < yLower || y > yUpper)
+                {
+                    d = 0.0625;
+                    break;
+                }
+
+                if (y < y0)
+                {
+                    xUpper = x;
+                    yLower = y;
+                }
+                else
+                {
+                    xLower = x;
+                    yUpper = y;
+                }
+
+                d = ((a - 1)*Math.Log(x)) - x - lgm;
+                if (d < -709.78271289338399)
+                {
+                    d = 0.0625;
+                    break;
+                }
+
+                d = -Math.Exp(d);
+                d = (y - y0)/d;
+                if (Math.Abs(d/x) < epsilon)
+                {
+                    return x;
+                }
+
+                if ((d > (x/4)) && (y0 < 0.05))
+                {
+                    // Naive heuristics for cases near the singularity
+                    d = x/10;
+                }
+
+                x -= d;
+            }
+
+            if (xUpper == big)
+            {
+                if (x <= 0)
+                {
+                    x = 1;
+                }
+
+                while (xUpper == big)
+                {
+                    x = (1 + d)*x;
+                    y = 1 - GammaLowerRegularized(a, x);
+                    if (y < y0)
+                    {
+                        xUpper = x;
+                        yLower = y;
+                        break;
+                    }
+
+                    d = d + d;
+                }
+            }
+
+            int dir = 0;
+            d = 0.5;
+            for (int i = 0; i < 400; i++)
+            {
+                x = xLower + (d*(xUpper - xLower));
+                y = 1 - GammaLowerRegularized(a, x);
+                lgm = (xUpper - xLower)/(xLower + xUpper);
+                if (Math.Abs(lgm) < threshold)
+                {
+                    return x;
+                }
+
+                lgm = (y - y0)/y0;
+                if (Math.Abs(lgm) < threshold)
+                {
+                    return x;
+                }
+
+                if (x <= 0d)
+                {
+                    return 0d;
+                }
+
+                if (y >= y0)
+                {
+                    xLower = x;
+                    yUpper = y;
+                    if (dir < 0)
+                    {
+                        dir = 0;
+                        d = 0.5;
+                    }
+                    else
+                    {
+                        if (dir > 1)
+                        {
+                            d = (0.5*d) + 0.5;
+                        }
+                        else
+                        {
+                            d = (y0 - yLower)/(yUpper - yLower);
+                        }
+                    }
+
+                    dir = dir + 1;
+                }
+                else
+                {
+                    xUpper = x;
+                    yLower = y;
+                    if (dir > 0)
+                    {
+                        dir = 0;
+                        d = 0.5;
+                    }
+                    else
+                    {
+                        if (dir < -1)
+                        {
+                            d = 0.5*d;
+                        }
+                        else
+                        {
+                            d = (y0 - yLower)/(yUpper - yLower);
+                        }
+                    }
+
+                    dir = dir - 1;
+                }
+            }
+
+            return x;
         }
 
         /// <summary>
