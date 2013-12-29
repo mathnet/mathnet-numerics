@@ -202,6 +202,7 @@
     <Compile Include="SpecialFunctions\Logistic.cs" />
     <Compile Include="Statistics\ArrayStatistics.cs" />
     <Compile Include="Statistics\QuantileDefinition.cs" />
+    <Compile Include="Statistics\RankDefinition.cs" />
     <Compile Include="Statistics\StreamingStatistics.cs" />
     <Compile Include="Statistics\SortedArrayStatistics.cs" />
     <Compile Include="LinearAlgebra\Storage\SparseVectorStorage.cs" />

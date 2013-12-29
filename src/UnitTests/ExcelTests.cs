@@ -94,6 +94,13 @@ namespace MathNet.Numerics.UnitTests
             Assert.That(ExcelFunctions.QUARTILE(array, 2), Is.EqualTo(7.50000000000).Within(1e-8));
             Assert.That(ExcelFunctions.QUARTILE(array, 3), Is.EqualTo(9.25000000000).Within(1e-8));
             Assert.That(ExcelFunctions.QUARTILE(array, 4), Is.EqualTo(12.00000000000).Within(1e-8));
+
+            array = new Double[] { 1, 9, 12, 7, 2, 9, 10, 2 };
+            Assert.That(ExcelFunctions.QUARTILE(array, 0), Is.EqualTo(1.00000000000).Within(1e-8));
+            Assert.That(ExcelFunctions.QUARTILE(array, 1), Is.EqualTo(2.00000000000).Within(1e-8));
+            Assert.That(ExcelFunctions.QUARTILE(array, 2), Is.EqualTo(8.00000000000).Within(1e-8));
+            Assert.That(ExcelFunctions.QUARTILE(array, 3), Is.EqualTo(9.25000000000).Within(1e-8));
+            Assert.That(ExcelFunctions.QUARTILE(array, 4), Is.EqualTo(12.00000000000).Within(1e-8));
         }
     }
 }

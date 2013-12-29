@@ -161,41 +161,10 @@ namespace MathNet.Numerics.Statistics
             }
 
             // WARNING: do not try to cast series to an array and use it directly,
-            // as we need to sort it (and thus modify id)
+            // as we need to sort it (inplace operation)
 
-            double[] samples = series.ToArray();
-            int[] index = new int[samples.Length];
-            for (int i = 0; i < index.Length; i++)
-            {
-                index[i] = i;
-            }
-            Sorting.Sort(samples, index);
-
-            double[] rankedArray = new double[samples.Length];
-            int previousIndex = 0;
-            for (int i = 1; i < samples.Length; i++)
-            {
-                if (Math.Abs(samples[i] - samples[previousIndex]) <= 0d)
-                {
-                    continue;
-                }
-
-                var rankedValue = (i + previousIndex - 1) / 2d + 1;
-                for (int k = previousIndex; k < i; k++)
-                {
-                    rankedArray[index[k]] = rankedValue;
-                }
-
-                previousIndex = i;
-            }
-
-            var finalValue = (samples.Length + previousIndex - 1) / 2d + 1;
-            for (int k = previousIndex; k < index.Length; k++)
-            {
-                rankedArray[index[k]] = finalValue;
-            }
-
-            return rankedArray;
+            var data = series.ToArray();
+            return ArrayStatistics.RanksInplace(data, RankDefinition.Average);
         }
     }
 }

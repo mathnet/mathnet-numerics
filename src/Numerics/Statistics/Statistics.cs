@@ -634,5 +634,31 @@ namespace MathNet.Numerics.Statistics
             Array.Sort(array);
             return order => SortedArrayStatistics.OrderStatistic(array, order);
         }
+
+        /// <summary>
+        /// Evaluates the rank of each entry of the provided samples.
+        /// The rank definition can be specificed to be compatible
+        /// with an existing system.
+        /// </summary>
+        /// <param name="data">The data sample sequence.</param>
+        /// <param name="definition">Rank definition, to choose how ties should be handled.</param>
+        public static double[] Ranks(this IEnumerable<double> data, RankDefinition definition = RankDefinition.Default)
+        {
+            var array = data.ToArray();
+            return ArrayStatistics.RanksInplace(array, definition);
+        }
+
+        /// <summary>
+        /// Evaluates the rank of each entry of the provided samples.
+        /// The rank definition can be specificed to be compatible
+        /// with an existing system.
+        /// </summary>
+        /// <param name="data">The data sample sequence.</param>
+        /// <param name="definition">Rank definition, to choose how ties should be handled.</param>
+        public static double[] Ranks(this IEnumerable<double?> data, RankDefinition definition = RankDefinition.Default)
+        {
+            var array = data.Where(d => d.HasValue).Select(d => d.Value).ToArray();
+            return ArrayStatistics.RanksInplace(array, definition);
+        }
     }
 }

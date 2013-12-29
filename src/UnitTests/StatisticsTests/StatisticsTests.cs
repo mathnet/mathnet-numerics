@@ -36,6 +36,8 @@ using MathNet.Numerics.Distributions;
 using MathNet.Numerics.Random;
 using NUnit.Framework;
 
+// ReSharper disable InvokeAsExtensionMethod
+
 namespace MathNet.Numerics.UnitTests.StatisticsTests
 {
     using Statistics;
@@ -541,6 +543,123 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
         }
 
         [Test]
+        public void RanksSortedArray()
+        {
+            var distinct = new double[] { 1, 2, 4, 7, 8, 9, 10, 12 };
+            var ties = new double[] { 1, 2, 2, 7, 9, 9, 10, 12 };
+
+            // R: rank(sort(data), ties.method="average")
+            Assert.That(
+                SortedArrayStatistics.Ranks(distinct, RankDefinition.Average),
+                Is.EqualTo(new[] { 1.0, 2, 3, 4, 5, 6, 7, 8 }).AsCollection.Within(1e-8));
+            Assert.That(
+                SortedArrayStatistics.Ranks(ties, RankDefinition.Average),
+                Is.EqualTo(new[] { 1, 2.5, 2.5, 4, 5.5, 5.5, 7, 8 }).AsCollection.Within(1e-8));
+
+            // R: rank(data, ties.method="min")
+            Assert.That(
+                SortedArrayStatistics.Ranks(distinct, RankDefinition.Min),
+                Is.EqualTo(new[] { 1.0, 2, 3, 4, 5, 6, 7, 8 }).AsCollection.Within(1e-8));
+            Assert.That(
+                SortedArrayStatistics.Ranks(ties, RankDefinition.Min),
+                Is.EqualTo(new[] { 1.0, 2, 2, 4, 5, 5, 7, 8 }).AsCollection.Within(1e-8));
+
+            // R: rank(data, ties.method="max")
+            Assert.That(
+                SortedArrayStatistics.Ranks(distinct, RankDefinition.Max),
+                Is.EqualTo(new[] { 1.0, 2, 3, 4, 5, 6, 7, 8 }).AsCollection.Within(1e-8));
+            Assert.That(
+                SortedArrayStatistics.Ranks(ties, RankDefinition.Max),
+                Is.EqualTo(new[] { 1.0, 3, 3, 4, 6, 6, 7, 8 }).AsCollection.Within(1e-8));
+
+            // R: rank(data, ties.method="first")
+            Assert.That(
+                SortedArrayStatistics.Ranks(distinct, RankDefinition.First),
+                Is.EqualTo(new[] { 1.0, 2, 3, 4, 5, 6, 7, 8 }).AsCollection.Within(1e-8));
+            Assert.That(
+                SortedArrayStatistics.Ranks(ties, RankDefinition.First),
+                Is.EqualTo(new[] { 1.0, 2, 3, 4, 5, 6, 7, 8 }).AsCollection.Within(1e-8));
+        }
+
+        [Test]
+        public void RanksArray()
+        {
+            var distinct = new double[] { 1, 8, 12, 7, 2, 9, 10, 4 };
+            var ties = new double[] { 1, 9, 12, 7, 2, 9, 10, 2 };
+
+            // R: rank(data, ties.method="average")
+            Assert.That(
+                ArrayStatistics.RanksInplace((double[])distinct.Clone(), RankDefinition.Average),
+                Is.EqualTo(new[] { 1.0, 5, 8, 4, 2, 6, 7, 3 }).AsCollection.Within(1e-8));
+            Assert.That(
+                ArrayStatistics.RanksInplace((double[])ties.Clone(), RankDefinition.Average),
+                Is.EqualTo(new[] { 1, 5.5, 8, 4, 2.5, 5.5, 7, 2.5 }).AsCollection.Within(1e-8));
+
+            // R: rank(data, ties.method="min")
+            Assert.That(
+                ArrayStatistics.RanksInplace((double[])distinct.Clone(), RankDefinition.Min),
+                Is.EqualTo(new[] { 1.0, 5, 8, 4, 2, 6, 7, 3 }).AsCollection.Within(1e-8));
+            Assert.That(
+                ArrayStatistics.RanksInplace((double[])ties.Clone(), RankDefinition.Min),
+                Is.EqualTo(new[] { 1.0, 5, 8, 4, 2, 5, 7, 2 }).AsCollection.Within(1e-8));
+
+            // R: rank(data, ties.method="max")
+            Assert.That(
+                ArrayStatistics.RanksInplace((double[])distinct.Clone(), RankDefinition.Max),
+                Is.EqualTo(new[] { 1.0, 5, 8, 4, 2, 6, 7, 3 }).AsCollection.Within(1e-8));
+            Assert.That(
+                ArrayStatistics.RanksInplace((double[])ties.Clone(), RankDefinition.Max),
+                Is.EqualTo(new[] { 1.0, 6, 8, 4, 3, 6, 7, 3 }).AsCollection.Within(1e-8));
+
+            // R: rank(data, ties.method="first")
+            Assert.That(
+                ArrayStatistics.RanksInplace((double[])distinct.Clone(), RankDefinition.First),
+                Is.EqualTo(new[] { 1.0, 5, 8, 4, 2, 6, 7, 3 }).AsCollection.Within(1e-8));
+            Assert.That(
+                ArrayStatistics.RanksInplace((double[])ties.Clone(), RankDefinition.First),
+                Is.EqualTo(new[] { 1.0, 5, 8, 4, 2, 6, 7, 3 }).AsCollection.Within(1e-8));
+        }
+
+        [Test]
+        public void Ranks()
+        {
+            var distinct = new double[] { 1, 8, 12, 7, 2, 9, 10, 4 };
+            var ties = new double[] { 1, 9, 12, 7, 2, 9, 10, 2 };
+
+            // R: rank(data, ties.method="average")
+            Assert.That(
+                Statistics.Ranks(distinct, RankDefinition.Average),
+                Is.EqualTo(new[] { 1.0, 5, 8, 4, 2, 6, 7, 3 }).AsCollection.Within(1e-8));
+            Assert.That(
+                Statistics.Ranks(ties, RankDefinition.Average),
+                Is.EqualTo(new[] { 1, 5.5, 8, 4, 2.5, 5.5, 7, 2.5 }).AsCollection.Within(1e-8));
+
+            // R: rank(data, ties.method="min")
+            Assert.That(
+                Statistics.Ranks(distinct, RankDefinition.Min),
+                Is.EqualTo(new[] { 1.0, 5, 8, 4, 2, 6, 7, 3 }).AsCollection.Within(1e-8));
+            Assert.That(
+                Statistics.Ranks(ties, RankDefinition.Min),
+                Is.EqualTo(new[] { 1.0, 5, 8, 4, 2, 5, 7, 2 }).AsCollection.Within(1e-8));
+
+            // R: rank(data, ties.method="max")
+            Assert.That(
+                Statistics.Ranks(distinct, RankDefinition.Max),
+                Is.EqualTo(new[] { 1.0, 5, 8, 4, 2, 6, 7, 3 }).AsCollection.Within(1e-8));
+            Assert.That(
+                Statistics.Ranks(ties, RankDefinition.Max),
+                Is.EqualTo(new[] { 1.0, 6, 8, 4, 3, 6, 7, 3 }).AsCollection.Within(1e-8));
+
+            // R: rank(data, ties.method="first")
+            Assert.That(
+                Statistics.Ranks(distinct, RankDefinition.First),
+                Is.EqualTo(new[] { 1.0, 5, 8, 4, 2, 6, 7, 3 }).AsCollection.Within(1e-8));
+            Assert.That(
+                Statistics.Ranks(ties, RankDefinition.First),
+                Is.EqualTo(new[] { 1.0, 5, 8, 4, 2, 6, 7, 3 }).AsCollection.Within(1e-8));
+        }
+
+        [Test]
         public void MedianOnShortSequence()
         {
             // R: median(c(-1,5,0,-3,10,-0.5,4,0.2,1,6))
@@ -734,3 +853,5 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
         }
     }
 }
+
+// ReSharper restore InvokeAsExtensionMethod

@@ -43,7 +43,7 @@ namespace MathNet.Numerics.Statistics
     public static class ArrayStatistics
     {
         // TODO: Benchmark various options to find out the best approach (-> branch prediction)
-        // TODO: consider leveraging MKL 
+        // TODO: consider leveraging MKL
 
         /// <summary>
         /// Returns the smallest value from the unsorted data array.
@@ -257,7 +257,7 @@ namespace MathNet.Numerics.Statistics
             var covariance = 0.0;
             for (int i = 0; i < population1.Length; i++)
             {
-                covariance += (population1[i] - mean1) * (population2[i] - mean2);
+                covariance += (population1[i] - mean1)*(population2[i] - mean2);
             }
             return covariance/population1.Length;
         }
@@ -299,7 +299,7 @@ namespace MathNet.Numerics.Statistics
         /// <param name="p">Percentile selector, between 0 and 100 (inclusive).</param>
         public static double PercentileInplace(double[] data, int p)
         {
-            return QuantileInplace(data, p / 100d);
+            return QuantileInplace(data, p/100d);
         }
 
         /// <summary>
@@ -368,7 +368,7 @@ namespace MathNet.Numerics.Statistics
             if (tau < 0d || tau > 1d || data.Length == 0) return double.NaN;
 
             double h = (data.Length + 1d/3d)*tau + 1d/3d;
-            var hf = (int) h;
+            var hf = (int)h;
 
             if (hf <= 0 || tau == 0d)
             {
@@ -401,7 +401,7 @@ namespace MathNet.Numerics.Statistics
         {
             if (tau < 0d || tau > 1d || data.Length == 0) return double.NaN;
 
-            var x = a + (data.Length + b) * tau - 1;
+            var x = a + (data.Length + b)*tau - 1;
 #if PORTABLE
             var ip = (int)x;
 #else
@@ -411,12 +411,12 @@ namespace MathNet.Numerics.Statistics
 
             if (Math.Abs(fp) < 1e-9)
             {
-                return SelectInplace(data, (int) ip);
+                return SelectInplace(data, (int)ip);
             }
 
-            var lower = SelectInplace(data, (int) Math.Floor(x));
-            var upper = SelectInplace(data, (int) Math.Ceiling(x));
-            return lower + (upper - lower) * (c + d * fp);
+            var lower = SelectInplace(data, (int)Math.Floor(x));
+            var upper = SelectInplace(data, (int)Math.Ceiling(x));
+            return lower + (upper - lower)*(c + d*fp);
         }
 
         /// <summary>
@@ -438,68 +438,68 @@ namespace MathNet.Numerics.Statistics
             switch (definition)
             {
                 case QuantileDefinition.R1:
-                    {
-                        double h = data.Length * tau + 0.5d;
-                        return SelectInplace(data, (int)Math.Ceiling(h - 0.5d) - 1);
-                    }
+                {
+                    double h = data.Length*tau + 0.5d;
+                    return SelectInplace(data, (int)Math.Ceiling(h - 0.5d) - 1);
+                }
                 case QuantileDefinition.R2:
-                    {
-                        double h = data.Length * tau + 0.5d;
-                        return (SelectInplace(data, (int) Math.Ceiling(h - 0.5d) - 1) + SelectInplace(data, (int) (h + 0.5d) - 1))*0.5d;
-                    }
+                {
+                    double h = data.Length*tau + 0.5d;
+                    return (SelectInplace(data, (int)Math.Ceiling(h - 0.5d) - 1) + SelectInplace(data, (int)(h + 0.5d) - 1))*0.5d;
+                }
                 case QuantileDefinition.R3:
-                    {
-                        double h = data.Length * tau;
-                        return SelectInplace(data, (int)Math.Round(h) - 1);
-                    }
+                {
+                    double h = data.Length*tau;
+                    return SelectInplace(data, (int)Math.Round(h) - 1);
+                }
                 case QuantileDefinition.R4:
-                    {
-                        double h = data.Length * tau;
-                        var hf = (int)h;
-                        var lower = SelectInplace(data, hf - 1);
-                        var upper = SelectInplace(data, hf);
-                        return lower + (h - hf) * (upper - lower);
-                    }
+                {
+                    double h = data.Length*tau;
+                    var hf = (int)h;
+                    var lower = SelectInplace(data, hf - 1);
+                    var upper = SelectInplace(data, hf);
+                    return lower + (h - hf)*(upper - lower);
+                }
                 case QuantileDefinition.R5:
-                    {
-                        double h = data.Length * tau + 0.5d;
-                        var hf = (int)h;
-                        var lower = SelectInplace(data, hf - 1);
-                        var upper = SelectInplace(data, hf);
-                        return lower + (h - hf) * (upper - lower);
-                    }
+                {
+                    double h = data.Length*tau + 0.5d;
+                    var hf = (int)h;
+                    var lower = SelectInplace(data, hf - 1);
+                    var upper = SelectInplace(data, hf);
+                    return lower + (h - hf)*(upper - lower);
+                }
                 case QuantileDefinition.R6:
-                    {
-                        double h = (data.Length + 1) * tau;
-                        var hf = (int)h;
-                        var lower = SelectInplace(data, hf - 1);
-                        var upper = SelectInplace(data, hf);
-                        return lower + (h - hf) * (upper - lower);
-                    }
+                {
+                    double h = (data.Length + 1)*tau;
+                    var hf = (int)h;
+                    var lower = SelectInplace(data, hf - 1);
+                    var upper = SelectInplace(data, hf);
+                    return lower + (h - hf)*(upper - lower);
+                }
                 case QuantileDefinition.R7:
-                    {
-                        double h = (data.Length - 1) * tau + 1d;
-                        var hf = (int)h;
-                        var lower = SelectInplace(data, hf - 1);
-                        var upper = SelectInplace(data, hf);
-                        return lower + (h - hf) * (upper - lower);
-                    }
+                {
+                    double h = (data.Length - 1)*tau + 1d;
+                    var hf = (int)h;
+                    var lower = SelectInplace(data, hf - 1);
+                    var upper = SelectInplace(data, hf);
+                    return lower + (h - hf)*(upper - lower);
+                }
                 case QuantileDefinition.R8:
-                    {
-                        double h = (data.Length + 1 / 3d) * tau + 1 / 3d;
-                        var hf = (int)h;
-                        var lower = SelectInplace(data, hf - 1);
-                        var upper = SelectInplace(data, hf);
-                        return lower + (h - hf) * (upper - lower);
-                    }
+                {
+                    double h = (data.Length + 1/3d)*tau + 1/3d;
+                    var hf = (int)h;
+                    var lower = SelectInplace(data, hf - 1);
+                    var upper = SelectInplace(data, hf);
+                    return lower + (h - hf)*(upper - lower);
+                }
                 case QuantileDefinition.R9:
-                    {
-                        double h = (data.Length + 0.25d) * tau + 0.375d;
-                        var hf = (int)h;
-                        var lower = SelectInplace(data, hf - 1);
-                        var upper = SelectInplace(data, hf);
-                        return lower + (h - hf) * (upper - lower);
-                    }
+                {
+                    double h = (data.Length + 0.25d)*tau + 0.375d;
+                    var hf = (int)h;
+                    var lower = SelectInplace(data, hf - 1);
+                    var upper = SelectInplace(data, hf);
+                    return lower + (h - hf)*(upper - lower);
+                }
                 default:
                     throw new NotSupportedException();
             }
@@ -577,6 +577,88 @@ namespace MathNet.Numerics.Statistics
 
                 if (end >= rank) high = end - 1;
                 if (end <= rank) low = begin;
+            }
+        }
+
+        /// <summary>
+        /// Evaluates the rank of each entry of the unsorted data array.
+        /// The rank definition can be specificed to be compatible
+        /// with an existing system.
+        /// WARNING: Works inplace and can thus causes the data array to be reordered.
+        /// </summary>
+        public static double[] RanksInplace(double[] data, RankDefinition definition = RankDefinition.Default)
+        {
+            var ranks = new double[data.Length];
+            var index = new int[data.Length];
+            for (int i = 0; i < index.Length; i++)
+            {
+                index[i] = i;
+            }
+
+            if (definition == RankDefinition.First)
+            {
+                Sorting.SortAll(data, index);
+                for (int i = 0; i < ranks.Length; i++)
+                {
+                    ranks[index[i]] = i + 1;
+                }
+                return ranks;
+            }
+
+            Sorting.Sort(data, index);
+            int previousIndex = 0;
+            for (int i = 1; i < data.Length; i++)
+            {
+                if (Math.Abs(data[i] - data[previousIndex]) <= 0d)
+                {
+                    continue;
+                }
+
+                if (i == previousIndex + 1)
+                {
+                    ranks[index[previousIndex]] = i;
+                }
+                else
+                {
+                    RanksTies(ranks, index, previousIndex, i, definition);
+                }
+
+                previousIndex = i;
+            }
+
+            RanksTies(ranks, index, previousIndex, data.Length, definition);
+            return ranks;
+        }
+
+        static void RanksTies(double[] ranks, int[] index, int a, int b, RankDefinition definition)
+        {
+            // TODO: potential for PERF optimization
+
+            double rank;
+            switch (definition)
+            {
+                case RankDefinition.Average:
+                {
+                    rank = (b + a - 1)/2d + 1;
+                    break;
+                }
+                case RankDefinition.Min:
+                {
+                    rank = a + 1;
+                    break;
+                }
+                case RankDefinition.Max:
+                {
+                    rank = b;
+                    break;
+                }
+                default:
+                    throw new NotSupportedException();
+            }
+
+            for (int k = a; k < b; k++)
+            {
+                ranks[index[k]] = rank;
             }
         }
     }
