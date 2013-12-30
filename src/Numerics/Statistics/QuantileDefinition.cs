@@ -32,8 +32,8 @@ namespace MathNet.Numerics.Statistics
 {
     public enum QuantileDefinition
     {
-        R1 = 1, SAS3 = 1, InverseCDF = 1,
-        R2 = 2, SAS5 = 2, InverseCDFAverage = 2,
+        R1 = 1, SAS3 = 1, EmpiricalInvCDF = 1,
+        R2 = 2, SAS5 = 2, EmpiricalInvCDFAverage = 2,
         R3 = 3, SAS2 = 3, Nearest = 3,
         R4 = 4, SAS1 = 4, California = 4,
         R5 = 5, Hydrology = 5, Hazen = 5,

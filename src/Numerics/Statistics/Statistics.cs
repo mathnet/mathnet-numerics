@@ -725,10 +725,10 @@ namespace MathNet.Numerics.Statistics
         /// </summary>
         /// <param name="data">The data sample sequence.</param>
         /// <param name="tau">Quantile selector, between 0.0 and 1.0 (inclusive).</param>
-        public static double InverseCDF(this IEnumerable<double> data, double tau)
+        public static double EmpiricalInvCDF(this IEnumerable<double> data, double tau)
         {
             var array = data.ToArray();
-            return ArrayStatistics.QuantileCustomInplace(array, tau, QuantileDefinition.InverseCDF);
+            return ArrayStatistics.QuantileCustomInplace(array, tau, QuantileDefinition.EmpiricalInvCDF);
         }
 
         /// <summary>
@@ -736,29 +736,29 @@ namespace MathNet.Numerics.Statistics
         /// </summary>
         /// <param name="data">The data sample sequence.</param>
         /// <param name="tau">Quantile selector, between 0.0 and 1.0 (inclusive).</param>
-        public static double InverseCDF(this IEnumerable<double?> data, double tau)
+        public static double EmpiricalInvCDF(this IEnumerable<double?> data, double tau)
         {
-            return InverseCDF(data.Where(d => d.HasValue).Select(d => d.Value), tau);
+            return EmpiricalInvCDF(data.Where(d => d.HasValue).Select(d => d.Value), tau);
         }
 
         /// <summary>
         /// Estimates the empirical inverse CDF at tau from the provided samples.
         /// </summary>
         /// <param name="data">The data sample sequence.</param>
-        public static Func<double, double> InverseCDFFunc(this IEnumerable<double> data)
+        public static Func<double, double> EmpiricalInvCDFFunc(this IEnumerable<double> data)
         {
             var array = data.ToArray();
             Array.Sort(array);
-            return tau => SortedArrayStatistics.QuantileCustom(array, tau, QuantileDefinition.InverseCDF);
+            return tau => SortedArrayStatistics.QuantileCustom(array, tau, QuantileDefinition.EmpiricalInvCDF);
         }
 
         /// <summary>
         /// Estimates the empirical inverse CDF at tau from the provided samples.
         /// </summary>
         /// <param name="data">The data sample sequence.</param>
-        public static Func<double, double> InverseCDFFunc(this IEnumerable<double?> data)
+        public static Func<double, double> EmpiricalInvCDFFunc(this IEnumerable<double?> data)
         {
-            return InverseCDFFunc(data.Where(d => d.HasValue).Select(d => d.Value));
+            return EmpiricalInvCDFFunc(data.Where(d => d.HasValue).Select(d => d.Value));
         }
     }
 }

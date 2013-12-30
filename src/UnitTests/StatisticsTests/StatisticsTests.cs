@@ -305,23 +305,23 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
         [TestCase(0.99d, 10d)]
         [TestCase(0.52d, 1d)]
         [TestCase(0.325d, 0d)]
-        public void QuantileR1InverseCDFOnShortSequence(double tau, double expected)
+        public void QuantileR1EmpiricalInvCDFOnShortSequence(double tau, double expected)
         {
             // R: quantile(c(-1,5,0,-3,10,-0.5,4,0.2,1,6),probs=c(0,1,0.5,0.2,0.7,0.01,0.99,0.52,0.325),type=1)
             // Mathematica: Quantile[{-1,5,0,-3,10,-1/2,4,1/5,1,6},{0,1,1/2,1/5,7/10,1/100,99/100,13/25,13/40},{{0,0},{1,0}}]
 
             var samples = new[] {-1, 5, 0, -3, 10, -0.5, 4, 0.2, 1, 6};
 
-            Assert.AreEqual(expected, Statistics.InverseCDF(samples, tau), 1e-14);
-            Assert.AreEqual(expected, Statistics.InverseCDFFunc(samples)(tau), 1e-14);
-            Assert.AreEqual(expected, Statistics.QuantileCustom(samples, tau, QuantileDefinition.InverseCDF), 1e-14);
-            Assert.AreEqual(expected, Statistics.QuantileCustomFunc(samples, QuantileDefinition.InverseCDF)(tau), 1e-14);
+            Assert.AreEqual(expected, Statistics.EmpiricalInvCDF(samples, tau), 1e-14);
+            Assert.AreEqual(expected, Statistics.EmpiricalInvCDFFunc(samples)(tau), 1e-14);
+            Assert.AreEqual(expected, Statistics.QuantileCustom(samples, tau, QuantileDefinition.EmpiricalInvCDF), 1e-14);
+            Assert.AreEqual(expected, Statistics.QuantileCustomFunc(samples, QuantileDefinition.EmpiricalInvCDF)(tau), 1e-14);
 
-            Assert.AreEqual(expected, ArrayStatistics.QuantileCustomInplace(samples, tau, QuantileDefinition.InverseCDF), 1e-14);
+            Assert.AreEqual(expected, ArrayStatistics.QuantileCustomInplace(samples, tau, QuantileDefinition.EmpiricalInvCDF), 1e-14);
             Assert.AreEqual(expected, ArrayStatistics.QuantileCustomInplace(samples, tau, 0d, 0d, 1d, 0d), 1e-14);
 
             Array.Sort(samples);
-            Assert.AreEqual(expected, SortedArrayStatistics.QuantileCustom(samples, tau, QuantileDefinition.InverseCDF), 1e-14);
+            Assert.AreEqual(expected, SortedArrayStatistics.QuantileCustom(samples, tau, QuantileDefinition.EmpiricalInvCDF), 1e-14);
             Assert.AreEqual(expected, SortedArrayStatistics.QuantileCustom(samples, tau, 0d, 0d, 1d, 0d), 1e-14);
         }
 
@@ -334,7 +334,7 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
         [TestCase(0.99d, 10d)]
         [TestCase(0.52d, 1d)]
         [TestCase(0.325d, 0d)]
-        public void QuantileR2InverseCDFAverageOnShortSequence(double tau, double expected)
+        public void QuantileR2EmpiricalInvCDFAverageOnShortSequence(double tau, double expected)
         {
             // R: quantile(c(-1,5,0,-3,10,-0.5,4,0.2,1,6),probs=c(0,1,0.5,0.2,0.7,0.01,0.99,0.52,0.325),type=2)
             // Mathematica: Not Supported
@@ -344,10 +344,10 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
             Assert.AreEqual(expected, Statistics.QuantileCustom(samples, tau, QuantileDefinition.R2), 1e-14);
             Assert.AreEqual(expected, Statistics.QuantileCustomFunc(samples, QuantileDefinition.R2)(tau), 1e-14);
 
-            Assert.AreEqual(expected, ArrayStatistics.QuantileCustomInplace(samples, tau, QuantileDefinition.InverseCDFAverage), 1e-14);
+            Assert.AreEqual(expected, ArrayStatistics.QuantileCustomInplace(samples, tau, QuantileDefinition.EmpiricalInvCDFAverage), 1e-14);
 
             Array.Sort(samples);
-            Assert.AreEqual(expected, SortedArrayStatistics.QuantileCustom(samples, tau, QuantileDefinition.InverseCDFAverage), 1e-14);
+            Assert.AreEqual(expected, SortedArrayStatistics.QuantileCustom(samples, tau, QuantileDefinition.EmpiricalInvCDFAverage), 1e-14);
         }
 
         [TestCase(0d, -3d)]
