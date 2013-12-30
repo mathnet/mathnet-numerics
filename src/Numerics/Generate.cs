@@ -511,48 +511,6 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
-        /// Generate samples by sampling a function at samples from a probability distribution.
-        /// </summary>
-        public static T[] RandomMap<T>(int length, IContinuousDistribution distribution, Func<double, T> map)
-        {
-            var data = new T[length];
-            for (int i = 0; i < data.Length; i++)
-            {
-                data[i] = map(distribution.Sample());
-            }
-            return data;
-        }
-
-        /// <summary>
-        /// Generate a sample sequence by sampling a function at samples from a probability distribution.
-        /// </summary>
-        public static IEnumerable<T> RandomMapSequence<T>(IContinuousDistribution distribution, Func<double, T> map)
-        {
-            return distribution.Samples().Select(map);
-        }
-
-        /// <summary>
-        /// Generate samples by sampling a function at sample pairs from a probability distribution.
-        /// </summary>
-        public static T[] RandomMap2<T>(int length, IContinuousDistribution distribution, Func<double, double, T> map)
-        {
-            var data = new T[length];
-            for (int i = 0; i < data.Length; i++)
-            {
-                data[i] = map(distribution.Sample(), distribution.Sample());
-            }
-            return data;
-        }
-
-        /// <summary>
-        /// Generate a sample sequence by sampling a function at sample pairs from a probability distribution.
-        /// </summary>
-        public static IEnumerable<T> RandomMap2Sequence<T>(IContinuousDistribution distribution, Func<double, double, T> map)
-        {
-            return distribution.Samples().Zip(distribution.Samples(), map);
-        }
-
-        /// <summary>
         /// Create random samples.
         /// </summary>
         public static double[] Random(int length, IContinuousDistribution distribution)
@@ -566,6 +524,24 @@ namespace MathNet.Numerics
         public static IEnumerable<double> Random(IContinuousDistribution distribution)
         {
             return distribution.Samples();
+        }
+
+        /// <summary>
+        /// Create random samples, uniform between 0 and 1.
+        /// Faster than other methods but with reduced guarantees on randomness.
+        /// </summary>
+        public static double[] RandomUniform(int length)
+        {
+            return SystemRandomSource.Doubles(length);
+        }
+
+        /// <summary>
+        /// Create an infinite random sample sequence, uniform between 0 and 1.
+        /// Faster than other methods but with reduced guarantees on randomness.
+        /// </summary>
+        public static IEnumerable<double> RandomUniform()
+        {
+            return SystemRandomSource.DoubleSequence();
         }
 
         /// <summary>
@@ -623,6 +599,107 @@ namespace MathNet.Numerics
         public static IEnumerable<double> StableNoiseSequence(double alpha, double beta, double scale, double location)
         {
             return Stable.Samples(SystemRandomSource.Default, alpha, beta, scale, location);
+        }
+
+        /// <summary>
+        /// Generate samples by sampling a function at samples from a probability distribution.
+        /// </summary>
+        public static T[] RandomMap<T>(int length, IContinuousDistribution distribution, Func<double, T> map)
+        {
+            var data = new T[length];
+            for (int i = 0; i < data.Length; i++)
+            {
+                data[i] = map(distribution.Sample());
+            }
+            return data;
+        }
+
+        /// <summary>
+        /// Generate a sample sequence by sampling a function at samples from a probability distribution.
+        /// </summary>
+        public static IEnumerable<T> RandomMapSequence<T>(IContinuousDistribution distribution, Func<double, T> map)
+        {
+            return distribution.Samples().Select(map);
+        }
+
+        /// <summary>
+        /// Generate samples by sampling a function at sample pairs from a probability distribution.
+        /// </summary>
+        public static T[] RandomMap2<T>(int length, IContinuousDistribution distribution, Func<double, double, T> map)
+        {
+            var data = new T[length];
+            for (int i = 0; i < data.Length; i++)
+            {
+                data[i] = map(distribution.Sample(), distribution.Sample());
+            }
+            return data;
+        }
+
+        /// <summary>
+        /// Generate a sample sequence by sampling a function at sample pairs from a probability distribution.
+        /// </summary>
+        public static IEnumerable<T> RandomMap2Sequence<T>(IContinuousDistribution distribution, Func<double, double, T> map)
+        {
+            return distribution.Samples().Zip(distribution.Samples(), map);
+        }
+
+        /// <summary>
+        /// Generate samples by sampling a function at samples from a probability distribution, uniform between 0 and 1.
+        /// Faster than other methods but with reduced guarantees on randomness.
+        /// </summary>
+        public static T[] RandomUniformMap<T>(int length, Func<double, T> map)
+        {
+            var samples = SystemRandomSource.Doubles(length);
+            var data = new T[length];
+            for (int i = 0; i < data.Length; i++)
+            {
+                data[i] = map(samples[i]);
+            }
+            return data;
+        }
+
+        /// <summary>
+        /// Generate a sample sequence by sampling a function at samples from a probability distribution, uniform between 0 and 1.
+        /// Faster than other methods but with reduced guarantees on randomness.
+        /// </summary>
+        public static IEnumerable<T> RandomUniformMapSequence<T>(Func<double, T> map)
+        {
+            return SystemRandomSource.DoubleSequence().Select(map);
+        }
+
+        /// <summary>
+        /// Generate samples by sampling a function at sample pairs from a probability distribution, uniform between 0 and 1.
+        /// Faster than other methods but with reduced guarantees on randomness.
+        /// </summary>
+        public static T[] RandomUniformMap2<T>(int length, Func<double, double, T> map)
+        {
+            var samples1 = SystemRandomSource.Doubles(length);
+            var samples2 = SystemRandomSource.Doubles(length);
+            var data = new T[length];
+            for (int i = 0; i < data.Length; i++)
+            {
+                data[i] = map(samples1[i], samples2[i]);
+            }
+            return data;
+        }
+
+        /// <summary>
+        /// Generate a sample sequence by sampling a function at sample pairs from a probability distribution, uniform between 0 and 1.
+        /// Faster than other methods but with reduced guarantees on randomness.
+        /// </summary>
+        public static IEnumerable<T> RandomUniformMap2Sequence<T>(Func<double, double, T> map)
+        {
+            var rnd1 = SystemRandomSource.Default;
+            for (int i = 0; i < 128; i++)
+            {
+                yield return map(rnd1.NextDouble(), rnd1.NextDouble());
+            }
+
+            var rnd2 = new System.Random(RandomSeed.Robust());
+            while (true)
+            {
+                yield return map(rnd2.NextDouble(), rnd2.NextDouble());
+            }
         }
     }
 }
