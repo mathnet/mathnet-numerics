@@ -183,7 +183,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
         [Test]
         public void SampleFollowsCorrectDistribution()
         {
-            Random rnd = new MersenneTwister(1);
+            Random rnd = new SystemRandomSource(1);
 
             foreach (var dd in _discreteDistributions)
             {
@@ -216,7 +216,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
         [Test]
         public void SamplesFollowsCorrectDistribution()
         {
-            Random rnd = new MersenneTwister(1);
+            Random rnd = new SystemRandomSource(1);
 
             foreach (var dd in _discreteDistributions)
             {

@@ -51,7 +51,7 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests.McmcTests
         public void MetropolisConstructor()
         {
             var normal = new Normal(0.0, 1.0);
-            var rnd = new MersenneTwister();
+            var rnd = new SystemRandomSource(1);
 
             var ms = new MetropolisSampler<double>(0.2, normal.Density, x => Normal.Sample(rnd, x, 0.1), 10);
             Assert.IsNotNull(ms.RandomSource);
@@ -67,7 +67,7 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests.McmcTests
         public void SampleTest()
         {
             var normal = new Normal(0.0, 1.0);
-            var rnd = new MersenneTwister();
+            var rnd = new SystemRandomSource(1);
 
             var ms = new MetropolisSampler<double>(0.2, normal.Density, x => Normal.Sample(rnd, x, 0.1), 10)
                 {
@@ -84,7 +84,7 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests.McmcTests
         public void SampleArrayTest()
         {
             var normal = new Normal(0.0, 1.0);
-            var rnd = new MersenneTwister();
+            var rnd = new SystemRandomSource(1);
 
             var ms = new MetropolisSampler<double>(0.2, normal.Density, x => Normal.Sample(rnd, x, 0.1), 10)
                 {

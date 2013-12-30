@@ -34,7 +34,6 @@ using System.Linq;
 using MathNet.Numerics.Distributions;
 using MathNet.Numerics.LinearAlgebra.Solvers;
 using MathNet.Numerics.LinearAlgebra.Storage;
-// TODO: split up and move to proper folders
 using MathNet.Numerics.Random;
 
 namespace MathNet.Numerics.LinearAlgebra.Double
@@ -350,7 +349,6 @@ namespace MathNet.Numerics.LinearAlgebra
     using Complex64 = Numerics.Complex;
 #else
     using Complex64 = System.Numerics.Complex;
-
 #endif
 
     /// <summary>
@@ -447,7 +445,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// </summary>
         public Matrix<T> Random(int rows, int columns)
         {
-            return Random(rows, columns, new Normal(MersenneTwister.Default));
+            return Random(rows, columns, new Normal(SystemRandomSource.Default));
         }
 
         /// <summary>
@@ -455,7 +453,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// </summary>
         public Matrix<T> Random(int rows, int columns, int seed)
         {
-            return Random(rows, columns, new Normal(new MersenneTwister(seed, true)));
+            return Random(rows, columns, new Normal(new SystemRandomSource(seed, true)));
         }
 
         /// <summary>
@@ -474,7 +472,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// </summary>
         public Matrix<T> RandomPositiveDefinite(int order)
         {
-            var a = Random(order, order, new Normal(MersenneTwister.Default));
+            var a = Random(order, order, new Normal(SystemRandomSource.Default));
             return a.ConjugateTransposeThisAndMultiply(a);
         }
 
@@ -484,7 +482,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// </summary>
         public Matrix<T> RandomPositiveDefinite(int order, int seed)
         {
-            var a = Random(order, order, new Normal(new MersenneTwister(seed, true)));
+            var a = Random(order, order, new Normal(new SystemRandomSource(seed, true)));
             return a.ConjugateTransposeThisAndMultiply(a);
         }
 
@@ -1395,15 +1393,15 @@ namespace MathNet.Numerics.LinearAlgebra
         /// </summary>
         public Vector<T> Random(int length)
         {
-            return Random(length, new Normal(MersenneTwister.Default));
+            return Random(length, new Normal(SystemRandomSource.Default));
         }
 
         /// <summary>
-        /// Create a new dense vector with values sampled from the standard distribution with a mersenne twister random source.
+        /// Create a new dense vector with values sampled from the standard distribution with a system random source.
         /// </summary>
         public Vector<T> Random(int length, int seed)
         {
-            return Random(length, new Normal(new MersenneTwister(seed, true)));
+            return Random(length, new Normal(new SystemRandomSource(seed, true)));
         }
 
         /// <summary>

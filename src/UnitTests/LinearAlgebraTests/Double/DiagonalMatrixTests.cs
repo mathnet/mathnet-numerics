@@ -396,7 +396,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [Test]
         public void DenseDiagonalMatrixMultiply()
         {
-            var dist = new ContinuousUniform(-1.0, 1.0, new MersenneTwister());
+            var dist = new ContinuousUniform(-1.0, 1.0, new SystemRandomSource(1));
             Assert.IsInstanceOf<DiagonalMatrix>(Matrix<double>.Build.DiagonalIdentity(3, 3));
 
             var tall = Matrix<double>.Build.Random(8, 3, dist);
@@ -413,7 +413,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [Test]
         public void DenseDiagonalMatrixTransposeAndMultiply()
         {
-            var dist = new ContinuousUniform(-1.0, 1.0, new MersenneTwister());
+            var dist = new ContinuousUniform(-1.0, 1.0, new SystemRandomSource(1));
             Assert.IsInstanceOf<DiagonalMatrix>(Matrix<double>.Build.DiagonalIdentity(3, 3));
 
             var tall = Matrix<double>.Build.Random(8, 3, dist);
@@ -430,7 +430,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [Test]
         public void DenseDiagonalMatrixTransposeThisAndMultiply()
         {
-            var dist = new ContinuousUniform(-1.0, 1.0, new MersenneTwister());
+            var dist = new ContinuousUniform(-1.0, 1.0, new SystemRandomSource(1));
             Assert.IsInstanceOf<DiagonalMatrix>(Matrix<double>.Build.DiagonalIdentity(3, 3));
 
             var wide = Matrix<double>.Build.Random(3, 8, dist);
@@ -447,7 +447,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [Test]
         public void DiagonalDenseMatrixMultiply()
         {
-            var dist = new ContinuousUniform(-1.0, 1.0, new MersenneTwister());
+            var dist = new ContinuousUniform(-1.0, 1.0, new SystemRandomSource(1));
             Assert.IsInstanceOf<DiagonalMatrix>(Matrix<double>.Build.DiagonalIdentity(3, 3));
 
             var wide = Matrix<double>.Build.Random(3, 8, dist);
@@ -464,7 +464,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [Test]
         public void DiagonalDenseMatrixTransposeAndMultiply()
         {
-            var dist = new ContinuousUniform(-1.0, 1.0, new MersenneTwister());
+            var dist = new ContinuousUniform(-1.0, 1.0, new SystemRandomSource(1));
             Assert.IsInstanceOf<DiagonalMatrix>(Matrix<double>.Build.DiagonalIdentity(3, 3));
 
             var tall = Matrix<double>.Build.Random(8, 3, dist);
@@ -481,7 +481,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [Test]
         public void DiagonalDenseMatrixTransposeThisAndMultiply()
         {
-            var dist = new ContinuousUniform(-1.0, 1.0, new MersenneTwister());
+            var dist = new ContinuousUniform(-1.0, 1.0, new SystemRandomSource(1));
             Assert.IsInstanceOf<DiagonalMatrix>(Matrix<double>.Build.DiagonalIdentity(3, 3));
 
             var wide = Matrix<double>.Build.Random(3, 8, dist);

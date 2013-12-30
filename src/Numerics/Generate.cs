@@ -589,7 +589,7 @@ namespace MathNet.Numerics
         /// </summary>
         public static double[] WhiteGaussianNoise(int length, double mean, double standardDeviation)
         {
-            return Normal.Samples(MersenneTwister.Default, mean, standardDeviation).Take(length).ToArray();
+            return Normal.Samples(SystemRandomSource.Default, mean, standardDeviation).Take(length).ToArray();
         }
 
         /// <summary>
@@ -597,7 +597,7 @@ namespace MathNet.Numerics
         /// </summary>
         public static IEnumerable<double> WhiteGaussianNoiseSequence(double mean, double standardDeviation)
         {
-            return Normal.Samples(MersenneTwister.Default, mean, standardDeviation);
+            return Normal.Samples(SystemRandomSource.Default, mean, standardDeviation);
         }
 
         /// <summary>
@@ -610,7 +610,7 @@ namespace MathNet.Numerics
         /// <param name="location">Location mu-parameter of the stable distribution</param>
         public static double[] StableNoise(int length, double alpha, double beta, double scale, double location)
         {
-            return Stable.Samples(MersenneTwister.Default, alpha, beta, scale, location).Take(length).ToArray();
+            return Stable.Samples(SystemRandomSource.Default, alpha, beta, scale, location).Take(length).ToArray();
         }
 
         /// <summary>
@@ -622,7 +622,7 @@ namespace MathNet.Numerics
         /// <param name="location">Location mu-parameter of the stable distribution</param>
         public static IEnumerable<double> StableNoiseSequence(double alpha, double beta, double scale, double location)
         {
-            return Stable.Samples(MersenneTwister.Default, alpha, beta, scale, location);
+            return Stable.Samples(SystemRandomSource.Default, alpha, beta, scale, location);
         }
     }
 }

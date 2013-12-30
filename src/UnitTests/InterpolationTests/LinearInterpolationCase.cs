@@ -52,7 +52,7 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
         public static void Build(out double[] x, out double[] y, out double[] xtest, out double[] ytest, int samples = 3, double sampleOffset = -0.5, double slope = 2.0, double intercept = -1.0)
         {
             // Fixed-seed "random" distribution to ensure we always test with the same data
-            var uniform = new ContinuousUniform(0.0, 1.0, new MersenneTwister(42));
+            var uniform = new ContinuousUniform(0.0, 1.0, new SystemRandomSource(42));
 
             // build linear samples
             x = new double[samples];

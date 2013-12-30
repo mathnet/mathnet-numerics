@@ -49,7 +49,7 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests.McmcTests
         public void MetropolisHastingsConstructor()
         {
             var normal = new Normal(0.0, 1.0);
-            var rnd = new MersenneTwister();
+            var rnd = new SystemRandomSource(1);
 
             var ms = new MetropolisHastingsSampler<double>(0.2, normal.Density, (x, y) => Normal.PDF(x, 0.1, y), x => Normal.Sample(rnd, x, 0.1), 10)
                 {
@@ -68,7 +68,7 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests.McmcTests
         public void SampleTest()
         {
             var normal = new Normal(0.0, 1.0);
-            var rnd = new MersenneTwister();
+            var rnd = new SystemRandomSource(1);
 
             var ms = new MetropolisHastingsSampler<double>(0.2, normal.Density, (x, y) => Normal.PDF(x, 0.1, y), x => Normal.Sample(rnd, x, 0.1), 10)
                 {
@@ -85,7 +85,7 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests.McmcTests
         public void SampleArrayTest()
         {
             var normal = new Normal(0.0, 1.0);
-            var rnd = new MersenneTwister();
+            var rnd = new SystemRandomSource(1);
 
             var ms = new MetropolisHastingsSampler<double>(0.2, normal.Density, (x, y) => Normal.PDF(x, 0.1, y), x => Normal.Sample(rnd, x, 0.1), 10)
                 {

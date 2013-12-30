@@ -107,7 +107,7 @@ namespace MathNet.Numerics.Statistics.Mcmc
         {
             Accepts = 0;
             Samples = 0;
-            RandomSource = MersenneTwister.Default;
+            RandomSource = SystemRandomSource.Default;
         }
 
         /// <summary>
