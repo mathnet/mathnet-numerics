@@ -65,7 +65,6 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
         {
             double[] data = null;
 
-            // ReSharper disable InvokeAsExtensionMethod
             Assert.That(() => Statistics.Minimum(data), Throws.Exception);
             Assert.That(() => Statistics.Maximum(data), Throws.Exception);
             Assert.That(() => Statistics.Mean(data), Throws.Exception);
@@ -77,7 +76,6 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
             Assert.That(() => Statistics.PopulationStandardDeviation(data), Throws.Exception);
             Assert.That(() => Statistics.Covariance(data, data), Throws.Exception);
             Assert.That(() => Statistics.PopulationCovariance(data, data), Throws.Exception);
-            // ReSharper restore InvokeAsExtensionMethod
 
             Assert.That(() => SortedArrayStatistics.Minimum(data), Throws.Exception.TypeOf<NullReferenceException>());
             Assert.That(() => SortedArrayStatistics.Minimum(data), Throws.Exception.TypeOf<NullReferenceException>());
@@ -657,6 +655,69 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
             Assert.That(
                 Statistics.Ranks(ties, RankDefinition.First),
                 Is.EqualTo(new[] { 1.0, 5, 8, 4, 2, 6, 7, 3 }).AsCollection.Within(1e-8));
+        }
+
+        [Test]
+        public void EmpiricalCDF()
+        {
+            // R: ecdf(data)(x)
+            var ties = new double[] { 1, 9, 12, 7, 2, 9, 10, 2 };
+
+            Assert.That(Statistics.EmpiricalCDF(ties, -1.0), Is.EqualTo(0.0).Within(1e-8));
+            Assert.That(Statistics.EmpiricalCDF(ties, 0.0), Is.EqualTo(0.0).Within(1e-8));
+            Assert.That(Statistics.EmpiricalCDF(ties, 1.0), Is.EqualTo(0.125).Within(1e-8));
+            Assert.That(Statistics.EmpiricalCDF(ties, 2.0), Is.EqualTo(0.375).Within(1e-8));
+            Assert.That(Statistics.EmpiricalCDF(ties, 3.0), Is.EqualTo(0.375).Within(1e-8));
+            Assert.That(Statistics.EmpiricalCDF(ties, 4.0), Is.EqualTo(0.375).Within(1e-8));
+            Assert.That(Statistics.EmpiricalCDF(ties, 5.0), Is.EqualTo(0.375).Within(1e-8));
+            Assert.That(Statistics.EmpiricalCDF(ties, 6.0), Is.EqualTo(0.375).Within(1e-8));
+            Assert.That(Statistics.EmpiricalCDF(ties, 7.0), Is.EqualTo(0.5).Within(1e-8));
+            Assert.That(Statistics.EmpiricalCDF(ties, 8.0), Is.EqualTo(0.5).Within(1e-8));
+            Assert.That(Statistics.EmpiricalCDF(ties, 9.0), Is.EqualTo(0.75).Within(1e-8));
+            Assert.That(Statistics.EmpiricalCDF(ties, 10.0), Is.EqualTo(0.875).Within(1e-8));
+            Assert.That(Statistics.EmpiricalCDF(ties, 11.0), Is.EqualTo(0.875).Within(1e-8));
+            Assert.That(Statistics.EmpiricalCDF(ties, 12.0), Is.EqualTo(1.0).Within(1e-8));
+            Assert.That(Statistics.EmpiricalCDF(ties, 13.0), Is.EqualTo(1.0).Within(1e-8));
+        }
+
+        [Test]
+        public void EmpiricalCDFSortedArray()
+        {
+            // R: ecdf(data)(x)
+            var ties = new double[] { 1, 9, 12, 7, 2, 9, 10, 2 };
+            Array.Sort(ties);
+
+            Assert.That(SortedArrayStatistics.EmpiricalCDF(ties, -1.0), Is.EqualTo(0.0).Within(1e-8));
+            Assert.That(SortedArrayStatistics.EmpiricalCDF(ties, 0.0), Is.EqualTo(0.0).Within(1e-8));
+            Assert.That(SortedArrayStatistics.EmpiricalCDF(ties, 1.0), Is.EqualTo(0.125).Within(1e-8));
+            Assert.That(SortedArrayStatistics.EmpiricalCDF(ties, 2.0), Is.EqualTo(0.375).Within(1e-8));
+            Assert.That(SortedArrayStatistics.EmpiricalCDF(ties, 3.0), Is.EqualTo(0.375).Within(1e-8));
+            Assert.That(SortedArrayStatistics.EmpiricalCDF(ties, 4.0), Is.EqualTo(0.375).Within(1e-8));
+            Assert.That(SortedArrayStatistics.EmpiricalCDF(ties, 5.0), Is.EqualTo(0.375).Within(1e-8));
+            Assert.That(SortedArrayStatistics.EmpiricalCDF(ties, 6.0), Is.EqualTo(0.375).Within(1e-8));
+            Assert.That(SortedArrayStatistics.EmpiricalCDF(ties, 7.0), Is.EqualTo(0.5).Within(1e-8));
+            Assert.That(SortedArrayStatistics.EmpiricalCDF(ties, 8.0), Is.EqualTo(0.5).Within(1e-8));
+            Assert.That(SortedArrayStatistics.EmpiricalCDF(ties, 9.0), Is.EqualTo(0.75).Within(1e-8));
+            Assert.That(SortedArrayStatistics.EmpiricalCDF(ties, 10.0), Is.EqualTo(0.875).Within(1e-8));
+            Assert.That(SortedArrayStatistics.EmpiricalCDF(ties, 11.0), Is.EqualTo(0.875).Within(1e-8));
+            Assert.That(SortedArrayStatistics.EmpiricalCDF(ties, 12.0), Is.EqualTo(1.0).Within(1e-8));
+            Assert.That(SortedArrayStatistics.EmpiricalCDF(ties, 13.0), Is.EqualTo(1.0).Within(1e-8));
+
+            Assert.That(SortedArrayStatistics.QuantileRank(ties, -1.0, RankDefinition.EmpiricalCDF), Is.EqualTo(0.0).Within(1e-8));
+            Assert.That(SortedArrayStatistics.QuantileRank(ties, 0.0, RankDefinition.EmpiricalCDF), Is.EqualTo(0.0).Within(1e-8));
+            Assert.That(SortedArrayStatistics.QuantileRank(ties, 1.0, RankDefinition.EmpiricalCDF), Is.EqualTo(0.125).Within(1e-8));
+            Assert.That(SortedArrayStatistics.QuantileRank(ties, 2.0, RankDefinition.EmpiricalCDF), Is.EqualTo(0.375).Within(1e-8));
+            Assert.That(SortedArrayStatistics.QuantileRank(ties, 3.0, RankDefinition.EmpiricalCDF), Is.EqualTo(0.375).Within(1e-8));
+            Assert.That(SortedArrayStatistics.QuantileRank(ties, 4.0, RankDefinition.EmpiricalCDF), Is.EqualTo(0.375).Within(1e-8));
+            Assert.That(SortedArrayStatistics.QuantileRank(ties, 5.0, RankDefinition.EmpiricalCDF), Is.EqualTo(0.375).Within(1e-8));
+            Assert.That(SortedArrayStatistics.QuantileRank(ties, 6.0, RankDefinition.EmpiricalCDF), Is.EqualTo(0.375).Within(1e-8));
+            Assert.That(SortedArrayStatistics.QuantileRank(ties, 7.0, RankDefinition.EmpiricalCDF), Is.EqualTo(0.5).Within(1e-8));
+            Assert.That(SortedArrayStatistics.QuantileRank(ties, 8.0, RankDefinition.EmpiricalCDF), Is.EqualTo(0.5).Within(1e-8));
+            Assert.That(SortedArrayStatistics.QuantileRank(ties, 9.0, RankDefinition.EmpiricalCDF), Is.EqualTo(0.75).Within(1e-8));
+            Assert.That(SortedArrayStatistics.QuantileRank(ties, 10.0, RankDefinition.EmpiricalCDF), Is.EqualTo(0.875).Within(1e-8));
+            Assert.That(SortedArrayStatistics.QuantileRank(ties, 11.0, RankDefinition.EmpiricalCDF), Is.EqualTo(0.875).Within(1e-8));
+            Assert.That(SortedArrayStatistics.QuantileRank(ties, 12.0, RankDefinition.EmpiricalCDF), Is.EqualTo(1.0).Within(1e-8));
+            Assert.That(SortedArrayStatistics.QuantileRank(ties, 13.0, RankDefinition.EmpiricalCDF), Is.EqualTo(1.0).Within(1e-8));
         }
 
         [Test]

@@ -33,6 +33,7 @@ using MathNet.Numerics.Distributions;
 using MathNet.Numerics.Statistics;
 
 // ReSharper disable InconsistentNaming
+
 namespace MathNet.Numerics
 {
     /// <summary>
@@ -85,6 +86,12 @@ namespace MathNet.Numerics
                     throw new ArgumentOutOfRangeException("quant");
             }
         }
+
+        public static double PERCENTRANK(double[] array, double x)
+        {
+            return array.QuantileRank(x, RankDefinition.Min);
+        }
     }
 }
+
 // ReSharper restore InconsistentNaming

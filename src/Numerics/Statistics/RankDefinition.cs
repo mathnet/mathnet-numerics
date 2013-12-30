@@ -44,6 +44,8 @@ namespace MathNet.Numerics.Statistics
         Max = 3,
 
         /// <summary>Permutation with increasing values at each index of ties.</summary>
-        First = 4
+        First = 4,
+
+        EmpiricalCDF = 5
     }
 }

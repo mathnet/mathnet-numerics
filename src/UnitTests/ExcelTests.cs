@@ -102,6 +102,38 @@ namespace MathNet.Numerics.UnitTests
             Assert.That(ExcelFunctions.QUARTILE(array, 3), Is.EqualTo(9.25000000000).Within(1e-8));
             Assert.That(ExcelFunctions.QUARTILE(array, 4), Is.EqualTo(12.00000000000).Within(1e-8));
         }
+
+        [Test]
+        public void PERCENTRANK()
+        {
+            var array = new Double[] { 1, 8, 12, 7, 2, 9, 10, 4 };
+            Assert.That(ExcelFunctions.PERCENTRANK(array, 1.0), Is.EqualTo(0.00000000000).Within(1e-8), "A1");
+            Assert.That(ExcelFunctions.PERCENTRANK(array, 2.0), Is.EqualTo(0.14285714280).Within(1e-8), "A2");
+            Assert.That(ExcelFunctions.PERCENTRANK(array, 3.0), Is.EqualTo(0.21428571420).Within(1e-8), "A3");
+            Assert.That(ExcelFunctions.PERCENTRANK(array, 4.0), Is.EqualTo(0.28571428570).Within(1e-8), "A4");
+            Assert.That(ExcelFunctions.PERCENTRANK(array, 5.0), Is.EqualTo(0.33333333330).Within(1e-8), "A5");
+            Assert.That(ExcelFunctions.PERCENTRANK(array, 6.0), Is.EqualTo(0.38095238090).Within(1e-8), "A6");
+            Assert.That(ExcelFunctions.PERCENTRANK(array, 7.0), Is.EqualTo(0.42857142850).Within(1e-8), "A7");
+            Assert.That(ExcelFunctions.PERCENTRANK(array, 8.0), Is.EqualTo(0.57142857140).Within(1e-8), "A8");
+            Assert.That(ExcelFunctions.PERCENTRANK(array, 9.0), Is.EqualTo(0.71428571420).Within(1e-8), "A9");
+            Assert.That(ExcelFunctions.PERCENTRANK(array, 10.0), Is.EqualTo(0.85714285710).Within(1e-8), "A10");
+            Assert.That(ExcelFunctions.PERCENTRANK(array, 11.0), Is.EqualTo(0.92857142850).Within(1e-8), "A11");
+            Assert.That(ExcelFunctions.PERCENTRANK(array, 12.0), Is.EqualTo(1.00000000000).Within(1e-8), "A12");
+
+            array = new Double[] { 1, 9, 12, 7, 2, 9, 10, 2 };
+            Assert.That(ExcelFunctions.PERCENTRANK(array, 1.0), Is.EqualTo(0.00000000000).Within(1e-8), "B1");
+            Assert.That(ExcelFunctions.PERCENTRANK(array, 2.0), Is.EqualTo(0.14285714280).Within(1e-8), "B2");
+            Assert.That(ExcelFunctions.PERCENTRANK(array, 3.0), Is.EqualTo(0.31428571420).Within(1e-8), "B3");
+            Assert.That(ExcelFunctions.PERCENTRANK(array, 4.0), Is.EqualTo(0.34285714280).Within(1e-8), "B4");
+            Assert.That(ExcelFunctions.PERCENTRANK(array, 5.0), Is.EqualTo(0.37142857140).Within(1e-8), "B5");
+            Assert.That(ExcelFunctions.PERCENTRANK(array, 6.0), Is.EqualTo(0.40000000000).Within(1e-8), "B6");
+            Assert.That(ExcelFunctions.PERCENTRANK(array, 7.0), Is.EqualTo(0.42857142850).Within(1e-8), "B7");
+            Assert.That(ExcelFunctions.PERCENTRANK(array, 8.0), Is.EqualTo(0.50000000000).Within(1e-8), "B8");
+            Assert.That(ExcelFunctions.PERCENTRANK(array, 9.0), Is.EqualTo(0.57142857140).Within(1e-8), "B9");
+            Assert.That(ExcelFunctions.PERCENTRANK(array, 10.0), Is.EqualTo(0.85714285710).Within(1e-8), "B10");
+            Assert.That(ExcelFunctions.PERCENTRANK(array, 11.0), Is.EqualTo(0.92857142850).Within(1e-8), "B11");
+            Assert.That(ExcelFunctions.PERCENTRANK(array, 12.0), Is.EqualTo(1.00000000000).Within(1e-8), "B12");
+        }
     }
 }
 // ReSharper restore InconsistentNaming
