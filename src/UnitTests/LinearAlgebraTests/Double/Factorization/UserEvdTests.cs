@@ -220,7 +220,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
             // Check the reconstruction.
             for (var i = 0; i < vectorb.Count; i++)
             {
-                Assert.AreEqual(vectorb[i], matrixBReconstruct[i], 1.0e-10);
+                Assert.AreEqual(vectorb[i], matrixBReconstruct[i], 1e-9);
             }
 
             // Make sure A didn't change.
@@ -265,7 +265,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
             {
                 for (var j = 0; j < matrixB.ColumnCount; j++)
                 {
-                    Assert.AreEqual(matrixB[i, j], matrixBReconstruct[i, j], 1.0e-10);
+                    Assert.AreEqual(matrixB[i, j], matrixBReconstruct[i, j], 1e-9);
                 }
             }
 
@@ -304,7 +304,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
             // Check the reconstruction.
             for (var i = 0; i < vectorb.Count; i++)
             {
-                Assert.AreEqual(vectorb[i], matrixBReconstruct[i], 1.0e-10);
+                Assert.AreEqual(vectorb[i], matrixBReconstruct[i], 1e-9);
             }
 
             // Make sure A didn't change.
@@ -358,7 +358,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
             {
                 for (var j = 0; j < matrixB.ColumnCount; j++)
                 {
-                    Assert.AreEqual(matrixB[i, j], matrixBReconstruct[i, j], 1.0e-10);
+                    Assert.AreEqual(matrixB[i, j], matrixBReconstruct[i, j], 1e-9);
                 }
             }
 

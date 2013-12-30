@@ -165,8 +165,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
             // Check the reconstruction.
             for (var i = 0; i < order; i++)
             {
-                Assert.AreEqual(matrixB[i].Real, matrixBReconstruct[i].Real, 1e-3f);
-                Assert.AreEqual(matrixB[i].Imaginary, matrixBReconstruct[i].Imaginary, 1e-3f);
+                Assert.AreEqual(matrixB[i].Real, matrixBReconstruct[i].Real, 1e-2f);
+                Assert.AreEqual(matrixB[i].Imaginary, matrixBReconstruct[i].Imaginary, 1e-2f);
             }
 
             // Make sure A didn't change.
@@ -250,8 +250,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
             // Check the reconstruction.
             for (var i = 0; i < order; i++)
             {
-                Assert.AreEqual(matrixB[i].Real, matrixBReconstruct[i].Real, 1e-3f);
-                Assert.AreEqual(matrixB[i].Imaginary, matrixBReconstruct[i].Imaginary, 1e-3f);
+                Assert.AreEqual(matrixB[i].Real, matrixBReconstruct[i].Real, 1e-2f);
+                Assert.AreEqual(matrixB[i].Imaginary, matrixBReconstruct[i].Imaginary, 1e-2f);
             }
 
             // Make sure A didn't change.

@@ -106,7 +106,7 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
             IInterpolation interpolation = new NevillePolynomialInterpolation(x, y);
             for (int i = 0; i < xtest.Length; i++)
             {
-                Assert.AreEqual(ytest[i], interpolation.Interpolate(xtest[i]), 1e-13, "Linear with {0} samples, sample {1}", samples, i);
+                Assert.AreEqual(ytest[i], interpolation.Interpolate(xtest[i]), 1e-12, "Linear with {0} samples, sample {1}", samples, i);
             }
         }
 

@@ -101,8 +101,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
             {
                 for (var j = 0; j < matrixAv.ColumnCount; j++)
                 {
-                    Assert.AreEqual(matrixAv[i, j].Real, matrixLv[i, j].Real, 1e-4f);
-                    Assert.AreEqual(matrixAv[i, j].Imaginary, matrixLv[i, j].Imaginary, 1e-4f);
+                    Assert.AreEqual(matrixAv[i, j].Real, matrixLv[i, j].Real, 1e-3f);
+                    Assert.AreEqual(matrixAv[i, j].Imaginary, matrixLv[i, j].Imaginary, 1e-3f);
                 }
             }
         }
@@ -260,8 +260,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
             {
                 for (var j = 0; j < matrixB.ColumnCount; j++)
                 {
-                    Assert.AreEqual(matrixB[i, j].Real, matrixBReconstruct[i, j].Real, 1e-2f);
-                    Assert.AreEqual(matrixB[i, j].Imaginary, matrixBReconstruct[i, j].Imaginary, 1e-2f);
+                    Assert.AreEqual(matrixB[i, j].Real, matrixBReconstruct[i, j].Real, 1e-1f);
+                    Assert.AreEqual(matrixB[i, j].Imaginary, matrixBReconstruct[i, j].Imaginary, 1e-1f);
                 }
             }
 
@@ -350,8 +350,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
             {
                 for (var j = 0; j < matrixB.ColumnCount; j++)
                 {
-                    Assert.AreEqual(matrixB[i, j].Real, matrixBReconstruct[i, j].Real, 1e-2f);
-                    Assert.AreEqual(matrixB[i, j].Imaginary, matrixBReconstruct[i, j].Imaginary, 1e-2f);
+                    Assert.AreEqual(matrixB[i, j].Real, matrixBReconstruct[i, j].Real, 1e-1f);
+                    Assert.AreEqual(matrixB[i, j].Imaginary, matrixBReconstruct[i, j].Imaginary, 1e-1f);
                 }
             }
 

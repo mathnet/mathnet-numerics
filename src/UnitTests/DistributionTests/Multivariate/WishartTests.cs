@@ -124,16 +124,6 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         }
 
         /// <summary>
-        /// Fail set random source with <c>null</c> reference.
-        /// </summary>
-        [Test]
-        public void FailSetRandomSourceWithNullReference()
-        {
-            var d = new Wishart(1.0, Matrix<double>.Build.RandomPositiveDefinite(2, 1));
-            Assert.Throws<ArgumentNullException>(() => d.RandomSource = null);
-        }
-
-        /// <summary>
         /// Validate ToString.
         /// </summary>
         [Test]

@@ -102,8 +102,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
             {
                 for (var j = 0; j < matrixAv.ColumnCount; j++)
                 {
-                    Assert.AreEqual(matrixAv[i, j].Real, matrixLv[i, j].Real, 1e-4f);
-                    Assert.AreEqual(matrixAv[i, j].Imaginary, matrixLv[i, j].Imaginary, 1e-4f);
+                    Assert.AreEqual(matrixAv[i, j].Real, matrixLv[i, j].Real, 1e-3f);
+                    Assert.AreEqual(matrixAv[i, j].Imaginary, matrixLv[i, j].Imaginary, 1e-3f);
                 }
             }
         }
@@ -133,7 +133,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
             {
                 for (var j = 0; j < matrix.ColumnCount; j++)
                 {
-                    AssertHelpers.AlmostEqual(matrix[i, j], matrixA[i, j], 4);
+                    AssertHelpers.AlmostEqual(matrix[i, j], matrixA[i, j], 3);
                 }
             }
         }
@@ -220,8 +220,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
             // Check the reconstruction.
             for (var i = 0; i < vectorb.Count; i++)
             {
-                Assert.AreEqual(vectorb[i].Real, matrixBReconstruct[i].Real, 1e-3f);
-                Assert.AreEqual(vectorb[i].Imaginary, matrixBReconstruct[i].Imaginary, 1e-3f);
+                Assert.AreEqual(vectorb[i].Real, matrixBReconstruct[i].Real, 1e-2f);
+                Assert.AreEqual(vectorb[i].Imaginary, matrixBReconstruct[i].Imaginary, 1e-2f);
             }
 
             // Make sure A didn't change.
@@ -308,8 +308,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
             // Check the reconstruction.
             for (var i = 0; i < vectorb.Count; i++)
             {
-                Assert.AreEqual(vectorb[i].Real, matrixBReconstruct[i].Real, 1e-3f);
-                Assert.AreEqual(vectorb[i].Imaginary, matrixBReconstruct[i].Imaginary, 1e-3f);
+                Assert.AreEqual(vectorb[i].Real, matrixBReconstruct[i].Real, 1e-2f);
+                Assert.AreEqual(vectorb[i].Imaginary, matrixBReconstruct[i].Imaginary, 1e-2f);
             }
 
             // Make sure A didn't change.
@@ -365,8 +365,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
             {
                 for (var j = 0; j < matrixB.ColumnCount; j++)
                 {
-                    Assert.AreEqual(matrixB[i, j].Real, matrixBReconstruct[i, j].Real, 1e-2f);
-                    Assert.AreEqual(matrixB[i, j].Imaginary, matrixBReconstruct[i, j].Imaginary, 1e-2f);
+                    Assert.AreEqual(matrixB[i, j].Real, matrixBReconstruct[i, j].Real, 1e-1f);
+                    Assert.AreEqual(matrixB[i, j].Imaginary, matrixBReconstruct[i, j].Imaginary, 1e-1f);
                 }
             }
 
