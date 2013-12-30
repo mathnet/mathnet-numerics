@@ -40,11 +40,6 @@ namespace MathNet.Numerics.Distributions
     /// This distribution is a sum of the squares of k independent standard normal random variables.
     /// <a href="http://en.wikipedia.org/wiki/Chi-square_distribution">Wikipedia - ChiSquare distribution</a>.
     /// </summary>
-    /// <remarks><para>The distribution will use the <see cref="System.Random"/> by default. 
-    /// Users can set the random number generator by using the <see cref="RandomSource"/> property.</para>
-    /// <para>The statistics classes will check all the incoming parameters whether they are in the allowed
-    /// range. This might involve heavy computation. Optionally, by setting Control.CheckDistributionParameters
-    /// to <c>false</c>, all parameter checks can be turned off.</para></remarks>
     public class ChiSquared : IContinuousDistribution
     {
         System.Random _random;
@@ -52,7 +47,7 @@ namespace MathNet.Numerics.Distributions
         double _freedom;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ChiSquared"/> class. 
+        /// Initializes a new instance of the <see cref="ChiSquared"/> class.
         /// </summary>
         /// <param name="freedom">The degrees of freedom (k) of the distribution. Range: k > 0.</param>
         public ChiSquared(double freedom)
@@ -62,7 +57,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ChiSquared"/> class. 
+        /// Initializes a new instance of the <see cref="ChiSquared"/> class.
         /// </summary>
         /// <param name="freedom">The degrees of freedom (k) of the distribution. Range: k > 0.</param>
         /// <param name="randomSource">The random number generator which is used to draw random samples.</param>

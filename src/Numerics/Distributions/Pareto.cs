@@ -37,16 +37,11 @@ namespace MathNet.Numerics.Distributions
 {
     /// <summary>
     /// Continuous Univariate Pareto distribution.
-    /// The Pareto distribution is a power law probability distribution that coincides with social, 
+    /// The Pareto distribution is a power law probability distribution that coincides with social,
     /// scientific, geophysical, actuarial, and many other types of observable phenomena.
-    /// For details about this distribution, see 
+    /// For details about this distribution, see
     /// <a href="http://en.wikipedia.org/wiki/Pareto_distribution">Wikipedia - Pareto distribution</a>.
     /// </summary>
-    /// <remarks><para>The distribution will use the <see cref="System.Random"/> by default. 
-    /// Users can get/set the random number generator by using the <see cref="RandomSource"/> property.</para>
-    /// <para>The statistics classes will check all the incoming parameters whether they are in the allowed
-    /// range. This might involve heavy computation. Optionally, by setting Control.CheckDistributionParameters
-    /// to <c>false</c>, all parameter checks can be turned off.</para></remarks>
     public class Pareto : IContinuousDistribution
     {
         System.Random _random;
@@ -55,7 +50,7 @@ namespace MathNet.Numerics.Distributions
         double _shape;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Pareto"/> class. 
+        /// Initializes a new instance of the <see cref="Pareto"/> class.
         /// </summary>
         /// <param name="scale">The scale (xm) of the distribution. Range: xm > 0.</param>
         /// <param name="shape">The shape (α) of the distribution. Range: α > 0.</param>
@@ -67,7 +62,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Pareto"/> class. 
+        /// Initializes a new instance of the <see cref="Pareto"/> class.
         /// </summary>
         /// <param name="scale">The scale (xm) of the distribution. Range: xm > 0.</param>
         /// <param name="shape">The shape (α) of the distribution. Range: α > 0.</param>

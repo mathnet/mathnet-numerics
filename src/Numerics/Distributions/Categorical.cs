@@ -39,18 +39,15 @@ namespace MathNet.Numerics.Distributions
 {
     /// <summary>
     /// Discrete Univariate Categorical distribution.
-    /// For details about this distribution, see 
+    /// For details about this distribution, see
     /// <a href="http://en.wikipedia.org/wiki/Categorical_distribution">Wikipedia - Categorical distribution</a>. This
     /// distribution is sometimes called the Discrete distribution.
     /// </summary>
-    /// <remarks><para>The distribution is parameterized by a vector of ratios: in other words, the parameter
+    /// <remarks>
+    /// The distribution is parameterized by a vector of ratios: in other words, the parameter
     /// does not have to be normalized and sum to 1. The reason is that some vectors can't be exactly normalized
-    /// to sum to 1 in floating point representation.</para>
-    /// <para>The distribution will use the <see cref="System.Random"/> by default. 
-    /// Users can set the random number generator by using the <see cref="RandomSource"/> property.</para>
-    /// <para>The statistics classes will check all the incoming parameters whether they are in the allowed
-    /// range. This might involve heavy computation. Optionally, by setting Control.CheckDistributionParameters
-    /// to <c>false</c>, all parameter checks can be turned off.</para></remarks>
+    /// to sum to 1 in floating point representation.
+    /// </remarks>
     public class Categorical : IDiscreteDistribution
     {
         System.Random _random;
@@ -61,7 +58,7 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Initializes a new instance of the Categorical class.
         /// </summary>
-        /// <param name="probabilityMass">An array of nonnegative ratios: this array does not need to be normalized 
+        /// <param name="probabilityMass">An array of nonnegative ratios: this array does not need to be normalized
         /// as this is often impossible using floating point arithmetic.</param>
         /// <exception cref="ArgumentException">If any of the probabilities are negative or do not sum to one.</exception>
         public Categorical(double[] probabilityMass)
@@ -73,7 +70,7 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Initializes a new instance of the Categorical class.
         /// </summary>
-        /// <param name="probabilityMass">An array of nonnegative ratios: this array does not need to be normalized 
+        /// <param name="probabilityMass">An array of nonnegative ratios: this array does not need to be normalized
         /// as this is often impossible using floating point arithmetic.</param>
         /// <param name="randomSource">The random number generator which is used to draw random samples.</param>
         /// <exception cref="ArgumentException">If any of the probabilities are negative or do not sum to one.</exception>
@@ -84,7 +81,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Initializes a new instance of the Categorical class from a <paramref name="histogram"/>. The distribution 
+        /// Initializes a new instance of the Categorical class from a <paramref name="histogram"/>. The distribution
         /// will not be automatically updated when the histogram changes. The categorical distribution will have
         /// one value for each bucket and a probability for that value proportional to the bucket count.
         /// </summary>
@@ -119,7 +116,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Checks whether the parameters of the distribution are valid. 
+        /// Checks whether the parameters of the distribution are valid.
         /// </summary>
         /// <param name="p">An array of nonnegative ratios: this array does not need to be normalized as this is often impossible using floating point arithmetic.</param>
         /// <returns>If any of the probabilities are negative returns <c>false</c>, or if the sum of parameters is 0.0; otherwise <c>true</c></returns>
@@ -141,7 +138,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Checks whether the parameters of the distribution are valid. 
+        /// Checks whether the parameters of the distribution are valid.
         /// </summary>
         /// <param name="cdf">An array of nonnegative ratios: this array does not need to be normalized as this is often impossible using floating point arithmetic.</param>
         /// <returns>If any of the probabilities are negative returns <c>false</c>, or if the sum of parameters is 0.0; otherwise <c>true</c></returns>
@@ -165,7 +162,7 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Sets the parameters of the distribution after checking their validity.
         /// </summary>
-        /// <param name="p">An array of nonnegative ratios: this array does not need to be normalized 
+        /// <param name="p">An array of nonnegative ratios: this array does not need to be normalized
         /// as this is often impossible using floating point arithmetic.</param>
         /// <exception cref="ArgumentOutOfRangeException">When the parameters are out of range.</exception>
         void SetParameters(double[] p)
@@ -401,7 +398,7 @@ namespace MathNet.Numerics.Distributions
         /// Computes the cumulative distribution function. This method performs no parameter checking.
         /// If the probability mass was normalized, the resulting cumulative distribution is normalized as well (up to numerical errors).
         /// </summary>
-        /// <param name="pmfUnnormalized">An array of nonnegative ratios: this array does not need to be normalized 
+        /// <param name="pmfUnnormalized">An array of nonnegative ratios: this array does not need to be normalized
         /// as this is often impossible using floating point arithmetic.</param>
         /// <returns>An array representing the unnormalized cumulative distribution function.</returns>
         internal static double[] ProbabilityMassToCumulativeDistribution(double[] pmfUnnormalized)

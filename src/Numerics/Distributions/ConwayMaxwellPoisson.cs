@@ -39,7 +39,7 @@ namespace MathNet.Numerics.Distributions
     /// Discrete Univariate Conway-Maxwell-Poisson distribution.
     /// <para>The Conway-Maxwell-Poisson distribution is a generalization of the Poisson, Geometric and Bernoulli
     /// distributions. It is parameterized by two real numbers "lambda" and "nu". For
-    /// <list>    
+    /// <list>
     ///     <item>nu = 0 the distribution reverts to a Geometric distribution</item>
     ///     <item>nu = 1 the distribution reverts to the Poisson distribution</item>
     ///     <item>nu -> infinity the distribution converges to a Bernoulli distribution</item>
@@ -47,11 +47,6 @@ namespace MathNet.Numerics.Distributions
     /// This implementation will cache the value of the normalization constant.
     /// <a href="http://en.wikipedia.org/wiki/Conway%E2%80%93Maxwell%E2%80%93Poisson_distribution">Wikipedia - ConwayMaxwellPoisson distribution</a>.
     /// </summary>
-    /// <remarks><para>The distribution will use the <see cref="System.Random"/> by default. 
-    /// Users can set the random number generator by using the <see cref="RandomSource"/> property.</para>
-    /// <para>The statistics classes will check all the incoming parameters whether they are in the allowed
-    /// range. This might involve heavy computation. Optionally, by setting Control.CheckDistributionParameters
-    /// to <c>false</c>, all parameter checks can be turned off.</para></remarks>
     public class ConwayMaxwellPoisson : IDiscreteDistribution
     {
         System.Random _random;
@@ -81,7 +76,7 @@ namespace MathNet.Numerics.Distributions
         const double Tolerance = 1e-12;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ConwayMaxwellPoisson"/> class. 
+        /// Initializes a new instance of the <see cref="ConwayMaxwellPoisson"/> class.
         /// </summary>
         /// <param name="lambda">The lambda (λ) parameter. Range: λ > 0.</param>
         /// <param name="nu">The rate of decay (ν) parameter. Range: ν ≥ 0.</param>
@@ -92,7 +87,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ConwayMaxwellPoisson"/> class. 
+        /// Initializes a new instance of the <see cref="ConwayMaxwellPoisson"/> class.
         /// </summary>
         /// <param name="lambda">The lambda (λ) parameter. Range: λ > 0.</param>
         /// <param name="nu">The rate of decay (ν) parameter. Range: ν ≥ 0.</param>
@@ -113,7 +108,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Checks whether the parameters of the distribution are valid. 
+        /// Checks whether the parameters of the distribution are valid.
         /// </summary>
         /// <param name="lambda">The lambda (λ) parameter. Range: λ > 0.</param>
         /// <param name="nu">The rate of decay (ν) parameter. Range: ν ≥ 0.</param>

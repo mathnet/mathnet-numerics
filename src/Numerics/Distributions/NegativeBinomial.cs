@@ -42,11 +42,6 @@ namespace MathNet.Numerics.Distributions
     /// when the probability of head is p.
     /// <a href="http://en.wikipedia.org/wiki/Negative_binomial_distribution">Wikipedia - NegativeBinomial distribution</a>.
     /// </summary>
-    /// <remarks><para>The distribution will use the <see cref="System.Random"/> by default. 
-    /// Users can set the random number generator by using the <see cref="RandomSource"/> property.</para>
-    /// <para>The statistics classes will check all the incoming parameters whether they are in the allowed
-    /// range. This might involve heavy computation. Optionally, by setting Control.CheckDistributionParameters
-    /// to <c>false</c>, all parameter checks can be turned off.</para></remarks>
     public class NegativeBinomial : IDiscreteDistribution
     {
         System.Random _random;
@@ -55,7 +50,7 @@ namespace MathNet.Numerics.Distributions
         double _p;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="NegativeBinomial"/> class. 
+        /// Initializes a new instance of the <see cref="NegativeBinomial"/> class.
         /// </summary>
         /// <param name="r">The number of failures (r) until the experiment stopped. Range: r ≥ 0.</param>
         /// <param name="p">The probability (p) of a trial resulting in success. Range: 0 ≤ p ≤ 1.</param>
@@ -66,7 +61,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="NegativeBinomial"/> class. 
+        /// Initializes a new instance of the <see cref="NegativeBinomial"/> class.
         /// </summary>
         /// <param name="r">The number of failures (r) until the experiment stopped. Range: r ≥ 0.</param>
         /// <param name="p">The probability (p) of a trial resulting in success. Range: 0 ≤ p ≤ 1.</param>
@@ -89,11 +84,11 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Checks whether the parameters of the distribution are valid. 
+        /// Checks whether the parameters of the distribution are valid.
         /// </summary>
         /// <param name="r">The number of failures (r) until the experiment stopped. Range: r ≥ 0.</param>
         /// <param name="p">The probability (p) of a trial resulting in success. Range: 0 ≤ p ≤ 1.</param>
-        /// <returns><c>true</c> when the parameters are valid, <c>false</c> otherwise.</returns>        
+        /// <returns><c>true</c> when the parameters are valid, <c>false</c> otherwise.</returns>
         static bool IsValidParameterSet(double r, double p)
         {
             return r >= 0.0 && p >= 0.0 && p <= 1.0;

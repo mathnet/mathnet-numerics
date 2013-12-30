@@ -42,17 +42,12 @@ namespace MathNet.Numerics.Distributions
     /// for the columns (K). If the dimension of M is d-by-m then V is d-by-d and K is m-by-m.
     /// <a href="http://en.wikipedia.org/wiki/Matrix_normal_distribution">Wikipedia - MatrixNormal distribution</a>.
     /// </summary>
-    /// <remarks><para>The distribution will use the <see cref="System.Random"/> by default. 
-    /// Users can set the random number generator by using the <see cref="RandomSource"/> property.</para>
-    /// <para>The statistics classes will check all the incoming parameters whether they are in the allowed
-    /// range. This might involve heavy computation. Optionally, by setting Control.CheckDistributionParameters
-    /// to <c>false</c>, all parameter checks can be turned off.</para></remarks>
     public class MatrixNormal : IDistribution
     {
         System.Random _random;
 
         /// <summary>
-        /// The mean of the matrix normal distribution.        
+        /// The mean of the matrix normal distribution.
         /// </summary>
         Matrix<double> _m;
 
@@ -67,7 +62,7 @@ namespace MathNet.Numerics.Distributions
         Matrix<double> _k;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="MatrixNormal"/> class. 
+        /// Initializes a new instance of the <see cref="MatrixNormal"/> class.
         /// </summary>
         /// <param name="m">The mean of the matrix normal.</param>
         /// <param name="v">The covariance matrix for the rows.</param>
@@ -80,7 +75,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="MatrixNormal"/> class. 
+        /// Initializes a new instance of the <see cref="MatrixNormal"/> class.
         /// </summary>
         /// <param name="m">The mean of the matrix normal.</param>
         /// <param name="v">The covariance matrix for the rows.</param>
@@ -105,7 +100,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Checks whether the parameters of the distribution are valid. 
+        /// Checks whether the parameters of the distribution are valid.
         /// </summary>
         /// <param name="m">The mean of the matrix normal.</param>
         /// <param name="v">The covariance matrix for the rows.</param>

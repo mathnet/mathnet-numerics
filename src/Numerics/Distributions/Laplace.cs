@@ -42,11 +42,6 @@ namespace MathNet.Numerics.Distributions
     ///     p(x) = \frac{1}{2 * scale} \exp{- |x - mean| / scale}.
     /// <a href="http://en.wikipedia.org/wiki/Laplace_distribution">Wikipedia - Laplace distribution</a>.
     /// </summary>
-    /// <remarks>The distribution will use the <see cref="System.Random"/> by default. 
-    /// <para>Users can set the random number generator by using the <see cref="RandomSource"/> property.</para>
-    /// <para>The statistics classes will check all the incoming parameters whether they are in the allowed
-    /// range. This might involve heavy computation. Optionally, by setting Control.CheckDistributionParameters
-    /// to <c>false</c>, all parameter checks can be turned off.</para></remarks>
     public class Laplace : IContinuousDistribution
     {
         System.Random _random;
@@ -55,7 +50,7 @@ namespace MathNet.Numerics.Distributions
         double _scale;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Laplace"/> class (location = 0, scale = 1). 
+        /// Initializes a new instance of the <see cref="Laplace"/> class (location = 0, scale = 1).
         /// </summary>
         public Laplace()
             : this(0.0, 1.0)
@@ -63,7 +58,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Laplace"/> class. 
+        /// Initializes a new instance of the <see cref="Laplace"/> class.
         /// </summary>
         /// <param name="location">The location (μ) of the distribution.</param>
         /// <param name="scale">The scale (b) of the distribution. Range: b > 0.</param>
@@ -75,7 +70,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Laplace"/> class. 
+        /// Initializes a new instance of the <see cref="Laplace"/> class.
         /// </summary>
         /// <param name="location">The location (μ) of the distribution.</param>
         /// <param name="scale">The scale (b) of the distribution. Range: b > 0.</param>

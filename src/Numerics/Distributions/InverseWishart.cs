@@ -42,11 +42,6 @@ namespace MathNet.Numerics.Distributions
     /// is the conjugate prior for the covariance matrix of a multivariate normal distribution.
     /// <a href="http://en.wikipedia.org/wiki/Inverse-Wishart_distribution">Wikipedia - Inverse-Wishart distribution</a>.
     /// </summary>
-    /// <remarks><para>The distribution will use the <see cref="System.Random"/> by default. 
-    /// Users can set the random number generator by using the <see cref="RandomSource"/> property.</para>
-    /// <para>The statistics classes will check all the incoming parameters whether they are in the allowed
-    /// range. This might involve heavy computation. Optionally, by setting Control.CheckDistributionParameters
-    /// to <c>false</c>, all parameter checks can be turned off.</para></remarks>
     public class InverseWishart : IDistribution
     {
         System.Random _random;
@@ -60,7 +55,7 @@ namespace MathNet.Numerics.Distributions
         Cholesky<double> _chol;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="InverseWishart"/> class. 
+        /// Initializes a new instance of the <see cref="InverseWishart"/> class.
         /// </summary>
         /// <param name="degreesOfFreedom">The degree of freedom (ν) for the inverse Wishart distribution.</param>
         /// <param name="scale">The scale matrix (Ψ) for the inverse Wishart distribution.</param>
@@ -71,7 +66,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="InverseWishart"/> class. 
+        /// Initializes a new instance of the <see cref="InverseWishart"/> class.
         /// </summary>
         /// <param name="degreesOfFreedom">The degree of freedom (ν) for the inverse Wishart distribution.</param>
         /// <param name="scale">The scale matrix (Ψ) for the inverse Wishart distribution.</param>
@@ -92,7 +87,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Checks whether the parameters of the distribution are valid. 
+        /// Checks whether the parameters of the distribution are valid.
         /// </summary>
         /// <param name="degreesOfFreedom">The degree of freedom (ν) for the inverse Wishart distribution.</param>
         /// <param name="scale">The scale matrix (Ψ) for the inverse Wishart distribution.</param>

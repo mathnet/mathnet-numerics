@@ -41,11 +41,6 @@ namespace MathNet.Numerics.Distributions
     /// This implementation of the Geometric distribution will never generate 0's.
     /// <a href="http://en.wikipedia.org/wiki/Geometric_distribution">Wikipedia - geometric distribution</a>.
     /// </summary>
-    /// <remarks><para>The distribution will use the <see cref="System.Random"/> by default. 
-    /// Users can set the random number generator by using the <see cref="RandomSource"/> property.</para>
-    /// <para>The statistics classes will check all the incoming parameters whether they are in the allowed
-    /// range. This might involve heavy computation. Optionally, by setting Control.CheckDistributionParameters
-    /// to <c>false</c>, all parameter checks can be turned off.</para></remarks>
     public class Geometric : IDiscreteDistribution
     {
         System.Random _random;
@@ -83,7 +78,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Checks whether the parameters of the distribution are valid. 
+        /// Checks whether the parameters of the distribution are valid.
         /// </summary>
         /// <param name="p">The probability (p) of generating one. Range: 0 ≤ p ≤ 1.</param>
         /// <returns><c>true</c> when the parameters are valid, <c>false</c> otherwise.</returns>

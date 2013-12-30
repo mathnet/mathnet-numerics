@@ -41,11 +41,6 @@ namespace MathNet.Numerics.Distributions
     /// relation to the exponential and Gamma distributions.
     /// <a href="http://en.wikipedia.org/wiki/Erlang_distribution">Wikipedia - Erlang distribution</a>.
     /// </summary>
-    /// <remarks><para>The distribution will use the <see cref="System.Random"/> by default. 
-    /// Users can set the random number generator by using the <see cref="RandomSource"/> property.</para>
-    /// <para>The statistics classes will check all the incoming parameters whether they are in the allowed
-    /// range. This might involve heavy computation. Optionally, by setting Control.CheckDistributionParameters
-    /// to <c>false</c>, all parameter checks can be turned off.</para></remarks>
     public class Erlang : IContinuousDistribution
     {
         System.Random _random;
@@ -54,7 +49,7 @@ namespace MathNet.Numerics.Distributions
         double _rate;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Erlang"/> class. 
+        /// Initializes a new instance of the <see cref="Erlang"/> class.
         /// </summary>
         /// <param name="shape">The shape (k) of the Erlang distribution. Range: k ≥ 0.</param>
         /// <param name="rate">The rate or inverse scale (λ) of the Erlang distribution. Range: λ ≥ 0.</param>
@@ -65,7 +60,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Erlang"/> class. 
+        /// Initializes a new instance of the <see cref="Erlang"/> class.
         /// </summary>
         /// <param name="shape">The shape (k) of the Erlang distribution. Range: k ≥ 0.</param>
         /// <param name="rate">The rate or inverse scale (λ) of the Erlang distribution. Range: λ ≥ 0.</param>

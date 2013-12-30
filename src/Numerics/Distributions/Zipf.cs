@@ -37,17 +37,12 @@ namespace MathNet.Numerics.Distributions
 {
     /// <summary>
     /// Discrete Univariate Zipf distribution.
-    /// Zipf's law, an empirical law formulated using mathematical statistics, refers to the fact 
-    /// that many types of data studied in the physical and social sciences can be approximated with 
+    /// Zipf's law, an empirical law formulated using mathematical statistics, refers to the fact
+    /// that many types of data studied in the physical and social sciences can be approximated with
     /// a Zipfian distribution, one of a family of related discrete power law probability distributions.
-    /// For details about this distribution, see 
+    /// For details about this distribution, see
     /// <a href="http://en.wikipedia.org/wiki/Zipf%27s_law">Wikipedia - Zipf distribution</a>.
     /// </summary>
-    /// <remarks><para>The distribution will use the <see cref="System.Random"/> by default. 
-    /// Users can get/set the random number generator by using the <see cref="RandomSource"/> property.</para>
-    /// <para>The statistics classes will check all the incoming parameters whether they are in the allowed
-    /// range. This might involve heavy computation. Optionally, by setting Control.CheckDistributionParameters
-    /// to <c>false</c>, all parameter checks can be turned off.</para></remarks>
     public class Zipf : IDiscreteDistribution
     {
         System.Random _random;
@@ -63,7 +58,7 @@ namespace MathNet.Numerics.Distributions
         int _n;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Zipf"/> class. 
+        /// Initializes a new instance of the <see cref="Zipf"/> class.
         /// </summary>
         /// <param name="s">The s parameter of the distribution.</param>
         /// <param name="n">The n parameter of the distribution.</param>
@@ -74,7 +69,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Zipf"/> class. 
+        /// Initializes a new instance of the <see cref="Zipf"/> class.
         /// </summary>
         /// <param name="s">The s parameter of the distribution.</param>
         /// <param name="n">The n parameter of the distribution.</param>
@@ -95,7 +90,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Checks whether the parameters of the distribution are valid. 
+        /// Checks whether the parameters of the distribution are valid.
         /// </summary>
         /// <param name="s">The s parameter of the distribution.</param>
         /// <param name="n">The n parameter of the distribution.</param>

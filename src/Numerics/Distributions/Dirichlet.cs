@@ -36,14 +36,9 @@ using MathNet.Numerics.Random;
 namespace MathNet.Numerics.Distributions
 {
     /// <summary>
-    /// Multivariate Dirichlet distribution. For details about this distribution, see 
+    /// Multivariate Dirichlet distribution. For details about this distribution, see
     /// <a href="http://en.wikipedia.org/wiki/Dirichlet_distribution">Wikipedia - Dirichlet distribution</a>.
     /// </summary>
-    /// <remarks><para>The distribution will use the <see cref="System.Random"/> by default. 
-    /// Users can get/set the random number generator by using the <see cref="RandomSource"/> property.</para>
-    /// <para>The statistics classes will check all the incoming parameters whether they are in the allowed
-    /// range. This might involve heavy computation. Optionally, by setting Control.CheckDistributionParameters
-    /// to <c>false</c>, all parameter checks can be turned off.</para></remarks>
     public class Dirichlet : IDistribution
     {
         System.Random _random;
@@ -74,7 +69,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Dirichlet"/> class. 
+        /// Initializes a new instance of the <see cref="Dirichlet"/> class.
         /// <seealso cref="System.Random"/>random number generator.</summary>
         /// <param name="alpha">The value of each parameter of the Dirichlet distribution.</param>
         /// <param name="k">The dimension of the Dirichlet distribution.</param>
@@ -92,7 +87,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Dirichlet"/> class. 
+        /// Initializes a new instance of the <see cref="Dirichlet"/> class.
         /// <seealso cref="System.Random"/>random number generator.</summary>
         /// <param name="alpha">The value of each parameter of the Dirichlet distribution.</param>
         /// <param name="k">The dimension of the Dirichlet distribution.</param>
@@ -252,7 +247,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         /// <param name="x">The locations at which to compute the density.</param>
         /// <returns>the density at <paramref name="x"/>.</returns>
-        /// <remarks>The Dirichlet distribution requires that the sum of the components of x equals 1. 
+        /// <remarks>The Dirichlet distribution requires that the sum of the components of x equals 1.
         /// You can also leave out the last <paramref name="x"/> component, and it will be computed from the others. </remarks>
         public double Density(double[] x)
         {

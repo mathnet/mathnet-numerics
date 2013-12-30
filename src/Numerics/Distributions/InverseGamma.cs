@@ -42,11 +42,6 @@ namespace MathNet.Numerics.Distributions
     /// two positive parameters.
     /// <a href="http://en.wikipedia.org/wiki/Inverse-gamma_distribution">Wikipedia - InverseGamma distribution</a>.
     /// </summary>
-    /// <remarks><para>The distribution will use the <see cref="System.Random"/> by default. 
-    /// Users can set the random number generator by using the <see cref="RandomSource"/> property.</para>
-    /// <para>The statistics classes will check all the incoming parameters whether they are in the allowed
-    /// range. This might involve heavy computation. Optionally, by setting Control.CheckDistributionParameters
-    /// to <c>false</c>, all parameter checks can be turned off.</para></remarks>
     public class InverseGamma : IContinuousDistribution
     {
         System.Random _random;
@@ -55,7 +50,7 @@ namespace MathNet.Numerics.Distributions
         double _scale;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="InverseGamma"/> class. 
+        /// Initializes a new instance of the <see cref="InverseGamma"/> class.
         /// </summary>
         /// <param name="shape">The shape (α) of the distribution. Range: α > 0.</param>
         /// <param name="scale">The scale (β) of the distribution. Range: β > 0.</param>
@@ -66,7 +61,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="InverseGamma"/> class. 
+        /// Initializes a new instance of the <see cref="InverseGamma"/> class.
         /// </summary>
         /// <param name="shape">The shape (α) of the distribution. Range: α > 0.</param>
         /// <param name="scale">The scale (β) of the distribution. Range: β > 0.</param>

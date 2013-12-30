@@ -41,11 +41,6 @@ namespace MathNet.Numerics.Distributions
     /// is parameterized by a lower and upper bound (both inclusive).
     /// <a href="http://en.wikipedia.org/wiki/Uniform_distribution_%28discrete%29">Wikipedia - Discrete uniform distribution</a>.
     /// </summary>
-    /// <remarks><para>The distribution will use the <see cref="System.Random"/> by default. 
-    /// Users can set the random number generator by using the <see cref="RandomSource"/> property.</para>
-    /// <para>The statistics classes will check all the incoming parameters whether they are in the allowed
-    /// range. This might involve heavy computation. Optionally, by setting Control.CheckDistributionParameters
-    /// to <c>false</c>, all parameter checks can be turned off.</para></remarks>
     public class DiscreteUniform : IDiscreteDistribution
     {
         System.Random _random;
@@ -88,7 +83,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Checks whether the parameters of the distribution are valid. 
+        /// Checks whether the parameters of the distribution are valid.
         /// </summary>
         /// <param name="lower">Lower bound. Range: lower ≤ upper.</param>
         /// <param name="upper">Upper bound. Range: lower ≤ upper.</param>

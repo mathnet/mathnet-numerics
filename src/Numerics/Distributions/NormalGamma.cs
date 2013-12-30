@@ -52,7 +52,7 @@ namespace MathNet.Numerics.Distributions
         double _precision;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="MeanPrecisionPair"/> struct. 
+        /// Initializes a new instance of the <see cref="MeanPrecisionPair"/> struct.
         /// </summary>
         /// <param name="m">The mean of the pair.</param>
         /// <param name="p">The precision of the pair.</param>
@@ -96,11 +96,6 @@ namespace MathNet.Numerics.Distributions
     /// will be positive infinity. A completely degenerate NormalGamma distribution with known mean and precision is possible as well.</para>
     /// <a href="http://en.wikipedia.org/wiki/Normal-gamma_distribution">Wikipedia - Normal-Gamma distribution</a>.
     /// </summary>
-    /// <remarks><para>The distribution will use the <see cref="System.Random"/> by default. 
-    /// Users can get/set the random number generator by using the <see cref="RandomSource"/> property.</para>
-    /// <para>The statistics classes will check all the incoming parameters whether they are in the allowed
-    /// range. This might involve heavy computation. Optionally, by setting Control.CheckDistributionParameters
-    /// to <c>false</c>, all parameter checks can be turned off.</para></remarks>
     public class NormalGamma : IDistribution
     {
         System.Random _random;
@@ -111,7 +106,7 @@ namespace MathNet.Numerics.Distributions
         double _precisionInvScale;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="NormalGamma"/> class. 
+        /// Initializes a new instance of the <see cref="NormalGamma"/> class.
         /// </summary>
         /// <param name="meanLocation">The location of the mean.</param>
         /// <param name="meanScale">The scale of the mean.</param>
@@ -124,7 +119,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="NormalGamma"/> class. 
+        /// Initializes a new instance of the <see cref="NormalGamma"/> class.
         /// </summary>
         /// <param name="meanLocation">The location of the mean.</param>
         /// <param name="meanScale">The scale of the mean.</param>
@@ -148,7 +143,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Checks whether the parameters of the distribution are valid. 
+        /// Checks whether the parameters of the distribution are valid.
         /// </summary>
         /// <param name="meanLocation">The location of the mean.</param>
         /// <param name="meanScale">The scale of the mean.</param>

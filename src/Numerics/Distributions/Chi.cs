@@ -37,16 +37,11 @@ namespace MathNet.Numerics.Distributions
 {
     /// <summary>
     /// Continuous Univariate Chi distribution.
-    /// This distribution is a continuous probability distribution. The distribution usually arises when a k-dimensional vector's orthogonal 
-    /// components are independent and each follow a standard normal distribution. The length of the vector will 
+    /// This distribution is a continuous probability distribution. The distribution usually arises when a k-dimensional vector's orthogonal
+    /// components are independent and each follow a standard normal distribution. The length of the vector will
     /// then have a chi distribution.
     /// <a href="http://en.wikipedia.org/wiki/Chi_distribution">Wikipedia - Chi distribution</a>.
     /// </summary>
-    /// <remarks><para>The distribution will use the <see cref="System.Random"/> by default. 
-    /// Users can set the random number generator by using the <see cref="RandomSource"/> property.</para>
-    /// <para>The statistics classes will check all the incoming parameters whether they are in the allowed
-    /// range. This might involve heavy computation. Optionally, by setting Control.CheckDistributionParameters
-    /// to <c>false</c>, all parameter checks can be turned off.</para></remarks>
     public class Chi : IContinuousDistribution
     {
         System.Random _random;
@@ -54,7 +49,7 @@ namespace MathNet.Numerics.Distributions
         double _freedom;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Chi"/> class. 
+        /// Initializes a new instance of the <see cref="Chi"/> class.
         /// </summary>
         /// <param name="freedom">The degrees of freedom (k) of the distribution. Range: k > 0.</param>
         public Chi(double freedom)
@@ -64,7 +59,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Chi"/> class. 
+        /// Initializes a new instance of the <see cref="Chi"/> class.
         /// </summary>
         /// <param name="freedom">The degrees of freedom (k) of the distribution. Range: k > 0.</param>
         /// <param name="randomSource">The random number generator which is used to draw random samples.</param>

@@ -37,14 +37,9 @@ namespace MathNet.Numerics.Distributions
 {
     /// <summary>
     /// Continuous Univariate F-distribution, also known as Fisher-Snedecor distribution.
-    /// For details about this distribution, see 
+    /// For details about this distribution, see
     /// <a href="http://en.wikipedia.org/wiki/F-distribution">Wikipedia - FisherSnedecor distribution</a>.
     /// </summary>
-    /// <remarks><para>The distribution will use the <see cref="System.Random"/> by default. 
-    /// Users can set the random number generator by using the <see cref="RandomSource"/> property.</para>
-    /// <para>The statistics classes will check all the incoming parameters whether they are in the allowed
-    /// range. This might involve heavy computation. Optionally, by setting Control.CheckDistributionParameters
-    /// to <c>false</c>, all parameter checks can be turned off.</para></remarks>
     public class FisherSnedecor : IContinuousDistribution
     {
         System.Random _random;
@@ -53,7 +48,7 @@ namespace MathNet.Numerics.Distributions
         double _freedom2;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="FisherSnedecor"/> class. 
+        /// Initializes a new instance of the <see cref="FisherSnedecor"/> class.
         /// </summary>
         /// <param name="d1">The first degree of freedom (d1) of the distribution. Range: d1 > 0.</param>
         /// <param name="d2">The second degree of freedom (d2) of the distribution. Range: d2 > 0.</param>
@@ -64,7 +59,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="FisherSnedecor"/> class. 
+        /// Initializes a new instance of the <see cref="FisherSnedecor"/> class.
         /// </summary>
         /// <param name="d1">The first degree of freedom (d1) of the distribution. Range: d1 > 0.</param>
         /// <param name="d2">The second degree of freedom (d2) of the distribution. Range: d2 > 0.</param>

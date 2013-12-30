@@ -40,11 +40,6 @@ namespace MathNet.Numerics.Distributions
     /// The exponential distribution is a distribution over the real numbers parameterized by one non-negative parameter.
     /// <a href="http://en.wikipedia.org/wiki/Exponential_distribution">Wikipedia - exponential distribution</a>.
     /// </summary>
-    /// <remarks>The distribution will use the <see cref="System.Random"/> by default. 
-    /// <para>Users can set the random number generator by using the <see cref="RandomSource"/> property.</para>
-    /// <para>The statistics classes will check all the incoming parameters whether they are in the allowed
-    /// range. This might involve heavy computation. Optionally, by setting Control.CheckDistributionParameters
-    /// to <c>false</c>, all parameter checks can be turned off.</para></remarks>
     public class Exponential : IContinuousDistribution
     {
         System.Random _random;

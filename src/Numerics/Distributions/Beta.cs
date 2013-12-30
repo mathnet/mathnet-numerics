@@ -37,21 +37,17 @@ namespace MathNet.Numerics.Distributions
 {
     /// <summary>
     /// Continuous Univariate Beta distribution.
-    /// For details about this distribution, see 
+    /// For details about this distribution, see
     /// <a href="http://en.wikipedia.org/wiki/Beta_distribution">Wikipedia - Beta distribution</a>.
     /// </summary>
     /// <remarks>
-    /// <para>There are a few special cases for the parameterization of the Beta distribution. When both
+    /// There are a few special cases for the parameterization of the Beta distribution. When both
     /// shape parameters are positive infinity, the Beta distribution degenerates to a point distribution
     /// at 0.5. When one of the shape parameters is positive infinity, the distribution degenerates to a point
-    /// distribution at the positive infinity. When both shape parameters are 0.0, the Beta distribution 
+    /// distribution at the positive infinity. When both shape parameters are 0.0, the Beta distribution
     /// degenerates to a Bernoulli distribution with parameter 0.5. When one shape parameter is 0.0, the
-    /// distribution degenerates to a point distribution at the non-zero shape parameter.</para>
-    /// <para>The distribution will use the <see cref="System.Random"/> by default. 
-    /// Users can get/set the random number generator by using the <see cref="RandomSource"/> property.</para>
-    /// <para>The statistics classes will check all the incoming parameters whether they are in the allowed
-    /// range. This might involve heavy computation. Optionally, by setting Control.CheckDistributionParameters
-    /// to <c>false</c>, all parameter checks can be turned off.</para></remarks>
+    /// distribution degenerates to a point distribution at the non-zero shape parameter.
+    /// </remarks>
     public class Beta : IContinuousDistribution
     {
         System.Random _random;
