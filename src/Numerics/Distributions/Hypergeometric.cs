@@ -64,7 +64,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="draws">The number of draws without replacement (n).</param>
         public Hypergeometric(int population, int success, int draws)
         {
-            _random = MersenneTwister.Default;
+            _random = SystemRandomSource.Default;
             SetParameters(population, success, draws);
         }
 
@@ -77,7 +77,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="randomSource">The random number generator which is used to draw random samples.</param>
         public Hypergeometric(int population, int success, int draws, System.Random randomSource)
         {
-            _random = randomSource ?? MersenneTwister.Default;
+            _random = randomSource ?? SystemRandomSource.Default;
             SetParameters(population, success, draws);
         }
 
@@ -129,7 +129,7 @@ namespace MathNet.Numerics.Distributions
         public System.Random RandomSource
         {
             get { return _random; }
-            set { _random = value ?? MersenneTwister.Default; }
+            set { _random = value ?? SystemRandomSource.Default; }
         }
 
         /// <summary>

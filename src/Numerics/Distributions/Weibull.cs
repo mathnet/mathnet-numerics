@@ -70,7 +70,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="scale">The scale (λ) of the Weibull distribution. Range: λ > 0.</param>
         public Weibull(double shape, double scale)
         {
-            _random = MersenneTwister.Default;
+            _random = SystemRandomSource.Default;
             SetParameters(shape, scale);
         }
 
@@ -82,7 +82,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="randomSource">The random number generator which is used to draw random samples.</param>
         public Weibull(double shape, double scale, System.Random randomSource)
         {
-            _random = randomSource ?? MersenneTwister.Default;
+            _random = randomSource ?? SystemRandomSource.Default;
             SetParameters(shape, scale);
         }
 
@@ -137,7 +137,7 @@ namespace MathNet.Numerics.Distributions
         public System.Random RandomSource
         {
             get { return _random; }
-            set { _random = value ?? MersenneTwister.Default; }
+            set { _random = value ?? SystemRandomSource.Default; }
         }
 
         /// <summary>

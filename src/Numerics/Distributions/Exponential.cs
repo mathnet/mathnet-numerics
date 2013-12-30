@@ -57,7 +57,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="rate">The rate (λ) parameter of the distribution. Range: λ ≥ 0.</param>
         public Exponential(double rate)
         {
-            _random = MersenneTwister.Default;
+            _random = SystemRandomSource.Default;
             SetParameters(rate);
         }
 
@@ -68,7 +68,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="randomSource">The random number generator which is used to draw random samples.</param>
         public Exponential(double rate, System.Random randomSource)
         {
-            _random = randomSource ?? MersenneTwister.Default;
+            _random = randomSource ?? SystemRandomSource.Default;
             SetParameters(rate);
         }
 
@@ -111,7 +111,7 @@ namespace MathNet.Numerics.Distributions
         public System.Random RandomSource
         {
             get { return _random; }
-            set { _random = value ?? MersenneTwister.Default; }
+            set { _random = value ?? SystemRandomSource.Default; }
         }
 
         /// <summary>

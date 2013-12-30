@@ -56,7 +56,7 @@ namespace MathNet.Numerics.Distributions
         /// <exception cref="System.ArgumentOutOfRangeException">If <paramref name="lambda"/> is equal or less then 0.0.</exception>
         public Poisson(double lambda)
         {
-            _random = MersenneTwister.Default;
+            _random = SystemRandomSource.Default;
             SetParameters(lambda);
         }
 
@@ -68,7 +68,7 @@ namespace MathNet.Numerics.Distributions
         /// <exception cref="System.ArgumentOutOfRangeException">If <paramref name="lambda"/> is equal or less then 0.0.</exception>
         public Poisson(double lambda, System.Random randomSource)
         {
-            _random = randomSource ?? MersenneTwister.Default;
+            _random = randomSource ?? SystemRandomSource.Default;
             SetParameters(lambda);
         }
 
@@ -123,7 +123,7 @@ namespace MathNet.Numerics.Distributions
         public System.Random RandomSource
         {
             get { return _random; }
-            set { _random = value ?? MersenneTwister.Default; }
+            set { _random = value ?? SystemRandomSource.Default; }
         }
 
         /// <summary>

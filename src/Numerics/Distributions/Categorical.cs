@@ -66,7 +66,7 @@ namespace MathNet.Numerics.Distributions
         /// <exception cref="ArgumentException">If any of the probabilities are negative or do not sum to one.</exception>
         public Categorical(double[] probabilityMass)
         {
-            _random = MersenneTwister.Default;
+            _random = SystemRandomSource.Default;
             SetParameters(probabilityMass);
         }
 
@@ -79,7 +79,7 @@ namespace MathNet.Numerics.Distributions
         /// <exception cref="ArgumentException">If any of the probabilities are negative or do not sum to one.</exception>
         public Categorical(double[] probabilityMass, System.Random randomSource)
         {
-            _random = randomSource ?? MersenneTwister.Default;
+            _random = randomSource ?? SystemRandomSource.Default;
             SetParameters(probabilityMass);
         }
 
@@ -105,7 +105,7 @@ namespace MathNet.Numerics.Distributions
                 p[i] = histogram[i].Count;
             }
 
-            _random = MersenneTwister.Default;
+            _random = SystemRandomSource.Default;
             SetParameters(p);
         }
 
@@ -208,7 +208,7 @@ namespace MathNet.Numerics.Distributions
         public System.Random RandomSource
         {
             get { return _random; }
-            set { _random = value ?? MersenneTwister.Default; }
+            set { _random = value ?? SystemRandomSource.Default; }
         }
 
         /// <summary>

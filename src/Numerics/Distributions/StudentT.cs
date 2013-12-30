@@ -70,7 +70,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public StudentT()
         {
-            _random = MersenneTwister.Default;
+            _random = SystemRandomSource.Default;
             SetParameters(0.0, 1.0, 1.0);
         }
 
@@ -83,7 +83,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="freedom">The degrees of freedom (ν) for the distribution. Range: ν > 0.</param>
         public StudentT(double location, double scale, double freedom)
         {
-            _random = MersenneTwister.Default;
+            _random = SystemRandomSource.Default;
             SetParameters(location, scale, freedom);
         }
 
@@ -97,7 +97,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="randomSource">The random number generator which is used to draw random samples.</param>
         public StudentT(double location, double scale, double freedom, System.Random randomSource)
         {
-            _random = randomSource ?? MersenneTwister.Default;
+            _random = randomSource ?? SystemRandomSource.Default;
             SetParameters(location, scale, freedom);
         }
 
@@ -162,7 +162,7 @@ namespace MathNet.Numerics.Distributions
         public System.Random RandomSource
         {
             get { return _random; }
-            set { _random = value ?? MersenneTwister.Default; }
+            set { _random = value ?? SystemRandomSource.Default; }
         }
 
         /// <summary>

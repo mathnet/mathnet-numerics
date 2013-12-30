@@ -61,7 +61,7 @@ namespace MathNet.Numerics.Distributions
         /// <exception cref="ArgumentException">If <paramref name="scale"/> is negative.</exception>
         public Rayleigh(double scale)
         {
-            _random = MersenneTwister.Default;
+            _random = SystemRandomSource.Default;
             SetParameters(scale);
         }
 
@@ -73,7 +73,7 @@ namespace MathNet.Numerics.Distributions
         /// <exception cref="ArgumentException">If <paramref name="scale"/> is negative.</exception>
         public Rayleigh(double scale, System.Random randomSource)
         {
-            _random = randomSource ?? MersenneTwister.Default;
+            _random = randomSource ?? SystemRandomSource.Default;
             SetParameters(scale);
         }
 
@@ -116,7 +116,7 @@ namespace MathNet.Numerics.Distributions
         public System.Random RandomSource
         {
             get { return _random; }
-            set { _random = value ?? MersenneTwister.Default; }
+            set { _random = value ?? SystemRandomSource.Default; }
         }
 
         /// <summary>
