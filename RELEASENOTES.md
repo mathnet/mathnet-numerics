@@ -26,7 +26,13 @@ Zip Packages, available on [CodePlex](http://mathnetnumerics.codeplex.com/releas
 - Binaries - core package and F# extensions, including both .Net 4 and portable builds
 - Signed Binaries - strong-named version of the core package *(not recommended)*
 
-Over time some members and classes have been replaced with more suitable alternatives. In order to maintain compatibility, such parts are not removed immediately but instead marked with the **Obsolete**-attribute. We strongly recommend to follow the instructions in the attribute text whenever you find any code calling an obsolete member, since we *do* intend to remove them at the next *major* release, v3.0.
+Supported Platforms:
+
+- .Net 4.0, .Net 3.5 and Mono: Windows, Linux and Mac.
+- PCL Portable Profiles 47 and 136: Silverlight 5, Windows Phone 8, .NET for Windows Store apps (Metro).
+- PCL/Xamarin: Andoid, iOS
+
+Over time some members and classes have been replaced with more suitable alternatives. In order to maintain compatibility, such parts are not removed immediately but instead marked with the **Obsolete**-attribute. We strongly recommend to follow the instructions in the attribute text whenever you find any code calling an obsolete member, since we *do* intend to remove them at the next *major* release.
 
 v3.0.0 - To Be Announced
 ------------------------
@@ -35,7 +41,7 @@ See also: [Towards Math.NET Numerics Version 3](http://christoph.ruegg.name/blog
 
 Multiple alpha builds have been made available as NuGet pre-release packages. There are likely more to come as we still have a lot to do; and at least a beta before the final release. All information provided here regarding v3 is preliminary and incomplete.
 
-- All obsolete code has been removed (-4% LoC despite new features).
+- All obsolete code has been removed.
 - Reworked redundancies, inconsistencies and unfortunate past design choices.
 - Significant namespace simplifications (-30%).
 
@@ -53,11 +59,13 @@ Changes as of now:
 - F#: `SkipZeros` instead of the cryptic `nz` suffix for clarity.
 - Add missing scalar-matrix routines.
 - Optimized mixed dense-diagonal and diagonal-dense operations (500x faster on 250k set).
+- More reasonable choice of return structure on mixed operations (e.g. dense+diagonal).
 - Add point-wise infix operators `.*`, `./`, `.%` where supported (F#)
 - Vectors explicitly provide proper L1, L2 and L-infinity norms.
 - All norms return the result as double (instead of the specific value type of the matrix/vector).
 - Matrix L-infinity norm now cache-optimized (8-10x faster).
 - Vectors have a `ConjugateDotProduct` in addition to `DotProduct`.
+- `Matrix.ConjugateTransposeAndMultiply` and variants.
 - Matrix Factorization types fully generic, easily accessed by new `Matrix<T>` member methods (replacing the extension methods). Discrete implementations no longer visible.
 - QR factorization is thin by default.
 - Thin QR factorization uses MKL if enabled for all types (previously just `double`)
@@ -87,9 +95,12 @@ Changes as of now:
 - Spearman ranked correlation optimized (4x faster on 100k set)
 - Single-pass `MeanVariance` method (as used often together).
 - Some overloads for single-precision values.
+- Add `Ranks`, `QuantileRank` and `EmpiricalCDF`.
 
 ### Probability Distributions
 
+- New Trigangular distributionb *~Superbest*
+- Add InvCDF to Gamma distribution.
 - Major API cleanup, including xml docs
 - Xml doc and ToString now use well-known symbols for the parameters.
 - Direct static exposure of distributions functions (PDF, CDF, sometimes also InvCDF).
@@ -98,6 +109,15 @@ Changes as of now:
 - Use less problematic RNG-seeds by default, if no random source is provided.
 - Simpler and more composable random sampling from distributions.
 - BUG: Fix hyper-geometric CDF semantics, clarify distribution parameters.
+
+### Random Number Generators ###
+
+- Thread-safe System.Random available again as `SystemRandomSource`.
+- Fast and simple to use static `SystemRandomSource.Doubles` routine with lower randomness guarantees.
+- Shared `SystemRandomSource.Default` and `MersenneTwister.Default` instances to skip expensive initialization.
+- Using thread-safe random source by default in distributions, Generate, linear algebra etc.
+- Tests always use seeded RNGs for reproducability.
+- F#: direct sampling routines in the `Random` module, also including default and shared instances.
 
 ### Linear Regression
 
@@ -108,6 +128,15 @@ Changes as of now:
 - Weighted polynomial and multi-dim fitting.
 - Use more efficient LA routines *~Thomas Ibel*
 
+### Interpolation ###
+
+- Return tuples instead of out parameter.
+- Reworked splines, drop complicated and limiting inheritance design. More functional approach.
+- More efficient implementation for non-cubic splines (especially linear spline).
+- `Differentiate2` instead of `DifferentiateAll`.
+- Definite `Integrate(a,b)` in addition to existing indefinite `Integrate(t)`.
+- Use more common names in `Interpolate` facade, e.g. "Spline" is a well known name.
+
 ### Build & Packages
 
 - NuGet packages now also include the PCL portable profile 47 (.Net 4.5, Silverlight 5, Windows 8) in addition to the normal .Net 4.0 build and PCL profile 136 (.Net 4.0, WindowsPhone 8, Silverlight 5, Windows 8) as before. Profile 47 uses `System.Numerics` for complex numbers, among others, which is not available in profile 136.
@@ -116,18 +145,26 @@ Changes as of now:
 - Alternative strong-named versions of more NuGet packages (mostly the F# extensions for now), with the `.Signed` suffix.
 - Reworked solution structure so it works in both Visual Studio 11 (2012) and 12 (2013).
 - We can now run the full unit test suite against the portable builds as well.
+- Native Provider development has been reintegrated into the main repository; we can now directly run all unit tests against local native provider builds.
 
 ### Misc
 
 - New distance functions in `Distance`: euclidean, manhattan, chebychev distance of arrays or generic vectors. SAD, MAE, SSD, MSE metrics. Pearson's, Canberra and Minkowski distance. Hamming distance.
-- Interpolation: return tuple instead of out parameter
 - Integration: simplification of the double-exponential transformation api design.
+- Windows: ported windowing functions from Neodym (Hamming, Hann, Cosine, Lanczos, Gauss, Blackmann, Bartlett, ...)
+- Generate: ported synthetic data generation and sampling routines from Neodym (includes all from old Signals namespace)
+- Euclid: modulus vs remainder, integer theory (includes all from old NumberTheory namespace).
+- Root Finding: explicit for Chebychev polynomials.
+- Excel Functions: TDIST, GAMMADIST, GAMMAINV, QUARTILE, PERCENTRANK.
 - More robust complex Asin/Acos for large real numbers.
 - Complex: common short names for Exp, Ln, Log10, Log.
 - Complex: fix issue where a *negative zero* may flip the sign in special cases (like `Atanh(2)`, where incidentally MATLAB and Mathematica do not agree on the sign either).
-- Trig functions: common short names instead of very long names.
+- Trig functions: common short names instead of very long names. Add sinc function.
+- Special Functions: Increase max iterations in BetaRegularized for large arguments.
+- Special Functions: new `GammaLowerRegularizedInv`.
 - Precision: reworked, now much more consistent. **If you use `AlmostEqual` with numbers-between/ULP semantics, please do review your code to make sure you're still using the expected variant!**. If you use the decimal-places semantics, you may need to decrement the digits argument to get the same behavior as before.
 - Much less null checks, our code generally only throws `ArgumentNullException` if an unexpected null argument would *not* have caused an immediate `NullReferenceException`.
+- Tests now have category attributes (to selectively run or skip categories).
 
 v2.6.2 - October 21, 2013
 -------------------------
