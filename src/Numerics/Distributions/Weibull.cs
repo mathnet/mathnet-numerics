@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2010 Math.NET
+// Copyright (c) 2009-2013 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -37,12 +37,12 @@ namespace MathNet.Numerics.Distributions
 {
     /// <summary>
     /// Continuous Univariate Weibull distribution.
-    /// For details about this distribution, see 
+    /// For details about this distribution, see
     /// <a href="http://en.wikipedia.org/wiki/Weibull_distribution">Wikipedia - Weibull distribution</a>.
     /// </summary>
     /// <remarks>
     /// <para>The Weibull distribution is parametrized by a shape and scale parameter.</para>
-    /// <para>The distribution will use the <see cref="System.Random"/> by default. 
+    /// <para>The distribution will use the <see cref="System.Random"/> by default.
     /// Users can get/set the random number generator by using the <see cref="RandomSource"/> property.</para>
     /// <para>The statistics classes will check all the incoming parameters whether they are in the allowed
     /// range. This might involve heavy computation. Optionally, by setting Control.CheckDistributionParameters
@@ -96,17 +96,6 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Checks whether the parameters of the distribution are valid. 
-        /// </summary>
-        /// <param name="shape">The shape (k) of the Weibull distribution. Range: k > 0.</param>
-        /// <param name="scale">The scale (λ) of the Weibull distribution. Range: λ > 0.</param>
-        /// <returns><c>true</c> when the parameters positive valid floating point numbers, <c>false</c> otherwise.</returns>
-        static bool IsValidParameterSet(double shape, double scale)
-        {
-            return shape > 0.0 && scale > 0.0;
-        }
-
-        /// <summary>
         /// Sets the parameters of the distribution after checking their validity.
         /// </summary>
         /// <param name="shape">The shape (k) of the Weibull distribution. Range: k > 0.</param>
@@ -114,7 +103,7 @@ namespace MathNet.Numerics.Distributions
         /// <exception cref="ArgumentOutOfRangeException">When the parameters are out of range.</exception>
         void SetParameters(double shape, double scale)
         {
-            if (Control.CheckDistributionParameters && !IsValidParameterSet(shape, scale))
+            if (shape <= 0.0 || scale <= 0.0 || Double.IsNaN(shape) || Double.IsNaN(scale))
             {
                 throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
             }
@@ -285,10 +274,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>the cumulative distribution at location <paramref name="x"/>.</returns>
         public double CumulativeDistribution(double x)
         {
-            if (x < 0.0)
-            {
-                return 0.0;
-            }
+            if (x < 0.0) return 0.0;
 
             return -SpecialFunctions.ExponentialMinusOne(-Math.Pow(x, _shape)*_scalePowShapeInv);
         }
@@ -329,6 +315,79 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
+        /// Computes the probability density of the distribution (PDF) at x, i.e. ∂P(X ≤ x)/∂x.
+        /// </summary>
+        /// <param name="shape">The shape (k) of the Weibull distribution. Range: k > 0.</param>
+        /// <param name="scale">The scale (λ) of the Weibull distribution. Range: λ > 0.</param>
+        /// <param name="x">The location at which to compute the density.</param>
+        /// <returns>the density at <paramref name="x"/>.</returns>
+        /// <seealso cref="Density"/>
+        public static double PDF(double shape, double scale, double x)
+        {
+            if (shape <= 0.0 || scale <= 0.0) throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
+
+            if (x >= 0.0)
+            {
+                if (x == 0.0 && shape == 1.0)
+                {
+                    return shape/scale;
+                }
+
+                return shape
+                       *Math.Pow(x/scale, shape - 1.0)
+                       *Math.Exp(-Math.Pow(x, shape)*Math.Pow(scale, -shape))
+                       /scale;
+            }
+
+            return 0.0;
+        }
+
+        /// <summary>
+        /// Computes the log probability density of the distribution (lnPDF) at x, i.e. ln(∂P(X ≤ x)/∂x).
+        /// </summary>
+        /// <param name="shape">The shape (k) of the Weibull distribution. Range: k > 0.</param>
+        /// <param name="scale">The scale (λ) of the Weibull distribution. Range: λ > 0.</param>
+        /// <param name="x">The location at which to compute the density.</param>
+        /// <returns>the log density at <paramref name="x"/>.</returns>
+        /// <seealso cref="DensityLn"/>
+        public static double PDFLn(double shape, double scale, double x)
+        {
+            if (shape <= 0.0 || scale <= 0.0) throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
+
+            if (x >= 0.0)
+            {
+                if (x == 0.0 && shape == 1.0)
+                {
+                    return Math.Log(shape) - Math.Log(scale);
+                }
+
+                return Math.Log(shape)
+                       + ((shape - 1.0)*Math.Log(x/scale))
+                       - (Math.Pow(x, shape)*Math.Pow(scale, -shape))
+                       - Math.Log(scale);
+            }
+
+            return double.NegativeInfinity;
+        }
+
+        /// <summary>
+        /// Computes the cumulative distribution (CDF) of the distribution at x, i.e. P(X ≤ x).
+        /// </summary>
+        /// <param name="x">The location at which to compute the cumulative distribution function.</param>
+        /// <param name="shape">The shape (k) of the Weibull distribution. Range: k > 0.</param>
+        /// <param name="scale">The scale (λ) of the Weibull distribution. Range: λ > 0.</param>
+        /// <returns>the cumulative distribution at location <paramref name="x"/>.</returns>
+        /// <seealso cref="CumulativeDistribution"/>
+        public static double CDF(double shape, double scale, double x)
+        {
+            if (shape <= 0.0 || scale <= 0.0) throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
+
+            if (x < 0.0) return 0.0;
+
+            return -SpecialFunctions.ExponentialMinusOne(-Math.Pow(x, shape)*Math.Pow(scale, -shape));
+        }
+
+        /// <summary>
         /// Generates a sample from the Weibull distribution.
         /// </summary>
         /// <param name="rnd">The random number generator to use.</param>
@@ -337,10 +396,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sample from the distribution.</returns>
         public static double Sample(System.Random rnd, double shape, double scale)
         {
-            if (Control.CheckDistributionParameters && !IsValidParameterSet(shape, scale))
-            {
-                throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
-            }
+            if (shape <= 0.0 || scale <= 0.0) throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
 
             return SampleUnchecked(rnd, shape, scale);
         }
@@ -354,10 +410,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sequence of samples from the distribution.</returns>
         public static IEnumerable<double> Samples(System.Random rnd, double shape, double scale)
         {
-            if (Control.CheckDistributionParameters && !IsValidParameterSet(shape, scale))
-            {
-                throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
-            }
+            if (shape <= 0.0 || scale <= 0.0) throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
 
             while (true)
             {

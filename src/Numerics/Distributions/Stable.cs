@@ -37,10 +37,10 @@ namespace MathNet.Numerics.Distributions
 {
     /// <summary>
     /// Continuous Univariate Stable distribution.
-    /// A random variable is said to be stable (or to have a stable distribution) if it has 
-    /// the property that a linear combination of two independent copies of the variable has 
+    /// A random variable is said to be stable (or to have a stable distribution) if it has
+    /// the property that a linear combination of two independent copies of the variable has
     /// the same distribution, up to location and scale parameters.
-    /// For details about this distribution, see 
+    /// For details about this distribution, see
     /// <a href="http://en.wikipedia.org/wiki/Stable_distribution">Wikipedia - Stable distribution</a>.
     /// </summary>
     /// <remarks><para>The distribution will use the <see cref="System.Random"/> by default.`
@@ -58,7 +58,7 @@ namespace MathNet.Numerics.Distributions
         double _location;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Stable"/> class. 
+        /// Initializes a new instance of the <see cref="Stable"/> class.
         /// </summary>
         /// <param name="alpha">The stability (α) of the distribution. Range: 2 ≥ α > 0.</param>
         /// <param name="beta">The skewness (β) of the distribution. Range: 1 ≥ β ≥ -1.</param>
@@ -71,7 +71,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Stable"/> class. 
+        /// Initializes a new instance of the <see cref="Stable"/> class.
         /// </summary>
         /// <param name="alpha">The stability (α) of the distribution. Range: 2 ≥ α > 0.</param>
         /// <param name="beta">The skewness (β) of the distribution. Range: 1 ≥ β ≥ -1.</param>
@@ -94,19 +94,6 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Checks whether the parameters of the distribution are valid. 
-        /// </summary>
-        /// <param name="alpha">The stability (α) of the distribution. Range: 2 ≥ α > 0.</param>
-        /// <param name="beta">The skewness (β) of the distribution. Range: 1 ≥ β ≥ -1.</param>
-        /// <param name="scale">The scale (c) of the distribution. Range: c > 0.</param>
-        /// <param name="location">The location (μ) of the distribution.</param>
-        /// <returns><c>true</c> when the parameters are valid, <c>false</c> otherwise.</returns>
-        static bool IsValidParameterSet(double alpha, double beta, double scale, double location)
-        {
-            return alpha > 0.0 && alpha <= 2.0 && beta >= -1.0 && beta <= 1.0 && scale > 0.0 && !Double.IsNaN(location);
-        }
-
-        /// <summary>
         /// Sets the parameters of the distribution after checking their validity.
         /// </summary>
         /// <param name="alpha">The stability (α) of the distribution. Range: 2 ≥ α > 0.</param>
@@ -116,7 +103,8 @@ namespace MathNet.Numerics.Distributions
         /// <exception cref="ArgumentOutOfRangeException">When the parameters are out of range.</exception>
         void SetParameters(double alpha, double beta, double scale, double location)
         {
-            if (Control.CheckDistributionParameters && !IsValidParameterSet(alpha, beta, scale, location))
+            if (alpha <= 0.0 || alpha > 2.0 || beta < -1.0 || beta > 1.0 || scale <= 0.0
+                || Double.IsNaN(alpha) || Double.IsNaN(beta) || Double.IsNaN(scale) || Double.IsNaN(location))
             {
                 throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
             }
@@ -179,7 +167,7 @@ namespace MathNet.Numerics.Distributions
         {
             get
             {
-                if (_alpha <= 1)
+                if (_alpha <= 1d)
                 {
                     throw new NotSupportedException();
                 }
@@ -195,7 +183,7 @@ namespace MathNet.Numerics.Distributions
         {
             get
             {
-                if (_alpha == 2)
+                if (_alpha == 2d)
                 {
                     return 2.0*_scale*_scale;
                 }
@@ -211,7 +199,7 @@ namespace MathNet.Numerics.Distributions
         {
             get
             {
-                if (_alpha == 2)
+                if (_alpha == 2d)
                 {
                     return Constants.Sqrt2*_scale;
                 }
@@ -237,7 +225,7 @@ namespace MathNet.Numerics.Distributions
         {
             get
             {
-                if (_alpha != 2)
+                if (_alpha != 2d)
                 {
                     throw new NotSupportedException();
                 }
@@ -254,7 +242,7 @@ namespace MathNet.Numerics.Distributions
         {
             get
             {
-                if (_beta != 0)
+                if (_beta != 0d)
                 {
                     throw new NotSupportedException();
                 }
@@ -311,40 +299,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>the density at <paramref name="x"/>.</returns>
         public double Density(double x)
         {
-            if (_alpha == 2)
-            {
-                return (new Normal(_location, StdDev)).Density(x);
-            }
-
-            if (_alpha == 1 && _beta == 0)
-            {
-                return (new Cauchy(_location, _scale)).Density(x);
-            }
-
-            if (_alpha == 0.5 && _beta == 1)
-            {
-                return LevyDensity(_scale, _location, x);
-            }
-
-            throw new NotSupportedException();
-        }
-
-        /// <summary>
-        /// Computes the density of the Levy distribution.
-        /// </summary>
-        /// <param name="scale">The scale (c) of the distribution.</param>
-        /// <param name="location">The location (μ) of the distribution.</param>
-        /// <param name="x">The location at which to compute the density.</param>
-        /// <returns>the density at <paramref name="x"/>.</returns>
-        static double LevyDensity(double scale, double location, double x)
-        {
-            // The parameters scale and location must be correct
-            if (x < location)
-            {
-                throw new NotSupportedException();
-            }
-
-            return (Math.Sqrt(scale/Constants.Pi2)*Math.Exp(-scale/(2*(x - location))))/Math.Pow(x - location, 1.5);
+            return PDF(_alpha, _beta, _scale, _location, x);
         }
 
         /// <summary>
@@ -354,7 +309,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>the log density at <paramref name="x"/>.</returns>
         public double DensityLn(double x)
         {
-            return Math.Log(Density(x));
+            return PDFLn(_alpha, _beta, _scale, _location, x);
         }
 
         /// <summary>
@@ -365,35 +320,7 @@ namespace MathNet.Numerics.Distributions
         /// <remarks>Throws a not supported exception if <c>Alpha != 2</c>, <c>(Alpha != 1 and Beta !=0)</c>, or <c>(Alpha != 0.5 and Beta != 1)</c></remarks>
         public double CumulativeDistribution(double x)
         {
-            if (_alpha == 2)
-            {
-                return (new Normal(_location, StdDev)).CumulativeDistribution(x);
-            }
-
-            if (_alpha == 1 && _beta == 0)
-            {
-                return (new Cauchy(_location, _scale)).CumulativeDistribution(x);
-            }
-
-            if (_alpha == 0.5 && _beta == 1)
-            {
-                return LevyCumulativeDistribution(_scale, _location, x);
-            }
-
-            throw new NotSupportedException();
-        }
-
-        /// <summary>
-        /// Computes the cumulative distribution function of the Levy distribution.
-        /// </summary>
-        /// <param name="scale">The scale (c) of the distribution.</param>
-        /// <param name="location">The location (μ) of the distribution.</param>
-        /// <param name="x">The location at which to compute the cumulative density.</param>
-        /// <returns>the cumulative density at <paramref name="x"/>.</returns>
-        static double LevyCumulativeDistribution(double scale, double location, double x)
-        {
-            // The parameters scale and location must be correct
-            return SpecialFunctions.Erfc(Math.Sqrt(scale/(2*(x - location))));
+            return CDF(_alpha, _beta, _scale, _location, x);
         }
 
         /// <summary>
@@ -453,6 +380,83 @@ namespace MathNet.Numerics.Distributions
             }
         }
 
+        /// <summary>
+        /// Computes the probability density of the distribution (PDF) at x, i.e. ∂P(X ≤ x)/∂x.
+        /// </summary>
+        /// <param name="alpha">The stability (α) of the distribution. Range: 2 ≥ α > 0.</param>
+        /// <param name="beta">The skewness (β) of the distribution. Range: 1 ≥ β ≥ -1.</param>
+        /// <param name="scale">The scale (c) of the distribution. Range: c > 0.</param>
+        /// <param name="location">The location (μ) of the distribution.</param>
+        /// <param name="x">The location at which to compute the density.</param>
+        /// <returns>the density at <paramref name="x"/>.</returns>
+        /// <seealso cref="Density"/>
+        public static double PDF(double alpha, double beta, double scale, double location, double x)
+        {
+            if (alpha <= 0.0 || alpha > 2.0 || beta < -1.0 || beta > 1.0 || scale <= 0.0)
+                throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
+
+            if (alpha == 2d) return Normal.PDF(location, Constants.Sqrt2*scale, x);
+            if (alpha == 1d && beta == 0d) return Cauchy.PDF(location, scale, x);
+
+            if (alpha == 0.5d && beta == 1d && x >= location)
+            {
+                return (Math.Sqrt(scale/Constants.Pi2)*Math.Exp(-scale/(2*(x - location))))/Math.Pow(x - location, 1.5);
+            }
+
+            throw new NotSupportedException();
+        }
+
+        /// <summary>
+        /// Computes the log probability density of the distribution (lnPDF) at x, i.e. ln(∂P(X ≤ x)/∂x).
+        /// </summary>
+        /// <param name="alpha">The stability (α) of the distribution. Range: 2 ≥ α > 0.</param>
+        /// <param name="beta">The skewness (β) of the distribution. Range: 1 ≥ β ≥ -1.</param>
+        /// <param name="scale">The scale (c) of the distribution. Range: c > 0.</param>
+        /// <param name="location">The location (μ) of the distribution.</param>
+        /// <param name="x">The location at which to compute the density.</param>
+        /// <returns>the log density at <paramref name="x"/>.</returns>
+        /// <seealso cref="DensityLn"/>
+        public static double PDFLn(double alpha, double beta, double scale, double location, double x)
+        {
+            if (alpha <= 0.0 || alpha > 2.0 || beta < -1.0 || beta > 1.0 || scale <= 0.0)
+                throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
+
+            if (alpha == 2d) return Normal.PDFLn(location, Constants.Sqrt2*scale, x);
+            if (alpha == 1d && beta == 0d) return Cauchy.PDFLn(location, scale, x);
+
+            if (alpha == 0.5d && beta == 1d && x >= location)
+            {
+                return (Math.Log(scale/Constants.Pi2))/2 - scale/(2*(x - location)) - 1.5*Math.Log(x - location);
+            }
+
+            throw new NotSupportedException();
+        }
+
+        /// <summary>
+        /// Computes the cumulative distribution (CDF) of the distribution at x, i.e. P(X ≤ x).
+        /// </summary>
+        /// <param name="x">The location at which to compute the cumulative distribution function.</param>
+        /// <param name="alpha">The stability (α) of the distribution. Range: 2 ≥ α > 0.</param>
+        /// <param name="beta">The skewness (β) of the distribution. Range: 1 ≥ β ≥ -1.</param>
+        /// <param name="scale">The scale (c) of the distribution. Range: c > 0.</param>
+        /// <param name="location">The location (μ) of the distribution.</param>
+        /// <returns>the cumulative distribution at location <paramref name="x"/>.</returns>
+        /// <seealso cref="CumulativeDistribution"/>
+        public static double CDF(double alpha, double beta, double scale, double location, double x)
+        {
+            if (alpha <= 0.0 || alpha > 2.0 || beta < -1.0 || beta > 1.0 || scale <= 0.0)
+                throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
+
+            if (alpha == 2d) return Normal.CDF(location, Constants.Sqrt2*scale, x);
+            if (alpha == 1d && beta == 0d) return Cauchy.CDF(location, scale, x);
+
+            if (alpha == 0.5d && beta == 1d)
+            {
+                return SpecialFunctions.Erfc(Math.Sqrt(scale/(2*(x - location))));
+            }
+
+            throw new NotSupportedException();
+        }
 
         /// <summary>
         /// Generates a sample from the distribution.
@@ -465,10 +469,8 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sample from the distribution.</returns>
         public static double Sample(System.Random rnd, double alpha, double beta, double scale, double location)
         {
-            if (Control.CheckDistributionParameters && !IsValidParameterSet(alpha, beta, scale, location))
-            {
+            if (alpha <= 0.0 || alpha > 2.0 || beta < -1.0 || beta > 1.0 || scale <= 0.0)
                 throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
-            }
 
             return SampleUnchecked(rnd, alpha, beta, scale, location);
         }
@@ -484,10 +486,8 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sequence of samples from the distribution.</returns>
         public static IEnumerable<double> Samples(System.Random rnd, double alpha, double beta, double scale, double location)
         {
-            if (Control.CheckDistributionParameters && !IsValidParameterSet(location, scale, scale, location))
-            {
+            if (alpha <= 0.0 || alpha > 2.0 || beta < -1.0 || beta > 1.0 || scale <= 0.0)
                 throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
-            }
 
             while (true)
             {

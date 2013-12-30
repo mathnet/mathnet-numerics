@@ -391,25 +391,6 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         }
 
         /// <summary>
-        /// Fail sample static with bad parameters.
-        /// </summary>
-        [Test]
-        public void FailSampleStatic()
-        {
-            Assert.Throws<ArgumentOutOfRangeException>(() => StudentT.Sample(new Random(0), Double.NaN, 1.0, Double.NaN));
-        }
-
-        /// <summary>
-        /// Fail sample sequence static with bad parameters.
-        /// </summary>
-        [Test]
-        public void FailSampleSequenceStatic()
-        {
-            var ied = StudentT.Samples(new Random(0), 0.0, 1.0, Double.NaN);
-            Assert.Throws<ArgumentOutOfRangeException>(() => ied.Take(5).ToArray());
-        }
-
-        /// <summary>
         /// Can sample.
         /// </summary>
         [Test]
