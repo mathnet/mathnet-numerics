@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2002-2011 Math.NET
+// Copyright (c) 2002-2013 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -28,26 +28,16 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using MathNet.Numerics.Interpolation;
+using NUnit.Framework;
+
 namespace MathNet.Numerics.UnitTests.InterpolationTests
 {
-    using Interpolation;
-    using NUnit.Framework;
-
-    /// <summary>
-    /// FloaterHormannRational test case.
-    /// </summary>
-    [TestFixture]
+    [TestFixture, Category("Interpolation")]
     public class FloaterHormannRationalTest
     {
-        /// <summary>
-        /// Sample points.
-        /// </summary>
-        private readonly double[] _t = new[] { -2.0, -1.0, 0.0, 1.0, 2.0 };
-
-        /// <summary>
-        /// Sample values.
-        /// </summary>
-        private readonly double[] _x = new[] { 1.0, 2.0, -1.0, 0.0, 1.0 };
+        readonly double[] _t = { -2.0, -1.0, 0.0, 1.0, 2.0 };
+        readonly double[] _y = { 1.0, 2.0, -1.0, 0.0, 1.0 };
 
         /// <summary>
         /// Verifies that the interpolation matches the given value at all the provided polynomial sample points.
@@ -55,11 +45,10 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
         [Test]
         public void PolyomnialFitsAtSamplePoints()
         {
-            IInterpolation interpolation = new FloaterHormannRationalInterpolation(_t, _x);
-
-            for (int i = 0; i < _x.Length; i++)
+            IInterpolation it = Barycentric.InterpolateRationalFloaterHormann(_t, _y);
+            for (int i = 0; i < _y.Length; i++)
             {
-                Assert.AreEqual(_x[i], interpolation.Interpolate(_t[i]), "A Exact Point " + i);
+                Assert.AreEqual(_y[i], it.Interpolate(_t[i]), "A Exact Point " + i);
             }
         }
 
@@ -81,13 +70,12 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
         [TestCase(0.1, -1.10805, 1e-15)]
         [TestCase(0.4, -1.1248, 1e-15)]
         [TestCase(1.2, 0.5392, 1e-15)]
-        [TestCase(10.0, -4431.0, 1e-9)]
-        [TestCase(-10.0, -5071.0, 1e-9)]
+        [TestCase(10.0, -4431.0, 1e-8)]
+        [TestCase(-10.0, -5071.0, 1e-8)]
         public void PolynomialFitsAtArbitraryPointsWithMaple(double t, double x, double maxAbsoluteError)
         {
-            IInterpolation interpolation = new EquidistantPolynomialInterpolation(_t, _x);
-
-            Assert.AreEqual(x, interpolation.Interpolate(t), maxAbsoluteError, "Interpolation at {0}", t);
+            IInterpolation it = Barycentric.InterpolateRationalFloaterHormann(_t, _y);
+            Assert.AreEqual(x, it.Interpolate(t), maxAbsoluteError, "Interpolation at {0}", t);
         }
 
         /// <summary>
@@ -99,19 +87,18 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
             var t = new double[40];
             var x = new double[40];
 
-            const double Step = 10.0 / 39.0;
+            const double Step = 10.0/39.0;
             for (int i = 0; i < t.Length; i++)
             {
-                double tt = -5 + (i * Step);
+                double tt = -5 + (i*Step);
                 t[i] = tt;
-                x[i] = 1.0 / (1.0 + (tt * tt));
+                x[i] = 1.0/(1.0 + (tt*tt));
             }
 
-            IInterpolation interpolation = new FloaterHormannRationalInterpolation(t, x);
-
+            IInterpolation it = Barycentric.InterpolateRationalFloaterHormann(t, x);
             for (int i = 0; i < x.Length; i++)
             {
-                Assert.AreEqual(x[i], interpolation.Interpolate(t[i]), "A Exact Point " + i);
+                Assert.AreEqual(x[i], it.Interpolate(t[i]), "A Exact Point " + i);
             }
         }
 
@@ -126,10 +113,10 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
         {
             double[] x, y, xtest, ytest;
             LinearInterpolationCase.Build(out x, out y, out xtest, out ytest, samples);
-            IInterpolation interpolation = new FloaterHormannRationalInterpolation(x, y);
+            IInterpolation it = Barycentric.InterpolateRationalFloaterHormann(x, y);
             for (int i = 0; i < xtest.Length; i++)
             {
-                Assert.AreEqual(ytest[i], interpolation.Interpolate(xtest[i]), 1e-14, "Linear with {0} samples, sample {1}", samples, i);
+                Assert.AreEqual(ytest[i], it.Interpolate(xtest[i]), 1e-14, "Linear with {0} samples, sample {1}", samples, i);
             }
         }
     }

@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2010 Math.NET
+// Copyright (c) 2009-2013 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -48,26 +48,9 @@ namespace MathNet.Numerics
         /// which can then be used to compute interpolations and extrapolations
         /// on arbitrary points.
         /// </returns>
-        public static IInterpolation Common(IList<double> points, IList<double> values)
+        public static IInterpolation Common(IEnumerable<double> points, IEnumerable<double> values)
         {
-            return RationalWithoutPoles(points, values);
-        }
-
-        /// <summary>
-        /// Create a linear spline interpolation based on arbitrary points (sorted ascending).
-        /// </summary>
-        /// <param name="points">The sample points t, sorted ascending. Supports both lists and arrays.</param>
-        /// <param name="values">The sample point values x(t). Supports both lists and arrays.</param>
-        /// <returns>
-        /// An interpolation scheme optimized for the given sample points and values,
-        /// which can then be used to compute interpolations and extrapolations
-        /// on arbitrary points.
-        /// </returns>
-        public static IInterpolation LinearBetweenPoints(IList<double> points, IList<double> values)
-        {
-            var method = new LinearSplineInterpolation();
-            method.Initialize(points, values);
-            return method;
+            return Interpolation.Barycentric.InterpolateRationalFloaterHormann(points, values);
         }
 
         /// <summary>
@@ -80,28 +63,137 @@ namespace MathNet.Numerics
         /// which can then be used to compute interpolations and extrapolations
         /// on arbitrary points.
         /// </returns>
-        public static IInterpolation RationalWithoutPoles(IList<double> points, IList<double> values)
+        public static IInterpolation RationalWithoutPoles(IEnumerable<double> points, IEnumerable<double> values)
         {
-            var method = new FloaterHormannRationalInterpolation();
-            method.Initialize(points, values);
-            return method;
+            return Interpolation.Barycentric.InterpolateRationalFloaterHormann(points, values);
         }
 
         /// <summary>
-        /// Create a burlish stoer rational interpolation based on arbitrary points.
+        /// Create a burlisch stoer rational interpolation based on arbitrary points.
         /// </summary>
-        /// <param name="points">The sample points t. Supports both lists and arrays.</param>
-        /// <param name="values">The sample point values x(t). Supports both lists and arrays.</param>
+        /// <param name="points">The sample points t.  Optimized for arrays..</param>
+        /// <param name="values">The sample point values x(t).  Optimized for arrays.</param>
         /// <returns>
         /// An interpolation scheme optimized for the given sample points and values,
         /// which can then be used to compute interpolations and extrapolations
         /// on arbitrary points.
         /// </returns>
-        public static IInterpolation RationalWithPoles(IList<double> points, IList<double> values)
+        public static IInterpolation RationalWithPoles(IEnumerable<double> points, IEnumerable<double> values)
         {
-            var method = new BulirschStoerRationalInterpolation();
-            method.Initialize(points, values);
-            return method;
+            return new BulirschStoerRationalInterpolation(points, values);
+        }
+
+        /// <summary>
+        /// Create a barycentric polynomial interpolation where the given sample points are equidistant.
+        /// </summary>
+        /// <param name="points">The sample points t, must be equidistant. Optimized for arrays.</param>
+        /// <param name="values">The sample point values x(t). Optimized for arrays.</param>
+        /// <returns>
+        /// An interpolation scheme optimized for the given sample points and values,
+        /// which can then be used to compute interpolations and extrapolations
+        /// on arbitrary points.
+        /// </returns>
+        /// <remarks>
+        /// The value pairs do not have to be sorted, but if they are not sorted ascendingly
+        /// and the passed x and y arguments are arrays, they will be sorted inplace and thus modified.
+        /// </remarks>
+        public static IInterpolation PolynomialEquidistant(IEnumerable<double> points, IEnumerable<double> values)
+        {
+            return Interpolation.Barycentric.InterpolatePolynomialEquidistant(points, values);
+        }
+
+        /// <summary>
+        /// Create a neville polynomial interpolation based on arbitrary points.
+        /// If the points happen to be equidistant, consider to use the much more robust PolynomialEquidistant instead.
+        /// Otherwise, consider whether RationalWithoutPoles would not be a more robust alternative.
+        /// </summary>
+        /// <param name="points">The sample points t.  Optimized for arrays.</param>
+        /// <param name="values">The sample point values x(t).  Optimized for arrays.</param>
+        /// <returns>
+        /// An interpolation scheme optimized for the given sample points and values,
+        /// which can then be used to compute interpolations and extrapolations
+        /// on arbitrary points.
+        /// </returns>
+        public static IInterpolation Polynomial(IEnumerable<double> points, IEnumerable<double> values)
+        {
+            return new NevillePolynomialInterpolation(points, values);
+        }
+
+        /// <summary>
+        /// Create a piecewise linear spline interpolation based on arbitrary points.
+        /// </summary>
+        /// <param name="points">The sample points t. Optimized for arrays.</param>
+        /// <param name="values">The sample point values x(t). Optimized for arrays.</param>
+        /// <returns>
+        /// An interpolation scheme optimized for the given sample points and values,
+        /// which can then be used to compute interpolations and extrapolations
+        /// on arbitrary points.
+        /// </returns>
+        /// <remarks>
+        /// The value pairs do not have to be sorted, but if they are not sorted ascendingly
+        /// and the passed x and y arguments are arrays, they will be sorted inplace and thus modified.
+        /// </remarks>
+        public static IInterpolation LinearSpline(IEnumerable<double> points, IEnumerable<double> values)
+        {
+            return Interpolation.LinearSpline.Interpolate(points, values);
+        }
+
+        /// <summary>
+        /// Create an piecewise natural cubic spline interpolation based on arbitrary points, with zero secondary derivatives at the boundaries.
+        /// </summary>
+        /// <param name="points">The sample points t. Optimized for arrays.</param>
+        /// <param name="values">The sample point values x(t). Optimized for arrays.</param>
+        /// <returns>
+        /// An interpolation scheme optimized for the given sample points and values,
+        /// which can then be used to compute interpolations and extrapolations
+        /// on arbitrary points.
+        /// </returns>
+        /// <remarks>
+        /// The value pairs do not have to be sorted, but if they are not sorted ascendingly
+        /// and the passed x and y arguments are arrays, they will be sorted inplace and thus modified.
+        /// </remarks>
+        public static IInterpolation CubicSpline(IEnumerable<double> points, IEnumerable<double> values)
+        {
+            return Interpolation.CubicSpline.InterpolateNatural(points, values);
+        }
+
+        /// <summary>
+        /// Create an piecewise cubic Akima spline interpolation based on arbitrary points. Akima splines are robust to outliers.
+        /// </summary>
+        /// <param name="points">The sample points t. Optimized for arrays.</param>
+        /// <param name="values">The sample point values x(t). Optimized for arrays.</param>
+        /// <returns>
+        /// An interpolation scheme optimized for the given sample points and values,
+        /// which can then be used to compute interpolations and extrapolations
+        /// on arbitrary points.
+        /// </returns>
+        /// <remarks>
+        /// The value pairs do not have to be sorted, but if they are not sorted ascendingly
+        /// and the passed x and y arguments are arrays, they will be sorted inplace and thus modified.
+        /// </remarks>
+        public static IInterpolation CubicSplineRobust(IEnumerable<double> points, IEnumerable<double> values)
+        {
+            return Interpolation.CubicSpline.InterpolateAkima(points, values);
+        }
+
+        /// <summary>
+        /// Create a piecewise cubic Hermite spline interpolation based on arbitrary points and their slopes/first derivative.
+        /// </summary>
+        /// <param name="points">The sample points t. Optimized for arrays.</param>
+        /// <param name="values">The sample point values x(t). Optimized for arrays.</param>
+        /// <param name="firstDerivatives">The slope at the sample points. Optimized for arrays.</param>
+        /// <returns>
+        /// An interpolation scheme optimized for the given sample points and values,
+        /// which can then be used to compute interpolations and extrapolations
+        /// on arbitrary points.
+        /// </returns>
+        /// <remarks>
+        /// The value pairs do not have to be sorted, but if they are not sorted ascendingly
+        /// and the passed x and y arguments are arrays, they will be sorted inplace and thus modified.
+        /// </remarks>
+        public static IInterpolation CubicSplineWithDerivatives(IEnumerable<double> points, IEnumerable<double> values, IEnumerable<double> firstDerivatives)
+        {
+            return Interpolation.CubicSpline.InterpolateHermite(points, values, firstDerivatives);
         }
     }
 }

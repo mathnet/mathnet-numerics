@@ -25,6 +25,7 @@
 // </copyright>
 
 using System;
+using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Double;
 using MathNet.Numerics.LinearAlgebra.Double.Factorization;
 using NUnit.Framework;
@@ -34,6 +35,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
     /// <summary>
     /// GramSchmidt factorization tests for a dense matrix.
     /// </summary>
+    [TestFixture, Category("LAFactorization")]
     public class GramSchmidtTests
     {
         /// <summary>
@@ -54,7 +56,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
         [TestCase(100)]
         public void CanFactorizeIdentity(int order)
         {
-            var matrixI = DenseMatrix.CreateIdentity(order);
+            var matrixI = Matrix<double>.Build.DenseIdentity(order);
             var factorGramSchmidt = matrixI.GramSchmidt();
             var q = factorGramSchmidt.Q;
             var r = factorGramSchmidt.R;
@@ -102,7 +104,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
         [TestCase(100)]
         public void IdentityDeterminantIsOne(int order)
         {
-            var matrixI = DenseMatrix.CreateIdentity(order);
+            var matrixI = Matrix<double>.Build.DenseIdentity(order);
             var factorGramSchmidt = matrixI.GramSchmidt();
             Assert.AreEqual(1.0, factorGramSchmidt.Determinant);
         }
@@ -120,7 +122,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
         [TestCase(100, 98)]
         public void CanFactorizeRandomMatrix(int row, int column)
         {
-            var matrixA = MatrixLoader.GenerateRandomDenseMatrix(row, column);
+            var matrixA = Matrix<double>.Build.Random(row, column, 1);
             var factorGramSchmidt = matrixA.GramSchmidt();
             var q = factorGramSchmidt.Q;
             var r = factorGramSchmidt.R;
@@ -168,11 +170,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
         [TestCase(100)]
         public void CanSolveForRandomVector(int order)
         {
-            var matrixA = MatrixLoader.GenerateRandomDenseMatrix(order, order);
+            var matrixA = Matrix<double>.Build.Random(order, order, 1);
             var matrixACopy = matrixA.Clone();
             var factorGramSchmidt = matrixA.GramSchmidt();
 
-            var vectorb = MatrixLoader.GenerateRandomDenseVector(order);
+            var vectorb = Vector<double>.Build.Random(order, 1);
             var resultx = factorGramSchmidt.Solve(vectorb);
 
             Assert.AreEqual(matrixA.ColumnCount, resultx.Count);
@@ -207,11 +209,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
         [TestCase(100)]
         public void CanSolveForRandomMatrix(int order)
         {
-            var matrixA = MatrixLoader.GenerateRandomDenseMatrix(order, order);
+            var matrixA = Matrix<double>.Build.Random(order, order, 1);
             var matrixACopy = matrixA.Clone();
             var factorGramSchmidt = matrixA.GramSchmidt();
 
-            var matrixB = MatrixLoader.GenerateRandomDenseMatrix(order, order);
+            var matrixB = Matrix<double>.Build.Random(order, order, 1);
             var matrixX = factorGramSchmidt.Solve(matrixB);
 
             // The solution X row dimension is equal to the column dimension of A
@@ -253,10 +255,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
         [TestCase(100)]
         public void CanSolveForRandomVectorWhenResultVectorGiven(int order)
         {
-            var matrixA = MatrixLoader.GenerateRandomDenseMatrix(order, order);
+            var matrixA = Matrix<double>.Build.Random(order, order, 1);
             var matrixACopy = matrixA.Clone();
             var factorGramSchmidt = matrixA.GramSchmidt();
-            var vectorb = MatrixLoader.GenerateRandomDenseVector(order);
+            var vectorb = Vector<double>.Build.Random(order, 1);
             var vectorbCopy = vectorb.Clone();
             var resultx = new DenseVector(order);
             factorGramSchmidt.Solve(vectorb, resultx);
@@ -299,11 +301,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
         [TestCase(100)]
         public void CanSolveForRandomMatrixWhenResultMatrixGiven(int order)
         {
-            var matrixA = MatrixLoader.GenerateRandomDenseMatrix(order, order);
+            var matrixA = Matrix<double>.Build.Random(order, order, 1);
             var matrixACopy = matrixA.Clone();
             var factorGramSchmidt = matrixA.GramSchmidt();
 
-            var matrixB = MatrixLoader.GenerateRandomDenseMatrix(order, order);
+            var matrixB = Matrix<double>.Build.Random(order, order, 1);
             var matrixBCopy = matrixB.Clone();
 
             var matrixX = new DenseMatrix(order, order);
@@ -351,11 +353,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
         [Test]
         public void CanSolveForMatrixWithTallRandomMatrix()
         {
-            var matrixA = MatrixLoader.GenerateRandomDenseMatrix(20, 10);
+            var matrixA = Matrix<double>.Build.Random(20, 10, 1);
             var matrixACopy = matrixA.Clone();
             var factorQR = matrixA.GramSchmidt();
 
-            var matrixB = MatrixLoader.GenerateRandomDenseMatrix(20, 5);
+            var matrixB = Matrix<double>.Build.Random(20, 5, 1);
             var matrixX = factorQR.Solve(matrixB);
 
             // The solution X row dimension is equal to the column dimension of A
@@ -390,11 +392,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
         [Test]
         public void CanSolveForVectorWithTallRandomMatrix()
         {
-            var matrixA = MatrixLoader.GenerateRandomDenseMatrix(20, 10);
+            var matrixA = Matrix<double>.Build.Random(20, 10, 1);
             var matrixACopy = matrixA.Clone();
             var factorQR = matrixA.GramSchmidt();
 
-            var vectorB = MatrixLoader.GenerateRandomDenseVector(20);
+            var vectorB = Vector<double>.Build.Random(20, 1);
             var vectorX = factorQR.Solve(vectorB);
 
             // The solution x dimension is equal to the column dimension of A

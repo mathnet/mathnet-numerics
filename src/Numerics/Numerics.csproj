@@ -91,6 +91,13 @@
     <Compile Include="Optimization\IMinimizer.cs" />
     <Compile Include="Optimization\NonLinearLeastSquaresMinimizer.cs" />
     <Compile Include="Optimization\PowellMinimizer.cs" />
+    <Compile Include="Distributions\Triangular.cs" />
+    <Compile Include="Euclid.cs" />
+    <Compile Include="Generate.cs" />
+    <Compile Include="GoodnessOfFit.cs" />
+    <Compile Include="Interpolation\Barycentric.cs" />
+    <Compile Include="Interpolation\CubicSpline.cs" />
+    <Compile Include="Interpolation\QuadraticSpline.cs" />
     <Compile Include="Precision.Comparison.cs" />
     <Compile Include="Precision.Equality.cs" />
     <Compile Include="Distributions\Bernoulli.cs" />
@@ -156,9 +163,10 @@
     <Compile Include="Providers\LinearAlgebra\GotoBlas\SafeNativeMethods.cs" />
     <Compile Include="Providers\LinearAlgebra\ManagedLinearAlgebraProvider.Complex32.cs" />
     <Compile Include="Providers\LinearAlgebra\ManagedLinearAlgebraProvider.Complex.cs" />
+    <Compile Include="Providers\LinearAlgebra\ManagedLinearAlgebraProvider.Double.cs" />
     <Compile Include="Providers\LinearAlgebra\ManagedLinearAlgebraProvider.Single.cs" />
     <Compile Include="Providers\LinearAlgebra\ILinearAlgebraProvider.cs" />
-    <Compile Include="Providers\LinearAlgebra\ManagedLinearAlgebraProvider.Double.cs" />
+    <Compile Include="Providers\LinearAlgebra\ManagedLinearAlgebraProvider.cs" />
     <Compile Include="Providers\LinearAlgebra\Mkl\MklLinearAlgebraProvider.Complex.cs" />
     <Compile Include="Providers\LinearAlgebra\Mkl\MklLinearAlgebraProvider.Complex32.cs" />
     <Compile Include="Providers\LinearAlgebra\Mkl\MklLinearAlgebraProvider.cs" />
@@ -185,6 +193,7 @@
     <Compile Include="Providers\Optimization\IOptimizationProvider.cs" />
     <Compile Include="Providers\Optimization\Mkl\MklOptimizationProvider.cs" />
     <Compile Include="Providers\Optimization\Mkl\SafeNativeMethods.cs" />
+    <Compile Include="Random\SystemRandomSource.cs" />
     <Compile Include="Random\RandomSeed.cs" />
     <Compile Include="RootFinding\Broyden.cs" />
     <Compile Include="RootFinding\NewtonRaphson.cs" />
@@ -194,11 +203,13 @@
     <Compile Include="FindRoots.cs" />
     <Compile Include="RootFinding\Bisection.cs" />
     <Compile Include="SpecialFunctions\Evaluate.cs" />
+    <Compile Include="ExcelFunctions.cs" />
     <Compile Include="SpecialFunctions\ModifiedStruve.cs" />
     <Compile Include="SpecialFunctions\ModifiedBessel.cs" />
     <Compile Include="SpecialFunctions\Logistic.cs" />
     <Compile Include="Statistics\ArrayStatistics.cs" />
     <Compile Include="Statistics\QuantileDefinition.cs" />
+    <Compile Include="Statistics\RankDefinition.cs" />
     <Compile Include="Statistics\StreamingStatistics.cs" />
     <Compile Include="Statistics\SortedArrayStatistics.cs" />
     <Compile Include="LinearAlgebra\Storage\SparseVectorStorage.cs" />
@@ -368,7 +379,6 @@
     <Compile Include="IntegralTransforms\Algorithms\DiscreteHartleyTransform.Options.cs" />
     <Compile Include="IntegralTransforms\HartleyOptions.cs" />
     <Compile Include="GlobalizationHelper.cs" />
-    <Compile Include="Interpolation\EquidistantPolynomialInterpolation.cs" />
     <Compile Include="IntegralTransforms\Algorithms\DiscreteFourierTransform.Options.cs" />
     <Compile Include="IntegralTransforms\Algorithms\DiscreteFourierTransform.Bluestein.cs" />
     <Compile Include="IntegralTransforms\Algorithms\DiscreteFourierTransform.Naive.cs" />
@@ -379,21 +389,12 @@
     <Compile Include="Integration\SimpsonRule.cs" />
     <Compile Include="Integration\NewtonCotesTrapeziumRule.cs" />
     <Compile Include="Integrate.cs" />
-    <Compile Include="Interpolation\AkimaSplineInterpolation.cs" />
-    <Compile Include="Interpolation\BarycentricInterpolation.cs" />
     <Compile Include="Interpolation\BulirschStoerRationalInterpolation.cs" />
-    <Compile Include="Interpolation\CubicSplineInterpolation.cs" />
-    <Compile Include="Interpolation\CubicHermiteSplineInterpolation.cs" />
-    <Compile Include="Interpolation\FloaterHormannRationalInterpolation.cs" />
-    <Compile Include="Interpolation\LinearSplineInterpolation.cs" />
+    <Compile Include="Interpolation\LinearSpline.cs" />
     <Compile Include="Interpolation\NevillePolynomialInterpolation.cs" />
-    <Compile Include="Interpolation\SplineInterpolation.cs" />
     <Compile Include="Interpolation\IInterpolation.cs" />
     <Compile Include="Interpolate.cs" />
     <Compile Include="Interpolation\SplineBoundaryCondition.cs" />
-    <Compile Include="NumberTheory\IntegerTheory.Euclid.Big.cs" />
-    <Compile Include="NumberTheory\IntegerTheory.cs" />
-    <Compile Include="NumberTheory\IntegerTheory.Euclid.cs" />
     <Compile Include="Precision.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
@@ -401,21 +402,18 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Random\AbstractRandomNumberGenerator.cs" />
+    <Compile Include="Random\RandomSource.cs" />
     <Compile Include="Random\Mcg31m1.cs" />
     <Compile Include="Random\Mcg59.cs" />
     <Compile Include="Random\MersenneTwister.cs" />
     <Compile Include="Random\Mrg32k3a.cs" />
     <Compile Include="Random\Palf.cs" />
-    <Compile Include="Random\SystemCrypto.cs" />
-    <Compile Include="Random\SystemRandomExtensions.cs" />
+    <Compile Include="Random\CryptoRandomSource.cs" />
+    <Compile Include="Random\RandomExtensions.cs" />
     <Compile Include="Random\WH1982.cs" />
     <Compile Include="Random\WH2006.cs" />
     <Compile Include="Random\Xorshift.cs" />
-    <Compile Include="PortableAttributes.cs" />
-    <Compile Include="Signals\SignalGenerator.Random.cs" />
-    <Compile Include="Signals\SignalGenerator.Chebyshev.cs" />
-    <Compile Include="Signals\SignalGenerator.Equidistant.cs" />
+    <Compile Include="Compatibility.cs" />
     <Compile Include="Sorting.cs" />
     <Compile Include="SpecialFunctions\Harmonic.cs" />
     <Compile Include="SpecialFunctions\Beta.cs" />
@@ -438,6 +436,7 @@
     <Compile Include="Statistics\MCMC\UnivariateSliceSampler.cs" />
     <Compile Include="Threading\CommonParallel.cs" />
     <Compile Include="Trigonometry.cs" />
+    <Compile Include="Window.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -446,5 +445,6 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

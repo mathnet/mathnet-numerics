@@ -127,9 +127,9 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <returns>The left hand side <see cref="Matrix{T}"/>, <b>X</b>.</returns>
         public Matrix<T> Solve(Matrix<T> input)
         {
-            var matrixX = CreateMatrix(ColumnCount, input.ColumnCount);
-            Solve(input, matrixX);
-            return matrixX;
+            var x = Build.SameAs(this, ColumnCount, input.ColumnCount);
+            Solve(input, x);
+            return x;
         }
 
 
@@ -140,7 +140,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <returns>The left hand side <see cref="Vector{T}"/>, <b>x</b>.</returns>
         public Vector<T> Solve(Vector<T> input)
         {
-            var x = CreateVector(ColumnCount);
+            var x = Vector<T>.Build.SameAs(this, ColumnCount);
             Solve(input, x);
             return x;
         }

@@ -30,6 +30,7 @@
 
 using System;
 using MathNet.Numerics.Distributions;
+using MathNet.Numerics.Random;
 
 namespace MathNet.Numerics.Statistics.Mcmc
 {
@@ -82,7 +83,7 @@ namespace MathNet.Numerics.Statistics.Mcmc
         /// the momentum.</param>
         /// <exception cref="ArgumentOutOfRangeException">When the number of burnInterval iteration is negative.</exception>
         public UnivariateHybridMC(double x0, DensityLn<double> pdfLnP, int frogLeapSteps, double stepSize, int burnInterval = 0, double pSdv = 1)
-            : this(x0, pdfLnP, frogLeapSteps, stepSize, burnInterval, pSdv, new System.Random(Random.RandomSeed.Guid()))
+            : this(x0, pdfLnP, frogLeapSteps, stepSize, burnInterval, pSdv, SystemRandomSource.Default)
         {
         }
 

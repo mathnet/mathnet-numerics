@@ -36,7 +36,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
     /// <summary>
     /// Dirichlet distribution tests
     /// </summary>
-    [TestFixture]
+    [TestFixture, Category("Distributions")]
     public class DirichletTests
     {
         /// <summary>
@@ -110,7 +110,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         {
             new Dirichlet(0.3, 5)
             {
-                RandomSource = new Random()
+                RandomSource = new Random(0)
             };
         }
 

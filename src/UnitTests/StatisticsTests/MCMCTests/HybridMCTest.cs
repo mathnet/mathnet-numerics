@@ -40,7 +40,7 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests.McmcTests
     /// <summary>
     /// Tests for the HybridMC class.
     /// </summary>
-    [TestFixture]
+    [TestFixture, Category("Statistics")]
     public class HybridMCTest
     {
         private readonly Normal _normal = new Normal(0, 1);
@@ -55,7 +55,7 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests.McmcTests
             var hybrid = new HybridMC(new double[] { 0 }, x => _normal.DensityLn(x[0]), 10, 0.1);
             Assert.IsNotNull(hybrid.RandomSource);
 
-            hybrid.RandomSource = new System.Random();
+            hybrid.RandomSource = new System.Random(0);
             Assert.IsNotNull(hybrid.RandomSource);
         }
 

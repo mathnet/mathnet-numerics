@@ -35,7 +35,7 @@ namespace MathNet.Numerics.UnitTests.SpecialFunctionsTests
     /// <summary>
     /// Error functions tests.
     /// </summary>
-    [TestFixture]
+    [TestFixture, Category("Functions")]
     public class ErfTests
     {
         /// <summary>

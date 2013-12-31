@@ -31,6 +31,7 @@
 using System;
 using System.Collections.Generic;
 using MathNet.Numerics.Properties;
+using MathNet.Numerics.Random;
 
 namespace MathNet.Numerics.Distributions
 {
@@ -39,11 +40,6 @@ namespace MathNet.Numerics.Distributions
     /// The exponential distribution is a distribution over the real numbers parameterized by one non-negative parameter.
     /// <a href="http://en.wikipedia.org/wiki/Exponential_distribution">Wikipedia - exponential distribution</a>.
     /// </summary>
-    /// <remarks>The distribution will use the <see cref="System.Random"/> by default. 
-    /// <para>Users can set the random number generator by using the <see cref="RandomSource"/> property.</para>
-    /// <para>The statistics classes will check all the incoming parameters whether they are in the allowed
-    /// range. This might involve heavy computation. Optionally, by setting Control.CheckDistributionParameters
-    /// to <c>false</c>, all parameter checks can be turned off.</para></remarks>
     public class Exponential : IContinuousDistribution
     {
         System.Random _random;
@@ -56,7 +52,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="rate">The rate (λ) parameter of the distribution. Range: λ ≥ 0.</param>
         public Exponential(double rate)
         {
-            _random = new System.Random(Random.RandomSeed.Guid());
+            _random = SystemRandomSource.Default;
             SetParameters(rate);
         }
 
@@ -67,7 +63,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="randomSource">The random number generator which is used to draw random samples.</param>
         public Exponential(double rate, System.Random randomSource)
         {
-            _random = randomSource ?? new System.Random(Random.RandomSeed.Guid());
+            _random = randomSource ?? SystemRandomSource.Default;
             SetParameters(rate);
         }
 
@@ -110,7 +106,7 @@ namespace MathNet.Numerics.Distributions
         public System.Random RandomSource
         {
             get { return _random; }
-            set { _random = value ?? new System.Random(Random.RandomSeed.Guid()); }
+            set { _random = value ?? SystemRandomSource.Default; }
         }
 
         /// <summary>

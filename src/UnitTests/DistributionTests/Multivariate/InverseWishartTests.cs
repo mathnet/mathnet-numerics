@@ -24,18 +24,18 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System;
+using MathNet.Numerics.Distributions;
+using MathNet.Numerics.LinearAlgebra;
+using MathNet.Numerics.LinearAlgebra.Double;
+using NUnit.Framework;
+
 namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
 {
-    using System;
-    using Distributions;
-    using LinearAlgebra.Double;
-    using LinearAlgebraTests.Double;
-    using NUnit.Framework;
-
     /// <summary>
     /// Inverse Wishart tests.
     /// </summary>
-    [TestFixture]
+    [TestFixture, Category("Distributions")]
     public class InverseWishartTests
     {
         /// <summary>
@@ -57,7 +57,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         [TestCase(5.0, 5)]
         public void CanCreateInverseWishart(double nu, int order)
         {
-            var matrix = MatrixLoader.GenerateRandomPositiveDefiniteDenseMatrix(order);
+            var matrix = Matrix<double>.Build.RandomPositiveDefinite(order, 1);
             var d = new InverseWishart(nu, matrix);
 
             Assert.AreEqual(nu, d.DegreesOfFreedom);
@@ -80,7 +80,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         [TestCase(5.0, 5)]
         public void FailSCreateInverseWishart(double nu, int order)
         {
-            var matrix = MatrixLoader.GenerateRandomPositiveDefiniteDenseMatrix(order);
+            var matrix = Matrix<double>.Build.RandomPositiveDefinite(order, 1);
             matrix[0, 0] = 0.0;
 
             Assert.Throws<ArgumentOutOfRangeException>(() => new InverseWishart(nu, matrix));
@@ -95,7 +95,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         [TestCase(Double.NaN, 5)]
         public void FailNuCreateInverseWishart(double nu, int order)
         {
-            var matrix = MatrixLoader.GenerateRandomPositiveDefiniteDenseMatrix(order);
+            var matrix = Matrix<double>.Build.RandomPositiveDefinite(order, 1);
             Assert.Throws<ArgumentOutOfRangeException>(() => new InverseWishart(nu, matrix));
         }
 
@@ -105,7 +105,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         [Test]
         public void HasRandomSource()
         {
-            var d = new InverseWishart(1.0, MatrixLoader.GenerateRandomPositiveDefiniteDenseMatrix(2));
+            var d = new InverseWishart(1.0, Matrix<double>.Build.RandomPositiveDefinite(2, 1));
             Assert.IsNotNull(d.RandomSource);
         }
 
@@ -115,16 +115,16 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         [Test]
         public void CanSetRandomSource()
         {
-            new InverseWishart(1.0, MatrixLoader.GenerateRandomPositiveDefiniteDenseMatrix(2))
+            new InverseWishart(1.0, Matrix<double>.Build.RandomPositiveDefinite(2, 1))
             {
-                RandomSource = new Random()
+                RandomSource = new System.Random(0)
             };
         }
 
         [Test]
         public void HasRandomSourceEvenAfterSetToNull()
         {
-            var d = new InverseWishart(1.0, MatrixLoader.GenerateRandomPositiveDefiniteDenseMatrix(2));
+            var d = new InverseWishart(1.0, Matrix<double>.Build.RandomPositiveDefinite(2, 1));
             Assert.DoesNotThrow(() => d.RandomSource = null);
             Assert.IsNotNull(d.RandomSource);
         }
@@ -135,7 +135,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         [Test]
         public void ValidateToString()
         {
-            var d = new InverseWishart(1d, MatrixLoader.GenerateRandomPositiveDefiniteDenseMatrix(2));
+            var d = new InverseWishart(1d, Matrix<double>.Build.RandomPositiveDefinite(2, 1));
             Assert.AreEqual("InverseWishart(ν = 1, Rows = 2, Columns = 2)", d.ToString());
         }
 
@@ -148,7 +148,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         [TestCase(5.0)]
         public void CanGetNu(double nu)
         {
-            var d = new InverseWishart(nu, MatrixLoader.GenerateRandomPositiveDefiniteDenseMatrix(2));
+            var d = new InverseWishart(nu, Matrix<double>.Build.RandomPositiveDefinite(2, 1));
             Assert.AreEqual(nu, d.DegreesOfFreedom);
         }
 
@@ -161,7 +161,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         [TestCase(5.0)]
         public void CanSetNu(double nu)
         {
-            new InverseWishart(1.0, MatrixLoader.GenerateRandomPositiveDefiniteDenseMatrix(2))
+            new InverseWishart(1.0, Matrix<double>.Build.RandomPositiveDefinite(2, 1))
             {
                 DegreesOfFreedom = nu
             };
@@ -174,7 +174,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         public void CanGetS()
         {
             const int Order = 2;
-            var matrix = MatrixLoader.GenerateRandomPositiveDefiniteDenseMatrix(Order);
+            var matrix = Matrix<double>.Build.RandomPositiveDefinite(Order, 1);
             var d = new InverseWishart(1.0, matrix);
 
             for (var i = 0; i < Order; i++)
@@ -192,9 +192,9 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         [Test]
         public void CanSetS()
         {
-            new InverseWishart(1.0, MatrixLoader.GenerateRandomPositiveDefiniteDenseMatrix(2))
+            new InverseWishart(1.0, Matrix<double>.Build.RandomPositiveDefinite(2, 1))
             {
-                Scale = MatrixLoader.GenerateRandomPositiveDefiniteDenseMatrix(2)
+                Scale = Matrix<double>.Build.RandomPositiveDefinite(2, 1)
             };
         }
 
@@ -208,7 +208,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         [TestCase(5.0, 5)]
         public void ValidateMean(double nu, int order)
         {
-            var d = new InverseWishart(nu, MatrixLoader.GenerateRandomPositiveDefiniteDenseMatrix(order));
+            var d = new InverseWishart(nu, Matrix<double>.Build.RandomPositiveDefinite(order, 1));
 
             var mean = d.Mean;
             for (var i = 0; i < d.Scale.RowCount; i++)
@@ -230,7 +230,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         [TestCase(5.0, 5)]
         public void ValidateMode(double nu, int order)
         {
-            var d = new InverseWishart(nu, MatrixLoader.GenerateRandomPositiveDefiniteDenseMatrix(order));
+            var d = new InverseWishart(nu, Matrix<double>.Build.RandomPositiveDefinite(order, 1));
 
             var mode = d.Mode;
             for (var i = 0; i < d.Scale.RowCount; i++)
@@ -252,7 +252,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         [TestCase(5.0, 5)]
         public void ValidateVariance(double nu, int order)
         {
-            var d = new InverseWishart(nu, MatrixLoader.GenerateRandomPositiveDefiniteDenseMatrix(order));
+            var d = new InverseWishart(nu, Matrix<double>.Build.RandomPositiveDefinite(order, 1));
 
             var variance = d.Variance;
             for (var i = 0; i < d.Scale.RowCount; i++)
@@ -293,7 +293,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         [Test]
         public void CanSample()
         {
-            var d = new InverseWishart(1.0, MatrixLoader.GenerateRandomPositiveDefiniteDenseMatrix(2));
+            var d = new InverseWishart(1.0, Matrix<double>.Build.RandomPositiveDefinite(2, 1));
             d.Sample();
         }
 
@@ -303,7 +303,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         [Test]
         public void CanSampleStatic()
         {
-            InverseWishart.Sample(new Random(), 1.0, MatrixLoader.GenerateRandomPositiveDefiniteDenseMatrix(2));
+            InverseWishart.Sample(new System.Random(0), 1.0, Matrix<double>.Build.RandomPositiveDefinite(2, 1));
         }
 
         /// <summary>
@@ -312,7 +312,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         [Test]
         public void FailSampleStatic()
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() => InverseWishart.Sample(new Random(), -1.0, MatrixLoader.GenerateRandomPositiveDefiniteDenseMatrix(2)));
+            Assert.Throws<ArgumentOutOfRangeException>(() => InverseWishart.Sample(new System.Random(0), -1.0, Matrix<double>.Build.RandomPositiveDefinite(2, 1)));
         }
     }
 }

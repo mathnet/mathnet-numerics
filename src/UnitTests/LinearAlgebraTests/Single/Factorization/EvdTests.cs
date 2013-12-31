@@ -24,6 +24,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Single;
 using NUnit.Framework;
 
@@ -38,6 +39,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Factorization
     /// <summary>
     /// Eigenvalues factorization tests for a dense matrix.
     /// </summary>
+    [TestFixture, Category("LAFactorization")]
     public class EvdTests
     {
         /// <summary>
@@ -74,7 +76,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Factorization
         [Test]
         public void CanFactorizeRandomMatrix([Values(1, 2, 5, 10, 50, 100)] int order)
         {
-            var matrixA = MatrixLoader.GenerateRandomDenseMatrix(order, order);
+            var matrixA = Matrix<float>.Build.Random(order, order, 1);
             var factorEvd = matrixA.Evd();
             var eigenVectors = factorEvd.EigenVectors;
             var d = factorEvd.D;
@@ -105,7 +107,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Factorization
         [Test]
         public void CanFactorizeRandomSymmetricMatrix([Values(1, 2, 5, 10, 50)] int order)
         {
-            var matrixA = MatrixLoader.GenerateRandomPositiveDefiniteDenseMatrix(order);
+            var matrixA = Matrix<float>.Build.RandomPositiveDefinite(order, 1);
             MatrixHelpers.ForceSymmetric(matrixA);
             var factorEvd = matrixA.Evd();
             var eigenVectors = factorEvd.EigenVectors;
@@ -138,7 +140,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Factorization
         [TestCase(100)]
         public void CanCheckRankSquare(int order)
         {
-            var matrixA = MatrixLoader.GenerateRandomDenseMatrix(order, order);
+            var matrixA = Matrix<float>.Build.Random(order, order, 1);
             var factorEvd = matrixA.Evd();
 
             Assert.AreEqual(factorEvd.Rank, order);
@@ -196,12 +198,12 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Factorization
         [TestCase(100)]
         public void CanSolveForRandomVectorAndSymmetricMatrix(int order)
         {
-            var matrixA = MatrixLoader.GenerateRandomPositiveDefiniteDenseMatrix(order);
+            var matrixA = Matrix<float>.Build.RandomPositiveDefinite(order, 1);
             MatrixHelpers.ForceSymmetric(matrixA);
             var matrixACopy = matrixA.Clone();
             var factorEvd = matrixA.Evd();
 
-            var vectorb = MatrixLoader.GenerateRandomDenseVector(order);
+            var vectorb = Vector<float>.Build.Random(order, 1);
             var resultx = factorEvd.Solve(vectorb);
 
             Assert.AreEqual(matrixA.ColumnCount, resultx.Count);
@@ -211,7 +213,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Factorization
             // Check the reconstruction.
             for (var i = 0; i < vectorb.Count; i++)
             {
-                Assert.AreEqual(vectorb[i], matrixBReconstruct[i], 1e-3);
+                Assert.AreEqual(vectorb[i], matrixBReconstruct[i], 1e-1);
             }
 
             // Make sure A didn't change.
@@ -237,12 +239,12 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Factorization
         [TestCase(100)]
         public void CanSolveForRandomMatrixAndSymmetricMatrix(int order)
         {
-            var matrixA = MatrixLoader.GenerateRandomPositiveDefiniteDenseMatrix(order);
+            var matrixA = Matrix<float>.Build.RandomPositiveDefinite(order, 1);
             MatrixHelpers.ForceSymmetric(matrixA);
             var matrixACopy = matrixA.Clone();
             var factorEvd = matrixA.Evd();
 
-            var matrixB = MatrixLoader.GenerateRandomDenseMatrix(order, order);
+            var matrixB = Matrix<float>.Build.Random(order, order, 1);
             var matrixX = factorEvd.Solve(matrixB);
 
             // The solution X row dimension is equal to the column dimension of A
@@ -258,7 +260,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Factorization
             {
                 for (var j = 0; j < matrixB.ColumnCount; j++)
                 {
-                    Assert.AreEqual(matrixB[i, j], matrixBReconstruct[i, j], 1e-1);
+                    Assert.AreEqual(matrixB[i, j], matrixBReconstruct[i, j], 1);
                 }
             }
 
@@ -285,11 +287,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Factorization
         [TestCase(100)]
         public void CanSolveForRandomVectorAndSymmetricMatrixWhenResultVectorGiven(int order)
         {
-            var matrixA = MatrixLoader.GenerateRandomPositiveDefiniteDenseMatrix(order);
+            var matrixA = Matrix<float>.Build.RandomPositiveDefinite(order, 1);
             MatrixHelpers.ForceSymmetric(matrixA);
             var matrixACopy = matrixA.Clone();
             var factorEvd = matrixA.Evd();
-            var vectorb = MatrixLoader.GenerateRandomDenseVector(order);
+            var vectorb = Vector<float>.Build.Random(order, 1);
             var vectorbCopy = vectorb.Clone();
             var resultx = new DenseVector(order);
             factorEvd.Solve(vectorb, resultx);
@@ -299,7 +301,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Factorization
             // Check the reconstruction.
             for (var i = 0; i < vectorb.Count; i++)
             {
-                Assert.AreEqual(vectorb[i], matrixBReconstruct[i], 1e-3);
+                Assert.AreEqual(vectorb[i], matrixBReconstruct[i], 1e-1);
             }
 
             // Make sure A didn't change.
@@ -331,12 +333,12 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Factorization
         [TestCase(100)]
         public void CanSolveForRandomMatrixAndSymmetricMatrixWhenResultMatrixGiven(int order)
         {
-            var matrixA = MatrixLoader.GenerateRandomPositiveDefiniteDenseMatrix(order);
+            var matrixA = Matrix<float>.Build.RandomPositiveDefinite(order, 1);
             MatrixHelpers.ForceSymmetric(matrixA);
             var matrixACopy = matrixA.Clone();
             var factorEvd = matrixA.Evd();
 
-            var matrixB = MatrixLoader.GenerateRandomDenseMatrix(order, order);
+            var matrixB = Matrix<float>.Build.Random(order, order, 1);
             var matrixBCopy = matrixB.Clone();
 
             var matrixX = new DenseMatrix(order, order);
@@ -355,7 +357,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Factorization
             {
                 for (var j = 0; j < matrixB.ColumnCount; j++)
                 {
-                    Assert.AreEqual(matrixB[i, j], matrixBReconstruct[i, j], 1e-1);
+                    Assert.AreEqual(matrixB[i, j], matrixBReconstruct[i, j], 1);
                 }
             }
 

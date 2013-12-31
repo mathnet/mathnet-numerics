@@ -28,16 +28,16 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System;
+using NUnit.Framework;
+
 namespace MathNet.Numerics.UnitTests.SpecialFunctionsTests
 {
-    using System;
-    using NUnit.Framework;
-
     /// <summary>
     /// Modified Bessel functions tests.
     /// </summary>
-    [TestFixture]
-    public class BodifiedBesselTests
+    [TestFixture, Category("Functions")]
+    public class ModifiedBesselTests
     {
         [Test]
         public void BesselI0Approx([Range(-3.75, 3.75, 0.25)] double x)

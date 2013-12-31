@@ -34,7 +34,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
     /// <summary>
     /// Discrete uniform tests.
     /// </summary>
-    [TestFixture]
+    [TestFixture, Category("Distributions")]
     public class DiscreteUniformTests
     {
         /// <summary>
@@ -279,7 +279,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         [Test]
         public void CanSampleStatic()
         {
-            DiscreteUniform.Sample(new Random(), 0, 10);
+            DiscreteUniform.Sample(new Random(0), 0, 10);
         }
 
         /// <summary>
@@ -288,7 +288,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         [Test]
         public void CanSampleSequenceStatic()
         {
-            var ied = DiscreteUniform.Samples(new Random(), 0, 10);
+            var ied = DiscreteUniform.Samples(new Random(0), 0, 10);
             ied.Take(5).ToArray();
         }
 
@@ -298,7 +298,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         [Test]
         public void FailSampleStatic()
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() => DiscreteUniform.Sample(new Random(), 20, 10));
+            Assert.Throws<ArgumentOutOfRangeException>(() => DiscreteUniform.Sample(new Random(0), 20, 10));
         }
 
         /// <summary>
@@ -307,7 +307,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         [Test]
         public void FailSampleSequenceStatic()
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() => DiscreteUniform.Samples(new Random(), 20, 10).First());
+            Assert.Throws<ArgumentOutOfRangeException>(() => DiscreteUniform.Samples(new Random(0), 20, 10).First());
         }
 
         /// <summary>

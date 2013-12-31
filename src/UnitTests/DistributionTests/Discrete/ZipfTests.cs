@@ -34,7 +34,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
     /// <summary>
     /// Zipf law tests.
     /// </summary>
-    [TestFixture]
+    [TestFixture, Category("Distributions")]
     public class ZipfTests
     {
         /// <summary>

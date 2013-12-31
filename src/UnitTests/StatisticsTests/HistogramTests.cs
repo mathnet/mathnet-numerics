@@ -38,7 +38,7 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
     /// <summary>
     /// Histogram tests.
     /// </summary>
-    [TestFixture]
+    [TestFixture, Category("Statistics")]
     public class HistogramTests
     {
         /// <summary>

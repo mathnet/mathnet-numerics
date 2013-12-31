@@ -29,6 +29,7 @@
 // </copyright>
 
 using System;
+using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Complex;
 using MathNet.Numerics.LinearAlgebra.Complex.Solvers;
 using MathNet.Numerics.LinearAlgebra.Solvers;
@@ -45,7 +46,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.Iterativ
     /// <summary>
     /// Tests of Transpose Free Quasi-Minimal Residual iterative matrix solver.
     /// </summary>
-    [TestFixture]
+    [TestFixture, Category("LASolver")]
     public class TFQMRTest
     {
         /// <summary>
@@ -94,7 +95,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.Iterativ
             var matrix = SparseMatrix.CreateIdentity(100);
 
             // Create the y vector
-            var y = DenseVector.Create(matrix.RowCount, i => 1);
+            var y = Vector<Complex>.Build.Dense(matrix.RowCount, 1);
 
             // Create an iteration monitor which will keep track of iterative convergence
             var monitor = new Iterator<Complex>(
@@ -119,10 +120,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.Iterativ
             Assert.IsTrue(monitor.Status == IterationStatus.Converged, "#04");
 
             // Now compare the vectors
-            for (var i = 0; i < y.Count; i++)
-            {
-                Assert.GreaterOrEqual(ConvergenceBoundary, (y[i] - z[i]).Magnitude, "#05-" + i);
-            }
+            Assert.LessOrEqual(Distance.Chebyshev(y, z), 2*ConvergenceBoundary);
         }
 
         /// <summary>
@@ -138,7 +136,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.Iterativ
             matrix.Multiply(Math.PI, matrix);
 
             // Create the y vector
-            var y = DenseVector.Create(matrix.RowCount, i => 1);
+            var y = Vector<Complex>.Build.Dense(matrix.RowCount, 1);
 
             // Create an iteration monitor which will keep track of iterative convergence
             var monitor = new Iterator<Complex>(
@@ -163,10 +161,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.Iterativ
             Assert.IsTrue(monitor.Status == IterationStatus.Converged, "#04");
 
             // Now compare the vectors
-            for (var i = 0; i < y.Count; i++)
-            {
-                Assert.GreaterOrEqual(ConvergenceBoundary, (y[i] - z[i]).Magnitude, "#05-" + i);
-            }
+            Assert.LessOrEqual(Distance.Chebyshev(y, z), 2*ConvergenceBoundary);
         }
 
         /// <summary>
@@ -215,7 +210,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.Iterativ
             }
 
             // Create the y vector
-            var y = DenseVector.Create(matrix.RowCount, i => 1);
+            var y = Vector<Complex>.Build.Dense(matrix.RowCount, 1);
 
             // Create an iteration monitor which will keep track of iterative convergence
             var monitor = new Iterator<Complex>(
@@ -240,10 +235,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.Iterativ
             Assert.IsTrue(monitor.Status == IterationStatus.Converged, "#04");
 
             // Now compare the vectors
-            for (var i = 0; i < y.Count; i++)
-            {
-                Assert.GreaterOrEqual(ConvergenceBoundary, (y[i] - z[i]).Magnitude, "#05-" + i);
-            }
+            Assert.LessOrEqual(Distance.Chebyshev(y, z), 2*ConvergenceBoundary);
         }
 
         /// <summary>
@@ -255,8 +247,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.Iterativ
         [TestCase(10)]
         public void CanSolveForRandomVector(int order)
         {
-            var matrixA = MatrixLoader.GenerateRandomDenseMatrix(order, order);
-            var vectorb = MatrixLoader.GenerateRandomDenseVector(order);
+            var matrixA = Matrix<Complex>.Build.Random(order, order, 1);
+            var vectorb = Vector<Complex>.Build.Random(order, 1);
 
             var monitor = new Iterator<Complex>(
                 new IterationCountStopCriterium<Complex>(1000),
@@ -286,8 +278,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.Iterativ
         [TestCase(10)]
         public void CanSolveForRandomMatrix(int order)
         {
-            var matrixA = MatrixLoader.GenerateRandomDenseMatrix(order, order);
-            var matrixB = MatrixLoader.GenerateRandomDenseMatrix(order, order);
+            var matrixA = Matrix<Complex>.Build.Random(order, order, 1);
+            var matrixB = Matrix<Complex>.Build.Random(order, order, 1);
 
             var monitor = new Iterator<Complex>(
                 new IterationCountStopCriterium<Complex>(1000),

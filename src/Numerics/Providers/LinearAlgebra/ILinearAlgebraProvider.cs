@@ -94,6 +94,10 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
         ILinearAlgebraProvider<Complex>,
         ILinearAlgebraProvider<Complex32>
     {
+        /// <summary>
+        /// Initialize and verify that the provided is indeed available. If not, fall back to alernatives like the managed provider
+        /// </summary>
+        void InitializeVerify();
     }
 
     /// <summary>
@@ -130,6 +134,13 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
         /// <param name="result">This result of the scaling.</param>
         /// <remarks>This is similar to the SCAL BLAS routine.</remarks>
         void ScaleArray(T alpha, T[] x, T[] result);
+
+        /// <summary>
+        /// Conjugates an array. Can be used to conjugate a vector and a matrix.
+        /// </summary>
+        /// <param name="x">The values to conjugate.</param>
+        /// <param name="result">This result of the conjugation.</param>
+        void ConjugateArray(T[] x, T[] result);
 
         /// <summary>
         /// Computes the dot product of x and y.

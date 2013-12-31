@@ -370,51 +370,7 @@ namespace MathNet.Numerics.Statistics
         }
 
         /// <summary>
-        /// Estimates the empirical inverse CDF at tau from the provided samples.
-        /// </summary>
-        /// <param name="data">The data sample sequence.</param>
-        /// <param name="tau">Quantile selector, between 0.0 and 1.0 (inclusive).</param>
-        public static double InverseCDF(this IEnumerable<double> data, double tau)
-        {
-            var array = data.ToArray();
-            return ArrayStatistics.QuantileCustomInplace(array, tau, QuantileDefinition.InverseCDF);
-        }
-
-        /// <summary>
-        /// Estimates the empirical inverse CDF at tau from the provided samples.
-        /// </summary>
-        /// <param name="data">The data sample sequence.</param>
-        /// <param name="tau">Quantile selector, between 0.0 and 1.0 (inclusive).</param>
-        public static double InverseCDF(this IEnumerable<double?> data, double tau)
-        {
-            var array = data.Where(d => d.HasValue).Select(d => d.Value).ToArray();
-            return ArrayStatistics.QuantileCustomInplace(array, tau, QuantileDefinition.InverseCDF);
-        }
-
-        /// <summary>
-        /// Estimates the empirical inverse CDF at tau from the provided samples.
-        /// </summary>
-        /// <param name="data">The data sample sequence.</param>
-        public static Func<double, double> InverseCDFFunc(this IEnumerable<double> data)
-        {
-            var array = data.ToArray();
-            Array.Sort(array);
-            return tau => SortedArrayStatistics.QuantileCustom(array, tau, QuantileDefinition.InverseCDF);
-        }
-
-        /// <summary>
-        /// Estimates the empirical inverse CDF at tau from the provided samples.
-        /// </summary>
-        /// <param name="data">The data sample sequence.</param>
-        public static Func<double, double> InverseCDFFunc(this IEnumerable<double?> data)
-        {
-            var array = data.Where(d => d.HasValue).Select(d => d.Value).ToArray();
-            Array.Sort(array);
-            return tau => SortedArrayStatistics.QuantileCustom(array, tau, QuantileDefinition.InverseCDF);
-        }
-
-        /// <summary>
-        /// stimates the tau-th quantile from the provided samples.
+        /// Estimates the tau-th quantile from the provided samples.
         /// The tau-th quantile is the data value where the cumulative distribution
         /// function crosses tau. The quantile definition can be specificed to be compatible
         /// with an existing system.
@@ -429,7 +385,7 @@ namespace MathNet.Numerics.Statistics
         }
 
         /// <summary>
-        /// stimates the tau-th quantile from the provided samples.
+        /// Estimates the tau-th quantile from the provided samples.
         /// The tau-th quantile is the data value where the cumulative distribution
         /// function crosses tau. The quantile definition can be specificed to be compatible
         /// with an existing system.
@@ -444,7 +400,7 @@ namespace MathNet.Numerics.Statistics
         }
 
         /// <summary>
-        /// stimates the tau-th quantile from the provided samples.
+        /// Estimates the tau-th quantile from the provided samples.
         /// The tau-th quantile is the data value where the cumulative distribution
         /// function crosses tau. The quantile definition can be specificed to be compatible
         /// with an existing system.
@@ -459,7 +415,7 @@ namespace MathNet.Numerics.Statistics
         }
 
         /// <summary>
-        /// stimates the tau-th quantile from the provided samples.
+        /// Estimates the tau-th quantile from the provided samples.
         /// The tau-th quantile is the data value where the cumulative distribution
         /// function crosses tau. The quantile definition can be specificed to be compatible
         /// with an existing system.
@@ -633,6 +589,176 @@ namespace MathNet.Numerics.Statistics
             var array = data.ToArray();
             Array.Sort(array);
             return order => SortedArrayStatistics.OrderStatistic(array, order);
+        }
+
+
+        /// <summary>
+        /// Evaluates the rank of each entry of the provided samples.
+        /// The rank definition can be specificed to be compatible
+        /// with an existing system.
+        /// </summary>
+        /// <param name="data">The data sample sequence.</param>
+        /// <param name="definition">Rank definition, to choose how ties should be handled and what product/definition it should be consistent with</param>
+        public static double[] Ranks(this IEnumerable<double> data, RankDefinition definition = RankDefinition.Default)
+        {
+            var array = data.ToArray();
+            return ArrayStatistics.RanksInplace(array, definition);
+        }
+
+        /// <summary>
+        /// Evaluates the rank of each entry of the provided samples.
+        /// The rank definition can be specificed to be compatible
+        /// with an existing system.
+        /// </summary>
+        /// <param name="data">The data sample sequence.</param>
+        /// <param name="definition">Rank definition, to choose how ties should be handled and what product/definition it should be consistent with</param>
+        public static double[] Ranks(this IEnumerable<double?> data, RankDefinition definition = RankDefinition.Default)
+        {
+            return Ranks(data.Where(d => d.HasValue).Select(d => d.Value), definition);
+        }
+
+
+        /// <summary>
+        /// Estimates the quantile tau from the provided samples.
+        /// The tau-th quantile is the data value where the cumulative distribution
+        /// function crosses tau. The quantile definition can be specificed to be compatible
+        /// with an existing system.
+        /// </summary>
+        /// <param name="data">The data sample sequence.</param>
+        /// <param name="x">Quantile value.</param>
+        /// <param name="definition">Rank definition, to choose how ties should be handled and what product/definition it should be consistent with</param>
+        public static double QuantileRank(this IEnumerable<double> data, double x, RankDefinition definition = RankDefinition.Default)
+        {
+            var array = data.ToArray();
+            Array.Sort(array);
+            return SortedArrayStatistics.QuantileRank(array, x, definition);
+        }
+
+        /// <summary>
+        /// Estimates the quantile tau from the provided samples.
+        /// The tau-th quantile is the data value where the cumulative distribution
+        /// function crosses tau. The quantile definition can be specificed to be compatible
+        /// with an existing system.
+        /// </summary>
+        /// <param name="data">The data sample sequence.</param>
+        /// <param name="x">Quantile value.</param>
+        /// <param name="definition">Rank definition, to choose how ties should be handled and what product/definition it should be consistent with</param>
+        public static double QuantileRank(this IEnumerable<double?> data, double x, RankDefinition definition = RankDefinition.Default)
+        {
+            return QuantileRank(data.Where(d => d.HasValue).Select(d => d.Value), x, definition);
+        }
+
+        /// <summary>
+        /// Estimates the quantile tau from the provided samples.
+        /// The tau-th quantile is the data value where the cumulative distribution
+        /// function crosses tau. The quantile definition can be specificed to be compatible
+        /// with an existing system.
+        /// </summary>
+        /// <param name="data">The data sample sequence.</param>
+        /// <param name="definition">Rank definition, to choose how ties should be handled and what product/definition it should be consistent with</param>
+        public static Func<double, double> QuantileRankFunc(this IEnumerable<double> data, RankDefinition definition = RankDefinition.Default)
+        {
+            var array = data.ToArray();
+            Array.Sort(array);
+            return x => SortedArrayStatistics.QuantileRank(array, x, definition);
+        }
+
+        /// <summary>
+        /// Estimates the quantile tau from the provided samples.
+        /// The tau-th quantile is the data value where the cumulative distribution
+        /// function crosses tau. The quantile definition can be specificed to be compatible
+        /// with an existing system.
+        /// </summary>
+        /// <param name="data">The data sample sequence.</param>
+        /// <param name="definition">Rank definition, to choose how ties should be handled and what product/definition it should be consistent with</param>
+        public static Func<double, double> QuantileRankFunc(this IEnumerable<double?> data, RankDefinition definition = RankDefinition.Default)
+        {
+            return QuantileRankFunc(data.Where(d => d.HasValue).Select(d => d.Value), definition);
+        }
+
+
+        /// <summary>
+        /// Estimates the empirical cummulative distribution function (CDF) at x from the provided samples.
+        /// </summary>
+        /// <param name="data">The data sample sequence.</param>
+        /// <param name="x">The value where to estimate the CDF at.</param>
+        public static double EmpiricalCDF(this IEnumerable<double> data, double x)
+        {
+            var array = data.ToArray();
+            Array.Sort(array);
+            return SortedArrayStatistics.EmpiricalCDF(array, x);
+        }
+
+        /// <summary>
+        /// Estimates the empirical cummulative distribution function (CDF) at x from the provided samples.
+        /// </summary>
+        /// <param name="data">The data sample sequence.</param>
+        /// <param name="x">The value where to estimate the CDF at.</param>
+        public static double EmpiricalCDF(this IEnumerable<double?> data, double x)
+        {
+            return EmpiricalCDF(data.Where(d => d.HasValue).Select(d => d.Value), x);
+        }
+
+        /// <summary>
+        /// Estimates the empirical cummulative distribution function (CDF) at x from the provided samples.
+        /// </summary>
+        /// <param name="data">The data sample sequence.</param>
+        public static Func<double, double> EmpiricalCDFFunc(this IEnumerable<double> data)
+        {
+            var array = data.ToArray();
+            Array.Sort(array);
+            return x => SortedArrayStatistics.EmpiricalCDF(array, x);
+        }
+
+        /// <summary>
+        /// Estimates the empirical cummulative distribution function (CDF) at x from the provided samples.
+        /// </summary>
+        /// <param name="data">The data sample sequence.</param>
+        public static Func<double, double> EmpiricalCDFFunc(this IEnumerable<double?> data)
+        {
+            return EmpiricalCDFFunc(data.Where(d => d.HasValue).Select(d => d.Value));
+        }
+
+
+        /// <summary>
+        /// Estimates the empirical inverse CDF at tau from the provided samples.
+        /// </summary>
+        /// <param name="data">The data sample sequence.</param>
+        /// <param name="tau">Quantile selector, between 0.0 and 1.0 (inclusive).</param>
+        public static double EmpiricalInvCDF(this IEnumerable<double> data, double tau)
+        {
+            var array = data.ToArray();
+            return ArrayStatistics.QuantileCustomInplace(array, tau, QuantileDefinition.EmpiricalInvCDF);
+        }
+
+        /// <summary>
+        /// Estimates the empirical inverse CDF at tau from the provided samples.
+        /// </summary>
+        /// <param name="data">The data sample sequence.</param>
+        /// <param name="tau">Quantile selector, between 0.0 and 1.0 (inclusive).</param>
+        public static double EmpiricalInvCDF(this IEnumerable<double?> data, double tau)
+        {
+            return EmpiricalInvCDF(data.Where(d => d.HasValue).Select(d => d.Value), tau);
+        }
+
+        /// <summary>
+        /// Estimates the empirical inverse CDF at tau from the provided samples.
+        /// </summary>
+        /// <param name="data">The data sample sequence.</param>
+        public static Func<double, double> EmpiricalInvCDFFunc(this IEnumerable<double> data)
+        {
+            var array = data.ToArray();
+            Array.Sort(array);
+            return tau => SortedArrayStatistics.QuantileCustom(array, tau, QuantileDefinition.EmpiricalInvCDF);
+        }
+
+        /// <summary>
+        /// Estimates the empirical inverse CDF at tau from the provided samples.
+        /// </summary>
+        /// <param name="data">The data sample sequence.</param>
+        public static Func<double, double> EmpiricalInvCDFFunc(this IEnumerable<double?> data)
+        {
+            return EmpiricalInvCDFFunc(data.Where(d => d.HasValue).Select(d => d.Value));
         }
     }
 }

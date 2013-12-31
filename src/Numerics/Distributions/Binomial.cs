@@ -31,20 +31,18 @@
 using System;
 using System.Collections.Generic;
 using MathNet.Numerics.Properties;
+using MathNet.Numerics.Random;
 
 namespace MathNet.Numerics.Distributions
 {
     /// <summary>
     /// Discrete Univariate Binomial distribution.
-    /// For details about this distribution, see 
+    /// For details about this distribution, see
     /// <a href="http://en.wikipedia.org/wiki/Binomial_distribution">Wikipedia - Binomial distribution</a>.
     /// </summary>
-    /// <remarks><para>The distribution is parameterized by a probability (between 0.0 and 1.0).</para>
-    /// <para>The distribution will use the <see cref="System.Random"/> by default. 
-    /// Users can set the random number generator by using the <see cref="RandomSource"/> property.</para>
-    /// <para>The statistics classes will check all the incoming parameters whether they are in the allowed
-    /// range. This might involve heavy computation. Optionally, by setting Control.CheckDistributionParameters
-    /// to <c>false</c>, all parameter checks can be turned off.</para></remarks>
+    /// <remarks>
+    /// The distribution is parameterized by a probability (between 0.0 and 1.0).
+    /// </remarks>
     public class Binomial : IDiscreteDistribution
     {
         System.Random _random;
@@ -61,7 +59,7 @@ namespace MathNet.Numerics.Distributions
         /// <exception cref="ArgumentOutOfRangeException">If <paramref name="n"/> is negative.</exception>
         public Binomial(double p, int n)
         {
-            _random = new System.Random(Random.RandomSeed.Guid());
+            _random = SystemRandomSource.Default;
             SetParameters(p, n);
         }
 
@@ -75,7 +73,7 @@ namespace MathNet.Numerics.Distributions
         /// <exception cref="ArgumentOutOfRangeException">If <paramref name="n"/> is negative.</exception>
         public Binomial(double p, int n, System.Random randomSource)
         {
-            _random = randomSource ?? new System.Random(Random.RandomSeed.Guid());
+            _random = randomSource ?? SystemRandomSource.Default;
             SetParameters(p, n);
         }
 
@@ -89,7 +87,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Checks whether the parameters of the distribution are valid. 
+        /// Checks whether the parameters of the distribution are valid.
         /// </summary>
         /// <param name="p">The success probability (p) in each trial. Range: 0 ≤ p ≤ 1.</param>
         /// <param name="n">The number of trials (n). Range: n ≥ 0.</param>
@@ -141,7 +139,7 @@ namespace MathNet.Numerics.Distributions
         public System.Random RandomSource
         {
             get { return _random; }
-            set { _random = value ?? new System.Random(Random.RandomSeed.Guid()); }
+            set { _random = value ?? SystemRandomSource.Default; }
         }
 
         /// <summary>

@@ -31,19 +31,15 @@
 using System;
 using System.Collections.Generic;
 using MathNet.Numerics.Properties;
+using MathNet.Numerics.Random;
 
 namespace MathNet.Numerics.Distributions
 {
     /// <summary>
     /// Continuous Univariate Cauchy distribution.
-    /// The Cauchy distribution is a symmetric continuous probability distribution. For details about this distribution, see 
+    /// The Cauchy distribution is a symmetric continuous probability distribution. For details about this distribution, see
     /// <a href="http://en.wikipedia.org/wiki/Cauchy_distribution">Wikipedia - Cauchy distribution</a>.
     /// </summary>
-    /// <remarks><para>The distribution will use the <see cref="System.Random"/> by default. 
-    /// Users can get/set the random number generator by using the <see cref="RandomSource"/> property.</para>
-    /// <para>The statistics classes will check all the incoming parameters whether they are in the allowed
-    /// range. This might involve heavy computation. Optionally, by setting Control.CheckDistributionParameters
-    /// to <c>false</c>, all parameter checks can be turned off.</para></remarks>
     public class Cauchy : IContinuousDistribution
     {
         System.Random _random;
@@ -59,25 +55,25 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Cauchy"/> class. 
+        /// Initializes a new instance of the <see cref="Cauchy"/> class.
         /// </summary>
         /// <param name="location">The location (x0) of the distribution.</param>
         /// <param name="scale">The scale (γ) of the distribution. Range: γ > 0.</param>
         public Cauchy(double location, double scale)
         {
-            _random = new System.Random(Random.RandomSeed.Guid());
+            _random = SystemRandomSource.Default;
             SetParameters(location, scale);
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Cauchy"/> class. 
+        /// Initializes a new instance of the <see cref="Cauchy"/> class.
         /// </summary>
         /// <param name="location">The location (x0) of the distribution.</param>
         /// <param name="scale">The scale (γ) of the distribution. Range: γ > 0.</param>
         /// <param name="randomSource">The random number generator which is used to draw random samples.</param>
         public Cauchy(double location, double scale, System.Random randomSource)
         {
-            _random = randomSource ?? new System.Random(Random.RandomSeed.Guid());
+            _random = randomSource ?? SystemRandomSource.Default;
             SetParameters(location, scale);
         }
 
@@ -131,7 +127,7 @@ namespace MathNet.Numerics.Distributions
         public System.Random RandomSource
         {
             get { return _random; }
-            set { _random = value ?? new System.Random(Random.RandomSeed.Guid()); }
+            set { _random = value ?? SystemRandomSource.Default; }
         }
 
         /// <summary>

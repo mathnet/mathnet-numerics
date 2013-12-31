@@ -190,36 +190,43 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         }
 
         /// <summary>
-        /// Adds another matrix to this matrix.
+        /// Negate each element of this matrix and place the results into the result matrix.
         /// </summary>
-        /// <param name="other">The matrix to add to this matrix.</param>
-        /// <returns>The result of the addition.</returns>
-        /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null"/>.</exception>
-        /// <exception cref="ArgumentOutOfRangeException">If the two matrices don't have the same dimensions.</exception>
-        public override Matrix<Complex32> Add(Matrix<Complex32> other)
+        /// <param name="result">The result of the negation.</param>
+        protected override void DoNegate(Matrix<Complex32> result)
         {
-            if (other == null)
+            var diagResult = result as DiagonalMatrix;
+            if (diagResult != null)
             {
-                throw new ArgumentNullException("other");
+                Control.LinearAlgebraProvider.ScaleArray(-1, _data, diagResult._data);
+                return;
             }
 
-            if (other.RowCount != RowCount || other.ColumnCount != ColumnCount)
+            result.Clear();
+            for (var i = 0; i < _data.Length; i++)
             {
-                throw DimensionsDontMatch<ArgumentOutOfRangeException>(this, other, "other");
+                result.At(i, i, -_data[i]);
+            }
+        }
+
+        /// <summary>
+        /// Complex conjugates each element of this matrix and place the results into the result matrix.
+        /// </summary>
+        /// <param name="result">The result of the conjugation.</param>
+        protected override void DoConjugate(Matrix<Complex32> result)
+        {
+            var diagResult = result as DiagonalMatrix;
+            if (diagResult != null)
+            {
+                Control.LinearAlgebraProvider.ConjugateArray(_data, diagResult._data);
+                return;
             }
 
-            Matrix<Complex32> result;
-            if (other is DiagonalMatrix)
+            result.Clear();
+            for (var i = 0; i < _data.Length; i++)
             {
-                result = new DiagonalMatrix(RowCount, ColumnCount);
+                result.At(i, i, _data[i].Conjugate());
             }
-            else
-            {
-                result = new DenseMatrix(RowCount, ColumnCount);
-            }
-
-            Add(other, result);
-            return result;
         }
 
         /// <summary>
@@ -227,54 +234,23 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// </summary>
         /// <param name="other">The matrix to add to this matrix.</param>
         /// <param name="result">The matrix to store the result of the addition.</param>
-        /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null"/>.</exception>
         /// <exception cref="ArgumentOutOfRangeException">If the two matrices don't have the same dimensions.</exception>
         protected override void DoAdd(Matrix<Complex32> other, Matrix<Complex32> result)
         {
+            // diagonal + diagonal = diagonal
             var diagOther = other as DiagonalMatrix;
             var diagResult = result as DiagonalMatrix;
-
-            if (diagOther == null || diagResult == null)
-            {
-                base.DoAdd(other, result);
-            }
-            else
+            if (diagOther != null && diagResult != null)
             {
                 Control.LinearAlgebraProvider.AddArrays(_data, diagOther._data, diagResult._data);
-            }
-        }
-
-        /// <summary>
-        /// Subtracts another matrix from this matrix.
-        /// </summary>
-        /// <param name="other">The matrix to subtract.</param>
-        /// <returns>The result of the subtraction.</returns>
-        /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null"/>.</exception>
-        /// <exception cref="ArgumentOutOfRangeException">If the two matrices don't have the same dimensions.</exception>
-        public override Matrix<Complex32> Subtract(Matrix<Complex32> other)
-        {
-            if (other == null)
-            {
-                throw new ArgumentNullException("other");
+                return;
             }
 
-            if (other.RowCount != RowCount || other.ColumnCount != ColumnCount)
+            other.CopyTo(result);
+            for (int i = 0; i < _data.Length; i++)
             {
-                throw DimensionsDontMatch<ArgumentOutOfRangeException>(this, other, "other");
+                result.At(i, i, result.At(i, i) + _data[i]);
             }
-
-            Matrix<Complex32> result;
-            if (other is DiagonalMatrix)
-            {
-                result = new DiagonalMatrix(RowCount, ColumnCount);
-            }
-            else
-            {
-                result = new DenseMatrix(RowCount, ColumnCount);
-            }
-
-            Subtract(other, result);
-            return result;
         }
 
         /// <summary>
@@ -282,20 +258,22 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// </summary>
         /// <param name="other">The matrix to subtract.</param>
         /// <param name="result">The matrix to store the result of the subtraction.</param>
-        /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null"/>.</exception>
         /// <exception cref="ArgumentOutOfRangeException">If the two matrices don't have the same dimensions.</exception>
         protected override void DoSubtract(Matrix<Complex32> other, Matrix<Complex32> result)
         {
+            // diagonal - diagonal = diagonal
             var diagOther = other as DiagonalMatrix;
             var diagResult = result as DiagonalMatrix;
-
-            if (diagOther == null || diagResult == null)
-            {
-                base.DoSubtract(other, result);
-            }
-            else
+            if (diagOther != null && diagResult != null)
             {
                 Control.LinearAlgebraProvider.SubtractArrays(_data, diagOther._data, diagResult._data);
+                return;
+            }
+
+            other.Negate(result);
+            for (int i = 0; i < _data.Length; i++)
+            {
+                result.At(i, i, result.At(i, i) + _data[i]);
             }
         }
 
@@ -304,18 +282,12 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// </summary>
         /// <param name="source">The array to copy the values from. The length of the vector should be
         /// Min(Rows, Columns).</param>
-        /// <exception cref="ArgumentNullException">If <paramref name="source"/> is <see langword="null" />.</exception>
         /// <exception cref="ArgumentException">If the length of <paramref name="source"/> does not
         /// equal Min(Rows, Columns).</exception>
         /// <remarks>For non-square matrices, the elements of <paramref name="source"/> are copied to
         /// this[i,i].</remarks>
         public override void SetDiagonal(Complex32[] source)
         {
-            if (source == null)
-            {
-                throw new ArgumentNullException("source");
-            }
-
             if (source.Length != _data.Length)
             {
                 throw new ArgumentException(Resources.ArgumentArraysSameLength, "source");
@@ -329,7 +301,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// </summary>
         /// <param name="source">The vector to copy the values from. The length of the vector should be
         /// Min(Rows, Columns).</param>
-        /// <exception cref="ArgumentNullException">If <paramref name="source"/> is <see langword="null" />.</exception>
         /// <exception cref="ArgumentException">If the length of <paramref name="source"/> does not
         /// equal Min(Rows, Columns).</exception>
         /// <remarks>For non-square matrices, the elements of <paramref name="source"/> are copied to
@@ -356,8 +327,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// </summary>
         /// <param name="scalar">The scalar to multiply the matrix with.</param>
         /// <param name="result">The matrix to store the result of the multiplication.</param>
-        /// <exception cref="ArgumentNullException">If the result matrix is <see langword="null" />.</exception>
-        /// <exception cref="ArgumentException">If the result matrix's dimensions are not the same as this matrix.</exception>
         protected override void DoMultiply(Complex32 scalar, Matrix<Complex32> result)
         {
             if (scalar.IsZero())
@@ -389,175 +358,326 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         }
 
         /// <summary>
+        /// Multiplies this matrix with a vector and places the results into the result vector.
+        /// </summary>
+        /// <param name="rightSide">The vector to multiply with.</param>
+        /// <param name="result">The result of the multiplication.</param>
+        protected override void DoMultiply(Vector<Complex32> rightSide, Vector<Complex32> result)
+        {
+            var d = Math.Min(ColumnCount, RowCount);
+            if (d < RowCount)
+            {
+                result.ClearSubVector(ColumnCount, RowCount - ColumnCount);
+            }
+
+            if (d == ColumnCount)
+            {
+                var denseOther = rightSide.Storage as DenseVectorStorage<Complex32>;
+                var denseResult = result.Storage as DenseVectorStorage<Complex32>;
+                if (denseOther != null && denseResult != null)
+                {
+                    Control.LinearAlgebraProvider.PointWiseMultiplyArrays(_data, denseOther.Data, denseResult.Data);
+                    return;
+                }
+            }
+
+            for (var i = 0; i < d; i++)
+            {
+                result.At(i, _data[i]*rightSide.At(i));
+            }
+        }
+
+        /// <summary>
         /// Multiplies this matrix with another matrix and places the results into the result matrix.
         /// </summary>
         /// <param name="other">The matrix to multiply with.</param>
         /// <param name="result">The result of the multiplication.</param>
-        /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null" />.</exception>
-        /// <exception cref="ArgumentNullException">If the result matrix is <see langword="null" />.</exception>
-        /// <exception cref="ArgumentException">If <strong>this.Columns != other.Rows</strong>.</exception>
-        /// <exception cref="ArgumentException">If the result matrix's dimensions are not the this.Rows x other.Columns.</exception>
-        public override void Multiply(Matrix<Complex32> other, Matrix<Complex32> result)
+        protected override void DoMultiply(Matrix<Complex32> other, Matrix<Complex32> result)
         {
-            if (other == null)
+            var diagonalOther = other as DiagonalMatrix;
+            var diagonalResult = result as DiagonalMatrix;
+            if (diagonalOther != null && diagonalResult != null)
             {
-                throw new ArgumentNullException("other");
+                var thisDataCopy = new Complex32[diagonalResult._data.Length];
+                var otherDataCopy = new Complex32[diagonalResult._data.Length];
+                Array.Copy(_data, thisDataCopy, (diagonalResult._data.Length > _data.Length) ? _data.Length : diagonalResult._data.Length);
+                Array.Copy(diagonalOther._data, otherDataCopy, (diagonalResult._data.Length > diagonalOther._data.Length) ? diagonalOther._data.Length : diagonalResult._data.Length);
+                Control.LinearAlgebraProvider.PointWiseMultiplyArrays(thisDataCopy, otherDataCopy, diagonalResult._data);
+                return;
             }
 
-            if (result == null)
+            var denseOther = other.Storage as DenseColumnMajorMatrixStorage<Complex32>;
+            if (denseOther != null)
             {
-                throw new ArgumentNullException("result");
+                var dense = denseOther.Data;
+                var diagonal = _data;
+                var d = Math.Min(denseOther.RowCount, RowCount);
+                if (d < RowCount)
+                {
+                    result.ClearSubMatrix(denseOther.RowCount, RowCount - denseOther.RowCount, 0, denseOther.ColumnCount);
+                }
+                int index = 0;
+                for (int i = 0; i < denseOther.ColumnCount; i++)
+                {
+                    for (int j = 0; j < d; j++)
+                    {
+                        result.At(j, i, dense[index]*diagonal[j]);
+                        index++;
+                    }
+                    index += (denseOther.RowCount - d);
+                }
+                return;
             }
 
-            if (ColumnCount != other.RowCount)
-            {
-                throw DimensionsDontMatch<ArgumentException>(this, other);
-            }
-
-            if (result.RowCount != RowCount || result.ColumnCount != other.ColumnCount)
-            {
-                throw DimensionsDontMatch<ArgumentException>(this, other);
-            }
-
-            var m = other as DiagonalMatrix;
-            var r = result as DiagonalMatrix;
-
-            if (m == null || r == null)
-            {
-                base.Multiply(other, result);
-            }
-            else
-            {
-                var thisDataCopy = new Complex32[r._data.Length];
-                var otherDataCopy = new Complex32[r._data.Length];
-                Array.Copy(_data, thisDataCopy, (r._data.Length > _data.Length) ? _data.Length : r._data.Length);
-                Array.Copy(m._data, otherDataCopy, (r._data.Length > m._data.Length) ? m._data.Length : r._data.Length);
-
-                Control.LinearAlgebraProvider.PointWiseMultiplyArrays(thisDataCopy, otherDataCopy, r._data);
-            }
+            base.DoMultiply(other, result);
         }
 
         /// <summary>
-        /// Multiplies this matrix with another matrix and returns the result.
+        /// Multiplies this matrix with transpose of another matrix and places the results into the result matrix.
         /// </summary>
         /// <param name="other">The matrix to multiply with.</param>
-        /// <exception cref="ArgumentException">If <strong>this.Columns != other.Rows</strong>.</exception>
-        /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null" />.</exception>
-        /// <returns>The result of multiplication.</returns>
-        public override Matrix<Complex32> Multiply(Matrix<Complex32> other)
+        /// <param name="result">The result of the multiplication.</param>
+        protected override void DoTransposeAndMultiply(Matrix<Complex32> other, Matrix<Complex32> result)
         {
-            if (other == null)
+            var diagonalOther = other as DiagonalMatrix;
+            var diagonalResult = result as DiagonalMatrix;
+            if (diagonalOther != null && diagonalResult != null)
             {
-                throw new ArgumentNullException("other");
+                var thisDataCopy = new Complex32[diagonalResult._data.Length];
+                var otherDataCopy = new Complex32[diagonalResult._data.Length];
+                Array.Copy(_data, thisDataCopy, (diagonalResult._data.Length > _data.Length) ? _data.Length : diagonalResult._data.Length);
+                Array.Copy(diagonalOther._data, otherDataCopy, (diagonalResult._data.Length > diagonalOther._data.Length) ? diagonalOther._data.Length : diagonalResult._data.Length);
+                Control.LinearAlgebraProvider.PointWiseMultiplyArrays(thisDataCopy, otherDataCopy, diagonalResult._data);
+                return;
             }
 
-            if (ColumnCount != other.RowCount)
+            var denseOther = other.Storage as DenseColumnMajorMatrixStorage<Complex32>;
+            if (denseOther != null)
             {
-                throw DimensionsDontMatch<ArgumentException>(this, other);
+                var dense = denseOther.Data;
+                var diagonal = _data;
+                var d = Math.Min(denseOther.ColumnCount, RowCount);
+                if (d < RowCount)
+                {
+                    result.ClearSubMatrix(denseOther.ColumnCount, RowCount - denseOther.ColumnCount, 0, denseOther.RowCount);
+                }
+                int index = 0;
+                for (int j = 0; j < d; j++)
+                {
+                    for (int i = 0; i < denseOther.RowCount; i++)
+                    {
+                        result.At(j, i, dense[index]*diagonal[j]);
+                        index++;
+                    }
+                }
+                return;
             }
 
-            var result = other.CreateMatrix(RowCount, other.ColumnCount);
-            Multiply(other, result);
-            return result;
+            base.DoTransposeAndMultiply(other, result);
         }
 
         /// <summary>
-        /// Multiplies this matrix with a vector and places the results into the result matrix.
+        /// Multiplies this matrix with the conjugate transpose of another matrix and places the results into the result matrix.
+        /// </summary>
+        /// <param name="other">The matrix to multiply with.</param>
+        /// <param name="result">The result of the multiplication.</param>
+        protected override void DoConjugateTransposeAndMultiply(Matrix<Complex32> other, Matrix<Complex32> result)
+        {
+            var diagonalOther = other as DiagonalMatrix;
+            var diagonalResult = result as DiagonalMatrix;
+            if (diagonalOther != null && diagonalResult != null)
+            {
+                var thisDataCopy = new Complex32[diagonalResult._data.Length];
+                var otherDataCopy = new Complex32[diagonalResult._data.Length];
+                Array.Copy(_data, thisDataCopy, (diagonalResult._data.Length > _data.Length) ? _data.Length : diagonalResult._data.Length);
+                Array.Copy(diagonalOther._data, otherDataCopy, (diagonalResult._data.Length > diagonalOther._data.Length) ? diagonalOther._data.Length : diagonalResult._data.Length);
+                // TODO: merge/MulByConj
+                Control.LinearAlgebraProvider.ConjugateArray(otherDataCopy, otherDataCopy);
+                Control.LinearAlgebraProvider.PointWiseMultiplyArrays(thisDataCopy, otherDataCopy, diagonalResult._data);
+                return;
+            }
+
+            var denseOther = other.Storage as DenseColumnMajorMatrixStorage<Complex32>;
+            if (denseOther != null)
+            {
+                var dense = denseOther.Data;
+                var diagonal = _data;
+                var d = Math.Min(denseOther.ColumnCount, RowCount);
+                if (d < RowCount)
+                {
+                    result.ClearSubMatrix(denseOther.ColumnCount, RowCount - denseOther.ColumnCount, 0, denseOther.RowCount);
+                }
+                int index = 0;
+                for (int j = 0; j < d; j++)
+                {
+                    for (int i = 0; i < denseOther.RowCount; i++)
+                    {
+                        result.At(j, i, dense[index].Conjugate()*diagonal[j]);
+                        index++;
+                    }
+                }
+                return;
+            }
+
+            base.DoConjugateTransposeAndMultiply(other, result);
+        }
+
+        /// <summary>
+        /// Multiplies the transpose of this matrix with another matrix and places the results into the result matrix.
+        /// </summary>
+        /// <param name="other">The matrix to multiply with.</param>
+        /// <param name="result">The result of the multiplication.</param>
+        protected override void DoTransposeThisAndMultiply(Matrix<Complex32> other, Matrix<Complex32> result)
+        {
+            var diagonalOther = other as DiagonalMatrix;
+            var diagonalResult = result as DiagonalMatrix;
+            if (diagonalOther != null && diagonalResult != null)
+            {
+                var thisDataCopy = new Complex32[diagonalResult._data.Length];
+                var otherDataCopy = new Complex32[diagonalResult._data.Length];
+                Array.Copy(_data, thisDataCopy, (diagonalResult._data.Length > _data.Length) ? _data.Length : diagonalResult._data.Length);
+                Array.Copy(diagonalOther._data, otherDataCopy, (diagonalResult._data.Length > diagonalOther._data.Length) ? diagonalOther._data.Length : diagonalResult._data.Length);
+                Control.LinearAlgebraProvider.PointWiseMultiplyArrays(thisDataCopy, otherDataCopy, diagonalResult._data);
+                return;
+            }
+
+            var denseOther = other.Storage as DenseColumnMajorMatrixStorage<Complex32>;
+            if (denseOther != null)
+            {
+                var dense = denseOther.Data;
+                var diagonal = _data;
+                var d = Math.Min(denseOther.RowCount, ColumnCount);
+                if (d < ColumnCount)
+                {
+                    result.ClearSubMatrix(denseOther.RowCount, ColumnCount - denseOther.RowCount, 0, denseOther.ColumnCount);
+                }
+                int index = 0;
+                for (int i = 0; i < denseOther.ColumnCount; i++)
+                {
+                    for (int j = 0; j < d; j++)
+                    {
+                        result.At(j, i, dense[index]*diagonal[j]);
+                        index++;
+                    }
+                    index += (denseOther.RowCount - d);
+                }
+                return;
+            }
+
+            base.DoTransposeThisAndMultiply(other, result);
+        }
+
+        /// <summary>
+        /// Multiplies the transpose of this matrix with another matrix and places the results into the result matrix.
+        /// </summary>
+        /// <param name="other">The matrix to multiply with.</param>
+        /// <param name="result">The result of the multiplication.</param>
+        protected override void DoConjugateTransposeThisAndMultiply(Matrix<Complex32> other, Matrix<Complex32> result)
+        {
+            var diagonalOther = other as DiagonalMatrix;
+            var diagonalResult = result as DiagonalMatrix;
+            if (diagonalOther != null && diagonalResult != null)
+            {
+                var thisDataCopy = new Complex32[diagonalResult._data.Length];
+                var otherDataCopy = new Complex32[diagonalResult._data.Length];
+                Array.Copy(_data, thisDataCopy, (diagonalResult._data.Length > _data.Length) ? _data.Length : diagonalResult._data.Length);
+                Array.Copy(diagonalOther._data, otherDataCopy, (diagonalResult._data.Length > diagonalOther._data.Length) ? diagonalOther._data.Length : diagonalResult._data.Length);
+                // TODO: merge/MulByConj
+                Control.LinearAlgebraProvider.ConjugateArray(thisDataCopy, thisDataCopy);
+                Control.LinearAlgebraProvider.PointWiseMultiplyArrays(thisDataCopy, otherDataCopy, diagonalResult._data);
+                return;
+            }
+
+            var denseOther = other.Storage as DenseColumnMajorMatrixStorage<Complex32>;
+            if (denseOther != null)
+            {
+                var dense = denseOther.Data;
+                var conjugateDiagonal = new Complex32[_data.Length];
+                for (int i = 0; i < _data.Length; i++)
+                {
+                    conjugateDiagonal[i] = _data[i].Conjugate();
+                }
+
+                var d = Math.Min(denseOther.RowCount, ColumnCount);
+                if (d < ColumnCount)
+                {
+                    result.ClearSubMatrix(denseOther.RowCount, ColumnCount - denseOther.RowCount, 0, denseOther.ColumnCount);
+                }
+                int index = 0;
+                for (int i = 0; i < denseOther.ColumnCount; i++)
+                {
+                    for (int j = 0; j < d; j++)
+                    {
+                        result.At(j, i, dense[index]*conjugateDiagonal[j]);
+                        index++;
+                    }
+                    index += (denseOther.RowCount - d);
+                }
+                return;
+            }
+
+            base.DoConjugateTransposeThisAndMultiply(other, result);
+        }
+
+        /// <summary>
+        /// Multiplies the transpose of this matrix with a vector and places the results into the result vector.
         /// </summary>
         /// <param name="rightSide">The vector to multiply with.</param>
         /// <param name="result">The result of the multiplication.</param>
-        /// <exception cref="ArgumentNullException">If <paramref name="rightSide"/> is <see langword="null" />.</exception>
-        /// <exception cref="ArgumentNullException">If <paramref name="result"/> is <see langword="null" />.</exception>
-        /// <exception cref="ArgumentException">If <strong>result.Count != this.RowCount</strong>.</exception>
-        /// <exception cref="ArgumentException">If <strong>this.ColumnCount != <paramref name="rightSide"/>.Count</strong>.</exception>
-        public override void Multiply(Vector<Complex32> rightSide, Vector<Complex32> result)
+        protected override void DoTransposeThisAndMultiply(Vector<Complex32> rightSide, Vector<Complex32> result)
         {
-            if (rightSide == null)
+            var d = Math.Min(ColumnCount, RowCount);
+            if (d < ColumnCount)
             {
-                throw new ArgumentNullException("rightSide");
+                result.ClearSubVector(RowCount, ColumnCount - RowCount);
             }
 
-            if (ColumnCount != rightSide.Count)
+            if (d == RowCount)
             {
-                throw DimensionsDontMatch<ArgumentException>(this, rightSide, "rightSide");
-            }
-
-            if (result == null)
-            {
-                throw new ArgumentNullException("result");
-            }
-
-            if (RowCount != result.Count)
-            {
-                throw DimensionsDontMatch<ArgumentException>(this, result, "result");
-            }
-
-            if (ReferenceEquals(rightSide, result))
-            {
-                var tmp = result.CreateVector(result.Count);
-                Multiply(rightSide, tmp);
-                tmp.CopyTo(result);
-            }
-            else
-            {
-                // Clear the result vector
-                result.Clear();
-
-                // Multiply the elements in the vector with the corresponding diagonal element in this.
-                for (var r = 0; r < _data.Length; r++)
+                var denseOther = rightSide.Storage as DenseVectorStorage<Complex32>;
+                var denseResult = result.Storage as DenseVectorStorage<Complex32>;
+                if (denseOther != null && denseResult != null)
                 {
-                    result[r] = _data[r] * rightSide[r];
+                    Control.LinearAlgebraProvider.PointWiseMultiplyArrays(_data, denseOther.Data, denseResult.Data);
+                    return;
                 }
+            }
+
+            for (var i = 0; i < d; i++)
+            {
+                result.At(i, _data[i]*rightSide.At(i));
             }
         }
 
         /// <summary>
-        /// Left multiply a matrix with a vector ( = vector * matrix ) and place the result in the result vector.
+        /// Multiplies the conjugate transpose of this matrix with a vector and places the results into the result vector.
         /// </summary>
-        /// <param name="leftSide">The vector to multiply with.</param>
+        /// <param name="rightSide">The vector to multiply with.</param>
         /// <param name="result">The result of the multiplication.</param>
-        /// <exception cref="ArgumentNullException">If <paramref name="leftSide"/> is <see langword="null" />.</exception>
-        /// <exception cref="ArgumentNullException">If the result matrix is <see langword="null" />.</exception>
-        /// <exception cref="ArgumentException">If <strong>result.Count != this.ColumnCount</strong>.</exception>
-        /// <exception cref="ArgumentException">If <strong>this.RowCount != <paramref name="leftSide"/>.Count</strong>.</exception>
-        public override void LeftMultiply(Vector<Complex32> leftSide, Vector<Complex32> result)
+        protected override void DoConjugateTransposeThisAndMultiply(Vector<Complex32> rightSide, Vector<Complex32> result)
         {
-            if (leftSide == null)
+            var d = Math.Min(ColumnCount, RowCount);
+            if (d < ColumnCount)
             {
-                throw new ArgumentNullException("leftSide");
+                result.ClearSubVector(RowCount, ColumnCount - RowCount);
             }
 
-            if (RowCount != leftSide.Count)
+            if (d == RowCount)
             {
-                throw DimensionsDontMatch<ArgumentException>(this, leftSide, "leftSide");
-            }
-
-            if (result == null)
-            {
-                throw new ArgumentNullException("result");
-            }
-
-            if (ColumnCount != result.Count)
-            {
-                throw DimensionsDontMatch<ArgumentException>(this, result, "result");
-            }
-
-            if (ReferenceEquals(leftSide, result))
-            {
-                var tmp = result.CreateVector(result.Count);
-                LeftMultiply(leftSide, tmp);
-                tmp.CopyTo(result);
-            }
-            else
-            {
-                // Clear the result vector
-                result.Clear();
-
-                // Multiply the elements in the vector with the corresponding diagonal element in this.
-                for (var r = 0; r < _data.Length; r++)
+                var denseOther = rightSide.Storage as DenseVectorStorage<Complex32>;
+                var denseResult = result.Storage as DenseVectorStorage<Complex32>;
+                if (denseOther != null && denseResult != null)
                 {
-                    result[r] = _data[r] * leftSide[r];
+                    // TODO: merge/MulByConj
+                    Control.LinearAlgebraProvider.ConjugateArray(_data, denseResult.Data);
+                    Control.LinearAlgebraProvider.PointWiseMultiplyArrays(denseResult.Data, denseOther.Data, denseResult.Data);
+                    return;
                 }
+            }
+
+            for (var i = 0; i < d; i++)
+            {
+                result.At(i, _data[i].Conjugate()*rightSide.At(i));
             }
         }
 
@@ -583,57 +703,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// i == j (i is the row index, and j is the column index).</remarks>
         public override Vector<Complex32> Diagonal()
         {
-            // TODO: Should we return reference to array? In current implementation we return copy of array, so changes in DenseVector will
-            // not influence onto diagonal elements
-            return new DenseVector((Complex32[])_data.Clone());
-        }
-
-        /// <summary>
-        /// Multiplies this matrix with transpose of another matrix and places the results into the result matrix.
-        /// </summary>
-        /// <param name="other">The matrix to multiply with.</param>
-        /// <param name="result">The result of the multiplication.</param>
-        /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null" />.</exception>
-        /// <exception cref="ArgumentNullException">If the result matrix is <see langword="null" />.</exception>
-        /// <exception cref="ArgumentException">If <strong>this.Columns != other.Rows</strong>.</exception>
-        /// <exception cref="ArgumentException">If the result matrix's dimensions are not the this.Rows x other.Columns.</exception>
-        public override void TransposeAndMultiply(Matrix<Complex32> other, Matrix<Complex32> result)
-        {
-            var otherDiagonal = other as DiagonalMatrix;
-            var resultDiagonal = result as DiagonalMatrix;
-
-            if (otherDiagonal == null || resultDiagonal == null)
-            {
-                base.TransposeAndMultiply(other, result);
-                return;
-            }
-
-            Multiply(otherDiagonal.Transpose(), result);
-        }
-
-        /// <summary>
-        /// Multiplies this matrix with transpose of another matrix and returns the result.
-        /// </summary>
-        /// <param name="other">The matrix to multiply with.</param>
-        /// <exception cref="ArgumentException">If <strong>this.Columns != other.Rows</strong>.</exception>
-        /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null" />.</exception>
-        /// <returns>The result of multiplication.</returns>
-        public override Matrix<Complex32> TransposeAndMultiply(Matrix<Complex32> other)
-        {
-            var otherDiagonal = other as DiagonalMatrix;
-            if (otherDiagonal == null)
-            {
-                return base.TransposeAndMultiply(other);
-            }
-
-            if (ColumnCount != otherDiagonal.ColumnCount)
-            {
-                throw DimensionsDontMatch<ArgumentException>(this, otherDiagonal);
-            }
-
-            var result = other.CreateMatrix(RowCount, other.RowCount);
-            TransposeAndMultiply(other, result);
-            return result;
+            return new DenseVector(_data).Clone();
         }
 
         /// <summary>
@@ -730,15 +800,9 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// Puts the lower triangle of this matrix into the result matrix.
         /// </summary>
         /// <param name="result">Where to store the lower triangle.</param>
-        /// <exception cref="ArgumentNullException">If <paramref name="result"/> is <see langword="null" />.</exception>
         /// <exception cref="ArgumentException">If the result matrix's dimensions are not the same as this matrix.</exception>
         public override void LowerTriangle(Matrix<Complex32> result)
         {
-            if (result == null)
-            {
-                throw new ArgumentNullException("result");
-            }
-
             if (result.RowCount != RowCount || result.ColumnCount != ColumnCount)
             {
                 throw DimensionsDontMatch<ArgumentException>(this, result, "result");
@@ -770,15 +834,9 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// Puts the strictly lower triangle of this matrix into the result matrix.
         /// </summary>
         /// <param name="result">Where to store the lower triangle.</param>
-        /// <exception cref="ArgumentNullException">If <paramref name="result"/> is <see langword="null" />.</exception>
         /// <exception cref="ArgumentException">If the result matrix's dimensions are not the same as this matrix.</exception>
         public override void StrictlyLowerTriangle(Matrix<Complex32> result)
         {
-            if (result == null)
-            {
-                throw new ArgumentNullException("result");
-            }
-
             if (result.RowCount != RowCount || result.ColumnCount != ColumnCount)
             {
                 throw DimensionsDontMatch<ArgumentException>(this, result, "result");
@@ -800,15 +858,9 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// Puts the upper triangle of this matrix into the result matrix.
         /// </summary>
         /// <param name="result">Where to store the lower triangle.</param>
-        /// <exception cref="ArgumentNullException">If <paramref name="result"/> is <see langword="null" />.</exception>
         /// <exception cref="ArgumentException">If the result matrix's dimensions are not the same as this matrix.</exception>
         public override void UpperTriangle(Matrix<Complex32> result)
         {
-            if (result == null)
-            {
-                throw new ArgumentNullException("result");
-            }
-
             if (result.RowCount != RowCount || result.ColumnCount != ColumnCount)
             {
                 throw DimensionsDontMatch<ArgumentException>(this, result, "result");
@@ -835,15 +887,9 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// Puts the strictly upper triangle of this matrix into the result matrix.
         /// </summary>
         /// <param name="result">Where to store the lower triangle.</param>
-        /// <exception cref="ArgumentNullException">If <paramref name="result"/> is <see langword="null" />.</exception>
         /// <exception cref="ArgumentException">If the result matrix's dimensions are not the same as this matrix.</exception>
         public override void StrictlyUpperTriangle(Matrix<Complex32> result)
         {
-            if (result == null)
-            {
-                throw new ArgumentNullException("result");
-            }
-
             if (result.RowCount != RowCount || result.ColumnCount != ColumnCount)
             {
                 throw DimensionsDontMatch<ArgumentException>(this, result, "result");
@@ -884,16 +930,10 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// <param name="columnIndex">The index of where to insert the column.</param>
         /// <param name="column">The column to insert.</param>
         /// <returns>A new <see cref="SparseMatrix"/> with the inserted column.</returns>
-        /// <exception cref="ArgumentNullException">If <paramref name="column "/> is <see langword="null" />. </exception>
         /// <exception cref="ArgumentOutOfRangeException">If <paramref name="columnIndex"/> is &lt; zero or &gt; the number of columns.</exception>
         /// <exception cref="ArgumentException">If the size of <paramref name="column"/> != the number of rows.</exception>
         public override Matrix<Complex32> InsertColumn(int columnIndex, Vector<Complex32> column)
         {
-            if (column == null)
-            {
-                throw new ArgumentNullException("column");
-            }
-
             if (columnIndex < 0 || columnIndex > ColumnCount)
             {
                 throw new ArgumentOutOfRangeException("columnIndex");
@@ -927,16 +967,10 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// <param name="rowIndex">The index of where to insert the row.</param>
         /// <param name="row">The row to insert.</param>
         /// <returns>A new  <see cref="SparseMatrix"/> with the inserted column.</returns>
-        /// <exception cref="ArgumentNullException">If <paramref name="row"/> is <see langword="null" />. </exception>
         /// <exception cref="ArgumentOutOfRangeException">If <paramref name="rowIndex"/> is &lt; zero or &gt; the number of rows.</exception>
         /// <exception cref="ArgumentException">If the size of <paramref name="row"/> != the number of columns.</exception>
         public override Matrix<Complex32> InsertRow(int rowIndex, Vector<Complex32> row)
         {
-            if (row == null)
-            {
-                throw new ArgumentNullException("row");
-            }
-
             if (rowIndex < 0 || rowIndex > RowCount)
             {
                 throw new ArgumentOutOfRangeException("rowIndex");

@@ -36,7 +36,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
     /// <summary>
     /// Continuous uniform tests.
     /// </summary>
-    [TestFixture]
+    [TestFixture, Category("Distributions")]
     public class ContinuousUniformTests
     {
         /// <summary>
@@ -322,7 +322,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [Test]
         public void CanSampleStatic()
         {
-            ContinuousUniform.Sample(new Random(), 0.0, 1.0);
+            ContinuousUniform.Sample(new Random(0), 0.0, 1.0);
         }
 
         /// <summary>
@@ -331,7 +331,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [Test]
         public void CanSampleSequenceStatic()
         {
-            var ied = ContinuousUniform.Samples(new Random(), 0.0, 1.0);
+            var ied = ContinuousUniform.Samples(new Random(0), 0.0, 1.0);
             ied.Take(5).ToArray();
         }
 
@@ -341,7 +341,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [Test]
         public void FailSampleStatic()
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() => ContinuousUniform.Sample(new Random(), 0.0, -1.0));
+            Assert.Throws<ArgumentOutOfRangeException>(() => ContinuousUniform.Sample(new Random(0), 0.0, -1.0));
         }
 
         /// <summary>
@@ -350,7 +350,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [Test]
         public void FailSampleSequenceStatic()
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() => ContinuousUniform.Samples(new Random(), 0.0, -1.0).First());
+            Assert.Throws<ArgumentOutOfRangeException>(() => ContinuousUniform.Samples(new Random(0), 0.0, -1.0).First());
         }
 
         /// <summary>

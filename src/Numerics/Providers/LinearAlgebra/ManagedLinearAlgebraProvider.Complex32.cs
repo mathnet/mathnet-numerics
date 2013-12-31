@@ -28,12 +28,12 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System;
 using MathNet.Numerics.LinearAlgebra.Complex32;
 using MathNet.Numerics.LinearAlgebra.Complex32.Factorization;
 using MathNet.Numerics.LinearAlgebra.Factorization;
 using MathNet.Numerics.Properties;
 using MathNet.Numerics.Threading;
-using System;
 
 namespace MathNet.Numerics.Providers.LinearAlgebra
 {
@@ -159,6 +159,37 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                     {
                         result[index] = alpha*x[index];
                     }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Conjugates an array. Can be used to conjugate a vector and a matrix.
+        /// </summary>
+        /// <param name="x">The values to conjugate.</param>
+        /// <param name="result">This result of the conjugation.</param>
+        public virtual void ConjugateArray(Complex32[] x, Complex32[] result)
+        {
+            if (x == null)
+            {
+                throw new ArgumentNullException("x");
+            }
+
+            if (Control.ParallelizeOperation(x.Length))
+            {
+                CommonParallel.For(0, x.Length, 4096, (a, b) =>
+                {
+                    for (int i = a; i < b; i++)
+                    {
+                        result[i] = x[i].Conjugate();
+                    }
+                });
+            }
+            else
+            {
+                for (var index = 0; index < x.Length; index++)
+                {
+                    result[index] = x[index].Conjugate();
                 }
             }
         }

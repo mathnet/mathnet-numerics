@@ -36,7 +36,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
     /// <summary>
     /// Beta distribution tests.
     /// </summary>
-    [TestFixture]
+    [TestFixture, Category("Distributions")]
     public class BetaTests
     {
         /// <summary>
@@ -274,7 +274,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [Test]
         public void CanSampleStatic()
         {
-            Beta.Sample(new Random(), 2.0, 3.0);
+            Beta.Sample(new Random(0), 2.0, 3.0);
         }
 
         /// <summary>
@@ -283,7 +283,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [Test]
         public void CanSampleSequenceStatic()
         {
-            var ied = Beta.Samples(new Random(), 2.0, 3.0);
+            var ied = Beta.Samples(new Random(0), 2.0, 3.0);
             ied.Take(5).ToArray();
         }
 
@@ -293,7 +293,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [Test]
         public void FailSampleStatic()
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() => Beta.Sample(new Random(), 1.0, -1.0));
+            Assert.Throws<ArgumentOutOfRangeException>(() => Beta.Sample(new Random(0), 1.0, -1.0));
         }
 
         /// <summary>
@@ -302,7 +302,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [Test]
         public void FailSampleSequenceStatic()
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() => Beta.Samples(new Random(), 1.0, -1.0).First());
+            Assert.Throws<ArgumentOutOfRangeException>(() => Beta.Samples(new Random(0), 1.0, -1.0).First());
         }
 
         /// <summary>

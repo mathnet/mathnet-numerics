@@ -27,7 +27,6 @@
 using System;
 using MathNet.Numerics;
 using MathNet.Numerics.Random;
-using MathNet.Numerics.Signals;
 
 namespace Examples.InterpolationExamples
 {
@@ -66,8 +65,8 @@ namespace Examples.InterpolationExamples
         {
             // 1. Generate 20 samples of the function f(x) = x on interval [-5, 5]
             Console.WriteLine(@"1. Generate 20 samples of the function f(x) = x on interval [-5, 5]");
-            double[] points;
-            var values = SignalGenerator.EquidistantInterval(TargetFunction, -5, 5, 20, out points);
+            double[] points = Generate.LinearSpaced(20, -5, 5);
+            var values = Generate.Map(points, TargetFunction);
             Console.WriteLine();
 
             // 2. Create a burlish stoer rational interpolation based on arbitrary points 

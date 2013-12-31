@@ -28,12 +28,15 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System;
+using MathNet.Numerics.Providers.Optimization;
+
+#if NATIVEMKL
+using MathNet.Numerics.Providers.Optimization.Mkl;
+#endif
+
 namespace MathNet.Numerics.Optimization
 {
-    using System;
-    using MathNet.Numerics.Providers.Optimization;
-    using MathNet.Numerics.Providers.Optimization.Mkl;
-    
     /// <summary>
     /// Options for Non-Linear Least Squares Minimization.
     /// </summary>
@@ -90,7 +93,8 @@ namespace MathNet.Numerics.Optimization
         public NonLinearLeastSquaresConvergenceType ConvergenceType;
     }
 
-    
+#if NATIVEMKL
+
     /// <summary>
     /// This class is a special function minimizer that minimizes functions of the form
     /// f(p) = |r(p)|^2 where r is a vector of residuals and p is a vector of model parameters. 
@@ -140,4 +144,7 @@ namespace MathNet.Numerics.Optimization
             return parameters;
         }
     }
+
+#endif
+
 }

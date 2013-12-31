@@ -36,12 +36,10 @@ using NUnit.Framework;
 
 namespace MathNet.Numerics.UnitTests.StatisticsTests.McmcTests
 {
-    using Random = System.Random;
-
     /// <summary>
     /// Metropolis hastings sampler tests.
     /// </summary>
-    [TestFixture]
+    [TestFixture, Category("Statistics")]
     public class MetropolisHastingsSamplerTests
     {
         /// <summary>
@@ -51,15 +49,15 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests.McmcTests
         public void MetropolisHastingsConstructor()
         {
             var normal = new Normal(0.0, 1.0);
-            var rnd = new MersenneTwister();
+            var rnd = new SystemRandomSource(1);
 
-            var ms = new MetropolisHastingsSampler<double>(0.2, normal.Density, (x, y) => (new Normal(x, 0.1)).Density(y), x => Normal.Sample(rnd, x, 0.1), 10)
+            var ms = new MetropolisHastingsSampler<double>(0.2, normal.Density, (x, y) => Normal.PDF(x, 0.1, y), x => Normal.Sample(rnd, x, 0.1), 10)
                 {
                     RandomSource = rnd
                 };
             Assert.IsNotNull(ms.RandomSource);
 
-            ms.RandomSource = new System.Random();
+            ms.RandomSource = new System.Random(0);
             Assert.IsNotNull(ms.RandomSource);
         }
 
@@ -70,9 +68,9 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests.McmcTests
         public void SampleTest()
         {
             var normal = new Normal(0.0, 1.0);
-            var rnd = new MersenneTwister();
+            var rnd = new SystemRandomSource(1);
 
-            var ms = new MetropolisHastingsSampler<double>(0.2, normal.Density, (x, y) => (new Normal(x, 0.1)).Density(y), x => Normal.Sample(rnd, x, 0.1), 10)
+            var ms = new MetropolisHastingsSampler<double>(0.2, normal.Density, (x, y) => Normal.PDF(x, 0.1, y), x => Normal.Sample(rnd, x, 0.1), 10)
                 {
                     RandomSource = rnd
                 };
@@ -87,9 +85,9 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests.McmcTests
         public void SampleArrayTest()
         {
             var normal = new Normal(0.0, 1.0);
-            var rnd = new MersenneTwister();
+            var rnd = new SystemRandomSource(1);
 
-            var ms = new MetropolisHastingsSampler<double>(0.2, normal.Density, (x, y) => (new Normal(x, 0.1)).Density(y), x => Normal.Sample(rnd, x, 0.1), 10)
+            var ms = new MetropolisHastingsSampler<double>(0.2, normal.Density, (x, y) => Normal.PDF(x, 0.1, y), x => Normal.Sample(rnd, x, 0.1), 10)
                 {
                     RandomSource = rnd
                 };
@@ -103,8 +101,9 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests.McmcTests
         [Test]
         public void NullRandomNumberGenerator()
         {
-            var normal = new Normal(0.0, 1.0);
-            var ms = new MetropolisHastingsSampler<double>(0.2, normal.Density, (x, y) => (new Normal(x, 0.1)).Density(y), x => Normal.Sample(new Random(), x, 0.1), 10);
+            var random = MersenneTwister.Default;
+            var normal = new Normal(0.0, 1.0, random);
+            var ms = new MetropolisHastingsSampler<double>(0.2, normal.Density, (x, y) => Normal.PDF(x, 0.1, y), x => Normal.Sample(random, x, 0.1), 10);
             Assert.Throws<ArgumentNullException>(() => ms.RandomSource = null);
         }
     }

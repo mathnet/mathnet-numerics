@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2010 Math.NET
+// Copyright (c) 2009-2013 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -28,7 +28,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using System;
+using System.Collections.Generic;
 
 namespace MathNet.Numerics.Random
 {
@@ -38,33 +38,32 @@ namespace MathNet.Numerics.Random
     /// <remarks>See: Wichmann, B. A. &amp; Hill, I. D. (1982), "Algorithm AS 183:
     /// An efficient and portable pseudo-random number generator". Applied Statistics 31 (1982) 188-190
     ///</remarks>
-    public class WH1982 : AbstractRandomNumberGenerator
+    public class WH1982 : RandomSource
     {
-        private const uint Modx = 30269;
-        private const double ModxRecip = 1.0/Modx;
-        private const uint Mody = 30307;
-        private const double ModyRecip = 1.0/Mody;
-        private const uint Modz = 30323;
-        private const double ModzRecip = 1.0/Modz;
-        private uint _xn;
-        private uint _yn = 1;
-        private uint _zn = 1;
+        const uint Modx = 30269;
+        const double ModxRecip = 1.0/Modx;
+        const uint Mody = 30307;
+        const double ModyRecip = 1.0/Mody;
+        const uint Modz = 30323;
+        const double ModzRecip = 1.0/Modz;
+        uint _xn;
+        uint _yn = 1;
+        uint _zn = 1;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="WH1982"/> class using
-        /// the current time as the seed.
+        /// a seed based on time and unique GUIDs.
         /// </summary>
-        public WH1982() : this((int) DateTime.Now.Ticks)
+        public WH1982() : this(RandomSeed.Robust())
         {
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="WH1982"/> class using
-        /// the current time as the seed.
+        /// a seed based on time and unique GUIDs.
         /// </summary>
         /// <param name="threadSafe">if set to <c>true</c> , the class is thread safe.</param>
-        public WH1982(bool threadSafe)
-            : this((int) DateTime.Now.Ticks, threadSafe)
+        public WH1982(bool threadSafe) : this(RandomSeed.Robust(), threadSafe)
         {
         }
 
@@ -75,8 +74,13 @@ namespace MathNet.Numerics.Random
         /// <remarks>If the seed value is zero, it is set to one. Uses the
         /// value of <see cref="Control.ThreadSafeRandomNumberGenerators"/> to
         /// set whether the instance is thread safe.</remarks>
-        public WH1982(int seed) : this(seed, Control.ThreadSafeRandomNumberGenerators)
+        public WH1982(int seed)
         {
+            if (seed == 0)
+            {
+                seed = 1;
+            }
+            _xn = (uint)seed%Modx;
         }
 
         /// <summary>
@@ -92,7 +96,7 @@ namespace MathNet.Numerics.Random
             {
                 seed = 1;
             }
-            _xn = (uint) seed%Modx;
+            _xn = (uint)seed%Modx;
         }
 
         /// <summary>
@@ -101,15 +105,67 @@ namespace MathNet.Numerics.Random
         /// <returns>
         /// A double-precision floating point number greater than or equal to 0.0, and less than 1.0.
         /// </returns>
-        protected override double DoSample()
+        protected override sealed double DoSample()
         {
             _xn = (171*_xn)%Modx;
             _yn = (172*_yn)%Mody;
             _zn = (170*_zn)%Modz;
 
             double w = _xn*ModxRecip + _yn*ModyRecip + _zn*ModzRecip;
-            w -= (int) w;
+            w -= (int)w;
             return w;
+        }
+
+        /// <summary>
+        /// Returns an array of random numbers greater than or equal to 0.0 and less than 1.0.
+        /// </summary>
+        /// <remarks>Supports being called in parallel from multiple threads.</remarks>
+        public static double[] Doubles(int length, int seed)
+        {
+            if (seed == 0)
+            {
+                seed = 1;
+            }
+            uint xn = (uint)seed%Modx;
+            uint yn = 1;
+            uint zn = 1;
+
+            var data = new double[length];
+            for (int i = 0; i < data.Length; i++)
+            {
+                xn = (171*xn)%Modx;
+                yn = (172*yn)%Mody;
+                zn = (170*zn)%Modz;
+
+                double w = xn*ModxRecip + yn*ModyRecip + zn*ModzRecip;
+                data[i] = w - (int)w;
+            }
+            return data;
+        }
+
+        /// <summary>
+        /// Returns an infinite sequence of random numbers greater than or equal to 0.0 and less than 1.0.
+        /// </summary>
+        /// <remarks>Supports being called in parallel from multiple threads, but the result must be enumerated from a single thread each.</remarks>
+        public static IEnumerable<double> DoubleSequence(int seed)
+        {
+            if (seed == 0)
+            {
+                seed = 1;
+            }
+            uint xn = (uint)seed%Modx;
+            uint yn = 1;
+            uint zn = 1;
+
+            while (true)
+            {
+                xn = (171*xn)%Modx;
+                yn = (172*yn)%Mody;
+                zn = (170*zn)%Modz;
+
+                double w = xn*ModxRecip + yn*ModyRecip + zn*ModzRecip;
+                yield return w - (int)w;
+            }
         }
     }
 }

@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2010 Math.NET
+// Copyright (c) 2009-2013 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -30,6 +30,8 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using MathNet.Numerics.Properties;
 
 namespace MathNet.Numerics.Interpolation
 {
@@ -43,38 +45,38 @@ namespace MathNet.Numerics.Interpolation
     /// </remarks>
     public class BulirschStoerRationalInterpolation : IInterpolation
     {
-        /// <summary>
-        /// Sample Points t.
-        /// </summary>
-        IList<double> _points;
-
-        /// <summary>
-        /// Spline Values x(t).
-        /// </summary>
-        IList<double> _values;
+        readonly double[] _x;
+        readonly double[] _y;
 
         /// <summary>
         /// Initializes a new instance of the BulirschStoerRationalInterpolation class.
         /// </summary>
-        public BulirschStoerRationalInterpolation()
+        /// <param name="x">Sample Points t</param>
+        /// <param name="y">Sample Values x(t)</param>
+        public BulirschStoerRationalInterpolation(IEnumerable<double> x, IEnumerable<double> y)
         {
-        }
+            var xx = (x as double[]) ?? x.ToArray();
+            var yy = (y as double[]) ?? y.ToArray();
 
-        /// <summary>
-        /// Initializes a new instance of the BulirschStoerRationalInterpolation class.
-        /// </summary>
-        /// <param name="samplePoints">Sample Points t</param>
-        /// <param name="sampleValues">Sample Values x(t)</param>
-        public BulirschStoerRationalInterpolation(IList<double> samplePoints, IList<double> sampleValues)
-        {
-            Initialize(samplePoints, sampleValues);
+            if (xx.Length != yy.Length)
+            {
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength);
+            }
+
+            if (xx.Length < 1)
+            {
+                throw new ArgumentOutOfRangeException("x");
+            }
+
+            Sorting.Sort(xx, yy);
+
+            _x = xx;
+            _y = yy;
         }
 
         /// <summary>
         /// Gets a value indicating whether the algorithm supports differentiation (interpolated derivative).
         /// </summary>
-        /// <seealso cref="IInterpolation.Differentiate(double)"/>
-        /// <seealso cref="IInterpolation.DifferentiateAll(double)"/>
         bool IInterpolation.SupportsDifferentiation
         {
             get { return false; }
@@ -83,41 +85,9 @@ namespace MathNet.Numerics.Interpolation
         /// <summary>
         /// Gets a value indicating whether the algorithm supports integration (interpolated quadrature).
         /// </summary>
-        /// <seealso cref="IInterpolation.Integrate"/>
         bool IInterpolation.SupportsIntegration
         {
             get { return false; }
-        }
-
-        /// <summary>
-        /// Initialize the interpolation method with the given sample pairs.
-        /// </summary>
-        /// <param name="samplePoints">Sample Points t</param>
-        /// <param name="sampleValues">Sample Values x(t)</param>
-        public void Initialize(IList<double> samplePoints, IList<double> sampleValues)
-        {
-            if (null == samplePoints)
-            {
-                throw new ArgumentNullException("samplePoints");
-            }
-
-            if (null == sampleValues)
-            {
-                throw new ArgumentNullException("sampleValues");
-            }
-
-            if (samplePoints.Count < 1)
-            {
-                throw new ArgumentOutOfRangeException("samplePoints");
-            }
-
-            if (samplePoints.Count != sampleValues.Count)
-            {
-                throw new ArgumentException(Properties.Resources.ArgumentVectorsSameLength);
-            }
-
-            _points = samplePoints;
-            _values = sampleValues;
         }
 
         /// <summary>
@@ -128,20 +98,20 @@ namespace MathNet.Numerics.Interpolation
         public double Interpolate(double t)
         {
             const double tiny = 1.0e-25;
-            int n = _points.Count;
+            int n = _x.Length;
 
             var c = new double[n];
             var d = new double[n];
 
             int nearestIndex = 0;
-            double nearestDistance = Math.Abs(t - _points[0]);
+            double nearestDistance = Math.Abs(t - _x[0]);
 
             for (int i = 0; i < n; i++)
             {
-                double distance = Math.Abs(t - _points[i]);
+                double distance = Math.Abs(t - _x[i]);
                 if (distance.AlmostEqual(0.0))
                 {
-                    return _values[i];
+                    return _y[i];
                 }
 
                 if (distance < nearestDistance)
@@ -150,18 +120,18 @@ namespace MathNet.Numerics.Interpolation
                     nearestDistance = distance;
                 }
 
-                c[i] = _values[i];
-                d[i] = _values[i] + tiny;
+                c[i] = _y[i];
+                d[i] = _y[i] + tiny;
             }
 
-            double x = _values[nearestIndex];
+            double x = _y[nearestIndex];
 
             for (int level = 1; level < n; level++)
             {
                 for (int i = 0; i < n - level; i++)
                 {
-                    double hp = _points[i + level] - t;
-                    double ho = (_points[i] - t)*d[i]/hp;
+                    double hp = _x[i + level] - t;
+                    double ho = (_x[i] - t)*d[i]/hp;
 
                     double den = ho - c[i + 1];
                     if (den.AlmostEqual(0.0))
@@ -187,32 +157,36 @@ namespace MathNet.Numerics.Interpolation
         /// </summary>
         /// <param name="t">Point t to interpolate at.</param>
         /// <returns>Interpolated first derivative at point t.</returns>
-        /// <seealso cref="IInterpolation.SupportsDifferentiation"/>
-        /// <seealso cref="IInterpolation.DifferentiateAll(double)"/>
         double IInterpolation.Differentiate(double t)
         {
             throw new NotSupportedException();
         }
 
         /// <summary>
-        /// Interpolate, differentiate and 2nd differentiate at point t. NOT SUPPORTED.
+        /// Differentiate twice at point t. NOT SUPPORTED.
         /// </summary>
         /// <param name="t">Point t to interpolate at.</param>
-        /// <returns>Interpolated first derivative at point t.</returns>
-        /// <seealso cref="IInterpolation.SupportsDifferentiation"/>
-        /// <seealso cref="IInterpolation.Differentiate(double)"/>
-        Tuple<double, double, double> IInterpolation.DifferentiateAll(double t)
+        /// <returns>Interpolated second derivative at point t.</returns>
+        double IInterpolation.Differentiate2(double t)
         {
             throw new NotSupportedException();
         }
 
         /// <summary>
-        /// Integrate up to point t. NOT SUPPORTED.
+        /// Indefinite integral at point t. NOT SUPPORTED.
         /// </summary>
-        /// <param name="t">Right bound of the integration interval [a,t].</param>
-        /// <returns>Interpolated definite integral over the interval [a,t].</returns>
-        /// <seealso cref="IInterpolation.SupportsIntegration"/>
+        /// <param name="t">Point t to integrate at.</param>
         double IInterpolation.Integrate(double t)
+        {
+            throw new NotSupportedException();
+        }
+
+        /// <summary>
+        /// Definite integral between points a and b. NOT SUPPORTED.
+        /// </summary>
+        /// <param name="a">Left bound of the integration interval [a,b].</param>
+        /// <param name="b">Right bound of the integration interval [a,b].</param>
+        double IInterpolation.Integrate(double a, double b)
         {
             throw new NotSupportedException();
         }

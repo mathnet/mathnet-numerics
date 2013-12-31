@@ -38,7 +38,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
     /// <summary>
     /// Chi distribution test
     /// </summary>
-    [TestFixture]
+    [TestFixture, Category("Distributions")]
     public class ChiTests
     {
         /// <summary>

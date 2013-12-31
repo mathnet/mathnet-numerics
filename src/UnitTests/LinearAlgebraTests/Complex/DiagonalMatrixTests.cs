@@ -30,8 +30,10 @@
 
 using System;
 using System.Collections.Generic;
+using MathNet.Numerics.Distributions;
 using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Complex;
+using MathNet.Numerics.Random;
 using NUnit.Framework;
 
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
@@ -66,7 +68,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
             TestMatrices = new Dictionary<string, Matrix<Complex>>();
             foreach (var name in TestData2D.Keys)
             {
-                TestMatrices.Add(name, CreateMatrix(TestData2D[name]));
+                TestMatrices.Add(name, DiagonalMatrix.OfArray(TestData2D[name]));
             }
         }
 
@@ -89,27 +91,6 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
         protected override Matrix<Complex> CreateMatrix(Complex[,] data)
         {
             return DiagonalMatrix.OfArray(data);
-        }
-
-        /// <summary>
-        /// Creates a vector of the given size.
-        /// </summary>
-        /// <param name="size">The size of the vector to create.
-        /// </param>
-        /// <returns>The new vector. </returns>
-        protected override Vector<Complex> CreateVector(int size)
-        {
-            return new SparseVector(size);
-        }
-
-        /// <summary>
-        /// Creates a vector from an array.
-        /// </summary>
-        /// <param name="data">The array to create this vector from.</param>
-        /// <returns>The new vector. </returns>
-        protected override Vector<Complex> CreateVector(Complex[] data)
-        {
-            return SparseVector.OfEnumerable(data);
         }
 
         /// <summary>
@@ -237,7 +218,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
         [Test]
         public void PermuteMatrixRowsThrowsInvalidOperationException()
         {
-            var matrixp = CreateMatrix(TestData2D["Singular3x3"]);
+            var matrixp = DiagonalMatrix.OfArray(TestData2D["Singular3x3"]);
             var permutation = new Permutation(new[] {2, 0, 1});
             Assert.Throws<InvalidOperationException>(() => matrixp.PermuteRows(permutation));
         }
@@ -248,7 +229,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
         [Test]
         public void PermuteMatrixColumnsThrowsInvalidOperationException()
         {
-            var matrixp = CreateMatrix(TestData2D["Singular3x3"]);
+            var matrixp = DiagonalMatrix.OfArray(TestData2D["Singular3x3"]);
             var permutation = new Permutation(new[] {2, 0, 1});
             Assert.Throws<InvalidOperationException>(() => matrixp.PermuteColumns(permutation));
         }
@@ -382,6 +363,108 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
         {
             var matrix = TestMatrices["Square3x3"];
             Assert.IsTrue(matrix.IsSymmetric);
+        }
+
+        [Test]
+        public void DenseDiagonalMatrixMultiply()
+        {
+            var dist = new ContinuousUniform(-1.0, 1.0, new SystemRandomSource(1));
+            Assert.IsInstanceOf<DiagonalMatrix>(Matrix<Complex>.Build.DiagonalIdentity(3, 3));
+
+            var tall = Matrix<Complex>.Build.Random(8, 3, dist);
+            Assert.IsTrue((tall*Matrix<Complex>.Build.DiagonalIdentity(3).Multiply(2d)).Equals(tall.Multiply(2d)));
+            Assert.IsTrue((tall*Matrix<Complex>.Build.Diagonal(3, 5, 2d)).Equals(tall.Multiply(2d).Append(Matrix<Complex>.Build.Dense(8, 2))));
+            Assert.IsTrue((tall*Matrix<Complex>.Build.Diagonal(3, 2, 2d)).Equals(tall.Multiply(2d).SubMatrix(0, 8, 0, 2)));
+
+            var wide = Matrix<Complex>.Build.Random(3, 8, dist);
+            Assert.IsTrue((wide*Matrix<Complex>.Build.DiagonalIdentity(8).Multiply(2d)).Equals(wide.Multiply(2d)));
+            Assert.IsTrue((wide*Matrix<Complex>.Build.Diagonal(8, 10, 2d)).Equals(wide.Multiply(2d).Append(Matrix<Complex>.Build.Dense(3, 2))));
+            Assert.IsTrue((wide*Matrix<Complex>.Build.Diagonal(8, 2, 2d)).Equals(wide.Multiply(2d).SubMatrix(0, 3, 0, 2)));
+        }
+
+        [Test]
+        public void DenseDiagonalMatrixTransposeAndMultiply()
+        {
+            var dist = new ContinuousUniform(-1.0, 1.0, new SystemRandomSource(1));
+            Assert.IsInstanceOf<DiagonalMatrix>(Matrix<Complex>.Build.DiagonalIdentity(3, 3));
+
+            var tall = Matrix<Complex>.Build.Random(8, 3, dist);
+            Assert.IsTrue(tall.TransposeAndMultiply(Matrix<Complex>.Build.DiagonalIdentity(3).Multiply(2d)).Equals(tall.Multiply(2d)));
+            Assert.IsTrue(tall.TransposeAndMultiply(Matrix<Complex>.Build.Diagonal(5, 3, 2d)).Equals(tall.Multiply(2d).Append(Matrix<Complex>.Build.Dense(8, 2))));
+            Assert.IsTrue(tall.TransposeAndMultiply(Matrix<Complex>.Build.Diagonal(2, 3, 2d)).Equals(tall.Multiply(2d).SubMatrix(0, 8, 0, 2)));
+
+            var wide = Matrix<Complex>.Build.Random(3, 8, dist);
+            Assert.IsTrue(wide.TransposeAndMultiply(Matrix<Complex>.Build.DiagonalIdentity(8).Multiply(2d)).Equals(wide.Multiply(2d)));
+            Assert.IsTrue(wide.TransposeAndMultiply(Matrix<Complex>.Build.Diagonal(10, 8, 2d)).Equals(wide.Multiply(2d).Append(Matrix<Complex>.Build.Dense(3, 2))));
+            Assert.IsTrue(wide.TransposeAndMultiply(Matrix<Complex>.Build.Diagonal(2, 8, 2d)).Equals(wide.Multiply(2d).SubMatrix(0, 3, 0, 2)));
+        }
+
+        [Test]
+        public void DenseDiagonalMatrixTransposeThisAndMultiply()
+        {
+            var dist = new ContinuousUniform(-1.0, 1.0, new SystemRandomSource(1));
+            Assert.IsInstanceOf<DiagonalMatrix>(Matrix<Complex>.Build.DiagonalIdentity(3, 3));
+
+            var wide = Matrix<Complex>.Build.Random(3, 8, dist);
+            Assert.IsTrue(wide.TransposeThisAndMultiply(Matrix<Complex>.Build.DiagonalIdentity(3).Multiply(2d)).Equals(wide.Transpose().Multiply(2d)));
+            Assert.IsTrue(wide.TransposeThisAndMultiply(Matrix<Complex>.Build.Diagonal(3, 5, 2d)).Equals(wide.Transpose().Multiply(2d).Append(Matrix<Complex>.Build.Dense(8, 2))));
+            Assert.IsTrue(wide.TransposeThisAndMultiply(Matrix<Complex>.Build.Diagonal(3, 2, 2d)).Equals(wide.Transpose().Multiply(2d).SubMatrix(0, 8, 0, 2)));
+
+            var tall = Matrix<Complex>.Build.Random(8, 3, dist);
+            Assert.IsTrue(tall.TransposeThisAndMultiply(Matrix<Complex>.Build.DiagonalIdentity(8).Multiply(2d)).Equals(tall.Transpose().Multiply(2d)));
+            Assert.IsTrue(tall.TransposeThisAndMultiply(Matrix<Complex>.Build.Diagonal(8, 10, 2d)).Equals(tall.Transpose().Multiply(2d).Append(Matrix<Complex>.Build.Dense(3, 2))));
+            Assert.IsTrue(tall.TransposeThisAndMultiply(Matrix<Complex>.Build.Diagonal(8, 2, 2d)).Equals(tall.Transpose().Multiply(2d).SubMatrix(0, 3, 0, 2)));
+        }
+
+        [Test]
+        public void DiagonalDenseMatrixMultiply()
+        {
+            var dist = new ContinuousUniform(-1.0, 1.0, new SystemRandomSource(1));
+            Assert.IsInstanceOf<DiagonalMatrix>(Matrix<Complex>.Build.DiagonalIdentity(3, 3));
+
+            var wide = Matrix<Complex>.Build.Random(3, 8, dist);
+            Assert.IsTrue((Matrix<Complex>.Build.DiagonalIdentity(3).Multiply(2d)*wide).Equals(wide.Multiply(2d)));
+            Assert.IsTrue((Matrix<Complex>.Build.Diagonal(5, 3, 2d)*wide).Equals(wide.Multiply(2d).Stack(Matrix<Complex>.Build.Dense(2, 8))));
+            Assert.IsTrue((Matrix<Complex>.Build.Diagonal(2, 3, 2d)*wide).Equals(wide.Multiply(2d).SubMatrix(0, 2, 0, 8)));
+
+            var tall = Matrix<Complex>.Build.Random(8, 3, dist);
+            Assert.IsTrue((Matrix<Complex>.Build.DiagonalIdentity(8).Multiply(2d)*tall).Equals(tall.Multiply(2d)));
+            Assert.IsTrue((Matrix<Complex>.Build.Diagonal(10, 8, 2d)*tall).Equals(tall.Multiply(2d).Stack(Matrix<Complex>.Build.Dense(2, 3))));
+            Assert.IsTrue((Matrix<Complex>.Build.Diagonal(2, 8, 2d)*tall).Equals(tall.Multiply(2d).SubMatrix(0, 2, 0, 3)));
+        }
+
+        [Test]
+        public void DiagonalDenseMatrixTransposeAndMultiply()
+        {
+            var dist = new ContinuousUniform(-1.0, 1.0, new SystemRandomSource(1));
+            Assert.IsInstanceOf<DiagonalMatrix>(Matrix<Complex>.Build.DiagonalIdentity(3, 3));
+
+            var tall = Matrix<Complex>.Build.Random(8, 3, dist);
+            Assert.IsTrue(Matrix<Complex>.Build.DiagonalIdentity(3).Multiply(2d).TransposeAndMultiply(tall).Equals(tall.Multiply(2d).Transpose()));
+            Assert.IsTrue(Matrix<Complex>.Build.Diagonal(5, 3, 2d).TransposeAndMultiply(tall).Equals(tall.Multiply(2d).Append(Matrix<Complex>.Build.Dense(8, 2)).Transpose()));
+            Assert.IsTrue(Matrix<Complex>.Build.Diagonal(2, 3, 2d).TransposeAndMultiply(tall).Equals(tall.Multiply(2d).SubMatrix(0, 8, 0, 2).Transpose()));
+
+            var wide = Matrix<Complex>.Build.Random(3, 8, dist);
+            Assert.IsTrue(Matrix<Complex>.Build.DiagonalIdentity(8).Multiply(2d).TransposeAndMultiply(wide).Equals(wide.Multiply(2d).Transpose()));
+            Assert.IsTrue(Matrix<Complex>.Build.Diagonal(10, 8, 2d).TransposeAndMultiply(wide).Equals(wide.Multiply(2d).Append(Matrix<Complex>.Build.Dense(3, 2)).Transpose()));
+            Assert.IsTrue(Matrix<Complex>.Build.Diagonal(2, 8, 2d).TransposeAndMultiply(wide).Equals(wide.Multiply(2d).SubMatrix(0, 3, 0, 2).Transpose()));
+        }
+
+        [Test]
+        public void DiagonalDenseMatrixTransposeThisAndMultiply()
+        {
+            var dist = new ContinuousUniform(-1.0, 1.0, new SystemRandomSource(1));
+            Assert.IsInstanceOf<DiagonalMatrix>(Matrix<Complex>.Build.DiagonalIdentity(3, 3));
+
+            var wide = Matrix<Complex>.Build.Random(3, 8, dist);
+            Assert.IsTrue((Matrix<Complex>.Build.DiagonalIdentity(3).Multiply(2d).TransposeThisAndMultiply(wide)).Equals(wide.Multiply(2d)));
+            Assert.IsTrue((Matrix<Complex>.Build.Diagonal(3, 5, 2d).TransposeThisAndMultiply(wide)).Equals(wide.Multiply(2d).Stack(Matrix<Complex>.Build.Dense(2, 8))));
+            Assert.IsTrue((Matrix<Complex>.Build.Diagonal(3, 2, 2d).TransposeThisAndMultiply(wide)).Equals(wide.Multiply(2d).SubMatrix(0, 2, 0, 8)));
+
+            var tall = Matrix<Complex>.Build.Random(8, 3, dist);
+            Assert.IsTrue((Matrix<Complex>.Build.DiagonalIdentity(8).Multiply(2d).TransposeThisAndMultiply(tall)).Equals(tall.Multiply(2d)));
+            Assert.IsTrue((Matrix<Complex>.Build.Diagonal(8, 10, 2d).TransposeThisAndMultiply(tall)).Equals(tall.Multiply(2d).Stack(Matrix<Complex>.Build.Dense(2, 3))));
+            Assert.IsTrue((Matrix<Complex>.Build.Diagonal(8, 2, 2d).TransposeThisAndMultiply(tall)).Equals(tall.Multiply(2d).SubMatrix(0, 2, 0, 3)));
         }
     }
 }

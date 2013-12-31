@@ -2,14 +2,14 @@
 
 Vagrant.configure("2") do |config|
 
-  config.vm.box = "wheezy64-mono3.0.10-fsharp3.0.27"
-  config.vm.box_url = "https://dl.dropboxusercontent.com/s/uelesklqouaw1gl/wheezy64-mono3.0.10-fsharp3.0.27-virtualbox.box"
+  config.vm.box = "wheezy64-mono3.2.5-fsharp3.1-dev"
+  config.vm.box_url = "https://skydrive.live.com/redir.aspx?cid=84f3672f8cda3e91&resid=84F3672F8CDA3E91!29372&parid=84F3672F8CDA3E91!28978&authkey=!ABWHPlJFVtdF4bA"
   
   # default is only 384 MB RAM, 1 CPU in that box - we need some more
   config.vm.provider :virtualbox do |vb|
     vb.gui = false
-    vb.customize ["modifyvm", :id, "--memory", "1024"]
-    vb.customize ["modifyvm", :id, "--cpus", "2"]
+    vb.customize ["modifyvm", :id, "--memory", "4096"]
+    vb.customize ["modifyvm", :id, "--cpus", "4"]
   end
   
   # Shell Provisioning external:

@@ -34,7 +34,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
     /// <summary>
     /// Fisher-Snedecor distribution tests.
     /// </summary>
-    [TestFixture]
+    [TestFixture, Category("Distributions")]
     public class FisherSnedecorTests
     {
         /// <summary>

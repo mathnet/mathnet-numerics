@@ -32,7 +32,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
 {
     using NUnit.Framework;
 
-    [TestFixture]
+    [TestFixture, Category("LA")]
     public abstract class VectorArithmeticTheory : VectorArithmeticTheory<float>
     {
         protected override float Minus(float value) { return -value; }

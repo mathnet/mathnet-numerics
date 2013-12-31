@@ -26,7 +26,7 @@
 
 using System;
 using System.Globalization;
-using MathNet.Numerics.LinearAlgebra.Double;
+using MathNet.Numerics.LinearAlgebra;
 
 namespace Examples.LinearAlgebraExamples
 {
@@ -63,16 +63,16 @@ namespace Examples.LinearAlgebraExamples
         public void Run()
         {
             // 1. Initialize a new instance of the empty vector with a given size
-            var vector1 = new DenseVector(5);
+            var vector1 = Vector<double>.Build.Dense(5);
 
             // 2. Initialize a new instance of the vector with a given size and each element set to the given value
-            var vector2 = DenseVector.Create(5, i => 3.0);
+            var vector2 = Vector<double>.Build.Dense(5, i => i + 3.0);
 
             // 3. Initialize a new instance of the vector from an array.
-            var vector3 = new DenseVector(new[] { 1.0, 2.0, 3.0, 4.0, 5.0 });
+            var vector3 = Vector<double>.Build.Dense(new[] { 1.0, 2.0, 3.0, 4.0, 5.0 });
 
             // 4. Initialize a new instance of the vector by copying the values from another.
-            var vector4 = DenseVector.OfVector(vector3);
+            var vector4 = Vector<double>.Build.DenseOfVector(vector3);
 
             // Format vector output to console
             var formatProvider = (CultureInfo)CultureInfo.InvariantCulture.Clone();

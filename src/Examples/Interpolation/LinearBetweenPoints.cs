@@ -27,7 +27,6 @@
 using System;
 using MathNet.Numerics;
 using MathNet.Numerics.Random;
-using MathNet.Numerics.Signals;
 
 namespace Examples.InterpolationExamples
 {
@@ -67,12 +66,12 @@ namespace Examples.InterpolationExamples
         {
             // 1. Generate 20 samples of the function x*x-2*x on interval [0, 10]
             Console.WriteLine(@"1. Generate 20 samples of the function x*x-2*x on interval [0, 10]");
-            double[] points;
-            var values = SignalGenerator.EquidistantInterval(TargetFunction, 0, 10, 20, out points);
+            double[] points = Generate.LinearSpaced(20, 0, 10);
+            var values = Generate.Map(points, TargetFunction);
             Console.WriteLine();
 
             // 2. Create a linear spline interpolation based on arbitrary points 
-            var method = Interpolate.LinearBetweenPoints(points, values);
+            var method = Interpolate.LinearSpline(points, values);
             Console.WriteLine(@"2. Create a linear spline interpolation based on arbitrary points");
             Console.WriteLine();
 

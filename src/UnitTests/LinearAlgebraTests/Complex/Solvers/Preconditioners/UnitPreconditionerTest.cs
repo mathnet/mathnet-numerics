@@ -45,7 +45,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.Precondi
     /// <summary>
     /// Unit precondition tests
     /// </summary>
-    [TestFixture]
+    [TestFixture, Category("LASolver")]
     public sealed class UnitPreconditionerTest : PreconditionerTest
     {
         /// <summary>

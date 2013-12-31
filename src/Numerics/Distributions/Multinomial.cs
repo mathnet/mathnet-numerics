@@ -34,22 +34,20 @@ using System.Linq;
 using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Double;
 using MathNet.Numerics.Properties;
+using MathNet.Numerics.Random;
 using MathNet.Numerics.Statistics;
 
 namespace MathNet.Numerics.Distributions
 {
     /// <summary>
-    /// Multivariate Multinomial distribution. For details about this distribution, see 
+    /// Multivariate Multinomial distribution. For details about this distribution, see
     /// <a href="http://en.wikipedia.org/wiki/Multinomial_distribution">Wikipedia - Multinomial distribution</a>.
     /// </summary>
-    /// <remarks><para>The distribution is parameterized by a vector of ratios: in other words, the parameter
+    /// <remarks>
+    /// The distribution is parameterized by a vector of ratios: in other words, the parameter
     /// does not have to be normalized and sum to 1. The reason is that some vectors can't be exactly normalized
-    /// to sum to 1 in floating point representation.</para>
-    /// <para>The distribution will use the <see cref="System.Random"/> by default. 
-    /// Users can set the random number generator by using the <see cref="RandomSource"/> property.</para>
-    /// <para>The statistics classes will check all the incoming parameters whether they are in the allowed
-    /// range. This might involve heavy computation. Optionally, by setting Control.CheckDistributionParameters
-    /// to <c>false</c>, all parameter checks can be turned off.</para></remarks>
+    /// to sum to 1 in floating point representation.
+    /// </remarks>
     public class Multinomial : IDistribution
     {
         System.Random _random;
@@ -67,21 +65,21 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Initializes a new instance of the Multinomial class.
         /// </summary>
-        /// <param name="p">An array of nonnegative ratios: this array does not need to be normalized 
+        /// <param name="p">An array of nonnegative ratios: this array does not need to be normalized
         /// as this is often impossible using floating point arithmetic.</param>
         /// <param name="n">The number of trials.</param>
         /// <exception cref="ArgumentOutOfRangeException">If any of the probabilities are negative or do not sum to one.</exception>
         /// <exception cref="ArgumentOutOfRangeException">If <paramref name="n"/> is negative.</exception>
         public Multinomial(double[] p, int n)
         {
-            _random = new System.Random(Random.RandomSeed.Guid());
+            _random = SystemRandomSource.Default;
             SetParameters(p, n);
         }
 
         /// <summary>
         /// Initializes a new instance of the Multinomial class.
         /// </summary>
-        /// <param name="p">An array of nonnegative ratios: this array does not need to be normalized 
+        /// <param name="p">An array of nonnegative ratios: this array does not need to be normalized
         /// as this is often impossible using floating point arithmetic.</param>
         /// <param name="n">The number of trials.</param>
         /// <param name="randomSource">The random number generator which is used to draw random samples.</param>
@@ -89,7 +87,7 @@ namespace MathNet.Numerics.Distributions
         /// <exception cref="ArgumentOutOfRangeException">If <paramref name="n"/> is negative.</exception>
         public Multinomial(double[] p, int n, System.Random randomSource)
         {
-            _random = randomSource ?? new System.Random(Random.RandomSeed.Guid());
+            _random = randomSource ?? SystemRandomSource.Default;
             SetParameters(p, n);
         }
 
@@ -118,7 +116,7 @@ namespace MathNet.Numerics.Distributions
             }
 
             SetParameters(p, n);
-            RandomSource = new System.Random(Random.RandomSeed.Guid());
+            RandomSource = SystemRandomSource.Default;
         }
 
         /// <summary>
@@ -131,12 +129,12 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Checks whether the parameters of the distribution are valid. 
+        /// Checks whether the parameters of the distribution are valid.
         /// </summary>
-        /// <param name="p">An array of nonnegative ratios: this array does not need to be normalized 
+        /// <param name="p">An array of nonnegative ratios: this array does not need to be normalized
         /// as this is often impossible using floating point arithmetic.</param>
         /// <param name="n">The number of trials.</param>
-        /// <returns>If any of the probabilities are negative returns <c>false</c>, 
+        /// <returns>If any of the probabilities are negative returns <c>false</c>,
         /// if the sum of parameters is 0.0, or if the number of trials is negative; otherwise <c>true</c>.</returns>
         static bool IsValidParameterSet(IEnumerable<double> p, int n)
         {
@@ -162,7 +160,7 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Sets the parameters of the distribution after checking their validity.
         /// </summary>
-        /// <param name="p">An array of nonnegative ratios: this array does not need to be normalized 
+        /// <param name="p">An array of nonnegative ratios: this array does not need to be normalized
         /// as this is often impossible using floating point arithmetic.</param>
         /// <param name="n">The number of trials.</param>
         /// <exception cref="ArgumentOutOfRangeException">When the parameters are out of range.</exception>
@@ -201,7 +199,7 @@ namespace MathNet.Numerics.Distributions
         public System.Random RandomSource
         {
             get { return _random; }
-            set { _random = value ?? new System.Random(Random.RandomSeed.Guid()); }
+            set { _random = value ?? SystemRandomSource.Default; }
         }
 
         /// <summary>
@@ -219,7 +217,7 @@ namespace MathNet.Numerics.Distributions
         {
             get
             {
-                // Do not use _p, because operations below will modify _p array. Use P or _p.Clone(). 
+                // Do not use _p, because operations below will modify _p array. Use P or _p.Clone().
                 var res = (DenseVector) P;
                 for (var i = 0; i < res.Count; i++)
                 {
@@ -237,7 +235,7 @@ namespace MathNet.Numerics.Distributions
         {
             get
             {
-                // Do not use _p, because operations below will modify _p array. Use P or _p.Clone(). 
+                // Do not use _p, because operations below will modify _p array. Use P or _p.Clone().
                 var res = (DenseVector) P;
                 for (var i = 0; i < res.Count; i++)
                 {
@@ -336,7 +334,7 @@ namespace MathNet.Numerics.Distributions
         /// Samples one multinomial distributed random variable.
         /// </summary>
         /// <param name="rnd">The random number generator to use.</param>
-        /// <param name="p">An array of nonnegative ratios: this array does not need to be normalized 
+        /// <param name="p">An array of nonnegative ratios: this array does not need to be normalized
         /// as this is often impossible using floating point arithmetic.</param>
         /// <param name="n">The number of trials.</param>
         /// <returns>the counts for each of the different possible values.</returns>
@@ -365,7 +363,7 @@ namespace MathNet.Numerics.Distributions
         /// Samples a multinomially distributed random variable.
         /// </summary>
         /// <param name="rnd">The random number generator to use.</param>
-        /// <param name="p">An array of nonnegative ratios: this array does not need to be normalized 
+        /// <param name="p">An array of nonnegative ratios: this array does not need to be normalized
         /// as this is often impossible using floating point arithmetic.</param>
         /// <param name="n">The number of variables needed.</param>
         /// <returns>a sequence of counts for each of the different possible values.</returns>

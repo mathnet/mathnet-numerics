@@ -31,6 +31,7 @@
 using System;
 using System.Collections.Generic;
 using MathNet.Numerics.Properties;
+using MathNet.Numerics.Random;
 
 namespace MathNet.Numerics.Distributions
 {
@@ -51,7 +52,7 @@ namespace MathNet.Numerics.Distributions
         double _precision;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="MeanPrecisionPair"/> struct. 
+        /// Initializes a new instance of the <see cref="MeanPrecisionPair"/> struct.
         /// </summary>
         /// <param name="m">The mean of the pair.</param>
         /// <param name="p">The precision of the pair.</param>
@@ -95,11 +96,6 @@ namespace MathNet.Numerics.Distributions
     /// will be positive infinity. A completely degenerate NormalGamma distribution with known mean and precision is possible as well.</para>
     /// <a href="http://en.wikipedia.org/wiki/Normal-gamma_distribution">Wikipedia - Normal-Gamma distribution</a>.
     /// </summary>
-    /// <remarks><para>The distribution will use the <see cref="System.Random"/> by default. 
-    /// Users can get/set the random number generator by using the <see cref="RandomSource"/> property.</para>
-    /// <para>The statistics classes will check all the incoming parameters whether they are in the allowed
-    /// range. This might involve heavy computation. Optionally, by setting Control.CheckDistributionParameters
-    /// to <c>false</c>, all parameter checks can be turned off.</para></remarks>
     public class NormalGamma : IDistribution
     {
         System.Random _random;
@@ -110,7 +106,7 @@ namespace MathNet.Numerics.Distributions
         double _precisionInvScale;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="NormalGamma"/> class. 
+        /// Initializes a new instance of the <see cref="NormalGamma"/> class.
         /// </summary>
         /// <param name="meanLocation">The location of the mean.</param>
         /// <param name="meanScale">The scale of the mean.</param>
@@ -118,12 +114,12 @@ namespace MathNet.Numerics.Distributions
         /// <param name="precisionInverseScale">The inverse scale of the precision.</param>
         public NormalGamma(double meanLocation, double meanScale, double precisionShape, double precisionInverseScale)
         {
-            _random = new System.Random(Random.RandomSeed.Guid());
+            _random = SystemRandomSource.Default;
             SetParameters(meanLocation, meanScale, precisionShape, precisionInverseScale);
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="NormalGamma"/> class. 
+        /// Initializes a new instance of the <see cref="NormalGamma"/> class.
         /// </summary>
         /// <param name="meanLocation">The location of the mean.</param>
         /// <param name="meanScale">The scale of the mean.</param>
@@ -132,7 +128,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="randomSource">The random number generator which is used to draw random samples.</param>
         public NormalGamma(double meanLocation, double meanScale, double precisionShape, double precisionInverseScale, System.Random randomSource)
         {
-            _random = randomSource ?? new System.Random(Random.RandomSeed.Guid());
+            _random = randomSource ?? SystemRandomSource.Default;
             SetParameters(meanLocation, meanScale, precisionShape, precisionInverseScale);
         }
 
@@ -147,7 +143,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Checks whether the parameters of the distribution are valid. 
+        /// Checks whether the parameters of the distribution are valid.
         /// </summary>
         /// <param name="meanLocation">The location of the mean.</param>
         /// <param name="meanScale">The scale of the mean.</param>
@@ -222,7 +218,7 @@ namespace MathNet.Numerics.Distributions
         public System.Random RandomSource
         {
             get { return _random; }
-            set { _random = value ?? new System.Random(Random.RandomSeed.Guid()); }
+            set { _random = value ?? SystemRandomSource.Default; }
         }
 
         /// <summary>

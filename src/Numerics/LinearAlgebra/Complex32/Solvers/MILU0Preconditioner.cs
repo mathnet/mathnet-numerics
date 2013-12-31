@@ -165,6 +165,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers
         /// <param name="alu">Matrix values in MSR format (output).</param>
         /// <param name="jlu">Row pointers and column indices (output).</param>
         /// <param name="ju">Pointer to diagonal elements (output).</param>
+        /// <param name="modified">True if the modified/MILU algorithm should be used (recommended)</param>
         /// <returns>Returns 0 on success or k > 0 if a zero pivot was encountered at step k.</returns>
         private int Compute(int n, Complex32[] a, int[] ja, int[] ia, Complex32[] alu, int[] jlu, int[] ju, bool modified)
         {

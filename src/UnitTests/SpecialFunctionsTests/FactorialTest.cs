@@ -36,7 +36,7 @@ namespace MathNet.Numerics.UnitTests.SpecialFunctionsTests
     /// <summary>
     /// Factorial tests.
     /// </summary>
-    [TestFixture]
+    [TestFixture, Category("Functions")]
     public class FactorialTest
     {
         /// <summary>

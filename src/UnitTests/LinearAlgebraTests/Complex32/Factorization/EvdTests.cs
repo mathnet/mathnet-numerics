@@ -24,6 +24,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Complex32;
 using NUnit.Framework;
 
@@ -40,6 +41,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
     /// <summary>
     /// Eigenvalues factorization tests for a dense matrix.
     /// </summary>
+    [TestFixture, Category("LAFactorization")]
     public class EvdTests
     {
         /// <summary>
@@ -81,7 +83,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
         [TestCase(100)]
         public void CanFactorizeRandomMatrix(int order)
         {
-            var matrixA = MatrixLoader.GenerateRandomDenseMatrix(order, order);
+            var matrixA = Matrix<Complex32>.Build.Random(order, order, 1);
             var factorEvd = matrixA.Evd();
             var eigenVectors = factorEvd.EigenVectors;
             var d = factorEvd.D;
@@ -100,8 +102,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
             {
                 for (var j = 0; j < matrixAv.ColumnCount; j++)
                 {
-                    Assert.AreEqual(matrixAv[i, j].Real, matrixLv[i, j].Real, 1e-4f);
-                    Assert.AreEqual(matrixAv[i, j].Imaginary, matrixLv[i, j].Imaginary, 1e-4f);
+                    Assert.AreEqual(matrixAv[i, j].Real, matrixLv[i, j].Real, 1e-3f);
+                    Assert.AreEqual(matrixAv[i, j].Imaginary, matrixLv[i, j].Imaginary, 1e-3f);
                 }
             }
         }
@@ -112,7 +114,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
         [Test]
         public void CanFactorizeRandomSymmetricMatrix([Values(1, 2, 5, 10)] int order)
         {
-            var matrixA = MatrixLoader.GenerateRandomPositiveDefiniteHermitianDenseMatrix(order);
+            var matrixA = Matrix<Complex32>.Build.RandomPositiveDefinite(order, 1);
             MatrixHelpers.ForceConjugateSymmetric(matrixA);
             var factorEvd = matrixA.Evd();
             var eigenVectors = factorEvd.EigenVectors;
@@ -131,7 +133,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
             {
                 for (var j = 0; j < matrix.ColumnCount; j++)
                 {
-                    AssertHelpers.AlmostEqualRelative(matrix[i, j], matrixA[i, j], 3);
+                    AssertHelpers.AlmostEqual(matrix[i, j], matrixA[i, j], 3);
                 }
             }
         }
@@ -145,7 +147,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
         [TestCase(100)]
         public void CanCheckRankSquare(int order)
         {
-            var matrixA = MatrixLoader.GenerateRandomDenseMatrix(order, order);
+            var matrixA = Matrix<Complex32>.Build.Random(order, order, 1);
             var factorEvd = matrixA.Evd();
 
             Assert.AreEqual(factorEvd.Rank, order);
@@ -203,12 +205,12 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
         [TestCase(50)]
         public void CanSolveForRandomVectorAndSymmetricMatrix(int order)
         {
-            var matrixA = MatrixLoader.GenerateRandomPositiveDefiniteHermitianDenseMatrix(order);
+            var matrixA = Matrix<Complex32>.Build.RandomPositiveDefinite(order, 1);
             MatrixHelpers.ForceConjugateSymmetric(matrixA);
             var matrixACopy = matrixA.Clone();
             var factorEvd = matrixA.Evd();
 
-            var vectorb = MatrixLoader.GenerateRandomDenseVector(order);
+            var vectorb = Vector<Complex32>.Build.Random(order, 1);
             var resultx = factorEvd.Solve(vectorb);
 
             Assert.AreEqual(matrixA.ColumnCount, resultx.Count);
@@ -218,8 +220,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
             // Check the reconstruction.
             for (var i = 0; i < vectorb.Count; i++)
             {
-                Assert.AreEqual(vectorb[i].Real, matrixBReconstruct[i].Real, 1e-3f);
-                Assert.AreEqual(vectorb[i].Imaginary, matrixBReconstruct[i].Imaginary, 1e-3f);
+                Assert.AreEqual(vectorb[i].Real, matrixBReconstruct[i].Real, 1e-2f);
+                Assert.AreEqual(vectorb[i].Imaginary, matrixBReconstruct[i].Imaginary, 1e-2f);
             }
 
             // Make sure A didn't change.
@@ -244,12 +246,12 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
         [TestCase(50)]
         public void CanSolveForRandomMatrixAndSymmetricMatrix(int order)
         {
-            var matrixA = MatrixLoader.GenerateRandomPositiveDefiniteHermitianDenseMatrix(order);
+            var matrixA = Matrix<Complex32>.Build.RandomPositiveDefinite(order, 1);
             MatrixHelpers.ForceConjugateSymmetric(matrixA);
             var matrixACopy = matrixA.Clone();
             var factorEvd = matrixA.Evd();
 
-            var matrixB = MatrixLoader.GenerateRandomDenseMatrix(order, order);
+            var matrixB = Matrix<Complex32>.Build.Random(order, order, 1);
             var matrixX = factorEvd.Solve(matrixB);
 
             // The solution X row dimension is equal to the column dimension of A
@@ -292,11 +294,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
         [TestCase(50)]
         public void CanSolveForRandomVectorAndSymmetricMatrixWhenResultVectorGiven(int order)
         {
-            var matrixA = MatrixLoader.GenerateRandomPositiveDefiniteHermitianDenseMatrix(order);
+            var matrixA = Matrix<Complex32>.Build.RandomPositiveDefinite(order, 1);
             MatrixHelpers.ForceConjugateSymmetric(matrixA);
             var matrixACopy = matrixA.Clone();
             var factorEvd = matrixA.Evd();
-            var vectorb = MatrixLoader.GenerateRandomDenseVector(order);
+            var vectorb = Vector<Complex32>.Build.Random(order, 1);
             var vectorbCopy = vectorb.Clone();
             var resultx = new DenseVector(order);
             factorEvd.Solve(vectorb, resultx);
@@ -306,8 +308,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
             // Check the reconstruction.
             for (var i = 0; i < vectorb.Count; i++)
             {
-                Assert.AreEqual(vectorb[i].Real, matrixBReconstruct[i].Real, 1e-3f);
-                Assert.AreEqual(vectorb[i].Imaginary, matrixBReconstruct[i].Imaginary, 1e-3f);
+                Assert.AreEqual(vectorb[i].Real, matrixBReconstruct[i].Real, 1e-2f);
+                Assert.AreEqual(vectorb[i].Imaginary, matrixBReconstruct[i].Imaginary, 1e-2f);
             }
 
             // Make sure A didn't change.
@@ -339,12 +341,12 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
         [TestCase(100)]
         public void CanSolveForRandomMatrixAndSymmetricMatrixWhenResultMatrixGiven(int order)
         {
-            var matrixA = MatrixLoader.GenerateRandomPositiveDefiniteHermitianDenseMatrix(order);
+            var matrixA = Matrix<Complex32>.Build.RandomPositiveDefinite(order, 1);
             MatrixHelpers.ForceConjugateSymmetric(matrixA);
             var matrixACopy = matrixA.Clone();
             var factorEvd = matrixA.Evd();
 
-            var matrixB = MatrixLoader.GenerateRandomDenseMatrix(order, order);
+            var matrixB = Matrix<Complex32>.Build.Random(order, order, 1);
             var matrixBCopy = matrixB.Clone();
 
             var matrixX = new DenseMatrix(order, order);
@@ -363,8 +365,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
             {
                 for (var j = 0; j < matrixB.ColumnCount; j++)
                 {
-                    Assert.AreEqual(matrixB[i, j].Real, matrixBReconstruct[i, j].Real, 1e-2f);
-                    Assert.AreEqual(matrixB[i, j].Imaginary, matrixBReconstruct[i, j].Imaginary, 1e-2f);
+                    Assert.AreEqual(matrixB[i, j].Real, matrixBReconstruct[i, j].Real, 1e-1f);
+                    Assert.AreEqual(matrixB[i, j].Imaginary, matrixBReconstruct[i, j].Imaginary, 1e-1f);
                 }
             }
 

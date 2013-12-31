@@ -34,7 +34,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
     /// <summary>
     /// <c>NormalGamma</c> distribution tests.
     /// </summary>
-    [TestFixture]
+    [TestFixture, Category("Distributions")]
     public class NormalGammaTests
     {
         /// <summary>
@@ -304,7 +304,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         {
             new NormalGamma(0.0, 1.0, 1.0, 1.0)
             {
-                RandomSource = new Random()
+                RandomSource = new Random(0)
             };
         }
 

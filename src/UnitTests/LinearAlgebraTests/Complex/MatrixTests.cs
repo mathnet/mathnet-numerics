@@ -44,7 +44,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
         [TestCase("Wide2x3")]
         public void CanTransposeMatrix(string name)
         {
-            var matrix = CreateMatrix(TestData2D[name]);
+            var matrix = TestMatrices[name];
             var transpose = matrix.Transpose();
 
             Assert.AreNotSame(matrix, transpose);
@@ -70,7 +70,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
         [TestCase("Wide2x3")]
         public void CanConjugateTransposeMatrix(string name)
         {
-            var matrix = CreateMatrix(TestData2D[name]);
+            var matrix = TestMatrices[name];
             var transpose = matrix.ConjugateTranspose();
 
             Assert.AreNotSame(matrix, transpose);
@@ -140,12 +140,13 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
         public virtual void CanComputeL2Norm()
         {
             var matrix = TestMatrices["Square3x3"];
-            AssertHelpers.AlmostEqualRelative(10.638175225153, matrix.L2Norm(), 14);
+            AssertHelpers.AlmostEqualRelative(10.638175225153, matrix.L2Norm(), 12);
 
             matrix = TestMatrices["Wide2x3"];
-            AssertHelpers.AlmostEqualRelative(5.2058554445283, matrix.L2Norm(), 14);
+            AssertHelpers.AlmostEqualRelative(5.2058554445283, matrix.L2Norm(), 12);
+
             matrix = TestMatrices["Tall3x2"];
-            AssertHelpers.AlmostEqualRelative(7.35826643761172, matrix.L2Norm(), 14);
+            AssertHelpers.AlmostEqualRelative(7.35826643761172, matrix.L2Norm(), 12);
         }
 
         /// <summary>

@@ -62,9 +62,9 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
             var nm = Math.Min(matrix.RowCount + 1, matrix.ColumnCount);
             var matrixCopy = matrix.Clone();
 
-            var s = matrixCopy.CreateVector(nm);
-            var u = matrixCopy.CreateMatrix(matrixCopy.RowCount, matrixCopy.RowCount);
-            var vt = matrixCopy.CreateMatrix(matrixCopy.ColumnCount, matrixCopy.ColumnCount);
+            var s = Vector<float>.Build.SameAs(matrixCopy, nm);
+            var u = Matrix<float>.Build.SameAs(matrixCopy, matrixCopy.RowCount, matrixCopy.RowCount);
+            var vt = Matrix<float>.Build.SameAs(matrixCopy, matrixCopy.ColumnCount, matrixCopy.ColumnCount);
 
             const int maxiter = 1000;
             var e = new float[matrixCopy.ColumnCount];
@@ -570,7 +570,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
             if (matrixCopy.RowCount < matrixCopy.ColumnCount)
             {
                 nm--;
-                var tmp = matrixCopy.CreateVector(nm);
+                var tmp = Vector<float>.Build.SameAs(matrixCopy, nm);
                 for (i = 0; i < nm; i++)
                 {
                     tmp[i] = s[i];

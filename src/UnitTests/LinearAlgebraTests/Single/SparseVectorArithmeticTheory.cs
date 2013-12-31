@@ -29,24 +29,23 @@
 // </copyright>
 
 using MathNet.Numerics.LinearAlgebra;
-using MathNet.Numerics.LinearAlgebra.Single;
 using NUnit.Framework;
 
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
 {
-    [TestFixture]
+    [TestFixture, Category("LA")]
     public class SparseVectorArithmeticTheory : VectorArithmeticTheory
     {
         [Datapoints]
-        Vector<float>[] denseVectors = new Vector<float>[]
-            {
-                SparseVector.OfEnumerable(new float[] {1, 2, 3, 4, 5}),
-                SparseVector.OfEnumerable(new float[] {2, 0, 0, -5, 0}),
-                new SparseVector(5),
-                new SparseVector(int.MaxValue)
-            };
+        Vector<float>[] denseVectors =
+        {
+            Vector<float>.Build.SparseOfEnumerable(new float[] { 1, 2, 3, 4, 5 }),
+            Vector<float>.Build.SparseOfEnumerable(new float[] { 2, 0, 0, -5, 0 }),
+            Vector<float>.Build.Sparse(5),
+            Vector<float>.Build.Sparse(int.MaxValue)
+        };
 
         [Datapoints]
-        float[] scalars = new[] {2f};
+        float[] scalars = { 2f };
     }
 }

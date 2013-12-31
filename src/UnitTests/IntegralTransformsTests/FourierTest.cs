@@ -28,23 +28,19 @@ using System;
 using MathNet.Numerics.Distributions;
 using MathNet.Numerics.IntegralTransforms;
 using MathNet.Numerics.IntegralTransforms.Algorithms;
-using MathNet.Numerics.Signals;
 using NUnit.Framework;
 
 namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
 {
-    using Random = System.Random;
 
-#if NOSYSNUMERICS
-    using Complex = Numerics.Complex;
-#else
-    using Complex = System.Numerics.Complex;
+#if !NOSYSNUMERICS
+    using System.Numerics;
 #endif
 
     /// <summary>
     /// Fourier test.
     /// </summary>
-    [TestFixture]
+    [TestFixture, Category("FFT")]
     public class FourierTest
     {
         /// <summary>
@@ -52,7 +48,7 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         /// </summary>
         IContinuousDistribution GetUniform(int seed)
         {
-            return new ContinuousUniform(-1, 1, new Random(seed));
+            return new ContinuousUniform(-1, 1, new System.Random(seed));
         }
 
         /// <summary>
@@ -61,7 +57,7 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         [Test]
         public void NaiveTransformsRealSineCorrectly()
         {
-            var samples = SignalGenerator.EquidistantPeriodic(w => new Complex(Math.Sin(w), 0), Constants.Pi2, 0, 16);
+            var samples = Generate.PeriodicMap(16, w => new Complex(Math.Sin(w), 0), 16, 1.0, Constants.Pi2);
 
             // real-odd transforms to imaginary odd
             var dft = new DiscreteFourierTransform();
@@ -97,8 +93,7 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         [Test]
         public void Radix2ThrowsWhenNotPowerOfTwo()
         {
-            var samples = SignalGenerator.Random((u, v) => new Complex(u, v), GetUniform(1), 0x7F);
-
+            var samples = Generate.RandomComplex(0x7F, GetUniform(1));
             var dft = new DiscreteFourierTransform();
 
             Assert.Throws(typeof (ArgumentException), () => dft.Radix2Forward(samples, FourierOptions.Default));

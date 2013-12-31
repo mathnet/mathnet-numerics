@@ -58,7 +58,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
             }
 
             var q = matrix.Clone();
-            var r = matrix.CreateMatrix(matrix.ColumnCount, matrix.ColumnCount);
+            var r = Matrix<float>.Build.SameAs(matrix, matrix.ColumnCount, matrix.ColumnCount);
 
             for (var k = 0; k < q.ColumnCount; k++)
             {

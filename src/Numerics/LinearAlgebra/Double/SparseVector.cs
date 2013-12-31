@@ -116,7 +116,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// </summary>
         public static SparseVector Create(int length, double value)
         {
-            if (value == 0d) return new SparseVector(length);
+            if (value == 0d) return new SparseVector(new SparseVectorStorage<double>(length));
             return new SparseVector(SparseVectorStorage<double>.OfInit(length, i => value));
         }
 
@@ -145,7 +145,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             {
                 if (!ReferenceEquals(this, result))
                 {
-                    CopyTo(result); 
+                    CopyTo(result);
                 }
 
                 return;
@@ -153,7 +153,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
             if (ReferenceEquals(this, result))
             {
-                //populate a new vector with the scalar   
+                //populate a new vector with the scalar
                 var vnonZeroValues = new double[Count];
                 var vnonZeroIndices = new int[Count];
                 for (int index = 0; index < Count; index++)
@@ -384,20 +384,19 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 {
                     result.At(_storage.Indices[index], -_storage.Values[index]);
                 }
+                return;
             }
-            else
-            {
-                if (!ReferenceEquals(this, result))
-                {
-                    sparseResult._storage.ValueCount = _storage.ValueCount;
-                    sparseResult._storage.Indices = new int[_storage.ValueCount];
-                    Buffer.BlockCopy(_storage.Indices, 0, sparseResult._storage.Indices, 0, _storage.ValueCount * Constants.SizeOfInt);
-                    sparseResult._storage.Values = new double[_storage.ValueCount];
-                    Array.Copy(_storage.Values, sparseResult._storage.Values, _storage.ValueCount);
-                }
 
-                Control.LinearAlgebraProvider.ScaleArray(-1.0d, sparseResult._storage.Values, sparseResult._storage.Values);
+            if (!ReferenceEquals(this, result))
+            {
+                sparseResult._storage.ValueCount = _storage.ValueCount;
+                sparseResult._storage.Indices = new int[_storage.ValueCount];
+                Buffer.BlockCopy(_storage.Indices, 0, sparseResult._storage.Indices, 0, _storage.ValueCount * Constants.SizeOfInt);
+                sparseResult._storage.Values = new double[_storage.ValueCount];
+                Array.Copy(_storage.Values, sparseResult._storage.Values, _storage.ValueCount);
             }
+
+            Control.LinearAlgebraProvider.ScaleArray(-1.0d, sparseResult._storage.Values, sparseResult._storage.Values);
         }
 
         /// <summary>
@@ -503,7 +502,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         }
 
         /// <summary>
-        /// Returns a <strong>Vector</strong> containing the negated values of <paramref name="rightSide"/>. 
+        /// Returns a <strong>Vector</strong> containing the negated values of <paramref name="rightSide"/>.
         /// </summary>
         /// <param name="rightSide">The vector to get the values from.</param>
         /// <returns>A vector containing the negated values as <paramref name="rightSide"/>.</returns>
@@ -625,7 +624,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <summary>
         /// Returns the index of the absolute minimum element.
         /// </summary>
-        /// <returns>The index of absolute minimum element.</returns>   
+        /// <returns>The index of absolute minimum element.</returns>
         public override int AbsoluteMinimumIndex()
         {
             if (_storage.ValueCount == 0)
@@ -652,7 +651,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <summary>
         /// Returns the index of the absolute maximum element.
         /// </summary>
-        /// <returns>The index of absolute maximum element.</returns>          
+        /// <returns>The index of absolute maximum element.</returns>
         public override int MaximumIndex()
         {
             if (_storage.ValueCount == 0)
@@ -677,7 +676,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <summary>
         /// Returns the index of the minimum element.
         /// </summary>
-        /// <returns>The index of minimum element.</returns>  
+        /// <returns>The index of minimum element.</returns>
         public override int MinimumIndex()
         {
             if (_storage.ValueCount == 0)
@@ -773,7 +772,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             {
                 for (var i = 0; i < _storage.ValueCount; i++)
                 {
-                    _storage.Values[i] *= _storage.Values[i]; 
+                    _storage.Values[i] *= _storage.Values[i];
                 }
             }
             else
@@ -816,8 +815,8 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="u">First vector</param>
         /// <param name="v">Second vector</param>
         /// <returns>Matrix M[i,j] = u[i]*v[j] </returns>
-        /// <exception cref="ArgumentNullException">If the u vector is <see langword="null" />.</exception> 
-        /// <exception cref="ArgumentNullException">If the v vector is <see langword="null" />.</exception> 
+        /// <exception cref="ArgumentNullException">If the u vector is <see langword="null" />.</exception>
+        /// <exception cref="ArgumentNullException">If the v vector is <see langword="null" />.</exception>
         public static Matrix<double> OuterProduct(SparseVector u, SparseVector v)
         {
             if (u == null)
@@ -907,7 +906,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             var tokens = value.Split(new[] { formatProvider.GetTextInfo().ListSeparator, " ", "\t" }, StringSplitOptions.RemoveEmptyEntries);
             var data = tokens.Select(t => double.Parse(t, NumberStyles.Any, formatProvider)).ToList();
             if (data.Count == 0) throw new FormatException();
-            return OfEnumerable(data);
+            return new SparseVector(SparseVectorStorage<double>.OfEnumerable(data));
         }
 
         /// <summary>

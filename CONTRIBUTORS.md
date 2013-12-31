@@ -28,10 +28,12 @@ Feel free to add a link to your personal site/blog and/or twitter handle.*
 - Artyom Baranovskiy
 - Phil Cleveland (Phil)
 - Scott Stephens
+- Superbest
 - Patrick van der Velde
 - Robin Neatherway
 - Anders Gustafsson (cureos)
 - Andrew Kazyrevich
+- Ethar Alali
 - Iain McDonald (lifebeyondfife)
 - Candy Chiu
 - Gauthier Segay

@@ -138,7 +138,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
         public void CanCreateSparseMatrix()
         {
             var vector = new SparseVector(3);
-            var matrix = vector.CreateMatrix(2, 3);
+            var matrix = Matrix<float>.Build.SameAs(vector, 2, 3);
+            Assert.IsInstanceOf<SparseMatrix>(matrix);
             Assert.AreEqual(2, matrix.RowCount);
             Assert.AreEqual(3, matrix.ColumnCount);
         }

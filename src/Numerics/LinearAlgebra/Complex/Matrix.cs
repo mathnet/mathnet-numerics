@@ -41,6 +41,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
     using Complex = Numerics.Complex;
 #else
     using Complex = System.Numerics.Complex;
+
 #endif
 
     /// <summary>
@@ -48,7 +49,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
     /// </summary>
     [Serializable]
     public abstract class Matrix : Matrix<Complex>
-    {        
+    {
         /// <summary>
         /// Initializes a new instance of the Matrix class.
         /// </summary>
@@ -96,7 +97,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         public override double FrobeniusNorm()
         {
             var transpose = ConjugateTranspose();
-            var aat = this * transpose;
+            var aat = this*transpose;
             var norm = 0d;
             for (var i = 0; i < RowCount; i++)
             {
@@ -111,7 +112,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// <returns>The conjugate transpose of this matrix.</returns>
         public override Matrix<Complex> ConjugateTranspose()
         {
-            var ret = CreateMatrix(ColumnCount, RowCount);
+            var ret = Build.SameAs(this, ColumnCount, RowCount);
             for (var j = 0; j < ColumnCount; j++)
             {
                 for (var i = 0; i < RowCount; i++)
@@ -119,7 +120,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
                     ret.At(j, i, At(i, j).Conjugate());
                 }
             }
-
             return ret;
         }
 
@@ -202,7 +202,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
             {
                 for (var j = 0; j < ColumnCount; j++)
                 {
-                    result.At(i, j, At(i, j) * scalar);
+                    result.At(i, j, At(i, j)*scalar);
                 }
             }
         }
@@ -213,18 +213,17 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// <param name="rightSide">The vector to multiply with.</param>
         /// <param name="result">The result of the multiplication.</param>
         protected override void DoMultiply(Vector<Complex> rightSide, Vector<Complex> result)
-         {
+        {
             for (var i = 0; i < RowCount; i++)
             {
                 var s = Complex.Zero;
-                for (var j = 0; j != ColumnCount; j++)
+                for (var j = 0; j < ColumnCount; j++)
                 {
-                    s += At(i, j) * rightSide[j];
+                    s += At(i, j)*rightSide[j];
                 }
-
                 result[i] = s;
             }
-         }
+        }
 
         /// <summary>
         /// Multiplies this matrix with another matrix and places the results into the result matrix.
@@ -240,9 +239,8 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
                     var s = Complex.Zero;
                     for (var l = 0; l < ColumnCount; l++)
                     {
-                        s += At(j, l) * other.At(l, i);
+                        s += At(j, l)*other.At(l, i);
                     }
-
                     result.At(j, i, s);
                 }
             }
@@ -255,7 +253,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// <param name="result">The matrix to store the result of the division.</param>
         protected override void DoDivide(Complex divisor, Matrix<Complex> result)
         {
-            DoMultiply(1.0 / divisor, result);
+            DoMultiply(1.0/divisor, result);
         }
 
         /// <summary>
@@ -269,7 +267,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
             {
                 for (var j = 0; j < ColumnCount; j++)
                 {
-                    result.At(i, j, dividend / At(i, j));
+                    result.At(i, j, dividend/At(i, j));
                 }
             }
         }
@@ -288,9 +286,29 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
                     var s = Complex.Zero;
                     for (var l = 0; l < ColumnCount; l++)
                     {
-                        s += At(i, l) * other.At(j, l);
+                        s += At(i, l)*other.At(j, l);
                     }
+                    result.At(i, j, s);
+                }
+            }
+        }
 
+        /// <summary>
+        /// Multiplies this matrix with the conjugate transpose of another matrix and places the results into the result matrix.
+        /// </summary>
+        /// <param name="other">The matrix to multiply with.</param>
+        /// <param name="result">The result of the multiplication.</param>
+        protected override void DoConjugateTransposeAndMultiply(Matrix<Complex> other, Matrix<Complex> result)
+        {
+            for (var j = 0; j < other.RowCount; j++)
+            {
+                for (var i = 0; i < RowCount; i++)
+                {
+                    var s = Complex.Zero;
+                    for (var l = 0; l < ColumnCount; l++)
+                    {
+                        s += At(i, l)*other.At(j, l).Conjugate();
+                    }
                     result.At(i, j, s);
                 }
             }
@@ -310,9 +328,29 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
                     var s = Complex.Zero;
                     for (var l = 0; l < RowCount; l++)
                     {
-                        s += At(l, i) * other.At(l, j);
+                        s += At(l, i)*other.At(l, j);
                     }
+                    result.At(i, j, s);
+                }
+            }
+        }
 
+        /// <summary>
+        /// Multiplies the transpose of this matrix with another matrix and places the results into the result matrix.
+        /// </summary>
+        /// <param name="other">The matrix to multiply with.</param>
+        /// <param name="result">The result of the multiplication.</param>
+        protected override void DoConjugateTransposeThisAndMultiply(Matrix<Complex> other, Matrix<Complex> result)
+        {
+            for (var j = 0; j < other.ColumnCount; j++)
+            {
+                for (var i = 0; i < ColumnCount; i++)
+                {
+                    var s = Complex.Zero;
+                    for (var l = 0; l < RowCount; l++)
+                    {
+                        s += At(l, i).Conjugate()*other.At(l, j);
+                    }
                     result.At(i, j, s);
                 }
             }
@@ -328,11 +366,28 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
             for (var i = 0; i < ColumnCount; i++)
             {
                 var s = Complex.Zero;
-                for (var j = 0; j != RowCount; j++)
+                for (var j = 0; j < RowCount; j++)
                 {
-                    s += At(j, i) * rightSide[j];
+                    s += At(j, i)*rightSide[j];
                 }
+                result[i] = s;
+            }
+        }
 
+        /// <summary>
+        /// Multiplies the conjugate transpose of this matrix with a vector and places the results into the result vector.
+        /// </summary>
+        /// <param name="rightSide">The vector to multiply with.</param>
+        /// <param name="result">The result of the multiplication.</param>
+        protected override void DoConjugateTransposeThisAndMultiply(Vector<Complex> rightSide, Vector<Complex> result)
+        {
+            for (var i = 0; i < ColumnCount; i++)
+            {
+                var s = Complex.Zero;
+                for (var j = 0; j < RowCount; j++)
+                {
+                    s += At(j, i).Conjugate()*rightSide[j];
+                }
                 result[i] = s;
             }
         }
@@ -345,7 +400,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         {
             for (var i = 0; i < RowCount; i++)
             {
-                for (var j = 0; j != ColumnCount; j++)
+                for (var j = 0; j < ColumnCount; j++)
                 {
                     result.At(i, j, -At(i, j));
                 }
@@ -360,7 +415,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         {
             for (var i = 0; i < RowCount; i++)
             {
-                for (var j = 0; j != ColumnCount; j++)
+                for (var j = 0; j < ColumnCount; j++)
                 {
                     result.At(i, j, At(i, j).Conjugate());
                 }
@@ -378,7 +433,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
             {
                 for (var i = 0; i < RowCount; i++)
                 {
-                    result.At(i, j, At(i, j) * other.At(i, j));
+                    result.At(i, j, At(i, j)*other.At(i, j));
                 }
             }
         }
@@ -394,7 +449,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
             {
                 for (var i = 0; i < RowCount; i++)
                 {
-                    result.At(i, j, At(i, j) / divisor.At(i, j));
+                    result.At(i, j, At(i, j)/divisor.At(i, j));
                 }
             }
         }

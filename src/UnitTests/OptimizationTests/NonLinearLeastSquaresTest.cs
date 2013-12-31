@@ -28,6 +28,8 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+#if NATIVEMKL
+
 namespace MathNet.Numerics.UnitTests.OptimizationTests
 {
     using System;
@@ -67,3 +69,5 @@ namespace MathNet.Numerics.UnitTests.OptimizationTests
         }
     }
 }
+
+#endif

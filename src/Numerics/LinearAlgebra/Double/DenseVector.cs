@@ -362,11 +362,10 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             if (denseResult == null)
             {
                 base.DoNegate(result);
+                return;
             }
-            else
-            {
-                Control.LinearAlgebraProvider.ScaleArray(-1.0d, _values, denseResult.Values);
-            }
+
+            Control.LinearAlgebraProvider.ScaleArray(-1.0d, _values, denseResult.Values);
         }
 
         /// <summary>
@@ -381,11 +380,10 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             if (denseResult == null)
             {
                 base.DoMultiply(scalar, result);
+                return;
             }
-            else
-            {
-                Control.LinearAlgebraProvider.ScaleArray(scalar, _values, denseResult.Values);
-            }
+
+            Control.LinearAlgebraProvider.ScaleArray(scalar, _values, denseResult.Values);
         }
 
         /// <summary>

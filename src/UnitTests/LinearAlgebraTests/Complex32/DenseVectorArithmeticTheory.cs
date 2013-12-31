@@ -29,24 +29,23 @@
 // </copyright>
 
 using MathNet.Numerics.LinearAlgebra;
-using MathNet.Numerics.LinearAlgebra.Complex32;
 using NUnit.Framework;
 
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
 {
     using Numerics;
 
-    [TestFixture]
+    [TestFixture, Category("LA")]
     public class DenseVectorArithmeticTheory : VectorArithmeticTheory
     {
         [Datapoints]
-        Vector<Complex32>[] denseVectors = new Vector<Complex32>[]
-            {
-                new DenseVector(new[] { new Complex32(1, 1), new Complex32(2, 1), new Complex32(3, 1), new Complex32(4, 1), new Complex32(5, 1) }),
-                new DenseVector(new[] { new Complex32(2, -1), new Complex32(0, 0), new Complex32(0, 2), new Complex32(-5, 1), new Complex32(0, 0) })
-            };
+        Vector<Complex32>[] denseVectors =
+        {
+            Vector<Complex32>.Build.Dense(new[] { new Complex32(1, 1), new Complex32(2, 1), new Complex32(3, 1), new Complex32(4, 1), new Complex32(5, 1) }),
+            Vector<Complex32>.Build.Dense(new[] { new Complex32(2, -1), new Complex32(0, 0), new Complex32(0, 2), new Complex32(-5, 1), new Complex32(0, 0) })
+        };
 
         [Datapoints]
-        private Complex32[] scalars = new[] { new Complex32(2f, -1f) };
+        Complex32[] scalars = { new Complex32(2f, -1f) };
     }
 }

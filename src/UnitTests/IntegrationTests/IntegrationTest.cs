@@ -33,7 +33,7 @@ namespace MathNet.Numerics.UnitTests.IntegrationTests
     /// <summary>
     /// Integration tests.
     /// </summary>
-    [TestFixture]
+    [TestFixture, Category("Integration")]
     public class IntegrationTest
     {
         /// <summary>

@@ -25,7 +25,7 @@
 // </copyright>
 
 using System;
-using MathNet.Numerics.Signals;
+using MathNet.Numerics;
 
 namespace Examples.SignalsExamples
 {
@@ -62,7 +62,8 @@ namespace Examples.SignalsExamples
         public void Run()
         {
             // 1. Get 20 samples of f(x) = (x * x) / 2 at the roots of the Chebyshev polynomial of the first kind within interval [0, 10] 
-            var result = SignalGenerator.ChebyshevNodesFirstKind(Function, 0, 10, 20);
+            var roots = FindRoots.ChebychevPolynomialFirstKind(20, 0, 10);
+            var result = Generate.Map(roots, Function);
             Console.WriteLine(@"1. Get 20 samples of f(x) = (x * x) / 2 at the roots of the Chebyshev polynomial of the first kind within interval [0, 10]");
             for (var i = 0; i < result.Length; i++)
             {
@@ -73,7 +74,8 @@ namespace Examples.SignalsExamples
             Console.WriteLine();
 
             // 2. Get 20 samples of f(x) = (x * x) / 2 at the roots of the Chebyshev polynomial of the second kind within interval [0, 10]
-            result = SignalGenerator.ChebyshevNodesSecondKind(Function, 0, 10, 20);
+            roots = FindRoots.ChebychevPolynomialSecondKind(20, 0, 10);
+            result = Generate.Map(roots, Function);
             Console.WriteLine(@"2. Get 20 samples of f(x) = (x * x) / 2 at the roots of the Chebyshev polynomial of the second kind within interval [0, 10]");
             for (var i = 0; i < result.Length; i++)
             {

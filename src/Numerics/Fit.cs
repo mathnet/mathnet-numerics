@@ -71,6 +71,15 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
+        /// Weighted Least-Squares fitting the points (X,y) = ((x0,x1,..,xk),y) and weights w to a linear surface y : X -> p0*x0 + p1*x1 + ... + pk*xk,
+        /// returning its best fitting parameters as [p0, p1, p2, ..., pk] array.
+        /// </summary>
+        public static double[] MultiDimWeighted(double[][] x, double[] y, double[] w)
+        {
+            return WeightedRegression.Weighted(x, y, w);
+        }
+
+        /// <summary>
         /// Least-Squares fitting the points (X,y) = ((x0,x1,..,xk),y) to a linear surface y : X -> p0*x0 + p1*x1 + ... + pk*xk,
         /// returning a function y' for the best fitting combination.
         /// </summary>
@@ -88,6 +97,16 @@ namespace MathNet.Numerics
         {
             var design = Matrix<double>.Build.Dense(x.Length, order + 1, (i, j) => Math.Pow(x[i], j));
             return MultipleRegression.QR(design, Vector<double>.Build.Dense(y)).ToArray();
+        }
+
+        /// <summary>
+        /// Weighted Least-Squares fitting the points (x,y) and weights w to a k-order polynomial y : x -> p0 + p1*x + p2*x^2 + ... + pk*x^k,
+        /// returning its best fitting parameters as [p0, p1, p2, ..., pk] array, compatible with Evaluate.Polynomial.
+        /// </summary>
+        public static double[] PolynomialWeighted(double[] x, double[] y, double[] w, int order)
+        {
+            var design = Matrix<double>.Build.Dense(x.Length, order + 1, (i, j) => Math.Pow(x[i], j));
+            return WeightedRegression.Weighted(design, Vector<double>.Build.Dense(y), Matrix<double>.Build.Diagonal(w)).ToArray();
         }
 
         /// <summary>

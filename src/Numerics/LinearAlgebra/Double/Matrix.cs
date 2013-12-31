@@ -41,7 +41,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
     /// </summary>
     [Serializable]
     public abstract class Matrix : Matrix<double>
-    {        
+    {
         /// <summary>
         /// Initializes a new instance of the Matrix class.
         /// </summary>
@@ -89,7 +89,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         public override double FrobeniusNorm()
         {
             var transpose = Transpose();
-            var aat = this * transpose;
+            var aat = this*transpose;
             var norm = 0d;
             for (var i = 0; i < RowCount; i++)
             {
@@ -156,7 +156,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 }
             }
         }
-    
+
         /// <summary>
         /// Subtracts another matrix from this matrix.
         /// </summary>
@@ -186,7 +186,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             {
                 for (var j = 0; j < ColumnCount; j++)
                 {
-                    result.At(i, j, At(i, j) * scalar);
+                    result.At(i, j, At(i, j)*scalar);
                 }
             }
         }
@@ -197,18 +197,17 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="rightSide">The vector to multiply with.</param>
         /// <param name="result">The result of the multiplication.</param>
         protected override void DoMultiply(Vector<double> rightSide, Vector<double> result)
-         {
-             for (var i = 0; i < RowCount; i++)
-             {
-                 var s = 0.0;
-                 for (var j = 0; j != ColumnCount; j++)
-                 {
-                     s += At(i, j) * rightSide[j];
-                 }
-
-                 result[i] = s;
-             }
-         }
+        {
+            for (var i = 0; i < RowCount; i++)
+            {
+                var s = 0.0;
+                for (var j = 0; j < ColumnCount; j++)
+                {
+                    s += At(i, j)*rightSide[j];
+                }
+                result[i] = s;
+            }
+        }
 
         /// <summary>
         /// Divides each element of the matrix by a scalar and places results into the result matrix.
@@ -217,7 +216,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="result">The matrix to store the result of the division.</param>
         protected override void DoDivide(double divisor, Matrix<double> result)
         {
-            DoMultiply(1.0 / divisor, result);
+            DoMultiply(1.0/divisor, result);
         }
 
         /// <summary>
@@ -231,7 +230,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             {
                 for (var j = 0; j < ColumnCount; j++)
                 {
-                    result.At(i, j, dividend / At(i, j));
+                    result.At(i, j, dividend/At(i, j));
                 }
             }
         }
@@ -245,14 +244,13 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         {
             for (var j = 0; j < RowCount; j++)
             {
-                for (var i = 0; i != other.ColumnCount; i++)
+                for (var i = 0; i < other.ColumnCount; i++)
                 {
                     var s = 0.0;
                     for (var l = 0; l < ColumnCount; l++)
                     {
-                        s += At(j, l) * other.At(l, i);
+                        s += At(j, l)*other.At(l, i);
                     }
-
                     result.At(j, i, s);
                 }
             }
@@ -272,12 +270,21 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                     var s = 0.0;
                     for (var l = 0; l < ColumnCount; l++)
                     {
-                        s += At(i, l) * other.At(j, l);
+                        s += At(i, l)*other.At(j, l);
                     }
-
                     result.At(i, j, s);
                 }
             }
+        }
+
+        /// <summary>
+        /// Multiplies this matrix with the conjugate transpose of another matrix and places the results into the result matrix.
+        /// </summary>
+        /// <param name="other">The matrix to multiply with.</param>
+        /// <param name="result">The result of the multiplication.</param>
+        protected override sealed void DoConjugateTransposeAndMultiply(Matrix<double> other, Matrix<double> result)
+        {
+            DoTransposeAndMultiply(other, result);
         }
 
         /// <summary>
@@ -294,12 +301,21 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                     var s = 0.0;
                     for (var l = 0; l < RowCount; l++)
                     {
-                        s += At(l, i) * other.At(l, j);
+                        s += At(l, i)*other.At(l, j);
                     }
-
                     result.At(i, j, s);
                 }
             }
+        }
+
+        /// <summary>
+        /// Multiplies the transpose of this matrix with another matrix and places the results into the result matrix.
+        /// </summary>
+        /// <param name="other">The matrix to multiply with.</param>
+        /// <param name="result">The result of the multiplication.</param>
+        protected override sealed void DoConjugateTransposeThisAndMultiply(Matrix<double> other, Matrix<double> result)
+        {
+            DoTransposeThisAndMultiply(other, result);
         }
 
         /// <summary>
@@ -312,13 +328,22 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             for (var i = 0; i < ColumnCount; i++)
             {
                 var s = 0.0;
-                for (var j = 0; j != RowCount; j++)
+                for (var j = 0; j < RowCount; j++)
                 {
-                    s += At(j, i) * rightSide[j];
+                    s += At(j, i)*rightSide[j];
                 }
-
                 result[i] = s;
             }
+        }
+
+        /// <summary>
+        /// Multiplies the conjugate transpose of this matrix with a vector and places the results into the result vector.
+        /// </summary>
+        /// <param name="rightSide">The vector to multiply with.</param>
+        /// <param name="result">The result of the multiplication.</param>
+        protected override void DoConjugateTransposeThisAndMultiply(Vector<double> rightSide, Vector<double> result)
+        {
+            DoTransposeThisAndMultiply(rightSide, result);
         }
 
         /// <summary>
@@ -329,7 +354,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         {
             for (var i = 0; i < RowCount; i++)
             {
-                for (var j = 0; j != ColumnCount; j++)
+                for (var j = 0; j < ColumnCount; j++)
                 {
                     result.At(i, j, -At(i, j));
                 }
@@ -340,7 +365,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// Complex conjugates each element of this matrix and place the results into the result matrix.
         /// </summary>
         /// <param name="result">The result of the conjugation.</param>
-        protected override void DoConjugate(Matrix<double> result)
+        protected override sealed void DoConjugate(Matrix<double> result)
         {
             if (ReferenceEquals(this, result))
             {

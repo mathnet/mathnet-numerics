@@ -304,8 +304,8 @@ module Matrix =
         A.MapIndexedInplace((fun i j x -> f i j), true)
 
         /// Fold all columns into one row vector.
-    let inline foldByCol f acc (A: #Matrix<_>) =
-        let v = A.CreateVector(A.ColumnCount)
+    let inline foldByCol f acc (A: #Matrix<'T>) =
+        let v = Vector<'T>.Build.SameAs(A, A.ColumnCount)
         for k=0 to A.ColumnCount-1 do
             let mutable macc = acc
             for i=0 to A.RowCount-1 do
@@ -314,8 +314,8 @@ module Matrix =
         v :> _ Vector
 
     /// Fold all rows into one column vector.
-    let inline foldByRow f acc (A: #Matrix<_>) =
-        let v = A.CreateVector(A.RowCount)
+    let inline foldByRow f acc (A: #Matrix<'T>) =
+        let v = Vector<'T>.Build.SameAs(A, A.RowCount)
         for k=0 to A.RowCount-1 do
             let mutable macc = acc
             for i=0 to A.ColumnCount-1 do
@@ -350,6 +350,8 @@ module Matrix =
 [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
 module DenseMatrix =
 
+    open MathNet.Numerics.Distributions
+
     /// Create a matrix that directly binds to a storage object.
     let inline ofStorage storage = Matrix<'T>.Build.Dense(storage)
 
@@ -360,7 +362,13 @@ module DenseMatrix =
     let inline zero (rows: int) (cols: int) = Matrix<'T>.Build.Dense(rows, cols)
 
     /// Create a random matrix with the given dimension and value distribution.
-    let inline random (rows: int) (cols: int) dist = Matrix<'T>.Build.Random(rows, cols, dist)
+    let inline random (rows: int) (cols: int) (dist: IContinuousDistribution) = Matrix<'T>.Build.Random(rows, cols, dist)
+    
+    /// Create a random matrix with the given dimension and standard distributed values.
+    let inline randomStandard (rows: int) (cols: int) = Matrix<'T>.Build.Random(rows, cols)
+
+    /// Create a random matrix with the given dimension and standard distributed values using the provided seed.
+    let inline randomSeed (rows: int) (cols: int) (seed: int) = Matrix<'T>.Build.Random(rows, cols, seed)
 
     /// Create a matrix with the given dimension and set all values to x.
     let inline create (rows: int) (cols: int) (x: 'T) = Matrix<'T>.Build.Dense(rows, cols, x)

@@ -24,6 +24,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using MathNet.Numerics.LinearAlgebra;
 using NUnit.Framework;
 
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
@@ -37,6 +38,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
     /// <summary>
     /// Eigenvalues factorization tests for an user matrix.
     /// </summary>
+    [TestFixture, Category("LAFactorization")]
     public class UserEvdTests
     {
         /// <summary>
@@ -78,7 +80,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
         [TestCase(100)]
         public void CanFactorizeRandomMatrix(int order)
         {
-            var matrixA = MatrixLoader.GenerateRandomUserDefinedMatrix(order, order);
+            var matrixA = new UserDefinedMatrix(Matrix<double>.Build.Random(order, order, 1).ToArray());
             var factorEvd = matrixA.Evd();
             var eigenVectors = factorEvd.EigenVectors;
             var d = factorEvd.D;
@@ -114,7 +116,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
         [TestCase(100)]
         public void CanFactorizeRandomSymmetricMatrix(int order)
         {
-            var matrixA = MatrixLoader.GenerateRandomPositiveDefiniteUserDefinedMatrix(order);
+            var matrixA = new UserDefinedMatrix(Matrix<double>.Build.RandomPositiveDefinite(order, 1).ToArray());
             var factorEvd = matrixA.Evd();
             var eigenVectors = factorEvd.EigenVectors;
             var d = factorEvd.D;
@@ -146,7 +148,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
         [TestCase(100)]
         public void CanCheckRankSquare(int order)
         {
-            var matrixA = MatrixLoader.GenerateRandomUserDefinedMatrix(order, order);
+            var matrixA = new UserDefinedMatrix(Matrix<double>.Build.Random(order, order, 1).ToArray());
             var factorEvd = matrixA.Evd();
 
             Assert.AreEqual(factorEvd.Rank, order);
@@ -204,11 +206,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
         [TestCase(100)]
         public void CanSolveForRandomVectorAndSymmetricMatrix(int order)
         {
-            var matrixA = MatrixLoader.GenerateRandomPositiveDefiniteUserDefinedMatrix(order);
+            var matrixA = new UserDefinedMatrix(Matrix<double>.Build.RandomPositiveDefinite(order, 1).ToArray());
             var matrixACopy = matrixA.Clone();
             var factorEvd = matrixA.Evd();
 
-            var vectorb = MatrixLoader.GenerateRandomUserDefinedVector(order);
+            var vectorb = new UserDefinedVector(Vector<double>.Build.Random(order, 1).ToArray());
             var resultx = factorEvd.Solve(vectorb);
 
             Assert.AreEqual(matrixA.ColumnCount, resultx.Count);
@@ -218,7 +220,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
             // Check the reconstruction.
             for (var i = 0; i < vectorb.Count; i++)
             {
-                Assert.AreEqual(vectorb[i], matrixBReconstruct[i], 1.0e-10);
+                Assert.AreEqual(vectorb[i], matrixBReconstruct[i], 1e-9);
             }
 
             // Make sure A didn't change.
@@ -243,11 +245,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
         [TestCase(100)]
         public void CanSolveForRandomMatrixAndSymmetricMatrix(int order)
         {
-            var matrixA = MatrixLoader.GenerateRandomPositiveDefiniteUserDefinedMatrix(order);
+            var matrixA = new UserDefinedMatrix(Matrix<double>.Build.RandomPositiveDefinite(order, 1).ToArray());
             var matrixACopy = matrixA.Clone();
             var factorEvd = matrixA.Evd();
 
-            var matrixB = MatrixLoader.GenerateRandomUserDefinedMatrix(order, order);
+            var matrixB = new UserDefinedMatrix(Matrix<double>.Build.Random(order, order, 1).ToArray());
             var matrixX = factorEvd.Solve(matrixB);
 
             // The solution X row dimension is equal to the column dimension of A
@@ -263,7 +265,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
             {
                 for (var j = 0; j < matrixB.ColumnCount; j++)
                 {
-                    Assert.AreEqual(matrixB[i, j], matrixBReconstruct[i, j], 1.0e-10);
+                    Assert.AreEqual(matrixB[i, j], matrixBReconstruct[i, j], 1e-9);
                 }
             }
 
@@ -289,10 +291,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
         [TestCase(100)]
         public void CanSolveForRandomVectorAndSymmetricMatrixWhenResultVectorGiven(int order)
         {
-            var matrixA = MatrixLoader.GenerateRandomPositiveDefiniteUserDefinedMatrix(order);
+            var matrixA = new UserDefinedMatrix(Matrix<double>.Build.RandomPositiveDefinite(order, 1).ToArray());
             var matrixACopy = matrixA.Clone();
             var factorEvd = matrixA.Evd();
-            var vectorb = MatrixLoader.GenerateRandomUserDefinedVector(order);
+            var vectorb = new UserDefinedVector(Vector<double>.Build.Random(order, 1).ToArray());
             var vectorbCopy = vectorb.Clone();
             var resultx = new UserDefinedVector(order);
             factorEvd.Solve(vectorb, resultx);
@@ -302,7 +304,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
             // Check the reconstruction.
             for (var i = 0; i < vectorb.Count; i++)
             {
-                Assert.AreEqual(vectorb[i], matrixBReconstruct[i], 1.0e-10);
+                Assert.AreEqual(vectorb[i], matrixBReconstruct[i], 1e-9);
             }
 
             // Make sure A didn't change.
@@ -333,11 +335,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
         [TestCase(100)]
         public void CanSolveForRandomMatrixAndSymmetricMatrixWhenResultMatrixGiven(int order)
         {
-            var matrixA = MatrixLoader.GenerateRandomPositiveDefiniteUserDefinedMatrix(order);
+            var matrixA = new UserDefinedMatrix(Matrix<double>.Build.RandomPositiveDefinite(order, 1).ToArray());
             var matrixACopy = matrixA.Clone();
             var factorEvd = matrixA.Evd();
 
-            var matrixB = MatrixLoader.GenerateRandomUserDefinedMatrix(order, order);
+            var matrixB = new UserDefinedMatrix(Matrix<double>.Build.Random(order, order, 1).ToArray());
             var matrixBCopy = matrixB.Clone();
 
             var matrixX = new UserDefinedMatrix(order, order);
@@ -356,7 +358,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
             {
                 for (var j = 0; j < matrixB.ColumnCount; j++)
                 {
-                    Assert.AreEqual(matrixB[i, j], matrixBReconstruct[i, j], 1.0e-10);
+                    Assert.AreEqual(matrixB[i, j], matrixBReconstruct[i, j], 1e-9);
                 }
             }
 

@@ -34,7 +34,7 @@ using System;
 
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
 {
-    [TestFixture]
+    [TestFixture, Category("LA")]
     public abstract class VectorArithmeticTheory<T>
         where T : struct, IEquatable<T>, IFormattable
     {
@@ -72,7 +72,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
 
             var c = vector.Clone();
             c.Subtract(vector, c);
-            Assert.That(c.Equals(vector.CreateVector(vector.Count)));
+            Assert.That(c.Equals(Vector<T>.Build.SameAs(vector)));
         }
 
         [Theory, Timeout(200)]
@@ -174,7 +174,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
             Assert.That(result3, Is.Not.SameAs(a));
             Assert.That(result3, Is.Not.SameAs(b));
             Assert.That(result1.Equals(result2));
-            // Assert.That(result1.Equals(result3)); BUG GH-21
+            Assert.That(result1.Equals(result3));
 
             for (var i = 0; i < Math.Min(a.Count, 20); i++)
             {

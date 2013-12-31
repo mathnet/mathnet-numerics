@@ -28,14 +28,14 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System;
+using MathNet.Numerics.Threading;
+
 namespace MathNet.Numerics.IntegralTransforms.Algorithms
 {
-    using System;
-    using NumberTheory;
-    using Threading;
 
 #if !NOSYSNUMERICS
-    using Complex = System.Numerics.Complex;
+    using System.Numerics;
 #endif
 
     /// <summary>

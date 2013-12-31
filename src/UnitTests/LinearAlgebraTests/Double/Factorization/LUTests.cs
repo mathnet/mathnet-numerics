@@ -24,15 +24,17 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System;
+using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Double;
 using NUnit.Framework;
-using System;
 
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
 {
     /// <summary>
     /// LU factorization tests for a dense matrix.
     /// </summary>
+    [TestFixture, Category("LAFactorization")]
     public class LUTests
     {
         /// <summary>
@@ -44,7 +46,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
         [TestCase(100)]
         public void CanFactorizeIdentity(int order)
         {
-            var matrixI = DenseMatrix.CreateIdentity(order);
+            var matrixI = Matrix<double>.Build.DenseIdentity(order);
             var factorLU = matrixI.LU();
 
             // Check lower triangular part.
@@ -91,7 +93,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
         [TestCase(100)]
         public void IdentityDeterminantIsOne(int order)
         {
-            var matrixI = DenseMatrix.CreateIdentity(order);
+            var matrixI = Matrix<double>.Build.DenseIdentity(order);
             var lu = matrixI.LU();
             Assert.AreEqual(1.0, lu.Determinant);
         }
@@ -108,7 +110,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
         [TestCase(100)]
         public void CanFactorizeRandomMatrix(int order)
         {
-            var matrixX = MatrixLoader.GenerateRandomDenseMatrix(order, order);
+            var matrixX = Matrix<double>.Build.Random(order, order, 1);
             var factorLU = matrixX.LU();
             var matrixL = factorLU.L;
             var matrixU = factorLU.U;
@@ -163,11 +165,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
         [TestCase(100)]
         public void CanSolveForRandomVector(int order)
         {
-            var matrixA = MatrixLoader.GenerateRandomDenseMatrix(order, order);
+            var matrixA = Matrix<double>.Build.Random(order, order, 1);
             var matrixACopy = matrixA.Clone();
             var factorLU = matrixA.LU();
 
-            var vectorb = MatrixLoader.GenerateRandomDenseVector(order);
+            var vectorb = Vector<double>.Build.Random(order, 1);
             var resultx = factorLU.Solve(vectorb);
 
             Assert.AreEqual(matrixA.ColumnCount, resultx.Count);
@@ -202,11 +204,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
         [TestCase(100)]
         public void CanSolveForRandomMatrix(int order)
         {
-            var matrixA = MatrixLoader.GenerateRandomDenseMatrix(order, order);
+            var matrixA = Matrix<double>.Build.Random(order, order, 1);
             var matrixACopy = matrixA.Clone();
             var factorLU = matrixA.LU();
 
-            var matrixB = MatrixLoader.GenerateRandomDenseMatrix(order, order);
+            var matrixB = Matrix<double>.Build.Random(order, order, 1);
             var matrixX = factorLU.Solve(matrixB);
 
             // The solution X row dimension is equal to the column dimension of A
@@ -248,10 +250,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
         [TestCase(100)]
         public void CanSolveForRandomVectorWhenResultVectorGiven(int order)
         {
-            var matrixA = MatrixLoader.GenerateRandomDenseMatrix(order, order);
+            var matrixA = Matrix<double>.Build.Random(order, order, 1);
             var matrixACopy = matrixA.Clone();
             var factorLU = matrixA.LU();
-            var vectorb = MatrixLoader.GenerateRandomDenseVector(order);
+            var vectorb = Vector<double>.Build.Random(order, 1);
             var vectorbCopy = vectorb.Clone();
             var resultx = new DenseVector(order);
             factorLU.Solve(vectorb, resultx);
@@ -294,11 +296,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
         [TestCase(100)]
         public void CanSolveForRandomMatrixWhenResultMatrixGiven(int order)
         {
-            var matrixA = MatrixLoader.GenerateRandomDenseMatrix(order, order);
+            var matrixA = Matrix<double>.Build.Random(order, order, 1);
             var matrixACopy = matrixA.Clone();
             var factorLU = matrixA.LU();
 
-            var matrixB = MatrixLoader.GenerateRandomDenseMatrix(order, order);
+            var matrixB = Matrix<double>.Build.Random(order, order, 1);
             var matrixBCopy = matrixB.Clone();
 
             var matrixX = new DenseMatrix(order, order);
@@ -352,7 +354,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
         [TestCase(100)]
         public void CanInverse(int order)
         {
-            var matrixA = MatrixLoader.GenerateRandomDenseMatrix(order, order);
+            var matrixA = Matrix<double>.Build.Random(order, order, 1);
             var matrixACopy = matrixA.Clone();
             var factorLU = matrixA.LU();
 

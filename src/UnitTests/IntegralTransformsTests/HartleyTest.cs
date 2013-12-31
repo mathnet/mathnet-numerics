@@ -28,23 +28,19 @@ using System;
 using MathNet.Numerics.Distributions;
 using MathNet.Numerics.IntegralTransforms;
 using MathNet.Numerics.IntegralTransforms.Algorithms;
-using MathNet.Numerics.Signals;
 using NUnit.Framework;
 
 namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
 {
-    using Random = System.Random;
 
-#if NOSYSNUMERICS
-    using Complex = Numerics.Complex;
-#else
-    using Complex = System.Numerics.Complex;
+#if !NOSYSNUMERICS
+    using System.Numerics;
 #endif
 
     /// <summary>
     /// Hartley tests.
     /// </summary>
-    [TestFixture]
+    [TestFixture, Category("FFT")]
     public class HartleyTest
     {
         /// <summary>
@@ -52,7 +48,7 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         /// </summary>
         IContinuousDistribution GetUniform(int seed)
         {
-            return new ContinuousUniform(-1, 1, new Random(seed));
+            return new ContinuousUniform(-1, 1, new System.Random(seed));
         }
 
         /// <summary>
@@ -85,7 +81,7 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         public void NaiveMatchesDft(HartleyOptions hartleyOptions, FourierOptions fourierOptions)
         {
             var dht = new DiscreteHartleyTransform();
-            var samples = SignalGenerator.Random(x => x, GetUniform(1), 0x80);
+            var samples = Generate.Random(0x80, GetUniform(1));
 
             VerifyMatchesDft(
                 samples,

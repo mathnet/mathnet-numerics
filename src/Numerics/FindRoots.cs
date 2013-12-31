@@ -3,9 +3,9 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
-// 
+//
 // Copyright (c) 2009-2013 Math.NET
-// 
+//
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -14,10 +14,10 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
-// 
+//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
-// 
+//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -104,6 +104,64 @@ namespace MathNet.Numerics
                 : -0.5*(b - new Complex(b*b - 4*a*c, 0d).SquareRoot());
 
             return new Tuple<Complex, Complex>(q/a, c/q);
+        }
+
+        /// <summary>
+        /// Find all roots of the Chebychev polynomial of the first kind.
+        /// </summary>
+        /// <param name="degree">The polynomial order and therefore the number of roots.</param>
+        /// <param name="intervalBegin">The real domain interval begin where to start sampling.</param>
+        /// <param name="intervalEnd">The real domain interval end where to stop sampling.</param>
+        /// <returns>Samples in [a,b] at (b+a)/2+(b-1)/2*cos(pi*(2i-1)/(2n))</returns>
+        public static double[] ChebychevPolynomialFirstKind(int degree, double intervalBegin = -1d, double intervalEnd = 1d)
+        {
+            if (degree < 1)
+            {
+                return new double[0];
+            }
+
+            // transform to map to [-1..1] interval
+            double location = 0.5*(intervalBegin + intervalEnd);
+            double scale = 0.5*(intervalEnd - intervalBegin);
+
+            // evaluate first kind chebyshev nodes
+            double angleFactor = Constants.Pi/(2*degree);
+
+            var samples = new double[degree];
+            for (int i = 0; i < samples.Length; i++)
+            {
+                samples[i] = location + scale*Math.Cos(((2*i) + 1)*angleFactor);
+            }
+            return samples;
+        }
+
+        /// <summary>
+        /// Find all roots of the Chebychev polynomial of the second kind.
+        /// </summary>
+        /// <param name="degree">The polynomial order and therefore the number of roots.</param>
+        /// <param name="intervalBegin">The real domain interval begin where to start sampling.</param>
+        /// <param name="intervalEnd">The real domain interval end where to stop sampling.</param>
+        /// <returns>Samples in [a,b] at (b+a)/2+(b-1)/2*cos(pi*i/(n-1))</returns>
+        public static double[] ChebychevPolynomialSecondKind(int degree, double intervalBegin = -1d, double intervalEnd = 1d)
+        {
+            if (degree < 1)
+            {
+                return new double[0];
+            }
+
+            // transform to map to [-1..1] interval
+            double location = 0.5*(intervalBegin + intervalEnd);
+            double scale = 0.5*(intervalEnd - intervalBegin);
+
+            // evaluate second kind chebyshev nodes
+            double angleFactor = Constants.Pi/(degree + 1);
+
+            var samples = new double[degree];
+            for (int i = 0; i < samples.Length; i++)
+            {
+                samples[i] = location + scale*Math.Cos((i + 1)*angleFactor);
+            }
+            return samples;
         }
     }
 }

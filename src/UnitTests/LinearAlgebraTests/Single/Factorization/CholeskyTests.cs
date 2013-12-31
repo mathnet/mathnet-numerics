@@ -24,15 +24,17 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System;
+using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Single;
 using NUnit.Framework;
-using System;
 
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Factorization
 {
     /// <summary>
     /// Cholesky factorization tests for a dense matrix.
     /// </summary>
+    [TestFixture, Category("LAFactorization")]
     public class CholeskyTests
     {
         /// <summary>
@@ -107,7 +109,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Factorization
         [TestCase(100)]
         public void CanFactorizeRandomMatrix(int order)
         {
-            var matrixX = MatrixLoader.GenerateRandomPositiveDefiniteDenseMatrix(order);
+            var matrixX = Matrix<float>.Build.RandomPositiveDefinite(order, 1);
             var chol = matrixX.Cholesky();
             var factorC = chol.Factor;
 
@@ -147,10 +149,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Factorization
         [TestCase(100)]
         public void CanSolveForRandomVector(int order)
         {
-            var matrixA = MatrixLoader.GenerateRandomPositiveDefiniteDenseMatrix(order);
+            var matrixA = Matrix<float>.Build.RandomPositiveDefinite(order, 1);
             var matrixACopy = matrixA.Clone();
             var chol = matrixA.Cholesky();
-            var matrixB = MatrixLoader.GenerateRandomDenseVector(order);
+            var matrixB = Vector<float>.Build.Random(order, 1);
             var x = chol.Solve(matrixB);
 
             Assert.AreEqual(matrixB.Count, x.Count);
@@ -160,7 +162,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Factorization
             // Check the reconstruction.
             for (var i = 0; i < order; i++)
             {
-                Assert.AreEqual(matrixB[i], matrixBReconstruct[i], 1e-3);
+                Assert.AreEqual(matrixB[i], matrixBReconstruct[i], 1e-1);
             }
 
             // Make sure A didn't change.
@@ -186,10 +188,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Factorization
         [TestCase(100, 100)]
         public void CanSolveForRandomMatrix(int row, int col)
         {
-            var matrixA = MatrixLoader.GenerateRandomPositiveDefiniteDenseMatrix(row);
+            var matrixA = Matrix<float>.Build.RandomPositiveDefinite(row, 1);
             var matrixACopy = matrixA.Clone();
             var chol = matrixA.Cholesky();
-            var matrixB = MatrixLoader.GenerateRandomDenseMatrix(row, col);
+            var matrixB = Matrix<float>.Build.Random(row, col, 1);
             var matrixX = chol.Solve(matrixB);
 
             Assert.AreEqual(matrixB.RowCount, matrixX.RowCount);
@@ -202,7 +204,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Factorization
             {
                 for (var j = 0; j < matrixB.ColumnCount; j++)
                 {
-                    Assert.AreEqual(matrixB[i, j], matrixBReconstruct[i, j], 1e-2);
+                    Assert.AreEqual(matrixB[i, j], matrixBReconstruct[i, j], 1e-1);
                 }
             }
 
@@ -228,10 +230,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Factorization
         [TestCase(100)]
         public void CanSolveForRandomVectorWhenResultVectorGiven(int order)
         {
-            var matrixA = MatrixLoader.GenerateRandomPositiveDefiniteDenseMatrix(order);
+            var matrixA = Matrix<float>.Build.RandomPositiveDefinite(order, 1);
             var matrixACopy = matrixA.Clone();
             var chol = matrixA.Cholesky();
-            var matrixB = MatrixLoader.GenerateRandomDenseVector(order);
+            var matrixB = Vector<float>.Build.Random(order, 1);
             var matrixBCopy = matrixB.Clone();
             var x = new DenseVector(order);
             chol.Solve(matrixB, x);
@@ -243,7 +245,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Factorization
             // Check the reconstruction.
             for (var i = 0; i < order; i++)
             {
-                Assert.AreEqual(matrixB[i], matrixBReconstruct[i], 1e-3);
+                Assert.AreEqual(matrixB[i], matrixBReconstruct[i], 1e-1);
             }
 
             // Make sure A didn't change.
@@ -275,10 +277,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Factorization
         [TestCase(100, 100)]
         public void CanSolveForRandomMatrixWhenResultMatrixGiven(int row, int col)
         {
-            var matrixA = MatrixLoader.GenerateRandomPositiveDefiniteDenseMatrix(row);
+            var matrixA = Matrix<float>.Build.RandomPositiveDefinite(row, 1);
             var matrixACopy = matrixA.Clone();
             var chol = matrixA.Cholesky();
-            var matrixB = MatrixLoader.GenerateRandomDenseMatrix(row, col);
+            var matrixB = Matrix<float>.Build.Random(row, col, 1);
             var matrixBCopy = matrixB.Clone();
             var matrixX = new DenseMatrix(row, col);
             chol.Solve(matrixB, matrixX);
@@ -293,7 +295,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Factorization
             {
                 for (var j = 0; j < matrixB.ColumnCount; j++)
                 {
-                    Assert.AreEqual(matrixB[i, j], matrixBReconstruct[i, j], 1e-2);
+                    Assert.AreEqual(matrixB[i, j], matrixBReconstruct[i, j], 1e-1);
                 }
             }
 

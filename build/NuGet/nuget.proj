@@ -17,6 +17,7 @@
 
     <ItemGroup>
         <NumericsNet40 Include="$(OutLib)/Net40/MathNet.Numerics.dll;$(OutLib)/Net40/MathNet.Numerics.pdb;$(OutLib)/Net40/MathNet.Numerics.xml" />
+        <NumericsNet35 Include="$(OutLib)/Net35/MathNet.Numerics.dll;$(OutLib)/Net35/MathNet.Numerics.pdb;$(OutLib)/Net35/MathNet.Numerics.xml" />
         <NumericsProfile47 Include="$(OutLib)/Profile47/MathNet.Numerics.dll;$(OutLib)/Profile47/MathNet.Numerics.pdb;$(OutLib)/Profile47/MathNet.Numerics.xml;" />
         <NumericsProfile136 Include="$(OutLib)/Profile136/MathNet.Numerics.dll;$(OutLib)/Profile136/MathNet.Numerics.pdb;$(OutLib)/Profile136/MathNet.Numerics.xml;" />
         <FSharpNet40 Include="$(OutLib)/Net40/MathNet.Numerics.FSharp.dll;$(OutLib)/Net40/MathNet.Numerics.FSharp.pdb;$(OutLib)/Net40/MathNet.Numerics.FSharp.xml" />
@@ -38,6 +39,7 @@
 
         <RemoveDir Directories="$(NumericsPack)/lib" />
         <Copy SourceFiles="@(NumericsNet40)" DestinationFolder="$(NumericsPack)/lib/net40" />
+        <Copy SourceFiles="@(NumericsNet35)" DestinationFolder="$(NumericsPack)/lib/net35" />
         <Copy SourceFiles="@(NumericsProfile47)" DestinationFolder="$(NumericsPack)/lib/portable-net45+windows8+sl5" />
         <Copy SourceFiles="@(NumericsProfile136)" DestinationFolder="$(NumericsPack)/lib/portable-net40+windows8+wp8+sl5" />
 

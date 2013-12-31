@@ -29,7 +29,7 @@
 // </copyright>
 
 using System;
-using MathNet.Numerics.LinearAlgebra.Complex;
+using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Solvers;
 using NUnit.Framework;
 
@@ -44,7 +44,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.StopCrit
     /// <summary>
     /// Iteration count stop criterium tests.
     /// </summary>
-    [TestFixture]
+    [TestFixture, Category("LASolver")]
     public sealed class IterationCountStopCriteriumTest
     {
         /// <summary>
@@ -90,7 +90,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.StopCrit
             var criterium = new IterationCountStopCriterium<Complex>(10);
             Assert.IsNotNull(criterium, "A criterium should have been created");
 
-            Assert.Throws<ArgumentOutOfRangeException>(() => criterium.DetermineStatus(-1, DenseVector.Create(3, i => 1), DenseVector.Create(3, i => 2), DenseVector.Create(3, i => 3)));
+            Assert.Throws<ArgumentOutOfRangeException>(() => criterium.DetermineStatus(-1, Vector<Complex>.Build.Dense(3, 1), Vector<Complex>.Build.Dense(3, 2), Vector<Complex>.Build.Dense(3, 3)));
         }
 
         /// <summary>
@@ -102,10 +102,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.StopCrit
             var criterium = new IterationCountStopCriterium<Complex>(10);
             Assert.IsNotNull(criterium, "A criterium should have been created");
 
-            var status = criterium.DetermineStatus(5, DenseVector.Create(3, i => 1), DenseVector.Create(3, i => 2), DenseVector.Create(3, i => 3));
+            var status = criterium.DetermineStatus(5, Vector<Complex>.Build.Dense(3, 1), Vector<Complex>.Build.Dense(3, 2), Vector<Complex>.Build.Dense(3, 3));
             Assert.AreEqual(IterationStatus.Continue, status, "Should be running");
 
-            var status2 = criterium.DetermineStatus(10, DenseVector.Create(3, i => 1), DenseVector.Create(3, i => 2), DenseVector.Create(3, i => 3));
+            var status2 = criterium.DetermineStatus(10, Vector<Complex>.Build.Dense(3, 1), Vector<Complex>.Build.Dense(3, 2), Vector<Complex>.Build.Dense(3, 3));
             Assert.AreEqual(IterationStatus.StoppedWithoutConvergence, status2, "Should be finished");
         }
 
@@ -118,7 +118,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.StopCrit
             var criterium = new IterationCountStopCriterium<Complex>(10);
             Assert.IsNotNull(criterium, "A criterium should have been created");
 
-            var status = criterium.DetermineStatus(5, DenseVector.Create(3, i => 1), DenseVector.Create(3, i => 2), DenseVector.Create(3, i => 3));
+            var status = criterium.DetermineStatus(5, Vector<Complex>.Build.Dense(3, 1), Vector<Complex>.Build.Dense(3, 2), Vector<Complex>.Build.Dense(3, 3));
             Assert.AreEqual(IterationStatus.Continue, status, "Should be running");
 
             criterium.Reset();

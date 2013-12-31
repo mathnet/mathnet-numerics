@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2002-2011 Math.NET
+// Copyright (c) 2002-2013 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -52,7 +52,7 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
         public static void Build(out double[] x, out double[] y, out double[] xtest, out double[] ytest, int samples = 3, double sampleOffset = -0.5, double slope = 2.0, double intercept = -1.0)
         {
             // Fixed-seed "random" distribution to ensure we always test with the same data
-            var uniform = new ContinuousUniform(0.0, 1.0, new MersenneTwister(42));
+            var uniform = new ContinuousUniform(0.0, 1.0, new SystemRandomSource(42));
 
             // build linear samples
             x = new double[samples];
@@ -60,7 +60,7 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
             for (int i = 0; i < x.Length; i++)
             {
                 x[i] = i + sampleOffset;
-                y[i] = (x[i] * slope) + intercept;
+                y[i] = (x[i]*slope) + intercept;
             }
 
             // build linear test vectors randomly between the sample points
@@ -71,14 +71,14 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
                 // y = const
                 xtest[0] = sampleOffset - uniform.Sample();
                 xtest[1] = sampleOffset + uniform.Sample();
-                ytest[0] = ytest[1] = (sampleOffset * slope) + intercept;
+                ytest[0] = ytest[1] = (sampleOffset*slope) + intercept;
             }
             else
             {
                 for (int i = 0; i < xtest.Length; i++)
                 {
                     xtest[i] = (i - 1) + sampleOffset + uniform.Sample();
-                    ytest[i] = (xtest[i] * slope) + intercept;
+                    ytest[i] = (xtest[i]*slope) + intercept;
                 }
             }
         }

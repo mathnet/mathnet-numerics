@@ -53,26 +53,5 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
         {
             return new UserDefinedMatrix(data);
         }
-
-        /// <summary>
-        /// Creates a vector of the given size.
-        /// </summary>
-        /// <param name="size">The size of the vector to create.
-        /// </param>
-        /// <returns>The new vector. </returns>
-        protected override Vector<float> CreateVector(int size)
-        {
-            return new UserDefinedVector(size);
-        }
-
-        /// <summary>
-        /// Creates a vector from an array.
-        /// </summary>
-        /// <param name="data">The array to create this vector from.</param>
-        /// <returns>The new vector. </returns>
-        protected override Vector<float> CreateVector(float[] data)
-        {
-            return new UserDefinedVector(data);
-        }
     }
 }

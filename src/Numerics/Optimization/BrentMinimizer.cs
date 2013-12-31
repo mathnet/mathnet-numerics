@@ -28,10 +28,10 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System;
+
 namespace MathNet.Numerics.Optimization
 {
-    using System;
-    
     /// <summary>
     /// Options for Brent Minimization.
     /// </summary>

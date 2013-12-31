@@ -30,7 +30,7 @@
 
 using System;
 using System.Collections.Generic;
-using MathNet.Numerics.LinearAlgebra.Double;
+using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Solvers;
 using NUnit.Framework;
 
@@ -39,7 +39,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers
     /// <summary>
     /// Iterator tests
     /// </summary>
-    [TestFixture]
+    [TestFixture, Category("LASolver")]
     public class IteratorTest
     {
         /// <summary>
@@ -51,9 +51,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers
             var iterator = new Iterator<double>();
             Assert.DoesNotThrow(() => iterator.DetermineStatus(
                 0,
-                DenseVector.Create(3, i => 4),
-                DenseVector.Create(3, i => 5),
-                DenseVector.Create(3, i => 6)));
+                Vector<double>.Build.Dense(3, 4),
+                Vector<double>.Build.Dense(3, 5),
+                Vector<double>.Build.Dense(3, 6)));
         }
 
         /// <summary>
@@ -73,9 +73,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers
 
             Assert.Throws<ArgumentOutOfRangeException>(() => iterator.DetermineStatus(
                 -1,
-                DenseVector.Create(3, i => 4),
-                DenseVector.Create(3, i => 5),
-                DenseVector.Create(3, i => 6)));
+                Vector<double>.Build.Dense(3, 4),
+                Vector<double>.Build.Dense(3, 5),
+                Vector<double>.Build.Dense(3, 6)));
         }
 
         /// <summary>
@@ -96,17 +96,17 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers
             // First step, nothing should happen.
             iterator.DetermineStatus(
                 0,
-                DenseVector.Create(3, i => 4),
-                DenseVector.Create(3, i => 4),
-                DenseVector.Create(3, i => 4));
+                Vector<double>.Build.Dense(3, 4),
+                Vector<double>.Build.Dense(3, 4),
+                Vector<double>.Build.Dense(3, 4));
             Assert.AreEqual(IterationStatus.Continue, iterator.Status, "Incorrect status");
 
             // Second step, should run out of iterations.
             iterator.DetermineStatus(
                 1,
-                DenseVector.Create(3, i => 4),
-                DenseVector.Create(3, i => 4),
-                DenseVector.Create(3, i => 4));
+                Vector<double>.Build.Dense(3, 4),
+                Vector<double>.Build.Dense(3, 4),
+                Vector<double>.Build.Dense(3, 4));
             Assert.AreEqual(IterationStatus.StoppedWithoutConvergence, iterator.Status, "Incorrect status");
         }
 
@@ -128,9 +128,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers
             // First step, nothing should happen.
             iterator.DetermineStatus(
                 0,
-                DenseVector.Create(3, i => 4),
-                DenseVector.Create(3, i => 4),
-                DenseVector.Create(3, i => 4));
+                Vector<double>.Build.Dense(3, 4),
+                Vector<double>.Build.Dense(3, 4),
+                Vector<double>.Build.Dense(3, 4));
             Assert.AreEqual(IterationStatus.Continue, iterator.Status, "Incorrect status");
 
             iterator.Reset();

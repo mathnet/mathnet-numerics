@@ -33,6 +33,7 @@ using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Double;
 using MathNet.Numerics.LinearAlgebra.Factorization;
 using MathNet.Numerics.Properties;
+using MathNet.Numerics.Random;
 
 namespace MathNet.Numerics.Distributions
 {
@@ -43,11 +44,6 @@ namespace MathNet.Numerics.Distributions
     /// normal distribution.
     /// <a href="http://en.wikipedia.org/wiki/Wishart_distribution">Wikipedia - Wishart distribution</a>.
     /// </summary>
-    /// <remarks><para>The distribution will use the <see cref="System.Random"/> by default. 
-    /// Users can set the random number generator by using the <see cref="RandomSource"/> property.</para>
-    /// <para>The statistics classes will check all the incoming parameters whether they are in the allowed
-    /// range. This might involve heavy computation. Optionally, by setting Control.CheckDistributionParameters
-    /// to <c>false</c>, all parameter checks can be turned off.</para></remarks>
     public class Wishart : IDistribution
     {
         System.Random _random;
@@ -68,25 +64,25 @@ namespace MathNet.Numerics.Distributions
         Cholesky<double> _chol;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Wishart"/> class. 
+        /// Initializes a new instance of the <see cref="Wishart"/> class.
         /// </summary>
         /// <param name="degreesOfFreedom">The degrees of freedom (n) for the Wishart distribution.</param>
         /// <param name="scale">The scale matrix (V) for the Wishart distribution.</param>
         public Wishart(double degreesOfFreedom, Matrix<double> scale)
         {
-            _random = new System.Random(Random.RandomSeed.Guid());
+            _random = SystemRandomSource.Default;
             SetParameters(degreesOfFreedom, scale);
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Wishart"/> class. 
+        /// Initializes a new instance of the <see cref="Wishart"/> class.
         /// </summary>
         /// <param name="degreesOfFreedom">The degrees of freedom (n) for the Wishart distribution.</param>
         /// <param name="scale">The scale matrix (V) for the Wishart distribution.</param>
         /// <param name="randomSource">The random number generator which is used to draw random samples.</param>
         public Wishart(double degreesOfFreedom, Matrix<double> scale, System.Random randomSource)
         {
-            _random = randomSource ?? new System.Random(Random.RandomSeed.Guid());
+            _random = randomSource ?? SystemRandomSource.Default;
             SetParameters(degreesOfFreedom, scale);
         }
 
@@ -109,7 +105,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Checks whether the parameters of the distribution are valid. 
+        /// Checks whether the parameters of the distribution are valid.
         /// </summary>
         /// <param name="degreesOfFreedom">The degrees of freedom (n) for the Wishart distribution.</param>
         /// <param name="scale">The scale matrix (V) for the Wishart distribution.</param>
@@ -170,15 +166,7 @@ namespace MathNet.Numerics.Distributions
         public System.Random RandomSource
         {
             get { return _random; }
-            set
-            {
-                if (value == null)
-                {
-                    throw new ArgumentNullException();
-                }
-
-                _random = value;
-            }
+            set { _random = value ?? SystemRandomSource.Default; }
         }
 
         /// <summary>
@@ -207,16 +195,8 @@ namespace MathNet.Numerics.Distributions
         {
             get
             {
-                var res = _scale.CreateMatrix(_scale.RowCount, _scale.ColumnCount);
-                for (var i = 0; i < res.RowCount; i++)
-                {
-                    for (var j = 0; j < res.ColumnCount; j++)
-                    {
-                        res.At(i, j, _degreesOfFreedom*((_scale.At(i, j)*_scale.At(i, j)) + (_scale.At(i, i)*_scale.At(j, j))));
-                    }
-                }
-
-                return res;
+                return Matrix<double>.Build.Dense(_scale.RowCount, _scale.ColumnCount,
+                    (i, j) => _degreesOfFreedom*((_scale.At(i, j)*_scale.At(i, j)) + (_scale.At(i, i)*_scale.At(j, j))));
             }
         }
 

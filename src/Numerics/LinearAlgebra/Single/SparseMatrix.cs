@@ -375,7 +375,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// <returns>The lower triangle of this matrix.</returns>
         public override Matrix<float> LowerTriangle()
         {
-            var result = CreateMatrix(RowCount, ColumnCount);
+            var result = Build.SameAs(this);
             LowerTriangleImpl(result);
             return result;
         }
@@ -400,7 +400,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
 
             if (ReferenceEquals(this, result))
             {
-                var tmp = result.CreateMatrix(result.RowCount, result.ColumnCount);
+                var tmp = Build.SameAs(result);
                 LowerTriangle(tmp);
                 tmp.CopyTo(result);
             }
@@ -440,7 +440,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// <returns>The upper triangle of this matrix.</returns>
         public override Matrix<float> UpperTriangle()
         {
-            var result = CreateMatrix(RowCount, ColumnCount);
+            var result = Build.SameAs(this);
             UpperTriangleImpl(result);
             return result;
         }
@@ -465,7 +465,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
 
             if (ReferenceEquals(this, result))
             {
-                var tmp = result.CreateMatrix(result.RowCount, result.ColumnCount);
+                var tmp = Build.SameAs(result);
                 UpperTriangle(tmp);
                 tmp.CopyTo(result);
             }
@@ -506,7 +506,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// <returns>The lower triangle of this matrix.</returns>
         public override Matrix<float> StrictlyLowerTriangle()
         {
-            var result = CreateMatrix(RowCount, ColumnCount);
+            var result = Build.SameAs(this);
             StrictlyLowerTriangleImpl(result);
             return result;
         }
@@ -531,7 +531,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
 
             if (ReferenceEquals(this, result))
             {
-                var tmp = result.CreateMatrix(result.RowCount, result.ColumnCount);
+                var tmp = Build.SameAs(result);
                 StrictlyLowerTriangle(tmp);
                 tmp.CopyTo(result);
             }
@@ -572,7 +572,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// <returns>The upper triangle of this matrix.</returns>
         public override Matrix<float> StrictlyUpperTriangle()
         {
-            var result = CreateMatrix(RowCount, ColumnCount);
+            var result = Build.SameAs(this);
             StrictlyUpperTriangleImpl(result);
             return result;
         }
@@ -597,7 +597,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
 
             if (ReferenceEquals(this, result))
             {
-                var tmp = result.CreateMatrix(result.RowCount, result.ColumnCount);
+                var tmp = Build.SameAs(result);
                 StrictlyUpperTriangle(tmp);
                 tmp.CopyTo(result);
             }
@@ -629,6 +629,16 @@ namespace MathNet.Numerics.LinearAlgebra.Single
                     }
                 }
             }
+        }
+
+        /// <summary>
+        /// Negate each element of this matrix and place the results into the result matrix.
+        /// </summary>
+        /// <param name="result">The result of the negation.</param>
+        protected override void DoNegate(Matrix<float> result)
+        {
+            CopyTo(result);
+            DoMultiply(-1, result);
         }
 
         /// <summary>
@@ -1036,16 +1046,6 @@ namespace MathNet.Numerics.LinearAlgebra.Single
                     resultSparse._storage.At(i, j, sum + result.At(i, j));
                 }
             }
-        }
-
-        /// <summary>
-        /// Negate each element of this matrix and place the results into the result matrix.
-        /// </summary>
-        /// <param name="result">The result of the negation.</param>
-        protected override void DoNegate(Matrix<float> result)
-        {
-            CopyTo(result);
-            DoMultiply(-1, result);
         }
 
         /// <summary>

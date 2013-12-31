@@ -39,13 +39,13 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests.McmcTests
     /// <summary>
     /// MCMCDiagonistics testing.
     /// </summary>
-    [TestFixture]
+    [TestFixture, Category("Statistics")]
     public class MCMCDiagnosticsTest
     {
         /// <summary>
         /// For generation of a random series to test the methods.
         /// </summary>
-        private readonly System.Random _rnd = new System.Random();
+        private readonly System.Random _rnd = new System.Random(0);
         /// <summary>
         /// Distribution to sample the entries of the random series from.
         /// </summary>

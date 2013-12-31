@@ -32,20 +32,16 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using MathNet.Numerics.Properties;
+using MathNet.Numerics.Random;
 using MathNet.Numerics.Statistics;
 
 namespace MathNet.Numerics.Distributions
 {
     /// <summary>
     /// Continuous Univariate Log-Normal distribution.
-    /// For details about this distribution, see 
+    /// For details about this distribution, see
     /// <a href="http://en.wikipedia.org/wiki/Log-normal_distribution">Wikipedia - Log-Normal distribution</a>.
     /// </summary>
-    /// <remarks><para>The distribution will use the <see cref="System.Random"/> by default. 
-    /// Users can get/set the random number generator by using the <see cref="RandomSource"/> property.</para>
-    /// <para>The statistics classes will check all the incoming parameters whether they are in the allowed
-    /// range. This might involve heavy computation. Optionally, by setting Control.CheckDistributionParameters
-    /// to <c>false</c>, all parameter checks can be turned off.</para></remarks>
     public class LogNormal : IContinuousDistribution
     {
         System.Random _random;
@@ -54,7 +50,7 @@ namespace MathNet.Numerics.Distributions
         double _sigma;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="LogNormal"/> class. 
+        /// Initializes a new instance of the <see cref="LogNormal"/> class.
         /// The distribution will be initialized with the default <seealso cref="System.Random"/>
         /// random number generator.
         /// </summary>
@@ -62,12 +58,12 @@ namespace MathNet.Numerics.Distributions
         /// <param name="sigma">The shape (σ) of the logarithm of the distribution. Range: σ ≥ 0.</param>
         public LogNormal(double mu, double sigma)
         {
-            _random = new System.Random(Random.RandomSeed.Guid());
+            _random = SystemRandomSource.Default;
             SetParameters(mu, sigma);
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="LogNormal"/> class. 
+        /// Initializes a new instance of the <see cref="LogNormal"/> class.
         /// The distribution will be initialized with the default <seealso cref="System.Random"/>
         /// random number generator.
         /// </summary>
@@ -76,7 +72,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="randomSource">The random number generator which is used to draw random samples.</param>
         public LogNormal(double mu, double sigma, System.Random randomSource)
         {
-            _random = randomSource ?? new System.Random(Random.RandomSeed.Guid());
+            _random = randomSource ?? SystemRandomSource.Default;
             SetParameters(mu, sigma);
         }
 
@@ -168,7 +164,7 @@ namespace MathNet.Numerics.Distributions
         public System.Random RandomSource
         {
             get { return _random; }
-            set { _random = value ?? new System.Random(Random.RandomSeed.Guid()); }
+            set { _random = value ?? SystemRandomSource.Default; }
         }
 
         /// <summary>

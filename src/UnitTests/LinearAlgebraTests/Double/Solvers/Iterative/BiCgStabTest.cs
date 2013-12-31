@@ -29,6 +29,7 @@
 // </copyright>
 
 using System;
+using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Double;
 using MathNet.Numerics.LinearAlgebra.Double.Solvers;
 using MathNet.Numerics.LinearAlgebra.Solvers;
@@ -39,7 +40,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.Iterative
     /// <summary>
     /// Tests of Bi-Conjugate Gradient stabilized iterative matrix solver.
     /// </summary>
-    [TestFixture]
+    [TestFixture, Category("LASolver")]
     public class BiCgStabTest
     {
         /// <summary>
@@ -85,10 +86,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.Iterative
         public void SolveUnitMatrixAndBackMultiply()
         {
             // Create the identity matrix
-            var matrix = SparseMatrix.CreateIdentity(100);
+            var matrix = Matrix<double>.Build.SparseIdentity(100);
 
             // Create the y vector
-            var y = DenseVector.Create(matrix.RowCount, i => 1);
+            var y = Vector<double>.Build.Dense(matrix.RowCount, 1.0d);
 
             // Create an iteration monitor which will keep track of iterative convergence
             var monitor = new Iterator<double>(
@@ -126,13 +127,13 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.Iterative
         public void SolveScaledUnitMatrixAndBackMultiply()
         {
             // Create the identity matrix
-            var matrix = SparseMatrix.CreateIdentity(100);
+            var matrix = Matrix<double>.Build.SparseIdentity(100);
 
             // Scale it with a funny number
             matrix.Multiply(Math.PI, matrix);
 
             // Create the y vector
-            var y = DenseVector.Create(matrix.RowCount, i => 1);
+            var y = Vector<double>.Build.Dense(matrix.RowCount, 1);
 
             // Create an iteration monitor which will keep track of iterative convergence
             var monitor = new Iterator<double>(
@@ -170,7 +171,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.Iterative
         public void SolvePoissonMatrixAndBackMultiply()
         {
             // Create the matrix
-            var matrix = new SparseMatrix(100);
+            var matrix = Matrix<double>.Build.Sparse(100, 100);
 
             // Assemble the matrix. We assume we're solving the Poisson equation
             // on a rectangular 10 x 10 grid
@@ -209,7 +210,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.Iterative
             }
 
             // Create the y vector
-            var y = DenseVector.Create(matrix.RowCount, i => 1);
+            var y = Vector<double>.Build.Dense(matrix.RowCount, 1);
 
             // Create an iteration monitor which will keep track of iterative convergence
             var monitor = new Iterator<double>(
@@ -249,8 +250,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.Iterative
         [TestCase(10)]
         public void CanSolveForRandomVector(int order)
         {
-            var matrixA = MatrixLoader.GenerateRandomDenseMatrix(order, order);
-            var vectorb = MatrixLoader.GenerateRandomDenseVector(order);
+            var matrixA = Matrix<double>.Build.Random(order, order, 1);
+            var vectorb = Vector<double>.Build.Random(order, 1);
 
             var monitor = new Iterator<double>(
                 new IterationCountStopCriterium<double>(1000),
@@ -279,8 +280,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.Iterative
         [TestCase(10)]
         public void CanSolveForRandomMatrix(int order)
         {
-            var matrixA = MatrixLoader.GenerateRandomDenseMatrix(order, order);
-            var matrixB = MatrixLoader.GenerateRandomDenseMatrix(order, order);
+            var matrixA = Matrix<double>.Build.Random(order, order, 1);
+            var matrixB = Matrix<double>.Build.Random(order, order, 1);
 
             var monitor = new Iterator<double>(
                 new IterationCountStopCriterium<double>(1000),

@@ -28,13 +28,10 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using MathNet.Numerics.LinearAlgebra.Factorization;
-using MathNet.Numerics.Properties;
-using MathNet.Numerics.Threading;
+#if NATIVEMKL
+
 using System;
 using MathNet.Numerics.Optimization;
-
-#if NATIVEMKL
 
 namespace MathNet.Numerics.Providers.Optimization.Mkl
 {

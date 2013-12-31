@@ -89,7 +89,7 @@ namespace Examples
             // 1. Multiplicative congruential generator using a modulus of 2^31-1 and a multiplier of 1132489760
             var mcg31M1 = new Mcg31m1(1);
             Console.WriteLine(@"1. Generate 10 random double values using Multiplicative congruential generator with a modulus of 2^31-1 and a multiplier of 1132489760");
-            var randomValues = mcg31M1.NextDouble(10);
+            var randomValues = mcg31M1.NextDoubles(10);
             for (var i = 0; i < randomValues.Length; i++)
             {
                 Console.Write(randomValues[i].ToString("N") + @" ");
@@ -145,11 +145,11 @@ namespace Examples
             Console.WriteLine();
 
             // 6. A random number generator based on the "System.Security.Cryptography.RandomNumberGenerator" class in the .NET library
-            var systemCryptoRandomNumberGenerator = new SystemCryptoRandomNumberGenerator();
+            var systemCrypto = new CryptoRandomSource();
             Console.WriteLine(@"6. Generate 10 random decimal values using RNG based on the 'System.Security.Cryptography.RandomNumberGenerator'");
             for (var i = 0; i < 10; i++)
             {
-                Console.Write(systemCryptoRandomNumberGenerator.NextDecimal().ToString("N") + @" ");
+                Console.Write(systemCrypto.NextDecimal().ToString("N") + @" ");
             }
 
             Console.WriteLine();

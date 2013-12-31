@@ -3,7 +3,9 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
-// Copyright (c) 2009-2010 Math.NET
+//
+// Copyright (c) 2009-2013 Math.NET
+//
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -12,8 +14,10 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
+//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
+//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -24,22 +28,28 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using MathNet.Numerics.Random;
+using NUnit.Framework;
+
 namespace MathNet.Numerics.UnitTests.Random
 {
-    using Numerics.Random;
-    using NUnit.Framework;
-
     /// <summary>
     /// Tests for multiplicative congruential generator using a modulus of 2^59 and a multiplier of 13^13.
     /// </summary>
-    [TestFixture]
+    [TestFixture, Category("Random")]
     public class Mcg59Tests : RandomTests
     {
         /// <summary>
         /// Initializes a new instance of the Mcg59Tests class.
         /// </summary>
-        public Mcg59Tests() : base(typeof(Mcg59))
+        public Mcg59Tests() : base(typeof (Mcg59))
         {
+        }
+
+        [Test]
+        public void StaticSamplesConsistent()
+        {
+            Assert.That(Mcg59.Doubles(1000, 1), Is.EqualTo(new Mcg59(1).NextDoubles(1000)).Within(1e-12).AsCollection);
         }
     }
 }

@@ -36,7 +36,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
     /// <summary>
     /// <c>LogNormal</c> distribution tests.
     /// </summary>
-    [TestFixture]
+    [TestFixture, Category("Distributions")]
     public class LogNormalTests
     {
         /// <summary>
@@ -429,7 +429,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [Test]
         public void CanSampleStatic()
         {
-            LogNormal.Sample(new Random(), 0.0, 1.0);
+            LogNormal.Sample(new Random(0), 0.0, 1.0);
         }
 
         /// <summary>
@@ -438,7 +438,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [Test]
         public void CanSampleSequenceStatic()
         {
-            var ied = LogNormal.Samples(new Random(), 0.0, 1.0);
+            var ied = LogNormal.Samples(new Random(0), 0.0, 1.0);
             ied.Take(5).ToArray();
         }
 
@@ -448,7 +448,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [Test]
         public void FailSampleStatic()
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() => { var d = LogNormal.Sample(new Random(), 0.0, -1.0); });
+            Assert.Throws<ArgumentOutOfRangeException>(() => { var d = LogNormal.Sample(new Random(0), 0.0, -1.0); });
         }
 
         /// <summary>
@@ -457,7 +457,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [Test]
         public void FailSampleSequenceStatic()
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() => { var ied = LogNormal.Samples(new Random(), 0.0, -1.0).First(); });
+            Assert.Throws<ArgumentOutOfRangeException>(() => { var ied = LogNormal.Samples(new Random(0), 0.0, -1.0).First(); });
         }
 
         /// <summary>

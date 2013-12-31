@@ -29,6 +29,7 @@
 // </copyright>
 
 using System;
+using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Complex;
 using MathNet.Numerics.LinearAlgebra.Complex.Solvers;
 using MathNet.Numerics.LinearAlgebra.Solvers;
@@ -45,7 +46,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.Iterativ
     /// <summary>
     /// Tests of Bi-Conjugate Gradient stabilized iterative matrix solver.
     /// </summary>
-    [TestFixture]
+    [TestFixture, Category("LASolver")]
     public class BiCgStabTest
     {
         /// <summary>
@@ -253,8 +254,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.Iterativ
         [TestCase(10)]
         public void CanSolveForRandomVector(int order)
         {
-            var matrixA = MatrixLoader.GenerateRandomDenseMatrix(order, order);
-            var vectorb = MatrixLoader.GenerateRandomDenseVector(order);
+            var matrixA = Matrix<Complex>.Build.Random(order, order, 1);
+            var vectorb = Vector<Complex>.Build.Random(order, 1);
 
             var monitor = new Iterator<Complex>(
                 new IterationCountStopCriterium<Complex>(1000),
@@ -284,8 +285,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.Iterativ
         [TestCase(10)]
         public void CanSolveForRandomMatrix(int order)
         {
-            var matrixA = MatrixLoader.GenerateRandomDenseMatrix(order, order);
-            var matrixB = MatrixLoader.GenerateRandomDenseMatrix(order, order);
+            var matrixA = Matrix<Complex>.Build.Random(order, order, 1);
+            var matrixB = Matrix<Complex>.Build.Random(order, order, 1);
 
             var monitor = new Iterator<Complex>(
                 new IterationCountStopCriterium<Complex>(1000),

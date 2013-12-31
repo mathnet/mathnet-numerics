@@ -3,7 +3,9 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
-// Copyright (c) 2009-2010 Math.NET
+//
+// Copyright (c) 2009-2013 Math.NET
+//
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -12,8 +14,10 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
+//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
+//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -24,12 +28,13 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System;
+using System.Threading;
+using MathNet.Numerics.Random;
+using NUnit.Framework;
+
 namespace MathNet.Numerics.UnitTests.Random
 {
-    using System;
-    using System.Threading;
-    using NUnit.Framework;
-
     /// <summary>
     /// Abstract class fro RNG tests.
     /// </summary>
@@ -38,12 +43,12 @@ namespace MathNet.Numerics.UnitTests.Random
         /// <summary>
         /// Number of samples.
         /// </summary>
-        private const int N = 10000;
+        const int N = 10000;
 
         /// <summary>
         /// Random generator type.
         /// </summary>
-        private readonly Type _randomType;
+        readonly Type _randomType;
 
         /// <summary>
         /// Initializes a new instance of the RandomTests class.
@@ -60,7 +65,7 @@ namespace MathNet.Numerics.UnitTests.Random
         [Test]
         public void Sample()
         {
-            var random = (Random)Activator.CreateInstance(_randomType, new object[] { false });
+            var random = (System.Random)Activator.CreateInstance(_randomType, new object[] { false });
             double sum = 0;
             for (var i = 0; i < N; i++)
             {
@@ -71,12 +76,29 @@ namespace MathNet.Numerics.UnitTests.Random
             }
 
             // make sure are within 10% of the expected sum.
-            Assert.IsTrue(sum >= (N / 2.0) - (.05 * N));
-            Assert.IsTrue(sum <= (N / 2.0) + (.05 * N));
-            if (random is IDisposable)
+            Assert.IsTrue(sum >= (N/2.0) - (.05*N));
+            Assert.IsTrue(sum <= (N/2.0) + (.05*N));
+
+            var disposable = random as IDisposable;
+            if (disposable != null)
             {
-                ((IDisposable)random).Dispose();
+                disposable.Dispose();
             }
+        }
+
+        [Test]
+        public void Reproducible()
+        {
+#if !PORTABLE
+            if (_randomType == typeof (CryptoRandomSource))
+            {
+                Assert.Ignore("CryptoRandomSource does not support seeds and is not reproducible by design.");
+            }
+#endif
+
+            Assert.That(
+                ((RandomSource)Activator.CreateInstance(_randomType, new object[] { 5, false })).NextDoubles(1000),
+                Is.EqualTo(((RandomSource)Activator.CreateInstance(_randomType, new object[] { 5, false })).NextDoubles(1000)).Within(1e-12).AsCollection);
         }
 
         /// <summary>
@@ -85,7 +107,7 @@ namespace MathNet.Numerics.UnitTests.Random
         [Test]
         public void ThreadSafeSample()
         {
-            var random = (Random)Activator.CreateInstance(_randomType, new object[] { true });
+            var random = (System.Random)Activator.CreateInstance(_randomType, new object[] { true });
 
             var t1 = new Thread(RunTest);
             var t2 = new Thread(RunTest);
@@ -101,7 +123,7 @@ namespace MathNet.Numerics.UnitTests.Random
         /// <param name="random">RNG object.</param>
         public void RunTest(object random)
         {
-            var rng = (Random)random;
+            var rng = (System.Random)random;
             for (var i = 0; i < N; i++)
             {
                 var next = rng.NextDouble();

@@ -39,7 +39,7 @@ namespace MathNet.Numerics.UnitTests.RootFindingTests
     using Complex = System.Numerics.Complex;
 #endif
 
-    [TestFixture]
+    [TestFixture, Category("RootFinding")]
     internal class FindRootsTest
     {
         [Test]

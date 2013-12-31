@@ -29,23 +29,21 @@
 // </copyright>
 
 using MathNet.Numerics.LinearAlgebra;
-using MathNet.Numerics.LinearAlgebra.Double;
 using NUnit.Framework;
 
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
 {
-    [TestFixture]
+    [TestFixture, Category("LA")]
     public class DenseVectorArithmeticTheory : VectorArithmeticTheory
     {
         [Datapoints]
-        Vector<double>[] denseVectors = new Vector<double>[]
-            {
-                new DenseVector(new double[] { 1, 2, 3, 4, 5 }),
-                new DenseVector(new double[] { 2, 0, 0, -5, 0 }),
-            };
+        Vector<double>[] denseVectors =
+        {
+            Vector<double>.Build.Dense(new double[] { 1, 2, 3, 4, 5 }),
+            Vector<double>.Build.Dense(new double[] { 2, 0, 0, -5, 0 }),
+        };
 
         [Datapoints]
-        private double[] scalars = new[] { 2d };
-
+        double[] scalars = { 2d };
     }
 }

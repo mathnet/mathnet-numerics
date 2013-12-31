@@ -25,6 +25,7 @@
 // </copyright>
 
 using System;
+using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Single.Factorization;
 using NUnit.Framework;
 
@@ -33,6 +34,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Factorization
     /// <summary>
     /// GramSchmidt factorization tests for a user matrix.
     /// </summary>
+    [TestFixture, Category("LAFactorization")]
     public class UserGramSchmidtTests
     {
         /// <summary>
@@ -119,7 +121,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Factorization
         [TestCase(100, 98)]
         public void CanFactorizeRandomMatrix(int row, int column)
         {
-            var matrixA = MatrixLoader.GenerateRandomUserDefinedMatrix(row, column);
+            var matrixA = new UserDefinedMatrix(Matrix<float>.Build.Random(row, column, 1).ToArray());
             var factorGramSchmidt = matrixA.GramSchmidt();
             var q = factorGramSchmidt.Q;
             var r = factorGramSchmidt.R;
@@ -167,11 +169,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Factorization
         [TestCase(100)]
         public void CanSolveForRandomVector(int order)
         {
-            var matrixA = MatrixLoader.GenerateRandomUserDefinedMatrix(order, order);
+            var matrixA = new UserDefinedMatrix(Matrix<float>.Build.Random(order, order, 1).ToArray());
             var matrixACopy = matrixA.Clone();
             var factorGramSchmidt = matrixA.GramSchmidt();
 
-            var vectorb = MatrixLoader.GenerateRandomUserDefinedVector(order);
+            var vectorb = new UserDefinedVector(Vector<float>.Build.Random(order, 1).ToArray());
             var resultx = factorGramSchmidt.Solve(vectorb);
 
             Assert.AreEqual(matrixA.ColumnCount, resultx.Count);
@@ -206,11 +208,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Factorization
         [TestCase(100)]
         public void CanSolveForRandomMatrix(int order)
         {
-            var matrixA = MatrixLoader.GenerateRandomUserDefinedMatrix(order, order);
+            var matrixA = new UserDefinedMatrix(Matrix<float>.Build.Random(order, order, 1).ToArray());
             var matrixACopy = matrixA.Clone();
             var factorGramSchmidt = matrixA.GramSchmidt();
 
-            var matrixB = MatrixLoader.GenerateRandomUserDefinedMatrix(order, order);
+            var matrixB = new UserDefinedMatrix(Matrix<float>.Build.Random(order, order, 1).ToArray());
             var matrixX = factorGramSchmidt.Solve(matrixB);
 
             // The solution X row dimension is equal to the column dimension of A
@@ -226,7 +228,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Factorization
             {
                 for (var j = 0; j < matrixB.ColumnCount; j++)
                 {
-                    Assert.AreEqual(matrixB[i, j], matrixBReconstruct[i, j], 1e-4);
+                    Assert.AreEqual(matrixB[i, j], matrixBReconstruct[i, j], 1e-3);
                 }
             }
 
@@ -252,10 +254,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Factorization
         [TestCase(100)]
         public void CanSolveForRandomVectorWhenResultVectorGiven(int order)
         {
-            var matrixA = MatrixLoader.GenerateRandomUserDefinedMatrix(order, order);
+            var matrixA = new UserDefinedMatrix(Matrix<float>.Build.Random(order, order, 1).ToArray());
             var matrixACopy = matrixA.Clone();
             var factorGramSchmidt = matrixA.GramSchmidt();
-            var vectorb = MatrixLoader.GenerateRandomUserDefinedVector(order);
+            var vectorb = new UserDefinedVector(Vector<float>.Build.Random(order, 1).ToArray());
             var vectorbCopy = vectorb.Clone();
             var resultx = new UserDefinedVector(order);
             factorGramSchmidt.Solve(vectorb, resultx);
@@ -298,11 +300,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Factorization
         [TestCase(100)]
         public void CanSolveForRandomMatrixWhenResultMatrixGiven(int order)
         {
-            var matrixA = MatrixLoader.GenerateRandomUserDefinedMatrix(order, order);
+            var matrixA = new UserDefinedMatrix(Matrix<float>.Build.Random(order, order, 1).ToArray());
             var matrixACopy = matrixA.Clone();
             var factorGramSchmidt = matrixA.GramSchmidt();
 
-            var matrixB = MatrixLoader.GenerateRandomUserDefinedMatrix(order, order);
+            var matrixB = new UserDefinedMatrix(Matrix<float>.Build.Random(order, order, 1).ToArray());
             var matrixBCopy = matrixB.Clone();
 
             var matrixX = new UserDefinedMatrix(order, order);
@@ -321,7 +323,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Factorization
             {
                 for (var j = 0; j < matrixB.ColumnCount; j++)
                 {
-                    Assert.AreEqual(matrixB[i, j], matrixBReconstruct[i, j], 1e-4);
+                    Assert.AreEqual(matrixB[i, j], matrixBReconstruct[i, j], 1e-3);
                 }
             }
 

@@ -31,27 +31,25 @@
 using System;
 using System.Collections.Generic;
 using MathNet.Numerics.Properties;
+using MathNet.Numerics.Random;
 
 namespace MathNet.Numerics.Distributions
 {
     /// <summary>
     /// Continuous Univariate Gamma distribution.
-    /// For details about this distribution, see 
+    /// For details about this distribution, see
     /// <a href="http://en.wikipedia.org/wiki/Gamma_distribution">Wikipedia - Gamma distribution</a>.
     /// </summary>
     /// <remarks>
-    /// <para>The Gamma distribution is parametrized by a shape and inverse scale parameter. When we want
+    /// The Gamma distribution is parametrized by a shape and inverse scale parameter. When we want
     /// to specify a Gamma distribution which is a point distribution we set the shape parameter to be the
     /// location of the point distribution and the inverse scale as positive infinity. The distribution
-    /// with shape and inverse scale both zero is undefined.</para>
-    /// <para> Random number generation for the Gamma distribution is based on the algorithm in:
+    /// with shape and inverse scale both zero is undefined.
+    ///
+    /// Random number generation for the Gamma distribution is based on the algorithm in:
     /// "A Simple Method for Generating Gamma Variables" - Marsaglia &amp; Tsang
-    /// ACM Transactions on Mathematical Software, Vol. 26, No. 3, September 2000, Pages 363–372.</para>
-    /// <para>The distribution will use the <see cref="System.Random"/> by default. 
-    /// Users can get/set the random number generator by using the <see cref="RandomSource"/> property.</para>
-    /// <para>The statistics classes will check all the incoming parameters whether they are in the allowed
-    /// range. This might involve heavy computation. Optionally, by setting Control.CheckDistributionParameters
-    /// to <c>false</c>, all parameter checks can be turned off.</para></remarks>
+    /// ACM Transactions on Mathematical Software, Vol. 26, No. 3, September 2000, Pages 363–372.
+    /// </remarks>
     public class Gamma : IContinuousDistribution
     {
         System.Random _random;
@@ -66,7 +64,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="rate">The rate or inverse scale (β) of the Gamma distribution. Range: β ≥ 0.</param>
         public Gamma(double shape, double rate)
         {
-            _random = new System.Random(Random.RandomSeed.Guid());
+            _random = SystemRandomSource.Default;
             SetParameters(shape, rate);
         }
 
@@ -78,7 +76,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="randomSource">The random number generator which is used to draw random samples.</param>
         public Gamma(double shape, double rate, System.Random randomSource)
         {
-            _random = randomSource ?? new System.Random(Random.RandomSeed.Guid());
+            _random = randomSource ?? SystemRandomSource.Default;
             SetParameters(shape, rate);
         }
 
@@ -173,7 +171,7 @@ namespace MathNet.Numerics.Distributions
         public System.Random RandomSource
         {
             get { return _random; }
-            set { _random = value ?? new System.Random(Random.RandomSeed.Guid()); }
+            set { _random = value ?? SystemRandomSource.Default; }
         }
 
         /// <summary>
@@ -360,6 +358,18 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
+        /// Computes the inverse of the cumulative distribution function (InvCDF) for the distribution
+        /// at the given probability. This is also known as the quantile or percent point function.
+        /// </summary>
+        /// <param name="p">The location at which to compute the inverse cumulative density.</param>
+        /// <returns>the inverse cumulative density at <paramref name="p"/>.</returns>
+        /// <seealso cref="InvCDF"/>
+        public double InverseCumulativeDistribution(double p)
+        {
+            return InvCDF(_shape, _rate, p);
+        }
+
+        /// <summary>
         /// Generates a sample from the Gamma distribution.
         /// </summary>
         /// <returns>a sample from the distribution.</returns>
@@ -488,6 +498,22 @@ namespace MathNet.Numerics.Distributions
             if (shape == 0.0 && rate == 0.0) return 0.0;
 
             return SpecialFunctions.GammaLowerRegularized(shape, x*rate);
+        }
+
+        /// <summary>
+        /// Computes the inverse of the cumulative distribution function (InvCDF) for the distribution
+        /// at the given probability. This is also known as the quantile or percent point function.
+        /// </summary>
+        /// <param name="p">The location at which to compute the inverse cumulative density.</param>
+        /// <param name="shape">The shape (k, α) of the Gamma distribution. Range: α ≥ 0.</param>
+        /// <param name="rate">The rate or inverse scale (β) of the Gamma distribution. Range: β ≥ 0.</param>
+        /// <returns>the inverse cumulative density at <paramref name="p"/>.</returns>
+        /// <seealso cref="InverseCumulativeDistribution"/>
+        public static double InvCDF(double shape, double rate, double p)
+        {
+            if (shape < 0.0 || rate < 0.0) throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
+
+            return SpecialFunctions.GammaLowerRegularizedInv(shape, p)/rate;
         }
 
         /// <summary>

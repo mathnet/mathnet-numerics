@@ -29,10 +29,7 @@
 // </copyright>
 
 using System.Collections.Generic;
-using MathNet.Numerics.Distributions;
 using MathNet.Numerics.LinearAlgebra;
-using MathNet.Numerics.LinearAlgebra.Complex;
-using MathNet.Numerics.Random;
 using NUnit.Framework;
 
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
@@ -74,73 +71,27 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
         protected abstract Matrix<Complex> CreateMatrix(Complex[,] data);
 
         /// <summary>
-        /// Creates a vector of the given size.
-        /// </summary>
-        /// <param name="size">The size of the vector to create.
-        /// </param>
-        /// <returns>The new vector. </returns>
-        protected abstract Vector<Complex> CreateVector(int size);
-
-        /// <summary>
-        /// Creates a vector from an array.
-        /// </summary>
-        /// <param name="data">The array to create this vector from.</param>
-        /// <returns>The new vector. </returns>
-        protected abstract Vector<Complex> CreateVector(Complex[] data);
-
-        /// <summary>
         /// Setup test matrices.
         /// </summary>
         [SetUp]
         public virtual void SetupMatrices()
         {
             TestData2D = new Dictionary<string, Complex[,]>
-                {
-                    {"Singular3x3", new[,] {{new Complex(1.0, 1), new Complex(1.0, 1), new Complex(2.0, 1)}, {new Complex(1.0, 1), new Complex(1.0, 1), new Complex(2.0, 1)}, {new Complex(1.0, 1), new Complex(1.0, 1), new Complex(2.0, 1)}}},
-                    {"Square3x3", new[,] {{new Complex(-1.1, 1), new Complex(-2.2, 1), new Complex(-3.3, 1)}, {Complex.Zero, new Complex(1.1, 1), new Complex(2.2, 1)}, {new Complex(-4.4, 1), new Complex(5.5, 1), new Complex(6.6, 1)}}},
-                    {"Square4x4", new[,] {{new Complex(-1.1, 1), new Complex(-2.2, 1), new Complex(-3.3, 1), new Complex(-4.4, 1)}, {Complex.Zero, new Complex(1.1, 1), new Complex(2.2, 1), new Complex(3.3, 1)}, {new Complex(1.0, 1), new Complex(2.1, 1), new Complex(6.2, 1), new Complex(4.3, 1)}, {new Complex(-4.4, 1), new Complex(5.5, 1), new Complex(6.6, 1), new Complex(-7.7, 1)}}},
-                    {"Singular4x4", new[,] {{new Complex(-1.1, 1), new Complex(-2.2, 1), new Complex(-3.3, 1), new Complex(-4.4, 1)}, {new Complex(-1.1, 1), new Complex(-2.2, 1), new Complex(-3.3, 1), new Complex(-4.4, 1)}, {new Complex(-1.1, 1), new Complex(-2.2, 1), new Complex(-3.3, 1), new Complex(-4.4, 1)}, {new Complex(-1.1, 1), new Complex(-2.2, 1), new Complex(-3.3, 1), new Complex(-4.4, 1)}}},
-                    {"Tall3x2", new[,] {{new Complex(-1.1, 1), new Complex(-2.2, 1)}, {Complex.Zero, new Complex(1.1, 1)}, {new Complex(-4.4, 1), new Complex(5.5, 1)}}},
-                    {"Wide2x3", new[,] {{new Complex(-1.1, 1), new Complex(-2.2, 1), new Complex(-3.3, 1)}, {Complex.Zero, new Complex(1.1, 1), new Complex(2.2, 1)}}},
-                    {"Symmetric3x3", new[,] {{Complex.One, 2.0, 3.0}, {2.0, 2.0, 0.0}, {3.0, 0.0, 3.0}}}
-                };
+            {
+                { "Singular3x3", new[,] { { new Complex(1.0, 1), new Complex(1.0, 1), new Complex(2.0, 1) }, { new Complex(1.0, 1), new Complex(1.0, 1), new Complex(2.0, 1) }, { new Complex(1.0, 1), new Complex(1.0, 1), new Complex(2.0, 1) } } },
+                { "Square3x3", new[,] { { new Complex(-1.1, 1), new Complex(-2.2, 1), new Complex(-3.3, 1) }, { Complex.Zero, new Complex(1.1, 1), new Complex(2.2, 1) }, { new Complex(-4.4, 1), new Complex(5.5, 1), new Complex(6.6, 1) } } },
+                { "Square4x4", new[,] { { new Complex(-1.1, 1), new Complex(-2.2, 1), new Complex(-3.3, 1), new Complex(-4.4, 1) }, { Complex.Zero, new Complex(1.1, 1), new Complex(2.2, 1), new Complex(3.3, 1) }, { new Complex(1.0, 1), new Complex(2.1, 1), new Complex(6.2, 1), new Complex(4.3, 1) }, { new Complex(-4.4, 1), new Complex(5.5, 1), new Complex(6.6, 1), new Complex(-7.7, 1) } } },
+                { "Singular4x4", new[,] { { new Complex(-1.1, 1), new Complex(-2.2, 1), new Complex(-3.3, 1), new Complex(-4.4, 1) }, { new Complex(-1.1, 1), new Complex(-2.2, 1), new Complex(-3.3, 1), new Complex(-4.4, 1) }, { new Complex(-1.1, 1), new Complex(-2.2, 1), new Complex(-3.3, 1), new Complex(-4.4, 1) }, { new Complex(-1.1, 1), new Complex(-2.2, 1), new Complex(-3.3, 1), new Complex(-4.4, 1) } } },
+                { "Tall3x2", new[,] { { new Complex(-1.1, 1), new Complex(-2.2, 1) }, { Complex.Zero, new Complex(1.1, 1) }, { new Complex(-4.4, 1), new Complex(5.5, 1) } } },
+                { "Wide2x3", new[,] { { new Complex(-1.1, 1), new Complex(-2.2, 1), new Complex(-3.3, 1) }, { Complex.Zero, new Complex(1.1, 1), new Complex(2.2, 1) } } },
+                { "Symmetric3x3", new[,] { { Complex.One, 2.0, 3.0 }, { 2.0, 2.0, 0.0 }, { 3.0, 0.0, 3.0 } } }
+            };
 
             TestMatrices = new Dictionary<string, Matrix<Complex>>();
             foreach (var name in TestData2D.Keys)
             {
                 TestMatrices.Add(name, CreateMatrix(TestData2D[name]));
             }
-        }
-
-        public static Matrix<Complex> GenerateRandomDenseMatrix(int row, int col)
-        {
-            return DenseMatrix.CreateRandom(row, col, new Normal(new MersenneTwister(1)));
-        }
-
-        public static Matrix<Complex> GenerateRandomPositiveDefiniteHermitianDenseMatrix(int order)
-        {
-            var a = DenseMatrix.CreateRandom(order, order, new Normal(new MersenneTwister(1)));
-            return a.ConjugateTranspose()*a;
-        }
-
-        public static Vector<Complex> GenerateRandomDenseVector(int order)
-        {
-            return DenseVector.CreateRandom(order, new Normal(new MersenneTwister(1)));
-        }
-
-        public static Matrix<Complex> GenerateRandomUserDefinedMatrix(int row, int col)
-        {
-            return new UserDefinedMatrix(GenerateRandomDenseMatrix(row, col).ToArray());
-        }
-
-        public static Matrix<Complex> GenerateRandomPositiveDefiniteHermitianUserDefinedMatrix(int order)
-        {
-            return new UserDefinedMatrix(GenerateRandomPositiveDefiniteHermitianDenseMatrix(order).ToArray());
-        }
-
-        public static Vector<Complex> GenerateRandomUserDefinedVector(int order)
-        {
-            return new UserDefinedVector(GenerateRandomDenseVector(order).ToArray());
         }
     }
 }

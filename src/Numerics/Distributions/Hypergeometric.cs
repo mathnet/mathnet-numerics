@@ -31,22 +31,17 @@
 using System;
 using System.Collections.Generic;
 using MathNet.Numerics.Properties;
+using MathNet.Numerics.Random;
 
 namespace MathNet.Numerics.Distributions
 {
     /// <summary>
     /// Discrete Univariate Hypergeometric distribution.
-    /// This distribution is a discrete probability distribution that describes the number of successes in a sequence 
-    /// of n draws from a finite population without replacement, just as the binomial distribution 
+    /// This distribution is a discrete probability distribution that describes the number of successes in a sequence
+    /// of n draws from a finite population without replacement, just as the binomial distribution
     /// describes the number of successes for draws with replacement
     /// <a href="http://en.wikipedia.org/wiki/Hypergeometric_distribution">Wikipedia - Hypergeometric distribution</a>.
     /// </summary>
-    /// <remarks><para>The distribution will use the <see cref="System.Random"/> by default. 
-    /// Users can set the random number generator by using the <see cref="RandomSource"/> property</para>.
-    /// <para>
-    /// The statistics classes will check all the incoming parameters whether they are in the allowed
-    /// range. This might involve heavy computation. Optionally, by setting Control.CheckDistributionParameters
-    /// to <c>false</c>, all parameter checks can be turned off.</para></remarks>
     public class Hypergeometric : IDiscreteDistribution
     {
         System.Random _random;
@@ -63,7 +58,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="draws">The number of draws without replacement (n).</param>
         public Hypergeometric(int population, int success, int draws)
         {
-            _random = new System.Random(Random.RandomSeed.Guid());
+            _random = SystemRandomSource.Default;
             SetParameters(population, success, draws);
         }
 
@@ -76,7 +71,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="randomSource">The random number generator which is used to draw random samples.</param>
         public Hypergeometric(int population, int success, int draws, System.Random randomSource)
         {
-            _random = randomSource ?? new System.Random(Random.RandomSeed.Guid());
+            _random = randomSource ?? SystemRandomSource.Default;
             SetParameters(population, success, draws);
         }
 
@@ -128,7 +123,7 @@ namespace MathNet.Numerics.Distributions
         public System.Random RandomSource
         {
             get { return _random; }
-            set { _random = value ?? new System.Random(Random.RandomSeed.Guid()); }
+            set { _random = value ?? SystemRandomSource.Default; }
         }
 
         /// <summary>

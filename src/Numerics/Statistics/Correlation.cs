@@ -57,6 +57,9 @@ namespace MathNet.Numerics.Statistics
             double varA = 0;
             double varB = 0;
 
+            // WARNING: do not try to "optimize" by summing up products instead of using differences.
+            // It would indeed be faster, but numerically much less robust if large mean + low variance.
+
             using (IEnumerator<double> ieA = dataA.GetEnumerator())
             using (IEnumerator<double> ieB = dataB.GetEnumerator())
             {
@@ -157,40 +160,11 @@ namespace MathNet.Numerics.Statistics
                 return new double[0];
             }
 
-            var rankedSamples = series.Select((sample, index) => new {Sample = sample, RankIndex = index}).OrderBy(s => s.Sample).ToArray();
-            if (rankedSamples.Length == 0)
-            {
-                return new double[0];
-            }
+            // WARNING: do not try to cast series to an array and use it directly,
+            // as we need to sort it (inplace operation)
 
-            var rankedArray = new double[rankedSamples.Length];
-
-            var previousSample = rankedSamples.Select((sampleIndex, index) => new { SampleIndex = sampleIndex, LoopIndex = index }).First();
-            foreach (var rankedSampleIndex in rankedSamples.Select((sampleIndex, index) => new { SampleIndex = sampleIndex, LoopIndex = index }))
-            {
-                var currentSample = rankedSampleIndex;
-
-                if (Math.Abs(currentSample.SampleIndex.Sample - previousSample.SampleIndex.Sample) <= 0)
-                {
-                    continue;
-                }
-
-                var rankedValue = (currentSample.LoopIndex + previousSample.LoopIndex - 1) / 2d + 1;
-                foreach (var index in Enumerable.Range(previousSample.LoopIndex, currentSample.LoopIndex - previousSample.LoopIndex))
-                {
-                    rankedArray[rankedSamples[index].RankIndex] = rankedValue;
-                }
-
-                previousSample = currentSample;
-            }
-
-            var finalValue = (rankedSamples.Length + previousSample.LoopIndex - 1) / 2d + 1;
-            foreach (var index in Enumerable.Range(previousSample.LoopIndex, rankedSamples.Length - previousSample.LoopIndex))
-            {
-                rankedArray[rankedSamples[index].RankIndex] = finalValue;
-            }
-
-            return rankedArray;
+            var data = series.ToArray();
+            return ArrayStatistics.RanksInplace(data, RankDefinition.Average);
         }
     }
 }

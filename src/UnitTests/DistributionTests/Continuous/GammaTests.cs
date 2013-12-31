@@ -36,7 +36,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
     /// <summary>
     /// Gamma distribution tests.
     /// </summary>
-    [TestFixture]
+    [TestFixture, Category("Distributions")]
     public class GammaTests
     {
         /// <summary>
@@ -419,7 +419,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [Test]
         public void CanSampleStatic()
         {
-            Gamma.Sample(new Random(), 1.0, 1.0);
+            Gamma.Sample(new Random(0), 1.0, 1.0);
         }
 
         /// <summary>
@@ -428,7 +428,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [Test]
         public void CanSampleSequenceStatic()
         {
-            var ied = Gamma.Samples(new Random(), 1.0, 1.0);
+            var ied = Gamma.Samples(new Random(0), 1.0, 1.0);
             ied.Take(5).ToArray();
         }
 
@@ -438,7 +438,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [Test]
         public void FailSampleStatic()
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() => Normal.Sample(new Random(), 1.0, -1.0));
+            Assert.Throws<ArgumentOutOfRangeException>(() => Normal.Sample(new Random(0), 1.0, -1.0));
         }
 
         /// <summary>
@@ -447,7 +447,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [Test]
         public void FailSampleSequenceStatic()
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() => Normal.Samples(new Random(), 1.0, -1.0).First());
+            Assert.Throws<ArgumentOutOfRangeException>(() => Normal.Samples(new Random(0), 1.0, -1.0).First());
         }
 
         /// <summary>
@@ -498,9 +498,30 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [TestCase(10, Double.PositiveInfinity, 10.0, 1.0)]
         public void ValidateCumulativeDistribution(int shape, double invScale, double x, double cdf)
         {
-            var n = new Gamma(shape, invScale);
-            AssertHelpers.AlmostEqualRelative(cdf, n.CumulativeDistribution(x), 13);
-            AssertHelpers.AlmostEqualRelative(cdf, Gamma.CDF(shape, invScale, x), 13);
+            var gamma = new Gamma(shape, invScale);
+            Assert.That(gamma.CumulativeDistribution(x), Is.EqualTo(cdf).Within(13));
+            Assert.That(Gamma.CDF(shape, invScale, x), Is.EqualTo(cdf).Within(13));
+        }
+
+        /// <summary>
+        /// Validate inverse cumulative distribution.
+        /// </summary>
+        /// <param name="shape">Shape value.</param>
+        /// <param name="invScale">Inverse scale value.</param>
+        /// <param name="x">Input X value.</param>
+        /// <param name="cdf">Expected value.</param>
+        [TestCase(1, 0.1, 1.0, 0.095162581964040431858607615783064404690935346242622848)]
+        [TestCase(1, 0.1, 10.0, 0.63212055882855767840447622983853913255418886896823196)]
+        [TestCase(1, 1.0, 1.0, 0.63212055882855767840447622983853913255418886896823196)]
+        [TestCase(1, 1.0, 10.0, 0.99995460007023751514846440848443944938976208191113396)]
+        [TestCase(10, 10.0, 1.0, 0.54207028552814779168583514294066541824736464003242184)]
+        [TestCase(10, 1.0, 1.0, 0.00000011142547833872067735305068724025236288094949815466035)]
+        [TestCase(10, 1.0, 10.0, 0.54207028552814779168583514294066541824736464003242184)]
+        public void ValidateInverseCumulativeDistribution(int shape, double invScale, double x, double cdf)
+        {
+            var gamma = new Gamma(shape, invScale);
+            Assert.That(gamma.InverseCumulativeDistribution(cdf), Is.EqualTo(x).Within(10));
+            Assert.That(Gamma.InvCDF(shape, invScale, cdf), Is.EqualTo(x).Within(10));
         }
     }
 }

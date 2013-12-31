@@ -37,7 +37,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers.Precondit
     /// <summary>
     /// Test for element sort algorithm of Ilupt class.
     /// </summary>
-    [TestFixture]
+    [TestFixture, Category("LASolver")]
     public sealed class IluptElementSorterTest
     {
         /// <summary>

@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2010 Math.NET
+// Copyright (c) 2009-2013 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -28,36 +28,35 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using System;
+using System.Collections.Generic;
 
 namespace MathNet.Numerics.Random
 {
     /// <summary>
     /// Multiplicative congruential generator using a modulus of 2^31-1 and a multiplier of 1132489760.
     /// </summary>
-    public class Mcg31m1 : AbstractRandomNumberGenerator
+    public class Mcg31m1 : RandomSource
     {
-        private const ulong Modulus = 2147483647;
-        private const ulong Multiplier = 1132489760;
-        private const double Reciprocal = 1.0 / Modulus;
-        private ulong _xn;
+        const ulong Modulus = 2147483647;
+        const ulong Multiplier = 1132489760;
+        const double Reciprocal = 1.0/Modulus;
+        ulong _xn;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Mcg31m1"/> class using
-        /// the current time as the seed.
+        /// a seed based on time and unique GUIDs.
         /// </summary>
-        public Mcg31m1() : this((int) DateTime.Now.Ticks)
+        public Mcg31m1() : this(RandomSeed.Robust())
         {
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Mcg31m1"/> class using
-        /// the current time as the seed.
+        /// a seed based on time and unique GUIDs.
         /// </summary>
         /// <param name="threadSafe">if set to <c>true</c> , the class is thread safe.</param>
-        public Mcg31m1(bool threadSafe) : this((int)DateTime.Now.Ticks, threadSafe)
+        public Mcg31m1(bool threadSafe) : this(RandomSeed.Robust(), threadSafe)
         {
-            
         }
 
         /// <summary>
@@ -67,8 +66,13 @@ namespace MathNet.Numerics.Random
         /// <remarks>If the seed value is zero, it is set to one. Uses the
         /// value of <see cref="Control.ThreadSafeRandomNumberGenerators"/> to
         /// set whether the instance is thread safe.</remarks>
-        public Mcg31m1(int seed) : this(seed, Control.ThreadSafeRandomNumberGenerators)
+        public Mcg31m1(int seed)
         {
+            if (seed == 0)
+            {
+                seed = 1;
+            }
+            _xn = (uint)seed%Modulus;
         }
 
         /// <summary>
@@ -82,7 +86,7 @@ namespace MathNet.Numerics.Random
             {
                 seed = 1;
             }
-            _xn = (uint) seed%Modulus;
+            _xn = (uint)seed%Modulus;
         }
 
         /// <summary>
@@ -91,11 +95,51 @@ namespace MathNet.Numerics.Random
         /// <returns>
         /// A double-precision floating point number greater than or equal to 0.0, and less than 1.0.
         /// </returns>
-        protected override double DoSample()
+        protected override sealed double DoSample()
         {
             double ret = _xn*Reciprocal;
             _xn = (_xn*Multiplier)%Modulus;
             return ret;
+        }
+
+        /// <summary>
+        /// Returns an array of random numbers greater than or equal to 0.0 and less than 1.0.
+        /// </summary>
+        /// <remarks>Supports being called in parallel from multiple threads.</remarks>
+        public static double[] Doubles(int length, int seed)
+        {
+            if (seed == 0)
+            {
+                seed = 1;
+            }
+            ulong xn = (uint)seed%Modulus;
+
+            var data = new double[length];
+            for (int i = 0; i < data.Length; i++)
+            {
+                data[i] = xn*Reciprocal;
+                xn = (xn*Multiplier)%Modulus;
+            }
+            return data;
+        }
+
+        /// <summary>
+        /// Returns an infinite sequence of random numbers greater than or equal to 0.0 and less than 1.0.
+        /// </summary>
+        /// <remarks>Supports being called in parallel from multiple threads, but the result must be enumerated from a single thread each.</remarks>
+        public static IEnumerable<double> DoubleSequence(int seed)
+        {
+            if (seed == 0)
+            {
+                seed = 1;
+            }
+            ulong xn = (uint)seed%Modulus;
+
+            while (true)
+            {
+                yield return xn*Reciprocal;
+                xn = (xn*Multiplier)%Modulus;
+            }
         }
     }
 }

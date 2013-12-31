@@ -34,7 +34,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
     /// <summary>
     /// Categorical distribution tests.
     /// </summary>
-    [TestFixture]
+    [TestFixture, Category("Distributions")]
     public class CategoricalTests
     {
         /// <summary>
@@ -161,7 +161,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         [Test]
         public void CanSampleStatic()
         {
-            Categorical.SampleWithProbabilityMass(new Random(), _largeP);
+            Categorical.SampleWithProbabilityMass(new Random(0), _largeP);
         }
 
         /// <summary>
@@ -170,7 +170,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         [Test]
         public void FailSampleStatic()
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() => Categorical.SampleWithProbabilityMass(new Random(), _badP));
+            Assert.Throws<ArgumentOutOfRangeException>(() => Categorical.SampleWithProbabilityMass(new Random(0), _badP));
         }
 
         /// <summary>

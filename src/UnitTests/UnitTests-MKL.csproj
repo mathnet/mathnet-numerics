@@ -1,0 +1,393 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MinimumVisualStudioVersion>10.0</MinimumVisualStudioVersion>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{3515A344-AB5F-41C7-A14C-04A79B3FFAB1}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>MathNet.Numerics.UnitTests</RootNamespace>
+    <AssemblyName>MathNet.Numerics.UnitTestsMKL</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DefineConstants>TRACE;NATIVEMKL</DefineConstants>
+    <OutputPath>..\..\out\MKL\Windows\x86\</OutputPath>
+    <IntermediateOutputPath>..\..\obj\MKL\Windows\x86\</IntermediateOutputPath>
+    <BaseIntermediateOutputPath>..\..\obj\MKL\Windows\x86\</BaseIntermediateOutputPath>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <NoWarn>1591</NoWarn>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DefineConstants>TRACE;DEBUG;NATIVEMKL</DefineConstants>
+    <OutputPath>..\..\out\MKL\Windows\x86\</OutputPath>
+    <IntermediateOutputPath>..\..\obj\MKL\Windows\x86\</IntermediateOutputPath>
+    <BaseIntermediateOutputPath>..\..\obj\MKL\Windows\x86\</BaseIntermediateOutputPath>
+    <Optimize>false</Optimize>
+    <DebugType>full</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <NoWarn>1591</NoWarn>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>..\..\out\MKL\Windows\x86\</OutputPath>
+    <IntermediateOutputPath>..\..\obj\MKL\Windows\x86\</IntermediateOutputPath>
+    <BaseIntermediateOutputPath>..\..\obj\MKL\Windows\x86\</BaseIntermediateOutputPath>
+    <DefineConstants>TRACE;NATIVEMKL</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>1591</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>..\..\out\MKL\Windows\x86\</OutputPath>
+    <IntermediateOutputPath>..\..\obj\MKL\Windows\x86\</IntermediateOutputPath>
+    <BaseIntermediateOutputPath>..\..\obj\MKL\Windows\x86\</BaseIntermediateOutputPath>
+    <DefineConstants>TRACE;DEBUG;NATIVEMKL</DefineConstants>
+    <NoWarn>1591</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>..\..\out\MKL\Windows\x64\</OutputPath>
+    <IntermediateOutputPath>..\..\obj\MKL\Windows\x64\</IntermediateOutputPath>
+    <BaseIntermediateOutputPath>..\..\obj\MKL\Windows\x64\</BaseIntermediateOutputPath>
+    <DefineConstants>TRACE;NATIVEMKL</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>1591</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>..\..\out\MKL\Windows\x64\</OutputPath>
+    <IntermediateOutputPath>..\..\obj\MKL\Windows\x64\</IntermediateOutputPath>
+    <BaseIntermediateOutputPath>..\..\obj\MKL\Windows\x64\</BaseIntermediateOutputPath>
+    <DefineConstants>TRACE;DEBUG;NATIVEMKL</DefineConstants>
+    <NoWarn>1591</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="nunit.framework">
+      <HintPath>..\..\packages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+      <Private>True</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="**\*.cs" Exclude="Properties\Settings.Designer.cs">
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\data\Codeplex-5667.csv">
+      <Link>data\Codeplex-5667.csv</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\data\Github-Cureos-1.csv">
+      <Link>data\Github-Cureos-1.csv</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\data\Matlab\A.mat">
+      <Link>data\Matlab\A.mat</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\data\Matlab\collection-nocompress.mat">
+      <Link>data\Matlab\collection-nocompress.mat</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\data\Matlab\collection.mat">
+      <Link>data\Matlab\collection.mat</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\data\Matlab\complex.mat">
+      <Link>data\Matlab\complex.mat</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\data\Matlab\sparse-large.mat">
+      <Link>data\Matlab\sparse-large.mat</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\data\Matlab\sparse-small.mat">
+      <Link>data\Matlab\sparse-small.mat</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\data\Matlab\sparse_complex.mat">
+      <Link>data\Matlab\sparse_complex.mat</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\data\Matlab\v.mat">
+      <Link>data\Matlab\v.mat</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\data\NIST\AtmWtAgt.dat">
+      <Link>data\NIST\AtmWtAgt.dat</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\data\NIST\Bennett5.dat">
+      <Link>data\NIST\Bennett5.dat</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\data\NIST\BoxBOD.dat">
+      <Link>data\NIST\BoxBOD.dat</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\data\NIST\Chwirut1.dat">
+      <Link>data\NIST\Chwirut1.dat</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\data\NIST\Chwirut2.dat">
+      <Link>data\NIST\Chwirut2.dat</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\data\NIST\DanWood.dat">
+      <Link>data\NIST\DanWood.dat</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\data\NIST\Eckerle4.dat">
+      <Link>data\NIST\Eckerle4.dat</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\data\NIST\ENSO.dat">
+      <Link>data\NIST\ENSO.dat</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\data\NIST\Filip.dat">
+      <Link>data\NIST\Filip.dat</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\data\NIST\Gauss1.dat">
+      <Link>data\NIST\Gauss1.dat</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\data\NIST\Gauss2.dat">
+      <Link>data\NIST\Gauss2.dat</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\data\NIST\Gauss3.dat">
+      <Link>data\NIST\Gauss3.dat</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\data\NIST\Hahn1.dat">
+      <Link>data\NIST\Hahn1.dat</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\data\NIST\Kirby2.dat">
+      <Link>data\NIST\Kirby2.dat</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\data\NIST\Lanczos1.dat">
+      <Link>data\NIST\Lanczos1.dat</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\data\NIST\Lanczos2.dat">
+      <Link>data\NIST\Lanczos2.dat</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\data\NIST\Lanczos3.dat">
+      <Link>data\NIST\Lanczos3.dat</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\data\NIST\Lew.dat">
+      <Link>data\NIST\Lew.dat</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\data\NIST\Longley.dat">
+      <Link>data\NIST\Longley.dat</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\data\NIST\Lottery.dat">
+      <Link>data\NIST\Lottery.dat</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\data\NIST\Mavro.dat">
+      <Link>data\NIST\Mavro.dat</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\data\NIST\MGH09.dat">
+      <Link>data\NIST\MGH09.dat</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\data\NIST\MGH10.dat">
+      <Link>data\NIST\MGH10.dat</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\data\NIST\MGH17.dat">
+      <Link>data\NIST\MGH17.dat</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\data\NIST\Michelso.dat">
+      <Link>data\NIST\Michelso.dat</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\data\NIST\Misra1a.dat">
+      <Link>data\NIST\Misra1a.dat</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\data\NIST\Misra1b.dat">
+      <Link>data\NIST\Misra1b.dat</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\data\NIST\Misra1c.dat">
+      <Link>data\NIST\Misra1c.dat</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\data\NIST\Misra1d.dat">
+      <Link>data\NIST\Misra1d.dat</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\data\NIST\Nelson.dat">
+      <Link>data\NIST\Nelson.dat</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\data\NIST\NoInt1.dat">
+      <Link>data\NIST\NoInt1.dat</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\data\NIST\NoInt2.dat">
+      <Link>data\NIST\NoInt2.dat</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\data\NIST\Norris.dat">
+      <Link>data\NIST\Norris.dat</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\data\NIST\NumAcc1.dat">
+      <Link>data\NIST\NumAcc1.dat</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\data\NIST\NumAcc2.dat">
+      <Link>data\NIST\NumAcc2.dat</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\data\NIST\NumAcc3.dat">
+      <Link>data\NIST\NumAcc3.dat</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\data\NIST\NumAcc4.dat">
+      <Link>data\NIST\NumAcc4.dat</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\data\NIST\Pontius.dat">
+      <Link>data\NIST\Pontius.dat</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\data\NIST\Rat42.dat">
+      <Link>data\NIST\Rat42.dat</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\data\NIST\Rat43.dat">
+      <Link>data\NIST\Rat43.dat</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\data\NIST\Roszman1.dat">
+      <Link>data\NIST\Roszman1.dat</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\data\NIST\SiRstvt.dat">
+      <Link>data\NIST\SiRstvt.dat</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\data\NIST\SmLs01t.dat">
+      <Link>data\NIST\SmLs01t.dat</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\data\NIST\SmLs02t.dat">
+      <Link>data\NIST\SmLs02t.dat</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\data\NIST\SmLs03t.dat">
+      <Link>data\NIST\SmLs03t.dat</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\data\NIST\SmLs04t.dat">
+      <Link>data\NIST\SmLs04t.dat</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\data\NIST\SmLs05t.dat">
+      <Link>data\NIST\SmLs05t.dat</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\data\NIST\SmLs06t.dat">
+      <Link>data\NIST\SmLs06t.dat</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\data\NIST\SmLs07t.dat">
+      <Link>data\NIST\SmLs07t.dat</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\data\NIST\SmLs08t.dat">
+      <Link>data\NIST\SmLs08t.dat</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\data\NIST\SmLs09t.dat">
+      <Link>data\NIST\SmLs09t.dat</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\data\NIST\Thurber.dat">
+      <Link>data\NIST\Thurber.dat</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\data\NIST\Wampler1.dat">
+      <Link>data\NIST\Wampler1.dat</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\data\NIST\Wampler2.dat">
+      <Link>data\NIST\Wampler2.dat</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\data\NIST\Wampler3.dat">
+      <Link>data\NIST\Wampler3.dat</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\data\NIST\Wampler4.dat">
+      <Link>data\NIST\Wampler4.dat</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\data\NIST\Wampler5.dat">
+      <Link>data\NIST\Wampler5.dat</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="App.config" />
+    <None Include="..\..\data\NIST\Meixner.dat">
+      <Link>data\NIST\Meixner.dat</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Numerics\Numerics.csproj">
+      <Project>{b7cae5f4-a23f-4438-b5be-41226618b695}</Project>
+      <Name>Numerics</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

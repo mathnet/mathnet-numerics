@@ -134,44 +134,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         }
 
         /// <summary>
-        /// Conjugates vector and save result to <paramref name="result"/>
-        /// </summary>
-        /// <param name="result">Target vector</param>
-        protected override void DoConjugate(Vector<Complex> result)
-        {
-            if (ReferenceEquals(this, result))
-            {
-                var tmp = CreateVector(Count);
-                DoConjugate(tmp);
-                tmp.CopyTo(result);
-            }
-
-            var targetSparse = result as SparseVector;
-            if (targetSparse == null)
-            {
-                base.DoConjugate(result);
-                return;
-            }
-
-            // Lets copy only needed data. Portion of needed data is determined by NonZerosCount value
-            targetSparse._storage.Values = new Complex[_storage.ValueCount];
-            targetSparse._storage.Indices = new int[_storage.ValueCount];
-            targetSparse._storage.ValueCount = _storage.ValueCount;
-
-            if (_storage.ValueCount != 0)
-            {
-                CommonParallel.For(0, _storage.ValueCount, (a, b) =>
-                    {
-                        for (int i = a; i < b; i++)
-                        {
-                            targetSparse._storage.Values[i] = _storage.Values[i].Conjugate();
-                        }
-                    });
-                Buffer.BlockCopy(_storage.Indices, 0, targetSparse._storage.Indices, 0, _storage.ValueCount*Constants.SizeOfInt);
-            }
-        }
-
-        /// <summary>
         /// Adds a scalar to each element of the vector and stores the result in the result vector.
         /// Warning, the new 'sparse vector' with a non-zero scalar added to it will be a 100% filled
         /// sparse vector and very inefficient. Would be better to work with a dense vector instead.
@@ -196,7 +158,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
 
             if (ReferenceEquals(this, result))
             {
-                //populate a new vector with the scalar   
+                //populate a new vector with the scalar
                 var vnonZeroValues = new Complex[Count];
                 var vnonZeroIndices = new int[Count];
                 for (int index = 0; index < Count; index++)
@@ -213,7 +175,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
                     vnonZeroValues[indices[j]] = values[j] + scalar;
                 }
 
-                //assign this vectors arrary to the new arrays. 
+                //assign this vectors arrary to the new arrays.
                 _storage.Values = vnonZeroValues;
                 _storage.Indices = vnonZeroIndices;
                 _storage.ValueCount = Count;
@@ -427,19 +389,47 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
                 {
                     result.At(_storage.Indices[index], -_storage.Values[index]);
                 }
+                return;
             }
-            else
+
+            if (!ReferenceEquals(this, result))
+            {
+                sparseResult._storage.ValueCount = _storage.ValueCount;
+                sparseResult._storage.Indices = new int[_storage.ValueCount];
+                Buffer.BlockCopy(_storage.Indices, 0, sparseResult._storage.Indices, 0, _storage.ValueCount*Constants.SizeOfInt);
+                sparseResult._storage.Values = new Complex[_storage.ValueCount];
+                Array.Copy(_storage.Values, sparseResult._storage.Values, _storage.ValueCount);
+            }
+
+            Control.LinearAlgebraProvider.ScaleArray(-Complex.One, sparseResult._storage.Values, sparseResult._storage.Values);
+        }
+
+        /// <summary>
+        /// Conjugates vector and save result to <paramref name="result"/>
+        /// </summary>
+        /// <param name="result">Target vector</param>
+        protected override void DoConjugate(Vector<Complex> result)
+        {
+            var sparseResult = result as SparseVector;
+            if (sparseResult != null)
             {
                 if (!ReferenceEquals(this, result))
                 {
                     sparseResult._storage.ValueCount = _storage.ValueCount;
                     sparseResult._storage.Indices = new int[_storage.ValueCount];
-                    Buffer.BlockCopy(_storage.Indices, 0, sparseResult._storage.Indices, 0, _storage.ValueCount * Constants.SizeOfInt);
+                    Buffer.BlockCopy(_storage.Indices, 0, sparseResult._storage.Indices, 0, _storage.ValueCount*Constants.SizeOfInt);
                     sparseResult._storage.Values = new Complex[_storage.ValueCount];
                     Array.Copy(_storage.Values, sparseResult._storage.Values, _storage.ValueCount);
                 }
 
-                Control.LinearAlgebraProvider.ScaleArray(-Complex.One, sparseResult._storage.Values, sparseResult._storage.Values);
+                Control.LinearAlgebraProvider.ConjugateArray(sparseResult._storage.Values, sparseResult._storage.Values);
+                return;
+            }
+
+            result.Clear();
+            for (var index = 0; index < _storage.ValueCount; index++)
+            {
+                result.At(_storage.Indices[index], _storage.Values[index].Conjugate());
             }
         }
 
@@ -547,7 +537,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         }
 
         /// <summary>
-        /// Returns a <strong>Vector</strong> containing the negated values of <paramref name="rightSide"/>. 
+        /// Returns a <strong>Vector</strong> containing the negated values of <paramref name="rightSide"/>.
         /// </summary>
         /// <param name="rightSide">The vector to get the values from.</param>
         /// <returns>A vector containing the negated values as <paramref name="rightSide"/>.</returns>
@@ -669,7 +659,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// <summary>
         /// Returns the index of the absolute minimum element.
         /// </summary>
-        /// <returns>The index of absolute minimum element.</returns>   
+        /// <returns>The index of absolute minimum element.</returns>
         public override int AbsoluteMinimumIndex()
         {
             if (_storage.ValueCount == 0)
@@ -810,8 +800,8 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// <param name="u">First vector</param>
         /// <param name="v">Second vector</param>
         /// <returns>Matrix M[i,j] = u[i]*v[j] </returns>
-        /// <exception cref="ArgumentNullException">If the u vector is <see langword="null" />.</exception> 
-        /// <exception cref="ArgumentNullException">If the v vector is <see langword="null" />.</exception> 
+        /// <exception cref="ArgumentNullException">If the u vector is <see langword="null" />.</exception>
+        /// <exception cref="ArgumentNullException">If the v vector is <see langword="null" />.</exception>
         public static Matrix<Complex> OuterProduct(SparseVector u, SparseVector v)
         {
             if (u == null)

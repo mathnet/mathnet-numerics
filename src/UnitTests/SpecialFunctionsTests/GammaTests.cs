@@ -36,7 +36,7 @@ namespace MathNet.Numerics.UnitTests.SpecialFunctionsTests
     /// <summary>
     /// Gamma functions tests.
     /// </summary>
-    [TestFixture]
+    [TestFixture, Category("Functions")]
     public class GammaTests
     {
         /// <summary>
@@ -123,9 +123,36 @@ namespace MathNet.Numerics.UnitTests.SpecialFunctionsTests
         [TestCase(1000, 10000, 1.0, 14)]
         [TestCase(1e+50, 1e+48, 0.0, 14)]
         [TestCase(1e+50, 1e+52, 1.0, 14)]
-        public void GammaLowerRegularized(double a, double x, double f, int digits)
+        public void GammaLowerRegularized(double a, double x, double y, int digits)
         {
-            AssertHelpers.AlmostEqualRelative(f, SpecialFunctions.GammaLowerRegularized(a, x), digits);
+            AssertHelpers.AlmostEqualRelative(y, SpecialFunctions.GammaLowerRegularized(a, x), digits);
+        }
+
+        /// <summary>
+        /// Gamma lower regularized inverse.
+        /// </summary>
+        [TestCase(double.NaN, Double.NaN, Double.NaN, 14)]
+        [TestCase(0.1, 1.0, 0.97587265627367222115949155252812057714751052498477013, 13)]
+        [TestCase(0.1, 2.0, 0.99432617602018847196075251078067514034772764693462125, 13)]
+        [TestCase(0.1, 8.0, 0.99999507519205198048686442150578226823401842046310854, 10)]
+        [TestCase(1.5, 1.0, 0.42759329552912016600095238564127189392715996802703368, 13)]
+        [TestCase(1.5, 2.0, 0.73853587005088937779717792402407879809718939080920993, 13)]
+        [TestCase(1.5, 8.0, 0.99886601571021467734329986257903021041757398191304284, 13)]
+        [TestCase(2.5, 1.0, 0.15085496391539036377410688601371365034788861473418704, 13)]
+        [TestCase(2.5, 2.0, 0.45058404864721976739416885516693969548484517509263197, 13)]
+        [TestCase(2.5, 8.0, 0.99315592607757956900093935107222761316136944145439676, 13)]
+        [TestCase(5.5, 1.0, 0.0015041182825838038421585211353488839717739161316985392, 13)]
+        [TestCase(5.5, 2.0, 0.030082976121226050615171484772387355162056796585883967, 13)]
+        [TestCase(5.5, 8.0, 0.85886911973294184646060071855669224657735916933487681, 13)]
+        [TestCase(100, 90, 0.1582209891864301681049696996709105316998233457433473, 12)]
+        [TestCase(100, 100, 0.5132987982791486648573142565640291634709251499279450, 12)]
+        [TestCase(100, 110, 0.8417213299399129061982996209829688531933500308658222, 12)]
+        [TestCase(500, 450, 0.0107172380912897415573958770655204965434869949241480, 12)]
+        [TestCase(500, 500, 0.5059471461707603580470479574412058032802735425634263, 12)]
+        [TestCase(500, 550, 0.9853855918737048059548470006900844665580616318702748, 12)]
+        public void GammaLowerRegularizedInv(double a, double x, double y, int digits)
+        {
+            AssertHelpers.AlmostEqualRelative(x, SpecialFunctions.GammaLowerRegularizedInv(a, y), digits);
         }
 
         /// <summary>

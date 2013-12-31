@@ -45,6 +45,21 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
                 SafeNativeMethods.SetImprovedConsistency();
             }
         }
+
+        /// <summary>
+        /// Initialize and verify that the provided is indeed available. If not, fall back to alernatives like the managed provider
+        /// </summary>
+        public override void InitializeVerify()
+        {
+            // TODO: Choose x86 or x64 based on Environment.Is64BitProcess
+            // TODO: call into MKL to verify
+        }
+
+        public override string ToString()
+        {
+            // TODO: query version and platform and add to string
+            return "Intel MKL";
+        }
     }
 }
 

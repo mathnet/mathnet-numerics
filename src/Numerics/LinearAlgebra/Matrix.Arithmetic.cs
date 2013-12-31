@@ -122,11 +122,18 @@ namespace MathNet.Numerics.LinearAlgebra
         protected abstract void DoMultiply(Matrix<T> other, Matrix<T> result);
 
         /// <summary>
-        /// Multiplies this matrix with transpose of another matrix and places the results into the result matrix.
+        /// Multiplies this matrix with the transpose of another matrix and places the results into the result matrix.
         /// </summary>
         /// <param name="other">The matrix to multiply with.</param>
         /// <param name="result">The result of the multiplication.</param>
         protected abstract void DoTransposeAndMultiply(Matrix<T> other, Matrix<T> result);
+
+        /// <summary>
+        /// Multiplies this matrix with the conjugate transpose of another matrix and places the results into the result matrix.
+        /// </summary>
+        /// <param name="other">The matrix to multiply with.</param>
+        /// <param name="result">The result of the multiplication.</param>
+        protected abstract void DoConjugateTransposeAndMultiply(Matrix<T> other, Matrix<T> result);
 
         /// <summary>
         /// Multiplies the transpose of this matrix with a vector and places the results into the result vector.
@@ -136,11 +143,25 @@ namespace MathNet.Numerics.LinearAlgebra
         protected abstract void DoTransposeThisAndMultiply(Vector<T> rightSide, Vector<T> result);
 
         /// <summary>
+        /// Multiplies the conjugate transpose of this matrix with a vector and places the results into the result vector.
+        /// </summary>
+        /// <param name="rightSide">The vector to multiply with.</param>
+        /// <param name="result">The result of the multiplication.</param>
+        protected abstract void DoConjugateTransposeThisAndMultiply(Vector<T> rightSide, Vector<T> result);
+
+        /// <summary>
         /// Multiplies the transpose of this matrix with another matrix and places the results into the result matrix.
         /// </summary>
         /// <param name="other">The matrix to multiply with.</param>
         /// <param name="result">The result of the multiplication.</param>
         protected abstract void DoTransposeThisAndMultiply(Matrix<T> other, Matrix<T> result);
+
+        /// <summary>
+        /// Multiplies the transpose of this matrix with another matrix and places the results into the result matrix.
+        /// </summary>
+        /// <param name="other">The matrix to multiply with.</param>
+        /// <param name="result">The result of the multiplication.</param>
+        protected abstract void DoConjugateTransposeThisAndMultiply(Matrix<T> other, Matrix<T> result);
 
         /// <summary>
         /// Divides each element of the matrix by a scalar and places results into the result matrix.
@@ -204,7 +225,7 @@ namespace MathNet.Numerics.LinearAlgebra
                 return Clone();
             }
 
-            var result = CreateMatrix(RowCount, ColumnCount);
+            var result = Build.SameAs(this);
             DoAdd(scalar, result);
             return result;
         }
@@ -237,14 +258,14 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <param name="other">The matrix to add to this matrix.</param>
         /// <returns>The result of the addition.</returns>
         /// <exception cref="ArgumentOutOfRangeException">If the two matrices don't have the same dimensions.</exception>
-        public virtual Matrix<T> Add(Matrix<T> other)
+        public Matrix<T> Add(Matrix<T> other)
         {
             if (other.RowCount != RowCount || other.ColumnCount != ColumnCount)
             {
                 throw DimensionsDontMatch<ArgumentOutOfRangeException>(this, other);
             }
 
-            var result = CreateMatrix(RowCount, ColumnCount);
+            var result = Build.SameAs(this, other, RowCount, ColumnCount);
             DoAdd(other, result);
             return result;
         }
@@ -282,7 +303,7 @@ namespace MathNet.Numerics.LinearAlgebra
                 return Clone();
             }
 
-            var result = CreateMatrix(RowCount, ColumnCount);
+            var result = Build.SameAs(this);
             DoSubtract(scalar, result);
             return result;
         }
@@ -316,7 +337,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <returns>A new matrix containing the subtraction of the scalar and this matrix.</returns>
         public Matrix<T> SubtractFrom(T scalar)
         {
-            var result = CreateMatrix(RowCount, ColumnCount);
+            var result = Build.SameAs(this);
             DoSubtractFrom(scalar, result);
             return result;
         }
@@ -343,14 +364,14 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <param name="other">The matrix to subtract.</param>
         /// <returns>The result of the subtraction.</returns>
         /// <exception cref="ArgumentOutOfRangeException">If the two matrices don't have the same dimensions.</exception>
-        public virtual Matrix<T> Subtract(Matrix<T> other)
+        public Matrix<T> Subtract(Matrix<T> other)
         {
             if (other.RowCount != RowCount || other.ColumnCount != ColumnCount)
             {
                 throw DimensionsDontMatch<ArgumentOutOfRangeException>(this, other);
             }
 
-            var result = CreateMatrix(RowCount, ColumnCount);
+            var result = Build.SameAs(this, other, RowCount, ColumnCount);
             DoSubtract(other, result);
             return result;
         }
@@ -390,10 +411,10 @@ namespace MathNet.Numerics.LinearAlgebra
 
             if (scalar.Equals(Zero))
             {
-                return CreateMatrix(RowCount, ColumnCount);
+                return Build.SameAs(this);
             }
 
-            var result = CreateMatrix(RowCount, ColumnCount);
+            var result = Build.SameAs(this);
             DoMultiply(scalar, result);
             return result;
         }
@@ -448,7 +469,7 @@ namespace MathNet.Numerics.LinearAlgebra
                 throw new DivideByZeroException();
             }
 
-            var result = CreateMatrix(RowCount, ColumnCount);
+            var result = Build.SameAs(this);
             DoDivide(scalar, result);
             return result;
         }
@@ -492,7 +513,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <returns>The result of the division.</returns>
         public Matrix<T> DivideByThis(T scalar)
         {
-            var result = CreateMatrix(RowCount, ColumnCount);
+            var result = Build.SameAs(this);
             DoDivideByThis(scalar, result);
             return result;
         }
@@ -531,7 +552,7 @@ namespace MathNet.Numerics.LinearAlgebra
                 throw DimensionsDontMatch<ArgumentException>(this, rightSide, "rightSide");
             }
 
-            var ret = CreateVector(RowCount);
+            var ret = Vector<T>.Build.SameAs(this, rightSide, RowCount);
             DoMultiply(rightSide, ret);
             return ret;
         }
@@ -543,7 +564,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <param name="result">The result of the multiplication.</param>
         /// <exception cref="ArgumentException">If <strong>result.Count != this.RowCount</strong>.</exception>
         /// <exception cref="ArgumentException">If <strong>this.ColumnCount != <paramref name="rightSide"/>.Count</strong>.</exception>
-        public virtual void Multiply(Vector<T> rightSide, Vector<T> result)
+        public void Multiply(Vector<T> rightSide, Vector<T> result)
         {
             if (ColumnCount != rightSide.Count)
             {
@@ -557,7 +578,7 @@ namespace MathNet.Numerics.LinearAlgebra
 
             if (ReferenceEquals(rightSide, result))
             {
-                var tmp = result.CreateVector(result.Count);
+                var tmp = Vector<T>.Build.SameAs(result);
                 DoMultiply(rightSide, tmp);
                 tmp.CopyTo(result);
             }
@@ -580,7 +601,7 @@ namespace MathNet.Numerics.LinearAlgebra
                 throw DimensionsDontMatch<ArgumentException>(this, leftSide, "leftSide");
             }
 
-            var ret = CreateVector(ColumnCount);
+            var ret = Vector<T>.Build.SameAs(this, leftSide, ColumnCount);
             DoLeftMultiply(leftSide, ret);
             return ret;
         }
@@ -592,7 +613,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <param name="result">The result of the multiplication.</param>
         /// <exception cref="ArgumentException">If <strong>result.Count != this.ColumnCount</strong>.</exception>
         /// <exception cref="ArgumentException">If <strong>this.RowCount != <paramref name="leftSide"/>.Count</strong>.</exception>
-        public virtual void LeftMultiply(Vector<T> leftSide, Vector<T> result)
+        public void LeftMultiply(Vector<T> leftSide, Vector<T> result)
         {
             if (RowCount != leftSide.Count)
             {
@@ -606,7 +627,7 @@ namespace MathNet.Numerics.LinearAlgebra
 
             if (ReferenceEquals(leftSide, result))
             {
-                var tmp = result.CreateVector(result.Count);
+                var tmp = Vector<T>.Build.SameAs(result);
                 DoLeftMultiply(leftSide, tmp);
                 tmp.CopyTo(result);
             }
@@ -633,7 +654,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <param name="result">The result of the multiplication.</param>
         /// <exception cref="ArgumentException">If <strong>this.Columns != other.Rows</strong>.</exception>
         /// <exception cref="ArgumentException">If the result matrix's dimensions are not the this.Rows x other.Columns.</exception>
-        public virtual void Multiply(Matrix<T> other, Matrix<T> result)
+        public void Multiply(Matrix<T> other, Matrix<T> result)
         {
             if (ColumnCount != other.RowCount || result.RowCount != RowCount || result.ColumnCount != other.ColumnCount)
             {
@@ -642,7 +663,7 @@ namespace MathNet.Numerics.LinearAlgebra
 
             if (ReferenceEquals(this, result) || ReferenceEquals(other, result))
             {
-                var tmp = result.CreateMatrix(result.RowCount, result.ColumnCount);
+                var tmp = Build.SameAs(result);
                 DoMultiply(other, tmp);
                 tmp.CopyTo(result);
             }
@@ -658,14 +679,14 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <param name="other">The matrix to multiply with.</param>
         /// <exception cref="ArgumentException">If <strong>this.Columns != other.Rows</strong>.</exception>
         /// <returns>The result of the multiplication.</returns>
-        public virtual Matrix<T> Multiply(Matrix<T> other)
+        public Matrix<T> Multiply(Matrix<T> other)
         {
             if (ColumnCount != other.RowCount)
             {
                 throw DimensionsDontMatch<ArgumentException>(this, other);
             }
 
-            var result = CreateMatrix(RowCount, other.ColumnCount);
+            var result = Build.SameAs(this, other, RowCount, other.ColumnCount);
             DoMultiply(other, result);
             return result;
         }
@@ -686,7 +707,7 @@ namespace MathNet.Numerics.LinearAlgebra
 
             if (ReferenceEquals(this, result) || ReferenceEquals(other, result))
             {
-                var tmp = result.CreateMatrix(result.RowCount, result.ColumnCount);
+                var tmp = Build.SameAs(result);
                 DoTransposeAndMultiply(other, tmp);
                 tmp.CopyTo(result);
             }
@@ -702,14 +723,14 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <param name="other">The matrix to multiply with.</param>
         /// <exception cref="ArgumentException">If <strong>this.Columns != other.ColumnCount</strong>.</exception>
         /// <returns>The result of the multiplication.</returns>
-        public virtual Matrix<T> TransposeAndMultiply(Matrix<T> other)
+        public Matrix<T> TransposeAndMultiply(Matrix<T> other)
         {
             if (ColumnCount != other.ColumnCount)
             {
                 throw DimensionsDontMatch<ArgumentException>(this, other);
             }
 
-            var result = CreateMatrix(RowCount, other.RowCount);
+            var result = Build.SameAs(this, other, RowCount, other.RowCount);
             DoTransposeAndMultiply(other, result);
             return result;
         }
@@ -727,9 +748,9 @@ namespace MathNet.Numerics.LinearAlgebra
                 throw DimensionsDontMatch<ArgumentException>(this, rightSide, "rightSide");
             }
 
-            var ret = CreateVector(ColumnCount);
-            DoTransposeThisAndMultiply(rightSide, ret);
-            return ret;
+            var result = Vector<T>.Build.SameAs(this, rightSide, ColumnCount);
+            DoTransposeThisAndMultiply(rightSide, result);
+            return result;
         }
 
         /// <summary>
@@ -753,7 +774,7 @@ namespace MathNet.Numerics.LinearAlgebra
 
             if (ReferenceEquals(rightSide, result))
             {
-                var tmp = result.CreateVector(result.Count);
+                var tmp = Vector<T>.Build.SameAs(result);
                 DoTransposeThisAndMultiply(rightSide, tmp);
                 tmp.CopyTo(result);
             }
@@ -779,7 +800,7 @@ namespace MathNet.Numerics.LinearAlgebra
 
             if (ReferenceEquals(this, result) || ReferenceEquals(other, result))
             {
-                var tmp = result.CreateMatrix(result.RowCount, result.ColumnCount);
+                var tmp = Build.SameAs(result);
                 DoTransposeThisAndMultiply(other, tmp);
                 tmp.CopyTo(result);
             }
@@ -802,8 +823,147 @@ namespace MathNet.Numerics.LinearAlgebra
                 throw DimensionsDontMatch<ArgumentException>(this, other);
             }
 
-            var result = CreateMatrix(ColumnCount, other.ColumnCount);
+            var result = Build.SameAs(this, other, ColumnCount, other.ColumnCount);
             DoTransposeThisAndMultiply(other, result);
+            return result;
+        }
+
+
+
+        /// <summary>
+        /// Multiplies this matrix with the conjugate transpose of another matrix and places the results into the result matrix.
+        /// </summary>
+        /// <param name="other">The matrix to multiply with.</param>
+        /// <param name="result">The result of the multiplication.</param>
+        /// <exception cref="ArgumentException">If <strong>this.Columns != other.ColumnCount</strong>.</exception>
+        /// <exception cref="ArgumentException">If the result matrix's dimensions are not the this.RowCount x other.RowCount.</exception>
+        public virtual void ConjugateTransposeAndMultiply(Matrix<T> other, Matrix<T> result)
+        {
+            if (ColumnCount != other.ColumnCount || result.RowCount != RowCount || result.ColumnCount != other.RowCount)
+            {
+                throw DimensionsDontMatch<ArgumentException>(this, other, result);
+            }
+
+            if (ReferenceEquals(this, result) || ReferenceEquals(other, result))
+            {
+                var tmp = Build.SameAs(result);
+                DoConjugateTransposeAndMultiply(other, tmp);
+                tmp.CopyTo(result);
+            }
+            else
+            {
+                DoConjugateTransposeAndMultiply(other, result);
+            }
+        }
+
+        /// <summary>
+        /// Multiplies this matrix with the conjugate transpose of another matrix and returns the result.
+        /// </summary>
+        /// <param name="other">The matrix to multiply with.</param>
+        /// <exception cref="ArgumentException">If <strong>this.Columns != other.ColumnCount</strong>.</exception>
+        /// <returns>The result of the multiplication.</returns>
+        public Matrix<T> ConjugateTransposeAndMultiply(Matrix<T> other)
+        {
+            if (ColumnCount != other.ColumnCount)
+            {
+                throw DimensionsDontMatch<ArgumentException>(this, other);
+            }
+
+            var result = Build.SameAs(this, other, RowCount, other.RowCount);
+            DoConjugateTransposeAndMultiply(other, result);
+            return result;
+        }
+
+        /// <summary>
+        /// Multiplies the conjugate transpose of this matrix by a vector and returns the result.
+        /// </summary>
+        /// <param name="rightSide">The vector to multiply with.</param>
+        /// <returns>The result of the multiplication.</returns>
+        /// <exception cref="ArgumentException">If <c>this.RowCount != rightSide.Count</c>.</exception>
+        public Vector<T> ConjugateTransposeThisAndMultiply(Vector<T> rightSide)
+        {
+            if (RowCount != rightSide.Count)
+            {
+                throw DimensionsDontMatch<ArgumentException>(this, rightSide, "rightSide");
+            }
+
+            var result = Vector<T>.Build.SameAs(this, rightSide, ColumnCount);
+            DoConjugateTransposeThisAndMultiply(rightSide, result);
+            return result;
+        }
+
+        /// <summary>
+        /// Multiplies the conjugate transpose of this matrix with a vector and places the results into the result vector.
+        /// </summary>
+        /// <param name="rightSide">The vector to multiply with.</param>
+        /// <param name="result">The result of the multiplication.</param>
+        /// <exception cref="ArgumentException">If <strong>result.Count != this.ColumnCount</strong>.</exception>
+        /// <exception cref="ArgumentException">If <strong>this.RowCount != <paramref name="rightSide"/>.Count</strong>.</exception>
+        public void ConjugateTransposeThisAndMultiply(Vector<T> rightSide, Vector<T> result)
+        {
+            if (RowCount != rightSide.Count)
+            {
+                throw DimensionsDontMatch<ArgumentException>(this, rightSide, "rightSide");
+            }
+
+            if (ColumnCount != result.Count)
+            {
+                throw DimensionsDontMatch<ArgumentException>(this, result, "result");
+            }
+
+            if (ReferenceEquals(rightSide, result))
+            {
+                var tmp = Vector<T>.Build.SameAs(result);
+                DoConjugateTransposeThisAndMultiply(rightSide, tmp);
+                tmp.CopyTo(result);
+            }
+            else
+            {
+                DoConjugateTransposeThisAndMultiply(rightSide, result);
+            }
+        }
+
+        /// <summary>
+        /// Multiplies the conjugate transpose of this matrix with another matrix and places the results into the result matrix.
+        /// </summary>
+        /// <param name="other">The matrix to multiply with.</param>
+        /// <param name="result">The result of the multiplication.</param>
+        /// <exception cref="ArgumentException">If <strong>this.Rows != other.RowCount</strong>.</exception>
+        /// <exception cref="ArgumentException">If the result matrix's dimensions are not the this.ColumnCount x other.ColumnCount.</exception>
+        public void ConjugateTransposeThisAndMultiply(Matrix<T> other, Matrix<T> result)
+        {
+            if (RowCount != other.RowCount || result.RowCount != ColumnCount || result.ColumnCount != other.ColumnCount)
+            {
+                throw DimensionsDontMatch<ArgumentException>(this, other, result);
+            }
+
+            if (ReferenceEquals(this, result) || ReferenceEquals(other, result))
+            {
+                var tmp = Build.SameAs(result);
+                DoConjugateTransposeThisAndMultiply(other, tmp);
+                tmp.CopyTo(result);
+            }
+            else
+            {
+                DoConjugateTransposeThisAndMultiply(other, result);
+            }
+        }
+
+        /// <summary>
+        /// Multiplies the conjugate transpose of this matrix with another matrix and returns the result.
+        /// </summary>
+        /// <param name="other">The matrix to multiply with.</param>
+        /// <exception cref="ArgumentException">If <strong>this.Rows != other.RowCount</strong>.</exception>
+        /// <returns>The result of the multiplication.</returns>
+        public Matrix<T> ConjugateTransposeThisAndMultiply(Matrix<T> other)
+        {
+            if (RowCount != other.RowCount)
+            {
+                throw DimensionsDontMatch<ArgumentException>(this, other);
+            }
+
+            var result = Build.SameAs(this, other, ColumnCount, other.ColumnCount);
+            DoConjugateTransposeThisAndMultiply(other, result);
             return result;
         }
 
@@ -813,7 +973,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <returns>A matrix containing the negated values.</returns>
         public Matrix<T> Negate()
         {
-            var result = CreateMatrix(RowCount, ColumnCount);
+            var result = Build.SameAs(this);
             DoNegate(result);
             return result;
         }
@@ -839,7 +999,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <returns>A matrix containing the conjugated values.</returns>
         public Matrix<T> Conjugate()
         {
-            var result = CreateMatrix(RowCount, ColumnCount);
+            var result = Build.SameAs(this);
             DoConjugate(result);
             return result;
         }
@@ -866,7 +1026,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <returns>A matrix containing the results.</returns>
         public Matrix<T> Modulus(T divisor)
         {
-            var result = CreateMatrix(RowCount, ColumnCount);
+            var result = Build.SameAs(this);
             DoModulus(divisor, result);
             return result;
         }
@@ -893,7 +1053,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <returns>A matrix containing the results.</returns>
         public Matrix<T> ModulusByThis(T dividend)
         {
-            var result = CreateMatrix(RowCount, ColumnCount);
+            var result = Build.SameAs(this);
             DoModulusByThis(dividend, result);
             return result;
         }
@@ -926,7 +1086,7 @@ namespace MathNet.Numerics.LinearAlgebra
                 throw DimensionsDontMatch<ArgumentException>(this, other, "other");
             }
 
-            var result = CreateMatrix(RowCount, ColumnCount);
+            var result = Build.SameAs(this, other);
             DoPointwiseMultiply(other, result);
             return result;
         }
@@ -961,7 +1121,7 @@ namespace MathNet.Numerics.LinearAlgebra
                 throw DimensionsDontMatch<ArgumentException>(this, divisor);
             }
 
-            var result = CreateMatrix(RowCount, ColumnCount);
+            var result = Build.SameAs(this, divisor);
             DoPointwiseDivide(divisor, result);
             return result;
         }
@@ -996,7 +1156,7 @@ namespace MathNet.Numerics.LinearAlgebra
                 throw DimensionsDontMatch<ArgumentException>(this, divisor);
             }
 
-            var result = CreateMatrix(RowCount, ColumnCount);
+            var result = Build.SameAs(this, divisor);
             DoPointwiseModulus(divisor, result);
             return result;
         }
@@ -1074,7 +1234,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <returns>The kronecker product of the two matrices.</returns>
         public Matrix<T> KroneckerProduct(Matrix<T> other)
         {
-            var result = CreateMatrix(RowCount*other.RowCount, ColumnCount*other.ColumnCount);
+            var result = Build.SameAs(this, other, RowCount*other.RowCount, ColumnCount*other.ColumnCount);
             KroneckerProduct(other, result);
             return result;
         }
@@ -1115,14 +1275,13 @@ namespace MathNet.Numerics.LinearAlgebra
                 throw new ArgumentOutOfRangeException("p", Resources.ArgumentMustBePositive);
             }
 
-            var ret = CreateMatrix(RowCount, ColumnCount);
-
+            var result = Build.SameAs(this);
             for (var index = 0; index < ColumnCount; index++)
             {
-                ret.SetColumn(index, Column(index).Normalize(p));
+                result.SetColumn(index, Column(index).Normalize(p));
             }
 
-            return ret;
+            return result;
         }
 
         /// <summary>
@@ -1138,8 +1297,7 @@ namespace MathNet.Numerics.LinearAlgebra
                 throw new ArgumentOutOfRangeException("p", Resources.ArgumentMustBePositive);
             }
 
-            var ret = CreateMatrix(RowCount, ColumnCount);
-
+            var ret = Build.SameAs(this);
             for (var index = 0; index < RowCount; index++)
             {
                 ret.SetRow(index, Row(index).Normalize(p));

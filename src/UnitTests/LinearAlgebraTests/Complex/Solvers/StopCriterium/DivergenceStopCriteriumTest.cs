@@ -29,8 +29,8 @@
 // </copyright>
 
 using System;
+using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Complex;
-using MathNet.Numerics.LinearAlgebra.Complex.Solvers;
 using MathNet.Numerics.LinearAlgebra.Solvers;
 using NUnit.Framework;
 
@@ -45,7 +45,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.StopCrit
     /// <summary>
     /// Divergence stop criterium test.
     /// </summary>
-    [TestFixture]
+    [TestFixture, Category("LASolver")]
     public sealed class DivergenceStopCriteriumTest
     {
         /// <summary>
@@ -88,9 +88,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.StopCrit
             var criterium = new DivergenceStopCriterium<Complex>(0.5, 15);
             Assert.Throws<ArgumentOutOfRangeException>(() => criterium.DetermineStatus(
                 -1,
-                DenseVector.Create(3, i => 4),
-                DenseVector.Create(3, i => 5),
-                DenseVector.Create(3, i => 6)));
+                Vector<Complex>.Build.Dense(3, 4),
+                Vector<Complex>.Build.Dense(3, 5),
+                Vector<Complex>.Build.Dense(3, 6)));
         }
 
         /// <summary>

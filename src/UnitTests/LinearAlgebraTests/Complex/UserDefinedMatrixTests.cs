@@ -59,26 +59,5 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
         {
             return new UserDefinedMatrix(data);
         }
-
-        /// <summary>
-        /// Creates a vector of the given size.
-        /// </summary>
-        /// <param name="size">The size of the vector to create.
-        /// </param>
-        /// <returns>The new vector. </returns>
-        protected override Vector<Complex> CreateVector(int size)
-        {
-            return new UserDefinedVector(size);
-        }
-
-        /// <summary>
-        /// Creates a vector from an array.
-        /// </summary>
-        /// <param name="data">The array to create this vector from.</param>
-        /// <returns>The new vector. </returns>
-        protected override Vector<Complex> CreateVector(Complex[] data)
-        {
-            return new UserDefinedVector(data);
-        }
     }
 }

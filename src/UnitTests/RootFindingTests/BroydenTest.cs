@@ -34,7 +34,7 @@ using System;
 
 namespace MathNet.Numerics.UnitTests.RootFindingTests
 {
-    [TestFixture]
+    [TestFixture, Category("RootFinding")]
     internal class BroydenTest
     {
         [Test]
@@ -2641,7 +2641,7 @@ namespace MathNet.Numerics.UnitTests.RootFindingTests
             Assert.AreEqual(0, fa1(r)[9], 1e-12);
             Assert.AreEqual(0, fa1(r)[10], 1e-12);
             Assert.AreEqual(0, fa1(r)[11], 1e-10);
-            Assert.AreEqual(0, fa1(r)[12], 1e-11);
+            Assert.AreEqual(0, fa1(r)[12], 1e-10);
             Assert.AreEqual(0, fa1(r)[13], 1e-11);
         }
     }

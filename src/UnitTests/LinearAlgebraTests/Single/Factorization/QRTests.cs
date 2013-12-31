@@ -25,6 +25,7 @@
 // </copyright>
 
 using System;
+using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Factorization;
 using MathNet.Numerics.LinearAlgebra.Single;
 using MathNet.Numerics.LinearAlgebra.Single.Factorization;
@@ -35,6 +36,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Factorization
     /// <summary>
     /// QR factorization tests for a dense matrix.
     /// </summary>
+    [TestFixture, Category("LAFactorization")]
     public class QRTests
     {
         /// <summary>
@@ -138,7 +140,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Factorization
         [TestCase(100, 98)]
         public void CanFactorizeRandomMatrix(int row, int column)
         {
-            var matrixA = MatrixLoader.GenerateRandomDenseMatrix(row, column);
+            var matrixA = Matrix<float>.Build.Random(row, column, 1);
             var factorQR = matrixA.QR(QRMethod.Full);
             var q = factorQR.Q;
             var r = factorQR.R;
@@ -205,7 +207,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Factorization
         [TestCase(100, 98)]
         public void CanFactorizeRandomMatrixUsingThinQR(int row, int column)
         {
-            var matrixA = MatrixLoader.GenerateRandomDenseMatrix(row, column);
+            var matrixA = Matrix<float>.Build.Random(row, column, 1);
             var factorQR = matrixA.QR(QRMethod.Thin);
             var q = factorQR.Q;
             var r = factorQR.R;
@@ -270,11 +272,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Factorization
         [TestCase(100)]
         public void CanSolveForRandomVector(int order)
         {
-            var matrixA = MatrixLoader.GenerateRandomDenseMatrix(order, order);
+            var matrixA = Matrix<float>.Build.Random(order, order, 1);
             var matrixACopy = matrixA.Clone();
             var factorQR = matrixA.QR();
 
-            var vectorb = MatrixLoader.GenerateRandomDenseVector(order);
+            var vectorb = Vector<float>.Build.Random(order, 1);
             var resultx = factorQR.Solve(vectorb);
 
             Assert.AreEqual(matrixA.ColumnCount, resultx.Count);
@@ -309,11 +311,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Factorization
         [TestCase(100)]
         public void CanSolveForRandomMatrix(int order)
         {
-            var matrixA = MatrixLoader.GenerateRandomDenseMatrix(order, order);
+            var matrixA = Matrix<float>.Build.Random(order, order, 1);
             var matrixACopy = matrixA.Clone();
             var factorQR = matrixA.QR();
 
-            var matrixB = MatrixLoader.GenerateRandomDenseMatrix(order, order);
+            var matrixB = Matrix<float>.Build.Random(order, order, 1);
             var matrixX = factorQR.Solve(matrixB);
 
             // The solution X row dimension is equal to the column dimension of A
@@ -355,10 +357,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Factorization
         [TestCase(100)]
         public void CanSolveForRandomVectorWhenResultVectorGiven(int order)
         {
-            var matrixA = MatrixLoader.GenerateRandomDenseMatrix(order, order);
+            var matrixA = Matrix<float>.Build.Random(order, order, 1);
             var matrixACopy = matrixA.Clone();
             var factorQR = matrixA.QR();
-            var vectorb = MatrixLoader.GenerateRandomDenseVector(order);
+            var vectorb = Vector<float>.Build.Random(order, 1);
             var vectorbCopy = vectorb.Clone();
             var resultx = new DenseVector(order);
             factorQR.Solve(vectorb, resultx);
@@ -401,11 +403,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Factorization
         [TestCase(100)]
         public void CanSolveForRandomMatrixWhenResultMatrixGiven(int order)
         {
-            var matrixA = MatrixLoader.GenerateRandomDenseMatrix(order, order);
+            var matrixA = Matrix<float>.Build.Random(order, order, 1);
             var matrixACopy = matrixA.Clone();
             var factorQR = matrixA.QR();
 
-            var matrixB = MatrixLoader.GenerateRandomDenseMatrix(order, order);
+            var matrixB = Matrix<float>.Build.Random(order, order, 1);
             var matrixBCopy = matrixB.Clone();
 
             var matrixX = new DenseMatrix(order, order);
@@ -458,11 +460,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Factorization
         [TestCase(100)]
         public void CanSolveForRandomVectorUsingThinQR(int order)
         {
-            var matrixA = MatrixLoader.GenerateRandomDenseMatrix(order, order);
+            var matrixA = Matrix<float>.Build.Random(order, order, 1);
             var matrixACopy = matrixA.Clone();
             var factorQR = matrixA.QR(QRMethod.Thin);
 
-            var vectorb = MatrixLoader.GenerateRandomDenseVector(order);
+            var vectorb = Vector<float>.Build.Random(order, 1);
             var resultx = factorQR.Solve(vectorb);
 
             Assert.AreEqual(matrixA.ColumnCount, resultx.Count);
@@ -472,7 +474,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Factorization
             // Check the reconstruction.
             for (var i = 0; i < order; i++)
             {
-                AssertHelpers.AlmostEqualRelative(vectorb[i], matrixBReconstruct[i], 3);
+                AssertHelpers.AlmostEqual(vectorb[i], matrixBReconstruct[i], 3);
             }
 
             // Make sure A didn't change.
@@ -497,11 +499,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Factorization
         [TestCase(100)]
         public void CanSolveForRandomMatrixUsingThinQR(int order)
         {
-            var matrixA = MatrixLoader.GenerateRandomDenseMatrix(order, order);
+            var matrixA = Matrix<float>.Build.Random(order, order, 1);
             var matrixACopy = matrixA.Clone();
             var factorQR = matrixA.QR(QRMethod.Thin);
 
-            var matrixB = MatrixLoader.GenerateRandomDenseMatrix(order, order);
+            var matrixB = Matrix<float>.Build.Random(order, order, 1);
             var matrixX = factorQR.Solve(matrixB);
 
             // The solution X row dimension is equal to the column dimension of A
@@ -543,10 +545,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Factorization
         [TestCase(100)]
         public void CanSolveForRandomVectorWhenResultVectorGivenUsingThinQR(int order)
         {
-            var matrixA = MatrixLoader.GenerateRandomDenseMatrix(order, order);
+            var matrixA = Matrix<float>.Build.Random(order, order, 1);
             var matrixACopy = matrixA.Clone();
             var factorQR = matrixA.QR(QRMethod.Thin);
-            var vectorb = MatrixLoader.GenerateRandomDenseVector(order);
+            var vectorb = Vector<float>.Build.Random(order, 1);
             var vectorbCopy = vectorb.Clone();
             var resultx = new DenseVector(order);
             factorQR.Solve(vectorb, resultx);
@@ -558,7 +560,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Factorization
             // Check the reconstruction.
             for (var i = 0; i < vectorb.Count; i++)
             {
-                AssertHelpers.AlmostEqualRelative(vectorb[i], matrixBReconstruct[i], 3);
+                AssertHelpers.AlmostEqual(vectorb[i], matrixBReconstruct[i], 3);
             }
 
             // Make sure A didn't change.
@@ -589,11 +591,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Factorization
         [TestCase(100)]
         public void CanSolveForRandomMatrixWhenResultMatrixGivenUsingThinQR(int order)
         {
-            var matrixA = MatrixLoader.GenerateRandomDenseMatrix(order, order);
+            var matrixA = Matrix<float>.Build.Random(order, order, 1);
             var matrixACopy = matrixA.Clone();
             var factorQR = matrixA.QR(QRMethod.Thin);
 
-            var matrixB = MatrixLoader.GenerateRandomDenseMatrix(order, order);
+            var matrixB = Matrix<float>.Build.Random(order, order, 1);
             var matrixBCopy = matrixB.Clone();
 
             var matrixX = new DenseMatrix(order, order);
@@ -643,11 +645,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Factorization
         [TestCase(QRMethod.Thin)]
         public void CanSolveForMatrixWithTallRandomMatrix(QRMethod method)
         {
-            var matrixA = MatrixLoader.GenerateRandomDenseMatrix(20, 10);
+            var matrixA = Matrix<float>.Build.Random(20, 10, 1);
             var matrixACopy = matrixA.Clone();
             var factorQR = matrixA.QR(method);
 
-            var matrixB = MatrixLoader.GenerateRandomDenseMatrix(20, 5);
+            var matrixB = Matrix<float>.Build.Random(20, 5, 1);
             var matrixX = factorQR.Solve(matrixB);
 
             // The solution X row dimension is equal to the column dimension of A
@@ -662,7 +664,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Factorization
             {
                 for (var j = 0; j < matrixX.ColumnCount; j++)
                 {
-                    AssertHelpers.AlmostEqual(test[i, j], matrixX[i, j], 6);
+                    AssertHelpers.AlmostEqual(test[i, j], matrixX[i, j], 5);
                 }
             }
 
@@ -684,11 +686,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Factorization
         [TestCase(QRMethod.Thin)]
         public void CanSolveForVectorWithTallRandomMatrix(QRMethod method)
         {
-            var matrixA = MatrixLoader.GenerateRandomDenseMatrix(20, 10);
+            var matrixA = Matrix<float>.Build.Random(20, 10, 1);
             var matrixACopy = matrixA.Clone();
             var factorQR = matrixA.QR(method);
 
-            var vectorB = MatrixLoader.GenerateRandomDenseVector(20);
+            var vectorB = Vector<float>.Build.Random(20, 1);
             var vectorX = factorQR.Solve(vectorB);
 
             // The solution x dimension is equal to the column dimension of A
@@ -698,7 +700,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Factorization
 
             for (var i = 0; i < vectorX.Count; i++)
             {
-                AssertHelpers.AlmostEqual(test[i], vectorX[i], 6);
+                AssertHelpers.AlmostEqual(test[i], vectorX[i], 5);
             }
 
             // Make sure A didn't change.

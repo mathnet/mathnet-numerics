@@ -28,11 +28,11 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System;
 using MathNet.Numerics.LinearAlgebra.Complex32.Factorization;
 using MathNet.Numerics.LinearAlgebra.Factorization;
 using MathNet.Numerics.LinearAlgebra.Storage;
 using MathNet.Numerics.Properties;
-using System;
 
 namespace MathNet.Numerics.LinearAlgebra.Complex32
 {
@@ -91,7 +91,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         public override double FrobeniusNorm()
         {
             var transpose = ConjugateTranspose();
-            var aat = this * transpose;
+            var aat = this*transpose;
             var norm = 0d;
             for (var i = 0; i < RowCount; i++)
             {
@@ -106,7 +106,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// <returns>The conjugate transpose of this matrix.</returns>
         public override Matrix<Complex32> ConjugateTranspose()
         {
-            var ret = CreateMatrix(ColumnCount, RowCount);
+            var ret = Build.SameAs(this, ColumnCount, RowCount);
             for (var j = 0; j < ColumnCount; j++)
             {
                 for (var i = 0; i < RowCount; i++)
@@ -196,29 +196,28 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
             {
                 for (var j = 0; j < ColumnCount; j++)
                 {
-                    result.At(i, j, At(i, j) * scalar);
+                    result.At(i, j, At(i, j)*scalar);
                 }
             }
         }
 
-         /// <summary>
+        /// <summary>
         /// Multiplies this matrix with a vector and places the results into the result vector.
         /// </summary>
         /// <param name="rightSide">The vector to multiply with.</param>
         /// <param name="result">The result of the multiplication.</param>
         protected override void DoMultiply(Vector<Complex32> rightSide, Vector<Complex32> result)
-         {
+        {
             for (var i = 0; i < RowCount; i++)
             {
                 var s = Complex32.Zero;
-                for (var j = 0; j != ColumnCount; j++)
+                for (var j = 0; j < ColumnCount; j++)
                 {
-                    s += At(i, j) * rightSide[j];
+                    s += At(i, j)*rightSide[j];
                 }
-
                 result[i] = s;
             }
-         }
+        }
 
         /// <summary>
         /// Divides each element of the matrix by a scalar and places results into the result matrix.
@@ -227,7 +226,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// <param name="result">The matrix to store the result of the division.</param>
         protected override void DoDivide(Complex32 divisor, Matrix<Complex32> result)
         {
-            DoMultiply(1.0f / divisor, result);
+            DoMultiply(1.0f/divisor, result);
         }
 
         /// <summary>
@@ -241,7 +240,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
             {
                 for (var j = 0; j < ColumnCount; j++)
                 {
-                    result.At(i, j, dividend / At(i, j));
+                    result.At(i, j, dividend/At(i, j));
                 }
             }
         }
@@ -260,9 +259,8 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
                     var s = Complex32.Zero;
                     for (var l = 0; l < ColumnCount; l++)
                     {
-                        s += At(j, l) * other.At(l, i);
+                        s += At(j, l)*other.At(l, i);
                     }
-
                     result.At(j, i, s);
                 }
             }
@@ -282,9 +280,29 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
                     var s = Complex32.Zero;
                     for (var l = 0; l < ColumnCount; l++)
                     {
-                        s += At(i, l) * other.At(j, l);
+                        s += At(i, l)*other.At(j, l);
                     }
+                    result.At(i, j, s);
+                }
+            }
+        }
 
+        /// <summary>
+        /// Multiplies this matrix with the conjugate transpose of another matrix and places the results into the result matrix.
+        /// </summary>
+        /// <param name="other">The matrix to multiply with.</param>
+        /// <param name="result">The result of the multiplication.</param>
+        protected override void DoConjugateTransposeAndMultiply(Matrix<Complex32> other, Matrix<Complex32> result)
+        {
+            for (var j = 0; j < other.RowCount; j++)
+            {
+                for (var i = 0; i < RowCount; i++)
+                {
+                    var s = Complex32.Zero;
+                    for (var l = 0; l < ColumnCount; l++)
+                    {
+                        s += At(i, l)*other.At(j, l).Conjugate();
+                    }
                     result.At(i, j, s);
                 }
             }
@@ -304,9 +322,29 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
                     var s = Complex32.Zero;
                     for (var l = 0; l < RowCount; l++)
                     {
-                        s += At(l, i) * other.At(l, j);
+                        s += At(l, i)*other.At(l, j);
                     }
+                    result.At(i, j, s);
+                }
+            }
+        }
 
+        /// <summary>
+        /// Multiplies the transpose of this matrix with another matrix and places the results into the result matrix.
+        /// </summary>
+        /// <param name="other">The matrix to multiply with.</param>
+        /// <param name="result">The result of the multiplication.</param>
+        protected override void DoConjugateTransposeThisAndMultiply(Matrix<Complex32> other, Matrix<Complex32> result)
+        {
+            for (var j = 0; j < other.ColumnCount; j++)
+            {
+                for (var i = 0; i < ColumnCount; i++)
+                {
+                    var s = Complex32.Zero;
+                    for (var l = 0; l < RowCount; l++)
+                    {
+                        s += At(l, i).Conjugate()*other.At(l, j);
+                    }
                     result.At(i, j, s);
                 }
             }
@@ -322,11 +360,28 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
             for (var i = 0; i < ColumnCount; i++)
             {
                 var s = Complex32.Zero;
-                for (var j = 0; j != RowCount; j++)
+                for (var j = 0; j < RowCount; j++)
                 {
-                    s += At(j, i) * rightSide[j];
+                    s += At(j, i)*rightSide[j];
                 }
+                result[i] = s;
+            }
+        }
 
+        /// <summary>
+        /// Multiplies the conjugate transpose of this matrix with a vector and places the results into the result vector.
+        /// </summary>
+        /// <param name="rightSide">The vector to multiply with.</param>
+        /// <param name="result">The result of the multiplication.</param>
+        protected override void DoConjugateTransposeThisAndMultiply(Vector<Complex32> rightSide, Vector<Complex32> result)
+        {
+            for (var i = 0; i < ColumnCount; i++)
+            {
+                var s = Complex32.Zero;
+                for (var j = 0; j < RowCount; j++)
+                {
+                    s += At(j, i).Conjugate()*rightSide[j];
+                }
                 result[i] = s;
             }
         }
@@ -339,7 +394,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         {
             for (var i = 0; i < RowCount; i++)
             {
-                for (var j = 0; j != ColumnCount; j++)
+                for (var j = 0; j < ColumnCount; j++)
                 {
                     result.At(i, j, -At(i, j));
                 }
@@ -354,7 +409,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         {
             for (var i = 0; i < RowCount; i++)
             {
-                for (var j = 0; j != ColumnCount; j++)
+                for (var j = 0; j < ColumnCount; j++)
                 {
                     result.At(i, j, At(i, j).Conjugate());
                 }
@@ -372,7 +427,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
             {
                 for (var i = 0; i < RowCount; i++)
                 {
-                    result.At(i, j, At(i, j) * other.At(i, j));
+                    result.At(i, j, At(i, j)*other.At(i, j));
                 }
             }
         }
@@ -388,7 +443,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
             {
                 for (var i = 0; i < RowCount; i++)
                 {
-                    result.At(i, j, At(i, j) / divisor.At(i, j));
+                    result.At(i, j, At(i, j)/divisor.At(i, j));
                 }
             }
         }

@@ -28,27 +28,51 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using MathNet.Numerics.Interpolation;
+using NUnit.Framework;
+
 namespace MathNet.Numerics.UnitTests.InterpolationTests
 {
-    using System;
-    using Interpolation;
-    using NUnit.Framework;
-
-    /// <summary>
-    /// LinearSpline test case
-    /// </summary>
-    [TestFixture]
+    [TestFixture, Category("Interpolation")]
     public class LinearSplineTest
     {
-        /// <summary>
-        /// Sample points.
-        /// </summary>
-        private readonly double[] _t = new[] { -2.0, -1.0, 0.0, 1.0, 2.0 };
+        readonly double[] _t = { -2.0, -1.0, 0.0, 1.0, 2.0 };
+        readonly double[] _y = { 1.0, 2.0, -1.0, 0.0, 1.0 };
 
-        /// <summary>
-        /// Sample values.
-        /// </summary>
-        private readonly double[] _x = new[] { 1.0, 2.0, -1.0, 0.0, 1.0 };
+        [Test]
+        public void FirstDerivative()
+        {
+            IInterpolation ip = LinearSpline.Interpolate(_t, _y);
+            Assert.That(ip.Differentiate(-3.0), Is.EqualTo(1.0));
+            Assert.That(ip.Differentiate(-2.0), Is.EqualTo(1.0));
+            Assert.That(ip.Differentiate(-1.5), Is.EqualTo(1.0));
+            Assert.That(ip.Differentiate(-1.0), Is.EqualTo(-3.0));
+            Assert.That(ip.Differentiate(-0.5), Is.EqualTo(-3.0));
+            Assert.That(ip.Differentiate(0.0), Is.EqualTo(1.0));
+            Assert.That(ip.Differentiate(0.5), Is.EqualTo(1.0));
+            Assert.That(ip.Differentiate(1.0), Is.EqualTo(1.0));
+            Assert.That(ip.Differentiate(2.0), Is.EqualTo(1.0));
+            Assert.That(ip.Differentiate(3.0), Is.EqualTo(1.0));
+        }
+
+        [Test]
+        public void DefiniteIntegral()
+        {
+            IInterpolation ip = LinearSpline.Interpolate(_t, _y);
+            Assert.That(ip.Integrate(-4.0, -3.0), Is.EqualTo(-0.5));
+            Assert.That(ip.Integrate(-3.0, -2.0), Is.EqualTo(0.5));
+            Assert.That(ip.Integrate(-2.0, -1.0), Is.EqualTo(1.5));
+            Assert.That(ip.Integrate(-1.0, 0.0), Is.EqualTo(0.5));
+            Assert.That(ip.Integrate(0.0, 1.0), Is.EqualTo(-0.5));
+            Assert.That(ip.Integrate(1.0, 2.0), Is.EqualTo(0.5));
+            Assert.That(ip.Integrate(2.0, 3.0), Is.EqualTo(1.5));
+            Assert.That(ip.Integrate(3.0, 4.0), Is.EqualTo(2.5));
+            Assert.That(ip.Integrate(0.0, 4.0), Is.EqualTo(4.0));
+            Assert.That(ip.Integrate(-3.0, -1.0), Is.EqualTo(2.0));
+            Assert.That(ip.Integrate(-3.0, 4.0), Is.EqualTo(6.5));
+            Assert.That(ip.Integrate(0.5, 1.5), Is.EqualTo(0.0));
+            Assert.That(ip.Integrate(-2.5, -1.0), Is.EqualTo(1.875));
+        }
 
         /// <summary>
         /// Verifies that the interpolation matches the given value at all the provided sample points.
@@ -56,14 +80,10 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
         [Test]
         public void FitsAtSamplePoints()
         {
-            IInterpolation interpolation = new LinearSplineInterpolation(_t, _x);
-
-            for (int i = 0; i < _x.Length; i++)
+            IInterpolation ip = LinearSpline.Interpolate(_t, _y);
+            for (int i = 0; i < _y.Length; i++)
             {
-                Assert.AreEqual(_x[i], interpolation.Interpolate(_t[i]), "A Exact Point " + i);
-
-                var actual = interpolation.DifferentiateAll(_t[i]);
-                Assert.AreEqual(_x[i], actual.Item1, "B Exact Point " + i);
+                Assert.AreEqual(_y[i], ip.Interpolate(_t[i]), "A Exact Point " + i);
             }
         }
 
@@ -87,14 +107,10 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
         [TestCase(1.2, .2, 1e-15)]
         [TestCase(10.0, 9.0, 1e-15)]
         [TestCase(-10.0, -7.0, 1e-15)]
-        public void FitsAtArbitraryPointsWithMaple(double t, double x, double maxAbsoluteError)
+        public void FitsAtArbitraryPoints(double t, double x, double maxAbsoluteError)
         {
-            IInterpolation interpolation = new LinearSplineInterpolation(_t, _x);
-
-            Assert.AreEqual(x, interpolation.Interpolate(t), maxAbsoluteError, "Interpolation at {0}", t);
-
-            var actual = interpolation.DifferentiateAll(t);
-            Assert.AreEqual(x, actual.Item1, maxAbsoluteError, "Interpolation as by-product of differentiation at {0}", t);
+            IInterpolation ip = LinearSpline.Interpolate(_t, _y);
+            Assert.AreEqual(x, ip.Interpolate(t), maxAbsoluteError, "Interpolation at {0}", t);
         }
 
         /// <summary>
@@ -108,23 +124,12 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
         {
             double[] x, y, xtest, ytest;
             LinearInterpolationCase.Build(out x, out y, out xtest, out ytest, samples);
-            IInterpolation interpolation = new LinearSplineInterpolation(x, y);
+
+            IInterpolation ip = LinearSpline.Interpolate(x, y);
             for (int i = 0; i < xtest.Length; i++)
             {
-                Assert.AreEqual(ytest[i], interpolation.Interpolate(xtest[i]), 1e-15, "Linear with {0} samples, sample {1}", samples, i);
+                Assert.AreEqual(ytest[i], ip.Interpolate(xtest[i]), 1e-15, "Linear with {0} samples, sample {1}", samples, i);
             }
-        }
-
-        /// <summary>
-        /// Verifies that sample points are required to be sorted in strictly monotonically ascending order.
-        /// </summary>
-        [Test]
-        [ExpectedException(typeof(ArgumentException))]
-        public void Constructor_SamplePointsNotStrictlyAscending_Throws()
-        {
-            var x = new[] { -1.0, 0.0, 1.5, 1.5, 2.5, 4.0 };
-            var y = new[] { 1.0, 0.3, -0.7, -0.6, -0.1, 0.4 };
-            var interpolation = new LinearSplineInterpolation(x, y);
         }
     }
 }

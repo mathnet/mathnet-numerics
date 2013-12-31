@@ -32,6 +32,7 @@ using System;
 using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Double;
 using MathNet.Numerics.Properties;
+using MathNet.Numerics.Random;
 
 namespace MathNet.Numerics.Distributions
 {
@@ -41,17 +42,12 @@ namespace MathNet.Numerics.Distributions
     /// for the columns (K). If the dimension of M is d-by-m then V is d-by-d and K is m-by-m.
     /// <a href="http://en.wikipedia.org/wiki/Matrix_normal_distribution">Wikipedia - MatrixNormal distribution</a>.
     /// </summary>
-    /// <remarks><para>The distribution will use the <see cref="System.Random"/> by default. 
-    /// Users can set the random number generator by using the <see cref="RandomSource"/> property.</para>
-    /// <para>The statistics classes will check all the incoming parameters whether they are in the allowed
-    /// range. This might involve heavy computation. Optionally, by setting Control.CheckDistributionParameters
-    /// to <c>false</c>, all parameter checks can be turned off.</para></remarks>
     public class MatrixNormal : IDistribution
     {
         System.Random _random;
 
         /// <summary>
-        /// The mean of the matrix normal distribution.        
+        /// The mean of the matrix normal distribution.
         /// </summary>
         Matrix<double> _m;
 
@@ -66,7 +62,7 @@ namespace MathNet.Numerics.Distributions
         Matrix<double> _k;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="MatrixNormal"/> class. 
+        /// Initializes a new instance of the <see cref="MatrixNormal"/> class.
         /// </summary>
         /// <param name="m">The mean of the matrix normal.</param>
         /// <param name="v">The covariance matrix for the rows.</param>
@@ -74,12 +70,12 @@ namespace MathNet.Numerics.Distributions
         /// <exception cref="ArgumentOutOfRangeException">If the dimensions of the mean and two covariance matrices don't match.</exception>
         public MatrixNormal(Matrix<double> m, Matrix<double> v, Matrix<double> k)
         {
-            _random = new System.Random(Random.RandomSeed.Guid());
+            _random = SystemRandomSource.Default;
             SetParameters(m, v, k);
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="MatrixNormal"/> class. 
+        /// Initializes a new instance of the <see cref="MatrixNormal"/> class.
         /// </summary>
         /// <param name="m">The mean of the matrix normal.</param>
         /// <param name="v">The covariance matrix for the rows.</param>
@@ -88,7 +84,7 @@ namespace MathNet.Numerics.Distributions
         /// <exception cref="ArgumentOutOfRangeException">If the dimensions of the mean and two covariance matrices don't match.</exception>
         public MatrixNormal(Matrix<double> m, Matrix<double> v, Matrix<double> k, System.Random randomSource)
         {
-            _random = randomSource ?? new System.Random(Random.RandomSeed.Guid());
+            _random = randomSource ?? SystemRandomSource.Default;
             SetParameters(m, v, k);
         }
 
@@ -104,7 +100,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Checks whether the parameters of the distribution are valid. 
+        /// Checks whether the parameters of the distribution are valid.
         /// </summary>
         /// <param name="m">The mean of the matrix normal.</param>
         /// <param name="v">The covariance matrix for the rows.</param>
@@ -198,7 +194,7 @@ namespace MathNet.Numerics.Distributions
         public System.Random RandomSource
         {
             get { return _random; }
-            set { _random = value ?? new System.Random(Random.RandomSeed.Guid()); }
+            set { _random = value ?? SystemRandomSource.Default; }
         }
 
         /// <summary>
@@ -283,7 +279,7 @@ namespace MathNet.Numerics.Distributions
             var chol = covariance.Cholesky();
 
             // Sample a standard normal variable.
-            var v = DenseVector.CreateRandom(mean.Count, new Normal(rnd));
+            var v = Vector<double>.Build.Random(mean.Count, new Normal(rnd));
 
             // Return the transformed variable.
             return mean + (chol.Factor*v);

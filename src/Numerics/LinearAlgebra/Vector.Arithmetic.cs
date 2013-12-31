@@ -178,7 +178,7 @@ namespace MathNet.Numerics.LinearAlgebra
                 return Clone();
             }
 
-            var result = CreateVector(Count);
+            var result = Build.SameAs(this);
             DoAdd(scalar, result);
             return result;
         }
@@ -218,7 +218,7 @@ namespace MathNet.Numerics.LinearAlgebra
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
             }
 
-            var result = CreateVector(Count);
+            var result = Build.SameAs(this, other);
             DoAdd(other, result);
             return result;
         }
@@ -252,7 +252,7 @@ namespace MathNet.Numerics.LinearAlgebra
                 return Clone();
             }
 
-            var result = CreateVector(Count);
+            var result = Build.SameAs(this);
             DoSubtract(scalar, result);
             return result;
         }
@@ -286,7 +286,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <returns>A new vector containing the subtraction of the scalar and this vector.</returns>
         public Vector<T> SubtractFrom(T scalar)
         {
-            var result = CreateVector(Count);
+            var result = Build.SameAs(this);
             DoSubtractFrom(scalar, result);
             return result;
         }
@@ -314,7 +314,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <remarks>Added as an alternative to the unary negation operator.</remarks>
         public Vector<T> Negate()
         {
-            var retrunVector = CreateVector(Count);
+            var retrunVector = Build.SameAs(this);
             DoNegate(retrunVector);
             return retrunVector;
         }
@@ -346,7 +346,7 @@ namespace MathNet.Numerics.LinearAlgebra
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
             }
 
-            var result = CreateVector(Count);
+            var result = Build.SameAs(this, other);
             DoSubtract(other, result);
             return result;
         }
@@ -374,7 +374,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <returns>Conjugated vector</returns>
         public Vector<T> Conjugate()
         {
-            var retrunVector = CreateVector(Count);
+            var retrunVector = Build.SameAs(this);
             DoConjugate(retrunVector);
             return retrunVector;
         }
@@ -407,10 +407,10 @@ namespace MathNet.Numerics.LinearAlgebra
 
             if (scalar.Equals(Zero))
             {
-                return CreateVector(Count);
+                return Build.SameAs(this);
             }
 
-            var result = CreateVector(Count);
+            var result = Build.SameAs(this);
             DoMultiply(scalar, result);
             return result;
         }
@@ -484,7 +484,7 @@ namespace MathNet.Numerics.LinearAlgebra
                 return Clone();
             }
 
-            var result = CreateVector(Count);
+            var result = Build.SameAs(this);
             DoDivide(scalar, result);
             return result;
         }
@@ -518,7 +518,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <returns>A new vector that is the division of the vector and the scalar.</returns>
         public Vector<T> DevideByThis(T scalar)
         {
-            var result = CreateVector(Count);
+            var result = Build.SameAs(this);
             DoDivideByThis(scalar, result);
             return result;
         }
@@ -546,7 +546,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <returns>A vector containing the result.</returns>
         public Vector<T> Modulus(T divisor)
         {
-            var result = CreateVector(Count);
+            var result = Build.SameAs(this);
             DoModulus(divisor, result);
             return result;
         }
@@ -573,7 +573,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <returns>A vector containing the result.</returns>
         public Vector<T> ModulusByThis(T dividend)
         {
-            var result = CreateVector(Count);
+            var result = Build.SameAs(this);
             DoModulusByThis(dividend, result);
             return result;
         }
@@ -606,7 +606,7 @@ namespace MathNet.Numerics.LinearAlgebra
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
             }
 
-            var result = CreateVector(Count);
+            var result = Build.SameAs(this, other);
             DoPointwiseMultiply(other, result);
             return result;
         }
@@ -646,7 +646,7 @@ namespace MathNet.Numerics.LinearAlgebra
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "divisor");
             }
 
-            var result = CreateVector(Count);
+            var result = Build.SameAs(this, divisor);
             DoPointwiseDivide(divisor, result);
             return result;
         }
@@ -686,7 +686,7 @@ namespace MathNet.Numerics.LinearAlgebra
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "divisor");
             }
 
-            var result = CreateVector(Count);
+            var result = Build.SameAs(this, divisor);
             DoPointwiseModulus(divisor, result);
             return result;
         }
@@ -721,8 +721,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <returns>Matrix M[i,j] = u[i]*v[j] </returns>
         public static Matrix<T> OuterProduct(Vector<T> u, Vector<T> v)
         {
-            var matrix = u.CreateMatrix(u.Count, v.Count);
-
+            var matrix = Matrix<T>.Build.SameAs(u, u.Count, v.Count);
             for (var i = 0; i < u.Count; i++)
             {
                 matrix.SetRow(i, v.Multiply(u.At(i)));

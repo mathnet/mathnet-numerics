@@ -29,8 +29,10 @@
 // </copyright>
 
 using System;
+using System.Collections.Generic;
 using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.Properties;
+using MathNet.Numerics.Statistics;
 
 namespace MathNet.Numerics
 {
@@ -245,6 +247,82 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
+        /// Minkowski Distance, i.e. the generalized p-norm of the difference.
+        /// </summary>
+        public static double Minkowski<T>(double p, Vector<T> a, Vector<T> b) where T : struct, IEquatable<T>, IFormattable
+        {
+            return (a - b).Norm(p);
+        }
+
+        /// <summary>
+        /// Minkowski Distance, i.e. the generalized p-norm of the difference.
+        /// </summary>
+        public static double Minkowski(double p, double[] a, double[] b)
+        {
+            if (a.Length != b.Length) throw new ArgumentException(Resources.ArgumentVectorsSameLength);
+            if (p < 0d) throw new ArgumentOutOfRangeException("p");
+            if (p == 1d) return Manhattan(a, b);
+            if (p == 2d) return Euclidean(a, b);
+            if (double.IsPositiveInfinity(p)) return Chebyshev(a, b);
+
+            double sum = 0d;
+            for (var i = 0; i < a.Length; i++)
+            {
+                sum += Math.Pow(Math.Abs(a[i] - b[i]), p);
+            }
+            return Math.Pow(sum, 1.0 / p);
+        }
+
+        /// <summary>
+        /// Minkowski Distance, i.e. the generalized p-norm of the difference.
+        /// </summary>
+        public static float Minkowski(double p, float[] a, float[] b)
+        {
+            if (a.Length != b.Length) throw new ArgumentException(Resources.ArgumentVectorsSameLength);
+            if (p < 0d) throw new ArgumentOutOfRangeException("p");
+            if (p == 1d) return Manhattan(a, b);
+            if (p == 2d) return Euclidean(a, b);
+            if (double.IsPositiveInfinity(p)) return Chebyshev(a, b);
+
+            double sum = 0d;
+            for (var i = 0; i < a.Length; i++)
+            {
+                sum += Math.Pow(Math.Abs(a[i] - b[i]), p);
+            }
+            return (float) Math.Pow(sum, 1.0/p);
+        }
+
+        /// <summary>
+        /// Canberra Distance, a weighted version of the L1-norm of the difference.
+        /// </summary>
+        public static double Canberra(double[] a, double[] b)
+        {
+            if (a.Length != b.Length) throw new ArgumentException(Resources.ArgumentVectorsSameLength);
+
+            double sum = 0d;
+            for (var i = 0; i < a.Length; i++)
+            {
+                sum += Math.Abs(a[i] - b[i]) / (Math.Abs(a[i]) + Math.Abs(b[i]));
+            }
+            return sum;
+        }
+
+        /// <summary>
+        /// Canberra Distance, a weighted version of the L1-norm of the difference.
+        /// </summary>
+        public static float Canberra(float[] a, float[] b)
+        {
+            if (a.Length != b.Length) throw new ArgumentException(Resources.ArgumentVectorsSameLength);
+
+            float sum = 0f;
+            for (var i = 0; i < a.Length; i++)
+            {
+                sum += Math.Abs(a[i] - b[i]) / (Math.Abs(a[i]) + Math.Abs(b[i]));
+            }
+            return sum;
+        }
+
+        /// <summary>
         /// Hamming Distance, i.e. the number of positions that have different values in the vectors.
         /// </summary>
         public static double Hamming(double[] a, double[] b)
@@ -276,6 +354,14 @@ namespace MathNet.Numerics
                 }
             }
             return count;
+        }
+
+        /// <summary>
+        /// Pearson's distance, i.e. 1 - the person correlation coefficient.
+        /// </summary>
+        public static double Pearson(IEnumerable<double> a, IEnumerable<double> b)
+        {
+            return 1.0 - Correlation.Pearson(a, b);
         }
     }
 }

@@ -48,7 +48,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         /// <returns>The new <c>Vector</c>.</returns>
         protected override Vector<double> CreateVector(int size)
         {
-            return new DenseVector(size);
+            return Vector<double>.Build.Dense(size);
         }
 
         /// <summary>
@@ -58,7 +58,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         /// <returns>The new <c>Vector</c>.</returns>
         protected override Vector<double> CreateVector(IList<double> data)
         {
-            var vector = new DenseVector(data.Count);
+            var vector = Vector<double>.Build.Dense(data.Count);
             for (var index = 0; index < data.Count; index++)
             {
                 vector[index] = data[index];
@@ -75,7 +75,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         {
             var data = new double[Data.Length];
             Array.Copy(Data, data, Data.Length);
-            var vector = new DenseVector(data);
+            var vector = Vector<double>.Build.Dense(data);
 
             for (var i = 0; i < data.Length; i++)
             {
@@ -92,8 +92,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [Test]
         public void CanCreateDenseVectorFromAnotherDenseVector()
         {
-            var vector = new DenseVector(Data);
-            var other = DenseVector.OfVector(vector);
+            var vector = Vector<double>.Build.Dense(Data);
+            var other = Vector<double>.Build.DenseOfVector(vector);
 
             Assert.AreNotSame(vector, other);
             for (var i = 0; i < Data.Length; i++)
@@ -108,8 +108,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [Test]
         public void CanCreateDenseVectorFromAnotherVector()
         {
-            var vector = (Vector<double>)new DenseVector(Data);
-            var other = DenseVector.OfVector(vector);
+            var vector = Vector<double>.Build.Dense(Data);
+            var other = Vector<double>.Build.DenseOfVector(vector);
 
             Assert.AreNotSame(vector, other);
             for (var i = 0; i < Data.Length; i++)
@@ -125,7 +125,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         public void CanCreateDenseVectorFromUserDefinedVector()
         {
             var vector = new UserDefinedVector(Data);
-            var other = DenseVector.OfVector(vector);
+            var other = Vector<double>.Build.DenseOfVector(vector);
 
             for (var i = 0; i < Data.Length; i++)
             {
@@ -139,7 +139,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [Test]
         public void CanCreateDenseVectorWithConstantValues()
         {
-            var vector = DenseVector.Create(5, i => 5);
+            var vector = Vector<double>.Build.Dense(5, 5);
             foreach (var t in vector)
             {
                 Assert.AreEqual(t, 5);
@@ -153,7 +153,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         public void CanCreateDenseMatrix()
         {
             var vector = new DenseVector(3);
-            var matrix = vector.CreateMatrix(2, 3);
+            var matrix = Matrix<double>.Build.SameAs(vector, 2, 3);
+            Assert.IsInstanceOf<DenseMatrix>(matrix);
             Assert.AreEqual(2, matrix.RowCount);
             Assert.AreEqual(3, matrix.ColumnCount);
         }

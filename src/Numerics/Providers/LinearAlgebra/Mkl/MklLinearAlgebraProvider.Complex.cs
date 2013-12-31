@@ -30,11 +30,11 @@
 
 #if NATIVEMKL
 
-using MathNet.Numerics.LinearAlgebra.Factorization;
-using MathNet.Numerics.Properties;
 using System;
 using System.Numerics;
 using System.Security;
+using MathNet.Numerics.LinearAlgebra.Factorization;
+using MathNet.Numerics.Properties;
 
 namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
 {
@@ -774,7 +774,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
                 throw new ArgumentNullException("q");
             }
 
-            if (q.Length != rowsA * columnsA)
+            if (q.Length != rowsA*columnsA)
             {
                 throw new ArgumentException(string.Format(Resources.ArgumentArrayWrongLength, "rowsR * columnsR"), "q");
             }
@@ -784,15 +784,15 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
                 throw new ArgumentException(string.Format(Resources.ArrayTooSmall, "min(m,n)"), "tau");
             }
 
-            if (r.Length != columnsA * columnsA)
+            if (r.Length != columnsA*columnsA)
             {
                 throw new ArgumentException(
                     string.Format(Resources.ArgumentArrayWrongLength, "columnsA * columnsA"), "r");
             }
 
-            if (work.Length < columnsA * Control.BlockSize)
+            if (work.Length < columnsA*Control.BlockSize)
             {
-                work[0] = columnsA * Control.BlockSize;
+                work[0] = columnsA*Control.BlockSize;
                 throw new ArgumentException(Resources.WorkArrayTooSmall, "work");
             }
 

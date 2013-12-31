@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2002-2011 Math.NET
+// Copyright (c) 2002-2013 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -28,26 +28,26 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using MathNet.Numerics.Interpolation;
+using NUnit.Framework;
+
 namespace MathNet.Numerics.UnitTests.InterpolationTests
 {
-    using Interpolation;
-    using NUnit.Framework;
-
     /// <summary>
     /// BulirschStoerRational test case.
     /// </summary>
-    [TestFixture]
+    [TestFixture, Category("Interpolation")]
     public class BulirschStoerRationalTest
     {
         /// <summary>
         /// Sample points.
         /// </summary>
-        private readonly double[] _t = new[] { 0d, 1, 3, 4, 5 };
+        readonly double[] _t = { 0d, 1, 3, 4, 5 };
 
         /// <summary>
         /// Sample values.
         /// </summary>
-        private readonly double[] _x = new[] { 0d, 3, 1000, -1000, 3 };
+        readonly double[] _x = { 0d, 3, 1000, -1000, 3 };
 
         /// <summary>
         /// Verifies that the interpolation matches the given value at all the provided sample points.

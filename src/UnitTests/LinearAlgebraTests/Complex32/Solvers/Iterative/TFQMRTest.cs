@@ -29,6 +29,7 @@
 // </copyright>
 
 using System;
+using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Complex32;
 using MathNet.Numerics.LinearAlgebra.Complex32.Solvers;
 using MathNet.Numerics.LinearAlgebra.Solvers;
@@ -41,7 +42,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.Iterat
     /// <summary>
     /// Tests of Transpose Free Quasi-Minimal Residual iterative matrix solver.
     /// </summary>
-    [TestFixture]
+    [TestFixture, Category("LASolver")]
     public class TFQMRTest
     {
         /// <summary>
@@ -90,7 +91,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.Iterat
             var matrix = SparseMatrix.CreateIdentity(100);
 
             // Create the y vector
-            var y = DenseVector.Create(matrix.RowCount, i => 1);
+            var y = Vector<Complex32>.Build.Dense(matrix.RowCount, 1);
 
             // Create an iteration monitor which will keep track of iterative convergence
             var monitor = new Iterator<Complex32>(
@@ -115,10 +116,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.Iterat
             Assert.IsTrue(monitor.Status == IterationStatus.Converged, "#04");
 
             // Now compare the vectors
-            for (var i = 0; i < y.Count; i++)
-            {
-                Assert.GreaterOrEqual(ConvergenceBoundary, (y[i] - z[i]).Magnitude, "#05-" + i);
-            }
+            Assert.LessOrEqual(Distance.Chebyshev(y, z), 2*ConvergenceBoundary);
         }
 
         /// <summary>
@@ -134,7 +132,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.Iterat
             matrix.Multiply((float) Math.PI, matrix);
 
             // Create the y vector
-            var y = DenseVector.Create(matrix.RowCount, i => 1);
+            var y = Vector<Complex32>.Build.Dense(matrix.RowCount, 1);
 
             // Create an iteration monitor which will keep track of iterative convergence
             var monitor = new Iterator<Complex32>(
@@ -159,10 +157,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.Iterat
             Assert.IsTrue(monitor.Status == IterationStatus.Converged, "#04");
 
             // Now compare the vectors
-            for (var i = 0; i < y.Count; i++)
-            {
-                Assert.GreaterOrEqual(ConvergenceBoundary, (y[i] - z[i]).Magnitude, "#05-" + i);
-            }
+            Assert.LessOrEqual(Distance.Chebyshev(y, z), 2*ConvergenceBoundary);
         }
 
         /// <summary>
@@ -211,7 +206,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.Iterat
             }
 
             // Create the y vector
-            var y = DenseVector.Create(matrix.RowCount, i => 1);
+            var y = Vector<Complex32>.Build.Dense(matrix.RowCount, 1);
 
             // Create an iteration monitor which will keep track of iterative convergence
             var monitor = new Iterator<Complex32>(
@@ -236,10 +231,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.Iterat
             Assert.IsTrue(monitor.Status == IterationStatus.Converged, "#04");
 
             // Now compare the vectors
-            for (var i = 0; i < y.Count; i++)
-            {
-                Assert.GreaterOrEqual(ConvergenceBoundary, (y[i] - z[i]).Magnitude, "#05-" + i);
-            }
+            Assert.LessOrEqual(Distance.Chebyshev(y, z), 2*ConvergenceBoundary);
         }
 
         /// <summary>
@@ -251,8 +243,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.Iterat
         {
             for (var iteration = 5; iteration > 3; iteration--)
             {
-                var matrixA = MatrixLoader.GenerateRandomDenseMatrix(order, order);
-                var vectorb = MatrixLoader.GenerateRandomDenseVector(order);
+                var matrixA = Matrix<Complex32>.Build.Random(order, order, 1);
+                var vectorb = Vector<Complex32>.Build.Random(order, 1);
 
                 var monitor = new Iterator<Complex32>(
                     new IterationCountStopCriterium<Complex32>(1000),
@@ -293,8 +285,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.Iterat
         {
             for (var iteration = 5; iteration > 3; iteration--)
             {
-                var matrixA = MatrixLoader.GenerateRandomDenseMatrix(order, order);
-                var matrixB = MatrixLoader.GenerateRandomDenseMatrix(order, order);
+                var matrixA = Matrix<Complex32>.Build.Random(order, order, 1);
+                var matrixB = Matrix<Complex32>.Build.Random(order, order, 1);
 
                 var monitor = new Iterator<Complex32>(
                     new IterationCountStopCriterium<Complex32>(1000),

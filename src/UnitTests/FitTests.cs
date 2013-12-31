@@ -35,7 +35,7 @@ using NUnit.Framework;
 
 namespace MathNet.Numerics.UnitTests
 {
-    [TestFixture]
+    [TestFixture, Category("Regression")]
     public class FitTests
     {
         [Test]
@@ -131,6 +131,28 @@ namespace MathNet.Numerics.UnitTests
             {
                 Assert.AreEqual(Evaluate.Polynomial(z, resp), resf(z), 1e-4);
             }
+        }
+
+        [Test]
+        public void FitsToOrder2PolynomialWeighted()
+        {
+            // Mathematica: LinearModelFit[{{1,4.986},{2,2.347},{3,2.061},{4,-2.995},{5,-2.352},{6,-5.782}}, {1, x, x^2}, x, Weights -> {0.5, 1.0, 1.0, 1.0, 1.0, 0.5}]
+            // -> 7.01451 - 2.12819 x + 0.0115 x^2
+
+            var x = Enumerable.Range(1, 6).Select(Convert.ToDouble).ToArray();
+            var y = new[] { 4.986, 2.347, 2.061, -2.995, -2.352, -5.782 };
+
+            var respUnweighted = Fit.PolynomialWeighted(x, y, new[] { 1.0, 1.0, 1.0, 1.0, 1.0, 1.0 }, 2);
+            Assert.AreEqual(3, respUnweighted.Length);
+            Assert.AreEqual(6.9703, respUnweighted[0], 1e-4);
+            Assert.AreEqual(-2.05564, respUnweighted[1], 1e-4);
+            Assert.AreEqual(-0.00426786, respUnweighted[2], 1e-6);
+
+            var resp = Fit.PolynomialWeighted(x, y, new[] { 0.5, 1.0, 1.0, 1.0, 1.0, 0.5 }, 2);
+            Assert.AreEqual(3, resp.Length);
+            Assert.AreEqual(7.01451, resp[0], 1e-4);
+            Assert.AreEqual(-2.12819, resp[1], 1e-4);
+            Assert.AreEqual(0.0115, resp[2], 1e-6);
         }
 
         [Test]

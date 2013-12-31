@@ -29,7 +29,6 @@
 // </copyright>
 
 using MathNet.Numerics.LinearAlgebra;
-using MathNet.Numerics.LinearAlgebra.Complex;
 using NUnit.Framework;
 
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
@@ -40,19 +39,19 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
     using Complex = System.Numerics.Complex;
 #endif
 
-    [TestFixture]
+    [TestFixture, Category("LA")]
     public class SparseVectorArithmeticTheory : VectorArithmeticTheory
     {
         [Datapoints]
-        Vector<Complex>[] denseVectors = new Vector<Complex>[]
-            {
-                SparseVector.OfEnumerable(new[] {new Complex(1, 1), new Complex(2, 1), new Complex(3, 1), new Complex(4, 1), new Complex(5, 1)}),
-                SparseVector.OfEnumerable(new[] {new Complex(2, -1), new Complex(0, 0), new Complex(0, 2), new Complex(-5, 1), new Complex(0, 0)}),
-                new SparseVector(5),
-                new SparseVector(int.MaxValue)
-            };
+        Vector<Complex>[] denseVectors =
+        {
+            Vector<Complex>.Build.SparseOfEnumerable(new[] { new Complex(1, 1), new Complex(2, 1), new Complex(3, 1), new Complex(4, 1), new Complex(5, 1) }),
+            Vector<Complex>.Build.SparseOfEnumerable(new[] { new Complex(2, -1), new Complex(0, 0), new Complex(0, 2), new Complex(-5, 1), new Complex(0, 0) }),
+            Vector<Complex>.Build.Sparse(5),
+            Vector<Complex>.Build.Sparse(int.MaxValue)
+        };
 
         [Datapoints]
-        Complex[] scalars = new[] {new Complex(2d, -1d)};
+        Complex[] scalars = { new Complex(2d, -1d) };
     }
 }

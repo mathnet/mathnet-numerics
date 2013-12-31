@@ -69,27 +69,6 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
         }
 
         /// <summary>
-        /// Creates a vector of the given size.
-        /// </summary>
-        /// <param name="size">The size of the vector to create.
-        /// </param>
-        /// <returns>The new vector. </returns>
-        protected override Vector<Complex> CreateVector(int size)
-        {
-            return new SparseVector(size);
-        }
-
-        /// <summary>
-        /// Creates a vector from an array.
-        /// </summary>
-        /// <param name="data">The array to create this vector from.</param>
-        /// <returns>The new vector. </returns>
-        protected override Vector<Complex> CreateVector(Complex[] data)
-        {
-            return SparseVector.OfEnumerable(data);
-        }
-
-        /// <summary>
         /// Can create a matrix form array.
         /// </summary>
         [Test]
@@ -191,7 +170,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
         {
             var matrix = new SparseMatrix(500, 1000);
             var nonzero = 0;
-            var rnd = new System.Random();
+            var rnd = new System.Random(0);
 
             for (var i = 0; i < matrix.RowCount; i++)
             {

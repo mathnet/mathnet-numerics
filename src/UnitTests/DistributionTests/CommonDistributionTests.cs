@@ -40,7 +40,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
     /// This class will perform various tests on discrete and continuous univariate distributions. The multivariate distributions
     /// will implement these respective tests in their local unit test classes as they do not adhere to the same interfaces.
     /// </summary>
-    [TestFixture]
+    [TestFixture, Category("Distributions")]
     public class CommonDistributionTests
     {
         /// <summary>
@@ -122,6 +122,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
                                            new Normal(0.0, 1.0),
                                            new Weibull(1.0, 1.0),
                                            new LogNormal(1.0, 1.0),
+                                           new Triangular(0, 1, 0.7),
                                            new StudentT(0.0, 1.0, 5.0)
                                        };
         }
@@ -151,12 +152,12 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
         {
             foreach (var dd in _discreteDistributions)
             {
-                dd.RandomSource = new Random();
+                dd.RandomSource = MersenneTwister.Default;
             }
 
             foreach (var cd in _continuousDistributions)
             {
-                cd.RandomSource = new Random();
+                cd.RandomSource = MersenneTwister.Default;
             }
         }
 
@@ -182,7 +183,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
         [Test]
         public void SampleFollowsCorrectDistribution()
         {
-            Random rnd = new MersenneTwister(1);
+            Random rnd = new SystemRandomSource(1);
 
             foreach (var dd in _discreteDistributions)
             {
@@ -215,7 +216,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
         [Test]
         public void SamplesFollowsCorrectDistribution()
         {
-            Random rnd = new MersenneTwister(1);
+            Random rnd = new SystemRandomSource(1);
 
             foreach (var dd in _discreteDistributions)
             {
