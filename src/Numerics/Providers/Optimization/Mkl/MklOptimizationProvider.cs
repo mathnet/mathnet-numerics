@@ -172,7 +172,7 @@ namespace MathNet.Numerics.Providers.Optimization.Mkl
             }
 
             SafeNativeMethods.FreeBuffers();
-            
+
             NonLinearLeastSquaresConvergenceType convergenceType = NonLinearLeastSquaresConvergenceType.Error;
             switch (rciRequest)
             {

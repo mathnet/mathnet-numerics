@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2010 Math.NET
+// Copyright (c) 2009-2013 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -47,7 +47,7 @@ namespace MathNet.Numerics.Optimization
         public NonLinearLeastSquaresConvergenceType ConvergenceType;
 
         /// <summary>
-        ///  Convergence if Δ &lt; Criterion0, Δ is trust region size. 
+        ///  Convergence if Δ &lt; Criterion0, Δ is trust region size.
         /// </summary>
         public double Criterion0 = 1e-7;
 
@@ -82,7 +82,16 @@ namespace MathNet.Numerics.Optimization
     /// <summary>
     /// For details of convergence criteria, see Options.
     /// </summary>
-    public enum NonLinearLeastSquaresConvergenceType { MaxIterationsExceeded, Criterion0, Criterion1, Criterion2, Criterion3, Criterion4, Error };
+    public enum NonLinearLeastSquaresConvergenceType
+    {
+        MaxIterationsExceeded,
+        Criterion0,
+        Criterion1,
+        Criterion2,
+        Criterion3,
+        Criterion4,
+        Error
+    };
 
     /// <summary>
     /// Result of Non-Linear Least Squares Minimization.
@@ -97,7 +106,7 @@ namespace MathNet.Numerics.Optimization
 
     /// <summary>
     /// This class is a special function minimizer that minimizes functions of the form
-    /// f(p) = |r(p)|^2 where r is a vector of residuals and p is a vector of model parameters. 
+    /// f(p) = |r(p)|^2 where r is a vector of residuals and p is a vector of model parameters.
     /// </summary>
     public class NonLinearLeastSquaresMinimizer // Note does not implement IMinimizer, since it curve fitting problems can be solved more efficiently.
     {
@@ -129,15 +138,16 @@ namespace MathNet.Numerics.Optimization
             // jac is df_i / dp_j
 
             Jacobian jacobianFunction = null;
-            if (jacobian != null) jacobianFunction = (p, jac) =>
-            {
-                for (int i = 0; i < y.Length; ++i)
+            if (jacobian != null)
+                jacobianFunction = (p, jac) =>
                 {
-                    double[] values = jacobian(x[i], p);
-                    for (int j = 0; j < values.Length; ++j)
-                        jac[j * y.Length + i] = -values[j];
-                }
-            };
+                    for (int i = 0; i < y.Length; ++i)
+                    {
+                        double[] values = jacobian(x[i], p);
+                        for (int j = 0; j < values.Length; ++j)
+                            jac[j*y.Length + i] = -values[j];
+                    }
+                };
 
             double[] parameters;
             Result = provider.NonLinearLeastSquaresUnboundedMinimize(y.Length, pStart, function, out parameters, jacobianFunction);

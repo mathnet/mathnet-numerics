@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2010 Math.NET
+// Copyright (c) 2009-2013 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -28,11 +28,10 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System;
+
 namespace MathNet.Numerics.Optimization
 {
-    using System;
-    using System.Linq;
-    
     /// <summary>
     /// Options for Powell Minimization.
     /// </summary>
@@ -44,7 +43,12 @@ namespace MathNet.Numerics.Optimization
         public double FunctionTolerance = 1e-4; // relative
     }
 
-    public enum PowellConvergenceType { Success, MaxIterationsExceeded, MaxFunctionCallsExceeded };
+    public enum PowellConvergenceType
+    {
+        Success,
+        MaxIterationsExceeded,
+        MaxFunctionCallsExceeded
+    }
 
     /// <summary>
     /// Result of Powell Minimization.
@@ -55,9 +59,9 @@ namespace MathNet.Numerics.Optimization
         public int NumberOfFunctionCalls;
         public double[] MinimumPoint;
         public double MinimumFunctionValue;
-        public PowellConvergenceType ConvergenceType; 
+        public PowellConvergenceType ConvergenceType;
     }
-    
+
     /// <summary>
     /// Minimizes f(p) where p is a vector of model parameters using the Powell method.
     /// </summary>
@@ -76,17 +80,17 @@ namespace MathNet.Numerics.Optimization
         public double[] Minimize(Func<double[], double> function, double[] pInitialGuess)
         {
             BrentMinimizer brentMinimizer = new BrentMinimizer();
-            int n = pInitialGuess.Length; // number of dimensions 
+            int n = pInitialGuess.Length; // number of dimensions
             // used in closure:
             double[] point = new double[n];
             double[] startingPoint = new double[n];
             double[] direction = new double[n];
             double lineMiniumum = 0;
             int functionCalls = 0;
-            Func<double, double> functionAlongLine = (p) =>
+            Func<double, double> functionAlongLine = p =>
             {
                 for (int i = 0; i < point.Length; ++i)
-                    point[i] = startingPoint[i] + direction[i] * p;
+                    point[i] = startingPoint[i] + direction[i]*p;
                 lineMiniumum = function(point);
                 functionCalls++;
                 return lineMiniumum;
@@ -95,8 +99,8 @@ namespace MathNet.Numerics.Optimization
             double fval;
 
             int iterations = 0;
-            int maxIterations = (Options.MaximumIterations == null) ? n * 1000 : (int)Options.MaximumIterations;
-            int maxFunctionCalls = (Options.MaximumFunctionCalls == null) ? n * 1000 : (int)Options.MaximumFunctionCalls;
+            int maxIterations = (Options.MaximumIterations == null) ? n*1000 : (int)Options.MaximumIterations;
+            int maxFunctionCalls = (Options.MaximumFunctionCalls == null) ? n*1000 : (int)Options.MaximumFunctionCalls;
 
             // An array of n directions:
             double[][] directionSet = new double[n][];
@@ -110,7 +114,7 @@ namespace MathNet.Numerics.Optimization
             double[] x2 = new double[n];
             double[] direction1 = new double[n];
 
-            brentMinimizer.Options.Tolerance = Options.PointTolerance * 100;
+            brentMinimizer.Options.Tolerance = Options.PointTolerance*100;
 
             fval = function(x);
 
@@ -142,26 +146,26 @@ namespace MathNet.Numerics.Optimization
                     }
                 }
                 iterations++;
-                if (2.0 * (fx - fval) <= Options.FunctionTolerance * ((Math.Abs(fx) + Math.Abs(fval)) + 1e-20)) break;
+                if (2.0*(fx - fval) <= Options.FunctionTolerance*((Math.Abs(fx) + Math.Abs(fval)) + 1e-20)) break;
                 if (functionCalls >= maxFunctionCalls) break;
                 if (iterations >= maxIterations) break;
 
-                // Construct the extrapolated point 
+                // Construct the extrapolated point
                 for (int i = 0; i < n; ++i)
                 {
                     direction1[i] = x[i] - x1[i];
-                    x2[i] = 2.0 * x[i] - x1[i];
+                    x2[i] = 2.0*x[i] - x1[i];
                     x1[i] = x[i];
                 }
 
                 fx2 = function(x2);
                 if (fx > fx2)
                 {
-                    double t = 2.0 * (fx + fx2 - 2.0 * fval);
+                    double t = 2.0*(fx + fx2 - 2.0*fval);
                     double temp = (fx - fval - delta);
-                    t *= temp * temp;
+                    t *= temp*temp;
                     temp = fx - fx2;
-                    t -= delta * temp * temp;
+                    t -= delta*temp*temp;
                     if (t < 0.0)
                     {
                         // Do a linesearch along direction
@@ -180,12 +184,12 @@ namespace MathNet.Numerics.Optimization
                 }
             }
             var convergenceType = PowellConvergenceType.Success;
-            if (functionCalls >= maxFunctionCalls) 
+            if (functionCalls >= maxFunctionCalls)
                 convergenceType = PowellConvergenceType.MaxFunctionCallsExceeded;
-            else if (iterations > maxIterations) 
+            else if (iterations > maxIterations)
                 convergenceType = PowellConvergenceType.MaxFunctionCallsExceeded;
 
-            Result = new PowellResult()
+            Result = new PowellResult
             {
                 MinimumPoint = (double[])x.Clone(),
                 MinimumFunctionValue = fx,
@@ -193,7 +197,7 @@ namespace MathNet.Numerics.Optimization
                 NumberOfIterations = iterations,
                 NumberOfFunctionCalls = functionCalls
             };
-            
+
             return Result.MinimumPoint;
         }
     }

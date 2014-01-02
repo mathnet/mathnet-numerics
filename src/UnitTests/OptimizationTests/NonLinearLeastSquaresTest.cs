@@ -3,9 +3,9 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
-// 
+//
 // Copyright (c) 2009-2013 Math.NET
-// 
+//
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -14,10 +14,10 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
-// 
+//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
-// 
+//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -30,12 +30,12 @@
 
 #if NATIVEMKL
 
+using System;
+using MathNet.Numerics.Optimization;
+using NUnit.Framework;
+
 namespace MathNet.Numerics.UnitTests.OptimizationTests
 {
-    using System;
-    using MathNet.Numerics.Optimization;
-    using NUnit.Framework;
-    
     [TestFixture]
     public class NonLinearLeastSquaresTest
     {
@@ -48,13 +48,13 @@ namespace MathNet.Numerics.UnitTests.OptimizationTests
             // y = b1*(1-exp[-b2*x])  +  e
             var xin = new double[] { 1, 2, 3, 5, 7, 10 };
             var yin = new double[] { 109, 149, 149, 191, 213, 224 };
-            
+
             // estimated derivative method: does not find best solution.
             //var popt = minimizer.CurveFit(xin, yin, (x, p) => p[0] * (1 - Math.Exp(-p[1] * x)), new double[] { 1, 1 });
 
             Func<double, double[], double> function = (x, p) => p[0] * (1 - Math.Exp(-p[1] * x));
-            Func<double, double[], double[]> jacobian = (x, p) => new double[] { 
-                1 - Math.Exp(-p[1] * x), 
+            Func<double, double[], double[]> jacobian = (x, p) => new double[] {
+                1 - Math.Exp(-p[1] * x),
                 p[0] * x * Math.Exp(-p[1] * x) };
 
             var popt = minimizer.CurveFit(xin, yin, function, new double[] { 1, 1 }, jacobian); // 100, 0.75

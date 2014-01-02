@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2010 Math.NET
+// Copyright (c) 2009-2013 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -28,13 +28,13 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System;
+
 namespace MathNet.Numerics.Optimization
 {
-    using System;
-    
     /// <summary>
     /// Interface implemented by a class that minimizes f(p) where p is a vector of model parameters.
-    /// A class implenting this interface can then be used to solve curve fitting problems. 
+    /// A class implenting this interface can then be used to solve curve fitting problems.
     /// </summary>
     public interface IMinimizer
     {
@@ -56,13 +56,13 @@ namespace MathNet.Numerics.Optimization
             double[] pStart)
         {
             // Need to minimize sum of squares of residuals; create this function:
-            Func<double[], double> function = (p) =>
+            Func<double[], double> function = p =>
             {
                 double sum = 0;
                 for (int i = 0; i < x.Length; ++i)
                 {
                     double temp = y[i] - f(x[i], p);
-                    sum += temp * temp;
+                    sum += temp*temp;
                 }
                 return sum;
             };
