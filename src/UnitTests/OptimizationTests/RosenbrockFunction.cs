@@ -59,4 +59,23 @@ namespace MathNet.Numerics.UnitTests.OptimizationTests
             return output;
         }
     }
+
+	public static class BigRosenbrockFunction
+	{
+		public static double Value(Vector<double> input)
+		{
+			return 1000.0 + 100.0*RosenbrockFunction.Value(input / 100.0);
+		}
+
+		public static Vector<double> Gradient(Vector<double> input)
+		{
+			return 100.0* RosenbrockFunction.Gradient(input / 100.0);
+		}
+
+		public static Matrix<double> Hessian(Vector<double> input)
+		{
+			return 100.0*RosenbrockFunction.Hessian(input / 100.0);
+		}
+
+	}
 }
