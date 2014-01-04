@@ -32,6 +32,7 @@ using System;
 using System.Collections.Generic;
 using MathNet.Numerics.Properties;
 using MathNet.Numerics.Random;
+using MathNet.Numerics.RootFinding;
 
 namespace MathNet.Numerics.Distributions
 {
@@ -327,6 +328,19 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
+        /// Computes the inverse of the cumulative distribution function (InvCDF) for the distribution
+        /// at the given probability. This is also known as the quantile or percent point function.
+        /// </summary>
+        /// <param name="p">The location at which to compute the inverse cumulative density.</param>
+        /// <returns>the inverse cumulative density at <paramref name="p"/>.</returns>
+        /// <seealso cref="InvCDF"/>
+        /// <remarks>WARNING: currently not an explicit implementation, hence slow and unreliable.</remarks>
+        public double InverseCumulativeDistribution(double p)
+        {
+            return InvCDF(_shapeA, _shapeB, p);
+        }
+
+        /// <summary>
         /// Generates a sample from the Beta distribution.
         /// </summary>
         /// <returns>a sample from the distribution.</returns>
@@ -458,7 +472,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         /// <param name="x">The location at which to compute the cumulative distribution function.</param>
         /// <param name="a">The α shape parameter of the Beta distribution. Range: α ≥ 0.</param>
-        /// <param name="b">The β shape parameter of the Beta distribution. Range: β ≥ 0.</param>>
+        /// <param name="b">The β shape parameter of the Beta distribution. Range: β ≥ 0.</param>
         /// <returns>the cumulative distribution at location <paramref name="x"/>.</returns>
         /// <seealso cref="CumulativeDistribution"/>
         public static double CDF(double a, double b, double x)
@@ -498,6 +512,23 @@ namespace MathNet.Numerics.Distributions
             if (a == 1.0 && b == 1.0) return x;
 
             return SpecialFunctions.BetaRegularized(a, b, x);
+        }
+
+        /// <summary>
+        /// Computes the inverse of the cumulative distribution function (InvCDF) for the distribution
+        /// at the given probability. This is also known as the quantile or percent point function.
+        /// </summary>
+        /// <param name="p">The location at which to compute the inverse cumulative density.</param>
+        /// <param name="a">The α shape parameter of the Beta distribution. Range: α ≥ 0.</param>
+        /// <param name="b">The β shape parameter of the Beta distribution. Range: β ≥ 0.</param>
+        /// <returns>the inverse cumulative density at <paramref name="p"/>.</returns>
+        /// <seealso cref="InverseCumulativeDistribution"/>
+        /// <remarks>WARNING: currently not an explicit implementation, hence slow and unreliable.</remarks>
+        public static double InvCDF(double a, double b, double p)
+        {
+            if (a < 0.0 || b < 0.0 || p < 0.0 || p > 1.0) throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
+
+            return Brent.FindRoot(x => SpecialFunctions.BetaRegularized(a, b, x) - p, 0.0, 1.0, accuracy: 1e-8);
         }
 
         /// <summary>

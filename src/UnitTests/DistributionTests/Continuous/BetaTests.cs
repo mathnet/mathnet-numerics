@@ -418,13 +418,6 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
             AssertHelpers.AlmostEqualRelative(pdfln, Beta.PDFLn(a, b, x), 13);
         }
 
-        /// <summary>
-        /// Validate cumulative distribution.
-        /// </summary>
-        /// <param name="a">Parameter A.</param>
-        /// <param name="b">Parameter B.</param>
-        /// <param name="x">Input value X.</param>
-        /// <param name="cdf">Cumulative distribution value.</param>
         [TestCase(0.0, 0.0, 0.0, 0.5)]
         [TestCase(0.0, 0.0, 0.5, 0.5)]
         [TestCase(0.0, 0.0, 1.0, 1.0)]
@@ -455,11 +448,23 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [TestCase(Double.PositiveInfinity, 0.0, 0.0, 0.0)]
         [TestCase(Double.PositiveInfinity, 0.0, 0.5, 0.0)]
         [TestCase(Double.PositiveInfinity, 0.0, 1.0, 1.0)]
-        public void ValidateCumulativeDistribution(double a, double b, double x, double cdf)
+        public void ValidateCumulativeDistribution(double a, double b, double x, double p)
         {
-            var n = new Beta(a, b);
-            AssertHelpers.AlmostEqualRelative(cdf, n.CumulativeDistribution(x), 13);
-            AssertHelpers.AlmostEqualRelative(cdf, Beta.CDF(a, b, x), 13);
+            var dist = new Beta(a, b);
+            Assert.That(dist.CumulativeDistribution(x), Is.EqualTo(p).Within(1e-13));
+            Assert.That(Beta.CDF(a, b, x), Is.EqualTo(p).Within(1e-13));
+        }
+
+        [TestCase(1.0, 1.0, 1.0, 1.0)]
+        [TestCase(9.0, 1.0, 0.0, 0.0)]
+        [TestCase(9.0, 1.0, 0.5, 0.001953125)]
+        [TestCase(9.0, 1.0, 1.0, 1.0)]
+        [TestCase(5.0, 100, 0.0, 0.0)]
+        public void ValidateInverseCumulativeDistribution(double a, double b, double x, double p)
+        {
+            var dist = new Beta(a, b);
+            Assert.That(dist.InverseCumulativeDistribution(p), Is.EqualTo(x).Within(1e-6));
+            Assert.That(Beta.InvCDF(a, b, p), Is.EqualTo(x).Within(1e-6));
         }
     }
 }
