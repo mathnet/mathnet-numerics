@@ -4,15 +4,15 @@
     <id>MathNet.Numerics.FSharp.Signed</id>
     <version>1.0.0</version>
     <title>Math.NET Numerics for F# - Signed Edition</title>
-    <summary>F# Modules for Math.NET Numerics, signed and thus with a strong name. We recommend to use MathNet.Numerics.FSharp instead, which is unsigned and weakly named.</summary>
-    <description>F# Modules for Math.NET Numerics, signed and thus with a strong name. We discourage using this package and recommend using MathNet.Numerics.FSharp instead, which is unsigned and weakly named.</description>
+    <summary>F# Modules for Math.NET Numerics, signed and thus with a strong name. We recommend to use MathNet.Numerics.FSharp instead, which is unsigned and weakly named. .Net 4.</summary>
+    <description>F# Modules for Math.NET Numerics, signed and thus with a strong name. We discourage using this package and recommend using MathNet.Numerics.FSharp instead, which is unsigned and weakly named. Supports .Net 4.0.</description>
     <authors>Christoph Ruegg, Marcus Cuda, Jurgen Van Gael</authors>
     <owners>Christoph Ruegg</owners>
     <projectUrl>http://numerics.mathdotnet.com/</projectUrl>
     <iconUrl>http://www.mathdotnet.com/images/MathNet128.png</iconUrl>
     <licenseUrl>http://mathnetnumerics.codeplex.com/license</licenseUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <tags>math fsharp numeric statistics probability integration interpolation regression solve fit linear algebra matrix fft signed strongname</tags>
+    <tags>math fsharp F# numeric statistics probability integration interpolation regression solve fit linear algebra matrix fft signed strongname</tags>
     <dependencies>
       <dependency id="MathNet.Numerics.Signed" version="1.0.0" />
     </dependencies>

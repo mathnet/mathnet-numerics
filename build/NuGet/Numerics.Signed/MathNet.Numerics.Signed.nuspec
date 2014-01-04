@@ -4,8 +4,8 @@
     <id>MathNet.Numerics.Signed</id>
     <version>1.0.0</version>
     <title>Math.NET Numerics - Signed Edition</title>
-    <summary>Math.NET Numerics, signed and thus with a strong name. We recommend to use MathNet.Numerics instead, which is unsigned and weakly named.</summary>
-    <description>Math.NET Numerics, signed and thus with a strong name. We discourage using this package and recommend using MathNet.Numerics instead, which is unsigned and weakly named.</description>
+    <summary>Math.NET Numerics, signed and thus with a strong name. We recommend to use MathNet.Numerics instead, which is unsigned and weakly named. .Net 4.</summary>
+    <description>Math.NET Numerics, signed and thus with a strong name. We discourage using this package and recommend using MathNet.Numerics instead, which is unsigned and weakly named. Supports .Net 4.0.</description>
     <authors>Christoph Ruegg, Marcus Cuda, Jurgen Van Gael</authors>
     <owners>Christoph Ruegg</owners>
     <projectUrl>http://numerics.mathdotnet.com/</projectUrl>
