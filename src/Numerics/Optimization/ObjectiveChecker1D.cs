@@ -1,51 +1,79 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using MathNet.Numerics.LinearAlgebra.Double;
+﻿// <copyright file="ObjectiveChecker1D.cs" company="Math.NET">
+// Math.NET Numerics, part of the Math.NET Project
+// http://numerics.mathdotnet.com
+// http://github.com/mathnet/mathnet-numerics
+// http://mathnetnumerics.codeplex.com
+//
+// Copyright (c) 2009-2013 Math.NET
+//
+// Permission is hereby granted, free of charge, to any person
+// obtaining a copy of this software and associated documentation
+// files (the "Software"), to deal in the Software without
+// restriction, including without limitation the rights to use,
+// copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the
+// Software is furnished to do so, subject to the following
+// conditions:
+//
+// The above copyright notice and this permission notice shall be
+// included in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+// OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+// HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+// WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+// FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+// OTHER DEALINGS IN THE SOFTWARE.
+// </copyright>
+
+using System;
 
 namespace MathNet.Numerics.Optimization
 {
     public class CheckedEvaluation1D : IEvaluation1D
     {
-        private ObjectiveChecker1D Checker;
-        private IEvaluation1D InnerEvaluation;
-        private bool ValueChecked;
-        private bool DerivativeChecked;
-        private bool SecondDerivativeChecked;
+        readonly ObjectiveChecker1D Checker;
+        readonly IEvaluation1D InnerEvaluation;
+        bool ValueChecked;
+        bool DerivativeChecked;
+        bool SecondDerivativeChecked;
 
         public CheckedEvaluation1D(ObjectiveChecker1D checker, IEvaluation1D evaluation)
         {
-            this.Checker = checker;
-            this.InnerEvaluation = evaluation;
+            Checker = checker;
+            InnerEvaluation = evaluation;
         }
 
         public double Point
         {
-            get { return this.InnerEvaluation.Point; }
+            get { return InnerEvaluation.Point; }
         }
 
-        public EvaluationStatus Status { get { return this.InnerEvaluation.Status; } }
+        public EvaluationStatus Status
+        {
+            get { return InnerEvaluation.Status; }
+        }
 
         public double Value
         {
             get
             {
-
-                if (!this.ValueChecked)
+                if (!ValueChecked)
                 {
                     double tmp;
                     try
                     {
-                        tmp = this.InnerEvaluation.Value;
+                        tmp = InnerEvaluation.Value;
                     }
                     catch (Exception e)
                     {
-                        throw new EvaluationException("Objective function evaluation failed.", this.InnerEvaluation, e);
+                        throw new EvaluationException("Objective function evaluation failed.", InnerEvaluation, e);
                     }
-                    this.Checker.ValueChecker(this.InnerEvaluation);
+                    Checker.ValueChecker(InnerEvaluation);
                 }
-                return this.InnerEvaluation.Value;
+                return InnerEvaluation.Value;
             }
         }
 
@@ -53,21 +81,20 @@ namespace MathNet.Numerics.Optimization
         {
             get
             {
-
-                if (!this.DerivativeChecked)
+                if (!DerivativeChecked)
                 {
                     double tmp;
                     try
                     {
-                        tmp = this.InnerEvaluation.Derivative;
+                        tmp = InnerEvaluation.Derivative;
                     }
                     catch (Exception e)
                     {
-                        throw new EvaluationException("Objective derivative evaluation failed.", this.InnerEvaluation, e);
+                        throw new EvaluationException("Objective derivative evaluation failed.", InnerEvaluation, e);
                     }
-                    this.Checker.DerivativeChecker(this.InnerEvaluation);
+                    Checker.DerivativeChecker(InnerEvaluation);
                 }
-                return this.InnerEvaluation.Derivative;
+                return InnerEvaluation.Derivative;
             }
         }
 
@@ -75,21 +102,20 @@ namespace MathNet.Numerics.Optimization
         {
             get
             {
-
-                if (!this.SecondDerivativeChecked)
+                if (!SecondDerivativeChecked)
                 {
                     double tmp;
                     try
                     {
-                        tmp = this.InnerEvaluation.SecondDerivative;
+                        tmp = InnerEvaluation.SecondDerivative;
                     }
                     catch (Exception e)
                     {
-                        throw new EvaluationException("Objective second derivative evaluation failed.", this.InnerEvaluation, e);
+                        throw new EvaluationException("Objective second derivative evaluation failed.", InnerEvaluation, e);
                     }
-                    this.Checker.SecondDerivativeChecker(this.InnerEvaluation);
+                    Checker.SecondDerivativeChecker(InnerEvaluation);
                 }
-                return this.InnerEvaluation.SecondDerivative;
+                return InnerEvaluation.SecondDerivative;
             }
         }
     }
@@ -101,29 +127,29 @@ namespace MathNet.Numerics.Optimization
         public Action<IEvaluation1D> DerivativeChecker { get; private set; }
         public Action<IEvaluation1D> SecondDerivativeChecker { get; private set; }
 
-        public ObjectiveChecker1D(IObjectiveFunction1D objective, Action<IEvaluation1D> value_checker, Action<IEvaluation1D> gradient_checker, Action<IEvaluation1D> hessian_checker)
+        public ObjectiveChecker1D(IObjectiveFunction1D objective, Action<IEvaluation1D> valueChecker, Action<IEvaluation1D> gradientChecker, Action<IEvaluation1D> hessianChecker)
         {
-            this.InnerObjective = objective;
-            this.ValueChecker = value_checker;
-            this.DerivativeChecker = gradient_checker;
-            this.SecondDerivativeChecker = hessian_checker;
+            InnerObjective = objective;
+            ValueChecker = valueChecker;
+            DerivativeChecker = gradientChecker;
+            SecondDerivativeChecker = hessianChecker;
         }
 
         public bool DerivativeSupported
         {
-            get { return this.InnerObjective.DerivativeSupported; }
+            get { return InnerObjective.DerivativeSupported; }
         }
 
         public bool SecondDerivativeSupported
         {
-            get { return this.InnerObjective.SecondDerivativeSupported; }
+            get { return InnerObjective.SecondDerivativeSupported; }
         }
 
         public IEvaluation1D Evaluate(double point)
         {
             try
             {
-                return new CheckedEvaluation1D(this, this.InnerObjective.Evaluate(point));
+                return new CheckedEvaluation1D(this, InnerObjective.Evaluate(point));
             }
             catch (Exception e)
             {

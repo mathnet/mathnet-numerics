@@ -1,50 +1,80 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿// <copyright file="ObjectiveChecker.cs" company="Math.NET">
+// Math.NET Numerics, part of the Math.NET Project
+// http://numerics.mathdotnet.com
+// http://github.com/mathnet/mathnet-numerics
+// http://mathnetnumerics.codeplex.com
+//
+// Copyright (c) 2009-2013 Math.NET
+//
+// Permission is hereby granted, free of charge, to any person
+// obtaining a copy of this software and associated documentation
+// files (the "Software"), to deal in the Software without
+// restriction, including without limitation the rights to use,
+// copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the
+// Software is furnished to do so, subject to the following
+// conditions:
+//
+// The above copyright notice and this permission notice shall be
+// included in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+// OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+// HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+// WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+// FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+// OTHER DEALINGS IN THE SOFTWARE.
+// </copyright>
+
+using System;
 using MathNet.Numerics.LinearAlgebra;
 
 namespace MathNet.Numerics.Optimization
 {
     public class CheckedEvaluation : IEvaluation
     {
-        private ObjectiveChecker Checker;
+        readonly ObjectiveChecker Checker;
         public IEvaluation InnerEvaluation { get; private set; }
-        private bool ValueChecked;
-        private bool GradientChecked;
-        private bool HessianChecked;
+        bool ValueChecked;
+        bool GradientChecked;
+        bool HessianChecked;
 
         public CheckedEvaluation(ObjectiveChecker checker, IEvaluation evaluation)
         {
-            this.Checker = checker;
-            this.InnerEvaluation = evaluation;
+            Checker = checker;
+            InnerEvaluation = evaluation;
         }
 
         public Vector<double> Point
         {
-            get { return this.InnerEvaluation.Point; }
+            get { return InnerEvaluation.Point; }
         }
-        public EvaluationStatus Status { get { return this.InnerEvaluation.Status; } }
+
+        public EvaluationStatus Status
+        {
+            get { return InnerEvaluation.Status; }
+        }
 
         public double Value
         {
             get
             {
-
-                if (!this.ValueChecked)
+                if (!ValueChecked)
                 {
                     double tmp;
                     try
                     {
-                        tmp = this.InnerEvaluation.Value;
+                        tmp = InnerEvaluation.Value;
                     }
                     catch (Exception e)
                     {
-                        throw new EvaluationException("Objective function evaluation failed.", this.InnerEvaluation, e);
+                        throw new EvaluationException("Objective function evaluation failed.", InnerEvaluation, e);
                     }
-                    this.Checker.ValueChecker(this.InnerEvaluation);
+                    Checker.ValueChecker(InnerEvaluation);
                 }
-                return this.InnerEvaluation.Value;
+                return InnerEvaluation.Value;
             }
         }
 
@@ -52,21 +82,20 @@ namespace MathNet.Numerics.Optimization
         {
             get
             {
-
-                if (!this.GradientChecked)
+                if (!GradientChecked)
                 {
                     Vector<double> tmp;
                     try
                     {
-                        tmp = this.InnerEvaluation.Gradient;
+                        tmp = InnerEvaluation.Gradient;
                     }
                     catch (Exception e)
                     {
-                        throw new EvaluationException("Objective gradient evaluation failed.", this.InnerEvaluation, e);
+                        throw new EvaluationException("Objective gradient evaluation failed.", InnerEvaluation, e);
                     }
-                    this.Checker.GradientChecker(this.InnerEvaluation);
+                    Checker.GradientChecker(InnerEvaluation);
                 }
-                return this.InnerEvaluation.Gradient;
+                return InnerEvaluation.Gradient;
             }
         }
 
@@ -74,21 +103,20 @@ namespace MathNet.Numerics.Optimization
         {
             get
             {
-
-                if (!this.HessianChecked)
+                if (!HessianChecked)
                 {
                     Matrix<double> tmp;
                     try
                     {
-                        tmp = this.InnerEvaluation.Hessian;
+                        tmp = InnerEvaluation.Hessian;
                     }
                     catch (Exception e)
                     {
-                        throw new EvaluationException("Objective hessian evaluation failed.", this.InnerEvaluation, e);
+                        throw new EvaluationException("Objective hessian evaluation failed.", InnerEvaluation, e);
                     }
-                    this.Checker.HessianChecker(InnerEvaluation);
+                    Checker.HessianChecker(InnerEvaluation);
                 }
-                return this.InnerEvaluation.Hessian;
+                return InnerEvaluation.Hessian;
             }
         }
     }
@@ -100,29 +128,29 @@ namespace MathNet.Numerics.Optimization
         public Action<IEvaluation> GradientChecker { get; private set; }
         public Action<IEvaluation> HessianChecker { get; private set; }
 
-        public ObjectiveChecker(IObjectiveFunction objective, Action<IEvaluation> value_checker, Action<IEvaluation> gradient_checker, Action<IEvaluation> hessian_checker)
+        public ObjectiveChecker(IObjectiveFunction objective, Action<IEvaluation> valueChecker, Action<IEvaluation> gradientChecker, Action<IEvaluation> hessianChecker)
         {
-            this.InnerObjective = objective;
-            this.ValueChecker = value_checker;
-            this.GradientChecker = gradient_checker;
-            this.HessianChecker = hessian_checker;
+            InnerObjective = objective;
+            ValueChecker = valueChecker;
+            GradientChecker = gradientChecker;
+            HessianChecker = hessianChecker;
         }
 
         public bool GradientSupported
         {
-            get { return this.InnerObjective.GradientSupported; }
+            get { return InnerObjective.GradientSupported; }
         }
 
         public bool HessianSupported
         {
-            get { return this.InnerObjective.HessianSupported; }
+            get { return InnerObjective.HessianSupported; }
         }
 
         public IEvaluation Evaluate(Vector<double> point)
         {
             try
             {
-                return new CheckedEvaluation(this, this.InnerObjective.Evaluate(point));
+                return new CheckedEvaluation(this, InnerObjective.Evaluate(point));
             }
             catch (Exception e)
             {

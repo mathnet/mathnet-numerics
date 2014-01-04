@@ -1,7 +1,34 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿// <copyright file="ObjectiveFunction1D.cs" company="Math.NET">
+// Math.NET Numerics, part of the Math.NET Project
+// http://numerics.mathdotnet.com
+// http://github.com/mathnet/mathnet-numerics
+// http://mathnetnumerics.codeplex.com
+//
+// Copyright (c) 2009-2013 Math.NET
+//
+// Permission is hereby granted, free of charge, to any person
+// obtaining a copy of this software and associated documentation
+// files (the "Software"), to deal in the Software without
+// restriction, including without limitation the rights to use,
+// copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the
+// Software is furnished to do so, subject to the following
+// conditions:
+//
+// The above copyright notice and this permission notice shall be
+// included in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+// OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+// HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+// WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+// FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+// OTHER DEALINGS IN THE SOFTWARE.
+// </copyright>
+
+using System;
 
 namespace MathNet.Numerics.Optimization
 {
@@ -27,16 +54,22 @@ namespace MathNet.Numerics.Optimization
         protected EvaluationStatus _status;
         protected double? _value;
         protected double? _derivative;
-        protected double? _second_derivative;
+        protected double? _secondDerivative;
 
-        public double Point { get { return _point; } }
+        public double Point
+        {
+            get { return _point; }
+        }
 
         protected BaseEvaluation1D()
         {
             _status = EvaluationStatus.None;
         }
 
-        public EvaluationStatus Status { get { return _status; } }
+        public EvaluationStatus Status
+        {
+            get { return _status; }
+        }
 
         public double Value
         {
@@ -44,62 +77,67 @@ namespace MathNet.Numerics.Optimization
             {
                 if (!_value.HasValue)
                 {
-                    setValue();
+                    SetValue();
                     _status |= EvaluationStatus.Value;
                 }
                 return _value.Value;
             }
         }
+
         public double Derivative
         {
             get
             {
                 if (_derivative == null)
                 {
-                    setDerivative();
+                    SetDerivative();
                     _status |= EvaluationStatus.Gradient;
                 }
                 return _derivative.Value;
             }
         }
+
         public double SecondDerivative
         {
             get
             {
-                if (_second_derivative == null)
+                if (_secondDerivative == null)
                 {
-                    setSecondDerivative();
+                    SetSecondDerivative();
                     _status |= EvaluationStatus.Hessian;
                 }
-                return _second_derivative.Value;
+                return _secondDerivative.Value;
             }
         }
 
-        protected abstract void setValue();
-        protected abstract void setDerivative();
-        protected abstract void setSecondDerivative();
+        protected abstract void SetValue();
+        protected abstract void SetDerivative();
+        protected abstract void SetSecondDerivative();
     }
 
     public class CachedEvaluation1D : BaseEvaluation1D
     {
-        private SimpleObjectiveFunction1D _objective_object;
+        readonly SimpleObjectiveFunction1D _objectiveObject;
 
         public CachedEvaluation1D(SimpleObjectiveFunction1D f, double point)
         {
-            _objective_object = f;
+            _objectiveObject = f;
             _point = point;
         }
-        protected override void setValue()
+
+        protected override void SetValue()
         {
-            _value = _objective_object.Objective(_point);
+            _value = _objectiveObject.Objective(_point);
         }
-        protected override void setDerivative()
+
+        protected override void SetDerivative()
         {
-            _derivative = _objective_object.Derivative(_point);
+            _derivative = _objectiveObject.Derivative(_point);
         }
-        protected override void setSecondDerivative()
+
+        protected override void SetSecondDerivative()
         {
-            _second_derivative = _objective_object.SecondDerivative(_point);
+            _secondDerivative = _objectiveObject.SecondDerivative(_point);
         }
     }
 
@@ -111,33 +149,33 @@ namespace MathNet.Numerics.Optimization
 
         public SimpleObjectiveFunction1D(Func<double, double> objective)
         {
-            this.Objective = objective;
-            this.Derivative = null;
-            this.SecondDerivative = null;
+            Objective = objective;
+            Derivative = null;
+            SecondDerivative = null;
         }
 
         public SimpleObjectiveFunction1D(Func<double, double> objective, Func<double, double> derivative)
         {
-            this.Objective = objective;
-            this.Derivative = derivative;
-            this.SecondDerivative = null;
+            Objective = objective;
+            Derivative = derivative;
+            SecondDerivative = null;
         }
 
-        public SimpleObjectiveFunction1D(Func<double, double> objective, Func<double, double> derivative, Func<double,double> second_derivative)
+        public SimpleObjectiveFunction1D(Func<double, double> objective, Func<double, double> derivative, Func<double, double> secondDerivative)
         {
-            this.Objective = objective;
-            this.Derivative = derivative;
-            this.SecondDerivative = second_derivative;
+            Objective = objective;
+            Derivative = derivative;
+            SecondDerivative = secondDerivative;
         }
 
         public bool DerivativeSupported
         {
-            get { return this.Derivative != null; }
+            get { return Derivative != null; }
         }
 
         public bool SecondDerivativeSupported
         {
-            get { return this.SecondDerivative != null; }
+            get { return SecondDerivative != null; }
         }
 
         public IEvaluation1D Evaluate(double point)
