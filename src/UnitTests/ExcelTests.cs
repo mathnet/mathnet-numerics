@@ -56,6 +56,40 @@ namespace MathNet.Numerics.UnitTests
         }
 
         [Test]
+        public void TINV()
+        {
+            Assert.That(ExcelFunctions.TINV(0.01, 2), Is.EqualTo(9.92484320092).Within(1e-6), "A1");
+            Assert.That(ExcelFunctions.TINV(0.25, 2), Is.EqualTo(1.60356745147).Within(1e-6), "B1");
+            Assert.That(ExcelFunctions.TINV(0.5, 2), Is.EqualTo(0.81649658093).Within(1e-6), "C1");
+            Assert.That(ExcelFunctions.TINV(0.75, 2), Is.EqualTo(0.36514837167).Within(1e-6), "D1");
+            Assert.That(ExcelFunctions.TINV(0.99, 2), Is.EqualTo(0.01414284278).Within(1e-6), "E1");
+            Assert.That(ExcelFunctions.TINV(0.9999, 2), Is.EqualTo(0.00014142136).Within(1e-6), "F1");
+            Assert.That(ExcelFunctions.TINV(1.0, 2), Is.EqualTo(0.00000000000).Within(1e-6), "G1");
+        }
+
+        [Test]
+        public void BETADIST()
+        {
+            Assert.That(ExcelFunctions.BETADIST(0, 2, 1.5), Is.EqualTo(0.00000000000).Within(1e-8), "A1");
+            Assert.That(ExcelFunctions.BETADIST(0.25, 2, 1.5), Is.EqualTo(0.10691130235).Within(1e-8), "B1");
+            Assert.That(ExcelFunctions.BETADIST(0.5, 2, 1.5), Is.EqualTo(0.38128156646).Within(1e-8), "C1");
+            Assert.That(ExcelFunctions.BETADIST(0.75, 2, 1.5), Is.EqualTo(0.73437500000).Within(1e-6), "D1");
+            Assert.That(ExcelFunctions.BETADIST(0.9999, 2, 1.5), Is.EqualTo(0.99999750015).Within(1e-8), "E1");
+            Assert.That(ExcelFunctions.BETADIST(0.0001, 2, 1.5), Is.EqualTo(0.00000001875).Within(1e-8), "F1");
+        }
+
+        [Test]
+        public void BETAINV()
+        {
+            Assert.That(ExcelFunctions.BETAINV(0.01, 2, 1.5), Is.EqualTo(0.07396024691).Within(1e-6), "A1");
+            Assert.That(ExcelFunctions.BETAINV(0.25, 2, 1.5), Is.EqualTo(0.39447722186).Within(1e-6), "B1");
+            Assert.That(ExcelFunctions.BETAINV(0.5, 2, 1.5), Is.EqualTo(0.58637250688).Within(1e-6), "C1");
+            Assert.That(ExcelFunctions.BETAINV(0.75, 2, 1.5), Is.EqualTo(0.76115477285).Within(1e-6), "D1");
+            Assert.That(ExcelFunctions.BETAINV(0.99, 2, 1.5), Is.EqualTo(0.97454166372).Within(1e-6), "E1");
+            Assert.That(ExcelFunctions.BETAINV(0.9999, 2, 1.5), Is.EqualTo(0.99882984514).Within(1e-6), "F1");
+        }
+
+        [Test]
         public void GAMMADIST()
         {
             Assert.That(ExcelFunctions.GAMMADIST(0, 2, 1.5, true), Is.EqualTo(0.00000000000).Within(1e-8), "A1");

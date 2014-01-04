@@ -46,16 +46,30 @@ namespace MathNet.Numerics
     {
         public static double TDIST(double x, int degrees_freedom, int tails)
         {
-            var dist = new StudentT(0.0, 1.0, degrees_freedom);
             switch (tails)
             {
                 case 1:
-                    return 1d - dist.CumulativeDistribution(x);
+                    return 1d - StudentT.CDF(0d, 1d, degrees_freedom, x);
                 case 2:
-                    return 1d - dist.CumulativeDistribution(x) + dist.CumulativeDistribution(-x);
+                    return 1d - StudentT.CDF(0d, 1d, degrees_freedom, x) + StudentT.CDF(0d, 1d, degrees_freedom, -x);
                 default:
                     throw new ArgumentOutOfRangeException("tails");
             }
+        }
+
+        public static double TINV(double probability, int degrees_freedom)
+        {
+            return -StudentT.InvCDF(0d, 1d, degrees_freedom, probability/2);
+        }
+
+        public static double BETADIST(double x, double alpha, double beta)
+        {
+            return Beta.CDF(alpha, beta, x);
+        }
+
+        public static double BETAINV(double probability, double alpha, double beta)
+        {
+            return Beta.InvCDF(alpha, beta, probability);
         }
 
         public static double GAMMADIST(double x, double alpha, double beta, bool cumulative)
