@@ -101,6 +101,11 @@ namespace MathNet.Numerics
             }
         }
 
+        public static double PERCENTILE(double[] array, double k)
+        {
+            return array.QuantileCustom(k, QuantileDefinition.Excel);
+        }
+
         public static double PERCENTRANK(double[] array, double x)
         {
             return array.QuantileRank(x, RankDefinition.Min);

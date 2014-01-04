@@ -120,6 +120,30 @@ namespace MathNet.Numerics.UnitTests
         }
 
         [Test]
+        public void PERCENTILE()
+        {
+            var array = new Double[] { 1, 8, 12, 7, 2, 9, 10, 4 };
+            Assert.That(ExcelFunctions.PERCENTILE(array, 0.00), Is.EqualTo(1.00000000000).Within(1e-8));
+            Assert.That(ExcelFunctions.PERCENTILE(array, 0.01), Is.EqualTo(1.07000000000).Within(1e-8));
+            Assert.That(ExcelFunctions.PERCENTILE(array, 0.10), Is.EqualTo(1.70000000000).Within(1e-8));
+            Assert.That(ExcelFunctions.PERCENTILE(array, 0.40), Is.EqualTo(6.40000000000).Within(1e-8));
+            Assert.That(ExcelFunctions.PERCENTILE(array, 0.50), Is.EqualTo(7.50000000000).Within(1e-8));
+            Assert.That(ExcelFunctions.PERCENTILE(array, 0.90), Is.EqualTo(10.60000000000).Within(1e-8));
+            Assert.That(ExcelFunctions.PERCENTILE(array, 0.99), Is.EqualTo(11.86000000000).Within(1e-8));
+            Assert.That(ExcelFunctions.PERCENTILE(array, 1.00), Is.EqualTo(12.00000000000).Within(1e-8));
+            
+            array = new Double[] { 1, 9, 12, 7, 2, 9, 10, 2 };
+            Assert.That(ExcelFunctions.PERCENTILE(array, 0.00), Is.EqualTo(1.00000000000).Within(1e-8));
+            Assert.That(ExcelFunctions.PERCENTILE(array, 0.01), Is.EqualTo(1.07000000000).Within(1e-8));
+            Assert.That(ExcelFunctions.PERCENTILE(array, 0.10), Is.EqualTo(1.70000000000).Within(1e-8));
+            Assert.That(ExcelFunctions.PERCENTILE(array, 0.40), Is.EqualTo(6.00000000000).Within(1e-8));
+            Assert.That(ExcelFunctions.PERCENTILE(array, 0.50), Is.EqualTo(8.00000000000).Within(1e-8));
+            Assert.That(ExcelFunctions.PERCENTILE(array, 0.90), Is.EqualTo(10.60000000000).Within(1e-8));
+            Assert.That(ExcelFunctions.PERCENTILE(array, 0.99), Is.EqualTo(11.86000000000).Within(1e-8));
+            Assert.That(ExcelFunctions.PERCENTILE(array, 1.00), Is.EqualTo(12.00000000000).Within(1e-8));
+        }
+
+        [Test]
         public void QUARTILE()
         {
             var array = new Double[] { 1, 8, 12, 7, 2, 9, 10, 4 };
