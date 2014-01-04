@@ -458,7 +458,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         /// Validate cumulative distribution.
         /// </summary>
         /// <param name="x">Input X value.</param>
-        /// <param name="f">Expected value.</param>
+        /// <param name="p">Expected value.</param>
         [TestCase(Double.NegativeInfinity, 0.0)]
         [TestCase(-5.0, 0.00000028665157187919391167375233287464535385442301361187883)]
         [TestCase(-2.0, 0.0002326290790355250363499258867279847735487493358890356)]
@@ -469,18 +469,18 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [TestCase(6.0, 0.69146246127401310363770461060833773988360217555457859)]
         [TestCase(10.0, 0.9937903346742238648330218954258077788721022530769078)]
         [TestCase(Double.PositiveInfinity, 1.0)]
-        public void ValidateCumulativeDistribution(double x, double f)
+        public void ValidateCumulativeDistribution(double x, double p)
         {
             var n = Normal.WithMeanStdDev(5.0, 2.0);
-            AssertHelpers.AlmostEqualRelative(f, n.CumulativeDistribution(x), 9);
-            AssertHelpers.AlmostEqualRelative(f, Normal.CDF(5.0, 2.0, x), 9);
+            AssertHelpers.AlmostEqualRelative(p, n.CumulativeDistribution(x), 9);
+            AssertHelpers.AlmostEqualRelative(p, Normal.CDF(5.0, 2.0, x), 9);
         }
 
         /// <summary>
         /// Validate inverse cumulative distribution.
         /// </summary>
         /// <param name="x">Input X value.</param>
-        /// <param name="f">Expected value.</param>
+        /// <param name="p">Expected value.</param>
         [TestCase(Double.NegativeInfinity, 0.0)]
         [TestCase(-5.0, 0.00000028665157187919391167375233287464535385442301361187883)]
         [TestCase(-2.0, 0.0002326290790355250363499258867279847735487493358890356)]
@@ -491,11 +491,11 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [TestCase(6.0, .69146246127401310363770461060833773988360217555457859)]
         [TestCase(10.0, 0.9937903346742238648330218954258077788721022530769078)]
         [TestCase(Double.PositiveInfinity, 1.0)]
-        public void ValidateInverseCumulativeDistribution(double x, double f)
+        public void ValidateInverseCumulativeDistribution(double x, double p)
         {
             var n = Normal.WithMeanStdDev(5.0, 2.0);
-            AssertHelpers.AlmostEqualRelative(x, n.InverseCumulativeDistribution(f), 14);
-            AssertHelpers.AlmostEqualRelative(x, Normal.InvCDF(5.0, 2.0, f), 14);
+            AssertHelpers.AlmostEqualRelative(x, n.InverseCumulativeDistribution(p), 14);
+            AssertHelpers.AlmostEqualRelative(x, Normal.InvCDF(5.0, 2.0, p), 14);
         }
 
         /// <summary>

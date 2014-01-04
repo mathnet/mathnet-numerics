@@ -411,14 +411,6 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
             ied.Take(5).ToArray();
         }
 
-        /// <summary>
-        /// Validate cumulative distribution.
-        /// </summary>
-        /// <param name="location">Location value.</param>
-        /// <param name="scale">Scale value.</param>
-        /// <param name="dof">Degrees of freedom.</param>
-        /// <param name="x">Input X value.</param>
-        /// <param name="c">Expected value.</param>
         [TestCase(0.0, 1.0, 1.0, 0.0, 0.5)]
         [TestCase(0.0, 1.0, 1.0, 1.0, 0.75)]
         [TestCase(0.0, 1.0, 1.0, -1.0, 0.25)]
@@ -432,10 +424,31 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [TestCase(0.0, 1.0, Double.PositiveInfinity, 0.0, 0.5)]
         [TestCase(0.0, 1.0, Double.PositiveInfinity, 1.0, 0.841344746068543)]
         [TestCase(0.0, 1.0, Double.PositiveInfinity, 2.0, 0.977249868051821)]
-        public void ValidateCumulativeDistribution(double location, double scale, double dof, double x, double c)
+        public void ValidateCumulativeDistribution(double location, double scale, double dof, double x, double p)
         {
-            var n = new StudentT(location, scale, dof);
-            AssertHelpers.AlmostEqualRelative(c, n.CumulativeDistribution(x), 13);
+            var dist = new StudentT(location, scale, dof);
+            Assert.That(dist.CumulativeDistribution(x), Is.EqualTo(p).Within(1e-13));
+            Assert.That(StudentT.CDF(location, scale, dof, x), Is.EqualTo(p).Within(1e-13));
+        }
+
+        [TestCase(0.0, 1.0, 1.0, 0.0, 0.5)]
+        [TestCase(0.0, 1.0, 1.0, 1.0, 0.75)]
+        [TestCase(0.0, 1.0, 1.0, -1.0, 0.25)]
+        [TestCase(0.0, 1.0, 1.0, 2.0, 0.852416382349567)]
+        [TestCase(0.0, 1.0, 1.0, -2.0, 0.147583617650433)]
+        [TestCase(0.0, 1.0, 2.0, 0.0, 0.5)]
+        [TestCase(0.0, 1.0, 2.0, 1.0, 0.788675134594813)]
+        [TestCase(0.0, 1.0, 2.0, -1.0, 0.211324865405187)]
+        [TestCase(0.0, 1.0, 2.0, 2.0, 0.908248290463863)]
+        [TestCase(0.0, 1.0, 2.0, -2.0, 0.091751709536137)]
+        [TestCase(0.0, 1.0, Double.PositiveInfinity, 0.0, 0.5)]
+        [TestCase(0.0, 1.0, Double.PositiveInfinity, 1.0, 0.841344746068543)]
+        [TestCase(0.0, 1.0, Double.PositiveInfinity, 2.0, 0.977249868051821)]
+        public void ValidateInverseCumulativeDistribution(double location, double scale, double dof, double x, double p)
+        {
+            var dist = new StudentT(location, scale, dof);
+            Assert.That(dist.InverseCumulativeDistribution(p), Is.EqualTo(x).Within(1e-6));
+            Assert.That(StudentT.InvCDF(location, scale, dof, p), Is.EqualTo(x).Within(1e-6));
         }
     }
 }

@@ -32,6 +32,7 @@ using System;
 using System.Collections.Generic;
 using MathNet.Numerics.Properties;
 using MathNet.Numerics.Random;
+using MathNet.Numerics.RootFinding;
 
 namespace MathNet.Numerics.Distributions
 {
@@ -305,6 +306,19 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
+        /// Computes the inverse of the cumulative distribution function (InvCDF) for the distribution
+        /// at the given probability. This is also known as the quantile or percent point function.
+        /// </summary>
+        /// <param name="p">The location at which to compute the inverse cumulative density.</param>
+        /// <returns>the inverse cumulative density at <paramref name="p"/>.</returns>
+        /// <seealso cref="InvCDF"/>
+        /// <remarks>WARNING: currently not an explicit implementation, hence slow and unreliable.</remarks>
+        public double InverseCumulativeDistribution(double p)
+        {
+            return InvCDF(_location, _scale, _freedom, p);
+        }
+
+        /// <summary>
         /// Samples student-t distributed random variables.
         /// </summary>
         /// <remarks>The algorithm is method 2 in section 5, chapter 9
@@ -407,6 +421,35 @@ namespace MathNet.Numerics.Distributions
             var h = freedom/(freedom + (k*k));
             var ib = 0.5*SpecialFunctions.BetaRegularized(freedom/2.0, 0.5, h);
             return x <= location ? ib : 1.0 - ib;
+        }
+
+        /// <summary>
+        /// Computes the inverse of the cumulative distribution function (InvCDF) for the distribution
+        /// at the given probability. This is also known as the quantile or percent point function.
+        /// </summary>
+        /// <param name="p">The location at which to compute the inverse cumulative density.</param>
+        /// <param name="location">The location (μ) of the distribution.</param>
+        /// <param name="scale">The scale (σ) of the distribution. Range: σ > 0.</param>
+        /// <param name="freedom">The degrees of freedom (ν) for the distribution. Range: ν > 0.</param>
+        /// <returns>the inverse cumulative density at <paramref name="p"/>.</returns>
+        /// <seealso cref="InverseCumulativeDistribution"/>
+        /// <remarks>WARNING: currently not an explicit implementation, hence slow and unreliable.</remarks>
+        public static double InvCDF(double location, double scale, double freedom, double p)
+        {
+            if (scale <= 0.0 || freedom <= 0.0) throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
+
+            // TODO JVG we can probably do a better job for Cauchy special case
+            if (Double.IsPositiveInfinity(freedom)) return Normal.InvCDF(location, scale, p);
+            if (p == 0.5d) return location;
+
+            // TODO PERF: We must implement this explicitly instead of solving for CDF^-1
+            return Brent.FindRoot(x =>
+            {
+                var k = (x - location)/scale;
+                var h = freedom/(freedom + (k*k));
+                var ib = 0.5*SpecialFunctions.BetaRegularized(freedom/2.0, 0.5, h);
+                return x <= location ? ib - p : 1.0 - ib - p;
+            }, -800, 800, accuracy: 1e-8);
         }
 
         /// <summary>
