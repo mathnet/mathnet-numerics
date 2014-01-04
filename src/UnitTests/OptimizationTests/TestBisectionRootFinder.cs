@@ -52,5 +52,31 @@ namespace MathNet.Numerics.UnitTests.OptimizationTests
             Assert.That(Math.Abs(r2 - 3.0), Is.LessThan(0.001));
         }
 
+		[Test]
+		public void FindRoot_ConstantZeroRegion_HitsFirstZeroOnExpansion()
+		{
+			var algorithm = new BisectionRootFinder(1e-3,1e-3,lowerExpansionFactor:2,upperExpansionFactor:2);
+
+			var r1 = algorithm.FindRoot(function_goes_flat_at_zero, -1,0);
+
+			Assert.That(Math.Abs(r1 - 1), Is.LessThan(1e-3));
+
+		}
+
+		[Test]
+		public void FindRoot_ConstantZeroRegion_HitsPastFirstZeroOnExpansion()
+		{
+			var algorithm = new BisectionRootFinder(1e-3,1e-3,lowerExpansionFactor:2,upperExpansionFactor:2);
+			
+			var r1 = algorithm.FindRoot(function_goes_flat_at_zero, -2.25,0);
+			
+			Assert.That(Math.Abs(r1 - 1), Is.LessThan(1e-3));
+			
+		}
+
+		private static double function_goes_flat_at_zero(double x)
+		{
+			return x < 1 ? -3*(x - 1) : 0.0;
+		}
     }
 }
