@@ -72,6 +72,7 @@ namespace MathNet.Numerics.Optimization
                         throw new EvaluationException("Objective function evaluation failed.", InnerEvaluation, e);
                     }
                     Checker.ValueChecker(InnerEvaluation);
+					ValueChecked = true;
                 }
                 return InnerEvaluation.Value;
             }
@@ -93,6 +94,7 @@ namespace MathNet.Numerics.Optimization
                         throw new EvaluationException("Objective derivative evaluation failed.", InnerEvaluation, e);
                     }
                     Checker.DerivativeChecker(InnerEvaluation);
+					DerivativeChecked = true;
                 }
                 return InnerEvaluation.Derivative;
             }
@@ -114,6 +116,7 @@ namespace MathNet.Numerics.Optimization
                         throw new EvaluationException("Objective second derivative evaluation failed.", InnerEvaluation, e);
                     }
                     Checker.SecondDerivativeChecker(InnerEvaluation);
+					SecondDerivativeChecked = true;
                 }
                 return InnerEvaluation.SecondDerivative;
             }

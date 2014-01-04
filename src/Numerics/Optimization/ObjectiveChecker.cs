@@ -73,6 +73,7 @@ namespace MathNet.Numerics.Optimization
                         throw new EvaluationException("Objective function evaluation failed.", InnerEvaluation, e);
                     }
                     Checker.ValueChecker(InnerEvaluation);
+					ValueChecked = true;
                 }
                 return InnerEvaluation.Value;
             }
@@ -94,6 +95,7 @@ namespace MathNet.Numerics.Optimization
                         throw new EvaluationException("Objective gradient evaluation failed.", InnerEvaluation, e);
                     }
                     Checker.GradientChecker(InnerEvaluation);
+					GradientChecked = true;
                 }
                 return InnerEvaluation.Gradient;
             }
@@ -115,6 +117,7 @@ namespace MathNet.Numerics.Optimization
                         throw new EvaluationException("Objective hessian evaluation failed.", InnerEvaluation, e);
                     }
                     Checker.HessianChecker(InnerEvaluation);
+					HessianChecked = true;
                 }
                 return InnerEvaluation.Hessian;
             }
