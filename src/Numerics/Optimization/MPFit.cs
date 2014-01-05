@@ -47,45 +47,41 @@ namespace MathNet.Numerics.Optimization
 {
     public static class MpFit
     {
-        public const string MPFIT_VERSION = "1.1";
-
         /* Error codes */
-        public const int MP_ERR_INPUT = 0; /* General input parameter error */
-        public const int MP_ERR_NAN = -16; /* User function produced non-finite values */
-        public const int MP_ERR_FUNC = -17; /* No user function was supplied */
-        public const int MP_ERR_NPOINTS = -18; /* No user data points were supplied */
-        public const int MP_ERR_NFREE = -19; /* No free parameters */
-        public const int MP_ERR_MEMORY = -20; /* Memory allocation error */
-        public const int MP_ERR_INITBOUNDS = -21; /* Initial values inconsistent w constraints*/
-        public const int MP_ERR_BOUNDS = -22; /* Initial constraints inconsistent */
-        public const int MP_ERR_PARAM = -23; /* General input parameter error */
-        public const int MP_ERR_DOF = -24; /* Not enough degrees of freedom */
+        public const int MpErrNan = -16; /* User function produced non-finite values */
+        public const int MpErrFunc = -17; /* No user function was supplied */
+        public const int MpErrNpoints = -18; /* No user data points were supplied */
+        public const int MpErrNfree = -19; /* No free parameters */
+        public const int MpErrInitbounds = -21; /* Initial values inconsistent w constraints*/
+        public const int MpErrBounds = -22; /* Initial constraints inconsistent */
+        public const int MpErrParam = -23; /* General input parameter error */
+        public const int MpErrDof = -24; /* Not enough degrees of freedom */
 
         /* Potential success status codes */
-        public const int MP_OK_CHI = 1; /* Convergence in chi-square value */
-        public const int MP_OK_PAR = 2; /* Convergence in parameter value */
-        public const int MP_OK_BOTH = 3; /* Both MP_OK_PAR and MP_OK_CHI hold */
-        public const int MP_OK_DIR = 4; /* Convergence in orthogonality */
-        public const int MP_MAXITER = 5; /* Maximum number of iterations reached */
-        public const int MP_FTOL = 6; /* ftol is too small; no further improvement*/
-        public const int MP_XTOL = 7; /* xtol is too small; no further improvement*/
-        public const int MP_GTOL = 8; /* gtol is too small; no further improvement*/
+        public const int MpConvergedChiSquared = 1; /* Convergence in chi-square value */
+        public const int MpConvergedParameter = 2; /* Convergence in parameter value */
+        public const int MpConvergedBoth = 3; /* Both MP_OK_PAR and MP_OK_CHI hold */
+        public const int MpConvergedOrthogonality = 4; /* Convergence in orthogonality */
+        public const int MpMaxIterations = 5; /* Maximum number of iterations reached */
+        public const int MpFtol = 6; /* ftol is too small; no further improvement*/
+        public const int MpXtol = 7; /* xtol is too small; no further improvement*/
+        public const int MpGtol = 8; /* gtol is too small; no further improvement*/
 
 
 #if FLOAT_PRECISION
     /* Float precision */
-        public const float  MP_MACHEP0  =1.19209e-07;
-        public const float  MP_DWARF   = 1.17549e-38;
-        public const float  MP_GIANT   = 3.40282e+38;
-        public const float MP_RDWARF = 1.3278686946331594e-018;
-        public const float MP_RGIANT = 1844673472786071600;
+        const float MP_MACHEP0  =1.19209e-07;
+        const float MP_DWARF   = 1.17549e-38;
+        const float MP_GIANT   = 3.40282e+38;
+        const float MP_RDWARF = 1.3278686946331594e-018;
+        const float MP_RGIANT = 1844673472786071600;
 #else
         /* Double precision numeric constants */
-        public const double MP_MACHEP0 = 2.2204460e-16;
-        public const double MP_DWARF = 2.2250739e-308;
-        public const double MP_GIANT = 1.7976931e+308;
-        public const double MP_RDWARF = 1.8269129289596699331800430554921e-153;
-        public const double MP_RGIANT = 1.3407807799935081109978164571307e+153;
+        const double MP_MACHEP0 = 2.2204460e-16;
+        const double MP_DWARF = 2.2250739e-308;
+        const double MP_GIANT = 1.7976931e+308;
+        const double MP_RDWARF = 1.8269129289596699331800430554921e-153;
+        const double MP_RGIANT = 1.3407807799935081109978164571307e+153;
 #endif
 
         /*    Expand for full description of Solve and lmdif functions
@@ -378,11 +374,11 @@ namespace MathNet.Numerics.Optimization
             conf.stepfactor = 100.0;
             conf.nprint = 1;
             conf.epsfcn = MP_MACHEP0;
-            conf.maxiter = 200;
-            conf.douserscale = 0;
-            conf.maxfev = 0;
+            conf.MaxIterations = 200;
+            conf.DoUserScale = 0;
+            conf.MaxEvaluations = 0;
             conf.covtol = 1e-14;
-            conf.nofinitecheck = 0;
+            conf.NoFiniteCheck = 0;
 
             if (config != null)
             {
@@ -393,11 +389,11 @@ namespace MathNet.Numerics.Optimization
                 if (config.stepfactor > 0) conf.stepfactor = config.stepfactor;
                 if (config.nprint >= 0) conf.nprint = config.nprint;
                 if (config.epsfcn > 0) conf.epsfcn = config.epsfcn;
-                if (config.maxiter > 0) conf.maxiter = config.maxiter;
-                if (config.douserscale != 0) conf.douserscale = config.douserscale;
+                if (config.MaxIterations > 0) conf.MaxIterations = config.MaxIterations;
+                if (config.DoUserScale != 0) conf.DoUserScale = config.DoUserScale;
                 if (config.covtol > 0) conf.covtol = config.covtol;
-                if (config.nofinitecheck > 0) conf.nofinitecheck = config.nofinitecheck;
-                conf.maxfev = config.maxfev;
+                if (config.NoFiniteCheck > 0) conf.NoFiniteCheck = config.NoFiniteCheck;
+                conf.MaxEvaluations = config.MaxEvaluations;
             }
 
             info = 0;
@@ -407,17 +403,17 @@ namespace MathNet.Numerics.Optimization
 
             if (funct == null)
             {
-                return MP_ERR_FUNC;
+                return MpErrFunc;
             }
 
             if ((m <= 0) || (xall == null))
             {
-                return MP_ERR_NPOINTS;
+                return MpErrNpoints;
             }
 
             if (npar <= 0)
             {
-                return MP_ERR_NFREE;
+                return MpErrNfree;
             }
 
             fnorm = -1.0;
@@ -469,7 +465,7 @@ namespace MathNet.Numerics.Optimization
             }
             if (nfree == 0)
             {
-                info = MP_ERR_NFREE;
+                info = MpErrNfree;
                 return info;
             }
 
@@ -481,7 +477,7 @@ namespace MathNet.Numerics.Optimization
                         (pars[i].limited[0] != 0 && (xall[i] < pars[i].limits[0])) ||
                         (pars[i].limited[1] != 0 && (xall[i] > pars[i].limits[1])))
                     {
-                        info = MP_ERR_INITBOUNDS;
+                        info = MpErrInitbounds;
                         return info;
                     }
                     if ((pars[i].isFixed != 0) &&
@@ -489,7 +485,7 @@ namespace MathNet.Numerics.Optimization
                         (pars[i].limited[1] != 0) &&
                         (pars[i].limits[0] >= pars[i].limits[1]))
                     {
-                        info = MP_ERR_BOUNDS;
+                        info = MpErrBounds;
                         return info;
                     }
                 }
@@ -514,17 +510,17 @@ namespace MathNet.Numerics.Optimization
 
             /* Sanity checking on input configuration */
             if ((npar <= 0) || (conf.ftol <= 0) || (conf.xtol <= 0) ||
-                (conf.gtol <= 0) || (conf.maxiter < 0) ||
+                (conf.gtol <= 0) || (conf.MaxIterations < 0) ||
                 (conf.stepfactor <= 0))
             {
-                info = MP_ERR_PARAM;
+                info = MpErrParam;
                 return info;
             }
 
             /* Ensure there are some degrees of freedom */
             if (m < nfree)
             {
-                info = MP_ERR_DOF;
+                info = MpErrDof;
                 return info;
             }
 
@@ -635,7 +631,7 @@ namespace MathNet.Numerics.Optimization
              */
             if (iter == 1)
             {
-                if (conf.douserscale == 0)
+                if (conf.DoUserScale == 0)
                 {
                     for (j = 0; j < nfree; j++)
                     {
@@ -698,7 +694,7 @@ namespace MathNet.Numerics.Optimization
 
             /* ( From this point on, only the square matrix, consisting of the
                triangle of R, is needed.) */
-            if (conf.nofinitecheck != 0)
+            if (conf.NoFiniteCheck != 0)
             {
                 /* Check for overflow.  This should be a cheap test here since FJAC
                    has been reduced to a (small) square matrix, and the test is
@@ -719,7 +715,7 @@ namespace MathNet.Numerics.Optimization
 
                 if (nonfinite != 0)
                 {
-                    info = MP_ERR_NAN;
+                    info = MpErrNan;
                     return info;
                 }
             }
@@ -752,14 +748,14 @@ namespace MathNet.Numerics.Optimization
             /*
              *	 test for convergence of the gradient norm.
              */
-            if (gnorm <= conf.gtol) info = MP_OK_DIR;
+            if (gnorm <= conf.gtol) info = MpConvergedOrthogonality;
             if (info != 0) goto L300;
-            if (conf.maxiter == 0) goto L300;
+            if (conf.MaxIterations == 0) goto L300;
 
             /*
              *	 rescale if necessary.
              */
-            if (conf.douserscale == 0)
+            if (conf.DoUserScale == 0)
             {
                 for (j = 0; j < nfree; j++)
                 {
@@ -984,16 +980,16 @@ namespace MathNet.Numerics.Optimization
             if ((Math.Abs(actred) <= conf.ftol) && (prered <= conf.ftol) &&
                 (p5*ratio <= one))
             {
-                info = MP_OK_CHI;
+                info = MpConvergedChiSquared;
             }
             if (delta <= conf.xtol*xnorm)
             {
-                info = MP_OK_PAR;
+                info = MpConvergedParameter;
             }
             if ((Math.Abs(actred) <= conf.ftol) && (prered <= conf.ftol) && (p5*ratio <= one)
                 && (info == 2))
             {
-                info = MP_OK_BOTH;
+                info = MpConvergedBoth;
             }
             if (info != 0)
             {
@@ -1003,27 +999,27 @@ namespace MathNet.Numerics.Optimization
             /*
              *	    tests for termination and stringent tolerances.
              */
-            if ((conf.maxfev > 0) && (nfev >= conf.maxfev))
+            if ((conf.MaxEvaluations > 0) && (nfev >= conf.MaxEvaluations))
             {
                 /* Too many function evaluations */
-                info = MP_MAXITER;
+                info = MpMaxIterations;
             }
-            if (iter >= conf.maxiter)
+            if (iter >= conf.MaxIterations)
             {
                 /* Too many iterations */
-                info = MP_MAXITER;
+                info = MpMaxIterations;
             }
             if ((Math.Abs(actred) <= MP_MACHEP0) && (prered <= MP_MACHEP0) && (p5*ratio <= one))
             {
-                info = MP_FTOL;
+                info = MpFtol;
             }
             if (delta <= MP_MACHEP0*xnorm)
             {
-                info = MP_XTOL;
+                info = MpXtol;
             }
             if (gnorm <= MP_MACHEP0)
             {
-                info = MP_GTOL;
+                info = MpGtol;
             }
             if (info != 0)
             {
@@ -1074,35 +1070,35 @@ namespace MathNet.Numerics.Optimization
                 }
 
             /* Compute and return the covariance matrix and/or parameter errors */
-            if (result != null && (result.covar != null || result.xerror != null))
+            if (result != null && (result.FinalParameterCovarianceMatrix != null || result.FinalparameterUncertainties != null))
             {
                 mp_covar(nfree, fjac, ldfjac, ipvt, conf.covtol, wa2);
 
-                if (result.covar != null)
+                if (result.FinalParameterCovarianceMatrix != null)
                 {
                     /* Zero the destination covariance array */
-                    for (j = 0; j < (npar*npar); j++) result.covar[j] = 0;
+                    for (j = 0; j < (npar*npar); j++) result.FinalParameterCovarianceMatrix[j] = 0;
 
                     /* Transfer the covariance array */
                     for (j = 0; j < nfree; j++)
                     {
                         for (i = 0; i < nfree; i++)
                         {
-                            result.covar[ifree[j]*npar + ifree[i]] = fjac[j*ldfjac + i];
+                            result.FinalParameterCovarianceMatrix[ifree[j]*npar + ifree[i]] = fjac[j*ldfjac + i];
                         }
                     }
                 }
 
-                if (result.xerror != null)
+                if (result.FinalparameterUncertainties != null)
                 {
-                    for (j = 0; j < npar; j++) result.xerror[j] = 0;
+                    for (j = 0; j < npar; j++) result.FinalparameterUncertainties[j] = 0;
 
                     for (j = 0; j < nfree; j++)
                     {
                         double cc = fjac[j*ldfjac + j];
                         if (cc > 0)
                         {
-                            result.xerror[ifree[j]] = Math.Sqrt(cc);
+                            result.FinalparameterUncertainties[ifree[j]] = Math.Sqrt(cc);
                         }
                     }
                 }
@@ -1110,22 +1106,21 @@ namespace MathNet.Numerics.Optimization
 
             if (result != null)
             {
-                result.version = MPFIT_VERSION;
-                result.bestnorm = mp_dmax1(fnorm, fnorm1);
-                result.bestnorm *= result.bestnorm;
-                result.orignorm = orignorm;
-                result.status = info;
-                result.niter = iter;
-                result.nfev = nfev;
-                result.npar = npar;
-                result.nfree = nfree;
-                result.npegged = npegged;
-                result.nfunc = m;
+                result.BestNorm = mp_dmax1(fnorm, fnorm1);
+                result.BestNorm *= result.BestNorm;
+                result.OriginalNorm = orignorm;
+                result.Status = info;
+                result.Iterations = iter;
+                result.Evaluations = nfev;
+                result.ParameterCount = npar;
+                result.FreeParameterCount = nfree;
+                result.PeggedParameterCount = npegged;
+                result.ResidualCount = m;
 
                 /* Copy residuals if requested */
-                if (result.resid != null)
+                if (result.FinalResiduals != null)
                 {
-                    for (j = 0; j < m; j++) result.resid[j] = fvec[j];
+                    for (j = 0; j < m; j++) result.FinalResiduals[j] = fvec[j];
                 }
             }
 
@@ -2428,15 +2423,6 @@ namespace MathNet.Numerics.Optimization
              * form the inverse of r in the full upper triangle of r.
              */
 
-#if IF0
-          for (j=0; j<n; j++) {
-            for (i=0; i<n; i++) {
-              Console.Write("{0} ", r[j*ldr+i]);
-            }
-            Console.Write("\n");
-          }
-#endif
-
             tolr = tol*Math.Abs(r[0]);
             l = -1;
             for (k = 0; k < n; k++)
@@ -2525,15 +2511,6 @@ namespace MathNet.Numerics.Optimization
                 }
                 r[j0 + j] = wa[j];
             }
-
-#if IF0
-          for (j=0; j<n; j++) {
-            for (i=0; i<n; i++) {
-              Console.Write("%f ", r[j*ldr+i]);
-            }
-            Console.Write("\n");
-          }
-#endif
 
             return 0;
         }

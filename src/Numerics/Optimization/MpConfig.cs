@@ -59,7 +59,7 @@ namespace MathNet.Numerics.Optimization
         /// <summary>Initial step bound</summary>
         public double stepfactor;
 
-        /// <summary>Range tolerance for covariance calcu</summary>
+        /// <summary>Range tolerance for covariance</summary>
         public double covtol;
 
         /// <summary>
@@ -68,10 +68,10 @@ namespace MathNet.Numerics.Optimization
         /// errors/covariances are estimated based on input
         /// parameter values, but no fitting iterations are done.
         /// </summary>
-        public int maxiter;
+        public int MaxIterations;
 
         /// <summary>Maximum number of function evaluations</summary>
-        public int maxfev;
+        public int MaxEvaluations;
 
         /// <summary></summary>
         public int nprint;
@@ -81,16 +81,13 @@ namespace MathNet.Numerics.Optimization
         /// 1 = yes, user scale values in diag;
         /// 0 = no, variables scaled internally
         /// </summary>
-        public int douserscale;
+        public int DoUserScale;
 
         /// <summary>
         /// Disable check for infinite quantities from user?
         /// 0 = do not perform check
         /// 1 = perform check
         /// </summary>
-        public int nofinitecheck;
-
-        // /// <summary>Placeholder pointer - must set to 0</summary>
-        //mp_iterproc iterproc;
+        public int NoFiniteCheck;
     }
 }

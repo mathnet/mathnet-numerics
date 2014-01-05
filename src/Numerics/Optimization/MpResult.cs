@@ -48,47 +48,44 @@ namespace MathNet.Numerics.Optimization
     public class MpResult
     {
         /// <summary>Final chi^2</summary>
-        public double bestnorm;
+        public double BestNorm;
 
         /// <summary>Starting value of chi^2</summary>
-        public double orignorm;
+        public double OriginalNorm;
 
         /// <summary>Number of iterations</summary>
-        public int niter;
+        public int Iterations;
 
         /// <summary>Number of function evaluations</summary>
-        public int nfev;
+        public int Evaluations;
 
         /// <summary>Fitting status code</summary>
-        public int status;
+        public int Status;
 
         /// <summary>Total number of parameters</summary>
-        public int npar;
+        public int ParameterCount;
 
         /// <summary>Number of free parameters</summary>
-        public int nfree;
+        public int FreeParameterCount;
 
         /// <summary>Number of pegged parameters</summary>
-        public int npegged;
+        public int PeggedParameterCount;
 
         /// <summary>Number of residuals (= num. of data points)</summary>
-        public int nfunc;
+        public int ResidualCount;
 
         /// <summary>Final residuals nfunc-vector, or 0 if not desired</summary>
-        public double[] resid;
+        public double[] FinalResiduals;
 
         /// <summary>Final parameter uncertainties (1-sigma) npar-vector, or 0 if not desired</summary>
-        public double[] xerror;
+        public double[] FinalparameterUncertainties;
 
         /// <summary>Final parameter covariance matrix npar x npar array, or 0 if not desired</summary>
-        public double[] covar;
-
-        /// <summary>MPFIT version string</summary>
-        public string version;
+        public double[] FinalParameterCovarianceMatrix;
 
         public MpResult(int numParameters)
         {
-            xerror = new double[numParameters];
+            FinalparameterUncertainties = new double[numParameters];
         }
     }
 }

@@ -331,27 +331,27 @@ namespace MathNet.Numerics.UnitTests.OptimizationTests
             if (x == null) return;
 
             Console.Write("  CHI-SQUARE = {0}    ({1} DOF)\n",
-                result.bestnorm, result.nfunc - result.nfree);
-            Console.Write("        NPAR = {0}\n", result.npar);
-            Console.Write("       NFREE = {0}\n", result.nfree);
-            Console.Write("     NPEGGED = {0}\n", result.npegged);
-            Console.Write("       NITER = {0}\n", result.niter);
-            Console.Write("        NFEV = {0}\n", result.nfev);
+                result.BestNorm, result.ResidualCount - result.FreeParameterCount);
+            Console.Write("        NPAR = {0}\n", result.ParameterCount);
+            Console.Write("       NFREE = {0}\n", result.FreeParameterCount);
+            Console.Write("     NPEGGED = {0}\n", result.PeggedParameterCount);
+            Console.Write("       NITER = {0}\n", result.Iterations);
+            Console.Write("        NFEV = {0}\n", result.Evaluations);
             Console.Write("\n");
             if (xact != null)
             {
-                for (i = 0; i < result.npar; i++)
+                for (i = 0; i < result.ParameterCount; i++)
                 {
                     Console.Write("  P[{0}] = {1} +/- {2}     (ACTUAL {3})\n",
-                        i, x[i], result.xerror[i], xact[i]);
+                        i, x[i], result.FinalparameterUncertainties[i], xact[i]);
                 }
             }
             else
             {
-                for (i = 0; i < result.npar; i++)
+                for (i = 0; i < result.ParameterCount; i++)
                 {
                     Console.Write("  P[{0}] = {1} +/- {2}\n",
-                        i, x[i], result.xerror[i]);
+                        i, x[i], result.FinalparameterUncertainties[i]);
                 }
             }
         }

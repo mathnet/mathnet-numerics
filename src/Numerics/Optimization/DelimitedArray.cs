@@ -61,7 +61,7 @@ namespace MathNet.Numerics.Optimization
     {
         int _offset;
         int _count;
-        T[] _array;
+        readonly T[] _array;
 
         public DelimitedArray(T[] array, int offset, int count)
         {
