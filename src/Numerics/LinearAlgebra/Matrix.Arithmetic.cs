@@ -178,18 +178,36 @@ namespace MathNet.Numerics.LinearAlgebra
         protected abstract void DoDivideByThis(T dividend, Matrix<T> result);
 
         /// <summary>
-        /// Computes the modulus for the given divisor each element of the matrix.
+        /// Computes the canonical modulus, where the result has the sign of the divisor,
+        /// for the given divisor each element of the matrix.
         /// </summary>
         /// <param name="divisor">The scalar denominator to use.</param>
         /// <param name="result">Matrix to store the results in.</param>
         protected abstract void DoModulus(T divisor, Matrix<T> result);
 
         /// <summary>
-        /// Computes the modulus for the given dividend for each element of the matrix.
+        /// Computes the canonical modulus, where the result has the sign of the divisor,
+        /// for the given dividend for each element of the matrix.
         /// </summary>
         /// <param name="dividend">The scalar numerator to use.</param>
         /// <param name="result">A vector to store the results in.</param>
         protected abstract void DoModulusByThis(T dividend, Matrix<T> result);
+
+        /// <summary>
+        /// Computes the remainder (% operator), where the result has the sign of the dividend,
+        /// for the given divisor each element of the matrix.
+        /// </summary>
+        /// <param name="divisor">The scalar denominator to use.</param>
+        /// <param name="result">Matrix to store the results in.</param>
+        protected abstract void DoRemainder(T divisor, Matrix<T> result);
+
+        /// <summary>
+        /// Computes the remainder (% operator), where the result has the sign of the dividend,
+        /// for the given dividend for each element of the matrix.
+        /// </summary>
+        /// <param name="dividend">The scalar numerator to use.</param>
+        /// <param name="result">A vector to store the results in.</param>
+        protected abstract void DoRemainderByThis(T dividend, Matrix<T> result);
 
         /// <summary>
         /// Pointwise multiplies this matrix with another matrix and stores the result into the result matrix.
@@ -206,11 +224,20 @@ namespace MathNet.Numerics.LinearAlgebra
         protected abstract void DoPointwiseDivide(Matrix<T> divisor, Matrix<T> result);
 
         /// <summary>
-        /// Pointwise modulus this matrix with another matrix and stores the result into the result matrix.
+        /// Pointwise canonical modulus, where the result has the sign of the divisor,
+        /// of this matrix with another matrix and stores the result into the result matrix.
         /// </summary>
         /// <param name="divisor">The pointwise denominator matrix to use</param>
         /// <param name="result">The result of the modulus.</param>
         protected abstract void DoPointwiseModulus(Matrix<T> divisor, Matrix<T> result);
+
+        /// <summary>
+        /// Pointwise remainder (% operator), where the result has the sign of the dividend,
+        /// of this matrix with another matrix and stores the result into the result matrix.
+        /// </summary>
+        /// <param name="divisor">The pointwise denominator matrix to use</param>
+        /// <param name="result">The result of the modulus.</param>
+        protected abstract void DoPointwiseRemainder(Matrix<T> divisor, Matrix<T> result);
 
         /// <summary>
         /// Adds a scalar to each element of the matrix.
@@ -1020,7 +1047,8 @@ namespace MathNet.Numerics.LinearAlgebra
         }
 
         /// <summary>
-        /// Computes the modulus (matrix % divisor) for each element of the matrix.
+        /// Computes the canonical modulus, where the result has the sign of the divisor,
+        /// for each element of the matrix.
         /// </summary>
         /// <param name="divisor">The scalar denominator to use.</param>
         /// <returns>A matrix containing the results.</returns>
@@ -1032,7 +1060,8 @@ namespace MathNet.Numerics.LinearAlgebra
         }
 
         /// <summary>
-        /// Computes the modulus (matrix % divisor) for each element of the matrix.
+        /// Computes the canonical modulus, where the result has the sign of the divisor,
+        /// for each element of the matrix.
         /// </summary>
         /// <param name="divisor">The scalar denominator to use.</param>
         /// <param name="result">Matrix to store the results in.</param>
@@ -1047,7 +1076,8 @@ namespace MathNet.Numerics.LinearAlgebra
         }
 
         /// <summary>
-        /// Computes the modulus (dividend % matrix) for each element of the matrix.
+        /// Computes the canonical modulus, where the result has the sign of the divisor,
+        /// for each element of the matrix.
         /// </summary>
         /// <param name="dividend">The scalar numerator to use.</param>
         /// <returns>A matrix containing the results.</returns>
@@ -1059,7 +1089,8 @@ namespace MathNet.Numerics.LinearAlgebra
         }
 
         /// <summary>
-        /// Computes the modulus (dividend % matrix) for each element of the matrix.
+        /// Computes the canonical modulus, where the result has the sign of the divisor,
+        /// for each element of the matrix.
         /// </summary>
         /// <param name="dividend">The scalar numerator to use.</param>
         /// <param name="result">Matrix to store the results in.</param>
@@ -1071,6 +1102,64 @@ namespace MathNet.Numerics.LinearAlgebra
             }
 
             DoModulusByThis(dividend, result);
+        }
+
+        /// <summary>
+        /// Computes the remainder (matrix % divisor), where the result has the sign of the dividend,
+        /// for each element of the matrix.
+        /// </summary>
+        /// <param name="divisor">The scalar denominator to use.</param>
+        /// <returns>A matrix containing the results.</returns>
+        public Matrix<T> Remainder(T divisor)
+        {
+            var result = Build.SameAs(this);
+            DoRemainder(divisor, result);
+            return result;
+        }
+
+        /// <summary>
+        /// Computes the remainder (matrix % divisor), where the result has the sign of the dividend,
+        /// for each element of the matrix.
+        /// </summary>
+        /// <param name="divisor">The scalar denominator to use.</param>
+        /// <param name="result">Matrix to store the results in.</param>
+        public void Remainder(T divisor, Matrix<T> result)
+        {
+            if (ColumnCount != result.ColumnCount || RowCount != result.RowCount)
+            {
+                throw DimensionsDontMatch<ArgumentException>(this, result);
+            }
+
+            DoRemainder(divisor, result);
+        }
+
+        /// <summary>
+        /// Computes the remainder (dividend % matrix), where the result has the sign of the dividend,
+        /// for each element of the matrix.
+        /// </summary>
+        /// <param name="dividend">The scalar numerator to use.</param>
+        /// <returns>A matrix containing the results.</returns>
+        public Matrix<T> RemainderByThis(T dividend)
+        {
+            var result = Build.SameAs(this);
+            DoRemainderByThis(dividend, result);
+            return result;
+        }
+
+        /// <summary>
+        /// Computes the remainder (dividend % matrix), where the result has the sign of the dividend,
+        /// for each element of the matrix.
+        /// </summary>
+        /// <param name="dividend">The scalar numerator to use.</param>
+        /// <param name="result">Matrix to store the results in.</param>
+        public void RemainderByThis(T dividend, Matrix<T> result)
+        {
+            if (ColumnCount != result.ColumnCount || RowCount != result.RowCount)
+            {
+                throw DimensionsDontMatch<ArgumentException>(this, result);
+            }
+
+            DoRemainderByThis(dividend, result);
         }
 
         /// <summary>
@@ -1144,11 +1233,11 @@ namespace MathNet.Numerics.LinearAlgebra
         }
 
         /// <summary>
-        /// Pointwise modulus this matrix by another matrix.
+        /// Pointwise canonical modulus, where the result has the sign of the divisor,
+        /// of this matrix by another matrix.
         /// </summary>
         /// <param name="divisor">The pointwise denominator matrix to use.</param>
         /// <exception cref="ArgumentException">If this matrix and <paramref name="divisor"/> are not the same size.</exception>
-        /// <returns>A new matrix that is the pointwise modulus of this matrix and <paramref name="divisor"/>.</returns>
         public Matrix<T> PointwiseModulus(Matrix<T> divisor)
         {
             if (ColumnCount != divisor.ColumnCount || RowCount != divisor.RowCount)
@@ -1162,7 +1251,8 @@ namespace MathNet.Numerics.LinearAlgebra
         }
 
         /// <summary>
-        /// Pointwise modulus this matrix by another matrix and stores the result into the result matrix.
+        /// Pointwise canonical modulus, where the result has the sign of the divisor,
+        /// of this matrix by another matrix and stores the result into the result matrix.
         /// </summary>
         /// <param name="divisor">The pointwise denominator matrix to use.</param>
         /// <param name="result">The matrix to store the result of the pointwise modulus.</param>
@@ -1176,6 +1266,42 @@ namespace MathNet.Numerics.LinearAlgebra
             }
 
             DoPointwiseModulus(divisor, result);
+        }
+
+        /// <summary>
+        /// Pointwise remainder (% operator), where the result has the sign of the dividend,
+        /// of this matrix by another matrix.
+        /// </summary>
+        /// <param name="divisor">The pointwise denominator matrix to use.</param>
+        /// <exception cref="ArgumentException">If this matrix and <paramref name="divisor"/> are not the same size.</exception>
+        public Matrix<T> PointwiseRemainder(Matrix<T> divisor)
+        {
+            if (ColumnCount != divisor.ColumnCount || RowCount != divisor.RowCount)
+            {
+                throw DimensionsDontMatch<ArgumentException>(this, divisor);
+            }
+
+            var result = Build.SameAs(this, divisor);
+            DoPointwiseRemainder(divisor, result);
+            return result;
+        }
+
+        /// <summary>
+        /// Pointwise remainder (% operator), where the result has the sign of the dividend,
+        /// of this matrix by another matrix and stores the result into the result matrix.
+        /// </summary>
+        /// <param name="divisor">The pointwise denominator matrix to use.</param>
+        /// <param name="result">The matrix to store the result of the pointwise remainder.</param>
+        /// <exception cref="ArgumentException">If this matrix and <paramref name="divisor"/> are not the same size.</exception>
+        /// <exception cref="ArgumentException">If this matrix and <paramref name="result"/> are not the same size.</exception>
+        public void PointwiseRemainder(Matrix<T> divisor, Matrix<T> result)
+        {
+            if (ColumnCount != result.ColumnCount || RowCount != result.RowCount || ColumnCount != divisor.ColumnCount || RowCount != divisor.RowCount)
+            {
+                throw DimensionsDontMatch<ArgumentException>(this, divisor, result);
+            }
+
+            DoPointwiseRemainder(divisor, result);
         }
 
         /// <summary>

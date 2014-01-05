@@ -1394,7 +1394,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
                 throw new ArgumentNullException("leftSide");
             }
 
-            return (SparseMatrix)leftSide.Modulus(rightSide);
+            return (SparseMatrix)leftSide.Remainder(rightSide);
         }
 
         public override string ToTypeString()

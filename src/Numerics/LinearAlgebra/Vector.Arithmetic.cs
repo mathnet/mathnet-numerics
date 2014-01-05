@@ -767,7 +767,6 @@ namespace MathNet.Numerics.LinearAlgebra
         /// of this vector with another vector.
         /// </summary>
         /// <param name="divisor">The pointwise denominator vector to use.</param>
-        /// <returns>A new vector which is the pointwise modulus of the two vectors.</returns>
         /// <exception cref="ArgumentException">If this vector and <paramref name="divisor"/> are not the same size.</exception>
         public Vector<T> PointwiseModulus(Vector<T> divisor)
         {
@@ -808,7 +807,6 @@ namespace MathNet.Numerics.LinearAlgebra
         /// of this vector with another vector.
         /// </summary>
         /// <param name="divisor">The pointwise denominator vector to use.</param>
-        /// <returns>A new vector which is the pointwise remainder of the two vectors.</returns>
         /// <exception cref="ArgumentException">If this vector and <paramref name="divisor"/> are not the same size.</exception>
         public Vector<T> PointwiseRemainder(Vector<T> divisor)
         {

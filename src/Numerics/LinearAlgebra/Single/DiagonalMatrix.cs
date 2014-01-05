@@ -882,7 +882,8 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         }
 
         /// <summary>
-        /// Computes the modulus for each element of the matrix.
+        /// Computes the canonical modulus, where the result has the sign of the divisor,
+        /// for the given divisor each element of the matrix.
         /// </summary>
         /// <param name="divisor">The scalar denominator to use.</param>
         /// <param name="result">Matrix to store the results in.</param>
@@ -896,20 +897,21 @@ namespace MathNet.Numerics.LinearAlgebra.Single
             }
 
             CommonParallel.For(0, _data.Length, 4096, (a, b) =>
+            {
+                var r = diagonalResult._data;
+                for (var i = a; i < b; i++)
                 {
-                    var r = diagonalResult._data;
-                    for (var i = a; i < b; i++)
-                    {
-                        r[i] = _data[i]%divisor;
-                    }
-                });
+                    r[i] = Euclid.Modulus(_data[i], divisor);
+                }
+            });
         }
 
         /// <summary>
-        /// Computes the modulus for each element of the matrix.
+        /// Computes the canonical modulus, where the result has the sign of the divisor,
+        /// for the given dividend for each element of the matrix.
         /// </summary>
         /// <param name="dividend">The scalar numerator to use.</param>
-        /// <param name="result">Matrix to store the results in.</param>
+        /// <param name="result">A vector to store the results in.</param>
         protected override void DoModulusByThis(float dividend, Matrix<float> result)
         {
             var diagonalResult = result as DiagonalMatrix;
@@ -920,13 +922,63 @@ namespace MathNet.Numerics.LinearAlgebra.Single
             }
 
             CommonParallel.For(0, _data.Length, 4096, (a, b) =>
+            {
+                var r = diagonalResult._data;
+                for (var i = a; i < b; i++)
                 {
-                    var r = diagonalResult._data;
-                    for (var i = a; i < b; i++)
-                    {
-                        r[i] = dividend%_data[i];
-                    }
-                });
+                    r[i] = Euclid.Modulus(dividend, _data[i]);
+                }
+            });
+        }
+
+        /// <summary>
+        /// Computes the remainder (% operator), where the result has the sign of the dividend,
+        /// for the given divisor each element of the matrix.
+        /// </summary>
+        /// <param name="divisor">The scalar denominator to use.</param>
+        /// <param name="result">Matrix to store the results in.</param>
+        protected override void DoRemainder(float divisor, Matrix<float> result)
+        {
+            var diagonalResult = result as DiagonalMatrix;
+            if (diagonalResult == null)
+            {
+                base.DoRemainder(divisor, result);
+                return;
+            }
+
+            CommonParallel.For(0, _data.Length, 4096, (a, b) =>
+            {
+                var r = diagonalResult._data;
+                for (var i = a; i < b; i++)
+                {
+                    r[i] = _data[i]%divisor;
+                }
+            });
+        }
+
+        /// <summary>
+        /// Computes the remainder (% operator), where the result has the sign of the dividend,
+        /// for the given dividend for each element of the matrix.
+        /// </summary>
+        /// <param name="dividend">The scalar numerator to use.</param>
+        /// <param name="result">A vector to store the results in.</param>
+        protected override void DoRemainderByThis(float dividend, Matrix<float> result)
+        {
+            var diagonalResult = result as DiagonalMatrix;
+            if (diagonalResult == null)
+            {
+                base.DoRemainderByThis(dividend, result);
+                return;
+            }
+
+            CommonParallel.For(0, _data.Length, 4096, (a, b) =>
+            {
+                var r = diagonalResult._data;
+                for (var i = a; i < b; i++)
+                {
+                    r[i] = dividend%_data[i];
+                }
+            });
         }
     }
 }

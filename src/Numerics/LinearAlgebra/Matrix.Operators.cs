@@ -239,7 +239,8 @@ namespace MathNet.Numerics.LinearAlgebra
         }
 
         /// <summary>
-        /// Computes the modulus of each element of the matrix of the given divisor.
+        /// Computes the pointwise remainder (% operator), where the result has the sign of the dividend,
+        /// of each element of the matrix of the given divisor.
         /// </summary>
         /// <param name="dividend">The matrix whose elements we want to compute the modulus of.</param>
         /// <param name="divisor">The divisor to use.</param>
@@ -247,11 +248,12 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <exception cref="ArgumentNullException">If <paramref name="dividend"/> is <see langword="null" />.</exception>
         public static Matrix<T> operator %(Matrix<T> dividend, T divisor)
         {
-            return dividend.Modulus(divisor);
+            return dividend.Remainder(divisor);
         }
 
         /// <summary>
-        /// Computes the modulus of the given dividend of each element of the matrix.
+        /// Computes the pointwise remainder (% operator), where the result has the sign of the dividend,
+        /// of the given dividend of each element of the matrix.
         /// </summary>
         /// <param name="dividend">The dividend we want to compute the modulus of.</param>
         /// <param name="divisor">The matrix whose elements we want to use as divisor.</param>
@@ -259,20 +261,20 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <exception cref="ArgumentNullException">If <paramref name="divisor"/> is <see langword="null" />.</exception>
         public static Matrix<T> operator %(T dividend, Matrix<T> divisor)
         {
-            return divisor.ModulusByThis(dividend);
+            return divisor.RemainderByThis(dividend);
         }
 
         /// <summary>
-        /// Computes the pointwise modulus of each element of two matrices.
+        /// Computes the pointwise remainder (% operator), where the result has the sign of the dividend,
+        /// of each element of two matrices.
         /// </summary>
-        /// <param name="dividend">The matrix whose elements we want to compute the modulus of.</param>
+        /// <param name="dividend">The matrix whose elements we want to compute the remainder of.</param>
         /// <param name="divisor">The divisor to use.</param>
-        /// <returns>The result of the calculation</returns>
         /// <exception cref="ArgumentException">If <paramref name="dividend"/> and <paramref name="divisor"/> are not the same size.</exception>
         /// <exception cref="ArgumentNullException">If <paramref name="dividend"/> is <see langword="null" />.</exception>
         public static Matrix<T> operator %(Matrix<T> dividend, Matrix<T> divisor)
         {
-            return dividend.PointwiseModulus(divisor);
+            return dividend.PointwiseRemainder(divisor);
         }
 
         [SpecialName]
@@ -288,9 +290,9 @@ namespace MathNet.Numerics.LinearAlgebra
         }
 
         [SpecialName]
-        public static Vector<T> op_DotPercent(Vector<T> dividend, Vector<T> divisor)
+        public static Matrix<T> op_DotPercent(Matrix<T> dividend, Matrix<T> divisor)
         {
-            return dividend.PointwiseModulus(divisor);
+            return dividend.PointwiseRemainder(divisor);
         }
     }
 }

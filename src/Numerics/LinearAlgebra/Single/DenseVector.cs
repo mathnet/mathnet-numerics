@@ -493,7 +493,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
             var dense = result as DenseVector;
             if (dense == null)
             {
-                base.DoModulus(divisor, result);
+                base.DoRemainder(divisor, result);
             }
             else
             {

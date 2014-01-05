@@ -1261,7 +1261,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
                 throw new ArgumentNullException("leftSide");
             }
 
-            return (DenseMatrix)leftSide.Modulus(rightSide);
+            return (DenseMatrix)leftSide.Remainder(rightSide);
         }
 
         public override Cholesky<Complex> Cholesky()

@@ -1003,74 +1003,104 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
             Assert.Throws<ArgumentException>(() => matrix.Trace());
         }
 
-        /// <summary>
-        /// Can compute the modules of each element of vector.
-        /// </summary>
         [Test]
-        public void CanComputeModulus()
+        public void CanComputeRemainderUsingOperator()
         {
             var matrix = TestMatrices["Square3x3"];
-            var mod = matrix.Modulus(3.2f);
+            var mod = matrix%(-3.2f);
             for (var row = 0; row < matrix.RowCount; row++)
             {
                 for (var column = 0; column < matrix.ColumnCount; column++)
                 {
-                    AssertHelpers.AlmostEqual(matrix[row, column] % 3.2f, mod[row, column], 6);
+                    AssertHelpers.AlmostEqual(Euclid.Remainder(matrix[row, column], -3.2f), mod[row, column], 14);
                 }
             }
         }
 
-        /// <summary>
-        /// Can compute the modules of each element of vector using a result vector.
-        /// </summary>
+        [Test]
+        public void CanComputeRemainder()
+        {
+            var matrix = TestMatrices["Square3x3"];
+            var mod = matrix.Remainder(-3.2f);
+            for (var row = 0; row < matrix.RowCount; row++)
+            {
+                for (var column = 0; column < matrix.ColumnCount; column++)
+                {
+                    AssertHelpers.AlmostEqual(Euclid.Remainder(matrix[row, column], -3.2f), mod[row, column], 14);
+                }
+            }
+        }
+
+        [Test]
+        public void CanComputeRemainderUsingResultVector()
+        {
+            var matrix = TestMatrices["Square3x3"];
+            var mod = CreateMatrix(matrix.RowCount, matrix.ColumnCount);
+            matrix.Remainder(-3.2f, mod);
+            for (var row = 0; row < matrix.RowCount; row++)
+            {
+                for (var column = 0; column < matrix.ColumnCount; column++)
+                {
+                    AssertHelpers.AlmostEqual(Euclid.Remainder(matrix[row, column], -3.2f), mod[row, column], 14);
+                }
+            }
+        }
+
+        [Test]
+        public void CanComputeRemainderUsingSameResultVector()
+        {
+            var matrix = TestMatrices["Square3x3"].Clone();
+            matrix.Remainder(-3.2f, matrix);
+            var data = TestMatrices["Square3x3"];
+            for (var row = 0; row < matrix.RowCount; row++)
+            {
+                for (var column = 0; column < matrix.ColumnCount; column++)
+                {
+                    AssertHelpers.AlmostEqual(Euclid.Remainder(data[row, column], -3.2f), matrix[row, column], 14);
+                }
+            }
+        }
+
+        [Test]
+        public void CanComputeModulus()
+        {
+            var matrix = TestMatrices["Square3x3"];
+            var mod = matrix.Modulus(-3.2f);
+            for (var row = 0; row < matrix.RowCount; row++)
+            {
+                for (var column = 0; column < matrix.ColumnCount; column++)
+                {
+                    AssertHelpers.AlmostEqual(Euclid.Modulus(matrix[row, column], -3.2f), mod[row, column], 14);
+                }
+            }
+        }
+
         [Test]
         public void CanComputeModulusUsingResultVector()
         {
             var matrix = TestMatrices["Square3x3"];
             var mod = CreateMatrix(matrix.RowCount, matrix.ColumnCount);
-            matrix.Modulus(3.2f, mod);
-
+            matrix.Modulus(-3.2f, mod);
             for (var row = 0; row < matrix.RowCount; row++)
             {
                 for (var column = 0; column < matrix.ColumnCount; column++)
                 {
-                    AssertHelpers.AlmostEqual(matrix[row, column] % 3.2f, mod[row, column], 6);
+                    AssertHelpers.AlmostEqual(Euclid.Modulus(matrix[row, column], -3.2f), mod[row, column], 14);
                 }
             }
         }
 
-        /// <summary>
-        /// Can compute the modules of each element of vector using a result vector.
-        /// </summary>
         [Test]
         public void CanComputeModulusUsingSameResultVector()
         {
             var matrix = TestMatrices["Square3x3"].Clone();
-            matrix.Modulus(3.2f, matrix);
+            matrix.Modulus(-3.2f, matrix);
             var data = TestMatrices["Square3x3"];
-
             for (var row = 0; row < matrix.RowCount; row++)
             {
                 for (var column = 0; column < matrix.ColumnCount; column++)
                 {
-                    AssertHelpers.AlmostEqual(data[row, column] % 3.2f, matrix[row, column], 6);
-                }
-            }
-        }
-
-        /// <summary>
-        /// Can compute the modules of each element of vector using the operator %.
-        /// </summary>
-        [Test]
-        public void CanComputeModulusUsingOperator()
-        {
-            var matrix = TestMatrices["Square3x3"];
-            var mod = matrix % 3.2f;
-            for (var row = 0; row < matrix.RowCount; row++)
-            {
-                for (var column = 0; column < matrix.ColumnCount; column++)
-                {
-                    AssertHelpers.AlmostEqual(matrix[row, column] % 3.2f, mod[row, column], 6);
+                    AssertHelpers.AlmostEqual(Euclid.Modulus(data[row, column], -3.2f), matrix[row, column], 14);
                 }
             }
         }

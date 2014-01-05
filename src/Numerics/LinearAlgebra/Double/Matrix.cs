@@ -100,7 +100,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
         /// <summary>
         /// Returns the conjugate transpose of this matrix.
-        /// </summary>        
+        /// </summary>
         /// <returns>The conjugate transpose of this matrix.</returns>
         public override sealed Matrix<double> ConjugateTranspose()
         {
@@ -376,11 +376,46 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         }
 
         /// <summary>
-        /// Computes the modulus for each element of the matrix.
+        /// Computes the canonical modulus, where the result has the sign of the divisor,
+        /// for the given divisor each element of the matrix.
         /// </summary>
         /// <param name="divisor">The scalar denominator to use.</param>
         /// <param name="result">Matrix to store the results in.</param>
         protected override void DoModulus(double divisor, Matrix<double> result)
+        {
+            for (var row = 0; row < RowCount; row++)
+            {
+                for (var column = 0; column < ColumnCount; column++)
+                {
+                    result.At(row, column, Euclid.Modulus(At(row, column), divisor));
+                }
+            }
+        }
+
+        /// <summary>
+        /// Computes the canonical modulus, where the result has the sign of the divisor,
+        /// for the given dividend for each element of the matrix.
+        /// </summary>
+        /// <param name="dividend">The scalar numerator to use.</param>
+        /// <param name="result">A vector to store the results in.</param>
+        protected override void DoModulusByThis(double dividend, Matrix<double> result)
+        {
+            for (var row = 0; row < RowCount; row++)
+            {
+                for (var column = 0; column < ColumnCount; column++)
+                {
+                    result.At(row, column, Euclid.Modulus(dividend, At(row, column)));
+                }
+            }
+        }
+
+        /// <summary>
+        /// Computes the remainder (% operator), where the result has the sign of the dividend,
+        /// for the given divisor each element of the matrix.
+        /// </summary>
+        /// <param name="divisor">The scalar denominator to use.</param>
+        /// <param name="result">Matrix to store the results in.</param>
+        protected override void DoRemainder(double divisor, Matrix<double> result)
         {
             for (var row = 0; row < RowCount; row++)
             {
@@ -392,11 +427,12 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         }
 
         /// <summary>
-        /// Computes the modulus for each element of the matrix.
+        /// Computes the remainder (% operator), where the result has the sign of the dividend,
+        /// for the given dividend for each element of the matrix.
         /// </summary>
         /// <param name="dividend">The scalar numerator to use.</param>
-        /// <param name="result">Matrix to store the results in.</param>
-        protected override void DoModulusByThis(double dividend, Matrix<double> result)
+        /// <param name="result">A vector to store the results in.</param>
+        protected override void DoRemainderByThis(double dividend, Matrix<double> result)
         {
             for (var row = 0; row < RowCount; row++)
             {
@@ -440,11 +476,29 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         }
 
         /// <summary>
-        /// Pointwise modulus this matrix with another matrix and stores the result into the result matrix.
+        /// Pointwise canonical modulus, where the result has the sign of the divisor,
+        /// of this matrix with another matrix and stores the result into the result matrix.
         /// </summary>
         /// <param name="divisor">The pointwise denominator matrix to use</param>
         /// <param name="result">The result of the modulus.</param>
         protected override void DoPointwiseModulus(Matrix<double> divisor, Matrix<double> result)
+        {
+            for (var j = 0; j < ColumnCount; j++)
+            {
+                for (var i = 0; i < RowCount; i++)
+                {
+                    result.At(i, j, Euclid.Modulus(At(i, j), divisor.At(i, j)));
+                }
+            }
+        }
+
+        /// <summary>
+        /// Pointwise remainder (% operator), where the result has the sign of the dividend,
+        /// of this matrix with another matrix and stores the result into the result matrix.
+        /// </summary>
+        /// <param name="divisor">The pointwise denominator matrix to use</param>
+        /// <param name="result">The result of the modulus.</param>
+        protected override void DoPointwiseRemainder(Matrix<double> divisor, Matrix<double> result)
         {
             for (var j = 0; j < ColumnCount; j++)
             {

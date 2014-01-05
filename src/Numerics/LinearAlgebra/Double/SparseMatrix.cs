@@ -1129,9 +1129,10 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         }
 
         /// <summary>
-        /// Computes the modulus for each element of the matrix.
+        /// Computes the canonical modulus, where the result has the sign of the divisor,
+        /// for the given divisor each element of the matrix.
         /// </summary>
-        /// <param name="divisor">The divisor to use.</param>
+        /// <param name="divisor">The scalar denominator to use.</param>
         /// <param name="result">Matrix to store the results in.</param>
         protected override void DoModulus(double divisor, Matrix<double> result)
         {
@@ -1139,6 +1140,33 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             if (sparseResult == null)
             {
                 base.DoModulus(divisor, result);
+                return;
+            }
+
+            if (!ReferenceEquals(this, result))
+            {
+                CopyTo(result);
+            }
+
+            var resultStorage = sparseResult._storage;
+            for (var index = 0; index < resultStorage.Values.Length; index++)
+            {
+                resultStorage.Values[index] = Euclid.Modulus(resultStorage.Values[index], divisor);
+            }
+        }
+
+        /// <summary>
+        /// Computes the remainder (% operator), where the result has the sign of the dividend,
+        /// for the given divisor each element of the matrix.
+        /// </summary>
+        /// <param name="divisor">The scalar denominator to use.</param>
+        /// <param name="result">Matrix to store the results in.</param>
+        protected override void DoRemainder(double divisor, Matrix<double> result)
+        {
+            var sparseResult = result as SparseMatrix;
+            if (sparseResult == null)
+            {
+                base.DoRemainder(divisor, result);
                 return;
             }
 
@@ -1420,7 +1448,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentNullException("leftSide");
             }
 
-            return (SparseMatrix)leftSide.Modulus(rightSide);
+            return (SparseMatrix)leftSide.Remainder(rightSide);
         }
 
         public override string ToTypeString()

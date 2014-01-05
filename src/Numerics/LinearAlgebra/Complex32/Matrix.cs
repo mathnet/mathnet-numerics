@@ -449,31 +449,67 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         }
 
         /// <summary>
-        /// Pointwise modulus this matrix with another matrix and stores the result into the result matrix.
+        /// Pointwise canonical modulus, where the result has the sign of the divisor,
+        /// of this matrix with another matrix and stores the result into the result matrix.
         /// </summary>
         /// <param name="divisor">The pointwise denominator matrix to use</param>
         /// <param name="result">The result of the modulus.</param>
-        protected override void DoPointwiseModulus(Matrix<Complex32> divisor, Matrix<Complex32> result)
+        protected override sealed void DoPointwiseModulus(Matrix<Complex32> divisor, Matrix<Complex32> result)
         {
             throw new NotSupportedException();
         }
 
         /// <summary>
-        /// Computes the modulus for each element of the matrix.
+        /// Pointwise remainder (% operator), where the result has the sign of the dividend,
+        /// of this matrix with another matrix and stores the result into the result matrix.
+        /// </summary>
+        /// <param name="divisor">The pointwise denominator matrix to use</param>
+        /// <param name="result">The result of the modulus.</param>
+        protected override sealed void DoPointwiseRemainder(Matrix<Complex32> divisor, Matrix<Complex32> result)
+        {
+            throw new NotSupportedException();
+        }
+
+        /// <summary>
+        /// Computes the canonical modulus, where the result has the sign of the divisor,
+        /// for the given divisor each element of the matrix.
         /// </summary>
         /// <param name="divisor">The scalar denominator to use.</param>
         /// <param name="result">Matrix to store the results in.</param>
-        protected override void DoModulus(Complex32 divisor, Matrix<Complex32> result)
+        protected override sealed void DoModulus(Complex32 divisor, Matrix<Complex32> result)
         {
             throw new NotSupportedException();
         }
 
         /// <summary>
-        /// Computes the modulus for each element of the matrix.
+        /// Computes the canonical modulus, where the result has the sign of the divisor,
+        /// for the given dividend for each element of the matrix.
         /// </summary>
         /// <param name="dividend">The scalar numerator to use.</param>
+        /// <param name="result">A vector to store the results in.</param>
+        protected override sealed void DoModulusByThis(Complex32 dividend, Matrix<Complex32> result)
+        {
+            throw new NotSupportedException();
+        }
+
+        /// <summary>
+        /// Computes the remainder (% operator), where the result has the sign of the dividend,
+        /// for the given divisor each element of the matrix.
+        /// </summary>
+        /// <param name="divisor">The scalar denominator to use.</param>
         /// <param name="result">Matrix to store the results in.</param>
-        protected override void DoModulusByThis(Complex32 dividend, Matrix<Complex32> result)
+        protected override sealed void DoRemainder(Complex32 divisor, Matrix<Complex32> result)
+        {
+            throw new NotSupportedException();
+        }
+
+        /// <summary>
+        /// Computes the remainder (% operator), where the result has the sign of the dividend,
+        /// for the given dividend for each element of the matrix.
+        /// </summary>
+        /// <param name="dividend">The scalar numerator to use.</param>
+        /// <param name="result">A vector to store the results in.</param>
+        protected override sealed void DoRemainderByThis(Complex32 dividend, Matrix<Complex32> result)
         {
             throw new NotSupportedException();
         }
