@@ -53,6 +53,14 @@ namespace MathNet.Numerics
         /// <summary>
         /// Canonical Modulus. The result has the sign of the divisor.
         /// </summary>
+        public static float Modulus(float dividend, float divisor)
+        {
+            return ((dividend%divisor) + divisor)%divisor;
+        }
+
+        /// <summary>
+        /// Canonical Modulus. The result has the sign of the divisor.
+        /// </summary>
         public static int Modulus(int dividend, int divisor)
         {
             return ((dividend%divisor) + divisor)%divisor;
@@ -70,6 +78,14 @@ namespace MathNet.Numerics
         /// Remainder (% operator). The result has the sign of the dividend.
         /// </summary>
         public static double Remainder(double dividend, double divisor)
+        {
+            return dividend%divisor;
+        }
+
+        /// <summary>
+        /// Remainder (% operator). The result has the sign of the dividend.
+        /// </summary>
+        public static float Remainder(float dividend, float divisor)
         {
             return dividend%divisor;
         }

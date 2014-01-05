@@ -460,11 +460,37 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         }
 
         /// <summary>
-        /// Computes the modulus for each element of the vector for the given divisor.
+        /// Computes the canonical modulus, where the result has the sign of the divisor,
+        /// for each element of the vector for the given divisor.
         /// </summary>
-        /// <param name="divisor">The divisor to use.</param>
+        /// <param name="divisor">The scalar denominator to use.</param>
         /// <param name="result">A vector to store the results in.</param>
         protected override void DoModulus(double divisor, Vector<double> result)
+        {
+            if (ReferenceEquals(this, result))
+            {
+                for (var index = 0; index < _storage.ValueCount; index++)
+                {
+                    _storage.Values[index] = Euclid.Modulus(_storage.Values[index], divisor);
+                }
+            }
+            else
+            {
+                result.Clear();
+                for (var index = 0; index < _storage.ValueCount; index++)
+                {
+                    result.At(_storage.Indices[index], Euclid.Modulus(_storage.Values[index], divisor));
+                }
+            }
+        }
+
+        /// <summary>
+        /// Computes the remainder (% operator), where the result has the sign of the dividend,
+        /// for each element of the vector for the given divisor.
+        /// </summary>
+        /// <param name="divisor">The scalar denominator to use.</param>
+        /// <param name="result">A vector to store the results in.</param>
+        protected override void DoRemainder(double divisor, Vector<double> result)
         {
             if (ReferenceEquals(this, result))
             {
@@ -478,7 +504,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 result.Clear();
                 for (var index = 0; index < _storage.ValueCount; index++)
                 {
-                    result.At(_storage.Indices[index], _storage.Values[index] % divisor);
+                    result.At(_storage.Indices[index], _storage.Values[index]%divisor);
                 }
             }
         }
@@ -605,7 +631,8 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         }
 
         /// <summary>
-        /// Computes the modulus of each element of the vector of the given divisor.
+        /// Computes the remainder (% operator), where the result has the sign of the dividend,
+        /// of each element of the vector of the given divisor.
         /// </summary>
         /// <param name="leftSide">The vector whose elements we want to compute the modulus of.</param>
         /// <param name="rightSide">The divisor to use,</param>
@@ -618,7 +645,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentNullException("leftSide");
             }
 
-            return (SparseVector)leftSide.Modulus(rightSide);
+            return (SparseVector)leftSide.Remainder(rightSide);
         }
 
         /// <summary>

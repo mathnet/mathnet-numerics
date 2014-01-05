@@ -469,7 +469,8 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         }
 
         /// <summary>
-        /// Computes the modulus for each element of the vector for the given divisor.
+        /// Computes the canonical modulus, where the result has the sign of the divisor,
+        /// for each element of the vector for the given divisor.
         /// </summary>
         /// <param name="divisor">The divisor to use.</param>
         /// <param name="result">A vector to store the results in.</param>
@@ -483,21 +484,46 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             else
             {
                 CommonParallel.For(0, _length, 4096, (a, b) =>
+                {
+                    for (int i = a; i < b; i++)
                     {
-                        for (int i = a; i < b; i++)
-                        {
-                            dense._values[i] = _values[i]%divisor;
-                        }
-                    });
+                        dense._values[i] = Euclid.Modulus(_values[i], divisor);
+                    }
+                });
             }
         }
 
         /// <summary>
-        /// Computes the modulus of each element of the vector of the given divisor.
+        /// Computes the remainder (% operator), where the result has the sign of the dividend,
+        /// for each element of the vector for the given divisor.
         /// </summary>
-        /// <param name="leftSide">The vector whose elements we want to compute the modulus of.</param>
+        /// <param name="divisor">The divisor to use.</param>
+        /// <param name="result">A vector to store the results in.</param>
+        protected override void DoRemainder(double divisor, Vector<double> result)
+        {
+            var dense = result as DenseVector;
+            if (dense == null)
+            {
+                base.DoModulus(divisor, result);
+            }
+            else
+            {
+                CommonParallel.For(0, _length, 4096, (a, b) =>
+                {
+                    for (int i = a; i < b; i++)
+                    {
+                        dense._values[i] = _values[i]%divisor;
+                    }
+                });
+            }
+        }
+
+        /// <summary>
+        /// Computes the remainder (% operator), where the result has the sign of the dividend,
+        /// of each element of the vector of the given divisor.
+        /// </summary>
+        /// <param name="leftSide">The vector whose elements we want to compute the remainder of.</param>
         /// <param name="rightSide">The divisor to use,</param>
-        /// <returns>The result of the calculation</returns>
         /// <exception cref="ArgumentNullException">If <paramref name="leftSide"/> is <see langword="null" />.</exception>
         public static DenseVector operator %(DenseVector leftSide, double rightSide)
         {
@@ -506,7 +532,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentNullException("leftSide");
             }
 
-            return (DenseVector)leftSide.Modulus(rightSide);
+            return (DenseVector)leftSide.Remainder(rightSide);
         }
 
         /// <summary>

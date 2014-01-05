@@ -791,61 +791,59 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
         }
 
         /// <summary>
-        /// Can compute the modules of each element of vector.
+        /// Can compute the remainder of each element of vector.
         /// </summary>
         [Test]
-        public void CanComputeModulus()
+        public void CanComputeRemainder()
         {
             var vector = CreateVector(Data);
-            var mod = vector.Modulus(3.2f);
+            var mod = vector.Remainder(3.2f);
             for (var index = 0; index < Data.Length; index++)
             {
-                AssertHelpers.AlmostEqual(Data[index] % 3.2, mod[index], 6);
+                AssertHelpers.AlmostEqualRelative(Data[index] % 3.2f, mod[index], 14);
             }
         }
 
         /// <summary>
-        /// Can compute the modules of each element of vector using a result vector.
+        /// Can compute the remainder of each element of vector using a result vector.
         /// </summary>
         [Test]
-        public void CanComputeModulusUsingResultVector()
+        public void CanComputeRemainderUsingResultVector()
         {
             var vector = CreateVector(Data);
             var mod = CreateVector(vector.Count);
-            vector.Modulus(3.2f, mod);
-
+            vector.Remainder(3.2f, mod);
             for (var index = 0; index < Data.Length; index++)
             {
-                AssertHelpers.AlmostEqual(Data[index] % 3.2, mod[index], 6);
+                AssertHelpers.AlmostEqualRelative(Data[index] % 3.2f, mod[index], 14);
             }
         }
 
         /// <summary>
-        /// Can compute the modules of each element of vector using a result vector.
+        /// Can compute the remainder of each element of vector using a result vector.
         /// </summary>
         [Test]
-        public void CanComputeModulusUsingSameResultVector()
+        public void CanComputeRemainderUsingSameResultVector()
         {
             var vector = CreateVector(Data);
-            vector.Modulus(3.2f, vector);
-
+            vector.Remainder(3.2f, vector);
             for (var index = 0; index < Data.Length; index++)
             {
-                AssertHelpers.AlmostEqual(Data[index] % 3.2, vector[index], 6);
+                AssertHelpers.AlmostEqualRelative(Data[index] % 3.2f, vector[index], 14);
             }
         }
 
         /// <summary>
-        /// Can compute the modules of each element of vector using the operator %.
+        /// Can compute the remainder of each element of vector using the operator %.
         /// </summary>
         [Test]
-        public void CanComputeModulusUsingOperator()
+        public void CanComputeRemainderUsingOperator()
         {
             var vector = CreateVector(Data);
             var mod = vector % 4.5f;
             for (var index = 0; index < Data.Length; index++)
             {
-                AssertHelpers.AlmostEqual(Data[index] % 4.5, mod[index], 6);
+                AssertHelpers.AlmostEqualRelative(Data[index] % 4.5f, mod[index], 14);
             }
         }
     }

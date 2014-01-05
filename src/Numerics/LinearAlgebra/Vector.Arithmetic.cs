@@ -132,18 +132,36 @@ namespace MathNet.Numerics.LinearAlgebra
         protected abstract void DoDivideByThis(T dividend, Vector<T> result);
 
         /// <summary>
-        /// Computes the modulus for each element of the vector for the given divisor.
+        /// Computes the canonical modulus, where the result has the sign of the divisor,
+        /// for each element of the vector for the given divisor.
         /// </summary>
         /// <param name="divisor">The scalar denominator to use.</param>
         /// <param name="result">A vector to store the results in.</param>
         protected abstract void DoModulus(T divisor, Vector<T> result);
 
         /// <summary>
-        /// Computes the modulus for the given dividend for each element of the vector.
+        /// Computes the canonical modulus, where the result has the sign of the divisor,
+        /// for the given dividend for each element of the vector.
         /// </summary>
         /// <param name="dividend">The scalar numerator to use.</param>
         /// <param name="result">A vector to store the results in.</param>
         protected abstract void DoModulusByThis(T dividend, Vector<T> result);
+
+        /// <summary>
+        /// Computes the remainder (% operator), where the result has the sign of the dividend,
+        /// for each element of the vector for the given divisor.
+        /// </summary>
+        /// <param name="divisor">The scalar denominator to use.</param>
+        /// <param name="result">A vector to store the results in.</param>
+        protected abstract void DoRemainder(T divisor, Vector<T> result);
+
+        /// <summary>
+        /// Computes the remainder (% operator), where the result has the sign of the dividend,
+        /// for the given dividend for each element of the vector.
+        /// </summary>
+        /// <param name="dividend">The scalar numerator to use.</param>
+        /// <param name="result">A vector to store the results in.</param>
+        protected abstract void DoRemainderByThis(T dividend, Vector<T> result);
 
         /// <summary>
         /// Pointwise multiplies this vector with another vector and stores the result into the result vector.
@@ -160,11 +178,20 @@ namespace MathNet.Numerics.LinearAlgebra
         protected abstract void DoPointwiseDivide(Vector<T> divisor, Vector<T> result);
 
         /// <summary>
-        /// Pointwise modulus this vector with another vector and stores the result into the result vector.
+        /// Pointwise canonical modulus, where the result has the sign of the divisor,
+        /// of this vector with another vector and stores the result into the result vector.
         /// </summary>
         /// <param name="divisor">The pointwise denominator vector to use.</param>
         /// <param name="result">The result of the modulus.</param>
         protected abstract void DoPointwiseModulus(Vector<T> divisor, Vector<T> result);
+
+        /// <summary>
+        /// Pointwise remainder (% operator), where the result has the sign of the dividend,
+        /// of this vector with another vector and stores the result into the result vector.
+        /// </summary>
+        /// <param name="divisor">The pointwise denominator vector to use.</param>
+        /// <param name="result">The result of the modulus.</param>
+        protected abstract void DoPointwiseRemainder(Vector<T> divisor, Vector<T> result);
 
         /// <summary>
         /// Adds a scalar to each element of the vector.
@@ -540,7 +567,8 @@ namespace MathNet.Numerics.LinearAlgebra
         }
 
         /// <summary>
-        /// Computes the modulus (vector % divisor) for each element of the vector for the given divisor.
+        /// Computes the canonical modulus, where the result has the sign of the divisor,
+        /// for each element of the vector for the given divisor.
         /// </summary>
         /// <param name="divisor">The scalar denominator to use.</param>
         /// <returns>A vector containing the result.</returns>
@@ -552,7 +580,8 @@ namespace MathNet.Numerics.LinearAlgebra
         }
 
         /// <summary>
-        /// Computes the modulus (vector % divisor) for each element of the vector for the given divisor.
+        /// Computes the canonical modulus, where the result has the sign of the divisor,
+        /// for each element of the vector for the given divisor.
         /// </summary>
         /// <param name="divisor">The scalar denominator to use.</param>
         /// <param name="result">A vector to store the results in.</param>
@@ -567,7 +596,8 @@ namespace MathNet.Numerics.LinearAlgebra
         }
 
         /// <summary>
-        /// Computes the modulus (dividend % vector) for the given dividend for each element of the vector.
+        /// Computes the canonical modulus, where the result has the sign of the divisor,
+        /// for the given dividend for each element of the vector.
         /// </summary>
         /// <param name="dividend">The scalar numerator to use.</param>
         /// <returns>A vector containing the result.</returns>
@@ -579,7 +609,8 @@ namespace MathNet.Numerics.LinearAlgebra
         }
 
         /// <summary>
-        /// Computes the modulus (dividend % vector) for the given dividend for each element of the vector.
+        /// Computes the canonical modulus, where the result has the sign of the divisor,
+        /// for the given dividend for each element of the vector.
         /// </summary>
         /// <param name="dividend">The scalar numerator to use.</param>
         /// <param name="result">A vector to store the results in.</param>
@@ -591,6 +622,64 @@ namespace MathNet.Numerics.LinearAlgebra
             }
 
             DoModulusByThis(dividend, result);
+        }
+
+        /// <summary>
+        /// Computes the remainder (vector % divisor), where the result has the sign of the dividend,
+        /// for each element of the vector for the given divisor.
+        /// </summary>
+        /// <param name="divisor">The scalar denominator to use.</param>
+        /// <returns>A vector containing the result.</returns>
+        public Vector<T> Remainder(T divisor)
+        {
+            var result = Build.SameAs(this);
+            DoRemainder(divisor, result);
+            return result;
+        }
+
+        /// <summary>
+        /// Computes the remainder (vector % divisor), where the result has the sign of the dividend,
+        /// for each element of the vector for the given divisor.
+        /// </summary>
+        /// <param name="divisor">The scalar denominator to use.</param>
+        /// <param name="result">A vector to store the results in.</param>
+        public void Remainder(T divisor, Vector<T> result)
+        {
+            if (Count != result.Count)
+            {
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
+            }
+
+            DoRemainder(divisor, result);
+        }
+
+        /// <summary>
+        /// Computes the remainder (dividend % vector), where the result has the sign of the dividend,
+        /// for the given dividend for each element of the vector.
+        /// </summary>
+        /// <param name="dividend">The scalar numerator to use.</param>
+        /// <returns>A vector containing the result.</returns>
+        public Vector<T> RemainderByThis(T dividend)
+        {
+            var result = Build.SameAs(this);
+            DoRemainderByThis(dividend, result);
+            return result;
+        }
+
+        /// <summary>
+        /// Computes the remainder (dividend % vector), where the result has the sign of the dividend,
+        /// for the given dividend for each element of the vector.
+        /// </summary>
+        /// <param name="dividend">The scalar numerator to use.</param>
+        /// <param name="result">A vector to store the results in.</param>
+        public void RemainderByThis(T dividend, Vector<T> result)
+        {
+            if (Count != result.Count)
+            {
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
+            }
+
+            DoRemainderByThis(dividend, result);
         }
 
         /// <summary>
@@ -674,7 +763,8 @@ namespace MathNet.Numerics.LinearAlgebra
         }
 
         /// <summary>
-        /// Pointwise modulus this vector with another vector.
+        /// Pointwise canonical modulus, where the result has the sign of the divisor,
+        /// of this vector with another vector.
         /// </summary>
         /// <param name="divisor">The pointwise denominator vector to use.</param>
         /// <returns>A new vector which is the pointwise modulus of the two vectors.</returns>
@@ -692,7 +782,8 @@ namespace MathNet.Numerics.LinearAlgebra
         }
 
         /// <summary>
-        /// Pointwise modulus this vector with another vector and stores the result into the result vector.
+        /// Pointwise canonical modulus, where the result has the sign of the divisor,
+        /// of this vector with another vector and stores the result into the result vector.
         /// </summary>
         /// <param name="divisor">The pointwise denominator vector to use.</param>
         /// <param name="result">The vector to store the result of the pointwise modulus.</param>
@@ -711,6 +802,47 @@ namespace MathNet.Numerics.LinearAlgebra
             }
 
             DoPointwiseModulus(divisor, result);
+        }
+        /// <summary>
+        /// Pointwise remainder (% operator), where the result has the sign of the dividend,
+        /// of this vector with another vector.
+        /// </summary>
+        /// <param name="divisor">The pointwise denominator vector to use.</param>
+        /// <returns>A new vector which is the pointwise remainder of the two vectors.</returns>
+        /// <exception cref="ArgumentException">If this vector and <paramref name="divisor"/> are not the same size.</exception>
+        public Vector<T> PointwiseRemainder(Vector<T> divisor)
+        {
+            if (Count != divisor.Count)
+            {
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "divisor");
+            }
+
+            var result = Build.SameAs(this, divisor);
+            DoPointwiseRemainder(divisor, result);
+            return result;
+        }
+
+        /// <summary>
+        /// Pointwise remainder (% operator), where the result has the sign of the dividend,
+        /// this vector with another vector and stores the result into the result vector.
+        /// </summary>
+        /// <param name="divisor">The pointwise denominator vector to use.</param>
+        /// <param name="result">The vector to store the result of the pointwise remainder.</param>
+        /// <exception cref="ArgumentException">If this vector and <paramref name="divisor"/> are not the same size.</exception>
+        /// <exception cref="ArgumentException">If this vector and <paramref name="result"/> are not the same size.</exception>
+        public void PointwiseRemainder(Vector<T> divisor, Vector<T> result)
+        {
+            if (Count != divisor.Count)
+            {
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "divisor");
+            }
+
+            if (Count != result.Count)
+            {
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
+            }
+
+            DoPointwiseRemainder(divisor, result);
         }
 
         /// <summary>
