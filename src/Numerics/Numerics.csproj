@@ -94,6 +94,12 @@
     <Compile Include="Interpolation\Barycentric.cs" />
     <Compile Include="Interpolation\CubicSpline.cs" />
     <Compile Include="Interpolation\QuadraticSpline.cs" />
+    <Compile Include="Optimization\MpFit.cs" />
+    <Compile Include="Optimization\DelimitedArray.cs" />
+    <Compile Include="Optimization\MpConfig.cs" />
+    <Compile Include="Optimization\MpFunc.cs" />
+    <Compile Include="Optimization\MpResult.cs" />
+    <Compile Include="Optimization\ParameterConstraint.cs" />
     <Compile Include="Precision.Comparison.cs" />
     <Compile Include="Precision.Equality.cs" />
     <Compile Include="Distributions\Bernoulli.cs" />

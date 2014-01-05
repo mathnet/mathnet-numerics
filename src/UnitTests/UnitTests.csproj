@@ -358,6 +358,9 @@
     <Compile Include="EuclidTests\GcdRelatedTest.cs" />
     <Compile Include="EuclidTests\GcdRelatedTestBigInteger.cs" />
     <Compile Include="EuclidTests\IntegerTheoryTest.cs" />
+    <Compile Include="OptimizationTests\TestMPFit.cs" />
+    <Compile Include="OptimizationTests\CustomUserVariable.cs" />
+    <Compile Include="OptimizationTests\ForwardModels.cs" />
     <Compile Include="Random\SystemRandomSourceTests.cs" />
     <Compile Include="RootFindingTests\BisectionTest.cs" />
     <Compile Include="PermutationTest.cs" />

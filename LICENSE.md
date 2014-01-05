@@ -92,3 +92,11 @@ SHALL THE COPYRIGHT HOLDERS OR ANYONE DISTRIBUTING THE SOFTWARE BE LIABLE
 FOR ANY DAMAGES OR OTHER LIABILITY, WHETHER IN CONTRACT, TORT OR OTHERWISE,
 ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 DEALINGS IN THE SOFTWARE.
+
+MINPACK/MPFIT
+-------------
+
+* Original public domain version by B. Garbow, K. Hillstrom, J. More' (Argonne National Laboratory, MINPACK project, March 1980)
+* Tranlation to C Language by [S. Moshier](moshier.net)
+* Translation to C# Language by [D. Cuccia](http://davidcuccia.wordpress.com)
+* Enhancements and packaging by C. Markwardt (comparable to [IDL fitting routine MPFIT](http://cow.physics.wisc.edu/~craigm/idl/idl.html))
