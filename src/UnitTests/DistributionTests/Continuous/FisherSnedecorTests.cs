@@ -425,12 +425,6 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
             ied.Take(5).ToArray();
         }
 
-        /// <summary>
-        /// Validate cumulative distribution.
-        /// </summary>
-        /// <param name="d1">Degrees of freedom 1</param>
-        /// <param name="d2">Degrees of freedom 2</param>
-        /// <param name="x">Input X value</param>
         [TestCase(0.1, 0.1, 1.0)]
         [TestCase(1.0, 0.1, 1.0)]
         [TestCase(10.0, 0.1, 1.0)]
@@ -447,8 +441,28 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         {
             var n = new FisherSnedecor(d1, d2);
             double expected = SpecialFunctions.BetaRegularized(d1/2.0, d2/2.0, d1*x/(d2 + (x*d1)));
-            Assert.AreEqual(expected, n.CumulativeDistribution(x));
-            Assert.AreEqual(expected, FisherSnedecor.CDF(d1, d2, x));
+            Assert.That(n.CumulativeDistribution(x), Is.EqualTo(expected));
+            Assert.That(FisherSnedecor.CDF(d1, d2, x), Is.EqualTo(expected));
+        }
+
+        [TestCase(0.1, 0.1, 1.0)]
+        [TestCase(1.0, 0.1, 1.0)]
+        [TestCase(10.0, 0.1, 1.0)]
+        [TestCase(0.1, 1.0, 1.0)]
+        [TestCase(1.0, 1.0, 1.0)]
+        [TestCase(10.0, 1.0, 1.0)]
+        [TestCase(0.1, 0.1, 10.0)]
+        [TestCase(1.0, 0.1, 10.0)]
+        [TestCase(10.0, 0.1, 10.0)]
+        [TestCase(0.1, 1.0, 10.0)]
+        [TestCase(1.0, 1.0, 10.0)]
+        [TestCase(10.0, 1.0, 10.0)]
+        public void ValidateInverseCumulativeDistribution(double d1, double d2, double x)
+        {
+            var n = new FisherSnedecor(d1, d2);
+            double p = SpecialFunctions.BetaRegularized(d1/2.0, d2/2.0, d1*x/(d2 + (x*d1)));
+            Assert.That(n.InverseCumulativeDistribution(p), Is.EqualTo(x).Within(1e-8));
+            Assert.That(FisherSnedecor.InvCDF(d1, d2, p), Is.EqualTo(x).Within(1e-8));
         }
     }
 }

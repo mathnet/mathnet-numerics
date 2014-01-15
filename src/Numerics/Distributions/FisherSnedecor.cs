@@ -32,6 +32,7 @@ using System;
 using System.Collections.Generic;
 using MathNet.Numerics.Properties;
 using MathNet.Numerics.Random;
+using MathNet.Numerics.RootFinding;
 
 namespace MathNet.Numerics.Distributions
 {
@@ -259,6 +260,19 @@ namespace MathNet.Numerics.Distributions
         {
             return SpecialFunctions.BetaRegularized(_freedom1/2.0, _freedom2/2.0, _freedom1*x/((_freedom1*x) + _freedom2));
         }
+        
+        /// <summary>
+        /// Computes the inverse of the cumulative distribution function (InvCDF) for the distribution
+        /// at the given probability. This is also known as the quantile or percent point function.
+        /// </summary>
+        /// <param name="p">The location at which to compute the inverse cumulative density.</param>
+        /// <returns>the inverse cumulative density at <paramref name="p"/>.</returns>
+        /// <seealso cref="InvCDF"/>
+        /// <remarks>WARNING: currently not an explicit implementation, hence slow and unreliable.</remarks>
+        public double InverseCumulativeDistribution(double p)
+        {
+            return InvCDF(_freedom1, _freedom2, p);
+        }
 
         /// <summary>
         /// Generates a sample from the <c>FisherSnedecor</c> distribution.
@@ -333,7 +347,26 @@ namespace MathNet.Numerics.Distributions
         {
             if (d1 <= 0.0 || d2 <= 0.0) throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
 
-            return SpecialFunctions.BetaRegularized(d1/2.0, d2/2.0, d1*x/((d1*x) + d2));
+            return SpecialFunctions.BetaRegularized(d1/2.0, d2/2.0, d1*x/(d1*x + d2));
+        }
+
+        /// <summary>
+        /// Computes the inverse of the cumulative distribution function (InvCDF) for the distribution
+        /// at the given probability. This is also known as the quantile or percent point function.
+        /// </summary>
+        /// <param name="p">The location at which to compute the inverse cumulative density.</param>
+        /// <param name="d1">The first degree of freedom (d1) of the distribution. Range: d1 > 0.</param>
+        /// <param name="d2">The second degree of freedom (d2) of the distribution. Range: d2 > 0.</param>
+        /// <returns>the inverse cumulative density at <paramref name="p"/>.</returns>
+        /// <seealso cref="InverseCumulativeDistribution"/>
+        /// <remarks>WARNING: currently not an explicit implementation, hence slow and unreliable.</remarks>
+        public static double InvCDF(double d1, double d2, double p)
+        {
+            if (d1 <= 0.0 || d2 <= 0.0) throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
+
+            return Brent.FindRoot(
+                x => SpecialFunctions.BetaRegularized(d1/2.0, d2/2.0, d1*x/(d1*x + d2)) - p,
+                0, 1000, accuracy: 1e-8);
         }
 
         /// <summary>
