@@ -44,6 +44,26 @@ namespace MathNet.Numerics
     /// </summary>
     public static class ExcelFunctions
     {
+        public static double NormSDist(double z)
+        {
+            return Normal.CDF(0d, 1d, z);
+        }
+
+        public static double NormSInv(double probability)
+        {
+            return Normal.InvCDF(0d, 1d, probability);
+        }
+
+        public static double NormDist(double x, double mean, double standardDev, bool cumulative)
+        {
+            return cumulative ? Normal.CDF(mean, standardDev, x) : Normal.PDF(mean, standardDev, x);
+        }
+
+        public static double NormInv(double probability, double mean, double standardDev)
+        {
+            return Normal.InvCDF(mean, standardDev, probability);
+        }
+
         public static double TDist(double x, int degreesFreedom, int tails)
         {
             switch (tails)

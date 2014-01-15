@@ -39,6 +39,57 @@ namespace MathNet.Numerics.UnitTests
     public class ExcelTests
     {
         [Test]
+        public void NormSDist()
+        {
+            Assert.That(ExcelFunctions.NormSDist(0), Is.EqualTo(0.50000000000).Within(1e-8), "A1");
+            Assert.That(ExcelFunctions.NormSDist(-0.25), Is.EqualTo(0.40129367432).Within(1e-8), "B1");
+            Assert.That(ExcelFunctions.NormSDist(0.5), Is.EqualTo(0.69146246127).Within(1e-8), "C1");
+            Assert.That(ExcelFunctions.NormSDist(1), Is.EqualTo(0.84134474607).Within(1e-6), "D1");
+            Assert.That(ExcelFunctions.NormSDist(-2), Is.EqualTo(0.02275013195).Within(1e-8), "E1");
+            Assert.That(ExcelFunctions.NormSDist(10), Is.EqualTo(1.00000000000).Within(1e-8), "F1");
+        }
+
+        [Test]
+        public void NormSInv()
+        {
+            Assert.That(ExcelFunctions.NormSInv(0.01), Is.EqualTo(-2.32634787404).Within(1e-6), "A1");
+            Assert.That(ExcelFunctions.NormSInv(0.25), Is.EqualTo(-0.67448975020).Within(1e-6), "B1");
+            Assert.That(ExcelFunctions.NormSInv(0.5), Is.EqualTo(0.00000000000).Within(1e-6), "C1");
+            Assert.That(ExcelFunctions.NormSInv(0.75), Is.EqualTo(0.67448975020).Within(1e-6), "D1");
+            Assert.That(ExcelFunctions.NormSInv(0.99), Is.EqualTo(2.32634787404).Within(1e-6), "E1");
+            Assert.That(ExcelFunctions.NormSInv(0.9999), Is.EqualTo(3.71901648546).Within(1e-6), "F1");
+        }
+
+        [Test]
+        public void NormDist()
+        {
+            Assert.That(ExcelFunctions.NormDist(0, 2, 3, true), Is.EqualTo(0.25249253755).Within(1e-8), "A1");
+            Assert.That(ExcelFunctions.NormDist(-0.25, 2, 3, true), Is.EqualTo(0.22662735238).Within(1e-8), "B1");
+            Assert.That(ExcelFunctions.NormDist(0.5, 2, 3, true), Is.EqualTo(0.30853753873).Within(1e-8), "C1");
+            Assert.That(ExcelFunctions.NormDist(1, 2, 3, true), Is.EqualTo(0.36944134018).Within(1e-6), "D1");
+            Assert.That(ExcelFunctions.NormDist(-2, 2, 3, true), Is.EqualTo(0.09121121973).Within(1e-8), "E1");
+            Assert.That(ExcelFunctions.NormDist(10, 2, 3, true), Is.EqualTo(0.99616961943).Within(1e-8), "F1");
+
+            Assert.That(ExcelFunctions.NormDist(0, 2, 3, false), Is.EqualTo(0.106482669).Within(1e-8), "A2");
+            Assert.That(ExcelFunctions.NormDist(-0.25, 2, 3, false), Is.EqualTo(0.100379144).Within(1e-8), "B2");
+            Assert.That(ExcelFunctions.NormDist(0.5, 2, 3, false), Is.EqualTo(0.117355109).Within(1e-8), "C2");
+            Assert.That(ExcelFunctions.NormDist(1, 2, 3, false), Is.EqualTo(0.125794409).Within(1e-6), "D2");
+            Assert.That(ExcelFunctions.NormDist(-2, 2, 3, false), Is.EqualTo(0.054670025).Within(1e-8), "E2");
+            Assert.That(ExcelFunctions.NormDist(10, 2, 3, false), Is.EqualTo(0.003798662).Within(1e-8), "F2");
+        }
+
+        [Test]
+        public void NormInv()
+        {
+            Assert.That(ExcelFunctions.NormInv(0.01, 2, 3), Is.EqualTo(-4.97904362212).Within(1e-6), "A1");
+            Assert.That(ExcelFunctions.NormInv(0.25, 2, 3), Is.EqualTo(-0.02346925059).Within(1e-6), "B1");
+            Assert.That(ExcelFunctions.NormInv(0.5, 2, 3), Is.EqualTo(2.00000000000).Within(1e-6), "C1");
+            Assert.That(ExcelFunctions.NormInv(0.75, 2, 3), Is.EqualTo(4.02346925059).Within(1e-6), "D1");
+            Assert.That(ExcelFunctions.NormInv(0.99, 2, 3), Is.EqualTo(8.97904362212).Within(1e-6), "E1");
+            Assert.That(ExcelFunctions.NormInv(0.9999, 2, 3), Is.EqualTo(13.15704945637).Within(1e-6), "F1");
+        }
+
+        [Test]
         public void TDist()
         {
             Assert.That(ExcelFunctions.TDist(0, 2, 1), Is.EqualTo(0.50000000000).Within(1e-8), "A1");
@@ -155,7 +206,7 @@ namespace MathNet.Numerics.UnitTests
             Assert.That(ExcelFunctions.Percentile(array, 0.90), Is.EqualTo(10.60000000000).Within(1e-8));
             Assert.That(ExcelFunctions.Percentile(array, 0.99), Is.EqualTo(11.86000000000).Within(1e-8));
             Assert.That(ExcelFunctions.Percentile(array, 1.00), Is.EqualTo(12.00000000000).Within(1e-8));
-            
+
             array = new Double[] { 1, 9, 12, 7, 2, 9, 10, 2 };
             Assert.That(ExcelFunctions.Percentile(array, 0.00), Is.EqualTo(1.00000000000).Within(1e-8));
             Assert.That(ExcelFunctions.Percentile(array, 0.01), Is.EqualTo(1.07000000000).Within(1e-8));
