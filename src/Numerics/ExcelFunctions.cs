@@ -44,45 +44,55 @@ namespace MathNet.Numerics
     /// </summary>
     public static class ExcelFunctions
     {
-        public static double TDIST(double x, int degrees_freedom, int tails)
+        public static double TDist(double x, int degreesFreedom, int tails)
         {
             switch (tails)
             {
                 case 1:
-                    return 1d - StudentT.CDF(0d, 1d, degrees_freedom, x);
+                    return 1d - StudentT.CDF(0d, 1d, degreesFreedom, x);
                 case 2:
-                    return 1d - StudentT.CDF(0d, 1d, degrees_freedom, x) + StudentT.CDF(0d, 1d, degrees_freedom, -x);
+                    return 1d - StudentT.CDF(0d, 1d, degreesFreedom, x) + StudentT.CDF(0d, 1d, degreesFreedom, -x);
                 default:
                     throw new ArgumentOutOfRangeException("tails");
             }
         }
 
-        public static double TINV(double probability, int degrees_freedom)
+        public static double TInv(double probability, int degreesFreedom)
         {
-            return -StudentT.InvCDF(0d, 1d, degrees_freedom, probability/2);
+            return -StudentT.InvCDF(0d, 1d, degreesFreedom, probability/2);
         }
 
-        public static double BETADIST(double x, double alpha, double beta)
+        public static double FDist(double x, int degreesFreedom1, int degreesFreedom2)
+        {
+            return 1d - FisherSnedecor.CDF(degreesFreedom1, degreesFreedom2, x);
+        }
+
+        public static double FInv(double probability, int degreesFreedom1, int degreesFreedom2)
+        {
+            return FisherSnedecor.InvCDF(degreesFreedom1, degreesFreedom2, 1d - probability);
+        }
+
+        public static double BetaDist(double x, double alpha, double beta)
         {
             return Beta.CDF(alpha, beta, x);
         }
 
-        public static double BETAINV(double probability, double alpha, double beta)
+        public static double BetaInv(double probability, double alpha, double beta)
         {
             return Beta.InvCDF(alpha, beta, probability);
         }
 
-        public static double GAMMADIST(double x, double alpha, double beta, bool cumulative)
+        public static double GammaDist(double x, double alpha, double beta, bool cumulative)
         {
             return cumulative ? Gamma.CDF(alpha, 1/beta, x) : Gamma.PDF(alpha, 1/beta, x);
         }
 
-        public static double GAMMAINV(double probability, double alpha, double beta)
+        public static double GammaInv(double probability, double alpha, double beta)
         {
             return Gamma.InvCDF(alpha, 1/beta, probability);
         }
 
-        public static double QUARTILE(double[] array, int quant)
+        public static double Quartile(double[] array, int quant)
         {
             switch (quant)
             {
@@ -101,12 +111,12 @@ namespace MathNet.Numerics
             }
         }
 
-        public static double PERCENTILE(double[] array, double k)
+        public static double Percentile(double[] array, double k)
         {
             return array.QuantileCustom(k, QuantileDefinition.Excel);
         }
 
-        public static double PERCENTRANK(double[] array, double x)
+        public static double PercentRank(double[] array, double x)
         {
             return array.QuantileRank(x, RankDefinition.Min);
         }
