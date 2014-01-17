@@ -26,42 +26,70 @@ Target "Prepare" DoNothing
 
 Target "BuildMain" (fun _ -> !! "MathNet.Numerics.sln" |> MSBuildRelease "" "Rebuild" |> ignore)
 Target "BuildNet35" (fun _ -> !! "MathNet.Numerics.Net35Only.sln" |> MSBuildRelease "" "Rebuild" |> ignore)
-Target "BuildAll" (fun _ -> !! "MathNet.Numerics.Portable.sln" |> MSBuildRelease "" "Rebuild" |> ignore)
+Target "BuildFull" (fun _ -> !! "MathNet.Numerics.Portable.sln" |> MSBuildRelease "" "Rebuild" |> ignore)
+Target "Build" DoNothing
 
-Target "Main" DoNothing
-Target "Net35" DoNothing
-Target "All" DoNothing
-
-"Prepare" ==> "BuildMain" ==> "Main"
-"Prepare" ==> "BuildNet35" ==> "Net35"
-"Prepare" ==> "BuildAll" ==> "All"
+"Prepare"
+  =?> ("BuildNet35", hasBuildParam "net35")
+  =?> ("BuildFull", hasBuildParam "full")
+  =?> ("BuildMain", not (hasBuildParam "full" || hasBuildParam "net35"))
+  ==> "Build"
 
 
 // TEST
 
-Target "RunTests" (fun _ ->
+Target "Test" (fun _ ->
     !! "out/test/*/*UnitTests*.dll"
     |> NUnit (fun p ->
         { p with
             DisableShadowCopy = true
-            TimeOut = TimeSpan.FromMinutes 20.
+            TimeOut = TimeSpan.FromMinutes 30.
             OutputFile = "TestResults.xml" })
 )
 
-"RunTests" ==> "Main"
-"RunTests" ==> "Net35"
-"RunTests" ==> "All"
+"Build" ==> "Test"
 
 
 // DOCUMENTATION
 
-Target "BuildDocs" DoNothing
+Target "Docs" DoNothing
+
+"Build"  ==> "Docs"
 
 
-// RELEASE
+// NUGET
+
+Target "NuGetPackage" DoNothing
+
+"BuildFull" ==> "NuGetPackage"
+
+
+// RUN
 
 Target "Release" DoNothing
-"All"  ==> "BuildDocs" ==> "Release"
+"Test" ==> "Release"
+"Docs" ==> "Release"
+"NuGetPackage" ==> "Release"
+
+Target "All" DoNothing
+"Build" ==> "Test" ==> "All"
+
+RunTargetOrDefault "All"
 
 
-RunTargetOrDefault "Main"
+// EXAMPLES
+
+// * build.cmd: normal build (.Net 4.0), run unit tests
+
+// * build.cmd All: normal build (.Net 4.0), run unit tests
+// * build.cmd All full: full build (.Net 3.5, 4.0, PCL), run all unit tests
+// * build.cmd All net35: build (.Net 3.5), run unit tests
+
+// * build.cmd Build: normal build (.Net 4.0)
+// * build.cmd Build full: full build (.Net 3.5, 4.0, PCL)
+// * build.cmd Build net35: build (.Net 3.5)
+
+// * build.cmd Clean: cleanup build artifacts
+// * build.cmd Docs: generate documentation, normal build
+// * build.cmd NuGetPackage: generate NuGet packages, full build
+
