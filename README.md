@@ -46,10 +46,10 @@ Building Math.NET Numerics
 If you do not want to use the official binaries, or if you like to modify, debug or contribute, you can compile Math.NET Numerics locally either using Visual Studio or manually with the build scripts.
 
 * The Visual Studio solutions should build out of the box, without any preparation steps or package restores.
-* Instead of a compatible IDE you can also build the solutions with `msbuild`, or on Mono with the `xbuild` build tool.
+* Instead of a compatible IDE you can also build the solutions with `msbuild`, or on Mono with `xbuild`.
 * The full build including unit tests, docs, NuGet and Zip packages is using [FAKE](http://fsharp.github.io/FAKE/).
 
-### How to build with `msbuild`/`xbuild`
+### How to build with MSBuild/XBuild
 
     msbuild MathNet.Numerics.sln            # only build for .Net 4 (main solution)
     msbuild MathNet.Numerics.Net35Only.sln  # only build for .Net 3.5
