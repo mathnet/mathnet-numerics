@@ -63,7 +63,6 @@
     <Compile Include="Distributions.fs" />
     <Compile Include="LinearAlgebra.Vector.fs" />
     <Compile Include="LinearAlgebra.Matrix.fs" />
-    <Compile Include="Complex.fsi" />
     <Compile Include="Complex.fs" />
     <Compile Include="BigIntegerExtensions.fs" />
     <Compile Include="BigRational.fsi" />
