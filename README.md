@@ -13,12 +13,67 @@ Math.NET Numerics is covered under the terms of the [MIT/X11](http://mathnetnume
 
 Maintained by [Christoph Rüegg](http://christoph.ruegg.name/) but brought to you by all our awesome [contributors](CONTRIBUTORS.md) of Math.NET Numerics and its predecessors [dnAnalytics](http://dnanalytics.codeplex.com/) and [Math.NET Iridium](http://www.mathdotnet.com/Iridium.aspx). We accept contributions!
 
+**[Release Notes & Changes](RELEASENOTES.md)**
+
 Installation Instructions
 -------------------------
 
-**[Release Notes & Changes](RELEASENOTES.md)**
+The recommended way to get Math.NET Numerics is to use NuGet. The following packages are provided and maintained in the public [NuGet Gallery](https://nuget.org/profiles/mathnet/):
 
-Download the *MathNet.Numerics.dll* assembly, add a reference to it to your project and you're done. To make this even simpler we publish binary releases to the [**NuGet Gallery**](http://nuget.org/) as package *MathNet.Numerics* (or *MathNet.Numerics.FSharp* for F# integration; we also have code sample packages there, see the release notes for details). Alternatively we also publish binary releases and documentation to [CodePlex](http://mathnetnumerics.codeplex.com/releases).
+- `MathNet.Numerics` - core package, including .Net 4, .Net 3.5 and portable/PCL builds
+- `MathNet.Numerics.FSharp` - optional extensions for a better F# experience
+- `MathNet.Numerics.Data.Text` - optional extensions for text-based matrix input/output
+- `MathNet.Numerics.Data.Matlab` - optional extensions for MATLAB matrix file input/output
+- `MathNet.Numerics.MKL.Win-x86` - optional Linear Algebra MKL native provider
+- `MathNet.Numerics.MKL.Win-x64` - optional Linear Algebra MKL native provider
+- `MathNet.Numerics.Signed` - strong-named version of the core package *(not recommended)*
+- `MathNet.Numerics.FSharp.Signed` - strong-named version of the F# package *(not recommended)*
+
+Alternatively you can also download the binaries in Zip packages, available on [CodePlex](http://mathnetnumerics.codeplex.com/releases):
+
+- Binaries - core package and F# extensions, including .Net 4, .Net 3.5 and portable/PCL builds.
+- Signed Binaries - strong-named version of the core package *(not recommended)*.
+
+Supported Platforms:
+
+- .Net 4.0, .Net 3.5 and Mono: Windows, Linux and Mac.
+- PCL Portable Profiles 47 and 136: Silverlight 5, Windows Phone 8, .NET for Windows Store apps (Metro).
+- PCL/Xamarin: Andoid, iOS
+
+Building Math.NET Numerics
+--------------------------
+
+If you do not want to use the official binaries, or if you like to modify, debug or contribute, you can compile Math.NET Numerics locally either using Visual Studio or manually with the build scripts.
+
+* The Visual Studio solutions should build out of the box, without any preparation steps or package restores.
+* Instead of a compatible IDE you can also build the solutions with `msbuild`, or on Mono with the `xbuild` build tool.
+* The full build including unit tests, docs, NuGet and Zip packages is using [FAKE](http://fsharp.github.io/FAKE/).
+
+### How to build with `msbuild`/`xbuild`
+
+    msbuild MathNet.Numerics.sln            # only build for .Net 4 (main solution)
+    msbuild MathNet.Numerics.Net35Only.sln  # only build for .Net 3.5
+    msbuild MathNet.Numerics.Portable.sln   # full build with .Net 4, 3.5 and PCL profiles
+    xbuild MathNet.Numerics.sln             # build with Mono, e.g. on Linux or Mac
+
+### How to build with FAKE
+
+    build.cmd   # normal build (.Net 4.0), run unit tests
+    ./build.sh  # normal build (.Net 4.0), run unit tests - on Linux or Mac
+    
+    build.cmd Build        # normal build (.Net 4.0)
+    build.cmd Build full   # full build (.Net 3.5, 4.0, PCL)
+    build.cmd Build net35  # compatibility build (.Net 3.5)
+    
+    build.cmd Test        # normal build (.Net 4.0), run unit tests
+    build.cmd Test full   # full build (.Net 3.5, 4.0, PCL), run all unit tests
+    build.cmd Test net35  # compatibility build (.Net 3.5), run unit tests
+    
+    build.cmd Clean  # cleanup build artifacts
+    build.cmd Docs   # generate documentation, normal build
+    build.cmd NuGet  # generate NuGet packages, full build
+
+FAKE itself is not included in the repository but it will download and bootstrap itself automatically when build.cmd is run the first time. Note that this step is *not* required when using Visual Studio or `msbuild` directly.
 
 Quick Links
 -----------
