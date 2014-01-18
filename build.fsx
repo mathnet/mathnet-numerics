@@ -59,7 +59,10 @@ Target "Docs" DoNothing
 
 // NUGET
 
-Target "NuGet" DoNothing
+Target "NuGet" (fun _ ->
+    // TODO: Replace with FAKE's internal NuGet support and drop the MSBuild project
+    !! "build/NuGet/nuget.proj" |> MSBuild "" "BuildPackages" [] |> ignore
+)
 
 "BuildFull" ==> "NuGet"
 
