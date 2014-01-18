@@ -59,9 +59,9 @@ Target "Docs" DoNothing
 
 // NUGET
 
-Target "NuGetPackage" DoNothing
+Target "NuGet" DoNothing
 
-"BuildFull" ==> "NuGetPackage"
+"BuildFull" ==> "NuGet"
 
 
 // RUN
@@ -69,27 +69,9 @@ Target "NuGetPackage" DoNothing
 Target "Release" DoNothing
 "Test" ==> "Release"
 "Docs" ==> "Release"
-"NuGetPackage" ==> "Release"
+"NuGet" ==> "Release"
 
 Target "All" DoNothing
 "Build" ==> "Test" ==> "All"
 
 RunTargetOrDefault "All"
-
-
-// EXAMPLES
-
-// * build.cmd: normal build (.Net 4.0), run unit tests
-
-// * build.cmd All: normal build (.Net 4.0), run unit tests
-// * build.cmd All full: full build (.Net 3.5, 4.0, PCL), run all unit tests
-// * build.cmd All net35: build (.Net 3.5), run unit tests
-
-// * build.cmd Build: normal build (.Net 4.0)
-// * build.cmd Build full: full build (.Net 3.5, 4.0, PCL)
-// * build.cmd Build net35: build (.Net 3.5)
-
-// * build.cmd Clean: cleanup build artifacts
-// * build.cmd Docs: generate documentation, normal build
-// * build.cmd NuGetPackage: generate NuGet packages, full build
-
