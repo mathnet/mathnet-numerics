@@ -19,7 +19,7 @@ Target "RestorePackages" RestorePackages
 Target "AssemblyInfo" DoNothing
 Target "Prepare" DoNothing
 
-"Clean" ==> "Restorepackages" ==> "AssemblyInfo" ==> "Prepare"
+"Clean" ==> "RestorePackages" ==> "AssemblyInfo" ==> "Prepare"
 
 
 // BUILD
@@ -52,7 +52,13 @@ Target "Test" (fun _ ->
 
 // DOCUMENTATION
 
-Target "Docs" DoNothing
+Target "Docs" (fun _ ->
+    executeFSIWithArgs "docs/tools" "build-docs.fsx" ["--define:RELEASE"] [] |> ignore
+)
+
+Target "DocsDev" (fun _ ->
+    executeFSIWithArgs "docs/tools" "build-docs.fsx" [] [] |> ignore
+)
 
 "Build"  ==> "Docs"
 

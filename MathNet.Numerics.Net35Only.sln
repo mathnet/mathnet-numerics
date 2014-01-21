@@ -17,18 +17,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Numerics-Net35", "src\Numer
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests-Net35", "src\UnitTests\UnitTests-Net35.csproj", "{9014A0CE-725D-4718-918C-923C0CA19FEE}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{A4A66FA9-C00C-4D5C-A776-27516EA0C536}"
-	ProjectSection(SolutionItems) = preProject
-		build.fsx = build.fsx
-		build\NuGet\FSharp\MathNet.Numerics.FSharp.nuspec = build\NuGet\FSharp\MathNet.Numerics.FSharp.nuspec
-		build\NuGet\FSharp.Signed\MathNet.Numerics.FSharp.Signed.nuspec = build\NuGet\FSharp.Signed\MathNet.Numerics.FSharp.Signed.nuspec
-		build\NuGet\Numerics\MathNet.Numerics.nuspec = build\NuGet\Numerics\MathNet.Numerics.nuspec
-		build\NuGet\Numerics.Signed\MathNet.Numerics.Signed.nuspec = build\NuGet\Numerics.Signed\MathNet.Numerics.Signed.nuspec
-		build\NuGet\nuget-signed.proj = build\NuGet\nuget-signed.proj
-		build\NuGet\nuget.proj = build\NuGet\nuget.proj
-		.nuget\packages.config = .nuget\packages.config
-	EndProjectSection
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

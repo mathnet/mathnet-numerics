@@ -35,13 +35,30 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{A4A66FA9-C00C-4D5C-A776-27516EA0C536}"
 	ProjectSection(SolutionItems) = preProject
 		build.fsx = build.fsx
+		.nuget\packages.config = .nuget\packages.config
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{039229DA-AFDA-48DB-B7FC-B064691DEE96}"
+	ProjectSection(SolutionItems) = preProject
+		docs\content\index.fsx = docs\content\index.fsx
+		docs\content\RandomAndDistributions.fsx = docs\content\RandomAndDistributions.fsx
+		docs\tools\templates\template.cshtml = docs\tools\templates\template.cshtml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NuGet", "NuGet", "{8A295380-F19B-460C-9794-2EF1B67E5483}"
+	ProjectSection(SolutionItems) = preProject
 		build\NuGet\FSharp\MathNet.Numerics.FSharp.nuspec = build\NuGet\FSharp\MathNet.Numerics.FSharp.nuspec
 		build\NuGet\FSharp.Signed\MathNet.Numerics.FSharp.Signed.nuspec = build\NuGet\FSharp.Signed\MathNet.Numerics.FSharp.Signed.nuspec
 		build\NuGet\Numerics\MathNet.Numerics.nuspec = build\NuGet\Numerics\MathNet.Numerics.nuspec
 		build\NuGet\Numerics.Signed\MathNet.Numerics.Signed.nuspec = build\NuGet\Numerics.Signed\MathNet.Numerics.Signed.nuspec
 		build\NuGet\nuget-signed.proj = build\NuGet\nuget-signed.proj
 		build\NuGet\nuget.proj = build\NuGet\nuget.proj
-		.nuget\packages.config = .nuget\packages.config
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{DB89F4DB-5204-4B38-B9F5-FE11E69D32AD}"
+	ProjectSection(SolutionItems) = preProject
+		docs\tools\build-docs.fsx = docs\tools\build-docs.fsx
+		docs\tools\packages.config = docs\tools\packages.config
 	EndProjectSection
 EndProject
 Global
@@ -96,5 +113,7 @@ Global
 		{DAF07AA8-C5C9-4963-98F7-2C3285064DAD} = {4D50FB34-10BC-495A-8B2F-482E34B4D771}
 		{8239A6FF-1EF3-4DA4-A860-95C392DD6899} = {49EE74BD-301F-4C3B-B76A-07F90CC88CE7}
 		{BC81EA37-8EE6-4BF9-B8A9-B30497AEF8B1} = {49EE74BD-301F-4C3B-B76A-07F90CC88CE7}
+		{8A295380-F19B-460C-9794-2EF1B67E5483} = {A4A66FA9-C00C-4D5C-A776-27516EA0C536}
+		{DB89F4DB-5204-4B38-B9F5-FE11E69D32AD} = {A4A66FA9-C00C-4D5C-A776-27516EA0C536}
 	EndGlobalSection
 EndGlobal
