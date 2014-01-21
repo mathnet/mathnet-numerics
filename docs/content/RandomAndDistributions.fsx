@@ -1,4 +1,4 @@
-﻿(*** hide ***)
+(*** hide ***)
 #I "../../out/lib/net40"
 #r "MathNet.Numerics.dll"
 #r "MathNet.Numerics.FSharp.dll"
