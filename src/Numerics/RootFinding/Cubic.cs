@@ -66,7 +66,7 @@ namespace MathNet.Numerics.RootFinding
                 x2 = 2d * Math.Sqrt(-Q) * Math.Cos((theta + 2.0 * Constants.Pi) / 3d) + shift;
                 x3 = 2d * Math.Sqrt(-Q) * Math.Cos((theta - 2.0 * Constants.Pi) / 3d) + shift;
             }
-            return Tuple.Create(x1, x2, x3);
+            return new Tuple<double, double, double>(x1, x2, x3);
         }
 
         public static Tuple<Complex, Complex, Complex> Roots(double a2, double a1, double a0)
@@ -90,7 +90,7 @@ namespace MathNet.Numerics.RootFinding
             x2 += sharedI;
             x3 -= sharedI;
 
-            return Tuple.Create(x1, x2, x3);
+            return new Tuple<Complex, Complex, Complex>(x1, x2, x3);
         }
     }
 }
