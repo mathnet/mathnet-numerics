@@ -8,30 +8,29 @@ open System
 
 [<AutoOpen>]
 module BigIntegerExtensions =
-
-    let private parse str =
-        let len = String.length str
-        let rec build acc i =
-            if i = len then
-                acc
+    //
+    let rec private parseImpl (str : string) len acc i =
+        if i = len then
+            acc
+        else
+            let d = int str.[i] - int '0'
+            if 0 <= d && d <= 9 then
+                parseImpl str len (10I * acc + (bigint d)) (i + 1)
             else
-                let c = str.[i]
-                let d = int c - int '0'
-                if 0 <= d && d <= 9 then
-                    build (10I * acc + (bigint d)) (i+1)
-                else
-                    raise (new FormatException("The value could not be parsed"))
-        build 0I 0
+                raise <| FormatException ("The value could not be parsed.")
 
     type BigInteger with
+        //
+        static member Parse (str : string) =
+            let len = str.Length
+            if len = 0 then
+                raise <| FormatException ("The value could not be parsed.")
 
-        static member Parse(text: string) =
-            let len = text.Length
-            if len = 0 then raise (new FormatException("The value could not be parsed"))
-            if text.[0..0] = "-" then
-                parse text.[1..len-1] |> bigint.Negate
+            if str.[0] = '-' then
+                parseImpl str len 0I 1
+                |> bigint.Negate
             else
-                parse text
+                parseImpl str len 0I 0
 
 #endif
 #endif
