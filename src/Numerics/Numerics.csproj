@@ -191,6 +191,7 @@
     <Compile Include="Random\SystemRandomSource.cs" />
     <Compile Include="Random\RandomSeed.cs" />
     <Compile Include="RootFinding\Broyden.cs" />
+    <Compile Include="RootFinding\Cubic.cs" />
     <Compile Include="RootFinding\NewtonRaphson.cs" />
     <Compile Include="RootFinding\RobustNewtonRaphson.cs" />
     <Compile Include="RootFinding\ZeroCrossingBracketing.cs" />

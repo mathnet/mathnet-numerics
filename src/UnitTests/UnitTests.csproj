@@ -378,6 +378,7 @@
     <Compile Include="Random\XorshiftTests.cs" />
     <Compile Include="RootFindingTests\BrentTest.cs" />
     <Compile Include="RootFindingTests\BroydenTest.cs" />
+    <Compile Include="RootFindingTests\CubicTest.cs" />
     <Compile Include="RootFindingTests\FindRootsTest.cs" />
     <Compile Include="RootFindingTests\RobustNewtonRaphsonTest.cs" />
     <Compile Include="RootFindingTests\NewtonRaphsonTest.cs" />
