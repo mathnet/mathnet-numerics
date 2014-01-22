@@ -30,7 +30,7 @@ $$$
 d_{\mathbf{SAD}} : (x, y) \mapsto \|x-y\|_1 = \sum_{i=1}^{n} |x_i-y_i|
 
     [lang=csharp]
-    double d = Distance.SAD(a, b);
+    double d = Distance.SAD(x, y);
 
 
 Sum of Squared Difference (SSD)
@@ -45,7 +45,7 @@ $$$
 d_{\mathbf{SSD}} : (x, y) \mapsto \|x-y\|_2^2 = \langle x-y, x-y\rangle = \sum_{i=1}^{n} (x_i-y_i)^2
 
     [lang=csharp]
-    double d = Distance.SSD(a, b);
+    double d = Distance.SSD(x, y);
 
 
 Mean-Absolute Error (MAE)
@@ -54,10 +54,10 @@ Mean-Absolute Error (MAE)
 The mean absolute error is a normalized version of the sum of absolute difference:
 
 $$$
-d_{\mathbf{MAD}} : (x, y) \mapsto \frac{d_{\mathbf{SAD}}}{n} = \frac{\|x-y\|_1}{n} = \frac{1}{n}\sum_{i=1}^{n} |x_i-y_i|
+d_{\mathbf{MAE}} : (x, y) \mapsto \frac{d_{\mathbf{SAD}}}{n} = \frac{\|x-y\|_1}{n} = \frac{1}{n}\sum_{i=1}^{n} |x_i-y_i|
 
     [lang=csharp]
-    double d = Distance.MAE(a, b);
+    double d = Distance.MAE(x, y);
 
 
 Mean-Squared Error (MSE)
@@ -69,7 +69,7 @@ $$$
 d_{\mathbf{MSE}} : (x, y) \mapsto \frac{d_{\mathbf{SSD}}}{n} = \frac{\|x-y\|_2^2}{n} = \frac{1}{n}\sum_{i=1}^{n} (x_i-y_i)^2
 
     [lang=csharp]
-    double d = Distance.MSE(a, b);
+    double d = Distance.MSE(x, y);
 
 
 Euclidean Distance
@@ -81,7 +81,7 @@ $$$
 d_{\mathbf{2}} : (x, y) \mapsto \|x-y\|_2 = \sqrt{d_{\mathbf{SSD}}} = \sqrt{\sum_{i=1}^{n} (x_i-y_i)^2}
 
     [lang=csharp]
-    double d = Distance.Euclidean(a, b);
+    double d = Distance.Euclidean(x, y);
 
 
 Manhattan Distance
@@ -93,7 +93,7 @@ $$$
 d_{\mathbf{1}} \equiv d_{\mathbf{SAD}} : (x, y) \mapsto \|x-y\|_1 = \sum_{i=1}^{n} |x_i-y_i|
 
     [lang=csharp]
-    double d = Distance.Manhattan(a, b);
+    double d = Distance.Manhattan(x, y);
 
 
 Chebyshev Distance
@@ -105,7 +105,7 @@ $$$
 d_{\mathbf{\infty}} : (x, y) \mapsto \|x-y\|_\infty = \lim_{k \rightarrow \infty}\bigg(\sum_{i=1}^{n} |x_i-y_i|^k\bigg)^\frac{1}{k} = \max_{i} |x_i-y_i|
 
     [lang=csharp]
-    double d = Distance.Chebyshev(a, b);
+    double d = Distance.Chebyshev(x, y);
 
 
 Minkowski Distance
@@ -117,7 +117,7 @@ $$$
 d_{\mathbf{p}} : (x, y) \mapsto \|x-y\|_p = \bigg(\sum_{i=1}^{n} |x_i-y_i|^p\bigg)^\frac{1}{p}
 
     [lang=csharp]
-    double d = Distance.Minkowski(p, a, b);
+    double d = Distance.Minkowski(p, x, y);
 
 
 Canberra Distance
@@ -129,7 +129,7 @@ $$$
 d_{\mathbf{Canberra}} : (x, y) \mapsto \sum_{i=1}^{n} \frac{|x_i-y_i|}{|x_i|+|y_i|}
 
     [lang=csharp]
-    double d = Distance.Canberra(a, b);
+    double d = Distance.Canberra(x, y);
 
 
 Pearson's Distance
@@ -141,7 +141,7 @@ $$$
 d_{\mathbf{Pearson}} : (x, y) \mapsto 1 - \mathbf{Corr}(x, y)
 
     [lang=csharp]
-    double d = Distance.Pearson(a, b);
+    double d = Distance.Pearson(x, y);
 
 
 Hamming Distance
@@ -150,5 +150,5 @@ Hamming Distance
 The hamming distance represents the number of entries in the two sample vectors which are different.
 
     [lang=csharp]
-    double d = Distance.Hamming(a, b);
+    double d = Distance.Hamming(x, y);
 *)
