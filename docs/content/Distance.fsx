@@ -23,6 +23,8 @@ Math.NET Numerics provides the following distance functions on vectors and array
 Sum of Absolute Difference (SAD)
 --------------------------------
 
+<img src="img/DistanceSAD.png" style="width:87px; height:87px; float:left; margin:10px 10px 10px 0;" />
+
 The sum of absolute difference is equivalent to the $L_1$-norm of the difference, also known as Manhattan- or Taxicab-norm.
 The `abs` function makes this metric a bit complicated to deal with analytically, but it is more robust than SSD.
 
@@ -36,7 +38,10 @@ d_{\mathbf{SAD}} : (x, y) \mapsto \|x-y\|_1 = \sum_{i=1}^{n} |x_i-y_i|
 Sum of Squared Difference (SSD)
 -------------------------------
 
+<img src="img/DistanceSSD.png" style="width:87px; height:87px; float:left; margin:10px 10px 10px 0;" />
+
 The sum of squared difference is equivalent to the squared $L_2$-norm, also known as Euclidean norm.
+It is therefore also known as Squared Euclidean distance.
 This is the fundamental metric in least squares problems and linear algebra. The absence of the `abs`
 function makes this metric convenient to deal with analytically, but the squares cause it to be very
 sensitive to large outliers.
@@ -51,7 +56,9 @@ d_{\mathbf{SSD}} : (x, y) \mapsto \|x-y\|_2^2 = \langle x-y, x-y\rangle = \sum_{
 Mean-Absolute Error (MAE)
 -------------------------
 
-The mean absolute error is a normalized version of the sum of absolute difference:
+<img src="img/DistanceMAE.png" style="width:87px; height:87px; float:left; margin:10px 10px 10px 0;" />
+
+The mean absolute error is a normalized version of the sum of absolute difference.
 
 $$$
 d_{\mathbf{MAE}} : (x, y) \mapsto \frac{d_{\mathbf{SAD}}}{n} = \frac{\|x-y\|_1}{n} = \frac{1}{n}\sum_{i=1}^{n} |x_i-y_i|
@@ -63,7 +70,9 @@ d_{\mathbf{MAE}} : (x, y) \mapsto \frac{d_{\mathbf{SAD}}}{n} = \frac{\|x-y\|_1}{
 Mean-Squared Error (MSE)
 ------------------------
 
-The mean squared error is a normalized version of the sum of squared difference:
+<img src="img/DistanceMSE.png" style="width:87px; height:87px; float:left; margin:10px 10px 10px 0;" />
+
+The mean squared error is a normalized version of the sum of squared difference.
 
 $$$
 d_{\mathbf{MSE}} : (x, y) \mapsto \frac{d_{\mathbf{SSD}}}{n} = \frac{\|x-y\|_2^2}{n} = \frac{1}{n}\sum_{i=1}^{n} (x_i-y_i)^2
@@ -75,7 +84,10 @@ d_{\mathbf{MSE}} : (x, y) \mapsto \frac{d_{\mathbf{SSD}}}{n} = \frac{\|x-y\|_2^2
 Euclidean Distance
 ------------------
 
-The euclidean distance is the $L_2$-norm of the difference:
+<img src="img/DistanceEuclidean.png" style="width:87px; height:87px; float:left; margin:10px 10px 10px 0;" />
+
+The euclidean distance is the $L_2$-norm of the difference, a special case of the Minkowski distance with p=2.
+It is the natural distance in a geometric interpretation.
 
 $$$
 d_{\mathbf{2}} : (x, y) \mapsto \|x-y\|_2 = \sqrt{d_{\mathbf{SSD}}} = \sqrt{\sum_{i=1}^{n} (x_i-y_i)^2}
@@ -87,7 +99,10 @@ d_{\mathbf{2}} : (x, y) \mapsto \|x-y\|_2 = \sqrt{d_{\mathbf{SSD}}} = \sqrt{\sum
 Manhattan Distance
 ------------------
 
-The manhattan distance is the $L_1$-norm of the difference and equivalent to the sum of absolute difference:
+<img src="img/DistanceManhattan.png" style="width:87px; height:87px; float:left; margin:10px 10px 10px 0;" />
+
+The manhattan distance is the $L_1$-norm of the difference, a special case of the Minkowski distance with p=1
+and equivalent to the sum of absolute difference.
 
 $$$
 d_{\mathbf{1}} \equiv d_{\mathbf{SAD}} : (x, y) \mapsto \|x-y\|_1 = \sum_{i=1}^{n} |x_i-y_i|
@@ -99,10 +114,13 @@ d_{\mathbf{1}} \equiv d_{\mathbf{SAD}} : (x, y) \mapsto \|x-y\|_1 = \sum_{i=1}^{
 Chebyshev Distance
 ------------------
 
-The chebyshev distance is the $L_\infty$-norm of the difference:
+<img src="img/DistanceChebyshev.png" style="width:87px; height:87px; float:left; margin:10px 10px 10px 0;" />
+
+The chebyshev distance is the $L_\infty$-norm of the difference, a special case of the Minkowski distance
+where p goes to infinity. It is also known as Chessboard distance. 
 
 $$$
-d_{\mathbf{\infty}} : (x, y) \mapsto \|x-y\|_\infty = \lim_{k \rightarrow \infty}\bigg(\sum_{i=1}^{n} |x_i-y_i|^k\bigg)^\frac{1}{k} = \max_{i} |x_i-y_i|
+d_{\mathbf{\infty}} : (x, y) \mapsto \|x-y\|_\infty = \lim_{p \rightarrow \infty}\bigg(\sum_{i=1}^{n} |x_i-y_i|^p\bigg)^\frac{1}{p} = \max_{i} |x_i-y_i|
 
     [lang=csharp]
     double d = Distance.Chebyshev(x, y);
@@ -111,7 +129,10 @@ d_{\mathbf{\infty}} : (x, y) \mapsto \|x-y\|_\infty = \lim_{k \rightarrow \infty
 Minkowski Distance
 ------------------
 
-The minkovski distance is the generalized $L_p$-norm of the difference:
+<img src="img/DistanceMinkowski3.png" style="width:87px; height:87px; float:left; margin:10px 10px 10px 0;" />
+
+The minkovski distance is the generalized $L_p$-norm of the difference.
+The contour plot on the left demonstrates the case of p=3.
 
 $$$
 d_{\mathbf{p}} : (x, y) \mapsto \|x-y\|_p = \bigg(\sum_{i=1}^{n} |x_i-y_i|^p\bigg)^\frac{1}{p}
@@ -123,19 +144,42 @@ d_{\mathbf{p}} : (x, y) \mapsto \|x-y\|_p = \bigg(\sum_{i=1}^{n} |x_i-y_i|^p\big
 Canberra Distance
 -----------------
 
-The canberra distance is a weighted version of the manhattan distance:
+<img src="img/DistanceCanberra.png" style="width:87px; height:87px; float:left; margin:10px 10px 10px 0;" />
+
+The Canberra distance is a weighted version of the manhattan distance, introduced and refined 1967 by Lance, Williams and Adkins.
+It is often used for data scattered around an origin, as it is biased for measures around the origin and very sensitive for values close to zero.
 
 $$$
-d_{\mathbf{Canberra}} : (x, y) \mapsto \sum_{i=1}^{n} \frac{|x_i-y_i|}{|x_i|+|y_i|}
+d_{\mathbf{CAD}} : (x, y) \mapsto \sum_{i=1}^{n} \frac{|x_i-y_i|}{|x_i|+|y_i|}
 
     [lang=csharp]
     double d = Distance.Canberra(x, y);
 
 
+Cosine Distance (planned)
+-------------------------
+
+<img src="img/DistanceCosine.png" style="width:87px; height:87px; float:left; margin:10px 10px 10px 0;" />
+
+The cosine distance contains the dot product scaled by the product of the Euclidean distances from the origin.
+It represents the angular distance of two vectors while ignoring their scale.
+
+$$$
+d_{\mathbf{cos}} : (x, y) \mapsto 1-\frac{\langle x, y\rangle}{\|x\|_2\|y\|_2} = 1-\frac{\sum_{i=1}^{n} x_i y_i}{\sqrt{\sum_{i=1}^{n} x_i^2}\sqrt{\sum_{i=1}^{n} y_i^2}}
+
+    [lang=csharp]
+    // Planned (not implemented yet):
+    double d = Distance.Cosine(x, y);
+
+
 Pearson's Distance
 ------------------
 
-The pearson's distance is based on pearson's product-momentum correlation coefficient of the two sample vectors:
+<img src="img/DistancePearson.png" style="width:87px; height:87px; float:left; margin:10px 10px 10px 0;" />
+
+The Pearson distance is a correlation distance based on Pearson's product-momentum correlation coefficient
+of the two sample vectors. Since the correlation coefficient falls between [-1, 1], the Pearson distance
+lies in [0, 2] and measures the linear relationship between the two vectors.
 
 $$$
 d_{\mathbf{Pearson}} : (x, y) \mapsto 1 - \mathbf{Corr}(x, y)
@@ -148,6 +192,7 @@ Hamming Distance
 ----------------
 
 The hamming distance represents the number of entries in the two sample vectors which are different.
+It is a fundamental distance measure in information theory but less relevant in non-integer numerical problems.
 
     [lang=csharp]
     double d = Distance.Hamming(x, y);
