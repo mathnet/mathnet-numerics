@@ -71,6 +71,7 @@ using System.Collections.Generic;
 #if PORTABLE
 using System;
 #else
+using System.Runtime;
 using System.Threading;
 #endif
 
@@ -337,10 +338,10 @@ namespace MathNet.Numerics.Random
         }*/
 
         /// <summary>
-        /// Returns an array of random numbers greater than or equal to 0.0 and less than 1.0.
+        /// Fills an array with random numbers greater than or equal to 0.0 and less than 1.0.
         /// </summary>
         /// <remarks>Supports being called in parallel from multiple threads.</remarks>
-        public static double[] Doubles(int length, int seed)
+        public static void Doubles(double[] values, int seed)
         {
             uint[] t = new uint[624];
             int k;
@@ -353,8 +354,7 @@ namespace MathNet.Numerics.Random
                 t[k] &= 0xffffffff;
             }
 
-            var data = new double[length];
-            for (int i = 0; i < data.Length; i++)
+            for (int i = 0; i < values.Length; i++)
             {
                 uint y;
 
@@ -385,8 +385,19 @@ namespace MathNet.Numerics.Random
                 y ^= (y << 15) & 0xefc60000;
                 y ^= (y >> 18);
 
-                data[i] = y*Reciprocal;
+                values[i] = y*Reciprocal;
             }
+        }
+
+        /// <summary>
+        /// Returns an array of random numbers greater than or equal to 0.0 and less than 1.0.
+        /// </summary>
+        /// <remarks>Supports being called in parallel from multiple threads.</remarks>
+        [TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")]
+        public static double[] Doubles(int length, int seed)
+        {
+            var data = new double[length];
+            Doubles(data, seed);
             return data;
         }
 

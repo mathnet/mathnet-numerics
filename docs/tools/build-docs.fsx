@@ -72,7 +72,9 @@ let buildReference () =
   for lib in referenceBinaries do
     MetadataFormat.Generate
       ( bin @@ lib, output @@ "reference", layoutRoots, 
-        parameters = ("root", root)::info )
+        parameters = ("root", root)::info,
+        sourceRepo = "https://github.com/mathnet/mathnet-numerics/tree/master/src",
+        sourceFolder = @"..\..\src", publicOnly = true)
 
 // Build documentation from `fsx` and `md` files in `docs/content`
 let buildDocumentation () =

@@ -182,7 +182,6 @@ namespace MathNet.Numerics.Random
         public static void Doubles(double[] values, int seed)
         {
             var rnd = new System.Random(seed);
-
             for (int i = 0; i < values.Length; i++)
             {
                 values[i] = rnd.NextDouble();
@@ -208,7 +207,6 @@ namespace MathNet.Numerics.Random
         public static IEnumerable<double> DoubleSequence(int seed)
         {
             var rnd = new System.Random(seed);
-
             while (true)
             {
                 yield return rnd.NextDouble();
