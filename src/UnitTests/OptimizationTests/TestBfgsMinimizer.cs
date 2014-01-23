@@ -44,7 +44,7 @@ namespace MathNet.Numerics.UnitTests.OptimizationTests
 		[Test]
 		public void FindMinimum_BigRosenbrock_Easy()
 		{
-            var obj = ObjectiveFunction.Gradient(RosenbrockFunction.Value, RosenbrockFunction.Gradient);
+            var obj = ObjectiveFunction.Gradient(BigRosenbrockFunction.Value, BigRosenbrockFunction.Gradient);
 			var solver = new BfgsMinimizer(1e-10, 1e-5, 1000);
 			var result = solver.FindMinimum(obj, new DenseVector(new[] { 1.2*100.0, 1.2*100.0 }));
 
@@ -55,7 +55,7 @@ namespace MathNet.Numerics.UnitTests.OptimizationTests
 		[Test]
 		public void FindMinimum_BigRosenbrock_Hard()
 		{
-            var obj = ObjectiveFunction.Gradient(RosenbrockFunction.Value, RosenbrockFunction.Gradient);
+            var obj = ObjectiveFunction.Gradient(BigRosenbrockFunction.Value, BigRosenbrockFunction.Gradient);
 			var solver = new BfgsMinimizer(1e-5, 1e-5, 1000);
 			var result = solver.FindMinimum(obj, new DenseVector(new[] { -1.2*100.0, 1.0*100.0 }));
 
@@ -66,7 +66,7 @@ namespace MathNet.Numerics.UnitTests.OptimizationTests
 		[Test]
 		public void FindMinimum_BigRosenbrock_Overton()
 		{
-            var obj = ObjectiveFunction.Gradient(RosenbrockFunction.Value, RosenbrockFunction.Gradient);
+            var obj = ObjectiveFunction.Gradient(BigRosenbrockFunction.Value, BigRosenbrockFunction.Gradient);
 			var solver = new BfgsMinimizer(1e-5, 1e-5, 1000);
 			var result = solver.FindMinimum(obj, new DenseVector(new[] { -0.9*100.0, -0.5*100.0 }));
 

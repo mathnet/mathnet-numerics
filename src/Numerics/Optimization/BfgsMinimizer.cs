@@ -33,7 +33,7 @@ namespace MathNet.Numerics.Optimization
                 return new MinimizationResult(objective, 0, currentExitCondition);
 
             // Set up line search algorithm
-            var lineSearcher = new WeakWolfeLineSearch(1e-4, 0.9, ParameterTolerance, 1000);
+            var lineSearcher = new WeakWolfeLineSearch(1e-4, 0.9, Math.Max(ParameterTolerance, 1e-10), 1000);
 
             // First step
             var inversePseudoHessian = CreateMatrix.DenseIdentity<double>(initialGuess.Count);
@@ -61,6 +61,7 @@ namespace MathNet.Numerics.Optimization
             stepSize = result.FinalStep;
 
             // Subsequent steps
+            Matrix<double> I = CreateMatrix.DiagonalIdentity<double>(initialGuess.Count);
             int iterations;
             int totalLineSearchSteps = result.Iterations;
             int iterationsWithNontrivialLineSearch = result.Iterations > 0 ? 0 : 1;
@@ -70,14 +71,18 @@ namespace MathNet.Numerics.Optimization
 
                 double sy = step * y;
                 inversePseudoHessian = inversePseudoHessian + ((sy + y * inversePseudoHessian * y) / Math.Pow(sy, 2.0)) * step.OuterProduct(step) - ( (inversePseudoHessian * y.ToColumnMatrix())*step.ToRowMatrix() + step.ToColumnMatrix()*(y.ToRowMatrix() * inversePseudoHessian)) * (1.0 / sy);
-
                 searchDirection = -inversePseudoHessian * objective.Gradient;
 
-                if (searchDirection * objective.Gradient >= -GradientTolerance*GradientTolerance)
+                if (searchDirection * objective.Gradient >= 0.0)
                 {
                     searchDirection = -objective.Gradient;
                     inversePseudoHessian = CreateMatrix.DenseIdentity<double>(initialGuess.Count);
                 }
+                //else if (searchDirection * objective.Gradient >= -GradientTolerance*GradientTolerance)
+                //{
+                //    searchDirection = -objective.Gradient;
+                //    inversePseudoHessian = CreateMatrix.DenseIdentity<double>(initialGuess.Count);
+                //}
 
                 previousGradient = objective.Gradient;
                 previousPoint = objective.Point;

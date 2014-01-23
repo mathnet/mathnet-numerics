@@ -425,6 +425,7 @@
     <Compile Include="StatisticsTests\StatTestData.cs" />
     <Compile Include="TrigonometryTest.cs" />
     <Compile Include="UseLinearAlgebraProvider.cs" />
+    <Compile Include="OptimizationTests\TestBfgsBMinimizer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="paket.references" />

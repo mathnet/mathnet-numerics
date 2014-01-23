@@ -261,6 +261,7 @@
     <Compile Include="RootFinding\Brent.cs" />
     <Compile Include="FindRoots.cs" />
     <Compile Include="RootFinding\Bisection.cs" />
+    <Compile Include="Optimization\BfgsBMinimizer.cs" />
     <Compile Include="Optimization\BfgsMinimizer.cs" />
     <Compile Include="Optimization\ConjugateGradientMinimizer.cs" />
     <Compile Include="Optimization\GoldenSectionMinimizer.cs" />
@@ -270,6 +271,7 @@
     <Compile Include="Optimization\ObjectiveFunction1D.cs" />
     <Compile Include="Optimization\OptimizationResult.cs" />
     <Compile Include="Optimization\LineSearch\StrongWolfeLineSearch.cs" />
+    <Compile Include="Optimization\QuadraticGradientProjectionSearch.cs" />
     <Compile Include="SpecialFunctions\Evaluate.cs" />
     <Compile Include="ExcelFunctions.cs" />
     <Compile Include="SpecialFunctions\ExponentialIntegral.cs" />
