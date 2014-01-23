@@ -220,8 +220,8 @@ unless explicitly disabled by a constructor argument or by setting `Control.Thre
 For convenience a few generators provide a thread-safe shared instance
 
     [lang=csharp]
-    let a = SystemRandomSource.Default;
-    let b = MersenneTwister.Default;
+    var a = SystemRandomSource.Default;
+    var b = MersenneTwister.Default;
 
 Or with the F# module:
 *)

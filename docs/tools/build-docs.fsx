@@ -46,7 +46,7 @@ let root = "file://" + (__SOURCE_DIRECTORY__ @@ "../../out/docs")
 #endif
 
 // Paths with template/source/output locations
-let bin        = __SOURCE_DIRECTORY__ @@ "../../out/lib/net40"
+let bin        = __SOURCE_DIRECTORY__ @@ "../../out/lib/Net40"
 let content    = __SOURCE_DIRECTORY__ @@ "../content"
 let output     = __SOURCE_DIRECTORY__ @@ "../../out/docs"
 let files      = __SOURCE_DIRECTORY__ @@ "../files"
