@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.21005.1
+VisualStudioVersion = 12.0.30110.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{4D50FB34-10BC-495A-8B2F-482E34B4D771}"
 EndProject
@@ -40,8 +40,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{A4A66FA9
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{039229DA-AFDA-48DB-B7FC-B064691DEE96}"
 	ProjectSection(SolutionItems) = preProject
+		docs\content\DescriptiveStatistics.fsx = docs\content\DescriptiveStatistics.fsx
 		docs\content\Distance.fsx = docs\content\Distance.fsx
+		docs\content\Functions.fsx = docs\content\Functions.fsx
 		docs\content\index.fsx = docs\content\index.fsx
+		docs\content\IntegralTransforms.fsx = docs\content\IntegralTransforms.fsx
+		docs\content\Integration.fsx = docs\content\Integration.fsx
+		docs\content\Interpolation.fsx = docs\content\Interpolation.fsx
 		docs\content\RandomAndDistributions.fsx = docs\content\RandomAndDistributions.fsx
 		docs\tools\templates\template.cshtml = docs\tools\templates\template.cshtml
 	EndProjectSection

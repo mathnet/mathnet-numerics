@@ -78,7 +78,7 @@ namespace MathNet.Numerics
 
         /// <summary>
         /// Returns the lower incomplete (unregularized) beta function
-        /// I_x(a,b) = int(t^(a-1)*(1-t)^(b-1),t=0..x) for real a &gt; 0, b &gt; 0, 1 &gt;= x &gt;= 0.
+        /// B(a,b,x) = int(t^(a-1)*(1-t)^(b-1),t=0..x) for real a &gt; 0, b &gt; 0, 1 &gt;= x &gt;= 0.
         /// </summary>
         /// <param name="a">The first Beta parameter, a positive real number.</param>
         /// <param name="b">The second Beta parameter, a positive real number.</param>
