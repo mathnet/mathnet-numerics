@@ -14,12 +14,17 @@ Environment.CurrentDirectory <- __SOURCE_DIRECTORY__
 
 // PREPARE
 
+Target "Start" DoNothing
 Target "Clean" (fun _ -> CleanDirs ["out"; "obj"; "temp"])
 Target "RestorePackages" RestorePackages
 Target "AssemblyInfo" DoNothing
 Target "Prepare" DoNothing
 
-"Clean" ==> "RestorePackages" ==> "AssemblyInfo" ==> "Prepare"
+"Start"
+  =?> ("Clean", not (hasBuildParam "incremental"))
+  ==> "RestorePackages"
+  ==> "AssemblyInfo"
+  ==> "Prepare"
 
 
 // BUILD
@@ -51,6 +56,8 @@ Target "Test" (fun _ ->
 
 
 // DOCUMENTATION
+
+Target "CleanDocs" (fun _ -> CleanDirs ["out" @@ "docs"])
 
 Target "Docs" (fun _ ->
     executeFSIWithArgs "docs/tools" "build-docs.fsx" ["--define:RELEASE"] [] |> ignore
