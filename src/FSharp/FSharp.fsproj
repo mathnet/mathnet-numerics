@@ -59,6 +59,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
+    <Compile Include="Statistics.fs" />
     <Compile Include="Random.fs" />
     <Compile Include="Distributions.fs" />
     <Compile Include="LinearAlgebra.Vector.fs" />
