@@ -2,6 +2,8 @@
 #I "../../out/lib/net40"
 #r "MathNet.Numerics.dll"
 #r "MathNet.Numerics.FSharp.dll"
+open MathNet.Numerics
+open MathNet.Numerics.Statistics
 
 (**
 Descriptive Statistics
@@ -82,8 +84,18 @@ The mean is affected by outliers, so if you need a more robust estimate consider
 
 $$$
 \overline{x} = \frac{1}{N}\sum_{i=1}^N x_i
+*)
 
+let whiteNoise = Generate.WhiteGaussianNoise(1000, mean=10.0, standardDeviation=2.0)
+// [fsi:val samples : float [] = [|12.90021939; 9.631515037; 7.810008046; 14.13301053; ...|] ]
+Statistics.Mean whiteNoise
+// [fsi:val it : float = 10.02162347]
 
+let wave = Generate.Sinusoidal(1000, samplingRate=100., frequency=5., amplitude=0.5)
+Statistics.Mean wave
+// [fsi:val it : float = -4.133520783e-17]
+
+(**
 Variance and Standard Deviation
 -------------------------------
 
@@ -107,8 +119,17 @@ Bessel's correction with an $N-1$ normalizer to a sample set of size $N$.
 
 $$$
 s^2 = \frac{1}{N-1}\sum_{i=1}^N (x_i - \overline{x})^2
+*)
 
+Statistics.Variance whiteNoise
+// [fsi:val it : float = 3.819436094]
+Statistics.StandardDeviation whiteNoise
+// [fsi:val it : float = 1.954337764]
 
+Statistics.Variance wave
+// [fsi:val it : float = 0.1251251251]
+
+(**
 #### Combined Routines
 
 Since mean and variance are often needed together, there are routines
@@ -116,9 +137,13 @@ that evaluate both in a single pass:
 
 `Statistics.MeanVariance(samples)`  
 `ArrayStatistics.MeanVariance(samples)`  
-`StreamingStatistics.MeanVariance(samples)`  
+`StreamingStatistics.MeanVariance(samples)`
+*)
 
+Statistics.MeanVariance whiteNoise
+// [fsi:val it : float * float = (10.02162347, 3.819436094)]
 
+(**
 Covariance
 ----------
 
@@ -135,8 +160,14 @@ q = \frac{1}{N-1}\sum_{i=1}^N (x_i - \overline{x})(y_i - \overline{y})
 
 $$$
 q = \frac{1}{N}\sum_{i=1}^N (x_i - \mu_x)(y_i - \mu_y)
+*)
 
+Statistics.Covariance(whiteNoise, whiteNoise)
+// [fsi:val it : float = 3.819436094]
+Statistics.Covariance(whiteNoise, wave)
+// [fsi:val it : float = 0.04397985084]
 
+(**
 Order Statistics
 ----------------
 
@@ -167,8 +198,22 @@ provided data and then on each invocation uses efficient sorted algorithms:
 
 Such Inplace and Func variants are a common pattern throughout the Statistics class
 and also the rest of the library.
+*)
 
+Statistics.OrderStatistic(whiteNoise, 1)
+// [fsi:val it : float = 3.633070184]
+Statistics.OrderStatistic(whiteNoise, 1000)
+// [fsi:val it : float = 16.65183566]
 
+let os = Statistics.orderStatisticF whiteNoise
+os 250
+// [fsi:val it : float = 8.645491746]
+os 500
+// [fsi:val it : float = 10.11872428]
+os 750
+// [fsi:val it : float = 11.33170746]
+
+(**
 #### Median
 
 Median is a robust indicator of central tendency and much less affected by outliers
@@ -183,8 +228,14 @@ The median is only unique if the sample size is odd. This implementation interna
 uses the default quantile definition, which is equivalent to mode 8 in R and is approximately
 median-unbiased regardless of the sample distribution. If you need another convention, use
 `QuantileCustom` instead, see below for details.
+*)
 
+Statistics.Median whiteNoise
+// [fsi:val it : float = 10.11872428]
+Statistics.Median wave
+// [fsi:val it : float = -2.452600839e-16]
 
+(**
 #### Quartiles and the 5-number summary
 
 Quartiles group the ascendingly sorted data into four equal groups, where each
@@ -199,7 +250,14 @@ estimates the median as discussed above.
 `SortedArrayStatistics.UpperQuartile(data)`  
 `ArrayStatistics.LowerQuartileInplace(data)`  
 `ArrayStatistics.UpperQuartileInplace(data)`
+*)
 
+Statistics.LowerQuartile whiteNoise
+// [fsi:val it : float = 8.645491746]
+Statistics.UpperQuartile whiteNoise
+// [fsi:val it : float = 11.33213732]
+
+(**
 Using that data we can provide a useful set of indicators usually named 5-number summary,
 which consists of the minimum value, the lower quartile, the median, the uppper quartile and
 the maximum value. All these values can be visualized in the popular box plot diagrams.
@@ -207,7 +265,14 @@ the maximum value. All these values can be visualized in the popular box plot di
 `Statistics.FiveNumberSummary(data)`  
 `SortedArrayStatistics.FiveNumberSummary(data)`  
 `ArrayStatistics.FiveNumberSummaryInplace(data)`
+*)
 
+Statistics.FiveNumberSummary whiteNoise
+// [fsi:val it : float [] = [|3.633070184; 8.645937823; 10.12165054; 11.33213732; 16.65183566|] ]
+Statistics.FiveNumberSummary wave
+// [fsi:val it : float [] = [|-0.5; -0.3584185509; -2.452600839e-16; 0.3584185509; 0.5|] ]
+
+(**
 The difference between the upper and the lower quartile is called inter-quartile range (IQR)
 and is a robust indicator of spread. In box plots the IQR is the total height of the box.
 
@@ -216,8 +281,12 @@ and is a robust indicator of spread. In box plots the IQR is the total height of
 `ArrayStatistics.InterquartileRangeInplace(data)`
 
 Just like median, quartiles use the default R8 quantile definition internally.
+*)
 
+Statistics.InterquartileRange whiteNoise
+// [fsi:val it : float = 2.686199498]
 
+(**
 #### Percentiles
 
 Precentiles extend the concept further by grouping the sorted values into 100
@@ -231,32 +300,41 @@ The 0-percentile represents the minimum value, 25 the first quartile, 50 the med
 `ArrayStatistics.PercentileInplace(data, p)`
 
 Just like median, percentiles use the default R8 quantile definition internally.
+*)
 
+Statistics.Percentile(whiteNoise, 5)
+// [fsi:val it : float = 6.693373507]
+Statistics.Percentile(whiteNoise, 98)
+// [fsi:val it : float = 13.97580653]
 
+(**
 #### Quantiles
 
 Instead of grouping into 4 or 100 boxes, quantiles generalize the concept to an infinite number
 of boxes and thus to arbitrary real numbers $\tau$ between 0.0 and 1.0, where 0.0 represents the
 minimum value, 0.5 the median and 1.0 the maximum value. Quantiles are closely related to
-the cumulative distribution function of the sample distribution.
+the inverse cumulative distribution function of the sample distribution.
 
 `Statistics.Quantile(data, tau)`  
 `Statistics.QuantileFunc(data)`  
 `SortedArrayStatistics.Quantile(data, tau)`  
 `ArrayStatistics.QuantileInplace(data, tau)`
+*)
 
+Statistics.Quantile(whiteNoise, 0.98)
+// [fsi:val it : float = 13.97580653]
 
+(**
 #### Quantile Conventions and Compatibility
 
 Remember that all these descriptive statistics do not *compute* but merely *estimate*
 statistical indicators of the value distribution. In the case of quantiles,
 there is usually not a single number between the two groups specified by $\tau$.
-There are multiple ways to deal with this: the SAS package defined at least 5 ways,
-the R project supports 9 variants and Mathematican and SciPy have their own way
-to parametrize the behavior.
+There are multiple ways to deal with this: the R project supports 9 modes and Mathematica
+and SciPy have their own way to parametrize the behavior.
 
 The `QuantileCustom` functions support all 9 modes from the R-project, which includes the one
-used by Microsoft Excel, and also the 4-parameter veriant of Mathematica:
+used by Microsoft Excel, and also the 4-parameter variant of Mathematica:
 
 `Statistics.QuantileCustom(data, tau, definition)`  
 `Statistics.QuantileCustomFunc(data, definition)`  
@@ -276,17 +354,23 @@ The `QuantileDefinition` enumeration has the following options:
 * **R7**, Excel, Mode, S
 * **R8**, Median, Default
 * **R9**, Normal
+*)
 
+Statistics.QuantileCustom(whiteNoise, 0.98, QuantileDefinition.R3)
+// [fsi:val it : float = 13.97113209]
+Statistics.QuantileCustom(whiteNoise, 0.98, QuantileDefinition.Excel)
+// [fsi:val it : float = 13.97127374]
 
+(**
 Rank Statistics
 ---------------
 
 #### Ranks
 
-Rank statistics are the counterpart to order statistics. The `Ranks` functions evaluate the rank
-of each sample and return them all as an array of doubles. The return type is double instead of int
+Rank statistics are the counterpart to order statistics. The `Ranks` function evaluates the rank
+of each sample and returns them as an array of doubles. The return type is double instead of int
 in order to deal with ties, if one of the values appears multiple times.
-Similar to `QuantileDefinition` in quantiles, the `RankDefinition` enum controls how ties should be handled:
+Similar to `QuantileDefinition`, the `RankDefinition` enumeration controls how ties should be handled:
 
 * **Average**, Default: Replace ties with their mean (causing non-integer ranks).
 * **Min**, Sports: Replace ties with their minimum, as typical in sports ranking.
@@ -297,7 +381,16 @@ Similar to `QuantileDefinition` in quantiles, the `RankDefinition` enum controls
 `Statistics.Ranks(data, defintion)`  
 `SortedArrayStatistics.Ranks(data, definition)`  
 `ArrayStatistics.RanksInplace(data, definition)`
+*)
 
+Statistics.Ranks(whiteNoise)
+// [fsi:val it : float [] = [|634.0; 736.0; 405.0; 395.0; 197.0; 167.0; 722.0; 44.0; ...|] ]
+Statistics.Ranks([| 13.0; 14.0; 11.0; 12.0; 13.0 |], RankDefinition.Average)
+// [fsi:val it : float [] = [|3.5; 5.0; 1.0; 2.0; 3.5|] ]
+Statistics.Ranks([| 13.0; 14.0; 11.0; 12.0; 13.0 |], RankDefinition.Sports)
+// [fsi:val it : float [] = [|3.0; 5.0; 1.0; 2.0; 3.0|] ]
+
+(**
 #### Quantile Rank
 
 Counterpart of the `Quantile` function, estimates $\tau$ of the provided $\tau$-quantile value
@@ -306,9 +399,15 @@ function crosses $\tau$.
 
 `Statistics.QuantileRank(data, x, definition)`  
 `Statistics.QuantileRankFunc(data, definition)`  
-`SortedArrayStatistics.QuantileRank(data, x, definition)`  
+`SortedArrayStatistics.QuantileRank(data, x, definition)`
+*)
 
+Statistics.QuantileRank(whiteNoise, 13.0)
+// [fsi:val it : float = 0.9370045563]
+Statistics.QuantileRank(whiteNoise, 6.7, RankDefinition.Average)
+// [fsi:val it : float = 0.04960610389]
 
+(**
 Empirical Distribution Functions
 --------------------------------
 
@@ -317,8 +416,23 @@ Empirical Distribution Functions
 `Statistics.EmpiricalInvCDF(data, tau)`  
 `Statistics.EmpiricalInvCDFFunc(data)`  
 `SortedArrayStatistics.EmpiricalCDF(data, x)`  
+*)
 
+let ecdf = Statistics.EmpiricalCDFFunc whiteNoise
+Generate.LinearSpacedMap(20, start=3.0, stop=17.0, map=ecdf)
+// [fsi:val it : float [] =]
+// [fsi:    [|0.0; 0.001; 0.002; 0.005; 0.022; 0.05; 0.094; 0.172; 0.278; 0.423; 0.555; ]
+// [fsi:      0.705; 0.843; 0.921; 0.944; 0.983; 0.992; 0.997; 0.999; 1.0|] ]
 
+let eicdf = Statistics.empiricalInvCdfF whiteNoise
+[ for tau in 0.0..0.05..1.0 -> eicdf tau ]
+// [fsi:val it : float [] =]
+// [fsi:    [3.633070184; 6.682142043; 7.520000817; 8.040513497; 8.347587493; ]
+// [fsi:     8.645491746; 9.02681611; 9.298987151; 9.522627142; 9.819352699; 10.11872428; ]
+// [fsi:     10.35991046; 10.57530906; 10.8259542; 11.08605473; 11.33170746; 11.54356436; ]
+// [fsi:     11.90973541; 12.4294346; 13.36889423; 16.65183566] ]
+
+(**
 Histograms
 ----------
 
