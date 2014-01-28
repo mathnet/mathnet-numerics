@@ -323,6 +323,28 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
+        /// Cosine Distance, representing the angular distance while ignoring the scale.
+        /// </summary>
+        public static double Cosine(double[] a, double[] b)
+        {
+            var ab = Control.LinearAlgebraProvider.DotProduct(a, b);
+            var a2 = Control.LinearAlgebraProvider.DotProduct(a, a);
+            var b2 = Control.LinearAlgebraProvider.DotProduct(b, b);
+            return 1d - ab/(Math.Sqrt(a2*b2));
+        }
+
+        /// <summary>
+        /// Cosine Distance, representing the angular distance while ignoring the scale.
+        /// </summary>
+        public static float Cosine(float[] a, float[] b)
+        {
+            var ab = Control.LinearAlgebraProvider.DotProduct(a, b);
+            var a2 = Control.LinearAlgebraProvider.DotProduct(a, a);
+            var b2 = Control.LinearAlgebraProvider.DotProduct(b, b);
+            return (float)(1d - ab/(Math.Sqrt(a2*b2)));
+        }
+
+        /// <summary>
         /// Hamming Distance, i.e. the number of positions that have different values in the vectors.
         /// </summary>
         public static double Hamming(double[] a, double[] b)
