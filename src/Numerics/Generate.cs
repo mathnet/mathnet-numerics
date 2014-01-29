@@ -150,6 +150,25 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
+        /// Generate samples by sampling a function at base 10 logarithmically spaced points between the specified decade exponents (inclusive).
+        /// </summary>
+        public static T[] LogSpacedMap<T>(int length, double startExponent, double stopExponent, Func<double, T> map)
+        {
+            if (length <= 0) return new T[0];
+            if (length == 1) return new[] { map(Math.Pow(10, stopExponent)) };
+
+            double step = (stopExponent - startExponent)/(length - 1);
+
+            var data = new T[length];
+            for (int i = 0; i < data.Length; i++)
+            {
+                data[i] = map(Math.Pow(10, startExponent + i*step));
+            }
+            data[data.Length - 1] = map(Math.Pow(10, stopExponent));
+            return data;
+        }
+
+        /// <summary>
         /// Generate a linearly spaced sample vector within the inclusive interval (start, stop) and step 1.
         /// Equivalent to MATLAB colon operator (:).
         /// </summary>
