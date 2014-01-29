@@ -18,7 +18,7 @@ module FitTests =
         a |> should (equalWithin 1.0e-12) 4.0
         b |> should (equalWithin 1.0e-12) -1.5
 
-        let fres = Fit.lineF x y
+        let fres = Fit.lineFunc x y
         in x |> Array.iter (fun x -> fres x |> should (equalWithin 1.0e-12) (f x))
 
     [<Test>]
@@ -34,5 +34,5 @@ module FitTests =
         (x,y) ||> Fit.linear [(fun _ -> 1.0); (Math.Sin); (Math.Cos) ]
         |> should (equalWithin 1.0e-4) [ -0.287476; 4.02159; -1.46962 ]
 
-        let fres = Fit.linearF [(fun z -> 1.0); (fun z -> Math.Sin(z)); (fun z -> Math.Cos(z))] x y
+        let fres = Fit.linearFunc [(fun z -> 1.0); (fun z -> Math.Sin(z)); (fun z -> Math.Cos(z))] x y
         in x |> Array.iter (fun x -> fres x |> should (equalWithin 1.0e-4) (4.02159*Math.Sin(x) - 1.46962*Math.Cos(x) - 0.287476))

@@ -205,7 +205,7 @@ Statistics.OrderStatistic(whiteNoise, 1)
 Statistics.OrderStatistic(whiteNoise, 1000)
 // [fsi:val it : float = 16.65183566]
 
-let os = Statistics.orderStatisticF whiteNoise
+let os = Statistics.orderStatisticFunc whiteNoise
 os 250
 // [fsi:val it : float = 8.645491746]
 os 500
@@ -424,7 +424,7 @@ Generate.LinearSpacedMap(20, start=3.0, stop=17.0, map=ecdf)
 // [fsi:    [|0.0; 0.001; 0.002; 0.005; 0.022; 0.05; 0.094; 0.172; 0.278; 0.423; 0.555; ]
 // [fsi:      0.705; 0.843; 0.921; 0.944; 0.983; 0.992; 0.997; 0.999; 1.0|] ]
 
-let eicdf = Statistics.empiricalInvCdfF whiteNoise
+let eicdf = Statistics.empiricalInvCDFFunc whiteNoise
 [ for tau in 0.0..0.05..1.0 -> eicdf tau ]
 // [fsi:val it : float [] =]
 // [fsi:    [3.633070184; 6.682142043; 7.520000817; 8.040513497; 8.347587493; ]

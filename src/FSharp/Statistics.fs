@@ -37,11 +37,11 @@ module Statistics =
 
     let private tofs (f:Func<_,_>) = fun a -> f.Invoke(a)
 
-    let quantileF (data : float seq) = Statistics.QuantileFunc(data) |> tofs
-    let quantileCustomF (data : float seq) definition = Statistics.QuantileCustomFunc(data, definition) |> tofs
-    let percentileF (data : float seq) = Statistics.PercentileFunc(data) |> tofs
-    let orderStatisticF (data : float seq) = Statistics.OrderStatisticFunc(data) |> tofs
-    let quantileRankF (data : float seq) = Statistics.QuantileRankFunc(data) |> tofs
-    let quantileRankCustomF (data : float seq) definition = Statistics.QuantileRankFunc(data, definition) |> tofs
-    let empiricalCdfF (data : float seq) = Statistics.EmpiricalCDFFunc(data) |> tofs
-    let empiricalInvCdfF (data : float seq) = Statistics.EmpiricalInvCDFFunc(data) |> tofs
+    let quantileFunc (data : float seq) = Statistics.QuantileFunc(data) |> tofs
+    let quantileCustomFunc (data : float seq) definition = Statistics.QuantileCustomFunc(data, definition) |> tofs
+    let percentileFunc (data : float seq) = Statistics.PercentileFunc(data) |> tofs
+    let orderStatisticFunc (data : float seq) = Statistics.OrderStatisticFunc(data) |> tofs
+    let quantileRankFunc (data : float seq) = Statistics.QuantileRankFunc(data) |> tofs
+    let quantileRankCustomFunc (data : float seq) definition = Statistics.QuantileRankFunc(data, definition) |> tofs
+    let empiricalCDFFunc (data : float seq) = Statistics.EmpiricalCDFFunc(data) |> tofs
+    let empiricalInvCDFFunc (data : float seq) = Statistics.EmpiricalInvCDFFunc(data) |> tofs
