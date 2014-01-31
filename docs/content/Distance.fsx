@@ -156,8 +156,8 @@ d_{\mathbf{CAD}} : (x, y) \mapsto \sum_{i=1}^{n} \frac{|x_i-y_i|}{|x_i|+|y_i|}
     double d = Distance.Canberra(x, y);
 
 
-Cosine Distance (planned)
--------------------------
+Cosine Distance
+---------------
 
 <img src="img/DistanceCosine.png" style="width:87px; height:87px; float:left; margin:10px 10px 10px 0;" />
 
@@ -168,7 +168,6 @@ $$$
 d_{\mathbf{cos}} : (x, y) \mapsto 1-\frac{\langle x, y\rangle}{\|x\|_2\|y\|_2} = 1-\frac{\sum_{i=1}^{n} x_i y_i}{\sqrt{\sum_{i=1}^{n} x_i^2}\sqrt{\sum_{i=1}^{n} y_i^2}}
 
     [lang=csharp]
-    // Planned (not implemented yet):
     double d = Distance.Cosine(x, y);
 
 

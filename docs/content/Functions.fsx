@@ -7,35 +7,16 @@
 Special Functions
 =================
 
+All the following special functions are available in the static `SpecialFunctions` class:
+
+
 Factorial
 ---------
 
-`Factorial(x)`
+* `Factorial(x)`
 
 $$$
 x \mapsto x! = \prod_{k=1}^{x} k = \Gamma(x+1)
-
-`FactorialLn(x)`
-
-$$$
-x \mapsto \ln x! = \ln\Gamma(x+1)
-
-`Binomial(n,k)`  
-Binomial Coefficient
-
-$$$
-\binom{n}{k} = \mathrm{C}_n^k = \frac{n!}{k! (n-k)!}
-
-`BinomialLn(n,k)`
-
-$$$
-\ln \binom{n}{k} = \ln n! - \ln k! - \ln(n-k)!
-
-`Multinomial(n,k[])`  
-Multinomial Coefficient
-
-$$$
-\binom{n}{k_1,k_2,\dots,k_r} = \frac{n!}{k_1! k_2! \cdots k_r!} = \frac{n!}{\prod_{i=1}^{r}k_i!}
 
 Code Sample:
 
@@ -43,50 +24,79 @@ Code Sample:
     double x = SpecialFunctions.Factorial(14); // 87178291200.0
     double y = SpecialFunctions.Factorial(31); // 8.2228386541779224E+33
 
+* `FactorialLn(x)`
+
+$$$
+x \mapsto \ln x! = \ln\Gamma(x+1)
+
+* `Binomial(n,k)`
+
+Binomial Coefficient
+
+$$$
+\binom{n}{k} = \mathrm{C}_n^k = \frac{n!}{k! (n-k)!}
+
+* `BinomialLn(n,k)`
+
+$$$
+\ln \binom{n}{k} = \ln n! - \ln k! - \ln(n-k)!
+
+* `Multinomial(n,k[])`
+
+Multinomial Coefficient
+
+$$$
+\binom{n}{k_1,k_2,\dots,k_r} = \frac{n!}{k_1! k_2! \cdots k_r!} = \frac{n!}{\prod_{i=1}^{r}k_i!}
+
 
 Gamma-related functions
 -----------------------
 
 #### Gamma
-`SpecialFunctions.Gamma(a)`
+* `Gamma(a)`
 
 $$$
 \Gamma(a) = \int_0^\infty t^{a-1} e^{-t}\,\mathrm{d}t
 
-`SpecialFunctions.GammaLn(a)`
+* `GammaLn(a)`
 
 $$$
 \ln\Gamma(a)
 
 
 #### Incomplete Gamma
-`SpecialFunctions.GammaLowerIncomplete(a,x)`  
-Lower incomplete Gamma function (unregularized).
+* `GammaLowerIncomplete(a,x)`
+
+Lower incomplete Gamma function, unregularized.
 
 $$$
 \gamma(a,x) = \int_0^x t^{a-1} e^{-t}\,\mathrm{d}t
 
-`SpecialFunctions.GammaUpperIncomplete(a,x)`  
-Upper incomplete Gamma function (unregularized).
+* `GammaUpperIncomplete(a,x)`
+
+Upper incomplete Gamma function, unregularized.
 
 $$$
 \Gamma(a,x) = \int_x^\infty t^{a-1} e^{-t}\,\mathrm{d}t
 
 
 #### Regularized Gamma
-`SpecialFunctions.GammaLowerRegularized(a,x)`  
+* `GammaLowerRegularized(a,x)`
+
 Lower regularized incomplete Gamma function.
 
 $$$
 \mathrm{P}(a,x) = \frac{\gamma(a,x)}{\Gamma(a)}
 
-`SpecialFunctions.GammaUpperRegularized(a,x)`  
+* `GammaUpperRegularized(a,x)`
+
 Upper regularized incomplete Gamma function.
 
 $$$
 \mathrm{Q}(a,x) = \frac{\Gamma(a,x)}{\Gamma(a)}
 
-`SpecialFunctions.GammaLowerRegularizedInv(a, y)`  
+* `GammaLowerRegularizedInv(a, y)`
+
 Inverse $x$ of the lower regularized Gamma function, such that $\mathrm{P}(a,x) = y$.
 
 $$$
@@ -94,12 +104,13 @@ $$$
 
 
 #### Psi: Derivative of Logarithmic Gamma
-`SpecialFunctions.DiGamma(x)`
+* `DiGamma(x)`
 
 $$$
 \psi(x) = \frac{\mathrm{d}}{\mathrm{d}x}\ln\Gamma(x)
 
-`SpecialFunctions.DiGammaInv(p)`  
+* `DiGammaInv(p)`
+
 Inverse $x$ of the DiGamma function, such that $\psi(x) = p$.
 
 $$$
@@ -110,19 +121,20 @@ Euler Beta-related functions
 ----------------------------
 
 #### Euler Beta
-`SpecialFunctions.Beta(a,b)`
+* `Beta(a,b)`
 
 $$$
 \mathrm{B}(a,b) = \int_0^1 t^{a-1} (1-t)^{b-1}\,\mathrm{d}t = \frac{\Gamma(a)\Gamma(b)}{\Gamma(a+b)}
 
-`SpecialFunctions.BetaLn(a,b)`
+* `BetaLn(a,b)`
 
 $$$
 \ln\mathrm{B}(a,b) = \Gamma(a) + \Gamma(b) - \Gamma(a+b)
 
 
 #### Incomplete Beta
-`SpecialFunctions.BetaIncomplete(a,b,x)`  
+* `BetaIncomplete(a,b,x)`
+
 Lower incomplete Beta function (unregularized).
 
 $$$
@@ -130,7 +142,8 @@ $$$
 
 
 #### Regularized Beta
-`SpecialFunctions.BetaRegularized(a,b,x)`  
+* `BetaRegularized(a,b,x)`
+
 Lower incomplete regularized Beta function.
 
 $$$
@@ -141,12 +154,13 @@ Error functions
 ---------------
 
 #### Error Function
-`SpecialFunctions.Erf(x)`
+* `Erf(x)`
 
 $$$
 \mathrm{erf}(x) = \frac{2}{\sqrt{\pi}}\int_0^x e^{-t^2}\,\mathrm{d}t
 
-`SpecialFunctions.ErfInv(z)`  
+* `ErfInv(z)`
+
 Inverse $x$ of the Error function, such that $\mathrm{erf}(x) = z$.
 
 $$$
@@ -154,12 +168,13 @@ z \mapsto \mathrm{erf}^{-1}(z)
 
 
 #### Complementary Error function.
-`SpecialFunctions.Erfc(x)`
+* `Erfc(x)`
 
 $$$
 \mathrm{erfc}(x) = 1-\mathrm{erf}(x) = \frac{2}{\sqrt{\pi}}\int_x^\infty e^{-t^2}\,\mathrm{d}t
 
-`SpecialFunctions.ErfcInv(z)`  
+* `ErfcInv(z)`
+
 Inverse $x$ of the complementary Error function, such that $\mathrm{erfc}(x) = z$.
 
 $$$
@@ -174,12 +189,13 @@ Code Sample:
 Sigmoid: Logistic function
 --------------------------
 
-`SpecialFunctions.Logistic(x)`
+* `Logistic(x)`
 
 $$$
 x \mapsto \frac{1}{1+e^{-x}}
 
-`SpecialFunctions.Logit(y)`  
+* `Logit(y)`
+
 Inverse of the Logistic function, for $y$ between 0 and 1 (where the function is real-valued).
 
 $$$
@@ -189,14 +205,16 @@ y \mapsto \ln \frac{y}{1-y}
 Harmonic Numbers
 ----------------
 
-`SpecialFunctions.Harmonic(t)`  
+* `Harmonic(t)`
+
 The n-th Harmonic number is the sum of the reciprocals of the first n natural numbers.
 With $\gamma$ as the Euler-Mascheroni constant and the DiGamma function:
 
 $$$
 \mathrm{H}_n = \sum_{k=1}^{n}\frac{1}{k} = \gamma - \psi(n+1)
 
-`SpecialFunctions.GeneralHarmonic(n, m)`  
+* `GeneralHarmonic(n, m)`
+
 Generalized harmonic number of order n of m.
 
 $$$
@@ -221,37 +239,43 @@ $$$
 \mathrm{K}_\alpha(x) &= \frac{\pi}{2} \frac{\mathrm{I}_{-\alpha}(x)-\mathrm{I}_\alpha(x)}{\sin(\alpha\pi)}
 \end{align}
 
-`SpecialFunctions.BesselI0(x)`  
+* `BesselI0(x)`
+
 Modified or hyperbolic Bessel function of the first kind, order 0.
 
 $$$
 x \mapsto \mathrm{I}_0(x)
 
-`SpecialFunctions.BesselI1(x)`  
+* `BesselI1(x)`
+
 Modified or hyperbolic Bessel function of the first kind, order 1.
 
 $$$
 x \mapsto \mathrm{I}_1(x)
 
-`SpecialFunctions.BesselK0(x)`  
+* `BesselK0(x)`
+
 Modified or hyperbolic Bessel function of the second kind, order 0.
 
 $$$
 x \mapsto \mathrm{K}_0(x)
 
-`SpecialFunctions.BesselK0e(x)`  
+* `BesselK0e(x)`
+
 Exponentionally scaled modified Bessel function of the second kind, order 0.
 
 $$$
 x \mapsto e^x\mathrm{K}_0(x)
 
-`SpecialFunctions.BesselK1(x)`  
+* `BesselK1(x)`
+
 Modified or hyperbolic Bessel function of the second kind, order 1.
 
 $$$
 x \mapsto \mathrm{K}_1(x)
 
-`SpecialFunctions.BesselK1e(x)`  
+* `BesselK1e(x)`
+
 Exponentionally scaled modified Bessel function of the second kind, order 1.
 
 $$$
@@ -270,13 +294,15 @@ Modified Struve functions:
 $$$
 \mathrm{L}_\alpha(x) = \left(\frac{x}{2}\right)^{\alpha+1}\sum_{k=0}^\infty \frac{1}{\Gamma(\frac{3}{2}+k)\Gamma(\frac{3}{2}+k+\alpha)}\left(\frac{x}{2}\right)^{2k}
 
-`SpecialFunctions.StruveL0(x)`  
+* `StruveL0(x)`
+
 Modified Struve function of order 0.
 
 $$$
 x \mapsto \mathrm{L}_0(x)
 
-`SpecialFunctions.StruveL1(x)`  
+* `StruveL1(x)`
+
 Modified Struve function of order 1.
 
 $$$
@@ -285,13 +311,15 @@ x \mapsto \mathrm{L}_1(x)
 
 #### Misc
 
-`SpecialFunctions.BesselI0MStruveL0(x)`  
+* `BesselI0MStruveL0(x)`
+
 Difference between the Bessel $I_0$ and the Struve $L_0$ functions.
 
 $$$
 x \mapsto I_0(x) - L_0(x)
 
-`SpecialFunctions.BesselI1MStruveL1(x)`  
+* `BesselI1MStruveL1(x)`
+
 Difference between the Bessel $I_1$ and the Struve $L_1$ functions.
 
 $$$
@@ -301,14 +329,16 @@ x \mapsto I_1(x) - L_1(x)
 Numeric Stability
 -----------------
 
-`SpecialFunctions.ExponentialMinusOne(power)`  
-$\exp x-1$ is a typical case where a subtraction can lead to low accuracy.
-For example, at $10^{-13}$ the naive expression is 0.08% off, at $10^{-15}$ roughly 11% and at $10^{-18}$ it just returns 0.
+* `ExponentialMinusOne(power)`
+
+$\exp x-1$ is a typical case where a subtraction can be fatal for accuracy.
+For example, at $10^{-13}$ the naive expression is 0.08% off, at $10^{-15}$
+roughly 11% and at $10^{-18}$ it just returns 0.
 
 $$$
 x \mapsto e^x - 1
 
-`SpecialFunctions.Hypotenuse(a, b)`
+`Hypotenuse(a, b)`
 
 $$$
 (a,b) \mapsto \sqrt{a^2 + b^2}
