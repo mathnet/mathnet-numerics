@@ -196,7 +196,7 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
-        /// Generate a linearly spaced sample vector within the inclusive interval (start, stop) and the provide step.
+        /// Generate a linearly spaced sample vector within the inclusive interval (start, stop) and the provided step.
         /// The start value is aways included as first value, but stop is only included if it stop-start is a multiple of step.
         /// Equivalent to MATLAB double colon operator (::).
         /// </summary>
@@ -457,44 +457,29 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
-        /// Create a Dirac Delta Impulse sample vector.
+        /// Create a Kronecker Delta impulse sample vector.
         /// </summary>
         /// <param name="length">The number of samples to generate.</param>
-        /// <param name="period">impulse sequence period. -1 for single impulse only.</param>
         /// <param name="amplitude">The maximal reached peak.</param>
         /// <param name="delay">Offset to the time axis. Zero or positive.</param>
-        public static double[] Impulse(int length, int period, double amplitude, int delay)
+        public static double[] Impulse(int length, double amplitude, int delay)
         {
             var data = new double[length];
-            if (period <= 0)
+            if (delay >= 0 && delay < length)
             {
-                if (delay >= 0 && delay < length)
-                {
-                    data[delay] = amplitude;
-                }
-            }
-            else
-            {
-                delay = ((delay%period) + period)%period;
-                while (delay < length)
-                {
-                    data[delay] = amplitude;
-                    delay += period;
-                }
+                data[delay] = amplitude;
             }
             return data;
         }
 
-
         /// <summary>
-        /// Create a Dirac Delta Impulse sample vector.
+        /// Create a Kronecker Delta impulse sample vector.
         /// </summary>
-        /// <param name="period">impulse sequence period. -1 for single impulse only.</param>
         /// <param name="amplitude">The maximal reached peak.</param>
-        /// <param name="delay">Offset to the time axis. Zero or positive.</param>
-        public static IEnumerable<double> ImpulseSequence(int period, double amplitude, int delay)
+        /// <param name="delay">Offset to the time axis, hence the sample index of the impulse.</param>
+        public static IEnumerable<double> ImpulseSequence(double amplitude, int delay)
         {
-            if (period <= 0)
+            if (delay >= 0)
             {
                 for (int i = 0; i < delay; i++)
                 {
@@ -502,31 +487,176 @@ namespace MathNet.Numerics
                 }
 
                 yield return amplitude;
-
-                while (true)
-                {
-                    yield return 0d;
-                }
             }
-            else
+
+            while (true)
             {
-                delay = ((delay%period) + period)%period;
+                yield return 0d;
+            }
+        }
 
-                for (int i = 0; i < delay; i++)
+        /// <summary>
+        /// Create a periodic Kronecker Delta impulse sample vector.
+        /// </summary>
+        /// <param name="length">The number of samples to generate.</param>
+        /// <param name="period">impulse sequence period.</param>
+        /// <param name="amplitude">The maximal reached peak.</param>
+        /// <param name="delay">Offset to the time axis. Zero or positive.</param>
+        public static double[] PeriodicImpulse(int length, int period, double amplitude, int delay)
+        {
+            var data = new double[length];
+            delay = Euclid.Modulus(delay, period);
+            while (delay < length)
+            {
+                data[delay] = amplitude;
+                delay += period;
+            }
+            return data;
+        }
+
+        /// <summary>
+        /// Create a Kronecker Delta impulse sample vector.
+        /// </summary>
+        /// <param name="period">impulse sequence period.</param>
+        /// <param name="amplitude">The maximal reached peak.</param>
+        /// <param name="delay">Offset to the time axis. Zero or positive.</param>
+        public static IEnumerable<double> PeriodicImpulseSequence(int period, double amplitude, int delay)
+        {
+            delay = Euclid.Modulus(delay, period);
+
+            for (int i = 0; i < delay; i++)
+            {
+                yield return 0d;
+            }
+
+            while (true)
+            {
+                yield return amplitude;
+
+                for (int i = 1; i < period; i++)
                 {
                     yield return 0d;
                 }
-
-                while (true)
-                {
-                    yield return amplitude;
-
-                    for (int i = 1; i < period; i++)
-                    {
-                        yield return 0d;
-                    }
-                }
             }
+        }
+
+        /// <summary>
+        /// Create random samples, uniform between 0 and 1.
+        /// Faster than other methods but with reduced guarantees on randomness.
+        /// </summary>
+        public static double[] Uniform(int length)
+        {
+            return SystemRandomSource.Doubles(length);
+        }
+
+        /// <summary>
+        /// Create an infinite random sample sequence, uniform between 0 and 1.
+        /// Faster than other methods but with reduced guarantees on randomness.
+        /// </summary>
+        public static IEnumerable<double> UniformSequence()
+        {
+            return SystemRandomSource.DoubleSequence();
+        }
+
+
+        /// <summary>
+        /// Generate samples by sampling a function at samples from a probability distribution, uniform between 0 and 1.
+        /// Faster than other methods but with reduced guarantees on randomness.
+        /// </summary>
+        public static T[] UniformMap<T>(int length, Func<double, T> map)
+        {
+            var samples = SystemRandomSource.Doubles(length);
+            var data = new T[length];
+            for (int i = 0; i < data.Length; i++)
+            {
+                data[i] = map(samples[i]);
+            }
+            return data;
+        }
+
+        /// <summary>
+        /// Generate a sample sequence by sampling a function at samples from a probability distribution, uniform between 0 and 1.
+        /// Faster than other methods but with reduced guarantees on randomness.
+        /// </summary>
+        public static IEnumerable<T> UniformMapSequence<T>(Func<double, T> map)
+        {
+            return SystemRandomSource.DoubleSequence().Select(map);
+        }
+
+        /// <summary>
+        /// Generate samples by sampling a function at sample pairs from a probability distribution, uniform between 0 and 1.
+        /// Faster than other methods but with reduced guarantees on randomness.
+        /// </summary>
+        public static T[] UniformMap2<T>(int length, Func<double, double, T> map)
+        {
+            var samples1 = SystemRandomSource.Doubles(length);
+            var samples2 = SystemRandomSource.Doubles(length);
+            var data = new T[length];
+            for (int i = 0; i < data.Length; i++)
+            {
+                data[i] = map(samples1[i], samples2[i]);
+            }
+            return data;
+        }
+
+        /// <summary>
+        /// Generate a sample sequence by sampling a function at sample pairs from a probability distribution, uniform between 0 and 1.
+        /// Faster than other methods but with reduced guarantees on randomness.
+        /// </summary>
+        public static IEnumerable<T> UniformMap2Sequence<T>(Func<double, double, T> map)
+        {
+            var rnd1 = SystemRandomSource.Default;
+            for (int i = 0; i < 128; i++)
+            {
+                yield return map(rnd1.NextDouble(), rnd1.NextDouble());
+            }
+
+            var rnd2 = new System.Random(RandomSeed.Robust());
+            while (true)
+            {
+                yield return map(rnd2.NextDouble(), rnd2.NextDouble());
+            }
+        }
+
+        /// <summary>
+        /// Create samples with independent amplitudes of normal distribution and a flat spectral density.
+        /// </summary>
+        public static double[] Gaussian(int length, double mean, double standardDeviation)
+        {
+            return Normal.Samples(SystemRandomSource.Default, mean, standardDeviation).Take(length).ToArray();
+        }
+
+        /// <summary>
+        /// Create an infinite sample sequence with independent amplitudes of normal distribution and a flat spectral density.
+        /// </summary>
+        public static IEnumerable<double> GaussianSequence(double mean, double standardDeviation)
+        {
+            return Normal.Samples(SystemRandomSource.Default, mean, standardDeviation);
+        }
+
+        /// <summary>
+        /// Create skew alpha stable samples.
+        /// </summary>
+        /// <param name="length">The number of samples to generate.</param>
+        /// <param name="alpha">Stability alpha-parameter of the stable distribution</param>
+        /// <param name="beta">Skewness beta-parameter of the stable distribution</param>
+        /// <param name="scale">Scale c-parameter of the stable distribution</param>
+        /// <param name="location">Location mu-parameter of the stable distribution</param>
+        public static double[] Stable(int length, double alpha, double beta, double scale, double location)
+        {
+            return Distributions.Stable.Samples(SystemRandomSource.Default, alpha, beta, scale, location).Take(length).ToArray();
+        }
+
+        /// <summary>
+        /// Create skew alpha stable samples.
+        /// </summary>
+        /// <param name="alpha">Stability alpha-parameter of the stable distribution</param>
+        /// <param name="beta">Skewness beta-parameter of the stable distribution</param>
+        /// <param name="scale">Scale c-parameter of the stable distribution</param>
+        /// <param name="location">Location mu-parameter of the stable distribution</param>
+        public static IEnumerable<double> StableSequence(double alpha, double beta, double scale, double location)
+        {
+            return Distributions.Stable.Samples(SystemRandomSource.Default, alpha, beta, scale, location);
         }
 
         /// <summary>
@@ -546,24 +676,6 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
-        /// Create random samples, uniform between 0 and 1.
-        /// Faster than other methods but with reduced guarantees on randomness.
-        /// </summary>
-        public static double[] RandomUniform(int length)
-        {
-            return SystemRandomSource.Doubles(length);
-        }
-
-        /// <summary>
-        /// Create an infinite random sample sequence, uniform between 0 and 1.
-        /// Faster than other methods but with reduced guarantees on randomness.
-        /// </summary>
-        public static IEnumerable<double> RandomUniform()
-        {
-            return SystemRandomSource.DoubleSequence();
-        }
-
-        /// <summary>
         /// Create random samples.
         /// </summary>
         public static Complex[] RandomComplex(int length, IContinuousDistribution distribution)
@@ -577,47 +689,6 @@ namespace MathNet.Numerics
         public static IEnumerable<Complex> RandomComplex(IContinuousDistribution distribution)
         {
             return RandomMap2Sequence(distribution, (r, i) => new Complex(r, i));
-        }
-
-        /// <summary>
-        /// Create samples with independent amplitudes of normal distribution and a flat spectral density.
-        /// </summary>
-        public static double[] WhiteGaussianNoise(int length, double mean, double standardDeviation)
-        {
-            return Normal.Samples(SystemRandomSource.Default, mean, standardDeviation).Take(length).ToArray();
-        }
-
-        /// <summary>
-        /// Create an infinite sample sequence with independent amplitudes of normal distribution and a flat spectral density.
-        /// </summary>
-        public static IEnumerable<double> WhiteGaussianNoiseSequence(double mean, double standardDeviation)
-        {
-            return Normal.Samples(SystemRandomSource.Default, mean, standardDeviation);
-        }
-
-        /// <summary>
-        /// Create skew alpha stable samples.
-        /// </summary>
-        /// <param name="length">The number of samples to generate.</param>
-        /// <param name="alpha">Stability alpha-parameter of the stable distribution</param>
-        /// <param name="beta">Skewness beta-parameter of the stable distribution</param>
-        /// <param name="scale">Scale c-parameter of the stable distribution</param>
-        /// <param name="location">Location mu-parameter of the stable distribution</param>
-        public static double[] StableNoise(int length, double alpha, double beta, double scale, double location)
-        {
-            return Stable.Samples(SystemRandomSource.Default, alpha, beta, scale, location).Take(length).ToArray();
-        }
-
-        /// <summary>
-        /// Create skew alpha stable samples.
-        /// </summary>
-        /// <param name="alpha">Stability alpha-parameter of the stable distribution</param>
-        /// <param name="beta">Skewness beta-parameter of the stable distribution</param>
-        /// <param name="scale">Scale c-parameter of the stable distribution</param>
-        /// <param name="location">Location mu-parameter of the stable distribution</param>
-        public static IEnumerable<double> StableNoiseSequence(double alpha, double beta, double scale, double location)
-        {
-            return Stable.Samples(SystemRandomSource.Default, alpha, beta, scale, location);
         }
 
         /// <summary>
@@ -660,65 +731,6 @@ namespace MathNet.Numerics
         public static IEnumerable<T> RandomMap2Sequence<T>(IContinuousDistribution distribution, Func<double, double, T> map)
         {
             return distribution.Samples().Zip(distribution.Samples(), map);
-        }
-
-        /// <summary>
-        /// Generate samples by sampling a function at samples from a probability distribution, uniform between 0 and 1.
-        /// Faster than other methods but with reduced guarantees on randomness.
-        /// </summary>
-        public static T[] RandomUniformMap<T>(int length, Func<double, T> map)
-        {
-            var samples = SystemRandomSource.Doubles(length);
-            var data = new T[length];
-            for (int i = 0; i < data.Length; i++)
-            {
-                data[i] = map(samples[i]);
-            }
-            return data;
-        }
-
-        /// <summary>
-        /// Generate a sample sequence by sampling a function at samples from a probability distribution, uniform between 0 and 1.
-        /// Faster than other methods but with reduced guarantees on randomness.
-        /// </summary>
-        public static IEnumerable<T> RandomUniformMapSequence<T>(Func<double, T> map)
-        {
-            return SystemRandomSource.DoubleSequence().Select(map);
-        }
-
-        /// <summary>
-        /// Generate samples by sampling a function at sample pairs from a probability distribution, uniform between 0 and 1.
-        /// Faster than other methods but with reduced guarantees on randomness.
-        /// </summary>
-        public static T[] RandomUniformMap2<T>(int length, Func<double, double, T> map)
-        {
-            var samples1 = SystemRandomSource.Doubles(length);
-            var samples2 = SystemRandomSource.Doubles(length);
-            var data = new T[length];
-            for (int i = 0; i < data.Length; i++)
-            {
-                data[i] = map(samples1[i], samples2[i]);
-            }
-            return data;
-        }
-
-        /// <summary>
-        /// Generate a sample sequence by sampling a function at sample pairs from a probability distribution, uniform between 0 and 1.
-        /// Faster than other methods but with reduced guarantees on randomness.
-        /// </summary>
-        public static IEnumerable<T> RandomUniformMap2Sequence<T>(Func<double, double, T> map)
-        {
-            var rnd1 = SystemRandomSource.Default;
-            for (int i = 0; i < 128; i++)
-            {
-                yield return map(rnd1.NextDouble(), rnd1.NextDouble());
-            }
-
-            var rnd2 = new System.Random(RandomSeed.Robust());
-            while (true)
-            {
-                yield return map(rnd2.NextDouble(), rnd2.NextDouble());
-            }
         }
     }
 }

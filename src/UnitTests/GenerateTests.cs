@@ -188,12 +188,12 @@ namespace MathNet.Numerics.UnitTests
         public void ImpulseConsistentWithSequence()
         {
             Assert.That(
-                Generate.ImpulseSequence(0, 5, 40).Take(1000).ToArray(),
-                Is.EqualTo(Generate.Impulse(1000, 0, 5, 40)).AsCollection);
+                Generate.PeriodicImpulseSequence(0, 5, 40).Take(1000).ToArray(),
+                Is.EqualTo(Generate.PeriodicImpulse(1000, 0, 5, 40)).AsCollection);
 
             Assert.That(
-                Generate.ImpulseSequence(100, 5, 40).Take(1000).ToArray(),
-                Is.EqualTo(Generate.Impulse(1000, 100, 5, 40)).AsCollection);
+                Generate.PeriodicImpulseSequence(100, 5, 40).Take(1000).ToArray(),
+                Is.EqualTo(Generate.PeriodicImpulse(1000, 100, 5, 40)).AsCollection);
         }
     }
 }

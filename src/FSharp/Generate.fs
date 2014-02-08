@@ -58,7 +58,7 @@ module Generate =
     let inline randomMap2 length distribution map = Generate.RandomMap2(length, distribution, tobcl2 map)
     let inline randomMap2Seq distribution map = Generate.RandomMap2Sequence(distribution, tobcl2 map)
 
-    let inline randomUniformMap length map = Generate.RandomUniformMap(length, tobcl map)
-    let inline randomUniformMapSeq map = Generate.RandomUniformMapSequence(tobcl map)
-    let inline randomUniformMap2 length map = Generate.RandomUniformMap2(length, tobcl2 map)
-    let inline randomUniformMap2Seq map = Generate.RandomUniformMap2Sequence(tobcl2 map)
+    let inline uniformMap length map = Generate.UniformMap(length, tobcl map)
+    let inline uniformMapSeq map = Generate.UniformMapSequence(tobcl map)
+    let inline uniformMap2 length map = Generate.UniformMap2(length, tobcl2 map)
+    let inline uniformMap2Seq map = Generate.UniformMap2Sequence(tobcl2 map)

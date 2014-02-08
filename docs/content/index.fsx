@@ -12,14 +12,14 @@ Installation Instructions
 
 The recommended way to get Math.NET Numerics is to use NuGet. The following packages are provided and maintained in the public [NuGet Gallery](https://nuget.org/profiles/mathnet/):
 
-- `MathNet.Numerics` - core package, including .Net 4, .Net 3.5 and portable/PCL builds
-- `MathNet.Numerics.FSharp` - optional extensions for a better F# experience
-- `MathNet.Numerics.Data.Text` - optional extensions for text-based matrix input/output
-- `MathNet.Numerics.Data.Matlab` - optional extensions for MATLAB matrix file input/output
-- `MathNet.Numerics.MKL.Win-x86` - optional Linear Algebra MKL native provider
-- `MathNet.Numerics.MKL.Win-x64` - optional Linear Algebra MKL native provider
-- `MathNet.Numerics.Signed` - strong-named version of the core package *(not recommended)*
-- `MathNet.Numerics.FSharp.Signed` - strong-named version of the F# package *(not recommended)*
+- `MathNet.Numerics` - core package, including .Net 4, .Net 3.5 and portable/PCL builds.
+- `MathNet.Numerics.FSharp` - optional extensions for a better F# experience. BigRational.
+- `MathNet.Numerics.Data.Text` - optional extensions for text-based matrix input/output.
+- `MathNet.Numerics.Data.Matlab` - optional extensions for MATLAB matrix file input/output.
+- `MathNet.Numerics.MKL.Win-x86` - optional Linear Algebra MKL native provider.
+- `MathNet.Numerics.MKL.Win-x64` - optional Linear Algebra MKL native provider.
+- `MathNet.Numerics.Signed` - strong-named version of the core package *(not recommended)*.
+- `MathNet.Numerics.FSharp.Signed` - strong-named version of the F# package *(not recommended)*.
 
 Alternatively you can also download the binaries in Zip packages, available on [CodePlex](http://mathnetnumerics.codeplex.com/releases):
 
@@ -30,7 +30,7 @@ Supported Platforms:
 
 - .Net 4.0, .Net 3.5 and Mono: Windows, Linux and Mac.
 - PCL Portable Profiles 47 and 136: Silverlight 5, Windows Phone 8, .NET for Windows Store apps (Metro).
-- PCL/Xamarin: Android, iOS
+- PCL/Xamarin: Android, iOS  *(not verified due to lack of license and devices)*
 
 Building Math.NET Numerics
 --------------------------
