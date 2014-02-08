@@ -22,7 +22,7 @@ Univariate Statistical Analysis
 
 The primary class for statistical analysis is `Statistics` which provides common
 descriptive statics as static extension methods to `IEnumerable<double>` sequences.
-However, various statstics can be computed much more efficiently if the data source
+However, various statistics can be computed much more efficiently if the data source
 has known properties or structure, that's why the following classes provide specialized
 static implementations:
 
@@ -57,7 +57,7 @@ in one pass, is provided by the `DescriptiveStatistics` class:
 Minimum & Maximum
 -----------------
 
-The minimum and maximum values of a sample set can be evaluted with the `Minimum` and `Maximum`
+The minimum and maximum values of a sample set can be evaluated with the `Minimum` and `Maximum`
 functions of all four classes: `Statistics`, `ArrayStatistics`, `SortedArrayStatistics`
 and `StreamingStatistics`. The one in `SortedArrayStatistics` is the fastest with constant
 time complexity, but expects the array to be sorted ascendingly.
@@ -184,9 +184,9 @@ If the samples are sorted ascendingly, this is trivial and can be evaluated in c
 which is what the `SortedArrayStatistics` implementation does.
 
 If you have the samples in an array which is not (guaranteed to be) sorted,
-but if it is ok if the array does incrementally get sorted over mutliple calls,
-you can also use the following inplace implementation. It is usually faster
-than fully sorting the array, unless you need to compute it for more than a handfull orders.
+but if it is fine if the array does incrementally get sorted over multiple calls,
+you can also use the following in-place implementation. It is usually faster
+than fully sorting the array, unless you need to compute it for more than a handful orders.
 
 `ArrayStatistics.OrderStatisticInplace(data, order)`
 
@@ -218,7 +218,7 @@ os 750
 
 Median is a robust indicator of central tendency and much less affected by outliers
 than the sample mean. The median is estimated by the value exactly in the middle of
-the sorted set of samples and thus seperating the higher half of the data from the lower half.
+the sorted set of samples and thus separating the higher half of the data from the lower half.
 
 `Statistics.Median(data)`  
 `SortedArrayStatistics.Median(data)`  
@@ -259,7 +259,7 @@ Statistics.UpperQuartile whiteNoise
 
 (**
 Using that data we can provide a useful set of indicators usually named 5-number summary,
-which consists of the minimum value, the lower quartile, the median, the uppper quartile and
+which consists of the minimum value, the lower quartile, the median, the upper quartile and
 the maximum value. All these values can be visualized in the popular box plot diagrams.
 
 `Statistics.FiveNumberSummary(data)`  
@@ -289,7 +289,7 @@ Statistics.InterquartileRange whiteNoise
 (**
 #### Percentiles
 
-Precentiles extend the concept further by grouping the sorted values into 100
+Percentiles extend the concept further by grouping the sorted values into 100
 equal groups and looking at the 101 places (0,1,..,100) between and around them.
 The 0-percentile represents the minimum value, 25 the first quartile, 50 the median,
 75 the upper quartile and 100 the maximum value.
@@ -350,7 +350,7 @@ The `QuantileDefinition` enumeration has the following options:
 * **R3**, SAS2, Nearest
 * **R4**, SAS1, California
 * **R5**, Hydrology, Hazen
-* **R6**, SAS4, Nust, Weibull, SPSS
+* **R6**, SAS4, Nist, Weibull, SPSS
 * **R7**, Excel, Mode, S
 * **R8**, Median, Default
 * **R9**, Normal
@@ -378,7 +378,7 @@ Similar to `QuantileDefinition`, the `RankDefinition` enumeration controls how t
 * **First**: Permutation with increasing values at each index of ties.
 * **EmpiricalCDF**
 
-`Statistics.Ranks(data, defintion)`  
+`Statistics.Ranks(data, definition)`  
 `SortedArrayStatistics.Ranks(data, definition)`  
 `ArrayStatistics.RanksInplace(data, definition)`
 *)
@@ -436,7 +436,7 @@ let eicdf = Statistics.empiricalInvCDFFunc whiteNoise
 Histograms
 ----------
 
-A histrogram can be computed using the [Histogram][hist] class. Its constructor takes
+A histogram can be computed using the [Histogram][hist] class. Its constructor takes
 the samples enumerable, the number of buckets to create, plus optionally the range
 (minimum, maximum) of the sample data if available.
 

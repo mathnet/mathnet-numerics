@@ -87,7 +87,7 @@ inherit from `System.Random`, are fully compatible to it and can also be used ex
     var sample = random.NextDouble();
 
 However, unlike System.Random they can be made thread safe, use much more reasonable
-default seeds and have some convinient extra routines. The `SystemRandomSource` class that
+default seeds and have some convenient extra routines. The `SystemRandomSource` class that
 was used above uses System.Random to generate random numbers internally - but with all the extras.
 
 
@@ -118,7 +118,7 @@ so our crypto random source does not accept a seed.
 
 In the code samples above we did not provide a seed, so a default seed was used.
 If no seed is provided, `System.Random` uses a time based seed equivalent to the
-one below. This means that all instances created within a short timeframe
+one below. This means that all instances created within a short time-frame
 (which typically spans about a thousand CPU clock cycles) will generate
 exactly the same sequence. This can happen easily e.g. in parallel computing
 and is often unwanted. That's why all Math.NET Numerics RNGs are by default
@@ -155,10 +155,10 @@ Up to now we've used only `SystemRandomSource`, but there's much more:
 * `CryptoRandomSource`: Wraps the .NET BCL RNGCryptoServiceProvider. *Not available in portable builds.*
 * `MersenneTwister`: Mersenne Twister 19937 generator
 * `Xorshift`: Multiply-with-carry XOR-shift generator
-* `Mcg31m1`: Multiplicative congruental generator using a modulus of 2^31-1 and a multiplier of 1132489760
-* `Mcg59`: Multiplicative congruental generator using a modulus of 2^59 and a multiplier of 13^13
-* `WH1982`: Wichmann-Hill's 1982 combined multiplicative congruental generator
-* `WH2006`: Wichmann-Hill's 2006 combined multiplicative congruental generator
+* `Mcg31m1`: Multiplicative congruential generator using a modulus of 2^31-1 and a multiplier of 1132489760
+* `Mcg59`: Multiplicative congruential generator using a modulus of 2^59 and a multiplier of 13^13
+* `WH1982`: Wichmann-Hill's 1982 combined multiplicative congruential generator
+* `WH2006`: Wichmann-Hill's 2006 combined multiplicative congruential generator
 * `Mrg32k3a`: 32-bit combined multiple recursive generator with 2 components of order 3
 * `Palf`: Parallel Additive Lagged Fibonacci generator
 
@@ -261,7 +261,7 @@ let cauchy = Cauchy(0.0, 1.0, Random.mrg32k3aWith 10 false)
 let poisson = Poisson(3.0)
 let geometric = Geometric(0.8, Random.system())
 
-// sample some random rumbers from these distributions
+// sample some random numbers from these distributions
 let continuous =
   [ yield normal.Sample()
     yield exponential.Sample()

@@ -101,7 +101,7 @@ Manhattan Distance
 
 <img src="img/DistanceManhattan.png" style="width:87px; height:87px; float:left; margin:10px 10px 10px 0;" />
 
-The manhattan distance is the $L_1$-norm of the difference, a special case of the Minkowski distance with p=1
+The Manhattan distance is the $L_1$-norm of the difference, a special case of the Minkowski distance with p=1
 and equivalent to the sum of absolute difference.
 
 $$$
@@ -116,7 +116,7 @@ Chebyshev Distance
 
 <img src="img/DistanceChebyshev.png" style="width:87px; height:87px; float:left; margin:10px 10px 10px 0;" />
 
-The chebyshev distance is the $L_\infty$-norm of the difference, a special case of the Minkowski distance
+The Chebyshev distance is the $L_\infty$-norm of the difference, a special case of the Minkowski distance
 where p goes to infinity. It is also known as Chessboard distance. 
 
 $$$
@@ -131,7 +131,7 @@ Minkowski Distance
 
 <img src="img/DistanceMinkowski3.png" style="width:87px; height:87px; float:left; margin:10px 10px 10px 0;" />
 
-The minkovski distance is the generalized $L_p$-norm of the difference.
+The Minkowski distance is the generalized $L_p$-norm of the difference.
 The contour plot on the left demonstrates the case of p=3.
 
 $$$
@@ -146,7 +146,7 @@ Canberra Distance
 
 <img src="img/DistanceCanberra.png" style="width:87px; height:87px; float:left; margin:10px 10px 10px 0;" />
 
-The Canberra distance is a weighted version of the manhattan distance, introduced and refined 1967 by Lance, Williams and Adkins.
+The Canberra distance is a weighted version of the Manhattan distance, introduced and refined 1967 by Lance, Williams and Adkins.
 It is often used for data scattered around an origin, as it is biased for measures around the origin and very sensitive for values close to zero.
 
 $$$

@@ -276,7 +276,7 @@ x \mapsto \mathrm{K}_1(x)
 
 * `BesselK1e(x)`
 
-Exponentionally scaled modified Bessel function of the second kind, order 1.
+Exponentially scaled modified Bessel function of the second kind, order 1.
 
 $$$
 x \mapsto e^x\mathrm{K}_1(x)
@@ -284,7 +284,7 @@ x \mapsto e^x\mathrm{K}_1(x)
 
 #### Modified Struve functions
 
-Struve functions are solutions $y(x)$ of the non-homogenous Bessel's differential equation
+Struve functions are solutions $y(x)$ of the non-homogeneous Bessel's differential equation
 
 $$$
 x^2\frac{\mathrm{d}^2y}{\mathrm{d}x^2}+x\frac{\mathrm{d}y}{\mathrm{d}x}+(x^2-\alpha^2)y = \frac{4(\frac{x}{2})^{\alpha+1}}{\sqrt{\pi}\Gamma(\alpha+\frac{1}{2})}

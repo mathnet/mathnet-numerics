@@ -30,7 +30,7 @@ Supported Platforms:
 
 - .Net 4.0, .Net 3.5 and Mono: Windows, Linux and Mac.
 - PCL Portable Profiles 47 and 136: Silverlight 5, Windows Phone 8, .NET for Windows Store apps (Metro).
-- PCL/Xamarin: Andoid, iOS
+- PCL/Xamarin: Android, iOS
 
 Building Math.NET Numerics
 --------------------------
