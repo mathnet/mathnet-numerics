@@ -165,8 +165,8 @@ Generate.periodicMap 15 ((+) 100.0) 1000.0 100.0 10.0 0.0 0
 Sinusoidal
 ----------
 
-Generates a Sine wave array of the given length. This is equivalent of applying a scaled trigonometric Sine function
-to a periodic sawtooth of amplitude $2\pi$.
+Generates a Sine wave array of the given length. This is equivalent to applying a scaled
+trigonometric Sine function to a periodic sawtooth of amplitude $2\pi$.
 
 $$$
 s(x) = A\cdot\sin(2\pi\nu x + \theta)

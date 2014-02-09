@@ -86,7 +86,7 @@ $$$
 \overline{x} = \frac{1}{N}\sum_{i=1}^N x_i
 *)
 
-let whiteNoise = Generate.WhiteGaussianNoise(1000, mean=10.0, standardDeviation=2.0)
+let whiteNoise = Generate.Gaussian(1000, mean=10.0, standardDeviation=2.0)
 // [fsi:val samples : float [] = [|12.90021939; 9.631515037; 7.810008046; 14.13301053; ...|] ]
 Statistics.Mean whiteNoise
 // [fsi:val it : float = 10.02162347]

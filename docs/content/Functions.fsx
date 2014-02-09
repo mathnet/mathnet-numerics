@@ -338,7 +338,7 @@ roughly 11% and at $10^{-18}$ it just returns 0.
 $$$
 x \mapsto e^x - 1
 
-`Hypotenuse(a, b)`
+* `Hypotenuse(a, b)`
 
 $$$
 (a,b) \mapsto \sqrt{a^2 + b^2}
