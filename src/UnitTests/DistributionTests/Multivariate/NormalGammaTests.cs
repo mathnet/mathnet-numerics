@@ -349,14 +349,14 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
             var precMarginal = cd.PrecisionMarginal();
 
             // Check the precision distribution.
-            CommonDistributionTests.VapnikChervonenkisTest(
+            CommonDistributionTests.ContinuousVapnikChervonenkisTest(
                 CommonDistributionTests.ErrorTolerance,
                 CommonDistributionTests.ErrorProbability,
                 precs,
                 precMarginal);
 
             // Check the mean distribution.
-            CommonDistributionTests.VapnikChervonenkisTest(
+            CommonDistributionTests.ContinuousVapnikChervonenkisTest(
                 CommonDistributionTests.ErrorTolerance,
                 CommonDistributionTests.ErrorProbability,
                 means,
@@ -381,14 +381,14 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
             var precMarginal = cd.PrecisionMarginal();
 
             // Check the precision distribution.
-            CommonDistributionTests.VapnikChervonenkisTest(
+            CommonDistributionTests.ContinuousVapnikChervonenkisTest(
                 CommonDistributionTests.ErrorTolerance,
                 CommonDistributionTests.ErrorProbability,
                 precs,
                 precMarginal);
 
             // Check the mean distribution.
-            CommonDistributionTests.VapnikChervonenkisTest(
+            CommonDistributionTests.ContinuousVapnikChervonenkisTest(
                 CommonDistributionTests.ErrorTolerance,
                 CommonDistributionTests.ErrorProbability,
                 means,

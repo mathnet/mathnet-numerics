@@ -59,11 +59,11 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
                 new Categorical(new[] { 0.7, 0.3 }),
                 //new ConwayMaxwellPoisson(0.2, 0.4),
                 new DiscreteUniform(1, 10),
-                //new Geometric(0.1),
+                //new Geometric(0.2),
                 new Hypergeometric(20, 3, 5),
                 //new NegativeBinomial(4, 0.6),
                 //new Poisson(0.4),
-                new Zipf(0.6, 10),
+                new Zipf(3.0, 10),
             };
 
         readonly List<IContinuousDistribution> _continuousDistributions =
@@ -134,55 +134,55 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
             }
         }
 
-        /// <summary>
-        /// Test the method which samples only one variable at a time.
-        /// </summary>
         [Test]
-        public void SampleFollowsCorrectDistribution()
+        public void DiscreteSampleIsDistributedCorrectly()
         {
-            foreach (var dd in _discreteDistributions)
+            foreach (var dist in _discreteDistributions)
             {
-                dd.RandomSource = new SystemRandomSource(1, false);
-                var samples = new double[NumberOfTestSamples];
+                dist.RandomSource = new SystemRandomSource(1, false);
+                var samples = new int[NumberOfTestSamples];
                 for (var i = 0; i < NumberOfTestSamples; i++)
                 {
-                    samples[i] = dd.Sample();
+                    samples[i] = dist.Sample();
                 }
-
-                VapnikChervonenkisTest(ErrorTolerance, ErrorProbability, samples, dd);
-            }
-
-            foreach (var cd in _continuousDistributions)
-            {
-                cd.RandomSource = new SystemRandomSource(1, false);
-                var samples = new double[NumberOfTestSamples];
-                for (var i = 0; i < NumberOfTestSamples; i++)
-                {
-                    samples[i] = cd.Sample();
-                }
-
-                VapnikChervonenkisTest(ErrorTolerance, ErrorProbability, samples, cd);
+                DiscreteVapnikChervonenkisTest(ErrorTolerance, ErrorProbability, samples, dist);
             }
         }
 
-        /// <summary>
-        /// Test the method which samples a sequence of variables.
-        /// </summary>
         [Test]
-        public void SamplesFollowsCorrectDistribution()
+        public void DiscreteSampleSequenceIsDistributedCorrectly()
         {
-            foreach (var dd in _discreteDistributions)
+            foreach (var dist in _discreteDistributions)
             {
-                dd.RandomSource = new SystemRandomSource(1, false);
-                var samples = dd.Samples().Select(x => (double)x).Take(NumberOfTestSamples).ToArray();
-                VapnikChervonenkisTest(ErrorTolerance, ErrorProbability, samples, dd);
+                dist.RandomSource = new SystemRandomSource(1, false);
+                var samples = dist.Samples().Take(NumberOfTestSamples).ToArray();
+                DiscreteVapnikChervonenkisTest(ErrorTolerance, ErrorProbability, samples, dist);
             }
+        }
 
-            foreach (var cd in _continuousDistributions)
+        [Test]
+        public void ContinuousSampleIsDistributedCorrectly()
+        {
+            foreach (var dist in _continuousDistributions)
             {
-                cd.RandomSource = new SystemRandomSource(1, false);
-                var samples = cd.Samples().Take(NumberOfTestSamples).ToArray();
-                VapnikChervonenkisTest(ErrorTolerance, ErrorProbability, samples, cd);
+                dist.RandomSource = new SystemRandomSource(1, false);
+                var samples = new double[NumberOfTestSamples];
+                for (var i = 0; i < NumberOfTestSamples; i++)
+                {
+                    samples[i] = dist.Sample();
+                }
+                ContinuousVapnikChervonenkisTest(ErrorTolerance, ErrorProbability, samples, dist);
+            }
+        }
+
+        [Test]
+        public void ContinuousSampleSequenceIsDistributedCorrectly()
+        {
+            foreach (var dist in _continuousDistributions)
+            {
+                dist.RandomSource = new SystemRandomSource(1, false);
+                var samples = dist.Samples().Take(NumberOfTestSamples).ToArray();
+                ContinuousVapnikChervonenkisTest(ErrorTolerance, ErrorProbability, samples, dist);
             }
         }
 
@@ -193,10 +193,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
         /// <param name="delta">The error probability we are willing to tolerate.</param>
         /// <param name="s">The samples to use for testing.</param>
         /// <param name="dist">The distribution we are testing.</param>
-        public static void VapnikChervonenkisTest(double epsilon, double delta, double[] s, IUnivariateDistribution dist)
+        public static void ContinuousVapnikChervonenkisTest(double epsilon, double delta, double[] s, IContinuousDistribution dist)
         {
             // Using VC-dimension, we can bound the probability of making an error when estimating empirical probability
-            // distributions. We are using Theorem 2.41 in "All Of Nonparametric Statistics". 
+            // distributions. We are using Theorem 2.41 in "All Of Nonparametric Statistics".
             // http://books.google.com/books?id=MRFlzQfRg7UC&lpg=PP1&dq=all%20of%20nonparametric%20statistics&pg=PA22#v=onepage&q=%22shatter%20coe%EF%AC%83cients%20do%20not%22&f=false .</para>
             // For intervals on the real line the VC-dimension is 2.
             Assert.Greater(s.Length, Math.Ceiling(32.0 * Math.Log(16.0 / delta) / epsilon / epsilon));
@@ -205,7 +205,39 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
             for (var i = 0; i < NumberOfHistogramBuckets; i++)
             {
                 var p = dist.CumulativeDistribution(histogram[i].UpperBound) - dist.CumulativeDistribution(histogram[i].LowerBound);
-                var pe = histogram[i].Count / s.Length;
+                var pe = histogram[i].Count/(double)s.Length;
+                Assert.Less(Math.Abs(p - pe), epsilon, dist.ToString());
+            }
+        }
+
+        /// <summary>
+        /// Vapnik Chervonenkis test.
+        /// </summary>
+        /// <param name="epsilon">The error we are willing to tolerate.</param>
+        /// <param name="delta">The error probability we are willing to tolerate.</param>
+        /// <param name="s">The samples to use for testing.</param>
+        /// <param name="dist">The distribution we are testing.</param>
+        public static void DiscreteVapnikChervonenkisTest(double epsilon, double delta, int[] s, IDiscreteDistribution dist)
+        {
+            // Using VC-dimension, we can bound the probability of making an error when estimating empirical probability
+            // distributions. We are using Theorem 2.41 in "All Of Nonparametric Statistics".
+            // http://books.google.com/books?id=MRFlzQfRg7UC&lpg=PP1&dq=all%20of%20nonparametric%20statistics&pg=PA22#v=onepage&q=%22shatter%20coe%EF%AC%83cients%20do%20not%22&f=false .</para>
+            // For intervals on the real line the VC-dimension is 2.
+            Assert.Greater(s.Length, Math.Ceiling(32.0 * Math.Log(16.0 / delta) / epsilon / epsilon));
+
+            var min = s.Min();
+            var max = s.Max();
+
+            var histogram = new int[max - min + 1];
+            for (int i = 0; i < s.Length; i++)
+            {
+                histogram[s[i] - min]++;
+            }
+
+            for (int i = 0; i < histogram.Length; i++)
+            {
+                var p = dist.CumulativeDistribution(i + min) - dist.CumulativeDistribution(i + min - 1.0);
+                var pe = histogram[i]/(double)s.Length;
                 Assert.Less(Math.Abs(p - pe), epsilon, dist.ToString());
             }
         }
