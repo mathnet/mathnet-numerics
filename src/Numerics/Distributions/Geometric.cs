@@ -241,7 +241,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>One sample from the distribution implied by <paramref name="p"/>.</returns>
         static int SampleUnchecked(System.Random rnd, double p)
         {
-            return p == 1.0 ? 1 : (int) Math.Ceiling(-Math.Log(1.0 - rnd.NextDouble(), 1.0 - p));
+            return p == 1.0 ? 1 : (int)Math.Ceiling(Math.Log(1.0 - rnd.NextDouble(), 1.0 - p));
         }
 
         /// <summary>

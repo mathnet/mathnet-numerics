@@ -59,7 +59,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
                 new Categorical(new[] { 0.7, 0.3 }),
                 //new ConwayMaxwellPoisson(0.2, 0.4),
                 new DiscreteUniform(1, 10),
-                //new Geometric(0.2),
+                new Geometric(0.2),
                 new Hypergeometric(20, 3, 5),
                 //new NegativeBinomial(4, 0.6),
                 //new Poisson(0.4),
