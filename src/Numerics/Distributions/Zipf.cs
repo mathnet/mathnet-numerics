@@ -270,7 +270,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>the cumulative distribution at location <paramref name="x"/>.</returns>
         public double CumulativeDistribution(double x)
         {
-            if (x <= 1)
+            if (x < 1)
             {
                 return 0.0;
             }
