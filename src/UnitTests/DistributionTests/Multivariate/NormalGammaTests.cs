@@ -343,21 +343,21 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
             }
 
             // Extract the mean and precisions.
-            var means = samples.Select(mp => mp.Mean);
-            var precs = samples.Select(mp => mp.Precision);
+            var means = samples.Select(mp => mp.Mean).ToArray();
+            var precs = samples.Select(mp => mp.Precision).ToArray();
             var meanMarginal = cd.MeanMarginal();
             var precMarginal = cd.PrecisionMarginal();
 
             // Check the precision distribution.
             CommonDistributionTests.VapnikChervonenkisTest(
-                CommonDistributionTests.Error,
+                CommonDistributionTests.ErrorTolerance,
                 CommonDistributionTests.ErrorProbability,
                 precs,
                 precMarginal);
 
             // Check the mean distribution.
             CommonDistributionTests.VapnikChervonenkisTest(
-                CommonDistributionTests.Error,
+                CommonDistributionTests.ErrorTolerance,
                 CommonDistributionTests.ErrorProbability,
                 means,
                 meanMarginal);
@@ -375,21 +375,21 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
             var samples = cd.Samples().Take(CommonDistributionTests.NumberOfTestSamples).ToArray();
 
             // Extract the mean and precisions.
-            var means = samples.Select(mp => mp.Mean);
-            var precs = samples.Select(mp => mp.Precision);
+            var means = samples.Select(mp => mp.Mean).ToArray();
+            var precs = samples.Select(mp => mp.Precision).ToArray();
             var meanMarginal = cd.MeanMarginal();
             var precMarginal = cd.PrecisionMarginal();
 
             // Check the precision distribution.
             CommonDistributionTests.VapnikChervonenkisTest(
-                CommonDistributionTests.Error,
+                CommonDistributionTests.ErrorTolerance,
                 CommonDistributionTests.ErrorProbability,
                 precs,
                 precMarginal);
 
             // Check the mean distribution.
             CommonDistributionTests.VapnikChervonenkisTest(
-                CommonDistributionTests.Error,
+                CommonDistributionTests.ErrorTolerance,
                 CommonDistributionTests.ErrorProbability,
                 means,
                 meanMarginal);

@@ -3,7 +3,9 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
-// Copyright (c) 2009-2010 Math.NET
+//
+// Copyright (c) 2009-2013 Math.NET
+//
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -12,8 +14,10 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
+//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
+//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -34,102 +38,58 @@ using NUnit.Framework;
 
 namespace MathNet.Numerics.UnitTests.DistributionTests
 {
-    using Random = System.Random;
-
     /// <summary>
-    /// This class will perform various tests on discrete and continuous univariate distributions. The multivariate distributions
-    /// will implement these respective tests in their local unit test classes as they do not adhere to the same interfaces.
+    /// This class will perform various tests on discrete and continuous univariate distributions.
+    /// The multivariate distributions will implement these respective tests in their local unit
+    /// test classes as they do not adhere to the same interfaces.
     /// </summary>
     [TestFixture, Category("Distributions")]
     public class CommonDistributionTests
     {
-        /// <summary>
-        /// Gets or sets the number of samples we want.
-        /// </summary>
-        public static int NumberOfTestSamples
-        {
-            get;
-            set;
-        }
+        public const int NumberOfTestSamples = 3500000;
+        public const int NumberOfHistogramBuckets = 100;
+        public const double ErrorTolerance = 0.01;
+        public const double ErrorProbability = 0.001;
 
-        /// <summary>
-        /// Gets or sets the number of buckets in the histogram for the sampling function tests.
-        /// </summary>
-        public static int NumberOfBuckets
-        {
-            get;
-            set;
-        }
+        readonly List<IDiscreteDistribution> _discreteDistributions =
+            new List<IDiscreteDistribution>
+            {
+                new Bernoulli(0.6),
+                new Binomial(0.7, 10),
+                new Categorical(new[] { 0.7, 0.3 }),
+                //new ConwayMaxwellPoisson(0.2, 0.4),
+                new DiscreteUniform(1, 10),
+                //new Geometric(0.1),
+                new Hypergeometric(20, 3, 5),
+                //new NegativeBinomial(4, 0.6),
+                //new Poisson(0.4),
+                new Zipf(0.6, 10),
+            };
 
-        /// <summary>
-        /// Gets or sets the error we want to tolerate for sampling functions.
-        /// </summary>
-        public static double Error
-        {
-            get;
-            set;
-        }
+        readonly List<IContinuousDistribution> _continuousDistributions =
+            new List<IContinuousDistribution>
+            {
+                new Beta(1.0, 1.0),
+                new Cauchy(1.0, 1.0),
+                new Chi(3.0),
+                new ChiSquared(3.0),
+                new ContinuousUniform(0.0, 1.0),
+                new Erlang(3, 0.4),
+                new Exponential(0.4),
+                new FisherSnedecor(0.3, 0.4),
+                new Gamma(1.0, 1.0),
+                new InverseGamma(1.0, 1.0),
+                new Laplace(1.0, 0.5),
+                new LogNormal(1.0, 1.0),
+                new Normal(0.0, 1.0),
+                new Pareto(1.0, 0.5),
+                new Rayleigh(0.8),
+                new Stable(0.5, 1.0, 0.5, 1.0),
+                new StudentT(0.0, 1.0, 5.0),
+                new Triangular(0, 1, 0.7),
+                new Weibull(1.0, 1.0),
+            };
 
-        /// <summary>
-        /// Gets or sets the error probability we want to tolerate for sampling functions.
-        /// </summary>
-        public static double ErrorProbability
-        {
-            get;
-            set;
-        }
-
-        /// <summary>
-        /// The list of discrete distributions which we test.
-        /// </summary>
-        private List<IDiscreteDistribution> _discreteDistributions;
-
-        /// <summary>
-        /// The list of continuous distributions which we test.
-        /// </summary>
-        private List<IContinuousDistribution> _continuousDistributions;
-
-        /// <summary>
-        /// Initializes static members of the CommonDistributionTests class.
-        /// </summary>
-        static CommonDistributionTests()
-        {
-            NumberOfTestSamples = 3500000;
-            NumberOfBuckets = 100;
-            Error = 0.01;
-            ErrorProbability = 0.001;
-        }
-
-        /// <summary>
-        /// Set-up test parameters.
-        /// </summary>
-        [SetUp]
-        public void SetupDistributions()
-        {
-            _discreteDistributions = new List<IDiscreteDistribution>
-                                     {
-                                         new Bernoulli(0.6),
-                                         new Binomial(0.7, 10),
-                                         new Categorical(new[] { 0.7, 0.3 }),
-                                         new DiscreteUniform(1, 10)
-                                     };
-
-            _continuousDistributions = new List<IContinuousDistribution>
-                                       {
-                                           new Beta(1.0, 1.0),
-                                           new ContinuousUniform(0.0, 1.0),
-                                           new Gamma(1.0, 1.0),
-                                           new Normal(0.0, 1.0),
-                                           new Weibull(1.0, 1.0),
-                                           new LogNormal(1.0, 1.0),
-                                           new Triangular(0, 1, 0.7),
-                                           new StudentT(0.0, 1.0, 5.0)
-                                       };
-        }
-
-        /// <summary>
-        /// Validate that univariate distributions have random source.
-        /// </summary>
         [Test]
         public void ValidateThatUnivariateDistributionsHaveRandomSource()
         {
@@ -144,9 +104,6 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
             }
         }
 
-        /// <summary>
-        /// Can set random source.
-        /// </summary>
         [Test]
         public void CanSetRandomSource()
         {
@@ -183,30 +140,28 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
         [Test]
         public void SampleFollowsCorrectDistribution()
         {
-            Random rnd = new SystemRandomSource(1);
-
             foreach (var dd in _discreteDistributions)
             {
-                dd.RandomSource = rnd;
+                dd.RandomSource = new SystemRandomSource(1, false);
                 var samples = new double[NumberOfTestSamples];
                 for (var i = 0; i < NumberOfTestSamples; i++)
                 {
                     samples[i] = dd.Sample();
                 }
 
-                VapnikChervonenkisTest(Error, ErrorProbability, samples, dd);
+                VapnikChervonenkisTest(ErrorTolerance, ErrorProbability, samples, dd);
             }
 
             foreach (var cd in _continuousDistributions)
             {
-                cd.RandomSource = rnd;
+                cd.RandomSource = new SystemRandomSource(1, false);
                 var samples = new double[NumberOfTestSamples];
                 for (var i = 0; i < NumberOfTestSamples; i++)
                 {
                     samples[i] = cd.Sample();
                 }
 
-                VapnikChervonenkisTest(Error, ErrorProbability, samples, cd);
+                VapnikChervonenkisTest(ErrorTolerance, ErrorProbability, samples, cd);
             }
         }
 
@@ -216,18 +171,18 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
         [Test]
         public void SamplesFollowsCorrectDistribution()
         {
-            Random rnd = new SystemRandomSource(1);
-
             foreach (var dd in _discreteDistributions)
             {
-                dd.RandomSource = rnd;
-                VapnikChervonenkisTest(Error, ErrorProbability, dd.Samples().Select(x => (double)x).Take(NumberOfTestSamples), dd);
+                dd.RandomSource = new SystemRandomSource(1, false);
+                var samples = dd.Samples().Select(x => (double)x).Take(NumberOfTestSamples).ToArray();
+                VapnikChervonenkisTest(ErrorTolerance, ErrorProbability, samples, dd);
             }
 
             foreach (var cd in _continuousDistributions)
             {
-                cd.RandomSource = rnd;
-                VapnikChervonenkisTest(Error, ErrorProbability, cd.Samples().Take(NumberOfTestSamples), cd);
+                cd.RandomSource = new SystemRandomSource(1, false);
+                var samples = cd.Samples().Take(NumberOfTestSamples).ToArray();
+                VapnikChervonenkisTest(ErrorTolerance, ErrorProbability, samples, cd);
             }
         }
 
@@ -238,20 +193,19 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
         /// <param name="delta">The error probability we are willing to tolerate.</param>
         /// <param name="s">The samples to use for testing.</param>
         /// <param name="dist">The distribution we are testing.</param>
-        public static void VapnikChervonenkisTest(double epsilon, double delta, IEnumerable<double> s, IUnivariateDistribution dist)
+        public static void VapnikChervonenkisTest(double epsilon, double delta, double[] s, IUnivariateDistribution dist)
         {
             // Using VC-dimension, we can bound the probability of making an error when estimating empirical probability
             // distributions. We are using Theorem 2.41 in "All Of Nonparametric Statistics". 
             // http://books.google.com/books?id=MRFlzQfRg7UC&lpg=PP1&dq=all%20of%20nonparametric%20statistics&pg=PA22#v=onepage&q=%22shatter%20coe%EF%AC%83cients%20do%20not%22&f=false .</para>
             // For intervals on the real line the VC-dimension is 2.
-            double n = s.Count();
-            Assert.Greater(n, Math.Ceiling(32.0 * Math.Log(16.0 / delta) / epsilon / epsilon));
+            Assert.Greater(s.Length, Math.Ceiling(32.0 * Math.Log(16.0 / delta) / epsilon / epsilon));
 
-            var histogram = new Histogram(s, NumberOfBuckets);
-            for (var i = 0; i < NumberOfBuckets; i++)
+            var histogram = new Histogram(s, NumberOfHistogramBuckets);
+            for (var i = 0; i < NumberOfHistogramBuckets; i++)
             {
                 var p = dist.CumulativeDistribution(histogram[i].UpperBound) - dist.CumulativeDistribution(histogram[i].LowerBound);
-                var pe = histogram[i].Count / n;
+                var pe = histogram[i].Count / s.Length;
                 Assert.Less(Math.Abs(p - pe), epsilon, dist.ToString());
             }
         }
