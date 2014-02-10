@@ -290,7 +290,7 @@ namespace MathNet.Numerics.UnitTests.ComplexTests
         public void CanCreateComplexNumberWithModulusArgument()
         {
             var complex = Complex32.FromPolarCoordinates(2, (float)-Math.PI / 6);
-            Assert.AreEqual((float)Math.Sqrt(3), complex.Real, 1e-7f, "Real part is Sqrt(3).");
+            Assert.AreEqual((float)Constants.Sqrt3, complex.Real, 1e-7f, "Real part is Sqrt(3).");
             Assert.AreEqual(-1.0f, complex.Imaginary, 1e-7f, "Imaginary part is -1.");
         }
 

@@ -86,17 +86,17 @@ namespace MathNet.Numerics.UnitTests.RootFindingTests
 
             Func<double, double> f3 = x => 1/(x - 2) + x + 2;
             Func<double, double> df3 = x => -1/(x*x - 4*x + 4) + 1;
-            Assert.AreEqual(-Math.Sqrt(3), RobustNewtonRaphson.FindRoot(f3, df3, -2, -1, 1e-14, 100, 20), 1e-14);
-            Assert.AreEqual(Math.Sqrt(3), RobustNewtonRaphson.FindRoot(f3, df3, 1, 1.99, 1e-14, 100, 20));
-            Assert.AreEqual(Math.Sqrt(3), RobustNewtonRaphson.FindRoot(f3, df3, -1.5, 1.99, 1e-14, 100, 20));
-            Assert.AreEqual(Math.Sqrt(3), RobustNewtonRaphson.FindRoot(f3, df3, 1, 6, 1e-14, 100, 20));
+            Assert.AreEqual(-Constants.Sqrt3, RobustNewtonRaphson.FindRoot(f3, df3, -2, -1, 1e-14, 100, 20), 1e-14);
+            Assert.AreEqual(Constants.Sqrt3, RobustNewtonRaphson.FindRoot(f3, df3, 1, 1.99, 1e-14, 100, 20));
+            Assert.AreEqual(Constants.Sqrt3, RobustNewtonRaphson.FindRoot(f3, df3, -1.5, 1.99, 1e-14, 100, 20));
+            Assert.AreEqual(Constants.Sqrt3, RobustNewtonRaphson.FindRoot(f3, df3, 1, 6, 1e-14, 100, 20));
 
             Func<double, double> f4 = x => 1/(2 - x) - x + 6;
             Func<double, double> df4 = x => 1/(x*x - 4*x + 4) - 1;
-            Assert.AreEqual(4 + Math.Sqrt(3), RobustNewtonRaphson.FindRoot(f4, df4, 5, 6, 1e-14, 100, 20), 1e-14);
-            Assert.AreEqual(4 - Math.Sqrt(3), RobustNewtonRaphson.FindRoot(f4, df4, 2.01, 3, 1e-14, 100, 20));
-            Assert.AreEqual(4 - Math.Sqrt(3), RobustNewtonRaphson.FindRoot(f4, df4, 2.01, 5, 1e-14, 100, 20));
-            Assert.AreEqual(4 - Math.Sqrt(3), RobustNewtonRaphson.FindRoot(f4, df4, -2, 4, 1e-14, 100, 20));
+            Assert.AreEqual(4 + Constants.Sqrt3, RobustNewtonRaphson.FindRoot(f4, df4, 5, 6, 1e-14, 100, 20), 1e-14);
+            Assert.AreEqual(4 - Constants.Sqrt3, RobustNewtonRaphson.FindRoot(f4, df4, 2.01, 3, 1e-14, 100, 20));
+            Assert.AreEqual(4 - Constants.Sqrt3, RobustNewtonRaphson.FindRoot(f4, df4, 2.01, 5, 1e-14, 100, 20));
+            Assert.AreEqual(4 - Constants.Sqrt3, RobustNewtonRaphson.FindRoot(f4, df4, -2, 4, 1e-14, 100, 20));
         }
 
         [Test]

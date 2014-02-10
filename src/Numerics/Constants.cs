@@ -67,6 +67,9 @@ namespace MathNet.Numerics
         /// <summary>The number sqrt(2)</summary>
         public const double Sqrt2 = 1.4142135623730950488016887242096980785696718753769d;
 
+        /// <summary>The number sqrt(3)</summary>
+        public const double Sqrt3 = 1.7320508075688772935274463415058723669428052538104d;
+
         /// <summary>The number sqrt(1/2) = 1/sqrt(2) = sqrt(2)/2</summary>
         public const double Sqrt1Over2 = 0.70710678118654752440084436210484903928483593768845d;
 

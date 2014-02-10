@@ -82,7 +82,7 @@ namespace MathNet.Numerics.RootFinding
             var S = Complex.Pow(R + rootD, 1d / 3d);
             var T = Complex.Pow(R - rootD, 1d / 3d);
             var shift = -a2 / 3d;
-            var sharedI = 0.5 * Complex.ImaginaryOne * Math.Sqrt(3) * (S - T);
+            var sharedI = 0.5 * Complex.ImaginaryOne * Constants.Sqrt3 * (S - T);
 
             var x1 = shift + (S + T);
             var x2 = shift - 0.5 * (S + T);
