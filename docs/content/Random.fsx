@@ -101,10 +101,10 @@ or a `System.Decimal`? Extending discrete random numbers to different ranges or 
 if the distribution should still be uniform over the chosen range. That's why we've added a few extensions
 methods which are available on all RNGs (including System.Random itself):
 
-* NextInt64: generates a 64 bit integer, uniform in the range [0, Long.MaxValue)
-* NextFullRangeInt32: generates a 32 bit integer, uniform in the range [Int.MinValue, Int.MaxValue]
-* NextFullRangeInt64: generates a 64 bit integer, uniform in the range [Long.MinValue, Long.MaxValue]
-* NextDecimal: generates a `System.Decimal`, uniform in the range [0.0, 1.0)
+* **NextInt64** generates a 64 bit integer, uniform in the range [0, Long.MaxValue)
+* **NextDecimal** generates a `System.Decimal`, uniform in the range [0.0, 1.0)
+* **NextFullRangeInt32** generates a 32 bit integer, uniform in the range [Int.MinValue, Int.MaxValue]
+* **NextFullRangeInt64** generates a 64 bit integer, uniform in the range [Long.MinValue, Long.MaxValue]
 
 
 Seeds
@@ -151,16 +151,16 @@ Uniform Random Number Generators
 
 Up to now we've used only `SystemRandomSource`, but there's much more:
 
-* `SystemRandomSource`: Wraps the .NET BCL System.Random to provide thread-safety
-* `CryptoRandomSource`: Wraps the .NET BCL RNGCryptoServiceProvider. *Not available in portable builds.*
-* `MersenneTwister`: Mersenne Twister 19937 generator
-* `Xorshift`: Multiply-with-carry XOR-shift generator
-* `Mcg31m1`: Multiplicative congruential generator using a modulus of 2^31-1 and a multiplier of 1132489760
-* `Mcg59`: Multiplicative congruential generator using a modulus of 2^59 and a multiplier of 13^13
-* `WH1982`: Wichmann-Hill's 1982 combined multiplicative congruential generator
-* `WH2006`: Wichmann-Hill's 2006 combined multiplicative congruential generator
-* `Mrg32k3a`: 32-bit combined multiple recursive generator with 2 components of order 3
-* `Palf`: Parallel Additive Lagged Fibonacci generator
+* **SystemRandomSource**: Wraps the .NET System.Random to provide thread-safety
+* **CryptoRandomSource**: Wraps the .NET RNGCryptoServiceProvider. *Not available in portable builds.*
+* **MersenneTwister**: Mersenne Twister 19937 generator
+* **Xorshift**: Multiply-with-carry XOR-shift generator
+* **Mcg31m1**: Multiplicative congruential generator using a modulus of 2^31-1 and a multiplier of 1132489760
+* **Mcg59**: Multiplicative congruential generator using a modulus of 2^59 and a multiplier of 13^13
+* **WH1982**: Wichmann-Hill's 1982 combined multiplicative congruential generator
+* **WH2006**: Wichmann-Hill's 2006 combined multiplicative congruential generator
+* **Mrg32k3a**: 32-bit combined multiple recursive generator with 2 components of order 3
+* **Palf**: Parallel Additive Lagged Fibonacci generator
 
 Let's sample a few uniform random values using Mersenne Twister in C#:
 

@@ -26,13 +26,13 @@ However, various statistics can be computed much more efficiently if the data so
 has known properties or structure, that's why the following classes provide specialized
 static implementations:
 
-* `ArrayStatistics` provides routines optimized for single-dimensional arrays. Some
+* **ArrayStatistics** provides routines optimized for single-dimensional arrays. Some
   of these routines end with the `Inplace` suffix, indicating that they reorder the
   input array slightly towards being sorted during execution - without fully sorting
   them, which could be expensive.
-* `SortedArrayStatistics` provides routines optimized for an array sorting ascendingly.
+* **SortedArrayStatistics** provides routines optimized for an array sorting ascendingly.
   Especially order-statistics are very efficient this way, some even with constant time complexity.
-* `StreamingStatistics` processes large amounts of data without keeping them in memory.
+* **StreamingStatistics** processes large amounts of data without keeping them in memory.
   Useful if data larger than local memory is streamed directly from a disk or network.
 
 Another alternative, in case you need to gather a whole set of statistical characteristics
