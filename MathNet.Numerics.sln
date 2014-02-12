@@ -43,13 +43,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{039229DA-A
 		docs\content\CSV.fsx = docs\content\CSV.fsx
 		docs\content\DescriptiveStatistics.fsx = docs\content\DescriptiveStatistics.fsx
 		docs\content\Distance.fsx = docs\content\Distance.fsx
+		docs\content\Euclid.fsx = docs\content\Euclid.fsx
 		docs\content\Functions.fsx = docs\content\Functions.fsx
 		docs\content\Generate.fsx = docs\content\Generate.fsx
 		docs\content\index.fsx = docs\content\index.fsx
 		docs\content\IntegralTransforms.fsx = docs\content\IntegralTransforms.fsx
 		docs\content\Integration.fsx = docs\content\Integration.fsx
 		docs\content\Interpolation.fsx = docs\content\Interpolation.fsx
-		docs\content\RandomAndDistributions.fsx = docs\content\RandomAndDistributions.fsx
+		docs\content\Random.fsx = docs\content\Random.fsx
 		docs\tools\templates\template.cshtml = docs\tools\templates\template.cshtml
 	EndProjectSection
 EndProject
