@@ -20,7 +20,7 @@ namespace MathNet.Numerics.RootFinding
         /// <summary>
         /// Q and R are transformed variables.
         /// </summary>
-        private static void QR(double a2, double a1, double a0, ref double Q, ref double R)
+        private static void QR(double a2, double a1, double a0, out double Q, out double R)
 		{
 			Q = (3 * a1 - a2 * a2)/9.0;
 			R = (9.0 * a2 * a1 - 27 * a0 - 2 * a2 * a2 * a2)/54.0;           
@@ -36,15 +36,14 @@ namespace MathNet.Numerics.RootFinding
 
         public static Tuple<double, double, double> RealRoots(double a2, double a1, double a0)
         {
-            var Q = double.NaN;
-            var R = double.NaN;
-            QR(a2, a1, a0, ref Q, ref R);
+            double Q, R;
+            QR(a2, a1, a0, out Q, out R);
 
             var Q3 = Q * Q * Q;
             var D = Q3 + R * R;
             var shift = -a2 / 3d;
 
-            double x1 = double.NaN;
+            double x1;
             double x2 = double.NaN;
             double x3 = double.NaN;
 
@@ -72,9 +71,8 @@ namespace MathNet.Numerics.RootFinding
         public static Tuple<Complex, Complex, Complex> Roots(double a2, double a1, double a0)
         {
             // use eqn (54)-(56)
-            var Q = double.NaN;
-            var R = double.NaN;
-            QR(a2, a1, a0, ref Q, ref R);
+            double Q, R;
+            QR(a2, a1, a0, out Q, out R);
 
             var D = Q * Q * Q + R * R;
 

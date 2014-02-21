@@ -107,6 +107,15 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
+        /// Find all three complex roots of the cubic equation d + c*x + b*x^2 + a*x^3 = 0.
+        /// Note the special coefficient order ascending by exponent (consistent with polynomials).
+        /// </summary>
+        public static Tuple<Complex, Complex, Complex> Cubic(double d, double c, double b, double a)
+        {
+            return RootFinding.Cubic.Roots(b/a, c/a, d/a);
+        }
+
+        /// <summary>
         /// Find all roots of the Chebychev polynomial of the first kind.
         /// </summary>
         /// <param name="degree">The polynomial order and therefore the number of roots.</param>
