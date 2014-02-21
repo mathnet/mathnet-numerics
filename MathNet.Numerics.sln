@@ -50,6 +50,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{039229DA-A
 		docs\content\IntegralTransforms.fsx = docs\content\IntegralTransforms.fsx
 		docs\content\Integration.fsx = docs\content\Integration.fsx
 		docs\content\Interpolation.fsx = docs\content\Interpolation.fsx
+		docs\content\MKL.fsx = docs\content\MKL.fsx
 		docs\content\Random.fsx = docs\content\Random.fsx
 		docs\tools\templates\template.cshtml = docs\tools\templates\template.cshtml
 	EndProjectSection
