@@ -224,12 +224,19 @@ $$$
 Bessel and Struve Functions
 ---------------------------
 
-#### Modified Bessel functions
+#### Bessel functions
 
 Bessel functions are canonical solutions $y(x)$ of Bessel's differential equation
 
 $$$
 x^2\frac{\mathrm{d}^2y}{\mathrm{d}x^2}+x\frac{\mathrm{d}y}{\mathrm{d}x}+(x^2-\alpha^2)y = 0
+
+#### Modified Bessel functions
+
+Modified Bessel's equation:
+
+$$$
+x^2\frac{\mathrm{d}^2y}{\mathrm{d}x^2}+x\frac{\mathrm{d}y}{\mathrm{d}x}-(x^2+\alpha^2)y = 0
 
 Modified Bessel functions:
 
@@ -281,13 +288,20 @@ Exponentially scaled modified Bessel function of the second kind, order 1.
 $$$
 x \mapsto e^x\mathrm{K}_1(x)
 
-
-#### Modified Struve functions
+#### Struve functions
 
 Struve functions are solutions $y(x)$ of the non-homogeneous Bessel's differential equation
 
 $$$
 x^2\frac{\mathrm{d}^2y}{\mathrm{d}x^2}+x\frac{\mathrm{d}y}{\mathrm{d}x}+(x^2-\alpha^2)y = \frac{4(\frac{x}{2})^{\alpha+1}}{\sqrt{\pi}\Gamma(\alpha+\frac{1}{2})}
+
+
+#### Modified Struve functions
+
+Modified equation:
+
+$$$
+x^2\frac{\mathrm{d}^2y}{\mathrm{d}x^2}+x\frac{\mathrm{d}y}{\mathrm{d}x}-(x^2+\alpha^2)y = \frac{4(\frac{x}{2})^{\alpha+1}}{\sqrt{\pi}\Gamma(\alpha+\frac{1}{2})}
 
 Modified Struve functions:
 
@@ -342,5 +356,19 @@ x \mapsto e^x - 1
 
 $$$
 (a,b) \mapsto \sqrt{a^2 + b^2}
+
+
+Trigonometry
+------------
+
+The `Trig` class provides the complete set of fundamental trigonometric functions
+for both real and complex arguments.
+
+* **Trigonometric**: Sin, Cos, Tan, Cot, Sec, Csc
+* **Trigonometric Inverse**: Asin, Acos, Atan, Acot, Asec, Acsc
+* **Hyperbolic**: Sinh, Cosh, Tanh, Coth, Sech, Csch
+* **Hyperbolic Area**: Asinh, Acosh, Atanh, Acoth, Asech, Acsch
+* **Sinc**: Normalized sinc function $x \mapsto \frac{\sin\pi x}{\pi x}$
+* Conversion routines between radian, degree and grad.
 
 *)
