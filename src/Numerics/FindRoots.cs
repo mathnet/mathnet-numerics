@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2013 Math.NET
+// Copyright (c) 2009-2014 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -112,7 +112,7 @@ namespace MathNet.Numerics
         /// </summary>
         public static Tuple<Complex, Complex, Complex> Cubic(double d, double c, double b, double a)
         {
-            return RootFinding.Cubic.Roots(b/a, c/a, d/a);
+            return RootFinding.Cubic.Roots(d, c, b, a);
         }
 
         /// <summary>
