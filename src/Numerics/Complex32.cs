@@ -469,6 +469,29 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
+        /// Evaluate all square roots of this <c>Complex32</c>.
+        /// </summary>
+        public Tuple<Complex32, Complex32> SquareRoots()
+        {
+            var principal = SquareRoot();
+            return new Tuple<Complex32, Complex32>(principal, -principal);
+        }
+
+        /// <summary>
+        /// Evaluate all cubic roots of this <c>Complex32</c>.
+        /// </summary>
+        public Tuple<Complex32, Complex32, Complex32> CubicRoots()
+        {
+            float r = (float)Math.Pow(Magnitude, 1d/3d);
+            float theta = Phase/3;
+            const float shift = (float)Constants.Pi2/3;
+            return new Tuple<Complex32, Complex32, Complex32>(
+                FromPolarCoordinates(r, theta),
+                FromPolarCoordinates(r, theta + shift),
+                FromPolarCoordinates(r, theta - shift));
+        }
+
+        /// <summary>
         /// Equality test.
         /// </summary>
         /// <param name="complex1">One of complex numbers to compare.</param>
