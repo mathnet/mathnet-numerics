@@ -115,7 +115,7 @@ namespace MathNet.Numerics
                 tasks[i] = Task.Factory.StartNew(action, parallelOptions.CancellationToken, TaskCreationOptions.None, parallelOptions.TaskScheduler);
             }
 
-            Task.WaitAll(tasks);
+            Task.WaitAll(tasks, parallelOptions.CancellationToken);
         }
 
         public static void ForEach<TSource, TLocal>(
@@ -132,13 +132,11 @@ namespace MathNet.Numerics
             for (var i = 0; i < tasks.Length; i++)
             {
                 var chunk = chunks[i];
-
                 tasks[i] = Task.Factory.StartNew(() =>
                 {
                     var local = localInit();
                     local = body(chunk, loopState, local);
                     localFinally(local);
-                    return local;
                 }, parallelOptions.CancellationToken, TaskCreationOptions.None, parallelOptions.TaskScheduler);
             }
 
