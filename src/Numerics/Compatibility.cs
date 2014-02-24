@@ -37,6 +37,7 @@ namespace MathNet.Numerics
 namespace MathNet.Numerics
 {
     using System;
+    using System.Collections.Concurrent;
     using System.Collections.Generic;
 
     internal static class ObjectComparer
@@ -127,6 +128,55 @@ namespace MathNet.Numerics
                 {
                     yield return func(iteratorA.Current, iteratorB.Current);
                 }
+            }
+        }
+    }
+
+    internal static class Partitioner
+    {
+        public static OrderablePartitioner<Tuple<int, int>> Create(int fromInclusive, int toExclusive)
+        {
+            var rangeSize = Math.Max(1, (toExclusive - fromInclusive) / Control.NumberOfParallelWorkerThreads);
+            return Create(fromInclusive, toExclusive, rangeSize);
+        }
+
+        public static OrderablePartitioner<Tuple<int, int>> Create(int fromInclusive, int toExclusive, int rangeSize)
+        {
+            if (toExclusive <= fromInclusive)
+            {
+                throw new ArgumentOutOfRangeException("toExclusive");
+            }
+            if (rangeSize <= 0)
+            {
+                throw new ArgumentOutOfRangeException("rangeSize");
+            }
+
+            return System.Collections.Concurrent.Partitioner.Create(CreateRanges(fromInclusive, toExclusive, rangeSize));
+        }
+
+        private static IEnumerable<Tuple<int, int>> CreateRanges(int fromInclusive, int toExclusive, int rangeSize)
+        {
+            bool flag = false;
+            int num = fromInclusive;
+            while (num < toExclusive && !flag)
+            {
+                int item = num;
+                int num2;
+                try
+                {
+                    num2 = checked(num + rangeSize);
+                }
+                catch (OverflowException)
+                {
+                    num2 = toExclusive;
+                    flag = true;
+                }
+                if (num2 > toExclusive)
+                {
+                    num2 = toExclusive;
+                }
+                yield return new Tuple<int, int>(item, num2);
+                num += rangeSize;
             }
         }
     }
