@@ -184,16 +184,6 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
-        /// Given the number elements, should the operation be parallelized.
-        /// </summary>
-        /// <param name="elements">The number elements to check.</param>
-        /// <returns><c>true</c> if the operation should be parallelized; <c>false</c> otherwise.</returns>
-        public static bool ParallelizeOperation(int elements)
-        {
-            return NumberOfParallelWorkerThreads >= 2 && elements >= ParallelizeElements;
-        }
-
-        /// <summary>
         /// Maximum number of columns to print in ToString methods by default.
         /// </summary>
         public static int MaxToStringColumns { get; set; }
