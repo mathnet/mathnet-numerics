@@ -27,15 +27,8 @@ namespace MathNet.Numerics
 
         public static IEnumerable<Tuple<int, int>> Create(int fromInclusive, int toExclusive, int rangeSize)
         {
-            if (toExclusive <= fromInclusive)
-            {
-                throw new ArgumentOutOfRangeException("toExclusive");
-            }
-            if (rangeSize <= 0)
-            {
-                throw new ArgumentOutOfRangeException("rangeSize");
-            }
-
+            if (toExclusive <= fromInclusive) throw new ArgumentOutOfRangeException("toExclusive");
+            if (rangeSize <= 0) throw new ArgumentOutOfRangeException("rangeSize");
             return CreateRanges(fromInclusive, toExclusive, rangeSize);
         }
 
@@ -273,15 +266,8 @@ namespace MathNet.Numerics
 
         public static OrderablePartitioner<Tuple<int, int>> Create(int fromInclusive, int toExclusive, int rangeSize)
         {
-            if (toExclusive <= fromInclusive)
-            {
-                throw new ArgumentOutOfRangeException("toExclusive");
-            }
-            if (rangeSize <= 0)
-            {
-                throw new ArgumentOutOfRangeException("rangeSize");
-            }
-
+            if (toExclusive <= fromInclusive) throw new ArgumentOutOfRangeException("toExclusive");
+            if (rangeSize <= 0) throw new ArgumentOutOfRangeException("rangeSize");
             return System.Collections.Concurrent.Partitioner.Create(CreateRanges(fromInclusive, toExclusive, rangeSize));
         }
 

@@ -47,6 +47,15 @@ namespace MathNet.Numerics.Threading
     /// </summary>
     public static class CommonParallel
     {
+        private static ParallelOptions CreateParallelOptions()
+        {
+            return new ParallelOptions
+                {
+                    MaxDegreeOfParallelism = Control.NumberOfParallelWorkerThreads,
+                    //TaskScheduler = Control.TaskScheduler,
+                };
+        }
+
         /// <summary>
         /// Executes a for loop in which iterations may run in parallel.
         /// </summary>
@@ -80,10 +89,8 @@ namespace MathNet.Numerics.Threading
                 return;
             }
 
-            var maxDegreeOfParallelism = Control.NumberOfParallelWorkerThreads;
-
             // Special case: not worth to parallelize, inline
-            if (Control.DisableParallelization || maxDegreeOfParallelism < 2 || (rangeSize*2) > length)
+            if (Control.DisableParallelization || Control.NumberOfParallelWorkerThreads < 2 || (rangeSize * 2) > length)
             {
                 body(fromInclusive, toExclusive);
                 return;
@@ -92,7 +99,7 @@ namespace MathNet.Numerics.Threading
             // Common case
             Parallel.ForEach(
                 Partitioner.Create(fromInclusive, toExclusive, rangeSize),
-                new ParallelOptions {MaxDegreeOfParallelism = maxDegreeOfParallelism},
+                CreateParallelOptions(),
                 range => body(range.Item1, range.Item2));
         }
 
@@ -129,10 +136,7 @@ namespace MathNet.Numerics.Threading
 
             // Common case
             Parallel.Invoke(
-                new ParallelOptions
-                    {
-                        MaxDegreeOfParallelism = Control.NumberOfParallelWorkerThreads
-                    },
+                CreateParallelOptions(),
                 actions);
         }
 
@@ -146,14 +150,8 @@ namespace MathNet.Numerics.Threading
         /// <returns>The selected value.</returns>
         public static T Aggregate<T>(int fromInclusive, int toExclusive, Func<int, T> select, Func<T[], T> reduce)
         {
-            if (select == null)
-            {
-                throw new ArgumentNullException("select");
-            }
-            if (reduce == null)
-            {
-                throw new ArgumentNullException("reduce");
-            }
+            if (select == null) throw new ArgumentNullException("select");
+            if (reduce == null) throw new ArgumentNullException("reduce");
 
             // Special case: no action
             if (fromInclusive >= toExclusive)
@@ -181,10 +179,9 @@ namespace MathNet.Numerics.Threading
             // Common case
             var intermediateResults = new List<T>();
             var syncLock = new object();
-            var maxThreads = Control.DisableParallelization ? 1 : Control.NumberOfParallelWorkerThreads;
             Parallel.ForEach(
                 Partitioner.Create(fromInclusive, toExclusive),
-                new ParallelOptions {MaxDegreeOfParallelism = maxThreads},
+                CreateParallelOptions(),
                 () => new List<T>(),
                 (range, loop, localData) =>
                     {
@@ -215,14 +212,8 @@ namespace MathNet.Numerics.Threading
         /// <returns>The selected value.</returns>
         public static TOut Aggregate<T, TOut>(T[] array, Func<int, T, TOut> select, Func<TOut[], TOut> reduce)
         {
-            if (select == null)
-            {
-                throw new ArgumentNullException("select");
-            }
-            if (reduce == null)
-            {
-                throw new ArgumentNullException("reduce");
-            }
+            if (select == null) throw new ArgumentNullException("select");
+            if (reduce == null) throw new ArgumentNullException("reduce");
 
             // Special case: no action
             if (array == null || array.Length == 0)
@@ -250,10 +241,9 @@ namespace MathNet.Numerics.Threading
             // Common case
             var intermediateResults = new List<TOut>();
             var syncLock = new object();
-            var maxThreads = Control.DisableParallelization ? 1 : Control.NumberOfParallelWorkerThreads;
             Parallel.ForEach(
                 Partitioner.Create(0, array.Length),
-                new ParallelOptions {MaxDegreeOfParallelism = maxThreads},
+                CreateParallelOptions(),
                 () => new List<TOut>(),
                 (range, loop, localData) =>
                     {
