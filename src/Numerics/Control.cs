@@ -61,7 +61,6 @@ namespace MathNet.Numerics
 
             // Parallelization & Threading
             _numberOfThreads = Environment.ProcessorCount;
-            DisableParallelization = _numberOfThreads < 2;
             _blockSize = 512;
             _parallelizeOrder = 64;
             _parallelizeElements = 300;
@@ -93,7 +92,6 @@ namespace MathNet.Numerics
         public static void UseSingleThread()
         {
             _numberOfThreads = 1;
-            DisableParallelization = true;
             ThreadSafeRandomNumberGenerators = false;
         }
 
@@ -124,11 +122,6 @@ namespace MathNet.Numerics
         ///     <c>true</c> to use thread safe random number generators ; otherwise, <c>false</c>.
         /// </value>
         public static bool ThreadSafeRandomNumberGenerators { get; set; }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether parallelization shall be disabled globally.
-        /// </summary>
-        public static bool DisableParallelization { get; set; }
 
         /// <summary>
         /// Gets or sets the linear algebra provider. Consider to use UseNativeMKL or UseManaged instead.
@@ -197,7 +190,7 @@ namespace MathNet.Numerics
         /// <returns><c>true</c> if the operation should be parallelized; <c>false</c> otherwise.</returns>
         public static bool ParallelizeOperation(int elements)
         {
-            return !DisableParallelization && NumberOfParallelWorkerThreads >= 2 && elements >= ParallelizeElements;
+            return NumberOfParallelWorkerThreads >= 2 && elements >= ParallelizeElements;
         }
 
         /// <summary>

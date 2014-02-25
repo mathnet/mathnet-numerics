@@ -90,7 +90,7 @@ namespace MathNet.Numerics.Threading
             }
 
             // Special case: not worth to parallelize, inline
-            if (Control.DisableParallelization || Control.NumberOfParallelWorkerThreads < 2 || (rangeSize * 2) > length)
+            if (Control.NumberOfParallelWorkerThreads < 2 || (rangeSize * 2) > length)
             {
                 body(fromInclusive, toExclusive);
                 return;
@@ -125,7 +125,7 @@ namespace MathNet.Numerics.Threading
             }
 
             // Special case: straight execution without parallelism
-            if (Control.DisableParallelization || Control.NumberOfParallelWorkerThreads < 2)
+            if (Control.NumberOfParallelWorkerThreads < 2)
             {
                 for (int i = 0; i < actions.Length; i++)
                 {
@@ -166,7 +166,7 @@ namespace MathNet.Numerics.Threading
             }
 
             // Special case: straight execution without parallelism
-            if (Control.DisableParallelization || Control.NumberOfParallelWorkerThreads < 2)
+            if (Control.NumberOfParallelWorkerThreads < 2)
             {
                 var mapped = new T[toExclusive - fromInclusive];
                 for (int k = 0; k < mapped.Length; k++)
@@ -228,7 +228,7 @@ namespace MathNet.Numerics.Threading
             }
 
             // Special case: straight execution without parallelism
-            if (Control.DisableParallelization || Control.NumberOfParallelWorkerThreads < 2)
+            if (Control.NumberOfParallelWorkerThreads < 2)
             {
                 var mapped = new TOut[array.Length];
                 for (int k = 0; k < mapped.Length; k++)
