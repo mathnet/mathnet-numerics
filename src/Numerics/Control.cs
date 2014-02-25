@@ -30,6 +30,7 @@
 
 using MathNet.Numerics.Providers.LinearAlgebra;
 using System;
+using System.Threading.Tasks;
 
 namespace MathNet.Numerics
 {
@@ -64,6 +65,7 @@ namespace MathNet.Numerics
             _blockSize = 512;
             _parallelizeOrder = 64;
             _parallelizeElements = 300;
+            TaskScheduler = TaskScheduler.Default;
 
             // Linear Algebra Provider
             LinearAlgebraProvider = new ManagedLinearAlgebraProvider();
@@ -149,6 +151,11 @@ namespace MathNet.Numerics
             get { return _numberOfThreads; }
             set { _numberOfThreads = Math.Max(1, Math.Min(1024, value)); }
         }
+
+        /// <summary>
+        /// Gets or sets the TaskScheduler used to schedule the worker tasks.
+        /// </summary>
+        public static TaskScheduler TaskScheduler { get; set; }
 
         /// <summary>
         /// Gets or sets the the block size to use for

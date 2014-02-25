@@ -52,7 +52,7 @@ namespace MathNet.Numerics.Threading
             return new ParallelOptions
                 {
                     MaxDegreeOfParallelism = Control.NumberOfParallelWorkerThreads,
-                    //TaskScheduler = Control.TaskScheduler,
+                    TaskScheduler = Control.TaskScheduler,
                 };
         }
 
