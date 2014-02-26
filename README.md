@@ -20,14 +20,14 @@ Installation Instructions
 
 The recommended way to get Math.NET Numerics is to use NuGet. The following packages are provided and maintained in the public [NuGet Gallery](https://nuget.org/profiles/mathnet/):
 
-- `MathNet.Numerics` - core package, including .Net 4, .Net 3.5 and portable/PCL builds
-- `MathNet.Numerics.FSharp` - optional extensions for a better F# experience
-- `MathNet.Numerics.Data.Text` - optional extensions for text-based matrix input/output
-- `MathNet.Numerics.Data.Matlab` - optional extensions for MATLAB matrix file input/output
-- `MathNet.Numerics.MKL.Win-x86` - optional Linear Algebra MKL native provider
-- `MathNet.Numerics.MKL.Win-x64` - optional Linear Algebra MKL native provider
-- `MathNet.Numerics.Signed` - strong-named version of the core package *(not recommended)*
-- `MathNet.Numerics.FSharp.Signed` - strong-named version of the F# package *(not recommended)*
+- **MathNet.Numerics** - core package, including .Net 4, .Net 3.5 and portable/PCL builds.
+- **MathNet.Numerics.FSharp** - optional extensions for a better F# experience. BigRational.
+- **MathNet.Numerics.Data.Text** - optional extensions for text-based matrix input/output.
+- **MathNet.Numerics.Data.Matlab** - optional extensions for MATLAB matrix file input/output.
+- **MathNet.Numerics.MKL.Win-x86** - optional Linear Algebra MKL native provider.
+- **MathNet.Numerics.MKL.Win-x64** - optional Linear Algebra MKL native provider.
+- **MathNet.Numerics.Signed** - strong-named version of the core package *(not recommended)*.
+- **MathNet.Numerics.FSharp.Signed** - strong-named version of the F# package *(not recommended)*.
 
 Alternatively you can also download the binaries in Zip packages, available on [CodePlex](http://mathnetnumerics.codeplex.com/releases):
 
@@ -38,7 +38,7 @@ Supported Platforms:
 
 - .Net 4.0, .Net 3.5 and Mono: Windows, Linux and Mac.
 - PCL Portable Profiles 47 and 136: Silverlight 5, Windows Phone 8, .NET for Windows Store apps (Metro).
-- PCL/Xamarin: Andoid, iOS
+- PCL/Xamarin: Android, iOS  *(not verified due to lack of license and devices)*
 
 Building Math.NET Numerics
 --------------------------
@@ -61,9 +61,10 @@ If you do not want to use the official binaries, or if you like to modify, debug
     build.cmd   # normal build (.Net 4.0), run unit tests
     ./build.sh  # normal build (.Net 4.0), run unit tests - on Linux or Mac
     
-    build.cmd Build        # normal build (.Net 4.0)
-    build.cmd Build full   # full build (.Net 3.5, 4.0, PCL)
-    build.cmd Build net35  # compatibility build (.Net 3.5)
+    build.cmd Build              # normal build (.Net 4.0)
+    build.cmd Build incremental  # normal build, incremental (.Net 4.0)
+    build.cmd Build full         # full build (.Net 3.5, 4.0, PCL)
+    build.cmd Build net35        # compatibility build (.Net 3.5)
     
     build.cmd Test        # normal build (.Net 4.0), run unit tests
     build.cmd Test full   # full build (.Net 3.5, 4.0, PCL), run all unit tests
@@ -81,7 +82,7 @@ Quick Links
 * [**Project Website**](http://numerics.mathdotnet.com)
 * [Source Code](http://github.com/mathnet/mathnet-numerics)
 * [Downloads](http://mathnetnumerics.codeplex.com/releases)
-* [Documentation](http://mathnetnumerics.codeplex.com/documentation), see also new [experimental documentation](http://numerics.mathdotnet.com/docs/)
+* [Documentation](http://numerics.mathdotnet.com/docs/)
 * [API Reference](http://numerics.mathdotnet.com/api/)
 * [Code Samples](http://github.com/mathnet/mathnet-numerics/tree/master/src/Examples)
 * [Discussions](http://mathnetnumerics.codeplex.com/discussions)

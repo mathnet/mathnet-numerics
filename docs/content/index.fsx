@@ -55,9 +55,10 @@ If you do not want to use the official binaries, or if you like to modify, debug
     build.cmd   # normal build (.Net 4.0), run unit tests
     ./build.sh  # normal build (.Net 4.0), run unit tests - on Linux or Mac
     
-    build.cmd Build        # normal build (.Net 4.0)
-    build.cmd Build full   # full build (.Net 3.5, 4.0, PCL)
-    build.cmd Build net35  # compatibility build (.Net 3.5)
+    build.cmd Build              # normal build (.Net 4.0)
+    build.cmd Build incremental  # normal build, incremental (.Net 4.0)
+    build.cmd Build full         # full build (.Net 3.5, 4.0, PCL)
+    build.cmd Build net35        # compatibility build (.Net 3.5)
     
     build.cmd Test        # normal build (.Net 4.0), run unit tests
     build.cmd Test full   # full build (.Net 3.5, 4.0, PCL), run all unit tests

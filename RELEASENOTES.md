@@ -45,10 +45,6 @@ Multiple alpha builds have been made available as NuGet pre-release packages. Th
 - Reworked redundancies, inconsistencies and unfortunate past design choices.
 - Significant namespace simplifications (-30%).
 
-Known Issues:
-
-- F# vector slice setters do not work in VisualStudio 2013 (2012 is fine). Use `SetSubVector` or `SetSlice` instead. Slice getters are fine and matrices are not affected.
-
 Changes as of now:
 
 ### Linear Algebra
@@ -88,6 +84,7 @@ Changes as of now:
 - Various minor performance work.
 - Matrix.ClearSubMatrix no longer throws on 0 or negative col/row count (nop)
 - BUG: Fix bug in routine to copy a vector into a sub-row of a matrix.
+- Both canonical modulus and remainder operations on matrices and vectors.
 
 ### Statistics
 
@@ -96,11 +93,12 @@ Changes as of now:
 - Single-pass `MeanVariance` method (as used often together).
 - Some overloads for single-precision values.
 - Add `Ranks`, `QuantileRank` and `EmpiricalCDF`.
+- F# module for higher order functions.
 
 ### Probability Distributions
 
 - New Trigangular distributionb *~Superbest*
-- Add InvCDF to Gamma distribution.
+- Add InvCDF to Gamma, Student-T, FisherSnedecor (F), and Beta distributions.
 - Major API cleanup, including xml docs
 - Xml doc and ToString now use well-known symbols for the parameters.
 - Direct static exposure of distributions functions (PDF, CDF, sometimes also InvCDF).
@@ -108,9 +106,12 @@ Changes as of now:
 - All constructors now optionally accept a random source as last argument.
 - Use less problematic RNG-seeds by default, if no random source is provided.
 - Simpler and more composable random sampling from distributions.
+- Much more distribution's actual sample distribution is verified in tests (all continuous, most discrete).
 - BUG: Fix hyper-geometric CDF semantics, clarify distribution parameters.
+- BUG: Fix Zipf CDF at x=1.
+- BUG: Fix Geometric distribution sampling.
 
-### Random Number Generators ###
+### Random Number Generators
 
 - Thread-safe System.Random available again as `SystemRandomSource`.
 - Fast and simple to use static `SystemRandomSource.Doubles` routine with lower randomness guarantees.
@@ -128,7 +129,7 @@ Changes as of now:
 - Weighted polynomial and multi-dim fitting.
 - Use more efficient LA routines *~Thomas Ibel*
 
-### Interpolation ###
+### Interpolation
 
 - Return tuples instead of out parameter.
 - Reworked splines, drop complicated and limiting inheritance design. More functional approach.
@@ -139,6 +140,8 @@ Changes as of now:
 
 ### Build & Packages
 
+- FAKE-based build (in addition to existing Visual Studio solutions) to clean, build, test, document and package independently of the CI server.
+- Finally proper documentation using FSharp.Formatting with sources included in the repository so it is versioned and can be contributed to with pull requests.
 - NuGet packages now also include the PCL portable profile 47 (.Net 4.5, Silverlight 5, Windows 8) in addition to the normal .Net 4.0 build and PCL profile 136 (.Net 4.0, WindowsPhone 8, Silverlight 5, Windows 8) as before. Profile 47 uses `System.Numerics` for complex numbers, among others, which is not available in profile 136.
 - NuGet packages now also include a .Net 3.5 build of the core library.
 - IO libraries have been removed, replaced with new `.Data` packages (see list on top).
@@ -152,16 +155,22 @@ Changes as of now:
 - New distance functions in `Distance`: euclidean, manhattan, chebychev distance of arrays or generic vectors. SAD, MAE, SSD, MSE metrics. Pearson's, Canberra and Minkowski distance. Hamming distance.
 - Integration: simplification of the double-exponential transformation api design.
 - Windows: ported windowing functions from Neodym (Hamming, Hann, Cosine, Lanczos, Gauss, Blackmann, Bartlett, ...)
-- Generate: ported synthetic data generation and sampling routines from Neodym (includes all from old Signals namespace)
+- Generate: ported synthetic data generation and sampling routines from Neodym (includes all from old Signals namespace). F# module for higher order functions.
 - Euclid: modulus vs remainder, integer theory (includes all from old NumberTheory namespace).
 - Root Finding: explicit for Chebychev polynomials.
-- Excel Functions: TDIST, GAMMADIST, GAMMAINV, QUARTILE, PERCENTRANK.
+- Root Finding: explicit for Cubic polynomials. *~Candy Chiu*
+- Excel Functions: TDIST, TINV, BETADIST, BETAINV, GAMMADIST, GAMMAINV, NORMDIST, NORMINV, NORMSDIST, NORMSINV QUARTILE, PERCENTILE, PERCENTRANK.
 - More robust complex Asin/Acos for large real numbers.
 - Complex: common short names for Exp, Ln, Log10, Log.
 - Complex: fix issue where a *negative zero* may flip the sign in special cases (like `Atanh(2)`, where incidentally MATLAB and Mathematica do not agree on the sign either).
+- Complex: routines to return all two square and three cubic roots of a complex number.
+- Evaluate: routine to evaluate complex polynomials, or real polynomials at a complex point.
 - Trig functions: common short names instead of very long names. Add sinc function.
 - Special Functions: Increase max iterations in BetaRegularized for large arguments.
 - Special Functions: new `GammaLowerRegularizedInv`.
+- CommonParallel now also supported in .Net 3.5 and portable profiles; TaskScheduler can be replaced with custom implementation *~Thomas Ibel*
+- F# code originally imported from F# PowerPack cleaned up *~Jack Pappas*
+- F# functions now use the clearer `Func` suffix instead of just `F` if they return a function.
 - Precision: reworked, now much more consistent. **If you use `AlmostEqual` with numbers-between/ULP semantics, please do review your code to make sure you're still using the expected variant!**. If you use the decimal-places semantics, you may need to decrement the digits argument to get the same behavior as before.
 - Much less null checks, our code generally only throws `ArgumentNullException` if an unexpected null argument would *not* have caused an immediate `NullReferenceException`.
 - Tests now have category attributes (to selectively run or skip categories).

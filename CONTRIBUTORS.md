@@ -19,8 +19,8 @@ Feel free to add a link to your personal site/blog and/or twitter handle.*
 - [Marcus Cuda](http://marcuscuda.com/)
 - Jurgen Van Gael
 - Alexander Karatarakis (Danimoth)
-- Gustavo Guerra
 - Thomas Ibel (tibel)
+- Gustavo Guerra
 - Hani Medhat
 - manyue
 - Alexander Täschner (taschna)
@@ -33,9 +33,9 @@ Feel free to add a link to your personal site/blog and/or twitter handle.*
 - Robin Neatherway
 - Anders Gustafsson (cureos)
 - Andrew Kazyrevich
+- Candy Chiu
 - Ethar Alali
 - Iain McDonald (lifebeyondfife)
-- Candy Chiu
 - Gauthier Segay
 - Gregor959
 - IUser
