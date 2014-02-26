@@ -30,6 +30,7 @@
 
 using MathNet.Numerics.Providers.LinearAlgebra;
 using System;
+using System.Threading.Tasks;
 
 namespace MathNet.Numerics
 {
@@ -61,10 +62,10 @@ namespace MathNet.Numerics
 
             // Parallelization & Threading
             _numberOfThreads = Environment.ProcessorCount;
-            DisableParallelization = _numberOfThreads < 2;
             _blockSize = 512;
             _parallelizeOrder = 64;
             _parallelizeElements = 300;
+            TaskScheduler = TaskScheduler.Default;
 
             // Linear Algebra Provider
             LinearAlgebraProvider = new ManagedLinearAlgebraProvider();
@@ -93,7 +94,6 @@ namespace MathNet.Numerics
         public static void UseSingleThread()
         {
             _numberOfThreads = 1;
-            DisableParallelization = true;
             ThreadSafeRandomNumberGenerators = false;
         }
 
@@ -126,11 +126,6 @@ namespace MathNet.Numerics
         public static bool ThreadSafeRandomNumberGenerators { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether parallelization shall be disabled globally.
-        /// </summary>
-        public static bool DisableParallelization { get; set; }
-
-        /// <summary>
         /// Gets or sets the linear algebra provider. Consider to use UseNativeMKL or UseManaged instead.
         /// </summary>
         /// <value>The linear algebra provider.</value>
@@ -156,6 +151,11 @@ namespace MathNet.Numerics
             get { return _numberOfThreads; }
             set { _numberOfThreads = Math.Max(1, Math.Min(1024, value)); }
         }
+
+        /// <summary>
+        /// Gets or sets the TaskScheduler used to schedule the worker tasks.
+        /// </summary>
+        public static TaskScheduler TaskScheduler { get; set; }
 
         /// <summary>
         /// Gets or sets the the block size to use for
@@ -188,16 +188,6 @@ namespace MathNet.Numerics
         {
             get { return _parallelizeElements; }
             set { _parallelizeElements = Math.Max(3, value); }
-        }
-
-        /// <summary>
-        /// Given the number elements, should the operation be parallelized.
-        /// </summary>
-        /// <param name="elements">The number elements to check.</param>
-        /// <returns><c>true</c> if the operation should be parallelized; <c>false</c> otherwise.</returns>
-        public static bool ParallelizeOperation(int elements)
-        {
-            return !DisableParallelization && NumberOfParallelWorkerThreads >= 2 && elements >= ParallelizeElements;
         }
 
         /// <summary>

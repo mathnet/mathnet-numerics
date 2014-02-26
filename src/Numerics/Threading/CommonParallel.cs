@@ -31,14 +31,15 @@
 namespace MathNet.Numerics.Threading
 {
     using System;
+    using System.Collections.Generic;
     using System.Threading.Tasks;
 
-#if (PORTABLE || NET35)
-    using System.Linq;
-    using Properties;
-#else
+#if NET35
+    using Partitioner = MathNet.Numerics.Partitioner;
+#endif
+
+#if !PORTABLE
     using System.Collections.Concurrent;
-    using System.Collections.Generic;
 #endif
 
     /// <summary>
@@ -46,6 +47,15 @@ namespace MathNet.Numerics.Threading
     /// </summary>
     public static class CommonParallel
     {
+        private static ParallelOptions CreateParallelOptions()
+        {
+            return new ParallelOptions
+                {
+                    MaxDegreeOfParallelism = Control.NumberOfParallelWorkerThreads,
+                    TaskScheduler = Control.TaskScheduler,
+                };
+        }
+
         /// <summary>
         /// Executes a for loop in which iterations may run in parallel.
         /// </summary>
@@ -79,39 +89,18 @@ namespace MathNet.Numerics.Threading
                 return;
             }
 
-            var maxDegreeOfParallelism = Control.NumberOfParallelWorkerThreads;
-
             // Special case: not worth to parallelize, inline
-            if (Control.DisableParallelization || maxDegreeOfParallelism < 2 || (rangeSize*2) > length)
+            if (Control.NumberOfParallelWorkerThreads < 2 || (rangeSize * 2) > length)
             {
                 body(fromInclusive, toExclusive);
                 return;
             }
 
-#if (PORTABLE || NET35)
-            var tasks = new Task[Math.Min(maxDegreeOfParallelism, length/rangeSize)];
-            rangeSize = (toExclusive - fromInclusive)/tasks.Length;
-
-            // partition the jobs into separate sets for each but the last worked thread
-            for (var i = 0; i < tasks.Length - 1; i++)
-            {
-                var start = fromInclusive + (i*rangeSize);
-                var stop = fromInclusive + ((i + 1)*rangeSize);
-
-                tasks[i] = Task.Factory.StartNew(() => body(start, stop));
-            }
-
-            // add another set for last worker thread
-            tasks[tasks.Length - 1] =
-                Task.Factory.StartNew(() => body(fromInclusive + ((tasks.Length - 1)*rangeSize), toExclusive));
-
-            Task.WaitAll(tasks);
-#else
+            // Common case
             Parallel.ForEach(
                 Partitioner.Create(fromInclusive, toExclusive, rangeSize),
-                new ParallelOptions {MaxDegreeOfParallelism = maxDegreeOfParallelism},
-                (range, loopState) => body(range.Item1, range.Item2));
-#endif
+                CreateParallelOptions(),
+                range => body(range.Item1, range.Item2));
         }
 
         /// <summary>
@@ -136,7 +125,7 @@ namespace MathNet.Numerics.Threading
             }
 
             // Special case: straight execution without parallelism
-            if (Control.DisableParallelization || Control.NumberOfParallelWorkerThreads < 2)
+            if (Control.NumberOfParallelWorkerThreads < 2)
             {
                 for (int i = 0; i < actions.Length; i++)
                 {
@@ -146,27 +135,9 @@ namespace MathNet.Numerics.Threading
             }
 
             // Common case
-#if (PORTABLE || NET35)
-            var tasks = new Task[actions.Length];
-            for (var i = 0; i < tasks.Length; i++)
-            {
-                Action action = actions[i];
-                if (action == null)
-                {
-                    throw new ArgumentException(String.Format(Resources.ArgumentItemNull, "actions"), "actions");
-                }
-
-                tasks[i] = Task.Factory.StartNew(action);
-            }
-            Task.WaitAll(tasks);
-#else
             Parallel.Invoke(
-                new ParallelOptions
-                    {
-                        MaxDegreeOfParallelism = Control.NumberOfParallelWorkerThreads
-                    },
+                CreateParallelOptions(),
                 actions);
-#endif
         }
 
         /// <summary>
@@ -179,14 +150,8 @@ namespace MathNet.Numerics.Threading
         /// <returns>The selected value.</returns>
         public static T Aggregate<T>(int fromInclusive, int toExclusive, Func<int, T> select, Func<T[], T> reduce)
         {
-            if (select == null)
-            {
-                throw new ArgumentNullException("select");
-            }
-            if (reduce == null)
-            {
-                throw new ArgumentNullException("reduce");
-            }
+            if (select == null) throw new ArgumentNullException("select");
+            if (reduce == null) throw new ArgumentNullException("reduce");
 
             // Special case: no action
             if (fromInclusive >= toExclusive)
@@ -201,7 +166,7 @@ namespace MathNet.Numerics.Threading
             }
 
             // Special case: straight execution without parallelism
-            if (Control.DisableParallelization || Control.NumberOfParallelWorkerThreads < 2)
+            if (Control.NumberOfParallelWorkerThreads < 2)
             {
                 var mapped = new T[toExclusive - fromInclusive];
                 for (int k = 0; k < mapped.Length; k++)
@@ -211,49 +176,12 @@ namespace MathNet.Numerics.Threading
                 return reduce(mapped);
             }
 
-#if (PORTABLE || NET35)
-            var tasks = new Task<T>[Control.NumberOfParallelWorkerThreads];
-            var size = (toExclusive - fromInclusive) / tasks.Length;
-
-            // partition the jobs into separate sets for each but the last worked thread
-            for (var i = 0; i < tasks.Length - 1; i++)
-            {
-                var start = fromInclusive + (i * size);
-                var stop = fromInclusive + ((i + 1) * size);
-
-                tasks[i] = Task.Factory.StartNew(() =>
-                    {
-                        var mapped = new T[stop - start];
-                        for (int k = 0; k < mapped.Length; k++)
-                        {
-                            mapped[k] = select(k + start);
-                        }
-                        return reduce(mapped);
-                    });
-            }
-
-            // add another set for last worker thread
-            tasks[tasks.Length - 1] = Task.Factory.StartNew(() =>
-                {
-                    var start = fromInclusive + ((tasks.Length - 1) * size);
-                    var mapped = new T[toExclusive - start];
-                    for (int k = 0; k < mapped.Length; k++)
-                    {
-                        mapped[k] = select(k + start);
-                    }
-                    return reduce(mapped);
-                });
-
-            return Task.Factory
-                .ContinueWhenAll(tasks, tsk => reduce(tsk.Select(t => t.Result).ToArray()))
-                .Result;
-#else
+            // Common case
             var intermediateResults = new List<T>();
             var syncLock = new object();
-            var maxThreads = Control.DisableParallelization ? 1 : Control.NumberOfParallelWorkerThreads;
             Parallel.ForEach(
                 Partitioner.Create(fromInclusive, toExclusive),
-                new ParallelOptions {MaxDegreeOfParallelism = maxThreads},
+                CreateParallelOptions(),
                 () => new List<T>(),
                 (range, loop, localData) =>
                     {
@@ -273,7 +201,6 @@ namespace MathNet.Numerics.Threading
                         }
                     });
             return reduce(intermediateResults.ToArray());
-#endif
         }
 
         /// <summary>
@@ -285,14 +212,8 @@ namespace MathNet.Numerics.Threading
         /// <returns>The selected value.</returns>
         public static TOut Aggregate<T, TOut>(T[] array, Func<int, T, TOut> select, Func<TOut[], TOut> reduce)
         {
-            if (select == null)
-            {
-                throw new ArgumentNullException("select");
-            }
-            if (reduce == null)
-            {
-                throw new ArgumentNullException("reduce");
-            }
+            if (select == null) throw new ArgumentNullException("select");
+            if (reduce == null) throw new ArgumentNullException("reduce");
 
             // Special case: no action
             if (array == null || array.Length == 0)
@@ -307,7 +228,7 @@ namespace MathNet.Numerics.Threading
             }
 
             // Special case: straight execution without parallelism
-            if (Control.DisableParallelization || Control.NumberOfParallelWorkerThreads < 2)
+            if (Control.NumberOfParallelWorkerThreads < 2)
             {
                 var mapped = new TOut[array.Length];
                 for (int k = 0; k < mapped.Length; k++)
@@ -317,49 +238,12 @@ namespace MathNet.Numerics.Threading
                 return reduce(mapped);
             }
 
-#if (PORTABLE || NET35)
-            var tasks = new Task<TOut>[Control.NumberOfParallelWorkerThreads];
-            var size = array.Length / tasks.Length;
-
-            // partition the jobs into separate sets for each but the last worked thread
-            for (var i = 0; i < tasks.Length - 1; i++)
-            {
-                var start = (i * size);
-                var stop = ((i + 1) * size);
-
-                tasks[i] = Task.Factory.StartNew(() =>
-                    {
-                        var mapped = new TOut[stop - start];
-                        for (int k = 0; k < mapped.Length; k++)
-                        {
-                            mapped[k] = select(k + start, array[k + start]);
-                        }
-                        return reduce(mapped);
-                    });
-            }
-
-            // add another set for last worker thread
-            tasks[tasks.Length - 1] = Task.Factory.StartNew(() =>
-                {
-                    var start = ((tasks.Length - 1) * size);
-                    var mapped = new TOut[array.Length - start];
-                    for (int k = 0; k < mapped.Length; k++)
-                    {
-                        mapped[k] = select(k + start, array[k + start]);
-                    }
-                    return reduce(mapped);
-                });
-
-            return Task.Factory
-                .ContinueWhenAll(tasks, tsk => reduce(tsk.Select(t => t.Result).ToArray()))
-                .Result;
-#else
+            // Common case
             var intermediateResults = new List<TOut>();
             var syncLock = new object();
-            var maxThreads = Control.DisableParallelization ? 1 : Control.NumberOfParallelWorkerThreads;
             Parallel.ForEach(
                 Partitioner.Create(0, array.Length),
-                new ParallelOptions {MaxDegreeOfParallelism = maxThreads},
+                CreateParallelOptions(),
                 () => new List<TOut>(),
                 (range, loop, localData) =>
                     {
@@ -379,7 +263,6 @@ namespace MathNet.Numerics.Threading
                         }
                     });
             return reduce(intermediateResults.ToArray());
-#endif
         }
 
         /// <summary>
