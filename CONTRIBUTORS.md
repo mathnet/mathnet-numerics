@@ -29,6 +29,7 @@ Feel free to add a link to your personal site/blog and/or twitter handle.*
 - Phil Cleveland (Phil)
 - Scott Stephens
 - Superbest
+- Jack Pappas
 - Patrick van der Velde
 - Robin Neatherway
 - Anders Gustafsson (cureos)
