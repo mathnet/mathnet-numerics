@@ -29,9 +29,11 @@ Target "Prepare" DoNothing
 
 // BUILD
 
-Target "BuildMain" (fun _ -> !! "MathNet.Numerics.sln" |> MSBuildRelease "" "Rebuild" |> ignore)
-Target "BuildNet35" (fun _ -> !! "MathNet.Numerics.Net35Only.sln" |> MSBuildRelease "" "Rebuild" |> ignore)
-Target "BuildFull" (fun _ -> !! "MathNet.Numerics.Portable.sln" |> MSBuildRelease "" "Rebuild" |> ignore)
+let build subject = MSBuildRelease "" (if hasBuildParam "incremental" then "Build" else "Rebuild") subject |> ignore
+
+Target "BuildMain" (fun _ -> build !! "MathNet.Numerics.sln")
+Target "BuildNet35" (fun _ -> build !! "MathNet.Numerics.Net35Only.sln")
+Target "BuildFull" (fun _ -> build !! "MathNet.Numerics.Portable.sln")
 Target "Build" DoNothing
 
 "Prepare"
@@ -68,6 +70,10 @@ Target "DocsDev" (fun _ ->
 )
 
 "Build"  ==> "Docs"
+
+"Start"
+  =?> ("CleanDocs", not (hasBuildParam "incremental"))
+  ==> "DocsDev"
 
 
 // NUGET
