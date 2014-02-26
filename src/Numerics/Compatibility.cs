@@ -21,7 +21,7 @@ namespace MathNet.Numerics
     {
         public static IEnumerable<Tuple<int, int>> Create(int fromInclusive, int toExclusive)
         {
-            var rangeSize = Math.Max(1, (toExclusive - fromInclusive) / Control.NumberOfParallelWorkerThreads);
+            var rangeSize = Math.Max(1, (toExclusive - fromInclusive) / Control.MaxDegreeOfParallelism);
             return Create(fromInclusive, toExclusive, rangeSize);
         }
 
@@ -260,7 +260,7 @@ namespace MathNet.Numerics
     {
         public static OrderablePartitioner<Tuple<int, int>> Create(int fromInclusive, int toExclusive)
         {
-            var rangeSize = Math.Max(1, (toExclusive - fromInclusive) / Control.NumberOfParallelWorkerThreads);
+            var rangeSize = Math.Max(1, (toExclusive - fromInclusive) / Control.MaxDegreeOfParallelism);
             return Create(fromInclusive, toExclusive, rangeSize);
         }
 

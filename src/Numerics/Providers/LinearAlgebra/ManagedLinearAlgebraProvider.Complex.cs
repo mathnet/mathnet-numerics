@@ -1265,7 +1265,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                     }
 
                     // Remaining columns, below the diagonal
-                    DoCholeskyStep(a, order, ij + 1, order, tmpColumn, Control.NumberOfParallelWorkerThreads);
+                    DoCholeskyStep(a, order, ij + 1, order, tmpColumn, Control.MaxDegreeOfParallelism);
                 }
                 else
                 {
@@ -1546,12 +1546,12 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
             for (var i = 0; i < minmn; i++)
             {
                 GenerateColumn(work, r, rowsR, i, i);
-                ComputeQR(work, i, r, i, rowsR, i + 1, columnsR, Control.NumberOfParallelWorkerThreads);
+                ComputeQR(work, i, r, i, rowsR, i + 1, columnsR, Control.MaxDegreeOfParallelism);
             }
 
             for (var i = minmn - 1; i >= 0; i--)
             {
-                ComputeQR(work, i, q, i, rowsR, i, rowsR, Control.NumberOfParallelWorkerThreads);
+                ComputeQR(work, i, q, i, rowsR, i, rowsR, Control.MaxDegreeOfParallelism);
             }
 
             work[0] = columnsR > rowsR ? rowsR*rowsR : rowsR*columnsR;
@@ -1657,7 +1657,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
             for (var i = 0; i < minmn; i++)
             {
                 GenerateColumn(work, a, rowsA, i, i);
-                ComputeQR(work, i, a, i, rowsA, i + 1, columnsA, Control.NumberOfParallelWorkerThreads);
+                ComputeQR(work, i, a, i, rowsA, i + 1, columnsA, Control.MaxDegreeOfParallelism);
             }
 
             //copy R
@@ -1680,7 +1680,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
 
             for (var i = minmn - 1; i >= 0; i--)
             {
-                ComputeQR(work, i, a, i, rowsA, i, columnsA, Control.NumberOfParallelWorkerThreads);
+                ComputeQR(work, i, a, i, rowsA, i, columnsA, Control.MaxDegreeOfParallelism);
             }
 
             work[0] = rowsA*columnsA;

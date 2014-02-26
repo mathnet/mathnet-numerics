@@ -92,7 +92,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
                     }
 
                     // Remaining columns, below the diagonal
-                    DoCholeskyStep(factor, factor.RowCount, ij + 1, factor.RowCount, tmpColumn, Control.NumberOfParallelWorkerThreads);
+                    DoCholeskyStep(factor, factor.RowCount, ij + 1, factor.RowCount, tmpColumn, Control.MaxDegreeOfParallelism);
                 }
                 else
                 {

@@ -39,7 +39,7 @@ namespace MathNet.Numerics
     /// </summary>
     public static class Control
     {
-        static int _numberOfThreads;
+        static int _maxDegreeOfParallelism;
         static int _blockSize;
         static int _parallelizeOrder;
         static int _parallelizeElements;
@@ -61,7 +61,7 @@ namespace MathNet.Numerics
             MaxToStringRows = 8;
 
             // Parallelization & Threading
-            _numberOfThreads = Environment.ProcessorCount;
+            _maxDegreeOfParallelism = Environment.ProcessorCount;
             _blockSize = 512;
             _parallelizeOrder = 64;
             _parallelizeElements = 300;
@@ -93,7 +93,7 @@ namespace MathNet.Numerics
 
         public static void UseSingleThread()
         {
-            _numberOfThreads = 1;
+            _maxDegreeOfParallelism = 1;
             ThreadSafeRandomNumberGenerators = false;
         }
 
@@ -146,10 +146,10 @@ namespace MathNet.Numerics
         /// when parallelization is applicable.
         /// </summary>
         /// <remarks>Default to the number of processor cores, must be between 1 and 1024 (inclusive).</remarks>
-        public static int NumberOfParallelWorkerThreads
+        public static int MaxDegreeOfParallelism
         {
-            get { return _numberOfThreads; }
-            set { _numberOfThreads = Math.Max(1, Math.Min(1024, value)); }
+            get { return _maxDegreeOfParallelism; }
+            set { _maxDegreeOfParallelism = Math.Max(1, Math.Min(1024, value)); }
         }
 
         /// <summary>

@@ -124,7 +124,7 @@ namespace MathNet.Numerics.Random
                 seed = 1;
             }
 
-            _threads = Control.NumberOfParallelWorkerThreads;
+            _threads = Control.MaxDegreeOfParallelism;
             ShortLag = shortLag;
 
             // Align LongLag to number of worker threads.
@@ -234,7 +234,7 @@ namespace MathNet.Numerics.Random
                 seed = 1;
             }
 
-            int threads = Control.NumberOfParallelWorkerThreads;
+            int threads = Control.MaxDegreeOfParallelism;
             const int shortLag = DefaultShortLag;
             var longLag = DefaultLongLag;
 
@@ -284,7 +284,7 @@ namespace MathNet.Numerics.Random
                 seed = 1;
             }
 
-            int threads = Control.NumberOfParallelWorkerThreads;
+            int threads = Control.MaxDegreeOfParallelism;
             const int shortLag = DefaultShortLag;
             var longLag = DefaultLongLag;
 

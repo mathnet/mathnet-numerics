@@ -51,7 +51,7 @@ namespace MathNet.Numerics.Threading
         {
             return new ParallelOptions
                 {
-                    MaxDegreeOfParallelism = Control.NumberOfParallelWorkerThreads,
+                    MaxDegreeOfParallelism = Control.MaxDegreeOfParallelism,
                     TaskScheduler = Control.TaskScheduler,
                 };
         }
@@ -64,7 +64,7 @@ namespace MathNet.Numerics.Threading
         /// <param name="body">The body to be invoked for each iteration range.</param>
         public static void For(int fromInclusive, int toExclusive, Action<int, int> body)
         {
-            For(fromInclusive, toExclusive, Math.Max(1, (toExclusive - fromInclusive)/Control.NumberOfParallelWorkerThreads), body);
+            For(fromInclusive, toExclusive, Math.Max(1, (toExclusive - fromInclusive)/Control.MaxDegreeOfParallelism), body);
         }
 
         /// <summary>
@@ -90,7 +90,7 @@ namespace MathNet.Numerics.Threading
             }
 
             // Special case: not worth to parallelize, inline
-            if (Control.NumberOfParallelWorkerThreads < 2 || (rangeSize * 2) > length)
+            if (Control.MaxDegreeOfParallelism < 2 || (rangeSize * 2) > length)
             {
                 body(fromInclusive, toExclusive);
                 return;
@@ -125,7 +125,7 @@ namespace MathNet.Numerics.Threading
             }
 
             // Special case: straight execution without parallelism
-            if (Control.NumberOfParallelWorkerThreads < 2)
+            if (Control.MaxDegreeOfParallelism < 2)
             {
                 for (int i = 0; i < actions.Length; i++)
                 {
@@ -166,7 +166,7 @@ namespace MathNet.Numerics.Threading
             }
 
             // Special case: straight execution without parallelism
-            if (Control.NumberOfParallelWorkerThreads < 2)
+            if (Control.MaxDegreeOfParallelism < 2)
             {
                 var mapped = new T[toExclusive - fromInclusive];
                 for (int k = 0; k < mapped.Length; k++)
@@ -228,7 +228,7 @@ namespace MathNet.Numerics.Threading
             }
 
             // Special case: straight execution without parallelism
-            if (Control.NumberOfParallelWorkerThreads < 2)
+            if (Control.MaxDegreeOfParallelism < 2)
             {
                 var mapped = new TOut[array.Length];
                 for (int k = 0; k < mapped.Length; k++)

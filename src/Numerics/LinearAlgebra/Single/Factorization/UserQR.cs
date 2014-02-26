@@ -80,12 +80,12 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
                 for (var i = 0; i < minmn; i++)
                 {
                     u[i] = GenerateColumn(r, i, i);
-                    ComputeQR(u[i], r, i, matrix.RowCount, i + 1, matrix.ColumnCount, Control.NumberOfParallelWorkerThreads);
+                    ComputeQR(u[i], r, i, matrix.RowCount, i + 1, matrix.ColumnCount, Control.MaxDegreeOfParallelism);
                 }
 
                 for (var i = minmn - 1; i >= 0; i--)
                 {
-                    ComputeQR(u[i], q, i, matrix.RowCount, i, matrix.RowCount, Control.NumberOfParallelWorkerThreads);
+                    ComputeQR(u[i], q, i, matrix.RowCount, i, matrix.RowCount, Control.MaxDegreeOfParallelism);
                 }
             }
             else
@@ -95,7 +95,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
                 for (var i = 0; i < minmn; i++)
                 {
                     u[i] = GenerateColumn(q, i, i);
-                    ComputeQR(u[i], q, i, matrix.RowCount, i + 1, matrix.ColumnCount, Control.NumberOfParallelWorkerThreads);
+                    ComputeQR(u[i], q, i, matrix.RowCount, i + 1, matrix.ColumnCount, Control.MaxDegreeOfParallelism);
                 }
 
                 r = q.SubMatrix(0, matrix.ColumnCount, 0, matrix.ColumnCount);
@@ -108,7 +108,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
 
                 for (var i = minmn - 1; i >= 0; i--)
                 {
-                    ComputeQR(u[i], q, i, matrix.RowCount, i, matrix.ColumnCount, Control.NumberOfParallelWorkerThreads);
+                    ComputeQR(u[i], q, i, matrix.RowCount, i, matrix.ColumnCount, Control.MaxDegreeOfParallelism);
                 }
             }
 
