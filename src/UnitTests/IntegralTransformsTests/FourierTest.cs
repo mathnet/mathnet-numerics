@@ -3,7 +3,9 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
-// Copyright (c) 2009-2010 Math.NET
+//
+// Copyright (c) 2009-2014 Math.NET
+//
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -12,8 +14,10 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
+//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
+//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -27,7 +31,6 @@
 using System;
 using MathNet.Numerics.Distributions;
 using MathNet.Numerics.IntegralTransforms;
-using MathNet.Numerics.IntegralTransforms.Algorithms;
 using NUnit.Framework;
 
 namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
@@ -60,8 +63,7 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
             var samples = Generate.PeriodicMap(16, w => new Complex(Math.Sin(w), 0), 16, 1.0, Constants.Pi2);
 
             // real-odd transforms to imaginary odd
-            var dft = new DiscreteFourierTransform();
-            var spectrum = dft.NaiveForward(samples, FourierOptions.Matlab);
+            var spectrum = Fourier.NaiveForward(samples, FourierOptions.Matlab);
 
             // all real components must be zero
             foreach (var c in spectrum)
@@ -94,12 +96,11 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         public void Radix2ThrowsWhenNotPowerOfTwo()
         {
             var samples = Generate.RandomComplex(0x7F, GetUniform(1));
-            var dft = new DiscreteFourierTransform();
 
-            Assert.Throws(typeof (ArgumentException), () => dft.Radix2Forward(samples, FourierOptions.Default));
-            Assert.Throws(typeof (ArgumentException), () => dft.Radix2Inverse(samples, FourierOptions.Default));
-            Assert.Throws(typeof (ArgumentException), () => DiscreteFourierTransform.Radix2(samples, -1));
-            Assert.Throws(typeof (ArgumentException), () => DiscreteFourierTransform.Radix2Parallel(samples, -1));
+            Assert.Throws(typeof (ArgumentException), () => Fourier.Radix2Forward(samples, FourierOptions.Default));
+            Assert.Throws(typeof (ArgumentException), () => Fourier.Radix2Inverse(samples, FourierOptions.Default));
+            Assert.Throws(typeof (ArgumentException), () => Fourier.Radix2(samples, -1));
+            Assert.Throws(typeof (ArgumentException), () => Fourier.Radix2Parallel(samples, -1));
         }
     }
 }

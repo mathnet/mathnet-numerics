@@ -3,7 +3,9 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
-// Copyright (c) 2009-2010 Math.NET
+//
+// Copyright (c) 2009-2014 Math.NET
+//
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -12,8 +14,10 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
+//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
+//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -27,7 +31,6 @@
 using System;
 using MathNet.Numerics.Distributions;
 using MathNet.Numerics.IntegralTransforms;
-using MathNet.Numerics.IntegralTransforms.Algorithms;
 using NUnit.Framework;
 
 namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
@@ -78,20 +81,19 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         [TestCase(FourierOptions.NumericalRecipes)]
         public void FourierRadix2MatchesNaiveOnRealSine(FourierOptions options)
         {
-            var dft = new DiscreteFourierTransform();
             var samples = Generate.PeriodicMap(16, w => new Complex(Math.Sin(w), 0), 16, 1.0, Constants.Pi2);
 
             VerifyMatchesNaiveComplex(
                 samples,
                 12,
-                s => dft.NaiveForward(s, options),
-                s => dft.Radix2Forward(s, options));
+                s => Fourier.NaiveForward(s, options),
+                s => Fourier.Radix2Forward(s, options));
 
             VerifyMatchesNaiveComplex(
                 samples,
                 12,
-                s => dft.NaiveInverse(s, options),
-                s => dft.Radix2Inverse(s, options));
+                s => Fourier.NaiveInverse(s, options),
+                s => Fourier.Radix2Inverse(s, options));
         }
 
         /// <summary>
@@ -103,20 +105,19 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         [TestCase(FourierOptions.NumericalRecipes)]
         public void FourierRadix2MatchesNaiveOnRandom(FourierOptions options)
         {
-            var dft = new DiscreteFourierTransform();
             var samples = Generate.RandomComplex(0x80, GetUniform(1));
 
             VerifyMatchesNaiveComplex(
                 samples,
                 10,
-                s => dft.NaiveForward(s, options),
-                s => dft.Radix2Forward(s, options));
+                s => Fourier.NaiveForward(s, options),
+                s => Fourier.Radix2Forward(s, options));
 
             VerifyMatchesNaiveComplex(
                 samples,
                 10,
-                s => dft.NaiveInverse(s, options),
-                s => dft.Radix2Inverse(s, options));
+                s => Fourier.NaiveInverse(s, options),
+                s => Fourier.Radix2Inverse(s, options));
         }
 
         /// <summary>
@@ -128,20 +129,19 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         [TestCase(FourierOptions.NumericalRecipes)]
         public void FourierBluesteinMatchesNaiveOnRealSineNonPowerOfTwo(FourierOptions options)
         {
-            var dft = new DiscreteFourierTransform();
             var samples = Generate.PeriodicMap(14, w => new Complex(Math.Sin(w), 0), 14, 1.0, Constants.Pi2);
 
             VerifyMatchesNaiveComplex(
                 samples,
                 12,
-                s => dft.NaiveForward(s, options),
-                s => dft.BluesteinForward(s, options));
+                s => Fourier.NaiveForward(s, options),
+                s => Fourier.BluesteinForward(s, options));
 
             VerifyMatchesNaiveComplex(
                 samples,
                 12,
-                s => dft.NaiveInverse(s, options),
-                s => dft.BluesteinInverse(s, options));
+                s => Fourier.NaiveInverse(s, options),
+                s => Fourier.BluesteinInverse(s, options));
         }
 
         /// <summary>
@@ -153,20 +153,19 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         [TestCase(FourierOptions.NumericalRecipes)]
         public void FourierBluesteinMatchesNaiveOnRandomPowerOfTwo(FourierOptions options)
         {
-            var dft = new DiscreteFourierTransform();
             var samples = Generate.RandomComplex(0x80, GetUniform(1));
 
             VerifyMatchesNaiveComplex(
                 samples,
                 10,
-                s => dft.NaiveForward(s, options),
-                s => dft.BluesteinForward(s, options));
+                s => Fourier.NaiveForward(s, options),
+                s => Fourier.BluesteinForward(s, options));
 
             VerifyMatchesNaiveComplex(
                 samples,
                 10,
-                s => dft.NaiveInverse(s, options),
-                s => dft.BluesteinInverse(s, options));
+                s => Fourier.NaiveInverse(s, options),
+                s => Fourier.BluesteinInverse(s, options));
         }
 
         /// <summary>
@@ -178,19 +177,18 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         [TestCase(FourierOptions.NumericalRecipes)]
         public void FourierBluesteinMatchesNaiveOnRandomNonPowerOfTwo(FourierOptions options)
         {
-            var dft = new DiscreteFourierTransform();
             var samples = Generate.RandomComplex(0x7F, GetUniform(1));
 
             VerifyMatchesNaiveComplex(
                 samples,
                 10,
-                s => dft.NaiveForward(s, options),
-                s => dft.BluesteinForward(s, options));
+                s => Fourier.NaiveForward(s, options),
+                s => Fourier.BluesteinForward(s, options));
             VerifyMatchesNaiveComplex(
                 samples,
                 10,
-                s => dft.NaiveInverse(s, options),
-                s => dft.BluesteinInverse(s, options));
+                s => Fourier.NaiveInverse(s, options),
+                s => Fourier.BluesteinInverse(s, options));
         }
     }
 }

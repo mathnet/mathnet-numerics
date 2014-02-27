@@ -3,7 +3,9 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
-// Copyright (c) 2009-2010 Math.NET
+//
+// Copyright (c) 2009-2014 Math.NET
+//
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -12,8 +14,10 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
+//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
+//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -26,7 +30,6 @@
 
 using MathNet.Numerics.Distributions;
 using MathNet.Numerics.IntegralTransforms;
-using MathNet.Numerics.IntegralTransforms.Algorithms;
 using NUnit.Framework;
 
 namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
@@ -58,16 +61,14 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         [TestCase(FourierOptions.Matlab)]
         public void FourierNaiveIsReversible(FourierOptions options)
         {
-            var dft = new DiscreteFourierTransform();
-
             var samples = Generate.RandomComplex(0x80, GetUniform(1));
             var work = new Complex[samples.Length];
             samples.CopyTo(work, 0);
 
-            work = dft.NaiveForward(work, options);
+            work = Fourier.NaiveForward(work, options);
             Assert.IsFalse(work.ListAlmostEqual(samples, 6));
 
-            work = dft.NaiveInverse(work, options);
+            work = Fourier.NaiveInverse(work, options);
             AssertHelpers.ListAlmostEqual(samples, work, 12);
         }
 
@@ -79,16 +80,14 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         [TestCase(FourierOptions.Matlab)]
         public void FourierRadix2IsReversible(FourierOptions options)
         {
-            var dft = new DiscreteFourierTransform();
-
             var samples = Generate.RandomComplex(0x8000, GetUniform(1));
             var work = new Complex[samples.Length];
             samples.CopyTo(work, 0);
 
-            dft.Radix2Forward(work, options);
+            Fourier.Radix2Forward(work, options);
             Assert.IsFalse(work.ListAlmostEqual(samples, 6));
 
-            dft.Radix2Inverse(work, options);
+            Fourier.Radix2Inverse(work, options);
             AssertHelpers.ListAlmostEqual(samples, work, 12);
         }
 
@@ -100,16 +99,14 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         [TestCase(FourierOptions.Matlab)]
         public void FourierBluesteinIsReversible(FourierOptions options)
         {
-            var dft = new DiscreteFourierTransform();
-
             var samples = Generate.RandomComplex(0x7FFF, GetUniform(1));
             var work = new Complex[samples.Length];
             samples.CopyTo(work, 0);
 
-            dft.BluesteinForward(work, options);
+            Fourier.BluesteinForward(work, options);
             Assert.IsFalse(work.ListAlmostEqual(samples, 6));
 
-            dft.BluesteinInverse(work, options);
+            Fourier.BluesteinInverse(work, options);
             AssertHelpers.ListAlmostEqual(samples, work, 10);
         }
 
@@ -121,16 +118,14 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         [TestCase(HartleyOptions.AsymmetricScaling)]
         public void HartleyNaiveIsReversible(HartleyOptions options)
         {
-            var dht = new DiscreteHartleyTransform();
-
             var samples = Generate.Random(0x80, GetUniform(1));
             var work = new double[samples.Length];
             samples.CopyTo(work, 0);
 
-            work = dht.NaiveForward(work, options);
+            work = Hartley.NaiveForward(work, options);
             Assert.IsFalse(work.ListAlmostEqual(samples, 6));
 
-            work = dht.NaiveInverse(work, options);
+            work = Hartley.NaiveInverse(work, options);
             AssertHelpers.ListAlmostEqual(samples, work, 12);
         }
 

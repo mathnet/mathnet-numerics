@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2010 Math.NET
+// Copyright (c) 2009-2014 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -28,8 +28,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using MathNet.Numerics.IntegralTransforms.Algorithms;
-
 namespace MathNet.Numerics.IntegralTransforms
 {
 
@@ -42,15 +40,13 @@ namespace MathNet.Numerics.IntegralTransforms
     /// </summary>
     public static class Transform
     {
-        private static readonly DiscreteFourierTransform DFT = new DiscreteFourierTransform();
-
         /// <summary>
         /// Applies the forward Fast Fourier Transform (FFT) to arbitrary-length sample vectors.
         /// </summary>
         /// <param name="samples">Sample vector, where the FFT is evaluated in place.</param>
         public static void FourierForward(Complex[] samples)
         {
-            DFT.BluesteinForward(samples, FourierOptions.Default);
+            Fourier.BluesteinForward(samples, FourierOptions.Default);
         }
 
         /// <summary>
@@ -60,7 +56,7 @@ namespace MathNet.Numerics.IntegralTransforms
         /// <param name="options">Fourier Transform Convention Options.</param>
         public static void FourierForward(Complex[] samples, FourierOptions options)
         {
-            DFT.BluesteinForward(samples, options);
+            Fourier.BluesteinForward(samples, options);
         }
 
         /// <summary>
@@ -69,7 +65,7 @@ namespace MathNet.Numerics.IntegralTransforms
         /// <param name="samples">Sample vector, where the FFT is evaluated in place.</param>
         public static void FourierInverse(Complex[] samples)
         {
-            DFT.BluesteinInverse(samples, FourierOptions.Default);
+            Fourier.BluesteinInverse(samples, FourierOptions.Default);
         }
 
         /// <summary>
@@ -79,7 +75,7 @@ namespace MathNet.Numerics.IntegralTransforms
         /// <param name="options">Fourier Transform Convention Options.</param>
         public static void FourierInverse(Complex[] samples, FourierOptions options)
         {
-            DFT.BluesteinInverse(samples, options);
+            Fourier.BluesteinInverse(samples, options);
         }
     }
 }

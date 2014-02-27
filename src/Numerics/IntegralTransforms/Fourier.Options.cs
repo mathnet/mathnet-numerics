@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2010 Math.NET
+// Copyright (c) 2009-2014 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -28,9 +28,10 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-namespace MathNet.Numerics.IntegralTransforms.Algorithms
+using System;
+
+namespace MathNet.Numerics.IntegralTransforms
 {
-    using System;
 
 #if !NOSYSNUMERICS
     using Complex = System.Numerics.Complex;
@@ -39,7 +40,7 @@ namespace MathNet.Numerics.IntegralTransforms.Algorithms
     /// <summary>
     /// Complex Fast (FFT) Implementation of the Discrete Fourier Transform (DFT).
     /// </summary>
-    public partial class DiscreteFourierTransform
+    public static partial class Fourier
     {
         /// <summary>
         /// Extract the exponent sign to be used in forward transforms according to the
@@ -47,7 +48,7 @@ namespace MathNet.Numerics.IntegralTransforms.Algorithms
         /// </summary>
         /// <param name="options">Fourier Transform Convention Options.</param>
         /// <returns>Fourier series exponent sign.</returns>
-        private static int SignByOptions(FourierOptions options)
+        static int SignByOptions(FourierOptions options)
         {
             return (options & FourierOptions.InverseExponent) == FourierOptions.InverseExponent ? 1 : -1;
         }
@@ -57,7 +58,7 @@ namespace MathNet.Numerics.IntegralTransforms.Algorithms
         /// </summary>
         /// <param name="options">Fourier Transform Convention Options.</param>
         /// <param name="samples">Sample Vector.</param>
-        private static void ForwardScaleByOptions(FourierOptions options, Complex[] samples)
+        static void ForwardScaleByOptions(FourierOptions options, Complex[] samples)
         {
             if ((options & FourierOptions.NoScaling) == FourierOptions.NoScaling ||
                 (options & FourierOptions.AsymmetricScaling) == FourierOptions.AsymmetricScaling)
@@ -65,7 +66,7 @@ namespace MathNet.Numerics.IntegralTransforms.Algorithms
                 return;
             }
 
-            var scalingFactor = Math.Sqrt(1.0 / samples.Length);
+            var scalingFactor = Math.Sqrt(1.0/samples.Length);
             for (int i = 0; i < samples.Length; i++)
             {
                 samples[i] *= scalingFactor;
@@ -77,14 +78,14 @@ namespace MathNet.Numerics.IntegralTransforms.Algorithms
         /// </summary>
         /// <param name="options">Fourier Transform Convention Options.</param>
         /// <param name="samples">Sample Vector.</param>
-        private static void InverseScaleByOptions(FourierOptions options, Complex[] samples)
+        static void InverseScaleByOptions(FourierOptions options, Complex[] samples)
         {
             if ((options & FourierOptions.NoScaling) == FourierOptions.NoScaling)
             {
                 return;
             }
 
-            var scalingFactor = 1.0 / samples.Length;
+            var scalingFactor = 1.0/samples.Length;
             if ((options & FourierOptions.AsymmetricScaling) != FourierOptions.AsymmetricScaling)
             {
                 scalingFactor = Math.Sqrt(scalingFactor);

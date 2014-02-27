@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2010 Math.NET
+// Copyright (c) 2009-2014 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -28,21 +28,21 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-namespace MathNet.Numerics.IntegralTransforms.Algorithms
-{
-    using System;
+using System;
 
+namespace MathNet.Numerics.IntegralTransforms
+{
     /// <summary>
     /// Fast (FHT) Implementation of the Discrete Hartley Transform (DHT).
     /// </summary>
-    public partial class DiscreteHartleyTransform
+    public static partial class Hartley
     {
         /// <summary>
         /// Rescale FFT-the resulting vector according to the provided convention options.
         /// </summary>
         /// <param name="options">Fourier Transform Convention Options.</param>
         /// <param name="samples">Sample Vector.</param>
-        private static void ForwardScaleByOptions(HartleyOptions options, double[] samples)
+        static void ForwardScaleByOptions(HartleyOptions options, double[] samples)
         {
             if ((options & HartleyOptions.NoScaling) == HartleyOptions.NoScaling ||
                 (options & HartleyOptions.AsymmetricScaling) == HartleyOptions.AsymmetricScaling)
@@ -50,7 +50,7 @@ namespace MathNet.Numerics.IntegralTransforms.Algorithms
                 return;
             }
 
-            var scalingFactor = Math.Sqrt(1.0 / samples.Length);
+            var scalingFactor = Math.Sqrt(1.0/samples.Length);
             for (int i = 0; i < samples.Length; i++)
             {
                 samples[i] *= scalingFactor;
@@ -62,14 +62,14 @@ namespace MathNet.Numerics.IntegralTransforms.Algorithms
         /// </summary>
         /// <param name="options">Fourier Transform Convention Options.</param>
         /// <param name="samples">Sample Vector.</param>
-        private static void InverseScaleByOptions(HartleyOptions options, double[] samples)
+        static void InverseScaleByOptions(HartleyOptions options, double[] samples)
         {
             if ((options & HartleyOptions.NoScaling) == HartleyOptions.NoScaling)
             {
                 return;
             }
 
-            var scalingFactor = 1.0 / samples.Length;
+            var scalingFactor = 1.0/samples.Length;
             if ((options & HartleyOptions.AsymmetricScaling) != HartleyOptions.AsymmetricScaling)
             {
                 scalingFactor = Math.Sqrt(scalingFactor);

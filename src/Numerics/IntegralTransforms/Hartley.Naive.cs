@@ -1,4 +1,4 @@
-﻿// <copyright file="DiscreteFourierTransform.Naive.cs" company="Math.NET">
+﻿// <copyright file="DiscreteHartleyTransform.Naive.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -28,41 +28,36 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-namespace MathNet.Numerics.IntegralTransforms.Algorithms
+using System;
+using MathNet.Numerics.Threading;
+
+namespace MathNet.Numerics.IntegralTransforms
 {
-    using System;
-    using Threading;
-
-#if !NOSYSNUMERICS
-    using Complex = System.Numerics.Complex;
-#endif
-
     /// <summary>
-    /// Complex Fast (FFT) Implementation of the Discrete Fourier Transform (DFT).
+    /// Fast (FHT) Implementation of the Discrete Hartley Transform (DHT).
     /// </summary>
-    public partial class DiscreteFourierTransform
+    public static partial class Hartley
     {
         /// <summary>
-        /// Naive generic DFT, useful e.g. to verify faster algorithms.
+        /// Naive generic DHT, useful e.g. to verify faster algorithms.
         /// </summary>
         /// <param name="samples">Time-space sample vector.</param>
-        /// <param name="exponentSign">Fourier series exponent sign.</param>
         /// <returns>Corresponding frequency-space vector.</returns>
-        internal static Complex[] Naive(Complex[] samples, int exponentSign)
+        internal static double[] Naive(double[] samples)
         {
-            var w0 = exponentSign*Constants.Pi2/samples.Length;
-            var spectrum = new Complex[samples.Length];
+            var w0 = Constants.Pi2/samples.Length;
+            var spectrum = new double[samples.Length];
 
             CommonParallel.For(0, samples.Length, (u, v) =>
                 {
                     for (int i = u; i < v; i++)
                     {
                         var wk = w0*i;
-                        var sum = Complex.Zero;
+                        var sum = 0.0;
                         for (var n = 0; n < samples.Length; n++)
                         {
                             var w = n*wk;
-                            sum += samples[n]*new Complex(Math.Cos(w), Math.Sin(w));
+                            sum += samples[n]*Constants.Sqrt2*Math.Cos(w - Constants.PiOver4);
                         }
 
                         spectrum[i] = sum;
@@ -73,27 +68,27 @@ namespace MathNet.Numerics.IntegralTransforms.Algorithms
         }
 
         /// <summary>
-        /// Naive forward DFT, useful e.g. to verify faster algorithms.
+        /// Naive forward DHT, useful e.g. to verify faster algorithms.
         /// </summary>
         /// <param name="timeSpace">Time-space sample vector.</param>
-        /// <param name="options">Fourier Transform Convention Options.</param>
+        /// <param name="options">Hartley Transform Convention Options.</param>
         /// <returns>Corresponding frequency-space vector.</returns>
-        public Complex[] NaiveForward(Complex[] timeSpace, FourierOptions options)
+        public static double[] NaiveForward(double[] timeSpace, HartleyOptions options)
         {
-            var frequencySpace = Naive(timeSpace, SignByOptions(options));
+            var frequencySpace = Naive(timeSpace);
             ForwardScaleByOptions(options, frequencySpace);
             return frequencySpace;
         }
 
         /// <summary>
-        /// Naive inverse DFT, useful e.g. to verify faster algorithms.
+        /// Naive inverse DHT, useful e.g. to verify faster algorithms.
         /// </summary>
         /// <param name="frequencySpace">Frequency-space sample vector.</param>
-        /// <param name="options">Fourier Transform Convention Options.</param>
+        /// <param name="options">Hartley Transform Convention Options.</param>
         /// <returns>Corresponding time-space vector.</returns>
-        public Complex[] NaiveInverse(Complex[] frequencySpace, FourierOptions options)
+        public static double[] NaiveInverse(double[] frequencySpace, HartleyOptions options)
         {
-            var timeSpace = Naive(frequencySpace, -SignByOptions(options));
+            var timeSpace = Naive(frequencySpace);
             InverseScaleByOptions(options, timeSpace);
             return timeSpace;
         }

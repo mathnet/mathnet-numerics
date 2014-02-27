@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2013 Math.NET
+// Copyright (c) 2009-2014 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -32,7 +32,7 @@ using System;
 using MathNet.Numerics.Properties;
 using MathNet.Numerics.Threading;
 
-namespace MathNet.Numerics.IntegralTransforms.Algorithms
+namespace MathNet.Numerics.IntegralTransforms
 {
 
 #if !NOSYSNUMERICS
@@ -42,7 +42,7 @@ namespace MathNet.Numerics.IntegralTransforms.Algorithms
     /// <summary>
     /// Complex Fast (FFT) Implementation of the Discrete Fourier Transform (DFT).
     /// </summary>
-    public partial class DiscreteFourierTransform
+    public static partial class Fourier
     {
         /// <summary>
         /// Radix-2 Reorder Helper Method
@@ -136,12 +136,12 @@ namespace MathNet.Numerics.IntegralTransforms.Algorithms
                 var size = levelSize;
 
                 CommonParallel.For(0, size, (u, v) =>
+                {
+                    for (int i = u; i < v; i++)
                     {
-                        for (int i = u; i < v; i++)
-                        {
-                            Radix2Step(samples, exponentSign, size, i);
-                        }
-                    });
+                        Radix2Step(samples, exponentSign, size, i);
+                    }
+                });
             }
         }
 
@@ -151,7 +151,7 @@ namespace MathNet.Numerics.IntegralTransforms.Algorithms
         /// <param name="samples">Sample vector, where the FFT is evaluated in place.</param>
         /// <param name="options">Fourier Transform Convention Options.</param>
         /// <exception cref="ArgumentException"/>
-        public void Radix2Forward(Complex[] samples, FourierOptions options)
+        public static void Radix2Forward(Complex[] samples, FourierOptions options)
         {
             Radix2Parallel(samples, SignByOptions(options));
             ForwardScaleByOptions(options, samples);
@@ -163,7 +163,7 @@ namespace MathNet.Numerics.IntegralTransforms.Algorithms
         /// <param name="samples">Sample vector, where the FFT is evaluated in place.</param>
         /// <param name="options">Fourier Transform Convention Options.</param>
         /// <exception cref="ArgumentException"/>
-        public void Radix2Inverse(Complex[] samples, FourierOptions options)
+        public static void Radix2Inverse(Complex[] samples, FourierOptions options)
         {
             Radix2Parallel(samples, -SignByOptions(options));
             InverseScaleByOptions(options, samples);

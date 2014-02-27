@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2010 Math.NET
+// Copyright (c) 2009-2014 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -31,7 +31,7 @@
 using System;
 using MathNet.Numerics.Threading;
 
-namespace MathNet.Numerics.IntegralTransforms.Algorithms
+namespace MathNet.Numerics.IntegralTransforms
 {
 
 #if !NOSYSNUMERICS
@@ -41,21 +41,21 @@ namespace MathNet.Numerics.IntegralTransforms.Algorithms
     /// <summary>
     /// Complex Fast (FFT) Implementation of the Discrete Fourier Transform (DFT).
     /// </summary>
-    public partial class DiscreteFourierTransform
+    public static partial class Fourier
     {
         /// <summary>
         /// Generate the bluestein sequence for the provided problem size.
         /// </summary>
         /// <param name="n">Number of samples.</param>
         /// <returns>Bluestein sequence exp(I*Pi*k^2/N)</returns>
-        private static Complex[] BluesteinSequence(int n)
+        static Complex[] BluesteinSequence(int n)
         {
-            double s = Constants.Pi / n;
+            double s = Constants.Pi/n;
             var sequence = new Complex[n];
 
             for (int k = 0; k < sequence.Length; k++)
             {
-                double t = s * (k * k);
+                double t = s*(k*k);
                 sequence[k] = new Complex(Math.Cos(t), Math.Sin(t));
             }
 
@@ -66,7 +66,7 @@ namespace MathNet.Numerics.IntegralTransforms.Algorithms
         /// Convolution with the bluestein sequence (Parallel Version).
         /// </summary>
         /// <param name="samples">Sample Vector.</param>
-        private static void BluesteinConvolutionParallel(Complex[] samples)
+        static void BluesteinConvolutionParallel(Complex[] samples)
         {
             int n = samples.Length;
             Complex[] sequence = BluesteinSequence(n);
@@ -97,7 +97,7 @@ namespace MathNet.Numerics.IntegralTransforms.Algorithms
                     // Build and transform padded sequence a_k = x_k * exp(-I*Pi*k^2/N)
                     for (int i = 0; i < samples.Length; i++)
                     {
-                        a[i] = sequence[i].Conjugate() * samples[i];
+                        a[i] = sequence[i].Conjugate()*samples[i];
                     }
 
                     Radix2(a, -1);
@@ -110,10 +110,10 @@ namespace MathNet.Numerics.IntegralTransforms.Algorithms
 
             Radix2Parallel(a, 1);
 
-            var nbinv = 1.0 / m;
+            var nbinv = 1.0/m;
             for (int i = 0; i < samples.Length; i++)
             {
-                samples[i] = nbinv * sequence[i].Conjugate() * a[i];
+                samples[i] = nbinv*sequence[i].Conjugate()*a[i];
             }
         }
 
@@ -121,7 +121,7 @@ namespace MathNet.Numerics.IntegralTransforms.Algorithms
         /// Swap the real and imaginary parts of each sample.
         /// </summary>
         /// <param name="samples">Sample Vector.</param>
-        private static void SwapRealImaginary(Complex[] samples)
+        static void SwapRealImaginary(Complex[] samples)
         {
             for (int i = 0; i < samples.Length; i++)
             {
@@ -161,7 +161,7 @@ namespace MathNet.Numerics.IntegralTransforms.Algorithms
         /// </summary>
         /// <param name="samples">Sample vector, where the FFT is evaluated in place.</param>
         /// <param name="options">Fourier Transform Convention Options.</param>
-        public void BluesteinForward(Complex[] samples, FourierOptions options)
+        public static void BluesteinForward(Complex[] samples, FourierOptions options)
         {
             Bluestein(samples, SignByOptions(options));
             ForwardScaleByOptions(options, samples);
@@ -172,7 +172,7 @@ namespace MathNet.Numerics.IntegralTransforms.Algorithms
         /// </summary>
         /// <param name="samples">Sample vector, where the FFT is evaluated in place.</param>
         /// <param name="options">Fourier Transform Convention Options.</param>
-        public void BluesteinInverse(Complex[] samples, FourierOptions options)
+        public static void BluesteinInverse(Complex[] samples, FourierOptions options)
         {
             Bluestein(samples, -SignByOptions(options));
             InverseScaleByOptions(options, samples);
