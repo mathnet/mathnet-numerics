@@ -1,4 +1,4 @@
-﻿// <copyright file="DiscreteFourierTransform.Naive.cs" company="Math.NET">
+﻿// <copyright file="Fourier.Naive.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -71,32 +71,6 @@ namespace MathNet.Numerics.IntegralTransforms
             });
 
             return spectrum;
-        }
-
-        /// <summary>
-        /// Naive forward DFT, useful e.g. to verify faster algorithms.
-        /// </summary>
-        /// <param name="timeSpace">Time-space sample vector.</param>
-        /// <param name="options">Fourier Transform Convention Options.</param>
-        /// <returns>Corresponding frequency-space vector.</returns>
-        public static Complex[] NaiveForward(Complex[] timeSpace, FourierOptions options)
-        {
-            var frequencySpace = Naive(timeSpace, SignByOptions(options));
-            ForwardScaleByOptions(options, frequencySpace);
-            return frequencySpace;
-        }
-
-        /// <summary>
-        /// Naive inverse DFT, useful e.g. to verify faster algorithms.
-        /// </summary>
-        /// <param name="frequencySpace">Frequency-space sample vector.</param>
-        /// <param name="options">Fourier Transform Convention Options.</param>
-        /// <returns>Corresponding time-space vector.</returns>
-        public static Complex[] NaiveInverse(Complex[] frequencySpace, FourierOptions options)
-        {
-            var timeSpace = Naive(frequencySpace, -SignByOptions(options));
-            InverseScaleByOptions(options, timeSpace);
-            return timeSpace;
         }
     }
 }

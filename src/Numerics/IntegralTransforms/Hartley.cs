@@ -1,4 +1,4 @@
-﻿// <copyright file="DiscreteHartleyTransform.Options.cs" company="Math.NET">
+﻿// <copyright file="Hartley.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -37,6 +37,32 @@ namespace MathNet.Numerics.IntegralTransforms
     /// </summary>
     public static partial class Hartley
     {
+        /// <summary>
+        /// Naive forward DHT, useful e.g. to verify faster algorithms.
+        /// </summary>
+        /// <param name="timeSpace">Time-space sample vector.</param>
+        /// <param name="options">Hartley Transform Convention Options.</param>
+        /// <returns>Corresponding frequency-space vector.</returns>
+        public static double[] NaiveForward(double[] timeSpace, HartleyOptions options)
+        {
+            var frequencySpace = Naive(timeSpace);
+            ForwardScaleByOptions(options, frequencySpace);
+            return frequencySpace;
+        }
+
+        /// <summary>
+        /// Naive inverse DHT, useful e.g. to verify faster algorithms.
+        /// </summary>
+        /// <param name="frequencySpace">Frequency-space sample vector.</param>
+        /// <param name="options">Hartley Transform Convention Options.</param>
+        /// <returns>Corresponding time-space vector.</returns>
+        public static double[] NaiveInverse(double[] frequencySpace, HartleyOptions options)
+        {
+            var timeSpace = Naive(frequencySpace);
+            InverseScaleByOptions(options, timeSpace);
+            return timeSpace;
+        }
+
         /// <summary>
         /// Rescale FFT-the resulting vector according to the provided convention options.
         /// </summary>

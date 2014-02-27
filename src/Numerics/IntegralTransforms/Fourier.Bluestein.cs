@@ -1,4 +1,4 @@
-﻿// <copyright file="DiscreteFourierTransform.Bluestein.cs" company="Math.NET">
+﻿// <copyright file="Fourier.Bluestein.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -154,28 +154,6 @@ namespace MathNet.Numerics.IntegralTransforms
             {
                 SwapRealImaginary(samples);
             }
-        }
-
-        /// <summary>
-        /// Bluestein forward FFT for arbitrary sized sample vectors.
-        /// </summary>
-        /// <param name="samples">Sample vector, where the FFT is evaluated in place.</param>
-        /// <param name="options">Fourier Transform Convention Options.</param>
-        public static void BluesteinForward(Complex[] samples, FourierOptions options)
-        {
-            Bluestein(samples, SignByOptions(options));
-            ForwardScaleByOptions(options, samples);
-        }
-
-        /// <summary>
-        /// Bluestein inverse FFT for arbitrary sized sample vectors.
-        /// </summary>
-        /// <param name="samples">Sample vector, where the FFT is evaluated in place.</param>
-        /// <param name="options">Fourier Transform Convention Options.</param>
-        public static void BluesteinInverse(Complex[] samples, FourierOptions options)
-        {
-            Bluestein(samples, -SignByOptions(options));
-            InverseScaleByOptions(options, samples);
         }
     }
 }

@@ -1,10 +1,10 @@
-﻿// <copyright file="DiscreteHartleyTransform.Naive.cs" company="Math.NET">
+﻿// <copyright file="Hartley.Naive.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2013 Math.NET
+// Copyright (c) 2009-2014 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -65,32 +65,6 @@ namespace MathNet.Numerics.IntegralTransforms
                 });
 
             return spectrum;
-        }
-
-        /// <summary>
-        /// Naive forward DHT, useful e.g. to verify faster algorithms.
-        /// </summary>
-        /// <param name="timeSpace">Time-space sample vector.</param>
-        /// <param name="options">Hartley Transform Convention Options.</param>
-        /// <returns>Corresponding frequency-space vector.</returns>
-        public static double[] NaiveForward(double[] timeSpace, HartleyOptions options)
-        {
-            var frequencySpace = Naive(timeSpace);
-            ForwardScaleByOptions(options, frequencySpace);
-            return frequencySpace;
-        }
-
-        /// <summary>
-        /// Naive inverse DHT, useful e.g. to verify faster algorithms.
-        /// </summary>
-        /// <param name="frequencySpace">Frequency-space sample vector.</param>
-        /// <param name="options">Hartley Transform Convention Options.</param>
-        /// <returns>Corresponding time-space vector.</returns>
-        public static double[] NaiveInverse(double[] frequencySpace, HartleyOptions options)
-        {
-            var timeSpace = Naive(frequencySpace);
-            InverseScaleByOptions(options, timeSpace);
-            return timeSpace;
         }
     }
 }

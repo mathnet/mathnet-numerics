@@ -93,6 +93,8 @@
     <Compile Include="Euclid.cs" />
     <Compile Include="Generate.cs" />
     <Compile Include="GoodnessOfFit.cs" />
+    <Compile Include="IntegralTransforms\Fourier.cs" />
+    <Compile Include="IntegralTransforms\Hartley.cs" />
     <Compile Include="Interpolation\Barycentric.cs" />
     <Compile Include="Interpolation\CubicSpline.cs" />
     <Compile Include="Interpolation\QuadraticSpline.cs" />
@@ -372,14 +374,11 @@
     <Compile Include="Distributions\IDiscreteDistribution.cs" />
     <Compile Include="Distributions\IUnivariateDistribution.cs" />
     <Compile Include="IntegralTransforms\Hartley.Naive.cs" />
-    <Compile Include="IntegralTransforms\Hartley.Options.cs" />
     <Compile Include="IntegralTransforms\HartleyOptions.cs" />
     <Compile Include="GlobalizationHelper.cs" />
-    <Compile Include="IntegralTransforms\Fourier.Options.cs" />
     <Compile Include="IntegralTransforms\Fourier.Bluestein.cs" />
     <Compile Include="IntegralTransforms\Fourier.Naive.cs" />
     <Compile Include="IntegralTransforms\Fourier.RadixN.cs" />
-    <Compile Include="IntegralTransforms\Transform.cs" />
     <Compile Include="IntegralTransforms\FourierOptions.cs" />
     <Compile Include="Integration\DoubleExponentialTransformation.cs" />
     <Compile Include="Integration\SimpsonRule.cs" />

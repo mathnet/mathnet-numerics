@@ -89,13 +89,13 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
                 samples,
                 5,
                 false,
-                s => Transform.FourierForward(s, fourierOptions),
+                s => Fourier.Forward(s, fourierOptions),
                 s => Hartley.NaiveForward(s, hartleyOptions));
             VerifyMatchesDft(
                 samples,
                 5,
                 true,
-                s => Transform.FourierInverse(s, fourierOptions),
+                s => Fourier.Inverse(s, fourierOptions),
                 s => Hartley.NaiveInverse(s, hartleyOptions));
         }
     }

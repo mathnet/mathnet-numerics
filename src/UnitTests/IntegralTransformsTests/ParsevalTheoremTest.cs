@@ -42,7 +42,7 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
 #endif
 
     /// <summary>
-    /// Parseval theorem verification tests.
+    /// Parseval's theorem verification tests.
     /// </summary>
     [TestFixture, Category("FFT")]
     public class ParsevalTheoremTest
@@ -56,7 +56,7 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         }
 
         /// <summary>
-        /// Fourier default transform satisfies parsevals theorem.
+        /// Fourier default transform satisfies Parseval's theorem.
         /// </summary>
         /// <param name="count">Samples count.</param>
         [TestCase(0x1000)]
@@ -71,7 +71,7 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
             samples.CopyTo(work, 0);
 
             // Default -> Symmetric Scaling
-            Transform.FourierForward(work);
+            Fourier.Forward(work);
 
             var frequencySpaceEnergy = (from s in work select s.MagnitudeSquared()).Mean();
 
@@ -79,7 +79,7 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         }
 
         /// <summary>
-        /// Hartley default naive satisfies parsevals theorem.
+        /// Hartley default naive satisfies Parseval's theorem.
         /// </summary>
         /// <param name="count">Samples count.</param>
         [TestCase(0x40)]

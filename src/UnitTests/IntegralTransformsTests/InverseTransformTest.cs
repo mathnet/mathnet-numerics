@@ -139,16 +139,16 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
             var work = new Complex[samples.Length];
             samples.CopyTo(work, 0);
 
-            Transform.FourierForward(work);
+            Fourier.Forward(work);
             Assert.IsFalse(work.ListAlmostEqual(samples, 6));
 
-            Transform.FourierInverse(work);
+            Fourier.Inverse(work);
             AssertHelpers.ListAlmostEqual(samples, work, 10);
 
-            Transform.FourierInverse(work, FourierOptions.Default);
+            Fourier.Inverse(work, FourierOptions.Default);
             Assert.IsFalse(work.ListAlmostEqual(samples, 6));
 
-            Transform.FourierForward(work, FourierOptions.Default);
+            Fourier.Forward(work, FourierOptions.Default);
             AssertHelpers.ListAlmostEqual(samples, work, 10);
         }
     }

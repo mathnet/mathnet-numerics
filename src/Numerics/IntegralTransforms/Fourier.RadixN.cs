@@ -1,4 +1,4 @@
-﻿// <copyright file="DiscreteFourierTransform.RadixN.cs" company="Math.NET">
+﻿// <copyright file="Fourier.RadixN.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -143,30 +143,6 @@ namespace MathNet.Numerics.IntegralTransforms
                     }
                 });
             }
-        }
-
-        /// <summary>
-        /// Radix-2 forward FFT for power-of-two sized sample vectors.
-        /// </summary>
-        /// <param name="samples">Sample vector, where the FFT is evaluated in place.</param>
-        /// <param name="options">Fourier Transform Convention Options.</param>
-        /// <exception cref="ArgumentException"/>
-        public static void Radix2Forward(Complex[] samples, FourierOptions options)
-        {
-            Radix2Parallel(samples, SignByOptions(options));
-            ForwardScaleByOptions(options, samples);
-        }
-
-        /// <summary>
-        /// Radix-2 inverse FFT for power-of-two sized sample vectors.
-        /// </summary>
-        /// <param name="samples">Sample vector, where the FFT is evaluated in place.</param>
-        /// <param name="options">Fourier Transform Convention Options.</param>
-        /// <exception cref="ArgumentException"/>
-        public static void Radix2Inverse(Complex[] samples, FourierOptions options)
-        {
-            Radix2Parallel(samples, -SignByOptions(options));
-            InverseScaleByOptions(options, samples);
         }
     }
 }
