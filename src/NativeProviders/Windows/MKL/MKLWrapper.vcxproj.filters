@@ -27,6 +27,9 @@
     <ClCompile Include="..\..\Common\WindowsDLL.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\MKL\capabilities.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="..\..\Common\resource.rc">

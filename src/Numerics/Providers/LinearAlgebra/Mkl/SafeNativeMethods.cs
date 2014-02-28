@@ -46,6 +46,9 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
         /// </summary>
         const string DllName = "MathNet.Numerics.MKL.dll";
 
+        [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
+        internal static extern int query_capability(int capability);
+
         #region BLAS
 
         [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
