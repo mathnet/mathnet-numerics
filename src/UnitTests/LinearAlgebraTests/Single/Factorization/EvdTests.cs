@@ -3,7 +3,9 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
-// Copyright (c) 2009-2010 Math.NET
+//
+// Copyright (c) 2009-2014 Math.NET
+//
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -12,8 +14,10 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
+//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
+//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -42,26 +46,19 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Factorization
     [TestFixture, Category("LAFactorization")]
     public class EvdTests
     {
-        /// <summary>
-        /// Can factorize identity matrix.
-        /// </summary>
-        /// <param name="order">Matrix order.</param>
-        [TestCase(1)]
-        [TestCase(10)]
-        [TestCase(100)]
-        public void CanFactorizeIdentity(int order)
+        [Test]
+        public void CanFactorizeIdentityMatrix([Values(1, 10, 100)] int order)
         {
-            var matrixI = DenseMatrix.CreateIdentity(order);
-            var factorEvd = matrixI.Evd();
+            var matrix = Matrix<float>.Build.DenseIdentity(order);
+            var factorEvd = matrix.Evd();
             var eigenValues = factorEvd.EigenValues;
             var eigenVectors = factorEvd.EigenVectors;
             var d = factorEvd.D;
 
-            Assert.AreEqual(matrixI.RowCount, eigenVectors.RowCount);
-            Assert.AreEqual(matrixI.RowCount, eigenVectors.ColumnCount);
-
-            Assert.AreEqual(matrixI.ColumnCount, d.RowCount);
-            Assert.AreEqual(matrixI.ColumnCount, d.ColumnCount);
+            Assert.AreEqual(matrix.RowCount, eigenVectors.RowCount);
+            Assert.AreEqual(matrix.RowCount, eigenVectors.ColumnCount);
+            Assert.AreEqual(matrix.ColumnCount, d.RowCount);
+            Assert.AreEqual(matrix.ColumnCount, d.ColumnCount);
 
             for (var i = 0; i < eigenValues.Count; i++)
             {
@@ -69,116 +66,73 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Factorization
             }
         }
 
-        /// <summary>
-        /// Can factorize a random square matrix.
-        /// </summary>
-        /// <param name="order">Matrix order.</param>
         [Test]
-        public void CanFactorizeRandomMatrix([Values(1, 2, 5, 10, 50, 100)] int order)
+        public void CanFactorizeRandomSquareMatrix([Values(1, 2, 5, 10, 50, 100)] int order)
         {
-            var matrixA = Matrix<float>.Build.Random(order, order, 1);
-            var factorEvd = matrixA.Evd();
-            var eigenVectors = factorEvd.EigenVectors;
-            var d = factorEvd.D;
+            var A = Matrix<float>.Build.Random(order, order, 1);
+            var factorEvd = A.Evd();
+            var V = factorEvd.EigenVectors;
+            var λ = factorEvd.D;
 
-            Assert.AreEqual(order, eigenVectors.RowCount);
-            Assert.AreEqual(order, eigenVectors.ColumnCount);
+            Assert.AreEqual(order, V.RowCount);
+            Assert.AreEqual(order, V.ColumnCount);
+            Assert.AreEqual(order, λ.RowCount);
+            Assert.AreEqual(order, λ.ColumnCount);
 
-            Assert.AreEqual(order, d.RowCount);
-            Assert.AreEqual(order, d.ColumnCount);
-
-            // Make sure the A*V = λ*V 
-            var matrixAv = matrixA * eigenVectors;
-            var matrixLv = eigenVectors * d;
-
-            for (var i = 0; i < matrixAv.RowCount; i++)
-            {
-                for (var j = 0; j < matrixAv.ColumnCount; j++)
-                {
-                    Assert.AreEqual(matrixAv[i, j], matrixLv[i, j], 1e-3);
-                }
-            }
+            // Verify A*V = λ*V
+            var Av = A * V;
+            var Lv = V * λ;
+            AssertHelpers.AlmostEqual(Av, Lv, 4);
         }
 
-        /// <summary>
-        /// Can factorize a symmetric random square matrix.
-        /// </summary>
-        /// <param name="order">Matrix order.</param>
         [Test]
-        public void CanFactorizeRandomSymmetricMatrix([Values(1, 2, 5, 10, 50)] int order)
+        public void CanFactorizeRandomSymmetricMatrix([Values(1, 2, 5, 10, 50, 100)] int order)
         {
-            var matrixA = Matrix<float>.Build.RandomPositiveDefinite(order, 1);
-            MatrixHelpers.ForceSymmetric(matrixA);
-            var factorEvd = matrixA.Evd();
-            var eigenVectors = factorEvd.EigenVectors;
-            var d = factorEvd.D;
+            var A = Matrix<float>.Build.RandomPositiveDefinite(order, 1);
+            MatrixHelpers.ForceSymmetric(A);
+            var factorEvd = A.Evd();
+            var V = factorEvd.EigenVectors;
+            var λ = factorEvd.D;
 
-            Assert.AreEqual(order, eigenVectors.RowCount);
-            Assert.AreEqual(order, eigenVectors.ColumnCount);
+            Assert.AreEqual(order, V.RowCount);
+            Assert.AreEqual(order, V.ColumnCount);
+            Assert.AreEqual(order, λ.RowCount);
+            Assert.AreEqual(order, λ.ColumnCount);
 
-            Assert.AreEqual(order, d.RowCount);
-            Assert.AreEqual(order, d.ColumnCount);
-
-            // Make sure the A = V*λ*VT 
-            var matrix = eigenVectors * d * eigenVectors.Transpose();
-
-            for (var i = 0; i < matrix.RowCount; i++)
-            {
-                for (var j = 0; j < matrix.ColumnCount; j++)
-                {
-                    Assert.AreEqual(matrix[i, j], matrixA[i, j], 1e-3);
-                }
-            }
+            // Verify A = V*λ*VT
+            var matrix = V * λ * V.Transpose();
+            AssertHelpers.AlmostEqual(matrix, A, 3);
+            AssertHelpers.AlmostEqualRelative(matrix, A, 1);
         }
 
-        /// <summary>
-        /// Can check rank of square matrix.
-        /// </summary>
-        /// <param name="order">Matrix order.</param>
-        [TestCase(10)]
-        [TestCase(50)]
-        [TestCase(100)]
-        public void CanCheckRankSquare(int order)
+        [Test]
+        public void CanCheckRankSquare([Values(10, 50, 100)] int order)
         {
-            var matrixA = Matrix<float>.Build.Random(order, order, 1);
-            var factorEvd = matrixA.Evd();
-
-            Assert.AreEqual(factorEvd.Rank, order);
+            var A = Matrix<float>.Build.Random(order, order, 1);
+            Assert.AreEqual(A.Evd().Rank, order);
         }
 
-        /// <summary>
-        /// Can check rank of square singular matrix.
-        /// </summary>
-        /// <param name="order">Matrix order.</param>
-        [TestCase(10)]
-        [TestCase(50)]
-        [TestCase(100)]
-        public void CanCheckRankOfSquareSingular(int order)
+        [Test]
+        public void CanCheckRankOfSquareSingular([Values(10, 50, 100)] int order)
         {
-            var matrixA = new DenseMatrix(order, order);
-            matrixA[0, 0] = 1;
-            matrixA[order - 1, order - 1] = 1;
+            var A = new DenseMatrix(order, order);
+            A[0, 0] = 1;
+            A[order - 1, order - 1] = 1;
             for (var i = 1; i < order - 1; i++)
             {
-                matrixA[i, i - 1] = 1;
-                matrixA[i, i + 1] = 1;
-                matrixA[i - 1, i] = 1;
-                matrixA[i + 1, i] = 1;
+                A[i, i - 1] = 1;
+                A[i, i + 1] = 1;
+                A[i - 1, i] = 1;
+                A[i + 1, i] = 1;
             }
-            var factorEvd = matrixA.Evd();
+            var factorEvd = A.Evd();
 
             Assert.AreEqual(factorEvd.Determinant, 0);
             Assert.AreEqual(factorEvd.Rank, order - 1);
         }
 
-        /// <summary>
-        /// Identity determinant is one.
-        /// </summary>
-        /// <param name="order">Matrix order.</param>
-        [TestCase(1)]
-        [TestCase(10)]
-        [TestCase(100)]
-        public void IdentityDeterminantIsOne(int order)
+        [Test]
+        public void IdentityDeterminantIsOne([Values(1, 10, 100)] int order)
         {
             var matrixI = DenseMatrix.CreateIdentity(order);
             var factorEvd = matrixI.Evd();
@@ -190,40 +144,26 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Factorization
         /// </summary>
         /// <param name="order">Matrix order.</param>
         [Test]
-        [TestCase(1)]
-        [TestCase(2)]
-        [TestCase(5)]
-        [TestCase(10)]
-        [TestCase(50)]
-        [TestCase(100)]
-        public void CanSolveForRandomVectorAndSymmetricMatrix(int order)
+        public void CanSolveForRandomVectorAndSymmetricMatrix([Values(1, 2, 5, 10, 50, 100)] int order)
         {
-            var matrixA = Matrix<float>.Build.RandomPositiveDefinite(order, 1);
-            MatrixHelpers.ForceSymmetric(matrixA);
-            var matrixACopy = matrixA.Clone();
-            var factorEvd = matrixA.Evd();
+            var A = Matrix<float>.Build.RandomPositiveDefinite(order, 1);
+            MatrixHelpers.ForceSymmetric(A);
+            var ACopy = A.Clone();
+            var evd = A.Evd();
 
-            var vectorb = Vector<float>.Build.Random(order, 1);
-            var resultx = factorEvd.Solve(vectorb);
+            var b = Vector<float>.Build.Random(order, 2);
+            var bCopy = b.Clone();
 
-            Assert.AreEqual(matrixA.ColumnCount, resultx.Count);
+            var x = evd.Solve(b);
 
-            var matrixBReconstruct = matrixA * resultx;
+            var bReconstruct = A * x;
 
             // Check the reconstruction.
-            for (var i = 0; i < vectorb.Count; i++)
-            {
-                Assert.AreEqual(vectorb[i], matrixBReconstruct[i], 1e-1);
-            }
+            AssertHelpers.ListAlmostEqual(b, bReconstruct, 0);
 
-            // Make sure A didn't change.
-            for (var i = 0; i < matrixA.RowCount; i++)
-            {
-                for (var j = 0; j < matrixA.ColumnCount; j++)
-                {
-                    Assert.AreEqual(matrixACopy[i, j], matrixA[i, j]);
-                }
-            }
+            // Make sure A/B didn't change.
+            AssertHelpers.AlmostEqual(ACopy, A, 14);
+            AssertHelpers.ListAlmostEqual(bCopy, b, 14);
         }
 
         /// <summary>
@@ -231,47 +171,32 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Factorization
         /// </summary>
         /// <param name="order">Matrix order.</param>
         [Test]
-        [TestCase(1)]
-        [TestCase(2)]
-        [TestCase(5)]
-        [TestCase(10)]
-        [TestCase(50)]
-        [TestCase(100)]
-        public void CanSolveForRandomMatrixAndSymmetricMatrix(int order)
+        public void CanSolveForRandomMatrixAndSymmetricMatrix([Values(1, 2, 5, 10, 50, 100)] int order)
         {
-            var matrixA = Matrix<float>.Build.RandomPositiveDefinite(order, 1);
-            MatrixHelpers.ForceSymmetric(matrixA);
-            var matrixACopy = matrixA.Clone();
-            var factorEvd = matrixA.Evd();
+            var A = Matrix<float>.Build.RandomPositiveDefinite(order, 1);
+            MatrixHelpers.ForceSymmetric(A);
+            var ACopy = A.Clone();
+            var evd = A.Evd();
 
-            var matrixB = Matrix<float>.Build.Random(order, order, 1);
-            var matrixX = factorEvd.Solve(matrixB);
+            var B = Matrix<float>.Build.Random(order, order, 2);
+            var BCopy = B.Clone();
+
+            var X = evd.Solve(B);
 
             // The solution X row dimension is equal to the column dimension of A
-            Assert.AreEqual(matrixA.ColumnCount, matrixX.RowCount);
+            Assert.AreEqual(A.ColumnCount, X.RowCount);
 
             // The solution X has the same number of columns as B
-            Assert.AreEqual(matrixB.ColumnCount, matrixX.ColumnCount);
+            Assert.AreEqual(B.ColumnCount, X.ColumnCount);
 
-            var matrixBReconstruct = matrixA * matrixX;
+            var BReconstruct = A * X;
 
             // Check the reconstruction.
-            for (var i = 0; i < matrixB.RowCount; i++)
-            {
-                for (var j = 0; j < matrixB.ColumnCount; j++)
-                {
-                    Assert.AreEqual(matrixB[i, j], matrixBReconstruct[i, j], 1);
-                }
-            }
+            AssertHelpers.AlmostEqual(B, BReconstruct, 0);
 
-            // Make sure A didn't change.
-            for (var i = 0; i < matrixA.RowCount; i++)
-            {
-                for (var j = 0; j < matrixA.ColumnCount; j++)
-                {
-                    Assert.AreEqual(matrixACopy[i, j], matrixA[i, j]);
-                }
-            }
+            // Make sure A/B didn't change.
+            AssertHelpers.AlmostEqual(ACopy, A, 14);
+            AssertHelpers.AlmostEqual(BCopy, B, 14);
         }
 
         /// <summary>
@@ -279,45 +204,27 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Factorization
         /// </summary>
         /// <param name="order">Matrix order.</param>
         [Test]
-        [TestCase(1)]
-        [TestCase(2)]
-        [TestCase(5)]
-        [TestCase(10)]
-        [TestCase(50)]
-        [TestCase(100)]
-        public void CanSolveForRandomVectorAndSymmetricMatrixWhenResultVectorGiven(int order)
+        public void CanSolveForRandomVectorAndSymmetricMatrixWhenResultVectorGiven([Values(1, 2, 5, 10, 50, 100)] int order)
         {
-            var matrixA = Matrix<float>.Build.RandomPositiveDefinite(order, 1);
-            MatrixHelpers.ForceSymmetric(matrixA);
-            var matrixACopy = matrixA.Clone();
-            var factorEvd = matrixA.Evd();
-            var vectorb = Vector<float>.Build.Random(order, 1);
-            var vectorbCopy = vectorb.Clone();
-            var resultx = new DenseVector(order);
-            factorEvd.Solve(vectorb, resultx);
+            var A = Matrix<float>.Build.RandomPositiveDefinite(order, 1);
+            MatrixHelpers.ForceSymmetric(A);
+            var ACopy = A.Clone();
+            var evd = A.Evd();
 
-            var matrixBReconstruct = matrixA * resultx;
+            var b = Vector<float>.Build.Random(order, 2);
+            var bCopy = b.Clone();
+
+            var x = new DenseVector(order);
+            evd.Solve(b, x);
+
+            var bReconstruct = A * x;
 
             // Check the reconstruction.
-            for (var i = 0; i < vectorb.Count; i++)
-            {
-                Assert.AreEqual(vectorb[i], matrixBReconstruct[i], 1e-1);
-            }
+            AssertHelpers.ListAlmostEqual(b, bReconstruct, 0);
 
-            // Make sure A didn't change.
-            for (var i = 0; i < matrixA.RowCount; i++)
-            {
-                for (var j = 0; j < matrixA.ColumnCount; j++)
-                {
-                    Assert.AreEqual(matrixACopy[i, j], matrixA[i, j]);
-                }
-            }
-
-            // Make sure b didn't change.
-            for (var i = 0; i < vectorb.Count; i++)
-            {
-                Assert.AreEqual(vectorbCopy[i], vectorb[i]);
-            }
+            // Make sure A/B didn't change.
+            AssertHelpers.AlmostEqual(ACopy, A, 14);
+            AssertHelpers.ListAlmostEqual(bCopy, b, 14);
         }
 
         /// <summary>
@@ -325,59 +232,33 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Factorization
         /// </summary>
         /// <param name="order">Matrix order.</param>
         [Test]
-        [TestCase(1)]
-        [TestCase(2)]
-        [TestCase(5)]
-        [TestCase(10)]
-        [TestCase(50)]
-        [TestCase(100)]
-        public void CanSolveForRandomMatrixAndSymmetricMatrixWhenResultMatrixGiven(int order)
+        public void CanSolveForRandomMatrixAndSymmetricMatrixWhenResultMatrixGiven([Values(1, 2, 5, 10, 50, 100)] int order)
         {
-            var matrixA = Matrix<float>.Build.RandomPositiveDefinite(order, 1);
-            MatrixHelpers.ForceSymmetric(matrixA);
-            var matrixACopy = matrixA.Clone();
-            var factorEvd = matrixA.Evd();
+            var A = Matrix<float>.Build.RandomPositiveDefinite(order, 1);
+            MatrixHelpers.ForceSymmetric(A);
+            var ACopy = A.Clone();
+            var evd = A.Evd();
 
-            var matrixB = Matrix<float>.Build.Random(order, order, 1);
-            var matrixBCopy = matrixB.Clone();
+            var B = Matrix<float>.Build.Random(order, order, 2);
+            var BCopy = B.Clone();
 
-            var matrixX = new DenseMatrix(order, order);
-            factorEvd.Solve(matrixB, matrixX);
+            var X = new DenseMatrix(order, order);
+            evd.Solve(B, X);
 
             // The solution X row dimension is equal to the column dimension of A
-            Assert.AreEqual(matrixA.ColumnCount, matrixX.RowCount);
+            Assert.AreEqual(A.ColumnCount, X.RowCount);
 
             // The solution X has the same number of columns as B
-            Assert.AreEqual(matrixB.ColumnCount, matrixX.ColumnCount);
+            Assert.AreEqual(B.ColumnCount, X.ColumnCount);
 
-            var matrixBReconstruct = matrixA * matrixX;
+            var BReconstruct = A * X;
 
             // Check the reconstruction.
-            for (var i = 0; i < matrixB.RowCount; i++)
-            {
-                for (var j = 0; j < matrixB.ColumnCount; j++)
-                {
-                    Assert.AreEqual(matrixB[i, j], matrixBReconstruct[i, j], 1);
-                }
-            }
+            AssertHelpers.AlmostEqual(B, BReconstruct, 0);
 
-            // Make sure A didn't change.
-            for (var i = 0; i < matrixA.RowCount; i++)
-            {
-                for (var j = 0; j < matrixA.ColumnCount; j++)
-                {
-                    Assert.AreEqual(matrixACopy[i, j], matrixA[i, j]);
-                }
-            }
-
-            // Make sure B didn't change.
-            for (var i = 0; i < matrixB.RowCount; i++)
-            {
-                for (var j = 0; j < matrixB.ColumnCount; j++)
-                {
-                    Assert.AreEqual(matrixBCopy[i, j], matrixB[i, j]);
-                }
-            }
+            // Make sure A/B didn't change.
+            AssertHelpers.AlmostEqual(ACopy, A, 14);
+            AssertHelpers.AlmostEqual(BCopy, B, 14);
         }
     }
 }

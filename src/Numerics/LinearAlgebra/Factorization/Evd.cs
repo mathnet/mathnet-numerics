@@ -103,7 +103,7 @@ namespace MathNet.Numerics.LinearAlgebra.Factorization
         public Matrix<T> D { get; private set; }
 
         /// <summary>
-        /// Solves a system of linear equations, <b>AX = B</b>, with A SVD factorized.
+        /// Solves a system of linear equations, <b>AX = B</b>, with A EVD factorized.
         /// </summary>
         /// <param name="input">The right hand side <see cref="Matrix{T}"/>, <b>B</b>.</param>
         /// <returns>The left hand side <see cref="Matrix{T}"/>, <b>X</b>.</returns>
@@ -115,14 +115,14 @@ namespace MathNet.Numerics.LinearAlgebra.Factorization
         }
 
         /// <summary>
-        /// Solves a system of linear equations, <b>AX = B</b>, with A SVD factorized.
+        /// Solves a system of linear equations, <b>AX = B</b>, with A EVD factorized.
         /// </summary>
         /// <param name="input">The right hand side <see cref="Matrix{T}"/>, <b>B</b>.</param>
         /// <param name="result">The left hand side <see cref="Matrix{T}"/>, <b>X</b>.</param>
         public abstract void Solve(Matrix<T> input, Matrix<T> result);
 
         /// <summary>
-        /// Solves a system of linear equations, <b>Ax = b</b>, with A SVD factorized.
+        /// Solves a system of linear equations, <b>Ax = b</b>, with A EVD factorized.
         /// </summary>
         /// <param name="input">The right hand side vector, <b>b</b>.</param>
         /// <returns>The left hand side <see cref="Vector{T}"/>, <b>x</b>.</returns>
@@ -134,7 +134,7 @@ namespace MathNet.Numerics.LinearAlgebra.Factorization
         }
 
         /// <summary>
-        /// Solves a system of linear equations, <b>Ax = b</b>, with A SVD factorized.
+        /// Solves a system of linear equations, <b>Ax = b</b>, with A EVD factorized.
         /// </summary>
         /// <param name="input">The right hand side vector, <b>b</b>.</param>
         /// <param name="result">The left hand side <see cref="Matrix{T}"/>, <b>x</b>.</param>

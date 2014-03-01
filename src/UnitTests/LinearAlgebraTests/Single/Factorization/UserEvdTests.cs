@@ -193,187 +193,122 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Factorization
         /// Can solve a system of linear equations for a random vector and symmetric matrix (Ax=b).
         /// </summary>
         /// <param name="order">Matrix order.</param>
-        [TestCase(1)]
-        [TestCase(2)]
-        [TestCase(5)]
-        [TestCase(10)]
-        [TestCase(50)]
-        [TestCase(100)]
-        public void CanSolveForRandomVectorAndSymmetricMatrix(int order)
+        [Test]
+        public void CanSolveForRandomVectorAndSymmetricMatrix([Values(1, 2, 5, 10, 50, 100)] int order)
         {
-            var matrixA = new UserDefinedMatrix(Matrix<float>.Build.RandomPositiveDefinite(order, 1).ToArray());
-            var matrixACopy = matrixA.Clone();
-            var factorEvd = matrixA.Evd();
+            var A = new UserDefinedMatrix(Matrix<float>.Build.RandomPositiveDefinite(order, 1).ToArray());
+            MatrixHelpers.ForceSymmetric(A);
+            var ACopy = A.Clone();
+            var evd = A.Evd();
 
-            var vectorb = new UserDefinedVector(Vector<float>.Build.Random(order, 1).ToArray());
-            var resultx = factorEvd.Solve(vectorb);
+            var b = new UserDefinedVector(Vector<float>.Build.Random(order, 1).ToArray());
+            var bCopy = b.Clone();
 
-            Assert.AreEqual(matrixA.ColumnCount, resultx.Count);
+            var x = evd.Solve(b);
 
-            var matrixBReconstruct = matrixA * resultx;
+            var bReconstruct = A * x;
 
             // Check the reconstruction.
-            for (var i = 0; i < vectorb.Count; i++)
-            {
-                Assert.AreEqual(vectorb[i], matrixBReconstruct[i], 1e-1);
-            }
+            AssertHelpers.AlmostEqual(b, bReconstruct, 0);
 
-            // Make sure A didn't change.
-            for (var i = 0; i < matrixA.RowCount; i++)
-            {
-                for (var j = 0; j < matrixA.ColumnCount; j++)
-                {
-                    Assert.AreEqual(matrixACopy[i, j], matrixA[i, j]);
-                }
-            }
+            // Make sure A/B didn't change.
+            AssertHelpers.AlmostEqual(ACopy, A, 14);
+            AssertHelpers.AlmostEqual(bCopy, b, 14);
         }
 
         /// <summary>
         /// Can solve a system of linear equations for a random matrix and symmetric matrix (AX=B).
         /// </summary>
         /// <param name="order">Matrix order.</param>
-        [TestCase(1)]
-        [TestCase(2)]
-        [TestCase(5)]
-        [TestCase(10)]
-        [TestCase(50)]
-        [TestCase(100)]
-        public void CanSolveForRandomMatrixAndSymmetricMatrix(int order)
+        [Test]
+        public void CanSolveForRandomMatrixAndSymmetricMatrix([Values(1, 2, 5, 10, 50, 100)] int order)
         {
-            var matrixA = new UserDefinedMatrix(Matrix<float>.Build.RandomPositiveDefinite(order, 1).ToArray());
-            var matrixACopy = matrixA.Clone();
-            var factorEvd = matrixA.Evd();
+            var A = new UserDefinedMatrix(Matrix<float>.Build.RandomPositiveDefinite(order, 1).ToArray());
+            MatrixHelpers.ForceSymmetric(A);
+            var ACopy = A.Clone();
+            var evd = A.Evd();
 
-            var matrixB = new UserDefinedMatrix(Matrix<float>.Build.Random(order, order, 1).ToArray());
-            var matrixX = factorEvd.Solve(matrixB);
+            var B = new UserDefinedMatrix(Matrix<float>.Build.Random(order, order, 1).ToArray());
+            var BCopy = B.Clone();
+
+            var X = evd.Solve(B);
 
             // The solution X row dimension is equal to the column dimension of A
-            Assert.AreEqual(matrixA.ColumnCount, matrixX.RowCount);
+            Assert.AreEqual(A.ColumnCount, X.RowCount);
 
             // The solution X has the same number of columns as B
-            Assert.AreEqual(matrixB.ColumnCount, matrixX.ColumnCount);
+            Assert.AreEqual(B.ColumnCount, X.ColumnCount);
 
-            var matrixBReconstruct = matrixA * matrixX;
+            var BReconstruct = A * X;
 
             // Check the reconstruction.
-            for (var i = 0; i < matrixB.RowCount; i++)
-            {
-                for (var j = 0; j < matrixB.ColumnCount; j++)
-                {
-                    Assert.AreEqual(matrixB[i, j], matrixBReconstruct[i, j], 1);
-                }
-            }
+            AssertHelpers.AlmostEqual(B, BReconstruct, 0);
 
-            // Make sure A didn't change.
-            for (var i = 0; i < matrixA.RowCount; i++)
-            {
-                for (var j = 0; j < matrixA.ColumnCount; j++)
-                {
-                    Assert.AreEqual(matrixACopy[i, j], matrixA[i, j]);
-                }
-            }
+            // Make sure A/B didn't change.
+            AssertHelpers.AlmostEqual(ACopy, A, 14);
+            AssertHelpers.AlmostEqual(BCopy, B, 14);
         }
 
         /// <summary>
         /// Can solve a system of linear equations for a random vector and symmetric matrix (Ax=b) into a result matrix.
         /// </summary>
         /// <param name="order">Matrix order.</param>
-        [TestCase(1)]
-        [TestCase(2)]
-        [TestCase(5)]
-        [TestCase(10)]
-        [TestCase(50)]
-        [TestCase(100)]
-        public void CanSolveForRandomVectorAndSymmetricMatrixWhenResultVectorGiven(int order)
+        [Test]
+        public void CanSolveForRandomVectorAndSymmetricMatrixWhenResultVectorGiven([Values(1, 2, 5, 10, 50, 100)] int order)
         {
-            var matrixA = new UserDefinedMatrix(Matrix<float>.Build.RandomPositiveDefinite(order, 1).ToArray());
-            var matrixACopy = matrixA.Clone();
-            var factorEvd = matrixA.Evd();
-            var vectorb = new UserDefinedVector(Vector<float>.Build.Random(order, 1).ToArray());
-            var vectorbCopy = vectorb.Clone();
-            var resultx = new UserDefinedVector(order);
-            factorEvd.Solve(vectorb, resultx);
+            var A = new UserDefinedMatrix(Matrix<float>.Build.RandomPositiveDefinite(order, 1).ToArray());
+            MatrixHelpers.ForceSymmetric(A);
+            var ACopy = A.Clone();
+            var evd = A.Evd();
 
-            var matrixBReconstruct = matrixA * resultx;
+            var b = new UserDefinedVector(Vector<float>.Build.Random(order, 1).ToArray());
+            var bCopy = b.Clone();
+
+            var x = new UserDefinedVector(order);
+            evd.Solve(b, x);
+
+            var bReconstruct = A * x;
 
             // Check the reconstruction.
-            for (var i = 0; i < vectorb.Count; i++)
-            {
-                Assert.AreEqual(vectorb[i], matrixBReconstruct[i], 1e-1);
-            }
+            AssertHelpers.AlmostEqual(b, bReconstruct, 0);
 
-            // Make sure A didn't change.
-            for (var i = 0; i < matrixA.RowCount; i++)
-            {
-                for (var j = 0; j < matrixA.ColumnCount; j++)
-                {
-                    Assert.AreEqual(matrixACopy[i, j], matrixA[i, j]);
-                }
-            }
-
-            // Make sure b didn't change.
-            for (var i = 0; i < vectorb.Count; i++)
-            {
-                Assert.AreEqual(vectorbCopy[i], vectorb[i]);
-            }
+            // Make sure A/B didn't change.
+            AssertHelpers.AlmostEqual(ACopy, A, 14);
+            AssertHelpers.AlmostEqual(bCopy, b, 14);
         }
 
         /// <summary>
         /// Can solve a system of linear equations for a random matrix and symmetric matrix (AX=B) into result matrix.
         /// </summary>
         /// <param name="order">Matrix order.</param>
-        [TestCase(1)]
-        [TestCase(2)]
-        [TestCase(5)]
-        [TestCase(10)]
-        [TestCase(50)]
-        [TestCase(100)]
-        public void CanSolveForRandomMatrixAndSymmetricMatrixWhenResultMatrixGiven(int order)
+        [Test]
+        public void CanSolveForRandomMatrixAndSymmetricMatrixWhenResultMatrixGiven([Values(1, 2, 5, 10, 50, 100)] int order)
         {
-            var matrixA = new UserDefinedMatrix(Matrix<float>.Build.RandomPositiveDefinite(order, 1).ToArray());
-            var matrixACopy = matrixA.Clone();
-            var factorEvd = matrixA.Evd();
+            var A = new UserDefinedMatrix(Matrix<float>.Build.RandomPositiveDefinite(order, 1).ToArray());
+            MatrixHelpers.ForceSymmetric(A);
+            var ACopy = A.Clone();
+            var evd = A.Evd();
 
-            var matrixB = new UserDefinedMatrix(Matrix<float>.Build.Random(order, order, 1).ToArray());
-            var matrixBCopy = matrixB.Clone();
+            var B = new UserDefinedMatrix(Matrix<float>.Build.Random(order, order, 1).ToArray());
+            var BCopy = B.Clone();
 
-            var matrixX = new UserDefinedMatrix(order, order);
-            factorEvd.Solve(matrixB, matrixX);
+            var X = new UserDefinedMatrix(order, order);
+            evd.Solve(B, X);
 
             // The solution X row dimension is equal to the column dimension of A
-            Assert.AreEqual(matrixA.ColumnCount, matrixX.RowCount);
+            Assert.AreEqual(A.ColumnCount, X.RowCount);
 
             // The solution X has the same number of columns as B
-            Assert.AreEqual(matrixB.ColumnCount, matrixX.ColumnCount);
+            Assert.AreEqual(B.ColumnCount, X.ColumnCount);
 
-            var matrixBReconstruct = matrixA * matrixX;
+            var BReconstruct = A * X;
 
             // Check the reconstruction.
-            for (var i = 0; i < matrixB.RowCount; i++)
-            {
-                for (var j = 0; j < matrixB.ColumnCount; j++)
-                {
-                    Assert.AreEqual(matrixB[i, j], matrixBReconstruct[i, j], 1);
-                }
-            }
+            AssertHelpers.AlmostEqual(B, BReconstruct, 0);
 
-            // Make sure A didn't change.
-            for (var i = 0; i < matrixA.RowCount; i++)
-            {
-                for (var j = 0; j < matrixA.ColumnCount; j++)
-                {
-                    Assert.AreEqual(matrixACopy[i, j], matrixA[i, j]);
-                }
-            }
-
-            // Make sure B didn't change.
-            for (var i = 0; i < matrixB.RowCount; i++)
-            {
-                for (var j = 0; j < matrixB.ColumnCount; j++)
-                {
-                    Assert.AreEqual(matrixBCopy[i, j], matrixB[i, j]);
-                }
-            }
+            // Make sure A/B didn't change.
+            AssertHelpers.AlmostEqual(ACopy, A, 14);
+            AssertHelpers.AlmostEqual(BCopy, B, 14);
         }
     }
 }
