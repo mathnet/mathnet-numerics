@@ -101,8 +101,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Factorization
 
             // Verify A = V*λ*VT
             var matrix = V * λ * V.Transpose();
-            AssertHelpers.AlmostEqual(matrix, A, 3);
-            AssertHelpers.AlmostEqualRelative(matrix, A, 1);
+            AssertHelpers.AlmostEqual(matrix, A, 2);
+            AssertHelpers.AlmostEqualRelative(matrix, A, 0);
         }
 
         [Test]

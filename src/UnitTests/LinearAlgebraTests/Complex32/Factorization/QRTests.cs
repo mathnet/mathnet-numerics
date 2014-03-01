@@ -678,7 +678,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
             {
                 for (var j = 0; j < matrixX.ColumnCount; j++)
                 {
-                    AssertHelpers.AlmostEqual(test[i, j], matrixX[i, j], 6);
+                    AssertHelpers.AlmostEqual(test[i, j], matrixX[i, j], 5);
                 }
             }
 
@@ -714,7 +714,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
 
             for (var i = 0; i < vectorX.Count; i++)
             {
-                AssertHelpers.AlmostEqual(test[i], vectorX[i], 6);
+                AssertHelpers.AlmostEqual(test[i], vectorX[i], 5);
             }
 
             // Make sure A didn't change.

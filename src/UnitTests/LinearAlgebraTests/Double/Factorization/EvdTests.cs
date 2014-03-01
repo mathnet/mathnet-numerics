@@ -103,7 +103,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
             // Verify A = V*λ*VT
             var matrix = V * λ * V.Transpose();
             AssertHelpers.AlmostEqual(matrix, A, 10);
-            AssertHelpers.AlmostEqualRelative(matrix, A, 10);
+            AssertHelpers.AlmostEqualRelative(matrix, A, 9);
         }
 
         [Test]
