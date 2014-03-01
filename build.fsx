@@ -43,18 +43,53 @@ Target "Build" DoNothing
   ==> "Build"
 
 
+// NATIVE BUILD
+
+let buildx86 subject = MSBuild "" (if hasBuildParam "incremental" then "Build" else "Rebuild") [("Configuration","Release"); ("Platform","Win32")] subject |> ignore
+let buildx64 subject = MSBuild "" (if hasBuildParam "incremental" then "Build" else "Rebuild") [("Configuration","Release"); ("Platform","x64")] subject |> ignore
+
+Target "BuildNativex86" (fun _ -> buildx86 !! "MathNet.Numerics.NativeProviders.sln")
+Target "BuildNativex64" (fun _ -> buildx64 !! "MathNet.Numerics.NativeProviders.sln")
+Target "BuildNative" DoNothing
+
+"Prepare" ==> "BuildNativex86" ==> "BuildNative"
+"Prepare" ==> "BuildNativex64" ==> "BuildNative"
+
+
 // TEST
 
 Target "Test" (fun _ ->
-    !! "out/test/*/*UnitTests*.dll"
+    !! "out/test/**/*UnitTests*.dll"
     |> NUnit (fun p ->
         { p with
             DisableShadowCopy = true
             TimeOut = TimeSpan.FromMinutes 30.
-            OutputFile = "TestResults.xml" })
-)
+            OutputFile = "TestResults.xml" }))
 
 "Build" ==> "Test"
+
+
+// NATIVE TEST
+
+Target "TestNativex86" (fun _ ->
+    !! "out/MKL/Windows/x86/*UnitTests*.dll"
+    |> NUnit (fun p ->
+        { p with
+            ToolName = "nunit-console-x86.exe"
+            DisableShadowCopy = true
+            TimeOut = TimeSpan.FromMinutes 30.
+            OutputFile = "TestResults.xml" }))
+Target "TestNativex64" (fun _ ->
+    !! "out/MKL/Windows/x64/*UnitTests*.dll"
+    |> NUnit (fun p ->
+        { p with
+            DisableShadowCopy = true
+            TimeOut = TimeSpan.FromMinutes 30.
+            OutputFile = "TestResults.xml" }))
+Target "TestNative" DoNothing
+
+"BuildNativex86" ==> "TestNativex86" ==> "TestNative"
+"BuildNativex64" ==> "TestNativex64" ==> "TestNative"
 
 
 // DOCUMENTATION

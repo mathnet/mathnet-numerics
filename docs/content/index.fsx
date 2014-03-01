@@ -68,5 +68,12 @@ If you do not want to use the official binaries, or if you like to modify, debug
     build.cmd Docs   # generate documentation, normal build
     build.cmd NuGet  # generate NuGet packages, full build
 
+    build.cmd BuildNativex86   # build native providers 32bit/x86
+    build.cmd BuildNativex64   # build native providers 64bit/x64
+    build.cmd BuildNative      # build native providers for all platforms
+    build.cmd TestNativex86    # test native providers 32bit/x86
+    build.cmd TestNativex64    # test native providers 64bit/x64
+    build.cmd TestNative       # test native providers for all platforms
+
 FAKE itself is not included in the repository but it will download and bootstrap itself automatically when build.cmd is run the first time. Note that this step is *not* required when using Visual Studio or `msbuild` directly.
 *)
