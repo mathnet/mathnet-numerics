@@ -69,7 +69,7 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
             Assert.IsFalse(work.ListAlmostEqual(samples, 6));
 
             work = Fourier.NaiveInverse(work, options);
-            AssertHelpers.ListAlmostEqual(samples, work, 12);
+            AssertHelpers.AlmostEqual(samples, work, 12);
         }
 
         /// <summary>
@@ -88,7 +88,7 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
             Assert.IsFalse(work.ListAlmostEqual(samples, 6));
 
             Fourier.Radix2Inverse(work, options);
-            AssertHelpers.ListAlmostEqual(samples, work, 12);
+            AssertHelpers.AlmostEqual(samples, work, 12);
         }
 
         /// <summary>
@@ -107,7 +107,7 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
             Assert.IsFalse(work.ListAlmostEqual(samples, 6));
 
             Fourier.BluesteinInverse(work, options);
-            AssertHelpers.ListAlmostEqual(samples, work, 10);
+            AssertHelpers.AlmostEqual(samples, work, 10);
         }
 
         /// <summary>
@@ -126,7 +126,7 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
             Assert.IsFalse(work.ListAlmostEqual(samples, 6));
 
             work = Hartley.NaiveInverse(work, options);
-            AssertHelpers.ListAlmostEqual(samples, work, 12);
+            AssertHelpers.AlmostEqual(samples, work, 12);
         }
 
         /// <summary>
@@ -143,13 +143,13 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
             Assert.IsFalse(work.ListAlmostEqual(samples, 6));
 
             Fourier.Inverse(work);
-            AssertHelpers.ListAlmostEqual(samples, work, 10);
+            AssertHelpers.AlmostEqual(samples, work, 10);
 
             Fourier.Inverse(work, FourierOptions.Default);
             Assert.IsFalse(work.ListAlmostEqual(samples, 6));
 
             Fourier.Forward(work, FourierOptions.Default);
-            AssertHelpers.ListAlmostEqual(samples, work, 10);
+            AssertHelpers.AlmostEqual(samples, work, 10);
         }
     }
 }

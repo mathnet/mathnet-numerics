@@ -70,7 +70,7 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
             dft(fourierComplex);
             var fourierReal = ArrayHelpers.ConvertAll(fourierComplex, s => s.Real);
 
-            AssertHelpers.ListAlmostEqual(fourierReal, hartleyReal, maximumErrorDecimalPlaces);
+            AssertHelpers.AlmostEqual(fourierReal, hartleyReal, maximumErrorDecimalPlaces);
         }
 
         /// <summary>

@@ -183,7 +183,7 @@ namespace MathNet.Numerics.UnitTests
         }
 
 
-        public static void ListAlmostEqual(IList<double> expected, IList<double> actual, int decimalPlaces)
+        public static void AlmostEqual(IList<double> expected, IList<double> actual, int decimalPlaces)
         {
             for (var i = 0; i < expected.Count; i++)
             {
@@ -194,7 +194,7 @@ namespace MathNet.Numerics.UnitTests
             }
         }
 
-        public static void ListAlmostEqual(IList<float> expected, IList<float> actual, int decimalPlaces)
+        public static void AlmostEqual(IList<float> expected, IList<float> actual, int decimalPlaces)
         {
             for (var i = 0; i < expected.Count; i++)
             {
@@ -205,7 +205,7 @@ namespace MathNet.Numerics.UnitTests
             }
         }
 
-        public static void ListAlmostEqual(IList<Complex> expected, IList<Complex> actual, int decimalPlaces)
+        public static void AlmostEqual(IList<Complex> expected, IList<Complex> actual, int decimalPlaces)
         {
             for (var i = 0; i < expected.Count; i++)
             {
@@ -216,7 +216,7 @@ namespace MathNet.Numerics.UnitTests
             }
         }
 
-        public static void ListAlmostEqual(IList<Complex32> expected, IList<Complex32> actual, int decimalPlaces)
+        public static void AlmostEqual(IList<Complex32> expected, IList<Complex32> actual, int decimalPlaces)
         {
             for (var i = 0; i < expected.Count; i++)
             {
@@ -227,7 +227,7 @@ namespace MathNet.Numerics.UnitTests
             }
         }
 
-        public static void ListAlmostEqualRelative(IList<double> expected, IList<double> actual, int decimalPlaces)
+        public static void AlmostEqualRelative(IList<double> expected, IList<double> actual, int decimalPlaces)
         {
             for (var i = 0; i < expected.Count; i++)
             {
@@ -238,7 +238,7 @@ namespace MathNet.Numerics.UnitTests
             }
         }
 
-        public static void ListAlmostEqualRelative(IList<float> expected, IList<float> actual, int decimalPlaces)
+        public static void AlmostEqualRelative(IList<float> expected, IList<float> actual, int decimalPlaces)
         {
             for (var i = 0; i < expected.Count; i++)
             {
@@ -249,7 +249,7 @@ namespace MathNet.Numerics.UnitTests
             }
         }
 
-        public static void ListAlmostEqualRelative(IList<Complex> expected, IList<Complex> actual, int decimalPlaces)
+        public static void AlmostEqualRelative(IList<Complex> expected, IList<Complex> actual, int decimalPlaces)
         {
             for (var i = 0; i < expected.Count; i++)
             {
@@ -260,7 +260,7 @@ namespace MathNet.Numerics.UnitTests
             }
         }
 
-        public static void ListAlmostEqualRelative(IList<Complex32> expected, IList<Complex32> actual, int decimalPlaces)
+        public static void AlmostEqualRelative(IList<Complex32> expected, IList<Complex32> actual, int decimalPlaces)
         {
             for (var i = 0; i < expected.Count; i++)
             {

@@ -162,11 +162,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
             var bReconstruct = A * x;
 
             // Check the reconstruction.
-            AssertHelpers.ListAlmostEqual(b, bReconstruct, 2);
+            AssertHelpers.AlmostEqual(b, bReconstruct, 2);
 
             // Make sure A/B didn't change.
             AssertHelpers.AlmostEqual(ACopy, A, 14);
-            AssertHelpers.ListAlmostEqual(bCopy, b, 14);
+            AssertHelpers.AlmostEqual(bCopy, b, 14);
         }
 
         /// <summary>
@@ -223,11 +223,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
             var bReconstruct = A * x;
 
             // Check the reconstruction.
-            AssertHelpers.ListAlmostEqual(b, bReconstruct, 2);
+            AssertHelpers.AlmostEqual(b, bReconstruct, 2);
 
             // Make sure A/B didn't change.
             AssertHelpers.AlmostEqual(ACopy, A, 14);
-            AssertHelpers.ListAlmostEqual(bCopy, b, 14);
+            AssertHelpers.AlmostEqual(bCopy, b, 14);
         }
 
         /// <summary>

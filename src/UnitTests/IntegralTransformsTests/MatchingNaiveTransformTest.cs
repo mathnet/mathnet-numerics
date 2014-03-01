@@ -67,7 +67,7 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
             samples.CopyTo(spectrumFast, 0);
             fast(spectrumFast, options);
 
-            AssertHelpers.ListAlmostEqual(spectrumNaive, spectrumFast, maximumErrorDecimalPlaces);
+            AssertHelpers.AlmostEqual(spectrumNaive, spectrumFast, maximumErrorDecimalPlaces);
         }
 
         /// <summary>

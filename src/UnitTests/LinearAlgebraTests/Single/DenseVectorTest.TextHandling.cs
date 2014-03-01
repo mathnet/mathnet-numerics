@@ -121,11 +121,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
             DenseVector vector;
             var ret = DenseVector.TryParse(text, out vector);
             Assert.IsTrue(ret);
-            AssertHelpers.ListAlmostEqualRelative(data, (float[])vector, 14);
+            AssertHelpers.AlmostEqualRelative(data, (float[])vector, 14);
 
             ret = DenseVector.TryParse(text, CultureInfo.CurrentCulture, out vector);
             Assert.IsTrue(ret);
-            AssertHelpers.ListAlmostEqualRelative(data, (float[])vector, 14);
+            AssertHelpers.AlmostEqualRelative(data, (float[])vector, 14);
         }
 
         /// <summary>
