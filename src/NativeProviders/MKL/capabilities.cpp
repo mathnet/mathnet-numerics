@@ -1,4 +1,5 @@
 #include "wrapper_common.h"
+#include "mkl.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -40,7 +41,8 @@ extern "C" {
 #endif
 
 		// COMMON/SHARED
-		case 64: return 4;	// revision
+		case 64: return 5; // revision
+		case 65: return 1; // numerical consistency, precision and accuracy modes
 
 		// LINEAR ALGEBRA
 		case 128: return 1;	// basic dense linear algebra
@@ -54,6 +56,24 @@ extern "C" {
 		default: return 0; // unknown or not supported
 
 		}
+	}
+
+	DLLEXPORT void set_consistency_mode(const MKL_INT mode)
+	{
+		mkl_cbwr_set(mode);
+	}
+
+	DLLEXPORT void set_vml_mode(const MKL_UINT mode)
+	{
+		vmlSetMode(mode);
+	}
+
+	/* Obsolete, will be dropped in the next revision */
+	DLLEXPORT void SetImprovedConsistency(void)
+	{
+		// set improved consistency for MKL and vector functions
+		mkl_cbwr_set(MKL_CBWR_COMPATIBLE);
+		vmlSetMode(VML_HA | VML_DOUBLE_CONSISTENT);
 	}
 
 #ifdef __cplusplus

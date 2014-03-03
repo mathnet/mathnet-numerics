@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2013 Math.NET
+// Copyright (c) 2009-2014 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -35,6 +35,39 @@ using System;
 namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
 {
     /// <summary>
+    /// Consistency vs. performance trade-off between runs on different machines.
+    /// </summary>
+    public enum MklConsistency : int
+    {
+        /// <summary>Consistent on the same CPU only (maximum performance)</summary>
+        Auto = 2,
+        /// <summary>Consistent on Intel and compatible CPUs with SSE2 support (maximum compatibility)</summary>
+        Compatible = 3,
+        /// <summary>Consistent on Intel CPUs supporting SSE2 or later</summary>
+        SSE2 = 4,
+        /// <summary>Consistent on Intel CPUs supporting SSE4.2 or later</summary>
+        SSE4_2 = 8,
+        /// <summary>Consistent on Intel CPUs supporting AVX or later</summary>
+        AVX = 9,
+        /// <summary>Consistent on Intel CPUs supporting AVX2 or later</summary>
+        AVX2 = 10
+    }
+
+    [CLSCompliant(false)]
+    public enum MklAccuracy : uint
+    {
+        Low = 0x1,
+        High = 0x2
+    }
+
+    [CLSCompliant(false)]
+    public enum MklPrecision : uint
+    {
+        Single = 0x10,
+        Double = 0x20
+    }
+
+    /// <summary>
     /// Intel's Math Kernel Library (MKL) linear algebra provider.
     /// </summary>
     public partial class MklLinearAlgebraProvider : ManagedLinearAlgebraProvider
@@ -44,17 +77,37 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
         bool _nativeX64 = false;
         bool _nativeIA64 = false;
 
-        /// <param name="bitConsistent">If true improves MKL Consistency to get bit consistent results on repeated identical calculations</param>
-        public MklLinearAlgebraProvider(bool bitConsistent = false)
+        readonly MklConsistency _consistency;
+        readonly MklPrecision _precision;
+        readonly MklAccuracy _accuracy;
+
+        /// <param name="consistency">
+        /// Sets the desired bit consistency on repeated identical computations on varying CPU architectures,
+        /// as a trade-off with performance.
+        /// </param>
+        /// <param name="precision">VML optimal precision and rounding.</param>
+        /// <param name="accuracy">VML accuracy mode.</param>
+        [CLSCompliant(false)]
+        public MklLinearAlgebraProvider(
+            MklConsistency consistency = MklConsistency.Auto,
+            MklPrecision precision = MklPrecision.Double,
+            MklAccuracy accuracy = MklAccuracy.High)
         {
-            if (bitConsistent)
-            {
-                SafeNativeMethods.SetImprovedConsistency();
-            }
+            _consistency = consistency;
+            _precision = precision;
+            _accuracy = accuracy;
+        }
+
+        public MklLinearAlgebraProvider()
+        {
+            _consistency = MklConsistency.Auto;
+            _precision = MklPrecision.Double;
+            _accuracy = MklAccuracy.High;
         }
 
         /// <summary>
-        /// Initialize and verify that the provided is indeed available. If not, fall back to alernatives like the managed provider
+        /// Initialize and verify that the provided is indeed available.
+        /// If calling this method fails, consider to fall back to alternatives like the managed provider.
         /// </summary>
         public override void InitializeVerify()
         {
@@ -90,6 +143,12 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
             if (a != 0 || b != -1 || linearAlgebra <=0 || _nativeRevision < 4)
             {
                 throw new NotSupportedException("MKL Native Provider too old or not compatible (2).");
+            }
+
+            if (SafeNativeMethods.query_capability(65) > 0)
+            {
+                SafeNativeMethods.set_consistency_mode((int)_consistency);
+                SafeNativeMethods.set_vml_mode((uint)_precision | (uint)_accuracy);
             }
         }
 
