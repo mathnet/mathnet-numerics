@@ -126,9 +126,13 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
                 _nativeRevision = SafeNativeMethods.query_capability(64);
                 linearAlgebra = SafeNativeMethods.query_capability(128);
             }
+            catch (DllNotFoundException e)
+            {
+                throw new NotSupportedException("MKL Native Provider not found.", e);
+            }
             catch (BadImageFormatException e)
             {
-                throw new NotSupportedException("MKL Native Provider failed to load. Please verify that the platform matches (x64 vs x32, Windows vs Linux).", e);
+                throw new NotSupportedException("MKL Native Provider found but failed to load. Please verify that the platform matches (x64 vs x32, Windows vs Linux).", e);
             }
             catch (EntryPointNotFoundException e)
             {
@@ -137,12 +141,12 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
                 // TODO: drop return statement and instead fail with the exception below
                 return;
 
-                throw new NotSupportedException("MKL Native Provider does not support capability querying and is therefore not compatible. Try to upgrade to a newer version (1).", e);
+                throw new NotSupportedException("MKL Native Provider found but does not support capability querying and is therefore not compatible. Try to upgrade to a newer version.", e);
             }
 
             if (a != 0 || b != -1 || linearAlgebra <=0 || _nativeRevision < 4)
             {
-                throw new NotSupportedException("MKL Native Provider too old or not compatible (2).");
+                throw new NotSupportedException("MKL Native Provider found but too old or not compatible.");
             }
 
             if (SafeNativeMethods.query_capability(65) > 0)
