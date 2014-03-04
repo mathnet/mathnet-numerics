@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2013 Math.NET
+// Copyright (c) 2009-2014 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -114,6 +114,7 @@ namespace MathNet.Numerics
         /// For the multivariate distributions this could involve an expensive matrix factorization.
         /// The default setting of this property is <c>true</c>.
         /// </summary>
+        [Obsolete]
         public static bool CheckDistributionParameters { get; set; }
 
         /// <summary>
@@ -173,7 +174,8 @@ namespace MathNet.Numerics
         /// must calculate multiply in parallel threads.
         /// </summary>
         /// <value>The order. Default 64, must be at least 3.</value>
-        public static int ParallelizeOrder
+        [Obsolete]
+        internal static int ParallelizeOrder
         {
             get { return _parallelizeOrder; }
             set { _parallelizeOrder = Math.Max(3, value); }
@@ -184,7 +186,8 @@ namespace MathNet.Numerics
         /// must contain before we multiply threads.
         /// </summary>
         /// <value>Number of elements. Default 300, must be at least 3.</value>
-        public static int ParallelizeElements
+        [Obsolete]
+        internal static int ParallelizeElements
         {
             get { return _parallelizeElements; }
             set { _parallelizeElements = Math.Max(3, value); }
