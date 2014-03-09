@@ -73,7 +73,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [TestCase(-1.0, Double.NaN)]
         public void GammaCreateFailsWithBadParameters(double shape, double invScale)
         {
-            Assert.That(() => new Gamma(shape, invScale), Throws.TypeOf<ArgumentOutOfRangeException>());
+            Assert.That(() => new Gamma(shape, invScale), Throws.ArgumentException);
         }
 
         /// <summary>
@@ -147,7 +147,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void SetShapeFailsWithNegativeShape()
         {
             var n = new Gamma(1.0, 1.0);
-            Assert.That(() => n.Shape = -1.0, Throws.TypeOf<ArgumentOutOfRangeException>());
+            Assert.That(() => n.Shape = -1.0, Throws.ArgumentException);
         }
 
         /// <summary>
@@ -175,7 +175,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void SetScaleFailsWithNegativeScale()
         {
             var n = new Gamma(1.0, 1.0);
-            Assert.That(() => n.Scale = -1.0, Throws.TypeOf<ArgumentOutOfRangeException>());
+            Assert.That(() => n.Scale = -1.0, Throws.ArgumentException);
         }
 
         /// <summary>
@@ -203,7 +203,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void SetInvScaleFailsWithNegativeInvScale()
         {
             var n = new Gamma(1.0, 1.0);
-            Assert.That(() => n.Rate = -1.0, Throws.TypeOf<ArgumentOutOfRangeException>());
+            Assert.That(() => n.Rate = -1.0, Throws.ArgumentException);
         }
 
         /// <summary>
@@ -433,7 +433,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [Test]
         public void FailSampleStatic()
         {
-            Assert.That(() => Normal.Sample(new Random(0), 1.0, -1.0), Throws.TypeOf<ArgumentOutOfRangeException>());
+            Assert.That(() => Normal.Sample(new Random(0), 1.0, -1.0), Throws.ArgumentException);
         }
 
         /// <summary>
@@ -442,7 +442,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [Test]
         public void FailSampleSequenceStatic()
         {
-            Assert.That(() => Normal.Samples(new Random(0), 1.0, -1.0).First(), Throws.TypeOf<ArgumentOutOfRangeException>());
+            Assert.That(() => Normal.Samples(new Random(0), 1.0, -1.0).First(), Throws.ArgumentException);
         }
 
         /// <summary>

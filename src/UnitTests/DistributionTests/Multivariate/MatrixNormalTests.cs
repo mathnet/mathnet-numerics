@@ -101,7 +101,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
             var matrixV = Matrix<double>.Build.Random(rowsOfV, columnsOfV, 1);
             var matrixK = Matrix<double>.Build.Random(rowsOfK, columnsOfK, 1);
 
-            Assert.That(() => new MatrixNormal(matrixM, matrixV, matrixK), Throws.TypeOf<ArgumentOutOfRangeException>());
+            Assert.That(() => new MatrixNormal(matrixM, matrixV, matrixK), Throws.ArgumentException);
         }
 
         /// <summary>
@@ -343,7 +343,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         [TestCase(5, 2, 5, 5, 2, 3)]
         public void FailSampleStatic(int rowsOfM, int columnsOfM, int rowsOfV, int columnsOfV, int rowsOfK, int columnsOfK)
         {
-            Assert.That(() => MatrixNormal.Sample(new System.Random(0), Matrix<double>.Build.Random(rowsOfM, columnsOfM, 1), Matrix<double>.Build.Random(rowsOfV, columnsOfV, 1), Matrix<double>.Build.Random(rowsOfK, columnsOfK, 1)), Throws.TypeOf<ArgumentOutOfRangeException>());
+            Assert.That(() => MatrixNormal.Sample(new System.Random(0), Matrix<double>.Build.Random(rowsOfM, columnsOfM, 1), Matrix<double>.Build.Random(rowsOfV, columnsOfV, 1), Matrix<double>.Build.Random(rowsOfK, columnsOfK, 1)), Throws.ArgumentException);
         }
     }
 }

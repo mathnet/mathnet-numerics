@@ -91,7 +91,7 @@ namespace MathNet.Numerics.Statistics.Mcmc
 
                 if (q < p)
                 {
-                    throw new ArgumentOutOfRangeException(Resources.ProposalDistributionNoUpperBound);
+                    throw new ArgumentException(Resources.ProposalDistributionNoUpperBound);
                 }
                 if (u < p)
                 {

@@ -65,7 +65,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [TestCase(0.0)]
         public void RayleighCreateFailsWithBadParameters(double scale)
         {
-            Assert.That(() => new Rayleigh(scale), Throws.TypeOf<ArgumentOutOfRangeException>());
+            Assert.That(() => new Rayleigh(scale), Throws.ArgumentException);
         }
 
         /// <summary>
@@ -106,7 +106,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void SetScaleFailsWithNegativeScale(double scale)
         {
             var n = new Rayleigh(1.0);
-            Assert.That(() => n.Scale = scale, Throws.TypeOf<ArgumentOutOfRangeException>());
+            Assert.That(() => n.Scale = scale, Throws.ArgumentException);
         }
 
         /// <summary>

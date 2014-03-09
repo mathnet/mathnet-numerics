@@ -101,7 +101,7 @@ namespace MathNet.Numerics.Distributions
             if (alpha <= 0.0 || alpha > 2.0 || beta < -1.0 || beta > 1.0 || scale <= 0.0
                 || Double.IsNaN(alpha) || Double.IsNaN(beta) || Double.IsNaN(scale) || Double.IsNaN(location))
             {
-                throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
             }
 
             _alpha = alpha;
@@ -388,7 +388,7 @@ namespace MathNet.Numerics.Distributions
         public static double PDF(double alpha, double beta, double scale, double location, double x)
         {
             if (alpha <= 0.0 || alpha > 2.0 || beta < -1.0 || beta > 1.0 || scale <= 0.0)
-                throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
 
             if (alpha == 2d) return Normal.PDF(location, Constants.Sqrt2*scale, x);
             if (alpha == 1d && beta == 0d) return Cauchy.PDF(location, scale, x);
@@ -414,7 +414,7 @@ namespace MathNet.Numerics.Distributions
         public static double PDFLn(double alpha, double beta, double scale, double location, double x)
         {
             if (alpha <= 0.0 || alpha > 2.0 || beta < -1.0 || beta > 1.0 || scale <= 0.0)
-                throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
 
             if (alpha == 2d) return Normal.PDFLn(location, Constants.Sqrt2*scale, x);
             if (alpha == 1d && beta == 0d) return Cauchy.PDFLn(location, scale, x);
@@ -440,7 +440,7 @@ namespace MathNet.Numerics.Distributions
         public static double CDF(double alpha, double beta, double scale, double location, double x)
         {
             if (alpha <= 0.0 || alpha > 2.0 || beta < -1.0 || beta > 1.0 || scale <= 0.0)
-                throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
 
             if (alpha == 2d) return Normal.CDF(location, Constants.Sqrt2*scale, x);
             if (alpha == 1d && beta == 0d) return Cauchy.CDF(location, scale, x);
@@ -465,7 +465,7 @@ namespace MathNet.Numerics.Distributions
         public static double Sample(System.Random rnd, double alpha, double beta, double scale, double location)
         {
             if (alpha <= 0.0 || alpha > 2.0 || beta < -1.0 || beta > 1.0 || scale <= 0.0)
-                throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
 
             return SampleUnchecked(rnd, alpha, beta, scale, location);
         }
@@ -482,7 +482,7 @@ namespace MathNet.Numerics.Distributions
         public static IEnumerable<double> Samples(System.Random rnd, double alpha, double beta, double scale, double location)
         {
             if (alpha <= 0.0 || alpha > 2.0 || beta < -1.0 || beta > 1.0 || scale <= 0.0)
-                throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
 
             while (true)
             {

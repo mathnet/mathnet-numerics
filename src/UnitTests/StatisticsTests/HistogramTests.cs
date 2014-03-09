@@ -70,7 +70,7 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
         [Test]
         public void EmptyBucketWithBadBoundsFails()
         {
-            Assert.That(() => new Bucket(1.0, 0.5), Throws.TypeOf<ArgumentOutOfRangeException>());
+            Assert.That(() => new Bucket(1.0, 0.5), Throws.ArgumentException);
         }
 
         /// <summary>
@@ -79,7 +79,7 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
         [Test]
         public void EmptyBucketWithBadCountFails()
         {
-            Assert.That(() => new Bucket(1.0, 0.5, -1.0), Throws.TypeOf<ArgumentOutOfRangeException>());
+            Assert.That(() => new Bucket(1.0, 0.5, -1.0), Throws.ArgumentException);
         }
 
         /// <summary>

@@ -140,7 +140,7 @@ namespace MathNet.Numerics.Random
         {
             if (maxValue <= 0)
             {
-                throw new ArgumentOutOfRangeException(Resources.ArgumentMustBePositive);
+                throw new ArgumentException(Resources.ArgumentMustBePositive);
             }
 
             if (_threadSafe)
@@ -167,7 +167,7 @@ namespace MathNet.Numerics.Random
         {
             if (minValue > maxValue)
             {
-                throw new ArgumentOutOfRangeException(Resources.ArgumentMinValueGreaterThanMaxValue);
+                throw new ArgumentException(Resources.ArgumentMinValueGreaterThanMaxValue);
             }
 
             if (_threadSafe)

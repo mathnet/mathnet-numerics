@@ -48,12 +48,12 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         {
             if (rowCount <= 0)
             {
-                throw new ArgumentOutOfRangeException(Resources.MatrixRowsMustBePositive);
+                throw new ArgumentOutOfRangeException("rowCount", Resources.MatrixRowsMustBePositive);
             }
 
             if (columnCount <= 0)
             {
-                throw new ArgumentOutOfRangeException(Resources.MatrixColumnsMustBePositive);
+                throw new ArgumentOutOfRangeException("columnCount", Resources.MatrixColumnsMustBePositive);
             }
 
             RowCount = rowCount;

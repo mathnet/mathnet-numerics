@@ -101,7 +101,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (scale <= 0.0 || Double.IsNaN(location) || Double.IsNaN(scale))
             {
-                throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
             }
 
             _location = location;
@@ -284,7 +284,7 @@ namespace MathNet.Numerics.Distributions
         /// <seealso cref="Density"/>
         public static double PDF(double location, double scale, double x)
         {
-            if (scale <= 0.0) throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
+            if (scale <= 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
 
             return Math.Exp(-Math.Abs(x - location)/scale)/(2.0*scale);
         }
@@ -299,7 +299,7 @@ namespace MathNet.Numerics.Distributions
         /// <seealso cref="DensityLn"/>
         public static double PDFLn(double location, double scale, double x)
         {
-            if (scale <= 0.0) throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
+            if (scale <= 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
 
             return -Math.Abs(x - location)/scale - Math.Log(2.0*scale);
         }
@@ -314,7 +314,7 @@ namespace MathNet.Numerics.Distributions
         /// <seealso cref="CumulativeDistribution"/>
         public static double CDF(double location, double scale, double x)
         {
-            if (scale <= 0.0) throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
+            if (scale <= 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
 
             return 0.5*(1.0 + (Math.Sign(x - location)*(1.0 - Math.Exp(-Math.Abs(x - location)/scale))));
         }
@@ -328,7 +328,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sample from the distribution.</returns>
         public static double Sample(System.Random rnd, double location, double scale)
         {
-            if (scale <= 0.0) throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
+            if (scale <= 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
 
             return SampleUnchecked(rnd, location, scale);
         }
@@ -342,7 +342,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sequence of samples from the distribution.</returns>
         public static IEnumerable<double> Samples(System.Random rnd, double location, double scale)
         {
-            if (scale <= 0.0) throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
+            if (scale <= 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
 
             while (true)
             {

@@ -113,7 +113,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         [Test]
         public void MultinomialCreateFailsWithNegativeRatios()
         {
-            Assert.That(() => new Multinomial(_badP, 4), Throws.TypeOf<ArgumentOutOfRangeException>());
+            Assert.That(() => new Multinomial(_badP, 4), Throws.ArgumentException);
         }
 
         /// <summary>
@@ -122,7 +122,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         [Test]
         public void MultinomialCreateFailsWithAllZeroRatios()
         {
-            Assert.That(() => new Multinomial(_badP2, 4), Throws.TypeOf<ArgumentOutOfRangeException>());
+            Assert.That(() => new Multinomial(_badP2, 4), Throws.ArgumentException);
         }
 
         /// <summary>
@@ -236,7 +236,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         public void SetProbabilityFails()
         {
             var b = new Multinomial(_largeP, 4);
-            Assert.That(() => b.P = _badP, Throws.TypeOf<ArgumentOutOfRangeException>());
+            Assert.That(() => b.P = _badP, Throws.ArgumentException);
         }
 
         /// <summary>
@@ -254,7 +254,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         [Test]
         public void FailSampleStatic()
         {
-            Assert.That(() => Multinomial.Sample(new Random(0), _badP, 4), Throws.TypeOf<ArgumentOutOfRangeException>());
+            Assert.That(() => Multinomial.Sample(new Random(0), _badP, 4), Throws.ArgumentException);
         }
 
         /// <summary>

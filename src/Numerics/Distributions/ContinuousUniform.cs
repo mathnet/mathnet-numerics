@@ -98,7 +98,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (upper < lower || Double.IsNaN(upper) || Double.IsNaN(lower))
             {
-                throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
             }
 
             _lower = lower;
@@ -283,7 +283,7 @@ namespace MathNet.Numerics.Distributions
         /// <seealso cref="Density"/>
         public static double PDF(double lower, double upper, double x)
         {
-            if (upper < lower) throw new ArgumentOutOfRangeException("upper", Resources.InvalidDistributionParameters);
+            if (upper < lower) throw new ArgumentException(Resources.InvalidDistributionParameters);
 
             return x < lower || x > upper ? 0.0 : 1.0/(upper - lower);
         }
@@ -298,7 +298,7 @@ namespace MathNet.Numerics.Distributions
         /// <seealso cref="DensityLn"/>
         public static double PDFLn(double lower, double upper, double x)
         {
-            if (upper < lower) throw new ArgumentOutOfRangeException("upper", Resources.InvalidDistributionParameters);
+            if (upper < lower) throw new ArgumentException(Resources.InvalidDistributionParameters);
 
             return x < lower || x > upper ? Double.NegativeInfinity : -Math.Log(upper - lower);
         }
@@ -313,7 +313,7 @@ namespace MathNet.Numerics.Distributions
         /// <seealso cref="CumulativeDistribution"/>
         public static double CDF(double lower, double upper, double x)
         {
-            if (upper < lower) throw new ArgumentOutOfRangeException("upper", Resources.InvalidDistributionParameters);
+            if (upper < lower) throw new ArgumentException(Resources.InvalidDistributionParameters);
 
             return x <= lower ? 0.0 : x >= upper ? 1.0 : (x - lower)/(upper - lower);
         }
@@ -329,7 +329,7 @@ namespace MathNet.Numerics.Distributions
         /// <seealso cref="InverseCumulativeDistribution"/>
         public static double InvCDF(double lower, double upper, double p)
         {
-            if (upper < lower) throw new ArgumentOutOfRangeException("upper", Resources.InvalidDistributionParameters);
+            if (upper < lower) throw new ArgumentException(Resources.InvalidDistributionParameters);
 
             return p <= 0.0 ? lower : p >= 1.0 ? upper : lower*(1.0 - p) + upper*p;
         }
@@ -343,7 +343,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a uniformly distributed sample.</returns>
         public static double Sample(System.Random rnd, double lower, double upper)
         {
-            if (upper < lower) throw new ArgumentOutOfRangeException("upper", Resources.InvalidDistributionParameters);
+            if (upper < lower) throw new ArgumentException(Resources.InvalidDistributionParameters);
 
             return lower + rnd.NextDouble()*(upper - lower);
         }
@@ -357,7 +357,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sequence of uniformly distributed samples.</returns>
         public static IEnumerable<double> Samples(System.Random rnd, double lower, double upper)
         {
-            if (upper < lower) throw new ArgumentOutOfRangeException("upper", Resources.InvalidDistributionParameters);
+            if (upper < lower) throw new ArgumentException(Resources.InvalidDistributionParameters);
 
             while (true)
             {

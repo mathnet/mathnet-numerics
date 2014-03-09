@@ -85,7 +85,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [TestCase(0.0, 10.0, -1.0)]
         public void StudentTCreateFailsWithBadParameters(double location, double scale, double dof)
         {
-            Assert.That(() => new StudentT(location, scale, dof), Throws.TypeOf<ArgumentOutOfRangeException>());
+            Assert.That(() => new StudentT(location, scale, dof), Throws.ArgumentException);
         }
 
         /// <summary>
@@ -144,7 +144,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void SetScaleFailsWithNonPositiveScale(double scale)
         {
             var n = new StudentT();
-            Assert.That(() => n.Scale = scale, Throws.TypeOf<ArgumentOutOfRangeException>());
+            Assert.That(() => n.Scale = scale, Throws.ArgumentException);
         }
 
         /// <summary>
@@ -173,7 +173,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void SetDofFailsWithNonPositiveDoF(double dof)
         {
             var n = new StudentT();
-            Assert.That(() => n.DegreesOfFreedom = dof, Throws.TypeOf<ArgumentOutOfRangeException>());
+            Assert.That(() => n.DegreesOfFreedom = dof, Throws.ArgumentException);
         }
 
         /// <summary>

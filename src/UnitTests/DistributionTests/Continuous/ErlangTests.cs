@@ -71,7 +71,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [TestCase(-1, Double.NaN)]
         public void ErlangCreateFailsWithBadParameters(int shape, double invScale)
         {
-            Assert.That(() => new Erlang(shape, invScale), Throws.TypeOf<ArgumentOutOfRangeException>());
+            Assert.That(() => new Erlang(shape, invScale), Throws.ArgumentException);
         }
 
         /// <summary>
@@ -143,7 +143,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void SetShapeFailsWithNegativeShape()
         {
             var n = new Erlang(1, 1.0);
-            Assert.That(() => n.Shape = -1, Throws.TypeOf<ArgumentOutOfRangeException>());
+            Assert.That(() => n.Shape = -1, Throws.ArgumentException);
         }
 
         /// <summary>
@@ -171,7 +171,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void SetScaleFailsWithNegativeScale()
         {
             var n = new Erlang(1, 1.0);
-            Assert.That(() => n.Scale = -1.0, Throws.TypeOf<ArgumentOutOfRangeException>());
+            Assert.That(() => n.Scale = -1.0, Throws.ArgumentException);
         }
 
         /// <summary>
@@ -199,7 +199,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void SetInvScaleFailsWithNegativeInvScale()
         {
             var n = new Erlang(1, 1.0);
-            Assert.That(() => n.Rate = -1.0, Throws.TypeOf<ArgumentOutOfRangeException>());
+            Assert.That(() => n.Rate = -1.0, Throws.ArgumentException);
         }
 
         /// <summary>

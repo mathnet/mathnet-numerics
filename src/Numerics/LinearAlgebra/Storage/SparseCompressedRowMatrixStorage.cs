@@ -750,7 +750,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         {
             if (rows*columns != data.Count)
             {
-                throw new ArgumentOutOfRangeException(Resources.ArgumentMatrixDimensions);
+                throw new ArgumentException(Resources.ArgumentMatrixDimensions);
             }
 
             var storage = new SparseCompressedRowMatrixStorage<T>(rows, columns);

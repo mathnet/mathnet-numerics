@@ -112,7 +112,7 @@ namespace MathNet.Numerics.Statistics.Mcmc
             {
                 if (value < 0)
                 {
-                    throw new ArgumentOutOfRangeException(Resources.ArgumentNotNegative);
+                    throw new ArgumentException(Resources.ArgumentNotNegative);
                 }
                 _burnInterval = value;
             }
@@ -128,7 +128,7 @@ namespace MathNet.Numerics.Statistics.Mcmc
             {
                 if (value <= 0.0)
                 {
-                    throw new ArgumentOutOfRangeException(Resources.ArgumentPositive);
+                    throw new ArgumentException(Resources.ArgumentPositive);
                 }
                 _scale = value;
             }

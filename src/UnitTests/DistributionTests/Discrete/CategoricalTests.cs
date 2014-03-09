@@ -115,7 +115,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         [Test]
         public void CategoricalCreateFailsWithNegativeRatios()
         {
-            Assert.That(() => new Categorical(_badP), Throws.TypeOf<ArgumentOutOfRangeException>());
+            Assert.That(() => new Categorical(_badP), Throws.ArgumentException);
         }
 
         /// <summary>
@@ -124,7 +124,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         [Test]
         public void CategoricalCreateFailsWithAllZeroRatios()
         {
-            Assert.That(() => new Categorical(_badP2), Throws.TypeOf<ArgumentOutOfRangeException>());
+            Assert.That(() => new Categorical(_badP2), Throws.ArgumentException);
         }
 
         /// <summary>
@@ -156,7 +156,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         public void SetProbabilityFails()
         {
             var b = new Categorical(_largeP);
-            Assert.That(() => b.P = _badP, Throws.TypeOf<ArgumentOutOfRangeException>());
+            Assert.That(() => b.P = _badP, Throws.ArgumentException);
         }
 
         /// <summary>
@@ -174,7 +174,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         [Test]
         public void FailSampleStatic()
         {
-            Assert.That(() => Categorical.SampleWithProbabilityMass(new Random(0), _badP), Throws.TypeOf<ArgumentOutOfRangeException>());
+            Assert.That(() => Categorical.SampleWithProbabilityMass(new Random(0), _badP), Throws.ArgumentException);
         }
 
         /// <summary>

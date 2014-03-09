@@ -75,7 +75,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [TestCase(1.0, 0.0)]
         public void WeibullCreateFailsWithBadParameters(double shape, double scale)
         {
-            Assert.That(() => new Weibull(shape, scale), Throws.TypeOf<ArgumentOutOfRangeException>());
+            Assert.That(() => new Weibull(shape, scale), Throws.ArgumentException);
         }
 
         /// <summary>
@@ -114,7 +114,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void SetShapeFailsWithNegativeShape(double shape)
         {
             var n = new Weibull(1.0, 1.0);
-            Assert.That(() => n.Shape = shape, Throws.TypeOf<ArgumentOutOfRangeException>());
+            Assert.That(() => n.Shape = shape, Throws.ArgumentException);
         }
 
         /// <summary>
@@ -143,7 +143,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void SetScaleFailsWithNegativeScale(double scale)
         {
             var n = new Weibull(1.0, 1.0);
-            Assert.That(() => n.Scale = scale, Throws.TypeOf<ArgumentOutOfRangeException>());
+            Assert.That(() => n.Scale = scale, Throws.ArgumentException);
         }
 
         /// <summary>
@@ -337,7 +337,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [Test]
         public void FailSampleStatic()
         {
-            Assert.That(() => Normal.Sample(new Random(0), 1.0, -1.0), Throws.TypeOf<ArgumentOutOfRangeException>());
+            Assert.That(() => Normal.Sample(new Random(0), 1.0, -1.0), Throws.ArgumentException);
         }
 
         /// <summary>
@@ -346,7 +346,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [Test]
         public void FailSampleSequenceStatic()
         {
-            Assert.That(() => Normal.Samples(new Random(0), 1.0, -1.0).First(), Throws.TypeOf<ArgumentOutOfRangeException>());
+            Assert.That(() => Normal.Samples(new Random(0), 1.0, -1.0).First(), Throws.ArgumentException);
         }
 
         /// <summary>

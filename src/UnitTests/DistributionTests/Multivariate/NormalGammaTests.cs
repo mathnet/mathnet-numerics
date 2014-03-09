@@ -77,9 +77,9 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         [Test]
         public void NormalGammaConstructorFailsWithInvalidParams()
         {
-            Assert.That(() => new NormalGamma(1.0, -1.3, 2.0, 2.0), Throws.TypeOf<ArgumentOutOfRangeException>());
-            Assert.That(() => new NormalGamma(1.0, 1.0, -1.0, 1.0), Throws.TypeOf<ArgumentOutOfRangeException>());
-            Assert.That(() => new NormalGamma(1.0, 1.0, 1.0, -1.0), Throws.TypeOf<ArgumentOutOfRangeException>());
+            Assert.That(() => new NormalGamma(1.0, -1.3, 2.0, 2.0), Throws.ArgumentException);
+            Assert.That(() => new NormalGamma(1.0, 1.0, -1.0, 1.0), Throws.ArgumentException);
+            Assert.That(() => new NormalGamma(1.0, 1.0, 1.0, -1.0), Throws.ArgumentException);
         }
 
         /// <summary>

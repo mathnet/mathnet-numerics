@@ -81,7 +81,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [TestCase(1.0, 0.0)]
         public void CauchyCreateFailsWithBadParameters(double location, double scale)
         {
-            Assert.That(() => new Cauchy(location, scale), Throws.TypeOf<ArgumentOutOfRangeException>());
+            Assert.That(() => new Cauchy(location, scale), Throws.ArgumentException);
         }
 
         /// <summary>
@@ -118,7 +118,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void SetBadLocationFail()
         {
             var n = new Cauchy();
-            Assert.That(() => n.Location = Double.NaN, Throws.TypeOf<ArgumentOutOfRangeException>());
+            Assert.That(() => n.Location = Double.NaN, Throws.ArgumentException);
         }
 
         /// <summary>
@@ -143,7 +143,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void SetBadScaleFail()
         {
             var n = new Cauchy();
-            Assert.That(() => n.Scale = -1.0, Throws.TypeOf<ArgumentOutOfRangeException>());
+            Assert.That(() => n.Scale = -1.0, Throws.ArgumentException);
         }
 
         /// <summary>

@@ -71,12 +71,12 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [Test]
         public void BetaCreateFailsWithBadParameters()
         {
-            Assert.That(() => new Beta(Double.NaN, 1.0), Throws.TypeOf<ArgumentOutOfRangeException>());
-            Assert.That(() => new Beta(1.0, Double.NaN), Throws.TypeOf<ArgumentOutOfRangeException>());
-            Assert.That(() => new Beta(Double.NaN, Double.NaN), Throws.TypeOf<ArgumentOutOfRangeException>());
-            Assert.That(() => new Beta(1.0, -1.0), Throws.TypeOf<ArgumentOutOfRangeException>());
-            Assert.That(() => new Beta(-1.0, 1.0), Throws.TypeOf<ArgumentOutOfRangeException>());
-            Assert.That(() => new Beta(-1.0, -1.0), Throws.TypeOf<ArgumentOutOfRangeException>());
+            Assert.That(() => new Beta(Double.NaN, 1.0), Throws.ArgumentException);
+            Assert.That(() => new Beta(1.0, Double.NaN), Throws.ArgumentException);
+            Assert.That(() => new Beta(Double.NaN, Double.NaN), Throws.ArgumentException);
+            Assert.That(() => new Beta(1.0, -1.0), Throws.ArgumentException);
+            Assert.That(() => new Beta(-1.0, 1.0), Throws.ArgumentException);
+            Assert.That(() => new Beta(-1.0, -1.0), Throws.ArgumentException);
         }
 
         /// <summary>
@@ -114,7 +114,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void SetShapeAFailsWithNegativeA()
         {
             var n = new Beta(1.0, 1.0);
-            Assert.That(() => n.A = -1.0, Throws.TypeOf<ArgumentOutOfRangeException>());
+            Assert.That(() => n.A = -1.0, Throws.ArgumentException);
         }
 
         /// <summary>
@@ -142,7 +142,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void SetShapeBFailsWithNegativeB()
         {
             var n = new Beta(1.0, 1.0);
-            Assert.That(() => n.B = -1.0, Throws.TypeOf<ArgumentOutOfRangeException>());
+            Assert.That(() => n.B = -1.0, Throws.ArgumentException);
         }
 
         /// <summary>
@@ -288,7 +288,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [Test]
         public void FailSampleStatic()
         {
-            Assert.That(() => Beta.Sample(new Random(0), 1.0, -1.0), Throws.TypeOf<ArgumentOutOfRangeException>());
+            Assert.That(() => Beta.Sample(new Random(0), 1.0, -1.0), Throws.ArgumentException);
         }
 
         /// <summary>
@@ -297,7 +297,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [Test]
         public void FailSampleSequenceStatic()
         {
-            Assert.That(() => Beta.Samples(new Random(0), 1.0, -1.0).First(), Throws.TypeOf<ArgumentOutOfRangeException>());
+            Assert.That(() => Beta.Samples(new Random(0), 1.0, -1.0).First(), Throws.ArgumentException);
         }
 
         /// <summary>

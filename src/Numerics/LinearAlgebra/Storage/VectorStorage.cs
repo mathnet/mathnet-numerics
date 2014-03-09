@@ -47,7 +47,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         {
             if (length <= 0)
             {
-                throw new ArgumentOutOfRangeException(Resources.ArgumentMustBePositive);
+                throw new ArgumentOutOfRangeException("length", Resources.ArgumentMustBePositive);
             }
 
             Length = length;

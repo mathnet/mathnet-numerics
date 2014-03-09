@@ -87,7 +87,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (freedom <= 0.0 || Double.IsNaN(freedom))
             {
-                throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
             }
 
             _freedom = freedom;

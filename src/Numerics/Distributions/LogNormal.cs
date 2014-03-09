@@ -133,7 +133,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (sigma < 0.0 || Double.IsNaN(mu) || Double.IsNaN(sigma))
             {
-                throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
             }
 
             _mu = mu;
@@ -339,7 +339,7 @@ namespace MathNet.Numerics.Distributions
         /// <remarks>MATLAB: lognpdf</remarks>
         public static double PDF(double mu, double sigma, double x)
         {
-            if (sigma < 0.0) throw new ArgumentOutOfRangeException("sigma", Resources.InvalidDistributionParameters);
+            if (sigma < 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
 
             if (x < 0.0)
             {
@@ -360,7 +360,7 @@ namespace MathNet.Numerics.Distributions
         /// <seealso cref="DensityLn"/>
         public static double PDFLn(double mu, double sigma, double x)
         {
-            if (sigma < 0.0) throw new ArgumentOutOfRangeException("sigma", Resources.InvalidDistributionParameters);
+            if (sigma < 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
 
             if (x < 0.0)
             {
@@ -382,7 +382,7 @@ namespace MathNet.Numerics.Distributions
         /// <remarks>MATLAB: logncdf</remarks>
         public static double CDF(double mu, double sigma, double x)
         {
-            if (sigma < 0.0) throw new ArgumentOutOfRangeException("sigma", Resources.InvalidDistributionParameters);
+            if (sigma < 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
 
             return x < 0.0 ? 0.0
                 : 0.5*(1.0 + SpecialFunctions.Erf((Math.Log(x) - mu)/(sigma*Constants.Sqrt2)));
@@ -400,7 +400,7 @@ namespace MathNet.Numerics.Distributions
         /// <remarks>MATLAB: logninv</remarks>
         public static double InvCDF(double mu, double sigma, double p)
         {
-            if (sigma < 0.0) throw new ArgumentOutOfRangeException("sigma", Resources.InvalidDistributionParameters);
+            if (sigma < 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
 
             return p <= 0.0 ? 0.0 : p >= 1.0 ? double.PositiveInfinity
                 : Math.Exp(mu - sigma*Constants.Sqrt2*SpecialFunctions.ErfcInv(2.0*p));

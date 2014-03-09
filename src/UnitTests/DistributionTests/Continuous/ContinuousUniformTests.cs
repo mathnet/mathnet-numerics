@@ -84,7 +84,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [TestCase(1.0, 0.0)]
         public void ContinuousUniformCreateFailsWithBadParameters(double lower, double upper)
         {
-            Assert.That(() => new ContinuousUniform(lower, upper), Throws.TypeOf<ArgumentOutOfRangeException>());
+            Assert.That(() => new ContinuousUniform(lower, upper), Throws.ArgumentException);
         }
 
         /// <summary>
@@ -121,7 +121,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void SetBadLowerFails()
         {
             var n = new ContinuousUniform();
-            Assert.That(() => n.LowerBound = 3.0, Throws.TypeOf<ArgumentOutOfRangeException>());
+            Assert.That(() => n.LowerBound = 3.0, Throws.ArgumentException);
         }
 
         /// <summary>
@@ -146,7 +146,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void SetBadUpperFails()
         {
             var n = new ContinuousUniform();
-            Assert.That(() => n.UpperBound = -1.0, Throws.TypeOf<ArgumentOutOfRangeException>());
+            Assert.That(() => n.UpperBound = -1.0, Throws.ArgumentException);
         }
 
         /// <summary>
@@ -336,7 +336,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [Test]
         public void FailSampleStatic()
         {
-            Assert.That(() => ContinuousUniform.Sample(new Random(0), 0.0, -1.0), Throws.TypeOf<ArgumentOutOfRangeException>());
+            Assert.That(() => ContinuousUniform.Sample(new Random(0), 0.0, -1.0), Throws.ArgumentException);
         }
 
         /// <summary>
@@ -345,7 +345,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [Test]
         public void FailSampleSequenceStatic()
         {
-            Assert.That(() => ContinuousUniform.Samples(new Random(0), 0.0, -1.0).First(), Throws.TypeOf<ArgumentOutOfRangeException>());
+            Assert.That(() => ContinuousUniform.Samples(new Random(0), 0.0, -1.0).First(), Throws.ArgumentException);
         }
 
         /// <summary>

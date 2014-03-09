@@ -91,7 +91,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (shape <= 0.0 || scale <= 0.0 || Double.IsNaN(shape) || Double.IsNaN(scale))
             {
-                throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
             }
 
             _shape = shape;
@@ -283,7 +283,7 @@ namespace MathNet.Numerics.Distributions
         /// <seealso cref="Density"/>
         public static double PDF(double shape, double scale, double x)
         {
-            if (shape <= 0.0 || scale <= 0.0) throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
+            if (shape <= 0.0 || scale <= 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
 
             return x < 0.0 ? 0.0 : Math.Pow(scale, shape)*Math.Pow(x, -shape - 1.0)*Math.Exp(-scale/x)/SpecialFunctions.Gamma(shape);
         }
@@ -311,7 +311,7 @@ namespace MathNet.Numerics.Distributions
         /// <seealso cref="CumulativeDistribution"/>
         public static double CDF(double shape, double scale, double x)
         {
-            if (shape <= 0.0 || scale <= 0.0) throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
+            if (shape <= 0.0 || scale <= 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
 
             return SpecialFunctions.GammaUpperRegularized(shape, scale/x);
         }
@@ -325,7 +325,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sample from the distribution.</returns>
         public static double Sample(System.Random rnd, double shape, double scale)
         {
-            if (shape <= 0.0 || scale <= 0.0) throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
+            if (shape <= 0.0 || scale <= 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
 
             return 1.0/Gamma.Sample(rnd, shape, scale);
         }
@@ -339,7 +339,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sequence of samples from the distribution.</returns>
         public static IEnumerable<double> Samples(System.Random rnd, double shape, double scale)
         {
-            if (shape <= 0.0 || scale <= 0.0) throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
+            if (shape <= 0.0 || scale <= 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
 
             return Gamma.Samples(rnd, shape, scale).Select(z => 1.0/z);
         }

@@ -122,7 +122,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (scale <= 0.0 || freedom <= 0.0 || Double.IsNaN(scale) || Double.IsNaN(location) || Double.IsNaN(freedom))
             {
-                throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
             }
 
             _location = location;
@@ -366,7 +366,7 @@ namespace MathNet.Numerics.Distributions
         /// <seealso cref="Density"/>
         public static double PDF(double location, double scale, double freedom, double x)
         {
-            if (scale <= 0.0 || freedom <= 0.0) throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
+            if (scale <= 0.0 || freedom <= 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
 
             // TODO JVG we can probably do a better job for Cauchy special case
             if (freedom >= 1e+8d) return Normal.PDF(location, scale, x);
@@ -389,7 +389,7 @@ namespace MathNet.Numerics.Distributions
         /// <seealso cref="DensityLn"/>
         public static double PDFLn(double location, double scale, double freedom, double x)
         {
-            if (scale <= 0.0 || freedom <= 0.0) throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
+            if (scale <= 0.0 || freedom <= 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
 
             // TODO JVG we can probably do a better job for Cauchy special case
             if (freedom >= 1e+8d) return Normal.PDFLn(location, scale, x);
@@ -412,7 +412,7 @@ namespace MathNet.Numerics.Distributions
         /// <seealso cref="CumulativeDistribution"/>
         public static double CDF(double location, double scale, double freedom, double x)
         {
-            if (scale <= 0.0 || freedom <= 0.0) throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
+            if (scale <= 0.0 || freedom <= 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
 
             // TODO JVG we can probably do a better job for Cauchy special case
             if (Double.IsPositiveInfinity(freedom)) return Normal.CDF(location, scale, x);
@@ -436,7 +436,7 @@ namespace MathNet.Numerics.Distributions
         /// <remarks>WARNING: currently not an explicit implementation, hence slow and unreliable.</remarks>
         public static double InvCDF(double location, double scale, double freedom, double p)
         {
-            if (scale <= 0.0 || freedom <= 0.0) throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
+            if (scale <= 0.0 || freedom <= 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
 
             // TODO JVG we can probably do a better job for Cauchy special case
             if (Double.IsPositiveInfinity(freedom)) return Normal.InvCDF(location, scale, p);
@@ -462,7 +462,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sample from the distribution.</returns>
         public static double Sample(System.Random rnd, double location, double scale, double freedom)
         {
-            if (scale <= 0.0 || freedom <= 0.0) throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
+            if (scale <= 0.0 || freedom <= 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
 
             return SampleUnchecked(rnd, location, scale, freedom);
         }
@@ -477,7 +477,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sequence of samples from the distribution.</returns>
         public static IEnumerable<double> Samples(System.Random rnd, double location, double scale, double freedom)
         {
-            if (scale <= 0.0 || freedom <= 0.0) throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
+            if (scale <= 0.0 || freedom <= 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
 
             while (true)
             {

@@ -85,7 +85,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (rate < 0.0 || Double.IsNaN(rate))
             {
-                throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
             }
 
             _rate = rate;

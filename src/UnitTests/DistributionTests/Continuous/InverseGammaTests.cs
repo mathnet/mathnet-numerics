@@ -73,7 +73,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [TestCase(1.0, Double.NaN)]
         public void InverseGammaCreateFailsWithBadParameters(double a, double b)
         {
-            Assert.That(() => new InverseGamma(a, b), Throws.TypeOf<ArgumentOutOfRangeException>());
+            Assert.That(() => new InverseGamma(a, b), Throws.ArgumentException);
         }
 
         /// <summary>
@@ -112,7 +112,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void SetAFailsWithNonPositiveA(double a)
         {
             var n = new InverseGamma(1.0, 1.0);
-            Assert.That(() => n.Shape = a, Throws.TypeOf<ArgumentOutOfRangeException>());
+            Assert.That(() => n.Shape = a, Throws.ArgumentException);
         }
 
         /// <summary>
@@ -141,7 +141,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void SetBFailsWithNonPositiveB(double b)
         {
             var n = new InverseGamma(1.0, 1.0);
-            Assert.That(() => n.Scale = b, Throws.TypeOf<ArgumentOutOfRangeException>());
+            Assert.That(() => n.Scale = b, Throws.ArgumentException);
         }
 
         /// <summary>

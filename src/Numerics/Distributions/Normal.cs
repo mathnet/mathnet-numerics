@@ -162,7 +162,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (stddev < 0.0 || Double.IsNaN(mean) || Double.IsNaN(stddev))
             {
-                throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
             }
 
             _mean = mean;
@@ -373,7 +373,7 @@ namespace MathNet.Numerics.Distributions
         /// <remarks>MATLAB: normpdf</remarks>
         public static double PDF(double mean, double stddev, double x)
         {
-            if (stddev < 0.0) throw new ArgumentOutOfRangeException("stddev", Resources.InvalidDistributionParameters);
+            if (stddev < 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
 
             var d = (x - mean)/stddev;
             return Math.Exp(-0.5*d*d)/(Constants.Sqrt2Pi*stddev);
@@ -389,7 +389,7 @@ namespace MathNet.Numerics.Distributions
         /// <seealso cref="DensityLn"/>
         public static double PDFLn(double mean, double stddev, double x)
         {
-            if (stddev < 0.0) throw new ArgumentOutOfRangeException("stddev", Resources.InvalidDistributionParameters);
+            if (stddev < 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
 
             var d = (x - mean)/stddev;
             return (-0.5*d*d) - Math.Log(stddev) - Constants.LogSqrt2Pi;
@@ -406,7 +406,7 @@ namespace MathNet.Numerics.Distributions
         /// <remarks>MATLAB: normcdf</remarks>
         public static double CDF(double mean, double stddev, double x)
         {
-            if (stddev < 0.0) throw new ArgumentOutOfRangeException("stddev", Resources.InvalidDistributionParameters);
+            if (stddev < 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
 
             return 0.5*(1.0 + SpecialFunctions.Erf((x - mean)/(stddev*Constants.Sqrt2)));
         }
@@ -423,7 +423,7 @@ namespace MathNet.Numerics.Distributions
         /// <remarks>MATLAB: norminv</remarks>
         public static double InvCDF(double mean, double stddev, double p)
         {
-            if (stddev < 0.0) throw new ArgumentOutOfRangeException("stddev", Resources.InvalidDistributionParameters);
+            if (stddev < 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
 
             return mean - (stddev*Constants.Sqrt2*SpecialFunctions.ErfcInv(2.0*p));
         }
@@ -437,7 +437,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sample from the distribution.</returns>
         public static double Sample(System.Random rnd, double mean, double stddev)
         {
-            if (stddev < 0.0) throw new ArgumentOutOfRangeException("stddev", Resources.InvalidDistributionParameters);
+            if (stddev < 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
 
             return mean + (stddev*SampleStandardBoxMuller(rnd).Item1);
         }
@@ -451,7 +451,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sequence of samples from the distribution.</returns>
         public static IEnumerable<double> Samples(System.Random rnd, double mean, double stddev)
         {
-            if (stddev < 0.0) throw new ArgumentOutOfRangeException("stddev", Resources.InvalidDistributionParameters);
+            if (stddev < 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
 
             while (true)
             {

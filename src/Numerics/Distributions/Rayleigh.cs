@@ -90,7 +90,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (scale <= 0.0 || Double.IsNaN(scale))
             {
-                throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
             }
 
             _scale = scale;

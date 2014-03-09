@@ -89,7 +89,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [TestCase(2.1, 1.0, 1.0, 1.0)]
         public void StableCreateFailsWithBadParameters(double alpha, double beta, double location, double scale)
         {
-            Assert.That(() => new Stable(alpha, beta, location, scale), Throws.TypeOf<ArgumentOutOfRangeException>());
+            Assert.That(() => new Stable(alpha, beta, location, scale), Throws.ArgumentException);
         }
 
         /// <summary>
@@ -130,7 +130,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void SetAlphaFail(double alpha)
         {
             var n = new Stable(1.0, 1.0, 1.0, 1.0);
-            Assert.That(() => n.Alpha = alpha, Throws.TypeOf<ArgumentOutOfRangeException>());
+            Assert.That(() => n.Alpha = alpha, Throws.ArgumentException);
         }
 
         /// <summary>
@@ -163,7 +163,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void SetBetaFail(double beta)
         {
             var n = new Stable(1.0, 1.0, 1.0, 1.0);
-            Assert.That(() => n.Beta = beta, Throws.TypeOf<ArgumentOutOfRangeException>());
+            Assert.That(() => n.Beta = beta, Throws.ArgumentException);
         }
 
         /// <summary>
@@ -191,7 +191,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void SetScaleFail(double scale)
         {
             var n = new Stable(1.0, 1.0, 1.0, 1.0);
-            Assert.That(() => n.Scale = scale, Throws.TypeOf<ArgumentOutOfRangeException>());
+            Assert.That(() => n.Scale = scale, Throws.ArgumentException);
         }
 
         /// <summary>
@@ -221,7 +221,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void SetLocationFail()
         {
             var n = new Stable(1.0, 1.0, 1.0, 1.0);
-            Assert.That(() => n.Location = Double.NaN, Throws.TypeOf<ArgumentOutOfRangeException>());
+            Assert.That(() => n.Location = Double.NaN, Throws.ArgumentException);
         }
 
         /// <summary>

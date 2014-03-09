@@ -98,7 +98,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (a < 0.0 || b < 0.0 || Double.IsNaN(a) || Double.IsNaN(b))
             {
-                throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
             }
 
             _shapeA = a;
@@ -385,7 +385,7 @@ namespace MathNet.Numerics.Distributions
         /// <seealso cref="Density"/>
         public static double PDF(double a, double b, double x)
         {
-            if (a < 0.0 || b < 0.0) throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
+            if (a < 0.0 || b < 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
 
             if (x < 0.0 || x > 1.0) return 0.0;
 
@@ -432,7 +432,7 @@ namespace MathNet.Numerics.Distributions
         /// <seealso cref="DensityLn"/>
         public static double PDFLn(double a, double b, double x)
         {
-            if (a < 0.0 || b < 0.0) throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
+            if (a < 0.0 || b < 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
 
             if (x < 0.0 || x > 1.0) return Double.NegativeInfinity;
 
@@ -477,7 +477,7 @@ namespace MathNet.Numerics.Distributions
         /// <seealso cref="CumulativeDistribution"/>
         public static double CDF(double a, double b, double x)
         {
-            if (a < 0.0 || b < 0.0) throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
+            if (a < 0.0 || b < 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
 
             if (x < 0.0) return 0.0;
             if (x >= 1.0) return 1.0;
@@ -526,7 +526,7 @@ namespace MathNet.Numerics.Distributions
         /// <remarks>WARNING: currently not an explicit implementation, hence slow and unreliable.</remarks>
         public static double InvCDF(double a, double b, double p)
         {
-            if (a < 0.0 || b < 0.0 || p < 0.0 || p > 1.0) throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
+            if (a < 0.0 || b < 0.0 || p < 0.0 || p > 1.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
 
             return Brent.FindRoot(x => SpecialFunctions.BetaRegularized(a, b, x) - p, 0.0, 1.0, accuracy: 1e-8);
         }
@@ -540,7 +540,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sample from the distribution.</returns>
         public static double Sample(System.Random rnd, double a, double b)
         {
-            if (a < 0.0 || b < 0.0) throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
+            if (a < 0.0 || b < 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
 
             return SampleUnchecked(rnd, a, b);
         }
@@ -554,7 +554,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sequence of samples from the distribution.</returns>
         public static IEnumerable<double> Samples(System.Random rnd, double a, double b)
         {
-            if (a < 0.0 || b < 0.0) throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
+            if (a < 0.0 || b < 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
 
             while (true)
             {

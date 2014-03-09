@@ -90,7 +90,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (d1 <= 0.0 || d2 <= 0.0 || Double.IsNaN(d1) || Double.IsNaN(d2))
             {
-                throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
             }
 
             _freedom1 = d1;
@@ -317,7 +317,7 @@ namespace MathNet.Numerics.Distributions
         /// <seealso cref="Density"/>
         public static double PDF(double d1, double d2, double x)
         {
-            if (d1 <= 0.0 || d2 <= 0.0) throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
+            if (d1 <= 0.0 || d2 <= 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
 
             return Math.Sqrt(Math.Pow(d1*x, d1)*Math.Pow(d2, d2)/Math.Pow((d1*x) + d2, d1 + d2))/(x*SpecialFunctions.Beta(d1/2.0, d2/2.0));
         }
@@ -345,7 +345,7 @@ namespace MathNet.Numerics.Distributions
         /// <seealso cref="CumulativeDistribution"/>
         public static double CDF(double d1, double d2, double x)
         {
-            if (d1 <= 0.0 || d2 <= 0.0) throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
+            if (d1 <= 0.0 || d2 <= 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
 
             return SpecialFunctions.BetaRegularized(d1/2.0, d2/2.0, d1*x/(d1*x + d2));
         }
@@ -362,7 +362,7 @@ namespace MathNet.Numerics.Distributions
         /// <remarks>WARNING: currently not an explicit implementation, hence slow and unreliable.</remarks>
         public static double InvCDF(double d1, double d2, double p)
         {
-            if (d1 <= 0.0 || d2 <= 0.0) throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
+            if (d1 <= 0.0 || d2 <= 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
 
             return Brent.FindRoot(
                 x => SpecialFunctions.BetaRegularized(d1/2.0, d2/2.0, d1*x/(d1*x + d2)) - p,
@@ -378,7 +378,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sample from the distribution.</returns>
         public static double Sample(System.Random rnd, double d1, double d2)
         {
-            if (d1 <= 0.0 || d2 <= 0.0) throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
+            if (d1 <= 0.0 || d2 <= 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
 
             return SampleUnchecked(rnd, d1, d2);
         }
@@ -392,7 +392,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sequence of samples from the distribution.</returns>
         public static IEnumerable<double> Samples(System.Random rnd, double d1, double d2)
         {
-            if (d1 <= 0.0 || d2 <= 0.0) throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
+            if (d1 <= 0.0 || d2 <= 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
 
             while (true)
             {

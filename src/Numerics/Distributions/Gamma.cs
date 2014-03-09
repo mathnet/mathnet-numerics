@@ -123,7 +123,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (shape < 0.0 || rate < 0.0 || Double.IsNaN(shape) || Double.IsNaN(rate))
             {
-                throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
             }
 
             _shape = shape;
@@ -454,7 +454,7 @@ namespace MathNet.Numerics.Distributions
         /// <seealso cref="Density"/>
         public static double PDF(double shape, double rate, double x)
         {
-            if (shape < 0.0 || rate < 0.0) throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
+            if (shape < 0.0 || rate < 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
 
             if (Double.IsPositiveInfinity(rate)) return x == shape ? Double.PositiveInfinity : 0.0;
             if (shape == 0.0 && rate == 0.0) return 0.0;
@@ -473,7 +473,7 @@ namespace MathNet.Numerics.Distributions
         /// <seealso cref="DensityLn"/>
         public static double PDFLn(double shape, double rate, double x)
         {
-            if (shape < 0.0 || rate < 0.0) throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
+            if (shape < 0.0 || rate < 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
 
             if (Double.IsPositiveInfinity(rate)) return x == shape ? Double.PositiveInfinity : Double.NegativeInfinity;
             if (shape == 0.0 && rate == 0.0) return Double.NegativeInfinity;
@@ -492,7 +492,7 @@ namespace MathNet.Numerics.Distributions
         /// <seealso cref="CumulativeDistribution"/>
         public static double CDF(double shape, double rate, double x)
         {
-            if (shape < 0.0 || rate < 0.0) throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
+            if (shape < 0.0 || rate < 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
 
             if (Double.IsPositiveInfinity(rate)) return x >= shape ? 1.0 : 0.0;
             if (shape == 0.0 && rate == 0.0) return 0.0;
@@ -511,7 +511,7 @@ namespace MathNet.Numerics.Distributions
         /// <seealso cref="InverseCumulativeDistribution"/>
         public static double InvCDF(double shape, double rate, double p)
         {
-            if (shape < 0.0 || rate < 0.0) throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
+            if (shape < 0.0 || rate < 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
 
             return SpecialFunctions.GammaLowerRegularizedInv(shape, p)/rate;
         }
@@ -525,7 +525,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sample from the distribution.</returns>
         public static double Sample(System.Random rnd, double shape, double rate)
         {
-            if (shape < 0.0 || rate < 0.0) throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
+            if (shape < 0.0 || rate < 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
 
             return SampleUnchecked(rnd, shape, rate);
         }
@@ -539,7 +539,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sequence of samples from the distribution.</returns>
         public static IEnumerable<double> Samples(System.Random rnd, double shape, double rate)
         {
-            if (shape < 0.0 || rate < 0.0) throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
+            if (shape < 0.0 || rate < 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
 
             while (true)
             {

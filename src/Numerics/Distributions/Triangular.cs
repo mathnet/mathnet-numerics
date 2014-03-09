@@ -98,7 +98,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (upper < mode || mode < lower || Double.IsNaN(upper) || Double.IsNaN(lower) || Double.IsNaN(mode))
             {
-                throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
             }
 
             _lower = lower;

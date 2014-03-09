@@ -90,12 +90,12 @@ namespace MathNet.Numerics.Statistics
         {
             if (lowerBound > upperBound)
             {
-                throw new ArgumentOutOfRangeException(Resources.ArgumentLowerBoundLargerThanUpperBound);
+                throw new ArgumentException(Resources.ArgumentLowerBoundLargerThanUpperBound);
             }
 
             if (count < 0.0)
             {
-                throw new ArgumentOutOfRangeException(Resources.ArgumentMustBePositive);
+                throw new ArgumentOutOfRangeException("count", Resources.ArgumentMustBePositive);
             }
 
             LowerBound = lowerBound;

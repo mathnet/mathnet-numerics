@@ -85,7 +85,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (freedom <= 0.0 || Double.IsNaN(freedom))
             {
-                throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
             }
 
             _freedom = freedom;
@@ -269,7 +269,7 @@ namespace MathNet.Numerics.Distributions
         /// <seealso cref="Density"/>
         public static double PDF(double freedom, double x)
         {
-            if (freedom <= 0.0) throw new ArgumentOutOfRangeException("freedom", Resources.InvalidDistributionParameters);
+            if (freedom <= 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
 
             return (Math.Pow(x, (freedom/2.0) - 1.0)*Math.Exp(-x/2.0))/(Math.Pow(2.0, freedom/2.0)*SpecialFunctions.Gamma(freedom/2.0));
         }
@@ -283,7 +283,7 @@ namespace MathNet.Numerics.Distributions
         /// <seealso cref="DensityLn"/>
         public static double PDFLn(double freedom, double x)
         {
-            if (freedom <= 0.0) throw new ArgumentOutOfRangeException("freedom", Resources.InvalidDistributionParameters);
+            if (freedom <= 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
 
             return (-x/2.0) + (((freedom/2.0) - 1.0)*Math.Log(x)) - ((freedom/2.0)*Math.Log(2)) - SpecialFunctions.GammaLn(freedom/2.0);
         }
@@ -297,7 +297,7 @@ namespace MathNet.Numerics.Distributions
         /// <seealso cref="CumulativeDistribution"/>
         public static double CDF(double freedom, double x)
         {
-            if (freedom <= 0.0) throw new ArgumentOutOfRangeException("freedom", Resources.InvalidDistributionParameters);
+            if (freedom <= 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
 
             return SpecialFunctions.GammaLowerIncomplete(freedom/2.0, x/2.0)/SpecialFunctions.Gamma(freedom/2.0);
         }
@@ -310,7 +310,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sample from the distribution. </returns>
         public static double Sample(System.Random rnd, double freedom)
         {
-            if (freedom <= 0.0) throw new ArgumentOutOfRangeException("freedom", Resources.InvalidDistributionParameters);
+            if (freedom <= 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
 
             return SampleUnchecked(rnd, freedom);
         }
@@ -323,7 +323,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sample from the distribution. </returns>
         public static IEnumerable<double> Samples(System.Random rnd, double freedom)
         {
-            if (freedom <= 0.0) throw new ArgumentOutOfRangeException("freedom", Resources.InvalidDistributionParameters);
+            if (freedom <= 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
 
             while (true)
             {
