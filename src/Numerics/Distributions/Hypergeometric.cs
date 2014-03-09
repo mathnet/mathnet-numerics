@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2013 Math.NET
+// Copyright (c) 2009-2014 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -87,18 +87,6 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Checks whether the parameters of the distribution are valid.
-        /// </summary>
-        /// <param name="population">The size of the population (N).</param>
-        /// <param name="success">The number successes within the population (K, M).</param>
-        /// <param name="draws">The number of draws without replacement (n).</param>
-        /// <returns><c>true</c> when the parameters are valid, <c>false</c> otherwise.</returns>
-        static bool IsValidParameterSet(int population, int success, int draws)
-        {
-            return population >= 0 && success >= 0 && draws >= 0 && (success <= population && draws <= population);
-        }
-
-        /// <summary>
         /// Sets the parameters of the distribution after checking their validity.
         /// </summary>
         /// <param name="population">The size of the population (N).</param>
@@ -107,9 +95,9 @@ namespace MathNet.Numerics.Distributions
         /// <exception cref="ArgumentOutOfRangeException">When the parameters are out of range.</exception>
         void SetParameters(int population, int success, int draws)
         {
-            if (Control.CheckDistributionParameters && !IsValidParameterSet(population, success, draws))
+            if (!(population >= 0 && success >= 0 && draws >= 0 && success <= population && draws <= population))
             {
-                throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
             }
 
             _population = population;
@@ -188,7 +176,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Mean
         {
-            get { return (double) _success*_draws/_population; }
+            get { return (double)_success*_draws/_population; }
         }
 
         /// <summary>
@@ -291,7 +279,7 @@ namespace MathNet.Numerics.Distributions
                 return 1.0;
             }
 
-            var k = (int) Math.Floor(x);
+            var k = (int)Math.Floor(x);
             var denominatorLn = SpecialFunctions.BinomialLn(_population, _draws);
             var sum = 0.0;
             for (var i = 0; i <= k; i++)
@@ -315,7 +303,7 @@ namespace MathNet.Numerics.Distributions
 
             do
             {
-                var p = (double) success/population;
+                var p = (double)success/population;
                 var r = rnd.NextDouble();
                 if (r < p)
                 {
@@ -360,9 +348,9 @@ namespace MathNet.Numerics.Distributions
         /// <param name="draws">The number of draws without replacement (n).</param>
         public static int Sample(System.Random rnd, int population, int success, int draws)
         {
-            if (Control.CheckDistributionParameters && !IsValidParameterSet(population, success, draws))
+            if (!(population >= 0 && success >= 0 && draws >= 0 && success <= population && draws <= population))
             {
-                throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
             }
 
             return SampleUnchecked(rnd, population, success, draws);
@@ -377,9 +365,9 @@ namespace MathNet.Numerics.Distributions
         /// <param name="draws">The number of draws without replacement (n).</param>
         public static IEnumerable<int> Samples(System.Random rnd, int population, int success, int draws)
         {
-            if (Control.CheckDistributionParameters && !IsValidParameterSet(population, success, draws))
+            if (!(population >= 0 && success >= 0 && draws >= 0 && success <= population && draws <= population))
             {
-                throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
             }
 
             while (true)
@@ -396,7 +384,12 @@ namespace MathNet.Numerics.Distributions
         /// <param name="draws">The number of draws without replacement (n).</param>
         public static int Sample(int population, int success, int draws)
         {
-            return Sample(SystemRandomSource.Default, population, success, draws);
+            if (!(population >= 0 && success >= 0 && draws >= 0 && success <= population && draws <= population))
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
+
+            return SampleUnchecked(SystemRandomSource.Default, population, success, draws);
         }
 
         /// <summary>
@@ -407,7 +400,16 @@ namespace MathNet.Numerics.Distributions
         /// <param name="draws">The number of draws without replacement (n).</param>
         public static IEnumerable<int> Samples(int population, int success, int draws)
         {
-            return Samples(SystemRandomSource.Default, population, success, draws);
+            if (!(population >= 0 && success >= 0 && draws >= 0 && success <= population && draws <= population))
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
+
+            SystemRandomSource rnd = SystemRandomSource.Default;
+            while (true)
+            {
+                yield return SampleUnchecked(rnd, population, success, draws);
+            }
         }
     }
 }

@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2013 Math.NET
+// Copyright (c) 2009-2014 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -83,17 +83,6 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Checks whether the parameters of the distribution are valid.
-        /// </summary>
-        /// <param name="lower">Lower bound. Range: lower ≤ upper.</param>
-        /// <param name="upper">Upper bound. Range: lower ≤ upper.</param>
-        /// <returns><c>true</c> when the parameters are valid, <c>false</c> otherwise.</returns>
-        static bool IsValidParameterSet(int lower, int upper)
-        {
-            return lower <= upper;
-        }
-
-        /// <summary>
         /// Sets the parameters of the distribution after checking their validity.
         /// </summary>
         /// <param name="lower">Lower bound. Range: lower ≤ upper.</param>
@@ -101,9 +90,9 @@ namespace MathNet.Numerics.Distributions
         /// <exception cref="ArgumentOutOfRangeException">When the parameters are out of range.</exception>
         void SetParameters(int lower, int upper)
         {
-            if (Control.CheckDistributionParameters && !IsValidParameterSet(lower, upper))
+            if (!(lower <= upper))
             {
-                throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
             }
 
             _lower = lower;
@@ -198,7 +187,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public int Mode
         {
-            get { return (int) Math.Floor((_lower + _upper)/2.0); }
+            get { return (int)Math.Floor((_lower + _upper)/2.0); }
         }
 
         /// <summary>
@@ -206,7 +195,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public int Median
         {
-            get { return (int) Math.Floor((_lower + _upper)/2.0); }
+            get { return (int)Math.Floor((_lower + _upper)/2.0); }
         }
 
         /// <summary>
@@ -301,11 +290,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>A sample from the discrete uniform distribution.</returns>
         public static int Sample(System.Random rnd, int lower, int upper)
         {
-            if (Control.CheckDistributionParameters && !IsValidParameterSet(lower, upper))
-            {
-                throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
-            }
-
+            if (!(lower <= upper)) throw new ArgumentException(Resources.InvalidDistributionParameters);
             return SampleUnchecked(rnd, lower, upper);
         }
 
@@ -318,11 +303,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sequence of samples from the discrete uniform distribution.</returns>
         public static IEnumerable<int> Samples(System.Random rnd, int lower, int upper)
         {
-            if (Control.CheckDistributionParameters && !IsValidParameterSet(lower, upper))
-            {
-                throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
-            }
-
+            if (!(lower <= upper)) throw new ArgumentException(Resources.InvalidDistributionParameters);
             while (true)
             {
                 yield return SampleUnchecked(rnd, lower, upper);
@@ -337,7 +318,8 @@ namespace MathNet.Numerics.Distributions
         /// <returns>A sample from the discrete uniform distribution.</returns>
         public static int Sample(int lower, int upper)
         {
-            return Sample(SystemRandomSource.Default, lower, upper);
+            if (!(lower <= upper)) throw new ArgumentException(Resources.InvalidDistributionParameters);
+            return SampleUnchecked(SystemRandomSource.Default, lower, upper);
         }
 
         /// <summary>
@@ -348,7 +330,12 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sequence of samples from the discrete uniform distribution.</returns>
         public static IEnumerable<int> Samples(int lower, int upper)
         {
-            return Samples(SystemRandomSource.Default, lower, upper);
+            if (!(lower <= upper)) throw new ArgumentException(Resources.InvalidDistributionParameters);
+            SystemRandomSource rnd = SystemRandomSource.Default;
+            while (true)
+            {
+                yield return SampleUnchecked(rnd, lower, upper);
+            }
         }
     }
 }

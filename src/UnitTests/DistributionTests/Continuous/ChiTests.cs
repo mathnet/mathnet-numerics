@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2013 Math.NET
+// Copyright (c) 2009-2014 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -41,15 +41,6 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
     [TestFixture, Category("Distributions")]
     public class ChiTests
     {
-        /// <summary>
-        /// Set-up parameters.
-        /// </summary>
-        [SetUp]
-        public void SetUp()
-        {
-            Control.CheckDistributionParameters = true;
-        }
-
         /// <summary>
         /// Can create chi.
         /// </summary>

@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2013 Math.NET
+// Copyright (c) 2009-2014 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -90,17 +90,6 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Checks whether the parameters of the distribution are valid.
-        /// </summary>
-        /// <param name="s">The s parameter of the distribution.</param>
-        /// <param name="n">The n parameter of the distribution.</param>
-        /// <returns><c>true</c> when the parameters are valid, <c>false</c> otherwise.</returns>
-        static bool IsValidParameterSet(double s, int n)
-        {
-            return n > 0 && s > 0.0;
-        }
-
-        /// <summary>
         /// Sets the parameters of the distribution after checking their validity.
         /// </summary>
         /// <param name="s">The s parameter of the distribution.</param>
@@ -108,9 +97,9 @@ namespace MathNet.Numerics.Distributions
         /// <exception cref="ArgumentOutOfRangeException">When the parameters are out of range.</exception>
         void SetParameters(double s, int n)
         {
-            if (Control.CheckDistributionParameters && !IsValidParameterSet(s, n))
+            if (!(n > 0 && s > 0.0))
             {
-                throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
             }
 
             _s = s;
@@ -275,7 +264,7 @@ namespace MathNet.Numerics.Distributions
                 return 0.0;
             }
 
-            return SpecialFunctions.GeneralHarmonic((int) x, _s)/SpecialFunctions.GeneralHarmonic(_n, _s);
+            return SpecialFunctions.GeneralHarmonic((int)x, _s)/SpecialFunctions.GeneralHarmonic(_n, _s);
         }
 
         /// <summary>
@@ -337,11 +326,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="n">The n parameter of the distribution.</param>
         public static int Sample(System.Random rnd, double s, int n)
         {
-            if (Control.CheckDistributionParameters && !IsValidParameterSet(s, n))
-            {
-                throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
-            }
-
+            if (!(n > 0 && s > 0.0)) throw new ArgumentException(Resources.InvalidDistributionParameters);
             return SampleUnchecked(rnd, s, n);
         }
 
@@ -353,11 +338,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="n">The n parameter of the distribution.</param>
         public static IEnumerable<int> Samples(System.Random rnd, double s, int n)
         {
-            if (Control.CheckDistributionParameters && !IsValidParameterSet(s, n))
-            {
-                throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
-            }
-
+            if (!(n > 0 && s > 0.0)) throw new ArgumentException(Resources.InvalidDistributionParameters);
             while (true)
             {
                 yield return SampleUnchecked(rnd, s, n);
@@ -371,7 +352,8 @@ namespace MathNet.Numerics.Distributions
         /// <param name="n">The n parameter of the distribution.</param>
         public static int Sample(double s, int n)
         {
-            return Sample(SystemRandomSource.Default, s, n);
+            if (!(n > 0 && s > 0.0)) throw new ArgumentException(Resources.InvalidDistributionParameters);
+            return SampleUnchecked(SystemRandomSource.Default, s, n);
         }
 
         /// <summary>
@@ -381,7 +363,12 @@ namespace MathNet.Numerics.Distributions
         /// <param name="n">The n parameter of the distribution.</param>
         public static IEnumerable<int> Samples(double s, int n)
         {
-            return Samples(SystemRandomSource.Default, s, n);
+            if (!(n > 0 && s > 0.0)) throw new ArgumentException(Resources.InvalidDistributionParameters);
+            SystemRandomSource rnd = SystemRandomSource.Default;
+            while (true)
+            {
+                yield return SampleUnchecked(rnd, s, n);
+            }
         }
     }
 }

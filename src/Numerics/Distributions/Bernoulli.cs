@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2013 Math.NET
+// Copyright (c) 2009-2014 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -80,25 +80,15 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Checks whether the parameters of the distribution are valid.
-        /// </summary>
-        /// <param name="p">The probability (p) of generating one. Range: 0 ≤ p ≤ 1.</param>
-        /// <returns><c>true</c> when the parameters are valid, <c>false</c> otherwise.</returns>
-        static bool IsValidParameterSet(double p)
-        {
-            return p >= 0.0 && p <= 1.0;
-        }
-
-        /// <summary>
         /// Sets the parameters of the distribution after checking their validity.
         /// </summary>
         /// <param name="p">The probability (p) of generating one. Range: 0 ≤ p ≤ 1.</param>
         /// <exception cref="ArgumentOutOfRangeException">When the parameters are out of range.</exception>
         void SetParameters(double p)
         {
-            if (Control.CheckDistributionParameters && !IsValidParameterSet(p))
+            if (!(p >= 0.0 && p <= 1.0))
             {
-                throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
             }
 
             _p = p;
@@ -294,11 +284,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>A sample from the Bernoulli distribution.</returns>
         public static int Sample(System.Random rnd, double p)
         {
-            if (Control.CheckDistributionParameters && !IsValidParameterSet(p))
-            {
-                throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
-            }
-
+            if (!(p >= 0.0 && p <= 1.0)) throw new ArgumentException(Resources.InvalidDistributionParameters);
             return SampleUnchecked(rnd, p);
         }
 
@@ -310,11 +296,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sequence of samples from the distribution.</returns>
         public static IEnumerable<int> Samples(System.Random rnd, double p)
         {
-            if (Control.CheckDistributionParameters && !IsValidParameterSet(p))
-            {
-                throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
-            }
-
+            if (!(p >= 0.0 && p <= 1.0)) throw new ArgumentException(Resources.InvalidDistributionParameters);
             while (true)
             {
                 yield return SampleUnchecked(rnd, p);
@@ -328,7 +310,8 @@ namespace MathNet.Numerics.Distributions
         /// <returns>A sample from the Bernoulli distribution.</returns>
         public static int Sample(double p)
         {
-            return Sample(SystemRandomSource.Default, p);
+            if (!(p >= 0.0 && p <= 1.0)) throw new ArgumentException(Resources.InvalidDistributionParameters);
+            return SampleUnchecked(SystemRandomSource.Default, p);
         }
 
         /// <summary>
@@ -338,7 +321,12 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sequence of samples from the distribution.</returns>
         public static IEnumerable<int> Samples(double p)
         {
-            return Samples(SystemRandomSource.Default, p);
+            if (!(p >= 0.0 && p <= 1.0)) throw new ArgumentException(Resources.InvalidDistributionParameters);
+            SystemRandomSource rnd = SystemRandomSource.Default;
+            while (true)
+            {
+                yield return SampleUnchecked(rnd, p);
+            }
         }
 
     }

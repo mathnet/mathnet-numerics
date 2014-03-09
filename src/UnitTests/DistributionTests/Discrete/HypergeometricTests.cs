@@ -3,7 +3,9 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
-// Copyright (c) 2009-2010 Math.NET
+//
+// Copyright (c) 2009-2014 Math.NET
+//
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -12,8 +14,10 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
+//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
+//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -37,15 +41,6 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
     [TestFixture, Category("Distributions")]
     public class HypergeometricTests
     {
-        /// <summary>
-        /// Set-up parameters.
-        /// </summary>
-        [SetUp]
-        public void SetUp()
-        {
-            Control.CheckDistributionParameters = true;
-        }
-
         /// <summary>
         /// Can create Hypergeometric.
         /// </summary>
@@ -78,7 +73,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         [TestCase(0, 1, 1)]
         public void HypergeometricCreateFailsWithBadParameters(int population, int success, int n)
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() => new Hypergeometric(population, success, n));
+            Assert.That(() => new Hypergeometric(population, success, n), Throws.ArgumentException);
         }
 
         /// <summary>
@@ -115,7 +110,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         public void SetPopulationFails(int population)
         {
             var d = new Hypergeometric(10, 1, 1);
-            Assert.Throws<ArgumentOutOfRangeException>(() => d.Population = population);
+            Assert.That(() => d.Population = population, Throws.ArgumentException);
         }
 
         /// <summary>
@@ -143,7 +138,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         public void SetSuccessFails(int success)
         {
             var d = new Hypergeometric(10, 1, 1);
-            Assert.Throws<ArgumentOutOfRangeException>(() => d.Success = success);
+            Assert.That(() => d.Success = success, Throws.ArgumentException);
         }
 
         /// <summary>
@@ -171,7 +166,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         public void SetDrawsFails(int draws)
         {
             var d = new Hypergeometric(10, 1, 1);
-            Assert.Throws<ArgumentOutOfRangeException>(() => d.Draws = draws);
+            Assert.That(() => d.Draws = draws, Throws.ArgumentException);
         }
 
         /// <summary>

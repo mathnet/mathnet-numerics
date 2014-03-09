@@ -3,7 +3,9 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
-// Copyright (c) 2009-2010 Math.NET
+//
+// Copyright (c) 2009-2014 Math.NET
+//
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -12,8 +14,10 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
+//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
+//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -38,15 +42,6 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
     public class BernoulliTests
     {
         /// <summary>
-        /// Set-up parameters.
-        /// </summary>
-        [SetUp]
-        public void SetUp()
-        {
-            Control.CheckDistributionParameters = true;
-        }
-
-        /// <summary>
         /// Can create Bernoulli.
         /// </summary>
         /// <param name="p">Probability of one.</param>
@@ -68,7 +63,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         [TestCase(2.0)]
         public void BernoulliCreateFailsWithBadParameters(double p)
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() => new Bernoulli(p));
+            Assert.That(() => new Bernoulli(p), Throws.ArgumentException);
         }
 
         /// <summary>
@@ -106,7 +101,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         public void SetProbabilityOfOneFails(double p)
         {
             var b = new Bernoulli(0.3);
-            Assert.Throws<ArgumentOutOfRangeException>(() => b.P = p);
+            Assert.That(() => b.P = p, Throws.ArgumentException);
         }
 
         /// <summary>
@@ -252,7 +247,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         [Test]
         public void FailSampleStatic()
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() => Bernoulli.Sample(new Random(0), -1.0));
+            Assert.That(() => Bernoulli.Sample(new Random(0), -1.0), Throws.ArgumentException);
         }
 
         /// <summary>
@@ -261,7 +256,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         [Test]
         public void FailSampleSequenceStatic()
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() => Bernoulli.Samples(new Random(0), -1.0).First());
+            Assert.That(() => Bernoulli.Samples(new Random(0), -1.0).First(), Throws.ArgumentException);
         }
 
         /// <summary>

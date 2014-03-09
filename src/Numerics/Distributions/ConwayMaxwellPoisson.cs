@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2013 Math.NET
+// Copyright (c) 2009-2014 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -108,17 +108,6 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Checks whether the parameters of the distribution are valid.
-        /// </summary>
-        /// <param name="lambda">The lambda (λ) parameter. Range: λ > 0.</param>
-        /// <param name="nu">The rate of decay (ν) parameter. Range: ν ≥ 0.</param>
-        /// <returns><c>true</c> when the parameters are valid, <c>false</c> otherwise.</returns>
-        static bool IsValidParameterSet(double lambda, double nu)
-        {
-            return lambda > 0.0 && nu >= 0.0;
-        }
-
-        /// <summary>
         /// Sets the parameters of the distribution after checking their validity.
         /// </summary>
         /// <param name="lambda">The lambda (λ) parameter. Range: λ > 0.</param>
@@ -126,9 +115,9 @@ namespace MathNet.Numerics.Distributions
         /// <exception cref="ArgumentOutOfRangeException">When the parameters are out of range.</exception>
         void SetParameters(double lambda, double nu)
         {
-            if (Control.CheckDistributionParameters && !IsValidParameterSet(lambda, nu))
+            if (!(lambda > 0.0 && nu >= 0.0))
             {
-                throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
             }
 
             _lambda = lambda;
@@ -493,11 +482,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="nu">The rate of decay (ν) parameter. Range: ν ≥ 0.</param>
         public static int Sample(System.Random rnd, double lambda, double nu)
         {
-            if (Control.CheckDistributionParameters && !IsValidParameterSet(lambda, nu))
-            {
-                throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
-            }
-
+            if (!(lambda > 0.0 && nu >= 0.0)) throw new ArgumentException(Resources.InvalidDistributionParameters);
             var z = Normalization(lambda, nu);
             return SampleUnchecked(rnd, lambda, nu, z);
         }
@@ -510,11 +495,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="nu">The rate of decay (ν) parameter. Range: ν ≥ 0.</param>
         public static IEnumerable<int> Samples(System.Random rnd, double lambda, double nu)
         {
-            if (Control.CheckDistributionParameters && !IsValidParameterSet(lambda, nu))
-            {
-                throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
-            }
-
+            if (!(lambda > 0.0 && nu >= 0.0)) throw new ArgumentException(Resources.InvalidDistributionParameters);
             var z = Normalization(lambda, nu);
             while (true)
             {
@@ -529,7 +510,9 @@ namespace MathNet.Numerics.Distributions
         /// <param name="nu">The rate of decay (ν) parameter. Range: ν ≥ 0.</param>
         public static int Sample(double lambda, double nu)
         {
-            return Sample(SystemRandomSource.Default, lambda, nu);
+            if (!(lambda > 0.0 && nu >= 0.0)) throw new ArgumentException(Resources.InvalidDistributionParameters);
+            var z = Normalization(lambda, nu);
+            return SampleUnchecked(SystemRandomSource.Default, lambda, nu, z);
         }
 
         /// <summary>
@@ -539,7 +522,13 @@ namespace MathNet.Numerics.Distributions
         /// <param name="nu">The rate of decay (ν) parameter. Range: ν ≥ 0.</param>
         public static IEnumerable<int> Samples(double lambda, double nu)
         {
-            return Samples(SystemRandomSource.Default, lambda, nu);
+            if (!(lambda > 0.0 && nu >= 0.0)) throw new ArgumentException(Resources.InvalidDistributionParameters);
+            var z = Normalization(lambda, nu);
+            SystemRandomSource rnd = SystemRandomSource.Default;
+            while (true)
+            {
+                yield return SampleUnchecked(rnd, lambda, nu, z);
+            }
         }
     }
 }
