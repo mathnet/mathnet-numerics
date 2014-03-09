@@ -265,9 +265,13 @@ namespace MathNet.Numerics
             const double big = 4503599627370496.0;
             const double bigInv = 2.22044604925031308085e-16;
 
-            if (a < 0d || x < 0d)
+            if (a < 0d)
             {
-                throw new ArgumentOutOfRangeException("a,x", Properties.Resources.ArgumentNotNegative);
+                throw new ArgumentOutOfRangeException("a", Properties.Resources.ArgumentNotNegative);
+            }
+            if (x < 0d)
+            {
+                throw new ArgumentOutOfRangeException("x", Properties.Resources.ArgumentNotNegative);
             }
 
             if (a.AlmostEqual(0.0))
@@ -379,9 +383,13 @@ namespace MathNet.Numerics
                 return double.NaN;
             }
 
-            if (a < 0 || a.AlmostEqual(0.0) || y0 < 0 || y0 > 1)
+            if (a < 0 || a.AlmostEqual(0.0))
             {
-                throw new ArgumentOutOfRangeException("a,y0", Properties.Resources.ArgumentNotNegative);
+                throw new ArgumentOutOfRangeException("a");
+            }
+            if (y0 < 0 || y0 > 1)
+            {
+                throw new ArgumentOutOfRangeException("y0");
             }
 
             if (y0.AlmostEqual(0.0))

@@ -72,10 +72,10 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
     /// </summary>
     public partial class MklLinearAlgebraProvider : ManagedLinearAlgebraProvider
     {
-        int _nativeRevision = 0;
-        bool _nativeIX86 = false;
-        bool _nativeX64 = false;
-        bool _nativeIA64 = false;
+        int _nativeRevision;
+        bool _nativeIX86;
+        bool _nativeX64;
+        bool _nativeIA64;
 
         readonly MklConsistency _consistency;
         readonly MklPrecision _precision;
@@ -113,7 +113,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
         {
             // TODO: Choose x86 or x64 based on Environment.Is64BitProcess
 
-            int a = 0, b = 0, linearAlgebra = 0;
+            int a, b, linearAlgebra;
             try
             {
                 a = SafeNativeMethods.query_capability(0);

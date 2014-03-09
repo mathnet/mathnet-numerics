@@ -37,7 +37,7 @@ namespace MathNet.Numerics.Financial
 {
     public static class AbsoluteRiskMeasures
     {
-        //Note: The following statistics would be condidered an absolute risk statistic in the finance realm as well.
+        //Note: The following statistics would be considered an absolute risk statistic in the finance realm as well.
         // Standard Deviation 
         // Annualized Standard Deviation = Math.Sqrt(Monthly Standard Deviation x ( 12 ))
         // Skewness

@@ -138,7 +138,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Mean
         {
-            get { return (_lower + _upper + _mode) / 3.0; }
+            get { return (_lower + _upper + _mode)/3.0; }
         }
 
         /// <summary>
@@ -151,7 +151,7 @@ namespace MathNet.Numerics.Distributions
                 var a = _lower;
                 var b = _upper;
                 var c = _mode;
-                return (a * a + b * b + c * c - a * b - a * c - b * c) / 18.0;
+                return (a*a + b*b + c*c - a*b - a*c - b*c)/18.0;
             }
         }
 
@@ -169,7 +169,7 @@ namespace MathNet.Numerics.Distributions
         /// <value></value>
         public double Entropy
         {
-            get { return 0.5 + Math.Log((_upper - _lower) / 2); }
+            get { return 0.5 + Math.Log((_upper - _lower)/2); }
         }
 
         /// <summary>
@@ -182,9 +182,9 @@ namespace MathNet.Numerics.Distributions
                 var a = _lower;
                 var b = _upper;
                 var c = _mode;
-                var q = Math.Sqrt(2) * (a + b - 2 * c) * (2 * a - b - c) * (a - 2 * b + c);
-                var d = 5 * Math.Pow(a * a + b * b + c * c - a * b - a * c - b * c, 3.0 / 2);
-                return q / d;
+                var q = Math.Sqrt(2)*(a + b - 2*c)*(2*a - b - c)*(a - 2*b + c);
+                var d = 5*Math.Pow(a*a + b*b + c*c - a*b - a*c - b*c, 3.0/2);
+                return q/d;
             }
         }
 
@@ -208,9 +208,9 @@ namespace MathNet.Numerics.Distributions
                 var a = _lower;
                 var b = _upper;
                 var c = _mode;
-                return c >= (a + b) / 2
-                    ? a + Math.Sqrt((b - a) * (c - a) / 2)
-                    : b - Math.Sqrt((b - a) * (b - c) / 2);
+                return c >= (a + b)/2
+                    ? a + Math.Sqrt((b - a)*(c - a)/2)
+                    : b - Math.Sqrt((b - a)*(b - c)/2);
             }
         }
 
@@ -311,8 +311,8 @@ namespace MathNet.Numerics.Distributions
             var b = upper;
             var c = mode;
 
-            if (a <= x && x <= c) return 2 * (x - a) / ((b - a) * (c - a));
-            if (c < x & x <= b) return 2 * (b - x) / ((b - a) * (b - c));
+            if (a <= x && x <= c) return 2*(x - a)/((b - a)*(c - a));
+            if (c < x & x <= b) return 2*(b - x)/((b - a)*(b - c));
             return 0;
         }
 
@@ -342,15 +342,15 @@ namespace MathNet.Numerics.Distributions
         public static double CDF(double lower, double upper, double mode, double x)
         {
             if (upper < mode) throw new ArgumentOutOfRangeException("upper", Resources.InvalidDistributionParameters);
-            if (mode < lower) throw new ArgumentOutOfRangeException("lower", Resources.InvalidDistributionParameters); // TODO: Is "lower" the appropriate argument here?
+            if (lower > mode) throw new ArgumentOutOfRangeException("lower", Resources.InvalidDistributionParameters);
 
             var a = lower;
             var b = upper;
             var c = mode;
 
             if (x < a) return 0;
-            if (a <= x && x <= c) return (x - a) * (x - a) / ((b - a) * (c - a));
-            if (c < x & x <= b) return 1 - (b - x) * (b - x) / ((b - a) * (b - c));
+            if (a <= x && x <= c) return (x - a)*(x - a)/((b - a)*(c - a));
+            if (c < x & x <= b) return 1 - (b - x)*(b - x)/((b - a)*(b - c));
             return 1;
         }
 
@@ -367,7 +367,7 @@ namespace MathNet.Numerics.Distributions
         public static double InvCDF(double lower, double upper, double mode, double p)
         {
             if (upper < mode) throw new ArgumentOutOfRangeException("upper", Resources.InvalidDistributionParameters);
-            if (mode < lower) throw new ArgumentOutOfRangeException("lower", Resources.InvalidDistributionParameters); // TODO: Is "lower" the appropriate argument here?
+            if (lower > mode) throw new ArgumentOutOfRangeException("lower", Resources.InvalidDistributionParameters);
 
             var a = lower;
             var b = upper;
@@ -375,8 +375,8 @@ namespace MathNet.Numerics.Distributions
 
             if (p <= 0) return lower;
             // Taken from http://www.ntrand.com/triangular-distribution/
-            if (p < (c - a) / (b - a)) return a + Math.Sqrt(p * (c - a) * (b - a));
-            if (p < 1) return b - Math.Sqrt((1 - p) * (b - c) * (b - a));
+            if (p < (c - a)/(b - a)) return a + Math.Sqrt(p*(c - a)*(b - a));
+            if (p < 1) return b - Math.Sqrt((1 - p)*(b - c)*(b - a));
             return upper;
         }
 
@@ -395,9 +395,9 @@ namespace MathNet.Numerics.Distributions
             var c = mode;
             var u = rnd.NextDouble();
 
-            return u < (c - a) / (b - a)
-                       ? a + Math.Sqrt(u * (b - a) * (c - a))
-                       : b - Math.Sqrt((1 - u) * (b - a) * (b - c)); ;
+            return u < (c - a)/(b - a)
+                ? a + Math.Sqrt(u*(b - a)*(c - a))
+                : b - Math.Sqrt((1 - u)*(b - a)*(b - c));
         }
 
         /// <summary>

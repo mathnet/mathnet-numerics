@@ -64,7 +64,7 @@ namespace MathNet.Numerics.LinearRegression
         /// <param name="x">Predictor matrix X</param>
         /// <param name="y">Response vector Y</param>
         /// <param name="w">Weight matrix W, usually diagonal with an entry for each predictor (row).</param>
-        /// <param name="intercept">True if an intercept should be added as first artificial perdictor value. Default = false.</param>
+        /// <param name="intercept">True if an intercept should be added as first artificial predictor value. Default = false.</param>
         public static T[] Weighted<T>(T[][] x, T[] y, T[] w, bool intercept = false) where T : struct, IEquatable<T>, IFormattable
         {
             var predictor = Matrix<T>.Build.DenseOfRowArrays(x);
@@ -82,7 +82,7 @@ namespace MathNet.Numerics.LinearRegression
         /// </summary>
         /// <param name="samples">List of sample vectors (predictor) together with their response.</param>
         /// <param name="weights">List of weights, one for each sample.</param>
-        /// <param name="intercept">True if an intercept should be added as first artificial perdictor value. Default = false.</param>
+        /// <param name="intercept">True if an intercept should be added as first artificial predictor value. Default = false.</param>
         public static T[] Weighted<T>(IEnumerable<Tuple<T[], T>> samples, T[] weights, bool intercept = false) where T : struct, IEquatable<T>, IFormattable
         {
             var xy = samples.UnpackSinglePass();
