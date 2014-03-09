@@ -387,5 +387,27 @@ namespace MathNet.Numerics.Distributions
                 yield return SampleUnchecked(rnd, population, success, draws);
             }
         }
+
+        /// <summary>
+        /// Samples a random variable.
+        /// </summary>
+        /// <param name="population">The size of the population (N).</param>
+        /// <param name="success">The number successes within the population (K, M).</param>
+        /// <param name="draws">The number of draws without replacement (n).</param>
+        public static int Sample(int population, int success, int draws)
+        {
+            return Sample(SystemRandomSource.Default, population, success, draws);
+        }
+
+        /// <summary>
+        /// Samples a sequence of this random variable.
+        /// </summary>
+        /// <param name="population">The size of the population (N).</param>
+        /// <param name="success">The number successes within the population (K, M).</param>
+        /// <param name="draws">The number of draws without replacement (n).</param>
+        public static IEnumerable<int> Samples(int population, int success, int draws)
+        {
+            return Samples(SystemRandomSource.Default, population, success, draws);
+        }
     }
 }

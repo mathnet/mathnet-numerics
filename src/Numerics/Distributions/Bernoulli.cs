@@ -321,5 +321,25 @@ namespace MathNet.Numerics.Distributions
             }
         }
 
+        /// <summary>
+        /// Samples a Bernoulli distributed random variable.
+        /// </summary>
+        /// <param name="p">The probability (p) of generating one. Range: 0 ≤ p ≤ 1.</param>
+        /// <returns>A sample from the Bernoulli distribution.</returns>
+        public static int Sample(double p)
+        {
+            return Sample(SystemRandomSource.Default, p);
+        }
+
+        /// <summary>
+        /// Samples a sequence of Bernoulli distributed random variables.
+        /// </summary>
+        /// <param name="p">The probability (p) of generating one. Range: 0 ≤ p ≤ 1.</param>
+        /// <returns>a sequence of samples from the distribution.</returns>
+        public static IEnumerable<int> Samples(double p)
+        {
+            return Samples(SystemRandomSource.Default, p);
+        }
+
     }
 }

@@ -297,5 +297,23 @@ namespace MathNet.Numerics.Distributions
                 yield return SampleUnchecked(rnd, p);
             }
         }
+
+        /// <summary>
+        /// Samples a random variable.
+        /// </summary>
+        /// <param name="p">The probability (p) of generating one. Range: 0 ≤ p ≤ 1.</param>
+        public static int Sample(double p)
+        {
+            return Sample(SystemRandomSource.Default, p);
+        }
+
+        /// <summary>
+        /// Samples a sequence of this random variable.
+        /// </summary>
+        /// <param name="p">The probability (p) of generating one. Range: 0 ≤ p ≤ 1.</param>
+        public static IEnumerable<int> Samples(double p)
+        {
+            return Samples(SystemRandomSource.Default, p);
+        }
     }
 }

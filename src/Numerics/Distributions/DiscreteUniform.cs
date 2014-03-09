@@ -328,5 +328,27 @@ namespace MathNet.Numerics.Distributions
                 yield return SampleUnchecked(rnd, lower, upper);
             }
         }
+
+        /// <summary>
+        /// Samples a uniformly distributed random variable.
+        /// </summary>
+        /// <param name="lower">Lower bound. Range: lower ≤ upper.</param>
+        /// <param name="upper">Upper bound. Range: lower ≤ upper.</param>
+        /// <returns>A sample from the discrete uniform distribution.</returns>
+        public static int Sample(int lower, int upper)
+        {
+            return Sample(SystemRandomSource.Default, lower, upper);
+        }
+
+        /// <summary>
+        /// Samples a sequence of uniformly distributed random variables.
+        /// </summary>
+        /// <param name="lower">Lower bound. Range: lower ≤ upper.</param>
+        /// <param name="upper">Upper bound. Range: lower ≤ upper.</param>
+        /// <returns>a sequence of samples from the discrete uniform distribution.</returns>
+        public static IEnumerable<int> Samples(int lower, int upper)
+        {
+            return Samples(SystemRandomSource.Default, lower, upper);
+        }
     }
 }

@@ -521,5 +521,25 @@ namespace MathNet.Numerics.Distributions
                 yield return SampleUnchecked(rnd, lambda, nu, z);
             }
         }
+
+        /// <summary>
+        /// Samples a random variable.
+        /// </summary>
+        /// <param name="lambda">The lambda (λ) parameter. Range: λ > 0.</param>
+        /// <param name="nu">The rate of decay (ν) parameter. Range: ν ≥ 0.</param>
+        public static int Sample(double lambda, double nu)
+        {
+            return Sample(SystemRandomSource.Default, lambda, nu);
+        }
+
+        /// <summary>
+        /// Samples a sequence of this random variable.
+        /// </summary>
+        /// <param name="lambda">The lambda (λ) parameter. Range: λ > 0.</param>
+        /// <param name="nu">The rate of decay (ν) parameter. Range: ν ≥ 0.</param>
+        public static IEnumerable<int> Samples(double lambda, double nu)
+        {
+            return Samples(SystemRandomSource.Default, lambda, nu);
+        }
     }
 }

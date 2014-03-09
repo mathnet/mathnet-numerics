@@ -325,5 +325,25 @@ namespace MathNet.Numerics.Distributions
                 yield return SampleUnchecked(rnd, r, p);
             }
         }
+
+        /// <summary>
+        /// Samples a random variable.
+        /// </summary>
+        /// <param name="r">The number of failures (r) until the experiment stopped. Range: r ≥ 0.</param>
+        /// <param name="p">The probability (p) of a trial resulting in success. Range: 0 ≤ p ≤ 1.</param>
+        public static int Sample(double r, double p)
+        {
+            return Sample(SystemRandomSource.Default, r, p);
+        }
+
+        /// <summary>
+        /// Samples a sequence of this random variable.
+        /// </summary>
+        /// <param name="r">The number of failures (r) until the experiment stopped. Range: r ≥ 0.</param>
+        /// <param name="p">The probability (p) of a trial resulting in success. Range: 0 ≤ p ≤ 1.</param>
+        public static IEnumerable<int> Samples(double r, double p)
+        {
+            return Samples(SystemRandomSource.Default, r, p);
+        }
     }
 }

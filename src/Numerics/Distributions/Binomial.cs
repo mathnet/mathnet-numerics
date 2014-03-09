@@ -360,5 +360,29 @@ namespace MathNet.Numerics.Distributions
                 yield return SampleUnchecked(rnd, p, n);
             }
         }
+
+        /// <summary>
+        /// Samples a binomially distributed random variable.
+        /// </summary>
+        /// <param name="rnd">The random number generator to use.</param>
+        /// <param name="p">The success probability (p) in each trial. Range: 0 ≤ p ≤ 1.</param>
+        /// <param name="n">The number of trials (n). Range: n ≥ 0.</param>
+        /// <returns>The number of successes in <paramref name="n"/> trials.</returns>
+        public static int Sample(double p, int n)
+        {
+            return Sample(SystemRandomSource.Default, p, n);
+        }
+
+        /// <summary>
+        /// Samples a sequence of binomially distributed random variable.
+        /// </summary>
+        /// <param name="rnd">The random number generator to use.</param>
+        /// <param name="p">The success probability (p) in each trial. Range: 0 ≤ p ≤ 1.</param>
+        /// <param name="n">The number of trials (n). Range: n ≥ 0.</param>
+        /// <returns>a sequence of successes in <paramref name="n"/> trials.</returns>
+        public static IEnumerable<int> Samples(double p, int n)
+        {
+            return Samples(SystemRandomSource.Default, p, n);
+        }
     }
 }

@@ -363,5 +363,25 @@ namespace MathNet.Numerics.Distributions
                 yield return SampleUnchecked(rnd, s, n);
             }
         }
+
+        /// <summary>
+        /// Samples a random variable.
+        /// </summary>
+        /// <param name="s">The s parameter of the distribution.</param>
+        /// <param name="n">The n parameter of the distribution.</param>
+        public static int Sample(double s, int n)
+        {
+            return Sample(SystemRandomSource.Default, s, n);
+        }
+
+        /// <summary>
+        /// Samples a sequence of this random variable.
+        /// </summary>
+        /// <param name="s">The s parameter of the distribution.</param>
+        /// <param name="n">The n parameter of the distribution.</param>
+        public static IEnumerable<int> Samples(double s, int n)
+        {
+            return Samples(SystemRandomSource.Default, s, n);
+        }
     }
 }

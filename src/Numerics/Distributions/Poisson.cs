@@ -352,5 +352,25 @@ namespace MathNet.Numerics.Distributions
                 yield return SampleUnchecked(rnd, lambda);
             }
         }
+
+        /// <summary>
+        /// Samples a Poisson distributed random variable.
+        /// </summary>
+        /// <param name="lambda">The lambda (λ) parameter of the Poisson distribution. Range: λ > 0.</param>
+        /// <returns>A sample from the Poisson distribution.</returns>
+        public static int Sample(double lambda)
+        {
+            return Sample(SystemRandomSource.Default, lambda);
+        }
+
+        /// <summary>
+        /// Samples a sequence of Poisson distributed random variables.
+        /// </summary>
+        /// <param name="lambda">The lambda (λ) parameter of the Poisson distribution. Range: λ > 0.</param>
+        /// <returns>a sequence of samples from the distribution.</returns>
+        public static IEnumerable<int> Samples(double lambda)
+        {
+            return Samples(SystemRandomSource.Default, lambda);
+        }
     }
 }
