@@ -546,5 +546,27 @@ namespace MathNet.Numerics.Distributions
                 yield return SampleUnchecked(rnd, shape, rate);
             }
         }
+
+        /// <summary>
+        /// Generates a sample from the Gamma distribution.
+        /// </summary>
+        /// <param name="shape">The shape (k, α) of the Gamma distribution. Range: α ≥ 0.</param>
+        /// <param name="rate">The rate or inverse scale (β) of the Gamma distribution. Range: β ≥ 0.</param>
+        /// <returns>a sample from the distribution.</returns>
+        public static double Sample(double shape, double rate)
+        {
+            return Sample(SystemRandomSource.Default, shape, rate);
+        }
+
+        /// <summary>
+        /// Generates a sequence of samples from the Gamma distribution.
+        /// </summary>
+        /// <param name="shape">The shape (k, α) of the Gamma distribution. Range: α ≥ 0.</param>
+        /// <param name="rate">The rate or inverse scale (β) of the Gamma distribution. Range: β ≥ 0.</param>
+        /// <returns>a sequence of samples from the distribution.</returns>
+        public static IEnumerable<double> Samples(double shape, double rate)
+        {
+            return Samples(SystemRandomSource.Default, shape, rate);
+        }
     }
 }

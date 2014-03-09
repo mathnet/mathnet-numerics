@@ -561,5 +561,27 @@ namespace MathNet.Numerics.Distributions
                 yield return SampleUnchecked(rnd, a, b);
             }
         }
+
+        /// <summary>
+        /// Generates a sample from the distribution.
+        /// </summary>
+        /// <param name="a">The α shape parameter of the Beta distribution. Range: α ≥ 0.</param>
+        /// <param name="b">The β shape parameter of the Beta distribution. Range: β ≥ 0.</param>
+        /// <returns>a sample from the distribution.</returns>
+        public static double Sample(double a, double b)
+        {
+            return Sample(SystemRandomSource.Default, a, b);
+        }
+
+        /// <summary>
+        /// Generates a sequence of samples from the distribution.
+        /// </summary>
+        /// <param name="a">The α shape parameter of the Beta distribution. Range: α ≥ 0.</param>
+        /// <param name="b">The β shape parameter of the Beta distribution. Range: β ≥ 0.</param>
+        /// <returns>a sequence of samples from the distribution.</returns>
+        public static IEnumerable<double> Samples(double a, double b)
+        {
+            return Samples(SystemRandomSource.Default, a, b);
+        }
     }
 }

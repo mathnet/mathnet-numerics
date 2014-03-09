@@ -349,5 +349,25 @@ namespace MathNet.Numerics.Distributions
                 yield return SampleUnchecked(rnd, rate);
             }
         }
+
+        /// <summary>
+        /// Draws a random sample from the distribution.
+        /// </summary>
+        /// <param name="rate">The rate (λ) parameter of the distribution. Range: λ ≥ 0.</param>
+        /// <returns>A random number from this distribution.</returns>
+        public static double Sample(double rate)
+        {
+            return Sample(SystemRandomSource.Default, rate);
+        }
+
+        /// <summary>
+        /// Generates a sequence of samples from the Exponential distribution.
+        /// </summary>
+        /// <param name="rate">The rate (λ) parameter of the distribution. Range: λ ≥ 0.</param>
+        /// <returns>a sequence of samples from the distribution.</returns>
+        public static IEnumerable<double> Samples(double rate)
+        {
+            return Samples(SystemRandomSource.Default, rate);
+        }
     }
 }

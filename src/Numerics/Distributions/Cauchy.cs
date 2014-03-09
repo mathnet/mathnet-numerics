@@ -361,5 +361,27 @@ namespace MathNet.Numerics.Distributions
                 yield return location + scale*Math.Tan(Constants.Pi*(rnd.NextDouble() - 0.5));
             }
         }
+
+        /// <summary>
+        /// Generates a sample from the distribution.
+        /// </summary>
+        /// <param name="location">The location (x0) of the distribution.</param>
+        /// <param name="scale">The scale (γ) of the distribution. Range: γ > 0.</param>
+        /// <returns>a sample from the distribution.</returns>
+        public static double Sample(double location, double scale)
+        {
+            return Sample(SystemRandomSource.Default, location, scale);
+        }
+
+        /// <summary>
+        /// Generates a sequence of samples from the distribution.
+        /// </summary>
+        /// <param name="location">The location (x0) of the distribution.</param>
+        /// <param name="scale">The scale (γ) of the distribution. Range: γ > 0.</param>
+        /// <returns>a sequence of samples from the distribution.</returns>
+        public static IEnumerable<double> Samples(double location, double scale)
+        {
+            return Samples(SystemRandomSource.Default, location, scale);
+        }
     }
 }

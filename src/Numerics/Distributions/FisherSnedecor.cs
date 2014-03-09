@@ -399,5 +399,27 @@ namespace MathNet.Numerics.Distributions
                 yield return SampleUnchecked(rnd, d1, d2);
             }
         }
+
+        /// <summary>
+        /// Generates a sample from the distribution.
+        /// </summary>
+        /// <param name="d1">The first degree of freedom (d1) of the distribution. Range: d1 > 0.</param>
+        /// <param name="d2">The second degree of freedom (d2) of the distribution. Range: d2 > 0.</param>
+        /// <returns>a sample from the distribution.</returns>
+        public static double Sample(double d1, double d2)
+        {
+            return Sample(SystemRandomSource.Default, d1, d2);
+        }
+
+        /// <summary>
+        /// Generates a sequence of samples from the distribution.
+        /// </summary>
+        /// <param name="d1">The first degree of freedom (d1) of the distribution. Range: d1 > 0.</param>
+        /// <param name="d2">The second degree of freedom (d2) of the distribution. Range: d2 > 0.</param>
+        /// <returns>a sequence of samples from the distribution.</returns>
+        public static IEnumerable<double> Samples(double d1, double d2)
+        {
+            return Samples(SystemRandomSource.Default, d1, d2);
+        }
     }
 }

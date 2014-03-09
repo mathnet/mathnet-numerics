@@ -343,5 +343,27 @@ namespace MathNet.Numerics.Distributions
 
             return Gamma.Samples(rnd, shape, scale).Select(z => 1.0/z);
         }
+
+        /// <summary>
+        /// Generates a sample from the distribution.
+        /// </summary>
+        /// <param name="shape">The shape (α) of the distribution. Range: α > 0.</param>
+        /// <param name="scale">The scale (β) of the distribution. Range: β > 0.</param>
+        /// <returns>a sample from the distribution.</returns>
+        public static double Sample(double shape, double scale)
+        {
+            return Sample(SystemRandomSource.Default, shape, scale);
+        }
+
+        /// <summary>
+        /// Generates a sequence of samples from the distribution.
+        /// </summary>
+        /// <param name="shape">The shape (α) of the distribution. Range: α > 0.</param>
+        /// <param name="scale">The scale (β) of the distribution. Range: β > 0.</param>
+        /// <returns>a sequence of samples from the distribution.</returns>
+        public static IEnumerable<double> Samples(double shape, double scale)
+        {
+            return Samples(SystemRandomSource.Default, shape, scale);
+        }
     }
 }

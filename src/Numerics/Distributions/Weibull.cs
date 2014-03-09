@@ -413,5 +413,27 @@ namespace MathNet.Numerics.Distributions
                 yield return SampleUnchecked(rnd, shape, scale);
             }
         }
+
+        /// <summary>
+        /// Generates a sample from the Weibull distribution.
+        /// </summary>
+        /// <param name="shape">The shape (k) of the Weibull distribution. Range: k > 0.</param>
+        /// <param name="scale">The scale (λ) of the Weibull distribution. Range: λ > 0.</param>
+        /// <returns>a sample from the distribution.</returns>
+        public static double Sample(double shape, double scale)
+        {
+            return Sample(SystemRandomSource.Default, shape, scale);
+        }
+
+        /// <summary>
+        /// Generates a sequence of samples from the Weibull distribution.
+        /// </summary>
+        /// <param name="shape">The shape (k) of the Weibull distribution. Range: k > 0.</param>
+        /// <param name="scale">The scale (λ) of the Weibull distribution. Range: λ > 0.</param>
+        /// <returns>a sequence of samples from the distribution.</returns>
+        public static IEnumerable<double> Samples(double shape, double scale)
+        {
+            return Samples(SystemRandomSource.Default, shape, scale);
+        }
     }
 }

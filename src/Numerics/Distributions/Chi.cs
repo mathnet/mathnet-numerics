@@ -337,5 +337,25 @@ namespace MathNet.Numerics.Distributions
                 yield return SampleUnchecked(rnd, freedom);
             }
         }
+
+        /// <summary>
+        /// Generates a sample from the distribution.
+        /// </summary>
+        /// <param name="freedom">The degrees of freedom (k) of the distribution. Range: k > 0.</param>
+        /// <returns>a sample from the distribution.</returns>
+        public static double Sample(int freedom)
+        {
+            return Sample(SystemRandomSource.Default, freedom);
+        }
+
+        /// <summary>
+        /// Generates a sequence of samples from the distribution.
+        /// </summary>
+        /// <param name="freedom">The degrees of freedom (k) of the distribution. Range: k > 0.</param>
+        /// <returns>a sequence of samples from the distribution.</returns>
+        public static IEnumerable<double> Samples(int freedom)
+        {
+            return Samples(SystemRandomSource.Default, freedom);
+        }
     }
 }

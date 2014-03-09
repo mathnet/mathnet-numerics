@@ -349,5 +349,27 @@ namespace MathNet.Numerics.Distributions
                 yield return SampleUnchecked(rnd, location, scale);
             }
         }
+
+        /// <summary>
+        /// Generates a sample from the distribution.
+        /// </summary>
+        /// <param name="location">The location (μ) of the distribution.</param>
+        /// <param name="scale">The scale (b) of the distribution. Range: b > 0.</param>
+        /// <returns>a sample from the distribution.</returns>
+        public static double Sample(double location, double scale)
+        {
+            return Sample(SystemRandomSource.Default, location, scale);
+        }
+
+        /// <summary>
+        /// Generates a sequence of samples from the distribution.
+        /// </summary>
+        /// <param name="location">The location (μ) of the distribution.</param>
+        /// <param name="scale">The scale (b) of the distribution. Range: b > 0.</param>
+        /// <returns>a sequence of samples from the distribution.</returns>
+        public static IEnumerable<double> Samples(double location, double scale)
+        {
+            return Samples(SystemRandomSource.Default, location, scale);
+        }
     }
 }

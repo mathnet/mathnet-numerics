@@ -489,5 +489,31 @@ namespace MathNet.Numerics.Distributions
                 yield return SampleUnchecked(rnd, alpha, beta, scale, location);
             }
         }
+
+        /// <summary>
+        /// Generates a sample from the distribution.
+        /// </summary>
+        /// <param name="alpha">The stability (α) of the distribution. Range: 2 ≥ α > 0.</param>
+        /// <param name="beta">The skewness (β) of the distribution. Range: 1 ≥ β ≥ -1.</param>
+        /// <param name="scale">The scale (c) of the distribution. Range: c > 0.</param>
+        /// <param name="location">The location (μ) of the distribution.</param>
+        /// <returns>a sample from the distribution.</returns>
+        public static double Sample(double alpha, double beta, double scale, double location)
+        {
+            return Sample(SystemRandomSource.Default, alpha, beta, scale, location);
+        }
+
+        /// <summary>
+        /// Generates a sequence of samples from the distribution.
+        /// </summary>
+        /// <param name="alpha">The stability (α) of the distribution. Range: 2 ≥ α > 0.</param>
+        /// <param name="beta">The skewness (β) of the distribution. Range: 1 ≥ β ≥ -1.</param>
+        /// <param name="scale">The scale (c) of the distribution. Range: c > 0.</param>
+        /// <param name="location">The location (μ) of the distribution.</param>
+        /// <returns>a sequence of samples from the distribution.</returns>
+        public static IEnumerable<double> Samples(double alpha, double beta, double scale, double location)
+        {
+            return Samples(SystemRandomSource.Default, alpha, beta, scale, location);
+        }
     }
 }

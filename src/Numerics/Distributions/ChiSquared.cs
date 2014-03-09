@@ -330,5 +330,25 @@ namespace MathNet.Numerics.Distributions
                 yield return SampleUnchecked(rnd, freedom);
             }
         }
+
+        /// <summary>
+        /// Generates a sample from the <c>ChiSquare</c> distribution.
+        /// </summary>
+        /// <param name="freedom">The degrees of freedom (k) of the distribution. Range: k > 0.</param>
+        /// <returns>a sample from the distribution. </returns>
+        public static double Sample(double freedom)
+        {
+            return Sample(SystemRandomSource.Default, freedom);
+        }
+
+        /// <summary>
+        /// Generates a sequence of samples from the distribution.
+        /// </summary>
+        /// <param name="freedom">The degrees of freedom (k) of the distribution. Range: k > 0.</param>
+        /// <returns>a sample from the distribution. </returns>
+        public static IEnumerable<double> Samples(double freedom)
+        {
+            return Samples(SystemRandomSource.Default, freedom);
+        }
     }
 }

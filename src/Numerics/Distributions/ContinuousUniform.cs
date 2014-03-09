@@ -364,5 +364,27 @@ namespace MathNet.Numerics.Distributions
                 yield return lower + rnd.NextDouble()*(upper - lower);
             }
         }
+
+        /// <summary>
+        /// Generates a sample from the <c>ContinuousUniform</c> distribution.
+        /// </summary>
+        /// <param name="lower">Lower bound. Range: lower ≤ upper.</param>
+        /// <param name="upper">Upper bound. Range: lower ≤ upper.</param>
+        /// <returns>a uniformly distributed sample.</returns>
+        public static double Sample(double lower, double upper)
+        {
+            return Sample(SystemRandomSource.Default, lower, upper);
+        }
+
+        /// <summary>
+        /// Generates a sequence of samples from the <c>ContinuousUniform</c> distribution.
+        /// </summary>
+        /// <param name="lower">Lower bound. Range: lower ≤ upper.</param>
+        /// <param name="upper">Upper bound. Range: lower ≤ upper.</param>
+        /// <returns>a sequence of uniformly distributed samples.</returns>
+        public static IEnumerable<double> Samples(double lower, double upper)
+        {
+            return Samples(SystemRandomSource.Default, lower, upper);
+        }
     }
 }

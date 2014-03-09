@@ -429,5 +429,27 @@ namespace MathNet.Numerics.Distributions
         {
             return Normal.Samples(rnd, mu, sigma).Select(Math.Exp);
         }
+
+        /// <summary>
+        /// Generates a sample from the log-normal distribution using the <i>Box-Muller</i> algorithm.
+        /// </summary>
+        /// <param name="mu">The log-scale (μ) of the distribution.</param>
+        /// <param name="sigma">The shape (σ) of the distribution. Range: σ ≥ 0.</param>
+        /// <returns>a sample from the distribution.</returns>
+        public static double Sample(double mu, double sigma)
+        {
+            return Sample(SystemRandomSource.Default, mu, sigma);
+        }
+
+        /// <summary>
+        /// Generates a sequence of samples from the log-normal distribution using the <i>Box-Muller</i> algorithm.
+        /// </summary>
+        /// <param name="mu">The log-scale (μ) of the distribution.</param>
+        /// <param name="sigma">The shape (σ) of the distribution. Range: σ ≥ 0.</param>
+        /// <returns>a sequence of samples from the distribution.</returns>
+        public static IEnumerable<double> Samples(double mu, double sigma)
+        {
+            return Samples(SystemRandomSource.Default, mu, sigma);
+        }
     }
 }

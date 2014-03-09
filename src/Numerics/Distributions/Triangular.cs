@@ -416,5 +416,28 @@ namespace MathNet.Numerics.Distributions
             }
         }
 
+        /// <summary>
+        /// Generates a sample from the <c>Triangular</c> distribution.
+        /// </summary>
+        /// <param name="lower">Lower bound. Range: lower ≤ mode ≤ upper</param>
+        /// <param name="upper">Upper bound. Range: lower ≤ mode ≤ upper</param>
+        /// <param name="mode">Mode (most frequent value).  Range: lower ≤ mode ≤ upper</param>
+        /// <returns>a sample from the distribution.</returns>
+        public double Sample(double lower, double upper, double mode)
+        {
+            return Sample(SystemRandomSource.Default, lower, upper, mode);
+        }
+
+        /// <summary>
+        /// Generates a sequence of samples from the <c>Triangular</c> distribution.
+        /// </summary>
+        /// <param name="lower">Lower bound. Range: lower ≤ mode ≤ upper</param>
+        /// <param name="upper">Upper bound. Range: lower ≤ mode ≤ upper</param>
+        /// <param name="mode">Mode (most frequent value).  Range: lower ≤ mode ≤ upper</param>
+        /// <returns>a sequence of samples from the distribution.</returns>
+        public IEnumerable<double> Samples(double lower, double upper, double mode)
+        {
+            return Samples(SystemRandomSource.Default, lower, upper, mode);
+        }
     }
 }

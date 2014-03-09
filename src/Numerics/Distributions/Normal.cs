@@ -460,5 +460,27 @@ namespace MathNet.Numerics.Distributions
                 yield return mean + (stddev*sample.Item2);
             }
         }
+
+        /// <summary>
+        /// Generates a sample from the normal distribution using the <i>Box-Muller</i> algorithm.
+        /// </summary>
+        /// <param name="mean">The mean (μ) of the normal distribution.</param>
+        /// <param name="stddev">The standard deviation (σ) of the normal distribution. Range: σ ≥ 0.</param>
+        /// <returns>a sample from the distribution.</returns>
+        public static double Sample(double mean, double stddev)
+        {
+            return Sample(SystemRandomSource.Default, mean, stddev);
+        }
+
+        /// <summary>
+        /// Generates a sequence of samples from the normal distribution using the <i>Box-Muller</i> algorithm.
+        /// </summary>
+        /// <param name="mean">The mean (μ) of the normal distribution.</param>
+        /// <param name="stddev">The standard deviation (σ) of the normal distribution. Range: σ ≥ 0.</param>
+        /// <returns>a sequence of samples from the distribution.</returns>
+        public static IEnumerable<double> Samples(double mean, double stddev)
+        {
+            return Samples(SystemRandomSource.Default, mean, stddev);
+        }
     }
 }

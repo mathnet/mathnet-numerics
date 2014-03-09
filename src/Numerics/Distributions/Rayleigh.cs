@@ -337,5 +337,25 @@ namespace MathNet.Numerics.Distributions
                 yield return scale*Math.Sqrt(-2.0*Math.Log(rnd.NextDouble()));
             }
         }
+
+        /// <summary>
+        /// Generates a sample from the distribution.
+        /// </summary>
+        /// <param name="scale">The scale (σ) of the distribution. Range: σ > 0.</param>
+        /// <returns>a sample from the distribution.</returns>
+        public static double Sample(double scale)
+        {
+            return Sample(SystemRandomSource.Default, scale);
+        }
+
+        /// <summary>
+        /// Generates a sequence of samples from the distribution.
+        /// </summary>
+        /// <param name="scale">The scale (σ) of the distribution. Range: σ > 0.</param>
+        /// <returns>a sequence of samples from the distribution.</returns>
+        public static IEnumerable<double> Samples(double scale)
+        {
+            return Samples(SystemRandomSource.Default, scale);
+        }
     }
 }

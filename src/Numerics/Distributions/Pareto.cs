@@ -374,5 +374,27 @@ namespace MathNet.Numerics.Distributions
                 yield return scale*Math.Pow(rnd.NextDouble(), power);
             }
         }
+
+        /// <summary>
+        /// Generates a sample from the distribution.
+        /// </summary>
+        /// <param name="scale">The scale (xm) of the distribution. Range: xm > 0.</param>
+        /// <param name="shape">The shape (α) of the distribution. Range: α > 0.</param>
+        /// <returns>a sample from the distribution.</returns>
+        public static double Sample(double scale, double shape)
+        {
+            return Sample(SystemRandomSource.Default, scale, shape);
+        }
+
+        /// <summary>
+        /// Generates a sequence of samples from the distribution.
+        /// </summary>
+        /// <param name="scale">The scale (xm) of the distribution. Range: xm > 0.</param>
+        /// <param name="shape">The shape (α) of the distribution. Range: α > 0.</param>
+        /// <returns>a sequence of samples from the distribution.</returns>
+        public static IEnumerable<double> Samples(double scale, double shape)
+        {
+            return Samples(SystemRandomSource.Default, scale, shape);
+        }
     }
 }

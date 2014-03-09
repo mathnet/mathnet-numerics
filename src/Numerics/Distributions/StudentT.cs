@@ -484,5 +484,29 @@ namespace MathNet.Numerics.Distributions
                 yield return SampleUnchecked(rnd, location, scale, freedom);
             }
         }
+
+        /// <summary>
+        /// Generates a sample from the Student t-distribution.
+        /// </summary>
+        /// <param name="location">The location (μ) of the distribution.</param>
+        /// <param name="scale">The scale (σ) of the distribution. Range: σ > 0.</param>
+        /// <param name="freedom">The degrees of freedom (ν) for the distribution. Range: ν > 0.</param>
+        /// <returns>a sample from the distribution.</returns>
+        public static double Sample(double location, double scale, double freedom)
+        {
+            return Sample(SystemRandomSource.Default, location, scale, freedom);
+        }
+
+        /// <summary>
+        /// Generates a sequence of samples from the Student t-distribution using the <i>Box-Muller</i> algorithm.
+        /// </summary>
+        /// <param name="location">The location (μ) of the distribution.</param>
+        /// <param name="scale">The scale (σ) of the distribution. Range: σ > 0.</param>
+        /// <param name="freedom">The degrees of freedom (ν) for the distribution. Range: ν > 0.</param>
+        /// <returns>a sequence of samples from the distribution.</returns>
+        public static IEnumerable<double> Samples(double location, double scale, double freedom)
+        {
+            return Samples(SystemRandomSource.Default, location, scale, freedom);
+        }
     }
 }
