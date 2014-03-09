@@ -195,7 +195,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
             var BReconstruct = A * X;
 
             // Check the reconstruction.
-            AssertHelpers.AlmostEqual(B, BReconstruct, 9);
+            AssertHelpers.AlmostEqual(B, BReconstruct, 8);
 
             // Make sure A/B didn't change.
             AssertHelpers.AlmostEqual(ACopy, A, 14);
@@ -257,7 +257,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
             var BReconstruct = A * X;
 
             // Check the reconstruction.
-            AssertHelpers.AlmostEqual(B, BReconstruct, 9);
+            AssertHelpers.AlmostEqual(B, BReconstruct, 8);
 
             // Make sure A/B didn't change.
             AssertHelpers.AlmostEqual(ACopy, A, 14);
