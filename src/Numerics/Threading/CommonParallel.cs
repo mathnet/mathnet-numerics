@@ -45,7 +45,7 @@ namespace MathNet.Numerics.Threading
     /// <summary>
     /// Used to simplify parallel code, particularly between the .NET 4.0 and Silverlight Code.
     /// </summary>
-    public static class CommonParallel
+    internal static class CommonParallel
     {
         private static ParallelOptions CreateParallelOptions()
         {
