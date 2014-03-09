@@ -74,7 +74,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Factorization
         {
             var matrixI = UserDefinedMatrix.Identity(8);
             matrixI[3, 3] = -4.0;
-            Assert.Throws<ArgumentException>(() => matrixI.Cholesky());
+            Assert.That(() => matrixI.Cholesky(), Throws.ArgumentException);
         }
 
         /// <summary>
@@ -84,7 +84,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Factorization
         public void CholeskyFailsWithNonSquareMatrix()
         {
             var matrixI = new UserDefinedMatrix(3, 2);
-            Assert.Throws<ArgumentException>(() => matrixI.Cholesky());
+            Assert.That(() => matrixI.Cholesky(), Throws.ArgumentException);
         }
 
         /// <summary>

@@ -95,7 +95,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         {
             var vector = CreateVector(Data.Length);
             var result = CreateVector(Data.Length + 1);
-            Assert.Throws<ArgumentException>(() => vector.Add(0.0, result));
+            Assert.That(() => vector.Add(0.0, result), Throws.ArgumentException);
         }
 
         /// <summary>
@@ -106,7 +106,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         {
             var vector = CreateVector(Data.Length);
             var other = CreateVector(Data.Length + 1);
-            Assert.Throws<ArgumentException>(() => vector.Add(other));
+            Assert.That(() => vector.Add(other), Throws.ArgumentException);
         }
 
         /// <summary>
@@ -118,7 +118,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             var vector = CreateVector(Data.Length);
             var other = CreateVector(Data.Length);
             var result = CreateVector(Data.Length + 1);
-            Assert.Throws<ArgumentException>(() => vector.Add(other, result));
+            Assert.That(() => vector.Add(other, result), Throws.ArgumentException);
         }
 
         /// <summary>
@@ -129,7 +129,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         {
             var a = CreateVector(Data.Length);
             var b = CreateVector(Data.Length + 1);
-            Assert.Throws<ArgumentException>(() => a += b);
+            Assert.That(() => a += b, Throws.ArgumentException);
         }
 
         /// <summary>
@@ -315,7 +315,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         {
             var vector = CreateVector(Data.Length);
             var result = CreateVector(Data.Length + 1);
-            Assert.Throws<ArgumentException>(() => vector.Subtract(0.0, result));
+            Assert.That(() => vector.Subtract(0.0, result), Throws.ArgumentException);
         }
 
         /// <summary>
@@ -326,7 +326,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         {
             var vector = CreateVector(Data.Length);
             var other = CreateVector(Data.Length + 1);
-            Assert.Throws<ArgumentException>(() => vector.Subtract(other));
+            Assert.That(() => vector.Subtract(other), Throws.ArgumentException);
         }
 
         /// <summary>
@@ -338,7 +338,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             var vector = CreateVector(Data.Length);
             var other = CreateVector(Data.Length);
             var result = CreateVector(Data.Length + 1);
-            Assert.Throws<ArgumentException>(() => vector.Subtract(other, result));
+            Assert.That(() => vector.Subtract(other, result), Throws.ArgumentException);
         }
 
         /// <summary>
@@ -349,7 +349,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         {
             var a = CreateVector(Data.Length);
             var b = CreateVector(Data.Length + 1);
-            Assert.Throws<ArgumentException>(() => a -= b);
+            Assert.That(() => a -= b, Throws.ArgumentException);
         }
 
         /// <summary>
@@ -550,7 +550,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         {
             var vector = CreateVector(Data.Length);
             var result = CreateVector(Data.Length + 1);
-            Assert.Throws<ArgumentException>(() => vector.Multiply(0.0, result));
+            Assert.That(() => vector.Multiply(0.0, result), Throws.ArgumentException);
         }
 
         /// <summary>
@@ -561,7 +561,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         {
             var vector = CreateVector(Data.Length);
             var result = CreateVector(Data.Length + 1);
-            Assert.Throws<ArgumentException>(() => vector.Divide(0.0, result));
+            Assert.That(() => vector.Divide(0.0, result), Throws.ArgumentException);
         }
 
         /// <summary>
@@ -641,7 +641,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             var dataA = CreateVector(Data);
             var dataB = CreateVector(new double[] { 1, 2, 3, 4, 5, 6 });
 
-            Assert.Throws<ArgumentException>(() => dataA.DotProduct(dataB));
+            Assert.That(() => dataA.DotProduct(dataB), Throws.ArgumentException);
         }
 
         /// <summary>
@@ -708,7 +708,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             var vector1 = CreateVector(Data);
             var vector2 = vector1.Clone();
             var result = CreateVector(vector1.Count + 1);
-            Assert.Throws<ArgumentException>(() => vector1.PointwiseMultiply(vector2, result));
+            Assert.That(() => vector1.PointwiseMultiply(vector2, result), Throws.ArgumentException);
         }
 
         /// <summary>
@@ -751,7 +751,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             var vector1 = CreateVector(Data);
             var vector2 = vector1.Clone();
             var result = CreateVector(vector1.Count + 1);
-            Assert.Throws<ArgumentException>(() => vector1.PointwiseDivide(vector2, result));
+            Assert.That(() => vector1.PointwiseDivide(vector2, result), Throws.ArgumentException);
         }
 
         /// <summary>

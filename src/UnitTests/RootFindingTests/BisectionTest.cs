@@ -71,7 +71,7 @@ namespace MathNet.Numerics.UnitTests.RootFindingTests
         public void NoRoot()
         {
             Func<double, double> f1 = x => x * x + 4;
-            Assert.Throws<NonConvergenceException>(() => Bisection.FindRoot(f1, -5, 5, 1e-14));
+            Assert.That(() => Bisection.FindRoot(f1, -5, 5, 1e-14), Throws.TypeOf<NonConvergenceException>());
         }
 
         [Test]

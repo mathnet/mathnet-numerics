@@ -154,7 +154,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [TestCase(-1)]
         public void IdentityWithWrongOrderThrowsArgumentOutOfRangeException(int order)
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() => Matrix<double>.Build.SparseIdentity(order));
+            Assert.That(() => Matrix<double>.Build.SparseIdentity(order), Throws.TypeOf<ArgumentOutOfRangeException>());
         }
 
         /// <summary>

@@ -65,7 +65,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [TestCase(-10.0)]
         public void ExponentialCreateFailsWithBadParameters(double lambda)
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() => new Exponential(lambda));
+            Assert.That(() => new Exponential(lambda), Throws.TypeOf<ArgumentOutOfRangeException>());
         }
 
         /// <summary>
@@ -103,7 +103,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void SetLambdaFailsWithNegativeLambda()
         {
             var n = new Exponential(1.0);
-            Assert.Throws<ArgumentOutOfRangeException>(() => n.Rate = -1.0);
+            Assert.That(() => n.Rate = -1.0, Throws.TypeOf<ArgumentOutOfRangeException>());
         }
 
         /// <summary>

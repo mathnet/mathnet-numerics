@@ -104,7 +104,7 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests.McmcTests
             var random = MersenneTwister.Default;
             var normal = new Normal(0.0, 1.0, random);
             var ms = new MetropolisHastingsSampler<double>(0.2, normal.Density, (x, y) => Normal.PDF(x, 0.1, y), x => Normal.Sample(random, x, 0.1), 10);
-            Assert.Throws<ArgumentNullException>(() => ms.RandomSource = null);
+            Assert.That(() => ms.RandomSource = null, Throws.TypeOf<ArgumentNullException>());
         }
     }
 }

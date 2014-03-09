@@ -105,7 +105,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void SetLocationFailsWithNegativeLocation()
         {
             var n = new Laplace();
-            Assert.Throws<ArgumentOutOfRangeException>(() => n.Location = Double.NaN);
+            Assert.That(() => n.Location = Double.NaN, Throws.TypeOf<ArgumentOutOfRangeException>());
         }
 
         /// <summary>
@@ -136,7 +136,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void SetScaleFailsWithNegativeScale(double scale)
         {
             var n = new Laplace();
-            Assert.Throws<ArgumentOutOfRangeException>(() => n.Scale = scale);
+            Assert.That(() => n.Scale = scale, Throws.TypeOf<ArgumentOutOfRangeException>());
         }
 
         /// <summary>

@@ -179,7 +179,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
         [TestCase(-1)]
         public void IdentityWithWrongOrderThrowsArgumentOutOfRangeException(int order)
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() => DiagonalMatrix.CreateIdentity(order));
+            Assert.That(() => DiagonalMatrix.CreateIdentity(order), Throws.TypeOf<ArgumentOutOfRangeException>());
         }
 
         /// <summary>
@@ -214,7 +214,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
         {
             var matrixp = DiagonalMatrix.OfArray(TestData2D["Singular3x3"]);
             var permutation = new Permutation(new[] {2, 0, 1});
-            Assert.Throws<InvalidOperationException>(() => matrixp.PermuteRows(permutation));
+            Assert.That(() => matrixp.PermuteRows(permutation), Throws.InvalidOperationException);
         }
 
         /// <summary>
@@ -225,7 +225,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
         {
             var matrixp = DiagonalMatrix.OfArray(TestData2D["Singular3x3"]);
             var permutation = new Permutation(new[] {2, 0, 1});
-            Assert.Throws<InvalidOperationException>(() => matrixp.PermuteColumns(permutation));
+            Assert.That(() => matrixp.PermuteColumns(permutation), Throws.InvalidOperationException);
         }
 
         /// <summary>
@@ -346,7 +346,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
         public void DeterminantNotSquareMatrixThrowsArgumentException()
         {
             var matrix = TestMatrices["Tall3x2"];
-            Assert.Throws<ArgumentException>(() => matrix.Determinant());
+            Assert.That(() => matrix.Determinant(), Throws.ArgumentException);
         }
 
         /// <summary>

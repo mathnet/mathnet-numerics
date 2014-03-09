@@ -71,11 +71,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers
             };
             var iterator = new Iterator<double>(criteria);
 
-            Assert.Throws<ArgumentOutOfRangeException>(() => iterator.DetermineStatus(
+            Assert.That(() => iterator.DetermineStatus(
                 -1,
                 Vector<double>.Build.Dense(3, 4),
                 Vector<double>.Build.Dense(3, 5),
-                Vector<double>.Build.Dense(3, 6)));
+                Vector<double>.Build.Dense(3, 6)), Throws.TypeOf<ArgumentOutOfRangeException>());
         }
 
         /// <summary>

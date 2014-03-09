@@ -174,7 +174,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
         [TestCase(-1)]
         public void IdentityWithWrongOrderThrowsArgumentOutOfRangeException(int order)
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() => SparseMatrix.CreateIdentity(order));
+            Assert.That(() => SparseMatrix.CreateIdentity(order), Throws.TypeOf<ArgumentOutOfRangeException>());
         }
 
         /// <summary>

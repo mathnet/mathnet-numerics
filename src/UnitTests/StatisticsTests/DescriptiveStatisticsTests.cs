@@ -74,10 +74,10 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
             const IEnumerable<double> Data = null;
             const IEnumerable<double?> NullableData = null;
 
-            Assert.Throws<ArgumentNullException>(() => new DescriptiveStatistics(Data));
-            Assert.Throws<ArgumentNullException>(() => new DescriptiveStatistics(Data, true));
-            Assert.Throws<ArgumentNullException>(() => new DescriptiveStatistics(NullableData));
-            Assert.Throws<ArgumentNullException>(() => new DescriptiveStatistics(NullableData, true));
+            Assert.That(() => new DescriptiveStatistics(Data), Throws.TypeOf<ArgumentNullException>());
+            Assert.That(() => new DescriptiveStatistics(Data, true), Throws.TypeOf<ArgumentNullException>());
+            Assert.That(() => new DescriptiveStatistics(NullableData), Throws.TypeOf<ArgumentNullException>());
+            Assert.That(() => new DescriptiveStatistics(NullableData, true), Throws.TypeOf<ArgumentNullException>());
         }
 
         /// <summary>

@@ -88,8 +88,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
         [Test]
         public void ParseIfMissingClosingParenThrowsFormatException()
         {
-            Assert.Throws<FormatException>(() => SparseVector.Parse("(1"));
-            Assert.Throws<FormatException>(() => SparseVector.Parse("[1"));
+            Assert.That(() => SparseVector.Parse("(1"), Throws.TypeOf<FormatException>());
+            Assert.That(() => SparseVector.Parse("[1"), Throws.TypeOf<FormatException>());
         }
 
         /// <summary>

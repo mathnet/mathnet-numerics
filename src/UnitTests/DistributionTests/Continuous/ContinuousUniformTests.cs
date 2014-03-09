@@ -84,7 +84,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [TestCase(1.0, 0.0)]
         public void ContinuousUniformCreateFailsWithBadParameters(double lower, double upper)
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() => new ContinuousUniform(lower, upper));
+            Assert.That(() => new ContinuousUniform(lower, upper), Throws.TypeOf<ArgumentOutOfRangeException>());
         }
 
         /// <summary>
@@ -121,7 +121,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void SetBadLowerFails()
         {
             var n = new ContinuousUniform();
-            Assert.Throws<ArgumentOutOfRangeException>(() => n.LowerBound = 3.0);
+            Assert.That(() => n.LowerBound = 3.0, Throws.TypeOf<ArgumentOutOfRangeException>());
         }
 
         /// <summary>
@@ -146,7 +146,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void SetBadUpperFails()
         {
             var n = new ContinuousUniform();
-            Assert.Throws<ArgumentOutOfRangeException>(() => n.UpperBound = -1.0);
+            Assert.That(() => n.UpperBound = -1.0, Throws.TypeOf<ArgumentOutOfRangeException>());
         }
 
         /// <summary>
@@ -336,7 +336,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [Test]
         public void FailSampleStatic()
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() => ContinuousUniform.Sample(new Random(0), 0.0, -1.0));
+            Assert.That(() => ContinuousUniform.Sample(new Random(0), 0.0, -1.0), Throws.TypeOf<ArgumentOutOfRangeException>());
         }
 
         /// <summary>
@@ -345,7 +345,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [Test]
         public void FailSampleSequenceStatic()
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() => ContinuousUniform.Samples(new Random(0), 0.0, -1.0).First());
+            Assert.That(() => ContinuousUniform.Samples(new Random(0), 0.0, -1.0).First(), Throws.TypeOf<ArgumentOutOfRangeException>());
         }
 
         /// <summary>

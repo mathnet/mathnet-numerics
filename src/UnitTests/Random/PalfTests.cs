@@ -53,7 +53,7 @@ namespace MathNet.Numerics.UnitTests.Random
         [Test]
         public void ThrowsArgumentExceptionWhenShortLagIsNonPositive()
         {
-            Assert.Throws<ArgumentException>(() => new Palf(1, true, 0, 10));
+            Assert.That(() => new Palf(1, true, 0, 10), Throws.ArgumentException);
         }
 
         /// <summary>
@@ -62,7 +62,7 @@ namespace MathNet.Numerics.UnitTests.Random
         [Test]
         public void ThrowsArgumentExceptionWhenLongLagIsNotGreaterThanShortLag()
         {
-            Assert.Throws<ArgumentException>(() => new Palf(1, true, 10, 10));
+            Assert.That(() => new Palf(1, true, 10, 10), Throws.ArgumentException);
         }
 
         [Test]

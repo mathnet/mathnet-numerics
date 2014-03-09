@@ -70,7 +70,7 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
         [Test]
         public void EmptyBucketWithBadBoundsFails()
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() => new Bucket(1.0, 0.5));
+            Assert.That(() => new Bucket(1.0, 0.5), Throws.TypeOf<ArgumentOutOfRangeException>());
         }
 
         /// <summary>
@@ -79,7 +79,7 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
         [Test]
         public void EmptyBucketWithBadCountFails()
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() => new Bucket(1.0, 0.5, -1.0));
+            Assert.That(() => new Bucket(1.0, 0.5, -1.0), Throws.TypeOf<ArgumentOutOfRangeException>());
         }
 
         /// <summary>
@@ -189,8 +189,8 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
             h.AddBucket(new Bucket(2.0, 3.0));
             h.AddBucket(new Bucket(3.0, 20.0));
             h.AddBucket(new Bucket(20.0, Double.PositiveInfinity));
-            Assert.Throws<ArgumentException>(() => { var i = h.GetBucketIndexOf(0.0); });
-            Assert.Throws<ArgumentException>(() => { var i = h.GetBucketIndexOf(-1.0); });
+            Assert.That(() => { var i = h.GetBucketIndexOf(0.0); }, Throws.ArgumentException);
+            Assert.That(() => { var i = h.GetBucketIndexOf(-1.0); }, Throws.ArgumentException);
         }
 
         /// <summary>
@@ -276,7 +276,7 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
         [Test]
         public void FailCreateEqualSpacedHistogramWithNoData()
         {
-            Assert.Throws<ArgumentException>(() => new Histogram(new List<double>(), 10));
+            Assert.That(() => new Histogram(new List<double>(), 10), Throws.ArgumentException);
         }
 
         /// <summary>

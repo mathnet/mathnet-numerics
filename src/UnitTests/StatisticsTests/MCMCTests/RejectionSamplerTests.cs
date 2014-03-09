@@ -96,7 +96,7 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests.McmcTests
         {
             var uniform = new ContinuousUniform(0.0, 1.0, new SystemRandomSource(1));
             var rs = new RejectionSampler<double>(x => Math.Pow(x, 1.7)*Math.Pow(1.0 - x, 5.3), x => Double.NegativeInfinity, uniform.Sample);
-            Assert.Throws<ArgumentOutOfRangeException>(() => rs.Sample());
+            Assert.That(() => rs.Sample(), Throws.TypeOf<ArgumentOutOfRangeException>());
         }
 
         /// <summary>
@@ -107,7 +107,7 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests.McmcTests
         {
             var uniform = new ContinuousUniform(0.0, 1.0, new SystemRandomSource(1));
             var rs = new RejectionSampler<double>(x => Math.Pow(x, 1.7)*Math.Pow(1.0 - x, 5.3), x => Double.NegativeInfinity, uniform.Sample);
-            Assert.Throws<ArgumentNullException>(() => rs.RandomSource = null);
+            Assert.That(() => rs.RandomSource = null, Throws.TypeOf<ArgumentNullException>());
         }
     }
 }

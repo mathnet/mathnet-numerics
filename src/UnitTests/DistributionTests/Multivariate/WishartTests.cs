@@ -85,7 +85,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
             var matrix = Matrix<double>.Build.RandomPositiveDefinite(order, 1);
             matrix[0, 0] = 0.0;
 
-            Assert.Throws<ArgumentOutOfRangeException>(() => new Wishart(nu, matrix));
+            Assert.That(() => new Wishart(nu, matrix), Throws.TypeOf<ArgumentOutOfRangeException>());
         }
 
         /// <summary>
@@ -98,7 +98,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         public void FailNuCreateWishart(double nu, int order)
         {
             var matrix = Matrix<double>.Build.RandomPositiveDefinite(order, 1);
-            Assert.Throws<ArgumentOutOfRangeException>(() => new InverseWishart(nu, matrix));
+            Assert.That(() => new InverseWishart(nu, matrix), Throws.TypeOf<ArgumentOutOfRangeException>());
         }
 
         /// <summary>
@@ -304,7 +304,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         [Test]
         public void FailSampleStatic()
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() => Wishart.Sample(new System.Random(0), -1.0, Matrix<double>.Build.RandomPositiveDefinite(2, 1)));
+            Assert.That(() => Wishart.Sample(new System.Random(0), -1.0, Matrix<double>.Build.RandomPositiveDefinite(2, 1)), Throws.TypeOf<ArgumentOutOfRangeException>());
         }
     }
 }

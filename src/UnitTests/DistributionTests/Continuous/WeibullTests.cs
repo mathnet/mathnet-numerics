@@ -75,7 +75,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [TestCase(1.0, 0.0)]
         public void WeibullCreateFailsWithBadParameters(double shape, double scale)
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() => new Weibull(shape, scale));
+            Assert.That(() => new Weibull(shape, scale), Throws.TypeOf<ArgumentOutOfRangeException>());
         }
 
         /// <summary>
@@ -114,7 +114,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void SetShapeFailsWithNegativeShape(double shape)
         {
             var n = new Weibull(1.0, 1.0);
-            Assert.Throws<ArgumentOutOfRangeException>(() => n.Shape = shape);
+            Assert.That(() => n.Shape = shape, Throws.TypeOf<ArgumentOutOfRangeException>());
         }
 
         /// <summary>
@@ -143,7 +143,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void SetScaleFailsWithNegativeScale(double scale)
         {
             var n = new Weibull(1.0, 1.0);
-            Assert.Throws<ArgumentOutOfRangeException>(() => n.Scale = scale);
+            Assert.That(() => n.Scale = scale, Throws.TypeOf<ArgumentOutOfRangeException>());
         }
 
         /// <summary>
@@ -337,7 +337,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [Test]
         public void FailSampleStatic()
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() => Normal.Sample(new Random(0), 1.0, -1.0));
+            Assert.That(() => Normal.Sample(new Random(0), 1.0, -1.0), Throws.TypeOf<ArgumentOutOfRangeException>());
         }
 
         /// <summary>
@@ -346,7 +346,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [Test]
         public void FailSampleSequenceStatic()
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() => Normal.Samples(new Random(0), 1.0, -1.0).First());
+            Assert.That(() => Normal.Samples(new Random(0), 1.0, -1.0).First(), Throws.TypeOf<ArgumentOutOfRangeException>());
         }
 
         /// <summary>

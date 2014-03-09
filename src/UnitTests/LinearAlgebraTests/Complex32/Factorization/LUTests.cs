@@ -83,7 +83,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
         public void LUFailsWithNonSquareMatrix()
         {
             var matrix = new DenseMatrix(3, 1);
-            Assert.Throws<ArgumentException>(() => matrix.LU());
+            Assert.That(() => matrix.LU(), Throws.ArgumentException);
         }
 
         /// <summary>

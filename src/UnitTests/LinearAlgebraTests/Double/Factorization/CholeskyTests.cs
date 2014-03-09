@@ -69,7 +69,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
         {
             var matrixI = Matrix<double>.Build.DenseIdentity(10);
             matrixI[3, 3] = -4.0;
-            Assert.Throws<ArgumentException>(() => matrixI.Cholesky());
+            Assert.That(() => matrixI.Cholesky(), Throws.ArgumentException);
         }
 
         /// <summary>
@@ -79,7 +79,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
         public void CholeskyFailsWithNonSquareMatrix()
         {
             var matrix = new DenseMatrix(3, 2);
-            Assert.Throws<ArgumentException>(() => matrix.Cholesky());
+            Assert.That(() => matrix.Cholesky(), Throws.ArgumentException);
         }
 
         /// <summary>

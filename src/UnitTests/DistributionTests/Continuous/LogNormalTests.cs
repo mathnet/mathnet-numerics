@@ -72,7 +72,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [TestCase(1.0, -1.0)]
         public void LogNormalCreateFailsWithBadParameters(double mu, double sigma)
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() => new LogNormal(mu, sigma));
+            Assert.That(() => new LogNormal(mu, sigma), Throws.TypeOf<ArgumentOutOfRangeException>());
         }
 
         /// <summary>
@@ -110,7 +110,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void SetSigmaFailsWithNegativeSigma()
         {
             var n = new LogNormal(1.0, 2.0);
-            Assert.Throws<ArgumentOutOfRangeException>(() => n.Sigma = -1.0);
+            Assert.That(() => n.Sigma = -1.0, Throws.TypeOf<ArgumentOutOfRangeException>());
         }
 
         /// <summary>
@@ -443,7 +443,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [Test]
         public void FailSampleStatic()
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() => { var d = LogNormal.Sample(new Random(0), 0.0, -1.0); });
+            Assert.That(() => { var d = LogNormal.Sample(new Random(0), 0.0, -1.0); }, Throws.TypeOf<ArgumentOutOfRangeException>());
         }
 
         /// <summary>
@@ -452,7 +452,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [Test]
         public void FailSampleSequenceStatic()
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() => { var ied = LogNormal.Samples(new Random(0), 0.0, -1.0).First(); });
+            Assert.That(() => { var ied = LogNormal.Samples(new Random(0), 0.0, -1.0).First(); }, Throws.TypeOf<ArgumentOutOfRangeException>());
         }
 
         /// <summary>

@@ -63,8 +63,8 @@ namespace MathNet.Numerics.UnitTests.RootFindingTests
         {
             // Method cannot get out of local minima.
             Func<double, double> f1 = x => x * x * x - 2 * x + 2;
-            Assert.Throws<NonConvergenceException>(() => BroydenFindRoot(f1, -5, 5, 1e-14));
-            Assert.Throws<NonConvergenceException>(() => BroydenFindRoot(f1, -2, 4, 1e-14));
+            Assert.That(() => BroydenFindRoot(f1, -5, 5, 1e-14), Throws.TypeOf<NonConvergenceException>());
+            Assert.That(() => BroydenFindRoot(f1, -2, 4, 1e-14), Throws.TypeOf<NonConvergenceException>());
             Assert.AreEqual(0, f1(BroydenFindRoot(f1, -2, -1, 1e-14)), 1e-14);
         }
 
@@ -72,7 +72,7 @@ namespace MathNet.Numerics.UnitTests.RootFindingTests
         public void NoRoot()
         {
             Func<double, double> f1 = x => x * x + 4;
-            Assert.Throws<NonConvergenceException>(() => BroydenFindRoot(f1, -5, 5, 1e-14));
+            Assert.That(() => BroydenFindRoot(f1, -5, 5, 1e-14), Throws.TypeOf<NonConvergenceException>());
         }
 
         [Test]
@@ -201,7 +201,7 @@ namespace MathNet.Numerics.UnitTests.RootFindingTests
                 return R * T / V + Beta / (V * V) + Gama / (V * V * V) + Delta / (V * V * V * V) - P;
             };
 
-            Assert.Throws<NonConvergenceException>(() => BroydenFindRoot(f1, 0.1, 1));
+            Assert.That(() => BroydenFindRoot(f1, 0.1, 1), Throws.TypeOf<NonConvergenceException>());
         }
 
         [Test]
@@ -236,7 +236,7 @@ namespace MathNet.Numerics.UnitTests.RootFindingTests
             // Test case from http://www.polymath-software.com/library/nle/Oneeq7.htm
             // not solvable with this method
             Func<double, double> f1 = x => x / (1 - x) - 5 * Math.Log(0.4 * (1 - x) / (0.4 - 0.5 * x)) + 4.45977;
-            Assert.Throws<NonConvergenceException>(() => BroydenFindRoot(f1, 0, 0.79, 1e-2));
+            Assert.That(() => BroydenFindRoot(f1, 0, 0.79, 1e-2), Throws.TypeOf<NonConvergenceException>());
         }
 
         [Test]
@@ -286,7 +286,7 @@ namespace MathNet.Numerics.UnitTests.RootFindingTests
             // method fails if started too far away from the root
             Func<double, double> f1 = x => (1.0 / 63.0) * Math.Log(x) + (64.0 / 63.0) * Math.Log(1 / (1 - x)) + Math.Log(0.95 - x) - Math.Log(0.9);
 
-            Assert.Throws<NonConvergenceException>(() => BroydenFindRoot(f1, .01, 0.35));
+            Assert.That(() => BroydenFindRoot(f1, .01, 0.35), Throws.TypeOf<NonConvergenceException>());
             double r = BroydenFindRoot(f1, .01, 0.04, 1e-14);
             Assert.AreEqual(0.036210083704, r, 1e-5);
             Assert.AreEqual(0, f1(r), 1e-14);
@@ -480,7 +480,7 @@ namespace MathNet.Numerics.UnitTests.RootFindingTests
             // method fails if started too far away from the root
             Func<double, double> f1 = rp => rp - 0.327 * Math.Pow(0.06 - 161 * rp, 0.804) * Math.Exp(-5230 / (1.987 * (373 + 1.84e6 * rp)));
 
-            Assert.Throws<NonConvergenceException>(() => BroydenFindRoot(f1, 0, 0.00035));
+            Assert.That(() => BroydenFindRoot(f1, 0, 0.00035), Throws.TypeOf<NonConvergenceException>());
             double x = BroydenFindRoot(f1, 0.0003, 0.00035, 1e-14);
             Assert.AreEqual(0.000340568862275, x, 1e-5);
             Assert.AreEqual(0, f1(x), 1e-14);
@@ -604,7 +604,7 @@ namespace MathNet.Numerics.UnitTests.RootFindingTests
                 return z * z * z - z * z - Q * z - r;
             };
 
-            Assert.Throws<NonConvergenceException>(() => BroydenFindRoot(f1, -0.5, 1.2));
+            Assert.That(() => BroydenFindRoot(f1, -0.5, 1.2), Throws.TypeOf<NonConvergenceException>());
             double x = BroydenFindRoot(f1, 0.5, 1.2, 1e-14);
             Assert.AreEqual(1.06831213384200, x, 1e-7);
             Assert.AreEqual(0, f1(x), 1e-14);
@@ -629,7 +629,7 @@ namespace MathNet.Numerics.UnitTests.RootFindingTests
                 return -ra / FA0;
             };
 
-            Assert.Throws<NonConvergenceException>(() => BroydenFindRoot(f1, 0.75, 1.02));
+            Assert.That(() => BroydenFindRoot(f1, 0.75, 1.02), Throws.TypeOf<NonConvergenceException>());
             double x = BroydenFindRoot(f1, 0.98, 1.02, 1e-14);
             Assert.AreEqual(0.999251497006000, x, 1e-3);
             Assert.AreEqual(0, f1(x), 1e-14);
@@ -697,7 +697,7 @@ namespace MathNet.Numerics.UnitTests.RootFindingTests
                 return -tg * sg * al + tl * sl * ag - ti * si * (al + ag) + d * (rol - rog) * al * ag * g;
             };
 
-            Assert.Throws<NonConvergenceException>(() => BroydenFindRoot(f1, 0, 0.3));
+            Assert.That(() => BroydenFindRoot(f1, 0, 0.3), Throws.TypeOf<NonConvergenceException>());
             double x = BroydenFindRoot(f1, 0, 0.01, 1e-14);
             Assert.AreEqual(0.00596133169486, x, 1e-5);
             Assert.AreEqual(0, f1(x), 1e-14);
@@ -743,7 +743,7 @@ namespace MathNet.Numerics.UnitTests.RootFindingTests
                 return -tg * sg * al + tl * sl * ag - ti * si * (al + ag) + d * (rol - rog) * al * ag * g;
             };
 
-            Assert.Throws<NonConvergenceException>(() => BroydenFindRoot(f1, 0, 0.1));
+            Assert.That(() => BroydenFindRoot(f1, 0, 0.1), Throws.TypeOf<NonConvergenceException>());
             double x = BroydenFindRoot(f1, 0, 0.01, 1e-14);
             Assert.AreEqual(0.00602268958797, x, 1e-5);
             Assert.AreEqual(0, f1(x), 1e-14);
@@ -1704,7 +1704,7 @@ namespace MathNet.Numerics.UnitTests.RootFindingTests
                 return new double[6] { fCA, fCB, fCC, fCD, fCE, fT };
             };
 
-            Assert.Throws<NonConvergenceException>(() => Broyden.FindRoot(fa1, new double[6] { 0.5, 0.01, 1, 0.01, 1, 420 }, 1e1));
+            Assert.That(() => Broyden.FindRoot(fa1, new double[6] { 0.5, 0.01, 1, 0.01, 1, 420 }, 1e1), Throws.TypeOf<NonConvergenceException>());
         }
 
         [Test]
@@ -2140,7 +2140,7 @@ namespace MathNet.Numerics.UnitTests.RootFindingTests
                 return new double[10] { fx1, fx2, fx3, fx4, fx5, fx6, fx7, fx8, fx9, fx10 };
             };
 
-            Assert.Throws<NonConvergenceException>(() => Broyden.FindRoot(fa1, new double[10] { 1, 1, 10, 1, 1, 1, 0, 0, 0, 0 }, 1e-1));
+            Assert.That(() => Broyden.FindRoot(fa1, new double[10] { 1, 1, 10, 1, 1, 1, 0, 0, 0, 0 }, 1e-1), Throws.TypeOf<NonConvergenceException>());
             double[] r = Broyden.FindRoot(fa1, new double[10] { 3, 4, 20, 0.1, 0.1, 0.01, 0.01, 0.01, 0.1, 0.001 }, 1e-14);
             Assert.AreEqual(2.88010599840556, r[0], 1e-5);
             Assert.AreEqual(3.95067493980017, r[1], 1e-5);
@@ -2196,7 +2196,7 @@ namespace MathNet.Numerics.UnitTests.RootFindingTests
                 return new double[10] { fx1, fx2, fx3, fx4, fx5, fx6, fx7, fx8, fx9, fx10 };
             };
 
-            Assert.Throws<NonConvergenceException>(() => Broyden.FindRoot(fa1, new double[10] { 2, 5, 80, 1, 0, 0, 0, 0, 20, 5 }, 1e-5));
+            Assert.That(() => Broyden.FindRoot(fa1, new double[10] { 2, 5, 80, 1, 0, 0, 0, 0, 20, 5 }, 1e-5), Throws.TypeOf<NonConvergenceException>());
             double[] r = Broyden.FindRoot(fa1, new double[10] { 3, 4, 80, 0.001, 0.001, 0.001, 0.01, 4, 26, 0.01 }, 1e-14);
             Assert.AreEqual(2.99763549788728, r[0], 1e-5);
             Assert.AreEqual(3.96642685827836, r[1], 1e-5);
@@ -2259,7 +2259,7 @@ namespace MathNet.Numerics.UnitTests.RootFindingTests
                 return new double[10] { fn1, fn2, fn3, fn4, fn5, fn6, fn7, fn8, fn9, fn10 };
             };
 
-            Assert.Throws<NonConvergenceException>(() => Broyden.FindRoot(fa1, new double[10] { 1.5, 2, 35, 0.5, 0.05, 0.005, 0.04, 0.003, 0.02, 5 }, 1e-5));
+            Assert.That(() => Broyden.FindRoot(fa1, new double[10] { 1.5, 2, 35, 0.5, 0.05, 0.005, 0.04, 0.003, 0.02, 5 }, 1e-5), Throws.TypeOf<NonConvergenceException>());
             double[] r = Broyden.FindRoot(fa1, new double[10] { 3, 4, 20, 0.1, 0.01, 0.001, 0.04, 0.003, 0.03, 0.03 }, 1e-14);
             Assert.AreEqual(2.91572542389522, r[0], 1e-5);
             Assert.AreEqual(3.96094281080888, r[1], 1e-5);
@@ -2322,7 +2322,7 @@ namespace MathNet.Numerics.UnitTests.RootFindingTests
                 return new double[10] { fn1, fn2, fn3, fn4, fn5, fn6, fn7, fn8, fn9, fn10 };
             };
 
-            Assert.Throws<NonConvergenceException>(() => Broyden.FindRoot(fa1, new double[10] { 1.5, 2, 35, 0.5, 0.05, 0.005, 0.04, 0.003, 0.02, 5 }, 1e-5));
+            Assert.That(() => Broyden.FindRoot(fa1, new double[10] { 1.5, 2, 35, 0.5, 0.05, 0.005, 0.04, 0.003, 0.02, 5 }, 1e-5), Throws.TypeOf<NonConvergenceException>());
             double[] r = Broyden.FindRoot(fa1, new double[10] { 3, 4, 80, 0.01, 0.002, 0.0006, 0.1, 0.004, 0.1, 15 }, 1e-14);
             //Assert.AreEqual(2.91572542389522, r[0], 1e-5);
             //Assert.AreEqual(3.96094281080888, r[1], 1e-5);

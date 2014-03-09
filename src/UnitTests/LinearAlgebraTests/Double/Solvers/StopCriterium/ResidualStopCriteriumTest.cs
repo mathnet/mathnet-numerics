@@ -47,7 +47,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.StopCrite
         [Test]
         public void CreateWithNegativeMaximumThrowsArgumentOutOfRangeException()
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() => new ResidualStopCriterium<double>(-0.1));
+            Assert.That(() => new ResidualStopCriterium<double>(-0.1), Throws.TypeOf<ArgumentOutOfRangeException>());
         }
 
         /// <summary>
@@ -56,7 +56,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.StopCrite
         [Test]
         public void CreateWithIllegalMinimumIterationsThrowsArgumentOutOfRangeException()
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() => new ResidualStopCriterium<double>(-1));
+            Assert.That(() => new ResidualStopCriterium<double>(-1), Throws.TypeOf<ArgumentOutOfRangeException>());
         }
 
         /// <summary>
@@ -79,11 +79,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.StopCrite
         {
             var criterium = new ResidualStopCriterium<double>(1e-8, 50);
 
-            Assert.Throws<ArgumentOutOfRangeException>(() => criterium.DetermineStatus(
+            Assert.That(() => criterium.DetermineStatus(
                 -1,
                 Vector<double>.Build.Dense(3, 4),
                 Vector<double>.Build.Dense(3, 5),
-                Vector<double>.Build.Dense(3, 6)));
+                Vector<double>.Build.Dense(3, 6)), Throws.TypeOf<ArgumentOutOfRangeException>());
         }
 
         /// <summary>
@@ -94,11 +94,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.StopCrite
         {
             var criterium = new ResidualStopCriterium<double>(1e-8, 50);
 
-            Assert.Throws<ArgumentException>(() => criterium.DetermineStatus(
+            Assert.That(() => criterium.DetermineStatus(
                 1,
                 Vector<double>.Build.Dense(4, 4),
                 Vector<double>.Build.Dense(3, 4),
-                Vector<double>.Build.Dense(3, 4)));
+                Vector<double>.Build.Dense(3, 4)), Throws.ArgumentException);
         }
 
         /// <summary>
@@ -109,11 +109,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.StopCrite
         {
             var criterium = new ResidualStopCriterium<double>(1e-8, 50);
 
-            Assert.Throws<ArgumentException>(() => criterium.DetermineStatus(
+            Assert.That(() => criterium.DetermineStatus(
                 1,
                 Vector<double>.Build.Dense(3, 4),
                 Vector<double>.Build.Dense(4, 4),
-                Vector<double>.Build.Dense(3, 4)));
+                Vector<double>.Build.Dense(3, 4)), Throws.ArgumentException);
         }
 
         /// <summary>
@@ -124,11 +124,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.StopCrite
         {
             var criterium = new ResidualStopCriterium<double>(1e-8, 50);
 
-            Assert.Throws<ArgumentException>(() => criterium.DetermineStatus(
+            Assert.That(() => criterium.DetermineStatus(
                 1,
                 Vector<double>.Build.Dense(3, 4),
                 Vector<double>.Build.Dense(3, 4),
-                Vector<double>.Build.Dense(4, 4)));
+                Vector<double>.Build.Dense(4, 4)), Throws.ArgumentException);
         }
 
         /// <summary>

@@ -73,7 +73,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [TestCase(1.0, 0.0)]
         public void ParetoCreateFailsWithBadParameters(double scale, double shape)
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() => { var n = new Pareto(scale, shape); });
+            Assert.That(() => { var n = new Pareto(scale, shape); }, Throws.TypeOf<ArgumentOutOfRangeException>());
         }
 
         /// <summary>
@@ -109,7 +109,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void SetScaleFailsWithNegativeScale()
         {
             var n = new Pareto(1.0, 1.0);
-            Assert.Throws<ArgumentOutOfRangeException>(() => n.Scale = -1.0);
+            Assert.That(() => n.Scale = -1.0, Throws.TypeOf<ArgumentOutOfRangeException>());
         }
 
         /// <summary>
@@ -135,7 +135,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void SetShapeFailsWithNegativeShape()
         {
             var n = new Pareto(1.0, 1.0);
-            Assert.Throws<ArgumentOutOfRangeException>(() => n.Shape = -1.0);
+            Assert.That(() => n.Shape = -1.0, Throws.TypeOf<ArgumentOutOfRangeException>());
         }
 
         /// <summary>

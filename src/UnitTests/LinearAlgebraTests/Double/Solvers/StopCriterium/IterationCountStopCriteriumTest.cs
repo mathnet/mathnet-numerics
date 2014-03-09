@@ -47,7 +47,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.StopCrite
         [Test]
         public void CreateWithIllegalMinimumIterationsThrowsArgumentOutOfRangeException()
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() => new IterationCountStopCriterium<double>(-1));
+            Assert.That(() => new IterationCountStopCriterium<double>(-1), Throws.TypeOf<ArgumentOutOfRangeException>());
         }
 
         /// <summary>
@@ -84,7 +84,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.StopCrite
             var criterium = new IterationCountStopCriterium<double>(10);
             Assert.IsNotNull(criterium, "A criterium should have been created");
 
-            Assert.Throws<ArgumentOutOfRangeException>(() => criterium.DetermineStatus(-1, Vector<double>.Build.Dense(3, 1), Vector<double>.Build.Dense(3, 2), Vector<double>.Build.Dense(3, 3)));
+            Assert.That(() => criterium.DetermineStatus(-1, Vector<double>.Build.Dense(3, 1), Vector<double>.Build.Dense(3, 2), Vector<double>.Build.Dense(3, 3)), Throws.TypeOf<ArgumentOutOfRangeException>());
         }
 
         /// <summary>

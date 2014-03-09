@@ -108,7 +108,7 @@ namespace MathNet.Numerics.UnitTests.ComplexTests
         [Test]
         public void IfMissingClosingParenParseThrowsFormatException()
         {
-            Assert.Throws<FormatException>(() => "(1,2".ToComplex());
+            Assert.That(() => "(1,2".ToComplex(), Throws.TypeOf<FormatException>());
         }
 
         /// <summary>

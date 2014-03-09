@@ -88,7 +88,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [TestCase(-10.0, -10.0)]
         public void FisherSnedecorCreateFailsWithBadParameters(double d1, double d2)
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() => new FisherSnedecor(d1, d2));
+            Assert.That(() => new FisherSnedecor(d1, d2), Throws.TypeOf<ArgumentOutOfRangeException>());
         }
 
         /// <summary>
@@ -124,7 +124,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void SetDegreesOfFreedom1FailsWithNegativeDegreeOfFreedom()
         {
             var n = new FisherSnedecor(1.0, 2.0);
-            Assert.Throws<ArgumentOutOfRangeException>(() => n.DegreesOfFreedom1 = -1.0);
+            Assert.That(() => n.DegreesOfFreedom1 = -1.0, Throws.TypeOf<ArgumentOutOfRangeException>());
         }
 
         /// <summary>
@@ -150,7 +150,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void SetDegreesOfFreedom2FailsWithNegativeDegreeOfFreedom()
         {
             var n = new FisherSnedecor(1.0, 2.0);
-            Assert.Throws<ArgumentOutOfRangeException>(() => n.DegreesOfFreedom2 = -1.0);
+            Assert.That(() => n.DegreesOfFreedom2 = -1.0, Throws.TypeOf<ArgumentOutOfRangeException>());
         }
 
         /// <summary>

@@ -84,7 +84,7 @@ namespace MathNet.Numerics.UnitTests.RootFindingTests
         public void NoRoot()
         {
             Func<double, double> f1 = x => x * x + 4;
-            Assert.Throws<NonConvergenceException>(() => Brent.FindRoot(f1, -5, 5, 1e-14, 50));
+            Assert.That(() => Brent.FindRoot(f1, -5, 5, 1e-14, 50), Throws.TypeOf<NonConvergenceException>());
         }
 
         [Test]
@@ -153,7 +153,7 @@ namespace MathNet.Numerics.UnitTests.RootFindingTests
             // Test case from http://www.polymath-software.com/library/nle/Oneeq3.htm
             // not solvable with this method
             Func<double, double> f1 = T => Math.Exp(21000 / T) / (T * T) - 1.11e11;
-            Assert.Throws<NonConvergenceException>(() => Brent.FindRoot(f1, 550, 560, 1e-2));
+            Assert.That(() => Brent.FindRoot(f1, 550, 560, 1e-2), Throws.TypeOf<NonConvergenceException>());
         }
 
         [Test]
@@ -213,7 +213,7 @@ namespace MathNet.Numerics.UnitTests.RootFindingTests
                 return R * T / V + Beta / (V * V) + Gama / (V * V * V) + Delta / (V * V * V * V) - P;
             };
 
-            Assert.Throws<NonConvergenceException>(() => Brent.FindRoot(f1, 0.1, 1));
+            Assert.That(() => Brent.FindRoot(f1, 0.1, 1), Throws.TypeOf<NonConvergenceException>());
         }
 
         [Test]
@@ -248,7 +248,7 @@ namespace MathNet.Numerics.UnitTests.RootFindingTests
             // Test case from http://www.polymath-software.com/library/nle/Oneeq7.htm
             // not solvable with this method
             Func<double, double> f1 = x => x / (1 - x) - 5 * Math.Log(0.4 * (1 - x) / (0.4 - 0.5 * x)) + 4.45977;
-            Assert.Throws<NonConvergenceException>(() => Brent.FindRoot(f1, 0, 0.79, 1e-2));
+            Assert.That(() => Brent.FindRoot(f1, 0, 0.79, 1e-2), Throws.TypeOf<NonConvergenceException>());
         }
 
         [Test]
@@ -265,7 +265,7 @@ namespace MathNet.Numerics.UnitTests.RootFindingTests
                 return a * v * v + b * Math.Pow(v, 7 / 4) - c;
             };
 
-            Assert.Throws<NonConvergenceException>(() => Brent.FindRoot(f1, 0.01, 1, 1e-2));
+            Assert.That(() => Brent.FindRoot(f1, 0.01, 1, 1e-2), Throws.TypeOf<NonConvergenceException>());
         }
 
         [Test]

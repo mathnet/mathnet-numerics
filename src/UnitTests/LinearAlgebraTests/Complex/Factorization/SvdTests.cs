@@ -196,7 +196,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Factorization
             var factorSvd = matrixA.Svd(false);
 
             var matrixB = Matrix<Complex>.Build.Random(10, 9, 1);
-            Assert.Throws<InvalidOperationException>(() => factorSvd.Solve(matrixB));
+            Assert.That(() => factorSvd.Solve(matrixB), Throws.InvalidOperationException);
         }
 
         /// <summary>
@@ -209,7 +209,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Factorization
             var factorSvd = matrixA.Svd(false);
 
             var vectorb = Vector<Complex>.Build.Random(9, 1);
-            Assert.Throws<InvalidOperationException>(() => factorSvd.Solve(vectorb));
+            Assert.That(() => factorSvd.Solve(vectorb), Throws.InvalidOperationException);
         }
 
         /// <summary>

@@ -100,8 +100,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
         [Test]
         public void ParseIfMissingClosingParenThrowsFormatException()
         {
-            Assert.Throws<FormatException>(() => DenseVector.Parse("(1"));
-            Assert.Throws<FormatException>(() => DenseVector.Parse("[1"));
+            Assert.That(() => DenseVector.Parse("(1"), Throws.TypeOf<FormatException>());
+            Assert.That(() => DenseVector.Parse("[1"), Throws.TypeOf<FormatException>());
         }
 
         /// <summary>

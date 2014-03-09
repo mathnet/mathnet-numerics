@@ -48,7 +48,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.StopCrite
         [Test]
         public void CreateWithNegativeMaximumIncreaseThrowsArgumentOutOfRangeException()
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() => new DivergenceStopCriterium<double>(-0.1));
+            Assert.That(() => new DivergenceStopCriterium<double>(-0.1), Throws.TypeOf<ArgumentOutOfRangeException>());
         }
 
         /// <summary>
@@ -57,7 +57,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.StopCrite
         [Test]
         public void CreateWithIllegalMinimumIterationsThrowsArgumentOutOfRangeException()
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() => new DivergenceStopCriterium<double>(minimumIterations: 2));
+            Assert.That(() => new DivergenceStopCriterium<double>(minimumIterations: 2), Throws.TypeOf<ArgumentOutOfRangeException>());
         }
 
         /// <summary>
@@ -80,11 +80,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.StopCrite
         public void DetermineStatusWithIllegalIterationNumberThrowsArgumentOutOfRangeException()
         {
             var criterium = new DivergenceStopCriterium<double>(0.5, 15);
-            Assert.Throws<ArgumentOutOfRangeException>(() => criterium.DetermineStatus(
+            Assert.That(() => criterium.DetermineStatus(
                 -1,
                 Vector<double>.Build.Dense(3, 4),
                 Vector<double>.Build.Dense(3, 5),
-                Vector<double>.Build.Dense(3, 6)));
+                Vector<double>.Build.Dense(3, 6)), Throws.TypeOf<ArgumentOutOfRangeException>());
         }
 
         /// <summary>

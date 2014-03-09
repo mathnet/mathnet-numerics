@@ -61,7 +61,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers.StopCrite
             var criterium = new FailureStopCriterium<float>();
             Assert.IsNotNull(criterium, "There should be a criterium");
 
-            Assert.Throws<ArgumentOutOfRangeException>(() => criterium.DetermineStatus(-1, Vector<float>.Build.Dense(3, 4), Vector<float>.Build.Dense(3, 5), Vector<float>.Build.Dense(3, 6)));
+            Assert.That(() => criterium.DetermineStatus(-1, Vector<float>.Build.Dense(3, 4), Vector<float>.Build.Dense(3, 5), Vector<float>.Build.Dense(3, 6)), Throws.TypeOf<ArgumentOutOfRangeException>());
         }
 
         /// <summary>
@@ -73,7 +73,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers.StopCrite
             var criterium = new FailureStopCriterium<float>();
             Assert.IsNotNull(criterium, "There should be a criterium");
 
-            Assert.Throws<ArgumentException>(() => criterium.DetermineStatus(1, Vector<float>.Build.Dense(3, 4), Vector<float>.Build.Dense(3, 6), Vector<float>.Build.Dense(4, 4)));
+            Assert.That(() => criterium.DetermineStatus(1, Vector<float>.Build.Dense(3, 4), Vector<float>.Build.Dense(3, 6), Vector<float>.Build.Dense(4, 4)), Throws.ArgumentException);
         }
 
         /// <summary>

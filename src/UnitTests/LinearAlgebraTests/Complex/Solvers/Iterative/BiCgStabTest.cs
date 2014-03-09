@@ -69,7 +69,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.Iterativ
             var input = new DenseVector(2);
 
             var solver = new BiCgStab();
-            Assert.Throws<ArgumentException>(() => matrix.SolveIterative(input, solver));
+            Assert.That(() => matrix.SolveIterative(input, solver), Throws.ArgumentException);
         }
 
         /// <summary>
@@ -82,7 +82,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.Iterativ
             var input = new DenseVector(3);
 
             var solver = new BiCgStab();
-            Assert.Throws<ArgumentException>(() => matrix.SolveIterative(input, solver));
+            Assert.That(() => matrix.SolveIterative(input, solver), Throws.ArgumentException);
         }
 
         /// <summary>

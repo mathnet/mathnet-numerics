@@ -83,7 +83,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [TestCase(1.0, -1.0)]
         public void NormalCreateFailsWithBadParameters(double mean, double sdev)
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() => new Normal(mean, sdev));
+            Assert.That(() => new Normal(mean, sdev), Throws.TypeOf<ArgumentOutOfRangeException>());
         }
 
         /// <summary>
@@ -175,7 +175,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void SetPrecisionFailsWithNegativePrecision()
         {
             var n = new Normal();
-            Assert.Throws<ArgumentOutOfRangeException>(() => n.Precision = -1.0);
+            Assert.That(() => n.Precision = -1.0, Throws.TypeOf<ArgumentOutOfRangeException>());
         }
 
         /// <summary>
@@ -205,7 +205,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void SetVarianceFailsWithNegativeVariance()
         {
             var n = new Normal();
-            Assert.Throws<ArgumentOutOfRangeException>(() => n.Variance = -1.0);
+            Assert.That(() => n.Variance = -1.0, Throws.TypeOf<ArgumentOutOfRangeException>());
         }
 
         /// <summary>
@@ -235,7 +235,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void SetStdDevFailsWithNegativeStdDev()
         {
             var n = new Normal();
-            Assert.Throws<ArgumentOutOfRangeException>(() => n.StdDev = -1.0);
+            Assert.That(() => n.StdDev = -1.0, Throws.TypeOf<ArgumentOutOfRangeException>());
         }
 
         /// <summary>
@@ -416,7 +416,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [Test]
         public void FailSampleStatic()
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() => { var d = Normal.Sample(new Random(0), 0.0, -1.0); });
+            Assert.That(() => { var d = Normal.Sample(new Random(0), 0.0, -1.0); }, Throws.TypeOf<ArgumentOutOfRangeException>());
         }
 
         /// <summary>
@@ -425,7 +425,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [Test]
         public void FailSampleSequenceStatic()
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() => { var ied = Normal.Samples(new Random(0), 0.0, -1.0).First(); });
+            Assert.That(() => { var ied = Normal.Samples(new Random(0), 0.0, -1.0).First(); }, Throws.TypeOf<ArgumentOutOfRangeException>());
         }
 
         /// <summary>

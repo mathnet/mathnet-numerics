@@ -88,7 +88,7 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests.McmcTests
         [Test]
         public void InvalidScale()
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() => new UnivariateSliceSampler(0.1, x => -0.5*x*x, 5, -1.0));
+            Assert.That(() => new UnivariateSliceSampler(0.1, x => -0.5*x*x, 5, -1.0), Throws.TypeOf<ArgumentOutOfRangeException>());
         }
 
         /// <summary>
@@ -97,7 +97,7 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests.McmcTests
         [Test]
         public void InvalidBurn()
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() => new UnivariateSliceSampler(0.1, x => -0.5*x*x, -5, 1.0));
+            Assert.That(() => new UnivariateSliceSampler(0.1, x => -0.5*x*x, -5, 1.0), Throws.TypeOf<ArgumentOutOfRangeException>());
         }
     }
 }

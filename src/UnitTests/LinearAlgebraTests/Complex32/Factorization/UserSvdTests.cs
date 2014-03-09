@@ -192,7 +192,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
             var factorSvd = matrixA.Svd(false);
 
             var matrixB = new UserDefinedMatrix(Matrix<Complex32>.Build.Random(10, 3, 1).ToArray());
-            Assert.Throws<InvalidOperationException>(() => factorSvd.Solve(matrixB));
+            Assert.That(() => factorSvd.Solve(matrixB), Throws.InvalidOperationException);
         }
 
         /// <summary>
@@ -205,7 +205,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
             var factorSvd = matrixA.Svd(false);
 
             var vectorb = new UserDefinedVector(Vector<Complex32>.Build.Random(3, 1).ToArray());
-            Assert.Throws<InvalidOperationException>(() => factorSvd.Solve(vectorb));
+            Assert.That(() => factorSvd.Solve(vectorb), Throws.InvalidOperationException);
         }
 
         /// <summary>

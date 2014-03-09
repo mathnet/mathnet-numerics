@@ -281,7 +281,7 @@ namespace MathNet.Numerics.UnitTests
         [Test]
         public void RangeOfMatchingFloatingPointNumbersWithNegativeUlps()
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() => Precision.RangeOfMatchingFloatingPointNumbers(10, -1));
+            Assert.That(() => Precision.RangeOfMatchingFloatingPointNumbers(10, -1), Throws.TypeOf<ArgumentOutOfRangeException>());
         }
 
         /// <summary>
@@ -442,7 +442,7 @@ namespace MathNet.Numerics.UnitTests
         [Test]
         public void RangeOfMatchingUlpsWithNegativeRelativeDifferenceThrows()
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() => 1d.RangeOfMatchingNumbers(-1d));
+            Assert.That(() => 1d.RangeOfMatchingNumbers(-1d), Throws.TypeOf<ArgumentOutOfRangeException>());
         }
 
         /// <summary>
@@ -451,7 +451,7 @@ namespace MathNet.Numerics.UnitTests
         [Test]
         public void RangeOfMatchingUlpsWithValueAtInfinityThrows()
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() => double.PositiveInfinity.RangeOfMatchingNumbers(-1d));
+            Assert.That(() => double.PositiveInfinity.RangeOfMatchingNumbers(-1d), Throws.TypeOf<ArgumentOutOfRangeException>());
         }
 
         /// <summary>
@@ -460,7 +460,7 @@ namespace MathNet.Numerics.UnitTests
         [Test]
         public void RangeOfMatchingUlpsWithValueAtNaNThrows()
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() => double.NaN.RangeOfMatchingNumbers(-1d));
+            Assert.That(() => double.NaN.RangeOfMatchingNumbers(-1d), Throws.TypeOf<ArgumentOutOfRangeException>());
         }
 
         /// <summary>
@@ -537,7 +537,7 @@ namespace MathNet.Numerics.UnitTests
         [Test]
         public void AlmostEqualWithMaxNumbersBetweenWithLessThanOneNumberThrows()
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() => Precision.AlmostEqualNumbersBetween(1, 2, 0));
+            Assert.That(() => Precision.AlmostEqualNumbersBetween(1, 2, 0), Throws.TypeOf<ArgumentOutOfRangeException>());
         }
 
         [Test]
@@ -751,7 +751,7 @@ namespace MathNet.Numerics.UnitTests
         [Test]
         public void AlmostEqualRelativeDecimalPlacesWithNegativeDecimalPlacesThrows()
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() => Precision.AlmostEqualRelative(1, 2, -1));
+            Assert.That(() => Precision.AlmostEqualRelative(1, 2, -1), Throws.TypeOf<ArgumentOutOfRangeException>());
             Assert.DoesNotThrow(() => Precision.AlmostEqual(1, 2, -1));
         }
 
@@ -991,7 +991,7 @@ namespace MathNet.Numerics.UnitTests
         public void CompareToWithMaxNumbersBetweenWithNegativeNumberThrows()
         {
             const double Value = 10.0;
-            Assert.Throws<ArgumentOutOfRangeException>(() => Value.CompareToNumbersBetween(Value, -1));
+            Assert.That(() => Value.CompareToNumbersBetween(Value, -1), Throws.TypeOf<ArgumentOutOfRangeException>());
         }
 
         /// <summary>
@@ -1001,7 +1001,7 @@ namespace MathNet.Numerics.UnitTests
         public void CompareToWithMaxNumbersBetweenWithZeroNumberThrows()
         {
             const double Value = 10.0;
-            Assert.Throws<ArgumentOutOfRangeException>(() => Value.CompareToNumbersBetween(Value, 0));
+            Assert.That(() => Value.CompareToNumbersBetween(Value, 0), Throws.TypeOf<ArgumentOutOfRangeException>());
         }
 
         /// <summary>

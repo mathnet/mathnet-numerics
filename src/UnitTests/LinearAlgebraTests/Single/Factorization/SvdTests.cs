@@ -190,7 +190,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Factorization
             var factorSvd = matrixA.Svd(false);
 
             var matrixB = Matrix<float>.Build.Random(10, 10, 1);
-            Assert.Throws<InvalidOperationException>(() => factorSvd.Solve(matrixB));
+            Assert.That(() => factorSvd.Solve(matrixB), Throws.InvalidOperationException);
         }
 
         /// <summary>
@@ -203,7 +203,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Factorization
             var factorSvd = matrixA.Svd(false);
 
             var vectorb = Vector<float>.Build.Random(10, 1);
-            Assert.Throws<InvalidOperationException>(() => factorSvd.Solve(vectorb));
+            Assert.That(() => factorSvd.Solve(vectorb), Throws.InvalidOperationException);
         }
 
         /// <summary>

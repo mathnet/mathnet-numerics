@@ -88,8 +88,8 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         [Test]
         public void FailCreateDirichlet()
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() => new Dirichlet(0.0, 5));
-            Assert.Throws<ArgumentOutOfRangeException>(() => new Dirichlet(-0.1, 5));
+            Assert.That(() => new Dirichlet(0.0, 5), Throws.TypeOf<ArgumentOutOfRangeException>());
+            Assert.That(() => new Dirichlet(-0.1, 5), Throws.TypeOf<ArgumentOutOfRangeException>());
         }
 
         /// <summary>

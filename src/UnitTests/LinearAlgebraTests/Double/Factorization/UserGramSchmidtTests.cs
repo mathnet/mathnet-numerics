@@ -43,7 +43,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
         [Test]
         public void ConstructorWideMatrixThrowsInvalidMatrixOperationException()
         {
-            Assert.Throws<ArgumentException>(() => UserGramSchmidt.Create(new UserDefinedMatrix(3, 4)));
+            Assert.That(() => UserGramSchmidt.Create(new UserDefinedMatrix(3, 4)), Throws.ArgumentException);
         }
 
         /// <summary>

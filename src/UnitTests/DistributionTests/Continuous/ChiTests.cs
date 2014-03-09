@@ -65,7 +65,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [TestCase(Double.NaN)]
         public void ChiCreateFailsWithBadParameters(double dof)
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() => new Chi(dof));
+            Assert.That(() => new Chi(dof), Throws.TypeOf<ArgumentOutOfRangeException>());
         }
 
         /// <summary>
@@ -104,7 +104,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void SetDofFailsWithNonPositiveDoF(double dof)
         {
             var n = new Chi(1.0);
-            Assert.Throws<ArgumentOutOfRangeException>(() => n.DegreesOfFreedom = dof);
+            Assert.That(() => n.DegreesOfFreedom = dof, Throws.TypeOf<ArgumentOutOfRangeException>());
         }
 
         /// <summary>

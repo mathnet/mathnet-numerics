@@ -189,7 +189,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
             var factorSvd = matrixA.Svd(false);
 
             var matrixB = new UserDefinedMatrix(Matrix<double>.Build.Random(10, 10, 1).ToArray());
-            Assert.Throws<InvalidOperationException>(() => factorSvd.Solve(matrixB));
+            Assert.That(() => factorSvd.Solve(matrixB), Throws.InvalidOperationException);
         }
 
         /// <summary>
@@ -202,7 +202,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
             var factorSvd = matrixA.Svd(false);
 
             var vectorb = new UserDefinedVector(Vector<double>.Build.Random(10, 1).ToArray());
-            Assert.Throws<InvalidOperationException>(() => factorSvd.Solve(vectorb));
+            Assert.That(() => factorSvd.Solve(vectorb), Throws.InvalidOperationException);
         }
 
         /// <summary>

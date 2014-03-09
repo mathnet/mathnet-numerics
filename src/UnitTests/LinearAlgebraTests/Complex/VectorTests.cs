@@ -215,8 +215,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
         [Test]
         public void SizeIsNotPositiveThrowsArgumentOutOfRangeException()
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() => CreateVector(-1));
-            Assert.Throws<ArgumentOutOfRangeException>(() => CreateVector(0));
+            Assert.That(() => CreateVector(-1), Throws.TypeOf<ArgumentOutOfRangeException>());
+            Assert.That(() => CreateVector(0), Throws.TypeOf<ArgumentOutOfRangeException>());
         }
 
         /// <summary>
@@ -356,7 +356,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
         public void CanGetSubVectorWithWrongValuesShouldThrowException(int index, int length)
         {
             var vector = CreateVector(Data);
-            Assert.Throws<ArgumentOutOfRangeException>(() => vector.SubVector(index, length));
+            Assert.That(() => vector.SubVector(index, length), Throws.TypeOf<ArgumentOutOfRangeException>());
         }
 
         /// <summary>
@@ -414,7 +414,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
         public void FindMaximumIndexThrowsNotSupportedException()
         {
             var vector = CreateVector(Data);
-            Assert.Throws<NotSupportedException>(() => { var actual = vector.MaximumIndex(); });
+            Assert.That(() => { var actual = vector.MaximumIndex(); }, Throws.TypeOf<NotSupportedException>());
         }
 
         /// <summary>
@@ -424,7 +424,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
         public void FindMaximumThrowsNotSupportedException()
         {
             var vector = CreateVector(Data);
-            Assert.Throws<NotSupportedException>(() => { var actual = vector.Maximum(); });
+            Assert.That(() => { var actual = vector.Maximum(); }, Throws.TypeOf<NotSupportedException>());
         }
 
         /// <summary>
@@ -434,7 +434,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
         public void FindMinimumIndexThrowsNotSupportedException()
         {
             var vector = CreateVector(Data);
-            Assert.Throws<NotSupportedException>(() => { var actual = vector.MinimumIndex(); });
+            Assert.That(() => { var actual = vector.MinimumIndex(); }, Throws.TypeOf<NotSupportedException>());
         }
 
         /// <summary>
@@ -444,7 +444,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
         public void FindMinimumThrowsNotSupportedException()
         {
             var vector = CreateVector(Data);
-            Assert.Throws<NotSupportedException>(() => { var actual = vector.Minimum(); });
+            Assert.That(() => { var actual = vector.Minimum(); }, Throws.TypeOf<NotSupportedException>());
         }
 
         /// <summary>
@@ -480,7 +480,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
         public void SetValuesWithNullParameterThrowsArgumentException()
         {
             var vector = CreateVector(Data);
-            Assert.Throws<ArgumentNullException>(() => vector.SetValues(null));
+            Assert.That(() => vector.SetValues(null), Throws.TypeOf<ArgumentNullException>());
         }
 
         /// <summary>
@@ -490,7 +490,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
         public void SetValuesWithNonEqualDataLengthThrowsArgumentException()
         {
             var vector = CreateVector(Data.Length + 2);
-            Assert.Throws<ArgumentOutOfRangeException>(() => vector.SetValues(Data));
+            Assert.That(() => vector.SetValues(Data), Throws.TypeOf<ArgumentOutOfRangeException>());
         }
 
         /// <summary>
@@ -499,7 +499,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
         [Test]
         public void RandomWithNumberOfElementsLessThanZeroThrowsArgumentException()
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() => DenseVector.CreateRandom(-2, new ContinuousUniform()));
+            Assert.That(() => DenseVector.CreateRandom(-2, new ContinuousUniform()), Throws.TypeOf<ArgumentOutOfRangeException>());
         }
 
         /// <summary>

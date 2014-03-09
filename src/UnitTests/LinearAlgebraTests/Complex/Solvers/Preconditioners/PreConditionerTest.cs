@@ -133,7 +133,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.Precondi
             preconditioner.Initialize(newMatrix);
 
             var result = new DenseVector(vector.Count + 10);
-            Assert.Throws<ArgumentException>(() => preconditioner.Approximate(vector, result));
+            Assert.That(() => preconditioner.Approximate(vector, result), Throws.ArgumentException);
         }
 
         /// <summary>
@@ -146,7 +146,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.Precondi
             var vector = CreateStandardBcVector(Size);
             var preconditioner = CreatePreconditioner();
             var result = new DenseVector(vector.Count);
-            Assert.Throws<ArgumentException>(() => preconditioner.Approximate(vector, result));
+            Assert.That(() => preconditioner.Approximate(vector, result), Throws.ArgumentException);
         }
     }
 }

@@ -97,7 +97,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
         {
             var vector = CreateVector(Data.Length);
             var result = CreateVector(Data.Length + 1);
-            Assert.Throws<ArgumentException>(() => vector.Add(0.0f, result));
+            Assert.That(() => vector.Add(0.0f, result), Throws.ArgumentException);
         }
 
         /// <summary>
@@ -108,7 +108,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
         {
             var vector = CreateVector(Data.Length);
             var other = CreateVector(Data.Length + 1);
-            Assert.Throws<ArgumentException>(() => vector.Add(other));
+            Assert.That(() => vector.Add(other), Throws.ArgumentException);
         }
 
         /// <summary>
@@ -120,7 +120,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
             var vector = CreateVector(Data.Length);
             var other = CreateVector(Data.Length);
             var result = CreateVector(Data.Length + 1);
-            Assert.Throws<ArgumentException>(() => vector.Add(other, result));
+            Assert.That(() => vector.Add(other, result), Throws.ArgumentException);
         }
 
         /// <summary>
@@ -131,7 +131,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
         {
             var a = CreateVector(Data.Length);
             var b = CreateVector(Data.Length + 1);
-            Assert.Throws<ArgumentException>(() => a += b);
+            Assert.That(() => a += b, Throws.ArgumentException);
         }
 
         /// <summary>
@@ -317,7 +317,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
         {
             var vector = CreateVector(Data.Length);
             var result = CreateVector(Data.Length + 1);
-            Assert.Throws<ArgumentException>(() => vector.Subtract(0.0f, result));
+            Assert.That(() => vector.Subtract(0.0f, result), Throws.ArgumentException);
         }
 
         /// <summary>
@@ -328,7 +328,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
         {
             var vector = CreateVector(Data.Length);
             var other = CreateVector(Data.Length + 1);
-            Assert.Throws<ArgumentException>(() => vector.Subtract(other));
+            Assert.That(() => vector.Subtract(other), Throws.ArgumentException);
         }
 
         /// <summary>
@@ -340,7 +340,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
             var vector = CreateVector(Data.Length);
             var other = CreateVector(Data.Length);
             var result = CreateVector(Data.Length + 1);
-            Assert.Throws<ArgumentException>(() => vector.Subtract(other, result));
+            Assert.That(() => vector.Subtract(other, result), Throws.ArgumentException);
         }
 
         /// <summary>
@@ -351,7 +351,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
         {
             var a = CreateVector(Data.Length);
             var b = CreateVector(Data.Length + 1);
-            Assert.Throws<ArgumentException>(() => a -= b);
+            Assert.That(() => a -= b, Throws.ArgumentException);
         }
 
         /// <summary>
@@ -552,7 +552,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
         {
             var vector = CreateVector(Data.Length);
             var result = CreateVector(Data.Length + 1);
-            Assert.Throws<ArgumentException>(() => vector.Multiply(0.0f, result));
+            Assert.That(() => vector.Multiply(0.0f, result), Throws.ArgumentException);
         }
 
         /// <summary>
@@ -563,7 +563,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
         {
             var vector = CreateVector(Data.Length);
             var result = CreateVector(Data.Length + 1);
-            Assert.Throws<ArgumentException>(() => vector.Divide(0.0f, result));
+            Assert.That(() => vector.Divide(0.0f, result), Throws.ArgumentException);
         }
 
         /// <summary>
@@ -643,7 +643,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
             var dataA = CreateVector(Data);
             var dataB = CreateVector(new[] { new Complex32(1, 1), new Complex32(2, 1), new Complex32(3, 1), new Complex32(4, 1), new Complex32(5, 1), new Complex32(6, 1) });
 
-            Assert.Throws<ArgumentException>(() => dataA.DotProduct(dataB));
+            Assert.That(() => dataA.DotProduct(dataB), Throws.ArgumentException);
         }
 
         /// <summary>
@@ -710,7 +710,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
             var vector1 = CreateVector(Data);
             var vector2 = vector1.Clone();
             var result = CreateVector(vector1.Count + 1);
-            Assert.Throws<ArgumentException>(() => vector1.PointwiseMultiply(vector2, result));
+            Assert.That(() => vector1.PointwiseMultiply(vector2, result), Throws.ArgumentException);
         }
 
         /// <summary>
@@ -753,7 +753,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
             var vector1 = CreateVector(Data);
             var vector2 = vector1.Clone();
             var result = CreateVector(vector1.Count + 1);
-            Assert.Throws<ArgumentException>(() => vector1.PointwiseDivide(vector2, result));
+            Assert.That(() => vector1.PointwiseDivide(vector2, result), Throws.ArgumentException);
         }
 
         /// <summary>

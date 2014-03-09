@@ -121,7 +121,7 @@ namespace MathNet.Numerics.UnitTests.RootFindingTests
         {
             Func<double, double> f1 = x => x * x + 4;
             Func<double, double> df1 = x => 2 * x;
-            Assert.Throws<NonConvergenceException>(() => RobustNewtonRaphson.FindRoot(f1, df1, -5, 5, 1e-14, 50, 20));
+            Assert.That(() => RobustNewtonRaphson.FindRoot(f1, df1, -5, 5, 1e-14, 50, 20), Throws.TypeOf<NonConvergenceException>());
         }
     }
 }

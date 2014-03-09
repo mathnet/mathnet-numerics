@@ -168,7 +168,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
         [TestCase(-1)]
         public void IdentityWithWrongOrderThrowsArgumentOutOfRangeException(int order)
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() => DenseMatrix.CreateIdentity(order));
+            Assert.That(() => DenseMatrix.CreateIdentity(order), Throws.TypeOf<ArgumentOutOfRangeException>());
         }
     }
 }

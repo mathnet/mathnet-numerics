@@ -44,7 +44,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Factorization
         [Test]
         public void ConstructorWideMatrixThrowsInvalidMatrixOperationException()
         {
-            Assert.Throws<ArgumentException>(() => DenseGramSchmidt.Create(new DenseMatrix(3, 4)));
+            Assert.That(() => DenseGramSchmidt.Create(new DenseMatrix(3, 4)), Throws.ArgumentException);
         }
 
         /// <summary>

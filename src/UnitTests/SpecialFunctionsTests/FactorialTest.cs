@@ -69,9 +69,9 @@ namespace MathNet.Numerics.UnitTests.SpecialFunctionsTests
         [Test]
         public void ThrowsOnNegativeArgument()
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() => SpecialFunctions.Factorial(Int32.MinValue));
-            Assert.Throws<ArgumentOutOfRangeException>(() => SpecialFunctions.Factorial(-1));
-            Assert.Throws<ArgumentOutOfRangeException>(() => SpecialFunctions.FactorialLn(-1));
+            Assert.That(() => SpecialFunctions.Factorial(Int32.MinValue), Throws.TypeOf<ArgumentOutOfRangeException>());
+            Assert.That(() => SpecialFunctions.Factorial(-1), Throws.TypeOf<ArgumentOutOfRangeException>());
+            Assert.That(() => SpecialFunctions.FactorialLn(-1), Throws.TypeOf<ArgumentOutOfRangeException>());
         }
 
         /// <summary>

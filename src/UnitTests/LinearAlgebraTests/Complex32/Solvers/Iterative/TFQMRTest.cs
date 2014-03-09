@@ -65,7 +65,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.Iterat
             var input = new DenseVector(2);
 
             var solver = new TFQMR();
-            Assert.Throws<ArgumentException>(() => matrix.SolveIterative(input, solver));
+            Assert.That(() => matrix.SolveIterative(input, solver), Throws.ArgumentException);
         }
 
         /// <summary>
@@ -78,7 +78,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.Iterat
             var input = new DenseVector(3);
 
             var solver = new TFQMR();
-            Assert.Throws<ArgumentException>(() => matrix.SolveIterative(input, solver));
+            Assert.That(() => matrix.SolveIterative(input, solver), Throws.ArgumentException);
         }
 
         /// <summary>
