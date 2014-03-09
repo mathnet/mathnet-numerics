@@ -55,7 +55,7 @@ module Random =
     /// Creates a default .Net cryptographic system pRNG
     let inline crypto () = new CryptoRandomSource() :> System.Random
     let inline cryptoWith (threadSafe:bool) = new CryptoRandomSource(threadSafe) :> System.Random
-    let inline cryptoDoubles length = CryptoRandomSource.Doubles(length)
+    let inline cryptoDoubles (length:int) = CryptoRandomSource.Doubles(length)
     let inline cryptoDoubleSeq () = CryptoRandomSource.DoubleSequence()
 #endif
 

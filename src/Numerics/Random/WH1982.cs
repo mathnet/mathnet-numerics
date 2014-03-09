@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2013 Math.NET
+// Copyright (c) 2009-2014 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -29,6 +29,10 @@
 // </copyright>
 
 using System.Collections.Generic;
+
+#if !PORTABLE
+using System.Runtime;
+#endif
 
 namespace MathNet.Numerics.Random
 {
@@ -117,10 +121,10 @@ namespace MathNet.Numerics.Random
         }
 
         /// <summary>
-        /// Returns an array of random numbers greater than or equal to 0.0 and less than 1.0.
+        /// Fills an array with random numbers greater than or equal to 0.0 and less than 1.0.
         /// </summary>
         /// <remarks>Supports being called in parallel from multiple threads.</remarks>
-        public static double[] Doubles(int length, int seed)
+        public static void Doubles(double[] values, int seed)
         {
             if (seed == 0)
             {
@@ -130,16 +134,26 @@ namespace MathNet.Numerics.Random
             uint yn = 1;
             uint zn = 1;
 
-            var data = new double[length];
-            for (int i = 0; i < data.Length; i++)
+            for (int i = 0; i < values.Length; i++)
             {
                 xn = (171*xn)%Modx;
                 yn = (172*yn)%Mody;
                 zn = (170*zn)%Modz;
 
                 double w = xn*ModxRecip + yn*ModyRecip + zn*ModzRecip;
-                data[i] = w - (int)w;
+                values[i] = w - (int)w;
             }
+        }
+
+        /// <summary>
+        /// Returns an array of random numbers greater than or equal to 0.0 and less than 1.0.
+        /// </summary>
+        /// <remarks>Supports being called in parallel from multiple threads.</remarks>
+        [TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")]
+        public static double[] Doubles(int length, int seed)
+        {
+            var data = new double[length];
+            Doubles(data, seed);
             return data;
         }
 

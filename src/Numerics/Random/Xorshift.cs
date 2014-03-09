@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2013 Math.NET
+// Copyright (c) 2009-2014 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -31,6 +31,10 @@
 using System;
 using System.Collections.Generic;
 using MathNet.Numerics.Properties;
+
+#if !PORTABLE
+using System.Runtime;
+#endif
 
 namespace MathNet.Numerics.Random
 {
@@ -264,11 +268,11 @@ namespace MathNet.Numerics.Random
         }
 
         /// <summary>
-        /// Returns an array of random numbers greater than or equal to 0.0 and less than 1.0.
+        /// Fills an array with random numbers greater than or equal to 0.0 and less than 1.0.
         /// </summary>
         /// <remarks>Supports being called in parallel from multiple threads.</remarks>
         [CLSCompliant(false)]
-        public static double[] Doubles(int length, int seed, ulong a = ASeed, ulong c = CSeed, ulong x1 = YSeed, ulong x2 = ZSeed)
+        public static void Doubles(double[] values, int seed, ulong a = ASeed, ulong c = CSeed, ulong x1 = YSeed, ulong x2 = ZSeed)
         {
             if (a <= c)
             {
@@ -281,16 +285,27 @@ namespace MathNet.Numerics.Random
             }
             ulong x = (uint)seed;
 
-            var data = new double[length];
-            for (int i = 0; i < data.Length; i++)
+            for (int i = 0; i < values.Length; i++)
             {
                 var t = (a*x) + c;
                 x = x1;
                 x1 = x2;
                 c = t >> 32;
                 x2 = t & 0xffffffff;
-                data[i] = x2*UlongToDoubleMultiplier;
+                values[i] = x2*UlongToDoubleMultiplier;
             }
+        }
+
+        /// <summary>
+        /// Returns an array of random numbers greater than or equal to 0.0 and less than 1.0.
+        /// </summary>
+        /// <remarks>Supports being called in parallel from multiple threads.</remarks>
+        [CLSCompliant(false)]
+        [TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")]
+        public static double[] Doubles(int length, int seed, ulong a = ASeed, ulong c = CSeed, ulong x1 = YSeed, ulong x2 = ZSeed)
+        {
+            var data = new double[length];
+            Doubles(data, seed, a, c, x1, x2);
             return data;
         }
 
