@@ -265,13 +265,8 @@ namespace MathNet.Numerics.Distributions
             if (x < 0.0) return 0.0;
             if (x > _trials) return 1.0;
 
-            var cdf = 0.0;
-            for (var i = 0; i <= (int)Math.Floor(x); i++)
-            {
-                cdf += Combinatorics.Combinations(_trials, i)*Math.Pow(_p, i)*Math.Pow(1.0 - _p, _trials - i);
-            }
-
-            return cdf;
+            double k = Math.Floor(x);
+            return SpecialFunctions.BetaRegularized(_trials - k, k + 1, 1 - _p);
         }
 
         /// <summary>

@@ -114,7 +114,7 @@ namespace MathNet.Numerics.RootFinding
         }
 
         /// <summary>
-        /// Helper method to calculate an approxiamtion of the Jacobian.
+        /// Helper method to calculate an approximation of the Jacobian.
         /// </summary>
         /// <param name="f">The function.</param>
         /// <param name="x0">The argument (initial guess).</param>
