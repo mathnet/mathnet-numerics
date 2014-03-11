@@ -2,7 +2,9 @@
 // FAKE build script, see http://fsharp.github.io/FAKE
 // --------------------------------------------------------------------------------------
 
+#I @"packages/FAKE/tools"
 #r @"packages/FAKE/tools/FakeLib.dll"
+
 open Fake 
 open Fake.Git
 open Fake.AssemblyInfoFile

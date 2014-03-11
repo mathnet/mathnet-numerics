@@ -8,6 +8,7 @@
 *.js text
 *.ps1 text
 *.DotSettings text
+*.sh text eol=lf
 
 *.csproj text merge=union
 *.fsproj text merge=union
