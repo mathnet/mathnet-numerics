@@ -7,8 +7,8 @@
 Getting Started
 ===============
 
-Installation Instructions
--------------------------
+NuGet Packages
+--------------
 
 The recommended way to get Math.NET Numerics is to use NuGet. The following packages are provided and maintained in the public [NuGet Gallery](https://nuget.org/profiles/mathnet/):
 
@@ -21,16 +21,121 @@ The recommended way to get Math.NET Numerics is to use NuGet. The following pack
 - **MathNet.Numerics.Signed** - strong-named version of the core package *(not recommended)*.
 - **MathNet.Numerics.FSharp.Signed** - strong-named version of the F# package *(not recommended)*.
 
-Alternatively you can also download the binaries in Zip packages, available on [CodePlex](http://mathnetnumerics.codeplex.com/releases):
-
-- Binaries - core package and F# extensions, including .Net 4, .Net 3.5 and portable/PCL builds.
-- Signed Binaries - strong-named version of the core package *(not recommended)*.
-
 Supported Platforms:
 
 - .Net 4.0, .Net 3.5 and Mono: Windows, Linux and Mac.
 - PCL Portable Profiles 47 and 136: Silverlight 5, Windows Phone 8, .NET for Windows Store apps (Metro).
 - PCL/Xamarin: Android, iOS  *(not verified due to lack of license and devices)*
+
+Alternatively you can also download the binaries in Zip packages, available on [CodePlex](http://mathnetnumerics.codeplex.com/releases):
+
+- Binaries - core package and F# extensions, including .Net 4, .Net 3.5 and portable/PCL builds.
+- Signed Binaries - strong-named version of the core package *(not recommended)*.
+
+
+Using Math.NET Numerics with F#
+-------------------------------
+
+Even though the core of Math.NET Numerics is written in C#, it aims to support F#
+just as well. In order to achieve this we recommend to reference the `MathNet.Numerics.FSharp`
+package as well (in addition to `MathNet.Numerics`) which adds a few modules to make it more
+idiomatic and includes arbitrary precision types (BigInteger, BigRational).
+
+It also works well in the interactive F# environment (REPL) which can be launched with
+`fsharpi` on all platforms (including Linux). As a start let's enter the following lines
+into F# interactive. Each `;;` will cause the preceding lines to be executed immediately,
+use the `Tab` key for auto-completion or `#help;;` for help.
+
+    [lang=fsharp]
+    #r "MathNet.Numerics.dll"
+    #r "MathNet.Numerics.FSharp.dll";;
+
+    open MathNet.Numerics;;
+    SpecialFunctions.Gamma(0.5);;
+
+    open MathNet.Numerics.LinearAlgebra;;
+    let m : Matrix<float> = DenseMatrix.randomStandard 50 50;;
+    (m * m.Transpose()).Determinant();;
+
+
+Using Math.NET Numerics on Linux with Mono
+------------------------------------------
+
+You need a recent version of Mono in order to use Math.NET Numerics on anything other than Windows.
+Luckily there has been great progress lately to make both Mono and F# available as proper Debian packages.
+In Debian *testing* and Ubuntu *14.04 (trusty/universe)* you can install both of them with APT:
+
+    [lang=sh]
+    sudo apt-get update
+    sudo apt-get install mono-complete
+    sudo apt-get install fsharp
+
+If you don't have NuGet yet:
+
+    [lang=sh]
+    sudo mozroots --import --sync
+    curl -L http://nuget.org/nuget.exe -o nuget.exe
+
+Then you can use NuGet to fetch the latest binaries in your working directory.
+The `-Pre` argument causes it to include pre-releases, omit it if you want stable releases only.
+
+    [lang=sh]
+    mono nuget.exe install MathNet.Numerics -Pre -OutputDirectory packages
+    # or if you intend to use F#:
+    mono nuget.exe install MathNet.Numerics.FSharp -Pre -OutputDirectory packages
+
+In practice you'd probably use the Monodevelop IDE instead which can take care of fetching and updating
+NuGet packages and maintain assembly references. But for completeness let's use the compiler directly this time.
+Let's create a C# file `Start.cs`:
+
+    [lang=csharp]
+    using System;
+    using MathNet.Numerics;
+    using MathNet.Numerics.LinearAlgebra;
+
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            // Evaluate a special function
+            Console.WriteLine(SpecialFunctions.Erf(0.5));
+
+            // Solve a random linear equation system with 500 unknowns
+            var m = Matrix<double>.Build.Random(500, 500);
+            var v = Vector<double>.Build.Random(500);
+            var y = m.Solve(v);
+            Console.WriteLine(y);
+        }
+    }
+
+Since we want to use the compiler directly, let's copy all references to the working directory
+as well to keep the command line more compact (normally you'd use the -lib argument instead) and compile:
+
+    [lang=sh]
+    cp packages/MathNet.Numerics.3.0.0-alpha8/lib/net40/* .
+    mcs -optimize -r:MathNet.Numerics.dll Start.cs -out:Start
+
+Run:
+
+    [lang=sh]
+    mono Start
+
+Which will print something like the following to the output:
+
+    [lang=text]
+    0.520499877813047
+    DenseVector 500-Double
+       -0.181414     -1.25024    -0.607136      1.12975     -3.31201     0.344146
+        0.934095     -2.96364      1.84499      1.20752     0.753055      1.56942
+        0.472414      6.10418    -0.359401     0.613927    -0.140105       2.6079
+        0.163564     -3.04402    -0.350791      2.37228     -1.65218     -0.84056
+         1.51311     -2.17326    -0.220243   -0.0368934    -0.970052     0.580543
+        0.755483     -1.01755    -0.904162     -1.21824     -2.24888      1.42923
+       -0.971345     -3.16723    -0.822723      1.85148     -1.12235    -0.547885
+        -2.01044      4.06481    -0.128382      0.51167     -1.70276          ...
+
+See [Intel MKL](MKL.html) for details how to use native providers on Linux.
+
 
 Building Math.NET Numerics
 --------------------------
