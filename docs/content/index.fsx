@@ -43,19 +43,22 @@ idiomatic and includes arbitrary precision types (BigInteger, BigRational).
 
 It also works well in the interactive F# environment (REPL) which can be launched with
 `fsharpi` on all platforms (including Linux). As a start let's enter the following lines
-into F# interactive. Each `;;` will cause the preceding lines to be executed immediately,
-use the `Tab` key for auto-completion or `#help;;` for help.
+into F# interactive. Append `;;` to the end of a line to run all code up to there
+immediately and print the result to the output. Use the tab key for auto-completion or `#help;;` for help.
+You may also need to tell F# interactive where to look for assemblies with
+the `#I "/some/path"` statement first before you can reference them with the `#r` statements.
 
     [lang=fsharp]
+    #I "/path/to/referenced/assemblies"
     #r "MathNet.Numerics.dll"
-    #r "MathNet.Numerics.FSharp.dll";;
+    #r "MathNet.Numerics.FSharp.dll"
 
-    open MathNet.Numerics;;
-    SpecialFunctions.Gamma(0.5);;
+    open MathNet.Numerics
+    SpecialFunctions.Gamma(0.5)
 
-    open MathNet.Numerics.LinearAlgebra;;
-    let m : Matrix<float> = DenseMatrix.randomStandard 50 50;;
-    (m * m.Transpose()).Determinant();;
+    open MathNet.Numerics.LinearAlgebra
+    let m : Matrix<float> = DenseMatrix.randomStandard 50 50
+    (m * m.Transpose()).Determinant()
 
 
 Using Math.NET Numerics on Linux with Mono
@@ -108,16 +111,13 @@ Let's create a C# file `Start.cs`:
         }
     }
 
-Since we want to use the compiler directly, let's copy all references to the working directory
-as well to keep the command line more compact (normally you'd use the -lib argument instead) and compile:
+Compile and run:
 
     [lang=sh]
-    cp packages/MathNet.Numerics.3.0.0-alpha8/lib/net40/* .
-    mcs -optimize -r:MathNet.Numerics.dll Start.cs -out:Start
-
-Run:
-
-    [lang=sh]
+    # single line:
+    mcs -optimize -lib:packages/MathNet.Numerics.3.0.0-alpha8/lib/net40/
+                  -r:MathNet.Numerics.dll Start.cs -out:Start
+    # launch:
     mono Start
 
 Which will print something like the following to the output:

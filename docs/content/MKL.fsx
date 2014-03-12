@@ -51,7 +51,7 @@ fetch the MKL package of the right architecture (x64 or x86, `uname -m` if you d
 
 Native assembly resolving is very different on Linux than on Windows, simply putting the native
 libraries into the same folder as the executable is not enough. The safe way is to edit `/etc/ld.so.conf`
-and use `ldconfig` to tell where to look for the libraries, but for now we'll just copy them to `usr/lib`:
+and use `ldconfig` to tell where to look for the libraries, but for now we'll just copy them to `/usr/lib`:
 
     [lang=sh]
     sudo cp packages/MathNet.Numerics.MKL.Linux-x64.1.3.0/content/libiomp5.so /usr/lib/
@@ -96,10 +96,10 @@ Let's create the following C# file `Example.cs`:
 Compile and run:
 
     [lang=sh]
-    // single line:
+    # single line:
     mcs -optimize -lib:packages/MathNet.Numerics.3.0.0-alpha8/lib/net40/
                   -r:MathNet.Numerics.dll Example.cs -out:Example
-    // launch:
+    # launch:
     mono Example
 
 
