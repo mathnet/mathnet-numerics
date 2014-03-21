@@ -205,12 +205,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>the probability mass at location <paramref name="k"/>.</returns>
         public double Probability(int k)
         {
-            if (k >= _lower && k <= _upper)
-            {
-                return 1.0/(_upper - _lower + 1);
-            }
-
-            return 0.0;
+            return PMF(_lower, _upper, k);
         }
 
         /// <summary>
@@ -220,12 +215,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>the log probability mass at location <paramref name="k"/>.</returns>
         public double ProbabilityLn(int k)
         {
-            if (k >= _lower && k <= _upper)
-            {
-                return -Math.Log(_upper - _lower + 1);
-            }
-
-            return Double.NegativeInfinity;
+            return PMFLn(_lower, _upper, k);
         }
 
         /// <summary>
@@ -235,17 +225,53 @@ namespace MathNet.Numerics.Distributions
         /// <returns>the cumulative distribution at location <paramref name="x"/>.</returns>
         public double CumulativeDistribution(double x)
         {
-            if (x < _lower)
-            {
-                return 0.0;
-            }
+            return CDF(_lower, _upper, x);
+        }
 
-            if (x >= _upper)
-            {
-                return 1.0;
-            }
+        /// <summary>
+        /// Computes the probability mass (PMF) at k, i.e. P(X = k).
+        /// </summary>
+        /// <param name="k">The location in the domain where we want to evaluate the probability mass function.</param>
+        /// <param name="lower">Lower bound. Range: lower ≤ upper.</param>
+        /// <param name="upper">Upper bound. Range: lower ≤ upper.</param>
+        /// <returns>the probability mass at location <paramref name="k"/>.</returns>
+        public static double PMF(int lower, int upper, int k)
+        {
+            if (!(lower <= upper)) throw new ArgumentException(Resources.InvalidDistributionParameters);
 
-            return Math.Min(1.0, (Math.Floor(x) - _lower + 1)/(_upper - _lower + 1));
+            return k >= lower && k <= upper ? 1.0/(upper - lower + 1) : 0.0;
+        }
+
+        /// <summary>
+        /// Computes the log probability mass (lnPMF) at k, i.e. ln(P(X = k)).
+        /// </summary>
+        /// <param name="k">The location in the domain where we want to evaluate the log probability mass function.</param>
+        /// <param name="lower">Lower bound. Range: lower ≤ upper.</param>
+        /// <param name="upper">Upper bound. Range: lower ≤ upper.</param>
+        /// <returns>the log probability mass at location <paramref name="k"/>.</returns>
+        public static double PMFLn(int lower, int upper, int k)
+        {
+            if (!(lower <= upper)) throw new ArgumentException(Resources.InvalidDistributionParameters);
+
+            return k >= lower && k <= upper ? -Math.Log(upper - lower + 1) : Double.NegativeInfinity;
+        }
+
+        /// <summary>
+        /// Computes the cumulative distribution (CDF) of the distribution at x, i.e. P(X ≤ x).
+        /// </summary>
+        /// <param name="x">The location at which to compute the cumulative distribution function.</param>
+        /// <param name="lower">Lower bound. Range: lower ≤ upper.</param>
+        /// <param name="upper">Upper bound. Range: lower ≤ upper.</param>
+        /// <returns>the cumulative distribution at location <paramref name="x"/>.</returns>
+        /// <seealso cref="CumulativeDistribution"/>
+        public static double CDF(int lower, int upper, double x)
+        {
+            if (!(lower <= upper)) throw new ArgumentException(Resources.InvalidDistributionParameters);
+
+            if (x < lower) return 0.0;
+            if (x >= upper) return 1.0;
+
+            return Math.Min(1.0, (Math.Floor(x) - lower + 1)/(upper - lower + 1));
         }
 
         /// <summary>

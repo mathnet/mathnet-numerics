@@ -206,12 +206,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>the probability mass at location <paramref name="k"/>.</returns>
         public double Probability(int k)
         {
-            var ln = SpecialFunctions.GammaLn(_trials + k)
-                     - SpecialFunctions.GammaLn(_trials)
-                     - SpecialFunctions.GammaLn(k + 1.0)
-                     + (_trials*Math.Log(_p))
-                     + (k*Math.Log(1.0 - _p));
-            return Math.Exp(ln);
+            return PMF(_trials, _p, k);
         }
 
         /// <summary>
@@ -221,12 +216,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>the log probability mass at location <paramref name="k"/>.</returns>
         public double ProbabilityLn(int k)
         {
-            var ln = SpecialFunctions.GammaLn(_trials + k)
-                     - SpecialFunctions.GammaLn(_trials)
-                     - SpecialFunctions.GammaLn(k + 1.0)
-                     + (_trials*Math.Log(_p))
-                     + (k*Math.Log(1.0 - _p));
-            return ln;
+            return PMFLn(_trials, _p, k);
         }
 
         /// <summary>
@@ -236,7 +226,52 @@ namespace MathNet.Numerics.Distributions
         /// <returns>the cumulative distribution at location <paramref name="x"/>.</returns>
         public double CumulativeDistribution(double x)
         {
-            return 1 - SpecialFunctions.BetaRegularized(x + 1, _trials, 1 - _p);
+            return CDF(_trials, _p, x);
+        }
+
+        /// <summary>
+        /// Computes the probability mass (PMF) at k, i.e. P(X = k).
+        /// </summary>
+        /// <param name="k">The location in the domain where we want to evaluate the probability mass function.</param>
+        /// <param name="r">The number of failures (r) until the experiment stopped. Range: r ≥ 0.</param>
+        /// <param name="p">The probability (p) of a trial resulting in success. Range: 0 ≤ p ≤ 1.</param>
+        /// <returns>the probability mass at location <paramref name="k"/>.</returns>
+        public static double PMF(double r, double p, int k)
+        {
+            return Math.Exp(PMFLn(r, p, k));
+        }
+
+        /// <summary>
+        /// Computes the log probability mass (lnPMF) at k, i.e. ln(P(X = k)).
+        /// </summary>
+        /// <param name="k">The location in the domain where we want to evaluate the log probability mass function.</param>
+        /// <param name="r">The number of failures (r) until the experiment stopped. Range: r ≥ 0.</param>
+        /// <param name="p">The probability (p) of a trial resulting in success. Range: 0 ≤ p ≤ 1.</param>
+        /// <returns>the log probability mass at location <paramref name="k"/>.</returns>
+        public static double PMFLn(double r, double p, int k)
+        {
+            if (!(r >= 0.0 && p >= 0.0 && p <= 1.0)) throw new ArgumentException(Resources.InvalidDistributionParameters);
+
+            return SpecialFunctions.GammaLn(r + k)
+                   - SpecialFunctions.GammaLn(r)
+                   - SpecialFunctions.GammaLn(k + 1.0)
+                   + (r*Math.Log(p))
+                   + (k*Math.Log(1.0 - p));
+        }
+
+        /// <summary>
+        /// Computes the cumulative distribution (CDF) of the distribution at x, i.e. P(X ≤ x).
+        /// </summary>
+        /// <param name="x">The location at which to compute the cumulative distribution function.</param>
+        /// <param name="r">The number of failures (r) until the experiment stopped. Range: r ≥ 0.</param>
+        /// <param name="p">The probability (p) of a trial resulting in success. Range: 0 ≤ p ≤ 1.</param>
+        /// <returns>the cumulative distribution at location <paramref name="x"/>.</returns>
+        /// <seealso cref="CumulativeDistribution"/>
+        public static double CDF(double r, double p, double x)
+        {
+            if (!(r >= 0.0 && p >= 0.0 && p <= 1.0)) throw new ArgumentException(Resources.InvalidDistributionParameters);
+
+            return 1 - SpecialFunctions.BetaRegularized(x + 1, r, 1 - p);
         }
 
         /// <summary>

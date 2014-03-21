@@ -260,7 +260,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>the log probability mass at location <paramref name="k"/>.</returns>
         public double ProbabilityLn(int k)
         {
-            return Math.Log(Probability(k));
+            return SpecialFunctions.BinomialLn(_success, k) + SpecialFunctions.BinomialLn(_population - _success, _draws - k) - SpecialFunctions.BinomialLn(_population, _draws);
         }
 
         /// <summary>
@@ -270,21 +270,70 @@ namespace MathNet.Numerics.Distributions
         /// <returns>the cumulative distribution at location <paramref name="x"/>.</returns>
         public double CumulativeDistribution(double x)
         {
-            if (x < Minimum)
+            return CDF(_population, _success, _draws, x);
+        }
+
+        /// <summary>
+        /// Computes the probability mass (PMF) at k, i.e. P(X = k).
+        /// </summary>
+        /// <param name="k">The location in the domain where we want to evaluate the probability mass function.</param>
+        /// <param name="population">The size of the population (N).</param>
+        /// <param name="success">The number successes within the population (K, M).</param>
+        /// <param name="draws">The number of draws without replacement (n).</param>
+        /// <returns>the probability mass at location <paramref name="k"/>.</returns>
+        public static double PMF(int population, int success, int draws, int k)
+        {
+            if (!(population >= 0 && success >= 0 && draws >= 0 && success <= population && draws <= population))
             {
-                return 0.0;
-            }
-            if (x >= Maximum)
-            {
-                return 1.0;
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
             }
 
+            return SpecialFunctions.Binomial(success, k)*SpecialFunctions.Binomial(population - success, draws - k)/SpecialFunctions.Binomial(population, draws);
+        }
+
+        /// <summary>
+        /// Computes the log probability mass (lnPMF) at k, i.e. ln(P(X = k)).
+        /// </summary>
+        /// <param name="k">The location in the domain where we want to evaluate the log probability mass function.</param>
+        /// <param name="population">The size of the population (N).</param>
+        /// <param name="success">The number successes within the population (K, M).</param>
+        /// <param name="draws">The number of draws without replacement (n).</param>
+        /// <returns>the log probability mass at location <paramref name="k"/>.</returns>
+        public static double PMFLn(int population, int success, int draws, int k)
+        {
+            if (!(population >= 0 && success >= 0 && draws >= 0 && success <= population && draws <= population))
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
+
+            return SpecialFunctions.BinomialLn(success, k) + SpecialFunctions.BinomialLn(population - success, draws - k) - SpecialFunctions.BinomialLn(population, draws);
+        }
+
+        /// <summary>
+        /// Computes the cumulative distribution (CDF) of the distribution at x, i.e. P(X ≤ x).
+        /// </summary>
+        /// <param name="x">The location at which to compute the cumulative distribution function.</param>
+        /// <param name="population">The size of the population (N).</param>
+        /// <param name="success">The number successes within the population (K, M).</param>
+        /// <param name="draws">The number of draws without replacement (n).</param>
+        /// <returns>the cumulative distribution at location <paramref name="x"/>.</returns>
+        /// <seealso cref="CumulativeDistribution"/>
+        public static double CDF(int population, int success, int draws, double x)
+        {
+            if (!(population >= 0 && success >= 0 && draws >= 0 && success <= population && draws <= population))
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
+
+            if (x < Math.Max(0, draws + success - population)) return 0.0;
+            if (x >= Math.Min(success, draws)) return 1.0;
+
             var k = (int)Math.Floor(x);
-            var denominatorLn = SpecialFunctions.BinomialLn(_population, _draws);
+            var denominatorLn = SpecialFunctions.BinomialLn(population, draws);
             var sum = 0.0;
             for (var i = 0; i <= k; i++)
             {
-                sum += Math.Exp(SpecialFunctions.BinomialLn(_success, i) + SpecialFunctions.BinomialLn(_population - _success, _draws - i) - denominatorLn);
+                sum += Math.Exp(SpecialFunctions.BinomialLn(success, i) + SpecialFunctions.BinomialLn(population - success, draws - i) - denominatorLn);
             }
             return sum;
         }

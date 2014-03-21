@@ -347,7 +347,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>the log probability mass at location <paramref name="k"/>.</returns>
         public double ProbabilityLn(int k)
         {
-            return Math.Log(Probability(k));
+            return k*Math.Log(_lambda) - _nu*SpecialFunctions.FactorialLn(k) - Math.Log(Z);
         }
 
         /// <summary>
@@ -357,12 +357,63 @@ namespace MathNet.Numerics.Distributions
         /// <returns>the cumulative distribution at location <paramref name="x"/>.</returns>
         public double CumulativeDistribution(double x)
         {
+            var z = Z;
             double sum = 0;
             for (var i = 0; i < x + 1; i++)
             {
-                sum += Probability(i);
+                sum += Math.Pow(_lambda, i)/Math.Pow(SpecialFunctions.Factorial(i), _nu)/z;
             }
+            return sum;
+        }
 
+        /// <summary>
+        /// Computes the probability mass (PMF) at k, i.e. P(X = k).
+        /// </summary>
+        /// <param name="k">The location in the domain where we want to evaluate the probability mass function.</param>
+        /// <param name="lambda">The lambda (λ) parameter. Range: λ > 0.</param>
+        /// <param name="nu">The rate of decay (ν) parameter. Range: ν ≥ 0.</param>
+        /// <returns>the probability mass at location <paramref name="k"/>.</returns>
+        public static double PMF(double lambda, double nu, int k)
+        {
+            if (!(lambda > 0.0 && nu >= 0.0)) throw new ArgumentException(Resources.InvalidDistributionParameters);
+
+            var z = Normalization(lambda, nu);
+            return Math.Pow(lambda, k)/Math.Pow(SpecialFunctions.Factorial(k), nu)/z;
+        }
+
+        /// <summary>
+        /// Computes the log probability mass (lnPMF) at k, i.e. ln(P(X = k)).
+        /// </summary>
+        /// <param name="k">The location in the domain where we want to evaluate the log probability mass function.</param>
+        /// <param name="lambda">The lambda (λ) parameter. Range: λ > 0.</param>
+        /// <param name="nu">The rate of decay (ν) parameter. Range: ν ≥ 0.</param>
+        /// <returns>the log probability mass at location <paramref name="k"/>.</returns>
+        public static double PMFLn(double lambda, double nu, int k)
+        {
+            if (!(lambda > 0.0 && nu >= 0.0)) throw new ArgumentException(Resources.InvalidDistributionParameters);
+
+            var z = Normalization(lambda, nu);
+            return k*Math.Log(lambda) - nu*SpecialFunctions.FactorialLn(k) - Math.Log(z);
+        }
+
+        /// <summary>
+        /// Computes the cumulative distribution (CDF) of the distribution at x, i.e. P(X ≤ x).
+        /// </summary>
+        /// <param name="x">The location at which to compute the cumulative distribution function.</param>
+        /// <param name="lambda">The lambda (λ) parameter. Range: λ > 0.</param>
+        /// <param name="nu">The rate of decay (ν) parameter. Range: ν ≥ 0.</param>
+        /// <returns>the cumulative distribution at location <paramref name="x"/>.</returns>
+        /// <seealso cref="CumulativeDistribution"/>
+        public static double CDF(double lambda, double nu, double x)
+        {
+            if (!(lambda > 0.0 && nu >= 0.0)) throw new ArgumentException(Resources.InvalidDistributionParameters);
+
+            var z = Normalization(lambda, nu);
+            double sum = 0;
+            for (var i = 0; i < x + 1; i++)
+            {
+                sum += Math.Pow(lambda, i)/Math.Pow(SpecialFunctions.Factorial(i), nu)/z;
+            }
             return sum;
         }
 

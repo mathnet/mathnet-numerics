@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2012 Math.NET
+// Copyright (c) 2009-2014 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -56,8 +56,8 @@ module Sample =
     let binomialSeq p n rng = Binomial.Samples(rng, p, n)
 
     /// Categorical with an array of nonnegative ratios defining the relative probability mass (unnormalized).
-    let categorical probabilityMass rng = Categorical.SampleWithProbabilityMass(rng, probabilityMass)
-    let categoricalSeq probabilityMass rng = Categorical.SamplesWithProbabilityMass(rng, probabilityMass)
+    let categorical probabilityMass rng = Categorical.Sample(rng, probabilityMass)
+    let categoricalSeq probabilityMass rng = Categorical.Samples(rng, probabilityMass)
 
     /// Cauchy with location (x0) and scale (γ).
     let cauchy location scale rng = Cauchy.Sample(rng, location, scale)
@@ -119,7 +119,7 @@ module Sample =
     let logNormal mu sigma rng = LogNormal.Sample(rng, mu, sigma)
     let logNormalSeq mu sigma rng = LogNormal.Samples(rng, mu, sigma)
 
-    /// Negative-Binomial with number of failures (r) until the experiment stoppedand probability (p) of a trial resulting in success.
+    /// Negative-Binomial with number of failures (r) until the experiment stopped and probability (p) of a trial resulting in success.
     let negativeBinomial r p rng = NegativeBinomial.Sample(rng, r, p)
     let negativeBinomialSeq r p rng = NegativeBinomial.Samples(rng, r, p)
 

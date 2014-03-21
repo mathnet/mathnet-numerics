@@ -280,7 +280,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         public void ValidateProbability(int population, int success, int draws, int x)
         {
             var d = new Hypergeometric(population, success, draws);
-            Assert.AreEqual(SpecialFunctions.Binomial(success, x)*SpecialFunctions.Binomial(population - success, draws - x)/SpecialFunctions.Binomial(population, draws), d.Probability(x));
+            Assert.That(d.Probability(x), Is.EqualTo(SpecialFunctions.Binomial(success, x)*SpecialFunctions.Binomial(population - success, draws - x)/SpecialFunctions.Binomial(population, draws)));
         }
 
         /// <summary>
@@ -302,7 +302,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         public void ValidateProbabilityLn(int population, int success, int draws, int x)
         {
             var d = new Hypergeometric(population, success, draws);
-            Assert.AreEqual(Math.Log(d.Probability(x)), d.ProbabilityLn(x));
+            Assert.That(d.ProbabilityLn(x), Is.EqualTo(Math.Log(d.Probability(x))).Within(1e-14));
         }
 
         /// <summary>

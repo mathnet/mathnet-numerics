@@ -190,11 +190,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>the probability mass at location <paramref name="k"/>.</returns>
         public double Probability(int k)
         {
-            if (k <= 0)
-            {
-                return 0.0;
-            }
-
+            if (k <= 0) return 0.0;
             return Math.Pow(1.0 - _p, k - 1)*_p;
         }
 
@@ -205,11 +201,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>the log probability mass at location <paramref name="k"/>.</returns>
         public double ProbabilityLn(int k)
         {
-            if (k <= 0)
-            {
-                return Double.NegativeInfinity;
-            }
-
+            if (k <= 0) return Double.NegativeInfinity;
             return ((k - 1)*Math.Log(1.0 - _p)) + Math.Log(_p);
         }
 
@@ -221,6 +213,45 @@ namespace MathNet.Numerics.Distributions
         public double CumulativeDistribution(double x)
         {
             return 1.0 - Math.Pow(1.0 - _p, x);
+        }
+
+        /// <summary>
+        /// Computes the probability mass (PMF) at k, i.e. P(X = k).
+        /// </summary>
+        /// <param name="k">The location in the domain where we want to evaluate the probability mass function.</param>
+        /// <param name="p">The probability (p) of generating one. Range: 0 ≤ p ≤ 1.</param>
+        /// <returns>the probability mass at location <paramref name="k"/>.</returns>
+        public static double PMF(double p, int k)
+        {
+            if (!(p >= 0.0 && p <= 1.0)) throw new ArgumentException(Resources.InvalidDistributionParameters);
+            if (k <= 0) return 0.0;
+            return Math.Pow(1.0 - p, k - 1)*p;
+        }
+
+        /// <summary>
+        /// Computes the log probability mass (lnPMF) at k, i.e. ln(P(X = k)).
+        /// </summary>
+        /// <param name="k">The location in the domain where we want to evaluate the log probability mass function.</param>
+        /// <param name="p">The probability (p) of generating one. Range: 0 ≤ p ≤ 1.</param>
+        /// <returns>the log probability mass at location <paramref name="k"/>.</returns>
+        public static double PMFLn(double p, int k)
+        {
+            if (!(p >= 0.0 && p <= 1.0)) throw new ArgumentException(Resources.InvalidDistributionParameters);
+            if (k <= 0) return Double.NegativeInfinity;
+            return ((k - 1)*Math.Log(1.0 - p)) + Math.Log(p);
+        }
+
+        /// <summary>
+        /// Computes the cumulative distribution (CDF) of the distribution at x, i.e. P(X ≤ x).
+        /// </summary>
+        /// <param name="x">The location at which to compute the cumulative distribution function.</param>
+        /// <param name="p">The probability (p) of generating one. Range: 0 ≤ p ≤ 1.</param>
+        /// <returns>the cumulative distribution at location <paramref name="x"/>.</returns>
+        /// <seealso cref="CumulativeDistribution"/>
+        public static double CDF(double p, double x)
+        {
+            if (!(p >= 0.0 && p <= 1.0)) throw new ArgumentException(Resources.InvalidDistributionParameters);
+            return 1.0 - Math.Pow(1.0 - p, x);
         }
 
         /// <summary>

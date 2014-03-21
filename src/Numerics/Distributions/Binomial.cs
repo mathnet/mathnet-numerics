@@ -228,14 +228,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>the probability mass at location <paramref name="k"/>.</returns>
         public double Probability(int k)
         {
-            if (k < 0) return 0.0;
-            if (k > _trials) return 0.0;
-            if (_p == 0.0 && k == 0) return 1.0;
-            if (_p == 0.0) return 0.0;
-            if (_p == 1.0 && k == _trials) return 1.0;
-            if (_p == 1.0) return 0.0;
-
-            return SpecialFunctions.Binomial(_trials, k)*Math.Pow(_p, k)*Math.Pow(1.0 - _p, _trials - k);
+            return PMF(_p, _trials, k);
         }
 
         /// <summary>
@@ -245,14 +238,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>the log probability mass at location <paramref name="k"/>.</returns>
         public double ProbabilityLn(int k)
         {
-            if (k < 0) return Double.NegativeInfinity;
-            if (k > _trials) return Double.NegativeInfinity;
-            if (_p == 0.0 && k == 0) return 0.0;
-            if (_p == 0.0) return Double.NegativeInfinity;
-            if (_p == 1.0 && k == _trials) return 0.0;
-            if (_p == 1.0) return Double.NegativeInfinity;
-
-            return SpecialFunctions.BinomialLn(_trials, k) + (k*Math.Log(_p)) + ((_trials - k)*Math.Log(1.0 - _p));
+            return PMFLn(_p, _trials, k);
         }
 
         /// <summary>
@@ -262,11 +248,56 @@ namespace MathNet.Numerics.Distributions
         /// <returns>the cumulative distribution at location <paramref name="x"/>.</returns>
         public double CumulativeDistribution(double x)
         {
-            if (x < 0.0) return 0.0;
-            if (x > _trials) return 1.0;
+            return CDF(_p, _trials, x);
+        }
 
+        /// <summary>
+        /// Computes the probability mass (PMF) at k, i.e. P(X = k).
+        /// </summary>
+        /// <param name="k">The location in the domain where we want to evaluate the probability mass function.</param>
+        /// <param name="p">The success probability (p) in each trial. Range: 0 ≤ p ≤ 1.</param>
+        /// <param name="n">The number of trials (n). Range: n ≥ 0.</param>
+        /// <returns>the probability mass at location <paramref name="k"/>.</returns>
+        public static double PMF(double p, int n, int k)
+        {
+            if (!(p >= 0.0 && p <= 1.0 && n >= 0)) throw new ArgumentException(Resources.InvalidDistributionParameters);
+            if (k < 0 || k > n) return 0.0;
+            if (p == 0.0) return k == 0 ? 1.0 : 0.0;
+            if (p == 1.0) return k == n ? 1.0 : 0.0;
+            return Math.Exp(SpecialFunctions.BinomialLn(n, k) + (k*Math.Log(p)) + ((n - k)*Math.Log(1.0 - p)));
+        }
+
+        /// <summary>
+        /// Computes the log probability mass (lnPMF) at k, i.e. ln(P(X = k)).
+        /// </summary>
+        /// <param name="k">The location in the domain where we want to evaluate the log probability mass function.</param>
+        /// <param name="p">The success probability (p) in each trial. Range: 0 ≤ p ≤ 1.</param>
+        /// <param name="n">The number of trials (n). Range: n ≥ 0.</param>
+        /// <returns>the log probability mass at location <paramref name="k"/>.</returns>
+        public static double PMFLn(double p, int n, int k)
+        {
+            if (!(p >= 0.0 && p <= 1.0 && n >= 0)) throw new ArgumentException(Resources.InvalidDistributionParameters);
+            if (k < 0 || k > n) return Double.NegativeInfinity;
+            if (p == 0.0) return k == 0 ? 0.0 : Double.NegativeInfinity;
+            if (p == 1.0) return k == n ? 0.0 : Double.NegativeInfinity;
+            return SpecialFunctions.BinomialLn(n, k) + (k*Math.Log(p)) + ((n - k)*Math.Log(1.0 - p));
+        }
+
+        /// <summary>
+        /// Computes the cumulative distribution (CDF) of the distribution at x, i.e. P(X ≤ x).
+        /// </summary>
+        /// <param name="x">The location at which to compute the cumulative distribution function.</param>
+        /// <param name="p">The success probability (p) in each trial. Range: 0 ≤ p ≤ 1.</param>
+        /// <param name="n">The number of trials (n). Range: n ≥ 0.</param>
+        /// <returns>the cumulative distribution at location <paramref name="x"/>.</returns>
+        /// <seealso cref="CumulativeDistribution"/>
+        public static double CDF(double p, int n, double x)
+        {
+            if (!(p >= 0.0 && p <= 1.0 && n >= 0)) throw new ArgumentException(Resources.InvalidDistributionParameters);
+            if (x < 0.0) return 0.0;
+            if (x > n) return 1.0;
             double k = Math.Floor(x);
-            return SpecialFunctions.BetaRegularized(_trials - k, k + 1, 1 - _p);
+            return SpecialFunctions.BetaRegularized(n - k, k + 1, 1 - p);
         }
 
         /// <summary>
