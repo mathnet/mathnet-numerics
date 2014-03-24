@@ -388,7 +388,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="upper">Upper bound. Range: lower ≤ mode ≤ upper</param>
         /// <param name="mode">Mode (most frequent value).  Range: lower ≤ mode ≤ upper</param>
         /// <returns>a sample from the distribution.</returns>
-        public double Sample(System.Random rnd, double lower, double upper, double mode)
+        public static double Sample(System.Random rnd, double lower, double upper, double mode)
         {
             var a = lower;
             var b = upper;
@@ -408,7 +408,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="upper">Upper bound. Range: lower ≤ mode ≤ upper</param>
         /// <param name="mode">Mode (most frequent value).  Range: lower ≤ mode ≤ upper</param>
         /// <returns>a sequence of samples from the distribution.</returns>
-        public IEnumerable<double> Samples(System.Random rnd, double lower, double upper, double mode)
+        public static IEnumerable<double> Samples(System.Random rnd, double lower, double upper, double mode)
         {
             while (true)
             {
@@ -423,7 +423,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="upper">Upper bound. Range: lower ≤ mode ≤ upper</param>
         /// <param name="mode">Mode (most frequent value).  Range: lower ≤ mode ≤ upper</param>
         /// <returns>a sample from the distribution.</returns>
-        public double Sample(double lower, double upper, double mode)
+        public static double Sample(double lower, double upper, double mode)
         {
             return Sample(SystemRandomSource.Default, lower, upper, mode);
         }
@@ -435,7 +435,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="upper">Upper bound. Range: lower ≤ mode ≤ upper</param>
         /// <param name="mode">Mode (most frequent value).  Range: lower ≤ mode ≤ upper</param>
         /// <returns>a sequence of samples from the distribution.</returns>
-        public IEnumerable<double> Samples(double lower, double upper, double mode)
+        public static IEnumerable<double> Samples(double lower, double upper, double mode)
         {
             return Samples(SystemRandomSource.Default, lower, upper, mode);
         }
