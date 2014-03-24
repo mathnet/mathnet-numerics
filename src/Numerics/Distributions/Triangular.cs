@@ -96,7 +96,9 @@ namespace MathNet.Numerics.Distributions
         /// <exception cref="ArgumentOutOfRangeException">When the parameters are out of range.</exception>
         void SetParameters(double lower, double upper, double mode)
         {
-            if (upper < mode || mode < lower || Double.IsNaN(upper) || Double.IsNaN(lower) || Double.IsNaN(mode))
+            if (upper < mode || mode < lower || Double.IsNaN(upper) || Double.IsNaN(lower) || Double.IsNaN(mode)
+                || Double.IsInfinity(upper) || Double.IsInfinity(lower) || Double.IsInfinity(mode)
+                )
             {
                 throw new ArgumentException(Resources.InvalidDistributionParameters);
             }
