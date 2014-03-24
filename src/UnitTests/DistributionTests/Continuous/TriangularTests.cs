@@ -68,20 +68,19 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         /// <summary>
         /// Triangular create fails with bad parameters.
         /// </summary>
-        //[TestCase(0.0, 0.1, 0.6)]  // Todo: Split this test into separate test cases (and do the same in BetaTests.cs).
-        [Test]
-        public void TriangularCreateFailsWithBadParameters()
+        [TestCase(0.0, 1.0, -0.1)]
+        [TestCase(0.0, 1.0, 1.1)]
+        [TestCase(0.0, -1.0, 0.5)]
+        [TestCase(2.0, 1.0, 1.5)]
+        [TestCase(Double.NaN, 1.0, 0.5)]
+        [TestCase(0.2, Double.NaN, 0.5)]
+        [TestCase(0.5, 1.0, Double.NaN)]
+        [TestCase(Double.NaN, Double.NaN, Double.NaN)]
+        [TestCase(Double.NegativeInfinity, 1.0, 0.5)]
+        [TestCase(0.0, Double.PositiveInfinity, 0.5)]
+        public void TriangularCreateFailsWithBadParameters(double lower, double upper, double mode)
         {
-            Assert.That(() => new Triangular(0.0, 1.0, -0.1), Throws.ArgumentException);
-            Assert.That(() => new Triangular(0.0, 1.0, 1.1), Throws.ArgumentException);
-            Assert.That(() => new Triangular(0.0, -1.0, 0.5), Throws.ArgumentException);
-            Assert.That(() => new Triangular(2.0, 1.0, 1.5), Throws.ArgumentException);
-            Assert.That(() => new Triangular(Double.NaN, 1.0, 0.5), Throws.ArgumentException);
-            Assert.That(() => new Triangular(0.2, Double.NaN, 0.5), Throws.ArgumentException);
-            Assert.That(() => new Triangular(0.5, 1.0, Double.NaN), Throws.ArgumentException);
-            Assert.That(() => new Triangular(Double.NaN, Double.NaN, Double.NaN), Throws.ArgumentException);
-            Assert.That(() => new Triangular(Double.NegativeInfinity, 1.0, 0.5), Throws.ArgumentException);
-            Assert.That(() => new Triangular(0.0, Double.PositiveInfinity, 0.5), Throws.ArgumentException);
+            Assert.That(() => new Triangular(lower, upper, mode), Throws.ArgumentException);
         }
 
         /// <summary>
