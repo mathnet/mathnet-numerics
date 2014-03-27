@@ -25,19 +25,19 @@ Feel free to add a link to your personal site/blog and/or twitter handle.*
 - manyue
 - Alexander Täschner (taschna)
 - Andriy Bratiychuk (Abratiychuk)
+- Jack Pappas
 - Artyom Baranovskiy
 - Phil Cleveland (Phil)
 - Scott Stephens
 - Superbest
-- Jack Pappas
 - Patrick van der Velde
 - Robin Neatherway
 - Anders Gustafsson (cureos)
+- Gauthier Segay (gauthier)
 - Andrew Kazyrevich
 - Candy Chiu
 - Ethar Alali
 - Iain McDonald (lifebeyondfife)
-- Gauthier Segay
 - Gregor959
 - IUser
 - Iain Sproat

@@ -37,7 +37,7 @@ Over time some members and classes have been replaced with more suitable alterna
 v3.0.0 - To Be Announced
 ------------------------
 
-See also: [Towards Math.NET Numerics Version 3](http://christoph.ruegg.name/blog/towards-mathnet-numerics-v3.html).
+See also: [Roadmap](http://sdrv.ms/17wPFlW) and [Towards Math.NET Numerics Version 3](http://christoph.ruegg.name/blog/towards-mathnet-numerics-v3.html).
 
 Multiple alpha builds have been made available as NuGet pre-release packages. There are likely more to come as we still have a lot to do; and at least a beta before the final release. All information provided here regarding v3 is preliminary and incomplete.
 
@@ -64,14 +64,10 @@ Changes as of now:
 - `Matrix.ConjugateTransposeAndMultiply` and variants.
 - Matrix Factorization types fully generic, easily accessed by new `Matrix<T>` member methods (replacing the extension methods). Discrete implementations no longer visible.
 - QR factorization is thin by default.
-- Thin QR factorization uses MKL if enabled for all types (previously just `double`)
 - Matrix factorizations no longer clone their results at point of access.
 - Add direct factorization-based `Solve` methods to matrix type.
 - Massive iterative solver implementation/design simplification, now mostly generic and a bit more functional-style.
 - New MILU(0) iterative solver preconditioner that is much more efficient and fully leverages sparse data. *~Christian Woltering*
-- Sparse matrix CSR storage format now uses the much more common row pointer convention and is fully compatible with MKL (so there is nothing in the way to add native provider support).
-- Providers have been moved to a `Providers` namespace and are fully generic again.
-- Simpler provider usage: `Control.UseNativeMKL()`, `Control.UseManaged()`.
 - Matrices/Vectors now have more consistent enumerators, with a variant that skips zeros (useful if sparse).
 - Matrix/Vector creation routines have been simplified and usually no longer require explicit dimensions. New variants to create diagonal matrices, or such where all fields have the same value. All functions that take a params array now have an overload accepting an enumerable (e.g. `OfColumnVectors`).
 - Generic Matrix/Vector creation using builders, e.g. `Matrix<double>.Build.DenseOfEnumerable(...)`
@@ -86,6 +82,16 @@ Changes as of now:
 - BUG: Fix bug in routine to copy a vector into a sub-row of a matrix.
 - Both canonical modulus and remainder operations on matrices and vectors.
 
+### Linear Algebra MKL Native Provider
+
+- Thin QR factorization uses MKL if enabled for all types (previously just `double`)
+- Sparse matrix CSR storage format now uses the much more common row pointer convention and is fully compatible with MKL (so there is nothing in the way to add native provider support).
+- Providers have been moved to a `Providers` namespace and are fully generic again.
+- Simpler provider usage: `Control.UseNativeMKL()`, `Control.UseManaged()`.
+- MKL native provider now supports capability querying (so we can extend it much more reliably without breaking your code).
+- MKL native provider consistency, precision and accuracy now configurable (trade-off).
+- Native Provider development has been reintegrated into the main repository; we can now directly run all unit tests against local native provider builds. Covered by FAKE builds.
+
 ### Statistics
 
 - Pearson and Spearman correlation matrix of a set of arrays.
@@ -97,22 +103,25 @@ Changes as of now:
 
 ### Probability Distributions
 
+- Direct static distributions functions (PDF, CDF, sometimes also InvCDF).
+- Direct static sample functions.
 - New Trigangular distributionb *~Superbest*
 - Add InvCDF to Gamma, Student-T, FisherSnedecor (F), and Beta distributions.
 - Major API cleanup, including xml docs
 - Xml doc and ToString now use well-known symbols for the parameters.
-- Direct static exposure of distributions functions (PDF, CDF, sometimes also InvCDF).
 - Maximum-likelihood parameter estimation for a couple distributions.
 - All constructors now optionally accept a random source as last argument.
 - Use less problematic RNG-seeds by default, if no random source is provided.
 - Simpler and more composable random sampling from distributions.
 - Much more distribution's actual sample distribution is verified in tests (all continuous, most discrete).
+- Binomial.CDF now properly leverages BetaRegularized.
 - BUG: Fix hyper-geometric CDF semantics, clarify distribution parameters.
 - BUG: Fix Zipf CDF at x=1.
 - BUG: Fix Geometric distribution sampling.
 
 ### Random Number Generators
 
+- All RNGs provide static Sample(values) functions to fill an existing array.
 - Thread-safe System.Random available again as `SystemRandomSource`.
 - Fast and simple to use static `SystemRandomSource.Doubles` routine with lower randomness guarantees.
 - Shared `SystemRandomSource.Default` and `MersenneTwister.Default` instances to skip expensive initialization.
@@ -138,6 +147,20 @@ Changes as of now:
 - Definite `Integrate(a,b)` in addition to existing indefinite `Integrate(t)`.
 - Use more common names in `Interpolate` facade, e.g. "Spline" is a well known name.
 
+### Root Finding
+
+- Chebychev polynomial roots.
+- Cubic polynomials roots. *~Candy Chiu*
+
+### Functions
+
+- Trig functions: common short names instead of very long names. Add sinc function.
+- Excel Functions: TDIST, TINV, BETADIST, BETAINV, GAMMADIST, GAMMAINV, NORMDIST, NORMINV, NORMSDIST, NORMSINV QUARTILE, PERCENTILE, PERCENTRANK.
+- Special Functions: BetaRegularized more robust for large arguments.
+- Special Functions: new `GammaLowerRegularizedInv`.
+- New distance functions in `Distance`: euclidean, manhattan, chebychev distance of arrays or generic vectors. SAD, MAE, SSD, MSE metrics. Pearson's, Canberra and Minkowski distance. Hamming distance.
+- Windows: ported windowing functions from Neodym (Hamming, Hann, Cosine, Lanczos, Gauss, Blackmann, Bartlett, ...)
+
 ### Build & Packages
 
 - FAKE-based build (in addition to existing Visual Studio solutions) to clean, build, test, document and package independently of the CI server.
@@ -148,31 +171,26 @@ Changes as of now:
 - Alternative strong-named versions of more NuGet packages (mostly the F# extensions for now), with the `.Signed` suffix.
 - Reworked solution structure so it works in both Visual Studio 11 (2012) and 12 (2013).
 - We can now run the full unit test suite against the portable builds as well.
-- Native Provider development has been reintegrated into the main repository; we can now directly run all unit tests against local native provider builds.
+- Builds should now also work properly on recent Mono on Linux (including F# projects).
+- Fixed builds on platforms with case sensitive file systems. *~Gauthier Segay*
 
 ### Misc
 
-- New distance functions in `Distance`: euclidean, manhattan, chebychev distance of arrays or generic vectors. SAD, MAE, SSD, MSE metrics. Pearson's, Canberra and Minkowski distance. Hamming distance.
 - Integration: simplification of the double-exponential transformation api design.
-- Windows: ported windowing functions from Neodym (Hamming, Hann, Cosine, Lanczos, Gauss, Blackmann, Bartlett, ...)
+- FFT: converted to static class design and shorter names for simpler usage. Drop now redundant `Transform` class.
 - Generate: ported synthetic data generation and sampling routines from Neodym (includes all from old Signals namespace). F# module for higher order functions.
 - Euclid: modulus vs remainder, integer theory (includes all from old NumberTheory namespace).
-- Root Finding: explicit for Chebychev polynomials.
-- Root Finding: explicit for Cubic polynomials. *~Candy Chiu*
-- Excel Functions: TDIST, TINV, BETADIST, BETAINV, GAMMADIST, GAMMAINV, NORMDIST, NORMINV, NORMSDIST, NORMSINV QUARTILE, PERCENTILE, PERCENTRANK.
-- More robust complex Asin/Acos for large real numbers.
 - Complex: common short names for Exp, Ln, Log10, Log.
 - Complex: fix issue where a *negative zero* may flip the sign in special cases (like `Atanh(2)`, where incidentally MATLAB and Mathematica do not agree on the sign either).
 - Complex: routines to return all two square and three cubic roots of a complex number.
+- Complex: More robust complex Asin/Acos for large real numbers.
 - Evaluate: routine to evaluate complex polynomials, or real polynomials at a complex point.
-- Trig functions: common short names instead of very long names. Add sinc function.
-- Special Functions: Increase max iterations in BetaRegularized for large arguments.
-- Special Functions: new `GammaLowerRegularizedInv`.
 - CommonParallel now also supported in .Net 3.5 and portable profiles; TaskScheduler can be replaced with custom implementation *~Thomas Ibel*
 - F# code originally imported from F# PowerPack cleaned up *~Jack Pappas*
 - F# functions now use the clearer `Func` suffix instead of just `F` if they return a function.
 - Precision: reworked, now much more consistent. **If you use `AlmostEqual` with numbers-between/ULP semantics, please do review your code to make sure you're still using the expected variant!**. If you use the decimal-places semantics, you may need to decrement the digits argument to get the same behavior as before.
 - Much less null checks, our code generally only throws `ArgumentNullException` if an unexpected null argument would *not* have caused an immediate `NullReferenceException`.
+- Cases where `ArgumentOutOfRangeExceptions` where thrown with wrong arguments (i.e. no parameter name) now throw `ArgumentException` instead.
 - Tests now have category attributes (to selectively run or skip categories).
 
 v2.6.2 - October 21, 2013
