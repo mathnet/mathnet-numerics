@@ -81,6 +81,7 @@ Changes as of now:
 - Matrix.ClearSubMatrix no longer throws on 0 or negative col/row count (nop)
 - BUG: Fix bug in routine to copy a vector into a sub-row of a matrix.
 - Both canonical modulus and remainder operations on matrices and vectors.
+- Matrix kernel (null space) and range (column space)
 
 ### Linear Algebra MKL Native Provider
 

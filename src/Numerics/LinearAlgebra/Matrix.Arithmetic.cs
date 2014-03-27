@@ -29,6 +29,7 @@
 // </copyright>
 
 using System;
+using System.Linq;
 using MathNet.Numerics.Properties;
 
 namespace MathNet.Numerics.LinearAlgebra
@@ -1312,12 +1313,21 @@ namespace MathNet.Numerics.LinearAlgebra
         public abstract T Trace();
 
         /// <summary>
-        /// Calculates the rank of the matrix
+        /// Calculates the rank of the matrix.
         /// </summary>
         /// <returns>effective numerical rank, obtained from SVD</returns>
         public virtual int Rank()
         {
             return Svd(false).Rank;
+        }
+
+        /// <summary>
+        /// Calculates the nullity of the matrix.
+        /// </summary>
+        /// <returns>effective numerical nullity, obtained from SVD</returns>
+        public int Nullity()
+        {
+            return ColumnCount - Rank();
         }
 
         /// <summary>Calculates the condition number of this matrix.</summary>
@@ -1340,6 +1350,26 @@ namespace MathNet.Numerics.LinearAlgebra
             return LU().Determinant;
         }
 
+        /// <summary>
+        /// Computes an orthonormal basis for the null space of this matrix,
+        /// also known as the kernel of the corresponding matrix transformation.
+        /// </summary>
+        public virtual Vector<T>[] Kernel()
+        {
+            var svd = Svd(true);
+            return svd.VT.EnumerateRows(svd.Rank, ColumnCount - svd.Rank).ToArray();
+        }
+
+        /// <summary>
+        /// Computes an orthonormal basis for the column space of this matrix,
+        /// also known as the range or image of the corresponding matrix transformation.
+        /// </summary>
+        public virtual Vector<T>[] Range()
+        {
+            var svd = Svd(true);
+            return svd.U.EnumerateColumns(0, svd.Rank).ToArray();
+        }
+
         /// <summary>Computes the inverse of this matrix.</summary>
         /// <returns>The inverse of this matrix.</returns>
         public virtual Matrix<T> Inverse()
@@ -1357,7 +1387,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// with M = this.Rows * lower.Rows and N = this.Columns * lower.Columns.
         /// </summary>
         /// <param name="other">The other matrix.</param>
-        /// <returns>The kronecker product of the two matrices.</returns>
+        /// <returns>The Kronecker product of the two matrices.</returns>
         public Matrix<T> KroneckerProduct(Matrix<T> other)
         {
             var result = Build.SameAs(this, other, RowCount*other.RowCount, ColumnCount*other.ColumnCount);
@@ -1370,7 +1400,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// with M = this.Rows * lower.Rows and N = this.Columns * lower.Columns.
         /// </summary>
         /// <param name="other">The other matrix.</param>
-        /// <param name="result">The kronecker product of the two matrices.</param>
+        /// <param name="result">The Kronecker product of the two matrices.</param>
         /// <exception cref="ArgumentException">If the result matrix's dimensions are not (this.Rows * lower.rows) x (this.Columns * lower.Columns).</exception>
         public virtual void KroneckerProduct(Matrix<T> other, Matrix<T> result)
         {
