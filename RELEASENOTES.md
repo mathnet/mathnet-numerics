@@ -156,11 +156,12 @@ Changes as of now:
 ### Functions
 
 - Trig functions: common short names instead of very long names. Add sinc function.
-- Excel Functions: TDIST, TINV, BETADIST, BETAINV, GAMMADIST, GAMMAINV, NORMDIST, NORMINV, NORMSDIST, NORMSINV QUARTILE, PERCENTILE, PERCENTRANK.
-- Special Functions: BetaRegularized more robust for large arguments.
-- Special Functions: new `GammaLowerRegularizedInv`.
+- Excel functions: TDIST, TINV, BETADIST, BETAINV, GAMMADIST, GAMMAINV, NORMDIST, NORMINV, NORMSDIST, NORMSINV QUARTILE, PERCENTILE, PERCENTRANK.
+- Special functions: BetaRegularized more robust for large arguments.
+- Special functions: new `GammaLowerRegularizedInv`.
 - New distance functions in `Distance`: euclidean, manhattan, chebychev distance of arrays or generic vectors. SAD, MAE, SSD, MSE metrics. Pearson's, Canberra and Minkowski distance. Hamming distance.
 - Windows: ported windowing functions from Neodym (Hamming, Hann, Cosine, Lanczos, Gauss, Blackmann, Bartlett, ...)
+- BigInteger factorial
 
 ### Build & Packages
 
@@ -180,14 +181,15 @@ Changes as of now:
 - Integration: simplification of the double-exponential transformation api design.
 - FFT: converted to static class design and shorter names for simpler usage. Drop now redundant `Transform` class.
 - Generate: ported synthetic data generation and sampling routines from Neodym (includes all from old Signals namespace). F# module for higher order functions.
-- Euclid: modulus vs remainder, integer theory (includes all from old NumberTheory namespace).
+- Euclid: modulus vs remainder (also BigInteger), integer theory (includes all from old NumberTheory namespace).
 - Complex: common short names for Exp, Ln, Log10, Log.
 - Complex: fix issue where a *negative zero* may flip the sign in special cases (like `Atanh(2)`, where incidentally MATLAB and Mathematica do not agree on the sign either).
 - Complex: routines to return all two square and three cubic roots of a complex number.
 - Complex: More robust complex Asin/Acos for large real numbers.
 - Evaluate: routine to evaluate complex polynomials, or real polynomials at a complex point.
 - CommonParallel now also supported in .Net 3.5 and portable profiles; TaskScheduler can be replaced with custom implementation *~Thomas Ibel*
-- F# code originally imported from F# PowerPack cleaned up *~Jack Pappas*
+- F# BigRational type cleaned up and optimized *~Jack Pappas*
+- F# BigRational IsZero, IsOne, IsInteger, Reciprocal, Power operator support (**), create from fraction.
 - F# functions now use the clearer `Func` suffix instead of just `F` if they return a function.
 - Precision: reworked, now much more consistent. **If you use `AlmostEqual` with numbers-between/ULP semantics, please do review your code to make sure you're still using the expected variant!**. If you use the decimal-places semantics, you may need to decrement the digits argument to get the same behavior as before.
 - Much less null checks, our code generally only throws `ArgumentNullException` if an unexpected null argument would *not* have caused an immediate `NullReferenceException`.

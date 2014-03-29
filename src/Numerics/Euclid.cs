@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2013 Math.NET
+// Copyright (c) 2009-2014 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -74,6 +74,16 @@ namespace MathNet.Numerics
             return ((dividend%divisor) + divisor)%divisor;
         }
 
+#if !NOSYSNUMERICS
+        /// <summary>
+        /// Canonical Modulus. The result has the sign of the divisor.
+        /// </summary>
+        public static BigInteger Modulus(BigInteger dividend, BigInteger divisor)
+        {
+            return ((dividend%divisor) + divisor)%divisor;
+        }
+#endif
+
         /// <summary>
         /// Remainder (% operator). The result has the sign of the dividend.
         /// </summary>
@@ -105,6 +115,16 @@ namespace MathNet.Numerics
         {
             return dividend%divisor;
         }
+
+#if !NOSYSNUMERICS
+        /// <summary>
+        /// Remainder (% operator). The result has the sign of the dividend.
+        /// </summary>
+        public static BigInteger Remainder(BigInteger dividend, BigInteger divisor)
+        {
+            return dividend%divisor;
+        }
+#endif
 
         /// <summary>
         /// Find out whether the provided 32 bit integer is an even number.

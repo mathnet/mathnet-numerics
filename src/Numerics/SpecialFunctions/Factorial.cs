@@ -28,13 +28,17 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System;
+using MathNet.Numerics.Properties;
+
+#if !NOSYSNUMERICS
+using System.Numerics;
+#endif
+
 // ReSharper disable CheckNamespace
 namespace MathNet.Numerics
 // ReSharper restore CheckNamespace
 {
-    using System;
-    using Properties;
-
     public partial class SpecialFunctions
     {
         private const int FactorialMaxArgument = 170;
@@ -64,7 +68,7 @@ namespace MathNet.Numerics
         /// </summary>
         /// <returns>A value value! for value > 0</returns>
         /// <remarks>
-        /// If you need to multiply or divide various such factorials, consider using the logarithmic version 
+        /// If you need to multiply or divide various such factorials, consider using the logarithmic version
         /// <see cref="FactorialLn"/> instead so you can add instead of multiply and subtract instead of divide, and
         /// then exponentiate the result using <see cref="System.Math.Exp"/>. This will also circumvent the problem that
         /// factorials become very large even for small parameters.
@@ -84,6 +88,27 @@ namespace MathNet.Numerics
 
             return Double.PositiveInfinity;
         }
+
+#if !NOSYSNUMERICS
+        /// <summary>
+        /// Computes the factorial of an integer.
+        /// </summary>
+        public static BigInteger Factorial(BigInteger x)
+        {
+            if (x < 0)
+            {
+                throw new ArgumentOutOfRangeException("x", Resources.ArgumentPositive);
+            }
+            if (x == 0)
+            {
+                return BigInteger.One;
+            }
+
+            BigInteger r = x;
+            while (--x > 1) r *= x;
+            return r;
+        }
+#endif
 
         /// <summary>
         /// Computes the logarithmic factorial function x -> ln(x!) of an integer number > 0.
@@ -147,7 +172,7 @@ namespace MathNet.Numerics
         /// <param name="n">A nonnegative value n.</param>
         /// <param name="ni">An array of nonnegative values that sum to <paramref name="n"/>.</param>
         /// <returns>The multinomial coefficient.</returns>
-        /// <exception cref="ArgumentNullException">if <paramref name="ni"/> is <see langword="null" />.</exception>   
+        /// <exception cref="ArgumentNullException">if <paramref name="ni"/> is <see langword="null" />.</exception>
         /// <exception cref="ArgumentException">If <paramref name="n"/> or any of the <paramref name="ni"/> are negative.</exception>
         /// <exception cref="ArgumentException">If the sum of all <paramref name="ni"/> is not equal to <paramref name="n"/>.</exception>
         public static double Multinomial(int n, int[] ni)
