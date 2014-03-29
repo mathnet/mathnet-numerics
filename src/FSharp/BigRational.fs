@@ -91,19 +91,19 @@ type BigRationalLarge (p : BigInteger, q : BigInteger) =
     static member (~-) (num : BigRationalLarge) =
         // still coprime, bq >= 0
         BigRationalLarge (-num.Numerator, num.Denominator)
-    
+
     /// Return the sum of two rational numbers
     static member (+) (x : BigRationalLarge, y : BigRationalLarge) =
         BigRationalLarge.Normalize ((x.Numerator * y.Denominator) + (y.Numerator * x.Denominator), x.Denominator * y.Denominator)
-    
+
     /// Return the difference of two rational numbers
     static member (-) (x : BigRationalLarge, y : BigRationalLarge) =
         BigRationalLarge.Normalize ((x.Numerator * y.Denominator) - (y.Numerator * x.Denominator), x.Denominator * y.Denominator)
-    
+
     /// Return the product of two rational numbers
     static member (*) (x : BigRationalLarge, y : BigRationalLarge) =
         BigRationalLarge.Normalize (x.Numerator * y.Numerator, x.Denominator * y.Denominator)
-    
+
     /// Return the ratio of two rational numbers
     static member (/) (x : BigRationalLarge, y : BigRationalLarge) =
         BigRationalLarge.Normalize (x.Numerator * y.Denominator, x.Denominator * y.Numerator)
@@ -113,7 +113,7 @@ type BigRationalLarge (p : BigInteger, q : BigInteger) =
         BigRationalLarge.Normalize (num.Denominator, num.Numerator)
 
     //
-    static member PowN (num : BigRationalLarge, n : int) =
+    static member Pow (num : BigRationalLarge, n : int) =
         // p,q powers still coprime
         BigRationalLarge (BigInteger.Pow (num.Numerator, n), BigInteger.Pow (num.Denominator, n))
 
@@ -204,6 +204,24 @@ type BigRational =
         | Z z -> sign z > 0
         | Q q -> q.IsPositive
 
+    /// Indicates whether this number is an integer; denominator is one
+    member this.IsInteger =
+        match this with
+        | Z z -> true
+        | Q q -> q.Denominator.IsOne
+
+    /// Indicates whether this number is equal to zero.
+    member this.IsZero =
+        match this with
+        | Z z -> z.IsZero
+        | Q q -> q.Numerator.IsZero
+
+    /// Indicates whether this number is equal to one.
+    member this.IsOne =
+        match this with
+        | Z z -> z.IsOne
+        | Q q -> q.Denominator.IsOne && q.Numerator.IsOne
+
     /// Return the sign of a rational number; 0, +1 or -1
     member this.Sign =
         if this.IsNegative then -1
@@ -253,6 +271,12 @@ type BigRational =
 
     /// Return the result of converting the given big integer to a rational number
     static member FromBigInt x = Z x
+
+    static member FromIntFraction (numerator: int, denominator: int) =
+        Q (BigRationalLarge.Create (numerator, denominator))
+
+    static member FromBigIntFraction (numerator: BigInteger, denominator: BigInteger) =
+        Q (BigRationalLarge.Create (numerator, denominator))
 
     /// Get zero as a rational number
     static member Zero =
@@ -387,13 +411,23 @@ type BigRational =
     static member Abs (n : BigRational) =
         if n.IsNegative then -n else n
 
+    /// Returns the multiplicative inverse of a rational number
+    static member Reciprocal (n) =
+        match n with
+        | Z z -> Q (BigRationalLarge.Create (BigInteger.One, z))
+        | Q q -> Q (BigRationalLarge.Reciprocal q)
+
     /// Return the result of raising the given rational number to the given power
-    static member PowN (n, i : int) =
+    static member Pow (n, i : int) =
         match n with
         | Z z ->
             Z (BigInteger.Pow (z, i))
         | Q q ->
-            Q (BigRationalLarge.PowN (q, i))
+            Q (BigRationalLarge.Pow (q, i))
+
+    [<Obsolete("Use Pow instead, which is compatible with the ** operator. Will be removed in a future release.")>]
+    static member PowN (n, i : int) = BigRational.Pow(n, i)
+
 
     /// Return the result of converting the given rational number to a floating point number
     static member ToDouble (n : BigRational) =

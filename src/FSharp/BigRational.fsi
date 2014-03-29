@@ -21,6 +21,9 @@ type BigRational =
 
     member IsNegative: bool
     member IsPositive: bool
+    member IsInteger: bool
+    member IsZero: bool
+    member IsOne: bool
 
     member Numerator : BigInteger
     member Denominator : BigInteger
@@ -44,18 +47,24 @@ type BigRational =
     static member op_LessThanOrEqual: BigRational * BigRational -> bool
     static member op_GreaterThan: BigRational * BigRational -> bool
     static member op_GreaterThanOrEqual: BigRational * BigRational -> bool
-        
+
     static member op_Explicit : BigRational -> BigInteger
     static member op_Explicit : BigRational -> int
     static member op_Explicit : BigRational -> float
 
     static member Abs : BigRational -> BigRational
+    static member Reciprocal : BigRational -> BigRational
+    static member Pow : BigRational * int -> BigRational
     static member PowN : BigRational * int -> BigRational
+
     static member Parse: string -> BigRational
 
     static member FromInt : int -> BigRational
     static member FromBigInt : BigInteger -> BigRational
-        
+
+    static member FromIntFraction : int * int -> BigRational
+    static member FromBigIntFraction : BigInteger * BigInteger -> BigRational
+
     static member ToDouble: BigRational -> float
     static member ToBigInt: BigRational -> BigInteger
     static member ToInt32 : BigRational -> int

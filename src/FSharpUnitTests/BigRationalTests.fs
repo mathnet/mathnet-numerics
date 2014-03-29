@@ -364,8 +364,15 @@ type BigNumType() =
         ()
 
     [<Test>]
+    member this.Zero() =
+        Assert.AreEqual(bignum.Zero,0N)
+        Assert.IsTrue(bignum.Zero.IsZero)
+        ()
+
+    [<Test>]
     member this.One() =
         Assert.AreEqual(bignum.One,1N)
+        Assert.IsTrue(bignum.One.IsOne)
         ()
 
     [<Test>]
@@ -374,6 +381,14 @@ type BigNumType() =
         Assert.AreEqual(bignum.Parse("-100"), -100N)
         Assert.AreEqual(bignum.Parse("0"),     g_zero)
         Assert.AreEqual(bignum.Parse("88"),    g_normal)
+        ()
+
+    [<Test>]
+    member this.Pow() =
+        Assert.AreEqual(bignum.Pow(100N,2), 10000N)
+        Assert.AreEqual(bignum.Pow(-3N,3),  -27N)
+        Assert.AreEqual(bignum.Pow(g_zero,2147483647), 0N)
+        Assert.AreEqual(bignum.Pow(g_normal,0),        1N)
         ()
 
     [<Test>]
@@ -431,10 +446,6 @@ type BigNumType() =
 
 
 
-    [<Test>]
-    member this.Zero() =
-        Assert.AreEqual(bignum.Zero,0N)
-        ()
 
     // operator methods
     [<Test>]
@@ -594,6 +605,40 @@ type BigNumType() =
         Assert.IsFalse(-0N.IsPositive)
 
         ()
+
+    [<Test>]
+    member this.IsInteger() =
+
+        Assert.IsTrue(0N.IsInteger)
+        Assert.IsTrue(2N.IsInteger)
+        Assert.IsTrue(-2N.IsInteger)
+        Assert.IsTrue((2N-BigRational.FromInt(3)).IsInteger)
+        Assert.IsTrue((1N/BigRational.FromInt(2)+BigRational.FromIntFraction(3,2)).IsInteger)
+
+        Assert.IsFalse((1N/2N).IsInteger)
+        Assert.IsFalse((1N/BigRational.FromInt(2)+BigRational.FromIntFraction(3,3)).IsInteger)
+
+    [<Test>]
+    member this.IsOne() =
+
+        Assert.IsTrue(1N.IsOne)
+        Assert.IsTrue((2N/BigRational.FromInt(2)).IsOne)
+        Assert.IsTrue((2N-BigRational.FromInt(1)).IsOne)
+
+        Assert.IsFalse(0N.IsOne)
+        Assert.IsFalse(-1N.IsOne)
+        Assert.IsFalse(-2N.IsOne)
+        Assert.IsFalse(2N.IsOne)
+
+    [<Test>]
+    member this.IsZero() =
+
+        Assert.IsTrue(0N.IsZero)
+        Assert.IsTrue((2N-BigRational.FromInt(2)).IsZero)
+
+        Assert.IsFalse(1N.IsZero)
+        Assert.IsFalse(-1N.IsZero)
+        Assert.IsFalse(-2N.IsZero)
 
     [<Test>]
     member this.Numerator() =
