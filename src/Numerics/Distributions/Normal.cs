@@ -139,8 +139,8 @@ namespace MathNet.Numerics.Distributions
         /// <remarks>MATLAB: normfit</remarks>
         public static Normal Estimate(IEnumerable<double> samples, System.Random randomSource = null)
         {
-            var meanVariance = samples.MeanVariance();
-            return new Normal(meanVariance.Item1, Math.Sqrt(meanVariance.Item2), randomSource);
+            var meanStdDev = samples.MeanStandardDeviation();
+            return new Normal(meanStdDev.Item1, meanStdDev.Item2, randomSource);
         }
 
         /// <summary>

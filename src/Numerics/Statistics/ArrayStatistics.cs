@@ -219,6 +219,17 @@ namespace MathNet.Numerics.Statistics
         }
 
         /// <summary>
+        /// Estimates the arithmetic sample mean and the unbiased population standard deviation from the provided samples as unsorted array.
+        /// On a dataset of size N will use an N-1 normalizer (Bessel's correction).
+        /// Returns NaN for mean if data is empty or any entry is NaN and NaN for standard deviation if data has less than two entries or if any entry is NaN.
+        /// </summary>
+        /// <param name="samples">Sample array, no sorting is assumed.</param>
+        public static Tuple<double, double> MeanStandardDeviation(double[] samples)
+        {
+            return new Tuple<double, double>(Mean(samples), StandardDeviation(samples));
+        }
+
+        /// <summary>
         /// Estimates the unbiased population covariance from the provided two sample arrays.
         /// On a dataset of size N will use an N-1 normalizer (Bessel's correction).
         /// Returns NaN if data has less than two entries or if any entry is NaN.

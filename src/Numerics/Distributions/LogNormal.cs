@@ -110,8 +110,8 @@ namespace MathNet.Numerics.Distributions
         /// <remarks>MATLAB: lognfit</remarks>
         public static LogNormal Estimate(IEnumerable<double> samples, System.Random randomSource = null)
         {
-            var muSigma2 = samples.Select(s => Math.Log(s)).MeanVariance();
-            return new LogNormal(muSigma2.Item1, Math.Sqrt(muSigma2.Item2), randomSource);
+            var muSigma = samples.Select(s => Math.Log(s)).MeanStandardDeviation();
+            return new LogNormal(muSigma.Item1, muSigma.Item2, randomSource);
         }
 
         /// <summary>
