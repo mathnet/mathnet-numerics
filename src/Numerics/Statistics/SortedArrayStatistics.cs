@@ -81,7 +81,12 @@ namespace MathNet.Numerics.Statistics
         /// <param name="data">Sample array, must be sorted ascendingly.</param>
         public static double Median(double[] data)
         {
-            return Quantile(data, 0.5d);
+            if (data.Length == 0) return double.NaN;
+
+            var k = data.Length/2;
+            return data.Length.IsOdd()
+                ? data[k]
+                : (data[k - 1] + data[k])/2.0;
         }
 
         /// <summary>

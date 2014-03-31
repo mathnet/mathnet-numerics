@@ -912,6 +912,20 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
             Assert.AreEqual(21.578697, a.Variance(), 1e-5);
             Assert.AreEqual(21.578231, a.PopulationVariance(), 1e-5);
         }
+
+        [Test]
+        public void MedianIsRobustOnCloseInfinities()
+        {
+            Assert.That(Statistics.Median(new[] { 2.0, double.NegativeInfinity, double.PositiveInfinity }), Is.EqualTo(2.0));
+            Assert.That(Statistics.Median(new[] { 2.0, double.NegativeInfinity, 3.0, double.PositiveInfinity }), Is.EqualTo(2.5));
+            Assert.That(ArrayStatistics.MedianInplace(new[] { 2.0, double.NegativeInfinity, double.PositiveInfinity}), Is.EqualTo(2.0));
+            Assert.That(ArrayStatistics.MedianInplace(new[] { double.NegativeInfinity, 2.0, double.PositiveInfinity }), Is.EqualTo(2.0));
+            Assert.That(ArrayStatistics.MedianInplace(new[] { double.NegativeInfinity, double.PositiveInfinity, 2.0 }), Is.EqualTo(2.0));
+            Assert.That(ArrayStatistics.MedianInplace(new[] { double.NegativeInfinity, 2.0, 3.0, double.PositiveInfinity }), Is.EqualTo(2.5));
+            Assert.That(ArrayStatistics.MedianInplace(new[] { double.NegativeInfinity, 2.0, double.PositiveInfinity, 3.0,  }), Is.EqualTo(2.5));
+            Assert.That(SortedArrayStatistics.Median(new[] { double.NegativeInfinity, 2.0, double.PositiveInfinity }), Is.EqualTo(2.0));
+            Assert.That(SortedArrayStatistics.Median(new[] { double.NegativeInfinity, 2.0, 3.0, double.PositiveInfinity }), Is.EqualTo(2.5));
+        }
     }
 }
 

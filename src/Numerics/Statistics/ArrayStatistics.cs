@@ -279,15 +279,16 @@ namespace MathNet.Numerics.Statistics
 
         /// <summary>
         /// Estimates the median value from the unsorted data array.
-        /// Approximately median-unbiased regardless of the sample distribution (R8).
         /// WARNING: Works inplace and can thus causes the data array to be reordered.
         /// </summary>
         /// <param name="data">Sample array, no sorting is assumed. Will be reordered.</param>
         public static double MedianInplace(double[] data)
         {
-            return QuantileInplace(data, 0.5d);
+            var k = data.Length/2;
+            return data.Length.IsOdd()
+                ? SelectInplace(data, k)
+                : (SelectInplace(data, k - 1) + SelectInplace(data, k))/2.0;
         }
-
 
         /// <summary>
         /// Estimates the p-Percentile value from the unsorted data array.
