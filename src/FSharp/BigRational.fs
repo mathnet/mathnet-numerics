@@ -115,7 +115,8 @@ type BigRationalLarge (p : BigInteger, q : BigInteger) =
     //
     static member Pow (num : BigRationalLarge, n : int) =
         // p,q powers still coprime
-        BigRationalLarge (BigInteger.Pow (num.Numerator, n), BigInteger.Pow (num.Denominator, n))
+        if n < 0 then BigRationalLarge.Normalize (BigInteger.Pow (num.Denominator, -n), BigInteger.Pow (num.Numerator, -n))
+        else BigRationalLarge (BigInteger.Pow (num.Numerator, n), BigInteger.Pow (num.Denominator, n))
 
     //
     static member FromBigInteger z =
@@ -414,14 +415,18 @@ type BigRational =
     /// Returns the multiplicative inverse of a rational number
     static member Reciprocal (n) =
         match n with
-        | Z z -> Q (BigRationalLarge.Create (BigInteger.One, z))
-        | Q q -> Q (BigRationalLarge.Reciprocal q)
+        | Z z ->
+            Q (BigRationalLarge.Create (BigInteger.One, z))
+        | Q q ->
+            Q (BigRationalLarge.Reciprocal q)
 
     /// Return the result of raising the given rational number to the given power
     static member Pow (n, i : int) =
         match n with
-        | Z z ->
+        | Z z when i > 0 ->
             Z (BigInteger.Pow (z, i))
+        | Z z ->
+            Q (BigRationalLarge.Pow (BigRationalLarge.FromBigInteger z, i))
         | Q q ->
             Q (BigRationalLarge.Pow (q, i))
 

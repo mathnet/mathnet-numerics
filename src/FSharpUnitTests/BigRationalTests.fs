@@ -286,10 +286,15 @@ type public BigRationalTests() =
         test1All  "Abs"         (BigRational.Abs)     (fun (p,q) -> (abs p,abs q)) vector1s
         testR1All "Sign"        (fun (x:BigRational) -> x.Sign)    (fun (p,q) -> check "NonZeroDenom" (sign q <> 0I) true; (sign p * sign q) |> int32) vector1s
 
-        // Test: PowN
-        test1All  "PowN(x,2)"   (fun x -> BigRational.PowN(x,2))   (fun (p,q) -> (p*p,q*q)) vector1s
-        test1All  "PowN(x,1)"   (fun x -> BigRational.PowN(x,1))   (fun (p,q) -> (p,q)) vector1s
-        test1All  "PowN(x,0)"   (fun x -> BigRational.PowN(x,0))   (fun (p,q) -> (1I,1I)) vector1s
+        // Test: Pow
+        test1All  "Pow(x,2)"   (fun x -> BigRational.Pow(x,2))   (fun (p,q) -> (p*p,q*q)) vector1s
+        test1All  "Pow(x,1)"   (fun x -> BigRational.Pow(x,1))   (fun (p,q) -> (p,q)) vector1s
+        test1All  "Pow(x,0)"   (fun x -> BigRational.Pow(x,0))   (fun (p,q) -> (1I,1I)) vector1s
+        test1All  "Pow(x,-1)"   (fun x -> BigRational.Pow(x,-1))   (fun (p,q) -> (q,p)) (vector1s |> List.filter (fun (p,_) -> p <> 0I))
+        test1All  "Pow(x,-2)"   (fun x -> BigRational.Pow(x,-2))   (fun (p,q) -> (q*q,p*p)) (vector1s |> List.filter (fun (p,_) -> p <> 0I))
+
+        testR1One  "Pow(0,-1)"  (fun x -> throws (fun () -> BigRational.PowN(x,-1))) (fun (p,q) -> true) (0I, -1I)
+        testR1One  "Pow(0,-2)"  (fun x -> throws (fun () -> BigRational.PowN(x,-2))) (fun (p,q) -> true) (0I, -2I)
 
         // MatteoT: moved to numbersVS2008\test.ml
         //test1All  "PowN(x,200)" (fun x -> BigRational.PowN(x,200)) (fun (p,q) -> (BigInteger.Pow(p,200I),BigInteger.Pow(q,200I))) vector1s
@@ -297,10 +302,6 @@ type public BigRationalTests() =
         // MatteoT: moved to numbersVS2008\test.ml
         //let powers = [0I .. 100I]
         //powers |> List.iter (fun i -> test1All  "PowN(x,i)" (fun x -> BigRational.PowN(x,int i)) (fun (p,q) -> (BigInteger.Pow(p,i),BigInteger.Pow(q,i))) vector1s)
-
-        // Test: PowN with negative powers - expect exception
-        testR1All  "PowN(x,-1)"  (fun x -> throws (fun () -> BigRational.PowN(x,-1))) (fun (p,q) -> true) vector1s
-        testR1All  "PowN(x,-4)"  (fun x -> throws (fun () -> BigRational.PowN(x,-4))) (fun (p,q) -> true) vector1s
 
 
 
@@ -387,8 +388,10 @@ type BigNumType() =
     member this.Pow() =
         Assert.AreEqual(bignum.Pow(100N,2), 10000N)
         Assert.AreEqual(bignum.Pow(-3N,3),  -27N)
+        Assert.AreEqual(bignum.Pow(2N,-2), 1N/4N)
+        Assert.AreEqual(bignum.Pow(2N/3N,-2), 9N/4N)
         Assert.AreEqual(bignum.Pow(g_zero,2147483647), 0N)
-        Assert.AreEqual(bignum.Pow(g_normal,0),        1N)
+        Assert.AreEqual(bignum.Pow(g_normal,0), 1N)
         ()
 
     [<Test>]
