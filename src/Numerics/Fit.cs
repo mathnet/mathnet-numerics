@@ -64,10 +64,11 @@ namespace MathNet.Numerics
         /// <summary>
         /// Least-Squares fitting the points (X,y) = ((x0,x1,..,xk),y) to a linear surface y : X -> p0*x0 + p1*x1 + ... + pk*xk,
         /// returning its best fitting parameters as [p0, p1, p2, ..., pk] array.
+        /// If an intercept is added, its coefficient will be prepended to the resulting parameters.
         /// </summary>
-        public static double[] MultiDim(double[][] x, double[] y)
+        public static double[] MultiDim(double[][] x, double[] y, bool intercept = false)
         {
-            return MultipleRegression.NormalEquations(x, y);
+            return MultipleRegression.NormalEquations(x, y, intercept);
         }
 
         /// <summary>
