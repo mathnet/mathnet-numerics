@@ -543,7 +543,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// </summary>
         /// <param name="scalar">The scalar to divide.</param>
         /// <returns>A new vector that is the division of the vector and the scalar.</returns>
-        public Vector<T> DevideByThis(T scalar)
+        public Vector<T> DivideByThis(T scalar)
         {
             var result = Build.SameAs(this);
             DoDivideByThis(scalar, result);

@@ -178,7 +178,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <exception cref="ArgumentNullException">If <paramref name="divisor"/> is <see langword="null" />.</exception>
         public static Vector<T> operator /(T dividend, Vector<T> divisor)
         {
-            return divisor.DevideByThis(dividend);
+            return divisor.DivideByThis(dividend);
         }
 
         /// <summary>
