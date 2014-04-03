@@ -589,30 +589,100 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
         // FUNCTIONAL COMBINATORS
 
-        public override void MapInplace(Func<T, T> f, bool forceMapZeros = false)
+        internal override void MapToUnchecked<TU>(MatrixStorage<TU> target, Func<T, TU> f, bool forceMapZeros = false, bool skipClearing = false)
         {
-            // we deliberately ignore forceMapZeros since we would not actually
-            // support any non-zero results outside of the diagonal anyway
-            CommonParallel.For(0, Data.Length, 4096, (a, b) =>
+            var processZeros = forceMapZeros || !Zero.Equals(f(Zero));
+
+            var diagonalTarget = target as DiagonalMatrixStorage<TU>;
+            if (diagonalTarget != null)
+            {
+                if (processZeros)
+                {
+                    throw new NotSupportedException("Cannot map non-zero off-diagonal values into a diagonal matrix");
+                }
+
+                CommonParallel.For(0, Data.Length, 4096, (a, b) =>
                 {
                     for (int i = a; i < b; i++)
                     {
-                        Data[i] = f(Data[i]);
+                        diagonalTarget.Data[i] = f(Data[i]);
                     }
                 });
+                return;
+            }
+
+            // FALL BACK
+
+            if (!skipClearing && !processZeros)
+            {
+                target.Clear();
+            }
+
+            if (processZeros)
+            {
+                for (int j = 0; j < ColumnCount; j++)
+                {
+                    for (int i = 0; i < RowCount; i++)
+                    {
+                        target.At(i, j, f(i == j ? Data[i] : Zero));
+                    }
+                }
+            }
+            else
+            {
+                for (int i = 0; i < Data.Length; i++)
+                {
+                    target.At(i, i, f(Data[i]));
+                }
+            }
         }
 
-        public override void MapIndexedInplace(Func<int, int, T, T> f, bool forceMapZeros = false)
+        internal override void MapIndexedToUnchecked<TU>(MatrixStorage<TU> target, Func<int, int, T, TU> f, bool forceMapZeros = false, bool skipClearing = false)
         {
-            // we deliberately ignore forceMapZeros since we would not actually
-            // support any non-zero results outside of the diagonal anyway
-            CommonParallel.For(0, Data.Length, 4096, (a, b) =>
+            var processZeros = forceMapZeros || !Zero.Equals(f(0, 0, Zero));
+
+            var diagonalTarget = target as DiagonalMatrixStorage<TU>;
+            if (diagonalTarget != null)
+            {
+                if (processZeros)
+                {
+                    throw new NotSupportedException("Cannot map non-zero off-diagonal values into a diagonal matrix");
+                }
+
+                CommonParallel.For(0, Data.Length, 4096, (a, b) =>
                 {
                     for (int i = a; i < b; i++)
                     {
-                        Data[i] = f(i, i, Data[i]);
+                        diagonalTarget.Data[i] = f(i, i, Data[i]);
                     }
                 });
+                return;
+            }
+
+            // FALL BACK
+
+            if (!skipClearing && !processZeros)
+            {
+                target.Clear();
+            }
+
+            if (processZeros)
+            {
+                for (int j = 0; j < ColumnCount; j++)
+                {
+                    for (int i = 0; i < RowCount; i++)
+                    {
+                        target.At(i, j, f(i, j, i == j ? Data[i] : Zero));
+                    }
+                }
+            }
+            else
+            {
+                for (int i = 0; i < Data.Length; i++)
+                {
+                    target.At(i, i, f(i, i, Data[i]));
+                }
+            }
         }
     }
 }

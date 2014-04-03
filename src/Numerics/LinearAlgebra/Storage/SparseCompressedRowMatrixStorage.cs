@@ -30,6 +30,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using MathNet.Numerics.Properties;
 
@@ -42,7 +43,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         // [ruegg] public fields are OK here
 
         /// <summary>
-        /// The array containing the row indices of the existing rows. Element "i" of the array gives the index of the 
+        /// The array containing the row indices of the existing rows. Element "i" of the array gives the index of the
         /// element in the <see cref="Values"/> array that is first non-zero element in a row "i".
         /// The last value is equal to ValueCount, so that the number of non-zero entries in row "i" is always
         /// given by RowPointers[i+i] - RowPointers[i]. This array thus has length RowCount+1.
@@ -50,13 +51,13 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         public readonly int[] RowPointers;
 
         /// <summary>
-        /// An array containing the column indices of the non-zero values. Element "j" of the array 
+        /// An array containing the column indices of the non-zero values. Element "j" of the array
         /// is the number of the column in matrix that contains the j-th value in the <see cref="Values"/> array.
         /// </summary>
         public int[] ColumnIndices;
 
         /// <summary>
-        /// Array that contains the non-zero elements of matrix. Values of the non-zero elements of matrix are mapped into the values 
+        /// Array that contains the non-zero elements of matrix. Values of the non-zero elements of matrix are mapped into the values
         /// array using the row-major storage mapping described in a compressed sparse row (CSR) format.
         /// </summary>
         public T[] Values;
@@ -214,7 +215,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
             valueCount -= 1;
 
-            // Check whether we need to shrink the arrays. This is reasonable to do if 
+            // Check whether we need to shrink the arrays. This is reasonable to do if
             // there are a lot of non-zero elements and storage is two times bigger
             if ((valueCount > 1024) && (valueCount < Values.Length / 2))
             {
@@ -374,7 +375,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         /// Returns a hash code for this instance.
         /// </summary>
         /// <returns>
-        /// A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table. 
+        /// A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table.
         /// </returns>
         public override int GetHashCode()
         {
@@ -1104,25 +1105,82 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
         // FUNCTIONAL COMBINATORS
 
-        public override void MapInplace(Func<T, T> f, bool forceMapZeros = false)
+        internal override void MapToUnchecked<TU>(MatrixStorage<TU> target, Func<T, TU> f, bool forceMapZeros = false, bool skipClearing = false)
         {
-            var newRowPointers = new int[RowCount+1];
-            var newColumnIndices = new List<int>();
-            var newValues = new List<T>();
+            var processZeros = forceMapZeros || !Zero.Equals(f(Zero));
 
-            if (forceMapZeros || !Zero.Equals(f(Zero)))
+            var sparseTarget = target as SparseCompressedRowMatrixStorage<TU>;
+            if (sparseTarget != null)
             {
-                int k = 0;
+                var newRowPointers = sparseTarget.RowPointers;
+                var newColumnIndices = new List<int>();
+                var newValues = new List<TU>();
+
+                if (processZeros)
+                {
+                    int k = 0;
+                    for (int row = 0; row < RowCount; row++)
+                    {
+                        newRowPointers[row] = newValues.Count;
+                        for (int col = 0; col < ColumnCount; col++)
+                        {
+                            var item = k < RowPointers[row + 1] && ColumnIndices[k] == col ? f(Values[k++]) : f(Zero);
+                            if (!Zero.Equals(item))
+                            {
+                                newValues.Add(item);
+                                newColumnIndices.Add(col);
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    for (int row = 0; row < RowCount; row++)
+                    {
+                        newRowPointers[row] = newValues.Count;
+                        var startIndex = RowPointers[row];
+                        var endIndex = RowPointers[row + 1];
+                        for (var j = startIndex; j < endIndex; j++)
+                        {
+                            var item = f(Values[j]);
+                            if (!Zero.Equals(item))
+                            {
+                                newValues.Add(item);
+                                newColumnIndices.Add(ColumnIndices[j]);
+                            }
+                        }
+                    }
+                }
+
+                sparseTarget.ColumnIndices = newColumnIndices.ToArray();
+                sparseTarget.Values = newValues.ToArray();
+                newRowPointers[RowCount] = newValues.Count;
+                return;
+            }
+
+            // FALL BACK
+
+            if (!skipClearing && !processZeros)
+            {
+                target.Clear();
+            }
+
+            if (processZeros)
+            {
                 for (int row = 0; row < RowCount; row++)
                 {
-                    newRowPointers[row] = newValues.Count;
-                    for (int col = 0; col < ColumnCount; col++)
+                    var index = RowPointers[row];
+                    var endIndex = RowPointers[row + 1];
+                    for (int j = 0; j < ColumnCount; j++)
                     {
-                        var item = k < RowPointers[row + 1] && ColumnIndices[k] == col ? f(Values[k++]) : f(Zero);
-                        if (!Zero.Equals(item))
+                        if (j == ColumnIndices[index])
                         {
-                            newValues.Add(item);
-                            newColumnIndices.Add(col);
+                            target.At(row, j, f(Values[j]));
+                            index = Math.Min(index + 1, endIndex);
+                        }
+                        else
+                        {
+                            target.At(row, j, f(Zero));
                         }
                     }
                 }
@@ -1131,46 +1189,92 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             {
                 for (int row = 0; row < RowCount; row++)
                 {
-                    newRowPointers[row] = newValues.Count;
                     var startIndex = RowPointers[row];
                     var endIndex = RowPointers[row + 1];
                     for (var j = startIndex; j < endIndex; j++)
                     {
-                        var item = f(Values[j]);
-                        if (!Zero.Equals(item))
-                        {
-                            newValues.Add(item);
-                            newColumnIndices.Add(ColumnIndices[j]);
-                        }
+                        target.At(row, ColumnIndices[j], f(Values[j]));
                     }
                 }
             }
-
-            ColumnIndices = newColumnIndices.ToArray();
-            Values = newValues.ToArray();
-            newRowPointers[RowCount] = newValues.Count;
-            Array.Copy(newRowPointers, RowPointers, newRowPointers.Length);
         }
 
-        public override void MapIndexedInplace(Func<int, int, T, T> f, bool forceMapZeros = false)
+        internal override void MapIndexedToUnchecked<TU>(MatrixStorage<TU> target, Func<int, int, T, TU> f, bool forceMapZeros = false, bool skipClearing = false)
         {
-            var newRowPointers = new int[RowCount+1];
-            var newColumnIndices = new List<int>();
-            var newValues = new List<T>();
+            var processZeros = forceMapZeros || !Zero.Equals(f(0, 0, Zero));
 
-            if (forceMapZeros || !Zero.Equals(f(0, 0, Zero)))
+            var sparseTarget = target as SparseCompressedRowMatrixStorage<TU>;
+            if (sparseTarget != null)
             {
-                int k = 0;
+                var newRowPointers = sparseTarget.RowPointers;
+                var newColumnIndices = new List<int>();
+                var newValues = new List<TU>();
+
+                if (processZeros)
+                {
+                    int k = 0;
+                    for (int row = 0; row < RowCount; row++)
+                    {
+                        newRowPointers[row] = newValues.Count;
+                        for (int col = 0; col < ColumnCount; col++)
+                        {
+                            var item = k < RowPointers[row + 1] && ColumnIndices[k] == col ? f(row, col, Values[k++]) : f(row, col, Zero);
+                            if (!Zero.Equals(item))
+                            {
+                                newValues.Add(item);
+                                newColumnIndices.Add(col);
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    for (int row = 0; row < RowCount; row++)
+                    {
+                        newRowPointers[row] = newValues.Count;
+                        var startIndex = RowPointers[row];
+                        var endIndex = RowPointers[row + 1];
+                        for (var j = startIndex; j < endIndex; j++)
+                        {
+                            var item = f(row, ColumnIndices[j], Values[j]);
+                            if (!Zero.Equals(item))
+                            {
+                                newValues.Add(item);
+                                newColumnIndices.Add(ColumnIndices[j]);
+                            }
+                        }
+                    }
+                }
+
+                sparseTarget.ColumnIndices = newColumnIndices.ToArray();
+                sparseTarget.Values = newValues.ToArray();
+                newRowPointers[RowCount] = newValues.Count;
+                return;
+            }
+
+            // FALL BACK
+
+            if (!skipClearing && !processZeros)
+            {
+                target.Clear();
+            }
+
+            if (processZeros)
+            {
                 for (int row = 0; row < RowCount; row++)
                 {
-                    newRowPointers[row] = newValues.Count;
-                    for (int col = 0; col < ColumnCount; col++)
+                    var index = RowPointers[row];
+                    var endIndex = RowPointers[row + 1];
+                    for (int j = 0; j < ColumnCount; j++)
                     {
-                        var item = k < RowPointers[row + 1] && ColumnIndices[k] == col ? f(row, col, Values[k++]) : f(row, col, Zero);
-                        if (!Zero.Equals(item))
+                        if (j == ColumnIndices[index])
                         {
-                            newValues.Add(item);
-                            newColumnIndices.Add(col);
+                            target.At(row, j, f(row, j, Values[j]));
+                            index = Math.Min(index + 1, endIndex);
+                        }
+                        else
+                        {
+                            target.At(row, j, f(row, j, Zero));
                         }
                     }
                 }
@@ -1179,25 +1283,14 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             {
                 for (int row = 0; row < RowCount; row++)
                 {
-                    newRowPointers[row] = newValues.Count;
                     var startIndex = RowPointers[row];
                     var endIndex = RowPointers[row + 1];
                     for (var j = startIndex; j < endIndex; j++)
                     {
-                        var item = f(row, ColumnIndices[j], Values[j]);
-                        if (!Zero.Equals(item))
-                        {
-                            newValues.Add(item);
-                            newColumnIndices.Add(ColumnIndices[j]);
-                        }
+                        target.At(row, ColumnIndices[j], f(row, ColumnIndices[j], Values[j]));
                     }
                 }
             }
-
-            ColumnIndices = newColumnIndices.ToArray();
-            Values = newValues.ToArray();
-            newRowPointers[RowCount] = newValues.Count;
-            Array.Copy(newRowPointers, RowPointers, newRowPointers.Length);
         }
     }
 }

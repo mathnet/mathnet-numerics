@@ -468,24 +468,60 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
         // FUNCTIONAL COMBINATORS
 
-        public virtual void MapInplace(Func<T, T> f, bool forceMapZeros = false)
+        public void MapTo<TU>(MatrixStorage<TU> target, Func<T, TU> f, bool forceMapZeros = false, bool skipClearing = false)
+            where TU : struct, IEquatable<TU>, IFormattable
+        {
+            if (target == null)
+            {
+                throw new ArgumentNullException("target");
+            }
+
+            if (RowCount != target.RowCount || ColumnCount != target.ColumnCount)
+            {
+                var message = string.Format(Resources.ArgumentMatrixDimensions2, RowCount + "x" + ColumnCount, target.RowCount + "x" + target.ColumnCount);
+                throw new ArgumentException(message, "target");
+            }
+
+            MapToUnchecked(target, f, forceMapZeros, skipClearing);
+        }
+
+        internal virtual void MapToUnchecked<TU>(MatrixStorage<TU> target, Func<T, TU> f, bool forceMapZeros = false, bool skipClearing = false)
+            where TU : struct, IEquatable<TU>, IFormattable
         {
             for (int i = 0; i < RowCount; i++)
             {
                 for (int j = 0; j < ColumnCount; j++)
                 {
-                    At(i, j, f(At(i, j)));
+                    target.At(i, j, f(At(i, j)));
                 }
             }
         }
 
-        public virtual void MapIndexedInplace(Func<int, int, T, T> f, bool forceMapZeros = false)
+        public void MapIndexedTo<TU>(MatrixStorage<TU> target, Func<int, int, T, TU> f, bool forceMapZeros = false, bool skipClearing = false)
+            where TU : struct, IEquatable<TU>, IFormattable
+        {
+            if (target == null)
+            {
+                throw new ArgumentNullException("target");
+            }
+
+            if (RowCount != target.RowCount || ColumnCount != target.ColumnCount)
+            {
+                var message = string.Format(Resources.ArgumentMatrixDimensions2, RowCount + "x" + ColumnCount, target.RowCount + "x" + target.ColumnCount);
+                throw new ArgumentException(message, "target");
+            }
+
+            MapIndexedToUnchecked(target, f, forceMapZeros, skipClearing);
+        }
+
+        internal virtual void MapIndexedToUnchecked<TU>(MatrixStorage<TU> target, Func<int, int, T, TU> f, bool forceMapZeros = false, bool skipClearing = false)
+            where TU : struct, IEquatable<TU>, IFormattable
         {
             for (int i = 0; i < RowCount; i++)
             {
                 for (int j = 0; j < ColumnCount; j++)
                 {
-                    At(i, j, f(i, j, At(i, j)));
+                    target.At(i, j, f(i, j, At(i, j)));
                 }
             }
         }

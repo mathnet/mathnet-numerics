@@ -1455,7 +1455,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// </summary>
         public void MapInplace(Func<T, T> f, bool forceMapZeros = false)
         {
-            Storage.MapInplace(f, forceMapZeros);
+            Storage.MapToUnchecked(Storage, f, forceMapZeros, skipClearing: true);
         }
 
         /// <summary>
@@ -1466,7 +1466,57 @@ namespace MathNet.Numerics.LinearAlgebra
         /// </summary>
         public void MapIndexedInplace(Func<int, int, T, T> f, bool forceMapZeros = false)
         {
-            Storage.MapIndexedInplace(f, forceMapZeros);
+            Storage.MapIndexedToUnchecked(Storage, f, forceMapZeros, skipClearing: true);
+        }
+
+        /// <summary>
+        /// Applies a function to each value of this matrix and replaces the value in the result matrix.
+        /// If forceMapZero is not set to true, zero values may or may not be skipped depending
+        /// on the actual data storage implementation (relevant mostly for sparse matrices).
+        /// </summary>
+        public void Map<TU>(Func<T, TU> f, Matrix<TU> result, bool forceMapZeros = false)
+            where TU : struct, IEquatable<TU>, IFormattable
+        {
+            Storage.MapTo(result.Storage, f, forceMapZeros, skipClearing: forceMapZeros);
+        }
+
+        /// <summary>
+        /// Applies a function to each value of this matrix and replaces the value in the result matrix.
+        /// The index of each value (zero-based) is passed as first argument to the function.
+        /// If forceMapZero is not set to true, zero values may or may not be skipped depending
+        /// on the actual data storage implementation (relevant mostly for sparse matrices).
+        /// </summary>
+        public void MapIndexed<TU>(Func<int, int, T, TU> f, Matrix<TU> result, bool forceMapZeros = false)
+            where TU : struct, IEquatable<TU>, IFormattable
+        {
+            Storage.MapIndexedTo(result.Storage, f, forceMapZeros, skipClearing: forceMapZeros);
+        }
+
+        /// <summary>
+        /// Applies a function to each value of this matrix and returns the results as a new matrix.
+        /// If forceMapZero is not set to true, zero values may or may not be skipped depending
+        /// on the actual data storage implementation (relevant mostly for sparse matrices).
+        /// </summary>
+        public Matrix<TU> Map<TU>(Func<T, TU> f, bool forceMapZeros = false)
+            where TU : struct, IEquatable<TU>, IFormattable
+        {
+            var result = Matrix<TU>.Build.SameAs(this);
+            Storage.MapToUnchecked(result.Storage, f, forceMapZeros, skipClearing: true);
+            return result;
+        }
+
+        /// <summary>
+        /// Applies a function to each value of this matrix and returns the results as a new matrix.
+        /// The index of each value (zero-based) is passed as first argument to the function.
+        /// If forceMapZero is not set to true, zero values may or may not be skipped depending
+        /// on the actual data storage implementation (relevant mostly for sparse matrices).
+        /// </summary>
+        public Matrix<TU> MapIndexed<TU>(Func<int, int, T, TU> f, bool forceMapZeros = false)
+            where TU : struct, IEquatable<TU>, IFormattable
+        {
+            var result = Matrix<TU>.Build.SameAs(this);
+            Storage.MapIndexedToUnchecked(result.Storage, f, forceMapZeros, skipClearing: true);
+            return result;
         }
     }
 }

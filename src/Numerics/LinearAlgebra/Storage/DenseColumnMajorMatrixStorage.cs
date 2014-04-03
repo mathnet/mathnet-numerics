@@ -503,26 +503,58 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
         // FUNCTIONAL COMBINATORS
 
-        public override void MapInplace(Func<T, T> f, bool forceMapZeros = false)
+        internal override void MapToUnchecked<TU>(MatrixStorage<TU> target, Func<T, TU> f, bool forceMapZeros = false, bool skipClearing = false)
         {
-            CommonParallel.For(0, Data.Length, 4096, (a, b) =>
+            var denseTarget = target as DenseColumnMajorMatrixStorage<TU>;
+            if (denseTarget != null)
+            {
+                CommonParallel.For(0, Data.Length, 4096, (a, b) =>
                 {
                     for (int i = a; i < b; i++)
                     {
-                        Data[i] = f(Data[i]);
+                        denseTarget.Data[i] = f(Data[i]);
                     }
                 });
-        }
+                return;
+            }
 
-        public override void MapIndexedInplace(Func<int, int, T, T> f, bool forceMapZeros = false)
-        {
+            // FALL BACK
+
             int index = 0;
             for (int j = 0; j < ColumnCount; j++)
             {
                 for (int i = 0; i < RowCount; i++)
                 {
-                    Data[index] = f(i, j, Data[index]);
-                    index++;
+                    target.At(i, j, f(Data[index++]));
+                }
+            }
+        }
+
+        internal override void MapIndexedToUnchecked<TU>(MatrixStorage<TU> target, Func<int, int, T, TU> f, bool forceMapZeros = false, bool skipClearing = false)
+        {
+            var denseTarget = target as DenseColumnMajorMatrixStorage<TU>;
+            if (denseTarget != null)
+            {
+                int index = 0;
+                for (int j = 0; j < ColumnCount; j++)
+                {
+                    for (int i = 0; i < RowCount; i++)
+                    {
+                        denseTarget.Data[index] = f(i, j, Data[index]);
+                        index++;
+                    }
+                }
+                return;
+            }
+
+            // FALL BACK
+
+            int index2 = 0;
+            for (int j = 0; j < ColumnCount; j++)
+            {
+                for (int i = 0; i < RowCount; i++)
+                {
+                    target.At(i, j, f(i, j, Data[index2++]));
                 }
             }
         }
