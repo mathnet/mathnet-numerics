@@ -48,7 +48,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
     public abstract class Vector : Vector<Complex>
     {
         /// <summary>
-        /// Initializes a new instance of the Vector class. 
+        /// Initializes a new instance of the Vector class.
         /// </summary>
         protected Vector(VectorStorage<Complex> storage)
             : base(storage)
@@ -191,6 +191,16 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         }
 
         /// <summary>
+        /// Pointwise raise this vector to an exponent and store the result into the result vector.
+        /// </summary>
+        /// <param name="exponent">The exponent to raise this vector values to.</param>
+        /// <param name="result">The vector to store the result of the pointwise power.</param>
+        protected override void DoPointwisePower(Complex exponent, Vector<Complex> result)
+        {
+            Map(x => x.Power(exponent), result, forceMapZeros: false);
+        }
+
+        /// <summary>
         /// Pointwise canonical modulus, where the result has the sign of the divisor,
         /// of this vector with another vector and stores the result into the result vector.
         /// </summary>
@@ -210,6 +220,24 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         protected override sealed void DoPointwiseRemainder(Vector<Complex> divisor, Vector<Complex> result)
         {
             throw new NotSupportedException();
+        }
+
+        /// <summary>
+        /// Pointwise applies the exponential function to each value and stores the result into the result vector.
+        /// </summary>
+        /// <param name="result">The vector to store the result.</param>
+        protected override void DoPointwiseExp(Vector<Complex> result)
+        {
+            Map(Complex.Exp, result, forceMapZeros: true);
+        }
+
+        /// <summary>
+        /// Pointwise applies the natural logarithm function to each value and stores the result into the result vector.
+        /// </summary>
+        /// <param name="result">The vector to store the result.</param>
+        protected override void DoPointwiseLog(Vector<Complex> result)
+        {
+            Map(Complex.Log, result, forceMapZeros: true);
         }
 
         /// <summary>
@@ -298,7 +326,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// <summary>
         /// Returns the index of the absolute minimum element.
         /// </summary>
-        /// <returns>The index of absolute minimum element.</returns>   
+        /// <returns>The index of absolute minimum element.</returns>
         public override int AbsoluteMinimumIndex()
         {
             var index = 0;
@@ -328,7 +356,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// <summary>
         /// Returns the index of the absolute maximum element.
         /// </summary>
-        /// <returns>The index of absolute maximum element.</returns>   
+        /// <returns>The index of absolute maximum element.</returns>
         public override int AbsoluteMaximumIndex()
         {
             var index = 0;
@@ -444,7 +472,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// <summary>
         /// Returns the index of the absolute maximum element.
         /// </summary>
-        /// <returns>The index of absolute maximum element.</returns>          
+        /// <returns>The index of absolute maximum element.</returns>
         public override int MaximumIndex()
         {
             throw new NotSupportedException();
@@ -453,7 +481,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// <summary>
         /// Returns the index of the minimum element.
         /// </summary>
-        /// <returns>The index of minimum element.</returns>  
+        /// <returns>The index of minimum element.</returns>
         public override int MinimumIndex()
         {
             throw new NotSupportedException();

@@ -178,6 +178,13 @@ namespace MathNet.Numerics.LinearAlgebra
         protected abstract void DoPointwiseDivide(Vector<T> divisor, Vector<T> result);
 
         /// <summary>
+        /// Pointwise raise this vector to an exponent and store the result into the result vector.
+        /// </summary>
+        /// <param name="exponent">The exponent to raise this vector values to.</param>
+        /// <param name="result">The vector to store the result of the pointwise power.</param>
+        protected abstract void DoPointwisePower(T exponent, Vector<T> result);
+
+        /// <summary>
         /// Pointwise canonical modulus, where the result has the sign of the divisor,
         /// of this vector with another vector and stores the result into the result vector.
         /// </summary>
@@ -192,6 +199,18 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <param name="divisor">The pointwise denominator vector to use.</param>
         /// <param name="result">The result of the modulus.</param>
         protected abstract void DoPointwiseRemainder(Vector<T> divisor, Vector<T> result);
+
+        /// <summary>
+        /// Pointwise applies the exponential function to each value and stores the result into the result vector.
+        /// </summary>
+        /// <param name="result">The vector to store the result.</param>
+        protected abstract void DoPointwiseExp(Vector<T> result);
+
+        /// <summary>
+        /// Pointwise applies the natural logarithm function to each value and stores the result into the result vector.
+        /// </summary>
+        /// <param name="result">The vector to store the result.</param>
+        protected abstract void DoPointwiseLog(Vector<T> result);
 
         /// <summary>
         /// Adds a scalar to each element of the vector.
@@ -763,6 +782,32 @@ namespace MathNet.Numerics.LinearAlgebra
         }
 
         /// <summary>
+        /// Pointwise raise this vector to an exponent.
+        /// </summary>
+        /// <param name="exponent">The exponent to raise this vector values to.</param>
+        public Vector<T> PointwisePower(T exponent)
+        {
+            var result = Build.SameAs(this);
+            DoPointwisePower(exponent, result);
+            return result;
+        }
+
+        /// <summary>
+        /// Pointwise raise this vector to an exponent and store the result into the result vector.
+        /// </summary>
+        /// <param name="exponent">The exponent to raise this vector values to.</param>
+        /// <exception cref="ArgumentException">If this vector and <paramref name="result"/> are not the same size.</exception>
+        public void PointwisePower(T exponent, Vector<T> result)
+        {
+            if (Count != result.Count)
+            {
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
+            }
+
+            DoPointwisePower(exponent, result);
+        }
+
+        /// <summary>
         /// Pointwise canonical modulus, where the result has the sign of the divisor,
         /// of this vector with another vector.
         /// </summary>
@@ -841,6 +886,56 @@ namespace MathNet.Numerics.LinearAlgebra
             }
 
             DoPointwiseRemainder(divisor, result);
+        }
+
+        /// <summary>
+        /// Pointwise applies the exponent function to each value.
+        /// </summary>
+        public Vector<T> PointwiseExp()
+        {
+            var result = Build.SameAs(this);
+            DoPointwiseExp(result);
+            return result;
+        }
+
+        /// <summary>
+        /// Pointwise applies the exponent function to each value.
+        /// </summary>
+        /// <param name="result">The vector to store the result.</param>
+        /// <exception cref="ArgumentException">If this vector and <paramref name="result"/> are not the same size.</exception>
+        public void PointwiseExp(Vector<T> result)
+        {
+            if (Count != result.Count)
+            {
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
+            }
+
+            DoPointwiseExp(result);
+        }
+
+        /// <summary>
+        /// Pointwise applies the natural logarithm function to each value.
+        /// </summary>
+        public Vector<T> PointwiseLog()
+        {
+            var result = Build.SameAs(this);
+            DoPointwiseLog(result);
+            return result;
+        }
+
+        /// <summary>
+        /// Pointwise applies the natural logarithm function to each value.
+        /// </summary>
+        /// <param name="result">The vector to store the result.</param>
+        /// <exception cref="ArgumentException">If this vector and <paramref name="result"/> are not the same size.</exception>
+        public void PointwiseLog(Vector<T> result)
+        {
+            if (Count != result.Count)
+            {
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
+            }
+
+            DoPointwiseLog(result);
         }
 
         /// <summary>

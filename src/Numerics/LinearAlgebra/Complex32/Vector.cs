@@ -28,6 +28,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System.Security.Cryptography.X509Certificates;
 using MathNet.Numerics.LinearAlgebra.Storage;
 using MathNet.Numerics.Threading;
 using System;
@@ -186,6 +187,16 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         }
 
         /// <summary>
+        /// Pointwise raise this vector to an exponent and store the result into the result vector.
+        /// </summary>
+        /// <param name="exponent">The exponent to raise this vector values to.</param>
+        /// <param name="result">The vector to store the result of the pointwise power.</param>
+        protected override void DoPointwisePower(Complex32 exponent, Vector<Complex32> result)
+        {
+            Map(x => x.Power(exponent), result, forceMapZeros: false);
+        }
+
+        /// <summary>
         /// Pointwise canonical modulus, where the result has the sign of the divisor,
         /// of this vector with another vector and stores the result into the result vector.
         /// </summary>
@@ -205,6 +216,24 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         protected override sealed void DoPointwiseRemainder(Vector<Complex32> divisor, Vector<Complex32> result)
         {
             throw new NotSupportedException();
+        }
+
+        /// <summary>
+        /// Pointwise applies the exponential function to each value and stores the result into the result vector.
+        /// </summary>
+        /// <param name="result">The vector to store the result.</param>
+        protected override void DoPointwiseExp(Vector<Complex32> result)
+        {
+            Map(Complex32.Exp, result, forceMapZeros: true);
+        }
+
+        /// <summary>
+        /// Pointwise applies the natural logarithm function to each value and stores the result into the result vector.
+        /// </summary>
+        /// <param name="result">The vector to store the result.</param>
+        protected override void DoPointwiseLog(Vector<Complex32> result)
+        {
+            Map(Complex32.Log, result, forceMapZeros: true);
         }
 
         /// <summary>
