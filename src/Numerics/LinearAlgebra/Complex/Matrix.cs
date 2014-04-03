@@ -108,7 +108,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
 
         /// <summary>
         /// Returns the conjugate transpose of this matrix.
-        /// </summary>        
+        /// </summary>
         /// <returns>The conjugate transpose of this matrix.</returns>
         public override Matrix<Complex> ConjugateTranspose()
         {
@@ -455,6 +455,16 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         }
 
         /// <summary>
+        /// Pointwise raise this matrix to an exponent and store the result into the result vector.
+        /// </summary>
+        /// <param name="exponent">The exponent to raise this matrix values to.</param>
+        /// <param name="result">The vector to store the result of the pointwise power.</param>
+        protected override void DoPointwisePower(Complex exponent, Matrix<Complex> result)
+        {
+            Map(x => x.Power(exponent), result, forceMapZeros: false);
+        }
+
+        /// <summary>
         /// Pointwise canonical modulus, where the result has the sign of the divisor,
         /// of this matrix with another matrix and stores the result into the result matrix.
         /// </summary>
@@ -518,6 +528,24 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         protected override sealed void DoRemainderByThis(Complex dividend, Matrix<Complex> result)
         {
             throw new NotSupportedException();
+        }
+
+        /// <summary>
+        /// Pointwise applies the exponential function to each value and stores the result into the result matrix.
+        /// </summary>
+        /// <param name="result">The matrix to store the result.</param>
+        protected override void DoPointwiseExp(Matrix<Complex> result)
+        {
+            Map(Complex.Exp, result, forceMapZeros: true);
+        }
+
+        /// <summary>
+        /// Pointwise applies the natural logarithm function to each value and stores the result into the result matrix.
+        /// </summary>
+        /// <param name="result">The matrix to store the result.</param>
+        protected override void DoPointwiseLog(Matrix<Complex> result)
+        {
+            Map(Complex.Log, result, forceMapZeros: true);
         }
 
         /// <summary>

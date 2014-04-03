@@ -225,6 +225,13 @@ namespace MathNet.Numerics.LinearAlgebra
         protected abstract void DoPointwiseDivide(Matrix<T> divisor, Matrix<T> result);
 
         /// <summary>
+        /// Pointwise raise this matrix to an exponent and store the result into the result vector.
+        /// </summary>
+        /// <param name="exponent">The exponent to raise this matrix values to.</param>
+        /// <param name="result">The vector to store the result of the pointwise power.</param>
+        protected abstract void DoPointwisePower(T exponent, Matrix<T> result);
+
+        /// <summary>
         /// Pointwise canonical modulus, where the result has the sign of the divisor,
         /// of this matrix with another matrix and stores the result into the result matrix.
         /// </summary>
@@ -239,6 +246,18 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <param name="divisor">The pointwise denominator matrix to use</param>
         /// <param name="result">The result of the modulus.</param>
         protected abstract void DoPointwiseRemainder(Matrix<T> divisor, Matrix<T> result);
+
+        /// <summary>
+        /// Pointwise applies the exponential function to each value and stores the result into the result matrix.
+        /// </summary>
+        /// <param name="result">The matrix to store the result.</param>
+        protected abstract void DoPointwiseExp(Matrix<T> result);
+
+        /// <summary>
+        /// Pointwise applies the natural logarithm function to each value and stores the result into the result matrix.
+        /// </summary>
+        /// <param name="result">The matrix to store the result.</param>
+        protected abstract void DoPointwiseLog(Matrix<T> result);
 
         /// <summary>
         /// Adds a scalar to each element of the matrix.
@@ -1234,6 +1253,32 @@ namespace MathNet.Numerics.LinearAlgebra
         }
 
         /// <summary>
+        /// Pointwise raise this matrix to an exponent and store the result into the result matrix.
+        /// </summary>
+        /// <param name="exponent">The exponent to raise this matrix values to.</param>
+        public Matrix<T> PointwisePower(T exponent)
+        {
+            var result = Build.SameAs(this);
+            DoPointwisePower(exponent, result);
+            return result;
+        }
+
+        /// <summary>
+        /// Pointwise raise this matrix to an exponent.
+        /// </summary>
+        /// <param name="exponent">The exponent to raise this matrix values to.</param>
+        /// <exception cref="ArgumentException">If this matrix and <paramref name="result"/> are not the same size.</exception>
+        public void PointwisePower(T exponent, Matrix<T> result)
+        {
+            if (ColumnCount != result.ColumnCount || RowCount != result.RowCount)
+            {
+                throw DimensionsDontMatch<ArgumentException>(this, result);
+            }
+
+            DoPointwisePower(exponent, result);
+        }
+
+        /// <summary>
         /// Pointwise canonical modulus, where the result has the sign of the divisor,
         /// of this matrix by another matrix.
         /// </summary>
@@ -1303,6 +1348,56 @@ namespace MathNet.Numerics.LinearAlgebra
             }
 
             DoPointwiseRemainder(divisor, result);
+        }
+
+        /// <summary>
+        /// Pointwise applies the exponent function to each value.
+        /// </summary>
+        public Matrix<T> PointwiseExp()
+        {
+            var result = Build.SameAs(this);
+            DoPointwiseExp(result);
+            return result;
+        }
+
+        /// <summary>
+        /// Pointwise applies the exponent function to each value.
+        /// </summary>
+        /// <param name="result">The matrix to store the result.</param>
+        /// <exception cref="ArgumentException">If this matrix and <paramref name="result"/> are not the same size.</exception>
+        public void PointwiseExp(Matrix<T> result)
+        {
+            if (ColumnCount != result.ColumnCount || RowCount != result.RowCount)
+            {
+                throw DimensionsDontMatch<ArgumentException>(this, result);
+            }
+
+            DoPointwiseExp(result);
+        }
+
+        /// <summary>
+        /// Pointwise applies the natural logarithm function to each value.
+        /// </summary>
+        public Matrix<T> PointwiseLog()
+        {
+            var result = Build.SameAs(this);
+            DoPointwiseLog(result);
+            return result;
+        }
+
+        /// <summary>
+        /// Pointwise applies the natural logarithm function to each value.
+        /// </summary>
+        /// <param name="result">The matrix to store the result.</param>
+        /// <exception cref="ArgumentException">If this matrix and <paramref name="result"/> are not the same size.</exception>
+        public void PointwiseLog(Matrix<T> result)
+        {
+            if (ColumnCount != result.ColumnCount || RowCount != result.RowCount)
+            {
+                throw DimensionsDontMatch<ArgumentException>(this, result);
+            }
+
+            DoPointwiseLog(result);
         }
 
         /// <summary>

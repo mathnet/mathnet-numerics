@@ -476,6 +476,16 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         }
 
         /// <summary>
+        /// Pointwise raise this matrix to an exponent and store the result into the result vector.
+        /// </summary>
+        /// <param name="exponent">The exponent to raise this matrix values to.</param>
+        /// <param name="result">The vector to store the result of the pointwise power.</param>
+        protected override void DoPointwisePower(float exponent, Matrix<float> result)
+        {
+            Map(x => (float)Math.Pow(x, exponent), result, forceMapZeros: false);
+        }
+
+        /// <summary>
         /// Pointwise canonical modulus, where the result has the sign of the divisor,
         /// of this matrix with another matrix and stores the result into the result matrix.
         /// </summary>
@@ -507,6 +517,24 @@ namespace MathNet.Numerics.LinearAlgebra.Single
                     result.At(i, j, At(i, j)%divisor.At(i, j));
                 }
             }
+        }
+
+        /// <summary>
+        /// Pointwise applies the exponential function to each value and stores the result into the result matrix.
+        /// </summary>
+        /// <param name="result">The matrix to store the result.</param>
+        protected override void DoPointwiseExp(Matrix<float> result)
+        {
+            Map(x => (float)Math.Exp(x), result, forceMapZeros: true);
+        }
+
+        /// <summary>
+        /// Pointwise applies the natural logarithm function to each value and stores the result into the result matrix.
+        /// </summary>
+        /// <param name="result">The matrix to store the result.</param>
+        protected override void DoPointwiseLog(Matrix<float> result)
+        {
+            Map(x => (float)Math.Log(x), result, forceMapZeros: true);
         }
 
         /// <summary>
