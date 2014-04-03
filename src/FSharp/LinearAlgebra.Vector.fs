@@ -129,49 +129,33 @@ module Vector =
 
 
     /// In-place mutation by applying a function to every element of the vector.
-    let inline mapInPlace f (v: #Vector<_>) =
-        v.MapInplace((fun x -> f x), true)
+    let inline mapInPlace f (v: #Vector<_>) = v.MapInplace((fun x -> f x), true)
 
     /// In-place mutation by applying a function to every element of the vector.
-    let inline mapiInPlace f (v: #Vector<_>) =
-        v.MapIndexedInplace((fun i x -> f i x), true)
+    let inline mapiInPlace f (v: #Vector<_>) = v.MapIndexedInplace((fun i x -> f i x), true)
 
     /// In-place mutation by applying a function to every element of the vector.
     /// Zero-values may be skipped (relevant mostly for sparse vectors).
-    let inline mapSkipZerosInPlace f (v: #Vector<_>) =
-        v.MapInplace((fun x -> f x), false)
+    let inline mapSkipZerosInPlace f (v: #Vector<_>) = v.MapInplace((fun x -> f x), false)
 
     /// In-place mutation by applying a function to every element of the vector.
     /// Zero-values may be skipped (relevant mostly for sparse vectors).
-    let inline mapiSkipZerosInPlace (f: int -> float -> float) (v: #Vector<float>) =
-        v.MapIndexedInplace((fun i x -> f i x), false)
+    let inline mapiSkipZerosInPlace f (v: #Vector<_>) = v.MapIndexedInplace((fun i x -> f i x), false)
 
 
     /// Maps a vector to a new vector by applying a function to every element.
-    let inline map f (v: #Vector<_>) =
-        let w = v.Clone()
-        w.MapInplace((fun x -> f x), true)
-        w
+    let inline map f (v: #Vector<_>) = v.Map((fun x -> f x), true)
 
     /// Maps a vector to a new vector by applying a function to every element.
     /// Zero-values may be skipped (relevant mostly for sparse vectors).
-    let inline mapSkipZeros f (v: #Vector<_>) =
-        let w = v.Clone()
-        w.MapInplace((fun x -> f x), false)
-        w
+    let inline mapSkipZeros f (v: #Vector<_>) = v.Map((fun x -> f x), false)
 
     /// Maps a vector to a new vector by applying a function to every element.
-    let inline mapi f (v: #Vector<_>) =
-        let w = v.Clone()
-        w.MapIndexedInplace((fun i x -> f i x), true)
-        w
+    let inline mapi f (v: #Vector<_>) = v.MapIndexed((fun i x -> f i x), true)
 
     /// Maps a vector to a new vector by applying a function to every element.
     /// Zero-values may be skipped (relevant mostly for sparse vectors).
-    let inline mapiSkipZeros f (v: #Vector<_>) =
-        let w = v.Clone()
-        w.MapIndexedInplace((fun i x -> f i x), false)
-        w
+    let inline mapiSkipZeros f (v: #Vector<_>) = v.MapIndexed((fun i x -> f i x), false)
 
 
 

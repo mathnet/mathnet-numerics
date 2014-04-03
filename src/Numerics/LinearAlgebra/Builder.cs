@@ -389,7 +389,8 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <summary>
         /// Create a new matrix with the same kind of the provided example.
         /// </summary>
-        public Matrix<T> SameAs(Matrix<T> example, int rows, int columns, bool fullyMutable = false)
+        public Matrix<T> SameAs<TU>(Matrix<TU> example, int rows, int columns, bool fullyMutable = false)
+            where TU : struct, IEquatable<TU>, IFormattable
         {
             var storage = example.Storage;
             if (storage is DenseColumnMajorMatrixStorage<T>) return Dense(rows, columns);
@@ -401,7 +402,8 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <summary>
         /// Create a new matrix with the same kind and dimensions of the provided example.
         /// </summary>
-        public Matrix<T> SameAs(Matrix<T> example)
+        public Matrix<T> SameAs<TU>(Matrix<TU> example)
+            where TU : struct, IEquatable<TU>, IFormattable
         {
             return SameAs(example, example.RowCount, example.ColumnCount);
         }
@@ -1338,7 +1340,8 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <summary>
         /// Create a new vector with the same kind of the provided example.
         /// </summary>
-        public Vector<T> SameAs(Vector<T> example, int length)
+        public Vector<T> SameAs<TU>(Vector<TU> example, int length)
+            where TU : struct, IEquatable<TU>, IFormattable
         {
             return example.Storage.IsDense ? Dense(length) : Sparse(length);
         }
@@ -1346,7 +1349,8 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <summary>
         /// Create a new vector with the same kind and dimension of the provided example.
         /// </summary>
-        public Vector<T> SameAs(Vector<T> example)
+        public Vector<T> SameAs<TU>(Vector<TU> example)
+            where TU : struct, IEquatable<TU>, IFormattable
         {
             return example.Storage.IsDense ? Dense(example.Count) : Sparse(example.Count);
         }

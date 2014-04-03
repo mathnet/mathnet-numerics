@@ -401,19 +401,53 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
         // FUNCTIONAL COMBINATORS
 
-        public virtual void MapInplace(Func<T, T> f, bool forceMapZeros = false)
+        public void MapTo<TU>(VectorStorage<TU> target, Func<T, TU> f, bool forceMapZeros = false, bool skipClearing = false)
+            where TU : struct, IEquatable<TU>, IFormattable
+        {
+            if (target == null)
+            {
+                throw new ArgumentNullException("target");
+            }
+
+            if (Length != target.Length)
+            {
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "target");
+            }
+
+            MapToUnchecked(target, f, forceMapZeros, skipClearing);
+        }
+
+        internal virtual void MapToUnchecked<TU>(VectorStorage<TU> target, Func<T, TU> f, bool forceMapZeros = false, bool skipClearing = false)
+            where TU : struct, IEquatable<TU>, IFormattable
         {
             for (int i = 0; i < Length; i++)
             {
-                At(i, f(At(i)));
+                target.At(i, f(At(i)));
             }
         }
 
-        public virtual void MapIndexedInplace(Func<int, T, T> f, bool forceMapZeros = false)
+        public void MapIndexedTo<TU>(VectorStorage<TU> target, Func<int, T, TU> f, bool forceMapZeros = false, bool skipClearing = false)
+            where TU : struct, IEquatable<TU>, IFormattable
+        {
+            if (target == null)
+            {
+                throw new ArgumentNullException("target");
+            }
+
+            if (Length != target.Length)
+            {
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "target");
+            }
+
+            MapIndexedToUnchecked(target, f, forceMapZeros, skipClearing);
+        }
+
+        internal virtual void MapIndexedToUnchecked<TU>(VectorStorage<TU> target, Func<int, T, TU> f, bool forceMapZeros = false, bool skipClearing = false)
+            where TU : struct, IEquatable<TU>, IFormattable
         {
             for (int i = 0; i < Length; i++)
             {
-                At(i, f(i, At(i)));
+                target.At(i, f(i, At(i)));
             }
         }
     }

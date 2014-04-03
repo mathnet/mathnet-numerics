@@ -118,12 +118,12 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
             var data = new T[length];
             CommonParallel.For(0, data.Length, 4096, (a, b) =>
+            {
+                for (int i = a; i < b; i++)
                 {
-                    for (int i = a; i < b; i++)
-                    {
-                        data[i] = init(i);
-                    }
-                });
+                    data[i] = init(i);
+                }
+            });
             return new DenseVectorStorage<T>(length, data);
         }
 
@@ -212,7 +212,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             var denseTarget = target as DenseColumnMajorMatrixStorage<T>;
             if (denseTarget != null)
             {
-                Array.Copy(Data, 0, denseTarget.Data, columnIndex * denseTarget.RowCount, Data.Length);
+                Array.Copy(Data, 0, denseTarget.Data, columnIndex*denseTarget.RowCount, Data.Length);
                 return;
             }
 
@@ -253,7 +253,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             {
                 for (int j = 0; j < Data.Length; j++)
                 {
-                    denseTarget.Data[(j + targetColumnIndex) * target.RowCount + rowIndex] = Data[j + sourceColumnIndex];
+                    denseTarget.Data[(j + targetColumnIndex)*target.RowCount + rowIndex] = Data[j + sourceColumnIndex];
                 }
                 return;
             }
@@ -317,26 +317,50 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
         // FUNCTIONAL COMBINATORS
 
-        public override void MapInplace(Func<T, T> f, bool forceMapZeros = false)
+        internal override void MapToUnchecked<TU>(VectorStorage<TU> target, Func<T, TU> f, bool forceMapZeros = false, bool skipClearing = false)
         {
-            CommonParallel.For(0, Data.Length, 4096, (a, b) =>
+            var denseTarget = target as DenseVectorStorage<TU>;
+            if (denseTarget != null)
+            {
+                CommonParallel.For(0, Data.Length, 4096, (a, b) =>
                 {
                     for (int i = a; i < b; i++)
                     {
-                        Data[i] = f(Data[i]);
+                        denseTarget.Data[i] = f(Data[i]);
                     }
                 });
+                return;
+            }
+
+            // FALL BACK
+
+            for (int i = 0; i < Length; i++)
+            {
+                target.At(i, f(Data[i]));
+            }
         }
 
-        public override void MapIndexedInplace(Func<int, T, T> f, bool forceMapZeros = false)
+        internal override void MapIndexedToUnchecked<TU>(VectorStorage<TU> target, Func<int, T, TU> f, bool forceMapZeros = false, bool skipClearing = false)
         {
-            CommonParallel.For(0, Data.Length, 4096, (a, b) =>
+            var denseTarget = target as DenseVectorStorage<TU>;
+            if (denseTarget != null)
+            {
+                CommonParallel.For(0, Data.Length, 4096, (a, b) =>
                 {
                     for (int i = a; i < b; i++)
                     {
-                        Data[i] = f(i, Data[i]);
+                        denseTarget.Data[i] = f(i, Data[i]);
                     }
                 });
+                return;
+            }
+
+            // FALL BACK
+
+            for (int i = 0; i < Length; i++)
+            {
+                target.At(i, f(i, Data[i]));
+            }
         }
     }
 }
