@@ -649,19 +649,9 @@ namespace MathNet.Numerics.LinearAlgebra
             }
 
             var result = Build.SameAs(this, RowCount, ColumnCount + 1);
-
-            for (var i = 0; i < columnIndex; i++)
-            {
-                result.SetColumn(i, Column(i));
-            }
-
+            Storage.CopySubMatrixTo(result.Storage, 0, 0, RowCount, 0, 0, columnIndex, skipClearing: true);
             result.SetColumn(columnIndex, column);
-
-            for (var i = columnIndex + 1; i < ColumnCount + 1; i++)
-            {
-                result.SetColumn(i, Column(i - 1));
-            }
-
+            Storage.CopySubMatrixTo(result.Storage, 0, 0, RowCount, columnIndex, columnIndex + 1, ColumnCount - columnIndex, skipClearing: true);
             return result;
         }
 
@@ -756,19 +746,9 @@ namespace MathNet.Numerics.LinearAlgebra
             }
 
             var result = Build.SameAs(this, RowCount + 1, ColumnCount);
-
-            for (var i = 0; i < rowIndex; i++)
-            {
-                result.SetRow(i, Row(i));
-            }
-
+            Storage.CopySubMatrixTo(result.Storage, 0, 0, rowIndex, 0, 0, ColumnCount, skipClearing: true);
             result.SetRow(rowIndex, row);
-
-            for (var i = rowIndex + 1; i < RowCount + 1; i++)
-            {
-                result.SetRow(i, Row(i - 1));
-            }
-
+            Storage.CopySubMatrixTo(result.Storage, rowIndex, rowIndex+1, RowCount - rowIndex, 0, 0, ColumnCount, skipClearing: true);
             return result;
         }
 

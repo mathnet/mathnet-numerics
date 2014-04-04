@@ -656,14 +656,14 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
             Assert.That(() => m.SetSubMatrix(0, 1, 0, 1, default(Matrix<T>)), Throws.InstanceOf<NullReferenceException>());
             Assert.That(() => m.SetSubMatrix(-1, 1, 0, 1, Matrix<T>.Build.Dense(1, 1)), Throws.InstanceOf<ArgumentOutOfRangeException>());
             Assert.That(() => m.SetSubMatrix(matrix.RowCount, 1, 0, 1, Matrix<T>.Build.Dense(1, 1)), Throws.InstanceOf<ArgumentOutOfRangeException>());
-            Assert.That(() => m.SetSubMatrix(0, 0, 0, 1, Matrix<T>.Build.Dense(1, 1)), Throws.InstanceOf<ArgumentOutOfRangeException>());
             Assert.That(() => m.SetSubMatrix(0, 1, -1, 1, Matrix<T>.Build.Dense(1, 1)), Throws.InstanceOf<ArgumentOutOfRangeException>());
             Assert.That(() => m.SetSubMatrix(0, 1, matrix.ColumnCount, 1, Matrix<T>.Build.Dense(1, 1)), Throws.InstanceOf<ArgumentOutOfRangeException>());
-            Assert.That(() => m.SetSubMatrix(0, 1, 0, 0, Matrix<T>.Build.Dense(1, 1)), Throws.InstanceOf<ArgumentOutOfRangeException>());
             
             // Usually invalid, but not for SetSubMatrix (since size is explicitly provided)
             Assert.That(() => m.SetSubMatrix(0, 1, 0, 1, Matrix<T>.Build.Dense(1, 2)), Throws.Nothing);
             Assert.That(() => m.SetSubMatrix(0, 1, 0, 1, Matrix<T>.Build.Dense(2, 1)), Throws.Nothing);
+            Assert.That(() => m.SetSubMatrix(0, 0, 0, 1, Matrix<T>.Build.Dense(1, 1)), Throws.Nothing);
+            Assert.That(() => m.SetSubMatrix(0, 1, 0, 0, Matrix<T>.Build.Dense(1, 1)), Throws.Nothing);
         }
     }
 }
