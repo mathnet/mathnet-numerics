@@ -173,5 +173,28 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         {
             Assert.That(() => Matrix<double>.Build.DenseIdentity(order), Throws.TypeOf<ArgumentOutOfRangeException>());
         }
+
+        [Test]
+        public void MatrixPower()
+        {
+            var d = Matrix<double>.Build.Random(3, 3, 1);
+            var d2 = d*d;
+            var d3 = d2*d;
+            var d4 = d3*d;
+            var d5 = d4*d;
+            var d6 = d5*d;
+            var d7 = d6*d;
+            var d8 = d7*d;
+
+            AssertHelpers.AlmostEqual(Matrix<double>.Build.DiagonalIdentity(3), d.Power(0), 10);
+            AssertHelpers.AlmostEqual(d, d.Power(1), 10);
+            AssertHelpers.AlmostEqual(d2, d.Power(2), 10);
+            AssertHelpers.AlmostEqual(d3, d.Power(3), 10);
+            AssertHelpers.AlmostEqual(d4, d.Power(4), 10);
+            AssertHelpers.AlmostEqual(d5, d.Power(5), 10);
+            AssertHelpers.AlmostEqual(d6, d.Power(6), 10);
+            AssertHelpers.AlmostEqual(d7, d.Power(7), 10);
+            AssertHelpers.AlmostEqual(d8, d.Power(8), 10);
+        }
     }
 }

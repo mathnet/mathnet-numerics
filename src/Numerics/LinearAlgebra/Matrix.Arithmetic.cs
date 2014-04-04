@@ -1014,6 +1014,119 @@ namespace MathNet.Numerics.LinearAlgebra
             return result;
         }
 
+        private static Matrix<T> IntPower(int exponent, Matrix<T> x, Matrix<T> y, Matrix<T> work)
+        {
+            // We try to be smart about not allocating more matrices than needed
+            // and to minimize the number of multiplications (not optimal on either though)
+
+            // TODO: For large or non-integer exponents we could diagonalize the matrix with
+            // a similarity transform (eigenvalue decomposition)
+
+            // return y*x
+            if (exponent == 1)
+            {
+                // return x
+                if (y == null)
+                {
+                    return x;
+                }
+
+                if (work == null) work = y.Multiply(x); else y.Multiply(x, work);
+                return work;
+            }
+
+            // return y*x^2
+            if (exponent == 2)
+            {
+                if (work == null) work = x.Multiply(x); else x.Multiply(x, work);
+
+                // return x^2
+                if (y == null)
+                {
+                    return work;
+                }
+
+                y.Multiply(work, x);
+                return x;
+            }
+
+            // recursive n <-- n/2, y <-- y, x <-- x^2
+            if (exponent.IsEven())
+            {
+                // we store the new x in work, keep the y as is and reuse the old x as new work matrix.
+                if (work == null) work = x.Multiply(x); else x.Multiply(x, work);
+                return IntPower(exponent/2, work, y, x);
+            }
+
+            // recursive n <-- (n-1)/2, y <-- x, x <-- x^2
+            if (y == null)
+            {
+                // we store the new x in work, directly use the old x as y. no work matrix.
+                if (work == null) work = x.Multiply(x); else x.Multiply(x, work);
+                return IntPower((exponent - 1)/2, work, x, null);
+            }
+
+            // recursive n <-- (n-1)/2, y <-- y*x, x <-- x^2
+            // we store the new y in work, the new x in y, and reuse the old x as work
+            if (work == null) work = y.Multiply(x); else y.Multiply(x, work);
+            x.Multiply(x, y);
+            return IntPower((exponent - 1)/2, y, work, x);
+        }
+
+        /// <summary>
+        /// Raises this square matrix to a positive integer exponent and places the results into the result matrix.
+        /// </summary>
+        /// <param name="exponent">The positive integer exponent to raise the matrix to.</param>
+        /// <param name="result">The result of the power.</param>
+        public void Power(int exponent, Matrix<T> result)
+        {
+            if (RowCount != ColumnCount || result.RowCount != RowCount || result.ColumnCount != ColumnCount)
+            {
+                throw DimensionsDontMatch<ArgumentException>(this, result);
+            }
+            if (exponent < 0)
+            {
+                throw new ArgumentException(Resources.ArgumentNotNegative);
+            }
+            if (exponent == 0)
+            {
+                Build.DiagonalIdentity(RowCount, ColumnCount).CopyTo(result);
+                return;
+            }
+            if (exponent == 1)
+            {
+                CopyTo(result);
+                return;
+            }
+            if (exponent == 2)
+            {
+                Multiply(this, result);
+                return;
+            }
+
+            var res = IntPower(exponent, Clone(), null, result);
+            if (!ReferenceEquals(res, result))
+            {
+                res.CopyTo(result);
+            }
+        }
+
+        /// <summary>
+        /// Multiplies this square matrix with another matrix and returns the result.
+        /// </summary>
+        /// <param name="exponent">The positive integer exponent to raise the matrix to.</param>
+        public Matrix<T> Power(int exponent)
+        {
+            if (RowCount != ColumnCount) throw new ArgumentException(Resources.ArgumentMatrixSquare);
+            if (exponent < 0) throw new ArgumentException(Resources.ArgumentNotNegative);
+
+            if (exponent == 0) return Build.DiagonalIdentity(RowCount, ColumnCount);
+            if (exponent == 1) return this;
+            if (exponent == 2) return Multiply(this);
+
+            return IntPower(exponent, Clone(), null, null);
+        }
+
         /// <summary>
         /// Negate each element of this matrix.
         /// </summary>
