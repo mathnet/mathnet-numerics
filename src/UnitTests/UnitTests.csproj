@@ -110,6 +110,7 @@
     <Compile Include="DistributionTests\Continuous\RayleighTests.cs" />
     <Compile Include="DistributionTests\Continuous\StableTests.cs" />
     <Compile Include="DistributionTests\Continuous\StudentTTests.cs" />
+    <Compile Include="DistributionTests\Continuous\TriangularTests.cs" />
     <Compile Include="DistributionTests\Continuous\WeibullTests.cs" />
     <Compile Include="DistributionTests\Discrete\BernoulliTests.cs" />
     <Compile Include="DistributionTests\Discrete\BinomialTests.cs" />
