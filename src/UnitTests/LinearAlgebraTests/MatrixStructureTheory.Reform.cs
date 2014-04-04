@@ -132,6 +132,31 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         }
 
         [Theory]
+        public void CanRemoveRow(Matrix<T> matrix)
+        {
+            var row = Vector<T>.Build.Random(matrix.ColumnCount, 0);
+            for (var position = 0; position < matrix.RowCount; position++)
+            {
+                var result = matrix.RemoveRow(position);
+                Assert.That(result.RowCount, Is.EqualTo(matrix.RowCount - 1));
+                for (int ir = 0, im = 0; ir < result.RowCount; ir++, im++)
+                {
+                    if (ir == position)
+                    {
+                        im++;
+                    }
+                    for (var j = 0; j < result.ColumnCount; j++)
+                    {
+                        Assert.That(result[ir, j], Is.EqualTo(matrix[im, j]), "A({0},{1}) for {2}", ir, j, matrix.GetType().FullName);
+                    }
+                }
+            }
+
+            Assert.That(() => matrix.RemoveRow(-1), Throws.InstanceOf<ArgumentOutOfRangeException>());
+            Assert.That(() => matrix.RemoveRow(matrix.RowCount + 1), Throws.InstanceOf<ArgumentOutOfRangeException>());
+        }
+
+        [Theory]
         public void CanInsertColumn(Matrix<T> matrix)
         {
             var column = Vector<T>.Build.Random(matrix.RowCount, 0);
@@ -165,6 +190,32 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
             Assert.That(() => matrix.InsertColumn(matrix.ColumnCount + 1, Vector<T>.Build.Dense(matrix.RowCount)), Throws.InstanceOf<ArgumentOutOfRangeException>());
             Assert.That(() => matrix.InsertColumn(0, Vector<T>.Build.Dense(matrix.RowCount - 1)), Throws.ArgumentException);
             Assert.That(() => matrix.InsertColumn(0, Vector<T>.Build.Dense(matrix.RowCount + 1)), Throws.ArgumentException);
+        }
+
+        [Theory]
+        public void CanRemoveColumn(Matrix<T> matrix)
+        {
+            var column = Vector<T>.Build.Random(matrix.RowCount, 0);
+            for (var position = 0; position < matrix.ColumnCount; position++)
+            {
+                var result = matrix.RemoveColumn(position);
+                Assert.That(result.ColumnCount, Is.EqualTo(matrix.ColumnCount - 1));
+                for (int jr = 0, jm = 0; jr < result.ColumnCount; jr++, jm++)
+                {
+                    if (jr == position)
+                    {
+                        jm++;
+                    }
+                    for (var i = 0; i < result.RowCount; i++)
+                    {
+                        Assert.That(result[i, jr], Is.EqualTo(matrix[i, jm]));
+                    }
+                }
+            }
+
+            // Invalid
+            Assert.That(() => matrix.RemoveColumn(-1), Throws.InstanceOf<ArgumentOutOfRangeException>());
+            Assert.That(() => matrix.RemoveColumn(matrix.ColumnCount + 1), Throws.InstanceOf<ArgumentOutOfRangeException>());
         }
 
         [Theory]

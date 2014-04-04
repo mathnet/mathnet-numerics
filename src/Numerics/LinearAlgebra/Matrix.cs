@@ -631,7 +631,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <exception cref="ArgumentNullException">If <paramref name="column "/> is <see langword="null" />. </exception>
         /// <exception cref="ArgumentOutOfRangeException">If <paramref name="columnIndex"/> is &lt; zero or &gt; the number of columns.</exception>
         /// <exception cref="ArgumentException">If the size of <paramref name="column"/> != the number of rows.</exception>
-        public virtual Matrix<T> InsertColumn(int columnIndex, Vector<T> column)
+        public Matrix<T> InsertColumn(int columnIndex, Vector<T> column)
         {
             if (column == null)
             {
@@ -648,10 +648,29 @@ namespace MathNet.Numerics.LinearAlgebra
                 throw new ArgumentException(Resources.ArgumentMatrixSameRowDimension, "column");
             }
 
-            var result = Build.SameAs(this, RowCount, ColumnCount + 1);
+            var result = Build.SameAs(this, RowCount, ColumnCount + 1, fullyMutable: true);
             Storage.CopySubMatrixTo(result.Storage, 0, 0, RowCount, 0, 0, columnIndex, skipClearing: true);
             result.SetColumn(columnIndex, column);
             Storage.CopySubMatrixTo(result.Storage, 0, 0, RowCount, columnIndex, columnIndex + 1, ColumnCount - columnIndex, skipClearing: true);
+            return result;
+        }
+
+        /// <summary>
+        /// Creates a new matrix with the given column removed.
+        /// </summary>
+        /// <param name="columnIndex">The index of the column to remove.</param>
+        /// <returns>A new matrix without the chosen column.</returns>
+        /// <exception cref="ArgumentOutOfRangeException">If <paramref name="columnIndex"/> is &lt; zero or &gt; the number of columns.</exception>
+        public Matrix<T> RemoveColumn(int columnIndex)
+        {
+            if (columnIndex < 0 || columnIndex > ColumnCount)
+            {
+                throw new ArgumentOutOfRangeException("columnIndex");
+            }
+
+            var result = Build.SameAs(this, RowCount, ColumnCount - 1, fullyMutable: true);
+            Storage.CopySubMatrixTo(result.Storage, 0, 0, RowCount, 0, 0, columnIndex, skipClearing: true);
+            Storage.CopySubMatrixTo(result.Storage, 0, 0, RowCount, columnIndex + 1, columnIndex, ColumnCount - columnIndex - 1, skipClearing: true);
             return result;
         }
 
@@ -728,7 +747,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <exception cref="ArgumentNullException">If <paramref name="row"/> is <see langword="null" />. </exception>
         /// <exception cref="ArgumentOutOfRangeException">If <paramref name="rowIndex"/> is &lt; zero or &gt; the number of rows.</exception>
         /// <exception cref="ArgumentException">If the size of <paramref name="row"/> != the number of columns.</exception>
-        public virtual Matrix<T> InsertRow(int rowIndex, Vector<T> row)
+        public Matrix<T> InsertRow(int rowIndex, Vector<T> row)
         {
             if (row == null)
             {
@@ -745,10 +764,29 @@ namespace MathNet.Numerics.LinearAlgebra
                 throw new ArgumentException(Resources.ArgumentMatrixSameRowDimension, "row");
             }
 
-            var result = Build.SameAs(this, RowCount + 1, ColumnCount);
+            var result = Build.SameAs(this, RowCount + 1, ColumnCount, fullyMutable: true);
             Storage.CopySubMatrixTo(result.Storage, 0, 0, rowIndex, 0, 0, ColumnCount, skipClearing: true);
             result.SetRow(rowIndex, row);
             Storage.CopySubMatrixTo(result.Storage, rowIndex, rowIndex+1, RowCount - rowIndex, 0, 0, ColumnCount, skipClearing: true);
+            return result;
+        }
+
+        /// <summary>
+        /// Creates a new matrix with the given row removed.
+        /// </summary>
+        /// <param name="rowIndex">The index of the row to remove.</param>
+        /// <returns>A new matrix without the chosen row.</returns>
+        /// <exception cref="ArgumentOutOfRangeException">If <paramref name="rowIndex"/> is &lt; zero or &gt; the number of rows.</exception>
+        public Matrix<T> RemoveRow(int rowIndex)
+        {
+            if (rowIndex < 0 || rowIndex > ColumnCount)
+            {
+                throw new ArgumentOutOfRangeException("rowIndex");
+            }
+
+            var result = Build.SameAs(this, RowCount - 1, ColumnCount, fullyMutable: true);
+            Storage.CopySubMatrixTo(result.Storage, 0, 0, rowIndex, 0, 0, ColumnCount, skipClearing: true);
+            Storage.CopySubMatrixTo(result.Storage, rowIndex + 1, rowIndex, RowCount - rowIndex - 1, 0, 0, ColumnCount, skipClearing: true);
             return result;
         }
 

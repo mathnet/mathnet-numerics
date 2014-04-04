@@ -1380,6 +1380,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// Pointwise raise this matrix to an exponent.
         /// </summary>
         /// <param name="exponent">The exponent to raise this matrix values to.</param>
+        /// <param name="result">The matrix to store the result into.</param>
         /// <exception cref="ArgumentException">If this matrix and <paramref name="result"/> are not the same size.</exception>
         public void PointwisePower(T exponent, Matrix<T> result)
         {

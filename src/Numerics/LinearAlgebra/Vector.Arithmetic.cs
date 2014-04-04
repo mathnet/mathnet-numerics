@@ -796,6 +796,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// Pointwise raise this vector to an exponent and store the result into the result vector.
         /// </summary>
         /// <param name="exponent">The exponent to raise this vector values to.</param>
+        /// <param name="result">The matrix to store the result into.</param>
         /// <exception cref="ArgumentException">If this vector and <paramref name="result"/> are not the same size.</exception>
         public void PointwisePower(T exponent, Vector<T> result)
         {
