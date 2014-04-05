@@ -279,7 +279,7 @@ namespace MathNet.Numerics.Distributions
         /// <seealso cref="Density"/>
         public static double PDF(double location, double scale, double x)
         {
-            if (scale <= 0.0) throw new ArgumentOutOfRangeException("scale", Resources.InvalidDistributionParameters);
+            if (scale <= 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
 
             return 1.0/(Constants.Pi*scale*(1.0 + (((x - location)/scale)*((x - location)/scale))));
         }
@@ -294,7 +294,7 @@ namespace MathNet.Numerics.Distributions
         /// <seealso cref="DensityLn"/>
         public static double PDFLn(double location, double scale, double x)
         {
-            if (scale <= 0.0) throw new ArgumentOutOfRangeException("scale", Resources.InvalidDistributionParameters);
+            if (scale <= 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
 
             return -Math.Log(Constants.Pi*scale*(1.0 + (((x - location)/scale)*((x - location)/scale))));
         }
@@ -309,7 +309,7 @@ namespace MathNet.Numerics.Distributions
         /// <seealso cref="CumulativeDistribution"/>
         public static double CDF(double location, double scale, double x)
         {
-            if (scale <= 0.0) throw new ArgumentOutOfRangeException("scale", Resources.InvalidDistributionParameters);
+            if (scale <= 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
 
             return Math.Atan((x - location)/scale)/Constants.Pi + 0.5;
         }
@@ -325,7 +325,7 @@ namespace MathNet.Numerics.Distributions
         /// <seealso cref="InverseCumulativeDistribution"/>
         public static double InvCDF(double location, double scale, double p)
         {
-            if (scale <= 0.0) throw new ArgumentOutOfRangeException("scale", Resources.InvalidDistributionParameters);
+            if (scale <= 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
 
             return p <= 0.0 ? double.NegativeInfinity : p >= 1.0 ? double.PositiveInfinity
                 : location + scale*Math.Tan((p - 0.5)*Constants.Pi);
@@ -340,7 +340,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sample from the distribution.</returns>
         public static double Sample(System.Random rnd, double location, double scale)
         {
-            if (scale <= 0.0) throw new ArgumentOutOfRangeException("scale", Resources.InvalidDistributionParameters);
+            if (scale <= 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
 
             return location + scale*Math.Tan(Constants.Pi*(rnd.NextDouble() - 0.5));
         }
@@ -354,7 +354,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sequence of samples from the distribution.</returns>
         public static IEnumerable<double> Samples(System.Random rnd, double location, double scale)
         {
-            if (scale <= 0.0) throw new ArgumentOutOfRangeException("scale", Resources.InvalidDistributionParameters);
+            if (scale <= 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
 
             while (true)
             {
