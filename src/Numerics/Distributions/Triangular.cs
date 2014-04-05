@@ -306,8 +306,7 @@ namespace MathNet.Numerics.Distributions
         /// <seealso cref="Density"/>
         public static double PDF(double lower, double upper, double mode, double x)
         {
-            if (upper < mode) throw new ArgumentOutOfRangeException("upper", Resources.InvalidDistributionParameters);
-            if (mode < lower) throw new ArgumentOutOfRangeException("lower", Resources.InvalidDistributionParameters); // TODO: Is "lower" the appropriate argument here?
+            if (!(upper >= mode && mode >= lower)) throw new ArgumentException(Resources.InvalidDistributionParameters);
 
             var a = lower;
             var b = upper;
@@ -343,8 +342,7 @@ namespace MathNet.Numerics.Distributions
         /// <seealso cref="CumulativeDistribution"/>
         public static double CDF(double lower, double upper, double mode, double x)
         {
-            if (upper < mode) throw new ArgumentOutOfRangeException("upper", Resources.InvalidDistributionParameters);
-            if (lower > mode) throw new ArgumentOutOfRangeException("lower", Resources.InvalidDistributionParameters);
+            if (!(upper >= mode && mode >= lower)) throw new ArgumentException(Resources.InvalidDistributionParameters);
 
             var a = lower;
             var b = upper;
@@ -368,8 +366,7 @@ namespace MathNet.Numerics.Distributions
         /// <seealso cref="InverseCumulativeDistribution"/>
         public static double InvCDF(double lower, double upper, double mode, double p)
         {
-            if (upper < mode) throw new ArgumentOutOfRangeException("upper", Resources.InvalidDistributionParameters);
-            if (lower > mode) throw new ArgumentOutOfRangeException("lower", Resources.InvalidDistributionParameters);
+            if (!(upper >= mode && mode >= lower)) throw new ArgumentException(Resources.InvalidDistributionParameters);
 
             var a = lower;
             var b = upper;
@@ -392,6 +389,8 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sample from the distribution.</returns>
         public static double Sample(System.Random rnd, double lower, double upper, double mode)
         {
+            if (!(upper >= mode && mode >= lower)) throw new ArgumentException(Resources.InvalidDistributionParameters);
+
             var a = lower;
             var b = upper;
             var c = mode;
@@ -412,6 +411,8 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sequence of samples from the distribution.</returns>
         public static IEnumerable<double> Samples(System.Random rnd, double lower, double upper, double mode)
         {
+            if (!(upper >= mode && mode >= lower)) throw new ArgumentException(Resources.InvalidDistributionParameters);
+
             while (true)
             {
                 yield return Sample(rnd, lower, upper, mode);
