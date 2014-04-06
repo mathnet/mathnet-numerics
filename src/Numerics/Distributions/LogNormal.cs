@@ -31,9 +31,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Emit;
 using MathNet.Numerics.Properties;
 using MathNet.Numerics.Random;
 using MathNet.Numerics.Statistics;
+using MathNet.Numerics.Threading;
 
 namespace MathNet.Numerics.Distributions
 {
@@ -98,7 +100,7 @@ namespace MathNet.Numerics.Distributions
         public static LogNormal WithMeanVariance(double mean, double var, System.Random randomSource = null)
         {
             var sigma2 = Math.Log(var/(mean*mean) + 1.0);
-            return new LogNormal(Math.Log(mean) - sigma2 / 2.0, Math.Sqrt(sigma2), randomSource);
+            return new LogNormal(Math.Log(mean) - sigma2/2.0, Math.Sqrt(sigma2), randomSource);
         }
 
         /// <summary>
@@ -264,7 +266,7 @@ namespace MathNet.Numerics.Distributions
                 return 0.0;
             }
 
-            var a = (Math.Log(x) - _mu) / _sigma;
+            var a = (Math.Log(x) - _mu)/_sigma;
             return Math.Exp(-0.5*a*a)/(x*_sigma*Constants.Sqrt2Pi);
         }
 
@@ -281,7 +283,7 @@ namespace MathNet.Numerics.Distributions
                 return Double.NegativeInfinity;
             }
 
-            var a = (Math.Log(x) - _mu) / _sigma;
+            var a = (Math.Log(x) - _mu)/_sigma;
             return (-0.5*a*a) - Math.Log(x*_sigma) - Constants.LogSqrt2Pi;
         }
 
@@ -316,7 +318,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sample from the distribution.</returns>
         public double Sample()
         {
-            return Math.Exp(Normal.Sample(_random, _mu, _sigma));
+            return SampleUnchecked(_random, _mu, _sigma);
         }
 
         /// <summary>
@@ -325,7 +327,29 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sequence of samples from the distribution.</returns>
         public IEnumerable<double> Samples()
         {
-            return Normal.Samples(_random, _mu, _sigma).Select(Math.Exp);
+            return SamplesUnchecked(_random, _mu, _sigma);
+        }
+
+        static double SampleUnchecked(System.Random rnd, double mu, double sigma)
+        {
+            return Math.Exp(Normal.SampleUnchecked(rnd, mu, sigma));
+        }
+
+        static IEnumerable<double> SamplesUnchecked(System.Random rnd, double mu, double sigma)
+        {
+            return Normal.SamplesUnchecked(rnd, mu, sigma).Select(Math.Exp);
+        }
+
+        static void SamplesUnchecked(System.Random rnd, double[] values, double mu, double sigma)
+        {
+            Normal.SamplesUnchecked(rnd, values, mu, sigma);
+            CommonParallel.For(0, values.Length, 4096, (a, b) =>
+            {
+                for (int i = a; i < b; i++)
+                {
+                    values[i] = Math.Exp(values[i]);
+                }
+            });
         }
 
         /// <summary>
@@ -346,7 +370,7 @@ namespace MathNet.Numerics.Distributions
                 return 0.0;
             }
 
-            var a = (Math.Log(x) - mu) / sigma;
+            var a = (Math.Log(x) - mu)/sigma;
             return Math.Exp(-0.5*a*a)/(x*sigma*Constants.Sqrt2Pi);
         }
 
@@ -367,7 +391,7 @@ namespace MathNet.Numerics.Distributions
                 return Double.NegativeInfinity;
             }
 
-            var a = (Math.Log(x) - mu) / sigma;
+            var a = (Math.Log(x) - mu)/sigma;
             return (-0.5*a*a) - Math.Log(x*sigma) - Constants.LogSqrt2Pi;
         }
 
@@ -415,7 +439,9 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sample from the distribution.</returns>
         public static double Sample(System.Random rnd, double mu, double sigma)
         {
-            return Math.Exp(Normal.Sample(rnd, mu, sigma));
+            if (sigma < 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
+
+            return SampleUnchecked(rnd, mu, sigma);
         }
 
         /// <summary>
@@ -427,7 +453,24 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sequence of samples from the distribution.</returns>
         public static IEnumerable<double> Samples(System.Random rnd, double mu, double sigma)
         {
-            return Normal.Samples(rnd, mu, sigma).Select(Math.Exp);
+            if (sigma < 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
+
+            return SamplesUnchecked(rnd, mu, sigma);
+        }
+
+        /// <summary>
+        /// Fills an array with samples generated from the distribution.
+        /// </summary>
+        /// <param name="rnd">The random number generator to use.</param>
+        /// <param name="values">The array to fill with the samples.</param>
+        /// <param name="mu">The log-scale (μ) of the distribution.</param>
+        /// <param name="sigma">The shape (σ) of the distribution. Range: σ ≥ 0.</param>
+        /// <returns>a sequence of samples from the distribution.</returns>
+        public static void Samples(System.Random rnd, double[] values, double mu, double sigma)
+        {
+            if (sigma < 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
+
+            SamplesUnchecked(rnd, values, mu, sigma);
         }
 
         /// <summary>
@@ -438,7 +481,9 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sample from the distribution.</returns>
         public static double Sample(double mu, double sigma)
         {
-            return Sample(SystemRandomSource.Default, mu, sigma);
+            if (sigma < 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
+
+            return SampleUnchecked(SystemRandomSource.Default, mu, sigma);
         }
 
         /// <summary>
@@ -449,7 +494,23 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sequence of samples from the distribution.</returns>
         public static IEnumerable<double> Samples(double mu, double sigma)
         {
-            return Samples(SystemRandomSource.Default, mu, sigma);
+            if (sigma < 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
+
+            return SamplesUnchecked(SystemRandomSource.Default, mu, sigma);
+        }
+
+        /// <summary>
+        /// Fills an array with samples generated from the distribution.
+        /// </summary>
+        /// <param name="values">The array to fill with the samples.</param>
+        /// <param name="mu">The log-scale (μ) of the distribution.</param>
+        /// <param name="sigma">The shape (σ) of the distribution. Range: σ ≥ 0.</param>
+        /// <returns>a sequence of samples from the distribution.</returns>
+        public static void Samples(double[] values, double mu, double sigma)
+        {
+            if (sigma < 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
+
+            SamplesUnchecked(SystemRandomSource.Default, values, mu, sigma);
         }
     }
 }

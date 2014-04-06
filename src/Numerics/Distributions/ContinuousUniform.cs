@@ -32,6 +32,7 @@ using System;
 using System.Collections.Generic;
 using MathNet.Numerics.Properties;
 using MathNet.Numerics.Random;
+using MathNet.Numerics.Threading;
 
 namespace MathNet.Numerics.Distributions
 {
@@ -258,7 +259,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sample from the distribution.</returns>
         public double Sample()
         {
-            return _lower + _random.NextDouble()*(_upper - _lower);
+            return SampleUnchecked(_random, _lower, _upper);
         }
 
         /// <summary>
@@ -267,10 +268,34 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sequence of samples from the distribution.</returns>
         public IEnumerable<double> Samples()
         {
+            return SamplesUnchecked(_random, _lower, _upper);
+        }
+
+        static double SampleUnchecked(System.Random rnd, double lower, double upper)
+        {
+            return lower + rnd.NextDouble()*(upper - lower);
+        }
+
+        static IEnumerable<double> SamplesUnchecked(System.Random rnd, double lower, double upper)
+        {
+            double difference = upper - lower;
             while (true)
             {
-                yield return _lower + _random.NextDouble()*(_upper - _lower);
+                yield return lower + rnd.NextDouble()*difference;
             }
+        }
+
+        static void SamplesUnchecked(System.Random rnd, double[] values, double lower, double upper)
+        {
+            rnd.NextDoubles(values);
+            var difference = upper - lower;
+            CommonParallel.For(0, values.Length, 4096, (a, b) =>
+            {
+                for (int i = a; i < b; i++)
+                {
+                    values[i] = lower + values[i]*difference;
+                }
+            });
         }
 
         /// <summary>
@@ -345,7 +370,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (upper < lower) throw new ArgumentException(Resources.InvalidDistributionParameters);
 
-            return lower + rnd.NextDouble()*(upper - lower);
+            return SampleUnchecked(rnd, lower, upper);
         }
 
         /// <summary>
@@ -359,10 +384,22 @@ namespace MathNet.Numerics.Distributions
         {
             if (upper < lower) throw new ArgumentException(Resources.InvalidDistributionParameters);
 
-            while (true)
-            {
-                yield return lower + rnd.NextDouble()*(upper - lower);
-            }
+            return SamplesUnchecked(rnd, lower, upper);
+        }
+
+        /// <summary>
+        /// Fills an array with samples generated from the distribution.
+        /// </summary>
+        /// <param name="rnd">The random number generator to use.</param>
+        /// <param name="values">The array to fill with the samples.</param>
+        /// <param name="lower">Lower bound. Range: lower ≤ upper.</param>
+        /// <param name="upper">Upper bound. Range: lower ≤ upper.</param>
+        /// <returns>a sequence of samples from the distribution.</returns>
+        public static void Samples(System.Random rnd, double[] values, double lower, double upper)
+        {
+            if (upper < lower) throw new ArgumentException(Resources.InvalidDistributionParameters);
+
+            SamplesUnchecked(rnd, values, lower, upper);
         }
 
         /// <summary>
@@ -373,7 +410,9 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a uniformly distributed sample.</returns>
         public static double Sample(double lower, double upper)
         {
-            return Sample(SystemRandomSource.Default, lower, upper);
+            if (upper < lower) throw new ArgumentException(Resources.InvalidDistributionParameters);
+
+            return SampleUnchecked(SystemRandomSource.Default, lower, upper);
         }
 
         /// <summary>
@@ -384,7 +423,23 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sequence of uniformly distributed samples.</returns>
         public static IEnumerable<double> Samples(double lower, double upper)
         {
-            return Samples(SystemRandomSource.Default, lower, upper);
+            if (upper < lower) throw new ArgumentException(Resources.InvalidDistributionParameters);
+
+            return SamplesUnchecked(SystemRandomSource.Default, lower, upper);
+        }
+
+        /// <summary>
+        /// Fills an array with samples generated from the distribution.
+        /// </summary>
+        /// <param name="values">The array to fill with the samples.</param>
+        /// <param name="lower">Lower bound. Range: lower ≤ upper.</param>
+        /// <param name="upper">Upper bound. Range: lower ≤ upper.</param>
+        /// <returns>a sequence of samples from the distribution.</returns>
+        public static void Samples(double[] values, double lower, double upper)
+        {
+            if (upper < lower) throw new ArgumentException(Resources.InvalidDistributionParameters);
+
+            SamplesUnchecked(SystemRandomSource.Default, values, lower, upper);
         }
     }
 }

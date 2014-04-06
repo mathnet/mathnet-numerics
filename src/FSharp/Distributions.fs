@@ -44,117 +44,117 @@ module Sample =
     let mapSeq3 f dist1 dist2 dist3 : System.Random -> 'T seq = fun rng -> Seq.zip3 (dist1 rng) (dist2 rng) (dist3 rng) |> Seq.map (fun (d1, d2, d3) -> f d1 d2 d3)
 
     /// Bernoulli with probability (p).
-    let bernoulli p rng = Bernoulli.Sample(rng, p)
-    let bernoulliSeq p rng = Bernoulli.Samples(rng, p)
+    let bernoulli p (rng:System.Random) = Bernoulli.Sample(rng, p)
+    let bernoulliSeq p (rng:System.Random) = Bernoulli.Samples(rng, p)
 
     /// Beta with α and β shape parameters.
-    let beta a b rng = Beta.Sample(rng, a, b)
-    let betaSeq a b rng = Beta.Samples(rng, a, b)
+    let beta a b (rng:System.Random) = Beta.Sample(rng, a, b)
+    let betaSeq a b (rng:System.Random) = Beta.Samples(rng, a, b)
 
     /// Binomial with success probability (p) in each trial and number of trials (n).
-    let binomial p n rng = Binomial.Sample(rng, p, n)
-    let binomialSeq p n rng = Binomial.Samples(rng, p, n)
+    let binomial p n (rng:System.Random) = Binomial.Sample(rng, p, n)
+    let binomialSeq p n (rng:System.Random) = Binomial.Samples(rng, p, n)
 
     /// Categorical with an array of nonnegative ratios defining the relative probability mass (unnormalized).
-    let categorical probabilityMass rng = Categorical.Sample(rng, probabilityMass)
-    let categoricalSeq probabilityMass rng = Categorical.Samples(rng, probabilityMass)
+    let categorical probabilityMass (rng:System.Random) = Categorical.Sample(rng, probabilityMass)
+    let categoricalSeq probabilityMass (rng:System.Random) = Categorical.Samples(rng, probabilityMass)
 
     /// Cauchy with location (x0) and scale (γ).
-    let cauchy location scale rng = Cauchy.Sample(rng, location, scale)
-    let cauchySeq location scale rng = Cauchy.Samples(rng, location, scale)
+    let cauchy location scale (rng:System.Random) = Cauchy.Sample(rng, location, scale)
+    let cauchySeq location scale (rng:System.Random) = Cauchy.Samples(rng, location, scale)
 
     /// Chi with degrees of freedom (k).
-    let chi freedom rng = Chi.Sample(rng, freedom)
-    let chiSeq freedom rng = Chi.Samples(rng, freedom)
+    let chi freedom (rng:System.Random) = Chi.Sample(rng, freedom)
+    let chiSeq freedom (rng:System.Random) = Chi.Samples(rng, freedom)
 
     /// Chi-Squared with degrees of freedom (k).
-    let chiSquared freedom rng = ChiSquared.Sample(rng, freedom)
-    let chiSquaredSeq freedom rng = ChiSquared.Samples(rng, freedom)
+    let chiSquared freedom (rng:System.Random) = ChiSquared.Sample(rng, freedom)
+    let chiSquaredSeq freedom (rng:System.Random) = ChiSquared.Samples(rng, freedom)
 
     /// Continuous-Uniform with lower and upper bounds.
-    let continuousUniform lower upper rng = ContinuousUniform.Sample(rng, lower, upper)
-    let continuousUniformSeq lower upper rng = ContinuousUniform.Samples(rng, lower, upper)
+    let continuousUniform lower upper (rng:System.Random) = ContinuousUniform.Sample(rng, lower, upper)
+    let continuousUniformSeq lower upper (rng:System.Random) = ContinuousUniform.Samples(rng, lower, upper)
 
     /// Conway-Maxwell-Poisson with lambda (λ) and rate of decay (ν).
-    let conwayMaxwellPoisson lambda nu rng = ConwayMaxwellPoisson.Sample(rng, lambda, nu)
-    let conwayMaxwellPoissonSeq lambda nu rng = ConwayMaxwellPoisson.Samples(rng, lambda, nu)
+    let conwayMaxwellPoisson lambda nu (rng:System.Random) = ConwayMaxwellPoisson.Sample(rng, lambda, nu)
+    let conwayMaxwellPoissonSeq lambda nu (rng:System.Random) = ConwayMaxwellPoisson.Samples(rng, lambda, nu)
 
     /// Discrete-Uniform with lower and upper bounds (both inclusive).
-    let discreteUniform lower upper rng = DiscreteUniform.Sample(rng, lower, upper)
-    let discreteUniformSeq lower upper rng = DiscreteUniform.Samples(rng, lower, upper)
+    let discreteUniform lower upper (rng:System.Random) = DiscreteUniform.Sample(rng, lower, upper)
+    let discreteUniformSeq lower upper (rng:System.Random) = DiscreteUniform.Samples(rng, lower, upper)
 
     /// Erlang with shape (k) and rate or inverse scale (λ).
-    let erlang shape rate rng = Erlang.Sample(rng, shape, rate)
-    let erlangSeq shape rate rng = Erlang.Samples(rng, shape, rate)
+    let erlang shape rate (rng:System.Random) = Erlang.Sample(rng, shape, rate)
+    let erlangSeq shape rate (rng:System.Random) = Erlang.Samples(rng, shape, rate)
 
     /// Exponential with rate (λ).
-    let exponential rate rng = Exponential.Sample(rng, rate)
-    let exponentialSeq rate rng = Exponential.Samples(rng, rate)
+    let exponential rate (rng:System.Random) = Exponential.Sample(rng, rate)
+    let exponentialSeq rate (rng:System.Random) = Exponential.Samples(rng, rate)
 
     /// Fisher-Snedecor (F-Distribution) with first (d1) and second (d2) degree of freedom.
-    let fisherSnedecor d1 d2 rng = FisherSnedecor.Sample(rng, d1, d2)
-    let fisherSnedecorSeq d1 d2 rng = FisherSnedecor.Samples(rng, d1, d2)
+    let fisherSnedecor d1 d2 (rng:System.Random) = FisherSnedecor.Sample(rng, d1, d2)
+    let fisherSnedecorSeq d1 d2 (rng:System.Random) = FisherSnedecor.Samples(rng, d1, d2)
 
     /// Gamma with shape (k, α) and rate or inverse scale (β).
-    let gamma shape rate rng = Gamma.Sample(rng, shape, rate)
-    let gammaSeq shape rate rng = Gamma.Sample(rng, shape, rate)
+    let gamma shape rate (rng:System.Random) = Gamma.Sample(rng, shape, rate)
+    let gammaSeq shape rate (rng:System.Random) = Gamma.Sample(rng, shape, rate)
 
     /// Geometric with probability (p) of generating one.
-    let geometric p rng = Geometric.Sample(rng, p)
-    let geometricSeq p rng = Geometric.Samples(rng, p)
+    let geometric p (rng:System.Random) = Geometric.Sample(rng, p)
+    let geometricSeq p (rng:System.Random) = Geometric.Samples(rng, p)
 
     /// Hypergeometric with size of the population (N), number successes within the population (K, M) and number of draws without replacement (n).
-    let hypergeometric population success draws rng = Hypergeometric.Sample(rng, population, success, draws)
-    let hypergeometricSeq population success draws rng = Hypergeometric.Samples(rng, population, success, draws)
+    let hypergeometric population success draws (rng:System.Random) = Hypergeometric.Sample(rng, population, success, draws)
+    let hypergeometricSeq population success draws (rng:System.Random) = Hypergeometric.Samples(rng, population, success, draws)
 
     /// Inverse-Gamma with shape (α) and scale (β)
-    let inverseGamma shape scale rng = InverseGamma.Sample(rng, shape, scale)
-    let inverseGammaSeq shape scale rng = InverseGamma.Samples(rng, shape, scale)
+    let inverseGamma shape scale (rng:System.Random) = InverseGamma.Sample(rng, shape, scale)
+    let inverseGammaSeq shape scale (rng:System.Random) = InverseGamma.Samples(rng, shape, scale)
 
     /// Laplace with location (μ) and scale (b).
-    let laplace location scale rng = Laplace.Sample(rng, location, scale)
-    let laplaceSeq location scale rng = Laplace.Samples(rng, location, scale)
+    let laplace location scale (rng:System.Random) = Laplace.Sample(rng, location, scale)
+    let laplaceSeq location scale (rng:System.Random) = Laplace.Samples(rng, location, scale)
 
     /// Log-Normal with log-scale (μ) and shape (σ).
-    let logNormal mu sigma rng = LogNormal.Sample(rng, mu, sigma)
-    let logNormalSeq mu sigma rng = LogNormal.Samples(rng, mu, sigma)
+    let logNormal mu sigma (rng:System.Random) = LogNormal.Sample(rng, mu, sigma)
+    let logNormalSeq mu sigma (rng:System.Random) = LogNormal.Samples(rng, mu, sigma)
 
     /// Negative-Binomial with number of failures (r) until the experiment stopped and probability (p) of a trial resulting in success.
-    let negativeBinomial r p rng = NegativeBinomial.Sample(rng, r, p)
-    let negativeBinomialSeq r p rng = NegativeBinomial.Samples(rng, r, p)
+    let negativeBinomial r p (rng:System.Random) = NegativeBinomial.Sample(rng, r, p)
+    let negativeBinomialSeq r p (rng:System.Random) = NegativeBinomial.Samples(rng, r, p)
 
     /// Normal with mean (μ) and standard deviation (σ).
-    let normal mean stddev rng = Normal.Sample(rng, mean, stddev)
-    let normalSeq mean stddev rng = Normal.Samples(rng, mean, stddev)
+    let normal mean stddev (rng:System.Random) = Normal.Sample(rng, mean, stddev)
+    let normalSeq mean stddev (rng:System.Random) = Normal.Samples(rng, mean, stddev)
 
     /// Standard Gaussian.
-    let standard rng = Normal.Sample(rng, 0.0, 1.0)
-    let standardSeq rng = Normal.Samples(rng, 0.0, 1.0)
+    let standard (rng:System.Random) = Normal.Sample(rng, 0.0, 1.0)
+    let standardSeq (rng:System.Random) = Normal.Samples(rng, 0.0, 1.0)
 
     /// Pareto with scale (xm) and shape (α).
-    let pareto scale shape rng = Pareto.Sample(rng, scale, shape)
-    let paretoSeq scale shape rng = Pareto.Samples(rng, scale, shape)
+    let pareto scale shape (rng:System.Random) = Pareto.Sample(rng, scale, shape)
+    let paretoSeq scale shape (rng:System.Random) = Pareto.Samples(rng, scale, shape)
 
     /// Poisson with lambda (λ).
-    let poisson lambda rng = Poisson.Sample(rng, lambda)
-    let poissonSeq lambda rng = Poisson.Samples(rng, lambda)
+    let poisson lambda (rng:System.Random) = Poisson.Sample(rng, lambda)
+    let poissonSeq lambda (rng:System.Random) = Poisson.Samples(rng, lambda)
 
     /// Rayleigh with scale (σ).
-    let rayleigh scale rng = Rayleigh.Sample(rng, scale)
-    let rayleighSeq scale rng = Rayleigh.Sample(rng, scale)
+    let rayleigh scale (rng:System.Random) = Rayleigh.Sample(rng, scale)
+    let rayleighSeq scale (rng:System.Random) = Rayleigh.Sample(rng, scale)
 
     /// Stable with stability (α), skewness (β), scale (c) and location (μ).
-    let stable alpha beta scale location rng = Stable.Sample(rng, alpha, beta, scale, location)
-    let stableSeq alpha beta scale location rng = Stable.Samples(rng, alpha, beta, scale, location)
+    let stable alpha beta scale location (rng:System.Random) = Stable.Sample(rng, alpha, beta, scale, location)
+    let stableSeq alpha beta scale location (rng:System.Random) = Stable.Samples(rng, alpha, beta, scale, location)
 
     /// Student-T with location (μ), scale (σ) and degrees of freedom (ν).
-    let studentT location scale freedom rng = StudentT.Sample(rng, location, scale, freedom)
-    let studentTSeq location scale freedom rng = StudentT.Samples(rng, location, scale, freedom)
+    let studentT location scale freedom (rng:System.Random) = StudentT.Sample(rng, location, scale, freedom)
+    let studentTSeq location scale freedom (rng:System.Random) = StudentT.Samples(rng, location, scale, freedom)
 
     /// Weibull with shape (k) and scale (λ).
-    let weibull shape scale rng = Weibull.Sample(rng, shape, scale)
-    let weibullSeq shape scale rng = Weibull.Samples(rng, shape, scale)
+    let weibull shape scale (rng:System.Random) = Weibull.Sample(rng, shape, scale)
+    let weibullSeq shape scale (rng:System.Random) = Weibull.Samples(rng, shape, scale)
 
     /// Zipf with s and n parameters.
-    let zipf s n rng = Zipf.Sample(rng, s, n)
-    let zipfSeq s n rng = Zipf.Samples(rng, s, n)
+    let zipf s n (rng:System.Random) = Zipf.Sample(rng, s, n)
+    let zipfSeq s n (rng:System.Random) = Zipf.Samples(rng, s, n)

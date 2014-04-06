@@ -32,6 +32,7 @@ using System;
 using System.Collections.Generic;
 using MathNet.Numerics.Properties;
 using MathNet.Numerics.Random;
+using MathNet.Numerics.Threading;
 
 namespace MathNet.Numerics.Distributions
 {
@@ -293,6 +294,23 @@ namespace MathNet.Numerics.Distributions
         public IEnumerable<double> Samples()
         {
             return Samples(_random, _lower, _upper, _mode);
+        }
+
+        static void SampleUnchecked(System.Random rnd, double[] values, double lower, double upper, double mode)
+        {
+            double ml = mode - lower;
+            double ul = upper - lower;
+            double um = upper - mode;
+            rnd.NextDoubles(values);
+            CommonParallel.For(0, values.Length, 4096, (a, b) =>
+            {
+                for (int i = a; i < b; i++)
+                {
+                    values[i] = values[i] < ml/ul
+                        ? lower + Math.Sqrt(values[i]*ul*ml)
+                        : upper - Math.Sqrt((1 - values[i])*ul*um);
+                }
+            });
         }
 
         /// <summary>

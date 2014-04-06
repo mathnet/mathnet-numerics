@@ -255,10 +255,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sample from the distribution.</returns>
         public IEnumerable<double> Samples()
         {
-            while (true)
-            {
-                yield return SampleUnchecked(_random, _location, _scale);
-            }
+            return SamplesUnchecked(_random, _location, _scale);
         }
 
         /// <summary>
@@ -271,7 +268,26 @@ namespace MathNet.Numerics.Distributions
         static double SampleUnchecked(System.Random rnd, double location, double scale)
         {
             var u = rnd.NextDouble() - 0.5;
-            return location - (scale * Math.Sign(u) * Math.Log(1.0 - (2.0 * Math.Abs(u))));
+            return location - (scale*Math.Sign(u)*Math.Log(1.0 - (2.0*Math.Abs(u))));
+        }
+
+        static IEnumerable<double> SamplesUnchecked(System.Random rnd, double location, double scale)
+        {
+            while (true)
+            {
+                var u = rnd.NextDouble() - 0.5;
+                yield return location - (scale*Math.Sign(u)*Math.Log(1.0 - (2.0*Math.Abs(u))));
+            }
+        }
+
+        static void SamplesUnchecked(System.Random rnd, double[] values, double location, double scale)
+        {
+            rnd.NextDoubles(values);
+            for (int i = 0; i < values.Length; i++)
+            {
+                var u = values[i] - 0.5;
+                values[i] = location - (scale*Math.Sign(u)*Math.Log(1.0 - (2.0*Math.Abs(u))));
+            }
         }
 
         /// <summary>
@@ -344,10 +360,22 @@ namespace MathNet.Numerics.Distributions
         {
             if (scale <= 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
 
-            while (true)
-            {
-                yield return SampleUnchecked(rnd, location, scale);
-            }
+            return SamplesUnchecked(rnd, location, scale);
+        }
+
+        /// <summary>
+        /// Fills an array with samples generated from the distribution.
+        /// </summary>
+        /// <param name="rnd">The random number generator to use.</param>
+        /// <param name="values">The array to fill with the samples.</param>
+        /// <param name="location">The location (μ) of the distribution.</param>
+        /// <param name="scale">The scale (b) of the distribution. Range: b > 0.</param>
+        /// <returns>a sequence of samples from the distribution.</returns>
+        public static void Samples(System.Random rnd, double[] values, double location, double scale)
+        {
+            if (scale <= 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
+
+            SamplesUnchecked(rnd, values, location, scale);
         }
 
         /// <summary>
@@ -358,7 +386,9 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sample from the distribution.</returns>
         public static double Sample(double location, double scale)
         {
-            return Sample(SystemRandomSource.Default, location, scale);
+            if (scale <= 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
+
+            return SampleUnchecked(SystemRandomSource.Default, location, scale);
         }
 
         /// <summary>
@@ -369,7 +399,24 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sequence of samples from the distribution.</returns>
         public static IEnumerable<double> Samples(double location, double scale)
         {
-            return Samples(SystemRandomSource.Default, location, scale);
+            if (scale <= 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
+
+            return SamplesUnchecked(SystemRandomSource.Default, location, scale);
+        }
+
+        /// <summary>
+        /// Fills an array with samples generated from the distribution.
+        /// </summary>
+        /// <param name="rnd">The random number generator to use.</param>
+        /// <param name="values">The array to fill with the samples.</param>
+        /// <param name="location">The location (μ) of the distribution.</param>
+        /// <param name="scale">The scale (b) of the distribution. Range: b > 0.</param>
+        /// <returns>a sequence of samples from the distribution.</returns>
+        public static void Samples(double[] values, double location, double scale)
+        {
+            if (scale <= 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
+
+            SamplesUnchecked(SystemRandomSource.Default, values, location, scale);
         }
     }
 }

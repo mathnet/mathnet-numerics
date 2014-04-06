@@ -46,7 +46,7 @@ namespace MathNet.Numerics.Random
         /// <param name="values">The array to fill with random values.</param>
         /// <remarks>
         /// This extension is thread-safe if and only if called on an random number
-        /// generator provided by Math.NET Nummerics or derived from the RandomSource class.
+        /// generator provided by Math.NET Numerics or derived from the RandomSource class.
         /// </remarks>
         public static void NextDoubles(this System.Random rnd, double[] values)
         {
@@ -70,7 +70,7 @@ namespace MathNet.Numerics.Random
         /// <param name="count">The size of the array to fill.</param>
         /// <remarks>
         /// This extension is thread-safe if and only if called on an random number
-        /// generator provided by Math.NET Nummerics or derived from the RandomSource class.
+        /// generator provided by Math.NET Numerics or derived from the RandomSource class.
         /// </remarks>
         public static double[] NextDoubles(this System.Random rnd, int count)
         {
@@ -84,7 +84,7 @@ namespace MathNet.Numerics.Random
         /// </summary>
         /// <remarks>
         /// This extension is thread-safe if and only if called on an random number
-        /// generator provided by Math.NET Nummerics or derived from the RandomSource class.
+        /// generator provided by Math.NET Numerics or derived from the RandomSource class.
         /// </remarks>
         public static IEnumerable<double> NextDoubleSequence(this System.Random rnd)
         {
@@ -112,7 +112,7 @@ namespace MathNet.Numerics.Random
         /// <param name="count">The size of the array to fill.</param>
         /// <remarks>
         /// This extension is thread-safe if and only if called on an random number
-        /// generator provided by Math.NET Nummerics or derived from the RandomSource class.
+        /// generator provided by Math.NET Numerics or derived from the RandomSource class.
         /// </remarks>
         public static byte[] NextBytes(this System.Random rnd, int count)
         {
@@ -132,7 +132,7 @@ namespace MathNet.Numerics.Random
         /// <seealso cref="NextFullRangeInt64"/>
         /// <remarks>
         /// This extension is thread-safe if and only if called on an random number
-        /// generator provided by Math.NET Nummerics or derived from the RandomSource class.
+        /// generator provided by Math.NET Numerics or derived from the RandomSource class.
         /// </remarks>
         public static long NextInt64(this System.Random rnd)
         {
@@ -160,7 +160,7 @@ namespace MathNet.Numerics.Random
         /// <seealso cref="System.Random.Next()"/>
         /// <remarks>
         /// This extension is thread-safe if and only if called on an random number
-        /// generator provided by Math.NET Nummerics or derived from the RandomSource class.
+        /// generator provided by Math.NET Numerics or derived from the RandomSource class.
         /// </remarks>
         public static int NextFullRangeInt32(this System.Random rnd)
         {
@@ -180,7 +180,7 @@ namespace MathNet.Numerics.Random
         /// <seealso cref="NextInt64"/>
         /// <remarks>
         /// This extension is thread-safe if and only if called on an random number
-        /// generator provided by Math.NET Nummerics or derived from the RandomSource class.
+        /// generator provided by Math.NET Numerics or derived from the RandomSource class.
         /// </remarks>
         public static long NextFullRangeInt64(this System.Random rnd)
         {
@@ -199,7 +199,7 @@ namespace MathNet.Numerics.Random
         /// </returns>
         /// <remarks>
         /// This extension is thread-safe if and only if called on an random number
-        /// generator provided by Math.NET Nummerics or derived from the RandomSource class.
+        /// generator provided by Math.NET Numerics or derived from the RandomSource class.
         /// </remarks>
         public static decimal NextDecimal(this System.Random rnd)
         {

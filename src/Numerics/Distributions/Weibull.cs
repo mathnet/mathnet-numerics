@@ -32,6 +32,7 @@ using System;
 using System.Collections.Generic;
 using MathNet.Numerics.Properties;
 using MathNet.Numerics.Random;
+using MathNet.Numerics.Threading;
 
 namespace MathNet.Numerics.Distributions
 {
@@ -287,6 +288,18 @@ namespace MathNet.Numerics.Distributions
         {
             var x = rnd.NextDouble();
             return scale*Math.Pow(-Math.Log(x), 1.0/shape);
+        }
+
+        static void SampleUnchecked(System.Random rnd, double[] values, double shape, double scale)
+        {
+            rnd.NextDoubles(values);
+            CommonParallel.For(0, values.Length, 4096, (a, b) =>
+            {
+                for (int i = a; i < b; i++)
+                {
+                    values[i] = scale*Math.Pow(-Math.Log(values[i]), 1.0/shape);
+                }
+            });
         }
 
         /// <summary>
