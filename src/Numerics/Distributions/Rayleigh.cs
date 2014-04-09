@@ -30,6 +30,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using MathNet.Numerics.Properties;
 using MathNet.Numerics.Random;
 using MathNet.Numerics.Threading;
@@ -238,7 +239,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>A random number from this distribution.</returns>
         public double Sample()
         {
-            return _scale*Math.Sqrt(-2.0*Math.Log(_random.NextDouble()));
+            return SampleUnchecked(_random, _scale);
         }
 
         /// <summary>
@@ -247,13 +248,20 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sequence of samples from the distribution.</returns>
         public IEnumerable<double> Samples()
         {
-            while (true)
-            {
-                yield return _scale*Math.Sqrt(-2.0*Math.Log(_random.NextDouble()));
-            }
+            return SamplesUnchecked(_random, _scale);
         }
 
-        static void SampleUnchecked(System.Random rnd, double[] values, double scale)
+        static double SampleUnchecked(System.Random rnd, double scale)
+        {
+            return scale*Math.Sqrt(-2.0*Math.Log(rnd.NextDouble()));
+        }
+
+        static IEnumerable<double> SamplesUnchecked(System.Random rnd, double scale)
+        {
+            return rnd.NextDoubleSequence().Select(x => scale*Math.Sqrt(-2.0*Math.Log(x)));
+        }
+
+        static void SamplesUnchecked(System.Random rnd, double[] values, double scale)
         {
             rnd.NextDoubles(values);
             CommonParallel.For(0, values.Length, 4096, (a, b) =>
@@ -332,7 +340,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (scale <= 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
 
-            return scale*Math.Sqrt(-2.0*Math.Log(rnd.NextDouble()));
+            return SampleUnchecked(rnd, scale);
         }
 
         /// <summary>
@@ -345,10 +353,21 @@ namespace MathNet.Numerics.Distributions
         {
             if (scale <= 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
 
-            while (true)
-            {
-                yield return scale*Math.Sqrt(-2.0*Math.Log(rnd.NextDouble()));
-            }
+            return SamplesUnchecked(rnd, scale);
+        }
+
+        /// <summary>
+        /// Fills an array with samples generated from the distribution.
+        /// </summary>
+        /// <param name="rnd">The random number generator to use.</param>
+        /// <param name="values">The array to fill with the samples.</param>
+        /// <param name="scale">The scale (σ) of the distribution. Range: σ > 0.</param>
+        /// <returns>a sequence of samples from the distribution.</returns>
+        public static void Samples(System.Random rnd, double[] values, double scale)
+        {
+            if (scale <= 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
+
+            SamplesUnchecked(rnd, values, scale);
         }
 
         /// <summary>
@@ -358,7 +377,9 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sample from the distribution.</returns>
         public static double Sample(double scale)
         {
-            return Sample(SystemRandomSource.Default, scale);
+            if (scale <= 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
+
+            return SampleUnchecked(SystemRandomSource.Default, scale);
         }
 
         /// <summary>
@@ -368,7 +389,23 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sequence of samples from the distribution.</returns>
         public static IEnumerable<double> Samples(double scale)
         {
-            return Samples(SystemRandomSource.Default, scale);
+            if (scale <= 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
+
+            return SamplesUnchecked(SystemRandomSource.Default, scale);
+        }
+
+        /// <summary>
+        /// Fills an array with samples generated from the distribution.
+        /// </summary>
+        /// <param name="rnd">The random number generator to use.</param>
+        /// <param name="values">The array to fill with the samples.</param>
+        /// <param name="scale">The scale (σ) of the distribution. Range: σ > 0.</param>
+        /// <returns>a sequence of samples from the distribution.</returns>
+        public static void Samples(double[] values, double scale)
+        {
+            if (scale <= 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
+
+            SamplesUnchecked(SystemRandomSource.Default, values, scale);
         }
     }
 }

@@ -30,8 +30,10 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using MathNet.Numerics.Properties;
 using MathNet.Numerics.Random;
+using MathNet.Numerics.Threading;
 
 namespace MathNet.Numerics.Distributions
 {
@@ -266,7 +268,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>A random number from this distribution.</returns>
         public double Sample()
         {
-            return _scale*Math.Pow(_random.NextDouble(), -1.0/_shape);
+            return SampleUnchecked(_random, _scale, _shape);
         }
 
         /// <summary>
@@ -275,11 +277,31 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sequence of samples from the distribution.</returns>
         public IEnumerable<double> Samples()
         {
-            var power = -1.0/_shape;
-            while (true)
+            return SamplesUnchecked(_random, _scale, _shape);
+        }
+
+        static double SampleUnchecked(System.Random rnd, double scale, double shape)
+        {
+            return scale*Math.Pow(rnd.NextDouble(), -1.0/shape);
+        }
+
+        static IEnumerable<double> SamplesUnchecked(System.Random rnd, double scale, double shape)
+        {
+            var power = -1.0/shape;
+            return rnd.NextDoubleSequence().Select(x => scale*Math.Pow(x, power));
+        }
+
+        static void SamplesUnchecked(System.Random rnd, double[] values, double scale, double shape)
+        {
+            var power = -1.0/shape;
+            rnd.NextDoubles(values);
+            CommonParallel.For(0, values.Length, 4096, (a, b) =>
             {
-                yield return _scale*Math.Pow(_random.NextDouble(), power);
-            }
+                for (int i = a; i < b; i++)
+                {
+                    values[i] = scale*Math.Pow(values[i], power);
+                }
+            });
         }
 
         /// <summary>
@@ -368,11 +390,22 @@ namespace MathNet.Numerics.Distributions
         {
             if (scale <= 0.0 || shape <= 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
 
-            var power = -1.0 / shape;
-            while (true)
-            {
-                yield return scale*Math.Pow(rnd.NextDouble(), power);
-            }
+            return SamplesUnchecked(rnd, scale, shape);
+        }
+
+        /// <summary>
+        /// Fills an array with samples generated from the distribution.
+        /// </summary>
+        /// <param name="rnd">The random number generator to use.</param>
+        /// <param name="values">The array to fill with the samples.</param>
+        /// <param name="scale">The scale (xm) of the distribution. Range: xm > 0.</param>
+        /// <param name="shape">The shape (α) of the distribution. Range: α > 0.</param>
+        /// <returns>a sequence of samples from the distribution.</returns>
+        public static void Samples(System.Random rnd, double[] values, double scale, double shape)
+        {
+            if (scale <= 0.0 || shape <= 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
+
+            SamplesUnchecked(rnd, values, scale, shape);
         }
 
         /// <summary>
@@ -383,7 +416,9 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sample from the distribution.</returns>
         public static double Sample(double scale, double shape)
         {
-            return Sample(SystemRandomSource.Default, scale, shape);
+            if (scale <= 0.0 || shape <= 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
+
+            return SampleUnchecked(SystemRandomSource.Default, scale, shape);
         }
 
         /// <summary>
@@ -394,7 +429,23 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sequence of samples from the distribution.</returns>
         public static IEnumerable<double> Samples(double scale, double shape)
         {
-            return Samples(SystemRandomSource.Default, scale, shape);
+            if (scale <= 0.0 || shape <= 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
+
+            return SamplesUnchecked(SystemRandomSource.Default, scale, shape);
+        }
+
+        /// <summary>
+        /// Fills an array with samples generated from the distribution.
+        /// </summary>
+        /// <param name="values">The array to fill with the samples.</param>
+        /// <param name="scale">The scale (xm) of the distribution. Range: xm > 0.</param>
+        /// <param name="shape">The shape (α) of the distribution. Range: α > 0.</param>
+        /// <returns>a sequence of samples from the distribution.</returns>
+        public static void Samples(double[] values, double scale, double shape)
+        {
+            if (scale <= 0.0 || shape <= 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
+
+            SamplesUnchecked(SystemRandomSource.Default, values, scale, shape);
         }
     }
 }

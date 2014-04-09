@@ -30,8 +30,10 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using MathNet.Numerics.Properties;
 using MathNet.Numerics.Random;
+using MathNet.Numerics.Threading;
 
 namespace MathNet.Numerics.Distributions
 {
@@ -241,10 +243,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sequence of samples from the distribution.</returns>
         public IEnumerable<double> Samples()
         {
-            while (true)
-            {
-                yield return SampleUnchecked(_random, _rate);
-            }
+            return SamplesUnchecked(_random, _rate);
         }
 
         /// <summary>
@@ -261,7 +260,30 @@ namespace MathNet.Numerics.Distributions
                 r = rnd.NextDouble();
             }
 
-            return -Math.Log(r) / rate;
+            return -Math.Log(r)/rate;
+        }
+
+        static IEnumerable<double> SamplesUnchecked(System.Random rnd, double rate)
+        {
+            return rnd.NextDoubleSequence().Where(r => r != 0.0).Select(r => -Math.Log(r)/rate);
+        }
+
+        static void SamplesUnchecked(System.Random rnd, double[] values, double rate)
+        {
+            rnd.NextDoubles(values);
+            CommonParallel.For(0, values.Length, 4096, (a, b) =>
+            {
+                for (int i = a; i < b; i++)
+                {
+                    // this happens very rarely
+                    var r = values[i];
+                    while (r == 0.0)
+                    {
+                        r = rnd.NextDouble();
+                    }
+                    values[i] = -Math.Log(r)/rate;
+                }
+            });
         }
 
         /// <summary>
@@ -344,10 +366,21 @@ namespace MathNet.Numerics.Distributions
         {
             if (rate < 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
 
-            while (true)
-            {
-                yield return SampleUnchecked(rnd, rate);
-            }
+            return SamplesUnchecked(rnd, rate);
+        }
+
+        /// <summary>
+        /// Fills an array with samples generated from the distribution.
+        /// </summary>
+        /// <param name="rnd">The random number generator to use.</param>
+        /// <param name="values">The array to fill with the samples.</param>
+        /// <param name="rate">The rate (λ) parameter of the distribution. Range: λ ≥ 0.</param>
+        /// <returns>a sequence of samples from the distribution.</returns>
+        public static void Samples(System.Random rnd, double[] values, double rate)
+        {
+            if (rate < 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
+
+            SamplesUnchecked(rnd, values, rate);
         }
 
         /// <summary>
@@ -357,7 +390,9 @@ namespace MathNet.Numerics.Distributions
         /// <returns>A random number from this distribution.</returns>
         public static double Sample(double rate)
         {
-            return Sample(SystemRandomSource.Default, rate);
+            if (rate < 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
+
+            return SampleUnchecked(SystemRandomSource.Default, rate);
         }
 
         /// <summary>
@@ -367,7 +402,22 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sequence of samples from the distribution.</returns>
         public static IEnumerable<double> Samples(double rate)
         {
-            return Samples(SystemRandomSource.Default, rate);
+            if (rate < 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
+
+            return SamplesUnchecked(SystemRandomSource.Default, rate);
+        }
+
+        /// <summary>
+        /// Fills an array with samples generated from the distribution.
+        /// </summary>
+        /// <param name="values">The array to fill with the samples.</param>
+        /// <param name="rate">The rate (λ) parameter of the distribution. Range: λ ≥ 0.</param>
+        /// <returns>a sequence of samples from the distribution.</returns>
+        public static void Samples(double[] values, double rate)
+        {
+            if (rate < 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
+
+            SamplesUnchecked(SystemRandomSource.Default, values, rate);
         }
     }
 }

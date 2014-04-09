@@ -30,6 +30,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using MathNet.Numerics.Properties;
 using MathNet.Numerics.Random;
 using MathNet.Numerics.Threading;
@@ -284,7 +285,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sample from the distribution.</returns>
         public double Sample()
         {
-            return Sample(_random, _lower, _upper, _mode);
+            return SampleUnchecked(_random, _lower, _upper, _mode);
         }
 
         /// <summary>
@@ -293,22 +294,38 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sequence of samples from the distribution.</returns>
         public IEnumerable<double> Samples()
         {
-            return Samples(_random, _lower, _upper, _mode);
+            return SamplesUnchecked(_random, _lower, _upper, _mode);
         }
 
-        static void SampleUnchecked(System.Random rnd, double[] values, double lower, double upper, double mode)
+        static double SampleUnchecked(System.Random rnd, double lower, double upper, double mode)
         {
-            double ml = mode - lower;
-            double ul = upper - lower;
-            double um = upper - mode;
+            var u = rnd.NextDouble();
+            return u < (mode - lower)/(upper - lower)
+                ? lower + Math.Sqrt(u*(upper - lower)*(mode - lower))
+                : upper - Math.Sqrt((1 - u)*(upper - lower)*(upper - mode));
+        }
+
+        static IEnumerable<double> SamplesUnchecked(System.Random rnd, double lower, double upper, double mode)
+        {
+            double ml = mode - lower, ul = upper - lower, um = upper - mode;
+            double u = ml/ul, v = ul*ml, w = ul*um;
+
+            return rnd.NextDoubleSequence().Select(x => x < u ? lower + Math.Sqrt(x*v) : upper - Math.Sqrt((1 - x)*w));
+        }
+
+        static void SamplesUnchecked(System.Random rnd, double[] values, double lower, double upper, double mode)
+        {
+            double ml = mode - lower, ul = upper - lower, um = upper - mode;
+            double u = ml/ul, v = ul*ml, w = ul*um;
+
             rnd.NextDoubles(values);
             CommonParallel.For(0, values.Length, 4096, (a, b) =>
             {
                 for (int i = a; i < b; i++)
                 {
-                    values[i] = values[i] < ml/ul
-                        ? lower + Math.Sqrt(values[i]*ul*ml)
-                        : upper - Math.Sqrt((1 - values[i])*ul*um);
+                    values[i] = values[i] < u
+                        ? lower + Math.Sqrt(values[i]*v)
+                        : upper - Math.Sqrt((1 - values[i])*w);
                 }
             });
         }
@@ -409,14 +426,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (!(upper >= mode && mode >= lower)) throw new ArgumentException(Resources.InvalidDistributionParameters);
 
-            var a = lower;
-            var b = upper;
-            var c = mode;
-            var u = rnd.NextDouble();
-
-            return u < (c - a)/(b - a)
-                ? a + Math.Sqrt(u*(b - a)*(c - a))
-                : b - Math.Sqrt((1 - u)*(b - a)*(b - c));
+            return SampleUnchecked(rnd, lower, upper, mode);
         }
 
         /// <summary>
@@ -431,10 +441,22 @@ namespace MathNet.Numerics.Distributions
         {
             if (!(upper >= mode && mode >= lower)) throw new ArgumentException(Resources.InvalidDistributionParameters);
 
-            while (true)
-            {
-                yield return Sample(rnd, lower, upper, mode);
-            }
+            return SamplesUnchecked(rnd, lower, upper, mode);
+        }
+
+        /// <summary>
+        /// Fills an array with samples generated from the distribution.
+        /// </summary>
+        /// <param name="rnd">The random number generator to use.</param>
+        /// <param name="lower">Lower bound. Range: lower ≤ mode ≤ upper</param>
+        /// <param name="upper">Upper bound. Range: lower ≤ mode ≤ upper</param>
+        /// <param name="mode">Mode (most frequent value).  Range: lower ≤ mode ≤ upper</param>
+        /// <returns>a sequence of samples from the distribution.</returns>
+        public static void Samples(System.Random rnd, double[] values, double lower, double upper, double mode)
+        {
+            if (!(upper >= mode && mode >= lower)) throw new ArgumentException(Resources.InvalidDistributionParameters);
+
+            SamplesUnchecked(rnd, values, lower, upper, mode);
         }
 
         /// <summary>
@@ -446,7 +468,9 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sample from the distribution.</returns>
         public static double Sample(double lower, double upper, double mode)
         {
-            return Sample(SystemRandomSource.Default, lower, upper, mode);
+            if (!(upper >= mode && mode >= lower)) throw new ArgumentException(Resources.InvalidDistributionParameters);
+
+            return SampleUnchecked(SystemRandomSource.Default, lower, upper, mode);
         }
 
         /// <summary>
@@ -458,7 +482,24 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sequence of samples from the distribution.</returns>
         public static IEnumerable<double> Samples(double lower, double upper, double mode)
         {
-            return Samples(SystemRandomSource.Default, lower, upper, mode);
+            if (!(upper >= mode && mode >= lower)) throw new ArgumentException(Resources.InvalidDistributionParameters);
+
+            return SamplesUnchecked(SystemRandomSource.Default, lower, upper, mode);
+        }
+
+        /// <summary>
+        /// Fills an array with samples generated from the distribution.
+        /// </summary>
+        /// <param name="rnd">The random number generator to use.</param>
+        /// <param name="lower">Lower bound. Range: lower ≤ mode ≤ upper</param>
+        /// <param name="upper">Upper bound. Range: lower ≤ mode ≤ upper</param>
+        /// <param name="mode">Mode (most frequent value).  Range: lower ≤ mode ≤ upper</param>
+        /// <returns>a sequence of samples from the distribution.</returns>
+        public static void Samples(double[] values, double lower, double upper, double mode)
+        {
+            if (!(upper >= mode && mode >= lower)) throw new ArgumentException(Resources.InvalidDistributionParameters);
+
+            SamplesUnchecked(SystemRandomSource.Default, values, lower, upper, mode);
         }
     }
 }
