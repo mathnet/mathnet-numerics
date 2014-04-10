@@ -36,13 +36,13 @@ namespace MathNet.Numerics.Statistics
     /// <summary>
     /// Computes the basic statistics of data set. The class meets the
     /// NIST standard of accuracy for mean, variance, and standard deviation
-    /// (the only statistics they provide exact values for) and exceeds them 
+    /// (the only statistics they provide exact values for) and exceeds them
     /// in increased accuracy mode.
     /// </summary>
     public class DescriptiveStatistics
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="DescriptiveStatistics"/> class. 
+        /// Initializes a new instance of the <see cref="DescriptiveStatistics"/> class.
         /// </summary>
         /// <param name="data">The sample data.</param>
         /// <param name="increasedAccuracy">
@@ -71,7 +71,7 @@ namespace MathNet.Numerics.Statistics
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="DescriptiveStatistics"/> class. 
+        /// Initializes a new instance of the <see cref="DescriptiveStatistics"/> class.
         /// </summary>
         /// <param name="data">The sample data.</param>
         /// <param name="increasedAccuracy">
@@ -189,8 +189,6 @@ namespace MathNet.Numerics.Statistics
             SetStatistics(mean, variance, skewness, kurtosis, minimum, maximum, n);
         }
 
-
-
         /// <summary>
         /// Computes descriptive statistics from a stream of nullable data values.
         /// </summary>
@@ -230,9 +228,7 @@ namespace MathNet.Numerics.Statistics
                     }
                 }
             }
-
             SetStatistics(mean, variance, skewness, kurtosis, minimum, maximum, n);
-
         }
 
         /// <summary>
@@ -272,9 +268,7 @@ namespace MathNet.Numerics.Statistics
                     maximum = xi;
                 }
             }
-
             SetStatistics((double)mean, (double)variance, (double)skewness, (double)kurtosis, (double)minimum, (double)maximum, n);
-
         }
 
         /// <summary>
@@ -318,7 +312,6 @@ namespace MathNet.Numerics.Statistics
                 }
             }
             SetStatistics((double)mean, (double)variance, (double)skewness, (double)kurtosis, (double)minimum, (double)maximum, n);
-
         }
 
         /// <summary>
@@ -335,6 +328,14 @@ namespace MathNet.Numerics.Statistics
         {
             Mean = mean;
             Count = n;
+
+            Minimum = double.NaN;
+            Maximum = double.NaN;
+            Variance = double.NaN;
+            StandardDeviation = double.NaN;
+            Skewness = double.NaN;
+            Kurtosis = double.NaN;
+
             if (n > 0)
             {
                 Minimum = minimum;
