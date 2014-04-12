@@ -206,6 +206,7 @@
     <Compile Include="SpecialFunctions\ModifiedBessel.cs" />
     <Compile Include="SpecialFunctions\Logistic.cs" />
     <Compile Include="Statistics\ArrayStatistics.cs" />
+    <Compile Include="Statistics\RunningStatistics.cs" />
     <Compile Include="Statistics\QuantileDefinition.cs" />
     <Compile Include="Statistics\RankDefinition.cs" />
     <Compile Include="Statistics\StreamingStatistics.cs" />

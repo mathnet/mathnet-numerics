@@ -113,6 +113,9 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
             Assert.That(() => StreamingStatistics.PopulationStandardDeviation(data), Throws.Exception.TypeOf<NullReferenceException>());
             Assert.That(() => StreamingStatistics.Covariance(data, data), Throws.Exception.TypeOf<NullReferenceException>());
             Assert.That(() => StreamingStatistics.PopulationCovariance(data, data), Throws.Exception.TypeOf<NullReferenceException>());
+
+            Assert.That(() => new RunningStatistics(data), Throws.Exception);
+            Assert.That(() => new RunningStatistics().PushRange(data), Throws.Exception);
         }
 
         [Test]
@@ -167,6 +170,20 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
             Assert.DoesNotThrow(() => StreamingStatistics.PopulationStandardDeviation(data));
             Assert.DoesNotThrow(() => StreamingStatistics.Covariance(data, data));
             Assert.DoesNotThrow(() => StreamingStatistics.PopulationCovariance(data, data));
+
+            Assert.That(() => new RunningStatistics(data), Throws.Nothing);
+            Assert.That(() => new RunningStatistics().PushRange(data), Throws.Nothing);
+            Assert.That(() => new RunningStatistics(data).Minimum, Throws.Nothing);
+            Assert.That(() => new RunningStatistics(data).Maximum, Throws.Nothing);
+            Assert.That(() => new RunningStatistics(data).Mean, Throws.Nothing);
+            Assert.That(() => new RunningStatistics(data).Variance, Throws.Nothing);
+            Assert.That(() => new RunningStatistics(data).StandardDeviation, Throws.Nothing);
+            Assert.That(() => new RunningStatistics(data).Skewness, Throws.Nothing);
+            Assert.That(() => new RunningStatistics(data).Kurtosis, Throws.Nothing);
+            Assert.That(() => new RunningStatistics(data).PopulationVariance, Throws.Nothing);
+            Assert.That(() => new RunningStatistics(data).PopulationStandardDeviation, Throws.Nothing);
+            Assert.That(() => new RunningStatistics(data).PopulationSkewness, Throws.Nothing);
+            Assert.That(() => new RunningStatistics(data).PopulationKurtosis, Throws.Nothing);
         }
 
         [TestCase("lottery")]
@@ -186,6 +203,7 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
             AssertHelpers.AlmostEqualRelative(data.Mean, Statistics.MeanVariance(data.Data).Item1, 14);
             AssertHelpers.AlmostEqualRelative(data.Mean, ArrayStatistics.MeanVariance(data.Data).Item1, 14);
             AssertHelpers.AlmostEqualRelative(data.Mean, StreamingStatistics.MeanVariance(data.Data).Item1, 14);
+            AssertHelpers.AlmostEqualRelative(data.Mean, new RunningStatistics(data.Data).Mean, 14);
         }
 
         [TestCase("lottery")]
@@ -219,6 +237,7 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
             AssertHelpers.AlmostEqualRelative(data.StandardDeviation, Math.Sqrt(Statistics.MeanVariance(data.Data).Item2), digits);
             AssertHelpers.AlmostEqualRelative(data.StandardDeviation, Math.Sqrt(ArrayStatistics.MeanVariance(data.Data).Item2), digits);
             AssertHelpers.AlmostEqualRelative(data.StandardDeviation, Math.Sqrt(StreamingStatistics.MeanVariance(data.Data).Item2), digits);
+            AssertHelpers.AlmostEqualRelative(data.StandardDeviation, new RunningStatistics(data.Data).StandardDeviation, digits);
         }
 
         [TestCase("lottery", 14)]
@@ -245,6 +264,8 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
             Assert.That(ArrayStatistics.Maximum(samples), Is.EqualTo(10), "Max");
             Assert.That(StreamingStatistics.Minimum(samples), Is.EqualTo(-3), "Min");
             Assert.That(StreamingStatistics.Maximum(samples), Is.EqualTo(10), "Max");
+            Assert.That(new RunningStatistics(samples).Minimum, Is.EqualTo(-3), "Min");
+            Assert.That(new RunningStatistics(samples).Maximum, Is.EqualTo(10), "Max");
 
             Array.Sort(samples);
             Assert.That(SortedArrayStatistics.Minimum(samples), Is.EqualTo(-3), "Min");
@@ -762,6 +783,10 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
             AssertHelpers.AlmostEqualRelative(1e+9, StreamingStatistics.Mean(gaussian.Samples().Take(10000)), 10);
             AssertHelpers.AlmostEqualRelative(4d, StreamingStatistics.Variance(gaussian.Samples().Take(10000)), 0);
             AssertHelpers.AlmostEqualRelative(2d, StreamingStatistics.StandardDeviation(gaussian.Samples().Take(10000)), 1);
+
+            AssertHelpers.AlmostEqualRelative(1e+9, new RunningStatistics(gaussian.Samples().Take(10000)).Mean, 10);
+            AssertHelpers.AlmostEqualRelative(4d, new RunningStatistics(gaussian.Samples().Take(10000)).Variance, 0);
+            AssertHelpers.AlmostEqualRelative(2d, new RunningStatistics(gaussian.Samples().Take(10000)).StandardDeviation, 1);
         }
 
         [TestCase("lottery")]
@@ -832,7 +857,9 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
             Assert.That(SortedArrayStatistics.Minimum(new double[0]), Is.NaN);
             Assert.That(SortedArrayStatistics.Minimum(new[] { 2d }), Is.Not.NaN);
             Assert.That(StreamingStatistics.Minimum(new double[0]), Is.NaN);
-            Assert.That(StreamingStatistics.Minimum(new[] {2d }), Is.Not.NaN);
+            Assert.That(StreamingStatistics.Minimum(new[] { 2d }), Is.Not.NaN);
+            Assert.That(new RunningStatistics(new double[0]).Minimum, Is.NaN);
+            Assert.That(new RunningStatistics(new[] { 2d }).Minimum, Is.Not.NaN);
         }
 
         [Test]
@@ -846,6 +873,8 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
             Assert.That(SortedArrayStatistics.Maximum(new[] { 2d }), Is.Not.NaN);
             Assert.That(StreamingStatistics.Maximum(new double[0]), Is.NaN);
             Assert.That(StreamingStatistics.Maximum(new[] { 2d }), Is.Not.NaN);
+            Assert.That(new RunningStatistics(new double[0]).Maximum, Is.NaN);
+            Assert.That(new RunningStatistics(new[] { 2d }).Maximum, Is.Not.NaN);
         }
 
         [Test]
@@ -857,6 +886,8 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
             Assert.That(ArrayStatistics.Mean(new[] { 2d }), Is.Not.NaN);
             Assert.That(StreamingStatistics.Mean(new double[0]), Is.NaN);
             Assert.That(StreamingStatistics.Mean(new[] { 2d }), Is.Not.NaN);
+            Assert.That(new RunningStatistics(new double[0]).Mean, Is.NaN);
+            Assert.That(new RunningStatistics(new[] { 2d }).Mean, Is.Not.NaN);
         }
 
         [Test]
@@ -871,6 +902,8 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
             Assert.That(StreamingStatistics.Variance(new double[0]), Is.NaN);
             Assert.That(StreamingStatistics.Variance(new[] { 2d }), Is.NaN);
             Assert.That(StreamingStatistics.Variance(new[] { 2d, 3d }), Is.Not.NaN);
+            Assert.That(new RunningStatistics(new[] { 2d }).Variance, Is.NaN);
+            Assert.That(new RunningStatistics(new[] { 2d, 3d }).Variance, Is.Not.NaN);
         }
 
         [Test]
@@ -885,6 +918,8 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
             Assert.That(StreamingStatistics.PopulationVariance(new double[0]), Is.NaN);
             Assert.That(StreamingStatistics.PopulationVariance(new[] { 2d }), Is.Not.NaN);
             Assert.That(StreamingStatistics.PopulationVariance(new[] { 2d, 3d }), Is.Not.NaN);
+            Assert.That(new RunningStatistics(new[] { 2d }).PopulationVariance, Is.NaN);
+            Assert.That(new RunningStatistics(new[] { 2d, 3d }).PopulationVariance, Is.Not.NaN);
         }
 
         /// <summary>
@@ -911,6 +946,9 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
 
             Assert.AreEqual(21.578697, a.Variance(), 1e-5);
             Assert.AreEqual(21.578231, a.PopulationVariance(), 1e-5);
+
+            Assert.AreEqual(21.578697, new RunningStatistics(a).Variance, 1e-5);
+            Assert.AreEqual(21.578231, new RunningStatistics(a).PopulationVariance, 1e-5);
         }
 
         [Test]
