@@ -28,6 +28,10 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System.Linq;
+using MathNet.Numerics.Distributions;
+using MathNet.Numerics.Random;
+
 namespace MathNet.Numerics.UnitTests.StatisticsTests
 {
 #if !PORTABLE
@@ -164,6 +168,64 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
             var stats = new RunningStatistics(new[] { 2.0, 2.0, 2.0, 2.0 });
             Assert.That(stats.Skewness, Is.NaN);
             Assert.That(stats.Kurtosis, Is.NaN);
+        }
+
+        [Test]
+        public void Combine()
+        {
+            var rnd = new SystemRandomSource(10);
+            var a = Generate.Random(200, new Erlang(2, 0.2, rnd));
+            var b = Generate.Random(100, new Beta(1.2, 1.4, rnd));
+            var c = Generate.Random(150, new Rayleigh(0.8, rnd));
+
+            var d = a.Concat(b).Concat(c).ToArray();
+
+            var x = new RunningStatistics(d);
+
+            var y = new RunningStatistics(a);
+            y.PushRange(b);
+            y.PushRange(c);
+
+            var za  = new RunningStatistics(a);
+            var zb  = new RunningStatistics(b);
+            var zc  = new RunningStatistics(c);
+            var z = za + zb + zc;
+
+            Assert.That(x.Mean, Is.EqualTo(d.Mean()).Within(1e-12), "Mean Reference");
+            Assert.That(y.Mean, Is.EqualTo(x.Mean).Within(1e-12), "Mean y");
+            Assert.That(z.Mean, Is.EqualTo(x.Mean).Within(1e-12), "Mean z");
+
+            Assert.That(x.Variance, Is.EqualTo(d.Variance()).Within(1e-12), "Variance Reference");
+            Assert.That(y.Variance, Is.EqualTo(x.Variance).Within(1e-12), "Variance y");
+            Assert.That(z.Variance, Is.EqualTo(x.Variance).Within(1e-12), "Variance z");
+
+            Assert.That(x.PopulationVariance, Is.EqualTo(d.PopulationVariance()).Within(1e-12), "PopulationVariance Reference");
+            Assert.That(y.PopulationVariance, Is.EqualTo(x.PopulationVariance).Within(1e-12), "PopulationVariance y");
+            Assert.That(z.PopulationVariance, Is.EqualTo(x.PopulationVariance).Within(1e-12), "PopulationVariance z");
+
+            Assert.That(x.StandardDeviation, Is.EqualTo(d.StandardDeviation()).Within(1e-12), "StandardDeviation Reference");
+            Assert.That(y.StandardDeviation, Is.EqualTo(x.StandardDeviation).Within(1e-12), "StandardDeviation y");
+            Assert.That(z.StandardDeviation, Is.EqualTo(x.StandardDeviation).Within(1e-12), "StandardDeviation z");
+
+            Assert.That(x.PopulationStandardDeviation, Is.EqualTo(d.PopulationStandardDeviation()).Within(1e-12), "PopulationStandardDeviation Reference");
+            Assert.That(y.PopulationStandardDeviation, Is.EqualTo(x.PopulationStandardDeviation).Within(1e-12), "PopulationStandardDeviation y");
+            Assert.That(z.PopulationStandardDeviation, Is.EqualTo(x.PopulationStandardDeviation).Within(1e-12), "PopulationStandardDeviation z");
+
+            Assert.That(x.Skewness, Is.EqualTo(d.Skewness()).Within(1e-12), "Skewness Reference (not independent!)");
+            Assert.That(y.Skewness, Is.EqualTo(x.Skewness).Within(1e-12), "Skewness y");
+            Assert.That(z.Skewness, Is.EqualTo(x.Skewness).Within(1e-12), "Skewness z");
+
+            Assert.That(x.PopulationSkewness, Is.EqualTo(d.PopulationSkewness()).Within(1e-12), "PopulationSkewness Reference (not independent!)");
+            Assert.That(y.PopulationSkewness, Is.EqualTo(x.PopulationSkewness).Within(1e-12), "PopulationSkewness y");
+            Assert.That(z.PopulationSkewness, Is.EqualTo(x.PopulationSkewness).Within(1e-12), "PopulationSkewness z");
+
+            Assert.That(x.Kurtosis, Is.EqualTo(d.Kurtosis()).Within(1e-12), "Kurtosis Reference (not independent!)");
+            Assert.That(y.Kurtosis, Is.EqualTo(x.Kurtosis).Within(1e-12), "Kurtosis y");
+            Assert.That(z.Kurtosis, Is.EqualTo(x.Kurtosis).Within(1e-12), "Kurtosis z");
+
+            Assert.That(x.PopulationKurtosis, Is.EqualTo(d.PopulationKurtosis()).Within(1e-12), "PopulationKurtosis Reference (not independent!)");
+            Assert.That(y.PopulationKurtosis, Is.EqualTo(x.PopulationKurtosis).Within(1e-12), "PopulationKurtosis y");
+            Assert.That(z.PopulationKurtosis, Is.EqualTo(x.PopulationKurtosis).Within(1e-12), "PopulationKurtosis z");
         }
     }
 #endif

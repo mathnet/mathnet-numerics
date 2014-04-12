@@ -91,7 +91,7 @@ namespace MathNet.Numerics.Statistics
         }
 
         /// <summary>
-        /// Estimates the sample mean.
+        /// Evaluates the sample mean, an estimate of the population mean.
         /// Returns NaN if data is empty or if any entry is NaN.
         /// </summary>
         /// <param name="data">The data to calculate the mean of.</param>
@@ -105,7 +105,7 @@ namespace MathNet.Numerics.Statistics
         }
 
         /// <summary>
-        /// Estimates the sample mean.
+        /// Evaluates the sample mean, an estimate of the population mean.
         /// Returns NaN if data is empty or if any entry is NaN.
         /// Null-entries are ignored.
         /// </summary>
@@ -143,7 +143,7 @@ namespace MathNet.Numerics.Statistics
         }
 
         /// <summary>
-        /// Evaluates the population variance from the provided full population.
+        /// Evaluates the variance from the provided full population.
         /// On a dataset of size N will use an N normalizer and would thus be biased if applied to a subset.
         /// Returns NaN if data is empty or if any entry is NaN.
         /// </summary>
@@ -157,7 +157,7 @@ namespace MathNet.Numerics.Statistics
         }
 
         /// <summary>
-        /// Evaluates the population variance from the provided full population.
+        /// Evaluates the variance from the provided full population.
         /// On a dataset of size N will use an N normalize and would thus be biased if applied to a subsetr.
         /// Returns NaN if data is empty or if any entry is NaN.
         /// Null-entries are ignored.
@@ -195,7 +195,7 @@ namespace MathNet.Numerics.Statistics
         }
 
         /// <summary>
-        /// Evaluates the population standard deviation from the provided full population.
+        /// Evaluates the standard deviation from the provided full population.
         /// On a dataset of size N will use an N normalizer and would thus be biased if applied to a subset.
         /// Returns NaN if data is empty or if any entry is NaN.
         /// </summary>
@@ -209,7 +209,7 @@ namespace MathNet.Numerics.Statistics
         }
 
         /// <summary>
-        /// Evaluates the population standard deviation from the provided full population.
+        /// Evaluates the standard deviation from the provided full population.
         /// On a dataset of size N will use an N normalizer and would thus be biased if applied to a subset.
         /// Returns NaN if data is empty or if any entry is NaN.
         /// Null-entries are ignored.
@@ -218,6 +218,98 @@ namespace MathNet.Numerics.Statistics
         public static double PopulationStandardDeviation(this IEnumerable<double?> population)
         {
             return StreamingStatistics.PopulationStandardDeviation(population.Where(d => d.HasValue).Select(d => d.Value));
+        }
+
+        /// <summary>
+        /// Estimates the unbiased population skewness from the provided samples.
+        /// Uses a normalizer (Bessel's correction; type 2).
+        /// Returns NaN if data has less than three entries or if any entry is NaN.
+        /// </summary>
+        /// <param name="samples">A subset of samples, sampled from the full population.</param>
+        public static double Skewness(this IEnumerable<double> samples)
+        {
+            return new RunningStatistics(samples).Skewness;
+        }
+
+        /// <summary>
+        /// Estimates the unbiased population skewness from the provided samples.
+        /// Uses a normalizer (Bessel's correction; type 2).
+        /// Returns NaN if data has less than three entries or if any entry is NaN.
+        /// Null-entries are ignored.
+        /// </summary>
+        /// <param name="samples">A subset of samples, sampled from the full population.</param>
+        public static double Skewness(this IEnumerable<double?> samples)
+        {
+            return new RunningStatistics(samples.Where(d => d.HasValue).Select(d => d.Value)).Skewness;
+        }
+
+        /// <summary>
+        /// Evaluates the skewness from the full population.
+        /// Does not use a normalizer and would thus be biased if applied to a subset (type 1).
+        /// Returns NaN if data has less than two entries or if any entry is NaN.
+        /// </summary>
+        /// <param name="population">The full population data.</param>
+        public static double PopulationSkewness(this IEnumerable<double> population)
+        {
+            return new RunningStatistics(population).PopulationSkewness;
+        }
+
+        /// <summary>
+        /// Evaluates the skewness from the full population.
+        /// Does not use a normalizer and would thus be biased if applied to a subset (type 1).
+        /// Returns NaN if data has less than two entries or if any entry is NaN.
+        /// Null-entries are ignored.
+        /// </summary>
+        /// <param name="population">The full population data.</param>
+        public static double PopulationSkewness(this IEnumerable<double?> population)
+        {
+            return new RunningStatistics(population.Where(d => d.HasValue).Select(d => d.Value)).PopulationSkewness;
+        }
+
+        /// <summary>
+        /// Estimates the unbiased population kurtosis from the provided samples.
+        /// Uses a normalizer (Bessel's correction; type 2).
+        /// Returns NaN if data has less than four entries or if any entry is NaN.
+        /// </summary>
+        /// <param name="samples">A subset of samples, sampled from the full population.</param>
+        public static double Kurtosis(this IEnumerable<double> samples)
+        {
+            return new RunningStatistics(samples).Kurtosis;
+        }
+
+        /// <summary>
+        /// Estimates the unbiased population kurtosis from the provided samples.
+        /// Uses a normalizer (Bessel's correction; type 2).
+        /// Returns NaN if data has less than four entries or if any entry is NaN.
+        /// Null-entries are ignored.
+        /// </summary>
+        /// <param name="samples">A subset of samples, sampled from the full population.</param>
+        public static double Kurtosis(this IEnumerable<double?> samples)
+        {
+            return new RunningStatistics(samples.Where(d => d.HasValue).Select(d => d.Value)).Kurtosis;
+        }
+
+        /// <summary>
+        /// Evaluates the kurtosis from the full population.
+        /// Does not use a normalizer and would thus be biased if applied to a subset (type 1).
+        /// Returns NaN if data has less than three entries or if any entry is NaN.
+        /// </summary>
+        /// <param name="population">The full population data.</param>
+        public static double PopulationKurtosis(this IEnumerable<double> population)
+        {
+            return new RunningStatistics(population).PopulationKurtosis;
+        }
+
+        /// <summary>
+        /// Evaluates the kurtosis from the full population.
+        /// Does not use a normalizer and would thus be biased if applied to a subset (type 1).
+        /// Returns NaN if data has less than three entries or if any entry is NaN.
+        /// Null-entries are ignored.
+        /// </summary>
+        /// <param name="population">The full population data.</param>
+        public static double PopulationKurtosis(this IEnumerable<double?> population)
+        {
+            return new RunningStatistics(population.Where(d => d.HasValue).Select(d => d.Value)).PopulationKurtosis;
         }
 
         /// <summary>
@@ -248,6 +340,28 @@ namespace MathNet.Numerics.Statistics
             return array != null
                 ? ArrayStatistics.MeanStandardDeviation(array)
                 : StreamingStatistics.MeanStandardDeviation(samples);
+        }
+
+        /// <summary>
+        /// Estimates the unbiased population skewness and kurtosis from the provided samples in a single pass.
+        /// Uses a normalizer (Bessel's correction; type 2).
+        /// </summary>
+        /// <param name="samples">A subset of samples, sampled from the full population.</param>
+        public static Tuple<double, double> SkewnessKurtosis(this IEnumerable<double> samples)
+        {
+            var stats = new RunningStatistics(samples);
+            return new Tuple<double, double>(stats.Skewness, stats.Kurtosis);
+        }
+
+        /// <summary>
+        /// Evaluates the skewness and kurtosis from the full population.
+        /// Does not use a normalizer and would thus be biased if applied to a subset (type 1).
+        /// </summary>
+        /// <param name="population">The full population data.</param>
+        public static Tuple<double, double> PopulationSkewnessKurtosis(this IEnumerable<double> population)
+        {
+            var stats = new RunningStatistics(population);
+            return new Tuple<double, double>(stats.PopulationSkewness, stats.PopulationKurtosis);
         }
 
         /// <summary>
@@ -297,7 +411,7 @@ namespace MathNet.Numerics.Statistics
 
         /// <summary>
         /// Evaluates the population covariance from the provided full populations.
-        /// On a dataset of size N will use an N normalize and would thus be biased if applied to a subsetr.
+        /// On a dataset of size N will use an N normalize and would thus be biased if applied to a subset.
         /// Returns NaN if data is empty or if any entry is NaN.
         /// Null-entries are ignored.
         /// </summary>

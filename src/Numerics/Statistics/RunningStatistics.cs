@@ -225,7 +225,7 @@ namespace MathNet.Numerics.Statistics
             double m1 = (a._n*a._m1 + b._n*b._m1)/n;
             double m2 = a._m2 + b._m2 + d2*a._n*b._n/n;
             double m3 = a._m3 + b._m3 + d3*a._n*b._n*(a._n - b._n)/(n*n)
-                        + 3*d3*(a._n*b._m2 - b._n*a._m2)/n;
+                        + 3*d*(a._n*b._m2 - b._n*a._m2)/n;
             double m4 = a._m4 + b._m4 + d4*a._n*b._n*(a._n*a._n - a._n*b._n + b._n*b._n)/(n*n*n)
                         + 6*d2*(a._n*a._n*b._m2 + b._n*b._n*a._m2)/(n*n) + 4*d*(a._n*b._m3 - b._n*a._m3)/n;
 
