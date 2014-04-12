@@ -151,7 +151,7 @@ namespace MathNet.Numerics.Statistics
         /// </summary>
         public double PopulationSkewness
         {
-            get { return _n < 2 ? double.NaN : _m3*Math.Sqrt(_n*(_n - 1))*Math.Sqrt(_m2/(_n - 1))/(_m2*_m2); }
+            get { return _n < 2 ? double.NaN : Math.Sqrt(_n)*_m3/Math.Pow(_m2, 1.5); }
         }
 
         /// <summary>
@@ -171,7 +171,7 @@ namespace MathNet.Numerics.Statistics
         /// </summary>
         public double PopulationKurtosis
         {
-            get { return _n < 3 ? double.NaN : (_m4*_n - 3*_m2*_m2)/(_m2*_m2); }
+            get { return _n < 3 ? double.NaN : _n*_m4/(_m2*_m2) - 3.0; }
         }
 
         /// <summary>
