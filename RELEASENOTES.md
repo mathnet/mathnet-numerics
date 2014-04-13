@@ -82,6 +82,10 @@ Changes as of now:
 - BUG: Fix bug in routine to copy a vector into a sub-row of a matrix.
 - Both canonical modulus and remainder operations on matrices and vectors.
 - Matrix kernel (null space) and range (column space)
+- Storage-aware non-inplace functional map on vectors and matrices
+- Pointwise power, exponential and natural logarithm for vectors and matrices.
+- Matrix positive-integer power
+- Matrix RemoveRow/RemoveColumn; more efficient InsertRow/InsertColumn
 
 ### Linear Algebra MKL Native Provider
 
@@ -97,16 +101,20 @@ Changes as of now:
 
 - Pearson and Spearman correlation matrix of a set of arrays.
 - Spearman ranked correlation optimized (4x faster on 100k set)
-- Single-pass `MeanVariance` method (as used often together).
+- Skewness and PopulationSkewness; Kurtosis and PopulationKurtosis.
+- Single-pass `MeanVariance` and `MeanStandardDeviation` methods (often used together).
 - Some overloads for single-precision values.
 - Add `Ranks`, `QuantileRank` and `EmpiricalCDF`.
 - F# module for higher order functions.
+- Median direct implementation (instead of R8-compatible 0.5-quantile)
+- New RunningStatistics that can be updated and merged
+- BUG: DescriptiveStatistics must return NaN if not enough data for a specific statistic.
 
 ### Probability Distributions
 
 - Direct static distributions functions (PDF, CDF, sometimes also InvCDF).
-- Direct static sample functions.
-- New Trigangular distributionb *~Superbest*
+- Direct static sample functions, including such to fill an existing array in one call.
+- New Trigangular distribution *~Superbest, David Prince*
 - Add InvCDF to Gamma, Student-T, FisherSnedecor (F), and Beta distributions.
 - Major API cleanup, including xml docs
 - Xml doc and ToString now use well-known symbols for the parameters.
@@ -119,6 +127,7 @@ Changes as of now:
 - BUG: Fix hyper-geometric CDF semantics, clarify distribution parameters.
 - BUG: Fix Zipf CDF at x=1.
 - BUG: Fix Geometric distribution sampling.
+- BUG: Fix Categorical distribution properties. *~David Prince*
 
 ### Random Number Generators
 
@@ -189,7 +198,8 @@ Changes as of now:
 - Evaluate: routine to evaluate complex polynomials, or real polynomials at a complex point.
 - CommonParallel now also supported in .Net 3.5 and portable profiles; TaskScheduler can be replaced with custom implementation *~Thomas Ibel*
 - F# BigRational type cleaned up and optimized *~Jack Pappas*
-- F# BigRational IsZero, IsOne, IsInteger, Reciprocal, Power operator support (**), create from fraction.
+- F# BigRational IsZero, IsOne, IsInteger, create from fraction.
+- F# BigRational Reciprocal, Power operator support (**), support for negative integer powers.
 - F# functions now use the clearer `Func` suffix instead of just `F` if they return a function.
 - Precision: reworked, now much more consistent. **If you use `AlmostEqual` with numbers-between/ULP semantics, please do review your code to make sure you're still using the expected variant!**. If you use the decimal-places semantics, you may need to decrement the digits argument to get the same behavior as before.
 - Much less null checks, our code generally only throws `ArgumentNullException` if an unexpected null argument would *not* have caused an immediate `NullReferenceException`.

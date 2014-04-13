@@ -24,6 +24,7 @@ Feel free to add a link to your personal site/blog and/or twitter handle.*
 - Hani Medhat
 - manyue
 - Alexander Täschner (taschna)
+- David Prince
 - Andriy Bratiychuk (Abratiychuk)
 - Jack Pappas
 - Artyom Baranovskiy
