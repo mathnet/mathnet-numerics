@@ -237,7 +237,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Entropy
         {
-            get { return _pmfNormalized.Sum(p => p*Math.Log(p)); }
+            get { return -_pmfNormalized.Sum(p => p*Math.Log(p)); }
         }
 
         /// <summary>
