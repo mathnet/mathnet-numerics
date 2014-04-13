@@ -48,6 +48,9 @@ namespace MathNet.Numerics.Distributions
     /// does not have to be normalized and sum to 1. The reason is that some vectors can't be exactly normalized
     /// to sum to 1 in floating point representation.
     /// </remarks>
+    /// <remarks>
+    /// Support: 0..k where k = length(probability mass array)-1
+    /// </remarks>
     public class Categorical : IDiscreteDistribution
     {
         System.Random _random;
@@ -215,14 +218,14 @@ namespace MathNet.Numerics.Distributions
         {
             get
             {
+                // Mean = E[X] = Sum(x * p(x), x=0..N-1)
+                // where f(x) is the probability mass function, and N is the number of categories.
+
                 var sum = 0.0;
-                // Mean = Sum(x * f(x), x=0..N)
-                // where f(x) is the probability mass function, and N is the maximum value.
                 for (int i = 0; i < _pmfNormalized.Length; i++)
                 {
                     sum += i * _pmfNormalized[i];
                 }
-
                 return sum;
             }
         }
@@ -232,7 +235,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double StdDev
         {
-            get { return _pmfNormalized.StandardDeviation(); }
+            get { return Math.Sqrt(Variance); }
         }
 
         /// <summary>
@@ -240,7 +243,18 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Variance
         {
-            get { return _pmfNormalized.Variance(); }
+            get
+            {
+                // Variance = E[(X-E[X])^2] = E[X^2] - (E[X])^2 = Sum(p(x) * (x - E[X])^2), x=0..N-1)
+                var m = Mean;
+                var sum = 0.0;
+                for (int i = 0; i < _pmfNormalized.Length; i++)
+                {
+                    var r = i - m;
+                    sum += r*r*_pmfNormalized[i];
+                }
+                return sum;
+            }
         }
 
         /// <summary>
@@ -290,7 +304,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Median
         {
-            get { return _pmfNormalized.Median(); }
+            get { return InverseCumulativeDistribution(0.5); }
         }
 
         /// <summary>

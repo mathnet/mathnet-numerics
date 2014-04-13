@@ -171,8 +171,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         [TestCase(new double[] { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 }, 5)]
         public void ValidateMean(double[] p, double mean)
         {
-            var n = new Categorical(p);
-            AssertHelpers.AlmostEqual(mean, n.Mean, 14);
+            Assert.That(new Categorical(p).Mean, Is.EqualTo(mean).Within(1e-14));
         }
 
         /// <summary>
@@ -187,8 +186,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         [TestCase(new double[] { 1, 0, 1 }, 1)]
         public void ValidateStdDev(double[] p, double stdDev)
         {
-            var n = new Categorical(p);
-            AssertHelpers.AlmostEqual(stdDev, n.StdDev, 14);
+            Assert.That(new Categorical(p).StdDev, Is.EqualTo(stdDev).Within(1e-14));
         }
 
         /// <summary>
@@ -203,8 +201,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         [TestCase(new double[] { 1, 0, 1 }, 1)]
         public void ValidateVariance(double[] p, double variance)
         {
-            var n = new Categorical(p);
-            AssertHelpers.AlmostEqual(variance, n.Variance, 14);
+            Assert.That(new Categorical(p).Variance, Is.EqualTo(variance).Within(1e-14));
         }
 
         /// <summary>
@@ -219,13 +216,12 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         // P(X < 5) = (1+2+6+3+2)/29 = 14/29 < 0.5.
         // P(X <= 5) = 19/29 > 0.5.
         [TestCase(new double[] { 1, 2, 6, 3, 2, 5, 1, 1, 0, 1, 7 }, 5)]
-        // TODO: Find out the expected behavour of Median in ambiguous cases like the following:
+        // TODO: Find out the expected behavior of Median in ambiguous cases like the following:
         //[TestCase(new double[] { 0, 0.5, 0.5 }, ???)]
         //[TestCase(new double[] { 1, 0, 1 }, ???)]
         public void ValidateMedian(double[] p, int median)
         {
-            var n = new Categorical(p);
-            Assert.AreEqual(median, n.Median);
+            Assert.That(new Categorical(p).Median, Is.EqualTo(median).Within(1e-14));
         }
 
         /// <summary>
