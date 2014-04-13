@@ -44,11 +44,6 @@ namespace MathNet.Numerics.Distributions
         double Mode { get; }
 
         /// <summary>
-        /// Gets the median of the distribution.
-        /// </summary>
-        double Median { get; }
-
-        /// <summary>
         /// Gets the smallest element in the domain of the distribution which can be represented by a double.
         /// </summary>
         double Minimum { get; }

@@ -425,6 +425,7 @@ namespace MathNet.Numerics.Distributions
         /// Fills an array with samples generated from the distribution.
         /// </summary>
         /// <param name="rnd">The random number generator to use.</param>
+        /// <param name="values">The array to fill with the samples.</param>
         /// <param name="shape">The shape (k) of the Weibull distribution. Range: k > 0.</param>
         /// <param name="scale">The scale (λ) of the Weibull distribution. Range: λ > 0.</param>
         /// <returns>a sequence of samples from the distribution.</returns>
@@ -464,6 +465,7 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Fills an array with samples generated from the distribution.
         /// </summary>
+        /// <param name="values">The array to fill with the samples.</param>
         /// <param name="shape">The shape (k) of the Weibull distribution. Range: k > 0.</param>
         /// <param name="scale">The scale (λ) of the Weibull distribution. Range: λ > 0.</param>
         /// <returns>a sequence of samples from the distribution.</returns>

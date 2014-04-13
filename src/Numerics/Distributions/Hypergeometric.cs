@@ -222,7 +222,7 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Gets the median of the distribution.
         /// </summary>
-        public int Median
+        public double Median
         {
             get { throw new NotSupportedException(); }
         }

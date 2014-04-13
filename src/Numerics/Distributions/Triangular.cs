@@ -448,6 +448,7 @@ namespace MathNet.Numerics.Distributions
         /// Fills an array with samples generated from the distribution.
         /// </summary>
         /// <param name="rnd">The random number generator to use.</param>
+        /// <param name="values">The array to fill with the samples.</param>
         /// <param name="lower">Lower bound. Range: lower ≤ mode ≤ upper</param>
         /// <param name="upper">Upper bound. Range: lower ≤ mode ≤ upper</param>
         /// <param name="mode">Mode (most frequent value).  Range: lower ≤ mode ≤ upper</param>
@@ -490,7 +491,7 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Fills an array with samples generated from the distribution.
         /// </summary>
-        /// <param name="rnd">The random number generator to use.</param>
+        /// <param name="values">The array to fill with the samples.</param>
         /// <param name="lower">Lower bound. Range: lower ≤ mode ≤ upper</param>
         /// <param name="upper">Upper bound. Range: lower ≤ mode ≤ upper</param>
         /// <param name="mode">Mode (most frequent value).  Range: lower ≤ mode ≤ upper</param>

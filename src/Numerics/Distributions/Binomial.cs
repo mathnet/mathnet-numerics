@@ -214,11 +214,27 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
+        /// Gets all modes of the distribution.
+        /// </summary>
+        public int[] Modes
+        {
+            get
+            {
+                if (_p == 1.0) return new [] {_trials};
+                if (_p == 0.0) return new [] {0};
+
+                double td = (_trials + 1)*_p;
+                int t = (int)Math.Floor(td);
+                return t != td ? new[] { t } : new[] { t, t - 1 };
+            }
+        }
+
+        /// <summary>
         /// Gets the median of the distribution.
         /// </summary>
-        public int Median
+        public double Median
         {
-            get { return (int)Math.Floor(_p*_trials); }
+            get { return Math.Floor(_p*_trials); }
         }
 
         /// <summary>
@@ -371,7 +387,6 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Samples a binomially distributed random variable.
         /// </summary>
-        /// <param name="rnd">The random number generator to use.</param>
         /// <param name="p">The success probability (p) in each trial. Range: 0 ≤ p ≤ 1.</param>
         /// <param name="n">The number of trials (n). Range: n ≥ 0.</param>
         /// <returns>The number of successes in <paramref name="n"/> trials.</returns>
@@ -384,7 +399,6 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Samples a sequence of binomially distributed random variable.
         /// </summary>
-        /// <param name="rnd">The random number generator to use.</param>
         /// <param name="p">The success probability (p) in each trial. Range: 0 ≤ p ≤ 1.</param>
         /// <param name="n">The number of trials (n). Range: n ≥ 0.</param>
         /// <returns>a sequence of successes in <paramref name="n"/> trials.</returns>

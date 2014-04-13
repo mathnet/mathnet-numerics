@@ -193,9 +193,9 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Gets the median of the distribution.
         /// </summary>
-        public int Median
+        public double Median
         {
-            get { return (int)Math.Floor((_lower + _upper)/2.0); }
+            get { return (_lower + _upper)/2.0; }
         }
 
         /// <summary>

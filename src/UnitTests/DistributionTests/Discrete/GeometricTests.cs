@@ -143,17 +143,15 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
             Assert.AreEqual(1, d.Mode);
         }
 
-        /// <summary>
-        /// Validate median.
-        /// </summary>
-        /// <param name="p">Probability of generating a one.</param>
-        [TestCase(0.0)]
-        [TestCase(0.3)]
-        [TestCase(1.0)]
-        public void ValidateMedian(double p)
+        [TestCase(0.0, double.PositiveInfinity)]
+        [TestCase(0.0001, 6932.0)]
+        [TestCase(0.1, 7.0)]
+        [TestCase(0.3, 2.0)]
+        [TestCase(0.9, 1.0)]
+        [TestCase(1.0, 1.0)]
+        public void ValidateMedian(double p, double expected)
         {
-            var d = new Geometric(p);
-            Assert.AreEqual((int)Math.Ceiling(-Math.Log(2.0) / Math.Log(1 - p)), d.Median);
+            Assert.That(new Geometric(p).Median, Is.EqualTo(expected));
         }
 
         /// <summary>

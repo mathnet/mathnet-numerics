@@ -144,14 +144,14 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
             Assert.AreEqual(m, b.Mode);
         }
 
-        /// <summary>
-        /// Validate median throws <c>NotSupportedException</c>.
-        /// </summary>
-        [Test]
-        public void ValidateMedianThrowsNotSupportedException()
+        [TestCase(0.0, 0.0)]
+        [TestCase(0.4, 0.0)]
+        [TestCase(0.5, 0.5)]
+        [TestCase(0.6, 1.0)]
+        [TestCase(1.0, 1.0)]
+        public void ValidateMedian(double p, double expected)
         {
-            var b = new Bernoulli(0.3);
-            Assert.Throws<NotSupportedException>(() => { double m = b.Median; });
+            Assert.That(new Bernoulli(p).Median, Is.EqualTo(expected));
         }
 
         /// <summary>

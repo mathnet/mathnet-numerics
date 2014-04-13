@@ -185,9 +185,9 @@ namespace MathNet.Numerics.Distributions
         /// Gets the median of the distribution.
         /// </summary>
         /// <remarks>Approximation, see Wikipedia <a href="http://en.wikipedia.org/wiki/Poisson_distribution">Poisson distribution</a></remarks>
-        public int Median
+        public double Median
         {
-            get { return (int)Math.Floor(_lambda + (1.0/3.0) - (0.02/_lambda)); }
+            get { return Math.Floor(_lambda + (1.0/3.0) - (0.02/_lambda)); }
         }
 
         /// <summary>

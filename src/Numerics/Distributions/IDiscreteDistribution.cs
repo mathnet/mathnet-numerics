@@ -44,11 +44,6 @@ namespace MathNet.Numerics.Distributions
         int Mode { get; }
 
         /// <summary>
-        /// Gets the median of the distribution.
-        /// </summary>
-        int Median { get; }
-
-        /// <summary>
         /// Gets the smallest element in the domain of the distribution which can be represented by an integer.
         /// </summary>
         int Minimum { get; }

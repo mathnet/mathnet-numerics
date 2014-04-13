@@ -407,7 +407,6 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Fills an array with samples generated from the distribution.
         /// </summary>
-        /// <param name="rnd">The random number generator to use.</param>
         /// <param name="values">The array to fill with the samples.</param>
         /// <param name="location">The location (μ) of the distribution.</param>
         /// <param name="scale">The scale (b) of the distribution. Range: b > 0.</param>

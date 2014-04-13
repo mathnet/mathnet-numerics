@@ -177,11 +177,19 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
+        /// Gets all modes of the distribution.
+        /// </summary>
+        public int[] Modes
+        {
+            get { return _p < 0.5 ? new[] { 0 } : P > 0.5 ? new[] { 1 } : new[] { 0, 1 }; }
+        }
+
+        /// <summary>
         /// Gets the median of the distribution.
         /// </summary>
-        public int Median
+        public double Median
         {
-            get { throw new NotSupportedException("The median of the Bernoulli distribution is undefined."); }
+            get { return _p < 0.5 ? 0.0 : _p > 0.5 ? 1.0 : 0.5; }
         }
 
         /// <summary>

@@ -277,9 +277,9 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Gets the median of the distribution.
         /// </summary>
-        public int Median
+        public double Median
         {
-            get { return (int) _pmfNormalized.Median(); }
+            get { return _pmfNormalized.Median(); }
         }
 
         /// <summary>

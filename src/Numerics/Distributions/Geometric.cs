@@ -162,9 +162,9 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Gets the median of the distribution.
         /// </summary>
-        public int Median
+        public double Median
         {
-            get { return (int)Math.Ceiling(-Constants.Ln2/Math.Log(1 - _p)); }
+            get { return _p == 0.0 ? double.PositiveInfinity : _p == 1.0 ? 1.0 : Math.Ceiling(-Constants.Ln2/Math.Log(1 - _p)); }
         }
 
         /// <summary>
