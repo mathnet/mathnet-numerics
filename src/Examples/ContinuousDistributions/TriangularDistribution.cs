@@ -30,7 +30,7 @@ using MathNet.Numerics.Distributions;
 namespace Examples.ContinuousDistributionsExamples
 {
     /// <summary>
-    /// ContinuousUniform distribution example
+    /// Triangular distribution example
     /// </summary>
     public class TriangularDistribution : IExample
     {
