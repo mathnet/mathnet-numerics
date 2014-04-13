@@ -39,6 +39,7 @@ namespace MathNet.Numerics.Statistics
     /// (the only statistics they provide exact values for) and exceeds them
     /// in increased accuracy mode.
     /// </summary>
+    /// <remarks>Consider to use RunningStatistics instead.</remarks>
     public class DescriptiveStatistics
     {
         /// <summary>

@@ -49,16 +49,17 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
     public class StatisticsTests
     {
         readonly IDictionary<string, StatTestData> _data = new Dictionary<string, StatTestData>
-            {
-                {"lottery", new StatTestData("./data/NIST/Lottery.dat")},
-                {"lew", new StatTestData("./data/NIST/Lew.dat")},
-                {"mavro", new StatTestData("./data/NIST/Mavro.dat")},
-                {"michelso", new StatTestData("./data/NIST/Michelso.dat")},
-                {"numacc1", new StatTestData("./data/NIST/NumAcc1.dat")},
-                {"numacc2", new StatTestData("./data/NIST/NumAcc2.dat")},
-                {"numacc3", new StatTestData("./data/NIST/NumAcc3.dat")},
-                {"numacc4", new StatTestData("./data/NIST/NumAcc4.dat")}
-            };
+        {
+            { "lottery", new StatTestData("./data/NIST/Lottery.dat") },
+            { "lew", new StatTestData("./data/NIST/Lew.dat") },
+            { "mavro", new StatTestData("./data/NIST/Mavro.dat") },
+            { "michelso", new StatTestData("./data/NIST/Michelso.dat") },
+            { "numacc1", new StatTestData("./data/NIST/NumAcc1.dat") },
+            { "numacc2", new StatTestData("./data/NIST/NumAcc2.dat") },
+            { "numacc3", new StatTestData("./data/NIST/NumAcc3.dat") },
+            { "numacc4", new StatTestData("./data/NIST/NumAcc4.dat") },
+            { "meixner", new StatTestData("./data/NIST/Meixner.dat") }
+        };
 
         [Test]
         public void ThrowsOnNullData()
@@ -257,7 +258,7 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
         [Test]
         public void MinimumMaximumOnShortSequence()
         {
-            var samples = new[] {-1.0, 5, 0, -3, 10, -0.5, 4};
+            var samples = new[] { -1.0, 5, 0, -3, 10, -0.5, 4 };
             Assert.That(Statistics.Minimum(samples), Is.EqualTo(-3), "Min");
             Assert.That(Statistics.Maximum(samples), Is.EqualTo(10), "Max");
             Assert.That(ArrayStatistics.Minimum(samples), Is.EqualTo(-3), "Min");
@@ -331,7 +332,7 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
             // R: quantile(c(-1,5,0,-3,10,-0.5,4,0.2,1,6),probs=c(0,1,0.5,0.2,0.7,0.01,0.99,0.52,0.325),type=1)
             // Mathematica: Quantile[{-1,5,0,-3,10,-1/2,4,1/5,1,6},{0,1,1/2,1/5,7/10,1/100,99/100,13/25,13/40},{{0,0},{1,0}}]
 
-            var samples = new[] {-1, 5, 0, -3, 10, -0.5, 4, 0.2, 1, 6};
+            var samples = new[] { -1, 5, 0, -3, 10, -0.5, 4, 0.2, 1, 6 };
 
             Assert.AreEqual(expected, Statistics.EmpiricalInvCDF(samples, tau), 1e-14);
             Assert.AreEqual(expected, Statistics.EmpiricalInvCDFFunc(samples)(tau), 1e-14);
@@ -360,7 +361,7 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
             // R: quantile(c(-1,5,0,-3,10,-0.5,4,0.2,1,6),probs=c(0,1,0.5,0.2,0.7,0.01,0.99,0.52,0.325),type=2)
             // Mathematica: Not Supported
 
-            var samples = new[] {-1, 5, 0, -3, 10, -0.5, 4, 0.2, 1, 6};
+            var samples = new[] { -1, 5, 0, -3, 10, -0.5, 4, 0.2, 1, 6 };
 
             Assert.AreEqual(expected, Statistics.QuantileCustom(samples, tau, QuantileDefinition.R2), 1e-14);
             Assert.AreEqual(expected, Statistics.QuantileCustomFunc(samples, QuantileDefinition.R2)(tau), 1e-14);
@@ -385,7 +386,7 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
             // R: quantile(c(-1,5,0,-3,10,-0.5,4,0.2,1,6),probs=c(0,1,0.5,0.2,0.7,0.01,0.99,0.52,0.325),type=3)
             // Mathematica: Quantile[{-1,5,0,-3,10,-1/2,4,1/5,1,6},{0,1,1/2,1/5,7/10,1/100,99/100,13/25,13/40},{{1/2,0},{0,0}}]
 
-            var samples = new[] {-1, 5, 0, -3, 10, -0.5, 4, 0.2, 1, 6};
+            var samples = new[] { -1, 5, 0, -3, 10, -0.5, 4, 0.2, 1, 6 };
 
             Assert.AreEqual(expected, Statistics.QuantileCustom(samples, tau, QuantileDefinition.R3), 1e-14);
             Assert.AreEqual(expected, Statistics.QuantileCustomFunc(samples, QuantileDefinition.R3)(tau), 1e-14);
@@ -412,7 +413,7 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
             // R: quantile(c(-1,5,0,-3,10,-0.5,4,0.2,1,6),probs=c(0,1,0.5,0.2,0.7,0.01,0.99,0.52,0.325),type=4)
             // Mathematica: Quantile[{-1,5,0,-3,10,-1/2,4,1/5,1,6},{0,1,1/2,1/5,7/10,1/100,99/100,13/25,13/40},{{0,0},{0,1}}]
 
-            var samples = new[] {-1, 5, 0, -3, 10, -0.5, 4, 0.2, 1, 6};
+            var samples = new[] { -1, 5, 0, -3, 10, -0.5, 4, 0.2, 1, 6 };
 
             Assert.AreEqual(expected, Statistics.QuantileCustom(samples, tau, QuantileDefinition.R4), 1e-14);
             Assert.AreEqual(expected, Statistics.QuantileCustomFunc(samples, QuantileDefinition.R4)(tau), 1e-14);
@@ -439,7 +440,7 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
             // R: quantile(c(-1,5,0,-3,10,-0.5,4,0.2,1,6),probs=c(0,1,0.5,0.2,0.7,0.01,0.99,0.52,0.325),type=5)
             // Mathematica: Quantile[{-1,5,0,-3,10,-1/2,4,1/5,1,6},{0,1,1/2,1/5,7/10,1/100,99/100,13/25,13/40},{{1/2,0},{0,1}}]
 
-            var samples = new[] {-1, 5, 0, -3, 10, -0.5, 4, 0.2, 1, 6};
+            var samples = new[] { -1, 5, 0, -3, 10, -0.5, 4, 0.2, 1, 6 };
 
             Assert.AreEqual(expected, Statistics.QuantileCustom(samples, tau, QuantileDefinition.R5), 1e-14);
             Assert.AreEqual(expected, Statistics.QuantileCustomFunc(samples, QuantileDefinition.R5)(tau), 1e-14);
@@ -466,7 +467,7 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
             // R: quantile(c(-1,5,0,-3,10,-0.5,4,0.2,1,6),probs=c(0,1,0.5,0.2,0.7,0.01,0.99,0.52,0.325),type=6)
             // Mathematica: Quantile[{-1,5,0,-3,10,-1/2,4,1/5,1,6},{0,1,1/2,1/5,7/10,1/100,99/100,13/25,13/40},{{0,1},{0,1}}]
 
-            var samples = new[] {-1, 5, 0, -3, 10, -0.5, 4, 0.2, 1, 6};
+            var samples = new[] { -1, 5, 0, -3, 10, -0.5, 4, 0.2, 1, 6 };
 
             Assert.AreEqual(expected, Statistics.QuantileCustom(samples, tau, QuantileDefinition.R6), 1e-14);
             Assert.AreEqual(expected, Statistics.QuantileCustomFunc(samples, QuantileDefinition.R6)(tau), 1e-14);
@@ -493,7 +494,7 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
             // R: quantile(c(-1,5,0,-3,10,-0.5,4,0.2,1,6),probs=c(0,1,0.5,0.2,0.7,0.01,0.99,0.52,0.325),type=7)
             // Mathematica: Quantile[{-1,5,0,-3,10,-1/2,4,1/5,1,6},{0,1,1/2,1/5,7/10,1/100,99/100,13/25,13/40},{{1,-1},{0,1}}]
 
-            var samples = new[] {-1, 5, 0, -3, 10, -0.5, 4, 0.2, 1, 6};
+            var samples = new[] { -1, 5, 0, -3, 10, -0.5, 4, 0.2, 1, 6 };
 
             Assert.AreEqual(expected, Statistics.QuantileCustom(samples, tau, QuantileDefinition.R7), 1e-14);
             Assert.AreEqual(expected, Statistics.QuantileCustomFunc(samples, QuantileDefinition.R7)(tau), 1e-14);
@@ -519,7 +520,7 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
         {
             // R: quantile(c(-1,5,0,-3,10,-0.5,4,0.2,1,6),probs=c(0,1,0.5,0.2,0.7,0.01,0.99,0.52,0.325),type=8)
             // Mathematica: Quantile[{-1,5,0,-3,10,-1/2,4,1/5,1,6},{0,1,1/2,1/5,7/10,1/100,99/100,13/25,13/40},{{1/3,1/3},{0,1}}]
-            var samples = new[] {-1, 5, 0, -3, 10, -0.5, 4, 0.2, 1, 6};
+            var samples = new[] { -1, 5, 0, -3, 10, -0.5, 4, 0.2, 1, 6 };
 
             Assert.AreEqual(expected, Statistics.Quantile(samples, tau), 1e-14);
             Assert.AreEqual(expected, Statistics.QuantileCustom(samples, tau, QuantileDefinition.R8), 1e-14);
@@ -527,7 +528,7 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
 
             Assert.AreEqual(expected, ArrayStatistics.QuantileInplace(samples, tau), 1e-14);
             Assert.AreEqual(expected, ArrayStatistics.QuantileCustomInplace(samples, tau, QuantileDefinition.Median), 1e-14);
-            Assert.AreEqual(expected, ArrayStatistics.QuantileCustomInplace(samples, tau, 1 / 3d, 1 / 3d, 0d, 1d), 1e-14);
+            Assert.AreEqual(expected, ArrayStatistics.QuantileCustomInplace(samples, tau, 1/3d, 1/3d, 0d, 1d), 1e-14);
 
             Array.Sort(samples);
             Assert.AreEqual(expected, SortedArrayStatistics.Quantile(samples, tau), 1e-14);
@@ -548,7 +549,7 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
         {
             // R: quantile(c(-1,5,0,-3,10,-0.5,4,0.2,1,6),probs=c(0,1,0.5,0.2,0.7,0.01,0.99,0.52,0.325),type=9)
             // Mathematica: Quantile[{-1,5,0,-3,10,-1/2,4,1/5,1,6},{0,1,1/2,1/5,7/10,1/100,99/100,13/25,13/40},{{3/8,1/4},{0,1}}]
-            var samples = new[] {-1, 5, 0, -3, 10, -0.5, 4, 0.2, 1, 6};
+            var samples = new[] { -1, 5, 0, -3, 10, -0.5, 4, 0.2, 1, 6 };
 
             Assert.AreEqual(expected, Statistics.QuantileCustom(samples, tau, QuantileDefinition.R9), 1e-14);
             Assert.AreEqual(expected, Statistics.QuantileCustomFunc(samples, QuantileDefinition.R9)(tau), 1e-14);
@@ -746,7 +747,7 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
         {
             // R: median(c(-1,5,0,-3,10,-0.5,4,0.2,1,6))
             // Mathematica: Median[{-1,5,0,-3,10,-1/2,4,1/5,1,6}]
-            var even = new[] {-1, 5, 0, -3, 10, -0.5, 4, 0.2, 1, 6};
+            var even = new[] { -1, 5, 0, -3, 10, -0.5, 4, 0.2, 1, 6 };
             Assert.AreEqual(0.6d, Statistics.Median(even), 1e-14);
             Assert.AreEqual(0.6d, ArrayStatistics.MedianInplace(even), 1e-14);
             Array.Sort(even);
@@ -835,16 +836,39 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
         [TestCase("mavro")]
         [TestCase("michelso")]
         [TestCase("numacc1")]
+        [TestCase("numacc2")]
+        [TestCase("meixner")]
         public void ArrayStatisticsConsistentWithStreamimgStatistics(string dataSet)
         {
             var data = _data[dataSet];
-            AssertHelpers.AlmostEqualRelative(ArrayStatistics.Mean(data.Data), StreamingStatistics.Mean(data.Data), 10);
-            AssertHelpers.AlmostEqualRelative(ArrayStatistics.Variance(data.Data), StreamingStatistics.Variance(data.Data), 10);
-            AssertHelpers.AlmostEqualRelative(ArrayStatistics.StandardDeviation(data.Data), StreamingStatistics.StandardDeviation(data.Data), 10);
-            AssertHelpers.AlmostEqualRelative(ArrayStatistics.PopulationVariance(data.Data), StreamingStatistics.PopulationVariance(data.Data), 10);
-            AssertHelpers.AlmostEqualRelative(ArrayStatistics.PopulationStandardDeviation(data.Data), StreamingStatistics.PopulationStandardDeviation(data.Data), 10);
-            AssertHelpers.AlmostEqualRelative(ArrayStatistics.Covariance(data.Data, data.Data), StreamingStatistics.Covariance(data.Data, data.Data), 10);
-            AssertHelpers.AlmostEqualRelative(ArrayStatistics.PopulationCovariance(data.Data, data.Data), StreamingStatistics.PopulationCovariance(data.Data, data.Data), 10);
+            Assert.That(ArrayStatistics.Mean(data.Data), Is.EqualTo(StreamingStatistics.Mean(data.Data)).Within(1e-15), "Mean");
+            Assert.That(ArrayStatistics.Variance(data.Data), Is.EqualTo(StreamingStatistics.Variance(data.Data)).Within(1e-15), "Variance");
+            Assert.That(ArrayStatistics.StandardDeviation(data.Data), Is.EqualTo(StreamingStatistics.StandardDeviation(data.Data)).Within(1e-15), "StandardDeviation");
+            Assert.That(ArrayStatistics.PopulationVariance(data.Data), Is.EqualTo(StreamingStatistics.PopulationVariance(data.Data)).Within(1e-15), "PopulationVariance");
+            Assert.That(ArrayStatistics.PopulationStandardDeviation(data.Data), Is.EqualTo(StreamingStatistics.PopulationStandardDeviation(data.Data)).Within(1e-15), "PopulationStandardDeviation");
+            Assert.That(ArrayStatistics.Covariance(data.Data, data.Data), Is.EqualTo(StreamingStatistics.Covariance(data.Data, data.Data)).Within(1e-10), "Covariance");
+            Assert.That(ArrayStatistics.PopulationCovariance(data.Data, data.Data), Is.EqualTo(StreamingStatistics.PopulationCovariance(data.Data, data.Data)).Within(1e-10), "PopulationCovariance");
+        }
+
+        [TestCase("lottery")]
+        [TestCase("lew")]
+        [TestCase("mavro")]
+        [TestCase("michelso")]
+        [TestCase("numacc1")]
+        [TestCase("numacc2")]
+        [TestCase("meixner")]
+        public void RunningStatisticsConsistentWithDescriptiveStatistics(string dataSet)
+        {
+            var data = _data[dataSet];
+            var running = new RunningStatistics(data.Data);
+            var descriptive = new DescriptiveStatistics(data.Data);
+            Assert.That(running.Minimum, Is.EqualTo(descriptive.Minimum), "Minimum");
+            Assert.That(running.Maximum, Is.EqualTo(descriptive.Maximum), "Maximum");
+            Assert.That(running.Mean, Is.EqualTo(descriptive.Mean).Within(1e-15), "Mean");
+            Assert.That(running.Variance, Is.EqualTo(descriptive.Variance).Within(1e-15), "Variance");
+            Assert.That(running.StandardDeviation, Is.EqualTo(descriptive.StandardDeviation).Within(1e-15), "StandardDeviation");
+            Assert.That(running.Skewness, Is.EqualTo(descriptive.Skewness).Within(1e-15), "Skewness");
+            Assert.That(running.Kurtosis, Is.EqualTo(descriptive.Kurtosis).Within(1e-14), "Kurtosis");
         }
 
         [Test]
@@ -956,11 +980,11 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
         {
             Assert.That(Statistics.Median(new[] { 2.0, double.NegativeInfinity, double.PositiveInfinity }), Is.EqualTo(2.0));
             Assert.That(Statistics.Median(new[] { 2.0, double.NegativeInfinity, 3.0, double.PositiveInfinity }), Is.EqualTo(2.5));
-            Assert.That(ArrayStatistics.MedianInplace(new[] { 2.0, double.NegativeInfinity, double.PositiveInfinity}), Is.EqualTo(2.0));
+            Assert.That(ArrayStatistics.MedianInplace(new[] { 2.0, double.NegativeInfinity, double.PositiveInfinity }), Is.EqualTo(2.0));
             Assert.That(ArrayStatistics.MedianInplace(new[] { double.NegativeInfinity, 2.0, double.PositiveInfinity }), Is.EqualTo(2.0));
             Assert.That(ArrayStatistics.MedianInplace(new[] { double.NegativeInfinity, double.PositiveInfinity, 2.0 }), Is.EqualTo(2.0));
             Assert.That(ArrayStatistics.MedianInplace(new[] { double.NegativeInfinity, 2.0, 3.0, double.PositiveInfinity }), Is.EqualTo(2.5));
-            Assert.That(ArrayStatistics.MedianInplace(new[] { double.NegativeInfinity, 2.0, double.PositiveInfinity, 3.0,  }), Is.EqualTo(2.5));
+            Assert.That(ArrayStatistics.MedianInplace(new[] { double.NegativeInfinity, 2.0, double.PositiveInfinity, 3.0, }), Is.EqualTo(2.5));
             Assert.That(SortedArrayStatistics.Median(new[] { double.NegativeInfinity, 2.0, double.PositiveInfinity }), Is.EqualTo(2.0));
             Assert.That(SortedArrayStatistics.Median(new[] { double.NegativeInfinity, 2.0, 3.0, double.PositiveInfinity }), Is.EqualTo(2.5));
         }
