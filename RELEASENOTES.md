@@ -30,7 +30,7 @@ Supported Platforms:
 
 - .Net 4.0, .Net 3.5 and Mono: Windows, Linux and Mac.
 - PCL Portable Profiles 47 and 136: Silverlight 5, Windows Phone 8, .NET for Windows Store apps (Metro).
-- PCL/Xamarin: Andoid, iOS
+- PCL/Xamarin: Android, iOS
 
 Over time some members and classes have been replaced with more suitable alternatives. In order to maintain compatibility, such parts are not removed immediately but instead marked with the **Obsolete**-attribute. We strongly recommend to follow the instructions in the attribute text whenever you find any code calling an obsolete member, since we *do* intend to remove them at the next *major* release.
 

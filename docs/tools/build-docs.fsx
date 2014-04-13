@@ -12,7 +12,7 @@ let website = "http://numerics.mathdotnet.com/docs"
 let info =
   [ "project-name", "Math.NET Numerics"
     "project-author", "Christoph Ruegg, Marcus Cuda, Jurgen Van Gael"
-    "project-summary", "Math.NET Numerics, providing methods and algorithms for numerical computations in science, engineering and every day use. .Net 4, .Net 3.5, SL5, Win8, WP8, PCL 47 and 136, Mono, Xamarin Andoid/iOS."
+    "project-summary", "Math.NET Numerics, providing methods and algorithms for numerical computations in science, engineering and every day use. .Net 4, .Net 3.5, SL5, Win8, WP8, PCL 47 and 136, Mono, Xamarin Android/iOS."
     "project-github", "http://github.com/mathnet/mathnet-numerics"
     "project-nuget", "http://nuget.com/packages/MathNet.Numerics" ]
 
