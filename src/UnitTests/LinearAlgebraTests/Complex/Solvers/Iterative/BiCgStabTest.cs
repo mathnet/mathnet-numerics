@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2013 Math.NET
+// Copyright (c) 2009-2014 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -41,6 +41,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.Iterativ
     using Complex = Numerics.Complex;
 #else
     using Complex = System.Numerics.Complex;
+
 #endif
 
     /// <summary>
@@ -99,10 +100,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.Iterativ
 
             // Create an iteration monitor which will keep track of iterative convergence
             var monitor = new Iterator<Complex>(
-                new IterationCountStopCriterium<Complex>(MaximumIterations),
-                new ResidualStopCriterium<Complex>(ConvergenceBoundary),
-                new DivergenceStopCriterium<Complex>(),
-                new FailureStopCriterium<Complex>());
+                new IterationCountStopCriterion<Complex>(MaximumIterations),
+                new ResidualStopCriterion<Complex>(ConvergenceBoundary),
+                new DivergenceStopCriterion<Complex>(),
+                new FailureStopCriterion<Complex>());
 
             var solver = new BiCgStab();
 
@@ -142,10 +143,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.Iterativ
             var y = DenseVector.Create(matrix.RowCount, i => Complex.One);
 
             // Create an iteration monitor which will keep track of iterative convergence
-            var monitor = new Iterator<Complex>(new IterationCountStopCriterium<Complex>(MaximumIterations),
-                new ResidualStopCriterium<Complex>(ConvergenceBoundary),
-                new DivergenceStopCriterium<Complex>(),
-                new FailureStopCriterium<Complex>());
+            var monitor = new Iterator<Complex>(new IterationCountStopCriterion<Complex>(MaximumIterations),
+                new ResidualStopCriterion<Complex>(ConvergenceBoundary),
+                new DivergenceStopCriterion<Complex>(),
+                new FailureStopCriterion<Complex>());
 
             var solver = new BiCgStab();
 
@@ -218,10 +219,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.Iterativ
             var y = DenseVector.Create(matrix.RowCount, i => Complex.One);
 
             // Create an iteration monitor which will keep track of iterative convergence
-            var monitor = new Iterator<Complex>(new IterationCountStopCriterium<Complex>(MaximumIterations),
-                new ResidualStopCriterium<Complex>(ConvergenceBoundary),
-                new DivergenceStopCriterium<Complex>(),
-                new FailureStopCriterium<Complex>());
+            var monitor = new Iterator<Complex>(new IterationCountStopCriterion<Complex>(MaximumIterations),
+                new ResidualStopCriterion<Complex>(ConvergenceBoundary),
+                new DivergenceStopCriterion<Complex>(),
+                new FailureStopCriterion<Complex>());
 
             var solver = new BiCgStab();
 
@@ -258,8 +259,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.Iterativ
             var vectorb = Vector<Complex>.Build.Random(order, 1);
 
             var monitor = new Iterator<Complex>(
-                new IterationCountStopCriterium<Complex>(1000),
-                new ResidualStopCriterium<Complex>(1e-10));
+                new IterationCountStopCriterion<Complex>(1000),
+                new ResidualStopCriterion<Complex>(1e-10));
 
             var solver = new BiCgStab();
 
@@ -289,8 +290,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.Iterativ
             var matrixB = Matrix<Complex>.Build.Random(order, order, 1);
 
             var monitor = new Iterator<Complex>(
-                new IterationCountStopCriterium<Complex>(1000),
-                new ResidualStopCriterium<Complex>(1e-10));
+                new IterationCountStopCriterion<Complex>(1000),
+                new ResidualStopCriterion<Complex>(1e-10));
 
             var solver = new BiCgStab();
             var matrixX = matrixA.SolveIterative(matrixB, solver, monitor);

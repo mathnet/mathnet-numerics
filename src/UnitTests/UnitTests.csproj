@@ -190,10 +190,10 @@
     <Compile Include="LinearAlgebraTests\Complex32\Solvers\Preconditioners\IncompleteLUTest.cs" />
     <Compile Include="LinearAlgebraTests\Complex32\Solvers\Preconditioners\PreConditionerTest.cs" />
     <Compile Include="LinearAlgebraTests\Complex32\Solvers\Preconditioners\UnitPreconditionerTest.cs" />
-    <Compile Include="LinearAlgebraTests\Complex32\Solvers\StopCriterium\DivergenceStopCriteriumTest.cs" />
-    <Compile Include="LinearAlgebraTests\Complex32\Solvers\StopCriterium\FailureStopCriteriumTest.cs" />
-    <Compile Include="LinearAlgebraTests\Complex32\Solvers\StopCriterium\IterationCountStopCriteriumTest.cs" />
-    <Compile Include="LinearAlgebraTests\Complex32\Solvers\StopCriterium\ResidualStopCriteriumTest.cs" />
+    <Compile Include="LinearAlgebraTests\Complex32\Solvers\StopCriterion\DivergenceStopCriteriumTest.cs" />
+    <Compile Include="LinearAlgebraTests\Complex32\Solvers\StopCriterion\FailureStopCriteriumTest.cs" />
+    <Compile Include="LinearAlgebraTests\Complex32\Solvers\StopCriterion\IterationCountStopCriteriumTest.cs" />
+    <Compile Include="LinearAlgebraTests\Complex32\Solvers\StopCriterion\ResidualStopCriteriumTest.cs" />
     <Compile Include="LinearAlgebraTests\Complex32\SparseMatrixTests.cs" />
     <Compile Include="LinearAlgebraTests\Complex32\SparseVectorArithmeticTheory.cs" />
     <Compile Include="LinearAlgebraTests\Complex32\SparseVectorTest.cs" />
@@ -239,10 +239,10 @@
     <Compile Include="LinearAlgebraTests\Complex\Solvers\Preconditioners\IncompleteLUTest.cs" />
     <Compile Include="LinearAlgebraTests\Complex\Solvers\Preconditioners\PreConditionerTest.cs" />
     <Compile Include="LinearAlgebraTests\Complex\Solvers\Preconditioners\UnitPreconditionerTest.cs" />
-    <Compile Include="LinearAlgebraTests\Complex\Solvers\StopCriterium\DivergenceStopCriteriumTest.cs" />
-    <Compile Include="LinearAlgebraTests\Complex\Solvers\StopCriterium\FailureStopCriteriumTest.cs" />
-    <Compile Include="LinearAlgebraTests\Complex\Solvers\StopCriterium\IterationCountStopCriteriumTest.cs" />
-    <Compile Include="LinearAlgebraTests\Complex\Solvers\StopCriterium\ResidualStopCriteriumTest.cs" />
+    <Compile Include="LinearAlgebraTests\Complex\Solvers\StopCriterion\DivergenceStopCriteriumTest.cs" />
+    <Compile Include="LinearAlgebraTests\Complex\Solvers\StopCriterion\FailureStopCriteriumTest.cs" />
+    <Compile Include="LinearAlgebraTests\Complex\Solvers\StopCriterion\IterationCountStopCriteriumTest.cs" />
+    <Compile Include="LinearAlgebraTests\Complex\Solvers\StopCriterion\ResidualStopCriteriumTest.cs" />
     <Compile Include="LinearAlgebraTests\Complex\SparseMatrixTests.cs" />
     <Compile Include="LinearAlgebraTests\Complex\SparseVectorArithmeticTheory.cs" />
     <Compile Include="LinearAlgebraTests\Complex\SparseVectorTest.cs" />
@@ -257,6 +257,10 @@
     <Compile Include="LinearAlgebraTests\Complex\VectorTests.Norm.cs" />
     <Compile Include="LinearAlgebraTests\Double\MatrixStructureTheory.cs" />
     <Compile Include="LinearAlgebraTests\Double\ReturnTypeTests.cs" />
+    <Compile Include="LinearAlgebraTests\Double\Solvers\StopCriterion\DivergenceStopCriteriumTest.cs" />
+    <Compile Include="LinearAlgebraTests\Double\Solvers\StopCriterion\FailureStopCriteriumTest.cs" />
+    <Compile Include="LinearAlgebraTests\Double\Solvers\StopCriterion\IterationCountStopCriteriumTest.cs" />
+    <Compile Include="LinearAlgebraTests\Double\Solvers\StopCriterion\ResidualStopCriteriumTest.cs" />
     <Compile Include="LinearAlgebraTests\Double\SparseVectorArithmeticTheory.cs" />
     <Compile Include="LinearAlgebraTests\Double\DenseMatrixTests.cs" />
     <Compile Include="LinearAlgebraTests\Double\DenseVectorTest.TextHandling.cs" />
@@ -289,10 +293,6 @@
     <Compile Include="LinearAlgebraTests\Double\Solvers\Preconditioners\IncompleteLUTest.cs" />
     <Compile Include="LinearAlgebraTests\Double\Solvers\Preconditioners\PreConditionerTest.cs" />
     <Compile Include="LinearAlgebraTests\Double\Solvers\Preconditioners\UnitPreconditionerTest.cs" />
-    <Compile Include="LinearAlgebraTests\Double\Solvers\StopCriterium\DivergenceStopCriteriumTest.cs" />
-    <Compile Include="LinearAlgebraTests\Double\Solvers\StopCriterium\FailureStopCriteriumTest.cs" />
-    <Compile Include="LinearAlgebraTests\Double\Solvers\StopCriterium\IterationCountStopCriteriumTest.cs" />
-    <Compile Include="LinearAlgebraTests\Double\Solvers\StopCriterium\ResidualStopCriteriumTest.cs" />
     <Compile Include="LinearAlgebraTests\Double\SparseMatrixTests.cs" />
     <Compile Include="LinearAlgebraTests\Double\SparseVectorTest.cs" />
     <Compile Include="LinearAlgebraTests\Double\SparseVectorTest.TextHandling.cs" />
@@ -339,10 +339,10 @@
     <Compile Include="LinearAlgebraTests\Single\Solvers\Preconditioners\IncompleteLUTest.cs" />
     <Compile Include="LinearAlgebraTests\Single\Solvers\Preconditioners\PreConditionerTest.cs" />
     <Compile Include="LinearAlgebraTests\Single\Solvers\Preconditioners\UnitPreconditionerTest.cs" />
-    <Compile Include="LinearAlgebraTests\Single\Solvers\StopCriterium\DivergenceStopCriteriumTest.cs" />
-    <Compile Include="LinearAlgebraTests\Single\Solvers\StopCriterium\FailureStopCriteriumTest.cs" />
-    <Compile Include="LinearAlgebraTests\Single\Solvers\StopCriterium\IterationCountStopCriteriumTest.cs" />
-    <Compile Include="LinearAlgebraTests\Single\Solvers\StopCriterium\ResidualStopCriteriumTest.cs" />
+    <Compile Include="LinearAlgebraTests\Single\Solvers\StopCriterion\DivergenceStopCriteriumTest.cs" />
+    <Compile Include="LinearAlgebraTests\Single\Solvers\StopCriterion\FailureStopCriteriumTest.cs" />
+    <Compile Include="LinearAlgebraTests\Single\Solvers\StopCriterion\IterationCountStopCriteriumTest.cs" />
+    <Compile Include="LinearAlgebraTests\Single\Solvers\StopCriterion\ResidualStopCriteriumTest.cs" />
     <Compile Include="LinearAlgebraTests\Single\SparseMatrixTests.cs" />
     <Compile Include="LinearAlgebraTests\Single\SparseVectorArithmeticTheory.cs" />
     <Compile Include="LinearAlgebraTests\Single\SparseVectorTest.cs" />
@@ -687,6 +687,7 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
 </Project>

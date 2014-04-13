@@ -1,10 +1,10 @@
-// <copyright file="FailureStopCriteriumTest.cs" company="Math.NET">
+// <copyright file="FailureStopCriterionTest.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2013 Math.NET
+// Copyright (c) 2009-2014 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -34,13 +34,13 @@ using MathNet.Numerics.LinearAlgebra.Double;
 using MathNet.Numerics.LinearAlgebra.Solvers;
 using NUnit.Framework;
 
-namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.StopCriterium
+namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.StopCriterion
 {
     /// <summary>
-    /// Failure stop criterium tests.
+    /// Failure stop criterion tests.
     /// </summary>
     [TestFixture, Category("LASolver")]
-    public sealed class FailureStopCriteriumTest
+    public sealed class FailureStopCriterionTest
     {
         /// <summary>
         /// Can create.
@@ -48,8 +48,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.StopCrite
         [Test]
         public void Create()
         {
-            var criterium = new FailureStopCriterium<double>();
-            Assert.IsNotNull(criterium, "Should have a criterium now");
+            var criterion = new FailureStopCriterion<double>();
+            Assert.IsNotNull(criterion, "Should have a criterion now");
         }
 
         /// <summary>
@@ -58,10 +58,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.StopCrite
         [Test]
         public void DetermineStatusWithIllegalIterationNumberThrowsArgumentOutOfRangeException()
         {
-            var criterium = new FailureStopCriterium<double>();
-            Assert.IsNotNull(criterium, "There should be a criterium");
+            var criterion = new FailureStopCriterion<double>();
+            Assert.IsNotNull(criterion, "There should be a criterion");
 
-            Assert.That(() => criterium.DetermineStatus(-1, Vector<double>.Build.Dense(3, 4), Vector<double>.Build.Dense(3, 5), Vector<double>.Build.Dense(3, 6)), Throws.TypeOf<ArgumentOutOfRangeException>());
+            Assert.That(() => criterion.DetermineStatus(-1, Vector<double>.Build.Dense(3, 4), Vector<double>.Build.Dense(3, 5), Vector<double>.Build.Dense(3, 6)), Throws.TypeOf<ArgumentOutOfRangeException>());
         }
 
         /// <summary>
@@ -70,10 +70,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.StopCrite
         [Test]
         public void DetermineStatusWithNonMatchingVectorsThrowsArgumentException()
         {
-            var criterium = new FailureStopCriterium<double>();
-            Assert.IsNotNull(criterium, "There should be a criterium");
+            var criterion = new FailureStopCriterion<double>();
+            Assert.IsNotNull(criterion, "There should be a criterion");
 
-            Assert.That(() => criterium.DetermineStatus(1, Vector<double>.Build.Dense(3, 4), Vector<double>.Build.Dense(3, 6), Vector<double>.Build.Dense(4, 4)), Throws.ArgumentException);
+            Assert.That(() => criterion.DetermineStatus(1, Vector<double>.Build.Dense(3, 4), Vector<double>.Build.Dense(3, 6), Vector<double>.Build.Dense(4, 4)), Throws.ArgumentException);
         }
 
         /// <summary>
@@ -82,14 +82,14 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.StopCrite
         [Test]
         public void DetermineStatusWithResidualNaN()
         {
-            var criterium = new FailureStopCriterium<double>();
-            Assert.IsNotNull(criterium, "There should be a criterium");
+            var criterion = new FailureStopCriterion<double>();
+            Assert.IsNotNull(criterion, "There should be a criterion");
 
-            var solution = new DenseVector(new[] {1.0, 1.0, 2.0});
-            var source = new DenseVector(new[] {1001.0, 0, 2003.0});
-            var residual = new DenseVector(new[] {1000, double.NaN, 2001});
+            var solution = new DenseVector(new[] { 1.0, 1.0, 2.0 });
+            var source = new DenseVector(new[] { 1001.0, 0, 2003.0 });
+            var residual = new DenseVector(new[] { 1000, double.NaN, 2001 });
 
-            var status = criterium.DetermineStatus(5, solution, source, residual);
+            var status = criterion.DetermineStatus(5, solution, source, residual);
             Assert.AreEqual(IterationStatus.Failure, status, "Should be failed");
         }
 
@@ -99,14 +99,14 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.StopCrite
         [Test]
         public void DetermineStatusWithSolutionNaN()
         {
-            var criterium = new FailureStopCriterium<double>();
-            Assert.IsNotNull(criterium, "There should be a criterium");
+            var criterion = new FailureStopCriterion<double>();
+            Assert.IsNotNull(criterion, "There should be a criterion");
 
-            var solution = new DenseVector(new[] {1.0, 1.0, double.NaN});
-            var source = new DenseVector(new[] {1001.0, 0.0, 2003.0});
-            var residual = new DenseVector(new[] {1000.0, 1000.0, 2001.0});
+            var solution = new DenseVector(new[] { 1.0, 1.0, double.NaN });
+            var source = new DenseVector(new[] { 1001.0, 0.0, 2003.0 });
+            var residual = new DenseVector(new[] { 1000.0, 1000.0, 2001.0 });
 
-            var status = criterium.DetermineStatus(5, solution, source, residual);
+            var status = criterion.DetermineStatus(5, solution, source, residual);
             Assert.AreEqual(IterationStatus.Failure, status, "Should be failed");
         }
 
@@ -116,14 +116,14 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.StopCrite
         [Test]
         public void DetermineStatus()
         {
-            var criterium = new FailureStopCriterium<double>();
-            Assert.IsNotNull(criterium, "There should be a criterium");
+            var criterion = new FailureStopCriterion<double>();
+            Assert.IsNotNull(criterion, "There should be a criterion");
 
-            var solution = new DenseVector(new[] {3.0, 2.0, 1.0});
-            var source = new DenseVector(new[] {1001.0, 0.0, 2003.0});
-            var residual = new DenseVector(new[] {1.0, 2.0, 3.0});
+            var solution = new DenseVector(new[] { 3.0, 2.0, 1.0 });
+            var source = new DenseVector(new[] { 1001.0, 0.0, 2003.0 });
+            var residual = new DenseVector(new[] { 1.0, 2.0, 3.0 });
 
-            var status = criterium.DetermineStatus(5, solution, source, residual);
+            var status = criterion.DetermineStatus(5, solution, source, residual);
             Assert.AreEqual(IterationStatus.Continue, status, "Should be running");
         }
 
@@ -133,30 +133,30 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.StopCrite
         [Test]
         public void ResetCalculationState()
         {
-            var criterium = new FailureStopCriterium<double>();
-            Assert.IsNotNull(criterium, "There should be a criterium");
+            var criterion = new FailureStopCriterion<double>();
+            Assert.IsNotNull(criterion, "There should be a criterion");
 
-            var solution = new DenseVector(new[] {1.0, 1.0, 2.0});
-            var source = new DenseVector(new[] {1001.0, 0.0, 2003.0});
-            var residual = new DenseVector(new[] {1000.0, 1000.0, 2001.0});
+            var solution = new DenseVector(new[] { 1.0, 1.0, 2.0 });
+            var source = new DenseVector(new[] { 1001.0, 0.0, 2003.0 });
+            var residual = new DenseVector(new[] { 1000.0, 1000.0, 2001.0 });
 
-            var status = criterium.DetermineStatus(5, solution, source, residual);
+            var status = criterion.DetermineStatus(5, solution, source, residual);
             Assert.AreEqual(IterationStatus.Continue, status, "Should be running");
 
-            criterium.Reset();
-            Assert.AreEqual(IterationStatus.Continue, criterium.Status, "Should not have started");
+            criterion.Reset();
+            Assert.AreEqual(IterationStatus.Continue, criterion.Status, "Should not have started");
         }
 
         /// <summary>
-        /// Can clone stop criterium.
+        /// Can clone stop criterion.
         /// </summary>
         [Test]
         public void Clone()
         {
-            var criterium = new FailureStopCriterium<double>();
-            Assert.IsNotNull(criterium, "There should be a criterium");
-            var clone = criterium.Clone();
-            Assert.IsInstanceOf(typeof(FailureStopCriterium<double>), clone, "Wrong criterium type");
+            var criterion = new FailureStopCriterion<double>();
+            Assert.IsNotNull(criterion, "There should be a criterion");
+            var clone = criterion.Clone();
+            Assert.IsInstanceOf(typeof (FailureStopCriterion<double>), clone, "Wrong criterion type");
         }
     }
 }

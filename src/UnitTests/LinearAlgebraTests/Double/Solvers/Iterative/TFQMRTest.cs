@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2013 Math.NET
+// Copyright (c) 2009-2014 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -93,10 +93,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.Iterative
 
             // Create an iteration monitor which will keep track of iterative convergence
             var monitor = new Iterator<double>(
-                new IterationCountStopCriterium<double>(MaximumIterations),
-                new ResidualStopCriterium<double>(ConvergenceBoundary),
-                new DivergenceStopCriterium<double>(),
-                new FailureStopCriterium<double>());
+                new IterationCountStopCriterion<double>(MaximumIterations),
+                new ResidualStopCriterion<double>(ConvergenceBoundary),
+                new DivergenceStopCriterion<double>(),
+                new FailureStopCriterion<double>());
 
             var solver = new TFQMR();
 
@@ -134,10 +134,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.Iterative
 
             // Create an iteration monitor which will keep track of iterative convergence
             var monitor = new Iterator<double>(
-                new IterationCountStopCriterium<double>(MaximumIterations),
-                new ResidualStopCriterium<double>(ConvergenceBoundary),
-                new DivergenceStopCriterium<double>(),
-                new FailureStopCriterium<double>());
+                new IterationCountStopCriterion<double>(MaximumIterations),
+                new ResidualStopCriterion<double>(ConvergenceBoundary),
+                new DivergenceStopCriterion<double>(),
+                new FailureStopCriterion<double>());
 
             var solver = new TFQMR();
 
@@ -208,10 +208,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.Iterative
 
             // Create an iteration monitor which will keep track of iterative convergence
             var monitor = new Iterator<double>(
-                new IterationCountStopCriterium<double>(MaximumIterations),
-                new ResidualStopCriterium<double>(ConvergenceBoundary),
-                new DivergenceStopCriterium<double>(),
-                new FailureStopCriterium<double>());
+                new IterationCountStopCriterion<double>(MaximumIterations),
+                new ResidualStopCriterion<double>(ConvergenceBoundary),
+                new DivergenceStopCriterion<double>(),
+                new FailureStopCriterion<double>());
 
             var solver = new TFQMR();
 
@@ -245,8 +245,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.Iterative
             var vectorb = Vector<double>.Build.Random(order, 1);
 
             var monitor = new Iterator<double>(
-                new IterationCountStopCriterium<double>(1000),
-                new ResidualStopCriterium<double>(1e-10));
+                new IterationCountStopCriterion<double>(1000),
+                new ResidualStopCriterion<double>(1e-10));
 
             var solver = new TFQMR();
 
@@ -275,8 +275,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.Iterative
             var matrixB = Matrix<double>.Build.Random(order, order, 1);
 
             var monitor = new Iterator<double>(
-                new IterationCountStopCriterium<double>(1000),
-                new ResidualStopCriterium<double>(1e-10));
+                new IterationCountStopCriterion<double>(1000),
+                new ResidualStopCriterion<double>(1e-10));
 
             var solver = new TFQMR();
             var matrixX = matrixA.SolveIterative(matrixB, solver, monitor);

@@ -342,11 +342,11 @@
   <data name="NotSupportedType" xml:space="preserve">
     <value>{0} is not a supported type.</value>
   </data>
-  <data name="StopCriteriumDuplicate" xml:space="preserve">
-    <value>The given stop criterium already exist in the collection.</value>
+  <data name="StopCriterionDuplicate" xml:space="preserve">
+    <value>The given stop criterion already exist in the collection.</value>
   </data>
-  <data name="StopCriteriumMissing" xml:space="preserve">
-    <value>There is no stop criterium in the collection.</value>
+  <data name="StopCriterionMissing" xml:space="preserve">
+    <value>There is no stop criterion in the collection.</value>
   </data>
   <data name="NameCannotContainASpace" xml:space="preserve">
     <value>Name cannot contain a space. name:  {0}</value>

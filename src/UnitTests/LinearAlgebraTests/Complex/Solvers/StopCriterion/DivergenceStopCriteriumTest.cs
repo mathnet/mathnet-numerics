@@ -1,10 +1,10 @@
-// <copyright file="DivergenceStopCriteriumTest.cs" company="Math.NET">
+// <copyright file="DivergenceStopCriterionTest.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2013 Math.NET
+// Copyright (c) 2009-2014 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -34,19 +34,20 @@ using MathNet.Numerics.LinearAlgebra.Complex;
 using MathNet.Numerics.LinearAlgebra.Solvers;
 using NUnit.Framework;
 
-namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.StopCriterium
+namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.StopCriterion
 {
 #if NOSYSNUMERICS
     using Complex = Numerics.Complex;
 #else
     using Complex = System.Numerics.Complex;
+
 #endif
 
     /// <summary>
-    /// Divergence stop criterium test.
+    /// Divergence stop criterion test.
     /// </summary>
     [TestFixture, Category("LASolver")]
-    public sealed class DivergenceStopCriteriumTest
+    public sealed class DivergenceStopCriterionTest
     {
         /// <summary>
         /// Create with negative maximum increase throws <c>ArgumentOutOfRangeException</c>.
@@ -54,7 +55,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.StopCrit
         [Test]
         public void CreateWithNegativeMaximumIncreaseThrowsArgumentOutOfRangeException()
         {
-            Assert.That(() => new DivergenceStopCriterium<Complex>(-0.1), Throws.TypeOf<ArgumentOutOfRangeException>());
+            Assert.That(() => new DivergenceStopCriterion<Complex>(-0.1), Throws.TypeOf<ArgumentOutOfRangeException>());
         }
 
         /// <summary>
@@ -63,20 +64,20 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.StopCrit
         [Test]
         public void CreateWithIllegalMinimumIterationsThrowsArgumentOutOfRangeException()
         {
-            Assert.That(() => new DivergenceStopCriterium<Complex>(minimumIterations: 2), Throws.TypeOf<ArgumentOutOfRangeException>());
+            Assert.That(() => new DivergenceStopCriterion<Complex>(minimumIterations: 2), Throws.TypeOf<ArgumentOutOfRangeException>());
         }
 
         /// <summary>
-        /// Can create stop criterium.
+        /// Can create stop criterion.
         /// </summary>
         [Test]
         public void Create()
         {
-            var criterium = new DivergenceStopCriterium<Complex>(0.1, 3);
-            Assert.IsNotNull(criterium, "There should be a criterium");
+            var criterion = new DivergenceStopCriterion<Complex>(0.1, 3);
+            Assert.IsNotNull(criterion, "There should be a criterion");
 
-            Assert.AreEqual(0.1, criterium.MaximumRelativeIncrease, "Incorrect maximum");
-            Assert.AreEqual(3, criterium.MinimumNumberOfIterations, "Incorrect iteration count");
+            Assert.AreEqual(0.1, criterion.MaximumRelativeIncrease, "Incorrect maximum");
+            Assert.AreEqual(3, criterion.MinimumNumberOfIterations, "Incorrect iteration count");
         }
 
         /// <summary>
@@ -85,8 +86,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.StopCrit
         [Test]
         public void DetermineStatusWithIllegalIterationNumberThrowsArgumentOutOfRangeException()
         {
-            var criterium = new DivergenceStopCriterium<Complex>(0.5, 15);
-            Assert.That(() => criterium.DetermineStatus(
+            var criterion = new DivergenceStopCriterion<Complex>(0.5, 15);
+            Assert.That(() => criterion.DetermineStatus(
                 -1,
                 Vector<Complex>.Build.Dense(3, 4),
                 Vector<Complex>.Build.Dense(3, 5),
@@ -102,16 +103,16 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.StopCrit
             const double Increase = 0.5;
             const int Iterations = 10;
 
-            var criterium = new DivergenceStopCriterium<Complex>(Increase, Iterations);
+            var criterion = new DivergenceStopCriterion<Complex>(Increase, Iterations);
 
             // Add residuals. We should not diverge because we'll have to few iterations
             for (var i = 0; i < Iterations - 1; i++)
             {
-                var status = criterium.DetermineStatus(
+                var status = criterion.DetermineStatus(
                     i,
-                    new DenseVector(new[] {new Complex(1.0, 0)}),
-                    new DenseVector(new[] {new Complex(1.0, 0)}),
-                    new DenseVector(new[] {new Complex((i + 1)*(Increase + 0.1), 0)}));
+                    new DenseVector(new[] { new Complex(1.0, 0) }),
+                    new DenseVector(new[] { new Complex(1.0, 0) }),
+                    new DenseVector(new[] { new Complex((i + 1)*(Increase + 0.1), 0) }));
 
                 Assert.AreEqual(IterationStatus.Continue, status, "Status check fail.");
             }
@@ -126,16 +127,16 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.StopCrit
             const double Increase = 0.5;
             const int Iterations = 10;
 
-            var criterium = new DivergenceStopCriterium<Complex>(Increase, Iterations);
+            var criterion = new DivergenceStopCriterion<Complex>(Increase, Iterations);
 
             // Add residuals. We should not diverge because we won't have enough increase
             for (var i = 0; i < Iterations*2; i++)
             {
-                var status = criterium.DetermineStatus(
+                var status = criterion.DetermineStatus(
                     i,
-                    new DenseVector(new[] {new Complex(1.0, 0)}),
-                    new DenseVector(new[] {new Complex(1.0, 0)}),
-                    new DenseVector(new[] {new Complex((i + 1)*(Increase - 0.01), 0)}));
+                    new DenseVector(new[] { new Complex(1.0, 0) }),
+                    new DenseVector(new[] { new Complex(1.0, 0) }),
+                    new DenseVector(new[] { new Complex((i + 1)*(Increase - 0.01), 0) }));
 
                 Assert.AreEqual(IterationStatus.Continue, status, "Status check fail.");
             }
@@ -150,26 +151,26 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.StopCrit
             const double Increase = 0.5;
             const int Iterations = 10;
 
-            var criterium = new DivergenceStopCriterium<Complex>(Increase, Iterations);
+            var criterion = new DivergenceStopCriterion<Complex>(Increase, Iterations);
 
             // Add residuals. We should not diverge because we'll have to few iterations
             for (var i = 0; i < Iterations - 5; i++)
             {
-                var status = criterium.DetermineStatus(
+                var status = criterion.DetermineStatus(
                     i,
-                    new DenseVector(new[] {new Complex(1.0, 0)}),
-                    new DenseVector(new[] {new Complex(1.0, 0)}),
-                    new DenseVector(new[] {new Complex((i + 1)*(Increase - 0.01), 0)}));
+                    new DenseVector(new[] { new Complex(1.0, 0) }),
+                    new DenseVector(new[] { new Complex(1.0, 0) }),
+                    new DenseVector(new[] { new Complex((i + 1)*(Increase - 0.01), 0) }));
 
                 Assert.AreEqual(IterationStatus.Continue, status, "Status check fail.");
             }
 
             // Now make it fail by throwing in a NaN
-            var status2 = criterium.DetermineStatus(
+            var status2 = criterion.DetermineStatus(
                 Iterations,
-                new DenseVector(new[] {new Complex(1.0, 0)}),
-                new DenseVector(new[] {new Complex(1.0, 0)}),
-                new DenseVector(new[] {new Complex(double.NaN, 0)}));
+                new DenseVector(new[] { new Complex(1.0, 0) }),
+                new DenseVector(new[] { new Complex(1.0, 0) }),
+                new DenseVector(new[] { new Complex(double.NaN, 0) }));
 
             Assert.AreEqual(IterationStatus.Diverged, status2, "Status check fail.");
         }
@@ -183,29 +184,29 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.StopCrit
             const double Increase = 0.5;
             const int Iterations = 10;
 
-            var criterium = new DivergenceStopCriterium<Complex>(Increase, Iterations);
+            var criterion = new DivergenceStopCriterion<Complex>(Increase, Iterations);
 
             // Add residuals. We should not diverge because we'll have one to few iterations
             double previous = 1;
             for (var i = 0; i < Iterations - 1; i++)
             {
                 previous *= 1 + Increase + 0.01;
-                var status = criterium.DetermineStatus(
+                var status = criterion.DetermineStatus(
                     i,
-                    new DenseVector(new[] {new Complex(1.0, 0)}),
-                    new DenseVector(new[] {new Complex(1.0, 0)}),
-                    new DenseVector(new[] {new Complex(previous, 0)}));
+                    new DenseVector(new[] { new Complex(1.0, 0) }),
+                    new DenseVector(new[] { new Complex(1.0, 0) }),
+                    new DenseVector(new[] { new Complex(previous, 0) }));
 
                 Assert.AreEqual(IterationStatus.Continue, status, "Status check fail.");
             }
 
             // Add the final residual. Now we should have divergence
             previous *= 1 + Increase + 0.01;
-            var status2 = criterium.DetermineStatus(
+            var status2 = criterion.DetermineStatus(
                 Iterations - 1,
-                new DenseVector(new[] {new Complex(1.0, 0)}),
-                new DenseVector(new[] {new Complex(1.0, 0)}),
-                new DenseVector(new[] {new Complex(previous, 0)}));
+                new DenseVector(new[] { new Complex(1.0, 0) }),
+                new DenseVector(new[] { new Complex(1.0, 0) }),
+                new DenseVector(new[] { new Complex(previous, 0) }));
 
             Assert.AreEqual(IterationStatus.Diverged, status2, "Status check fail.");
         }
@@ -219,27 +220,27 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.StopCrit
             const double Increase = 0.5;
             const int Iterations = 10;
 
-            var criterium = new DivergenceStopCriterium<Complex>(Increase, Iterations);
+            var criterion = new DivergenceStopCriterion<Complex>(Increase, Iterations);
 
             // Add residuals. Blow it up instantly
-            var status = criterium.DetermineStatus(
+            var status = criterion.DetermineStatus(
                 1,
-                new DenseVector(new[] {new Complex(1.0, 0)}),
-                new DenseVector(new[] {new Complex(1.0, 0)}),
-                new DenseVector(new[] {new Complex(double.NaN, 0)}));
+                new DenseVector(new[] { new Complex(1.0, 0) }),
+                new DenseVector(new[] { new Complex(1.0, 0) }),
+                new DenseVector(new[] { new Complex(double.NaN, 0) }));
 
             Assert.AreEqual(IterationStatus.Diverged, status, "Status check fail.");
 
             // Reset the state
-            criterium.Reset();
+            criterion.Reset();
 
-            Assert.AreEqual(Increase, criterium.MaximumRelativeIncrease, "Incorrect maximum");
-            Assert.AreEqual(Iterations, criterium.MinimumNumberOfIterations, "Incorrect iteration count");
-            Assert.AreEqual(IterationStatus.Continue, criterium.Status, "Status check fail.");
+            Assert.AreEqual(Increase, criterion.MaximumRelativeIncrease, "Incorrect maximum");
+            Assert.AreEqual(Iterations, criterion.MinimumNumberOfIterations, "Incorrect iteration count");
+            Assert.AreEqual(IterationStatus.Continue, criterion.Status, "Status check fail.");
         }
 
         /// <summary>
-        /// Can clone stop criterium.
+        /// Can clone stop criterion.
         /// </summary>
         [Test]
         public void Clone()
@@ -247,17 +248,17 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.StopCrit
             const double Increase = 0.5;
             const int Iterations = 10;
 
-            var criterium = new DivergenceStopCriterium<Complex>(Increase, Iterations);
-            Assert.IsNotNull(criterium, "There should be a criterium");
+            var criterion = new DivergenceStopCriterion<Complex>(Increase, Iterations);
+            Assert.IsNotNull(criterion, "There should be a criterion");
 
-            var clone = criterium.Clone();
-            Assert.IsInstanceOf(typeof(DivergenceStopCriterium<Complex>), clone, "Wrong criterium type");
+            var clone = criterion.Clone();
+            Assert.IsInstanceOf(typeof (DivergenceStopCriterion<Complex>), clone, "Wrong criterion type");
 
-            var clonedCriterium = clone as DivergenceStopCriterium<Complex>;
-            Assert.IsNotNull(clonedCriterium);
+            var clonedCriterion = clone as DivergenceStopCriterion<Complex>;
+            Assert.IsNotNull(clonedCriterion);
 
-            Assert.AreEqual(criterium.MaximumRelativeIncrease, clonedCriterium.MaximumRelativeIncrease, "Incorrect maximum");
-            Assert.AreEqual(criterium.MinimumNumberOfIterations, clonedCriterium.MinimumNumberOfIterations, "Incorrect iteration count");
+            Assert.AreEqual(criterion.MaximumRelativeIncrease, clonedCriterion.MaximumRelativeIncrease, "Incorrect maximum");
+            Assert.AreEqual(criterion.MinimumNumberOfIterations, clonedCriterion.MinimumNumberOfIterations, "Incorrect iteration count");
         }
     }
 }

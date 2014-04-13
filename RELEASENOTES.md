@@ -67,6 +67,7 @@ Changes as of now:
 - Matrix factorizations no longer clone their results at point of access.
 - Add direct factorization-based `Solve` methods to matrix type.
 - Massive iterative solver implementation/design simplification, now mostly generic and a bit more functional-style.
+- Renamed iterative solver stop criteria from 'criterium' to 'criterion'.
 - New MILU(0) iterative solver preconditioner that is much more efficient and fully leverages sparse data. *~Christian Woltering*
 - Matrices/Vectors now have more consistent enumerators, with a variant that skips zeros (useful if sparse).
 - Matrix/Vector creation routines have been simplified and usually no longer require explicit dimensions. New variants to create diagonal matrices, or such where all fields have the same value. All functions that take a params array now have an overload accepting an enumerable (e.g. `OfColumnVectors`).

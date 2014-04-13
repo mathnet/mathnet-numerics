@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2013 Math.NET
+// Copyright (c) 2009-2014 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -62,12 +62,12 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers
         [Test]
         public void DetermineStatusWithNegativeIterationNumberThrowsArgumentOutOfRangeException()
         {
-            var criteria = new List<IIterationStopCriterium<float>>
+            var criteria = new List<IIterationStopCriterion<float>>
             {
-                new FailureStopCriterium<float>(),
-                new DivergenceStopCriterium<float>(),
-                new IterationCountStopCriterium<float>(),
-                new ResidualStopCriterium<float>(1e-6)
+                new FailureStopCriterion<float>(),
+                new DivergenceStopCriterion<float>(),
+                new IterationCountStopCriterion<float>(),
+                new ResidualStopCriterion<float>(1e-6)
             };
             var iterator = new Iterator<float>(criteria);
 
@@ -84,11 +84,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers
         [Test]
         public void DetermineStatus()
         {
-            var criteria = new List<IIterationStopCriterium<float>>
+            var criteria = new List<IIterationStopCriterion<float>>
             {
-                new FailureStopCriterium<float>(),
-                new DivergenceStopCriterium<float>(),
-                new IterationCountStopCriterium<float>(1)
+                new FailureStopCriterion<float>(),
+                new DivergenceStopCriterion<float>(),
+                new IterationCountStopCriterion<float>(1)
             };
 
             var iterator = new Iterator<float>(criteria);
@@ -116,11 +116,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers
         [Test]
         public void ResetToPrecalculationState()
         {
-            var criteria = new List<IIterationStopCriterium<float>>
+            var criteria = new List<IIterationStopCriterion<float>>
             {
-                new FailureStopCriterium<float>(),
-                new DivergenceStopCriterium<float>(),
-                new IterationCountStopCriterium<float>(1)
+                new FailureStopCriterion<float>(),
+                new DivergenceStopCriterion<float>(),
+                new IterationCountStopCriterion<float>(1)
             };
 
             var iterator = new Iterator<float>(criteria);

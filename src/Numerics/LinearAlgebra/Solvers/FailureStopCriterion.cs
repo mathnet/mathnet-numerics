@@ -1,10 +1,10 @@
-// <copyright file="FailureStopCriterium.cs" company="Math.NET">
+// <copyright file="FailureStopCriterion.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2010 Math.NET
+// Copyright (c) 2009-2014 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -35,9 +35,9 @@ using MathNet.Numerics.Properties;
 namespace MathNet.Numerics.LinearAlgebra.Solvers
 {
     /// <summary>
-    /// Defines an <see cref="IIterationStopCriterium{T}"/> that monitors residuals for NaN's.
+    /// Defines an <see cref="IIterationStopCriterion{T}"/> that monitors residuals for NaN's.
     /// </summary>
-    public sealed class FailureStopCriterium<T> : IIterationStopCriterium<T> where T : struct, IEquatable<T>, IFormattable
+    public sealed class FailureStopCriterion<T> : IIterationStopCriterion<T> where T : struct, IEquatable<T>, IFormattable
     {
         /// <summary>
         /// The status of the calculation
@@ -51,7 +51,7 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
 
         /// <summary>
         /// Determines the status of the iterative calculation based on the stop criteria stored
-        /// by the current <see cref="IIterationStopCriterium{T}"/>. Result is set into <c>Status</c> field.
+        /// by the current <see cref="IIterationStopCriterion{T}"/>. Result is set into <c>Status</c> field.
         /// </summary>
         /// <param name="iterationNumber">The number of iterations that have passed so far.</param>
         /// <param name="solutionVector">The vector containing the current solution values.</param>
@@ -59,7 +59,7 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
         /// <param name="residualVector">The vector containing the current residual vectors.</param>
         /// <remarks>
         /// The individual stop criteria may internally track the progress of the calculation based
-        /// on the invocation of this method. Therefore this method should only be called if the 
+        /// on the invocation of this method. Therefore this method should only be called if the
         /// calculation has moved forwards at least one step.
         /// </remarks>
         public IterationStatus DetermineStatus(int iterationNumber, Vector<T> solutionVector, Vector<T> sourceVector, Vector<T> residualVector)
@@ -97,14 +97,11 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
         public IterationStatus Status
         {
             [DebuggerStepThrough]
-            get
-            {
-                return _status;
-            }
+            get { return _status; }
         }
 
         /// <summary>
-        /// Resets the <see cref="IIterationStopCriterium{T}"/> to the pre-calculation state.
+        /// Resets the <see cref="IIterationStopCriterion{T}"/> to the pre-calculation state.
         /// </summary>
         public void Reset()
         {
@@ -113,12 +110,12 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
         }
 
         /// <summary>
-        /// Clones the current <see cref="FailureStopCriterium{T}"/> and its settings.
+        /// Clones the current <see cref="FailureStopCriterion{T}"/> and its settings.
         /// </summary>
-        /// <returns>A new instance of the <see cref="FailureStopCriterium{T}"/> class.</returns>
-        public IIterationStopCriterium<T> Clone()
+        /// <returns>A new instance of the <see cref="FailureStopCriterion{T}"/> class.</returns>
+        public IIterationStopCriterion<T> Clone()
         {
-            return new FailureStopCriterium<T>();
+            return new FailureStopCriterion<T>();
         }
     }
 }

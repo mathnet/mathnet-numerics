@@ -1,10 +1,10 @@
-// <copyright file="ResidualStopCriterium.cs" company="Math.NET">
+// <copyright file="ResidualStopCriterion.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2010 Math.NET
+// Copyright (c) 2009-2014 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -35,9 +35,9 @@ using MathNet.Numerics.Properties;
 namespace MathNet.Numerics.LinearAlgebra.Solvers
 {
     /// <summary>
-    /// Defines an <see cref="IIterationStopCriterium{T}"/> that monitors residuals as stop criterium.
+    /// Defines an <see cref="IIterationStopCriterion{T}"/> that monitors residuals as stop criterion.
     /// </summary>
-    public sealed class ResidualStopCriterium<T> : IIterationStopCriterium<T> where T : struct, IEquatable<T>, IFormattable
+    public sealed class ResidualStopCriterion<T> : IIterationStopCriterion<T> where T : struct, IEquatable<T>, IFormattable
     {
         /// <summary>
         /// The maximum value for the residual below which the calculation is considered converged.
@@ -66,7 +66,7 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
         int _lastIteration = -1;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ResidualStopCriterium{T}"/> class with the specified 
+        /// Initializes a new instance of the <see cref="ResidualStopCriterion{T}"/> class with the specified
         /// maximum residual and minimum number of iterations.
         /// </summary>
         /// <param name="maximum">
@@ -76,7 +76,7 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
         /// The minimum number of iterations for which the residual has to be below the maximum before
         /// the calculation is considered converged.
         /// </param>
-        public ResidualStopCriterium(double maximum, int minimumIterationsBelowMaximum = 0)
+        public ResidualStopCriterion(double maximum, int minimumIterationsBelowMaximum = 0)
         {
             if (maximum < 0)
             {
@@ -93,17 +93,14 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
         }
 
         /// <summary>
-        /// Gets or sets the maximum value for the residual below which the calculation is considered 
+        /// Gets or sets the maximum value for the residual below which the calculation is considered
         /// converged.
         /// </summary>
         /// <exception cref="ArgumentOutOfRangeException">Thrown if the <c>Maximum</c> is set to a negative value.</exception>
         public double Maximum
         {
             [DebuggerStepThrough]
-            get
-            {
-                return _maximum;
-            }
+            get { return _maximum; }
 
             [DebuggerStepThrough]
             set
@@ -125,10 +122,7 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
         public int MinimumIterationsBelowMaximum
         {
             [DebuggerStepThrough]
-            get
-            {
-                return _minimumIterationsBelowMaximum;
-            }
+            get { return _minimumIterationsBelowMaximum; }
 
             [DebuggerStepThrough]
             set
@@ -144,7 +138,7 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
 
         /// <summary>
         /// Determines the status of the iterative calculation based on the stop criteria stored
-        /// by the current <see cref="IIterationStopCriterium{T}"/>. Result is set into <c>Status</c> field.
+        /// by the current <see cref="IIterationStopCriterion{T}"/>. Result is set into <c>Status</c> field.
         /// </summary>
         /// <param name="iterationNumber">The number of iterations that have passed so far.</param>
         /// <param name="solutionVector">The vector containing the current solution values.</param>
@@ -152,7 +146,7 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
         /// <param name="residualVector">The vector containing the current residual vectors.</param>
         /// <remarks>
         /// The individual stop criteria may internally track the progress of the calculation based
-        /// on the invocation of this method. Therefore this method should only be called if the 
+        /// on the invocation of this method. Therefore this method should only be called if the
         /// calculation has moved forwards at least one step.
         /// </remarks>
         public IterationStatus DetermineStatus(int iterationNumber, Vector<T> solutionVector, Vector<T> sourceVector, Vector<T> residualVector)
@@ -179,22 +173,22 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
             var residualNorm = residualVector.InfinityNorm();
 
 
-            // This is criterium 1 from Templates for the solution of linear systems.
-            // The problem with this criterium is that it's not limiting enough. For now 
+            // This is criterion 1 from Templates for the solution of linear systems.
+            // The problem with this criterion is that it's not limiting enough. For now
             // we won't use it. Later on we might get back to it.
             // return mMaximumResidual * (System.Math.Abs(mMatrixNorm) * System.Math.Abs(solutionNorm) + System.Math.Abs(mVectorNorm));
 
-            // For now use criterium 2 from Templates for the solution of linear systems. See page 60.
+            // For now use criterion 2 from Templates for the solution of linear systems. See page 60.
 
             // Check the residuals by calculating:
             // ||r_i|| <= stop_tol * ||b||
-            var stopCriterium = _maximum * sourceVector.InfinityNorm();
+            var stopCriterion = _maximum*sourceVector.InfinityNorm();
 
 
             // First check that we have real numbers not NaN's.
             // NaN's can occur when the iterative process diverges so we
             // stop if that is the case.
-            if (double.IsNaN(stopCriterium) || double.IsNaN(residualNorm))
+            if (double.IsNaN(stopCriterion) || double.IsNaN(residualNorm))
             {
                 _iterationCount = 0;
                 _status = IterationStatus.Diverged;
@@ -203,7 +197,7 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
 
             // ||r_i|| <= stop_tol * ||b||
             // Stop the calculation if it's clearly smaller than the tolerance
-            if (residualNorm < stopCriterium)
+            if (residualNorm < stopCriterion)
             {
                 if (_lastIteration <= iterationNumber)
                 {
@@ -227,14 +221,11 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
         public IterationStatus Status
         {
             [DebuggerStepThrough]
-            get
-            {
-                return _status;
-            }
+            get { return _status; }
         }
 
         /// <summary>
-        /// Resets the <see cref="IIterationStopCriterium{T}"/> to the pre-calculation state.
+        /// Resets the <see cref="IIterationStopCriterion{T}"/> to the pre-calculation state.
         /// </summary>
         public void Reset()
         {
@@ -244,12 +235,12 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
         }
 
         /// <summary>
-        /// Clones the current <see cref="ResidualStopCriterium{T}"/> and its settings.
+        /// Clones the current <see cref="ResidualStopCriterion{T}"/> and its settings.
         /// </summary>
-        /// <returns>A new instance of the <see cref="ResidualStopCriterium{T}"/> class.</returns>
-        public IIterationStopCriterium<T> Clone()
+        /// <returns>A new instance of the <see cref="ResidualStopCriterion{T}"/> class.</returns>
+        public IIterationStopCriterion<T> Clone()
         {
-            return new ResidualStopCriterium<T>(_maximum, _minimumIterationsBelowMaximum);
+            return new ResidualStopCriterion<T>(_maximum, _minimumIterationsBelowMaximum);
         }
     }
 }

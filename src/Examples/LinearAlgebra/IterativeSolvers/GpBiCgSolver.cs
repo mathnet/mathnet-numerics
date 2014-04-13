@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2013 Math.NET
+// Copyright (c) 2009-2014 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -41,15 +41,12 @@ namespace Examples.LinearAlgebra.IterativeSolversExamples
     /// </summary>
     public class GpBiCgSolver : IExample
     {
-         /// <summary>
+        /// <summary>
         /// Gets the name of this example
         /// </summary>
         public string Name
         {
-            get
-            {
-                return "Generalized Product Bi-Conjugate Gradient iterative solver";
-            }
+            get { return "Generalized Product Bi-Conjugate Gradient iterative solver"; }
         }
 
         /// <summary>
@@ -57,10 +54,7 @@ namespace Examples.LinearAlgebra.IterativeSolversExamples
         /// </summary>
         public string Description
         {
-            get
-            {
-                return "Solve linear equation using Generalized Product Bi-Conjugate Gradient (GPBiCG) solver";
-            }
+            get { return "Solve linear equation using Generalized Product Bi-Conjugate Gradient (GPBiCG) solver"; }
         }
 
         /// <summary>
@@ -89,20 +83,20 @@ namespace Examples.LinearAlgebra.IterativeSolversExamples
             Console.WriteLine(vectorB.ToString("#0.00\t", formatProvider));
             Console.WriteLine();
 
-            // Create stop criteriums to monitor an iterative calculation. There are next available stop criteriums:
-            // - DivergenceStopCriterium: monitors an iterative calculation for signs of divergence;
-            // - FailureStopCriterium: monitors residuals for NaN's;
-            // - IterationCountStopCriterium: monitors the numbers of iteration steps;
-            // - ResidualStopCriterium: monitors residuals if calculation is considered converged;
+            // Create stop criteria to monitor an iterative calculation. There are next available stop criteria:
+            // - DivergenceStopCriterion: monitors an iterative calculation for signs of divergence;
+            // - FailureStopCriterion: monitors residuals for NaN's;
+            // - IterationCountStopCriterion: monitors the numbers of iteration steps;
+            // - ResidualStopCriterion: monitors residuals if calculation is considered converged;
 
             // Stop calculation if 1000 iterations reached during calculation
-            var iterationCountStopCriterium = new IterationCountStopCriterium<double>(1000);
+            var iterationCountStopCriterion = new IterationCountStopCriterion<double>(1000);
 
             // Stop calculation if residuals are below 1E-10 --> the calculation is considered converged
-            var residualStopCriterium = new ResidualStopCriterium<double>(1e-10);
+            var residualStopCriterion = new ResidualStopCriterion<double>(1e-10);
 
-            // Create monitor with defined stop criteriums
-            var monitor = new Iterator<double>(iterationCountStopCriterium, residualStopCriterium);
+            // Create monitor with defined stop criteria
+            var monitor = new Iterator<double>(iterationCountStopCriterion, residualStopCriterion);
 
             // Create Generalized Product Bi-Conjugate Gradient solver
             var solver = new GpBiCg();
@@ -132,7 +126,7 @@ namespace Examples.LinearAlgebra.IterativeSolversExamples
             Console.WriteLine();
 
             // 4. Verify result. Multiply coefficient matrix "A" by result vector "x"
-            var reconstructVecorB = matrixA * resultX;
+            var reconstructVecorB = matrixA*resultX;
             Console.WriteLine(@"4. Multiply coefficient matrix 'A' by result vector 'x'");
             Console.WriteLine(reconstructVecorB.ToString("#0.00\t", formatProvider));
             Console.WriteLine();

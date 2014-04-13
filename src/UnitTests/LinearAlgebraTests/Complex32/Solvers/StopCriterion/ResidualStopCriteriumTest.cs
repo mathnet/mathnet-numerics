@@ -1,4 +1,4 @@
-// <copyright file="ResidualStopCriteriumTest.cs" company="Math.NET">
+// <copyright file="ResidualStopCriterionTest.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -34,15 +34,15 @@ using MathNet.Numerics.LinearAlgebra.Complex32;
 using MathNet.Numerics.LinearAlgebra.Solvers;
 using NUnit.Framework;
 
-namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.StopCriterium
+namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.StopCriterion
 {
     using Numerics;
 
     /// <summary>
-    /// Residual stop criterium tests.
+    /// Residual stop criterion tests.
     /// </summary>
     [TestFixture, Category("LASolver")]
-    public sealed class ResidualStopCriteriumTest
+    public sealed class ResidualStopCriterionTest
     {
         /// <summary>
         /// Create with negative maximum throws <c>ArgumentOutOfRangeException</c>.
@@ -50,7 +50,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.StopCr
         [Test]
         public void CreateWithNegativeMaximumThrowsArgumentOutOfRangeException()
         {
-            Assert.That(() => new ResidualStopCriterium<Complex32>(-0.1f), Throws.TypeOf<ArgumentOutOfRangeException>());
+            Assert.That(() => new ResidualStopCriterion<Complex32>(-0.1f), Throws.TypeOf<ArgumentOutOfRangeException>());
         }
 
         /// <summary>
@@ -59,7 +59,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.StopCr
         [Test]
         public void CreateWithIllegalMinimumIterationsThrowsArgumentOutOfRangeException()
         {
-            Assert.That(() => new ResidualStopCriterium<Complex32>(-1), Throws.TypeOf<ArgumentOutOfRangeException>());
+            Assert.That(() => new ResidualStopCriterion<Complex32>(-1), Throws.TypeOf<ArgumentOutOfRangeException>());
         }
 
         /// <summary>
@@ -68,10 +68,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.StopCr
         [Test]
         public void Create()
         {
-            var criterium = new ResidualStopCriterium<Complex32>(1e-6f, 50);
+            var criterion = new ResidualStopCriterion<Complex32>(1e-6f, 50);
 
-            Assert.AreEqual(1e-6f, criterium.Maximum, "Incorrect maximum");
-            Assert.AreEqual(50, criterium.MinimumIterationsBelowMaximum, "Incorrect iteration count");
+            Assert.AreEqual(1e-6f, criterion.Maximum, "Incorrect maximum");
+            Assert.AreEqual(50, criterion.MinimumIterationsBelowMaximum, "Incorrect iteration count");
         }
 
         /// <summary>
@@ -80,9 +80,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.StopCr
         [Test]
         public void DetermineStatusWithIllegalIterationNumberThrowsArgumentOutOfRangeException()
         {
-            var criterium = new ResidualStopCriterium<Complex32>(1e-6f, 50);
+            var criterion = new ResidualStopCriterion<Complex32>(1e-6f, 50);
 
-            Assert.That(() => criterium.DetermineStatus(
+            Assert.That(() => criterion.DetermineStatus(
                 -1,
                 Vector<Complex32>.Build.Dense(3, 4),
                 Vector<Complex32>.Build.Dense(3, 5),
@@ -95,9 +95,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.StopCr
         [Test]
         public void DetermineStatusWithNonMatchingSolutionVectorThrowsArgumentException()
         {
-            var criterium = new ResidualStopCriterium<Complex32>(1e-6f, 50);
+            var criterion = new ResidualStopCriterion<Complex32>(1e-6f, 50);
 
-            Assert.That(() => criterium.DetermineStatus(
+            Assert.That(() => criterion.DetermineStatus(
                 1,
                 Vector<Complex32>.Build.Dense(4, 4),
                 Vector<Complex32>.Build.Dense(3, 4),
@@ -110,9 +110,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.StopCr
         [Test]
         public void DetermineStatusWithNonMatchingSourceVectorThrowsArgumentException()
         {
-            var criterium = new ResidualStopCriterium<Complex32>(1e-6f, 50);
+            var criterion = new ResidualStopCriterion<Complex32>(1e-6f, 50);
 
-            Assert.That(() => criterium.DetermineStatus(
+            Assert.That(() => criterion.DetermineStatus(
                 1,
                 Vector<Complex32>.Build.Dense(3, 4),
                 Vector<Complex32>.Build.Dense(4, 4),
@@ -125,9 +125,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.StopCr
         [Test]
         public void DetermineStatusWithNonMatchingResidualVectorThrowsArgumentException()
         {
-            var criterium = new ResidualStopCriterium<Complex32>(1e-6f, 50);
+            var criterion = new ResidualStopCriterion<Complex32>(1e-6f, 50);
 
-            Assert.That(() => criterium.DetermineStatus(
+            Assert.That(() => criterion.DetermineStatus(
                 1,
                 Vector<Complex32>.Build.Dense(3, 4),
                 Vector<Complex32>.Build.Dense(3, 4),
@@ -140,13 +140,13 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.StopCr
         [Test]
         public void DetermineStatusWithSourceNaN()
         {
-            var criterium = new ResidualStopCriterium<Complex32>(1e-3f, 10);
+            var criterion = new ResidualStopCriterion<Complex32>(1e-3f, 10);
 
             var solution = new DenseVector(new[] {new Complex32(1.0f, 1), new Complex32(1.0f, 1), new Complex32(2.0f, 1)});
             var source = new DenseVector(new[] {new Complex32(1.0f, 1), new Complex32(1.0f, 1), new Complex32(float.NaN, 1)});
             var residual = new DenseVector(new[] {new Complex32(1000.0f, 1), new Complex32(1000.0f, 1), new Complex32(2001.0f, 1)});
 
-            var status = criterium.DetermineStatus(5, solution, source, residual);
+            var status = criterion.DetermineStatus(5, solution, source, residual);
             Assert.AreEqual(IterationStatus.Diverged, status, "Should be diverged");
         }
 
@@ -156,13 +156,13 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.StopCr
         [Test]
         public void DetermineStatusWithResidualNaN()
         {
-            var criterium = new ResidualStopCriterium<Complex32>(1e-3f, 10);
+            var criterion = new ResidualStopCriterion<Complex32>(1e-3f, 10);
 
             var solution = new DenseVector(new[] {new Complex32(1.0f, 1), new Complex32(1.0f, 1), new Complex32(2.0f, 1)});
             var source = new DenseVector(new[] {new Complex32(1.0f, 1), new Complex32(1.0f, 1), new Complex32(2.0f, 1)});
             var residual = new DenseVector(new[] {new Complex32(1000.0f, 1), new Complex32(float.NaN, 1), new Complex32(2001.0f, 1)});
 
-            var status = criterium.DetermineStatus(5, solution, source, residual);
+            var status = criterion.DetermineStatus(5, solution, source, residual);
             Assert.AreEqual(IterationStatus.Diverged, status, "Should be diverged");
         }
 
@@ -171,18 +171,18 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.StopCr
         /// </summary>
         /// <remarks>Bugfix: The unit tests for the BiCgStab solver run with a super simple matrix equation
         /// which converges at the first iteration. The default settings for the
-        /// residual stop criterium should be able to handle this.
+        /// residual stop criterion should be able to handle this.
         /// </remarks>
         [Test]
         public void DetermineStatusWithConvergenceAtFirstIteration()
         {
-            var criterium = new ResidualStopCriterium<Complex32>(1e-6);
+            var criterion = new ResidualStopCriterion<Complex32>(1e-6);
 
             var solution = new DenseVector(new[] {Complex32.One, Complex32.One, Complex32.One});
             var source = new DenseVector(new[] {Complex32.One, Complex32.One, Complex32.One});
             var residual = new DenseVector(new[] {Complex32.Zero, Complex32.Zero, Complex32.Zero});
 
-            var status = criterium.DetermineStatus(0, solution, source, residual);
+            var status = criterion.DetermineStatus(0, solution, source, residual);
             Assert.AreEqual(IterationStatus.Converged, status, "Should be done");
         }
 
@@ -192,7 +192,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.StopCr
         [Test]
         public void DetermineStatus()
         {
-            var criterium = new ResidualStopCriterium<Complex32>(1e-3f, 10);
+            var criterion = new ResidualStopCriterion<Complex32>(1e-3f, 10);
 
             // the solution vector isn't actually being used so ...
             var solution = new DenseVector(new[] {new Complex32(float.NaN, float.NaN), new Complex32(float.NaN, float.NaN), new Complex32(float.NaN, float.NaN)});
@@ -203,10 +203,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.StopCr
             // Set the residual values
             var residual = new DenseVector(new[] {new Complex32(0.001f, 0), new Complex32(0.001f, 0), new Complex32(0.002f, 0)});
 
-            var status = criterium.DetermineStatus(5, solution, source, residual);
+            var status = criterion.DetermineStatus(5, solution, source, residual);
             Assert.AreEqual(IterationStatus.Continue, status, "Should still be running");
 
-            var status2 = criterium.DetermineStatus(16, solution, source, residual);
+            var status2 = criterion.DetermineStatus(16, solution, source, residual);
             Assert.AreEqual(IterationStatus.Converged, status2, "Should be done");
         }
 
@@ -216,35 +216,35 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.StopCr
         [Test]
         public void ResetCalculationState()
         {
-            var criterium = new ResidualStopCriterium<Complex32>(1e-3f, 10);
+            var criterion = new ResidualStopCriterion<Complex32>(1e-3f, 10);
 
             var solution = new DenseVector(new[] {new Complex32(0.001f, 1), new Complex32(0.001f, 1), new Complex32(0.002f, 1)});
             var source = new DenseVector(new[] {new Complex32(0.001f, 1), new Complex32(0.001f, 1), new Complex32(0.002f, 1)});
             var residual = new DenseVector(new[] {new Complex32(1.000f, 0), new Complex32(1.000f, 0), new Complex32(2.001f, 0)});
 
-            var status = criterium.DetermineStatus(5, solution, source, residual);
+            var status = criterion.DetermineStatus(5, solution, source, residual);
             Assert.AreEqual(IterationStatus.Continue, status, "Should be running");
 
-            criterium.Reset();
-            Assert.AreEqual(IterationStatus.Continue, criterium.Status, "Should not have started");
+            criterion.Reset();
+            Assert.AreEqual(IterationStatus.Continue, criterion.Status, "Should not have started");
         }
 
         /// <summary>
-        /// Can clone stop criterium.
+        /// Can clone stop criterion.
         /// </summary>
         [Test]
         public void Clone()
         {
-            var criterium = new ResidualStopCriterium<Complex32>(1e-3f, 10);
+            var criterion = new ResidualStopCriterion<Complex32>(1e-3f, 10);
 
-            var clone = criterium.Clone();
-            Assert.IsInstanceOf(typeof(ResidualStopCriterium<Complex32>), clone, "Wrong criterium type");
+            var clone = criterion.Clone();
+            Assert.IsInstanceOf(typeof(ResidualStopCriterion<Complex32>), clone, "Wrong criterion type");
 
-            var clonedCriterium = clone as ResidualStopCriterium<Complex32>;
-            Assert.IsNotNull(clonedCriterium);
+            var clonedCriterion = clone as ResidualStopCriterion<Complex32>;
+            Assert.IsNotNull(clonedCriterion);
 
-            Assert.AreEqual(criterium.Maximum, clonedCriterium.Maximum, "Clone failed");
-            Assert.AreEqual(criterium.MinimumIterationsBelowMaximum, clonedCriterium.MinimumIterationsBelowMaximum, "Clone failed");
+            Assert.AreEqual(criterion.Maximum, clonedCriterion.Maximum, "Clone failed");
+            Assert.AreEqual(criterion.MinimumIterationsBelowMaximum, clonedCriterion.MinimumIterationsBelowMaximum, "Clone failed");
         }
     }
 }

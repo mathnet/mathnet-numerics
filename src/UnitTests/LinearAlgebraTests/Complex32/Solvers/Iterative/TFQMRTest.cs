@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2013 Math.NET
+// Copyright (c) 2009-2014 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -95,10 +95,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.Iterat
 
             // Create an iteration monitor which will keep track of iterative convergence
             var monitor = new Iterator<Complex32>(
-                new IterationCountStopCriterium<Complex32>(MaximumIterations),
-                new ResidualStopCriterium<Complex32>(ConvergenceBoundary),
-                new DivergenceStopCriterium<Complex32>(),
-                new FailureStopCriterium<Complex32>());
+                new IterationCountStopCriterion<Complex32>(MaximumIterations),
+                new ResidualStopCriterion<Complex32>(ConvergenceBoundary),
+                new DivergenceStopCriterion<Complex32>(),
+                new FailureStopCriterion<Complex32>());
 
             var solver = new TFQMR();
 
@@ -129,17 +129,17 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.Iterat
             var matrix = SparseMatrix.CreateIdentity(100);
 
             // Scale it with a funny number
-            matrix.Multiply((float) Math.PI, matrix);
+            matrix.Multiply((float)Math.PI, matrix);
 
             // Create the y vector
             var y = Vector<Complex32>.Build.Dense(matrix.RowCount, 1);
 
             // Create an iteration monitor which will keep track of iterative convergence
             var monitor = new Iterator<Complex32>(
-                new IterationCountStopCriterium<Complex32>(MaximumIterations),
-                new ResidualStopCriterium<Complex32>(ConvergenceBoundary),
-                new DivergenceStopCriterium<Complex32>(),
-                new FailureStopCriterium<Complex32>());
+                new IterationCountStopCriterion<Complex32>(MaximumIterations),
+                new ResidualStopCriterion<Complex32>(ConvergenceBoundary),
+                new DivergenceStopCriterion<Complex32>(),
+                new FailureStopCriterion<Complex32>());
 
             var solver = new TFQMR();
 
@@ -210,10 +210,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.Iterat
 
             // Create an iteration monitor which will keep track of iterative convergence
             var monitor = new Iterator<Complex32>(
-                new IterationCountStopCriterium<Complex32>(MaximumIterations),
-                new ResidualStopCriterium<Complex32>(ConvergenceBoundary),
-                new DivergenceStopCriterium<Complex32>(),
-                new FailureStopCriterium<Complex32>());
+                new IterationCountStopCriterion<Complex32>(MaximumIterations),
+                new ResidualStopCriterion<Complex32>(ConvergenceBoundary),
+                new DivergenceStopCriterion<Complex32>(),
+                new FailureStopCriterion<Complex32>());
 
             var solver = new TFQMR();
 
@@ -247,8 +247,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.Iterat
                 var vectorb = Vector<Complex32>.Build.Random(order, 1);
 
                 var monitor = new Iterator<Complex32>(
-                    new IterationCountStopCriterium<Complex32>(1000),
-                    new ResidualStopCriterium<Complex32>(Math.Pow(1.0 / 10.0, iteration)));
+                    new IterationCountStopCriterion<Complex32>(1000),
+                    new ResidualStopCriterion<Complex32>(Math.Pow(1.0/10.0, iteration)));
 
                 var solver = new TFQMR();
 
@@ -266,8 +266,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.Iterat
                 // Check the reconstruction.
                 for (var i = 0; i < order; i++)
                 {
-                    Assert.AreEqual(vectorb[i].Real, matrixBReconstruct[i].Real, (float) Math.Pow(1.0/10.0, iteration - 3));
-                    Assert.AreEqual(vectorb[i].Imaginary, matrixBReconstruct[i].Imaginary, (float) Math.Pow(1.0/10.0, iteration - 3));
+                    Assert.AreEqual(vectorb[i].Real, matrixBReconstruct[i].Real, (float)Math.Pow(1.0/10.0, iteration - 3));
+                    Assert.AreEqual(vectorb[i].Imaginary, matrixBReconstruct[i].Imaginary, (float)Math.Pow(1.0/10.0, iteration - 3));
                 }
 
                 return;
@@ -289,8 +289,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.Iterat
                 var matrixB = Matrix<Complex32>.Build.Random(order, order, 1);
 
                 var monitor = new Iterator<Complex32>(
-                    new IterationCountStopCriterium<Complex32>(1000),
-                    new ResidualStopCriterium<Complex32>(Math.Pow(1.0 / 10.0, iteration)));
+                    new IterationCountStopCriterion<Complex32>(1000),
+                    new ResidualStopCriterion<Complex32>(Math.Pow(1.0/10.0, iteration)));
 
                 var solver = new TFQMR();
                 var matrixX = matrixA.SolveIterative(matrixB, solver, monitor);
@@ -314,8 +314,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.Iterat
                 {
                     for (var j = 0; j < matrixB.ColumnCount; j++)
                     {
-                        Assert.AreEqual(matrixB[i, j].Real, matrixBReconstruct[i, j].Real, (float) Math.Pow(1.0/10.0, iteration - 3));
-                        Assert.AreEqual(matrixB[i, j].Imaginary, matrixBReconstruct[i, j].Imaginary, (float) Math.Pow(1.0/10.0, iteration - 3));
+                        Assert.AreEqual(matrixB[i, j].Real, matrixBReconstruct[i, j].Real, (float)Math.Pow(1.0/10.0, iteration - 3));
+                        Assert.AreEqual(matrixB[i, j].Imaginary, matrixBReconstruct[i, j].Imaginary, (float)Math.Pow(1.0/10.0, iteration - 3));
                     }
                 }
 

@@ -1,4 +1,4 @@
-// <copyright file="IterationCountStopCriteriumTest.cs" company="Math.NET">
+// <copyright file="IterationCountStopCriterionTest.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -33,15 +33,15 @@ using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Solvers;
 using NUnit.Framework;
 
-namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.StopCriterium
+namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.StopCriterion
 {
     using Numerics;
 
     /// <summary>
-    /// Iteration count stop criterium tests.
+    /// Iteration count stop criterion tests.
     /// </summary>
     [TestFixture, Category("LASolver")]
-    public sealed class IterationCountStopCriteriumTest
+    public sealed class IterationCountStopCriterionTest
     {
         /// <summary>
         /// Create with illegal minimum iterations throws <c>ArgumentOutOfRangeException</c>.
@@ -49,7 +49,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.StopCr
         [Test]
         public void CreateWithIllegalMinimumIterationsThrowsArgumentOutOfRangeException()
         {
-            Assert.That(() => new IterationCountStopCriterium<Complex32>(-1), Throws.TypeOf<ArgumentOutOfRangeException>());
+            Assert.That(() => new IterationCountStopCriterion<Complex32>(-1), Throws.TypeOf<ArgumentOutOfRangeException>());
         }
 
         /// <summary>
@@ -58,8 +58,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.StopCr
         [Test]
         public void Create()
         {
-            var criterium = new IterationCountStopCriterium<Complex32>(10);
-            Assert.IsNotNull(criterium, "A criterium should have been created");
+            var criterion = new IterationCountStopCriterion<Complex32>(10);
+            Assert.IsNotNull(criterion, "A criterion should have been created");
         }
 
         /// <summary>
@@ -68,13 +68,13 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.StopCr
         [Test]
         public void ResetMaximumIterations()
         {
-            var criterium = new IterationCountStopCriterium<Complex32>(10);
-            Assert.IsNotNull(criterium, "A criterium should have been created");
-            Assert.AreEqual(10, criterium.MaximumNumberOfIterations, "Incorrect maximum number of iterations");
+            var criterion = new IterationCountStopCriterion<Complex32>(10);
+            Assert.IsNotNull(criterion, "A criterion should have been created");
+            Assert.AreEqual(10, criterion.MaximumNumberOfIterations, "Incorrect maximum number of iterations");
 
-            criterium.ResetMaximumNumberOfIterationsToDefault();
-            Assert.AreNotEqual(10, criterium.MaximumNumberOfIterations, "Should have reset");
-            Assert.AreEqual(IterationCountStopCriterium<Complex32>.DefaultMaximumNumberOfIterations, criterium.MaximumNumberOfIterations, "Reset to the wrong value");
+            criterion.ResetMaximumNumberOfIterationsToDefault();
+            Assert.AreNotEqual(10, criterion.MaximumNumberOfIterations, "Should have reset");
+            Assert.AreEqual(IterationCountStopCriterion<Complex32>.DefaultMaximumNumberOfIterations, criterion.MaximumNumberOfIterations, "Reset to the wrong value");
         }
 
         /// <summary>
@@ -83,10 +83,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.StopCr
         [Test]
         public void DetermineStatusWithIllegalIterationNumberThrowsArgumentOutOfRangeException()
         {
-            var criterium = new IterationCountStopCriterium<Complex32>(10);
-            Assert.IsNotNull(criterium, "A criterium should have been created");
+            var criterion = new IterationCountStopCriterion<Complex32>(10);
+            Assert.IsNotNull(criterion, "A criterion should have been created");
 
-            Assert.That(() => criterium.DetermineStatus(-1, Vector<Complex32>.Build.Dense(3, 1), Vector<Complex32>.Build.Dense(3, 2), Vector<Complex32>.Build.Dense(3, 3)), Throws.TypeOf<ArgumentOutOfRangeException>());
+            Assert.That(() => criterion.DetermineStatus(-1, Vector<Complex32>.Build.Dense(3, 1), Vector<Complex32>.Build.Dense(3, 2), Vector<Complex32>.Build.Dense(3, 3)), Throws.TypeOf<ArgumentOutOfRangeException>());
         }
 
         /// <summary>
@@ -95,13 +95,13 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.StopCr
         [Test]
         public void DetermineStatus()
         {
-            var criterium = new IterationCountStopCriterium<Complex32>(10);
-            Assert.IsNotNull(criterium, "A criterium should have been created");
+            var criterion = new IterationCountStopCriterion<Complex32>(10);
+            Assert.IsNotNull(criterion, "A criterion should have been created");
 
-            var status = criterium.DetermineStatus(5, Vector<Complex32>.Build.Dense(3, 1), Vector<Complex32>.Build.Dense(3, 2), Vector<Complex32>.Build.Dense(3, 3));
+            var status = criterion.DetermineStatus(5, Vector<Complex32>.Build.Dense(3, 1), Vector<Complex32>.Build.Dense(3, 2), Vector<Complex32>.Build.Dense(3, 3));
             Assert.AreEqual(IterationStatus.Continue, status, "Should be running");
 
-            var status2 = criterium.DetermineStatus(10, Vector<Complex32>.Build.Dense(3, 1), Vector<Complex32>.Build.Dense(3, 2), Vector<Complex32>.Build.Dense(3, 3));
+            var status2 = criterion.DetermineStatus(10, Vector<Complex32>.Build.Dense(3, 1), Vector<Complex32>.Build.Dense(3, 2), Vector<Complex32>.Build.Dense(3, 3));
             Assert.AreEqual(IterationStatus.StoppedWithoutConvergence, status2, "Should be finished");
         }
 
@@ -111,34 +111,34 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.StopCr
         [Test]
         public void ResetCalculationState()
         {
-            var criterium = new IterationCountStopCriterium<Complex32>(10);
-            Assert.IsNotNull(criterium, "A criterium should have been created");
+            var criterion = new IterationCountStopCriterion<Complex32>(10);
+            Assert.IsNotNull(criterion, "A criterion should have been created");
 
-            var status = criterium.DetermineStatus(5, Vector<Complex32>.Build.Dense(3, 1), Vector<Complex32>.Build.Dense(3, 2), Vector<Complex32>.Build.Dense(3, 3));
+            var status = criterion.DetermineStatus(5, Vector<Complex32>.Build.Dense(3, 1), Vector<Complex32>.Build.Dense(3, 2), Vector<Complex32>.Build.Dense(3, 3));
             Assert.AreEqual(IterationStatus.Continue, status, "Should be running");
 
-            criterium.Reset();
-            Assert.AreEqual(IterationStatus.Continue, criterium.Status, "Should not have started");
+            criterion.Reset();
+            Assert.AreEqual(IterationStatus.Continue, criterion.Status, "Should not have started");
         }
 
         /// <summary>
-        /// Can clone a stop criterium.
+        /// Can clone a stop criterion.
         /// </summary>
         [Test]
         public void Clone()
         {
-            var criterium = new IterationCountStopCriterium<Complex32>(10);
-            Assert.IsNotNull(criterium, "A criterium should have been created");
-            Assert.AreEqual(10, criterium.MaximumNumberOfIterations, "Incorrect maximum");
+            var criterion = new IterationCountStopCriterion<Complex32>(10);
+            Assert.IsNotNull(criterion, "A criterion should have been created");
+            Assert.AreEqual(10, criterion.MaximumNumberOfIterations, "Incorrect maximum");
 
-            var clone = criterium.Clone();
-            Assert.IsInstanceOf(typeof(IterationCountStopCriterium<Complex32>), clone, "Wrong criterium type");
+            var clone = criterion.Clone();
+            Assert.IsInstanceOf(typeof (IterationCountStopCriterion<Complex32>), clone, "Wrong criterion type");
 
-            var clonedCriterium = clone as IterationCountStopCriterium<Complex32>;
-            Assert.IsNotNull(clonedCriterium);
+            var clonedCriterion = clone as IterationCountStopCriterion<Complex32>;
+            Assert.IsNotNull(clonedCriterion);
 
             // ReSharper disable PossibleNullReferenceException
-            Assert.AreEqual(criterium.MaximumNumberOfIterations, clonedCriterium.MaximumNumberOfIterations, "Clone failed");
+            Assert.AreEqual(criterion.MaximumNumberOfIterations, clonedCriterion.MaximumNumberOfIterations, "Clone failed");
 
             // ReSharper restore PossibleNullReferenceException
         }

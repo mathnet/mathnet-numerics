@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2013 Math.NET
+// Copyright (c) 2009-2014 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -64,12 +64,12 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers
         [Test]
         public void DetermineStatusWithNegativeIterationNumberThrowsArgumentOutOfRangeException()
         {
-            var criteria = new List<IIterationStopCriterium<Complex32>>
+            var criteria = new List<IIterationStopCriterion<Complex32>>
             {
-                new FailureStopCriterium<Complex32>(),
-                new DivergenceStopCriterium<Complex32>(),
-                new IterationCountStopCriterium<Complex32>(),
-                new ResidualStopCriterium<Complex32>(1e-6)
+                new FailureStopCriterion<Complex32>(),
+                new DivergenceStopCriterion<Complex32>(),
+                new IterationCountStopCriterion<Complex32>(),
+                new ResidualStopCriterion<Complex32>(1e-6)
             };
             var iterator = new Iterator<Complex32>(criteria);
 
@@ -86,11 +86,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers
         [Test]
         public void DetermineStatus()
         {
-            var criteria = new List<IIterationStopCriterium<Complex32>>
+            var criteria = new List<IIterationStopCriterion<Complex32>>
             {
-                new FailureStopCriterium<Complex32>(),
-                new DivergenceStopCriterium<Complex32>(),
-                new IterationCountStopCriterium<Complex32>(1)
+                new FailureStopCriterion<Complex32>(),
+                new DivergenceStopCriterion<Complex32>(),
+                new IterationCountStopCriterion<Complex32>(1)
             };
 
             var iterator = new Iterator<Complex32>(criteria);
@@ -118,11 +118,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers
         [Test]
         public void ResetToPrecalculationState()
         {
-            var criteria = new List<IIterationStopCriterium<Complex32>>
+            var criteria = new List<IIterationStopCriterion<Complex32>>
             {
-                new FailureStopCriterium<Complex32>(),
-                new DivergenceStopCriterium<Complex32>(),
-                new IterationCountStopCriterium<Complex32>(1)
+                new FailureStopCriterion<Complex32>(),
+                new DivergenceStopCriterion<Complex32>(),
+                new IterationCountStopCriterion<Complex32>(1)
             };
 
             var iterator = new Iterator<Complex32>(criteria);

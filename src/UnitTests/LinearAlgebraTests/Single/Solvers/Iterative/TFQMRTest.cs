@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2013 Math.NET
+// Copyright (c) 2009-2014 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -93,10 +93,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers.Iterative
 
             // Create an iteration monitor which will keep track of iterative convergence
             var monitor = new Iterator<float>(
-                new IterationCountStopCriterium<float>(MaximumIterations),
-                new ResidualStopCriterium<float>(ConvergenceBoundary),
-                new DivergenceStopCriterium<float>(),
-                new FailureStopCriterium<float>());
+                new IterationCountStopCriterion<float>(MaximumIterations),
+                new ResidualStopCriterion<float>(ConvergenceBoundary),
+                new DivergenceStopCriterion<float>(),
+                new FailureStopCriterion<float>());
 
             var solver = new TFQMR();
 
@@ -127,17 +127,17 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers.Iterative
             var matrix = SparseMatrix.CreateIdentity(100);
 
             // Scale it with a funny number
-            matrix.Multiply((float) Math.PI, matrix);
+            matrix.Multiply((float)Math.PI, matrix);
 
             // Create the y vector
             var y = Vector<float>.Build.Dense(matrix.RowCount, 1);
 
             // Create an iteration monitor which will keep track of iterative convergence
             var monitor = new Iterator<float>(
-                new IterationCountStopCriterium<float>(MaximumIterations),
-                new ResidualStopCriterium<float>(ConvergenceBoundary),
-                new DivergenceStopCriterium<float>(),
-                new FailureStopCriterium<float>());
+                new IterationCountStopCriterion<float>(MaximumIterations),
+                new ResidualStopCriterion<float>(ConvergenceBoundary),
+                new DivergenceStopCriterion<float>(),
+                new FailureStopCriterion<float>());
 
             var solver = new TFQMR();
 
@@ -208,10 +208,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers.Iterative
 
             // Create an iteration monitor which will keep track of iterative convergence
             var monitor = new Iterator<float>(
-                new IterationCountStopCriterium<float>(MaximumIterations),
-                new ResidualStopCriterium<float>(ConvergenceBoundary),
-                new DivergenceStopCriterium<float>(),
-                new FailureStopCriterium<float>());
+                new IterationCountStopCriterion<float>(MaximumIterations),
+                new ResidualStopCriterion<float>(ConvergenceBoundary),
+                new DivergenceStopCriterion<float>(),
+                new FailureStopCriterion<float>());
 
             var solver = new TFQMR();
 
@@ -240,15 +240,15 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers.Iterative
         public void CanSolveForRandomVector(int order)
         {
             // Due to datatype "float" it can happen that solution will not converge for specific random matrix
-            // That's why we will do 3 tries and downgrade stop criterium each time
+            // That's why we will do 3 tries and downgrade stop criterion each time
             for (var iteration = 6; iteration > 3; iteration--)
             {
                 var matrixA = Matrix<float>.Build.Random(order, order, 1);
                 var vectorb = Vector<float>.Build.Random(order, 1);
 
                 var monitor = new Iterator<float>(
-                    new IterationCountStopCriterium<float>(MaximumIterations),
-                    new ResidualStopCriterium<float>(Math.Pow(1.0 / 10.0, iteration)));
+                    new IterationCountStopCriterion<float>(MaximumIterations),
+                    new ResidualStopCriterion<float>(Math.Pow(1.0/10.0, iteration)));
 
                 var solver = new TFQMR();
                 var resultx = matrixA.SolveIterative(vectorb, solver, monitor);
@@ -265,7 +265,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers.Iterative
                 // Check the reconstruction.
                 for (var i = 0; i < order; i++)
                 {
-                    Assert.AreEqual(vectorb[i], matrixBReconstruct[i], (float) Math.Pow(1.0/10.0, iteration - 3));
+                    Assert.AreEqual(vectorb[i], matrixBReconstruct[i], (float)Math.Pow(1.0/10.0, iteration - 3));
                 }
 
                 return;
@@ -280,15 +280,15 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers.Iterative
         public void CanSolveForRandomMatrix(int order)
         {
             // Due to datatype "float" it can happen that solution will not converge for specific random matrix
-            // That's why we will do 4 tries and downgrade stop criterium each time
+            // That's why we will do 4 tries and downgrade stop criterion each time
             for (var iteration = 6; iteration > 3; iteration--)
             {
                 var matrixA = Matrix<float>.Build.Random(order, order, 1);
                 var matrixB = Matrix<float>.Build.Random(order, order, 1);
 
                 var monitor = new Iterator<float>(
-                    new IterationCountStopCriterium<float>(MaximumIterations),
-                    new ResidualStopCriterium<float>(Math.Pow(1.0 / 10.0, iteration)));
+                    new IterationCountStopCriterion<float>(MaximumIterations),
+                    new ResidualStopCriterion<float>(Math.Pow(1.0/10.0, iteration)));
 
                 var solver = new TFQMR();
                 var matrixX = matrixA.SolveIterative(matrixB, solver, monitor);
@@ -312,7 +312,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers.Iterative
                 {
                     for (var j = 0; j < matrixB.ColumnCount; j++)
                     {
-                        Assert.AreEqual(matrixB[i, j], matrixBReconstruct[i, j], (float) Math.Pow(1.0/10.0, iteration - 4));
+                        Assert.AreEqual(matrixB[i, j], matrixBReconstruct[i, j], (float)Math.Pow(1.0/10.0, iteration - 4));
                     }
                 }
 
