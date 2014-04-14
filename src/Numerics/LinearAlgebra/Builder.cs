@@ -375,6 +375,8 @@ namespace MathNet.Numerics.LinearAlgebra
         /// </summary>
         public Matrix<T> OfStorage(MatrixStorage<T> storage)
         {
+            if (storage == null) throw new ArgumentNullException("storage");
+
             var dense = storage as DenseColumnMajorMatrixStorage<T>;
             if (dense != null) return Dense(dense);
 
@@ -384,7 +386,7 @@ namespace MathNet.Numerics.LinearAlgebra
             var diagonal = storage as DiagonalMatrixStorage<T>;
             if (diagonal != null) return Diagonal(diagonal);
 
-            throw new NotSupportedException();
+            throw new NotSupportedException(string.Format("Matrix storage type '{0}' is not supported. Only DenseColumnMajorMatrixStorage, SparseCompressedRowMatrixStorage and DiagonalMatrixStorage are supported as this point.", storage.GetType().Name));
         }
 
         /// <summary>
@@ -1329,13 +1331,15 @@ namespace MathNet.Numerics.LinearAlgebra
         /// </summary>
         public Vector<T> OfStorage(VectorStorage<T> storage)
         {
+            if (storage == null) throw new ArgumentNullException("storage");
+
             var dense = storage as DenseVectorStorage<T>;
             if (dense != null) return Dense(dense);
 
             var sparse = storage as SparseVectorStorage<T>;
             if (sparse != null) return Sparse(sparse);
 
-            throw new NotSupportedException();
+            throw new NotSupportedException(string.Format("Vector storage type '{0}' is not supported. Only DenseVectorStorage and SparseVectorStorage are supported as this point.", storage.GetType().Name));
         }
 
         /// <summary>
@@ -1602,7 +1606,7 @@ namespace MathNet.Numerics.LinearAlgebra
                     (VectorBuilder<T>)(object)new Single.VectorBuilder());
             }
 
-            throw new NotSupportedException();
+            throw new NotSupportedException(string.Format("Matrices and vectors of type '{0}' are not supported. Only Double, Single, Complex or Complex32 are supported at this point.", typeof(T).Name));
         }
 
         public static void Register(MatrixBuilder<T> matrixBuilder, VectorBuilder<T> vectorBuilder)
