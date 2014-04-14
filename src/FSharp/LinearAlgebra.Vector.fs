@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2013 Math.NET
+// Copyright (c) 2009-2014 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -201,6 +201,22 @@ module Vector =
 
     /// In place vector subtraction.
     let inline subInPlace (v: #Vector<_>) (w: #Vector<_>) = v.Subtract(w, v)
+
+
+    let inline length (A: #Vector<_>) = A.Count
+
+    let inline conjugate (A: #Vector<_>) = A.Conjugate()
+    let inline norm (A: #Vector<_>) = A.L2Norm()
+    let inline sum (A: #Vector<_>) = A.Sum()
+
+    let inline min (A: #Vector<_>) = A.Minimum()
+    let inline max (A: #Vector<_>) = A.Maximum()
+    let inline minIndex (A: #Vector<_>) = A.MinimumIndex()
+    let inline maxIndex (A: #Vector<_>) = A.MaximumIndex()
+    let inline minAbs (A: #Vector<_>) = A.AbsoluteMinimum()
+    let inline maxAbs (A: #Vector<_>) = A.AbsoluteMaximum()
+    let inline minAbsIndex (A: #Vector<_>) = A.AbsoluteMinimumIndex()
+    let inline maxAbsIndex (A: #Vector<_>) = A.AbsoluteMaximumIndex()
 
 
 
