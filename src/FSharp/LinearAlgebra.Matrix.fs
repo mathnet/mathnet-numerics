@@ -337,7 +337,6 @@ module Matrix =
     let inline inverse (A: #Matrix<_>) = A.Inverse()
 
     let inline norm (A: #Matrix<_>) = A.L2Norm()
-    let inline frobenius (A: #Matrix<_>) = A.FrobeniusNorm()
     let inline rank (A: #Matrix<_>) = A.Rank()
     let inline trace (A: #Matrix<_>) = A.Trace()
     let inline determinant (A: #Matrix<_>) = A.Determinant()
