@@ -343,16 +343,20 @@ module DenseMatrix =
     let inline raw (rows: int) (cols: int) (columnMajor: 'T[]) = Matrix<'T>.Build.Dense(rows, cols, columnMajor)
 
     /// Create an all-zero matrix with the given dimension.
-    let inline zero (rows: int) (cols: int) = Matrix<'T>.Build.Dense(rows, cols)
+    let inline zero<'T when 'T:struct and 'T :> ValueType and 'T: (new: unit ->'T) and 'T :> IEquatable<'T> and 'T :> IFormattable>
+        (rows: int) (cols: int) = Matrix<'T>.Build.Dense(rows, cols)
 
     /// Create a random matrix with the given dimension and value distribution.
-    let inline random (rows: int) (cols: int) (dist: IContinuousDistribution) = Matrix<'T>.Build.Random(rows, cols, dist)
+    let inline random<'T when 'T:struct and 'T :> ValueType and 'T: (new: unit ->'T) and 'T :> IEquatable<'T> and 'T :> IFormattable>
+        (rows: int) (cols: int) (dist: IContinuousDistribution) = Matrix<'T>.Build.Random(rows, cols, dist)
     
     /// Create a random matrix with the given dimension and standard distributed values.
-    let inline randomStandard (rows: int) (cols: int) = Matrix<'T>.Build.Random(rows, cols)
+    let inline randomStandard<'T when 'T:struct and 'T :> ValueType and 'T: (new: unit ->'T) and 'T :> IEquatable<'T> and 'T :> IFormattable>
+         (rows: int) (cols: int) = Matrix<'T>.Build.Random(rows, cols)
 
     /// Create a random matrix with the given dimension and standard distributed values using the provided seed.
-    let inline randomSeed (rows: int) (cols: int) (seed: int) = Matrix<'T>.Build.Random(rows, cols, seed)
+    let inline randomSeed<'T when 'T:struct and 'T :> ValueType and 'T: (new: unit ->'T) and 'T :> IEquatable<'T> and 'T :> IFormattable>
+        (rows: int) (cols: int) (seed: int) = Matrix<'T>.Build.Random(rows, cols, seed)
 
     /// Create a matrix with the given dimension and set all values to x.
     let inline create (rows: int) (cols: int) (x: 'T) = Matrix<'T>.Build.Dense(rows, cols, x)
@@ -364,10 +368,12 @@ module DenseMatrix =
     let inline diag2 (rows: int) (cols: int) (x: 'T) = Matrix<'T>.Build.DenseDiagonal(rows, cols, x)
 
     /// Create an identity matrix with the given dimension.
-    let inline identity (order: int) = Matrix<'T>.Build.DenseIdentity(order)
+    let inline identity<'T when 'T:struct and 'T :> ValueType and 'T: (new: unit ->'T) and 'T :> IEquatable<'T> and 'T :> IFormattable>
+        (order: int) = Matrix<'T>.Build.DenseIdentity(order)
 
     /// Create an identity matrix with the given dimension.
-    let inline identity2 (rows: int) (cols: int) = Matrix<'T>.Build.DenseIdentity(rows, cols)
+    let inline identity2<'T when 'T:struct and 'T :> ValueType and 'T: (new: unit ->'T) and 'T :> IEquatable<'T> and 'T :> IFormattable>
+        (rows: int) (cols: int) = Matrix<'T>.Build.DenseIdentity(rows, cols)
 
     /// Initialize a matrix by calling a construction function for every element.
     let inline init (rows: int) (cols: int) (f: int -> int -> 'T) = Matrix<'T>.Build.Dense(rows, cols, fun i j -> f i j)
@@ -444,7 +450,8 @@ module SparseMatrix =
     let inline ofStorage storage = Matrix<'T>.Build.Sparse(storage)
 
     /// Create an all-zero matrix with the given dimension.
-    let inline zero (rows: int) (cols: int) = Matrix<'T>.Build.Sparse(rows, cols)
+    let inline zero<'T when 'T:struct and 'T :> ValueType and 'T: (new: unit ->'T) and 'T :> IEquatable<'T> and 'T :> IFormattable>
+        (rows: int) (cols: int) = Matrix<'T>.Build.Sparse(rows, cols)
 
     /// Create a matrix with the given dimension and set all values to x. Note that a dense matrix would likely be more appropriate.
     let inline create (rows: int) (cols: int) (x: 'T) = Matrix<'T>.Build.Sparse(rows, cols, x)
@@ -456,10 +463,12 @@ module SparseMatrix =
     let inline diag2 (rows: int) (cols: int) (x: 'T) = Matrix<'T>.Build.SparseDiagonal(rows, cols, x)
 
     /// Create an identity matrix with the given dimension.
-    let inline identity (order: int) = Matrix<'T>.Build.SparseIdentity(order)
+    let inline identity<'T when 'T:struct and 'T :> ValueType and 'T: (new: unit ->'T) and 'T :> IEquatable<'T> and 'T :> IFormattable>
+        (order: int) = Matrix<'T>.Build.SparseIdentity(order)
 
     /// Create an identity matrix with the given dimension.
-    let inline identity2 (rows: int) (cols: int) = Matrix<'T>.Build.SparseIdentity(rows, cols)
+    let inline identity2<'T when 'T:struct and 'T :> ValueType and 'T: (new: unit ->'T) and 'T :> IEquatable<'T> and 'T :> IFormattable>
+        (rows: int) (cols: int) = Matrix<'T>.Build.SparseIdentity(rows, cols)
 
     /// Initialize a matrix by calling a construction function for every element.
     let inline init (rows: int) (cols: int) (f: int -> int -> 'T) = Matrix<'T>.Build.Sparse(rows, cols, fun n m -> f n m)

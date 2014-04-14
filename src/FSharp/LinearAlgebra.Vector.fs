@@ -30,6 +30,9 @@
 
 namespace MathNet.Numerics.LinearAlgebra
 
+open System
+open MathNet.Numerics.LinearAlgebra
+
 
 /// A module which implements functional vector operations.
 [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
@@ -214,16 +217,20 @@ module DenseVector =
     let inline raw (raw: 'T[]) = Vector<'T>.Build.Dense(raw)
 
     /// Initialize an all-zero vector with the given dimension.
-    let inline zero (n: int) = Vector<'T>.Build.Dense(n)
+    let inline zero<'T when 'T:struct and 'T :> ValueType and 'T: (new: unit ->'T) and 'T :> IEquatable<'T> and 'T :> IFormattable>
+        (n: int) = Vector<'T>.Build.Dense(n)
 
     /// Initialize a random vector with the given dimension and distribution.
-    let inline random (n: int) (dist: IContinuousDistribution) = Vector<'T>.Build.Random(n, dist)
+    let inline random<'T when 'T:struct and 'T :> ValueType and 'T: (new: unit ->'T) and 'T :> IEquatable<'T> and 'T :> IFormattable>
+        (n: int) (dist: IContinuousDistribution) = Vector<'T>.Build.Random(n, dist)
 
     /// Initialize a random vector with the given dimension and standard distributed values.
-    let inline randomStandard (n: int) = Vector<'T>.Build.Random(n)
+    let inline randomStandard<'T when 'T:struct and 'T :> ValueType and 'T: (new: unit ->'T) and 'T :> IEquatable<'T> and 'T :> IFormattable>
+        (n: int) = Vector<'T>.Build.Random(n)
 
     /// Initialize a random vector with the given dimension and standard distributed values using the provided seed.
-    let inline randomSeed (n: int) (seed: int) = Vector<'T>.Build.Random(n, seed)
+    let inline randomSeed<'T when 'T:struct and 'T :> ValueType and 'T: (new: unit ->'T) and 'T :> IEquatable<'T> and 'T :> IFormattable>
+        (n: int) (seed: int) = Vector<'T>.Build.Random(n, seed)
 
     /// Initialize an x-valued vector with the given dimension.
     let inline create (n: int) (x: 'T) = Vector<'T>.Build.Dense(n, x)
@@ -261,7 +268,8 @@ module SparseVector =
     let inline ofStorage (storage: Storage.SparseVectorStorage<'T>) = Vector<'T>.Build.Sparse(storage)
 
     /// Initialize an all-zero vector with the given dimension.
-    let inline zero (n: int) = Vector<'T>.Build.Sparse(n)
+    let inline zero<'T when 'T:struct and 'T :> ValueType and 'T: (new: unit ->'T) and 'T :> IEquatable<'T> and 'T :> IFormattable>
+        (n: int) = Vector<'T>.Build.Sparse(n)
 
     /// Initialize an x-valued vector with the given dimension.
     let inline create (n: int) (x: 'T) = Vector<'T>.Build.Sparse(n, x)
