@@ -278,6 +278,11 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                 throw new ArgumentNullException("target");
             }
 
+            if (count == 0)
+            {
+                return;
+            }
+
             ValidateSubVectorRange(target, sourceIndex, targetIndex, count);
             CopySubVectorToUnchecked(target, sourceIndex, targetIndex, count, skipClearing);
         }
@@ -318,6 +323,11 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                 throw new ArgumentNullException("target");
             }
 
+            if (columnCount == 0)
+            {
+                return;
+            }
+
             ValidateSubRowRange(target, rowIndex, sourceColumnIndex, targetColumnIndex, columnCount);
             CopyToSubRowUnchecked(target, rowIndex, sourceColumnIndex, targetColumnIndex, columnCount, skipClearing);
         }
@@ -341,6 +351,11 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             if (target == null)
             {
                 throw new ArgumentNullException("target");
+            }
+
+            if (rowCount == 0)
+            {
+                return;
             }
 
             ValidateSubColumnRange(target, columnIndex, sourceRowIndex, targetRowIndex, rowCount);
