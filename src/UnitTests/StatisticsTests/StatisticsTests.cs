@@ -988,6 +988,29 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
             Assert.That(SortedArrayStatistics.Median(new[] { double.NegativeInfinity, 2.0, double.PositiveInfinity }), Is.EqualTo(2.0));
             Assert.That(SortedArrayStatistics.Median(new[] { double.NegativeInfinity, 2.0, 3.0, double.PositiveInfinity }), Is.EqualTo(2.5));
         }
+
+        [Test]
+        public void RobustOnLargeSampleSets()
+        {
+            // 0, 0.25, 0.5, 0.75, 0, 0.25, 0.5, 0.75, ...
+            var shorter = Generate.Periodic(4*4096, 4, 1);
+            var longer = Generate.Periodic(4*32768, 4, 1);
+
+            Assert.That(Statistics.Mean(shorter), Is.EqualTo(0.375).Within(1e-14), "Statistics.Mean: shorter");
+            Assert.That(Statistics.Mean(longer), Is.EqualTo(0.375).Within(1e-14), "Statistics.Mean: longer");
+            Assert.That(new DescriptiveStatistics(shorter).Mean, Is.EqualTo(0.375).Within(1e-14), "DescriptiveStatistics.Mean: shorter");
+            Assert.That(new DescriptiveStatistics(longer).Mean, Is.EqualTo(00.375).Within(1e-14), "DescriptiveStatistics.Mean: longer");
+
+            Assert.That(Statistics.Skewness(shorter), Is.EqualTo(0.0).Within(1e-12), "Statistics.Skewness: shorter");
+            Assert.That(Statistics.Skewness(longer), Is.EqualTo(0.0).Within(1e-12), "Statistics.Skewness: longer");
+            Assert.That(new DescriptiveStatistics(shorter).Skewness, Is.EqualTo(0.0).Within(1e-12), "DescriptiveStatistics.Skewness: shorter");
+            Assert.That(new DescriptiveStatistics(longer).Skewness, Is.EqualTo(0.0).Within(1e-12), "DescriptiveStatistics.Skewness: longer");
+
+            Assert.That(Statistics.Kurtosis(shorter), Is.EqualTo(-1.36).Within(1e-4), "Statistics.Kurtosis: shorter");
+            Assert.That(Statistics.Kurtosis(longer), Is.EqualTo(-1.36).Within(1e-4), "Statistics.Kurtosis: longer");
+            Assert.That(new DescriptiveStatistics(shorter).Kurtosis, Is.EqualTo(-1.36).Within(1e-4), "DescriptiveStatistics.Kurtosis: shorter");
+            Assert.That(new DescriptiveStatistics(longer).Kurtosis, Is.EqualTo(-1.36).Within(1e-4), "DescriptiveStatistics.Kurtosis: longer");
+        }
     }
 }
 

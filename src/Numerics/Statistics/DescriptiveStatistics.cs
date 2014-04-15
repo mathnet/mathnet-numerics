@@ -104,7 +104,7 @@ namespace MathNet.Numerics.Statistics
         /// Gets the size of the sample.
         /// </summary>
         /// <value>The size of the sample.</value>
-        public int Count { get; private set; }
+        public long Count { get; private set; }
 
         /// <summary>
         /// Gets the sample mean.
@@ -162,7 +162,7 @@ namespace MathNet.Numerics.Statistics
             double kurtosis = 0;
             double minimum = Double.PositiveInfinity;
             double maximum = Double.NegativeInfinity;
-            int n = 0;
+            long n = 0;
             foreach (var xi in data)
             {
                 double delta = xi - mean;
@@ -202,7 +202,7 @@ namespace MathNet.Numerics.Statistics
             double kurtosis = 0;
             double minimum = Double.PositiveInfinity;
             double maximum = Double.NegativeInfinity;
-            int n = 0;
+            long n = 0;
             foreach (var xi in data)
             {
                 if (xi.HasValue)
@@ -244,7 +244,7 @@ namespace MathNet.Numerics.Statistics
             decimal kurtosis = 0;
             decimal minimum = Decimal.MaxValue;
             decimal maximum = Decimal.MinValue;
-            int n = 0;
+            long n = 0;
             foreach (double x in data)
             {
                 decimal xi = (decimal)x;
@@ -284,7 +284,7 @@ namespace MathNet.Numerics.Statistics
             decimal kurtosis = 0;
             decimal minimum = Decimal.MaxValue;
             decimal maximum = Decimal.MinValue;
-            int n = 0;
+            long n = 0;
             foreach (double? x in data)
             {
                 if (x.HasValue)
@@ -325,7 +325,7 @@ namespace MathNet.Numerics.Statistics
         /// <param name="minimum">For setting Minimum.</param>
         /// <param name="maximum">For setting Maximum.</param>
         /// <param name="n">For setting Count.</param>
-        void SetStatistics(double mean, double variance, double skewness, double kurtosis, double minimum, double maximum, int n)
+        void SetStatistics(double mean, double variance, double skewness, double kurtosis, double minimum, double maximum, long n)
         {
             Mean = mean;
             Count = n;
