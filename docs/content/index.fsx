@@ -13,11 +13,11 @@ NuGet Packages
 The recommended way to get Math.NET Numerics is to use NuGet. The following packages are provided and maintained in the public [NuGet Gallery](https://nuget.org/profiles/mathnet/):
 
 - **MathNet.Numerics** - core package, including .Net 4, .Net 3.5 and portable/PCL builds.
-- **MathNet.Numerics.FSharp** - optional extensions for a better F# experience. BigRational.
+- **MathNet.Numerics.FSharp** - optional extensions for F#, also including BigRational.
 - **MathNet.Numerics.Data.Text** - optional extensions for text-based matrix input/output.
 - **MathNet.Numerics.Data.Matlab** - optional extensions for MATLAB matrix file input/output.
-- **MathNet.Numerics.MKL.Win-x86** - optional Linear Algebra MKL native provider.
-- **MathNet.Numerics.MKL.Win-x64** - optional Linear Algebra MKL native provider.
+- **MathNet.Numerics.MKL.Win-x86** - optional Linear Algebra MKL native provider (32 bit).
+- **MathNet.Numerics.MKL.Win-x64** - optional Linear Algebra MKL native provider (64 bit).
 - **MathNet.Numerics.Signed** - strong-named version of the core package *(not recommended)*.
 - **MathNet.Numerics.FSharp.Signed** - strong-named version of the F# package *(not recommended)*.
 
@@ -33,8 +33,34 @@ Alternatively you can also download the binaries in Zip packages, available on [
 - Signed Binaries - strong-named version of the core package *(not recommended)*.
 
 
-Using Math.NET Numerics with F#
+Using Math.NET Numerics with C#
 -------------------------------
+
+Being written in it, Math.NET Numerics works very well with C# and related .Net languages.
+When using Visual Studio or another IDE with built-in NuGet support, you can get started
+quickly by adding a reference to the `MathNet.Numerics` NuGet package. Alternatively you can grab
+that package with the command line tool with `nuget.exe install MathNet.Numerics -Pre`
+or simply download the Zip package.
+
+let's say we have a matrix $\mathrm{A}$ and want to find an orthonormal basis of the kernel or null-space
+of that matrix, such that $\mathrm{A}x = 0$ for all $x$ in that subspace.
+
+    [lang=csharp]
+    using MathNet.Numerics.LinearAlgebra;
+    using MathNet.Numerics.LinearAlgebra.Double;
+
+    Matrix<double> A = DenseMatrix.OfArray(new double[,] {
+            {1,1,1,1},
+            {1,2,3,4},
+            {4,3,2,1}});
+    Vector<double>[] nullspace = A.Kernel();
+
+    // verify: the following should be approximately (0,0,0)
+    (A * (2*nullspace[0] - 3*nullspace[1]))
+
+
+F# and F# Interactive
+---------------------
 
 Even though the core of Math.NET Numerics is written in C#, it aims to support F#
 just as well. In order to achieve this we recommend to reference the `MathNet.Numerics.FSharp`
@@ -61,8 +87,26 @@ the `#I "/some/path"` statement first before you can reference them with the `#r
     (m * m.Transpose()).Determinant()
 
 
-Using Math.NET Numerics on Linux with Mono
-------------------------------------------
+Visual Basic
+------------
+
+Let's use Visual Basic to find the polynomial roots $x$ such that $2x^2 - 2x - 2 = 0$
+numerically. We already know there are two roots, one between -2 and 0, the other between 0 and 2:
+
+    [lang=visualbasic]
+    Imports MathNet.Numerics.RootFinding
+
+    Dim f As Func(Of Double, Double) = Function(x) 2*x^2 - 2*x - 2
+
+    Bisection.FindRoot(f, 0, 2) ' returns 1.61803398874989
+    Bisection.FindRoot(f, -2, 0) ' returns -0.618033988749895
+
+    ' Alternative to directly compute the roots for this special case:
+    FindRoots.Quadratic(-2, -2, 2)
+
+
+Linux with Mono
+---------------
 
 You need a recent version of Mono in order to use Math.NET Numerics on anything other than Windows.
 Luckily there has been great progress lately to make both Mono and F# available as proper Debian packages.
@@ -181,4 +225,7 @@ If you do not want to use the official binaries, or if you like to modify, debug
     build.cmd TestNative       # test native providers for all platforms
 
 FAKE itself is not included in the repository but it will download and bootstrap itself automatically when build.cmd is run the first time. Note that this step is *not* required when using Visual Studio or `msbuild` directly.
+
+If the build or tests fail claiming that FSharp.Core was not be found, see [fsharp.org](http://fsharp.org/use/windows/) or install the [Visual F# 3.0 Tools](http://go.microsoft.com/fwlink/?LinkId=261286) directly.
+
 *)

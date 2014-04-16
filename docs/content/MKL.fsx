@@ -115,7 +115,5 @@ thus does have the right to distribute it along Math.NET Numerics. You can there
 Numerics MKL native provider for free for your own use. However, it does *not* give you any right to
 redistribute it again yourself to customers of your own product. **If you need to redistribute,
 buy a license from Intel. If unsure, contact the Intel sales team to clarify.**
-The Math.NET team absolutely loves open source and free access, but we also respect commercial
-vendors and their restricted licensing terms, and ask you to do the same. Thanks.
 
 *)
