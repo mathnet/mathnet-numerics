@@ -5,10 +5,8 @@
 #I @"packages/FAKE/tools"
 #r @"packages/FAKE/tools/FakeLib.dll"
 
-open Fake 
-open Fake.Git
-open Fake.AssemblyInfoFile
-open Fake.ReleaseNotesHelper
+open Fake
+open Fake.DocuHelper
 open System
 
 Environment.CurrentDirectory <- __SOURCE_DIRECTORY__
@@ -111,6 +109,20 @@ Target "DocsDev" (fun _ ->
 "Start"
   =?> ("CleanDocs", not (hasBuildParam "incremental"))
   ==> "DocsDev"
+
+
+// API REFERENCE
+
+Target "CleanApi" (fun _ -> CleanDirs ["out" @@ "api"])
+
+Target "Api" (fun _ ->
+    !! "out/lib/Net40/MathNet.Numerics.dll"
+    |> Docu (fun p ->
+        { p with
+            ToolPath = "tools/docu/docu.exe"
+            TemplatesPath = "tools/docu/templates/"
+            TimeOut = TimeSpan.FromMinutes 10.
+            OutputPath = "out/api/" }))
 
 
 // NUGET

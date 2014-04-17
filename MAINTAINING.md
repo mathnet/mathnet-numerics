@@ -11,15 +11,14 @@ Repository:
 - Update RELEASENOTES file with relevant changes, attributed by contributor (if external). Set date.
 - Update CONTRIBUTORS file (via `git shortlog -sn`)
 - Create and publish a new annotated git tag for the release, e.g. `git tag -a v2.5.0 -m "v2.5.0"`
-- Consider to resync the subtree in the native provider repository.
 - Consider to update the repository mirrors at codeplex, gitorious and google ([how to](http://christoph.ruegg.name/blog/2013/1/26/git-howto-mirror-a-github-repository-without-pull-refs.html)).
 
 Publish:
 
 - Generate manual release build from internal TeamCity
 - Update release notes in NuGet packages (using package explorer)
-- Create new codeplex release, attach Zip files
 - Upload NuGet packages to the NuGet Gallery
+- Create new Codeplex and GitHub release, attach Zip files
 
 Misc:
 

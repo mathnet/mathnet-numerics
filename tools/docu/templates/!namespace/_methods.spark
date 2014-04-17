@@ -1,0 +1,37 @@
+﻿<if condition="methods.Count() > 0">
+	<h3 class="section">${title}</h3>
+	
+	<div id="${method.Name}" class="method" each="var method in methods">
+		<h4>${Format(method.ReturnType)} <strong>${h(method.PrettyName)}</strong>(${OutputMethodParams(method)})</h4>
+		<div class="content">
+      <comment content="method.Summary" />
+      <remarks content="method.Remarks" />
+      <if condition="method.IsObsolete">
+        <div id="warning">
+          <b>Obsolete:</b> ${method.ObsoleteReason}
+        </div>
+      </if>
+
+      <var hasReturn="method.ReturnType != null && method.ReturnType.PrettyName != 'void'" />
+      <var hasParams="method.Parameters.Any(x => x.HasDocumentation)" />
+
+      <div class="parameters" if="hasParams">
+        <h5>Parameters</h5>
+
+        <for each="var param in method.Parameters">
+          <h6><code>${Format(param.Reference)}</code> ${param.Name}</h6>
+          <p class="comments" if="!param.Summary.IsEmpty"><comment content="param.Summary" /></p>
+        </for>
+      </div>
+
+      <div class="return" if="!method.Returns.IsEmpty">
+        <h5>Return</h5>
+        <h6><code>${Format(method.ReturnType)}</code></h6>
+        <p><comment content="method.Returns" /></p>
+      </div>
+      
+      <value content="method.Value" />
+      <example content="method.Example" />
+    </div>
+	</div>
+</if>
