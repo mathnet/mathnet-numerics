@@ -206,6 +206,7 @@
     <Compile Include="SpecialFunctions\ModifiedStruve.cs" />
     <Compile Include="SpecialFunctions\ModifiedBessel.cs" />
     <Compile Include="SpecialFunctions\Logistic.cs" />
+    <Compile Include="SpecialFunctions\Test.cs" />
     <Compile Include="Statistics\ArrayStatistics.cs" />
     <Compile Include="Statistics\RunningStatistics.cs" />
     <Compile Include="Statistics\QuantileDefinition.cs" />
