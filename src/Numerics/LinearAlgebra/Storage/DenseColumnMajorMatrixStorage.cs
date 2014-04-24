@@ -530,20 +530,34 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             }
         }
 
+        public override void MapInplace(Func<T, T> f, bool forceMapZeros = false)
+        {
+            CommonParallel.For(0, Data.Length, 4096, (a, b) =>
+            {
+                for (int i = a; i < b; i++)
+                {
+                    Data[i] = f(Data[i]);
+                }
+            });
+        }
+
         internal override void MapIndexedToUnchecked<TU>(MatrixStorage<TU> target, Func<int, int, T, TU> f, bool forceMapZeros = false, bool skipClearing = false)
         {
             var denseTarget = target as DenseColumnMajorMatrixStorage<TU>;
             if (denseTarget != null)
             {
-                int index = 0;
-                for (int j = 0; j < ColumnCount; j++)
+                CommonParallel.For(0, ColumnCount, Math.Max(4096/RowCount, 32), (a, b) =>
                 {
-                    for (int i = 0; i < RowCount; i++)
+                    int index = a*RowCount;
+                    for (int j = a; j < b; j++)
                     {
-                        denseTarget.Data[index] = f(i, j, Data[index]);
-                        index++;
+                        for (int i = 0; i < RowCount; i++)
+                        {
+                            denseTarget.Data[index] = f(i, j, Data[index]);
+                            index++;
+                        }
                     }
-                }
+                });
                 return;
             }
 
@@ -557,6 +571,22 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                     target.At(i, j, f(i, j, Data[index2++]));
                 }
             }
+        }
+
+        public override void MapIndexedInplace(Func<int, int, T, T> f, bool forceMapZeros = false)
+        {
+            CommonParallel.For(0, ColumnCount, Math.Max(4096/RowCount, 32), (a, b) =>
+            {
+                int index = a*RowCount;
+                for (int j = a; j < b; j++)
+                {
+                    for (int i = 0; i < RowCount; i++)
+                    {
+                        Data[index] = f(i, j, Data[index]);
+                        index++;
+                    }
+                }
+            });
         }
     }
 }

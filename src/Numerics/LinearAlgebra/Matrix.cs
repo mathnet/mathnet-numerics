@@ -1473,7 +1473,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// </summary>
         public void MapInplace(Func<T, T> f, bool forceMapZeros = false)
         {
-            Storage.MapToUnchecked(Storage, f, forceMapZeros, skipClearing: true);
+            Storage.MapInplace(f, forceMapZeros);
         }
 
         /// <summary>
@@ -1484,7 +1484,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// </summary>
         public void MapIndexedInplace(Func<int, int, T, T> f, bool forceMapZeros = false)
         {
-            Storage.MapIndexedToUnchecked(Storage, f, forceMapZeros, skipClearing: true);
+            Storage.MapIndexedInplace(f, forceMapZeros);
         }
 
         /// <summary>

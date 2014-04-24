@@ -637,6 +637,22 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             }
         }
 
+        public override void MapInplace(Func<T, T> f, bool forceMapZeros = false)
+        {
+            if (forceMapZeros)
+            {
+                throw new NotSupportedException("Cannot map non-zero off-diagonal values into a diagonal matrix");
+            }
+
+            CommonParallel.For(0, Data.Length, 4096, (a, b) =>
+            {
+                for (int i = a; i < b; i++)
+                {
+                    Data[i] = f(Data[i]);
+                }
+            });
+        }
+
         internal override void MapIndexedToUnchecked<TU>(MatrixStorage<TU> target, Func<int, int, T, TU> f, bool forceMapZeros = false, bool skipClearing = false)
         {
             var processZeros = forceMapZeros || !Zero.Equals(f(0, 0, Zero));
@@ -683,6 +699,22 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                     target.At(i, i, f(i, i, Data[i]));
                 }
             }
+        }
+
+        public override void MapIndexedInplace(Func<int, int, T, T> f, bool forceMapZeros = false)
+        {
+            if (forceMapZeros)
+            {
+                throw new NotSupportedException("Cannot map non-zero off-diagonal values into a diagonal matrix");
+            }
+
+            CommonParallel.For(0, Data.Length, 4096, (a, b) =>
+            {
+                for (int i = a; i < b; i++)
+                {
+                    Data[i] = f(i, i, Data[i]);
+                }
+            });
         }
     }
 }

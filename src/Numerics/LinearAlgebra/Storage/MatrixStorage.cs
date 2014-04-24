@@ -512,6 +512,17 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             }
         }
 
+        public virtual void MapInplace(Func<T, T> f, bool forceMapZeros = false)
+        {
+            for (int i = 0; i < RowCount; i++)
+            {
+                for (int j = 0; j < ColumnCount; j++)
+                {
+                    At(i, j, f(At(i, j)));
+                }
+            }
+        }
+
         public void MapIndexedTo<TU>(MatrixStorage<TU> target, Func<int, int, T, TU> f, bool forceMapZeros = false, bool skipClearing = false)
             where TU : struct, IEquatable<TU>, IFormattable
         {
@@ -537,6 +548,17 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                 for (int j = 0; j < ColumnCount; j++)
                 {
                     target.At(i, j, f(i, j, At(i, j)));
+                }
+            }
+        }
+
+        public virtual void MapIndexedInplace(Func<int, int, T, T> f, bool forceMapZeros = false)
+        {
+            for (int i = 0; i < RowCount; i++)
+            {
+                for (int j = 0; j < ColumnCount; j++)
+                {
+                    At(i, j, f(i, j, At(i, j)));
                 }
             }
         }
