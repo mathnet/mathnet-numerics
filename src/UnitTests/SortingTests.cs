@@ -39,15 +39,18 @@ namespace MathNet.Numerics.UnitTests
         /// <summary>
         /// Test random tuple array sorting.
         /// </summary>
-        [Test]
-        public void TestRandomTupleArraySorting()
+        [TestCase(0)]
+        [TestCase(2)]
+        [TestCase(7)]
+        [TestCase(24)]
+        [TestCase(1024)]
+        public void TestRandomTupleArraySorting(int length)
         {
-            const int Len = 0x1 << 10;
             var random = new System.Random(0);
 
-            var keys = new int[Len];
-            var items = new int[Len];
-            var keysCopy = new int[Len];
+            var keys = new int[length];
+            var items = new int[length];
+            var keysCopy = new int[length];
 
             for (var i = 0; i < keys.Length; i++)
             {
@@ -73,17 +76,20 @@ namespace MathNet.Numerics.UnitTests
         /// <summary>
         /// Test random tuple list sorting.
         /// </summary>
-        [Test]
-        public void TestRandomTupleListSorting()
+        [TestCase(0)]
+        [TestCase(2)]
+        [TestCase(7)]
+        [TestCase(24)]
+        [TestCase(1024)]
+        public void TestRandomTupleListSorting(int length)
         {
-            const int Len = 0x1 << 10;
             var random = new System.Random(0);
 
-            var keys = new List<int>(Len);
-            var items = new List<int>(Len);
-            var keysCopy = new int[Len];
+            var keys = new List<int>(length);
+            var items = new List<int>(length);
+            var keysCopy = new int[length];
 
-            for (var i = 0; i < Len; i++)
+            for (var i = 0; i < length; i++)
             {
                 var value = random.Next();
                 keys.Add(value);
@@ -93,7 +99,7 @@ namespace MathNet.Numerics.UnitTests
 
             Sorting.Sort(keys, items);
 
-            for (var i = 1; i < Len; i++)
+            for (var i = 1; i < length; i++)
             {
                 Assert.IsTrue(keys[i] >= keys[i - 1], "Sort Order - " + i);
                 Assert.AreEqual(items[i], -keys[i], "Items Permutation - " + i);
@@ -108,16 +114,19 @@ namespace MathNet.Numerics.UnitTests
         /// <summary>
         /// Test random triple array sorting.
         /// </summary>
-        [Test]
-        public void TestRandomTripleArraySorting()
+        [TestCase(0)]
+        [TestCase(2)]
+        [TestCase(7)]
+        [TestCase(24)]
+        [TestCase(1024)]
+        public void TestRandomTripleArraySorting(int length)
         {
-            const int Len = 0x1 << 10;
             var random = new System.Random(0);
 
-            var keys = new int[Len];
-            var items1 = new int[Len];
-            var items2 = new int[Len];
-            var keysCopy = new int[Len];
+            var keys = new int[length];
+            var items1 = new int[length];
+            var items2 = new int[length];
+            var keysCopy = new int[length];
 
             for (var i = 0; i < keys.Length; i++)
             {
@@ -145,15 +154,18 @@ namespace MathNet.Numerics.UnitTests
         /// <summary>
         /// Test applied list sorting.
         /// </summary>
-        [Test]
-        public void TestAppliedListSorting()
+        [TestCase(0)]
+        [TestCase(2)]
+        [TestCase(7)]
+        [TestCase(24)]
+        [TestCase(1024)]
+        public void TestAppliedListSorting(int length)
         {
-            const int Len = 0x1 << 10;
             var random = new System.Random(0);
 
             var list = new List<int>();
 
-            for (var i = 0; i < Len; i++)
+            for (var i = 0; i < length; i++)
             {
                 list.Add(random.Next());
             }
