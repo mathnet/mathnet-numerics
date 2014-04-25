@@ -932,7 +932,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
             }
 
             var diagonalOther = other as DiagonalMatrix;
-            if (diagonalOther != null && sparseResult != null)
+            if (diagonalOther != null && sparseResult != null && other.RowCount == other.ColumnCount)
             {
                 var diagonal = ((DiagonalMatrixStorage<Complex>)other.Storage).Data;
                 // TODO: Map is rather generic, we can do better

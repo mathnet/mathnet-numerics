@@ -429,8 +429,14 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
                 return;
             }
 
-            // TODO: Map is rather generic, we can do better
-            other.MapIndexed((i, j, x) => _data[i]*x, result, false);
+            if (RowCount == ColumnCount)
+            {
+                // TODO: Map is rather generic, we can do better
+                other.MapIndexed((i, j, x) => _data[i]*x, result, false);
+                return;
+            }
+
+            base.DoMultiply(other, result);
         }
 
         /// <summary>
