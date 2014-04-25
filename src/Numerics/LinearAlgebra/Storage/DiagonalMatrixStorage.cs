@@ -182,7 +182,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             {
                 for (var i = 0; i < hashNum; i++)
                 {
-                    hash = hash * 31 + Data[i].GetHashCode();
+                    hash = hash*31 + Data[i].GetHashCode();
                 }
             }
             return hash;
@@ -253,7 +253,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             }
 
             var storage = new DiagonalMatrixStorage<T>(rows, columns);
-            foreach(var item in data)
+            foreach (var item in data)
             {
                 storage.Data[item.Item1] = item.Item2;
             }
@@ -400,7 +400,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                 // column by column, but skip resulting zero columns at the beginning
 
                 int columnInit = sourceRowIndex - sourceColumnIndex;
-                int offset = (columnInit + targetColumnIndex) * target.RowCount + targetRowIndex;
+                int offset = (columnInit + targetColumnIndex)*target.RowCount + targetRowIndex;
                 int step = target.RowCount + 1;
                 int end = Math.Min(columnCount - columnInit, rowCount) + sourceRowIndex;
 
@@ -513,22 +513,22 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
         public override T[] ToRowMajorArray()
         {
-            var ret = new T[RowCount * ColumnCount];
+            var ret = new T[RowCount*ColumnCount];
             var stride = ColumnCount + 1;
             for (int i = 0; i < Data.Length; i++)
             {
-                ret[i * stride] = Data[i];
+                ret[i*stride] = Data[i];
             }
             return ret;
         }
 
         public override T[] ToColumnMajorArray()
         {
-            var ret = new T[RowCount * ColumnCount];
+            var ret = new T[RowCount*ColumnCount];
             var stride = RowCount + 1;
             for (int i = 0; i < Data.Length; i++)
             {
-                ret[i * stride] = Data[i];
+                ret[i*stride] = Data[i];
             }
             return ret;
         }

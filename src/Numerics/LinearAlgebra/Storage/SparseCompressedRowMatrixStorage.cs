@@ -30,7 +30,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using MathNet.Numerics.Properties;
 
@@ -160,18 +159,18 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                 var valueCount = RowPointers[RowPointers.Length - 1];
 
                 // Check if the storage needs to be increased
-                if ((valueCount == Values.Length) && (valueCount < ((long)RowCount * ColumnCount)))
+                if ((valueCount == Values.Length) && (valueCount < ((long)RowCount*ColumnCount)))
                 {
                     // Value array is completely full so we increase the size
                     // Determine the increase in size. We will not grow beyond the size of the matrix
-                    var size = Math.Min(Values.Length + GrowthSize(), (long) RowCount*ColumnCount);
+                    var size = Math.Min(Values.Length + GrowthSize(), (long)RowCount*ColumnCount);
                     if (size > int.MaxValue)
                     {
                         throw new NotSupportedException(Resources.TooManyElements);
                     }
 
-                    Array.Resize(ref Values, (int) size);
-                    Array.Resize(ref ColumnIndices, (int) size);
+                    Array.Resize(ref Values, (int)size);
+                    Array.Resize(ref ColumnIndices, (int)size);
                 }
 
                 // Move all values (with a position larger than index) in the value array to the next position
@@ -217,7 +216,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
             // Check whether we need to shrink the arrays. This is reasonable to do if
             // there are a lot of non-zero elements and storage is two times bigger
-            if ((valueCount > 1024) && (valueCount < Values.Length / 2))
+            if ((valueCount > 1024) && (valueCount < Values.Length/2))
             {
                 Array.Resize(ref Values, valueCount);
                 Array.Resize(ref ColumnIndices, valueCount);
@@ -262,6 +261,20 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             }
 
             return delta;
+        }
+
+        public void Normalize()
+        {
+            for (int i = 0; i < RowCount; i++)
+            {
+                int index = RowPointers[i];
+                int count = RowPointers[i + 1] - index;
+                if (count > 1)
+                {
+                    Sorting.Sort(ColumnIndices, Values, index, count);
+                }
+            }
+            MapInplace(x => x, forceMapZeros: false);
         }
 
         public override void Clear()
@@ -316,7 +329,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
             // Check whether we need to shrink the arrays. This is reasonable to do if
             // there are a lot of non-zero elements and storage is two times bigger
-            if ((valueCount > 1024) && (valueCount < Values.Length / 2))
+            if ((valueCount > 1024) && (valueCount < Values.Length/2))
             {
                 Array.Resize(ref Values, valueCount);
                 Array.Resize(ref ColumnIndices, valueCount);

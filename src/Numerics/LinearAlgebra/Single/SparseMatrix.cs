@@ -924,6 +924,23 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// <param name="result">The result of the multiplication.</param>
         protected override void DoMultiply(Matrix<float> other, Matrix<float> result)
         {
+            var sparseOther = other as SparseMatrix;
+            var sparseResult = result as SparseMatrix;
+            if (sparseOther != null && sparseResult != null)
+            {
+                DoMultiplySparse(sparseOther, sparseResult);
+                return;
+            }
+
+            var diagonalOther = other as DiagonalMatrix;
+            if (diagonalOther != null && sparseResult != null)
+            {
+                var diagonal = ((DiagonalMatrixStorage<float>)other.Storage).Data;
+                // TODO: Map is rather generic, we can do better
+                MapIndexed((i, j, x) => x*diagonal[j], result, false);
+                return;
+            }
+
             result.Clear();
             var columnVector = new DenseVector(other.RowCount);
 
@@ -955,6 +972,92 @@ namespace MathNet.Numerics.LinearAlgebra.Single
                     result.At(row, column, sum);
                 }
             }
+        }
+
+        void DoMultiplySparse(SparseMatrix other, SparseMatrix result)
+        {
+            result.Clear();
+
+            var ax = _storage.Values;
+            var ap = _storage.RowPointers;
+            var ai = _storage.ColumnIndices;
+
+            var bx = other._storage.Values;
+            var bp = other._storage.RowPointers;
+            var bi = other._storage.ColumnIndices;
+
+            int rows = RowCount;
+            int cols = other.ColumnCount;
+
+            int[] cp = result._storage.RowPointers;
+
+            var marker = new int[cols];
+            for (int ib = 0; ib < cols; ib++)
+            {
+                marker[ib] = -1;
+            }
+
+            int count = 0;
+            for (int i = 0; i < rows; i++)
+            {
+                // For each row of A
+                for (int j = ap[i]; j < ap[i + 1]; j++)
+                {
+                    // Row number to be added
+                    int a = ai[j];
+                    for (int k = bp[a]; k < bp[a + 1]; k++)
+                    {
+                        int b = bi[k];
+                        if (marker[b] != i)
+                        {
+                            marker[b] = i;
+                            count++;
+                        }
+                    }
+                }
+
+                // Record non-zero count.
+                cp[i + 1] = count;
+            }
+
+            var ci = new int[count];
+            var cx = new float[count];
+
+            for (int ib = 0; ib < cols; ib++)
+            {
+                marker[ib] = -1;
+            }
+
+            count = 0;
+            for (int i = 0; i < rows; i++)
+            {
+                int rowStart = cp[i];
+                for (int j = ap[i]; j < ap[i + 1]; j++)
+                {
+                    int a = ai[j];
+                    float aEntry = ax[j];
+                    for (int k = bp[a]; k < bp[a + 1]; k++)
+                    {
+                        int b = bi[k];
+                        float bEntry = bx[k];
+                        if (marker[b] < rowStart)
+                        {
+                            marker[b] = count;
+                            ci[marker[b]] = b;
+                            cx[marker[b]] = aEntry * bEntry;
+                            count++;
+                        }
+                        else
+                        {
+                            cx[marker[b]] += aEntry * bEntry;
+                        }
+                    }
+                }
+            }
+
+            result._storage.Values = cx;
+            result._storage.ColumnIndices = ci;
+            result._storage.Normalize();
         }
 
         /// <summary>

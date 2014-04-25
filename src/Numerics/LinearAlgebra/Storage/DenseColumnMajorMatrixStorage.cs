@@ -47,7 +47,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         internal DenseColumnMajorMatrixStorage(int rows, int columns)
             : base(rows, columns)
         {
-            Data = new T[rows * columns];
+            Data = new T[rows*columns];
         }
 
         internal DenseColumnMajorMatrixStorage(int rows, int columns, T[] data)
@@ -58,9 +58,9 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                 throw new ArgumentNullException("data");
             }
 
-            if (data.Length != rows * columns)
+            if (data.Length != rows*columns)
             {
-                throw new ArgumentOutOfRangeException("data", string.Format(Resources.ArgumentArrayWrongLength, rows * columns));
+                throw new ArgumentOutOfRangeException("data", string.Format(Resources.ArgumentArrayWrongLength, rows*columns));
             }
 
             Data = data;
@@ -97,7 +97,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         /// </summary>
         public override T At(int row, int column)
         {
-            return Data[(column * RowCount) + row];
+            return Data[(column*RowCount) + row];
         }
 
         /// <summary>
@@ -105,7 +105,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         /// </summary>
         public override void At(int row, int column, T value)
         {
-            Data[(column * RowCount) + row] = value;
+            Data[(column*RowCount) + row] = value;
         }
 
         public override void Clear()
@@ -181,7 +181,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         {
             int columns = data.Length;
             int rows = data[0].Length;
-            var array = new T[rows * columns];
+            var array = new T[rows*columns];
             for (int j = 0; j < data.Length; j++)
             {
                 Array.Copy(data[j], 0, array, j*rows, rows);
@@ -193,10 +193,10 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         {
             int rows = data.Length;
             int columns = data[0].Length;
-            var array = new T[rows * columns];
+            var array = new T[rows*columns];
             for (int j = 0; j < columns; j++)
             {
-                int offset = j * rows;
+                int offset = j*rows;
                 for (int i = 0; i < rows; i++)
                 {
                     array[offset + i] = data[i][j];
@@ -209,19 +209,19 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         {
             int columns = data.Length;
             int rows = data[0].Length;
-            var array = new T[rows * columns];
+            var array = new T[rows*columns];
             for (int j = 0; j < data.Length; j++)
             {
                 var column = data[j];
                 var denseColumn = column as DenseVectorStorage<T>;
                 if (denseColumn != null)
                 {
-                    Array.Copy(denseColumn.Data, 0, array, j * rows, rows);
+                    Array.Copy(denseColumn.Data, 0, array, j*rows, rows);
                 }
                 else
                 {
                     // FALL BACK
-                    int offset = j * rows;
+                    int offset = j*rows;
                     for (int i = 0; i < rows; i++)
                     {
                         array[offset + i] = column.At(i);
@@ -235,10 +235,10 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         {
             int rows = data.Length;
             int columns = data[0].Length;
-            var array = new T[rows * columns];
+            var array = new T[rows*columns];
             for (int j = 0; j < columns; j++)
             {
-                int offset = j * rows;
+                int offset = j*rows;
                 for (int i = 0; i < rows; i++)
                 {
                     array[offset + i] = data[i].At(j);
@@ -249,10 +249,10 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
         public static DenseColumnMajorMatrixStorage<T> OfIndexedEnumerable(int rows, int columns, IEnumerable<Tuple<int, int, T>> data)
         {
-            var array = new T[rows * columns];
+            var array = new T[rows*columns];
             foreach (var item in data)
             {
-                array[(item.Item2 * rows) + item.Item1] = item.Item3;
+                array[(item.Item2*rows) + item.Item1] = item.Item3;
             }
             return new DenseColumnMajorMatrixStorage<T>(rows, columns, array);
         }
@@ -388,9 +388,9 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             var targetDense = target as DenseVectorStorage<T>;
             if (targetDense != null)
             {
-                for (int j = 0; j<columnCount; j++)
+                for (int j = 0; j < columnCount; j++)
                 {
-                    targetDense.Data[j + targetColumnIndex] = Data[(j + sourceColumnIndex) * RowCount + rowIndex];
+                    targetDense.Data[j + targetColumnIndex] = Data[(j + sourceColumnIndex)*RowCount + rowIndex];
                 }
                 return;
             }
@@ -399,7 +399,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
             for (int j = sourceColumnIndex, jj = targetColumnIndex; j < sourceColumnIndex + columnCount; j++, jj++)
             {
-                target.At(jj, Data[(j * RowCount) + rowIndex]);
+                target.At(jj, Data[(j*RowCount) + rowIndex]);
             }
         }
 
@@ -416,7 +416,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
             // FALL BACK
 
-            var offset = columnIndex * RowCount;
+            var offset = columnIndex*RowCount;
             for (int i = sourceRowIndex, ii = targetRowIndex; i < sourceRowIndex + rowCount; i++, ii++)
             {
                 target.At(ii, Data[offset + i]);
@@ -430,10 +430,10 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             var ret = new T[Data.Length];
             for (int i = 0; i < RowCount; i++)
             {
-                var offset = i * ColumnCount;
+                var offset = i*ColumnCount;
                 for (int j = 0; j < ColumnCount; j++)
                 {
-                    ret[offset + j] = Data[(j * RowCount) + i];
+                    ret[offset + j] = Data[(j*RowCount) + i];
                 }
             }
             return ret;
@@ -453,7 +453,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             {
                 for (int j = 0; j < ColumnCount; j++)
                 {
-                    ret[i, j] = Data[(j * RowCount) + i];
+                    ret[i, j] = Data[(j*RowCount) + i];
                 }
             }
             return ret;

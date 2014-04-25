@@ -409,7 +409,8 @@ namespace MathNet.Numerics.LinearAlgebra.Single
                 return;
             }
 
-            base.DoMultiply(other, result);
+            // TODO: Map is rather generic, we can do better
+            other.MapIndexed((i, j, x) => _data[i]*x, result, false);
         }
 
         /// <summary>
