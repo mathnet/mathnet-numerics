@@ -409,14 +409,15 @@ namespace MathNet.Numerics.LinearAlgebra.Single
                 return;
             }
 
-            if (RowCount == ColumnCount)
+            if (ColumnCount == RowCount)
             {
-                // TODO: Map is rather generic, we can do better
-                other.MapIndexed((i, j, x) => _data[i]*x, result, false);
-                return;
+                other.Storage.MapIndexedTo(result.Storage, (i, j, x) => x*_data[i], false, false);
             }
-
-            base.DoMultiply(other, result);
+            else
+            {
+                result.Clear();
+                other.Storage.MapSubMatrixIndexedTo(result.Storage, (i, j, x) => x*_data[i], 0, 0, other.RowCount, 0, 0, other.ColumnCount, false, true);
+            }
         }
 
         /// <summary>
@@ -505,7 +506,15 @@ namespace MathNet.Numerics.LinearAlgebra.Single
                 return;
             }
 
-            base.DoTransposeThisAndMultiply(other, result);
+            if (ColumnCount == RowCount)
+            {
+                other.Storage.MapIndexedTo(result.Storage, (i, j, x) => x*_data[i], false, false);
+            }
+            else
+            {
+                result.Clear();
+                other.Storage.MapSubMatrixIndexedTo(result.Storage, (i, j, x) => x*_data[i], 0, 0, other.RowCount, 0, 0, other.ColumnCount, false, true);
+            }
         }
 
         /// <summary>

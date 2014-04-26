@@ -388,10 +388,10 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
         public virtual T[] ToRowMajorArray()
         {
-            var ret = new T[RowCount * ColumnCount];
+            var ret = new T[RowCount*ColumnCount];
             for (int i = 0; i < RowCount; i++)
             {
-                var offset = i * ColumnCount;
+                var offset = i*ColumnCount;
                 for (int j = 0; j < ColumnCount; j++)
                 {
                     ret[offset + j] = At(i, j);
@@ -402,10 +402,10 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
         public virtual T[] ToColumnMajorArray()
         {
-            var ret = new T[RowCount * ColumnCount];
+            var ret = new T[RowCount*ColumnCount];
             for (int j = 0; j < ColumnCount; j++)
             {
-                var offset = j * RowCount;
+                var offset = j*RowCount;
                 for (int i = 0; i < RowCount; i++)
                 {
                     ret[offset + i] = At(i, j);
@@ -416,7 +416,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
         public virtual T[,] ToArray()
         {
-            var ret = new T[RowCount,ColumnCount];
+            var ret = new T[RowCount, ColumnCount];
             for (int i = 0; i < RowCount; i++)
             {
                 for (int j = 0; j < ColumnCount; j++)
@@ -483,6 +483,28 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
         // FUNCTIONAL COMBINATORS
 
+        public virtual void MapInplace(Func<T, T> f, bool forceMapZeros = false)
+        {
+            for (int i = 0; i < RowCount; i++)
+            {
+                for (int j = 0; j < ColumnCount; j++)
+                {
+                    At(i, j, f(At(i, j)));
+                }
+            }
+        }
+
+        public virtual void MapIndexedInplace(Func<int, int, T, T> f, bool forceMapZeros = false)
+        {
+            for (int i = 0; i < RowCount; i++)
+            {
+                for (int j = 0; j < ColumnCount; j++)
+                {
+                    At(i, j, f(i, j, At(i, j)));
+                }
+            }
+        }
+
         public void MapTo<TU>(MatrixStorage<TU> target, Func<T, TU> f, bool forceMapZeros = false, bool skipClearing = false)
             where TU : struct, IEquatable<TU>, IFormattable
         {
@@ -512,17 +534,6 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             }
         }
 
-        public virtual void MapInplace(Func<T, T> f, bool forceMapZeros = false)
-        {
-            for (int i = 0; i < RowCount; i++)
-            {
-                for (int j = 0; j < ColumnCount; j++)
-                {
-                    At(i, j, f(At(i, j)));
-                }
-            }
-        }
-
         public void MapIndexedTo<TU>(MatrixStorage<TU> target, Func<int, int, T, TU> f, bool forceMapZeros = false, bool skipClearing = false)
             where TU : struct, IEquatable<TU>, IFormattable
         {
@@ -543,22 +554,54 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         internal virtual void MapIndexedToUnchecked<TU>(MatrixStorage<TU> target, Func<int, int, T, TU> f, bool forceMapZeros = false, bool skipClearing = false)
             where TU : struct, IEquatable<TU>, IFormattable
         {
-            for (int i = 0; i < RowCount; i++)
+            for (int j = 0; j < ColumnCount; j++)
             {
-                for (int j = 0; j < ColumnCount; j++)
+                for (int i = 0; i < RowCount; i++)
                 {
                     target.At(i, j, f(i, j, At(i, j)));
                 }
             }
         }
 
-        public virtual void MapIndexedInplace(Func<int, int, T, T> f, bool forceMapZeros = false)
+        public void MapSubMatrixIndexedTo<TU>(MatrixStorage<TU> target, Func<int, int, T, TU> f,
+            int sourceRowIndex, int targetRowIndex, int rowCount,
+            int sourceColumnIndex, int targetColumnIndex, int columnCount,
+            bool forceMapZeros = false, bool skipClearing = false)
+            where TU : struct, IEquatable<TU>, IFormattable
         {
-            for (int i = 0; i < RowCount; i++)
+            if (target == null)
             {
-                for (int j = 0; j < ColumnCount; j++)
+                throw new ArgumentNullException("target");
+            }
+
+            if (rowCount == 0 || columnCount == 0)
+            {
+                return;
+            }
+
+            if (ReferenceEquals(this, target))
+            {
+                throw new NotSupportedException();
+            }
+
+            ValidateSubMatrixRange(target,
+                sourceRowIndex, targetRowIndex, rowCount,
+                sourceColumnIndex, targetColumnIndex, columnCount);
+
+            MapSubMatrixIndexedToUnchecked(target, f, sourceRowIndex, targetRowIndex, rowCount, sourceColumnIndex, targetColumnIndex, columnCount, forceMapZeros, skipClearing);
+        }
+
+        internal virtual void MapSubMatrixIndexedToUnchecked<TU>(MatrixStorage<TU> target, Func<int, int, T, TU> f,
+            int sourceRowIndex, int targetRowIndex, int rowCount,
+            int sourceColumnIndex, int targetColumnIndex, int columnCount,
+            bool forceMapZeros = false, bool skipClearing = false)
+            where TU : struct, IEquatable<TU>, IFormattable
+        {
+            for (int j = sourceColumnIndex, jj = targetColumnIndex; j < sourceColumnIndex + columnCount; j++, jj++)
+            {
+                for (int i = sourceRowIndex, ii = targetRowIndex; i < sourceRowIndex + rowCount; i++, ii++)
                 {
-                    At(i, j, f(i, j, At(i, j)));
+                    target.At(ii, jj, f(ii, jj, At(i, j)));
                 }
             }
         }

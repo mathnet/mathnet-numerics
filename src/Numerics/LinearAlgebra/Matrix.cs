@@ -1518,7 +1518,7 @@ namespace MathNet.Numerics.LinearAlgebra
         public Matrix<TU> Map<TU>(Func<T, TU> f, bool forceMapZeros = false)
             where TU : struct, IEquatable<TU>, IFormattable
         {
-            var result = Matrix<TU>.Build.SameAs(this);
+            var result = Matrix<TU>.Build.SameAs(this, RowCount, ColumnCount, fullyMutable: forceMapZeros);
             Storage.MapToUnchecked(result.Storage, f, forceMapZeros, skipClearing: true);
             return result;
         }
@@ -1532,7 +1532,7 @@ namespace MathNet.Numerics.LinearAlgebra
         public Matrix<TU> MapIndexed<TU>(Func<int, int, T, TU> f, bool forceMapZeros = false)
             where TU : struct, IEquatable<TU>, IFormattable
         {
-            var result = Matrix<TU>.Build.SameAs(this);
+            var result = Matrix<TU>.Build.SameAs(this, RowCount, ColumnCount, fullyMutable: forceMapZeros);
             Storage.MapIndexedToUnchecked(result.Storage, f, forceMapZeros, skipClearing: true);
             return result;
         }

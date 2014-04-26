@@ -305,6 +305,7 @@
     <Compile Include="LinearAlgebraTests\Double\VectorTests.Norm.cs" />
     <Compile Include="LinearAlgebraTests\MatrixStructureTheory.Access.cs" />
     <Compile Include="LinearAlgebraTests\MatrixStructureTheory.cs" />
+    <Compile Include="LinearAlgebraTests\MatrixStructureTheory.Map.cs" />
     <Compile Include="LinearAlgebraTests\MatrixStructureTheory.Reform.cs" />
     <Compile Include="LinearAlgebraTests\Single\DenseMatrixTests.cs" />
     <Compile Include="LinearAlgebraTests\Single\DenseVectorArithmeticTheory.cs" />

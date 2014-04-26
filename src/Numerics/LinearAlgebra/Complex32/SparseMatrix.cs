@@ -925,12 +925,19 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
                 return;
             }
 
-            var diagonalOther = other as DiagonalMatrix;
-            if (diagonalOther != null && sparseResult != null && other.RowCount == other.ColumnCount)
+            var diagonalOther = other.Storage as DiagonalMatrixStorage<Complex32>;
+            if (diagonalOther != null && sparseResult != null)
             {
-                var diagonal = ((DiagonalMatrixStorage<Complex32>)other.Storage).Data;
-                // TODO: Map is rather generic, we can do better
-                MapIndexed((i, j, x) => x*diagonal[j], result, false);
+                var diagonal = diagonalOther.Data;
+                if (other.ColumnCount == other.RowCount)
+                {
+                    Storage.MapIndexedTo(result.Storage, (i, j, x) => x*diagonal[j], false, false);
+                }
+                else
+                {
+                    result.Storage.Clear();
+                    Storage.MapSubMatrixIndexedTo(result.Storage, (i, j, x) => x*diagonal[j], 0, 0, RowCount, 0, 0, ColumnCount, false, true);
+                }
                 return;
             }
 

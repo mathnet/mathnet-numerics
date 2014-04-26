@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2013 Math.NET
+// Copyright (c) 2009-2014 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -34,6 +34,7 @@ using MathNet.Numerics.Properties;
 namespace MathNet.Numerics.LinearAlgebra.Storage
 {
     // ReSharper disable UnusedParameter.Local
+
     public partial class MatrixStorage<T>
     {
         void ValidateRange(int row, int column)
@@ -49,9 +50,10 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             }
         }
 
-        void ValidateSubMatrixRange(MatrixStorage<T> target,
+        void ValidateSubMatrixRange<TU>(MatrixStorage<TU> target,
             int sourceRowIndex, int targetRowIndex, int rowCount,
             int sourceColumnIndex, int targetColumnIndex, int columnCount)
+            where TU : struct, IEquatable<TU>, IFormattable
         {
             if (rowCount < 1)
             {
@@ -114,7 +116,8 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             }
         }
 
-        void ValidateRowRange(VectorStorage<T> target, int rowIndex)
+        void ValidateRowRange<TU>(VectorStorage<TU> target, int rowIndex)
+            where TU : struct, IEquatable<TU>, IFormattable
         {
             if (rowIndex >= RowCount || rowIndex < 0)
             {
@@ -127,7 +130,8 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             }
         }
 
-        void ValidateColumnRange(VectorStorage<T> target, int columnIndex)
+        void ValidateColumnRange<TU>(VectorStorage<TU> target, int columnIndex)
+            where TU : struct, IEquatable<TU>, IFormattable
         {
             if (columnIndex >= ColumnCount || columnIndex < 0)
             {
@@ -140,8 +144,9 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             }
         }
 
-        void ValidateSubRowRange(VectorStorage<T> target, int rowIndex,
+        void ValidateSubRowRange<TU>(VectorStorage<TU> target, int rowIndex,
             int sourceColumnIndex, int targetColumnIndex, int columnCount)
+            where TU : struct, IEquatable<TU>, IFormattable
         {
             if (columnCount < 1)
             {
@@ -178,8 +183,9 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             }
         }
 
-        void ValidateSubColumnRange(VectorStorage<T> target, int columnIndex,
+        void ValidateSubColumnRange<TU>(VectorStorage<TU> target, int columnIndex,
             int sourceRowIndex, int targetRowIndex, int rowCount)
+            where TU : struct, IEquatable<TU>, IFormattable
         {
             if (rowCount < 1)
             {
@@ -216,5 +222,6 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             }
         }
     }
+
     // ReSharper restore UnusedParameter.Local
 }

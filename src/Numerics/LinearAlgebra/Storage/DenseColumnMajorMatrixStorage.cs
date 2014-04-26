@@ -365,9 +365,18 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                 return;
             }
 
+            // TODO: Proper Sparse Implementation
+
             // FALL BACK
 
-            base.CopySubMatrixToUnchecked(target, sourceRowIndex, targetRowIndex, rowCount, sourceColumnIndex, targetColumnIndex, columnCount, skipClearing);
+            for (int j = sourceColumnIndex, jj = targetColumnIndex; j < sourceColumnIndex + columnCount; j++, jj++)
+            {
+                int index = sourceRowIndex + j*RowCount;
+                for (int ii = targetRowIndex; ii < targetRowIndex + rowCount; ii++)
+                {
+                    target.At(ii, jj, Data[index++]);
+                }
+            }
         }
 
         void CopySubMatrixToUnchecked(DenseColumnMajorMatrixStorage<T> target,
@@ -503,6 +512,33 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
         // FUNCTIONAL COMBINATORS
 
+        public override void MapInplace(Func<T, T> f, bool forceMapZeros = false)
+        {
+            CommonParallel.For(0, Data.Length, 4096, (a, b) =>
+            {
+                for (int i = a; i < b; i++)
+                {
+                    Data[i] = f(Data[i]);
+                }
+            });
+        }
+
+        public override void MapIndexedInplace(Func<int, int, T, T> f, bool forceMapZeros = false)
+        {
+            CommonParallel.For(0, ColumnCount, Math.Max(4096/RowCount, 32), (a, b) =>
+            {
+                int index = a*RowCount;
+                for (int j = a; j < b; j++)
+                {
+                    for (int i = 0; i < RowCount; i++)
+                    {
+                        Data[index] = f(i, j, Data[index]);
+                        index++;
+                    }
+                }
+            });
+        }
+
         internal override void MapToUnchecked<TU>(MatrixStorage<TU> target, Func<T, TU> f, bool forceMapZeros = false, bool skipClearing = false)
         {
             var denseTarget = target as DenseColumnMajorMatrixStorage<TU>;
@@ -528,17 +564,6 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                     target.At(i, j, f(Data[index++]));
                 }
             }
-        }
-
-        public override void MapInplace(Func<T, T> f, bool forceMapZeros = false)
-        {
-            CommonParallel.For(0, Data.Length, 4096, (a, b) =>
-            {
-                for (int i = a; i < b; i++)
-                {
-                    Data[i] = f(Data[i]);
-                }
-            });
         }
 
         internal override void MapIndexedToUnchecked<TU>(MatrixStorage<TU> target, Func<int, int, T, TU> f, bool forceMapZeros = false, bool skipClearing = false)
@@ -573,20 +598,41 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             }
         }
 
-        public override void MapIndexedInplace(Func<int, int, T, T> f, bool forceMapZeros = false)
+        internal override void MapSubMatrixIndexedToUnchecked<TU>(MatrixStorage<TU> target, Func<int, int, T, TU> f,
+            int sourceRowIndex, int targetRowIndex, int rowCount,
+            int sourceColumnIndex, int targetColumnIndex, int columnCount,
+            bool forceMapZeros = false, bool skipClearing = false)
         {
-            CommonParallel.For(0, ColumnCount, Math.Max(4096/RowCount, 32), (a, b) =>
+            var denseTarget = target as DenseColumnMajorMatrixStorage<TU>;
+            if (denseTarget != null)
             {
-                int index = a*RowCount;
-                for (int j = a; j < b; j++)
+                CommonParallel.For(0, columnCount, Math.Max(4096/rowCount, 32), (a, b) =>
                 {
-                    for (int i = 0; i < RowCount; i++)
+                    for (int j = a; j < b; j++)
                     {
-                        Data[index] = f(i, j, Data[index]);
-                        index++;
+                        int sourceIndex = sourceRowIndex + (j + sourceColumnIndex)*RowCount;
+                        int targetIndex = targetRowIndex + (j + targetColumnIndex)*target.RowCount;
+                        for (int i = 0; i < rowCount; i++)
+                        {
+                            denseTarget.Data[targetIndex++] = f(targetRowIndex + i, targetColumnIndex + j, Data[sourceIndex++]);
+                        }
                     }
+                });
+                return;
+            }
+
+            // TODO: Proper Sparse Implementation
+
+            // FALL BACK
+
+            for (int j = sourceColumnIndex, jj = targetColumnIndex; j < sourceColumnIndex + columnCount; j++, jj++)
+            {
+                int index = sourceRowIndex + j*RowCount;
+                for (int ii = targetRowIndex; ii < targetRowIndex + rowCount; ii++)
+                {
+                    target.At(ii, jj, f(ii, jj, Data[index++]));
                 }
-            });
+            }
         }
     }
 }
