@@ -98,6 +98,7 @@
     <Compile Include="Interpolation\Barycentric.cs" />
     <Compile Include="Interpolation\CubicSpline.cs" />
     <Compile Include="Interpolation\QuadraticSpline.cs" />
+    <Compile Include="LinearAlgebra\Options.cs" />
     <Compile Include="LinearAlgebra\Solvers\DelegateStopCriterion.cs" />
     <Compile Include="Precision.Comparison.cs" />
     <Compile Include="Precision.Equality.cs" />

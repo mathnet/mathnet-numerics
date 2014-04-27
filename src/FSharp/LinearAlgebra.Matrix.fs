@@ -207,18 +207,18 @@ module Matrix =
 
 
     /// In-place map of every matrix element using a function.
-    let inline mapInPlace f (A: #Matrix<_>) = A.MapInplace((fun x -> f x), true)
+    let inline mapInPlace f (A: #Matrix<_>) = A.MapInplace((fun x -> f x), Zeros.Include)
 
     /// In-place map of every matrix element using a function.
     /// Zero-values may be skipped (relevant mostly for sparse matrices).
-    let inline mapSkipZerosInPlace f (A: #Matrix<_>) = A.MapInplace((fun x -> f x), false)
+    let inline mapSkipZerosInPlace f (A: #Matrix<_>) = A.MapInplace((fun x -> f x), Zeros.AllowSkip)
 
     /// In-place map of every matrix element using a position dependent function.
-    let inline mapiInPlace f (A: #Matrix<_>) = A.MapIndexedInplace((fun i j x -> f i j x), true)
+    let inline mapiInPlace f (A: #Matrix<_>) = A.MapIndexedInplace((fun i j x -> f i j x), Zeros.Include)
 
     /// In-place map of every matrix element using a position dependent function.
     /// Zero-values may be skipped (relevant mostly for sparse matrices).
-    let inline mapiSkipZerosInPlace f (A: #Matrix<_>) = A.MapIndexedInplace((fun i j x -> f i j x), false)
+    let inline mapiSkipZerosInPlace f (A: #Matrix<_>) = A.MapIndexedInplace((fun i j x -> f i j x), Zeros.AllowSkip)
 
     /// In-place map every matrix column using the given position dependent function.
     let inline mapColsInPlace (f: int -> Vector<'a> -> Vector<'a>) (A: #Matrix<_>) =
@@ -232,18 +232,18 @@ module Matrix =
 
 
     /// Map every matrix element using the given function.
-    let inline map f (A: #Matrix<_>) = A.Map((fun x -> f x), true)
+    let inline map f (A: #Matrix<_>) = A.Map((fun x -> f x), Zeros.Include)
 
     /// Map every matrix element using the given function.
     /// Zero-values may be skipped (relevant mostly for sparse matrices).
-    let inline mapSkipZeros f (A: #Matrix<_>) = A.Map((fun x -> f x), false)
+    let inline mapSkipZeros f (A: #Matrix<_>) = A.Map((fun x -> f x), Zeros.AllowSkip)
 
     /// Map every matrix element using the given position dependent function.
-    let inline mapi f (A: #Matrix<_>) = A.MapIndexed((fun i j x -> f i j x), true)
+    let inline mapi f (A: #Matrix<_>) = A.MapIndexed((fun i j x -> f i j x), Zeros.Include)
 
     /// Map every matrix element using the given position dependent function.
     /// Zero-values may be skipped (relevant mostly for sparse matrices).
-    let inline mapiSkipZeros f (A: #Matrix<_>) = A.MapIndexed((fun i j x -> f i j x), false)
+    let inline mapiSkipZeros f (A: #Matrix<_>) = A.MapIndexed((fun i j x -> f i j x), Zeros.AllowSkip)
 
     /// Map every matrix column using the given position dependent function.
     let inline mapCols (f: int -> Vector<'a> -> Vector<'a>) (A: #Matrix<_>) =
@@ -285,7 +285,7 @@ module Matrix =
 
     /// In-place assignment.
     let inline inplaceAssign f (A: #Matrix<_>) =
-        A.MapIndexedInplace((fun i j x -> f i j), true)
+        A.MapIndexedInplace((fun i j x -> f i j), Zeros.Include)
 
         /// Fold all columns into one row vector.
     let inline foldByCol f acc (A: #Matrix<'T>) =

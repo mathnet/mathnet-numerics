@@ -139,7 +139,7 @@ namespace MathNet.Numerics.LinearAlgebra
         public Vector<T> Clone()
         {
             var result = Build.SameAs(this);
-            Storage.CopyToUnchecked(result.Storage, skipClearing: true);
+            Storage.CopyToUnchecked(result.Storage, ExistingData.AssumeZeros);
             return result;
         }
 
@@ -185,7 +185,7 @@ namespace MathNet.Numerics.LinearAlgebra
         public Vector<T> SubVector(int index, int count)
         {
             var target = Build.SameAs(this, count);
-            Storage.CopySubVectorTo(target.Storage, index, 0, count, skipClearing: true);
+            Storage.CopySubVectorTo(target.Storage, index, 0, count, ExistingData.AssumeZeros);
             return target;
         }
 
@@ -233,7 +233,7 @@ namespace MathNet.Numerics.LinearAlgebra
         public T[] ToArray()
         {
             var result = new DenseVectorStorage<T>(Count);
-            Storage.CopyToUnchecked(result, skipClearing: true);
+            Storage.CopyToUnchecked(result, ExistingData.AssumeZeros);
             return result.Data;
         }
 
@@ -246,7 +246,7 @@ namespace MathNet.Numerics.LinearAlgebra
         public Matrix<T> ToColumnMatrix()
         {
             var result = Matrix<T>.Build.SameAs(this, Count, 1);
-            Storage.CopyToColumnUnchecked(result.Storage, 0, skipClearing: true);
+            Storage.CopyToColumnUnchecked(result.Storage, 0, ExistingData.AssumeZeros);
             return result;
         }
 
@@ -259,7 +259,7 @@ namespace MathNet.Numerics.LinearAlgebra
         public Matrix<T> ToRowMatrix()
         {
             var result = Matrix<T>.Build.SameAs(this, 1, Count);
-            Storage.CopyToRowUnchecked(result.Storage, 0, skipClearing: true);
+            Storage.CopyToRowUnchecked(result.Storage, 0, ExistingData.AssumeZeros);
             return result;
         }
 
@@ -316,9 +316,9 @@ namespace MathNet.Numerics.LinearAlgebra
         /// If forceMapZero is not set to true, zero values may or may not be skipped depending
         /// on the actual data storage implementation (relevant mostly for sparse vectors).
         /// </summary>
-        public void MapInplace(Func<T, T> f, bool forceMapZeros = false)
+        public void MapInplace(Func<T, T> f, Zeros zeros = Zeros.AllowSkip)
         {
-            Storage.MapToUnchecked(Storage, f, forceMapZeros, skipClearing: true);
+            Storage.MapToUnchecked(Storage, f, zeros, ExistingData.AssumeZeros);
         }
 
         /// <summary>
@@ -327,9 +327,9 @@ namespace MathNet.Numerics.LinearAlgebra
         /// If forceMapZero is not set to true, zero values may or may not be skipped depending
         /// on the actual data storage implementation (relevant mostly for sparse vectors).
         /// </summary>
-        public void MapIndexedInplace(Func<int, T, T> f, bool forceMapZeros = false)
+        public void MapIndexedInplace(Func<int, T, T> f, Zeros zeros = Zeros.AllowSkip)
         {
-            Storage.MapIndexedToUnchecked(Storage, f, forceMapZeros, skipClearing: true);
+            Storage.MapIndexedToUnchecked(Storage, f, zeros, ExistingData.AssumeZeros);
         }
 
         /// <summary>
@@ -337,10 +337,10 @@ namespace MathNet.Numerics.LinearAlgebra
         /// If forceMapZero is not set to true, zero values may or may not be skipped depending
         /// on the actual data storage implementation (relevant mostly for sparse vectors).
         /// </summary>
-        public void Map<TU>(Func<T, TU> f, Vector<TU> result, bool forceMapZeros = false)
+        public void Map<TU>(Func<T, TU> f, Vector<TU> result, Zeros zeros = Zeros.AllowSkip)
             where TU : struct, IEquatable<TU>, IFormattable
         {
-            Storage.MapTo(result.Storage, f, forceMapZeros, skipClearing: forceMapZeros);
+            Storage.MapTo(result.Storage, f, zeros, zeros == Zeros.Include ? ExistingData.AssumeZeros : ExistingData.Clear);
         }
 
         /// <summary>
@@ -349,10 +349,10 @@ namespace MathNet.Numerics.LinearAlgebra
         /// If forceMapZero is not set to true, zero values may or may not be skipped depending
         /// on the actual data storage implementation (relevant mostly for sparse vectors).
         /// </summary>
-        public void MapIndexed<TU>(Func<int, T, TU> f, Vector<TU> result, bool forceMapZeros = false)
+        public void MapIndexed<TU>(Func<int, T, TU> f, Vector<TU> result, Zeros zeros = Zeros.AllowSkip)
             where TU : struct, IEquatable<TU>, IFormattable
         {
-            Storage.MapIndexedTo(result.Storage, f, forceMapZeros, skipClearing: forceMapZeros);
+            Storage.MapIndexedTo(result.Storage, f, zeros, zeros == Zeros.Include ? ExistingData.AssumeZeros : ExistingData.Clear);
         }
 
         /// <summary>
@@ -360,11 +360,11 @@ namespace MathNet.Numerics.LinearAlgebra
         /// If forceMapZero is not set to true, zero values may or may not be skipped depending
         /// on the actual data storage implementation (relevant mostly for sparse vectors).
         /// </summary>
-        public Vector<TU> Map<TU>(Func<T, TU> f, bool forceMapZeros = false)
+        public Vector<TU> Map<TU>(Func<T, TU> f, Zeros zeros = Zeros.AllowSkip)
             where TU : struct, IEquatable<TU>, IFormattable
         {
             var result = Vector<TU>.Build.SameAs(this);
-            Storage.MapToUnchecked(result.Storage, f, forceMapZeros, skipClearing: true);
+            Storage.MapToUnchecked(result.Storage, f, zeros, ExistingData.AssumeZeros);
             return result;
         }
 
@@ -374,11 +374,11 @@ namespace MathNet.Numerics.LinearAlgebra
         /// If forceMapZero is not set to true, zero values may or may not be skipped depending
         /// on the actual data storage implementation (relevant mostly for sparse vectors).
         /// </summary>
-        public Vector<TU> MapIndexed<TU>(Func<int, T, TU> f, bool forceMapZeros = false)
+        public Vector<TU> MapIndexed<TU>(Func<int, T, TU> f, Zeros zeros = Zeros.AllowSkip)
             where TU : struct, IEquatable<TU>, IFormattable
         {
             var result = Vector<TU>.Build.SameAs(this);
-            Storage.MapIndexedToUnchecked(result.Storage, f, forceMapZeros, skipClearing: true);
+            Storage.MapIndexedToUnchecked(result.Storage, f, zeros, ExistingData.AssumeZeros);
             return result;
         }
     }

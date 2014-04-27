@@ -896,12 +896,12 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 var diagonal = diagonalOther.Data;
                 if (other.ColumnCount == other.RowCount)
                 {
-                    Storage.MapIndexedTo(result.Storage, (i, j, x) => x*diagonal[j], false, false);
+                    Storage.MapIndexedTo(result.Storage, (i, j, x) => x*diagonal[j], Zeros.AllowSkip, ExistingData.Clear);
                 }
                 else
                 {
                     result.Storage.Clear();
-                    Storage.MapSubMatrixIndexedTo(result.Storage, (i, j, x) => x*diagonal[j], 0, 0, RowCount, 0, 0, ColumnCount, false, true);
+                    Storage.MapSubMatrixIndexedTo(result.Storage, (i, j, x) => x*diagonal[j], 0, 0, RowCount, 0, 0, ColumnCount, Zeros.AllowSkip, ExistingData.AssumeZeros);
                 }
                 return;
             }

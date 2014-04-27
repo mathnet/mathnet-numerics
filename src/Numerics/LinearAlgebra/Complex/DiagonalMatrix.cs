@@ -437,12 +437,12 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
 
             if (ColumnCount == RowCount)
             {
-                other.Storage.MapIndexedTo(result.Storage, (i, j, x) => x*_data[i], false, false);
+                other.Storage.MapIndexedTo(result.Storage, (i, j, x) => x*_data[i], Zeros.AllowSkip, ExistingData.Clear);
             }
             else
             {
                 result.Clear();
-                other.Storage.MapSubMatrixIndexedTo(result.Storage, (i, j, x) => x*_data[i], 0, 0, other.RowCount, 0, 0, other.ColumnCount, false, true);
+                other.Storage.MapSubMatrixIndexedTo(result.Storage, (i, j, x) => x*_data[i], 0, 0, other.RowCount, 0, 0, other.ColumnCount, Zeros.AllowSkip, ExistingData.AssumeZeros);
             }
         }
 
@@ -580,12 +580,12 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
 
             if (ColumnCount == RowCount)
             {
-                other.Storage.MapIndexedTo(result.Storage, (i, j, x) => x*_data[i], false, false);
+                other.Storage.MapIndexedTo(result.Storage, (i, j, x) => x*_data[i], Zeros.AllowSkip, ExistingData.Clear);
             }
             else
             {
                 result.Clear();
-                other.Storage.MapSubMatrixIndexedTo(result.Storage, (i, j, x) => x*_data[i], 0, 0, other.RowCount, 0, 0, other.ColumnCount, false, true);
+                other.Storage.MapSubMatrixIndexedTo(result.Storage, (i, j, x) => x*_data[i], 0, 0, other.RowCount, 0, 0, other.ColumnCount, Zeros.AllowSkip, ExistingData.AssumeZeros);
             }
         }
 
@@ -931,7 +931,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
                 ? (Matrix<Complex>)new DiagonalMatrix(rowCount, columnCount)
                 : new SparseMatrix(rowCount, columnCount);
 
-            Storage.CopySubMatrixTo(target.Storage, rowIndex, 0, rowCount, columnIndex, 0, columnCount, skipClearing: true);
+            Storage.CopySubMatrixTo(target.Storage, rowIndex, 0, rowCount, columnIndex, 0, columnCount, ExistingData.AssumeZeros);
             return target;
         }
 

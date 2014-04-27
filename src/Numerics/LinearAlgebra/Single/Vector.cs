@@ -190,7 +190,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// <param name="result">The vector to store the result of the pointwise power.</param>
         protected override void DoPointwisePower(float exponent, Vector<float> result)
         {
-            Map(x => (float)Math.Pow(x, exponent), result, forceMapZeros: false);
+            Map(x => (float)Math.Pow(x, exponent), result, Zeros.AllowSkip);
         }
 
         /// <summary>
@@ -227,7 +227,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// <param name="result">The vector to store the result.</param>
         protected override void DoPointwiseExp(Vector<float> result)
         {
-            Map(x => (float)Math.Exp(x), result, forceMapZeros: true);
+            Map(x => (float)Math.Exp(x), result, Zeros.Include);
         }
 
         /// <summary>
@@ -236,7 +236,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// <param name="result">The vector to store the result.</param>
         protected override void DoPointwiseLog(Vector<float> result)
         {
-            Map(x => (float)Math.Log(x), result, forceMapZeros: true);
+            Map(x => (float)Math.Log(x), result, Zeros.Include);
         }
 
         /// <summary>

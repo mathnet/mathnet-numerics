@@ -205,7 +205,7 @@ namespace MathNet.Numerics.LinearAlgebra
         public Matrix<T> Clone()
         {
             var result = Build.SameAs(this);
-            Storage.CopyToUnchecked(result.Storage, skipClearing: true);
+            Storage.CopyToUnchecked(result.Storage, ExistingData.AssumeZeros);
             return result;
         }
 
@@ -509,7 +509,7 @@ namespace MathNet.Numerics.LinearAlgebra
         public virtual Matrix<T> SubMatrix(int rowIndex, int rowCount, int columnIndex, int columnCount)
         {
             var result = Build.SameAs(this, rowCount, columnCount);
-            Storage.CopySubMatrixTo(result.Storage, rowIndex, 0, rowCount, columnIndex, 0, columnCount, skipClearing: true);
+            Storage.CopySubMatrixTo(result.Storage, rowIndex, 0, rowCount, columnIndex, 0, columnCount, ExistingData.AssumeZeros);
             return result;
         }
 
@@ -649,9 +649,9 @@ namespace MathNet.Numerics.LinearAlgebra
             }
 
             var result = Build.SameAs(this, RowCount, ColumnCount + 1, fullyMutable: true);
-            Storage.CopySubMatrixTo(result.Storage, 0, 0, RowCount, 0, 0, columnIndex, skipClearing: true);
+            Storage.CopySubMatrixTo(result.Storage, 0, 0, RowCount, 0, 0, columnIndex, ExistingData.AssumeZeros);
             result.SetColumn(columnIndex, column);
-            Storage.CopySubMatrixTo(result.Storage, 0, 0, RowCount, columnIndex, columnIndex + 1, ColumnCount - columnIndex, skipClearing: true);
+            Storage.CopySubMatrixTo(result.Storage, 0, 0, RowCount, columnIndex, columnIndex + 1, ColumnCount - columnIndex, ExistingData.AssumeZeros);
             return result;
         }
 
@@ -669,8 +669,8 @@ namespace MathNet.Numerics.LinearAlgebra
             }
 
             var result = Build.SameAs(this, RowCount, ColumnCount - 1, fullyMutable: true);
-            Storage.CopySubMatrixTo(result.Storage, 0, 0, RowCount, 0, 0, columnIndex, skipClearing: true);
-            Storage.CopySubMatrixTo(result.Storage, 0, 0, RowCount, columnIndex + 1, columnIndex, ColumnCount - columnIndex - 1, skipClearing: true);
+            Storage.CopySubMatrixTo(result.Storage, 0, 0, RowCount, 0, 0, columnIndex, ExistingData.AssumeZeros);
+            Storage.CopySubMatrixTo(result.Storage, 0, 0, RowCount, columnIndex + 1, columnIndex, ColumnCount - columnIndex - 1, ExistingData.AssumeZeros);
             return result;
         }
 
@@ -765,9 +765,9 @@ namespace MathNet.Numerics.LinearAlgebra
             }
 
             var result = Build.SameAs(this, RowCount + 1, ColumnCount, fullyMutable: true);
-            Storage.CopySubMatrixTo(result.Storage, 0, 0, rowIndex, 0, 0, ColumnCount, skipClearing: true);
+            Storage.CopySubMatrixTo(result.Storage, 0, 0, rowIndex, 0, 0, ColumnCount, ExistingData.AssumeZeros);
             result.SetRow(rowIndex, row);
-            Storage.CopySubMatrixTo(result.Storage, rowIndex, rowIndex+1, RowCount - rowIndex, 0, 0, ColumnCount, skipClearing: true);
+            Storage.CopySubMatrixTo(result.Storage, rowIndex, rowIndex+1, RowCount - rowIndex, 0, 0, ColumnCount, ExistingData.AssumeZeros);
             return result;
         }
 
@@ -785,8 +785,8 @@ namespace MathNet.Numerics.LinearAlgebra
             }
 
             var result = Build.SameAs(this, RowCount - 1, ColumnCount, fullyMutable: true);
-            Storage.CopySubMatrixTo(result.Storage, 0, 0, rowIndex, 0, 0, ColumnCount, skipClearing: true);
-            Storage.CopySubMatrixTo(result.Storage, rowIndex + 1, rowIndex, RowCount - rowIndex - 1, 0, 0, ColumnCount, skipClearing: true);
+            Storage.CopySubMatrixTo(result.Storage, 0, 0, rowIndex, 0, 0, ColumnCount, ExistingData.AssumeZeros);
+            Storage.CopySubMatrixTo(result.Storage, rowIndex + 1, rowIndex, RowCount - rowIndex - 1, 0, 0, ColumnCount, ExistingData.AssumeZeros);
             return result;
         }
 
@@ -983,7 +983,7 @@ namespace MathNet.Numerics.LinearAlgebra
         public Matrix<T> Transpose()
         {
             var result = Build.SameAs(this, ColumnCount, RowCount);
-            Storage.TransposeToUnchecked(result.Storage, skipClearing:true);
+            Storage.TransposeToUnchecked(result.Storage, ExistingData.AssumeZeros);
             return result;
         }
 
@@ -1071,8 +1071,8 @@ namespace MathNet.Numerics.LinearAlgebra
             }
 
             var result = Build.SameAs(this, right, RowCount, ColumnCount + right.ColumnCount, fullyMutable: true);
-            Storage.CopySubMatrixToUnchecked(result.Storage, 0, 0, RowCount, 0, 0, ColumnCount, skipClearing: true);
-            right.Storage.CopySubMatrixToUnchecked(result.Storage, 0, 0, right.RowCount, 0, ColumnCount, right.ColumnCount, skipClearing: true);
+            Storage.CopySubMatrixToUnchecked(result.Storage, 0, 0, RowCount, 0, 0, ColumnCount, ExistingData.AssumeZeros);
+            right.Storage.CopySubMatrixToUnchecked(result.Storage, 0, 0, right.RowCount, 0, ColumnCount, right.ColumnCount, ExistingData.AssumeZeros);
             return result;
         }
 
@@ -1131,8 +1131,8 @@ namespace MathNet.Numerics.LinearAlgebra
             }
 
             var result = Build.SameAs(this, lower, RowCount + lower.RowCount, ColumnCount, fullyMutable: true);
-            Storage.CopySubMatrixToUnchecked(result.Storage, 0, 0, RowCount, 0, 0, ColumnCount, skipClearing: true);
-            lower.Storage.CopySubMatrixToUnchecked(result.Storage, 0, RowCount, lower.RowCount, 0, 0, lower.ColumnCount, skipClearing: true);
+            Storage.CopySubMatrixToUnchecked(result.Storage, 0, 0, RowCount, 0, 0, ColumnCount, ExistingData.AssumeZeros);
+            lower.Storage.CopySubMatrixToUnchecked(result.Storage, 0, RowCount, lower.RowCount, 0, 0, lower.ColumnCount, ExistingData.AssumeZeros);
             return result;
         }
 
@@ -1465,9 +1465,9 @@ namespace MathNet.Numerics.LinearAlgebra
         /// If forceMapZero is not set to true, zero values may or may not be skipped depending
         /// on the actual data storage implementation (relevant mostly for sparse matrices).
         /// </summary>
-        public void MapInplace(Func<T, T> f, bool forceMapZeros = false)
+        public void MapInplace(Func<T, T> f, Zeros zeros = Zeros.AllowSkip)
         {
-            Storage.MapInplace(f, forceMapZeros);
+            Storage.MapInplace(f, zeros);
         }
 
         /// <summary>
@@ -1476,9 +1476,9 @@ namespace MathNet.Numerics.LinearAlgebra
         /// If forceMapZero is not set to true, zero values may or may not be skipped depending
         /// on the actual data storage implementation (relevant mostly for sparse matrices).
         /// </summary>
-        public void MapIndexedInplace(Func<int, int, T, T> f, bool forceMapZeros = false)
+        public void MapIndexedInplace(Func<int, int, T, T> f, Zeros zeros = Zeros.AllowSkip)
         {
-            Storage.MapIndexedInplace(f, forceMapZeros);
+            Storage.MapIndexedInplace(f, zeros);
         }
 
         /// <summary>
@@ -1486,10 +1486,10 @@ namespace MathNet.Numerics.LinearAlgebra
         /// If forceMapZero is not set to true, zero values may or may not be skipped depending
         /// on the actual data storage implementation (relevant mostly for sparse matrices).
         /// </summary>
-        public void Map<TU>(Func<T, TU> f, Matrix<TU> result, bool forceMapZeros = false)
+        public void Map<TU>(Func<T, TU> f, Matrix<TU> result, Zeros zeros = Zeros.AllowSkip)
             where TU : struct, IEquatable<TU>, IFormattable
         {
-            Storage.MapTo(result.Storage, f, forceMapZeros, skipClearing: forceMapZeros);
+            Storage.MapTo(result.Storage, f, zeros, zeros == Zeros.Include ? ExistingData.AssumeZeros : ExistingData.Clear);
         }
 
         /// <summary>
@@ -1498,10 +1498,10 @@ namespace MathNet.Numerics.LinearAlgebra
         /// If forceMapZero is not set to true, zero values may or may not be skipped depending
         /// on the actual data storage implementation (relevant mostly for sparse matrices).
         /// </summary>
-        public void MapIndexed<TU>(Func<int, int, T, TU> f, Matrix<TU> result, bool forceMapZeros = false)
+        public void MapIndexed<TU>(Func<int, int, T, TU> f, Matrix<TU> result, Zeros zeros = Zeros.AllowSkip)
             where TU : struct, IEquatable<TU>, IFormattable
         {
-            Storage.MapIndexedTo(result.Storage, f, forceMapZeros, skipClearing: forceMapZeros);
+            Storage.MapIndexedTo(result.Storage, f, zeros, zeros == Zeros.Include ? ExistingData.AssumeZeros : ExistingData.Clear);
         }
 
         /// <summary>
@@ -1509,11 +1509,11 @@ namespace MathNet.Numerics.LinearAlgebra
         /// If forceMapZero is not set to true, zero values may or may not be skipped depending
         /// on the actual data storage implementation (relevant mostly for sparse matrices).
         /// </summary>
-        public Matrix<TU> Map<TU>(Func<T, TU> f, bool forceMapZeros = false)
+        public Matrix<TU> Map<TU>(Func<T, TU> f, Zeros zeros = Zeros.AllowSkip)
             where TU : struct, IEquatable<TU>, IFormattable
         {
-            var result = Matrix<TU>.Build.SameAs(this, RowCount, ColumnCount, fullyMutable: forceMapZeros);
-            Storage.MapToUnchecked(result.Storage, f, forceMapZeros, skipClearing: true);
+            var result = Matrix<TU>.Build.SameAs(this, RowCount, ColumnCount, fullyMutable: zeros == Zeros.Include);
+            Storage.MapToUnchecked(result.Storage, f, zeros, ExistingData.AssumeZeros);
             return result;
         }
 
@@ -1523,11 +1523,11 @@ namespace MathNet.Numerics.LinearAlgebra
         /// If forceMapZero is not set to true, zero values may or may not be skipped depending
         /// on the actual data storage implementation (relevant mostly for sparse matrices).
         /// </summary>
-        public Matrix<TU> MapIndexed<TU>(Func<int, int, T, TU> f, bool forceMapZeros = false)
+        public Matrix<TU> MapIndexed<TU>(Func<int, int, T, TU> f, Zeros zeros = Zeros.AllowSkip)
             where TU : struct, IEquatable<TU>, IFormattable
         {
-            var result = Matrix<TU>.Build.SameAs(this, RowCount, ColumnCount, fullyMutable: forceMapZeros);
-            Storage.MapIndexedToUnchecked(result.Storage, f, forceMapZeros, skipClearing: true);
+            var result = Matrix<TU>.Build.SameAs(this, RowCount, ColumnCount, fullyMutable: zeros == Zeros.Include);
+            Storage.MapIndexedToUnchecked(result.Storage, f, zeros, ExistingData.AssumeZeros);
             return result;
         }
     }

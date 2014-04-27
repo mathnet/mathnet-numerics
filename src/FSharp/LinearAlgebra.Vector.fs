@@ -132,33 +132,33 @@ module Vector =
 
 
     /// In-place mutation by applying a function to every element of the vector.
-    let inline mapInPlace f (v: #Vector<_>) = v.MapInplace((fun x -> f x), true)
+    let inline mapInPlace f (v: #Vector<_>) = v.MapInplace((fun x -> f x), Zeros.Include)
 
     /// In-place mutation by applying a function to every element of the vector.
-    let inline mapiInPlace f (v: #Vector<_>) = v.MapIndexedInplace((fun i x -> f i x), true)
-
-    /// In-place mutation by applying a function to every element of the vector.
-    /// Zero-values may be skipped (relevant mostly for sparse vectors).
-    let inline mapSkipZerosInPlace f (v: #Vector<_>) = v.MapInplace((fun x -> f x), false)
+    let inline mapiInPlace f (v: #Vector<_>) = v.MapIndexedInplace((fun i x -> f i x), Zeros.Include)
 
     /// In-place mutation by applying a function to every element of the vector.
     /// Zero-values may be skipped (relevant mostly for sparse vectors).
-    let inline mapiSkipZerosInPlace f (v: #Vector<_>) = v.MapIndexedInplace((fun i x -> f i x), false)
+    let inline mapSkipZerosInPlace f (v: #Vector<_>) = v.MapInplace((fun x -> f x), Zeros.AllowSkip)
+
+    /// In-place mutation by applying a function to every element of the vector.
+    /// Zero-values may be skipped (relevant mostly for sparse vectors).
+    let inline mapiSkipZerosInPlace f (v: #Vector<_>) = v.MapIndexedInplace((fun i x -> f i x), Zeros.AllowSkip)
 
 
     /// Maps a vector to a new vector by applying a function to every element.
-    let inline map f (v: #Vector<_>) = v.Map((fun x -> f x), true)
+    let inline map f (v: #Vector<_>) = v.Map((fun x -> f x), Zeros.Include)
 
     /// Maps a vector to a new vector by applying a function to every element.
     /// Zero-values may be skipped (relevant mostly for sparse vectors).
-    let inline mapSkipZeros f (v: #Vector<_>) = v.Map((fun x -> f x), false)
+    let inline mapSkipZeros f (v: #Vector<_>) = v.Map((fun x -> f x), Zeros.AllowSkip)
 
     /// Maps a vector to a new vector by applying a function to every element.
-    let inline mapi f (v: #Vector<_>) = v.MapIndexed((fun i x -> f i x), true)
+    let inline mapi f (v: #Vector<_>) = v.MapIndexed((fun i x -> f i x), Zeros.Include)
 
     /// Maps a vector to a new vector by applying a function to every element.
     /// Zero-values may be skipped (relevant mostly for sparse vectors).
-    let inline mapiSkipZeros f (v: #Vector<_>) = v.MapIndexed((fun i x -> f i x), false)
+    let inline mapiSkipZeros f (v: #Vector<_>) = v.MapIndexed((fun i x -> f i x), Zeros.AllowSkip)
 
 
 

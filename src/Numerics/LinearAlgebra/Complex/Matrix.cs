@@ -113,7 +113,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         public override sealed Matrix<Complex> ConjugateTranspose()
         {
             var ret = Transpose();
-            ret.MapInplace(c => c.Conjugate(), forceMapZeros: false);
+            ret.MapInplace(c => c.Conjugate(), Zeros.AllowSkip);
             return ret;
         }
 
@@ -455,7 +455,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// <param name="result">The vector to store the result of the pointwise power.</param>
         protected override void DoPointwisePower(Complex exponent, Matrix<Complex> result)
         {
-            Map(x => x.Power(exponent), result, forceMapZeros: false);
+            Map(x => x.Power(exponent), result, Zeros.AllowSkip);
         }
 
         /// <summary>
@@ -530,7 +530,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// <param name="result">The matrix to store the result.</param>
         protected override void DoPointwiseExp(Matrix<Complex> result)
         {
-            Map(Complex.Exp, result, forceMapZeros: true);
+            Map(Complex.Exp, result, Zeros.Include);
         }
 
         /// <summary>
@@ -539,7 +539,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// <param name="result">The matrix to store the result.</param>
         protected override void DoPointwiseLog(Matrix<Complex> result)
         {
-            Map(Complex.Log, result, forceMapZeros: true);
+            Map(Complex.Log, result, Zeros.Include);
         }
 
         /// <summary>

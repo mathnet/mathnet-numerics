@@ -197,7 +197,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// <param name="result">The vector to store the result of the pointwise power.</param>
         protected override void DoPointwisePower(Complex exponent, Vector<Complex> result)
         {
-            Map(x => x.Power(exponent), result, forceMapZeros: false);
+            Map(x => x.Power(exponent), result, Zeros.AllowSkip);
         }
 
         /// <summary>
@@ -228,7 +228,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// <param name="result">The vector to store the result.</param>
         protected override void DoPointwiseExp(Vector<Complex> result)
         {
-            Map(Complex.Exp, result, forceMapZeros: true);
+            Map(Complex.Exp, result, Zeros.Include);
         }
 
         /// <summary>
@@ -237,7 +237,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// <param name="result">The vector to store the result.</param>
         protected override void DoPointwiseLog(Vector<Complex> result)
         {
-            Map(Complex.Log, result, forceMapZeros: true);
+            Map(Complex.Log, result, Zeros.Include);
         }
 
         /// <summary>

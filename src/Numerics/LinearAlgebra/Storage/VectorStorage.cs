@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2013 Math.NET
+// Copyright (c) 2009-2014 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -187,7 +187,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
         // VECTOR COPY
 
-        public void CopyTo(VectorStorage<T> target, bool skipClearing = false)
+        public void CopyTo(VectorStorage<T> target, ExistingData existingData = ExistingData.Clear)
         {
             if (target == null)
             {
@@ -204,10 +204,10 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "target");
             }
 
-            CopyToUnchecked(target, skipClearing);
+            CopyToUnchecked(target, existingData);
         }
 
-        internal virtual void CopyToUnchecked(VectorStorage<T> target, bool skipClearing = false)
+        internal virtual void CopyToUnchecked(VectorStorage<T> target, ExistingData existingData = ExistingData.Clear)
         {
             for (int i = 0; i < Length; i++)
             {
@@ -217,7 +217,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
         // ROW COPY
 
-        public void CopyToRow(MatrixStorage<T> target, int rowIndex, bool skipClearing = false)
+        public void CopyToRow(MatrixStorage<T> target, int rowIndex, ExistingData existingData = ExistingData.Clear)
         {
             if (target == null)
             {
@@ -230,10 +230,10 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             }
 
             ValidateRowRange(target, rowIndex);
-            CopyToRowUnchecked(target, rowIndex, skipClearing);
+            CopyToRowUnchecked(target, rowIndex, existingData);
         }
 
-        internal virtual void CopyToRowUnchecked(MatrixStorage<T> target, int rowIndex, bool skipClearing = false)
+        internal virtual void CopyToRowUnchecked(MatrixStorage<T> target, int rowIndex, ExistingData existingData = ExistingData.Clear)
         {
             for (int j = 0; j < Length; j++)
             {
@@ -243,7 +243,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
         // COLUMN COPY
 
-        public void CopyToColumn(MatrixStorage<T> target, int columnIndex, bool skipClearing = false)
+        public void CopyToColumn(MatrixStorage<T> target, int columnIndex, ExistingData existingData = ExistingData.Clear)
         {
             if (target == null)
             {
@@ -256,10 +256,10 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             }
 
             ValidateColumnRange(target, columnIndex);
-            CopyToColumnUnchecked(target, columnIndex, skipClearing);
+            CopyToColumnUnchecked(target, columnIndex, existingData);
         }
 
-        internal virtual void CopyToColumnUnchecked(MatrixStorage<T> target, int columnIndex, bool skipClearing = false)
+        internal virtual void CopyToColumnUnchecked(MatrixStorage<T> target, int columnIndex, ExistingData existingData = ExistingData.Clear)
         {
             for (int i = 0; i < Length; i++)
             {
@@ -271,7 +271,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
         public void CopySubVectorTo(VectorStorage<T> target,
             int sourceIndex, int targetIndex, int count,
-            bool skipClearing = false)
+            ExistingData existingData = ExistingData.Clear)
         {
             if (target == null)
             {
@@ -284,12 +284,12 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             }
 
             ValidateSubVectorRange(target, sourceIndex, targetIndex, count);
-            CopySubVectorToUnchecked(target, sourceIndex, targetIndex, count, skipClearing);
+            CopySubVectorToUnchecked(target, sourceIndex, targetIndex, count, existingData);
         }
 
         internal virtual void CopySubVectorToUnchecked(VectorStorage<T> target,
             int sourceIndex, int targetIndex, int count,
-            bool skipClearing = false)
+            ExistingData existingData = ExistingData.Clear)
         {
             if (ReferenceEquals(this, target))
             {
@@ -316,7 +316,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
         public void CopyToSubRow(MatrixStorage<T> target, int rowIndex,
             int sourceColumnIndex, int targetColumnIndex, int columnCount,
-            bool skipClearing = false)
+            ExistingData existingData = ExistingData.Clear)
         {
             if (target == null)
             {
@@ -329,12 +329,12 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             }
 
             ValidateSubRowRange(target, rowIndex, sourceColumnIndex, targetColumnIndex, columnCount);
-            CopyToSubRowUnchecked(target, rowIndex, sourceColumnIndex, targetColumnIndex, columnCount, skipClearing);
+            CopyToSubRowUnchecked(target, rowIndex, sourceColumnIndex, targetColumnIndex, columnCount, existingData);
         }
 
         internal virtual void CopyToSubRowUnchecked(MatrixStorage<T> target, int rowIndex,
             int sourceColumnIndex, int targetColumnIndex, int columnCount,
-            bool skipClearing = false)
+            ExistingData existingData = ExistingData.Clear)
         {
             for (int j = sourceColumnIndex, jj = targetColumnIndex; j < sourceColumnIndex + columnCount; j++, jj++)
             {
@@ -346,7 +346,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
         public void CopyToSubColumn(MatrixStorage<T> target, int columnIndex,
             int sourceRowIndex, int targetRowIndex, int rowCount,
-            bool skipClearing = false)
+            ExistingData existingData = ExistingData.Clear)
         {
             if (target == null)
             {
@@ -359,12 +359,12 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             }
 
             ValidateSubColumnRange(target, columnIndex, sourceRowIndex, targetRowIndex, rowCount);
-            CopyToSubColumnUnchecked(target, columnIndex, sourceRowIndex, targetRowIndex, rowCount, skipClearing);
+            CopyToSubColumnUnchecked(target, columnIndex, sourceRowIndex, targetRowIndex, rowCount, existingData);
         }
 
         internal virtual void CopyToSubColumnUnchecked(MatrixStorage<T> target, int columnIndex,
             int sourceRowIndex, int targetRowIndex, int rowCount,
-            bool skipClearing = false)
+            ExistingData existingData = ExistingData.Clear)
         {
             for (int i = sourceRowIndex, ii = targetRowIndex; i < sourceRowIndex + rowCount; i++, ii++)
             {
@@ -416,7 +416,8 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
         // FUNCTIONAL COMBINATORS
 
-        public void MapTo<TU>(VectorStorage<TU> target, Func<T, TU> f, bool forceMapZeros = false, bool skipClearing = false)
+        public void MapTo<TU>(VectorStorage<TU> target, Func<T, TU> f,
+            Zeros zeros = Zeros.AllowSkip, ExistingData existingData = ExistingData.Clear)
             where TU : struct, IEquatable<TU>, IFormattable
         {
             if (target == null)
@@ -429,10 +430,11 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "target");
             }
 
-            MapToUnchecked(target, f, forceMapZeros, skipClearing);
+            MapToUnchecked(target, f, zeros, existingData);
         }
 
-        internal virtual void MapToUnchecked<TU>(VectorStorage<TU> target, Func<T, TU> f, bool forceMapZeros = false, bool skipClearing = false)
+        internal virtual void MapToUnchecked<TU>(VectorStorage<TU> target, Func<T, TU> f,
+            Zeros zeros = Zeros.AllowSkip, ExistingData existingData = ExistingData.Clear)
             where TU : struct, IEquatable<TU>, IFormattable
         {
             for (int i = 0; i < Length; i++)
@@ -441,7 +443,8 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             }
         }
 
-        public void MapIndexedTo<TU>(VectorStorage<TU> target, Func<int, T, TU> f, bool forceMapZeros = false, bool skipClearing = false)
+        public void MapIndexedTo<TU>(VectorStorage<TU> target, Func<int, T, TU> f,
+            Zeros zeros = Zeros.AllowSkip, ExistingData existingData = ExistingData.Clear)
             where TU : struct, IEquatable<TU>, IFormattable
         {
             if (target == null)
@@ -454,10 +457,11 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "target");
             }
 
-            MapIndexedToUnchecked(target, f, forceMapZeros, skipClearing);
+            MapIndexedToUnchecked(target, f, zeros, existingData);
         }
 
-        internal virtual void MapIndexedToUnchecked<TU>(VectorStorage<TU> target, Func<int, T, TU> f, bool forceMapZeros = false, bool skipClearing = false)
+        internal virtual void MapIndexedToUnchecked<TU>(VectorStorage<TU> target, Func<int, T, TU> f,
+            Zeros zeros = Zeros.AllowSkip, ExistingData existingData = ExistingData.Clear)
             where TU : struct, IEquatable<TU>, IFormattable
         {
             for (int i = 0; i < Length; i++)

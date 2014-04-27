@@ -297,7 +297,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         public static SparseVectorStorage<T> OfVector(VectorStorage<T> vector)
         {
             var storage = new SparseVectorStorage<T>(vector.Length);
-            vector.CopyToUnchecked(storage, skipClearing: true);
+            vector.CopyToUnchecked(storage, ExistingData.AssumeZeros);
             return storage;
         }
 
@@ -388,7 +388,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
         // VECTOR COPY
 
-        internal override void CopyToUnchecked(VectorStorage<T> target, bool skipClearing = false)
+        internal override void CopyToUnchecked(VectorStorage<T> target, ExistingData existingData = ExistingData.Clear)
         {
             var sparseTarget = target as SparseVectorStorage<T>;
             if (sparseTarget != null)
@@ -399,7 +399,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
             // FALL BACK
 
-            if (!skipClearing)
+            if (existingData == ExistingData.Clear)
             {
                 target.Clear();
             }
@@ -439,9 +439,9 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
         // Row COPY
 
-        internal override void CopyToRowUnchecked(MatrixStorage<T> target, int rowIndex, bool skipClearing = false)
+        internal override void CopyToRowUnchecked(MatrixStorage<T> target, int rowIndex, ExistingData existingData = ExistingData.Clear)
         {
-            if (!skipClearing)
+            if (existingData == ExistingData.Clear)
             {
                 target.Clear(rowIndex, 1, 0, Length);
             }
@@ -459,9 +459,9 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
         // COLUMN COPY
 
-        internal override void CopyToColumnUnchecked(MatrixStorage<T> target, int columnIndex, bool skipClearing = false)
+        internal override void CopyToColumnUnchecked(MatrixStorage<T> target, int columnIndex, ExistingData existingData = ExistingData.Clear)
         {
-            if (!skipClearing)
+            if (existingData == ExistingData.Clear)
             {
                 target.Clear(0, Length, columnIndex, 1);
             }
@@ -481,12 +481,12 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
         internal override void CopySubVectorToUnchecked(VectorStorage<T> target,
             int sourceIndex, int targetIndex, int count,
-            bool skipClearing = false)
+            ExistingData existingData = ExistingData.Clear)
         {
             var sparseTarget = target as SparseVectorStorage<T>;
             if (sparseTarget != null)
             {
-                CopySubVectorToUnchecked(sparseTarget, sourceIndex, targetIndex, count, skipClearing);
+                CopySubVectorToUnchecked(sparseTarget, sourceIndex, targetIndex, count, existingData);
                 return;
             }
 
@@ -499,7 +499,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             if (sourceFirst < 0) sourceFirst = ~sourceFirst;
             if (sourceLast < 0) sourceLast = ~sourceLast - 1;
 
-            if (!skipClearing)
+            if (existingData == ExistingData.Clear)
             {
                 target.Clear(targetIndex, count);
             }
@@ -512,7 +512,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
         void CopySubVectorToUnchecked(SparseVectorStorage<T> target,
             int sourceIndex, int targetIndex, int count,
-            bool skipClearing)
+            ExistingData existingData)
         {
             var offset = targetIndex - sourceIndex;
 
@@ -534,7 +534,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                     indices[i] = Indices[i + sourceFirst];
                 }
 
-                if (!skipClearing)
+                if (existingData == ExistingData.Clear)
                 {
                     Clear(targetIndex, count);
                 }
@@ -566,7 +566,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                 return;
             }
 
-            if (!skipClearing)
+            if (existingData == ExistingData.Clear)
             {
                 target.Clear(targetIndex, count);
             }
@@ -619,14 +619,15 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
         // FUNCTIONAL COMBINATORS
 
-        internal override void MapToUnchecked<TU>(VectorStorage<TU> target, Func<T, TU> f, bool forceMapZeros = false, bool skipClearing = false)
+        internal override void MapToUnchecked<TU>(VectorStorage<TU> target, Func<T, TU> f,
+            Zeros zeros = Zeros.AllowSkip, ExistingData existingData = ExistingData.Clear)
         {
             var sparseTarget = target as SparseVectorStorage<TU>;
             if (sparseTarget != null)
             {
                 var indices = new List<int>();
                 var values = new List<TU>();
-                if (forceMapZeros || !Zero.Equals(f(Zero)))
+                if (zeros == Zeros.Include || !Zero.Equals(f(Zero)))
                 {
                     int k = 0;
                     for (int i = 0; i < Length; i++)
@@ -660,12 +661,12 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             var denseTarget = target as DenseVectorStorage<TU>;
             if (denseTarget != null)
             {
-                if (!skipClearing)
+                if (existingData == ExistingData.Clear)
                 {
                     denseTarget.Clear();
                 }
 
-                if (forceMapZeros || !Zero.Equals(f(Zero)))
+                if (zeros == Zeros.Include || !Zero.Equals(f(Zero)))
                 {
                     int k = 0;
                     for (int i = 0; i < Length; i++)
@@ -690,17 +691,18 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
             // FALL BACK
 
-            base.MapToUnchecked(target, f, forceMapZeros, skipClearing);
+            base.MapToUnchecked(target, f, zeros, existingData);
         }
 
-        internal override void MapIndexedToUnchecked<TU>(VectorStorage<TU> target, Func<int, T, TU> f, bool forceMapZeros = false, bool skipClearing = false)
+        internal override void MapIndexedToUnchecked<TU>(VectorStorage<TU> target, Func<int, T, TU> f,
+            Zeros zeros = Zeros.AllowSkip, ExistingData existingData = ExistingData.Clear)
         {
             var sparseTarget = target as SparseVectorStorage<TU>;
             if (sparseTarget != null)
             {
                 var indices = new List<int>();
                 var values = new List<TU>();
-                if (forceMapZeros || !Zero.Equals(f(0, Zero)))
+                if (zeros == Zeros.Include || !Zero.Equals(f(0, Zero)))
                 {
                     int k = 0;
                     for (int i = 0; i < Length; i++)
@@ -734,12 +736,12 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             var denseTarget = target as DenseVectorStorage<TU>;
             if (denseTarget != null)
             {
-                if (!skipClearing)
+                if (existingData == ExistingData.Clear)
                 {
                     denseTarget.Clear();
                 }
 
-                if (forceMapZeros || !Zero.Equals(f(0, Zero)))
+                if (zeros == Zeros.Include || !Zero.Equals(f(0, Zero)))
                 {
                     int k = 0;
                     for (int i = 0; i < Length; i++)
@@ -764,7 +766,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
             // FALL BACK
 
-            base.MapIndexedToUnchecked(target, f, forceMapZeros, skipClearing);
+            base.MapIndexedToUnchecked(target, f, zeros, existingData);
         }
     }
 }

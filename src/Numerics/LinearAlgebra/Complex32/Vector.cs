@@ -192,7 +192,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// <param name="result">The vector to store the result of the pointwise power.</param>
         protected override void DoPointwisePower(Complex32 exponent, Vector<Complex32> result)
         {
-            Map(x => x.Power(exponent), result, forceMapZeros: false);
+            Map(x => x.Power(exponent), result, Zeros.AllowSkip);
         }
 
         /// <summary>
@@ -223,7 +223,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// <param name="result">The vector to store the result.</param>
         protected override void DoPointwiseExp(Vector<Complex32> result)
         {
-            Map(Complex32.Exp, result, forceMapZeros: true);
+            Map(Complex32.Exp, result, Zeros.Include);
         }
 
         /// <summary>
@@ -232,7 +232,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// <param name="result">The vector to store the result.</param>
         protected override void DoPointwiseLog(Vector<Complex32> result)
         {
-            Map(Complex32.Log, result, forceMapZeros: true);
+            Map(Complex32.Log, result, Zeros.Include);
         }
 
         /// <summary>

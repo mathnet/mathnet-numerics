@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2013 Math.NET
+// Copyright (c) 2009-2014 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -274,7 +274,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                     Sorting.Sort(ColumnIndices, Values, index, count);
                 }
             }
-            MapInplace(x => x, forceMapZeros: false);
+            MapInplace(x => x, Zeros.AllowSkip);
         }
 
         public override void Clear()
@@ -410,7 +410,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         public static SparseCompressedRowMatrixStorage<T> OfMatrix(MatrixStorage<T> matrix)
         {
             var storage = new SparseCompressedRowMatrixStorage<T>(matrix.RowCount, matrix.ColumnCount);
-            matrix.CopyToUnchecked(storage, skipClearing: true);
+            matrix.CopyToUnchecked(storage, ExistingData.AssumeZeros);
             return storage;
         }
 
@@ -794,7 +794,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
         // MATRIX COPY
 
-        internal override void CopyToUnchecked(MatrixStorage<T> target, bool skipClearing = false)
+        internal override void CopyToUnchecked(MatrixStorage<T> target, ExistingData existingData = ExistingData.Clear)
         {
             var sparseTarget = target as SparseCompressedRowMatrixStorage<T>;
             if (sparseTarget != null)
@@ -806,13 +806,13 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             var denseTarget = target as DenseColumnMajorMatrixStorage<T>;
             if (denseTarget != null)
             {
-                CopyToUnchecked(denseTarget, skipClearing);
+                CopyToUnchecked(denseTarget, existingData);
                 return;
             }
 
             // FALL BACK
 
-            if (!skipClearing)
+            if (existingData == ExistingData.Clear)
             {
                 target.Clear();
             }
@@ -844,9 +844,9 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             }
         }
 
-        void CopyToUnchecked(DenseColumnMajorMatrixStorage<T> target, bool skipClearing)
+        void CopyToUnchecked(DenseColumnMajorMatrixStorage<T> target, ExistingData existingData)
         {
-            if (!skipClearing)
+            if (existingData == ExistingData.Clear)
             {
                 target.Clear();
             }
@@ -870,7 +870,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         internal override void CopySubMatrixToUnchecked(MatrixStorage<T> target,
             int sourceRowIndex, int targetRowIndex, int rowCount,
             int sourceColumnIndex, int targetColumnIndex, int columnCount,
-            bool skipClearing = false)
+            ExistingData existingData = ExistingData.Clear)
         {
             if (target == null)
             {
@@ -883,13 +883,13 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                 CopySubMatrixToUnchecked(sparseTarget,
                     sourceRowIndex, targetRowIndex, rowCount,
                     sourceColumnIndex, targetColumnIndex, columnCount,
-                    skipClearing);
+                    existingData);
                 return;
             }
 
             // FALL BACK
 
-            if (!skipClearing)
+            if (existingData == ExistingData.Clear)
             {
                 target.Clear(targetRowIndex, rowCount, targetColumnIndex, columnCount);
             }
@@ -914,7 +914,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         void CopySubMatrixToUnchecked(SparseCompressedRowMatrixStorage<T> target,
             int sourceRowIndex, int targetRowIndex, int rowCount,
             int sourceColumnIndex, int targetColumnIndex, int columnCount,
-            bool skipClearing)
+            ExistingData existingData)
         {
             var rowOffset = targetRowIndex - sourceRowIndex;
             var columnOffset = targetColumnIndex - sourceColumnIndex;
@@ -959,7 +959,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                 return;
             }
 
-            if (!skipClearing)
+            if (existingData == ExistingData.Clear)
             {
                 target.Clear(targetRowIndex, rowCount, targetColumnIndex, columnCount);
             }
@@ -986,9 +986,9 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
         internal override void CopySubRowToUnchecked(VectorStorage<T> target, int rowIndex,
             int sourceColumnIndex, int targetColumnIndex, int columnCount,
-            bool skipClearing = false)
+            ExistingData existingData = ExistingData.Clear)
         {
-            if (!skipClearing)
+            if (existingData == ExistingData.Clear)
             {
                 target.Clear(targetColumnIndex, columnCount);
             }
@@ -1012,7 +1012,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
         // TRANSPOSE
 
-        internal override void TransposeToUnchecked(MatrixStorage<T> target, bool skipClearing = false)
+        internal override void TransposeToUnchecked(MatrixStorage<T> target, ExistingData existingData = ExistingData.Clear)
         {
             var sparseTarget = target as SparseCompressedRowMatrixStorage<T>;
             if (sparseTarget != null)
@@ -1024,13 +1024,13 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             var denseTarget = target as DenseColumnMajorMatrixStorage<T>;
             if (denseTarget != null)
             {
-                TransposeToUnchecked(denseTarget, skipClearing);
+                TransposeToUnchecked(denseTarget, existingData);
                 return;
             }
 
             // FALL BACK
 
-            if (!skipClearing)
+            if (existingData == ExistingData.Clear)
             {
                 target.Clear();
             }
@@ -1087,9 +1087,9 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             }
         }
 
-        void TransposeToUnchecked(DenseColumnMajorMatrixStorage<T> target, bool skipClearing)
+        void TransposeToUnchecked(DenseColumnMajorMatrixStorage<T> target, ExistingData existingData)
         {
-            if (!skipClearing)
+            if (existingData == ExistingData.Clear)
             {
                 target.Clear();
             }
@@ -1219,9 +1219,9 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
         // FUNCTIONAL COMBINATORS
 
-        public override void MapInplace(Func<T, T> f, bool forceMapZeros = false)
+        public override void MapInplace(Func<T, T> f, Zeros zeros = Zeros.AllowSkip)
         {
-            if (forceMapZeros || !Zero.Equals(f(Zero)))
+            if (zeros == Zeros.Include || !Zero.Equals(f(Zero)))
             {
                 var newRowPointers = RowPointers;
                 var newColumnIndices = new List<int>(ColumnIndices.Length);
@@ -1272,9 +1272,9 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             }
         }
 
-        public override void MapIndexedInplace(Func<int, int, T, T> f, bool forceMapZeros = false)
+        public override void MapIndexedInplace(Func<int, int, T, T> f, Zeros zeros = Zeros.AllowSkip)
         {
-            if (forceMapZeros || !Zero.Equals(f(0, 1, Zero)))
+            if (zeros == Zeros.Include || !Zero.Equals(f(0, 1, Zero)))
             {
                 var newRowPointers = RowPointers;
                 var newColumnIndices = new List<int>(ColumnIndices.Length);
@@ -1325,9 +1325,10 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             }
         }
 
-        internal override void MapToUnchecked<TU>(MatrixStorage<TU> target, Func<T, TU> f, bool forceMapZeros = false, bool skipClearing = false)
+        internal override void MapToUnchecked<TU>(MatrixStorage<TU> target, Func<T, TU> f,
+            Zeros zeros = Zeros.AllowSkip, ExistingData existingData = ExistingData.Clear)
         {
-            var processZeros = forceMapZeros || !Zero.Equals(f(Zero));
+            var processZeros = zeros == Zeros.Include || !Zero.Equals(f(Zero));
 
             var sparseTarget = target as SparseCompressedRowMatrixStorage<TU>;
             if (sparseTarget != null)
@@ -1380,7 +1381,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
             // FALL BACK
 
-            if (!skipClearing && !processZeros)
+            if (existingData == ExistingData.Clear && !processZeros)
             {
                 target.Clear();
             }
@@ -1419,9 +1420,10 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             }
         }
 
-        internal override void MapIndexedToUnchecked<TU>(MatrixStorage<TU> target, Func<int, int, T, TU> f, bool forceMapZeros = false, bool skipClearing = false)
+        internal override void MapIndexedToUnchecked<TU>(MatrixStorage<TU> target, Func<int, int, T, TU> f,
+            Zeros zeros = Zeros.AllowSkip, ExistingData existingData = ExistingData.Clear)
         {
-            var processZeros = forceMapZeros || !Zero.Equals(f(0, 1, Zero));
+            var processZeros = zeros == Zeros.Include || !Zero.Equals(f(0, 1, Zero));
 
             var sparseTarget = target as SparseCompressedRowMatrixStorage<TU>;
             if (sparseTarget != null)
@@ -1474,7 +1476,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
             // FALL BACK
 
-            if (!skipClearing && !processZeros)
+            if (existingData == ExistingData.Clear && !processZeros)
             {
                 target.Clear();
             }
@@ -1516,19 +1518,19 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         internal override void MapSubMatrixIndexedToUnchecked<TU>(MatrixStorage<TU> target, Func<int, int, T, TU> f,
             int sourceRowIndex, int targetRowIndex, int rowCount,
             int sourceColumnIndex, int targetColumnIndex, int columnCount,
-            bool forceMapZeros = false, bool skipClearing = false)
+            Zeros zeros = Zeros.AllowSkip, ExistingData existingData = ExistingData.Clear)
         {
             var sparseTarget = target as SparseCompressedRowMatrixStorage<TU>;
             if (sparseTarget != null)
             {
-                MapSubMatrixIndexedToUnchecked(sparseTarget, f, sourceRowIndex, targetRowIndex, rowCount, sourceColumnIndex, targetColumnIndex, columnCount, forceMapZeros, skipClearing);
+                MapSubMatrixIndexedToUnchecked(sparseTarget, f, sourceRowIndex, targetRowIndex, rowCount, sourceColumnIndex, targetColumnIndex, columnCount, zeros, existingData);
                 return;
             }
 
             // FALL BACK
 
-            var processZeros = forceMapZeros || !Zero.Equals(f(0, 1, Zero));
-            if (!skipClearing && !processZeros)
+            var processZeros = zeros == Zeros.Include || !Zero.Equals(f(0, 1, Zero));
+            if (existingData == ExistingData.Clear && !processZeros)
             {
                 target.Clear(targetRowIndex, rowCount, targetColumnIndex, columnCount);
             }
@@ -1581,11 +1583,11 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         void MapSubMatrixIndexedToUnchecked<TU>(SparseCompressedRowMatrixStorage<TU> target, Func<int, int, T, TU> f,
             int sourceRowIndex, int targetRowIndex, int rowCount,
             int sourceColumnIndex, int targetColumnIndex, int columnCount,
-            bool forceMapZeros = false, bool skipClearing = false)
+            Zeros zeros, ExistingData existingData)
             where TU : struct, IEquatable<TU>, IFormattable
         {
-            var processZeros = forceMapZeros || !Zero.Equals(f(0, 1, Zero));
-            if (!skipClearing && !processZeros)
+            var processZeros = zeros == Zeros.Include || !Zero.Equals(f(0, 1, Zero));
+            if (existingData == ExistingData.Clear && !processZeros)
             {
                 target.Clear(targetRowIndex, rowCount, targetColumnIndex, columnCount);
             }
