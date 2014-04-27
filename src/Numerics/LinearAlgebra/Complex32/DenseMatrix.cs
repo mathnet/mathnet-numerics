@@ -456,42 +456,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         }
 
         /// <summary>
-        /// Returns the transpose of this matrix.
-        /// </summary>
-        /// <returns>The transpose of this matrix.</returns>
-        public override Matrix<Complex32> Transpose()
-        {
-            var ret = new DenseMatrix(_columnCount, _rowCount);
-            for (var j = 0; j < _columnCount; j++)
-            {
-                var index = j * _rowCount;
-                for (var i = 0; i < _rowCount; i++)
-                {
-                    ret._values[(i * _columnCount) + j] = _values[index + i];
-                }
-            }
-            return ret;
-        }
-
-        /// <summary>
-        /// Returns the conjugate transpose of this matrix.
-        /// </summary>
-        /// <returns>The conjugate transpose of this matrix.</returns>
-        public override Matrix<Complex32> ConjugateTranspose()
-        {
-            var ret = new DenseMatrix(_columnCount, _rowCount);
-            for (var j = 0; j < _columnCount; j++)
-            {
-                var index = j * _rowCount;
-                for (var i = 0; i < _rowCount; i++)
-                {
-                    ret._values[(i * _columnCount) + j] = _values[index + i].Conjugate();
-                }
-            }
-            return ret;
-        }
-
-        /// <summary>
         /// Add a scalar to each element of the matrix and stores the result in the result vector.
         /// </summary>
         /// <param name="scalar">The scalar to add.</param>

@@ -494,6 +494,13 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             }
         }
 
+        // TRANSPOSE
+
+        internal override void TransposeToUnchecked(MatrixStorage<T> target, bool skipClearing = false)
+        {
+            CopyToUnchecked(target, skipClearing);
+        }
+
         // EXTRACT
 
         public override T[] ToRowMajorArray()

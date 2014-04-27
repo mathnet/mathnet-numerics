@@ -851,6 +851,8 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                 target.Clear();
             }
 
+            // TODO: proper implementation
+
             if (ValueCount != 0)
             {
                 for (int row = 0; row < RowCount; row++)
@@ -1005,6 +1007,105 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             {
                 var index = FindItem(rowIndex, i);
                 target.At(j, index >= 0 ? Values[index] : Zero);
+            }
+        }
+
+        // TRANSPOSE
+
+        internal override void TransposeToUnchecked(MatrixStorage<T> target, bool skipClearing = false)
+        {
+            var sparseTarget = target as SparseCompressedRowMatrixStorage<T>;
+            if (sparseTarget != null)
+            {
+                TransposeToUnchecked(sparseTarget);
+                return;
+            }
+
+            var denseTarget = target as DenseColumnMajorMatrixStorage<T>;
+            if (denseTarget != null)
+            {
+                TransposeToUnchecked(denseTarget, skipClearing);
+                return;
+            }
+
+            // FALL BACK
+
+            if (!skipClearing)
+            {
+                target.Clear();
+            }
+
+            if (ValueCount != 0)
+            {
+                for (int row = 0; row < RowCount; row++)
+                {
+                    var startIndex = RowPointers[row];
+                    var endIndex = RowPointers[row + 1];
+                    for (var j = startIndex; j < endIndex; j++)
+                    {
+                        target.At(ColumnIndices[j], row, Values[j]);
+                    }
+                }
+            }
+        }
+
+        void TransposeToUnchecked(SparseCompressedRowMatrixStorage<T> target)
+        {
+            target.Values = new T[ValueCount];
+            target.ColumnIndices = new int[ValueCount];
+            var cx = target.Values;
+            var cp = target.RowPointers;
+            var ci = target.ColumnIndices;
+
+            // Column counts
+            int[] w = new int[ColumnCount];
+            for (int p = 0; p < RowPointers[RowCount]; p++)
+            {
+                w[ColumnIndices[p]]++;
+            }
+
+            // Column pointers
+            int nz = 0;
+            for (int i = 0; i < ColumnCount; i++)
+            {
+                cp[i] = nz;
+                nz += w[i];
+                w[i] = cp[i];
+            }
+            cp[ColumnCount] = nz;
+
+            for (int i = 0; i < RowCount; i++)
+            {
+                for (int p = RowPointers[i]; p < RowPointers[i + 1]; p++)
+                {
+                    int j = w[ColumnIndices[p]]++;
+
+                    // Place A(i,j) as entry C(j,i)
+                    ci[j] = i;
+                    cx[j] = Values[p];
+                }
+            }
+        }
+
+        void TransposeToUnchecked(DenseColumnMajorMatrixStorage<T> target, bool skipClearing)
+        {
+            if (!skipClearing)
+            {
+                target.Clear();
+            }
+
+            if (ValueCount != 0)
+            {
+                for (int row = 0; row < RowCount; row++)
+                {
+                    var targetIndex = row * ColumnCount;
+                    var startIndex = RowPointers[row];
+                    var endIndex = RowPointers[row + 1];
+                    for (var j = startIndex; j < endIndex; j++)
+                    {
+                        target.Data[targetIndex + ColumnIndices[j]] = Values[j];
+                    }
+                }
             }
         }
 

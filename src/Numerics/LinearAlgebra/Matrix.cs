@@ -980,16 +980,10 @@ namespace MathNet.Numerics.LinearAlgebra
         /// Returns the transpose of this matrix.
         /// </summary>
         /// <returns>The transpose of this matrix.</returns>
-        public virtual Matrix<T> Transpose()
+        public Matrix<T> Transpose()
         {
             var result = Build.SameAs(this, ColumnCount, RowCount);
-            for (var j = 0; j < ColumnCount; j++)
-            {
-                for (var i = 0; i < RowCount; i++)
-                {
-                    result.At(j, i, At(i, j));
-                }
-            }
+            Storage.TransposeToUnchecked(result.Storage, skipClearing:true);
             return result;
         }
 

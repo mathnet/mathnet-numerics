@@ -641,43 +641,6 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             DoMultiply(-1, result);
         }
 
-        /// <summary>
-        /// Returns the transpose of this matrix.
-        /// </summary>
-        /// <returns>The transpose of this matrix.</returns>
-        public override Matrix<double> Transpose()
-        {
-            var rowPointers = _storage.RowPointers;
-            var columnIndices = _storage.ColumnIndices;
-            var values = _storage.Values;
-
-            var ret = new SparseCompressedRowMatrixStorage<double>(ColumnCount, RowCount)
-                {
-                    ColumnIndices = new int[_storage.ValueCount],
-                    Values = new double[_storage.ValueCount]
-                };
-
-            // Do an 'inverse' CopyTo iterate over the rows
-            for (var i = 0; i < RowCount; i++)
-            {
-                var startIndex = rowPointers[i];
-                var endIndex = rowPointers[i + 1];
-
-                if (startIndex == endIndex)
-                {
-                    // Begin and end are equal. There are no values in the row, Move to the next row
-                    continue;
-                }
-
-                for (var j = startIndex; j < endIndex; j++)
-                {
-                    ret.At(columnIndices[j], i, values[j]);
-                }
-            }
-
-            return new SparseMatrix(ret);
-        }
-
         /// <summary>Calculates the induced infinity norm of this matrix.</summary>
         /// <returns>The maximum absolute row sum of the matrix.</returns>
         public override double InfinityNorm()

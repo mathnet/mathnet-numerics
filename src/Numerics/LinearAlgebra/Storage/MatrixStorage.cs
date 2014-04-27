@@ -384,6 +384,40 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             }
         }
 
+        // TRANSPOSE
+
+        public void TransposeTo(MatrixStorage<T> target, bool skipClearing = false)
+        {
+            if (target == null)
+            {
+                throw new ArgumentNullException("target");
+            }
+
+            if (ReferenceEquals(this, target))
+            {
+                throw new NotSupportedException("In-place transpose is not supported.");
+            }
+
+            if (RowCount != target.ColumnCount || ColumnCount != target.RowCount)
+            {
+                var message = string.Format(Resources.ArgumentMatrixDimensions2, RowCount + "x" + ColumnCount, target.RowCount + "x" + target.ColumnCount);
+                throw new ArgumentException(message, "target");
+            }
+
+            TransposeToUnchecked(target, skipClearing);
+        }
+
+        internal virtual void TransposeToUnchecked(MatrixStorage<T> target, bool skipClearing = false)
+        {
+            for (int j = 0; j < ColumnCount; j++)
+            {
+                for (int i = 0; i < RowCount; i++)
+                {
+                    target.At(j, i, At(i, j));
+                }
+            }
+        }
+
         // EXTRACT
 
         public virtual T[] ToRowMajorArray()

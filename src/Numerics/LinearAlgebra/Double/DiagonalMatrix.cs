@@ -572,17 +572,6 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             return new DenseVector(_data).Clone();
         }
 
-        /// <summary>
-        /// Returns the transpose of this matrix.
-        /// </summary>
-        /// <returns>The transpose of this matrix.</returns>
-        public override Matrix<double> Transpose()
-        {
-            var ret = new DiagonalMatrix(ColumnCount, RowCount);
-            Buffer.BlockCopy(_data, 0, ret._data, 0, _data.Length * Constants.SizeOfDouble);
-            return ret;
-        }
-
         /// <summary>Calculates the induced L1 norm of this matrix.</summary>
         /// <returns>The maximum absolute column sum of the matrix.</returns>
         public override double L1Norm()

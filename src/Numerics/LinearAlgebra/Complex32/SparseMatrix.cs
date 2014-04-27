@@ -643,42 +643,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
             DoMultiply(-1, result);
         }
 
-        /// <summary>
-        /// Returns the transpose of this matrix.
-        /// </summary>
-        /// <returns>The transpose of this matrix.</returns>
-        public override Matrix<Complex32> Transpose()
-        {
-            var rowPointers = _storage.RowPointers;
-            var columnIndices = _storage.ColumnIndices;
-            var values = _storage.Values;
-
-            var ret = new SparseCompressedRowMatrixStorage<Complex32>(ColumnCount, RowCount)
-                {
-                    ColumnIndices = new int[_storage.ValueCount],
-                    Values = new Complex32[_storage.ValueCount]
-                };
-
-            // Do an 'inverse' CopyTo iterate over the rows
-            for (var i = 0; i < RowCount; i++)
-            {
-                var startIndex = rowPointers[i];
-                var endIndex = rowPointers[i + 1];
-
-                if (startIndex == endIndex)
-                {
-                    continue;
-                }
-
-                for (var j = startIndex; j < endIndex; j++)
-                {
-                    ret.At(columnIndices[j], i, values[j]);
-                }
-            }
-
-            return new SparseMatrix(ret);
-        }
-
         /// <summary>Calculates the induced infinity norm of this matrix.</summary>
         /// <returns>The maximum absolute row sum of the matrix.</returns>
         public override double InfinityNorm()

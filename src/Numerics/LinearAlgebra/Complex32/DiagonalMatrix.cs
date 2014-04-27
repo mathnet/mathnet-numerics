@@ -722,17 +722,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
             return new DenseVector(_data).Clone();
         }
 
-        /// <summary>
-        /// Returns the transpose of this matrix.
-        /// </summary>
-        /// <returns>The transpose of this matrix.</returns>
-        public override Matrix<Complex32> Transpose()
-        {
-            var ret = new DiagonalMatrix(ColumnCount, RowCount);
-            Array.Copy(_data, ret._data, _data.Length);
-            return ret;
-        }
-
         /// <summary>Calculates the induced L1 norm of this matrix.</summary>
         /// <returns>The maximum absolute column sum of the matrix.</returns>
         public override double L1Norm()

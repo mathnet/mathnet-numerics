@@ -110,16 +110,10 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// Returns the conjugate transpose of this matrix.
         /// </summary>
         /// <returns>The conjugate transpose of this matrix.</returns>
-        public override Matrix<Complex> ConjugateTranspose()
+        public override sealed Matrix<Complex> ConjugateTranspose()
         {
-            var ret = Build.SameAs(this, ColumnCount, RowCount);
-            for (var j = 0; j < ColumnCount; j++)
-            {
-                for (var i = 0; i < RowCount; i++)
-                {
-                    ret.At(j, i, At(i, j).Conjugate());
-                }
-            }
+            var ret = Transpose();
+            ret.MapInplace(c => c.Conjugate(), forceMapZeros: false);
             return ret;
         }
 

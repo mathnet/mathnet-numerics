@@ -432,6 +432,72 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             }
         }
 
+        // TRANSPOSE
+
+        internal override void TransposeToUnchecked(MatrixStorage<T> target, bool skipClearing = false)
+        {
+            var denseTarget = target as DenseColumnMajorMatrixStorage<T>;
+            if (denseTarget != null)
+            {
+                TransposeToUnchecked(denseTarget);
+                return;
+            }
+
+            var sparseTarget = target as SparseCompressedRowMatrixStorage<T>;
+            if (sparseTarget != null)
+            {
+                TransposeToUnchecked(sparseTarget);
+                return;
+            }
+
+            // FALL BACK
+
+            for (int j = 0, offset = 0; j < ColumnCount; j++, offset += RowCount)
+            {
+                for (int i = 0; i < RowCount; i++)
+                {
+                    target.At(j, i, Data[i + offset]);
+                }
+            }
+        }
+
+        void TransposeToUnchecked(DenseColumnMajorMatrixStorage<T> target)
+        {
+            for (var j = 0; j < ColumnCount; j++)
+            {
+                var index = j * RowCount;
+                for (var i = 0; i < RowCount; i++)
+                {
+                    target.Data[(i * ColumnCount) + j] = Data[index + i];
+                }
+            }
+        }
+
+        void TransposeToUnchecked(SparseCompressedRowMatrixStorage<T> target)
+        {
+            var rowPointers = target.RowPointers;
+            var columnIndices = new List<int>();
+            var values = new List<T>();
+
+            for (int j = 0; j < ColumnCount; j++)
+            {
+                rowPointers[j] = values.Count;
+                var index = j * RowCount;
+                for (int i = 0; i < RowCount; i++)
+                {
+                    if (!Zero.Equals(Data[index + i]))
+                    {
+                        values.Add(Data[index + i]);
+                        columnIndices.Add(i);
+                    }
+                }
+            }
+
+            rowPointers[ColumnCount] = values.Count;
+            target.ColumnIndices = columnIndices.ToArray();
+            target.Values = values.ToArray();
+        }
+
         // EXTRACT
 
         public override T[] ToRowMajorArray()
