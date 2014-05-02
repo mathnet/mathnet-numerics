@@ -130,6 +130,22 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             }
         }
 
+        public override void ClearRows(int[] rowIndices)
+        {
+            for (int i = 0; i < rowIndices.Length; i++)
+            {
+                Data[rowIndices[i]] = Zero;
+            }
+        }
+
+        public override void ClearColumns(int[] columnIndices)
+        {
+            for (int i = 0; i < columnIndices.Length; i++)
+            {
+                Data[columnIndices[i]] = Zero;
+            }
+        }
+
         /// <summary>
         /// Indicates whether the current object is equal to another object of the same type.
         /// </summary>

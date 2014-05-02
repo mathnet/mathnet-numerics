@@ -127,6 +127,26 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             }
         }
 
+        public override void ClearRows(int[] rowIndices)
+        {
+            for (var j = 0; j < ColumnCount; j++)
+            {
+                int offset = j*RowCount;
+                for (var k = 0; k < rowIndices.Length; k++)
+                {
+                    Data[offset + rowIndices[k]] = Zero;
+                }
+            }
+        }
+
+        public override void ClearColumns(int[] columnIndices)
+        {
+            for (int k = 0; k < columnIndices.Length; k++)
+            {
+                Array.Clear(Data, columnIndices[k]*RowCount, RowCount);
+            }
+        }
+
         // INITIALIZATION
 
         public static DenseColumnMajorMatrixStorage<T> OfMatrix(MatrixStorage<T> matrix)

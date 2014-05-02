@@ -148,15 +148,37 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         [Theory]
         public void CanClearSubMatrix(Matrix<T> matrix)
         {
-            var cleared = matrix.Clone();
-            Assume.That(cleared.RowCount, Is.GreaterThanOrEqualTo(2));
-            Assume.That(cleared.ColumnCount, Is.GreaterThanOrEqualTo(2));
+            Assume.That(matrix.RowCount, Is.GreaterThanOrEqualTo(2));
+            Assume.That(matrix.ColumnCount, Is.GreaterThanOrEqualTo(2));
 
-            cleared.Storage.Clear(0, 2, 1, 1);
+            var cleared = matrix.Clone();
+            cleared.ClearSubMatrix(0, 2, 1, 1);
             Assert.That(cleared.At(0, 0), Is.EqualTo(matrix.At(0, 0)));
             Assert.That(cleared.At(1, 0), Is.EqualTo(matrix.At(1, 0)));
             Assert.That(cleared.At(0, 1), Is.EqualTo(Zero));
             Assert.That(cleared.At(1, 1), Is.EqualTo(Zero));
+        }
+
+        [Theory]
+        public void CanClearRows(Matrix<T> matrix)
+        {
+            Assume.That(matrix.RowCount, Is.GreaterThanOrEqualTo(2));
+
+            var cleared = matrix.Clone();
+            cleared.ClearRows(1);
+            Assert.That(cleared.At(0, 0), Is.EqualTo(matrix.At(0, 0)));
+            Assert.That(cleared.At(1, 0), Is.EqualTo(Zero));
+        }
+
+        [Theory]
+        public void CanClearColumns(Matrix<T> matrix)
+        {
+            Assume.That(matrix.ColumnCount, Is.GreaterThanOrEqualTo(2));
+
+            var cleared = matrix.Clone();
+            cleared.ClearColumns(1);
+            Assert.That(cleared.At(0, 0), Is.EqualTo(matrix.At(0, 0)));
+            Assert.That(cleared.At(0, 1), Is.EqualTo(Zero));
         }
 
         [Theory]

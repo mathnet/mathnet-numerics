@@ -150,6 +150,30 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             }
         }
 
+        public virtual void ClearRows(int[] rowIndices)
+        {
+            for (var k = 0; k < rowIndices.Length; k++)
+            {
+                int row = rowIndices[k];
+                for (var j = 0; j < ColumnCount; j++)
+                {
+                    At(row, j, Zero);
+                }
+            }
+        }
+
+        public virtual void ClearColumns(int[] columnIndices)
+        {
+            for (var k = 0; k < ColumnCount; k++)
+            {
+                int column = columnIndices[k];
+                for (var i = 0; i < RowCount; i++)
+                {
+                    At(i, column, Zero);
+                }
+            }
+        }
+
         /// <summary>
         /// Indicates whether the current object is equal to another object of the same type.
         /// </summary>

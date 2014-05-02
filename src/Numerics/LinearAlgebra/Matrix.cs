@@ -147,6 +147,19 @@ namespace MathNet.Numerics.LinearAlgebra
         }
 
         /// <summary>
+        /// Sets all values of a row to zero.
+        /// </summary>
+        public void ClearRow(int rowIndex)
+        {
+            if (rowIndex < 0 || rowIndex >= RowCount)
+            {
+                throw new ArgumentOutOfRangeException("rowIndex");
+            }
+
+            Storage.Clear(rowIndex, 1, 0, ColumnCount);
+        }
+
+        /// <summary>
         /// Sets all values of a column to zero.
         /// </summary>
         public void ClearColumn(int columnIndex)
@@ -160,16 +173,45 @@ namespace MathNet.Numerics.LinearAlgebra
         }
 
         /// <summary>
-        /// Sets all values of a row to zero.
+        /// Sets all values for all of the chosen rows to zero.
         /// </summary>
-        public void ClearRow(int rowIndex)
+        public void ClearRows(params int[] rowIndices)
         {
-            if (rowIndex < 0 || rowIndex >= RowCount)
+            if (rowIndices.Length == 0)
             {
-                throw new ArgumentOutOfRangeException("rowIndex");
+                return;
             }
 
-            Storage.Clear(rowIndex, 1, 0, ColumnCount);
+            for (int k = 0; k < rowIndices.Length; k++)
+            {
+                if (rowIndices[k] < 0 || rowIndices[k] >= RowCount)
+                {
+                    throw new ArgumentOutOfRangeException("rowIndices");
+                }
+            }
+
+            Storage.ClearRows(rowIndices);
+        }
+
+        /// <summary>
+        /// Sets all values for all of the chosen columns to zero.
+        /// </summary>
+        public void ClearColumns(params int[] columnIndices)
+        {
+            if (columnIndices.Length == 0)
+            {
+                return;
+            }
+
+            for (int k = 0; k < columnIndices.Length; k++)
+            {
+                if (columnIndices[k] < 0 || columnIndices[k] >= ColumnCount)
+                {
+                    throw new ArgumentOutOfRangeException("columnIndices");
+                }
+            }
+
+            Storage.ClearColumns(columnIndices);
         }
 
         /// <summary>

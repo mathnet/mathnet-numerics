@@ -31,6 +31,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Policy;
 using MathNet.Numerics.Properties;
 
 namespace MathNet.Numerics.LinearAlgebra.Storage
@@ -232,7 +233,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         /// <remarks>WARNING: This method is not thread safe. Use "lock" with it and be sure to avoid deadlocks</remarks>
         public int FindItem(int row, int column)
         {
-            // Determin bounds in columnIndices array where this item should be searched (using rowIndex)
+            // Determine bounds in columnIndices array where this item should be searched (using rowIndex)
             return Array.BinarySearch(ColumnIndices, RowPointers[row], RowPointers[row + 1] - RowPointers[row], column);
         }
 
@@ -265,6 +266,12 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
         public void Normalize()
         {
+            NormalizeOrdering();
+            NormalizeZeros();
+        }
+
+        public void NormalizeOrdering()
+        {
             for (int i = 0; i < RowCount; i++)
             {
                 int index = RowPointers[i];
@@ -274,6 +281,10 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                     Sorting.Sort(ColumnIndices, Values, index, count);
                 }
             }
+        }
+
+        public void NormalizeZeros()
+        {
             MapInplace(x => x, Zeros.AllowSkip);
         }
 
@@ -334,6 +345,26 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                 Array.Resize(ref Values, valueCount);
                 Array.Resize(ref ColumnIndices, valueCount);
             }
+        }
+
+        public override void ClearRows(int[] rowIndices)
+        {
+            var rows = new bool[RowCount];
+            for (int i = 0; i < rowIndices.Length; i++)
+            {
+                rows[rowIndices[i]] = true;
+            }
+            MapIndexedInplace((i, j, x) => rows[i] ? Zero : x, Zeros.AllowSkip);
+        }
+
+        public override void ClearColumns(int[] columnIndices)
+        {
+            var columns = new bool[ColumnCount];
+            for (int i = 0; i < columnIndices.Length; i++)
+            {
+                columns[columnIndices[i]] = true;
+            }
+            MapIndexedInplace((i, j, x) => columns[j] ? Zero : x, Zeros.AllowSkip);
         }
 
         /// <summary>
