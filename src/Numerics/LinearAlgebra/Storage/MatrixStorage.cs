@@ -539,7 +539,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             }
         }
 
-        // FUNCTIONAL COMBINATORS
+        // FUNCTIONAL COMBINATORS: MAP
 
         public virtual void MapInplace(Func<T, T> f, Zeros zeros = Zeros.AllowSkip)
         {
@@ -665,6 +665,84 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                 {
                     target.At(ii, jj, f(ii, jj, At(i, j)));
                 }
+            }
+        }
+
+        // FUNCTIONAL COMBINATORS: FOLD
+
+        public void FoldRows<TU>(VectorStorage<TU> target, Func<TU, T, TU> f, Func<TU, int, TU> finalize, VectorStorage<TU> state, Zeros zeros = Zeros.AllowSkip)
+            where TU : struct, IEquatable<TU>, IFormattable
+        {
+            if (target == null)
+            {
+                throw new ArgumentNullException("target");
+            }
+            if (target.Length != RowCount)
+            {
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "target");
+            }
+
+            if (state == null)
+            {
+                throw new ArgumentNullException("state");
+            }
+            if (state.Length != RowCount)
+            {
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "state");
+            }
+
+            FoldRowsUnchecked(target, f, finalize, state, zeros);
+        }
+
+        internal virtual void FoldRowsUnchecked<TU>(VectorStorage<TU> target, Func<TU, T, TU> f, Func<TU, int, TU> finalize, VectorStorage<TU> state, Zeros zeros = Zeros.AllowSkip)
+            where TU : struct, IEquatable<TU>, IFormattable
+        {
+            for (int i = 0; i < RowCount; i++)
+            {
+                TU s = state.At(i);
+                for (int j = 0; j < ColumnCount; j++)
+                {
+                    s = f(s, At(i, j));
+                }
+                target.At(i, finalize(s, ColumnCount));
+            }
+        }
+
+        public void FoldColumns<TU>(VectorStorage<TU> target, Func<TU, T, TU> f, Func<TU, int, TU> finalize, VectorStorage<TU> state, Zeros zeros = Zeros.AllowSkip)
+            where TU : struct, IEquatable<TU>, IFormattable
+        {
+            if (target == null)
+            {
+                throw new ArgumentNullException("target");
+            }
+            if (target.Length != ColumnCount)
+            {
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "target");
+            }
+
+            if (state == null)
+            {
+                throw new ArgumentNullException("state");
+            }
+            if (state.Length != ColumnCount)
+            {
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "state");
+            }
+
+            FoldColumnsUnchecked(target, f, finalize, state, zeros);
+        }
+
+        internal virtual void FoldColumnsUnchecked<TU>(VectorStorage<TU> target, Func<TU, T, TU> f, Func<TU, int, TU> finalize, VectorStorage<TU> state, Zeros zeros = Zeros.AllowSkip)
+            where TU : struct, IEquatable<TU>, IFormattable
+        {
+            for (int j = 0; j < ColumnCount; j++)
+            {
+                TU s = state.At(j);
+                for (int i = 0; i < RowCount; i++)
+                {
+                    s = f(s, At(i, j));
+                }
+                target.At(j, finalize(s, RowCount));
             }
         }
     }

@@ -31,7 +31,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Policy;
 using MathNet.Numerics.Properties;
 
 namespace MathNet.Numerics.LinearAlgebra.Storage
@@ -1248,7 +1247,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             }
         }
 
-        // FUNCTIONAL COMBINATORS
+        // FUNCTIONAL COMBINATORS: MAP
 
         public override void MapInplace(Func<T, T> f, Zeros zeros = Zeros.AllowSkip)
         {
@@ -1425,9 +1424,9 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                     var endIndex = RowPointers[row + 1];
                     for (int j = 0; j < ColumnCount; j++)
                     {
-                        if (j == ColumnIndices[index])
+                        if (index < endIndex && j == ColumnIndices[index])
                         {
-                            target.At(row, j, f(Values[j]));
+                            target.At(row, j, f(Values[index]));
                             index = Math.Min(index + 1, endIndex);
                         }
                         else
@@ -1520,9 +1519,9 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                     var endIndex = RowPointers[row + 1];
                     for (int j = 0; j < ColumnCount; j++)
                     {
-                        if (j == ColumnIndices[index])
+                        if (index < endIndex && j == ColumnIndices[index])
                         {
-                            target.At(row, j, f(row, j, Values[j]));
+                            target.At(row, j, f(row, j, Values[index]));
                             index = Math.Min(index + 1, endIndex);
                         }
                         else
@@ -1753,6 +1752,109 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                         }
                     }
                 }
+            }
+        }
+
+        // FUNCTIONAL COMBINATORS: FOLD
+
+        internal override void FoldRowsUnchecked<TU>(VectorStorage<TU> target, Func<TU, T, TU> f, Func<TU, int, TU> finalize, VectorStorage<TU> state, Zeros zeros = Zeros.AllowSkip)
+        {
+            if (zeros == Zeros.AllowSkip)
+            {
+                for (int row = 0; row < RowCount; row++)
+                {
+                    var startIndex = RowPointers[row];
+                    var endIndex = RowPointers[row + 1];
+                    TU s = state.At(row);
+                    for (var j = startIndex; j < endIndex; j++)
+                    {
+                        s = f(s, Values[j]);
+                    }
+                    target.At(row, finalize(s, endIndex - startIndex));
+                }
+            }
+            else
+            {
+                for (int row = 0; row < RowCount; row++)
+                {
+                    var index = RowPointers[row];
+                    var endIndex = RowPointers[row + 1];
+                    TU s = state.At(row);
+                    for (int j = 0; j < ColumnCount; j++)
+                    {
+                        if (index < endIndex && j == ColumnIndices[index])
+                        {
+                            s = f(s, Values[index]);
+                            index = Math.Min(index + 1, endIndex);
+                        }
+                        else
+                        {
+                            s = f(s, Zero);
+                        }
+                    }
+                    target.At(row, finalize(s, ColumnCount));
+                }
+            }
+        }
+
+        internal override void FoldColumnsUnchecked<TU>(VectorStorage<TU> target, Func<TU, T, TU> f, Func<TU, int, TU> finalize, VectorStorage<TU> state, Zeros zeros = Zeros.AllowSkip)
+        {
+            var denseResult = target as DenseVectorStorage<TU>;
+            if (denseResult == null)
+            {
+                denseResult = new DenseVectorStorage<TU>(ColumnCount);
+            }
+
+            state.CopyTo(denseResult);
+            TU[] result = denseResult.Data;
+
+            if (zeros == Zeros.AllowSkip)
+            {
+                int[] count = new int[ColumnCount];
+                for (int row = 0; row < RowCount; row++)
+                {
+                    var startIndex = RowPointers[row];
+                    var endIndex = RowPointers[row + 1];
+                    for (var j = startIndex; j < endIndex; j++)
+                    {
+                        var column = ColumnIndices[j];
+                        result[column] = f(result[column], Values[j]);
+                        count[column]++;
+                    }
+                }
+                for (int j = 0; j < ColumnCount; j++)
+                {
+                    result[j] = finalize(result[j], count[j]);
+                }
+            }
+            else
+            {
+                for (int row = 0; row < RowCount; row++)
+                {
+                    var index = RowPointers[row];
+                    var endIndex = RowPointers[row + 1];
+                    for (int j = 0; j < ColumnCount; j++)
+                    {
+                        if (index < endIndex && j == ColumnIndices[index])
+                        {
+                            result[j] = f(result[j], Values[index]);
+                            index = Math.Min(index + 1, endIndex);
+                        }
+                        else
+                        {
+                            result[j] = f(result[j], Zero);
+                        }
+                    }
+                }
+                for (int j = 0; j < ColumnCount; j++)
+                {
+                    result[j] = finalize(result[j], RowCount);
+                }
+            }
+
+            if (!ReferenceEquals(denseResult, target))
+            {
+                denseResult.CopyTo(target);
             }
         }
     }

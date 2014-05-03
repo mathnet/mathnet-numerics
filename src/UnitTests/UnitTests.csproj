@@ -303,9 +303,10 @@
     <Compile Include="LinearAlgebraTests\Double\VectorTests.Arithmetic.cs" />
     <Compile Include="LinearAlgebraTests\Double\VectorTests.cs" />
     <Compile Include="LinearAlgebraTests\Double\VectorTests.Norm.cs" />
+    <Compile Include="GenericMath.cs" />
     <Compile Include="LinearAlgebraTests\MatrixStructureTheory.Access.cs" />
     <Compile Include="LinearAlgebraTests\MatrixStructureTheory.cs" />
-    <Compile Include="LinearAlgebraTests\MatrixStructureTheory.Map.cs" />
+    <Compile Include="LinearAlgebraTests\MatrixStructureTheory.Functional.cs" />
     <Compile Include="LinearAlgebraTests\MatrixStructureTheory.Reform.cs" />
     <Compile Include="LinearAlgebraTests\Single\DenseMatrixTests.cs" />
     <Compile Include="LinearAlgebraTests\Single\DenseVectorArithmeticTheory.cs" />
@@ -358,7 +359,7 @@
     <Compile Include="LinearAlgebraTests\Single\VectorTests.Norm.cs" />
     <Compile Include="LinearAlgebraTests\Double\VectorArithmeticTheory.cs" />
     <Compile Include="LinearAlgebraTests\VectorArithmeticTheory.cs" />
-    <Compile Include="MatrixHelpers.cs" />
+    <Compile Include="LinearAlgebraTests\MatrixHelpers.cs" />
     <Compile Include="EuclidTests\GcdRelatedTest.cs" />
     <Compile Include="EuclidTests\GcdRelatedTestBigInteger.cs" />
     <Compile Include="EuclidTests\IntegerTheoryTest.cs" />

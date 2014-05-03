@@ -595,7 +595,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             }
         }
 
-        // FUNCTIONAL COMBINATORS
+        // FUNCTIONAL COMBINATORS: MAP
 
         public override void MapInplace(Func<T, T> f, Zeros zeros = Zeros.AllowSkip)
         {
@@ -895,6 +895,64 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                     {
                         target.Data[j] = f(targetRowIndex + k, targetColumnIndex + k, Data[sourceRowIndex + k]);
                     }
+                }
+            }
+        }
+
+        // FUNCTIONAL COMBINATORS: FOLD
+
+        internal override void FoldRowsUnchecked<TU>(VectorStorage<TU> target, Func<TU, T, TU> f, Func<TU, int, TU> finalize, VectorStorage<TU> state, Zeros zeros = Zeros.AllowSkip)
+        {
+            if (zeros == Zeros.AllowSkip)
+            {
+                for (int k = 0; k < Data.Length; k++)
+                {
+                    target.At(k, finalize(f(state.At(k), Data[k]), 1));
+                }
+
+                for (int k = Data.Length; k < RowCount; k++)
+                {
+                    target.At(k, finalize(state.At(k), 0));
+                }
+            }
+            else
+            {
+                for (int i = 0; i < RowCount; i++)
+                {
+                    TU s = state.At(i);
+                    for (int j = 0; j < ColumnCount; j++)
+                    {
+                        s = f(s, i == j ? Data[i] : Zero);
+                    }
+                    target.At(i, finalize(s, ColumnCount));
+                }
+            }
+        }
+
+        internal override void FoldColumnsUnchecked<TU>(VectorStorage<TU> target, Func<TU, T, TU> f, Func<TU, int, TU> finalize, VectorStorage<TU> state, Zeros zeros = Zeros.AllowSkip)
+        {
+            if (zeros == Zeros.AllowSkip)
+            {
+                for (int k = 0; k < Data.Length; k++)
+                {
+                    target.At(k, finalize(f(state.At(k), Data[k]), 1));
+                }
+
+                for (int k = Data.Length; k < ColumnCount; k++)
+                {
+                    target.At(k, finalize(state.At(k), 0));
+                }
+            }
+            else
+            {
+                for (int j = 0; j < ColumnCount; j++)
+                {
+                    TU s = state.At(j);
+                    for (int i = 0; i < RowCount; i++)
+                    {
+                        s = f(s, i == j ? Data[i] : Zero);
+                    }
+                    target.At(j, finalize(s, RowCount));
                 }
             }
         }

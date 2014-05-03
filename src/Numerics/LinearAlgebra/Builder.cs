@@ -1363,7 +1363,8 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <summary>
         /// Create a new vector with the same kind of the provided example.
         /// </summary>
-        public Vector<T> SameAs(Matrix<T> example, int length)
+        public Vector<T> SameAs<TU>(Matrix<TU> example, int length)
+            where TU : struct, IEquatable<TU>, IFormattable
         {
             return example.Storage.IsDense ? Dense(length) : Sparse(length);
         }

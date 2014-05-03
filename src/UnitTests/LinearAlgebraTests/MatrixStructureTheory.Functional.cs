@@ -1,4 +1,4 @@
-﻿// <copyright file="MatrixStructureTheory.Map.cs" company="Math.NET">
+﻿// <copyright file="MatrixStructureTheory.Functional.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -255,6 +255,48 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
                 Is.EqualTo(matrix.SubMatrix(1, matrix.RowCount - 1, 0, matrix.ColumnCount)), "Sub Range - filled, forced - range");
             sparse.SetSubMatrix(1, 0, matrix.RowCount - 1, 1, 0, matrix.ColumnCount, Matrix<T>.Build.Dense(matrix.RowCount - 1, matrix.ColumnCount, one));
             Assert.That(sparse.Enumerate().All(one.Equals), Is.True);
+        }
+
+        [Theory]
+        public void CanFoldRows(Matrix<T> matrix)
+        {
+            // not forced
+            var rowSum = matrix.FoldRows((s, x) => Operator<T>.Add(s, x), Operator<T>.Zero, Zeros.AllowSkip);
+            for (int i = 0; i < rowSum.Count; i++)
+            {
+                Assert.That(rowSum.At(i), Is.EqualTo(matrix.Row(i).Enumerate().Aggregate((a, b) => Operator<T>.Add(a, b))), "not forced");
+            }
+
+            // forced
+            rowSum = matrix.FoldRows((s, x) => Operator<T>.Add(s, x), Operator<T>.Zero, Zeros.Include);
+            for (int i = 0; i < rowSum.Count; i++)
+            {
+                Assert.That(rowSum.At(i), Is.EqualTo(matrix.Row(i).Enumerate().Aggregate((a, b) => Operator<T>.Add(a, b))), "forced");
+            }
+
+            Assert.That(matrix.FoldRows((s, x) => s + 1.0, 0.0, Zeros.Include),
+                Is.EqualTo(Vector<double>.Build.Dense(matrix.RowCount, matrix.ColumnCount)), "forced - full coverage");
+        }
+
+        [Theory]
+        public void CanFoldColumns(Matrix<T> matrix)
+        {
+            // not forced
+            var colSum = matrix.FoldColumns((s, x) => Operator<T>.Add(s, x), Operator<T>.Zero, Zeros.AllowSkip);
+            for (int i = 0; i < colSum.Count; i++)
+            {
+                Assert.That(colSum.At(i), Is.EqualTo(matrix.Column(i).Enumerate().Aggregate((a, b) => Operator<T>.Add(a, b))), "not forced");
+            }
+
+            // forced
+            colSum = matrix.FoldColumns((s, x) => Operator<T>.Add(s, x), Operator<T>.Zero, Zeros.Include);
+            for (int i = 0; i < colSum.Count; i++)
+            {
+                Assert.That(colSum.At(i), Is.EqualTo(matrix.Column(i).Enumerate().Aggregate((a, b) => Operator<T>.Add(a, b))), "forced");
+            }
+
+            Assert.That(matrix.FoldColumns((s, x) => s + 1.0, 0.0, Zeros.Include),
+                Is.EqualTo(Vector<double>.Build.Dense(matrix.ColumnCount, matrix.RowCount)), "forced - full coverage");
         }
     }
 }
