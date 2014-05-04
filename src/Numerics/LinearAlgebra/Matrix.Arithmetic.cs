@@ -1627,50 +1627,6 @@ namespace MathNet.Numerics.LinearAlgebra
             }
         }
 
-        /// <summary>
-        /// Normalizes the columns of a matrix.
-        /// </summary>
-        /// <param name="p">The norm under which to normalize the columns under.</param>
-        /// <returns>A normalized version of the matrix.</returns>
-        /// <exception cref="ArgumentOutOfRangeException">If the parameter p is not positive.</exception>
-        public Matrix<T> NormalizeColumns(int p)
-        {
-            if (p < 1)
-            {
-                throw new ArgumentOutOfRangeException("p", Resources.ArgumentMustBePositive);
-            }
-
-            var result = Build.SameAs(this);
-            for (var index = 0; index < ColumnCount; index++)
-            {
-                result.SetColumn(index, Column(index).Normalize(p));
-            }
-
-            return result;
-        }
-
-        /// <summary>
-        /// Normalizes the rows of a matrix.
-        /// </summary>
-        /// <param name="p">The norm under which to normalize the rows under.</param>
-        /// <returns>A normalized version of the matrix.</returns>
-        /// <exception cref="ArgumentOutOfRangeException">If the parameter p is not positive.</exception>
-        public Matrix<T> NormalizeRows(int p)
-        {
-            if (p < 1)
-            {
-                throw new ArgumentOutOfRangeException("p", Resources.ArgumentMustBePositive);
-            }
-
-            var ret = Build.SameAs(this);
-            for (var index = 0; index < RowCount; index++)
-            {
-                ret.SetRow(index, Row(index).Normalize(p));
-            }
-
-            return ret;
-        }
-
         /// <summary>Calculates the induced L1 norm of this matrix.</summary>
         /// <returns>The maximum absolute column sum of the matrix.</returns>
         public abstract double L1Norm();
@@ -1694,7 +1650,29 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <returns>The square root of the sum of the squared values.</returns>
         public abstract double FrobeniusNorm();
 
+        /// <summary>
+        /// Calculates the p-norms of all row vectors.
+        /// Typical values for p are 1.0 (L1, Manhattan norm), 2.0 (L2, Euclidean norm) and positive infinity (infinity norm)
+        /// </summary>
+        public abstract Vector<double> RowNorms(double norm);
 
+        /// <summary>
+        /// Calculates the p-norms of all column vectors.
+        /// Typical values for p are 1.0 (L1, Manhattan norm), 2.0 (L2, Euclidean norm) and positive infinity (infinity norm)
+        /// </summary>
+        public abstract Vector<double> ColumnNorms(double norm);
+
+        /// <summary>
+        /// Normalizes all row vectors to a unit p-norm.
+        /// Typical values for p are 1.0 (L1, Manhattan norm), 2.0 (L2, Euclidean norm) and positive infinity (infinity norm)
+        /// </summary>
+        public abstract Matrix<T> NormalizeRows(double norm);
+
+        /// <summary>
+        /// Normalizes all column vectors to a unit p-norm.
+        /// Typical values for p are 1.0 (L1, Manhattan norm), 2.0 (L2, Euclidean norm) and positive infinity (infinity norm)
+        /// </summary>
+        public abstract Matrix<T> NormalizeColumns(double norm);
 
         #region Exceptions - possibly move elsewhere?
 

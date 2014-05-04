@@ -107,6 +107,104 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         }
 
         /// <summary>
+        /// Calculates the p-norms of all row vectors.
+        /// Typical values for p are 1.0 (L1, Manhattan norm), 2.0 (L2, Euclidean norm) and positive infinity (infinity norm)
+        /// </summary>
+        public override Vector<double> RowNorms(double norm)
+        {
+            if (norm <= 0.0)
+            {
+                throw new ArgumentOutOfRangeException("norm", Resources.ArgumentMustBePositive);
+            }
+
+            var ret = Vector<double>.Build.Dense(RowCount);
+            if (norm == 2.0)
+            {
+                Storage.FoldRowsUnchecked(ret.Storage, (s, x) => s + x.MagnitudeSquared(), (x, c) => Math.Sqrt(x), ret.Storage, Zeros.AllowSkip);
+            }
+            else if (norm == 1.0)
+            {
+                Storage.FoldRowsUnchecked(ret.Storage, (s, x) => s + x.Magnitude, (x, c) => x, ret.Storage, Zeros.AllowSkip);
+            }
+            else if (double.IsPositiveInfinity(norm))
+            {
+                Storage.FoldRowsUnchecked(ret.Storage, (s, x) => Math.Max(s, x.Magnitude), (x, c) => x, ret.Storage, Zeros.AllowSkip);
+            }
+            else
+            {
+                double invnorm = 1.0/norm;
+                Storage.FoldRowsUnchecked(ret.Storage, (s, x) => s + Math.Pow(x.Magnitude, norm), (x, c) => Math.Pow(x, invnorm), ret.Storage, Zeros.AllowSkip);
+            }
+            return ret;
+        }
+
+        /// <summary>
+        /// Calculates the p-norms of all column vectors.
+        /// Typical values for p are 1.0 (L1, Manhattan norm), 2.0 (L2, Euclidean norm) and positive infinity (infinity norm)
+        /// </summary>
+        public override Vector<double> ColumnNorms(double norm)
+        {
+            if (norm <= 0.0)
+            {
+                throw new ArgumentOutOfRangeException("norm", Resources.ArgumentMustBePositive);
+            }
+
+            var ret = Vector<double>.Build.Dense(ColumnCount);
+            if (norm == 2.0)
+            {
+                Storage.FoldColumnsUnchecked(ret.Storage, (s, x) => s + x.MagnitudeSquared(), (x, c) => Math.Sqrt(x), ret.Storage, Zeros.AllowSkip);
+            }
+            else if (norm == 1.0)
+            {
+                Storage.FoldColumnsUnchecked(ret.Storage, (s, x) => s + x.Magnitude, (x, c) => x, ret.Storage, Zeros.AllowSkip);
+            }
+            else if (double.IsPositiveInfinity(norm))
+            {
+                Storage.FoldColumnsUnchecked(ret.Storage, (s, x) => Math.Max(s, x.Magnitude), (x, c) => x, ret.Storage, Zeros.AllowSkip);
+            }
+            else
+            {
+                double invnorm = 1.0/norm;
+                Storage.FoldColumnsUnchecked(ret.Storage, (s, x) => s + Math.Pow(x.Magnitude, norm), (x, c) => Math.Pow(x, invnorm), ret.Storage, Zeros.AllowSkip);
+            }
+            return ret;
+        }
+
+        /// <summary>
+        /// Normalizes all row vectors to a unit p-norm.
+        /// Typical values for p are 1.0 (L1, Manhattan norm), 2.0 (L2, Euclidean norm) and positive infinity (infinity norm)
+        /// </summary>
+        public override sealed Matrix<Complex> NormalizeRows(double norm)
+        {
+            var norminv = ((DenseVectorStorage<double>)RowNorms(norm).Storage).Data;
+            for (int i = 0; i < norminv.Length; i++)
+            {
+                norminv[i] = norminv[i] == 0d ? 1d : 1d/norminv[i];
+            }
+
+            var result = Build.SameAs(this, RowCount, ColumnCount);
+            Storage.MapIndexedTo(result.Storage, (i, j, x) => norminv[i]*x, Zeros.AllowSkip, ExistingData.AssumeZeros);
+            return result;
+        }
+
+        /// <summary>
+        /// Normalizes all column vectors to a unit p-norm.
+        /// Typical values for p are 1.0 (L1, Manhattan norm), 2.0 (L2, Euclidean norm) and positive infinity (infinity norm)
+        /// </summary>
+        public override sealed Matrix<Complex> NormalizeColumns(double norm)
+        {
+            var norminv = ((DenseVectorStorage<double>)ColumnNorms(norm).Storage).Data;
+            for (int i = 0; i < norminv.Length; i++)
+            {
+                norminv[i] = norminv[i] == 0d ? 1d : 1d/norminv[i];
+            }
+
+            var result = Build.SameAs(this, RowCount, ColumnCount);
+            Storage.MapIndexedTo(result.Storage, (i, j, x) => norminv[j]*x, Zeros.AllowSkip, ExistingData.AssumeZeros);
+            return result;
+        }
+
+        /// <summary>
         /// Returns the conjugate transpose of this matrix.
         /// </summary>
         /// <returns>The conjugate transpose of this matrix.</returns>
