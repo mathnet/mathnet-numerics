@@ -984,7 +984,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <summary>
         /// Calculates the infinity norm of the vector.
         /// </summary>
-        /// <returns>The square root of the sum of the squared values.</returns>
+        /// <returns>The maximum absolute value.</returns>
         public abstract double InfinityNorm();
 
         /// <summary>

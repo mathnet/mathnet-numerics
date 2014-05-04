@@ -599,7 +599,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// <summary>
         /// Calculates the infinity norm of the vector.
         /// </summary>
-        /// <returns>The square root of the sum of the squared values.</returns>
+        /// <returns>The maximum absolute value.</returns>
         public override double InfinityNorm()
         {
             return CommonParallel.Aggregate(_values, (i, v) => v.Magnitude, Math.Max, 0d);

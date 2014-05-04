@@ -73,13 +73,16 @@ This section is incomplete - let us know if we forgot something.*
 - Andrew Kurochka
 - Thaddaeus Parker
 
-### Other Numerical Works & Resources
+### Other Numerical Works, References & Resources
 
 *As inspiration, reference or more - depending on the licensing terms*
 
-- ALGLIB: [Sergey Bochkanov](http://www.alglib.net/)
-- Boost: John Maddock
-- Cephes Math Library: Stephen L. Moshier
+- [ALGLIB](http://www.alglib.net/): Sergey Bochkanov
+- [Boost](http://www.boost.org/): John Maddock
+- [Netlib/Cephes Math Library](http://www.netlib.org/cephes/): Stephen L. Moshier
+- [Stand-alone code for numerical computing](http://www.johndcook.com/stand_alone_code.html): John D. Cook
+- [Miscellaneous Utility Library](http://www.yoda.arachsys.com/csharp/miscutil/): Marc Gravell, Jon Skeet
+- [NIST Digital Library of Mathematical Functions](http://www.johndcook.com/stand_alone_code.html)
 
 ### Special Thanks
 
