@@ -115,10 +115,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         [Test]
         public void CanSetRandomSource()
         {
-            new InverseWishart(1.0, Matrix<double>.Build.RandomPositiveDefinite(2, 1))
+            GC.KeepAlive(new InverseWishart(1.0, Matrix<double>.Build.RandomPositiveDefinite(2, 1))
             {
                 RandomSource = new System.Random(0)
-            };
+            });
         }
 
         [Test]
@@ -161,10 +161,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         [TestCase(5.0)]
         public void CanSetNu(double nu)
         {
-            new InverseWishart(1.0, Matrix<double>.Build.RandomPositiveDefinite(2, 1))
+            GC.KeepAlive(new InverseWishart(1.0, Matrix<double>.Build.RandomPositiveDefinite(2, 1))
             {
                 DegreesOfFreedom = nu
-            };
+            });
         }
 
         /// <summary>
@@ -192,10 +192,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         [Test]
         public void CanSetS()
         {
-            new InverseWishart(1.0, Matrix<double>.Build.RandomPositiveDefinite(2, 1))
+            GC.KeepAlive(new InverseWishart(1.0, Matrix<double>.Build.RandomPositiveDefinite(2, 1))
             {
                 Scale = Matrix<double>.Build.RandomPositiveDefinite(2, 1)
-            };
+            });
         }
 
         /// <summary>

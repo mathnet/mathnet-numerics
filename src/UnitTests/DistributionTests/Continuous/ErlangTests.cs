@@ -130,10 +130,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [TestCase(10)]
         public void CanSetShape(int shape)
         {
-            new Erlang(1, 1.0)
+            GC.KeepAlive(new Erlang(1, 1.0)
             {
                 Shape = shape
-            };
+            });
         }
 
         /// <summary>
@@ -158,10 +158,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [TestCase(Double.PositiveInfinity)]
         public void CanSetScale(double scale)
         {
-            new Erlang(1, 1.0)
+            GC.KeepAlive(new Erlang(1, 1.0)
             {
                 Scale = scale
-            };
+            });
         }
 
         /// <summary>
@@ -186,10 +186,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [TestCase(Double.PositiveInfinity)]
         public void CanSetInvScale(double invScale)
         {
-            new Erlang(1, 1.0)
+            GC.KeepAlive(new Erlang(1, 1.0)
             {
                 Rate = invScale
-            };
+            });
         }
 
         /// <summary>
@@ -421,7 +421,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         {
             var n = new Erlang(1, 2.0);
             var ied = n.Samples();
-            ied.Take(5).ToArray();
+            GC.KeepAlive(ied.Take(5).ToArray());
         }
 
         /// <summary>

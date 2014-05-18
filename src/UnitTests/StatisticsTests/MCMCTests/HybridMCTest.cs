@@ -33,7 +33,6 @@ using System.Globalization;
 using MathNet.Numerics.Distributions;
 using MathNet.Numerics.Statistics;
 using MathNet.Numerics.Statistics.Mcmc;
-using MathNet.Numerics.Statistics.Mcmc.Diagnostics;
 using NUnit.Framework;
 
 namespace MathNet.Numerics.UnitTests.StatisticsTests.McmcTests
@@ -44,7 +43,7 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests.McmcTests
     [TestFixture, Category("Statistics")]
     public class HybridMCTest
     {
-        private readonly Normal _normal = new Normal(0, 1);
+        readonly Normal _normal = new Normal(0, 1);
 
         /// <summary>
         /// Testing the constructor to make sure that RandomSource is
@@ -120,16 +119,16 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests.McmcTests
         /// Test the sampler using  a bivariate normal distribution with randomly selected mean and standard deviation.
         /// It is a statistical test and may not pass all the time. Note that Sdv and rho have to be between 0 and 1.
         /// </summary>
-        [TestCase(new[] {0.8, 0.2}, new[] {3.2, -4.6}, 0.77, 1000)]
-        [TestCase(new[] {0.5, 0.1}, new[] {-2.2, -1.3}, 0.29, 1000)]
-        [TestCase(new[] {0.45, 0.78}, new[] {1.34, -3.3}, 0.58, 1000)]
+        [TestCase(new[] { 0.8, 0.2 }, new[] { 3.2, -4.6 }, 0.77, 1000)]
+        [TestCase(new[] { 0.5, 0.1 }, new[] { -2.2, -1.3 }, 0.29, 1000)]
+        [TestCase(new[] { 0.45, 0.78 }, new[] { 1.34, -3.3 }, 0.58, 1000)]
         public void SampleTest(double[] sdv, double[] mean, double rho, int seed)
         {
             var pdfLn = new DensityLn<double[]>(x => LogDen(x, sdv, mean, rho));
-            var hybrid = new HybridMC(new double[2] {0, 0}, pdfLn, 10, 0.1, 1000, new double[] {1, 1}, new System.Random(seed))
-                {
-                    BurnInterval = 0
-                };
+            var hybrid = new HybridMC(new double[] { 0, 0 }, pdfLn, 10, 0.1, 1000, new double[] { 1, 1 }, new System.Random(seed))
+            {
+                BurnInterval = 0
+            };
 
             const int sampleSize = 10000;
             double[][] sample = hybrid.Sample(sampleSize);
@@ -141,6 +140,7 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests.McmcTests
 
             for (int i = 0; i < 2; i++)
             {
+// ReSharper disable once AccessToModifiedClosure
                 convergence[i] = 1/Math.Sqrt(MCMCDiagnostics.EffectiveSize(sample, x => x[i]));
                 var stats = new DescriptiveStatistics(newSamples[i]);
                 sampleMean[i] = stats.Mean;
@@ -169,17 +169,17 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests.McmcTests
         /// <param name="mean">Mean.</param>
         /// <param name="rho">Correlation of the two variables.</param>
         /// <returns>Value of the log density.</returns>
-        private double LogDen(double[] x, double[] sdv, double[] mean, double rho)
+        double LogDen(double[] x, double[] sdv, double[] mean, double rho)
         {
             if (x.Length != 2 || sdv.Length != 2 || mean.Length != 2)
-                throw new ArgumentOutOfRangeException("LogDen must take a 2 dimensional array");
+                throw new ArgumentException("LogDen must take a 2 dimensional array");
 
             double xDiv = x[0] - mean[0];
             double yDiv = x[1] - mean[1];
-            double xVar = sdv[0] * sdv[0];
-            double yVar = sdv[1] * sdv[1];
+            double xVar = sdv[0]*sdv[0];
+            double yVar = sdv[1]*sdv[1];
 
-            return (-(0.5 / (1 - rho * rho)) * ((xDiv * xDiv) / xVar + (yDiv * yDiv) / yVar - 2 * rho * xDiv * yDiv / (sdv[0] * sdv[1])));
+            return (-(0.5/(1 - rho*rho))*((xDiv*xDiv)/xVar + (yDiv*yDiv)/yVar - 2*rho*xDiv*yDiv/(sdv[0]*sdv[1])));
         }
 
         /// <summary>
@@ -189,7 +189,7 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests.McmcTests
         /// <param name="sample">Sample from the HybridMC.</param>
         /// <returns>An array whose first entry is the samples in the first variable and
         /// second entry is the samples in the second variable.</returns>
-        private double[][] ArrangeSamples(int sampleSize, double[][] sample)
+        double[][] ArrangeSamples(int sampleSize, double[][] sample)
         {
             var xSample = new double[sampleSize];
             var ySample = new double[sampleSize];

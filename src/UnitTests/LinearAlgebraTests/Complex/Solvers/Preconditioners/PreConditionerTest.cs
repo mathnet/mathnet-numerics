@@ -28,7 +28,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using System;
 using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Complex;
 using MathNet.Numerics.LinearAlgebra.Solvers;

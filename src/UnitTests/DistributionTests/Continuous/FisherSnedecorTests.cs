@@ -111,10 +111,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [TestCase(Double.PositiveInfinity)]
         public void CanSetDegreesOfFreedom1(double d1)
         {
-            new FisherSnedecor(1.0, 2.0)
+            GC.KeepAlive(new FisherSnedecor(1.0, 2.0)
             {
                 DegreesOfFreedom1 = d1
-            };
+            });
         }
 
         /// <summary>
@@ -137,10 +137,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [TestCase(Double.PositiveInfinity)]
         public void CanSetDegreesOfFreedom2(double d2)
         {
-            new FisherSnedecor(1.0, 2.0)
+            GC.KeepAlive(new FisherSnedecor(1.0, 2.0)
             {
                 DegreesOfFreedom2 = d2
-            };
+            });
         }
 
         /// <summary>
@@ -417,7 +417,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         {
             var n = new FisherSnedecor(1.0, 2.0);
             var ied = n.Samples();
-            ied.Take(5).ToArray();
+            GC.KeepAlive(ied.Take(5).ToArray());
         }
 
         [TestCase(0.1, 0.1, 1.0)]

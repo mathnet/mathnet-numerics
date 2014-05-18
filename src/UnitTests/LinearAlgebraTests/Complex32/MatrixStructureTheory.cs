@@ -39,7 +39,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
     public class MatrixStructureTheory : MatrixStructureTheory<Complex32>
     {
         [Datapoints]
-        Matrix<Complex32>[] _matrices = new Matrix<Complex32>[]
+        Matrix<Complex32>[] _matrices =
         {
             Matrix<Complex32>.Build.DenseOfArray(new[,] { { 1f, new Complex32(1.1f, -4f), 2f }, { 1f, 1f, 2f }, { 1f, new Complex32(1f, 2f), 2f } }),
             Matrix<Complex32>.Build.DenseOfArray(new[,] { { -1.1f, -2.2f, -3.3f }, { 0f, 1.1f, new Complex32(2.2f, -1.2f) }, { -4.4f, 5.5f, 6.6f } }),
@@ -60,6 +60,6 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
         };
 
         [Datapoints]
-        Complex32[] scalars = new[] { new Complex32(2f, 0f), new Complex32(-1.5f, 3.5f), Complex32.Zero };
+        Complex32[] scalars = { new Complex32(2f, 0f), new Complex32(-1.5f, 3.5f), Complex32.Zero };
     }
 }

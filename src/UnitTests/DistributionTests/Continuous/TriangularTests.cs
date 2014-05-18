@@ -104,10 +104,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [TestCase(10.0)]
         public void CanSetLowerBound(double lower)
         {
-            new Triangular(0.0, 20.0, 10.0)
+            GC.KeepAlive(new Triangular(0.0, 20.0, 10.0)
             {
                 LowerBound = lower
-            };
+            });
         }
 
         /// <summary>
@@ -149,9 +149,9 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void CanSampleSequenceStatic()
         {
             var ied = Triangular.Samples(new Random(0), 2.0, 3.0, 2.5);
-            ied.Take(5).ToArray();
+            GC.KeepAlive(ied.Take(5).ToArray());
             ied = Triangular.Samples(10.0, 100.0, 30.0);
-            ied.Take(5).ToArray();
+            GC.KeepAlive(ied.Take(5).ToArray());
         }
 
         /// <summary>
@@ -190,7 +190,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         {
             var n = new Triangular(0.1, 0.3, 0.2);
             var ied = n.Samples();
-            ied.Take(5).ToArray();
+            GC.KeepAlive(ied.Take(5).ToArray());
         }
 
         // Todo: Add tests for:

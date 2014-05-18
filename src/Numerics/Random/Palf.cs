@@ -120,7 +120,7 @@ namespace MathNet.Numerics.Random
 
             if (longLag <= shortLag)
             {
-                throw new ArgumentException("longLag");
+                throw new ArgumentException(Resources.ArgumentLowerBoundLargerThanUpperBound, "longLag");
             }
 
             if (seed == 0)

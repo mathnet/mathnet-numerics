@@ -179,7 +179,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         {
             if (vector == null)
             {
-                throw new ArgumentNullException();
+                throw new ArgumentNullException("vector");
             }
 
             return vector.Values;
@@ -196,7 +196,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         {
             if (array == null)
             {
-                throw new ArgumentNullException();
+                throw new ArgumentNullException("array");
             }
 
             return new DenseVector(array);

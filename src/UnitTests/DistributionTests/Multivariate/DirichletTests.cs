@@ -108,10 +108,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         [Test]
         public void CanSetRandomSource()
         {
-            new Dirichlet(0.3, 5)
+            GC.KeepAlive(new Dirichlet(0.3, 5)
             {
                 RandomSource = new Random(0)
-            };
+            });
         }
 
         [Test]

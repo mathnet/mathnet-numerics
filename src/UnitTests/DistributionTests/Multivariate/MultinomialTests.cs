@@ -104,7 +104,9 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         public void MultinomialCreateFailsWithNullHistogram()
         {
             Histogram h = null;
+// ReSharper disable ExpressionIsAlwaysNull
             Assert.That(() => new Categorical(h), Throws.TypeOf<ArgumentNullException>());
+// ReSharper restore ExpressionIsAlwaysNull
         }
 
         /// <summary>
@@ -223,10 +225,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         [Test]
         public void CanSetProbability()
         {
-            new Multinomial(_largeP, 4)
+            GC.KeepAlive(new Multinomial(_largeP, 4)
             {
                 P = _smallP
-            };
+            });
         }
 
         /// <summary>

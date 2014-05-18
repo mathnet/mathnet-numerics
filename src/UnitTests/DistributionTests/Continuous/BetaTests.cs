@@ -101,10 +101,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [TestCase(Double.PositiveInfinity)]
         public void CanSetShapeA(double a)
         {
-            new Beta(1.0, 1.0)
+            GC.KeepAlive(new Beta(1.0, 1.0)
             {
                 A = a
-            };
+            });
         }
 
         /// <summary>
@@ -129,10 +129,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [TestCase(Double.PositiveInfinity)]
         public void CanSetShapeB(double b)
         {
-            new Beta(1.0, 1.0)
+            GC.KeepAlive(new Beta(1.0, 1.0)
             {
                 B = b
-            };
+            });
         }
 
         /// <summary>
@@ -279,7 +279,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void CanSampleSequenceStatic()
         {
             var ied = Beta.Samples(new Random(0), 2.0, 3.0);
-            ied.Take(5).ToArray();
+            GC.KeepAlive(ied.Take(5).ToArray());
         }
 
         /// <summary>
@@ -318,7 +318,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         {
             var n = new Beta(2.0, 3.0);
             var ied = n.Samples();
-            ied.Take(5).ToArray();
+            GC.KeepAlive(ied.Take(5).ToArray());
         }
 
         /// <summary>

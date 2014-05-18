@@ -226,7 +226,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                     }
                     else if (!Zero.Equals(array[i, j]))
                     {
-                        throw new IndexOutOfRangeException("Cannot set an off-diagonal element in a diagonal matrix.");
+                        throw new ArgumentException("Cannot set an off-diagonal element in a diagonal matrix.");
                     }
                 }
             }

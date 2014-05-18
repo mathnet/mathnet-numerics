@@ -162,10 +162,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [TestCase(Double.PositiveInfinity)]
         public void CanSetPrecision(double prec)
         {
-            new Normal
+            GC.KeepAlive(new Normal
             {
                 Precision = prec
-            };
+            });
         }
 
         /// <summary>
@@ -251,10 +251,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [TestCase(Double.PositiveInfinity)]
         public void CanSetMean(double mean)
         {
-            new Normal
+            GC.KeepAlive(new Normal
             {
                 Mean = mean
-            };
+            });
         }
 
         /// <summary>
@@ -407,7 +407,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void CanSampleSequenceStatic()
         {
             var ied = Normal.Samples(new Random(0), 0.0, 1.0);
-            ied.Take(5).ToArray();
+            GC.KeepAlive(ied.Take(5).ToArray());
         }
 
         /// <summary>
@@ -446,7 +446,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         {
             var n = new Normal();
             var ied = n.Samples();
-            ied.Take(5).ToArray();
+            GC.KeepAlive(ied.Take(5).ToArray());
         }
 
         /// <summary>

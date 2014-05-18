@@ -278,7 +278,7 @@ namespace MathNet.Numerics.Statistics
         {
             if (lower > upper)
             {
-                throw new ArgumentOutOfRangeException("upper", "The histogram lowerbound must be smaller than the upper bound.");
+                throw new ArgumentOutOfRangeException("upper", "The histogram lower bound must be smaller than the upper bound.");
             }
 
             if (nbuckets < 1)

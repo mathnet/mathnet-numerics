@@ -28,7 +28,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using System;
 using MathNet.Numerics.Random;
 using NUnit.Framework;
 

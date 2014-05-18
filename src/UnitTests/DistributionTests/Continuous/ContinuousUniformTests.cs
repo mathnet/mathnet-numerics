@@ -108,10 +108,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [TestCase(1.0)]
         public void CanSetLower(double lower)
         {
-            new ContinuousUniform
+            GC.KeepAlive(new ContinuousUniform
             {
                 LowerBound = lower
-            };
+            });
         }
 
         /// <summary>
@@ -133,10 +133,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [TestCase(12.0)]
         public void CanSetUpper(double upper)
         {
-            new ContinuousUniform
+            GC.KeepAlive(new ContinuousUniform
             {
                 UpperBound = upper
-            };
+            });
         }
 
         /// <summary>
@@ -327,7 +327,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void CanSampleSequenceStatic()
         {
             var ied = ContinuousUniform.Samples(new Random(0), 0.0, 1.0);
-            ied.Take(5).ToArray();
+            GC.KeepAlive(ied.Take(5).ToArray());
         }
 
         /// <summary>
@@ -366,7 +366,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         {
             var n = new ContinuousUniform();
             var ied = n.Samples();
-            ied.Take(5).ToArray();
+            GC.KeepAlive(ied.Take(5).ToArray());
         }
 
         /// <summary>

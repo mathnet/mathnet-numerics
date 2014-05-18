@@ -40,7 +40,7 @@ namespace MathNet.Numerics.Random
     /// <summary>
     /// A random number generator based on the <see cref="System.Security.Cryptography.RandomNumberGenerator"/> class in the .NET library.
     /// </summary>
-    public class CryptoRandomSource : RandomSource, IDisposable
+    public sealed class CryptoRandomSource : RandomSource, IDisposable
     {
         const double Reciprocal = 1.0/uint.MaxValue;
         readonly RandomNumberGenerator _crypto;
@@ -112,9 +112,18 @@ namespace MathNet.Numerics.Random
         /// <remarks>Supports being called in parallel from multiple threads.</remarks>
         public static void Doubles(double[] values)
         {
-            var rnd = new RNGCryptoServiceProvider();
             var bytes = new byte[values.Length*4];
+
+#if !NET35
+            using (var rnd = new RNGCryptoServiceProvider())
+            {
+                rnd.GetBytes(bytes);
+            }
+#else
+            var rnd = new RNGCryptoServiceProvider();
             rnd.GetBytes(bytes);
+#endif
+
             for (int i = 0; i < values.Length; i++)
             {
                 values[i] = BitConverter.ToUInt32(bytes, i*4)*Reciprocal;

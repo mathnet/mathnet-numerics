@@ -88,10 +88,11 @@ namespace MathNet.Numerics.UnitTests.FinancialTests
         public void throws_when_input_data_is_null() //assert
         {
             //arrange
-            var inputData = new[] { 1.0 };
-            inputData = null;
+            double[] inputData = null;
             //act
+// ReSharper disable ExpressionIsAlwaysNull
             inputData.GainMean();
+// ReSharper restore ExpressionIsAlwaysNull
         }
 
         [Test]

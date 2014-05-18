@@ -43,7 +43,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
     public class MatrixStructureTheory : MatrixStructureTheory<Complex>
     {
         [Datapoints]
-        Matrix<Complex>[] _matrices = new Matrix<Complex>[]
+        Matrix<Complex>[] _matrices =
         {
             Matrix<Complex>.Build.DenseOfArray(new[,] { { 1d, new Complex(1.1d, -4d), 2d }, { 1d, 1d, 2d }, { 1d, new Complex(1d, 2d), 2d } }),
             Matrix<Complex>.Build.DenseOfArray(new[,] { { -1.1d, -2.2d, -3.3d }, { 0d, 1.1d, new Complex(2.2d, -1.2d) }, { -4.4d, 5.5d, 6.6d } }),
@@ -64,6 +64,6 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
         };
 
         [Datapoints]
-        Complex[] _scalars = new[] { new Complex(2d, 0d), new Complex(-1.5d, 3.5d), Complex.Zero };
+        Complex[] _scalars = { new Complex(2d, 0d), new Complex(-1.5d, 3.5d), Complex.Zero };
     }
 }

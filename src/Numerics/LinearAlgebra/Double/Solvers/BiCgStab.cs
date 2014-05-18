@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2013 Math.NET
+// Copyright (c) 2009-2014 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -160,7 +160,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
                 if (currentRho.AlmostEqualNumbersBetween(0, 1))
                 {
                     // Rho-type breakdown
-                    throw new Exception("Iterative solver experience a numerical break down");
+                    throw new NumericalBreakdownException();
                 }
 
                 if (iterationNumber != 0)
@@ -254,7 +254,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
                 if (omega.AlmostEqualNumbersBetween(0, 1))
                 {
                     // Omega-type breakdown
-                    throw new Exception("Iterative solver experience a numerical break down");
+                    throw new NumericalBreakdownException();
                 }
 
                 if (iterator.DetermineStatus(iterationNumber, result, input, residuals) != IterationStatus.Continue)

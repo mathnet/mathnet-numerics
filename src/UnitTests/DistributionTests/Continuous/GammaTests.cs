@@ -134,10 +134,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [TestCase(Double.PositiveInfinity)]
         public void CanSetShape(double shape)
         {
-            new Gamma(1.0, 1.0)
+            GC.KeepAlive(new Gamma(1.0, 1.0)
             {
                 Shape = shape
-            };
+            });
         }
 
         /// <summary>
@@ -162,10 +162,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [TestCase(Double.PositiveInfinity)]
         public void CanSetScale(double scale)
         {
-            new Gamma(1.0, 1.0)
+            GC.KeepAlive(new Gamma(1.0, 1.0)
             {
                 Scale = scale
-            };
+            });
         }
 
         /// <summary>
@@ -190,10 +190,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [TestCase(Double.PositiveInfinity)]
         public void CanSetInvScale(double invScale)
         {
-            new Gamma(1.0, 1.0)
+            GC.KeepAlive(new Gamma(1.0, 1.0)
             {
                 Rate = invScale
-            };
+            });
         }
 
         /// <summary>
@@ -424,7 +424,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void CanSampleSequenceStatic()
         {
             var ied = Gamma.Samples(new Random(0), 1.0, 1.0);
-            ied.Take(5).ToArray();
+            GC.KeepAlive(ied.Take(5).ToArray());
         }
 
         /// <summary>
@@ -463,7 +463,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         {
             var n = new Normal();
             var ied = n.Samples();
-            ied.Take(5).ToArray();
+            GC.KeepAlive(ied.Take(5).ToArray());
         }
 
         /// <summary>

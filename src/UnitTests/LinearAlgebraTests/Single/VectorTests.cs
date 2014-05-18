@@ -462,7 +462,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
         [Test]
         public void CanSum()
         {
-            float[] testData = { -20, -10, 10, 20, 30, };
+            float[] testData = { -20, -10, 10, 20, 30 };
             var vector = CreateVector(testData);
             var actual = vector.Sum();
             const float Expected = 30;
@@ -475,7 +475,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
         [Test]
         public void CanSumMagnitudes()
         {
-            float[] testData = { -20, -10, 10, 20, 30, };
+            float[] testData = { -20, -10, 10, 20, 30 };
             var vector = CreateVector(testData);
             var actual = vector.SumMagnitudes();
             const float Expected = 90;
@@ -517,7 +517,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
         [Test]
         public void CanClearVector()
         {
-            float[] testData = { -20, -10, 10, 20, 30, };
+            float[] testData = { -20, -10, 10, 20, 30 };
             var vector = CreateVector(testData);
             vector.Clear();
             foreach (var element in vector)

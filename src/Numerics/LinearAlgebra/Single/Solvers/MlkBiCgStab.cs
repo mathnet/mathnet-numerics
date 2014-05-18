@@ -346,7 +346,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
                 c[k - 1] = _startingVectors[0].DotProduct(w[k - 1]);
                 if (c[k - 1].AlmostEqualNumbersBetween(0, 1))
                 {
-                    throw new Exception("Iterative solver experience a numerical break down");
+                    throw new NumericalBreakdownException();
                 }
 
                 // alpha_(jk+1) = q^T_1 r_((j-1)k+k) / c_((j-1)k+k)
@@ -447,7 +447,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
                     beta = rho*c[k - 1];
                     if (beta.AlmostEqualNumbersBetween(0, 1))
                     {
-                        throw new Exception("Iterative solver experience a numerical break down");
+                        throw new NumericalBreakdownException();
                     }
 
                     // beta^(jk+i)_((j-1)k+k) = -(q^T_1 (r_(jk+1) + rho_(j+1) z_w)) / (rho_(j+1) c_((j-1)k+k))
@@ -499,7 +499,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
                         c[i] = _startingVectors[i + 1].DotProduct(d[i]);
                         if (c[i].AlmostEqualNumbersBetween(0, 1))
                         {
-                            throw new Exception("Iterative solver experience a numerical break down");
+                            throw new NumericalBreakdownException();
                         }
 
                         // alpha_(jk+i+1) = q^T_(i+1) u_(jk+i) / c_(jk+i)

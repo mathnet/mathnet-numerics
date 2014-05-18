@@ -180,14 +180,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
             {
                 for (var j = 0; j < matrixQtQ.ColumnCount; j++)
                 {
-                    if (i == j)
-                    {
-                        Assert.AreEqual(matrixQtQ[i, j], 1.0, 1e-3);
-                    }
-                    else
-                    {
-                        Assert.AreEqual(matrixQtQ[i, j], 0.0, 1e-3);
-                    }
+                    Assert.AreEqual(matrixQtQ[i, j], i == j ? 1.0 : 0.0, 1e-3);
                 }
             }
         }
@@ -246,14 +239,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
             {
                 for (var j = 0; j < matrixQtQ.ColumnCount; j++)
                 {
-                    if (i == j)
-                    {
-                        Assert.AreEqual(matrixQtQ[i, j], 1.0, 1e-3);
-                    }
-                    else
-                    {
-                        Assert.AreEqual(matrixQtQ[i, j], 0.0, 1e-3);
-                    }
+                    Assert.AreEqual(matrixQtQ[i, j], i == j ? 1.0 : 0.0, 1e-3);
                 }
             }
         }

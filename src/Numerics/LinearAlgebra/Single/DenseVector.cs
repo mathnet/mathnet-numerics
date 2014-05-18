@@ -178,7 +178,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         {
             if (vector == null)
             {
-                throw new ArgumentNullException();
+                throw new ArgumentNullException("vector");
             }
 
             return vector.Values;
@@ -195,7 +195,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         {
             if (array == null)
             {
-                throw new ArgumentNullException();
+                throw new ArgumentNullException("array");
             }
 
             return new DenseVector(array);

@@ -167,7 +167,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
                 if (currentRho.Real.AlmostEqualNumbersBetween(0, 1) && currentRho.Imaginary.AlmostEqualNumbersBetween(0, 1))
                 {
                     // Rho-type breakdown
-                    throw new Exception("Iterative solver experience a numerical break down");
+                    throw new NumericalBreakdownException();
                 }
 
                 if (iterationNumber != 0)
@@ -261,7 +261,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
                 if (omega.Real.AlmostEqualNumbersBetween(0, 1) && omega.Imaginary.AlmostEqualNumbersBetween(0, 1))
                 {
                     // Omega-type breakdown
-                    throw new Exception("Iterative solver experience a numerical break down");
+                    throw new NumericalBreakdownException();
                 }
 
                 if (iterator.DetermineStatus(iterationNumber, result, input, residuals) != IterationStatus.Continue)

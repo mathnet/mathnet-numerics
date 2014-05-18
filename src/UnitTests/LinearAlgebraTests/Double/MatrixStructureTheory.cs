@@ -37,7 +37,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
     public class MatrixStructureTheory : MatrixStructureTheory<double>
     {
         [Datapoints]
-        Matrix<double>[] _matrices = new Matrix<double>[]
+        Matrix<double>[] _matrices =
         {
             Matrix<double>.Build.DenseOfArray(new[,] { { 1d, 1d, 2d }, { 1d, 1d, 2d }, { 1d, 1d, 2d } }),
             Matrix<double>.Build.DenseOfArray(new[,] { { -1.1d, -2.2d, -3.3d }, { 0d, 1.1d, 2.2d }, { -4.4d, 5.5d, 6.6d } }),
@@ -58,6 +58,6 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         };
 
         [Datapoints]
-        double[] _scalars = new[] { 2d, -1.5d, 0d };
+        double[] _scalars = { 2d, -1.5d, 0d };
     }
 }

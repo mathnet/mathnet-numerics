@@ -365,7 +365,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (scale <= 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
 
-            return SampleUnchecked(SystemRandomSource.Default, location, scale);
+            return SampleUnchecked(rnd, location, scale);
         }
 
         /// <summary>

@@ -24,7 +24,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using System;
 using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Complex32;
 using MathNet.Numerics.LinearAlgebra.Complex32.Factorization;
@@ -70,14 +69,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
             {
                 for (var j = 0; j < r.ColumnCount; j++)
                 {
-                    if (i == j)
-                    {
-                        Assert.AreEqual(Complex32.One, r[i, j]);
-                    }
-                    else
-                    {
-                        Assert.AreEqual(Complex32.Zero, r[i, j]);
-                    }
+                    Assert.AreEqual(i == j ? Complex32.One : Complex32.Zero, r[i, j]);
                 }
             }
 
@@ -85,14 +77,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
             {
                 for (var j = 0; j < q.ColumnCount; j++)
                 {
-                    if (i == j)
-                    {
-                        Assert.AreEqual(Complex32.One, q[i, j]);
-                    }
-                    else
-                    {
-                        Assert.AreEqual(Complex32.Zero, q[i, j]);
-                    }
+                    Assert.AreEqual(i == j ? Complex32.One : Complex32.Zero, q[i, j]);
                 }
             }
         }

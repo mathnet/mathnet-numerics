@@ -302,10 +302,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         [Test]
         public void CanSetRandomSource()
         {
-            new NormalGamma(0.0, 1.0, 1.0, 1.0)
+            GC.KeepAlive(new NormalGamma(0.0, 1.0, 1.0, 1.0)
             {
                 RandomSource = new Random(0)
-            };
+            });
         }
 
         /// <summary>

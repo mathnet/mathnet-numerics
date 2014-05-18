@@ -1799,11 +1799,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
         internal override void FoldColumnsUnchecked<TU>(VectorStorage<TU> target, Func<TU, T, TU> f, Func<TU, int, TU> finalize, VectorStorage<TU> state, Zeros zeros = Zeros.AllowSkip)
         {
-            var denseResult = target as DenseVectorStorage<TU>;
-            if (denseResult == null)
-            {
-                denseResult = new DenseVectorStorage<TU>(ColumnCount);
-            }
+            var denseResult = target as DenseVectorStorage<TU> ?? new DenseVectorStorage<TU>(ColumnCount);
 
             state.CopyTo(denseResult);
             TU[] result = denseResult.Data;

@@ -40,7 +40,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         Vector<double>[] denseVectors =
         {
             Vector<double>.Build.Dense(new double[] { 1, 2, 3, 4, 5 }),
-            Vector<double>.Build.Dense(new double[] { 2, 0, 0, -5, 0 }),
+            Vector<double>.Build.Dense(new double[] { 2, 0, 0, -5, 0 })
         };
 
         [Datapoints]

@@ -129,17 +129,11 @@ namespace MathNet.Numerics.Distributions
         {
             var allzero = true;
 
-            foreach (var t in alpha)
+            for (int i = 0; i < alpha.Length; i++)
             {
-                if (t < 0.0)
-                {
-                    return false;
-                }
-
-                if (t > 0.0)
-                {
-                    allzero = false;
-                }
+                var t = alpha[i];
+                if (t < 0.0) return false;
+                if (t > 0.0) allzero = false;
             }
 
             return !allzero;

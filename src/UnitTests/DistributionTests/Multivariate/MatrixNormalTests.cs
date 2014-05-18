@@ -124,10 +124,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         {
             const int N = 2;
             const int P = 3;
-            new MatrixNormal(Matrix<double>.Build.Random(N, P, 1), Matrix<double>.Build.RandomPositiveDefinite(N, 1), Matrix<double>.Build.RandomPositiveDefinite(P, 1))
+            GC.KeepAlive(new MatrixNormal(Matrix<double>.Build.Random(N, P, 1), Matrix<double>.Build.RandomPositiveDefinite(N, 1), Matrix<double>.Build.RandomPositiveDefinite(P, 1))
             {
                 RandomSource = new System.Random(0)
-            };
+            });
         }
 
         [Test]
@@ -183,10 +183,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         [TestCase(10, 10)]
         public void CanSetM(int n, int p)
         {
-            new MatrixNormal(Matrix<double>.Build.Random(n, p, 1), Matrix<double>.Build.RandomPositiveDefinite(n, 1), Matrix<double>.Build.RandomPositiveDefinite(p, 1))
+            GC.KeepAlive(new MatrixNormal(Matrix<double>.Build.Random(n, p, 1), Matrix<double>.Build.RandomPositiveDefinite(n, 1), Matrix<double>.Build.RandomPositiveDefinite(p, 1))
             {
                 Mean = Matrix<double>.Build.Random(n, p, 1)
-            };
+            });
         }
 
         /// <summary>
@@ -220,10 +220,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         [TestCase(10, 10)]
         public void CanSetV(int n, int p)
         {
-            new MatrixNormal(Matrix<double>.Build.Random(n, p, 1), Matrix<double>.Build.RandomPositiveDefinite(n, 1), Matrix<double>.Build.RandomPositiveDefinite(p, 1))
+            GC.KeepAlive(new MatrixNormal(Matrix<double>.Build.Random(n, p, 1), Matrix<double>.Build.RandomPositiveDefinite(n, 1), Matrix<double>.Build.RandomPositiveDefinite(p, 1))
             {
                 RowCovariance = Matrix<double>.Build.RandomPositiveDefinite(n, 1)
-            };
+            });
         }
 
         /// <summary>
@@ -257,10 +257,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         [TestCase(10, 10)]
         public void CanSetK(int n, int p)
         {
-            new MatrixNormal(Matrix<double>.Build.Random(n, p, 1), Matrix<double>.Build.RandomPositiveDefinite(n, 1), Matrix<double>.Build.RandomPositiveDefinite(p, 1))
+            GC.KeepAlive(new MatrixNormal(Matrix<double>.Build.Random(n, p, 1), Matrix<double>.Build.RandomPositiveDefinite(n, 1), Matrix<double>.Build.RandomPositiveDefinite(p, 1))
             {
                 ColumnCovariance = Matrix<double>.Build.RandomPositiveDefinite(p, 1)
-            };
+            });
         }
 
         /// <summary>

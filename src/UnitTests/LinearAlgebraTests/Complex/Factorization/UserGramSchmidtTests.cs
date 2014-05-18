@@ -24,7 +24,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using System;
 using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Complex.Factorization;
 using NUnit.Framework;
@@ -73,14 +72,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Factorization
             {
                 for (var j = 0; j < r.ColumnCount; j++)
                 {
-                    if (i == j)
-                    {
-                        Assert.AreEqual(Complex.One, r[i, j]);
-                    }
-                    else
-                    {
-                        Assert.AreEqual(Complex.Zero, r[i, j]);
-                    }
+                    Assert.AreEqual(i == j ? Complex.One : Complex.Zero, r[i, j]);
                 }
             }
 
@@ -88,14 +80,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Factorization
             {
                 for (var j = 0; j < q.ColumnCount; j++)
                 {
-                    if (i == j)
-                    {
-                        Assert.AreEqual(Complex.One, q[i, j]);
-                    }
-                    else
-                    {
-                        Assert.AreEqual(Complex.Zero, q[i, j]);
-                    }
+                    Assert.AreEqual(i == j ? Complex.One : Complex.Zero, q[i, j]);
                 }
             }
         }
@@ -168,14 +153,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Factorization
             {
                 for (var j = 0; j < matrixQсtQ.ColumnCount; j++)
                 {
-                    if (i == j)
-                    {
-                        AssertHelpers.AlmostEqualRelative(matrixQсtQ[i, j], Complex.One, 9);
-                    }
-                    else
-                    {
-                        AssertHelpers.AlmostEqualRelative(matrixQсtQ[i, j], Complex.Zero, 9);
-                    }
+                    AssertHelpers.AlmostEqualRelative(matrixQсtQ[i, j], i == j ? Complex.One : Complex.Zero, 9);
                 }
             }
         }

@@ -88,10 +88,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [TestCase(Double.PositiveInfinity)]
         public void CanSetScale(double scale)
         {
-            new Rayleigh(1.0)
+            GC.KeepAlive(new Rayleigh(1.0)
             {
                 Scale = scale
-            };
+            });
         }
 
         /// <summary>
@@ -289,7 +289,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         {
             var n = new Rayleigh(1.0);
             var ied = n.Samples();
-            ied.Take(5).ToArray();
+            GC.KeepAlive(ied.Take(5).ToArray());
         }
     }
 }

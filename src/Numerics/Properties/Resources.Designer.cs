@@ -655,6 +655,24 @@ namespace MathNet.Numerics.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Lag must be positive.
+        /// </summary>
+        public static string LagMustBePositive {
+            get {
+                return ResourceManager.GetString("LagMustBePositive", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Lag must be smaller than the sample size.
+        /// </summary>
+        public static string LagMustBeSmallerThanTheSampleSize {
+            get {
+                return ResourceManager.GetString("LagMustBeSmallerThanTheSampleSize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to ddd MMM dd HH:mm:ss yyyy.
         /// </summary>
         public static string MatlabDateHeaderFormat {
@@ -669,6 +687,15 @@ namespace MathNet.Numerics.Properties {
         public static string MatrixColumnsMustBePositive {
             get {
                 return ResourceManager.GetString("MatrixColumnsMustBePositive", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Matrix must be in sparse storage format.
+        /// </summary>
+        public static string MatrixMustBeSparse {
+            get {
+                return ResourceManager.GetString("MatrixMustBeSparse", resourceCulture);
             }
         }
         
@@ -723,6 +750,16 @@ namespace MathNet.Numerics.Properties {
         public static string NotSupportedType {
             get {
                 return ResourceManager.GetString("NotSupportedType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Algorithm experience a numerical break down
+        ///.
+        /// </summary>
+        public static string NumericalBreakdown {
+            get {
+                return ResourceManager.GetString("NumericalBreakdown", resourceCulture);
             }
         }
         

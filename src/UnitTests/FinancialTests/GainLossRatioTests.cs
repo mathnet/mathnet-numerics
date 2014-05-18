@@ -47,7 +47,9 @@ namespace MathNet.Numerics.UnitTests.FinancialTests
             //arrange
             List<double> inputData = null;
             //act
+// ReSharper disable ExpressionIsAlwaysNull
             inputData.GainLossRatio();
+// ReSharper restore ExpressionIsAlwaysNull
         }
 
         [Test]

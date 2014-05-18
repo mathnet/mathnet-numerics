@@ -121,7 +121,7 @@ namespace MathNet.Numerics.Statistics.Mcmc
             {
                 if (value == null)
                 {
-                    throw new ArgumentNullException();
+                    throw new ArgumentNullException("value");
                 }
                 _randomNumberGenerator = value;
             }

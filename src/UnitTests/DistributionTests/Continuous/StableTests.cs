@@ -111,10 +111,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [TestCase(2.0)]
         public void CanSetAlpha(double alpha)
         {
-            new Stable(1.0, 1.0, 1.0, 1.0)
+            GC.KeepAlive(new Stable(1.0, 1.0, 1.0, 1.0)
             {
                 Alpha = alpha
-            };
+            });
         }
 
         /// <summary>
@@ -145,10 +145,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [TestCase(1.0)]
         public void CanSetBeta(double beta)
         {
-            new Stable(1.0, 1.0, 1.0, 1.0)
+            GC.KeepAlive(new Stable(1.0, 1.0, 1.0, 1.0)
             {
                 Beta = beta
-            };
+            });
         }
 
         /// <summary>
@@ -176,10 +176,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [TestCase(Double.PositiveInfinity)]
         public void CanSetScale(double scale)
         {
-            new Stable(1.0, 1.0, 1.0, 1.0)
+            GC.KeepAlive(new Stable(1.0, 1.0, 1.0, 1.0)
             {
                 Scale = scale
-            };
+            });
         }
 
         /// <summary>
@@ -208,10 +208,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [TestCase(Double.PositiveInfinity)]
         public void CanSetLocation(double location)
         {
-            new Stable(1.0, 1.0, 1.0, 1.0)
+            GC.KeepAlive(new Stable(1.0, 1.0, 1.0, 1.0)
             {
                 Location = location
-            };
+            });
         }
 
         /// <summary>
@@ -381,7 +381,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         {
             var n = new Stable(1.0, 1.0, 1.0, 1.0);
             var ied = n.Samples();
-            ied.Take(5).ToArray();
+            GC.KeepAlive(ied.Take(5).ToArray());
         }
 
         /// <summary>

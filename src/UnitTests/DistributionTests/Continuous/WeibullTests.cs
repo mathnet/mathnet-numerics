@@ -98,10 +98,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [TestCase(Double.PositiveInfinity)]
         public void CanSetShape(double shape)
         {
-            new Weibull(1.0, 1.0)
+            GC.KeepAlive(new Weibull(1.0, 1.0)
             {
                 Shape = shape
-            };
+            });
         }
 
         /// <summary>
@@ -127,10 +127,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [TestCase(Double.PositiveInfinity)]
         public void CanSetScale(double scale)
         {
-            new Weibull(1.0, 1.0)
+            GC.KeepAlive(new Weibull(1.0, 1.0)
             {
                 Scale = scale
-            };
+            });
         }
 
         /// <summary>
@@ -328,7 +328,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void CanSampleSequenceStatic()
         {
             var ied = Weibull.Samples(new Random(0), 1.0, 1.0);
-            ied.Take(5).ToArray();
+            GC.KeepAlive(ied.Take(5).ToArray());
         }
 
         /// <summary>
@@ -367,7 +367,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         {
             var n = new Normal();
             var ied = n.Samples();
-            ied.Take(5).ToArray();
+            GC.KeepAlive(ied.Take(5).ToArray());
         }
 
         /// <summary>

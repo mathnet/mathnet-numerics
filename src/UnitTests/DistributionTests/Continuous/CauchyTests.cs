@@ -105,10 +105,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [TestCase(1.0)]
         public void CanSetLocation(double location)
         {
-            new Cauchy
+            GC.KeepAlive(new Cauchy
             {
                 Location = location
-            };
+            });
         }
 
         /// <summary>
@@ -130,10 +130,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [TestCase(12.0)]
         public void CanSetScale(double scale)
         {
-            new Cauchy
+            GC.KeepAlive(new Cauchy
             {
                 Scale = scale
-            };
+            });
         }
 
         /// <summary>
@@ -304,7 +304,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         {
             var n = new Cauchy();
             var ied = n.Samples();
-            ied.Take(5).ToArray();
+            GC.KeepAlive(ied.Take(5).ToArray());
         }
 
         /// <summary>

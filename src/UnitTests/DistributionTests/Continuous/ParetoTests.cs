@@ -96,10 +96,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [TestCase(Double.PositiveInfinity)]
         public void CanSetScale(double scale)
         {
-            new Pareto(1.0, 1.0)
+            GC.KeepAlive(new Pareto(1.0, 1.0)
             {
                 Scale = scale
-            };
+            });
         }
 
         /// <summary>
@@ -122,10 +122,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [TestCase(Double.PositiveInfinity)]
         public void CanSetShape(double shape)
         {
-            new Pareto(1.0, 1.0)
+            GC.KeepAlive(new Pareto(1.0, 1.0)
             {
                 Shape = shape
-            };
+            });
         }
 
         /// <summary>
@@ -344,7 +344,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         {
             var n = new Pareto(1.0, 1.0);
             var ied = n.Samples();
-            ied.Take(5).ToArray();
+            GC.KeepAlive(ied.Take(5).ToArray());
         }
     }
 }

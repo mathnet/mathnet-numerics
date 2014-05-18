@@ -90,10 +90,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [TestCase(Double.PositiveInfinity)]
         public void CanSetDoF(double dof)
         {
-            new ChiSquared(1.0)
+            GC.KeepAlive(new ChiSquared(1.0)
             {
                 DegreesOfFreedom = dof
-            };
+            });
         }
 
         /// <summary>
@@ -314,7 +314,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         {
             var n = new ChiSquared(1.0);
             var ied = n.Samples();
-            ied.Take(5).ToArray();
+            GC.KeepAlive(ied.Take(5).ToArray());
         }
 
         /// <summary>

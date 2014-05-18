@@ -87,10 +87,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         [TestCase(Double.PositiveInfinity)]
         public void CanSetLambda(double lambda)
         {
-            new ConwayMaxwellPoisson(1.0, 2.0)
+            GC.KeepAlive(new ConwayMaxwellPoisson(1.0, 2.0)
             {
                 Lambda = lambda
-            };
+            });
         }
 
         /// <summary>
@@ -103,10 +103,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         [TestCase(Double.PositiveInfinity)]
         public void CanSetNu(double nu)
         {
-            new ConwayMaxwellPoisson(1.0, 2.0)
+            GC.KeepAlive(new ConwayMaxwellPoisson(1.0, 2.0)
             {
                 Nu = nu
-            };
+            });
         }
 
         /// <summary>
@@ -271,7 +271,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         {
             var d = new ConwayMaxwellPoisson(1.0, 2.0);
             var ied = d.Samples();
-            ied.Take(5).ToArray();
+            GC.KeepAlive(ied.Take(5).ToArray());
         }
 
         /// <summary>

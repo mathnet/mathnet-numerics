@@ -53,8 +53,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
     [DebuggerDisplay("DiagonalMatrix {RowCount}x{ColumnCount}-Complex32")]
     public class DiagonalMatrix : Matrix
     {
-        readonly DiagonalMatrixStorage<Complex32> _storage;
-
         /// <summary>
         /// Gets the matrix's data.
         /// </summary>
@@ -70,8 +68,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         public DiagonalMatrix(DiagonalMatrixStorage<Complex32> storage)
             : base(storage)
         {
-            _storage = storage;
-            _data = _storage.Data;
+            _data = storage.Data;
         }
 
         /// <summary>

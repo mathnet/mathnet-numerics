@@ -85,7 +85,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
             var csr = matrix.Storage as SparseCompressedRowMatrixStorage<double>;
             if (csr == null)
             {
-                throw new ArgumentException("Matrix must be in sparse storage format", "matrix");
+                throw new ArgumentException(Resources.MatrixMustBeSparse, "matrix");
             }
 
             // Dimension of matrix
@@ -107,7 +107,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
             int code = Compute(n, a, ja, ia, _alu, _jlu, _diag, UseModified);
             if (code > -1)
             {
-                throw new Exception("Zero pivot encountered on row " + code + " during ILU process");
+                throw new NumericalBreakdownException("Zero pivot encountered on row " + code + " during ILU process");
             }
 
             IsInitialized = true;

@@ -50,7 +50,7 @@ namespace MathNet.Numerics
         /// </returns>
         public static IInterpolation Common(IEnumerable<double> points, IEnumerable<double> values)
         {
-            return Interpolation.Barycentric.InterpolateRationalFloaterHormann(points, values);
+            return Barycentric.InterpolateRationalFloaterHormann(points, values);
         }
 
         /// <summary>
@@ -65,7 +65,7 @@ namespace MathNet.Numerics
         /// </returns>
         public static IInterpolation RationalWithoutPoles(IEnumerable<double> points, IEnumerable<double> values)
         {
-            return Interpolation.Barycentric.InterpolateRationalFloaterHormann(points, values);
+            return Barycentric.InterpolateRationalFloaterHormann(points, values);
         }
 
         /// <summary>
@@ -99,7 +99,7 @@ namespace MathNet.Numerics
         /// </remarks>
         public static IInterpolation PolynomialEquidistant(IEnumerable<double> points, IEnumerable<double> values)
         {
-            return Interpolation.Barycentric.InterpolatePolynomialEquidistant(points, values);
+            return Barycentric.InterpolatePolynomialEquidistant(points, values);
         }
 
         /// <summary>

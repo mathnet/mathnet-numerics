@@ -66,6 +66,7 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
         {
             double[] data = null;
 
+// ReSharper disable ExpressionIsAlwaysNull
             Assert.That(() => Statistics.Minimum(data), Throws.Exception);
             Assert.That(() => Statistics.Maximum(data), Throws.Exception);
             Assert.That(() => Statistics.Mean(data), Throws.Exception);
@@ -117,6 +118,7 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
 
             Assert.That(() => new RunningStatistics(data), Throws.Exception);
             Assert.That(() => new RunningStatistics().PushRange(data), Throws.Exception);
+// ReSharper restore ExpressionIsAlwaysNull
         }
 
         [Test]
@@ -819,8 +821,8 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
         [Test]
         public void CovarianceIsSymmetric()
         {
-            var dataA = _data["lottery"].Data.Take(200);
-            var dataB = _data["lew"].Data.Take(200);
+            var dataA = _data["lottery"].Data.Take(200).ToArray();
+            var dataB = _data["lew"].Data.Take(200).ToArray();
 
             AssertHelpers.AlmostEqualRelative(Statistics.Covariance(dataA, dataB), Statistics.Covariance(dataB, dataA), 12);
             AssertHelpers.AlmostEqualRelative(StreamingStatistics.Covariance(dataA, dataB), StreamingStatistics.Covariance(dataB, dataA), 12);
@@ -984,7 +986,7 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
             Assert.That(ArrayStatistics.MedianInplace(new[] { double.NegativeInfinity, 2.0, double.PositiveInfinity }), Is.EqualTo(2.0));
             Assert.That(ArrayStatistics.MedianInplace(new[] { double.NegativeInfinity, double.PositiveInfinity, 2.0 }), Is.EqualTo(2.0));
             Assert.That(ArrayStatistics.MedianInplace(new[] { double.NegativeInfinity, 2.0, 3.0, double.PositiveInfinity }), Is.EqualTo(2.5));
-            Assert.That(ArrayStatistics.MedianInplace(new[] { double.NegativeInfinity, 2.0, double.PositiveInfinity, 3.0, }), Is.EqualTo(2.5));
+            Assert.That(ArrayStatistics.MedianInplace(new[] { double.NegativeInfinity, 2.0, double.PositiveInfinity, 3.0 }), Is.EqualTo(2.5));
             Assert.That(SortedArrayStatistics.Median(new[] { double.NegativeInfinity, 2.0, double.PositiveInfinity }), Is.EqualTo(2.0));
             Assert.That(SortedArrayStatistics.Median(new[] { double.NegativeInfinity, 2.0, 3.0, double.PositiveInfinity }), Is.EqualTo(2.5));
         }

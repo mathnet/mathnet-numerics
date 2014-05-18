@@ -87,10 +87,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         [TestCase(5.0)]
         public void CanSetS(double s)
         {
-            new Zipf(1.0, 5)
+            GC.KeepAlive(new Zipf(1.0, 5)
             {
                 S = s
-            };
+            });
         }
 
         /// <summary>
@@ -115,10 +115,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         [TestCase(50)]
         public void CanSetN(int n)
         {
-            new Zipf(1.0, 5)
+            GC.KeepAlive(new Zipf(1.0, 5)
             {
                 N = n
-            };
+            });
         }
 
         /// <summary>

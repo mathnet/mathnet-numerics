@@ -80,7 +80,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         [Test]
         public void CanCreateCategorical()
         {
-            new Categorical(_largeP);
+            GC.KeepAlive(new Categorical(_largeP));
         }
 
         /// <summary>
@@ -106,7 +106,9 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         public void CategoricalCreateFailsWithNullHistogram()
         {
             Histogram h = null;
+// ReSharper disable ExpressionIsAlwaysNull
             Assert.That(() => new Categorical(h), Throws.TypeOf<ArgumentNullException>());
+// ReSharper restore ExpressionIsAlwaysNull
         }
 
         /// <summary>
@@ -143,10 +145,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         [Test]
         public void CanSetProbability()
         {
-            new Categorical(_largeP)
+            GC.KeepAlive(new Categorical(_largeP)
             {
                 P = _smallP
-            };
+            });
         }
 
         /// <summary>
@@ -164,10 +166,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         /// </summary>
         /// <param name="p">An array of nonnegative ratios.</param>
         /// <param name="mean">Expected value.</param>
-        [TestCase(new double[] { 0, 0.25, 0.5, 0.25 }, 2)]
-        [TestCase(new double[] { 0, 1, 2, 1 }, 2)]
-        [TestCase(new double[] { 0, 0.5, 0.5 }, 1.5)]
-        [TestCase(new double[] { 0.75, 0.25 }, 0.25)]
+        [TestCase(new[] { 0.0, 0.25, 0.5, 0.25 }, 2)]
+        [TestCase(new[] { 0.0, 1, 2, 1 }, 2)]
+        [TestCase(new[] { 0.0, 0.5, 0.5 }, 1.5)]
+        [TestCase(new[] { 0.75, 0.25 }, 0.25)]
         [TestCase(new double[] { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 }, 5)]
         public void ValidateMean(double[] p, double mean)
         {
@@ -179,10 +181,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         /// </summary>
         /// <param name="p">An array of nonnegative ratios.</param>
         /// <param name="stdDev">Standard deviation.</param>
-        [TestCase(new double[] { 0, 0.25, 0.5, 0.25 }, 0.70710678118654752440084436210485)]
-        [TestCase(new double[] { 0, 1, 2, 1 }, 0.70710678118654752440084436210485)]
-        [TestCase(new double[] { 0, 0.5, 0.5 }, 0.5)]
-        [TestCase(new double[] { 0.75, 0.25 }, 0.43301270189221932338186158537647)]  //Sqrt((0.25*0.25)*.75+(.75*.75)*.25)
+        [TestCase(new[] { 0.0, 0.25, 0.5, 0.25 }, 0.70710678118654752440084436210485)]
+        [TestCase(new[] { 0.0, 1, 2, 1 }, 0.70710678118654752440084436210485)]
+        [TestCase(new[] { 0.0, 0.5, 0.5 }, 0.5)]
+        [TestCase(new[] { 0.75, 0.25 }, 0.43301270189221932338186158537647)]  //Sqrt((0.25*0.25)*.75+(.75*.75)*.25)
         [TestCase(new double[] { 1, 0, 1 }, 1)]
         public void ValidateStdDev(double[] p, double stdDev)
         {
@@ -194,11 +196,11 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         /// </summary>
         /// <param name="p">An array of nonnegative ratios.</param>
         /// <param name="variance">Variance.</param>
-        [TestCase(new double[] { 0, 0.25, 0.5, 0.25 }, 0.5)]
-        [TestCase(new double[] { 0, 1, 2, 1 }, 0.5)]
-        [TestCase(new double[] { 0, 0.5, 0.5 }, 0.25)]
-        [TestCase(new double[] { 0.75, 0.25 }, 0.1875)]  //(0.25*0.25)*.75+(.75*.75)*.25)
-        [TestCase(new double[] { 1, 0, 1 }, 1)]
+        [TestCase(new[] { 0.0, 0.25, 0.5, 0.25 }, 0.5)]
+        [TestCase(new[] { 0.0, 1, 2, 1 }, 0.5)]
+        [TestCase(new[] { 0.0, 0.5, 0.5 }, 0.25)]
+        [TestCase(new[] { 0.75, 0.25 }, 0.1875)]  //(0.25*0.25)*.75+(.75*.75)*.25)
+        [TestCase(new[] { 1.0, 0, 1 }, 1)]
         public void ValidateVariance(double[] p, double variance)
         {
             Assert.That(new Categorical(p).Variance, Is.EqualTo(variance).Within(1e-14));
@@ -209,13 +211,13 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         /// </summary>
         /// <param name="p">An array of nonnegative ratios.</param>
         /// <param name="median">Median.</param>
-        [TestCase(new double[] { 0, 0.25, 0.5, 0.25 }, 2)]
-        [TestCase(new double[] { 0, 1, 2, 1 }, 2)]
-        [TestCase(new double[] { 0.75, 0.25 }, 0)]
+        [TestCase(new[] { 0.0, 0.25, 0.5, 0.25 }, 2)]
+        [TestCase(new[] { 0.0, 1, 2, 1 }, 2)]
+        [TestCase(new[] { 0.75, 0.25 }, 0)]
         // The following test case has median of 5, because:
         // P(X < 5) = (1+2+6+3+2)/29 = 14/29 < 0.5.
         // P(X <= 5) = 19/29 > 0.5.
-        [TestCase(new double[] { 1, 2, 6, 3, 2, 5, 1, 1, 0, 1, 7 }, 5)]
+        [TestCase(new[] { 1.0, 2, 6, 3, 2, 5, 1, 1, 0, 1, 7 }, 5)]
         // TODO: Find out the expected behavior of Median in ambiguous cases like the following:
         //[TestCase(new double[] { 0, 0.5, 0.5 }, ???)]
         //[TestCase(new double[] { 1, 0, 1 }, ???)]

@@ -24,7 +24,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using System;
 using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Complex.Factorization;
 using MathNet.Numerics.LinearAlgebra.Factorization;

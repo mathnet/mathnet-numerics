@@ -89,10 +89,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         [TestCase(1.0, 2)]
         public void CanSetSuccessProbability(double p, int n)
         {
-            new Binomial(0.3, n)
+            GC.KeepAlive(new Binomial(0.3, n)
             {
                 P = p
-            };
+            });
         }
 
         /// <summary>
@@ -262,7 +262,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         public void CanSampleSequenceStatic()
         {
             var ied = Binomial.Samples(new Random(0), 0.3, 5);
-            ied.Take(5).ToArray();
+            GC.KeepAlive(ied.Take(5).ToArray());
         }
 
         /// <summary>
@@ -301,7 +301,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         {
             var n = new Binomial(0.3, 5);
             var ied = n.Samples();
-            ied.Take(5).ToArray();
+            GC.KeepAlive(ied.Take(5).ToArray());
         }
     }
 }

@@ -112,10 +112,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [TestCase(Double.PositiveInfinity)]
         public void CanSetLocation(double loc)
         {
-            new StudentT
+            GC.KeepAlive(new StudentT
             {
                 Location = loc
-            };
+            });
         }
 
         /// <summary>
@@ -128,10 +128,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [TestCase(Double.PositiveInfinity)]
         public void CanSetScale(double scale)
         {
-            new StudentT
+            GC.KeepAlive(new StudentT
             {
                 Scale = scale
-            };
+            });
         }
 
         /// <summary>
@@ -157,10 +157,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [TestCase(Double.PositiveInfinity)]
         public void CanSetDoF(double dof)
         {
-            new StudentT
+            GC.KeepAlive(new StudentT
             {
                 DegreesOfFreedom = dof
-            };
+            });
         }
 
         /// <summary>
@@ -382,7 +382,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void CanSampleSequenceStatic()
         {
             var ied = StudentT.Samples(new Random(0), 0.0, 1.0, 3.0);
-            ied.Take(5).ToArray();
+            GC.KeepAlive(ied.Take(5).ToArray());
         }
 
         /// <summary>
@@ -403,7 +403,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         {
             var n = new StudentT();
             var ied = n.Samples();
-            ied.Take(5).ToArray();
+            GC.KeepAlive(ied.Take(5).ToArray());
         }
 
         [TestCase(0.0, 1.0, 1.0, 0.0, 0.5)]

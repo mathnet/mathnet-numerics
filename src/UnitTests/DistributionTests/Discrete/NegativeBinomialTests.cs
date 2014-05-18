@@ -93,10 +93,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         [TestCase(1.0)]
         public void CanSetR(double r)
         {
-            new NegativeBinomial(1.0, 0.5)
+            GC.KeepAlive(new NegativeBinomial(1.0, 0.5)
             {
                 R = r
-            };
+            });
         }
 
         /// <summary>
@@ -121,10 +121,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         [TestCase(1.0)]
         public void CanSetProbabilityOfOne(double p)
         {
-            new NegativeBinomial(1.0, 0.5)
+            GC.KeepAlive(new NegativeBinomial(1.0, 0.5)
             {
                 P = p
-            };
+            });
         }
 
         /// <summary>
@@ -284,7 +284,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         {
             var d = new NegativeBinomial(1.0, 0.5);
             var ied = d.Samples();
-            ied.Take(5).ToArray();
+            GC.KeepAlive(ied.Take(5).ToArray());
         }
     }
 }

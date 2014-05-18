@@ -46,7 +46,7 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests.McmcTests
         [Test]
         public void ConstructorTest()
         {
-            new UnivariateSliceSampler(0.1, x => -0.5*x*x, 5, 1.0);
+            GC.KeepAlive(new UnivariateSliceSampler(0.1, x => -0.5*x*x, 5, 1.0));
         }
 
         /// <summary>

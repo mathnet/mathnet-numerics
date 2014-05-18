@@ -92,10 +92,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [TestCase(Double.PositiveInfinity)]
         public void CanSetLocation(double location)
         {
-            new Laplace
+            GC.KeepAlive(new Laplace
             {
                 Location = location
-            };
+            });
         }
 
         /// <summary>
@@ -118,10 +118,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [TestCase(Double.PositiveInfinity)]
         public void CanSetScale(double scale)
         {
-            new Laplace
+            GC.KeepAlive(new Laplace
             {
                 Scale = scale
-            };
+            });
         }
 
         /// <summary>
@@ -366,7 +366,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         {
             var n = new Laplace();
             var ied = n.Samples();
-            ied.Take(5).ToArray();
+            GC.KeepAlive(ied.Take(5).ToArray());
         }
 
         /// <summary>

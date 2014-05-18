@@ -250,15 +250,15 @@ namespace MathNet.Numerics.Statistics
                 decimal xi = (decimal)x;
                 decimal delta = xi - mean;
                 decimal scaleDelta = delta/++n;
-                decimal scaleDeltaSQR = scaleDelta*scaleDelta;
+                decimal scaleDelta2 = scaleDelta*scaleDelta;
                 decimal tmpDelta = delta*(n - 1);
 
                 mean += scaleDelta;
 
-                kurtosis += tmpDelta*scaleDelta*scaleDeltaSQR*(n*n - 3*n + 3)
-                            + 6*scaleDeltaSQR*variance - 4*scaleDelta*skewness;
+                kurtosis += tmpDelta*scaleDelta*scaleDelta2*(n*n - 3*n + 3)
+                            + 6*scaleDelta2*variance - 4*scaleDelta*skewness;
 
-                skewness += tmpDelta*scaleDeltaSQR*(n - 2) - 3*scaleDelta*variance;
+                skewness += tmpDelta*scaleDelta2*(n - 2) - 3*scaleDelta*variance;
                 variance += tmpDelta*scaleDelta;
                 if (minimum > xi)
                 {

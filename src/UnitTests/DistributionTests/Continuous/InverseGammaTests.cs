@@ -96,10 +96,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [TestCase(Double.PositiveInfinity)]
         public void CanSetA(double a)
         {
-            new InverseGamma(1.0, 1.0)
+            GC.KeepAlive(new InverseGamma(1.0, 1.0)
             {
                 Shape = a
-            };
+            });
         }
 
         /// <summary>
@@ -125,10 +125,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [TestCase(Double.PositiveInfinity)]
         public void CanSetB(double b)
         {
-            new InverseGamma(1.0, 1.0)
+            GC.KeepAlive(new InverseGamma(1.0, 1.0)
             {
                 Scale = b
-            };
+            });
         }
 
         /// <summary>
@@ -303,7 +303,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         {
             var n = new InverseGamma(1.0, 1.0);
             var ied = n.Samples();
-            ied.Take(5).ToArray();
+            GC.KeepAlive(ied.Take(5).ToArray());
         }
 
         /// <summary>

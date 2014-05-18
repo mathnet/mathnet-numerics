@@ -97,10 +97,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [TestCase(Double.PositiveInfinity)]
         public void CanSetSigma(double sigma)
         {
-            new LogNormal(1.0, 2.0)
+            GC.KeepAlive(new LogNormal(1.0, 2.0)
             {
                 Sigma = sigma
-            };
+            });
         }
 
         /// <summary>
@@ -127,10 +127,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [TestCase(Double.PositiveInfinity)]
         public void CanSetMu(double mu)
         {
-            new LogNormal(1.0, 2.0)
+            GC.KeepAlive(new LogNormal(1.0, 2.0)
             {
                 Mu = mu
-            };
+            });
         }
 
         /// <summary>
@@ -434,7 +434,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void CanSampleSequenceStatic()
         {
             var ied = LogNormal.Samples(new Random(0), 0.0, 1.0);
-            ied.Take(5).ToArray();
+            GC.KeepAlive(ied.Take(5).ToArray());
         }
 
         /// <summary>
@@ -473,7 +473,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         {
             var n = new LogNormal(1.0, 2.0);
             var ied = n.Samples();
-            ied.Take(5).ToArray();
+            GC.KeepAlive(ied.Take(5).ToArray());
         }
 
         /// <summary>

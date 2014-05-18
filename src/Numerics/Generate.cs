@@ -223,7 +223,7 @@ namespace MathNet.Numerics
         /// </summary>
         public static double[] LinearRange(double start, double step, double stop)
         {
-            if (start == stop) return new double[] { start };
+            if (start == stop) return new[] { start };
             if (start < stop && step < 0 || start > stop && step > 0 || step == 0d)
             {
                 return new double[0];
@@ -243,7 +243,7 @@ namespace MathNet.Numerics
         /// </summary>
         public static T[] LinearRangeMap<T>(double start, double step, double stop, Func<double, T> map)
         {
-            if (start == stop) return new T[] { map(start) };
+            if (start == stop) return new[] { map(start) };
             if (start < stop && step < 0 || start > stop && step > 0 || step == 0d)
             {
                 return new T[0];

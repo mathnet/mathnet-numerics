@@ -63,27 +63,6 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
         }
 
         /// <summary>
-        /// Creates a vector of the given size.
-        /// </summary>
-        /// <param name="size">The size of the vector to create.
-        /// </param>
-        /// <returns>The new vector. </returns>
-        protected virtual Vector<float> CreateVector(int size)
-        {
-            return new SparseVector(size);
-        }
-
-        /// <summary>
-        /// Creates a vector from an array.
-        /// </summary>
-        /// <param name="data">The array to create this vector from.</param>
-        /// <returns>The new vector. </returns>
-        protected virtual Vector<float> CreateVector(float[] data)
-        {
-            return SparseVector.OfEnumerable(data);
-        }
-
-        /// <summary>
         /// Can create a matrix form array.
         /// </summary>
         [Test]

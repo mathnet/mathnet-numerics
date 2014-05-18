@@ -33,7 +33,6 @@ using System.Collections;
 using System.Collections.Generic;
 using MathNet.Numerics.Distributions;
 using MathNet.Numerics.LinearAlgebra;
-using MathNet.Numerics.LinearAlgebra.Double;
 using NUnit.Framework;
 
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
@@ -462,7 +461,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [Test]
         public void CanSum()
         {
-            double[] testData = { -20, -10, 10, 20, 30, };
+            double[] testData = { -20, -10, 10, 20, 30 };
             var vector = CreateVector(testData);
             var actual = vector.Sum();
             const double Expected = 30;
@@ -475,7 +474,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [Test]
         public void CanSumMagnitudes()
         {
-            double[] testData = { -20, -10, 10, 20, 30, };
+            double[] testData = { -20, -10, 10, 20, 30 };
             var vector = CreateVector(testData);
             var actual = vector.SumMagnitudes();
             const double Expected = 90;
@@ -517,7 +516,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [Test]
         public void CanClearVector()
         {
-            double[] testData = { -20, -10, 10, 20, 30, };
+            double[] testData = { -20, -10, 10, 20, 30 };
             var vector = CreateVector(testData);
             vector.Clear();
             foreach (var element in vector)

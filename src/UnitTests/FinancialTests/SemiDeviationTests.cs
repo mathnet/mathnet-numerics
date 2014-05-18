@@ -106,7 +106,9 @@ namespace MathNet.Numerics.UnitTests.FinancialTests
             //arrange
             List<double> inputData = null;
             //act
+// ReSharper disable ExpressionIsAlwaysNull
             inputData.SemiDeviation();
+// ReSharper restore ExpressionIsAlwaysNull
         }
     }
 }

@@ -390,4 +390,17 @@
   <data name="RootFindingFailedRecommendRobustNewtonRaphson" xml:space="preserve">
     <value>The algorithm has failed, exceeded the number of iterations allowed or there is no root within the provided bounds. Consider to use RobustNewtonRaphson instead.</value>
   </data>
+  <data name="NumericalBreakdown" xml:space="preserve">
+    <value>Algorithm experience a numerical break down
+</value>
+  </data>
+  <data name="LagMustBePositive" xml:space="preserve">
+    <value>Lag must be positive</value>
+  </data>
+  <data name="LagMustBeSmallerThanTheSampleSize" xml:space="preserve">
+    <value>Lag must be smaller than the sample size</value>
+  </data>
+  <data name="MatrixMustBeSparse" xml:space="preserve">
+    <value>Matrix must be in sparse storage format</value>
+  </data>
 </root>

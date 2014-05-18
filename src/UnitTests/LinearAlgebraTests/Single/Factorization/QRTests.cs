@@ -182,14 +182,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Factorization
             {
                 for (var j = 0; j < matrixQtQ.ColumnCount; j++)
                 {
-                    if (i == j)
-                    {
-                        Assert.AreEqual(matrixQtQ[i, j], 1.0f, 1e-3f);
-                    }
-                    else
-                    {
-                        Assert.AreEqual(matrixQtQ[i, j], 0.0f, 1e-3f);
-                    }
+                    Assert.AreEqual(matrixQtQ[i, j], i == j ? 1.0f : 0.0f, 1e-3f);
                 }
             }
         }
@@ -248,14 +241,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Factorization
             {
                 for (var j = 0; j < matrixQtQ.ColumnCount; j++)
                 {
-                    if (i == j)
-                    {
-                        Assert.AreEqual(matrixQtQ[i, j], 1.0f, 1e-3f);
-                    }
-                    else
-                    {
-                        Assert.AreEqual(matrixQtQ[i, j], 0.0f, 1e-3f);
-                    }
+                    Assert.AreEqual(matrixQtQ[i, j], i == j ? 1.0f : 0.0f, 1e-3f);
                 }
             }
         }

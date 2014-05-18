@@ -46,7 +46,7 @@ namespace MathNet.Numerics.UnitTests
         [TestCase(new[] { 0, 3, 2, 1, 4, 5 })]
         public void CanCreatePermutation(int[] idx)
         {
-            new Permutation(idx);
+            GC.KeepAlive(new Permutation(idx));
         }
 
         /// <summary>

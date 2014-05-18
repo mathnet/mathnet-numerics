@@ -45,14 +45,16 @@ namespace MathNet.Numerics.UnitTests.FinancialTests
             //arrange
             List<double> inputData = null;
             //act
+// ReSharper disable ExpressionIsAlwaysNull
             inputData.CompoundMonthlyReturn();
+// ReSharper restore ExpressionIsAlwaysNull
         }
 
         [Test]
         public void returns_undefined_with_empty_input_data()
         {
             //arrange
-            List<double> inputData = new List<double>();
+            var inputData = new List<double>();
             //act
             var cmpdReturn = inputData.CompoundMonthlyReturn();
             //assert
@@ -70,7 +72,7 @@ namespace MathNet.Numerics.UnitTests.FinancialTests
             AssertHelpers.AlmostEqualRelative(0.0870999982199265, cmpdReturn, 14);
         }
 
-        //Definitly need more tests here.  Would love to find test data for these stats similar to the .dat files used for other tests.
+        //Definitely need more tests here.  Would love to find test data for these stats similar to the .dat files used for other tests.
     }
 
 }

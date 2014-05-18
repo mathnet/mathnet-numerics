@@ -80,8 +80,8 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
         [Test]
         public void PearsonCorrelationConsistentWithCovariance()
         {
-            var dataA = _data["lottery"].Data.Take(200);
-            var dataB = _data["lew"].Data.Take(200);
+            var dataA = _data["lottery"].Data.Take(200).ToArray();
+            var dataB = _data["lew"].Data.Take(200).ToArray();
 
             var direct = Correlation.Pearson(dataA, dataB);
             var covariance = dataA.Covariance(dataB)/(dataA.StandardDeviation()*dataB.StandardDeviation());

@@ -88,10 +88,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         [TestCase(10)]
         public void CanSetLowerBound(int p)
         {
-            new DiscreteUniform(0, 10)
+            GC.KeepAlive(new DiscreteUniform(0, 10)
             {
                 LowerBound = p
-            };
+            });
         }
 
         /// <summary>
@@ -103,10 +103,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         [TestCase(10)]
         public void CanSetUpperBound(int p)
         {
-            new DiscreteUniform(0, 10)
+            GC.KeepAlive(new DiscreteUniform(0, 10)
             {
                 UpperBound = p
-            };
+            });
         }
 
         /// <summary>
@@ -284,7 +284,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         public void CanSampleSequenceStatic()
         {
             var ied = DiscreteUniform.Samples(new Random(0), 0, 10);
-            ied.Take(5).ToArray();
+            GC.KeepAlive(ied.Take(5).ToArray());
         }
 
         /// <summary>
@@ -323,7 +323,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         {
             var n = new DiscreteUniform(0, 10);
             var ied = n.Samples();
-            ied.Take(5).ToArray();
+            GC.KeepAlive(ied.Take(5).ToArray());
         }
 
         /// <summary>

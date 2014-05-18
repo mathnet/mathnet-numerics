@@ -36,7 +36,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
     public partial class ManagedLinearAlgebraProvider : ILinearAlgebraProvider
     {
         /// <summary>
-        /// Initialize and verify that the provided is indeed available. If not, fall back to alernatives like the managed provider
+        /// Initialize and verify that the provided is indeed available. If not, fall back to alternatives like the managed provider
         /// </summary>
         public virtual void InitializeVerify()
         {

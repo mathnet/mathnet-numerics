@@ -52,8 +52,6 @@ namespace MathNet.Numerics.LinearAlgebra.Double
     [DebuggerDisplay("DiagonalMatrix {RowCount}x{ColumnCount}-Double")]
     public class DiagonalMatrix : Matrix
     {
-        readonly DiagonalMatrixStorage<double> _storage;
-
         /// <summary>
         /// Gets the matrix's data.
         /// </summary>
@@ -69,8 +67,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         public DiagonalMatrix(DiagonalMatrixStorage<double> storage)
             : base(storage)
         {
-            _storage = storage;
-            _data = _storage.Data;
+            _data = storage.Data;
         }
 
         /// <summary>

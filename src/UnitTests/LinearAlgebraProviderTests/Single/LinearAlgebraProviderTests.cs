@@ -48,12 +48,12 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Single
         /// <summary>
         /// The Y float test vector.
         /// </summary>
-        readonly float[] _y = new[] {1.1f, 2.2f, 3.3f, 4.4f, 5.5f};
+        readonly float[] _y = {1.1f, 2.2f, 3.3f, 4.4f, 5.5f};
 
         /// <summary>
         /// The X float test vector.
         /// </summary>
-        readonly float[] _x = new[] {6.6f, 7.7f, 8.8f, 9.9f, 10.1f};
+        readonly float[] _x = {6.6f, 7.7f, 8.8f, 9.9f, 10.1f};
 
         static readonly IContinuousDistribution Dist = new Normal();
 

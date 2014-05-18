@@ -95,10 +95,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         [TestCase(20)]
         public void CanSetPopulation(int population)
         {
-            new Hypergeometric(10, 1, 1)
-                {
-                    Population = population
-                };
+            GC.KeepAlive(new Hypergeometric(10, 1, 1)
+            {
+                Population = population
+            });
         }
 
         /// <summary>
@@ -123,10 +123,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         [TestCase(5)]
         public void CanSetSuccess(int success)
         {
-            new Hypergeometric(10, 1, 1)
-                {
-                    Success = success
-                };
+            GC.KeepAlive(new Hypergeometric(10, 1, 1)
+            {
+                Success = success
+            });
         }
 
         /// <summary>
@@ -151,10 +151,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         [TestCase(5)]
         public void CanSetDraws(int draws)
         {
-            new Hypergeometric(10, 1, 1)
-                {
-                    Draws = draws
-                };
+            GC.KeepAlive(new Hypergeometric(10, 1, 1)
+            {
+                Draws = draws
+            });
         }
 
         /// <summary>
@@ -323,7 +323,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         {
             var d = new Hypergeometric(10, 1, 1);
             var ied = d.Samples();
-            ied.Take(5).ToArray();
+            GC.KeepAlive(ied.Take(5).ToArray());
         }
 
         /// <summary>

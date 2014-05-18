@@ -110,7 +110,9 @@ namespace MathNet.Numerics.UnitTests.FinancialTests
             const double minimumAcceptableReturn = 0.05;
             List<double> inputData = null;
             //act
+// ReSharper disable ExpressionIsAlwaysNull
             inputData.DownsideDeviation(minimumAcceptableReturn);
+// ReSharper restore ExpressionIsAlwaysNull
         }
 
     }

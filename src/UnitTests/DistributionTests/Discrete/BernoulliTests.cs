@@ -85,10 +85,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         [TestCase(1.0)]
         public void CanSetProbabilityOfOne(double p)
         {
-            new Bernoulli(0.3)
+            GC.KeepAlive(new Bernoulli(0.3)
             {
                 P = p
-            };
+            });
         }
 
         /// <summary>
@@ -238,7 +238,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         public void CanSampleSequenceStatic()
         {
             var ied = Bernoulli.Samples(new Random(0), 0.3);
-            ied.Take(5).ToArray();
+            GC.KeepAlive(ied.Take(5).ToArray());
         }
 
         /// <summary>
@@ -277,7 +277,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         {
             var n = new Bernoulli(0.3);
             var ied = n.Samples();
-            ied.Take(5).ToArray();
+            GC.KeepAlive(ied.Take(5).ToArray());
         }
 
         /// <summary>

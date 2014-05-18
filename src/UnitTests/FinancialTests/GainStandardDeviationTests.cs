@@ -115,9 +115,9 @@ namespace MathNet.Numerics.UnitTests.FinancialTests
             //arrange
             List<double> inputData = null;
             //act
+// ReSharper disable ExpressionIsAlwaysNull
             inputData.GainStandardDeviation();
+// ReSharper restore ExpressionIsAlwaysNull
         }
-
-        public double gainStdDev { get; set; }
     }
 }

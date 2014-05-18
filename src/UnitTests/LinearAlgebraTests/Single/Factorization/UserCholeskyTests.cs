@@ -24,7 +24,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using System;
 using MathNet.Numerics.LinearAlgebra;
 using NUnit.Framework;
 
