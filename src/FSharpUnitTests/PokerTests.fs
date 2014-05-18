@@ -3,6 +3,8 @@
 #if NOSYSNUMERICS
 #else
 
+#nowarn "25"
+
 open MathNet.Numerics
 open MathNet.Numerics.Probability
 open NUnit.Framework

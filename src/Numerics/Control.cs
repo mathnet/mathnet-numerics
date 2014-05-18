@@ -69,7 +69,7 @@ namespace MathNet.Numerics
 
             // Linear Algebra Provider
             LinearAlgebraProvider = new ManagedLinearAlgebraProvider();
-#if !PORTABLE
+#if !PORTABLE && NATIVEMKL
             try
             {
                 const string name = "MathNetNumericsLAProvider";
@@ -123,7 +123,6 @@ namespace MathNet.Numerics
         /// For the multivariate distributions this could involve an expensive matrix factorization.
         /// The default setting of this property is <c>true</c>.
         /// </summary>
-        [Obsolete]
         public static bool CheckDistributionParameters { get; set; }
 
         /// <summary>
@@ -183,7 +182,6 @@ namespace MathNet.Numerics
         /// must calculate multiply in parallel threads.
         /// </summary>
         /// <value>The order. Default 64, must be at least 3.</value>
-        [Obsolete]
         internal static int ParallelizeOrder
         {
             get { return _parallelizeOrder; }
@@ -195,7 +193,6 @@ namespace MathNet.Numerics
         /// must contain before we multiply threads.
         /// </summary>
         /// <value>Number of elements. Default 300, must be at least 3.</value>
-        [Obsolete]
         internal static int ParallelizeElements
         {
             get { return _parallelizeElements; }
