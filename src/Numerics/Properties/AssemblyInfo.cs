@@ -53,6 +53,7 @@ using System.Runtime.InteropServices;
 [assembly: InternalsVisibleTo("MathNet.Numerics.UnitTests")]
 [assembly: InternalsVisibleTo("MathNet.Numerics.UnitTests47")]
 [assembly: InternalsVisibleTo("MathNet.Numerics.UnitTests136")]
+[assembly: InternalsVisibleTo("MathNet.Numerics.UnitTests344")]
 
 #elif NET35
 

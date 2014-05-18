@@ -5,32 +5,32 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{f5f14d76-428d-43d7-8431-5b885f1ba419}</ProjectGuid>
+    <ProjectGuid>{8a60894f-d090-4fc5-9535-e244e90a44c1}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>FSharpPortable</RootNamespace>
     <AssemblyName>MathNet.Numerics.FSharp</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <TargetFrameworkProfile>Profile47</TargetFrameworkProfile>
-    <Name>FSharp-Portable47</Name>
+    <TargetFrameworkProfile>Profile344</TargetFrameworkProfile>
+    <Name>FSharp-Portable344</Name>
     <MinimumVisualStudioVersion Condition="'$(MinimumVisualStudioVersion)' == ''">11</MinimumVisualStudioVersion>
     <TargetFSharpCoreVersion>2.3.5.0</TargetFSharpCoreVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DefineConstants>TRACE;PORTABLE</DefineConstants>
-    <OutputPath>..\..\out\lib\Profile47\</OutputPath>
-    <IntermediateOutputPath>..\..\obj\lib\Profile47\</IntermediateOutputPath>
-    <BaseIntermediateOutputPath>..\..\obj\lib\Profile47\</BaseIntermediateOutputPath>
-    <DocumentationFile>..\..\out\lib\Profile47\MathNet.Numerics.FSharp.XML</DocumentationFile>
+    <DefineConstants>TRACE;PORTABLE;NOSYSNUMERICS</DefineConstants>
+    <OutputPath>..\..\out\lib\Profile344\</OutputPath>
+    <IntermediateOutputPath>..\..\obj\lib\Profile344\</IntermediateOutputPath>
+    <BaseIntermediateOutputPath>..\..\obj\lib\Profile344\</BaseIntermediateOutputPath>
+    <DocumentationFile>..\..\out\lib\Profile344\MathNet.Numerics.FSharp.XML</DocumentationFile>
     <Optimize>true</Optimize>
     <Tailcalls>true</Tailcalls>
     <DebugType>pdbonly</DebugType>
     <WarningLevel>3</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DefineConstants>TRACE;DEBUG;PORTABLE</DefineConstants>
-    <OutputPath>..\..\out\lib-debug\Profile47\</OutputPath>
-    <IntermediateOutputPath>..\..\obj\lib-debug\Profile47\</IntermediateOutputPath>
-    <BaseIntermediateOutputPath>..\..\obj\lib-debug\Profile47\</BaseIntermediateOutputPath>
+    <DefineConstants>TRACE;DEBUG;PORTABLE;NOSYSNUMERICS</DefineConstants>
+    <OutputPath>..\..\out\lib-debug\Profile344\</OutputPath>
+    <IntermediateOutputPath>..\..\obj\lib-debug\Profile344\</IntermediateOutputPath>
+    <BaseIntermediateOutputPath>..\..\obj\lib-debug\Profile344\</BaseIntermediateOutputPath>
     <Optimize>false</Optimize>
     <Tailcalls>false</Tailcalls>
     <DebugSymbols>true</DebugSymbols>
@@ -61,9 +61,9 @@
     <Compile Include="RandomVariable.fs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Numerics\Numerics-Portable47.csproj">
-      <Name>Numerics-Portable47</Name>
-      <Project>{49205185-621e-ffb9-2104-887c9f1bbd13}</Project>
+    <ProjectReference Include="..\Numerics\Numerics-Portable344.csproj">
+      <Name>Numerics-Portable344</Name>
+      <Project>{1a3065fd-105d-4af1-85b9-0a4a26ffb353}</Project>
       <Private>True</Private>
     </ProjectReference>
   </ItemGroup>
