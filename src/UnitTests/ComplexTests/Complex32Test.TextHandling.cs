@@ -75,8 +75,6 @@ namespace MathNet.Numerics.UnitTests.ComplexTests
         /// Can format complex to string with culture.
         /// </summary>
         /// <param name="cultureName">Culture ID.</param>
-        /// <param name="nan">Not a number name.</param>
-        /// <param name="infinity">Infinity name.</param>
         /// <param name="number">Complex Number.</param>
         [TestCase("en-US", "1.1")]
         [TestCase("tr-TR", "1,1")]

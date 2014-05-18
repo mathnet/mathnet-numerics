@@ -109,8 +109,8 @@ namespace MathNet.Numerics.UnitTests.RootFindingTests
                 const double G21 = 0.30175355;
                 double P2 = Math.Pow(10, 6.87776 - 1171.53 / (224.366 + T));
                 double P1 = Math.Pow(10, 8.04494 - 1554.3 / (222.65 + T));
-                double t1 = x1 + x2 * G12;
-                double t2 = x2 + x1 * G21;
+                const double t1 = x1 + x2 * G12;
+                const double t2 = x2 + x1 * G21;
                 double gamma2 = Math.Exp(-Math.Log(t2) - (x1 * (G12 * t2 - G21 * t1)) / (t1 * t2));
                 double gamma1 = Math.Exp(-Math.Log(t1) + (x2 * (G12 * t2 - G21 * t1)) / (t1 * t2));
                 double k1 = gamma1 * P1 / 760;
@@ -472,7 +472,7 @@ namespace MathNet.Numerics.UnitTests.RootFindingTests
                 const double gam = -4.3 * CH4 - 11.049 * C2H6 - 3.545 * COtwo + 0.283 * H2O - 0.001 * N2 - 0.923 * O2;
                 const double H0 = alp * 298 + bet * 0.001 * 298 * 298 / 2 + gam * 1e-6 * 298 * 298 * 298 / 3;
                 double Hf = alp * T + bet * 0.001 * T * T / 2 + gam * 1e-6 * T * T * T / 3;
-                double xx = 1;
+                const double xx = 1;
 
                 return 212798 * y * xx + 372820 * z * xx + H0 - Hf;
             };

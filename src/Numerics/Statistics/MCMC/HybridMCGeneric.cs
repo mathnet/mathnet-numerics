@@ -35,7 +35,7 @@ namespace MathNet.Numerics.Statistics.Mcmc
     using Properties;
 
     /// <summary>
-    /// The Hybrid (also called Hamiltonian) Monte Carlo produces samples from distribition P using a set
+    /// The Hybrid (also called Hamiltonian) Monte Carlo produces samples from distribution P using a set
     /// of Hamiltonian equations to guide the sampling process. It uses the negative of the log density as
     /// a potential energy, and a randomly generated momentum to set up a Hamiltonian system, which is then used
     /// to sample the distribution. This can result in a faster convergence than the random walk Metropolis sampler

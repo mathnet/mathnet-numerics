@@ -32,7 +32,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace MathNet.Numerics.Statistics.Mcmc.Diagnostics
+namespace MathNet.Numerics.Statistics.Mcmc
 {
     /// <summary>
     /// Provides utilities to analysis the convergence of a set of samples from

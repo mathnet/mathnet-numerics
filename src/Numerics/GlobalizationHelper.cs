@@ -28,12 +28,12 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+
 namespace MathNet.Numerics
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Globalization;
-
     /// <summary>
     /// Globalized String Handling Helpers
     /// </summary>
@@ -105,7 +105,7 @@ namespace MathNet.Numerics
             {
                 var keyword = keywords[i];
                 int indexOfKeyword;
-                while ((indexOfKeyword = node.Value.IndexOf(keyword)) >= 0)
+                while ((indexOfKeyword = node.Value.IndexOf(keyword, StringComparison.Ordinal)) >= 0)
                 {
                     if (indexOfKeyword != 0)
                     {

@@ -29,6 +29,7 @@
 // </copyright>
 
 using System;
+using System.Globalization;
 using MathNet.Numerics.Distributions;
 using MathNet.Numerics.Statistics;
 using MathNet.Numerics.Statistics.Mcmc;
@@ -151,7 +152,7 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests.McmcTests
 
             for (int i = 0; i < 2; i++)
             {
-                string index = i.ToString();
+                string index = i.ToString(CultureInfo.InvariantCulture);
                 Assert.AreEqual(mean[i], sampleMean[i], 10*convergence[i], index + "Mean");
                 Assert.AreEqual(sampleSdv[i]*sampleSdv[i], sdv[i]*sdv[i], 10*convergence[i], index + "Standard Deviation");
             }

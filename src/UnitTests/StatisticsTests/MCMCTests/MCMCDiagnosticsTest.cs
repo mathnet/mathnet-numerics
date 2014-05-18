@@ -31,7 +31,7 @@
 using System;
 using MathNet.Numerics.Distributions;
 using MathNet.Numerics.Statistics;
-using MathNet.Numerics.Statistics.Mcmc.Diagnostics;
+using MathNet.Numerics.Statistics.Mcmc;
 using NUnit.Framework;
 
 namespace MathNet.Numerics.UnitTests.StatisticsTests.McmcTests

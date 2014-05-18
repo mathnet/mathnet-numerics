@@ -25,6 +25,7 @@
 // </copyright>
 
 using System;
+using System.Globalization;
 using NUnit.Framework;
 
 namespace MathNet.Numerics.UnitTests.EuclidTests
@@ -253,7 +254,7 @@ namespace MathNet.Numerics.UnitTests.EuclidTests
             for (var i = 2; i < 31; i++)
             {
                 var x = 1 << i;
-                Assert.AreEqual(x, x.CeilingToPowerOfTwo(), x.ToString());
+                Assert.AreEqual(x, x.CeilingToPowerOfTwo(), x.ToString(CultureInfo.InvariantCulture));
                 Assert.AreEqual(x, (x - 1).CeilingToPowerOfTwo(), x + "-1");
                 Assert.AreEqual(x, ((x >> 1) + 1).CeilingToPowerOfTwo(), x + "/2+1");
                 Assert.AreEqual(0, (-x).CeilingToPowerOfTwo(), "-" + x);
@@ -279,7 +280,7 @@ namespace MathNet.Numerics.UnitTests.EuclidTests
             for (var i = 2; i < 63; i++)
             {
                 var x = ((long)1) << i;
-                Assert.AreEqual(x, x.CeilingToPowerOfTwo(), x.ToString());
+                Assert.AreEqual(x, x.CeilingToPowerOfTwo(), x.ToString(CultureInfo.InvariantCulture));
                 Assert.AreEqual(x, (x - 1).CeilingToPowerOfTwo(), x + "-1");
                 Assert.AreEqual(x, ((x >> 1) + 1).CeilingToPowerOfTwo(), x + "/2+1");
                 Assert.AreEqual(0, (-x).CeilingToPowerOfTwo(), "-" + x);

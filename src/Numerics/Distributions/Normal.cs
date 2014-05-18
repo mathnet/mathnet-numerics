@@ -347,9 +347,9 @@ namespace MathNet.Numerics.Distributions
 
         internal static IEnumerable<double> SamplesUnchecked(System.Random rnd, double mean, double stddev)
         {
-            double x, y;
             while (true)
             {
+                double x, y;
                 if (!PolarTransform(rnd.NextDouble(), rnd.NextDouble(), out x, out y))
                 {
                     continue;

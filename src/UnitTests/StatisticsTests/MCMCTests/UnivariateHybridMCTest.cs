@@ -32,7 +32,6 @@ using System;
 using MathNet.Numerics.Distributions;
 using MathNet.Numerics.Statistics;
 using MathNet.Numerics.Statistics.Mcmc;
-using MathNet.Numerics.Statistics.Mcmc.Diagnostics;
 using NUnit.Framework;
 
 namespace MathNet.Numerics.UnitTests.StatisticsTests.McmcTests
@@ -142,7 +141,7 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests.McmcTests
 
             //Approximating chi-square with normal distribution. (Degree of freedom is large)
             double deviationConvergence = 3*Constants.Sqrt2/Math.Sqrt(effective);
-            Assert.AreEqual(deviationRation, 1, deviationConvergence, "Standard Deivation");
+            Assert.AreEqual(deviationRation, 1, deviationConvergence, "Standard Deviation");
         }
     }
 }

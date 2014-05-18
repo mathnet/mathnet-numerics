@@ -27,12 +27,12 @@
 using System;
 using MathNet.Numerics.LinearAlgebra;
 
-namespace MathNet.Numerics.UnitTests
+namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
 {
 #if NOSYSNUMERICS
-    using Complex = Numerics.Complex;
+    using Complex64 = Numerics.Complex;
 #else
-    using Complex = System.Numerics.Complex;
+    using Complex64 = System.Numerics.Complex;
 #endif
 
     /// <summary>
@@ -65,7 +65,7 @@ namespace MathNet.Numerics.UnitTests
         /// from the lower triangle to the upper triangle.
         /// </summary>
         /// <param name="matrix">The matrix to make conjugate symmetric.</param>
-        static public void ForceConjugateSymmetric(Matrix<Complex> matrix)
+        static public void ForceConjugateSymmetric(Matrix<Complex64> matrix)
         {
             if (matrix.RowCount != matrix.ColumnCount)
             {
@@ -85,7 +85,7 @@ namespace MathNet.Numerics.UnitTests
         /// from the lower triangle to the upper triangle.
         /// </summary>
         /// <param name="matrix">The matrix to make conjugate symmetric.</param>
-        public static void ForceConjugateSymmetric(Matrix<Complex32> matrix)
+        public static void ForceConjugateSymmetric(Matrix<Numerics.Complex32> matrix)
         {
             if (matrix.RowCount != matrix.ColumnCount)
             {

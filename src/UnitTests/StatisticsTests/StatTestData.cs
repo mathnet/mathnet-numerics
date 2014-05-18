@@ -28,6 +28,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System;
 using System.Globalization;
 
 namespace MathNet.Numerics.UnitTests.StatisticsTests
@@ -116,7 +117,7 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
         /// <returns>Parameter value.</returns>
         static double GetValue(string str)
         {
-            var start = str.IndexOf(":");
+            var start = str.IndexOf(":", StringComparison.Ordinal);
             var value = str.Substring(start + 1).Trim();
             if (value.Equals("NaN"))
             {
