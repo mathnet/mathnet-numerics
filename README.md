@@ -53,7 +53,7 @@ If you do not want to use the official binaries, or if you like to modify, debug
 
     msbuild MathNet.Numerics.sln            # only build for .Net 4 (main solution)
     msbuild MathNet.Numerics.Net35Only.sln  # only build for .Net 3.5
-    msbuild MathNet.Numerics.Portable.sln   # full build with .Net 4, 3.5 and PCL profiles
+    msbuild MathNet.Numerics.All.sln        # full build with .Net 4, 3.5 and PCL profiles
     xbuild MathNet.Numerics.sln             # build with Mono, e.g. on Linux or Mac
 
 ### How to build with FAKE
@@ -63,11 +63,11 @@ If you do not want to use the official binaries, or if you like to modify, debug
     
     build.cmd Build              # normal build (.Net 4.0)
     build.cmd Build incremental  # normal build, incremental (.Net 4.0)
-    build.cmd Build full         # full build (.Net 3.5, 4.0, PCL)
+    build.cmd Build all          # full build (.Net 3.5, 4.0, PCL)
     build.cmd Build net35        # compatibility build (.Net 3.5)
     
     build.cmd Test        # normal build (.Net 4.0), run unit tests
-    build.cmd Test full   # full build (.Net 3.5, 4.0, PCL), run all unit tests
+    build.cmd Test all    # full build (.Net 3.5, 4.0, PCL), run all unit tests
     build.cmd Test net35  # compatibility build (.Net 3.5), run unit tests
     
     build.cmd Clean  # cleanup build artifacts

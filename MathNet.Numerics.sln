@@ -1,15 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.30110.0
+VisualStudioVersion = 12.0.30501.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{4D50FB34-10BC-495A-8B2F-482E34B4D771}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{49EE74BD-301F-4C3B-B76A-07F90CC88CE7}"
-	ProjectSection(SolutionItems) = preProject
-		build\FSharp.Formatting\build.fsx = build\FSharp.Formatting\build.fsx
-	EndProjectSection
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Readme", "Readme", "{C2F37492-38AE-4186-8A7F-17B0B080942C}"
 	ProjectSection(SolutionItems) = preProject
 		CONTRIBUTING.md = CONTRIBUTING.md
@@ -20,13 +13,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Readme", "Readme", "{C2F374
 		RELEASENOTES.md = RELEASENOTES.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Examples", "src\Examples\Examples.csproj", "{8239A6FF-1EF3-4DA4-A860-95C392DD6899}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Numerics", "src\Numerics\Numerics.csproj", "{B7CAE5F4-A23F-4438-B5BE-41226618B695}"
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "FSharp", "src\FSharp\FSharp.fsproj", "{37E8E802-A354-4114-BFC1-6E1357DA605B}"
-EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "FSharpExamples", "src\FSharpExamples\FSharpExamples.fsproj", "{BC81EA37-8EE6-4BF9-B8A9-B30497AEF8B1}"
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "FSharpUnitTests", "src\FSharpUnitTests\FSharpUnitTests.fsproj", "{F2F8032B-A31D-4E33-A05E-F2CDCBFAA75D}"
 EndProject
@@ -79,9 +68,6 @@ Global
 		Release-Signed|Any CPU = Release-Signed|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{8239A6FF-1EF3-4DA4-A860-95C392DD6899}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8239A6FF-1EF3-4DA4-A860-95C392DD6899}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8239A6FF-1EF3-4DA4-A860-95C392DD6899}.Release-Signed|Any CPU.ActiveCfg = Release-Signed|Any CPU
 		{B7CAE5F4-A23F-4438-B5BE-41226618B695}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B7CAE5F4-A23F-4438-B5BE-41226618B695}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B7CAE5F4-A23F-4438-B5BE-41226618B695}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -94,9 +80,6 @@ Global
 		{37E8E802-A354-4114-BFC1-6E1357DA605B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{37E8E802-A354-4114-BFC1-6E1357DA605B}.Release-Signed|Any CPU.ActiveCfg = Release-Signed|Any CPU
 		{37E8E802-A354-4114-BFC1-6E1357DA605B}.Release-Signed|Any CPU.Build.0 = Release-Signed|Any CPU
-		{BC81EA37-8EE6-4BF9-B8A9-B30497AEF8B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BC81EA37-8EE6-4BF9-B8A9-B30497AEF8B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BC81EA37-8EE6-4BF9-B8A9-B30497AEF8B1}.Release-Signed|Any CPU.ActiveCfg = Release-Signed|Any CPU
 		{F2F8032B-A31D-4E33-A05E-F2CDCBFAA75D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F2F8032B-A31D-4E33-A05E-F2CDCBFAA75D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F2F8032B-A31D-4E33-A05E-F2CDCBFAA75D}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -114,10 +97,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{F2F8032B-A31D-4E33-A05E-F2CDCBFAA75D} = {4D50FB34-10BC-495A-8B2F-482E34B4D771}
-		{DAF07AA8-C5C9-4963-98F7-2C3285064DAD} = {4D50FB34-10BC-495A-8B2F-482E34B4D771}
-		{8239A6FF-1EF3-4DA4-A860-95C392DD6899} = {49EE74BD-301F-4C3B-B76A-07F90CC88CE7}
-		{BC81EA37-8EE6-4BF9-B8A9-B30497AEF8B1} = {49EE74BD-301F-4C3B-B76A-07F90CC88CE7}
 		{8A295380-F19B-460C-9794-2EF1B67E5483} = {A4A66FA9-C00C-4D5C-A776-27516EA0C536}
 		{DB89F4DB-5204-4B38-B9F5-FE11E69D32AD} = {A4A66FA9-C00C-4D5C-A776-27516EA0C536}
 	EndGlobalSection

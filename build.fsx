@@ -33,13 +33,13 @@ let build subject = MSBuildRelease "" (if hasBuildParam "incremental" then "Buil
 
 Target "BuildMain" (fun _ -> build !! "MathNet.Numerics.sln")
 Target "BuildNet35" (fun _ -> build !! "MathNet.Numerics.Net35Only.sln")
-Target "BuildFull" (fun _ -> build !! "MathNet.Numerics.Portable.sln")
+Target "BuildAll" (fun _ -> build !! "MathNet.Numerics.All.sln")
 Target "Build" DoNothing
 
 "Prepare"
   =?> ("BuildNet35", hasBuildParam "net35")
-  =?> ("BuildFull", hasBuildParam "full")
-  =?> ("BuildMain", not (hasBuildParam "full" || hasBuildParam "net35"))
+  =?> ("BuildAll", hasBuildParam "all")
+  =?> ("BuildMain", not (hasBuildParam "all" || hasBuildParam "net35"))
   ==> "Build"
 
 
@@ -132,7 +132,7 @@ Target "NuGet" (fun _ ->
     !! "build/NuGet/nuget.proj" |> MSBuild "" "BuildPackages" [] |> ignore
 )
 
-"BuildFull" ==> "NuGet"
+"BuildAll" ==> "NuGet"
 
 
 // RUN
