@@ -29,7 +29,12 @@ Target "Prepare" DoNothing
 
 // BUILD
 
-let build subject = MSBuildRelease "" (if hasBuildParam "incremental" then "Build" else "Rebuild") subject |> ignore
+let build subject =
+    MSBuild
+        ""
+        (if hasBuildParam "incremental" then "Build" else "Rebuild")
+        [ "Configuration", if hasBuildParam "signed" then "Release-Signed" else "Release" ]
+        subject |> ignore
 
 Target "BuildMain" (fun _ -> build !! "MathNet.Numerics.sln")
 Target "BuildNet35" (fun _ -> build !! "MathNet.Numerics.Net35Only.sln")
@@ -129,10 +134,14 @@ Target "Api" (fun _ ->
 
 Target "NuGet" (fun _ ->
     // TODO: Replace with FAKE's internal NuGet support and drop the MSBuild project
-    !! "build/NuGet/nuget.proj" |> MSBuild "" "BuildPackages" [] |> ignore
+    !! (if hasBuildParam "signed" then "build/NuGet/nuget-signed.proj" else "build/NuGet/nuget.proj")
+    |> MSBuild "" "BuildPackages" [] |> ignore
 )
 
-"BuildAll" ==> "NuGet"
+"Start"
+  =?> ("BuildAll", not (hasBuildParam "signed"))
+  =?> ("BuildMain", hasBuildParam "signed")
+  ==> "NuGet"
 
 
 // RUN

@@ -63,17 +63,20 @@ If you do not want to use the official binaries, or if you like to modify, debug
     
     build.cmd Build              # normal build (.Net 4.0)
     build.cmd Build incremental  # normal build, incremental (.Net 4.0)
-    build.cmd Build all          # full build (.Net 3.5, 4.0, PCL)
+    build.cmd Build all          # full build (.Net 4.0, 3.5, PCL)
     build.cmd Build net35        # compatibility build (.Net 3.5)
+    build.cmd Build signed       # normal build, signed/strong named (.Net 4.0)
     
     build.cmd Test        # normal build (.Net 4.0), run unit tests
-    build.cmd Test all    # full build (.Net 3.5, 4.0, PCL), run all unit tests
+    build.cmd Test all    # full build (.Net 4.0, 3.5, PCL), run all unit tests
     build.cmd Test net35  # compatibility build (.Net 3.5), run unit tests
     
     build.cmd Clean  # cleanup build artifacts
-    build.cmd Docs   # generate documentation, normal build
-    build.cmd NuGet  # generate NuGet packages, full build
-
+    build.cmd Docs   # generate documentation (.Net 4.0)
+    
+    build.cmd NuGet         # generate NuGet packages (.Net 4.0, 3.5, PCL)
+    build.cmd NuGet signed  # generate signed/strong named NuGet packages (.Net 4.0)
+    
     build.cmd BuildNativex86   # build native providers 32bit/x86
     build.cmd BuildNativex64   # build native providers 64bit/x64
     build.cmd BuildNative      # build native providers for all platforms
