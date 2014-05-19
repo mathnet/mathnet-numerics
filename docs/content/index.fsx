@@ -24,8 +24,8 @@ The recommended way to get Math.NET Numerics is to use NuGet. The following pack
 Supported Platforms:
 
 - .Net 4.0, .Net 3.5 and Mono: Windows, Linux and Mac.
-- PCL Portable Profiles 47 and 136: Silverlight 5, Windows Phone 8, .NET for Windows Store apps (Metro).
-- PCL/Xamarin: Android, iOS  *(not verified due to lack of license and devices)*
+- PCL Portable Profiles 47 and 344: Windows 8, Silverlight 5, Windows Phone/SL 8, Windows Phone 8.1.
+- Xamarin: Android, iOS
 
 Alternatively you can also download the binaries in Zip packages, available on [CodePlex](http://mathnetnumerics.codeplex.com/releases):
 

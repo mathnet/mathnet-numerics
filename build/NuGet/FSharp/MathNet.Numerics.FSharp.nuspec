@@ -4,8 +4,8 @@
     <id>MathNet.Numerics.FSharp</id>
     <version>1.0.0</version>
     <title>Math.NET Numerics for F#</title>
-    <summary>F# Modules for Math.NET Numerics, providing methods and algorithms for numerical computations in science, engineering and every day use. F# 3.0 on .Net 4, SL5, Win8, WP8, WPA8.1, PCL 47, 136 and 344, Mono, Xamarin Android/iOS.</summary>
-    <description>F# Modules for Math.NET Numerics, the numerical foundation of the Math.NET project, aiming to provide methods and algorithms for numerical computations in science, engineering and every day use. Supports .Net 4.0 and Mono (Windows, Linux, Mac), PCL Portable Profiles 47, 136 and 344 (Silverlight 5, Windows Phone/SL 8, Windows Phone 8.1, Windows 8), and Android/iOS via Xamarin.</description>
+    <summary>F# Modules for Math.NET Numerics, providing methods and algorithms for numerical computations in science, engineering and every day use. F# 3.0 on .Net 4, SL5, Win8, WP8, WPA8.1, PCL 47 and 344, Mono, Xamarin Android/iOS.</summary>
+    <description>F# Modules for Math.NET Numerics, the numerical foundation of the Math.NET project, aiming to provide methods and algorithms for numerical computations in science, engineering and every day use. Supports .Net 4.0 and Mono (Windows, Linux, Mac), PCL Portable Profiles 47 and 344 (Silverlight 5, Windows Phone/SL 8, Windows Phone 8.1, Windows 8), and Android/iOS via Xamarin.</description>
     <authors>Christoph Ruegg, Marcus Cuda, Jurgen Van Gael</authors>
     <owners>Christoph Ruegg</owners>
     <projectUrl>http://numerics.mathdotnet.com/</projectUrl>

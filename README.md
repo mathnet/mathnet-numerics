@@ -7,7 +7,7 @@ Math.NET Numerics is the numerical foundation of the Math.NET initiative, aiming
 
 In addition to the core .NET package (which is written entirely in C#), Numerics specifically supports F# 3.0 and 3.1 with idiomatic extension modules and maintains mathematical data structures like BigRational that originated in the F# PowerPack. If a performance boost is needed, the managed-code provider backing its linear algebra routines and decompositions can be exchanged with wrappers for optimized native implementations such as Intel MKL.
 
-Supports Mono and .NET 4.0 and 3.5 on Linux, Mac and Windows, the portable build (PCL) also Silverlight 5, Windows Phone 8, .NET for Windows Store apps and Xamarin Android/iOS.
+Supports Mono and .NET 4.0 and 3.5 on Linux, Mac and Windows, the portable build (PCL) also Windows 8, Silverlight 5, Windows Phone/SL 8, Windows Phone 8.1, and Xamarin Android/iOS.
 
 Math.NET Numerics is covered under the terms of the [MIT/X11](http://mathnetnumerics.codeplex.com/license) license. You may therefore link to it and use it in both opensource and proprietary software projects. See also the [license](LICENSE.md) file in the root folder.
 
@@ -37,8 +37,8 @@ Alternatively you can also download the binaries in Zip packages, available on [
 Supported Platforms:
 
 - .Net 4.0, .Net 3.5 and Mono: Windows, Linux and Mac.
-- PCL Portable Profiles 47 and 136: Silverlight 5, Windows Phone 8, .NET for Windows Store apps (Metro).
-- PCL/Xamarin: Android, iOS  *(not verified due to lack of license and devices)*
+- PCL Portable Profiles 47 and 344: Windows 8, Silverlight 5, Windows Phone/SL 8, Windows Phone 8.1.
+- Xamarin: Android, iOS
 
 Building Math.NET Numerics
 --------------------------

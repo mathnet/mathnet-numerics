@@ -15,11 +15,9 @@
         <NumericsNet40 Include="$(OutLib)/Net40/MathNet.Numerics.dll;$(OutLib)/Net40/MathNet.Numerics.pdb;$(OutLib)/Net40/MathNet.Numerics.xml" />
         <NumericsNet35 Include="$(OutLib)/Net35/MathNet.Numerics.dll;$(OutLib)/Net35/MathNet.Numerics.pdb;$(OutLib)/Net35/MathNet.Numerics.xml" />
         <NumericsProfile47 Include="$(OutLib)/Profile47/MathNet.Numerics.dll;$(OutLib)/Profile47/MathNet.Numerics.pdb;$(OutLib)/Profile47/MathNet.Numerics.xml;" />
-        <NumericsProfile136 Include="$(OutLib)/Profile136/MathNet.Numerics.dll;$(OutLib)/Profile136/MathNet.Numerics.pdb;$(OutLib)/Profile136/MathNet.Numerics.xml;" />
         <NumericsProfile344 Include="$(OutLib)/Profile344/MathNet.Numerics.dll;$(OutLib)/Profile344/MathNet.Numerics.pdb;$(OutLib)/Profile344/MathNet.Numerics.xml;" />
         <FSharpNet40 Include="$(OutLib)/Net40/MathNet.Numerics.FSharp.dll;$(OutLib)/Net40/MathNet.Numerics.FSharp.pdb;$(OutLib)/Net40/MathNet.Numerics.FSharp.xml" />
         <FSharpProfile47 Include="$(OutLib)/Profile47/MathNet.Numerics.FSharp.dll;$(OutLib)/Profile47/MathNet.Numerics.FSharp.pdb;$(OutLib)/Profile47/MathNet.Numerics.FSharp.xml;" />
-        <FSharpProfile136 Include="$(OutLib)/Profile136/MathNet.Numerics.FSharp.dll;$(OutLib)/Profile136/MathNet.Numerics.FSharp.pdb;$(OutLib)/Profile136/MathNet.Numerics.FSharp.xml;" />
         <FSharpProfile344 Include="$(OutLib)/Profile344/MathNet.Numerics.FSharp.dll;$(OutLib)/Profile344/MathNet.Numerics.FSharp.pdb;$(OutLib)/Profile344/MathNet.Numerics.FSharp.xml;" />
     </ItemGroup>
 
@@ -33,13 +31,11 @@
         <Copy SourceFiles="@(NumericsNet40)" DestinationFolder="$(NumericsPack)/lib/net40" />
         <Copy SourceFiles="@(NumericsNet35)" DestinationFolder="$(NumericsPack)/lib/net35" />
         <Copy SourceFiles="@(NumericsProfile47)" DestinationFolder="$(NumericsPack)/lib/portable-net45+sl5+netcore45+MonoAndroid1+MonoTouch1" />
-        <Copy SourceFiles="@(NumericsProfile136)" DestinationFolder="$(NumericsPack)/lib/portable-net4+sl5+netcore45+wp8+MonoAndroid1+MonoTouch1" />
         <Copy SourceFiles="@(NumericsProfile344)" DestinationFolder="$(NumericsPack)/lib/portable-net45+sl5+netcore45+wpa81+wp8+MonoAndroid1+MonoTouch1" />
 
         <RemoveDir Directories="$(FSharpPack)/lib" />
         <Copy SourceFiles="@(FSharpNet40)" DestinationFolder="$(FSharpPack)/lib/net40" />
         <Copy SourceFiles="@(FSharpProfile47)" DestinationFolder="$(FSharpPack)/lib/portable-net45+sl5+netcore45+MonoAndroid1+MonoTouch1" />
-        <Copy SourceFiles="@(FSharpProfile136)" DestinationFolder="$(FSharpPack)/lib/portable-net4+sl5+netcore45+wp8+MonoAndroid1+MonoTouch1" />
         <Copy SourceFiles="@(FSharpProfile344)" DestinationFolder="$(FSharpPack)/lib/portable-net45+sl5+netcore45+wpa81+wp8+MonoAndroid1+MonoTouch1" />
     </Target>
 
