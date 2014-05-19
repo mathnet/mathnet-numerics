@@ -1,11 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{8a60894f-d090-4fc5-9535-e244e90a44c1}</ProjectGuid>
+    <ProjectGuid>{8A60894F-D090-4FC5-9535-E244E90A44C1}</ProjectGuid>
     <OutputType>Library</OutputType>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>Profile344</TargetFrameworkProfile>
@@ -35,7 +34,8 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <WarningLevel>3</WarningLevel>
-    <DocumentationFile />
+    <DocumentationFile>
+    </DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="FSharp.Core">
@@ -63,8 +63,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Numerics\Numerics-Portable344.csproj">
       <Name>Numerics-Portable344</Name>
-      <Project>{1a3065fd-105d-4af1-85b9-0a4a26ffb353}</Project>
-      <Private>True</Private>
+      <Project>{1A3065FD-105D-4AF1-85B9-0A4A26FFB353}</Project>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

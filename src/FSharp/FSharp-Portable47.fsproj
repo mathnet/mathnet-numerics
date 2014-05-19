@@ -1,11 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{f5f14d76-428d-43d7-8431-5b885f1ba419}</ProjectGuid>
+    <ProjectGuid>{F5F14D76-428D-43D7-8431-5B885F1BA419}</ProjectGuid>
     <OutputType>Library</OutputType>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>Profile47</TargetFrameworkProfile>
@@ -35,7 +34,8 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <WarningLevel>3</WarningLevel>
-    <DocumentationFile />
+    <DocumentationFile>
+    </DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="FSharp.Core">
@@ -63,8 +63,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Numerics\Numerics-Portable47.csproj">
       <Name>Numerics-Portable47</Name>
-      <Project>{49205185-621e-ffb9-2104-887c9f1bbd13}</Project>
-      <Private>True</Private>
+      <Project>{49205185-621E-FFB9-2104-887C9F1BBD13}</Project>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
