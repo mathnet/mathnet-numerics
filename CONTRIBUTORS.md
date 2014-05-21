@@ -7,17 +7,16 @@ The Math.NET project is a community effort. We accept contributions and pull req
 
 ### Maintainers
 
-- [Christoph Rüegg](http://christoph.ruegg.name/): @cdrnet
-- Jurgen Van Gael: @jvangael
+- [Christoph Rüegg](http://christoph.ruegg.name/) (@cdrnet)
 
 ### Code Contributors
 
 *Essentially the output of `git shortlog -sn` in original order.  
 Feel free to add a link to your personal site/blog and/or twitter handle.*
 
-- [Christoph Rüegg](http://christoph.ruegg.name/) (cdrnet)
+- [Christoph Rüegg](http://christoph.ruegg.name/) (@cdrnet)
 - [Marcus Cuda](http://marcuscuda.com/)
-- Jurgen Van Gael
+- Jurgen Van Gael (@jvangael)
 - Alexander Karatarakis (Danimoth)
 - Thomas Ibel (tibel)
 - Gustavo Guerra
@@ -93,3 +92,4 @@ This section is incomplete - let us know if we forgot something.*
 - Don Syme
 - Lokad SAS
 - Microsoft Corp
+- Xamarin

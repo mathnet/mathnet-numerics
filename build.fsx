@@ -7,9 +7,12 @@
 
 open Fake
 open Fake.DocuHelper
+open Fake.ReleaseNotesHelper
 open System
 
 Environment.CurrentDirectory <- __SOURCE_DIRECTORY__
+
+let release = LoadReleaseNotes "RELEASENOTES.md"
 
 
 // PREPARE
