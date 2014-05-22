@@ -7,20 +7,34 @@
 
 open Fake
 open Fake.DocuHelper
+open Fake.AssemblyInfoFile
 open Fake.ReleaseNotesHelper
 open System
 
 Environment.CurrentDirectory <- __SOURCE_DIRECTORY__
 
+
+// PROJECT INFO
+
 let release = LoadReleaseNotes "RELEASENOTES.md"
+let buildPart = "0" // TODO: Fetch from TC
+let assemblyVersion = release.AssemblyVersion + "." + buildPart
+let packageVersion = release.NugetVersion
 
 
 // PREPARE
 
-Target "Start" DoNothing
+Target "AssemblyInfo" (fun _ ->
+    BulkReplaceAssemblyInfoVersions "src/" (fun f ->
+        { f with
+            AssemblyVersion = assemblyVersion
+            AssemblyFileVersion = assemblyVersion
+            AssemblyInformationalVersion = packageVersion }))
+
 Target "Clean" (fun _ -> CleanDirs ["out"; "obj"; "temp"])
 Target "RestorePackages" RestorePackages
-Target "AssemblyInfo" DoNothing
+
+Target "Start" DoNothing
 Target "Prepare" DoNothing
 
 "Start"
