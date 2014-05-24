@@ -24,17 +24,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{A4A66FA9-C00C-4D5C-A776-27516EA0C536}"
 	ProjectSection(SolutionItems) = preProject
 		build.fsx = build.fsx
+		build\NuGet\MathNet.Numerics.nuspec = build\NuGet\MathNet.Numerics.nuspec
 		.nuget\packages.config = .nuget\packages.config
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NuGet", "NuGet", "{8A295380-F19B-460C-9794-2EF1B67E5483}"
-	ProjectSection(SolutionItems) = preProject
-		build\NuGet\FSharp\MathNet.Numerics.FSharp.nuspec = build\NuGet\FSharp\MathNet.Numerics.FSharp.nuspec
-		build\NuGet\FSharp.Signed\MathNet.Numerics.FSharp.Signed.nuspec = build\NuGet\FSharp.Signed\MathNet.Numerics.FSharp.Signed.nuspec
-		build\NuGet\Numerics\MathNet.Numerics.nuspec = build\NuGet\Numerics\MathNet.Numerics.nuspec
-		build\NuGet\Numerics.Signed\MathNet.Numerics.Signed.nuspec = build\NuGet\Numerics.Signed\MathNet.Numerics.Signed.nuspec
-		build\NuGet\nuget-signed.proj = build\NuGet\nuget-signed.proj
-		build\NuGet\nuget.proj = build\NuGet\nuget.proj
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{DB89F4DB-5204-4B38-B9F5-FE11E69D32AD}"
@@ -97,7 +88,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{8A295380-F19B-460C-9794-2EF1B67E5483} = {A4A66FA9-C00C-4D5C-A776-27516EA0C536}
 		{DB89F4DB-5204-4B38-B9F5-FE11E69D32AD} = {A4A66FA9-C00C-4D5C-A776-27516EA0C536}
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution

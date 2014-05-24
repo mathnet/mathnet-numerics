@@ -72,9 +72,10 @@ If you do not want to use the official binaries, or if you like to modify, debug
     build.cmd Test net35  # compatibility build (.Net 3.5), run unit tests
     
     build.cmd Clean  # cleanup build artifacts
-    build.cmd Docs   # generate documentation (.Net 4.0)
+    build.cmd Docs   # generate documentation
+    build.cmd Api    # generate api reference
     
-    build.cmd NuGet         # generate NuGet packages (.Net 4.0, 3.5, PCL)
+    build.cmd NuGet all     # generate normal NuGet packages (.Net 4.0, 3.5, PCL)
     build.cmd NuGet signed  # generate signed/strong named NuGet packages (.Net 4.0)
     
     build.cmd BuildNativex86   # build native providers 32bit/x86
@@ -83,6 +84,9 @@ If you do not want to use the official binaries, or if you like to modify, debug
     build.cmd TestNativex86    # test native providers 32bit/x86
     build.cmd TestNativex64    # test native providers 64bit/x64
     build.cmd TestNative       # test native providers for all platforms
+    
+    build.cmd All          # build, test, docs, api reference (.Net 4.0)
+    build.cmd All release  # release build
 
 FAKE itself is not included in the repository but it will download and bootstrap itself automatically when build.cmd is run the first time. Note that this step is *not* required when using Visual Studio or `msbuild` directly.
 
