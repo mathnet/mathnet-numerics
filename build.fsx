@@ -187,7 +187,7 @@ Target "DocsDev" (fun _ ->
     executeFSIWithArgs "docs/tools" "build-docs.fsx" [] [] |> ignore
 )
 
-"Build"  ==> "Docs"
+"Build" ==> "CleanDocs" ==> "Docs"
 
 "Start"
   =?> ("CleanDocs", not (hasBuildParam "incremental"))
@@ -208,6 +208,22 @@ Target "Api" (fun _ ->
             OutputPath = "out/api/" }))
 
 "Build" ==> "CleanApi" ==> "Api"
+
+
+// ZIP
+
+Target "Zip" (fun _ ->
+    CleanDir "out/packages/Zip"
+    CleanDir "obj/Zip"
+    if not (hasBuildParam "signed") || hasBuildParam "release" then
+        CopyDir "obj/Zip/MathNet.Numerics" "out/lib" (fun f -> f.Contains("MathNet.Numerics."))
+        Zip "obj/Zip/" (sprintf "out/packages/Zip/MathNet.Numerics-%s.zip" packageVersion) !! "obj/Zip/MathNet.Numerics/**/*.*"
+    if hasBuildParam "signed" || hasBuildParam "release" then
+        CopyDir "obj/Zip/MathNet.Numerics.Signed" "out/lib-signed" (fun f -> f.Contains("MathNet.Numerics."))
+        Zip "obj/Zip/" (sprintf "out/packages/Zip/MathNet.Numerics.Signed-%s.zip" packageVersion) !! "obj/Zip/MathNet.Numerics.Signed/**/*.*"
+    CleanDir "obj/Zip")
+
+"Build" ==> "Zip"
 
 
 // NUGET
@@ -239,7 +255,8 @@ Target "NuGet" (fun _ ->
         nugetPack fsharpSignedPack
     if hasBuildParam "all" || hasBuildParam "release" then
         nugetPack numericsPack
-        nugetPack fsharpPack)
+        nugetPack fsharpPack
+    CleanDir "obj/NuGet")
 
 "Build" ==> "NuGet"
 
@@ -249,6 +266,7 @@ Target "NuGet" (fun _ ->
 Target "All" DoNothing
 
 "Build" ==> "All"
+"Zip" ==> "All"
 "NuGet" ==> "All"
 "Docs" ==> "All"
 "Api" ==> "All"
