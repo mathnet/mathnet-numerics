@@ -31,6 +31,7 @@ let buildPart = "0" // TODO: Fetch from TC
 let assemblyVersion = release.AssemblyVersion + "." + buildPart
 let packageVersion = release.NugetVersion
 let releaseNotes = release.Notes |> List.map (fun l -> l.Replace("*","").Replace("`","")) |> toLines
+trace (sprintf "Building Math.NET Numerics %s" release.NugetVersion)
 
 let summary = "Math.NET Numerics, providing methods and algorithms for numerical computations in science, engineering and every day use."
 let description = "Math.NET Numerics is the numerical foundation of the Math.NET project, aiming to provide methods and algorithms for numerical computations in science, engineering and every day use. "
