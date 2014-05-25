@@ -46,6 +46,7 @@ let root = "file://" + (__SOURCE_DIRECTORY__ @@ "../../out/docs")
 #endif
 
 // Paths with template/source/output locations
+let top        = __SOURCE_DIRECTORY__ @@ "../../"
 let bin        = __SOURCE_DIRECTORY__ @@ "../../out/lib/Net40"
 let content    = __SOURCE_DIRECTORY__ @@ "../content"
 let output     = __SOURCE_DIRECTORY__ @@ "../../out/docs"
@@ -56,34 +57,45 @@ let docTemplate = formatting @@ "templates/docpage.cshtml"
 
 // Where to look for *.csproj templates (in this order)
 let layoutRoots =
-  [ templates; formatting @@ "templates"
-    formatting @@ "templates/reference" ]
+    [ templates
+      formatting @@ "templates"
+      formatting @@ "templates/reference" ]
+
+let extraDocs =
+    [ "RELEASENOTES.md", "ReleaseNotes.md"
+      "LICENSE.md", "License.md" ]
 
 // Copy static files and CSS + JS from F# Formatting
-let copyFiles () =
-  CopyRecursive files output true |> Log "Copying file: "
-  ensureDirectory (output @@ "content")
-  CopyRecursive (formatting @@ "styles") (output @@ "content") true 
-    |> Log "Copying styles and scripts: "
+let copyFiles() =
+    CopyRecursive files output true |> Log "Copying file: "
+    ensureDirectory (output @@ "content")
+    CopyRecursive (formatting @@ "styles") (output @@ "content") true |> Log "Copying styles and scripts: "
 
 // Build API reference from XML comments
-let buildReference () =
-  CleanDir (output @@ "reference")
-  for lib in referenceBinaries do
-    MetadataFormat.Generate
-      ( bin @@ lib, output @@ "reference", layoutRoots, 
-        parameters = ("root", root)::info,
-        sourceRepo = "https://github.com/mathnet/mathnet-numerics/tree/master/src",
-        sourceFolder = @"..\..\src", publicOnly = true)
+let buildReference() =
+    CleanDir(output @@ "reference")
+    for lib in referenceBinaries do
+        MetadataFormat.Generate
+            (bin @@ lib, output @@ "reference", layoutRoots, parameters = ("root", root) :: info,
+             sourceRepo = "https://github.com/mathnet/mathnet-numerics/tree/master/src", sourceFolder = @"..\..\src",
+             publicOnly = true)
 
 // Build documentation from `fsx` and `md` files in `docs/content`
-let buildDocumentation () =
-  let subdirs = Directory.EnumerateDirectories(content, "*", SearchOption.AllDirectories)
-  for dir in Seq.append [content] subdirs do
-    let sub = if dir.Length > content.Length then dir.Substring(content.Length + 1) else "."
-    Literate.ProcessDirectory
-      ( dir, docTemplate, output @@ sub, replacements = ("root", root)::info,
-        layoutRoots = layoutRoots, references=false, lineNumbers=true )
+let buildDocumentation() =
+    for (fileName, docName) in extraDocs do CopyFile (content @@ docName) (top @@ fileName)
+    let subdirs = Directory.EnumerateDirectories(content, "*", SearchOption.AllDirectories)
+    for dir in Seq.append [ content ] subdirs do
+        let sub = if dir.Length > content.Length then dir.Substring(content.Length + 1) else "."
+        Literate.ProcessDirectory
+            (dir, docTemplate, output @@ sub, replacements = ("root", root) :: info, layoutRoots = layoutRoots,
+             references = false, lineNumbers = true)
+    for (_, docName) in extraDocs do DeleteFile (content @@ docName)
+
+// Generate
+copyFiles()
+buildDocumentation()
+//buildReference()
+
 
 // Generate
 copyFiles()

@@ -11,7 +11,7 @@
 * Statistics: DescriptiveStatistics support for larger datasets.
 * MKL: native providers must not require MFC to compile.
 * Sorting helpers support sub-range sorting, use insertion sort on very small sets.
-* Build: extend usage of FAKE, automate docs, api and NuGet package generation.
+* Build: extend usage of FAKE, automate docs, api, Zip and NuGet package generation.
 * Portable: replace PCL profile 136 with profile 344, support for WP8.1
 * Xamarin: prepare for better Xamarin Android/iOS support and for adding to the Xamarin store (free).
 * Misc code style fixes.
