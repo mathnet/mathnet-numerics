@@ -24,21 +24,21 @@
 * Reworked redundancies, inconsistencies and unfortunate past design choices.
 * Significant namespace simplifications (-30%).
 * Linear Algebra:
-   * Linear Algebra: Favor and optimize for generic types, e.g. `Vector<double>`.
-   * Linear Algebra: Drop the `.Generic` in the namespaces and flattened solver namespaces.
-   * Linear Algebra: F#: all functions in the modules now fully generic, including the `matrix` function.
-   * Linear Algebra: F#: `SkipZeros` instead of the cryptic `nz` suffix for clarity.
-   * Linear Algebra: Add missing scalar-matrix routines.
-   * Linear Algebra: Optimized mixed dense-diagonal and diagonal-dense operations (500x faster on 250k set).
-   * Linear Algebra: More reasonable choice of return structure on mixed operations (e.g. dense+diagonal).
-   * Linear Algebra: Add point-wise infix operators `.*`, `./`, `.%` where supported (F#)
-   * Linear Algebra: Vectors explicitly provide proper L1, L2 and L-infinity norms.
-   * Linear Algebra: All norms return the result as double (instead of the specific value type of the matrix/vector).
-   * Linear Algebra: Matrix L-infinity norm now cache-optimized (8-10x faster).
-   * Linear Algebra: Vectors have a `ConjugateDotProduct` in addition to `DotProduct`.
-   * Linear Algebra: `Matrix.ConjugateTransposeAndMultiply` and variants.
-   * Linear Algebra: Matrix Factorization types fully generic, easily accessed by new `Matrix<T>` member methods (replacing the extension methods). Discrete implementations no longer visible.
-   * Linear Algebra: QR factorization is thin by default.
+   * Favor and optimize for generic types, e.g. `Vector<double>`.
+   * Drop the `.Generic` in the namespaces and flattened solver namespaces.
+   * F#: all functions in the modules now fully generic, including the `matrix` function.
+   * F#: `SkipZeros` instead of the cryptic `nz` suffix for clarity.
+   * Add missing scalar-matrix routines.
+   * Optimized mixed dense-diagonal and diagonal-dense operations (500x faster on 250k set).
+   * More reasonable choice of return structure on mixed operations (e.g. dense+diagonal).
+   * Add point-wise infix operators `.*`, `./`, `.%` where supported (F#)
+   * Vectors explicitly provide proper L1, L2 and L-infinity norms.
+   * All norms return the result as double (instead of the specific value type of the matrix/vector).
+   * Matrix L-infinity norm now cache-optimized (8-10x faster).
+   * Vectors have a `ConjugateDotProduct` in addition to `DotProduct`.
+   * `Matrix.ConjugateTransposeAndMultiply` and variants.
+   * Matrix Factorization types fully generic, easily accessed by new `Matrix<T>` member methods (replacing the extension methods). Discrete implementations no longer visible.
+   * QR factorization is thin by default.
    * Matrix factorizations no longer clone their results at point of access.
    * Add direct factorization-based `Solve` methods to matrix type.
    * Massive iterative solver implementation/design simplification, now mostly generic and a bit more functional-style.
@@ -64,12 +64,12 @@
    * Matrix RemoveRow/RemoveColumn; more efficient InsertRow/InsertColumn
 * Native Linear Algebra/Intel MKL:
    * Thin QR factorization uses MKL if enabled for all types (previously just `double`)
-   * MKL: Sparse matrix CSR storage format now uses the much more common row pointer convention and is fully compatible with MKL (so there is nothing in the way to add native provider support).
-   * MKL: Providers have been moved to a `Providers` namespace and are fully generic again.
-   * MKL: Simpler provider usage: `Control.UseNativeMKL()`, `Control.UseManaged()`.
-   * MKL: MKL native provider now supports capability querying (so we can extend it much more reliably without breaking your code).
-   * MKL: MKL native provider consistency, precision and accuracy now configurable (trade-off).
-   * MKL: Native Provider development has been reintegrated into the main repository; we can now directly run all unit tests against local native provider builds. Covered by FAKE builds.
+   * Sparse matrix CSR storage format now uses the much more common row pointer convention and is fully compatible with MKL (so there is nothing in the way to add native provider support).
+   * Providers have been moved to a `Providers` namespace and are fully generic again.
+   * Simpler provider usage: `Control.UseNativeMKL()`, `Control.UseManaged()`.
+   * MKL native provider now supports capability querying (so we can extend it much more reliably without breaking your code).
+   * MKL native provider consistency, precision and accuracy now configurable (trade-off).
+   * Native Provider development has been reintegrated into the main repository; we can now directly run all unit tests against local native provider builds. Covered by FAKE builds.
 * Statistics:
    * Pearson and Spearman correlation matrix of a set of arrays.
    * Spearman ranked correlation optimized (4x faster on 100k set)

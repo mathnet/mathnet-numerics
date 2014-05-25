@@ -87,8 +87,9 @@ This section is incomplete - let us know if we forgot something.*
 
 *For other ways of support, documentation, website, feedback, software licenses, etc.*
 
+- Marcus Cuda (long time core contributor; license)
+- Jurgen Van Gael (long time core contributor)
 - F# Foundation & Community
-- Marcus Cuda (license)
 - Don Syme
 - Lokad SAS
 - Microsoft Corp

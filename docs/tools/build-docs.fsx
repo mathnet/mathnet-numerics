@@ -63,7 +63,9 @@ let layoutRoots =
 
 let extraDocs =
     [ "RELEASENOTES.md", "ReleaseNotes.md"
-      "LICENSE.md", "License.md" ]
+      "LICENSE.md", "License.md"
+      "CONTRIBUTING.md", "Contributing.md"
+      "CONTRIBUTORS.md", "Contributors.md" ]
 
 // Copy static files and CSS + JS from F# Formatting
 let copyFiles() =
