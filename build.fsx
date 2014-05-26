@@ -88,7 +88,7 @@ let fsharpSignedPack =
 // PREPARE
 
 Target "Start" DoNothing
-Target "Clean" (fun _ -> CleanDirs ["out"; "obj"; "temp"])
+Target "Clean" (fun _ -> CleanDirs ["out"; "obj" ])
 Target "RestorePackages" RestorePackages
 
 Target "AssemblyInfo" (fun _ ->

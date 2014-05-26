@@ -66,7 +66,7 @@ namespace MathNet.Numerics.LinearRegression
         /// </summary>
         /// <param name="x">List of predictor-arrays.</param>
         /// <param name="y">List of responses</param>
-        /// <param name="intercept">True if an intercept should be added as first artificial perdictor value. Default = false.</param>
+        /// <param name="intercept">True if an intercept should be added as first artificial predictor value. Default = false.</param>
         /// <returns>Best fitting list of model parameters β for each element in the predictor-arrays.</returns>
         public static T[] NormalEquations<T>(T[][] x, T[] y, bool intercept = false) where T : struct, IEquatable<T>, IFormattable
         {
@@ -84,7 +84,7 @@ namespace MathNet.Numerics.LinearRegression
         /// Uses the cholesky decomposition of the normal equations.
         /// </summary>
         /// <param name="samples">Sequence of predictor-arrays and their response.</param>
-        /// <param name="intercept">True if an intercept should be added as first artificial perdictor value. Default = false.</param>
+        /// <param name="intercept">True if an intercept should be added as first artificial predictor value. Default = false.</param>
         /// <returns>Best fitting list of model parameters β for each element in the predictor-arrays.</returns>
         public static T[] NormalEquations<T>(IEnumerable<Tuple<T[], T>> samples, bool intercept = false) where T : struct, IEquatable<T>, IFormattable
         {
@@ -122,7 +122,7 @@ namespace MathNet.Numerics.LinearRegression
         /// </summary>
         /// <param name="x">List of predictor-arrays.</param>
         /// <param name="y">List of responses</param>
-        /// <param name="intercept">True if an intercept should be added as first artificial perdictor value. Default = false.</param>
+        /// <param name="intercept">True if an intercept should be added as first artificial predictor value. Default = false.</param>
         /// <returns>Best fitting list of model parameters β for each element in the predictor-arrays.</returns>
         public static T[] QR<T>(T[][] x, T[] y, bool intercept = false) where T : struct, IEquatable<T>, IFormattable
         {
@@ -139,7 +139,7 @@ namespace MathNet.Numerics.LinearRegression
         /// Uses an orthogonal decomposition and is therefore more numerically stable than the normal equations but also slower.
         /// </summary>
         /// <param name="samples">Sequence of predictor-arrays and their response.</param>
-        /// <param name="intercept">True if an intercept should be added as first artificial perdictor value. Default = false.</param>
+        /// <param name="intercept">True if an intercept should be added as first artificial predictor value. Default = false.</param>
         /// <returns>Best fitting list of model parameters β for each element in the predictor-arrays.</returns>
         public static T[] QR<T>(IEnumerable<Tuple<T[], T>> samples, bool intercept = false) where T : struct, IEquatable<T>, IFormattable
         {
@@ -177,7 +177,7 @@ namespace MathNet.Numerics.LinearRegression
         /// </summary>
         /// <param name="x">List of predictor-arrays.</param>
         /// <param name="y">List of responses</param>
-        /// <param name="intercept">True if an intercept should be added as first artificial perdictor value. Default = false.</param>
+        /// <param name="intercept">True if an intercept should be added as first artificial predictor value. Default = false.</param>
         /// <returns>Best fitting list of model parameters β for each element in the predictor-arrays.</returns>
         public static T[] Svd<T>(T[][] x, T[] y, bool intercept = false) where T : struct, IEquatable<T>, IFormattable
         {
@@ -194,7 +194,7 @@ namespace MathNet.Numerics.LinearRegression
         /// Uses a singular value decomposition and is therefore more numerically stable (especially if ill-conditioned) than the normal equations or QR but also slower.
         /// </summary>
         /// <param name="samples">Sequence of predictor-arrays and their response.</param>
-        /// <param name="intercept">True if an intercept should be added as first artificial perdictor value. Default = false.</param>
+        /// <param name="intercept">True if an intercept should be added as first artificial predictor value. Default = false.</param>
         /// <returns>Best fitting list of model parameters β for each element in the predictor-arrays.</returns>
         public static T[] Svd<T>(IEnumerable<Tuple<T[], T>> samples, bool intercept = false) where T : struct, IEquatable<T>, IFormattable
         {
