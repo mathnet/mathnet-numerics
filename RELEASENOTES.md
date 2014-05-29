@@ -1,4 +1,4 @@
-### 3.0.0-beta02 - Not Released
+### 3.0.0-beta02 - 2014-05-29
 * Linear Algebra:
    * optimized sparse-sparse and sparse-diagonal matrix products. *~Christian Woltering*
    * transpose at storage level, optimized sparse transpose. *~Christian Woltering*
@@ -7,6 +7,9 @@
    * matrix FoldRows/FoldColumns.
    * matrix column/row norms, normalization.
    * prefer enums over boolean parameters (e.g. `Zeros.AllowSkip`).
+   * IsSymmetric is now a method, add IsConjugateSymmetric. **breaking**
+   * Eigenvalue decomposition can optionally skip symmetry test.
+   * Direct diagonal-scalar division implementation
 * Test Functions: Rosenbrock, Rastrigin, DropWave, Ackley, Bohachevsky, Matyas, SixHumpCamel, Himmelblau
 * Statistics: DescriptiveStatistics support for larger datasets.
 * MKL: native providers must not require MFC to compile.
