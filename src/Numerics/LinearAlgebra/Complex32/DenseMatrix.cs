@@ -1260,6 +1260,15 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
                 return false;
             }
 
+            int stride = RowCount + 1;
+            for (var k = 0; k < _values.Length; k += stride)
+            {
+                if (!_values[k].IsReal())
+                {
+                    return false;
+                }
+            }
+
             for (var j = 0; j < ColumnCount; j++)
             {
                 var index = j * RowCount;

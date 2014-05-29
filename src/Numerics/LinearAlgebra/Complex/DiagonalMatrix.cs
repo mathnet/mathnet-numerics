@@ -1018,6 +1018,14 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// </summary>
         public override sealed bool IsConjugateSymmetric()
         {
+            for (var k = 0; k < _data.Length; k ++)
+            {
+                if (!_data[k].IsReal())
+                {
+                    return false;
+                }
+            }
+
             return true;
         }
     }

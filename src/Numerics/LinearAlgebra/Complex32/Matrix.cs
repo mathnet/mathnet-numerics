@@ -665,6 +665,14 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
                 return false;
             }
 
+            for (var k = 0; k < RowCount; k++)
+            {
+                if (!At(k, k).IsReal())
+                {
+                    return false;
+                }
+            }
+
             for (var row = 0; row < RowCount; row++)
             {
                 for (var column = row + 1; column < ColumnCount; column++)

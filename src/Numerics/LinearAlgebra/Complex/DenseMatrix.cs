@@ -669,7 +669,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
                 }
                 return;
             }
-            
+
             base.DoMultiply(other, result);
         }
 
@@ -804,7 +804,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
                     denseResult.Values);
                 return;
             }
-            
+
             base.DoTransposeThisAndMultiply(rightSide, result);
         }
 
@@ -1261,6 +1261,15 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
             if (RowCount != ColumnCount)
             {
                 return false;
+            }
+
+            int stride = RowCount + 1;
+            for (var k = 0; k < _values.Length; k += stride)
+            {
+                if (!_values[k].IsReal())
+                {
+                    return false;
+                }
             }
 
             for (var j = 0; j < ColumnCount; j++)
