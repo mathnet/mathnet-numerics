@@ -58,4 +58,27 @@ namespace MathNet.Numerics.LinearAlgebra
         /// </summary>
         Include = 1
     }
+
+    public enum Symmetricity
+    {
+        /// <summary>
+        /// It is not known yet whether a matrix is symmetric or not.
+        /// </summary>
+        Unknown = 0,
+
+        /// <summary>
+        /// A matrix is symmetric
+        /// </summary>
+        Symmetric = 1,
+
+        /// <summary>
+        /// A matrix is complex conjugate symmetric.
+        /// </summary>
+        ConjugateSymmetric = 2,
+
+        /// <summary>
+        /// A matrix is not symmetric
+        /// </summary>
+        Asymmetric = 3
+    }
 }

@@ -62,9 +62,10 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
         /// the eigenvalue decomposition when the constructor is called and cache it's decomposition.
         /// </summary>
         /// <param name="matrix">The matrix to factor.</param>
+        /// <param name="symmetricity">If it is known whether the matrix is symmetric or not the routine can skip checking it itself.</param>
         /// <exception cref="ArgumentNullException">If <paramref name="matrix"/> is <c>null</c>.</exception>
         /// <exception cref="ArgumentException">If EVD algorithm failed to converge with matrix <paramref name="matrix"/>.</exception>
-        public static UserEvd Create(Matrix<double> matrix)
+        public static UserEvd Create(Matrix<double> matrix, Symmetricity symmetricity)
         {
             if (matrix.RowCount != matrix.ColumnCount)
             {
@@ -78,14 +79,19 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
             var blockDiagonal = Matrix<double>.Build.SameAs(matrix, order, order);
             var eigenValues = new LinearAlgebra.Complex.DenseVector(order);
 
-            var isSymmetric = true;
-
-            for (var i = 0; isSymmetric && i < order; i++)
+            bool isSymmetric;
+            switch (symmetricity)
             {
-                for (var j = 0; isSymmetric && j < order; j++)
-                {
-                    isSymmetric &= matrix.At(i, j) == matrix.At(j, i);
-                }
+                case Symmetricity.Symmetric:
+                case Symmetricity.ConjugateSymmetric:
+                    isSymmetric = true;
+                    break;
+                case Symmetricity.Asymmetric:
+                    isSymmetric = false;
+                    break;
+                default:
+                    isSymmetric = matrix.IsSymmetric();
+                    break;
             }
 
             var d = new double[order];

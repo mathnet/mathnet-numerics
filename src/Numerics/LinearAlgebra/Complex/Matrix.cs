@@ -710,9 +710,9 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
             return UserSvd.Create(this, computeVectors);
         }
 
-        public override Evd<Complex> Evd()
+        public override Evd<Complex> Evd(Symmetricity symmetricity = Symmetricity.Unknown)
         {
-            return UserEvd.Create(this);
+            return UserEvd.Create(this, symmetricity);
         }
     }
 }

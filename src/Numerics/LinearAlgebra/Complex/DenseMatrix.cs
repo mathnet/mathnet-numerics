@@ -1303,9 +1303,9 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
             return DenseSvd.Create(this, computeVectors);
         }
 
-        public override Evd<Complex> Evd()
+        public override Evd<Complex> Evd(Symmetricity symmetricity = Symmetricity.Unknown)
         {
-            return DenseEvd.Create(this);
+            return DenseEvd.Create(this, symmetricity);
         }
     }
 }

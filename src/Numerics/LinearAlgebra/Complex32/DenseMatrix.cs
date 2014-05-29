@@ -1300,9 +1300,9 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
             return DenseSvd.Create(this, computeVectors);
         }
 
-        public override Evd<Complex32> Evd()
+        public override Evd<Complex32> Evd(Symmetricity symmetricity = Symmetricity.Unknown)
         {
-            return DenseEvd.Create(this);
+            return DenseEvd.Create(this, symmetricity);
         }
     }
 }

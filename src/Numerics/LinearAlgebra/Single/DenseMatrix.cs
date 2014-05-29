@@ -1230,9 +1230,9 @@ namespace MathNet.Numerics.LinearAlgebra.Single
             return DenseSvd.Create(this, computeVectors);
         }
 
-        public override Evd<float> Evd()
+        public override Evd<float> Evd(Symmetricity symmetricity = Symmetricity.Unknown)
         {
-            return DenseEvd.Create(this);
+            return DenseEvd.Create(this, symmetricity);
         }
     }
 }

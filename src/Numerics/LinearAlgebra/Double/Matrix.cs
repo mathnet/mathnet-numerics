@@ -689,9 +689,9 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             return UserSvd.Create(this, computeVectors);
         }
 
-        public override Evd<double> Evd()
+        public override Evd<double> Evd(Symmetricity symmetricity = Symmetricity.Unknown)
         {
-            return UserEvd.Create(this);
+            return UserEvd.Create(this, symmetricity);
         }
     }
 }

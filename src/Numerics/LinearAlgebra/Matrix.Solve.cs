@@ -78,7 +78,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// Computes the EVD decomposition for a matrix.
         /// </summary>
         /// <returns>The EVD decomposition object.</returns>
-        public abstract Evd<T> Evd();
+        public abstract Evd<T> Evd(Symmetricity symmetricity = Symmetricity.Unknown);
 
 
 

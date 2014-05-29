@@ -704,9 +704,9 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
             return UserSvd.Create(this, computeVectors);
         }
 
-        public override Evd<Complex32> Evd()
+        public override Evd<Complex32> Evd(Symmetricity symmetricity = Symmetricity.Unknown)
         {
-            return UserEvd.Create(this);
+            return UserEvd.Create(this, symmetricity);
         }
     }
 }
