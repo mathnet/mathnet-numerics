@@ -91,8 +91,10 @@
     <Compile Include="IntegralTransforms\Hartley.cs" />
     <Compile Include="Interpolation\Barycentric.cs" />
     <Compile Include="Interpolation\CubicSpline.cs" />
+    <Compile Include="Interpolation\LogLinearSpline.cs" />
     <Compile Include="Interpolation\QuadraticSpline.cs" />
     <Compile Include="Interpolation\StepInterpolation.cs" />
+    <Compile Include="Interpolation\TransformedSpline.cs" />
     <Compile Include="LinearAlgebra\Options.cs" />
     <Compile Include="LinearAlgebra\Solvers\DelegateStopCriterion.cs" />
     <Compile Include="LinearRegression\Options.cs" />
