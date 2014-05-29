@@ -7,14 +7,21 @@ open MathNet.Numerics.LinearRegression
 open MathNet.Numerics.LinearAlgebra
 
 (**
-Linear Curve Fitting and Regression
-===================================
+Curve Fitting: Linear Regression
+================================
 
-Regression is all about fitting a parametric model or curve to data. Both data and
-model are known, but we'd like to find the parameters that make the model fit best
-or good enough to the data according to some metric. We may also be interested in
-how well the model supports the data or whether we better look for another more
-appropriate model.
+Regression is all about fitting a low order parametric model or curve to data, so we can
+reason about it or make predictions on points not covered by the data. Both data and
+model are known, but we'd like to find the model parameters that make the model fit best
+or good enough to the data according to some metric.
+
+We may also be interested in how well the model supports the data or whether we better
+look for another more appropriate model.
+
+In a regression, a lot of data is reduced and generalized into a few parameters.
+The resulting model can obviously no longer reproduce all the original data exactly -
+if you need the data to be reproduced exactly, have a look at interpolation instead.
+
 
 Simple Regression: Fit to a Line
 --------------------------------
@@ -93,6 +100,22 @@ to be solved, but that comes at the cost of less precision. If you need more pre
 `MultipleRegression.QR` or `MultipleRegression.Svd` instead, with the same arguments.
 
 
+Polynomial Regression
+---------------------
+
+To fit to a polynomial we can choose the following linear model with $f_i(x) := x^i$:
+
+$$$
+y : x \mapsto p_0 + p_1 x + p_2 x^2 + \cdots + p_N x^N
+
+The predictor matrix of this model is the [Vandermonde matrix](http://en.wikipedia.org/wiki/Vandermonde_matrix).
+There is a special function in the `Fit` class for regressions to a polynomial,
+but note that regression to high order polynomials is numerically problematic.
+
+    [lang=csharp]
+    double[] p = Fit.Polynomial(xdata, ydata, 3); // polynomial of order 3
+
+
 Multiple Regression
 -------------------
 
@@ -105,7 +128,7 @@ we end up at the simplest form of ordinary multiple regression:
 $$$
 y : x \mapsto p_0 + p_1 x^{(1)} + p_2 x^{(2)} + \cdots + p_N x^{(N)}
 
-For the data points $(\mathbf{x}_j = [x^{(1)}_j\; x^{(2)}_j], y_j)$ with values
+For example, for the data points $(\mathbf{x}_j = [x^{(1)}_j\; x^{(2)}_j], y_j)$ with values
 `([1,4],15)`, `([2,5],20)` and `([3,2],10)` we can evaluate the best fitting parameters with:
 
     [lang=csharp]
@@ -124,34 +147,16 @@ the QR decomposition for more precision by using the `MultipleRegression` class 
         intercept: true);
 
 
-Polynomial Regression
----------------------
-
-To fit to a polynomial we can choose the following linear model with $f_i(x) := x^i$:
-
-$$$
-y : x \mapsto p_0 + p_1 x + p_2 x^2 + \cdots + p_N x^N
-
-This is just a special case, but because polynomial regression is common and also numerically problematic
-with high orders (so we can provide a custom implementation in the future),
-there is a special function in the `Fit` class:
-
-    [lang=csharp]
-    double[] p = Fit.Polynomial(xdata, ydata, 3); // polynomial of order 3
-
-
 Arbitrary Linear Combination
 ----------------------------
 
-Let's say we went outdoors to N places and measured the altitude, resulting in N (x,y,z) tuples.
-Now we want to approximate the landscape by a simple parametric model. By visual inspection we figured
-that there are two plateaus that could be approximated by `tanh` and we choose the following linear model:
+In multiple regression, the functions $f_i(\mathbf x)$ can also operate on the whole
+vector or mix its components arbitrarily and apply any functions on them, provided they are
+defined at all the data points. For example, let's have a look at the following complicated but still linear
+model in two dimensions:
 
 $$$
-z : (x, y) \mapsto p_0 + p_1 \mathrm{tanh}(x) + p_2 \mathrm{tanh}(y) + p_3 x + p_4 x y
-
-...where we would like to find the best fitting p0-p4. We need at least as many points as we have
-linear parameters (5 in this example), but ideally have much more.
+z : (x, y) \mapsto p_0 + p_1 \mathrm{tanh}(x) + p_2 \psi(x y) + p_3 x^y
 
 Since we map (x,y) to (z) we need to organize the tuples in two arrays:
 
@@ -159,15 +164,14 @@ Since we map (x,y) to (z) we need to organize the tuples in two arrays:
     double[][] xy = new[] { new[]{x1,y1}, new[]{x2,y2}, new[]{x3,y3}, ...  };
     double[] z = new[] { z1, z2, z3, ... };
 
-Then we can call Fit.LinearMultiDim with our model, which will return an array with the best fitting 5 parameters p0-p4:
+Then we can call Fit.LinearMultiDim with our model, which will return an array with the best fitting 4 parameters $p_0, p_1, p_2, p_3$:
 
     [lang=csharp]
     double[] p = Fit.LinearMultiDim(xy, z,
-        d => 1.0,              // p0*1.0
-        d => Math.Tanh(d[0]),  // p1*tanh(x)
-        d => Math.Tanh(d[1]),  // p2*tanh(y)
-        d => d[0],             // p3*x
-        d => d[0]*d[1]);       // p4*x*y
+        d => 1.0,                                  // p0*1.0
+        d => Math.Tanh(d[0]),                      // p1*tanh(x)
+        d => SpecialFunctions.DiGamma(d[0]*d[1]),  // p2*psi(x*y)
+        d => Math.Pow(d[0], d[1]));                // p3*x^y
 
 
 Evaluating the model at specific data points
@@ -189,7 +193,7 @@ For this case we can use the `Fit.LinearCombination` function:
 
 In order to evaluate the resulting model at specific data points we can manually apply
 the values of p to the model function, or we can use an alternative function with the `Func`
-suffix that returns a lambda function instead of the model parameters. The returned function
+suffix that returns a function instead of the model parameters. The returned function
 can then be used to evaluate the parametrized model:
 
     [lang=csharp]
@@ -232,10 +236,30 @@ $$$
 Weighted Regression
 -------------------
 
-Iterative Approach
-------------------
+Sometimes the regression error can be reduced by dampening specific data points.
+We can achieve this by introducing a weight matrix $W$ into the normal equations
+$\mathbf{X}^T\mathbf{y} = \mathbf{X}^T\mathbf{X}\mathbf{p}$. Such weight matrices
+are often diagonal, with a separate weight for each data point on the diagonal.
 
+$$$
+\mathbf{X}^T\mathbf{W}\mathbf{y} = \mathbf{X}^T\mathbf{W}\mathbf{X}\mathbf{p}
+
+    [lang=csharp]
+    var p = WeightedRegression.Weighted(X,y,W);
+
+Weighter regression becomes interesting if we can adapt them to the point of interest
+and e.g. dampen all data points far away. Unfortunately this way the model parameters
+are dependent on the point of interest $t$.
+
+    [lang=csharp]
+    // warning: preliminary api
+    var p = WeightedRegression.Local(X,y,t,radius,kernel);
+
+    
 Regularization
 --------------
+
+Iterative Methods
+-----------------
 
 *)
