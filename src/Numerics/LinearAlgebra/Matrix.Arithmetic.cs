@@ -745,7 +745,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <param name="result">The result of the multiplication.</param>
         /// <exception cref="ArgumentException">If <strong>this.Columns != other.ColumnCount</strong>.</exception>
         /// <exception cref="ArgumentException">If the result matrix's dimensions are not the this.RowCount x other.RowCount.</exception>
-        public virtual void TransposeAndMultiply(Matrix<T> other, Matrix<T> result)
+        public void TransposeAndMultiply(Matrix<T> other, Matrix<T> result)
         {
             if (ColumnCount != other.ColumnCount || result.RowCount != RowCount || result.ColumnCount != other.RowCount)
             {
@@ -884,7 +884,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <param name="result">The result of the multiplication.</param>
         /// <exception cref="ArgumentException">If <strong>this.Columns != other.ColumnCount</strong>.</exception>
         /// <exception cref="ArgumentException">If the result matrix's dimensions are not the this.RowCount x other.RowCount.</exception>
-        public virtual void ConjugateTransposeAndMultiply(Matrix<T> other, Matrix<T> result)
+        public void ConjugateTransposeAndMultiply(Matrix<T> other, Matrix<T> result)
         {
             if (ColumnCount != other.ColumnCount || result.RowCount != RowCount || result.ColumnCount != other.RowCount)
             {

@@ -439,7 +439,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// </summary>
         /// <param name="rightSide">The vector to multiply with.</param>
         /// <param name="result">The result of the multiplication.</param>
-        protected override void DoConjugateTransposeThisAndMultiply(Vector<float> rightSide, Vector<float> result)
+        protected override sealed void DoConjugateTransposeThisAndMultiply(Vector<float> rightSide, Vector<float> result)
         {
             DoTransposeThisAndMultiply(rightSide, result);
         }

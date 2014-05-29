@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2013 Math.NET
+// Copyright (c) 2009-2014 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -28,13 +28,14 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using MathNet.Numerics.Distributions;
-using MathNet.Numerics.LinearAlgebra.Storage;
-using MathNet.Numerics.Properties;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using MathNet.Numerics.Distributions;
+using MathNet.Numerics.LinearAlgebra.Storage;
+using MathNet.Numerics.Properties;
+using MathNet.Numerics.Threading;
 
 namespace MathNet.Numerics.LinearAlgebra.Complex32
 {
@@ -275,51 +276,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         }
 
         /// <summary>
-        /// Copies the values of the given array to the diagonal.
-        /// </summary>
-        /// <param name="source">The array to copy the values from. The length of the vector should be
-        /// Min(Rows, Columns).</param>
-        /// <exception cref="ArgumentException">If the length of <paramref name="source"/> does not
-        /// equal Min(Rows, Columns).</exception>
-        /// <remarks>For non-square matrices, the elements of <paramref name="source"/> are copied to
-        /// this[i,i].</remarks>
-        public override void SetDiagonal(Complex32[] source)
-        {
-            if (source.Length != _data.Length)
-            {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, "source");
-            }
-
-            Array.Copy(source, _data, source.Length);
-        }
-
-        /// <summary>
-        /// Copies the values of the given <see cref="Vector{T}"/> to the diagonal.
-        /// </summary>
-        /// <param name="source">The vector to copy the values from. The length of the vector should be
-        /// Min(Rows, Columns).</param>
-        /// <exception cref="ArgumentException">If the length of <paramref name="source"/> does not
-        /// equal Min(Rows, Columns).</exception>
-        /// <remarks>For non-square matrices, the elements of <paramref name="source"/> are copied to
-        /// this[i,i].</remarks>
-        public override void SetDiagonal(Vector<Complex32> source)
-        {
-            var denseSource = source as DenseVector;
-            if (denseSource == null)
-            {
-                base.SetDiagonal(source);
-                return;
-            }
-
-            if (_data.Length != denseSource.Values.Length)
-            {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "source");
-            }
-
-            Array.Copy(denseSource.Values, _data, denseSource.Values.Length);
-        }
-
-        /// <summary>
         /// Multiplies each element of the matrix by a scalar and places results into the result matrix.
         /// </summary>
         /// <param name="scalar">The scalar to multiply the matrix with.</param>
@@ -345,11 +301,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
             }
             else
             {
-                if (!ReferenceEquals(this, result))
-                {
-                    CopyTo(diagResult);
-                }
-
                 Control.LinearAlgebraProvider.ScaleArray(scalar, _data, diagResult._data);
             }
         }
@@ -695,6 +646,61 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         }
 
         /// <summary>
+        /// Divides each element of the matrix by a scalar and places results into the result matrix.
+        /// </summary>
+        /// <param name="divisor">The scalar to divide the matrix with.</param>
+        /// <param name="result">The matrix to store the result of the division.</param>
+        protected override void DoDivide(Complex32 divisor, Matrix<Complex32> result)
+        {
+            if (divisor == Complex32.One)
+            {
+                CopyTo(result);
+                return;
+            }
+
+            var diagResult = result as DiagonalMatrix;
+            if (diagResult != null)
+            {
+                Control.LinearAlgebraProvider.ScaleArray(1.0f/divisor, _data, diagResult._data);
+                return;
+            }
+
+            result.Clear();
+            for (int i = 0; i < _data.Length; i++)
+            {
+                result.At(i, i, _data[i]/divisor);
+            }
+        }
+
+        /// <summary>
+        /// Divides a scalar by each element of the matrix and stores the result in the result matrix.
+        /// </summary>
+        /// <param name="dividend">The scalar to add.</param>
+        /// <param name="result">The matrix to store the result of the division.</param>
+        protected override void DoDivideByThis(Complex32 dividend, Matrix<Complex32> result)
+        {
+            var diagResult = result as DiagonalMatrix;
+            if (diagResult != null)
+            {
+                var resultData = diagResult._data;
+                CommonParallel.For(0, _data.Length, 4096, (a, b) =>
+                {
+                    for (int i = a; i < b; i++)
+                    {
+                        resultData[i] = dividend/_data[i];
+                    }
+                });
+                return;
+            }
+
+            result.Clear();
+            for (int i = 0; i < _data.Length; i++)
+            {
+                result.At(i, i, dividend/_data[i]);
+            }
+        }
+
+        /// <summary>
         /// Computes the determinant of this matrix.
         /// </summary>
         /// <returns>The determinant of this matrix.</returns>
@@ -717,6 +723,51 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         public override Vector<Complex32> Diagonal()
         {
             return new DenseVector(_data).Clone();
+        }
+
+        /// <summary>
+        /// Copies the values of the given array to the diagonal.
+        /// </summary>
+        /// <param name="source">The array to copy the values from. The length of the vector should be
+        /// Min(Rows, Columns).</param>
+        /// <exception cref="ArgumentException">If the length of <paramref name="source"/> does not
+        /// equal Min(Rows, Columns).</exception>
+        /// <remarks>For non-square matrices, the elements of <paramref name="source"/> are copied to
+        /// this[i,i].</remarks>
+        public override void SetDiagonal(Complex32[] source)
+        {
+            if (source.Length != _data.Length)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "source");
+            }
+
+            Array.Copy(source, _data, source.Length);
+        }
+
+        /// <summary>
+        /// Copies the values of the given <see cref="Vector{T}"/> to the diagonal.
+        /// </summary>
+        /// <param name="source">The vector to copy the values from. The length of the vector should be
+        /// Min(Rows, Columns).</param>
+        /// <exception cref="ArgumentException">If the length of <paramref name="source"/> does not
+        /// equal Min(Rows, Columns).</exception>
+        /// <remarks>For non-square matrices, the elements of <paramref name="source"/> are copied to
+        /// this[i,i].</remarks>
+        public override void SetDiagonal(Vector<Complex32> source)
+        {
+            var denseSource = source as DenseVector;
+            if (denseSource == null)
+            {
+                base.SetDiagonal(source);
+                return;
+            }
+
+            if (_data.Length != denseSource.Values.Length)
+            {
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "source");
+            }
+
+            Array.Copy(denseSource.Values, _data, denseSource.Values.Length);
         }
 
         /// <summary>Calculates the induced L1 norm of this matrix.</summary>
