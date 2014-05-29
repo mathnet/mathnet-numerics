@@ -1203,58 +1203,73 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         }
 
         /// <summary>
-        /// Gets a value indicating whether this matrix is symmetric.
+        /// Evaluates whether this matrix is symmetric.
         /// </summary>
-        public override bool IsSymmetric
+        public override bool IsSymmetric()
         {
-            get
+            if (RowCount != ColumnCount)
             {
-                if (RowCount != ColumnCount)
+                return false;
+            }
+
+            var rowPointers = _storage.RowPointers;
+            var columnIndices = _storage.ColumnIndices;
+            var values = _storage.Values;
+
+            for (var row = 0; row < RowCount; row++)
+            {
+                var start = rowPointers[row];
+                var end = rowPointers[row + 1];
+
+                if (start == end)
                 {
-                    return false;
+                    continue;
                 }
 
-                // todo: we might be able to speed this up by caching one half of the matrix
-                var rowPointers = _storage.RowPointers;
-                for (var row = 0; row < RowCount; row++)
+                for (var index = start; index < end; index++)
                 {
-                    var start = rowPointers[row];
-                    var end = rowPointers[row + 1];
-
-                    if (start == end)
-                    {
-                        continue;
-                    }
-
-                    if (!CheckIfOppositesAreEqual(start, end, row))
+                    var column = columnIndices[index];
+                    if (!values[index].Equals(At(column, row)))
                     {
                         return false;
                     }
                 }
-
-                return true;
             }
+
+            return true;
         }
 
         /// <summary>
-        /// Checks if opposites in a range are equal.
+        /// Evaluates whether this matrix is conjugate symmetric.
         /// </summary>
-        /// <param name="start">The start of the range.</param>
-        /// <param name="end">The end of the range.</param>
-        /// <param name="row">The row the row to check.</param>
-        /// <returns>If the values are equal or not.</returns>
-        private bool CheckIfOppositesAreEqual(int start, int end, int row)
+        public override bool IsConjugateSymmetric()
         {
+            if (RowCount != ColumnCount)
+            {
+                return false;
+            }
+
+            var rowPointers = _storage.RowPointers;
             var columnIndices = _storage.ColumnIndices;
             var values = _storage.Values;
 
-            for (var index = start; index < end; index++)
+            for (var row = 0; row < RowCount; row++)
             {
-                var column = columnIndices[index];
-                var opposite = At(column, row);
-                if (!values[index].Equals(opposite))
+                var start = rowPointers[row];
+                var end = rowPointers[row + 1];
+
+                if (start == end)
                 {
-                    return false;
+                    continue;
+                }
+
+                for (var index = start; index < end; index++)
+                {
+                    var column = columnIndices[index];
+                    if (!values[index].Equals(At(column, row).Conjugate()))
+                    {
+                        return false;
+                    }
                 }
             }
 

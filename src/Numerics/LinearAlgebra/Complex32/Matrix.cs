@@ -655,6 +655,30 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
             return sum;
         }
 
+        /// <summary>
+        /// Evaluates whether this matrix is conjugate symmetric.
+        /// </summary>
+        public override bool IsConjugateSymmetric()
+        {
+            if (RowCount != ColumnCount)
+            {
+                return false;
+            }
+
+            for (var row = 0; row < RowCount; row++)
+            {
+                for (var column = row + 1; column < ColumnCount; column++)
+                {
+                    if (!At(row, column).Equals(At(column, row).Conjugate()))
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            return true;
+        }
+
         public override Cholesky<Complex32> Cholesky()
         {
             return UserCholesky.Create(this);

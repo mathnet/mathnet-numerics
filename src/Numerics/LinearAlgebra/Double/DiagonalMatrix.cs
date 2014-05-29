@@ -799,14 +799,11 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         }
 
         /// <summary>
-        /// Gets a value indicating whether this matrix is symmetric.
+        /// Evaluates whether this matrix is symmetric.
         /// </summary>
-        public override bool IsSymmetric
+        public override sealed bool IsSymmetric()
         {
-            get
-            {
-                return true;
-            }
+            return true;
         }
 
         /// <summary>

@@ -129,10 +129,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
         public virtual void CanCheckIfMatrixIsSymmetric()
         {
             var matrix = TestMatrices["Symmetric3x3"];
-            Assert.IsTrue(matrix.IsSymmetric);
+            Assert.IsTrue(matrix.IsSymmetric());
 
             matrix = TestMatrices["Square3x3"];
-            Assert.IsFalse(matrix.IsSymmetric);
+            Assert.IsFalse(matrix.IsSymmetric());
         }
     }
 }

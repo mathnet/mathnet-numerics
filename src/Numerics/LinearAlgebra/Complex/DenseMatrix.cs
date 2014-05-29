@@ -1228,6 +1228,56 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
             return (DenseMatrix)leftSide.Remainder(rightSide);
         }
 
+        /// <summary>
+        /// Evaluates whether this matrix is symmetric.
+        /// </summary>
+        public override bool IsSymmetric()
+        {
+            if (RowCount != ColumnCount)
+            {
+                return false;
+            }
+
+            for (var j = 0; j < ColumnCount; j++)
+            {
+                var index = j * RowCount;
+                for (var i = j + 1; i < RowCount; i++)
+                {
+                    if (_values[(i*ColumnCount) + j] != _values[index + i])
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// Evaluates whether this matrix is conjugate symmetric.
+        /// </summary>
+        public override bool IsConjugateSymmetric()
+        {
+            if (RowCount != ColumnCount)
+            {
+                return false;
+            }
+
+            for (var j = 0; j < ColumnCount; j++)
+            {
+                var index = j * RowCount;
+                for (var i = j + 1; i < RowCount; i++)
+                {
+                    if (_values[(i*ColumnCount) + j] != _values[index + i].Conjugate())
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            return true;
+        }
+
         public override Cholesky<Complex> Cholesky()
         {
             return DenseCholesky.Create(this);

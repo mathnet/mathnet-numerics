@@ -949,14 +949,19 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         }
 
         /// <summary>
-        /// Gets a value indicating whether this matrix is symmetric.
+        /// Evaluates whether this matrix is symmetric.
         /// </summary>
-        public override bool IsSymmetric
+        public override sealed bool IsSymmetric()
         {
-            get
-            {
-                return true;
-            }
+            return true;
+        }
+
+        /// <summary>
+        /// Evaluates whether this matrix is conjugate symmetric.
+        /// </summary>
+        public override sealed bool IsConjugateSymmetric()
+        {
+            return true;
         }
     }
 }

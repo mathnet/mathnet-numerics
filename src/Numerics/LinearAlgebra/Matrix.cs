@@ -1268,31 +1268,33 @@ namespace MathNet.Numerics.LinearAlgebra
         }
 
         /// <summary>
-        /// Gets a value indicating whether this matrix is symmetric.
+        /// Evaluates whether this matrix is symmetric.
         /// </summary>
-        public virtual bool IsSymmetric
+        public virtual bool IsSymmetric()
         {
-            get
+            if (RowCount != ColumnCount)
             {
-                if (RowCount != ColumnCount)
-                {
-                    return false;
-                }
+                return false;
+            }
 
-                for (var row = 0; row < RowCount; row++)
+            for (var row = 0; row < RowCount; row++)
+            {
+                for (var column = row + 1; column < ColumnCount; column++)
                 {
-                    for (var column = row + 1; column < ColumnCount; column++)
+                    if (!At(row, column).Equals(At(column, row)))
                     {
-                        if (!At(row, column).Equals(At(column, row)))
-                        {
-                            return false;
-                        }
+                        return false;
                     }
                 }
-
-                return true;
             }
+
+            return true;
         }
+
+        /// <summary>
+        /// Evaluates whether this matrix is conjugate symmetric.
+        /// </summary>
+        public abstract bool IsConjugateSymmetric();
 
         /// <summary>
         /// Returns this matrix as a multidimensional array.

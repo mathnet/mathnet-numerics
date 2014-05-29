@@ -656,6 +656,14 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             return sum;
         }
 
+        /// <summary>
+        /// Evaluates whether this matrix is conjugate symmetric.
+        /// </summary>
+        public override sealed bool IsConjugateSymmetric()
+        {
+            return IsSymmetric();
+        }
+
         public override Cholesky<double> Cholesky()
         {
             return UserCholesky.Create(this);

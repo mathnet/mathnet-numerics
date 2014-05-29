@@ -356,7 +356,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
         public override void CanCheckIfMatrixIsSymmetric()
         {
             var matrix = TestMatrices["Square3x3"];
-            Assert.IsTrue(matrix.IsSymmetric);
+            Assert.IsTrue(matrix.IsSymmetric());
         }
 
         [Test]
