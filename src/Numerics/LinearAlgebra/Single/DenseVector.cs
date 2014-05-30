@@ -734,53 +734,6 @@ namespace MathNet.Numerics.LinearAlgebra.Single
             }
         }
 
-        /// <summary>
-        /// Outer product of two vectors
-        /// </summary>
-        /// <param name="u">First vector</param>
-        /// <param name="v">Second vector</param>
-        /// <returns>Matrix M[i,j] = u[i]*v[j] </returns>
-        /// <exception cref="ArgumentNullException">If the u vector is <see langword="null" />.</exception>
-        /// <exception cref="ArgumentNullException">If the v vector is <see langword="null" />.</exception>
-        public static DenseMatrix OuterProduct(DenseVector u, DenseVector v)
-        {
-            if (u == null)
-            {
-                throw new ArgumentNullException("u");
-            }
-
-            if (v == null)
-            {
-                throw new ArgumentNullException("v");
-            }
-
-            var matrix = new DenseMatrix(u.Count, v.Count);
-            CommonParallel.For(0, u.Count, (a, b) =>
-                {
-                    for (int i = a; i < b; i++)
-                    {
-                        for (var j = 0; j < v.Count; j++)
-                        {
-                            matrix.At(i, j, u._values[i]*v._values[j]);
-                        }
-                    }
-                });
-            return matrix;
-        }
-
-        /// <summary>
-        /// Outer product of this and another vector.
-        /// </summary>
-        /// <param name="v">The vector to operate on.</param>
-        /// <returns>
-        /// Matrix M[i,j] = this[i] * v[j].
-        /// </returns>
-        /// <seealso cref="OuterProduct(DenseVector, DenseVector)"/>
-        public Matrix<float> OuterProduct(DenseVector v)
-        {
-            return OuterProduct(this, v);
-        }
-
         #region Parse Functions
 
         /// <summary>

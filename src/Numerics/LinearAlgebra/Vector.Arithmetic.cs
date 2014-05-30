@@ -118,6 +118,21 @@ namespace MathNet.Numerics.LinearAlgebra
         protected abstract T DoConjugateDotProduct(Vector<T> other);
 
         /// <summary>
+        /// Computes the outer product M[i,j] = u[i]*v[j] of this and another vector and stores the result in the result matrix.
+        /// </summary>
+        /// <param name="other">The other vector</param>
+        /// <param name="result">The matrix to store the result of the product.</param>
+        protected void DoOuterProduct(Vector<T> other, Matrix<T> result)
+        {
+            var work = Build.Dense(Count);
+            for (var i = 0; i < Count; i++)
+            {
+                DoMultiply(other.At(i), work);
+                result.SetColumn(i, work);
+            }
+        }
+
+        /// <summary>
         /// Divides each element of the vector by a scalar and stores the result in the result vector.
         /// </summary>
         /// <param name="divisor">The scalar denominator to use.</param>
@@ -940,33 +955,34 @@ namespace MathNet.Numerics.LinearAlgebra
         }
 
         /// <summary>
-        /// Outer product of two vectors
+        /// Computes the outer product M[i,j] = u[i]*v[j] of this and another vector.
         /// </summary>
-        /// <param name="u">First vector</param>
-        /// <param name="v">Second vector</param>
-        /// <returns>Matrix M[i,j] = u[i]*v[j] </returns>
-        public static Matrix<T> OuterProduct(Vector<T> u, Vector<T> v)
+        /// <param name="other">The other vector</param>
+        public Matrix<T> OuterProduct(Vector<T> other)
         {
-            var matrix = Matrix<T>.Build.SameAs(u, u.Count, v.Count);
-            for (var i = 0; i < u.Count; i++)
-            {
-                matrix.SetRow(i, v.Multiply(u.At(i)));
-            }
-
+            var matrix = Matrix<T>.Build.SameAs(this, Count, other.Count);
+            DoOuterProduct(other, matrix);
             return matrix;
         }
 
         /// <summary>
-        /// Outer product of this and another vector.
+        /// Computes the outer product M[i,j] = u[i]*v[j] of this and another vector and stores the result in the result matrix.
         /// </summary>
-        /// <param name="v">The vector to operate on.</param>
-        /// <returns>
-        /// Matrix M[i,j] = this[i] * v[j].
-        /// </returns>
-        /// <seealso cref="OuterProduct(Vector{T}, Vector{T})"/>
-        public Matrix<T> OuterProduct(Vector<T> v)
+        /// <param name="other">The other vector</param>
+        /// <param name="result">The matrix to store the result of the product.</param>
+        public void OuterProduct(Vector<T> other, Matrix<T> result)
         {
-            return OuterProduct(this, v);
+            if (Count != result.RowCount || other.Count != result.ColumnCount)
+            {
+                throw new ArgumentException(Resources.ArgumentMatrixDimensions, "result");
+            }
+
+            DoOuterProduct(other, result);
+        }
+
+        public static Matrix<T> OuterProduct(Vector<T> u, Vector<T> v)
+        {
+            return u.OuterProduct(v);
         }
 
         /// <summary>
