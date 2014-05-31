@@ -143,11 +143,12 @@ Target "BuildNative" DoNothing
 // TEST
 
 let test target =
+    let quick p = if hasBuildParam "quick" then { p with ExcludeCategory="LongRunning" } else p
     NUnit (fun p ->
         { p with
             DisableShadowCopy = true
             TimeOut = TimeSpan.FromMinutes 30.
-            OutputFile = "TestResults.xml" }) target
+            OutputFile = "TestResults.xml" } |> quick) target
 
 Target "Test" (fun _ -> test !! "out/test/**/*UnitTests*.dll")
 "Build" ==> "Test"

@@ -68,8 +68,9 @@ If you do not want to use the official binaries, or if you like to modify, debug
     build.cmd Build signed       # normal build, signed/strong named (.Net 4.0)
     
     build.cmd Test        # normal build (.Net 4.0), run unit tests
+    build.cmd Test quick  # normal build (.Net 4.0), run unit tests except long running ones
     build.cmd Test all    # full build (.Net 4.0, 3.5, PCL), run all unit tests
-    build.cmd Test net35  # compatibility build (.Net 3.5), run unit tests
+    build.cmd Test net35  # compatibility build (.Net 3.5), run unit testss
     
     build.cmd Clean  # cleanup build artifacts
     build.cmd Docs   # generate documentation

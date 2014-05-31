@@ -1,0 +1,6 @@
+build_script:
+  - ps: .\build.cmd Test quick
+test: off
+artifacts:
+  - path: out\packages\NuGet\*.nupkg
+  - path: out\packages\Zip\*.zip

@@ -134,7 +134,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
             }
         }
 
-        [Test]
+        [Test, Category("LongRunning")]
         public void DiscreteSampleIsDistributedCorrectly()
         {
             foreach (var dist in _discreteDistributions)
@@ -149,7 +149,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
             }
         }
 
-        [Test]
+        [Test, Category("LongRunning")]
         public void DiscreteSampleSequenceIsDistributedCorrectly()
         {
             foreach (var dist in _discreteDistributions)
@@ -160,7 +160,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
             }
         }
 
-        [Test]
+        [Test, Category("LongRunning")]
         public void ContinuousSampleIsDistributedCorrectly()
         {
             foreach (var dist in _continuousDistributions)
@@ -175,7 +175,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
             }
         }
 
-        [Test]
+        [Test, Category("LongRunning")]
         public void ContinuousSampleSequenceIsDistributedCorrectly()
         {
             foreach (var dist in _continuousDistributions)
