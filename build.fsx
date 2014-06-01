@@ -9,6 +9,7 @@ open Fake
 open Fake.DocuHelper
 open Fake.AssemblyInfoFile
 open Fake.ReleaseNotesHelper
+open Fake.Git
 open System
 
 Environment.CurrentDirectory <- __SOURCE_DIRECTORY__
@@ -88,8 +89,15 @@ let fsharpSignedPack =
 // PREPARE
 
 Target "Start" DoNothing
-Target "Clean" (fun _ -> CleanDirs ["out"; "obj" ])
 Target "RestorePackages" RestorePackages
+
+Target "Clean" (fun _ ->
+    CleanDirs [ "obj" ]
+    CleanDirs [ "out/api"; "out/docs"; "out/packages" ]
+    CleanDirs [ "out/lib/Net35"; "out/lib/Net40"; "out/lib/Profile47"; "out/lib/Net344" ]
+    CleanDirs [ "out/test/Net35"; "out/test/Net40"; "out/test/Profile47"; "out/test/Net344" ]
+    CleanDirs [ "out/lib-signed/Net40" ]
+    CleanDirs [ "out/test-signed/Net40" ])
 
 Target "AssemblyInfo" (fun _ ->
     BulkReplaceAssemblyInfoVersions "src/" (fun f ->
@@ -157,6 +165,7 @@ Target "Test" (fun _ -> test !! "out/test/**/*UnitTests*.dll")
 // NATIVE TEST
 
 Target "TestNativex86" (fun _ ->
+    ActivateFinalTarget "CloseTestRunner"
     !! "out/MKL/Windows/x86/*UnitTests*.dll"
     |> NUnit (fun p ->
         { p with
@@ -165,13 +174,20 @@ Target "TestNativex86" (fun _ ->
             TimeOut = TimeSpan.FromMinutes 30.
             OutputFile = "TestResults.xml" }))
 Target "TestNativex64" (fun _ ->
+    ActivateFinalTarget "CloseTestRunner"
     !! "out/MKL/Windows/x64/*UnitTests*.dll"
     |> NUnit (fun p ->
         { p with
+            ToolName = "nunit-console.exe"
             DisableShadowCopy = true
             TimeOut = TimeSpan.FromMinutes 30.
             OutputFile = "TestResults.xml" }))
 Target "TestNative" DoNothing
+
+FinalTarget "CloseTestRunner" (fun _ ->
+    ProcessHelper.killProcess "nunit-agent.exe"
+    ProcessHelper.killProcess "nunit-agent-x86.exe"
+)
 
 "BuildNativex86" ==> "TestNativex86" ==> "TestNative"
 "BuildNativex64" ==> "TestNativex64" ==> "TestNative"
@@ -261,6 +277,22 @@ Target "NuGet" (fun _ ->
     CleanDir "obj/NuGet")
 
 "Build" ==> "NuGet"
+
+
+// PUBLISH
+// These targets are interesting only for maintainers and require write permissions
+
+Target "PublishTag" (fun _ ->
+    // inspired by Deedle/tpetricek
+    // create tag with release notes
+    let tagName = "v" + packageVersion
+    let cmd = sprintf """tag -a %s -m "%s" """ tagName releaseNotes
+    CommandHelper.runSimpleGitCommand "." cmd |> printfn "%s"
+    // push tag
+    let _, remotes, _ = CommandHelper.runGitCommand "." "remote -v"
+    let main = remotes |> Seq.find (fun s -> s.Contains("(push)") && s.Contains("mathnet/mathnet-numerics"))
+    let remoteName = main.Split('\t').[0]
+    Branches.pushTag "." remoteName tagName)
 
 
 // RUN
