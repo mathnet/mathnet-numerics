@@ -201,8 +201,9 @@ If you do not want to use the official binaries, or if you like to modify, debug
 ### How to build with FAKE
 
     [lang=sh]
-    build.cmd   # normal build (.Net 4.0), run unit tests
-    ./build.sh  # normal build (.Net 4.0), run unit tests - on Linux or Mac
+    build.cmd    # normal build (.Net 4.0), run unit tests
+    ./build.sh   # normal build (.Net 4.0), run unit tests - on Linux or Mac
+    ./buildn.sh  # normal build (.Net 4.0), run unit tests - bash on Windows (.Net instead of mono)
     
     build.cmd Build              # normal build (.Net 4.0)
     build.cmd Build incremental  # normal build, incremental (.Net 4.0)

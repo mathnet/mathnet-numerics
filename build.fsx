@@ -9,7 +9,6 @@ open Fake
 open Fake.DocuHelper
 open Fake.AssemblyInfoFile
 open Fake.ReleaseNotesHelper
-open Fake.Git
 open System
 
 Environment.CurrentDirectory <- __SOURCE_DIRECTORY__
@@ -287,12 +286,35 @@ Target "PublishTag" (fun _ ->
     // create tag with release notes
     let tagName = "v" + packageVersion
     let cmd = sprintf """tag -a %s -m "%s" """ tagName releaseNotes
-    CommandHelper.runSimpleGitCommand "." cmd |> printfn "%s"
+    Git.CommandHelper.runSimpleGitCommand "." cmd |> printfn "%s"
     // push tag
-    let _, remotes, _ = CommandHelper.runGitCommand "." "remote -v"
+    let _, remotes, _ = Git.CommandHelper.runGitCommand "." "remote -v"
     let main = remotes |> Seq.find (fun s -> s.Contains("(push)") && s.Contains("mathnet/mathnet-numerics"))
     let remoteName = main.Split('\t').[0]
-    Branches.pushTag "." remoteName tagName)
+    Git.Branches.pushTag "." remoteName tagName)
+
+Target "PublishDocs" (fun _ ->
+    let repo = "../mathnet-websites"
+    Git.Branches.pull repo "origin" "master"
+    CleanDir "../mathnet-websites/numerics/docs"
+    CopyRecursive "out/docs" "../mathnet-websites/numerics/docs" true |> printfn "%A"
+    Git.Staging.StageAll repo
+    Git.Commit.Commit repo (sprintf "Numerics: %s docs update" packageVersion)
+    Git.Branches.pushBranch repo "origin" "master")
+
+Target "PublishApi" (fun _ ->
+    let repo = "../mathnet-websites"
+    Git.Branches.pull repo "origin" "master"
+    CleanDir "../mathnet-websites/api-numerics"
+    CopyRecursive "out/api" "../mathnet-websites/api-numerics" true |> printfn "%A"
+    Git.Staging.StageAll repo
+    Git.Commit.Commit repo (sprintf "Numerics: %s api update" packageVersion)
+    Git.Branches.pushBranch repo "origin" "master")
+
+Target "Publish" DoNothing
+"PublishTag" ==> "Publish"
+"PublishDocs" ==> "Publish"
+"PublishApi" ==> "Publish"
 
 
 // RUN
