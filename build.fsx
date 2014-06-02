@@ -56,7 +56,8 @@ let numericsPack =
       Files = [ "..\..\out\lib\Net35\MathNet.Numerics.*", Some libnet35, Some "**\MathNet.Numerics.FSharp.*";
                 "..\..\out\lib\Net40\MathNet.Numerics.*", Some libnet40, Some "**\MathNet.Numerics.FSharp.*";
                 "..\..\out\lib\Profile47\MathNet.Numerics.*", Some libpcl47, Some "**\MathNet.Numerics.FSharp.*";
-                "..\..\out\lib\Profile344\MathNet.Numerics.*", Some libpcl344, Some "**\MathNet.Numerics.FSharp.*" ] }
+                "..\..\out\lib\Profile344\MathNet.Numerics.*", Some libpcl344, Some "**\MathNet.Numerics.FSharp.*";
+                "..\..\src\Numerics\**\*.cs", Some "src/Common", None ] }
 
 let fsharpPack =
     { numericsPack with Id = "MathNet.Numerics.FSharp"
@@ -67,14 +68,16 @@ let fsharpPack =
                         Dependencies = [ "MathNet.Numerics" ]
                         Files = [ "..\..\out\lib\Net40\MathNet.Numerics.FSharp.*", Some libnet40, None;
                                   "..\..\out\lib\Profile47\MathNet.Numerics.FSharp.*", Some libpcl47, None;
-                                  "..\..\out\lib\Profile344\MathNet.Numerics.FSharp.*", Some libpcl344, None ] }
+                                  "..\..\out\lib\Profile344\MathNet.Numerics.FSharp.*", Some libpcl344, None;
+                                  "..\..\src\FSharp\**\*.fs", Some "src/Common", None ] }
 
 let numericsSignedPack =
     { numericsPack with Id = numericsPack.Id + ".Signed"
                         Title = numericsPack.Title + " - Signed Edition"
                         Description = description + supportSigned
                         Tags = numericsPack.Tags + " signed"
-                        Files = [ "..\..\out\lib-signed\Net40\MathNet.Numerics.*", Some libnet40, Some "**\MathNet.Numerics.FSharp.*" ] }
+                        Files = [ "..\..\out\lib-signed\Net40\MathNet.Numerics.*", Some libnet40, Some "**\MathNet.Numerics.FSharp.*";
+                                  "..\..\src\Numerics\**\*.cs", Some "src/Common", None ] }
 
 let fsharpSignedPack =
     { fsharpPack with Id = fsharpPack.Id + ".Signed"
@@ -82,7 +85,8 @@ let fsharpSignedPack =
                       Description = description + supportSigned
                       Tags = fsharpPack.Tags + " signed"
                       Dependencies = [ "MathNet.Numerics.Signed" ]
-                      Files = [ "..\..\out\lib-signed\Net40\MathNet.Numerics.FSharp.*", Some libnet40, None ] }
+                      Files = [ "..\..\out\lib-signed\Net40\MathNet.Numerics.FSharp.*", Some libnet40, None;
+                                "..\..\src\FSharp\**\*.fs", Some "src/Common", None ] }
 
 
 // PREPARE
@@ -93,8 +97,8 @@ Target "RestorePackages" RestorePackages
 Target "Clean" (fun _ ->
     CleanDirs [ "obj" ]
     CleanDirs [ "out/api"; "out/docs"; "out/packages" ]
-    CleanDirs [ "out/lib/Net35"; "out/lib/Net40"; "out/lib/Profile47"; "out/lib/Net344" ]
-    CleanDirs [ "out/test/Net35"; "out/test/Net40"; "out/test/Profile47"; "out/test/Net344" ]
+    CleanDirs [ "out/lib/Net35"; "out/lib/Net40"; "out/lib/Profile47"; "out/lib/Profile344" ]
+    CleanDirs [ "out/test/Net35"; "out/test/Net40"; "out/test/Profile47"; "out/test/Profile344" ]
     CleanDirs [ "out/lib-signed/Net40" ]
     CleanDirs [ "out/test-signed/Net40" ])
 
@@ -249,7 +253,8 @@ let nugetPack pack =
     CleanDir "obj/NuGet"
     CopyFile "obj/NuGet/license.txt" "LICENSE.md"
     CopyFile "obj/NuGet/readme.txt" "RELEASENOTES.md"
-    NuGet (fun p ->
+
+    let update p =
         { p with ToolPath = "tools/NuGet/NuGet.exe"
                  OutputPath = "out/packages/NuGet"
                  WorkingDir = "obj/NuGet"
@@ -262,8 +267,21 @@ let nugetPack pack =
                  Tags = pack.Tags
                  Authors = pack.Authors
                  Dependencies = pack.Dependencies |> List.map (fun p -> (p, packageVersion))
+                 SymbolPackage = NugetSymbolPackage.Nuspec
                  Files = [ "license.txt", None, None; "readme.txt", None, None; ] @ pack.Files
-                 Publish = false }) "build/NuGet/MathNet.Numerics.nuspec"
+                 Publish = false }
+
+    NuGet (fun p -> update p) "build/NuGet/MathNet.Numerics.nuspec"
+
+    NuGet (fun p ->
+        let p' = update p in
+        { p' with Files = p'.Files |> List.choose (function
+                                                   | (_, Some target, _) when target.StartsWith("src") -> None
+                                                   | (s, t, None) -> Some (s, t, Some ("**/*.pdb"))
+                                                   | (s, t, Some e) -> Some (s, t, Some (e + ";**/*.pdb")))
+                  SymbolPackage = NugetSymbolPackage.None })
+        "build/NuGet/MathNet.Numerics.nuspec"
+
 
 Target "NuGet" (fun _ ->
     CleanDir "out/packages/NuGet"
