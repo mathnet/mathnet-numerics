@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2013 Math.NET
+// Copyright (c) 2009-2014 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -63,31 +63,46 @@ namespace MathNet.Numerics.Interpolation
         }
 
         /// <summary>
-        /// Create a linear spline interpolation from a set of (x,y) value pairs.
+        /// Create a linear spline interpolation from a set of (x,y) value pairs, sorted ascendingly by x.
         /// </summary>
-        /// <remarks>
-        /// The value pairs do not have to be sorted, but if they are not sorted ascendingly
-        /// and the passed x and y arguments are arrays, they will be sorted inplace and thus modified.
-        /// </remarks>
-        public static LinearSpline Interpolate(IEnumerable<double> x, IEnumerable<double> y)
+        public static LinearSpline InterpolateSorted(double[] x, double[] y)
         {
-            var xx = (x as double[]) ?? x.ToArray();
-            var yy = (y as double[]) ?? y.ToArray();
-
-            if (xx.Length != yy.Length)
+            if (x.Length != y.Length)
             {
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength);
             }
 
-            Sorting.Sort(xx, yy);
-
-            var c1 = new double[xx.Length - 1];
+            var c1 = new double[x.Length - 1];
             for (int i = 0; i < c1.Length; i++)
             {
-                c1[i] = (yy[i + 1] - yy[i])/(xx[i + 1] - xx[i]);
+                c1[i] = (y[i + 1] - y[i])/(x[i + 1] - x[i]);
             }
 
-            return new LinearSpline(xx, yy, c1);
+            return new LinearSpline(x, y, c1);
+        }
+
+        /// <summary>
+        /// Create a linear spline interpolation from an unsorted set of (x,y) value pairs.
+        /// WARNING: Works in-place and can thus causes the data array to be reordered.
+        /// </summary>
+        public static LinearSpline InterpolateInplace(double[] x, double[] y)
+        {
+            if (x.Length != y.Length)
+            {
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength);
+            }
+
+            Sorting.Sort(x, y);
+            return InterpolateSorted(x, y);
+        }
+
+        /// <summary>
+        /// Create a linear spline interpolation from an unsorted set of (x,y) value pairs.
+        /// </summary>
+        public static LinearSpline Interpolate(IEnumerable<double> x, IEnumerable<double> y)
+        {
+            // note: we must make a copy, even if the input was arrays already
+            return InterpolateInplace(x.ToArray(), y.ToArray());
         }
 
         /// <summary>

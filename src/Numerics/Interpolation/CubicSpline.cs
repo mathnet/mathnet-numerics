@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2013 Math.NET
+// Copyright (c) 2009-2014 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -69,79 +69,90 @@ namespace MathNet.Numerics.Interpolation
         }
 
         /// <summary>
-        /// Create a hermite cubic spline interpolation from a set of (x,y) value pairs and their slope (first derivative).
+        /// Create a hermite cubic spline interpolation from a set of (x,y) value pairs and their slope (first derivative), sorted ascendingly by x.
         /// </summary>
-        /// <remarks>
-        /// The value pairs do not have to be sorted, but if they are not sorted ascendingly
-        /// and the passed x and y arguments are arrays, they will be sorted inplace and thus modified.
-        /// </remarks>
-        public static CubicSpline InterpolateHermite(IEnumerable<double> x, IEnumerable<double> y, IEnumerable<double> firstDerivatives)
+        public static CubicSpline InterpolateHermiteSorted(double[] x, double[] y, double[] firstDerivatives)
         {
-            var xx = (x as double[]) ?? x.ToArray();
-            var yy = (y as double[]) ?? y.ToArray();
-            var dd = (firstDerivatives as double[]) ?? firstDerivatives.ToArray();
-
-            if (xx.Length != yy.Length || xx.Length != dd.Length)
+            if (x.Length != y.Length || x.Length != firstDerivatives.Length)
             {
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength);
             }
 
-            if (xx.Length < 2)
+            if (x.Length < 2)
             {
                 throw new ArgumentOutOfRangeException("x");
             }
 
-            Sorting.Sort(xx, yy, dd);
-
-            var c0 = new double[xx.Length - 1];
-            var c1 = new double[xx.Length - 1];
-            var c2 = new double[xx.Length - 1];
-            var c3 = new double[xx.Length - 1];
+            var c0 = new double[x.Length - 1];
+            var c1 = new double[x.Length - 1];
+            var c2 = new double[x.Length - 1];
+            var c3 = new double[x.Length - 1];
             for (int i = 0; i < c1.Length; i++)
             {
-                double w = xx[i + 1] - xx[i];
+                double w = x[i + 1] - x[i];
                 double w2 = w*w;
-                c0[i] = yy[i];
-                c1[i] = dd[i];
-                c2[i] = (3*(yy[i + 1] - yy[i])/w - 2*dd[i] - dd[i + 1])/w;
-                c3[i] = (2*(yy[i] - yy[i + 1])/w + dd[i] + dd[i + 1])/w2;
+                c0[i] = y[i];
+                c1[i] = firstDerivatives[i];
+                c2[i] = (3*(y[i + 1] - y[i])/w - 2*firstDerivatives[i] - firstDerivatives[i + 1])/w;
+                c3[i] = (2*(y[i] - y[i + 1])/w + firstDerivatives[i] + firstDerivatives[i + 1])/w2;
             }
 
-            return new CubicSpline(xx, c0, c1, c2, c3);
+            return new CubicSpline(x, c0, c1, c2, c3);
         }
 
         /// <summary>
-        /// Create an Akima cubic spline interpolation from a set of (x,y) value pairs. Akima splines are robust to outliers.
+        /// Create a hermite cubic spline interpolation from an unsorted set of (x,y) value pairs and their slope (first derivative).
+        /// WARNING: Works in-place and can thus causes the data array to be reordered.
         /// </summary>
-        /// <remarks>
-        /// The value pairs do not have to be sorted, but if they are not sorted ascendingly
-        /// and the passed x and y arguments are arrays, they will be sorted inplace and thus modified.
-        /// </remarks>
-        public static CubicSpline InterpolateAkima(IEnumerable<double> x, IEnumerable<double> y)
+        public static CubicSpline InterpolateHermiteInplace(double[] x, double[] y, double[] firstDerivatives)
         {
-            var xx = (x as double[]) ?? x.ToArray();
-            var yy = (y as double[]) ?? y.ToArray();
-
-            if (xx.Length != yy.Length)
+            if (x.Length != y.Length || x.Length != firstDerivatives.Length)
             {
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength);
             }
 
-            if (xx.Length < 5)
+            if (x.Length < 2)
             {
                 throw new ArgumentOutOfRangeException("x");
             }
 
-            Sorting.Sort(xx, yy);
+            Sorting.Sort(x, y, firstDerivatives);
+            return InterpolateHermiteSorted(x, y, firstDerivatives);
+        }
+
+        /// <summary>
+        /// Create a hermite cubic spline interpolation from an unsorted set of (x,y) value pairs and their slope (first derivative).
+        /// </summary>
+        public static CubicSpline InterpolateHermite(IEnumerable<double> x, IEnumerable<double> y, IEnumerable<double> firstDerivatives)
+        {
+            // note: we must make a copy, even if the input was arrays already
+            return InterpolateHermiteInplace(x.ToArray(), y.ToArray(), firstDerivatives.ToArray());
+        }
+
+        /// <summary>
+        /// Create an Akima cubic spline interpolation from a set of (x,y) value pairs, sorted ascendingly by x.
+        /// Akima splines are robust to outliers.
+        /// </summary>
+        public static CubicSpline InterpolateAkimaSorted(double[] x, double[] y)
+        {
+            if (x.Length != y.Length)
+            {
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength);
+            }
+
+            if (x.Length < 5)
+            {
+                throw new ArgumentOutOfRangeException("x");
+            }
 
             /* Prepare divided differences (diff) and weights (w) */
 
-            var diff = new double[xx.Length - 1];
-            var weights = new double[xx.Length - 1];
+            var diff = new double[x.Length - 1];
+            var weights = new double[x.Length - 1];
 
             for (int i = 0; i < diff.Length; i++)
             {
-                diff[i] = (yy[i + 1] - yy[i])/(xx[i + 1] - xx[i]);
+                diff[i] = (y[i + 1] - y[i])/(x[i + 1] - x[i]);
             }
 
             for (int i = 1; i < weights.Length; i++)
@@ -151,64 +162,75 @@ namespace MathNet.Numerics.Interpolation
 
             /* Prepare Hermite interpolation scheme */
 
-            var dd = new double[xx.Length];
+            var dd = new double[x.Length];
 
             for (int i = 2; i < dd.Length - 2; i++)
             {
                 dd[i] = weights[i - 1].AlmostEqual(0.0) && weights[i + 1].AlmostEqual(0.0)
-                    ? (((xx[i + 1] - xx[i])*diff[i - 1]) + ((xx[i] - xx[i - 1])*diff[i]))/(xx[i + 1] - xx[i - 1])
+                    ? (((x[i + 1] - x[i])*diff[i - 1]) + ((x[i] - x[i - 1])*diff[i]))/(x[i + 1] - x[i - 1])
                     : ((weights[i + 1]*diff[i - 1]) + (weights[i - 1]*diff[i]))/(weights[i + 1] + weights[i - 1]);
             }
 
-            dd[0] = DifferentiateThreePoint(xx, yy, 0, 0, 1, 2);
-            dd[1] = DifferentiateThreePoint(xx, yy, 1, 0, 1, 2);
-            dd[xx.Length - 2] = DifferentiateThreePoint(xx, yy, xx.Length - 2, xx.Length - 3, xx.Length - 2, xx.Length - 1);
-            dd[xx.Length - 1] = DifferentiateThreePoint(xx, yy, xx.Length - 1, xx.Length - 3, xx.Length - 2, xx.Length - 1);
+            dd[0] = DifferentiateThreePoint(x, y, 0, 0, 1, 2);
+            dd[1] = DifferentiateThreePoint(x, y, 1, 0, 1, 2);
+            dd[x.Length - 2] = DifferentiateThreePoint(x, y, x.Length - 2, x.Length - 3, x.Length - 2, x.Length - 1);
+            dd[x.Length - 1] = DifferentiateThreePoint(x, y, x.Length - 1, x.Length - 3, x.Length - 2, x.Length - 1);
 
             /* Build Akima spline using Hermite interpolation scheme */
 
-            return InterpolateHermite(xx, yy, dd);
+            return InterpolateHermiteSorted(x, y, dd);
         }
 
         /// <summary>
-        /// Create a natural cubic spline interpolation from a set of (x,y) value pairs and zero second derivatives at the two boundaries.
+        /// Create an Akima cubic spline interpolation from an unsorted set of (x,y) value pairs.
+        /// Akima splines are robust to outliers.
+        /// WARNING: Works in-place and can thus causes the data array to be reordered.
         /// </summary>
-        /// <remarks>
-        /// The value pairs do not have to be sorted, but if they are not sorted ascendingly
-        /// and the passed x and y arguments are arrays, they will be sorted inplace and thus modified.
-        /// </remarks>
-        public static CubicSpline InterpolateNatural(IEnumerable<double> x, IEnumerable<double> y)
+        public static CubicSpline InterpolateAkimaInplace(double[] x, double[] y)
         {
-            return InterpolateBoundaries(x, y, SplineBoundaryCondition.SecondDerivative, 0.0, SplineBoundaryCondition.SecondDerivative, 0.0);
-        }
-
-        /// <summary>
-        /// Create a cubic spline interpolation from a set of (x,y) value pairs and custom boundary/termination conditions.
-        /// </summary>
-        /// <remarks>
-        /// The value pairs do not have to be sorted, but if they are not sorted ascendingly
-        /// and the passed x and y arguments are arrays, they will be sorted inplace and thus modified.
-        /// </remarks>
-        public static CubicSpline InterpolateBoundaries(IEnumerable<double> x, IEnumerable<double> y,
-            SplineBoundaryCondition leftBoundaryCondition, double leftBoundary,
-            SplineBoundaryCondition rightBoundaryCondition, double rightBoundary)
-        {
-            var xx = (x as double[]) ?? x.ToArray();
-            var yy = (y as double[]) ?? y.ToArray();
-
-            if (xx.Length != yy.Length)
+            if (x.Length != y.Length)
             {
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength);
             }
 
-            if (xx.Length < 2)
+            if (x.Length < 5)
             {
                 throw new ArgumentOutOfRangeException("x");
             }
 
-            Sorting.Sort(xx, yy);
+            Sorting.Sort(x, y);
+            return InterpolateAkimaSorted(x, y);
+        }
 
-            int n = xx.Length;
+        /// <summary>
+        /// Create an Akima cubic spline interpolation from an unsorted set of (x,y) value pairs.
+        /// Akima splines are robust to outliers.
+        /// </summary>
+        public static CubicSpline InterpolateAkima(IEnumerable<double> x, IEnumerable<double> y)
+        {
+            // note: we must make a copy, even if the input was arrays already
+            return InterpolateAkimaInplace(x.ToArray(), y.ToArray());
+        }
+
+        /// <summary>
+        /// Create a cubic spline interpolation from a set of (x,y) value pairs, sorted ascendingly by x,
+        /// and custom boundary/termination conditions.
+        /// </summary>
+        public static CubicSpline InterpolateBoundariesSorted(double[] x, double[] y,
+            SplineBoundaryCondition leftBoundaryCondition, double leftBoundary,
+            SplineBoundaryCondition rightBoundaryCondition, double rightBoundary)
+        {
+            if (x.Length != y.Length)
+            {
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength);
+            }
+
+            if (x.Length < 2)
+            {
+                throw new ArgumentOutOfRangeException("x");
+            }
+
+            int n = x.Length;
 
             // normalize special cases
             if ((n == 2)
@@ -245,7 +267,7 @@ namespace MathNet.Numerics.Interpolation
                     a1[0] = 0;
                     a2[0] = 1;
                     a3[0] = 1;
-                    b[0] = 2*(yy[1] - yy[0])/(xx[1] - xx[0]);
+                    b[0] = 2*(y[1] - y[0])/(x[1] - x[0]);
                     break;
                 case SplineBoundaryCondition.FirstDerivative:
                     a1[0] = 0;
@@ -257,19 +279,19 @@ namespace MathNet.Numerics.Interpolation
                     a1[0] = 0;
                     a2[0] = 2;
                     a3[0] = 1;
-                    b[0] = (3*((yy[1] - yy[0])/(xx[1] - xx[0]))) - (0.5*leftBoundary*(xx[1] - xx[0]));
+                    b[0] = (3*((y[1] - y[0])/(x[1] - x[0]))) - (0.5*leftBoundary*(x[1] - x[0]));
                     break;
                 default:
                     throw new NotSupportedException(Resources.InvalidLeftBoundaryCondition);
             }
 
             // Central Conditions
-            for (int i = 1; i < xx.Length - 1; i++)
+            for (int i = 1; i < x.Length - 1; i++)
             {
-                a1[i] = xx[i + 1] - xx[i];
-                a2[i] = 2*(xx[i + 1] - xx[i - 1]);
-                a3[i] = xx[i] - xx[i - 1];
-                b[i] = (3*(yy[i] - yy[i - 1])/(xx[i] - xx[i - 1])*(xx[i + 1] - xx[i])) + (3*(yy[i + 1] - yy[i])/(xx[i + 1] - xx[i])*(xx[i] - xx[i - 1]));
+                a1[i] = x[i + 1] - x[i];
+                a2[i] = 2*(x[i + 1] - x[i - 1]);
+                a3[i] = x[i] - x[i - 1];
+                b[i] = (3*(y[i] - y[i - 1])/(x[i] - x[i - 1])*(x[i + 1] - x[i])) + (3*(y[i + 1] - y[i])/(x[i + 1] - x[i])*(x[i] - x[i - 1]));
             }
 
             // Right Boundary
@@ -279,7 +301,7 @@ namespace MathNet.Numerics.Interpolation
                     a1[n - 1] = 1;
                     a2[n - 1] = 1;
                     a3[n - 1] = 0;
-                    b[n - 1] = 2*(yy[n - 1] - yy[n - 2])/(xx[n - 1] - xx[n - 2]);
+                    b[n - 1] = 2*(y[n - 1] - y[n - 2])/(x[n - 1] - x[n - 2]);
                     break;
                 case SplineBoundaryCondition.FirstDerivative:
                     a1[n - 1] = 0;
@@ -291,7 +313,7 @@ namespace MathNet.Numerics.Interpolation
                     a1[n - 1] = 1;
                     a2[n - 1] = 2;
                     a3[n - 1] = 0;
-                    b[n - 1] = (3*(yy[n - 1] - yy[n - 2])/(xx[n - 1] - xx[n - 2])) + (0.5*rightBoundary*(xx[n - 1] - xx[n - 2]));
+                    b[n - 1] = (3*(y[n - 1] - y[n - 2])/(x[n - 1] - x[n - 2])) + (0.5*rightBoundary*(x[n - 1] - x[n - 2]));
                     break;
                 default:
                     throw new NotSupportedException(Resources.InvalidRightBoundaryCondition);
@@ -299,7 +321,68 @@ namespace MathNet.Numerics.Interpolation
 
             // Build Spline
             double[] dd = SolveTridiagonal(a1, a2, a3, b);
-            return InterpolateHermite(xx, yy, dd);
+            return InterpolateHermiteSorted(x, y, dd);
+        }
+
+        /// <summary>
+        /// Create a cubic spline interpolation from an unsorted set of (x,y) value pairs and custom boundary/termination conditions.
+        /// WARNING: Works in-place and can thus causes the data array to be reordered.
+        /// </summary>
+        public static CubicSpline InterpolateBoundariesInplace(double[] x, double[] y,
+            SplineBoundaryCondition leftBoundaryCondition, double leftBoundary,
+            SplineBoundaryCondition rightBoundaryCondition, double rightBoundary)
+        {
+            if (x.Length != y.Length)
+            {
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength);
+            }
+
+            if (x.Length < 2)
+            {
+                throw new ArgumentOutOfRangeException("x");
+            }
+
+            Sorting.Sort(x, y);
+            return InterpolateBoundariesSorted(x, y, leftBoundaryCondition, leftBoundary, rightBoundaryCondition, rightBoundary);
+        }
+
+        /// <summary>
+        /// Create a cubic spline interpolation from an unsorted set of (x,y) value pairs and custom boundary/termination conditions.
+        /// </summary>
+        public static CubicSpline InterpolateBoundaries(IEnumerable<double> x, IEnumerable<double> y,
+            SplineBoundaryCondition leftBoundaryCondition, double leftBoundary,
+            SplineBoundaryCondition rightBoundaryCondition, double rightBoundary)
+        {
+            // note: we must make a copy, even if the input was arrays already
+            return InterpolateBoundariesInplace(x.ToArray(), y.ToArray(), leftBoundaryCondition, leftBoundary, rightBoundaryCondition, rightBoundary);
+        }
+
+        /// <summary>
+        /// Create a natural cubic spline interpolation from a set of (x,y) value pairs
+        /// and zero second derivatives at the two boundaries, sorted ascendingly by x.
+        /// </summary>
+        public static CubicSpline InterpolateNaturalSorted(double[] x, double[] y)
+        {
+            return InterpolateBoundariesSorted(x, y, SplineBoundaryCondition.SecondDerivative, 0.0, SplineBoundaryCondition.SecondDerivative, 0.0);
+        }
+
+        /// <summary>
+        /// Create a natural cubic spline interpolation from an unsorted set of (x,y) value pairs
+        /// and zero second derivatives at the two boundaries.
+        /// WARNING: Works in-place and can thus causes the data array to be reordered.
+        /// </summary>
+        public static CubicSpline InterpolateNaturalInplace(double[] x, double[] y)
+        {
+            return InterpolateBoundariesInplace(x, y, SplineBoundaryCondition.SecondDerivative, 0.0, SplineBoundaryCondition.SecondDerivative, 0.0);
+        }
+
+        /// <summary>
+        /// Create a natural cubic spline interpolation from an unsorted set of (x,y) value pairs
+        /// and zero second derivatives at the two boundaries.
+        /// </summary>
+        public static CubicSpline InterpolateNatural(IEnumerable<double> x, IEnumerable<double> y)
+        {
+            return InterpolateBoundaries(x, y, SplineBoundaryCondition.SecondDerivative, 0.0, SplineBoundaryCondition.SecondDerivative, 0.0);
         }
 
         /// <summary>

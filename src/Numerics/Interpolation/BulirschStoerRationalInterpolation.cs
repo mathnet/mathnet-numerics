@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2013 Math.NET
+// Copyright (c) 2009-2014 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -48,30 +48,54 @@ namespace MathNet.Numerics.Interpolation
         readonly double[] _x;
         readonly double[] _y;
 
-        /// <summary>
-        /// Initializes a new instance of the BulirschStoerRationalInterpolation class.
-        /// </summary>
-        /// <param name="x">Sample Points t</param>
-        /// <param name="y">Sample Values x(t)</param>
-        public BulirschStoerRationalInterpolation(IEnumerable<double> x, IEnumerable<double> y)
+        /// <param name="x">Sample Points t, sorted ascendingly.</param>
+        /// <param name="y">Sample Values x(t), sorted ascendingly by x.</param>
+        public BulirschStoerRationalInterpolation(double[] x, double[] y)
         {
-            var xx = (x as double[]) ?? x.ToArray();
-            var yy = (y as double[]) ?? y.ToArray();
-
-            if (xx.Length != yy.Length)
+            if (x.Length != y.Length)
             {
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength);
             }
 
-            if (xx.Length < 1)
+            if (x.Length < 1)
             {
                 throw new ArgumentOutOfRangeException("x");
             }
 
-            Sorting.Sort(xx, yy);
+            _x = x;
+            _y = y;
+        }
 
-            _x = xx;
-            _y = yy;
+        /// <summary>
+        /// Create a Bulirsch-Stoer rational interpolation from a set of (x,y) value pairs, sorted ascendingly by x.
+        /// </summary>
+        public static BulirschStoerRationalInterpolation InterpolateSorted(double[] x, double[] y)
+        {
+            return new BulirschStoerRationalInterpolation(x, y);
+        }
+
+        /// <summary>
+        /// Create a Bulirsch-Stoer rational interpolation from an unsorted set of (x,y) value pairs.
+        /// WARNING: Works in-place and can thus causes the data array to be reordered.
+        /// </summary>
+        public static BulirschStoerRationalInterpolation InterpolateInplace(double[] x, double[] y)
+        {
+            if (x.Length != y.Length)
+            {
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength);
+            }
+
+            Sorting.Sort(x, y);
+            return InterpolateSorted(x, y);
+        }
+
+        /// <summary>
+        /// Create a Bulirsch-Stoer rational interpolation from an unsorted set of (x,y) value pairs.
+        /// </summary>
+        public static BulirschStoerRationalInterpolation Interpolate(IEnumerable<double> x, IEnumerable<double> y)
+        {
+            // note: we must make a copy, even if the input was arrays already
+            return InterpolateInplace(x.ToArray(), y.ToArray());
         }
 
         /// <summary>
