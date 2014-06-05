@@ -43,6 +43,9 @@ Supported Platforms:
 Building Math.NET Numerics
 --------------------------
 
+Windows: [![AppVeyor build status](https://ci.appveyor.com/api/projects/status/79j22c061saisces/branch/master)](https://ci.appveyor.com/project/cdrnet/mathnet-numerics)  
+Mono: [![Travis Build Status](https://travis-ci.org/mathnet/mathnet-numerics.svg?branch=master)](https://travis-ci.org/mathnet/mathnet-numerics)
+
 If you do not want to use the official binaries, or if you like to modify, debug or contribute, you can compile Math.NET Numerics locally either using Visual Studio or manually with the build scripts.
 
 * The Visual Studio solutions should build out of the box, without any preparation steps or package restores.
